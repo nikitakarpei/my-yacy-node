@@ -10,6 +10,8 @@ Single source of truth: Do not duplicate facts in comments, errors, logs, or sim
 
 Documentation: Each doc is self-contained, concise, plain-language, and user-facing. Links are for navigation only. Avoid cross-doc dependencies, duplicate facts, jargon, implementation details, and rationale.
 
+Doc prose: Write in neutral reference register: the system is the subject, not the reader. No second person. Name headers for the object or stage they describe, never for an activity. Every sentence must be true and earn its place: drop facts already implied by the text, reassurances that ask nothing of the reader, and anything you cannot verify against the running system. State a security caveat as an instruction or omit it, never as a bare observation.
+
 Naming: Every package, file, type, interface, port, function, method, field, and variable has one bounded responsibility. Prefer explicit bounded names over short generic ones. Never use util.go, helpers.go, handler.go, or types.go. Reject umbrella names such as Store, Manager, Service, Handler, Util, or catch-all domain names like Distribution*. If the boundary cannot be stated in one sentence, fix the abstraction.
 
 Naming symmetry: When one variant of a thing is qualified, qualify every sibling the same way. Parallel implementations get parallel names (elasticsearchSearchOnce, manticoreSearchOnce); never leave one sibling bare.

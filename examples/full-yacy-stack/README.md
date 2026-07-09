@@ -1,14 +1,14 @@
 # Full YaCy stack
 
-Runs every piece of the project together: you join the YaCy network as a peer on the DHT
-and get your own self-hosted search engine at the same time. Search results blend the pages
-you have crawled with the live web, and opening a result crawls that page, so your corpus
-grows from what you read.
+Runs all project services together. A node participates in the YaCy DHT network as a peer
+while a self-hosted search engine serves queries locally. Search results combine crawled
+pages with live web results. Opening a result triggers a crawl of that page, adding it to
+the local corpus.
 
-## The reading loop
+## Search-to-crawl flow
 
-What you do, in order. Searching returns results whose links point at yacyvisitcrawl,
-so opening one both sends you to the page and queues it to be crawled.
+Result links point at yacyvisitcrawl. Opening a result redirects to the page and enqueues
+a crawl order.
 
 ```mermaid
 sequenceDiagram
@@ -28,10 +28,10 @@ sequenceDiagram
     yacyvisitcrawl->>NATS: crawl order
 ```
 
-## The pipeline
+## Crawl pipeline
 
-What happens after a crawl order lands on NATS: the page is fetched and rendered, then
-indexed into the search index the reading loop queries, and shared onto the YaCy network.
+After a crawl order reaches NATS, the page is fetched and rendered, indexed into the local
+search index, and shared onto the YaCy network.
 
 ```mermaid
 flowchart LR
@@ -53,20 +53,19 @@ flowchart LR
     node <-- share and serve results --> Net
 ```
 
-## Run it
+## Setup
 
 1. Copy `.env.example` to `.env` and set `YACY_PEER_HASH`, `YACY_PEER_NAME`,
    `YACY_ADVERTISE_HOST`, and `YACYVISITCRAWL_PUBLIC_URL`.
-2. Copy the SearXNG settings for your chosen engine (see below) to `searxng/settings.yml`
+2. Copy the SearXNG settings for the chosen engine (see below) to `searxng/settings.yml`
    and set `server.secret_key`.
 3. Copy `docker-compose.yml.example` to `docker-compose.yml`.
 4. Start the stack: `docker compose up -d`.
 
-## Watching the stack
+## Monitoring
 
-Prometheus scrapes every service and Grafana shows the crawl-to-serve pipeline at
-`http://localhost:3000`. The **Pipeline overview** dashboard is loaded on start,
-and Grafana opens without a login. Both run on your machine only.
+Prometheus scrapes every service. Grafana presents the crawl-to-serve pipeline at
+`http://localhost:3000` and requires no login.
 
 ## Choosing a search-index engine
 
