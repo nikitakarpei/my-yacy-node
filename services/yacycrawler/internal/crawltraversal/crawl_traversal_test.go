@@ -43,6 +43,7 @@ type fakeExtract struct {
 }
 
 func (f fakeExtract) Extract(
+	_ context.Context,
 	_, _ string,
 	_ []byte,
 ) ([]crawlcapability.ExtractedDocument, error) {
@@ -394,6 +395,7 @@ func TestTraverseDiscoversAndCrawlsLinks(t *testing.T) {
 type extractFunc func() ([]crawlcapability.ExtractedDocument, error)
 
 func (f extractFunc) Extract(
+	_ context.Context,
 	_, _ string,
 	_ []byte,
 ) ([]crawlcapability.ExtractedDocument, error) {

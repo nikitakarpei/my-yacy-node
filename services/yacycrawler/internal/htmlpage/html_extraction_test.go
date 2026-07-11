@@ -22,7 +22,7 @@ const longText = "The quick brown fox jumps over the lazy dog while the industri
 
 func TestExtractArticle(t *testing.T) {
 	documents, err := htmlpage.New().
-		Extract("http://host.example/dir/p", "text/html", []byte(article))
+		Extract(t.Context(), "http://host.example/dir/p", "text/html", []byte(article))
 	if err != nil {
 		t.Fatalf("Extract: %v", err)
 	}
@@ -48,7 +48,8 @@ func TestExtractHonorsMetaRobots(t *testing.T) {
 	page := `<!DOCTYPE html><html lang="en"><head><title>T</title>
 <meta name="robots" content="noindex,nofollow"></head>
 <body><article><p>` + longText + `</p><p>` + longText + `</p></article></body></html>`
-	documents, err := htmlpage.New().Extract("http://host.example/p", "text/html", []byte(page))
+	documents, err := htmlpage.New().
+		Extract(t.Context(), "http://host.example/p", "text/html", []byte(page))
 	if err != nil {
 		t.Fatalf("Extract: %v", err)
 	}
@@ -58,7 +59,7 @@ func TestExtractHonorsMetaRobots(t *testing.T) {
 }
 
 func TestExtractEmptyContentUnextractable(t *testing.T) {
-	_, err := htmlpage.New().Extract("http://host.example/p", "text/html",
+	_, err := htmlpage.New().Extract(t.Context(), "http://host.example/p", "text/html",
 		[]byte("<html><body></body></html>"))
 	if !errors.Is(err, crawlcapability.ErrUnextractable) {
 		t.Fatalf("want ErrUnextractable, got %v", err)

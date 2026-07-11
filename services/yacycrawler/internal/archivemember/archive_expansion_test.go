@@ -54,7 +54,7 @@ func tarBytes(t *testing.T, entries map[string]string) []byte {
 func TestExpandZipMembers(t *testing.T) {
 	body := zipBytes(t, map[string]string{"page.html": "<html>hi</html>"})
 	members, err := archivemember.New(16, 1<<20).
-		Expand("http://host/a.zip", "application/zip", body)
+		Expand(t.Context(), "http://host/a.zip", "application/zip", body)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -72,7 +72,7 @@ func TestExpandZipMembers(t *testing.T) {
 func TestExpandTarMembers(t *testing.T) {
 	body := tarBytes(t, map[string]string{"doc.html": "<html>hi</html>"})
 	members, err := archivemember.New(16, 1<<20).
-		Expand("http://host/a.tar", "application/x-tar", body)
+		Expand(t.Context(), "http://host/a.tar", "application/x-tar", body)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -91,7 +91,7 @@ func TestExpandGzipTar(t *testing.T) {
 		t.Fatalf("gzip close: %v", err)
 	}
 	members, err := archivemember.New(16, 1<<20).
-		Expand("http://host/a.tar.gz", "application/gzip", buf.Bytes())
+		Expand(t.Context(), "http://host/a.tar.gz", "application/gzip", buf.Bytes())
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -113,7 +113,7 @@ func TestExpandGzipSingleFile(t *testing.T) {
 		t.Fatalf("gzip close: %v", err)
 	}
 	members, err := archivemember.New(16, 1<<20).
-		Expand("http://host/page.html.gz", "application/gzip", buf.Bytes())
+		Expand(t.Context(), "http://host/page.html.gz", "application/gzip", buf.Bytes())
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -134,7 +134,7 @@ func TestExpandSkipsUnknownExtensionAndDirectories(t *testing.T) {
 		"data.unknownx": "y",
 	})
 	members, err := archivemember.New(16, 1<<20).
-		Expand("u", "application/zip", body)
+		Expand(t.Context(), "u", "application/zip", body)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -145,7 +145,7 @@ func TestExpandSkipsUnknownExtensionAndDirectories(t *testing.T) {
 
 func TestExpandSkipsOversizedMember(t *testing.T) {
 	body := zipBytes(t, map[string]string{"big.html": "0123456789"})
-	members, err := archivemember.New(16, 4).Expand("u", "application/zip", body)
+	members, err := archivemember.New(16, 4).Expand(t.Context(), "u", "application/zip", body)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -158,21 +158,22 @@ func TestExpandTooManyMembersOverflows(t *testing.T) {
 	body := zipBytes(t, map[string]string{
 		"a.html": "1", "b.html": "2", "c.html": "3",
 	})
-	_, err := archivemember.New(2, 1<<20).Expand("u", "application/zip", body)
+	_, err := archivemember.New(2, 1<<20).Expand(t.Context(), "u", "application/zip", body)
 	if !errors.Is(err, crawlcapability.ErrContainerOverflow) {
 		t.Fatalf("want ErrContainerOverflow, got %v", err)
 	}
 }
 
 func TestExpandUnsupportedMediaType(t *testing.T) {
-	_, err := archivemember.New(16, 1<<20).Expand("u", "application/pdf", []byte("x"))
+	_, err := archivemember.New(16, 1<<20).Expand(t.Context(), "u", "application/pdf", []byte("x"))
 	if !errors.Is(err, crawlcapability.ErrUnsupportedMediaType) {
 		t.Fatalf("want ErrUnsupportedMediaType, got %v", err)
 	}
 }
 
 func TestExpandCorruptZip(t *testing.T) {
-	_, err := archivemember.New(16, 1<<20).Expand("u", "application/zip", []byte("not a zip"))
+	_, err := archivemember.New(16, 1<<20).
+		Expand(t.Context(), "u", "application/zip", []byte("not a zip"))
 	if err == nil {
 		t.Fatal("want error for corrupt zip")
 	}

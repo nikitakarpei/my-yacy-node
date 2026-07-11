@@ -5,8 +5,11 @@ import (
 	"archive/zip"
 	"bytes"
 	"compress/gzip"
+	"context"
+	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"mime"
 	"path"
 	"strings"
@@ -20,6 +23,9 @@ const (
 	mediaGzip = "application/gzip"
 
 	memberSeparator = "!/"
+
+	msgMemberOpenFailed = "archive member open failed, skipped"
+	msgMemberSkipped    = "archive member skipped"
 )
 
 type ArchiveExpansion struct {
@@ -36,22 +42,24 @@ func (ArchiveExpansion) MediaTypes() []string {
 }
 
 func (a ArchiveExpansion) Expand(
+	ctx context.Context,
 	containerURL, contentType string,
 	body []byte,
 ) ([]crawlcapability.ArchiveMember, error) {
 	switch mediaType(contentType) {
 	case mediaZip:
-		return a.expandZip(containerURL, body)
+		return a.expandZip(ctx, containerURL, body)
 	case mediaTar:
-		return a.expandTar(containerURL, bytes.NewReader(body))
+		return a.expandTar(ctx, containerURL, bytes.NewReader(body))
 	case mediaGzip:
-		return a.expandGzip(containerURL, body)
+		return a.expandGzip(ctx, containerURL, body)
 	default:
 		return nil, crawlcapability.ErrUnsupportedMediaType
 	}
 }
 
 func (a ArchiveExpansion) expandZip(
+	ctx context.Context,
 	containerURL string,
 	body []byte,
 ) ([]crawlcapability.ArchiveMember, error) {
@@ -66,11 +74,16 @@ func (a ArchiveExpansion) expandZip(
 		}
 		opened, err := file.Open()
 		if err != nil {
+			slog.WarnContext(ctx, msgMemberOpenFailed,
+				slog.String("member", file.Name),
+				slog.Any("error", err),
+			)
 			continue
 		}
-		content, read := a.readMember(opened)
+		content, err := a.readMember(opened)
 		_ = opened.Close()
-		if !read {
+		if err != nil {
+			logMemberSkipped(ctx, file.Name, err)
 			continue
 		}
 		member, ok := a.member(containerURL, file.Name, content)
@@ -86,6 +99,7 @@ func (a ArchiveExpansion) expandZip(
 }
 
 func (a ArchiveExpansion) expandGzip(
+	ctx context.Context,
 	containerURL string,
 	body []byte,
 ) ([]crawlcapability.ArchiveMember, error) {
@@ -93,8 +107,9 @@ func (a ArchiveExpansion) expandGzip(
 	if err != nil {
 		return nil, fmt.Errorf("open gzip: %w", err)
 	}
-	content, read := a.readMember(decompressed)
-	if !read {
+	content, err := a.readMember(decompressed)
+	if err != nil {
+		logMemberSkipped(ctx, decompressedName(containerURL), err)
 		return nil, nil
 	}
 	member, ok := a.member(containerURL, decompressedName(containerURL), content)
@@ -109,6 +124,7 @@ func decompressedName(containerURL string) string {
 }
 
 func (a ArchiveExpansion) expandTar(
+	ctx context.Context,
 	containerURL string,
 	source io.Reader,
 ) ([]crawlcapability.ArchiveMember, error) {
@@ -116,7 +132,7 @@ func (a ArchiveExpansion) expandTar(
 	var members []crawlcapability.ArchiveMember
 	for {
 		header, err := reader.Next()
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		if err != nil {
@@ -125,8 +141,9 @@ func (a ArchiveExpansion) expandTar(
 		if header.Typeflag != tar.TypeReg {
 			continue
 		}
-		content, read := a.readMember(reader)
-		if !read {
+		content, err := a.readMember(reader)
+		if err != nil {
+			logMemberSkipped(ctx, header.Name, err)
 			continue
 		}
 		member, ok := a.member(containerURL, header.Name, content)
@@ -141,15 +158,22 @@ func (a ArchiveExpansion) expandTar(
 	return members, nil
 }
 
-func (a ArchiveExpansion) readMember(source io.Reader) ([]byte, bool) {
+func (a ArchiveExpansion) readMember(source io.Reader) ([]byte, error) {
 	content, err := io.ReadAll(io.LimitReader(source, a.maxMemberBytes+1))
 	if err != nil {
-		return nil, false
+		return nil, fmt.Errorf("read member: %w", err)
 	}
 	if int64(len(content)) > a.maxMemberBytes {
-		return nil, false
+		return nil, fmt.Errorf("member exceeds size limit of %d bytes", a.maxMemberBytes)
 	}
-	return content, true
+	return content, nil
+}
+
+func logMemberSkipped(ctx context.Context, name string, err error) {
+	slog.WarnContext(ctx, msgMemberSkipped,
+		slog.String("member", name),
+		slog.Any("error", err),
+	)
 }
 
 func (a ArchiveExpansion) member(

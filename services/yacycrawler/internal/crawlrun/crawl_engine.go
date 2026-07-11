@@ -8,7 +8,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
-const msgOrderDropped = "crawl order dropped"
+const (
+	msgOrderDropped     = "crawl order dropped"
+	msgOrderRedelivered = "crawl order redelivered after traversal failure"
+)
 
 type Engine struct {
 	observer  crawlcapability.RunProgress
@@ -51,6 +54,10 @@ func (e *Engine) settleDelivery(
 ) {
 	if crawlErr != nil {
 		e.observer.OrderRedelivered()
+		slog.WarnContext(ctx, msgOrderRedelivered,
+			slog.String("order", delivery.Order.OrderID),
+			slog.Any("error", crawlErr),
+		)
 		if err := delivery.Retry(ctx); err != nil {
 			slog.WarnContext(ctx, msgOrderDropped,
 				slog.String("order", delivery.Order.OrderID),

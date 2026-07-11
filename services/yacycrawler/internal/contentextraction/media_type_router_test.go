@@ -1,6 +1,7 @@
 package contentextraction_test
 
 import (
+	"context"
 	"errors"
 	"testing"
 
@@ -15,6 +16,7 @@ type fakeExtractor struct {
 }
 
 func (f *fakeExtractor) Extract(
+	_ context.Context,
 	pageURL, _ string,
 	_ []byte,
 ) ([]crawlcapability.ExtractedContent, error) {
@@ -27,7 +29,11 @@ type fakeContainer struct {
 	err     error
 }
 
-func (f *fakeContainer) Expand(_, _ string, _ []byte) ([]crawlcapability.ArchiveMember, error) {
+func (f *fakeContainer) Expand(
+	_ context.Context,
+	_, _ string,
+	_ []byte,
+) ([]crawlcapability.ArchiveMember, error) {
 	return f.members, f.err
 }
 
@@ -36,7 +42,12 @@ func TestExtractDispatchesToRegisteredExtractor(t *testing.T) {
 	router := contentextraction.New(4, 16)
 	router.RegisterExtractor("text/html", extractor)
 
-	documents, err := router.Extract("http://host/p", "text/html; charset=utf-8", []byte("x"))
+	documents, err := router.Extract(
+		t.Context(),
+		"http://host/p",
+		"text/html; charset=utf-8",
+		[]byte("x"),
+	)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -52,7 +63,7 @@ func TestExtractUnsupportedMediaType(t *testing.T) {
 	router := contentextraction.New(4, 16)
 	router.RegisterExtractor("text/html", &fakeExtractor{})
 
-	_, err := router.Extract("http://host/f", "application/pdf", []byte("x"))
+	_, err := router.Extract(t.Context(), "http://host/f", "application/pdf", []byte("x"))
 	if !errors.Is(err, crawlcapability.ErrUnsupportedMediaType) {
 		t.Fatalf("want ErrUnsupportedMediaType, got %v", err)
 	}
@@ -68,7 +79,12 @@ func TestExtractExpandsContainerAndStampsMemberURL(t *testing.T) {
 	router.RegisterExtractor("text/html", html)
 	router.RegisterContainer("application/zip", container)
 
-	documents, err := router.Extract("http://host/a.zip", "application/zip", []byte("x"))
+	documents, err := router.Extract(
+		t.Context(),
+		"http://host/a.zip",
+		"application/zip",
+		[]byte("x"),
+	)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -93,7 +109,7 @@ func TestExtractNestedContainerExpands(t *testing.T) {
 	router.RegisterContainer("application/zip", zip)
 	router.RegisterContainer("application/x-tar", tar)
 
-	documents, err := router.Extract("u", "application/zip", []byte("x"))
+	documents, err := router.Extract(t.Context(), "u", "application/zip", []byte("x"))
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -109,7 +125,7 @@ func TestExtractNestingDepthOverflow(t *testing.T) {
 	router := contentextraction.New(2, 16)
 	router.RegisterContainer("application/zip", selfContainer)
 
-	_, err := router.Extract("u", "application/zip", []byte("x"))
+	_, err := router.Extract(t.Context(), "u", "application/zip", []byte("x"))
 	if !errors.Is(err, crawlcapability.ErrContainerOverflow) {
 		t.Fatalf("want ErrContainerOverflow, got %v", err)
 	}
@@ -126,7 +142,7 @@ func TestExtractDocumentsPerContainerOverflow(t *testing.T) {
 	router.RegisterExtractor("text/html", html)
 	router.RegisterContainer("application/zip", container)
 
-	_, err := router.Extract("u", "application/zip", []byte("x"))
+	_, err := router.Extract(t.Context(), "u", "application/zip", []byte("x"))
 	if !errors.Is(err, crawlcapability.ErrContainerOverflow) {
 		t.Fatalf("want ErrContainerOverflow, got %v", err)
 	}
@@ -137,7 +153,7 @@ func TestExtractContainerExpandError(t *testing.T) {
 	router := contentextraction.New(4, 16)
 	router.RegisterContainer("application/zip", container)
 
-	_, err := router.Extract("u", "application/zip", []byte("x"))
+	_, err := router.Extract(t.Context(), "u", "application/zip", []byte("x"))
 	if err == nil {
 		t.Fatal("want error from expand")
 	}

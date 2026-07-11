@@ -11,7 +11,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlfrontier"
 )
 
-const msgFetchAbandoned = "fetch abandoned after retries"
+const (
+	msgFetchAbandoned      = "fetch abandoned after retries"
+	msgDocumentURLRejected = "extracted document url rejected"
+)
 
 func (c *crawl) visit(
 	ctx context.Context,
@@ -64,7 +67,7 @@ func (c *crawl) absorbPage(
 	entry crawlfrontier.Entry,
 	outcome crawlcapability.FetchOutcome,
 ) visitOutcome {
-	documents, err := c.extract.Extract(outcome.FinalURL, outcome.ContentType, outcome.Body)
+	documents, err := c.extract.Extract(ctx, outcome.FinalURL, outcome.ContentType, outcome.Body)
 	if err != nil {
 		switch {
 		case errors.Is(err, crawlcapability.ErrUnsupportedMediaType):
@@ -98,8 +101,12 @@ func (c *crawl) absorbDocument(
 	outcome crawlcapability.FetchOutcome,
 	document crawlcapability.ExtractedDocument,
 ) ([]discoveredLink, error) {
-	canonical, canonicalized := canonicalize(document.URL)
-	if !canonicalized {
+	canonical, err := canonicalurl.Canonicalize(document.URL)
+	if err != nil {
+		slog.WarnContext(ctx, msgDocumentURLRejected,
+			slog.String("url", document.URL),
+			slog.Any("error", err),
+		)
 		c.observer.PageDisposed(crawlcapability.DisposalUnextractable)
 		return nil, nil
 	}
@@ -109,14 +116,6 @@ func (c *crawl) absorbDocument(
 		return nil, err
 	}
 	return candidates, nil
-}
-
-func canonicalize(rawURL string) (string, bool) {
-	canonical, err := canonicalurl.Canonicalize(rawURL)
-	if err != nil {
-		return "", false
-	}
-	return canonical, true
 }
 
 func (c *crawl) discoverLinks(

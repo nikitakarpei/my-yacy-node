@@ -1,13 +1,17 @@
 package contentextraction
 
 import (
+	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"mime"
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
+
+const msgMemberUnextracted = "container member dropped: extraction failed"
 
 type MediaTypeRouter struct {
 	extractors   map[string]crawlcapability.ContentExtraction
@@ -44,10 +48,11 @@ func (r *MediaTypeRouter) RegisteredMediaTypes() int {
 }
 
 func (r *MediaTypeRouter) Extract(
+	ctx context.Context,
 	pageURL, contentType string,
 	body []byte,
 ) ([]crawlcapability.ExtractedDocument, error) {
-	documents, err := r.route(0, pageURL, contentType, body)
+	documents, err := r.route(ctx, 0, pageURL, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -55,6 +60,7 @@ func (r *MediaTypeRouter) Extract(
 }
 
 func (r *MediaTypeRouter) route(
+	ctx context.Context,
 	depth int,
 	resourceURL, contentType string,
 	body []byte,
@@ -62,7 +68,7 @@ func (r *MediaTypeRouter) route(
 	media := mediaType(contentType)
 
 	if extractor, ok := r.extractors[media]; ok {
-		contents, err := extractor.Extract(resourceURL, contentType, body)
+		contents, err := extractor.Extract(ctx, resourceURL, contentType, body)
 		if err != nil {
 			return nil, fmt.Errorf("extract %s: %w", media, err)
 		}
@@ -84,17 +90,23 @@ func (r *MediaTypeRouter) route(
 		return nil, crawlcapability.ErrContainerOverflow
 	}
 
-	members, err := container.Expand(resourceURL, contentType, body)
+	members, err := container.Expand(ctx, resourceURL, contentType, body)
 	if err != nil {
 		return nil, fmt.Errorf("expand %s: %w", media, err)
 	}
 
 	var documents []crawlcapability.ExtractedDocument
 	for _, member := range members {
-		fromMember, err := r.route(depth+1, member.URL, member.ContentType, member.Body)
+		fromMember, err := r.route(ctx, depth+1, member.URL, member.ContentType, member.Body)
 		if err != nil {
 			if errors.Is(err, crawlcapability.ErrContainerOverflow) {
 				return nil, err
+			}
+			if !errors.Is(err, crawlcapability.ErrUnsupportedMediaType) {
+				slog.WarnContext(ctx, msgMemberUnextracted,
+					slog.String("member", member.URL),
+					slog.Any("error", err),
+				)
 			}
 			continue
 		}
