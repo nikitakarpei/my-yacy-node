@@ -28,6 +28,9 @@ func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.P
 	tabCtx, tabCancel := chromedp.NewContext(r.allocatorCtx)
 	defer tabCancel()
 
+	stopPropagation := context.AfterFunc(ctx, tabCancel)
+	defer stopPropagation()
+
 	var outcome mainDocumentResponse
 	chromedp.ListenTarget(tabCtx, outcome.observe)
 
@@ -36,6 +39,9 @@ func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.P
 		chromedp.Navigate(targetURL),
 		chromedp.OuterHTML("html", &body, chromedp.ByQuery),
 	); err != nil {
+		if ctxErr := ctx.Err(); ctxErr != nil {
+			return renderedpage.Page{}, fmt.Errorf("render %s: %w", targetURL, ctxErr)
+		}
 		return renderedpage.Page{}, fmt.Errorf("render %s: %w", targetURL, err)
 	}
 

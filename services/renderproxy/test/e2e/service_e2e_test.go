@@ -22,7 +22,7 @@ func TestRenderproxyRendersScriptedPageEndToEnd(t *testing.T) {
 
 	originURL := startScriptedOrigin(t, ctx, network.Name)
 	lightpanda.Start(t, ctx, network.Name)
-	renderproxyURL := startRenderproxy(t, ctx, network.Name)
+	renderproxyURL := startRenderproxy(t, ctx, network.Name, nil)
 
 	client := forwardProxyClient(t, renderproxyURL)
 	resp, err := client.Get(originURL)
@@ -40,6 +40,35 @@ func TestRenderproxyRendersScriptedPageEndToEnd(t *testing.T) {
 	}
 }
 
+func TestRenderproxyTimesOutHangingOriginEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	network := dockernetwork.New(t, ctx)
+
+	originURL := startHangingOrigin(t, ctx, network.Name)
+	lightpanda.Start(t, ctx, network.Name)
+	renderproxyURL := startRenderproxy(t, ctx, network.Name, map[string]string{
+		"RENDERPROXY_REQUEST_DEADLINE": "3s",
+	})
+
+	client := forwardProxyClient(t, renderproxyURL)
+
+	start := time.Now()
+	resp, err := client.Get(originURL)
+	if err != nil {
+		t.Fatalf("proxy request: %v", err)
+	}
+	defer func() { _ = resp.Body.Close() }()
+	elapsed := time.Since(start)
+
+	if resp.StatusCode != http.StatusGatewayTimeout {
+		t.Fatalf("status = %d, want %d", resp.StatusCode, http.StatusGatewayTimeout)
+	}
+	if elapsed >= 20*time.Second {
+		t.Fatalf("render deadline not enforced: elapsed %s reached the client timeout", elapsed)
+	}
+}
+
 func TestRenderproxyRefusesConnectEndToEnd(t *testing.T) {
 	ctx := context.Background()
 
@@ -47,7 +76,7 @@ func TestRenderproxyRefusesConnectEndToEnd(t *testing.T) {
 
 	startScriptedOrigin(t, ctx, network.Name)
 	lightpanda.Start(t, ctx, network.Name)
-	renderproxyURL := startRenderproxy(t, ctx, network.Name)
+	renderproxyURL := startRenderproxy(t, ctx, network.Name, nil)
 
 	status := connectResponseStatus(t, renderproxyURL)
 	if status != http.StatusMethodNotAllowed {
