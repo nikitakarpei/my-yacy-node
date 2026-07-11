@@ -11,7 +11,7 @@ func TestBuildExtractorDefaultRegistersAll(t *testing.T) {
 		t.Fatal("nil extractor")
 	}
 	// text/html routes to the html extractor.
-	if _, err := extractor.Extract("http://h/p", "text/html",
+	if _, err := extractor.Extract(t.Context(), "http://h/p", "text/html",
 		[]byte("<html><body></body></html>")); err == nil {
 		t.Fatal("expected unextractable for empty html, dispatch reached extractor")
 	}
@@ -24,7 +24,12 @@ func TestBuildExtractorAllowlistRestricts(t *testing.T) {
 	if err != nil {
 		t.Fatalf("build extractor: %v", err)
 	}
-	if _, err := extractor.Extract("http://h/a.zip", "application/zip", []byte("x")); err == nil {
+	if _, err := extractor.Extract(
+		t.Context(),
+		"http://h/a.zip",
+		"application/zip",
+		[]byte("x"),
+	); err == nil {
 		t.Fatal("zip should be unsupported when allowlist excludes it")
 	}
 }

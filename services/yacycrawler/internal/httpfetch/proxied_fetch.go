@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -20,6 +21,9 @@ const (
 	headerXRobotsTag  = "X-Robots-Tag"
 
 	defaultDeferFor = time.Minute
+
+	msgFetchTransient = "fetch failed, treating as transient"
+	msgBodyReadFailed = "response body read failed, treating as transient"
 )
 
 type ProxiedFetch struct {
@@ -62,17 +66,24 @@ func (f *ProxiedFetch) Fetch(
 		if ctx.Err() != nil {
 			return crawlcapability.FetchOutcome{}, fmt.Errorf("fetch %s: %w", rawURL, ctx.Err())
 		}
+		slog.WarnContext(ctx, msgFetchTransient,
+			slog.String("url", rawURL),
+			slog.Any("error", err),
+		)
 		return crawlcapability.FetchOutcome{Status: crawlcapability.FetchTransient}, nil
 	}
 	defer func() { _ = response.Body.Close() }()
 
-	return f.classify(response)
+	return f.classify(ctx, response)
 }
 
-func (f *ProxiedFetch) classify(response *http.Response) (crawlcapability.FetchOutcome, error) {
+func (f *ProxiedFetch) classify(
+	ctx context.Context,
+	response *http.Response,
+) (crawlcapability.FetchOutcome, error) {
 	switch {
 	case response.StatusCode >= 200 && response.StatusCode < 300:
-		return f.fetched(response)
+		return f.fetched(ctx, response)
 	case response.StatusCode == http.StatusTooManyRequests,
 		response.StatusCode == http.StatusServiceUnavailable:
 		return crawlcapability.FetchOutcome{
@@ -90,9 +101,16 @@ func (f *ProxiedFetch) classify(response *http.Response) (crawlcapability.FetchO
 	}
 }
 
-func (f *ProxiedFetch) fetched(response *http.Response) (crawlcapability.FetchOutcome, error) {
-	body, read := readBody(response.Body, f.maxBodyBytes+1)
-	if !read {
+func (f *ProxiedFetch) fetched(
+	ctx context.Context,
+	response *http.Response,
+) (crawlcapability.FetchOutcome, error) {
+	body, readErr := readBody(response.Body, f.maxBodyBytes+1)
+	if readErr != nil {
+		slog.WarnContext(ctx, msgBodyReadFailed,
+			slog.String("url", response.Request.URL.String()),
+			slog.Any("error", readErr),
+		)
 		return crawlcapability.FetchOutcome{Status: crawlcapability.FetchTransient}, nil
 	}
 	truncated := int64(len(body)) > f.maxBodyBytes
@@ -111,12 +129,12 @@ func (f *ProxiedFetch) fetched(response *http.Response) (crawlcapability.FetchOu
 	}, nil
 }
 
-func readBody(source io.Reader, limit int64) ([]byte, bool) {
+func readBody(source io.Reader, limit int64) ([]byte, error) {
 	body, err := io.ReadAll(io.LimitReader(source, limit))
 	if err != nil {
-		return nil, false
+		return nil, fmt.Errorf("read body: %w", err)
 	}
-	return body, true
+	return body, nil
 }
 
 func robotsDirectives(values []string) (noIndex, noFollow bool) {

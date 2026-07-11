@@ -2,7 +2,9 @@ package htmlpage
 
 import (
 	"bytes"
+	"context"
 	"fmt"
+	"log/slog"
 	"net/url"
 	"strings"
 
@@ -17,6 +19,8 @@ import (
 const (
 	mediaHTML  = "text/html"
 	mediaXHTML = "application/xhtml+xml"
+
+	msgBaseHrefUnresolved = "base href unresolved, using page url"
 )
 
 type HTMLExtraction struct{}
@@ -30,6 +34,7 @@ func (HTMLExtraction) MediaTypes() []string {
 }
 
 func (HTMLExtraction) Extract(
+	ctx context.Context,
 	pageURL, contentType string,
 	body []byte,
 ) ([]crawlcapability.ExtractedContent, error) {
@@ -61,6 +66,12 @@ func (HTMLExtraction) Extract(
 	if scan.baseHref != "" {
 		if resolved, resolveErr := resolveBase(pageURL, scan.baseHref); resolveErr == nil {
 			base = resolved
+		} else {
+			slog.DebugContext(ctx, msgBaseHrefUnresolved,
+				slog.String("url", pageURL),
+				slog.String("baseHref", scan.baseHref),
+				slog.Any("error", resolveErr),
+			)
 		}
 	}
 	links, local, external := resolveLinks(base, scan.hrefs)

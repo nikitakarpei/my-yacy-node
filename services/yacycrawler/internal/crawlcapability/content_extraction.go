@@ -1,6 +1,9 @@
 package crawlcapability
 
-import "errors"
+import (
+	"context"
+	"errors"
+)
 
 var (
 	ErrUnsupportedMediaType = errors.New("unsupported media type")
@@ -8,5 +11,9 @@ var (
 )
 
 type ContentExtraction interface {
-	Extract(pageURL, contentType string, body []byte) ([]ExtractedContent, error)
+	Extract(
+		ctx context.Context,
+		pageURL, contentType string,
+		body []byte,
+	) ([]ExtractedContent, error)
 }

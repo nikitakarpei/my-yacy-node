@@ -11,7 +11,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
-const msgOrderDecodeFailed = "crawl order decode failed"
+const (
+	msgOrderDecodeFailed = "crawl order decode failed"
+	msgOrderTermFailed   = "undeliverable crawl order not terminated"
+	msgOrderNakFailed    = "crawl order not returned for redelivery"
+)
 
 type OrderReceiver struct {
 	deliveries chan crawlcapability.DeliveredOrder
@@ -26,7 +30,9 @@ func NewOrderReceiver(
 		order, err := yacycrawlcontract.UnmarshalCrawlOrder(msg.Data())
 		if err != nil {
 			slog.WarnContext(ctx, msgOrderDecodeFailed, slog.Any("error", err))
-			_ = msg.Term()
+			if termErr := msg.Term(); termErr != nil {
+				slog.WarnContext(ctx, msgOrderTermFailed, slog.Any("error", termErr))
+			}
 			return
 		}
 		delivery := crawlcapability.DeliveredOrder{
@@ -38,7 +44,9 @@ func NewOrderReceiver(
 		select {
 		case deliveries <- delivery:
 		case <-ctx.Done():
-			_ = msg.Nak()
+			if nakErr := msg.Nak(); nakErr != nil {
+				slog.WarnContext(ctx, msgOrderNakFailed, slog.Any("error", nakErr))
+			}
 		}
 	})
 	if err != nil {
