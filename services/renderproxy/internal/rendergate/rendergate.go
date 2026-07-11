@@ -10,8 +10,9 @@ import (
 )
 
 const (
-	ReasonRenderFailed = "render_failed"
-	ReasonTooLarge     = "too_large"
+	ReasonRenderFailed    = "render_failed"
+	ReasonTooLarge        = "too_large"
+	ReasonSlotWaitTimeout = "slot_wait_timeout"
 )
 
 type Metrics interface {
@@ -82,6 +83,7 @@ func (r *Renderer) acquire(ctx context.Context) error {
 	case r.slots <- struct{}{}:
 		return nil
 	case <-ctx.Done():
+		r.metrics.RenderFailed(ReasonSlotWaitTimeout)
 		return fmt.Errorf("wait for render slot: %w", ctx.Err())
 	}
 }

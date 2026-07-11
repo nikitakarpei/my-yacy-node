@@ -12,7 +12,11 @@ import (
 
 const headerContentType = "Content-Type"
 
-const msgRenderFailed = "render failed"
+const (
+	msgRenderFailed  = "render failed"
+	msgRenderTimeout = "render timed out"
+	msgWriteFailed   = "write rendered page to client failed"
+)
 
 type Handler struct {
 	renderer renderedpage.Renderer
@@ -42,11 +46,14 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set(headerContentType, page.ContentType)
 	}
 	w.WriteHeader(page.StatusCode)
-	_, _ = w.Write(page.Body)
+	if _, err := w.Write(page.Body); err != nil {
+		slog.WarnContext(r.Context(), msgWriteFailed, slog.Any("error", err))
+	}
 }
 
 func (h *Handler) writeFailure(w http.ResponseWriter, ctx context.Context, err error) {
 	if errors.Is(err, context.DeadlineExceeded) || errors.Is(err, context.Canceled) {
+		slog.WarnContext(ctx, msgRenderTimeout, slog.Any("error", err))
 		w.WriteHeader(http.StatusGatewayTimeout)
 		return
 	}
