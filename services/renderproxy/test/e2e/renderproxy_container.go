@@ -21,8 +21,20 @@ const (
 	envRenderproxyImage = "RENDERPROXY_IMAGE"
 )
 
-func startRenderproxy(t *testing.T, ctx context.Context, networkName string) string {
+func startRenderproxy(
+	t *testing.T,
+	ctx context.Context,
+	networkName string,
+	extraEnv map[string]string,
+) string {
 	t.Helper()
+	env := map[string]string{
+		"RENDERPROXY_CDP_URL": lightpanda.NetworkURL(),
+		"LOG_LEVEL":           "debug",
+	}
+	for k, v := range extraEnv {
+		env[k] = v
+	}
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
 		ContainerRequest: testcontainers.ContainerRequest{
@@ -30,11 +42,8 @@ func startRenderproxy(t *testing.T, ctx context.Context, networkName string) str
 			ExposedPorts:   []string{renderproxyPort + "/tcp"},
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {renderproxyAlias}},
-			Env: map[string]string{
-				"RENDERPROXY_CDP_URL": lightpanda.NetworkURL(),
-				"LOG_LEVEL":           "debug",
-			},
-			WaitingFor: wait.ForListeningPort(renderproxyPort + "/tcp"),
+			Env:            env,
+			WaitingFor:     wait.ForListeningPort(renderproxyPort + "/tcp"),
 		},
 	})
 	if err != nil {
