@@ -75,6 +75,40 @@ func TestServeHTTPReturnsRenderedPage(t *testing.T) {
 	}
 }
 
+type failingResponseWriter struct {
+	header http.Header
+	code   int
+}
+
+func (w *failingResponseWriter) Header() http.Header {
+	if w.header == nil {
+		w.header = http.Header{}
+	}
+	return w.header
+}
+func (w *failingResponseWriter) WriteHeader(code int)      { w.code = code }
+func (w *failingResponseWriter) Write([]byte) (int, error) { return 0, errors.New("client gone") }
+
+func TestServeHTTPSurvivesWriteFailure(t *testing.T) {
+	handler := New(stubRenderer{page: renderedpage.Page{
+		StatusCode: http.StatusOK,
+		Body:       []byte("<html>hi</html>"),
+	}})
+	req := httptest.NewRequestWithContext(
+		context.Background(),
+		http.MethodGet,
+		"http://example.com/",
+		nil,
+	)
+	w := &failingResponseWriter{}
+
+	handler.ServeHTTP(w, req)
+
+	if w.code != http.StatusOK {
+		t.Fatalf("status = %d, want %d", w.code, http.StatusOK)
+	}
+}
+
 func TestServeHTTPFailsOnDeadlineExceeded(t *testing.T) {
 	handler := New(stubRenderer{err: context.DeadlineExceeded})
 	req := httptest.NewRequestWithContext(

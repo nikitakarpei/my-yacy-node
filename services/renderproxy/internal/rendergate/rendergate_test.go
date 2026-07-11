@@ -49,12 +49,26 @@ type stubMetrics struct {
 	waited    atomic.Int64
 	succeeded atomic.Int64
 	failed    atomic.Int64
+
+	mu           sync.Mutex
+	failedReason string
 }
 
-func (m *stubMetrics) RenderWaited()                { m.waited.Add(1) }
-func (m *stubMetrics) RenderSucceeded()             { m.succeeded.Add(1) }
-func (m *stubMetrics) RenderFailed(string)          { m.failed.Add(1) }
+func (m *stubMetrics) RenderWaited()    { m.waited.Add(1) }
+func (m *stubMetrics) RenderSucceeded() { m.succeeded.Add(1) }
+func (m *stubMetrics) RenderFailed(reason string) {
+	m.failed.Add(1)
+	m.mu.Lock()
+	m.failedReason = reason
+	m.mu.Unlock()
+}
 func (m *stubMetrics) RenderObserved(time.Duration) {}
+
+func (m *stubMetrics) lastFailedReason() string {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	return m.failedReason
+}
 
 func TestRenderCapsConcurrency(t *testing.T) {
 	inner := &stubRenderer{delay: 20 * time.Millisecond}
@@ -100,6 +114,29 @@ func TestRenderAppliesDeadline(t *testing.T) {
 	_, err := gated.Render(context.Background(), "http://example.com")
 	if !errors.Is(err, context.DeadlineExceeded) {
 		t.Fatalf("err = %v, want context.DeadlineExceeded", err)
+	}
+}
+
+func TestRenderRecordsSlotWaitTimeout(t *testing.T) {
+	inner := &stubRenderer{delay: 100 * time.Millisecond}
+	metrics := &stubMetrics{}
+	gated := New(inner, 1, time.Second, 1024, metrics)
+
+	held := make(chan struct{})
+	go func() {
+		close(held)
+		_, _ = gated.Render(context.Background(), "http://example.com")
+	}()
+	<-held
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Millisecond)
+	defer cancel()
+	_, err := gated.Render(ctx, "http://example.com")
+	if !errors.Is(err, context.DeadlineExceeded) {
+		t.Fatalf("err = %v, want context.DeadlineExceeded", err)
+	}
+	if got := metrics.lastFailedReason(); got != ReasonSlotWaitTimeout {
+		t.Fatalf("failed reason = %q, want %q", got, ReasonSlotWaitTimeout)
 	}
 }
 
