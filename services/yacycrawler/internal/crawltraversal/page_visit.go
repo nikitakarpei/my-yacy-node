@@ -14,6 +14,7 @@ import (
 const (
 	msgFetchAbandoned      = "fetch abandoned after retries"
 	msgDocumentURLRejected = "extracted document url rejected"
+	msgExtractionFailed    = "document extraction failed"
 )
 
 func (c *crawl) visit(
@@ -69,6 +70,10 @@ func (c *crawl) absorbPage(
 ) visitOutcome {
 	documents, err := c.extract.Extract(ctx, outcome.FinalURL, outcome.ContentType, outcome.Body)
 	if err != nil {
+		slog.WarnContext(ctx, msgExtractionFailed,
+			slog.String("url", entry.URL),
+			slog.Any("error", err),
+		)
 		switch {
 		case errors.Is(err, crawlcapability.ErrUnsupportedMediaType):
 			c.observer.PageDisposed(crawlcapability.DisposalUnsupportedMediaType)

@@ -3,6 +3,7 @@ package crawltraversal
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"sync"
 	"time"
 
@@ -10,6 +11,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlfrontier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pageadmission"
 )
+
+const msgDeferralsExhausted = "url dropped after exhausting deferrals"
 
 type crawl struct {
 	config   Config
@@ -129,7 +132,7 @@ func (c *crawl) schedule(
 			c.frontier.Next()
 			c.inflight++
 		case r := <-results:
-			c.recordVisit(r, cancel)
+			c.recordVisit(ctx, r, cancel)
 		case <-ctx.Done():
 			c.fatal = contextError(ctx)
 			cancel()
@@ -147,7 +150,7 @@ func (c *crawl) dispatchable(budget int) bool {
 	return c.frontier.HasReady()
 }
 
-func (c *crawl) recordVisit(r visitOutcome, cancel context.CancelFunc) {
+func (c *crawl) recordVisit(ctx context.Context, r visitOutcome, cancel context.CancelFunc) {
 	c.inflight--
 	if r.err != nil {
 		if c.fatal == nil {
@@ -157,7 +160,7 @@ func (c *crawl) recordVisit(r visitOutcome, cancel context.CancelFunc) {
 		return
 	}
 	if r.deferred {
-		c.deferEntry(r.entry, r.deferFor)
+		c.deferEntry(ctx, r.entry, r.deferFor)
 		return
 	}
 	if r.transient {
@@ -172,8 +175,9 @@ func (c *crawl) recordVisit(r visitOutcome, cancel context.CancelFunc) {
 	}
 }
 
-func (c *crawl) deferEntry(entry crawlfrontier.Entry, deferFor time.Duration) {
+func (c *crawl) deferEntry(ctx context.Context, entry crawlfrontier.Entry, deferFor time.Duration) {
 	if entry.Deferrals >= c.config.MaxDeferralsPerURL {
+		slog.WarnContext(ctx, msgDeferralsExhausted, slog.String("url", entry.URL))
 		c.observer.PageDisposed(crawlcapability.DisposalFetchFailed)
 		return
 	}
