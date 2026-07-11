@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/chromedp/cdproto/network"
 	"github.com/chromedp/chromedp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
@@ -29,7 +28,8 @@ func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.P
 	tabCtx, tabCancel := chromedp.NewContext(r.allocatorCtx)
 	defer tabCancel()
 
-	mainFrameResponses := watchMainFrameResponses(tabCtx, targetURL)
+	var outcome mainDocumentResponse
+	chromedp.ListenTarget(tabCtx, outcome.observe)
 
 	var body string
 	if err := chromedp.Run(tabCtx,
@@ -39,12 +39,12 @@ func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.P
 		return renderedpage.Page{}, fmt.Errorf("render %s: %w", targetURL, err)
 	}
 
-	statusCode, contentType := 0, ""
-	select {
-	case response := <-mainFrameResponses:
-		statusCode = int(response.Status)
-		contentType = response.MimeType
-	default:
+	statusCode, contentType, ok := outcome.result()
+	if !ok {
+		return renderedpage.Page{}, fmt.Errorf(
+			"render %s: no document response observed",
+			targetURL,
+		)
 	}
 
 	return renderedpage.Page{
@@ -52,21 +52,4 @@ func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.P
 		ContentType: contentType,
 		Body:        []byte(body),
 	}, nil
-}
-
-func watchMainFrameResponses(ctx context.Context, targetURL string) <-chan *network.Response {
-	responses := make(chan *network.Response, 1)
-
-	chromedp.ListenTarget(ctx, func(event any) {
-		received, ok := event.(*network.EventResponseReceived)
-		if !ok || received.Response == nil || received.Response.URL != targetURL {
-			return
-		}
-		select {
-		case responses <- received.Response:
-		default:
-		}
-	})
-
-	return responses
 }
