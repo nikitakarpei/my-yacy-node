@@ -41,8 +41,20 @@ func (m *mainDocumentResponse) observe(event any) {
 	}
 }
 
-func (m *mainDocumentResponse) result() (statusCode int, contentType string, ok bool) {
+type mainDocumentResult struct {
+	statusCode  int
+	contentType string
+	requestID   network.RequestID
+	seen        bool
+}
+
+func (m *mainDocumentResponse) result() mainDocumentResult {
 	m.mu.Lock()
 	defer m.mu.Unlock()
-	return m.statusCode, m.contentType, m.seen
+	return mainDocumentResult{
+		statusCode:  m.statusCode,
+		contentType: m.contentType,
+		requestID:   m.requestID,
+		seen:        m.seen,
+	}
 }

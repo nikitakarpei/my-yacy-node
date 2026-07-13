@@ -34,28 +34,32 @@ func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.P
 	var outcome mainDocumentResponse
 	chromedp.ListenTarget(tabCtx, outcome.observe)
 
-	var body string
-	if err := chromedp.Run(tabCtx,
-		chromedp.Navigate(targetURL),
-		chromedp.OuterHTML("html", &body, chromedp.ByQuery),
-	); err != nil {
+	if err := chromedp.Run(tabCtx, chromedp.Navigate(targetURL)); err != nil {
 		if ctxErr := ctx.Err(); ctxErr != nil {
 			return renderedpage.Page{}, fmt.Errorf("render %s: %w", targetURL, ctxErr)
 		}
 		return renderedpage.Page{}, fmt.Errorf("render %s: %w", targetURL, err)
 	}
 
-	statusCode, contentType, ok := outcome.result()
-	if !ok {
+	document := outcome.result()
+	if !document.seen {
 		return renderedpage.Page{}, fmt.Errorf(
 			"render %s: no document response observed",
 			targetURL,
 		)
 	}
 
+	body, err := extractDocumentBody(tabCtx, document.requestID, document.contentType)
+	if err != nil {
+		if ctxErr := ctx.Err(); ctxErr != nil {
+			return renderedpage.Page{}, fmt.Errorf("render %s: %w", targetURL, ctxErr)
+		}
+		return renderedpage.Page{}, fmt.Errorf("render %s: %w", targetURL, err)
+	}
+
 	return renderedpage.Page{
-		StatusCode:  statusCode,
-		ContentType: contentType,
-		Body:        []byte(body),
+		StatusCode:  document.statusCode,
+		ContentType: document.contentType,
+		Body:        body,
 	}, nil
 }

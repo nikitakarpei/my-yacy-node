@@ -40,6 +40,34 @@ func TestRenderproxyRendersScriptedPageEndToEnd(t *testing.T) {
 	}
 }
 
+func TestRenderproxyReturnsNonHTMLRawBodyEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	network := dockernetwork.New(t, ctx)
+
+	originURL := startNonHTMLOrigin(t, ctx, network.Name)
+	lightpanda.Start(t, ctx, network.Name)
+	renderproxyURL := startRenderproxy(t, ctx, network.Name, nil)
+
+	client := forwardProxyClient(t, renderproxyURL)
+	resp, err := client.Get(originURL)
+	if err != nil {
+		t.Fatalf("proxy request: %v", err)
+	}
+	defer func() { _ = resp.Body.Close() }()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("read proxy response body: %v", err)
+	}
+	if got := resp.Header.Get("Content-Type"); got != nonhtmlContentType {
+		t.Fatalf("content type = %q, want %q", got, nonhtmlContentType)
+	}
+	if string(body) != nonhtmlPayload {
+		t.Fatalf("raw body = %q, want %q", body, nonhtmlPayload)
+	}
+}
+
 func TestRenderproxyTimesOutHangingOriginEndToEnd(t *testing.T) {
 	ctx := context.Background()
 
