@@ -42,7 +42,7 @@ func (o PageContentOutput) Publish(ctx context.Context, page crawlcapability.Ext
 		yacycrawlcontract.PageContentRepresentation{
 			CanonicalURL: page.CanonicalURL,
 			Title:        page.Title,
-			CrawledAt:    page.FetchedAt,
+			CrawledAt:    page.CrawledAt,
 			Language:     page.Language,
 			Body:         body,
 		},

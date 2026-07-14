@@ -34,7 +34,7 @@ func Build(
 
 	order, occurrences, textStats := tokenize(string(body))
 	_, _, titleStats := tokenize(page.Title)
-	dayNumber := dayNumberOf(page.FetchedAt)
+	dayNumber := dayNumberOf(page.CrawledAt)
 
 	stats := documentWordStatistics{
 		TextWordCount:  textStats.Words,
@@ -118,8 +118,8 @@ func metadataRow(
 	}}
 }
 
-func dayNumberOf(fetchedAt time.Time) uint64 {
-	seconds := fetchedAt.Unix()
+func dayNumberOf(crawledAt time.Time) uint64 {
+	seconds := crawledAt.Unix()
 	if seconds < 0 {
 		return 0
 	}

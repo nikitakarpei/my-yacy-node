@@ -34,7 +34,7 @@ func samplePage() crawlcapability.ExtractedPage {
 		Body:              []byte("the quick brown fox the fox"),
 		Format:            crawlcapability.PageContentFormatText,
 		Language:          "en",
-		FetchedAt:         time.Unix(1_700_000_000, 0),
+		CrawledAt:         time.Unix(1_700_000_000, 0),
 		LocalLinkCount:    3,
 		ExternalLinkCount: 1,
 	}

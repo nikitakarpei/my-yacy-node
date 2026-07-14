@@ -154,7 +154,7 @@ func (c *crawl) publishDocument(
 		Body:              document.Body,
 		Format:            document.Format,
 		Language:          document.Language,
-		FetchedAt:         c.clock.Now(),
+		CrawledAt:         c.clock.Now(),
 		LocalLinkCount:    document.LocalLinkCount,
 		ExternalLinkCount: document.ExternalLinkCount,
 	}

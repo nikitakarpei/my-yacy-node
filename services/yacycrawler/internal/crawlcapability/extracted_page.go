@@ -8,7 +8,7 @@ type ExtractedPage struct {
 	Body              []byte
 	Format            PageContentFormat
 	Language          string
-	FetchedAt         time.Time
+	CrawledAt         time.Time
 	LocalLinkCount    int
 	ExternalLinkCount int
 }
