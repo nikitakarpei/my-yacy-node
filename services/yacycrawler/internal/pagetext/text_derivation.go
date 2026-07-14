@@ -32,10 +32,13 @@ func (TextDerivation) Derive(
 	body []byte,
 	sourceFormat crawlcapability.PageContentFormat,
 ) ([]byte, error) {
-	if sourceFormat == crawlcapability.PageContentFormatHTML {
+	switch sourceFormat {
+	case crawlcapability.PageContentFormatText:
+		return body, nil
+	case crawlcapability.PageContentFormatHTML:
 		return renderText(body)
 	}
-	return body, nil
+	return nil, fmt.Errorf("text derivation cannot accept %s source", sourceFormat)
 }
 
 func renderText(body []byte) ([]byte, error) {

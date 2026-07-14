@@ -50,6 +50,15 @@ func TestDerivePassesMarkdownThrough(t *testing.T) {
 	}
 }
 
+func TestDeriveRejectsUndeclaredSourceFormat(t *testing.T) {
+	if _, err := pagemarkdown.New().Derive(
+		[]byte("%PDF-1.7"),
+		crawlcapability.PageContentFormat("pdf"),
+	); err == nil {
+		t.Fatal("a source format outside SourceFormats() should fail, not pass through")
+	}
+}
+
 func TestSourceFormatsDeclaresHTMLAndMarkdown(t *testing.T) {
 	want := []crawlcapability.PageContentFormat{
 		crawlcapability.PageContentFormatHTML,

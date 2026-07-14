@@ -29,12 +29,15 @@ func (MarkdownDerivation) Derive(
 	body []byte,
 	sourceFormat crawlcapability.PageContentFormat,
 ) ([]byte, error) {
-	if sourceFormat != crawlcapability.PageContentFormatHTML {
+	switch sourceFormat {
+	case crawlcapability.PageContentFormatMarkdown:
 		return body, nil
+	case crawlcapability.PageContentFormatHTML:
+		markdown, err := htmltomarkdown.ConvertString(string(body))
+		if err != nil {
+			return nil, fmt.Errorf("convert html to markdown: %w", err)
+		}
+		return []byte(markdown), nil
 	}
-	markdown, err := htmltomarkdown.ConvertString(string(body))
-	if err != nil {
-		return nil, fmt.Errorf("convert html to markdown: %w", err)
-	}
-	return []byte(markdown), nil
+	return nil, fmt.Errorf("markdown derivation cannot accept %s source", sourceFormat)
 }
