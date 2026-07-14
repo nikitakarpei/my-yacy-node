@@ -32,9 +32,11 @@ service is meant for a more capable host than an always-on node.
 * The service SHALL publish each of a page's representations on its own stream: `rwi`
   carries page references and never a body; content representations carry the body.
 * The service SHALL publish each page to every enabled representation that accepts its
-  content format, advancing those together: if any cannot take it yet, the others wait.
-* Every fetched page SHALL reach one terminal outcome: published to every representation
-  accepting its content format, or disposed per operator policy.
+  content format.
+* The service SHALL advance a page's publications in lockstep: until every one can take
+  the page, none proceeds.
+* Every fetched page SHALL reach one terminal outcome: published to its accepting
+  representations, or disposed per operator policy.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient
   backpressure waits for as long as the run holds its order.
 * A publication failure SHALL NOT be terminal; the page stays unpublished.
