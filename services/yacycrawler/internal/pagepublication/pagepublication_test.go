@@ -50,8 +50,8 @@ func samplePage() crawlcapability.ExtractedPage {
 func TestIndexOutputPublishes(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
-	if err := yacycrawlcontract.EnsureCrawledPageIndexStream(ctx, js,
-		yacycrawlcontract.CrawledPageIndexStreamSpec{Subject: "yacy.crawl.page-index", MaxMsgs: 10},
+	if err := yacycrawlcontract.EnsureCrawledPageStream(ctx, js, yacycrawlcontract.PageFormatRWI,
+		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page-index", MaxMsgs: 10},
 	); err != nil {
 		t.Fatal(err)
 	}
@@ -63,7 +63,11 @@ func TestIndexOutputPublishes(t *testing.T) {
 		t.Fatalf("publish: %v", err)
 	}
 
-	msg := consumeOne(t, js, yacycrawlcontract.CrawledPageIndexStreamName)
+	msg := consumeOne(
+		t,
+		js,
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatRWI),
+	)
 	segment, err := yacycrawlcontract.UnmarshalCrawledPageIndexSegment(msg)
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
@@ -79,7 +83,7 @@ func TestIndexOutputPublishes(t *testing.T) {
 func TestPageContentOutputPublishes(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
-	if err := yacycrawlcontract.EnsureCrawledPageStream(ctx, js,
+	if err := yacycrawlcontract.EnsureCrawledPageStream(ctx, js, yacycrawlcontract.PageFormatText,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.pages", MaxMsgs: 10},
 	); err != nil {
 		t.Fatal(err)
@@ -92,8 +96,12 @@ func TestPageContentOutputPublishes(t *testing.T) {
 		t.Fatalf("publish: %v", err)
 	}
 
-	msg := consumeOne(t, js, yacycrawlcontract.CrawledPageStreamName)
-	page, err := yacycrawlcontract.UnmarshalCrawledPage(msg)
+	msg := consumeOne(
+		t,
+		js,
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatText),
+	)
+	page, err := yacycrawlcontract.UnmarshalPageContentRepresentation(msg)
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
@@ -105,7 +113,7 @@ func TestPageContentOutputPublishes(t *testing.T) {
 func TestPublishFullStreamIsRetryable(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
-	if err := yacycrawlcontract.EnsureCrawledPageStream(ctx, js,
+	if err := yacycrawlcontract.EnsureCrawledPageStream(ctx, js, yacycrawlcontract.PageFormatText,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.pages", MaxMsgs: 1},
 	); err != nil {
 		t.Fatal(err)

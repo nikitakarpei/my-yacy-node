@@ -40,10 +40,11 @@ func ensureStreams(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	}); err != nil {
 		t.Fatalf("ensure orders stream: %v", err)
 	}
-	if err := yacycrawlcontract.EnsureCrawledPageIndexStream(
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.CrawledPageIndexStreamSpec{
+		yacycrawlcontract.PageFormatRWI,
+		yacycrawlcontract.CrawledPageStreamSpec{
 			Subject: crawledPageIndexSubject,
 			MaxMsgs: crawledPageIndexMaxMsgs,
 		},
@@ -58,7 +59,10 @@ func fetchOneCrawledPageIndex(
 	js jetstream.JetStream,
 ) yacycrawlcontract.CrawledPageIndex {
 	t.Helper()
-	stream, err := js.Stream(ctx, yacycrawlcontract.CrawledPageIndexStreamName)
+	stream, err := js.Stream(
+		ctx,
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatRWI),
+	)
 	if err != nil {
 		t.Fatalf("lookup crawled page index stream: %v", err)
 	}

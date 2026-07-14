@@ -119,17 +119,17 @@ func ensureStreams(ctx context.Context, js jetstream.JetStream, cfg ServiceConfi
 		return fmt.Errorf("ensure orders stream: %w", err)
 	}
 	if cfg.IndexOutputEnabled {
-		if err := yacycrawlcontract.EnsureCrawledPageIndexStream(
-			ctx, js, cfg.PageIndexStreamSpec(),
+		if err := yacycrawlcontract.EnsureCrawledPageStream(
+			ctx, js, yacycrawlcontract.PageFormatRWI, cfg.PageIndexStreamSpec(),
 		); err != nil {
-			return fmt.Errorf("ensure page index stream: %w", err)
+			return fmt.Errorf("ensure page rwi stream: %w", err)
 		}
 	}
 	if cfg.PageOutputEnabled {
 		if err := yacycrawlcontract.EnsureCrawledPageStream(
-			ctx, js, cfg.PagesStreamSpec(),
+			ctx, js, yacycrawlcontract.PageFormatText, cfg.PagesStreamSpec(),
 		); err != nil {
-			return fmt.Errorf("ensure pages stream: %w", err)
+			return fmt.Errorf("ensure page text stream: %w", err)
 		}
 	}
 	return nil

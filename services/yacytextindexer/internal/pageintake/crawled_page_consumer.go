@@ -22,7 +22,7 @@ const (
 )
 
 type SearchIndex interface {
-	Index(ctx context.Context, page yacycrawlcontract.CrawledPage) error
+	Index(ctx context.Context, page yacycrawlcontract.PageContentRepresentation) error
 }
 
 type IndexProgress interface {
@@ -98,7 +98,7 @@ func (c *CrawledPageConsumer) Run(ctx context.Context) error {
 
 func (c *CrawledPageConsumer) processOne(ctx context.Context, msg jetstream.Msg) {
 	c.progress.PageReceived()
-	page, err := yacycrawlcontract.UnmarshalCrawledPage(msg.Data())
+	page, err := yacycrawlcontract.UnmarshalPageContentRepresentation(msg.Data())
 	if err != nil {
 		slog.WarnContext(ctx, msgCrawledPageDecodeFailed, slog.Any("error", err))
 		c.progress.PageDisposed(disposalReasonUndecodable)

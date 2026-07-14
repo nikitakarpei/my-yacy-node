@@ -26,10 +26,11 @@ func TestElasticsearchIndexPutsDocumentByID(t *testing.T) {
 	defer server.Close()
 
 	index := elasticsearchindex.NewElasticsearchIndex(server.URL, "yacy-text", server.Client())
-	page := yacycrawlcontract.CrawledPage{
+	page := yacycrawlcontract.PageContentRepresentation{
 		CanonicalURL: "https://example.com/",
 		Title:        "Hi",
-		Text:         "words here",
+		Format:       yacycrawlcontract.PageFormatText,
+		Body:         []byte("words here"),
 		CrawledAt:    time.Unix(0, 0).UTC(),
 		Language:     "en",
 	}
@@ -56,7 +57,7 @@ func TestElasticsearchIndexReturnsErrorOnFailureStatus(t *testing.T) {
 	index := elasticsearchindex.NewElasticsearchIndex(server.URL, "yacy-text", server.Client())
 	err := index.Index(
 		context.Background(),
-		yacycrawlcontract.CrawledPage{CanonicalURL: "https://example.com/"},
+		yacycrawlcontract.PageContentRepresentation{CanonicalURL: "https://example.com/"},
 	)
 	if err == nil {
 		t.Fatal("expected error for non-2xx response")

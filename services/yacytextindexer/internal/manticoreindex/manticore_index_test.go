@@ -32,10 +32,11 @@ func TestManticoreIndexReplacesDocumentByIdentity(t *testing.T) {
 	defer server.Close()
 
 	index := manticoreindex.NewManticoreIndex(server.URL, "yacy-text", server.Client())
-	page := yacycrawlcontract.CrawledPage{
+	page := yacycrawlcontract.PageContentRepresentation{
 		CanonicalURL: "https://example.com/",
 		Title:        "Hi",
-		Text:         "words here",
+		Format:       yacycrawlcontract.PageFormatText,
+		Body:         []byte("words here"),
 		CrawledAt:    time.Unix(0, 0).UTC(),
 		Language:     "en",
 	}
@@ -65,7 +66,7 @@ func TestManticoreIndexIsStableForSameURL(t *testing.T) {
 	defer server.Close()
 
 	index := manticoreindex.NewManticoreIndex(server.URL, "yacy-text", server.Client())
-	page := yacycrawlcontract.CrawledPage{CanonicalURL: "https://example.com/"}
+	page := yacycrawlcontract.PageContentRepresentation{CanonicalURL: "https://example.com/"}
 	for range 2 {
 		if err := index.Index(context.Background(), page); err != nil {
 			t.Fatalf("index: %v", err)
@@ -85,7 +86,7 @@ func TestManticoreIndexReturnsErrorOnFailureStatus(t *testing.T) {
 	index := manticoreindex.NewManticoreIndex(server.URL, "yacy-text", server.Client())
 	err := index.Index(
 		context.Background(),
-		yacycrawlcontract.CrawledPage{CanonicalURL: "https://example.com/"},
+		yacycrawlcontract.PageContentRepresentation{CanonicalURL: "https://example.com/"},
 	)
 	if err == nil {
 		t.Fatal("expected error for non-2xx response")

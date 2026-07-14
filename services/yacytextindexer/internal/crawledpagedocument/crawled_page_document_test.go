@@ -10,10 +10,11 @@ import (
 
 func TestOfMapsFields(t *testing.T) {
 	crawledAt := time.Date(2026, 7, 4, 0, 0, 0, 0, time.UTC)
-	doc := crawledpagedocument.Of(yacycrawlcontract.CrawledPage{
+	doc := crawledpagedocument.Of(yacycrawlcontract.PageContentRepresentation{
 		CanonicalURL: "https://example.com/",
 		Title:        "Hi",
-		Text:         "words here",
+		Format:       yacycrawlcontract.PageFormatText,
+		Body:         []byte("words here"),
 		CrawledAt:    crawledAt,
 		Language:     "en",
 	})

@@ -32,31 +32,35 @@ func TestEnsureOrdersStreamCreatesWorkQueue(t *testing.T) {
 	}
 }
 
-func TestEnsureCrawledPageIndexStreamCreatesBoundedStream(t *testing.T) {
+func TestEnsureCrawledPageRWIStreamCreatesBoundedStream(t *testing.T) {
 	js := connectJetStream(t, startNATS(t))
 
-	spec := yacycrawlcontract.CrawledPageIndexStreamSpec{
-		Subject: "yacy.crawl.page-index",
+	spec := yacycrawlcontract.CrawledPageStreamSpec{
+		Subject: "yacy.crawl.page-rwi",
 		MaxMsgs: 8,
 	}
-	if err := yacycrawlcontract.EnsureCrawledPageIndexStream(
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		context.Background(),
 		js,
+		yacycrawlcontract.PageFormatRWI,
 		spec,
 	); err != nil {
-		t.Fatalf("ensure crawled page index stream: %v", err)
+		t.Fatalf("ensure crawled page rwi stream: %v", err)
 	}
 
-	pageIndex, err := js.Stream(context.Background(), yacycrawlcontract.CrawledPageIndexStreamName)
+	pageRWI, err := js.Stream(
+		context.Background(),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatRWI),
+	)
 	if err != nil {
-		t.Fatalf("crawled page index stream: %v", err)
+		t.Fatalf("crawled page rwi stream: %v", err)
 	}
-	cfg := pageIndex.CachedInfo().Config
+	cfg := pageRWI.CachedInfo().Config
 	if cfg.MaxMsgs != spec.MaxMsgs {
-		t.Fatalf("crawled page index MaxMsgs = %d, want %d", cfg.MaxMsgs, spec.MaxMsgs)
+		t.Fatalf("crawled page rwi MaxMsgs = %d, want %d", cfg.MaxMsgs, spec.MaxMsgs)
 	}
 	if cfg.Discard != jetstream.DiscardNew {
-		t.Fatalf("crawled page index discard = %v, want DiscardNew", cfg.Discard)
+		t.Fatalf("crawled page rwi discard = %v, want DiscardNew", cfg.Discard)
 	}
 }
 
@@ -67,12 +71,16 @@ func TestEnsureCrawledPageStreamCreatesBoundedStream(t *testing.T) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		context.Background(),
 		js,
+		yacycrawlcontract.PageFormatText,
 		spec,
 	); err != nil {
 		t.Fatalf("ensure crawled page stream: %v", err)
 	}
 
-	stream, err := js.Stream(context.Background(), yacycrawlcontract.CrawledPageStreamName)
+	stream, err := js.Stream(
+		context.Background(),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatText),
+	)
 	if err != nil {
 		t.Fatalf("crawled page stream: %v", err)
 	}
@@ -97,19 +105,21 @@ func TestEnsureStreamsAreIdempotent(t *testing.T) {
 		); err != nil {
 			t.Fatalf("ensure orders stream (pass %d): %v", i, err)
 		}
-		if err := yacycrawlcontract.EnsureCrawledPageIndexStream(
+		if err := yacycrawlcontract.EnsureCrawledPageStream(
 			ctx,
 			js,
-			yacycrawlcontract.CrawledPageIndexStreamSpec{
-				Subject: "yacy.crawl.page-index",
+			yacycrawlcontract.PageFormatRWI,
+			yacycrawlcontract.CrawledPageStreamSpec{
+				Subject: "yacy.crawl.page-rwi",
 				MaxMsgs: 8,
 			},
 		); err != nil {
-			t.Fatalf("ensure crawled page index stream (pass %d): %v", i, err)
+			t.Fatalf("ensure crawled page rwi stream (pass %d): %v", i, err)
 		}
 		if err := yacycrawlcontract.EnsureCrawledPageStream(
 			ctx,
 			js,
+			yacycrawlcontract.PageFormatText,
 			yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.pages", MaxMsgs: 8},
 		); err != nil {
 			t.Fatalf("ensure crawled page stream (pass %d): %v", i, err)
@@ -136,18 +146,31 @@ func TestEnsureStreamsReportBrokerFailure(t *testing.T) {
 	); err == nil {
 		t.Error("ensure orders stream on closed connection should fail")
 	}
-	if err := yacycrawlcontract.EnsureCrawledPageIndexStream(
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.CrawledPageIndexStreamSpec{Subject: "yacy.crawl.page-index", MaxMsgs: 8},
+		yacycrawlcontract.PageFormatRWI,
+		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page-rwi", MaxMsgs: 8},
 	); err == nil {
-		t.Error("ensure crawled page index stream on closed connection should fail")
+		t.Error("ensure crawled page rwi stream on closed connection should fail")
 	}
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
+		yacycrawlcontract.PageFormatText,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.pages", MaxMsgs: 8},
 	); err == nil {
 		t.Error("ensure crawled page stream on closed connection should fail")
+	}
+}
+
+func TestCrawledPageStreamNameIsFormatQualified(t *testing.T) {
+	for format, want := range map[yacycrawlcontract.PageFormat]string{
+		yacycrawlcontract.PageFormatRWI:  "YACY_CRAWL_PAGE_RWI",
+		yacycrawlcontract.PageFormatText: "YACY_CRAWL_PAGE_TEXT",
+	} {
+		if got := yacycrawlcontract.CrawledPageStreamName(format); got != want {
+			t.Errorf("CrawledPageStreamName(%q) = %q, want %q", format, got, want)
+		}
 	}
 }

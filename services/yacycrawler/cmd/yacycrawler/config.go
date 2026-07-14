@@ -78,8 +78,8 @@ func (c ServiceConfig) OrdersStreamSpec() yacycrawlcontract.OrdersStreamSpec {
 	return yacycrawlcontract.OrdersStreamSpec{Subject: c.OrdersSubject}
 }
 
-func (c ServiceConfig) PageIndexStreamSpec() yacycrawlcontract.CrawledPageIndexStreamSpec {
-	return yacycrawlcontract.CrawledPageIndexStreamSpec{
+func (c ServiceConfig) PageIndexStreamSpec() yacycrawlcontract.CrawledPageStreamSpec {
+	return yacycrawlcontract.CrawledPageStreamSpec{
 		Subject: c.PageIndexSubject,
 		MaxMsgs: c.PageIndexMaxMsgs,
 	}

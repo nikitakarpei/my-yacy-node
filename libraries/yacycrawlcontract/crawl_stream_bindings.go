@@ -3,23 +3,23 @@ package yacycrawlcontract
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/nats-io/nats.go/jetstream"
 )
 
 const (
-	OrdersStreamName           = "YACY_CRAWL_ORDERS"
-	CrawledPageIndexStreamName = "YACY_CRAWL_PAGE_INDEX"
-	CrawledPageStreamName      = "YACY_CRAWL_PAGES"
+	OrdersStreamName = "YACY_CRAWL_ORDERS"
+
+	crawledPageStreamPrefix = "YACY_CRAWL_PAGE_"
 )
+
+func CrawledPageStreamName(format PageFormat) string {
+	return crawledPageStreamPrefix + strings.ToUpper(string(format))
+}
 
 type OrdersStreamSpec struct {
 	Subject string
-}
-
-type CrawledPageIndexStreamSpec struct {
-	Subject string
-	MaxMsgs int64
 }
 
 type CrawledPageStreamSpec struct {
@@ -38,30 +38,14 @@ func EnsureOrdersStream(ctx context.Context, js jetstream.JetStream, spec Orders
 	return nil
 }
 
-func EnsureCrawledPageIndexStream(
-	ctx context.Context,
-	js jetstream.JetStream,
-	spec CrawledPageIndexStreamSpec,
-) error {
-	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
-		Name:      CrawledPageIndexStreamName,
-		Subjects:  []string{spec.Subject},
-		Retention: jetstream.WorkQueuePolicy,
-		MaxMsgs:   spec.MaxMsgs,
-		Discard:   jetstream.DiscardNew,
-	}); err != nil {
-		return fmt.Errorf("ensure crawled page index stream: %w", err)
-	}
-	return nil
-}
-
 func EnsureCrawledPageStream(
 	ctx context.Context,
 	js jetstream.JetStream,
+	format PageFormat,
 	spec CrawledPageStreamSpec,
 ) error {
 	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
-		Name:      CrawledPageStreamName,
+		Name:      CrawledPageStreamName(format),
 		Subjects:  []string{spec.Subject},
 		Retention: jetstream.WorkQueuePolicy,
 		MaxMsgs:   spec.MaxMsgs,

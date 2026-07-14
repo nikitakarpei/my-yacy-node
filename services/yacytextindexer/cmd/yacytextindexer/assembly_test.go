@@ -48,11 +48,14 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 	js := connectJetStream(t, url)
 	waitForCrawledPageStream(t, js)
 
-	data, err := yacycrawlcontract.MarshalCrawledPage(yacycrawlcontract.CrawledPage{
-		CanonicalURL: "https://example.com/",
-		Title:        "Hi",
-		Text:         "words here",
-	})
+	data, err := yacycrawlcontract.MarshalPageContentRepresentation(
+		yacycrawlcontract.PageContentRepresentation{
+			CanonicalURL: "https://example.com/",
+			Title:        "Hi",
+			Format:       yacycrawlcontract.PageFormatText,
+			Body:         []byte("words here"),
+		},
+	)
 	if err != nil {
 		t.Fatalf("marshal crawled page: %v", err)
 	}
@@ -120,11 +123,14 @@ func waitForCrawledPageStream(t *testing.T, js jetstream.JetStream) {
 	for time.Now().Before(deadline) {
 		if _, err := js.Stream(
 			context.Background(),
-			yacycrawlcontract.CrawledPageStreamName,
+			yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatText),
 		); err == nil {
 			return
 		}
 		time.Sleep(50 * time.Millisecond)
 	}
-	t.Fatalf("stream %s not created in time", yacycrawlcontract.CrawledPageStreamName)
+	t.Fatalf(
+		"stream %s not created in time",
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatText),
+	)
 }

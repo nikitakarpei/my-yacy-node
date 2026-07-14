@@ -46,10 +46,11 @@ func Open(ctx context.Context, cfg Config) (*CrawlBroker, error) {
 		conn.Close()
 		return nil, fmt.Errorf("ensure orders stream: %w", err)
 	}
-	if err := yacycrawlcontract.EnsureCrawledPageIndexStream(
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.CrawledPageIndexStreamSpec{
+		yacycrawlcontract.PageFormatRWI,
+		yacycrawlcontract.CrawledPageStreamSpec{
 			Subject: cfg.IngestSubject,
 			MaxMsgs: cfg.IngestMaxMsgs,
 		},
