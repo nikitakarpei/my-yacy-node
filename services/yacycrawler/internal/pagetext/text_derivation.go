@@ -48,12 +48,12 @@ func renderText(body []byte) ([]byte, error) {
 	}
 	var text strings.Builder
 	writeText(&text, root)
-	return []byte(collapseBlankRuns(text.String())), nil
+	return []byte(collapseWhitespace(text.String())), nil
 }
 
 func writeText(text *strings.Builder, node *html.Node) {
 	if node.Type == html.TextNode {
-		text.WriteString(node.Data)
+		text.WriteString(strings.ReplaceAll(node.Data, "\n", " "))
 		return
 	}
 	if node.Type == html.ElementNode && isSkipped(node.DataAtom) {
@@ -87,12 +87,12 @@ func isBlock(name atom.Atom) bool {
 	return false
 }
 
-func collapseBlankRuns(text string) string {
+func collapseWhitespace(text string) string {
 	lines := strings.Split(text, "\n")
 	kept := make([]string, 0, len(lines))
 	for _, line := range lines {
-		if trimmed := strings.TrimSpace(line); trimmed != "" {
-			kept = append(kept, trimmed)
+		if fields := strings.Fields(line); len(fields) > 0 {
+			kept = append(kept, strings.Join(fields, " "))
 		}
 	}
 	return strings.Join(kept, "\n")

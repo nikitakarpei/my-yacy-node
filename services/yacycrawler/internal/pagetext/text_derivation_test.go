@@ -45,6 +45,19 @@ func TestDeriveSeparatesBlockElements(t *testing.T) {
 	}
 }
 
+func TestDeriveCollapsesWhitespaceWithinBlock(t *testing.T) {
+	body, err := pagetext.New().Derive(
+		[]byte("<p>The   quick\n  brown\nfox.</p>"),
+		crawlcapability.PageContentFormatHTML,
+	)
+	if err != nil {
+		t.Fatalf("Derive: %v", err)
+	}
+	if string(body) != "The quick brown fox." {
+		t.Fatalf("whitespace not collapsed within block: %q", body)
+	}
+}
+
 func TestDeriveDropsScriptAndStyle(t *testing.T) {
 	body, err := pagetext.New().Derive(
 		[]byte(`<p>keep</p><script>var drop = 1</script><style>.drop{}</style>`),
