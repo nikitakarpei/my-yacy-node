@@ -32,46 +32,14 @@ func TestEnsureOrdersStreamCreatesWorkQueue(t *testing.T) {
 	}
 }
 
-func TestEnsureCrawledPageRWIStreamCreatesBoundedStream(t *testing.T) {
+func TestEnsureCrawledPageStreamCreatesBoundedStream(t *testing.T) {
 	js := connectJetStream(t, startNATS(t))
 
-	spec := yacycrawlcontract.CrawledPageStreamSpec{
-		Subject: "yacy.crawl.page-rwi",
-		MaxMsgs: 8,
-	}
+	spec := yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.rwi", MaxMsgs: 8}
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		context.Background(),
 		js,
 		yacycrawlcontract.PageRepresentationRWI,
-		spec,
-	); err != nil {
-		t.Fatalf("ensure crawled page rwi stream: %v", err)
-	}
-
-	pageRWI, err := js.Stream(
-		context.Background(),
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationRWI),
-	)
-	if err != nil {
-		t.Fatalf("crawled page rwi stream: %v", err)
-	}
-	cfg := pageRWI.CachedInfo().Config
-	if cfg.MaxMsgs != spec.MaxMsgs {
-		t.Fatalf("crawled page rwi MaxMsgs = %d, want %d", cfg.MaxMsgs, spec.MaxMsgs)
-	}
-	if cfg.Discard != jetstream.DiscardNew {
-		t.Fatalf("crawled page rwi discard = %v, want DiscardNew", cfg.Discard)
-	}
-}
-
-func TestEnsureCrawledPageStreamCreatesBoundedStream(t *testing.T) {
-	js := connectJetStream(t, startNATS(t))
-
-	spec := yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.text", MaxMsgs: 8}
-	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		context.Background(),
-		js,
-		yacycrawlcontract.PageRepresentationText,
 		spec,
 	); err != nil {
 		t.Fatalf("ensure crawled page stream: %v", err)
@@ -79,7 +47,7 @@ func TestEnsureCrawledPageStreamCreatesBoundedStream(t *testing.T) {
 
 	stream, err := js.Stream(
 		context.Background(),
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationText),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationRWI),
 	)
 	if err != nil {
 		t.Fatalf("crawled page stream: %v", err)
@@ -164,13 +132,14 @@ func TestEnsureStreamsReportBrokerFailure(t *testing.T) {
 	}
 }
 
-func TestCrawledPageStreamNameIsFormatQualified(t *testing.T) {
-	for format, want := range map[yacycrawlcontract.PageRepresentation]string{
-		yacycrawlcontract.PageRepresentationRWI:  "YACY_CRAWL_PAGE_RWI",
-		yacycrawlcontract.PageRepresentationText: "YACY_CRAWL_PAGE_TEXT",
+func TestCrawledPageStreamNameIsRepresentationQualified(t *testing.T) {
+	for representation, want := range map[yacycrawlcontract.PageRepresentation]string{
+		yacycrawlcontract.PageRepresentationRWI:      "YACY_CRAWL_PAGE_RWI",
+		yacycrawlcontract.PageRepresentationText:     "YACY_CRAWL_PAGE_TEXT",
+		yacycrawlcontract.PageRepresentationMarkdown: "YACY_CRAWL_PAGE_MARKDOWN",
 	} {
-		if got := yacycrawlcontract.CrawledPageStreamName(format); got != want {
-			t.Errorf("CrawledPageStreamName(%q) = %q, want %q", format, got, want)
+		if got := yacycrawlcontract.CrawledPageStreamName(representation); got != want {
+			t.Errorf("CrawledPageStreamName(%q) = %q, want %q", representation, got, want)
 		}
 	}
 }
