@@ -25,7 +25,7 @@ func NewPageContentOutput(
 }
 
 func (o PageContentOutput) Name() string {
-	return string(pageRepresentationOf(o.derivation.Format()))
+	return string(o.derivation.Format())
 }
 
 func (o PageContentOutput) Accepts(format crawlcapability.PageContentFormat) bool {
