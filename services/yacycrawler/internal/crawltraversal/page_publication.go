@@ -9,10 +9,22 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
-const msgPublicationBackpressure = "publication backpressure, awaiting retry"
+const (
+	msgPublicationBackpressure = "publication backpressure, awaiting retry"
+	msgFormatUnrepresentable   = "page disposed: no representation accepts its content format"
+)
 
 func (c *crawl) publish(ctx context.Context, page crawlcapability.ExtractedPage) error {
-	for _, output := range c.outputs {
+	accepting := c.accepting(page.Format)
+	if len(accepting) == 0 {
+		slog.WarnContext(ctx, msgFormatUnrepresentable,
+			slog.String("url", page.CanonicalURL),
+			slog.String("format", string(page.Format)),
+		)
+		c.observer.PageDisposed(crawlcapability.DisposalUnrepresentable)
+		return nil
+	}
+	for _, output := range accepting {
 		policy := c.newBackoff(ctx)
 		waits := 0
 		for {
@@ -39,4 +51,16 @@ func (c *crawl) publish(ctx context.Context, page crawlcapability.ExtractedPage)
 		c.observer.PagePublished(output.Name())
 	}
 	return nil
+}
+
+func (c *crawl) accepting(
+	format crawlcapability.PageContentFormat,
+) []crawlcapability.PagePublication {
+	accepting := make([]crawlcapability.PagePublication, 0, len(c.outputs))
+	for _, output := range c.outputs {
+		if output.Accepts(format) {
+			accepting = append(accepting, output)
+		}
+	}
+	return accepting
 }

@@ -18,20 +18,23 @@ func (MarkdownDerivation) Format() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatMarkdown
 }
 
+func (MarkdownDerivation) SourceFormats() []crawlcapability.PageContentFormat {
+	return []crawlcapability.PageContentFormat{
+		crawlcapability.PageContentFormatHTML,
+		crawlcapability.PageContentFormatMarkdown,
+	}
+}
+
 func (MarkdownDerivation) Derive(
 	body []byte,
 	sourceFormat crawlcapability.PageContentFormat,
 ) ([]byte, error) {
-	switch sourceFormat {
-	case crawlcapability.PageContentFormatMarkdown:
+	if sourceFormat != crawlcapability.PageContentFormatHTML {
 		return body, nil
-	case crawlcapability.PageContentFormatHTML:
-		markdown, err := htmltomarkdown.ConvertString(string(body))
-		if err != nil {
-			return nil, fmt.Errorf("convert html to markdown: %w", err)
-		}
-		return []byte(markdown), nil
-	default:
-		return nil, fmt.Errorf("%w: %s", crawlcapability.ErrUnsupportedSourceFormat, sourceFormat)
 	}
+	markdown, err := htmltomarkdown.ConvertString(string(body))
+	if err != nil {
+		return nil, fmt.Errorf("convert html to markdown: %w", err)
+	}
+	return []byte(markdown), nil
 }

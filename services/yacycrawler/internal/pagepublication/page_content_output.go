@@ -2,17 +2,13 @@ package pagepublication
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"log/slog"
 
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
-
-const msgContentNotDerivable = "page content representation not derivable from extracted body"
 
 type PageContentOutput struct {
 	publisher  jetstream.JetStream
@@ -32,15 +28,12 @@ func (o PageContentOutput) Name() string {
 	return string(pageRepresentationOf(o.derivation.Format()))
 }
 
+func (o PageContentOutput) Accepts(format crawlcapability.PageContentFormat) bool {
+	return acceptsSourceFormat(o.derivation, format)
+}
+
 func (o PageContentOutput) Publish(ctx context.Context, page crawlcapability.ExtractedPage) error {
 	body, err := o.derivation.Derive(page.Body, page.Format)
-	if errors.Is(err, crawlcapability.ErrUnsupportedSourceFormat) {
-		slog.WarnContext(ctx, msgContentNotDerivable,
-			slog.String("url", page.CanonicalURL),
-			slog.String("sourceFormat", string(page.Format)),
-			slog.String("representation", o.Name()))
-		return nil
-	}
 	if err != nil {
 		return fmt.Errorf("derive page content: %w", err)
 	}

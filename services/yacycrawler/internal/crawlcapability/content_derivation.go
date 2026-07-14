@@ -1,10 +1,7 @@
 package crawlcapability
 
-import "errors"
-
-var ErrUnsupportedSourceFormat = errors.New("unsupported source format")
-
 type ContentDerivation interface {
 	Format() PageContentFormat
+	SourceFormats() []PageContentFormat
 	Derive(body []byte, sourceFormat PageContentFormat) ([]byte, error)
 }

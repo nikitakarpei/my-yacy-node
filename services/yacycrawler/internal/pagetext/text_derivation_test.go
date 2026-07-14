@@ -1,7 +1,7 @@
 package pagetext_test
 
 import (
-	"errors"
+	"slices"
 	"strings"
 	"testing"
 
@@ -71,9 +71,12 @@ func TestDerivePassesTextThrough(t *testing.T) {
 	}
 }
 
-func TestDeriveRejectsUnsupportedSourceFormat(t *testing.T) {
-	_, err := pagetext.New().Derive([]byte("x"), crawlcapability.PageContentFormat("audio"))
-	if !errors.Is(err, crawlcapability.ErrUnsupportedSourceFormat) {
-		t.Fatalf("err = %v, want ErrUnsupportedSourceFormat", err)
+func TestSourceFormatsDeclaresHTMLAndText(t *testing.T) {
+	want := []crawlcapability.PageContentFormat{
+		crawlcapability.PageContentFormatHTML,
+		crawlcapability.PageContentFormatText,
+	}
+	if got := pagetext.New().SourceFormats(); !slices.Equal(got, want) {
+		t.Fatalf("SourceFormats() = %v, want %v", got, want)
 	}
 }

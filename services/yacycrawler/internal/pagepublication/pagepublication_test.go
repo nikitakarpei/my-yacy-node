@@ -46,13 +46,14 @@ func (textDerivation) Format() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatText
 }
 
+func (textDerivation) SourceFormats() []crawlcapability.PageContentFormat {
+	return []crawlcapability.PageContentFormat{crawlcapability.PageContentFormatText}
+}
+
 func (textDerivation) Derive(
 	body []byte,
-	sourceFormat crawlcapability.PageContentFormat,
+	_ crawlcapability.PageContentFormat,
 ) ([]byte, error) {
-	if sourceFormat != crawlcapability.PageContentFormatText {
-		return nil, crawlcapability.ErrUnsupportedSourceFormat
-	}
 	return body, nil
 }
 
@@ -176,4 +177,18 @@ func consumeOne(t *testing.T, js jetstream.JetStream, stream string) []byte {
 	}
 	_ = msg.Ack()
 	return msg.Data()
+}
+
+func TestOutputsAcceptOnlyTheirDerivationsSourceFormats(t *testing.T) {
+	rwi := pagepublication.NewPageRWIOutput(nil, "yacy.crawl.page.rwi", textDerivation{})
+	content := pagepublication.NewPageContentOutput(nil, "yacy.crawl.page.text", textDerivation{})
+
+	for _, output := range []crawlcapability.PagePublication{rwi, content} {
+		if !output.Accepts(crawlcapability.PageContentFormatText) {
+			t.Fatalf("%s refuses its derivation's source format", output.Name())
+		}
+		if output.Accepts(crawlcapability.PageContentFormatHTML) {
+			t.Fatalf("%s accepts a format its derivation does not", output.Name())
+		}
+	}
 }

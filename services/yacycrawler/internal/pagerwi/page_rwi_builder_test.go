@@ -1,6 +1,7 @@
 package pagerwi_test
 
 import (
+	"errors"
 	"testing"
 	"time"
 
@@ -15,13 +16,14 @@ func (textDerivation) Format() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatText
 }
 
+func (textDerivation) SourceFormats() []crawlcapability.PageContentFormat {
+	return []crawlcapability.PageContentFormat{crawlcapability.PageContentFormatText}
+}
+
 func (textDerivation) Derive(
 	body []byte,
-	sourceFormat crawlcapability.PageContentFormat,
+	_ crawlcapability.PageContentFormat,
 ) ([]byte, error) {
-	if sourceFormat != crawlcapability.PageContentFormatText {
-		return nil, crawlcapability.ErrUnsupportedSourceFormat
-	}
 	return body, nil
 }
 
@@ -222,11 +224,25 @@ func TestBuildCountsPhrasesAndPhrasePositions(t *testing.T) {
 	}
 }
 
-func TestBuildFailsWhenTextIsNotDerivable(t *testing.T) {
-	page := samplePage()
-	page.Format = crawlcapability.PageContentFormat("audio")
+type failingDerivation struct{}
 
-	if _, err := pagerwi.Build(page, textDerivation{}); err == nil {
-		t.Fatal("expected error when page text cannot be derived")
+func (failingDerivation) Format() crawlcapability.PageContentFormat {
+	return crawlcapability.PageContentFormatText
+}
+
+func (failingDerivation) SourceFormats() []crawlcapability.PageContentFormat {
+	return []crawlcapability.PageContentFormat{crawlcapability.PageContentFormatText}
+}
+
+func (failingDerivation) Derive(
+	[]byte,
+	crawlcapability.PageContentFormat,
+) ([]byte, error) {
+	return nil, errors.New("malformed body")
+}
+
+func TestBuildFailsWhenTextDerivationFails(t *testing.T) {
+	if _, err := pagerwi.Build(samplePage(), failingDerivation{}); err == nil {
+		t.Fatal("expected error when the text derivation fails")
 	}
 }

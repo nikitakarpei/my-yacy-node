@@ -1,7 +1,7 @@
 package pagemarkdown_test
 
 import (
-	"errors"
+	"slices"
 	"strings"
 	"testing"
 
@@ -50,9 +50,12 @@ func TestDerivePassesMarkdownThrough(t *testing.T) {
 	}
 }
 
-func TestDeriveRejectsUnsupportedSourceFormat(t *testing.T) {
-	_, err := pagemarkdown.New().Derive([]byte("x"), crawlcapability.PageContentFormatText)
-	if !errors.Is(err, crawlcapability.ErrUnsupportedSourceFormat) {
-		t.Fatalf("err = %v, want ErrUnsupportedSourceFormat", err)
+func TestSourceFormatsDeclaresHTMLAndMarkdown(t *testing.T) {
+	want := []crawlcapability.PageContentFormat{
+		crawlcapability.PageContentFormatHTML,
+		crawlcapability.PageContentFormatMarkdown,
+	}
+	if got := pagemarkdown.New().SourceFormats(); !slices.Equal(got, want) {
+		t.Fatalf("SourceFormats() = %v, want %v", got, want)
 	}
 }

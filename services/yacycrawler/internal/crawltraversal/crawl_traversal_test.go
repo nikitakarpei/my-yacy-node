@@ -67,12 +67,17 @@ func (f fakeRecrawl) Due(context.Context, string) (bool, error) { return f.due, 
 
 type fakeOutput struct {
 	name      string
+	refuses   crawlcapability.PageContentFormat
 	mu        sync.Mutex
 	published []string
 	failWith  error
 }
 
 func (o *fakeOutput) Name() string { return o.name }
+
+func (o *fakeOutput) Accepts(format crawlcapability.PageContentFormat) bool {
+	return format != o.refuses
+}
 
 func (o *fakeOutput) Publish(_ context.Context, page crawlcapability.ExtractedPage) error {
 	if o.failWith != nil {
@@ -229,6 +234,54 @@ func TestTraversePublishesToEveryOutput(t *testing.T) {
 
 	if len(rwi.published) != 1 || len(text.published) != 1 {
 		t.Fatalf("representations not both advanced: rwi=%v text=%v", rwi.published, text.published)
+	}
+}
+
+func TestTraverseSkipsRepresentationRefusingPageFormat(t *testing.T) {
+	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
+		"http://host/": {fetchedOutcome()},
+	}}
+	extract := fakeExtract{
+		documents: []crawlcapability.ExtractedDocument{document("http://host/", "t", "body")},
+	}
+	rwi := &fakeOutput{name: "rwi"}
+	markdown := &fakeOutput{name: "markdown", refuses: crawlcapability.PageContentFormatText}
+	observer := newObserver()
+	crawler := newCrawler(defaultConfig(), fetch, extract,
+		[]crawlcapability.PagePublication{rwi, markdown}, observer)
+
+	traverse(t, crawler, []string{"http://host/"})
+
+	if len(rwi.published) != 1 {
+		t.Fatalf("accepting representation not advanced: rwi=%v", rwi.published)
+	}
+	if len(markdown.published) != 0 {
+		t.Fatalf("refusing representation advanced: markdown=%v", markdown.published)
+	}
+	if observer.disposed[crawlcapability.DisposalUnrepresentable] != 0 {
+		t.Fatalf("page disposed despite an accepting representation: %v", observer.disposed)
+	}
+}
+
+func TestTraverseDisposesPageNoRepresentationAccepts(t *testing.T) {
+	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
+		"http://host/": {fetchedOutcome()},
+	}}
+	extract := fakeExtract{
+		documents: []crawlcapability.ExtractedDocument{document("http://host/", "t", "body")},
+	}
+	rwi := &fakeOutput{name: "rwi", refuses: crawlcapability.PageContentFormatText}
+	observer := newObserver()
+	crawler := newCrawler(defaultConfig(), fetch, extract,
+		[]crawlcapability.PagePublication{rwi}, observer)
+
+	traverse(t, crawler, []string{"http://host/"})
+
+	if len(rwi.published) != 0 {
+		t.Fatalf("refusing representation advanced: rwi=%v", rwi.published)
+	}
+	if observer.disposed[crawlcapability.DisposalUnrepresentable] != 1 {
+		t.Fatalf("want unrepresentable disposal, got %v", observer.disposed)
 	}
 }
 
@@ -648,6 +701,8 @@ type flakyOutput struct {
 }
 
 func (o *flakyOutput) Name() string { return "rwi" }
+
+func (o *flakyOutput) Accepts(crawlcapability.PageContentFormat) bool { return true }
 
 func (o *flakyOutput) Publish(context.Context, crawlcapability.ExtractedPage) error {
 	if o.failuresLeft > 0 {

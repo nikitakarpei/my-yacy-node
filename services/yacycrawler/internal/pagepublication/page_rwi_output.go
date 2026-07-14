@@ -29,6 +29,10 @@ func (PageRWIOutput) Name() string {
 	return string(yacycrawlcontract.PageRepresentationRWI)
 }
 
+func (o PageRWIOutput) Accepts(format crawlcapability.PageContentFormat) bool {
+	return acceptsSourceFormat(o.text, format)
+}
+
 func (o PageRWIOutput) Publish(ctx context.Context, page crawlcapability.ExtractedPage) error {
 	representation, err := pagerwi.Build(page, o.text)
 	if err != nil {

@@ -8,6 +8,7 @@ const (
 	DisposalUnsupportedMediaType = "unsupported-media-type"
 	DisposalOversized            = "oversized"
 	DisposalUnextractable        = "unextractable"
+	DisposalUnrepresentable      = "unrepresentable"
 	DisposalFetchFailed          = "fetch-failed"
 	DisposalBudgetTruncated      = "budget-truncated"
 	DisposalContainerOverflow    = "container-overflow"

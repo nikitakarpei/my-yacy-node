@@ -21,18 +21,21 @@ func (TextDerivation) Format() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatText
 }
 
+func (TextDerivation) SourceFormats() []crawlcapability.PageContentFormat {
+	return []crawlcapability.PageContentFormat{
+		crawlcapability.PageContentFormatHTML,
+		crawlcapability.PageContentFormatText,
+	}
+}
+
 func (TextDerivation) Derive(
 	body []byte,
 	sourceFormat crawlcapability.PageContentFormat,
 ) ([]byte, error) {
-	switch sourceFormat {
-	case crawlcapability.PageContentFormatText:
-		return body, nil
-	case crawlcapability.PageContentFormatHTML:
+	if sourceFormat == crawlcapability.PageContentFormatHTML {
 		return renderText(body)
-	default:
-		return nil, fmt.Errorf("%w: %s", crawlcapability.ErrUnsupportedSourceFormat, sourceFormat)
 	}
+	return body, nil
 }
 
 func renderText(body []byte) ([]byte, error) {

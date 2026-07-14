@@ -33,10 +33,10 @@ service is meant for a more capable host than an always-on node.
 * The service SHALL publish representations of a page, each on its own stream: the `rwi`
   representation, carrying page references and never a body, and content representations,
   each additive and operator-selected.
-* The service SHALL publish each page to every enabled representation, advancing them
-  together: if any cannot accept, the others wait.
-* Every fetched page SHALL reach one terminal outcome: published to every enabled
-  representation, or disposed per operator policy.
+* The service SHALL publish each page to every enabled representation that accepts its
+  content format, advancing those together: if any cannot take it yet, the others wait.
+* Every fetched page SHALL reach one terminal outcome: published to every representation
+  accepting its content format, or disposed per operator policy.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient
   backpressure waits for as long as the run holds its order.
 * A publication failure SHALL NOT be terminal; the page stays unpublished.
@@ -60,8 +60,8 @@ service is meant for a more capable host than an always-on node.
   delivery with acknowledgment and redelivery, with no change to crawl logic.
 * The page-fetch mechanism SHALL be replaceable behind a narrow interface, with no
   change to crawl logic.
-* Deriving a representation from a fetched body SHALL sit behind a narrow interface, so
-  adding a representation changes no crawl logic.
+* Deriving a representation SHALL sit behind a narrow interface declaring the content
+  formats it accepts, so adding a representation changes no crawl logic.
 * A representation SHALL stay whole in the domain; framing it into bounded wire messages
   is the publish edge's concern.
 * The recrawl decision SHALL sit behind a narrow interface; its default admits every page.
