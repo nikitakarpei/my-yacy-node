@@ -22,7 +22,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/htmlpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/httpfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderintake"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagemarkdown"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagepublication"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagetext"
 )
 
 const (
@@ -100,8 +102,9 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 	slog.InfoContext(ctx, msgServiceStarted,
 		slog.String("orders", cfg.OrdersSubject),
 		slog.Int("fetchConcurrency", cfg.FetchConcurrency),
-		slog.Bool("indexOutput", cfg.IndexOutputEnabled),
-		slog.Bool("pageOutput", cfg.PageOutputEnabled),
+		slog.Bool("rwiOutput", cfg.RWIOutputEnabled),
+		slog.Bool("textOutput", cfg.TextOutputEnabled),
+		slog.Bool("markdownOutput", cfg.MarkdownOutputEnabled),
 	)
 
 	err = servergroup.Run(ctx, opsShutdownLimit,
@@ -118,18 +121,25 @@ func ensureStreams(ctx context.Context, js jetstream.JetStream, cfg ServiceConfi
 	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, cfg.OrdersStreamSpec()); err != nil {
 		return fmt.Errorf("ensure orders stream: %w", err)
 	}
-	if cfg.IndexOutputEnabled {
+	if cfg.RWIOutputEnabled {
 		if err := yacycrawlcontract.EnsureCrawledPageStream(
-			ctx, js, yacycrawlcontract.PageFormatRWI, cfg.PageIndexStreamSpec(),
+			ctx, js, yacycrawlcontract.PageRepresentationRWI, cfg.PageRWIStreamSpec(),
 		); err != nil {
 			return fmt.Errorf("ensure page rwi stream: %w", err)
 		}
 	}
-	if cfg.PageOutputEnabled {
+	if cfg.TextOutputEnabled {
 		if err := yacycrawlcontract.EnsureCrawledPageStream(
-			ctx, js, yacycrawlcontract.PageFormatText, cfg.PagesStreamSpec(),
+			ctx, js, yacycrawlcontract.PageRepresentationText, cfg.PageTextStreamSpec(),
 		); err != nil {
 			return fmt.Errorf("ensure page text stream: %w", err)
+		}
+	}
+	if cfg.MarkdownOutputEnabled {
+		if err := yacycrawlcontract.EnsureCrawledPageStream(
+			ctx, js, yacycrawlcontract.PageRepresentationMarkdown, cfg.PageMarkdownStreamSpec(),
+		); err != nil {
+			return fmt.Errorf("ensure page markdown stream: %w", err)
 		}
 	}
 	return nil
@@ -156,11 +166,23 @@ func ordersConsumer(
 
 func enabledOutputs(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability.PagePublication {
 	var outputs []crawlcapability.PagePublication
-	if cfg.IndexOutputEnabled {
-		outputs = append(outputs, pagepublication.NewPageRWIOutput(js, cfg.PageIndexSubject))
+	if cfg.RWIOutputEnabled {
+		outputs = append(
+			outputs,
+			pagepublication.NewPageRWIOutput(js, cfg.PageRWISubject, pagetext.New()),
+		)
 	}
-	if cfg.PageOutputEnabled {
-		outputs = append(outputs, pagepublication.NewPageContentOutput(js, cfg.PagesSubject))
+	if cfg.TextOutputEnabled {
+		outputs = append(
+			outputs,
+			pagepublication.NewPageContentOutput(js, cfg.PageTextSubject, pagetext.New()),
+		)
+	}
+	if cfg.MarkdownOutputEnabled {
+		outputs = append(
+			outputs,
+			pagepublication.NewPageContentOutput(js, cfg.PageMarkdownSubject, pagemarkdown.New()),
+		)
 	}
 	return outputs
 }

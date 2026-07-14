@@ -14,8 +14,8 @@ const (
 	crawledPageStreamPrefix = "YACY_CRAWL_PAGE_"
 )
 
-func CrawledPageStreamName(format PageFormat) string {
-	return crawledPageStreamPrefix + strings.ToUpper(string(format))
+func CrawledPageStreamName(representation PageRepresentation) string {
+	return crawledPageStreamPrefix + strings.ToUpper(string(representation))
 }
 
 type OrdersStreamSpec struct {
@@ -41,11 +41,11 @@ func EnsureOrdersStream(ctx context.Context, js jetstream.JetStream, spec Orders
 func EnsureCrawledPageStream(
 	ctx context.Context,
 	js jetstream.JetStream,
-	format PageFormat,
+	representation PageRepresentation,
 	spec CrawledPageStreamSpec,
 ) error {
 	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
-		Name:      CrawledPageStreamName(format),
+		Name:      CrawledPageStreamName(representation),
 		Subjects:  []string{spec.Subject},
 		Retention: jetstream.WorkQueuePolicy,
 		MaxMsgs:   spec.MaxMsgs,

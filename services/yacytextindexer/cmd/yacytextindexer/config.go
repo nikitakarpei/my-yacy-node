@@ -22,7 +22,7 @@ const (
 	EnvOpsAddr                = "YACYTEXTINDEXER_OPS_ADDR"
 
 	DefaultOpsAddr            = ":9090"
-	DefaultCrawledPageSubject = "yacy.crawl.pages"
+	DefaultCrawledPageSubject = "yacy.crawl.page.text"
 	DefaultCrawledPageMaxMsgs = 1024
 	DefaultCrawledPageDurable = "yacytextindexer"
 	DefaultConcurrency        = 4

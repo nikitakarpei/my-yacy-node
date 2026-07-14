@@ -29,7 +29,6 @@ func TestElasticsearchIndexPutsDocumentByID(t *testing.T) {
 	page := yacycrawlcontract.PageContentRepresentation{
 		CanonicalURL: "https://example.com/",
 		Title:        "Hi",
-		Format:       yacycrawlcontract.PageFormatText,
 		Body:         []byte("words here"),
 		CrawledAt:    time.Unix(0, 0).UTC(),
 		Language:     "en",

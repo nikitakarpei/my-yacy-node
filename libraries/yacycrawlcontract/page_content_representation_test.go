@@ -12,7 +12,6 @@ func TestPageContentRepresentationRoundTrip(t *testing.T) {
 		Title:        "Hi",
 		CrawledAt:    time.Date(2026, 7, 4, 0, 0, 0, 0, time.UTC),
 		Language:     "en",
-		Format:       PageFormatText,
 		Body:         []byte("words here"),
 	}
 
@@ -29,11 +28,10 @@ func TestPageContentRepresentationRoundTrip(t *testing.T) {
 	}
 }
 
-func TestPageContentRepresentationRoundTripsUnrecognizedFormat(t *testing.T) {
+func TestPageContentRepresentationRoundTripsArbitraryBodyBytes(t *testing.T) {
 	page := PageContentRepresentation{
 		CanonicalURL: "https://example.org/b",
 		CrawledAt:    time.Date(2026, 7, 4, 0, 0, 0, 0, time.UTC),
-		Format:       PageFormat("application/vnd.example.future"),
 		Body:         []byte{0x00, 0x01, 0xff},
 	}
 

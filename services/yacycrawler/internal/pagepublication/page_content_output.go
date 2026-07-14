@@ -2,7 +2,9 @@ package pagepublication
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"log/slog"
 
 	"github.com/nats-io/nats.go/jetstream"
 
@@ -10,30 +12,46 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
-const pageContentOutputName = "page-content"
+const msgContentNotDerivable = "page content representation not derivable from extracted body"
 
 type PageContentOutput struct {
-	publisher jetstream.JetStream
-	subject   string
+	publisher  jetstream.JetStream
+	subject    string
+	derivation crawlcapability.ContentDerivation
 }
 
-func NewPageContentOutput(publisher jetstream.JetStream, subject string) PageContentOutput {
-	return PageContentOutput{publisher: publisher, subject: subject}
+func NewPageContentOutput(
+	publisher jetstream.JetStream,
+	subject string,
+	derivation crawlcapability.ContentDerivation,
+) PageContentOutput {
+	return PageContentOutput{publisher: publisher, subject: subject, derivation: derivation}
 }
 
-func (PageContentOutput) Name() string {
-	return pageContentOutputName
+func (o PageContentOutput) Name() string {
+	return string(pageRepresentationOf(o.derivation.Format()))
 }
 
 func (o PageContentOutput) Publish(ctx context.Context, page crawlcapability.ExtractedPage) error {
+	body, err := o.derivation.Derive(page.Body, page.Format)
+	if errors.Is(err, crawlcapability.ErrUnsupportedSourceFormat) {
+		slog.WarnContext(ctx, msgContentNotDerivable,
+			slog.String("url", page.CanonicalURL),
+			slog.String("sourceFormat", string(page.Format)),
+			slog.String("representation", o.Name()))
+		return nil
+	}
+	if err != nil {
+		return fmt.Errorf("derive page content: %w", err)
+	}
+
 	payload, err := yacycrawlcontract.MarshalPageContentRepresentation(
 		yacycrawlcontract.PageContentRepresentation{
 			CanonicalURL: page.CanonicalURL,
 			Title:        page.Title,
 			CrawledAt:    page.FetchedAt,
 			Language:     page.Language,
-			Format:       yacycrawlcontract.PageFormatText,
-			Body:         []byte(page.Text),
+			Body:         body,
 		},
 	)
 	if err != nil {

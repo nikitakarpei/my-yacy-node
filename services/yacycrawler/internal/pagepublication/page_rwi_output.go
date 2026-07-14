@@ -11,23 +11,26 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerwi"
 )
 
-const pageRWIOutputName = "rwi"
-
 type PageRWIOutput struct {
 	publisher jetstream.JetStream
 	subject   string
+	text      crawlcapability.ContentDerivation
 }
 
-func NewPageRWIOutput(publisher jetstream.JetStream, subject string) PageRWIOutput {
-	return PageRWIOutput{publisher: publisher, subject: subject}
+func NewPageRWIOutput(
+	publisher jetstream.JetStream,
+	subject string,
+	text crawlcapability.ContentDerivation,
+) PageRWIOutput {
+	return PageRWIOutput{publisher: publisher, subject: subject, text: text}
 }
 
 func (PageRWIOutput) Name() string {
-	return pageRWIOutputName
+	return string(yacycrawlcontract.PageRepresentationRWI)
 }
 
 func (o PageRWIOutput) Publish(ctx context.Context, page crawlcapability.ExtractedPage) error {
-	representation, err := pagerwi.Build(page)
+	representation, err := pagerwi.Build(page, o.text)
 	if err != nil {
 		return fmt.Errorf("build page rwi representation: %w", err)
 	}

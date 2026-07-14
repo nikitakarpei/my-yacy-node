@@ -11,7 +11,6 @@ type PageContentRepresentation struct {
 	Title        string
 	CrawledAt    time.Time
 	Language     string
-	Format       PageFormat
 	Body         []byte
 }
 

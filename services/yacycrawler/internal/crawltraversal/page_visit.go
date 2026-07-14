@@ -151,7 +151,8 @@ func (c *crawl) publishDocument(
 	page := crawlcapability.ExtractedPage{
 		CanonicalURL:      canonical,
 		Title:             document.Title,
-		Text:              document.Text,
+		Body:              document.Body,
+		Format:            document.Format,
 		Language:          document.Language,
 		FetchedAt:         c.clock.Now(),
 		LocalLinkCount:    document.LocalLinkCount,

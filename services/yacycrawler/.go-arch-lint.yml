@@ -28,6 +28,10 @@ components:
     in: internal/httpfetch/**
   pagerwi:
     in: internal/pagerwi/**
+  pagetext:
+    in: internal/pagetext/**
+  pagemarkdown:
+    in: internal/pagemarkdown/**
   pagepublication:
     in: internal/pagepublication/**
   orderintake:
@@ -59,6 +63,9 @@ vendors:
   readability:
     in:
       - codeberg.org/readeck/go-readability/v2
+  htmltomarkdown:
+    in:
+      - github.com/JohannesKaufmann/html-to-markdown/v2
   xnet:
     in:
       - golang.org/x/net/**
@@ -114,6 +121,18 @@ deps:
     canUse:
       - yacycrawlcontract
       - yacymodel
+  pagetext:
+    mayDependOn:
+      - pagetext
+      - crawlcapability
+    canUse:
+      - xnet
+  pagemarkdown:
+    mayDependOn:
+      - pagemarkdown
+      - crawlcapability
+    canUse:
+      - htmltomarkdown
   htmlpage:
     mayDependOn:
       - htmlpage
@@ -167,6 +186,8 @@ deps:
       - archivemember
       - httpfetch
       - pagepublication
+      - pagetext
+      - pagemarkdown
       - orderintake
       - crawlmetrics
     canUse:

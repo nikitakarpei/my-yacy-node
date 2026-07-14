@@ -40,22 +40,46 @@ func startJetStream(t *testing.T) jetstream.JetStream {
 	return js
 }
 
+type textDerivation struct{}
+
+func (textDerivation) Format() crawlcapability.PageContentFormat {
+	return crawlcapability.PageContentFormatText
+}
+
+func (textDerivation) Derive(
+	body []byte,
+	sourceFormat crawlcapability.PageContentFormat,
+) ([]byte, error) {
+	if sourceFormat != crawlcapability.PageContentFormatText {
+		return nil, crawlcapability.ErrUnsupportedSourceFormat
+	}
+	return body, nil
+}
+
 func samplePage() crawlcapability.ExtractedPage {
 	return crawlcapability.ExtractedPage{
-		CanonicalURL: "http://example.com/a", Title: "Hi", Text: "the quick brown fox",
-		Language: "en", FetchedAt: time.Unix(1_700_000_000, 0), LocalLinkCount: 1,
+		CanonicalURL:   "http://example.com/a",
+		Title:          "Hi",
+		Body:           []byte("the quick brown fox"),
+		Format:         crawlcapability.PageContentFormatText,
+		Language:       "en",
+		FetchedAt:      time.Unix(1_700_000_000, 0),
+		LocalLinkCount: 1,
 	}
 }
 
 func TestPageRWIOutputPublishes(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
-	if err := yacycrawlcontract.EnsureCrawledPageStream(ctx, js, yacycrawlcontract.PageFormatRWI,
-		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page-index", MaxMsgs: 10},
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
+		ctx,
+		js,
+		yacycrawlcontract.PageRepresentationRWI,
+		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.rwi", MaxMsgs: 10},
 	); err != nil {
 		t.Fatal(err)
 	}
-	output := pagepublication.NewPageRWIOutput(js, "yacy.crawl.page-index")
+	output := pagepublication.NewPageRWIOutput(js, "yacy.crawl.page.rwi", textDerivation{})
 	if output.Name() != "rwi" {
 		t.Fatalf("name = %q", output.Name())
 	}
@@ -66,7 +90,7 @@ func TestPageRWIOutputPublishes(t *testing.T) {
 	msg := consumeOne(
 		t,
 		js,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatRWI),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationRWI),
 	)
 	chunk, err := yacycrawlcontract.UnmarshalPageRWIChunk(msg)
 	if err != nil {
@@ -87,13 +111,16 @@ func TestPageRWIOutputPublishes(t *testing.T) {
 func TestPageContentOutputPublishes(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
-	if err := yacycrawlcontract.EnsureCrawledPageStream(ctx, js, yacycrawlcontract.PageFormatText,
-		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.pages", MaxMsgs: 10},
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
+		ctx,
+		js,
+		yacycrawlcontract.PageRepresentationText,
+		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.text", MaxMsgs: 10},
 	); err != nil {
 		t.Fatal(err)
 	}
-	output := pagepublication.NewPageContentOutput(js, "yacy.crawl.pages")
-	if output.Name() != "page-content" {
+	output := pagepublication.NewPageContentOutput(js, "yacy.crawl.page.text", textDerivation{})
+	if output.Name() != "text" {
 		t.Fatalf("name = %q", output.Name())
 	}
 	if err := output.Publish(ctx, samplePage()); err != nil {
@@ -103,7 +130,7 @@ func TestPageContentOutputPublishes(t *testing.T) {
 	msg := consumeOne(
 		t,
 		js,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatText),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationText),
 	)
 	page, err := yacycrawlcontract.UnmarshalPageContentRepresentation(msg)
 	if err != nil {
@@ -117,12 +144,15 @@ func TestPageContentOutputPublishes(t *testing.T) {
 func TestPublishFullStreamIsRetryable(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
-	if err := yacycrawlcontract.EnsureCrawledPageStream(ctx, js, yacycrawlcontract.PageFormatText,
-		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.pages", MaxMsgs: 1},
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
+		ctx,
+		js,
+		yacycrawlcontract.PageRepresentationText,
+		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.text", MaxMsgs: 1},
 	); err != nil {
 		t.Fatal(err)
 	}
-	output := pagepublication.NewPageContentOutput(js, "yacy.crawl.pages")
+	output := pagepublication.NewPageContentOutput(js, "yacy.crawl.page.text", textDerivation{})
 	if err := output.Publish(ctx, samplePage()); err != nil {
 		t.Fatalf("first publish: %v", err)
 	}

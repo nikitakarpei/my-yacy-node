@@ -9,11 +9,28 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+type textDerivation struct{}
+
+func (textDerivation) Format() crawlcapability.PageContentFormat {
+	return crawlcapability.PageContentFormatText
+}
+
+func (textDerivation) Derive(
+	body []byte,
+	sourceFormat crawlcapability.PageContentFormat,
+) ([]byte, error) {
+	if sourceFormat != crawlcapability.PageContentFormatText {
+		return nil, crawlcapability.ErrUnsupportedSourceFormat
+	}
+	return body, nil
+}
+
 func samplePage() crawlcapability.ExtractedPage {
 	return crawlcapability.ExtractedPage{
 		CanonicalURL:      "http://example.com/article",
 		Title:             "Hello World",
-		Text:              "the quick brown fox the fox",
+		Body:              []byte("the quick brown fox the fox"),
+		Format:            crawlcapability.PageContentFormatText,
 		Language:          "en",
 		FetchedAt:         time.Unix(1_700_000_000, 0),
 		LocalLinkCount:    3,
@@ -22,7 +39,7 @@ func samplePage() crawlcapability.ExtractedPage {
 }
 
 func TestBuildProducesParseablePostings(t *testing.T) {
-	index, err := pagerwi.Build(samplePage())
+	index, err := pagerwi.Build(samplePage(), textDerivation{})
 	if err != nil {
 		t.Fatalf("Build: %v", err)
 	}
@@ -40,7 +57,7 @@ func TestBuildProducesParseablePostings(t *testing.T) {
 }
 
 func TestBuildCountsRepeatedWords(t *testing.T) {
-	index, err := pagerwi.Build(samplePage())
+	index, err := pagerwi.Build(samplePage(), textDerivation{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -60,7 +77,7 @@ func TestBuildCountsRepeatedWords(t *testing.T) {
 }
 
 func TestBuildMetadataParseableAndCarriesURLHash(t *testing.T) {
-	index, err := pagerwi.Build(samplePage())
+	index, err := pagerwi.Build(samplePage(), textDerivation{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -85,7 +102,7 @@ func TestBuildMetadataSurvivesCommaInTitleAndURL(t *testing.T) {
 	page := samplePage()
 	page.CanonicalURL = "http://example.com/article?ids=1,2,3"
 	page.Title = "Fourth of July fireworks, 1986 - Example"
-	index, err := pagerwi.Build(page)
+	index, err := pagerwi.Build(page, textDerivation{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -106,7 +123,7 @@ func TestBuildMetadataSurvivesCommaInTitleAndURL(t *testing.T) {
 func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 	page := samplePage()
 	page.Language = ""
-	index, err := pagerwi.Build(page)
+	index, err := pagerwi.Build(page, textDerivation{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -119,8 +136,8 @@ func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 
 func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
 	page := samplePage()
-	page.Text = "a fox I saw"
-	index, err := pagerwi.Build(page)
+	page.Body = []byte("a fox I saw")
+	index, err := pagerwi.Build(page, textDerivation{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -137,8 +154,8 @@ func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
 
 func TestBuildKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
 	page := samplePage()
-	page.Text = "state-of-the-art design"
-	index, err := pagerwi.Build(page)
+	page.Body = []byte("state-of-the-art design")
+	index, err := pagerwi.Build(page, textDerivation{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -156,8 +173,8 @@ func TestBuildKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
 
 func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 	page := samplePage()
-	page.Text = "the price is 1,234.56 today"
-	index, err := pagerwi.Build(page)
+	page.Body = []byte("the price is 1,234.56 today")
+	index, err := pagerwi.Build(page, textDerivation{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -175,8 +192,8 @@ func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 
 func TestBuildCountsPhrasesAndPhrasePositions(t *testing.T) {
 	page := samplePage()
-	page.Text = "the quick fox jumps. the lazy dog sleeps."
-	index, err := pagerwi.Build(page)
+	page.Body = []byte("the quick fox jumps. the lazy dog sleeps.")
+	index, err := pagerwi.Build(page, textDerivation{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -202,5 +219,14 @@ func TestBuildCountsPhrasesAndPhrasePositions(t *testing.T) {
 			jumpsPhrase,
 			sleepsPhrase,
 		)
+	}
+}
+
+func TestBuildFailsWhenTextIsNotDerivable(t *testing.T) {
+	page := samplePage()
+	page.Format = crawlcapability.PageContentFormat("audio")
+
+	if _, err := pagerwi.Build(page, textDerivation{}); err == nil {
+		t.Fatal("expected error when page text cannot be derived")
 	}
 }

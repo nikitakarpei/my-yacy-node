@@ -49,7 +49,7 @@ func Open(ctx context.Context, cfg Config) (*CrawlBroker, error) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.PageFormatRWI,
+		yacycrawlcontract.PageRepresentationRWI,
 		yacycrawlcontract.CrawledPageStreamSpec{
 			Subject: cfg.IngestSubject,
 			MaxMsgs: cfg.IngestMaxMsgs,

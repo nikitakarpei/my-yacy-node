@@ -14,7 +14,7 @@ const (
 	envNATSIngestMaxMsgs = "NATS_INGEST_MAX_MSGS"
 
 	defaultOrdersSubject = "yacy.crawl.orders"
-	defaultIngestSubject = "yacy.crawl.page-index"
+	defaultIngestSubject = "yacy.crawl.page.rwi"
 	defaultIngestDurable = "yacy-node"
 	defaultIngestMaxMsgs = 1024
 )

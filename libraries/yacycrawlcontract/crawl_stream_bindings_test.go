@@ -42,7 +42,7 @@ func TestEnsureCrawledPageRWIStreamCreatesBoundedStream(t *testing.T) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		context.Background(),
 		js,
-		yacycrawlcontract.PageFormatRWI,
+		yacycrawlcontract.PageRepresentationRWI,
 		spec,
 	); err != nil {
 		t.Fatalf("ensure crawled page rwi stream: %v", err)
@@ -50,7 +50,7 @@ func TestEnsureCrawledPageRWIStreamCreatesBoundedStream(t *testing.T) {
 
 	pageRWI, err := js.Stream(
 		context.Background(),
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatRWI),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationRWI),
 	)
 	if err != nil {
 		t.Fatalf("crawled page rwi stream: %v", err)
@@ -67,11 +67,11 @@ func TestEnsureCrawledPageRWIStreamCreatesBoundedStream(t *testing.T) {
 func TestEnsureCrawledPageStreamCreatesBoundedStream(t *testing.T) {
 	js := connectJetStream(t, startNATS(t))
 
-	spec := yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.pages", MaxMsgs: 8}
+	spec := yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.text", MaxMsgs: 8}
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		context.Background(),
 		js,
-		yacycrawlcontract.PageFormatText,
+		yacycrawlcontract.PageRepresentationText,
 		spec,
 	); err != nil {
 		t.Fatalf("ensure crawled page stream: %v", err)
@@ -79,7 +79,7 @@ func TestEnsureCrawledPageStreamCreatesBoundedStream(t *testing.T) {
 
 	stream, err := js.Stream(
 		context.Background(),
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatText),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationText),
 	)
 	if err != nil {
 		t.Fatalf("crawled page stream: %v", err)
@@ -108,7 +108,7 @@ func TestEnsureStreamsAreIdempotent(t *testing.T) {
 		if err := yacycrawlcontract.EnsureCrawledPageStream(
 			ctx,
 			js,
-			yacycrawlcontract.PageFormatRWI,
+			yacycrawlcontract.PageRepresentationRWI,
 			yacycrawlcontract.CrawledPageStreamSpec{
 				Subject: "yacy.crawl.page-rwi",
 				MaxMsgs: 8,
@@ -119,8 +119,8 @@ func TestEnsureStreamsAreIdempotent(t *testing.T) {
 		if err := yacycrawlcontract.EnsureCrawledPageStream(
 			ctx,
 			js,
-			yacycrawlcontract.PageFormatText,
-			yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.pages", MaxMsgs: 8},
+			yacycrawlcontract.PageRepresentationText,
+			yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.text", MaxMsgs: 8},
 		); err != nil {
 			t.Fatalf("ensure crawled page stream (pass %d): %v", i, err)
 		}
@@ -149,7 +149,7 @@ func TestEnsureStreamsReportBrokerFailure(t *testing.T) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.PageFormatRWI,
+		yacycrawlcontract.PageRepresentationRWI,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page-rwi", MaxMsgs: 8},
 	); err == nil {
 		t.Error("ensure crawled page rwi stream on closed connection should fail")
@@ -157,17 +157,17 @@ func TestEnsureStreamsReportBrokerFailure(t *testing.T) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.PageFormatText,
-		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.pages", MaxMsgs: 8},
+		yacycrawlcontract.PageRepresentationText,
+		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.text", MaxMsgs: 8},
 	); err == nil {
 		t.Error("ensure crawled page stream on closed connection should fail")
 	}
 }
 
 func TestCrawledPageStreamNameIsFormatQualified(t *testing.T) {
-	for format, want := range map[yacycrawlcontract.PageFormat]string{
-		yacycrawlcontract.PageFormatRWI:  "YACY_CRAWL_PAGE_RWI",
-		yacycrawlcontract.PageFormatText: "YACY_CRAWL_PAGE_TEXT",
+	for format, want := range map[yacycrawlcontract.PageRepresentation]string{
+		yacycrawlcontract.PageRepresentationRWI:  "YACY_CRAWL_PAGE_RWI",
+		yacycrawlcontract.PageRepresentationText: "YACY_CRAWL_PAGE_TEXT",
 	} {
 		if got := yacycrawlcontract.CrawledPageStreamName(format); got != want {
 			t.Errorf("CrawledPageStreamName(%q) = %q, want %q", format, got, want)

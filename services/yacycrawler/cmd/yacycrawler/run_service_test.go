@@ -30,21 +30,21 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	cfg := ServiceConfig{
-		NATSURL:            srv.ClientURL(),
-		OrdersSubject:      DefaultOrdersSubject,
-		OrdersDurable:      DefaultOrdersDurable,
-		PageIndexSubject:   DefaultPageIndexSubject,
-		PageIndexMaxMsgs:   DefaultMaxMsgs,
-		PagesSubject:       DefaultPagesSubject,
-		PagesMaxMsgs:       DefaultMaxMsgs,
-		ProxyURL:           proxy,
-		FetchConcurrency:   2,
-		IndexOutputEnabled: true,
-		RunPageBudget:      DefaultRunPageBudget,
-		FrontierCap:        DefaultFrontierCap,
-		MaxBodyBytes:       DefaultMaxBodyBytes,
-		FetchDeadline:      time.Second,
-		OpsAddr:            "127.0.0.1:0",
+		NATSURL:          srv.ClientURL(),
+		OrdersSubject:    DefaultOrdersSubject,
+		OrdersDurable:    DefaultOrdersDurable,
+		PageRWISubject:   DefaultPageRWISubject,
+		PageRWIMaxMsgs:   DefaultMaxMsgs,
+		PageTextSubject:  DefaultPageTextSubject,
+		PageTextMaxMsgs:  DefaultMaxMsgs,
+		ProxyURL:         proxy,
+		FetchConcurrency: 2,
+		RWIOutputEnabled: true,
+		RunPageBudget:    DefaultRunPageBudget,
+		FrontierCap:      DefaultFrontierCap,
+		MaxBodyBytes:     DefaultMaxBodyBytes,
+		FetchDeadline:    time.Second,
+		OpsAddr:          "127.0.0.1:0",
 	}
 
 	publishOrder(t, cfg.NATSURL)
@@ -77,10 +77,10 @@ func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	cfg := ServiceConfig{
 		NATSURL: srv.ClientURL(), OrdersSubject: DefaultOrdersSubject,
-		OrdersDurable: DefaultOrdersDurable, PageIndexSubject: DefaultPageIndexSubject,
-		PageIndexMaxMsgs: DefaultMaxMsgs, PagesSubject: DefaultPagesSubject,
-		PagesMaxMsgs: DefaultMaxMsgs, ProxyURL: proxy, FetchConcurrency: 2,
-		IndexOutputEnabled: true, MaxBodyBytes: DefaultMaxBodyBytes,
+		OrdersDurable: DefaultOrdersDurable, PageRWISubject: DefaultPageRWISubject,
+		PageRWIMaxMsgs: DefaultMaxMsgs, PageTextSubject: DefaultPageTextSubject,
+		PageTextMaxMsgs: DefaultMaxMsgs, ProxyURL: proxy, FetchConcurrency: 2,
+		RWIOutputEnabled: true, MaxBodyBytes: DefaultMaxBodyBytes,
 		FetchDeadline: time.Second, OpsAddr: "127.0.0.1:0",
 		ContentTypes: []string{"application/unregistered"},
 	}

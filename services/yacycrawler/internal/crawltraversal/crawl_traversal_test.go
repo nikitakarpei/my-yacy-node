@@ -52,8 +52,12 @@ func (f fakeExtract) Extract(
 
 func document(url, title, text string) crawlcapability.ExtractedDocument {
 	return crawlcapability.ExtractedDocument{
-		URL:              url,
-		ExtractedContent: crawlcapability.ExtractedContent{Title: title, Text: text},
+		URL: url,
+		ExtractedContent: crawlcapability.ExtractedContent{
+			Title:  title,
+			Body:   []byte(text),
+			Format: crawlcapability.PageContentFormatText,
+		},
 	}
 }
 
@@ -307,8 +311,12 @@ func TestTraverseHonorsMetaNoIndex(t *testing.T) {
 	}}
 	extract := fakeExtract{
 		documents: []crawlcapability.ExtractedDocument{{
-			URL:              "http://host/",
-			ExtractedContent: crawlcapability.ExtractedContent{Text: "b", RefusesIndexing: true},
+			URL: "http://host/",
+			ExtractedContent: crawlcapability.ExtractedContent{
+				Body:            []byte("b"),
+				Format:          crawlcapability.PageContentFormatText,
+				RefusesIndexing: true,
+			},
 		}},
 	}
 	index := &fakeOutput{name: "index"}
@@ -338,8 +346,9 @@ func TestTraverseHonorsNoFollow(t *testing.T) {
 		{
 			URL: "http://host/",
 			ExtractedContent: crawlcapability.ExtractedContent{
-				Text:  "b",
-				Links: []string{"http://host/next"},
+				Body:   []byte("b"),
+				Format: crawlcapability.PageContentFormatText,
+				Links:  []string{"http://host/next"},
 			},
 		},
 	}}
@@ -373,8 +382,9 @@ func TestTraverseDiscoversAndCrawlsLinks(t *testing.T) {
 				{
 					URL: "http://host/",
 					ExtractedContent: crawlcapability.ExtractedContent{
-						Text:  "b",
-						Links: []string{"http://host/next"},
+						Body:   []byte("b"),
+						Format: crawlcapability.PageContentFormatText,
+						Links:  []string{"http://host/next"},
 					},
 				},
 			}, nil
@@ -578,8 +588,9 @@ func TestTraverseBudgetTruncates(t *testing.T) {
 		{
 			URL: "http://host/",
 			ExtractedContent: crawlcapability.ExtractedContent{
-				Text:  "b",
-				Links: []string{"http://host/a", "http://host/b"},
+				Body:   []byte("b"),
+				Format: crawlcapability.PageContentFormatText,
+				Links:  []string{"http://host/a", "http://host/b"},
 			},
 		},
 	}}

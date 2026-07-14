@@ -40,6 +40,21 @@ func scanTree(root *html.Node) treeScan {
 	return scan
 }
 
+func hasReadableText(node *html.Node) bool {
+	if node == nil {
+		return false
+	}
+	if node.Type == html.TextNode && strings.TrimSpace(node.Data) != "" {
+		return true
+	}
+	for child := node.FirstChild; child != nil; child = child.NextSibling {
+		if hasReadableText(child) {
+			return true
+		}
+	}
+	return false
+}
+
 func (scan *treeScan) readMetaRobots(node *html.Node) {
 	name, ok := attribute(node, "name")
 	if !ok || !strings.EqualFold(strings.TrimSpace(name), "robots") {

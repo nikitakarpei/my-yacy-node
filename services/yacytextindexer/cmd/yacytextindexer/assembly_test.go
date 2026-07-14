@@ -29,7 +29,7 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 	url := startNATS(t)
 	cfg := ServiceConfig{
 		NATSURL:            url,
-		CrawledPageSubject: "yacy.crawl.pages",
+		CrawledPageSubject: "yacy.crawl.page.text",
 		CrawledPageMaxMsgs: DefaultCrawledPageMaxMsgs,
 		CrawledPageDurable: DefaultCrawledPageDurable,
 		Concurrency:        DefaultConcurrency,
@@ -52,7 +52,6 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 		yacycrawlcontract.PageContentRepresentation{
 			CanonicalURL: "https://example.com/",
 			Title:        "Hi",
-			Format:       yacycrawlcontract.PageFormatText,
 			Body:         []byte("words here"),
 		},
 	)
@@ -101,7 +100,7 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 
 	cfg := ServiceConfig{
 		NATSURL:            startNATS(t),
-		CrawledPageSubject: "yacy.crawl.pages",
+		CrawledPageSubject: "yacy.crawl.page.text",
 		CrawledPageMaxMsgs: DefaultCrawledPageMaxMsgs,
 		CrawledPageDurable: DefaultCrawledPageDurable,
 		Concurrency:        DefaultConcurrency,
@@ -123,7 +122,7 @@ func waitForCrawledPageStream(t *testing.T, js jetstream.JetStream) {
 	for time.Now().Before(deadline) {
 		if _, err := js.Stream(
 			context.Background(),
-			yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatText),
+			yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationText),
 		); err == nil {
 			return
 		}
@@ -131,6 +130,6 @@ func waitForCrawledPageStream(t *testing.T, js jetstream.JetStream) {
 	}
 	t.Fatalf(
 		"stream %s not created in time",
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatText),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationText),
 	)
 }

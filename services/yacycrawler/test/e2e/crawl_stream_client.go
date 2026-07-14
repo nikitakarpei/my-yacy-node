@@ -15,7 +15,7 @@ import (
 
 const (
 	ordersSubject           = "yacy.crawl.orders"
-	crawledPageIndexSubject = "yacy.crawl.page-index"
+	crawledPageIndexSubject = "yacy.crawl.page.rwi"
 	crawledPageIndexMaxMsgs = 1024
 )
 
@@ -43,7 +43,7 @@ func ensureStreams(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.PageFormatRWI,
+		yacycrawlcontract.PageRepresentationRWI,
 		yacycrawlcontract.CrawledPageStreamSpec{
 			Subject: crawledPageIndexSubject,
 			MaxMsgs: crawledPageIndexMaxMsgs,
@@ -61,7 +61,7 @@ func fetchOnePageRWIRepresentation(
 	t.Helper()
 	stream, err := js.Stream(
 		ctx,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatRWI),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationRWI),
 	)
 	if err != nil {
 		t.Fatalf("lookup crawled page rwi stream: %v", err)

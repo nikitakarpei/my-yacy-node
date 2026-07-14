@@ -9,10 +9,12 @@ The crawler is configured entirely through environment variables.
 | `NATS_URL` | required | NATS server the crawler connects to. |
 | `NATS_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject the crawler consumes orders from. |
 | `NATS_ORDERS_DURABLE` | `yacycrawler` | Durable queue-consumer name shared across instances. |
-| `NATS_PAGE_INDEX_SUBJECT` | `yacy.crawl.page-index` | Subject the index output publishes to. |
-| `NATS_PAGE_INDEX_MAX_MSGS` | `1024` | Bound on the index output stream. |
-| `NATS_PAGES_SUBJECT` | `yacy.crawl.pages` | Subject the page-content output publishes to. |
-| `NATS_PAGES_MAX_MSGS` | `1024` | Bound on the page-content output stream. |
+| `NATS_PAGE_RWI_SUBJECT` | `yacy.crawl.page.rwi` | Subject the rwi representation publishes to. |
+| `NATS_PAGE_RWI_MAX_MSGS` | `1024` | Bound on the rwi stream. |
+| `NATS_PAGE_TEXT_SUBJECT` | `yacy.crawl.page.text` | Subject the text representation publishes to. |
+| `NATS_PAGE_TEXT_MAX_MSGS` | `1024` | Bound on the text stream. |
+| `NATS_PAGE_MARKDOWN_SUBJECT` | `yacy.crawl.page.markdown` | Subject the markdown representation publishes to. |
+| `NATS_PAGE_MARKDOWN_MAX_MSGS` | `1024` | Bound on the markdown stream. |
 
 ## Fetching
 
@@ -33,14 +35,18 @@ The crawler is configured entirely through environment variables.
 | `YACYCRAWLER_RUN_PAGE_BUDGET` | `1000` | Pages a single run may fetch before it stops. |
 | `YACYCRAWLER_FRONTIER_CAP` | `10000` | Largest frontier a single run may hold. |
 
-## Outputs
+## Representations
+
+Each enabled representation of a crawled page is published to its own stream.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `YACYCRAWLER_INDEX_OUTPUT_ENABLED` | `true` | Publish page references and postings. |
-| `YACYCRAWLER_PAGE_OUTPUT_ENABLED` | `false` | Publish page text content. |
+| `YACYCRAWLER_RWI_OUTPUT_ENABLED` | `true` | Publish page references and postings. |
+| `YACYCRAWLER_TEXT_OUTPUT_ENABLED` | `false` | Publish page content as text. |
+| `YACYCRAWLER_MARKDOWN_OUTPUT_ENABLED` | `false` | Publish page content as markdown. |
 
-At least one output must be enabled, or startup fails.
+At least one representation must be enabled, or startup fails. A representation that cannot be
+derived from a page's extracted body is skipped for that page.
 
 ## Operations
 

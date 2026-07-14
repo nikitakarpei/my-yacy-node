@@ -18,13 +18,21 @@ const (
 	secondsPerDay    = 86400
 )
 
-func Build(page crawlcapability.ExtractedPage) (yacycrawlcontract.PageRWIRepresentation, error) {
+func Build(
+	page crawlcapability.ExtractedPage,
+	text crawlcapability.ContentDerivation,
+) (yacycrawlcontract.PageRWIRepresentation, error) {
 	urlHash, err := yacymodel.HashURL(page.CanonicalURL)
 	if err != nil {
 		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("hash url: %w", err)
 	}
 
-	order, occurrences, textStats := tokenize(page.Text)
+	body, err := text.Derive(page.Body, page.Format)
+	if err != nil {
+		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("derive page text: %w", err)
+	}
+
+	order, occurrences, textStats := tokenize(string(body))
 	_, _, titleStats := tokenize(page.Title)
 	dayNumber := dayNumberOf(page.FetchedAt)
 
@@ -50,7 +58,7 @@ func Build(page crawlcapability.ExtractedPage) (yacycrawlcontract.PageRWIReprese
 		})
 	}
 
-	metadata := metadataRow(page, urlHash.String(), textStats.Words)
+	metadata := metadataRow(page, urlHash.String(), len(body), textStats.Words)
 
 	return yacycrawlcontract.PageRWIRepresentation{
 		CanonicalURL: page.CanonicalURL,
@@ -95,6 +103,7 @@ func sharedProperties(
 func metadataRow(
 	page crawlcapability.ExtractedPage,
 	urlHash string,
+	textLength int,
 	total int,
 ) yacymodel.URIMetadataRow {
 	return yacymodel.URIMetadataRow{Properties: map[string]string{
@@ -102,7 +111,7 @@ func metadataRow(
 		"dt":                            string(rune(documentTypeText)),
 		"url":                           yacymodel.EncodeBase64WireForm(page.CanonicalURL),
 		yacymodel.URLMetaColDescription: yacymodel.EncodeBase64WireForm(page.Title),
-		"size":                          strconv.Itoa(len(page.Text)),
+		"size":                          strconv.Itoa(textLength),
 		"wc":                            strconv.Itoa(total),
 		"llocal":                        strconv.Itoa(page.LocalLinkCount),
 		"lother":                        strconv.Itoa(page.ExternalLinkCount),

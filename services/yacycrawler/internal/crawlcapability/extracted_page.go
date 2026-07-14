@@ -5,7 +5,8 @@ import "time"
 type ExtractedPage struct {
 	CanonicalURL      string
 	Title             string
-	Text              string
+	Body              []byte
+	Format            PageContentFormat
 	Language          string
 	FetchedAt         time.Time
 	LocalLinkCount    int

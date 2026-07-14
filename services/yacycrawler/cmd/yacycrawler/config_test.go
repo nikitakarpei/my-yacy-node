@@ -30,7 +30,7 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 		cfg.RunPageBudget != DefaultRunPageBudget {
 		t.Fatalf("unexpected defaults: %+v", cfg)
 	}
-	if !cfg.IndexOutputEnabled || cfg.PageOutputEnabled {
+	if !cfg.RWIOutputEnabled || cfg.TextOutputEnabled || cfg.MarkdownOutputEnabled {
 		t.Fatalf("output defaults wrong: %+v", cfg)
 	}
 	if cfg.FetchDeadline != DefaultFetchDeadline {
@@ -105,8 +105,8 @@ func TestLoadServiceConfigRejectsNonHTTPProxy(t *testing.T) {
 
 func TestLoadServiceConfigBothOutputsDisabled(t *testing.T) {
 	env := baseEnv()
-	env["YACYCRAWLER_INDEX_OUTPUT_ENABLED"] = "false"
-	env["YACYCRAWLER_PAGE_OUTPUT_ENABLED"] = "false"
+	env["YACYCRAWLER_RWI_OUTPUT_ENABLED"] = "false"
+	env["YACYCRAWLER_TEXT_OUTPUT_ENABLED"] = "false"
 	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("both outputs disabled should error")
 	}
@@ -129,12 +129,12 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_FETCH_CONCURRENCY"] = "8"
 	env["YACYCRAWLER_FETCH_DEADLINE"] = "5s"
-	env["YACYCRAWLER_PAGE_OUTPUT_ENABLED"] = "true"
+	env["YACYCRAWLER_TEXT_OUTPUT_ENABLED"] = "true"
 	cfg, err := LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if cfg.FetchConcurrency != 8 || cfg.FetchDeadline != 5*time.Second || !cfg.PageOutputEnabled {
+	if cfg.FetchConcurrency != 8 || cfg.FetchDeadline != 5*time.Second || !cfg.TextOutputEnabled {
 		t.Fatalf("overrides not applied: %+v", cfg)
 	}
 }
@@ -145,8 +145,8 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"YACYCRAWLER_FETCH_CONCURRENCY": "notint"},
 		{"YACYCRAWLER_MAX_BODY_BYTES": "-1"},
 		{"YACYCRAWLER_FETCH_DEADLINE": "nope"},
-		{"YACYCRAWLER_INDEX_OUTPUT_ENABLED": "maybe"},
-		{"NATS_PAGE_INDEX_MAX_MSGS": "0"},
+		{"YACYCRAWLER_RWI_OUTPUT_ENABLED": "maybe"},
+		{"NATS_PAGE_RWI_MAX_MSGS": "0"},
 	} {
 		env := baseEnv()
 		for k, v := range bad {
@@ -166,10 +166,10 @@ func TestStreamSpecs(t *testing.T) {
 	if cfg.OrdersStreamSpec().Subject != DefaultOrdersSubject {
 		t.Fatal("orders spec subject wrong")
 	}
-	if cfg.PageIndexStreamSpec().MaxMsgs != DefaultMaxMsgs {
+	if cfg.PageRWIStreamSpec().MaxMsgs != DefaultMaxMsgs {
 		t.Fatal("page index spec max msgs wrong")
 	}
-	if cfg.PagesStreamSpec().Subject != DefaultPagesSubject {
+	if cfg.PageTextStreamSpec().Subject != DefaultPageTextSubject {
 		t.Fatal("pages spec subject wrong")
 	}
 }

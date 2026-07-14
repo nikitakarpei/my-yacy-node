@@ -29,7 +29,7 @@ func newIngestReceiver(
 ) (*IngestReceiver, error) {
 	consumer, err := js.CreateOrUpdateConsumer(
 		ctx,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatRWI),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationRWI),
 		jetstream.ConsumerConfig{
 			Durable:       durable,
 			AckPolicy:     jetstream.AckExplicitPolicy,

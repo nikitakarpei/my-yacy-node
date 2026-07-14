@@ -13,7 +13,6 @@ func TestOfMapsFields(t *testing.T) {
 	doc := crawledpagedocument.Of(yacycrawlcontract.PageContentRepresentation{
 		CanonicalURL: "https://example.com/",
 		Title:        "Hi",
-		Format:       yacycrawlcontract.PageFormatText,
 		Body:         []byte("words here"),
 		CrawledAt:    crawledAt,
 		Language:     "en",
