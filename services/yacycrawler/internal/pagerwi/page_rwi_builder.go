@@ -1,4 +1,4 @@
-package pageindex
+package pagerwi
 
 import (
 	"fmt"
@@ -18,10 +18,10 @@ const (
 	secondsPerDay    = 86400
 )
 
-func Build(page crawlcapability.ExtractedPage) (yacycrawlcontract.CrawledPageIndex, error) {
+func Build(page crawlcapability.ExtractedPage) (yacycrawlcontract.PageRWIRepresentation, error) {
 	urlHash, err := yacymodel.HashURL(page.CanonicalURL)
 	if err != nil {
-		return yacycrawlcontract.CrawledPageIndex{}, fmt.Errorf("hash url: %w", err)
+		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("hash url: %w", err)
 	}
 
 	order, occurrences, textStats := tokenize(page.Text)
@@ -52,10 +52,10 @@ func Build(page crawlcapability.ExtractedPage) (yacycrawlcontract.CrawledPageInd
 
 	metadata := metadataRow(page, urlHash.String(), textStats.Words)
 
-	return yacycrawlcontract.CrawledPageIndex{
+	return yacycrawlcontract.PageRWIRepresentation{
 		CanonicalURL: page.CanonicalURL,
-		Postings:     postings,
 		Metadata:     []yacymodel.URIMetadataRow{metadata},
+		Postings:     postings,
 	}, nil
 }
 

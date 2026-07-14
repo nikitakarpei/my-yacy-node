@@ -1,4 +1,4 @@
-package pageindex
+package pagerwi
 
 import (
 	"strings"

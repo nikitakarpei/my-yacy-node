@@ -1,11 +1,11 @@
-package pageindex_test
+package pagerwi_test
 
 import (
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pageindex"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerwi"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -22,7 +22,7 @@ func samplePage() crawlcapability.ExtractedPage {
 }
 
 func TestBuildProducesParseablePostings(t *testing.T) {
-	index, err := pageindex.Build(samplePage())
+	index, err := pagerwi.Build(samplePage())
 	if err != nil {
 		t.Fatalf("Build: %v", err)
 	}
@@ -40,7 +40,7 @@ func TestBuildProducesParseablePostings(t *testing.T) {
 }
 
 func TestBuildCountsRepeatedWords(t *testing.T) {
-	index, err := pageindex.Build(samplePage())
+	index, err := pagerwi.Build(samplePage())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -60,7 +60,7 @@ func TestBuildCountsRepeatedWords(t *testing.T) {
 }
 
 func TestBuildMetadataParseableAndCarriesURLHash(t *testing.T) {
-	index, err := pageindex.Build(samplePage())
+	index, err := pagerwi.Build(samplePage())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -85,7 +85,7 @@ func TestBuildMetadataSurvivesCommaInTitleAndURL(t *testing.T) {
 	page := samplePage()
 	page.CanonicalURL = "http://example.com/article?ids=1,2,3"
 	page.Title = "Fourth of July fireworks, 1986 - Example"
-	index, err := pageindex.Build(page)
+	index, err := pagerwi.Build(page)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -106,7 +106,7 @@ func TestBuildMetadataSurvivesCommaInTitleAndURL(t *testing.T) {
 func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 	page := samplePage()
 	page.Language = ""
-	index, err := pageindex.Build(page)
+	index, err := pagerwi.Build(page)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -120,7 +120,7 @@ func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
 	page := samplePage()
 	page.Text = "a fox I saw"
-	index, err := pageindex.Build(page)
+	index, err := pagerwi.Build(page)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -138,7 +138,7 @@ func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
 func TestBuildKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
 	page := samplePage()
 	page.Text = "state-of-the-art design"
-	index, err := pageindex.Build(page)
+	index, err := pagerwi.Build(page)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -157,7 +157,7 @@ func TestBuildKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
 func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 	page := samplePage()
 	page.Text = "the price is 1,234.56 today"
-	index, err := pageindex.Build(page)
+	index, err := pagerwi.Build(page)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -176,7 +176,7 @@ func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 func TestBuildCountsPhrasesAndPhrasePositions(t *testing.T) {
 	page := samplePage()
 	page.Text = "the quick fox jumps. the lazy dog sleeps."
-	index, err := pageindex.Build(page)
+	index, err := pagerwi.Build(page)
 	if err != nil {
 		t.Fatal(err)
 	}

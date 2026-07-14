@@ -47,7 +47,7 @@ func samplePage() crawlcapability.ExtractedPage {
 	}
 }
 
-func TestIndexOutputPublishes(t *testing.T) {
+func TestPageRWIOutputPublishes(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
 	if err := yacycrawlcontract.EnsureCrawledPageStream(ctx, js, yacycrawlcontract.PageFormatRWI,
@@ -55,8 +55,8 @@ func TestIndexOutputPublishes(t *testing.T) {
 	); err != nil {
 		t.Fatal(err)
 	}
-	output := pagepublication.NewIndexOutput(js, "yacy.crawl.page-index")
-	if output.Name() != "index" {
+	output := pagepublication.NewPageRWIOutput(js, "yacy.crawl.page-index")
+	if output.Name() != "rwi" {
 		t.Fatalf("name = %q", output.Name())
 	}
 	if err := output.Publish(ctx, samplePage()); err != nil {
@@ -68,15 +68,19 @@ func TestIndexOutputPublishes(t *testing.T) {
 		js,
 		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageFormatRWI),
 	)
-	segment, err := yacycrawlcontract.UnmarshalCrawledPageIndexSegment(msg)
+	chunk, err := yacycrawlcontract.UnmarshalPageRWIChunk(msg)
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
-	if segment.CanonicalURL != "http://example.com/a" {
-		t.Fatalf("canonical url = %q", segment.CanonicalURL)
+	metadata, ok := chunk.(yacycrawlcontract.PageRWIMetadataChunk)
+	if !ok {
+		t.Fatalf("first chunk = %T, want PageRWIMetadataChunk", chunk)
 	}
-	if len(segment.Metadata) != 1 || len(segment.Postings) != 0 {
-		t.Fatalf("first segment = %+v, want metadata only", segment)
+	if metadata.CanonicalURL != "http://example.com/a" {
+		t.Fatalf("canonical url = %q", metadata.CanonicalURL)
+	}
+	if len(metadata.Metadata) != 1 {
+		t.Fatalf("metadata rows = %d, want 1", len(metadata.Metadata))
 	}
 }
 

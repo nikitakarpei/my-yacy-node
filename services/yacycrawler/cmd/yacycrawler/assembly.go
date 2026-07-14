@@ -157,7 +157,7 @@ func ordersConsumer(
 func enabledOutputs(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability.PagePublication {
 	var outputs []crawlcapability.PagePublication
 	if cfg.IndexOutputEnabled {
-		outputs = append(outputs, pagepublication.NewIndexOutput(js, cfg.PageIndexSubject))
+		outputs = append(outputs, pagepublication.NewPageRWIOutput(js, cfg.PageIndexSubject))
 	}
 	if cfg.PageOutputEnabled {
 		outputs = append(outputs, pagepublication.NewPageContentOutput(js, cfg.PagesSubject))
