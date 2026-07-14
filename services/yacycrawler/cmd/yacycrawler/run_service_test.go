@@ -15,6 +15,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlmetrics"
 )
 
+func rwiOutputConfig() PageOutputConfig {
+	for _, preset := range pageOutputDefaults {
+		if preset.representation == yacycrawlcontract.PageRepresentationRWI {
+			return PageOutputConfig{
+				Representation: preset.representation,
+				Stream: yacycrawlcontract.CrawledPageStreamSpec{
+					Subject: preset.subject,
+					MaxMsgs: DefaultMaxMsgs,
+				},
+			}
+		}
+	}
+	return PageOutputConfig{}
+}
+
 func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 	srv, err := natsserver.NewServer(&natsserver.Options{
 		Port: -1, JetStream: true, StoreDir: t.TempDir(),
@@ -33,13 +48,9 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 		NATSURL:          srv.ClientURL(),
 		OrdersSubject:    DefaultOrdersSubject,
 		OrdersDurable:    DefaultOrdersDurable,
-		PageRWISubject:   DefaultPageRWISubject,
-		PageRWIMaxMsgs:   DefaultMaxMsgs,
-		PageTextSubject:  DefaultPageTextSubject,
-		PageTextMaxMsgs:  DefaultMaxMsgs,
+		PageOutputs:      []PageOutputConfig{rwiOutputConfig()},
 		ProxyURL:         proxy,
 		FetchConcurrency: 2,
-		RWIOutputEnabled: true,
 		RunPageBudget:    DefaultRunPageBudget,
 		FrontierCap:      DefaultFrontierCap,
 		MaxBodyBytes:     DefaultMaxBodyBytes,
@@ -77,10 +88,10 @@ func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	cfg := ServiceConfig{
 		NATSURL: srv.ClientURL(), OrdersSubject: DefaultOrdersSubject,
-		OrdersDurable: DefaultOrdersDurable, PageRWISubject: DefaultPageRWISubject,
-		PageRWIMaxMsgs: DefaultMaxMsgs, PageTextSubject: DefaultPageTextSubject,
-		PageTextMaxMsgs: DefaultMaxMsgs, ProxyURL: proxy, FetchConcurrency: 2,
-		RWIOutputEnabled: true, MaxBodyBytes: DefaultMaxBodyBytes,
+		OrdersDurable: DefaultOrdersDurable,
+		PageOutputs:   []PageOutputConfig{rwiOutputConfig()},
+		ProxyURL:      proxy, FetchConcurrency: 2,
+		MaxBodyBytes:  DefaultMaxBodyBytes,
 		FetchDeadline: time.Second, OpsAddr: "127.0.0.1:0",
 		ContentTypes: []string{"application/unregistered"},
 	}

@@ -12,7 +12,6 @@ service is meant for a more capable host than an always-on node.
 
 ## Non-Goals
 
-* Producing the crawl orders it consumes, or consuming its own published representations.
 * Participating in the YaCy DHT peer protocol.
 * Ranking, indexing, or judging what it fetches.
 * Authorizing broker subjects beyond the broker deployment's own trust boundary.
@@ -30,9 +29,8 @@ service is meant for a more capable host than an always-on node.
 * Every outbound fetch SHALL egress through the operator's configured proxy.
 * The service SHALL honor a target's explicit refusal, ceasing or deferring the fetch
   rather than pressing against it.
-* The service SHALL publish representations of a page, each on its own stream: the `rwi`
-  representation, carrying page references and never a body, and content representations,
-  each additive and operator-selected.
+* The service SHALL publish each of a page's representations on its own stream: `rwi`
+  carries page references and never a body; content representations carry the body.
 * The service SHALL publish each page to every enabled representation that accepts its
   content format, advancing those together: if any cannot take it yet, the others wait.
 * Every fetched page SHALL reach one terminal outcome: published to every representation

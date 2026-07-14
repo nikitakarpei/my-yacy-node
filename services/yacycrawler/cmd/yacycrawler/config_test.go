@@ -1,9 +1,11 @@
 package main
 
 import (
+	"slices"
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/httpfetch"
 )
 
@@ -30,8 +32,12 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 		cfg.RunPageBudget != DefaultRunPageBudget {
 		t.Fatalf("unexpected defaults: %+v", cfg)
 	}
-	if !cfg.RWIOutputEnabled || cfg.TextOutputEnabled || cfg.MarkdownOutputEnabled {
-		t.Fatalf("output defaults wrong: %+v", cfg)
+	if len(cfg.PageOutputs) != 1 ||
+		cfg.PageOutputs[0].Representation != yacycrawlcontract.PageRepresentationRWI {
+		t.Fatalf("only the rwi output should be enabled by default: %+v", cfg.PageOutputs)
+	}
+	if cfg.PageOutputs[0].Stream.MaxMsgs != DefaultMaxMsgs {
+		t.Fatalf("rwi stream max msgs = %d", cfg.PageOutputs[0].Stream.MaxMsgs)
 	}
 	if cfg.FetchDeadline != DefaultFetchDeadline {
 		t.Fatalf("fetch deadline = %v", cfg.FetchDeadline)
@@ -134,8 +140,11 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if cfg.FetchConcurrency != 8 || cfg.FetchDeadline != 5*time.Second || !cfg.TextOutputEnabled {
+	if cfg.FetchConcurrency != 8 || cfg.FetchDeadline != 5*time.Second {
 		t.Fatalf("overrides not applied: %+v", cfg)
+	}
+	if !slices.Contains(enabledRepresentations(cfg), "text") {
+		t.Fatalf("text output should be enabled: %v", enabledRepresentations(cfg))
 	}
 }
 
@@ -158,18 +167,33 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 	}
 }
 
-func TestStreamSpecs(t *testing.T) {
+func TestOrdersStreamSpecCarriesSubject(t *testing.T) {
 	cfg, err := LoadServiceConfig(envFrom(baseEnv()))
 	if err != nil {
 		t.Fatal(err)
 	}
 	if cfg.OrdersStreamSpec().Subject != DefaultOrdersSubject {
-		t.Fatal("orders spec subject wrong")
+		t.Fatalf("orders spec subject = %q", cfg.OrdersStreamSpec().Subject)
 	}
-	if cfg.PageRWIStreamSpec().MaxMsgs != DefaultMaxMsgs {
-		t.Fatal("page index spec max msgs wrong")
+}
+
+func TestPageOutputEnvNamesFollowTheRepresentation(t *testing.T) {
+	env := baseEnv()
+	env["YACYCRAWLER_MARKDOWN_OUTPUT_ENABLED"] = "true"
+	env["NATS_PAGE_MARKDOWN_SUBJECT"] = "custom.markdown"
+	env["NATS_PAGE_MARKDOWN_MAX_MSGS"] = "7"
+	cfg, err := LoadServiceConfig(envFrom(env))
+	if err != nil {
+		t.Fatal(err)
 	}
-	if cfg.PageTextStreamSpec().Subject != DefaultPageTextSubject {
-		t.Fatal("pages spec subject wrong")
+	for _, output := range cfg.PageOutputs {
+		if output.Representation != yacycrawlcontract.PageRepresentationMarkdown {
+			continue
+		}
+		if output.Stream.Subject != "custom.markdown" || output.Stream.MaxMsgs != 7 {
+			t.Fatalf("markdown stream = %+v", output.Stream)
+		}
+		return
 	}
+	t.Fatal("markdown output should be enabled")
 }

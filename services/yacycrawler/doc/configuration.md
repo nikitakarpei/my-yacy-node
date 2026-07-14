@@ -45,8 +45,8 @@ Each enabled representation of a crawled page is published to its own stream.
 | `YACYCRAWLER_TEXT_OUTPUT_ENABLED` | `false` | Publish page content as text. |
 | `YACYCRAWLER_MARKDOWN_OUTPUT_ENABLED` | `false` | Publish page content as markdown. |
 
-At least one representation must be enabled, or startup fails. A representation that cannot be
-derived from a page's extracted body is skipped for that page.
+At least one representation must be enabled, or startup fails. Each representation accepts only
+some content formats; a page whose format none of the enabled ones accepts is disposed.
 
 ## Operations
 

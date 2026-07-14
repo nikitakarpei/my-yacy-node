@@ -75,7 +75,10 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
 	)
-	outputs := enabledOutputs(js, cfg)
+	outputs, err := buildPageOutputs(js, cfg)
+	if err != nil {
+		return err
+	}
 
 	extract, err := buildExtractor(cfg)
 	if err != nil {
@@ -102,9 +105,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 	slog.InfoContext(ctx, msgServiceStarted,
 		slog.String("orders", cfg.OrdersSubject),
 		slog.Int("fetchConcurrency", cfg.FetchConcurrency),
-		slog.Bool("rwiOutput", cfg.RWIOutputEnabled),
-		slog.Bool("textOutput", cfg.TextOutputEnabled),
-		slog.Bool("markdownOutput", cfg.MarkdownOutputEnabled),
+		slog.Any("representations", enabledRepresentations(cfg)),
 	)
 
 	err = servergroup.Run(ctx, opsShutdownLimit,
@@ -121,28 +122,22 @@ func ensureStreams(ctx context.Context, js jetstream.JetStream, cfg ServiceConfi
 	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, cfg.OrdersStreamSpec()); err != nil {
 		return fmt.Errorf("ensure orders stream: %w", err)
 	}
-	if cfg.RWIOutputEnabled {
+	for _, output := range cfg.PageOutputs {
 		if err := yacycrawlcontract.EnsureCrawledPageStream(
-			ctx, js, yacycrawlcontract.PageRepresentationRWI, cfg.PageRWIStreamSpec(),
+			ctx, js, output.Representation, output.Stream,
 		); err != nil {
-			return fmt.Errorf("ensure page rwi stream: %w", err)
-		}
-	}
-	if cfg.TextOutputEnabled {
-		if err := yacycrawlcontract.EnsureCrawledPageStream(
-			ctx, js, yacycrawlcontract.PageRepresentationText, cfg.PageTextStreamSpec(),
-		); err != nil {
-			return fmt.Errorf("ensure page text stream: %w", err)
-		}
-	}
-	if cfg.MarkdownOutputEnabled {
-		if err := yacycrawlcontract.EnsureCrawledPageStream(
-			ctx, js, yacycrawlcontract.PageRepresentationMarkdown, cfg.PageMarkdownStreamSpec(),
-		); err != nil {
-			return fmt.Errorf("ensure page markdown stream: %w", err)
+			return fmt.Errorf("ensure page %s stream: %w", output.Representation, err)
 		}
 	}
 	return nil
+}
+
+func enabledRepresentations(cfg ServiceConfig) []string {
+	names := make([]string, 0, len(cfg.PageOutputs))
+	for _, output := range cfg.PageOutputs {
+		names = append(names, string(output.Representation))
+	}
+	return names
 }
 
 func ordersConsumer(
@@ -164,27 +159,35 @@ func ordersConsumer(
 	return consumer, nil
 }
 
-func enabledOutputs(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability.PagePublication {
-	var outputs []crawlcapability.PagePublication
-	if cfg.RWIOutputEnabled {
-		outputs = append(
-			outputs,
-			pagepublication.NewPageRWIOutput(js, cfg.PageRWISubject, pagetext.New()),
-		)
+func buildPageOutputs(
+	js jetstream.JetStream,
+	cfg ServiceConfig,
+) ([]crawlcapability.PagePublication, error) {
+	outputs := make([]crawlcapability.PagePublication, 0, len(cfg.PageOutputs))
+	for _, output := range cfg.PageOutputs {
+		built, err := buildPageOutput(js, output)
+		if err != nil {
+			return nil, err
+		}
+		outputs = append(outputs, built)
 	}
-	if cfg.TextOutputEnabled {
-		outputs = append(
-			outputs,
-			pagepublication.NewPageContentOutput(js, cfg.PageTextSubject, pagetext.New()),
-		)
+	return outputs, nil
+}
+
+func buildPageOutput(
+	js jetstream.JetStream,
+	output PageOutputConfig,
+) (crawlcapability.PagePublication, error) {
+	subject := output.Stream.Subject
+	switch output.Representation {
+	case yacycrawlcontract.PageRepresentationRWI:
+		return pagepublication.NewPageRWIOutput(js, subject, pagetext.New()), nil
+	case yacycrawlcontract.PageRepresentationText:
+		return pagepublication.NewPageContentOutput(js, subject, pagetext.New()), nil
+	case yacycrawlcontract.PageRepresentationMarkdown:
+		return pagepublication.NewPageContentOutput(js, subject, pagemarkdown.New()), nil
 	}
-	if cfg.MarkdownOutputEnabled {
-		outputs = append(
-			outputs,
-			pagepublication.NewPageContentOutput(js, cfg.PageMarkdownSubject, pagemarkdown.New()),
-		)
-	}
-	return outputs
+	return nil, fmt.Errorf("no output builds the %s representation", output.Representation)
 }
 
 func buildExtractor(cfg ServiceConfig) (crawlcapability.DocumentExtraction, error) {

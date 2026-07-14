@@ -1,6 +1,31 @@
 package main
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+)
+
+func TestEveryConfigurablePageOutputBuilds(t *testing.T) {
+	for _, preset := range pageOutputDefaults {
+		output, err := buildPageOutput(nil, PageOutputConfig{
+			Representation: preset.representation,
+			Stream:         yacycrawlcontract.CrawledPageStreamSpec{Subject: "s"},
+		})
+		if err != nil {
+			t.Fatalf("%s: %v", preset.representation, err)
+		}
+		if output.Name() != string(preset.representation) {
+			t.Fatalf("%s builds an output named %q", preset.representation, output.Name())
+		}
+	}
+}
+
+func TestBuildPageOutputRejectsUnknownRepresentation(t *testing.T) {
+	if _, err := buildPageOutput(nil, PageOutputConfig{Representation: "braille"}); err == nil {
+		t.Fatal("a representation with no output should fail startup")
+	}
+}
 
 func TestBuildExtractorDefaultRegistersAll(t *testing.T) {
 	extractor, err := buildExtractor(ServiceConfig{MaxBodyBytes: 1 << 20})
