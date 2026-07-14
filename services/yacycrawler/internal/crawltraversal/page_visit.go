@@ -148,7 +148,7 @@ func (c *crawl) publishDocument(
 		c.observer.PageDisposed(crawlcapability.DisposalNoIndex)
 		return nil
 	}
-	page := crawlcapability.ExtractedPage{
+	page := crawlcapability.CrawledPage{
 		CanonicalURL:      canonical,
 		Title:             document.Title,
 		Body:              document.Body,

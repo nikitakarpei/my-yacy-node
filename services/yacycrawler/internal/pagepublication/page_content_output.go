@@ -32,7 +32,7 @@ func (o PageContentOutput) Accepts(format crawlcapability.PageContentFormat) boo
 	return acceptsSourceFormat(o.derivation, format)
 }
 
-func (o PageContentOutput) Publish(ctx context.Context, page crawlcapability.ExtractedPage) error {
+func (o PageContentOutput) Publish(ctx context.Context, page crawlcapability.CrawledPage) error {
 	body, err := o.derivation.Derive(page.Body, page.Format)
 	if err != nil {
 		return fmt.Errorf("derive page content: %w", err)

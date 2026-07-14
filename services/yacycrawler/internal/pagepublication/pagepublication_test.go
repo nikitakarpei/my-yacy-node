@@ -57,8 +57,8 @@ func (textDerivation) Derive(
 	return body, nil
 }
 
-func samplePage() crawlcapability.ExtractedPage {
-	return crawlcapability.ExtractedPage{
+func samplePage() crawlcapability.CrawledPage {
+	return crawlcapability.CrawledPage{
 		CanonicalURL:   "http://example.com/a",
 		Title:          "Hi",
 		Body:           []byte("the quick brown fox"),

@@ -33,7 +33,7 @@ func (o PageRWIOutput) Accepts(format crawlcapability.PageContentFormat) bool {
 	return acceptsSourceFormat(o.text, format)
 }
 
-func (o PageRWIOutput) Publish(ctx context.Context, page crawlcapability.ExtractedPage) error {
+func (o PageRWIOutput) Publish(ctx context.Context, page crawlcapability.CrawledPage) error {
 	representation, err := pagerwi.Build(page, o.text)
 	if err != nil {
 		return fmt.Errorf("build page rwi representation: %w", err)

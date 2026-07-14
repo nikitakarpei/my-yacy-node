@@ -5,5 +5,5 @@ import "context"
 type PagePublication interface {
 	Name() string
 	Accepts(format PageContentFormat) bool
-	Publish(ctx context.Context, page ExtractedPage) error
+	Publish(ctx context.Context, page CrawledPage) error
 }

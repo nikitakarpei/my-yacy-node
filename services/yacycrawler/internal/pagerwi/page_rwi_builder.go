@@ -19,7 +19,7 @@ const (
 )
 
 func Build(
-	page crawlcapability.ExtractedPage,
+	page crawlcapability.CrawledPage,
 	text crawlcapability.ContentDerivation,
 ) (yacycrawlcontract.PageRWIRepresentation, error) {
 	urlHash, err := yacymodel.HashURL(page.CanonicalURL)
@@ -76,7 +76,7 @@ type documentWordStatistics struct {
 }
 
 func sharedProperties(
-	page crawlcapability.ExtractedPage,
+	page crawlcapability.CrawledPage,
 	urlHash string,
 	stats documentWordStatistics,
 	dayNumber uint64,
@@ -101,7 +101,7 @@ func sharedProperties(
 }
 
 func metadataRow(
-	page crawlcapability.ExtractedPage,
+	page crawlcapability.CrawledPage,
 	urlHash string,
 	textLength int,
 	total int,

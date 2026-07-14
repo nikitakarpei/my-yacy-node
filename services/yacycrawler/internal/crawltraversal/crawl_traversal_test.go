@@ -79,7 +79,7 @@ func (o *fakeOutput) Accepts(format crawlcapability.PageContentFormat) bool {
 	return format != o.refuses
 }
 
-func (o *fakeOutput) Publish(_ context.Context, page crawlcapability.ExtractedPage) error {
+func (o *fakeOutput) Publish(_ context.Context, page crawlcapability.CrawledPage) error {
 	if o.failWith != nil {
 		return o.failWith
 	}
@@ -704,7 +704,7 @@ func (o *flakyOutput) Name() string { return "rwi" }
 
 func (o *flakyOutput) Accepts(crawlcapability.PageContentFormat) bool { return true }
 
-func (o *flakyOutput) Publish(context.Context, crawlcapability.ExtractedPage) error {
+func (o *flakyOutput) Publish(context.Context, crawlcapability.CrawledPage) error {
 	if o.failuresLeft > 0 {
 		o.failuresLeft--
 		return crawlcapability.TransientPublicationError{Err: errors.New("stream full")}

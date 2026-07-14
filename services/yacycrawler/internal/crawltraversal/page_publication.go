@@ -14,7 +14,7 @@ const (
 	msgFormatUnrepresentable   = "page disposed: no representation accepts its content format"
 )
 
-func (c *crawl) publish(ctx context.Context, page crawlcapability.ExtractedPage) error {
+func (c *crawl) publish(ctx context.Context, page crawlcapability.CrawledPage) error {
 	accepting := c.accepting(page.Format)
 	if len(accepting) == 0 {
 		slog.WarnContext(ctx, msgFormatUnrepresentable,

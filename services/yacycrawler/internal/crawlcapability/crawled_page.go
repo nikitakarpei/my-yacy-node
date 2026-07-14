@@ -2,7 +2,7 @@ package crawlcapability
 
 import "time"
 
-type ExtractedPage struct {
+type CrawledPage struct {
 	CanonicalURL      string
 	Title             string
 	Body              []byte
