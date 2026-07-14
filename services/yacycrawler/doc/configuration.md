@@ -9,12 +9,8 @@ The crawler is configured entirely through environment variables.
 | `NATS_URL` | required | NATS server the crawler connects to. |
 | `NATS_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject the crawler consumes orders from. |
 | `NATS_ORDERS_DURABLE` | `yacycrawler` | Durable queue-consumer name shared across instances. |
-| `NATS_PAGE_RWI_SUBJECT` | `yacy.crawl.page.rwi` | Subject the rwi representation publishes to. |
-| `NATS_PAGE_RWI_MAX_MSGS` | `1024` | Bound on the rwi stream. |
-| `NATS_PAGE_TEXT_SUBJECT` | `yacy.crawl.page.text` | Subject the text representation publishes to. |
-| `NATS_PAGE_TEXT_MAX_MSGS` | `1024` | Bound on the text stream. |
-| `NATS_PAGE_MARKDOWN_SUBJECT` | `yacy.crawl.page.markdown` | Subject the markdown representation publishes to. |
-| `NATS_PAGE_MARKDOWN_MAX_MSGS` | `1024` | Bound on the markdown stream. |
+
+Per-representation stream variables are covered under Representations.
 
 ## Fetching
 
@@ -37,13 +33,21 @@ The crawler is configured entirely through environment variables.
 
 ## Representations
 
-Each enabled representation of a crawled page is published to its own stream.
+Each enabled representation of a crawled page is published to its own stream. Every
+representation `<REP>` is configured by the same three variables, where `<REP>` is its
+name upper-cased:
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `YACYCRAWLER_RWI_OUTPUT_ENABLED` | `true` | Publish page references and postings. |
-| `YACYCRAWLER_TEXT_OUTPUT_ENABLED` | `false` | Publish page content as text. |
-| `YACYCRAWLER_MARKDOWN_OUTPUT_ENABLED` | `false` | Publish page content as markdown. |
+| `YACYCRAWLER_<REP>_OUTPUT_ENABLED` | per representation | Publish this representation. |
+| `NATS_PAGE_<REP>_SUBJECT` | per representation | Subject this representation publishes to. |
+| `NATS_PAGE_<REP>_MAX_MSGS` | `1024` | Bound on this representation's stream. |
+
+| Representation | Enabled | Subject | Content |
+|---|---|---|---|
+| `rwi` | `true` | `yacy.crawl.page.rwi` | Page references and postings. |
+| `text` | `false` | `yacy.crawl.page.text` | Page content as text. |
+| `markdown` | `false` | `yacy.crawl.page.markdown` | Page content as markdown. |
 
 At least one representation must be enabled, or startup fails. Each representation accepts only
 some content formats; a page whose format none of the enabled ones accepts is disposed.
