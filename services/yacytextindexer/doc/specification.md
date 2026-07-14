@@ -3,9 +3,9 @@
 ## Context
 
 `yacytextindexer` is a separate, optional, disposable Go service that makes an operator's
-own crawled corpus searchable as full text. `yacycrawler` can optionally publish the pages
-it crawls; this service consumes those pages and indexes them into an operator-run
-full-text search index.
+own crawled corpus searchable as full text. `yacycrawler` can optionally publish a `text`
+representation of the pages it crawls; this service consumes that one representation and
+indexes it into an operator-run full-text search index.
 
 ## Non-Goals
 
@@ -16,8 +16,9 @@ full-text search index.
 
 ## Functional Requirements
 
-* For each crawled page `yacycrawler` publishes, the service SHALL produce a search-index
-  document preserving its canonical URL, text, and metadata.
+* The service SHALL consume only the crawler's `text` representation stream.
+* For each page on that stream, the service SHALL produce a search-index document
+  preserving its canonical URL, text, and metadata.
 * Re-indexing a page whose canonical URL is already indexed SHALL overwrite that document
   rather than add a duplicate.
 * The service SHALL let operators choose which supported search index to use and configure
@@ -32,7 +33,7 @@ full-text search index.
 * The service SHALL persist no state of its own: the index of record lives in the search
   index and any pending backlog lives with the broker.
 * The service SHALL be independently disposable: operators MAY stop it and later re-enable
-  the crawler's page-content output without depending on this service's prior state.
+  the crawler's `text` representation without depending on this service's prior state.
 * The service SHALL support many concurrent instances over the crawler's published pages,
   with each page indexed by exactly one instance.
 * The service SHALL expose its indexing behavior as machine-readable metrics and a liveness

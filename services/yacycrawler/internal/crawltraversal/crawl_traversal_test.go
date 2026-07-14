@@ -220,15 +220,15 @@ func TestTraversePublishesToEveryOutput(t *testing.T) {
 	extract := fakeExtract{
 		documents: []crawlcapability.ExtractedDocument{document("http://host/", "t", "body")},
 	}
-	index := &fakeOutput{name: "index"}
-	page := &fakeOutput{name: "page-content"}
+	rwi := &fakeOutput{name: "rwi"}
+	text := &fakeOutput{name: "text"}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{index, page}, newObserver())
+		[]crawlcapability.PagePublication{rwi, text}, newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(index.published) != 1 || len(page.published) != 1 {
-		t.Fatalf("outputs not both advanced: index=%v page=%v", index.published, page.published)
+	if len(rwi.published) != 1 || len(text.published) != 1 {
+		t.Fatalf("representations not both advanced: rwi=%v text=%v", rwi.published, text.published)
 	}
 }
 
@@ -239,7 +239,7 @@ func TestTraverseDisposesUnsupportedMediaType(t *testing.T) {
 	extract := fakeExtract{err: crawlcapability.ErrUnsupportedMediaType}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{&fakeOutput{name: "index"}}, observer)
+		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -255,7 +255,7 @@ func TestTraverseDisposesContainerOverflow(t *testing.T) {
 	extract := fakeExtract{err: crawlcapability.ErrContainerOverflow}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{&fakeOutput{name: "index"}}, observer)
+		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -271,7 +271,7 @@ func TestTraverseDisposesEmptyExtraction(t *testing.T) {
 	extract := fakeExtract{documents: nil}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{&fakeOutput{name: "index"}}, observer)
+		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -291,17 +291,17 @@ func TestTraverseFansOutContainerDocuments(t *testing.T) {
 		document("http://host/a.zip!/one.html", "one", "a"),
 		document("http://host/a.zip!/two.html", "two", "b"),
 	}}
-	index := &fakeOutput{name: "index"}
+	rwi := &fakeOutput{name: "rwi"}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{index}, newObserver())
+		[]crawlcapability.PagePublication{rwi}, newObserver())
 
 	traverse(t, crawler, []string{"http://host/a.zip"})
 
-	if len(index.published) != 2 {
-		t.Fatalf("want 2 member documents published, got %v", index.published)
+	if len(rwi.published) != 2 {
+		t.Fatalf("want 2 member documents published, got %v", rwi.published)
 	}
-	if index.published[0] == index.published[1] {
-		t.Fatalf("members collapsed to one URL: %v", index.published)
+	if rwi.published[0] == rwi.published[1] {
+		t.Fatalf("members collapsed to one URL: %v", rwi.published)
 	}
 }
 
@@ -319,17 +319,17 @@ func TestTraverseHonorsMetaNoIndex(t *testing.T) {
 			},
 		}},
 	}
-	index := &fakeOutput{name: "index"}
+	rwi := &fakeOutput{name: "rwi"}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{index}, observer)
+		[]crawlcapability.PagePublication{rwi}, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(index.published) != 0 || observer.disposed[crawlcapability.DisposalNoIndex] != 1 {
+	if len(rwi.published) != 0 || observer.disposed[crawlcapability.DisposalNoIndex] != 1 {
 		t.Fatalf(
 			"noindex not honored: published=%v disposed=%v",
-			index.published,
+			rwi.published,
 			observer.disposed,
 		)
 	}
@@ -352,14 +352,14 @@ func TestTraverseHonorsNoFollow(t *testing.T) {
 			},
 		},
 	}}
-	index := &fakeOutput{name: "index"}
+	rwi := &fakeOutput{name: "rwi"}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{index}, newObserver())
+		[]crawlcapability.PagePublication{rwi}, newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(index.published) != 1 {
-		t.Fatalf("want only the seed published, got %v", index.published)
+	if len(rwi.published) != 1 {
+		t.Fatalf("want only the seed published, got %v", rwi.published)
 	}
 }
 
@@ -391,14 +391,14 @@ func TestTraverseDiscoversAndCrawlsLinks(t *testing.T) {
 		}
 		return []crawlcapability.ExtractedDocument{document("http://host/next", "", "c")}, nil
 	})
-	index := &fakeOutput{name: "index"}
+	rwi := &fakeOutput{name: "rwi"}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{index}, newObserver())
+		[]crawlcapability.PagePublication{rwi}, newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(index.published) != 2 {
-		t.Fatalf("want seed plus discovered link, got %v", index.published)
+	if len(rwi.published) != 2 {
+		t.Fatalf("want seed plus discovered link, got %v", rwi.published)
 	}
 }
 
@@ -416,16 +416,16 @@ func TestTraverseSkipsFetchWhenNotDue(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
 		"http://host/": {fetchedOutcome()},
 	}}
-	index := &fakeOutput{name: "index"}
+	rwi := &fakeOutput{name: "rwi"}
 	crawler := crawltraversal.NewCrawler(
 		defaultConfig(), fetch, fakeExtract{}, fakeRecrawl{due: false},
-		[]crawlcapability.PagePublication{index}, newObserver(), &manualClock{},
+		[]crawlcapability.PagePublication{rwi}, newObserver(), &manualClock{},
 	)
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(index.published) != 0 {
-		t.Fatalf("not-due seed should not be fetched or published, got %v", index.published)
+	if len(rwi.published) != 0 {
+		t.Fatalf("not-due seed should not be fetched or published, got %v", rwi.published)
 	}
 }
 
@@ -437,14 +437,14 @@ func TestTraverseRetriesTransientFetchThenSucceeds(t *testing.T) {
 	extract := fakeExtract{
 		documents: []crawlcapability.ExtractedDocument{document("http://host/", "", "b")},
 	}
-	index := &fakeOutput{name: "index"}
+	rwi := &fakeOutput{name: "rwi"}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{index}, newObserver())
+		[]crawlcapability.PagePublication{rwi}, newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(index.published) != 1 {
-		t.Fatalf("transient fetch should retry then publish, got %v", index.published)
+	if len(rwi.published) != 1 {
+		t.Fatalf("transient fetch should retry then publish, got %v", rwi.published)
 	}
 }
 
@@ -453,15 +453,15 @@ func TestTraverseAbandonsTransientFetchAfterLimit(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
 		"http://host/": {transient, transient, transient},
 	}}
-	index := &fakeOutput{name: "index"}
+	rwi := &fakeOutput{name: "rwi"}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		[]crawlcapability.PagePublication{index}, observer)
+		[]crawlcapability.PagePublication{rwi}, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(index.published) != 0 {
-		t.Fatalf("abandoned fetch should not publish, got %v", index.published)
+	if len(rwi.published) != 0 {
+		t.Fatalf("abandoned fetch should not publish, got %v", rwi.published)
 	}
 	if observer.disposed[crawlcapability.DisposalFetchFailed] != 1 {
 		t.Fatalf("expected fetch-failed after retry limit, got %v", observer.disposed)
@@ -493,9 +493,9 @@ func TestTraverseRenewsOwnershipWhileCrawling(t *testing.T) {
 	extract := fakeExtract{
 		documents: []crawlcapability.ExtractedDocument{document("http://host/", "", "b")},
 	}
-	index := &fakeOutput{name: "index"}
+	rwi := &fakeOutput{name: "rwi"}
 	crawler := newCrawler(cfg, fetch, extract,
-		[]crawlcapability.PagePublication{index}, newObserver())
+		[]crawlcapability.PagePublication{rwi}, newObserver())
 
 	delivery := crawlcapability.DeliveredOrder{
 		Order: yacycrawlcontract.CrawlOrder{
@@ -516,8 +516,8 @@ func TestTraverseRenewsOwnershipWhileCrawling(t *testing.T) {
 	if renewed.Load() == 0 {
 		t.Fatal("expected ownership heartbeat to extend at least once")
 	}
-	if len(index.published) != 1 {
-		t.Fatalf("gated fetch should publish once heartbeat opens it, got %v", index.published)
+	if len(rwi.published) != 1 {
+		t.Fatalf("gated fetch should publish once heartbeat opens it, got %v", rwi.published)
 	}
 }
 
@@ -527,7 +527,7 @@ func TestTraverseCeasesOnHTTPCease(t *testing.T) {
 	}}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		[]crawlcapability.PagePublication{&fakeOutput{name: "index"}}, observer)
+		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -546,7 +546,7 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 	}}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		[]crawlcapability.PagePublication{&fakeOutput{name: "index"}}, observer)
+		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -566,7 +566,7 @@ func TestTraverseDisposesOversized(t *testing.T) {
 	}}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		[]crawlcapability.PagePublication{&fakeOutput{name: "index"}}, observer)
+		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -596,7 +596,7 @@ func TestTraverseBudgetTruncates(t *testing.T) {
 	}}
 	observer := newObserver()
 	crawler := newCrawler(cfg, fetch, extract,
-		[]crawlcapability.PagePublication{&fakeOutput{name: "index"}}, observer)
+		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -612,7 +612,7 @@ func TestTraversePublicationHardErrorFails(t *testing.T) {
 	extract := fakeExtract{
 		documents: []crawlcapability.ExtractedDocument{document("http://host/", "", "b")},
 	}
-	output := &fakeOutput{name: "index", failWith: errors.New("hard broker error")}
+	output := &fakeOutput{name: "rwi", failWith: errors.New("hard broker error")}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
 		[]crawlcapability.PagePublication{output}, newObserver())
 
@@ -647,7 +647,7 @@ type flakyOutput struct {
 	published    int
 }
 
-func (o *flakyOutput) Name() string { return "index" }
+func (o *flakyOutput) Name() string { return "rwi" }
 
 func (o *flakyOutput) Publish(context.Context, crawlcapability.ExtractedPage) error {
 	if o.failuresLeft > 0 {
@@ -661,7 +661,7 @@ func (o *flakyOutput) Publish(context.Context, crawlcapability.ExtractedPage) er
 func TestTraverseFetchErrorFails(t *testing.T) {
 	fetch := &fakeFetch{err: errors.New("boom")}
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		[]crawlcapability.PagePublication{&fakeOutput{name: "index"}}, newObserver())
+		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, newObserver())
 
 	if err := crawler.Traverse(
 		context.Background(),
@@ -674,7 +674,7 @@ func TestTraverseFetchErrorFails(t *testing.T) {
 func TestTraverseSkipsUncanonicalizableSeed(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{}}
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		[]crawlcapability.PagePublication{&fakeOutput{name: "index"}}, newObserver())
+		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, newObserver())
 
 	traverse(t, crawler, []string{"::not a url"})
 }
