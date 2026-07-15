@@ -1,104 +1,47 @@
 package pagetext_test
 
 import (
-	"slices"
-	"strings"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagetext"
 )
 
-func TestDeriveTargetsTextFormat(t *testing.T) {
-	if format := pagetext.New().Format(); format != crawlcapability.PageContentFormatText {
-		t.Fatalf("format = %q, want text", format)
+func TestDerivationNameIsText(t *testing.T) {
+	if name := pagetext.NewDerivation().Name(); name != "text" {
+		t.Fatalf("name = %q, want text", name)
 	}
 }
 
-func TestDeriveStripsMarkupFromHTML(t *testing.T) {
-	body, err := pagetext.New().Derive(
-		[]byte(`<article><h1>Title</h1><p>The quick <b>brown</b> fox.</p></article>`),
-		crawlcapability.PageContentFormatHTML,
-	)
+func TestDerivationAcceptsOnlyRenderingSourceFormats(t *testing.T) {
+	derivation := pagetext.NewDerivation()
+	if !derivation.Accepts(crawlcapability.PageContentFormatHTML) {
+		t.Fatal("should accept html")
+	}
+	if derivation.Accepts(crawlcapability.PageContentFormatMarkdown) {
+		t.Fatal("should not accept markdown")
+	}
+}
+
+func TestDerivationProducesTextRepresentation(t *testing.T) {
+	page := crawlcapability.CrawledPage{
+		CanonicalURL: "http://example.com/a",
+		Title:        "Hi",
+		Body:         []byte("<p>hello</p>"),
+		Format:       crawlcapability.PageContentFormatHTML,
+		Language:     "en",
+		CrawledAt:    time.Unix(1_700_000_000, 0),
+	}
+	rendered := crawlcapability.NewRenderedContent(page.Body, page.Format)
+	representation, err := pagetext.NewDerivation().Derive(page, rendered)
 	if err != nil {
 		t.Fatalf("Derive: %v", err)
 	}
-	text := string(body)
-	if strings.Contains(text, "<") {
-		t.Fatalf("markup survived: %q", text)
+	if representation.CanonicalURL != page.CanonicalURL || representation.Title != page.Title {
+		t.Fatalf("page reference not carried over: %+v", representation.PageReference)
 	}
-	if !strings.Contains(text, "The quick brown fox.") {
-		t.Fatalf("inline markup should not split words: %q", text)
-	}
-}
-
-func TestDeriveSeparatesBlockElements(t *testing.T) {
-	body, err := pagetext.New().Derive(
-		[]byte(`<p>first</p><p>second</p>`),
-		crawlcapability.PageContentFormatHTML,
-	)
-	if err != nil {
-		t.Fatalf("Derive: %v", err)
-	}
-	if string(body) != "first\nsecond" {
-		t.Fatalf("blocks not separated: %q", body)
-	}
-}
-
-func TestDeriveCollapsesWhitespaceWithinBlock(t *testing.T) {
-	body, err := pagetext.New().Derive(
-		[]byte("<p>The   quick\n  brown\nfox.</p>"),
-		crawlcapability.PageContentFormatHTML,
-	)
-	if err != nil {
-		t.Fatalf("Derive: %v", err)
-	}
-	if string(body) != "The quick brown fox." {
-		t.Fatalf("whitespace not collapsed within block: %q", body)
-	}
-}
-
-func TestDeriveDropsScriptAndStyle(t *testing.T) {
-	body, err := pagetext.New().Derive(
-		[]byte(`<p>keep</p><script>var drop = 1</script><style>.drop{}</style>`),
-		crawlcapability.PageContentFormatHTML,
-	)
-	if err != nil {
-		t.Fatalf("Derive: %v", err)
-	}
-	if strings.Contains(string(body), "drop") {
-		t.Fatalf("script or style content survived: %q", body)
-	}
-}
-
-func TestDerivePassesTextThrough(t *testing.T) {
-	body, err := pagetext.New().Derive(
-		[]byte("already text"),
-		crawlcapability.PageContentFormatText,
-	)
-	if err != nil {
-		t.Fatalf("Derive: %v", err)
-	}
-	if string(body) != "already text" {
-		t.Fatalf("text body = %q", body)
-	}
-}
-
-func TestDeriveRejectsUndeclaredSourceFormat(t *testing.T) {
-	if _, err := pagetext.New().Derive(
-		[]byte("%PDF-1.7"),
-		crawlcapability.PageContentFormat("pdf"),
-	); err == nil {
-		t.Fatal("a source format outside SourceFormats() should fail, not pass through")
-	}
-}
-
-func TestSourceFormatsDeclaresHTMLAndText(t *testing.T) {
-	want := []crawlcapability.PageContentFormat{
-		crawlcapability.PageContentFormatHTML,
-		crawlcapability.PageContentFormatText,
-	}
-	if got := pagetext.New().SourceFormats(); !slices.Equal(got, want) {
-		t.Fatalf("SourceFormats() = %v, want %v", got, want)
+	if string(representation.Text) != "hello" {
+		t.Fatalf("text = %q", representation.Text)
 	}
 }

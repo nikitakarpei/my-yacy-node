@@ -11,7 +11,7 @@ type Crawler struct {
 	fetch    crawlcapability.PageRetrieval
 	extract  crawlcapability.DocumentExtraction
 	recrawl  crawlcapability.RecrawlDecision
-	outputs  []crawlcapability.PagePublication
+	outputs  []crawlcapability.PageRepresentationOutput
 	observer crawlcapability.RunProgress
 	clock    crawlcapability.Clock
 }
@@ -22,7 +22,7 @@ func NewCrawler(
 	fetch crawlcapability.PageRetrieval,
 	extract crawlcapability.DocumentExtraction,
 	recrawl crawlcapability.RecrawlDecision,
-	outputs []crawlcapability.PagePublication,
+	outputs []crawlcapability.PageRepresentationOutput,
 	observer crawlcapability.RunProgress,
 	clock crawlcapability.Clock,
 ) *Crawler {

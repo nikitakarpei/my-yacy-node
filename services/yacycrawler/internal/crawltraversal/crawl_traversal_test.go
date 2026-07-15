@@ -79,6 +79,13 @@ func (o *fakeOutput) Accepts(format crawlcapability.PageContentFormat) bool {
 	return format != o.refuses
 }
 
+func (o *fakeOutput) Derive(
+	page crawlcapability.CrawledPage,
+	_ *crawlcapability.RenderedContent,
+) (crawlcapability.CrawledPage, error) {
+	return page, nil
+}
+
 func (o *fakeOutput) Publish(_ context.Context, page crawlcapability.CrawledPage) error {
 	if o.failWith != nil {
 		return o.failWith
@@ -87,6 +94,19 @@ func (o *fakeOutput) Publish(_ context.Context, page crawlcapability.CrawledPage
 	defer o.mu.Unlock()
 	o.published = append(o.published, page.CanonicalURL)
 	return nil
+}
+
+type identityOutput interface {
+	crawlcapability.RepresentationDerivation[crawlcapability.CrawledPage]
+	crawlcapability.PagePublication[crawlcapability.CrawledPage]
+}
+
+func outputs(items ...identityOutput) []crawlcapability.PageRepresentationOutput {
+	bound := make([]crawlcapability.PageRepresentationOutput, len(items))
+	for i, item := range items {
+		bound[i] = crawlcapability.BindRepresentation(item, item)
+	}
+	return bound
 }
 
 type recordingObserver struct {
@@ -175,7 +195,7 @@ func newCrawler(
 	cfg crawltraversal.Config,
 	fetch crawlcapability.PageRetrieval,
 	extract crawlcapability.DocumentExtraction,
-	outputs []crawlcapability.PagePublication,
+	outputs []crawlcapability.PageRepresentationOutput,
 	observer crawlcapability.RunProgress,
 ) *crawltraversal.Crawler {
 	return crawltraversal.NewCrawler(
@@ -228,7 +248,7 @@ func TestTraversePublishesToEveryOutput(t *testing.T) {
 	rwi := &fakeOutput{name: "rwi"}
 	text := &fakeOutput{name: "text"}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{rwi, text}, newObserver())
+		outputs(rwi, text), newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -248,7 +268,7 @@ func TestTraverseSkipsRepresentationRefusingPageFormat(t *testing.T) {
 	markdown := &fakeOutput{name: "markdown", refuses: crawlcapability.PageContentFormatText}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{rwi, markdown}, observer)
+		outputs(rwi, markdown), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -273,7 +293,7 @@ func TestTraverseDisposesPageNoRepresentationAccepts(t *testing.T) {
 	rwi := &fakeOutput{name: "rwi", refuses: crawlcapability.PageContentFormatText}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{rwi}, observer)
+		outputs(rwi), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -292,7 +312,7 @@ func TestTraverseDisposesUnsupportedMediaType(t *testing.T) {
 	extract := fakeExtract{err: crawlcapability.ErrUnsupportedMediaType}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
+		outputs(&fakeOutput{name: "rwi"}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -308,7 +328,7 @@ func TestTraverseDisposesContainerOverflow(t *testing.T) {
 	extract := fakeExtract{err: crawlcapability.ErrContainerOverflow}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
+		outputs(&fakeOutput{name: "rwi"}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -324,7 +344,7 @@ func TestTraverseDisposesEmptyExtraction(t *testing.T) {
 	extract := fakeExtract{documents: nil}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
+		outputs(&fakeOutput{name: "rwi"}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -346,7 +366,7 @@ func TestTraverseFansOutContainerDocuments(t *testing.T) {
 	}}
 	rwi := &fakeOutput{name: "rwi"}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{rwi}, newObserver())
+		outputs(rwi), newObserver())
 
 	traverse(t, crawler, []string{"http://host/a.zip"})
 
@@ -375,7 +395,7 @@ func TestTraverseHonorsMetaNoIndex(t *testing.T) {
 	rwi := &fakeOutput{name: "rwi"}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{rwi}, observer)
+		outputs(rwi), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -407,7 +427,7 @@ func TestTraverseHonorsNoFollow(t *testing.T) {
 	}}
 	rwi := &fakeOutput{name: "rwi"}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{rwi}, newObserver())
+		outputs(rwi), newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -446,7 +466,7 @@ func TestTraverseDiscoversAndCrawlsLinks(t *testing.T) {
 	})
 	rwi := &fakeOutput{name: "rwi"}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{rwi}, newObserver())
+		outputs(rwi), newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -472,7 +492,7 @@ func TestTraverseSkipsFetchWhenNotDue(t *testing.T) {
 	rwi := &fakeOutput{name: "rwi"}
 	crawler := crawltraversal.NewCrawler(
 		defaultConfig(), fetch, fakeExtract{}, fakeRecrawl{due: false},
-		[]crawlcapability.PagePublication{rwi}, newObserver(), &manualClock{},
+		outputs(rwi), newObserver(), &manualClock{},
 	)
 
 	traverse(t, crawler, []string{"http://host/"})
@@ -492,7 +512,7 @@ func TestTraverseRetriesTransientFetchThenSucceeds(t *testing.T) {
 	}
 	rwi := &fakeOutput{name: "rwi"}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{rwi}, newObserver())
+		outputs(rwi), newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -509,7 +529,7 @@ func TestTraverseAbandonsTransientFetchAfterLimit(t *testing.T) {
 	rwi := &fakeOutput{name: "rwi"}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		[]crawlcapability.PagePublication{rwi}, observer)
+		outputs(rwi), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -548,7 +568,7 @@ func TestTraverseRenewsOwnershipWhileCrawling(t *testing.T) {
 	}
 	rwi := &fakeOutput{name: "rwi"}
 	crawler := newCrawler(cfg, fetch, extract,
-		[]crawlcapability.PagePublication{rwi}, newObserver())
+		outputs(rwi), newObserver())
 
 	delivery := crawlcapability.DeliveredOrder{
 		Order: yacycrawlcontract.CrawlOrder{
@@ -580,7 +600,7 @@ func TestTraverseCeasesOnHTTPCease(t *testing.T) {
 	}}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
+		outputs(&fakeOutput{name: "rwi"}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -599,7 +619,7 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 	}}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
+		outputs(&fakeOutput{name: "rwi"}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -619,7 +639,7 @@ func TestTraverseDisposesOversized(t *testing.T) {
 	}}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
+		outputs(&fakeOutput{name: "rwi"}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -649,7 +669,7 @@ func TestTraverseBudgetTruncates(t *testing.T) {
 	}}
 	observer := newObserver()
 	crawler := newCrawler(cfg, fetch, extract,
-		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, observer)
+		outputs(&fakeOutput{name: "rwi"}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -667,7 +687,7 @@ func TestTraversePublicationHardErrorFails(t *testing.T) {
 	}
 	output := &fakeOutput{name: "rwi", failWith: errors.New("hard broker error")}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{output}, newObserver())
+		outputs(output), newObserver())
 
 	if err := crawler.Traverse(
 		context.Background(),
@@ -686,7 +706,7 @@ func TestTraverseRetriesTransientPublication(t *testing.T) {
 	}
 	output := &flakyOutput{failuresLeft: 2}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PagePublication{output}, newObserver())
+		outputs(output), newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -704,6 +724,13 @@ func (o *flakyOutput) Name() string { return "rwi" }
 
 func (o *flakyOutput) Accepts(crawlcapability.PageContentFormat) bool { return true }
 
+func (o *flakyOutput) Derive(
+	page crawlcapability.CrawledPage,
+	_ *crawlcapability.RenderedContent,
+) (crawlcapability.CrawledPage, error) {
+	return page, nil
+}
+
 func (o *flakyOutput) Publish(context.Context, crawlcapability.CrawledPage) error {
 	if o.failuresLeft > 0 {
 		o.failuresLeft--
@@ -716,7 +743,7 @@ func (o *flakyOutput) Publish(context.Context, crawlcapability.CrawledPage) erro
 func TestTraverseFetchErrorFails(t *testing.T) {
 	fetch := &fakeFetch{err: errors.New("boom")}
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, newObserver())
+		outputs(&fakeOutput{name: "rwi"}), newObserver())
 
 	if err := crawler.Traverse(
 		context.Background(),
@@ -729,7 +756,7 @@ func TestTraverseFetchErrorFails(t *testing.T) {
 func TestTraverseSkipsUncanonicalizableSeed(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{}}
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		[]crawlcapability.PagePublication{&fakeOutput{name: "rwi"}}, newObserver())
+		outputs(&fakeOutput{name: "rwi"}), newObserver())
 
 	traverse(t, crawler, []string{"::not a url"})
 }

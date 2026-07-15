@@ -97,6 +97,7 @@ deps:
       - crawlcapability
     canUse:
       - yacycrawlcontract
+      - yacymodel
   crawlrun:
     mayDependOn:
       - crawlrun
@@ -119,7 +120,6 @@ deps:
       - pagerwi
       - crawlcapability
     canUse:
-      - yacycrawlcontract
       - yacymodel
   pagetext:
     mayDependOn:
@@ -157,7 +157,6 @@ deps:
     mayDependOn:
       - pagepublication
       - crawlcapability
-      - pagerwi
     canUse:
       - yacycrawlcontract
       - yacymodel
@@ -186,6 +185,7 @@ deps:
       - archivemember
       - httpfetch
       - pagepublication
+      - pagerwi
       - pagetext
       - pagemarkdown
       - orderintake

@@ -8,7 +8,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -20,19 +19,14 @@ const (
 
 func Build(
 	page crawlcapability.CrawledPage,
-	text crawlcapability.ContentDerivation,
-) (yacycrawlcontract.PageRWIRepresentation, error) {
+	text []byte,
+) (crawlcapability.RWIRepresentation, error) {
 	urlHash, err := yacymodel.HashURL(page.CanonicalURL)
 	if err != nil {
-		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("hash url: %w", err)
+		return crawlcapability.RWIRepresentation{}, fmt.Errorf("hash url: %w", err)
 	}
 
-	body, err := text.Derive(page.Body, page.Format)
-	if err != nil {
-		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("derive page text: %w", err)
-	}
-
-	order, occurrences, textStats := tokenize(string(body))
+	order, occurrences, textStats := tokenize(string(text))
 	_, _, titleStats := tokenize(page.Title)
 	dayNumber := dayNumberOf(page.CrawledAt)
 
@@ -58,12 +52,13 @@ func Build(
 		})
 	}
 
-	metadata := metadataRow(page, urlHash.String(), len(body), textStats.Words)
-
-	return yacycrawlcontract.PageRWIRepresentation{
-		CanonicalURL: page.CanonicalURL,
-		Metadata:     []yacymodel.URIMetadataRow{metadata},
-		Postings:     postings,
+	return crawlcapability.RWIRepresentation{
+		PageReference:     crawlcapability.NewPageReference(page),
+		TextLength:        len(text),
+		WordCount:         textStats.Words,
+		LocalLinkCount:    page.LocalLinkCount,
+		ExternalLinkCount: page.ExternalLinkCount,
+		Postings:          postings,
 	}, nil
 }
 
@@ -98,24 +93,6 @@ func sharedProperties(
 		properties[yacymodel.ColLanguage] = page.Language
 	}
 	return properties
-}
-
-func metadataRow(
-	page crawlcapability.CrawledPage,
-	urlHash string,
-	textLength int,
-	total int,
-) yacymodel.URIMetadataRow {
-	return yacymodel.URIMetadataRow{Properties: map[string]string{
-		yacymodel.URLMetaHash:           urlHash,
-		"dt":                            string(rune(documentTypeText)),
-		"url":                           yacymodel.EncodeBase64WireForm(page.CanonicalURL),
-		yacymodel.URLMetaColDescription: yacymodel.EncodeBase64WireForm(page.Title),
-		"size":                          strconv.Itoa(textLength),
-		"wc":                            strconv.Itoa(total),
-		"llocal":                        strconv.Itoa(page.LocalLinkCount),
-		"lother":                        strconv.Itoa(page.ExternalLinkCount),
-	}}
 }
 
 func dayNumberOf(crawledAt time.Time) uint64 {

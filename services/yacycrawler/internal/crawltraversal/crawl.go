@@ -19,7 +19,7 @@ type crawl struct {
 	fetch    crawlcapability.PageRetrieval
 	extract  crawlcapability.DocumentExtraction
 	recrawl  crawlcapability.RecrawlDecision
-	outputs  []crawlcapability.PagePublication
+	outputs  []crawlcapability.PageRepresentationOutput
 	observer crawlcapability.RunProgress
 	clock    crawlcapability.Clock
 	delivery crawlcapability.DeliveredOrder

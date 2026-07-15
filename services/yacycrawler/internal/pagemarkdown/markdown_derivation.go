@@ -2,42 +2,39 @@ package pagemarkdown
 
 import (
 	"fmt"
-
-	htmltomarkdown "github.com/JohannesKaufmann/html-to-markdown/v2"
+	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
-type MarkdownDerivation struct{}
-
-func New() MarkdownDerivation {
-	return MarkdownDerivation{}
+type Derivation struct {
+	rendering Rendering
 }
 
-func (MarkdownDerivation) Format() crawlcapability.PageContentFormat {
-	return crawlcapability.PageContentFormatMarkdown
+func NewDerivation() Derivation {
+	return Derivation{rendering: New()}
 }
 
-func (MarkdownDerivation) SourceFormats() []crawlcapability.PageContentFormat {
-	return []crawlcapability.PageContentFormat{
-		crawlcapability.PageContentFormatHTML,
-		crawlcapability.PageContentFormatMarkdown,
+func (d Derivation) Name() string {
+	return string(d.rendering.Format())
+}
+
+func (d Derivation) Accepts(format crawlcapability.PageContentFormat) bool {
+	return slices.Contains(d.rendering.SourceFormats(), format)
+}
+
+func (d Derivation) Derive(
+	page crawlcapability.CrawledPage,
+	rendered *crawlcapability.RenderedContent,
+) (crawlcapability.MarkdownRepresentation, error) {
+	markdown, err := rendered.In(d.rendering)
+	if err != nil {
+		return crawlcapability.MarkdownRepresentation{}, fmt.Errorf(
+			"derive markdown representation: %w", err,
+		)
 	}
-}
-
-func (MarkdownDerivation) Derive(
-	body []byte,
-	sourceFormat crawlcapability.PageContentFormat,
-) ([]byte, error) {
-	switch sourceFormat {
-	case crawlcapability.PageContentFormatMarkdown:
-		return body, nil
-	case crawlcapability.PageContentFormatHTML:
-		markdown, err := htmltomarkdown.ConvertString(string(body))
-		if err != nil {
-			return nil, fmt.Errorf("convert html to markdown: %w", err)
-		}
-		return []byte(markdown), nil
-	}
-	return nil, fmt.Errorf("markdown derivation cannot accept %s source", sourceFormat)
+	return crawlcapability.MarkdownRepresentation{
+		PageReference: crawlcapability.NewPageReference(page),
+		Markdown:      markdown,
+	}, nil
 }

@@ -24,6 +24,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagemarkdown"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagepublication"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerwi"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagetext"
 )
 
@@ -162,8 +163,8 @@ func ordersConsumer(
 func buildPageOutputs(
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-) ([]crawlcapability.PagePublication, error) {
-	outputs := make([]crawlcapability.PagePublication, 0, len(cfg.PageOutputs))
+) ([]crawlcapability.PageRepresentationOutput, error) {
+	outputs := make([]crawlcapability.PageRepresentationOutput, 0, len(cfg.PageOutputs))
 	for _, output := range cfg.PageOutputs {
 		built, err := buildPageOutput(js, output)
 		if err != nil {
@@ -177,17 +178,28 @@ func buildPageOutputs(
 func buildPageOutput(
 	js jetstream.JetStream,
 	output PageOutputConfig,
-) (crawlcapability.PagePublication, error) {
+) (crawlcapability.PageRepresentationOutput, error) {
 	subject := output.Stream.Subject
 	switch output.Representation {
 	case yacycrawlcontract.PageRepresentationRWI:
-		return pagepublication.NewPageRWIOutput(js, subject, pagetext.New()), nil
+		return crawlcapability.BindRepresentation(
+			pagerwi.NewDerivation(pagetext.New()),
+			pagepublication.NewRWIPublication(js, subject),
+		), nil
 	case yacycrawlcontract.PageRepresentationText:
-		return pagepublication.NewPageContentOutput(js, subject, pagetext.New()), nil
+		return crawlcapability.BindRepresentation(
+			pagetext.NewDerivation(),
+			pagepublication.NewTextPublication(js, subject),
+		), nil
 	case yacycrawlcontract.PageRepresentationMarkdown:
-		return pagepublication.NewPageContentOutput(js, subject, pagemarkdown.New()), nil
+		return crawlcapability.BindRepresentation(
+			pagemarkdown.NewDerivation(),
+			pagepublication.NewMarkdownPublication(js, subject),
+		), nil
 	}
-	return nil, fmt.Errorf("no output builds the %s representation", output.Representation)
+	return crawlcapability.PageRepresentationOutput{}, fmt.Errorf(
+		"no output builds the %s representation", output.Representation,
+	)
 }
 
 func buildExtractor(cfg ServiceConfig) (crawlcapability.DocumentExtraction, error) {

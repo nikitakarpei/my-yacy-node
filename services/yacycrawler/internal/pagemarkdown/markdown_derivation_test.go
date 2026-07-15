@@ -1,70 +1,47 @@
 package pagemarkdown_test
 
 import (
-	"slices"
-	"strings"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagemarkdown"
 )
 
-func TestDeriveTargetsMarkdownFormat(t *testing.T) {
-	if format := pagemarkdown.New().Format(); format != crawlcapability.PageContentFormatMarkdown {
-		t.Fatalf("format = %q, want markdown", format)
+func TestDerivationNameIsMarkdown(t *testing.T) {
+	if name := pagemarkdown.NewDerivation().Name(); name != "markdown" {
+		t.Fatalf("name = %q, want markdown", name)
 	}
 }
 
-func TestDeriveConvertsHTMLStructureToMarkdown(t *testing.T) {
-	body, err := pagemarkdown.New().Derive(
-		[]byte(
-			`<h1>Title</h1><p>A <b>bold</b> word and a <a href="http://e.example/x">link</a>.</p>`,
-		),
-		crawlcapability.PageContentFormatHTML,
-	)
+func TestDerivationAcceptsOnlyRenderingSourceFormats(t *testing.T) {
+	derivation := pagemarkdown.NewDerivation()
+	if !derivation.Accepts(crawlcapability.PageContentFormatHTML) {
+		t.Fatal("should accept html")
+	}
+	if derivation.Accepts(crawlcapability.PageContentFormatText) {
+		t.Fatal("should not accept text")
+	}
+}
+
+func TestDerivationProducesMarkdownRepresentation(t *testing.T) {
+	page := crawlcapability.CrawledPage{
+		CanonicalURL: "http://example.com/a",
+		Title:        "Hi",
+		Body:         []byte("<h1>hello</h1>"),
+		Format:       crawlcapability.PageContentFormatHTML,
+		Language:     "en",
+		CrawledAt:    time.Unix(1_700_000_000, 0),
+	}
+	rendered := crawlcapability.NewRenderedContent(page.Body, page.Format)
+	representation, err := pagemarkdown.NewDerivation().Derive(page, rendered)
 	if err != nil {
 		t.Fatalf("Derive: %v", err)
 	}
-	markdown := string(body)
-	if !strings.Contains(markdown, "# Title") {
-		t.Fatalf("heading not converted: %q", markdown)
+	if representation.CanonicalURL != page.CanonicalURL || representation.Title != page.Title {
+		t.Fatalf("page reference not carried over: %+v", representation.PageReference)
 	}
-	if !strings.Contains(markdown, "**bold**") {
-		t.Fatalf("emphasis not converted: %q", markdown)
-	}
-	if !strings.Contains(markdown, "[link](http://e.example/x)") {
-		t.Fatalf("link not converted: %q", markdown)
-	}
-}
-
-func TestDerivePassesMarkdownThrough(t *testing.T) {
-	body, err := pagemarkdown.New().Derive(
-		[]byte("# already markdown"),
-		crawlcapability.PageContentFormatMarkdown,
-	)
-	if err != nil {
-		t.Fatalf("Derive: %v", err)
-	}
-	if string(body) != "# already markdown" {
-		t.Fatalf("markdown body = %q", body)
-	}
-}
-
-func TestDeriveRejectsUndeclaredSourceFormat(t *testing.T) {
-	if _, err := pagemarkdown.New().Derive(
-		[]byte("%PDF-1.7"),
-		crawlcapability.PageContentFormat("pdf"),
-	); err == nil {
-		t.Fatal("a source format outside SourceFormats() should fail, not pass through")
-	}
-}
-
-func TestSourceFormatsDeclaresHTMLAndMarkdown(t *testing.T) {
-	want := []crawlcapability.PageContentFormat{
-		crawlcapability.PageContentFormatHTML,
-		crawlcapability.PageContentFormatMarkdown,
-	}
-	if got := pagemarkdown.New().SourceFormats(); !slices.Equal(got, want) {
-		t.Fatalf("SourceFormats() = %v, want %v", got, want)
+	if string(representation.Markdown) != "# hello" {
+		t.Fatalf("markdown = %q", representation.Markdown)
 	}
 }
