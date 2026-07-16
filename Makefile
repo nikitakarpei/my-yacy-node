@@ -17,11 +17,21 @@ RUFF := $(TOOLS_BIN)/ruff
 PY_VENV_STAMPS := $(foreach m,$(PY_MODULES),$(m)/.venv/.installed)
 
 define for_each_go
-set -e; for m in $(GO_MODULES); do echo "==> $(1) $$m"; ( cd $$m && $(2) ); done
+echo "==> $(1)"; \
+for m in $(GO_MODULES); do \
+	if ! out=$$(cd $$m && $(2) 2>&1); then \
+		echo "==> $(1) $$m FAILED"; echo "$$out"; exit 1; \
+	fi; \
+done
 endef
 
 define for_each_py
-set -e; for m in $(PY_MODULES); do echo "==> $(1) $$m"; ( cd $$m && $(2) ); done
+echo "==> $(1)"; \
+for m in $(PY_MODULES); do \
+	if ! out=$$(cd $$m && $(2) 2>&1); then \
+		echo "==> $(1) $$m FAILED"; echo "$$out"; exit 1; \
+	fi; \
+done
 endef
 
 .PHONY: tools \
@@ -60,10 +70,10 @@ $(PY_VENV_STAMPS): %/.venv/.installed: %/requirements-dev.txt
 # ---- Go stack ----
 
 fmt-go: $(TOOLS_STAMP)
-	@$(call for_each_go,fmt,$(GOLANGCI_LINT) fmt)
+	@$(call for_each_go,fmt-go,$(GOLANGCI_LINT) fmt)
 
 fmt-check-go: $(TOOLS_STAMP)
-	@$(call for_each_go,fmt-check,$(GOLANGCI_LINT) fmt --diff)
+	@$(call for_each_go,fmt-check-go,$(GOLANGCI_LINT) fmt --diff)
 
 tidy:
 	@$(call for_each_go,tidy,$(GO) mod tidy)
@@ -72,7 +82,7 @@ tidy-check:
 	@$(call for_each_go,tidy-check,$(GO) mod tidy -diff)
 
 lint-go: $(TOOLS_STAMP)
-	@$(call for_each_go,lint,$(GOLANGCI_LINT) run ./...)
+	@$(call for_each_go,lint-go,$(GOLANGCI_LINT) run ./...)
 
 vet:
 	@$(call for_each_go,vet,$(GO) vet ./...)
@@ -81,10 +91,10 @@ arch: $(TOOLS_STAMP)
 	@$(call for_each_go,arch,$(GO_ARCH_LINT) check)
 
 test-go:
-	@$(call for_each_go,test,$(GO) test -race ./...)
+	@$(call for_each_go,test-go,$(GO) test -race ./...)
 
 build-go:
-	@$(call for_each_go,build,$(GO) build ./...)
+	@$(call for_each_go,build-go,$(GO) build ./...)
 
 cover-go:
 	@set -e; for m in $(GO_MODULES); do \
@@ -95,9 +105,9 @@ cover-go:
 	done
 
 cover-check-go:
-	@set -e; for m in $(GO_MODULES); do \
-		echo "==> cover-check $$m (min $(COVERAGE_MIN)%)"; \
-		( cd $$m && $(GO) test -race -coverprofile=$(COVER_PROFILE) ./... >/dev/null && \
+	@echo "==> cover-check-go (min $(COVERAGE_MIN)%)"; \
+	for m in $(GO_MODULES); do \
+		if ! out=$$( cd $$m && $(GO) test -race -coverprofile=$(COVER_PROFILE) ./... >/dev/null && \
 			grep -vE '$(COVER_EXCLUDE)' $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
 			stmts=$$(awk 'NR > 1 { sum += $$2 } END { print sum + 0 }' $(COVER_PROFILE).gated); \
 			if [ "$$stmts" -eq 0 ]; then echo "    no statements to cover"; exit 0; fi; \
@@ -106,28 +116,30 @@ cover-check-go:
 			echo "    total: $${total:-0}%"; \
 			awk -v c="$${total:-0}" -v min="$(COVERAGE_MIN)" \
 				'BEGIN { if (c + 0 < min + 0) { exit 1 } }' || \
-				{ echo "coverage $${total:-0}% below $(COVERAGE_MIN)% in $$m"; exit 1; } ); \
+				{ echo "coverage $${total:-0}% below $(COVERAGE_MIN)% in $$m"; exit 1; } ) 2>&1; then \
+			echo "==> cover-check-go $$m FAILED"; echo "$$out"; exit 1; \
+		fi; \
 	done
 
 # ---- Python stack ----
 
 fmt-py: $(TOOLS_STAMP)
-	@$(call for_each_py,fmt,$(RUFF) format .)
+	@$(call for_each_py,fmt-py,$(RUFF) format .)
 
 fmt-check-py: $(TOOLS_STAMP)
-	@$(call for_each_py,fmt-check,$(RUFF) format --check .)
+	@$(call for_each_py,fmt-check-py,$(RUFF) format --check .)
 
 lint-py: $(TOOLS_STAMP)
-	@$(call for_each_py,lint,$(RUFF) check .)
+	@$(call for_each_py,lint-py,$(RUFF) check .)
 
 test-py: $(PY_VENV_STAMPS)
-	@$(call for_each_py,test,.venv/bin/python -m pytest -q)
+	@$(call for_each_py,test-py,.venv/bin/python -m pytest -q)
 
 cover-py: $(PY_VENV_STAMPS)
-	@$(call for_each_py,cover,.venv/bin/python -m pytest -q --cov --cov-report=term-missing)
+	@$(call for_each_py,cover-py,.venv/bin/python -m pytest -q --cov --cov-report=term-missing)
 
 cover-check-py: $(PY_VENV_STAMPS)
-	@$(call for_each_py,cover-check,.venv/bin/python -m pytest -q --cov --cov-fail-under=$(COVERAGE_MIN))
+	@$(call for_each_py,cover-check-py,.venv/bin/python -m pytest -q --cov --cov-fail-under=$(COVERAGE_MIN))
 
 # ---- misc ----
 
