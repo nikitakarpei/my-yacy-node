@@ -35,7 +35,7 @@ func (f MarkdownFeed) ContentFormat() crawlcapability.PageContentFormat {
 func (f MarkdownFeed) Derive(
 	page crawlcapability.CrawledPage,
 	content []byte,
-) (crawlcapability.PublishPage, error) {
+) (crawlcapability.PagePublication, error) {
 	payload, err := yacycrawlcontract.MarshalPageMarkdownRepresentation(
 		yacycrawlcontract.PageMarkdownRepresentation{
 			PageReference: page.Reference(),
@@ -43,12 +43,21 @@ func (f MarkdownFeed) Derive(
 		},
 	)
 	if err != nil {
-		return nil, fmt.Errorf("marshal page markdown representation: %w", err)
+		return crawlcapability.PagePublication{}, fmt.Errorf(
+			"marshal page markdown representation: %w", err,
+		)
 	}
-	return func(ctx context.Context) error {
-		if _, err := f.publisher.Publish(ctx, f.subject, payload); err != nil {
+	return crawlcapability.NewPagePublication(payload), nil
+}
+
+func (f MarkdownFeed) Publish(
+	ctx context.Context,
+	publication crawlcapability.PagePublication,
+) error {
+	for _, message := range publication.Messages() {
+		if _, err := f.publisher.Publish(ctx, f.subject, message); err != nil {
 			return classifyPublishError(err)
 		}
-		return nil
-	}, nil
+	}
+	return nil
 }

@@ -27,11 +27,11 @@ func TestRWIFeedPublishesTheIndexBuiltFromTheText(t *testing.T) {
 		t.Fatal(err)
 	}
 	feed := pagefeed.NewRWIFeed(js, "yacy.crawl.page.rwi", crawlcapability.PageContentFormatText)
-	publish, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
+	publication, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
 	}
-	if err := publish(ctx); err != nil {
+	if err := feed.Publish(ctx, publication); err != nil {
 		t.Fatalf("publish: %v", err)
 	}
 
@@ -84,11 +84,11 @@ func TestRWIFeedChunksBoundPostings(t *testing.T) {
 		"yacy.crawl.page.rwi.bounded",
 		crawlcapability.PageContentFormatText,
 	)
-	publish, err := feed.Derive(samplePage(), []byte(strings.Join(words, " ")))
+	publication, err := feed.Derive(samplePage(), []byte(strings.Join(words, " ")))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
 	}
-	if err := publish(ctx); err != nil {
+	if err := feed.Publish(ctx, publication); err != nil {
 		t.Fatalf("publish: %v", err)
 	}
 

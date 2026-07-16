@@ -26,11 +26,11 @@ func (c *crawl) publish(ctx context.Context, page crawlcapability.CrawledPage) e
 		if !rendered {
 			continue
 		}
-		publish, err := feed.Derive(page, content)
+		publication, err := feed.Derive(page, content)
 		if err != nil {
 			return fmt.Errorf("derive %s: %w", feed.Representation(), err)
 		}
-		if err := c.send(ctx, page, feed, publish); err != nil {
+		if err := c.send(ctx, page, feed, publication); err != nil {
 			return err
 		}
 		c.observer.PagePublished(string(feed.Representation()))
@@ -67,12 +67,12 @@ func (c *crawl) send(
 	ctx context.Context,
 	page crawlcapability.CrawledPage,
 	feed crawlcapability.PageFeed,
-	publish crawlcapability.PublishPage,
+	publication crawlcapability.PagePublication,
 ) error {
 	policy := c.newBackoff(ctx)
 	waits := 0
 	for {
-		err := publish(ctx)
+		err := feed.Publish(ctx, publication)
 		if err == nil {
 			return nil
 		}

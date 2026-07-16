@@ -25,13 +25,19 @@ func TestCrawledTextSearchReturnsSeededDocumentFromElasticsearch(t *testing.T) {
 	network := dockernetwork.New(t, ctx)
 
 	elasticsearchHostURL := startElasticsearch(t, ctx, network.Name)
-	seedElasticsearchDocument(t, ctx, elasticsearchHostURL, "wildflower-guide", searchdocument.Document{
-		Title:     seededTitle,
-		URL:       seededURL,
-		Content:   seededContent,
-		CrawledAt: time.Now().UTC(),
-		Language:  "en",
-	})
+	seedElasticsearchDocument(
+		t,
+		ctx,
+		elasticsearchHostURL,
+		"wildflower-guide",
+		searchdocument.Document{
+			Title:     seededTitle,
+			URL:       seededURL,
+			Content:   seededContent,
+			CrawledAt: time.Now().UTC(),
+			Language:  "en",
+		},
+	)
 
 	searxngBaseURL := startSearXNG(t, ctx, network.Name, elasticsearchEngineSettings())
 

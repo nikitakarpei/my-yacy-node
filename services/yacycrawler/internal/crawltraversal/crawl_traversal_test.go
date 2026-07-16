@@ -87,16 +87,18 @@ func (o *fakeFeed) ContentFormat() crawlcapability.PageContentFormat {
 func (o *fakeFeed) Derive(
 	page crawlcapability.CrawledPage,
 	_ []byte,
-) (crawlcapability.PublishPage, error) {
-	return func(context.Context) error {
-		if o.failWith != nil {
-			return o.failWith
-		}
-		o.mu.Lock()
-		defer o.mu.Unlock()
-		o.published = append(o.published, page.CanonicalURL)
-		return nil
-	}, nil
+) (crawlcapability.PagePublication, error) {
+	return crawlcapability.NewPagePublication([]byte(page.CanonicalURL)), nil
+}
+
+func (o *fakeFeed) Publish(_ context.Context, publication crawlcapability.PagePublication) error {
+	if o.failWith != nil {
+		return o.failWith
+	}
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.published = append(o.published, string(publication.Messages()[0]))
+	return nil
 }
 
 func feeds(items ...*fakeFeed) []crawlcapability.PageFeed {
@@ -776,15 +778,17 @@ func (*flakyFeed) ContentFormat() crawlcapability.PageContentFormat {
 func (o *flakyFeed) Derive(
 	crawlcapability.CrawledPage,
 	[]byte,
-) (crawlcapability.PublishPage, error) {
-	return func(context.Context) error {
-		if o.failuresLeft > 0 {
-			o.failuresLeft--
-			return crawlcapability.TransientPublicationError{Err: errors.New("stream full")}
-		}
-		o.published++
-		return nil
-	}, nil
+) (crawlcapability.PagePublication, error) {
+	return crawlcapability.NewPagePublication(), nil
+}
+
+func (o *flakyFeed) Publish(context.Context, crawlcapability.PagePublication) error {
+	if o.failuresLeft > 0 {
+		o.failuresLeft--
+		return crawlcapability.TransientPublicationError{Err: errors.New("stream full")}
+	}
+	o.published++
+	return nil
 }
 
 func TestTraverseFetchErrorFails(t *testing.T) {

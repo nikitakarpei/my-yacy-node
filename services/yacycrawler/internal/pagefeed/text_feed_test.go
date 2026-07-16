@@ -22,11 +22,11 @@ func TestTextFeedPublishesTheRenderedText(t *testing.T) {
 		t.Fatal(err)
 	}
 	feed := pagefeed.NewTextFeed(js, "yacy.crawl.page.text", crawlcapability.PageContentFormatText)
-	publish, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
+	publication, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
 	}
-	if err := publish(ctx); err != nil {
+	if err := feed.Publish(ctx, publication); err != nil {
 		t.Fatalf("publish: %v", err)
 	}
 
@@ -63,15 +63,15 @@ func TestTextFeedFullStreamIsRetryable(t *testing.T) {
 		"yacy.crawl.page.text.full",
 		crawlcapability.PageContentFormatText,
 	)
-	publish, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
+	publication, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
 	}
-	if err := publish(ctx); err != nil {
+	if err := feed.Publish(ctx, publication); err != nil {
 		t.Fatalf("first publish: %v", err)
 	}
 	var retryable crawlcapability.TransientPublicationError
-	if err := publish(ctx); err == nil || !errors.As(err, &retryable) {
+	if err := feed.Publish(ctx, publication); err == nil || !errors.As(err, &retryable) {
 		t.Fatalf("full stream should yield TransientPublicationError, got %v", err)
 	}
 }

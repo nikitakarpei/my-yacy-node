@@ -25,11 +25,11 @@ func TestMarkdownFeedPublishesTheRenderedMarkdown(t *testing.T) {
 		"yacy.crawl.page.markdown",
 		crawlcapability.PageContentFormatMarkdown,
 	)
-	publish, err := feed.Derive(samplePage(), []byte("# hi"))
+	publication, err := feed.Derive(samplePage(), []byte("# hi"))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
 	}
-	if err := publish(ctx); err != nil {
+	if err := feed.Publish(ctx, publication); err != nil {
 		t.Fatalf("publish: %v", err)
 	}
 

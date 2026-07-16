@@ -38,27 +38,31 @@ func (f RWIFeed) ContentFormat() crawlcapability.PageContentFormat {
 func (f RWIFeed) Derive(
 	page crawlcapability.CrawledPage,
 	content []byte,
-) (crawlcapability.PublishPage, error) {
+) (crawlcapability.PagePublication, error) {
 	representation, err := pagerwi.Build(page, content)
 	if err != nil {
-		return nil, err
+		return crawlcapability.PagePublication{}, err
 	}
-	payloads := make([][]byte, 0, len(representation.Postings)/postingsPerChunkLimit+1)
+	messages := make([][]byte, 0, len(representation.Postings)/postingsPerChunkLimit+1)
 	for _, chunk := range chunkPageRWI(representation) {
-		payload, err := yacycrawlcontract.MarshalPageRWIChunk(chunk)
+		message, err := yacycrawlcontract.MarshalPageRWIChunk(chunk)
 		if err != nil {
-			return nil, fmt.Errorf("marshal page rwi chunk: %w", err)
+			return crawlcapability.PagePublication{}, fmt.Errorf(
+				"marshal page rwi chunk: %w", err,
+			)
 		}
-		payloads = append(payloads, payload)
+		messages = append(messages, message)
 	}
-	return func(ctx context.Context) error {
-		for _, payload := range payloads {
-			if _, err := f.publisher.Publish(ctx, f.subject, payload); err != nil {
-				return classifyPublishError(err)
-			}
+	return crawlcapability.NewPagePublication(messages...), nil
+}
+
+func (f RWIFeed) Publish(ctx context.Context, publication crawlcapability.PagePublication) error {
+	for _, message := range publication.Messages() {
+		if _, err := f.publisher.Publish(ctx, f.subject, message); err != nil {
+			return classifyPublishError(err)
 		}
-		return nil
-	}, nil
+	}
+	return nil
 }
 
 func chunkPageRWI(
