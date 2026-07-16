@@ -111,8 +111,8 @@ func TestLoadServiceConfigRejectsNonHTTPProxy(t *testing.T) {
 
 func TestLoadServiceConfigBothOutputsDisabled(t *testing.T) {
 	env := baseEnv()
-	env["YACYCRAWLER_RWI_OUTPUT_ENABLED"] = "false"
-	env["YACYCRAWLER_TEXT_OUTPUT_ENABLED"] = "false"
+	env["YACYCRAWLER_RWI_FEED_ENABLED"] = "false"
+	env["YACYCRAWLER_TEXT_FEED_ENABLED"] = "false"
 	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("both outputs disabled should error")
 	}
@@ -135,7 +135,7 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_FETCH_CONCURRENCY"] = "8"
 	env["YACYCRAWLER_FETCH_DEADLINE"] = "5s"
-	env["YACYCRAWLER_TEXT_OUTPUT_ENABLED"] = "true"
+	env["YACYCRAWLER_TEXT_FEED_ENABLED"] = "true"
 	cfg, err := LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
@@ -154,7 +154,7 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"YACYCRAWLER_FETCH_CONCURRENCY": "notint"},
 		{"YACYCRAWLER_MAX_BODY_BYTES": "-1"},
 		{"YACYCRAWLER_FETCH_DEADLINE": "nope"},
-		{"YACYCRAWLER_RWI_OUTPUT_ENABLED": "maybe"},
+		{"YACYCRAWLER_RWI_FEED_ENABLED": "maybe"},
 		{"NATS_PAGE_RWI_MAX_MSGS": "0"},
 	} {
 		env := baseEnv()
@@ -179,7 +179,7 @@ func TestOrdersStreamSpecCarriesSubject(t *testing.T) {
 
 func TestPageOutputEnvNamesFollowTheRepresentation(t *testing.T) {
 	env := baseEnv()
-	env["YACYCRAWLER_MARKDOWN_OUTPUT_ENABLED"] = "true"
+	env["YACYCRAWLER_MARKDOWN_FEED_ENABLED"] = "true"
 	env["NATS_PAGE_MARKDOWN_SUBJECT"] = "custom.markdown"
 	env["NATS_PAGE_MARKDOWN_MAX_MSGS"] = "7"
 	cfg, err := LoadServiceConfig(envFrom(env))

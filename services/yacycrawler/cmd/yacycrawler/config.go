@@ -55,7 +55,7 @@ func pageMaxMsgsEnv(representation yacycrawlcontract.PageRepresentationKind) str
 }
 
 func pageFeedEnabledEnv(representation yacycrawlcontract.PageRepresentationKind) string {
-	return "YACYCRAWLER_" + strings.ToUpper(string(representation)) + "_OUTPUT_ENABLED"
+	return "YACYCRAWLER_" + strings.ToUpper(string(representation)) + "_FEED_ENABLED"
 }
 
 type PageFeedConfig struct {
