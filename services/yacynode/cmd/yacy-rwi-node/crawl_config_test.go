@@ -3,10 +3,7 @@ package main
 import "testing"
 
 func TestLoadCrawlConfigDisabledWhenNoURL(t *testing.T) {
-	cfg, err := loadCrawlConfig(func(string) string { return "" })
-	if err != nil {
-		t.Fatalf("load: %v", err)
-	}
+	cfg := loadCrawlConfig(func(string) string { return "" })
 	if cfg.Enabled() {
 		t.Fatal("crawl should be disabled without NATS_URL")
 	}
@@ -14,17 +11,13 @@ func TestLoadCrawlConfigDisabledWhenNoURL(t *testing.T) {
 
 func TestLoadCrawlConfigDefaults(t *testing.T) {
 	env := map[string]string{envNATSURL: "nats://localhost:4222"}
-	cfg, err := loadCrawlConfig(func(k string) string { return env[k] })
-	if err != nil {
-		t.Fatalf("load: %v", err)
-	}
+	cfg := loadCrawlConfig(func(k string) string { return env[k] })
 	if !cfg.Enabled() {
 		t.Fatal("crawl should be enabled")
 	}
 	if cfg.OrdersSubject != defaultOrdersSubject ||
 		cfg.IngestSubject != defaultIngestSubject ||
-		cfg.IngestDurable != defaultIngestDurable ||
-		cfg.IngestMaxMsgs != defaultIngestMaxMsgs {
+		cfg.IngestDurable != defaultIngestDurable {
 		t.Fatalf("unexpected defaults: %+v", cfg)
 	}
 }
@@ -35,23 +28,10 @@ func TestLoadCrawlConfigOverrides(t *testing.T) {
 		envNATSOrdersSubject: "o",
 		envNATSIngestSubject: "i",
 		envNATSIngestDurable: "d",
-		envNATSIngestMaxMsgs: "5",
 	}
-	cfg, err := loadCrawlConfig(func(k string) string { return env[k] })
-	if err != nil {
-		t.Fatalf("load: %v", err)
-	}
+	cfg := loadCrawlConfig(func(k string) string { return env[k] })
 	if cfg.OrdersSubject != "o" || cfg.IngestSubject != "i" ||
-		cfg.IngestDurable != "d" || cfg.IngestMaxMsgs != 5 {
+		cfg.IngestDurable != "d" {
 		t.Fatalf("overrides not applied: %+v", cfg)
-	}
-}
-
-func TestLoadCrawlConfigRejectsBadMaxMsgs(t *testing.T) {
-	for _, raw := range []string{"abc", "0", "-1"} {
-		env := map[string]string{envNATSURL: "nats://x", envNATSIngestMaxMsgs: raw}
-		if _, err := loadCrawlConfig(func(k string) string { return env[k] }); err == nil {
-			t.Fatalf("expected error for max msgs %q", raw)
-		}
 	}
 }

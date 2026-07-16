@@ -5,6 +5,7 @@ services:
     depends_on:
       - smokescreen
       - nats
+      - yacycrawler
     ports:
       - "8090:8090"
       - "9090:9090"

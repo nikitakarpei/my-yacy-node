@@ -1,4 +1,4 @@
-package pagepublication
+package pagefeed
 
 import (
 	"context"

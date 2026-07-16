@@ -13,11 +13,11 @@ import (
 )
 
 const (
-	ordersSubject           = "yacy.crawl.orders"
-	crawledPageIndexSubject = "yacy.crawl.page-index"
-	crawledPageIndexMaxMsgs = 1024
-	crawledPageSubject      = "yacy.crawl.pages"
-	crawledPageMaxMsgs      = 1024
+	ordersSubject         = "yacy.crawl.orders"
+	crawledPageRWISubject = "yacy.crawl.page.rwi"
+	crawledPageRWIMaxMsgs = 1024
+	crawledPageSubject    = "yacy.crawl.page.text"
+	crawledPageMaxMsgs    = 1024
 )
 
 func connectJetStream(t *testing.T, url string) jetstream.JetStream {
@@ -41,21 +41,27 @@ func ensureStreams(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	}); err != nil {
 		t.Fatalf("ensure orders stream: %v", err)
 	}
-	if err := yacycrawlcontract.EnsureCrawledPageIndexStream(
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.CrawledPageIndexStreamSpec{
-			Subject: crawledPageIndexSubject,
-			MaxMsgs: crawledPageIndexMaxMsgs,
+		yacycrawlcontract.PageRepresentationKindRWI,
+		yacycrawlcontract.CrawledPageStreamSpec{
+			Subject: crawledPageRWISubject,
+			MaxMsgs: crawledPageRWIMaxMsgs,
 		},
 	); err != nil {
-		t.Fatalf("ensure crawled page index stream: %v", err)
+		t.Fatalf("ensure crawled page rwi stream: %v", err)
 	}
 	pageSpec := yacycrawlcontract.CrawledPageStreamSpec{
 		Subject: crawledPageSubject,
 		MaxMsgs: crawledPageMaxMsgs,
 	}
-	if err := yacycrawlcontract.EnsureCrawledPageStream(ctx, js, pageSpec); err != nil {
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
+		ctx,
+		js,
+		yacycrawlcontract.PageRepresentationKindText,
+		pageSpec,
+	); err != nil {
 		t.Fatalf("ensure crawled page stream: %v", err)
 	}
 }

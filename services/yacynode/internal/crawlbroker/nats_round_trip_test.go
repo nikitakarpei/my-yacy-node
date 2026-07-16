@@ -23,18 +23,29 @@ func openBroker(t *testing.T) (*crawlbroker.CrawlBroker, jetstream.JetStream, co
 	url := startNATS(t)
 	ctx, cancel := context.WithCancel(context.Background())
 	t.Cleanup(cancel)
+	js := connectJetStream(t, url)
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
+		ctx, js, yacycrawlcontract.PageRepresentationKindRWI,
+		yacycrawlcontract.CrawledPageStreamSpec{Subject: ingestSubject, MaxMsgs: 16},
+	); err != nil {
+		t.Fatalf("create ingest stream: %v", err)
+	}
+	if err := yacycrawlcontract.EnsureOrdersStream(
+		ctx, js, yacycrawlcontract.OrdersStreamSpec{Subject: ordersSubject},
+	); err != nil {
+		t.Fatalf("create orders stream: %v", err)
+	}
 	broker, err := crawlbroker.Open(ctx, crawlbroker.Config{
 		NATSURL:       url,
 		OrdersSubject: ordersSubject,
 		IngestSubject: ingestSubject,
 		IngestDurable: "yacy-node",
-		IngestMaxMsgs: 16,
 	})
 	if err != nil {
 		t.Fatalf("open broker: %v", err)
 	}
 	t.Cleanup(broker.Close)
-	return broker, connectJetStream(t, url), ctx
+	return broker, js, ctx
 }
 
 func TestOrderPublisherDeliversToOrdersStream(t *testing.T) {
@@ -79,24 +90,28 @@ func TestIngestReceiverDeliversDecodableBatchAndSkipsGarbage(t *testing.T) {
 	if _, err := js.Publish(ctx, ingestSubject, []byte("not json")); err != nil {
 		t.Fatalf("publish garbage: %v", err)
 	}
-	segment := yacycrawlcontract.CrawledPageIndexSegment{
+	chunk := yacycrawlcontract.PageRWIMetadataChunk{
 		CanonicalURL: "https://example.org",
 	}
-	data, err := yacycrawlcontract.MarshalCrawledPageIndexSegment(segment)
+	data, err := yacycrawlcontract.MarshalPageRWIChunk(chunk)
 	if err != nil {
-		t.Fatalf("marshal segment: %v", err)
+		t.Fatalf("marshal chunk: %v", err)
 	}
 	if _, err := js.Publish(ctx, ingestSubject, data); err != nil {
-		t.Fatalf("publish segment: %v", err)
+		t.Fatalf("publish chunk: %v", err)
 	}
 
 	select {
 	case delivery := <-broker.Ingest.Receive():
-		if delivery.Segment.CanonicalURL != segment.CanonicalURL {
+		delivered, ok := delivery.Chunk.(yacycrawlcontract.PageRWIMetadataChunk)
+		if !ok {
+			t.Fatalf("chunk = %T, want PageRWIMetadataChunk", delivery.Chunk)
+		}
+		if delivered.CanonicalURL != chunk.CanonicalURL {
 			t.Fatalf(
 				"canonicalURL = %q, want %q",
-				delivery.Segment.CanonicalURL,
-				segment.CanonicalURL,
+				delivered.CanonicalURL,
+				chunk.CanonicalURL,
 			)
 		}
 		if err := delivery.Ack(ctx); err != nil {

@@ -12,30 +12,24 @@ import (
 )
 
 const (
-	EnvNATSURL            = "NATS_URL"
-	EnvOrdersSubject      = "NATS_ORDERS_SUBJECT"
-	EnvOrdersDurable      = "NATS_ORDERS_DURABLE"
-	EnvPageIndexSubject   = "NATS_PAGE_INDEX_SUBJECT"
-	EnvPageIndexMaxMsgs   = "NATS_PAGE_INDEX_MAX_MSGS"
-	EnvPagesSubject       = "NATS_PAGES_SUBJECT"
-	EnvPagesMaxMsgs       = "NATS_PAGES_MAX_MSGS"
-	EnvProxyURL           = "YACYCRAWLER_PROXY_URL"
-	EnvProxyDialMode      = "YACYCRAWLER_PROXY_DIAL_MODE"
-	EnvFetchConcurrency   = "YACYCRAWLER_FETCH_CONCURRENCY"
-	EnvIndexOutputEnabled = "YACYCRAWLER_INDEX_OUTPUT_ENABLED"
-	EnvPageOutputEnabled  = "YACYCRAWLER_PAGE_OUTPUT_ENABLED"
-	EnvRunPageBudget      = "YACYCRAWLER_RUN_PAGE_BUDGET"
-	EnvFrontierCap        = "YACYCRAWLER_FRONTIER_CAP"
-	EnvMaxBodyBytes       = "YACYCRAWLER_MAX_BODY_BYTES"
-	EnvFetchDeadline      = "YACYCRAWLER_FETCH_DEADLINE"
-	EnvContentTypes       = "YACYCRAWLER_CONTENT_TYPES"
-	EnvOpsAddr            = "YACYCRAWLER_OPS_ADDR"
-	EnvUserAgent          = "YACYCRAWLER_USER_AGENT"
+	EnvNATSURL       = "NATS_URL"
+	EnvOrdersSubject = "NATS_ORDERS_SUBJECT"
+	EnvOrdersDurable = "NATS_ORDERS_DURABLE"
+
+	EnvProxyURL         = "YACYCRAWLER_PROXY_URL"
+	EnvProxyDialMode    = "YACYCRAWLER_PROXY_DIAL_MODE"
+	EnvFetchConcurrency = "YACYCRAWLER_FETCH_CONCURRENCY"
+
+	EnvRunPageBudget = "YACYCRAWLER_RUN_PAGE_BUDGET"
+	EnvFrontierCap   = "YACYCRAWLER_FRONTIER_CAP"
+	EnvMaxBodyBytes  = "YACYCRAWLER_MAX_BODY_BYTES"
+	EnvFetchDeadline = "YACYCRAWLER_FETCH_DEADLINE"
+	EnvContentTypes  = "YACYCRAWLER_CONTENT_TYPES"
+	EnvOpsAddr       = "YACYCRAWLER_OPS_ADDR"
+	EnvUserAgent     = "YACYCRAWLER_USER_AGENT"
 
 	DefaultOrdersSubject    = "yacy.crawl.orders"
 	DefaultOrdersDurable    = "yacycrawler"
-	DefaultPageIndexSubject = "yacy.crawl.page-index"
-	DefaultPagesSubject     = "yacy.crawl.pages"
 	DefaultMaxMsgs          = 1024
 	DefaultFetchConcurrency = 4
 	DefaultRunPageBudget    = 1000
@@ -52,67 +46,104 @@ var proxyDialModeByName = map[string]httpfetch.ProxyDialMode{
 	"absolute-url": httpfetch.ProxyDialAbsoluteURL,
 }
 
+func pageSubjectEnv(representation yacycrawlcontract.PageRepresentationKind) string {
+	return "NATS_PAGE_" + strings.ToUpper(string(representation)) + "_SUBJECT"
+}
+
+func pageMaxMsgsEnv(representation yacycrawlcontract.PageRepresentationKind) string {
+	return "NATS_PAGE_" + strings.ToUpper(string(representation)) + "_MAX_MSGS"
+}
+
+func pagePublishEnv(representation yacycrawlcontract.PageRepresentationKind) string {
+	return "YACYCRAWLER_PUBLISH_" + strings.ToUpper(string(representation))
+}
+
+type PageFeedConfig struct {
+	Representation yacycrawlcontract.PageRepresentationKind
+	Stream         yacycrawlcontract.CrawledPageStreamSpec
+}
+
 type ServiceConfig struct {
-	NATSURL            string
-	OrdersSubject      string
-	OrdersDurable      string
-	PageIndexSubject   string
-	PageIndexMaxMsgs   int64
-	PagesSubject       string
-	PagesMaxMsgs       int64
-	ProxyURL           *url.URL
-	ProxyDialMode      httpfetch.ProxyDialMode
-	FetchConcurrency   int
-	IndexOutputEnabled bool
-	PageOutputEnabled  bool
-	RunPageBudget      int
-	FrontierCap        int
-	MaxBodyBytes       int64
-	FetchDeadline      time.Duration
-	ContentTypes       []string
-	OpsAddr            string
-	UserAgent          string
+	NATSURL          string
+	OrdersSubject    string
+	OrdersDurable    string
+	PageFeeds        []PageFeedConfig
+	ProxyURL         *url.URL
+	ProxyDialMode    httpfetch.ProxyDialMode
+	FetchConcurrency int
+	RunPageBudget    int
+	FrontierCap      int
+	MaxBodyBytes     int64
+	FetchDeadline    time.Duration
+	ContentTypes     []string
+	OpsAddr          string
+	UserAgent        string
 }
 
 func (c ServiceConfig) OrdersStreamSpec() yacycrawlcontract.OrdersStreamSpec {
 	return yacycrawlcontract.OrdersStreamSpec{Subject: c.OrdersSubject}
 }
 
-func (c ServiceConfig) PageIndexStreamSpec() yacycrawlcontract.CrawledPageIndexStreamSpec {
-	return yacycrawlcontract.CrawledPageIndexStreamSpec{
-		Subject: c.PageIndexSubject,
-		MaxMsgs: c.PageIndexMaxMsgs,
+func loadPageFeeds(getenv func(string) string, catalog []pageFeedPreset) ([]PageFeedConfig, error) {
+	feeds := make([]PageFeedConfig, 0, len(catalog))
+	for _, preset := range catalog {
+		enabled, err := envconfig.Bool(
+			getenv,
+			pagePublishEnv(preset.representation),
+			preset.enabled,
+		)
+		if err != nil {
+			return nil, err
+		}
+		if !enabled {
+			continue
+		}
+		maxMsgs, err := envconfig.PositiveInt64(
+			getenv,
+			pageMaxMsgsEnv(preset.representation),
+			DefaultMaxMsgs,
+		)
+		if err != nil {
+			return nil, err
+		}
+		feeds = append(feeds, PageFeedConfig{
+			Representation: preset.representation,
+			Stream: yacycrawlcontract.CrawledPageStreamSpec{
+				Subject: envconfig.String(
+					getenv,
+					pageSubjectEnv(preset.representation),
+					yacycrawlcontract.CrawledPageSubject(preset.representation),
+				),
+				MaxMsgs: maxMsgs,
+			},
+		})
 	}
+	if len(feeds) == 0 {
+		return nil, fmt.Errorf(
+			"at least one of %s must be enabled",
+			strings.Join(pagePublishEnvNames(catalog), ", "),
+		)
+	}
+	return feeds, nil
 }
 
-func (c ServiceConfig) PagesStreamSpec() yacycrawlcontract.CrawledPageStreamSpec {
-	return yacycrawlcontract.CrawledPageStreamSpec{
-		Subject: c.PagesSubject,
-		MaxMsgs: c.PagesMaxMsgs,
+func pagePublishEnvNames(catalog []pageFeedPreset) []string {
+	names := make([]string, 0, len(catalog))
+	for _, preset := range catalog {
+		names = append(names, pagePublishEnv(preset.representation))
 	}
+	return names
 }
 
 type serviceLimits struct {
-	pageIndexMaxMsgs int64
-	pagesMaxMsgs     int64
 	fetchConcurrency int
 	runPageBudget    int
 	frontierCap      int
 	maxBodyBytes     int64
 	fetchDeadline    time.Duration
-	indexEnabled     bool
-	pageEnabled      bool
 }
 
 func loadServiceLimits(getenv func(string) string) (serviceLimits, error) {
-	pageIndexMaxMsgs, err := envconfig.PositiveInt64(getenv, EnvPageIndexMaxMsgs, DefaultMaxMsgs)
-	if err != nil {
-		return serviceLimits{}, err
-	}
-	pagesMaxMsgs, err := envconfig.PositiveInt64(getenv, EnvPagesMaxMsgs, DefaultMaxMsgs)
-	if err != nil {
-		return serviceLimits{}, err
-	}
 	fetchConcurrency, err := envconfig.PositiveInt(
 		getenv,
 		EnvFetchConcurrency,
@@ -137,31 +168,13 @@ func loadServiceLimits(getenv func(string) string) (serviceLimits, error) {
 	if err != nil {
 		return serviceLimits{}, err
 	}
-	indexEnabled, err := envconfig.Bool(getenv, EnvIndexOutputEnabled, true)
-	if err != nil {
-		return serviceLimits{}, err
-	}
-	pageEnabled, err := envconfig.Bool(getenv, EnvPageOutputEnabled, false)
-	if err != nil {
-		return serviceLimits{}, err
-	}
-	if !indexEnabled && !pageEnabled {
-		return serviceLimits{}, fmt.Errorf(
-			"at least one of %s or %s must be enabled",
-			EnvIndexOutputEnabled, EnvPageOutputEnabled,
-		)
-	}
 
 	return serviceLimits{
-		pageIndexMaxMsgs: pageIndexMaxMsgs,
-		pagesMaxMsgs:     pagesMaxMsgs,
 		fetchConcurrency: fetchConcurrency,
 		runPageBudget:    runPageBudget,
 		frontierCap:      frontierCap,
 		maxBodyBytes:     maxBodyBytes,
 		fetchDeadline:    fetchDeadline,
-		indexEnabled:     indexEnabled,
-		pageEnabled:      pageEnabled,
 	}, nil
 }
 
@@ -178,31 +191,30 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	pageFeeds, err := loadPageFeeds(getenv, pageFeedCatalog())
+	if err != nil {
+		return ServiceConfig{}, err
+	}
 	limits, err := loadServiceLimits(getenv)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
 
 	return ServiceConfig{
-		NATSURL:            natsURL,
-		OrdersSubject:      envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
-		OrdersDurable:      envconfig.String(getenv, EnvOrdersDurable, DefaultOrdersDurable),
-		PageIndexSubject:   envconfig.String(getenv, EnvPageIndexSubject, DefaultPageIndexSubject),
-		PageIndexMaxMsgs:   limits.pageIndexMaxMsgs,
-		PagesSubject:       envconfig.String(getenv, EnvPagesSubject, DefaultPagesSubject),
-		PagesMaxMsgs:       limits.pagesMaxMsgs,
-		ProxyURL:           proxyURL,
-		ProxyDialMode:      proxyDialMode,
-		FetchConcurrency:   limits.fetchConcurrency,
-		IndexOutputEnabled: limits.indexEnabled,
-		PageOutputEnabled:  limits.pageEnabled,
-		RunPageBudget:      limits.runPageBudget,
-		FrontierCap:        limits.frontierCap,
-		MaxBodyBytes:       limits.maxBodyBytes,
-		FetchDeadline:      limits.fetchDeadline,
-		ContentTypes:       mediaTypes(getenv, EnvContentTypes),
-		OpsAddr:            envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
-		UserAgent:          envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
+		NATSURL:          natsURL,
+		OrdersSubject:    envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
+		OrdersDurable:    envconfig.String(getenv, EnvOrdersDurable, DefaultOrdersDurable),
+		PageFeeds:        pageFeeds,
+		ProxyURL:         proxyURL,
+		ProxyDialMode:    proxyDialMode,
+		FetchConcurrency: limits.fetchConcurrency,
+		RunPageBudget:    limits.runPageBudget,
+		FrontierCap:      limits.frontierCap,
+		MaxBodyBytes:     limits.maxBodyBytes,
+		FetchDeadline:    limits.fetchDeadline,
+		ContentTypes:     mediaTypes(getenv, EnvContentTypes),
+		OpsAddr:          envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		UserAgent:        envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
 	}, nil
 }
 

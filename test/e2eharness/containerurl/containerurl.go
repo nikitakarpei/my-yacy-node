@@ -11,7 +11,12 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 )
 
-func HostURL(t *testing.T, ctx context.Context, container testcontainers.Container, port string) string {
+func HostURL(
+	t *testing.T,
+	ctx context.Context,
+	container testcontainers.Container,
+	port string,
+) string {
 	t.Helper()
 	host, err := container.Host(ctx)
 	if err != nil {

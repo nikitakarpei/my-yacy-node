@@ -43,12 +43,12 @@ flowchart LR
     yacycrawler -- fetch --> renderproxy[renderproxy]
     renderproxy -- render page --> lightpanda[lightpanda]
     lightpanda -- fetch --> smokescreen[smokescreen] --> Web
-    yacycrawler -- crawled page --> nats
+    yacycrawler -- text and rwi representations --> nats
 
-    nats -- crawled page --> yacytextindexer[yacytextindexer]
+    nats -- text representation --> yacytextindexer[yacytextindexer]
     yacytextindexer -- index --> searchindex[(Local search index)]
 
-    nats -- crawled page --> node[yacy-rwi-node]
+    nats -- rwi representation --> node[yacy-rwi-node]
     node -- DHT traffic --> smokescreen
     node <-- share and serve results --> Net
 ```

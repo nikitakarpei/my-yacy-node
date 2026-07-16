@@ -4,6 +4,7 @@ go 1.26
 
 require (
 	codeberg.org/readeck/go-readability/v2 v2.1.2
+	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2
 	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/nats-io/nats-server/v2 v2.14.2
 	github.com/nats-io/nats.go v1.52.0
@@ -11,11 +12,12 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/prometheus/client_golang v1.23.2
-	golang.org/x/net v0.54.0
+	golang.org/x/net v0.55.0
 )
 
 require (
-	github.com/andybalholm/cascadia v1.3.3 // indirect
+	github.com/JohannesKaufmann/dom v0.3.1 // indirect
+	github.com/andybalholm/cascadia v1.3.4 // indirect
 	github.com/antithesishq/antithesis-sdk-go v0.7.0-default-no-op // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect

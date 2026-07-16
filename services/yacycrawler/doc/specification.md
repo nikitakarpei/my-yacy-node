@@ -3,20 +3,15 @@
 ## Context
 
 `yacycrawler` is a standalone, optional, disposable crawling service. It accepts crawl
-orders, fetches the web pages they reach, and publishes what it finds through its own
-message-broker API, defined in the `yacycrawlcontract` module, for any consumer to
-subscribe to. A YaCy node is the typical order source and consumer, but the service
-depends on no consumer's internals.
+orders, fetches the web pages they reach, and publishes representations of them through
+the message-broker API defined in `yacycrawlcontract`. A YaCy node is the typical order
+source and consumer, but the service depends on no consumer's internals.
 
-The service is order-driven: it connects to a message broker on startup and idles
-until crawl orders arrive. Several instances can share one order stream, each order
-running on one instance, to spread load across orders. It runs on-demand and is meant
-for a more capable host than an always-on node.
+Several instances can share one order stream, each order running on one instance. The
+service is meant for a more capable host than an always-on node.
 
 ## Non-Goals
 
-* Storing or shipping document bodies in any form.
-* Producing the crawl orders it consumes, or consuming its own published outputs.
 * Participating in the YaCy DHT peer protocol.
 * Ranking, indexing, or judging what it fetches.
 * Authorizing broker subjects beyond the broker deployment's own trust boundary.
@@ -28,23 +23,21 @@ for a more capable host than an always-on node.
 * The service SHALL idle until a crawl order arrives, then process it.
 * The service SHALL crawl only what an order's profile admits, from its seeds and
   discovered links.
-* Every crawl run SHALL terminate within a run-wide page budget, never aborted by elapsed
-  time.
+* Every crawl run SHALL terminate within a run-wide page budget, never by elapsed time.
 * Before fetching a page, the service SHALL ask the recrawl decision whether it is due,
   and skip the fetch if not.
 * Every outbound fetch SHALL egress through the operator's configured proxy.
 * The service SHALL honor a target's explicit refusal, ceasing or deferring the fetch
   rather than pressing against it.
-* The service SHALL offer two equal outputs, each operator-enabled on its own: an index
-  output carrying page references, never a body, and a page-content output carrying content.
-* The service SHALL publish each page to every enabled output, advancing them together:
-  if any cannot accept, the others wait.
-* Every fetched page SHALL reach one terminal outcome: published to all enabled outputs,
-  or disposed per operator policy.
+* The service SHALL publish each of a page's representations on its own stream: `rwi`
+  carries page references and never a body; content representations carry the body.
+* The service SHALL publish each page to every enabled representation that accepts its
+  content format.
+* Every fetched page SHALL reach one terminal outcome: published to its accepting
+  representations, or disposed per operator policy.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient
   backpressure waits for as long as the run holds its order.
-* A publication failure SHALL NOT be terminal; the page stays unpublished and its order
-  un-acked.
+* A publication failure SHALL NOT be terminal; the page stays unpublished.
 * The service SHALL acknowledge an order only after every page it produced reached a
   terminal outcome.
 
@@ -65,6 +58,10 @@ for a more capable host than an always-on node.
   delivery with acknowledgment and redelivery, with no change to crawl logic.
 * The page-fetch mechanism SHALL be replaceable behind a narrow interface, with no
   change to crawl logic.
+* Deriving a representation SHALL sit behind a narrow interface declaring the content
+  formats it accepts, so adding a representation changes no crawl logic.
+* A representation SHALL stay whole in the domain; framing it into bounded wire messages
+  is the publish edge's concern.
 * The recrawl decision SHALL sit behind a narrow interface; its default admits every page.
 * Operational behavior SHALL be observable through machine-readable metrics.
 
@@ -75,7 +72,9 @@ for a more capable host than an always-on node.
   policy; the service adds none of them.
 * A proxy that rewrites fetch responses must preserve the refusal and wait signals the
   service honors, or the service cannot act on them.
-* The page-content output carries renderable web content; anyone with broker publish
-  rights can inject it, and narrowing that subject is operator-added hardening.
-* A consumer's outage-survival for the page-content output holds only within the
+* Content representations carry renderable web content that anyone with broker publish
+  rights can inject; restrict publish rights on their subjects to the crawler.
+* A consumer's outage-survival for a content representation holds only within the
   retention window the operator sizes.
+* A page stalled on one representation stays published on the ones before it; only the
+  order's redelivery recovers it.

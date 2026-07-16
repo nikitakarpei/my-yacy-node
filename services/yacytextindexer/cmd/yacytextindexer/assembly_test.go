@@ -29,8 +29,7 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 	url := startNATS(t)
 	cfg := ServiceConfig{
 		NATSURL:            url,
-		CrawledPageSubject: "yacy.crawl.pages",
-		CrawledPageMaxMsgs: DefaultCrawledPageMaxMsgs,
+		CrawledPageSubject: "yacy.crawl.page.text",
 		CrawledPageDurable: DefaultCrawledPageDurable,
 		Concurrency:        DefaultConcurrency,
 		SearchIndexEngine:  SearchIndexEngineElasticsearch,
@@ -43,16 +42,20 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 	defer cancel()
 
 	runDone := make(chan error, 1)
+	js := connectJetStream(t, url)
+	createCrawledPageStream(t, js, cfg.CrawledPageSubject)
+
 	go func() { runDone <- RunService(ctx, cfg) }()
 
-	js := connectJetStream(t, url)
-	waitForCrawledPageStream(t, js)
-
-	data, err := yacycrawlcontract.MarshalCrawledPage(yacycrawlcontract.CrawledPage{
-		CanonicalURL: "https://example.com/",
-		Title:        "Hi",
-		Text:         "words here",
-	})
+	data, err := yacycrawlcontract.MarshalPageTextRepresentation(
+		yacycrawlcontract.PageTextRepresentation{
+			PageReference: yacycrawlcontract.PageReference{
+				CanonicalURL: "https://example.com/",
+				Title:        "Hi",
+			},
+			Text: []byte("words here"),
+		},
+	)
 	if err != nil {
 		t.Fatalf("marshal crawled page: %v", err)
 	}
@@ -96,10 +99,10 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 	)
 	defer elasticsearch.Close()
 
+	url := startNATS(t)
 	cfg := ServiceConfig{
-		NATSURL:            startNATS(t),
-		CrawledPageSubject: "yacy.crawl.pages",
-		CrawledPageMaxMsgs: DefaultCrawledPageMaxMsgs,
+		NATSURL:            url,
+		CrawledPageSubject: "yacy.crawl.page.text",
 		CrawledPageDurable: DefaultCrawledPageDurable,
 		Concurrency:        DefaultConcurrency,
 		SearchIndexEngine:  SearchIndexEngineElasticsearch,
@@ -107,6 +110,7 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 		ElasticsearchIndex: "yacy-text",
 		OpsAddr:            "127.0.0.1:99999",
 	}
+	createCrawledPageStream(t, connectJetStream(t, url), cfg.CrawledPageSubject)
 
 	err := RunService(context.Background(), cfg)
 	if err == nil {
@@ -114,17 +118,14 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 	}
 }
 
-func waitForCrawledPageStream(t *testing.T, js jetstream.JetStream) {
+func createCrawledPageStream(t *testing.T, js jetstream.JetStream, subject string) {
 	t.Helper()
-	deadline := time.Now().Add(10 * time.Second)
-	for time.Now().Before(deadline) {
-		if _, err := js.Stream(
-			context.Background(),
-			yacycrawlcontract.CrawledPageStreamName,
-		); err == nil {
-			return
-		}
-		time.Sleep(50 * time.Millisecond)
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
+		context.Background(),
+		js,
+		yacycrawlcontract.PageRepresentationKindText,
+		yacycrawlcontract.CrawledPageStreamSpec{Subject: subject, MaxMsgs: 64},
+	); err != nil {
+		t.Fatalf("create crawled page stream: %v", err)
 	}
-	t.Fatalf("stream %s not created in time", yacycrawlcontract.CrawledPageStreamName)
 }

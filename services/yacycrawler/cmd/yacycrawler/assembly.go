@@ -22,7 +22,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/htmlpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/httpfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagepublication"
 )
 
 const (
@@ -73,7 +72,11 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
 	)
-	outputs := enabledOutputs(js, cfg)
+	feeds := buildPageFeeds(js, cfg)
+	renderings, err := buildPageRenderings(feeds)
+	if err != nil {
+		return err
+	}
 
 	extract, err := buildExtractor(cfg)
 	if err != nil {
@@ -85,7 +88,8 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		fetch,
 		extract,
 		crawltraversal.AlwaysDue{},
-		outputs,
+		feeds,
+		renderings,
 		metrics,
 		crawltraversal.SystemClock{},
 	)
@@ -100,8 +104,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 	slog.InfoContext(ctx, msgServiceStarted,
 		slog.String("orders", cfg.OrdersSubject),
 		slog.Int("fetchConcurrency", cfg.FetchConcurrency),
-		slog.Bool("indexOutput", cfg.IndexOutputEnabled),
-		slog.Bool("pageOutput", cfg.PageOutputEnabled),
+		slog.Any("representations", enabledRepresentations(cfg)),
 	)
 
 	err = servergroup.Run(ctx, opsShutdownLimit,
@@ -118,21 +121,22 @@ func ensureStreams(ctx context.Context, js jetstream.JetStream, cfg ServiceConfi
 	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, cfg.OrdersStreamSpec()); err != nil {
 		return fmt.Errorf("ensure orders stream: %w", err)
 	}
-	if cfg.IndexOutputEnabled {
-		if err := yacycrawlcontract.EnsureCrawledPageIndexStream(
-			ctx, js, cfg.PageIndexStreamSpec(),
-		); err != nil {
-			return fmt.Errorf("ensure page index stream: %w", err)
-		}
-	}
-	if cfg.PageOutputEnabled {
+	for _, feed := range cfg.PageFeeds {
 		if err := yacycrawlcontract.EnsureCrawledPageStream(
-			ctx, js, cfg.PagesStreamSpec(),
+			ctx, js, feed.Representation, feed.Stream,
 		); err != nil {
-			return fmt.Errorf("ensure pages stream: %w", err)
+			return fmt.Errorf("ensure page %s stream: %w", feed.Representation, err)
 		}
 	}
 	return nil
+}
+
+func enabledRepresentations(cfg ServiceConfig) []string {
+	names := make([]string, 0, len(cfg.PageFeeds))
+	for _, feed := range cfg.PageFeeds {
+		names = append(names, string(feed.Representation))
+	}
+	return names
 }
 
 func ordersConsumer(
@@ -154,15 +158,49 @@ func ordersConsumer(
 	return consumer, nil
 }
 
-func enabledOutputs(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability.PagePublication {
-	var outputs []crawlcapability.PagePublication
-	if cfg.IndexOutputEnabled {
-		outputs = append(outputs, pagepublication.NewIndexOutput(js, cfg.PageIndexSubject))
+func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability.PageFeed {
+	subjects := make(
+		map[yacycrawlcontract.PageRepresentationKind]string,
+		len(cfg.PageFeeds),
+	)
+	for _, feed := range cfg.PageFeeds {
+		subjects[feed.Representation] = feed.Stream.Subject
 	}
-	if cfg.PageOutputEnabled {
-		outputs = append(outputs, pagepublication.NewPageContentOutput(js, cfg.PagesSubject))
+	feeds := make([]crawlcapability.PageFeed, 0, len(cfg.PageFeeds))
+	for _, preset := range pageFeedCatalog() {
+		subject, enabled := subjects[preset.representation]
+		if !enabled {
+			continue
+		}
+		feeds = append(feeds, preset.build(js, subject))
 	}
-	return outputs
+	return feeds
+}
+
+func buildPageRenderings(
+	feeds []crawlcapability.PageFeed,
+) ([]crawlcapability.PageRendering, error) {
+	available := make(map[crawlcapability.PageContentFormat][]crawlcapability.PageRendering)
+	for _, rendering := range pageRenderingCatalog() {
+		available[rendering.Format()] = append(available[rendering.Format()], rendering)
+	}
+	renderings := []crawlcapability.PageRendering{}
+	covered := map[crawlcapability.PageContentFormat]bool{}
+	for _, feed := range feeds {
+		if covered[feed.ContentFormat()] {
+			continue
+		}
+		producing, renderable := available[feed.ContentFormat()]
+		if !renderable {
+			return nil, fmt.Errorf(
+				"page %s feed reads %s content, which no rendering produces",
+				feed.Representation(), feed.ContentFormat(),
+			)
+		}
+		covered[feed.ContentFormat()] = true
+		renderings = append(renderings, producing...)
+	}
+	return renderings, nil
 }
 
 func buildExtractor(cfg ServiceConfig) (crawlcapability.DocumentExtraction, error) {

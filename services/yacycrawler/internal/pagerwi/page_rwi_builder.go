@@ -1,4 +1,4 @@
-package pageindex
+package pagerwi
 
 import (
 	"fmt"
@@ -18,15 +18,18 @@ const (
 	secondsPerDay    = 86400
 )
 
-func Build(page crawlcapability.ExtractedPage) (yacycrawlcontract.CrawledPageIndex, error) {
+func Build(
+	page crawlcapability.CrawledPage,
+	text []byte,
+) (yacycrawlcontract.PageRWIRepresentation, error) {
 	urlHash, err := yacymodel.HashURL(page.CanonicalURL)
 	if err != nil {
-		return yacycrawlcontract.CrawledPageIndex{}, fmt.Errorf("hash url: %w", err)
+		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("hash url: %w", err)
 	}
 
-	order, occurrences, textStats := tokenize(page.Text)
+	order, occurrences, textStats := tokenize(string(text))
 	_, _, titleStats := tokenize(page.Title)
-	dayNumber := dayNumberOf(page.FetchedAt)
+	dayNumber := dayNumberOf(page.CrawledAt)
 
 	stats := documentWordStatistics{
 		TextWordCount:  textStats.Words,
@@ -50,13 +53,31 @@ func Build(page crawlcapability.ExtractedPage) (yacycrawlcontract.CrawledPageInd
 		})
 	}
 
-	metadata := metadataRow(page, urlHash.String(), textStats.Words)
-
-	return yacycrawlcontract.CrawledPageIndex{
+	return yacycrawlcontract.PageRWIRepresentation{
 		CanonicalURL: page.CanonicalURL,
-		Postings:     postings,
-		Metadata:     []yacymodel.URIMetadataRow{metadata},
+		Metadata: []yacymodel.URIMetadataRow{
+			metadataRowOf(page, urlHash, len(text), textStats.Words),
+		},
+		Postings: postings,
 	}, nil
+}
+
+func metadataRowOf(
+	page crawlcapability.CrawledPage,
+	urlHash yacymodel.URLHash,
+	textLength int,
+	wordCount int,
+) yacymodel.URIMetadataRow {
+	return yacymodel.URIMetadataRow{Properties: map[string]string{
+		yacymodel.URLMetaHash:           urlHash.String(),
+		"dt":                            string(rune(documentTypeText)),
+		"url":                           yacymodel.EncodeBase64WireForm(page.CanonicalURL),
+		yacymodel.URLMetaColDescription: yacymodel.EncodeBase64WireForm(page.Title),
+		"size":                          strconv.Itoa(textLength),
+		"wc":                            strconv.Itoa(wordCount),
+		"llocal":                        strconv.Itoa(page.LocalLinkCount),
+		"lother":                        strconv.Itoa(page.ExternalLinkCount),
+	}}
 }
 
 // documentWordStatistics holds the shared RWI counters derived from tokenizing a page,
@@ -68,7 +89,7 @@ type documentWordStatistics struct {
 }
 
 func sharedProperties(
-	page crawlcapability.ExtractedPage,
+	page crawlcapability.CrawledPage,
 	urlHash string,
 	stats documentWordStatistics,
 	dayNumber uint64,
@@ -92,25 +113,8 @@ func sharedProperties(
 	return properties
 }
 
-func metadataRow(
-	page crawlcapability.ExtractedPage,
-	urlHash string,
-	total int,
-) yacymodel.URIMetadataRow {
-	return yacymodel.URIMetadataRow{Properties: map[string]string{
-		yacymodel.URLMetaHash:           urlHash,
-		"dt":                            string(rune(documentTypeText)),
-		"url":                           yacymodel.EncodeBase64WireForm(page.CanonicalURL),
-		yacymodel.URLMetaColDescription: yacymodel.EncodeBase64WireForm(page.Title),
-		"size":                          strconv.Itoa(len(page.Text)),
-		"wc":                            strconv.Itoa(total),
-		"llocal":                        strconv.Itoa(page.LocalLinkCount),
-		"lother":                        strconv.Itoa(page.ExternalLinkCount),
-	}}
-}
-
-func dayNumberOf(fetchedAt time.Time) uint64 {
-	seconds := fetchedAt.Unix()
+func dayNumberOf(crawledAt time.Time) uint64 {
+	seconds := crawledAt.Unix()
 	if seconds < 0 {
 		return 0
 	}

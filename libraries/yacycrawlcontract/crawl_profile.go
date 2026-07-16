@@ -21,15 +21,15 @@ const MatchAll = ".*"
 const UnlimitedPagesPerHost = -1
 
 type CrawlProfile struct {
-	Handle          string
-	Name            string
-	Scope           CrawlScope
-	URLMustMatch    string
-	URLMustNotMatch string
-	MaxDepth        int
-	AllowQueryURLs  bool
-	MaxPagesPerHost int
-	CrawlDelay      time.Duration
+	Handle          string        `json:"Handle"`
+	Name            string        `json:"Name"`
+	Scope           CrawlScope    `json:"Scope"`
+	URLMustMatch    string        `json:"URLMustMatch"`
+	URLMustNotMatch string        `json:"URLMustNotMatch"`
+	MaxDepth        int           `json:"MaxDepth"`
+	AllowQueryURLs  bool          `json:"AllowQueryURLs"`
+	MaxPagesPerHost int           `json:"MaxPagesPerHost"`
+	CrawlDelay      time.Duration `json:"CrawlDelay"`
 }
 
 func NewCrawlProfile(profile CrawlProfile) CrawlProfile {

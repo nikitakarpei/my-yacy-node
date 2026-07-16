@@ -44,11 +44,12 @@ func TestCrawlerIsOrderDrivenEndToEnd(t *testing.T) {
 		t.Fatalf("publish order: %v", err)
 	}
 
-	index := fetchOneCrawledPageIndex(t, ctx, js)
-	if index.CanonicalURL != originURL {
-		t.Errorf("index canonical url = %q, want %q", index.CanonicalURL, originURL)
+	representation := fetchOnePageRWIRepresentation(t, ctx, js)
+	if representation.CanonicalURL != originURL {
+		t.Errorf("representation canonical url = %q, want %q",
+			representation.CanonicalURL, originURL)
 	}
-	if len(index.Postings) == 0 {
-		t.Error("index carries no postings")
+	if len(representation.Postings) == 0 {
+		t.Error("representation carries no postings")
 	}
 }

@@ -2,17 +2,20 @@ package crawlresults
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
-	msgIngestBatchAbsorbed = "ingest batch absorbed"
-	msgIngestBatchDeferred = "ingest batch deferred"
-	msgIngestBatchTooLarge = "ingest batch exceeds posting batch cap, deferred until operator intervenes"
-	msgIngestAckFailed     = "ingest batch ack failed"
-	msgIngestNakFailed     = "ingest batch nak failed"
+	msgIngestChunkAbsorbed = "ingest chunk absorbed"
+	msgIngestChunkDeferred = "ingest chunk deferred"
+	msgIngestChunkTooLarge = "ingest chunk exceeds posting batch cap, deferred until operator intervenes"
+	msgIngestChunkUnknown  = "ingest chunk kind is not absorbable, discarded"
+	msgIngestAckFailed     = "ingest chunk ack failed"
+	msgIngestNakFailed     = "ingest chunk nak failed"
+	msgIngestTermFailed    = "ingest chunk term failed"
 )
 
 func (c *IngestConsumer) Run(ctx context.Context) {
@@ -30,45 +33,52 @@ func (c *IngestConsumer) Run(ctx context.Context) {
 }
 
 func (c *IngestConsumer) absorb(ctx context.Context, delivery IngestDelivery) {
-	segment := delivery.Segment
-	switch {
-	case len(segment.Metadata) > 0:
-		c.absorbMetadata(ctx, delivery, segment)
-	case len(segment.Postings) > 0:
-		c.absorbPostings(ctx, delivery, segment)
+	switch chunk := delivery.Chunk.(type) {
+	case yacycrawlcontract.PageRWIMetadataChunk:
+		c.absorbMetadata(ctx, delivery, chunk)
+	case yacycrawlcontract.PageRWIPostingChunk:
+		c.absorbPostings(ctx, delivery, chunk)
 	default:
-		c.acknowledge(ctx, delivery, segment.CanonicalURL, 0, 0)
+		c.discard(ctx, delivery)
+	}
+}
+
+func (c *IngestConsumer) discard(ctx context.Context, delivery IngestDelivery) {
+	slog.ErrorContext(ctx, msgIngestChunkUnknown,
+		slog.String("chunk", fmt.Sprintf("%T", delivery.Chunk)))
+	if err := delivery.Term(ctx); err != nil {
+		slog.WarnContext(ctx, msgIngestTermFailed, slog.Any("error", err))
 	}
 }
 
 func (c *IngestConsumer) absorbMetadata(
 	ctx context.Context,
 	delivery IngestDelivery,
-	segment yacycrawlcontract.CrawledPageIndexSegment,
+	chunk yacycrawlcontract.PageRWIMetadataChunk,
 ) {
-	receipt, err := c.urls.Receive(ctx, segment.Metadata)
+	receipt, err := c.urls.Receive(ctx, chunk.Metadata)
 	if err != nil || receipt.Busy {
-		c.redeliver(ctx, delivery, segment.CanonicalURL, err)
+		c.redeliver(ctx, delivery, chunk.CanonicalURL, err)
 		return
 	}
-	c.acknowledge(ctx, delivery, segment.CanonicalURL, len(segment.Metadata), 0)
+	c.acknowledge(ctx, delivery, chunk.CanonicalURL, len(chunk.Metadata), 0)
 }
 
 func (c *IngestConsumer) absorbPostings(
 	ctx context.Context,
 	delivery IngestDelivery,
-	segment yacycrawlcontract.CrawledPageIndexSegment,
+	chunk yacycrawlcontract.PageRWIPostingChunk,
 ) {
-	receipt, err := c.postings.Receive(ctx, segment.Postings)
+	receipt, err := c.postings.Receive(ctx, chunk.Postings)
 	if receipt.TooLarge {
-		c.redeliverTooLarge(ctx, delivery, segment.CanonicalURL, len(segment.Postings))
+		c.redeliverTooLarge(ctx, delivery, chunk.CanonicalURL, len(chunk.Postings))
 		return
 	}
 	if err != nil || receipt.Busy {
-		c.redeliver(ctx, delivery, segment.CanonicalURL, err)
+		c.redeliver(ctx, delivery, chunk.CanonicalURL, err)
 		return
 	}
-	c.acknowledge(ctx, delivery, segment.CanonicalURL, 0, len(segment.Postings))
+	c.acknowledge(ctx, delivery, chunk.CanonicalURL, 0, len(chunk.Postings))
 }
 
 func (c *IngestConsumer) acknowledge(
@@ -83,7 +93,7 @@ func (c *IngestConsumer) acknowledge(
 			slog.String("url", canonicalURL), slog.Any("error", err))
 		return
 	}
-	slog.DebugContext(ctx, msgIngestBatchAbsorbed,
+	slog.DebugContext(ctx, msgIngestChunkAbsorbed,
 		slog.String("url", canonicalURL),
 		slog.Int("metadata", metadata),
 		slog.Int("postings", postings))
@@ -95,7 +105,7 @@ func (c *IngestConsumer) redeliver(
 	canonicalURL string,
 	cause error,
 ) {
-	slog.WarnContext(ctx, msgIngestBatchDeferred,
+	slog.WarnContext(ctx, msgIngestChunkDeferred,
 		slog.String("url", canonicalURL), slog.Any("error", cause))
 	if err := delivery.Nak(ctx); err != nil {
 		slog.WarnContext(ctx, msgIngestNakFailed,
@@ -109,7 +119,7 @@ func (c *IngestConsumer) redeliverTooLarge(
 	canonicalURL string,
 	postingCount int,
 ) {
-	slog.ErrorContext(ctx, msgIngestBatchTooLarge,
+	slog.ErrorContext(ctx, msgIngestChunkTooLarge,
 		slog.String("url", canonicalURL), slog.Int("postings", postingCount))
 	if err := delivery.Nak(ctx); err != nil {
 		slog.WarnContext(ctx, msgIngestNakFailed,

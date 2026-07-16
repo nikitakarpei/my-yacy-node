@@ -11,7 +11,7 @@ services:
       NATS_URL: nats://nats:4222
       YACYCRAWLER_PROXY_URL: http://renderproxy:8080
       YACYCRAWLER_PROXY_DIAL_MODE: absolute-url
-      YACYCRAWLER_PAGE_OUTPUT_ENABLED: "true"
+      YACYCRAWLER_PUBLISH_TEXT: "true"
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   yacyvisitcrawl:

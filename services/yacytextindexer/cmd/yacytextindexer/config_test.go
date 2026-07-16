@@ -51,9 +51,6 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.CrawledPageSubject != DefaultCrawledPageSubject {
 		t.Errorf("subject = %q", cfg.CrawledPageSubject)
 	}
-	if cfg.CrawledPageMaxMsgs != DefaultCrawledPageMaxMsgs {
-		t.Errorf("max msgs = %d", cfg.CrawledPageMaxMsgs)
-	}
 	if cfg.CrawledPageDurable != DefaultCrawledPageDurable {
 		t.Errorf("durable = %q", cfg.CrawledPageDurable)
 	}
@@ -66,10 +63,6 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.OpsAddr != DefaultOpsAddr {
 		t.Errorf("ops addr = %q", cfg.OpsAddr)
 	}
-	spec := cfg.CrawledPageStreamSpec()
-	if spec.Subject != cfg.CrawledPageSubject || spec.MaxMsgs != cfg.CrawledPageMaxMsgs {
-		t.Errorf("stream spec mismatch: %+v", spec)
-	}
 }
 
 func TestLoadServiceConfigOverrides(t *testing.T) {
@@ -78,7 +71,6 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 		EnvSearchIndexEngine:      SearchIndexEngineElasticsearch,
 		EnvElasticsearchURL:       "http://localhost:9200",
 		EnvNATSCrawledPageSubject: "t.subject",
-		EnvNATSCrawledPageMaxMsgs: "7",
 		EnvNATSCrawledPageDurable: "dur",
 		EnvConcurrency:            "3",
 		EnvElasticsearchIndex:     "my-index",
@@ -87,8 +79,8 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.CrawledPageSubject != "t.subject" || cfg.CrawledPageMaxMsgs != 7 {
-		t.Errorf("subject/maxmsgs = %q %d", cfg.CrawledPageSubject, cfg.CrawledPageMaxMsgs)
+	if cfg.CrawledPageSubject != "t.subject" {
+		t.Errorf("subject = %q", cfg.CrawledPageSubject)
 	}
 	if cfg.CrawledPageDurable != "dur" || cfg.Concurrency != 3 {
 		t.Errorf("durable/concurrency = %q %d", cfg.CrawledPageDurable, cfg.Concurrency)
@@ -108,8 +100,7 @@ func TestLoadServiceConfigRejectsInvalidValues(t *testing.T) {
 		EnvElasticsearchURL:  "http://localhost:9200",
 	}
 	cases := map[string]string{
-		EnvNATSCrawledPageMaxMsgs: "0",
-		EnvConcurrency:            "abc",
+		EnvConcurrency: "abc",
 	}
 	for key, bad := range cases {
 		env := map[string]string{}
