@@ -39,7 +39,7 @@ name upper-cased:
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `YACYCRAWLER_<REP>_FEED_ENABLED` | per representation | Publish this representation. |
+| `YACYCRAWLER_PUBLISH_<REP>` | per representation | Publish this representation. |
 | `NATS_PAGE_<REP>_SUBJECT` | per representation | Subject this representation publishes to. |
 | `NATS_PAGE_<REP>_MAX_MSGS` | `1024` | Bound on this representation's stream. |
 

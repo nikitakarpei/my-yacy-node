@@ -54,8 +54,8 @@ func pageMaxMsgsEnv(representation yacycrawlcontract.PageRepresentationKind) str
 	return "NATS_PAGE_" + strings.ToUpper(string(representation)) + "_MAX_MSGS"
 }
 
-func pageFeedEnabledEnv(representation yacycrawlcontract.PageRepresentationKind) string {
-	return "YACYCRAWLER_" + strings.ToUpper(string(representation)) + "_FEED_ENABLED"
+func pagePublishEnv(representation yacycrawlcontract.PageRepresentationKind) string {
+	return "YACYCRAWLER_PUBLISH_" + strings.ToUpper(string(representation))
 }
 
 type PageFeedConfig struct {
@@ -90,7 +90,7 @@ func loadPageFeeds(getenv func(string) string) ([]PageFeedConfig, error) {
 	for _, preset := range catalog {
 		enabled, err := envconfig.Bool(
 			getenv,
-			pageFeedEnabledEnv(preset.representation),
+			pagePublishEnv(preset.representation),
 			preset.enabled,
 		)
 		if err != nil {
@@ -122,17 +122,17 @@ func loadPageFeeds(getenv func(string) string) ([]PageFeedConfig, error) {
 	if len(feeds) == 0 {
 		return nil, fmt.Errorf(
 			"at least one of %s must be enabled",
-			strings.Join(pageFeedEnabledEnvNames(), ", "),
+			strings.Join(pagePublishEnvNames(), ", "),
 		)
 	}
 	return feeds, nil
 }
 
-func pageFeedEnabledEnvNames() []string {
+func pagePublishEnvNames() []string {
 	catalog := pageFeedCatalog()
 	names := make([]string, 0, len(catalog))
 	for _, preset := range catalog {
-		names = append(names, pageFeedEnabledEnv(preset.representation))
+		names = append(names, pagePublishEnv(preset.representation))
 	}
 	return names
 }
