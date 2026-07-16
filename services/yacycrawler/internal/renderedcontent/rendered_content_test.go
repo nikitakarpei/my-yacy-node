@@ -1,9 +1,10 @@
-package crawlcapability_test
+package renderedcontent_test
 
 import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/renderedcontent"
 )
 
 type countingRendering struct {
@@ -27,7 +28,7 @@ func (r *countingRendering) Render(
 
 func TestRenderedContentRendersEachFormatOnce(t *testing.T) {
 	rendering := &countingRendering{format: crawlcapability.PageContentFormatText}
-	rendered := crawlcapability.NewRenderedContent(
+	rendered := renderedcontent.New(
 		[]byte("body"), crawlcapability.PageContentFormatHTML,
 	)
 
@@ -46,7 +47,7 @@ func TestRenderedContentRendersEachFormatOnce(t *testing.T) {
 func TestRenderedContentRendersEachFormatIndependently(t *testing.T) {
 	text := &countingRendering{format: crawlcapability.PageContentFormatText}
 	markdown := &countingRendering{format: crawlcapability.PageContentFormatMarkdown}
-	rendered := crawlcapability.NewRenderedContent(
+	rendered := renderedcontent.New(
 		[]byte("body"), crawlcapability.PageContentFormatHTML,
 	)
 
@@ -82,7 +83,7 @@ func (configuredRendering) Render(
 }
 
 func TestRenderedContentAcceptsARenderingCarryingConfiguration(t *testing.T) {
-	rendered := crawlcapability.NewRenderedContent(
+	rendered := renderedcontent.New(
 		[]byte("body"), crawlcapability.PageContentFormatHTML,
 	)
 

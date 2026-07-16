@@ -54,11 +54,11 @@ func pageMaxMsgsEnv(representation yacycrawlcontract.PageRepresentationKind) str
 	return "NATS_PAGE_" + strings.ToUpper(string(representation)) + "_MAX_MSGS"
 }
 
-func pageOutputEnabledEnv(representation yacycrawlcontract.PageRepresentationKind) string {
+func pageFeedEnabledEnv(representation yacycrawlcontract.PageRepresentationKind) string {
 	return "YACYCRAWLER_" + strings.ToUpper(string(representation)) + "_OUTPUT_ENABLED"
 }
 
-type PageOutputConfig struct {
+type PageFeedConfig struct {
 	Representation yacycrawlcontract.PageRepresentationKind
 	Stream         yacycrawlcontract.CrawledPageStreamSpec
 }
@@ -67,7 +67,7 @@ type ServiceConfig struct {
 	NATSURL          string
 	OrdersSubject    string
 	OrdersDurable    string
-	PageOutputs      []PageOutputConfig
+	PageFeeds        []PageFeedConfig
 	ProxyURL         *url.URL
 	ProxyDialMode    httpfetch.ProxyDialMode
 	FetchConcurrency int
@@ -84,13 +84,13 @@ func (c ServiceConfig) OrdersStreamSpec() yacycrawlcontract.OrdersStreamSpec {
 	return yacycrawlcontract.OrdersStreamSpec{Subject: c.OrdersSubject}
 }
 
-func loadPageOutputs(getenv func(string) string) ([]PageOutputConfig, error) {
-	catalog := pageOutputCatalog()
-	outputs := make([]PageOutputConfig, 0, len(catalog))
+func loadPageFeeds(getenv func(string) string) ([]PageFeedConfig, error) {
+	catalog := pageFeedCatalog()
+	feeds := make([]PageFeedConfig, 0, len(catalog))
 	for _, preset := range catalog {
 		enabled, err := envconfig.Bool(
 			getenv,
-			pageOutputEnabledEnv(preset.representation),
+			pageFeedEnabledEnv(preset.representation),
 			preset.enabled,
 		)
 		if err != nil {
@@ -107,7 +107,7 @@ func loadPageOutputs(getenv func(string) string) ([]PageOutputConfig, error) {
 		if err != nil {
 			return nil, err
 		}
-		outputs = append(outputs, PageOutputConfig{
+		feeds = append(feeds, PageFeedConfig{
 			Representation: preset.representation,
 			Stream: yacycrawlcontract.CrawledPageStreamSpec{
 				Subject: envconfig.String(
@@ -119,20 +119,20 @@ func loadPageOutputs(getenv func(string) string) ([]PageOutputConfig, error) {
 			},
 		})
 	}
-	if len(outputs) == 0 {
+	if len(feeds) == 0 {
 		return nil, fmt.Errorf(
 			"at least one of %s must be enabled",
-			strings.Join(pageOutputEnabledEnvNames(), ", "),
+			strings.Join(pageFeedEnabledEnvNames(), ", "),
 		)
 	}
-	return outputs, nil
+	return feeds, nil
 }
 
-func pageOutputEnabledEnvNames() []string {
-	catalog := pageOutputCatalog()
+func pageFeedEnabledEnvNames() []string {
+	catalog := pageFeedCatalog()
 	names := make([]string, 0, len(catalog))
 	for _, preset := range catalog {
-		names = append(names, pageOutputEnabledEnv(preset.representation))
+		names = append(names, pageFeedEnabledEnv(preset.representation))
 	}
 	return names
 }
@@ -193,7 +193,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	pageOutputs, err := loadPageOutputs(getenv)
+	pageFeeds, err := loadPageFeeds(getenv)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -206,7 +206,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		NATSURL:          natsURL,
 		OrdersSubject:    envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
 		OrdersDurable:    envconfig.String(getenv, EnvOrdersDurable, DefaultOrdersDurable),
-		PageOutputs:      pageOutputs,
+		PageFeeds:        pageFeeds,
 		ProxyURL:         proxyURL,
 		ProxyDialMode:    proxyDialMode,
 		FetchConcurrency: limits.fetchConcurrency,

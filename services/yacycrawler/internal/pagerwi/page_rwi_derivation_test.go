@@ -38,12 +38,18 @@ func TestDerivationDerivesFromRenderedText(t *testing.T) {
 	page := samplePage()
 	page.Body = []byte(sampleText)
 	page.Format = crawlcapability.PageContentFormatHTML
-	rendered := crawlcapability.NewRenderedContent(page.Body, page.Format)
-	representation, err := pagerwi.NewDerivation(identityRendering{}).Derive(page, rendered.In)
+	rendered := renderPage(page)
+	representation, err := pagerwi.NewDerivation(identityRendering{}).Derive(page, rendered)
 	if err != nil {
 		t.Fatalf("Derive: %v", err)
 	}
 	if len(representation.Postings) == 0 {
 		t.Fatal("no postings")
+	}
+}
+
+func renderPage(page crawlcapability.CrawledPage) crawlcapability.RenderContent {
+	return func(rendering crawlcapability.ContentRendering) ([]byte, error) {
+		return rendering.Render(page.Body, page.Format)
 	}
 }

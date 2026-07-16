@@ -19,7 +19,7 @@ type crawl struct {
 	fetch    crawlcapability.PageRetrieval
 	extract  crawlcapability.DocumentExtraction
 	recrawl  crawlcapability.RecrawlDecision
-	outputs  []crawlcapability.PageRepresentationOutput
+	feeds    []crawlcapability.PageFeed
 	observer crawlcapability.RunProgress
 	clock    crawlcapability.Clock
 	delivery crawlcapability.DeliveredOrder
@@ -35,7 +35,7 @@ func (r *Crawler) newCrawl(delivery crawlcapability.DeliveredOrder) *crawl {
 		fetch:    r.fetch,
 		extract:  r.extract,
 		recrawl:  r.recrawl,
-		outputs:  r.outputs,
+		feeds:    r.feeds,
 		observer: r.observer,
 		clock:    r.clock,
 		delivery: delivery,

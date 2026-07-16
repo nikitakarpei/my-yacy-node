@@ -27,8 +27,8 @@ func TestDerivationProducesMarkdownRepresentation(t *testing.T) {
 		Language:     "en",
 		CrawledAt:    time.Unix(1_700_000_000, 0),
 	}
-	rendered := crawlcapability.NewRenderedContent(page.Body, page.Format)
-	representation, err := pagemarkdown.NewDerivation(pagemarkdown.New()).Derive(page, rendered.In)
+	rendered := renderPage(page)
+	representation, err := pagemarkdown.NewDerivation(pagemarkdown.New()).Derive(page, rendered)
 	if err != nil {
 		t.Fatalf("Derive: %v", err)
 	}
@@ -37,5 +37,11 @@ func TestDerivationProducesMarkdownRepresentation(t *testing.T) {
 	}
 	if string(representation.Markdown) != "# hello" {
 		t.Fatalf("markdown = %q", representation.Markdown)
+	}
+}
+
+func renderPage(page crawlcapability.CrawledPage) crawlcapability.RenderContent {
+	return func(rendering crawlcapability.ContentRendering) ([]byte, error) {
+		return rendering.Render(page.Body, page.Format)
 	}
 }

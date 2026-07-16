@@ -1,4 +1,4 @@
-package crawlcapability_test
+package pagefeed_test
 
 import (
 	"context"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefeed"
 )
 
 type identityDerivation struct {
@@ -37,59 +38,61 @@ func (p *recordingPublication) Publish(_ context.Context, page crawlcapability.C
 	return nil
 }
 
-func TestBindRepresentationCarriesRepresentationAndAccepts(t *testing.T) {
-	output := crawlcapability.BindRepresentation(
+func TestBindCarriesRepresentationAndAccepts(t *testing.T) {
+	feed := pagefeed.Bind(
 		yacycrawlcontract.PageRepresentationKindText,
 		identityDerivation{accepts: crawlcapability.PageContentFormatHTML},
 		&recordingPublication{},
 	)
-	if output.Representation() != yacycrawlcontract.PageRepresentationKindText {
-		t.Fatalf("representation = %q", output.Representation())
+	if feed.Representation() != yacycrawlcontract.PageRepresentationKindText {
+		t.Fatalf("representation = %q", feed.Representation())
 	}
-	if !output.Accepts(crawlcapability.PageContentFormatHTML) {
+	if !feed.Accepts(crawlcapability.PageContentFormatHTML) {
 		t.Fatal("should accept html")
 	}
-	if output.Accepts(crawlcapability.PageContentFormatText) {
+	if feed.Accepts(crawlcapability.PageContentFormatText) {
 		t.Fatal("should not accept text")
 	}
 }
 
-func TestPrepareDerivesOnceAndPublishOnEachCallResends(t *testing.T) {
+func TestDeriveHappensOnceAndEachPublishResends(t *testing.T) {
 	publication := &recordingPublication{}
-	output := crawlcapability.BindRepresentation(
+	feed := pagefeed.Bind(
 		yacycrawlcontract.PageRepresentationKindText,
 		identityDerivation{accepts: crawlcapability.PageContentFormatHTML},
 		publication,
 	)
 	page := crawlcapability.CrawledPage{CanonicalURL: "http://example.com/a"}
-	rendered := crawlcapability.NewRenderedContent(page.Body, page.Format)
+	rendered := renderPage(page)
 
-	send, err := output.Prepare(page, rendered.In)
+	publish, err := feed.Derive(page, rendered)
 	if err != nil {
-		t.Fatalf("Prepare: %v", err)
+		t.Fatalf("Derive: %v", err)
 	}
-	if err := send(context.Background()); err != nil {
-		t.Fatalf("send: %v", err)
+	if err := publish(context.Background()); err != nil {
+		t.Fatalf("publish: %v", err)
 	}
-	if err := send(context.Background()); err != nil {
-		t.Fatalf("send: %v", err)
+	if err := publish(context.Background()); err != nil {
+		t.Fatalf("publish: %v", err)
 	}
 	if len(publication.published) != 2 {
 		t.Fatalf(
-			"want 2 publish calls from retrying the same send, got %d",
+			"want 2 publish calls from retrying the same publish, got %d",
 			len(publication.published),
 		)
 	}
 }
 
-func TestPrepareFailsWhenDerivationFails(t *testing.T) {
-	output := crawlcapability.BindRepresentation(
+func TestDeriveFailsWhenTheDerivationFails(t *testing.T) {
+	feed := pagefeed.Bind(
 		yacycrawlcontract.PageRepresentationKindText,
 		failingDerivation{},
 		&recordingPublication{},
 	)
-	rendered := crawlcapability.NewRenderedContent(nil, crawlcapability.PageContentFormatHTML)
-	if _, err := output.Prepare(crawlcapability.CrawledPage{}, rendered.In); err == nil {
+	rendered := renderPage(
+		crawlcapability.CrawledPage{Format: crawlcapability.PageContentFormatHTML},
+	)
+	if _, err := feed.Derive(crawlcapability.CrawledPage{}, rendered); err == nil {
 		t.Fatal("expected error when the derivation fails")
 	}
 }
@@ -103,4 +106,10 @@ func (failingDerivation) Derive(
 	crawlcapability.RenderContent,
 ) (crawlcapability.CrawledPage, error) {
 	return crawlcapability.CrawledPage{}, errors.New("derive failed")
+}
+
+func renderPage(page crawlcapability.CrawledPage) crawlcapability.RenderContent {
+	return func(rendering crawlcapability.ContentRendering) ([]byte, error) {
+		return rendering.Render(page.Body, page.Format)
+	}
 }

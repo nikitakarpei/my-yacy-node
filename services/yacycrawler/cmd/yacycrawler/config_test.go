@@ -32,12 +32,12 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 		cfg.RunPageBudget != DefaultRunPageBudget {
 		t.Fatalf("unexpected defaults: %+v", cfg)
 	}
-	if len(cfg.PageOutputs) != 1 ||
-		cfg.PageOutputs[0].Representation != yacycrawlcontract.PageRepresentationKindRWI {
-		t.Fatalf("only the rwi output should be enabled by default: %+v", cfg.PageOutputs)
+	if len(cfg.PageFeeds) != 1 ||
+		cfg.PageFeeds[0].Representation != yacycrawlcontract.PageRepresentationKindRWI {
+		t.Fatalf("only the rwi output should be enabled by default: %+v", cfg.PageFeeds)
 	}
-	if cfg.PageOutputs[0].Stream.MaxMsgs != DefaultMaxMsgs {
-		t.Fatalf("rwi stream max msgs = %d", cfg.PageOutputs[0].Stream.MaxMsgs)
+	if cfg.PageFeeds[0].Stream.MaxMsgs != DefaultMaxMsgs {
+		t.Fatalf("rwi stream max msgs = %d", cfg.PageFeeds[0].Stream.MaxMsgs)
 	}
 	if cfg.FetchDeadline != DefaultFetchDeadline {
 		t.Fatalf("fetch deadline = %v", cfg.FetchDeadline)
@@ -186,7 +186,7 @@ func TestPageOutputEnvNamesFollowTheRepresentation(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, output := range cfg.PageOutputs {
+	for _, output := range cfg.PageFeeds {
 		if output.Representation != yacycrawlcontract.PageRepresentationKindMarkdown {
 			continue
 		}

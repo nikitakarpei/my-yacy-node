@@ -72,7 +72,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
 	)
-	outputs := buildPageOutputs(js, cfg)
+	feeds := buildPageFeeds(js, cfg)
 
 	extract, err := buildExtractor(cfg)
 	if err != nil {
@@ -84,7 +84,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		fetch,
 		extract,
 		crawltraversal.AlwaysDue{},
-		outputs,
+		feeds,
 		metrics,
 		crawltraversal.SystemClock{},
 	)
@@ -116,20 +116,20 @@ func ensureStreams(ctx context.Context, js jetstream.JetStream, cfg ServiceConfi
 	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, cfg.OrdersStreamSpec()); err != nil {
 		return fmt.Errorf("ensure orders stream: %w", err)
 	}
-	for _, output := range cfg.PageOutputs {
+	for _, feed := range cfg.PageFeeds {
 		if err := yacycrawlcontract.EnsureCrawledPageStream(
-			ctx, js, output.Representation, output.Stream,
+			ctx, js, feed.Representation, feed.Stream,
 		); err != nil {
-			return fmt.Errorf("ensure page %s stream: %w", output.Representation, err)
+			return fmt.Errorf("ensure page %s stream: %w", feed.Representation, err)
 		}
 	}
 	return nil
 }
 
 func enabledRepresentations(cfg ServiceConfig) []string {
-	names := make([]string, 0, len(cfg.PageOutputs))
-	for _, output := range cfg.PageOutputs {
-		names = append(names, string(output.Representation))
+	names := make([]string, 0, len(cfg.PageFeeds))
+	for _, feed := range cfg.PageFeeds {
+		names = append(names, string(feed.Representation))
 	}
 	return names
 }
@@ -153,26 +153,26 @@ func ordersConsumer(
 	return consumer, nil
 }
 
-func buildPageOutputs(
+func buildPageFeeds(
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-) []crawlcapability.PageRepresentationOutput {
+) []crawlcapability.PageFeed {
 	subjects := make(
 		map[yacycrawlcontract.PageRepresentationKind]string,
-		len(cfg.PageOutputs),
+		len(cfg.PageFeeds),
 	)
-	for _, output := range cfg.PageOutputs {
-		subjects[output.Representation] = output.Stream.Subject
+	for _, feed := range cfg.PageFeeds {
+		subjects[feed.Representation] = feed.Stream.Subject
 	}
-	outputs := make([]crawlcapability.PageRepresentationOutput, 0, len(cfg.PageOutputs))
-	for _, preset := range pageOutputCatalog() {
+	feeds := make([]crawlcapability.PageFeed, 0, len(cfg.PageFeeds))
+	for _, preset := range pageFeedCatalog() {
 		subject, enabled := subjects[preset.representation]
 		if !enabled {
 			continue
 		}
-		outputs = append(outputs, preset.build(js, subject))
+		feeds = append(feeds, preset.build(js, subject))
 	}
-	return outputs
+	return feeds
 }
 
 func buildExtractor(cfg ServiceConfig) (crawlcapability.DocumentExtraction, error) {

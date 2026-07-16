@@ -12,6 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawltraversal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefeed"
 )
 
 type fakeFetch struct {
@@ -65,7 +66,7 @@ type fakeRecrawl struct{ due bool }
 
 func (f fakeRecrawl) Due(context.Context, string) (bool, error) { return f.due, nil }
 
-type fakeOutput struct {
+type fakeFeed struct {
 	representation yacycrawlcontract.PageRepresentationKind
 	refuses        crawlcapability.PageContentFormat
 	mu             sync.Mutex
@@ -73,18 +74,18 @@ type fakeOutput struct {
 	failWith       error
 }
 
-func (o *fakeOutput) Accepts(format crawlcapability.PageContentFormat) bool {
+func (o *fakeFeed) Accepts(format crawlcapability.PageContentFormat) bool {
 	return format != o.refuses
 }
 
-func (o *fakeOutput) Derive(
+func (o *fakeFeed) Derive(
 	page crawlcapability.CrawledPage,
 	_ crawlcapability.RenderContent,
 ) (crawlcapability.CrawledPage, error) {
 	return page, nil
 }
 
-func (o *fakeOutput) Publish(_ context.Context, page crawlcapability.CrawledPage) error {
+func (o *fakeFeed) Publish(_ context.Context, page crawlcapability.CrawledPage) error {
 	if o.failWith != nil {
 		return o.failWith
 	}
@@ -94,10 +95,10 @@ func (o *fakeOutput) Publish(_ context.Context, page crawlcapability.CrawledPage
 	return nil
 }
 
-func outputs(items ...*fakeOutput) []crawlcapability.PageRepresentationOutput {
-	bound := make([]crawlcapability.PageRepresentationOutput, len(items))
+func feeds(items ...*fakeFeed) []crawlcapability.PageFeed {
+	bound := make([]crawlcapability.PageFeed, len(items))
 	for i, item := range items {
-		bound[i] = crawlcapability.BindRepresentation(item.representation, item, item)
+		bound[i] = pagefeed.Bind(item.representation, item, item)
 	}
 	return bound
 }
@@ -188,12 +189,12 @@ func newCrawler(
 	cfg crawltraversal.Config,
 	fetch crawlcapability.PageRetrieval,
 	extract crawlcapability.DocumentExtraction,
-	outputs []crawlcapability.PageRepresentationOutput,
+	feeds []crawlcapability.PageFeed,
 	observer crawlcapability.RunProgress,
 ) *crawltraversal.Crawler {
 	return crawltraversal.NewCrawler(
 		cfg, fetch, extract, crawltraversal.AlwaysDue{},
-		outputs, observer, &manualClock{},
+		feeds, observer, &manualClock{},
 	)
 }
 
@@ -238,10 +239,10 @@ func TestTraversePublishesToEveryOutput(t *testing.T) {
 	extract := fakeExtract{
 		documents: []crawlcapability.ExtractedDocument{document("http://host/", "t", "body")},
 	}
-	rwi := &fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}
-	text := &fakeOutput{representation: yacycrawlcontract.PageRepresentationKindText}
+	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
+	text := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindText}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		outputs(rwi, text), newObserver())
+		feeds(rwi, text), newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -257,14 +258,14 @@ func TestTraverseSkipsRepresentationRefusingPageFormat(t *testing.T) {
 	extract := fakeExtract{
 		documents: []crawlcapability.ExtractedDocument{document("http://host/", "t", "body")},
 	}
-	rwi := &fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}
-	markdown := &fakeOutput{
+	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
+	markdown := &fakeFeed{
 		representation: yacycrawlcontract.PageRepresentationKindMarkdown,
 		refuses:        crawlcapability.PageContentFormatText,
 	}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		outputs(rwi, markdown), observer)
+		feeds(rwi, markdown), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -286,13 +287,13 @@ func TestTraverseDisposesPageNoRepresentationAccepts(t *testing.T) {
 	extract := fakeExtract{
 		documents: []crawlcapability.ExtractedDocument{document("http://host/", "t", "body")},
 	}
-	rwi := &fakeOutput{
+	rwi := &fakeFeed{
 		representation: yacycrawlcontract.PageRepresentationKindRWI,
 		refuses:        crawlcapability.PageContentFormatText,
 	}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		outputs(rwi), observer)
+		feeds(rwi), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -311,7 +312,7 @@ func TestTraverseDisposesUnsupportedMediaType(t *testing.T) {
 	extract := fakeExtract{err: crawlcapability.ErrUnsupportedMediaType}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		outputs(&fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
+		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -327,7 +328,7 @@ func TestTraverseDisposesContainerOverflow(t *testing.T) {
 	extract := fakeExtract{err: crawlcapability.ErrContainerOverflow}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		outputs(&fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
+		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -343,7 +344,7 @@ func TestTraverseDisposesEmptyExtraction(t *testing.T) {
 	extract := fakeExtract{documents: nil}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		outputs(&fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
+		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -363,9 +364,9 @@ func TestTraverseFansOutContainerDocuments(t *testing.T) {
 		document("http://host/a.zip!/one.html", "one", "a"),
 		document("http://host/a.zip!/two.html", "two", "b"),
 	}}
-	rwi := &fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}
+	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		outputs(rwi), newObserver())
+		feeds(rwi), newObserver())
 
 	traverse(t, crawler, []string{"http://host/a.zip"})
 
@@ -391,10 +392,10 @@ func TestTraverseHonorsMetaNoIndex(t *testing.T) {
 			},
 		}},
 	}
-	rwi := &fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}
+	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		outputs(rwi), observer)
+		feeds(rwi), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -424,9 +425,9 @@ func TestTraverseHonorsNoFollow(t *testing.T) {
 			},
 		},
 	}}
-	rwi := &fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}
+	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		outputs(rwi), newObserver())
+		feeds(rwi), newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -463,9 +464,9 @@ func TestTraverseDiscoversAndCrawlsLinks(t *testing.T) {
 		}
 		return []crawlcapability.ExtractedDocument{document("http://host/next", "", "c")}, nil
 	})
-	rwi := &fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}
+	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		outputs(rwi), newObserver())
+		feeds(rwi), newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -488,10 +489,10 @@ func TestTraverseSkipsFetchWhenNotDue(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
 		"http://host/": {fetchedOutcome()},
 	}}
-	rwi := &fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}
+	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	crawler := crawltraversal.NewCrawler(
 		defaultConfig(), fetch, fakeExtract{}, fakeRecrawl{due: false},
-		outputs(rwi), newObserver(), &manualClock{},
+		feeds(rwi), newObserver(), &manualClock{},
 	)
 
 	traverse(t, crawler, []string{"http://host/"})
@@ -509,9 +510,9 @@ func TestTraverseRetriesTransientFetchThenSucceeds(t *testing.T) {
 	extract := fakeExtract{
 		documents: []crawlcapability.ExtractedDocument{document("http://host/", "", "b")},
 	}
-	rwi := &fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}
+	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		outputs(rwi), newObserver())
+		feeds(rwi), newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -525,10 +526,10 @@ func TestTraverseAbandonsTransientFetchAfterLimit(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
 		"http://host/": {transient, transient, transient},
 	}}
-	rwi := &fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}
+	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		outputs(rwi), observer)
+		feeds(rwi), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -565,9 +566,9 @@ func TestTraverseRenewsOwnershipWhileCrawling(t *testing.T) {
 	extract := fakeExtract{
 		documents: []crawlcapability.ExtractedDocument{document("http://host/", "", "b")},
 	}
-	rwi := &fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}
+	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	crawler := newCrawler(cfg, fetch, extract,
-		outputs(rwi), newObserver())
+		feeds(rwi), newObserver())
 
 	delivery := crawlcapability.DeliveredOrder{
 		Order: yacycrawlcontract.CrawlOrder{
@@ -599,7 +600,7 @@ func TestTraverseCeasesOnHTTPCease(t *testing.T) {
 	}}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		outputs(&fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
+		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -618,7 +619,7 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 	}}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		outputs(&fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
+		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -638,7 +639,7 @@ func TestTraverseDisposesOversized(t *testing.T) {
 	}}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		outputs(&fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
+		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -668,7 +669,7 @@ func TestTraverseBudgetTruncates(t *testing.T) {
 	}}
 	observer := newObserver()
 	crawler := newCrawler(cfg, fetch, extract,
-		outputs(&fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
+		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -684,12 +685,12 @@ func TestTraversePublicationHardErrorFails(t *testing.T) {
 	extract := fakeExtract{
 		documents: []crawlcapability.ExtractedDocument{document("http://host/", "", "b")},
 	}
-	output := &fakeOutput{
+	feed := &fakeFeed{
 		representation: yacycrawlcontract.PageRepresentationKindRWI,
 		failWith:       errors.New("hard broker error"),
 	}
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		outputs(output), newObserver())
+		feeds(feed), newObserver())
 
 	if err := crawler.Traverse(
 		context.Background(),
@@ -706,35 +707,35 @@ func TestTraverseRetriesTransientPublication(t *testing.T) {
 	extract := fakeExtract{
 		documents: []crawlcapability.ExtractedDocument{document("http://host/", "", "b")},
 	}
-	output := &flakyOutput{failuresLeft: 2}
-	bound := crawlcapability.BindRepresentation(
-		yacycrawlcontract.PageRepresentationKindRWI, output, output,
+	feed := &flakyFeed{failuresLeft: 2}
+	bound := pagefeed.Bind(
+		yacycrawlcontract.PageRepresentationKindRWI, feed, feed,
 	)
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PageRepresentationOutput{bound}, newObserver())
+		[]crawlcapability.PageFeed{bound}, newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if output.published != 1 {
-		t.Fatalf("transient publish should retry then succeed: published=%d", output.published)
+	if feed.published != 1 {
+		t.Fatalf("transient publish should retry then succeed: published=%d", feed.published)
 	}
 }
 
-type flakyOutput struct {
+type flakyFeed struct {
 	failuresLeft int
 	published    int
 }
 
-func (o *flakyOutput) Accepts(crawlcapability.PageContentFormat) bool { return true }
+func (o *flakyFeed) Accepts(crawlcapability.PageContentFormat) bool { return true }
 
-func (o *flakyOutput) Derive(
+func (o *flakyFeed) Derive(
 	page crawlcapability.CrawledPage,
 	_ crawlcapability.RenderContent,
 ) (crawlcapability.CrawledPage, error) {
 	return page, nil
 }
 
-func (o *flakyOutput) Publish(context.Context, crawlcapability.CrawledPage) error {
+func (o *flakyFeed) Publish(context.Context, crawlcapability.CrawledPage) error {
 	if o.failuresLeft > 0 {
 		o.failuresLeft--
 		return crawlcapability.TransientPublicationError{Err: errors.New("stream full")}
@@ -749,8 +750,8 @@ func TestTraverseFetchErrorFails(t *testing.T) {
 		defaultConfig(),
 		fetch,
 		fakeExtract{},
-		outputs(
-			&fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI},
+		feeds(
+			&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI},
 		),
 		newObserver(),
 	)
@@ -769,8 +770,8 @@ func TestTraverseSkipsUncanonicalizableSeed(t *testing.T) {
 		defaultConfig(),
 		fetch,
 		fakeExtract{},
-		outputs(
-			&fakeOutput{representation: yacycrawlcontract.PageRepresentationKindRWI},
+		feeds(
+			&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI},
 		),
 		newObserver(),
 	)

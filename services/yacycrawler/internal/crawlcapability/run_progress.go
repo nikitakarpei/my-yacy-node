@@ -24,7 +24,7 @@ type RunProgress interface {
 	OrderCompleted()
 	OrderRedelivered()
 	PageFetched()
-	PagePublished(output string)
+	PagePublished(representation string)
 	PageDisposed(reason string)
 	RefusalHonored(kind string)
 	PublicationWaited()

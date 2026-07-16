@@ -5,30 +5,31 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefeed"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagemarkdown"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerwi"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagetext"
 )
 
-type pageOutputPreset struct {
+type pageFeedPreset struct {
 	representation yacycrawlcontract.PageRepresentationKind
 	enabled        bool
-	build          func(jetstream.JetStream, string) crawlcapability.PageRepresentationOutput
+	build          func(jetstream.JetStream, string) crawlcapability.PageFeed
 }
 
-func pageOutputCatalog() []pageOutputPreset {
+func pageFeedCatalog() []pageFeedPreset {
 	text := pagetext.New()
 	markdown := pagemarkdown.New()
-	return []pageOutputPreset{
+	return []pageFeedPreset{
 		{
 			representation: yacycrawlcontract.PageRepresentationKindRWI,
 			enabled:        true,
 			build: func(
 				js jetstream.JetStream,
 				subject string,
-			) crawlcapability.PageRepresentationOutput {
-				return crawlcapability.BindRepresentation(
+			) crawlcapability.PageFeed {
+				return pagefeed.Bind(
 					yacycrawlcontract.PageRepresentationKindRWI,
 					pagerwi.NewDerivation(text),
 					pagepublication.NewRWIPublication(js, subject),
@@ -41,8 +42,8 @@ func pageOutputCatalog() []pageOutputPreset {
 			build: func(
 				js jetstream.JetStream,
 				subject string,
-			) crawlcapability.PageRepresentationOutput {
-				return crawlcapability.BindRepresentation(
+			) crawlcapability.PageFeed {
+				return pagefeed.Bind(
 					yacycrawlcontract.PageRepresentationKindText,
 					pagetext.NewDerivation(text),
 					pagepublication.NewTextPublication(js, subject),
@@ -55,8 +56,8 @@ func pageOutputCatalog() []pageOutputPreset {
 			build: func(
 				js jetstream.JetStream,
 				subject string,
-			) crawlcapability.PageRepresentationOutput {
-				return crawlcapability.BindRepresentation(
+			) crawlcapability.PageFeed {
+				return pagefeed.Bind(
 					yacycrawlcontract.PageRepresentationKindMarkdown,
 					pagemarkdown.NewDerivation(markdown),
 					pagepublication.NewMarkdownPublication(js, subject),

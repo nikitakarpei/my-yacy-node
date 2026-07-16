@@ -27,8 +27,8 @@ func TestDerivationProducesTextRepresentation(t *testing.T) {
 		Language:     "en",
 		CrawledAt:    time.Unix(1_700_000_000, 0),
 	}
-	rendered := crawlcapability.NewRenderedContent(page.Body, page.Format)
-	representation, err := pagetext.NewDerivation(pagetext.New()).Derive(page, rendered.In)
+	rendered := renderPage(page)
+	representation, err := pagetext.NewDerivation(pagetext.New()).Derive(page, rendered)
 	if err != nil {
 		t.Fatalf("Derive: %v", err)
 	}
@@ -37,5 +37,11 @@ func TestDerivationProducesTextRepresentation(t *testing.T) {
 	}
 	if string(representation.Text) != "hello" {
 		t.Fatalf("text = %q", representation.Text)
+	}
+}
+
+func renderPage(page crawlcapability.CrawledPage) crawlcapability.RenderContent {
+	return func(rendering crawlcapability.ContentRendering) ([]byte, error) {
+		return rendering.Render(page.Body, page.Format)
 	}
 }
