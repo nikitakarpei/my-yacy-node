@@ -13,37 +13,35 @@ import (
 type pageFeedPreset struct {
 	representation yacycrawlcontract.PageRepresentationKind
 	enabled        bool
-	rendering      crawlcapability.PageRendering
 	build          func(jetstream.JetStream, string) crawlcapability.PageFeed
 }
 
 func pageFeedCatalog() []pageFeedPreset {
-	text := pagetext.New()
-	markdown := pagemarkdown.New()
 	return []pageFeedPreset{
 		{
 			representation: yacycrawlcontract.PageRepresentationKindRWI,
 			enabled:        true,
-			rendering:      text,
 			build: func(js jetstream.JetStream, subject string) crawlcapability.PageFeed {
-				return pagefeed.NewRWIFeed(js, subject, text.Format())
+				return pagefeed.NewRWIFeed(js, subject)
 			},
 		},
 		{
 			representation: yacycrawlcontract.PageRepresentationKindText,
 			enabled:        false,
-			rendering:      text,
 			build: func(js jetstream.JetStream, subject string) crawlcapability.PageFeed {
-				return pagefeed.NewTextFeed(js, subject, text.Format())
+				return pagefeed.NewTextFeed(js, subject)
 			},
 		},
 		{
 			representation: yacycrawlcontract.PageRepresentationKindMarkdown,
 			enabled:        false,
-			rendering:      markdown,
 			build: func(js jetstream.JetStream, subject string) crawlcapability.PageFeed {
-				return pagefeed.NewMarkdownFeed(js, subject, markdown.Format())
+				return pagefeed.NewMarkdownFeed(js, subject)
 			},
 		},
 	}
+}
+
+func pageRenderingCatalog() []crawlcapability.PageRendering {
+	return []crawlcapability.PageRendering{pagetext.New(), pagemarkdown.New()}
 }

@@ -1,8 +1,58 @@
 package main
 
 import (
+	"context"
 	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
+
+type unrenderableFeed struct{}
+
+func (unrenderableFeed) Representation() yacycrawlcontract.PageRepresentationKind {
+	return yacycrawlcontract.PageRepresentationKindText
+}
+
+func (unrenderableFeed) ContentFormat() crawlcapability.PageContentFormat {
+	return crawlcapability.PageContentFormatHTML
+}
+
+func (unrenderableFeed) Derive(
+	crawlcapability.CrawledPage,
+	[]byte,
+) (crawlcapability.PagePublication, error) {
+	return crawlcapability.PagePublication{}, nil
+}
+
+func (unrenderableFeed) Publish(context.Context, crawlcapability.PagePublication) error {
+	return nil
+}
+
+func TestBuildPageFeedsSelectsTheConfiguredRepresentations(t *testing.T) {
+	feeds := buildPageFeeds(nil, ServiceConfig{PageFeeds: []PageFeedConfig{rwiOutputConfig()}})
+	if len(feeds) != 1 || feeds[0].Representation() != yacycrawlcontract.PageRepresentationKindRWI {
+		t.Fatalf("feeds = %v, want the rwi feed alone", feeds)
+	}
+}
+
+func TestBuildPageRenderingsCoversWhatTheFeedsRead(t *testing.T) {
+	feeds := buildPageFeeds(nil, ServiceConfig{PageFeeds: []PageFeedConfig{rwiOutputConfig()}})
+	renderings, err := buildPageRenderings(feeds)
+	if err != nil {
+		t.Fatalf("build page renderings: %v", err)
+	}
+	if len(renderings) != 1 || renderings[0].Format() != crawlcapability.PageContentFormatText {
+		t.Fatalf("renderings = %v, want text alone", renderings)
+	}
+}
+
+func TestBuildPageRenderingsRejectsUnrenderableContentFormat(t *testing.T) {
+	_, err := buildPageRenderings([]crawlcapability.PageFeed{unrenderableFeed{}})
+	if err == nil {
+		t.Fatal("feed reading a format no rendering produces should error")
+	}
+}
 
 func TestBuildExtractorDefaultRegistersAll(t *testing.T) {
 	extractor, err := buildExtractor(ServiceConfig{MaxBodyBytes: 1 << 20})

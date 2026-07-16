@@ -5,9 +5,6 @@ import (
 	"fmt"
 	"strings"
 	"testing"
-	"time"
-
-	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
@@ -26,7 +23,7 @@ func TestRWIFeedPublishesTheIndexBuiltFromTheText(t *testing.T) {
 	); err != nil {
 		t.Fatal(err)
 	}
-	feed := pagefeed.NewRWIFeed(js, "yacy.crawl.page.rwi", crawlcapability.PageContentFormatText)
+	feed := pagefeed.NewRWIFeed(js, "yacy.crawl.page.rwi")
 	publication, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
@@ -62,56 +59,28 @@ func TestRWIFeedPublishesTheIndexBuiltFromTheText(t *testing.T) {
 }
 
 func TestRWIFeedChunksBoundPostings(t *testing.T) {
-	js := startJetStream(t)
-	ctx := context.Background()
-	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		ctx,
-		js,
-		yacycrawlcontract.PageRepresentationKindRWI,
-		yacycrawlcontract.CrawledPageStreamSpec{
-			Subject: "yacy.crawl.page.rwi.bounded",
-			MaxMsgs: 10,
-		},
-	); err != nil {
-		t.Fatal(err)
-	}
 	words := make([]string, 2001)
 	for i := range words {
 		words[i] = fmt.Sprintf("w%d", i)
 	}
-	feed := pagefeed.NewRWIFeed(
-		js,
-		"yacy.crawl.page.rwi.bounded",
-		crawlcapability.PageContentFormatText,
-	)
+	feed := pagefeed.NewRWIFeed(nil, "yacy.crawl.page.rwi")
 	publication, err := feed.Derive(samplePage(), []byte(strings.Join(words, " ")))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
 	}
-	if err := feed.Publish(ctx, publication); err != nil {
-		t.Fatalf("publish: %v", err)
+	messages := publication.Messages()
+	if len(messages) != 4 {
+		t.Fatalf("messages = %d, want 4: metadata plus 1000, 1000 and 1 postings", len(messages))
 	}
-
-	stream := yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindRWI)
-	consumer, err := js.CreateOrUpdateConsumer(ctx, stream,
-		jetstream.ConsumerConfig{AckPolicy: jetstream.AckExplicitPolicy})
-	if err != nil {
-		t.Fatal(err)
-	}
-	for i, wantChunks := 0, 4; i < wantChunks; i++ {
-		msg, err := consumer.Next(jetstream.FetchMaxWait(5 * time.Second))
-		if err != nil {
-			t.Fatalf("consume chunk %d: %v", i, err)
-		}
-		_ = msg.Ack()
-		if _, err := yacycrawlcontract.UnmarshalPageRWIChunk(msg.Data()); err != nil {
+	for i, message := range messages {
+		if _, err := yacycrawlcontract.UnmarshalPageRWIChunk(message); err != nil {
 			t.Fatalf("unmarshal chunk %d: %v", i, err)
 		}
 	}
 }
 
 func TestRWIFeedDeclaresRepresentationAndContentFormat(t *testing.T) {
-	feed := pagefeed.NewRWIFeed(nil, "yacy.crawl.page.rwi", crawlcapability.PageContentFormatText)
+	feed := pagefeed.NewRWIFeed(nil, "yacy.crawl.page.rwi")
 	if feed.Representation() != yacycrawlcontract.PageRepresentationKindRWI {
 		t.Fatalf("representation = %q", feed.Representation())
 	}

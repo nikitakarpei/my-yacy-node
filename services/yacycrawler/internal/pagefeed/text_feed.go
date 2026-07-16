@@ -1,7 +1,6 @@
 package pagefeed
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/nats-io/nats.go/jetstream"
@@ -11,28 +10,22 @@ import (
 )
 
 type TextFeed struct {
-	publisher     jetstream.JetStream
-	subject       string
-	contentFormat crawlcapability.PageContentFormat
+	crawledPageSubject
 }
 
-func NewTextFeed(
-	publisher jetstream.JetStream,
-	subject string,
-	contentFormat crawlcapability.PageContentFormat,
-) TextFeed {
-	return TextFeed{publisher: publisher, subject: subject, contentFormat: contentFormat}
+func NewTextFeed(stream jetstream.JetStream, subject string) TextFeed {
+	return TextFeed{crawledPageSubject{stream: stream, subject: subject}}
 }
 
 func (TextFeed) Representation() yacycrawlcontract.PageRepresentationKind {
 	return yacycrawlcontract.PageRepresentationKindText
 }
 
-func (f TextFeed) ContentFormat() crawlcapability.PageContentFormat {
-	return f.contentFormat
+func (TextFeed) ContentFormat() crawlcapability.PageContentFormat {
+	return crawlcapability.PageContentFormatText
 }
 
-func (f TextFeed) Derive(
+func (TextFeed) Derive(
 	page crawlcapability.CrawledPage,
 	content []byte,
 ) (crawlcapability.PagePublication, error) {
@@ -48,13 +41,4 @@ func (f TextFeed) Derive(
 		)
 	}
 	return crawlcapability.NewPagePublication(payload), nil
-}
-
-func (f TextFeed) Publish(ctx context.Context, publication crawlcapability.PagePublication) error {
-	for _, message := range publication.Messages() {
-		if _, err := f.publisher.Publish(ctx, f.subject, message); err != nil {
-			return classifyPublishError(err)
-		}
-	}
-	return nil
 }

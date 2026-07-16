@@ -1,7 +1,6 @@
 package pagefeed
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/nats-io/nats.go/jetstream"
@@ -14,28 +13,22 @@ import (
 const postingsPerChunkLimit = 1000
 
 type RWIFeed struct {
-	publisher     jetstream.JetStream
-	subject       string
-	contentFormat crawlcapability.PageContentFormat
+	crawledPageSubject
 }
 
-func NewRWIFeed(
-	publisher jetstream.JetStream,
-	subject string,
-	contentFormat crawlcapability.PageContentFormat,
-) RWIFeed {
-	return RWIFeed{publisher: publisher, subject: subject, contentFormat: contentFormat}
+func NewRWIFeed(stream jetstream.JetStream, subject string) RWIFeed {
+	return RWIFeed{crawledPageSubject{stream: stream, subject: subject}}
 }
 
 func (RWIFeed) Representation() yacycrawlcontract.PageRepresentationKind {
 	return yacycrawlcontract.PageRepresentationKindRWI
 }
 
-func (f RWIFeed) ContentFormat() crawlcapability.PageContentFormat {
-	return f.contentFormat
+func (RWIFeed) ContentFormat() crawlcapability.PageContentFormat {
+	return crawlcapability.PageContentFormatText
 }
 
-func (f RWIFeed) Derive(
+func (RWIFeed) Derive(
 	page crawlcapability.CrawledPage,
 	content []byte,
 ) (crawlcapability.PagePublication, error) {
@@ -54,15 +47,6 @@ func (f RWIFeed) Derive(
 		messages = append(messages, message)
 	}
 	return crawlcapability.NewPagePublication(messages...), nil
-}
-
-func (f RWIFeed) Publish(ctx context.Context, publication crawlcapability.PagePublication) error {
-	for _, message := range publication.Messages() {
-		if _, err := f.publisher.Publish(ctx, f.subject, message); err != nil {
-			return classifyPublishError(err)
-		}
-	}
-	return nil
 }
 
 func chunkPageRWI(

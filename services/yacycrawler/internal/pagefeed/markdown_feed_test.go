@@ -20,11 +20,7 @@ func TestMarkdownFeedPublishesTheRenderedMarkdown(t *testing.T) {
 	); err != nil {
 		t.Fatal(err)
 	}
-	feed := pagefeed.NewMarkdownFeed(
-		js,
-		"yacy.crawl.page.markdown",
-		crawlcapability.PageContentFormatMarkdown,
-	)
+	feed := pagefeed.NewMarkdownFeed(js, "yacy.crawl.page.markdown")
 	publication, err := feed.Derive(samplePage(), []byte("# hi"))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
@@ -48,11 +44,7 @@ func TestMarkdownFeedPublishesTheRenderedMarkdown(t *testing.T) {
 }
 
 func TestMarkdownFeedDeclaresRepresentationAndContentFormat(t *testing.T) {
-	feed := pagefeed.NewMarkdownFeed(
-		nil,
-		"yacy.crawl.page.markdown",
-		crawlcapability.PageContentFormatMarkdown,
-	)
+	feed := pagefeed.NewMarkdownFeed(nil, "yacy.crawl.page.markdown")
 	if feed.Representation() != yacycrawlcontract.PageRepresentationKindMarkdown {
 		t.Fatalf("representation = %q", feed.Representation())
 	}

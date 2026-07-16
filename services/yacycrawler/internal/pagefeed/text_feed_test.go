@@ -21,7 +21,7 @@ func TestTextFeedPublishesTheRenderedText(t *testing.T) {
 	); err != nil {
 		t.Fatal(err)
 	}
-	feed := pagefeed.NewTextFeed(js, "yacy.crawl.page.text", crawlcapability.PageContentFormatText)
+	feed := pagefeed.NewTextFeed(js, "yacy.crawl.page.text")
 	publication, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
@@ -58,11 +58,7 @@ func TestTextFeedFullStreamIsRetryable(t *testing.T) {
 	); err != nil {
 		t.Fatal(err)
 	}
-	feed := pagefeed.NewTextFeed(
-		js,
-		"yacy.crawl.page.text.full",
-		crawlcapability.PageContentFormatText,
-	)
+	feed := pagefeed.NewTextFeed(js, "yacy.crawl.page.text.full")
 	publication, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
@@ -77,7 +73,7 @@ func TestTextFeedFullStreamIsRetryable(t *testing.T) {
 }
 
 func TestTextFeedDeclaresRepresentationAndContentFormat(t *testing.T) {
-	feed := pagefeed.NewTextFeed(nil, "yacy.crawl.page.text", crawlcapability.PageContentFormatText)
+	feed := pagefeed.NewTextFeed(nil, "yacy.crawl.page.text")
 	if feed.Representation() != yacycrawlcontract.PageRepresentationKindText {
 		t.Fatalf("representation = %q", feed.Representation())
 	}

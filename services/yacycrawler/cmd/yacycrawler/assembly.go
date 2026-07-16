@@ -74,7 +74,11 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
 	)
-	feeds, renderings := buildPageFeeds(js, cfg)
+	feeds := buildPageFeeds(js, cfg)
+	renderings, err := buildPageRenderings(feeds)
+	if err != nil {
+		return err
+	}
 
 	extract, err := buildExtractor(cfg)
 	if err != nil {
@@ -156,10 +160,7 @@ func ordersConsumer(
 	return consumer, nil
 }
 
-func buildPageFeeds(
-	js jetstream.JetStream,
-	cfg ServiceConfig,
-) ([]crawlcapability.PageFeed, []crawlcapability.PageRendering) {
+func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability.PageFeed {
 	subjects := make(
 		map[yacycrawlcontract.PageRepresentationKind]string,
 		len(cfg.PageFeeds),
@@ -168,16 +169,35 @@ func buildPageFeeds(
 		subjects[feed.Representation] = feed.Stream.Subject
 	}
 	feeds := make([]crawlcapability.PageFeed, 0, len(cfg.PageFeeds))
-	renderings := map[crawlcapability.PageContentFormat]crawlcapability.PageRendering{}
 	for _, preset := range pageFeedCatalog() {
 		subject, enabled := subjects[preset.representation]
 		if !enabled {
 			continue
 		}
 		feeds = append(feeds, preset.build(js, subject))
-		renderings[preset.rendering.Format()] = preset.rendering
 	}
-	return feeds, slices.Collect(maps.Values(renderings))
+	return feeds
+}
+
+func buildPageRenderings(
+	feeds []crawlcapability.PageFeed,
+) ([]crawlcapability.PageRendering, error) {
+	available := make(map[crawlcapability.PageContentFormat]crawlcapability.PageRendering)
+	for _, rendering := range pageRenderingCatalog() {
+		available[rendering.Format()] = rendering
+	}
+	renderings := map[crawlcapability.PageContentFormat]crawlcapability.PageRendering{}
+	for _, feed := range feeds {
+		rendering, renderable := available[feed.ContentFormat()]
+		if !renderable {
+			return nil, fmt.Errorf(
+				"page %s feed reads %s content, which no rendering produces",
+				feed.Representation(), feed.ContentFormat(),
+			)
+		}
+		renderings[feed.ContentFormat()] = rendering
+	}
+	return slices.Collect(maps.Values(renderings)), nil
 }
 
 func buildExtractor(cfg ServiceConfig) (crawlcapability.DocumentExtraction, error) {

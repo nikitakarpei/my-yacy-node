@@ -1,7 +1,6 @@
 package pagefeed
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/nats-io/nats.go/jetstream"
@@ -11,28 +10,22 @@ import (
 )
 
 type MarkdownFeed struct {
-	publisher     jetstream.JetStream
-	subject       string
-	contentFormat crawlcapability.PageContentFormat
+	crawledPageSubject
 }
 
-func NewMarkdownFeed(
-	publisher jetstream.JetStream,
-	subject string,
-	contentFormat crawlcapability.PageContentFormat,
-) MarkdownFeed {
-	return MarkdownFeed{publisher: publisher, subject: subject, contentFormat: contentFormat}
+func NewMarkdownFeed(stream jetstream.JetStream, subject string) MarkdownFeed {
+	return MarkdownFeed{crawledPageSubject{stream: stream, subject: subject}}
 }
 
 func (MarkdownFeed) Representation() yacycrawlcontract.PageRepresentationKind {
 	return yacycrawlcontract.PageRepresentationKindMarkdown
 }
 
-func (f MarkdownFeed) ContentFormat() crawlcapability.PageContentFormat {
-	return f.contentFormat
+func (MarkdownFeed) ContentFormat() crawlcapability.PageContentFormat {
+	return crawlcapability.PageContentFormatMarkdown
 }
 
-func (f MarkdownFeed) Derive(
+func (MarkdownFeed) Derive(
 	page crawlcapability.CrawledPage,
 	content []byte,
 ) (crawlcapability.PagePublication, error) {
@@ -48,16 +41,4 @@ func (f MarkdownFeed) Derive(
 		)
 	}
 	return crawlcapability.NewPagePublication(payload), nil
-}
-
-func (f MarkdownFeed) Publish(
-	ctx context.Context,
-	publication crawlcapability.PagePublication,
-) error {
-	for _, message := range publication.Messages() {
-		if _, err := f.publisher.Publish(ctx, f.subject, message); err != nil {
-			return classifyPublishError(err)
-		}
-	}
-	return nil
 }
