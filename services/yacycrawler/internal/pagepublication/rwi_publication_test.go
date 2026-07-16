@@ -18,7 +18,7 @@ func TestRWIPublicationPublishes(t *testing.T) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.PageRepresentationRWI,
+		yacycrawlcontract.PageRepresentationKindRWI,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.rwi", MaxMsgs: 10},
 	); err != nil {
 		t.Fatal(err)
@@ -44,7 +44,7 @@ func TestRWIPublicationPublishes(t *testing.T) {
 	msg := consumeOne(
 		t,
 		js,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationRWI),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindRWI),
 	)
 	chunk, err := yacycrawlcontract.UnmarshalPageRWIChunk(msg)
 	if err != nil {
@@ -73,7 +73,7 @@ func TestRWIPublicationChunksBoundPostings(t *testing.T) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.PageRepresentationRWI,
+		yacycrawlcontract.PageRepresentationKindRWI,
 		yacycrawlcontract.CrawledPageStreamSpec{
 			Subject: "yacy.crawl.page.rwi.bounded",
 			MaxMsgs: 10,
@@ -97,7 +97,7 @@ func TestRWIPublicationChunksBoundPostings(t *testing.T) {
 		t.Fatalf("publish: %v", err)
 	}
 
-	stream := yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationRWI)
+	stream := yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindRWI)
 	consumer, err := js.CreateOrUpdateConsumer(ctx, stream,
 		jetstream.ConsumerConfig{AckPolicy: jetstream.AckExplicitPolicy})
 	if err != nil {

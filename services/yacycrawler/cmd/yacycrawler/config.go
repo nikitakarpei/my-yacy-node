@@ -46,20 +46,20 @@ var proxyDialModeByName = map[string]httpfetch.ProxyDialMode{
 	"absolute-url": httpfetch.ProxyDialAbsoluteURL,
 }
 
-func pageSubjectEnv(representation yacycrawlcontract.PageRepresentation) string {
+func pageSubjectEnv(representation yacycrawlcontract.PageRepresentationKind) string {
 	return "NATS_PAGE_" + strings.ToUpper(string(representation)) + "_SUBJECT"
 }
 
-func pageMaxMsgsEnv(representation yacycrawlcontract.PageRepresentation) string {
+func pageMaxMsgsEnv(representation yacycrawlcontract.PageRepresentationKind) string {
 	return "NATS_PAGE_" + strings.ToUpper(string(representation)) + "_MAX_MSGS"
 }
 
-func pageOutputEnabledEnv(representation yacycrawlcontract.PageRepresentation) string {
+func pageOutputEnabledEnv(representation yacycrawlcontract.PageRepresentationKind) string {
 	return "YACYCRAWLER_" + strings.ToUpper(string(representation)) + "_OUTPUT_ENABLED"
 }
 
 type PageOutputConfig struct {
-	Representation yacycrawlcontract.PageRepresentation
+	Representation yacycrawlcontract.PageRepresentationKind
 	Stream         yacycrawlcontract.CrawledPageStreamSpec
 }
 

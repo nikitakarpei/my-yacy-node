@@ -33,7 +33,7 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 		t.Fatalf("unexpected defaults: %+v", cfg)
 	}
 	if len(cfg.PageOutputs) != 1 ||
-		cfg.PageOutputs[0].Representation != yacycrawlcontract.PageRepresentationRWI {
+		cfg.PageOutputs[0].Representation != yacycrawlcontract.PageRepresentationKindRWI {
 		t.Fatalf("only the rwi output should be enabled by default: %+v", cfg.PageOutputs)
 	}
 	if cfg.PageOutputs[0].Stream.MaxMsgs != DefaultMaxMsgs {
@@ -187,7 +187,7 @@ func TestPageOutputEnvNamesFollowTheRepresentation(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, output := range cfg.PageOutputs {
-		if output.Representation != yacycrawlcontract.PageRepresentationMarkdown {
+		if output.Representation != yacycrawlcontract.PageRepresentationKindMarkdown {
 			continue
 		}
 		if output.Stream.Subject != "custom.markdown" || output.Stream.MaxMsgs != 7 {

@@ -18,7 +18,7 @@ const (
 )
 
 var defaultIngestSubject = yacycrawlcontract.CrawledPageSubject(
-	yacycrawlcontract.PageRepresentationRWI,
+	yacycrawlcontract.PageRepresentationKindRWI,
 )
 
 type crawlConfig struct {

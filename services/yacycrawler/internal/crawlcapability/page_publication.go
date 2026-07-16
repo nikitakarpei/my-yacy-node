@@ -13,13 +13,13 @@ type PagePublication[R any] interface {
 // PageRepresentationOutput erases a representation's domain type so the crawler can
 // hold a uniform slice of outputs while each still derives and publishes its own R.
 type PageRepresentationOutput struct {
-	representation yacycrawlcontract.PageRepresentation
+	representation yacycrawlcontract.PageRepresentationKind
 	accepts        func(PageContentFormat) bool
 	prepare        func(CrawledPage, RenderContent) (func(context.Context) error, error)
 }
 
 func BindRepresentation[R any](
-	representation yacycrawlcontract.PageRepresentation,
+	representation yacycrawlcontract.PageRepresentationKind,
 	derivation RepresentationDerivation[R],
 	publication PagePublication[R],
 ) PageRepresentationOutput {
@@ -38,7 +38,7 @@ func BindRepresentation[R any](
 	}
 }
 
-func (o PageRepresentationOutput) Representation() yacycrawlcontract.PageRepresentation {
+func (o PageRepresentationOutput) Representation() yacycrawlcontract.PageRepresentationKind {
 	return o.representation
 }
 

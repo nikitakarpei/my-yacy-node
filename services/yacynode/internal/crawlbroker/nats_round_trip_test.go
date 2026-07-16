@@ -25,7 +25,7 @@ func openBroker(t *testing.T) (*crawlbroker.CrawlBroker, jetstream.JetStream, co
 	t.Cleanup(cancel)
 	js := connectJetStream(t, url)
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		ctx, js, yacycrawlcontract.PageRepresentationRWI,
+		ctx, js, yacycrawlcontract.PageRepresentationKindRWI,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: ingestSubject, MaxMsgs: 16},
 	); err != nil {
 		t.Fatalf("create ingest stream: %v", err)

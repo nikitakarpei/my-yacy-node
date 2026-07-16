@@ -44,7 +44,7 @@ func ensureStreams(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.PageRepresentationRWI,
+		yacycrawlcontract.PageRepresentationKindRWI,
 		yacycrawlcontract.CrawledPageStreamSpec{
 			Subject: crawledPageRWISubject,
 			MaxMsgs: crawledPageRWIMaxMsgs,
@@ -59,7 +59,7 @@ func ensureStreams(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.PageRepresentationText,
+		yacycrawlcontract.PageRepresentationKindText,
 		pageSpec,
 	); err != nil {
 		t.Fatalf("ensure crawled page stream: %v", err)

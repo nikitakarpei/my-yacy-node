@@ -31,7 +31,7 @@ const (
 )
 
 var DefaultCrawledPageSubject = yacycrawlcontract.CrawledPageSubject(
-	yacycrawlcontract.PageRepresentationText,
+	yacycrawlcontract.PageRepresentationKindText,
 )
 
 type ServiceConfig struct {

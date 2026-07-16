@@ -14,7 +14,7 @@ func TestMarkdownPublicationPublishes(t *testing.T) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.PageRepresentationMarkdown,
+		yacycrawlcontract.PageRepresentationKindMarkdown,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.markdown", MaxMsgs: 10},
 	); err != nil {
 		t.Fatal(err)
@@ -31,7 +31,7 @@ func TestMarkdownPublicationPublishes(t *testing.T) {
 	msg := consumeOne(
 		t,
 		js,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationMarkdown),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindMarkdown),
 	)
 	page, err := yacycrawlcontract.UnmarshalPageMarkdownRepresentation(msg)
 	if err != nil {

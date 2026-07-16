@@ -12,7 +12,7 @@ import (
 )
 
 type pageOutputPreset struct {
-	representation yacycrawlcontract.PageRepresentation
+	representation yacycrawlcontract.PageRepresentationKind
 	enabled        bool
 	build          func(jetstream.JetStream, string) crawlcapability.PageRepresentationOutput
 }
@@ -22,42 +22,42 @@ func pageOutputCatalog() []pageOutputPreset {
 	markdown := pagemarkdown.New()
 	return []pageOutputPreset{
 		{
-			representation: yacycrawlcontract.PageRepresentationRWI,
+			representation: yacycrawlcontract.PageRepresentationKindRWI,
 			enabled:        true,
 			build: func(
 				js jetstream.JetStream,
 				subject string,
 			) crawlcapability.PageRepresentationOutput {
 				return crawlcapability.BindRepresentation(
-					yacycrawlcontract.PageRepresentationRWI,
+					yacycrawlcontract.PageRepresentationKindRWI,
 					pagerwi.NewDerivation(text),
 					pagepublication.NewRWIPublication(js, subject),
 				)
 			},
 		},
 		{
-			representation: yacycrawlcontract.PageRepresentationText,
+			representation: yacycrawlcontract.PageRepresentationKindText,
 			enabled:        false,
 			build: func(
 				js jetstream.JetStream,
 				subject string,
 			) crawlcapability.PageRepresentationOutput {
 				return crawlcapability.BindRepresentation(
-					yacycrawlcontract.PageRepresentationText,
+					yacycrawlcontract.PageRepresentationKindText,
 					pagetext.NewDerivation(text),
 					pagepublication.NewTextPublication(js, subject),
 				)
 			},
 		},
 		{
-			representation: yacycrawlcontract.PageRepresentationMarkdown,
+			representation: yacycrawlcontract.PageRepresentationKindMarkdown,
 			enabled:        false,
 			build: func(
 				js jetstream.JetStream,
 				subject string,
 			) crawlcapability.PageRepresentationOutput {
 				return crawlcapability.BindRepresentation(
-					yacycrawlcontract.PageRepresentationMarkdown,
+					yacycrawlcontract.PageRepresentationKindMarkdown,
 					pagemarkdown.NewDerivation(markdown),
 					pagepublication.NewMarkdownPublication(js, subject),
 				)

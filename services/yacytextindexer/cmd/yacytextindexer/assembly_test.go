@@ -123,7 +123,7 @@ func createCrawledPageStream(t *testing.T, js jetstream.JetStream, subject strin
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		context.Background(),
 		js,
-		yacycrawlcontract.PageRepresentationText,
+		yacycrawlcontract.PageRepresentationKindText,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: subject, MaxMsgs: 64},
 	); err != nil {
 		t.Fatalf("create crawled page stream: %v", err)

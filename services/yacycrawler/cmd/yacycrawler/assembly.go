@@ -158,7 +158,7 @@ func buildPageOutputs(
 	cfg ServiceConfig,
 ) []crawlcapability.PageRepresentationOutput {
 	subjects := make(
-		map[yacycrawlcontract.PageRepresentation]string,
+		map[yacycrawlcontract.PageRepresentationKind]string,
 		len(cfg.PageOutputs),
 	)
 	for _, output := range cfg.PageOutputs {

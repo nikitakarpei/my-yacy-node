@@ -39,11 +39,11 @@ func (p *recordingPublication) Publish(_ context.Context, page crawlcapability.C
 
 func TestBindRepresentationCarriesRepresentationAndAccepts(t *testing.T) {
 	output := crawlcapability.BindRepresentation(
-		yacycrawlcontract.PageRepresentationText,
+		yacycrawlcontract.PageRepresentationKindText,
 		identityDerivation{accepts: crawlcapability.PageContentFormatHTML},
 		&recordingPublication{},
 	)
-	if output.Representation() != yacycrawlcontract.PageRepresentationText {
+	if output.Representation() != yacycrawlcontract.PageRepresentationKindText {
 		t.Fatalf("representation = %q", output.Representation())
 	}
 	if !output.Accepts(crawlcapability.PageContentFormatHTML) {
@@ -57,7 +57,7 @@ func TestBindRepresentationCarriesRepresentationAndAccepts(t *testing.T) {
 func TestPrepareDerivesOnceAndPublishOnEachCallResends(t *testing.T) {
 	publication := &recordingPublication{}
 	output := crawlcapability.BindRepresentation(
-		yacycrawlcontract.PageRepresentationText,
+		yacycrawlcontract.PageRepresentationKindText,
 		identityDerivation{accepts: crawlcapability.PageContentFormatHTML},
 		publication,
 	)
@@ -84,7 +84,7 @@ func TestPrepareDerivesOnceAndPublishOnEachCallResends(t *testing.T) {
 
 func TestPrepareFailsWhenDerivationFails(t *testing.T) {
 	output := crawlcapability.BindRepresentation(
-		yacycrawlcontract.PageRepresentationText,
+		yacycrawlcontract.PageRepresentationKindText,
 		failingDerivation{},
 		&recordingPublication{},
 	)

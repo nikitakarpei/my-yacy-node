@@ -96,7 +96,7 @@ func createCrawlerStreams(t *testing.T, ctx context.Context, cfg crawlConfig) {
 		t.Fatalf("init jetstream: %v", err)
 	}
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		ctx, js, yacycrawlcontract.PageRepresentationRWI,
+		ctx, js, yacycrawlcontract.PageRepresentationKindRWI,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: cfg.IngestSubject, MaxMsgs: 64},
 	); err != nil {
 		t.Fatalf("create ingest stream: %v", err)

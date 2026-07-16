@@ -16,7 +16,7 @@ func TestTextPublicationPublishes(t *testing.T) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.PageRepresentationText,
+		yacycrawlcontract.PageRepresentationKindText,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.text", MaxMsgs: 10},
 	); err != nil {
 		t.Fatal(err)
@@ -33,7 +33,7 @@ func TestTextPublicationPublishes(t *testing.T) {
 	msg := consumeOne(
 		t,
 		js,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationText),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindText),
 	)
 	page, err := yacycrawlcontract.UnmarshalPageTextRepresentation(msg)
 	if err != nil {
@@ -53,7 +53,7 @@ func TestTextPublicationFullStreamIsRetryable(t *testing.T) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.PageRepresentationText,
+		yacycrawlcontract.PageRepresentationKindText,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.text.full", MaxMsgs: 1},
 	); err != nil {
 		t.Fatal(err)

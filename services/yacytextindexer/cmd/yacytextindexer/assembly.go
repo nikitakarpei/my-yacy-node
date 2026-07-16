@@ -35,7 +35,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	}
 	stream, err := js.Stream(
 		ctx,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationText),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindText),
 	)
 	if err != nil {
 		return fmt.Errorf("lookup crawled page stream: %w", err)

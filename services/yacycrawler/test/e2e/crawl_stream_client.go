@@ -43,7 +43,7 @@ func ensureStreams(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.PageRepresentationRWI,
+		yacycrawlcontract.PageRepresentationKindRWI,
 		yacycrawlcontract.CrawledPageStreamSpec{
 			Subject: crawledPageRWISubject,
 			MaxMsgs: crawledPageRWIMaxMsgs,
@@ -61,7 +61,7 @@ func fetchOnePageRWIRepresentation(
 	t.Helper()
 	stream, err := js.Stream(
 		ctx,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationRWI),
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindRWI),
 	)
 	if err != nil {
 		t.Fatalf("lookup crawled page rwi stream: %v", err)

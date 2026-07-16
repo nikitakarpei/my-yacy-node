@@ -17,7 +17,7 @@ import (
 
 func rwiOutputConfig() PageOutputConfig {
 	for _, preset := range pageOutputCatalog() {
-		if preset.representation == yacycrawlcontract.PageRepresentationRWI {
+		if preset.representation == yacycrawlcontract.PageRepresentationKindRWI {
 			return PageOutputConfig{
 				Representation: preset.representation,
 				Stream: yacycrawlcontract.CrawledPageStreamSpec{
