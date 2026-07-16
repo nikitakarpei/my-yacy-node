@@ -1,28 +1,32 @@
-package pageindex_test
+package pagerwi_test
 
 import (
+	"strconv"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pageindex"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerwi"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func samplePage() crawlcapability.ExtractedPage {
-	return crawlcapability.ExtractedPage{
+func samplePage() crawlcapability.CrawledPage {
+	return crawlcapability.CrawledPage{
 		CanonicalURL:      "http://example.com/article",
 		Title:             "Hello World",
-		Text:              "the quick brown fox the fox",
+		Body:              []byte("the quick brown fox the fox"),
+		Format:            crawlcapability.PageContentFormatText,
 		Language:          "en",
-		FetchedAt:         time.Unix(1_700_000_000, 0),
+		CrawledAt:         time.Unix(1_700_000_000, 0),
 		LocalLinkCount:    3,
 		ExternalLinkCount: 1,
 	}
 }
 
+const sampleText = "the quick brown fox the fox"
+
 func TestBuildProducesParseablePostings(t *testing.T) {
-	index, err := pageindex.Build(samplePage())
+	index, err := pagerwi.Build(samplePage(), []byte(sampleText))
 	if err != nil {
 		t.Fatalf("Build: %v", err)
 	}
@@ -40,7 +44,7 @@ func TestBuildProducesParseablePostings(t *testing.T) {
 }
 
 func TestBuildCountsRepeatedWords(t *testing.T) {
-	index, err := pageindex.Build(samplePage())
+	index, err := pagerwi.Build(samplePage(), []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -59,54 +63,41 @@ func TestBuildCountsRepeatedWords(t *testing.T) {
 	}
 }
 
-func TestBuildMetadataParseableAndCarriesURLHash(t *testing.T) {
-	index, err := pageindex.Build(samplePage())
+func TestBuildCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
+	page := samplePage()
+	index, err := pagerwi.Build(page, []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
+	}
+	if index.CanonicalURL != page.CanonicalURL {
+		t.Fatalf("canonical url = %q", index.CanonicalURL)
 	}
 	if len(index.Metadata) != 1 {
 		t.Fatalf("want one metadata row, got %d", len(index.Metadata))
 	}
-	row := index.Metadata[0]
-	if _, err := yacymodel.ParseURIMetadataRow(row.String()); err != nil {
-		t.Fatalf("metadata row not parseable: %v", err)
+	properties := index.Metadata[0].Properties
+	if properties["url"] != yacymodel.EncodeBase64WireForm(page.CanonicalURL) {
+		t.Fatalf("url = %q", properties["url"])
 	}
-	urlHash, err := yacymodel.HashURL("http://example.com/article")
-	if err != nil {
-		t.Fatal(err)
+	if properties[yacymodel.URLMetaColDescription] != yacymodel.EncodeBase64WireForm(page.Title) {
+		t.Fatalf("title = %q", properties[yacymodel.URLMetaColDescription])
 	}
-	if row.Properties[yacymodel.URLMetaHash] != urlHash.String() {
-		t.Fatalf("metadata url hash = %q, want %q",
-			row.Properties[yacymodel.URLMetaHash], urlHash.String())
+	if properties["size"] != strconv.Itoa(len(sampleText)) {
+		t.Fatalf("size = %q, want %d", properties["size"], len(sampleText))
 	}
-}
-
-func TestBuildMetadataSurvivesCommaInTitleAndURL(t *testing.T) {
-	page := samplePage()
-	page.CanonicalURL = "http://example.com/article?ids=1,2,3"
-	page.Title = "Fourth of July fireworks, 1986 - Example"
-	index, err := pageindex.Build(page)
-	if err != nil {
-		t.Fatal(err)
+	if properties["wc"] == "" || properties["wc"] == "0" {
+		t.Fatalf("word count = %q, want nonzero", properties["wc"])
 	}
-	row := index.Metadata[0]
-	parsed, err := yacymodel.ParseURIMetadataRow(row.String())
-	if err != nil {
-		t.Fatalf("metadata row not parseable: %v", err)
-	}
-	title, err := parsed.Title(t.Context())
-	if err != nil {
-		t.Fatalf("Title: %v", err)
-	}
-	if title != page.Title {
-		t.Fatalf("title = %q, want %q", title, page.Title)
+	if properties["llocal"] != strconv.Itoa(page.LocalLinkCount) ||
+		properties["lother"] != strconv.Itoa(page.ExternalLinkCount) {
+		t.Fatalf("link counts = %q %q", properties["llocal"], properties["lother"])
 	}
 }
 
 func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 	page := samplePage()
 	page.Language = ""
-	index, err := pageindex.Build(page)
+	index, err := pagerwi.Build(page, []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -119,8 +110,7 @@ func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 
 func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
 	page := samplePage()
-	page.Text = "a fox I saw"
-	index, err := pageindex.Build(page)
+	index, err := pagerwi.Build(page, []byte("a fox I saw"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -137,8 +127,7 @@ func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
 
 func TestBuildKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
 	page := samplePage()
-	page.Text = "state-of-the-art design"
-	index, err := pageindex.Build(page)
+	index, err := pagerwi.Build(page, []byte("state-of-the-art design"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -156,8 +145,7 @@ func TestBuildKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
 
 func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 	page := samplePage()
-	page.Text = "the price is 1,234.56 today"
-	index, err := pageindex.Build(page)
+	index, err := pagerwi.Build(page, []byte("the price is 1,234.56 today"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -175,8 +163,7 @@ func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 
 func TestBuildCountsPhrasesAndPhrasePositions(t *testing.T) {
 	page := samplePage()
-	page.Text = "the quick fox jumps. the lazy dog sleeps."
-	index, err := pageindex.Build(page)
+	index, err := pagerwi.Build(page, []byte("the quick fox jumps. the lazy dog sleeps."))
 	if err != nil {
 		t.Fatal(err)
 	}

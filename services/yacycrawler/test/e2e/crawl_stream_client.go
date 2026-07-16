@@ -14,9 +14,9 @@ import (
 )
 
 const (
-	ordersSubject           = "yacy.crawl.orders"
-	crawledPageIndexSubject = "yacy.crawl.page-index"
-	crawledPageIndexMaxMsgs = 1024
+	ordersSubject         = "yacy.crawl.orders"
+	crawledPageRWISubject = "yacy.crawl.page.rwi"
+	crawledPageRWIMaxMsgs = 1024
 )
 
 func connectJetStream(t *testing.T, url string) jetstream.JetStream {
@@ -40,53 +40,64 @@ func ensureStreams(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	}); err != nil {
 		t.Fatalf("ensure orders stream: %v", err)
 	}
-	if err := yacycrawlcontract.EnsureCrawledPageIndexStream(
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
-		yacycrawlcontract.CrawledPageIndexStreamSpec{
-			Subject: crawledPageIndexSubject,
-			MaxMsgs: crawledPageIndexMaxMsgs,
+		yacycrawlcontract.PageRepresentationKindRWI,
+		yacycrawlcontract.CrawledPageStreamSpec{
+			Subject: crawledPageRWISubject,
+			MaxMsgs: crawledPageRWIMaxMsgs,
 		},
 	); err != nil {
 		t.Fatalf("ensure crawled page index stream: %v", err)
 	}
 }
 
-func fetchOneCrawledPageIndex(
+func fetchOnePageRWIRepresentation(
 	t *testing.T,
 	ctx context.Context,
 	js jetstream.JetStream,
-) yacycrawlcontract.CrawledPageIndex {
+) yacycrawlcontract.PageRWIRepresentation {
 	t.Helper()
-	stream, err := js.Stream(ctx, yacycrawlcontract.CrawledPageIndexStreamName)
+	stream, err := js.Stream(
+		ctx,
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindRWI),
+	)
 	if err != nil {
-		t.Fatalf("lookup crawled page index stream: %v", err)
+		t.Fatalf("lookup crawled page rwi stream: %v", err)
 	}
 	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
 		AckPolicy: jetstream.AckExplicitPolicy,
 	})
 	if err != nil {
-		t.Fatalf("create crawled page index consumer: %v", err)
+		t.Fatalf("create crawled page rwi consumer: %v", err)
 	}
 
-	var index yacycrawlcontract.CrawledPageIndex
-	for len(index.Postings) == 0 {
+	var representation yacycrawlcontract.PageRWIRepresentation
+	for len(representation.Postings) == 0 {
 		msg, err := consumer.Next(jetstream.FetchMaxWait(60 * time.Second))
 		if err != nil {
-			t.Fatalf("fetch crawled page index segment: %v", err)
+			t.Fatalf("fetch page rwi chunk: %v", err)
 		}
-		segment, err := yacycrawlcontract.UnmarshalCrawledPageIndexSegment(msg.Data())
+		chunk, err := yacycrawlcontract.UnmarshalPageRWIChunk(msg.Data())
 		if err != nil {
-			t.Fatalf("decode crawled page index segment: %v", err)
+			t.Fatalf("decode page rwi chunk: %v", err)
 		}
-		if index.CanonicalURL == "" {
-			index.CanonicalURL = segment.CanonicalURL
+		switch chunk := chunk.(type) {
+		case yacycrawlcontract.PageRWIMetadataChunk:
+			if representation.CanonicalURL == "" {
+				representation.CanonicalURL = chunk.CanonicalURL
+			}
+			representation.Metadata = append(representation.Metadata, chunk.Metadata...)
+		case yacycrawlcontract.PageRWIPostingChunk:
+			if representation.CanonicalURL == "" {
+				representation.CanonicalURL = chunk.CanonicalURL
+			}
+			representation.Postings = append(representation.Postings, chunk.Postings...)
 		}
-		index.Metadata = append(index.Metadata, segment.Metadata...)
-		index.Postings = append(index.Postings, segment.Postings...)
 		if err := msg.Ack(); err != nil {
 			t.Fatalf("ack: %v", err)
 		}
 	}
-	return index
+	return representation
 }

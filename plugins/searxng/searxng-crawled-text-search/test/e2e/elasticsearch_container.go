@@ -33,7 +33,12 @@ func elasticsearchEngineSettings() string {
 		"    elasticsearch_index: " + elasticsearchIndex + "\n"
 }
 
-func seedElasticsearchDocument(t *testing.T, ctx context.Context, elasticsearchURL, id string, doc searchdocument.Document) {
+func seedElasticsearchDocument(
+	t *testing.T,
+	ctx context.Context,
+	elasticsearchURL, id string,
+	doc searchdocument.Document,
+) {
 	t.Helper()
 	body, err := json.Marshal(doc)
 	if err != nil {

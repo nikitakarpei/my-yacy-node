@@ -9,7 +9,10 @@ import (
 	"time"
 
 	natsserver "github.com/nats-io/nats-server/v2/server"
+	"github.com/nats-io/nats.go"
+	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawldispatch"
 )
 
@@ -42,11 +45,12 @@ func TestCrawlRuntimeDispatchAndConsume(t *testing.T) {
 		OrdersSubject: defaultOrdersSubject,
 		IngestSubject: defaultIngestSubject,
 		IngestDurable: defaultIngestDurable,
-		IngestMaxMsgs: defaultIngestMaxMsgs,
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
+	createCrawlerStreams(t, ctx, cfg)
 
 	runtime, err := buildCrawlRuntime(ctx, cfg, storage)
 	if err != nil {
@@ -78,4 +82,28 @@ func TestCrawlRuntimeDispatchAndConsume(t *testing.T) {
 		t.Fatal("consumer did not stop after cancel")
 	}
 	runtime.Close()
+}
+
+func createCrawlerStreams(t *testing.T, ctx context.Context, cfg crawlConfig) {
+	t.Helper()
+	nc, err := nats.Connect(cfg.NATSURL)
+	if err != nil {
+		t.Fatalf("connect nats: %v", err)
+	}
+	t.Cleanup(nc.Close)
+	js, err := jetstream.New(nc)
+	if err != nil {
+		t.Fatalf("init jetstream: %v", err)
+	}
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
+		ctx, js, yacycrawlcontract.PageRepresentationKindRWI,
+		yacycrawlcontract.CrawledPageStreamSpec{Subject: cfg.IngestSubject, MaxMsgs: 64},
+	); err != nil {
+		t.Fatalf("create ingest stream: %v", err)
+	}
+	if err := yacycrawlcontract.EnsureOrdersStream(
+		ctx, js, yacycrawlcontract.OrdersStreamSpec{Subject: cfg.OrdersSubject},
+	); err != nil {
+		t.Fatalf("create orders stream: %v", err)
+	}
 }

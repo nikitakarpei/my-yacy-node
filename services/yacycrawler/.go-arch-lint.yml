@@ -26,10 +26,14 @@ components:
     in: internal/archivemember/**
   httpfetch:
     in: internal/httpfetch/**
-  pageindex:
-    in: internal/pageindex/**
-  pagepublication:
-    in: internal/pagepublication/**
+  pagerwi:
+    in: internal/pagerwi/**
+  pagetext:
+    in: internal/pagetext/**
+  pagemarkdown:
+    in: internal/pagemarkdown/**
+  pagefeed:
+    in: internal/pagefeed/**
   orderintake:
     in: internal/orderintake/**
   crawlmetrics:
@@ -59,6 +63,9 @@ vendors:
   readability:
     in:
       - codeberg.org/readeck/go-readability/v2
+  htmltomarkdown:
+    in:
+      - github.com/JohannesKaufmann/html-to-markdown/v2
   xnet:
     in:
       - golang.org/x/net/**
@@ -90,6 +97,7 @@ deps:
       - crawlcapability
     canUse:
       - yacycrawlcontract
+      - yacymodel
   crawlrun:
     mayDependOn:
       - crawlrun
@@ -107,13 +115,27 @@ deps:
     canUse:
       - yacycrawlcontract
       - backoff
-  pageindex:
+  pagerwi:
     mayDependOn:
-      - pageindex
+      - pagerwi
       - crawlcapability
     canUse:
       - yacycrawlcontract
       - yacymodel
+  pagetext:
+    mayDependOn:
+      - pagetext
+      - crawlcapability
+    canUse:
+      - yacycrawlcontract
+      - xnet
+  pagemarkdown:
+    mayDependOn:
+      - pagemarkdown
+      - crawlcapability
+    canUse:
+      - yacycrawlcontract
+      - htmltomarkdown
   htmlpage:
     mayDependOn:
       - htmlpage
@@ -134,11 +156,11 @@ deps:
     mayDependOn:
       - httpfetch
       - crawlcapability
-  pagepublication:
+  pagefeed:
     mayDependOn:
-      - pagepublication
+      - pagefeed
       - crawlcapability
-      - pageindex
+      - pagerwi
     canUse:
       - yacycrawlcontract
       - yacymodel
@@ -166,7 +188,9 @@ deps:
       - contentextraction
       - archivemember
       - httpfetch
-      - pagepublication
+      - pagefeed
+      - pagetext
+      - pagemarkdown
       - orderintake
       - crawlmetrics
     canUse:

@@ -15,10 +15,22 @@ import (
 
 const ordersSubject = "yacy.crawl.orders"
 
+func createOrdersStream(t *testing.T, ctx context.Context, url string) {
+	t.Helper()
+	if err := yacycrawlcontract.EnsureOrdersStream(
+		ctx,
+		connectJetStream(t, url),
+		yacycrawlcontract.OrdersStreamSpec{Subject: ordersSubject},
+	); err != nil {
+		t.Fatalf("create orders stream: %v", err)
+	}
+}
+
 func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 	url := startNATS(t)
 	ctx, cancel := context.WithCancel(context.Background())
 	t.Cleanup(cancel)
+	createOrdersStream(t, ctx, url)
 
 	broker, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
 		NATSURL:       url,

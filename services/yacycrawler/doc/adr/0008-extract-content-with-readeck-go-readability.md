@@ -8,8 +8,8 @@ Accepted
 
 ## Context
 
-The index and page-content outputs carry a page's main readable content, not its boilerplate.
-We need a Readability.js-equivalent extractor for text, title, and language.
+A page's postings should reflect its main content, not its boilerplate. We need a
+Readability.js-equivalent extractor for text, title, and language.
 
 ## Decision
 

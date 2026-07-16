@@ -33,8 +33,14 @@ func TestExtractArticle(t *testing.T) {
 	if doc.Title != "Sample Article" {
 		t.Fatalf("title = %q", doc.Title)
 	}
-	if !strings.Contains(doc.Text, "quick brown fox") {
-		t.Fatalf("text missing body: %q", doc.Text)
+	if doc.Format != crawlcapability.PageContentFormatHTML {
+		t.Fatalf("format = %q, want html", doc.Format)
+	}
+	if !strings.Contains(string(doc.Body), "quick brown fox") {
+		t.Fatalf("body missing article content: %q", doc.Body)
+	}
+	if !strings.Contains(string(doc.Body), "<p") {
+		t.Fatalf("body should keep article markup: %q", doc.Body)
 	}
 	if doc.Language != "en" {
 		t.Fatalf("language = %q, want en", doc.Language)

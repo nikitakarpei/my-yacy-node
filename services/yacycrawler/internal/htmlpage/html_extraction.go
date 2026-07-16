@@ -54,12 +54,12 @@ func (HTMLExtraction) Extract(
 	if err != nil {
 		return nil, fmt.Errorf("%w: %w", crawlcapability.ErrUnextractable, err)
 	}
-	var text bytes.Buffer
-	if err := article.RenderText(&text); err != nil {
-		return nil, fmt.Errorf("%w: %w", crawlcapability.ErrUnextractable, err)
-	}
-	if strings.TrimSpace(text.String()) == "" {
+	if !hasReadableText(article.Node) {
 		return nil, fmt.Errorf("%w: empty content", crawlcapability.ErrUnextractable)
+	}
+	var articleHTML bytes.Buffer
+	if err := article.RenderHTML(&articleHTML); err != nil {
+		return nil, fmt.Errorf("%w: %w", crawlcapability.ErrUnextractable, err)
 	}
 
 	base := pageURL
@@ -78,7 +78,8 @@ func (HTMLExtraction) Extract(
 
 	return []crawlcapability.ExtractedContent{{
 		Title:                article.Title(),
-		Text:                 strings.TrimSpace(text.String()),
+		Body:                 articleHTML.Bytes(),
+		Format:               crawlcapability.PageContentFormatHTML,
 		Language:             twoLetterLanguage(article.Language()),
 		Links:                links,
 		LocalLinkCount:       local,

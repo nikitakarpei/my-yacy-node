@@ -9,9 +9,9 @@ import (
 )
 
 const (
-	labelOutput = "output"
-	labelReason = "reason"
-	labelKind   = "kind"
+	labelRepresentation = "representation"
+	labelReason         = "reason"
+	labelDemand         = "demand"
 )
 
 type CrawlMetrics struct {
@@ -50,16 +50,16 @@ func New() *CrawlMetrics {
 		}),
 		pagesPublished: prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: "yacycrawler_pages_published_total",
-			Help: "Pages published, by output.",
-		}, []string{labelOutput}),
+			Help: "Pages published, by representation.",
+		}, []string{labelRepresentation}),
 		pagesDisposed: prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: "yacycrawler_pages_disposed_total",
 			Help: "Pages disposed, by reason.",
 		}, []string{labelReason}),
 		refusalsHonored: prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: "yacycrawler_refusals_honored_total",
-			Help: "Target refusals honored, by kind.",
-		}, []string{labelKind}),
+			Help: "Target refusals honored, by demand.",
+		}, []string{labelDemand}),
 		publicationWaits: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "yacycrawler_publication_waits_total",
 			Help: "Waits on transient publication backpressure.",
@@ -94,16 +94,16 @@ func (m *CrawlMetrics) OrderCompleted()   { m.ordersCompleted.Inc() }
 func (m *CrawlMetrics) OrderRedelivered() { m.ordersRedelivered.Inc() }
 func (m *CrawlMetrics) PageFetched()      { m.pagesFetched.Inc() }
 
-func (m *CrawlMetrics) PagePublished(output string) {
-	m.pagesPublished.WithLabelValues(output).Inc()
+func (m *CrawlMetrics) PagePublished(representation string) {
+	m.pagesPublished.WithLabelValues(representation).Inc()
 }
 
 func (m *CrawlMetrics) PageDisposed(reason string) {
 	m.pagesDisposed.WithLabelValues(reason).Inc()
 }
 
-func (m *CrawlMetrics) RefusalHonored(kind string) {
-	m.refusalsHonored.WithLabelValues(kind).Inc()
+func (m *CrawlMetrics) RefusalHonored(demand string) {
+	m.refusalsHonored.WithLabelValues(demand).Inc()
 }
 
 func (m *CrawlMetrics) PublicationWaited() { m.publicationWaits.Inc() }

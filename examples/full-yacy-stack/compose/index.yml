@@ -4,6 +4,7 @@ services:
     restart: unless-stopped
     depends_on:
       - nats
+      - yacycrawler
     environment:
       NATS_URL: nats://nats:4222
       SEARCH_INDEX_ENGINE: ${SEARCH_INDEX_ENGINE:-elasticsearch}

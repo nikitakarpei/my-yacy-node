@@ -36,7 +36,7 @@ func (c *crawl) visit(
 
 	switch outcome.Status {
 	case crawlcapability.FetchCeased:
-		c.observer.RefusalHonored(crawlcapability.RefusalCeased)
+		c.observer.RefusalHonored(crawlcapability.RefusalCease)
 		c.observer.PageDisposed(crawlcapability.DisposalRefused)
 		return visitOutcome{entry: entry}
 	case crawlcapability.FetchDeferred:
@@ -148,12 +148,13 @@ func (c *crawl) publishDocument(
 		c.observer.PageDisposed(crawlcapability.DisposalNoIndex)
 		return nil
 	}
-	page := crawlcapability.ExtractedPage{
+	page := crawlcapability.CrawledPage{
 		CanonicalURL:      canonical,
 		Title:             document.Title,
-		Text:              document.Text,
+		Body:              document.Body,
+		Format:            document.Format,
 		Language:          document.Language,
-		FetchedAt:         c.clock.Now(),
+		CrawledAt:         c.clock.Now(),
 		LocalLinkCount:    document.LocalLinkCount,
 		ExternalLinkCount: document.ExternalLinkCount,
 	}

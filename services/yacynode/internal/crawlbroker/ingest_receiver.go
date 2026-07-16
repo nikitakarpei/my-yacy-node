@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	msgIngestDecodeFailed = "ingest batch decode failed"
+	msgIngestDecodeFailed = "ingest chunk decode failed"
 	ingestNakDelay        = 5 * time.Second
 )
 
@@ -29,7 +29,7 @@ func newIngestReceiver(
 ) (*IngestReceiver, error) {
 	consumer, err := js.CreateOrUpdateConsumer(
 		ctx,
-		yacycrawlcontract.CrawledPageIndexStreamName,
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindRWI),
 		jetstream.ConsumerConfig{
 			Durable:       durable,
 			AckPolicy:     jetstream.AckExplicitPolicy,
@@ -43,16 +43,17 @@ func newIngestReceiver(
 
 	out := make(chan crawlresults.IngestDelivery)
 	consume, err := consumer.Consume(func(msg jetstream.Msg) {
-		segment, err := yacycrawlcontract.UnmarshalCrawledPageIndexSegment(msg.Data())
+		chunk, err := yacycrawlcontract.UnmarshalPageRWIChunk(msg.Data())
 		if err != nil {
 			slog.WarnContext(context.Background(), msgIngestDecodeFailed, slog.Any("error", err))
 			_ = msg.Term()
 			return
 		}
 		delivery := crawlresults.IngestDelivery{
-			Segment: segment,
-			Ack:     func(context.Context) error { return msg.Ack() },
-			Nak:     func(context.Context) error { return msg.NakWithDelay(ingestNakDelay) },
+			Chunk: chunk,
+			Ack:   func(context.Context) error { return msg.Ack() },
+			Nak:   func(context.Context) error { return msg.NakWithDelay(ingestNakDelay) },
+			Term:  func(context.Context) error { return msg.Term() },
 		}
 		select {
 		case out <- delivery:

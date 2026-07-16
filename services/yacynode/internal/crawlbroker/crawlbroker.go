@@ -1,7 +1,9 @@
 // Package crawlbroker is the node's NATS JetStream edge to the crawl fleet. It is
 // the only place that speaks the broker protocol: it publishes crawl orders and
 // receives ingest batches, exposing them as the plain ports the inner packages
-// consume. Open wires the connection; Close releases it.
+// consume. Open wires the connection; Close releases it. The orders stream
+// belongs to yacycrawler; until yacycrawler has created it, publishing an order
+// fails.
 package crawlbroker
 
 import (
@@ -10,8 +12,6 @@ import (
 
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 type Config struct {
@@ -19,7 +19,6 @@ type Config struct {
 	OrdersSubject string
 	IngestSubject string
 	IngestDurable string
-	IngestMaxMsgs int64
 }
 
 type CrawlBroker struct {
@@ -38,24 +37,6 @@ func Open(ctx context.Context, cfg Config) (*CrawlBroker, error) {
 	if err != nil {
 		conn.Close()
 		return nil, fmt.Errorf("init jetstream: %w", err)
-	}
-
-	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, yacycrawlcontract.OrdersStreamSpec{
-		Subject: cfg.OrdersSubject,
-	}); err != nil {
-		conn.Close()
-		return nil, fmt.Errorf("ensure orders stream: %w", err)
-	}
-	if err := yacycrawlcontract.EnsureCrawledPageIndexStream(
-		ctx,
-		js,
-		yacycrawlcontract.CrawledPageIndexStreamSpec{
-			Subject: cfg.IngestSubject,
-			MaxMsgs: cfg.IngestMaxMsgs,
-		},
-	); err != nil {
-		conn.Close()
-		return nil, fmt.Errorf("ensure ingest stream: %w", err)
 	}
 
 	ingest, err := newIngestReceiver(ctx, js, cfg.IngestDurable, cfg.IngestSubject)

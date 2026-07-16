@@ -15,6 +15,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlmetrics"
 )
 
+func rwiOutputConfig() PageFeedConfig {
+	for _, preset := range pageFeedCatalog() {
+		if preset.representation == yacycrawlcontract.PageRepresentationKindRWI {
+			return PageFeedConfig{
+				Representation: preset.representation,
+				Stream: yacycrawlcontract.CrawledPageStreamSpec{
+					Subject: yacycrawlcontract.CrawledPageSubject(preset.representation),
+					MaxMsgs: DefaultMaxMsgs,
+				},
+			}
+		}
+	}
+	return PageFeedConfig{}
+}
+
 func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 	srv, err := natsserver.NewServer(&natsserver.Options{
 		Port: -1, JetStream: true, StoreDir: t.TempDir(),
@@ -30,21 +45,17 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	cfg := ServiceConfig{
-		NATSURL:            srv.ClientURL(),
-		OrdersSubject:      DefaultOrdersSubject,
-		OrdersDurable:      DefaultOrdersDurable,
-		PageIndexSubject:   DefaultPageIndexSubject,
-		PageIndexMaxMsgs:   DefaultMaxMsgs,
-		PagesSubject:       DefaultPagesSubject,
-		PagesMaxMsgs:       DefaultMaxMsgs,
-		ProxyURL:           proxy,
-		FetchConcurrency:   2,
-		IndexOutputEnabled: true,
-		RunPageBudget:      DefaultRunPageBudget,
-		FrontierCap:        DefaultFrontierCap,
-		MaxBodyBytes:       DefaultMaxBodyBytes,
-		FetchDeadline:      time.Second,
-		OpsAddr:            "127.0.0.1:0",
+		NATSURL:          srv.ClientURL(),
+		OrdersSubject:    DefaultOrdersSubject,
+		OrdersDurable:    DefaultOrdersDurable,
+		PageFeeds:        []PageFeedConfig{rwiOutputConfig()},
+		ProxyURL:         proxy,
+		FetchConcurrency: 2,
+		RunPageBudget:    DefaultRunPageBudget,
+		FrontierCap:      DefaultFrontierCap,
+		MaxBodyBytes:     DefaultMaxBodyBytes,
+		FetchDeadline:    time.Second,
+		OpsAddr:          "127.0.0.1:0",
 	}
 
 	publishOrder(t, cfg.NATSURL)
@@ -77,10 +88,10 @@ func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	cfg := ServiceConfig{
 		NATSURL: srv.ClientURL(), OrdersSubject: DefaultOrdersSubject,
-		OrdersDurable: DefaultOrdersDurable, PageIndexSubject: DefaultPageIndexSubject,
-		PageIndexMaxMsgs: DefaultMaxMsgs, PagesSubject: DefaultPagesSubject,
-		PagesMaxMsgs: DefaultMaxMsgs, ProxyURL: proxy, FetchConcurrency: 2,
-		IndexOutputEnabled: true, MaxBodyBytes: DefaultMaxBodyBytes,
+		OrdersDurable: DefaultOrdersDurable,
+		PageFeeds:     []PageFeedConfig{rwiOutputConfig()},
+		ProxyURL:      proxy, FetchConcurrency: 2,
+		MaxBodyBytes:  DefaultMaxBodyBytes,
 		FetchDeadline: time.Second, OpsAddr: "127.0.0.1:0",
 		ContentTypes: []string{"application/unregistered"},
 	}

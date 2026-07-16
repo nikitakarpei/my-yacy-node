@@ -2,7 +2,8 @@ package crawlcapability
 
 type ExtractedContent struct {
 	Title                string
-	Text                 string
+	Body                 []byte
+	Format               PageContentFormat
 	Language             string
 	Links                []string
 	LocalLinkCount       int
