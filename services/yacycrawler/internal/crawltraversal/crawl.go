@@ -183,7 +183,7 @@ func (c *crawl) deferEntry(ctx context.Context, entry crawlfrontier.Entry, defer
 		c.observer.PageDisposed(crawlcapability.DisposalFetchFailed)
 		return
 	}
-	c.observer.RefusalHonored(crawlcapability.RefusalDeferred)
+	c.observer.RefusalHonored(crawlcapability.RefusalDefer)
 	entry.Deferrals++
 	entry.NotBefore = c.clock.Now().Add(deferFor)
 	c.frontier.Defer(entry)

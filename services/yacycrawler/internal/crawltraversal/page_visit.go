@@ -36,7 +36,7 @@ func (c *crawl) visit(
 
 	switch outcome.Status {
 	case crawlcapability.FetchCeased:
-		c.observer.RefusalHonored(crawlcapability.RefusalCeased)
+		c.observer.RefusalHonored(crawlcapability.RefusalCease)
 		c.observer.PageDisposed(crawlcapability.DisposalRefused)
 		return visitOutcome{entry: entry}
 	case crawlcapability.FetchDeferred:

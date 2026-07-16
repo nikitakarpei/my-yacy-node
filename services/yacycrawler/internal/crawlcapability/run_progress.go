@@ -15,8 +15,8 @@ const (
 )
 
 const (
-	RefusalCeased   = "ceased"
-	RefusalDeferred = "deferred"
+	RefusalCease = "cease"
+	RefusalDefer = "defer"
 )
 
 type RunProgress interface {
@@ -26,7 +26,7 @@ type RunProgress interface {
 	PageFetched()
 	PagePublished(representation string)
 	PageDisposed(reason string)
-	RefusalHonored(kind string)
+	RefusalHonored(demand string)
 	PublicationWaited()
 	FetchObserved(elapsed time.Duration)
 	BudgetExhausted()

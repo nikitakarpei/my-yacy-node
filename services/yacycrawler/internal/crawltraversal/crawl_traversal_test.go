@@ -642,7 +642,7 @@ func TestTraverseCeasesOnHTTPCease(t *testing.T) {
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if observer.refusals[crawlcapability.RefusalCeased] != 1 {
+	if observer.refusals[crawlcapability.RefusalCease] != 1 {
 		t.Fatalf("cease not honored: %v", observer.refusals)
 	}
 }
@@ -661,7 +661,7 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if observer.refusals[crawlcapability.RefusalDeferred] == 0 {
+	if observer.refusals[crawlcapability.RefusalDefer] == 0 {
 		t.Fatal("expected defer refusals")
 	}
 	if observer.disposed[crawlcapability.DisposalFetchFailed] != 1 {
