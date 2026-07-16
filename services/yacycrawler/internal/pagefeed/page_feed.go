@@ -12,17 +12,20 @@ import (
 
 type bound[R any] struct {
 	representation yacycrawlcontract.PageRepresentationKind
+	contentFormat  crawlcapability.PageContentFormat
 	derivation     crawlcapability.RepresentationDerivation[R]
 	publication    crawlcapability.PagePublication[R]
 }
 
 func Bind[R any](
 	representation yacycrawlcontract.PageRepresentationKind,
+	contentFormat crawlcapability.PageContentFormat,
 	derivation crawlcapability.RepresentationDerivation[R],
 	publication crawlcapability.PagePublication[R],
 ) crawlcapability.PageFeed {
 	return bound[R]{
 		representation: representation,
+		contentFormat:  contentFormat,
 		derivation:     derivation,
 		publication:    publication,
 	}
@@ -32,15 +35,15 @@ func (b bound[R]) Representation() yacycrawlcontract.PageRepresentationKind {
 	return b.representation
 }
 
-func (b bound[R]) Accepts(format crawlcapability.PageContentFormat) bool {
-	return b.derivation.Accepts(format)
+func (b bound[R]) ContentFormat() crawlcapability.PageContentFormat {
+	return b.contentFormat
 }
 
 func (b bound[R]) Derive(
 	page crawlcapability.CrawledPage,
-	render crawlcapability.RenderContent,
+	content []byte,
 ) (crawlcapability.PublishPage, error) {
-	derived, err := b.derivation.Derive(page, render)
+	derived, err := b.derivation.Derive(page, content)
 	if err != nil {
 		return nil, err
 	}

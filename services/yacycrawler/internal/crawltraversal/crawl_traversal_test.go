@@ -68,19 +68,15 @@ func (f fakeRecrawl) Due(context.Context, string) (bool, error) { return f.due, 
 
 type fakeFeed struct {
 	representation yacycrawlcontract.PageRepresentationKind
-	refuses        crawlcapability.PageContentFormat
+	contentFormat  crawlcapability.PageContentFormat
 	mu             sync.Mutex
 	published      []string
 	failWith       error
 }
 
-func (o *fakeFeed) Accepts(format crawlcapability.PageContentFormat) bool {
-	return format != o.refuses
-}
-
 func (o *fakeFeed) Derive(
 	page crawlcapability.CrawledPage,
-	_ crawlcapability.RenderContent,
+	_ []byte,
 ) (crawlcapability.CrawledPage, error) {
 	return page, nil
 }
@@ -98,9 +94,51 @@ func (o *fakeFeed) Publish(_ context.Context, page crawlcapability.CrawledPage) 
 func feeds(items ...*fakeFeed) []crawlcapability.PageFeed {
 	bound := make([]crawlcapability.PageFeed, len(items))
 	for i, item := range items {
-		bound[i] = pagefeed.Bind(item.representation, item, item)
+		format := item.contentFormat
+		if format == "" {
+			format = crawlcapability.PageContentFormatText
+		}
+		bound[i] = pagefeed.Bind(item.representation, format, item, item)
 	}
 	return bound
+}
+
+type fakeRendering struct {
+	format  crawlcapability.PageContentFormat
+	sources []crawlcapability.PageContentFormat
+}
+
+func (r fakeRendering) Format() crawlcapability.PageContentFormat {
+	return r.format
+}
+
+func (r fakeRendering) SourceFormats() []crawlcapability.PageContentFormat {
+	return r.sources
+}
+
+func (r fakeRendering) Render(
+	body []byte,
+	_ crawlcapability.PageContentFormat,
+) ([]byte, error) {
+	return body, nil
+}
+
+func renderings() []crawlcapability.PageRendering {
+	return []crawlcapability.PageRendering{
+		fakeRendering{
+			format: crawlcapability.PageContentFormatText,
+			sources: []crawlcapability.PageContentFormat{
+				crawlcapability.PageContentFormatText,
+				crawlcapability.PageContentFormatHTML,
+			},
+		},
+		fakeRendering{
+			format: crawlcapability.PageContentFormatMarkdown,
+			sources: []crawlcapability.PageContentFormat{
+				crawlcapability.PageContentFormatHTML,
+			},
+		},
+	}
 }
 
 type recordingObserver struct {
@@ -194,7 +232,7 @@ func newCrawler(
 ) *crawltraversal.Crawler {
 	return crawltraversal.NewCrawler(
 		cfg, fetch, extract, crawltraversal.AlwaysDue{},
-		feeds, observer, &manualClock{},
+		feeds, renderings(), observer, &manualClock{},
 	)
 }
 
@@ -261,7 +299,7 @@ func TestTraverseSkipsRepresentationRefusingPageFormat(t *testing.T) {
 	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	markdown := &fakeFeed{
 		representation: yacycrawlcontract.PageRepresentationKindMarkdown,
-		refuses:        crawlcapability.PageContentFormatText,
+		contentFormat:  crawlcapability.PageContentFormatMarkdown,
 	}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
@@ -289,7 +327,7 @@ func TestTraverseDisposesPageNoRepresentationAccepts(t *testing.T) {
 	}
 	rwi := &fakeFeed{
 		representation: yacycrawlcontract.PageRepresentationKindRWI,
-		refuses:        crawlcapability.PageContentFormatText,
+		contentFormat:  crawlcapability.PageContentFormatMarkdown,
 	}
 	observer := newObserver()
 	crawler := newCrawler(defaultConfig(), fetch, extract,
@@ -492,7 +530,7 @@ func TestTraverseSkipsFetchWhenNotDue(t *testing.T) {
 	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	crawler := crawltraversal.NewCrawler(
 		defaultConfig(), fetch, fakeExtract{}, fakeRecrawl{due: false},
-		feeds(rwi), newObserver(), &manualClock{},
+		feeds(rwi), renderings(), newObserver(), &manualClock{},
 	)
 
 	traverse(t, crawler, []string{"http://host/"})
@@ -709,7 +747,8 @@ func TestTraverseRetriesTransientPublication(t *testing.T) {
 	}
 	feed := &flakyFeed{failuresLeft: 2}
 	bound := pagefeed.Bind(
-		yacycrawlcontract.PageRepresentationKindRWI, feed, feed,
+		yacycrawlcontract.PageRepresentationKindRWI,
+		crawlcapability.PageContentFormatText, feed, feed,
 	)
 	crawler := newCrawler(defaultConfig(), fetch, extract,
 		[]crawlcapability.PageFeed{bound}, newObserver())
@@ -726,11 +765,9 @@ type flakyFeed struct {
 	published    int
 }
 
-func (o *flakyFeed) Accepts(crawlcapability.PageContentFormat) bool { return true }
-
 func (o *flakyFeed) Derive(
 	page crawlcapability.CrawledPage,
-	_ crawlcapability.RenderContent,
+	_ []byte,
 ) (crawlcapability.CrawledPage, error) {
 	return page, nil
 }

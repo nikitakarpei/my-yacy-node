@@ -1,8 +1,7 @@
 package crawlcapability
 
-// RepresentationDerivation derives one page representation from a crawled page,
-// rendering whatever content it needs through render rather than parsing the page itself.
+// RepresentationDerivation derives one page representation from the page's content in the
+// format its feed reads, rendered by the crawl before the page reaches the derivation.
 type RepresentationDerivation[R any] interface {
-	Accepts(format PageContentFormat) bool
-	Derive(page CrawledPage, render RenderContent) (R, error)
+	Derive(page CrawledPage, content []byte) (R, error)
 }

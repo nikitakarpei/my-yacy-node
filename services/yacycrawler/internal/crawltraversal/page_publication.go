@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/renderedcontent"
 )
 
 const (
@@ -16,18 +16,17 @@ const (
 )
 
 func (c *crawl) publish(ctx context.Context, page crawlcapability.CrawledPage) error {
-	accepting := c.feedsAccepting(page.Format)
-	if len(accepting) == 0 {
-		slog.WarnContext(ctx, msgFormatUnrepresentable,
-			slog.String("url", page.CanonicalURL),
-			slog.String("format", string(page.Format)),
-		)
-		c.observer.PageDisposed(crawlcapability.DisposalUnrepresentable)
-		return nil
+	contents, err := c.renderContents(page)
+	if err != nil {
+		return err
 	}
-	rendered := renderedcontent.New(page.Body, page.Format)
-	for _, feed := range accepting {
-		publish, err := feed.Derive(page, rendered.In)
+	published := 0
+	for _, feed := range c.feeds {
+		content, rendered := contents[feed.ContentFormat()]
+		if !rendered {
+			continue
+		}
+		publish, err := feed.Derive(page, content)
 		if err != nil {
 			return fmt.Errorf("derive %s: %w", feed.Representation(), err)
 		}
@@ -35,8 +34,33 @@ func (c *crawl) publish(ctx context.Context, page crawlcapability.CrawledPage) e
 			return err
 		}
 		c.observer.PagePublished(string(feed.Representation()))
+		published++
+	}
+	if published == 0 {
+		slog.WarnContext(ctx, msgFormatUnrepresentable,
+			slog.String("url", page.CanonicalURL),
+			slog.String("format", string(page.Format)),
+		)
+		c.observer.PageDisposed(crawlcapability.DisposalUnrepresentable)
 	}
 	return nil
+}
+
+func (c *crawl) renderContents(
+	page crawlcapability.CrawledPage,
+) (map[crawlcapability.PageContentFormat][]byte, error) {
+	contents := make(map[crawlcapability.PageContentFormat][]byte, len(c.renderings))
+	for _, rendering := range c.renderings {
+		if !slices.Contains(rendering.SourceFormats(), page.Format) {
+			continue
+		}
+		content, err := rendering.Render(page.Body, page.Format)
+		if err != nil {
+			return nil, fmt.Errorf("render %s: %w", rendering.Format(), err)
+		}
+		contents[rendering.Format()] = content
+	}
+	return contents, nil
 }
 
 func (c *crawl) send(
@@ -68,16 +92,4 @@ func (c *crawl) send(
 			return fmt.Errorf("await publication retry: %w", sleepErr)
 		}
 	}
-}
-
-func (c *crawl) feedsAccepting(
-	format crawlcapability.PageContentFormat,
-) []crawlcapability.PageFeed {
-	accepting := make([]crawlcapability.PageFeed, 0, len(c.feeds))
-	for _, feed := range c.feeds {
-		if feed.Accepts(format) {
-			accepting = append(accepting, feed)
-		}
-	}
-	return accepting
 }

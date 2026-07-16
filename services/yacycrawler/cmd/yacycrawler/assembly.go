@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"maps"
 	"net/http"
+	"slices"
 	"time"
 
 	"github.com/nats-io/nats.go"
@@ -72,7 +74,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
 	)
-	feeds := buildPageFeeds(js, cfg)
+	feeds, renderings := buildPageFeeds(js, cfg)
 
 	extract, err := buildExtractor(cfg)
 	if err != nil {
@@ -85,6 +87,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		extract,
 		crawltraversal.AlwaysDue{},
 		feeds,
+		renderings,
 		metrics,
 		crawltraversal.SystemClock{},
 	)
@@ -156,7 +159,7 @@ func ordersConsumer(
 func buildPageFeeds(
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-) []crawlcapability.PageFeed {
+) ([]crawlcapability.PageFeed, []crawlcapability.PageRendering) {
 	subjects := make(
 		map[yacycrawlcontract.PageRepresentationKind]string,
 		len(cfg.PageFeeds),
@@ -165,14 +168,16 @@ func buildPageFeeds(
 		subjects[feed.Representation] = feed.Stream.Subject
 	}
 	feeds := make([]crawlcapability.PageFeed, 0, len(cfg.PageFeeds))
+	renderings := map[crawlcapability.PageContentFormat]crawlcapability.PageRendering{}
 	for _, preset := range pageFeedCatalog() {
 		subject, enabled := subjects[preset.representation]
 		if !enabled {
 			continue
 		}
 		feeds = append(feeds, preset.build(js, subject))
+		renderings[preset.rendering.Format()] = preset.rendering
 	}
-	return feeds
+	return feeds, slices.Collect(maps.Values(renderings))
 }
 
 func buildExtractor(cfg ServiceConfig) (crawlcapability.DocumentExtraction, error) {

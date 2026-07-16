@@ -15,6 +15,7 @@ import (
 type pageFeedPreset struct {
 	representation yacycrawlcontract.PageRepresentationKind
 	enabled        bool
+	rendering      crawlcapability.PageRendering
 	build          func(jetstream.JetStream, string) crawlcapability.PageFeed
 }
 
@@ -25,13 +26,15 @@ func pageFeedCatalog() []pageFeedPreset {
 		{
 			representation: yacycrawlcontract.PageRepresentationKindRWI,
 			enabled:        true,
+			rendering:      text,
 			build: func(
 				js jetstream.JetStream,
 				subject string,
 			) crawlcapability.PageFeed {
 				return pagefeed.Bind(
 					yacycrawlcontract.PageRepresentationKindRWI,
-					pagerwi.NewDerivation(text),
+					text.Format(),
+					pagerwi.NewDerivation(),
 					pagepublication.NewRWIPublication(js, subject),
 				)
 			},
@@ -39,13 +42,15 @@ func pageFeedCatalog() []pageFeedPreset {
 		{
 			representation: yacycrawlcontract.PageRepresentationKindText,
 			enabled:        false,
+			rendering:      text,
 			build: func(
 				js jetstream.JetStream,
 				subject string,
 			) crawlcapability.PageFeed {
 				return pagefeed.Bind(
 					yacycrawlcontract.PageRepresentationKindText,
-					pagetext.NewDerivation(text),
+					text.Format(),
+					pagetext.NewDerivation(),
 					pagepublication.NewTextPublication(js, subject),
 				)
 			},
@@ -53,13 +58,15 @@ func pageFeedCatalog() []pageFeedPreset {
 		{
 			representation: yacycrawlcontract.PageRepresentationKindMarkdown,
 			enabled:        false,
+			rendering:      markdown,
 			build: func(
 				js jetstream.JetStream,
 				subject string,
 			) crawlcapability.PageFeed {
 				return pagefeed.Bind(
 					yacycrawlcontract.PageRepresentationKindMarkdown,
-					pagemarkdown.NewDerivation(markdown),
+					markdown.Format(),
+					pagemarkdown.NewDerivation(),
 					pagepublication.NewMarkdownPublication(js, subject),
 				)
 			},

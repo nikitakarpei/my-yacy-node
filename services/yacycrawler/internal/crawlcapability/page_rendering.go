@@ -1,6 +1,6 @@
 package crawlcapability
 
-type ContentRendering interface {
+type PageRendering interface {
 	Format() PageContentFormat
 	SourceFormats() []PageContentFormat
 	Render(body []byte, sourceFormat PageContentFormat) ([]byte, error)

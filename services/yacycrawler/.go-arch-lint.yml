@@ -36,8 +36,6 @@ components:
     in: internal/pagepublication/**
   pagefeed:
     in: internal/pagefeed/**
-  renderedcontent:
-    in: internal/renderedcontent/**
   orderintake:
     in: internal/orderintake/**
   crawlmetrics:
@@ -116,7 +114,6 @@ deps:
       - canonicalurl
       - pageadmission
       - crawlfrontier
-      - renderedcontent
       - pagefeed
     canUse:
       - yacycrawlcontract
@@ -168,10 +165,6 @@ deps:
       - crawlcapability
     canUse:
       - yacycrawlcontract
-  renderedcontent:
-    mayDependOn:
-      - renderedcontent
-      - crawlcapability
   pagepublication:
     mayDependOn:
       - pagepublication
