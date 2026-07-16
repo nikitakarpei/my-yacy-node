@@ -1,4 +1,4 @@
-package pagepublication_test
+package pagefeed_test
 
 import (
 	"context"
@@ -7,10 +7,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagepublication"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefeed"
 )
 
-func TestTextPublicationPublishes(t *testing.T) {
+func TestTextFeedPublishesTheRenderedText(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
@@ -21,12 +21,12 @@ func TestTextPublicationPublishes(t *testing.T) {
 	); err != nil {
 		t.Fatal(err)
 	}
-	publication := pagepublication.NewTextPublication(js, "yacy.crawl.page.text")
-	representation := yacycrawlcontract.PageTextRepresentation{
-		PageReference: sampleReference(),
-		Text:          []byte("the quick brown fox"),
+	feed := pagefeed.NewTextFeed(js, "yacy.crawl.page.text", crawlcapability.PageContentFormatText)
+	publish, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
+	if err != nil {
+		t.Fatalf("derive: %v", err)
 	}
-	if err := publication.Publish(ctx, representation); err != nil {
+	if err := publish(ctx); err != nil {
 		t.Fatalf("publish: %v", err)
 	}
 
@@ -47,7 +47,7 @@ func TestTextPublicationPublishes(t *testing.T) {
 	}
 }
 
-func TestTextPublicationFullStreamIsRetryable(t *testing.T) {
+func TestTextFeedFullStreamIsRetryable(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
@@ -58,17 +58,30 @@ func TestTextPublicationFullStreamIsRetryable(t *testing.T) {
 	); err != nil {
 		t.Fatal(err)
 	}
-	publication := pagepublication.NewTextPublication(js, "yacy.crawl.page.text.full")
-	representation := yacycrawlcontract.PageTextRepresentation{
-		PageReference: sampleReference(),
-		Text:          []byte("the quick brown fox"),
+	feed := pagefeed.NewTextFeed(
+		js,
+		"yacy.crawl.page.text.full",
+		crawlcapability.PageContentFormatText,
+	)
+	publish, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
+	if err != nil {
+		t.Fatalf("derive: %v", err)
 	}
-	if err := publication.Publish(ctx, representation); err != nil {
+	if err := publish(ctx); err != nil {
 		t.Fatalf("first publish: %v", err)
 	}
-	err := publication.Publish(ctx, representation)
 	var retryable crawlcapability.TransientPublicationError
-	if err == nil || !errors.As(err, &retryable) {
+	if err := publish(ctx); err == nil || !errors.As(err, &retryable) {
 		t.Fatalf("full stream should yield TransientPublicationError, got %v", err)
+	}
+}
+
+func TestTextFeedDeclaresRepresentationAndContentFormat(t *testing.T) {
+	feed := pagefeed.NewTextFeed(nil, "yacy.crawl.page.text", crawlcapability.PageContentFormatText)
+	if feed.Representation() != yacycrawlcontract.PageRepresentationKindText {
+		t.Fatalf("representation = %q", feed.Representation())
+	}
+	if feed.ContentFormat() != crawlcapability.PageContentFormatText {
+		t.Fatalf("content format = %q", feed.ContentFormat())
 	}
 }

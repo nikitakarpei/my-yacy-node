@@ -12,7 +12,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawltraversal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefeed"
 )
 
 type fakeFetch struct {
@@ -74,31 +73,36 @@ type fakeFeed struct {
 	failWith       error
 }
 
+func (o *fakeFeed) Representation() yacycrawlcontract.PageRepresentationKind {
+	return o.representation
+}
+
+func (o *fakeFeed) ContentFormat() crawlcapability.PageContentFormat {
+	if o.contentFormat == "" {
+		return crawlcapability.PageContentFormatText
+	}
+	return o.contentFormat
+}
+
 func (o *fakeFeed) Derive(
 	page crawlcapability.CrawledPage,
 	_ []byte,
-) (crawlcapability.CrawledPage, error) {
-	return page, nil
-}
-
-func (o *fakeFeed) Publish(_ context.Context, page crawlcapability.CrawledPage) error {
-	if o.failWith != nil {
-		return o.failWith
-	}
-	o.mu.Lock()
-	defer o.mu.Unlock()
-	o.published = append(o.published, page.CanonicalURL)
-	return nil
+) (crawlcapability.PublishPage, error) {
+	return func(context.Context) error {
+		if o.failWith != nil {
+			return o.failWith
+		}
+		o.mu.Lock()
+		defer o.mu.Unlock()
+		o.published = append(o.published, page.CanonicalURL)
+		return nil
+	}, nil
 }
 
 func feeds(items ...*fakeFeed) []crawlcapability.PageFeed {
 	bound := make([]crawlcapability.PageFeed, len(items))
 	for i, item := range items {
-		format := item.contentFormat
-		if format == "" {
-			format = crawlcapability.PageContentFormatText
-		}
-		bound[i] = pagefeed.Bind(item.representation, format, item, item)
+		bound[i] = item
 	}
 	return bound
 }
@@ -746,12 +750,8 @@ func TestTraverseRetriesTransientPublication(t *testing.T) {
 		documents: []crawlcapability.ExtractedDocument{document("http://host/", "", "b")},
 	}
 	feed := &flakyFeed{failuresLeft: 2}
-	bound := pagefeed.Bind(
-		yacycrawlcontract.PageRepresentationKindRWI,
-		crawlcapability.PageContentFormatText, feed, feed,
-	)
 	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PageFeed{bound}, newObserver())
+		[]crawlcapability.PageFeed{feed}, newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -765,20 +765,26 @@ type flakyFeed struct {
 	published    int
 }
 
-func (o *flakyFeed) Derive(
-	page crawlcapability.CrawledPage,
-	_ []byte,
-) (crawlcapability.CrawledPage, error) {
-	return page, nil
+func (*flakyFeed) Representation() yacycrawlcontract.PageRepresentationKind {
+	return yacycrawlcontract.PageRepresentationKindRWI
 }
 
-func (o *flakyFeed) Publish(context.Context, crawlcapability.CrawledPage) error {
-	if o.failuresLeft > 0 {
-		o.failuresLeft--
-		return crawlcapability.TransientPublicationError{Err: errors.New("stream full")}
-	}
-	o.published++
-	return nil
+func (*flakyFeed) ContentFormat() crawlcapability.PageContentFormat {
+	return crawlcapability.PageContentFormatText
+}
+
+func (o *flakyFeed) Derive(
+	crawlcapability.CrawledPage,
+	[]byte,
+) (crawlcapability.PublishPage, error) {
+	return func(context.Context) error {
+		if o.failuresLeft > 0 {
+			o.failuresLeft--
+			return crawlcapability.TransientPublicationError{Err: errors.New("stream full")}
+		}
+		o.published++
+		return nil
+	}, nil
 }
 
 func TestTraverseFetchErrorFails(t *testing.T) {

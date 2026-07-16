@@ -1,4 +1,4 @@
-package pagepublication_test
+package pagefeed_test
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
 func startJetStream(t *testing.T) jetstream.JetStream {
@@ -37,8 +37,8 @@ func startJetStream(t *testing.T) jetstream.JetStream {
 	return js
 }
 
-func sampleReference() yacycrawlcontract.PageReference {
-	return yacycrawlcontract.PageReference{
+func samplePage() crawlcapability.CrawledPage {
+	return crawlcapability.CrawledPage{
 		CanonicalURL: "http://example.com/a",
 		Title:        "Hi",
 		Language:     "en",

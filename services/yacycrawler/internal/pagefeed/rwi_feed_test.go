@@ -1,18 +1,21 @@
-package pagepublication_test
+package pagefeed_test
 
 import (
 	"context"
+	"fmt"
+	"strings"
 	"testing"
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagepublication"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefeed"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func TestRWIPublicationPublishes(t *testing.T) {
+func TestRWIFeedPublishesTheIndexBuiltFromTheText(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
@@ -23,21 +26,12 @@ func TestRWIPublicationPublishes(t *testing.T) {
 	); err != nil {
 		t.Fatal(err)
 	}
-	publication := pagepublication.NewRWIPublication(js, "yacy.crawl.page.rwi")
-	representation := yacycrawlcontract.PageRWIRepresentation{
-		CanonicalURL: sampleReference().CanonicalURL,
-		Metadata: []yacymodel.URIMetadataRow{
-			{Properties: map[string]string{
-				yacymodel.URLMetaColDescription: yacymodel.EncodeBase64WireForm(
-					sampleReference().Title,
-				),
-			}},
-		},
-		Postings: []yacymodel.RWIPosting{
-			{WordHash: yacymodel.WordHash("fox"), Properties: map[string]string{}},
-		},
+	feed := pagefeed.NewRWIFeed(js, "yacy.crawl.page.rwi", crawlcapability.PageContentFormatText)
+	publish, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
+	if err != nil {
+		t.Fatalf("derive: %v", err)
 	}
-	if err := publication.Publish(ctx, representation); err != nil {
+	if err := publish(ctx); err != nil {
 		t.Fatalf("publish: %v", err)
 	}
 
@@ -54,7 +48,7 @@ func TestRWIPublicationPublishes(t *testing.T) {
 	if !ok {
 		t.Fatalf("first chunk = %T, want PageRWIMetadataChunk", chunk)
 	}
-	if metadata.CanonicalURL != representation.CanonicalURL {
+	if metadata.CanonicalURL != samplePage().CanonicalURL {
 		t.Fatalf("canonical url = %q", metadata.CanonicalURL)
 	}
 	if len(metadata.Metadata) != 1 {
@@ -62,12 +56,12 @@ func TestRWIPublicationPublishes(t *testing.T) {
 	}
 	row := metadata.Metadata[0]
 	if row.Properties[yacymodel.URLMetaColDescription] !=
-		yacymodel.EncodeBase64WireForm(sampleReference().Title) {
+		yacymodel.EncodeBase64WireForm(samplePage().Title) {
 		t.Fatalf("metadata row not framed as built: %+v", row.Properties)
 	}
 }
 
-func TestRWIPublicationChunksBoundPostings(t *testing.T) {
+func TestRWIFeedChunksBoundPostings(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
@@ -81,19 +75,20 @@ func TestRWIPublicationChunksBoundPostings(t *testing.T) {
 	); err != nil {
 		t.Fatal(err)
 	}
-	postings := make([]yacymodel.RWIPosting, 2001)
-	for i := range postings {
-		postings[i] = yacymodel.RWIPosting{
-			WordHash:   yacymodel.WordHash("w"),
-			Properties: map[string]string{},
-		}
+	words := make([]string, 2001)
+	for i := range words {
+		words[i] = fmt.Sprintf("w%d", i)
 	}
-	publication := pagepublication.NewRWIPublication(js, "yacy.crawl.page.rwi.bounded")
-	representation := yacycrawlcontract.PageRWIRepresentation{
-		CanonicalURL: sampleReference().CanonicalURL,
-		Postings:     postings,
+	feed := pagefeed.NewRWIFeed(
+		js,
+		"yacy.crawl.page.rwi.bounded",
+		crawlcapability.PageContentFormatText,
+	)
+	publish, err := feed.Derive(samplePage(), []byte(strings.Join(words, " ")))
+	if err != nil {
+		t.Fatalf("derive: %v", err)
 	}
-	if err := publication.Publish(ctx, representation); err != nil {
+	if err := publish(ctx); err != nil {
 		t.Fatalf("publish: %v", err)
 	}
 
@@ -112,5 +107,15 @@ func TestRWIPublicationChunksBoundPostings(t *testing.T) {
 		if _, err := yacycrawlcontract.UnmarshalPageRWIChunk(msg.Data()); err != nil {
 			t.Fatalf("unmarshal chunk %d: %v", i, err)
 		}
+	}
+}
+
+func TestRWIFeedDeclaresRepresentationAndContentFormat(t *testing.T) {
+	feed := pagefeed.NewRWIFeed(nil, "yacy.crawl.page.rwi", crawlcapability.PageContentFormatText)
+	if feed.Representation() != yacycrawlcontract.PageRepresentationKindRWI {
+		t.Fatalf("representation = %q", feed.Representation())
+	}
+	if feed.ContentFormat() != crawlcapability.PageContentFormatText {
+		t.Fatalf("content format = %q", feed.ContentFormat())
 	}
 }

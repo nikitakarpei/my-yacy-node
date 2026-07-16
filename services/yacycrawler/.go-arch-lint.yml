@@ -32,8 +32,6 @@ components:
     in: internal/pagetext/**
   pagemarkdown:
     in: internal/pagemarkdown/**
-  pagepublication:
-    in: internal/pagepublication/**
   pagefeed:
     in: internal/pagefeed/**
   orderintake:
@@ -114,7 +112,6 @@ deps:
       - canonicalurl
       - pageadmission
       - crawlfrontier
-      - pagefeed
     canUse:
       - yacycrawlcontract
       - backoff
@@ -163,12 +160,7 @@ deps:
     mayDependOn:
       - pagefeed
       - crawlcapability
-    canUse:
-      - yacycrawlcontract
-  pagepublication:
-    mayDependOn:
-      - pagepublication
-      - crawlcapability
+      - pagerwi
     canUse:
       - yacycrawlcontract
       - yacymodel
@@ -196,9 +188,7 @@ deps:
       - contentextraction
       - archivemember
       - httpfetch
-      - pagepublication
       - pagefeed
-      - pagerwi
       - pagetext
       - pagemarkdown
       - orderintake
