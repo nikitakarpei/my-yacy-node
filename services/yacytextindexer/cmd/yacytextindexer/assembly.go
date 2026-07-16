@@ -33,15 +33,6 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return fmt.Errorf("init jetstream: %w", err)
 	}
-	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		ctx,
-		js,
-		yacycrawlcontract.PageRepresentationText,
-		cfg.CrawledPageStreamSpec(),
-	); err != nil {
-		return fmt.Errorf("ensure crawled page stream: %w", err)
-	}
-
 	stream, err := js.Stream(
 		ctx,
 		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationText),

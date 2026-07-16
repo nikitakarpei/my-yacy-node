@@ -1,6 +1,10 @@
 package crawlcapability
 
-import "context"
+import (
+	"context"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+)
 
 type PagePublication[R any] interface {
 	Publish(ctx context.Context, representation R) error
@@ -9,32 +13,33 @@ type PagePublication[R any] interface {
 // PageRepresentationOutput erases a representation's domain type so the crawler can
 // hold a uniform slice of outputs while each still derives and publishes its own R.
 type PageRepresentationOutput struct {
-	name    string
-	accepts func(PageContentFormat) bool
-	prepare func(CrawledPage, *RenderedContent) (func(context.Context) error, error)
+	representation yacycrawlcontract.PageRepresentation
+	accepts        func(PageContentFormat) bool
+	prepare        func(CrawledPage, RenderContent) (func(context.Context) error, error)
 }
 
 func BindRepresentation[R any](
+	representation yacycrawlcontract.PageRepresentation,
 	derivation RepresentationDerivation[R],
 	publication PagePublication[R],
 ) PageRepresentationOutput {
 	return PageRepresentationOutput{
-		name:    derivation.Name(),
-		accepts: derivation.Accepts,
-		prepare: func(page CrawledPage, rendered *RenderedContent) (func(context.Context) error, error) {
-			representation, err := derivation.Derive(page, rendered)
+		representation: representation,
+		accepts:        derivation.Accepts,
+		prepare: func(page CrawledPage, render RenderContent) (func(context.Context) error, error) {
+			derived, err := derivation.Derive(page, render)
 			if err != nil {
 				return nil, err
 			}
 			return func(ctx context.Context) error {
-				return publication.Publish(ctx, representation)
+				return publication.Publish(ctx, derived)
 			}, nil
 		},
 	}
 }
 
-func (o PageRepresentationOutput) Name() string {
-	return o.name
+func (o PageRepresentationOutput) Representation() yacycrawlcontract.PageRepresentation {
+	return o.representation
 }
 
 func (o PageRepresentationOutput) Accepts(format PageContentFormat) bool {
@@ -43,7 +48,7 @@ func (o PageRepresentationOutput) Accepts(format PageContentFormat) bool {
 
 func (o PageRepresentationOutput) Prepare(
 	page CrawledPage,
-	rendered *RenderedContent,
+	render RenderContent,
 ) (func(context.Context) error, error) {
-	return o.prepare(page, rendered)
+	return o.prepare(page, render)
 }

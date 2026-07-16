@@ -30,7 +30,7 @@ func NewElasticsearchIndex(endpoint, index string, client *http.Client) *Elastic
 
 func (idx *ElasticsearchIndex) Index(
 	ctx context.Context,
-	page yacycrawlcontract.PageContentRepresentation,
+	page yacycrawlcontract.PageTextRepresentation,
 ) error {
 	identity := documentIdentity(page.CanonicalURL)
 	body, err := json.Marshal(crawledpagedocument.Of(page))

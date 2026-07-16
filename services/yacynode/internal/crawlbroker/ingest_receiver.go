@@ -53,6 +53,7 @@ func newIngestReceiver(
 			Chunk: chunk,
 			Ack:   func(context.Context) error { return msg.Ack() },
 			Nak:   func(context.Context) error { return msg.NakWithDelay(ingestNakDelay) },
+			Term:  func(context.Context) error { return msg.Term() },
 		}
 		select {
 		case out <- delivery:

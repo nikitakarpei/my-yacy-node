@@ -16,6 +16,7 @@ type IngestDelivery struct {
 	Chunk yacycrawlcontract.PageRWIChunk
 	Ack   func(context.Context) error
 	Nak   func(context.Context) error
+	Term  func(context.Context) error
 }
 
 type IngestStream interface {

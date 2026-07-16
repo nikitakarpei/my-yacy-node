@@ -46,18 +46,6 @@ var proxyDialModeByName = map[string]httpfetch.ProxyDialMode{
 	"absolute-url": httpfetch.ProxyDialAbsoluteURL,
 }
 
-type pageOutputDefault struct {
-	representation yacycrawlcontract.PageRepresentation
-	subject        string
-	enabled        bool
-}
-
-var pageOutputDefaults = []pageOutputDefault{
-	{yacycrawlcontract.PageRepresentationRWI, "yacy.crawl.page.rwi", true},
-	{yacycrawlcontract.PageRepresentationText, "yacy.crawl.page.text", false},
-	{yacycrawlcontract.PageRepresentationMarkdown, "yacy.crawl.page.markdown", false},
-}
-
 func pageSubjectEnv(representation yacycrawlcontract.PageRepresentation) string {
 	return "NATS_PAGE_" + strings.ToUpper(string(representation)) + "_SUBJECT"
 }
@@ -97,8 +85,9 @@ func (c ServiceConfig) OrdersStreamSpec() yacycrawlcontract.OrdersStreamSpec {
 }
 
 func loadPageOutputs(getenv func(string) string) ([]PageOutputConfig, error) {
-	outputs := make([]PageOutputConfig, 0, len(pageOutputDefaults))
-	for _, preset := range pageOutputDefaults {
+	catalog := pageOutputCatalog()
+	outputs := make([]PageOutputConfig, 0, len(catalog))
+	for _, preset := range catalog {
 		enabled, err := envconfig.Bool(
 			getenv,
 			pageOutputEnabledEnv(preset.representation),
@@ -140,8 +129,9 @@ func loadPageOutputs(getenv func(string) string) ([]PageOutputConfig, error) {
 }
 
 func pageOutputEnabledEnvNames() []string {
-	names := make([]string, 0, len(pageOutputDefaults))
-	for _, preset := range pageOutputDefaults {
+	catalog := pageOutputCatalog()
+	names := make([]string, 0, len(catalog))
+	for _, preset := range catalog {
 		names = append(names, pageOutputEnabledEnv(preset.representation))
 	}
 	return names

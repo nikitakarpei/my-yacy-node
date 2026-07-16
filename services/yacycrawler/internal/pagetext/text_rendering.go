@@ -3,6 +3,8 @@ package pagetext
 import (
 	"bytes"
 	"fmt"
+	"maps"
+	"slices"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -10,6 +12,11 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
+
+var textBySourceFormat = map[crawlcapability.PageContentFormat]func([]byte) ([]byte, error){
+	crawlcapability.PageContentFormatText: func(body []byte) ([]byte, error) { return body, nil },
+	crawlcapability.PageContentFormatHTML: renderText,
+}
 
 type Rendering struct{}
 
@@ -22,23 +29,18 @@ func (Rendering) Format() crawlcapability.PageContentFormat {
 }
 
 func (Rendering) SourceFormats() []crawlcapability.PageContentFormat {
-	return []crawlcapability.PageContentFormat{
-		crawlcapability.PageContentFormatHTML,
-		crawlcapability.PageContentFormatText,
-	}
+	return slices.Sorted(maps.Keys(textBySourceFormat))
 }
 
 func (Rendering) Render(
 	body []byte,
 	sourceFormat crawlcapability.PageContentFormat,
 ) ([]byte, error) {
-	switch sourceFormat {
-	case crawlcapability.PageContentFormatText:
-		return body, nil
-	case crawlcapability.PageContentFormatHTML:
-		return renderText(body)
+	render, ok := textBySourceFormat[sourceFormat]
+	if !ok {
+		return nil, fmt.Errorf("text rendering cannot accept %s source", sourceFormat)
 	}
-	return nil, fmt.Errorf("text rendering cannot accept %s source", sourceFormat)
+	return render(body)
 }
 
 func renderText(body []byte) ([]byte, error) {

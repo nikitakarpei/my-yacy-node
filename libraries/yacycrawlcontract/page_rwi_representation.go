@@ -5,7 +5,7 @@ import (
 )
 
 type PageRWIRepresentation struct {
-	CanonicalURL string
-	Metadata     []yacymodel.URIMetadataRow
-	Postings     []yacymodel.RWIPosting
+	CanonicalURL string                     `json:"CanonicalURL"`
+	Metadata     []yacymodel.URIMetadataRow `json:"Metadata"`
+	Postings     []yacymodel.RWIPosting     `json:"Postings"`
 }

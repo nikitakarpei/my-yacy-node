@@ -5,11 +5,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
-func Of(page yacycrawlcontract.PageContentRepresentation) searchdocument.Document {
+func Of(page yacycrawlcontract.PageTextRepresentation) searchdocument.Document {
 	return searchdocument.Document{
 		Title:     page.Title,
 		URL:       page.CanonicalURL,
-		Content:   string(page.Body),
+		Content:   string(page.Text),
 		CrawledAt: page.CrawledAt,
 		Language:  page.Language,
 	}

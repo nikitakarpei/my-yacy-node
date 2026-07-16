@@ -33,8 +33,6 @@ service is meant for a more capable host than an always-on node.
   carries page references and never a body; content representations carry the body.
 * The service SHALL publish each page to every enabled representation that accepts its
   content format.
-* The service SHALL advance a page's publications in lockstep: until every one can take
-  the page, none proceeds.
 * Every fetched page SHALL reach one terminal outcome: published to its accepting
   representations, or disposed per operator policy.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient
@@ -78,3 +76,5 @@ service is meant for a more capable host than an always-on node.
   rights can inject; restrict publish rights on their subjects to the crawler.
 * A consumer's outage-survival for a content representation holds only within the
   retention window the operator sizes.
+* A page stalled on one representation stays published on the ones before it; only the
+  order's redelivery recovers it.

@@ -8,7 +8,6 @@ The indexer is configured entirely through environment variables.
 |---|---|---|
 | `NATS_URL` | required | NATS server the indexer consumes crawled pages from. |
 | `NATS_CRAWLED_PAGE_SUBJECT` | `yacy.crawl.page.text` | Subject the indexer consumes crawled pages from. |
-| `NATS_CRAWLED_PAGE_MAX_MSGS` | `1024` | Bound on the crawled-page stream. |
 | `NATS_CRAWLED_PAGE_DURABLE` | `yacytextindexer` | Durable queue-consumer name shared across instances. |
 
 ## Indexing

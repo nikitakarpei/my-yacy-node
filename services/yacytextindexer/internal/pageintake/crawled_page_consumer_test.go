@@ -72,7 +72,7 @@ type recordingIndexer struct {
 
 func (r recordingIndexer) Index(
 	context.Context,
-	yacycrawlcontract.PageContentRepresentation,
+	yacycrawlcontract.PageTextRepresentation,
 ) error {
 	if r.fail {
 		return errors.New("index failed")
@@ -100,8 +100,10 @@ func (p *recordingProgress) IndexObserved(time.Duration) { p.observed++ }
 
 func TestCrawledPageConsumerAcksOnSuccessfulIndex(t *testing.T) {
 	acked := make(chan string, 1)
-	data, err := yacycrawlcontract.MarshalPageContentRepresentation(
-		yacycrawlcontract.PageContentRepresentation{CanonicalURL: "https://example.com/"},
+	data, err := yacycrawlcontract.MarshalPageTextRepresentation(
+		yacycrawlcontract.PageTextRepresentation{
+			PageReference: yacycrawlcontract.PageReference{CanonicalURL: "https://example.com/"},
+		},
 	)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
@@ -130,8 +132,10 @@ func TestCrawledPageConsumerAcksOnSuccessfulIndex(t *testing.T) {
 
 func TestCrawledPageConsumerNaksOnIndexFailure(t *testing.T) {
 	acked := make(chan string, 1)
-	data, err := yacycrawlcontract.MarshalPageContentRepresentation(
-		yacycrawlcontract.PageContentRepresentation{CanonicalURL: "https://example.com/"},
+	data, err := yacycrawlcontract.MarshalPageTextRepresentation(
+		yacycrawlcontract.PageTextRepresentation{
+			PageReference: yacycrawlcontract.PageReference{CanonicalURL: "https://example.com/"},
+		},
 	)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)

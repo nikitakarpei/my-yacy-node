@@ -8,14 +8,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagetext"
 )
 
-func TestDerivationNameIsText(t *testing.T) {
-	if name := pagetext.NewDerivation().Name(); name != "text" {
-		t.Fatalf("name = %q, want text", name)
-	}
-}
-
 func TestDerivationAcceptsOnlyRenderingSourceFormats(t *testing.T) {
-	derivation := pagetext.NewDerivation()
+	derivation := pagetext.NewDerivation(pagetext.New())
 	if !derivation.Accepts(crawlcapability.PageContentFormatHTML) {
 		t.Fatal("should accept html")
 	}
@@ -34,7 +28,7 @@ func TestDerivationProducesTextRepresentation(t *testing.T) {
 		CrawledAt:    time.Unix(1_700_000_000, 0),
 	}
 	rendered := crawlcapability.NewRenderedContent(page.Body, page.Format)
-	representation, err := pagetext.NewDerivation().Derive(page, rendered)
+	representation, err := pagetext.NewDerivation(pagetext.New()).Derive(page, rendered.In)
 	if err != nil {
 		t.Fatalf("Derive: %v", err)
 	}

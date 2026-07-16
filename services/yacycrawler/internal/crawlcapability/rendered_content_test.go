@@ -61,3 +61,47 @@ func TestRenderedContentRendersEachFormatIndependently(t *testing.T) {
 		t.Fatalf("expected one render each, got text=%d markdown=%d", text.calls, markdown.calls)
 	}
 }
+
+type markingRendering struct {
+	mark string
+}
+
+func (markingRendering) Format() crawlcapability.PageContentFormat {
+	return crawlcapability.PageContentFormatText
+}
+
+func (markingRendering) SourceFormats() []crawlcapability.PageContentFormat {
+	return []crawlcapability.PageContentFormat{crawlcapability.PageContentFormatHTML}
+}
+
+func (r markingRendering) Render(
+	body []byte,
+	_ crawlcapability.PageContentFormat,
+) ([]byte, error) {
+	return append([]byte(r.mark), body...), nil
+}
+
+func TestRenderedContentKeepsRenderingsSharingAFormatApart(t *testing.T) {
+	first := markingRendering{mark: "first:"}
+	second := markingRendering{mark: "second:"}
+	rendered := crawlcapability.NewRenderedContent(
+		[]byte("body"), crawlcapability.PageContentFormatHTML,
+	)
+
+	firstBody, err := rendered.In(first)
+	if err != nil {
+		t.Fatalf("In: %v", err)
+	}
+	secondBody, err := rendered.In(second)
+	if err != nil {
+		t.Fatalf("In: %v", err)
+	}
+
+	if string(firstBody) != "first:body" || string(secondBody) != "second:body" {
+		t.Fatalf(
+			"renderings sharing a format served each other's bytes: %q %q",
+			firstBody,
+			secondBody,
+		)
+	}
+}

@@ -22,7 +22,7 @@ func TestTextPublicationPublishes(t *testing.T) {
 		t.Fatal(err)
 	}
 	publication := pagepublication.NewTextPublication(js, "yacy.crawl.page.text")
-	representation := crawlcapability.TextRepresentation{
+	representation := yacycrawlcontract.PageTextRepresentation{
 		PageReference: sampleReference(),
 		Text:          []byte("the quick brown fox"),
 	}
@@ -35,15 +35,15 @@ func TestTextPublicationPublishes(t *testing.T) {
 		js,
 		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationText),
 	)
-	page, err := yacycrawlcontract.UnmarshalPageContentRepresentation(msg)
+	page, err := yacycrawlcontract.UnmarshalPageTextRepresentation(msg)
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
 	if page.Title != "Hi" {
 		t.Fatalf("title = %q", page.Title)
 	}
-	if string(page.Body) != "the quick brown fox" {
-		t.Fatalf("body = %q", page.Body)
+	if string(page.Text) != "the quick brown fox" {
+		t.Fatalf("text = %q", page.Text)
 	}
 }
 
@@ -59,7 +59,7 @@ func TestTextPublicationFullStreamIsRetryable(t *testing.T) {
 		t.Fatal(err)
 	}
 	publication := pagepublication.NewTextPublication(js, "yacy.crawl.page.text.full")
-	representation := crawlcapability.TextRepresentation{
+	representation := yacycrawlcontract.PageTextRepresentation{
 		PageReference: sampleReference(),
 		Text:          []byte("the quick brown fox"),
 	}

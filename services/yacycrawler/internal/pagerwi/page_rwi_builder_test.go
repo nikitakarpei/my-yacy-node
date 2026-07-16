@@ -1,6 +1,7 @@
 package pagerwi_test
 
 import (
+	"strconv"
 	"testing"
 	"time"
 
@@ -62,24 +63,34 @@ func TestBuildCountsRepeatedWords(t *testing.T) {
 	}
 }
 
-func TestBuildCarriesTextStatsAndPageReference(t *testing.T) {
+func TestBuildCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 	page := samplePage()
 	index, err := pagerwi.Build(page, []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if index.CanonicalURL != page.CanonicalURL || index.Title != page.Title {
-		t.Fatalf("page reference not carried over: %+v", index.PageReference)
+	if index.CanonicalURL != page.CanonicalURL {
+		t.Fatalf("canonical url = %q", index.CanonicalURL)
 	}
-	if index.TextLength != len(sampleText) {
-		t.Fatalf("text length = %d, want %d", index.TextLength, len(sampleText))
+	if len(index.Metadata) != 1 {
+		t.Fatalf("want one metadata row, got %d", len(index.Metadata))
 	}
-	if index.WordCount == 0 {
-		t.Fatal("word count should be nonzero")
+	properties := index.Metadata[0].Properties
+	if properties["url"] != yacymodel.EncodeBase64WireForm(page.CanonicalURL) {
+		t.Fatalf("url = %q", properties["url"])
 	}
-	if index.LocalLinkCount != page.LocalLinkCount ||
-		index.ExternalLinkCount != page.ExternalLinkCount {
-		t.Fatalf("link counts not carried over: %+v", index)
+	if properties[yacymodel.URLMetaColDescription] != yacymodel.EncodeBase64WireForm(page.Title) {
+		t.Fatalf("title = %q", properties[yacymodel.URLMetaColDescription])
+	}
+	if properties["size"] != strconv.Itoa(len(sampleText)) {
+		t.Fatalf("size = %q, want %d", properties["size"], len(sampleText))
+	}
+	if properties["wc"] == "" || properties["wc"] == "0" {
+		t.Fatalf("word count = %q, want nonzero", properties["wc"])
+	}
+	if properties["llocal"] != strconv.Itoa(page.LocalLinkCount) ||
+		properties["lother"] != strconv.Itoa(page.ExternalLinkCount) {
+		t.Fatalf("link counts = %q %q", properties["llocal"], properties["lother"])
 	}
 }
 

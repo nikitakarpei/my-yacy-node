@@ -120,18 +120,21 @@ deps:
       - pagerwi
       - crawlcapability
     canUse:
+      - yacycrawlcontract
       - yacymodel
   pagetext:
     mayDependOn:
       - pagetext
       - crawlcapability
     canUse:
+      - yacycrawlcontract
       - xnet
   pagemarkdown:
     mayDependOn:
       - pagemarkdown
       - crawlcapability
     canUse:
+      - yacycrawlcontract
       - htmltomarkdown
   htmlpage:
     mayDependOn:

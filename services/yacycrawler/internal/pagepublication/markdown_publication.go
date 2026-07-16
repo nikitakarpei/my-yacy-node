@@ -2,10 +2,11 @@ package pagepublication
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 type MarkdownPublication struct {
@@ -19,9 +20,14 @@ func NewMarkdownPublication(publisher jetstream.JetStream, subject string) Markd
 
 func (p MarkdownPublication) Publish(
 	ctx context.Context,
-	representation crawlcapability.MarkdownRepresentation,
+	representation yacycrawlcontract.PageMarkdownRepresentation,
 ) error {
-	return publishPageContent(
-		ctx, p.publisher, p.subject, representation.PageReference, representation.Markdown,
-	)
+	payload, err := yacycrawlcontract.MarshalPageMarkdownRepresentation(representation)
+	if err != nil {
+		return fmt.Errorf("marshal page markdown representation: %w", err)
+	}
+	if _, err := p.publisher.Publish(ctx, p.subject, payload); err != nil {
+		return classifyPublishError(err)
+	}
+	return nil
 }

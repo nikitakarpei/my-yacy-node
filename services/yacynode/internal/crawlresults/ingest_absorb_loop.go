@@ -2,6 +2,7 @@ package crawlresults
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -11,8 +12,10 @@ const (
 	msgIngestChunkAbsorbed = "ingest chunk absorbed"
 	msgIngestChunkDeferred = "ingest chunk deferred"
 	msgIngestChunkTooLarge = "ingest chunk exceeds posting batch cap, deferred until operator intervenes"
+	msgIngestChunkUnknown  = "ingest chunk kind is not absorbable, discarded"
 	msgIngestAckFailed     = "ingest chunk ack failed"
 	msgIngestNakFailed     = "ingest chunk nak failed"
+	msgIngestTermFailed    = "ingest chunk term failed"
 )
 
 func (c *IngestConsumer) Run(ctx context.Context) {
@@ -35,6 +38,16 @@ func (c *IngestConsumer) absorb(ctx context.Context, delivery IngestDelivery) {
 		c.absorbMetadata(ctx, delivery, chunk)
 	case yacycrawlcontract.PageRWIPostingChunk:
 		c.absorbPostings(ctx, delivery, chunk)
+	default:
+		c.discard(ctx, delivery)
+	}
+}
+
+func (c *IngestConsumer) discard(ctx context.Context, delivery IngestDelivery) {
+	slog.ErrorContext(ctx, msgIngestChunkUnknown,
+		slog.String("chunk", fmt.Sprintf("%T", delivery.Chunk)))
+	if err := delivery.Term(ctx); err != nil {
+		slog.WarnContext(ctx, msgIngestTermFailed, slog.Any("error", err))
 	}
 }
 

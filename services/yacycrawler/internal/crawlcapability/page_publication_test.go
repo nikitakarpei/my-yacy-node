@@ -5,15 +5,13 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
 type identityDerivation struct {
-	name    string
 	accepts crawlcapability.PageContentFormat
 }
-
-func (d identityDerivation) Name() string { return d.name }
 
 func (d identityDerivation) Accepts(format crawlcapability.PageContentFormat) bool {
 	return format == d.accepts
@@ -21,7 +19,7 @@ func (d identityDerivation) Accepts(format crawlcapability.PageContentFormat) bo
 
 func (identityDerivation) Derive(
 	page crawlcapability.CrawledPage,
-	_ *crawlcapability.RenderedContent,
+	_ crawlcapability.RenderContent,
 ) (crawlcapability.CrawledPage, error) {
 	return page, nil
 }
@@ -39,13 +37,14 @@ func (p *recordingPublication) Publish(_ context.Context, page crawlcapability.C
 	return nil
 }
 
-func TestBindRepresentationCarriesNameAndAccepts(t *testing.T) {
+func TestBindRepresentationCarriesRepresentationAndAccepts(t *testing.T) {
 	output := crawlcapability.BindRepresentation(
-		identityDerivation{name: "text", accepts: crawlcapability.PageContentFormatHTML},
+		yacycrawlcontract.PageRepresentationText,
+		identityDerivation{accepts: crawlcapability.PageContentFormatHTML},
 		&recordingPublication{},
 	)
-	if output.Name() != "text" {
-		t.Fatalf("name = %q, want text", output.Name())
+	if output.Representation() != yacycrawlcontract.PageRepresentationText {
+		t.Fatalf("representation = %q", output.Representation())
 	}
 	if !output.Accepts(crawlcapability.PageContentFormatHTML) {
 		t.Fatal("should accept html")
@@ -58,13 +57,14 @@ func TestBindRepresentationCarriesNameAndAccepts(t *testing.T) {
 func TestPrepareDerivesOnceAndPublishOnEachCallResends(t *testing.T) {
 	publication := &recordingPublication{}
 	output := crawlcapability.BindRepresentation(
-		identityDerivation{name: "text", accepts: crawlcapability.PageContentFormatHTML},
+		yacycrawlcontract.PageRepresentationText,
+		identityDerivation{accepts: crawlcapability.PageContentFormatHTML},
 		publication,
 	)
 	page := crawlcapability.CrawledPage{CanonicalURL: "http://example.com/a"}
 	rendered := crawlcapability.NewRenderedContent(page.Body, page.Format)
 
-	send, err := output.Prepare(page, rendered)
+	send, err := output.Prepare(page, rendered.In)
 	if err != nil {
 		t.Fatalf("Prepare: %v", err)
 	}
@@ -84,24 +84,23 @@ func TestPrepareDerivesOnceAndPublishOnEachCallResends(t *testing.T) {
 
 func TestPrepareFailsWhenDerivationFails(t *testing.T) {
 	output := crawlcapability.BindRepresentation(
+		yacycrawlcontract.PageRepresentationText,
 		failingDerivation{},
 		&recordingPublication{},
 	)
 	rendered := crawlcapability.NewRenderedContent(nil, crawlcapability.PageContentFormatHTML)
-	if _, err := output.Prepare(crawlcapability.CrawledPage{}, rendered); err == nil {
+	if _, err := output.Prepare(crawlcapability.CrawledPage{}, rendered.In); err == nil {
 		t.Fatal("expected error when the derivation fails")
 	}
 }
 
 type failingDerivation struct{}
 
-func (failingDerivation) Name() string { return "failing" }
-
 func (failingDerivation) Accepts(crawlcapability.PageContentFormat) bool { return true }
 
 func (failingDerivation) Derive(
 	crawlcapability.CrawledPage,
-	*crawlcapability.RenderedContent,
+	crawlcapability.RenderContent,
 ) (crawlcapability.CrawledPage, error) {
 	return crawlcapability.CrawledPage{}, errors.New("derive failed")
 }

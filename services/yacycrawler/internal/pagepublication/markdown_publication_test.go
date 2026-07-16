@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagepublication"
 )
 
@@ -21,7 +20,7 @@ func TestMarkdownPublicationPublishes(t *testing.T) {
 		t.Fatal(err)
 	}
 	publication := pagepublication.NewMarkdownPublication(js, "yacy.crawl.page.markdown")
-	representation := crawlcapability.MarkdownRepresentation{
+	representation := yacycrawlcontract.PageMarkdownRepresentation{
 		PageReference: sampleReference(),
 		Markdown:      []byte("# hi"),
 	}
@@ -34,11 +33,11 @@ func TestMarkdownPublicationPublishes(t *testing.T) {
 		js,
 		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationMarkdown),
 	)
-	page, err := yacycrawlcontract.UnmarshalPageContentRepresentation(msg)
+	page, err := yacycrawlcontract.UnmarshalPageMarkdownRepresentation(msg)
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
-	if string(page.Body) != "# hi" {
-		t.Fatalf("body = %q", page.Body)
+	if string(page.Markdown) != "# hi" {
+		t.Fatalf("markdown = %q", page.Markdown)
 	}
 }

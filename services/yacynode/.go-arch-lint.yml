@@ -291,6 +291,7 @@ deps:
       - yacymodel
       - yacyproto
       - prometheus
+      - nats
       - nats-server
       - bytesize
       - serviceruntime

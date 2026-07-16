@@ -37,19 +37,6 @@ func TestDeriveConvertsHTMLStructureToMarkdown(t *testing.T) {
 	}
 }
 
-func TestDerivePassesMarkdownThrough(t *testing.T) {
-	body, err := pagemarkdown.New().Render(
-		[]byte("# already markdown"),
-		crawlcapability.PageContentFormatMarkdown,
-	)
-	if err != nil {
-		t.Fatalf("Derive: %v", err)
-	}
-	if string(body) != "# already markdown" {
-		t.Fatalf("markdown body = %q", body)
-	}
-}
-
 func TestDeriveRejectsUndeclaredSourceFormat(t *testing.T) {
 	if _, err := pagemarkdown.New().Render(
 		[]byte("%PDF-1.7"),
@@ -59,10 +46,9 @@ func TestDeriveRejectsUndeclaredSourceFormat(t *testing.T) {
 	}
 }
 
-func TestSourceFormatsDeclaresHTMLAndMarkdown(t *testing.T) {
+func TestSourceFormatsDeclaresHTML(t *testing.T) {
 	want := []crawlcapability.PageContentFormat{
 		crawlcapability.PageContentFormatHTML,
-		crawlcapability.PageContentFormatMarkdown,
 	}
 	if got := pagemarkdown.New().SourceFormats(); !slices.Equal(got, want) {
 		t.Fatalf("SourceFormats() = %v, want %v", got, want)

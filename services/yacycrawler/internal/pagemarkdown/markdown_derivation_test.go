@@ -8,14 +8,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagemarkdown"
 )
 
-func TestDerivationNameIsMarkdown(t *testing.T) {
-	if name := pagemarkdown.NewDerivation().Name(); name != "markdown" {
-		t.Fatalf("name = %q, want markdown", name)
-	}
-}
-
 func TestDerivationAcceptsOnlyRenderingSourceFormats(t *testing.T) {
-	derivation := pagemarkdown.NewDerivation()
+	derivation := pagemarkdown.NewDerivation(pagemarkdown.New())
 	if !derivation.Accepts(crawlcapability.PageContentFormatHTML) {
 		t.Fatal("should accept html")
 	}
@@ -34,7 +28,7 @@ func TestDerivationProducesMarkdownRepresentation(t *testing.T) {
 		CrawledAt:    time.Unix(1_700_000_000, 0),
 	}
 	rendered := crawlcapability.NewRenderedContent(page.Body, page.Format)
-	representation, err := pagemarkdown.NewDerivation().Derive(page, rendered)
+	representation, err := pagemarkdown.NewDerivation(pagemarkdown.New()).Derive(page, rendered.In)
 	if err != nil {
 		t.Fatalf("Derive: %v", err)
 	}

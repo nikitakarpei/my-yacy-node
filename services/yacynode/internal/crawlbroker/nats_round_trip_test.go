@@ -23,18 +23,24 @@ func openBroker(t *testing.T) (*crawlbroker.CrawlBroker, jetstream.JetStream, co
 	url := startNATS(t)
 	ctx, cancel := context.WithCancel(context.Background())
 	t.Cleanup(cancel)
+	js := connectJetStream(t, url)
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
+		ctx, js, yacycrawlcontract.PageRepresentationRWI,
+		yacycrawlcontract.CrawledPageStreamSpec{Subject: ingestSubject, MaxMsgs: 16},
+	); err != nil {
+		t.Fatalf("create ingest stream: %v", err)
+	}
 	broker, err := crawlbroker.Open(ctx, crawlbroker.Config{
 		NATSURL:       url,
 		OrdersSubject: ordersSubject,
 		IngestSubject: ingestSubject,
 		IngestDurable: "yacy-node",
-		IngestMaxMsgs: 16,
 	})
 	if err != nil {
 		t.Fatalf("open broker: %v", err)
 	}
 	t.Cleanup(broker.Close)
-	return broker, connectJetStream(t, url), ctx
+	return broker, js, ctx
 }
 
 func TestOrderPublisherDeliversToOrdersStream(t *testing.T) {

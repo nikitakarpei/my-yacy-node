@@ -19,7 +19,6 @@ type Config struct {
 	OrdersSubject string
 	IngestSubject string
 	IngestDurable string
-	IngestMaxMsgs int64
 }
 
 type CrawlBroker struct {
@@ -46,19 +45,6 @@ func Open(ctx context.Context, cfg Config) (*CrawlBroker, error) {
 		conn.Close()
 		return nil, fmt.Errorf("ensure orders stream: %w", err)
 	}
-	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		ctx,
-		js,
-		yacycrawlcontract.PageRepresentationRWI,
-		yacycrawlcontract.CrawledPageStreamSpec{
-			Subject: cfg.IngestSubject,
-			MaxMsgs: cfg.IngestMaxMsgs,
-		},
-	); err != nil {
-		conn.Close()
-		return nil, fmt.Errorf("ensure ingest stream: %w", err)
-	}
-
 	ingest, err := newIngestReceiver(ctx, js, cfg.IngestDurable, cfg.IngestSubject)
 	if err != nil {
 		conn.Close()

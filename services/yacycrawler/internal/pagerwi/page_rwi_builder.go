@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -20,10 +21,10 @@ const (
 func Build(
 	page crawlcapability.CrawledPage,
 	text []byte,
-) (crawlcapability.RWIRepresentation, error) {
+) (yacycrawlcontract.PageRWIRepresentation, error) {
 	urlHash, err := yacymodel.HashURL(page.CanonicalURL)
 	if err != nil {
-		return crawlcapability.RWIRepresentation{}, fmt.Errorf("hash url: %w", err)
+		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("hash url: %w", err)
 	}
 
 	order, occurrences, textStats := tokenize(string(text))
@@ -52,14 +53,31 @@ func Build(
 		})
 	}
 
-	return crawlcapability.RWIRepresentation{
-		PageReference:     crawlcapability.NewPageReference(page),
-		TextLength:        len(text),
-		WordCount:         textStats.Words,
-		LocalLinkCount:    page.LocalLinkCount,
-		ExternalLinkCount: page.ExternalLinkCount,
-		Postings:          postings,
+	return yacycrawlcontract.PageRWIRepresentation{
+		CanonicalURL: page.CanonicalURL,
+		Metadata: []yacymodel.URIMetadataRow{
+			metadataRowOf(page, urlHash, len(text), textStats.Words),
+		},
+		Postings: postings,
 	}, nil
+}
+
+func metadataRowOf(
+	page crawlcapability.CrawledPage,
+	urlHash yacymodel.URLHash,
+	textLength int,
+	wordCount int,
+) yacymodel.URIMetadataRow {
+	return yacymodel.URIMetadataRow{Properties: map[string]string{
+		yacymodel.URLMetaHash:           urlHash.String(),
+		"dt":                            string(rune(documentTypeText)),
+		"url":                           yacymodel.EncodeBase64WireForm(page.CanonicalURL),
+		yacymodel.URLMetaColDescription: yacymodel.EncodeBase64WireForm(page.Title),
+		"size":                          strconv.Itoa(textLength),
+		"wc":                            strconv.Itoa(wordCount),
+		"llocal":                        strconv.Itoa(page.LocalLinkCount),
+		"lother":                        strconv.Itoa(page.ExternalLinkCount),
+	}}
 }
 
 // documentWordStatistics holds the shared RWI counters derived from tokenizing a page,

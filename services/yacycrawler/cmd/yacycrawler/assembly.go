@@ -22,10 +22,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/htmlpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/httpfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagemarkdown"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagepublication"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerwi"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagetext"
 )
 
 const (
@@ -76,10 +72,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
 	)
-	outputs, err := buildPageOutputs(js, cfg)
-	if err != nil {
-		return err
-	}
+	outputs := buildPageOutputs(js, cfg)
 
 	extract, err := buildExtractor(cfg)
 	if err != nil {
@@ -163,43 +156,23 @@ func ordersConsumer(
 func buildPageOutputs(
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-) ([]crawlcapability.PageRepresentationOutput, error) {
-	outputs := make([]crawlcapability.PageRepresentationOutput, 0, len(cfg.PageOutputs))
-	for _, output := range cfg.PageOutputs {
-		built, err := buildPageOutput(js, output)
-		if err != nil {
-			return nil, err
-		}
-		outputs = append(outputs, built)
-	}
-	return outputs, nil
-}
-
-func buildPageOutput(
-	js jetstream.JetStream,
-	output PageOutputConfig,
-) (crawlcapability.PageRepresentationOutput, error) {
-	subject := output.Stream.Subject
-	switch output.Representation {
-	case yacycrawlcontract.PageRepresentationRWI:
-		return crawlcapability.BindRepresentation(
-			pagerwi.NewDerivation(pagetext.New()),
-			pagepublication.NewRWIPublication(js, subject),
-		), nil
-	case yacycrawlcontract.PageRepresentationText:
-		return crawlcapability.BindRepresentation(
-			pagetext.NewDerivation(),
-			pagepublication.NewTextPublication(js, subject),
-		), nil
-	case yacycrawlcontract.PageRepresentationMarkdown:
-		return crawlcapability.BindRepresentation(
-			pagemarkdown.NewDerivation(),
-			pagepublication.NewMarkdownPublication(js, subject),
-		), nil
-	}
-	return crawlcapability.PageRepresentationOutput{}, fmt.Errorf(
-		"no output builds the %s representation", output.Representation,
+) []crawlcapability.PageRepresentationOutput {
+	subjects := make(
+		map[yacycrawlcontract.PageRepresentation]string,
+		len(cfg.PageOutputs),
 	)
+	for _, output := range cfg.PageOutputs {
+		subjects[output.Representation] = output.Stream.Subject
+	}
+	outputs := make([]crawlcapability.PageRepresentationOutput, 0, len(cfg.PageOutputs))
+	for _, preset := range pageOutputCatalog() {
+		subject, enabled := subjects[preset.representation]
+		if !enabled {
+			continue
+		}
+		outputs = append(outputs, preset.build(js, subject))
+	}
+	return outputs
 }
 
 func buildExtractor(cfg ServiceConfig) (crawlcapability.DocumentExtraction, error) {

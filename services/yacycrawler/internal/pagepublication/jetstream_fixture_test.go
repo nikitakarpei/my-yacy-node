@@ -9,7 +9,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 func startJetStream(t *testing.T) jetstream.JetStream {
@@ -37,8 +37,8 @@ func startJetStream(t *testing.T) jetstream.JetStream {
 	return js
 }
 
-func sampleReference() crawlcapability.PageReference {
-	return crawlcapability.PageReference{
+func sampleReference() yacycrawlcontract.PageReference {
+	return yacycrawlcontract.PageReference{
 		CanonicalURL: "http://example.com/a",
 		Title:        "Hi",
 		Language:     "en",

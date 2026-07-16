@@ -26,14 +26,14 @@ func (c *crawl) publish(ctx context.Context, page crawlcapability.CrawledPage) e
 	}
 	rendered := crawlcapability.NewRenderedContent(page.Body, page.Format)
 	for _, output := range accepting {
-		send, err := output.Prepare(page, rendered)
+		send, err := output.Prepare(page, rendered.In)
 		if err != nil {
-			return fmt.Errorf("prepare %s: %w", output.Name(), err)
+			return fmt.Errorf("prepare %s: %w", output.Representation(), err)
 		}
 		if err := c.send(ctx, page, output, send); err != nil {
 			return err
 		}
-		c.observer.PagePublished(output.Name())
+		c.observer.PagePublished(string(output.Representation()))
 	}
 	return nil
 }
@@ -53,12 +53,12 @@ func (c *crawl) send(
 		}
 		var retryable crawlcapability.TransientPublicationError
 		if !errors.As(err, &retryable) {
-			return fmt.Errorf("publish to %s: %w", output.Name(), err)
+			return fmt.Errorf("publish to %s: %w", output.Representation(), err)
 		}
 		c.observer.PublicationWaited()
 		waits++
 		slog.WarnContext(ctx, msgPublicationBackpressure,
-			slog.String("output", output.Name()),
+			slog.String("output", string(output.Representation())),
 			slog.String("url", page.CanonicalURL),
 			slog.Int("waits", waits),
 			slog.Any("error", err),

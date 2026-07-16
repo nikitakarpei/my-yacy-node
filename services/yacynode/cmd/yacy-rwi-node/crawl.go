@@ -29,7 +29,6 @@ func buildCrawlRuntime(
 		OrdersSubject: config.OrdersSubject,
 		IngestSubject: config.IngestSubject,
 		IngestDurable: config.IngestDurable,
-		IngestMaxMsgs: config.IngestMaxMsgs,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("open crawl broker: %w", err)

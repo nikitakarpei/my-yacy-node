@@ -24,12 +24,6 @@ func (identityRendering) Render(
 	return body, nil
 }
 
-func TestDerivationNameIsRWI(t *testing.T) {
-	if name := pagerwi.NewDerivation(identityRendering{}).Name(); name != "rwi" {
-		t.Fatalf("name = %q, want rwi", name)
-	}
-}
-
 func TestDerivationAcceptsItsTextRenderingsSourceFormats(t *testing.T) {
 	derivation := pagerwi.NewDerivation(identityRendering{})
 	if !derivation.Accepts(crawlcapability.PageContentFormatHTML) {
@@ -45,7 +39,7 @@ func TestDerivationDerivesFromRenderedText(t *testing.T) {
 	page.Body = []byte(sampleText)
 	page.Format = crawlcapability.PageContentFormatHTML
 	rendered := crawlcapability.NewRenderedContent(page.Body, page.Format)
-	representation, err := pagerwi.NewDerivation(identityRendering{}).Derive(page, rendered)
+	representation, err := pagerwi.NewDerivation(identityRendering{}).Derive(page, rendered.In)
 	if err != nil {
 		t.Fatalf("Derive: %v", err)
 	}

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"slices"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
@@ -11,12 +12,8 @@ type Derivation struct {
 	rendering Rendering
 }
 
-func NewDerivation() Derivation {
-	return Derivation{rendering: New()}
-}
-
-func (d Derivation) Name() string {
-	return string(d.rendering.Format())
+func NewDerivation(rendering Rendering) Derivation {
+	return Derivation{rendering: rendering}
 }
 
 func (d Derivation) Accepts(format crawlcapability.PageContentFormat) bool {
@@ -25,17 +22,17 @@ func (d Derivation) Accepts(format crawlcapability.PageContentFormat) bool {
 
 func (d Derivation) Derive(
 	page crawlcapability.CrawledPage,
-	rendered *crawlcapability.RenderedContent,
-) (crawlcapability.TextRepresentation, error) {
-	text, err := rendered.In(d.rendering)
+	render crawlcapability.RenderContent,
+) (yacycrawlcontract.PageTextRepresentation, error) {
+	text, err := render(d.rendering)
 	if err != nil {
-		return crawlcapability.TextRepresentation{}, fmt.Errorf(
+		return yacycrawlcontract.PageTextRepresentation{}, fmt.Errorf(
 			"derive text representation: %w",
 			err,
 		)
 	}
-	return crawlcapability.TextRepresentation{
-		PageReference: crawlcapability.NewPageReference(page),
+	return yacycrawlcontract.PageTextRepresentation{
+		PageReference: page.Reference(),
 		Text:          text,
 	}, nil
 }

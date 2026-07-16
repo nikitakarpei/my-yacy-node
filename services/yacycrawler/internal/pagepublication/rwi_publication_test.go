@@ -8,7 +8,6 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -25,11 +24,15 @@ func TestRWIPublicationPublishes(t *testing.T) {
 		t.Fatal(err)
 	}
 	publication := pagepublication.NewRWIPublication(js, "yacy.crawl.page.rwi")
-	representation := crawlcapability.RWIRepresentation{
-		PageReference:  sampleReference(),
-		TextLength:     19,
-		WordCount:      4,
-		LocalLinkCount: 1,
+	representation := yacycrawlcontract.PageRWIRepresentation{
+		CanonicalURL: sampleReference().CanonicalURL,
+		Metadata: []yacymodel.URIMetadataRow{
+			{Properties: map[string]string{
+				yacymodel.URLMetaColDescription: yacymodel.EncodeBase64WireForm(
+					sampleReference().Title,
+				),
+			}},
+		},
 		Postings: []yacymodel.RWIPosting{
 			{WordHash: yacymodel.WordHash("fox"), Properties: map[string]string{}},
 		},
@@ -58,15 +61,9 @@ func TestRWIPublicationPublishes(t *testing.T) {
 		t.Fatalf("metadata rows = %d, want 1", len(metadata.Metadata))
 	}
 	row := metadata.Metadata[0]
-	if _, err := yacymodel.ParseURIMetadataRow(row.String()); err != nil {
-		t.Fatalf("metadata row not parseable: %v", err)
-	}
-	title, err := row.Title(t.Context())
-	if err != nil {
-		t.Fatalf("Title: %v", err)
-	}
-	if title != representation.Title {
-		t.Fatalf("title = %q, want %q", title, representation.Title)
+	if row.Properties[yacymodel.URLMetaColDescription] !=
+		yacymodel.EncodeBase64WireForm(sampleReference().Title) {
+		t.Fatalf("metadata row not framed as built: %+v", row.Properties)
 	}
 }
 
@@ -92,9 +89,9 @@ func TestRWIPublicationChunksBoundPostings(t *testing.T) {
 		}
 	}
 	publication := pagepublication.NewRWIPublication(js, "yacy.crawl.page.rwi.bounded")
-	representation := crawlcapability.RWIRepresentation{
-		PageReference: sampleReference(),
-		Postings:      postings,
+	representation := yacycrawlcontract.PageRWIRepresentation{
+		CanonicalURL: sampleReference().CanonicalURL,
+		Postings:     postings,
 	}
 	if err := publication.Publish(ctx, representation); err != nil {
 		t.Fatalf("publish: %v", err)

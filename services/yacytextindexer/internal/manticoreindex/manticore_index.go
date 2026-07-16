@@ -36,7 +36,7 @@ type replaceRequest struct {
 
 func (idx *ManticoreIndex) Index(
 	ctx context.Context,
-	page yacycrawlcontract.PageContentRepresentation,
+	page yacycrawlcontract.PageTextRepresentation,
 ) error {
 	identity := documentIdentity(page.CanonicalURL)
 	body, err := json.Marshal(replaceRequest{
