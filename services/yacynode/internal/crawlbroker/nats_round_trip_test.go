@@ -30,6 +30,11 @@ func openBroker(t *testing.T) (*crawlbroker.CrawlBroker, jetstream.JetStream, co
 	); err != nil {
 		t.Fatalf("create ingest stream: %v", err)
 	}
+	if err := yacycrawlcontract.EnsureOrdersStream(
+		ctx, js, yacycrawlcontract.OrdersStreamSpec{Subject: ordersSubject},
+	); err != nil {
+		t.Fatalf("create orders stream: %v", err)
+	}
 	broker, err := crawlbroker.Open(ctx, crawlbroker.Config{
 		NATSURL:       url,
 		OrdersSubject: ordersSubject,

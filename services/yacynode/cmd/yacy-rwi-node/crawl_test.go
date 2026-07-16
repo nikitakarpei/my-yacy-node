@@ -50,7 +50,7 @@ func TestCrawlRuntimeDispatchAndConsume(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	createIngestStream(t, ctx, cfg)
+	createCrawlerStreams(t, ctx, cfg)
 
 	runtime, err := buildCrawlRuntime(ctx, cfg, storage)
 	if err != nil {
@@ -84,7 +84,7 @@ func TestCrawlRuntimeDispatchAndConsume(t *testing.T) {
 	runtime.Close()
 }
 
-func createIngestStream(t *testing.T, ctx context.Context, cfg crawlConfig) {
+func createCrawlerStreams(t *testing.T, ctx context.Context, cfg crawlConfig) {
 	t.Helper()
 	nc, err := nats.Connect(cfg.NATSURL)
 	if err != nil {
@@ -100,5 +100,10 @@ func createIngestStream(t *testing.T, ctx context.Context, cfg crawlConfig) {
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: cfg.IngestSubject, MaxMsgs: 64},
 	); err != nil {
 		t.Fatalf("create ingest stream: %v", err)
+	}
+	if err := yacycrawlcontract.EnsureOrdersStream(
+		ctx, js, yacycrawlcontract.OrdersStreamSpec{Subject: cfg.OrdersSubject},
+	); err != nil {
+		t.Fatalf("create orders stream: %v", err)
 	}
 }
