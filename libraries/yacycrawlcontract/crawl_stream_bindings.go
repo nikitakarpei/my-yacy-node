@@ -11,11 +11,16 @@ import (
 const (
 	OrdersStreamName = "YACY_CRAWL_ORDERS"
 
-	crawledPageStreamPrefix = "YACY_CRAWL_PAGE_"
+	crawledPageStreamPrefix  = "YACY_CRAWL_PAGE_"
+	crawledPageSubjectPrefix = "yacy.crawl.page."
 )
 
 func CrawledPageStreamName(representation PageRepresentation) string {
 	return crawledPageStreamPrefix + strings.ToUpper(string(representation))
+}
+
+func CrawledPageSubject(representation PageRepresentation) string {
+	return crawledPageSubjectPrefix + string(representation)
 }
 
 type OrdersStreamSpec struct {

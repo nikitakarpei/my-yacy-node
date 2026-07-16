@@ -21,7 +21,7 @@ func rwiOutputConfig() PageOutputConfig {
 			return PageOutputConfig{
 				Representation: preset.representation,
 				Stream: yacycrawlcontract.CrawledPageStreamSpec{
-					Subject: preset.subject,
+					Subject: yacycrawlcontract.CrawledPageSubject(preset.representation),
 					MaxMsgs: DefaultMaxMsgs,
 				},
 			}

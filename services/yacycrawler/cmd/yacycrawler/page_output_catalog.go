@@ -13,7 +13,6 @@ import (
 
 type pageOutputPreset struct {
 	representation yacycrawlcontract.PageRepresentation
-	subject        string
 	enabled        bool
 	build          func(jetstream.JetStream, string) crawlcapability.PageRepresentationOutput
 }
@@ -24,7 +23,6 @@ func pageOutputCatalog() []pageOutputPreset {
 	return []pageOutputPreset{
 		{
 			representation: yacycrawlcontract.PageRepresentationRWI,
-			subject:        "yacy.crawl.page.rwi",
 			enabled:        true,
 			build: func(
 				js jetstream.JetStream,
@@ -39,7 +37,6 @@ func pageOutputCatalog() []pageOutputPreset {
 		},
 		{
 			representation: yacycrawlcontract.PageRepresentationText,
-			subject:        "yacy.crawl.page.text",
 			enabled:        false,
 			build: func(
 				js jetstream.JetStream,
@@ -54,7 +51,6 @@ func pageOutputCatalog() []pageOutputPreset {
 		},
 		{
 			representation: yacycrawlcontract.PageRepresentationMarkdown,
-			subject:        "yacy.crawl.page.markdown",
 			enabled:        false,
 			build: func(
 				js jetstream.JetStream,

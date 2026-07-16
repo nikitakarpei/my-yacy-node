@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
@@ -20,7 +21,6 @@ const (
 	EnvOpsAddr                = "YACYTEXTINDEXER_OPS_ADDR"
 
 	DefaultOpsAddr            = ":9090"
-	DefaultCrawledPageSubject = "yacy.crawl.page.text"
 	DefaultCrawledPageDurable = "yacytextindexer"
 	DefaultConcurrency        = 4
 	DefaultElasticsearchIndex = "yacy-text"
@@ -28,6 +28,10 @@ const (
 
 	SearchIndexEngineElasticsearch = "elasticsearch"
 	SearchIndexEngineManticore     = "manticore"
+)
+
+var DefaultCrawledPageSubject = yacycrawlcontract.CrawledPageSubject(
+	yacycrawlcontract.PageRepresentationText,
 )
 
 type ServiceConfig struct {

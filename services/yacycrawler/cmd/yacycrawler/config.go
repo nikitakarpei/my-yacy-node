@@ -113,7 +113,7 @@ func loadPageOutputs(getenv func(string) string) ([]PageOutputConfig, error) {
 				Subject: envconfig.String(
 					getenv,
 					pageSubjectEnv(preset.representation),
-					preset.subject,
+					yacycrawlcontract.CrawledPageSubject(preset.representation),
 				),
 				MaxMsgs: maxMsgs,
 			},

@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
@@ -13,8 +14,11 @@ const (
 	envNATSIngestDurable = "NATS_INGEST_DURABLE"
 
 	defaultOrdersSubject = "yacy.crawl.orders"
-	defaultIngestSubject = "yacy.crawl.page.rwi"
 	defaultIngestDurable = "yacy-node"
+)
+
+var defaultIngestSubject = yacycrawlcontract.CrawledPageSubject(
+	yacycrawlcontract.PageRepresentationRWI,
 )
 
 type crawlConfig struct {
