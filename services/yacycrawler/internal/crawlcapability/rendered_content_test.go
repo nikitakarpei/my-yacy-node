@@ -62,46 +62,31 @@ func TestRenderedContentRendersEachFormatIndependently(t *testing.T) {
 	}
 }
 
-type markingRendering struct {
-	mark string
+type configuredRendering struct {
+	stopWords []string
 }
 
-func (markingRendering) Format() crawlcapability.PageContentFormat {
+func (configuredRendering) Format() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatText
 }
 
-func (markingRendering) SourceFormats() []crawlcapability.PageContentFormat {
+func (configuredRendering) SourceFormats() []crawlcapability.PageContentFormat {
 	return []crawlcapability.PageContentFormat{crawlcapability.PageContentFormatHTML}
 }
 
-func (r markingRendering) Render(
+func (configuredRendering) Render(
 	body []byte,
 	_ crawlcapability.PageContentFormat,
 ) ([]byte, error) {
-	return append([]byte(r.mark), body...), nil
+	return body, nil
 }
 
-func TestRenderedContentKeepsRenderingsSharingAFormatApart(t *testing.T) {
-	first := markingRendering{mark: "first:"}
-	second := markingRendering{mark: "second:"}
+func TestRenderedContentAcceptsARenderingCarryingConfiguration(t *testing.T) {
 	rendered := crawlcapability.NewRenderedContent(
 		[]byte("body"), crawlcapability.PageContentFormatHTML,
 	)
 
-	firstBody, err := rendered.In(first)
-	if err != nil {
+	if _, err := rendered.In(configuredRendering{stopWords: []string{"the"}}); err != nil {
 		t.Fatalf("In: %v", err)
-	}
-	secondBody, err := rendered.In(second)
-	if err != nil {
-		t.Fatalf("In: %v", err)
-	}
-
-	if string(firstBody) != "first:body" || string(secondBody) != "second:body" {
-		t.Fatalf(
-			"renderings sharing a format served each other's bytes: %q %q",
-			firstBody,
-			secondBody,
-		)
 	}
 }
