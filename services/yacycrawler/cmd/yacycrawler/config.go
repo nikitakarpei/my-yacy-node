@@ -84,8 +84,7 @@ func (c ServiceConfig) OrdersStreamSpec() yacycrawlcontract.OrdersStreamSpec {
 	return yacycrawlcontract.OrdersStreamSpec{Subject: c.OrdersSubject}
 }
 
-func loadPageFeeds(getenv func(string) string) ([]PageFeedConfig, error) {
-	catalog := pageFeedCatalog()
+func loadPageFeeds(getenv func(string) string, catalog []pageFeedPreset) ([]PageFeedConfig, error) {
 	feeds := make([]PageFeedConfig, 0, len(catalog))
 	for _, preset := range catalog {
 		enabled, err := envconfig.Bool(
@@ -122,14 +121,13 @@ func loadPageFeeds(getenv func(string) string) ([]PageFeedConfig, error) {
 	if len(feeds) == 0 {
 		return nil, fmt.Errorf(
 			"at least one of %s must be enabled",
-			strings.Join(pagePublishEnvNames(), ", "),
+			strings.Join(pagePublishEnvNames(catalog), ", "),
 		)
 	}
 	return feeds, nil
 }
 
-func pagePublishEnvNames() []string {
-	catalog := pageFeedCatalog()
+func pagePublishEnvNames(catalog []pageFeedPreset) []string {
 	names := make([]string, 0, len(catalog))
 	for _, preset := range catalog {
 		names = append(names, pagePublishEnv(preset.representation))
@@ -193,7 +191,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	pageFeeds, err := loadPageFeeds(getenv)
+	pageFeeds, err := loadPageFeeds(getenv, pageFeedCatalog())
 	if err != nil {
 		return ServiceConfig{}, err
 	}
