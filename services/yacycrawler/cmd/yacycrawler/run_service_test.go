@@ -15,19 +15,19 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlmetrics"
 )
 
-func rwiOutputConfig() PageFeedConfig {
+func publishedPageStreams() []PageStreamConfig {
+	streams := make([]PageStreamConfig, 0, len(pageFeedCatalog()))
 	for _, preset := range pageFeedCatalog() {
-		if preset.representation == yacycrawlcontract.PageRepresentationKindRWI {
-			return PageFeedConfig{
-				Representation: preset.representation,
-				Stream: yacycrawlcontract.CrawledPageStreamSpec{
-					Subject: yacycrawlcontract.CrawledPageSubject(preset.representation),
-					MaxMsgs: DefaultMaxMsgs,
-				},
-			}
-		}
+		streams = append(streams, PageStreamConfig{
+			Representation: preset.representation,
+			Stream: yacycrawlcontract.CrawledPageStreamSpec{
+				Subject: yacycrawlcontract.CrawledPageSubject(preset.representation),
+				MaxMsgs: DefaultMaxMsgs,
+			},
+			Published: preset.representation == yacycrawlcontract.PageRepresentationKindRWI,
+		})
 	}
-	return PageFeedConfig{}
+	return streams
 }
 
 func TestRunServiceProcessesOrderThenStops(t *testing.T) {
@@ -48,7 +48,7 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 		NATSURL:          srv.ClientURL(),
 		OrdersSubject:    DefaultOrdersSubject,
 		OrdersDurable:    DefaultOrdersDurable,
-		PageFeeds:        []PageFeedConfig{rwiOutputConfig()},
+		PageStreams:      publishedPageStreams(),
 		ProxyURL:         proxy,
 		FetchConcurrency: 2,
 		RunPageBudget:    DefaultRunPageBudget,
@@ -89,7 +89,7 @@ func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 	cfg := ServiceConfig{
 		NATSURL: srv.ClientURL(), OrdersSubject: DefaultOrdersSubject,
 		OrdersDurable: DefaultOrdersDurable,
-		PageFeeds:     []PageFeedConfig{rwiOutputConfig()},
+		PageStreams:   publishedPageStreams(),
 		ProxyURL:      proxy, FetchConcurrency: 2,
 		MaxBodyBytes:  DefaultMaxBodyBytes,
 		FetchDeadline: time.Second, OpsAddr: "127.0.0.1:0",

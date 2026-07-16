@@ -104,7 +104,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 	slog.InfoContext(ctx, msgServiceStarted,
 		slog.String("orders", cfg.OrdersSubject),
 		slog.Int("fetchConcurrency", cfg.FetchConcurrency),
-		slog.Any("representations", enabledRepresentations(cfg)),
+		slog.Any("representations", publishedRepresentations(cfg)),
 	)
 
 	err = servergroup.Run(ctx, opsShutdownLimit,
@@ -121,20 +121,22 @@ func ensureStreams(ctx context.Context, js jetstream.JetStream, cfg ServiceConfi
 	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, cfg.OrdersStreamSpec()); err != nil {
 		return fmt.Errorf("ensure orders stream: %w", err)
 	}
-	for _, feed := range cfg.PageFeeds {
+	for _, stream := range cfg.PageStreams {
 		if err := yacycrawlcontract.EnsureCrawledPageStream(
-			ctx, js, feed.Representation, feed.Stream,
+			ctx, js, stream.Representation, stream.Stream,
 		); err != nil {
-			return fmt.Errorf("ensure page %s stream: %w", feed.Representation, err)
+			return fmt.Errorf("ensure page %s stream: %w", stream.Representation, err)
 		}
 	}
 	return nil
 }
 
-func enabledRepresentations(cfg ServiceConfig) []string {
-	names := make([]string, 0, len(cfg.PageFeeds))
-	for _, feed := range cfg.PageFeeds {
-		names = append(names, string(feed.Representation))
+func publishedRepresentations(cfg ServiceConfig) []string {
+	names := make([]string, 0, len(cfg.PageStreams))
+	for _, stream := range cfg.PageStreams {
+		if stream.Published {
+			names = append(names, string(stream.Representation))
+		}
 	}
 	return names
 }
@@ -161,15 +163,17 @@ func ordersConsumer(
 func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability.PageFeed {
 	subjects := make(
 		map[yacycrawlcontract.PageRepresentationKind]string,
-		len(cfg.PageFeeds),
+		len(cfg.PageStreams),
 	)
-	for _, feed := range cfg.PageFeeds {
-		subjects[feed.Representation] = feed.Stream.Subject
+	for _, stream := range cfg.PageStreams {
+		if stream.Published {
+			subjects[stream.Representation] = stream.Stream.Subject
+		}
 	}
-	feeds := make([]crawlcapability.PageFeed, 0, len(cfg.PageFeeds))
+	feeds := make([]crawlcapability.PageFeed, 0, len(subjects))
 	for _, preset := range pageFeedCatalog() {
-		subject, enabled := subjects[preset.representation]
-		if !enabled {
+		subject, published := subjects[preset.representation]
+		if !published {
 			continue
 		}
 		feeds = append(feeds, preset.build(js, subject))

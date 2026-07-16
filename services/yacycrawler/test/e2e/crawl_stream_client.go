@@ -15,8 +15,8 @@ import (
 
 const (
 	ordersSubject         = "yacy.crawl.orders"
-	crawledPageRWISubject = "yacy.crawl.page.rwi"
-	crawledPageRWIMaxMsgs = 1024
+	pageStreamAppearLimit = 30 * time.Second
+	pageStreamPollDelay   = 250 * time.Millisecond
 )
 
 func connectJetStream(t *testing.T, url string) jetstream.JetStream {
@@ -33,23 +33,33 @@ func connectJetStream(t *testing.T, url string) jetstream.JetStream {
 	return js
 }
 
-func ensureStreams(t *testing.T, ctx context.Context, js jetstream.JetStream) {
+func ensureOrdersStream(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	t.Helper()
 	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, yacycrawlcontract.OrdersStreamSpec{
 		Subject: ordersSubject,
 	}); err != nil {
 		t.Fatalf("ensure orders stream: %v", err)
 	}
-	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		ctx,
-		js,
-		yacycrawlcontract.PageRepresentationKindRWI,
-		yacycrawlcontract.CrawledPageStreamSpec{
-			Subject: crawledPageRWISubject,
-			MaxMsgs: crawledPageRWIMaxMsgs,
-		},
-	); err != nil {
-		t.Fatalf("ensure crawled page index stream: %v", err)
+}
+
+func awaitPageStream(
+	t *testing.T,
+	ctx context.Context,
+	js jetstream.JetStream,
+	representation yacycrawlcontract.PageRepresentationKind,
+) jetstream.Stream {
+	t.Helper()
+	name := yacycrawlcontract.CrawledPageStreamName(representation)
+	deadline := time.Now().Add(pageStreamAppearLimit)
+	for {
+		stream, err := js.Stream(ctx, name)
+		if err == nil {
+			return stream
+		}
+		if time.Now().After(deadline) {
+			t.Fatalf("crawler did not create the %s stream: %v", name, err)
+		}
+		time.Sleep(pageStreamPollDelay)
 	}
 }
 
@@ -59,13 +69,7 @@ func fetchOnePageRWIRepresentation(
 	js jetstream.JetStream,
 ) yacycrawlcontract.PageRWIRepresentation {
 	t.Helper()
-	stream, err := js.Stream(
-		ctx,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindRWI),
-	)
-	if err != nil {
-		t.Fatalf("lookup crawled page rwi stream: %v", err)
-	}
+	stream := awaitPageStream(t, ctx, js, yacycrawlcontract.PageRepresentationKindRWI)
 	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
 		AckPolicy: jetstream.AckExplicitPolicy,
 	})
