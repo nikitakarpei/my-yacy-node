@@ -58,16 +58,17 @@ func pagePublishEnv(representation yacycrawlcontract.PageRepresentationKind) str
 	return "YACYCRAWLER_PUBLISH_" + strings.ToUpper(string(representation))
 }
 
-type PageFeedConfig struct {
+type PageStreamConfig struct {
 	Representation yacycrawlcontract.PageRepresentationKind
 	Stream         yacycrawlcontract.CrawledPageStreamSpec
+	Published      bool
 }
 
 type ServiceConfig struct {
 	NATSURL          string
 	OrdersSubject    string
 	OrdersDurable    string
-	PageFeeds        []PageFeedConfig
+	PageStreams      []PageStreamConfig
 	ProxyURL         *url.URL
 	ProxyDialMode    httpfetch.ProxyDialMode
 	FetchConcurrency int
@@ -84,10 +85,14 @@ func (c ServiceConfig) OrdersStreamSpec() yacycrawlcontract.OrdersStreamSpec {
 	return yacycrawlcontract.OrdersStreamSpec{Subject: c.OrdersSubject}
 }
 
-func loadPageFeeds(getenv func(string) string, catalog []pageFeedPreset) ([]PageFeedConfig, error) {
-	feeds := make([]PageFeedConfig, 0, len(catalog))
+func loadPageStreams(
+	getenv func(string) string,
+	catalog []pageFeedPreset,
+) ([]PageStreamConfig, error) {
+	streams := make([]PageStreamConfig, 0, len(catalog))
+	published := 0
 	for _, preset := range catalog {
-		enabled, err := envconfig.Bool(
+		publish, err := envconfig.Bool(
 			getenv,
 			pagePublishEnv(preset.representation),
 			preset.enabled,
@@ -95,8 +100,8 @@ func loadPageFeeds(getenv func(string) string, catalog []pageFeedPreset) ([]Page
 		if err != nil {
 			return nil, err
 		}
-		if !enabled {
-			continue
+		if publish {
+			published++
 		}
 		maxMsgs, err := envconfig.PositiveInt64(
 			getenv,
@@ -106,7 +111,7 @@ func loadPageFeeds(getenv func(string) string, catalog []pageFeedPreset) ([]Page
 		if err != nil {
 			return nil, err
 		}
-		feeds = append(feeds, PageFeedConfig{
+		streams = append(streams, PageStreamConfig{
 			Representation: preset.representation,
 			Stream: yacycrawlcontract.CrawledPageStreamSpec{
 				Subject: envconfig.String(
@@ -116,15 +121,16 @@ func loadPageFeeds(getenv func(string) string, catalog []pageFeedPreset) ([]Page
 				),
 				MaxMsgs: maxMsgs,
 			},
+			Published: publish,
 		})
 	}
-	if len(feeds) == 0 {
+	if published == 0 {
 		return nil, fmt.Errorf(
 			"at least one of %s must be enabled",
 			strings.Join(pagePublishEnvNames(catalog), ", "),
 		)
 	}
-	return feeds, nil
+	return streams, nil
 }
 
 func pagePublishEnvNames(catalog []pageFeedPreset) []string {
@@ -191,7 +197,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	pageFeeds, err := loadPageFeeds(getenv, pageFeedCatalog())
+	pageStreams, err := loadPageStreams(getenv, pageFeedCatalog())
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -204,7 +210,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		NATSURL:          natsURL,
 		OrdersSubject:    envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
 		OrdersDurable:    envconfig.String(getenv, EnvOrdersDurable, DefaultOrdersDurable),
-		PageFeeds:        pageFeeds,
+		PageStreams:      pageStreams,
 		ProxyURL:         proxyURL,
 		ProxyDialMode:    proxyDialMode,
 		FetchConcurrency: limits.fetchConcurrency,

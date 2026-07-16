@@ -32,12 +32,19 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 		cfg.RunPageBudget != DefaultRunPageBudget {
 		t.Fatalf("unexpected defaults: %+v", cfg)
 	}
-	if len(cfg.PageFeeds) != 1 ||
-		cfg.PageFeeds[0].Representation != yacycrawlcontract.PageRepresentationKindRWI {
-		t.Fatalf("only the rwi output should be enabled by default: %+v", cfg.PageFeeds)
+	if len(cfg.PageStreams) != len(pageFeedCatalog()) {
+		t.Fatalf("every representation should get a stream: %+v", cfg.PageStreams)
 	}
-	if cfg.PageFeeds[0].Stream.MaxMsgs != DefaultMaxMsgs {
-		t.Fatalf("rwi stream max msgs = %d", cfg.PageFeeds[0].Stream.MaxMsgs)
+	if !slices.Equal(publishedRepresentations(cfg), []string{"rwi"}) {
+		t.Fatalf("only rwi should publish by default: %v", publishedRepresentations(cfg))
+	}
+	for _, stream := range cfg.PageStreams {
+		if stream.Stream.MaxMsgs != DefaultMaxMsgs {
+			t.Fatalf("%s stream max msgs = %d", stream.Representation, stream.Stream.MaxMsgs)
+		}
+		if stream.Stream.Subject == "" {
+			t.Fatalf("%s stream has no subject", stream.Representation)
+		}
 	}
 	if cfg.FetchDeadline != DefaultFetchDeadline {
 		t.Fatalf("fetch deadline = %v", cfg.FetchDeadline)
@@ -143,8 +150,8 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	if cfg.FetchConcurrency != 8 || cfg.FetchDeadline != 5*time.Second {
 		t.Fatalf("overrides not applied: %+v", cfg)
 	}
-	if !slices.Contains(enabledRepresentations(cfg), "text") {
-		t.Fatalf("text output should be enabled: %v", enabledRepresentations(cfg))
+	if !slices.Contains(publishedRepresentations(cfg), "text") {
+		t.Fatalf("text output should be enabled: %v", publishedRepresentations(cfg))
 	}
 }
 
@@ -186,7 +193,7 @@ func TestPageOutputEnvNamesFollowTheRepresentation(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, output := range cfg.PageFeeds {
+	for _, output := range cfg.PageStreams {
 		if output.Representation != yacycrawlcontract.PageRepresentationKindMarkdown {
 			continue
 		}

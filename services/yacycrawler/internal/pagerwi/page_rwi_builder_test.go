@@ -94,6 +94,50 @@ func TestBuildCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 	}
 }
 
+func TestBuildMetadataParseableAndCarriesURLHash(t *testing.T) {
+	index, err := pagerwi.Build(samplePage(), []byte(sampleText))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(index.Metadata) != 1 {
+		t.Fatalf("want one metadata row, got %d", len(index.Metadata))
+	}
+	row := index.Metadata[0]
+	if _, err := yacymodel.ParseURIMetadataRow(row.String()); err != nil {
+		t.Fatalf("metadata row not parseable: %v", err)
+	}
+	urlHash, err := yacymodel.HashURL(samplePage().CanonicalURL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if row.Properties[yacymodel.URLMetaHash] != urlHash.String() {
+		t.Fatalf("metadata url hash = %q, want %q",
+			row.Properties[yacymodel.URLMetaHash], urlHash.String())
+	}
+}
+
+func TestBuildMetadataSurvivesCommaInTitleAndURL(t *testing.T) {
+	page := samplePage()
+	page.CanonicalURL = "http://example.com/article?ids=1,2,3"
+	page.Title = "Fourth of July fireworks, 1986 - Example"
+	index, err := pagerwi.Build(page, []byte(sampleText))
+	if err != nil {
+		t.Fatal(err)
+	}
+	row := index.Metadata[0]
+	parsed, err := yacymodel.ParseURIMetadataRow(row.String())
+	if err != nil {
+		t.Fatalf("metadata row not parseable: %v", err)
+	}
+	title, err := parsed.Title(t.Context())
+	if err != nil {
+		t.Fatalf("Title: %v", err)
+	}
+	if title != page.Title {
+		t.Fatalf("title = %q, want %q", title, page.Title)
+	}
+}
+
 func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 	page := samplePage()
 	page.Language = ""

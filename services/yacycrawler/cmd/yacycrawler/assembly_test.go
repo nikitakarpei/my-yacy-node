@@ -31,14 +31,14 @@ func (unrenderableFeed) Publish(context.Context, crawlcapability.PagePublication
 }
 
 func TestBuildPageFeedsSelectsTheConfiguredRepresentations(t *testing.T) {
-	feeds := buildPageFeeds(nil, ServiceConfig{PageFeeds: []PageFeedConfig{rwiOutputConfig()}})
+	feeds := buildPageFeeds(nil, ServiceConfig{PageStreams: publishedPageStreams()})
 	if len(feeds) != 1 || feeds[0].Representation() != yacycrawlcontract.PageRepresentationKindRWI {
 		t.Fatalf("feeds = %v, want the rwi feed alone", feeds)
 	}
 }
 
 func TestBuildPageRenderingsCoversWhatTheFeedsRead(t *testing.T) {
-	feeds := buildPageFeeds(nil, ServiceConfig{PageFeeds: []PageFeedConfig{rwiOutputConfig()}})
+	feeds := buildPageFeeds(nil, ServiceConfig{PageStreams: publishedPageStreams()})
 	renderings, err := buildPageRenderings(feeds)
 	if err != nil {
 		t.Fatalf("build page renderings: %v", err)

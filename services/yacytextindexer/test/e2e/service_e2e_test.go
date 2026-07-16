@@ -26,7 +26,7 @@ func TestCrawledPageIsSearchableInElasticsearch(t *testing.T) {
 	startTextIndexer(t, ctx, network.Name, elasticsearchTextIndexerEnv())
 
 	js := connectJetStream(t, natsURL)
-	ensureStreams(t, ctx, js)
+	ensureOrdersStream(t, ctx, js)
 
 	publishCrawlOrder(t, ctx, js, originURL)
 
@@ -53,7 +53,7 @@ func TestCrawledPageIsSearchableInManticore(t *testing.T) {
 	startTextIndexer(t, ctx, network.Name, manticoreTextIndexerEnv())
 
 	js := connectJetStream(t, natsURL)
-	ensureStreams(t, ctx, js)
+	ensureOrdersStream(t, ctx, js)
 
 	publishCrawlOrder(t, ctx, js, originURL)
 

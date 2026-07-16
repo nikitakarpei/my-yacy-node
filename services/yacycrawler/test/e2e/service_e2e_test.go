@@ -23,7 +23,7 @@ func TestCrawlerIsOrderDrivenEndToEnd(t *testing.T) {
 	startCrawler(t, ctx, network.Name)
 
 	js := connectJetStream(t, natsURL)
-	ensureStreams(t, ctx, js)
+	ensureOrdersStream(t, ctx, js)
 
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID: "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
