@@ -44,6 +44,7 @@ cover:       cover-go cover-py
 cover-check: cover-check-go cover-check-py
 build:       build-go
 verify:      fmt-check tidy-check vet lint arch test cover-check build
+	@echo "==> verify SUCCESS"
 
 $(TOOLS_STAMP): tools/install tools/tools.lock
 	./tools/install
