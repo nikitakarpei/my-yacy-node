@@ -161,7 +161,7 @@ func (e rwiPostingWireForm) domain() (yacymodel.RWIPosting, error) {
 	return yacymodel.RWIPosting{
 		WordHash:               e.wordHash,
 		URLHash:                urlHash,
-		LastModified:           yacymodel.MicroDateFromWireDays(e.cardinal(colLastModified)),
+		LastModified:           microDateWireCodec{}.decode(e.cardinal(colLastModified)),
 		TitleWords:             int(e.byteCardinal(colTitleWordCount)),
 		TextWords:              int(e.uint16Cardinal(colTextWordCount)),
 		Phrases:                int(e.uint16Cardinal(colPhraseCount)),
@@ -227,7 +227,7 @@ func (e rwiPostingWireForm) appearance() (yacymodel.Appearance, error) {
 func rwiPostingWireFormFromDomain(p yacymodel.RWIPosting) rwiPostingWireForm {
 	props := map[string]string{
 		colURLHash:           p.URLHash.String(),
-		colLastModified:      strconv.FormatUint(p.LastModified.WireDays(), 10),
+		colLastModified:      strconv.FormatUint(microDateWireCodec{}.encode(p.LastModified), 10),
 		colTitleWordCount:    strconv.Itoa(p.TitleWords),
 		colTextWordCount:     strconv.Itoa(p.TextWords),
 		colPhraseCount:       strconv.Itoa(p.Phrases),
