@@ -1,4 +1,4 @@
-package rwi
+package rwipostings
 
 import (
 	"context"
@@ -12,7 +12,7 @@ import (
 
 type postingIntake struct {
 	vault        *vault.Vault
-	postings     *vault.Collection[yacymodel.RWIPostingWireForm]
+	postings     *vault.Collection[yacymodel.RWIPosting]
 	observers    postingObservers
 	urls         urlmeta.URLDirectory
 	batchCap     int
@@ -21,7 +21,7 @@ type postingIntake struct {
 
 func (i postingIntake) Receive(
 	ctx context.Context,
-	entries []yacymodel.RWIPostingWireForm,
+	entries []yacymodel.RWIPosting,
 ) (Receipt, error) {
 	if len(entries) > i.batchCap {
 		return Receipt{Busy: true, TooLarge: true, Pause: i.pauseSeconds}, nil
@@ -42,11 +42,7 @@ func (i postingIntake) Receive(
 				return fmt.Errorf("context: %w", err)
 			}
 
-			urlHash, err := entry.URLHash()
-			if err != nil {
-				return fmt.Errorf("rwi posting url hash: %w", err)
-			}
-			hash := urlHash.Hash()
+			hash := entry.URLHash.Hash()
 
 			if err := i.postings.Put(tx, postingKey(entry.WordHash, hash), entry); err != nil {
 				return fmt.Errorf("store rwi posting: %w", err)

@@ -51,11 +51,11 @@ func (s searcher) reportRequestedTerms(
 	criteria searchCriteria,
 	wanted termMatches,
 ) (matchReport, error) {
-	appearanceCriteria, err := s.appearanceCriteria(ctx, criteria, nil)
+	filter, err := s.postingFilter(ctx, criteria, nil)
 	if err != nil {
 		return matchReport{}, err
 	}
-	requested, err := s.documentsMatchingTerms(ctx, criteria.reporting.terms, appearanceCriteria)
+	requested, err := s.documentsMatchingTerms(ctx, criteria.reporting.terms, filter)
 	if err != nil {
 		return matchReport{}, err
 	}

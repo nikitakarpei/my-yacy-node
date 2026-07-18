@@ -8,7 +8,7 @@ package eviction
 import (
 	"context"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwi"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
@@ -32,7 +32,7 @@ type Sweeper interface {
 //nolint:revive // each argument is a distinct collection the sweep prunes; bundling them would invent a hollow type
 func NewSweeper(
 	vault *vault.Vault,
-	postings rwi.PostingPurger,
+	postings rwipostings.PostingPurger,
 	references urlreferences.ReferenceQuery,
 	urls urlmeta.URLEvictor,
 	stale urlmetastaleness.StaleURLSource,

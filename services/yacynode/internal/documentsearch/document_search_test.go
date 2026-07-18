@@ -2,14 +2,13 @@ package documentsearch
 
 import (
 	"context"
-	"strconv"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type fakeScanner struct {
-	postings map[yacymodel.Hash][]yacymodel.RWIPostingWireForm
+	postings map[yacymodel.Hash][]yacymodel.RWIPosting
 }
 
 func (s fakeScanner) RWICount(context.Context) (int, error) {
@@ -19,7 +18,7 @@ func (s fakeScanner) RWICount(context.Context) (int, error) {
 func (s fakeScanner) ScanWord(
 	_ context.Context,
 	word yacymodel.Hash,
-	visit func(yacymodel.RWIPostingWireForm) (bool, error),
+	visit func(yacymodel.RWIPosting) (bool, error),
 ) error {
 	for _, entry := range s.postings[word] {
 		entry.WordHash = word
@@ -76,15 +75,14 @@ func hashFor(base string) yacymodel.Hash {
 func postingEntry(
 	word yacymodel.Hash,
 	url string,
-	position, hits int,
-) yacymodel.RWIPostingWireForm {
-	return yacymodel.RWIPostingWireForm{
-		WordHash: word,
-		Properties: map[string]string{
-			yacymodel.ColURLHash:      string(hashFor(url)),
-			yacymodel.ColHitCount:     strconv.Itoa(hits),
-			yacymodel.ColTextPosition: strconv.Itoa(position),
-		},
+	position uint16,
+	hits uint8,
+) yacymodel.RWIPosting {
+	return yacymodel.RWIPosting{
+		WordHash:     word,
+		URLHash:      yacymodel.URLHash(hashFor(url)),
+		Hits:         hits,
+		TextPosition: position,
 	}
 }
 
@@ -101,7 +99,7 @@ func urlRows(ids ...string) map[yacymodel.Hash]yacymodel.URIMetadataRow {
 
 func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 	word1, word2 := hashFor("w1"), hashFor("w2")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPostingWireForm{
+	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word1: {postingEntry(word1, "u1", 0, 1), postingEntry(word1, "u2", 0, 1)},
 		word2: {postingEntry(word2, "u2", 0, 1), postingEntry(word2, "u3", 0, 1)},
 	}}
@@ -140,7 +138,7 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 
 func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
 	word := hashFor("w1")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPostingWireForm{
+	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {
 			postingEntry(word, "u1", 0, 1),
 			postingEntry(word, "u2", 0, 1),
@@ -173,7 +171,7 @@ func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
 
 func TestSearchOrdersByOccurrencesThenTermSpread(t *testing.T) {
 	word1, word2 := hashFor("w1"), hashFor("w2")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPostingWireForm{
+	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word1: {postingEntry(word1, "u2", 1, 1), postingEntry(word1, "u3", 1, 1)},
 		word2: {postingEntry(word2, "u2", 2, 2), postingEntry(word2, "u3", 5, 2)},
 	}}
@@ -197,7 +195,7 @@ func TestSearchOrdersByOccurrencesThenTermSpread(t *testing.T) {
 
 func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 	word1, word2, word3 := hashFor("w1"), hashFor("w2"), hashFor("w3")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPostingWireForm{
+	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word1: {postingEntry(word1, "uA", 1, 1), postingEntry(word1, "uB", 1, 1)},
 		word2: {postingEntry(word2, "uA", 5, 1), postingEntry(word2, "uB", 10, 1)},
 		word3: {postingEntry(word3, "uA", 9, 1), postingEntry(word3, "uB", 20, 1)},
@@ -221,9 +219,9 @@ func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 	}
 }
 
-func TestSearchCapKeepsMostFrequentAppearances(t *testing.T) {
+func TestSearchCapKeepsMostFrequentPostings(t *testing.T) {
 	word := hashFor("w1")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPostingWireForm{
+	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1", 1, 1), postingEntry(word, "u2", 1, 5)},
 	}}
 	s := searcher{
@@ -250,7 +248,7 @@ func TestSearchCapKeepsMostFrequentAppearances(t *testing.T) {
 
 func TestSearchExcludesTerms(t *testing.T) {
 	word, ban := hashFor("w1"), hashFor("ban")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPostingWireForm{
+	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1", 0, 1), postingEntry(word, "u2", 0, 1)},
 		ban:  {postingEntry(ban, "u2", 0, 1)},
 	}}
@@ -275,7 +273,7 @@ func TestSearchExcludesTerms(t *testing.T) {
 
 func TestSearchReportsRequestedTermsWithoutWantedTerms(t *testing.T) {
 	word := hashFor("w1")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPostingWireForm{
+	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1", 1, 1), postingEntry(word, "u2", 1, 1)},
 	}}
 	s := searcher{index: index, documents: fakeDirectory{}, matchesPerTerm: 100}
@@ -299,15 +297,15 @@ func TestSearchReportsRequestedTermsWithoutWantedTerms(t *testing.T) {
 
 func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 	word1, word2 := hashFor("w1"), hashFor("w2")
-	english := func(url string, position int) yacymodel.RWIPostingWireForm {
+	english := func(url string, position uint16) yacymodel.RWIPosting {
 		posting := postingEntry(word1, url, position, 1)
-		posting.Properties[yacymodel.ColLanguage] = "en"
+		posting.Language = "en"
 
 		return posting
 	}
-	inLanguage := func(word yacymodel.Hash, url, language string, position int) yacymodel.RWIPostingWireForm {
+	inLanguage := func(word yacymodel.Hash, url, language string, position uint16) yacymodel.RWIPosting {
 		posting := postingEntry(word, url, position, 1)
-		posting.Properties[yacymodel.ColLanguage] = language
+		posting.Language = yacymodel.Language(language)
 
 		return posting
 	}
@@ -319,7 +317,7 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 	far := english("u3", 1)
 	farOther := inLanguage(word2, "u3", "en", 9)
 
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPostingWireForm{
+	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word1: {near, german, far},
 		word2: {nearOther, germanOther, farOther},
 	}}

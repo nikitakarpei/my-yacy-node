@@ -1,4 +1,4 @@
-package rwi
+package rwipostings
 
 import (
 	"fmt"

@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwi"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
@@ -14,7 +14,7 @@ import (
 
 type quotaSweeper struct {
 	vault      *vault.Vault
-	postings   rwi.PostingPurger
+	postings   rwipostings.PostingPurger
 	references urlreferences.ReferenceQuery
 	urls       urlmeta.URLEvictor
 	stale      urlmetastaleness.StaleURLSource

@@ -36,8 +36,10 @@ components:
     in: internal/urlmetastaleness/**
   urlreferences:
     in: internal/urlreferences/**
-  rwi:
-    in: internal/rwi/**
+  rwipostings:
+    in: internal/rwipostings/**
+  rwiingress:
+    in: internal/rwiingress/**
   documentsearch:
     in: internal/documentsearch/**
   nodestatus:
@@ -187,17 +189,23 @@ deps:
   urlreferences:
     mayDependOn:
       - urlreferences
-      - rwi
+      - rwipostings
       - vault
       - memvault
     canUse:
       - yacymodel
-  rwi:
+  rwipostings:
     mayDependOn:
-      - rwi
+      - rwipostings
       - urlmeta
       - vault
       - memvault
+    canUse:
+      - yacymodel
+  rwiingress:
+    mayDependOn:
+      - rwiingress
+      - rwipostings
       - httpguard
       - nodeidentity
     canUse:
@@ -206,7 +214,7 @@ deps:
   documentsearch:
     mayDependOn:
       - documentsearch
-      - rwi
+      - rwipostings
       - urlmeta
       - httpguard
       - nodeidentity
@@ -224,7 +232,7 @@ deps:
   eviction:
     mayDependOn:
       - eviction
-      - rwi
+      - rwipostings
       - urlmeta
       - urlmetastaleness
       - urlreferences
@@ -249,7 +257,7 @@ deps:
     mayDependOn:
       - crawlresults
       - urlmeta
-      - rwi
+      - rwipostings
     canUse:
       - yacycrawlcontract
       - yacymodel
@@ -275,7 +283,8 @@ deps:
       - landing
       - crawling
       - urlmeta
-      - rwi
+      - rwipostings
+      - rwiingress
       - documentsearch
       - eviction
       - metrics

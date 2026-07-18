@@ -6,12 +6,12 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwi"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
 type searcher struct {
-	index          rwi.PostingIndex
+	index          rwipostings.PostingIndex
 	documents      urlmeta.URLDirectory
 	matchesPerTerm int
 }
@@ -28,11 +28,11 @@ type searchResult struct {
 func (s searcher) search(ctx context.Context, criteria searchCriteria) (searchResult, error) {
 	start := time.Now()
 
-	appearanceCriteria, err := s.appearanceCriteria(ctx, criteria, criteria.excludedTerms)
+	filter, err := s.postingFilter(ctx, criteria, criteria.excludedTerms)
 	if err != nil {
 		return searchResult{}, err
 	}
-	wanted, err := s.documentsMatchingTerms(ctx, criteria.terms, appearanceCriteria)
+	wanted, err := s.documentsMatchingTerms(ctx, criteria.terms, filter)
 	if err != nil {
 		return searchResult{}, err
 	}

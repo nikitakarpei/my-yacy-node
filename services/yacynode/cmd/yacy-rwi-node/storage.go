@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwi"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
@@ -16,9 +16,9 @@ type nodeStorage struct {
 	urlReceiver     urlmeta.URLReceiver
 	staleness       urlmetastaleness.StalenessRanking
 	references      urlreferences.ReferenceProjection
-	postings        rwi.PostingIndex
-	postingReceiver rwi.PostingReceiver
-	postingPurger   rwi.PostingPurger
+	postings        rwipostings.PostingIndex
+	postingReceiver rwipostings.PostingReceiver
+	postingPurger   rwipostings.PostingPurger
 }
 
 func openNodeStorage(vault *vault.Vault) (nodeStorage, error) {
@@ -37,10 +37,10 @@ func openNodeStorage(vault *vault.Vault) (nodeStorage, error) {
 		return nodeStorage{}, fmt.Errorf("url references: %w", err)
 	}
 
-	postings, postingReceiver, postingPurger, err := rwi.Open(
+	postings, postingReceiver, postingPurger, err := rwipostings.Open(
 		vault,
 		urlDirectory,
-		rwi.Config{BatchCap: receiveBatchCap, PauseSeconds: receiveBusyPauseSecs},
+		rwipostings.Config{BatchCap: receiveBatchCap, PauseSeconds: receiveBusyPauseSecs},
 		references,
 	)
 	if err != nil {

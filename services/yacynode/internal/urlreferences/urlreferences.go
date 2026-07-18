@@ -9,7 +9,7 @@ import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwi"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
@@ -20,7 +20,7 @@ type ReferenceQuery interface {
 
 type ReferenceProjection interface {
 	ReferenceQuery
-	rwi.PostingObserver
+	rwipostings.PostingObserver
 }
 
 func Open(vault *vault.Vault) (ReferenceProjection, error) {

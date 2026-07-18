@@ -44,7 +44,7 @@ func serveSearch(
 
 func TestEndpointJoinsAndAnswers(t *testing.T) {
 	word := hashFor("w1")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPostingWireForm{
+	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1", 0, 1), postingEntry(word, "u2", 0, 1)},
 	}}
 	endpoint := newEndpoint(index, fakeDirectory{rows: urlRows("u1", "u2")})
@@ -62,7 +62,7 @@ func TestEndpointJoinsAndAnswers(t *testing.T) {
 
 func TestEndpointReportsTermWithMostMatches(t *testing.T) {
 	word1, word2 := hashFor("w1"), hashFor("w2")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPostingWireForm{
+	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word1: {postingEntry(word1, "u1", 0, 1), postingEntry(word1, "u2", 0, 1)},
 		word2: {postingEntry(word2, "u2", 0, 1)},
 	}}
@@ -84,7 +84,7 @@ func TestEndpointReportsTermWithMostMatches(t *testing.T) {
 
 func TestEndpointReportsRequestedTerms(t *testing.T) {
 	word := hashFor("w1")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPostingWireForm{
+	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1", 0, 1), postingEntry(word, "u2", 0, 1)},
 	}}
 	endpoint := newEndpoint(index, fakeDirectory{})
