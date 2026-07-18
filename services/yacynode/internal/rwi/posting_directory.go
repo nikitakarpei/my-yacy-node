@@ -10,7 +10,7 @@ import (
 
 type postingDirectory struct {
 	vault     *vault.Vault
-	postings  *vault.Collection[yacymodel.RWIPosting]
+	postings  *vault.Collection[yacymodel.RWIPostingWireForm]
 	observers postingObservers
 }
 
@@ -36,13 +36,13 @@ func (d postingDirectory) PurgePosting(
 func (d postingDirectory) ScanWord(
 	ctx context.Context,
 	word yacymodel.Hash,
-	visit func(yacymodel.RWIPosting) (bool, error),
+	visit func(yacymodel.RWIPostingWireForm) (bool, error),
 ) error {
 	err := d.vault.View(ctx, func(tx *vault.Txn) error {
 		return d.postings.Scan(
 			tx,
 			vault.Key(word),
-			func(_ vault.Key, entry yacymodel.RWIPosting) (bool, error) {
+			func(_ vault.Key, entry yacymodel.RWIPostingWireForm) (bool, error) {
 				if err := ctx.Err(); err != nil {
 					return false, fmt.Errorf("context: %w", err)
 				}

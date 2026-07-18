@@ -20,14 +20,14 @@ func TestTransferRWIReportsBusy(t *testing.T) {
 		YouAre:      localIdentity().Hash,
 		WordCount:   1,
 		EntryCount:  1,
-		Indexes:     []yacymodel.RWIPosting{posting("w1", "u1")},
+		Indexes:     []yacymodel.RWIPostingWireForm{posting("w1", "u1")},
 	}
 
 	if _, err := h.endpoint().Serve(context.Background(), req); err != nil {
 		t.Fatalf("Serve: %v", err)
 	}
 
-	req.Indexes = []yacymodel.RWIPosting{posting("w2", "u2")}
+	req.Indexes = []yacymodel.RWIPostingWireForm{posting("w2", "u2")}
 	resp, err := h.endpoint().Serve(context.Background(), req)
 	if err != nil {
 		t.Fatalf("Serve over capacity: %v", err)
@@ -49,7 +49,7 @@ func TestTransferRWIStoresAndAnswers(t *testing.T) {
 		YouAre:      localIdentity().Hash,
 		WordCount:   1,
 		EntryCount:  1,
-		Indexes:     []yacymodel.RWIPosting{posting("w1", "u1")},
+		Indexes:     []yacymodel.RWIPostingWireForm{posting("w1", "u1")},
 	}
 
 	resp, err := h.endpoint().Serve(ctx, req)

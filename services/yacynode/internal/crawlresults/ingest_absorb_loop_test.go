@@ -45,7 +45,7 @@ type recordingPostingReceiver struct {
 
 func (r *recordingPostingReceiver) Receive(
 	_ context.Context,
-	_ []yacymodel.RWIPosting,
+	_ []yacymodel.RWIPostingWireForm,
 ) (rwi.Receipt, error) {
 	r.calls++
 	r.at = time.Now()
@@ -87,7 +87,7 @@ func metadataChunk() yacycrawlcontract.PageRWIMetadataChunk {
 func postingChunk() yacycrawlcontract.PageRWIPostingChunk {
 	return yacycrawlcontract.PageRWIPostingChunk{
 		CanonicalURL: "https://example.org",
-		Postings:     []yacymodel.RWIPosting{{WordHash: yacymodel.WordHash("w")}},
+		Postings:     []yacymodel.RWIPostingWireForm{{WordHash: yacymodel.WordHash("w")}},
 	}
 }
 

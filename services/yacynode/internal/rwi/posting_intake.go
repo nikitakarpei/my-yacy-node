@@ -12,7 +12,7 @@ import (
 
 type postingIntake struct {
 	vault        *vault.Vault
-	postings     *vault.Collection[yacymodel.RWIPosting]
+	postings     *vault.Collection[yacymodel.RWIPostingWireForm]
 	observers    postingObservers
 	urls         urlmeta.URLDirectory
 	batchCap     int
@@ -21,7 +21,7 @@ type postingIntake struct {
 
 func (i postingIntake) Receive(
 	ctx context.Context,
-	entries []yacymodel.RWIPosting,
+	entries []yacymodel.RWIPostingWireForm,
 ) (Receipt, error) {
 	if len(entries) > i.batchCap {
 		return Receipt{Busy: true, TooLarge: true, Pause: i.pauseSeconds}, nil

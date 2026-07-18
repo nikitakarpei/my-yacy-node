@@ -11,7 +11,7 @@ func TestScanWordVisitsMatchingPostings(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t, 0, 100)
 
-	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
+	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{
 		posting("w1", "u1"),
 		posting("w1", "u2"),
 		posting("w2", "u3"),
@@ -20,8 +20,8 @@ func TestScanWordVisitsMatchingPostings(t *testing.T) {
 	}
 
 	word := yacymodel.WordHash("w1")
-	var visited []yacymodel.RWIPosting
-	err := h.rwi.Index.ScanWord(ctx, word, func(entry yacymodel.RWIPosting) (bool, error) {
+	var visited []yacymodel.RWIPostingWireForm
+	err := h.rwi.Index.ScanWord(ctx, word, func(entry yacymodel.RWIPostingWireForm) (bool, error) {
 		visited = append(visited, entry)
 
 		return true, nil
@@ -43,7 +43,7 @@ func TestScanWordStopsWhenVisitorStops(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t, 0, 100)
 
-	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
+	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{
 		posting("w1", "u1"),
 		posting("w1", "u2"),
 	}); err != nil {
@@ -54,7 +54,7 @@ func TestScanWordStopsWhenVisitorStops(t *testing.T) {
 	err := h.rwi.Index.ScanWord(
 		ctx,
 		yacymodel.WordHash("w1"),
-		func(yacymodel.RWIPosting) (bool, error) {
+		func(yacymodel.RWIPostingWireForm) (bool, error) {
 			visited++
 
 			return false, nil

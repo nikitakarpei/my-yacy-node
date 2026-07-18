@@ -16,7 +16,7 @@ func (s searcher) scanTerm(
 	// scanned; an exact join under a memory bound would instead pivot on the rarest term.
 	kept := mostFrequentAppearances{limit: s.matchesPerTerm}
 	var total int
-	err := s.index.ScanWord(ctx, term, func(posting yacymodel.RWIPosting) (bool, error) {
+	err := s.index.ScanWord(ctx, term, func(posting yacymodel.RWIPostingWireForm) (bool, error) {
 		appearance, ok := translateAppearance(ctx, posting)
 		if !ok || !appearanceCriteria.matches(ctx, appearance) {
 			return true, nil
@@ -39,13 +39,17 @@ func (s searcher) excludedDocuments(
 ) (map[yacymodel.Hash]struct{}, error) {
 	excluded := make(map[yacymodel.Hash]struct{})
 	for _, term := range terms {
-		err := s.index.ScanWord(ctx, term, func(posting yacymodel.RWIPosting) (bool, error) {
-			if location, err := posting.URLHash(); err == nil {
-				excluded[location.Hash()] = struct{}{}
-			}
+		err := s.index.ScanWord(
+			ctx,
+			term,
+			func(posting yacymodel.RWIPostingWireForm) (bool, error) {
+				if location, err := posting.URLHash(); err == nil {
+					excluded[location.Hash()] = struct{}{}
+				}
 
-			return true, nil
-		})
+				return true, nil
+			},
+		)
 		if err != nil {
 			return nil, fmt.Errorf("scan excluded word: %w", err)
 		}

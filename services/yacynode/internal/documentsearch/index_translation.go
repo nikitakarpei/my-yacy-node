@@ -23,7 +23,7 @@ type termAppearance struct {
 
 func translateAppearance(
 	ctx context.Context,
-	posting yacymodel.RWIPosting,
+	posting yacymodel.RWIPostingWireForm,
 ) (termAppearance, bool) {
 	location, err := posting.URLHash()
 	if err != nil {
@@ -57,7 +57,11 @@ func translateAppearance(
 	return appearance, true
 }
 
-func cardinal(ctx context.Context, posting yacymodel.RWIPosting, field string) (uint64, bool) {
+func cardinal(
+	ctx context.Context,
+	posting yacymodel.RWIPostingWireForm,
+	field string,
+) (uint64, bool) {
 	value, err := posting.Cardinal(field)
 	if err != nil {
 		slog.WarnContext(ctx, msgAppearanceDiscarded,

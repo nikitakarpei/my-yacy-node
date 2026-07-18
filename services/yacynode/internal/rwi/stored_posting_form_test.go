@@ -33,7 +33,7 @@ func TestEncodeStoredPostingRoundTrip(t *testing.T) {
 }
 
 func TestEncodeStoredPostingPreservesExtraColumns(t *testing.T) {
-	entry := yacymodel.RWIPosting{
+	entry := yacymodel.RWIPostingWireForm{
 		WordHash: "ABCDEFGHIJKL",
 		Properties: map[string]string{
 			yacymodel.ColURLHash: "MNOPQRSTUVWX",
@@ -52,7 +52,7 @@ func TestEncodeStoredPostingPreservesExtraColumns(t *testing.T) {
 }
 
 func TestEncodeStoredPostingOmitsWordHash(t *testing.T) {
-	entry := yacymodel.RWIPosting{
+	entry := yacymodel.RWIPostingWireForm{
 		WordHash:   "ABCDEFGHIJKL",
 		Properties: map[string]string{yacymodel.ColURLHash: "MNOPQRSTUVWX"},
 	}

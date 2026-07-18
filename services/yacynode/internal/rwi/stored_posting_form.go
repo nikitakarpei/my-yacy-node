@@ -46,7 +46,7 @@ func indexStoredPostingColumns() map[string]int {
 	return index
 }
 
-func encodeStoredPosting(entry yacymodel.RWIPosting) []byte {
+func encodeStoredPosting(entry yacymodel.RWIPostingWireForm) []byte {
 	var buf bytes.Buffer
 	buf.WriteByte(storedPostingFormatV1)
 
@@ -102,9 +102,12 @@ func encodeStoredPostingExtras(buf *bytes.Buffer, props map[string]string) {
 	}
 }
 
-func decodeStoredPosting(wordHash yacymodel.Hash, data []byte) (yacymodel.RWIPosting, error) {
+func decodeStoredPosting(
+	wordHash yacymodel.Hash,
+	data []byte,
+) (yacymodel.RWIPostingWireForm, error) {
 	if len(data) == 0 {
-		return yacymodel.RWIPosting{}, fmt.Errorf(
+		return yacymodel.RWIPostingWireForm{}, fmt.Errorf(
 			"%w: empty posting value",
 			yacymodel.ErrBadRWIPosting,
 		)
@@ -112,18 +115,21 @@ func decodeStoredPosting(wordHash yacymodel.Hash, data []byte) (yacymodel.RWIPos
 	if data[0] != storedPostingFormatV1 {
 		entry, err := yacymodel.ParseRWIPosting(string(data))
 		if err != nil {
-			return yacymodel.RWIPosting{}, fmt.Errorf("parse property form: %w", err)
+			return yacymodel.RWIPostingWireForm{}, fmt.Errorf("parse property form: %w", err)
 		}
 		return entry, nil
 	}
 	return decodeStoredPostingV1(wordHash, data[1:])
 }
 
-func decodeStoredPostingV1(wordHash yacymodel.Hash, data []byte) (yacymodel.RWIPosting, error) {
+func decodeStoredPostingV1(
+	wordHash yacymodel.Hash,
+	data []byte,
+) (yacymodel.RWIPostingWireForm, error) {
 	reader := bytes.NewReader(data)
 	var mask uint32
 	if err := binary.Read(reader, binary.LittleEndian, &mask); err != nil {
-		return yacymodel.RWIPosting{}, fmt.Errorf(
+		return yacymodel.RWIPostingWireForm{}, fmt.Errorf(
 			"%w: posting mask: %w",
 			yacymodel.ErrBadRWIPosting,
 			err,
@@ -136,7 +142,7 @@ func decodeStoredPostingV1(wordHash yacymodel.Hash, data []byte) (yacymodel.RWIP
 		}
 		value, err := decodeStoredPostingColumn(reader, column)
 		if err != nil {
-			return yacymodel.RWIPosting{}, fmt.Errorf(
+			return yacymodel.RWIPostingWireForm{}, fmt.Errorf(
 				"%w: column %s: %w",
 				yacymodel.ErrBadRWIPosting,
 				column,
@@ -146,9 +152,9 @@ func decodeStoredPostingV1(wordHash yacymodel.Hash, data []byte) (yacymodel.RWIP
 		props[column] = value
 	}
 	if err := decodeStoredPostingExtras(reader, props); err != nil {
-		return yacymodel.RWIPosting{}, fmt.Errorf("%w: %w", yacymodel.ErrBadRWIPosting, err)
+		return yacymodel.RWIPostingWireForm{}, fmt.Errorf("%w: %w", yacymodel.ErrBadRWIPosting, err)
 	}
-	return yacymodel.RWIPosting{WordHash: wordHash, Properties: props}, nil
+	return yacymodel.RWIPostingWireForm{WordHash: wordHash, Properties: props}, nil
 }
 
 func decodeStoredPostingColumn(reader *bytes.Reader, column string) (string, error) {
