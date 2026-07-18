@@ -2,6 +2,8 @@ package yacymodel
 
 const MaxPosition = uint64(1)<<63 - 1
 
+// TODO: DHT position is derived by reading the hash's base64 text, coupling
+// routing to the transport alphabet; blocked with the alphabet itself.
 func Position(h Hash) (uint64, error) {
 	return cardinal(string(h))
 }

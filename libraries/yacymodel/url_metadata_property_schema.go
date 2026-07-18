@@ -24,6 +24,8 @@ var urlMetadataIntegerKeys = map[string]struct{}{
 	"lapp":   {},
 }
 
+// TODO: validating undecoded column strings by protocol key name is a wire
+// concern, blocked by URIMetadataRow keeping its properties unparsed.
 func validateURLMetadataProperties(props map[string]string) error {
 	if _, err := urlMetadataHash(props); err != nil {
 		return err

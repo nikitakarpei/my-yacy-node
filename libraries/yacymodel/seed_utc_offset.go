@@ -9,6 +9,8 @@ import (
 
 var ErrBadSeedUTCOffset = errors.New("bad seed utc offset")
 
+// TODO: this holds the wire text of an offset instead of a duration, blocked by
+// the same Seed split.
 type SeedUTCOffset string
 
 func ParseSeedUTCOffset(s string) (SeedUTCOffset, error) {

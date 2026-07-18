@@ -17,6 +17,8 @@ const (
 	wireFormSep    = '|'
 )
 
+// TODO: tag framing, base64 and gzip are transport encodings, kept here because
+// URIMetadataRow.Title decodes its own columns rather than being handed values.
 var ErrBadWireForm = errors.New("bad wire form")
 
 func EncodeBase64WireForm(payload string) string {
