@@ -15,7 +15,6 @@ import (
 const (
 	colURLHash           = "h"
 	colLastModified      = "a"
-	colFreshUntil        = "s"
 	colTitleWordCount    = "u"
 	colTextWordCount     = "w"
 	colPhraseCount       = "p"
@@ -25,17 +24,13 @@ const (
 	colExternalLinkCount = "y"
 	colURLLength         = "m"
 	colURLComponentCount = "n"
-	colWordType          = "g"
 	colFlags             = "z"
 	colHitCount          = "c"
 	colTextPosition      = "t"
 	colPhraseRelativePos = "r"
 	colPhrasePosition    = "o"
-	// colWordDistance is a query-time term-distance signal, always 0 in a stored posting; the node derives it from colTextPosition and never reads this column.
-	colWordDistance = "i"
-	colReserve      = "k"
-	propertyOpen    = '{'
-	propertyClose   = '}'
+	propertyOpen         = '{'
+	propertyClose        = '}'
 )
 
 const (
@@ -47,7 +42,6 @@ var errInvalidRWIProperty = errors.New("invalid rwi property")
 
 var rwiCardinalWidths = map[string]int{
 	colLastModified:      2,
-	colFreshUntil:        2,
 	colTitleWordCount:    1,
 	colTextWordCount:     2,
 	colPhraseCount:       2,
@@ -59,8 +53,6 @@ var rwiCardinalWidths = map[string]int{
 	colTextPosition:      2,
 	colPhraseRelativePos: 1,
 	colPhrasePosition:    1,
-	colWordDistance:      1,
-	colReserve:           1,
 }
 
 var documentTypeByChar = map[byte]yacymodel.DocumentType{
@@ -209,9 +201,8 @@ func (e rwiPostingWireForm) optionalUint16Value(key string) (uint16, error) {
 }
 
 // domain projects the wire form's meaningful columns onto the RWIPosting
-// domain concept. Columns that YaCy itself never populates (freshUntil,
-// typeofword, worddistance, reserve) are wire-only and have no domain
-// counterpart.
+// domain concept. A peer also sends freshUntil, typeofword, worddistance and
+// reserve columns; this node models none of them and reads past them.
 func (e rwiPostingWireForm) domain() (yacymodel.RWIPosting, error) {
 	urlHash, err := e.urlHash()
 	if err != nil {
@@ -311,9 +302,9 @@ func (e rwiPostingWireForm) fillDomainAppearance(posting *yacymodel.RWIPosting) 
 }
 
 // rwiPostingWireFormFromDomain builds the wire form for a domain posting.
-// Columns YaCy never populates (freshUntil, typeofword, worddistance,
-// reserve) are omitted; a real peer's original values for those columns
-// cannot be recovered from the domain type and are not round-tripped.
+// The columns this node does not model (freshUntil, typeofword, worddistance,
+// reserve) are omitted: a peer's original values for them cannot be recovered
+// from the domain type and are not round-tripped.
 func rwiPostingWireFormFromDomain(p yacymodel.RWIPosting) rwiPostingWireForm {
 	props := map[string]string{
 		colURLHash:           p.URLHash.String(),
@@ -420,7 +411,7 @@ func validateRWIProperty(key, value string) error {
 		}
 	case colFlags:
 		return validateOptionalEncoded(key, value)
-	case colDocType, colWordType:
+	case colDocType:
 		if _, err := strconv.ParseUint(value, 10, 8); err != nil {
 			return fmt.Errorf("%w %s: %w", errInvalidRWIProperty, key, err)
 		}
@@ -465,7 +456,7 @@ func normalizeRWIProperty(key, value string) (string, error) {
 		return formatRWICardinal(fixedWidthUnsigned(n, rwiCardinalWidths[key])), nil
 	}
 	switch key {
-	case colDocType, colWordType:
+	case colDocType:
 		n := parseRWIDecimalPrefix(value)
 		return strconv.FormatUint(uint64(lowByte(n.unsigned())), 10), nil
 	case colLanguage:
