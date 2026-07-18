@@ -9,17 +9,17 @@ import (
 
 type matchedDocument struct {
 	identifier  yacymodel.Hash
-	occurrences uint64
-	minPosition uint64
-	maxPosition uint64
+	occurrences int
+	minPosition int
+	maxPosition int
 }
 
-func (d matchedDocument) termSpread(termCount int) uint64 {
+func (d matchedDocument) termSpread(termCount int) int {
 	if termCount <= 1 {
 		return 0
 	}
 
-	return (d.maxPosition - d.minPosition) / uint64(termCount-1)
+	return (d.maxPosition - d.minPosition) / (termCount - 1)
 }
 
 func keepDocumentsMatchingEveryTerm(
@@ -93,7 +93,7 @@ func documentsWithinTermSpread(
 		return documents
 	}
 	for identifier, document := range documents {
-		if document.termSpread(termCount) > uint64(maxTermSpread) {
+		if document.termSpread(termCount) > maxTermSpread {
 			delete(documents, identifier)
 		}
 	}
@@ -118,7 +118,7 @@ func documentIdentifiers(documents map[yacymodel.Hash]matchedDocument) []yacymod
 	return identifiers
 }
 
-func compareDescending[T ~uint64](a, b T) int {
+func compareDescending[T ~int](a, b T) int {
 	switch {
 	case a > b:
 		return -1
@@ -129,7 +129,7 @@ func compareDescending[T ~uint64](a, b T) int {
 	}
 }
 
-func compareAscending[T ~uint64 | ~string](a, b T) int {
+func compareAscending[T ~int | ~string](a, b T) int {
 	switch {
 	case a < b:
 		return -1

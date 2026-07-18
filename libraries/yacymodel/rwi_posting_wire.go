@@ -236,7 +236,7 @@ func (e RWIPostingWireForm) fillDomainDate(posting *RWIPosting) error {
 func (e RWIPostingWireForm) fillDomainCardinals(posting *RWIPosting) error {
 	bytes := []struct {
 		column string
-		field  *uint8
+		field  *int
 	}{
 		{ColTitleWordCount, &posting.TitleWords},
 		{ColLocalLinkCount, &posting.LocalLinks},
@@ -252,11 +252,11 @@ func (e RWIPostingWireForm) fillDomainCardinals(posting *RWIPosting) error {
 		if err != nil {
 			return fmt.Errorf("rwi posting %s: %w", b.column, err)
 		}
-		*b.field = value
+		*b.field = int(value)
 	}
 	uint16s := []struct {
 		column string
-		field  *uint16
+		field  *int
 	}{
 		{ColTextWordCount, &posting.TextWords},
 		{ColPhraseCount, &posting.Phrases},
@@ -267,7 +267,7 @@ func (e RWIPostingWireForm) fillDomainCardinals(posting *RWIPosting) error {
 		if err != nil {
 			return fmt.Errorf("rwi posting %s: %w", u.column, err)
 		}
-		*u.field = value
+		*u.field = int(value)
 	}
 	return nil
 }
@@ -291,19 +291,19 @@ func RWIPostingWireFormFromDomain(p RWIPosting) RWIPostingWireForm {
 	props := map[string]string{
 		ColURLHash:           p.URLHash.String(),
 		ColLastModified:      p.LastModified.WireValue(),
-		ColTitleWordCount:    strconv.FormatUint(uint64(p.TitleWords), 10),
-		ColTextWordCount:     strconv.FormatUint(uint64(p.TextWords), 10),
-		ColPhraseCount:       strconv.FormatUint(uint64(p.Phrases), 10),
+		ColTitleWordCount:    strconv.Itoa(p.TitleWords),
+		ColTextWordCount:     strconv.Itoa(p.TextWords),
+		ColPhraseCount:       strconv.Itoa(p.Phrases),
 		ColDocType:           strconv.FormatUint(uint64(charByDocumentType[p.DocumentType]), 10),
-		ColLocalLinkCount:    strconv.FormatUint(uint64(p.LocalLinks), 10),
-		ColExternalLinkCount: strconv.FormatUint(uint64(p.ExternalLinks), 10),
-		ColURLLength:         strconv.FormatUint(uint64(p.URLLength), 10),
-		ColURLComponentCount: strconv.FormatUint(uint64(p.URLComponents), 10),
+		ColLocalLinkCount:    strconv.Itoa(p.LocalLinks),
+		ColExternalLinkCount: strconv.Itoa(p.ExternalLinks),
+		ColURLLength:         strconv.Itoa(p.URLLength),
+		ColURLComponentCount: strconv.Itoa(p.URLComponents),
 		ColFlags:             Encode(p.Appearance.Bitfield()),
-		ColHitCount:          strconv.FormatUint(uint64(p.Hits), 10),
-		ColTextPosition:      strconv.FormatUint(uint64(p.TextPosition), 10),
-		ColPhraseRelativePos: strconv.FormatUint(uint64(p.PhraseRelativePosition), 10),
-		ColPhrasePosition:    strconv.FormatUint(uint64(p.PhrasePosition), 10),
+		ColHitCount:          strconv.Itoa(p.Hits),
+		ColTextPosition:      strconv.Itoa(p.TextPosition),
+		ColPhraseRelativePos: strconv.Itoa(p.PhraseRelativePosition),
+		ColPhrasePosition:    strconv.Itoa(p.PhrasePosition),
 	}
 	if p.Language != "" {
 		props[ColLanguage] = string(p.Language)

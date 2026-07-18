@@ -36,9 +36,16 @@ func TestBuildProducesParseablePostings(t *testing.T) {
 	if len(index.Postings) == 0 {
 		t.Fatal("no postings")
 	}
+	urlHash, err := yacymodel.HashURL(samplePage().CanonicalURL)
+	if err != nil {
+		t.Fatal(err)
+	}
 	for _, posting := range index.Postings {
-		if _, err := yacymodel.ParseRWIPosting(posting.String()); err != nil {
-			t.Fatalf("posting %q not parseable: %v", posting.String(), err)
+		if posting.URLHash != urlHash {
+			t.Fatalf("posting url hash = %q, want %q", posting.URLHash, urlHash)
+		}
+		if posting.DocumentType != yacymodel.DocumentTypeText {
+			t.Fatalf("posting document type = %v, want text", posting.DocumentType)
 		}
 	}
 }
@@ -53,8 +60,8 @@ func TestBuildCountsRepeatedWords(t *testing.T) {
 	for _, posting := range index.Postings {
 		if posting.WordHash == foxHash {
 			found = true
-			if posting.Properties[yacymodel.ColHitCount] != "2" {
-				t.Fatalf("fox hit count = %q, want 2", posting.Properties[yacymodel.ColHitCount])
+			if posting.Hits != 2 {
+				t.Fatalf("fox hit count = %d, want 2", posting.Hits)
 			}
 		}
 	}
@@ -146,8 +153,8 @@ func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, posting := range index.Postings {
-		if _, ok := posting.Properties[yacymodel.ColLanguage]; ok {
-			t.Fatal("language column should be omitted when unknown")
+		if posting.Language != "" {
+			t.Fatalf("language should be empty when unknown, got %q", posting.Language)
 		}
 	}
 }
@@ -161,7 +168,7 @@ func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
 	for _, posting := range index.Postings {
 		if posting.WordHash == yacymodel.WordHash("a") ||
 			posting.WordHash == yacymodel.WordHash("i") {
-			t.Fatalf("short word should not be indexed: %q", posting.String())
+			t.Fatalf("short word should not be indexed: %q", posting.WordHash)
 		}
 	}
 	if len(index.Postings) != 2 {
@@ -212,24 +219,25 @@ func TestBuildCountsPhrasesAndPhrasePositions(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, posting := range index.Postings {
-		if posting.Properties[yacymodel.ColPhraseCount] != "2" {
-			t.Fatalf("phrase count = %q, want 2", posting.Properties[yacymodel.ColPhraseCount])
+		if posting.Phrases != 2 {
+			t.Fatalf("phrase count = %d, want 2", posting.Phrases)
 		}
 	}
 	jumpsHash := yacymodel.WordHash("jumps")
 	sleepsHash := yacymodel.WordHash("sleeps")
-	var jumpsPhrase, sleepsPhrase string
+	var jumpsPhrase, sleepsPhrase int
+	var jumpsFound, sleepsFound bool
 	for _, posting := range index.Postings {
 		if posting.WordHash == jumpsHash {
-			jumpsPhrase = posting.Properties[yacymodel.ColPhrasePosition]
+			jumpsPhrase, jumpsFound = posting.PhrasePosition, true
 		}
 		if posting.WordHash == sleepsHash {
-			sleepsPhrase = posting.Properties[yacymodel.ColPhrasePosition]
+			sleepsPhrase, sleepsFound = posting.PhrasePosition, true
 		}
 	}
-	if jumpsPhrase == "" || jumpsPhrase == sleepsPhrase {
+	if !jumpsFound || !sleepsFound || jumpsPhrase == sleepsPhrase {
 		t.Fatalf(
-			"words in different sentences should get different phrase numbers, got %q and %q",
+			"words in different sentences should get different phrase numbers, got %d and %d",
 			jumpsPhrase,
 			sleepsPhrase,
 		)
