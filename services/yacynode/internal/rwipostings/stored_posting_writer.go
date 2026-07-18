@@ -19,6 +19,10 @@ func (w *postingWriter) uint16(number uint16) {
 	w.buf.Write(tmp[:])
 }
 
+func (w *postingWriter) count(number int) {
+	w.varint(int64(number))
+}
+
 func (w *postingWriter) varint(number int64) {
 	var tmp [binary.MaxVarintLen64]byte
 	written := binary.PutVarint(tmp[:], number)

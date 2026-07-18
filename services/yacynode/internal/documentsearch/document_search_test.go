@@ -75,8 +75,8 @@ func hashFor(base string) yacymodel.Hash {
 func postingEntry(
 	word yacymodel.Hash,
 	url string,
-	position uint16,
-	hits uint8,
+	position int,
+	hits int,
 ) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash:     word,
@@ -297,13 +297,13 @@ func TestSearchReportsRequestedTermsWithoutWantedTerms(t *testing.T) {
 
 func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 	word1, word2 := hashFor("w1"), hashFor("w2")
-	english := func(url string, position uint16) yacymodel.RWIPosting {
+	english := func(url string, position int) yacymodel.RWIPosting {
 		posting := postingEntry(word1, url, position, 1)
 		posting.Language = "en"
 
 		return posting
 	}
-	inLanguage := func(word yacymodel.Hash, url, language string, position uint16) yacymodel.RWIPosting {
+	inLanguage := func(word yacymodel.Hash, url, language string, position int) yacymodel.RWIPosting {
 		posting := postingEntry(word, url, position, 1)
 		posting.Language = yacymodel.Language(language)
 

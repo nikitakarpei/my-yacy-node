@@ -31,10 +31,10 @@ func TestPageRWIMetadataChunkRoundTrip(t *testing.T) {
 func TestPageRWIPostingChunkRoundTrip(t *testing.T) {
 	chunk := PageRWIPostingChunk{
 		CanonicalURL: "https://example.org/a",
-		Postings: []yacymodel.RWIPostingWireForm{
+		Postings: []yacymodel.RWIPosting{
 			{
-				WordHash:   yacymodel.Hash("wordhash0123"),
-				Properties: map[string]string{"u": "urlhash01234"},
+				WordHash: yacymodel.Hash("wordhash0123"),
+				URLHash:  yacymodel.URLHash("urlhash01234"),
 			},
 		},
 	}

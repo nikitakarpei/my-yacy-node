@@ -23,8 +23,8 @@ func (s searcher) scanTerm(
 		total++
 		kept.consider(termPosting{
 			documentIdentifier: posting.URLHash.Hash(),
-			occurrences:        uint64(posting.Hits),
-			textPosition:       uint64(posting.TextPosition),
+			occurrences:        posting.Hits,
+			textPosition:       posting.TextPosition,
 		})
 
 		return true, nil

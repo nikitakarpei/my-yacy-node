@@ -6,18 +6,18 @@ type RWIPosting struct {
 	WordHash               Hash
 	URLHash                URLHash
 	LastModified           MicroDate
-	TitleWords             uint8
-	TextWords              uint16
-	Phrases                uint16
+	TitleWords             int
+	TextWords              int
+	Phrases                int
 	DocumentType           DocumentType
 	Language               Language
-	LocalLinks             uint8
-	ExternalLinks          uint8
-	URLLength              uint8
-	URLComponents          uint8
+	LocalLinks             int
+	ExternalLinks          int
+	URLLength              int
+	URLComponents          int
 	Appearance             Appearance
-	Hits                   uint8
-	TextPosition           uint16
-	PhraseRelativePosition uint8
-	PhrasePosition         uint8
+	Hits                   int
+	TextPosition           int
+	PhraseRelativePosition int
+	PhrasePosition         int
 }

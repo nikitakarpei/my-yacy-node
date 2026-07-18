@@ -48,6 +48,10 @@ func (r *postingReader) uint16(field string) uint16 {
 	return binary.LittleEndian.Uint16(tmp[:])
 }
 
+func (r *postingReader) count(field string) int {
+	return int(r.varint(field))
+}
+
 func (r *postingReader) varint(field string) int64 {
 	if r.err != nil {
 		return 0

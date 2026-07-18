@@ -87,7 +87,7 @@ func metadataChunk() yacycrawlcontract.PageRWIMetadataChunk {
 func postingChunk() yacycrawlcontract.PageRWIPostingChunk {
 	return yacycrawlcontract.PageRWIPostingChunk{
 		CanonicalURL: "https://example.org",
-		Postings:     []yacymodel.RWIPostingWireForm{{WordHash: yacymodel.WordHash("w")}},
+		Postings:     []yacymodel.RWIPosting{{WordHash: yacymodel.WordHash("w")}},
 	}
 }
 

@@ -2,21 +2,16 @@ package pagerwi
 
 import (
 	"fmt"
-	"maps"
 	"net/url"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const (
-	documentTypeText = 't'
-	secondsPerDay    = 86400
-)
+const documentTypeText = 't'
 
 func Build(
 	page crawlcapability.CrawledPage,
@@ -29,28 +24,22 @@ func Build(
 
 	order, occurrences, textStats := tokenize(string(text))
 	_, _, titleStats := tokenize(page.Title)
-	dayNumber := dayNumberOf(page.CrawledAt)
 
-	stats := documentWordStatistics{
-		TextWordCount:  textStats.Words,
-		TitleWordCount: titleStats.Words,
-		PhraseCount:    textStats.Phrases,
-	}
-	shared := sharedProperties(page, urlHash.String(), stats, dayNumber)
+	shared := sharedPosting(page, urlHash)
+	shared.TitleWords = titleStats.Words
+	shared.TextWords = textStats.Words
+	shared.Phrases = textStats.Phrases
 
-	postings := make([]yacymodel.RWIPostingWireForm, 0, len(order))
+	postings := make([]yacymodel.RWIPosting, 0, len(order))
 	for _, word := range order {
 		occurrence := occurrences[word]
-		properties := map[string]string{}
-		maps.Copy(properties, shared)
-		properties[yacymodel.ColHitCount] = strconv.Itoa(occurrence.count)
-		properties[yacymodel.ColTextPosition] = strconv.Itoa(occurrence.firstPosition)
-		properties[yacymodel.ColPhraseRelativePos] = strconv.Itoa(occurrence.firstPositionInPhrase)
-		properties[yacymodel.ColPhrasePosition] = strconv.Itoa(occurrence.firstPhraseNumber)
-		postings = append(postings, yacymodel.RWIPostingWireForm{
-			WordHash:   yacymodel.WordHash(word),
-			Properties: properties,
-		})
+		posting := shared
+		posting.WordHash = yacymodel.WordHash(word)
+		posting.Hits = occurrence.count
+		posting.TextPosition = occurrence.firstPosition
+		posting.PhraseRelativePosition = occurrence.firstPositionInPhrase
+		posting.PhrasePosition = occurrence.firstPhraseNumber
+		postings = append(postings, posting)
 	}
 
 	return yacycrawlcontract.PageRWIRepresentation{
@@ -60,6 +49,22 @@ func Build(
 		},
 		Postings: postings,
 	}, nil
+}
+
+func sharedPosting(
+	page crawlcapability.CrawledPage,
+	urlHash yacymodel.URLHash,
+) yacymodel.RWIPosting {
+	return yacymodel.RWIPosting{
+		URLHash:       urlHash,
+		LastModified:  yacymodel.MicroDateFromTime(page.CrawledAt),
+		DocumentType:  yacymodel.DocumentTypeText,
+		Language:      yacymodel.Language(page.Language),
+		LocalLinks:    page.LocalLinkCount,
+		ExternalLinks: page.ExternalLinkCount,
+		URLLength:     len(page.CanonicalURL),
+		URLComponents: componentCount(page.CanonicalURL),
+	}
 }
 
 func metadataRowOf(
@@ -78,47 +83,6 @@ func metadataRowOf(
 		"llocal":                        strconv.Itoa(page.LocalLinkCount),
 		"lother":                        strconv.Itoa(page.ExternalLinkCount),
 	}}
-}
-
-// documentWordStatistics holds the shared RWI counters derived from tokenizing a page,
-// grouped because they always travel together into sharedProperties.
-type documentWordStatistics struct {
-	TextWordCount  int
-	TitleWordCount int
-	PhraseCount    int
-}
-
-func sharedProperties(
-	page crawlcapability.CrawledPage,
-	urlHash string,
-	stats documentWordStatistics,
-	dayNumber uint64,
-) map[string]string {
-	properties := map[string]string{
-		yacymodel.ColURLHash:           urlHash,
-		yacymodel.ColTextWordCount:     strconv.Itoa(stats.TextWordCount),
-		yacymodel.ColTitleWordCount:    strconv.Itoa(stats.TitleWordCount),
-		yacymodel.ColPhraseCount:       strconv.Itoa(stats.PhraseCount),
-		yacymodel.ColDocType:           strconv.Itoa(documentTypeText),
-		yacymodel.ColLocalLinkCount:    strconv.Itoa(page.LocalLinkCount),
-		yacymodel.ColExternalLinkCount: strconv.Itoa(page.ExternalLinkCount),
-		yacymodel.ColURLLength:         strconv.Itoa(len(page.CanonicalURL)),
-		yacymodel.ColURLComponentCount: strconv.Itoa(componentCount(page.CanonicalURL)),
-		yacymodel.ColLastModified:      strconv.FormatUint(dayNumber, 10),
-		yacymodel.ColFreshUntil:        strconv.FormatUint(dayNumber, 10),
-	}
-	if page.Language != "" {
-		properties[yacymodel.ColLanguage] = page.Language
-	}
-	return properties
-}
-
-func dayNumberOf(crawledAt time.Time) uint64 {
-	seconds := crawledAt.Unix()
-	if seconds < 0 {
-		return 0
-	}
-	return uint64(seconds) / secondsPerDay
 }
 
 func componentCount(canonicalURL string) int {
