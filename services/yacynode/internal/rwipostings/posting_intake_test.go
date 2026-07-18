@@ -1,4 +1,4 @@
-package rwi
+package rwipostings
 
 import (
 	"context"
@@ -6,14 +6,9 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
-
-func localIdentity() nodeidentity.Identity {
-	return nodeidentity.Identity{Hash: yacymodel.WordHash("self"), NetworkName: "freeworld"}
-}
 
 type rwiPorts struct {
 	Index    PostingIndex
@@ -53,7 +48,7 @@ func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
 		observer,
 	)
 	if err != nil {
-		t.Fatalf("rwi.Open: %v", err)
+		t.Fatalf("rwipostings.Open: %v", err)
 	}
 
 	return harness{
@@ -64,15 +59,12 @@ func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
 	}
 }
 
-func posting(word, urlSeed string) yacymodel.RWIPostingWireForm {
-	return yacymodel.RWIPostingWireForm{
-		WordHash: yacymodel.WordHash(word),
-		Properties: map[string]string{
-			yacymodel.ColURLHash:        yacymodel.WordHash(urlSeed).String(),
-			yacymodel.ColLocalLinkCount: "1",
-			yacymodel.ColHitCount:       "1",
-			yacymodel.ColWordDistance:   "0",
-		},
+func posting(word, urlSeed string) yacymodel.RWIPosting {
+	return yacymodel.RWIPosting{
+		WordHash:   yacymodel.WordHash(word),
+		URLHash:    yacymodel.URLHash(yacymodel.WordHash(urlSeed).String()),
+		LocalLinks: 1,
+		Hits:       1,
 	}
 }
 
@@ -82,15 +74,8 @@ func urlRow(seed string) yacymodel.URIMetadataRow {
 	}
 }
 
-func referencedHash(t *testing.T, entry yacymodel.RWIPostingWireForm) yacymodel.Hash {
-	t.Helper()
-
-	urlHash, err := entry.URLHash()
-	if err != nil {
-		t.Fatalf("URLHash: %v", err)
-	}
-
-	return urlHash.Hash()
+func referencedHash(entry yacymodel.RWIPosting) yacymodel.Hash {
+	return entry.URLHash.Hash()
 }
 
 func TestIntakePersistsAndCounts(t *testing.T) {
@@ -104,7 +89,7 @@ func TestIntakePersistsAndCounts(t *testing.T) {
 		t.Fatalf("urls.Intake: %v", err)
 	}
 
-	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{
+	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
 		posting("w1", "u1"),
 		posting("w1", "u2"),
 		posting("w1", "u1"),
@@ -130,11 +115,11 @@ func TestIntakeReportsUnknownURL(t *testing.T) {
 	h := openHarness(t, 0, 100)
 	entry := posting("w1", "u1")
 
-	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{entry})
+	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{entry})
 	if err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
-	if len(receipt.UnknownURL) != 1 || receipt.UnknownURL[0] != referencedHash(t, entry) {
+	if len(receipt.UnknownURL) != 1 || receipt.UnknownURL[0] != referencedHash(entry) {
 		t.Fatalf("UnknownURL = %v, want the referenced hash", receipt.UnknownURL)
 	}
 
@@ -142,7 +127,7 @@ func TestIntakeReportsUnknownURL(t *testing.T) {
 		t.Fatalf("urls.Intake: %v", err)
 	}
 
-	receipt, err = h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{entry})
+	receipt, err = h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{entry})
 	if err != nil {
 		t.Fatalf("Intake known: %v", err)
 	}
@@ -155,7 +140,7 @@ func TestIntakeBusyAtCapacity(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t, 1, 100)
 
-	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{posting("w1", "u1")})
+	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{posting("w1", "u1")})
 	if err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
@@ -163,7 +148,7 @@ func TestIntakeBusyAtCapacity(t *testing.T) {
 		t.Fatalf("first receipt = %+v, want stored", receipt)
 	}
 
-	receipt, err = h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{posting("w2", "u2")})
+	receipt, err = h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{posting("w2", "u2")})
 	if err != nil {
 		t.Fatalf("Intake over capacity: %v", err)
 	}
@@ -176,7 +161,7 @@ func TestIntakeBusyOverBatchCap(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t, 0, 1)
 
-	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{
+	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
 		posting("w1", "u1"),
 		posting("w1", "u2"),
 	})

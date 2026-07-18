@@ -84,7 +84,7 @@ func TestStructuredLanguageDoesNotFilter(t *testing.T) {
 
 func TestSearchReportsRequestedTermsAlongsideWantedTerms(t *testing.T) {
 	word, related := hashFor("w1"), hashFor("w2")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPostingWireForm{
+	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word:    {postingEntry(word, "u1", 0, 1), postingEntry(word, "u2", 0, 1)},
 		related: {postingEntry(related, "u2", 0, 1), postingEntry(related, "u3", 0, 1)},
 	}}

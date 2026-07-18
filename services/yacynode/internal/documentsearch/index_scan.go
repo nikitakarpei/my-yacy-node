@@ -10,19 +10,22 @@ import (
 func (s searcher) scanTerm(
 	ctx context.Context,
 	term yacymodel.Hash,
-	appearanceCriteria termAppearanceCriteria,
-) ([]termAppearance, int, error) {
-	// The per-term cap keeps the most frequent appearances rather than the first
+	filter postingFilter,
+) ([]termPosting, int, error) {
+	// The per-term cap keeps the most frequent postings rather than the first
 	// scanned; an exact join under a memory bound would instead pivot on the rarest term.
-	kept := mostFrequentAppearances{limit: s.matchesPerTerm}
+	kept := mostFrequentPostings{limit: s.matchesPerTerm}
 	var total int
-	err := s.index.ScanWord(ctx, term, func(posting yacymodel.RWIPostingWireForm) (bool, error) {
-		appearance, ok := translateAppearance(ctx, posting)
-		if !ok || !appearanceCriteria.matches(ctx, appearance) {
+	err := s.index.ScanWord(ctx, term, func(posting yacymodel.RWIPosting) (bool, error) {
+		if !filter.matches(ctx, posting) {
 			return true, nil
 		}
 		total++
-		kept.consider(appearance)
+		kept.consider(termPosting{
+			documentIdentifier: posting.URLHash.Hash(),
+			occurrences:        uint64(posting.Hits),
+			textPosition:       uint64(posting.TextPosition),
+		})
 
 		return true, nil
 	})
@@ -42,10 +45,8 @@ func (s searcher) excludedDocuments(
 		err := s.index.ScanWord(
 			ctx,
 			term,
-			func(posting yacymodel.RWIPostingWireForm) (bool, error) {
-				if location, err := posting.URLHash(); err == nil {
-					excluded[location.Hash()] = struct{}{}
-				}
+			func(posting yacymodel.RWIPosting) (bool, error) {
+				excluded[posting.URLHash.Hash()] = struct{}{}
 
 				return true, nil
 			},

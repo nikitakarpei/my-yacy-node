@@ -4,17 +4,14 @@
 // follow arrivals and departures through PostingObserver. Every port speaks the
 // yacymodel vocabulary and lends cross-module work a shared transaction, so the
 // schema never leaks.
-package rwi
+package rwipostings
 
 import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 type PostingObserver interface {
@@ -31,12 +28,12 @@ type PostingIndex interface {
 	ScanWord(
 		ctx context.Context,
 		word yacymodel.Hash,
-		visit func(yacymodel.RWIPostingWireForm) (bool, error),
+		visit func(yacymodel.RWIPosting) (bool, error),
 	) error
 }
 
 type PostingReceiver interface {
-	Receive(ctx context.Context, entries []yacymodel.RWIPostingWireForm) (Receipt, error)
+	Receive(ctx context.Context, entries []yacymodel.RWIPosting) (Receipt, error)
 }
 
 type Receipt struct {
@@ -74,18 +71,4 @@ func Open(
 	}
 
 	return directory, intake, directory, nil
-}
-
-func MountTransferRWI(
-	router httpguard.WireRouter,
-	identity nodeidentity.Identity,
-	receiver PostingReceiver,
-) {
-	httpguard.Mount(
-		router,
-		yacyproto.PathTransferRWI,
-		yacyproto.TransferRWIEndpointMethods,
-		yacyproto.ParseTransferRWIRequest,
-		transferRWIEndpoint{identity: identity, intake: receiver}.Serve,
-	)
 }

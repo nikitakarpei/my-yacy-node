@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/landing"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwi"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
@@ -53,7 +53,7 @@ func assembleNode(
 	router := httpguard.NewWireRouter(mux, gate)
 
 	urlmeta.MountTransferURL(router, identity, storage.urlReceiver)
-	rwi.MountTransferRWI(router, identity, storage.postingReceiver)
+	rwiingress.Mount(router, identity, storage.postingReceiver)
 	nodestatus.MountQuery(
 		router,
 		identity,

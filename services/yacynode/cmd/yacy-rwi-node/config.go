@@ -37,7 +37,7 @@ const (
 	defaultAnnounceInterval = 10 * time.Minute
 	defaultGreetsPerCycle   = 16
 
-	storageFileName = "yacy-rwi.db"
+	storageFileName = "yacy-rwipostings.db"
 )
 
 type nodeConfig struct {

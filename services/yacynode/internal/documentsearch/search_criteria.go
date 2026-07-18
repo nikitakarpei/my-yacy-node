@@ -39,7 +39,7 @@ type searchCriteria struct {
 	reporting          matchReporting
 	contentKind        contentKind
 	strictContentKind  bool
-	requiredProperties yacymodel.Bitfield
+	requiredProperties yacymodel.Optional[yacymodel.Appearance]
 	language           string
 	siteHash           string
 }

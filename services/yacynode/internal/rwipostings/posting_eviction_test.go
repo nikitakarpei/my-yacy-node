@@ -1,4 +1,4 @@
-package rwi
+package rwipostings
 
 import (
 	"context"
@@ -27,7 +27,7 @@ func TestPurgePostingDropsPostingAndNotifies(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t, 0, 100)
 
-	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{
+	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
 		posting("w1", "u1"),
 		posting("w1", "u2"),
 		posting("w2", "u1"),
@@ -36,7 +36,7 @@ func TestPurgePostingDropsPostingAndNotifies(t *testing.T) {
 	}
 
 	word := yacymodel.WordHash("w1")
-	url := referencedHash(t, posting("w1", "u1"))
+	url := referencedHash(posting("w1", "u1"))
 	var deleted bool
 	if err := h.vault.Update(ctx, func(tx *vault.Txn) error {
 		dropped, err := h.rwi.Purger.PurgePosting(tx, word, url)

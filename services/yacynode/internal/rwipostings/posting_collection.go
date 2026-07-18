@@ -1,4 +1,4 @@
-package rwi
+package rwipostings
 
 import (
 	"fmt"
@@ -11,25 +11,10 @@ const postingsBucket vault.Name = "rwi"
 
 const postingKeyLength = yacymodel.HashLength + yacymodel.HashLength
 
-type postingCodec struct{}
-
-func (postingCodec) Encode(entry yacymodel.RWIPostingWireForm) ([]byte, error) {
-	return encodeStoredPosting(entry), nil
-}
-
-func (postingCodec) Decode(raw []byte) (yacymodel.RWIPostingWireForm, error) {
-	entry, err := decodeStoredPosting("", raw)
-	if err != nil {
-		return yacymodel.RWIPostingWireForm{}, fmt.Errorf("decode rwi posting: %w", err)
-	}
-
-	return entry, nil
-}
-
 func registerPostings(
 	v *vault.Vault,
-) (*vault.Collection[yacymodel.RWIPostingWireForm], error) {
-	collection, err := vault.Register(v, postingsBucket, postingCodec{})
+) (*vault.Collection[yacymodel.RWIPosting], error) {
+	collection, err := vault.Register[yacymodel.RWIPosting](v, postingsBucket, postingCodec{})
 	if err != nil {
 		return nil, fmt.Errorf("register rwi posting collection: %w", err)
 	}

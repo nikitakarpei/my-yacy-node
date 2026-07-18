@@ -88,19 +88,24 @@ func contentKindFromDomain(domain yacyproto.SearchContentDomain) contentKind {
 	}
 }
 
-func requiredProperties(encoded string) (yacymodel.Bitfield, error) {
+func requiredProperties(
+	encoded string,
+) (yacymodel.Optional[yacymodel.Appearance], error) {
 	if encoded == "" {
-		return nil, nil
+		return yacymodel.None[yacymodel.Appearance](), nil
 	}
 	required, err := yacymodel.DecodeBitfield(encoded)
 	if err != nil {
-		return nil, fmt.Errorf("decode required properties: %w", err)
+		return yacymodel.None[yacymodel.Appearance](), fmt.Errorf(
+			"decode required properties: %w",
+			err,
+		)
 	}
 	if required.AllSet(yacymodel.RWIFlagBitCount) {
-		return nil, nil
+		return yacymodel.None[yacymodel.Appearance](), nil
 	}
 
-	return required, nil
+	return yacymodel.Some(yacymodel.AppearanceFromBitfield(required)), nil
 }
 
 func resolveSiteHash(req yacyproto.SearchRequest, operators queryOperators) (string, error) {

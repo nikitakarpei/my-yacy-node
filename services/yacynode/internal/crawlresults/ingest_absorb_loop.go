@@ -6,6 +6,7 @@ import (
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
@@ -13,9 +14,11 @@ const (
 	msgIngestChunkDeferred = "ingest chunk deferred"
 	msgIngestChunkTooLarge = "ingest chunk exceeds posting batch cap, deferred until operator intervenes"
 	msgIngestChunkUnknown  = "ingest chunk kind is not absorbable, discarded"
-	msgIngestAckFailed     = "ingest chunk ack failed"
-	msgIngestNakFailed     = "ingest chunk nak failed"
-	msgIngestTermFailed    = "ingest chunk term failed"
+
+	msgIngestChunkPostingDiscarded = "ingest chunk posting discarded"
+	msgIngestAckFailed             = "ingest chunk ack failed"
+	msgIngestNakFailed             = "ingest chunk nak failed"
+	msgIngestTermFailed            = "ingest chunk term failed"
 )
 
 func (c *IngestConsumer) Run(ctx context.Context) {
@@ -69,7 +72,17 @@ func (c *IngestConsumer) absorbPostings(
 	delivery IngestDelivery,
 	chunk yacycrawlcontract.PageRWIPostingChunk,
 ) {
-	receipt, err := c.postings.Receive(ctx, chunk.Postings)
+	postings := make([]yacymodel.RWIPosting, 0, len(chunk.Postings))
+	for _, wireForm := range chunk.Postings {
+		posting, err := wireForm.Domain()
+		if err != nil {
+			slog.WarnContext(ctx, msgIngestChunkPostingDiscarded,
+				slog.String("url", chunk.CanonicalURL), slog.Any("error", err))
+			continue
+		}
+		postings = append(postings, posting)
+	}
+	receipt, err := c.postings.Receive(ctx, postings)
 	if receipt.TooLarge {
 		c.redeliverTooLarge(ctx, delivery, chunk.CanonicalURL, len(chunk.Postings))
 		return
