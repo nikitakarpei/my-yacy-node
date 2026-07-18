@@ -80,10 +80,7 @@ func parseGreetResponse(ctx context.Context, body io.Reader) (greetResult, error
 		return greetResult{}, fmt.Errorf("%w: %w", errGreetFailed, err)
 	}
 
-	msg, err := yacymodel.ParseMessage(string(raw))
-	if err != nil {
-		return greetResult{}, fmt.Errorf("%w: %w", errGreetFailed, err)
-	}
+	msg := yacyproto.ParseMessage(string(raw))
 	parsed, err := yacyproto.ParseHelloResponse(ctx, msg)
 	if err != nil {
 		return greetResult{}, fmt.Errorf("%w: %w", errGreetFailed, err)

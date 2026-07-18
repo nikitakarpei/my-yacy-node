@@ -6,8 +6,6 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 var ErrBadField = errors.New("bad field")
@@ -34,13 +32,13 @@ func putBoolOptional(dst url.Values, key string, value bool) {
 	}
 }
 
-func setString(dst yacymodel.Message, key, value string) {
+func setString(dst Message, key, value string) {
 	if value != "" {
 		dst[key] = value
 	}
 }
 
-func setInt(dst yacymodel.Message, key string, value int) {
+func setInt(dst Message, key string, value int) {
 	dst[key] = strconv.Itoa(value)
 }
 

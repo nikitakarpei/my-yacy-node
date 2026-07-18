@@ -9,7 +9,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -55,7 +54,7 @@ func TestWireResponderEncodesBody(t *testing.T) {
 	httpguard.NewWireResponder(stubStatus{}).Write(
 		context.Background(),
 		rec,
-		yacymodel.Message{"k": "v"},
+		yacyproto.Message{"k": "v"},
 	)
 
 	if got := rec.Header().Get("Content-Type"); got != "text/plain; charset=UTF-8" {

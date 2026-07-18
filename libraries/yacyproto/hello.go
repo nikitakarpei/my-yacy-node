@@ -89,8 +89,8 @@ func ParseHelloRequest(ctx context.Context, form url.Values) (HelloRequest, erro
 	return req, nil
 }
 
-func (r HelloResponse) Encode() yacymodel.Message {
-	msg := yacymodel.Message{}
+func (r HelloResponse) Encode() Message {
+	msg := Message{}
 	setString(msg, FieldYourIP, r.YourIP)
 	setString(msg, FieldYourType, r.YourType.String())
 	setString(msg, FieldMyTime, r.MyTime)
@@ -102,7 +102,7 @@ func (r HelloResponse) Encode() yacymodel.Message {
 	return msg
 }
 
-func ParseHelloResponse(ctx context.Context, m yacymodel.Message) (HelloResponse, error) {
+func ParseHelloResponse(ctx context.Context, m Message) (HelloResponse, error) {
 	header, err := parseResponseHeader(m)
 	if err != nil {
 		return HelloResponse{}, err
@@ -144,7 +144,7 @@ func decodeSeed(ctx context.Context, raw string) (yacymodel.Seed, error) {
 	return seed, nil
 }
 
-func decodeSeeds(ctx context.Context, m yacymodel.Message) ([]yacymodel.Seed, error) {
+func decodeSeeds(ctx context.Context, m Message) ([]yacymodel.Seed, error) {
 	var seeds []yacymodel.Seed
 	for i := 0; ; i++ {
 		raw, ok := m[indexedKey(prefixSeed, i)]

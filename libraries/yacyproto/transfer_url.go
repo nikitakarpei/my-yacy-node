@@ -87,8 +87,8 @@ func ParseTransferURLRequest(ctx context.Context, form url.Values) (TransferURLR
 	return req, nil
 }
 
-func (r TransferURLResponse) Encode() yacymodel.Message {
-	msg := yacymodel.Message{}
+func (r TransferURLResponse) Encode() Message {
+	msg := Message{}
 	setString(msg, FieldResult, string(r.Result))
 	setInt(msg, FieldDouble, r.Double)
 	setString(msg, FieldErrorURL, joinHashes(r.ErrorURL))
@@ -96,7 +96,7 @@ func (r TransferURLResponse) Encode() yacymodel.Message {
 	return msg
 }
 
-func ParseTransferURLResponse(m yacymodel.Message) (TransferURLResponse, error) {
+func ParseTransferURLResponse(m Message) (TransferURLResponse, error) {
 	header, err := parseResponseHeader(m)
 	if err != nil {
 		return TransferURLResponse{}, err

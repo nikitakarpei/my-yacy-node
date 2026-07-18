@@ -56,14 +56,14 @@ func ParseCrawlReceiptRequest(_ context.Context, form url.Values) (CrawlReceiptR
 	return req, nil
 }
 
-func (r CrawlReceiptResponse) Encode() yacymodel.Message {
-	msg := yacymodel.Message{}
+func (r CrawlReceiptResponse) Encode() Message {
+	msg := Message{}
 	setInt(msg, FieldDelay, r.Delay)
 
 	return msg
 }
 
-func ParseCrawlReceiptResponse(m yacymodel.Message) (CrawlReceiptResponse, error) {
+func ParseCrawlReceiptResponse(m Message) (CrawlReceiptResponse, error) {
 	header, err := parseResponseHeader(m)
 	if err != nil {
 		return CrawlReceiptResponse{}, err

@@ -6,7 +6,6 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -64,7 +63,7 @@ func TestParseCrawlReceiptRequestRejectsBadIam(t *testing.T) {
 func TestParseCrawlReceiptResponseRejectsBadDelay(t *testing.T) {
 	t.Parallel()
 
-	msg := yacymodel.Message{yacyproto.FieldDelay: "later"}
+	msg := yacyproto.Message{yacyproto.FieldDelay: "later"}
 	if _, err := yacyproto.ParseCrawlReceiptResponse(msg); err == nil {
 		t.Fatal("expected error for non-numeric delay")
 	}

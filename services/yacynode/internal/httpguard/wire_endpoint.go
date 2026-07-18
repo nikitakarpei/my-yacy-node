@@ -6,12 +6,11 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 type WireResponse interface {
-	Encode() yacymodel.Message
+	Encode() yacyproto.Message
 }
 
 type WireGate struct {

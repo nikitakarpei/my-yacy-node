@@ -199,8 +199,8 @@ func searchRequestCounts(form url.Values) (searchCounts, error) {
 	return counts, nil
 }
 
-func (r SearchResponse) Encode() yacymodel.Message {
-	msg := yacymodel.Message{}
+func (r SearchResponse) Encode() Message {
+	msg := Message{}
 	setInt(msg, FieldSearchTime, r.SearchTime)
 	setString(msg, FieldReferences, r.References)
 	setInt(msg, FieldJoinCount, r.JoinCount)
@@ -218,7 +218,7 @@ func (r SearchResponse) Encode() yacymodel.Message {
 	return msg
 }
 
-func ParseSearchResponse(m yacymodel.Message) (SearchResponse, error) {
+func ParseSearchResponse(m Message) (SearchResponse, error) {
 	header, err := parseResponseHeader(m)
 	if err != nil {
 		return SearchResponse{}, err
@@ -250,7 +250,7 @@ func ParseSearchResponse(m yacymodel.Message) (SearchResponse, error) {
 	return resp, nil
 }
 
-func parseSearchResources(m yacymodel.Message, count int) []yacymodel.URIMetadataRow {
+func parseSearchResources(m Message, count int) []yacymodel.URIMetadataRow {
 	var rows []yacymodel.URIMetadataRow
 	if count > 0 {
 		for i := range count {
@@ -283,7 +283,7 @@ func parseSearchResources(m yacymodel.Message, count int) []yacymodel.URIMetadat
 }
 
 func parseSearchIndexes(
-	m yacymodel.Message,
+	m Message,
 ) (map[yacymodel.Hash]int, map[yacymodel.Hash]string, error) {
 	var (
 		counts    map[yacymodel.Hash]int

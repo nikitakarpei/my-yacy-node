@@ -6,7 +6,6 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -77,7 +76,7 @@ func TestParseQueryRequestRejectsUnknownObject(t *testing.T) {
 func TestParseQueryResponseRejectsBadResponse(t *testing.T) {
 	t.Parallel()
 
-	msg := yacymodel.Message{yacyproto.FieldResponse: "many"}
+	msg := yacyproto.Message{yacyproto.FieldResponse: "many"}
 	if _, err := yacyproto.ParseQueryResponse(msg); err == nil {
 		t.Fatal("expected error for non-numeric response")
 	}

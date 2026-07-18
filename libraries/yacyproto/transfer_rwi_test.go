@@ -98,7 +98,7 @@ func TestParseTransferRWIRequestSkipsBadEntry(t *testing.T) {
 func TestParseTransferRWIResponseRejectsBadPause(t *testing.T) {
 	t.Parallel()
 
-	msg := yacymodel.Message{yacyproto.FieldPause: "soon"}
+	msg := yacyproto.Message{yacyproto.FieldPause: "soon"}
 	if _, err := yacyproto.ParseTransferRWIResponse(msg); err == nil {
 		t.Fatal("expected error for non-numeric pause")
 	}
@@ -107,7 +107,7 @@ func TestParseTransferRWIResponseRejectsBadPause(t *testing.T) {
 func TestParseTransferRWIResponseRejectsUnknownResult(t *testing.T) {
 	t.Parallel()
 
-	msg := yacymodel.Message{yacyproto.FieldResult: "later"}
+	msg := yacyproto.Message{yacyproto.FieldResult: "later"}
 	if _, err := yacyproto.ParseTransferRWIResponse(msg); err == nil {
 		t.Fatal("expected error for unknown transferRWI result")
 	}
