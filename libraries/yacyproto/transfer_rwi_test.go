@@ -19,7 +19,7 @@ func TestTransferRWIRequestRoundTrip(t *testing.T) {
 		YouAre:      sampleHash(t, "beta"),
 		WordCount:   2,
 		EntryCount:  2,
-		Indexes: []yacymodel.RWIPostingWireForm{
+		Indexes: []yacymodel.RWIPosting{
 			sampleRWIPosting(t, "alpha", "url-a"),
 			sampleRWIPosting(t, "beta", "url-b"),
 		},
@@ -82,7 +82,10 @@ func TestParseTransferRWIRequestSkipsBadEntry(t *testing.T) {
 	t.Parallel()
 
 	good := sampleRWIPosting(t, "alpha", "url-a")
-	form := url.Values{yacyproto.FieldIndexes: {"not-a-posting-line\n" + good.String()}}
+	encoded := yacyproto.TransferRWIRequest{
+		Indexes: []yacymodel.RWIPosting{good},
+	}.Form().Get(yacyproto.FieldIndexes)
+	form := url.Values{yacyproto.FieldIndexes: {"not-a-posting-line\n" + encoded}}
 	req, err := yacyproto.ParseTransferRWIRequest(context.Background(), form)
 	if err != nil {
 		t.Fatalf("ParseTransferRWIRequest: %v", err)

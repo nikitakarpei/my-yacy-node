@@ -1,23 +1,25 @@
-package yacymodel
+package yacyproto
 
 import (
 	"errors"
 	"fmt"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 var errInvalidBitfield = errors.New("invalid bitfield")
 
-type Bitfield []byte
+type bitfield []byte
 
-func DecodeBitfield(encoded string) (Bitfield, error) {
-	raw, err := Decode(encoded)
+func decodeBitfield(encoded string) (bitfield, error) {
+	raw, err := yacymodel.Decode(encoded)
 	if err != nil {
 		return nil, fmt.Errorf("%w: %w", errInvalidBitfield, err)
 	}
-	return Bitfield(raw), nil
+	return bitfield(raw), nil
 }
 
-func (b Bitfield) Get(pos int) bool {
+func (b bitfield) get(pos int) bool {
 	slot := pos >> 3
 	if pos < 0 || slot >= len(b) {
 		return false
@@ -25,16 +27,16 @@ func (b Bitfield) Get(pos int) bool {
 	return b[slot]&(1<<(pos%8)) != 0
 }
 
-func (b Bitfield) AllSet(bits int) bool {
+func (b bitfield) allSet(bits int) bool {
 	for pos := range bits {
-		if !b.Get(pos) {
+		if !b.get(pos) {
 			return false
 		}
 	}
 	return true
 }
 
-func (b Bitfield) setBit(pos int, value bool) {
+func (b bitfield) setBit(pos int, value bool) {
 	slot := pos >> 3
 	if pos < 0 || slot >= len(b) {
 		return

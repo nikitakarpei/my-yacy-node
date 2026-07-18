@@ -34,23 +34,14 @@ func sampleSeed(tb testing.TB, word, name string) yacymodel.Seed {
 	return roundTrip
 }
 
-func sampleRWIPosting(tb testing.TB, word, urlWord string) yacymodel.RWIPostingWireForm {
+func sampleRWIPosting(tb testing.TB, word, urlWord string) yacymodel.RWIPosting {
 	tb.Helper()
 
-	entry := yacymodel.RWIPostingWireForm{
-		WordHash: sampleHash(tb, word),
-		Properties: map[string]string{
-			yacymodel.ColURLHash:        sampleHash(tb, urlWord).String(),
-			yacymodel.ColLocalLinkCount: "AB",
-		},
+	return yacymodel.RWIPosting{
+		WordHash:   sampleHash(tb, word),
+		URLHash:    yacymodel.URLHash(sampleHash(tb, urlWord)),
+		LocalLinks: 2,
 	}
-
-	roundTrip, err := yacymodel.ParseRWIPosting(entry.String())
-	if err != nil {
-		tb.Fatalf("sample rwi posting does not round-trip: %v", err)
-	}
-
-	return roundTrip
 }
 
 func sampleURLRow(tb testing.TB, urlWord string) yacymodel.URIMetadataRow {

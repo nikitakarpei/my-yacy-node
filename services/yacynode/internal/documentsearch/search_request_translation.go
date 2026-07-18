@@ -50,11 +50,6 @@ func searchCriteriaFromRequest(req yacyproto.SearchRequest) (searchCriteria, err
 	if timeLimit <= 0 {
 		timeLimit = defaultSearchTime
 	}
-	required, err := requiredProperties(req.Constraint)
-	if err != nil {
-		return searchCriteria{}, err
-	}
-
 	return searchCriteria{
 		terms:              req.Query,
 		excludedTerms:      req.Exclude,
@@ -65,7 +60,7 @@ func searchCriteriaFromRequest(req yacyproto.SearchRequest) (searchCriteria, err
 		reporting:          matchReportingFromRequest(req),
 		contentKind:        contentKindFromDomain(req.ContentDom),
 		strictContentKind:  req.StrictContentDom,
-		requiredProperties: required,
+		requiredProperties: req.RequiredAppearance,
 		// Deliberate divergence from YaCy: only the /language/ modifier filters; the
 		// plain language field drives YaCy's ranking boost, which this node omits.
 		language: operators.Language,
@@ -86,26 +81,6 @@ func contentKindFromDomain(domain yacyproto.SearchContentDomain) contentKind {
 	default:
 		return anyContent
 	}
-}
-
-func requiredProperties(
-	encoded string,
-) (yacymodel.Optional[yacymodel.Appearance], error) {
-	if encoded == "" {
-		return yacymodel.None[yacymodel.Appearance](), nil
-	}
-	required, err := yacymodel.DecodeBitfield(encoded)
-	if err != nil {
-		return yacymodel.None[yacymodel.Appearance](), fmt.Errorf(
-			"decode required properties: %w",
-			err,
-		)
-	}
-	if required.AllSet(yacymodel.RWIFlagBitCount) {
-		return yacymodel.None[yacymodel.Appearance](), nil
-	}
-
-	return yacymodel.Some(yacymodel.AppearanceFromBitfield(required)), nil
 }
 
 func resolveSiteHash(req yacyproto.SearchRequest, operators queryOperators) (string, error) {

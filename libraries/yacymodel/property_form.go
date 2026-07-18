@@ -8,7 +8,7 @@ import (
 
 var errBadPropertyForm = errors.New("bad property form")
 
-func parsePropertyPairs(body string) (map[string]string, error) {
+func ParsePropertyPairs(body string) (map[string]string, error) {
 	props := make(map[string]string)
 	for token := range strings.SplitSeq(body, ",") {
 		token = strings.TrimSpace(token)

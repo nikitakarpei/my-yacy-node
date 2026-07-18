@@ -35,14 +35,12 @@ func endpointWith(intake *recordingIntake) transferRWIEndpoint {
 	return transferRWIEndpoint{identity: localIdentity(), intake: intake}
 }
 
-func posting(word, urlSeed string) yacymodel.RWIPostingWireForm {
-	return yacymodel.RWIPostingWireForm{
-		WordHash: yacymodel.WordHash(word),
-		Properties: map[string]string{
-			yacymodel.ColURLHash:        yacymodel.WordHash(urlSeed).String(),
-			yacymodel.ColLocalLinkCount: "1",
-			yacymodel.ColHitCount:       "1",
-		},
+func posting(word, urlSeed string) yacymodel.RWIPosting {
+	return yacymodel.RWIPosting{
+		WordHash:   yacymodel.WordHash(word),
+		URLHash:    yacymodel.URLHash(yacymodel.WordHash(urlSeed)),
+		LocalLinks: 1,
+		Hits:       1,
 	}
 }
 
@@ -54,7 +52,7 @@ func TestTransferRWIReportsBusy(t *testing.T) {
 		YouAre:      localIdentity().Hash,
 		WordCount:   1,
 		EntryCount:  1,
-		Indexes:     []yacymodel.RWIPostingWireForm{posting("w1", "u1")},
+		Indexes:     []yacymodel.RWIPosting{posting("w1", "u1")},
 	}
 
 	resp, err := endpoint.Serve(context.Background(), req)
@@ -78,7 +76,7 @@ func TestTransferRWIStoresAndAnswers(t *testing.T) {
 		YouAre:      localIdentity().Hash,
 		WordCount:   1,
 		EntryCount:  1,
-		Indexes:     []yacymodel.RWIPostingWireForm{posting("w1", "u1")},
+		Indexes:     []yacymodel.RWIPosting{posting("w1", "u1")},
 	}
 
 	resp, err := endpoint.Serve(context.Background(), req)
