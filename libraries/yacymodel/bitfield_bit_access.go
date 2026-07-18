@@ -33,3 +33,15 @@ func (b Bitfield) AllSet(bits int) bool {
 	}
 	return true
 }
+
+func (b Bitfield) setBit(pos int, value bool) {
+	slot := pos >> 3
+	if pos < 0 || slot >= len(b) {
+		return
+	}
+	if value {
+		b[slot] |= 1 << (pos % 8)
+	} else {
+		b[slot] &^= 1 << (pos % 8)
+	}
+}
