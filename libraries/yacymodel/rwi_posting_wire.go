@@ -134,6 +134,148 @@ func (e RWIPostingWireForm) ByteValue(key string) (byte, error) {
 	return byte(n), nil
 }
 
+func (e RWIPostingWireForm) Uint16Value(key string) (uint16, error) {
+	value := e.Properties[key]
+	n, err := strconv.ParseUint(value, 10, 16)
+	if err != nil {
+		return 0, fmt.Errorf("parse rwi uint16 %s: %w", key, err)
+	}
+	return uint16(n), nil
+}
+
+func (e RWIPostingWireForm) optionalByteValue(key string) (byte, error) {
+	if _, ok := e.Properties[key]; !ok {
+		return 0, nil
+	}
+	return e.ByteValue(key)
+}
+
+func (e RWIPostingWireForm) optionalUint16Value(key string) (uint16, error) {
+	if _, ok := e.Properties[key]; !ok {
+		return 0, nil
+	}
+	return e.Uint16Value(key)
+}
+
+// Domain projects the wire form's meaningful columns onto the RWIPosting
+// domain concept. Columns that YaCy itself never populates (freshUntil,
+// typeofword, worddistance, reserve) are wire-only and have no domain
+// counterpart.
+func (e RWIPostingWireForm) Domain() (RWIPosting, error) {
+	urlHash, err := e.URLHash()
+	if err != nil {
+		return RWIPosting{}, fmt.Errorf("rwi posting url hash: %w", err)
+	}
+
+	posting := RWIPosting{
+		WordHash: e.WordHash,
+		URLHash:  urlHash,
+		Language: Language(e.Properties[ColLanguage]),
+	}
+	if err := e.fillDomainDate(&posting); err != nil {
+		return RWIPosting{}, err
+	}
+	if err := e.fillDomainCardinals(&posting); err != nil {
+		return RWIPosting{}, err
+	}
+	if err := e.fillDomainFlags(&posting); err != nil {
+		return RWIPosting{}, err
+	}
+	return posting, nil
+}
+
+func (e RWIPostingWireForm) fillDomainDate(posting *RWIPosting) error {
+	value, ok := e.Properties[ColLastModified]
+	if !ok {
+		return nil
+	}
+	lastModified, err := ParseMicroDateWireValue(value)
+	if err != nil {
+		return fmt.Errorf("rwi posting last modified: %w", err)
+	}
+	posting.LastModified = lastModified
+	return nil
+}
+
+func (e RWIPostingWireForm) fillDomainCardinals(posting *RWIPosting) error {
+	bytes := []struct {
+		column string
+		field  *uint8
+	}{
+		{ColTitleWordCount, &posting.TitleWordCount},
+		{ColDocType, &posting.DocType},
+		{ColLocalLinkCount, &posting.LocalLinkCount},
+		{ColExternalLinkCount, &posting.ExternalLinkCount},
+		{ColURLLength, &posting.URLLength},
+		{ColURLComponentCount, &posting.URLComponentCount},
+		{ColHitCount, &posting.HitCount},
+		{ColPhraseRelativePos, &posting.PhraseRelativePosition},
+		{ColPhrasePosition, &posting.PhrasePosition},
+	}
+	for _, b := range bytes {
+		value, err := e.optionalByteValue(b.column)
+		if err != nil {
+			return fmt.Errorf("rwi posting %s: %w", b.column, err)
+		}
+		*b.field = value
+	}
+	uint16s := []struct {
+		column string
+		field  *uint16
+	}{
+		{ColTextWordCount, &posting.TextWordCount},
+		{ColPhraseCount, &posting.PhraseCount},
+		{ColTextPosition, &posting.TextPosition},
+	}
+	for _, u := range uint16s {
+		value, err := e.optionalUint16Value(u.column)
+		if err != nil {
+			return fmt.Errorf("rwi posting %s: %w", u.column, err)
+		}
+		*u.field = value
+	}
+	return nil
+}
+
+func (e RWIPostingWireForm) fillDomainFlags(posting *RWIPosting) error {
+	bitfield, err := e.AppearanceFlags()
+	if err != nil {
+		return fmt.Errorf("rwi posting appearance flags: %w", err)
+	}
+	if bitfield != nil {
+		posting.Flags = AppearanceFlagsFromBitfield(bitfield)
+	}
+	return nil
+}
+
+// RWIPostingWireFormFromDomain builds the wire form for a domain posting.
+// Columns YaCy never populates (freshUntil, typeofword, worddistance,
+// reserve) are omitted; a real peer's original values for those columns
+// cannot be recovered from the domain type and are not round-tripped.
+func RWIPostingWireFormFromDomain(p RWIPosting) RWIPostingWireForm {
+	props := map[string]string{
+		ColURLHash:           p.URLHash.String(),
+		ColLastModified:      p.LastModified.WireValue(),
+		ColTitleWordCount:    strconv.FormatUint(uint64(p.TitleWordCount), 10),
+		ColTextWordCount:     strconv.FormatUint(uint64(p.TextWordCount), 10),
+		ColPhraseCount:       strconv.FormatUint(uint64(p.PhraseCount), 10),
+		ColDocType:           strconv.FormatUint(uint64(p.DocType), 10),
+		ColLocalLinkCount:    strconv.FormatUint(uint64(p.LocalLinkCount), 10),
+		ColExternalLinkCount: strconv.FormatUint(uint64(p.ExternalLinkCount), 10),
+		ColURLLength:         strconv.FormatUint(uint64(p.URLLength), 10),
+		ColURLComponentCount: strconv.FormatUint(uint64(p.URLComponentCount), 10),
+		ColFlags:             Encode(p.Flags.Bitfield()),
+		ColHitCount:          strconv.FormatUint(uint64(p.HitCount), 10),
+		ColTextPosition:      strconv.FormatUint(uint64(p.TextPosition), 10),
+		ColPhraseRelativePos: strconv.FormatUint(uint64(p.PhraseRelativePosition), 10),
+		ColPhrasePosition:    strconv.FormatUint(uint64(p.PhrasePosition), 10),
+	}
+	if p.Language != "" {
+		props[ColLanguage] = string(p.Language)
+	}
+	return RWIPostingWireForm{WordHash: p.WordHash, Properties: props}
+}
+
 func ParseRWIPosting(line string) (RWIPostingWireForm, error) {
 	open := strings.IndexByte(line, propertyOpen)
 	if open < 0 || !strings.HasSuffix(line, string(propertyClose)) {
