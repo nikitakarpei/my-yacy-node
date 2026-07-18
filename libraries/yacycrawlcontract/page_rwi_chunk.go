@@ -23,14 +23,14 @@ type PageRWIMetadataChunk struct {
 
 type PageRWIPostingChunk struct {
 	CanonicalURL string
-	Postings     []yacymodel.RWIPosting
+	Postings     []yacymodel.RWIPostingWireForm
 }
 
 type pageRWIChunkEnvelope struct {
-	Kind         string                     `json:"Kind"`
-	CanonicalURL string                     `json:"CanonicalURL"`
-	Metadata     []yacymodel.URIMetadataRow `json:"Metadata,omitempty"`
-	Postings     []yacymodel.RWIPosting     `json:"Postings,omitempty"`
+	Kind         string                         `json:"Kind"`
+	CanonicalURL string                         `json:"CanonicalURL"`
+	Metadata     []yacymodel.URIMetadataRow     `json:"Metadata,omitempty"`
+	Postings     []yacymodel.RWIPostingWireForm `json:"Postings,omitempty"`
 }
 
 func (c PageRWIMetadataChunk) envelope() pageRWIChunkEnvelope {

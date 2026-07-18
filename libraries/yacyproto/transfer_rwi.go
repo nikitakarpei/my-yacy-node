@@ -15,7 +15,7 @@ type TransferRWIRequest struct {
 	YouAre      yacymodel.Hash
 	WordCount   int
 	EntryCount  int
-	Indexes     []yacymodel.RWIPosting
+	Indexes     []yacymodel.RWIPostingWireForm
 	Key         string
 }
 
@@ -118,7 +118,7 @@ func ParseTransferRWIResponse(m yacymodel.Message) (TransferRWIResponse, error) 
 	}, nil
 }
 
-func encodeRWILines(entries []yacymodel.RWIPosting) string {
+func encodeRWILines(entries []yacymodel.RWIPostingWireForm) string {
 	lines := make([]string, len(entries))
 	for i, entry := range entries {
 		lines[i] = entry.String()
@@ -129,12 +129,12 @@ func encodeRWILines(entries []yacymodel.RWIPosting) string {
 
 const maxRWIEntries = 1000
 
-func parseRWILines(ctx context.Context, raw string) []yacymodel.RWIPosting {
+func parseRWILines(ctx context.Context, raw string) []yacymodel.RWIPostingWireForm {
 	if raw == "" {
 		return nil
 	}
 
-	var entries []yacymodel.RWIPosting
+	var entries []yacymodel.RWIPostingWireForm
 	for line := range strings.SplitSeq(raw, "\n") {
 		line = strings.TrimRight(line, "\r")
 		if line == "" {

@@ -27,7 +27,7 @@ func TestPurgePostingDropsPostingAndNotifies(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t, 0, 100)
 
-	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
+	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{
 		posting("w1", "u1"),
 		posting("w1", "u2"),
 		posting("w2", "u1"),

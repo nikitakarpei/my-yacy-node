@@ -34,10 +34,10 @@ func sampleSeed(tb testing.TB, word, name string) yacymodel.Seed {
 	return roundTrip
 }
 
-func sampleRWIPosting(tb testing.TB, word, urlWord string) yacymodel.RWIPosting {
+func sampleRWIPosting(tb testing.TB, word, urlWord string) yacymodel.RWIPostingWireForm {
 	tb.Helper()
 
-	entry := yacymodel.RWIPosting{
+	entry := yacymodel.RWIPostingWireForm{
 		WordHash: sampleHash(tb, word),
 		Properties: map[string]string{
 			yacymodel.ColURLHash:        sampleHash(tb, urlWord).String(),

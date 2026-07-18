@@ -38,7 +38,7 @@ func Build(
 	}
 	shared := sharedProperties(page, urlHash.String(), stats, dayNumber)
 
-	postings := make([]yacymodel.RWIPosting, 0, len(order))
+	postings := make([]yacymodel.RWIPostingWireForm, 0, len(order))
 	for _, word := range order {
 		occurrence := occurrences[word]
 		properties := map[string]string{}
@@ -47,7 +47,7 @@ func Build(
 		properties[yacymodel.ColTextPosition] = strconv.Itoa(occurrence.firstPosition)
 		properties[yacymodel.ColPhraseRelativePos] = strconv.Itoa(occurrence.firstPositionInPhrase)
 		properties[yacymodel.ColPhrasePosition] = strconv.Itoa(occurrence.firstPhraseNumber)
-		postings = append(postings, yacymodel.RWIPosting{
+		postings = append(postings, yacymodel.RWIPostingWireForm{
 			WordHash:   yacymodel.WordHash(word),
 			Properties: properties,
 		})

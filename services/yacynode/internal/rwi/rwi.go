@@ -31,12 +31,12 @@ type PostingIndex interface {
 	ScanWord(
 		ctx context.Context,
 		word yacymodel.Hash,
-		visit func(yacymodel.RWIPosting) (bool, error),
+		visit func(yacymodel.RWIPostingWireForm) (bool, error),
 	) error
 }
 
 type PostingReceiver interface {
-	Receive(ctx context.Context, entries []yacymodel.RWIPosting) (Receipt, error)
+	Receive(ctx context.Context, entries []yacymodel.RWIPostingWireForm) (Receipt, error)
 }
 
 type Receipt struct {

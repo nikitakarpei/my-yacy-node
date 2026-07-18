@@ -64,8 +64,8 @@ func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
 	}
 }
 
-func posting(word, urlSeed string) yacymodel.RWIPosting {
-	return yacymodel.RWIPosting{
+func posting(word, urlSeed string) yacymodel.RWIPostingWireForm {
+	return yacymodel.RWIPostingWireForm{
 		WordHash: yacymodel.WordHash(word),
 		Properties: map[string]string{
 			yacymodel.ColURLHash:        yacymodel.WordHash(urlSeed).String(),
@@ -82,7 +82,7 @@ func urlRow(seed string) yacymodel.URIMetadataRow {
 	}
 }
 
-func referencedHash(t *testing.T, entry yacymodel.RWIPosting) yacymodel.Hash {
+func referencedHash(t *testing.T, entry yacymodel.RWIPostingWireForm) yacymodel.Hash {
 	t.Helper()
 
 	urlHash, err := entry.URLHash()
@@ -104,7 +104,7 @@ func TestIntakePersistsAndCounts(t *testing.T) {
 		t.Fatalf("urls.Intake: %v", err)
 	}
 
-	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
+	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{
 		posting("w1", "u1"),
 		posting("w1", "u2"),
 		posting("w1", "u1"),
@@ -130,7 +130,7 @@ func TestIntakeReportsUnknownURL(t *testing.T) {
 	h := openHarness(t, 0, 100)
 	entry := posting("w1", "u1")
 
-	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{entry})
+	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{entry})
 	if err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
@@ -142,7 +142,7 @@ func TestIntakeReportsUnknownURL(t *testing.T) {
 		t.Fatalf("urls.Intake: %v", err)
 	}
 
-	receipt, err = h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{entry})
+	receipt, err = h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{entry})
 	if err != nil {
 		t.Fatalf("Intake known: %v", err)
 	}
@@ -155,7 +155,7 @@ func TestIntakeBusyAtCapacity(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t, 1, 100)
 
-	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{posting("w1", "u1")})
+	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{posting("w1", "u1")})
 	if err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
@@ -163,7 +163,7 @@ func TestIntakeBusyAtCapacity(t *testing.T) {
 		t.Fatalf("first receipt = %+v, want stored", receipt)
 	}
 
-	receipt, err = h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{posting("w2", "u2")})
+	receipt, err = h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{posting("w2", "u2")})
 	if err != nil {
 		t.Fatalf("Intake over capacity: %v", err)
 	}
@@ -176,7 +176,7 @@ func TestIntakeBusyOverBatchCap(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t, 0, 1)
 
-	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
+	receipt, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPostingWireForm{
 		posting("w1", "u1"),
 		posting("w1", "u2"),
 	})

@@ -19,7 +19,7 @@ func TestTransferRWIRequestRoundTrip(t *testing.T) {
 		YouAre:      sampleHash(t, "beta"),
 		WordCount:   2,
 		EntryCount:  2,
-		Indexes: []yacymodel.RWIPosting{
+		Indexes: []yacymodel.RWIPostingWireForm{
 			sampleRWIPosting(t, "alpha", "url-a"),
 			sampleRWIPosting(t, "beta", "url-b"),
 		},
