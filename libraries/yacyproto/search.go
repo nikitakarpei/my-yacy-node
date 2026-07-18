@@ -9,31 +9,31 @@ import (
 )
 
 type SearchRequest struct {
-	NetworkName      string
-	MySeed           yacymodel.Optional[yacymodel.Seed]
-	Query            []yacymodel.Hash
-	Exclude          []yacymodel.Hash
-	URLs             []yacymodel.Hash
-	Count            int
-	Time             int
-	MaxDist          int
-	Partitions       int
-	Abstracts        SearchAbstracts
-	ContentDom       SearchContentDomain
-	StrictContentDom bool
-	TimezoneOffset   int
-	Language         string
-	Modifier         string
-	Prefer           string
-	Filter           string
-	Constraint       string
-	Profile          string
-	SiteHost         string
-	SiteHash         string
-	Author           string
-	Collection       string
-	FileType         string
-	Protocol         string
+	NetworkName        string
+	MySeed             yacymodel.Optional[yacymodel.Seed]
+	Query              []yacymodel.Hash
+	Exclude            []yacymodel.Hash
+	URLs               []yacymodel.Hash
+	Count              int
+	Time               int
+	MaxDist            int
+	Partitions         int
+	Abstracts          SearchAbstracts
+	ContentDom         SearchContentDomain
+	StrictContentDom   bool
+	TimezoneOffset     int
+	Language           string
+	Modifier           string
+	Prefer             string
+	Filter             string
+	RequiredAppearance yacymodel.Optional[yacymodel.Appearance]
+	Profile            string
+	SiteHost           string
+	SiteHash           string
+	Author             string
+	Collection         string
+	FileType           string
+	Protocol           string
 }
 
 type SearchResponse struct {
@@ -68,7 +68,7 @@ func (r SearchRequest) Form() url.Values {
 	putString(form, FieldModifier, r.Modifier)
 	putString(form, FieldPrefer, r.Prefer)
 	putString(form, FieldFilter, r.Filter)
-	putString(form, FieldConstraint, r.Constraint)
+	putString(form, FieldConstraint, appearanceConstraintWireCodec{}.encode(r.RequiredAppearance))
 	putString(form, FieldProfile, r.Profile)
 	putString(form, FieldSiteHost, r.SiteHost)
 	putString(form, FieldSiteHash, r.SiteHash)
@@ -98,7 +98,6 @@ func ParseSearchRequest(ctx context.Context, form url.Values) (SearchRequest, er
 		Modifier:         form.Get(FieldModifier),
 		Prefer:           form.Get(FieldPrefer),
 		Filter:           form.Get(FieldFilter),
-		Constraint:       form.Get(FieldConstraint),
 		Profile:          form.Get(FieldProfile),
 		SiteHost:         form.Get(FieldSiteHost),
 		SiteHash:         form.Get(FieldSiteHash),
@@ -114,6 +113,11 @@ func ParseSearchRequest(ctx context.Context, form url.Values) (SearchRequest, er
 			return SearchRequest{}, err
 		}
 		req.MySeed = yacymodel.Some(seed)
+	}
+
+	req.RequiredAppearance, err = appearanceConstraintWireCodec{}.decode(form.Get(FieldConstraint))
+	if err != nil {
+		return SearchRequest{}, err
 	}
 
 	req.Query, err = splitSearchHashes(FieldQuery, form.Get(FieldQuery))

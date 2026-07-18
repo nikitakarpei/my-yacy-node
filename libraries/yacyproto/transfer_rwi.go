@@ -2,9 +2,7 @@ package yacyproto
 
 import (
 	"context"
-	"log/slog"
 	"net/url"
-	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -15,7 +13,7 @@ type TransferRWIRequest struct {
 	YouAre      yacymodel.Hash
 	WordCount   int
 	EntryCount  int
-	Indexes     []yacymodel.RWIPostingWireForm
+	Indexes     []yacymodel.RWIPosting
 	Key         string
 }
 
@@ -34,7 +32,7 @@ func (r TransferRWIRequest) Form() url.Values {
 	putString(form, FieldYouAre, r.YouAre.String())
 	putInt(form, FieldWordCount, r.WordCount)
 	putInt(form, FieldEntryCount, r.EntryCount)
-	putString(form, FieldIndexes, encodeRWILines(r.Indexes))
+	putString(form, FieldIndexes, rwiPostingWireCodec{}.encodeLines(r.Indexes))
 	putString(form, FieldKey, r.Key)
 
 	return form
@@ -68,7 +66,7 @@ func ParseTransferRWIRequest(ctx context.Context, form url.Values) (TransferRWIR
 		return TransferRWIRequest{}, err
 	}
 
-	req.Indexes = parseRWILines(ctx, form.Get(FieldIndexes))
+	req.Indexes = rwiPostingWireCodec{}.decodeLines(ctx, form.Get(FieldIndexes))
 
 	return req, nil
 }
@@ -116,52 +114,4 @@ func ParseTransferRWIResponse(m yacymodel.Message) (TransferRWIResponse, error) 
 		UnknownURL:     unknown,
 		ErrorURL:       errorURL,
 	}, nil
-}
-
-func encodeRWILines(entries []yacymodel.RWIPostingWireForm) string {
-	lines := make([]string, len(entries))
-	for i, entry := range entries {
-		lines[i] = entry.String()
-	}
-
-	return strings.Join(lines, "\n")
-}
-
-const maxRWIEntries = 1000
-
-func parseRWILines(ctx context.Context, raw string) []yacymodel.RWIPostingWireForm {
-	if raw == "" {
-		return nil
-	}
-
-	var entries []yacymodel.RWIPostingWireForm
-	for line := range strings.SplitSeq(raw, "\n") {
-		line = strings.TrimRight(line, "\r")
-		if line == "" {
-			continue
-		}
-		if len(entries) >= maxRWIEntries {
-			slog.WarnContext(
-				ctx,
-				"transfer rwi posting limit reached",
-				slog.Int("limit", maxRWIEntries),
-			)
-			break
-		}
-
-		entry, err := yacymodel.ParseRWIPosting(line)
-		if err != nil {
-			slog.WarnContext(
-				ctx,
-				"transfer rwi posting discarded",
-				slog.Any("error", err),
-				slog.Int("lineLength", len(line)),
-			)
-			continue
-		}
-
-		entries = append(entries, entry)
-	}
-
-	return entries
 }

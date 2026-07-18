@@ -1,4 +1,6 @@
-package yacymodel
+package yacyproto
+
+import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
 const appearanceFlagsByteWidth = 4
 
@@ -17,25 +19,25 @@ const (
 	appearanceFlagBitEmphasized           = 29
 )
 
-func AppearanceFromBitfield(b Bitfield) Appearance {
-	return Appearance{
-		IndexOf:              b.Get(appearanceFlagBitIndexOf),
-		HasLocation:          b.Get(appearanceFlagBitHasLocation),
-		HasImage:             b.Get(appearanceFlagBitHasImage),
-		HasAudio:             b.Get(appearanceFlagBitHasAudio),
-		HasVideo:             b.Get(appearanceFlagBitHasVideo),
-		HasApp:               b.Get(appearanceFlagBitHasApp),
-		AppearsInDescription: b.Get(appearanceFlagBitAppearsInDescription),
-		AppearsInTitle:       b.Get(appearanceFlagBitAppearsInTitle),
-		AppearsInCreator:     b.Get(appearanceFlagBitAppearsInCreator),
-		AppearsInSubject:     b.Get(appearanceFlagBitAppearsInSubject),
-		AppearsInIdentifier:  b.Get(appearanceFlagBitAppearsInIdentifier),
-		Emphasized:           b.Get(appearanceFlagBitEmphasized),
+func appearanceFromBitfield(b bitfield) yacymodel.Appearance {
+	return yacymodel.Appearance{
+		IndexOf:              b.get(appearanceFlagBitIndexOf),
+		HasLocation:          b.get(appearanceFlagBitHasLocation),
+		HasImage:             b.get(appearanceFlagBitHasImage),
+		HasAudio:             b.get(appearanceFlagBitHasAudio),
+		HasVideo:             b.get(appearanceFlagBitHasVideo),
+		HasApp:               b.get(appearanceFlagBitHasApp),
+		AppearsInDescription: b.get(appearanceFlagBitAppearsInDescription),
+		AppearsInTitle:       b.get(appearanceFlagBitAppearsInTitle),
+		AppearsInCreator:     b.get(appearanceFlagBitAppearsInCreator),
+		AppearsInSubject:     b.get(appearanceFlagBitAppearsInSubject),
+		AppearsInIdentifier:  b.get(appearanceFlagBitAppearsInIdentifier),
+		Emphasized:           b.get(appearanceFlagBitEmphasized),
 	}
 }
 
-func (f Appearance) Bitfield() Bitfield {
-	b := make(Bitfield, appearanceFlagsByteWidth)
+func bitfieldFromAppearance(f yacymodel.Appearance) bitfield {
+	b := make(bitfield, appearanceFlagsByteWidth)
 	b.setBit(appearanceFlagBitIndexOf, f.IndexOf)
 	b.setBit(appearanceFlagBitHasLocation, f.HasLocation)
 	b.setBit(appearanceFlagBitHasImage, f.HasImage)

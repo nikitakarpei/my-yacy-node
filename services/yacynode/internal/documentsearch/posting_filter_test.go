@@ -90,46 +90,6 @@ func TestMatchesRequiredProperties(t *testing.T) {
 	}
 }
 
-func TestRequiredPropertiesNoOp(t *testing.T) {
-	empty, err := requiredProperties("")
-	if err != nil {
-		t.Fatalf("requiredProperties: %v", err)
-	}
-	if empty.Present() {
-		t.Fatal("empty required properties should be a no-op")
-	}
-
-	allOn, err := requiredProperties(yacymodel.Encode([]byte{0xff, 0xff, 0xff, 0xff}))
-	if err != nil {
-		t.Fatalf("requiredProperties: %v", err)
-	}
-	if allOn.Present() {
-		t.Fatal("all-on required properties should be a no-op")
-	}
-}
-
-func TestRequiredPropertiesRejectsMalformed(t *testing.T) {
-	if _, err := requiredProperties("@@not-base64@@"); err == nil {
-		t.Fatal("malformed required properties should fail")
-	}
-}
-
-func TestRequiredPropertiesDecodesAppearance(t *testing.T) {
-	encoded := yacymodel.Encode(yacymodel.Appearance{HasImage: true}.Bitfield())
-
-	required, err := requiredProperties(encoded)
-	if err != nil {
-		t.Fatalf("requiredProperties: %v", err)
-	}
-	traits, ok := required.Get()
-	if !ok {
-		t.Fatal("single-flag required properties should be present")
-	}
-	if !traits.HasImage {
-		t.Errorf("decoded appearance = %+v, want HasImage", traits)
-	}
-}
-
 func TestDocumentSet(t *testing.T) {
 	if documentSet(nil) != nil {
 		t.Fatal("nil input should return nil")
