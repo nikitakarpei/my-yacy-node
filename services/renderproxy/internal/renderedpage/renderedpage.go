@@ -5,6 +5,7 @@ import "context"
 type Page struct {
 	StatusCode  int
 	ContentType string
+	Location    string
 	Body        []byte
 }
 

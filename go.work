@@ -2,6 +2,7 @@ go 1.26
 
 use (
 	./libraries/bytesize
+	./libraries/canonicalurl
 	./libraries/searchdocument
 	./libraries/serviceruntime
 	./libraries/yacycrawlcontract

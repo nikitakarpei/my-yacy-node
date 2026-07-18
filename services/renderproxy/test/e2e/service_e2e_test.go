@@ -22,7 +22,7 @@ func TestRenderproxyRendersScriptedPageEndToEnd(t *testing.T) {
 
 	originURL := startScriptedOrigin(t, ctx, network.Name)
 	lightpanda.Start(t, ctx, network.Name)
-	renderproxyURL := startRenderproxy(t, ctx, network.Name, nil)
+	renderproxyURL := startRenderproxy(t, ctx, network.Name, lightpanda.NetworkURL(), nil)
 
 	client := forwardProxyClient(t, renderproxyURL)
 	resp, err := client.Get(originURL)
@@ -47,7 +47,7 @@ func TestRenderproxyReturnsNonHTMLRawBodyEndToEnd(t *testing.T) {
 
 	originURL := startNonHTMLOrigin(t, ctx, network.Name)
 	lightpanda.Start(t, ctx, network.Name)
-	renderproxyURL := startRenderproxy(t, ctx, network.Name, nil)
+	renderproxyURL := startRenderproxy(t, ctx, network.Name, lightpanda.NetworkURL(), nil)
 
 	client := forwardProxyClient(t, renderproxyURL)
 	resp, err := client.Get(originURL)
@@ -75,9 +75,15 @@ func TestRenderproxyTimesOutHangingOriginEndToEnd(t *testing.T) {
 
 	originURL := startHangingOrigin(t, ctx, network.Name)
 	lightpanda.Start(t, ctx, network.Name)
-	renderproxyURL := startRenderproxy(t, ctx, network.Name, map[string]string{
-		"RENDERPROXY_REQUEST_DEADLINE": "3s",
-	})
+	renderproxyURL := startRenderproxy(
+		t,
+		ctx,
+		network.Name,
+		lightpanda.NetworkURL(),
+		map[string]string{
+			"RENDERPROXY_REQUEST_DEADLINE": "3s",
+		},
+	)
 
 	client := forwardProxyClient(t, renderproxyURL)
 
@@ -104,7 +110,7 @@ func TestRenderproxyRefusesConnectEndToEnd(t *testing.T) {
 
 	startScriptedOrigin(t, ctx, network.Name)
 	lightpanda.Start(t, ctx, network.Name)
-	renderproxyURL := startRenderproxy(t, ctx, network.Name, nil)
+	renderproxyURL := startRenderproxy(t, ctx, network.Name, lightpanda.NetworkURL(), nil)
 
 	status := connectResponseStatus(t, renderproxyURL)
 	if status != http.StatusMethodNotAllowed {

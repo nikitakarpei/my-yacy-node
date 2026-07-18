@@ -145,3 +145,68 @@ func TestFetchCancelledContext(t *testing.T) {
 		t.Fatal("cancelled context should error")
 	}
 }
+
+func TestFetchRecordsRedirectChain(t *testing.T) {
+	for _, dialMode := range []httpfetch.ProxyDialMode{
+		httpfetch.ProxyDialTunnel,
+		httpfetch.ProxyDialAbsoluteURL,
+	} {
+		proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, r *http.Request) {
+			switch r.URL.Path {
+			case "/a":
+				http.Redirect(w, r, "http://target.example/b", http.StatusMovedPermanently)
+			case "/b":
+				http.Redirect(w, r, "http://target.example/c", http.StatusFound)
+			default:
+				w.Header().Set("Content-Type", "text/html")
+				_, _ = w.Write([]byte("<html>final</html>"))
+			}
+		})
+
+		outcome, err := httpfetch.New(proxy, dialMode, testUserAgent, 1<<20, time.Second).
+			Fetch(context.Background(), "http://target.example/a")
+		closeFn()
+		if err != nil {
+			t.Fatalf("dial %v: Fetch: %v", dialMode, err)
+		}
+		if outcome.FinalURL != "http://target.example/c" {
+			t.Fatalf("dial %v: FinalURL = %q", dialMode, outcome.FinalURL)
+		}
+		want := []string{
+			"http://target.example/a",
+			"http://target.example/b",
+			"http://target.example/c",
+		}
+		if len(outcome.RedirectChain) != len(want) {
+			t.Fatalf("dial %v: chain = %v, want %v", dialMode, outcome.RedirectChain, want)
+		}
+		for i := range want {
+			if outcome.RedirectChain[i] != want[i] {
+				t.Fatalf(
+					"dial %v: chain[%d] = %q, want %q",
+					dialMode,
+					i,
+					outcome.RedirectChain[i],
+					want[i],
+				)
+			}
+		}
+	}
+}
+
+func TestFetchDirectRecordsSingleHopChain(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+		_, _ = w.Write([]byte("<html>hi</html>"))
+	})
+	defer closeFn()
+
+	outcome, err := httpfetch.New(proxy, httpfetch.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+		Fetch(context.Background(), "http://target.example/page")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(outcome.RedirectChain) != 1 || outcome.RedirectChain[0] != "http://target.example/page" {
+		t.Fatalf("chain = %v", outcome.RedirectChain)
+	}
+}

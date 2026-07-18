@@ -11,7 +11,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerurl"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/lightpanda"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 )
 
@@ -25,12 +25,15 @@ func startRenderproxy(
 	t *testing.T,
 	ctx context.Context,
 	networkName string,
+	cdpURL string,
 	extraEnv map[string]string,
 ) string {
 	t.Helper()
+	egressproxy.Start(t, ctx, networkName)
 	env := map[string]string{
-		"RENDERPROXY_CDP_URL": lightpanda.NetworkURL(),
-		"LOG_LEVEL":           "debug",
+		"RENDERPROXY_CDP_URL":          cdpURL,
+		"RENDERPROXY_EGRESS_PROXY_URL": egressproxy.NetworkURL(),
+		"LOG_LEVEL":                    "debug",
 	}
 	for k, v := range extraEnv {
 		env[k] = v

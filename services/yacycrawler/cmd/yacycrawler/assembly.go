@@ -22,6 +22,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/htmlpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/httpfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderintake"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolution"
 )
 
 const (
@@ -72,6 +73,10 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
 	)
+	resolve, err := redirectRecorder(ctx, js)
+	if err != nil {
+		return err
+	}
 	feeds := buildPageFeeds(js, cfg)
 	renderings, err := buildPageRenderings(feeds)
 	if err != nil {
@@ -88,6 +93,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		fetch,
 		extract,
 		crawltraversal.AlwaysDue{},
+		resolve,
 		feeds,
 		renderings,
 		metrics,
@@ -128,7 +134,23 @@ func ensureStreams(ctx context.Context, js jetstream.JetStream, cfg ServiceConfi
 			return fmt.Errorf("ensure page %s stream: %w", stream.Representation, err)
 		}
 	}
+	if err := yacycrawlcontract.EnsureRedirectResolutionBucket(
+		ctx, js, cfg.RedirectResolutionBucketSpec(),
+	); err != nil {
+		return fmt.Errorf("ensure redirect resolution bucket: %w", err)
+	}
 	return nil
+}
+
+func redirectRecorder(
+	ctx context.Context,
+	js jetstream.JetStream,
+) (crawlcapability.RedirectResolution, error) {
+	bucket, err := js.KeyValue(ctx, yacycrawlcontract.RedirectResolutionBucketName)
+	if err != nil {
+		return nil, fmt.Errorf("open redirect resolution bucket: %w", err)
+	}
+	return redirectresolution.New(bucket), nil
 }
 
 func publishedRepresentations(cfg ServiceConfig) []string {

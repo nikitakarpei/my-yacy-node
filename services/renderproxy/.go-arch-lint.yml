@@ -12,6 +12,8 @@ components:
     in: internal/cdprender/**
   rendergate:
     in: internal/rendergate/**
+  redirectpreflight:
+    in: internal/redirectpreflight/**
   proxyintake:
     in: internal/proxyintake/**
   rendermetrics:
@@ -49,6 +51,10 @@ deps:
     mayDependOn:
       - rendergate
       - renderedpage
+  redirectpreflight:
+    mayDependOn:
+      - redirectpreflight
+      - renderedpage
   proxyintake:
     mayDependOn:
       - proxyintake
@@ -63,6 +69,7 @@ deps:
       - renderedpage
       - cdprender
       - rendergate
+      - redirectpreflight
       - proxyintake
       - rendermetrics
     canUse:

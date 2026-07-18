@@ -4,6 +4,7 @@ import (
 	"context"
 	"net"
 	"net/http"
+	"net/url"
 	"testing"
 	"time"
 
@@ -15,6 +16,7 @@ func TestRunServiceServesMetricsUntilContextCanceled(t *testing.T) {
 	cfg := ServiceConfig{
 		ListenAddr:        reservePort(t).String(),
 		CDPURL:            "http://127.0.0.1:1",
+		EgressProxyURL:    &url.URL{Scheme: "http", Host: "127.0.0.1:1"},
 		RenderConcurrency: 1,
 		RequestDeadline:   time.Second,
 		MaxResponseBytes:  1024,

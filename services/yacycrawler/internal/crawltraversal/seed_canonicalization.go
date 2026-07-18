@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
 const msgSeedRejected = "seed url rejected"

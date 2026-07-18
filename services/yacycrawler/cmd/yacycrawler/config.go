@@ -39,6 +39,8 @@ const (
 	DefaultOpsAddr          = ":9090"
 	DefaultUserAgent        = "yacycrawler (+https://yacy.net)"
 	DefaultProxyDialMode    = "tunnel"
+
+	DefaultRedirectResolutionMaxBytes = 256 << 20
 )
 
 var proxyDialModeByName = map[string]httpfetch.ProxyDialMode{
@@ -83,6 +85,12 @@ type ServiceConfig struct {
 
 func (c ServiceConfig) OrdersStreamSpec() yacycrawlcontract.OrdersStreamSpec {
 	return yacycrawlcontract.OrdersStreamSpec{Subject: c.OrdersSubject}
+}
+
+func (ServiceConfig) RedirectResolutionBucketSpec() yacycrawlcontract.RedirectResolutionBucketSpec {
+	return yacycrawlcontract.RedirectResolutionBucketSpec{
+		MaxBytes: DefaultRedirectResolutionMaxBytes,
+	}
 }
 
 func loadPageStreams(
