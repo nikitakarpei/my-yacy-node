@@ -2,8 +2,8 @@ package yacymodel
 
 import "testing"
 
-func TestAppearanceFlagsBitfieldRoundTrip(t *testing.T) {
-	flags := AppearanceFlags{
+func TestAppearanceBitfieldRoundTrip(t *testing.T) {
+	flags := Appearance{
 		IndexOf:              true,
 		HasVideo:             true,
 		AppearsInTitle:       true,
@@ -18,25 +18,25 @@ func TestAppearanceFlagsBitfieldRoundTrip(t *testing.T) {
 		Emphasized:           false,
 	}
 
-	got := AppearanceFlagsFromBitfield(flags.Bitfield())
+	got := AppearanceFromBitfield(flags.Bitfield())
 	if got != flags {
 		t.Fatalf("round trip = %+v, want %+v", got, flags)
 	}
 }
 
-func TestAppearanceFlagsFromBitfieldIgnoresUnnamedBits(t *testing.T) {
+func TestAppearanceFromBitfieldIgnoresUnnamedBits(t *testing.T) {
 	b := Bitfield{0, 0, 0, 0}
 	b.setBit(1, true)
 	b.setBit(30, true)
 
-	got := AppearanceFlagsFromBitfield(b)
-	if got != (AppearanceFlags{}) {
-		t.Fatalf("AppearanceFlagsFromBitfield() = %+v, want zero value", got)
+	got := AppearanceFromBitfield(b)
+	if got != (Appearance{}) {
+		t.Fatalf("AppearanceFromBitfield() = %+v, want zero value", got)
 	}
 }
 
-func TestAppearanceFlagsBitfieldWidth(t *testing.T) {
-	b := AppearanceFlags{}.Bitfield()
+func TestAppearanceBitfieldWidth(t *testing.T) {
+	b := Appearance{}.Bitfield()
 	if len(b) != appearanceFlagsByteWidth {
 		t.Fatalf("Bitfield() length = %d, want %d", len(b), appearanceFlagsByteWidth)
 	}

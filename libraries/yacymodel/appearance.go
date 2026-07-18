@@ -1,7 +1,7 @@
 package yacymodel
 
-// AppearanceFlags describes where and how a word appears in a document.
-type AppearanceFlags struct {
+// Appearance describes where and how a word appears in a document.
+type Appearance struct {
 	IndexOf              bool
 	HasLocation          bool
 	HasImage             bool
