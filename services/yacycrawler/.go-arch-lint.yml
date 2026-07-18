@@ -6,8 +6,8 @@ allow:
   deepScan: false
 
 components:
-  canonicalurl:
-    in: internal/canonicalurl/**
+  redirectresolution:
+    in: internal/redirectresolution/**
   pageadmission:
     in: internal/pageadmission/**
   crawlfrontier:
@@ -42,6 +42,10 @@ components:
     in: cmd/yacycrawler/**
 
 vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
   yacycrawlcontract:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
@@ -80,9 +84,13 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
 
 deps:
-  canonicalurl:
+  redirectresolution:
     mayDependOn:
-      - canonicalurl
+      - redirectresolution
+    canUse:
+      - yacycrawlcontract
+      - nats
+      - nats-server
   pageadmission:
     mayDependOn:
       - pageadmission
@@ -109,11 +117,11 @@ deps:
     mayDependOn:
       - crawltraversal
       - crawlcapability
-      - canonicalurl
       - pageadmission
       - crawlfrontier
     canUse:
       - yacycrawlcontract
+      - canonicalurl
       - backoff
   pagerwi:
     mayDependOn:
@@ -140,8 +148,8 @@ deps:
     mayDependOn:
       - htmlpage
       - crawlcapability
-      - canonicalurl
     canUse:
+      - canonicalurl
       - readability
       - xnet
   contentextraction:
@@ -193,6 +201,7 @@ deps:
       - pagemarkdown
       - orderintake
       - crawlmetrics
+      - redirectresolution
     canUse:
       - yacycrawlcontract
       - nats

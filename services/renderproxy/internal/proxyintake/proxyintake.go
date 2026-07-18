@@ -10,7 +10,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
 )
 
-const headerContentType = "Content-Type"
+const (
+	headerContentType = "Content-Type"
+	headerLocation    = "Location"
+)
 
 const (
 	msgRenderFailed  = "render failed"
@@ -44,6 +47,9 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	if page.ContentType != "" {
 		w.Header().Set(headerContentType, page.ContentType)
+	}
+	if page.Location != "" {
+		w.Header().Set(headerLocation, page.Location)
 	}
 	w.WriteHeader(page.StatusCode)
 	if _, err := w.Write(page.Body); err != nil {

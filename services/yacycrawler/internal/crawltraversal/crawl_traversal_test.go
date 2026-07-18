@@ -65,6 +65,26 @@ type fakeRecrawl struct{ due bool }
 
 func (f fakeRecrawl) Due(context.Context, string) (bool, error) { return f.due, nil }
 
+type redirectEdge struct{ requested, canonical string }
+
+type recordingResolve struct {
+	mu    sync.Mutex
+	edges []redirectEdge
+}
+
+func (r *recordingResolve) Record(_ context.Context, requested, canonical string) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	r.edges = append(r.edges, redirectEdge{requested: requested, canonical: canonical})
+	return nil
+}
+
+func (r *recordingResolve) recorded() []redirectEdge {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	return append([]redirectEdge(nil), r.edges...)
+}
+
 type fakeFeed struct {
 	representation yacycrawlcontract.PageRepresentationKind
 	contentFormat  crawlcapability.PageContentFormat
@@ -233,7 +253,7 @@ func newCrawler(
 	observer crawlcapability.RunProgress,
 ) *crawltraversal.Crawler {
 	return crawltraversal.NewCrawler(
-		cfg, fetch, extract, crawltraversal.AlwaysDue{},
+		cfg, fetch, extract, crawltraversal.AlwaysDue{}, &recordingResolve{},
 		feeds, renderings(), observer, &manualClock{},
 	)
 }
@@ -288,6 +308,72 @@ func TestTraversePublishesToEveryOutput(t *testing.T) {
 
 	if len(rwi.published) != 1 || len(text.published) != 1 {
 		t.Fatalf("representations not both advanced: rwi=%v text=%v", rwi.published, text.published)
+	}
+}
+
+func TestTraverseRecordsRedirectEdgePerNonFinalHop(t *testing.T) {
+	redirecting := crawlcapability.FetchOutcome{
+		Status:        crawlcapability.FetchSucceeded,
+		FinalURL:      "http://host/c",
+		RedirectChain: []string{"http://host/a", "http://host/b", "http://host/c"},
+		ContentType:   "text/html",
+		Body:          []byte("x"),
+	}
+	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
+		"http://host/a": {redirecting},
+	}}
+	extract := fakeExtract{
+		documents: []crawlcapability.ExtractedDocument{document("http://host/c", "t", "body")},
+	}
+	resolve := &recordingResolve{}
+	crawler := crawltraversal.NewCrawler(
+		defaultConfig(), fetch, extract, crawltraversal.AlwaysDue{}, resolve,
+		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}),
+		renderings(), newObserver(), &manualClock{},
+	)
+
+	traverse(t, crawler, []string{"http://host/a"})
+
+	want := []redirectEdge{
+		{requested: "http://host/a", canonical: "http://host/c"},
+		{requested: "http://host/b", canonical: "http://host/c"},
+	}
+	got := resolve.recorded()
+	if len(got) != len(want) {
+		t.Fatalf("edges = %v, want %v", got, want)
+	}
+	for i := range want {
+		if got[i] != want[i] {
+			t.Fatalf("edge[%d] = %v, want %v", i, got[i], want[i])
+		}
+	}
+}
+
+func TestTraverseRecordsNoRedirectEdgeOnDirectFetch(t *testing.T) {
+	direct := crawlcapability.FetchOutcome{
+		Status:        crawlcapability.FetchSucceeded,
+		FinalURL:      "http://host/",
+		RedirectChain: []string{"http://host/"},
+		ContentType:   "text/html",
+		Body:          []byte("x"),
+	}
+	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
+		"http://host/": {direct},
+	}}
+	extract := fakeExtract{
+		documents: []crawlcapability.ExtractedDocument{document("http://host/", "t", "body")},
+	}
+	resolve := &recordingResolve{}
+	crawler := crawltraversal.NewCrawler(
+		defaultConfig(), fetch, extract, crawltraversal.AlwaysDue{}, resolve,
+		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}),
+		renderings(), newObserver(), &manualClock{},
+	)
+
+	traverse(t, crawler, []string{"http://host/"})
+
+	if got := resolve.recorded(); len(got) != 0 {
+		t.Fatalf("direct fetch recorded edges: %v", got)
 	}
 }
 
@@ -531,7 +617,7 @@ func TestTraverseSkipsFetchWhenNotDue(t *testing.T) {
 	}}
 	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	crawler := crawltraversal.NewCrawler(
-		defaultConfig(), fetch, fakeExtract{}, fakeRecrawl{due: false},
+		defaultConfig(), fetch, fakeExtract{}, fakeRecrawl{due: false}, &recordingResolve{},
 		feeds(rwi), renderings(), newObserver(), &manualClock{},
 	)
 

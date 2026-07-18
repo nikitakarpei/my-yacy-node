@@ -11,6 +11,7 @@ type Crawler struct {
 	fetch      crawlcapability.PageRetrieval
 	extract    crawlcapability.DocumentExtraction
 	recrawl    crawlcapability.RecrawlDecision
+	resolve    crawlcapability.RedirectResolution
 	feeds      []crawlcapability.PageFeed
 	renderings []crawlcapability.PageRendering
 	observer   crawlcapability.RunProgress
@@ -23,6 +24,7 @@ func NewCrawler(
 	fetch crawlcapability.PageRetrieval,
 	extract crawlcapability.DocumentExtraction,
 	recrawl crawlcapability.RecrawlDecision,
+	resolve crawlcapability.RedirectResolution,
 	feeds []crawlcapability.PageFeed,
 	renderings []crawlcapability.PageRendering,
 	observer crawlcapability.RunProgress,
@@ -33,6 +35,7 @@ func NewCrawler(
 		fetch:      fetch,
 		extract:    extract,
 		recrawl:    recrawl,
+		resolve:    resolve,
 		feeds:      feeds,
 		renderings: renderings,
 		observer:   observer,

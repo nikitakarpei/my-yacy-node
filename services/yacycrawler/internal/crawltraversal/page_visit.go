@@ -6,15 +6,17 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlfrontier"
 )
 
 const (
-	msgFetchAbandoned      = "fetch abandoned after retries"
-	msgDocumentURLRejected = "extracted document url rejected"
-	msgExtractionFailed    = "document extraction failed"
+	msgFetchAbandoned       = "fetch abandoned after retries"
+	msgDocumentURLRejected  = "extracted document url rejected"
+	msgExtractionFailed     = "document extraction failed"
+	msgRedirectURLRejected  = "redirect chain url rejected"
+	msgRedirectRecordFailed = "redirect resolution record failed"
 )
 
 func (c *crawl) visit(
@@ -56,11 +58,43 @@ func (c *crawl) visit(
 	}
 
 	c.observer.PageFetched()
+	c.recordRedirects(ctx, outcome)
 	if outcome.Truncated {
 		c.observer.PageDisposed(crawlcapability.DisposalOversized)
 		return visitOutcome{entry: entry, counted: true}
 	}
 	return c.absorbPage(ctx, entry, outcome)
+}
+
+func (c *crawl) recordRedirects(ctx context.Context, outcome crawlcapability.FetchOutcome) {
+	canonicalFinal, err := canonicalurl.Canonicalize(outcome.FinalURL)
+	if err != nil {
+		slog.WarnContext(ctx, msgRedirectURLRejected,
+			slog.String("url", outcome.FinalURL),
+			slog.Any("error", err),
+		)
+		return
+	}
+	for _, hop := range outcome.RedirectChain {
+		canonicalHop, err := canonicalurl.Canonicalize(hop)
+		if err != nil {
+			slog.WarnContext(ctx, msgRedirectURLRejected,
+				slog.String("url", hop),
+				slog.Any("error", err),
+			)
+			continue
+		}
+		if canonicalHop == canonicalFinal {
+			continue
+		}
+		if err := c.resolve.Record(ctx, canonicalHop, canonicalFinal); err != nil {
+			slog.WarnContext(ctx, msgRedirectRecordFailed,
+				slog.String("requested", canonicalHop),
+				slog.String("canonical", canonicalFinal),
+				slog.Any("error", err),
+			)
+		}
+	}
 }
 
 func (c *crawl) absorbPage(

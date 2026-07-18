@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/cdprender"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/proxyintake"
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/redirectpreflight"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendergate"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendermetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
@@ -30,7 +31,7 @@ func RunService(
 	defer browser.Close()
 
 	gated := rendergate.New(
-		browser,
+		redirectpreflight.New(browser, cfg.EgressProxyURL),
 		cfg.RenderConcurrency,
 		cfg.RequestDeadline,
 		cfg.MaxResponseBytes,

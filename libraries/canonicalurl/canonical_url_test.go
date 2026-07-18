@@ -3,7 +3,7 @@ package canonicalurl_test
 import (
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
 func TestCanonicalize(t *testing.T) {

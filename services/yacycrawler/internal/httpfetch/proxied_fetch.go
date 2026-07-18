@@ -121,12 +121,28 @@ func (f *ProxiedFetch) fetched(
 	return crawlcapability.FetchOutcome{
 		Status:               crawlcapability.FetchSucceeded,
 		FinalURL:             response.Request.URL.String(),
+		RedirectChain:        redirectChain(response),
 		ContentType:          response.Header.Get(headerContentType),
 		Body:                 body,
 		Truncated:            truncated,
 		RefusesIndexing:      noIndex,
 		RefusesLinkDiscovery: noFollow,
 	}, nil
+}
+
+func redirectChain(response *http.Response) []string {
+	var chain []string
+	for request := response.Request; request != nil; {
+		chain = append(chain, request.URL.String())
+		if request.Response == nil {
+			break
+		}
+		request = request.Response.Request
+	}
+	for left, right := 0, len(chain)-1; left < right; left, right = left+1, right-1 {
+		chain[left], chain[right] = chain[right], chain[left]
+	}
+	return chain
 }
 
 func readBody(source io.Reader, limit int64) ([]byte, error) {

@@ -75,6 +75,29 @@ func TestServeHTTPReturnsRenderedPage(t *testing.T) {
 	}
 }
 
+func TestServeHTTPRelaysRedirectLocation(t *testing.T) {
+	handler := New(stubRenderer{page: renderedpage.Page{
+		StatusCode: http.StatusMovedPermanently,
+		Location:   "https://example.com/final",
+	}})
+	req := httptest.NewRequestWithContext(
+		context.Background(),
+		http.MethodGet,
+		"http://example.com/",
+		nil,
+	)
+	rec := httptest.NewRecorder()
+
+	handler.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusMovedPermanently {
+		t.Fatalf("status = %d, want %d", rec.Code, http.StatusMovedPermanently)
+	}
+	if got := rec.Header().Get("Location"); got != "https://example.com/final" {
+		t.Fatalf("location = %q", got)
+	}
+}
+
 type failingResponseWriter struct {
 	header http.Header
 	code   int
