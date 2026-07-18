@@ -16,6 +16,8 @@ const (
 
 var ErrBadURLMetadata = errors.New("bad url metadata")
 
+// TODO: this is a raw wire property bag, not a domain type, and it stays until
+// its ~36 call sites, a crawl-contract JSON field and a legacy disk row codec move.
 type URIMetadataRow struct {
 	Properties map[string]string
 }

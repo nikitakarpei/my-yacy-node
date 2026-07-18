@@ -24,6 +24,8 @@ const (
 
 var ErrInvalidFlags = errors.New("invalid flags")
 
+// TODO: Flags models four ASCII-offset wire atoms rather than the peer
+// capabilities it carries, blocked by the same Seed split.
 type Flags [FlagsLength]byte
 
 func ZeroFlags() Flags {

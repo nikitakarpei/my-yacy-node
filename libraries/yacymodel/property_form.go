@@ -8,6 +8,8 @@ import (
 
 var errBadPropertyForm = errors.New("bad property form")
 
+// TODO: property-form syntax is a wire grammar with no domain meaning, exported
+// only because url metadata parses itself with it instead of holding fields.
 func ParsePropertyPairs(body string) (map[string]string, error) {
 	props := make(map[string]string)
 	for token := range strings.SplitSeq(body, ",") {

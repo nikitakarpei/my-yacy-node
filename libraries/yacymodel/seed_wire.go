@@ -25,6 +25,8 @@ const (
 	SeedURLCount = "LCount"
 )
 
+// TODO: seed property-form parsing and its exported column names are wire
+// vocabulary, blocked by Seed being too widely consumed to split in one step.
 func ParseSeed(ctx context.Context, s string) (Seed, error) {
 	if strings.HasPrefix(s, "{") && strings.HasSuffix(s, "}") {
 		s = s[1 : len(s)-1]
