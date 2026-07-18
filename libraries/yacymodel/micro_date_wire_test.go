@@ -5,31 +5,23 @@ import (
 	"time"
 )
 
-func TestMicroDateWireValueRoundTrip(t *testing.T) {
+func TestMicroDateWireDaysRoundTrip(t *testing.T) {
 	original := MicroDateFromTime(time.Date(2026, time.July, 18, 0, 0, 0, 0, time.UTC))
 
-	parsed, err := ParseMicroDateWireValue(original.WireValue())
-	if err != nil {
-		t.Fatal(err)
-	}
-	if parsed != original {
+	if parsed := MicroDateFromWireDays(original.WireDays()); parsed != original {
 		t.Fatalf("round trip = %d, want %d", parsed, original)
 	}
 }
 
-func TestMicroDateWireValueWraps(t *testing.T) {
-	got, err := ParseMicroDateWireValue("262144")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got != 0 {
-		t.Fatalf("ParseMicroDateWireValue(262144) = %d, want 0", got)
+func TestMicroDateFromWireDaysWraps(t *testing.T) {
+	if got := MicroDateFromWireDays(microDateWireModulus); got != 0 {
+		t.Fatalf("MicroDateFromWireDays(%d) = %d, want 0", microDateWireModulus, got)
 	}
 }
 
-func TestParseMicroDateWireValueError(t *testing.T) {
-	if _, err := ParseMicroDateWireValue("not-a-number"); err == nil {
-		t.Fatal("expected error for non-numeric value")
+func TestMicroDateWireDaysWrapsNegative(t *testing.T) {
+	if got := MicroDate(-1).WireDays(); got != microDateWireModulus-1 {
+		t.Fatalf("WireDays() = %d, want %d", got, microDateWireModulus-1)
 	}
 }
 

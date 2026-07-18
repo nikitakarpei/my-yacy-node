@@ -84,6 +84,19 @@ func TestRWIPostingWireCodecDecodeNormalizesYaCyPropertyForm(t *testing.T) {
 	}
 }
 
+// TestRWIPostingWireCodecDecodeKeepsWideDate covers a day count above 65535.
+// The last modified column wraps at YaCy's 64**3 day modulus, not at the two
+// bytes the other wide columns use.
+func TestRWIPostingWireCodecDecodeKeepsWideDate(t *testing.T) {
+	got, err := rwiPostingWireCodec{}.decode("ABCDEFGHIJKL{a=200000,h=MNOPQRSTUVWX}")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got.LastModified != yacymodel.MicroDate(200000) {
+		t.Fatalf("decode() last modified = %d, want 200000", got.LastModified)
+	}
+}
+
 func TestRWIPostingWireCodecDecodeSparseLine(t *testing.T) {
 	got, err := rwiPostingWireCodec{}.decode("ABCDEFGHIJKL{h=MNOPQRSTUVWX}")
 	if err != nil {

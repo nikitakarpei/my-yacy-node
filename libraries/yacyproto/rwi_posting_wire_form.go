@@ -2,7 +2,6 @@ package yacyproto
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log/slog"
 	"slices"
@@ -29,31 +28,11 @@ const (
 	colTextPosition      = "t"
 	colPhraseRelativePos = "r"
 	colPhrasePosition    = "o"
+	byteColumnMask       = 0xff
+	uint16ColumnMask     = 0xffff
 	propertyOpen         = '{'
 	propertyClose        = '}'
 )
-
-const (
-	rwiByteFlagLength = 4
-	langLength        = 2
-)
-
-var errInvalidRWIProperty = errors.New("invalid rwi property")
-
-var rwiCardinalWidths = map[string]int{
-	colLastModified:      2,
-	colTitleWordCount:    1,
-	colTextWordCount:     2,
-	colPhraseCount:       2,
-	colLocalLinkCount:    1,
-	colExternalLinkCount: 1,
-	colURLLength:         1,
-	colURLComponentCount: 1,
-	colHitCount:          1,
-	colTextPosition:      2,
-	colPhraseRelativePos: 1,
-	colPhrasePosition:    1,
-}
 
 var documentTypeByChar = map[byte]yacymodel.DocumentType{
 	't': yacymodel.DocumentTypeText,
@@ -156,149 +135,89 @@ type rwiPostingWireForm struct {
 	properties map[string]string
 }
 
-func (e rwiPostingWireForm) urlHash() (yacymodel.URLHash, error) {
-	return yacymodel.ParseURLHash(e.properties[colURLHash])
-}
-
-func (e rwiPostingWireForm) appearanceFlags() (bitfield, error) {
-	value, ok := e.properties[colFlags]
-	if !ok {
-		return nil, nil
-	}
-	return decodeBitfield(value)
-}
-
-func (e rwiPostingWireForm) byteValue(key string) (byte, error) {
-	value := e.properties[key]
-	n, err := strconv.ParseUint(value, 10, 8)
-	if err != nil {
-		return 0, fmt.Errorf("parse rwi byte %s: %w", key, err)
-	}
-	return byte(n), nil
-}
-
-func (e rwiPostingWireForm) uint16Value(key string) (uint16, error) {
-	value := e.properties[key]
-	n, err := strconv.ParseUint(value, 10, 16)
-	if err != nil {
-		return 0, fmt.Errorf("parse rwi uint16 %s: %w", key, err)
-	}
-	return uint16(n), nil
-}
-
-func (e rwiPostingWireForm) optionalByteValue(key string) (byte, error) {
-	if _, ok := e.properties[key]; !ok {
-		return 0, nil
-	}
-	return e.byteValue(key)
-}
-
-func (e rwiPostingWireForm) optionalUint16Value(key string) (uint16, error) {
-	if _, ok := e.properties[key]; !ok {
-		return 0, nil
-	}
-	return e.uint16Value(key)
-}
-
 // domain projects the wire form's meaningful columns onto the RWIPosting
 // domain concept. A peer also sends freshUntil, typeofword, worddistance and
 // reserve columns; this node models none of them and reads past them.
+//
+// Cardinal columns are read the way YaCy writes them: a decimal prefix, taken
+// modulo the column's width. Only a url hash, language or appearance a peer
+// mangled beyond repair rejects the posting.
 func (e rwiPostingWireForm) domain() (yacymodel.RWIPosting, error) {
-	urlHash, err := e.urlHash()
+	urlHash, err := yacymodel.ParseURLHash(e.properties[colURLHash])
 	if err != nil {
 		return yacymodel.RWIPosting{}, fmt.Errorf("rwi posting url hash: %w", err)
 	}
 
-	posting := yacymodel.RWIPosting{
-		WordHash: e.wordHash,
-		URLHash:  urlHash,
-		Language: yacymodel.Language(e.properties[colLanguage]),
-	}
-	if err := e.fillDomainDate(&posting); err != nil {
-		return yacymodel.RWIPosting{}, err
-	}
-	if err := e.fillDomainCardinals(&posting); err != nil {
-		return yacymodel.RWIPosting{}, err
-	}
-	if err := e.fillDomainDocumentType(&posting); err != nil {
-		return yacymodel.RWIPosting{}, err
-	}
-	if err := e.fillDomainAppearance(&posting); err != nil {
-		return yacymodel.RWIPosting{}, err
-	}
-	return posting, nil
-}
-
-func (e rwiPostingWireForm) fillDomainDocumentType(posting *yacymodel.RWIPosting) error {
-	char, err := e.optionalByteValue(colDocType)
+	language, err := e.language()
 	if err != nil {
-		return fmt.Errorf("rwi posting %s: %w", colDocType, err)
+		return yacymodel.RWIPosting{}, fmt.Errorf("rwi posting language: %w", err)
 	}
-	posting.DocumentType = documentTypeByChar[char]
-	return nil
+
+	appearance, err := e.appearance()
+	if err != nil {
+		return yacymodel.RWIPosting{}, fmt.Errorf("rwi posting appearance: %w", err)
+	}
+
+	return yacymodel.RWIPosting{
+		WordHash:               e.wordHash,
+		URLHash:                urlHash,
+		LastModified:           yacymodel.MicroDateFromWireDays(e.cardinal(colLastModified)),
+		TitleWords:             int(e.byteCardinal(colTitleWordCount)),
+		TextWords:              int(e.uint16Cardinal(colTextWordCount)),
+		Phrases:                int(e.uint16Cardinal(colPhraseCount)),
+		DocumentType:           documentTypeByChar[e.byteCardinal(colDocType)],
+		Language:               language,
+		LocalLinks:             int(e.byteCardinal(colLocalLinkCount)),
+		ExternalLinks:          int(e.byteCardinal(colExternalLinkCount)),
+		URLLength:              int(e.byteCardinal(colURLLength)),
+		URLComponents:          int(e.byteCardinal(colURLComponentCount)),
+		Appearance:             appearance,
+		Hits:                   int(e.byteCardinal(colHitCount)),
+		TextPosition:           int(e.uint16Cardinal(colTextPosition)),
+		PhraseRelativePosition: int(e.byteCardinal(colPhraseRelativePos)),
+		PhrasePosition:         int(e.byteCardinal(colPhrasePosition)),
+	}, nil
 }
 
-func (e rwiPostingWireForm) fillDomainDate(posting *yacymodel.RWIPosting) error {
-	value, ok := e.properties[colLastModified]
+func (e rwiPostingWireForm) cardinal(column string) uint64 {
+	value, ok := e.properties[column]
 	if !ok {
-		return nil
+		return 0
 	}
-	lastModified, err := yacymodel.ParseMicroDateWireValue(value)
-	if err != nil {
-		return fmt.Errorf("rwi posting last modified: %w", err)
-	}
-	posting.LastModified = lastModified
-	return nil
+	return parseRWIDecimalPrefix(value).unsigned()
 }
 
-func (e rwiPostingWireForm) fillDomainCardinals(posting *yacymodel.RWIPosting) error {
-	bytes := []struct {
-		column string
-		field  *int
-	}{
-		{colTitleWordCount, &posting.TitleWords},
-		{colLocalLinkCount, &posting.LocalLinks},
-		{colExternalLinkCount, &posting.ExternalLinks},
-		{colURLLength, &posting.URLLength},
-		{colURLComponentCount, &posting.URLComponents},
-		{colHitCount, &posting.Hits},
-		{colPhraseRelativePos, &posting.PhraseRelativePosition},
-		{colPhrasePosition, &posting.PhrasePosition},
-	}
-	for _, b := range bytes {
-		value, err := e.optionalByteValue(b.column)
-		if err != nil {
-			return fmt.Errorf("rwi posting %s: %w", b.column, err)
-		}
-		*b.field = int(value)
-	}
-	uint16s := []struct {
-		column string
-		field  *int
-	}{
-		{colTextWordCount, &posting.TextWords},
-		{colPhraseCount, &posting.Phrases},
-		{colTextPosition, &posting.TextPosition},
-	}
-	for _, u := range uint16s {
-		value, err := e.optionalUint16Value(u.column)
-		if err != nil {
-			return fmt.Errorf("rwi posting %s: %w", u.column, err)
-		}
-		*u.field = int(value)
-	}
-	return nil
+func (e rwiPostingWireForm) byteCardinal(column string) byte {
+	return byte(e.cardinal(column) & byteColumnMask)
 }
 
-func (e rwiPostingWireForm) fillDomainAppearance(posting *yacymodel.RWIPosting) error {
-	flags, err := e.appearanceFlags()
+func (e rwiPostingWireForm) uint16Cardinal(column string) uint16 {
+	return uint16(e.cardinal(column) & uint16ColumnMask)
+}
+
+// language keeps only the leading ISO 639-1 code: YaCy peers are known to send
+// three-letter codes in this column.
+func (e rwiPostingWireForm) language() (yacymodel.Language, error) {
+	value, ok := e.properties[colLanguage]
+	if !ok {
+		return "", nil
+	}
+	if len(value) > yacymodel.LanguageCodeLength {
+		value = value[:yacymodel.LanguageCodeLength]
+	}
+	return yacymodel.ParseLanguage(value)
+}
+
+func (e rwiPostingWireForm) appearance() (yacymodel.Appearance, error) {
+	value, ok := e.properties[colFlags]
+	if !ok {
+		return yacymodel.Appearance{}, nil
+	}
+	flags, err := decodeBitfield(value)
 	if err != nil {
-		return fmt.Errorf("rwi posting appearance: %w", err)
+		return yacymodel.Appearance{}, err
 	}
-	if flags != nil {
-		posting.Appearance = appearanceFromBitfield(flags)
-	}
-	return nil
+	return appearanceFromBitfield(flags), nil
 }
 
 // rwiPostingWireFormFromDomain builds the wire form for a domain posting.
@@ -308,7 +227,7 @@ func (e rwiPostingWireForm) fillDomainAppearance(posting *yacymodel.RWIPosting) 
 func rwiPostingWireFormFromDomain(p yacymodel.RWIPosting) rwiPostingWireForm {
 	props := map[string]string{
 		colURLHash:           p.URLHash.String(),
-		colLastModified:      p.LastModified.WireValue(),
+		colLastModified:      strconv.FormatUint(p.LastModified.WireDays(), 10),
 		colTitleWordCount:    strconv.Itoa(p.TitleWords),
 		colTextWordCount:     strconv.Itoa(p.TextWords),
 		colPhraseCount:       strconv.Itoa(p.Phrases),
@@ -349,13 +268,6 @@ func parseRWIPostingLine(line string) (rwiPostingWireForm, error) {
 	if err != nil {
 		return rwiPostingWireForm{}, fmt.Errorf("%w: %w", yacymodel.ErrBadRWIPosting, err)
 	}
-	props, err = normalizeRWIProperties(props)
-	if err != nil {
-		return rwiPostingWireForm{}, fmt.Errorf("%w: %w", yacymodel.ErrBadRWIPosting, err)
-	}
-	if err := validateRWIProperties(props); err != nil {
-		return rwiPostingWireForm{}, fmt.Errorf("%w: %w", yacymodel.ErrBadRWIPosting, err)
-	}
 	return rwiPostingWireForm{wordHash: wordHash, properties: props}, nil
 }
 
@@ -380,95 +292,9 @@ func (e rwiPostingWireForm) line() string {
 	return b.String()
 }
 
-func formatRWICardinal(value uint64) string {
-	return strconv.FormatUint(value, 10)
-}
-
-func validateRWIProperties(props map[string]string) error {
-	for key, value := range props {
-		if err := validateRWIProperty(key, value); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-func validateRWIProperty(key, value string) error {
-	switch key {
-	case colURLHash:
-		if _, err := yacymodel.ParseHash(value); err != nil {
-			return fmt.Errorf("%w %s: %w", errInvalidRWIProperty, key, err)
-		}
-	case colLanguage:
-		if len(value) != langLength {
-			return fmt.Errorf(
-				"%w %s: length %d, want %d",
-				errInvalidRWIProperty,
-				key,
-				len(value),
-				langLength,
-			)
-		}
-	case colFlags:
-		return validateOptionalEncoded(key, value)
-	case colDocType:
-		if _, err := strconv.ParseUint(value, 10, 8); err != nil {
-			return fmt.Errorf("%w %s: %w", errInvalidRWIProperty, key, err)
-		}
-	default:
-		if _, ok := rwiCardinalWidths[key]; ok {
-			if _, err := strconv.ParseUint(value, 10, 64); err != nil {
-				return fmt.Errorf("%w %s: %w", errInvalidRWIProperty, key, err)
-			}
-		}
-	}
-	return nil
-}
-
-func validateOptionalEncoded(key, value string) error {
-	if _, err := yacymodel.Decode(value); err != nil {
-		return fmt.Errorf("%w %s: %w", errInvalidRWIProperty, key, err)
-	}
-
-	return nil
-}
-
 type rwiDecimalPrefix struct {
 	magnitude uint64
 	negative  bool
-}
-
-func normalizeRWIProperties(props map[string]string) (map[string]string, error) {
-	out := make(map[string]string, len(props))
-	for key, value := range props {
-		normalized, err := normalizeRWIProperty(key, value)
-		if err != nil {
-			return nil, err
-		}
-		out[key] = normalized
-	}
-	return out, nil
-}
-
-func normalizeRWIProperty(key, value string) (string, error) {
-	if _, ok := rwiCardinalWidths[key]; ok {
-		n := parseRWIDecimalPrefix(value)
-		return formatRWICardinal(fixedWidthUnsigned(n, rwiCardinalWidths[key])), nil
-	}
-	switch key {
-	case colDocType:
-		n := parseRWIDecimalPrefix(value)
-		return strconv.FormatUint(uint64(lowByte(n.unsigned())), 10), nil
-	case colLanguage:
-		return clampStringBytes(value, langLength), nil
-	case colFlags:
-		raw, err := yacymodel.Decode(value)
-		if err != nil {
-			return "", fmt.Errorf("%w %s: %w", errInvalidRWIProperty, key, err)
-		}
-		return yacymodel.Encode(clampBytes(raw, rwiByteFlagLength)), nil
-	}
-	return value, nil
 }
 
 func parseRWIDecimalPrefix(value string) rwiDecimalPrefix {
@@ -504,31 +330,4 @@ func (n rwiDecimalPrefix) unsigned() uint64 {
 		return n.magnitude
 	}
 	return ^n.magnitude + 1
-}
-
-func fixedWidthUnsigned(n rwiDecimalPrefix, width int) uint64 {
-	u := n.unsigned()
-	if width >= 8 {
-		return u
-	}
-	mask := uint64(1)<<(width*8) - 1
-	return u & mask
-}
-
-func lowByte(n uint64) byte {
-	return byte(n % 256)
-}
-
-func clampStringBytes(value string, width int) string {
-	if len(value) <= width {
-		return value
-	}
-	return value[:width]
-}
-
-func clampBytes(raw []byte, width int) []byte {
-	if len(raw) <= width {
-		return raw
-	}
-	return raw[:width]
 }
