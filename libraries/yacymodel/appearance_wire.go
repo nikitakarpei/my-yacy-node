@@ -17,8 +17,8 @@ const (
 	appearanceFlagBitEmphasized           = 29
 )
 
-func AppearanceFlagsFromBitfield(b Bitfield) AppearanceFlags {
-	return AppearanceFlags{
+func AppearanceFromBitfield(b Bitfield) Appearance {
+	return Appearance{
 		IndexOf:              b.Get(appearanceFlagBitIndexOf),
 		HasLocation:          b.Get(appearanceFlagBitHasLocation),
 		HasImage:             b.Get(appearanceFlagBitHasImage),
@@ -34,7 +34,7 @@ func AppearanceFlagsFromBitfield(b Bitfield) AppearanceFlags {
 	}
 }
 
-func (f AppearanceFlags) Bitfield() Bitfield {
+func (f Appearance) Bitfield() Bitfield {
 	b := make(Bitfield, appearanceFlagsByteWidth)
 	b.setBit(appearanceFlagBitIndexOf, f.IndexOf)
 	b.setBit(appearanceFlagBitHasLocation, f.HasLocation)

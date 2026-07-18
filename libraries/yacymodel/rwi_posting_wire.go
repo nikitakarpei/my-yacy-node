@@ -51,6 +51,30 @@ const (
 	DocTypeMovie = 'm'
 )
 
+var documentTypeByChar = map[byte]DocumentType{
+	't': DocumentTypeText,
+	'h': DocumentTypeHTML,
+	'd': DocumentTypeDocument,
+	'i': DocumentTypeImage,
+	'm': DocumentTypeMovie,
+	'f': DocumentTypeFlash,
+	's': DocumentTypeShare,
+	'a': DocumentTypeAudio,
+	'p': DocumentTypePDF,
+	'b': DocumentTypeBinary,
+	'u': DocumentTypeUnknown,
+}
+
+var charByDocumentType = invertDocumentTypeChars()
+
+func invertDocumentTypeChars() map[DocumentType]byte {
+	out := make(map[DocumentType]byte, len(documentTypeByChar))
+	for char, documentType := range documentTypeByChar {
+		out[documentType] = char
+	}
+	return out
+}
+
 const (
 	rwiByteFlagLength = 4
 	langLength        = 2
@@ -178,10 +202,22 @@ func (e RWIPostingWireForm) Domain() (RWIPosting, error) {
 	if err := e.fillDomainCardinals(&posting); err != nil {
 		return RWIPosting{}, err
 	}
-	if err := e.fillDomainFlags(&posting); err != nil {
+	if err := e.fillDomainDocumentType(&posting); err != nil {
+		return RWIPosting{}, err
+	}
+	if err := e.fillDomainAppearance(&posting); err != nil {
 		return RWIPosting{}, err
 	}
 	return posting, nil
+}
+
+func (e RWIPostingWireForm) fillDomainDocumentType(posting *RWIPosting) error {
+	char, err := e.optionalByteValue(ColDocType)
+	if err != nil {
+		return fmt.Errorf("rwi posting %s: %w", ColDocType, err)
+	}
+	posting.DocumentType = documentTypeByChar[char]
+	return nil
 }
 
 func (e RWIPostingWireForm) fillDomainDate(posting *RWIPosting) error {
@@ -202,13 +238,12 @@ func (e RWIPostingWireForm) fillDomainCardinals(posting *RWIPosting) error {
 		column string
 		field  *uint8
 	}{
-		{ColTitleWordCount, &posting.TitleWordCount},
-		{ColDocType, &posting.DocType},
-		{ColLocalLinkCount, &posting.LocalLinkCount},
-		{ColExternalLinkCount, &posting.ExternalLinkCount},
+		{ColTitleWordCount, &posting.TitleWords},
+		{ColLocalLinkCount, &posting.LocalLinks},
+		{ColExternalLinkCount, &posting.ExternalLinks},
 		{ColURLLength, &posting.URLLength},
-		{ColURLComponentCount, &posting.URLComponentCount},
-		{ColHitCount, &posting.HitCount},
+		{ColURLComponentCount, &posting.URLComponents},
+		{ColHitCount, &posting.Hits},
 		{ColPhraseRelativePos, &posting.PhraseRelativePosition},
 		{ColPhrasePosition, &posting.PhrasePosition},
 	}
@@ -223,8 +258,8 @@ func (e RWIPostingWireForm) fillDomainCardinals(posting *RWIPosting) error {
 		column string
 		field  *uint16
 	}{
-		{ColTextWordCount, &posting.TextWordCount},
-		{ColPhraseCount, &posting.PhraseCount},
+		{ColTextWordCount, &posting.TextWords},
+		{ColPhraseCount, &posting.Phrases},
 		{ColTextPosition, &posting.TextPosition},
 	}
 	for _, u := range uint16s {
@@ -237,13 +272,13 @@ func (e RWIPostingWireForm) fillDomainCardinals(posting *RWIPosting) error {
 	return nil
 }
 
-func (e RWIPostingWireForm) fillDomainFlags(posting *RWIPosting) error {
+func (e RWIPostingWireForm) fillDomainAppearance(posting *RWIPosting) error {
 	bitfield, err := e.AppearanceFlags()
 	if err != nil {
-		return fmt.Errorf("rwi posting appearance flags: %w", err)
+		return fmt.Errorf("rwi posting appearance: %w", err)
 	}
 	if bitfield != nil {
-		posting.Flags = AppearanceFlagsFromBitfield(bitfield)
+		posting.Appearance = AppearanceFromBitfield(bitfield)
 	}
 	return nil
 }
@@ -256,16 +291,16 @@ func RWIPostingWireFormFromDomain(p RWIPosting) RWIPostingWireForm {
 	props := map[string]string{
 		ColURLHash:           p.URLHash.String(),
 		ColLastModified:      p.LastModified.WireValue(),
-		ColTitleWordCount:    strconv.FormatUint(uint64(p.TitleWordCount), 10),
-		ColTextWordCount:     strconv.FormatUint(uint64(p.TextWordCount), 10),
-		ColPhraseCount:       strconv.FormatUint(uint64(p.PhraseCount), 10),
-		ColDocType:           strconv.FormatUint(uint64(p.DocType), 10),
-		ColLocalLinkCount:    strconv.FormatUint(uint64(p.LocalLinkCount), 10),
-		ColExternalLinkCount: strconv.FormatUint(uint64(p.ExternalLinkCount), 10),
+		ColTitleWordCount:    strconv.FormatUint(uint64(p.TitleWords), 10),
+		ColTextWordCount:     strconv.FormatUint(uint64(p.TextWords), 10),
+		ColPhraseCount:       strconv.FormatUint(uint64(p.Phrases), 10),
+		ColDocType:           strconv.FormatUint(uint64(charByDocumentType[p.DocumentType]), 10),
+		ColLocalLinkCount:    strconv.FormatUint(uint64(p.LocalLinks), 10),
+		ColExternalLinkCount: strconv.FormatUint(uint64(p.ExternalLinks), 10),
 		ColURLLength:         strconv.FormatUint(uint64(p.URLLength), 10),
-		ColURLComponentCount: strconv.FormatUint(uint64(p.URLComponentCount), 10),
-		ColFlags:             Encode(p.Flags.Bitfield()),
-		ColHitCount:          strconv.FormatUint(uint64(p.HitCount), 10),
+		ColURLComponentCount: strconv.FormatUint(uint64(p.URLComponents), 10),
+		ColFlags:             Encode(p.Appearance.Bitfield()),
+		ColHitCount:          strconv.FormatUint(uint64(p.Hits), 10),
 		ColTextPosition:      strconv.FormatUint(uint64(p.TextPosition), 10),
 		ColPhraseRelativePos: strconv.FormatUint(uint64(p.PhraseRelativePosition), 10),
 		ColPhrasePosition:    strconv.FormatUint(uint64(p.PhrasePosition), 10),

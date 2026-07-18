@@ -19,17 +19,17 @@ func TestRWIPostingWireFormDomainRoundTrip(t *testing.T) {
 		WordHash:               "ABCDEFGHIJKL",
 		URLHash:                "MNOPQRSTUVWX",
 		LastModified:           MicroDateFromTime(mustParseDay(t, "2026-07-18")),
-		TitleWordCount:         3,
-		TextWordCount:          120,
-		PhraseCount:            8,
-		DocType:                DocTypeImage,
+		TitleWords:             3,
+		TextWords:              120,
+		Phrases:                8,
+		DocumentType:           DocumentTypeImage,
 		Language:               "en",
-		LocalLinkCount:         2,
-		ExternalLinkCount:      5,
+		LocalLinks:             2,
+		ExternalLinks:          5,
 		URLLength:              42,
-		URLComponentCount:      4,
-		Flags:                  AppearanceFlags{HasImage: true, AppearsInTitle: true},
-		HitCount:               7,
+		URLComponents:          4,
+		Appearance:             Appearance{HasImage: true, AppearsInTitle: true},
+		Hits:                   7,
 		TextPosition:           258,
 		PhraseRelativePosition: 3,
 		PhrasePosition:         1,
@@ -87,7 +87,7 @@ func TestStoredPostingPropertyFormDecodesToDomain(t *testing.T) {
 	if domain.WordHash != "ABCDEFGHIJKL" || domain.URLHash != "MNOPQRSTUVWX" {
 		t.Fatalf("Domain() hashes = %q/%q", domain.WordHash, domain.URLHash)
 	}
-	if domain.HitCount != 7 || domain.TextPosition != 258 {
+	if domain.Hits != 7 || domain.TextPosition != 258 {
 		t.Fatalf("Domain() = %+v", domain)
 	}
 
