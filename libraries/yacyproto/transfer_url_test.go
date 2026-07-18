@@ -88,7 +88,7 @@ func TestParseTransferURLRequestSkipsMissingDeclaredURL(t *testing.T) {
 func TestParseTransferURLResponseRejectsUnknownResult(t *testing.T) {
 	t.Parallel()
 
-	msg := yacymodel.Message{yacyproto.FieldResult: "later"}
+	msg := yacyproto.Message{yacyproto.FieldResult: "later"}
 	if _, err := yacyproto.ParseTransferURLResponse(msg); err == nil {
 		t.Fatal("expected error for unknown transferURL result")
 	}

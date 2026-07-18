@@ -1,11 +1,13 @@
-package yacymodel
+package yacyproto
 
 import (
 	"slices"
 	"strings"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func EncodeSearchIndexAbstract(urlHashes []Hash) string {
+func EncodeSearchIndexAbstract(urlHashes []yacymodel.Hash) string {
 	if len(urlHashes) == 0 {
 		return "{}"
 	}
@@ -69,10 +71,10 @@ func compareBase64Strings(a, b string) int {
 }
 
 func base64Order(c byte) int {
-	for i := range len(Alphabet) {
-		if Alphabet[i] == c {
+	for i := range len(yacymodel.Alphabet) {
+		if yacymodel.Alphabet[i] == c {
 			return i
 		}
 	}
-	return len(Alphabet) + int(c)
+	return len(yacymodel.Alphabet) + int(c)
 }

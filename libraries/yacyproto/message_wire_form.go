@@ -1,16 +1,17 @@
-package yacymodel
+package yacyproto
 
 import (
-	"errors"
 	"slices"
 	"strings"
 )
 
-var ErrBadMessage = errors.New("bad message")
-
+// Message is a peer response envelope: newline-separated key=value lines, with
+// backslash escapes inside either part.
 type Message map[string]string
 
-func ParseMessage(data string) (Message, error) {
+// ParseMessage skips blank lines, comments and lines without an unescaped
+// separator. A peer cannot make this fail.
+func ParseMessage(data string) Message {
 	msg := make(Message)
 	for line := range strings.SplitSeq(data, "\n") {
 		line = strings.TrimSpace(line)
@@ -25,7 +26,7 @@ func ParseMessage(data string) (Message, error) {
 		value := unescapeMessagePart(strings.TrimSpace(line[pos+1:]))
 		msg[key] = value
 	}
-	return msg, nil
+	return msg
 }
 
 func unescapedEquals(line string) int {

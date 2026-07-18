@@ -71,7 +71,7 @@ func TestParseHelloRequestRejectsBadIam(t *testing.T) {
 func TestParseHelloResponseRejectsBadPeerType(t *testing.T) {
 	t.Parallel()
 
-	msg := yacymodel.Message{yacyproto.FieldYourType: "overlord"}
+	msg := yacyproto.Message{yacyproto.FieldYourType: "overlord"}
 	if _, err := yacyproto.ParseHelloResponse(t.Context(), msg); err == nil {
 		t.Fatal("expected error for unknown peer type")
 	}

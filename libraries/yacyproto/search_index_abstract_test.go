@@ -1,15 +1,16 @@
-package yacymodel_test
+package yacyproto_test
 
 import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 func TestEncodeSearchIndexAbstractGroupsURLHashes(t *testing.T) {
 	t.Parallel()
 
-	got := yacymodel.EncodeSearchIndexAbstract([]yacymodel.Hash{
+	got := yacyproto.EncodeSearchIndexAbstract([]yacymodel.Hash{
 		"bbbbbbAAAAAA",
 		"aaaaaaBBBBBB",
 		"ccccccAAAAAA",
@@ -23,7 +24,7 @@ func TestEncodeSearchIndexAbstractGroupsURLHashes(t *testing.T) {
 func TestEncodeSearchIndexAbstractEmpty(t *testing.T) {
 	t.Parallel()
 
-	if got := yacymodel.EncodeSearchIndexAbstract(nil); got != "{}" {
+	if got := yacyproto.EncodeSearchIndexAbstract(nil); got != "{}" {
 		t.Fatalf("abstract = %q, want {}", got)
 	}
 }

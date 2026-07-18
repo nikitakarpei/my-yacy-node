@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 type matchReport struct {
@@ -38,7 +39,7 @@ func reportLargestWantedTerm(criteria searchCriteria, wanted termMatches) matchR
 		return report
 	}
 	report.documents = map[yacymodel.Hash]string{
-		term: yacymodel.EncodeSearchIndexAbstract(
+		term: yacyproto.EncodeSearchIndexAbstract(
 			documentIdentifiers(wanted.documentsPerTerm[term]),
 		),
 	}
@@ -62,7 +63,7 @@ func (s searcher) reportRequestedTerms(
 
 	documents := make(map[yacymodel.Hash]string, len(criteria.reporting.terms))
 	for _, term := range criteria.reporting.terms {
-		documents[term] = yacymodel.EncodeSearchIndexAbstract(
+		documents[term] = yacyproto.EncodeSearchIndexAbstract(
 			documentIdentifiers(requested.documentsPerTerm[term]),
 		)
 	}

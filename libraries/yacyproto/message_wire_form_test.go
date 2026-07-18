@@ -1,12 +1,9 @@
-package yacymodel
+package yacyproto
 
 import "testing"
 
 func TestParseMessage(t *testing.T) {
-	msg, err := ParseMessage("version=1.0\r\nuptime=42\n\nresult=ok\n")
-	if err != nil {
-		t.Fatalf("ParseMessage() error = %v", err)
-	}
+	msg := ParseMessage("version=1.0\r\nuptime=42\n\nresult=ok\n")
 	if msg["version"] != "1.0" {
 		t.Errorf("version = %q", msg["version"])
 	}
@@ -22,30 +19,21 @@ func TestParseMessage(t *testing.T) {
 }
 
 func TestParseMessageIgnoresMalformedLines(t *testing.T) {
-	msg, err := ParseMessage("noeq\n=novalue\nok=yes\n")
-	if err != nil {
-		t.Fatal(err)
-	}
+	msg := ParseMessage("noeq\n=novalue\nok=yes\n")
 	if len(msg) != 1 || msg["ok"] != "yes" {
 		t.Errorf("message = %v", msg)
 	}
 }
 
 func TestParseMessageLastWins(t *testing.T) {
-	msg, err := ParseMessage("k=first\nk=second\n")
-	if err != nil {
-		t.Fatalf("ParseMessage() error = %v", err)
-	}
+	msg := ParseMessage("k=first\nk=second\n")
 	if msg["k"] != "second" {
 		t.Errorf("k = %q, want second", msg["k"])
 	}
 }
 
 func TestParseMessageUsesYaCyTableRules(t *testing.T) {
-	msg, err := ParseMessage("# ignored\n spaced = value \nkey\\=part=line\\nnext\\\\tail\n")
-	if err != nil {
-		t.Fatal(err)
-	}
+	msg := ParseMessage("# ignored\n spaced = value \nkey\\=part=line\\nnext\\\\tail\n")
 	if msg["spaced"] != "value" {
 		t.Errorf("spaced = %q", msg["spaced"])
 	}
@@ -64,10 +52,7 @@ func TestMessageEncodeDeterministic(t *testing.T) {
 
 func TestMessageRoundTrip(t *testing.T) {
 	msg := Message{"version": "1.0", "result": "ok"}
-	got, err := ParseMessage(msg.Encode())
-	if err != nil {
-		t.Fatalf("ParseMessage() error = %v", err)
-	}
+	got := ParseMessage(msg.Encode())
 	if got["version"] != "1.0" || got["result"] != "ok" {
 		t.Errorf("round trip = %v", got)
 	}

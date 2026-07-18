@@ -9,7 +9,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -18,8 +17,8 @@ type echoResponse struct {
 	addr string
 }
 
-func (r echoResponse) Encode() yacymodel.Message {
-	return yacymodel.Message{"yourip": r.addr}
+func (r echoResponse) Encode() yacyproto.Message {
+	return yacyproto.Message{"yourip": r.addr}
 }
 
 func testGate() httpguard.WireGate {

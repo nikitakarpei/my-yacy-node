@@ -6,7 +6,6 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -25,12 +24,12 @@ func NewWireResponder(status RuntimeStatus) WireResponder {
 	return WireResponder{status: status}
 }
 
-func (r WireResponder) Write(ctx context.Context, w http.ResponseWriter, msg yacymodel.Message) {
+func (r WireResponder) Write(ctx context.Context, w http.ResponseWriter, msg yacyproto.Message) {
 	yacyproto.InjectResponseHeader(msg, r.status.Version(ctx), r.status.Uptime(ctx))
 	writeWireMessage(ctx, w, msg)
 }
 
-func writeWireMessage(ctx context.Context, w http.ResponseWriter, msg yacymodel.Message) {
+func writeWireMessage(ctx context.Context, w http.ResponseWriter, msg yacyproto.Message) {
 	w.Header().Set("Content-Type", wireContentType)
 	if _, err := io.WriteString(w, msg.Encode()); err != nil {
 		slog.WarnContext(ctx, "wire response write failed", slog.Any("error", err))

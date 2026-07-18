@@ -70,8 +70,8 @@ func ParseQueryRequest(_ context.Context, form url.Values) (QueryRequest, error)
 	return req, nil
 }
 
-func (r QueryResponse) Encode() yacymodel.Message {
-	msg := yacymodel.Message{}
+func (r QueryResponse) Encode() Message {
+	msg := Message{}
 	setInt(msg, FieldResponse, r.Response)
 	setString(msg, FieldMyTime, r.MyTime)
 	setString(msg, FieldMagic, r.Magic)
@@ -79,7 +79,7 @@ func (r QueryResponse) Encode() yacymodel.Message {
 	return msg
 }
 
-func ParseQueryResponse(m yacymodel.Message) (QueryResponse, error) {
+func ParseQueryResponse(m Message) (QueryResponse, error) {
 	header, err := parseResponseHeader(m)
 	if err != nil {
 		return QueryResponse{}, err
