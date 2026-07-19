@@ -6,6 +6,9 @@ import (
 	"strings"
 )
 
+// urlAddress is a normalized, lossy parse used only to derive a hash key;
+// it discards session IDs and case, so it is never a fit for the address
+// callers actually fetched, displayed, or stored.
 type urlAddress struct {
 	protocol  string
 	userInfo  string
