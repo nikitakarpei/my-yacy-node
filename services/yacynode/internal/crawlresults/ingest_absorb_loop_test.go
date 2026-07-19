@@ -29,7 +29,7 @@ type recordingURLReceiver struct {
 
 func (r *recordingURLReceiver) Receive(
 	_ context.Context,
-	_ []yacymodel.URIMetadataRow,
+	_ []yacymodel.URLMetadata,
 ) (urlmeta.Receipt, error) {
 	r.calls++
 	r.at = time.Now()
@@ -78,8 +78,8 @@ func deliver(
 func metadataChunk() yacycrawlcontract.PageRWIMetadataChunk {
 	return yacycrawlcontract.PageRWIMetadataChunk{
 		CanonicalURL: "https://example.org",
-		Metadata: []yacymodel.URIMetadataRow{
-			{Properties: map[string]string{"u": "urlhash01234"}},
+		Metadata: []yacymodel.URLMetadata{
+			{Address: "http://example.com/a"},
 		},
 	}
 }

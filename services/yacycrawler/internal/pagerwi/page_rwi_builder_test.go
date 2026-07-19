@@ -1,7 +1,6 @@
 package pagerwi_test
 
 import (
-	"strconv"
 	"testing"
 	"time"
 
@@ -82,26 +81,29 @@ func TestBuildCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 	if len(index.Metadata) != 1 {
 		t.Fatalf("want one metadata row, got %d", len(index.Metadata))
 	}
-	properties := index.Metadata[0].Properties
-	if properties["url"] != yacymodel.EncodeBase64WireForm(page.CanonicalURL) {
-		t.Fatalf("url = %q", properties["url"])
+	metadata := index.Metadata[0]
+	if metadata.Address != page.CanonicalURL {
+		t.Fatalf("address = %q", metadata.Address)
 	}
-	if properties[yacymodel.URLMetaColDescription] != yacymodel.EncodeBase64WireForm(page.Title) {
-		t.Fatalf("title = %q", properties[yacymodel.URLMetaColDescription])
+	if metadata.Title != page.Title {
+		t.Fatalf("title = %q", metadata.Title)
 	}
-	if properties["size"] != strconv.Itoa(len(sampleText)) {
-		t.Fatalf("size = %q, want %d", properties["size"], len(sampleText))
+	if metadata.ByteSize != len(sampleText) {
+		t.Fatalf("byte size = %d, want %d", metadata.ByteSize, len(sampleText))
 	}
-	if properties["wc"] == "" || properties["wc"] == "0" {
-		t.Fatalf("word count = %q, want nonzero", properties["wc"])
+	if metadata.WordCount == 0 {
+		t.Fatal("word count = 0, want nonzero")
 	}
-	if properties["llocal"] != strconv.Itoa(page.LocalLinkCount) ||
-		properties["lother"] != strconv.Itoa(page.ExternalLinkCount) {
-		t.Fatalf("link counts = %q %q", properties["llocal"], properties["lother"])
+	if metadata.LocalLinks != page.LocalLinkCount ||
+		metadata.ExternalLinks != page.ExternalLinkCount {
+		t.Fatalf("links = %d local, %d external", metadata.LocalLinks, metadata.ExternalLinks)
+	}
+	if metadata.Loaded != yacymodel.CalendarDayOf(page.CrawledAt) {
+		t.Fatalf("loaded = %+v", metadata.Loaded)
 	}
 }
 
-func TestBuildMetadataParseableAndCarriesURLHash(t *testing.T) {
+func TestBuildMetadataCarriesURLHash(t *testing.T) {
 	index, err := pagerwi.Build(samplePage(), []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
@@ -109,39 +111,16 @@ func TestBuildMetadataParseableAndCarriesURLHash(t *testing.T) {
 	if len(index.Metadata) != 1 {
 		t.Fatalf("want one metadata row, got %d", len(index.Metadata))
 	}
-	row := index.Metadata[0]
-	if _, err := yacymodel.ParseURIMetadataRow(row.String()); err != nil {
-		t.Fatalf("metadata row not parseable: %v", err)
+	got, err := index.Metadata[0].Hash()
+	if err != nil {
+		t.Fatalf("Hash: %v", err)
 	}
-	urlHash, err := yacymodel.HashURL(samplePage().CanonicalURL)
+	want, err := yacymodel.HashURL(samplePage().CanonicalURL)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if row.Properties[yacymodel.URLMetaHash] != urlHash.String() {
-		t.Fatalf("metadata url hash = %q, want %q",
-			row.Properties[yacymodel.URLMetaHash], urlHash.String())
-	}
-}
-
-func TestBuildMetadataSurvivesCommaInTitleAndURL(t *testing.T) {
-	page := samplePage()
-	page.CanonicalURL = "http://example.com/article?ids=1,2,3"
-	page.Title = "Fourth of July fireworks, 1986 - Example"
-	index, err := pagerwi.Build(page, []byte(sampleText))
-	if err != nil {
-		t.Fatal(err)
-	}
-	row := index.Metadata[0]
-	parsed, err := yacymodel.ParseURIMetadataRow(row.String())
-	if err != nil {
-		t.Fatalf("metadata row not parseable: %v", err)
-	}
-	title, err := parsed.Title(t.Context())
-	if err != nil {
-		t.Fatalf("Title: %v", err)
-	}
-	if title != page.Title {
-		t.Fatalf("title = %q, want %q", title, page.Title)
+	if got != want {
+		t.Fatalf("metadata url hash = %q, want %q", got, want)
 	}
 }
 

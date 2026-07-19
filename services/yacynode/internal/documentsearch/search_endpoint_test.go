@@ -47,7 +47,7 @@ func TestEndpointJoinsAndAnswers(t *testing.T) {
 	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1", 0, 1), postingEntry(word, "u2", 0, 1)},
 	}}
-	endpoint := newEndpoint(index, fakeDirectory{rows: urlRows("u1", "u2")})
+	endpoint := newEndpoint(index, fakeDirectory{metadata: urlMetadata("u1", "u2")})
 
 	resp := serveSearch(t, endpoint, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
@@ -66,7 +66,7 @@ func TestEndpointReportsTermWithMostMatches(t *testing.T) {
 		word1: {postingEntry(word1, "u1", 0, 1), postingEntry(word1, "u2", 0, 1)},
 		word2: {postingEntry(word2, "u2", 0, 1)},
 	}}
-	endpoint := newEndpoint(index, fakeDirectory{rows: urlRows("u1", "u2")})
+	endpoint := newEndpoint(index, fakeDirectory{metadata: urlMetadata("u1", "u2")})
 
 	resp := serveSearch(t, endpoint, yacyproto.SearchRequest{
 		NetworkName: "freeworld",

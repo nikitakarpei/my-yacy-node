@@ -15,7 +15,11 @@ type recordingObserver struct {
 	fail   bool
 }
 
-func (r *recordingObserver) URLStored(_ *vault.Txn, hash yacymodel.Hash, _ string) error {
+func (r *recordingObserver) URLStored(
+	_ *vault.Txn,
+	hash yacymodel.Hash,
+	_ yacymodel.CalendarDay,
+) error {
 	r.stored = append(r.stored, hash)
 	if r.fail {
 		return fmt.Errorf("observer refused store")

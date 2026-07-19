@@ -10,17 +10,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
-const urlRowDiscarded = "url row discarded"
+const urlMetadataDiscarded = "url metadata discarded"
 
 type urlIntake struct {
 	vault      *vault.Vault
-	collection *vault.Collection[yacymodel.URIMetadataRow]
+	collection *vault.Collection[yacymodel.URLMetadata]
 	observers  observers
 }
 
 func (i urlIntake) Receive(
 	ctx context.Context,
-	rows []yacymodel.URIMetadataRow,
+	metadata []yacymodel.URLMetadata,
 ) (Receipt, error) {
 	atCapacity, err := i.vault.AtCapacity(ctx)
 	if err != nil {
@@ -34,7 +34,7 @@ func (i urlIntake) Receive(
 
 	err = i.vault.Update(ctx, func(tx *vault.Txn) error {
 		var storeErr error
-		existing, rejected, storeErr = i.store(ctx, tx, rows)
+		existing, rejected, storeErr = i.store(ctx, tx, metadata)
 
 		return storeErr
 	})
@@ -51,16 +51,16 @@ func (i urlIntake) Receive(
 func (i urlIntake) store(
 	ctx context.Context,
 	tx *vault.Txn,
-	rows []yacymodel.URIMetadataRow,
+	metadata []yacymodel.URLMetadata,
 ) (existing, rejected []yacymodel.Hash, err error) {
-	for _, row := range rows {
+	for _, stored := range metadata {
 		if err := ctx.Err(); err != nil {
 			return nil, nil, fmt.Errorf("context: %w", err)
 		}
 
-		hash, err := row.URLHash()
+		hash, err := stored.Hash()
 		if err != nil {
-			slog.WarnContext(ctx, urlRowDiscarded,
+			slog.WarnContext(ctx, urlMetadataDiscarded,
 				slog.String("reason", "invalid url hash"),
 				slog.Any("error", err),
 			)
@@ -78,16 +78,16 @@ func (i urlIntake) store(
 
 			continue
 		}
-		if err := i.collection.Put(tx, key, row); err != nil {
+		if err := i.collection.Put(tx, key, stored); err != nil {
 			rejected = append(rejected, hash.Hash())
-			slog.WarnContext(ctx, urlRowDiscarded,
+			slog.WarnContext(ctx, urlMetadataDiscarded,
 				slog.String("reason", "store failed"),
 				slog.Any("error", err),
 			)
 
 			continue
 		}
-		i.observers.stored(ctx, tx, hash.Hash(), row.Freshness())
+		i.observers.stored(ctx, tx, hash.Hash(), stored.Freshness())
 	}
 
 	return existing, rejected, nil

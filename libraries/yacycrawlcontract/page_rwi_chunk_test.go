@@ -3,6 +3,7 @@ package yacycrawlcontract
 import (
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -10,8 +11,13 @@ import (
 func TestPageRWIMetadataChunkRoundTrip(t *testing.T) {
 	chunk := PageRWIMetadataChunk{
 		CanonicalURL: "https://example.org/a",
-		Metadata: []yacymodel.URIMetadataRow{
-			{Properties: map[string]string{"url": "https://example.org/a"}},
+		Metadata: []yacymodel.URLMetadata{
+			{
+				Address:  "https://example.org/a",
+				Title:    "Example",
+				Loaded:   yacymodel.NewCalendarDay(2024, time.March, 7),
+				Location: yacymodel.Coordinates{Latitude: 52.52, Longitude: 13.405},
+			},
 		},
 	}
 

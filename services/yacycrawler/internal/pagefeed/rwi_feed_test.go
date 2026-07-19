@@ -9,7 +9,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefeed"
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func TestRWIFeedPublishesTheIndexBuiltFromTheText(t *testing.T) {
@@ -51,10 +50,8 @@ func TestRWIFeedPublishesTheIndexBuiltFromTheText(t *testing.T) {
 	if len(metadata.Metadata) != 1 {
 		t.Fatalf("metadata rows = %d, want 1", len(metadata.Metadata))
 	}
-	row := metadata.Metadata[0]
-	if row.Properties[yacymodel.URLMetaColDescription] !=
-		yacymodel.EncodeBase64WireForm(samplePage().Title) {
-		t.Fatalf("metadata row not framed as built: %+v", row.Properties)
+	if metadata.Metadata[0].Title != samplePage().Title {
+		t.Fatalf("metadata not carried as built: %+v", metadata.Metadata[0])
 	}
 }
 

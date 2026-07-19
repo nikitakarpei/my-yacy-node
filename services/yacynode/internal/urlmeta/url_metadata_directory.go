@@ -10,34 +10,34 @@ import (
 
 type urlDirectory struct {
 	vault      *vault.Vault
-	collection *vault.Collection[yacymodel.URIMetadataRow]
+	collection *vault.Collection[yacymodel.URLMetadata]
 	observers  observers
 }
 
-func (d urlDirectory) RowsByHash(
+func (d urlDirectory) MetadataByHash(
 	ctx context.Context,
 	hashes []yacymodel.Hash,
-) ([]yacymodel.URIMetadataRow, error) {
-	rows := make([]yacymodel.URIMetadataRow, 0, len(hashes))
+) ([]yacymodel.URLMetadata, error) {
+	metadata := make([]yacymodel.URLMetadata, 0, len(hashes))
 	err := d.vault.View(ctx, func(tx *vault.Txn) error {
 		for _, hash := range hashes {
-			row, ok, err := d.collection.Get(tx, vault.Key(hash))
+			stored, ok, err := d.collection.Get(tx, vault.Key(hash))
 			if err != nil {
 				return fmt.Errorf("read url metadata: %w", err)
 			}
 			if !ok {
 				continue
 			}
-			rows = append(rows, row)
+			metadata = append(metadata, stored)
 		}
 
 		return nil
 	})
 	if err != nil {
-		return nil, fmt.Errorf("rows by hash: %w", err)
+		return nil, fmt.Errorf("metadata by hash: %w", err)
 	}
 
-	return rows, nil
+	return metadata, nil
 }
 
 func (d urlDirectory) MissingURLs(

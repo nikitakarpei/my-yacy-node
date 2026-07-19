@@ -59,19 +59,30 @@ func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
 	}
 }
 
+func urlAddress(seed string) string {
+	return "http://example.com/" + seed
+}
+
+func urlHash(seed string) yacymodel.URLHash {
+	hash, err := yacymodel.HashURL(urlAddress(seed))
+	if err != nil {
+		panic(err)
+	}
+
+	return hash
+}
+
 func posting(word, urlSeed string) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash:   yacymodel.WordHash(word),
-		URLHash:    yacymodel.URLHash(yacymodel.WordHash(urlSeed).String()),
+		URLHash:    urlHash(urlSeed),
 		LocalLinks: 1,
 		Hits:       1,
 	}
 }
 
-func urlRow(seed string) yacymodel.URIMetadataRow {
-	return yacymodel.URIMetadataRow{
-		Properties: map[string]string{yacymodel.URLMetaHash: yacymodel.WordHash(seed).String()},
-	}
+func urlMetadata(seed string) yacymodel.URLMetadata {
+	return yacymodel.URLMetadata{Address: urlAddress(seed)}
 }
 
 func referencedHash(entry yacymodel.RWIPosting) yacymodel.Hash {
@@ -84,7 +95,7 @@ func TestIntakePersistsAndCounts(t *testing.T) {
 
 	if _, err := h.urls.Receive(
 		ctx,
-		[]yacymodel.URIMetadataRow{urlRow("u1"), urlRow("u2")},
+		[]yacymodel.URLMetadata{urlMetadata("u1"), urlMetadata("u2")},
 	); err != nil {
 		t.Fatalf("urls.Intake: %v", err)
 	}
@@ -123,7 +134,7 @@ func TestIntakeReportsUnknownURL(t *testing.T) {
 		t.Fatalf("UnknownURL = %v, want the referenced hash", receipt.UnknownURL)
 	}
 
-	if _, err := h.urls.Receive(ctx, []yacymodel.URIMetadataRow{urlRow("u1")}); err != nil {
+	if _, err := h.urls.Receive(ctx, []yacymodel.URLMetadata{urlMetadata("u1")}); err != nil {
 		t.Fatalf("urls.Intake: %v", err)
 	}
 

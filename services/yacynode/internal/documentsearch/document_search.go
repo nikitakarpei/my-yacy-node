@@ -17,7 +17,7 @@ type searcher struct {
 }
 
 type searchResult struct {
-	resources                         []yacymodel.URIMetadataRow
+	resources                         []yacymodel.URLMetadata
 	topics                            []string
 	totalDocumentsMatchingEveryTerm   int
 	searchDuration                    time.Duration
@@ -48,7 +48,7 @@ func (s searcher) search(ctx context.Context, criteria searchCriteria) (searchRe
 		documentsOrderedByRelevance(matchingEveryTerm, len(criteria.terms)),
 		criteria.maxResults,
 	)
-	resources, err := s.documents.RowsByHash(ctx, mostRelevant)
+	resources, err := s.documents.MetadataByHash(ctx, mostRelevant)
 	if err != nil {
 		return searchResult{}, fmt.Errorf("rows by hash: %w", err)
 	}
@@ -60,7 +60,7 @@ func (s searcher) search(ctx context.Context, criteria searchCriteria) (searchRe
 
 	return searchResult{
 		resources:                         resources,
-		topics:                            resultTopics(ctx, resources, criteria.terms),
+		topics:                            resultTopics(resources, criteria.terms),
 		totalDocumentsMatchingEveryTerm:   len(matchingEveryTerm),
 		searchDuration:                    time.Since(start),
 		totalMatchesPerTerm:               report.totalMatchesPerTerm,

@@ -19,7 +19,7 @@ func TestTransferURLStoresAndAnswers(t *testing.T) {
 		NetworkName: "freeworld",
 		YouAre:      localIdentity().Hash,
 		URLCount:    1,
-		URLs:        []yacymodel.URIMetadataRow{urlRow(t, "a")},
+		URLs:        []yacymodel.URLMetadata{urlMetadata("a")},
 	}
 
 	resp, err := module.endpoint().Serve(context.Background(), req)

@@ -1,8 +1,6 @@
 package documentsearch
 
 import (
-	"context"
-	"log/slog"
 	"sort"
 	"strings"
 
@@ -10,9 +8,8 @@ import (
 )
 
 const (
-	maxTopics           = 5
-	minWordLength       = 3
-	msgTitleUndecodable = "rwi result title undecodable"
+	maxTopics     = 5
+	minWordLength = 3
 )
 
 const titleWordSeparators = " /()-:_.,?!'\""
@@ -21,20 +18,13 @@ const titleWordSeparators = " /()-:_.,?!'\""
 // to keep search latency bounded; the field is a navigation hint, so the narrower
 // sample is acceptable.
 func resultTopics(
-	ctx context.Context,
-	resources []yacymodel.URIMetadataRow,
+	resources []yacymodel.URLMetadata,
 	queryTerms []yacymodel.Hash,
 ) []string {
 	excluded := termHashSet(queryTerms)
 	frequency := make(map[string]int)
 	for _, resource := range resources {
-		title, err := resource.Title(ctx)
-		if err != nil {
-			slog.WarnContext(ctx, msgTitleUndecodable, slog.Any("error", err))
-
-			continue
-		}
-		for _, word := range titleWords(title) {
+		for _, word := range titleWords(resource.Title) {
 			if _, isQueryTerm := excluded[yacymodel.WordHash(word)]; isQueryTerm {
 				continue
 			}

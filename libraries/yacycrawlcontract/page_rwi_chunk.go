@@ -18,7 +18,7 @@ type PageRWIChunk interface {
 
 type PageRWIMetadataChunk struct {
 	CanonicalURL string
-	Metadata     []yacymodel.URIMetadataRow
+	Metadata     []yacymodel.URLMetadata
 }
 
 type PageRWIPostingChunk struct {
@@ -27,10 +27,10 @@ type PageRWIPostingChunk struct {
 }
 
 type pageRWIChunkEnvelope struct {
-	Kind         string                     `json:"Kind"`
-	CanonicalURL string                     `json:"CanonicalURL"`
-	Metadata     []yacymodel.URIMetadataRow `json:"Metadata,omitempty"`
-	Postings     []yacymodel.RWIPosting     `json:"Postings,omitempty"`
+	Kind         string                  `json:"Kind"`
+	CanonicalURL string                  `json:"CanonicalURL"`
+	Metadata     []yacymodel.URLMetadata `json:"Metadata,omitempty"`
+	Postings     []yacymodel.RWIPosting  `json:"Postings,omitempty"`
 }
 
 func (c PageRWIMetadataChunk) envelope() pageRWIChunkEnvelope {

@@ -16,7 +16,7 @@ func (o observers) stored(
 	ctx context.Context,
 	tx *vault.Txn,
 	hash yacymodel.Hash,
-	freshness string,
+	freshness yacymodel.CalendarDay,
 ) {
 	for _, observer := range o {
 		if err := observer.URLStored(tx, hash, freshness); err != nil {

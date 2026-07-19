@@ -90,7 +90,7 @@ func TestSearchReportsRequestedTermsAlongsideWantedTerms(t *testing.T) {
 	}}
 	s := searcher{
 		index:          index,
-		documents:      fakeDirectory{rows: urlRows("u1", "u2")},
+		documents:      fakeDirectory{metadata: urlMetadata("u1", "u2")},
 		matchesPerTerm: 100,
 	}
 
