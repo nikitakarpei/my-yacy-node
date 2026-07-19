@@ -2,6 +2,7 @@ package yacyproto
 
 import (
 	"context"
+	"log/slog"
 	"net/url"
 	"strings"
 
@@ -42,7 +43,7 @@ type SearchResponse struct {
 	References    string
 	JoinCount     int
 	Count         int
-	Resources     []yacymodel.URIMetadataRow
+	Resources     []yacymodel.URLMetadata
 	IndexCount    map[yacymodel.Hash]int
 	IndexAbstract map[yacymodel.Hash]string
 }
@@ -206,7 +207,7 @@ func (r SearchResponse) Encode() Message {
 	setInt(msg, FieldJoinCount, r.JoinCount)
 	setInt(msg, FieldLinkCount, r.Count)
 	for i, row := range r.Resources {
-		setString(msg, indexedKey(prefixResource, i), row.String())
+		setString(msg, indexedKey(prefixResource, i), urlMetadataWireCodec{}.encode(row))
 	}
 	for hash, count := range r.IndexCount {
 		setInt(msg, prefixIndexCount+hash.String(), count)
@@ -218,7 +219,7 @@ func (r SearchResponse) Encode() Message {
 	return msg
 }
 
-func ParseSearchResponse(m Message) (SearchResponse, error) {
+func ParseSearchResponse(ctx context.Context, m Message) (SearchResponse, error) {
 	header, err := parseResponseHeader(m)
 	if err != nil {
 		return SearchResponse{}, err
@@ -241,7 +242,7 @@ func ParseSearchResponse(m Message) (SearchResponse, error) {
 		return SearchResponse{}, err
 	}
 
-	resp.Resources = parseSearchResources(m, resp.Count)
+	resp.Resources = parseSearchResources(ctx, m, resp.Count)
 
 	if resp.IndexCount, resp.IndexAbstract, err = parseSearchIndexes(m); err != nil {
 		return SearchResponse{}, err
@@ -250,36 +251,39 @@ func ParseSearchResponse(m Message) (SearchResponse, error) {
 	return resp, nil
 }
 
-func parseSearchResources(m Message, count int) []yacymodel.URIMetadataRow {
-	var rows []yacymodel.URIMetadataRow
-	if count > 0 {
-		for i := range count {
-			raw, ok := m[indexedKey(prefixResource, i)]
-			if !ok {
-				continue
-			}
-			row, err := yacymodel.ParseURIMetadataRow(raw)
-			if err != nil {
-				continue
-			}
-			rows = append(rows, row)
-		}
-		return rows
-	}
-
-	for i := 0; ; i++ {
+func parseSearchResources(
+	ctx context.Context,
+	m Message,
+	count int,
+) []yacymodel.URLMetadata {
+	var resources []yacymodel.URLMetadata
+	for i := 0; count <= 0 || i < count; i++ {
 		raw, ok := m[indexedKey(prefixResource, i)]
 		if !ok {
-			return rows
-		}
+			if count <= 0 {
+				break
+			}
 
-		row, err := yacymodel.ParseURIMetadataRow(raw)
-		if err != nil {
 			continue
 		}
 
-		rows = append(rows, row)
+		resource, err := urlMetadataWireCodec{}.decode(ctx, raw)
+		if err != nil {
+			slog.WarnContext(
+				ctx,
+				"search resource discarded",
+				slog.String("reason", "parse failed"),
+				slog.Int("index", i),
+				slog.Any("error", err),
+			)
+
+			continue
+		}
+
+		resources = append(resources, resource)
 	}
+
+	return resources
 }
 
 func parseSearchIndexes(

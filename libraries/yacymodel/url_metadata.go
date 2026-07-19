@@ -1,68 +1,95 @@
 package yacymodel
 
 import (
-	"context"
 	"errors"
-	"fmt"
-	"slices"
 	"strings"
 )
 
-const (
-	URLMetaHash           = "hash"
-	URLMetaHashAlt        = "h"
-	URLMetaColDescription = "descr"
-)
-
+// ErrBadURLMetadata reports url metadata that cannot be read back into the
+// domain type, whether it came off the peer wire or off local disk.
 var ErrBadURLMetadata = errors.New("bad url metadata")
 
-// TODO: this is a raw wire property bag, not a domain type, and it stays until
-// its ~36 call sites, a crawl-contract JSON field and a legacy disk row codec move.
-type URIMetadataRow struct {
-	Properties map[string]string
+const directoryListingTag = "indexof"
+
+const (
+	imageMediaTypePrefix       = "image/"
+	audioMediaTypePrefix       = "audio/"
+	videoMediaTypePrefix       = "video/"
+	applicationMediaTypePrefix = "application/"
+)
+
+// URLMetadata is what the index knows about the document at one address.
+type URLMetadata struct {
+	Address          string
+	Referrer         URLHash
+	Title            string
+	Author           string
+	Tags             []string
+	Publisher        string
+	Location         Coordinates
+	Modified         CalendarDay
+	Loaded           CalendarDay
+	FreshUntil       CalendarDay
+	DocumentType     DocumentType
+	MediaType        string
+	Language         Language
+	ByteSize         int
+	WordCount        int
+	LocalLinks       int
+	ExternalLinks    int
+	ImageLinks       int
+	AudioLinks       int
+	VideoLinks       int
+	ApplicationLinks int
+	Snippet          string
+	FaviconAddress   string
 }
 
-func ParseURIMetadataRow(row string) (URIMetadataRow, error) {
-	if len(row) < 2 || row[0] != urlMetadataOpen || row[len(row)-1] != urlMetadataClose {
-		return URIMetadataRow{}, fmt.Errorf("%w: missing property form", ErrBadURLMetadata)
-	}
-	props, err := ParsePropertyPairs(row[1 : len(row)-1])
-	if err != nil {
-		return URIMetadataRow{}, fmt.Errorf("%w: %w", ErrBadURLMetadata, err)
-	}
-	if len(props) == 0 {
-		return URIMetadataRow{}, fmt.Errorf("%w: empty row", ErrBadURLMetadata)
-	}
-	if err := validateURLMetadataProperties(props); err != nil {
-		return URIMetadataRow{}, fmt.Errorf("%w: %w", ErrBadURLMetadata, err)
-	}
-	return URIMetadataRow{Properties: props}, nil
+func (m URLMetadata) Hash() (URLHash, error) {
+	return HashURL(m.Address)
 }
 
-func (r URIMetadataRow) URLHash() (URLHash, error) {
-	return urlMetadataHash(r.Properties)
-}
-
-func (r URIMetadataRow) Title(ctx context.Context) (string, error) {
-	return DecodeWireForm(ctx, r.Properties[URLMetaColDescription])
-}
-
-func (r URIMetadataRow) String() string {
-	keys := make([]string, 0, len(r.Properties))
-	for k := range r.Properties {
-		keys = append(keys, k)
-	}
-	slices.Sort(keys)
-	var b strings.Builder
-	b.WriteByte(urlMetadataOpen)
-	for i, k := range keys {
-		if i > 0 {
-			b.WriteByte(',')
+// Freshness is the day this metadata last stood for the document, preferring
+// the most recently established of the three days the document carries.
+func (m URLMetadata) Freshness() CalendarDay {
+	for _, day := range []CalendarDay{m.Loaded, m.Modified, m.FreshUntil} {
+		if !day.IsZero() {
+			return day
 		}
-		b.WriteString(k)
-		b.WriteByte('=')
-		b.WriteString(r.Properties[k])
 	}
-	b.WriteByte(urlMetadataClose)
-	return b.String()
+
+	return CalendarDay{}
+}
+
+func (m URLMetadata) IsDirectoryListing() bool {
+	for _, tag := range m.Tags {
+		if strings.Contains(tag, directoryListingTag) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (m URLMetadata) HasLocation() bool {
+	return !m.Location.IsZero()
+}
+
+// TODO: YaCy's getContentDomain() also classifies by file extension when the
+// media type is unhelpful; only the media-type path is ported.
+func (m URLMetadata) HasImage() bool {
+	return m.ImageLinks > 0 || strings.HasPrefix(m.MediaType, imageMediaTypePrefix)
+}
+
+func (m URLMetadata) HasAudio() bool {
+	return m.AudioLinks > 0 || strings.HasPrefix(m.MediaType, audioMediaTypePrefix)
+}
+
+func (m URLMetadata) HasVideo() bool {
+	return m.VideoLinks > 0 || strings.HasPrefix(m.MediaType, videoMediaTypePrefix)
+}
+
+func (m URLMetadata) HasApplication() bool {
+	return m.ApplicationLinks > 0 ||
+		strings.HasPrefix(m.MediaType, applicationMediaTypePrefix)
 }

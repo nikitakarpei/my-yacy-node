@@ -14,13 +14,16 @@ import (
 )
 
 type URLDirectory interface {
-	RowsByHash(ctx context.Context, hashes []yacymodel.Hash) ([]yacymodel.URIMetadataRow, error)
+	MetadataByHash(
+		ctx context.Context,
+		hashes []yacymodel.Hash,
+	) ([]yacymodel.URLMetadata, error)
 	MissingURLs(ctx context.Context, hashes []yacymodel.Hash) ([]yacymodel.Hash, error)
 	Count(ctx context.Context) (int, error)
 }
 
 type URLReceiver interface {
-	Receive(ctx context.Context, rows []yacymodel.URIMetadataRow) (Receipt, error)
+	Receive(ctx context.Context, metadata []yacymodel.URLMetadata) (Receipt, error)
 }
 
 type URLEvictor interface {
@@ -28,7 +31,7 @@ type URLEvictor interface {
 }
 
 type URLMetadataObserver interface {
-	URLStored(tx *vault.Txn, hash yacymodel.Hash, freshness string) error
+	URLStored(tx *vault.Txn, hash yacymodel.Hash, freshness yacymodel.CalendarDay) error
 	URLPurged(tx *vault.Txn, hash yacymodel.Hash) error
 }
 

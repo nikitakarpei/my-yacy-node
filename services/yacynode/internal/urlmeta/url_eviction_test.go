@@ -13,8 +13,8 @@ func TestPurgeNotifiesObserverOfDeletedURLs(t *testing.T) {
 	ctx := context.Background()
 	observer := &recordingObserver{}
 	v, module := openObservedModule(t, observer)
-	row := urlRow(t, "a")
-	if _, err := module.Receiver.Receive(ctx, []yacymodel.URIMetadataRow{row}); err != nil {
+	row := urlMetadata("a")
+	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 
@@ -22,7 +22,7 @@ func TestPurgeNotifiesObserverOfDeletedURLs(t *testing.T) {
 		if _, purgeErr := module.Evictor.Purge(
 			ctx,
 			tx,
-			[]yacymodel.Hash{rowHash(t, row)},
+			[]yacymodel.Hash{metadataHash(t, row)},
 		); purgeErr != nil {
 			return fmt.Errorf("purge: %w", purgeErr)
 		}
@@ -31,7 +31,7 @@ func TestPurgeNotifiesObserverOfDeletedURLs(t *testing.T) {
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
-	if len(observer.purged) != 1 || observer.purged[0] != rowHash(t, row) {
+	if len(observer.purged) != 1 || observer.purged[0] != metadataHash(t, row) {
 		t.Fatalf("purged = %v, want one matching hash", observer.purged)
 	}
 }
@@ -40,14 +40,14 @@ func TestPurgeSurvivesObserverFailure(t *testing.T) {
 	ctx := context.Background()
 	observer := &recordingObserver{fail: true}
 	v, module := openObservedModule(t, observer)
-	row := urlRow(t, "a")
-	if _, err := module.Receiver.Receive(ctx, []yacymodel.URIMetadataRow{row}); err != nil {
+	row := urlMetadata("a")
+	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 
 	var result PurgeResult
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.Hash{rowHash(t, row)})
+		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.Hash{metadataHash(t, row)})
 		result = purged
 		if purgeErr != nil {
 			return fmt.Errorf("purge: %w", purgeErr)
@@ -65,17 +65,17 @@ func TestPurgeSurvivesObserverFailure(t *testing.T) {
 func TestPurgeDeletesRows(t *testing.T) {
 	ctx := context.Background()
 	v, module := openObservedModule(t)
-	row := urlRow(t, "a")
+	row := urlMetadata("a")
 	if _, err := module.Receiver.Receive(
 		ctx,
-		[]yacymodel.URIMetadataRow{row, urlRow(t, "b")},
+		[]yacymodel.URLMetadata{row, urlMetadata("b")},
 	); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 
 	var result PurgeResult
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.Hash{rowHash(t, row)})
+		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.Hash{metadataHash(t, row)})
 		result = purged
 		if purgeErr != nil {
 			return fmt.Errorf("purge: %w", purgeErr)

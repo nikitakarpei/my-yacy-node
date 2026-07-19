@@ -2,8 +2,10 @@ package yacyproto_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 func sampleHash(tb testing.TB, word string) yacymodel.Hash {
@@ -44,19 +46,23 @@ func sampleRWIPosting(tb testing.TB, word, urlWord string) yacymodel.RWIPosting 
 	}
 }
 
-func sampleURLRow(tb testing.TB, urlWord string) yacymodel.URIMetadataRow {
+func sampleURLMetadata(urlWord string) yacymodel.URLMetadata {
+	return yacymodel.URLMetadata{
+		Address:      "https://example.org/" + urlWord,
+		Title:        urlWord,
+		DocumentType: yacymodel.DocumentTypeText,
+		Loaded:       yacymodel.NewCalendarDay(2026, time.July, 18),
+		LocalLinks:   2,
+	}
+}
+
+func sampleURLMetadataWireForm(tb testing.TB, metadata yacymodel.URLMetadata) string {
 	tb.Helper()
 
-	row := yacymodel.URIMetadataRow{
-		Properties: map[string]string{
-			yacymodel.URLMetaHash: sampleHash(tb, urlWord).String(),
-		},
-	}
+	form := yacyproto.TransferURLRequest{
+		URLCount: 1,
+		URLs:     []yacymodel.URLMetadata{metadata},
+	}.Form()
 
-	roundTrip, err := yacymodel.ParseURIMetadataRow(row.String())
-	if err != nil {
-		tb.Fatalf("sample url row does not round-trip: %v", err)
-	}
-
-	return roundTrip
+	return form.Get("url0")
 }

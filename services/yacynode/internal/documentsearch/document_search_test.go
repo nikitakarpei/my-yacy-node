@@ -35,17 +35,17 @@ func (s fakeScanner) ScanWord(
 }
 
 type fakeDirectory struct {
-	rows map[yacymodel.Hash]yacymodel.URIMetadataRow
+	metadata map[yacymodel.Hash]yacymodel.URLMetadata
 }
 
-func (d fakeDirectory) RowsByHash(
+func (d fakeDirectory) MetadataByHash(
 	_ context.Context,
 	hashes []yacymodel.Hash,
-) ([]yacymodel.URIMetadataRow, error) {
-	out := make([]yacymodel.URIMetadataRow, 0, len(hashes))
+) ([]yacymodel.URLMetadata, error) {
+	out := make([]yacymodel.URLMetadata, 0, len(hashes))
 	for _, hash := range hashes {
-		if row, ok := d.rows[hash]; ok {
-			out = append(out, row)
+		if stored, ok := d.metadata[hash]; ok {
+			out = append(out, stored)
 		}
 	}
 
@@ -60,7 +60,7 @@ func (d fakeDirectory) MissingURLs(
 }
 
 func (d fakeDirectory) Count(context.Context) (int, error) {
-	return len(d.rows), nil
+	return len(d.metadata), nil
 }
 
 func hashFor(base string) yacymodel.Hash {
@@ -86,15 +86,17 @@ func postingEntry(
 	}
 }
 
-func urlRows(ids ...string) map[yacymodel.Hash]yacymodel.URIMetadataRow {
-	rows := make(map[yacymodel.Hash]yacymodel.URIMetadataRow, len(ids))
+func addressFor(id string) string {
+	return "http://example.com/" + id
+}
+
+func urlMetadata(ids ...string) map[yacymodel.Hash]yacymodel.URLMetadata {
+	metadata := make(map[yacymodel.Hash]yacymodel.URLMetadata, len(ids))
 	for _, id := range ids {
-		rows[hashFor(id)] = yacymodel.URIMetadataRow{
-			Properties: map[string]string{yacymodel.URLMetaHash: string(hashFor(id))},
-		}
+		metadata[hashFor(id)] = yacymodel.URLMetadata{Address: addressFor(id)}
 	}
 
-	return rows
+	return metadata
 }
 
 func TestSearchJoinsAndCountsAndReports(t *testing.T) {
@@ -105,7 +107,7 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 	}}
 	s := searcher{
 		index:          index,
-		documents:      fakeDirectory{rows: urlRows("u1", "u2", "u3")},
+		documents:      fakeDirectory{metadata: urlMetadata("u1", "u2", "u3")},
 		matchesPerTerm: 100,
 	}
 
@@ -125,7 +127,7 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 	if len(result.resources) != 1 {
 		t.Fatalf("resources = %d, want 1", len(result.resources))
 	}
-	if result.resources[0].Properties[yacymodel.URLMetaHash] != string(hashFor("u2")) {
+	if result.resources[0].Address != addressFor("u2") {
 		t.Errorf("resource = %v, want u2", result.resources[0])
 	}
 	if result.totalMatchesPerTerm[word1] != 2 {
@@ -147,7 +149,7 @@ func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
 	}}
 	s := searcher{
 		index:          index,
-		documents:      fakeDirectory{rows: urlRows("u1", "u2", "u3")},
+		documents:      fakeDirectory{metadata: urlMetadata("u1", "u2", "u3")},
 		matchesPerTerm: 100,
 	}
 
@@ -177,7 +179,7 @@ func TestSearchOrdersByOccurrencesThenTermSpread(t *testing.T) {
 	}}
 	s := searcher{
 		index:          index,
-		documents:      fakeDirectory{rows: urlRows("u2", "u3")},
+		documents:      fakeDirectory{metadata: urlMetadata("u2", "u3")},
 		matchesPerTerm: 100,
 	}
 
@@ -188,7 +190,7 @@ func TestSearchOrdersByOccurrencesThenTermSpread(t *testing.T) {
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
-	if got := result.resources[0].Properties[yacymodel.URLMetaHash]; got != string(hashFor("u2")) {
+	if got := result.resources[0].Address; got != addressFor("u2") {
 		t.Errorf("first resource = %q, want u2", got)
 	}
 }
@@ -202,7 +204,7 @@ func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 	}}
 	s := searcher{
 		index:          index,
-		documents:      fakeDirectory{rows: urlRows("uA", "uB")},
+		documents:      fakeDirectory{metadata: urlMetadata("uA", "uB")},
 		matchesPerTerm: 100,
 	}
 
@@ -214,7 +216,7 @@ func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 		t.Fatalf("search: %v", err)
 	}
 	if len(result.resources) != 1 ||
-		result.resources[0].Properties[yacymodel.URLMetaHash] != string(hashFor("uA")) {
+		result.resources[0].Address != addressFor("uA") {
 		t.Fatalf("resources = %v, want only uA (span 8, average gap 4)", result.resources)
 	}
 }
@@ -226,7 +228,7 @@ func TestSearchCapKeepsMostFrequentPostings(t *testing.T) {
 	}}
 	s := searcher{
 		index:          index,
-		documents:      fakeDirectory{rows: urlRows("u1", "u2")},
+		documents:      fakeDirectory{metadata: urlMetadata("u1", "u2")},
 		matchesPerTerm: 1,
 	}
 
@@ -238,7 +240,7 @@ func TestSearchCapKeepsMostFrequentPostings(t *testing.T) {
 		t.Fatalf("search: %v", err)
 	}
 	if len(result.resources) != 1 ||
-		result.resources[0].Properties[yacymodel.URLMetaHash] != string(hashFor("u2")) {
+		result.resources[0].Address != addressFor("u2") {
 		t.Fatalf(
 			"resources = %v, want only u2 (highest hit count kept under cap)",
 			result.resources,
@@ -254,7 +256,7 @@ func TestSearchExcludesTerms(t *testing.T) {
 	}}
 	s := searcher{
 		index:          index,
-		documents:      fakeDirectory{rows: urlRows("u1", "u2")},
+		documents:      fakeDirectory{metadata: urlMetadata("u1", "u2")},
 		matchesPerTerm: 100,
 	}
 
@@ -266,7 +268,7 @@ func TestSearchExcludesTerms(t *testing.T) {
 		t.Fatalf("search: %v", err)
 	}
 	if len(result.resources) != 1 ||
-		result.resources[0].Properties[yacymodel.URLMetaHash] != string(hashFor("u1")) {
+		result.resources[0].Address != addressFor("u1") {
 		t.Fatalf("resources = %v, want only u1", result.resources)
 	}
 }
@@ -323,7 +325,7 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 	}}
 	s := searcher{
 		index:          index,
-		documents:      fakeDirectory{rows: urlRows("u1", "u2", "u3")},
+		documents:      fakeDirectory{metadata: urlMetadata("u1", "u2", "u3")},
 		matchesPerTerm: 100,
 	}
 
@@ -336,7 +338,7 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 		t.Fatalf("search: %v", err)
 	}
 	if len(result.resources) != 1 ||
-		result.resources[0].Properties[yacymodel.URLMetaHash] != string(hashFor("u1")) {
+		result.resources[0].Address != addressFor("u1") {
 		t.Fatalf("resources = %v, want only u1", result.resources)
 	}
 }

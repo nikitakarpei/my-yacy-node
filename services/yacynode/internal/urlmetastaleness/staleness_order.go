@@ -16,7 +16,7 @@ const (
 type stalenessRanking struct {
 	vault     *vault.Vault
 	order     *vault.Collection[struct{}]
-	freshness *vault.Collection[string]
+	freshness *vault.Collection[freshnessRank]
 }
 
 func openStalenessRanking(v *vault.Vault) (*stalenessRanking, error) {
@@ -24,7 +24,7 @@ func openStalenessRanking(v *vault.Vault) (*stalenessRanking, error) {
 	if err != nil {
 		return nil, fmt.Errorf("register staleness order: %w", err)
 	}
-	freshness, err := vault.Register(v, freshnessBucket, freshnessCodec{})
+	freshness, err := vault.Register(v, freshnessBucket, freshnessRankCodec{})
 	if err != nil {
 		return nil, fmt.Errorf("register staleness freshness: %w", err)
 	}
@@ -63,16 +63,17 @@ func (o *stalenessRanking) StalestURLs(ctx context.Context, limit int) ([]yacymo
 func (o *stalenessRanking) URLStored(
 	tx *vault.Txn,
 	hash yacymodel.Hash,
-	freshness string,
+	freshness yacymodel.CalendarDay,
 ) error {
+	rank := rankOf(freshness)
 	if err := o.order.Put(
 		tx,
-		rankedURL{freshness: freshness, hash: hash}.orderKey(),
+		rankedURL{rank: rank, hash: hash}.orderKey(),
 		struct{}{},
 	); err != nil {
 		return fmt.Errorf("record staleness order: %w", err)
 	}
-	if err := o.freshness.Put(tx, vault.Key(hash), freshness); err != nil {
+	if err := o.freshness.Put(tx, vault.Key(hash), rank); err != nil {
 		return fmt.Errorf("record staleness freshness: %w", err)
 	}
 
@@ -82,7 +83,7 @@ func (o *stalenessRanking) URLStored(
 var _ StalenessRanking = (*stalenessRanking)(nil)
 
 func (o *stalenessRanking) URLPurged(tx *vault.Txn, hash yacymodel.Hash) error {
-	freshness, found, err := o.freshness.Get(tx, vault.Key(hash))
+	rank, found, err := o.freshness.Get(tx, vault.Key(hash))
 	if err != nil {
 		return fmt.Errorf("read staleness freshness: %w", err)
 	}
@@ -91,7 +92,7 @@ func (o *stalenessRanking) URLPurged(tx *vault.Txn, hash yacymodel.Hash) error {
 	}
 	if _, err := o.order.Delete(
 		tx,
-		rankedURL{freshness: freshness, hash: hash}.orderKey(),
+		rankedURL{rank: rank, hash: hash}.orderKey(),
 	); err != nil {
 		return fmt.Errorf("drop staleness order: %w", err)
 	}

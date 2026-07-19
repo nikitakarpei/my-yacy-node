@@ -1,6 +1,7 @@
 package yacyproto_test
 
 import (
+	"context"
 	"net/url"
 	"reflect"
 	"testing"
@@ -58,9 +59,9 @@ func TestSearchResponseRoundTrip(t *testing.T) {
 		References:     "topic",
 		JoinCount:      4,
 		Count:          2,
-		Resources: []yacymodel.URIMetadataRow{
-			sampleURLRow(t, "url-a"),
-			sampleURLRow(t, "url-b"),
+		Resources: []yacymodel.URLMetadata{
+			sampleURLMetadata("url-a"),
+			sampleURLMetadata("url-b"),
 		},
 		IndexCount:    map[yacymodel.Hash]int{alpha: 17},
 		IndexAbstract: map[yacymodel.Hash]string{alpha: "abc"},
@@ -68,7 +69,7 @@ func TestSearchResponseRoundTrip(t *testing.T) {
 
 	msg := resp.Encode()
 	yacyproto.InjectResponseHeader(msg, resp.Version, resp.Uptime)
-	got, err := yacyproto.ParseSearchResponse(msg)
+	got, err := yacyproto.ParseSearchResponse(context.Background(), msg)
 	if err != nil {
 		t.Fatalf("ParseSearchResponse: %v", err)
 	}
@@ -128,7 +129,7 @@ func TestSearchResponseUsesYaCyLinkCountField(t *testing.T) {
 	t.Parallel()
 
 	msg := yacyproto.Message{yacyproto.FieldLinkCount: "5"}
-	got, err := yacyproto.ParseSearchResponse(msg)
+	got, err := yacyproto.ParseSearchResponse(context.Background(), msg)
 	if err != nil {
 		t.Fatalf("ParseSearchResponse: %v", err)
 	}
@@ -141,13 +142,13 @@ func TestSearchResponseUsesYaCyLinkCountField(t *testing.T) {
 func TestParseSearchResponseSkipsMissingAndBadResources(t *testing.T) {
 	t.Parallel()
 
-	valid := sampleURLRow(t, "url-a")
+	valid := sampleURLMetadata("url-a")
 	msg := yacyproto.Message{
 		yacyproto.FieldLinkCount: "3",
-		"resource0":              valid.String(),
+		"resource0":              sampleURLMetadataWireForm(t, valid),
 		"resource2":              "bad",
 	}
-	got, err := yacyproto.ParseSearchResponse(msg)
+	got, err := yacyproto.ParseSearchResponse(context.Background(), msg)
 	if err != nil {
 		t.Fatalf("ParseSearchResponse: %v", err)
 	}

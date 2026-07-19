@@ -10,14 +10,22 @@ import (
 
 const freshnessHashSeparator = 0x00
 
+// freshnessRank orders days as plain text so the vault's byte order is also
+// stalest-first order. A url with no known day ranks stalest.
+type freshnessRank string
+
+func rankOf(day yacymodel.CalendarDay) freshnessRank {
+	return freshnessRank(fmt.Sprintf("%04d%02d%02d", day.Year, day.Month, day.Day))
+}
+
 type rankedURL struct {
-	freshness string
-	hash      yacymodel.Hash
+	rank freshnessRank
+	hash yacymodel.Hash
 }
 
 func (r rankedURL) orderKey() vault.Key {
 	var key bytes.Buffer
-	key.WriteString(r.freshness)
+	key.WriteString(string(r.rank))
 	key.WriteByte(freshnessHashSeparator)
 	key.WriteString(string(r.hash))
 

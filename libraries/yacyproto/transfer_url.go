@@ -13,7 +13,7 @@ type TransferURLRequest struct {
 	Iam         yacymodel.Hash
 	YouAre      yacymodel.Hash
 	URLCount    int
-	URLs        []yacymodel.URIMetadataRow
+	URLs        []yacymodel.URLMetadata
 }
 
 type TransferURLResponse struct {
@@ -30,7 +30,7 @@ func (r TransferURLRequest) Form() url.Values {
 	putString(form, FieldYouAre, r.YouAre.String())
 	putInt(form, FieldURLCount, r.URLCount)
 	for i, row := range r.URLs {
-		putString(form, indexedKey(prefixURL, i), row.String())
+		putString(form, indexedKey(prefixURL, i), urlMetadataWireCodec{}.encode(row))
 	}
 
 	return form
@@ -69,7 +69,7 @@ func ParseTransferURLRequest(ctx context.Context, form url.Values) (TransferURLR
 			continue
 		}
 
-		row, err := yacymodel.ParseURIMetadataRow(raw)
+		row, err := urlMetadataWireCodec{}.decode(ctx, raw)
 		if err != nil {
 			slog.WarnContext(
 				ctx,

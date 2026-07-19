@@ -3,15 +3,12 @@ package pagerwi
 import (
 	"fmt"
 	"net/url"
-	"strconv"
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
-
-const documentTypeText = 't'
 
 func Build(
 	page crawlcapability.CrawledPage,
@@ -44,8 +41,8 @@ func Build(
 
 	return yacycrawlcontract.PageRWIRepresentation{
 		CanonicalURL: page.CanonicalURL,
-		Metadata: []yacymodel.URIMetadataRow{
-			metadataRowOf(page, urlHash, len(text), textStats.Words),
+		Metadata: []yacymodel.URLMetadata{
+			metadataOf(page, len(text), textStats.Words),
 		},
 		Postings: postings,
 	}, nil
@@ -67,22 +64,22 @@ func sharedPosting(
 	}
 }
 
-func metadataRowOf(
+func metadataOf(
 	page crawlcapability.CrawledPage,
-	urlHash yacymodel.URLHash,
 	textLength int,
 	wordCount int,
-) yacymodel.URIMetadataRow {
-	return yacymodel.URIMetadataRow{Properties: map[string]string{
-		yacymodel.URLMetaHash:           urlHash.String(),
-		"dt":                            string(rune(documentTypeText)),
-		"url":                           yacymodel.EncodeBase64WireForm(page.CanonicalURL),
-		yacymodel.URLMetaColDescription: yacymodel.EncodeBase64WireForm(page.Title),
-		"size":                          strconv.Itoa(textLength),
-		"wc":                            strconv.Itoa(wordCount),
-		"llocal":                        strconv.Itoa(page.LocalLinkCount),
-		"lother":                        strconv.Itoa(page.ExternalLinkCount),
-	}}
+) yacymodel.URLMetadata {
+	return yacymodel.URLMetadata{
+		Address:       page.CanonicalURL,
+		Title:         page.Title,
+		Loaded:        yacymodel.CalendarDayOf(page.CrawledAt),
+		DocumentType:  yacymodel.DocumentTypeText,
+		Language:      yacymodel.Language(page.Language),
+		ByteSize:      textLength,
+		WordCount:     wordCount,
+		LocalLinks:    page.LocalLinkCount,
+		ExternalLinks: page.ExternalLinkCount,
+	}
 }
 
 func componentCount(canonicalURL string) int {

@@ -1,115 +1,132 @@
-package yacymodel
+package yacymodel_test
 
 import (
-	"context"
-	"errors"
 	"testing"
+	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func TestParseURIMetadataRowRoundTrip(t *testing.T) {
-	row := "{flags=AAAAAA,fresh=20260101,hash=MNOPQRSTUVWX,load=20250101,mod=20250101,size=1024,url=b|aHR0cHM6Ly9leGFtcGxlLm9yZy8,wc=12}"
-	parsed, err := ParseURIMetadataRow(row)
+func TestURLMetadataHashDerivesFromAddress(t *testing.T) {
+	metadata := yacymodel.URLMetadata{Address: "http://example.com/a"}
+
+	got, err := metadata.Hash()
+	if err != nil {
+		t.Fatalf("Hash: %v", err)
+	}
+	want, err := yacymodel.HashURL("http://example.com/a")
 	if err != nil {
 		t.Fatal(err)
 	}
-	h, err := parsed.URLHash()
-	if err != nil || h != "MNOPQRSTUVWX" {
-		t.Errorf("URLHash() = %q, %v", h, err)
-	}
-	if got := parsed.String(); got != row {
-		t.Errorf("round trip:\n got %q\nwant %q", got, row)
+	if got != want {
+		t.Errorf("Hash = %q, want %q", got, want)
 	}
 }
 
-func TestParseURIMetadataRowEmptyFlags(t *testing.T) {
-	row := "{flags=,hash=MNOPQRSTUVWX}"
-	parsed, err := ParseURIMetadataRow(row)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := parsed.String(); got != row {
-		t.Errorf("round trip:\n got %q\nwant %q", got, row)
-	}
-}
+func TestFreshnessPrefersLoadedThenModifiedThenFreshUntil(t *testing.T) {
+	loaded := yacymodel.NewCalendarDay(2025, time.February, 3)
+	modified := yacymodel.NewCalendarDay(2024, time.January, 2)
+	freshUntil := yacymodel.NewCalendarDay(2026, time.March, 4)
 
-func TestParseURIMetadataRowShortFlags(t *testing.T) {
-	row := "{flags=AAAA,hash=MNOPQRSTUVWX}"
-	parsed, err := ParseURIMetadataRow(row)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := parsed.String(); got != row {
-		t.Errorf("round trip:\n got %q\nwant %q", got, row)
-	}
-}
-
-func TestURLHashFallback(t *testing.T) {
-	parsed, err := ParseURIMetadataRow("{h=MNOPQRSTUVWX,url=b|aHR0cHM6Ly9leGFtcGxlLm9yZy8}")
-	if err != nil {
-		t.Fatal(err)
-	}
-	h, err := parsed.URLHash()
-	if err != nil || h != "MNOPQRSTUVWX" {
-		t.Errorf("URLHash() fallback = %q, %v", h, err)
-	}
-}
-
-func TestURLHashMissing(t *testing.T) {
-	if _, err := ParseURIMetadataRow(
-		"{url=b|aHR0cHM6Ly9leGFtcGxlLm9yZy8}",
-	); !errors.Is(
-		err,
-		ErrBadURLMetadata,
-	) {
-		t.Fatalf("ParseURIMetadataRow() = %v, want ErrBadURLMetadata", err)
-	}
-}
-
-func TestParseURIMetadataRowErrors(t *testing.T) {
-	for _, bad := range []string{
-		"",
-		"hash=MNOPQRSTUVWX",
-		"{=novalue}",
-		"{hash=MNOPQRSTUVWX,badtoken}",
-		"{hash=short}",
-		"{hash=MNOPQRSTUVWX,flags=!}",
-		"{hash=MNOPQRSTUVWX,dt=}",
-		"{hash=MNOPQRSTUVWX,size=bad}",
+	for _, c := range []struct {
+		name     string
+		metadata yacymodel.URLMetadata
+		want     yacymodel.CalendarDay
+	}{
+		{
+			name:     "loaded wins",
+			metadata: yacymodel.URLMetadata{Loaded: loaded, Modified: modified, FreshUntil: freshUntil},
+			want:     loaded,
+		},
+		{
+			name:     "modified without loaded",
+			metadata: yacymodel.URLMetadata{Modified: modified, FreshUntil: freshUntil},
+			want:     modified,
+		},
+		{
+			name:     "fresh until alone",
+			metadata: yacymodel.URLMetadata{FreshUntil: freshUntil},
+			want:     freshUntil,
+		},
+		{
+			name:     "no day at all",
+			metadata: yacymodel.URLMetadata{},
+			want:     yacymodel.CalendarDay{},
+		},
 	} {
-		if _, err := ParseURIMetadataRow(bad); !errors.Is(err, ErrBadURLMetadata) {
-			t.Errorf("ParseURIMetadataRow(%q) = %v, want ErrBadURLMetadata", bad, err)
-		}
+		t.Run(c.name, func(t *testing.T) {
+			if got := c.metadata.Freshness(); got != c.want {
+				t.Errorf("Freshness = %+v, want %+v", got, c.want)
+			}
+		})
 	}
 }
 
-func TestTitleDecodesDescription(t *testing.T) {
-	const title = "Quarterly Earnings Report"
-	row := URIMetadataRow{Properties: map[string]string{
-		URLMetaColDescription: EncodeBase64WireForm(title),
-	}}
-
-	got, err := row.Title(context.Background())
-	if err != nil {
-		t.Fatalf("Title: %v", err)
+func TestIsDirectoryListingFollowsTags(t *testing.T) {
+	listing := yacymodel.URLMetadata{Tags: []string{"news", "www.indexof.pages"}}
+	if !listing.IsDirectoryListing() {
+		t.Error("tag containing indexof should mark a directory listing")
 	}
-	if got != title {
-		t.Fatalf("title = %q, want %q", got, title)
+	plain := yacymodel.URLMetadata{Tags: []string{"news"}}
+	if plain.IsDirectoryListing() {
+		t.Error("unrelated tags should not mark a directory listing")
 	}
 }
 
-func TestTitleEmptyWhenAbsent(t *testing.T) {
-	got, err := URIMetadataRow{Properties: map[string]string{}}.Title(context.Background())
-	if err != nil {
-		t.Fatalf("Title: %v", err)
+func TestHasLocationFollowsCoordinates(t *testing.T) {
+	located := yacymodel.URLMetadata{
+		Location: yacymodel.Coordinates{Latitude: 52.52, Longitude: 13.405},
 	}
-	if got != "" {
-		t.Fatalf("title = %q, want empty", got)
+	if !located.HasLocation() {
+		t.Error("coordinates should mark a location")
+	}
+	if (yacymodel.URLMetadata{}).HasLocation() {
+		t.Error("zero coordinates should not mark a location")
 	}
 }
 
-func TestTitleRejectsCorruptDescription(t *testing.T) {
-	row := URIMetadataRow{Properties: map[string]string{URLMetaColDescription: "z|@@@"}}
-	if _, err := row.Title(context.Background()); err == nil {
-		t.Fatal("corrupt description should fail")
+func TestMediaPredicatesFollowLinksAndMediaType(t *testing.T) {
+	for _, c := range []struct {
+		name      string
+		linked    yacymodel.URLMetadata
+		mediaType string
+		predicate func(yacymodel.URLMetadata) bool
+	}{
+		{
+			"image",
+			yacymodel.URLMetadata{ImageLinks: 1},
+			"image/png",
+			yacymodel.URLMetadata.HasImage,
+		},
+		{
+			"audio",
+			yacymodel.URLMetadata{AudioLinks: 1},
+			"audio/mpeg",
+			yacymodel.URLMetadata.HasAudio,
+		},
+		{
+			"video",
+			yacymodel.URLMetadata{VideoLinks: 1},
+			"video/mp4",
+			yacymodel.URLMetadata.HasVideo,
+		},
+		{
+			"application",
+			yacymodel.URLMetadata{ApplicationLinks: 1},
+			"application/pdf",
+			yacymodel.URLMetadata.HasApplication,
+		},
+	} {
+		t.Run(c.name, func(t *testing.T) {
+			if !c.predicate(c.linked) {
+				t.Error("a link of this kind should satisfy the predicate")
+			}
+			if !c.predicate(yacymodel.URLMetadata{MediaType: c.mediaType}) {
+				t.Error("this media type should satisfy the predicate")
+			}
+			if c.predicate(yacymodel.URLMetadata{MediaType: "text/html"}) {
+				t.Error("text/html should not satisfy the predicate")
+			}
+		})
 	}
 }
