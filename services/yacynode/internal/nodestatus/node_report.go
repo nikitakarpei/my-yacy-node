@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const msgCountUnavailable = "count unavailable for self seed"
@@ -45,26 +46,29 @@ func (r nodeReport) Uptime(context.Context) int {
 func (r nodeReport) SelfSeed(ctx context.Context) yacymodel.Seed {
 	now := r.now()
 	seed := r.base
-	seed.Uptime = yacymodel.Some(r.id.Uptime(now))
-	seed.UTC = yacymodel.Some(yacymodel.SeedUTCOffsetFromTime(now))
-	seed.LastSeen = yacymodel.Some(yacymodel.NewSeedLastSeenUTC(now))
-	seed.RWICount = yacymodel.Some(countOrZero(ctx, r.rwi.RWICount))
-	seed.URLCount = yacymodel.Some(countOrZero(ctx, r.urls.Count))
+	seed.Uptime = time.Duration(r.id.Uptime(now)) * time.Minute
+	seed.UTCOffset = yacymodel.Some(yacymodel.UTCOffsetOf(now))
+	seed.LastSeen = yacymodel.Some(now.UTC())
+	seed.IndexedWords = countOrZero(ctx, r.rwi.RWICount)
+	seed.StoredURLs = countOrZero(ctx, r.urls.Count)
 
 	return seed
 }
 
 func baseSeed(id nodeidentity.Identity) yacymodel.Seed {
 	seed := yacymodel.Seed{
-		Hash:     id.Hash,
-		Name:     yacymodel.Some(id.Name),
-		Port:     yacymodel.Some(yacymodel.Port(id.Port)),
-		Flags:    yacymodel.Some(id.Flags),
-		PeerType: yacymodel.Some(yacymodel.PeerSenior),
-		Version:  yacymodel.Some(yacymodel.YaCyVersion(id.Version)),
+		Hash:         id.Hash,
+		Name:         id.Name,
+		Port:         yacymodel.Some(yacymodel.Port(id.Port)),
+		Capabilities: yacymodel.Some(id.Flags),
+		PeerType:     yacymodel.PeerSenior,
+		Tags:         yacymodel.MatchAllTags(),
+	}
+	if version, err := yacyproto.ParseSoftwareVersion(id.Version); err == nil {
+		seed.Version = yacymodel.Some(version)
 	}
 	if host, err := yacymodel.ParseHost(id.Host); err == nil {
-		seed.IP = yacymodel.Some(host)
+		seed.PrimaryAddress = yacymodel.Some(host)
 	}
 
 	return seed

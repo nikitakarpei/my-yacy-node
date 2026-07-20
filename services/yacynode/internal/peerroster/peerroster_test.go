@@ -22,13 +22,21 @@ func hashFor(base string) yacymodel.Hash {
 func seniorSeed(t testing.TB, hash, ip string, port int) yacymodel.Seed {
 	t.Helper()
 
-	seed := yacymodel.Seed{Hash: hashFor(hash)}
+	name, err := yacymodel.ParsePeerName(string(hashFor(hash)))
+	if err != nil {
+		t.Fatalf("parse peer name: %v", err)
+	}
+	seed := yacymodel.Seed{
+		Hash:     hashFor(hash),
+		Name:     name,
+		PeerType: yacymodel.PeerSenior,
+	}
 	if ip != "" {
 		host, err := yacymodel.ParseHost(ip)
 		if err != nil {
 			t.Fatalf("parse host: %v", err)
 		}
-		seed.IP = yacymodel.Some(host)
+		seed.PrimaryAddress = yacymodel.Some(host)
 	}
 	if port != 0 {
 		seed.Port = yacymodel.Some(yacymodel.Port(port))

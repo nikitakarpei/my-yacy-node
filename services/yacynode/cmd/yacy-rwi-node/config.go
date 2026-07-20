@@ -43,10 +43,10 @@ const (
 type nodeConfig struct {
 	Hash             yacymodel.Hash
 	NetworkName      string
-	Name             string
+	Name             yacymodel.PeerName
 	AdvertiseHost    string
 	AdvertisePort    int
-	Flags            yacymodel.Flags
+	Flags            yacymodel.PeerCapabilities
 	PeerAddr         string
 	OpsAddr          string
 	StoragePath      string
@@ -65,9 +65,13 @@ func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
 		return nodeConfig{}, fmt.Errorf("%s: %w", envPeerHash, err)
 	}
 
-	name, err := requiredEnv(getenv, envPeerName)
+	rawName, err := requiredEnv(getenv, envPeerName)
 	if err != nil {
 		return nodeConfig{}, err
+	}
+	name, err := yacymodel.ParsePeerName(rawName)
+	if err != nil {
+		return nodeConfig{}, fmt.Errorf("%s: %w", envPeerName, err)
 	}
 
 	peerAddr := envconfig.String(getenv, envPeerAddr, defaultPeerAddr)
@@ -156,12 +160,11 @@ func advertisePort(getenv func(string) string, peerAddr string) (int, error) {
 	return positiveInt(envPeerAddr, portPart)
 }
 
-func seniorFlags() yacymodel.Flags {
-	flags := yacymodel.ZeroFlags()
-	flags = flags.Set(yacymodel.FlagDirectConnect, true)
-	flags = flags.Set(yacymodel.FlagAcceptRemoteIndex, true)
-
-	return flags
+func seniorFlags() yacymodel.PeerCapabilities {
+	return yacymodel.PeerCapabilities{
+		DirectConnect:     true,
+		AcceptRemoteIndex: true,
+	}
 }
 
 func requiredEnv(getenv func(string) string, key string) (string, error) {

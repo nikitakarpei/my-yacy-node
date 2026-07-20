@@ -13,10 +13,10 @@ import (
 type Identity struct {
 	Hash        yacymodel.Hash
 	NetworkName string
-	Name        string
+	Name        yacymodel.PeerName
 	Host        string
 	Port        int
-	Flags       yacymodel.Flags
+	Flags       yacymodel.PeerCapabilities
 	Version     string
 	Start       time.Time
 }

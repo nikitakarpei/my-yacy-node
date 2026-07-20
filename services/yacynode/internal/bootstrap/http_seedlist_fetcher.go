@@ -10,6 +10,7 @@ import (
 	"net/http"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const (
@@ -56,18 +57,7 @@ func decodeSeedlist(ctx context.Context, body io.Reader, url string) ([]yacymode
 			continue
 		}
 
-		plain, err := yacymodel.DecodeWireForm(ctx, line)
-		if err != nil {
-			slog.WarnContext(
-				ctx,
-				"seedlist line discarded",
-				slog.String("url", url),
-				slog.Any("error", err),
-			)
-
-			continue
-		}
-		seed, err := yacymodel.ParseSeed(ctx, plain)
+		seed, err := yacyproto.ParseRemoteSeed(ctx, line)
 		if err != nil {
 			slog.WarnContext(
 				ctx,

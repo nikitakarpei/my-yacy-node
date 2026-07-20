@@ -22,18 +22,17 @@ func sampleHash(tb testing.TB, word string) yacymodel.Hash {
 func sampleSeed(tb testing.TB, word, name string) yacymodel.Seed {
 	tb.Helper()
 
-	seed := yacymodel.Seed{
-		Hash:     sampleHash(tb, word),
-		Name:     yacymodel.Some(name),
-		PeerType: yacymodel.Some(yacymodel.PeerSenior),
-	}
-
-	roundTrip, err := yacymodel.ParseSeed(tb.Context(), seed.String())
+	peerName, err := yacymodel.ParsePeerName(name)
 	if err != nil {
-		tb.Fatalf("sample seed does not round-trip: %v", err)
+		tb.Fatalf("sample seed name %q is invalid: %v", name, err)
 	}
 
-	return roundTrip
+	return yacymodel.Seed{
+		Hash:     sampleHash(tb, word),
+		Name:     peerName,
+		PeerType: yacymodel.PeerSenior,
+		Tags:     yacymodel.MatchAllTags(),
+	}
 }
 
 func sampleRWIPosting(tb testing.TB, word, urlWord string) yacymodel.RWIPosting {
