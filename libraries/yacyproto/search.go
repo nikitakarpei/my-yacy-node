@@ -52,7 +52,7 @@ func (r SearchRequest) Form() url.Values {
 	form := url.Values{}
 	putString(form, FieldNetworkName, r.NetworkName)
 	if seed, ok := r.MySeed.Get(); ok {
-		putString(form, FieldMySeed, yacymodel.EncodeBase64WireForm(seed.String()))
+		putString(form, FieldMySeed, seedWireCodec{}.encode(seed))
 	}
 	putString(form, FieldQuery, concatHashes(r.Query))
 	putString(form, FieldExclude, concatHashes(r.Exclude))

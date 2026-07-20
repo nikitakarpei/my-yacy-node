@@ -55,7 +55,7 @@ func (urlMetadataWireCodec) decode(
 			yacymodel.ErrBadURLMetadata,
 		)
 	}
-	properties, err := yacymodel.ParsePropertyPairs(row[1 : len(row)-1])
+	properties, err := parsePropertyPairs(row[1 : len(row)-1])
 	if err != nil {
 		return yacymodel.URLMetadata{}, fmt.Errorf("%w: %w", yacymodel.ErrBadURLMetadata, err)
 	}
@@ -144,7 +144,7 @@ func (f urlMetadataWireForm) domain(ctx context.Context) (yacymodel.URLMetadata,
 }
 
 func (f urlMetadataWireForm) text(ctx context.Context, column string) (string, error) {
-	plain, err := yacymodel.DecodeWireForm(ctx, f.properties[column])
+	plain, err := decodeWireForm(ctx, f.properties[column])
 	if err != nil {
 		return "", fmt.Errorf("column %s: %w", column, err)
 	}
@@ -307,7 +307,7 @@ func (f *urlMetadataWireForm) put(column, value string) {
 }
 
 func (f *urlMetadataWireForm) putEncoded(column, value string) {
-	f.put(column, yacymodel.EncodeBase64WireForm(value))
+	f.put(column, encodeBase64WireForm(value))
 }
 
 func (f *urlMetadataWireForm) putDay(column string, day yacymodel.CalendarDay) {

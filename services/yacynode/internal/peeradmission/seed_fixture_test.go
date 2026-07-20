@@ -25,7 +25,7 @@ func callerSeed(t testing.TB, hash, ip string, port int) yacymodel.Seed {
 		if err != nil {
 			t.Fatalf("parse host: %v", err)
 		}
-		seed.IP = yacymodel.Some(host)
+		seed.PrimaryAddress = yacymodel.Some(host)
 	}
 	if port != 0 {
 		seed.Port = yacymodel.Some(yacymodel.Port(port))

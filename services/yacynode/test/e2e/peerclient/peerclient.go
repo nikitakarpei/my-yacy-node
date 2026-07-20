@@ -88,17 +88,18 @@ func ResolveHash(
 }
 
 func helloProbeSeed() yacymodel.Seed {
-	flags := yacymodel.ZeroFlags()
-	flags = flags.Set(yacymodel.FlagDirectConnect, true)
-	flags = flags.Set(yacymodel.FlagAcceptRemoteIndex, true)
 	port, _ := yacymodel.ParsePort(Port)
+	name, _ := yacymodel.ParsePeerName("e2e-hello-probe")
 	return yacymodel.Seed{
-		Hash:     yacymodel.Hash(helloProbeHash),
-		Name:     yacymodel.Some("e2e-hello-probe"),
-		PeerType: yacymodel.Some(yacymodel.PeerSenior),
-		Port:     yacymodel.Some(port),
-		Version:  yacymodel.Some(yacymodel.YaCyVersion("1.83")),
-		UTC:      yacymodel.Some(yacymodel.SeedUTCOffsetFromTime(time.Now())),
-		Flags:    yacymodel.Some(flags),
+		Hash:      yacymodel.Hash(helloProbeHash),
+		Name:      name,
+		PeerType:  yacymodel.PeerSenior,
+		Port:      yacymodel.Some(port),
+		Version:   yacymodel.Some(yacymodel.SoftwareVersion{Release: 1.83}),
+		UTCOffset: yacymodel.Some(yacymodel.UTCOffsetOf(time.Now())),
+		Capabilities: yacymodel.Some(yacymodel.PeerCapabilities{
+			DirectConnect:     true,
+			AcceptRemoteIndex: true,
+		}),
 	}
 }

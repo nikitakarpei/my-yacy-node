@@ -264,7 +264,7 @@ func parseRWIPostingLine(line string) (rwiPostingWireForm, error) {
 			err,
 		)
 	}
-	props, err := yacymodel.ParsePropertyPairs(line[open+1 : len(line)-1])
+	props, err := parsePropertyPairs(line[open+1 : len(line)-1])
 	if err != nil {
 		return rwiPostingWireForm{}, fmt.Errorf("%w: %w", yacymodel.ErrBadRWIPosting, err)
 	}

@@ -8,7 +8,19 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
+
+func mustPeerName(t *testing.T, name string) yacymodel.PeerName {
+	t.Helper()
+
+	peerName, err := yacymodel.ParsePeerName(name)
+	if err != nil {
+		t.Fatalf("parse peer name: %v", err)
+	}
+
+	return peerName
+}
 
 func seedlistLine(t *testing.T, hash, ip string) string {
 	t.Helper()
@@ -18,12 +30,14 @@ func seedlistLine(t *testing.T, hash, ip string) string {
 		t.Fatalf("parse host: %v", err)
 	}
 	seed := yacymodel.Seed{
-		Hash: yacymodel.Hash(hash),
-		IP:   yacymodel.Some(host),
-		Port: yacymodel.Some(yacymodel.Port(8090)),
+		Hash:           yacymodel.Hash(hash),
+		Name:           mustPeerName(t, "peer-"+hash),
+		PeerType:       yacymodel.PeerSenior,
+		PrimaryAddress: yacymodel.Some(host),
+		Port:           yacymodel.Some(yacymodel.Port(8090)),
 	}
 
-	return yacymodel.EncodeBase64WireForm(seed.String())
+	return yacyproto.EncodeSeed(seed)
 }
 
 func TestSeedlistFetcherDecodesLines(t *testing.T) {

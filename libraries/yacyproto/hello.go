@@ -47,7 +47,7 @@ func (r HelloRequest) Form() url.Values {
 	form := url.Values{}
 	putString(form, FieldNetworkName, r.NetworkName)
 	putString(form, FieldKey, r.Key)
-	putString(form, FieldSeed, yacymodel.EncodeBase64WireForm(r.Seed.String()))
+	putString(form, FieldSeed, seedWireCodec{}.encode(r.Seed))
 	putInt(form, FieldCount, r.Count)
 	putString(form, FieldIam, r.Iam.String())
 	putString(form, FieldMagicMD5, r.MagicMD5)
@@ -96,7 +96,7 @@ func (r HelloResponse) Encode() Message {
 	setString(msg, FieldMyTime, r.MyTime)
 	setString(msg, FieldMessage, r.Message)
 	for i, seed := range r.Seeds {
-		setString(msg, indexedKey(prefixSeed, i), yacymodel.EncodeBase64WireForm(seed.String()))
+		setString(msg, indexedKey(prefixSeed, i), seedWireCodec{}.encode(seed))
 	}
 
 	return msg
@@ -131,12 +131,7 @@ func ParseHelloResponse(ctx context.Context, m Message) (HelloResponse, error) {
 }
 
 func decodeSeed(ctx context.Context, raw string) (yacymodel.Seed, error) {
-	plain, err := yacymodel.DecodeWireForm(ctx, raw)
-	if err != nil {
-		return yacymodel.Seed{}, fmt.Errorf("seed wire form: %w", err)
-	}
-
-	seed, err := yacymodel.ParseSeed(ctx, plain)
+	seed, err := seedWireCodec{}.decode(ctx, raw)
 	if err != nil {
 		return yacymodel.Seed{}, fmt.Errorf("seed: %w", err)
 	}

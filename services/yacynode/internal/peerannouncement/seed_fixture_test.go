@@ -25,10 +25,16 @@ func callerSeed(t testing.TB, hash, ip string) yacymodel.Seed {
 	if err != nil {
 		t.Fatalf("parse host: %v", err)
 	}
+	name, err := yacymodel.ParsePeerName(string(hashFor(hash)))
+	if err != nil {
+		t.Fatalf("parse peer name: %v", err)
+	}
 
 	return yacymodel.Seed{
-		Hash: hashFor(hash),
-		IP:   yacymodel.Some(host),
-		Port: yacymodel.Some(yacymodel.Port(seedPort)),
+		Hash:           hashFor(hash),
+		Name:           name,
+		PeerType:       yacymodel.PeerSenior,
+		PrimaryAddress: yacymodel.Some(host),
+		Port:           yacymodel.Some(yacymodel.Port(seedPort)),
 	}
 }

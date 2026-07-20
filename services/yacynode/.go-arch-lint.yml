@@ -144,6 +144,7 @@ deps:
       - memvault
     canUse:
       - yacymodel
+      - yacyproto
   peerannouncement:
     mayDependOn:
       - peerannouncement

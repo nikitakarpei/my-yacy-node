@@ -21,14 +21,23 @@ func (c stubCounter) RWICount(context.Context) (int, error)           { return c
 func (c stubCounter) ReferencedURLCount(context.Context) (int, error) { return c.refs, c.err }
 func (c stubCounter) Count(context.Context) (int, error)              { return c.urls, c.err }
 
+func mustPeerName(name string) yacymodel.PeerName {
+	peerName, err := yacymodel.ParsePeerName(name)
+	if err != nil {
+		panic(err)
+	}
+
+	return peerName
+}
+
 func testIdentity() nodeidentity.Identity {
 	return nodeidentity.Identity{
 		Hash:        yacymodel.WordHash("self"),
 		NetworkName: "freeworld",
-		Name:        "node",
+		Name:        mustPeerName("node"),
 		Host:        "192.0.2.1",
 		Port:        8090,
-		Flags:       yacymodel.ZeroFlags(),
+		Flags:       yacymodel.PeerCapabilities{},
 		Version:     "1.2",
 	}
 }
@@ -51,20 +60,20 @@ func TestSelfSeedRefreshesDynamicFields(t *testing.T) {
 
 	seed := report.SelfSeed(context.Background())
 
-	if got, _ := seed.Uptime.Get(); got != 90 {
-		t.Fatalf("Uptime = %d, want 90", got)
+	if seed.Uptime != 90*time.Minute {
+		t.Fatalf("Uptime = %v, want 90m", seed.Uptime)
 	}
-	if got, _ := seed.RWICount.Get(); got != 7 {
-		t.Fatalf("RWICount = %d, want 7", got)
+	if seed.IndexedWords != 7 {
+		t.Fatalf("IndexedWords = %d, want 7", seed.IndexedWords)
 	}
-	if got, _ := seed.URLCount.Get(); got != 3 {
-		t.Fatalf("URLCount = %d, want 3", got)
+	if seed.StoredURLs != 3 {
+		t.Fatalf("StoredURLs = %d, want 3", seed.StoredURLs)
 	}
 	if _, ok := seed.LastSeen.Get(); !ok {
 		t.Fatal("LastSeen unset")
 	}
-	if _, ok := seed.UTC.Get(); !ok {
-		t.Fatal("UTC unset")
+	if _, ok := seed.UTCOffset.Get(); !ok {
+		t.Fatal("UTCOffset unset")
 	}
 }
 
@@ -78,16 +87,16 @@ func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 	if seed.Hash != yacymodel.WordHash("self") {
 		t.Fatalf("Hash = %q, want self hash", seed.Hash)
 	}
-	if name, _ := seed.Name.Get(); name != "node" {
-		t.Fatalf("Name = %q, want node", name)
+	if seed.Name != mustPeerName("node") {
+		t.Fatalf("Name = %q, want node", seed.Name)
 	}
 	if port, _ := seed.Port.Get(); port != yacymodel.Port(8090) {
 		t.Fatalf("Port = %d, want 8090", port)
 	}
-	if peerType, _ := seed.PeerType.Get(); peerType != yacymodel.PeerSenior {
-		t.Fatalf("PeerType = %q, want senior", peerType)
+	if seed.PeerType != yacymodel.PeerSenior {
+		t.Fatalf("PeerType = %q, want senior", seed.PeerType)
 	}
-	host, ok := seed.IP.Get()
+	host, ok := seed.PrimaryAddress.Get()
 	if !ok || host.String() != "192.0.2.1" {
 		t.Fatalf("IP = %q (set %v), want 192.0.2.1", host, ok)
 	}
@@ -100,11 +109,11 @@ func TestSelfSeedCountErrorsReportZero(t *testing.T) {
 
 	seed := report.SelfSeed(context.Background())
 
-	if got, _ := seed.RWICount.Get(); got != 0 {
-		t.Fatalf("RWICount = %d, want 0 on error", got)
+	if seed.IndexedWords != 0 {
+		t.Fatalf("IndexedWords = %d, want 0 on error", seed.IndexedWords)
 	}
-	if got, _ := seed.URLCount.Get(); got != 0 {
-		t.Fatalf("URLCount = %d, want 0 on error", got)
+	if seed.StoredURLs != 0 {
+		t.Fatalf("StoredURLs = %d, want 0 on error", seed.StoredURLs)
 	}
 }
 

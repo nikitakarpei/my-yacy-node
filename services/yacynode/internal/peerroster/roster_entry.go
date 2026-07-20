@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const lastSeenWidth = 8
@@ -19,10 +20,11 @@ type rosterEntry struct {
 type rosterEntryCodec struct{}
 
 func (rosterEntryCodec) Encode(entry rosterEntry) ([]byte, error) {
-	out := make([]byte, lastSeenWidth, lastSeenWidth+len(entry.seed.String()))
+	seed := yacyproto.EncodeSeed(entry.seed)
+	out := make([]byte, lastSeenWidth, lastSeenWidth+len(seed))
 	binary.BigEndian.PutUint64(out, uint64(entry.lastSeen.UnixNano()))
 
-	return append(out, entry.seed.String()...), nil
+	return append(out, seed...), nil
 }
 
 func (rosterEntryCodec) Decode(raw []byte) (rosterEntry, error) {
@@ -32,7 +34,7 @@ func (rosterEntryCodec) Decode(raw []byte) (rosterEntry, error) {
 
 	//nolint:gosec // round-trips an int64 UnixNano stored as fixed-width bytes
 	nanos := int64(binary.BigEndian.Uint64(raw[:lastSeenWidth]))
-	seed, err := yacymodel.ParseSeed(context.Background(), string(raw[lastSeenWidth:]))
+	seed, err := yacyproto.ParseSeed(context.Background(), string(raw[lastSeenWidth:]))
 	if err != nil {
 		return rosterEntry{}, fmt.Errorf("decode roster entry: %w", err)
 	}
