@@ -24,6 +24,19 @@ func TestString(t *testing.T) {
 	}
 }
 
+func TestRequired(t *testing.T) {
+	getenv := fixedEnv(map[string]string{"SET": " value ", "BLANK": "  "})
+	if got, err := envconfig.Required(getenv, "SET"); err != nil || got != "value" {
+		t.Errorf("SET = %q, %v", got, err)
+	}
+	if _, err := envconfig.Required(getenv, "BLANK"); err == nil {
+		t.Error("BLANK: expected error")
+	}
+	if _, err := envconfig.Required(getenv, "MISSING"); err == nil {
+		t.Error("MISSING: expected error")
+	}
+}
+
 func TestPositiveInt(t *testing.T) {
 	getenv := fixedEnv(map[string]string{"OK": "7", "ZERO": "0", "BAD": "x"})
 	if got, err := envconfig.PositiveInt(getenv, "OK", 1); err != nil || got != 7 {

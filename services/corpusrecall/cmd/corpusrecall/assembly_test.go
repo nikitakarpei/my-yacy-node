@@ -11,6 +11,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
+	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
@@ -73,8 +74,8 @@ func testConfig(natsURL, listenAddr string) ServiceConfig {
 }
 
 func TestRunServiceRecallsStoredMarkdown(t *testing.T) {
-	url := startNATS(t)
-	js := connectJetStream(t, url)
+	url := natstestserver.Start(t)
+	js := natstestserver.ConnectJetStream(t, url)
 	store := provisionBuckets(t, js, DefaultOrdersSubject)
 
 	const canonicalURL = "https://example.com/"
@@ -141,15 +142,15 @@ func TestRunServiceFailsWhenNATSUnreachable(t *testing.T) {
 }
 
 func TestRunServiceFailsWhenOrdersStreamMissing(t *testing.T) {
-	cfg := testConfig(startNATS(t), freeAddr(t))
+	cfg := testConfig(natstestserver.Start(t), freeAddr(t))
 	if err := RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when redirect bucket is not provisioned")
 	}
 }
 
 func TestRunServiceFailsWhenListenAddrInvalid(t *testing.T) {
-	url := startNATS(t)
-	provisionBuckets(t, connectJetStream(t, url), DefaultOrdersSubject)
+	url := natstestserver.Start(t)
+	provisionBuckets(t, natstestserver.ConnectJetStream(t, url), DefaultOrdersSubject)
 	cfg := testConfig(url, "127.0.0.1:99999")
 	if err := RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when listen address cannot bind")

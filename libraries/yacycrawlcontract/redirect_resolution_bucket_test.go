@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -23,7 +24,7 @@ func TestRedirectResolutionKeyIsStableHexDigest(t *testing.T) {
 }
 
 func TestEnsureRedirectResolutionBucketCreatesStore(t *testing.T) {
-	js := connectJetStream(t, startNATS(t))
+	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 
 	if err := yacycrawlcontract.EnsureRedirectResolutionBucket(
 		context.Background(),

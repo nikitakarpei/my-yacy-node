@@ -7,11 +7,12 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 func TestEnsureOrdersStreamCreatesWorkQueue(t *testing.T) {
-	js := connectJetStream(t, startNATS(t))
+	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 
 	if err := yacycrawlcontract.EnsureOrdersStream(
 		context.Background(),
@@ -33,7 +34,7 @@ func TestEnsureOrdersStreamCreatesWorkQueue(t *testing.T) {
 }
 
 func TestEnsureCrawledPageStreamCreatesBoundedStream(t *testing.T) {
-	js := connectJetStream(t, startNATS(t))
+	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 
 	spec := yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.rwi", MaxMsgs: 8}
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
@@ -62,7 +63,7 @@ func TestEnsureCrawledPageStreamCreatesBoundedStream(t *testing.T) {
 }
 
 func TestEnsureStreamsAreIdempotent(t *testing.T) {
-	js := connectJetStream(t, startNATS(t))
+	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 	ctx := context.Background()
 
 	for i := 0; i < 2; i++ {
@@ -96,7 +97,7 @@ func TestEnsureStreamsAreIdempotent(t *testing.T) {
 }
 
 func TestEnsureStreamsReportBrokerFailure(t *testing.T) {
-	nc, err := nats.Connect(startNATS(t))
+	nc, err := nats.Connect(natstestserver.Start(t))
 	if err != nil {
 		t.Fatalf("connect nats: %v", err)
 	}

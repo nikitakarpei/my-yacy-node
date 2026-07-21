@@ -193,9 +193,9 @@ func loadServiceLimits(getenv func(string) string) (serviceLimits, error) {
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
-	natsURL := strings.TrimSpace(getenv(EnvNATSURL))
-	if natsURL == "" {
-		return ServiceConfig{}, fmt.Errorf("%s: must be set", EnvNATSURL)
+	natsURL, err := envconfig.Required(getenv, EnvNATSURL)
+	if err != nil {
+		return ServiceConfig{}, err
 	}
 	proxyURL, err := requiredURL(getenv, EnvProxyURL)
 	if err != nil {

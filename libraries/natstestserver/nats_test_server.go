@@ -1,4 +1,5 @@
-package yacycrawlcontract_test
+// Package natstestserver starts an embedded NATS JetStream server for tests.
+package natstestserver
 
 import (
 	"testing"
@@ -9,7 +10,7 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 )
 
-func startNATS(t *testing.T) string {
+func Start(t *testing.T) string {
 	t.Helper()
 	srv, err := natsserver.NewServer(&natsserver.Options{
 		Port:      -1,
@@ -27,7 +28,7 @@ func startNATS(t *testing.T) string {
 	return srv.ClientURL()
 }
 
-func connectJetStream(t *testing.T, url string) jetstream.JetStream {
+func ConnectJetStream(t *testing.T, url string) jetstream.JetStream {
 	t.Helper()
 	nc, err := nats.Connect(url)
 	if err != nil {

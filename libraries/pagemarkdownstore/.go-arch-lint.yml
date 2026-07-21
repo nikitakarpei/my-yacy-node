@@ -16,9 +16,9 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  nats-server:
+  natstestserver:
     in:
-      - github.com/nats-io/nats-server/v2/server
+      - github.com/nikitakarpei/yacy-rwi-node/natstestserver
 
 deps:
   pagemarkdownstore:
@@ -26,4 +26,4 @@ deps:
       - pagemarkdownstore
     canUse:
       - nats
-      - nats-server
+      - natstestserver

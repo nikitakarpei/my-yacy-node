@@ -5,10 +5,9 @@ import (
 	"testing"
 	"time"
 
-	natsserver "github.com/nats-io/nats-server/v2/server"
-	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlbroker"
 )
@@ -20,10 +19,10 @@ const (
 
 func openBroker(t *testing.T) (*crawlbroker.CrawlBroker, jetstream.JetStream, context.Context) {
 	t.Helper()
-	url := startNATS(t)
+	url := natstestserver.Start(t)
 	ctx, cancel := context.WithCancel(context.Background())
 	t.Cleanup(cancel)
-	js := connectJetStream(t, url)
+	js := natstestserver.ConnectJetStream(t, url)
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx, js, yacycrawlcontract.PageRepresentationKindRWI,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: ingestSubject, MaxMsgs: 16},
@@ -120,36 +119,4 @@ func TestIngestReceiverDeliversDecodableBatchAndSkipsGarbage(t *testing.T) {
 	case <-time.After(5 * time.Second):
 		t.Fatal("no ingest delivery received")
 	}
-}
-
-func startNATS(t *testing.T) string {
-	t.Helper()
-	srv, err := natsserver.NewServer(&natsserver.Options{
-		Port:      -1,
-		JetStream: true,
-		StoreDir:  t.TempDir(),
-	})
-	if err != nil {
-		t.Fatalf("new nats server: %v", err)
-	}
-	go srv.Start()
-	if !srv.ReadyForConnections(10 * time.Second) {
-		t.Fatal("nats server not ready")
-	}
-	t.Cleanup(srv.Shutdown)
-	return srv.ClientURL()
-}
-
-func connectJetStream(t *testing.T, url string) jetstream.JetStream {
-	t.Helper()
-	nc, err := nats.Connect(url)
-	if err != nil {
-		t.Fatalf("connect nats: %v", err)
-	}
-	t.Cleanup(nc.Close)
-	js, err := jetstream.New(nc)
-	if err != nil {
-		t.Fatalf("init jetstream: %v", err)
-	}
-	return js
 }

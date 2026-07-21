@@ -4,9 +4,9 @@ go 1.26
 
 require (
 	github.com/google/uuid v1.6.0
-	github.com/nats-io/nats-server/v2 v2.14.2
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/bytesize v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
@@ -25,6 +25,7 @@ require (
 	github.com/minio/highwayhash v1.0.4 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/nats-io/jwt/v2 v2.8.2 // indirect
+	github.com/nats-io/nats-server/v2 v2.14.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
@@ -49,3 +50,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../librari
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacyproto => ../../libraries/yacyproto
+
+replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/natstestserver
