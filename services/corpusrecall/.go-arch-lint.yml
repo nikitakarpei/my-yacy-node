@@ -1,0 +1,122 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  pagerecall:
+    in: internal/pagerecall/**
+  markdownrecall:
+    in: internal/markdownrecall/**
+  redirectlookup:
+    in: internal/redirectlookup/**
+  crawlrequest:
+    in: internal/crawlrequest/**
+  recallgrpc:
+    in: internal/recallgrpc/**
+  recallmetrics:
+    in: internal/recallmetrics/**
+  corpusrecallcmd:
+    in: cmd/corpusrecall/**
+
+vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  pagemarkdownstore:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore
+      - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/**
+  yacycrawlcontract:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
+      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  corpusrecallapi:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1
+  nats:
+    in:
+      - github.com/nats-io/nats.go
+      - github.com/nats-io/nats.go/**
+  nats-server:
+    in:
+      - github.com/nats-io/nats-server/v2/server
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
+  grpc:
+    in:
+      - google.golang.org/grpc
+      - google.golang.org/grpc/**
+  uuid:
+    in:
+      - github.com/google/uuid
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+
+deps:
+  pagerecall:
+    mayDependOn:
+      - pagerecall
+    canUse:
+      - canonicalurl
+  markdownrecall:
+    mayDependOn:
+      - markdownrecall
+      - pagerecall
+    canUse:
+      - pagemarkdownstore
+      - nats
+  redirectlookup:
+    mayDependOn:
+      - redirectlookup
+    canUse:
+      - yacycrawlcontract
+      - nats
+  crawlrequest:
+    mayDependOn:
+      - crawlrequest
+    canUse:
+      - yacycrawlcontract
+      - nats
+      - uuid
+  recallgrpc:
+    mayDependOn:
+      - recallgrpc
+      - pagerecall
+    canUse:
+      - corpusrecallapi
+      - grpc
+  recallmetrics:
+    mayDependOn:
+      - recallmetrics
+      - pagerecall
+    canUse:
+      - prometheus
+  corpusrecallcmd:
+    mayDependOn:
+      - corpusrecallcmd
+      - pagerecall
+      - markdownrecall
+      - redirectlookup
+      - crawlrequest
+      - recallgrpc
+      - recallmetrics
+    canUse:
+      - corpusrecallapi
+      - pagemarkdownstore
+      - yacycrawlcontract
+      - nats
+      - nats-server
+      - grpc
+      - serviceruntime
+
+excludeFiles:
+  - "test/e2e"
