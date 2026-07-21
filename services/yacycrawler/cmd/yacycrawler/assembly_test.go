@@ -16,7 +16,7 @@ func (unrenderableFeed) Representation() yacycrawlcontract.PageRepresentationKin
 }
 
 func (unrenderableFeed) ContentFormat() crawlcapability.PageContentFormat {
-	return crawlcapability.PageContentFormatHTML
+	return crawlcapability.PageContentFormat("unproduced")
 }
 
 func (unrenderableFeed) Derive(
@@ -30,6 +30,12 @@ func (unrenderableFeed) Publish(context.Context, crawlcapability.PagePublication
 	return nil
 }
 
+type markdownContentFeed struct{ unrenderableFeed }
+
+func (markdownContentFeed) ContentFormat() crawlcapability.PageContentFormat {
+	return crawlcapability.PageContentFormatMarkdown
+}
+
 func TestBuildPageFeedsSelectsTheConfiguredRepresentations(t *testing.T) {
 	feeds := buildPageFeeds(nil, ServiceConfig{PageStreams: publishedPageStreams()})
 	if len(feeds) != 1 || feeds[0].Representation() != yacycrawlcontract.PageRepresentationKindRWI {
@@ -37,25 +43,32 @@ func TestBuildPageFeedsSelectsTheConfiguredRepresentations(t *testing.T) {
 	}
 }
 
-func TestBuildPageRenderingsCoversWhatTheFeedsRead(t *testing.T) {
+func TestBuildPageRenderingsNeedsNoneWhenOnlyRWIReadsTheDocument(t *testing.T) {
 	feeds := buildPageFeeds(nil, ServiceConfig{PageStreams: publishedPageStreams()})
 	renderings, err := buildPageRenderings(feeds)
 	if err != nil {
 		t.Fatalf("build page renderings: %v", err)
 	}
-	sources := make([]crawlcapability.PageContentFormat, 0, len(renderings))
+	if len(renderings) != 0 {
+		t.Fatalf("rwi reads document-html directly, want no renderings, got %d", len(renderings))
+	}
+}
+
+func TestBuildPageRenderingsResolvesTheChainToWhatAFeedReads(t *testing.T) {
+	renderings, err := buildPageRenderings([]crawlcapability.PageFeed{markdownContentFeed{}})
+	if err != nil {
+		t.Fatalf("build page renderings: %v", err)
+	}
+	produced := make([]crawlcapability.PageContentFormat, 0, len(renderings))
 	for _, rendering := range renderings {
-		if rendering.Format() != crawlcapability.PageContentFormatText {
-			t.Fatalf("rendering targets %q, which no feed reads", rendering.Format())
-		}
-		sources = append(sources, rendering.SourceFormat())
+		produced = append(produced, rendering.Format())
 	}
 	want := []crawlcapability.PageContentFormat{
-		crawlcapability.PageContentFormatHTML,
-		crawlcapability.PageContentFormatText,
+		crawlcapability.PageContentFormatReadableHTML,
+		crawlcapability.PageContentFormatMarkdown,
 	}
-	if !slices.Equal(sources, want) {
-		t.Fatalf("text sources = %v, want %v", sources, want)
+	if !slices.Equal(produced, want) {
+		t.Fatalf("chain = %v, want dependency order %v", produced, want)
 	}
 }
 
@@ -74,10 +87,14 @@ func TestBuildExtractorDefaultRegistersAll(t *testing.T) {
 	if extractor == nil {
 		t.Fatal("nil extractor")
 	}
-	// text/html routes to the html extractor.
-	if _, err := extractor.Extract(t.Context(), "http://h/p", "text/html",
-		[]byte("<html><body></body></html>")); err == nil {
-		t.Fatal("expected unextractable for empty html, dispatch reached extractor")
+	// text/html routes to the html extractor, which yields the whole document.
+	documents, err := extractor.Extract(t.Context(), "http://h/p", "text/html",
+		[]byte("<html><body><p>hello</p></body></html>"))
+	if err != nil {
+		t.Fatalf("dispatch to html extractor failed: %v", err)
+	}
+	if len(documents) != 1 {
+		t.Fatalf("want one extracted document, got %d", len(documents))
 	}
 }
 

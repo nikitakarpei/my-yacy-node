@@ -25,7 +25,7 @@ func (RWIFeed) Representation() yacycrawlcontract.PageRepresentationKind {
 }
 
 func (RWIFeed) ContentFormat() crawlcapability.PageContentFormat {
-	return crawlcapability.PageContentFormatText
+	return crawlcapability.PageContentFormatDocumentHTML
 }
 
 func (RWIFeed) Derive(

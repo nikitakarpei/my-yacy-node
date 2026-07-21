@@ -22,7 +22,7 @@ func (TextFeed) Representation() yacycrawlcontract.PageRepresentationKind {
 }
 
 func (TextFeed) ContentFormat() crawlcapability.PageContentFormat {
-	return crawlcapability.PageContentFormatText
+	return crawlcapability.PageContentFormatReadableText
 }
 
 func (TextFeed) Derive(

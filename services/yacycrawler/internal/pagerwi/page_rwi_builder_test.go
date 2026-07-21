@@ -14,7 +14,7 @@ func samplePage() crawlcapability.CrawledPage {
 		CanonicalURL:      "http://example.com/article",
 		Title:             "Hello World",
 		Body:              []byte("the quick brown fox the fox"),
-		Format:            crawlcapability.PageContentFormatText,
+		Format:            crawlcapability.PageContentFormatDocumentHTML,
 		Language:          "en",
 		CrawledAt:         time.Unix(1_700_000_000, 0),
 		LocalLinkCount:    3,
@@ -189,6 +189,36 @@ func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 	}
 	if !found {
 		t.Fatal("number with digit separators should be indexed as a single token")
+	}
+}
+
+func TestBuildIndexesWholeDocumentAndStripsMarkup(t *testing.T) {
+	page := samplePage()
+	document := []byte(
+		`<html><body><nav>navigation menu</nav>` +
+			`<article><p>the quick fox</p></article>` +
+			`<script>var drop = 1</script></body></html>`,
+	)
+	index, err := pagerwi.Build(page, document)
+	if err != nil {
+		t.Fatal(err)
+	}
+	byWord := map[yacymodel.Hash]bool{}
+	for _, posting := range index.Postings {
+		byWord[posting.WordHash] = true
+	}
+	if !byWord[yacymodel.WordHash("navigation")] {
+		t.Fatal("word outside the article should be indexed over the whole document")
+	}
+	if byWord[yacymodel.WordHash("drop")] {
+		t.Fatal("script content should not be indexed")
+	}
+	if index.Metadata[0].ByteSize != len(document) {
+		t.Fatalf(
+			"byte size = %d, want whole-document %d",
+			index.Metadata[0].ByteSize,
+			len(document),
+		)
 	}
 }
 

@@ -8,10 +8,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagemarkdown"
 )
 
-func TestHTMLRenderingReadsHTMLAndTargetsMarkdown(t *testing.T) {
+func TestHTMLRenderingReadsReadableHTMLAndTargetsMarkdown(t *testing.T) {
 	rendering := pagemarkdown.NewHTMLRendering()
-	if source := rendering.SourceFormat(); source != crawlcapability.PageContentFormatHTML {
-		t.Fatalf("source format = %q, want html", source)
+	if source := rendering.SourceFormat(); source != crawlcapability.PageContentFormatReadableHTML {
+		t.Fatalf("source format = %q, want readable-html", source)
 	}
 	if format := rendering.Format(); format != crawlcapability.PageContentFormatMarkdown {
 		t.Fatalf("format = %q, want markdown", format)
@@ -20,6 +20,7 @@ func TestHTMLRenderingReadsHTMLAndTargetsMarkdown(t *testing.T) {
 
 func TestHTMLRenderingConvertsStructureToMarkdown(t *testing.T) {
 	body, err := pagemarkdown.NewHTMLRendering().Render(
+		"https://example.com/",
 		[]byte(
 			`<h1>Title</h1><p>A <b>bold</b> word and a <a href="http://e.example/x">link</a>.</p>`,
 		),

@@ -15,14 +15,14 @@ func NewHTMLRendering() HTMLRendering {
 }
 
 func (HTMLRendering) SourceFormat() crawlcapability.PageContentFormat {
-	return crawlcapability.PageContentFormatHTML
+	return crawlcapability.PageContentFormatReadableHTML
 }
 
 func (HTMLRendering) Format() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatMarkdown
 }
 
-func (HTMLRendering) Render(body []byte) ([]byte, error) {
+func (HTMLRendering) Render(_ string, body []byte) ([]byte, error) {
 	markdown, err := htmltomarkdown.ConvertString(string(body))
 	if err != nil {
 		return nil, fmt.Errorf("convert html to markdown: %w", err)

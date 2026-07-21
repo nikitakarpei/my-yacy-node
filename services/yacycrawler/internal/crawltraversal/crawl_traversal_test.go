@@ -56,7 +56,7 @@ func document(url, title, text string) crawlcapability.ExtractedDocument {
 		ExtractedContent: crawlcapability.ExtractedContent{
 			Title:  title,
 			Body:   []byte(text),
-			Format: crawlcapability.PageContentFormatText,
+			Format: crawlcapability.PageContentFormatReadableText,
 		},
 	}
 }
@@ -99,7 +99,7 @@ func (o *fakeFeed) Representation() yacycrawlcontract.PageRepresentationKind {
 
 func (o *fakeFeed) ContentFormat() crawlcapability.PageContentFormat {
 	if o.contentFormat == "" {
-		return crawlcapability.PageContentFormatText
+		return crawlcapability.PageContentFormatReadableText
 	}
 	return o.contentFormat
 }
@@ -142,22 +142,22 @@ func (r fakeRendering) Format() crawlcapability.PageContentFormat {
 	return r.format
 }
 
-func (fakeRendering) Render(body []byte) ([]byte, error) {
+func (fakeRendering) Render(_ string, body []byte) ([]byte, error) {
 	return body, nil
 }
 
 func renderings() []crawlcapability.PageRendering {
 	return []crawlcapability.PageRendering{
 		fakeRendering{
-			sourceFormat: crawlcapability.PageContentFormatHTML,
-			format:       crawlcapability.PageContentFormatText,
+			sourceFormat: crawlcapability.PageContentFormatDocumentHTML,
+			format:       crawlcapability.PageContentFormatReadableText,
 		},
 		fakeRendering{
-			sourceFormat: crawlcapability.PageContentFormatText,
-			format:       crawlcapability.PageContentFormatText,
+			sourceFormat: crawlcapability.PageContentFormatReadableText,
+			format:       crawlcapability.PageContentFormatReadableText,
 		},
 		fakeRendering{
-			sourceFormat: crawlcapability.PageContentFormatHTML,
+			sourceFormat: crawlcapability.PageContentFormatDocumentHTML,
 			format:       crawlcapability.PageContentFormatMarkdown,
 		},
 	}
@@ -513,7 +513,7 @@ func TestTraverseHonorsMetaNoIndex(t *testing.T) {
 			URL: "http://host/",
 			ExtractedContent: crawlcapability.ExtractedContent{
 				Body:            []byte("b"),
-				Format:          crawlcapability.PageContentFormatText,
+				Format:          crawlcapability.PageContentFormatReadableText,
 				RefusesIndexing: true,
 			},
 		}},
@@ -546,7 +546,7 @@ func TestTraverseHonorsNoFollow(t *testing.T) {
 			URL: "http://host/",
 			ExtractedContent: crawlcapability.ExtractedContent{
 				Body:   []byte("b"),
-				Format: crawlcapability.PageContentFormatText,
+				Format: crawlcapability.PageContentFormatReadableText,
 				Links:  []string{"http://host/next"},
 			},
 		},
@@ -582,7 +582,7 @@ func TestTraverseDiscoversAndCrawlsLinks(t *testing.T) {
 					URL: "http://host/",
 					ExtractedContent: crawlcapability.ExtractedContent{
 						Body:   []byte("b"),
-						Format: crawlcapability.PageContentFormatText,
+						Format: crawlcapability.PageContentFormatReadableText,
 						Links:  []string{"http://host/next"},
 					},
 				},
@@ -788,7 +788,7 @@ func TestTraverseBudgetTruncates(t *testing.T) {
 			URL: "http://host/",
 			ExtractedContent: crawlcapability.ExtractedContent{
 				Body:   []byte("b"),
-				Format: crawlcapability.PageContentFormatText,
+				Format: crawlcapability.PageContentFormatReadableText,
 				Links:  []string{"http://host/a", "http://host/b"},
 			},
 		},
@@ -854,7 +854,7 @@ func (*flakyFeed) Representation() yacycrawlcontract.PageRepresentationKind {
 }
 
 func (*flakyFeed) ContentFormat() crawlcapability.PageContentFormat {
-	return crawlcapability.PageContentFormatText
+	return crawlcapability.PageContentFormatReadableText
 }
 
 func (o *flakyFeed) Derive(

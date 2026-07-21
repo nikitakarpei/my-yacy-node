@@ -1,4 +1,4 @@
-package pagetext
+package htmltext
 
 import (
 	"bytes"
@@ -7,32 +7,16 @@ import (
 
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
-type HTMLRendering struct{}
-
-func NewHTMLRendering() HTMLRendering {
-	return HTMLRendering{}
-}
-
-func (HTMLRendering) SourceFormat() crawlcapability.PageContentFormat {
-	return crawlcapability.PageContentFormatHTML
-}
-
-func (HTMLRendering) Format() crawlcapability.PageContentFormat {
-	return crawlcapability.PageContentFormatText
-}
-
-func (HTMLRendering) Render(body []byte) ([]byte, error) {
+func Flatten(body []byte) (string, error) {
 	root, err := html.Parse(bytes.NewReader(body))
 	if err != nil {
-		return nil, fmt.Errorf("parse html: %w", err)
+		return "", fmt.Errorf("parse html: %w", err)
 	}
 	var text strings.Builder
 	writeText(&text, root)
-	return []byte(collapseWhitespace(text.String())), nil
+	return collapseWhitespace(text.String()), nil
 }
 
 func writeText(text *strings.Builder, node *html.Node) {

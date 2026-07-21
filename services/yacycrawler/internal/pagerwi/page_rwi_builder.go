@@ -7,19 +7,25 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/htmltext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func Build(
 	page crawlcapability.CrawledPage,
-	text []byte,
+	document []byte,
 ) (yacycrawlcontract.PageRWIRepresentation, error) {
 	urlHash, err := yacymodel.HashURL(page.CanonicalURL)
 	if err != nil {
 		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("hash url: %w", err)
 	}
 
-	order, occurrences, textStats := tokenize(string(text))
+	text, err := htmltext.Flatten(document)
+	if err != nil {
+		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("flatten document: %w", err)
+	}
+
+	order, occurrences, textStats := tokenize(text)
 	_, _, titleStats := tokenize(page.Title)
 
 	shared := sharedPosting(page, urlHash)
@@ -42,7 +48,7 @@ func Build(
 	return yacycrawlcontract.PageRWIRepresentation{
 		CanonicalURL: page.CanonicalURL,
 		Metadata: []yacymodel.URLMetadata{
-			metadataOf(page, len(text), textStats.Words),
+			metadataOf(page, len(document), textStats.Words),
 		},
 		Postings: postings,
 	}, nil

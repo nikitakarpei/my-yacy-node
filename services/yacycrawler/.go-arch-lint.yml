@@ -30,6 +30,10 @@ components:
     in: internal/pagerwi/**
   pagetext:
     in: internal/pagetext/**
+  pagereadable:
+    in: internal/pagereadable/**
+  htmltext:
+    in: internal/htmltext/**
   pagemarkdown:
     in: internal/pagemarkdown/**
   pagefeed:
@@ -128,6 +132,7 @@ deps:
     mayDependOn:
       - pagerwi
       - crawlcapability
+      - htmltext
     canUse:
       - yacycrawlcontract
       - yacymodel
@@ -135,8 +140,20 @@ deps:
     mayDependOn:
       - pagetext
       - crawlcapability
+      - htmltext
     canUse:
       - yacycrawlcontract
+  pagereadable:
+    mayDependOn:
+      - pagereadable
+      - crawlcapability
+    canUse:
+      - readability
+      - xnet
+  htmltext:
+    mayDependOn:
+      - htmltext
+    canUse:
       - xnet
   pagemarkdown:
     mayDependOn:
@@ -151,7 +168,6 @@ deps:
       - crawlcapability
     canUse:
       - canonicalurl
-      - readability
       - xnet
   contentextraction:
     mayDependOn:
@@ -199,6 +215,7 @@ deps:
       - httpfetch
       - pagefeed
       - pagetext
+      - pagereadable
       - pagemarkdown
       - orderintake
       - crawlmetrics
