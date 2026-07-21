@@ -194,9 +194,13 @@ E2E_ENV_renderproxy                    := RENDERPROXY_IMAGE=$(E2E_IMAGE_renderpr
 
 define e2e_suite_rule
 e2e-$(1):
-	cd $$(E2E_PATH_$(1))/test/e2e && GOWORK=off $$(E2E_DOCKER_ENV) $$(E2E_ENV_$(1)) \
-		$$(GO) test -tags e2e -timeout $$(E2E_TIMEOUT) -count=1 -v ./...
+	@echo "==> e2e-$(1)"; \
+	if ! out=$$$$(cd $$(E2E_PATH_$(1))/test/e2e && GOWORK=off $$(E2E_DOCKER_ENV) $$(E2E_ENV_$(1)) \
+		$$(GO) test -tags e2e -timeout $$(E2E_TIMEOUT) -count=1 -v ./... 2>&1); then \
+		echo "==> e2e-$(1) FAILED"; echo "$$$$out"; exit 1; \
+	fi
 endef
 $(foreach m,$(E2E_SUITE_MODULES),$(eval $(call e2e_suite_rule,$(m))))
 
 e2e: $(foreach m,$(E2E_SUITE_MODULES),e2e-$(m))
+	@echo "==> e2e SUCCESS"
