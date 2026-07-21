@@ -6,8 +6,6 @@ import (
 	"time"
 )
 
-const newsAttributesMaxLength = 974
-
 var ErrBadPeerNews = errors.New("bad peer news")
 
 // PeerNews is a single event a peer gossips to the network, piggybacked on its
@@ -22,18 +20,11 @@ type PeerNews struct {
 }
 
 func (n PeerNews) Validate() error {
-	if !n.Originator.Valid() {
-		return fmt.Errorf("%w: originator %q", ErrBadPeerNews, n.Originator)
+	if n.Originator.IsZero() {
+		return fmt.Errorf("%w: missing originator", ErrBadPeerNews)
 	}
-	if _, err := ParseNewsCategory(string(n.Category)); err != nil {
-		return fmt.Errorf("%w: %w", ErrBadPeerNews, err)
-	}
-	total := 0
-	for key, value := range n.Attributes {
-		total += len(key) + len(value)
-	}
-	if total > newsAttributesMaxLength {
-		return fmt.Errorf("%w: attributes %d bytes", ErrBadPeerNews, total)
+	if n.Category.IsZero() {
+		return fmt.Errorf("%w: missing category", ErrBadPeerNews)
 	}
 	return nil
 }

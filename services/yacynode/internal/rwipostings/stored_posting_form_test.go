@@ -7,15 +7,39 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func fullPosting() yacymodel.RWIPosting {
+func urlHashFromWord(t *testing.T, word string) yacymodel.URLHash {
+	t.Helper()
+
+	hash, err := yacymodel.ParseURLHash(yacymodel.WordHash(word).String())
+	if err != nil {
+		t.Fatalf("url hash for %q: %v", word, err)
+	}
+
+	return hash
+}
+
+func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Language] {
+	t.Helper()
+
+	language, err := yacymodel.ParseLanguage(raw)
+	if err != nil {
+		t.Fatalf("parse language %q: %v", raw, err)
+	}
+
+	return yacymodel.Some(language)
+}
+
+func fullPosting(t *testing.T) yacymodel.RWIPosting {
+	t.Helper()
+
 	return yacymodel.RWIPosting{
-		URLHash:       yacymodel.URLHash(yacymodel.WordHash("u1").String()),
+		URLHash:       urlHashFromWord(t, "u1"),
 		LastModified:  yacymodel.MicroDate(19876),
 		TitleWords:    3,
 		TextWords:     258,
 		Phrases:       7,
 		DocumentType:  yacymodel.DocumentTypeHTML,
-		Language:      yacymodel.Language("en"),
+		Language:      mustLanguage(t, "en"),
 		LocalLinks:    4,
 		ExternalLinks: 2,
 		URLLength:     41,
@@ -33,7 +57,7 @@ func fullPosting() yacymodel.RWIPosting {
 }
 
 func TestStoredPostingRoundTrip(t *testing.T) {
-	entry := fullPosting()
+	entry := fullPosting(t)
 
 	encoded, err := postingCodec{}.Encode(entry)
 	if err != nil {
@@ -56,7 +80,7 @@ func TestStoredPostingRejectsEmptyValue(t *testing.T) {
 }
 
 func TestStoredPostingRejectsUnknownFormat(t *testing.T) {
-	encoded, err := postingCodec{}.Encode(fullPosting())
+	encoded, err := postingCodec{}.Encode(fullPosting(t))
 	if err != nil {
 		t.Fatalf("Encode: %v", err)
 	}
@@ -68,7 +92,7 @@ func TestStoredPostingRejectsUnknownFormat(t *testing.T) {
 }
 
 func TestStoredPostingRejectsTruncatedBinary(t *testing.T) {
-	encoded, err := postingCodec{}.Encode(fullPosting())
+	encoded, err := postingCodec{}.Encode(fullPosting(t))
 	if err != nil {
 		t.Fatalf("Encode: %v", err)
 	}

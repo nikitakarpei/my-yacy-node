@@ -14,12 +14,8 @@ func TestRunPrintsValidPeerHash(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	hash, err := yacymodel.ParseHash(strings.TrimSpace(out.String()))
-	if err != nil {
+	if _, err := yacymodel.ParseHash(strings.TrimSpace(out.String())); err != nil {
 		t.Fatalf("parse printed hash: %v", err)
-	}
-	if !hash.Valid() {
-		t.Fatalf("hash %q is not valid", hash)
 	}
 }
 

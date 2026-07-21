@@ -65,11 +65,34 @@ func (d fakeDirectory) Count(context.Context) (int, error) {
 
 func hashFor(base string) yacymodel.Hash {
 	const filler = "AAAAAAAAAAAA"
+	padded := base + filler[len(base):]
 	if len(base) >= yacymodel.HashLength {
-		return yacymodel.Hash(base[:yacymodel.HashLength])
+		padded = base[:yacymodel.HashLength]
+	}
+	hash, err := yacymodel.ParseHash(padded)
+	if err != nil {
+		panic(err)
+	}
+	return hash
+}
+
+func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Language] {
+	t.Helper()
+
+	language, err := yacymodel.ParseLanguage(raw)
+	if err != nil {
+		t.Fatalf("parse language %q: %v", raw, err)
 	}
 
-	return yacymodel.Hash(base + filler[len(base):])
+	return yacymodel.Some(language)
+}
+
+func urlHashFor(url string) yacymodel.URLHash {
+	hash, err := yacymodel.ParseURLHash(hashFor(url).String())
+	if err != nil {
+		panic(err)
+	}
+	return hash
 }
 
 func postingEntry(
@@ -80,7 +103,7 @@ func postingEntry(
 ) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash:     word,
-		URLHash:      yacymodel.URLHash(hashFor(url)),
+		URLHash:      urlHashFor(url),
 		Hits:         hits,
 		TextPosition: position,
 	}
@@ -301,13 +324,13 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 	word1, word2 := hashFor("w1"), hashFor("w2")
 	english := func(url string, position int) yacymodel.RWIPosting {
 		posting := postingEntry(word1, url, position, 1)
-		posting.Language = "en"
+		posting.Language = mustLanguage(t, "en")
 
 		return posting
 	}
 	inLanguage := func(word yacymodel.Hash, url, language string, position int) yacymodel.RWIPosting {
 		posting := postingEntry(word, url, position, 1)
-		posting.Language = yacymodel.Language(language)
+		posting.Language = mustLanguage(t, language)
 
 		return posting
 	}

@@ -19,10 +19,11 @@ const yacyURLMetadataRow = "{hash=MNOPQRSTUVWX,url=b|aHR0cHM6Ly9leGFtcGxlLm9yZy8
 	"dt=t,flags=AAAAAA,lang=en,llocal=3,lother=4,limage=0,laudio=0," +
 	"lvideo=0,lapp=0}"
 
-func fullURLMetadata() yacymodel.URLMetadata {
+func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
+	t.Helper()
 	return yacymodel.URLMetadata{
 		Address:          "https://example.org/",
-		Referrer:         yacymodel.URLHash("MNOPQRSTUVWX"),
+		Referrer:         yacymodel.Some(mustURLHash(t, "MNOPQRSTUVWX")),
 		Title:            "Example, Inc.",
 		Author:           "A. Author",
 		Tags:             []string{"news", "indexof"},
@@ -33,7 +34,7 @@ func fullURLMetadata() yacymodel.URLMetadata {
 		FreshUntil:       yacymodel.NewCalendarDay(2026, time.January, 1),
 		DocumentType:     yacymodel.DocumentTypeText,
 		MediaType:        "text/html",
-		Language:         yacymodel.Language("en"),
+		Language:         mustLanguage(t, "en"),
 		ByteSize:         1024,
 		WordCount:        12,
 		LocalLinks:       3,
@@ -49,7 +50,7 @@ func fullURLMetadata() yacymodel.URLMetadata {
 
 func TestURLMetadataWireCodecRoundTripsEveryColumn(t *testing.T) {
 	codec := urlMetadataWireCodec{}
-	want := fullURLMetadata()
+	want := fullURLMetadata(t)
 
 	got, err := codec.decode(context.Background(), codec.encode(want))
 	if err != nil {
@@ -73,7 +74,7 @@ func TestURLMetadataWireCodecDecodesYaCyRow(t *testing.T) {
 		Loaded:        yacymodel.NewCalendarDay(2025, time.February, 3),
 		FreshUntil:    yacymodel.NewCalendarDay(2026, time.January, 1),
 		DocumentType:  yacymodel.DocumentTypeText,
-		Language:      yacymodel.Language("en"),
+		Language:      mustLanguage(t, "en"),
 		ByteSize:      1024,
 		WordCount:     12,
 		LocalLinks:    3,
@@ -101,7 +102,7 @@ func TestURLMetadataWireCodecCarriesCommasInText(t *testing.T) {
 }
 
 func TestURLMetadataWireCodecEncodesHashFromAddress(t *testing.T) {
-	row := urlMetadataWireCodec{}.encode(fullURLMetadata())
+	row := urlMetadataWireCodec{}.encode(fullURLMetadata(t))
 
 	hash, err := yacymodel.HashURL("https://example.org/")
 	if err != nil {
@@ -113,7 +114,7 @@ func TestURLMetadataWireCodecEncodesHashFromAddress(t *testing.T) {
 }
 
 func TestURLMetadataWireCodecEncodesDerivedFlags(t *testing.T) {
-	row := urlMetadataWireCodec{}.encode(fullURLMetadata())
+	row := urlMetadataWireCodec{}.encode(fullURLMetadata(t))
 
 	if strings.Contains(row, urlMetadataColFlags+"=AAAAAA") {
 		t.Errorf("metadata with tags, location and media should set flags: %s", row)

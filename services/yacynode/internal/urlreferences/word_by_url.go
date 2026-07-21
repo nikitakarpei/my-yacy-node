@@ -22,8 +22,8 @@ func (w wordByURL) key() vault.Key {
 
 func wordFromKey(key vault.Key) (yacymodel.Hash, error) {
 	if len(key) != 2*yacymodel.HashLength {
-		return "", fmt.Errorf("word by url key length %d", len(key))
+		return yacymodel.Hash{}, fmt.Errorf("word by url key length %d", len(key))
 	}
 
-	return yacymodel.Hash(key[yacymodel.HashLength:]), nil
+	return yacymodel.ParseHash(string(key[yacymodel.HashLength:]))
 }

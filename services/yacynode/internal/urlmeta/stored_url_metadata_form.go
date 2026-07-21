@@ -31,7 +31,7 @@ func (storedURLMetadataCodec) Encode(metadata yacymodel.URLMetadata) ([]byte, er
 	w.day(metadata.FreshUntil)
 	w.uint8(byte(metadata.DocumentType))
 	w.text(metadata.MediaType)
-	w.text(string(metadata.Language))
+	w.language(metadata.Language)
 	w.count(metadata.ByteSize)
 	w.count(metadata.WordCount)
 	w.count(metadata.LocalLinks)
@@ -77,7 +77,8 @@ func (storedURLMetadataCodec) Decode(data []byte) (yacymodel.URLMetadata, error)
 	metadata.FreshUntil = r.day("fresh until")
 	metadata.DocumentType = yacymodel.DocumentType(r.uint8("content type"))
 	metadata.MediaType = r.text("media type")
-	metadata.Language = yacymodel.Language(r.text("language"))
+	language, languageErr := r.language()
+	metadata.Language = language
 	metadata.ByteSize = r.count("byte size")
 	metadata.WordCount = r.count("word count")
 	metadata.LocalLinks = r.count("local links")
@@ -92,7 +93,7 @@ func (storedURLMetadataCodec) Decode(data []byte) (yacymodel.URLMetadata, error)
 	if r.err != nil {
 		return yacymodel.URLMetadata{}, r.err
 	}
-	for _, err := range []error{referrerErr, locationErr} {
+	for _, err := range []error{referrerErr, locationErr, languageErr} {
 		if err != nil {
 			return yacymodel.URLMetadata{}, fmt.Errorf(
 				"%w: %w", yacymodel.ErrBadURLMetadata, err,
@@ -103,17 +104,48 @@ func (storedURLMetadataCodec) Decode(data []byte) (yacymodel.URLMetadata, error)
 	return metadata, nil
 }
 
-func (w *urlMetadataWriter) referrer(referrer yacymodel.URLHash) {
-	w.text(referrer.String())
+func (w *urlMetadataWriter) referrer(referrer yacymodel.Optional[yacymodel.URLHash]) {
+	if value, ok := referrer.Get(); ok {
+		w.text(value.String())
+
+		return
+	}
+	w.text("")
 }
 
-func (r *urlMetadataReader) referrer() (yacymodel.URLHash, error) {
+func (r *urlMetadataReader) referrer() (yacymodel.Optional[yacymodel.URLHash], error) {
 	raw := r.text("referrer")
 	if raw == "" {
-		return "", nil
+		return yacymodel.None[yacymodel.URLHash](), nil
+	}
+	referrer, err := yacymodel.ParseURLHash(raw)
+	if err != nil {
+		return yacymodel.None[yacymodel.URLHash](), err
 	}
 
-	return yacymodel.ParseURLHash(raw)
+	return yacymodel.Some(referrer), nil
+}
+
+func (w *urlMetadataWriter) language(language yacymodel.Optional[yacymodel.Language]) {
+	if code, ok := language.Get(); ok {
+		w.text(code.String())
+
+		return
+	}
+	w.text("")
+}
+
+func (r *urlMetadataReader) language() (yacymodel.Optional[yacymodel.Language], error) {
+	raw := r.text("language")
+	if raw == "" {
+		return yacymodel.None[yacymodel.Language](), nil
+	}
+	code, err := yacymodel.ParseLanguage(raw)
+	if err != nil {
+		return yacymodel.None[yacymodel.Language](), err
+	}
+
+	return yacymodel.Some(code), nil
 }
 
 func (w *urlMetadataWriter) location(location yacymodel.Coordinates) {

@@ -21,8 +21,18 @@ import (
 const (
 	yacyAlias = "yacy-e2e"
 	nodeAlias = "node-e2e"
-	nodeHash  = yacymodel.Hash("ABCDEFGHIJKL")
 )
+
+var nodeHash = mustHash("ABCDEFGHIJKL")
+
+func mustHash(raw string) yacymodel.Hash {
+	hash, err := yacymodel.ParseHash(raw)
+	if err != nil {
+		panic(err)
+	}
+
+	return hash
+}
 
 func TestRealYaCyPromotesNodeToSenior(t *testing.T) {
 	ctx := context.Background()

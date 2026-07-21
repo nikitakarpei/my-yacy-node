@@ -12,7 +12,7 @@ func sampleHash(tb testing.TB, word string) yacymodel.Hash {
 	tb.Helper()
 
 	hash := yacymodel.WordHash(word)
-	if !hash.Valid() {
+	if hash.IsZero() {
 		tb.Fatalf("sample hash for %q is invalid: %q", word, hash)
 	}
 
@@ -35,12 +35,23 @@ func sampleSeed(tb testing.TB, word, name string) yacymodel.Seed {
 	}
 }
 
+func sampleURLHash(tb testing.TB, word string) yacymodel.URLHash {
+	tb.Helper()
+
+	hash, err := yacymodel.ParseURLHash(sampleHash(tb, word).String())
+	if err != nil {
+		tb.Fatalf("sample url hash for %q: %v", word, err)
+	}
+
+	return hash
+}
+
 func sampleRWIPosting(tb testing.TB, word, urlWord string) yacymodel.RWIPosting {
 	tb.Helper()
 
 	return yacymodel.RWIPosting{
 		WordHash:   sampleHash(tb, word),
-		URLHash:    yacymodel.URLHash(sampleHash(tb, urlWord)),
+		URLHash:    sampleURLHash(tb, urlWord),
 		LocalLinks: 2,
 	}
 }

@@ -73,7 +73,7 @@ func documentsOrderedByRelevance(
 			return compareAscending(a.termSpread(termCount), b.termSpread(termCount))
 		}
 
-		return compareAscending(a.identifier, b.identifier)
+		return compareAscending(a.identifier.String(), b.identifier.String())
 	})
 
 	identifiers := make([]yacymodel.Hash, 0, len(ranked))

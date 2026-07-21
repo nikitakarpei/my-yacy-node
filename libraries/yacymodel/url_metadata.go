@@ -21,7 +21,7 @@ const (
 // URLMetadata is what the index knows about the document at one address.
 type URLMetadata struct {
 	Address          string
-	Referrer         URLHash
+	Referrer         Optional[URLHash]
 	Title            string
 	Author           string
 	Tags             []string
@@ -32,7 +32,7 @@ type URLMetadata struct {
 	FreshUntil       CalendarDay
 	DocumentType     DocumentType
 	MediaType        string
-	Language         Language
+	Language         Optional[Language]
 	ByteSize         int
 	WordCount        int
 	LocalLinks       int

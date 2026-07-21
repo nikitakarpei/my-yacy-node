@@ -68,7 +68,7 @@ func (i urlIntake) store(
 			continue
 		}
 
-		key := vault.Key(hash.Hash())
+		key := vault.Key(hash.Hash().String())
 		_, found, err := i.collection.Get(tx, key)
 		if err != nil {
 			return nil, nil, fmt.Errorf("read url metadata: %w", err)

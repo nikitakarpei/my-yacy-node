@@ -22,6 +22,16 @@ func mustPeerName(t *testing.T, name string) yacymodel.PeerName {
 	return peerName
 }
 
+func mustHash(t *testing.T, raw string) yacymodel.Hash {
+	t.Helper()
+	hash, err := yacymodel.ParseHash(raw)
+	if err != nil {
+		t.Fatalf("parse hash: %v", err)
+	}
+
+	return hash
+}
+
 func seedlistLine(t *testing.T, hash, ip string) string {
 	t.Helper()
 
@@ -30,7 +40,7 @@ func seedlistLine(t *testing.T, hash, ip string) string {
 		t.Fatalf("parse host: %v", err)
 	}
 	seed := yacymodel.Seed{
-		Hash:           yacymodel.Hash(hash),
+		Hash:           mustHash(t, hash),
 		Name:           mustPeerName(t, "peer-"+hash),
 		PeerType:       yacymodel.PeerSenior,
 		PrimaryAddress: yacymodel.Some(host),

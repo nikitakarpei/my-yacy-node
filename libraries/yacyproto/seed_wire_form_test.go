@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"reflect"
+	"strings"
 	"testing"
 	"time"
 
@@ -59,7 +60,7 @@ func fullSeed(t *testing.T) yacymodel.Seed {
 	received := time.Date(2026, time.July, 19, 12, 0, 5, 0, time.UTC)
 
 	return yacymodel.Seed{
-		Hash:           yacymodel.Hash("MNOPQRSTUVWX"),
+		Hash:           mustHash(t, "MNOPQRSTUVWX"),
 		Name:           mustPeerName(t, "example-peer"),
 		PeerType:       yacymodel.PeerSenior,
 		PrimaryAddress: yacymodel.Some(mustHost(t, "192.0.2.10")),
@@ -97,7 +98,7 @@ func fullSeed(t *testing.T) yacymodel.Seed {
 		URLsSent:          3,
 		URLsReceived:      4,
 		News: yacymodel.Some(yacymodel.PeerNews{
-			Originator:  yacymodel.Hash("ABCDEFGHIJKL"),
+			Originator:  mustHash(t, "ABCDEFGHIJKL"),
 			Category:    yacymodel.NewsCrawlStart,
 			Created:     created,
 			Received:    yacymodel.Some(received),
@@ -133,7 +134,7 @@ func TestSeedWireRejectsUnknownKey(t *testing.T) {
 		properties: map[string]string{
 			seedColHash:     "MNOPQRSTUVWX",
 			seedColName:     "example-peer",
-			seedColPeerType: string(yacymodel.PeerSenior),
+			seedColPeerType: yacymodel.PeerSenior.String(),
 			"Country":       "de",
 		},
 		columns: []string{seedColHash, seedColName, seedColPeerType, "Country"},
@@ -147,7 +148,7 @@ func TestSeedWireRejectsUnknownKey(t *testing.T) {
 
 func TestRemoteSeedRejectsMissingAddress(t *testing.T) {
 	seed := yacymodel.Seed{
-		Hash:     yacymodel.Hash("MNOPQRSTUVWX"),
+		Hash:     mustHash(t, "MNOPQRSTUVWX"),
 		Name:     mustPeerName(t, "example-peer"),
 		PeerType: yacymodel.PeerSenior,
 	}
@@ -258,7 +259,7 @@ func TestPeerTagsWireRoundTrip(t *testing.T) {
 func TestPeerNewsWireRoundTrip(t *testing.T) {
 	codec := peerNewsWireCodec{}
 	want := yacymodel.PeerNews{
-		Originator:  yacymodel.Hash("ABCDEFGHIJKL"),
+		Originator:  mustHash(t, "ABCDEFGHIJKL"),
 		Category:    yacymodel.NewsCrawlStart,
 		Created:     time.Date(2026, time.July, 19, 12, 0, 0, 0, time.UTC),
 		Received:    yacymodel.Some(time.Date(2026, time.July, 19, 12, 0, 5, 0, time.UTC)),
@@ -271,6 +272,22 @@ func TestPeerNewsWireRoundTrip(t *testing.T) {
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("round-trip mismatch:\n got %+v\nwant %+v", got, want)
+	}
+}
+
+func TestPeerNewsWireRejectsOversizeRecord(t *testing.T) {
+	news := yacymodel.PeerNews{
+		Originator: mustHash(t, "ABCDEFGHIJKL"),
+		Category:   yacymodel.NewsCrawlStart,
+		Created:    time.Date(2026, time.July, 19, 12, 0, 0, 0, time.UTC),
+		Attributes: map[string]string{"payload": strings.Repeat("x", 1100)},
+	}
+	codec := peerNewsWireCodec{}
+	if _, err := codec.decode(context.Background(), codec.encode(news)); !errors.Is(
+		err,
+		yacymodel.ErrBadPeerNews,
+	) {
+		t.Fatalf("decode error = %v, want ErrBadPeerNews", err)
 	}
 }
 

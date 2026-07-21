@@ -132,8 +132,8 @@ func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, posting := range index.Postings {
-		if posting.Language != "" {
-			t.Fatalf("language should be empty when unknown, got %q", posting.Language)
+		if language, ok := posting.Language.Get(); ok {
+			t.Fatalf("language should be empty when unknown, got %q", language)
 		}
 	}
 }

@@ -52,14 +52,18 @@ func (s stubReport) SelfSeed(context.Context) yacymodel.Seed { return s.seed }
 var _ nodestatus.Report = stubReport{}
 
 func TestRuntimeStatusAdapters(t *testing.T) {
-	report := stubReport{seed: yacymodel.Seed{Hash: "0123456789AB"}}
+	hash, err := yacymodel.ParseHash("0123456789AB")
+	if err != nil {
+		t.Fatalf("parse hash: %v", err)
+	}
+	report := stubReport{seed: yacymodel.Seed{Hash: hash}}
 	ctx := context.Background()
 
 	peer := peeringStatus{report: report, networkName: "freeworld"}
 	if got := peer.NetworkName(ctx); got != "freeworld" {
 		t.Errorf("peering network = %q", got)
 	}
-	if got := peer.SelfSeed(ctx); got.Hash != "0123456789AB" {
+	if got := peer.SelfSeed(ctx); got.Hash.String() != "0123456789AB" {
 		t.Errorf("peering self seed = %+v", got)
 	}
 }

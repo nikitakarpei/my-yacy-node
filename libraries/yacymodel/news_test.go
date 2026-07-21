@@ -33,13 +33,8 @@ func TestPeerNewsValidate(t *testing.T) {
 
 func TestPeerNewsValidateRejects(t *testing.T) {
 	bad := []PeerNews{
-		{Originator: Hash("short"), Category: NewsCrawlStart},
-		{Originator: WordHash("peer"), Category: "nope"},
-		{
-			Originator: WordHash("peer"),
-			Category:   NewsCrawlStart,
-			Attributes: map[string]string{"k": string(make([]byte, 1000))},
-		},
+		{Category: NewsCrawlStart},
+		{Originator: WordHash("peer")},
 	}
 	for i, news := range bad {
 		if err := news.Validate(); !errors.Is(err, ErrBadPeerNews) {

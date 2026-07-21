@@ -14,11 +14,11 @@ func TestGenerateHashIsValidAndDeterministicPerEntropy(t *testing.T) {
 	if err != nil {
 		t.Fatalf("generate hash: %v", err)
 	}
-	if len(hash) != yacymodel.HashLength {
-		t.Fatalf("length = %d, want %d", len(hash), yacymodel.HashLength)
+	if len(hash.String()) != yacymodel.HashLength {
+		t.Fatalf("length = %d, want %d", len(hash.String()), yacymodel.HashLength)
 	}
-	if !hash.Valid() {
-		t.Fatalf("hash %q is not valid", hash)
+	if _, err := yacymodel.ParseHash(hash.String()); err != nil {
+		t.Fatalf("hash %q is not valid: %v", hash, err)
 	}
 
 	again, err := yacymodel.GenerateHash(bytes.NewReader(entropy))
@@ -41,7 +41,7 @@ func TestNewHashProducesValidHash(t *testing.T) {
 	if err != nil {
 		t.Fatalf("new hash: %v", err)
 	}
-	if !hash.Valid() {
-		t.Fatalf("hash %q is not valid", hash)
+	if _, err := yacymodel.ParseHash(hash.String()); err != nil {
+		t.Fatalf("hash %q is not valid: %v", hash, err)
 	}
 }

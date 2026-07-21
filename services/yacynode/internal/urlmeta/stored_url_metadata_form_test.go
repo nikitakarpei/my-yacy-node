@@ -9,10 +9,34 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func fullURLMetadata() yacymodel.URLMetadata {
+func mustURLHash(t *testing.T, raw string) yacymodel.URLHash {
+	t.Helper()
+
+	hash, err := yacymodel.ParseURLHash(raw)
+	if err != nil {
+		t.Fatalf("parse url hash %q: %v", raw, err)
+	}
+
+	return hash
+}
+
+func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Language] {
+	t.Helper()
+
+	language, err := yacymodel.ParseLanguage(raw)
+	if err != nil {
+		t.Fatalf("parse language %q: %v", raw, err)
+	}
+
+	return yacymodel.Some(language)
+}
+
+func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
+	t.Helper()
+
 	return yacymodel.URLMetadata{
 		Address:          "https://example.org/",
-		Referrer:         yacymodel.URLHash("MNOPQRSTUVWX"),
+		Referrer:         yacymodel.Some(mustURLHash(t, "MNOPQRSTUVWX")),
 		Title:            "Example, Inc.",
 		Author:           "A. Author",
 		Tags:             []string{"news", "indexof"},
@@ -23,7 +47,7 @@ func fullURLMetadata() yacymodel.URLMetadata {
 		FreshUntil:       yacymodel.NewCalendarDay(2026, time.January, 1),
 		DocumentType:     yacymodel.DocumentTypeText,
 		MediaType:        "text/html",
-		Language:         yacymodel.Language("en"),
+		Language:         mustLanguage(t, "en"),
 		ByteSize:         1024,
 		WordCount:        12,
 		LocalLinks:       3,
@@ -40,7 +64,7 @@ func fullURLMetadata() yacymodel.URLMetadata {
 func TestStoredURLMetadataCodecRoundTripsEveryField(t *testing.T) {
 	codec := storedURLMetadataCodec{}
 
-	want := fullURLMetadata()
+	want := fullURLMetadata(t)
 
 	encoded, err := codec.Encode(want)
 	if err != nil {
@@ -96,7 +120,7 @@ func TestStoredURLMetadataCodecRejectsUnknownFormat(t *testing.T) {
 func TestStoredURLMetadataCodecRejectsTruncatedValue(t *testing.T) {
 	codec := storedURLMetadataCodec{}
 
-	encoded, err := codec.Encode(fullURLMetadata())
+	encoded, err := codec.Encode(fullURLMetadata(t))
 	if err != nil {
 		t.Fatal(err)
 	}

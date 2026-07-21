@@ -86,7 +86,7 @@ func termWithMostMatches(
 	)
 	for term, documents := range documentsPerTerm {
 		if !found || len(documents) > size ||
-			len(documents) == size && compareAscending(term, selected) < 0 {
+			len(documents) == size && compareAscending(term.String(), selected.String()) < 0 {
 			selected = term
 			size = len(documents)
 			found = true

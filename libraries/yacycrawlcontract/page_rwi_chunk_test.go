@@ -39,8 +39,8 @@ func TestPageRWIPostingChunkRoundTrip(t *testing.T) {
 		CanonicalURL: "https://example.org/a",
 		Postings: []yacymodel.RWIPosting{
 			{
-				WordHash: yacymodel.Hash("wordhash0123"),
-				URLHash:  yacymodel.URLHash("urlhash01234"),
+				WordHash: mustHash(t, "wordhash0123"),
+				URLHash:  mustURLHash(t, "urlhash01234"),
 			},
 		},
 	}

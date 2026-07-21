@@ -73,7 +73,7 @@ func (o *stalenessRanking) URLStored(
 	); err != nil {
 		return fmt.Errorf("record staleness order: %w", err)
 	}
-	if err := o.freshness.Put(tx, vault.Key(hash), rank); err != nil {
+	if err := o.freshness.Put(tx, vault.Key(hash.String()), rank); err != nil {
 		return fmt.Errorf("record staleness freshness: %w", err)
 	}
 
@@ -83,7 +83,7 @@ func (o *stalenessRanking) URLStored(
 var _ StalenessRanking = (*stalenessRanking)(nil)
 
 func (o *stalenessRanking) URLPurged(tx *vault.Txn, hash yacymodel.Hash) error {
-	rank, found, err := o.freshness.Get(tx, vault.Key(hash))
+	rank, found, err := o.freshness.Get(tx, vault.Key(hash.String()))
 	if err != nil {
 		return fmt.Errorf("read staleness freshness: %w", err)
 	}
@@ -96,7 +96,7 @@ func (o *stalenessRanking) URLPurged(tx *vault.Txn, hash yacymodel.Hash) error {
 	); err != nil {
 		return fmt.Errorf("drop staleness order: %w", err)
 	}
-	if _, err := o.freshness.Delete(tx, vault.Key(hash)); err != nil {
+	if _, err := o.freshness.Delete(tx, vault.Key(hash.String())); err != nil {
 		return fmt.Errorf("drop staleness freshness: %w", err)
 	}
 

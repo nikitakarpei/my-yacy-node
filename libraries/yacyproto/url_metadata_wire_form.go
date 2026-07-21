@@ -194,17 +194,17 @@ func (f urlMetadataWireForm) documentType() yacymodel.DocumentType {
 
 // language keeps only the leading ISO 639-1 code and treats anything shorter as
 // unknown: peers are known to send three-letter codes and empty columns alike.
-func (f urlMetadataWireForm) language() yacymodel.Language {
+func (f urlMetadataWireForm) language() yacymodel.Optional[yacymodel.Language] {
 	value := f.properties[urlMetadataColLanguage]
 	if len(value) < yacymodel.LanguageCodeLength {
-		return ""
+		return yacymodel.None[yacymodel.Language]()
 	}
 	language, err := yacymodel.ParseLanguage(value[:yacymodel.LanguageCodeLength])
 	if err != nil {
-		return ""
+		return yacymodel.None[yacymodel.Language]()
 	}
 
-	return language
+	return yacymodel.Some(language)
 }
 
 // location treats the origin as absent, the way YaCy treats a zero pair as
@@ -228,13 +228,18 @@ func (f urlMetadataWireForm) degrees(column string) float64 {
 	return value
 }
 
-func (f urlMetadataWireForm) referrer() (yacymodel.URLHash, error) {
+func (f urlMetadataWireForm) referrer() (yacymodel.Optional[yacymodel.URLHash], error) {
 	value := f.properties[urlMetadataColReferrer]
 	if value == "" {
-		return "", nil
+		return yacymodel.None[yacymodel.URLHash](), nil
 	}
 
-	return yacymodel.ParseURLHash(value)
+	referrer, err := yacymodel.ParseURLHash(value)
+	if err != nil {
+		return yacymodel.None[yacymodel.URLHash](), err
+	}
+
+	return yacymodel.Some(referrer), nil
 }
 
 func splitTags(joined string) []string {
@@ -272,7 +277,9 @@ func urlMetadataWireFormFromDomain(m yacymodel.URLMetadata) urlMetadataWireForm 
 		f.putEncoded(urlMetadataColMediaType, m.MediaType)
 	}
 	f.put(urlMetadataColFlags, yacymodel.Encode(urlMetadataFlags(m)))
-	f.put(urlMetadataColLanguage, string(m.Language))
+	if language, ok := m.Language.Get(); ok {
+		f.put(urlMetadataColLanguage, language.String())
+	}
 	f.put(urlMetadataColLocalLinks, strconv.Itoa(m.LocalLinks))
 	f.put(urlMetadataColExternalLinks, strconv.Itoa(m.ExternalLinks))
 	f.put(urlMetadataColImageLinks, strconv.Itoa(m.ImageLinks))
@@ -319,8 +326,12 @@ func (f *urlMetadataWireForm) putDegrees(location yacymodel.Coordinates) {
 	f.put(urlMetadataColLongitude, strconv.FormatFloat(location.Longitude, 'f', -1, 64))
 }
 
-func (f *urlMetadataWireForm) putReferrer(referrer yacymodel.URLHash) {
-	f.put(urlMetadataColReferrer, referrer.String())
+func (f *urlMetadataWireForm) putReferrer(referrer yacymodel.Optional[yacymodel.URLHash]) {
+	if value, ok := referrer.Get(); ok {
+		f.put(urlMetadataColReferrer, value.String())
+		return
+	}
+	f.put(urlMetadataColReferrer, "")
 }
 
 func (f urlMetadataWireForm) row() string {

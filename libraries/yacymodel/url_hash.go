@@ -15,15 +15,15 @@ const (
 	ftpScheme      = "ftp://"
 )
 
-type URLHash string
+type URLHash struct{ hash Hash }
 
 func ParseURLHash(raw string) (URLHash, error) {
 	hash, err := ParseHash(raw)
 	if err != nil {
-		return "", fmt.Errorf("parse url hash: %w", err)
+		return URLHash{}, fmt.Errorf("parse url hash: %w", err)
 	}
 
-	return URLHash(hash), nil
+	return URLHash{hash: hash}, nil
 }
 
 func HashURL(rawURL string) (URLHash, error) {
@@ -50,7 +50,7 @@ func HashURL(rawURL string) (URLHash, error) {
 func HashURLHost(host string) (URLHash, error) {
 	host = strings.Trim(strings.ToLower(host), ".")
 	if host == "" {
-		return "", fmt.Errorf("parse url host: empty host")
+		return URLHash{}, fmt.Errorf("parse url host: empty host")
 	}
 
 	scheme := httpScheme
@@ -59,30 +59,41 @@ func HashURLHost(host string) (URLHash, error) {
 	}
 	parsed, err := url.Parse(scheme + host)
 	if err != nil {
-		return "", fmt.Errorf("parse url host: %w", err)
+		return URLHash{}, fmt.Errorf("parse url host: %w", err)
 	}
 	if parsed.Hostname() == "" {
-		return "", fmt.Errorf("parse url host: invalid host %q", host)
+		return URLHash{}, fmt.Errorf("parse url host: invalid host %q", host)
 	}
 
 	return HashURL(scheme + host)
 }
 
-func (h URLHash) Hash() Hash {
-	return Hash(string(h))
+func (h URLHash) MarshalText() ([]byte, error) {
+	return h.hash.MarshalText()
 }
+
+func (h *URLHash) UnmarshalText(text []byte) error {
+	parsed, err := ParseURLHash(string(text))
+	if err != nil {
+		return err
+	}
+	*h = parsed
+
+	return nil
+}
+
+func (h URLHash) Hash() Hash {
+	return h.hash
+}
+
+func (h URLHash) IsZero() bool { return h.hash.IsZero() }
 
 func (h URLHash) String() string {
-	return string(h)
+	return h.hash.value
 }
 
-func (h URLHash) HostHash() (string, error) {
-	parsed, err := ParseURLHash(string(h))
-	if err != nil {
-		return "", err
-	}
-
-	return string(parsed)[HashLength-hostHashLength:], nil
+func (h URLHash) HostHash() string {
+	return h.hash.value[HashLength-hostHashLength:]
 }
 
 func md5Base64(s string) string {

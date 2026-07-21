@@ -7,13 +7,23 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
+func mustParseHash(t *testing.T, raw string) yacymodel.Hash {
+	t.Helper()
+	hash, err := yacymodel.ParseHash(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return hash
+}
+
 func TestEncodeSearchIndexAbstractGroupsURLHashes(t *testing.T) {
 	t.Parallel()
 
 	got := yacyproto.EncodeSearchIndexAbstract([]yacymodel.Hash{
-		"bbbbbbAAAAAA",
-		"aaaaaaBBBBBB",
-		"ccccccAAAAAA",
+		mustParseHash(t, "bbbbbbAAAAAA"),
+		mustParseHash(t, "aaaaaaBBBBBB"),
+		mustParseHash(t, "ccccccAAAAAA"),
 	})
 	want := "{AAAAAA:bbbbbbcccccc,BBBBBB:aaaaaa}"
 	if got != want {

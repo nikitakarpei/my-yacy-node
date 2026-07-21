@@ -14,7 +14,7 @@ func EncodeSearchIndexAbstract(urlHashes []yacymodel.Hash) string {
 
 	domains := make(map[string][]string)
 	for _, hash := range urlHashes {
-		if !hash.Valid() {
+		if hash.IsZero() {
 			continue
 		}
 		raw := hash.String()
