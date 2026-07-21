@@ -1,0 +1,45 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  firecrawlscrape:
+    in: internal/firecrawlscrape/**
+  firecrawlshimcmd:
+    in: cmd/firecrawlshim/**
+
+vendors:
+  corpusrecallapi:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1
+  grpc:
+    in:
+      - google.golang.org/grpc
+      - google.golang.org/grpc/**
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+
+deps:
+  firecrawlscrape:
+    mayDependOn:
+      - firecrawlscrape
+    canUse:
+      - corpusrecallapi
+      - grpc
+  firecrawlshimcmd:
+    mayDependOn:
+      - firecrawlshimcmd
+      - firecrawlscrape
+    canUse:
+      - corpusrecallapi
+      - grpc
+      - serviceruntime
+
+excludeFiles:
+  - "test/e2e"
