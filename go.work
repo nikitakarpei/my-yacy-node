@@ -12,6 +12,7 @@ use (
 	./libraries/yacyproto
 	./services/corpusmarkdown
 	./services/corpusrecall
+	./services/firecrawlshim
 	./services/renderproxy
 	./services/yacycrawler
 	./services/yacynode
