@@ -13,6 +13,9 @@ if t.TYPE_CHECKING:
     from searx.search import SearchWithPlugins
 
 
+DISABLE_HEADER_DEFAULT = "X-Result-Link-Router-Disable"
+
+
 class SXNGPlugin(Plugin):
     id = "result_link_router"
 
@@ -28,10 +31,15 @@ class SXNGPlugin(Plugin):
         if not base_url:
             raise ValueError("YACYVISITCRAWL_BASE_URL must be set")
         self.visitcrawl_base_url = base_url.rstrip("/")
+        self.disable_header = os.environ.get(
+            "RESULT_LINK_ROUTER_DISABLE_HEADER", DISABLE_HEADER_DEFAULT
+        )
 
     def on_result(
         self, request: "SXNG_Request", search: "SearchWithPlugins", result: "Result"
     ) -> bool:
+        if request is not None and request.headers.get(self.disable_header) is not None:
+            return True
         visited_page_url = getattr(result, "url", None)
         result.filter_urls(self.route_through_visitcrawl)
         if visited_page_url and visited_page_url.startswith(("http://", "https://")):
