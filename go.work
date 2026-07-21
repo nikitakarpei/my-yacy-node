@@ -3,6 +3,7 @@ go 1.26
 use (
 	./libraries/bytesize
 	./libraries/canonicalurl
+	./libraries/corpusrecallapi
 	./libraries/pagemarkdownstore
 	./libraries/searchdocument
 	./libraries/serviceruntime
@@ -10,6 +11,7 @@ use (
 	./libraries/yacymodel
 	./libraries/yacyproto
 	./services/corpusmarkdown
+	./services/corpusrecall
 	./services/renderproxy
 	./services/yacycrawler
 	./services/yacynode

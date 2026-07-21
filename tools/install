@@ -51,6 +51,23 @@ fetch() {
 	trap - EXIT
 }
 
+fetch_zip() {
+	tool="$1"; url="$2"; want="$3"; member="$4"
+	tmp=$(mktemp -d)
+	trap 'rm -rf "$tmp"' EXIT
+	echo "==> $tool $platform"
+	curl -fsSL "$url" -o "$tmp/archive.zip"
+	got=$(sha256 "$tmp/archive.zip")
+	if [ "$got" != "$want" ]; then
+		echo "checksum mismatch for $tool: expected $want, got $got" >&2
+		exit 1
+	fi
+	unzip -q -o "$tmp/archive.zip" -d "$tmp"
+	install -m 0755 "$tmp/$member" "$bin/$tool"
+	rm -rf "$tmp"
+	trap - EXIT
+}
+
 mkdir -p "$bin"
 
 set -- $(lookup golangci-lint)
@@ -76,3 +93,27 @@ ver="$1"; sum="$2"
 fetch ruff \
 	"https://github.com/astral-sh/ruff/releases/download/$ver/ruff-$triple.tar.gz" \
 	"$sum" "ruff-$triple/ruff"
+
+case "$platform" in
+	linux-amd64) protoc_plat=linux-x86_64 ;;
+	linux-arm64) protoc_plat=linux-aarch_64 ;;
+	darwin-amd64) protoc_plat=osx-x86_64 ;;
+	darwin-arm64) protoc_plat=osx-aarch_64 ;;
+esac
+set -- $(lookup protoc)
+ver="$1"; sum="$2"
+fetch_zip protoc \
+	"https://github.com/protocolbuffers/protobuf/releases/download/v$ver/protoc-$ver-$protoc_plat.zip" \
+	"$sum" "bin/protoc"
+
+set -- $(lookup protoc-gen-go)
+ver="$1"; sum="$2"
+fetch protoc-gen-go \
+	"https://github.com/protocolbuffers/protobuf-go/releases/download/v$ver/protoc-gen-go.v$ver.$os.$arch.tar.gz" \
+	"$sum" "protoc-gen-go"
+
+set -- $(lookup protoc-gen-go-grpc)
+ver="$1"; sum="$2"
+fetch protoc-gen-go-grpc \
+	"https://github.com/grpc/grpc-go/releases/download/cmd%2Fprotoc-gen-go-grpc%2Fv$ver/protoc-gen-go-grpc.v$ver.$os.$arch.tar.gz" \
+	"$sum" "protoc-gen-go-grpc"

@@ -1,0 +1,30 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  corpusrecallapi:
+    in:
+      - .
+      - "**"
+
+vendors:
+  grpc:
+    in:
+      - google.golang.org/grpc
+      - google.golang.org/grpc/**
+  protobuf:
+    in:
+      - google.golang.org/protobuf
+      - google.golang.org/protobuf/**
+
+deps:
+  corpusrecallapi:
+    mayDependOn:
+      - corpusrecallapi
+    canUse:
+      - grpc
+      - protobuf
