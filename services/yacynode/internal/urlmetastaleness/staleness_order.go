@@ -63,7 +63,7 @@ func (o *stalenessRanking) StalestURLs(ctx context.Context, limit int) ([]yacymo
 func (o *stalenessRanking) URLStored(
 	tx *vault.Txn,
 	hash yacymodel.Hash,
-	freshness yacymodel.CalendarDay,
+	freshness yacymodel.Optional[yacymodel.CalendarDay],
 ) error {
 	rank := rankOf(freshness)
 	if err := o.order.Put(

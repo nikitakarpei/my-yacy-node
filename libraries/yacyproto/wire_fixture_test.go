@@ -61,7 +61,7 @@ func sampleURLMetadata(urlWord string) yacymodel.URLMetadata {
 		Address:      "https://example.org/" + urlWord,
 		Title:        urlWord,
 		DocumentType: yacymodel.DocumentTypeText,
-		Loaded:       yacymodel.NewCalendarDay(2026, time.July, 18),
+		Loaded:       yacymodel.Some(yacymodel.NewCalendarDay(2026, time.July, 18)),
 		LocalLinks:   2,
 	}
 }

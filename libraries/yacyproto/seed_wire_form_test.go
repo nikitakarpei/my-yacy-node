@@ -97,15 +97,42 @@ func fullSeed(t *testing.T) yacymodel.Seed {
 		WordsReceived:     2,
 		URLsSent:          3,
 		URLsReceived:      4,
-		News: yacymodel.Some(yacymodel.PeerNews{
-			Originator:  mustHash(t, "ABCDEFGHIJKL"),
-			Category:    yacymodel.NewsCrawlStart,
-			Created:     created,
-			Received:    yacymodel.Some(received),
-			Distributed: 7,
-			Attributes:  map[string]string{"startURL": "example.org", "depth": "3"},
-		}),
+		News: yacymodel.Some(mustPeerNews(
+			t,
+			mustHash(t, "ABCDEFGHIJKL"),
+			yacymodel.NewsCrawlStart,
+			created,
+			yacymodel.Some(received),
+			7,
+			map[string]string{"startURL": "example.org", "depth": "3"},
+		)),
 	}
+}
+
+//nolint:revive // a news record is built from all its fields
+func mustPeerNews(
+	t *testing.T,
+	originator yacymodel.Hash,
+	category yacymodel.NewsCategory,
+	created time.Time,
+	received yacymodel.Optional[time.Time],
+	distributed int,
+	attributes map[string]string,
+) yacymodel.PeerNews {
+	t.Helper()
+	news, err := yacymodel.NewPeerNews(
+		originator,
+		category,
+		created,
+		received,
+		distributed,
+		attributes,
+	)
+	if err != nil {
+		t.Fatalf("NewPeerNews: %v", err)
+	}
+
+	return news
 }
 
 func mustSeedListURL(t *testing.T, raw string) yacymodel.SeedListURL {
@@ -258,14 +285,15 @@ func TestPeerTagsWireRoundTrip(t *testing.T) {
 
 func TestPeerNewsWireRoundTrip(t *testing.T) {
 	codec := peerNewsWireCodec{}
-	want := yacymodel.PeerNews{
-		Originator:  mustHash(t, "ABCDEFGHIJKL"),
-		Category:    yacymodel.NewsCrawlStart,
-		Created:     time.Date(2026, time.July, 19, 12, 0, 0, 0, time.UTC),
-		Received:    yacymodel.Some(time.Date(2026, time.July, 19, 12, 0, 5, 0, time.UTC)),
-		Distributed: 7,
-		Attributes:  map[string]string{"startURL": "example.org", "depth": "3"},
-	}
+	want := mustPeerNews(
+		t,
+		mustHash(t, "ABCDEFGHIJKL"),
+		yacymodel.NewsCrawlStart,
+		time.Date(2026, time.July, 19, 12, 0, 0, 0, time.UTC),
+		yacymodel.Some(time.Date(2026, time.July, 19, 12, 0, 5, 0, time.UTC)),
+		7,
+		map[string]string{"startURL": "example.org", "depth": "3"},
+	)
 	got, err := codec.decode(context.Background(), codec.encode(want))
 	if err != nil {
 		t.Fatalf("decode: %v", err)
@@ -276,12 +304,15 @@ func TestPeerNewsWireRoundTrip(t *testing.T) {
 }
 
 func TestPeerNewsWireRejectsOversizeRecord(t *testing.T) {
-	news := yacymodel.PeerNews{
-		Originator: mustHash(t, "ABCDEFGHIJKL"),
-		Category:   yacymodel.NewsCrawlStart,
-		Created:    time.Date(2026, time.July, 19, 12, 0, 0, 0, time.UTC),
-		Attributes: map[string]string{"payload": strings.Repeat("x", 1100)},
-	}
+	news := mustPeerNews(
+		t,
+		mustHash(t, "ABCDEFGHIJKL"),
+		yacymodel.NewsCrawlStart,
+		time.Date(2026, time.July, 19, 12, 0, 0, 0, time.UTC),
+		yacymodel.None[time.Time](),
+		0,
+		map[string]string{"payload": strings.Repeat("x", 1100)},
+	)
 	codec := peerNewsWireCodec{}
 	if _, err := codec.decode(context.Background(), codec.encode(news)); !errors.Is(
 		err,

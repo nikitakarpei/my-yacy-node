@@ -26,10 +26,10 @@ type URLMetadata struct {
 	Author           string
 	Tags             []string
 	Publisher        string
-	Location         Coordinates
-	Modified         CalendarDay
-	Loaded           CalendarDay
-	FreshUntil       CalendarDay
+	Location         Optional[Coordinates]
+	Modified         Optional[CalendarDay]
+	Loaded           Optional[CalendarDay]
+	FreshUntil       Optional[CalendarDay]
 	DocumentType     DocumentType
 	MediaType        string
 	Language         Optional[Language]
@@ -51,14 +51,14 @@ func (m URLMetadata) Hash() (URLHash, error) {
 
 // Freshness is the day this metadata last stood for the document, preferring
 // the most recently established of the three days the document carries.
-func (m URLMetadata) Freshness() CalendarDay {
-	for _, day := range []CalendarDay{m.Loaded, m.Modified, m.FreshUntil} {
-		if !day.IsZero() {
+func (m URLMetadata) Freshness() Optional[CalendarDay] {
+	for _, day := range []Optional[CalendarDay]{m.Loaded, m.Modified, m.FreshUntil} {
+		if day.Present() {
 			return day
 		}
 	}
 
-	return CalendarDay{}
+	return None[CalendarDay]()
 }
 
 func (m URLMetadata) IsDirectoryListing() bool {
@@ -72,7 +72,7 @@ func (m URLMetadata) IsDirectoryListing() bool {
 }
 
 func (m URLMetadata) HasLocation() bool {
-	return !m.Location.IsZero()
+	return m.Location.Present()
 }
 
 // TODO: YaCy's getContentDomain() also classifies by file extension when the

@@ -17,7 +17,7 @@ func (s searcher) scanTerm(
 	kept := mostFrequentPostings{limit: s.matchesPerTerm}
 	var total int
 	err := s.index.ScanWord(ctx, term, func(posting yacymodel.RWIPosting) (bool, error) {
-		if !filter.matches(ctx, posting) {
+		if !filter.matches(posting) {
 			return true, nil
 		}
 		total++

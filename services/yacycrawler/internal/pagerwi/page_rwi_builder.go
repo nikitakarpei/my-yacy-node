@@ -72,7 +72,7 @@ func metadataOf(
 	return yacymodel.URLMetadata{
 		Address:       page.CanonicalURL,
 		Title:         page.Title,
-		Loaded:        yacymodel.CalendarDayOf(page.CrawledAt),
+		Loaded:        yacymodel.Some(yacymodel.CalendarDayOf(page.CrawledAt)),
 		DocumentType:  yacymodel.DocumentTypeText,
 		Language:      languageOf(page),
 		ByteSize:      textLength,

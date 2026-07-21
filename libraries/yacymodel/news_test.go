@@ -19,26 +19,36 @@ func TestParseNewsCategoryRejects(t *testing.T) {
 	}
 }
 
-func TestPeerNewsValidate(t *testing.T) {
-	news := PeerNews{
-		Originator: WordHash("peer"),
-		Category:   NewsCrawlStart,
-		Created:    time.Now(),
-		Attributes: map[string]string{"url": "https://example.org"},
+func TestNewPeerNews(t *testing.T) {
+	news, err := NewPeerNews(
+		WordHash("peer"),
+		NewsCrawlStart,
+		time.Now(),
+		None[time.Time](),
+		0,
+		map[string]string{"url": "https://example.org"},
+	)
+	if err != nil {
+		t.Fatalf("NewPeerNews = %v", err)
 	}
-	if err := news.Validate(); err != nil {
-		t.Fatalf("Validate = %v", err)
+	if news.Originator() != WordHash("peer") || news.Category() != NewsCrawlStart {
+		t.Fatalf("NewPeerNews stored %q/%q", news.Originator(), news.Category())
 	}
 }
 
-func TestPeerNewsValidateRejects(t *testing.T) {
-	bad := []PeerNews{
-		{Category: NewsCrawlStart},
-		{Originator: WordHash("peer")},
+func TestNewPeerNewsRejects(t *testing.T) {
+	created := time.Now()
+	cases := []struct {
+		originator Hash
+		category   NewsCategory
+	}{
+		{Hash{}, NewsCrawlStart},
+		{WordHash("peer"), NewsCategory{}},
 	}
-	for i, news := range bad {
-		if err := news.Validate(); !errors.Is(err, ErrBadPeerNews) {
-			t.Fatalf("case %d Validate = %v, want ErrBadPeerNews", i, err)
+	for i, c := range cases {
+		_, err := NewPeerNews(c.originator, c.category, created, None[time.Time](), 0, nil)
+		if !errors.Is(err, ErrBadPeerNews) {
+			t.Fatalf("case %d NewPeerNews = %v, want ErrBadPeerNews", i, err)
 		}
 	}
 }

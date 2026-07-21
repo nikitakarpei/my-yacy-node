@@ -24,14 +24,14 @@ func TestURLMetadataHashDerivesFromAddress(t *testing.T) {
 }
 
 func TestFreshnessPrefersLoadedThenModifiedThenFreshUntil(t *testing.T) {
-	loaded := yacymodel.NewCalendarDay(2025, time.February, 3)
-	modified := yacymodel.NewCalendarDay(2024, time.January, 2)
-	freshUntil := yacymodel.NewCalendarDay(2026, time.March, 4)
+	loaded := yacymodel.Some(yacymodel.NewCalendarDay(2025, time.February, 3))
+	modified := yacymodel.Some(yacymodel.NewCalendarDay(2024, time.January, 2))
+	freshUntil := yacymodel.Some(yacymodel.NewCalendarDay(2026, time.March, 4))
 
 	for _, c := range []struct {
 		name     string
 		metadata yacymodel.URLMetadata
-		want     yacymodel.CalendarDay
+		want     yacymodel.Optional[yacymodel.CalendarDay]
 	}{
 		{
 			name:     "loaded wins",
@@ -51,7 +51,7 @@ func TestFreshnessPrefersLoadedThenModifiedThenFreshUntil(t *testing.T) {
 		{
 			name:     "no day at all",
 			metadata: yacymodel.URLMetadata{},
-			want:     yacymodel.CalendarDay{},
+			want:     yacymodel.None[yacymodel.CalendarDay](),
 		},
 	} {
 		t.Run(c.name, func(t *testing.T) {
@@ -75,7 +75,7 @@ func TestIsDirectoryListingFollowsTags(t *testing.T) {
 
 func TestHasLocationFollowsCoordinates(t *testing.T) {
 	located := yacymodel.URLMetadata{
-		Location: yacymodel.Coordinates{Latitude: 52.52, Longitude: 13.405},
+		Location: yacymodel.Some(yacymodel.Coordinates{Latitude: 52.52, Longitude: 13.405}),
 	}
 	if !located.HasLocation() {
 		t.Error("coordinates should mark a location")

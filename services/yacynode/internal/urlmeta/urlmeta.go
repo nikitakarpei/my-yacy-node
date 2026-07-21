@@ -31,7 +31,11 @@ type URLEvictor interface {
 }
 
 type URLMetadataObserver interface {
-	URLStored(tx *vault.Txn, hash yacymodel.Hash, freshness yacymodel.CalendarDay) error
+	URLStored(
+		tx *vault.Txn,
+		hash yacymodel.Hash,
+		freshness yacymodel.Optional[yacymodel.CalendarDay],
+	) error
 	URLPurged(tx *vault.Txn, hash yacymodel.Hash) error
 }
 
