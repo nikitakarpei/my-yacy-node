@@ -24,6 +24,9 @@ destination. It runs inside the operator's own SearXNG instance and depends on n
 * A rewritten link SHALL still lead the person to the result's original destination.
 * The plugin SHALL let operators configure the `yacyvisitcrawl` that rewritten links route
   through.
+* The plugin SHALL leave every result on a request unchanged if that request carries the
+  configured disable header.
+* The plugin SHALL let operators configure the name of the disable header.
 
 ## Non-Functional Requirements
 

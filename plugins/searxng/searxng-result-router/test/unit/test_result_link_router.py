@@ -103,3 +103,42 @@ def test_on_result_shows_visited_page_as_pretty_url(plugin):
     plugin.on_result(request=None, search=None, result=result)
 
     assert result.parsed_url.geturl() == "https://example.com/a"
+
+
+class FakeRequest:
+    def __init__(self, headers: dict[str, str]) -> None:
+        self.headers = headers
+
+
+def test_on_result_skips_rewrite_when_disable_header_present(plugin):
+    result = FakeResult(url="https://example.com/a")
+    request = FakeRequest({"X-Result-Link-Router-Disable": "1"})
+
+    kept = plugin.on_result(request=request, search=None, result=result)
+
+    assert kept is True
+    assert result.filter_urls_calls == 0
+    assert result["url"] == "https://example.com/a"
+
+
+def test_on_result_rewrites_when_disable_header_absent(plugin):
+    result = FakeResult(url="https://example.com/a")
+    request = FakeRequest({})
+
+    plugin.on_result(request=request, search=None, result=result)
+
+    assert result.filter_urls_calls == 1
+    assert result["url"].startswith("http://yacyvisitcrawl:8091/visit?url=")
+
+
+def test_disable_header_name_is_configurable(monkeypatch):
+    monkeypatch.setenv("YACYVISITCRAWL_BASE_URL", "http://yacyvisitcrawl:8091")
+    monkeypatch.setenv("RESULT_LINK_ROUTER_DISABLE_HEADER", "X-Custom-Disable")
+    configured = result_link_router.SXNGPlugin(PluginCfg(active=True))
+    result = FakeResult(url="https://example.com/a")
+    request = FakeRequest({"X-Custom-Disable": "1"})
+
+    configured.on_result(request=request, search=None, result=result)
+
+    assert result.filter_urls_calls == 0
+    assert result["url"] == "https://example.com/a"
