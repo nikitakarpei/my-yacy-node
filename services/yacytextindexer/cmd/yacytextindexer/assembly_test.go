@@ -10,6 +10,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -26,7 +27,7 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 	)
 	defer elasticsearch.Close()
 
-	url := startNATS(t)
+	url := natstestserver.Start(t)
 	cfg := ServiceConfig{
 		NATSURL:            url,
 		CrawledPageSubject: "yacy.crawl.page.text",
@@ -42,7 +43,7 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 	defer cancel()
 
 	runDone := make(chan error, 1)
-	js := connectJetStream(t, url)
+	js := natstestserver.ConnectJetStream(t, url)
 	createCrawledPageStream(t, js, cfg.CrawledPageSubject)
 
 	go func() { runDone <- RunService(ctx, cfg) }()
@@ -99,7 +100,7 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 	)
 	defer elasticsearch.Close()
 
-	url := startNATS(t)
+	url := natstestserver.Start(t)
 	cfg := ServiceConfig{
 		NATSURL:            url,
 		CrawledPageSubject: "yacy.crawl.page.text",
@@ -110,7 +111,7 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 		ElasticsearchIndex: "yacy-text",
 		OpsAddr:            "127.0.0.1:99999",
 	}
-	createCrawledPageStream(t, connectJetStream(t, url), cfg.CrawledPageSubject)
+	createCrawledPageStream(t, natstestserver.ConnectJetStream(t, url), cfg.CrawledPageSubject)
 
 	err := RunService(context.Background(), cfg)
 	if err == nil {

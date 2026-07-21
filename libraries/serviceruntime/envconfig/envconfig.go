@@ -16,6 +16,14 @@ func String(getenv func(string) string, key, fallback string) string {
 	return fallback
 }
 
+func Required(getenv func(string) string, key string) (string, error) {
+	value := strings.TrimSpace(getenv(key))
+	if value == "" {
+		return "", fmt.Errorf("%s: must be set", key)
+	}
+	return value, nil
+}
+
 func List(getenv func(string) string, key string) []string {
 	raw := strings.TrimSpace(getenv(key))
 	if raw == "" {

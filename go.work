@@ -4,6 +4,7 @@ use (
 	./libraries/bytesize
 	./libraries/canonicalurl
 	./libraries/corpusrecallapi
+	./libraries/natstestserver
 	./libraries/pagemarkdownstore
 	./libraries/searchdocument
 	./libraries/serviceruntime

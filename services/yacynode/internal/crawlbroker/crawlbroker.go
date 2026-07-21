@@ -8,10 +8,9 @@ package crawlbroker
 
 import (
 	"context"
-	"fmt"
+	"io"
 
-	"github.com/nats-io/nats.go"
-	"github.com/nats-io/nats.go/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 )
 
 type Config struct {
@@ -22,26 +21,20 @@ type Config struct {
 }
 
 type CrawlBroker struct {
-	conn   *nats.Conn
+	conn   io.Closer
 	Orders *OrderPublisher
 	Ingest *IngestReceiver
 }
 
 func Open(ctx context.Context, cfg Config) (*CrawlBroker, error) {
-	conn, err := nats.Connect(cfg.NATSURL)
+	js, conn, err := jetstreamconnect.Open(cfg.NATSURL)
 	if err != nil {
-		return nil, fmt.Errorf("connect nats: %w", err)
-	}
-
-	js, err := jetstream.New(conn)
-	if err != nil {
-		conn.Close()
-		return nil, fmt.Errorf("init jetstream: %w", err)
+		return nil, err
 	}
 
 	ingest, err := newIngestReceiver(ctx, js, cfg.IngestDurable, cfg.IngestSubject)
 	if err != nil {
-		conn.Close()
+		_ = conn.Close()
 		return nil, err
 	}
 
@@ -53,5 +46,5 @@ func Open(ctx context.Context, cfg Config) (*CrawlBroker, error) {
 }
 
 func (b *CrawlBroker) Close() {
-	b.conn.Close()
+	_ = b.conn.Close()
 }

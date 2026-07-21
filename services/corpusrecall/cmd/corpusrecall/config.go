@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"strings"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
@@ -40,9 +38,9 @@ type ServiceConfig struct {
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
-	natsURL := strings.TrimSpace(getenv(EnvNATSURL))
-	if natsURL == "" {
-		return ServiceConfig{}, fmt.Errorf("%s: must be set", EnvNATSURL)
+	natsURL, err := envconfig.Required(getenv, EnvNATSURL)
+	if err != nil {
+		return ServiceConfig{}, err
 	}
 
 	deadline, err := envconfig.Duration(getenv, EnvDeadline, DefaultDeadline)

@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -43,16 +43,11 @@ const (
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.CrawlMetrics) error {
-	nc, err := nats.Connect(cfg.NATSURL)
+	js, conn, err := jetstreamconnect.Open(cfg.NATSURL)
 	if err != nil {
-		return fmt.Errorf("connect nats: %w", err)
+		return err
 	}
-	defer nc.Close()
-
-	js, err := jetstream.New(nc)
-	if err != nil {
-		return fmt.Errorf("init jetstream: %w", err)
-	}
+	defer func() { _ = conn.Close() }()
 	if err := ensureStreams(ctx, js, cfg); err != nil {
 		return err
 	}

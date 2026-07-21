@@ -8,31 +8,10 @@ import (
 	"testing"
 	"time"
 
-	natsserver "github.com/nats-io/nats-server/v2/server"
-	"github.com/nats-io/nats.go"
-	"github.com/nats-io/nats.go/jetstream"
-
+	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawldispatch"
 )
-
-func startTestNATS(t *testing.T) string {
-	t.Helper()
-	srv, err := natsserver.NewServer(&natsserver.Options{
-		Port:      -1,
-		JetStream: true,
-		StoreDir:  t.TempDir(),
-	})
-	if err != nil {
-		t.Fatalf("new nats server: %v", err)
-	}
-	go srv.Start()
-	if !srv.ReadyForConnections(10 * time.Second) {
-		t.Fatal("nats server not ready")
-	}
-	t.Cleanup(srv.Shutdown)
-	return srv.ClientURL()
-}
 
 func TestCrawlRuntimeDispatchAndConsume(t *testing.T) {
 	storage, err := openNodeStorage(openTestVault(t))
@@ -41,7 +20,7 @@ func TestCrawlRuntimeDispatchAndConsume(t *testing.T) {
 	}
 
 	cfg := crawlConfig{
-		NATSURL:       startTestNATS(t),
+		NATSURL:       natstestserver.Start(t),
 		OrdersSubject: defaultOrdersSubject,
 		IngestSubject: defaultIngestSubject,
 		IngestDurable: defaultIngestDurable,
@@ -86,15 +65,7 @@ func TestCrawlRuntimeDispatchAndConsume(t *testing.T) {
 
 func createCrawlerStreams(t *testing.T, ctx context.Context, cfg crawlConfig) {
 	t.Helper()
-	nc, err := nats.Connect(cfg.NATSURL)
-	if err != nil {
-		t.Fatalf("connect nats: %v", err)
-	}
-	t.Cleanup(nc.Close)
-	js, err := jetstream.New(nc)
-	if err != nil {
-		t.Fatalf("init jetstream: %v", err)
-	}
+	js := natstestserver.ConnectJetStream(t, cfg.NATSURL)
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx, js, yacycrawlcontract.PageRepresentationKindRWI,
 		yacycrawlcontract.CrawledPageStreamSpec{Subject: cfg.IngestSubject, MaxMsgs: 64},

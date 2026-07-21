@@ -3,38 +3,17 @@ package redirectresolution_test
 import (
 	"context"
 	"testing"
-	"time"
 
-	natsserver "github.com/nats-io/nats-server/v2/server"
-	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolution"
 )
 
 func newBucket(t *testing.T) jetstream.KeyValue {
 	t.Helper()
-	srv, err := natsserver.NewServer(&natsserver.Options{
-		Port: -1, JetStream: true, StoreDir: t.TempDir(),
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
-	go srv.Start()
-	if !srv.ReadyForConnections(10 * time.Second) {
-		t.Fatal("nats not ready")
-	}
-	t.Cleanup(srv.Shutdown)
-	nc, err := nats.Connect(srv.ClientURL())
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(nc.Close)
-	js, err := jetstream.New(nc)
-	if err != nil {
-		t.Fatal(err)
-	}
+	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 	if err := yacycrawlcontract.EnsureRedirectResolutionBucket(
 		context.Background(), js, yacycrawlcontract.RedirectResolutionBucketSpec{},
 	); err != nil {

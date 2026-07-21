@@ -7,12 +7,13 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 func TestRunServiceStoresCrawledPageMarkdown(t *testing.T) {
-	url := startNATS(t)
+	url := natstestserver.Start(t)
 	cfg := ServiceConfig{
 		NATSURL:            url,
 		CrawledPageSubject: DefaultCrawledPageSubject,
@@ -24,7 +25,7 @@ func TestRunServiceStoresCrawledPageMarkdown(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	js := connectJetStream(t, url)
+	js := natstestserver.ConnectJetStream(t, url)
 	createCrawledPageStream(t, js, cfg.CrawledPageSubject)
 
 	runDone := make(chan error, 1)
@@ -95,7 +96,7 @@ func waitForStored(
 }
 
 func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
-	url := startNATS(t)
+	url := natstestserver.Start(t)
 	cfg := ServiceConfig{
 		NATSURL:            url,
 		CrawledPageSubject: DefaultCrawledPageSubject,
@@ -103,7 +104,7 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 		Concurrency:        DefaultConcurrency,
 		OpsAddr:            "127.0.0.1:99999",
 	}
-	createCrawledPageStream(t, connectJetStream(t, url), cfg.CrawledPageSubject)
+	createCrawledPageStream(t, natstestserver.ConnectJetStream(t, url), cfg.CrawledPageSubject)
 
 	if err := RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when ops address cannot bind")
@@ -112,7 +113,7 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 
 func TestRunServiceFailsWhenStreamMissing(t *testing.T) {
 	cfg := ServiceConfig{
-		NATSURL:            startNATS(t),
+		NATSURL:            natstestserver.Start(t),
 		CrawledPageSubject: DefaultCrawledPageSubject,
 		CrawledPageDurable: DefaultCrawledPageDurable,
 		Concurrency:        DefaultConcurrency,

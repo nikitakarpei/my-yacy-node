@@ -24,9 +24,9 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  nats-server:
+  natstestserver:
     in:
-      - github.com/nats-io/nats-server/v2/server
+      - github.com/nikitakarpei/yacy-rwi-node/natstestserver
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
@@ -35,6 +35,7 @@ vendors:
       - github.com/google/uuid
   serviceruntime:
     in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
@@ -53,7 +54,8 @@ deps:
     canUse:
       - yacycrawlcontract
       - nats
-      - nats-server
+      - natstestserver
+      - serviceruntime
   visitmetrics:
     mayDependOn:
       - visitmetrics
@@ -67,7 +69,7 @@ deps:
     canUse:
       - yacycrawlcontract
       - nats
-      - nats-server
+      - natstestserver
       - serviceruntime
 
 excludeFiles:

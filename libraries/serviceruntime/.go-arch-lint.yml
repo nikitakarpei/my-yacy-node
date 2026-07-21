@@ -18,6 +18,8 @@ components:
     in: poisonhalt/**
   pullintake:
     in: pullintake/**
+  jetstreamconnect:
+    in: jetstreamconnect/**
 
 vendors:
   errgroup:
@@ -27,6 +29,9 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
+  natstestserver:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/natstestserver
 
 deps:
   applog:
@@ -54,3 +59,9 @@ deps:
     canUse:
       - nats
       - errgroup
+  jetstreamconnect:
+    mayDependOn:
+      - jetstreamconnect
+    canUse:
+      - nats
+      - natstestserver

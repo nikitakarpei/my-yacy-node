@@ -7,10 +7,7 @@ import (
 	"testing"
 	"time"
 
-	natsserver "github.com/nats-io/nats-server/v2/server"
-	"github.com/nats-io/nats.go"
-	"github.com/nats-io/nats.go/jetstream"
-
+	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlmetrics"
 )
@@ -31,21 +28,9 @@ func publishedPageStreams() []PageStreamConfig {
 }
 
 func TestRunServiceProcessesOrderThenStops(t *testing.T) {
-	srv, err := natsserver.NewServer(&natsserver.Options{
-		Port: -1, JetStream: true, StoreDir: t.TempDir(),
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
-	go srv.Start()
-	if !srv.ReadyForConnections(10 * time.Second) {
-		t.Fatal("nats not ready")
-	}
-	defer srv.Shutdown()
-
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	cfg := ServiceConfig{
-		NATSURL:          srv.ClientURL(),
+		NATSURL:          natstestserver.Start(t),
 		OrdersSubject:    DefaultOrdersSubject,
 		OrdersDurable:    DefaultOrdersDurable,
 		PageStreams:      publishedPageStreams(),
@@ -73,21 +58,9 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 }
 
 func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
-	srv, err := natsserver.NewServer(&natsserver.Options{
-		Port: -1, JetStream: true, StoreDir: t.TempDir(),
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
-	go srv.Start()
-	if !srv.ReadyForConnections(10 * time.Second) {
-		t.Fatal("nats not ready")
-	}
-	defer srv.Shutdown()
-
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	cfg := ServiceConfig{
-		NATSURL: srv.ClientURL(), OrdersSubject: DefaultOrdersSubject,
+		NATSURL: natstestserver.Start(t), OrdersSubject: DefaultOrdersSubject,
 		OrdersDurable: DefaultOrdersDurable,
 		PageStreams:   publishedPageStreams(),
 		ProxyURL:      proxy, FetchConcurrency: 2,
@@ -109,15 +82,7 @@ func TestRunServiceRejectsBadNATSURL(t *testing.T) {
 
 func publishOrder(t *testing.T, natsURL string) {
 	t.Helper()
-	nc, err := nats.Connect(natsURL)
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer nc.Close()
-	js, err := jetstream.New(nc)
-	if err != nil {
-		t.Fatal(err)
-	}
+	js := natstestserver.ConnectJetStream(t, natsURL)
 	ctx := context.Background()
 	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js,
 		yacycrawlcontract.OrdersStreamSpec{Subject: DefaultOrdersSubject}); err != nil {

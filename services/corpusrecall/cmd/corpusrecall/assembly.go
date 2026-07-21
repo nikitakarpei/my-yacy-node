@@ -8,8 +8,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nats-io/nats.go"
-	"github.com/nats-io/nats.go/jetstream"
 	"google.golang.org/grpc"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/crawlrequest"
@@ -20,6 +18,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/redirectlookup"
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -31,16 +30,11 @@ const (
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
-	nc, err := nats.Connect(cfg.NATSURL)
+	js, conn, err := jetstreamconnect.Open(cfg.NATSURL)
 	if err != nil {
-		return fmt.Errorf("connect nats: %w", err)
+		return err
 	}
-	defer nc.Close()
-
-	js, err := jetstream.New(nc)
-	if err != nil {
-		return fmt.Errorf("init jetstream: %w", err)
-	}
+	defer func() { _ = conn.Close() }()
 	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, yacycrawlcontract.OrdersStreamSpec{
 		Subject: cfg.OrdersSubject,
 	}); err != nil {
