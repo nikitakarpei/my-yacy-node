@@ -1,0 +1,151 @@
+package main
+
+import (
+	"context"
+	"testing"
+	"time"
+
+	"github.com/nats-io/nats.go/jetstream"
+
+	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+)
+
+func TestRunServiceStoresCrawledPageMarkdown(t *testing.T) {
+	url := startNATS(t)
+	cfg := ServiceConfig{
+		NATSURL:            url,
+		CrawledPageSubject: DefaultCrawledPageSubject,
+		CrawledPageDurable: DefaultCrawledPageDurable,
+		Concurrency:        DefaultConcurrency,
+		OpsAddr:            "127.0.0.1:0",
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	js := connectJetStream(t, url)
+	createCrawledPageStream(t, js, cfg.CrawledPageSubject)
+
+	runDone := make(chan error, 1)
+	go func() { runDone <- RunService(ctx, cfg) }()
+
+	const canonicalURL = "https://example.com/"
+	store, err := pagemarkdownstore.EnsureBucket(ctx, js)
+	if err != nil {
+		t.Fatalf("open object store: %v", err)
+	}
+	objectName := pagemarkdownstore.ObjectName(canonicalURL)
+
+	publishMarkdown(t, ctx, js, canonicalURL, []byte("# Hi\n\nwords here"))
+	waitForStored(t, ctx, store, objectName, []byte("# Hi\n\nwords here"))
+
+	publishMarkdown(t, ctx, js, canonicalURL, []byte("# Hi again"))
+	waitForStored(t, ctx, store, objectName, []byte("# Hi again"))
+
+	cancel()
+	select {
+	case err := <-runDone:
+		if err != nil {
+			t.Errorf("run: %v", err)
+		}
+	case <-time.After(10 * time.Second):
+		t.Fatal("service did not shut down after cancel")
+	}
+}
+
+func publishMarkdown(
+	t *testing.T,
+	ctx context.Context,
+	js jetstream.JetStream,
+	canonicalURL string,
+	markdown []byte,
+) {
+	t.Helper()
+	data, err := yacycrawlcontract.MarshalPageMarkdownRepresentation(
+		yacycrawlcontract.PageMarkdownRepresentation{
+			PageReference: yacycrawlcontract.PageReference{CanonicalURL: canonicalURL},
+			Markdown:      markdown,
+		},
+	)
+	if err != nil {
+		t.Fatalf("marshal crawled page: %v", err)
+	}
+	if _, err := js.Publish(ctx, DefaultCrawledPageSubject, data); err != nil {
+		t.Fatalf("publish crawled page: %v", err)
+	}
+}
+
+func waitForStored(
+	t *testing.T,
+	ctx context.Context,
+	store jetstream.ObjectStore,
+	name string,
+	want []byte,
+) {
+	t.Helper()
+	deadline := time.Now().Add(5 * time.Second)
+	for time.Now().Before(deadline) {
+		if stored, err := store.GetBytes(ctx, name); err == nil && string(stored) == string(want) {
+			return
+		}
+		time.Sleep(50 * time.Millisecond)
+	}
+	t.Fatalf("markdown object %q never reached %q", name, want)
+}
+
+func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
+	url := startNATS(t)
+	cfg := ServiceConfig{
+		NATSURL:            url,
+		CrawledPageSubject: DefaultCrawledPageSubject,
+		CrawledPageDurable: DefaultCrawledPageDurable,
+		Concurrency:        DefaultConcurrency,
+		OpsAddr:            "127.0.0.1:99999",
+	}
+	createCrawledPageStream(t, connectJetStream(t, url), cfg.CrawledPageSubject)
+
+	if err := RunService(context.Background(), cfg); err == nil {
+		t.Fatal("expected error when ops address cannot bind")
+	}
+}
+
+func TestRunServiceFailsWhenStreamMissing(t *testing.T) {
+	cfg := ServiceConfig{
+		NATSURL:            startNATS(t),
+		CrawledPageSubject: DefaultCrawledPageSubject,
+		CrawledPageDurable: DefaultCrawledPageDurable,
+		Concurrency:        DefaultConcurrency,
+		OpsAddr:            "127.0.0.1:0",
+	}
+
+	if err := RunService(context.Background(), cfg); err == nil {
+		t.Fatal("expected error when crawled page stream is not provisioned")
+	}
+}
+
+func TestRunServiceFailsWhenNATSUnreachable(t *testing.T) {
+	cfg := ServiceConfig{
+		NATSURL:            "nats://127.0.0.1:1",
+		CrawledPageSubject: DefaultCrawledPageSubject,
+		CrawledPageDurable: DefaultCrawledPageDurable,
+		Concurrency:        DefaultConcurrency,
+		OpsAddr:            "127.0.0.1:0",
+	}
+
+	if err := RunService(context.Background(), cfg); err == nil {
+		t.Fatal("expected error when nats is unreachable")
+	}
+}
+
+func createCrawledPageStream(t *testing.T, js jetstream.JetStream, subject string) {
+	t.Helper()
+	if err := yacycrawlcontract.EnsureCrawledPageStream(
+		context.Background(),
+		js,
+		yacycrawlcontract.PageRepresentationKindMarkdown,
+		yacycrawlcontract.CrawledPageStreamSpec{Subject: subject, MaxMsgs: 64},
+	); err != nil {
+		t.Fatalf("create crawled page stream: %v", err)
+	}
+}

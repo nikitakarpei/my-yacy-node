@@ -6,28 +6,22 @@ allow:
   deepScan: false
 
 components:
-  crawledpagedocument:
-    in: internal/crawledpagedocument/**
-  elasticsearchindex:
-    in: internal/elasticsearchindex/**
-  manticoreindex:
-    in: internal/manticoreindex/**
-  pageintake:
-    in: internal/pageintake/**
-  indexmetrics:
-    in: internal/indexmetrics/**
-  textindexercmd:
-    in: cmd/yacytextindexer/**
+  markdownintake:
+    in: internal/markdownintake/**
+  markdownstoremetrics:
+    in: internal/markdownstoremetrics/**
+  corpusmarkdowncmd:
+    in: cmd/corpusmarkdown/**
 
 vendors:
   yacycrawlcontract:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  searchdocument:
+  pagemarkdownstore:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/searchdocument
-      - github.com/nikitakarpei/yacy-rwi-node/searchdocument/**
+      - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore
+      - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/**
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -48,47 +42,27 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
-  crawledpagedocument:
+  markdownintake:
     mayDependOn:
-      - crawledpagedocument
+      - markdownintake
     canUse:
       - yacycrawlcontract
-      - searchdocument
-  elasticsearchindex:
-    mayDependOn:
-      - elasticsearchindex
-      - crawledpagedocument
-    canUse:
-      - yacycrawlcontract
-      - searchdocument
-  manticoreindex:
-    mayDependOn:
-      - manticoreindex
-      - crawledpagedocument
-    canUse:
-      - yacycrawlcontract
-      - searchdocument
-  pageintake:
-    mayDependOn:
-      - pageintake
-    canUse:
-      - yacycrawlcontract
+      - pagemarkdownstore
       - nats
       - nats-server
       - serviceruntime
-  indexmetrics:
+  markdownstoremetrics:
     mayDependOn:
-      - indexmetrics
+      - markdownstoremetrics
     canUse:
       - prometheus
-  textindexercmd:
+  corpusmarkdowncmd:
     mayDependOn:
-      - pageintake
-      - elasticsearchindex
-      - manticoreindex
-      - indexmetrics
+      - markdownintake
+      - markdownstoremetrics
     canUse:
       - yacycrawlcontract
+      - pagemarkdownstore
       - nats
       - nats-server
       - serviceruntime

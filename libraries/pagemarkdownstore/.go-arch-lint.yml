@@ -1,0 +1,29 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  pagemarkdownstore:
+    in:
+      - .
+      - "**"
+
+vendors:
+  nats:
+    in:
+      - github.com/nats-io/nats.go
+      - github.com/nats-io/nats.go/**
+  nats-server:
+    in:
+      - github.com/nats-io/nats-server/v2/server
+
+deps:
+  pagemarkdownstore:
+    mayDependOn:
+      - pagemarkdownstore
+    canUse:
+      - nats
+      - nats-server

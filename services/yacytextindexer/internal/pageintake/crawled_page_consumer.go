@@ -2,23 +2,19 @@ package pageintake
 
 import (
 	"context"
-	"errors"
-	"fmt"
 	"log/slog"
-	"sync"
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
-	msgCrawledPageDecodeFailed = "crawled page decode failed"
-	msgCrawledPageIndexFailed  = "crawled page index failed"
-	msgCrawledPageIndexed      = "crawled page indexed"
-
-	disposalReasonUndecodable = "undecodable"
+	msgCrawledPageIndexFailed = "crawled page index failed"
+	msgCrawledPageIndexed     = "crawled page indexed"
 )
 
 type SearchIndex interface {
@@ -28,24 +24,19 @@ type SearchIndex interface {
 type IndexProgress interface {
 	PageReceived()
 	PageIndexed()
-	PageDisposed(reason string)
 	IndexFailed()
 	IndexObserved(elapsed time.Duration)
 }
 
-type CrawledPageSource interface {
-	Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesContext, error)
-}
-
 type CrawledPageConsumer struct {
-	source      CrawledPageSource
+	source      pullintake.MessageSource
 	indexer     SearchIndex
 	progress    IndexProgress
 	concurrency int
 }
 
 func NewCrawledPageConsumer(
-	source CrawledPageSource,
+	source pullintake.MessageSource,
 	indexer SearchIndex,
 	progress IndexProgress,
 	concurrency int,
@@ -59,51 +50,14 @@ func NewCrawledPageConsumer(
 }
 
 func (c *CrawledPageConsumer) Run(ctx context.Context) error {
-	iter, err := c.source.Messages()
-	if err != nil {
-		return fmt.Errorf("open crawled page message iterator: %w", err)
-	}
-	defer iter.Stop()
-
-	stopOnCancel := make(chan struct{})
-	defer close(stopOnCancel)
-	go func() {
-		select {
-		case <-ctx.Done():
-			iter.Stop()
-		case <-stopOnCancel:
-		}
-	}()
-
-	var group sync.WaitGroup
-	slots := make(chan struct{}, c.concurrency)
-	for {
-		msg, err := iter.Next()
-		if err != nil {
-			group.Wait()
-			if errors.Is(err, jetstream.ErrMsgIteratorClosed) || ctx.Err() != nil {
-				return nil
-			}
-			return fmt.Errorf("next crawled page message: %w", err)
-		}
-		slots <- struct{}{}
-		group.Add(1)
-		go func(msg jetstream.Msg) {
-			defer group.Done()
-			defer func() { <-slots }()
-			c.processOne(ctx, msg)
-		}(msg)
-	}
+	return pullintake.Run(ctx, c.source, c.concurrency, c.processOne)
 }
 
-func (c *CrawledPageConsumer) processOne(ctx context.Context, msg jetstream.Msg) {
+func (c *CrawledPageConsumer) processOne(ctx context.Context, msg jetstream.Msg) error {
 	c.progress.PageReceived()
 	page, err := yacycrawlcontract.UnmarshalPageTextRepresentation(msg.Data())
 	if err != nil {
-		slog.WarnContext(ctx, msgCrawledPageDecodeFailed, slog.Any("error", err))
-		c.progress.PageDisposed(disposalReasonUndecodable)
-		_ = msg.Term()
-		return
+		return poisonhalt.Halt(ctx, msg, err)
 	}
 	started := time.Now()
 	err = c.indexer.Index(ctx, page)
@@ -115,9 +69,10 @@ func (c *CrawledPageConsumer) processOne(ctx context.Context, msg jetstream.Msg)
 		)
 		c.progress.IndexFailed()
 		_ = msg.Nak()
-		return
+		return nil
 	}
 	c.progress.PageIndexed()
 	slog.DebugContext(ctx, msgCrawledPageIndexed, slog.String("url", page.CanonicalURL))
 	_ = msg.Ack()
+	return nil
 }

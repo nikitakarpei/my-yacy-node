@@ -10,6 +10,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacytextindexer/internal/pageintake"
 )
@@ -87,14 +88,12 @@ func newFakeMsg(data []byte, acked chan string) *fakeMsg {
 type recordingProgress struct {
 	received int
 	indexed  int
-	disposed []string
 	failed   int
 	observed int
 }
 
 func (p *recordingProgress) PageReceived()               { p.received++ }
 func (p *recordingProgress) PageIndexed()                { p.indexed++ }
-func (p *recordingProgress) PageDisposed(reason string)  { p.disposed = append(p.disposed, reason) }
 func (p *recordingProgress) IndexFailed()                { p.failed++ }
 func (p *recordingProgress) IndexObserved(time.Duration) { p.observed++ }
 
@@ -162,7 +161,7 @@ func TestCrawledPageConsumerNaksOnIndexFailure(t *testing.T) {
 	}
 }
 
-func TestCrawledPageConsumerTermsOnDecodeFailure(t *testing.T) {
+func TestCrawledPageConsumerHaltsOnDecodeFailure(t *testing.T) {
 	acked := make(chan string, 1)
 	source := fakeSource{
 		iterator: &fakeIterator{messages: []jetstream.Msg{newFakeMsg([]byte("not json"), acked)}},
@@ -170,18 +169,16 @@ func TestCrawledPageConsumerTermsOnDecodeFailure(t *testing.T) {
 	progress := &recordingProgress{}
 	consumer := pageintake.NewCrawledPageConsumer(source, recordingIndexer{}, progress, 1)
 
-	if err := consumer.Run(context.Background()); err != nil {
-		t.Fatalf("run: %v", err)
+	err := consumer.Run(context.Background())
+	if !errors.Is(err, poisonhalt.ErrPoisonMessage) {
+		t.Fatalf("run error = %v, want poison halt", err)
 	}
 	select {
 	case action := <-acked:
-		if action != "term" {
-			t.Errorf("action = %q, want term", action)
-		}
+		t.Fatalf("undecodable message was %q, want left pending", action)
 	default:
-		t.Fatal("expected message to be termed")
 	}
-	if progress.received != 1 || len(progress.disposed) != 1 {
-		t.Errorf("progress = %+v, want one received and one disposal", progress)
+	if progress.received != 1 || progress.indexed != 0 || progress.failed != 0 {
+		t.Errorf("progress = %+v, want one received and no index outcome", progress)
 	}
 }

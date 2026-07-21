@@ -14,11 +14,19 @@ components:
     in: opsmetrics/**
   servergroup:
     in: servergroup/**
+  poisonhalt:
+    in: poisonhalt/**
+  pullintake:
+    in: pullintake/**
 
 vendors:
   errgroup:
     in:
       - golang.org/x/sync/errgroup
+  nats:
+    in:
+      - github.com/nats-io/nats.go
+      - github.com/nats-io/nats.go/**
 
 deps:
   applog:
@@ -34,4 +42,15 @@ deps:
     mayDependOn:
       - servergroup
     canUse:
+      - errgroup
+  poisonhalt:
+    mayDependOn:
+      - poisonhalt
+    canUse:
+      - nats
+  pullintake:
+    mayDependOn:
+      - pullintake
+    canUse:
+      - nats
       - errgroup
