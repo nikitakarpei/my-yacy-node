@@ -209,14 +209,19 @@ func (f urlMetadataWireForm) language() yacymodel.Optional[yacymodel.Language] {
 
 // location treats the origin as absent, the way YaCy treats a zero pair as
 // carrying no location metadata.
-func (f urlMetadataWireForm) location() (yacymodel.Coordinates, error) {
+func (f urlMetadataWireForm) location() (yacymodel.Optional[yacymodel.Coordinates], error) {
 	latitude := f.degrees(urlMetadataColLatitude)
 	longitude := f.degrees(urlMetadataColLongitude)
 	if latitude == 0 && longitude == 0 {
-		return yacymodel.Coordinates{}, nil
+		return yacymodel.None[yacymodel.Coordinates](), nil
 	}
 
-	return yacymodel.NewCoordinates(latitude, longitude)
+	coordinates, err := yacymodel.NewCoordinates(latitude, longitude)
+	if err != nil {
+		return yacymodel.None[yacymodel.Coordinates](), err
+	}
+
+	return yacymodel.Some(coordinates), nil
 }
 
 func (f urlMetadataWireForm) degrees(column string) float64 {
@@ -317,13 +322,14 @@ func (f *urlMetadataWireForm) putEncoded(column, value string) {
 	f.put(column, encodeBase64WireForm(value))
 }
 
-func (f *urlMetadataWireForm) putDay(column string, day yacymodel.CalendarDay) {
+func (f *urlMetadataWireForm) putDay(column string, day yacymodel.Optional[yacymodel.CalendarDay]) {
 	f.put(column, calendarDayWireCodec{}.encode(day))
 }
 
-func (f *urlMetadataWireForm) putDegrees(location yacymodel.Coordinates) {
-	f.put(urlMetadataColLatitude, strconv.FormatFloat(location.Latitude, 'f', -1, 64))
-	f.put(urlMetadataColLongitude, strconv.FormatFloat(location.Longitude, 'f', -1, 64))
+func (f *urlMetadataWireForm) putDegrees(location yacymodel.Optional[yacymodel.Coordinates]) {
+	coordinates, _ := location.Get()
+	f.put(urlMetadataColLatitude, strconv.FormatFloat(coordinates.Latitude, 'f', -1, 64))
+	f.put(urlMetadataColLongitude, strconv.FormatFloat(coordinates.Longitude, 'f', -1, 64))
 }
 
 func (f *urlMetadataWireForm) putReferrer(referrer yacymodel.Optional[yacymodel.URLHash]) {

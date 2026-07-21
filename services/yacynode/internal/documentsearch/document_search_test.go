@@ -355,7 +355,7 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 	result, err := s.search(context.Background(), searchCriteria{
 		terms:         []yacymodel.Hash{word1, word2},
 		maxTermSpread: 5,
-		language:      "en",
+		language:      mustLanguage(t, "en"),
 	})
 	if err != nil {
 		t.Fatalf("search: %v", err)

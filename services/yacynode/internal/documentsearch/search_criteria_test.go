@@ -13,8 +13,9 @@ func TestSiteHashFromRequestHash(t *testing.T) {
 	if err != nil {
 		t.Fatalf("searchCriteriaFromRequest: %v", err)
 	}
-	if criteria.siteHash != "ABCDEF" {
-		t.Fatalf("siteHash = %q, want ABCDEF", criteria.siteHash)
+	got, ok := criteria.siteHash.Get()
+	if !ok || got.String() != "ABCDEF" {
+		t.Fatalf("siteHash = %q (present %v), want ABCDEF", got.String(), ok)
 	}
 }
 
@@ -27,13 +28,13 @@ func TestSiteHashFromOperatorBeforeStructuredHost(t *testing.T) {
 		t.Fatalf("searchCriteriaFromRequest: %v", err)
 	}
 
-	hash, err := yacymodel.HashURLHost("example.com")
+	want, err := yacymodel.HashHost("example.com")
 	if err != nil {
-		t.Fatalf("HashURLHost: %v", err)
+		t.Fatalf("HashHost: %v", err)
 	}
-	want := hash.HostHash()
-	if criteria.siteHash != want {
-		t.Fatalf("siteHash = %q, want %q", criteria.siteHash, want)
+	got, ok := criteria.siteHash.Get()
+	if !ok || got != want {
+		t.Fatalf("siteHash = %q (present %v), want %q", got.String(), ok, want.String())
 	}
 }
 
@@ -43,13 +44,13 @@ func TestSiteHashFromStructuredHostFallback(t *testing.T) {
 		t.Fatalf("searchCriteriaFromRequest: %v", err)
 	}
 
-	hash, err := yacymodel.HashURLHost("example.com")
+	want, err := yacymodel.HashHost("example.com")
 	if err != nil {
-		t.Fatalf("HashURLHost: %v", err)
+		t.Fatalf("HashHost: %v", err)
 	}
-	want := hash.HostHash()
-	if criteria.siteHash != want {
-		t.Fatalf("siteHash = %q, want %q", criteria.siteHash, want)
+	got, ok := criteria.siteHash.Get()
+	if !ok || got != want {
+		t.Fatalf("siteHash = %q (present %v), want %q", got.String(), ok, want.String())
 	}
 }
 
@@ -61,8 +62,9 @@ func TestLanguageFromOperatorBeforeStructured(t *testing.T) {
 	if err != nil {
 		t.Fatalf("searchCriteriaFromRequest: %v", err)
 	}
-	if criteria.language != "de" {
-		t.Fatalf("language = %q, want de", criteria.language)
+	got, ok := criteria.language.Get()
+	if !ok || got.String() != "de" {
+		t.Fatalf("language = %q (present %v), want de", got.String(), ok)
 	}
 }
 
@@ -71,8 +73,8 @@ func TestStructuredLanguageDoesNotFilter(t *testing.T) {
 	if err != nil {
 		t.Fatalf("searchCriteriaFromRequest: %v", err)
 	}
-	if criteria.language != "" {
-		t.Fatalf("language = %q, want empty", criteria.language)
+	if criteria.language.Present() {
+		t.Fatalf("language = %v, want absent", criteria.language)
 	}
 }
 

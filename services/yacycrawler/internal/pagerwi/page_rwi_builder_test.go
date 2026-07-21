@@ -98,7 +98,8 @@ func TestBuildCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 		metadata.ExternalLinks != page.ExternalLinkCount {
 		t.Fatalf("links = %d local, %d external", metadata.LocalLinks, metadata.ExternalLinks)
 	}
-	if metadata.Loaded != yacymodel.CalendarDayOf(page.CrawledAt) {
+	if loaded, ok := metadata.Loaded.Get(); !ok ||
+		loaded != yacymodel.CalendarDayOf(page.CrawledAt) {
 		t.Fatalf("loaded = %+v", metadata.Loaded)
 	}
 }

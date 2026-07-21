@@ -37,7 +37,7 @@ func store(
 	v *vault.Vault,
 	order urlmetastaleness.StalenessRanking,
 	hash yacymodel.Hash,
-	freshness yacymodel.CalendarDay,
+	freshness yacymodel.Optional[yacymodel.CalendarDay],
 ) {
 	t.Helper()
 
@@ -53,9 +53,9 @@ func TestStalestURLsReturnsStalestFirst(t *testing.T) {
 	fresh := yacymodel.WordHash("fresh")
 	stale := yacymodel.WordHash("stale")
 	middle := yacymodel.WordHash("middle")
-	store(t, vault, order, fresh, yacymodel.NewCalendarDay(2026, time.January, 1))
-	store(t, vault, order, stale, yacymodel.NewCalendarDay(2020, time.January, 1))
-	store(t, vault, order, middle, yacymodel.NewCalendarDay(2023, time.January, 1))
+	store(t, vault, order, fresh, yacymodel.Some(yacymodel.NewCalendarDay(2026, time.January, 1)))
+	store(t, vault, order, stale, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
+	store(t, vault, order, middle, yacymodel.Some(yacymodel.NewCalendarDay(2023, time.January, 1)))
 
 	candidates, err := order.StalestURLs(context.Background(), 2)
 	if err != nil {
@@ -70,8 +70,8 @@ func TestStalestURLsTreatsMissingFreshnessAsStalest(t *testing.T) {
 	vault, order := openOrder(t)
 	dated := yacymodel.WordHash("dated")
 	undated := yacymodel.WordHash("undated")
-	store(t, vault, order, dated, yacymodel.NewCalendarDay(2020, time.January, 1))
-	store(t, vault, order, undated, yacymodel.CalendarDay{})
+	store(t, vault, order, dated, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
+	store(t, vault, order, undated, yacymodel.None[yacymodel.CalendarDay]())
 
 	candidates, err := order.StalestURLs(context.Background(), 1)
 	if err != nil {
@@ -98,8 +98,8 @@ func TestPurgedURLLeavesOrder(t *testing.T) {
 	v, order := openOrder(t)
 	kept := yacymodel.WordHash("kept")
 	gone := yacymodel.WordHash("gone")
-	store(t, v, order, kept, yacymodel.NewCalendarDay(2025, time.January, 1))
-	store(t, v, order, gone, yacymodel.NewCalendarDay(2020, time.January, 1))
+	store(t, v, order, kept, yacymodel.Some(yacymodel.NewCalendarDay(2025, time.January, 1)))
+	store(t, v, order, gone, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
 		return order.URLPurged(tx, gone)

@@ -2,18 +2,15 @@ package documentsearch
 
 import (
 	"context"
-	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const msgSiteHostUndetermined = "rwi search posting site host undetermined"
-
 type postingFilter struct {
-	language           string
+	language           yacymodel.Optional[yacymodel.Language]
 	requiredDocuments  map[yacymodel.Hash]struct{}
 	excludedDocuments  map[yacymodel.Hash]struct{}
-	siteHash           string
+	siteHash           yacymodel.Optional[yacymodel.HostHash]
 	contentKind        contentKind
 	strictContentKind  bool
 	requiredProperties yacymodel.Optional[yacymodel.Appearance]
@@ -40,10 +37,10 @@ func (s searcher) postingFilter(
 	}, nil
 }
 
-func (f postingFilter) matches(ctx context.Context, posting yacymodel.RWIPosting) bool {
-	if f.language != "" {
-		code, ok := posting.Language.Get()
-		if !ok || code.String() != f.language {
+func (f postingFilter) matches(posting yacymodel.RWIPosting) bool {
+	if wanted, ok := f.language.Get(); ok {
+		code, present := posting.Language.Get()
+		if !present || code != wanted {
 			return false
 		}
 	}
@@ -56,7 +53,7 @@ func (f postingFilter) matches(ctx context.Context, posting yacymodel.RWIPosting
 	if _, ok := f.excludedDocuments[document]; ok {
 		return false
 	}
-	if !matchesSiteHost(ctx, posting.URLHash, f.siteHash) {
+	if !matchesSiteHost(posting.URLHash, f.siteHash) {
 		return false
 	}
 	if !matchesContentKind(posting, f.contentKind, f.strictContentKind) {
@@ -66,17 +63,16 @@ func (f postingFilter) matches(ctx context.Context, posting yacymodel.RWIPosting
 	return matchesRequiredProperties(posting, f.requiredProperties)
 }
 
-func matchesSiteHost(ctx context.Context, location yacymodel.URLHash, siteHash string) bool {
-	if siteHash == "" {
+func matchesSiteHost(
+	location yacymodel.URLHash,
+	siteHash yacymodel.Optional[yacymodel.HostHash],
+) bool {
+	wanted, ok := siteHash.Get()
+	if !ok {
 		return true
 	}
-	if location.IsZero() {
-		slog.WarnContext(ctx, msgSiteHostUndetermined)
 
-		return false
-	}
-
-	return location.HostHash() == siteHash
+	return location.HostHash() == wanted
 }
 
 func matchesContentKind(posting yacymodel.RWIPosting, kind contentKind, strict bool) bool {

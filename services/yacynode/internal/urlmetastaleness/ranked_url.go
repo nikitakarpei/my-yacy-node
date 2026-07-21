@@ -14,8 +14,10 @@ const freshnessHashSeparator = 0x00
 // stalest-first order. A url with no known day ranks stalest.
 type freshnessRank string
 
-func rankOf(day yacymodel.CalendarDay) freshnessRank {
-	return freshnessRank(fmt.Sprintf("%04d%02d%02d", day.Year, day.Month, day.Day))
+func rankOf(day yacymodel.Optional[yacymodel.CalendarDay]) freshnessRank {
+	value, _ := day.Get()
+
+	return freshnessRank(fmt.Sprintf("%04d%02d%02d", value.Year, value.Month, value.Day))
 }
 
 type rankedURL struct {

@@ -26,15 +26,6 @@ func TestNewCalendarDayNormalizesOutOfRangeParts(t *testing.T) {
 	}
 }
 
-func TestCalendarDayIsZero(t *testing.T) {
-	if !(yacymodel.CalendarDay{}).IsZero() {
-		t.Error("the zero calendar day should report itself absent")
-	}
-	if yacymodel.NewCalendarDay(2025, time.February, 3).IsZero() {
-		t.Error("a real day should not report itself absent")
-	}
-}
-
 func TestCalendarDayTimeIsMidnightUTC(t *testing.T) {
 	got := yacymodel.NewCalendarDay(2025, time.February, 3).Time()
 	want := time.Date(2025, time.February, 3, 0, 0, 0, 0, time.UTC)

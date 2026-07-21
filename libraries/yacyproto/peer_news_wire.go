@@ -6,6 +6,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -63,17 +64,20 @@ func (peerNewsWireCodec) decode(ctx context.Context, raw string) (yacymodel.Peer
 		)
 	}
 
-	news := yacymodel.PeerNews{
-		Originator:  originator,
-		Category:    category,
-		Created:     created,
-		Distributed: newsDistributed(fields[newsColDistributed]),
-		Attributes:  newsAttributes(fields),
+	received := yacymodel.None[time.Time]()
+	if instant, ok := (seedTimestampWireCodec{}).decode(fields[newsColReceived]); ok {
+		received = yacymodel.Some(instant)
 	}
-	if received, ok := (seedTimestampWireCodec{}).decode(fields[newsColReceived]); ok {
-		news.Received = yacymodel.Some(received)
-	}
-	if err := news.Validate(); err != nil {
+
+	news, err := yacymodel.NewPeerNews(
+		originator,
+		category,
+		created,
+		received,
+		newsDistributed(fields[newsColDistributed]),
+		newsAttributes(fields),
+	)
+	if err != nil {
 		return yacymodel.PeerNews{}, err
 	}
 
@@ -106,15 +110,15 @@ func newsAttributes(fields map[string]string) map[string]string {
 func (peerNewsWireCodec) encode(news yacymodel.PeerNews) string {
 	timestamp := seedTimestampWireCodec{}
 	pairs := []string{
-		newsColOriginator + "=" + news.Originator.String(),
-		newsColCategory + "=" + news.Category.String(),
-		newsColCreated + "=" + timestamp.encode(news.Created),
+		newsColOriginator + "=" + news.Originator().String(),
+		newsColCategory + "=" + news.Category().String(),
+		newsColCreated + "=" + timestamp.encode(news.Created()),
 	}
-	if received, ok := news.Received.Get(); ok {
+	if received, ok := news.Received().Get(); ok {
 		pairs = append(pairs, newsColReceived+"="+timestamp.encode(received))
 	}
-	pairs = append(pairs, newsColDistributed+"="+strconv.Itoa(news.Distributed))
-	pairs = append(pairs, sortedAttributePairs(news.Attributes)...)
+	pairs = append(pairs, newsColDistributed+"="+strconv.Itoa(news.Distributed()))
+	pairs = append(pairs, sortedAttributePairs(news.Attributes())...)
 
 	return encodeBase64WireForm("{" + strings.Join(pairs, newsMapSeparator) + "}")
 }

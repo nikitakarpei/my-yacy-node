@@ -18,7 +18,7 @@ type recordingObserver struct {
 func (r *recordingObserver) URLStored(
 	_ *vault.Txn,
 	hash yacymodel.Hash,
-	_ yacymodel.CalendarDay,
+	_ yacymodel.Optional[yacymodel.CalendarDay],
 ) error {
 	r.stored = append(r.stored, hash)
 	if r.fail {

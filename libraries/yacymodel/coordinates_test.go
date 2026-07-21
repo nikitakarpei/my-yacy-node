@@ -37,12 +37,3 @@ func TestNewCoordinatesRejectsOutOfRange(t *testing.T) {
 		})
 	}
 }
-
-func TestCoordinatesIsZero(t *testing.T) {
-	if !(yacymodel.Coordinates{}).IsZero() {
-		t.Error("the origin should report itself absent")
-	}
-	if (yacymodel.Coordinates{Latitude: 52.52}).IsZero() {
-		t.Error("a real point should not report itself absent")
-	}
-}

@@ -18,10 +18,6 @@ type Coordinates struct {
 	Longitude float64
 }
 
-func (c Coordinates) IsZero() bool {
-	return c == Coordinates{}
-}
-
 func NewCoordinates(latitude, longitude float64) (Coordinates, error) {
 	if latitude < -latitudeLimit || latitude > latitudeLimit {
 		return Coordinates{}, fmt.Errorf(

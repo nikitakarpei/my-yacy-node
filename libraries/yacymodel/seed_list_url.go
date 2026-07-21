@@ -9,7 +9,7 @@ import (
 var ErrBadSeedListURL = errors.New("bad seed list url")
 
 type SeedListURL struct {
-	value string
+	url url.URL
 }
 
 func ParseSeedListURL(s string) (SeedListURL, error) {
@@ -23,7 +23,7 @@ func ParseSeedListURL(s string) (SeedListURL, error) {
 	if parsed.Host == "" {
 		return SeedListURL{}, fmt.Errorf("%w: missing host", ErrBadSeedListURL)
 	}
-	return SeedListURL{value: s}, nil
+	return SeedListURL{url: *parsed}, nil
 }
 
-func (u SeedListURL) String() string { return u.value }
+func (u SeedListURL) String() string { return u.url.String() }

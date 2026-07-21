@@ -148,33 +148,42 @@ func (r *urlMetadataReader) language() (yacymodel.Optional[yacymodel.Language], 
 	return yacymodel.Some(code), nil
 }
 
-func (w *urlMetadataWriter) location(location yacymodel.Coordinates) {
-	w.degrees(location.Latitude)
-	w.degrees(location.Longitude)
+func (w *urlMetadataWriter) location(location yacymodel.Optional[yacymodel.Coordinates]) {
+	coordinates, _ := location.Get()
+	w.degrees(coordinates.Latitude)
+	w.degrees(coordinates.Longitude)
 }
 
-func (r *urlMetadataReader) location() (yacymodel.Coordinates, error) {
+func (r *urlMetadataReader) location() (yacymodel.Optional[yacymodel.Coordinates], error) {
 	latitude := r.degrees("latitude")
 	longitude := r.degrees("longitude")
+	if latitude == 0 && longitude == 0 {
+		return yacymodel.None[yacymodel.Coordinates](), nil
+	}
+	coordinates, err := yacymodel.NewCoordinates(latitude, longitude)
+	if err != nil {
+		return yacymodel.None[yacymodel.Coordinates](), err
+	}
 
-	return yacymodel.NewCoordinates(latitude, longitude)
+	return yacymodel.Some(coordinates), nil
 }
 
-func (w *urlMetadataWriter) day(day yacymodel.CalendarDay) {
-	w.count(day.Year)
-	w.count(int(day.Month))
-	w.count(day.Day)
+func (w *urlMetadataWriter) day(day yacymodel.Optional[yacymodel.CalendarDay]) {
+	value, _ := day.Get()
+	w.count(value.Year)
+	w.count(int(value.Month))
+	w.count(value.Day)
 }
 
-func (r *urlMetadataReader) day(field string) yacymodel.CalendarDay {
+func (r *urlMetadataReader) day(field string) yacymodel.Optional[yacymodel.CalendarDay] {
 	year := r.count(field + " year")
 	month := r.count(field + " month")
 	dayOfMonth := r.count(field + " day")
 	if year == 0 {
-		return yacymodel.CalendarDay{}
+		return yacymodel.None[yacymodel.CalendarDay]()
 	}
 
-	return yacymodel.NewCalendarDay(year, time.Month(month), dayOfMonth)
+	return yacymodel.Some(yacymodel.NewCalendarDay(year, time.Month(month), dayOfMonth))
 }
 
 func (r *urlMetadataReader) tags() []string {

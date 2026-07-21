@@ -15,8 +15,8 @@ func TestPageRWIMetadataChunkRoundTrip(t *testing.T) {
 			{
 				Address:  "https://example.org/a",
 				Title:    "Example",
-				Loaded:   yacymodel.NewCalendarDay(2024, time.March, 7),
-				Location: yacymodel.Coordinates{Latitude: 52.52, Longitude: 13.405},
+				Loaded:   yacymodel.Some(yacymodel.NewCalendarDay(2024, time.March, 7)),
+				Location: yacymodel.Some(yacymodel.Coordinates{Latitude: 52.52, Longitude: 13.405}),
 			},
 		},
 	}

@@ -42,6 +42,10 @@ func searchCriteriaFromRequest(req yacyproto.SearchRequest) (searchCriteria, err
 	if err != nil {
 		return searchCriteria{}, err
 	}
+	language, err := resolveLanguage(operators)
+	if err != nil {
+		return searchCriteria{}, err
+	}
 	maxResults := req.Count
 	if maxResults <= 0 {
 		maxResults = defaultSearchCount
@@ -63,7 +67,7 @@ func searchCriteriaFromRequest(req yacyproto.SearchRequest) (searchCriteria, err
 		requiredProperties: req.RequiredAppearance,
 		// Deliberate divergence from YaCy: only the /language/ modifier filters; the
 		// plain language field drives YaCy's ranking boost, which this node omits.
-		language: operators.Language,
+		language: language,
 		siteHash: siteHash,
 	}, nil
 }
@@ -83,20 +87,41 @@ func contentKindFromDomain(domain yacyproto.SearchContentDomain) contentKind {
 	}
 }
 
-func resolveSiteHash(req yacyproto.SearchRequest, operators queryOperators) (string, error) {
+func resolveSiteHash(
+	req yacyproto.SearchRequest, operators queryOperators,
+) (yacymodel.Optional[yacymodel.HostHash], error) {
 	if req.SiteHash != "" {
-		return req.SiteHash, nil
+		hash, err := yacymodel.ParseHostHash(req.SiteHash)
+		if err != nil {
+			return yacymodel.None[yacymodel.HostHash](), fmt.Errorf("site hash: %w", err)
+		}
+
+		return yacymodel.Some(hash), nil
 	}
 	host := firstNonEmpty(operators.SiteHost, req.SiteHost)
 	if host == "" {
-		return "", nil
+		return yacymodel.None[yacymodel.HostHash](), nil
 	}
-	hash, err := yacymodel.HashURLHost(host)
+	hash, err := yacymodel.HashHost(host)
 	if err != nil {
-		return "", fmt.Errorf("site hash: %w", err)
+		return yacymodel.None[yacymodel.HostHash](), fmt.Errorf("site hash: %w", err)
 	}
 
-	return hash.HostHash(), nil
+	return yacymodel.Some(hash), nil
+}
+
+func resolveLanguage(
+	operators queryOperators,
+) (yacymodel.Optional[yacymodel.Language], error) {
+	if operators.Language == "" {
+		return yacymodel.None[yacymodel.Language](), nil
+	}
+	language, err := yacymodel.ParseLanguage(operators.Language)
+	if err != nil {
+		return yacymodel.None[yacymodel.Language](), fmt.Errorf("language: %w", err)
+	}
+
+	return yacymodel.Some(language), nil
 }
 
 func matchReportingFromRequest(req yacyproto.SearchRequest) matchReporting {

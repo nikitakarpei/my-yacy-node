@@ -1,7 +1,6 @@
 package documentsearch
 
 import (
-	"context"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -57,20 +56,29 @@ func TestMatchesContentKindPassthrough(t *testing.T) {
 }
 
 func TestMatchesSiteHost(t *testing.T) {
-	ctx := context.Background()
 	location, err := yacymodel.ParseURLHash("0123456789AB")
 	if err != nil {
 		t.Fatalf("parse url hash: %v", err)
 	}
-	if !matchesSiteHost(ctx, location, "") {
+	if !matchesSiteHost(location, yacymodel.None[yacymodel.HostHash]()) {
 		t.Fatal("empty site hash should match")
 	}
-	if !matchesSiteHost(ctx, location, "6789AB") {
+	if !matchesSiteHost(location, yacymodel.Some(mustHostHash(t, "6789AB"))) {
 		t.Fatal("matching host hash should match")
 	}
-	if matchesSiteHost(ctx, location, "000000") {
+	if matchesSiteHost(location, yacymodel.Some(mustHostHash(t, "000000"))) {
 		t.Fatal("non-matching host hash should not match")
 	}
+}
+
+func mustHostHash(t *testing.T, s string) yacymodel.HostHash {
+	t.Helper()
+	hash, err := yacymodel.ParseHostHash(s)
+	if err != nil {
+		t.Fatalf("ParseHostHash(%q): %v", s, err)
+	}
+
+	return hash
 }
 
 func TestMatchesRequiredProperties(t *testing.T) {

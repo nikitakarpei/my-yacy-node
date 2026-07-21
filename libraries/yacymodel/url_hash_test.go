@@ -44,7 +44,7 @@ func TestURLHashSharesHostHashAcrossPaths(t *testing.T) {
 	aHost := a.HostHash()
 	bHost := b.HostHash()
 	if aHost != bHost {
-		t.Errorf("same host must share host hash: %q vs %q", aHost, bHost)
+		t.Errorf("same host must share host hash: %q vs %q", aHost.String(), bHost.String())
 	}
 }
 
@@ -54,38 +54,38 @@ func TestURLHashHostHashIsLastSixChars(t *testing.T) {
 		t.Fatalf("HashURL: %v", err)
 	}
 	hostHash := h.HostHash()
-	if hostHash != h.String()[6:] {
-		t.Errorf("HostHash = %q, want %q", hostHash, h.String()[6:])
+	if hostHash.String() != h.String()[6:] {
+		t.Errorf("HostHash = %q, want %q", hostHash.String(), h.String()[6:])
 	}
 }
 
-func TestHashURLHostNormalizesCaseAndDots(t *testing.T) {
-	want, err := HashURLHost("example.com")
+func TestHashHostNormalizesCaseAndDots(t *testing.T) {
+	want, err := HashHost("example.com")
 	if err != nil {
-		t.Fatalf("HashURLHost: %v", err)
+		t.Fatalf("HashHost: %v", err)
 	}
 	for _, in := range []string{"Example.COM", ".example.com.", "EXAMPLE.com"} {
-		got, err := HashURLHost(in)
+		got, err := HashHost(in)
 		if err != nil {
-			t.Fatalf("HashURLHost(%q): %v", in, err)
+			t.Fatalf("HashHost(%q): %v", in, err)
 		}
 		if got != want {
-			t.Errorf("HashURLHost(%q) = %q, want %q", in, got, want)
+			t.Errorf("HashHost(%q) = %q, want %q", in, got.String(), want.String())
 		}
 	}
 }
 
-func TestHashURLHostUsesFtpSchemeForFtpHosts(t *testing.T) {
-	got, err := HashURLHost("ftp.example.com")
+func TestHashHostUsesFtpSchemeForFtpHosts(t *testing.T) {
+	got, err := HashHost("ftp.example.com")
 	if err != nil {
-		t.Fatalf("HashURLHost: %v", err)
+		t.Fatalf("HashHost: %v", err)
 	}
 	want, err := HashURL("ftp://ftp.example.com/")
 	if err != nil {
 		t.Fatalf("HashURL: %v", err)
 	}
-	if got != want {
-		t.Fatalf("ftp host hash = %q, want %q", got, want)
+	if got != want.HostHash() {
+		t.Fatalf("ftp host hash = %q, want %q", got.String(), want.HostHash().String())
 	}
 }
 

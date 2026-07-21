@@ -47,10 +47,10 @@ func HashURL(rawURL string) (URLHash, error) {
 	return ParseURLHash(h.String())
 }
 
-func HashURLHost(host string) (URLHash, error) {
+func HashHost(host string) (HostHash, error) {
 	host = strings.Trim(strings.ToLower(host), ".")
 	if host == "" {
-		return URLHash{}, fmt.Errorf("parse url host: empty host")
+		return HostHash{}, fmt.Errorf("parse url host: empty host")
 	}
 
 	scheme := httpScheme
@@ -59,13 +59,18 @@ func HashURLHost(host string) (URLHash, error) {
 	}
 	parsed, err := url.Parse(scheme + host)
 	if err != nil {
-		return URLHash{}, fmt.Errorf("parse url host: %w", err)
+		return HostHash{}, fmt.Errorf("parse url host: %w", err)
 	}
 	if parsed.Hostname() == "" {
-		return URLHash{}, fmt.Errorf("parse url host: invalid host %q", host)
+		return HostHash{}, fmt.Errorf("parse url host: invalid host %q", host)
 	}
 
-	return HashURL(scheme + host)
+	urlHash, err := HashURL(scheme + host)
+	if err != nil {
+		return HostHash{}, err
+	}
+
+	return urlHash.HostHash(), nil
 }
 
 func (h URLHash) MarshalText() ([]byte, error) {
@@ -86,14 +91,12 @@ func (h URLHash) Hash() Hash {
 	return h.hash
 }
 
-func (h URLHash) IsZero() bool { return h.hash.IsZero() }
-
 func (h URLHash) String() string {
 	return h.hash.value
 }
 
-func (h URLHash) HostHash() string {
-	return h.hash.value[HashLength-hostHashLength:]
+func (h URLHash) HostHash() HostHash {
+	return HostHash{value: h.hash.value[HashLength-hostHashLength:]}
 }
 
 func md5Base64(s string) string {

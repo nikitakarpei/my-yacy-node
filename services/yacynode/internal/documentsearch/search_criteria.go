@@ -40,6 +40,6 @@ type searchCriteria struct {
 	contentKind        contentKind
 	strictContentKind  bool
 	requiredProperties yacymodel.Optional[yacymodel.Appearance]
-	language           string
-	siteHash           string
+	language           yacymodel.Optional[yacymodel.Language]
+	siteHash           yacymodel.Optional[yacymodel.HostHash]
 }
