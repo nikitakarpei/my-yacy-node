@@ -1,5 +1,3 @@
-// Package pagetext derives a page's text representation from an extracted body.
-// HTML bodies are rendered by stripping markup and separating block elements;
-// bodies already in text pass through. SourceFormats declares the formats Derive
-// accepts, and callers pass no other.
+// Package pagetext derives a page's readable-text representation by flattening
+// the readable-html body: markup is stripped and block elements are separated.
 package pagetext

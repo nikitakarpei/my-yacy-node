@@ -1,7 +1,6 @@
 package htmlpage_test
 
 import (
-	"errors"
 	"strings"
 	"testing"
 
@@ -33,8 +32,8 @@ func TestExtractArticle(t *testing.T) {
 	if doc.Title != "Sample Article" {
 		t.Fatalf("title = %q", doc.Title)
 	}
-	if doc.Format != crawlcapability.PageContentFormatHTML {
-		t.Fatalf("format = %q, want html", doc.Format)
+	if doc.Format != crawlcapability.PageContentFormatDocumentHTML {
+		t.Fatalf("format = %q, want document-html", doc.Format)
 	}
 	if !strings.Contains(string(doc.Body), "quick brown fox") {
 		t.Fatalf("body missing article content: %q", doc.Body)
@@ -64,11 +63,15 @@ func TestExtractHonorsMetaRobots(t *testing.T) {
 	}
 }
 
-func TestExtractEmptyContentUnextractable(t *testing.T) {
-	_, err := htmlpage.New().Extract(t.Context(), "http://host.example/p", "text/html",
-		[]byte("<html><body></body></html>"))
-	if !errors.Is(err, crawlcapability.ErrUnextractable) {
-		t.Fatalf("want ErrUnextractable, got %v", err)
+func TestExtractYieldsWholeDocument(t *testing.T) {
+	documents, err := htmlpage.New().
+		Extract(t.Context(), "http://host.example/dir/p", "text/html", []byte(article))
+	if err != nil {
+		t.Fatalf("Extract: %v", err)
+	}
+	body := string(documents[0].Body)
+	if !strings.Contains(body, "<title>Sample Article</title>") {
+		t.Fatalf("whole document should retain head markup: %q", body)
 	}
 }
 

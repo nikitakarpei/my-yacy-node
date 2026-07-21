@@ -8,7 +8,6 @@ import (
 	"net/url"
 	"strings"
 
-	readability "codeberg.org/readeck/go-readability/v2"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/charset"
 
@@ -47,19 +46,11 @@ func (HTMLExtraction) Extract(
 		return nil, fmt.Errorf("parse html: %w", err)
 	}
 
-	parsedURL, _ := url.Parse(pageURL)
 	scan := scanTree(root)
 
-	article, err := readability.FromDocument(root, parsedURL)
-	if err != nil {
-		return nil, fmt.Errorf("%w: %w", crawlcapability.ErrUnextractable, err)
-	}
-	if !hasReadableText(article.Node) {
-		return nil, fmt.Errorf("%w: empty content", crawlcapability.ErrUnextractable)
-	}
-	var articleHTML bytes.Buffer
-	if err := article.RenderHTML(&articleHTML); err != nil {
-		return nil, fmt.Errorf("%w: %w", crawlcapability.ErrUnextractable, err)
+	var document bytes.Buffer
+	if err := html.Render(&document, root); err != nil {
+		return nil, fmt.Errorf("render html: %w", err)
 	}
 
 	base := pageURL
@@ -77,10 +68,10 @@ func (HTMLExtraction) Extract(
 	links, local, external := resolveLinks(base, scan.hrefs)
 
 	return []crawlcapability.ExtractedContent{{
-		Title:                article.Title(),
-		Body:                 articleHTML.Bytes(),
-		Format:               crawlcapability.PageContentFormatHTML,
-		Language:             twoLetterLanguage(article.Language()),
+		Title:                scan.title,
+		Body:                 document.Bytes(),
+		Format:               crawlcapability.PageContentFormatDocumentHTML,
+		Language:             twoLetterLanguage(scan.language),
 		Links:                links,
 		LocalLinkCount:       local,
 		ExternalLinkCount:    external,

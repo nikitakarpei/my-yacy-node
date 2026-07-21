@@ -3,7 +3,8 @@ package crawlcapability
 type PageContentFormat string
 
 const (
-	PageContentFormatHTML     PageContentFormat = "html"
-	PageContentFormatText     PageContentFormat = "text"
-	PageContentFormatMarkdown PageContentFormat = "markdown"
+	PageContentFormatDocumentHTML PageContentFormat = "document-html"
+	PageContentFormatReadableHTML PageContentFormat = "readable-html"
+	PageContentFormatReadableText PageContentFormat = "readable-text"
+	PageContentFormatMarkdown     PageContentFormat = "markdown"
 )

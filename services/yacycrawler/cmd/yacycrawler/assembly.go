@@ -201,25 +201,35 @@ func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability
 func buildPageRenderings(
 	feeds []crawlcapability.PageFeed,
 ) ([]crawlcapability.PageRendering, error) {
-	available := make(map[crawlcapability.PageContentFormat][]crawlcapability.PageRendering)
+	producer := make(map[crawlcapability.PageContentFormat]crawlcapability.PageRendering)
 	for _, rendering := range pageRenderingCatalog() {
-		available[rendering.Format()] = append(available[rendering.Format()], rendering)
+		producer[rendering.Format()] = rendering
 	}
 	renderings := []crawlcapability.PageRendering{}
-	covered := map[crawlcapability.PageContentFormat]bool{}
-	for _, feed := range feeds {
-		if covered[feed.ContentFormat()] {
-			continue
+	selected := map[crawlcapability.PageContentFormat]bool{}
+	var require func(crawlcapability.PageFeed, crawlcapability.PageContentFormat) error
+	require = func(feed crawlcapability.PageFeed, format crawlcapability.PageContentFormat) error {
+		if format == crawlcapability.PageContentFormatDocumentHTML || selected[format] {
+			return nil
 		}
-		producing, renderable := available[feed.ContentFormat()]
-		if !renderable {
-			return nil, fmt.Errorf(
+		rendering, ok := producer[format]
+		if !ok {
+			return fmt.Errorf(
 				"page %s feed reads %s content, which no rendering produces",
-				feed.Representation(), feed.ContentFormat(),
+				feed.Representation(), format,
 			)
 		}
-		covered[feed.ContentFormat()] = true
-		renderings = append(renderings, producing...)
+		selected[format] = true
+		if err := require(feed, rendering.SourceFormat()); err != nil {
+			return err
+		}
+		renderings = append(renderings, rendering)
+		return nil
+	}
+	for _, feed := range feeds {
+		if err := require(feed, feed.ContentFormat()); err != nil {
+			return nil, err
+		}
 	}
 	return renderings, nil
 }

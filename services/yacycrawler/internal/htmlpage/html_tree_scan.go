@@ -10,6 +10,8 @@ import (
 type treeScan struct {
 	hrefs    []string
 	baseHref string
+	title    string
+	language string
 	noIndex  bool
 	noFollow bool
 }
@@ -19,18 +21,7 @@ func scanTree(root *html.Node) treeScan {
 	var walk func(*html.Node)
 	walk = func(node *html.Node) {
 		if node.Type == html.ElementNode {
-			switch node.DataAtom {
-			case atom.A:
-				if href, ok := attribute(node, "href"); ok {
-					scan.hrefs = append(scan.hrefs, href)
-				}
-			case atom.Base:
-				if href, ok := attribute(node, "href"); ok && scan.baseHref == "" {
-					scan.baseHref = href
-				}
-			case atom.Meta:
-				scan.readMetaRobots(node)
-			}
+			scan.inspect(node)
 		}
 		for child := node.FirstChild; child != nil; child = child.NextSibling {
 			walk(child)
@@ -40,19 +31,37 @@ func scanTree(root *html.Node) treeScan {
 	return scan
 }
 
-func hasReadableText(node *html.Node) bool {
-	if node == nil {
-		return false
+func (scan *treeScan) inspect(node *html.Node) {
+	switch node.DataAtom {
+	case atom.A:
+		if href, ok := attribute(node, "href"); ok {
+			scan.hrefs = append(scan.hrefs, href)
+		}
+	case atom.Base:
+		if href, ok := attribute(node, "href"); ok && scan.baseHref == "" {
+			scan.baseHref = href
+		}
+	case atom.Html:
+		if lang, ok := attribute(node, "lang"); ok && scan.language == "" {
+			scan.language = lang
+		}
+	case atom.Title:
+		if scan.title == "" {
+			scan.title = strings.TrimSpace(textContent(node))
+		}
+	case atom.Meta:
+		scan.readMetaRobots(node)
 	}
-	if node.Type == html.TextNode && strings.TrimSpace(node.Data) != "" {
-		return true
-	}
+}
+
+func textContent(node *html.Node) string {
+	var builder strings.Builder
 	for child := node.FirstChild; child != nil; child = child.NextSibling {
-		if hasReadableText(child) {
-			return true
+		if child.Type == html.TextNode {
+			builder.WriteString(child.Data)
 		}
 	}
-	return false
+	return builder.String()
 }
 
 func (scan *treeScan) readMetaRobots(node *html.Node) {
