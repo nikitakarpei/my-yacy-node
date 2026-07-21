@@ -19,7 +19,11 @@ func (postingCodec) Encode(posting yacymodel.RWIPosting) ([]byte, error) {
 	w.count(posting.TextWords)
 	w.count(posting.Phrases)
 	w.uint8(byte(posting.DocumentType))
-	w.lengthPrefixed([]byte(posting.Language))
+	var languageCode []byte
+	if language, ok := posting.Language.Get(); ok {
+		languageCode = []byte(language.String())
+	}
+	w.lengthPrefixed(languageCode)
 	w.count(posting.LocalLinks)
 	w.count(posting.ExternalLinks)
 	w.count(posting.URLLength)
@@ -57,7 +61,7 @@ func (postingCodec) Decode(data []byte) (yacymodel.RWIPosting, error) {
 		TextWords:              r.count("text words"),
 		Phrases:                r.count("phrases"),
 		DocumentType:           yacymodel.DocumentType(r.uint8("document type")),
-		Language:               yacymodel.Language(r.lengthPrefixed("language")),
+		Language:               r.language("language"),
 		LocalLinks:             r.count("local links"),
 		ExternalLinks:          r.count("external links"),
 		URLLength:              r.count("url length"),

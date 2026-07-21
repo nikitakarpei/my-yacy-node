@@ -58,7 +58,10 @@ func TestMatchesContentKindPassthrough(t *testing.T) {
 
 func TestMatchesSiteHost(t *testing.T) {
 	ctx := context.Background()
-	const location = yacymodel.URLHash("0123456789AB")
+	location, err := yacymodel.ParseURLHash("0123456789AB")
+	if err != nil {
+		t.Fatalf("parse url hash: %v", err)
+	}
 	if !matchesSiteHost(ctx, location, "") {
 		t.Fatal("empty site hash should match")
 	}

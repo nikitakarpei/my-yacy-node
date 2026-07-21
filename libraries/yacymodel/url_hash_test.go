@@ -7,10 +7,10 @@ func TestURLHashIsValidTwelveChar(t *testing.T) {
 	if err != nil {
 		t.Fatalf("HashURL: %v", err)
 	}
-	if len(h) != HashLength {
-		t.Fatalf("URLHash length = %d, want %d", len(h), HashLength)
+	if len(h.String()) != HashLength {
+		t.Fatalf("URLHash length = %d, want %d", len(h.String()), HashLength)
 	}
-	if _, err := ParseURLHash(string(h)); err != nil {
+	if _, err := ParseURLHash(h.String()); err != nil {
 		t.Errorf("URLHash produced invalid hash %q: %v", h, err)
 	}
 }
@@ -41,14 +41,8 @@ func TestURLHashSharesHostHashAcrossPaths(t *testing.T) {
 	if a == b {
 		t.Error("different paths must yield different url hashes")
 	}
-	aHost, err := a.HostHash()
-	if err != nil {
-		t.Fatalf("HostHash(a): %v", err)
-	}
-	bHost, err := b.HostHash()
-	if err != nil {
-		t.Fatalf("HostHash(b): %v", err)
-	}
+	aHost := a.HostHash()
+	bHost := b.HostHash()
 	if aHost != bHost {
 		t.Errorf("same host must share host hash: %q vs %q", aHost, bHost)
 	}
@@ -59,12 +53,9 @@ func TestURLHashHostHashIsLastSixChars(t *testing.T) {
 	if err != nil {
 		t.Fatalf("HashURL: %v", err)
 	}
-	hostHash, err := h.HostHash()
-	if err != nil {
-		t.Fatalf("HostHash: %v", err)
-	}
-	if hostHash != string(h)[6:] {
-		t.Errorf("HostHash = %q, want %q", hostHash, string(h)[6:])
+	hostHash := h.HostHash()
+	if hostHash != h.String()[6:] {
+		t.Errorf("HostHash = %q, want %q", hostHash, h.String()[6:])
 	}
 }
 
@@ -115,7 +106,7 @@ func TestURLHashFlagByteEncodesProtocolDomainAndLength(t *testing.T) {
 		if err != nil {
 			t.Fatalf("HashURL(%q): %v", c.url, err)
 		}
-		got := string(h)[11]
+		got := h.String()[11]
 		want := Alphabet[c.flag]
 		if got != want {
 			t.Errorf("%s flag char = %q, want %q (flag %d)", c.url, got, want, c.flag)

@@ -9,12 +9,12 @@ import (
 
 func parseHashField(scope, field, raw string) (yacymodel.Hash, error) {
 	if raw == "" {
-		return "", nil
+		return yacymodel.Hash{}, nil
 	}
 
 	hash, err := yacymodel.ParseHash(raw)
 	if err != nil {
-		return "", fmt.Errorf("%s %s: %w", scope, field, err)
+		return yacymodel.Hash{}, fmt.Errorf("%s %s: %w", scope, field, err)
 	}
 
 	return hash, nil

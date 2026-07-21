@@ -95,12 +95,8 @@ func resolveSiteHash(req yacyproto.SearchRequest, operators queryOperators) (str
 	if err != nil {
 		return "", fmt.Errorf("site hash: %w", err)
 	}
-	hostHash, err := hash.HostHash()
-	if err != nil {
-		return "", fmt.Errorf("site hash: %w", err)
-	}
 
-	return hostHash, nil
+	return hash.HostHash(), nil
 }
 
 func matchReportingFromRequest(req yacyproto.SearchRequest) matchReporting {

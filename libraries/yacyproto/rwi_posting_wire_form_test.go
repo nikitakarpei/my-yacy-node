@@ -19,14 +19,14 @@ func mustParseDay(t *testing.T, day string) time.Time {
 
 func TestRWIPostingWireCodecRoundTrip(t *testing.T) {
 	original := yacymodel.RWIPosting{
-		WordHash:               "ABCDEFGHIJKL",
-		URLHash:                "MNOPQRSTUVWX",
+		WordHash:               mustHash(t, "ABCDEFGHIJKL"),
+		URLHash:                mustURLHash(t, "MNOPQRSTUVWX"),
 		LastModified:           yacymodel.MicroDateFromTime(mustParseDay(t, "2026-07-18")),
 		TitleWords:             3,
 		TextWords:              120,
 		Phrases:                8,
 		DocumentType:           yacymodel.DocumentTypeImage,
-		Language:               "en",
+		Language:               mustLanguage(t, "en"),
 		LocalLinks:             2,
 		ExternalLinks:          5,
 		URLLength:              42,
@@ -58,7 +58,7 @@ func TestRWIPostingWireCodecDecodesStoredLine(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if got.WordHash != "ABCDEFGHIJKL" || got.URLHash != "MNOPQRSTUVWX" {
+	if got.WordHash.String() != "ABCDEFGHIJKL" || got.URLHash.String() != "MNOPQRSTUVWX" {
 		t.Fatalf("decode() hashes = %q/%q", got.WordHash, got.URLHash)
 	}
 	if got.Hits != 7 || got.TextPosition != 258 || got.DocumentType != yacymodel.DocumentTypeImage {
@@ -76,8 +76,8 @@ func TestRWIPostingWireCodecDecodeNormalizesYaCyPropertyForm(t *testing.T) {
 	if got.Hits != 1 || got.TextPosition != 258 || got.LocalLinks != 2 {
 		t.Fatalf("decode() cardinals = %+v", got)
 	}
-	if got.Language != "en" {
-		t.Fatalf("decode() language = %q, want %q", got.Language, "en")
+	if language, ok := got.Language.Get(); !ok || language.String() != "en" {
+		t.Fatalf("decode() language = %v, want %q", got.Language, "en")
 	}
 	if got.DocumentType != yacymodel.DocumentTypeHTML {
 		t.Fatalf("decode() document type = %v", got.DocumentType)
@@ -102,7 +102,10 @@ func TestRWIPostingWireCodecDecodeSparseLine(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	want := yacymodel.RWIPosting{WordHash: "ABCDEFGHIJKL", URLHash: "MNOPQRSTUVWX"}
+	want := yacymodel.RWIPosting{
+		WordHash: mustHash(t, "ABCDEFGHIJKL"),
+		URLHash:  mustURLHash(t, "MNOPQRSTUVWX"),
+	}
 	if got != want {
 		t.Fatalf("decode() = %+v, want %+v", got, want)
 	}

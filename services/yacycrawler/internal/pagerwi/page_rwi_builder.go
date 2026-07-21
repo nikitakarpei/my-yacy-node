@@ -56,7 +56,7 @@ func sharedPosting(
 		URLHash:       urlHash,
 		LastModified:  yacymodel.MicroDateFromTime(page.CrawledAt),
 		DocumentType:  yacymodel.DocumentTypeText,
-		Language:      yacymodel.Language(page.Language),
+		Language:      languageOf(page),
 		LocalLinks:    page.LocalLinkCount,
 		ExternalLinks: page.ExternalLinkCount,
 		URLLength:     len(page.CanonicalURL),
@@ -74,12 +74,24 @@ func metadataOf(
 		Title:         page.Title,
 		Loaded:        yacymodel.CalendarDayOf(page.CrawledAt),
 		DocumentType:  yacymodel.DocumentTypeText,
-		Language:      yacymodel.Language(page.Language),
+		Language:      languageOf(page),
 		ByteSize:      textLength,
 		WordCount:     wordCount,
 		LocalLinks:    page.LocalLinkCount,
 		ExternalLinks: page.ExternalLinkCount,
 	}
+}
+
+func languageOf(page crawlcapability.CrawledPage) yacymodel.Optional[yacymodel.Language] {
+	if page.Language == "" {
+		return yacymodel.None[yacymodel.Language]()
+	}
+	language, err := yacymodel.ParseLanguage(page.Language)
+	if err != nil {
+		return yacymodel.None[yacymodel.Language]()
+	}
+
+	return yacymodel.Some(language)
 }
 
 func componentCount(canonicalURL string) int {

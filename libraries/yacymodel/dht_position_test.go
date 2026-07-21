@@ -3,11 +3,11 @@ package yacymodel
 import "testing"
 
 func TestPosition(t *testing.T) {
-	low, err := Position("AAAAAAAAAAAA")
+	low, err := Position(mustParseHash(t, "AAAAAAAAAAAA"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	high, err := Position("__________AA")
+	high, err := Position(mustParseHash(t, "__________AA"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -16,12 +16,6 @@ func TestPosition(t *testing.T) {
 	}
 	if high != MaxPosition {
 		t.Errorf("Position of all-last folded symbols = %d, want %d", high, MaxPosition)
-	}
-}
-
-func TestPositionInvalid(t *testing.T) {
-	if _, err := Position("===========A"); err == nil {
-		t.Fatal("expected error for invalid hash symbols")
 	}
 }
 

@@ -5,8 +5,6 @@ import (
 	"fmt"
 )
 
-// TODO: YaCy's transport alphabet and its cardinal reader are protocol
-// vocabulary, blocked here because hash and url hash compute identity with them.
 const Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
 
 var ErrInvalidBase64 = errors.New("invalid enhanced base64")

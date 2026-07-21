@@ -13,30 +13,41 @@ const ReservedPrefix = "_____"
 
 var ErrInvalidHash = errors.New("invalid hash")
 
-type Hash string
+type Hash struct{ value string }
 
 func ParseHash(s string) (Hash, error) {
 	if len(s) != HashLength {
-		return "", fmt.Errorf("%w: length %d, want %d", ErrInvalidHash, len(s), HashLength)
+		return Hash{}, fmt.Errorf("%w: length %d, want %d", ErrInvalidHash, len(s), HashLength)
 	}
 	for i := range len(s) {
 		if decodeTable[s[i]] < 0 {
-			return "", fmt.Errorf("%w: %q", ErrInvalidHash, s[i])
+			return Hash{}, fmt.Errorf("%w: %q", ErrInvalidHash, s[i])
 		}
 	}
-	return Hash(s), nil
-}
-
-func (h Hash) Valid() bool {
-	_, err := ParseHash(string(h))
-	return err == nil
+	return Hash{value: s}, nil
 }
 
 func (h Hash) Reserved() bool {
-	return strings.HasPrefix(string(h), ReservedPrefix)
+	return strings.HasPrefix(h.value, ReservedPrefix)
 }
 
-func (h Hash) String() string { return string(h) }
+func (h Hash) IsZero() bool { return h.value == "" }
+
+func (h Hash) String() string { return h.value }
+
+func (h Hash) MarshalText() ([]byte, error) {
+	return []byte(h.value), nil
+}
+
+func (h *Hash) UnmarshalText(text []byte) error {
+	parsed, err := ParseHash(string(text))
+	if err != nil {
+		return err
+	}
+	*h = parsed
+
+	return nil
+}
 
 func WordHash(word string) Hash {
 	sum := md5.Sum([]byte(strings.ToLower(word)))
@@ -47,5 +58,5 @@ func WordHash(word string) Hash {
 		copy(h, h[1:])
 		h[HashLength-1] = lowByte
 	}
-	return Hash(h)
+	return Hash{value: string(h)}
 }

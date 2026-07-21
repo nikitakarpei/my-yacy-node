@@ -27,13 +27,22 @@ func TestParseHash(t *testing.T) {
 	}
 }
 
+func mustParseHash(t *testing.T, s string) Hash {
+	t.Helper()
+	h, err := ParseHash(s)
+	if err != nil {
+		t.Fatalf("ParseHash(%q): %v", s, err)
+	}
+	return h
+}
+
 func TestWordHash(t *testing.T) {
 	h := WordHash("Hello")
-	if !h.Valid() {
-		t.Fatalf("WordHash produced invalid hash %q", h)
+	if _, err := ParseHash(h.String()); err != nil {
+		t.Fatalf("WordHash produced invalid hash %q: %v", h, err)
 	}
-	if len(h) != HashLength {
-		t.Errorf("WordHash length = %d, want %d", len(h), HashLength)
+	if len(h.String()) != HashLength {
+		t.Errorf("WordHash length = %d, want %d", len(h.String()), HashLength)
 	}
 	if h != WordHash("hello") {
 		t.Errorf("WordHash must lower-case: %q != %q", h, WordHash("hello"))
@@ -44,10 +53,10 @@ func TestWordHash(t *testing.T) {
 }
 
 func TestHashReserved(t *testing.T) {
-	if !Hash("_____ABCDEFG").Reserved() {
+	if !mustParseHash(t, "_____ABCDEFG").Reserved() {
 		t.Error("expected reserved prefix to be detected")
 	}
-	if Hash("ABCDEFGHIJKL").Reserved() {
+	if mustParseHash(t, "ABCDEFGHIJKL").Reserved() {
 		t.Error("unexpected reserved detection")
 	}
 }

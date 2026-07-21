@@ -11,11 +11,13 @@ import (
 const hashFiller = "AAAAAAAAAAAA"
 
 func hashFor(base string) yacymodel.Hash {
-	if len(base) >= yacymodel.HashLength {
-		return yacymodel.Hash(base[:yacymodel.HashLength])
+	padded := base + hashFiller
+	hash, err := yacymodel.ParseHash(padded[:yacymodel.HashLength])
+	if err != nil {
+		panic(err)
 	}
 
-	return yacymodel.Hash(base + hashFiller[len(base):])
+	return hash
 }
 
 func callerSeed(t testing.TB, hash, ip string, port int) yacymodel.Seed {

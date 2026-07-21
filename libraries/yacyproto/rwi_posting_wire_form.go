@@ -197,15 +197,19 @@ func (e rwiPostingWireForm) uint16Cardinal(column string) uint16 {
 
 // language keeps only the leading ISO 639-1 code: YaCy peers are known to send
 // three-letter codes in this column.
-func (e rwiPostingWireForm) language() (yacymodel.Language, error) {
+func (e rwiPostingWireForm) language() (yacymodel.Optional[yacymodel.Language], error) {
 	value, ok := e.properties[colLanguage]
 	if !ok {
-		return "", nil
+		return yacymodel.None[yacymodel.Language](), nil
 	}
 	if len(value) > yacymodel.LanguageCodeLength {
 		value = value[:yacymodel.LanguageCodeLength]
 	}
-	return yacymodel.ParseLanguage(value)
+	language, err := yacymodel.ParseLanguage(value)
+	if err != nil {
+		return yacymodel.None[yacymodel.Language](), err
+	}
+	return yacymodel.Some(language), nil
 }
 
 func (e rwiPostingWireForm) appearance() (yacymodel.Appearance, error) {
@@ -242,8 +246,8 @@ func rwiPostingWireFormFromDomain(p yacymodel.RWIPosting) rwiPostingWireForm {
 		colPhraseRelativePos: strconv.Itoa(p.PhraseRelativePosition),
 		colPhrasePosition:    strconv.Itoa(p.PhrasePosition),
 	}
-	if p.Language != "" {
-		props[colLanguage] = string(p.Language)
+	if language, ok := p.Language.Get(); ok {
+		props[colLanguage] = language.String()
 	}
 	return rwiPostingWireForm{wordHash: p.WordHash, properties: props}
 }
@@ -278,7 +282,7 @@ func (e rwiPostingWireForm) line() string {
 	}
 	slices.Sort(keys)
 	var b strings.Builder
-	b.WriteString(string(e.wordHash))
+	b.WriteString(e.wordHash.String())
 	b.WriteByte(propertyOpen)
 	for i, k := range keys {
 		if i > 0 {

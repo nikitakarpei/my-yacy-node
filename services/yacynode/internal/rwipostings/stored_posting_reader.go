@@ -76,6 +76,20 @@ func (r *postingReader) fixed(field string, length int) []byte {
 	return raw
 }
 
+func (r *postingReader) language(field string) yacymodel.Optional[yacymodel.Language] {
+	raw := r.lengthPrefixed(field)
+	if r.err != nil || len(raw) == 0 {
+		return yacymodel.None[yacymodel.Language]()
+	}
+	language, err := yacymodel.ParseLanguage(string(raw))
+	if err != nil {
+		r.fail(field, err)
+		return yacymodel.None[yacymodel.Language]()
+	}
+
+	return yacymodel.Some(language)
+}
+
 func (r *postingReader) lengthPrefixed(field string) []byte {
 	if r.err != nil {
 		return nil

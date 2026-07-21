@@ -31,10 +31,7 @@ func TestSiteHashFromOperatorBeforeStructuredHost(t *testing.T) {
 	if err != nil {
 		t.Fatalf("HashURLHost: %v", err)
 	}
-	want, err := hash.HostHash()
-	if err != nil {
-		t.Fatalf("HostHash: %v", err)
-	}
+	want := hash.HostHash()
 	if criteria.siteHash != want {
 		t.Fatalf("siteHash = %q, want %q", criteria.siteHash, want)
 	}
@@ -50,10 +47,7 @@ func TestSiteHashFromStructuredHostFallback(t *testing.T) {
 	if err != nil {
 		t.Fatalf("HashURLHost: %v", err)
 	}
-	want, err := hash.HostHash()
-	if err != nil {
-		t.Fatalf("HostHash: %v", err)
-	}
+	want := hash.HostHash()
 	if criteria.siteHash != want {
 		t.Fatalf("siteHash = %q, want %q", criteria.siteHash, want)
 	}

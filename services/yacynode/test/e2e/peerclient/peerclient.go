@@ -25,7 +25,16 @@ const (
 	ExposedPort = Port + "/tcp"
 )
 
-const helloProbeHash = "REMOTEPEER12"
+var helloProbeHash = mustHash("REMOTEPEER12")
+
+func mustHash(raw string) yacymodel.Hash {
+	hash, err := yacymodel.ParseHash(raw)
+	if err != nil {
+		panic(err)
+	}
+
+	return hash
+}
 
 func QueryCount(
 	ctx context.Context,
@@ -68,7 +77,7 @@ func ResolveHash(
 	t.Helper()
 	req := yacyproto.HelloRequest{
 		NetworkName: yacyproto.DefaultNetwork,
-		Iam:         yacymodel.Hash(helloProbeHash),
+		Iam:         helloProbeHash,
 		Seed:        helloProbeSeed(),
 	}
 	result := probe.Get(ctx, peerURL+"/yacy/hello.html?"+req.Form().Encode())
@@ -91,7 +100,7 @@ func helloProbeSeed() yacymodel.Seed {
 	port, _ := yacymodel.ParsePort(Port)
 	name, _ := yacymodel.ParsePeerName("e2e-hello-probe")
 	return yacymodel.Seed{
-		Hash:      yacymodel.Hash(helloProbeHash),
+		Hash:      helloProbeHash,
 		Name:      name,
 		PeerType:  yacymodel.PeerSenior,
 		Port:      yacymodel.Some(port),

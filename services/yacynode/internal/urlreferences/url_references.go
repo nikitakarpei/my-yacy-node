@@ -36,7 +36,7 @@ func (r *urlReferences) PostingStored(tx *vault.Txn, word, url yacymodel.Hash) e
 	if err := r.words.Put(tx, wordByURL{url: url, word: word}.key(), struct{}{}); err != nil {
 		return fmt.Errorf("record word by url: %w", err)
 	}
-	if err := r.referenced.Put(tx, vault.Key(url), struct{}{}); err != nil {
+	if err := r.referenced.Put(tx, vault.Key(url.String()), struct{}{}); err != nil {
 		return fmt.Errorf("record referenced url: %w", err)
 	}
 
@@ -55,7 +55,7 @@ func (r *urlReferences) PostingPurged(tx *vault.Txn, word, url yacymodel.Hash) e
 	if len(remaining) > 0 {
 		return nil
 	}
-	if _, err := r.referenced.Delete(tx, vault.Key(url)); err != nil {
+	if _, err := r.referenced.Delete(tx, vault.Key(url.String())); err != nil {
 		return fmt.Errorf("drop referenced url: %w", err)
 	}
 
@@ -69,7 +69,7 @@ func (r *urlReferences) WordsReferencing(
 	var words []yacymodel.Hash
 	err := r.words.Scan(
 		tx,
-		vault.Key(url),
+		vault.Key(url.String()),
 		func(key vault.Key, _ struct{}) (bool, error) {
 			word, err := wordFromKey(key)
 			if err != nil {

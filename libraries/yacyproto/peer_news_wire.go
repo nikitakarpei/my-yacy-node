@@ -107,7 +107,7 @@ func (peerNewsWireCodec) encode(news yacymodel.PeerNews) string {
 	timestamp := seedTimestampWireCodec{}
 	pairs := []string{
 		newsColOriginator + "=" + news.Originator.String(),
-		newsColCategory + "=" + string(news.Category),
+		newsColCategory + "=" + news.Category.String(),
 		newsColCreated + "=" + timestamp.encode(news.Created),
 	}
 	if received, ok := news.Received.Get(); ok {

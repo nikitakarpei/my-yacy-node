@@ -27,7 +27,7 @@ func (r rankedURL) orderKey() vault.Key {
 	var key bytes.Buffer
 	key.WriteString(string(r.rank))
 	key.WriteByte(freshnessHashSeparator)
-	key.WriteString(string(r.hash))
+	key.WriteString(r.hash.String())
 
 	return key.Bytes()
 }
@@ -35,12 +35,12 @@ func (r rankedURL) orderKey() vault.Key {
 func hashFromOrderKey(key vault.Key) (yacymodel.Hash, error) {
 	_, encodedHash, found := bytes.Cut(key, []byte{freshnessHashSeparator})
 	if !found {
-		return "", fmt.Errorf("staleness order key without separator")
+		return yacymodel.Hash{}, fmt.Errorf("staleness order key without separator")
 	}
 
 	hash, err := yacymodel.ParseHash(string(encodedHash))
 	if err != nil {
-		return "", fmt.Errorf("staleness order hash: %w", err)
+		return yacymodel.Hash{}, fmt.Errorf("staleness order hash: %w", err)
 	}
 
 	return hash, nil

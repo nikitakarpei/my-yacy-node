@@ -41,8 +41,11 @@ func (s searcher) postingFilter(
 }
 
 func (f postingFilter) matches(ctx context.Context, posting yacymodel.RWIPosting) bool {
-	if f.language != "" && string(posting.Language) != f.language {
-		return false
+	if f.language != "" {
+		code, ok := posting.Language.Get()
+		if !ok || code.String() != f.language {
+			return false
+		}
 	}
 	document := posting.URLHash.Hash()
 	if len(f.requiredDocuments) != 0 {
@@ -67,14 +70,13 @@ func matchesSiteHost(ctx context.Context, location yacymodel.URLHash, siteHash s
 	if siteHash == "" {
 		return true
 	}
-	hostHash, err := location.HostHash()
-	if err != nil {
-		slog.WarnContext(ctx, msgSiteHostUndetermined, slog.Any("error", err))
+	if location.IsZero() {
+		slog.WarnContext(ctx, msgSiteHostUndetermined)
 
 		return false
 	}
 
-	return hostHash == siteHash
+	return location.HostHash() == siteHash
 }
 
 func matchesContentKind(posting yacymodel.RWIPosting, kind contentKind, strict bool) bool {
