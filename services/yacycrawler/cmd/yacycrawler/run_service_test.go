@@ -9,7 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
 )
 
 func publishedPageStreams() []PageStreamConfig {
@@ -50,7 +50,7 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 	if err := RunService(
 		ctx,
 		cfg,
-		crawlmetrics.New(),
+		prometheus.New(),
 	); err != nil &&
 		!errors.Is(err, context.DeadlineExceeded) {
 		t.Fatalf("RunService: %v", err)
@@ -68,14 +68,14 @@ func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 		FetchDeadline: time.Second, OpsAddr: "127.0.0.1:0",
 		ContentTypes: []string{"application/unregistered"},
 	}
-	if err := RunService(context.Background(), cfg, crawlmetrics.New()); err == nil {
+	if err := RunService(context.Background(), cfg, prometheus.New()); err == nil {
 		t.Fatal("empty active extractor set should fail startup")
 	}
 }
 
 func TestRunServiceRejectsBadNATSURL(t *testing.T) {
 	cfg := ServiceConfig{NATSURL: "nats://127.0.0.1:1", FetchConcurrency: 2, OpsAddr: "127.0.0.1:0"}
-	if err := RunService(context.Background(), cfg, crawlmetrics.New()); err == nil {
+	if err := RunService(context.Background(), cfg, prometheus.New()); err == nil {
 		t.Fatal("unreachable nats should fail")
 	}
 }

@@ -6,48 +6,52 @@ allow:
   deepScan: false
 
 components:
-  redirectresolution:
-    in: internal/redirectresolution/**
-  crawlcapability:
-    in: internal/crawlcapability/**
+  ordersettlement:
+    in: internal/crawl/ordersettlement/**
+  ordertraversal:
+    in: internal/crawl/ordertraversal/**
+  pagevisit:
+    in: internal/crawl/pagevisit/**
+  pageabsorption:
+    in: internal/crawl/pageabsorption/**
+  contentformatgraph:
+    in: internal/crawl/contentformatgraph/**
+  contentextraction:
+    in: internal/crawl/contentextraction/**
+  pagefetchershttp:
+    in: internal/pagefetchers/http/**
+  documentextractorshtml:
+    in: internal/documentextractors/html/**
+  documentextractorsarchive:
+    in: internal/documentextractors/archive/**
+  pagederivationsfulltext:
+    in: internal/pagederivations/fulltext/**
+  pagederivationsreadablehtml:
+    in: internal/pagederivations/readablehtml/**
+  pagederivationsreadabletext:
+    in: internal/pagederivations/readabletext/**
+  pagederivationsmarkdown:
+    in: internal/pagederivations/markdown/**
+  pagefeedsrwi:
+    in: internal/pagefeeds/rwi/**
+  pagefeedstext:
+    in: internal/pagefeeds/text/**
+  pagefeedsmarkdown:
+    in: internal/pagefeeds/markdown/**
+  recrawlpoliciesalwaysdue:
+    in: internal/recrawlpolicies/alwaysdue/**
+  orderreceiversjetstream:
+    in: internal/orderreceivers/jetstream/**
+  redirectresolversjetstream:
+    in: internal/redirectresolvers/jetstream/**
+  progressobserversprometheus:
+    in: internal/progressobservers/prometheus/**
+  feedpublishersjetstream:
+    in: internal/feedpublishers/jetstream/**
+  htmlflattening:
+    in: internal/htmlflattening/**
   contextcancellation:
     in: internal/contextcancellation/**
-  ordersettlement:
-    in: internal/ordersettlement/**
-  ordertraversal:
-    in: internal/ordertraversal/**
-  pagevisit:
-    in: internal/pagevisit/**
-  pageabsorption:
-    in: internal/pageabsorption/**
-  contentformatgraph:
-    in: internal/contentformatgraph/**
-  htmlpage:
-    in: internal/htmlpage/**
-  contentextraction:
-    in: internal/contentextraction/**
-  archivemember:
-    in: internal/archivemember/**
-  httpfetch:
-    in: internal/httpfetch/**
-  rwirepresentation:
-    in: internal/rwirepresentation/**
-  pagereadabletext:
-    in: internal/pagereadabletext/**
-  pagereadablehtml:
-    in: internal/pagereadablehtml/**
-  htmltext:
-    in: internal/htmltext/**
-  pagemarkdown:
-    in: internal/pagemarkdown/**
-  pagefulltext:
-    in: internal/pagefulltext/**
-  pagefeed:
-    in: internal/pagefeed/**
-  orderintake:
-    in: internal/orderintake/**
-  crawlmetrics:
-    in: internal/crawlmetrics/**
   crawlercmd:
     in: cmd/yacycrawler/**
 
@@ -98,34 +102,17 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
 
 deps:
-  redirectresolution:
-    mayDependOn:
-      - redirectresolution
-    canUse:
-      - yacycrawlcontract
-      - nats
-      - natstestserver
-  crawlcapability:
-    mayDependOn:
-      - crawlcapability
-    canUse:
-      - yacycrawlcontract
-      - yacymodel
-  contextcancellation:
-    mayDependOn:
-      - contextcancellation
   ordersettlement:
     mayDependOn:
       - ordersettlement
-      - crawlcapability
       - contextcancellation
     canUse:
       - yacycrawlcontract
   ordertraversal:
     mayDependOn:
       - ordertraversal
+      - ordersettlement
       - pagevisit
-      - crawlcapability
       - contextcancellation
     canUse:
       - yacycrawlcontract
@@ -133,12 +120,13 @@ deps:
   pagevisit:
     mayDependOn:
       - pagevisit
-      - crawlcapability
+      - recrawlpoliciesalwaysdue
   pageabsorption:
     mayDependOn:
       - pageabsorption
       - contentformatgraph
-      - crawlcapability
+      - contentextraction
+      - pagevisit
     canUse:
       - yacycrawlcontract
       - canonicalurl
@@ -146,88 +134,115 @@ deps:
   contentformatgraph:
     mayDependOn:
       - contentformatgraph
-      - crawlcapability
-  rwirepresentation:
-    mayDependOn:
-      - rwirepresentation
-      - crawlcapability
-      - htmltext
-    canUse:
-      - yacycrawlcontract
-      - yacymodel
-  pagereadabletext:
-    mayDependOn:
-      - pagereadabletext
-      - crawlcapability
-      - htmltext
-    canUse:
-      - yacycrawlcontract
-  pagereadablehtml:
-    mayDependOn:
-      - pagereadablehtml
-      - crawlcapability
-    canUse:
-      - readability
-      - xnet
-  htmltext:
-    mayDependOn:
-      - htmltext
-    canUse:
-      - xnet
-  pagemarkdown:
-    mayDependOn:
-      - pagemarkdown
-      - crawlcapability
-    canUse:
-      - yacycrawlcontract
-      - htmltomarkdown
-  pagefulltext:
-    mayDependOn:
-      - pagefulltext
-      - crawlcapability
-      - htmltext
-  htmlpage:
-    mayDependOn:
-      - htmlpage
-      - crawlcapability
-    canUse:
-      - canonicalurl
-      - xnet
   contentextraction:
     mayDependOn:
       - contentextraction
-      - crawlcapability
-  archivemember:
+      - contentformatgraph
+  pagefetchershttp:
     mayDependOn:
-      - archivemember
-      - crawlcapability
-  httpfetch:
+      - pagefetchershttp
+      - pagevisit
+  documentextractorshtml:
     mayDependOn:
-      - httpfetch
-      - crawlcapability
-  pagefeed:
+      - documentextractorshtml
+      - contentextraction
+      - contentformatgraph
+    canUse:
+      - canonicalurl
+      - xnet
+  documentextractorsarchive:
     mayDependOn:
-      - pagefeed
-      - crawlcapability
-      - rwirepresentation
+      - documentextractorsarchive
+      - contentextraction
+  pagederivationsfulltext:
+    mayDependOn:
+      - pagederivationsfulltext
+      - contentformatgraph
+      - htmlflattening
+  pagederivationsreadablehtml:
+    mayDependOn:
+      - pagederivationsreadablehtml
+      - contentformatgraph
+    canUse:
+      - readability
+      - xnet
+  pagederivationsreadabletext:
+    mayDependOn:
+      - pagederivationsreadabletext
+      - contentformatgraph
+      - htmlflattening
+  pagederivationsmarkdown:
+    mayDependOn:
+      - pagederivationsmarkdown
+      - contentformatgraph
+    canUse:
+      - htmltomarkdown
+  pagefeedsrwi:
+    mayDependOn:
+      - pagefeedsrwi
+      - pageabsorption
+      - contentformatgraph
     canUse:
       - yacycrawlcontract
       - yacymodel
-      - nats
-      - natstestserver
-  orderintake:
+  pagefeedstext:
     mayDependOn:
-      - orderintake
-      - crawlcapability
+      - pagefeedstext
+      - pageabsorption
+      - contentformatgraph
+    canUse:
+      - yacycrawlcontract
+  pagefeedsmarkdown:
+    mayDependOn:
+      - pagefeedsmarkdown
+      - pageabsorption
+      - contentformatgraph
+    canUse:
+      - yacycrawlcontract
+  recrawlpoliciesalwaysdue:
+    mayDependOn:
+      - recrawlpoliciesalwaysdue
+  orderreceiversjetstream:
+    mayDependOn:
+      - orderreceiversjetstream
+      - ordersettlement
     canUse:
       - yacycrawlcontract
       - nats
       - natstestserver
-  crawlmetrics:
+  redirectresolversjetstream:
     mayDependOn:
-      - crawlmetrics
+      - redirectresolversjetstream
+    canUse:
+      - yacycrawlcontract
+      - nats
+      - natstestserver
+  progressobserversprometheus:
+    mayDependOn:
+      - progressobserversprometheus
+      - ordersettlement
+      - ordertraversal
+      - pageabsorption
+      - pagevisit
     canUse:
       - prometheus
+  feedpublishersjetstream:
+    mayDependOn:
+      - feedpublishersjetstream
+      - pageabsorption
+      - contentformatgraph
+    canUse:
+      - yacycrawlcontract
+      - nats
+      - natstestserver
+  htmlflattening:
+    mayDependOn:
+      - htmlflattening
+    canUse:
+      - xnet
+  contextcancellation:
+    mayDependOn:
+      - contextcancellation
   crawlercmd:
     mayDependOn:
       - ordersettlement
@@ -235,19 +250,22 @@ deps:
       - pagevisit
       - pageabsorption
       - contentformatgraph
-      - crawlcapability
-      - htmlpage
       - contentextraction
-      - archivemember
-      - httpfetch
-      - pagefeed
-      - pagereadabletext
-      - pagereadablehtml
-      - pagemarkdown
-      - pagefulltext
-      - orderintake
-      - crawlmetrics
-      - redirectresolution
+      - pagefetchershttp
+      - documentextractorshtml
+      - documentextractorsarchive
+      - pagederivationsfulltext
+      - pagederivationsreadablehtml
+      - pagederivationsreadabletext
+      - pagederivationsmarkdown
+      - pagefeedsrwi
+      - pagefeedstext
+      - pagefeedsmarkdown
+      - recrawlpoliciesalwaysdue
+      - orderreceiversjetstream
+      - redirectresolversjetstream
+      - progressobserversprometheus
+      - feedpublishersjetstream
     canUse:
       - yacycrawlcontract
       - nats

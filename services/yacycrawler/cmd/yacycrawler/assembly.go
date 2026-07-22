@@ -14,19 +14,19 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/archivemember"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/contentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/contentformatgraph"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlmetrics"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/htmlpage"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/httpfetch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/ordersettlement"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/ordertraversal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pageabsorption"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolution"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/documentextractors/archive"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/documentextractors/html"
+	orderreceiversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
+	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlpolicies/alwaysdue"
+	redirectresolversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolvers/jetstream"
 )
 
 const (
@@ -46,7 +46,11 @@ const (
 	msgServiceStopped     = "crawler stopped"
 )
 
-func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.CrawlMetrics) error {
+func RunService(
+	ctx context.Context,
+	cfg ServiceConfig,
+	metrics *prometheus.CrawlMetrics,
+) error {
 	js, conn, err := jetstreamconnect.Open(cfg.NATSURL)
 	if err != nil {
 		return err
@@ -60,12 +64,12 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 	if err != nil {
 		return err
 	}
-	receiver, err := orderintake.NewOrderReceiver(ctx, consumer)
+	receiver, err := orderreceiversjetstream.NewOrderReceiver(ctx, consumer)
 	if err != nil {
 		return fmt.Errorf("start order receiver: %w", err)
 	}
 
-	fetch := httpfetch.New(
+	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
 		cfg.ProxyDialMode,
 		cfg.UserAgent,
@@ -83,7 +87,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 
 	visitor := pagevisit.NewPageVisit(
 		fetch,
-		pagevisit.AlwaysDue{},
+		alwaysdue.AlwaysDue{},
 		absorption,
 		metrics,
 		wallclock.Clock{},
@@ -94,7 +98,6 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		metrics,
 		wallclock.Clock{},
 	)
-	runner := ordersettlement.NewOrderRunner(metrics, traverser, wallclock.Clock{}, ordersAckWait/2)
 
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
@@ -111,7 +114,14 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 	err = servergroup.Run(ctx, opsShutdownLimit,
 		[]servergroup.NamedServer{{Name: "ops", Server: opsServer}},
 		func(runCtx context.Context) error {
-			return runner.Run(runCtx, receiver.Deliveries())
+			return ordersettlement.Run(
+				runCtx,
+				receiver.Deliveries(),
+				traverser,
+				metrics,
+				wallclock.Clock{},
+				ordersAckWait/2,
+			)
 		},
 	)
 	slog.InfoContext(ctx, msgServiceStopped)
@@ -140,12 +150,12 @@ func ensureStreams(ctx context.Context, js jetstream.JetStream, cfg ServiceConfi
 func redirectRecorder(
 	ctx context.Context,
 	js jetstream.JetStream,
-) (crawlcapability.RedirectResolution, error) {
+) (pageabsorption.RedirectResolver, error) {
 	bucket, err := js.KeyValue(ctx, yacycrawlcontract.RedirectResolutionBucketName)
 	if err != nil {
 		return nil, fmt.Errorf("open redirect resolution bucket: %w", err)
 	}
-	return redirectresolution.New(bucket), nil
+	return redirectresolversjetstream.New(bucket), nil
 }
 
 func publishedRepresentations(cfg ServiceConfig) []string {
@@ -177,7 +187,7 @@ func ordersConsumer(
 	return consumer, nil
 }
 
-func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability.PageFeed {
+func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []pageabsorption.Feed {
 	subjects := make(
 		map[yacycrawlcontract.PageRepresentationKind]string,
 		len(cfg.PageStreams),
@@ -187,7 +197,7 @@ func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability
 			subjects[stream.Representation] = stream.Stream.Subject
 		}
 	}
-	feeds := make([]crawlcapability.PageFeed, 0, len(subjects))
+	feeds := make([]pageabsorption.Feed, 0, len(subjects))
 	for _, preset := range pageFeedCatalog() {
 		subject, published := subjects[preset.representation]
 		if !published {
@@ -201,8 +211,8 @@ func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability
 func buildAbsorption(
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-	resolve crawlcapability.RedirectResolution,
-	observer crawlcapability.RunProgress,
+	resolve pageabsorption.RedirectResolver,
+	observer pageabsorption.Progress,
 ) (*pageabsorption.Absorption, error) {
 	feeds := buildPageFeeds(js, cfg)
 	graph := contentformatgraph.New(pageDerivationCatalog())
@@ -227,29 +237,29 @@ func buildAbsorption(
 	), nil
 }
 
-func feedContentFormats(feeds []crawlcapability.PageFeed) []crawlcapability.PageContentFormat {
-	formats := make([]crawlcapability.PageContentFormat, 0, len(feeds))
+func feedContentFormats(feeds []pageabsorption.Feed) []contentformatgraph.Format {
+	formats := make([]contentformatgraph.Format, 0, len(feeds))
 	for _, feed := range feeds {
 		formats = append(formats, feed.ContentFormat())
 	}
 	return formats
 }
 
-func buildExtractor(cfg ServiceConfig) (crawlcapability.DocumentExtraction, error) {
+func buildExtractor(cfg ServiceConfig) (pageabsorption.DocumentExtractor, error) {
 	allow := allowedMediaTypes(cfg.ContentTypes)
 	router := contentextraction.New(containerMaxDepth, containerMaxDocuments)
 
-	html := htmlpage.New()
-	for _, mediaType := range html.MediaTypes() {
+	htmlExtractor := html.New()
+	for _, mediaType := range htmlExtractor.MediaTypes() {
 		if allow == nil || allow[mediaType] {
-			router.RegisterExtractor(mediaType, html)
+			router.RegisterExtractor(mediaType, htmlExtractor)
 		}
 	}
 
-	archive := archivemember.New(archiveMaxMembers, cfg.MaxBodyBytes)
-	for _, mediaType := range archive.MediaTypes() {
+	archiveContainer := archive.New(archiveMaxMembers, cfg.MaxBodyBytes)
+	for _, mediaType := range archiveContainer.MediaTypes() {
 		if allow == nil || allow[mediaType] {
-			router.RegisterContainer(mediaType, archive)
+			router.RegisterContainer(mediaType, archiveContainer)
 		}
 	}
 

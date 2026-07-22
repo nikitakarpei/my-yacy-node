@@ -1,19 +1,19 @@
 package main
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefulltext"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagemarkdown"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagereadablehtml"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagereadabletext"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagederivations/fulltext"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagederivations/markdown"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagederivations/readablehtml"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagederivations/readabletext"
 )
 
-func pageDerivationCatalog() []crawlcapability.PageDerivation {
-	return []crawlcapability.PageDerivation{
-		pagefulltext.NewDocumentHTMLDerivation(),
-		pagereadablehtml.NewDocumentHTMLDerivation(),
-		pagereadabletext.NewReadableHTMLDerivation(),
-		pagereadabletext.NewFullTextDerivation(),
-		pagemarkdown.NewReadableHTMLDerivation(),
+func pageDerivationCatalog() []contentformatgraph.Derivation {
+	return []contentformatgraph.Derivation{
+		fulltext.NewDocumentHTMLDerivation(),
+		readablehtml.NewDocumentHTMLDerivation(),
+		readabletext.NewReadableHTMLDerivation(),
+		readabletext.NewFullTextDerivation(),
+		markdown.NewReadableHTMLDerivation(),
 	}
 }
