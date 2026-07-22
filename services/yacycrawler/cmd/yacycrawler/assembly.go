@@ -73,7 +73,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		return err
 	}
 	feeds := buildPageFeeds(js, cfg)
-	renderings, err := buildPageRenderings(feeds)
+	derivations, err := buildPageDerivations(feeds)
 	if err != nil {
 		return err
 	}
@@ -90,7 +90,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		crawltraversal.AlwaysDue{},
 		resolve,
 		feeds,
-		renderings,
+		derivations,
 		metrics,
 		crawltraversal.SystemClock{},
 	)
@@ -198,24 +198,25 @@ func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability
 	return feeds
 }
 
-func buildPageRenderings(
+func buildPageDerivations(
 	feeds []crawlcapability.PageFeed,
-) ([]crawlcapability.PageRendering, error) {
-	derivations := make(map[crawlcapability.PageContentFormat][]crawlcapability.PageRendering)
-	for _, rendering := range pageRenderingCatalog() {
-		derivations[rendering.Format()] = append(derivations[rendering.Format()], rendering)
+) ([]crawlcapability.PageDerivation, error) {
+	byTargetFormat := make(map[crawlcapability.PageContentFormat][]crawlcapability.PageDerivation)
+	for _, derivation := range pageDerivationCatalog() {
+		target := derivation.TargetFormat()
+		byTargetFormat[target] = append(byTargetFormat[target], derivation)
 	}
-	renderings := []crawlcapability.PageRendering{}
+	derivations := []crawlcapability.PageDerivation{}
 	selected := map[crawlcapability.PageContentFormat]bool{}
 	var require func(crawlcapability.PageFeed, crawlcapability.PageContentFormat) error
 	require = func(feed crawlcapability.PageFeed, format crawlcapability.PageContentFormat) error {
 		if format == crawlcapability.PageContentFormatDocumentHTML || selected[format] {
 			return nil
 		}
-		candidates, ok := derivations[format]
+		candidates, ok := byTargetFormat[format]
 		if !ok {
 			return fmt.Errorf(
-				"page %s feed reads %s content, which no rendering produces",
+				"page %s feed reads %s content, which no derivation produces",
 				feed.Representation(), format,
 			)
 		}
@@ -224,7 +225,7 @@ func buildPageRenderings(
 			if err := require(feed, candidate.SourceFormat()); err != nil {
 				return err
 			}
-			renderings = append(renderings, candidate)
+			derivations = append(derivations, candidate)
 		}
 		return nil
 	}
@@ -233,7 +234,7 @@ func buildPageRenderings(
 			return nil, err
 		}
 	}
-	return renderings, nil
+	return derivations, nil
 }
 
 func buildExtractor(cfg ServiceConfig) (crawlcapability.DocumentExtraction, error) {

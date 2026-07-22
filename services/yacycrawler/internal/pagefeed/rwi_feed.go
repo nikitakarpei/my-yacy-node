@@ -7,7 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerwi"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/rwirepresentation"
 )
 
 const postingsPerChunkLimit = 1000
@@ -32,7 +32,7 @@ func (RWIFeed) Derive(
 	page crawlcapability.CrawledPage,
 	content []byte,
 ) (crawlcapability.PagePublication, error) {
-	representation, err := pagerwi.Build(page, content)
+	representation, err := rwirepresentation.Build(page, content)
 	if err != nil {
 		return crawlcapability.PagePublication{}, err
 	}

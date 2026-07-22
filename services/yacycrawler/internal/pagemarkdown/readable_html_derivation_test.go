@@ -8,25 +8,25 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagemarkdown"
 )
 
-func TestHTMLRenderingReadsReadableHTMLAndTargetsMarkdown(t *testing.T) {
-	rendering := pagemarkdown.NewHTMLRendering()
-	if source := rendering.SourceFormat(); source != crawlcapability.PageContentFormatReadableHTML {
+func TestDeriveDeclaresReadableHTMLToMarkdown(t *testing.T) {
+	derivation := pagemarkdown.NewReadableHTMLDerivation()
+	if source := derivation.SourceFormat(); source != crawlcapability.PageContentFormatReadableHTML {
 		t.Fatalf("source format = %q, want readable-html", source)
 	}
-	if format := rendering.Format(); format != crawlcapability.PageContentFormatMarkdown {
-		t.Fatalf("format = %q, want markdown", format)
+	if target := derivation.TargetFormat(); target != crawlcapability.PageContentFormatMarkdown {
+		t.Fatalf("target format = %q, want markdown", target)
 	}
 }
 
-func TestHTMLRenderingConvertsStructureToMarkdown(t *testing.T) {
-	body, err := pagemarkdown.NewHTMLRendering().Render(
+func TestDeriveConvertsStructureToMarkdown(t *testing.T) {
+	body, err := pagemarkdown.NewReadableHTMLDerivation().Derive(
 		"https://example.com/",
 		[]byte(
 			`<h1>Title</h1><p>A <b>bold</b> word and a <a href="http://e.example/x">link</a>.</p>`,
 		),
 	)
 	if err != nil {
-		t.Fatalf("render: %v", err)
+		t.Fatalf("derive: %v", err)
 	}
 	markdown := string(body)
 	if !strings.Contains(markdown, "# Title") {

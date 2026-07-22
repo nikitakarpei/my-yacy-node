@@ -9,28 +9,28 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
-type unrenderableFeed struct{}
+type underivableFeed struct{}
 
-func (unrenderableFeed) Representation() yacycrawlcontract.PageRepresentationKind {
+func (underivableFeed) Representation() yacycrawlcontract.PageRepresentationKind {
 	return yacycrawlcontract.PageRepresentationKindText
 }
 
-func (unrenderableFeed) ContentFormat() crawlcapability.PageContentFormat {
+func (underivableFeed) ContentFormat() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormat("unproduced")
 }
 
-func (unrenderableFeed) Derive(
+func (underivableFeed) Derive(
 	crawlcapability.CrawledPage,
 	[]byte,
 ) (crawlcapability.PagePublication, error) {
 	return crawlcapability.PagePublication{}, nil
 }
 
-func (unrenderableFeed) Publish(context.Context, crawlcapability.PagePublication) error {
+func (underivableFeed) Publish(context.Context, crawlcapability.PagePublication) error {
 	return nil
 }
 
-type markdownContentFeed struct{ unrenderableFeed }
+type markdownContentFeed struct{ underivableFeed }
 
 func (markdownContentFeed) ContentFormat() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatMarkdown
@@ -43,15 +43,15 @@ func TestBuildPageFeedsSelectsTheConfiguredRepresentations(t *testing.T) {
 	}
 }
 
-func TestBuildPageRenderingsGivesRWIOnlyTheFullTextRendering(t *testing.T) {
+func TestBuildPageDerivationsGivesRWIOnlyTheFullTextDerivation(t *testing.T) {
 	feeds := buildPageFeeds(nil, ServiceConfig{PageStreams: publishedPageStreams()})
-	renderings, err := buildPageRenderings(feeds)
+	derivations, err := buildPageDerivations(feeds)
 	if err != nil {
-		t.Fatalf("build page renderings: %v", err)
+		t.Fatalf("build page derivations: %v", err)
 	}
-	produced := make([]crawlcapability.PageContentFormat, 0, len(renderings))
-	for _, rendering := range renderings {
-		produced = append(produced, rendering.Format())
+	produced := make([]crawlcapability.PageContentFormat, 0, len(derivations))
+	for _, derivation := range derivations {
+		produced = append(produced, derivation.TargetFormat())
 	}
 	want := []crawlcapability.PageContentFormat{crawlcapability.PageContentFormatFullText}
 	if !slices.Equal(produced, want) {
@@ -59,14 +59,14 @@ func TestBuildPageRenderingsGivesRWIOnlyTheFullTextRendering(t *testing.T) {
 	}
 }
 
-func TestBuildPageRenderingsResolvesTheChainToWhatAFeedReads(t *testing.T) {
-	renderings, err := buildPageRenderings([]crawlcapability.PageFeed{markdownContentFeed{}})
+func TestBuildPageDerivationsResolvesTheChainToWhatAFeedReads(t *testing.T) {
+	derivations, err := buildPageDerivations([]crawlcapability.PageFeed{markdownContentFeed{}})
 	if err != nil {
-		t.Fatalf("build page renderings: %v", err)
+		t.Fatalf("build page derivations: %v", err)
 	}
-	produced := make([]crawlcapability.PageContentFormat, 0, len(renderings))
-	for _, rendering := range renderings {
-		produced = append(produced, rendering.Format())
+	produced := make([]crawlcapability.PageContentFormat, 0, len(derivations))
+	for _, derivation := range derivations {
+		produced = append(produced, derivation.TargetFormat())
 	}
 	want := []crawlcapability.PageContentFormat{
 		crawlcapability.PageContentFormatReadableHTML,
@@ -77,10 +77,10 @@ func TestBuildPageRenderingsResolvesTheChainToWhatAFeedReads(t *testing.T) {
 	}
 }
 
-func TestBuildPageRenderingsRejectsUnrenderableContentFormat(t *testing.T) {
-	_, err := buildPageRenderings([]crawlcapability.PageFeed{unrenderableFeed{}})
+func TestBuildPageDerivationsRejectsUnderivableContentFormat(t *testing.T) {
+	_, err := buildPageDerivations([]crawlcapability.PageFeed{underivableFeed{}})
 	if err == nil {
-		t.Fatal("feed reading a format no rendering produces should error")
+		t.Fatal("feed reading a format no derivation produces should error")
 	}
 }
 

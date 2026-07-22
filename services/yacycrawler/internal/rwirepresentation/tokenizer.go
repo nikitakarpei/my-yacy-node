@@ -1,4 +1,4 @@
-package pagerwi
+package rwirepresentation
 
 import (
 	"strings"

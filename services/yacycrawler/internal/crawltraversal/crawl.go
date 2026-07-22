@@ -15,34 +15,34 @@ import (
 const msgDeferralsExhausted = "url dropped after exhausting deferrals"
 
 type crawl struct {
-	config     Config
-	fetch      crawlcapability.PageRetrieval
-	extract    crawlcapability.DocumentExtraction
-	recrawl    crawlcapability.RecrawlDecision
-	resolve    crawlcapability.RedirectResolution
-	feeds      []crawlcapability.PageFeed
-	renderings []crawlcapability.PageRendering
-	observer   crawlcapability.RunProgress
-	clock      crawlcapability.Clock
-	delivery   crawlcapability.DeliveredOrder
-	frontier   *crawlfrontier.Frontier
-	counted    int
-	inflight   int
-	fatal      error
+	config      Config
+	fetch       crawlcapability.PageRetrieval
+	extract     crawlcapability.DocumentExtraction
+	recrawl     crawlcapability.RecrawlDecision
+	resolve     crawlcapability.RedirectResolution
+	feeds       []crawlcapability.PageFeed
+	derivations []crawlcapability.PageDerivation
+	observer    crawlcapability.RunProgress
+	clock       crawlcapability.Clock
+	delivery    crawlcapability.DeliveredOrder
+	frontier    *crawlfrontier.Frontier
+	counted     int
+	inflight    int
+	fatal       error
 }
 
 func (r *Crawler) newCrawl(delivery crawlcapability.DeliveredOrder) *crawl {
 	return &crawl{
-		config:     r.config,
-		fetch:      r.fetch,
-		extract:    r.extract,
-		recrawl:    r.recrawl,
-		resolve:    r.resolve,
-		feeds:      r.feeds,
-		renderings: r.renderings,
-		observer:   r.observer,
-		clock:      r.clock,
-		delivery:   delivery,
+		config:      r.config,
+		fetch:       r.fetch,
+		extract:     r.extract,
+		recrawl:     r.recrawl,
+		resolve:     r.resolve,
+		feeds:       r.feeds,
+		derivations: r.derivations,
+		observer:    r.observer,
+		clock:       r.clock,
+		delivery:    delivery,
 	}
 }
 

@@ -7,15 +7,15 @@ import (
 )
 
 type Crawler struct {
-	config     Config
-	fetch      crawlcapability.PageRetrieval
-	extract    crawlcapability.DocumentExtraction
-	recrawl    crawlcapability.RecrawlDecision
-	resolve    crawlcapability.RedirectResolution
-	feeds      []crawlcapability.PageFeed
-	renderings []crawlcapability.PageRendering
-	observer   crawlcapability.RunProgress
-	clock      crawlcapability.Clock
+	config      Config
+	fetch       crawlcapability.PageRetrieval
+	extract     crawlcapability.DocumentExtraction
+	recrawl     crawlcapability.RecrawlDecision
+	resolve     crawlcapability.RedirectResolution
+	feeds       []crawlcapability.PageFeed
+	derivations []crawlcapability.PageDerivation
+	observer    crawlcapability.RunProgress
+	clock       crawlcapability.Clock
 }
 
 //nolint:revive // argument-limit: the crawler's collaborators are all distinct ports.
@@ -26,20 +26,20 @@ func NewCrawler(
 	recrawl crawlcapability.RecrawlDecision,
 	resolve crawlcapability.RedirectResolution,
 	feeds []crawlcapability.PageFeed,
-	renderings []crawlcapability.PageRendering,
+	derivations []crawlcapability.PageDerivation,
 	observer crawlcapability.RunProgress,
 	clock crawlcapability.Clock,
 ) *Crawler {
 	return &Crawler{
-		config:     config,
-		fetch:      fetch,
-		extract:    extract,
-		recrawl:    recrawl,
-		resolve:    resolve,
-		feeds:      feeds,
-		renderings: renderings,
-		observer:   observer,
-		clock:      clock,
+		config:      config,
+		fetch:       fetch,
+		extract:     extract,
+		recrawl:     recrawl,
+		resolve:     resolve,
+		feeds:       feeds,
+		derivations: derivations,
+		observer:    observer,
+		clock:       clock,
 	}
 }
 
