@@ -1,4 +1,4 @@
-package pageadmission
+package ordertraversal
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
-type ProfileAdmission struct {
+type profileAdmission struct {
 	scope           yacycrawlcontract.CrawlScope
 	maxDepth        int
 	allowQueryURLs  bool
@@ -24,11 +24,11 @@ type ProfileAdmission struct {
 	admitted        int
 }
 
-func New(
+func newProfileAdmission(
 	profile yacycrawlcontract.CrawlProfile,
 	canonicalSeeds []string,
 	frontierCap int,
-) (*ProfileAdmission, error) {
+) (*profileAdmission, error) {
 	mustMatch, err := regexp.Compile(matchOrAll(profile.URLMustMatch))
 	if err != nil {
 		return nil, fmt.Errorf("compile url must match: %w", err)
@@ -41,7 +41,7 @@ func New(
 		}
 	}
 
-	admission := &ProfileAdmission{
+	admission := &profileAdmission{
 		scope:           profile.Scope,
 		maxDepth:        profile.MaxDepth,
 		allowQueryURLs:  profile.AllowQueryURLs,
@@ -64,7 +64,7 @@ func New(
 	return admission, nil
 }
 
-func (a *ProfileAdmission) Admit(canonicalURL string, depth int) bool {
+func (a *profileAdmission) Admit(canonicalURL string, depth int) bool {
 	if depth > a.maxDepth {
 		return false
 	}
@@ -102,7 +102,7 @@ func (a *ProfileAdmission) Admit(canonicalURL string, depth int) bool {
 	return true
 }
 
-func (a *ProfileAdmission) withinScope(host, canonicalURL string) bool {
+func (a *profileAdmission) withinScope(host, canonicalURL string) bool {
 	switch a.scope {
 	case yacycrawlcontract.ScopeWide:
 		return true

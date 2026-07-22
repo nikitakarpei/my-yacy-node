@@ -1,4 +1,4 @@
-package crawltraversal
+package ordersettlement
 
 import (
 	"context"
@@ -10,13 +10,13 @@ import (
 
 const msgOwnershipLapsed = "crawl order ownership heartbeat failed"
 
-type OwnershipLease struct {
+type ownershipLease struct {
 	extend   func(context.Context) error
 	interval time.Duration
 	clock    crawlcapability.Clock
 }
 
-func (l OwnershipLease) Renew(ctx context.Context) {
+func (l ownershipLease) Renew(ctx context.Context) {
 	for {
 		if err := l.clock.Sleep(ctx, l.interval); err != nil {
 			return

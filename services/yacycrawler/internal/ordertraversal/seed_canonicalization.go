@@ -1,4 +1,4 @@
-package crawltraversal
+package ordertraversal
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 
 const msgSeedRejected = "seed url rejected"
 
-func (c *traversal) canonicalSeeds(ctx context.Context, seedURLs []string) []string {
+func (c *orderTraversal) canonicalSeeds(ctx context.Context, seedURLs []string) []string {
 	seeds := make([]string, 0, len(seedURLs))
 	for _, seed := range seedURLs {
 		canonical, err := canonicalurl.Canonicalize(seed)

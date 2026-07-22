@@ -1,10 +1,9 @@
-package pageadmission_test
+package ordertraversal
 
 import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pageadmission"
 )
 
 func profile(p yacycrawlcontract.CrawlProfile) yacycrawlcontract.CrawlProfile {
@@ -18,7 +17,7 @@ func profile(p yacycrawlcontract.CrawlProfile) yacycrawlcontract.CrawlProfile {
 }
 
 func TestAdmitWideScope(t *testing.T) {
-	admission, err := pageadmission.New(
+	admission, err := newProfileAdmission(
 		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeWide, MaxDepth: 2}),
 		[]string{"http://a.com/"}, 100,
 	)
@@ -31,7 +30,7 @@ func TestAdmitWideScope(t *testing.T) {
 }
 
 func TestAdmitDomainScope(t *testing.T) {
-	admission, _ := pageadmission.New(
+	admission, _ := newProfileAdmission(
 		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeDomain, MaxDepth: 2}),
 		[]string{"http://a.com/"}, 100,
 	)
@@ -44,7 +43,7 @@ func TestAdmitDomainScope(t *testing.T) {
 }
 
 func TestAdmitSubpathScope(t *testing.T) {
-	admission, _ := pageadmission.New(
+	admission, _ := newProfileAdmission(
 		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeSubpath, MaxDepth: 3}),
 		[]string{"http://a.com/dir/"}, 100,
 	)
@@ -57,7 +56,7 @@ func TestAdmitSubpathScope(t *testing.T) {
 }
 
 func TestAdmitDepthLimit(t *testing.T) {
-	admission, _ := pageadmission.New(
+	admission, _ := newProfileAdmission(
 		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeWide, MaxDepth: 1}),
 		[]string{"http://a.com/"}, 100,
 	)
@@ -67,7 +66,7 @@ func TestAdmitDepthLimit(t *testing.T) {
 }
 
 func TestAdmitDuplicateRejected(t *testing.T) {
-	admission, _ := pageadmission.New(
+	admission, _ := newProfileAdmission(
 		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeWide, MaxDepth: 2}),
 		[]string{"http://a.com/"}, 100,
 	)
@@ -80,7 +79,7 @@ func TestAdmitDuplicateRejected(t *testing.T) {
 }
 
 func TestAdmitFrontierCap(t *testing.T) {
-	admission, _ := pageadmission.New(
+	admission, _ := newProfileAdmission(
 		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeWide, MaxDepth: 5}),
 		[]string{"http://a.com/"}, 1,
 	)
@@ -93,7 +92,7 @@ func TestAdmitFrontierCap(t *testing.T) {
 }
 
 func TestAdmitPerHostCap(t *testing.T) {
-	admission, _ := pageadmission.New(
+	admission, _ := newProfileAdmission(
 		profile(yacycrawlcontract.CrawlProfile{
 			Scope: yacycrawlcontract.ScopeWide, MaxDepth: 5, MaxPagesPerHost: 1,
 		}),
@@ -108,7 +107,7 @@ func TestAdmitPerHostCap(t *testing.T) {
 }
 
 func TestAdmitQueryRejectedWhenDisallowed(t *testing.T) {
-	admission, _ := pageadmission.New(
+	admission, _ := newProfileAdmission(
 		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeWide, MaxDepth: 2}),
 		[]string{"http://a.com/"}, 100,
 	)
@@ -118,7 +117,7 @@ func TestAdmitQueryRejectedWhenDisallowed(t *testing.T) {
 }
 
 func TestAdmitMustMatchAndMustNotMatch(t *testing.T) {
-	admission, _ := pageadmission.New(
+	admission, _ := newProfileAdmission(
 		profile(yacycrawlcontract.CrawlProfile{
 			Scope: yacycrawlcontract.ScopeWide, MaxDepth: 2,
 			URLMustMatch: `\.html$`, URLMustNotMatch: `/private/`,
@@ -136,13 +135,13 @@ func TestAdmitMustMatchAndMustNotMatch(t *testing.T) {
 	}
 }
 
-func TestNewRejectsBadRegex(t *testing.T) {
-	if _, err := pageadmission.New(
+func TestNewProfileAdmissionRejectsBadRegex(t *testing.T) {
+	if _, err := newProfileAdmission(
 		yacycrawlcontract.CrawlProfile{URLMustMatch: "("}, nil, 10,
 	); err == nil {
 		t.Fatal("bad must-match regex should error")
 	}
-	if _, err := pageadmission.New(
+	if _, err := newProfileAdmission(
 		yacycrawlcontract.CrawlProfile{URLMustMatch: ".*", URLMustNotMatch: "("}, nil, 10,
 	); err == nil {
 		t.Fatal("bad must-not-match regex should error")

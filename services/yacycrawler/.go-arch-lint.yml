@@ -8,18 +8,16 @@ allow:
 components:
   redirectresolution:
     in: internal/redirectresolution/**
-  pageadmission:
-    in: internal/pageadmission/**
-  crawlfrontier:
-    in: internal/crawlfrontier/**
   crawlcapability:
     in: internal/crawlcapability/**
   contextcancellation:
     in: internal/contextcancellation/**
-  crawlrun:
-    in: internal/crawlrun/**
-  crawltraversal:
-    in: internal/crawltraversal/**
+  ordersettlement:
+    in: internal/ordersettlement/**
+  ordertraversal:
+    in: internal/ordertraversal/**
+  pagevisit:
+    in: internal/pagevisit/**
   pageabsorption:
     in: internal/pageabsorption/**
   contentformatgraph:
@@ -107,15 +105,6 @@ deps:
       - yacycrawlcontract
       - nats
       - natstestserver
-  pageadmission:
-    mayDependOn:
-      - pageadmission
-    canUse:
-      - yacycrawlcontract
-  crawlfrontier:
-    mayDependOn:
-      - crawlfrontier
-      - pageadmission
   crawlcapability:
     mayDependOn:
       - crawlcapability
@@ -125,24 +114,26 @@ deps:
   contextcancellation:
     mayDependOn:
       - contextcancellation
-  crawlrun:
+  ordersettlement:
     mayDependOn:
-      - crawlrun
-      - crawltraversal
+      - ordersettlement
       - crawlcapability
       - contextcancellation
     canUse:
       - yacycrawlcontract
-  crawltraversal:
+  ordertraversal:
     mayDependOn:
-      - crawltraversal
+      - ordertraversal
+      - pagevisit
       - crawlcapability
       - contextcancellation
-      - pageadmission
-      - crawlfrontier
     canUse:
       - yacycrawlcontract
       - canonicalurl
+  pagevisit:
+    mayDependOn:
+      - pagevisit
+      - crawlcapability
   pageabsorption:
     mayDependOn:
       - pageabsorption
@@ -239,8 +230,9 @@ deps:
       - prometheus
   crawlercmd:
     mayDependOn:
-      - crawlrun
-      - crawltraversal
+      - ordersettlement
+      - ordertraversal
+      - pagevisit
       - pageabsorption
       - contentformatgraph
       - crawlcapability
