@@ -43,14 +43,19 @@ func TestBuildPageFeedsSelectsTheConfiguredRepresentations(t *testing.T) {
 	}
 }
 
-func TestBuildPageRenderingsNeedsNoneWhenOnlyRWIReadsTheDocument(t *testing.T) {
+func TestBuildPageRenderingsGivesRWIOnlyTheFullTextRendering(t *testing.T) {
 	feeds := buildPageFeeds(nil, ServiceConfig{PageStreams: publishedPageStreams()})
 	renderings, err := buildPageRenderings(feeds)
 	if err != nil {
 		t.Fatalf("build page renderings: %v", err)
 	}
-	if len(renderings) != 0 {
-		t.Fatalf("rwi reads document-html directly, want no renderings, got %d", len(renderings))
+	produced := make([]crawlcapability.PageContentFormat, 0, len(renderings))
+	for _, rendering := range renderings {
+		produced = append(produced, rendering.Format())
+	}
+	want := []crawlcapability.PageContentFormat{crawlcapability.PageContentFormatFullText}
+	if !slices.Equal(produced, want) {
+		t.Fatalf("rwi reads full-text, want %v, got %v", want, produced)
 	}
 }
 

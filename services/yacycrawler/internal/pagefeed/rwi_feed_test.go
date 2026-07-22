@@ -81,7 +81,7 @@ func TestRWIFeedDeclaresRepresentationAndContentFormat(t *testing.T) {
 	if feed.Representation() != yacycrawlcontract.PageRepresentationKindRWI {
 		t.Fatalf("representation = %q", feed.Representation())
 	}
-	if feed.ContentFormat() != crawlcapability.PageContentFormatDocumentHTML {
+	if feed.ContentFormat() != crawlcapability.PageContentFormatFullText {
 		t.Fatalf("content format = %q", feed.ContentFormat())
 	}
 }

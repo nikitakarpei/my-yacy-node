@@ -192,14 +192,10 @@ func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 	}
 }
 
-func TestBuildIndexesWholeDocumentAndStripsMarkup(t *testing.T) {
+func TestBuildIndexesEveryWordOfGivenText(t *testing.T) {
 	page := samplePage()
-	document := []byte(
-		`<html><body><nav>navigation menu</nav>` +
-			`<article><p>the quick fox</p></article>` +
-			`<script>var drop = 1</script></body></html>`,
-	)
-	index, err := pagerwi.Build(page, document)
+	fullText := []byte("navigation menu the quick fox")
+	index, err := pagerwi.Build(page, fullText)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -208,16 +204,22 @@ func TestBuildIndexesWholeDocumentAndStripsMarkup(t *testing.T) {
 		byWord[posting.WordHash] = true
 	}
 	if !byWord[yacymodel.WordHash("navigation")] {
-		t.Fatal("word outside the article should be indexed over the whole document")
+		t.Fatal("every word of the given text should be indexed")
 	}
-	if byWord[yacymodel.WordHash("drop")] {
-		t.Fatal("script content should not be indexed")
+}
+
+func TestBuildMetadataByteSizeReflectsDocumentBody(t *testing.T) {
+	page := samplePage()
+	page.Body = []byte("<html><body>the quick fox</body></html>")
+	index, err := pagerwi.Build(page, []byte("the quick fox"))
+	if err != nil {
+		t.Fatal(err)
 	}
-	if index.Metadata[0].ByteSize != len(document) {
+	if index.Metadata[0].ByteSize != len(page.Body) {
 		t.Fatalf(
-			"byte size = %d, want whole-document %d",
+			"byte size = %d, want document body %d",
 			index.Metadata[0].ByteSize,
-			len(document),
+			len(page.Body),
 		)
 	}
 }

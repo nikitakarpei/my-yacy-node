@@ -48,29 +48,13 @@ func (c *crawl) publish(ctx context.Context, page crawlcapability.CrawledPage) e
 func (c *crawl) renderContents(
 	page crawlcapability.CrawledPage,
 ) (map[crawlcapability.PageContentFormat][]byte, error) {
-	contents := make(map[crawlcapability.PageContentFormat][]byte, len(c.renderings)+1)
-	contents[page.Format] = page.Body
-	for {
-		progressed := false
-		for _, rendering := range c.renderings {
-			if _, done := contents[rendering.Format()]; done {
-				continue
-			}
-			source, ready := contents[rendering.SourceFormat()]
-			if !ready {
-				continue
-			}
-			content, err := rendering.Render(page.CanonicalURL, source)
-			if err != nil {
-				return nil, fmt.Errorf("render %s: %w", rendering.Format(), err)
-			}
-			contents[rendering.Format()] = content
-			progressed = true
-		}
-		if !progressed {
-			return contents, nil
+	resolver := newContentRenditionResolver(page, c.renderings)
+	for _, feed := range c.feeds {
+		if _, _, err := resolver.resolve(feed.ContentFormat()); err != nil {
+			return nil, err
 		}
 	}
+	return resolver.contents, nil
 }
 
 func (c *crawl) send(
