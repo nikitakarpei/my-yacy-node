@@ -20,15 +20,11 @@ const longText = "The quick brown fox jumps over the lazy dog while the industri
 	"beaver builds a sturdy dam across the wide and winding river near the old mill town."
 
 func TestExtractArticle(t *testing.T) {
-	documents, err := htmlpage.New().
+	doc, err := htmlpage.New().
 		Extract(t.Context(), "http://host.example/dir/p", "text/html", []byte(article))
 	if err != nil {
 		t.Fatalf("Extract: %v", err)
 	}
-	if len(documents) != 1 {
-		t.Fatalf("want one document, got %d", len(documents))
-	}
-	doc := documents[0]
 	if doc.Title != "Sample Article" {
 		t.Fatalf("title = %q", doc.Title)
 	}
@@ -53,23 +49,23 @@ func TestExtractHonorsMetaRobots(t *testing.T) {
 	page := `<!DOCTYPE html><html lang="en"><head><title>T</title>
 <meta name="robots" content="noindex,nofollow"></head>
 <body><article><p>` + longText + `</p><p>` + longText + `</p></article></body></html>`
-	documents, err := htmlpage.New().
+	doc, err := htmlpage.New().
 		Extract(t.Context(), "http://host.example/p", "text/html", []byte(page))
 	if err != nil {
 		t.Fatalf("Extract: %v", err)
 	}
-	if !documents[0].RefusesIndexing || !documents[0].RefusesLinkDiscovery {
-		t.Fatalf("meta robots not honored: %+v", documents[0])
+	if !doc.RefusesIndexing || !doc.RefusesLinkDiscovery {
+		t.Fatalf("meta robots not honored: %+v", doc)
 	}
 }
 
 func TestExtractYieldsWholeDocument(t *testing.T) {
-	documents, err := htmlpage.New().
+	doc, err := htmlpage.New().
 		Extract(t.Context(), "http://host.example/dir/p", "text/html", []byte(article))
 	if err != nil {
 		t.Fatalf("Extract: %v", err)
 	}
-	body := string(documents[0].Body)
+	body := string(doc.Body)
 	if !strings.Contains(body, "<title>Sample Article</title>") {
 		t.Fatalf("whole document should retain head markup: %q", body)
 	}

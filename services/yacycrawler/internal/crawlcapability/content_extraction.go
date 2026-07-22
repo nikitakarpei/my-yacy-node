@@ -15,5 +15,5 @@ type ContentExtraction interface {
 		ctx context.Context,
 		pageURL, contentType string,
 		body []byte,
-	) ([]ExtractedContent, error)
+	) (ExtractedContent, error)
 }

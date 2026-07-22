@@ -68,18 +68,14 @@ func (r *MediaTypeRouter) route(
 	media := mediaType(contentType)
 
 	if extractor, ok := r.extractors[media]; ok {
-		contents, err := extractor.Extract(ctx, resourceURL, contentType, body)
+		content, err := extractor.Extract(ctx, resourceURL, contentType, body)
 		if err != nil {
 			return nil, fmt.Errorf("extract %s: %w", media, err)
 		}
-		documents := make([]crawlcapability.ExtractedDocument, len(contents))
-		for i, content := range contents {
-			documents[i] = crawlcapability.ExtractedDocument{
-				URL:              resourceURL,
-				ExtractedContent: content,
-			}
-		}
-		return documents, nil
+		return []crawlcapability.ExtractedDocument{{
+			URL:              resourceURL,
+			ExtractedContent: content,
+		}}, nil
 	}
 
 	container, ok := r.containers[media]

@@ -179,6 +179,48 @@ func TestExpandCorruptZip(t *testing.T) {
 	}
 }
 
+func TestExpandSkipsCollidingMemberNames(t *testing.T) {
+	body := zipBytes(t, map[string]string{
+		"page.html":        "first",
+		"dir/../page.html": "second",
+	})
+	members, err := archivemember.New(16, 1<<20).
+		Expand(t.Context(), "http://host/a.zip", "application/zip", body)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(members) != 1 {
+		t.Fatalf("want one member after collision, got %d", len(members))
+	}
+	if members[0].URL != "http://host/a.zip!/page.html" {
+		t.Fatalf("member URL: %q", members[0].URL)
+	}
+}
+
+func TestExpandContainsTraversingMemberName(t *testing.T) {
+	body := zipBytes(t, map[string]string{"../escape.html": "x"})
+	members, err := archivemember.New(16, 1<<20).
+		Expand(t.Context(), "http://host/a.zip", "application/zip", body)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(members) != 1 || members[0].URL != "http://host/a.zip!/escape.html" {
+		t.Fatalf("traversal not contained: %+v", members)
+	}
+}
+
+func TestExpandRejectsEmptyMemberName(t *testing.T) {
+	body := zipBytes(t, map[string]string{".": "x"})
+	members, err := archivemember.New(16, 1<<20).
+		Expand(t.Context(), "http://host/a.zip", "application/zip", body)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(members) != 0 {
+		t.Fatalf("want empty-named member rejected, got %d", len(members))
+	}
+}
+
 func TestMediaTypesDeclared(t *testing.T) {
 	got := archivemember.New(1, 1).MediaTypes()
 	if len(got) != 3 {

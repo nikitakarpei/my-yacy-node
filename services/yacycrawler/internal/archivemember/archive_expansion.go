@@ -24,9 +24,13 @@ const (
 
 	memberSeparator = "!/"
 
-	msgMemberOpenFailed = "archive member open failed, skipped"
-	msgMemberSkipped    = "archive member skipped"
+	msgMemberOpenFailed   = "archive member open failed, skipped"
+	msgMemberSkipped      = "archive member skipped"
+	msgMemberNameRejected = "archive member name rejected, skipped"
+	msgMemberURLCollided  = "archive member url collided, skipped"
 )
+
+var errMemberNameEmpty = errors.New("member name empty after normalization")
 
 type ArchiveExpansion struct {
 	maxMembers     int
@@ -68,6 +72,7 @@ func (a ArchiveExpansion) expandZip(
 		return nil, fmt.Errorf("open zip: %w", err)
 	}
 	var members []crawlcapability.ArchiveMember
+	claimed := map[string]struct{}{}
 	for _, file := range reader.File {
 		if file.FileInfo().IsDir() {
 			continue
@@ -86,7 +91,7 @@ func (a ArchiveExpansion) expandZip(
 			logMemberSkipped(ctx, file.Name, err)
 			continue
 		}
-		member, ok := a.member(containerURL, file.Name, content)
+		member, ok := a.member(ctx, containerURL, file.Name, content, claimed)
 		if !ok {
 			continue
 		}
@@ -112,7 +117,13 @@ func (a ArchiveExpansion) expandGzip(
 		logMemberSkipped(ctx, decompressedName(containerURL), err)
 		return nil, nil
 	}
-	member, ok := a.member(containerURL, decompressedName(containerURL), content)
+	member, ok := a.member(
+		ctx,
+		containerURL,
+		decompressedName(containerURL),
+		content,
+		map[string]struct{}{},
+	)
 	if !ok {
 		return nil, nil
 	}
@@ -130,6 +141,7 @@ func (a ArchiveExpansion) expandTar(
 ) ([]crawlcapability.ArchiveMember, error) {
 	reader := tar.NewReader(source)
 	var members []crawlcapability.ArchiveMember
+	claimed := map[string]struct{}{}
 	for {
 		header, err := reader.Next()
 		if errors.Is(err, io.EOF) {
@@ -146,7 +158,7 @@ func (a ArchiveExpansion) expandTar(
 			logMemberSkipped(ctx, header.Name, err)
 			continue
 		}
-		member, ok := a.member(containerURL, header.Name, content)
+		member, ok := a.member(ctx, containerURL, header.Name, content, claimed)
 		if !ok {
 			continue
 		}
@@ -176,16 +188,43 @@ func logMemberSkipped(ctx context.Context, name string, err error) {
 	)
 }
 
+func normalizeMemberName(name string) (string, error) {
+	cleaned := strings.TrimPrefix(path.Clean("/"+strings.TrimSpace(name)), "/")
+	if cleaned == "" {
+		return "", errMemberNameEmpty
+	}
+	return cleaned, nil
+}
+
 func (a ArchiveExpansion) member(
+	ctx context.Context,
 	containerURL, name string,
 	content []byte,
+	claimed map[string]struct{},
 ) (crawlcapability.ArchiveMember, bool) {
-	contentType := mime.TypeByExtension(path.Ext(name))
+	normalized, err := normalizeMemberName(name)
+	if err != nil {
+		slog.WarnContext(ctx, msgMemberNameRejected,
+			slog.String("member", name),
+			slog.Any("error", err),
+		)
+		return crawlcapability.ArchiveMember{}, false
+	}
+	contentType := mime.TypeByExtension(path.Ext(normalized))
 	if contentType == "" {
 		return crawlcapability.ArchiveMember{}, false
 	}
+	memberURL := containerURL + memberSeparator + normalized
+	if _, taken := claimed[memberURL]; taken {
+		slog.WarnContext(ctx, msgMemberURLCollided,
+			slog.String("member", name),
+			slog.String("url", memberURL),
+		)
+		return crawlcapability.ArchiveMember{}, false
+	}
+	claimed[memberURL] = struct{}{}
 	return crawlcapability.ArchiveMember{
-		URL:         containerURL + memberSeparator + name,
+		URL:         memberURL,
 		ContentType: contentType,
 		Body:        content,
 	}, true
