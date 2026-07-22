@@ -23,7 +23,7 @@ func TestRWIFeedPublishesTheIndexBuiltFromTheText(t *testing.T) {
 		t.Fatal(err)
 	}
 	feed := pagefeed.NewRWIFeed(js, "yacy.crawl.page.rwi")
-	publication, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
+	publication, err := feed.Frame(samplePage(), []byte("the quick brown fox"))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
 	}
@@ -61,7 +61,7 @@ func TestRWIFeedChunksBoundPostings(t *testing.T) {
 		words[i] = fmt.Sprintf("w%d", i)
 	}
 	feed := pagefeed.NewRWIFeed(nil, "yacy.crawl.page.rwi")
-	publication, err := feed.Derive(samplePage(), []byte(strings.Join(words, " ")))
+	publication, err := feed.Frame(samplePage(), []byte(strings.Join(words, " ")))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
 	}

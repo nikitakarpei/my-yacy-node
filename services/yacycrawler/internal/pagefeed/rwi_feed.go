@@ -28,7 +28,7 @@ func (RWIFeed) ContentFormat() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatFullText
 }
 
-func (RWIFeed) Derive(
+func (RWIFeed) Frame(
 	page crawlcapability.CrawledPage,
 	content []byte,
 ) (crawlcapability.PagePublication, error) {

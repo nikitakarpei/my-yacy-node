@@ -1,4 +1,4 @@
-package crawltraversal
+package contentformatgraph
 
 import (
 	"fmt"
@@ -16,10 +16,7 @@ type scriptedDerivation struct {
 func (d scriptedDerivation) SourceFormat() crawlcapability.PageContentFormat { return d.source }
 func (d scriptedDerivation) TargetFormat() crawlcapability.PageContentFormat { return d.target }
 
-func (d scriptedDerivation) Derive(
-	_ string,
-	body []byte,
-) ([]byte, error) {
+func (d scriptedDerivation) Derive(_ string, body []byte) ([]byte, error) {
 	return d.derive(body)
 }
 
@@ -33,16 +30,16 @@ func unextractable(_ []byte) ([]byte, error) {
 	return nil, fmt.Errorf("%w: empty", crawlcapability.ErrUnextractable)
 }
 
-func htmlPage() crawlcapability.CrawledPage {
-	return crawlcapability.CrawledPage{
-		CanonicalURL: "http://host/",
-		Body:         []byte("document"),
-		Format:       crawlcapability.PageContentFormatDocumentHTML,
-	}
+func resolverFor(derivations ...crawlcapability.PageDerivation) *Resolver {
+	return New(derivations).Resolver(
+		"http://host/",
+		crawlcapability.PageContentFormatDocumentHTML,
+		[]byte("document"),
+	)
 }
 
 func TestResolvePrefersEarlierCandidateOverFallback(t *testing.T) {
-	resolver := newContentFormatResolver(htmlPage(), []crawlcapability.PageDerivation{
+	resolver := resolverFor(
 		scriptedDerivation{
 			source: crawlcapability.PageContentFormatDocumentHTML,
 			target: crawlcapability.PageContentFormatFullText,
@@ -63,19 +60,23 @@ func TestResolvePrefersEarlierCandidateOverFallback(t *testing.T) {
 			target: crawlcapability.PageContentFormatReadableText,
 			derive: passthrough("fallback"),
 		},
-	})
+	)
 
-	content, ready, err := resolver.resolve(crawlcapability.PageContentFormatReadableText)
+	content, ready, err := resolver.Resolve(crawlcapability.PageContentFormatReadableText)
 	if err != nil || !ready {
 		t.Fatalf("resolve readable-text: ready=%v err=%v", ready, err)
 	}
 	if got := string(content); got != "readable-text:readable-html:document" {
 		t.Fatalf("readable-text derived via fallback, not readable-html: %q", got)
 	}
+	cached := resolver.Contents()[crawlcapability.PageContentFormatReadableText]
+	if string(cached) != string(content) {
+		t.Fatalf("Contents omits the resolved readable-text: %q", cached)
+	}
 }
 
 func TestResolveFallsBackWhenPreferredCandidateUnextractable(t *testing.T) {
-	resolver := newContentFormatResolver(htmlPage(), []crawlcapability.PageDerivation{
+	resolver := resolverFor(
 		scriptedDerivation{
 			source: crawlcapability.PageContentFormatDocumentHTML,
 			target: crawlcapability.PageContentFormatFullText,
@@ -96,9 +97,9 @@ func TestResolveFallsBackWhenPreferredCandidateUnextractable(t *testing.T) {
 			target: crawlcapability.PageContentFormatReadableText,
 			derive: passthrough("fallback"),
 		},
-	})
+	)
 
-	content, ready, err := resolver.resolve(crawlcapability.PageContentFormatReadableText)
+	content, ready, err := resolver.Resolve(crawlcapability.PageContentFormatReadableText)
 	if err != nil || !ready {
 		t.Fatalf("resolve readable-text: ready=%v err=%v", ready, err)
 	}
@@ -108,7 +109,7 @@ func TestResolveFallsBackWhenPreferredCandidateUnextractable(t *testing.T) {
 }
 
 func TestResolveLeavesFormatUnresolvedWhenNoCandidateApplies(t *testing.T) {
-	resolver := newContentFormatResolver(htmlPage(), []crawlcapability.PageDerivation{
+	resolver := resolverFor(
 		scriptedDerivation{
 			source: crawlcapability.PageContentFormatDocumentHTML,
 			target: crawlcapability.PageContentFormatReadableHTML,
@@ -119,9 +120,9 @@ func TestResolveLeavesFormatUnresolvedWhenNoCandidateApplies(t *testing.T) {
 			target: crawlcapability.PageContentFormatReadableText,
 			derive: passthrough("readable-text"),
 		},
-	})
+	)
 
-	_, ready, err := resolver.resolve(crawlcapability.PageContentFormatReadableText)
+	_, ready, err := resolver.Resolve(crawlcapability.PageContentFormatReadableText)
 	if err != nil {
 		t.Fatalf("resolve readable-text: %v", err)
 	}

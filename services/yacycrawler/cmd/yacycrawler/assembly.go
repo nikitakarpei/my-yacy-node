@@ -12,9 +12,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/archivemember"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlrun"
@@ -22,6 +24,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/htmlpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/httpfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderintake"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolution"
 )
 
@@ -72,13 +75,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 	if err != nil {
 		return err
 	}
-	feeds := buildPageFeeds(js, cfg)
-	derivations, err := buildPageDerivations(feeds)
-	if err != nil {
-		return err
-	}
-
-	extract, err := buildExtractor(cfg)
+	absorption, err := buildAbsorption(js, cfg, resolve, metrics)
 	if err != nil {
 		return err
 	}
@@ -86,13 +83,10 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 	crawler := crawltraversal.NewCrawler(
 		traversalConfig(cfg),
 		fetch,
-		extract,
 		crawltraversal.AlwaysDue{},
-		resolve,
-		feeds,
-		derivations,
+		absorption,
 		metrics,
-		crawltraversal.SystemClock{},
+		wallclock.Clock{},
 	)
 	engine := crawlrun.NewEngine(metrics, crawler)
 
@@ -198,43 +192,41 @@ func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability
 	return feeds
 }
 
-func buildPageDerivations(
-	feeds []crawlcapability.PageFeed,
-) ([]crawlcapability.PageDerivation, error) {
-	byTargetFormat := make(map[crawlcapability.PageContentFormat][]crawlcapability.PageDerivation)
-	for _, derivation := range pageDerivationCatalog() {
-		target := derivation.TargetFormat()
-		byTargetFormat[target] = append(byTargetFormat[target], derivation)
+func buildAbsorption(
+	js jetstream.JetStream,
+	cfg ServiceConfig,
+	resolve crawlcapability.RedirectResolution,
+	observer crawlcapability.RunProgress,
+) (*pageabsorption.Absorption, error) {
+	feeds := buildPageFeeds(js, cfg)
+	graph := contentformatgraph.New(pageDerivationCatalog())
+	if err := graph.Validate(feedContentFormats(feeds)); err != nil {
+		return nil, err
 	}
-	derivations := []crawlcapability.PageDerivation{}
-	selected := map[crawlcapability.PageContentFormat]bool{}
-	var require func(crawlcapability.PageFeed, crawlcapability.PageContentFormat) error
-	require = func(feed crawlcapability.PageFeed, format crawlcapability.PageContentFormat) error {
-		if format == crawlcapability.PageContentFormatDocumentHTML || selected[format] {
-			return nil
-		}
-		candidates, ok := byTargetFormat[format]
-		if !ok {
-			return fmt.Errorf(
-				"page %s feed reads %s content, which no derivation produces",
-				feed.Representation(), format,
-			)
-		}
-		selected[format] = true
-		for _, candidate := range candidates {
-			if err := require(feed, candidate.SourceFormat()); err != nil {
-				return err
-			}
-			derivations = append(derivations, candidate)
-		}
-		return nil
+	extract, err := buildExtractor(cfg)
+	if err != nil {
+		return nil, err
 	}
+	return pageabsorption.New(
+		graph,
+		extract,
+		resolve,
+		feeds,
+		observer,
+		wallclock.Clock{},
+		pageabsorption.Config{
+			PublishRetryFloor:   publishRetryFloor,
+			PublishRetryCeiling: publishRetryCeil,
+		},
+	), nil
+}
+
+func feedContentFormats(feeds []crawlcapability.PageFeed) []crawlcapability.PageContentFormat {
+	formats := make([]crawlcapability.PageContentFormat, 0, len(feeds))
 	for _, feed := range feeds {
-		if err := require(feed, feed.ContentFormat()); err != nil {
-			return nil, err
-		}
+		formats = append(formats, feed.ContentFormat())
 	}
-	return derivations, nil
+	return formats
 }
 
 func buildExtractor(cfg ServiceConfig) (crawlcapability.DocumentExtraction, error) {

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/contextcancellation"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
@@ -26,13 +27,13 @@ func (e *Engine) Run(ctx context.Context, deliveries <-chan crawlcapability.Deli
 	for {
 		select {
 		case <-ctx.Done():
-			return contextError(ctx)
+			return contextcancellation.Err(ctx)
 		case delivery, ok := <-deliveries:
 			if !ok {
 				return nil
 			}
 			e.settleDelivery(ctx, delivery, e.crawl(ctx, delivery))
-			if err := contextError(ctx); err != nil {
+			if err := contextcancellation.Err(ctx); err != nil {
 				return err
 			}
 		}

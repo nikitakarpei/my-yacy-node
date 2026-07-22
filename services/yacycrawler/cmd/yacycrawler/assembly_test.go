@@ -1,40 +1,12 @@
 package main
 
 import (
-	"context"
-	"slices"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
-
-type underivableFeed struct{}
-
-func (underivableFeed) Representation() yacycrawlcontract.PageRepresentationKind {
-	return yacycrawlcontract.PageRepresentationKindText
-}
-
-func (underivableFeed) ContentFormat() crawlcapability.PageContentFormat {
-	return crawlcapability.PageContentFormat("unproduced")
-}
-
-func (underivableFeed) Derive(
-	crawlcapability.CrawledPage,
-	[]byte,
-) (crawlcapability.PagePublication, error) {
-	return crawlcapability.PagePublication{}, nil
-}
-
-func (underivableFeed) Publish(context.Context, crawlcapability.PagePublication) error {
-	return nil
-}
-
-type markdownContentFeed struct{ underivableFeed }
-
-func (markdownContentFeed) ContentFormat() crawlcapability.PageContentFormat {
-	return crawlcapability.PageContentFormatMarkdown
-}
 
 func TestBuildPageFeedsSelectsTheConfiguredRepresentations(t *testing.T) {
 	feeds := buildPageFeeds(nil, ServiceConfig{PageStreams: publishedPageStreams()})
@@ -43,44 +15,29 @@ func TestBuildPageFeedsSelectsTheConfiguredRepresentations(t *testing.T) {
 	}
 }
 
-func TestBuildPageDerivationsGivesRWIOnlyTheFullTextDerivation(t *testing.T) {
+func TestCatalogGraphValidatesConfiguredFeeds(t *testing.T) {
 	feeds := buildPageFeeds(nil, ServiceConfig{PageStreams: publishedPageStreams()})
-	derivations, err := buildPageDerivations(feeds)
-	if err != nil {
-		t.Fatalf("build page derivations: %v", err)
-	}
-	produced := make([]crawlcapability.PageContentFormat, 0, len(derivations))
-	for _, derivation := range derivations {
-		produced = append(produced, derivation.TargetFormat())
-	}
-	want := []crawlcapability.PageContentFormat{crawlcapability.PageContentFormatFullText}
-	if !slices.Equal(produced, want) {
-		t.Fatalf("rwi reads full-text, want %v, got %v", want, produced)
+	graph := contentformatgraph.New(pageDerivationCatalog())
+	if err := graph.Validate(feedContentFormats(feeds)); err != nil {
+		t.Fatalf("configured feed content is reachable, got %v", err)
 	}
 }
 
-func TestBuildPageDerivationsResolvesTheChainToWhatAFeedReads(t *testing.T) {
-	derivations, err := buildPageDerivations([]crawlcapability.PageFeed{markdownContentFeed{}})
-	if err != nil {
-		t.Fatalf("build page derivations: %v", err)
-	}
-	produced := make([]crawlcapability.PageContentFormat, 0, len(derivations))
-	for _, derivation := range derivations {
-		produced = append(produced, derivation.TargetFormat())
-	}
-	want := []crawlcapability.PageContentFormat{
-		crawlcapability.PageContentFormatReadableHTML,
+func TestCatalogGraphValidatesMarkdownContent(t *testing.T) {
+	graph := contentformatgraph.New(pageDerivationCatalog())
+	if err := graph.Validate([]crawlcapability.PageContentFormat{
 		crawlcapability.PageContentFormatMarkdown,
-	}
-	if !slices.Equal(produced, want) {
-		t.Fatalf("chain = %v, want dependency order %v", produced, want)
+	}); err != nil {
+		t.Fatalf("markdown content is reachable, got %v", err)
 	}
 }
 
-func TestBuildPageDerivationsRejectsUnderivableContentFormat(t *testing.T) {
-	_, err := buildPageDerivations([]crawlcapability.PageFeed{underivableFeed{}})
-	if err == nil {
-		t.Fatal("feed reading a format no derivation produces should error")
+func TestCatalogGraphRejectsUnderivableContentFormat(t *testing.T) {
+	graph := contentformatgraph.New(pageDerivationCatalog())
+	if err := graph.Validate([]crawlcapability.PageContentFormat{
+		crawlcapability.PageContentFormat("unproduced"),
+	}); err == nil {
+		t.Fatal("content no derivation produces should fail validation")
 	}
 }
 

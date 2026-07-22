@@ -14,10 +14,16 @@ components:
     in: internal/crawlfrontier/**
   crawlcapability:
     in: internal/crawlcapability/**
+  contextcancellation:
+    in: internal/contextcancellation/**
   crawlrun:
     in: internal/crawlrun/**
   crawltraversal:
     in: internal/crawltraversal/**
+  pageabsorption:
+    in: internal/pageabsorption/**
+  contentformatgraph:
+    in: internal/contentformatgraph/**
   htmlpage:
     in: internal/htmlpage/**
   contentextraction:
@@ -67,6 +73,9 @@ vendors:
   natstestserver:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/natstestserver
+  wallclock:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/wallclock
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
@@ -113,23 +122,40 @@ deps:
     canUse:
       - yacycrawlcontract
       - yacymodel
+  contextcancellation:
+    mayDependOn:
+      - contextcancellation
   crawlrun:
     mayDependOn:
       - crawlrun
       - crawltraversal
       - crawlcapability
+      - contextcancellation
     canUse:
       - yacycrawlcontract
   crawltraversal:
     mayDependOn:
       - crawltraversal
       - crawlcapability
+      - contextcancellation
       - pageadmission
       - crawlfrontier
     canUse:
       - yacycrawlcontract
       - canonicalurl
+  pageabsorption:
+    mayDependOn:
+      - pageabsorption
+      - contentformatgraph
+      - crawlcapability
+    canUse:
+      - yacycrawlcontract
+      - canonicalurl
       - backoff
+  contentformatgraph:
+    mayDependOn:
+      - contentformatgraph
+      - crawlcapability
   rwirepresentation:
     mayDependOn:
       - rwirepresentation
@@ -215,6 +241,8 @@ deps:
     mayDependOn:
       - crawlrun
       - crawltraversal
+      - pageabsorption
+      - contentformatgraph
       - crawlcapability
       - htmlpage
       - contentextraction
@@ -233,6 +261,7 @@ deps:
       - nats
       - natstestserver
       - serviceruntime
+      - wallclock
 
 excludeFiles:
   - "test/e2e"
