@@ -8,14 +8,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefulltext"
 )
 
-func TestRenderFlattensWholeDocumentAndStripsMarkup(t *testing.T) {
-	rendering := pagefulltext.NewHTMLRendering()
+func TestDeriveFlattensWholeDocumentAndStripsMarkup(t *testing.T) {
+	derivation := pagefulltext.NewDocumentHTMLDerivation()
 	body := []byte(
 		`<html><body><nav>navigation menu</nav>` +
 			`<article><p>the quick fox</p></article>` +
 			`<script>var drop = 1</script></body></html>`,
 	)
-	text, err := rendering.Render("http://example.com/", body)
+	text, err := derivation.Derive("http://example.com/", body)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -31,12 +31,12 @@ func TestRenderFlattensWholeDocumentAndStripsMarkup(t *testing.T) {
 	}
 }
 
-func TestRenderDeclaresDocumentHTMLToFullText(t *testing.T) {
-	rendering := pagefulltext.NewHTMLRendering()
-	if rendering.SourceFormat() != crawlcapability.PageContentFormatDocumentHTML {
-		t.Fatalf("source format = %q", rendering.SourceFormat())
+func TestDeriveDeclaresDocumentHTMLToFullText(t *testing.T) {
+	derivation := pagefulltext.NewDocumentHTMLDerivation()
+	if derivation.SourceFormat() != crawlcapability.PageContentFormatDocumentHTML {
+		t.Fatalf("source format = %q", derivation.SourceFormat())
 	}
-	if rendering.Format() != crawlcapability.PageContentFormatFullText {
-		t.Fatalf("format = %q", rendering.Format())
+	if derivation.TargetFormat() != crawlcapability.PageContentFormatFullText {
+		t.Fatalf("target format = %q", derivation.TargetFormat())
 	}
 }

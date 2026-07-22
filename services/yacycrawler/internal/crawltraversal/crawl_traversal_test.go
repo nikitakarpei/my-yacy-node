@@ -129,36 +129,36 @@ func feeds(items ...*fakeFeed) []crawlcapability.PageFeed {
 	return bound
 }
 
-type fakeRendering struct {
+type fakeDerivation struct {
 	sourceFormat crawlcapability.PageContentFormat
-	format       crawlcapability.PageContentFormat
+	targetFormat crawlcapability.PageContentFormat
 }
 
-func (r fakeRendering) SourceFormat() crawlcapability.PageContentFormat {
-	return r.sourceFormat
+func (d fakeDerivation) SourceFormat() crawlcapability.PageContentFormat {
+	return d.sourceFormat
 }
 
-func (r fakeRendering) Format() crawlcapability.PageContentFormat {
-	return r.format
+func (d fakeDerivation) TargetFormat() crawlcapability.PageContentFormat {
+	return d.targetFormat
 }
 
-func (fakeRendering) Render(_ string, body []byte) ([]byte, error) {
+func (fakeDerivation) Derive(_ string, body []byte) ([]byte, error) {
 	return body, nil
 }
 
-func renderings() []crawlcapability.PageRendering {
-	return []crawlcapability.PageRendering{
-		fakeRendering{
+func derivations() []crawlcapability.PageDerivation {
+	return []crawlcapability.PageDerivation{
+		fakeDerivation{
 			sourceFormat: crawlcapability.PageContentFormatDocumentHTML,
-			format:       crawlcapability.PageContentFormatReadableText,
+			targetFormat: crawlcapability.PageContentFormatReadableText,
 		},
-		fakeRendering{
+		fakeDerivation{
 			sourceFormat: crawlcapability.PageContentFormatReadableText,
-			format:       crawlcapability.PageContentFormatReadableText,
+			targetFormat: crawlcapability.PageContentFormatReadableText,
 		},
-		fakeRendering{
+		fakeDerivation{
 			sourceFormat: crawlcapability.PageContentFormatDocumentHTML,
-			format:       crawlcapability.PageContentFormatMarkdown,
+			targetFormat: crawlcapability.PageContentFormatMarkdown,
 		},
 	}
 }
@@ -254,7 +254,7 @@ func newCrawler(
 ) *crawltraversal.Crawler {
 	return crawltraversal.NewCrawler(
 		cfg, fetch, extract, crawltraversal.AlwaysDue{}, &recordingResolve{},
-		feeds, renderings(), observer, &manualClock{},
+		feeds, derivations(), observer, &manualClock{},
 	)
 }
 
@@ -329,7 +329,7 @@ func TestTraverseRecordsRedirectEdgePerNonFinalHop(t *testing.T) {
 	crawler := crawltraversal.NewCrawler(
 		defaultConfig(), fetch, extract, crawltraversal.AlwaysDue{}, resolve,
 		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}),
-		renderings(), newObserver(), &manualClock{},
+		derivations(), newObserver(), &manualClock{},
 	)
 
 	traverse(t, crawler, []string{"http://host/a"})
@@ -367,7 +367,7 @@ func TestTraverseRecordsNoRedirectEdgeOnDirectFetch(t *testing.T) {
 	crawler := crawltraversal.NewCrawler(
 		defaultConfig(), fetch, extract, crawltraversal.AlwaysDue{}, resolve,
 		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}),
-		renderings(), newObserver(), &manualClock{},
+		derivations(), newObserver(), &manualClock{},
 	)
 
 	traverse(t, crawler, []string{"http://host/"})
@@ -618,7 +618,7 @@ func TestTraverseSkipsFetchWhenNotDue(t *testing.T) {
 	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	crawler := crawltraversal.NewCrawler(
 		defaultConfig(), fetch, fakeExtract{}, fakeRecrawl{due: false}, &recordingResolve{},
-		feeds(rwi), renderings(), newObserver(), &manualClock{},
+		feeds(rwi), derivations(), newObserver(), &manualClock{},
 	)
 
 	traverse(t, crawler, []string{"http://host/"})

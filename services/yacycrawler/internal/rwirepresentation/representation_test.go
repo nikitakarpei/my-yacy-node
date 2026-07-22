@@ -1,11 +1,11 @@
-package pagerwi_test
+package rwirepresentation_test
 
 import (
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerwi"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/rwirepresentation"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -25,7 +25,7 @@ func samplePage() crawlcapability.CrawledPage {
 const sampleText = "the quick brown fox the fox"
 
 func TestBuildProducesParseablePostings(t *testing.T) {
-	index, err := pagerwi.Build(samplePage(), []byte(sampleText))
+	index, err := rwirepresentation.Build(samplePage(), []byte(sampleText))
 	if err != nil {
 		t.Fatalf("Build: %v", err)
 	}
@@ -50,7 +50,7 @@ func TestBuildProducesParseablePostings(t *testing.T) {
 }
 
 func TestBuildCountsRepeatedWords(t *testing.T) {
-	index, err := pagerwi.Build(samplePage(), []byte(sampleText))
+	index, err := rwirepresentation.Build(samplePage(), []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -71,7 +71,7 @@ func TestBuildCountsRepeatedWords(t *testing.T) {
 
 func TestBuildCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 	page := samplePage()
-	index, err := pagerwi.Build(page, []byte(sampleText))
+	index, err := rwirepresentation.Build(page, []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -105,7 +105,7 @@ func TestBuildCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 }
 
 func TestBuildMetadataCarriesURLHash(t *testing.T) {
-	index, err := pagerwi.Build(samplePage(), []byte(sampleText))
+	index, err := rwirepresentation.Build(samplePage(), []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -128,7 +128,7 @@ func TestBuildMetadataCarriesURLHash(t *testing.T) {
 func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 	page := samplePage()
 	page.Language = ""
-	index, err := pagerwi.Build(page, []byte(sampleText))
+	index, err := rwirepresentation.Build(page, []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -141,7 +141,7 @@ func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 
 func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
 	page := samplePage()
-	index, err := pagerwi.Build(page, []byte("a fox I saw"))
+	index, err := rwirepresentation.Build(page, []byte("a fox I saw"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -158,7 +158,7 @@ func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
 
 func TestBuildKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
 	page := samplePage()
-	index, err := pagerwi.Build(page, []byte("state-of-the-art design"))
+	index, err := rwirepresentation.Build(page, []byte("state-of-the-art design"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -176,7 +176,7 @@ func TestBuildKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
 
 func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 	page := samplePage()
-	index, err := pagerwi.Build(page, []byte("the price is 1,234.56 today"))
+	index, err := rwirepresentation.Build(page, []byte("the price is 1,234.56 today"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -195,7 +195,7 @@ func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 func TestBuildIndexesEveryWordOfGivenText(t *testing.T) {
 	page := samplePage()
 	fullText := []byte("navigation menu the quick fox")
-	index, err := pagerwi.Build(page, fullText)
+	index, err := rwirepresentation.Build(page, fullText)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -211,7 +211,7 @@ func TestBuildIndexesEveryWordOfGivenText(t *testing.T) {
 func TestBuildMetadataByteSizeReflectsDocumentBody(t *testing.T) {
 	page := samplePage()
 	page.Body = []byte("<html><body>the quick fox</body></html>")
-	index, err := pagerwi.Build(page, []byte("the quick fox"))
+	index, err := rwirepresentation.Build(page, []byte("the quick fox"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -226,7 +226,7 @@ func TestBuildMetadataByteSizeReflectsDocumentBody(t *testing.T) {
 
 func TestBuildCountsPhrasesAndPhrasePositions(t *testing.T) {
 	page := samplePage()
-	index, err := pagerwi.Build(page, []byte("the quick fox jumps. the lazy dog sleeps."))
+	index, err := rwirepresentation.Build(page, []byte("the quick fox jumps. the lazy dog sleeps."))
 	if err != nil {
 		t.Fatal(err)
 	}

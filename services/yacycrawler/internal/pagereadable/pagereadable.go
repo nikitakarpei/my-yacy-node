@@ -1,3 +1,0 @@
-// Package pagereadable derives a page's readable-html representation from the
-// whole-document html body by extracting its main article with readability.
-package pagereadable

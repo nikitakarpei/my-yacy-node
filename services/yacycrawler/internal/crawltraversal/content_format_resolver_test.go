@@ -7,20 +7,20 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
-type scriptedRendering struct {
+type scriptedDerivation struct {
 	source crawlcapability.PageContentFormat
-	format crawlcapability.PageContentFormat
-	render func(body []byte) ([]byte, error)
+	target crawlcapability.PageContentFormat
+	derive func(body []byte) ([]byte, error)
 }
 
-func (r scriptedRendering) SourceFormat() crawlcapability.PageContentFormat { return r.source }
-func (r scriptedRendering) Format() crawlcapability.PageContentFormat       { return r.format }
+func (d scriptedDerivation) SourceFormat() crawlcapability.PageContentFormat { return d.source }
+func (d scriptedDerivation) TargetFormat() crawlcapability.PageContentFormat { return d.target }
 
-func (r scriptedRendering) Render(
+func (d scriptedDerivation) Derive(
 	_ string,
 	body []byte,
 ) ([]byte, error) {
-	return r.render(body)
+	return d.derive(body)
 }
 
 func passthrough(tag string) func([]byte) ([]byte, error) {
@@ -42,26 +42,26 @@ func htmlPage() crawlcapability.CrawledPage {
 }
 
 func TestResolvePrefersEarlierCandidateOverFallback(t *testing.T) {
-	resolver := newContentRenditionResolver(htmlPage(), []crawlcapability.PageRendering{
-		scriptedRendering{
+	resolver := newContentFormatResolver(htmlPage(), []crawlcapability.PageDerivation{
+		scriptedDerivation{
 			source: crawlcapability.PageContentFormatDocumentHTML,
-			format: crawlcapability.PageContentFormatFullText,
-			render: passthrough("full"),
+			target: crawlcapability.PageContentFormatFullText,
+			derive: passthrough("full"),
 		},
-		scriptedRendering{
+		scriptedDerivation{
 			source: crawlcapability.PageContentFormatDocumentHTML,
-			format: crawlcapability.PageContentFormatReadableHTML,
-			render: passthrough("readable-html"),
+			target: crawlcapability.PageContentFormatReadableHTML,
+			derive: passthrough("readable-html"),
 		},
-		scriptedRendering{
+		scriptedDerivation{
 			source: crawlcapability.PageContentFormatReadableHTML,
-			format: crawlcapability.PageContentFormatReadableText,
-			render: passthrough("readable-text"),
+			target: crawlcapability.PageContentFormatReadableText,
+			derive: passthrough("readable-text"),
 		},
-		scriptedRendering{
+		scriptedDerivation{
 			source: crawlcapability.PageContentFormatFullText,
-			format: crawlcapability.PageContentFormatReadableText,
-			render: passthrough("fallback"),
+			target: crawlcapability.PageContentFormatReadableText,
+			derive: passthrough("fallback"),
 		},
 	})
 
@@ -75,26 +75,26 @@ func TestResolvePrefersEarlierCandidateOverFallback(t *testing.T) {
 }
 
 func TestResolveFallsBackWhenPreferredCandidateUnextractable(t *testing.T) {
-	resolver := newContentRenditionResolver(htmlPage(), []crawlcapability.PageRendering{
-		scriptedRendering{
+	resolver := newContentFormatResolver(htmlPage(), []crawlcapability.PageDerivation{
+		scriptedDerivation{
 			source: crawlcapability.PageContentFormatDocumentHTML,
-			format: crawlcapability.PageContentFormatFullText,
-			render: passthrough("full"),
+			target: crawlcapability.PageContentFormatFullText,
+			derive: passthrough("full"),
 		},
-		scriptedRendering{
+		scriptedDerivation{
 			source: crawlcapability.PageContentFormatDocumentHTML,
-			format: crawlcapability.PageContentFormatReadableHTML,
-			render: unextractable,
+			target: crawlcapability.PageContentFormatReadableHTML,
+			derive: unextractable,
 		},
-		scriptedRendering{
+		scriptedDerivation{
 			source: crawlcapability.PageContentFormatReadableHTML,
-			format: crawlcapability.PageContentFormatReadableText,
-			render: passthrough("readable-text"),
+			target: crawlcapability.PageContentFormatReadableText,
+			derive: passthrough("readable-text"),
 		},
-		scriptedRendering{
+		scriptedDerivation{
 			source: crawlcapability.PageContentFormatFullText,
-			format: crawlcapability.PageContentFormatReadableText,
-			render: passthrough("fallback"),
+			target: crawlcapability.PageContentFormatReadableText,
+			derive: passthrough("fallback"),
 		},
 	})
 
@@ -107,17 +107,17 @@ func TestResolveFallsBackWhenPreferredCandidateUnextractable(t *testing.T) {
 	}
 }
 
-func TestResolveLeavesRenditionUnresolvedWhenNoCandidateApplies(t *testing.T) {
-	resolver := newContentRenditionResolver(htmlPage(), []crawlcapability.PageRendering{
-		scriptedRendering{
+func TestResolveLeavesFormatUnresolvedWhenNoCandidateApplies(t *testing.T) {
+	resolver := newContentFormatResolver(htmlPage(), []crawlcapability.PageDerivation{
+		scriptedDerivation{
 			source: crawlcapability.PageContentFormatDocumentHTML,
-			format: crawlcapability.PageContentFormatReadableHTML,
-			render: unextractable,
+			target: crawlcapability.PageContentFormatReadableHTML,
+			derive: unextractable,
 		},
-		scriptedRendering{
+		scriptedDerivation{
 			source: crawlcapability.PageContentFormatReadableHTML,
-			format: crawlcapability.PageContentFormatReadableText,
-			render: passthrough("readable-text"),
+			target: crawlcapability.PageContentFormatReadableText,
+			derive: passthrough("readable-text"),
 		},
 	})
 

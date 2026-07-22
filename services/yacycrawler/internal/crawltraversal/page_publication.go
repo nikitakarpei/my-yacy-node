@@ -15,7 +15,7 @@ const (
 )
 
 func (c *crawl) publish(ctx context.Context, page crawlcapability.CrawledPage) error {
-	contents, err := c.renderContents(page)
+	contents, err := c.deriveContents(page)
 	if err != nil {
 		return err
 	}
@@ -45,10 +45,10 @@ func (c *crawl) publish(ctx context.Context, page crawlcapability.CrawledPage) e
 	return nil
 }
 
-func (c *crawl) renderContents(
+func (c *crawl) deriveContents(
 	page crawlcapability.CrawledPage,
 ) (map[crawlcapability.PageContentFormat][]byte, error) {
-	resolver := newContentRenditionResolver(page, c.renderings)
+	resolver := newContentFormatResolver(page, c.derivations)
 	for _, feed := range c.feeds {
 		if _, _, err := resolver.resolve(feed.ContentFormat()); err != nil {
 			return nil, err

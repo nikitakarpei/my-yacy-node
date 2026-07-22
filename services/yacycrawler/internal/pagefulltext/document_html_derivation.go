@@ -5,21 +5,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/htmltext"
 )
 
-type HTMLRendering struct{}
+type DocumentHTMLDerivation struct{}
 
-func NewHTMLRendering() HTMLRendering {
-	return HTMLRendering{}
+func NewDocumentHTMLDerivation() DocumentHTMLDerivation {
+	return DocumentHTMLDerivation{}
 }
 
-func (HTMLRendering) SourceFormat() crawlcapability.PageContentFormat {
+func (DocumentHTMLDerivation) SourceFormat() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatDocumentHTML
 }
 
-func (HTMLRendering) Format() crawlcapability.PageContentFormat {
+func (DocumentHTMLDerivation) TargetFormat() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatFullText
 }
 
-func (HTMLRendering) Render(_ string, body []byte) ([]byte, error) {
+func (DocumentHTMLDerivation) Derive(_ string, body []byte) ([]byte, error) {
 	text, err := htmltext.Flatten(body)
 	if err != nil {
 		return nil, err

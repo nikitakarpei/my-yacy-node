@@ -1,4 +1,4 @@
-package pagereadable
+package pagereadablehtml
 
 import (
 	"bytes"
@@ -12,21 +12,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
-type HTMLRendering struct{}
+type DocumentHTMLDerivation struct{}
 
-func NewHTMLRendering() HTMLRendering {
-	return HTMLRendering{}
+func NewDocumentHTMLDerivation() DocumentHTMLDerivation {
+	return DocumentHTMLDerivation{}
 }
 
-func (HTMLRendering) SourceFormat() crawlcapability.PageContentFormat {
+func (DocumentHTMLDerivation) SourceFormat() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatDocumentHTML
 }
 
-func (HTMLRendering) Format() crawlcapability.PageContentFormat {
+func (DocumentHTMLDerivation) TargetFormat() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatReadableHTML
 }
 
-func (HTMLRendering) Render(pageURL string, body []byte) ([]byte, error) {
+func (DocumentHTMLDerivation) Derive(pageURL string, body []byte) ([]byte, error) {
 	root, err := html.Parse(bytes.NewReader(body))
 	if err != nil {
 		return nil, fmt.Errorf("parse html: %w", err)

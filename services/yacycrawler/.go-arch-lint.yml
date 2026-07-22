@@ -26,12 +26,12 @@ components:
     in: internal/archivemember/**
   httpfetch:
     in: internal/httpfetch/**
-  pagerwi:
-    in: internal/pagerwi/**
-  pagetext:
-    in: internal/pagetext/**
-  pagereadable:
-    in: internal/pagereadable/**
+  rwirepresentation:
+    in: internal/rwirepresentation/**
+  pagereadabletext:
+    in: internal/pagereadabletext/**
+  pagereadablehtml:
+    in: internal/pagereadablehtml/**
   htmltext:
     in: internal/htmltext/**
   pagemarkdown:
@@ -130,24 +130,24 @@ deps:
       - yacycrawlcontract
       - canonicalurl
       - backoff
-  pagerwi:
+  rwirepresentation:
     mayDependOn:
-      - pagerwi
+      - rwirepresentation
       - crawlcapability
       - htmltext
     canUse:
       - yacycrawlcontract
       - yacymodel
-  pagetext:
+  pagereadabletext:
     mayDependOn:
-      - pagetext
+      - pagereadabletext
       - crawlcapability
       - htmltext
     canUse:
       - yacycrawlcontract
-  pagereadable:
+  pagereadablehtml:
     mayDependOn:
-      - pagereadable
+      - pagereadablehtml
       - crawlcapability
     canUse:
       - readability
@@ -192,7 +192,7 @@ deps:
     mayDependOn:
       - pagefeed
       - crawlcapability
-      - pagerwi
+      - rwirepresentation
     canUse:
       - yacycrawlcontract
       - yacymodel
@@ -221,8 +221,8 @@ deps:
       - archivemember
       - httpfetch
       - pagefeed
-      - pagetext
-      - pagereadable
+      - pagereadabletext
+      - pagereadablehtml
       - pagemarkdown
       - pagefulltext
       - orderintake
