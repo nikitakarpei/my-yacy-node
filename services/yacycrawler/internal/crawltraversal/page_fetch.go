@@ -7,7 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
-func (c *crawl) fetchPage(
+func (c *traversal) fetchPage(
 	ctx context.Context,
 	rawURL string,
 ) (crawlcapability.FetchOutcome, error) {

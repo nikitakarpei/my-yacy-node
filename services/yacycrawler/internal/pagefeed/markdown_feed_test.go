@@ -21,7 +21,7 @@ func TestMarkdownFeedPublishesTheRenderedMarkdown(t *testing.T) {
 		t.Fatal(err)
 	}
 	feed := pagefeed.NewMarkdownFeed(js, "yacy.crawl.page.markdown")
-	publication, err := feed.Derive(samplePage(), []byte("# hi"))
+	publication, err := feed.Frame(samplePage(), []byte("# hi"))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
 	}

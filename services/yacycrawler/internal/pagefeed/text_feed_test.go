@@ -22,7 +22,7 @@ func TestTextFeedPublishesTheRenderedText(t *testing.T) {
 		t.Fatal(err)
 	}
 	feed := pagefeed.NewTextFeed(js, "yacy.crawl.page.text")
-	publication, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
+	publication, err := feed.Frame(samplePage(), []byte("the quick brown fox"))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
 	}
@@ -59,7 +59,7 @@ func TestTextFeedFullStreamIsRetryable(t *testing.T) {
 		t.Fatal(err)
 	}
 	feed := pagefeed.NewTextFeed(js, "yacy.crawl.page.text.full")
-	publication, err := feed.Derive(samplePage(), []byte("the quick brown fox"))
+	publication, err := feed.Frame(samplePage(), []byte("the quick brown fox"))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
 	}

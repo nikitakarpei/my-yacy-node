@@ -22,6 +22,6 @@ func (p PagePublication) Messages() [][]byte {
 type PageFeed interface {
 	Representation() yacycrawlcontract.PageRepresentationKind
 	ContentFormat() PageContentFormat
-	Derive(page CrawledPage, content []byte) (PagePublication, error)
+	Frame(page CrawledPage, content []byte) (PagePublication, error)
 	Publish(ctx context.Context, publication PagePublication) error
 }

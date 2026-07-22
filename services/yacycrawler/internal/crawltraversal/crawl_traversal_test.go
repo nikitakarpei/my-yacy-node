@@ -37,152 +37,55 @@ func (f *fakeFetch) Fetch(_ context.Context, rawURL string) (crawlcapability.Fet
 	return outcome, nil
 }
 
-type fakeExtract struct {
-	documents []crawlcapability.ExtractedDocument
-	err       error
-}
-
-func (f fakeExtract) Extract(
-	_ context.Context,
-	_, _ string,
-	_ []byte,
-) ([]crawlcapability.ExtractedDocument, error) {
-	return f.documents, f.err
-}
-
-func document(url, title, text string) crawlcapability.ExtractedDocument {
-	return crawlcapability.ExtractedDocument{
-		URL: url,
-		ExtractedContent: crawlcapability.ExtractedContent{
-			Title:  title,
-			Body:   []byte(text),
-			Format: crawlcapability.PageContentFormatReadableText,
-		},
-	}
-}
-
 type fakeRecrawl struct{ due bool }
 
 func (f fakeRecrawl) Due(context.Context, string) (bool, error) { return f.due, nil }
 
-type redirectEdge struct{ requested, canonical string }
-
-type recordingResolve struct {
-	mu    sync.Mutex
-	edges []redirectEdge
+type fakeAbsorption struct {
+	mu       sync.Mutex
+	links    map[string][]string
+	absorbed []string
+	err      error
 }
 
-func (r *recordingResolve) Record(_ context.Context, requested, canonical string) error {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	r.edges = append(r.edges, redirectEdge{requested: requested, canonical: canonical})
-	return nil
-}
-
-func (r *recordingResolve) recorded() []redirectEdge {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-	return append([]redirectEdge(nil), r.edges...)
-}
-
-type fakeFeed struct {
-	representation yacycrawlcontract.PageRepresentationKind
-	contentFormat  crawlcapability.PageContentFormat
-	mu             sync.Mutex
-	published      []string
-	failWith       error
-}
-
-func (o *fakeFeed) Representation() yacycrawlcontract.PageRepresentationKind {
-	return o.representation
-}
-
-func (o *fakeFeed) ContentFormat() crawlcapability.PageContentFormat {
-	if o.contentFormat == "" {
-		return crawlcapability.PageContentFormatReadableText
+func (a *fakeAbsorption) Absorb(
+	_ context.Context,
+	outcome crawlcapability.FetchOutcome,
+) ([]string, error) {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	if a.err != nil {
+		return nil, a.err
 	}
-	return o.contentFormat
+	a.absorbed = append(a.absorbed, outcome.FinalURL)
+	return a.links[outcome.FinalURL], nil
 }
 
-func (o *fakeFeed) Derive(
-	page crawlcapability.CrawledPage,
-	_ []byte,
-) (crawlcapability.PagePublication, error) {
-	return crawlcapability.NewPagePublication([]byte(page.CanonicalURL)), nil
-}
-
-func (o *fakeFeed) Publish(_ context.Context, publication crawlcapability.PagePublication) error {
-	if o.failWith != nil {
-		return o.failWith
-	}
-	o.mu.Lock()
-	defer o.mu.Unlock()
-	o.published = append(o.published, string(publication.Messages()[0]))
-	return nil
-}
-
-func feeds(items ...*fakeFeed) []crawlcapability.PageFeed {
-	bound := make([]crawlcapability.PageFeed, len(items))
-	for i, item := range items {
-		bound[i] = item
-	}
-	return bound
-}
-
-type fakeDerivation struct {
-	sourceFormat crawlcapability.PageContentFormat
-	targetFormat crawlcapability.PageContentFormat
-}
-
-func (d fakeDerivation) SourceFormat() crawlcapability.PageContentFormat {
-	return d.sourceFormat
-}
-
-func (d fakeDerivation) TargetFormat() crawlcapability.PageContentFormat {
-	return d.targetFormat
-}
-
-func (fakeDerivation) Derive(_ string, body []byte) ([]byte, error) {
-	return body, nil
-}
-
-func derivations() []crawlcapability.PageDerivation {
-	return []crawlcapability.PageDerivation{
-		fakeDerivation{
-			sourceFormat: crawlcapability.PageContentFormatDocumentHTML,
-			targetFormat: crawlcapability.PageContentFormatReadableText,
-		},
-		fakeDerivation{
-			sourceFormat: crawlcapability.PageContentFormatReadableText,
-			targetFormat: crawlcapability.PageContentFormatReadableText,
-		},
-		fakeDerivation{
-			sourceFormat: crawlcapability.PageContentFormatDocumentHTML,
-			targetFormat: crawlcapability.PageContentFormatMarkdown,
-		},
-	}
+func (a *fakeAbsorption) count() int {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	return len(a.absorbed)
 }
 
 type recordingObserver struct {
-	mu        sync.Mutex
-	disposed  map[string]int
-	published map[string]int
-	refusals  map[string]int
-	budget    int
+	mu       sync.Mutex
+	disposed map[string]int
+	refusals map[string]int
+	budget   int
 }
 
 func (*recordingObserver) OrderReceived()              {}
 func (*recordingObserver) OrderRedelivered()           {}
 func (*recordingObserver) OrderCompleted()             {}
 func (*recordingObserver) PageFetched()                {}
+func (*recordingObserver) PagePublished(string)        {}
 func (*recordingObserver) PublicationWaited()          {}
 func (*recordingObserver) FetchObserved(time.Duration) {}
 
 func newObserver() *recordingObserver {
 	return &recordingObserver{
-		disposed:  map[string]int{},
-		published: map[string]int{},
-		refusals:  map[string]int{},
+		disposed: map[string]int{},
+		refusals: map[string]int{},
 	}
 }
 
@@ -190,12 +93,6 @@ func (o *recordingObserver) PageDisposed(reason string) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	o.disposed[reason]++
-}
-
-func (o *recordingObserver) PagePublished(out string) {
-	o.mu.Lock()
-	defer o.mu.Unlock()
-	o.published[out]++
 }
 
 func (o *recordingObserver) RefusalHonored(kind string) {
@@ -248,13 +145,11 @@ func defaultConfig() crawltraversal.Config {
 func newCrawler(
 	cfg crawltraversal.Config,
 	fetch crawlcapability.PageRetrieval,
-	extract crawlcapability.DocumentExtraction,
-	feeds []crawlcapability.PageFeed,
+	absorption crawlcapability.PageAbsorption,
 	observer crawlcapability.RunProgress,
 ) *crawltraversal.Crawler {
 	return crawltraversal.NewCrawler(
-		cfg, fetch, extract, crawltraversal.AlwaysDue{}, &recordingResolve{},
-		feeds, derivations(), observer, &manualClock{},
+		cfg, fetch, crawltraversal.AlwaysDue{}, absorption, observer, &manualClock{},
 	)
 }
 
@@ -292,273 +187,46 @@ func fetchedOutcome() crawlcapability.FetchOutcome {
 	}
 }
 
-func TestTraversePublishesToEveryOutput(t *testing.T) {
+func TestTraverseAbsorbsFetchedPage(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
 		"http://host/": {fetchedOutcome()},
 	}}
-	extract := fakeExtract{
-		documents: []crawlcapability.ExtractedDocument{document("http://host/", "t", "body")},
-	}
-	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
-	text := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindText}
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		feeds(rwi, text), newObserver())
+	absorption := &fakeAbsorption{}
+	crawler := newCrawler(defaultConfig(), fetch, absorption, newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(rwi.published) != 1 || len(text.published) != 1 {
-		t.Fatalf("representations not both advanced: rwi=%v text=%v", rwi.published, text.published)
+	if absorption.count() != 1 {
+		t.Fatalf("fetched page not absorbed: %v", absorption.absorbed)
 	}
 }
 
-func TestTraverseRecordsRedirectEdgePerNonFinalHop(t *testing.T) {
-	redirecting := crawlcapability.FetchOutcome{
-		Status:        crawlcapability.FetchSucceeded,
-		FinalURL:      "http://host/c",
-		RedirectChain: []string{"http://host/a", "http://host/b", "http://host/c"},
-		ContentType:   "text/html",
-		Body:          []byte("x"),
-	}
-	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
-		"http://host/a": {redirecting},
-	}}
-	extract := fakeExtract{
-		documents: []crawlcapability.ExtractedDocument{document("http://host/c", "t", "body")},
-	}
-	resolve := &recordingResolve{}
-	crawler := crawltraversal.NewCrawler(
-		defaultConfig(), fetch, extract, crawltraversal.AlwaysDue{}, resolve,
-		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}),
-		derivations(), newObserver(), &manualClock{},
-	)
-
-	traverse(t, crawler, []string{"http://host/a"})
-
-	want := []redirectEdge{
-		{requested: "http://host/a", canonical: "http://host/c"},
-		{requested: "http://host/b", canonical: "http://host/c"},
-	}
-	got := resolve.recorded()
-	if len(got) != len(want) {
-		t.Fatalf("edges = %v, want %v", got, want)
-	}
-	for i := range want {
-		if got[i] != want[i] {
-			t.Fatalf("edge[%d] = %v, want %v", i, got[i], want[i])
-		}
-	}
-}
-
-func TestTraverseRecordsNoRedirectEdgeOnDirectFetch(t *testing.T) {
-	direct := crawlcapability.FetchOutcome{
-		Status:        crawlcapability.FetchSucceeded,
-		FinalURL:      "http://host/",
-		RedirectChain: []string{"http://host/"},
-		ContentType:   "text/html",
-		Body:          []byte("x"),
-	}
-	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
-		"http://host/": {direct},
-	}}
-	extract := fakeExtract{
-		documents: []crawlcapability.ExtractedDocument{document("http://host/", "t", "body")},
-	}
-	resolve := &recordingResolve{}
-	crawler := crawltraversal.NewCrawler(
-		defaultConfig(), fetch, extract, crawltraversal.AlwaysDue{}, resolve,
-		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}),
-		derivations(), newObserver(), &manualClock{},
-	)
-
-	traverse(t, crawler, []string{"http://host/"})
-
-	if got := resolve.recorded(); len(got) != 0 {
-		t.Fatalf("direct fetch recorded edges: %v", got)
-	}
-}
-
-func TestTraverseSkipsRepresentationRefusingPageFormat(t *testing.T) {
+func TestTraverseAbsorptionErrorFails(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
 		"http://host/": {fetchedOutcome()},
 	}}
-	extract := fakeExtract{
-		documents: []crawlcapability.ExtractedDocument{document("http://host/", "t", "body")},
+	absorption := &fakeAbsorption{err: errors.New("absorb boom")}
+	crawler := newCrawler(defaultConfig(), fetch, absorption, newObserver())
+
+	if err := crawler.Traverse(
+		context.Background(),
+		orderDelivery([]string{"http://host/"}),
+	); err == nil {
+		t.Fatal("absorption error should fail the traversal")
 	}
-	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
-	markdown := &fakeFeed{
-		representation: yacycrawlcontract.PageRepresentationKindMarkdown,
-		contentFormat:  crawlcapability.PageContentFormatMarkdown,
-	}
+}
+
+func TestTraverseDisposesNotAPage(t *testing.T) {
+	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
+		"http://host/": {crawlcapability.FetchOutcome{Status: crawlcapability.FetchNotAPage}},
+	}}
 	observer := newObserver()
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		feeds(rwi, markdown), observer)
+	crawler := newCrawler(defaultConfig(), fetch, &fakeAbsorption{}, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(rwi.published) != 1 {
-		t.Fatalf("accepting representation not advanced: rwi=%v", rwi.published)
-	}
-	if len(markdown.published) != 0 {
-		t.Fatalf("refusing representation advanced: markdown=%v", markdown.published)
-	}
-	if observer.disposed[crawlcapability.DisposalUnrepresentable] != 0 {
-		t.Fatalf("page disposed despite an accepting representation: %v", observer.disposed)
-	}
-}
-
-func TestTraverseDisposesPageNoRepresentationAccepts(t *testing.T) {
-	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
-		"http://host/": {fetchedOutcome()},
-	}}
-	extract := fakeExtract{
-		documents: []crawlcapability.ExtractedDocument{document("http://host/", "t", "body")},
-	}
-	rwi := &fakeFeed{
-		representation: yacycrawlcontract.PageRepresentationKindRWI,
-		contentFormat:  crawlcapability.PageContentFormatMarkdown,
-	}
-	observer := newObserver()
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		feeds(rwi), observer)
-
-	traverse(t, crawler, []string{"http://host/"})
-
-	if len(rwi.published) != 0 {
-		t.Fatalf("refusing representation advanced: rwi=%v", rwi.published)
-	}
-	if observer.disposed[crawlcapability.DisposalUnrepresentable] != 1 {
-		t.Fatalf("want unrepresentable disposal, got %v", observer.disposed)
-	}
-}
-
-func TestTraverseDisposesUnsupportedMediaType(t *testing.T) {
-	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
-		"http://host/": {fetchedOutcome()},
-	}}
-	extract := fakeExtract{err: crawlcapability.ErrUnsupportedMediaType}
-	observer := newObserver()
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
-
-	traverse(t, crawler, []string{"http://host/"})
-
-	if observer.disposed[crawlcapability.DisposalUnsupportedMediaType] != 1 {
-		t.Fatalf("want unsupported-media-type disposal, got %v", observer.disposed)
-	}
-}
-
-func TestTraverseDisposesContainerOverflow(t *testing.T) {
-	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
-		"http://host/": {fetchedOutcome()},
-	}}
-	extract := fakeExtract{err: crawlcapability.ErrContainerOverflow}
-	observer := newObserver()
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
-
-	traverse(t, crawler, []string{"http://host/"})
-
-	if observer.disposed[crawlcapability.DisposalContainerOverflow] != 1 {
-		t.Fatalf("want container-overflow disposal, got %v", observer.disposed)
-	}
-}
-
-func TestTraverseDisposesEmptyExtraction(t *testing.T) {
-	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
-		"http://host/": {fetchedOutcome()},
-	}}
-	extract := fakeExtract{documents: nil}
-	observer := newObserver()
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
-
-	traverse(t, crawler, []string{"http://host/"})
-
-	if observer.disposed[crawlcapability.DisposalUnextractable] != 1 {
-		t.Fatalf("want unextractable disposal, got %v", observer.disposed)
-	}
-}
-
-func TestTraverseFansOutContainerDocuments(t *testing.T) {
-	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
-		"http://host/a.zip": {crawlcapability.FetchOutcome{
-			Status: crawlcapability.FetchSucceeded, FinalURL: "http://host/a.zip",
-			ContentType: "application/zip", Body: []byte("x"),
-		}},
-	}}
-	extract := fakeExtract{documents: []crawlcapability.ExtractedDocument{
-		document("http://host/a.zip!/one.html", "one", "a"),
-		document("http://host/a.zip!/two.html", "two", "b"),
-	}}
-	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		feeds(rwi), newObserver())
-
-	traverse(t, crawler, []string{"http://host/a.zip"})
-
-	if len(rwi.published) != 2 {
-		t.Fatalf("want 2 member documents published, got %v", rwi.published)
-	}
-	if rwi.published[0] == rwi.published[1] {
-		t.Fatalf("members collapsed to one URL: %v", rwi.published)
-	}
-}
-
-func TestTraverseHonorsMetaNoIndex(t *testing.T) {
-	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
-		"http://host/": {fetchedOutcome()},
-	}}
-	extract := fakeExtract{
-		documents: []crawlcapability.ExtractedDocument{{
-			URL: "http://host/",
-			ExtractedContent: crawlcapability.ExtractedContent{
-				Body:            []byte("b"),
-				Format:          crawlcapability.PageContentFormatReadableText,
-				RefusesIndexing: true,
-			},
-		}},
-	}
-	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
-	observer := newObserver()
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		feeds(rwi), observer)
-
-	traverse(t, crawler, []string{"http://host/"})
-
-	if len(rwi.published) != 0 || observer.disposed[crawlcapability.DisposalNoIndex] != 1 {
-		t.Fatalf(
-			"noindex not honored: published=%v disposed=%v",
-			rwi.published,
-			observer.disposed,
-		)
-	}
-}
-
-func TestTraverseHonorsNoFollow(t *testing.T) {
-	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
-		"http://host/": {crawlcapability.FetchOutcome{
-			Status: crawlcapability.FetchSucceeded, FinalURL: "http://host/",
-			ContentType: "text/html", Body: []byte("x"), RefusesLinkDiscovery: true,
-		}},
-	}}
-	extract := fakeExtract{documents: []crawlcapability.ExtractedDocument{
-		{
-			URL: "http://host/",
-			ExtractedContent: crawlcapability.ExtractedContent{
-				Body:   []byte("b"),
-				Format: crawlcapability.PageContentFormatReadableText,
-				Links:  []string{"http://host/next"},
-			},
-		},
-	}}
-	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		feeds(rwi), newObserver())
-
-	traverse(t, crawler, []string{"http://host/"})
-
-	if len(rwi.published) != 1 {
-		t.Fatalf("want only the seed published, got %v", rwi.published)
+	if observer.disposed[crawlcapability.DisposalFetchFailed] != 1 {
+		t.Fatalf("want fetch-failed disposal for non-page, got %v", observer.disposed)
 	}
 }
 
@@ -573,58 +241,31 @@ func TestTraverseDiscoversAndCrawlsLinks(t *testing.T) {
 			ContentType: "text/html", Body: []byte("y"),
 		}},
 	}}
-	callCount := 0
-	extract := extractFunc(func() ([]crawlcapability.ExtractedDocument, error) {
-		callCount++
-		if callCount == 1 {
-			return []crawlcapability.ExtractedDocument{
-				{
-					URL: "http://host/",
-					ExtractedContent: crawlcapability.ExtractedContent{
-						Body:   []byte("b"),
-						Format: crawlcapability.PageContentFormatReadableText,
-						Links:  []string{"http://host/next"},
-					},
-				},
-			}, nil
-		}
-		return []crawlcapability.ExtractedDocument{document("http://host/next", "", "c")}, nil
-	})
-	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		feeds(rwi), newObserver())
+	absorption := &fakeAbsorption{links: map[string][]string{
+		"http://host/": {"http://host/next"},
+	}}
+	crawler := newCrawler(defaultConfig(), fetch, absorption, newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(rwi.published) != 2 {
-		t.Fatalf("want seed plus discovered link, got %v", rwi.published)
+	if absorption.count() != 2 {
+		t.Fatalf("want seed plus discovered link absorbed, got %v", absorption.absorbed)
 	}
-}
-
-type extractFunc func() ([]crawlcapability.ExtractedDocument, error)
-
-func (f extractFunc) Extract(
-	_ context.Context,
-	_, _ string,
-	_ []byte,
-) ([]crawlcapability.ExtractedDocument, error) {
-	return f()
 }
 
 func TestTraverseSkipsFetchWhenNotDue(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
 		"http://host/": {fetchedOutcome()},
 	}}
-	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
+	absorption := &fakeAbsorption{}
 	crawler := crawltraversal.NewCrawler(
-		defaultConfig(), fetch, fakeExtract{}, fakeRecrawl{due: false}, &recordingResolve{},
-		feeds(rwi), derivations(), newObserver(), &manualClock{},
+		defaultConfig(), fetch, fakeRecrawl{due: false}, absorption, newObserver(), &manualClock{},
 	)
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(rwi.published) != 0 {
-		t.Fatalf("not-due seed should not be fetched or published, got %v", rwi.published)
+	if absorption.count() != 0 {
+		t.Fatalf("not-due seed should not be fetched or absorbed, got %v", absorption.absorbed)
 	}
 }
 
@@ -633,17 +274,13 @@ func TestTraverseRetriesTransientFetchThenSucceeds(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
 		"http://host/": {transient, transient, fetchedOutcome()},
 	}}
-	extract := fakeExtract{
-		documents: []crawlcapability.ExtractedDocument{document("http://host/", "", "b")},
-	}
-	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		feeds(rwi), newObserver())
+	absorption := &fakeAbsorption{}
+	crawler := newCrawler(defaultConfig(), fetch, absorption, newObserver())
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(rwi.published) != 1 {
-		t.Fatalf("transient fetch should retry then publish, got %v", rwi.published)
+	if absorption.count() != 1 {
+		t.Fatalf("transient fetch should retry then absorb, got %v", absorption.absorbed)
 	}
 }
 
@@ -652,15 +289,14 @@ func TestTraverseAbandonsTransientFetchAfterLimit(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
 		"http://host/": {transient, transient, transient},
 	}}
-	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
 	observer := newObserver()
-	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		feeds(rwi), observer)
+	absorption := &fakeAbsorption{}
+	crawler := newCrawler(defaultConfig(), fetch, absorption, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
-	if len(rwi.published) != 0 {
-		t.Fatalf("abandoned fetch should not publish, got %v", rwi.published)
+	if absorption.count() != 0 {
+		t.Fatalf("abandoned fetch should not absorb, got %v", absorption.absorbed)
 	}
 	if observer.disposed[crawlcapability.DisposalFetchFailed] != 1 {
 		t.Fatalf("expected fetch-failed after retry limit, got %v", observer.disposed)
@@ -689,12 +325,8 @@ func TestTraverseRenewsOwnershipWhileCrawling(t *testing.T) {
 	var openOnce sync.Once
 	var renewed atomic.Int64
 	fetch := gatedFetch{gate: gate, outcome: fetchedOutcome()}
-	extract := fakeExtract{
-		documents: []crawlcapability.ExtractedDocument{document("http://host/", "", "b")},
-	}
-	rwi := &fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}
-	crawler := newCrawler(cfg, fetch, extract,
-		feeds(rwi), newObserver())
+	absorption := &fakeAbsorption{}
+	crawler := newCrawler(cfg, fetch, absorption, newObserver())
 
 	delivery := crawlcapability.DeliveredOrder{
 		Order: yacycrawlcontract.CrawlOrder{
@@ -715,8 +347,8 @@ func TestTraverseRenewsOwnershipWhileCrawling(t *testing.T) {
 	if renewed.Load() == 0 {
 		t.Fatal("expected ownership heartbeat to extend at least once")
 	}
-	if len(rwi.published) != 1 {
-		t.Fatalf("gated fetch should publish once heartbeat opens it, got %v", rwi.published)
+	if absorption.count() != 1 {
+		t.Fatalf("gated fetch should absorb once heartbeat opens it, got %v", absorption.absorbed)
 	}
 }
 
@@ -725,8 +357,7 @@ func TestTraverseCeasesOnHTTPCease(t *testing.T) {
 		"http://host/": {crawlcapability.FetchOutcome{Status: crawlcapability.FetchCeased}},
 	}}
 	observer := newObserver()
-	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
+	crawler := newCrawler(defaultConfig(), fetch, &fakeAbsorption{}, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -744,8 +375,7 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 		"http://host/": {deferred, deferred, deferred, deferred},
 	}}
 	observer := newObserver()
-	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
+	crawler := newCrawler(defaultConfig(), fetch, &fakeAbsorption{}, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -754,23 +384,6 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 	}
 	if observer.disposed[crawlcapability.DisposalFetchFailed] != 1 {
 		t.Fatalf("expected fetch-failed after defer limit, got %v", observer.disposed)
-	}
-}
-
-func TestTraverseDisposesOversized(t *testing.T) {
-	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
-		"http://host/": {crawlcapability.FetchOutcome{
-			Status: crawlcapability.FetchSucceeded, FinalURL: "http://host/", Truncated: true,
-		}},
-	}}
-	observer := newObserver()
-	crawler := newCrawler(defaultConfig(), fetch, fakeExtract{},
-		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
-
-	traverse(t, crawler, []string{"http://host/"})
-
-	if observer.disposed[crawlcapability.DisposalOversized] != 1 {
-		t.Fatalf("want oversized disposal, got %v", observer.disposed)
 	}
 }
 
@@ -783,19 +396,11 @@ func TestTraverseBudgetTruncates(t *testing.T) {
 			ContentType: "text/html", Body: []byte("x"),
 		}},
 	}}
-	extract := fakeExtract{documents: []crawlcapability.ExtractedDocument{
-		{
-			URL: "http://host/",
-			ExtractedContent: crawlcapability.ExtractedContent{
-				Body:   []byte("b"),
-				Format: crawlcapability.PageContentFormatReadableText,
-				Links:  []string{"http://host/a", "http://host/b"},
-			},
-		},
+	absorption := &fakeAbsorption{links: map[string][]string{
+		"http://host/": {"http://host/a", "http://host/b"},
 	}}
 	observer := newObserver()
-	crawler := newCrawler(cfg, fetch, extract,
-		feeds(&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI}), observer)
+	crawler := newCrawler(cfg, fetch, absorption, observer)
 
 	traverse(t, crawler, []string{"http://host/"})
 
@@ -804,86 +409,9 @@ func TestTraverseBudgetTruncates(t *testing.T) {
 	}
 }
 
-func TestTraversePublicationHardErrorFails(t *testing.T) {
-	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
-		"http://host/": {fetchedOutcome()},
-	}}
-	extract := fakeExtract{
-		documents: []crawlcapability.ExtractedDocument{document("http://host/", "", "b")},
-	}
-	feed := &fakeFeed{
-		representation: yacycrawlcontract.PageRepresentationKindRWI,
-		failWith:       errors.New("hard broker error"),
-	}
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		feeds(feed), newObserver())
-
-	if err := crawler.Traverse(
-		context.Background(),
-		orderDelivery([]string{"http://host/"}),
-	); err == nil {
-		t.Fatal("hard publish error should fail the traversal")
-	}
-}
-
-func TestTraverseRetriesTransientPublication(t *testing.T) {
-	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{
-		"http://host/": {fetchedOutcome()},
-	}}
-	extract := fakeExtract{
-		documents: []crawlcapability.ExtractedDocument{document("http://host/", "", "b")},
-	}
-	feed := &flakyFeed{failuresLeft: 2}
-	crawler := newCrawler(defaultConfig(), fetch, extract,
-		[]crawlcapability.PageFeed{feed}, newObserver())
-
-	traverse(t, crawler, []string{"http://host/"})
-
-	if feed.published != 1 {
-		t.Fatalf("transient publish should retry then succeed: published=%d", feed.published)
-	}
-}
-
-type flakyFeed struct {
-	failuresLeft int
-	published    int
-}
-
-func (*flakyFeed) Representation() yacycrawlcontract.PageRepresentationKind {
-	return yacycrawlcontract.PageRepresentationKindRWI
-}
-
-func (*flakyFeed) ContentFormat() crawlcapability.PageContentFormat {
-	return crawlcapability.PageContentFormatReadableText
-}
-
-func (o *flakyFeed) Derive(
-	crawlcapability.CrawledPage,
-	[]byte,
-) (crawlcapability.PagePublication, error) {
-	return crawlcapability.NewPagePublication(), nil
-}
-
-func (o *flakyFeed) Publish(context.Context, crawlcapability.PagePublication) error {
-	if o.failuresLeft > 0 {
-		o.failuresLeft--
-		return crawlcapability.TransientPublicationError{Err: errors.New("stream full")}
-	}
-	o.published++
-	return nil
-}
-
 func TestTraverseFetchErrorFails(t *testing.T) {
 	fetch := &fakeFetch{err: errors.New("boom")}
-	crawler := newCrawler(
-		defaultConfig(),
-		fetch,
-		fakeExtract{},
-		feeds(
-			&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI},
-		),
-		newObserver(),
-	)
+	crawler := newCrawler(defaultConfig(), fetch, &fakeAbsorption{}, newObserver())
 
 	if err := crawler.Traverse(
 		context.Background(),
@@ -895,15 +423,7 @@ func TestTraverseFetchErrorFails(t *testing.T) {
 
 func TestTraverseSkipsUncanonicalizableSeed(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]crawlcapability.FetchOutcome{}}
-	crawler := newCrawler(
-		defaultConfig(),
-		fetch,
-		fakeExtract{},
-		feeds(
-			&fakeFeed{representation: yacycrawlcontract.PageRepresentationKindRWI},
-		),
-		newObserver(),
-	)
+	crawler := newCrawler(defaultConfig(), fetch, &fakeAbsorption{}, newObserver())
 
 	traverse(t, crawler, []string{"::not a url"})
 }

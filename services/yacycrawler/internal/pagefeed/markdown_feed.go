@@ -25,7 +25,7 @@ func (MarkdownFeed) ContentFormat() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatMarkdown
 }
 
-func (MarkdownFeed) Derive(
+func (MarkdownFeed) Frame(
 	page crawlcapability.CrawledPage,
 	content []byte,
 ) (crawlcapability.PagePublication, error) {

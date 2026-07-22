@@ -25,7 +25,7 @@ func (TextFeed) ContentFormat() crawlcapability.PageContentFormat {
 	return crawlcapability.PageContentFormatReadableText
 }
 
-func (TextFeed) Derive(
+func (TextFeed) Frame(
 	page crawlcapability.CrawledPage,
 	content []byte,
 ) (crawlcapability.PagePublication, error) {
