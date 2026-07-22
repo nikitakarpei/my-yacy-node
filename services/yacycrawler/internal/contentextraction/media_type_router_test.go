@@ -10,18 +10,18 @@ import (
 )
 
 type fakeExtractor struct {
-	contents []crawlcapability.ExtractedContent
-	err      error
-	gotURL   string
+	content crawlcapability.ExtractedContent
+	err     error
+	gotURL  string
 }
 
 func (f *fakeExtractor) Extract(
 	_ context.Context,
 	pageURL, _ string,
 	_ []byte,
-) ([]crawlcapability.ExtractedContent, error) {
+) (crawlcapability.ExtractedContent, error) {
 	f.gotURL = pageURL
-	return f.contents, f.err
+	return f.content, f.err
 }
 
 type fakeContainer struct {
@@ -38,7 +38,7 @@ func (f *fakeContainer) Expand(
 }
 
 func TestExtractDispatchesToRegisteredExtractor(t *testing.T) {
-	extractor := &fakeExtractor{contents: []crawlcapability.ExtractedContent{{Title: "page"}}}
+	extractor := &fakeExtractor{content: crawlcapability.ExtractedContent{Title: "page"}}
 	router := contentextraction.New(4, 16)
 	router.RegisterExtractor("text/html", extractor)
 
@@ -70,7 +70,7 @@ func TestExtractUnsupportedMediaType(t *testing.T) {
 }
 
 func TestExtractExpandsContainerAndStampsMemberURL(t *testing.T) {
-	html := &fakeExtractor{contents: []crawlcapability.ExtractedContent{{Title: "member"}}}
+	html := &fakeExtractor{content: crawlcapability.ExtractedContent{Title: "member"}}
 	container := &fakeContainer{members: []crawlcapability.ArchiveMember{
 		{URL: "http://host/a.zip!/one.html", ContentType: "text/html", Body: []byte("1")},
 		{URL: "http://host/a.zip!/skip.bin", ContentType: "application/octet-stream"},
@@ -97,7 +97,7 @@ func TestExtractExpandsContainerAndStampsMemberURL(t *testing.T) {
 }
 
 func TestExtractNestedContainerExpands(t *testing.T) {
-	html := &fakeExtractor{contents: []crawlcapability.ExtractedContent{{Title: "deep"}}}
+	html := &fakeExtractor{content: crawlcapability.ExtractedContent{Title: "deep"}}
 	tar := &fakeContainer{members: []crawlcapability.ArchiveMember{
 		{URL: "u!/inner.tar!/p.html", ContentType: "text/html"},
 	}}
@@ -132,7 +132,7 @@ func TestExtractNestingDepthOverflow(t *testing.T) {
 }
 
 func TestExtractDocumentsPerContainerOverflow(t *testing.T) {
-	html := &fakeExtractor{contents: []crawlcapability.ExtractedContent{{Title: "m"}}}
+	html := &fakeExtractor{content: crawlcapability.ExtractedContent{Title: "m"}}
 	container := &fakeContainer{members: []crawlcapability.ArchiveMember{
 		{URL: "u!/1.html", ContentType: "text/html"},
 		{URL: "u!/2.html", ContentType: "text/html"},

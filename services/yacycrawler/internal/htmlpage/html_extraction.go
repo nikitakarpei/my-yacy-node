@@ -36,21 +36,21 @@ func (HTMLExtraction) Extract(
 	ctx context.Context,
 	pageURL, contentType string,
 	body []byte,
-) ([]crawlcapability.ExtractedContent, error) {
+) (crawlcapability.ExtractedContent, error) {
 	decoded, err := charset.NewReader(bytes.NewReader(body), contentType)
 	if err != nil {
-		return nil, fmt.Errorf("decode charset: %w", err)
+		return crawlcapability.ExtractedContent{}, fmt.Errorf("decode charset: %w", err)
 	}
 	root, err := html.Parse(decoded)
 	if err != nil {
-		return nil, fmt.Errorf("parse html: %w", err)
+		return crawlcapability.ExtractedContent{}, fmt.Errorf("parse html: %w", err)
 	}
 
 	scan := scanTree(root)
 
 	var document bytes.Buffer
 	if err := html.Render(&document, root); err != nil {
-		return nil, fmt.Errorf("render html: %w", err)
+		return crawlcapability.ExtractedContent{}, fmt.Errorf("render html: %w", err)
 	}
 
 	base := pageURL
@@ -67,7 +67,7 @@ func (HTMLExtraction) Extract(
 	}
 	links, local, external := resolveLinks(base, scan.hrefs)
 
-	return []crawlcapability.ExtractedContent{{
+	return crawlcapability.ExtractedContent{
 		Title:                scan.title,
 		Body:                 document.Bytes(),
 		Format:               crawlcapability.PageContentFormatDocumentHTML,
@@ -77,7 +77,7 @@ func (HTMLExtraction) Extract(
 		ExternalLinkCount:    external,
 		RefusesIndexing:      scan.noIndex,
 		RefusesLinkDiscovery: scan.noFollow,
-	}}, nil
+	}, nil
 }
 
 func resolveBase(pageURL, baseHref string) (string, error) {
