@@ -1,4 +1,4 @@
-package crawltraversal
+package ordertraversal
 
 import "time"
 
@@ -12,5 +12,4 @@ type Config struct {
 	PublishRetryCeiling time.Duration
 	MaxDeferralsPerURL  int
 	FetchConcurrency    int
-	OwnershipInterval   time.Duration
 }

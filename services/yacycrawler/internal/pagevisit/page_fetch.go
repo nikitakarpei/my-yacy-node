@@ -1,4 +1,4 @@
-package crawltraversal
+package pagevisit
 
 import (
 	"context"
@@ -7,15 +7,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 )
 
-func (c *traversal) fetchPage(
+func (v *PageVisit) fetchPage(
 	ctx context.Context,
 	rawURL string,
 ) (crawlcapability.FetchOutcome, error) {
-	start := c.clock.Now()
-	outcome, err := c.fetch.Fetch(ctx, rawURL)
+	start := v.clock.Now()
+	outcome, err := v.fetch.Fetch(ctx, rawURL)
 	if err != nil {
 		return crawlcapability.FetchOutcome{}, fmt.Errorf("fetch %s: %w", rawURL, err)
 	}
-	c.observer.FetchObserved(c.clock.Now().Sub(start))
+	v.observer.FetchObserved(v.clock.Now().Sub(start))
 	return outcome, nil
 }

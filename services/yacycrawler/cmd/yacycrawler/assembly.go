@@ -19,12 +19,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlmetrics"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlrun"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawltraversal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/htmlpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/httpfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderintake"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/ordersettlement"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/ordertraversal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pageabsorption"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolution"
 )
 
@@ -80,15 +81,20 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 		return err
 	}
 
-	crawler := crawltraversal.NewCrawler(
-		traversalConfig(cfg),
+	visitor := pagevisit.NewPageVisit(
 		fetch,
-		crawltraversal.AlwaysDue{},
+		pagevisit.AlwaysDue{},
 		absorption,
 		metrics,
 		wallclock.Clock{},
 	)
-	engine := crawlrun.NewEngine(metrics, crawler)
+	traverser := ordertraversal.NewOrderTraverser(
+		traversalConfig(cfg),
+		visitor,
+		metrics,
+		wallclock.Clock{},
+	)
+	runner := ordersettlement.NewOrderRunner(metrics, traverser, wallclock.Clock{}, ordersAckWait/2)
 
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
@@ -105,7 +111,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *crawlmetrics.Cr
 	err = servergroup.Run(ctx, opsShutdownLimit,
 		[]servergroup.NamedServer{{Name: "ops", Server: opsServer}},
 		func(runCtx context.Context) error {
-			return engine.Run(runCtx, receiver.Deliveries())
+			return runner.Run(runCtx, receiver.Deliveries())
 		},
 	)
 	slog.InfoContext(ctx, msgServiceStopped)
@@ -264,8 +270,8 @@ func allowedMediaTypes(contentTypes []string) map[string]bool {
 	return allow
 }
 
-func traversalConfig(cfg ServiceConfig) crawltraversal.Config {
-	return crawltraversal.Config{
+func traversalConfig(cfg ServiceConfig) ordertraversal.Config {
+	return ordertraversal.Config{
 		RunPageBudget:       cfg.RunPageBudget,
 		FrontierCapacity:    cfg.FrontierCap,
 		FetchRetryLimit:     fetchRetryLimit,
@@ -275,6 +281,5 @@ func traversalConfig(cfg ServiceConfig) crawltraversal.Config {
 		PublishRetryCeiling: publishRetryCeil,
 		MaxDeferralsPerURL:  maxDeferPerURL,
 		FetchConcurrency:    cfg.FetchConcurrency,
-		OwnershipInterval:   ordersAckWait / 2,
 	}
 }

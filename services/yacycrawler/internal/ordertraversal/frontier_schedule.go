@@ -1,4 +1,4 @@
-package crawltraversal
+package ordertraversal
 
 import (
 	"context"
@@ -6,14 +6,13 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/contextcancellation"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlfrontier"
 )
 
-func (c *traversal) schedule(
+func (c *orderTraversal) schedule(
 	ctx context.Context,
 	cancel context.CancelFunc,
-	dispatch chan crawlfrontier.Entry,
-	results chan visitOutcome,
+	dispatch chan entry,
+	results chan pageVisitResult,
 ) error {
 	budget := c.config.RunPageBudget
 	for {
@@ -28,8 +27,8 @@ func (c *traversal) schedule(
 			return nil
 		}
 
-		var dispatchable chan crawlfrontier.Entry
-		var next crawlfrontier.Entry
+		var dispatchable chan entry
+		var next entry
 		if c.dispatchable(budget) {
 			next, _ = c.frontier.Peek()
 			dispatchable = dispatch
@@ -54,7 +53,7 @@ func (c *traversal) schedule(
 	}
 }
 
-func (c *traversal) dispatchable(budget int) bool {
+func (c *orderTraversal) dispatchable(budget int) bool {
 	if c.fatal != nil {
 		return false
 	}
@@ -64,7 +63,7 @@ func (c *traversal) dispatchable(budget int) bool {
 	return c.frontier.HasReady()
 }
 
-func (c *traversal) awaitEarliestDue(ctx context.Context) error {
+func (c *orderTraversal) awaitEarliestDue(ctx context.Context) error {
 	due, ok := c.frontier.EarliestDue()
 	if !ok {
 		return nil
@@ -79,7 +78,7 @@ func (c *traversal) awaitEarliestDue(ctx context.Context) error {
 	return nil
 }
 
-func (c *traversal) drainInflight(results chan visitOutcome) error {
+func (c *orderTraversal) drainInflight(results chan pageVisitResult) error {
 	for c.inflight > 0 {
 		<-results
 		c.inflight--
@@ -87,7 +86,7 @@ func (c *traversal) drainInflight(results chan visitOutcome) error {
 	return c.fatal
 }
 
-func (c *traversal) disposePendingOverBudget() {
+func (c *orderTraversal) disposePendingOverBudget() {
 	c.observer.BudgetExhausted()
 	for range c.frontier.DrainPending() {
 		c.observer.PageDisposed(crawlcapability.DisposalBudgetTruncated)
