@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/httpfetch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
 )
 
 func envFrom(values map[string]string) func(string) string {
@@ -55,7 +55,7 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.UserAgent != DefaultUserAgent {
 		t.Fatalf("user agent = %q", cfg.UserAgent)
 	}
-	if cfg.ProxyDialMode != httpfetch.ProxyDialTunnel {
+	if cfg.ProxyDialMode != http.ProxyDialTunnel {
 		t.Fatalf("proxy dial mode = %v, want tunnel", cfg.ProxyDialMode)
 	}
 }
@@ -67,7 +67,7 @@ func TestLoadServiceConfigAcceptsAbsoluteURLDialMode(t *testing.T) {
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.ProxyDialMode != httpfetch.ProxyDialAbsoluteURL {
+	if cfg.ProxyDialMode != http.ProxyDialAbsoluteURL {
 		t.Fatalf("proxy dial mode = %v, want absolute-url", cfg.ProxyDialMode)
 	}
 }

@@ -4,8 +4,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/contentformatgraph"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlcapability"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 )
 
 func TestBuildPageFeedsSelectsTheConfiguredRepresentations(t *testing.T) {
@@ -25,8 +24,8 @@ func TestCatalogGraphValidatesConfiguredFeeds(t *testing.T) {
 
 func TestCatalogGraphValidatesMarkdownContent(t *testing.T) {
 	graph := contentformatgraph.New(pageDerivationCatalog())
-	if err := graph.Validate([]crawlcapability.PageContentFormat{
-		crawlcapability.PageContentFormatMarkdown,
+	if err := graph.Validate([]contentformatgraph.Format{
+		contentformatgraph.FormatMarkdown,
 	}); err != nil {
 		t.Fatalf("markdown content is reachable, got %v", err)
 	}
@@ -34,8 +33,8 @@ func TestCatalogGraphValidatesMarkdownContent(t *testing.T) {
 
 func TestCatalogGraphRejectsUnderivableContentFormat(t *testing.T) {
 	graph := contentformatgraph.New(pageDerivationCatalog())
-	if err := graph.Validate([]crawlcapability.PageContentFormat{
-		crawlcapability.PageContentFormat("unproduced"),
+	if err := graph.Validate([]contentformatgraph.Format{
+		contentformatgraph.Format("unproduced"),
 	}); err == nil {
 		t.Fatal("content no derivation produces should fail validation")
 	}

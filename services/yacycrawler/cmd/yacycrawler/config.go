@@ -8,7 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/httpfetch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
 )
 
 const (
@@ -43,9 +43,9 @@ const (
 	DefaultRedirectResolutionMaxBytes = 256 << 20
 )
 
-var proxyDialModeByName = map[string]httpfetch.ProxyDialMode{
-	"tunnel":       httpfetch.ProxyDialTunnel,
-	"absolute-url": httpfetch.ProxyDialAbsoluteURL,
+var proxyDialModeByName = map[string]http.ProxyDialMode{
+	"tunnel":       http.ProxyDialTunnel,
+	"absolute-url": http.ProxyDialAbsoluteURL,
 }
 
 func pageSubjectEnv(representation yacycrawlcontract.PageRepresentationKind) string {
@@ -72,7 +72,7 @@ type ServiceConfig struct {
 	OrdersDurable    string
 	PageStreams      []PageStreamConfig
 	ProxyURL         *url.URL
-	ProxyDialMode    httpfetch.ProxyDialMode
+	ProxyDialMode    http.ProxyDialMode
 	FetchConcurrency int
 	RunPageBudget    int
 	FrontierCap      int
@@ -250,7 +250,7 @@ func requiredURL(getenv func(string) string, key string) (*url.URL, error) {
 	return parsed, nil
 }
 
-func proxyDialModeFromEnv(getenv func(string) string) (httpfetch.ProxyDialMode, error) {
+func proxyDialModeFromEnv(getenv func(string) string) (http.ProxyDialMode, error) {
 	name := envconfig.String(getenv, EnvProxyDialMode, DefaultProxyDialMode)
 	mode, ok := proxyDialModeByName[name]
 	if !ok {

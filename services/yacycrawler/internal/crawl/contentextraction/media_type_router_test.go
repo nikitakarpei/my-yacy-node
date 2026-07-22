@@ -1,0 +1,168 @@
+package contentextraction_test
+
+import (
+	"context"
+	"errors"
+	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
+)
+
+type fakeExtractor struct {
+	content contentextraction.ExtractedContent
+	err     error
+	gotURL  string
+}
+
+func (f *fakeExtractor) Extract(
+	_ context.Context,
+	pageURL, _ string,
+	_ []byte,
+) (contentextraction.ExtractedContent, error) {
+	f.gotURL = pageURL
+	return f.content, f.err
+}
+
+type fakeContainer struct {
+	members []contentextraction.ArchiveMember
+	err     error
+}
+
+func (f *fakeContainer) Expand(
+	_ context.Context,
+	_, _ string,
+	_ []byte,
+) ([]contentextraction.ArchiveMember, error) {
+	return f.members, f.err
+}
+
+func TestExtractDispatchesToRegisteredExtractor(t *testing.T) {
+	extractor := &fakeExtractor{content: contentextraction.ExtractedContent{Title: "page"}}
+	router := contentextraction.New(4, 16)
+	router.RegisterExtractor("text/html", extractor)
+
+	documents, err := router.Extract(
+		t.Context(),
+		"http://host/p",
+		"text/html; charset=utf-8",
+		[]byte("x"),
+	)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(documents) != 1 || documents[0].Title != "page" {
+		t.Fatalf("unexpected documents: %+v", documents)
+	}
+	if extractor.gotURL != "http://host/p" {
+		t.Fatalf("extractor got url %q", extractor.gotURL)
+	}
+}
+
+func TestExtractUnsupportedMediaType(t *testing.T) {
+	router := contentextraction.New(4, 16)
+	router.RegisterExtractor("text/html", &fakeExtractor{})
+
+	_, err := router.Extract(t.Context(), "http://host/f", "application/pdf", []byte("x"))
+	if !errors.Is(err, contentextraction.ErrUnsupportedMediaType) {
+		t.Fatalf("want ErrUnsupportedMediaType, got %v", err)
+	}
+}
+
+func TestExtractExpandsContainerAndStampsMemberURL(t *testing.T) {
+	html := &fakeExtractor{content: contentextraction.ExtractedContent{Title: "member"}}
+	container := &fakeContainer{members: []contentextraction.ArchiveMember{
+		{URL: "http://host/a.zip!/one.html", ContentType: "text/html", Body: []byte("1")},
+		{URL: "http://host/a.zip!/skip.bin", ContentType: "application/octet-stream"},
+	}}
+	router := contentextraction.New(4, 16)
+	router.RegisterExtractor("text/html", html)
+	router.RegisterContainer("application/zip", container)
+
+	documents, err := router.Extract(
+		t.Context(),
+		"http://host/a.zip",
+		"application/zip",
+		[]byte("x"),
+	)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(documents) != 1 {
+		t.Fatalf("want 1 document (unsupported member skipped), got %d", len(documents))
+	}
+	if documents[0].URL != "http://host/a.zip!/one.html" {
+		t.Fatalf("member url not stamped: %q", documents[0].URL)
+	}
+}
+
+func TestExtractNestedContainerExpands(t *testing.T) {
+	html := &fakeExtractor{content: contentextraction.ExtractedContent{Title: "deep"}}
+	tar := &fakeContainer{members: []contentextraction.ArchiveMember{
+		{URL: "u!/inner.tar!/p.html", ContentType: "text/html"},
+	}}
+	zip := &fakeContainer{members: []contentextraction.ArchiveMember{
+		{URL: "u!/inner.tar", ContentType: "application/x-tar"},
+	}}
+	router := contentextraction.New(4, 16)
+	router.RegisterExtractor("text/html", html)
+	router.RegisterContainer("application/zip", zip)
+	router.RegisterContainer("application/x-tar", tar)
+
+	documents, err := router.Extract(t.Context(), "u", "application/zip", []byte("x"))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(documents) != 1 || documents[0].Title != "deep" {
+		t.Fatalf("nested expansion unexpected: %+v", documents)
+	}
+}
+
+func TestExtractNestingDepthOverflow(t *testing.T) {
+	selfContainer := &fakeContainer{members: []contentextraction.ArchiveMember{
+		{URL: "u!/again.zip", ContentType: "application/zip"},
+	}}
+	router := contentextraction.New(2, 16)
+	router.RegisterContainer("application/zip", selfContainer)
+
+	_, err := router.Extract(t.Context(), "u", "application/zip", []byte("x"))
+	if !errors.Is(err, contentextraction.ErrContainerOverflow) {
+		t.Fatalf("want ErrContainerOverflow, got %v", err)
+	}
+}
+
+func TestExtractDocumentsPerContainerOverflow(t *testing.T) {
+	html := &fakeExtractor{content: contentextraction.ExtractedContent{Title: "m"}}
+	container := &fakeContainer{members: []contentextraction.ArchiveMember{
+		{URL: "u!/1.html", ContentType: "text/html"},
+		{URL: "u!/2.html", ContentType: "text/html"},
+		{URL: "u!/3.html", ContentType: "text/html"},
+	}}
+	router := contentextraction.New(4, 2)
+	router.RegisterExtractor("text/html", html)
+	router.RegisterContainer("application/zip", container)
+
+	_, err := router.Extract(t.Context(), "u", "application/zip", []byte("x"))
+	if !errors.Is(err, contentextraction.ErrContainerOverflow) {
+		t.Fatalf("want ErrContainerOverflow, got %v", err)
+	}
+}
+
+func TestExtractContainerExpandError(t *testing.T) {
+	container := &fakeContainer{err: errors.New("corrupt")}
+	router := contentextraction.New(4, 16)
+	router.RegisterContainer("application/zip", container)
+
+	_, err := router.Extract(t.Context(), "u", "application/zip", []byte("x"))
+	if err == nil {
+		t.Fatal("want error from expand")
+	}
+}
+
+func TestRegisteredMediaTypes(t *testing.T) {
+	router := contentextraction.New(4, 16)
+	router.RegisterExtractor("text/html", &fakeExtractor{})
+	router.RegisterContainer("application/zip", &fakeContainer{})
+	if router.RegisteredMediaTypes() != 2 {
+		t.Fatalf("want 2, got %d", router.RegisteredMediaTypes())
+	}
+}

@@ -8,7 +8,7 @@ import (
 	"syscall"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
 )
 
 func main() {
@@ -29,5 +29,5 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	return RunService(ctx, cfg, crawlmetrics.New())
+	return RunService(ctx, cfg, prometheus.New())
 }
