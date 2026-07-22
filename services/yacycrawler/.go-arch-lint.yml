@@ -36,6 +36,8 @@ components:
     in: internal/htmltext/**
   pagemarkdown:
     in: internal/pagemarkdown/**
+  pagefulltext:
+    in: internal/pagefulltext/**
   pagefeed:
     in: internal/pagefeed/**
   orderintake:
@@ -162,6 +164,11 @@ deps:
     canUse:
       - yacycrawlcontract
       - htmltomarkdown
+  pagefulltext:
+    mayDependOn:
+      - pagefulltext
+      - crawlcapability
+      - htmltext
   htmlpage:
     mayDependOn:
       - htmlpage
@@ -217,6 +224,7 @@ deps:
       - pagetext
       - pagereadable
       - pagemarkdown
+      - pagefulltext
       - orderintake
       - crawlmetrics
       - redirectresolution

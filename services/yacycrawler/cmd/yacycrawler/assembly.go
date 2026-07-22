@@ -201,9 +201,9 @@ func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []crawlcapability
 func buildPageRenderings(
 	feeds []crawlcapability.PageFeed,
 ) ([]crawlcapability.PageRendering, error) {
-	producer := make(map[crawlcapability.PageContentFormat]crawlcapability.PageRendering)
+	derivations := make(map[crawlcapability.PageContentFormat][]crawlcapability.PageRendering)
 	for _, rendering := range pageRenderingCatalog() {
-		producer[rendering.Format()] = rendering
+		derivations[rendering.Format()] = append(derivations[rendering.Format()], rendering)
 	}
 	renderings := []crawlcapability.PageRendering{}
 	selected := map[crawlcapability.PageContentFormat]bool{}
@@ -212,7 +212,7 @@ func buildPageRenderings(
 		if format == crawlcapability.PageContentFormatDocumentHTML || selected[format] {
 			return nil
 		}
-		rendering, ok := producer[format]
+		candidates, ok := derivations[format]
 		if !ok {
 			return fmt.Errorf(
 				"page %s feed reads %s content, which no rendering produces",
@@ -220,10 +220,12 @@ func buildPageRenderings(
 			)
 		}
 		selected[format] = true
-		if err := require(feed, rendering.SourceFormat()); err != nil {
-			return err
+		for _, candidate := range candidates {
+			if err := require(feed, candidate.SourceFormat()); err != nil {
+				return err
+			}
+			renderings = append(renderings, candidate)
 		}
-		renderings = append(renderings, rendering)
 		return nil
 	}
 	for _, feed := range feeds {
