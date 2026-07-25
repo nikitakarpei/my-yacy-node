@@ -35,8 +35,11 @@ services:
     environment:
       PYTHONPATH: /opt/searxng-plugins
       YACYVISITCRAWL_BASE_URL: ${YACYVISITCRAWL_PUBLIC_URL:?set YACYVISITCRAWL_PUBLIC_URL in .env}
+      SEARXNG_SECRET: ${SEARXNG_SECRET:?set SEARXNG_SECRET in .env}
+      SEARXNG_SETTINGS_PATH: /etc/searxng/settings.${COMPOSE_PROFILES:?set COMPOSE_PROFILES in .env}.yml
     volumes:
-      - ../searxng/settings.yml:/etc/searxng/settings.yml:ro
+      - ../searxng/settings.elasticsearch.yml:/etc/searxng/settings.elasticsearch.yml:ro
+      - ../searxng/settings.manticore.yml:/etc/searxng/settings.manticore.yml:ro
       - searxng-engines:/usr/local/searxng/searx/engines
       - searxng-plugins:/opt/searxng-plugins:ro
 
