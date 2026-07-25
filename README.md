@@ -11,8 +11,8 @@ must speak an existing protocol or API, where it stays compliant.
 ## Services
 
 Each directory under `services/` is one deployable service. Its
-`doc/specification.md` covers its design; its `doc/configuration.md` covers
-its operator-facing settings.
+`doc/specification.md` covers its scope, requirements, and known
+limitations; its `doc/configuration.md` covers its operator-facing settings.
 
 ## Start here
 
