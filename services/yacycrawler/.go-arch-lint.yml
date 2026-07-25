@@ -58,6 +58,8 @@ components:
     in: internal/pagerepresentations/markdown/**
   recrawldecisionsalwaysdue:
     in: internal/recrawldecisions/alwaysdue/**
+  recrawldecisionsdueaftergrace:
+    in: internal/recrawldecisions/dueaftergrace/**
   orderreceiversjetstream:
     in: internal/orderreceivers/jetstream/**
   redirectresolversjetstream:
@@ -267,6 +269,15 @@ deps:
   recrawldecisionsalwaysdue:
     mayDependOn:
       - recrawldecisionsalwaysdue
+      - pagevisit
+  recrawldecisionsdueaftergrace:
+    mayDependOn:
+      - recrawldecisionsdueaftergrace
+      - clock
+      - pagevisit
+    canUse:
+      - nats
+      - natstestserver
   orderreceiversjetstream:
     mayDependOn:
       - orderreceiversjetstream
@@ -335,6 +346,7 @@ deps:
       - pagerepresentationstext
       - pagerepresentationsmarkdown
       - recrawldecisionsalwaysdue
+      - recrawldecisionsdueaftergrace
       - orderreceiversjetstream
       - redirectresolversjetstream
       - progressobserversprometheus

@@ -5,6 +5,7 @@ type Reason string
 
 const (
 	NotDue                  Reason = "not-due"
+	NotModified             Reason = "not-modified"
 	Refused                 Reason = "refused"
 	DeferralsExhausted      Reason = "deferrals-exhausted"
 	NotAPage                Reason = "not-a-page"
