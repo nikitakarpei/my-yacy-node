@@ -61,13 +61,13 @@ func TestReceiverDeliversDecodedOrder(t *testing.T) {
 	}
 	select {
 	case delivery := <-receiver.Deliveries():
-		if delivery.Order.OrderID != "o1" {
-			t.Fatalf("order id = %q", delivery.Order.OrderID)
+		if delivery.Order().OrderID != "o1" {
+			t.Fatalf("order id = %q", delivery.Order().OrderID)
 		}
 		if err := delivery.ExtendOwnership(ctx); err != nil {
 			t.Fatalf("extend ownership: %v", err)
 		}
-		if err := delivery.Ack(ctx); err != nil {
+		if err := delivery.Acknowledge(ctx); err != nil {
 			t.Fatalf("ack: %v", err)
 		}
 	case <-time.After(5 * time.Second):

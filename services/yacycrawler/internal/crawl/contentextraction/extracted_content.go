@@ -7,9 +7,9 @@ type ExtractedContent struct {
 	Body                 []byte
 	Format               contentformatgraph.Format
 	Language             string
-	Links                []string
-	LocalLinkCount       int
-	ExternalLinkCount    int
+	DiscoveredURLs       []string
+	LocalLinks           int
+	ExternalLinks        int
 	RefusesIndexing      bool
 	RefusesLinkDiscovery bool
 }

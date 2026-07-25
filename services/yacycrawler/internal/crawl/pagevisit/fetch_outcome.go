@@ -1,15 +1,13 @@
 package pagevisit
 
-import "time"
+import (
+	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
+)
 
 type FetchOutcome struct {
-	Status               FetchStatus
-	FinalURL             string
-	RedirectChain        []string
-	ContentType          string
-	Body                 []byte
-	Truncated            bool
-	RefusesIndexing      bool
-	RefusesLinkDiscovery bool
-	DeferFor             time.Duration
+	Status   FetchStatus
+	DeferFor time.Duration
+	Page     fetchedpage.Page
 }

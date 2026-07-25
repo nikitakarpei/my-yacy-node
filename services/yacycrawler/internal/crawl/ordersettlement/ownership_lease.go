@@ -4,22 +4,24 @@ import (
 	"context"
 	"log/slog"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 )
 
-const msgOwnershipLapsed = "crawl order ownership heartbeat failed"
+const msgOwnershipLapsed = "crawl order ownership renewal failed"
 
 type ownershipLease struct {
-	extend   func(context.Context) error
+	delivery OrderDelivery
 	interval time.Duration
-	clock    Clock
+	clock    clock.Clock
 }
 
-func (l ownershipLease) Renew(ctx context.Context) {
+func (l ownershipLease) KeepRenewing(ctx context.Context) {
 	for {
 		if err := l.clock.Sleep(ctx, l.interval); err != nil {
 			return
 		}
-		if err := l.extend(ctx); err != nil {
+		if err := l.delivery.ExtendOwnership(ctx); err != nil {
 			slog.WarnContext(ctx, msgOwnershipLapsed, slog.Any("error", err))
 		}
 	}

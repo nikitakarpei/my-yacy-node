@@ -41,11 +41,11 @@ func TestFetchSuccess(t *testing.T) {
 	if outcome.Status != pagevisit.FetchSucceeded {
 		t.Fatalf("kind = %v", outcome.Status)
 	}
-	if string(outcome.Body) != "<html>hi</html>" {
-		t.Fatalf("body = %q", outcome.Body)
+	if string(outcome.Page.Body) != "<html>hi</html>" {
+		t.Fatalf("body = %q", outcome.Page.Body)
 	}
-	if outcome.ContentType != "text/html" {
-		t.Fatalf("content type = %q", outcome.ContentType)
+	if outcome.Page.ContentType != "text/html" {
+		t.Fatalf("content type = %q", outcome.Page.ContentType)
 	}
 	if gotUserAgent != testUserAgent {
 		t.Fatalf("user agent = %q, want %q", gotUserAgent, testUserAgent)
@@ -63,9 +63,9 @@ func TestFetchTruncatesOversizedBody(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !outcome.Truncated || len(outcome.Body) != 4 {
+	if !outcome.Page.Truncated || len(outcome.Page.Body) != 4 {
 		t.Fatalf("expected truncation to 4 bytes, got %d truncated=%v",
-			len(outcome.Body), outcome.Truncated)
+			len(outcome.Page.Body), outcome.Page.Truncated)
 	}
 }
 
@@ -77,7 +77,7 @@ func TestFetchStatusMapping(t *testing.T) {
 		http.StatusUnauthorized:               pagevisit.FetchCeased,
 		http.StatusUnavailableForLegalReasons: pagevisit.FetchCeased,
 		http.StatusNotFound:                   pagevisit.FetchNotAPage,
-		http.StatusInternalServerError:        pagevisit.FetchTransient,
+		http.StatusInternalServerError:        pagevisit.FetchFailed,
 	}
 	for status, wantKind := range cases {
 		proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
@@ -118,7 +118,7 @@ func TestFetchReadsXRobotsTag(t *testing.T) {
 
 	outcome, _ := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
 		Fetch(context.Background(), "http://target.example/x")
-	if !outcome.RefusesIndexing || !outcome.RefusesLinkDiscovery {
+	if !outcome.Page.RefusesIndexing || !outcome.Page.RefusesLinkDiscovery {
 		t.Fatalf("x-robots-tag not parsed: %+v", outcome)
 	}
 }
@@ -130,7 +130,7 @@ func TestFetchTransientOnProxyFailure(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if outcome.Status != pagevisit.FetchTransient {
+	if outcome.Status != pagevisit.FetchFailed {
 		t.Fatalf("kind = %v, want transient", outcome.Status)
 	}
 }
@@ -169,24 +169,24 @@ func TestFetchRecordsRedirectChain(t *testing.T) {
 		if err != nil {
 			t.Fatalf("dial %v: Fetch: %v", dialMode, err)
 		}
-		if outcome.FinalURL != "http://target.example/c" {
-			t.Fatalf("dial %v: FinalURL = %q", dialMode, outcome.FinalURL)
+		if outcome.Page.FinalURL != "http://target.example/c" {
+			t.Fatalf("dial %v: FinalURL = %q", dialMode, outcome.Page.FinalURL)
 		}
 		want := []string{
 			"http://target.example/a",
 			"http://target.example/b",
 			"http://target.example/c",
 		}
-		if len(outcome.RedirectChain) != len(want) {
-			t.Fatalf("dial %v: chain = %v, want %v", dialMode, outcome.RedirectChain, want)
+		if len(outcome.Page.RedirectChain) != len(want) {
+			t.Fatalf("dial %v: chain = %v, want %v", dialMode, outcome.Page.RedirectChain, want)
 		}
 		for i := range want {
-			if outcome.RedirectChain[i] != want[i] {
+			if outcome.Page.RedirectChain[i] != want[i] {
 				t.Fatalf(
 					"dial %v: chain[%d] = %q, want %q",
 					dialMode,
 					i,
-					outcome.RedirectChain[i],
+					outcome.Page.RedirectChain[i],
 					want[i],
 				)
 			}
@@ -206,7 +206,8 @@ func TestFetchDirectRecordsSingleHopChain(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(outcome.RedirectChain) != 1 || outcome.RedirectChain[0] != "http://target.example/page" {
-		t.Fatalf("chain = %v", outcome.RedirectChain)
+	if len(outcome.Page.RedirectChain) != 1 ||
+		outcome.Page.RedirectChain[0] != "http://target.example/page" {
+		t.Fatalf("chain = %v", outcome.Page.RedirectChain)
 	}
 }

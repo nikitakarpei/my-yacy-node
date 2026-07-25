@@ -7,17 +7,22 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 )
 
 var (
-	_ pagevisit.Progress       = (*CrawlMetrics)(nil)
-	_ ordertraversal.Progress  = (*CrawlMetrics)(nil)
-	_ ordersettlement.Progress = (*CrawlMetrics)(nil)
-	_ pageabsorption.Progress  = (*CrawlMetrics)(nil)
+	_ pagevisit.VisitProgress             = (*CrawlMetrics)(nil)
+	_ ordertraversal.TraversalProgress    = (*CrawlMetrics)(nil)
+	_ ordersettlement.OrderProgress       = (*CrawlMetrics)(nil)
+	_ pageabsorption.AbsorptionProgress   = (*CrawlMetrics)(nil)
+	_ pagepublication.PublicationProgress = (*CrawlMetrics)(nil)
 )
 
 const (
@@ -106,22 +111,24 @@ func (m *CrawlMetrics) OrderCompleted()   { m.ordersCompleted.Inc() }
 func (m *CrawlMetrics) OrderRedelivered() { m.ordersRedelivered.Inc() }
 func (m *CrawlMetrics) PageFetched()      { m.pagesFetched.Inc() }
 
-func (m *CrawlMetrics) PagePublished(representation string) {
-	m.pagesPublished.WithLabelValues(representation).Inc()
+func (m *CrawlMetrics) PagePublished(
+	representation yacycrawlcontract.PageRepresentationKind,
+) {
+	m.pagesPublished.WithLabelValues(string(representation)).Inc()
 }
 
-func (m *CrawlMetrics) PageDisposed(reason string) {
-	m.pagesDisposed.WithLabelValues(reason).Inc()
+func (m *CrawlMetrics) PageDisposed(reason disposal.Reason) {
+	m.pagesDisposed.WithLabelValues(string(reason)).Inc()
 }
 
-func (m *CrawlMetrics) RefusalHonored(demand string) {
-	m.refusalsHonored.WithLabelValues(demand).Inc()
+func (m *CrawlMetrics) RefusalHonored(demand refusal.Demand) {
+	m.refusalsHonored.WithLabelValues(string(demand)).Inc()
 }
 
 func (m *CrawlMetrics) PublicationWaited() { m.publicationWaits.Inc() }
 func (m *CrawlMetrics) BudgetExhausted()   { m.budgetExhaustions.Inc() }
 
-func (m *CrawlMetrics) FetchObserved(elapsed time.Duration) {
+func (m *CrawlMetrics) FetchCompleted(elapsed time.Duration) {
 	m.fetchDurationSecs.Observe(elapsed.Seconds())
 }
 

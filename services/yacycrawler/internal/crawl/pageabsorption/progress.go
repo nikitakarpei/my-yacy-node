@@ -1,16 +1,7 @@
 package pageabsorption
 
-const (
-	DisposalOversized            = "oversized"
-	DisposalUnsupportedMediaType = "unsupported-media-type"
-	DisposalContainerOverflow    = "container-overflow"
-	DisposalUnextractable        = "unextractable"
-	DisposalNoIndex              = "noindex"
-	DisposalUnrepresentable      = "unrepresentable"
-)
+import "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 
-type Progress interface {
-	PageDisposed(reason string)
-	PagePublished(representation string)
-	PublicationWaited()
+type AbsorptionProgress interface {
+	PageDisposed(reason disposal.Reason)
 }

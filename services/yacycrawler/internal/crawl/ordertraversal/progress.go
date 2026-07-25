@@ -1,14 +1,12 @@
 package ordertraversal
 
-const (
-	DisposalBudgetTruncated = "budget-truncated"
-
-	RefusalDefer = "defer"
+import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 )
 
-type Progress interface {
-	PageFetched()
-	PageDisposed(reason string)
-	RefusalHonored(demand string)
+type TraversalProgress interface {
+	PageDisposed(reason disposal.Reason)
+	RefusalHonored(demand refusal.Demand)
 	BudgetExhausted()
 }

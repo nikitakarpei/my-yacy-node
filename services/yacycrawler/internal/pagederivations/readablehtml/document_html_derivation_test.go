@@ -45,7 +45,7 @@ func TestDeriveExtractsMainArticle(t *testing.T) {
 func TestDeriveEmptyContentUnextractable(t *testing.T) {
 	_, err := readablehtml.NewDocumentHTMLDerivation().
 		Derive("http://host.example/p", []byte("<html><body></body></html>"))
-	if !errors.Is(err, contentformatgraph.ErrUnextractable) {
+	if !errors.Is(err, contentformatgraph.ErrUnderivable) {
 		t.Fatalf("want ErrUnextractable, got %v", err)
 	}
 }

@@ -7,5 +7,5 @@ const (
 	FetchCeased
 	FetchDeferred
 	FetchNotAPage
-	FetchTransient
+	FetchFailed
 )

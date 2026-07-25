@@ -1,6 +1,6 @@
 package ordersettlement
 
-type Progress interface {
+type OrderProgress interface {
 	OrderReceived()
 	OrderRedelivered()
 	OrderCompleted()

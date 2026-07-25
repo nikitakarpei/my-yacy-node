@@ -14,27 +14,31 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/containerexpanders/archive"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/documentextractors/archive"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/documentextractors/html"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediaextractors/html"
 	orderreceiversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlpolicies/alwaysdue"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawldecisions/alwaysdue"
 	redirectresolversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolvers/jetstream"
 )
 
 const (
 	fetchRetryLimit       = 3
 	fetchRetryFloor       = 500 * time.Millisecond
-	fetchRetryCeil        = 30 * time.Second
+	fetchRetryCeiling     = 30 * time.Second
 	publishRetryFloor     = 500 * time.Millisecond
-	publishRetryCeil      = 30 * time.Second
+	publishRetryCeiling   = 30 * time.Second
 	maxDeferPerURL        = 3
 	containerMaxDepth     = 4
 	containerMaxDocuments = 1024
@@ -42,6 +46,7 @@ const (
 	opsReadHeaderLimit    = 10 * time.Second
 	opsShutdownLimit      = 15 * time.Second
 	ordersAckWait         = 30 * time.Second
+	crawledPageFormat     = contentformatgraph.FormatDocumentHTML
 	msgServiceStarted     = "crawler started"
 	msgServiceStopped     = "crawler stopped"
 )
@@ -80,19 +85,19 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	absorption, err := buildAbsorption(js, cfg, resolve, metrics)
+	absorption, err := buildAbsorption(js, cfg, metrics)
 	if err != nil {
 		return err
 	}
 
-	visitor := pagevisit.NewPageVisit(
+	visitor := pagevisit.New(
 		fetch,
 		alwaysdue.AlwaysDue{},
-		absorption,
+		redirectrecording.New(resolve, absorption),
 		metrics,
 		wallclock.Clock{},
 	)
-	traverser := ordertraversal.NewOrderTraverser(
+	traverser := ordertraversal.New(
 		traversalConfig(cfg),
 		visitor,
 		metrics,
@@ -114,14 +119,12 @@ func RunService(
 	err = servergroup.Run(ctx, opsShutdownLimit,
 		[]servergroup.NamedServer{{Name: "ops", Server: opsServer}},
 		func(runCtx context.Context) error {
-			return ordersettlement.Run(
-				runCtx,
-				receiver.Deliveries(),
+			return ordersettlement.New(
 				traverser,
 				metrics,
 				wallclock.Clock{},
 				ordersAckWait/2,
-			)
+			).Settle(runCtx, receiver.Deliveries())
 		},
 	)
 	slog.InfoContext(ctx, msgServiceStopped)
@@ -150,7 +153,7 @@ func ensureStreams(ctx context.Context, js jetstream.JetStream, cfg ServiceConfi
 func redirectRecorder(
 	ctx context.Context,
 	js jetstream.JetStream,
-) (pageabsorption.RedirectResolver, error) {
+) (redirectrecording.RedirectResolutions, error) {
 	bucket, err := js.KeyValue(ctx, yacycrawlcontract.RedirectResolutionBucketName)
 	if err != nil {
 		return nil, fmt.Errorf("open redirect resolution bucket: %w", err)
@@ -187,7 +190,10 @@ func ordersConsumer(
 	return consumer, nil
 }
 
-func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []pageabsorption.Feed {
+func buildPageRepresentations(
+	js jetstream.JetStream,
+	cfg ServiceConfig,
+) []pagepublication.PageRepresentation {
 	subjects := make(
 		map[yacycrawlcontract.PageRepresentationKind]string,
 		len(cfg.PageStreams),
@@ -197,26 +203,24 @@ func buildPageFeeds(js jetstream.JetStream, cfg ServiceConfig) []pageabsorption.
 			subjects[stream.Representation] = stream.Stream.Subject
 		}
 	}
-	feeds := make([]pageabsorption.Feed, 0, len(subjects))
-	for _, preset := range pageFeedCatalog() {
+	representations := make([]pagepublication.PageRepresentation, 0, len(subjects))
+	for _, preset := range pageRepresentationCatalog() {
 		subject, published := subjects[preset.representation]
 		if !published {
 			continue
 		}
-		feeds = append(feeds, preset.build(js, subject))
+		representations = append(representations, preset.build(js, subject))
 	}
-	return feeds
+	return representations
 }
 
 func buildAbsorption(
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-	resolve pageabsorption.RedirectResolver,
-	observer pageabsorption.Progress,
-) (*pageabsorption.Absorption, error) {
-	feeds := buildPageFeeds(js, cfg)
-	graph := contentformatgraph.New(pageDerivationCatalog())
-	if err := graph.Validate(feedContentFormats(feeds)); err != nil {
+	metrics *prometheus.CrawlMetrics,
+) (*pageabsorption.Absorber, error) {
+	publisher, err := buildPublisher(js, cfg, metrics)
+	if err != nil {
 		return nil, err
 	}
 	extract, err := buildExtractor(cfg)
@@ -224,49 +228,74 @@ func buildAbsorption(
 		return nil, err
 	}
 	return pageabsorption.New(
-		graph,
 		extract,
-		resolve,
-		feeds,
+		publisher,
+		metrics,
+		wallclock.Clock{},
+	), nil
+}
+
+func buildPublisher(
+	js jetstream.JetStream,
+	cfg ServiceConfig,
+	observer pagepublication.PublicationProgress,
+) (*pagepublication.Publisher, error) {
+	representations := buildPageRepresentations(js, cfg)
+	graph := contentformatgraph.New(pageDerivationCatalog())
+	if err := graph.EnsureDerivable(
+		crawledPageFormat,
+		representationContentFormats(representations),
+	); err != nil {
+		return nil, err
+	}
+	return pagepublication.New(
+		graph,
+		representations,
 		observer,
 		wallclock.Clock{},
-		pageabsorption.Config{
-			PublishRetryFloor:   publishRetryFloor,
-			PublishRetryCeiling: publishRetryCeil,
+		retrydelay.Bounds{
+			Floor:   publishRetryFloor,
+			Ceiling: publishRetryCeiling,
 		},
 	), nil
 }
 
-func feedContentFormats(feeds []pageabsorption.Feed) []contentformatgraph.Format {
-	formats := make([]contentformatgraph.Format, 0, len(feeds))
-	for _, feed := range feeds {
-		formats = append(formats, feed.ContentFormat())
+func representationContentFormats(
+	representations []pagepublication.PageRepresentation,
+) []contentformatgraph.Format {
+	formats := make([]contentformatgraph.Format, 0, len(representations))
+	for _, representation := range representations {
+		formats = append(formats, representation.ContentFormat())
 	}
 	return formats
 }
 
-func buildExtractor(cfg ServiceConfig) (pageabsorption.DocumentExtractor, error) {
+func buildExtractor(cfg ServiceConfig) (pageabsorption.PageExtractor, error) {
 	allow := allowedMediaTypes(cfg.ContentTypes)
-	router := contentextraction.New(containerMaxDepth, containerMaxDocuments)
 
 	htmlExtractor := html.New()
+	extractors := map[string]contentextraction.MediaExtractor{}
 	for _, mediaType := range htmlExtractor.MediaTypes() {
 		if allow == nil || allow[mediaType] {
-			router.RegisterExtractor(mediaType, htmlExtractor)
+			extractors[mediaType] = htmlExtractor
 		}
 	}
 
 	archiveContainer := archive.New(archiveMaxMembers, cfg.MaxBodyBytes)
+	containers := map[string]contentextraction.ContainerExpander{}
 	for _, mediaType := range archiveContainer.MediaTypes() {
 		if allow == nil || allow[mediaType] {
-			router.RegisterContainer(mediaType, archiveContainer)
+			containers[mediaType] = archiveContainer
 		}
 	}
 
-	if router.RegisteredMediaTypes() == 0 {
-		return nil, fmt.Errorf("%s: leaves no content extractor active", EnvContentTypes)
+	extraction, err := contentextraction.New(
+		extractors, containers, containerMaxDepth, containerMaxDocuments,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("%s: %w", EnvContentTypes, err)
 	}
-	return router, nil
+	return extraction, nil
 }
 
 func allowedMediaTypes(contentTypes []string) map[string]bool {
@@ -282,14 +311,16 @@ func allowedMediaTypes(contentTypes []string) map[string]bool {
 
 func traversalConfig(cfg ServiceConfig) ordertraversal.Config {
 	return ordertraversal.Config{
-		RunPageBudget:       cfg.RunPageBudget,
-		FrontierCapacity:    cfg.FrontierCap,
-		FetchRetryLimit:     fetchRetryLimit,
-		FetchRetryFloor:     fetchRetryFloor,
-		FetchRetryCeiling:   fetchRetryCeil,
-		PublishRetryFloor:   publishRetryFloor,
-		PublishRetryCeiling: publishRetryCeil,
-		MaxDeferralsPerURL:  maxDeferPerURL,
-		FetchConcurrency:    cfg.FetchConcurrency,
+		RunPageBudget:    cfg.RunPageBudget,
+		VisitConcurrency: cfg.FetchConcurrency,
+		MaxAdmittedURLs:  cfg.FrontierCap,
+		Frontier: frontier.Config{
+			MaxDeferralsPerURL: maxDeferPerURL,
+			MaxAttemptsPerURL:  fetchRetryLimit,
+			RetryDelay: retrydelay.Bounds{
+				Floor:   fetchRetryFloor,
+				Ceiling: fetchRetryCeiling,
+			},
+		},
 	}
 }

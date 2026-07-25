@@ -35,14 +35,14 @@ func (DocumentHTMLDerivation) Derive(pageURL string, body []byte) ([]byte, error
 
 	article, err := readability.FromDocument(root, parsedURL)
 	if err != nil {
-		return nil, fmt.Errorf("%w: %w", contentformatgraph.ErrUnextractable, err)
+		return nil, fmt.Errorf("%w: %w", contentformatgraph.ErrUnderivable, err)
 	}
 	if !hasReadableText(article.Node) {
-		return nil, fmt.Errorf("%w: empty content", contentformatgraph.ErrUnextractable)
+		return nil, fmt.Errorf("%w: empty content", contentformatgraph.ErrUnderivable)
 	}
 	var readable bytes.Buffer
 	if err := article.RenderHTML(&readable); err != nil {
-		return nil, fmt.Errorf("%w: %w", contentformatgraph.ErrUnextractable, err)
+		return nil, fmt.Errorf("%w: %w", contentformatgraph.ErrUnderivable, err)
 	}
 	return readable.Bytes(), nil
 }
