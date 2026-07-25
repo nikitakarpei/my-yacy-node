@@ -13,10 +13,11 @@ answer with.
 | `yacyvisitcrawl` | Turns an opened result into one crawl order and redirects to the page, without waiting on the order. |
 | `nats` | Broker carrying crawl orders and crawled pages between services. |
 | `yacycrawler` | Fetches an ordered page and turns it into text and RWI representations. |
-| `renderproxy` | Runs the page in `lightpanda` so scripted content is fetched too. |
+| `renderproxy` | Proxies the page fetch through `lightpanda` so JS-rendered pages are fetched too. |
+| `lightpanda` | Headless browser that renders the page for `renderproxy`; chosen over Chromium-based ones for its low memory footprint. |
 | `yacytextindexer` | Writes the text representation into the local search index. |
 | `yacy-rwi-node` | The peer: shares RWI representations over the DHT and serves remote searches. |
-| `smokescreen` | Egress proxy every outbound connection passes through. |
+| `smokescreen` | Egress proxy every outbound connection passes through, blocking requests to internal addresses to prevent SSRF. |
 | `prometheus`, `grafana` | Metrics and the pipeline dashboard at `http://localhost:3000`, no login. |
 
 ## Setup
