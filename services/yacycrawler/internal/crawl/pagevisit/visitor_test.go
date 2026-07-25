@@ -14,14 +14,22 @@ import (
 )
 
 type fakeFetch struct {
-	mu       sync.Mutex
-	outcomes map[string][]pagevisit.FetchOutcome
-	err      error
+	mu            sync.Mutex
+	outcomes      map[string][]pagevisit.FetchOutcome
+	err           error
+	gotValidators pagevisit.Revisit
+	sawValidators bool
 }
 
-func (f *fakeFetch) Fetch(_ context.Context, rawURL string) (pagevisit.FetchOutcome, error) {
+func (f *fakeFetch) Fetch(
+	_ context.Context,
+	rawURL string,
+	validators pagevisit.Revisit,
+) (pagevisit.FetchOutcome, error) {
 	f.mu.Lock()
 	defer f.mu.Unlock()
+	f.gotValidators = validators
+	f.sawValidators = true
 	if f.err != nil {
 		return pagevisit.FetchOutcome{}, f.err
 	}
@@ -36,12 +44,42 @@ func (f *fakeFetch) Fetch(_ context.Context, rawURL string) (pagevisit.FetchOutc
 	return outcome, nil
 }
 
-type fakeRecrawl struct {
-	due bool
-	err error
+type visitedCall struct {
+	url        string
+	validators pagevisit.Revisit
 }
 
-func (f fakeRecrawl) Due(context.Context, string) (bool, error) { return f.due, f.err }
+type fakeRecrawl struct {
+	mu      sync.Mutex
+	due     bool
+	revisit pagevisit.Revisit
+	err     error
+
+	visitedErr   error
+	visitedCalls []visitedCall
+}
+
+func (f *fakeRecrawl) Revisit(context.Context, string) (pagevisit.Revisit, error) {
+	if f.err != nil {
+		return pagevisit.Revisit{}, f.err
+	}
+	revisit := f.revisit
+	revisit.Due = f.due
+	return revisit, nil
+}
+
+func (f *fakeRecrawl) Visited(_ context.Context, url string, validators pagevisit.Revisit) error {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	f.visitedCalls = append(f.visitedCalls, visitedCall{url: url, validators: validators})
+	return f.visitedErr
+}
+
+func (f *fakeRecrawl) calls() []visitedCall {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	return append([]visitedCall(nil), f.visitedCalls...)
+}
 
 type fakeAbsorption struct {
 	links map[string][]string
@@ -106,6 +144,7 @@ func fetchedOutcome() pagevisit.FetchOutcome {
 			ContentType: "text/html",
 			Body:        []byte("x"),
 		},
+		Validators: pagevisit.Revisit{EntityTag: `"etag"`},
 	}
 }
 
@@ -115,7 +154,7 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 	}}
 	visitor := pagevisit.New(
 		fetch,
-		fakeRecrawl{due: true},
+		&fakeRecrawl{due: true},
 		&fakeAbsorption{links: map[string][]string{
 			"http://host/": {"http://host/next"},
 		}},
@@ -139,9 +178,10 @@ func TestVisitAbsorptionErrorFails(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]pagevisit.FetchOutcome{
 		"http://host/": {fetchedOutcome()},
 	}}
+	recrawl := &fakeRecrawl{due: true}
 	visitor := pagevisit.New(
 		fetch,
-		fakeRecrawl{due: true},
+		recrawl,
 		&fakeAbsorption{err: errors.New("absorb boom")},
 		newObserver(),
 		&manualClock{},
@@ -150,6 +190,9 @@ func TestVisitAbsorptionErrorFails(t *testing.T) {
 	if _, err := visitor.Visit(context.Background(), "http://host/"); err == nil {
 		t.Fatal("absorption error should fail the visit")
 	}
+	if len(recrawl.calls()) != 0 {
+		t.Fatalf("visited should not be recorded after absorb error, got %v", recrawl.calls())
+	}
 }
 
 func TestVisitDisposesNotAPage(t *testing.T) {
@@ -157,9 +200,10 @@ func TestVisitDisposesNotAPage(t *testing.T) {
 		"http://host/": {{Status: pagevisit.FetchNotAPage}},
 	}}
 	observer := newObserver()
+	recrawl := &fakeRecrawl{due: true}
 	visitor := pagevisit.New(
 		fetch,
-		fakeRecrawl{due: true},
+		recrawl,
 		&fakeAbsorption{},
 		observer,
 		&manualClock{},
@@ -175,6 +219,9 @@ func TestVisitDisposesNotAPage(t *testing.T) {
 	if observer.disposed[disposal.NotAPage] != 1 {
 		t.Fatalf("want not-a-page disposal, got %v", observer.disposed)
 	}
+	if len(recrawl.calls()) != 0 {
+		t.Fatalf("visited should not be recorded for not-a-page, got %v", recrawl.calls())
+	}
 }
 
 func TestVisitCeasesOnHTTPCease(t *testing.T) {
@@ -182,9 +229,10 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 		"http://host/": {{Status: pagevisit.FetchCeased}},
 	}}
 	observer := newObserver()
+	recrawl := &fakeRecrawl{due: true}
 	visitor := pagevisit.New(
 		fetch,
-		fakeRecrawl{due: true},
+		recrawl,
 		&fakeAbsorption{},
 		observer,
 		&manualClock{},
@@ -200,15 +248,19 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 	if observer.refusals[refusal.Cease] != 1 {
 		t.Fatalf("cease not honored: %v", observer.refusals)
 	}
+	if len(recrawl.calls()) != 0 {
+		t.Fatalf("visited should not be recorded on refusal, got %v", recrawl.calls())
+	}
 }
 
 func TestVisitReportsTransient(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]pagevisit.FetchOutcome{
 		"http://host/": {{Status: pagevisit.FetchFailed}},
 	}}
+	recrawl := &fakeRecrawl{due: true}
 	visitor := pagevisit.New(
 		fetch,
-		fakeRecrawl{due: true},
+		recrawl,
 		&fakeAbsorption{},
 		newObserver(),
 		&manualClock{},
@@ -221,6 +273,9 @@ func TestVisitReportsTransient(t *testing.T) {
 	if outcome.Conclusion != pagevisit.VisitRetryable {
 		t.Fatalf("want retryable, got %v", outcome.Conclusion)
 	}
+	if len(recrawl.calls()) != 0 {
+		t.Fatalf("visited should not be recorded after failure, got %v", recrawl.calls())
+	}
 }
 
 func TestVisitReportsDeferred(t *testing.T) {
@@ -229,7 +284,7 @@ func TestVisitReportsDeferred(t *testing.T) {
 	}}
 	visitor := pagevisit.New(
 		fetch,
-		fakeRecrawl{due: true},
+		&fakeRecrawl{due: true},
 		&fakeAbsorption{},
 		newObserver(),
 		&manualClock{},
@@ -248,7 +303,7 @@ func TestVisitFetchErrorFails(t *testing.T) {
 	fetch := &fakeFetch{err: errors.New("boom")}
 	visitor := pagevisit.New(
 		fetch,
-		fakeRecrawl{due: true},
+		&fakeRecrawl{due: true},
 		&fakeAbsorption{},
 		newObserver(),
 		&manualClock{},
@@ -266,7 +321,7 @@ func TestVisitSkipsFetchWhenNotDue(t *testing.T) {
 	absorption := &fakeAbsorption{}
 	visitor := pagevisit.New(
 		fetch,
-		fakeRecrawl{due: false},
+		&fakeRecrawl{due: false},
 		absorption,
 		newObserver(),
 		&manualClock{},
@@ -279,11 +334,14 @@ func TestVisitSkipsFetchWhenNotDue(t *testing.T) {
 	if outcome.Conclusion != pagevisit.VisitCompleted {
 		t.Fatalf("want concluded, got %v", outcome.Conclusion)
 	}
+	if fetch.sawValidators {
+		t.Fatal("fetch should not be attempted when not due")
+	}
 }
 
 func TestVisitRecrawlDecisionErrorFails(t *testing.T) {
 	visitor := pagevisit.New(
-		&fakeFetch{}, fakeRecrawl{err: errors.New("boom")}, &fakeAbsorption{},
+		&fakeFetch{}, &fakeRecrawl{err: errors.New("boom")}, &fakeAbsorption{},
 		newObserver(), &manualClock{},
 	)
 
@@ -292,17 +350,13 @@ func TestVisitRecrawlDecisionErrorFails(t *testing.T) {
 	}
 }
 
-type notDuePolicy struct{}
-
-func (notDuePolicy) Due(context.Context, string) (bool, error) { return false, nil }
-
 func TestVisitDisposesPageNotDue(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]pagevisit.FetchOutcome{
 		"http://host/": {fetchedOutcome()},
 	}}
 	observer := newObserver()
 	visitor := pagevisit.New(
-		fetch, notDuePolicy{}, &fakeAbsorption{}, observer, &manualClock{},
+		fetch, &fakeRecrawl{due: false}, &fakeAbsorption{}, observer, &manualClock{},
 	)
 
 	outcome, err := visitor.Visit(context.Background(), "http://host/")
@@ -314,5 +368,96 @@ func TestVisitDisposesPageNotDue(t *testing.T) {
 	}
 	if observer.disposed[disposal.NotDue] != 1 {
 		t.Fatalf("want a not-due disposal recorded, got %v", observer.disposed)
+	}
+}
+
+func TestVisitPassesValidatorsToFetcher(t *testing.T) {
+	fetch := &fakeFetch{outcomes: map[string][]pagevisit.FetchOutcome{
+		"http://host/": {fetchedOutcome()},
+	}}
+	stored := pagevisit.Revisit{EntityTag: `"stored-etag"`}
+	visitor := pagevisit.New(
+		fetch,
+		&fakeRecrawl{due: true, revisit: stored},
+		&fakeAbsorption{},
+		newObserver(),
+		&manualClock{},
+	)
+
+	if _, err := visitor.Visit(context.Background(), "http://host/"); err != nil {
+		t.Fatalf("visit: %v", err)
+	}
+	want := stored
+	want.Due = true
+	if fetch.gotValidators != want {
+		t.Fatalf("fetcher validators = %+v, want %+v", fetch.gotValidators, want)
+	}
+}
+
+func TestVisitRecordsValidatorsAfterSuccessfulAbsorb(t *testing.T) {
+	fetch := &fakeFetch{outcomes: map[string][]pagevisit.FetchOutcome{
+		"http://host/": {fetchedOutcome()},
+	}}
+	recrawl := &fakeRecrawl{due: true}
+	visitor := pagevisit.New(
+		fetch, recrawl, &fakeAbsorption{}, newObserver(), &manualClock{},
+	)
+
+	if _, err := visitor.Visit(context.Background(), "http://host/"); err != nil {
+		t.Fatalf("visit: %v", err)
+	}
+	calls := recrawl.calls()
+	if len(calls) != 1 {
+		t.Fatalf("want exactly one visited call, got %v", calls)
+	}
+	if calls[0].url != "http://host/" || calls[0].validators.EntityTag != `"etag"` {
+		t.Fatalf("visited call = %+v", calls[0])
+	}
+}
+
+func TestVisitNotModifiedDisposesAndRecordsWithoutAbsorbing(t *testing.T) {
+	notModified := pagevisit.FetchOutcome{
+		Status:     pagevisit.FetchNotModified,
+		Validators: pagevisit.Revisit{EntityTag: `"same"`},
+	}
+	fetch := &fakeFetch{outcomes: map[string][]pagevisit.FetchOutcome{
+		"http://host/": {notModified},
+	}}
+	observer := newObserver()
+	recrawl := &fakeRecrawl{due: true}
+	absorption := &fakeAbsorption{}
+	visitor := pagevisit.New(fetch, recrawl, absorption, observer, &manualClock{})
+
+	outcome, err := visitor.Visit(context.Background(), "http://host/")
+	if err != nil {
+		t.Fatalf("visit: %v", err)
+	}
+	if outcome.Conclusion != pagevisit.VisitCompleted {
+		t.Fatalf("want concluded, got %v", outcome.Conclusion)
+	}
+	if observer.disposed[disposal.NotModified] != 1 {
+		t.Fatalf("want not-modified disposal, got %v", observer.disposed)
+	}
+	calls := recrawl.calls()
+	if len(calls) != 1 || calls[0].validators.EntityTag != `"same"` {
+		t.Fatalf("want validators recorded once, got %v", calls)
+	}
+}
+
+func TestVisitedErrorIsRecoverable(t *testing.T) {
+	fetch := &fakeFetch{outcomes: map[string][]pagevisit.FetchOutcome{
+		"http://host/": {fetchedOutcome()},
+	}}
+	recrawl := &fakeRecrawl{due: true, visitedErr: errors.New("bucket down")}
+	visitor := pagevisit.New(
+		fetch, recrawl, &fakeAbsorption{}, newObserver(), &manualClock{},
+	)
+
+	outcome, err := visitor.Visit(context.Background(), "http://host/")
+	if err != nil {
+		t.Fatalf("visited error should not fail the visit: %v", err)
+	}
+	if outcome.Conclusion != pagevisit.VisitCompleted {
+		t.Fatalf("want concluded, got %v", outcome.Conclusion)
 	}
 }

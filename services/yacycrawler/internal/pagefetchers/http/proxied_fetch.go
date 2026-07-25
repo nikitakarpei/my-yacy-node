@@ -16,10 +16,14 @@ import (
 )
 
 const (
-	headerUserAgent   = "User-Agent"
-	headerContentType = "Content-Type"
-	headerRetryAfter  = "Retry-After"
-	headerXRobotsTag  = "X-Robots-Tag"
+	headerUserAgent       = "User-Agent"
+	headerContentType     = "Content-Type"
+	headerRetryAfter      = "Retry-After"
+	headerXRobotsTag      = "X-Robots-Tag"
+	headerETag            = "ETag"
+	headerLastModified    = "Last-Modified"
+	headerIfNoneMatch     = "If-None-Match"
+	headerIfModifiedSince = "If-Modified-Since"
 
 	defaultDeferFor = time.Minute
 
@@ -52,6 +56,7 @@ func New(
 func (f *ProxiedFetch) Fetch(
 	ctx context.Context,
 	rawURL string,
+	validators pagevisit.Revisit,
 ) (pagevisit.FetchOutcome, error) {
 	fetchCtx, cancel := context.WithTimeout(ctx, f.deadline)
 	defer cancel()
@@ -61,6 +66,7 @@ func (f *ProxiedFetch) Fetch(
 		return pagevisit.FetchOutcome{}, fmt.Errorf("build request: %w", err)
 	}
 	request.Header.Set(headerUserAgent, f.userAgent)
+	setConditionalHeaders(request, validators)
 
 	response, err := f.client.Do(request)
 	if err != nil {
@@ -75,16 +81,22 @@ func (f *ProxiedFetch) Fetch(
 	}
 	defer func() { _ = response.Body.Close() }()
 
-	return f.classify(ctx, response)
+	return f.classify(ctx, response, validators)
 }
 
 func (f *ProxiedFetch) classify(
 	ctx context.Context,
 	response *http.Response,
+	sent pagevisit.Revisit,
 ) (pagevisit.FetchOutcome, error) {
 	switch {
 	case response.StatusCode >= 200 && response.StatusCode < 300:
 		return f.fetched(ctx, response)
+	case response.StatusCode == http.StatusNotModified:
+		return pagevisit.FetchOutcome{
+			Status:     pagevisit.FetchNotModified,
+			Validators: fallbackValidators(responseValidators(response), sent),
+		}, nil
 	case response.StatusCode == http.StatusTooManyRequests,
 		response.StatusCode == http.StatusServiceUnavailable:
 		return pagevisit.FetchOutcome{
@@ -130,7 +142,38 @@ func (f *ProxiedFetch) fetched(
 			RefusesIndexing:      noIndex,
 			RefusesLinkDiscovery: noFollow,
 		},
+		Validators: responseValidators(response),
 	}, nil
+}
+
+func setConditionalHeaders(request *http.Request, validators pagevisit.Revisit) {
+	if validators.EntityTag != "" {
+		request.Header.Set(headerIfNoneMatch, validators.EntityTag)
+	}
+	if !validators.ModifiedAt.IsZero() {
+		request.Header.Set(
+			headerIfModifiedSince,
+			validators.ModifiedAt.UTC().Format(http.TimeFormat),
+		)
+	}
+}
+
+func responseValidators(response *http.Response) pagevisit.Revisit {
+	validators := pagevisit.Revisit{EntityTag: response.Header.Get(headerETag)}
+	if modified, err := http.ParseTime(response.Header.Get(headerLastModified)); err == nil {
+		validators.ModifiedAt = modified
+	}
+	return validators
+}
+
+func fallbackValidators(received, sent pagevisit.Revisit) pagevisit.Revisit {
+	if received.EntityTag == "" {
+		received.EntityTag = sent.EntityTag
+	}
+	if received.ModifiedAt.IsZero() {
+		received.ModifiedAt = sent.ModifiedAt
+	}
+	return received
 }
 
 func redirectChain(response *http.Response) []string {

@@ -97,23 +97,37 @@ func TestDuration(t *testing.T) {
 
 func TestNonNegativeDuration(t *testing.T) {
 	getenv := fixedEnv(map[string]string{"OK": "0s", "POS": "5s", "NEG": "-1s", "BAD": "x"})
-	if got, err := envconfig.NonNegativeDuration(getenv, "OK"); err != nil || got != 0 {
+	if got, err := envconfig.NonNegativeDuration(
+		getenv,
+		"OK",
+		time.Minute,
+	); err != nil ||
+		got != 0 {
 		t.Errorf("OK = %v, %v", got, err)
 	}
 	if got, err := envconfig.NonNegativeDuration(
 		getenv,
 		"POS",
+		time.Minute,
 	); err != nil ||
 		got != 5*time.Second {
 		t.Errorf("POS = %v, %v", got, err)
 	}
-	if got, err := envconfig.NonNegativeDuration(getenv, "MISSING"); err != nil || got != 0 {
+	if got, err := envconfig.NonNegativeDuration(getenv, "MISSING", 0); err != nil || got != 0 {
 		t.Errorf("MISSING = %v, %v", got, err)
 	}
-	if _, err := envconfig.NonNegativeDuration(getenv, "NEG"); err == nil {
+	if got, err := envconfig.NonNegativeDuration(
+		getenv,
+		"MISSING",
+		time.Minute,
+	); err != nil ||
+		got != time.Minute {
+		t.Errorf("MISSING with fallback = %v, %v", got, err)
+	}
+	if _, err := envconfig.NonNegativeDuration(getenv, "NEG", time.Minute); err == nil {
 		t.Error("NEG: expected error")
 	}
-	if _, err := envconfig.NonNegativeDuration(getenv, "BAD"); err == nil {
+	if _, err := envconfig.NonNegativeDuration(getenv, "BAD", time.Minute); err == nil {
 		t.Error("BAD: expected error")
 	}
 }

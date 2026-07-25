@@ -114,8 +114,12 @@ func Duration(
 	return value, nil
 }
 
-func NonNegativeDuration(getenv func(string) string, key string) (time.Duration, error) {
-	value, err := parseDuration(getenv, key, 0)
+func NonNegativeDuration(
+	getenv func(string) string,
+	key string,
+	fallback time.Duration,
+) (time.Duration, error) {
+	value, err := parseDuration(getenv, key, fallback)
 	if err != nil {
 		return 0, err
 	}

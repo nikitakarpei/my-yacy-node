@@ -1,7 +1,17 @@
 package pagevisit
 
-import "context"
+import (
+	"context"
+	"time"
+)
+
+type Revisit struct {
+	Due        bool
+	EntityTag  string
+	ModifiedAt time.Time
+}
 
 type RecrawlDecision interface {
-	Due(ctx context.Context, canonicalURL string) (bool, error)
+	Revisit(ctx context.Context, canonicalURL string) (Revisit, error)
+	Visited(ctx context.Context, canonicalURL string, validators Revisit) error
 }

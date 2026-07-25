@@ -121,7 +121,7 @@ func crawlProfile(getenv func(string) string) (yacycrawlcontract.CrawlProfile, e
 			EnvCrawlMaxPagesPerHost, yacycrawlcontract.UnlimitedPagesPerHost,
 		)
 	}
-	delay, err := envconfig.NonNegativeDuration(getenv, EnvCrawlDelay)
+	delay, err := envconfig.NonNegativeDuration(getenv, EnvCrawlDelay, 0)
 	if err != nil {
 		return yacycrawlcontract.CrawlProfile{}, err
 	}

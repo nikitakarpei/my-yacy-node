@@ -30,6 +30,7 @@ import (
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawldecisions/alwaysdue"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawldecisions/dueaftergrace"
 	redirectresolversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolvers/jetstream"
 )
 
@@ -74,29 +75,10 @@ func RunService(
 		return fmt.Errorf("start order receiver: %w", err)
 	}
 
-	fetch := pagefetchershttp.New(
-		cfg.ProxyURL,
-		cfg.ProxyDialMode,
-		cfg.UserAgent,
-		cfg.MaxBodyBytes,
-		cfg.FetchDeadline,
-	)
-	resolve, err := redirectRecorder(ctx, js)
+	visitor, err := buildVisitor(ctx, js, cfg, metrics)
 	if err != nil {
 		return err
 	}
-	absorption, err := buildAbsorption(js, cfg, metrics)
-	if err != nil {
-		return err
-	}
-
-	visitor := pagevisit.New(
-		fetch,
-		alwaysdue.AlwaysDue{},
-		redirectrecording.New(resolve, absorption),
-		metrics,
-		wallclock.Clock{},
-	)
 	traverser := ordertraversal.New(
 		traversalConfig(cfg),
 		visitor,
@@ -147,6 +129,11 @@ func ensureStreams(ctx context.Context, js jetstream.JetStream, cfg ServiceConfi
 	); err != nil {
 		return fmt.Errorf("ensure redirect resolution bucket: %w", err)
 	}
+	if cfg.RecrawlGrace > 0 {
+		if err := dueaftergrace.Ensure(ctx, js, cfg.PageVisitBucketSpec()); err != nil {
+			return fmt.Errorf("ensure page visit bucket: %w", err)
+		}
+	}
 	return nil
 }
 
@@ -159,6 +146,55 @@ func redirectRecorder(
 		return nil, fmt.Errorf("open redirect resolution bucket: %w", err)
 	}
 	return redirectresolversjetstream.New(bucket), nil
+}
+
+func buildVisitor(
+	ctx context.Context,
+	js jetstream.JetStream,
+	cfg ServiceConfig,
+	metrics *prometheus.CrawlMetrics,
+) (*pagevisit.Visitor, error) {
+	fetch := pagefetchershttp.New(
+		cfg.ProxyURL,
+		cfg.ProxyDialMode,
+		cfg.UserAgent,
+		cfg.MaxBodyBytes,
+		cfg.FetchDeadline,
+	)
+	resolve, err := redirectRecorder(ctx, js)
+	if err != nil {
+		return nil, err
+	}
+	absorption, err := buildAbsorption(js, cfg, metrics)
+	if err != nil {
+		return nil, err
+	}
+	recrawl, err := recrawlDecision(ctx, js, cfg)
+	if err != nil {
+		return nil, err
+	}
+	return pagevisit.New(
+		fetch,
+		recrawl,
+		redirectrecording.New(resolve, absorption),
+		metrics,
+		wallclock.Clock{},
+	), nil
+}
+
+func recrawlDecision(
+	ctx context.Context,
+	js jetstream.JetStream,
+	cfg ServiceConfig,
+) (pagevisit.RecrawlDecision, error) {
+	if cfg.RecrawlGrace <= 0 {
+		return alwaysdue.AlwaysDue{}, nil
+	}
+	bucket, err := js.KeyValue(ctx, dueaftergrace.BucketName)
+	if err != nil {
+		return nil, fmt.Errorf("open page visit bucket: %w", err)
+	}
+	return dueaftergrace.New(bucket, wallclock.Clock{}, cfg.RecrawlGrace), nil
 }
 
 func publishedRepresentations(cfg ServiceConfig) []string {

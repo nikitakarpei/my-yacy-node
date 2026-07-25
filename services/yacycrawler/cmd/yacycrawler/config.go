@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawldecisions/dueaftergrace"
 )
 
 const (
@@ -27,6 +28,7 @@ const (
 	EnvContentTypes  = "YACYCRAWLER_CONTENT_TYPES"
 	EnvOpsAddr       = "YACYCRAWLER_OPS_ADDR"
 	EnvUserAgent     = "YACYCRAWLER_USER_AGENT"
+	EnvRecrawlGrace  = "YACYCRAWLER_RECRAWL_GRACE"
 
 	DefaultOrdersSubject    = "yacy.crawl.orders"
 	DefaultOrdersDurable    = "yacycrawler"
@@ -41,6 +43,10 @@ const (
 	DefaultProxyDialMode    = "tunnel"
 
 	DefaultRedirectResolutionMaxBytes = 256 << 20
+
+	DefaultRecrawlGrace       = time.Hour
+	DefaultPageVisitRetention = 30 * 24 * time.Hour
+	DefaultPageVisitMaxBytes  = 256 << 20
 )
 
 var proxyDialModeByName = map[string]http.ProxyDialMode{
@@ -81,6 +87,7 @@ type ServiceConfig struct {
 	ContentTypes     []string
 	OpsAddr          string
 	UserAgent        string
+	RecrawlGrace     time.Duration
 }
 
 func (c ServiceConfig) OrdersStreamSpec() yacycrawlcontract.OrdersStreamSpec {
@@ -90,6 +97,13 @@ func (c ServiceConfig) OrdersStreamSpec() yacycrawlcontract.OrdersStreamSpec {
 func (ServiceConfig) RedirectResolutionBucketSpec() yacycrawlcontract.RedirectResolutionBucketSpec {
 	return yacycrawlcontract.RedirectResolutionBucketSpec{
 		MaxBytes: DefaultRedirectResolutionMaxBytes,
+	}
+}
+
+func (ServiceConfig) PageVisitBucketSpec() dueaftergrace.BucketSpec {
+	return dueaftergrace.BucketSpec{
+		MaxBytes:  DefaultPageVisitMaxBytes,
+		Retention: DefaultPageVisitRetention,
 	}
 }
 
@@ -213,6 +227,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	recrawlGrace, err := envconfig.NonNegativeDuration(getenv, EnvRecrawlGrace, DefaultRecrawlGrace)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
 
 	return ServiceConfig{
 		NATSURL:          natsURL,
@@ -229,6 +247,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		ContentTypes:     mediaTypes(getenv, EnvContentTypes),
 		OpsAddr:          envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 		UserAgent:        envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
+		RecrawlGrace:     recrawlGrace,
 	}, nil
 }
 
