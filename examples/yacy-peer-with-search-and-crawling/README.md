@@ -10,7 +10,7 @@ answer with.
 | Service | Role |
 | --- | --- |
 | `searxng` | The search UI: queries the local index alongside web engines. |
-| `yacyvisitcrawl` | Every result link points here: redirects to the page and orders a crawl of it. |
+| `yacyvisitcrawl` | Every result link points here: redirects to the page without waiting on the crawl it orders. |
 | `nats` | Broker carrying crawl orders and crawled pages between services. |
 | `yacycrawler` | Fetches an ordered page and turns it into text and RWI representations. |
 | `renderproxy` | Runs the page in `lightpanda` so scripted content is fetched too. |
@@ -18,31 +18,6 @@ answer with.
 | `yacy-rwi-node` | The peer: shares RWI representations over the DHT and serves remote searches. |
 | `smokescreen` | Egress proxy every outbound connection passes through. |
 | `prometheus`, `grafana` | Metrics and the pipeline dashboard at `http://localhost:3000`, no login. |
-
-The redirect to the page is immediate and does not wait on the crawl order.
-
-```mermaid
-flowchart LR
-    You([You])
-    Web([Web])
-    Net([YaCy network])
-    index[(Local search index)]
-    nats{{nats}}
-    peer[yacy-rwi-node]
-
-    You -- search --> searxng
-    searxng -- query --> index
-    searxng -- query --> Web
-    searxng -- results --> You
-    You -- open a result --> yacyvisitcrawl
-    yacyvisitcrawl -- crawl order --> nats
-    nats -- crawl order --> yacycrawler
-    yacycrawler --> renderproxy --> lightpanda --> smokescreen --> Web
-    yacycrawler -- text and rwi --> nats
-    nats -- text --> yacytextindexer --> index
-    nats -- rwi --> peer
-    peer <-- DHT --> Net
-```
 
 ## Setup
 
