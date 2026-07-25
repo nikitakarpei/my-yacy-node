@@ -9,8 +9,8 @@ answer with.
 
 | Service | Role |
 | --- | --- |
-| `searxng` | The search UI: queries the local index alongside web engines. |
-| `yacyvisitcrawl` | Every result link points here: redirects to the page without waiting on the crawl it orders. |
+| `searxng` | The search UI: queries the local index alongside web engines, and points every result link at `yacyvisitcrawl`. |
+| `yacyvisitcrawl` | Redirects to the page an opened result names, without waiting on the crawl it orders. |
 | `nats` | Broker carrying crawl orders and crawled pages between services. |
 | `yacycrawler` | Fetches an ordered page and turns it into text and RWI representations. |
 | `renderproxy` | Runs the page in `lightpanda` so scripted content is fetched too. |
