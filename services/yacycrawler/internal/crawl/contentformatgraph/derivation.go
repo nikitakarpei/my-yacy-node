@@ -2,7 +2,7 @@ package contentformatgraph
 
 import "errors"
 
-var ErrUnextractable = errors.New("unextractable")
+var ErrUnderivable = errors.New("underivable")
 
 type Derivation interface {
 	SourceFormat() Format

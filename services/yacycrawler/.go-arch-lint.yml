@@ -6,6 +6,24 @@ allow:
   deepScan: false
 
 components:
+  clock:
+    in: internal/crawl/clock/**
+  disposal:
+    in: internal/crawl/disposal/**
+  refusal:
+    in: internal/crawl/refusal/**
+  retrydelay:
+    in: internal/crawl/retrydelay/**
+  fetchedpage:
+    in: internal/crawl/fetchedpage/**
+  frontier:
+    in: internal/crawl/frontier/**
+  profileadmission:
+    in: internal/crawl/profileadmission/**
+  redirectrecording:
+    in: internal/crawl/redirectrecording/**
+  pagepublication:
+    in: internal/crawl/pagepublication/**
   ordersettlement:
     in: internal/crawl/ordersettlement/**
   ordertraversal:
@@ -20,10 +38,10 @@ components:
     in: internal/crawl/contentextraction/**
   pagefetchershttp:
     in: internal/pagefetchers/http/**
-  documentextractorshtml:
-    in: internal/documentextractors/html/**
-  documentextractorsarchive:
-    in: internal/documentextractors/archive/**
+  mediaextractorshtml:
+    in: internal/mediaextractors/html/**
+  containerexpandersarchive:
+    in: internal/containerexpanders/archive/**
   pagederivationsfulltext:
     in: internal/pagederivations/fulltext/**
   pagederivationsreadablehtml:
@@ -32,22 +50,22 @@ components:
     in: internal/pagederivations/readabletext/**
   pagederivationsmarkdown:
     in: internal/pagederivations/markdown/**
-  pagefeedsrwi:
-    in: internal/pagefeeds/rwi/**
-  pagefeedstext:
-    in: internal/pagefeeds/text/**
-  pagefeedsmarkdown:
-    in: internal/pagefeeds/markdown/**
-  recrawlpoliciesalwaysdue:
-    in: internal/recrawlpolicies/alwaysdue/**
+  pagerepresentationsrwi:
+    in: internal/pagerepresentations/rwi/**
+  pagerepresentationstext:
+    in: internal/pagerepresentations/text/**
+  pagerepresentationsmarkdown:
+    in: internal/pagerepresentations/markdown/**
+  recrawldecisionsalwaysdue:
+    in: internal/recrawldecisions/alwaysdue/**
   orderreceiversjetstream:
     in: internal/orderreceivers/jetstream/**
   redirectresolversjetstream:
     in: internal/redirectresolvers/jetstream/**
   progressobserversprometheus:
     in: internal/progressobservers/prometheus/**
-  feedpublishersjetstream:
-    in: internal/feedpublishers/jetstream/**
+  representationpublishersjetstream:
+    in: internal/representationpublishers/jetstream/**
   htmlflattening:
     in: internal/htmlflattening/**
   contextcancellation:
@@ -90,9 +108,6 @@ vendors:
   xnet:
     in:
       - golang.org/x/net/**
-  backoff:
-    in:
-      - github.com/cenkalti/backoff/v4
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
@@ -102,16 +117,52 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
 
 deps:
+  clock:
+    mayDependOn:
+      - clock
+  disposal:
+    mayDependOn:
+      - disposal
+  refusal:
+    mayDependOn:
+      - refusal
+  retrydelay:
+    mayDependOn:
+      - retrydelay
+  fetchedpage:
+    mayDependOn:
+      - fetchedpage
+  frontier:
+    mayDependOn:
+      - frontier
+      - retrydelay
+  profileadmission:
+    mayDependOn:
+      - profileadmission
+    canUse:
+      - yacycrawlcontract
+  redirectrecording:
+    mayDependOn:
+      - redirectrecording
+      - fetchedpage
+    canUse:
+      - canonicalurl
   ordersettlement:
     mayDependOn:
       - ordersettlement
+      - clock
       - contextcancellation
     canUse:
       - yacycrawlcontract
   ordertraversal:
     mayDependOn:
       - ordertraversal
-      - ordersettlement
+      - clock
+      - retrydelay
+      - disposal
+      - refusal
+      - frontier
+      - profileadmission
       - pagevisit
       - contextcancellation
     canUse:
@@ -120,17 +171,30 @@ deps:
   pagevisit:
     mayDependOn:
       - pagevisit
-      - recrawlpoliciesalwaysdue
+      - clock
+      - disposal
+      - refusal
+      - fetchedpage
   pageabsorption:
     mayDependOn:
       - pageabsorption
-      - contentformatgraph
+      - clock
+      - disposal
       - contentextraction
-      - pagevisit
+      - contentformatgraph
+      - pagepublication
+      - fetchedpage
+    canUse:
+      - canonicalurl
+  pagepublication:
+    mayDependOn:
+      - pagepublication
+      - clock
+      - disposal
+      - contentformatgraph
+      - retrydelay
     canUse:
       - yacycrawlcontract
-      - canonicalurl
-      - backoff
   contentformatgraph:
     mayDependOn:
       - contentformatgraph
@@ -142,17 +206,18 @@ deps:
     mayDependOn:
       - pagefetchershttp
       - pagevisit
-  documentextractorshtml:
+      - fetchedpage
+  mediaextractorshtml:
     mayDependOn:
-      - documentextractorshtml
+      - mediaextractorshtml
       - contentextraction
       - contentformatgraph
     canUse:
       - canonicalurl
       - xnet
-  documentextractorsarchive:
+  containerexpandersarchive:
     mayDependOn:
-      - documentextractorsarchive
+      - containerexpandersarchive
       - contentextraction
   pagederivationsfulltext:
     mayDependOn:
@@ -177,31 +242,31 @@ deps:
       - contentformatgraph
     canUse:
       - htmltomarkdown
-  pagefeedsrwi:
+  pagerepresentationsrwi:
     mayDependOn:
-      - pagefeedsrwi
-      - pageabsorption
+      - pagerepresentationsrwi
+      - pagepublication
       - contentformatgraph
     canUse:
       - yacycrawlcontract
       - yacymodel
-  pagefeedstext:
+  pagerepresentationstext:
     mayDependOn:
-      - pagefeedstext
-      - pageabsorption
+      - pagerepresentationstext
+      - pagepublication
       - contentformatgraph
     canUse:
       - yacycrawlcontract
-  pagefeedsmarkdown:
+  pagerepresentationsmarkdown:
     mayDependOn:
-      - pagefeedsmarkdown
-      - pageabsorption
+      - pagerepresentationsmarkdown
+      - pagepublication
       - contentformatgraph
     canUse:
       - yacycrawlcontract
-  recrawlpoliciesalwaysdue:
+  recrawldecisionsalwaysdue:
     mayDependOn:
-      - recrawlpoliciesalwaysdue
+      - recrawldecisionsalwaysdue
   orderreceiversjetstream:
     mayDependOn:
       - orderreceiversjetstream
@@ -223,13 +288,17 @@ deps:
       - ordersettlement
       - ordertraversal
       - pageabsorption
+      - pagepublication
       - pagevisit
+      - disposal
+      - refusal
     canUse:
       - prometheus
-  feedpublishersjetstream:
+      - yacycrawlcontract
+  representationpublishersjetstream:
     mayDependOn:
-      - feedpublishersjetstream
-      - pageabsorption
+      - representationpublishersjetstream
+      - pagepublication
       - contentformatgraph
     canUse:
       - yacycrawlcontract
@@ -247,25 +316,29 @@ deps:
     mayDependOn:
       - ordersettlement
       - ordertraversal
+      - frontier
+      - retrydelay
       - pagevisit
+      - redirectrecording
       - pageabsorption
+      - pagepublication
       - contentformatgraph
       - contentextraction
       - pagefetchershttp
-      - documentextractorshtml
-      - documentextractorsarchive
+      - mediaextractorshtml
+      - containerexpandersarchive
       - pagederivationsfulltext
       - pagederivationsreadablehtml
       - pagederivationsreadabletext
       - pagederivationsmarkdown
-      - pagefeedsrwi
-      - pagefeedstext
-      - pagefeedsmarkdown
-      - recrawlpoliciesalwaysdue
+      - pagerepresentationsrwi
+      - pagerepresentationstext
+      - pagerepresentationsmarkdown
+      - recrawldecisionsalwaysdue
       - orderreceiversjetstream
       - redirectresolversjetstream
       - progressobserversprometheus
-      - feedpublishersjetstream
+      - representationpublishersjetstream
     canUse:
       - yacycrawlcontract
       - nats

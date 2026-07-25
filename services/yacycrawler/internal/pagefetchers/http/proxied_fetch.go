@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
@@ -70,7 +71,7 @@ func (f *ProxiedFetch) Fetch(
 			slog.String("url", rawURL),
 			slog.Any("error", err),
 		)
-		return pagevisit.FetchOutcome{Status: pagevisit.FetchTransient}, nil
+		return pagevisit.FetchOutcome{Status: pagevisit.FetchFailed}, nil
 	}
 	defer func() { _ = response.Body.Close() }()
 
@@ -97,7 +98,7 @@ func (f *ProxiedFetch) classify(
 	case response.StatusCode >= 400 && response.StatusCode < 500:
 		return pagevisit.FetchOutcome{Status: pagevisit.FetchNotAPage}, nil
 	default:
-		return pagevisit.FetchOutcome{Status: pagevisit.FetchTransient}, nil
+		return pagevisit.FetchOutcome{Status: pagevisit.FetchFailed}, nil
 	}
 }
 
@@ -111,7 +112,7 @@ func (f *ProxiedFetch) fetched(
 			slog.String("url", response.Request.URL.String()),
 			slog.Any("error", readErr),
 		)
-		return pagevisit.FetchOutcome{Status: pagevisit.FetchTransient}, nil
+		return pagevisit.FetchOutcome{Status: pagevisit.FetchFailed}, nil
 	}
 	truncated := int64(len(body)) > f.maxBodyBytes
 	if truncated {
@@ -119,14 +120,16 @@ func (f *ProxiedFetch) fetched(
 	}
 	noIndex, noFollow := robotsDirectives(response.Header.Values(headerXRobotsTag))
 	return pagevisit.FetchOutcome{
-		Status:               pagevisit.FetchSucceeded,
-		FinalURL:             response.Request.URL.String(),
-		RedirectChain:        redirectChain(response),
-		ContentType:          response.Header.Get(headerContentType),
-		Body:                 body,
-		Truncated:            truncated,
-		RefusesIndexing:      noIndex,
-		RefusesLinkDiscovery: noFollow,
+		Status: pagevisit.FetchSucceeded,
+		Page: fetchedpage.Page{
+			FinalURL:             response.Request.URL.String(),
+			RedirectChain:        redirectChain(response),
+			ContentType:          response.Header.Get(headerContentType),
+			Body:                 body,
+			Truncated:            truncated,
+			RefusesIndexing:      noIndex,
+			RefusesLinkDiscovery: noFollow,
+		},
 	}, nil
 }
 

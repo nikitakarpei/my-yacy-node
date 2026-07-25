@@ -44,7 +44,7 @@ func TestFetchAbsoluteURLModeTransientOnDialFailure(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if outcome.Status != pagevisit.FetchTransient {
+	if outcome.Status != pagevisit.FetchFailed {
 		t.Fatalf("kind = %v, want transient", outcome.Status)
 	}
 }
@@ -60,7 +60,7 @@ func TestFetchAbsoluteURLModeHandlesHTTPTarget(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Fetch: %v", err)
 	}
-	if string(outcome.Body) != "plain" {
-		t.Fatalf("body = %q", outcome.Body)
+	if string(outcome.Page.Body) != "plain" {
+		t.Fatalf("body = %q", outcome.Page.Body)
 	}
 }

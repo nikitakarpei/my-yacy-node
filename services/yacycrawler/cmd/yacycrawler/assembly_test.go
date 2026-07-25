@@ -7,24 +7,33 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 )
 
-func TestBuildPageFeedsSelectsTheConfiguredRepresentations(t *testing.T) {
-	feeds := buildPageFeeds(nil, ServiceConfig{PageStreams: publishedPageStreams()})
-	if len(feeds) != 1 || feeds[0].Representation() != yacycrawlcontract.PageRepresentationKindRWI {
-		t.Fatalf("feeds = %v, want the rwi feed alone", feeds)
+func TestBuildPageRepresentationsSelectsTheConfiguredRepresentations(t *testing.T) {
+	representations := buildPageRepresentations(
+		nil,
+		ServiceConfig{PageStreams: publishedPageStreams()},
+	)
+	if len(representations) != 1 ||
+		representations[0].Kind() != yacycrawlcontract.PageRepresentationKindRWI {
+		t.Fatalf("representations = %v, want the rwi representation alone", representations)
 	}
 }
 
-func TestCatalogGraphValidatesConfiguredFeeds(t *testing.T) {
-	feeds := buildPageFeeds(nil, ServiceConfig{PageStreams: publishedPageStreams()})
+func TestCatalogGraphValidatesConfiguredRepresentations(t *testing.T) {
+	representations := buildPageRepresentations(
+		nil,
+		ServiceConfig{PageStreams: publishedPageStreams()},
+	)
 	graph := contentformatgraph.New(pageDerivationCatalog())
-	if err := graph.Validate(feedContentFormats(feeds)); err != nil {
-		t.Fatalf("configured feed content is reachable, got %v", err)
+	if err := graph.EnsureDerivable(
+		crawledPageFormat, representationContentFormats(representations),
+	); err != nil {
+		t.Fatalf("configured representation content is reachable, got %v", err)
 	}
 }
 
 func TestCatalogGraphValidatesMarkdownContent(t *testing.T) {
 	graph := contentformatgraph.New(pageDerivationCatalog())
-	if err := graph.Validate([]contentformatgraph.Format{
+	if err := graph.EnsureDerivable(crawledPageFormat, []contentformatgraph.Format{
 		contentformatgraph.FormatMarkdown,
 	}); err != nil {
 		t.Fatalf("markdown content is reachable, got %v", err)
@@ -33,7 +42,7 @@ func TestCatalogGraphValidatesMarkdownContent(t *testing.T) {
 
 func TestCatalogGraphRejectsUnderivableContentFormat(t *testing.T) {
 	graph := contentformatgraph.New(pageDerivationCatalog())
-	if err := graph.Validate([]contentformatgraph.Format{
+	if err := graph.EnsureDerivable(crawledPageFormat, []contentformatgraph.Format{
 		contentformatgraph.Format("unproduced"),
 	}); err == nil {
 		t.Fatal("content no derivation produces should fail validation")
@@ -49,7 +58,7 @@ func TestBuildExtractorDefaultRegistersAll(t *testing.T) {
 		t.Fatal("nil extractor")
 	}
 	// text/html routes to the html extractor, which yields the whole document.
-	documents, err := extractor.Extract(t.Context(), "http://h/p", "text/html",
+	documents, err := extractor.ExtractDocuments(t.Context(), "http://h/p", "text/html",
 		[]byte("<html><body><p>hello</p></body></html>"))
 	if err != nil {
 		t.Fatalf("dispatch to html extractor failed: %v", err)
@@ -66,7 +75,7 @@ func TestBuildExtractorAllowlistRestricts(t *testing.T) {
 	if err != nil {
 		t.Fatalf("build extractor: %v", err)
 	}
-	if _, err := extractor.Extract(
+	if _, err := extractor.ExtractDocuments(
 		t.Context(),
 		"http://h/a.zip",
 		"application/zip",
@@ -96,10 +105,11 @@ func TestAllowedMediaTypes(t *testing.T) {
 
 func TestTraversalConfigMapsCaps(t *testing.T) {
 	cfg := traversalConfig(ServiceConfig{RunPageBudget: 7, FrontierCap: 9})
-	if cfg.RunPageBudget != 7 || cfg.FrontierCapacity != 9 {
+	if cfg.RunPageBudget != 7 || cfg.MaxAdmittedURLs != 9 {
 		t.Fatalf("traversal config not mapped: %+v", cfg)
 	}
-	if cfg.FetchRetryLimit != fetchRetryLimit || cfg.MaxDeferralsPerURL != maxDeferPerURL {
+	if cfg.Frontier.MaxAttemptsPerURL != fetchRetryLimit ||
+		cfg.Frontier.MaxDeferralsPerURL != maxDeferPerURL {
 		t.Fatal("traversal config constants not applied")
 	}
 }

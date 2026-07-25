@@ -32,7 +32,7 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 		cfg.RunPageBudget != DefaultRunPageBudget {
 		t.Fatalf("unexpected defaults: %+v", cfg)
 	}
-	if len(cfg.PageStreams) != len(pageFeedCatalog()) {
+	if len(cfg.PageStreams) != len(pageRepresentationCatalog()) {
 		t.Fatalf("every representation should get a stream: %+v", cfg.PageStreams)
 	}
 	if !slices.Equal(publishedRepresentations(cfg), []string{"rwi"}) {

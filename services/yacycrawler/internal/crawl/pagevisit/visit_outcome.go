@@ -2,19 +2,16 @@ package pagevisit
 
 import "time"
 
-type Classification int
+type VisitConclusion int
 
 const (
-	NotDue Classification = iota
-	Succeeded
-	Ceased
-	Deferred
-	NotAPage
-	Transient
+	VisitCompleted VisitConclusion = iota
+	VisitRetryable
+	VisitDeferred
 )
 
 type VisitOutcome struct {
-	Classification Classification
+	Conclusion     VisitConclusion
 	DeferFor       time.Duration
 	DiscoveredURLs []string
 }

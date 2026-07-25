@@ -13,8 +13,8 @@ import (
 )
 
 func publishedPageStreams() []PageStreamConfig {
-	streams := make([]PageStreamConfig, 0, len(pageFeedCatalog()))
-	for _, preset := range pageFeedCatalog() {
+	streams := make([]PageStreamConfig, 0, len(pageRepresentationCatalog()))
+	for _, preset := range pageRepresentationCatalog() {
 		streams = append(streams, PageStreamConfig{
 			Representation: preset.representation,
 			Stream: yacycrawlcontract.CrawledPageStreamSpec{

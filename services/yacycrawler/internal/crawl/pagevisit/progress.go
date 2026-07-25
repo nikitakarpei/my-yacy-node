@@ -1,17 +1,15 @@
 package pagevisit
 
-import "time"
+import (
+	"time"
 
-const (
-	DisposalRefused     = "refused"
-	DisposalFetchFailed = "fetch-failed"
-
-	RefusalCease = "cease"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 )
 
-type Progress interface {
+type VisitProgress interface {
 	PageFetched()
-	PageDisposed(reason string)
-	RefusalHonored(demand string)
-	FetchObserved(elapsed time.Duration)
+	PageDisposed(reason disposal.Reason)
+	RefusalHonored(demand refusal.Demand)
+	FetchCompleted(elapsed time.Duration)
 }

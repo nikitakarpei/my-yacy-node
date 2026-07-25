@@ -18,14 +18,14 @@ const (
 )
 
 type OrderReceiver struct {
-	deliveries chan ordersettlement.DeliveredOrder
+	deliveries chan ordersettlement.OrderDelivery
 }
 
 func NewOrderReceiver(
 	ctx context.Context,
 	consumer jetstream.Consumer,
 ) (*OrderReceiver, error) {
-	deliveries := make(chan ordersettlement.DeliveredOrder)
+	deliveries := make(chan ordersettlement.OrderDelivery)
 	consume, err := consumer.Consume(func(msg jetstream.Msg) {
 		order, err := yacycrawlcontract.UnmarshalCrawlOrder(msg.Data())
 		if err != nil {
@@ -35,14 +35,8 @@ func NewOrderReceiver(
 			}
 			return
 		}
-		delivery := ordersettlement.DeliveredOrder{
-			Order:           order,
-			Ack:             func(context.Context) error { return msg.Ack() },
-			Retry:           func(context.Context) error { return msg.Nak() },
-			ExtendOwnership: func(context.Context) error { return msg.InProgress() },
-		}
 		select {
-		case deliveries <- delivery:
+		case deliveries <- messageDelivery{order: order, message: msg}:
 		case <-ctx.Done():
 			if nakErr := msg.Nak(); nakErr != nil {
 				slog.WarnContext(ctx, msgOrderNakFailed, slog.Any("error", nakErr))
@@ -59,6 +53,6 @@ func NewOrderReceiver(
 	return &OrderReceiver{deliveries: deliveries}, nil
 }
 
-func (r *OrderReceiver) Deliveries() <-chan ordersettlement.DeliveredOrder {
+func (r *OrderReceiver) Deliveries() <-chan ordersettlement.OrderDelivery {
 	return r.deliveries
 }

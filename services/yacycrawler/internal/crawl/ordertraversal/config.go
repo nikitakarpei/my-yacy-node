@@ -1,15 +1,10 @@
 package ordertraversal
 
-import "time"
+import "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
 
 type Config struct {
-	RunPageBudget       int
-	FrontierCapacity    int
-	FetchRetryLimit     int
-	FetchRetryFloor     time.Duration
-	FetchRetryCeiling   time.Duration
-	PublishRetryFloor   time.Duration
-	PublishRetryCeiling time.Duration
-	MaxDeferralsPerURL  int
-	FetchConcurrency    int
+	RunPageBudget    int
+	VisitConcurrency int
+	MaxAdmittedURLs  int
+	Frontier         frontier.Config
 }

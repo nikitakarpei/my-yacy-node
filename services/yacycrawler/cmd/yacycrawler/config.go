@@ -95,7 +95,7 @@ func (ServiceConfig) RedirectResolutionBucketSpec() yacycrawlcontract.RedirectRe
 
 func loadPageStreams(
 	getenv func(string) string,
-	catalog []pageFeedPreset,
+	catalog []pageRepresentationPreset,
 ) ([]PageStreamConfig, error) {
 	streams := make([]PageStreamConfig, 0, len(catalog))
 	published := 0
@@ -141,7 +141,7 @@ func loadPageStreams(
 	return streams, nil
 }
 
-func pagePublishEnvNames(catalog []pageFeedPreset) []string {
+func pagePublishEnvNames(catalog []pageRepresentationPreset) []string {
 	names := make([]string, 0, len(catalog))
 	for _, preset := range catalog {
 		names = append(names, pagePublishEnv(preset.representation))
@@ -205,7 +205,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	pageStreams, err := loadPageStreams(getenv, pageFeedCatalog())
+	pageStreams, err := loadPageStreams(getenv, pageRepresentationCatalog())
 	if err != nil {
 		return ServiceConfig{}, err
 	}

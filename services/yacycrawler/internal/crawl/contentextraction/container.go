@@ -5,12 +5,12 @@ import (
 	"errors"
 )
 
-var ErrContainerOverflow = errors.New("container overflow")
+var ErrNestingTooDeep = errors.New("container nesting too deep")
 
-type Container interface {
+type ContainerExpander interface {
 	Expand(
 		ctx context.Context,
 		containerURL, contentType string,
 		body []byte,
-	) ([]ArchiveMember, error)
+	) ([]ContainerMember, error)
 }

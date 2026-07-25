@@ -22,7 +22,7 @@ func TestMetricsRecordAndExpose(t *testing.T) {
 	metrics.RefusalHonored("ceased")
 	metrics.PublicationWaited()
 	metrics.BudgetExhausted()
-	metrics.FetchObserved(250 * time.Millisecond)
+	metrics.FetchCompleted(250 * time.Millisecond)
 
 	recorder := httptest.NewRecorder()
 	metrics.Handler().
