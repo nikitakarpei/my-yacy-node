@@ -1,6 +1,7 @@
 services:
   manticore:
     image: manticoresearch/manticore:27.1.5
+    profiles: ["manticore"]
     restart: unless-stopped
     ports:
       - "9308:9308"

@@ -1,6 +1,7 @@
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    profiles: ["elasticsearch"]
     restart: unless-stopped
     environment:
       discovery.type: single-node
@@ -13,6 +14,7 @@ services:
 
   elasticsearch-metrics:
     image: quay.io/prometheuscommunity/elasticsearch-exporter:v1.7.0
+    profiles: ["elasticsearch"]
     restart: unless-stopped
     depends_on:
       - elasticsearch

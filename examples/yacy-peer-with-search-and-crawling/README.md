@@ -22,19 +22,12 @@ answer with.
 ## Setup
 
 1. Copy `.env.example` to `.env` and set `YACY_PEER_HASH`, `YACY_PEER_NAME`,
-   `YACY_ADVERTISE_HOST`, and `YACYVISITCRAWL_PUBLIC_URL`.
-2. Pick a search-index engine below and copy its SearXNG settings to `searxng/settings.yml`,
-   then set `server.secret_key`.
-3. Copy `docker-compose.yml.example` to `docker-compose.yml`.
-4. Start the stack: `docker compose up -d`.
+   `YACY_ADVERTISE_HOST`, `YACYVISITCRAWL_PUBLIC_URL`, and `SEARXNG_SECRET`.
+2. Copy `docker-compose.yml.example` to `docker-compose.yml`.
+3. Start the stack: `docker compose up -d`.
 
 ## Search-index engine
 
-Crawled pages are stored and served from either Elasticsearch (default) or Manticore. Set
-the same engine in all three places, and keep exactly one `search-*.yml` include
-uncommented in `docker-compose.yml`.
-
-| Engine | `.env` | `docker-compose.yml` include | `searxng/settings.yml` source |
-| --- | --- | --- | --- |
-| Elasticsearch | `SEARCH_INDEX_ENGINE=elasticsearch` | `compose/search-elasticsearch.yml` | `searxng/settings.yml.elasticsearch.example` |
-| Manticore | `SEARCH_INDEX_ENGINE=manticore` | `compose/search-manticore.yml` | `searxng/settings.yml.manticore.example` |
+Crawled pages are stored and served from either Elasticsearch or Manticore. `COMPOSE_PROFILES`
+in `.env` selects one, and takes exactly one of `elasticsearch` or `manticore`. Manticore has
+the smaller memory footprint of the two and suits low-resource deployments.

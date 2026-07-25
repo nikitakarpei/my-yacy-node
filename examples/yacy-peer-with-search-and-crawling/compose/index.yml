@@ -7,7 +7,7 @@ services:
       - yacycrawler
     environment:
       NATS_URL: nats://nats:4222
-      SEARCH_INDEX_ENGINE: ${SEARCH_INDEX_ENGINE:-elasticsearch}
+      SEARCH_INDEX_ENGINE: ${COMPOSE_PROFILES:?set COMPOSE_PROFILES in .env}
       ELASTICSEARCH_URL: http://elasticsearch:9200
       ELASTICSEARCH_INDEX: ${ELASTICSEARCH_INDEX:-yacy-text}
       MANTICORE_URL: http://manticore:9308

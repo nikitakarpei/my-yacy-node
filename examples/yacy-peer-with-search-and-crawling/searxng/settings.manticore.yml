@@ -1,8 +1,5 @@
 use_default_settings: true
 
-server:
-  secret_key: "change-me-to-a-random-string"
-
 search:
   formats:
     - html
