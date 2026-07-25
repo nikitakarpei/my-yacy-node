@@ -8,13 +8,18 @@ This is not a port of the full Java YaCy peer. Scope follows the author's own
 needs, not parity with the reference implementation — except where a service
 must speak an existing protocol or API, where it stays compliant.
 
+## Examples
+
+Each directory under `examples/` is a runnable compose stack that wires
+services into one working deployment.
+
 ## Services
 
 Each directory under `services/` is one deployable service. Its
 `doc/specification.md` covers its scope, requirements, and known
 limitations; its `doc/configuration.md` covers its operator-facing settings.
 
-## Start here
+## Plugins
 
-`examples/` holds runnable compose stacks that wire services together —
-start there to bring the project up.
+Each directory under `plugins/` is code loaded into third-party software and
+running inside it, not a service of its own. It carries the same two documents.
