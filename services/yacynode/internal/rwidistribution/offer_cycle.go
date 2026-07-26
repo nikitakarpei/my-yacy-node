@@ -15,6 +15,7 @@ type offerCycle struct {
 	courier          postingCourier
 	schedule         *offerSchedule
 	ledger           *replicaLedger
+	observer         OfferObserver
 	now              func() time.Time
 	postingsPerCycle int
 	cycleInterval    time.Duration
@@ -46,6 +47,7 @@ func (c *offerCycle) offerOnce(ctx context.Context) {
 
 		return
 	}
+	c.observer.ObserveScheduleDrain(plan.Drained)
 
 	c.reschedule(ctx, plan.Satisfied, c.refreshInterval)
 	c.reschedule(ctx, plan.Stalled, c.retryInterval)
