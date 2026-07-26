@@ -3,10 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"net/http"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlbroker"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawldispatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlresults"
 )
 
@@ -26,7 +24,6 @@ func buildCrawlRuntime(
 
 	broker, err := crawlbroker.Open(ctx, crawlbroker.Config{
 		NATSURL:       config.NATSURL,
-		OrdersSubject: config.OrdersSubject,
 		IngestSubject: config.IngestSubject,
 		IngestDurable: config.IngestDurable,
 	})
@@ -44,10 +41,6 @@ func buildCrawlRuntime(
 		broker:   broker,
 		consumer: consumer,
 	}, nil
-}
-
-func (r *crawlRuntime) mountDispatch(mux *http.ServeMux) {
-	crawldispatch.MountCrawlDispatch(mux, r.broker.Orders)
 }
 
 func (r *crawlRuntime) Run(ctx context.Context) {

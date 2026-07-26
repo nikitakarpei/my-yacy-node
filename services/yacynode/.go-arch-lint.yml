@@ -50,8 +50,6 @@ components:
     in: internal/eviction/**
   metrics:
     in: internal/metrics/**
-  crawldispatch:
-    in: internal/crawldispatch/**
   crawlresults:
     in: internal/crawlresults/**
   crawlbroker:
@@ -87,8 +85,6 @@ vendors:
   natstestserver:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/natstestserver
-  uuid:
-    in: github.com/google/uuid
   bytesize:
     in: github.com/nikitakarpei/yacy-rwi-node/bytesize
   serviceruntime:
@@ -261,13 +257,6 @@ deps:
       - eviction
     canUse:
       - prometheus
-  crawldispatch:
-    mayDependOn:
-      - crawldispatch
-    canUse:
-      - yacycrawlcontract
-      - yacymodel
-      - uuid
   crawlresults:
     mayDependOn:
       - crawlresults
@@ -309,7 +298,6 @@ deps:
       - nodestatus
       - urlmetastaleness
       - urlreferences
-      - crawldispatch
       - crawlresults
       - crawlbroker
     canUse:

@@ -12,10 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlbroker"
 )
 
-const (
-	ordersSubject = "yacy.crawl.orders"
-	ingestSubject = "yacy.crawl.ingest"
-)
+const ingestSubject = "yacy.crawl.ingest"
 
 func openBroker(t *testing.T) (*crawlbroker.CrawlBroker, jetstream.JetStream, context.Context) {
 	t.Helper()
@@ -29,14 +26,8 @@ func openBroker(t *testing.T) (*crawlbroker.CrawlBroker, jetstream.JetStream, co
 	); err != nil {
 		t.Fatalf("create ingest stream: %v", err)
 	}
-	if err := yacycrawlcontract.EnsureOrdersStream(
-		ctx, js, yacycrawlcontract.OrdersStreamSpec{Subject: ordersSubject},
-	); err != nil {
-		t.Fatalf("create orders stream: %v", err)
-	}
 	broker, err := crawlbroker.Open(ctx, crawlbroker.Config{
 		NATSURL:       url,
-		OrdersSubject: ordersSubject,
 		IngestSubject: ingestSubject,
 		IngestDurable: "yacy-node",
 	})
@@ -45,42 +36,6 @@ func openBroker(t *testing.T) (*crawlbroker.CrawlBroker, jetstream.JetStream, co
 	}
 	t.Cleanup(broker.Close)
 	return broker, js, ctx
-}
-
-func TestOrderPublisherDeliversToOrdersStream(t *testing.T) {
-	broker, js, ctx := openBroker(t)
-
-	order := yacycrawlcontract.CrawlOrder{
-		OrderID:  "order-1",
-		Profile:  yacycrawlcontract.NewCrawlProfile(yacycrawlcontract.CrawlProfile{Name: "docs"}),
-		SeedURLs: []string{"https://example.org"},
-	}
-	if err := broker.Orders.Publish(ctx, order); err != nil {
-		t.Fatalf("publish order: %v", err)
-	}
-
-	consumer, err := js.CreateOrUpdateConsumer(
-		ctx,
-		yacycrawlcontract.OrdersStreamName,
-		jetstream.ConsumerConfig{
-			AckPolicy:     jetstream.AckExplicitPolicy,
-			FilterSubject: ordersSubject,
-		},
-	)
-	if err != nil {
-		t.Fatalf("orders consumer: %v", err)
-	}
-	msg, err := consumer.Next(jetstream.FetchMaxWait(5 * time.Second))
-	if err != nil {
-		t.Fatalf("fetch order: %v", err)
-	}
-	got, err := yacycrawlcontract.UnmarshalCrawlOrder(msg.Data())
-	if err != nil {
-		t.Fatalf("decode order: %v", err)
-	}
-	if got.OrderID != order.OrderID || got.Profile.Handle != order.Profile.Handle {
-		t.Fatalf("round-tripped order mismatch: %+v", got)
-	}
 }
 
 func TestIngestReceiverDeliversDecodableBatchAndSkipsGarbage(t *testing.T) {

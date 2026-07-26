@@ -77,9 +77,6 @@ func run() error {
 	}
 
 	opsMux := opsmetrics.NewMux(endpoints.Handler())
-	if assembled.crawl != nil {
-		assembled.crawl.mountDispatch(opsMux)
-	}
 
 	return serve(
 		ctx,
