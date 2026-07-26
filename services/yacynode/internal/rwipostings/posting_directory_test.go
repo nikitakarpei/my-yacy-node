@@ -39,6 +39,47 @@ func TestScanWordVisitsMatchingPostings(t *testing.T) {
 	}
 }
 
+func TestPostingReadsBackStoredEntry(t *testing.T) {
+	ctx := context.Background()
+	h := openHarness(t, 0, 100)
+
+	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
+		posting("w1", "u1"),
+	}); err != nil {
+		t.Fatalf("Intake: %v", err)
+	}
+
+	word := yacymodel.WordHash("w1")
+	url := urlHash("u1").Hash()
+
+	entry, found, err := h.rwi.Index.Posting(ctx, word, url)
+	if err != nil {
+		t.Fatalf("Posting: %v", err)
+	}
+	if !found {
+		t.Fatal("Posting not found")
+	}
+	if entry.WordHash != word {
+		t.Fatalf("entry word hash = %q, want %q", entry.WordHash, word)
+	}
+	if entry.URLHash.Hash() != url {
+		t.Fatalf("entry url hash = %q, want %q", entry.URLHash.Hash(), url)
+	}
+}
+
+func TestPostingMissingIsNotFound(t *testing.T) {
+	ctx := context.Background()
+	h := openHarness(t, 0, 100)
+
+	_, found, err := h.rwi.Index.Posting(ctx, yacymodel.WordHash("w1"), urlHash("u1").Hash())
+	if err != nil {
+		t.Fatalf("Posting: %v", err)
+	}
+	if found {
+		t.Fatal("Posting should not be found")
+	}
+}
+
 func TestScanWordStopsWhenVisitorStops(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t, 0, 100)

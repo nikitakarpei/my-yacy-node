@@ -75,8 +75,8 @@ func TestCardinalPaddingAndRange(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if allLast != MaxPosition {
-		t.Errorf("cardinal of all-last = %d, want MaxPosition %d", allLast, MaxPosition)
+	if allLast != uint64(MaxDHTPosition) {
+		t.Errorf("cardinal of all-last = %d, want MaxDHTPosition %d", allLast, MaxDHTPosition)
 	}
 
 	a, _ := cardinal("AAAAAAAAAAAB")

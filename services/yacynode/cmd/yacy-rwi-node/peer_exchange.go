@@ -24,10 +24,12 @@ type peerExchange struct {
 	client   *http.Client
 }
 
-func (p peerExchange) assemble() (peerannouncement.Announcer, error) {
-	roster, err := peerroster.Open(p.vault, time.Now, reservoirCapacity, activeSetCapacity)
+func (p peerExchange) assemble() (peerannouncement.Announcer, peerroster.Roster, error) {
+	roster, err := peerroster.Open(
+		p.vault, time.Now, reservoirCapacity, activeSetCapacity, p.identity.Hash,
+	)
 	if err != nil {
-		return nil, fmt.Errorf("open peer roster: %w", err)
+		return nil, nil, fmt.Errorf("open peer roster: %w", err)
 	}
 
 	peeradmission.MountHello(
@@ -38,7 +40,7 @@ func (p peerExchange) assemble() (peerannouncement.Announcer, error) {
 		p.client,
 	)
 
-	return peerannouncement.New(
+	announcer := peerannouncement.New(
 		peerannouncement.Config{
 			Client:         p.client,
 			NetworkName:    p.config.NetworkName,
@@ -48,5 +50,7 @@ func (p peerExchange) assemble() (peerannouncement.Announcer, error) {
 		p.report,
 		bootstrap.New(p.client, p.config.SeedlistURLs),
 		roster,
-	), nil
+	)
+
+	return announcer, roster, nil
 }

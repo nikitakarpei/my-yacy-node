@@ -119,6 +119,12 @@ func serve(
 			return nil
 		},
 	}
+	if assembled.distribution != nil {
+		workers = append(workers, func(runCtx context.Context) error {
+			assembled.distribution.Run(runCtx)
+			return nil
+		})
+	}
 	if assembled.crawl != nil {
 		defer assembled.crawl.Close()
 		workers = append(workers, func(runCtx context.Context) error {

@@ -47,6 +47,15 @@ func seniorSeed(t testing.TB, hash, ip string, port int) yacymodel.Seed {
 	return seed
 }
 
+func indexAcceptingSeed(t testing.TB, hash, ip string) yacymodel.Seed {
+	t.Helper()
+
+	seed := seniorSeed(t, hash, ip, 8090)
+	seed.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true})
+
+	return seed
+}
+
 type tickingClock struct {
 	now time.Time
 }
@@ -71,7 +80,7 @@ func openRoster(t *testing.T, reservoirCap, activeCap int) peerroster.Roster {
 	})
 
 	clock := &tickingClock{now: time.Unix(1_000, 0)}
-	roster, err := peerroster.Open(v, clock.Now, reservoirCap, activeCap)
+	roster, err := peerroster.Open(v, clock.Now, reservoirCap, activeCap, hashFor("self"))
 	if err != nil {
 		t.Fatalf("peerroster.Open: %v", err)
 	}

@@ -40,6 +40,8 @@ components:
     in: internal/rwipostings/**
   rwiingress:
     in: internal/rwiingress/**
+  rwidistribution:
+    in: internal/rwidistribution/**
   documentsearch:
     in: internal/documentsearch/**
   nodestatus:
@@ -213,6 +215,17 @@ deps:
     canUse:
       - yacymodel
       - yacyproto
+  rwidistribution:
+    mayDependOn:
+      - rwidistribution
+      - rwipostings
+      - urlmeta
+      - peerroster
+      - vault
+      - memvault
+    canUse:
+      - yacymodel
+      - yacyproto
   documentsearch:
     mayDependOn:
       - documentsearch
@@ -288,6 +301,7 @@ deps:
       - urlmeta
       - rwipostings
       - rwiingress
+      - rwidistribution
       - documentsearch
       - eviction
       - metrics

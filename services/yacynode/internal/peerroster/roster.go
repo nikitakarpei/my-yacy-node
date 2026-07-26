@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"sort"
 	"sync"
 	"time"
 
@@ -19,6 +20,7 @@ type roster struct {
 	now          func() time.Time
 	reservoirCap int
 	activeCap    int
+	self         yacymodel.Hash
 
 	mu     sync.Mutex
 	active map[yacymodel.Hash]yacymodel.Seed
@@ -137,6 +139,64 @@ func (r *roster) ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash) {
 			slog.Any("error", err),
 		)
 	}
+}
+
+func (r *roster) PeersResponsibleFor(
+	ctx context.Context,
+	position yacymodel.DHTPosition,
+	want int,
+) []yacymodel.Seed {
+	if want <= 0 {
+		return nil
+	}
+
+	type candidate struct {
+		seed     yacymodel.Seed
+		distance yacymodel.DHTPosition
+	}
+
+	candidates := make([]candidate, 0, len(r.ReachablePeers(ctx)))
+	for _, seed := range r.ReachablePeers(ctx) {
+		if seed.Hash == r.self {
+			continue
+		}
+		capabilities, ok := seed.Capabilities.Get()
+		if !ok || !capabilities.AcceptRemoteIndex {
+			continue
+		}
+
+		peerPos, err := yacymodel.WordPosition(seed.Hash)
+		if err != nil {
+			slog.WarnContext(
+				ctx,
+				"peer position not computed",
+				slog.String("peer", seed.Hash.String()),
+				slog.Any("error", err),
+			)
+
+			continue
+		}
+
+		candidates = append(
+			candidates,
+			candidate{seed: seed, distance: yacymodel.Distance(position, peerPos)},
+		)
+	}
+
+	sort.Slice(candidates, func(i, j int) bool {
+		return candidates[i].distance < candidates[j].distance
+	})
+
+	if len(candidates) > want {
+		candidates = candidates[:want]
+	}
+
+	targets := make([]yacymodel.Seed, len(candidates))
+	for i, c := range candidates {
+		targets[i] = c.seed
+	}
+
+	return targets
 }
 
 func (r *roster) ReachablePeers(_ context.Context) []yacymodel.Seed {

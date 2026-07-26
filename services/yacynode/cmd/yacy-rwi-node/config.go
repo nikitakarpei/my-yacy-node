@@ -30,12 +30,28 @@ const (
 	envAnnounceInterval = "YACY_ANNOUNCE_INTERVAL"
 	envGreetsPerCycle   = "YACY_GREETS_PER_CYCLE"
 
+	envDistributionEnabled           = "YACY_DISTRIBUTION_ENABLED"
+	envDistributionRedundancy        = "YACY_DISTRIBUTION_REDUNDANCY"
+	envDistributionPartitionExponent = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
+	envDistributionPostingsPerCycle  = "YACY_DISTRIBUTION_POSTINGS_PER_CYCLE"
+	envDistributionCycleInterval     = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
+	envDistributionRefreshInterval   = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
+	envDistributionRetryInterval     = "YACY_DISTRIBUTION_RETRY_INTERVAL"
+
 	defaultPeerAddr         = ":8090"
 	defaultOpsAddr          = ":9090"
 	defaultDataDir          = "./data"
 	defaultQuota            = "1GB"
 	defaultAnnounceInterval = 10 * time.Minute
 	defaultGreetsPerCycle   = 16
+
+	defaultDistributionEnabled           = false
+	defaultDistributionRedundancy        = 3
+	defaultDistributionPartitionExponent = 4
+	defaultDistributionPostingsPerCycle  = 1000
+	defaultDistributionCycleInterval     = time.Minute
+	defaultDistributionRefreshInterval   = 24 * time.Hour
+	defaultDistributionRetryInterval     = 5 * time.Minute
 
 	storageFileName = "yacy-rwipostings.db"
 )
@@ -56,7 +72,18 @@ type nodeConfig struct {
 	SeedlistURLs     []string
 	AnnounceInterval time.Duration
 	GreetsPerCycle   int
+	Distribution     distributionConfig
 	Crawl            crawlConfig
+}
+
+type distributionConfig struct {
+	Enabled           bool
+	Redundancy        int
+	PartitionExponent uint
+	PostingsPerCycle  int
+	CycleInterval     time.Duration
+	RefreshInterval   time.Duration
+	RetryInterval     time.Duration
 }
 
 func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
@@ -78,16 +105,7 @@ func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
 
 	seedlistURLs := envconfig.List(getenv, envSeedlistURLs)
 
-	announceInterval, err := envconfig.Duration(
-		getenv,
-		envAnnounceInterval,
-		defaultAnnounceInterval,
-	)
-	if err != nil {
-		return nodeConfig{}, err
-	}
-
-	greetsPerCycle, err := envconfig.PositiveInt(getenv, envGreetsPerCycle, defaultGreetsPerCycle)
+	peering, err := loadPeeringConfig(getenv)
 	if err != nil {
 		return nodeConfig{}, err
 	}
@@ -133,8 +151,101 @@ func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
 		TrustedProxies:   proxies,
 		ProxyURL:         proxyURL,
 		SeedlistURLs:     seedlistURLs,
+		AnnounceInterval: peering.AnnounceInterval,
+		GreetsPerCycle:   peering.GreetsPerCycle,
+		Distribution:     peering.Distribution,
+	}, nil
+}
+
+type peeringConfig struct {
+	AnnounceInterval time.Duration
+	GreetsPerCycle   int
+	Distribution     distributionConfig
+}
+
+func loadPeeringConfig(getenv func(string) string) (peeringConfig, error) {
+	announceInterval, err := envconfig.Duration(
+		getenv,
+		envAnnounceInterval,
+		defaultAnnounceInterval,
+	)
+	if err != nil {
+		return peeringConfig{}, err
+	}
+
+	greetsPerCycle, err := envconfig.PositiveInt(getenv, envGreetsPerCycle, defaultGreetsPerCycle)
+	if err != nil {
+		return peeringConfig{}, err
+	}
+
+	distribution, err := loadDistributionConfig(getenv)
+	if err != nil {
+		return peeringConfig{}, err
+	}
+
+	return peeringConfig{
 		AnnounceInterval: announceInterval,
 		GreetsPerCycle:   greetsPerCycle,
+		Distribution:     distribution,
+	}, nil
+}
+
+func loadDistributionConfig(getenv func(string) string) (distributionConfig, error) {
+	enabled, err := envconfig.Bool(getenv, envDistributionEnabled, defaultDistributionEnabled)
+	if err != nil {
+		return distributionConfig{}, err
+	}
+
+	redundancy, err := envconfig.PositiveInt(
+		getenv, envDistributionRedundancy, defaultDistributionRedundancy,
+	)
+	if err != nil {
+		return distributionConfig{}, err
+	}
+
+	partitionExponent, err := envconfig.PositiveInt(
+		getenv, envDistributionPartitionExponent, defaultDistributionPartitionExponent,
+	)
+	if err != nil {
+		return distributionConfig{}, err
+	}
+
+	postingsPerCycle, err := envconfig.PositiveInt(
+		getenv, envDistributionPostingsPerCycle, defaultDistributionPostingsPerCycle,
+	)
+	if err != nil {
+		return distributionConfig{}, err
+	}
+
+	cycleInterval, err := envconfig.Duration(
+		getenv, envDistributionCycleInterval, defaultDistributionCycleInterval,
+	)
+	if err != nil {
+		return distributionConfig{}, err
+	}
+
+	refreshInterval, err := envconfig.Duration(
+		getenv, envDistributionRefreshInterval, defaultDistributionRefreshInterval,
+	)
+	if err != nil {
+		return distributionConfig{}, err
+	}
+
+	retryInterval, err := envconfig.Duration(
+		getenv, envDistributionRetryInterval, defaultDistributionRetryInterval,
+	)
+	if err != nil {
+		return distributionConfig{}, err
+	}
+
+	return distributionConfig{
+		Enabled:           enabled,
+		Redundancy:        redundancy,
+		PartitionExponent: uint(partitionExponent),
+		PostingsPerCycle:  postingsPerCycle,
+		CycleInterval:     cycleInterval,
+		RefreshInterval:   refreshInterval,
+		RetryInterval:     retryInterval,
 	}, nil
 }
 

@@ -21,6 +21,11 @@ type Roster interface {
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	FreshestPeers(ctx context.Context, limit int) []yacymodel.Seed
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
+	PeersResponsibleFor(
+		ctx context.Context,
+		position yacymodel.DHTPosition,
+		want int,
+	) []yacymodel.Seed
 }
 
 var _ Roster = (*roster)(nil)
@@ -30,6 +35,7 @@ func Open(
 	now func() time.Time,
 	reservoirCap int,
 	activeCap int,
+	self yacymodel.Hash,
 ) (Roster, error) {
 	peers, err := vault.Register(storage, peersBucket, rosterEntryCodec{})
 	if err != nil {
@@ -42,6 +48,7 @@ func Open(
 		now:          now,
 		reservoirCap: reservoirCap,
 		activeCap:    activeCap,
+		self:         self,
 		active:       make(map[yacymodel.Hash]yacymodel.Seed),
 	}, nil
 }
