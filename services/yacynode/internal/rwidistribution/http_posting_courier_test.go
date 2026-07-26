@@ -64,7 +64,7 @@ func (r *recordingRoster) ConfirmUnreachable(_ context.Context, peer yacymodel.H
 func openCourierHarness(
 	t *testing.T,
 	server *httptest.Server,
-) (*replicaLedger, *recordingRoster, httpPostingCourier) {
+) (*replicaLedger, *recordingRoster, *fakeOfferObserver, httpPostingCourier) {
 	t.Helper()
 
 	v, err := memvault.Open(0)
@@ -82,6 +82,7 @@ func openCourierHarness(
 	}
 
 	roster := &recordingRoster{}
+	observer := newFakeOfferObserver()
 	courier := httpPostingCourier{
 		client:      server.Client(),
 		networkName: "freeworld",
@@ -89,9 +90,10 @@ func openCourierHarness(
 		roster:      roster,
 		ledger:      ledger,
 		urls:        fakeURLDirectory{},
+		observer:    observer,
 	}
 
-	return ledger, roster, courier
+	return ledger, roster, observer, courier
 }
 
 type fakeURLDirectory struct {
@@ -125,7 +127,7 @@ func TestOfferRecordsReplicaOnOK(t *testing.T) {
 	}))
 	defer server.Close()
 
-	ledger, roster, courier := openCourierHarness(t, server)
+	ledger, roster, observer, courier := openCourierHarness(t, server)
 	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
 	peer := courierSeed(t, server)
 	offer := postingOffer{
@@ -139,6 +141,13 @@ func TestOfferRecordsReplicaOnOK(t *testing.T) {
 	}
 	if len(roster.unreachable) != 0 {
 		t.Fatalf("unreachable = %v, want none", roster.unreachable)
+	}
+	if observer.postingsOffered[string(yacyproto.ResultOK)] != 1 {
+		t.Fatalf(
+			"observed offers = %+v, want 1 posting for result %q",
+			observer.postingsOffered,
+			yacyproto.ResultOK,
+		)
 	}
 
 	replicas, err := ledger.Replicas(context.Background(), word, url)
@@ -169,7 +178,7 @@ func TestOfferDeliversMetadataForUnknownURLs(t *testing.T) {
 	}))
 	defer server.Close()
 
-	_, _, courier := openCourierHarness(t, server)
+	_, _, _, courier := openCourierHarness(t, server)
 	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
 	posting := fakePosting(word, url)
 	courier.urls = fakeURLDirectory{
@@ -205,7 +214,7 @@ func TestOfferSkipsTransferURLWhenMetadataMissing(t *testing.T) {
 	}))
 	defer server.Close()
 
-	_, _, courier := openCourierHarness(t, server)
+	_, _, _, courier := openCourierHarness(t, server)
 	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
 	peer := courierSeed(t, server)
 	offer := postingOffer{
@@ -228,7 +237,7 @@ func TestOfferHonoursBusyPause(t *testing.T) {
 	}))
 	defer server.Close()
 
-	ledger, roster, courier := openCourierHarness(t, server)
+	ledger, roster, observer, courier := openCourierHarness(t, server)
 	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
 	peer := courierSeed(t, server)
 	offer := postingOffer{
@@ -245,6 +254,13 @@ func TestOfferHonoursBusyPause(t *testing.T) {
 	}
 	if len(roster.unreachable) != 0 {
 		t.Fatalf("unreachable = %v, want none when busy", roster.unreachable)
+	}
+	if observer.postingsOffered[string(yacyproto.ResultBusy)] != 1 {
+		t.Fatalf(
+			"observed offers = %+v, want 1 posting for result %q",
+			observer.postingsOffered,
+			yacyproto.ResultBusy,
+		)
 	}
 
 	replicas, err := ledger.Replicas(context.Background(), word, url)
@@ -263,7 +279,7 @@ func TestOfferMarksPeerUnreachableOnUnexpectedResult(t *testing.T) {
 	}))
 	defer server.Close()
 
-	_, roster, courier := openCourierHarness(t, server)
+	_, roster, observer, courier := openCourierHarness(t, server)
 	peer := courierSeed(t, server)
 	offer := postingOffer{
 		Peer: peer,
@@ -278,6 +294,12 @@ func TestOfferMarksPeerUnreachableOnUnexpectedResult(t *testing.T) {
 	}
 	if len(roster.unreachable) != 1 || roster.unreachable[0] != peer.Hash {
 		t.Fatalf("unreachable = %v, want [%v]", roster.unreachable, peer.Hash)
+	}
+	if observer.postingsOffered[string(yacyproto.ResultTooHighLoad)] != 1 {
+		t.Fatalf(
+			"observed offers = %+v, want 1 posting for result %q",
+			observer.postingsOffered, yacyproto.ResultTooHighLoad,
+		)
 	}
 }
 
@@ -287,7 +309,7 @@ func TestOfferMarksPeerUnreachableOnTransportFailure(t *testing.T) {
 	}))
 	defer server.Close()
 
-	_, roster, courier := openCourierHarness(t, server)
+	_, roster, observer, courier := openCourierHarness(t, server)
 	peer := courierSeed(t, server)
 	offer := postingOffer{
 		Peer: peer,
@@ -303,10 +325,17 @@ func TestOfferMarksPeerUnreachableOnTransportFailure(t *testing.T) {
 	if len(roster.unreachable) != 1 || roster.unreachable[0] != peer.Hash {
 		t.Fatalf("unreachable = %v, want [%v]", roster.unreachable, peer.Hash)
 	}
+	if observer.postingsOffered[offerResultError] != 1 {
+		t.Fatalf(
+			"observed offers = %+v, want 1 posting for result %q",
+			observer.postingsOffered,
+			offerResultError,
+		)
+	}
 }
 
 func TestOfferMarksPeerUnreachableWithoutNetworkAddress(t *testing.T) {
-	_, roster, courier := openCourierHarness(t, httptest.NewServer(nil))
+	_, roster, observer, courier := openCourierHarness(t, httptest.NewServer(nil))
 	peer := yacymodel.Seed{Hash: courierHash("peer")}
 	offer := postingOffer{
 		Peer: peer,
@@ -321,5 +350,11 @@ func TestOfferMarksPeerUnreachableWithoutNetworkAddress(t *testing.T) {
 	}
 	if len(roster.unreachable) != 1 || roster.unreachable[0] != peer.Hash {
 		t.Fatalf("unreachable = %v, want [%v]", roster.unreachable, peer.Hash)
+	}
+	if observer.postingsOffered[offerResultUnreachable] != 1 {
+		t.Fatalf(
+			"observed offers = %+v, want 1 posting for result %q",
+			observer.postingsOffered, offerResultUnreachable,
+		)
 	}
 }

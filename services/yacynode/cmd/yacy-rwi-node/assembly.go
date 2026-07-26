@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/landing"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
@@ -33,6 +34,7 @@ func assembleNode(
 	config nodeConfig,
 	vault *vault.Vault,
 	client *http.Client,
+	observer rwidistribution.OfferObserver,
 ) (node, error) {
 	guard := httpguard.NewRequestGuard(
 		httpguard.DefaultMaxBodyBytes,
@@ -57,6 +59,97 @@ func assembleNode(
 	mux.Handle("/{$}", landing.NewEndpoint())
 	router := httpguard.NewWireRouter(mux, gate)
 
+	mountNodeEndpoints(router, identity, storage)
+
+	announcer, roster, err := peerExchange{
+		router:   router,
+		identity: identity,
+		report:   report,
+		config:   config,
+		vault:    vault,
+		client:   client,
+	}.assemble()
+	if err != nil {
+		return node{}, err
+	}
+
+	sweeper := newStorageSweeper(vault, storage)
+
+	runtime, err := buildCrawlRuntime(ctx, config.Crawl, storage)
+	if err != nil {
+		return node{}, err
+	}
+
+	distribution, err := assembleDistribution(
+		config,
+		identity.Hash,
+		storage,
+		roster,
+		client,
+		observer,
+	)
+	if err != nil {
+		return node{}, err
+	}
+
+	return node{
+		peerMux:      mux,
+		sweeper:      sweeper,
+		announcer:    announcer,
+		distribution: distribution,
+		crawl:        runtime,
+	}, nil
+}
+
+// assembleDistribution takes six explicit collaborators rather than a
+// bundling struct: each is a distinct dependency the caller already holds,
+// and a parameter object here would exist only to dodge the linter's
+// argument count, not to name a real concept.
+//
+//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
+func assembleDistribution(
+	config nodeConfig,
+	self yacymodel.Hash,
+	storage nodeStorage,
+	roster peerroster.Roster,
+	client *http.Client,
+	observer rwidistribution.OfferObserver,
+) (rwidistribution.Runner, error) {
+	if !config.Distribution.Enabled {
+		return nil, nil
+	}
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(
+		config.Distribution.PartitionExponent,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("rwi distribution partitions: %w", err)
+	}
+
+	return storage.distribution.Cycle(
+		client,
+		storage.postings,
+		roster,
+		storage.urlDirectory,
+		observer,
+		rwidistribution.Config{
+			NetworkName:      config.NetworkName,
+			Self:             self,
+			Redundancy:       config.Distribution.Redundancy,
+			Partitions:       partitions,
+			PostingsPerCycle: config.Distribution.PostingsPerCycle,
+			CycleInterval:    config.Distribution.CycleInterval,
+			RefreshInterval:  config.Distribution.RefreshInterval,
+			RetryInterval:    config.Distribution.RetryInterval,
+		},
+	), nil
+}
+
+func mountNodeEndpoints(
+	router httpguard.WireRouter,
+	identity nodeidentity.Identity,
+	storage nodeStorage,
+) {
 	urlmeta.MountTransferURL(router, identity, storage.urlReceiver)
 	rwiingress.Mount(router, identity, storage.postingReceiver)
 	nodestatus.MountQuery(
@@ -75,75 +168,7 @@ func assembleNode(
 		searchPostingsPerWord,
 	)
 
-	announcer, roster, err := peerExchange{
-		router:   router,
-		identity: identity,
-		report:   report,
-		config:   config,
-		vault:    vault,
-		client:   client,
-	}.assemble()
-	if err != nil {
-		return node{}, err
-	}
-
 	crawling.MountCrawlReceipt(router)
-
-	sweeper := newStorageSweeper(vault, storage)
-
-	runtime, err := buildCrawlRuntime(ctx, config.Crawl, storage)
-	if err != nil {
-		return node{}, err
-	}
-
-	distribution, err := assembleDistribution(config, identity.Hash, storage, roster, client)
-	if err != nil {
-		return node{}, err
-	}
-
-	return node{
-		peerMux:      mux,
-		sweeper:      sweeper,
-		announcer:    announcer,
-		distribution: distribution,
-		crawl:        runtime,
-	}, nil
-}
-
-func assembleDistribution(
-	config nodeConfig,
-	self yacymodel.Hash,
-	storage nodeStorage,
-	roster peerroster.Roster,
-	client *http.Client,
-) (rwidistribution.Runner, error) {
-	if !config.Distribution.Enabled {
-		return nil, nil
-	}
-
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(
-		config.Distribution.PartitionExponent,
-	)
-	if err != nil {
-		return nil, fmt.Errorf("rwi distribution partitions: %w", err)
-	}
-
-	return storage.distribution.Cycle(
-		client,
-		storage.postings,
-		roster,
-		storage.urlDirectory,
-		rwidistribution.Config{
-			NetworkName:      config.NetworkName,
-			Self:             self,
-			Redundancy:       config.Distribution.Redundancy,
-			Partitions:       partitions,
-			PostingsPerCycle: config.Distribution.PostingsPerCycle,
-			CycleInterval:    config.Distribution.CycleInterval,
-			RefreshInterval:  config.Distribution.RefreshInterval,
-			RetryInterval:    config.Distribution.RetryInterval,
-		},
-	), nil
 }
 
 func newStorageSweeper(vault *vault.Vault, storage nodeStorage) eviction.Sweeper {

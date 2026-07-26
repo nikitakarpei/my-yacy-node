@@ -20,6 +20,7 @@ type offerPlan struct {
 	Offers    []postingOffer
 	Satisfied []duePosting
 	Stalled   []duePosting
+	Drained   int
 }
 
 type batchBuilder struct {
@@ -27,6 +28,7 @@ type batchBuilder struct {
 	ledger     *replicaLedger
 	postings   rwipostings.PostingIndex
 	roster     peerroster.Roster
+	observer   OfferObserver
 	partitions yacymodel.DHTRingPartitions
 	redundancy int
 }
@@ -37,7 +39,7 @@ func (b *batchBuilder) Build(ctx context.Context, limit int) (offerPlan, error) 
 		return offerPlan{}, fmt.Errorf("drain due postings: %w", err)
 	}
 
-	var plan offerPlan
+	plan := offerPlan{Drained: len(due)}
 	byPeer := make(map[yacymodel.Hash]*postingOffer)
 
 	for _, entry := range due {
@@ -92,13 +94,21 @@ func (b *batchBuilder) planOne(
 		responsibleSeeds[seed.Hash] = seed
 	}
 
-	remaining, err := b.ledger.Prune(ctx, entry.Word, entry.URL, func(peer yacymodel.Hash) bool {
-		_, stillResponsible := responsibleSeeds[peer]
+	remaining, dropped, err := b.ledger.Prune(
+		ctx,
+		entry.Word,
+		entry.URL,
+		func(peer yacymodel.Hash) bool {
+			_, stillResponsible := responsibleSeeds[peer]
 
-		return stillResponsible
-	})
+			return stillResponsible
+		},
+	)
 	if err != nil {
 		return nil, fmt.Errorf("prune replica ledger: %w", err)
+	}
+	if dropped > 0 {
+		b.observer.ObserveLedgerPrune(dropped)
 	}
 
 	if len(remaining) >= b.redundancy {

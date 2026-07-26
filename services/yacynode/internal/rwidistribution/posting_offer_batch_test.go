@@ -74,7 +74,7 @@ func openBatchBuilder(
 	now func() time.Time,
 	postings map[yacymodel.Hash]yacymodel.RWIPosting,
 	responsible []yacymodel.Seed,
-) (*offerSchedule, *replicaLedger, *batchBuilder) {
+) (*offerSchedule, *replicaLedger, *batchBuilder, *fakeOfferObserver) {
 	t.Helper()
 
 	v, err := memvault.Open(0)
@@ -100,16 +100,18 @@ func openBatchBuilder(
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
 
+	observer := newFakeOfferObserver()
 	builder := &batchBuilder{
 		schedule:   schedule,
 		ledger:     ledger,
 		postings:   fakePostingIndex{postings: postings},
 		roster:     fakeRoster{responsible: responsible},
+		observer:   observer,
 		partitions: partitions,
 		redundancy: batchBuilderRedundancy,
 	}
 
-	return schedule, ledger, builder
+	return schedule, ledger, builder, observer
 }
 
 func TestBuildOffersDuePostingToResponsiblePeers(t *testing.T) {
@@ -119,7 +121,7 @@ func TestBuildOffersDuePostingToResponsiblePeers(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, _, builder := openBatchBuilder(
+	schedule, _, builder, _ := openBatchBuilder(
 		t,
 		func() time.Time { return now },
 		postings,
@@ -150,7 +152,7 @@ func TestBuildSkipsPostingAlreadySatisfied(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, ledger, builder := openBatchBuilder(
+	schedule, ledger, builder, _ := openBatchBuilder(
 		t,
 		func() time.Time { return now },
 		postings,
@@ -182,7 +184,7 @@ func TestBuildStallsPostingWithNoResponsiblePeers(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, _, builder := openBatchBuilder(t, func() time.Time { return now }, postings, nil)
+	schedule, _, builder, _ := openBatchBuilder(t, func() time.Time { return now }, postings, nil)
 
 	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
 		t.Fatalf("Reschedule: %v", err)
@@ -204,7 +206,7 @@ func TestBuildSkipsPostingRemovedSinceScheduling(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
 	peer := yacymodel.WordHash("peer")
-	schedule, _, builder := openBatchBuilder(
+	schedule, _, builder, _ := openBatchBuilder(
 		t,
 		func() time.Time { return now },
 		nil,
@@ -231,7 +233,7 @@ func TestBuildRePrunesLedgerWhenPeerNoLongerResponsible(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, ledger, builder := openBatchBuilder(
+	schedule, ledger, builder, observer := openBatchBuilder(
 		t,
 		func() time.Time { return now },
 		postings,
@@ -256,5 +258,8 @@ func TestBuildRePrunesLedgerWhenPeerNoLongerResponsible(t *testing.T) {
 			fresh,
 			stale,
 		)
+	}
+	if observer.prunes != 1 {
+		t.Fatalf("prunes = %v, want 1", observer.prunes)
 	}
 }

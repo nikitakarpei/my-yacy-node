@@ -33,12 +33,14 @@ type httpPostingCourier struct {
 	roster      peerroster.Roster
 	ledger      *replicaLedger
 	urls        urlmeta.URLDirectory
+	observer    OfferObserver
 }
 
 func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) offerOutcome {
 	endpoint, ok := offer.Peer.NetworkAddress()
 	if !ok {
 		c.roster.ConfirmUnreachable(ctx, offer.Peer.Hash)
+		c.observer.ObserveOffer(offerResultUnreachable, len(offer.Postings))
 
 		return offerOutcome{}
 	}
@@ -46,6 +48,7 @@ func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) offer
 	resp, err := c.postTransferRWI(ctx, endpoint, offer)
 	if err != nil {
 		c.roster.ConfirmUnreachable(ctx, offer.Peer.Hash)
+		c.observer.ObserveOffer(offerResultError, len(offer.Postings))
 		slog.WarnContext(
 			ctx,
 			"posting offer failed",
@@ -56,6 +59,8 @@ func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) offer
 
 		return offerOutcome{}
 	}
+
+	c.observer.ObserveOffer(string(resp.Result), len(offer.Postings))
 
 	switch resp.Result {
 	case yacyproto.ResultOK:

@@ -81,8 +81,9 @@ func (l *replicaLedger) Prune(
 	ctx context.Context,
 	word, url yacymodel.Hash,
 	live func(peer yacymodel.Hash) bool,
-) ([]yacymodel.Hash, error) {
+) ([]yacymodel.Hash, int, error) {
 	var remaining []yacymodel.Hash
+	var dropped int
 	err := l.vault.Update(ctx, func(tx *vault.Txn) error {
 		key := postingKey(word, url)
 		replicas, found, err := l.replicas.Get(tx, key)
@@ -100,6 +101,7 @@ func (l *replicaLedger) Prune(
 			}
 		}
 		remaining = kept
+		dropped = len(replicas) - len(kept)
 
 		if len(kept) == len(replicas) {
 			return nil
@@ -113,10 +115,10 @@ func (l *replicaLedger) Prune(
 		return l.replicas.Put(tx, key, kept)
 	})
 	if err != nil {
-		return nil, fmt.Errorf("prune replicas: %w", err)
+		return nil, 0, fmt.Errorf("prune replicas: %w", err)
 	}
 
-	return remaining, nil
+	return remaining, dropped, nil
 }
 
 var _ rwipostings.PostingObserver = (*replicaLedger)(nil)

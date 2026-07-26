@@ -30,10 +30,10 @@ func openOfferCycle(
 	now func() time.Time,
 	postings map[yacymodel.Hash]yacymodel.RWIPosting,
 	responsible []yacymodel.Seed,
-) (*offerSchedule, *replicaLedger, *fakeCourier, *offerCycle) {
+) (*offerSchedule, *replicaLedger, *fakeCourier, *fakeOfferObserver, *offerCycle) {
 	t.Helper()
 
-	schedule, ledger, builder := openBatchBuilder(t, now, postings, responsible)
+	schedule, ledger, builder, observer := openBatchBuilder(t, now, postings, responsible)
 	courier := &fakeCourier{outcomes: make(map[yacymodel.Hash]offerOutcome)}
 
 	cycle := &offerCycle{
@@ -41,6 +41,7 @@ func openOfferCycle(
 		courier:          courier,
 		schedule:         schedule,
 		ledger:           ledger,
+		observer:         observer,
 		now:              now,
 		postingsPerCycle: 10,
 		cycleInterval:    time.Minute,
@@ -49,7 +50,7 @@ func openOfferCycle(
 		redundancy:       offerCycleRedundancy,
 	}
 
-	return schedule, ledger, courier, cycle
+	return schedule, ledger, courier, observer, cycle
 }
 
 func TestOfferCycleRunOffersOnceThenStops(t *testing.T) {
@@ -59,7 +60,7 @@ func TestOfferCycleRunOffersOnceThenStops(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, _, courier, cycle := openOfferCycle(
+	schedule, _, courier, observer, cycle := openOfferCycle(
 		t, func() time.Time { return now }, postings, []yacymodel.Seed{seed(peer)},
 	)
 	courier.outcomes[peer] = offerOutcome{Accepted: true}
@@ -75,6 +76,9 @@ func TestOfferCycleRunOffersOnceThenStops(t *testing.T) {
 	if len(courier.offered) != 1 {
 		t.Fatalf("offered = %v, want a single offer from the initial run", courier.offered)
 	}
+	if observer.drained != 1 {
+		t.Fatalf("drained = %v, want 1", observer.drained)
+	}
 }
 
 func TestOfferCycleReschedulesAcceptedPostingAtRefreshInterval(t *testing.T) {
@@ -84,7 +88,7 @@ func TestOfferCycleReschedulesAcceptedPostingAtRefreshInterval(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, ledger, courier, cycle := openOfferCycle(
+	schedule, ledger, courier, _, cycle := openOfferCycle(
 		t, func() time.Time { return now }, postings, []yacymodel.Seed{seed(peer)},
 	)
 	courier.outcomes[peer] = offerOutcome{Accepted: true}
@@ -114,7 +118,7 @@ func TestOfferCycleRetriesRejectedPostingAtRetryInterval(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, _, courier, cycle := openOfferCycle(
+	schedule, _, courier, _, cycle := openOfferCycle(
 		t, func() time.Time { return now }, postings, []yacymodel.Seed{seed(peer)},
 	)
 	courier.outcomes[peer] = offerOutcome{}
@@ -151,7 +155,7 @@ func TestOfferCycleHonoursCourierRetryAfter(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, _, courier, cycle := openOfferCycle(
+	schedule, _, courier, _, cycle := openOfferCycle(
 		t, func() time.Time { return now }, postings, []yacymodel.Seed{seed(peer)},
 	)
 	courier.outcomes[peer] = offerOutcome{RetryAfter: 5 * time.Minute}
@@ -189,7 +193,12 @@ func TestOfferCycleReschedulesStalledPostingAtRetryInterval(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, _, courier, cycle := openOfferCycle(t, func() time.Time { return now }, postings, nil)
+	schedule, _, courier, _, cycle := openOfferCycle(
+		t,
+		func() time.Time { return now },
+		postings,
+		nil,
+	)
 
 	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
 		t.Fatalf("Reschedule: %v", err)
@@ -227,7 +236,7 @@ func TestOfferCycleReschedulesAlreadySatisfiedPostingAtRefreshInterval(t *testin
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, ledger, courier, cycle := openOfferCycle(
+	schedule, ledger, courier, _, cycle := openOfferCycle(
 		t, func() time.Time { return now }, postings, []yacymodel.Seed{seed(peer)},
 	)
 

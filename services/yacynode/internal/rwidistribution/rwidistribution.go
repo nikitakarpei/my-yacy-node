@@ -68,11 +68,18 @@ func (d *Distribution) PostingPurged(tx *vault.Txn, word, url yacymodel.Hash) er
 	return d.ledger.PostingPurged(tx, word, url)
 }
 
+// Cycle takes six explicit collaborators rather than a bundling struct: each
+// is a distinct dependency the caller already holds, and a parameter object
+// here would exist only to dodge the linter's argument count, not to name a
+// real concept.
+//
+//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
 func (d *Distribution) Cycle(
 	client *http.Client,
 	postings rwipostings.PostingIndex,
 	roster peerroster.Roster,
 	urls urlmeta.URLDirectory,
+	observer OfferObserver,
 	cfg Config,
 ) Runner {
 	return &offerCycle{
@@ -81,6 +88,7 @@ func (d *Distribution) Cycle(
 			ledger:     d.ledger,
 			postings:   postings,
 			roster:     roster,
+			observer:   observer,
 			partitions: cfg.Partitions,
 			redundancy: cfg.Redundancy,
 		},
@@ -91,9 +99,11 @@ func (d *Distribution) Cycle(
 			roster:      roster,
 			ledger:      d.ledger,
 			urls:        urls,
+			observer:    observer,
 		},
 		schedule:         d.schedule,
 		ledger:           d.ledger,
+		observer:         observer,
 		now:              d.now,
 		postingsPerCycle: cfg.PostingsPerCycle,
 		cycleInterval:    cfg.CycleInterval,

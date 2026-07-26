@@ -48,16 +48,23 @@ func TestOpenFansOutPostingStoredToScheduleAndLedger(t *testing.T) {
 	}}
 	roster := fakeRoster{responsible: []yacymodel.Seed{seed(peer)}}
 
-	runner := distribution.Cycle(http.DefaultClient, postings, roster, fakeURLDirectory{}, Config{
-		NetworkName:      "freeworld",
-		Self:             yacymodel.WordHash("self"),
-		Redundancy:       1,
-		Partitions:       partitions,
-		PostingsPerCycle: 10,
-		CycleInterval:    time.Minute,
-		RefreshInterval:  time.Hour,
-		RetryInterval:    time.Minute,
-	})
+	runner := distribution.Cycle(
+		http.DefaultClient,
+		postings,
+		roster,
+		fakeURLDirectory{},
+		noOfferObserver{},
+		Config{
+			NetworkName:      "freeworld",
+			Self:             yacymodel.WordHash("self"),
+			Redundancy:       1,
+			Partitions:       partitions,
+			PostingsPerCycle: 10,
+			CycleInterval:    time.Minute,
+			RefreshInterval:  time.Hour,
+			RetryInterval:    time.Minute,
+		},
+	)
 	if runner == nil {
 		t.Fatal("Cycle returned nil runner")
 	}
