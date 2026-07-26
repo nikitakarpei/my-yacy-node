@@ -31,10 +31,23 @@ const (
 )
 
 type Config struct {
-	NetworkName string
-	Alias       string
-	Hash        yacymodel.Hash
-	SeedlistURL string
+	NetworkName  string
+	Alias        string
+	Hash         yacymodel.Hash
+	SeedlistURL  string
+	Distribution DistributionConfig
+}
+
+// DistributionConfig turns on the node's outbound RWI distribution cycle.
+// The zero value leaves distribution disabled, matching the node's own default.
+type DistributionConfig struct {
+	Enabled           bool
+	Redundancy        int
+	PartitionExponent int
+	PostingsPerCycle  int
+	CycleInterval     time.Duration
+	RefreshInterval   time.Duration
+	RetryInterval     time.Duration
 }
 
 func Start(
@@ -59,6 +72,19 @@ func Start(
 	}
 	if cfg.SeedlistURL != "" {
 		env["YACY_SEEDLIST_URLS"] = cfg.SeedlistURL
+	}
+	if cfg.Distribution.Enabled {
+		env["YACY_DISTRIBUTION_ENABLED"] = "true"
+		env["YACY_DISTRIBUTION_REDUNDANCY"] = strconv.Itoa(cfg.Distribution.Redundancy)
+		env["YACY_DISTRIBUTION_PARTITION_EXPONENT"] = strconv.Itoa(
+			cfg.Distribution.PartitionExponent,
+		)
+		env["YACY_DISTRIBUTION_POSTINGS_PER_CYCLE"] = strconv.Itoa(
+			cfg.Distribution.PostingsPerCycle,
+		)
+		env["YACY_DISTRIBUTION_CYCLE_INTERVAL"] = cfg.Distribution.CycleInterval.String()
+		env["YACY_DISTRIBUTION_REFRESH_INTERVAL"] = cfg.Distribution.RefreshInterval.String()
+		env["YACY_DISTRIBUTION_RETRY_INTERVAL"] = cfg.Distribution.RetryInterval.String()
 	}
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
