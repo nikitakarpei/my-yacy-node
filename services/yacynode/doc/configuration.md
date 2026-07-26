@@ -30,3 +30,17 @@ The node can drive a crawl fleet over NATS JetStream: operators start a crawl by
 | `NATS_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject crawl orders are published to. Must match the crawler. |
 | `NATS_INGEST_SUBJECT` | `yacy.crawl.page.rwi` | Subject crawled batches arrive on. Must match the crawler. |
 | `NATS_INGEST_DURABLE` | `yacy-node` | Durable consumer name for reading ingest batches. |
+
+## Distribution
+
+The node can offer its stored postings to the peers the DHT makes responsible for them.
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `YACY_DISTRIBUTION_ENABLED` | `false` | Turns on outbound posting distribution. |
+| `YACY_DISTRIBUTION_REDUNDANCY` | `3` | How many responsible peers must accept a posting before it counts as distributed. |
+| `YACY_DISTRIBUTION_PARTITION_EXPONENT` | `4` | Ring partition exponent; must match the network's `network.unit.dht.partitionExponent`. |
+| `YACY_DISTRIBUTION_POSTINGS_PER_CYCLE` | `1000` | How many due postings to offer in each cycle. |
+| `YACY_DISTRIBUTION_CYCLE_INTERVAL` | `1m` | How often to drain due postings (e.g. `30s`, `1m`, `10m`). |
+| `YACY_DISTRIBUTION_REFRESH_INTERVAL` | `24h` | How long a satisfied posting waits before it is offered again. |
+| `YACY_DISTRIBUTION_RETRY_INTERVAL` | `5m` | Backoff base after a failed offer. |
