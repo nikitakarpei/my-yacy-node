@@ -1,9 +1,7 @@
 // Package crawlbroker is the node's NATS JetStream edge to the crawl fleet. It is
-// the only place that speaks the broker protocol: it publishes crawl orders and
-// receives ingest batches, exposing them as the plain ports the inner packages
-// consume. Open wires the connection; Close releases it. The orders stream
-// belongs to yacycrawler; until yacycrawler has created it, publishing an order
-// fails.
+// the only place that speaks the broker protocol: it receives ingest batches,
+// exposing them as the plain port the inner packages consume. Open wires the
+// connection; Close releases it.
 package crawlbroker
 
 import (
@@ -15,14 +13,12 @@ import (
 
 type Config struct {
 	NATSURL       string
-	OrdersSubject string
 	IngestSubject string
 	IngestDurable string
 }
 
 type CrawlBroker struct {
 	conn   io.Closer
-	Orders *OrderPublisher
 	Ingest *IngestReceiver
 }
 
@@ -40,7 +36,6 @@ func Open(ctx context.Context, cfg Config) (*CrawlBroker, error) {
 
 	return &CrawlBroker{
 		conn:   conn,
-		Orders: newOrderPublisher(js, cfg.OrdersSubject),
 		Ingest: ingest,
 	}, nil
 }

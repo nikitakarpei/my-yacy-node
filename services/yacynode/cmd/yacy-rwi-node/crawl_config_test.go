@@ -15,8 +15,7 @@ func TestLoadCrawlConfigDefaults(t *testing.T) {
 	if !cfg.Enabled() {
 		t.Fatal("crawl should be enabled")
 	}
-	if cfg.OrdersSubject != defaultOrdersSubject ||
-		cfg.IngestSubject != defaultIngestSubject ||
+	if cfg.IngestSubject != defaultIngestSubject ||
 		cfg.IngestDurable != defaultIngestDurable {
 		t.Fatalf("unexpected defaults: %+v", cfg)
 	}
@@ -25,13 +24,11 @@ func TestLoadCrawlConfigDefaults(t *testing.T) {
 func TestLoadCrawlConfigOverrides(t *testing.T) {
 	env := map[string]string{
 		envNATSURL:           "nats://localhost:4222",
-		envNATSOrdersSubject: "o",
 		envNATSIngestSubject: "i",
 		envNATSIngestDurable: "d",
 	}
 	cfg := loadCrawlConfig(func(k string) string { return env[k] })
-	if cfg.OrdersSubject != "o" || cfg.IngestSubject != "i" ||
-		cfg.IngestDurable != "d" {
+	if cfg.IngestSubject != "i" || cfg.IngestDurable != "d" {
 		t.Fatalf("overrides not applied: %+v", cfg)
 	}
 }

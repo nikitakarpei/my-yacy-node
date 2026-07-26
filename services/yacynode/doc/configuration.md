@@ -20,14 +20,13 @@ The node is configured through environment variables.
 | `YACY_STORAGE_QUOTA` | `1GB` | Storage quota, as a human-readable size (e.g. `512MB`, `1GB`, `20GB`). |
 | `YACY_PROXY_URL` | _(required)_ | `http` or `https` URL of the proxy all outbound connections are routed through. |
 
-## Crawling
+## Crawl ingest
 
-The node can drive a crawl fleet over NATS JetStream: operators start a crawl by posting seed URLs to `/crawl` on the ops address, and crawled pages flow back in as ingest batches. Crawling is off until `NATS_URL` is set; without it the node behaves as a pure peer.
+The node does not crawl. It receives crawled pages from a separate crawl fleet over NATS JetStream and stores them as postings. Ingest is off until `NATS_URL` is set; without it the node behaves as a pure peer.
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `NATS_URL` | _(empty)_ | NATS server to reach the crawl fleet (e.g. `nats://nats:4222`). Empty disables crawling. |
-| `NATS_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject crawl orders are published to. Must match the crawler. |
+| `NATS_URL` | _(empty)_ | NATS server to reach the crawl fleet (e.g. `nats://nats:4222`). Empty disables ingest. |
 | `NATS_INGEST_SUBJECT` | `yacy.crawl.page.rwi` | Subject crawled batches arrive on. Must match the crawler. |
 | `NATS_INGEST_DURABLE` | `yacy-node` | Durable consumer name for reading ingest batches. |
 

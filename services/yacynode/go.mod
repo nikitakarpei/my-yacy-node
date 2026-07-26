@@ -3,7 +3,6 @@ module github.com/nikitakarpei/yacy-rwi-node/yacynode
 go 1.26
 
 require (
-	github.com/google/uuid v1.6.0
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/bytesize v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000

@@ -4,7 +4,9 @@ Date: 2026-07-04
 
 ## Status
 
-Accepted
+Superseded — the node no longer accepts operator crawl requests or mints order
+identity; `google/uuid` was dropped as a dependency when the `/crawl` ops
+endpoint was removed.
 
 ## Context
 
