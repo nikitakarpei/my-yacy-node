@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawling"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
@@ -11,16 +13,19 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/landing"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
 type node struct {
-	peerMux   *http.ServeMux
-	sweeper   eviction.Sweeper
-	announcer peerannouncement.Announcer
-	crawl     *crawlRuntime
+	peerMux      *http.ServeMux
+	sweeper      eviction.Sweeper
+	announcer    peerannouncement.Announcer
+	distribution rwidistribution.Runner
+	crawl        *crawlRuntime
 }
 
 func assembleNode(
@@ -70,7 +75,7 @@ func assembleNode(
 		searchPostingsPerWord,
 	)
 
-	announcer, err := peerExchange{
+	announcer, roster, err := peerExchange{
 		router:   router,
 		identity: identity,
 		report:   report,
@@ -91,12 +96,54 @@ func assembleNode(
 		return node{}, err
 	}
 
+	distribution, err := assembleDistribution(config, identity.Hash, storage, roster, client)
+	if err != nil {
+		return node{}, err
+	}
+
 	return node{
-		peerMux:   mux,
-		sweeper:   sweeper,
-		announcer: announcer,
-		crawl:     runtime,
+		peerMux:      mux,
+		sweeper:      sweeper,
+		announcer:    announcer,
+		distribution: distribution,
+		crawl:        runtime,
 	}, nil
+}
+
+func assembleDistribution(
+	config nodeConfig,
+	self yacymodel.Hash,
+	storage nodeStorage,
+	roster peerroster.Roster,
+	client *http.Client,
+) (rwidistribution.Runner, error) {
+	if !config.Distribution.Enabled {
+		return nil, nil
+	}
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(
+		config.Distribution.PartitionExponent,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("rwi distribution partitions: %w", err)
+	}
+
+	return storage.distribution.Cycle(
+		client,
+		storage.postings,
+		roster,
+		storage.urlDirectory,
+		rwidistribution.Config{
+			NetworkName:      config.NetworkName,
+			Self:             self,
+			Redundancy:       config.Distribution.Redundancy,
+			Partitions:       partitions,
+			PostingsPerCycle: config.Distribution.PostingsPerCycle,
+			CycleInterval:    config.Distribution.CycleInterval,
+			RefreshInterval:  config.Distribution.RefreshInterval,
+			RetryInterval:    config.Distribution.RetryInterval,
+		},
+	), nil
 }
 
 func newStorageSweeper(vault *vault.Vault, storage nodeStorage) eviction.Sweeper {

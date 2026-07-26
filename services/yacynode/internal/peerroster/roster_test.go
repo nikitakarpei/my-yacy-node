@@ -3,6 +3,8 @@ package peerroster_test
 import (
 	"context"
 	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func TestDiscoverKeepsSeniorsAndDropsJuniors(t *testing.T) {
@@ -100,5 +102,63 @@ func TestFreshestPeersToppedUpToLimit(t *testing.T) {
 
 	if got := len(roster.FreshestPeers(ctx, 2)); got != 2 {
 		t.Fatalf("freshest peers = %d, want capped at limit 2", got)
+	}
+}
+
+func TestPeersResponsibleForExcludesSelfAndNonAcceptingPeers(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, 8, 8)
+
+	accepting := indexAcceptingSeed(t, "accepting", "203.0.113.1")
+	declining := seniorSeed(t, "declining", "203.0.113.2", 8090)
+	self := indexAcceptingSeed(t, "self", "203.0.113.3")
+
+	roster.Discover(ctx, accepting, declining, self)
+	roster.ConfirmReachable(ctx, accepting.Hash)
+	roster.ConfirmReachable(ctx, declining.Hash)
+	roster.ConfirmReachable(ctx, self.Hash)
+
+	position, err := yacymodel.WordPosition(hashFor("word"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	targets := hashes(roster.PeersResponsibleFor(ctx, position, 4))
+	if _, ok := targets[accepting.Hash]; !ok {
+		t.Fatalf("accepting peer missing from responsible peers: %v", targets)
+	}
+	if _, ok := targets[declining.Hash]; ok {
+		t.Fatalf("peer without AcceptRemoteIndex should be excluded: %v", targets)
+	}
+	if _, ok := targets[self.Hash]; ok {
+		t.Fatalf("self should be excluded from responsible peers: %v", targets)
+	}
+}
+
+func TestPeersResponsibleForOrdersByRingDistanceAndCapsWant(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, 8, 8)
+
+	near := indexAcceptingSeed(t, "near", "203.0.113.1")
+	far := indexAcceptingSeed(t, "far", "203.0.113.2")
+
+	roster.Discover(ctx, near, far)
+	roster.ConfirmReachable(ctx, near.Hash)
+	roster.ConfirmReachable(ctx, far.Hash)
+
+	nearPos, err := yacymodel.WordPosition(near.Hash)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	targets := roster.PeersResponsibleFor(ctx, nearPos, 1)
+	if len(targets) != 1 {
+		t.Fatalf("responsible peers = %d, want 1", len(targets))
+	}
+	if targets[0].Hash != near.Hash {
+		t.Fatalf(
+			"responsible peer = %v, want the peer closest to the position (%v)",
+			targets[0].Hash, near.Hash,
+		)
 	}
 }

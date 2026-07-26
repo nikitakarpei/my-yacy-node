@@ -1,0 +1,134 @@
+package rwidistribution
+
+import (
+	"context"
+	"fmt"
+	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+)
+
+const (
+	offerOrderBucket vault.Name = "rwidistribution_offer_order"
+	offerDueBucket   vault.Name = "rwidistribution_offer_due"
+)
+
+type duePosting struct {
+	Word yacymodel.Hash
+	URL  yacymodel.Hash
+}
+
+type offerSchedule struct {
+	vault *vault.Vault
+	order *vault.Collection[struct{}]
+	due   *vault.Collection[time.Time]
+	now   func() time.Time
+}
+
+func openOfferSchedule(v *vault.Vault, now func() time.Time) (*offerSchedule, error) {
+	order, err := vault.Register(v, offerOrderBucket, presenceCodec{})
+	if err != nil {
+		return nil, fmt.Errorf("register offer order: %w", err)
+	}
+	due, err := vault.Register(v, offerDueBucket, dueAtCodec{})
+	if err != nil {
+		return nil, fmt.Errorf("register offer due: %w", err)
+	}
+
+	return &offerSchedule{vault: v, order: order, due: due, now: now}, nil
+}
+
+func (s *offerSchedule) PostingStored(tx *vault.Txn, word, url yacymodel.Hash) error {
+	return s.reschedule(tx, word, url, s.now())
+}
+
+func (s *offerSchedule) PostingPurged(tx *vault.Txn, word, url yacymodel.Hash) error {
+	at, found, err := s.due.Get(tx, postingKey(word, url))
+	if err != nil {
+		return fmt.Errorf("read offer due: %w", err)
+	}
+	if !found {
+		return nil
+	}
+
+	return s.clear(tx, word, url, at)
+}
+
+func (s *offerSchedule) Reschedule(
+	ctx context.Context,
+	word, url yacymodel.Hash,
+	at time.Time,
+) error {
+	err := s.vault.Update(ctx, func(tx *vault.Txn) error {
+		return s.reschedule(tx, word, url, at)
+	})
+	if err != nil {
+		return fmt.Errorf("reschedule offer: %w", err)
+	}
+
+	return nil
+}
+
+func (s *offerSchedule) reschedule(tx *vault.Txn, word, url yacymodel.Hash, at time.Time) error {
+	previous, found, err := s.due.Get(tx, postingKey(word, url))
+	if err != nil {
+		return fmt.Errorf("read offer due: %w", err)
+	}
+	if found {
+		if _, err := s.order.Delete(tx, orderKey(previous, word, url)); err != nil {
+			return fmt.Errorf("drop offer order: %w", err)
+		}
+	}
+
+	if err := s.order.Put(tx, orderKey(at, word, url), struct{}{}); err != nil {
+		return fmt.Errorf("record offer order: %w", err)
+	}
+	if err := s.due.Put(tx, postingKey(word, url), at); err != nil {
+		return fmt.Errorf("record offer due: %w", err)
+	}
+
+	return nil
+}
+
+func (s *offerSchedule) clear(tx *vault.Txn, word, url yacymodel.Hash, at time.Time) error {
+	if _, err := s.order.Delete(tx, orderKey(at, word, url)); err != nil {
+		return fmt.Errorf("drop offer order: %w", err)
+	}
+	if _, err := s.due.Delete(tx, postingKey(word, url)); err != nil {
+		return fmt.Errorf("drop offer due: %w", err)
+	}
+
+	return nil
+}
+
+func (s *offerSchedule) DueBatch(ctx context.Context, limit int) ([]duePosting, error) {
+	if limit <= 0 {
+		return nil, nil
+	}
+
+	now := s.now()
+	due := make([]duePosting, 0, limit)
+	err := s.vault.View(ctx, func(tx *vault.Txn) error {
+		return s.order.Scan(tx, nil, func(key vault.Key, _ struct{}) (bool, error) {
+			at, word, url, err := parseOrderKey(key)
+			if err != nil {
+				return false, err
+			}
+			if at.After(now) {
+				return false, nil
+			}
+			due = append(due, duePosting{Word: word, URL: url})
+
+			return len(due) < limit, nil
+		})
+	})
+	if err != nil {
+		return nil, fmt.Errorf("select due postings: %w", err)
+	}
+
+	return due, nil
+}
+
+var _ rwipostings.PostingObserver = (*offerSchedule)(nil)

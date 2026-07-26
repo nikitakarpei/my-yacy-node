@@ -34,6 +34,20 @@ func (s fakeScanner) ScanWord(
 	return nil
 }
 
+func (s fakeScanner) Posting(
+	_ context.Context,
+	word, url yacymodel.Hash,
+) (yacymodel.RWIPosting, bool, error) {
+	for _, entry := range s.postings[word] {
+		if entry.URLHash.Hash() == url {
+			entry.WordHash = word
+			return entry, true, nil
+		}
+	}
+
+	return yacymodel.RWIPosting{}, false, nil
+}
+
 type fakeDirectory struct {
 	metadata map[yacymodel.Hash]yacymodel.URLMetadata
 }

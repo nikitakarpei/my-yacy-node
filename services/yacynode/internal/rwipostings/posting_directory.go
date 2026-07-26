@@ -18,6 +18,34 @@ func (d postingDirectory) RWICount(ctx context.Context) (int, error) {
 	return collectionLength(ctx, d.vault, d.postings)
 }
 
+func (d postingDirectory) Posting(
+	ctx context.Context,
+	word, url yacymodel.Hash,
+) (yacymodel.RWIPosting, bool, error) {
+	var (
+		entry yacymodel.RWIPosting
+		found bool
+	)
+	err := d.vault.View(ctx, func(tx *vault.Txn) error {
+		stored, ok, err := d.postings.Get(tx, postingKey(word, url))
+		if err != nil {
+			return fmt.Errorf("read rwi posting: %w", err)
+		}
+		if !ok {
+			return nil
+		}
+		stored.WordHash = word
+		entry, found = stored, true
+
+		return nil
+	})
+	if err != nil {
+		return yacymodel.RWIPosting{}, false, fmt.Errorf("posting: %w", err)
+	}
+
+	return entry, found, nil
+}
+
 func (d postingDirectory) PurgePosting(
 	tx *vault.Txn,
 	word, url yacymodel.Hash,
