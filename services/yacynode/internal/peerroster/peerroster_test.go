@@ -80,7 +80,9 @@ func openRoster(t *testing.T, reservoirCap, activeCap int) peerroster.Roster {
 	})
 
 	clock := &tickingClock{now: time.Unix(1_000, 0)}
-	roster, err := peerroster.Open(v, clock.Now, reservoirCap, activeCap, hashFor("self"))
+	roster, err := peerroster.Open(
+		v, clock.Now, reservoirCap, activeCap, hashFor("self"), peerroster.DiscardObserver,
+	)
 	if err != nil {
 		t.Fatalf("peerroster.Open: %v", err)
 	}

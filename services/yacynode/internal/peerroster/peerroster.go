@@ -30,12 +30,14 @@ type Roster interface {
 
 var _ Roster = (*roster)(nil)
 
+//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
 func Open(
 	storage *vault.Vault,
 	now func() time.Time,
 	reservoirCap int,
 	activeCap int,
 	self yacymodel.Hash,
+	observer RosterObserver,
 ) (Roster, error) {
 	peers, err := vault.Register(storage, peersBucket, rosterEntryCodec{})
 	if err != nil {
@@ -49,6 +51,7 @@ func Open(
 		reservoirCap: reservoirCap,
 		activeCap:    activeCap,
 		self:         self,
+		observer:     observer,
 		active:       make(map[yacymodel.Hash]yacymodel.Seed),
 	}, nil
 }

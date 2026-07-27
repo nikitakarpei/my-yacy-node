@@ -21,6 +21,7 @@ type roster struct {
 	reservoirCap int
 	activeCap    int
 	self         yacymodel.Hash
+	observer     RosterObserver
 
 	mu     sync.Mutex
 	active map[yacymodel.Hash]yacymodel.Seed
@@ -46,6 +47,7 @@ func (r *roster) Discover(ctx context.Context, seeds ...yacymodel.Seed) {
 	}
 
 	r.evictOverflow(ctx)
+	r.observer.ObserveKnownPeers(r.peerCount(ctx))
 }
 
 func (r *roster) discoverOne(ctx context.Context, seed yacymodel.Seed) error {
@@ -76,12 +78,23 @@ func (r *roster) ConfirmReachable(ctx context.Context, peer yacymodel.Hash) {
 		return
 	}
 
+	if admitted, wasActive := r.admitActive(peer, confirmed); admitted && !wasActive {
+		slog.DebugContext(ctx, "peer became reachable", slog.String("peer", peer.String()))
+	}
+}
+
+func (r *roster) admitActive(peer yacymodel.Hash, seed yacymodel.Seed) (admitted, wasActive bool) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	if _, active := r.active[peer]; active || len(r.active) < r.activeCap {
-		r.active[peer] = confirmed
+	_, wasActive = r.active[peer]
+	admitted = wasActive || len(r.active) < r.activeCap
+	if admitted {
+		r.active[peer] = seed
 	}
+	r.observer.ObserveReachablePeers(len(r.active))
+
+	return admitted, wasActive
 }
 
 func (r *roster) touch(ctx context.Context, peer yacymodel.Hash) (yacymodel.Seed, bool) {
@@ -117,13 +130,22 @@ func (r *roster) touch(ctx context.Context, peer yacymodel.Hash) (yacymodel.Seed
 	return confirmed, found
 }
 
+func (r *roster) evictActive(peer yacymodel.Hash) (wasActive bool) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	_, wasActive = r.active[peer]
+	delete(r.active, peer)
+	r.observer.ObserveReachablePeers(len(r.active))
+
+	return wasActive
+}
+
 // Future: tolerate a bounded number of strikes with a cooldown before removal.
 func (r *roster) ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash) {
-	r.mu.Lock()
-	delete(r.active, peer)
-	r.mu.Unlock()
-
-	slog.DebugContext(ctx, "peer dropped as unreachable", slog.String("peer", peer.String()))
+	if r.evictActive(peer) {
+		slog.DebugContext(ctx, "peer became unreachable", slog.String("peer", peer.String()))
+	}
 
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
 		if _, err := r.peers.Delete(tx, r.key(peer)); err != nil {
@@ -138,7 +160,11 @@ func (r *roster) ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash) {
 			slog.String("peer", peer.String()),
 			slog.Any("error", err),
 		)
+
+		return
 	}
+
+	r.observer.ObserveKnownPeers(r.peerCount(ctx))
 }
 
 func (r *roster) PeersResponsibleFor(
