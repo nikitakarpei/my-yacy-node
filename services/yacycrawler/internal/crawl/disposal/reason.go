@@ -18,5 +18,4 @@ const (
 	Unextractable           Reason = "unextractable"
 	UncanonicalizableURL    Reason = "uncanonicalizable-url"
 	IndexingRefused         Reason = "indexing-refused"
-	Unrepresentable         Reason = "unrepresentable"
 )

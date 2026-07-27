@@ -31,8 +31,8 @@ service is meant for a more capable host than an always-on node.
   rather than pressing against it.
 * The service SHALL publish each of a page's representations on its own stream: `rwi`
   carries page references and never a body; content representations carry the body.
-* The service SHALL publish each page to every enabled representation that accepts its
-  content format.
+* The service SHALL publish each page to every enabled representation, or none of them
+  if any enabled representation cannot derive its content format.
 * Every fetched page SHALL reach one terminal outcome: published to its accepting
   representations, or disposed per operator policy and recorded against its URL.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient

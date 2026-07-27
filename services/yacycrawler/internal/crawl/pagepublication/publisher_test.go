@@ -10,7 +10,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 )
 
@@ -102,22 +101,14 @@ func derivations() []contentformatgraph.Derivation {
 
 type recordingObserver struct {
 	mu        sync.Mutex
-	disposed  map[disposal.Reason]int
 	published map[yacycrawlcontract.PageRepresentationKind]int
 	waits     int
 }
 
 func newObserver() *recordingObserver {
 	return &recordingObserver{
-		disposed:  map[disposal.Reason]int{},
 		published: map[yacycrawlcontract.PageRepresentationKind]int{},
 	}
-}
-
-func (o *recordingObserver) PageDisposed(reason disposal.Reason) {
-	o.mu.Lock()
-	defer o.mu.Unlock()
-	o.disposed[reason]++
 }
 
 func (o *recordingObserver) PagePublished(
@@ -181,7 +172,7 @@ func TestPublishReachesEveryRepresentation(t *testing.T) {
 	}
 }
 
-func TestPublishSkipsRepresentationRefusingPageFormat(t *testing.T) {
+func TestPublishFailsWhenAnyRepresentationCannotDerive(t *testing.T) {
 	rwi := &fakeRepresentation{kind: yacycrawlcontract.PageRepresentationKindRWI}
 	markdown := &fakeRepresentation{
 		kind:          yacycrawlcontract.PageRepresentationKindMarkdown,
@@ -191,43 +182,39 @@ func TestPublishSkipsRepresentationRefusingPageFormat(t *testing.T) {
 	p := newPublisher([]PageRepresentation{rwi, markdown}, observer)
 
 	published, err := p.Publish(t.Context(), readablePage())
-	if err != nil {
-		t.Fatalf("publish: %v", err)
+	if !errors.Is(err, ErrRepresentationUnresolvable) {
+		t.Fatalf("want ErrRepresentationUnresolvable, got %v", err)
 	}
-	if !published {
-		t.Fatal("want published")
+	if published {
+		t.Fatal("want not published")
 	}
-	if len(rwi.published) != 1 {
-		t.Fatalf("accepting representation not advanced: rwi=%v", rwi.published)
+	if len(rwi.published) != 0 {
+		t.Fatalf(
+			"representation published despite a sibling failing to derive: rwi=%v",
+			rwi.published,
+		)
 	}
 	if len(markdown.published) != 0 {
 		t.Fatalf("refusing representation advanced: markdown=%v", markdown.published)
 	}
-	if observer.disposed[disposal.Unrepresentable] != 0 {
-		t.Fatalf("page disposed despite an accepting representation: %v", observer.disposed)
-	}
 }
 
-func TestPublishDisposesPageNoRepresentationAccepts(t *testing.T) {
+func TestPublishFailsWhenNoRepresentationDerives(t *testing.T) {
 	rwi := &fakeRepresentation{
 		kind:          yacycrawlcontract.PageRepresentationKindRWI,
 		contentFormat: contentformatgraph.FormatMarkdown,
 	}
-	observer := newObserver()
-	p := newPublisher([]PageRepresentation{rwi}, observer)
+	p := newPublisher([]PageRepresentation{rwi}, newObserver())
 
 	published, err := p.Publish(t.Context(), readablePage())
-	if err != nil {
-		t.Fatalf("publish: %v", err)
+	if !errors.Is(err, ErrRepresentationUnresolvable) {
+		t.Fatalf("want ErrRepresentationUnresolvable, got %v", err)
 	}
 	if published {
 		t.Fatal("want not published")
 	}
 	if len(rwi.published) != 0 {
 		t.Fatalf("refusing representation advanced: rwi=%v", rwi.published)
-	}
-	if observer.disposed[disposal.Unrepresentable] != 1 {
-		t.Fatalf("want unrepresentable disposal, got %v", observer.disposed)
 	}
 }
 

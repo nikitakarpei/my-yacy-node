@@ -9,14 +9,14 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 )
 
-const (
-	msgPublicationBackpressure = "publication backpressure, awaiting retry"
-	msgFormatUnrepresentable   = "page disposed: no representation accepts its content format"
-)
+const msgPublicationBackpressure = "publication backpressure, awaiting retry"
+
+const msgRepresentationUnresolvable = "enabled representation could not derive its content format, page not published"
+
+var ErrRepresentationUnresolvable = errors.New("representation content format unresolvable")
 
 type Publisher struct {
 	graph           contentformatgraph.FormatDerivations
@@ -44,16 +44,26 @@ func New(
 
 func (p *Publisher) Publish(ctx context.Context, page Page) (bool, error) {
 	resolver := p.graph.ForPage(page.CanonicalURL, page.Format, page.Body)
-	published := 0
-	for _, representation := range p.representations {
+	contents := make([][]byte, len(p.representations))
+	for i, representation := range p.representations {
 		content, resolved, err := resolver.Resolve(representation.ContentFormat())
 		if err != nil {
 			return false, err
 		}
 		if !resolved {
-			continue
+			slog.ErrorContext(ctx, msgRepresentationUnresolvable,
+				slog.String("representation", string(representation.Kind())),
+				slog.String("url", page.CanonicalURL),
+				slog.String("format", string(page.Format)),
+			)
+			return false, fmt.Errorf(
+				"%s: %w", representation.Kind(), ErrRepresentationUnresolvable,
+			)
 		}
-		messages, err := representation.Frame(page, content)
+		contents[i] = content
+	}
+	for i, representation := range p.representations {
+		messages, err := representation.Frame(page, contents[i])
 		if err != nil {
 			return false, fmt.Errorf("frame %s: %w", representation.Kind(), err)
 		}
@@ -61,15 +71,6 @@ func (p *Publisher) Publish(ctx context.Context, page Page) (bool, error) {
 			return false, err
 		}
 		p.observer.PagePublished(representation.Kind())
-		published++
-	}
-	if published == 0 {
-		slog.WarnContext(ctx, msgFormatUnrepresentable,
-			slog.String("url", page.CanonicalURL),
-			slog.String("format", string(page.Format)),
-		)
-		p.observer.PageDisposed(disposal.Unrepresentable)
-		return false, nil
 	}
 	return true, nil
 }
