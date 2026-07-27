@@ -5,6 +5,7 @@ package e2e
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
@@ -18,6 +19,7 @@ const (
 	corpusRecallAlias    = "corpusrecall"
 	corpusRecallPort     = "8092/tcp"
 	envCorpusRecallImage = "CORPUSRECALL_IMAGE"
+	corpusRecallDeadline = 5 * time.Second
 )
 
 func startCorpusRecall(t *testing.T, ctx context.Context, networkName string) string {
@@ -32,7 +34,7 @@ func startCorpusRecall(t *testing.T, ctx context.Context, networkName string) st
 			WaitingFor:     wait.ForListeningPort(corpusRecallPort),
 			Env: map[string]string{
 				"NATS_URL":              natsjetstream.NetworkURL(),
-				"CORPUSRECALL_DEADLINE": "5s",
+				"CORPUSRECALL_DEADLINE": corpusRecallDeadline.String(),
 				"LOG_LEVEL":             "debug",
 			},
 		},

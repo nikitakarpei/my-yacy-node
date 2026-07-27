@@ -62,3 +62,57 @@ func TestRecallServesCrawledMarkdown(t *testing.T) {
 		t.Errorf("unavailable = %v, want none", u)
 	}
 }
+
+func TestRecallReportsUnavailableForDisposedPage(t *testing.T) {
+	ctx := context.Background()
+
+	network := dockernetwork.New(t, ctx)
+
+	natsURL := natsjetstream.Start(t, ctx, network.Name)
+	originURL := startOrigin(t, ctx, network.Name)
+	egressproxy.Start(t, ctx, network.Name)
+
+	js := connectJetStream(t, natsURL)
+	provisionCrawlInfrastructure(t, ctx, js)
+
+	startCrawler(t, ctx, network.Name)
+	recallAddr := startCorpusRecall(t, ctx, network.Name)
+
+	client := dialRecall(t, recallAddr)
+
+	callCtx, cancel := context.WithTimeout(ctx, recallDeadline)
+	defer cancel()
+	start := time.Now()
+	resp := recall(t, callCtx, client, originURL+"missing")
+	elapsed := time.Since(start)
+
+	if elapsed >= corpusRecallDeadline {
+		t.Errorf(
+			"recall took %s, want an early return well inside the %s deadline",
+			elapsed,
+			corpusRecallDeadline,
+		)
+	}
+
+	if reps := resp.GetRepresentations(); len(reps) != 0 {
+		t.Errorf("representations = %v, want none for a disposed page", reps)
+	}
+	want := []corpusrecallv1.RepresentationKind{
+		corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
+	}
+	if got := resp.GetUnavailable(); !equalKinds(got, want) {
+		t.Errorf("unavailable = %v, want %v", got, want)
+	}
+}
+
+func equalKinds(got, want []corpusrecallv1.RepresentationKind) bool {
+	if len(got) != len(want) {
+		return false
+	}
+	for i, kind := range want {
+		if got[i] != kind {
+			return false
+		}
+	}
+	return true
+}
