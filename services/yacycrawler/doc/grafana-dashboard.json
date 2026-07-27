@@ -24,7 +24,7 @@
     {
       "id": 3,
       "title": "Order failure share (5m)",
-      "description": "Share of received orders whose traversal failed in the same window.",
+      "description": "This panel shows the percent of received orders that failed in the same time window.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -132,7 +132,7 @@
     {
       "id": 5,
       "title": "Budget exhaustion rate (5m)",
-      "description": "Runs that reached the page budget with frontier remaining.",
+      "description": "This panel shows the rate of runs that stop at the page budget with pages still in the frontier.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -194,7 +194,7 @@
     {
       "id": 11,
       "title": "Order throughput",
-      "description": "Receipts, completions, and redeliveries are counted independently.",
+      "description": "This panel counts receipts, completions, and redeliveries as separate events.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -281,7 +281,7 @@
     {
       "id": 21,
       "title": "Pages fetched",
-      "description": "Counts fetches that returned a page body.",
+      "description": "This panel counts fetches that return a page body.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -321,7 +321,7 @@
     {
       "id": 22,
       "title": "Fetch latency",
-      "description": "p50/p95/p99 duration of every fetch attempt, including unchanged, refused, and failed responses.",
+      "description": "This panel shows the p50, p95, and p99 duration of each fetch attempt. It includes unchanged, refused, and failed responses.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -379,7 +379,7 @@
     {
       "id": 23,
       "title": "Refusals honored by target demand",
-      "description": "A refusal is the target's demand to cease or defer a page. cease abandons the page while the crawl continues with the rest of the frontier; defer re-queues the page for the wait the target asked for.",
+      "description": "A refusal is a demand from the target. The target asks the crawler to cease or defer a page. Cease abandons the page, and the crawl continues with the rest of the frontier. Defer puts the page back in the frontier for the wait time the target asks for.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -431,7 +431,7 @@
     {
       "id": 31,
       "title": "Publications by representation",
-      "description": "A page counts once per representation it reaches, so the stacked total exceeds the page count.",
+      "description": "This panel counts a page once for each representation it reaches. The stacked total is more than the page count.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -474,7 +474,7 @@
     {
       "id": 33,
       "title": "Publication retries",
-      "description": "One count per publish retry attempt; a single page repeatedly refused publication raises this indefinitely.",
+      "description": "This panel counts each retry of a publish attempt. If the system cannot publish a page, this count keeps rising.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -530,7 +530,7 @@
     {
       "id": 32,
       "title": "Pages disposed by reason",
-      "description": "Disposal is the terminal outcome for a page that never reaches publication. not-due and budget-truncated pages reach disposal before any fetch is attempted.",
+      "description": "Disposal is the final outcome for a page that the crawler does not publish. The reasons not-due and budget-truncated occur before the crawler fetches the page.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",

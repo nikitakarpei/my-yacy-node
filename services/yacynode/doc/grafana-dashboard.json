@@ -24,7 +24,7 @@
     {
       "id": 2,
       "title": "Known peers",
-      "description": "Peers discovered and not yet found unreachable.",
+      "description": "This panel shows the peers the node currently has in its roster. A peer leaves the roster once the node confirms it is unreachable.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -74,7 +74,7 @@
     {
       "id": 3,
       "title": "Reachable peers",
-      "description": "Known peers this node has confirmed it can reach.",
+      "description": "This panel shows the known peers that the node can reach. The node has confirmed each one.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -128,7 +128,7 @@
     {
       "id": 4,
       "title": "Storage used",
-      "description": "Bytes used as a fraction of the configured quota.",
+      "description": "This panel shows the storage used as a fraction of the quota.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -188,7 +188,7 @@
     {
       "id": 5,
       "title": "Failed request share (5m)",
-      "description": "Share of HTTP responses with a 5xx status in the last 5 minutes.",
+      "description": "This panel shows the percent of HTTP responses with a 5xx status. It covers the last 5 minutes.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -260,7 +260,7 @@
     {
       "id": 11,
       "title": "Request rate by endpoint",
-      "description": "Requests per second served, by matched endpoint.",
+      "description": "This panel shows the requests per second for each endpoint.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -300,7 +300,7 @@
     {
       "id": 12,
       "title": "Failed request rate by endpoint",
-      "description": "5xx responses per second, by matched endpoint.",
+      "description": "This panel shows the 5xx responses per second for each endpoint.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -344,7 +344,7 @@
     {
       "id": 13,
       "title": "Request latency across endpoints",
-      "description": "p50/p95/p99 request duration aggregated across all endpoints.",
+      "description": "This panel shows the p50, p95, and p99 request duration for all endpoints together.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -501,7 +501,7 @@
     {
       "id": 31,
       "title": "Eviction throughput",
-      "description": "URLs and postings purged per second by storage eviction.",
+      "description": "This panel shows the URLs and postings that storage eviction purges per second.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -550,7 +550,7 @@
     {
       "id": 32,
       "title": "Eviction failures",
-      "description": "Eviction sweeps that ended in error.",
+      "description": "This panel shows the rate of eviction sweeps that end in error.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1014,7 +1014,7 @@
     {
       "id": 55,
       "title": "Replica records pruned",
-      "description": "Replica records dropped per second for peers no longer responsible.",
+      "description": "This panel shows the replica records dropped per second. These records belong to peers that are no longer responsible.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
