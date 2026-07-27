@@ -15,5 +15,6 @@ func pageDerivationCatalog() []contentformatgraph.Derivation {
 		readabletext.NewReadableHTMLDerivation(),
 		readabletext.NewFullTextDerivation(),
 		markdown.NewReadableHTMLDerivation(),
+		markdown.NewDocumentHTMLDerivation(),
 	}
 }
