@@ -51,9 +51,9 @@ func mount(
 	metrics visitintake.VisitMetrics,
 ) *http.ServeMux {
 	mux := http.NewServeMux()
-	profile := yacycrawlcontract.NewCrawlProfile(yacycrawlcontract.CrawlProfile{
+	profile := yacycrawlcontract.CrawlProfile{
 		Scope: yacycrawlcontract.ScopeDomain,
-	})
+	}
 	visitintake.MountVisitIntake(mux, placement, profile, metrics, 1<<10)
 	return mux
 }

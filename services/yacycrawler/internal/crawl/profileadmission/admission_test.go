@@ -13,7 +13,7 @@ func profile(p yacycrawlcontract.CrawlProfile) yacycrawlcontract.CrawlProfile {
 	if p.MaxPagesPerHost == 0 {
 		p.MaxPagesPerHost = yacycrawlcontract.UnlimitedPagesPerHost
 	}
-	return yacycrawlcontract.NewCrawlProfile(p)
+	return p
 }
 
 func TestAdmitWideScope(t *testing.T) {

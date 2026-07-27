@@ -90,10 +90,10 @@ func publishOrder(t *testing.T, natsURL string) {
 	}
 	payload, err := yacycrawlcontract.MarshalCrawlOrder(yacycrawlcontract.CrawlOrder{
 		OrderID: "o1",
-		Profile: yacycrawlcontract.NewCrawlProfile(yacycrawlcontract.CrawlProfile{
+		Profile: yacycrawlcontract.CrawlProfile{
 			Scope: yacycrawlcontract.ScopeWide, URLMustMatch: yacycrawlcontract.MatchAll,
 			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
-		}),
+		},
 		SeedURLs: []string{"http://origin.example/"},
 	})
 	if err != nil {

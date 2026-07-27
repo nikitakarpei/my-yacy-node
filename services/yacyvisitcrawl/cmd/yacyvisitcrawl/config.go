@@ -24,7 +24,6 @@ const (
 	EnvCrawlURLMustMatch    = "YACYVISITCRAWL_CRAWL_URL_MUST_MATCH"
 	EnvCrawlURLMustNotMatch = "YACYVISITCRAWL_CRAWL_URL_MUST_NOT_MATCH"
 	EnvCrawlMaxPagesPerHost = "YACYVISITCRAWL_CRAWL_MAX_PAGES_PER_HOST"
-	EnvCrawlDelay           = "YACYVISITCRAWL_CRAWL_DELAY"
 	EnvCrawlAllowQueryURLs  = "YACYVISITCRAWL_CRAWL_ALLOW_QUERY_URLS"
 
 	DefaultOrdersSubject        = "yacy.crawl.orders"
@@ -121,16 +120,12 @@ func crawlProfile(getenv func(string) string) (yacycrawlcontract.CrawlProfile, e
 			EnvCrawlMaxPagesPerHost, yacycrawlcontract.UnlimitedPagesPerHost,
 		)
 	}
-	delay, err := envconfig.NonNegativeDuration(getenv, EnvCrawlDelay, 0)
-	if err != nil {
-		return yacycrawlcontract.CrawlProfile{}, err
-	}
 	allowQueryURLs, err := envconfig.Bool(getenv, EnvCrawlAllowQueryURLs, false)
 	if err != nil {
 		return yacycrawlcontract.CrawlProfile{}, err
 	}
 
-	return yacycrawlcontract.NewCrawlProfile(yacycrawlcontract.CrawlProfile{
+	return yacycrawlcontract.CrawlProfile{
 		Name:            envconfig.String(getenv, EnvCrawlName, ""),
 		Scope:           scope,
 		URLMustMatch:    matchOrAll(envconfig.String(getenv, EnvCrawlURLMustMatch, "")),
@@ -138,8 +133,7 @@ func crawlProfile(getenv func(string) string) (yacycrawlcontract.CrawlProfile, e
 		MaxDepth:        maxDepth,
 		AllowQueryURLs:  allowQueryURLs,
 		MaxPagesPerHost: maxPagesPerHost,
-		CrawlDelay:      delay,
-	}), nil
+	}, nil
 }
 
 func matchOrAll(pattern string) string {

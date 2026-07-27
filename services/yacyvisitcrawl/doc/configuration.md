@@ -29,7 +29,6 @@ Every placed order carries the same crawl profile, built once from these variabl
 | `YACYVISITCRAWL_CRAWL_URL_MUST_MATCH` | match all | Regular expression a URL must match to be crawled. |
 | `YACYVISITCRAWL_CRAWL_URL_MUST_NOT_MATCH` | none | Regular expression that excludes a URL from the crawl. |
 | `YACYVISITCRAWL_CRAWL_MAX_PAGES_PER_HOST` | `100` | Pages per host the crawl may fetch; `-1` is unlimited. |
-| `YACYVISITCRAWL_CRAWL_DELAY` | `0s` | Delay the crawl observes between requests to the same host. |
 | `YACYVISITCRAWL_CRAWL_ALLOW_QUERY_URLS` | `false` | Whether URLs with a query string may be crawled. |
 
 ## Operations

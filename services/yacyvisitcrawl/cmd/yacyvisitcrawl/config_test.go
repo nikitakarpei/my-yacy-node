@@ -49,9 +49,6 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.CrawlProfile.MaxPagesPerHost != DefaultCrawlMaxPagesPerHost {
 		t.Fatalf("max pages per host = %d", cfg.CrawlProfile.MaxPagesPerHost)
 	}
-	if cfg.CrawlProfile.Handle == "" {
-		t.Fatal("profile handle is empty")
-	}
 }
 
 func TestLoadServiceConfigRequiresNATSURL(t *testing.T) {
@@ -70,7 +67,6 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env["YACYVISITCRAWL_CRAWL_SCOPE"] = "wide"
 	env["YACYVISITCRAWL_CRAWL_MAX_DEPTH"] = "3"
 	env["YACYVISITCRAWL_CRAWL_ALLOW_QUERY_URLS"] = "true"
-	env["YACYVISITCRAWL_CRAWL_DELAY"] = "500ms"
 	cfg, err := LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
@@ -83,9 +79,6 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	}
 	if !cfg.CrawlProfile.AllowQueryURLs {
 		t.Fatal("allow query urls should be true")
-	}
-	if cfg.CrawlProfile.CrawlDelay != 500*time.Millisecond {
-		t.Fatalf("crawl delay = %v", cfg.CrawlProfile.CrawlDelay)
 	}
 }
 
@@ -105,7 +98,6 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"YACYVISITCRAWL_MAX_BODY_BYTES": "-1"},
 		{"YACYVISITCRAWL_CRAWL_MAX_DEPTH": "-1"},
 		{"YACYVISITCRAWL_CRAWL_MAX_PAGES_PER_HOST": "0"},
-		{"YACYVISITCRAWL_CRAWL_DELAY": "-1s"},
 		{"YACYVISITCRAWL_CRAWL_ALLOW_QUERY_URLS": "maybe"},
 	} {
 		env := baseEnv()
