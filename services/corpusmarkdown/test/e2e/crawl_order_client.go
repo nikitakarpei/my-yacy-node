@@ -49,13 +49,13 @@ func publishCrawlOrder(
 	t.Helper()
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID: "b3f2a1c0-4d5e-4f6a-8b9c-0d1e2f3a4b5c",
-		Profile: yacycrawlcontract.NewCrawlProfile(yacycrawlcontract.CrawlProfile{
+		Profile: yacycrawlcontract.CrawlProfile{
 			Name:            "default",
 			Scope:           yacycrawlcontract.ScopeDomain,
 			URLMustMatch:    yacycrawlcontract.MatchAll,
 			MaxDepth:        0,
 			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
-		}),
+		},
 		SeedURLs: []string{originURL},
 	}
 	data, err := yacycrawlcontract.MarshalCrawlOrder(order)

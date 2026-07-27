@@ -42,7 +42,7 @@ func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID:  "order-1",
-		Profile:  yacycrawlcontract.NewCrawlProfile(yacycrawlcontract.CrawlProfile{Name: "docs"}),
+		Profile:  yacycrawlcontract.CrawlProfile{Name: "docs"},
 		SeedURLs: []string{"https://example.org"},
 	}
 	if err := broker.Orders.Place(ctx, order); err != nil {
@@ -69,7 +69,7 @@ func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 	if err != nil {
 		t.Fatalf("decode order: %v", err)
 	}
-	if got.OrderID != order.OrderID || got.Profile.Handle != order.Profile.Handle {
+	if got.OrderID != order.OrderID || got.Profile.Name != order.Profile.Name {
 		t.Fatalf("round-tripped order mismatch: %+v", got)
 	}
 }

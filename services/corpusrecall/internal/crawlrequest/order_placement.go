@@ -19,13 +19,13 @@ type OrderStream interface {
 	) (*jetstream.PubAck, error)
 }
 
-var recallProfile = yacycrawlcontract.NewCrawlProfile(yacycrawlcontract.CrawlProfile{
+var recallProfile = yacycrawlcontract.CrawlProfile{
 	Name:            "corpusrecall",
 	Scope:           yacycrawlcontract.ScopeSubpath,
 	URLMustMatch:    yacycrawlcontract.MatchAll,
 	MaxDepth:        0,
 	MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
-})
+}
 
 type OrderPlacement struct {
 	stream  OrderStream

@@ -26,11 +26,11 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 		OrderTimeout:  DefaultOrderTimeout,
 		MaxInFlight:   DefaultMaxInFlight,
 		MaxBodyBytes:  DefaultMaxBodyBytes,
-		CrawlProfile: yacycrawlcontract.NewCrawlProfile(yacycrawlcontract.CrawlProfile{
+		CrawlProfile: yacycrawlcontract.CrawlProfile{
 			Scope:           yacycrawlcontract.ScopeDomain,
 			URLMustMatch:    yacycrawlcontract.MatchAll,
 			MaxPagesPerHost: DefaultCrawlMaxPagesPerHost,
-		}),
+		},
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())

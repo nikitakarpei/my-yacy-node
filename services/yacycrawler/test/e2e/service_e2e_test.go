@@ -27,13 +27,13 @@ func TestCrawlerIsOrderDrivenEndToEnd(t *testing.T) {
 
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID: "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
-		Profile: yacycrawlcontract.NewCrawlProfile(yacycrawlcontract.CrawlProfile{
+		Profile: yacycrawlcontract.CrawlProfile{
 			Name:            "default",
 			Scope:           yacycrawlcontract.ScopeDomain,
 			URLMustMatch:    yacycrawlcontract.MatchAll,
 			MaxDepth:        0,
 			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
-		}),
+		},
 		SeedURLs: []string{originURL},
 	}
 	data, err := yacycrawlcontract.MarshalCrawlOrder(order)

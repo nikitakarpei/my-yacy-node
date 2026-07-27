@@ -139,12 +139,12 @@ func defaultConfig() ordertraversal.Config {
 }
 
 func wideProfile() yacycrawlcontract.CrawlProfile {
-	return yacycrawlcontract.NewCrawlProfile(yacycrawlcontract.CrawlProfile{
+	return yacycrawlcontract.CrawlProfile{
 		Scope:           yacycrawlcontract.ScopeWide,
 		URLMustMatch:    yacycrawlcontract.MatchAll,
 		MaxDepth:        5,
 		MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
-	})
+	}
 }
 
 func order(seeds []string) yacycrawlcontract.CrawlOrder {
