@@ -67,11 +67,12 @@ func run() error {
 	metrics.NewStorageMetrics(endpoints.Registry(), vault)
 	evictionMetrics := metrics.NewEvictionMetrics(endpoints.Registry())
 	distributionMetrics := metrics.NewDistributionMetrics(endpoints.Registry())
+	rosterMetrics := metrics.NewPeerRosterMetrics(endpoints.Registry())
 
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	assembled, err := assembleNode(ctx, config, vault, client, distributionMetrics)
+	assembled, err := assembleNode(ctx, config, vault, client, distributionMetrics, rosterMetrics)
 	if err != nil {
 		return fmt.Errorf("assemble node: %w", err)
 	}

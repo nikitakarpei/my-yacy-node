@@ -29,12 +29,14 @@ type node struct {
 	crawl        *crawlRuntime
 }
 
+//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
 func assembleNode(
 	ctx context.Context,
 	config nodeConfig,
 	vault *vault.Vault,
 	client *http.Client,
-	observer rwidistribution.OfferObserver,
+	offerObserver rwidistribution.OfferObserver,
+	rosterObserver peerroster.RosterObserver,
 ) (node, error) {
 	guard := httpguard.NewRequestGuard(
 		httpguard.DefaultMaxBodyBytes,
@@ -62,12 +64,13 @@ func assembleNode(
 	mountNodeEndpoints(router, identity, storage)
 
 	announcer, roster, err := peerExchange{
-		router:   router,
-		identity: identity,
-		report:   report,
-		config:   config,
-		vault:    vault,
-		client:   client,
+		router:         router,
+		identity:       identity,
+		report:         report,
+		config:         config,
+		vault:          vault,
+		client:         client,
+		rosterObserver: rosterObserver,
 	}.assemble()
 	if err != nil {
 		return node{}, err
@@ -86,7 +89,7 @@ func assembleNode(
 		storage,
 		roster,
 		client,
-		observer,
+		offerObserver,
 	)
 	if err != nil {
 		return node{}, err
@@ -108,7 +111,7 @@ func assembleDistribution(
 	storage nodeStorage,
 	roster peerroster.Roster,
 	client *http.Client,
-	observer rwidistribution.OfferObserver,
+	offerObserver rwidistribution.OfferObserver,
 ) (rwidistribution.Runner, error) {
 	if !config.Distribution.Enabled {
 		return nil, nil
@@ -126,7 +129,7 @@ func assembleDistribution(
 		storage.postings,
 		roster,
 		storage.urlDirectory,
-		observer,
+		offerObserver,
 		rwidistribution.Config{
 			NetworkName:      config.NetworkName,
 			Self:             self,
