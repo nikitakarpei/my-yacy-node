@@ -3,6 +3,7 @@ package yacyproto
 import (
 	"context"
 	"net/url"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -20,7 +21,7 @@ type TransferRWIRequest struct {
 type TransferRWIResponse struct {
 	ResponseHeader
 	Result     TransferRWIResult
-	Pause      int
+	Pause      time.Duration
 	UnknownURL []yacymodel.Hash
 	ErrorURL   []yacymodel.Hash
 }
@@ -74,7 +75,7 @@ func ParseTransferRWIRequest(ctx context.Context, form url.Values) (TransferRWIR
 func (r TransferRWIResponse) Encode() Message {
 	msg := Message{}
 	setString(msg, FieldResult, string(r.Result))
-	setInt(msg, FieldPause, r.Pause)
+	setInt(msg, FieldPause, int(r.Pause/time.Millisecond))
 	msg[FieldUnknownURL] = joinHashes(r.UnknownURL)
 	msg[FieldErrorURL] = joinHashes(r.ErrorURL)
 
@@ -110,7 +111,7 @@ func ParseTransferRWIResponse(m Message) (TransferRWIResponse, error) {
 	return TransferRWIResponse{
 		ResponseHeader: header,
 		Result:         result,
-		Pause:          pause,
+		Pause:          time.Duration(pause) * time.Millisecond,
 		UnknownURL:     unknown,
 		ErrorURL:       errorURL,
 	}, nil

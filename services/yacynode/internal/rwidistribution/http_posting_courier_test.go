@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
@@ -232,7 +233,7 @@ func TestOfferSkipsTransferURLWhenMetadataMissing(t *testing.T) {
 
 func TestOfferHonoursBusyPause(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		resp := yacyproto.TransferRWIResponse{Result: yacyproto.ResultBusy, Pause: 30}
+		resp := yacyproto.TransferRWIResponse{Result: yacyproto.ResultBusy, Pause: 30 * time.Second}
 		_, _ = w.Write([]byte(resp.Encode().Encode()))
 	}))
 	defer server.Close()

@@ -23,7 +23,7 @@ const (
 	version = "1.83"
 
 	receiveBatchCap       = 1000
-	receiveBusyPauseSecs  = 30
+	receiveBusyPause      = 30 * time.Second
 	searchPostingsPerWord = 1000
 	reservoirCapacity     = 4096
 	activeSetCapacity     = 256

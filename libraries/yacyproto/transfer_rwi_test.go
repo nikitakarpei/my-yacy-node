@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -42,7 +43,7 @@ func TestTransferRWIResponseRoundTrip(t *testing.T) {
 	resp := yacyproto.TransferRWIResponse{
 		ResponseHeader: yacyproto.ResponseHeader{Version: "1.0", Uptime: 7},
 		Result:         yacyproto.ResultOK,
-		Pause:          1500,
+		Pause:          1500 * time.Millisecond,
 		UnknownURL: []yacymodel.Hash{
 			sampleHash(t, "url-a"),
 			sampleHash(t, "url-b"),
@@ -92,6 +93,26 @@ func TestParseTransferRWIRequestSkipsBadEntry(t *testing.T) {
 	}
 	if len(req.Indexes) != 1 {
 		t.Fatalf("Indexes = %d, want 1 (malformed line skipped)", len(req.Indexes))
+	}
+}
+
+func TestTransferRWIResponsePausesInMilliseconds(t *testing.T) {
+	t.Parallel()
+
+	resp := yacyproto.TransferRWIResponse{Result: yacyproto.ResultBusy, Pause: time.Minute}
+
+	if got := resp.Encode()[yacyproto.FieldPause]; got != "60000" {
+		t.Fatalf("%s = %q, want %q", yacyproto.FieldPause, got, "60000")
+	}
+
+	parsed, err := yacyproto.ParseTransferRWIResponse(
+		yacyproto.Message{yacyproto.FieldPause: "60000", yacyproto.FieldResult: "busy"},
+	)
+	if err != nil {
+		t.Fatalf("ParseTransferRWIResponse: %v", err)
+	}
+	if parsed.Pause != time.Minute {
+		t.Fatalf("Pause = %v, want %v", parsed.Pause, time.Minute)
 	}
 }
 
