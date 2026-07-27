@@ -9,6 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 )
@@ -82,18 +83,41 @@ func (f *fakeRecrawl) calls() []visitedCall {
 }
 
 type fakeAbsorption struct {
-	links map[string][]string
-	err   error
+	links       map[string][]string
+	err         error
+	unpublished bool
 }
 
 func (a *fakeAbsorption) Absorb(
 	_ context.Context,
 	page fetchedpage.Page,
-) ([]string, error) {
+) (pageabsorption.AbsorptionOutcome, error) {
 	if a.err != nil {
-		return nil, a.err
+		return pageabsorption.AbsorptionOutcome{}, a.err
 	}
-	return a.links[page.FinalURL], nil
+	return pageabsorption.AbsorptionOutcome{
+		DiscoveredURLs: a.links[page.FinalURL],
+		Published:      !a.unpublished,
+	}, nil
+}
+
+type fakeDisposedPages struct {
+	mu   sync.Mutex
+	urls []string
+	err  error
+}
+
+func (d *fakeDisposedPages) Record(_ context.Context, url string) error {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	d.urls = append(d.urls, url)
+	return d.err
+}
+
+func (d *fakeDisposedPages) calls() []string {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	return append([]string(nil), d.urls...)
 }
 
 type recordingObserver struct {
@@ -152,12 +176,14 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]pagevisit.FetchOutcome{
 		"http://host/": {fetchedOutcome()},
 	}}
+	disposed := &fakeDisposedPages{}
 	visitor := pagevisit.New(
 		fetch,
 		&fakeRecrawl{due: true},
 		&fakeAbsorption{links: map[string][]string{
 			"http://host/": {"http://host/next"},
 		}},
+		disposed,
 		newObserver(),
 		&manualClock{},
 	)
@@ -172,6 +198,9 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 	if len(outcome.DiscoveredURLs) != 1 || outcome.DiscoveredURLs[0] != "http://host/next" {
 		t.Fatalf("want discovered link, got %v", outcome.DiscoveredURLs)
 	}
+	if len(disposed.calls()) != 0 {
+		t.Fatalf("published page should not be recorded disposed, got %v", disposed.calls())
+	}
 }
 
 func TestVisitAbsorptionErrorFails(t *testing.T) {
@@ -183,6 +212,7 @@ func TestVisitAbsorptionErrorFails(t *testing.T) {
 		fetch,
 		recrawl,
 		&fakeAbsorption{err: errors.New("absorb boom")},
+		&fakeDisposedPages{},
 		newObserver(),
 		&manualClock{},
 	)
@@ -201,10 +231,12 @@ func TestVisitDisposesNotAPage(t *testing.T) {
 	}}
 	observer := newObserver()
 	recrawl := &fakeRecrawl{due: true}
+	disposed := &fakeDisposedPages{}
 	visitor := pagevisit.New(
 		fetch,
 		recrawl,
 		&fakeAbsorption{},
+		disposed,
 		observer,
 		&manualClock{},
 	)
@@ -222,6 +254,9 @@ func TestVisitDisposesNotAPage(t *testing.T) {
 	if len(recrawl.calls()) != 0 {
 		t.Fatalf("visited should not be recorded for not-a-page, got %v", recrawl.calls())
 	}
+	if len(disposed.calls()) != 1 {
+		t.Fatalf("want disposed page recorded once, got %v", disposed.calls())
+	}
 }
 
 func TestVisitCeasesOnHTTPCease(t *testing.T) {
@@ -230,10 +265,12 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 	}}
 	observer := newObserver()
 	recrawl := &fakeRecrawl{due: true}
+	disposed := &fakeDisposedPages{}
 	visitor := pagevisit.New(
 		fetch,
 		recrawl,
 		&fakeAbsorption{},
+		disposed,
 		observer,
 		&manualClock{},
 	)
@@ -248,8 +285,11 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 	if observer.refusals[refusal.Cease] != 1 {
 		t.Fatalf("cease not honored: %v", observer.refusals)
 	}
-	if len(recrawl.calls()) != 0 {
-		t.Fatalf("visited should not be recorded on refusal, got %v", recrawl.calls())
+	if len(recrawl.calls()) != 1 {
+		t.Fatalf("visited should be recorded on refusal so grace applies, got %v", recrawl.calls())
+	}
+	if len(disposed.calls()) != 1 {
+		t.Fatalf("want disposed page recorded once, got %v", disposed.calls())
 	}
 }
 
@@ -258,10 +298,12 @@ func TestVisitReportsTransient(t *testing.T) {
 		"http://host/": {{Status: pagevisit.FetchFailed}},
 	}}
 	recrawl := &fakeRecrawl{due: true}
+	disposed := &fakeDisposedPages{}
 	visitor := pagevisit.New(
 		fetch,
 		recrawl,
 		&fakeAbsorption{},
+		disposed,
 		newObserver(),
 		&manualClock{},
 	)
@@ -276,16 +318,21 @@ func TestVisitReportsTransient(t *testing.T) {
 	if len(recrawl.calls()) != 0 {
 		t.Fatalf("visited should not be recorded after failure, got %v", recrawl.calls())
 	}
+	if len(disposed.calls()) != 0 {
+		t.Fatalf("a transient failure must not produce a fast negative, got %v", disposed.calls())
+	}
 }
 
 func TestVisitReportsDeferred(t *testing.T) {
 	fetch := &fakeFetch{outcomes: map[string][]pagevisit.FetchOutcome{
 		"http://host/": {{Status: pagevisit.FetchDeferred, DeferFor: time.Second}},
 	}}
+	disposed := &fakeDisposedPages{}
 	visitor := pagevisit.New(
 		fetch,
 		&fakeRecrawl{due: true},
 		&fakeAbsorption{},
+		disposed,
 		newObserver(),
 		&manualClock{},
 	)
@@ -305,6 +352,7 @@ func TestVisitFetchErrorFails(t *testing.T) {
 		fetch,
 		&fakeRecrawl{due: true},
 		&fakeAbsorption{},
+		&fakeDisposedPages{},
 		newObserver(),
 		&manualClock{},
 	)
@@ -323,6 +371,7 @@ func TestVisitSkipsFetchWhenNotDue(t *testing.T) {
 		fetch,
 		&fakeRecrawl{due: false},
 		absorption,
+		&fakeDisposedPages{},
 		newObserver(),
 		&manualClock{},
 	)
@@ -342,7 +391,7 @@ func TestVisitSkipsFetchWhenNotDue(t *testing.T) {
 func TestVisitRecrawlDecisionErrorFails(t *testing.T) {
 	visitor := pagevisit.New(
 		&fakeFetch{}, &fakeRecrawl{err: errors.New("boom")}, &fakeAbsorption{},
-		newObserver(), &manualClock{},
+		&fakeDisposedPages{}, newObserver(), &manualClock{},
 	)
 
 	if _, err := visitor.Visit(context.Background(), "http://host/"); err == nil {
@@ -355,8 +404,9 @@ func TestVisitDisposesPageNotDue(t *testing.T) {
 		"http://host/": {fetchedOutcome()},
 	}}
 	observer := newObserver()
+	disposed := &fakeDisposedPages{}
 	visitor := pagevisit.New(
-		fetch, &fakeRecrawl{due: false}, &fakeAbsorption{}, observer, &manualClock{},
+		fetch, &fakeRecrawl{due: false}, &fakeAbsorption{}, disposed, observer, &manualClock{},
 	)
 
 	outcome, err := visitor.Visit(context.Background(), "http://host/")
@@ -369,6 +419,9 @@ func TestVisitDisposesPageNotDue(t *testing.T) {
 	if observer.disposed[disposal.NotDue] != 1 {
 		t.Fatalf("want a not-due disposal recorded, got %v", observer.disposed)
 	}
+	if len(disposed.calls()) != 1 {
+		t.Fatalf("want disposed page recorded once, got %v", disposed.calls())
+	}
 }
 
 func TestVisitPassesValidatorsToFetcher(t *testing.T) {
@@ -380,6 +433,7 @@ func TestVisitPassesValidatorsToFetcher(t *testing.T) {
 		fetch,
 		&fakeRecrawl{due: true, revisit: stored},
 		&fakeAbsorption{},
+		&fakeDisposedPages{},
 		newObserver(),
 		&manualClock{},
 	)
@@ -399,8 +453,9 @@ func TestVisitRecordsValidatorsAfterSuccessfulAbsorb(t *testing.T) {
 		"http://host/": {fetchedOutcome()},
 	}}
 	recrawl := &fakeRecrawl{due: true}
+	disposed := &fakeDisposedPages{}
 	visitor := pagevisit.New(
-		fetch, recrawl, &fakeAbsorption{}, newObserver(), &manualClock{},
+		fetch, recrawl, &fakeAbsorption{}, disposed, newObserver(), &manualClock{},
 	)
 
 	if _, err := visitor.Visit(context.Background(), "http://host/"); err != nil {
@@ -412,6 +467,30 @@ func TestVisitRecordsValidatorsAfterSuccessfulAbsorb(t *testing.T) {
 	}
 	if calls[0].url != "http://host/" || calls[0].validators.EntityTag != `"etag"` {
 		t.Fatalf("visited call = %+v", calls[0])
+	}
+	if len(disposed.calls()) != 0 {
+		t.Fatalf("published page should not be recorded disposed, got %v", disposed.calls())
+	}
+}
+
+func TestVisitAbsorbUnpublishedRecordsDisposal(t *testing.T) {
+	fetch := &fakeFetch{outcomes: map[string][]pagevisit.FetchOutcome{
+		"http://host/": {fetchedOutcome()},
+	}}
+	recrawl := &fakeRecrawl{due: true}
+	disposed := &fakeDisposedPages{}
+	visitor := pagevisit.New(
+		fetch, recrawl, &fakeAbsorption{unpublished: true}, disposed, newObserver(), &manualClock{},
+	)
+
+	if _, err := visitor.Visit(context.Background(), "http://host/"); err != nil {
+		t.Fatalf("visit: %v", err)
+	}
+	if len(recrawl.calls()) != 1 {
+		t.Fatalf("want the visit recorded regardless of publication, got %v", recrawl.calls())
+	}
+	if len(disposed.calls()) != 1 {
+		t.Fatalf("want disposed page recorded once, got %v", disposed.calls())
 	}
 }
 
@@ -426,7 +505,8 @@ func TestVisitNotModifiedDisposesAndRecordsWithoutAbsorbing(t *testing.T) {
 	observer := newObserver()
 	recrawl := &fakeRecrawl{due: true}
 	absorption := &fakeAbsorption{}
-	visitor := pagevisit.New(fetch, recrawl, absorption, observer, &manualClock{})
+	disposed := &fakeDisposedPages{}
+	visitor := pagevisit.New(fetch, recrawl, absorption, disposed, observer, &manualClock{})
 
 	outcome, err := visitor.Visit(context.Background(), "http://host/")
 	if err != nil {
@@ -442,6 +522,9 @@ func TestVisitNotModifiedDisposesAndRecordsWithoutAbsorbing(t *testing.T) {
 	if len(calls) != 1 || calls[0].validators.EntityTag != `"same"` {
 		t.Fatalf("want validators recorded once, got %v", calls)
 	}
+	if len(disposed.calls()) != 1 {
+		t.Fatalf("want disposed page recorded once, got %v", disposed.calls())
+	}
 }
 
 func TestVisitedErrorIsRecoverable(t *testing.T) {
@@ -450,7 +533,7 @@ func TestVisitedErrorIsRecoverable(t *testing.T) {
 	}}
 	recrawl := &fakeRecrawl{due: true, visitedErr: errors.New("bucket down")}
 	visitor := pagevisit.New(
-		fetch, recrawl, &fakeAbsorption{}, newObserver(), &manualClock{},
+		fetch, recrawl, &fakeAbsorption{}, &fakeDisposedPages{}, newObserver(), &manualClock{},
 	)
 
 	outcome, err := visitor.Visit(context.Background(), "http://host/")

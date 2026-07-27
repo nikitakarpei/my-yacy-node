@@ -25,6 +25,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
+	disposedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/disposedpages/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediaextractors/html"
 	orderreceiversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
@@ -75,7 +76,11 @@ func RunService(
 		return fmt.Errorf("start order receiver: %w", err)
 	}
 
-	visitor, err := buildVisitor(ctx, js, cfg, metrics)
+	disposedPages, err := disposedPagesRecorder(ctx, js)
+	if err != nil {
+		return err
+	}
+	visitor, err := buildVisitor(ctx, js, cfg, metrics, disposedPages)
 	if err != nil {
 		return err
 	}
@@ -83,6 +88,7 @@ func RunService(
 		traversalConfig(cfg),
 		visitor,
 		metrics,
+		disposedPages,
 		wallclock.Clock{},
 	)
 
@@ -129,6 +135,11 @@ func ensureStreams(ctx context.Context, js jetstream.JetStream, cfg ServiceConfi
 	); err != nil {
 		return fmt.Errorf("ensure redirect resolution bucket: %w", err)
 	}
+	if err := yacycrawlcontract.EnsureDisposedPagesBucket(
+		ctx, js, cfg.DisposedPagesBucketSpec(),
+	); err != nil {
+		return fmt.Errorf("ensure disposed pages bucket: %w", err)
+	}
 	if cfg.RecrawlGrace > 0 {
 		if err := dueaftergrace.Ensure(ctx, js, cfg.PageVisitBucketSpec()); err != nil {
 			return fmt.Errorf("ensure page visit bucket: %w", err)
@@ -148,11 +159,23 @@ func redirectRecorder(
 	return redirectresolversjetstream.New(bucket), nil
 }
 
+func disposedPagesRecorder(
+	ctx context.Context,
+	js jetstream.JetStream,
+) (*disposedpagesjetstream.Recorder, error) {
+	bucket, err := js.KeyValue(ctx, yacycrawlcontract.DisposedPagesBucketName)
+	if err != nil {
+		return nil, fmt.Errorf("open disposed pages bucket: %w", err)
+	}
+	return disposedpagesjetstream.New(bucket), nil
+}
+
 func buildVisitor(
 	ctx context.Context,
 	js jetstream.JetStream,
 	cfg ServiceConfig,
 	metrics *prometheus.CrawlMetrics,
+	disposedPages pagevisit.DisposedPages,
 ) (*pagevisit.Visitor, error) {
 	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
@@ -177,6 +200,7 @@ func buildVisitor(
 		fetch,
 		recrawl,
 		redirectrecording.New(resolve, absorption),
+		disposedPages,
 		metrics,
 		wallclock.Clock{},
 	), nil

@@ -43,6 +43,11 @@ func provisionBuckets(t *testing.T, js jetstream.JetStream, subject string) jets
 	); err != nil {
 		t.Fatalf("ensure redirect bucket: %v", err)
 	}
+	if err := yacycrawlcontract.EnsureDisposedPagesBucket(
+		ctx, js, yacycrawlcontract.DisposedPagesBucketSpec{},
+	); err != nil {
+		t.Fatalf("ensure disposed pages bucket: %v", err)
+	}
 	store, err := pagemarkdownstore.EnsureBucket(ctx, js)
 	if err != nil {
 		t.Fatalf("ensure markdown bucket: %v", err)

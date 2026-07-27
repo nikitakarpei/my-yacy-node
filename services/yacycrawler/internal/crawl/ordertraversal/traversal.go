@@ -17,14 +17,16 @@ import (
 )
 
 const (
-	msgDeferralsExhausted = "url dropped after exhausting deferrals"
-	msgFetchAbandoned     = "fetch abandoned after retries"
+	msgDeferralsExhausted       = "url dropped after exhausting deferrals"
+	msgFetchAbandoned           = "fetch abandoned after retries"
+	msgDisposedPageRecordFailed = "disposed page record failed, recall will wait out the deadline"
 )
 
 type traversal struct {
 	config         Config
 	visitor        PageVisitor
 	observer       TraversalProgress
+	disposed       DisposedPages
 	clock          clock.Clock
 	cancel         context.CancelFunc
 	frontier       *frontier.Frontier
@@ -151,6 +153,7 @@ func (t *traversal) recordDeferred(
 	if !t.frontier.Defer(visit, t.clock.Now(), deferFor) {
 		slog.WarnContext(ctx, msgDeferralsExhausted, slog.String("url", visit.URL))
 		t.observer.PageDisposed(disposal.DeferralsExhausted)
+		t.recordDisposed(ctx, visit.URL)
 		t.budgetedPages++
 		return
 	}
@@ -161,7 +164,17 @@ func (t *traversal) recordRetryable(ctx context.Context, visit frontier.PendingV
 	if !t.frontier.Retry(visit, t.clock.Now()) {
 		slog.WarnContext(ctx, msgFetchAbandoned, slog.String("url", visit.URL))
 		t.observer.PageDisposed(disposal.FetchAbandoned)
+		t.recordDisposed(ctx, visit.URL)
 		t.budgetedPages++
+	}
+}
+
+func (t *traversal) recordDisposed(ctx context.Context, url string) {
+	if err := t.disposed.Record(ctx, url); err != nil {
+		slog.WarnContext(ctx, msgDisposedPageRecordFailed,
+			slog.String("url", url),
+			slog.Any("error", err),
+		)
 	}
 }
 

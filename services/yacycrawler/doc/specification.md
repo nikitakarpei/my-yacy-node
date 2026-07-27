@@ -34,7 +34,7 @@ service is meant for a more capable host than an always-on node.
 * The service SHALL publish each page to every enabled representation that accepts its
   content format.
 * Every fetched page SHALL reach one terminal outcome: published to its accepting
-  representations, or disposed per operator policy.
+  representations, or disposed per operator policy and recorded against its URL.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient
   backpressure waits for as long as the run holds its order.
 * A publication failure SHALL NOT be terminal; the page stays unpublished.

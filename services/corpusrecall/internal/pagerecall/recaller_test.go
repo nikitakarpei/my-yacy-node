@@ -72,6 +72,34 @@ func (s *scriptedSource) Fetch(
 	return nil, false, nil
 }
 
+type fakeDisposedPages struct {
+	mu       sync.Mutex
+	revision uint64
+	err      error
+}
+
+func (d *fakeDisposedPages) Revision(_ context.Context, _ string) (uint64, error) {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	return d.revision, d.err
+}
+
+type steppingDisposedPages struct {
+	mu         sync.Mutex
+	calls      int
+	revisionAt int
+}
+
+func (d *steppingDisposedPages) Revision(_ context.Context, _ string) (uint64, error) {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	d.calls++
+	if d.calls >= d.revisionAt {
+		return 1, nil
+	}
+	return 0, nil
+}
+
 type countingMetrics struct {
 	accepted, rejected int
 	recalled           []pagerecall.Kind
@@ -102,6 +130,7 @@ func TestRecallReturnsPresentRepresentation(t *testing.T) {
 	recaller := pagerecall.NewRecaller(
 		placer,
 		identityResolver{},
+		&fakeDisposedPages{},
 		sources(markdownSource(1)),
 		metrics,
 		pagerecall.Config{Deadline: time.Second, PollInterval: time.Millisecond, MaxInFlight: 4},
@@ -129,6 +158,7 @@ func TestRecallPollsUntilRepresentationAppears(t *testing.T) {
 	recaller := pagerecall.NewRecaller(
 		&recordingPlacer{},
 		identityResolver{},
+		&fakeDisposedPages{},
 		sources(source),
 		&countingMetrics{},
 		pagerecall.Config{Deadline: time.Second, PollInterval: time.Millisecond, MaxInFlight: 4},
@@ -153,6 +183,7 @@ func TestRecallReportsUnknownKindUnavailable(t *testing.T) {
 	recaller := pagerecall.NewRecaller(
 		&recordingPlacer{},
 		identityResolver{},
+		&fakeDisposedPages{},
 		sources(markdownSource(1)),
 		metrics,
 		pagerecall.Config{Deadline: time.Second, PollInterval: time.Millisecond, MaxInFlight: 4},
@@ -178,6 +209,7 @@ func TestRecallReportsUnavailableAtDeadline(t *testing.T) {
 	recaller := pagerecall.NewRecaller(
 		&recordingPlacer{},
 		identityResolver{},
+		&fakeDisposedPages{},
 		sources(markdownSource(1_000_000)),
 		metrics,
 		pagerecall.Config{
@@ -203,6 +235,7 @@ func TestRecallGivesUpKindOnSourceError(t *testing.T) {
 	recaller := pagerecall.NewRecaller(
 		&recordingPlacer{},
 		identityResolver{},
+		&fakeDisposedPages{},
 		sources(source),
 		&countingMetrics{},
 		pagerecall.Config{Deadline: time.Second, PollInterval: time.Millisecond, MaxInFlight: 4},
@@ -226,6 +259,7 @@ func TestRecallRejectsWhenInFlightLimitReached(t *testing.T) {
 	recaller := pagerecall.NewRecaller(
 		blocking,
 		identityResolver{},
+		&fakeDisposedPages{},
 		sources(markdownSource(1)),
 		metrics,
 		pagerecall.Config{Deadline: time.Second, PollInterval: time.Millisecond, MaxInFlight: 1},
@@ -254,6 +288,7 @@ func TestRecallFailsOnUncanonicalizableURL(t *testing.T) {
 	recaller := pagerecall.NewRecaller(
 		&recordingPlacer{},
 		identityResolver{},
+		&fakeDisposedPages{},
 		nil,
 		&countingMetrics{},
 		pagerecall.Config{Deadline: time.Second, PollInterval: time.Millisecond, MaxInFlight: 4},
@@ -268,6 +303,7 @@ func TestRecallFailsWhenPlacementFails(t *testing.T) {
 	recaller := pagerecall.NewRecaller(
 		&recordingPlacer{err: errors.New("no stream")},
 		identityResolver{},
+		&fakeDisposedPages{},
 		nil,
 		&countingMetrics{},
 		pagerecall.Config{Deadline: time.Second, PollInterval: time.Millisecond, MaxInFlight: 4},
@@ -284,6 +320,7 @@ func TestRecallGivesUpKindOnResolverError(t *testing.T) {
 	recaller := pagerecall.NewRecaller(
 		&recordingPlacer{},
 		identityResolver{err: errors.New("kv down")},
+		&fakeDisposedPages{},
 		sources(markdownSource(1)),
 		&countingMetrics{},
 		pagerecall.Config{Deadline: time.Second, PollInterval: time.Millisecond, MaxInFlight: 4},
@@ -297,6 +334,75 @@ func TestRecallGivesUpKindOnResolverError(t *testing.T) {
 	}
 	if len(result.Unavailable) != 1 {
 		t.Fatalf("result = %+v", result)
+	}
+}
+
+func TestRecallReturnsUnavailableWhenDisposedBeforeDeadline(t *testing.T) {
+	disposed := &steppingDisposedPages{revisionAt: 2}
+	recaller := pagerecall.NewRecaller(
+		&recordingPlacer{},
+		identityResolver{},
+		disposed,
+		sources(markdownSource(1_000_000)),
+		&countingMetrics{},
+		pagerecall.Config{Deadline: time.Second, PollInterval: time.Millisecond, MaxInFlight: 4},
+	)
+
+	start := time.Now()
+	result, err := recaller.Recall(
+		context.Background(), "https://example.com", []pagerecall.Kind{kindMarkdown},
+	)
+	if err != nil {
+		t.Fatalf("recall: %v", err)
+	}
+	if len(result.Unavailable) != 1 {
+		t.Fatalf("result = %+v", result)
+	}
+	if elapsed := time.Since(start); elapsed > 500*time.Millisecond {
+		t.Fatalf("recall did not return ahead of the deadline, took %v", elapsed)
+	}
+}
+
+func TestRecallIgnoresDisposalAtBaselineRevision(t *testing.T) {
+	disposed := &fakeDisposedPages{revision: 5}
+	recaller := pagerecall.NewRecaller(
+		&recordingPlacer{},
+		identityResolver{},
+		disposed,
+		sources(markdownSource(1_000_000)),
+		&countingMetrics{},
+		pagerecall.Config{
+			Deadline:     20 * time.Millisecond,
+			PollInterval: time.Millisecond,
+			MaxInFlight:  4,
+		},
+	)
+
+	result, err := recaller.Recall(
+		context.Background(), "https://example.com", []pagerecall.Kind{kindMarkdown},
+	)
+	if err != nil {
+		t.Fatalf("recall: %v", err)
+	}
+	if len(result.Unavailable) != 1 {
+		t.Fatalf("result = %+v", result)
+	}
+}
+
+func TestRecallFailsWhenDisposalBaselineReadFails(t *testing.T) {
+	recaller := pagerecall.NewRecaller(
+		&recordingPlacer{},
+		identityResolver{},
+		&fakeDisposedPages{err: errors.New("kv down")},
+		sources(markdownSource(1)),
+		&countingMetrics{},
+		pagerecall.Config{Deadline: time.Second, PollInterval: time.Millisecond, MaxInFlight: 4},
+	)
+
+	if _, err := recaller.Recall(
+		context.Background(), "https://example.com", []pagerecall.Kind{kindMarkdown},
+	); err == nil {
+		t.Fatal("expected baseline read error")
 	}
 }
 

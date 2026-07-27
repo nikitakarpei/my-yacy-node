@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 )
 
 const (
@@ -19,7 +20,7 @@ type RedirectResolutions interface {
 }
 
 type PageAbsorber interface {
-	Absorb(ctx context.Context, page fetchedpage.Page) ([]string, error)
+	Absorb(ctx context.Context, page fetchedpage.Page) (pageabsorption.AbsorptionOutcome, error)
 }
 
 type Absorber struct {
@@ -34,7 +35,7 @@ func New(resolutions RedirectResolutions, absorber PageAbsorber) *Absorber {
 func (a *Absorber) Absorb(
 	ctx context.Context,
 	page fetchedpage.Page,
-) ([]string, error) {
+) (pageabsorption.AbsorptionOutcome, error) {
 	a.record(ctx, page)
 	return a.absorber.Absorb(ctx, page)
 }

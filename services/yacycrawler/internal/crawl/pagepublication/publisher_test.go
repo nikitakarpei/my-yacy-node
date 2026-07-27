@@ -169,8 +169,12 @@ func TestPublishReachesEveryRepresentation(t *testing.T) {
 	text := &fakeRepresentation{kind: yacycrawlcontract.PageRepresentationKindText}
 	p := newPublisher([]PageRepresentation{rwi, text}, newObserver())
 
-	if err := p.Publish(t.Context(), readablePage()); err != nil {
+	published, err := p.Publish(t.Context(), readablePage())
+	if err != nil {
 		t.Fatalf("publish: %v", err)
+	}
+	if !published {
+		t.Fatal("want published")
 	}
 	if len(rwi.published) != 1 || len(text.published) != 1 {
 		t.Fatalf("representations not both advanced: rwi=%v text=%v", rwi.published, text.published)
@@ -186,8 +190,12 @@ func TestPublishSkipsRepresentationRefusingPageFormat(t *testing.T) {
 	observer := newObserver()
 	p := newPublisher([]PageRepresentation{rwi, markdown}, observer)
 
-	if err := p.Publish(t.Context(), readablePage()); err != nil {
+	published, err := p.Publish(t.Context(), readablePage())
+	if err != nil {
 		t.Fatalf("publish: %v", err)
+	}
+	if !published {
+		t.Fatal("want published")
 	}
 	if len(rwi.published) != 1 {
 		t.Fatalf("accepting representation not advanced: rwi=%v", rwi.published)
@@ -208,8 +216,12 @@ func TestPublishDisposesPageNoRepresentationAccepts(t *testing.T) {
 	observer := newObserver()
 	p := newPublisher([]PageRepresentation{rwi}, observer)
 
-	if err := p.Publish(t.Context(), readablePage()); err != nil {
+	published, err := p.Publish(t.Context(), readablePage())
+	if err != nil {
 		t.Fatalf("publish: %v", err)
+	}
+	if published {
+		t.Fatal("want not published")
 	}
 	if len(rwi.published) != 0 {
 		t.Fatalf("refusing representation advanced: rwi=%v", rwi.published)
@@ -226,7 +238,7 @@ func TestPublishHardErrorFails(t *testing.T) {
 	}
 	p := newPublisher([]PageRepresentation{representation}, newObserver())
 
-	if err := p.Publish(t.Context(), readablePage()); err == nil {
+	if _, err := p.Publish(t.Context(), readablePage()); err == nil {
 		t.Fatal("hard publish error should fail publication")
 	}
 }
@@ -236,8 +248,12 @@ func TestPublishRetriesTransientFailure(t *testing.T) {
 	observer := newObserver()
 	p := newPublisher([]PageRepresentation{representation}, observer)
 
-	if err := p.Publish(t.Context(), readablePage()); err != nil {
+	published, err := p.Publish(t.Context(), readablePage())
+	if err != nil {
 		t.Fatalf("publish: %v", err)
+	}
+	if !published {
+		t.Fatal("want published")
 	}
 	if representation.published != 1 {
 		t.Fatalf(

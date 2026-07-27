@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
 )
 
@@ -36,9 +37,9 @@ type recordingAbsorption struct {
 func (a *recordingAbsorption) Absorb(
 	context.Context,
 	fetchedpage.Page,
-) ([]string, error) {
+) (pageabsorption.AbsorptionOutcome, error) {
 	a.absorbed++
-	return a.links, nil
+	return pageabsorption.AbsorptionOutcome{DiscoveredURLs: a.links, Published: true}, nil
 }
 
 func fetched(finalURL string, chain []string) fetchedpage.Page {
@@ -55,12 +56,12 @@ func absorb(
 ) ([]string, *recordingAbsorption) {
 	t.Helper()
 	absorption := &recordingAbsorption{links: []string{"http://host/next"}}
-	links, err := redirectrecording.New(resolutions, absorption).
+	outcome, err := redirectrecording.New(resolutions, absorption).
 		Absorb(context.Background(), page)
 	if err != nil {
 		t.Fatalf("absorb: %v", err)
 	}
-	return links, absorption
+	return outcome.DiscoveredURLs, absorption
 }
 
 func TestAbsorbRecordsEdgePerNonFinalHop(t *testing.T) {

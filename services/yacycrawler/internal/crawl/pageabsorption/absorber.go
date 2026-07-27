@@ -28,7 +28,12 @@ type PageExtractor interface {
 }
 
 type PagePublisher interface {
-	Publish(ctx context.Context, page pagepublication.Page) error
+	Publish(ctx context.Context, page pagepublication.Page) (bool, error)
+}
+
+type AbsorptionOutcome struct {
+	DiscoveredURLs []string
+	Published      bool
 }
 
 type Absorber struct {
@@ -55,10 +60,10 @@ func New(
 func (a *Absorber) Absorb(
 	ctx context.Context,
 	page fetchedpage.Page,
-) ([]string, error) {
+) (AbsorptionOutcome, error) {
 	if page.Truncated {
 		a.observer.PageDisposed(disposal.Oversized)
-		return nil, nil
+		return AbsorptionOutcome{}, nil
 	}
 	return a.absorbDocuments(ctx, page)
 }
@@ -66,7 +71,7 @@ func (a *Absorber) Absorb(
 func (a *Absorber) absorbDocuments(
 	ctx context.Context,
 	page fetchedpage.Page,
-) ([]string, error) {
+) (AbsorptionOutcome, error) {
 	documents, err := a.extractor.ExtractDocuments(
 		ctx, page.FinalURL, page.ContentType, page.Body,
 	)
@@ -76,22 +81,23 @@ func (a *Absorber) absorbDocuments(
 			slog.Any("error", err),
 		)
 		a.observer.PageDisposed(extractionDisposal(err))
-		return nil, nil
+		return AbsorptionOutcome{}, nil
 	}
 	if len(documents) == 0 {
 		a.observer.PageDisposed(disposal.Unextractable)
-		return nil, nil
+		return AbsorptionOutcome{}, nil
 	}
 
-	var links []string
+	var absorption AbsorptionOutcome
 	for _, document := range documents {
-		discovered, err := a.absorbDocument(ctx, page, document)
+		discovered, published, err := a.absorbDocument(ctx, page, document)
 		if err != nil {
-			return nil, err
+			return AbsorptionOutcome{}, err
 		}
-		links = append(links, discovered...)
+		absorption.DiscoveredURLs = append(absorption.DiscoveredURLs, discovered...)
+		absorption.Published = absorption.Published || published
 	}
-	return links, nil
+	return absorption, nil
 }
 
 func extractionDisposal(err error) disposal.Reason {
@@ -111,7 +117,7 @@ func (a *Absorber) absorbDocument(
 	ctx context.Context,
 	page fetchedpage.Page,
 	document contentextraction.ExtractedDocument,
-) ([]string, error) {
+) ([]string, bool, error) {
 	canonical, err := canonicalurl.Canonicalize(document.URL)
 	if err != nil {
 		slog.WarnContext(ctx, msgDocumentURLRejected,
@@ -119,14 +125,15 @@ func (a *Absorber) absorbDocument(
 			slog.Any("error", err),
 		)
 		a.observer.PageDisposed(disposal.UncanonicalizableURL)
-		return nil, nil
+		return nil, false, nil
 	}
 
 	links := a.discoverLinks(page, document)
-	if err := a.publishDocument(ctx, canonical, document, page); err != nil {
-		return nil, err
+	published, err := a.publishDocument(ctx, canonical, document, page)
+	if err != nil {
+		return nil, false, err
 	}
-	return links, nil
+	return links, published, nil
 }
 
 func (a *Absorber) discoverLinks(
@@ -144,10 +151,10 @@ func (a *Absorber) publishDocument(
 	canonical string,
 	document contentextraction.ExtractedDocument,
 	page fetchedpage.Page,
-) error {
+) (bool, error) {
 	if document.RefusesIndexing || page.RefusesIndexing {
 		a.observer.PageDisposed(disposal.IndexingRefused)
-		return nil
+		return false, nil
 	}
 	crawled := pagepublication.Page{
 		CanonicalURL:  canonical,

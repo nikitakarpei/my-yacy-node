@@ -42,23 +42,23 @@ func New(
 	}
 }
 
-func (p *Publisher) Publish(ctx context.Context, page Page) error {
+func (p *Publisher) Publish(ctx context.Context, page Page) (bool, error) {
 	resolver := p.graph.ForPage(page.CanonicalURL, page.Format, page.Body)
 	published := 0
 	for _, representation := range p.representations {
 		content, resolved, err := resolver.Resolve(representation.ContentFormat())
 		if err != nil {
-			return err
+			return false, err
 		}
 		if !resolved {
 			continue
 		}
 		messages, err := representation.Frame(page, content)
 		if err != nil {
-			return fmt.Errorf("frame %s: %w", representation.Kind(), err)
+			return false, fmt.Errorf("frame %s: %w", representation.Kind(), err)
 		}
 		if err := p.send(ctx, page, representation, messages); err != nil {
-			return err
+			return false, err
 		}
 		p.observer.PagePublished(representation.Kind())
 		published++
@@ -69,8 +69,9 @@ func (p *Publisher) Publish(ctx context.Context, page Page) error {
 			slog.String("format", string(page.Format)),
 		)
 		p.observer.PageDisposed(disposal.Unrepresentable)
+		return false, nil
 	}
-	return nil
+	return true, nil
 }
 
 func (p *Publisher) send(
