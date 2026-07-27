@@ -69,7 +69,7 @@ func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) offer
 
 		return offerOutcome{Accepted: true}
 	case yacyproto.ResultBusy, yacyproto.ResultNotGranted:
-		return offerOutcome{RetryAfter: time.Duration(resp.Pause) * time.Second}
+		return offerOutcome{RetryAfter: resp.Pause}
 	case yacyproto.ResultTooHighLoad:
 		slog.WarnContext(
 			ctx,

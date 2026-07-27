@@ -3,6 +3,7 @@ package rwipostings
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
@@ -44,7 +45,7 @@ func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
 	index, receiver, purger, err := Open(
 		v,
 		directory,
-		Config{BatchCap: batchCap, PauseSeconds: 5},
+		Config{BatchCap: batchCap, Pause: 5 * time.Second},
 		observer,
 	)
 	if err != nil {
@@ -163,8 +164,8 @@ func TestIntakeBusyAtCapacity(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Intake over capacity: %v", err)
 	}
-	if !receipt.Busy || receipt.Pause != 5 {
-		t.Fatalf("receipt = %+v, want Busy with pause 5", receipt)
+	if !receipt.Busy || receipt.Pause != 5*time.Second {
+		t.Fatalf("receipt = %+v, want Busy with pause 5s", receipt)
 	}
 }
 

@@ -48,7 +48,7 @@ func openNodeStorage(vault *vault.Vault) (nodeStorage, error) {
 	postings, postingReceiver, postingPurger, err := rwipostings.Open(
 		vault,
 		urlDirectory,
-		rwipostings.Config{BatchCap: receiveBatchCap, PauseSeconds: receiveBusyPauseSecs},
+		rwipostings.Config{BatchCap: receiveBatchCap, Pause: receiveBusyPause},
 		references,
 		distribution,
 	)

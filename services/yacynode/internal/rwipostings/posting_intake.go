@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -11,12 +12,12 @@ import (
 )
 
 type postingIntake struct {
-	vault        *vault.Vault
-	postings     *vault.Collection[yacymodel.RWIPosting]
-	observers    postingObservers
-	urls         urlmeta.URLDirectory
-	batchCap     int
-	pauseSeconds int
+	vault     *vault.Vault
+	postings  *vault.Collection[yacymodel.RWIPosting]
+	observers postingObservers
+	urls      urlmeta.URLDirectory
+	batchCap  int
+	pause     time.Duration
 }
 
 func (i postingIntake) Receive(
@@ -24,7 +25,7 @@ func (i postingIntake) Receive(
 	entries []yacymodel.RWIPosting,
 ) (Receipt, error) {
 	if len(entries) > i.batchCap {
-		return Receipt{Busy: true, TooLarge: true, Pause: i.pauseSeconds}, nil
+		return Receipt{Busy: true, TooLarge: true, Pause: i.pause}, nil
 	}
 
 	atCapacity, err := i.vault.AtCapacity(ctx)
@@ -32,7 +33,7 @@ func (i postingIntake) Receive(
 		return Receipt{}, fmt.Errorf("check capacity: %w", err)
 	}
 	if atCapacity {
-		return Receipt{Busy: true, Pause: i.pauseSeconds}, nil
+		return Receipt{Busy: true, Pause: i.pause}, nil
 	}
 
 	referenced := make([]yacymodel.Hash, 0, len(entries))
@@ -56,7 +57,7 @@ func (i postingIntake) Receive(
 		return nil
 	})
 	if errors.Is(err, vault.ErrAtCapacity) {
-		return Receipt{Busy: true, Pause: i.pauseSeconds}, nil
+		return Receipt{Busy: true, Pause: i.pause}, nil
 	}
 	if err != nil {
 		return Receipt{}, fmt.Errorf("store rwi: %w", err)

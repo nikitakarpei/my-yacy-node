@@ -3,6 +3,7 @@ package rwiingress
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
@@ -24,7 +25,7 @@ func (r *recordingIntake) Receive(
 	postings []yacymodel.RWIPosting,
 ) (rwipostings.Receipt, error) {
 	if r.busy {
-		return rwipostings.Receipt{Busy: true, Pause: 5}, nil
+		return rwipostings.Receipt{Busy: true, Pause: 5 * time.Second}, nil
 	}
 	r.received = append(r.received, postings...)
 
@@ -75,8 +76,8 @@ func TestTransferRWIReportsBusy(t *testing.T) {
 	if resp.Result != yacyproto.ResultBusy {
 		t.Fatalf("Result = %q, want busy", resp.Result)
 	}
-	if resp.Pause != 5 {
-		t.Fatalf("Pause = %d, want 5", resp.Pause)
+	if resp.Pause != 5*time.Second {
+		t.Fatalf("Pause = %v, want 5s", resp.Pause)
 	}
 }
 

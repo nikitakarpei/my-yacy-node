@@ -8,6 +8,7 @@ package rwipostings
 
 import (
 	"context"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -40,13 +41,13 @@ type PostingReceiver interface {
 type Receipt struct {
 	Busy       bool
 	TooLarge   bool
-	Pause      int
+	Pause      time.Duration
 	UnknownURL []yacymodel.Hash
 }
 
 type Config struct {
-	BatchCap     int
-	PauseSeconds int
+	BatchCap int
+	Pause    time.Duration
 }
 
 func Open(
@@ -63,12 +64,12 @@ func Open(
 	watched := postingObservers(observers)
 	directory := postingDirectory{vault: vault, postings: postings, observers: watched}
 	intake := postingIntake{
-		vault:        vault,
-		postings:     postings,
-		observers:    watched,
-		urls:         urls,
-		batchCap:     cfg.BatchCap,
-		pauseSeconds: cfg.PauseSeconds,
+		vault:     vault,
+		postings:  postings,
+		observers: watched,
+		urls:      urls,
+		batchCap:  cfg.BatchCap,
+		pause:     cfg.Pause,
 	}
 
 	return directory, intake, directory, nil
