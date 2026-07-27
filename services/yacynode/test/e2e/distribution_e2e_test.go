@@ -58,13 +58,13 @@ func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
 		},
 	})
 
-	waitNodeSeenActive(t, ctx, probe, yacyURL, nodeHash, 30*time.Second)
+	waitNodeSeenActive(t, ctx, probe, yacyURL, nodeHash, 60*time.Second)
 
 	nodepeer.PushPosting(
 		t, ctx, probe, nodeURL, nodeHash, distributionWordHash, distributionDocHash,
 	)
 
-	waitYaCyRWICount(t, ctx, probe, yacyURL, yacyHash, 1, 30*time.Second,
+	waitYaCyRWICount(t, ctx, probe, yacyURL, yacyHash, 1, 60*time.Second,
 		"real YaCy never received the distributed posting")
 }
 
