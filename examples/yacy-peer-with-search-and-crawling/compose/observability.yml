@@ -30,7 +30,7 @@ services:
       GF_AUTH_DISABLE_LOGIN_FORM: "true"
     volumes:
       - ../observability/grafana/provisioning:/etc/grafana/provisioning:ro
-      - ../observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - ../../../services/yacynode/doc/grafana-dashboard.json:/var/lib/grafana/dashboards/yacynode.json:ro
       - grafana-data:/var/lib/grafana
 
 volumes:
