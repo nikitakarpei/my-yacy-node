@@ -272,9 +272,40 @@ func TestOfferHonoursBusyPause(t *testing.T) {
 	}
 }
 
-func TestOfferMarksPeerUnreachableOnUnexpectedResult(t *testing.T) {
+func TestOfferKeepsLoadedPeerReachable(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		resp := yacyproto.TransferRWIResponse{Result: yacyproto.ResultTooHighLoad}
+		_, _ = w.Write([]byte(resp.Encode().Encode()))
+	}))
+	defer server.Close()
+
+	_, roster, observer, courier := openCourierHarness(t, server)
+	peer := courierSeed(t, server)
+	offer := postingOffer{
+		Peer: peer,
+		Postings: []yacymodel.RWIPosting{
+			fakePosting(yacymodel.WordHash("w1"), yacymodel.WordHash("u1")),
+		},
+	}
+
+	outcome := courier.Offer(context.Background(), offer)
+	if outcome.Accepted {
+		t.Fatal("outcome should not be accepted")
+	}
+	if len(roster.unreachable) != 0 {
+		t.Fatalf("unreachable = %v, want none when the peer is loaded", roster.unreachable)
+	}
+	if observer.postingsOffered[string(yacyproto.ResultTooHighLoad)] != 1 {
+		t.Fatalf(
+			"observed offers = %+v, want 1 posting for result %q",
+			observer.postingsOffered, yacyproto.ResultTooHighLoad,
+		)
+	}
+}
+
+func TestOfferMarksPeerUnreachableOnUnexpectedResult(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		resp := yacyproto.TransferRWIResponse{Result: yacyproto.ResultMissingIndexes}
 		_, _ = w.Write([]byte(resp.Encode().Encode()))
 	}))
 	defer server.Close()
@@ -295,10 +326,10 @@ func TestOfferMarksPeerUnreachableOnUnexpectedResult(t *testing.T) {
 	if len(roster.unreachable) != 1 || roster.unreachable[0] != peer.Hash {
 		t.Fatalf("unreachable = %v, want [%v]", roster.unreachable, peer.Hash)
 	}
-	if observer.postingsOffered[string(yacyproto.ResultTooHighLoad)] != 1 {
+	if observer.postingsOffered[string(yacyproto.ResultMissingIndexes)] != 1 {
 		t.Fatalf(
 			"observed offers = %+v, want 1 posting for result %q",
-			observer.postingsOffered, yacyproto.ResultTooHighLoad,
+			observer.postingsOffered, yacyproto.ResultMissingIndexes,
 		)
 	}
 }
