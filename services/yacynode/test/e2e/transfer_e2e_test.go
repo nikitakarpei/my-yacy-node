@@ -43,7 +43,7 @@ func TestRealYaCyTransfersRWIToFleet(t *testing.T) {
 
 	yacypeer.PushDocument(t, ctx, probe, yacyURL, yacypeer.TransferTokens())
 
-	yacypeer.WaitLocalRWIs(t, ctx, probe, yacyURL, yacyHash, 30*time.Second)
+	yacypeer.WaitRWICount(t, ctx, probe, yacyURL, yacyHash, yacypeer.DHTMinLocalRWIs, 30*time.Second)
 	waitFleetSenior(t, ctx, probe, yacyURL, fleet, 60*time.Second)
 	waitFleetActiveConnected(t, ctx, probe, yacyURL, fleet, 15*time.Second)
 

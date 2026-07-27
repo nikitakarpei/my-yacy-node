@@ -14,14 +14,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const dhtMinLocalRWIs = 100
+const DHTMinLocalRWIs = 100
 
-func WaitLocalRWIs(
+func WaitRWICount(
 	t *testing.T,
 	ctx context.Context,
 	probe *httpprobe.Probe,
 	yacyURL string,
 	yacyHash yacymodel.Hash,
+	want int,
 	timeout time.Duration,
 ) {
 	t.Helper()
@@ -32,13 +33,13 @@ func WaitLocalRWIs(
 			return false
 		}
 		last = count
-		return count >= dhtMinLocalRWIs
+		return count >= want
 	}) {
 		return
 	}
 	t.Fatalf(
-		"YaCy never reported at least %d local RWIs (last=%d); DHT sender gate stays closed",
-		dhtMinLocalRWIs,
+		"YaCy never reported at least %d RWIs (last=%d)",
+		want,
 		last,
 	)
 }

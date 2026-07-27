@@ -51,20 +51,7 @@ func TestRealYaCyPromotesNodeToSenior(t *testing.T) {
 		SeedlistURL: "http://" + yacyAlias + ":" + peerclient.Port + "/yacy/seedlist.html",
 	})
 
-	if !pollwait.For(15*time.Second, func() bool {
-		result := probe.Get(ctx, yacyURL+"/Network.xml?page=1&maxCount=1000")
-		if !result.OK {
-			return false
-		}
-		active, err := peerdirectory.ActivePeerHashes([]byte(result.Body))
-		if err != nil {
-			return false
-		}
-		_, ok := active[nodeHash.String()]
-		return ok
-	}) {
-		t.Fatalf("YaCy never saw node hash %s as an active connected peer", nodeHash)
-	}
+	waitPeerActiveConnected(t, ctx, probe, yacyURL, nodeHash, 15*time.Second)
 
 	promoted := pollwait.For(45*time.Second, func() bool {
 		result := probe.Get(ctx, yacyURL+"/yacy/seedlist.xml")
