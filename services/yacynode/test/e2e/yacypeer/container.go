@@ -45,6 +45,7 @@ func Start(
 		"sed -i 's#^allowDistributeIndexWhileCrawling=.*#allowDistributeIndexWhileCrawling=true#' " + defaults + "yacy.init",
 		"sed -i 's#^allowDistributeIndexWhileIndexing=.*#allowDistributeIndexWhileIndexing=true#' " + defaults + "yacy.init",
 		"sed -i 's#^20_dhtdistribution_loadprereq=.*#20_dhtdistribution_loadprereq=999.0#' " + defaults + "yacy.init",
+		"sed -i 's#^20_dhtreceive_loadprereq=.*#20_dhtreceive_loadprereq=999.0#' " + defaults + "yacy.init",
 		"sed -i 's#^30_peerping_loadprereq=.*#30_peerping_loadprereq=999.0#' " + defaults + "yacy.init",
 		"sed -i 's#^30_peerping_busysleep=.*#30_peerping_busysleep=10000#' " + defaults + "yacy.init",
 		"sed -i 's#^20_dhtdistribution_idlesleep=.*#20_dhtdistribution_idlesleep=1000#' " + defaults + "yacy.init",

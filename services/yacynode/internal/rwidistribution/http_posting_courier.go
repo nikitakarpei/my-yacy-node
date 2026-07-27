@@ -70,7 +70,23 @@ func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) offer
 		return offerOutcome{Accepted: true}
 	case yacyproto.ResultBusy, yacyproto.ResultNotGranted:
 		return offerOutcome{RetryAfter: time.Duration(resp.Pause) * time.Second}
+	case yacyproto.ResultTooHighLoad:
+		slog.WarnContext(
+			ctx,
+			"posting offer rejected by loaded peer",
+			slog.String("peer", offer.Peer.Hash.String()),
+			slog.String("endpoint", endpoint),
+		)
+
+		return offerOutcome{}
 	default:
+		slog.WarnContext(
+			ctx,
+			"posting offer refused",
+			slog.String("peer", offer.Peer.Hash.String()),
+			slog.String("endpoint", endpoint),
+			slog.String("result", string(resp.Result)),
+		)
 		c.roster.ConfirmUnreachable(ctx, offer.Peer.Hash)
 
 		return offerOutcome{}
