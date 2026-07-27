@@ -31,6 +31,7 @@ services:
     volumes:
       - ../observability/grafana/provisioning:/etc/grafana/provisioning:ro
       - ../../../services/yacynode/doc/grafana-dashboard.json:/var/lib/grafana/dashboards/yacynode.json:ro
+      - ../../../services/yacycrawler/doc/grafana-dashboard.json:/var/lib/grafana/dashboards/yacycrawler.json:ro
       - grafana-data:/var/lib/grafana
 
 volumes:
