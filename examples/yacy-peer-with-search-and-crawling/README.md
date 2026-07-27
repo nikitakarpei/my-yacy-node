@@ -18,7 +18,7 @@ answer with.
 | `yacytextindexer` | Writes the text representation into the local search index. |
 | `yacy-rwi-node` | The peer: shares RWI representations over the DHT and serves remote searches. |
 | `smokescreen` | Egress proxy every outbound connection passes through, blocking requests to internal addresses to prevent SSRF. |
-| `prometheus`, `grafana` | Metrics and the pipeline dashboard at `http://localhost:3000`, no login. |
+| `prometheus`, `grafana` | Metrics and per-service dashboards at `http://localhost:3000`, no login. |
 
 ## Setup
 
