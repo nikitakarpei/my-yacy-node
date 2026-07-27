@@ -9,9 +9,36 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/httpprobe"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/nodepeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/peerdirectory"
 )
+
+func waitPeerActiveConnected(
+	t *testing.T,
+	ctx context.Context,
+	probe *httpprobe.Probe,
+	yacyURL string,
+	peerHash yacymodel.Hash,
+	timeout time.Duration,
+) {
+	t.Helper()
+	if pollwait.For(timeout, func() bool {
+		result := probe.Get(ctx, yacyURL+"/Network.xml?page=1&maxCount=1000")
+		if !result.OK {
+			return false
+		}
+		active, err := peerdirectory.ActivePeerHashes([]byte(result.Body))
+		if err != nil {
+			return false
+		}
+		_, ok := active[peerHash.String()]
+		return ok
+	}) {
+		return
+	}
+	t.Fatalf("YaCy never saw peer hash %s as an active connected peer", peerHash)
+}
 
 func waitFleetSenior(
 	t *testing.T,
