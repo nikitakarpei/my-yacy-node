@@ -72,6 +72,8 @@ components:
     in: internal/htmlflattening/**
   contextcancellation:
     in: internal/contextcancellation/**
+  disposedpagesjetstream:
+    in: internal/disposedpages/jetstream/**
   crawlercmd:
     in: cmd/yacycrawler/**
 
@@ -147,6 +149,7 @@ deps:
     mayDependOn:
       - redirectrecording
       - fetchedpage
+      - pageabsorption
     canUse:
       - canonicalurl
   ordersettlement:
@@ -177,6 +180,7 @@ deps:
       - disposal
       - refusal
       - fetchedpage
+      - pageabsorption
   pageabsorption:
     mayDependOn:
       - pageabsorption
@@ -293,6 +297,13 @@ deps:
       - yacycrawlcontract
       - nats
       - natstestserver
+  disposedpagesjetstream:
+    mayDependOn:
+      - disposedpagesjetstream
+    canUse:
+      - yacycrawlcontract
+      - nats
+      - natstestserver
   progressobserversprometheus:
     mayDependOn:
       - progressobserversprometheus
@@ -351,6 +362,7 @@ deps:
       - redirectresolversjetstream
       - progressobserversprometheus
       - representationpublishersjetstream
+      - disposedpagesjetstream
     canUse:
       - yacycrawlcontract
       - nats

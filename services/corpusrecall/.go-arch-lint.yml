@@ -12,6 +12,8 @@ components:
     in: internal/markdownrecall/**
   redirectlookup:
     in: internal/redirectlookup/**
+  disposedpagelookup:
+    in: internal/disposedpagelookup/**
   crawlrequest:
     in: internal/crawlrequest/**
   recallgrpc:
@@ -81,6 +83,12 @@ deps:
     canUse:
       - yacycrawlcontract
       - nats
+  disposedpagelookup:
+    mayDependOn:
+      - disposedpagelookup
+    canUse:
+      - yacycrawlcontract
+      - nats
   crawlrequest:
     mayDependOn:
       - crawlrequest
@@ -107,6 +115,7 @@ deps:
       - pagerecall
       - markdownrecall
       - redirectlookup
+      - disposedpagelookup
       - crawlrequest
       - recallgrpc
       - recallmetrics

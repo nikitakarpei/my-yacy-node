@@ -11,6 +11,7 @@ import (
 	"google.golang.org/grpc"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/crawlrequest"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/disposedpagelookup"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/markdownrecall"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerecall"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recallgrpc"
@@ -49,10 +50,15 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return fmt.Errorf("open redirect resolution bucket: %w", err)
 	}
+	disposedPages, err := js.KeyValue(ctx, yacycrawlcontract.DisposedPagesBucketName)
+	if err != nil {
+		return fmt.Errorf("open disposed pages bucket: %w", err)
+	}
 
 	metrics := recallmetrics.New()
 	placer := crawlrequest.NewOrderPlacement(js, cfg.OrdersSubject)
 	resolver := redirectlookup.NewReader(redirects)
+	disposed := disposedpagelookup.NewReader(disposedPages)
 	markdownSource := markdownrecall.NewSource(markdownStore, cfg.MaxResponseBytes)
 	kinds := []representationKind{
 		markdownRepresentation(markdownSource),
@@ -60,6 +66,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	recaller := pagerecall.NewRecaller(
 		placer,
 		resolver,
+		disposed,
 		recallSources(kinds),
 		metrics,
 		pagerecall.Config{

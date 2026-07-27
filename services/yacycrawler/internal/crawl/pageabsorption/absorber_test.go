@@ -11,13 +11,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
 )
 
-func absorb(t *testing.T, a *Absorber, page fetchedpage.Page) []string {
+func absorb(t *testing.T, a *Absorber, page fetchedpage.Page) AbsorptionOutcome {
 	t.Helper()
-	links, err := a.Absorb(context.Background(), page)
+	outcome, err := a.Absorb(context.Background(), page)
 	if err != nil {
 		t.Fatalf("absorb: %v", err)
 	}
-	return links
+	return outcome
 }
 
 func TestAbsorbPublishesEveryExtractedDocument(t *testing.T) {
@@ -27,10 +27,13 @@ func TestAbsorbPublishesEveryExtractedDocument(t *testing.T) {
 	publisher := &recordingPublisher{}
 	a := newAbsorber(extract, publisher, newObserver())
 
-	absorb(t, a, succeeded("http://host/"))
+	outcome := absorb(t, a, succeeded("http://host/"))
 
 	if got := publisher.published(); len(got) != 1 || got[0].Title != "t" {
 		t.Fatalf("want the document published, got %+v", got)
+	}
+	if !outcome.Published {
+		t.Fatal("want outcome to report published")
 	}
 }
 
@@ -142,8 +145,8 @@ func TestAbsorbHonorsNoFollow(t *testing.T) {
 
 	page := succeeded("http://host/")
 	page.RefusesLinkDiscovery = true
-	if links := absorb(t, a, page); len(links) != 0 {
-		t.Fatalf("nofollow should suppress discovered links, got %v", links)
+	if outcome := absorb(t, a, page); len(outcome.DiscoveredURLs) != 0 {
+		t.Fatalf("nofollow should suppress discovered links, got %v", outcome.DiscoveredURLs)
 	}
 }
 
@@ -158,9 +161,9 @@ func TestAbsorbReturnsDiscoveredLinks(t *testing.T) {
 	}}}
 	a := newAbsorber(extract, &recordingPublisher{}, newObserver())
 
-	links := absorb(t, a, succeeded("http://host/"))
-	if len(links) != 1 || links[0] != "http://host/next" {
-		t.Fatalf("want the discovered link returned, got %v", links)
+	outcome := absorb(t, a, succeeded("http://host/"))
+	if len(outcome.DiscoveredURLs) != 1 || outcome.DiscoveredURLs[0] != "http://host/next" {
+		t.Fatalf("want the discovered link returned, got %v", outcome.DiscoveredURLs)
 	}
 }
 

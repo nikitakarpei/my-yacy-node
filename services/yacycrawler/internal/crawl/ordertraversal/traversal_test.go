@@ -51,6 +51,24 @@ func (f *fakeVisitor) visitCount(url string) int {
 	return f.visited[url]
 }
 
+type fakeDisposedPages struct {
+	mu   sync.Mutex
+	urls []string
+}
+
+func (d *fakeDisposedPages) Record(_ context.Context, url string) error {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	d.urls = append(d.urls, url)
+	return nil
+}
+
+func (d *fakeDisposedPages) calls() []string {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	return append([]string(nil), d.urls...)
+}
+
 type recordingObserver struct {
 	mu       sync.Mutex
 	disposed map[disposal.Reason]int
@@ -152,6 +170,7 @@ func TestTraverseDiscoversAndCrawlsLinks(t *testing.T) {
 		defaultConfig(),
 		visitor,
 		newObserver(),
+		&fakeDisposedPages{},
 		&manualClock{},
 	)
 
@@ -172,7 +191,7 @@ func TestTraverseBudgetTruncates(t *testing.T) {
 		}},
 	}}
 	observer := newObserver()
-	traverser := ordertraversal.New(cfg, visitor, observer, &manualClock{})
+	traverser := ordertraversal.New(cfg, visitor, observer, &fakeDisposedPages{}, &manualClock{})
 
 	traverse(t, traverser, []string{"http://host/"})
 
@@ -187,10 +206,12 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 		"http://host/": {deferred, deferred, deferred, deferred},
 	}}
 	observer := newObserver()
+	disposed := &fakeDisposedPages{}
 	traverser := ordertraversal.New(
 		defaultConfig(),
 		visitor,
 		observer,
+		disposed,
 		&manualClock{},
 	)
 
@@ -201,6 +222,9 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 	}
 	if observer.disposed[disposal.DeferralsExhausted] != 1 {
 		t.Fatalf("expected deferrals-exhausted after defer limit, got %v", observer.disposed)
+	}
+	if len(disposed.calls()) != 1 {
+		t.Fatalf("want disposed page recorded once, got %v", disposed.calls())
 	}
 }
 
@@ -213,6 +237,7 @@ func TestTraverseRetriesTransientFetchThenSucceeds(t *testing.T) {
 		defaultConfig(),
 		visitor,
 		newObserver(),
+		&fakeDisposedPages{},
 		&manualClock{},
 	)
 
@@ -232,10 +257,12 @@ func TestTraverseAbandonsTransientFetchAfterLimit(t *testing.T) {
 		"http://host/": {transient, transient, transient},
 	}}
 	observer := newObserver()
+	disposed := &fakeDisposedPages{}
 	traverser := ordertraversal.New(
 		defaultConfig(),
 		visitor,
 		observer,
+		disposed,
 		&manualClock{},
 	)
 
@@ -243,6 +270,9 @@ func TestTraverseAbandonsTransientFetchAfterLimit(t *testing.T) {
 
 	if observer.disposed[disposal.FetchAbandoned] != 1 {
 		t.Fatalf("expected fetch-abandoned after retry limit, got %v", observer.disposed)
+	}
+	if len(disposed.calls()) != 1 {
+		t.Fatalf("want disposed page recorded once, got %v", disposed.calls())
 	}
 }
 
@@ -252,6 +282,7 @@ func TestTraverseSkipsUncanonicalizableSeed(t *testing.T) {
 		defaultConfig(),
 		visitor,
 		newObserver(),
+		&fakeDisposedPages{},
 		&manualClock{},
 	)
 
@@ -268,6 +299,7 @@ func TestTraverseVisitorErrorFails(t *testing.T) {
 		defaultConfig(),
 		visitor,
 		newObserver(),
+		&fakeDisposedPages{},
 		&manualClock{},
 	)
 
@@ -286,7 +318,7 @@ func TestTraverseCountsCeasedPageAgainstBudget(t *testing.T) {
 		"http://host/a": {{Conclusion: pagevisit.VisitCompleted}},
 	}}
 	observer := newObserver()
-	traverser := ordertraversal.New(cfg, visitor, observer, &manualClock{})
+	traverser := ordertraversal.New(cfg, visitor, observer, &fakeDisposedPages{}, &manualClock{})
 
 	traverse(t, traverser, []string{"http://host/a", "http://host/b"})
 

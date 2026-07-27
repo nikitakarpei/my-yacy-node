@@ -47,6 +47,9 @@ const (
 	DefaultRecrawlGrace       = time.Hour
 	DefaultPageVisitRetention = 30 * 24 * time.Hour
 	DefaultPageVisitMaxBytes  = 256 << 20
+
+	DefaultDisposedPagesRetention = 24 * time.Hour
+	DefaultDisposedPagesMaxBytes  = 256 << 20
 )
 
 var proxyDialModeByName = map[string]http.ProxyDialMode{
@@ -104,6 +107,13 @@ func (ServiceConfig) PageVisitBucketSpec() dueaftergrace.BucketSpec {
 	return dueaftergrace.BucketSpec{
 		MaxBytes:  DefaultPageVisitMaxBytes,
 		Retention: DefaultPageVisitRetention,
+	}
+}
+
+func (ServiceConfig) DisposedPagesBucketSpec() yacycrawlcontract.DisposedPagesBucketSpec {
+	return yacycrawlcontract.DisposedPagesBucketSpec{
+		MaxBytes:  DefaultDisposedPagesMaxBytes,
+		Retention: DefaultDisposedPagesRetention,
 	}
 }
 

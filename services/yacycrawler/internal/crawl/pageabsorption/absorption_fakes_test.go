@@ -42,14 +42,14 @@ type recordingPublisher struct {
 	failWith error
 }
 
-func (p *recordingPublisher) Publish(_ context.Context, page pagepublication.Page) error {
+func (p *recordingPublisher) Publish(_ context.Context, page pagepublication.Page) (bool, error) {
 	if p.failWith != nil {
-		return p.failWith
+		return false, p.failWith
 	}
 	p.mu.Lock()
 	defer p.mu.Unlock()
 	p.pages = append(p.pages, page)
-	return nil
+	return true, nil
 }
 
 func (p *recordingPublisher) published() []pagepublication.Page {

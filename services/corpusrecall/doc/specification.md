@@ -24,6 +24,8 @@ port. An edge adapter translates an external API to that port without changing r
 * If the requested URL redirects, the service SHALL return the page for the URL it redirects
   to.
 * The service SHALL return each wanted representation the corpus holds by the deadline.
+* The service SHALL stop waiting for a representation, ahead of the deadline, once the
+  crawler reports it finished the page without publishing anything.
 * The service SHALL tell the requester which wanted representations it could not provide.
 * The service SHALL let operators configure the search index, the broker, and the retrieval
   deadline.
@@ -42,5 +44,5 @@ port. An edge adapter translates an external API to that port without changing r
 
 * First retrieval of an uncrawled page takes a full crawl-and-index cycle, bounded by the
   deadline.
-* A page the crawler declines or cannot reach never enters the corpus, so its retrieval
-  fails at the deadline.
+* A page published to some wanted representations and not others leaves no early-stop
+  signal, so a request for a missing representation still waits out the deadline.

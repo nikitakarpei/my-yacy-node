@@ -43,4 +43,9 @@ func provisionCrawlInfrastructure(t *testing.T, ctx context.Context, js jetstrea
 	); err != nil {
 		t.Fatalf("ensure redirect resolution bucket: %v", err)
 	}
+	if err := yacycrawlcontract.EnsureDisposedPagesBucket(
+		ctx, js, yacycrawlcontract.DisposedPagesBucketSpec{},
+	); err != nil {
+		t.Fatalf("ensure disposed pages bucket: %v", err)
+	}
 }

@@ -24,6 +24,10 @@ type CrawlPlacer interface {
 	Place(ctx context.Context, canonicalURL string) error
 }
 
+type DisposedPages interface {
+	Revision(ctx context.Context, canonicalURL string) (uint64, error)
+}
+
 type Metrics interface {
 	RequestAccepted()
 	RequestRejected()
@@ -34,6 +38,7 @@ type Metrics interface {
 type Recaller struct {
 	placer   CrawlPlacer
 	resolver TargetResolver
+	disposed DisposedPages
 	sources  map[Kind]Source
 	metrics  Metrics
 	deadline time.Duration
@@ -41,9 +46,11 @@ type Recaller struct {
 	slots    chan struct{}
 }
 
+//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
 func NewRecaller(
 	placer CrawlPlacer,
 	resolver TargetResolver,
+	disposed DisposedPages,
 	sources map[Kind]Source,
 	metrics Metrics,
 	config Config,
@@ -51,6 +58,7 @@ func NewRecaller(
 	return &Recaller{
 		placer:   placer,
 		resolver: resolver,
+		disposed: disposed,
 		sources:  sources,
 		metrics:  metrics,
 		deadline: config.Deadline,
@@ -74,6 +82,11 @@ func (r *Recaller) Recall(ctx context.Context, rawURL string, kinds []Kind) (Res
 		return Result{}, fmt.Errorf("canonicalize %q: %w", rawURL, err)
 	}
 
+	baselineRevision, err := r.disposed.Revision(ctx, canonicalURL)
+	if err != nil {
+		return Result{}, fmt.Errorf("read disposal baseline for %q: %w", canonicalURL, err)
+	}
+
 	if err := r.placer.Place(ctx, canonicalURL); err != nil {
 		return Result{}, fmt.Errorf("place crawl order for %q: %w", canonicalURL, err)
 	}
@@ -89,7 +102,7 @@ func (r *Recaller) Recall(ctx context.Context, rawURL string, kinds []Kind) (Res
 			r.metrics.RepresentationUnavailable(kind)
 			continue
 		}
-		representation, found := r.await(deadlineCtx, kind, source, canonicalURL)
+		representation, found := r.await(deadlineCtx, kind, source, canonicalURL, baselineRevision)
 		if !found {
 			result.Unavailable = append(result.Unavailable, kind)
 			r.metrics.RepresentationUnavailable(kind)
@@ -107,6 +120,7 @@ func (r *Recaller) await(
 	kind Kind,
 	source Source,
 	canonicalURL string,
+	baselineRevision uint64,
 ) (Representation, bool) {
 	ticker := time.NewTicker(r.poll)
 	defer ticker.Stop()
@@ -123,12 +137,31 @@ func (r *Recaller) await(
 		case found:
 			return representation, true
 		}
+		if r.disposedSinceBaseline(ctx, canonicalURL, baselineRevision) {
+			return nil, false
+		}
 		select {
 		case <-ctx.Done():
 			return nil, false
 		case <-ticker.C:
 		}
 	}
+}
+
+func (r *Recaller) disposedSinceBaseline(
+	ctx context.Context,
+	canonicalURL string,
+	baselineRevision uint64,
+) bool {
+	revision, err := r.disposed.Revision(ctx, canonicalURL)
+	if err != nil {
+		slog.WarnContext(ctx, "disposal lookup failed",
+			slog.String("url", canonicalURL),
+			slog.Any("error", err),
+		)
+		return false
+	}
+	return revision > baselineRevision
 }
 
 func (r *Recaller) fetch(

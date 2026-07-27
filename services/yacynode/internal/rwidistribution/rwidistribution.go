@@ -68,11 +68,6 @@ func (d *Distribution) PostingPurged(tx *vault.Txn, word, url yacymodel.Hash) er
 	return d.ledger.PostingPurged(tx, word, url)
 }
 
-// Cycle takes six explicit collaborators rather than a bundling struct: each
-// is a distinct dependency the caller already holds, and a parameter object
-// here would exist only to dodge the linter's argument count, not to name a
-// real concept.
-//
 //nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
 func (d *Distribution) Cycle(
 	client *http.Client,
