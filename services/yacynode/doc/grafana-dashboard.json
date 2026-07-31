@@ -24,7 +24,7 @@
     {
       "id": 2,
       "title": "Known peers",
-      "description": "This panel shows the peers the node currently has in its roster. A peer leaves the roster once the node confirms it is unreachable.",
+      "description": "This panel shows the peers the node currently has in its roster, reachable or not.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
