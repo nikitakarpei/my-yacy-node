@@ -1,0 +1,46 @@
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    restart: unless-stopped
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+  elasticsearch-metrics:
+    image: quay.io/prometheuscommunity/elasticsearch-exporter:v1.7.0
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+    command: ["--es.uri=http://elasticsearch:9200"]
+
+  manticore:
+    deploy:
+      replicas: 0
+
+  corpustext:
+    depends_on:
+      - elasticsearch
+    environment:
+      SEARCH_INDEX_ENGINE: elasticsearch
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_INDEX: ${ELASTICSEARCH_INDEX:-yacy-text}
+
+  searxng:
+    environment:
+      SEARXNG_SETTINGS_PATH: /etc/searxng/settings.elasticsearch.yml
+    volumes:
+      - ./extras/elasticsearch/searxng-settings.yml:/etc/searxng/settings.elasticsearch.yml:ro
+
+  prometheus:
+    depends_on:
+      - elasticsearch-metrics
+    volumes:
+      - ./extras/elasticsearch/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+volumes:
+  elasticsearch-data:

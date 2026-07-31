@@ -1,6 +1,0 @@
-services:
-  smokescreen:
-    build:
-      context: ./smokescreen
-    restart: unless-stopped
-    command: ["--listen-ip", "0.0.0.0"]
