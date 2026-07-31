@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacyvisitcrawl/internal/visitmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitmetrics"
 )
 
 func TestMetricsRecordAndExpose(t *testing.T) {
@@ -23,10 +23,10 @@ func TestMetricsRecordAndExpose(t *testing.T) {
 
 	body := recorder.Body.String()
 	for _, want := range []string{
-		"yacyvisitcrawl_visits_received_total 1",
-		"yacyvisitcrawl_visits_rejected_total 1",
-		"yacyvisitcrawl_orders_placed_total 1",
-		"yacyvisitcrawl_orders_unplaced_total 1",
+		"visitcrawl_visits_received_total 1",
+		"visitcrawl_visits_rejected_total 1",
+		"visitcrawl_orders_placed_total 1",
+		"visitcrawl_orders_unplaced_total 1",
 	} {
 		if !strings.Contains(body, want) {
 			t.Errorf("metrics output missing %q", want)

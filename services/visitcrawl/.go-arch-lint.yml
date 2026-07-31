@@ -13,7 +13,7 @@ components:
   visitmetrics:
     in: internal/visitmetrics/**
   visitcrawlcmd:
-    in: cmd/yacyvisitcrawl/**
+    in: cmd/visitcrawl/**
 
 vendors:
   yacycrawlcontract:

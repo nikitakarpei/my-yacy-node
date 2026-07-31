@@ -7,7 +7,7 @@ through SearXNG's own `settings.yml`.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `YACYVISITCRAWL_BASE_URL` | required | Base URL of the `yacyvisitcrawl` that rewritten result links route through, e.g. `http://yacyvisitcrawl:8091`. |
+| `VISITCRAWL_BASE_URL` | required | Base URL of the `visitcrawl` that rewritten result links route through, e.g. `http://visitcrawl:8091`. |
 | `RESULT_LINK_ROUTER_DISABLE_HEADER` | `X-Result-Link-Router-Disable` | Name of the request header that turns off link rewriting for a single request. |
 
 ## Disabling rewriting for a request

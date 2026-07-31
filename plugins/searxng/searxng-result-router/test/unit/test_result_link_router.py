@@ -31,15 +31,13 @@ class FakeResult:
 
 @pytest.fixture
 def plugin(monkeypatch):
-    monkeypatch.setenv("YACYVISITCRAWL_BASE_URL", "http://yacyvisitcrawl:8091")
+    monkeypatch.setenv("VISITCRAWL_BASE_URL", "http://visitcrawl:8091")
     return result_link_router.SXNGPlugin(PluginCfg(active=True))
 
 
 def test_rewrites_http_url(plugin):
     rewritten = plugin.route_through_visitcrawl(None, "url", "http://example.com/a")
-    assert (
-        rewritten == "http://yacyvisitcrawl:8091/visit?url=http%3A%2F%2Fexample.com%2Fa"
-    )
+    assert rewritten == "http://visitcrawl:8091/visit?url=http%3A%2F%2Fexample.com%2Fa"
 
 
 def test_rewrites_https_url(plugin):
@@ -48,7 +46,7 @@ def test_rewrites_https_url(plugin):
     )
     assert (
         rewritten
-        == "http://yacyvisitcrawl:8091/visit?url=https%3A%2F%2Fexample.com%2Fa%3Fb%3Dc"
+        == "http://visitcrawl:8091/visit?url=https%3A%2F%2Fexample.com%2Fa%3Fb%3Dc"
     )
 
 
@@ -64,7 +62,7 @@ def test_leaves_non_http_scheme_unchanged(plugin):
 
 
 def test_respects_configured_base_url(monkeypatch):
-    monkeypatch.setenv("YACYVISITCRAWL_BASE_URL", "https://visitcrawl.internal:9443/")
+    monkeypatch.setenv("VISITCRAWL_BASE_URL", "https://visitcrawl.internal:9443/")
     configured = result_link_router.SXNGPlugin(PluginCfg(active=True))
     rewritten = configured.route_through_visitcrawl(
         None, "url", "https://example.com/a"
@@ -76,7 +74,7 @@ def test_respects_configured_base_url(monkeypatch):
 
 
 def test_requires_base_url_configured(monkeypatch):
-    monkeypatch.delenv("YACYVISITCRAWL_BASE_URL", raising=False)
+    monkeypatch.delenv("VISITCRAWL_BASE_URL", raising=False)
     with pytest.raises(ValueError):
         result_link_router.SXNGPlugin(PluginCfg(active=True))
 
@@ -92,7 +90,7 @@ def test_on_result_rewrites_url_and_keeps_result(plugin):
     assert result.filter_urls_calls == 1
     assert (
         result["url"]
-        == "http://yacyvisitcrawl:8091/visit?url=https%3A%2F%2Fexample.com%2Fa"
+        == "http://visitcrawl:8091/visit?url=https%3A%2F%2Fexample.com%2Fa"
     )
     assert result["img_src"] == "https://example.com/a.png"
 
@@ -128,11 +126,11 @@ def test_on_result_rewrites_when_disable_header_absent(plugin):
     plugin.on_result(request=request, search=None, result=result)
 
     assert result.filter_urls_calls == 1
-    assert result["url"].startswith("http://yacyvisitcrawl:8091/visit?url=")
+    assert result["url"].startswith("http://visitcrawl:8091/visit?url=")
 
 
 def test_disable_header_name_is_configurable(monkeypatch):
-    monkeypatch.setenv("YACYVISITCRAWL_BASE_URL", "http://yacyvisitcrawl:8091")
+    monkeypatch.setenv("VISITCRAWL_BASE_URL", "http://visitcrawl:8091")
     monkeypatch.setenv("RESULT_LINK_ROUTER_DISABLE_HEADER", "X-Custom-Disable")
     configured = result_link_router.SXNGPlugin(PluginCfg(active=True))
     result = FakeResult(url="https://example.com/a")

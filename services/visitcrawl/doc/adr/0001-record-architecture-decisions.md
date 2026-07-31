@@ -8,7 +8,7 @@ Accepted
 
 ## Context
 
-yacyvisitcrawl introduces several third-party dependencies and structural choices. We want a
+visitcrawl introduces several third-party dependencies and structural choices. We want a
 durable, reviewable record of why each was made.
 
 ## Decision

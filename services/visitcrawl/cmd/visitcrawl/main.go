@@ -8,12 +8,12 @@ import (
 	"syscall"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyvisitcrawl/internal/visitmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitmetrics"
 )
 
 func main() {
 	if err := run(); err != nil {
-		slog.ErrorContext(context.Background(), "yacyvisitcrawl terminated", slog.Any("error", err))
+		slog.ErrorContext(context.Background(), "visitcrawl terminated", slog.Any("error", err))
 		os.Exit(1)
 	}
 }

@@ -2,7 +2,7 @@ GO ?= go
 PYTHON ?= python3
 COVERAGE_MIN ?= 80
 
-GO_MODULES := services/yacynode libraries/yacymodel libraries/yacyproto libraries/yacycrawlcontract libraries/bytesize libraries/serviceruntime libraries/canonicalurl libraries/pagemarkdownstore libraries/corpusrecallapi services/yacycrawler services/corpustext services/yacyvisitcrawl services/corpusmarkdown services/corpusrecall services/firecrawlshim services/renderproxy
+GO_MODULES := services/yacynode libraries/yacymodel libraries/yacyproto libraries/yacycrawlcontract libraries/bytesize libraries/serviceruntime libraries/canonicalurl libraries/pagemarkdownstore libraries/corpusrecallapi services/yacycrawler services/corpustext services/visitcrawl services/corpusmarkdown services/corpusrecall services/firecrawlshim services/renderproxy
 PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-crawled-text-search
 
 COVER_PROFILE := coverage.out
@@ -171,7 +171,7 @@ E2E_DOCKER_HOST := $(or $(DOCKER_HOST),unix://$(E2E_RUNTIME_DIR)/podman/podman.s
 E2E_DOCKER_ENV := DOCKER_HOST=$(E2E_DOCKER_HOST) TESTCONTAINERS_RYUK_DISABLED=true
 
 # Modules that build a docker image for e2e testing, and the tag each produces.
-E2E_IMAGE_MODULES := yacynode yacycrawler corpustext corpusmarkdown corpusrecall firecrawlshim yacyvisitcrawl renderproxy
+E2E_IMAGE_MODULES := yacynode yacycrawler corpustext corpusmarkdown corpusrecall firecrawlshim visitcrawl renderproxy
 
 E2E_PATH_yacynode        := services/yacynode
 E2E_PATH_yacycrawler     := services/yacycrawler
@@ -179,7 +179,7 @@ E2E_PATH_corpustext      := services/corpustext
 E2E_PATH_corpusmarkdown  := services/corpusmarkdown
 E2E_PATH_corpusrecall    := services/corpusrecall
 E2E_PATH_firecrawlshim   := services/firecrawlshim
-E2E_PATH_yacyvisitcrawl  := services/yacyvisitcrawl
+E2E_PATH_visitcrawl      := services/visitcrawl
 E2E_PATH_renderproxy     := services/renderproxy
 
 E2E_IMAGE_yacynode        := yacy-rwi-node:e2e
@@ -188,7 +188,7 @@ E2E_IMAGE_corpustext      := corpustext:e2e
 E2E_IMAGE_corpusmarkdown  := corpusmarkdown:e2e
 E2E_IMAGE_corpusrecall    := corpusrecall:e2e
 E2E_IMAGE_firecrawlshim   := firecrawlshim:e2e
-E2E_IMAGE_yacyvisitcrawl  := yacyvisitcrawl:e2e
+E2E_IMAGE_visitcrawl      := visitcrawl:e2e
 E2E_IMAGE_renderproxy     := renderproxy:e2e
 
 define e2e_image_rule
@@ -211,7 +211,7 @@ E2E_ENV_corpustext                     := YACY_NODE_IMAGE=$(E2E_IMAGE_yacynode) 
 E2E_ENV_corpusmarkdown                 := YACY_NODE_IMAGE=$(E2E_IMAGE_yacynode) YACYCRAWLER_IMAGE=$(E2E_IMAGE_yacycrawler) CORPUSMARKDOWN_IMAGE=$(E2E_IMAGE_corpusmarkdown)
 E2E_ENV_corpusrecall                   := YACYCRAWLER_IMAGE=$(E2E_IMAGE_yacycrawler) CORPUSMARKDOWN_IMAGE=$(E2E_IMAGE_corpusmarkdown) CORPUSRECALL_IMAGE=$(E2E_IMAGE_corpusrecall)
 E2E_ENV_firecrawlshim                  := YACYCRAWLER_IMAGE=$(E2E_IMAGE_yacycrawler) CORPUSMARKDOWN_IMAGE=$(E2E_IMAGE_corpusmarkdown) CORPUSRECALL_IMAGE=$(E2E_IMAGE_corpusrecall) FIRECRAWLSHIM_IMAGE=$(E2E_IMAGE_firecrawlshim)
-E2E_ENV_searxng-result-router          := YACYVISITCRAWL_IMAGE=$(E2E_IMAGE_yacyvisitcrawl)
+E2E_ENV_searxng-result-router          := VISITCRAWL_IMAGE=$(E2E_IMAGE_visitcrawl)
 E2E_ENV_searxng-crawled-text-search    :=
 E2E_ENV_renderproxy                    := RENDERPROXY_IMAGE=$(E2E_IMAGE_renderproxy)
 

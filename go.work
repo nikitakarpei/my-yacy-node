@@ -19,5 +19,5 @@ use (
 	./services/yacycrawler
 	./services/yacynode
 	./services/corpustext
-	./services/yacyvisitcrawl
+	./services/visitcrawl
 )

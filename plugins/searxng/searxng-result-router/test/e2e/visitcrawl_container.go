@@ -19,7 +19,7 @@ import (
 const (
 	visitcrawlAlias    = "visitcrawl"
 	visitcrawlPort     = "8091/tcp"
-	envVisitcrawlImage = "YACYVISITCRAWL_IMAGE"
+	envVisitcrawlImage = "VISITCRAWL_IMAGE"
 )
 
 func startVisitcrawl(t *testing.T, ctx context.Context, networkName string) string {

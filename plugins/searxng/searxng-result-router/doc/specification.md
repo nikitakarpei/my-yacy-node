@@ -2,11 +2,11 @@
 
 ## Context
 
-A SearXNG results page links each result straight to its destination, so `yacyvisitcrawl`
+A SearXNG results page links each result straight to its destination, so `visitcrawl`
 never learns which result a person clicked. `searxng-result-router` is a SearXNG plugin that
-rewrites each result link to route through `yacyvisitcrawl` first and on to the original
+rewrites each result link to route through `visitcrawl` first and on to the original
 destination. It runs inside the operator's own SearXNG instance and depends on no part of
-`yacyvisitcrawl` beyond the links it issues.
+`visitcrawl` beyond the links it issues.
 
 ## Non-Goals
 
@@ -19,10 +19,10 @@ destination. It runs inside the operator's own SearXNG instance and depends on n
 ## Functional Requirements
 
 * The plugin SHALL rewrite every result link on a results page to a link that routes through
-  the configured `yacyvisitcrawl` before reaching the original destination.
+  the configured `visitcrawl` before reaching the original destination.
 * The plugin SHALL leave a result unchanged if it cannot rewrite its link.
 * A rewritten link SHALL still lead the person to the result's original destination.
-* The plugin SHALL let operators configure the `yacyvisitcrawl` that rewritten links route
+* The plugin SHALL let operators configure the `visitcrawl` that rewritten links route
   through.
 * The plugin SHALL leave every result on a request unchanged if that request carries the
   configured disable header.
@@ -41,7 +41,7 @@ destination. It runs inside the operator's own SearXNG instance and depends on n
 
 * Rewriting applies only where the plugin runs; results from a SearXNG instance without it
   link straight to their destinations.
-* The plugin cannot tell whether `yacyvisitcrawl` is reachable before rewriting a link; an
+* The plugin cannot tell whether `visitcrawl` is reachable before rewriting a link; an
   outage there breaks every rewritten result until an operator notices.
-* Rewritten links are specific to `yacyvisitcrawl`'s link format; pointing this plugin at a
+* Rewritten links are specific to `visitcrawl`'s link format; pointing this plugin at a
   differently shaped target requires changing the plugin, not just its configuration.

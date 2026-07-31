@@ -14,8 +14,8 @@ services:
       YACYCRAWLER_PUBLISH_TEXT: "true"
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
-  yacyvisitcrawl:
-    image: ghcr.io/nikitakarpei/yacyvisitcrawl:latest
+  visitcrawl:
+    image: ghcr.io/nikitakarpei/visitcrawl:latest
     restart: unless-stopped
     depends_on:
       - nats

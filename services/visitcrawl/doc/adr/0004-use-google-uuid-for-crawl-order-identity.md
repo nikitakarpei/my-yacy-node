@@ -10,7 +10,7 @@ Accepted
 
 Each visit turns into one crawl order that the crawl fleet delivers at least once. The order
 needs an identifier that is unique across orders without central coordination, since
-yacyvisitcrawl mints one per visit under load with no shared counter state.
+visitcrawl mints one per visit under load with no shared counter state.
 
 `yacynode` and `yacycrawler` already mint and parse crawl order identity as a `google/uuid`
 version 4 string (see `services/yacynode/doc/adr/0012-use-google-uuid-for-crawl-order-identity.md`).
@@ -23,6 +23,6 @@ the rest of the crawl contract already shares.
 
 ## Consequences
 
-`google/uuid` becomes a runtime dependency of yacyvisitcrawl's visit intake, matching the
+`google/uuid` becomes a runtime dependency of visitcrawl's visit intake, matching the
 version the sibling services already pin. Every placed order carries an identity in the same
 format the crawl fleet already parses.
