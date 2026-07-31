@@ -71,7 +71,7 @@ func TestRecordAcceptedIsIdempotent(t *testing.T) {
 	}
 }
 
-func TestPruneDropsDeadReplicas(t *testing.T) {
+func TestDropRemovesStaleReplicas(t *testing.T) {
 	_, ledger := openLedger(t)
 	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
 	alive, dead := yacymodel.WordHash("alive"), yacymodel.WordHash("dead")
@@ -83,19 +83,9 @@ func TestPruneDropsDeadReplicas(t *testing.T) {
 		t.Fatalf("RecordAccepted dead: %v", err)
 	}
 
-	remaining, dropped, err := ledger.Prune(
-		context.Background(),
-		word,
-		url,
-		func(peer yacymodel.Hash) bool {
-			return peer == alive
-		},
-	)
+	dropped, err := ledger.Drop(context.Background(), word, url, []yacymodel.Hash{dead})
 	if err != nil {
-		t.Fatalf("Prune: %v", err)
-	}
-	if len(remaining) != 1 || remaining[0] != alive {
-		t.Fatalf("remaining = %v, want [alive]", remaining)
+		t.Fatalf("Drop: %v", err)
 	}
 	if dropped != 1 {
 		t.Fatalf("dropped = %v, want 1", dropped)
@@ -110,20 +100,17 @@ func TestPruneDropsDeadReplicas(t *testing.T) {
 	}
 }
 
-func TestPruneOfUnknownPostingIsHarmless(t *testing.T) {
+func TestDropOfUnknownPostingIsHarmless(t *testing.T) {
 	_, ledger := openLedger(t)
 
-	remaining, dropped, err := ledger.Prune(
+	dropped, err := ledger.Drop(
 		context.Background(),
 		yacymodel.WordHash("w1"),
 		yacymodel.WordHash("u1"),
-		func(yacymodel.Hash) bool { return true },
+		[]yacymodel.Hash{yacymodel.WordHash("peer")},
 	)
 	if err != nil {
-		t.Fatalf("Prune: %v", err)
-	}
-	if remaining != nil {
-		t.Fatalf("remaining = %v, want nil", remaining)
+		t.Fatalf("Drop: %v", err)
 	}
 	if dropped != 0 {
 		t.Fatalf("dropped = %v, want 0", dropped)

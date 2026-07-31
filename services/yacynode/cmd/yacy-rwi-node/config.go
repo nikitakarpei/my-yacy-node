@@ -39,6 +39,7 @@ const (
 	envDistributionCycleInterval     = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
 	envDistributionRefreshInterval   = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
 	envDistributionRetryInterval     = "YACY_DISTRIBUTION_RETRY_INTERVAL"
+	envDistributionMinReachablePeers = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
 
 	defaultPeerAddr                = ":8090"
 	defaultOpsAddr                 = ":9090"
@@ -56,6 +57,7 @@ const (
 	defaultDistributionCycleInterval     = time.Minute
 	defaultDistributionRefreshInterval   = 24 * time.Hour
 	defaultDistributionRetryInterval     = 5 * time.Minute
+	defaultDistributionMinReachablePeers = 32
 
 	storageFileName = "yacy-rwipostings.db"
 )
@@ -90,6 +92,7 @@ type distributionConfig struct {
 	CycleInterval     time.Duration
 	RefreshInterval   time.Duration
 	RetryInterval     time.Duration
+	MinReachablePeers int
 }
 
 func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
@@ -268,6 +271,13 @@ func loadDistributionConfig(getenv func(string) string) (distributionConfig, err
 		return distributionConfig{}, err
 	}
 
+	minReachablePeers, err := envconfig.PositiveInt(
+		getenv, envDistributionMinReachablePeers, defaultDistributionMinReachablePeers,
+	)
+	if err != nil {
+		return distributionConfig{}, err
+	}
+
 	return distributionConfig{
 		Enabled:           enabled,
 		Redundancy:        redundancy,
@@ -276,6 +286,7 @@ func loadDistributionConfig(getenv func(string) string) (distributionConfig, err
 		CycleInterval:     cycleInterval,
 		RefreshInterval:   refreshInterval,
 		RetryInterval:     retryInterval,
+		MinReachablePeers: minReachablePeers,
 	}, nil
 }
 

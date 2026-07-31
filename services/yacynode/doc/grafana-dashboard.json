@@ -1013,8 +1013,8 @@
     },
     {
       "id": 55,
-      "title": "Replica records pruned",
-      "description": "This panel shows the replica records dropped per second. These records belong to peers that are no longer responsible.",
+      "title": "Replica ledger entries dropped",
+      "description": "Replica ledger entries dropped per second because the peer is no longer responsible for the posting.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1048,6 +1048,46 @@
           },
           "expr": "rate(rwidistribution_ledger_prunes_total[5m])",
           "legendFormat": "pruned"
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "title": "Distribution cycles skipped",
+      "description": "This panel shows how often the node skips offering postings because it does not know enough reachable peers yet.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 65
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cps",
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "rate(rwidistribution_cycles_skipped_total[5m])",
+          "legendFormat": "skipped"
         }
       ]
     }

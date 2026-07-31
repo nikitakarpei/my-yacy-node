@@ -11,6 +11,7 @@ type OfferObserver interface {
 	ObserveOffer(result string, postings int)
 	ObserveScheduleDrain(drained int)
 	ObserveLedgerPrune(dropped int)
+	ObserveCycleSkipped(reachablePeers int)
 }
 
 type noOfferObserver struct{}
@@ -20,3 +21,5 @@ func (noOfferObserver) ObserveOffer(string, int) {}
 func (noOfferObserver) ObserveScheduleDrain(int) {}
 
 func (noOfferObserver) ObserveLedgerPrune(int) {}
+
+func (noOfferObserver) ObserveCycleSkipped(int) {}

@@ -45,3 +45,4 @@ The node can offer its stored postings to the peers the DHT makes responsible fo
 | `YACY_DISTRIBUTION_CYCLE_INTERVAL` | `1m` | How often to drain due postings (e.g. `30s`, `1m`, `10m`). |
 | `YACY_DISTRIBUTION_REFRESH_INTERVAL` | `24h` | How long a satisfied posting waits before it is offered again. |
 | `YACY_DISTRIBUTION_RETRY_INTERVAL` | `5m` | Backoff base after a failed offer. |
+| `YACY_DISTRIBUTION_MIN_REACHABLE_PEERS` | `32` | Fewest reachable peers the node must know before it offers postings. |

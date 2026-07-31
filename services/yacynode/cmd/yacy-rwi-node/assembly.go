@@ -131,14 +131,15 @@ func assembleDistribution(
 		storage.urlDirectory,
 		offerObserver,
 		rwidistribution.Config{
-			NetworkName:      config.NetworkName,
-			Self:             self,
-			Redundancy:       config.Distribution.Redundancy,
-			Partitions:       partitions,
-			PostingsPerCycle: config.Distribution.PostingsPerCycle,
-			CycleInterval:    config.Distribution.CycleInterval,
-			RefreshInterval:  config.Distribution.RefreshInterval,
-			RetryInterval:    config.Distribution.RetryInterval,
+			NetworkName:       config.NetworkName,
+			Self:              self,
+			Redundancy:        config.Distribution.Redundancy,
+			Partitions:        partitions,
+			PostingsPerCycle:  config.Distribution.PostingsPerCycle,
+			CycleInterval:     config.Distribution.CycleInterval,
+			RefreshInterval:   config.Distribution.RefreshInterval,
+			RetryInterval:     config.Distribution.RetryInterval,
+			MinReachablePeers: config.Distribution.MinReachablePeers,
 		},
 	), nil
 }

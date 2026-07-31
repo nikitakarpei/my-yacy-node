@@ -11,6 +11,7 @@ type DistributionMetrics struct {
 	postingsOffered *prometheus.CounterVec
 	scheduleDrained prometheus.Counter
 	ledgerPrunes    prometheus.Counter
+	cyclesSkipped   prometheus.Counter
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
@@ -36,13 +37,20 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		Name: "rwidistribution_ledger_prunes_total",
 		Help: "Replica ledger entries dropped for peers no longer responsible.",
 	})
-	registry.MustRegister(offerRequests, postingsOffered, scheduleDrained, ledgerPrunes)
+	cyclesSkipped := prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "rwidistribution_cycles_skipped_total",
+		Help: "Distribution cycles skipped because too few peers were reachable.",
+	})
+	registry.MustRegister(
+		offerRequests, postingsOffered, scheduleDrained, ledgerPrunes, cyclesSkipped,
+	)
 
 	return &DistributionMetrics{
 		offerRequests:   offerRequests,
 		postingsOffered: postingsOffered,
 		scheduleDrained: scheduleDrained,
 		ledgerPrunes:    ledgerPrunes,
+		cyclesSkipped:   cyclesSkipped,
 	}
 }
 
@@ -57,4 +65,8 @@ func (d *DistributionMetrics) ObserveScheduleDrain(drained int) {
 
 func (d *DistributionMetrics) ObserveLedgerPrune(dropped int) {
 	d.ledgerPrunes.Add(float64(dropped))
+}
+
+func (d *DistributionMetrics) ObserveCycleSkipped(int) {
+	d.cyclesSkipped.Inc()
 }

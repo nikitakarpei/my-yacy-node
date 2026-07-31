@@ -7,6 +7,11 @@ many peers accept it; distribution only replicates, it never deletes.
 
 ## Behavior
 
+A cycle offers nothing while the node knows fewer than the configured
+minimum of reachable peers. This keeps a thin roster, such as right after
+startup, from being read as "no peer is responsible", which would drop
+replica ledger entries for peers that are still holding a posting.
+
 A newly stored posting becomes due for an offer immediately. Each cycle,
 due postings are offered to their responsible peers. A posting that reaches
 its configured redundancy is left alone until the next refresh interval, so
