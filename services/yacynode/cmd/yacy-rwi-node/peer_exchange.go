@@ -27,7 +27,12 @@ type peerExchange struct {
 
 func (p peerExchange) assemble() (peerannouncement.Announcer, peerroster.Roster, error) {
 	roster, err := peerroster.Open(
-		p.vault, time.Now, reservoirCapacity, activeSetCapacity, p.identity.Hash, p.rosterObserver,
+		p.vault,
+		time.Now,
+		p.config.KnownRosterCapacity,
+		p.config.ReachableRosterCapacity,
+		p.identity.Hash,
+		p.rosterObserver,
 	)
 	if err != nil {
 		return nil, nil, fmt.Errorf("open peer roster: %w", err)

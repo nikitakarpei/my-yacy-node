@@ -53,7 +53,7 @@ func TestReachableUnknownPeerIsNoop(t *testing.T) {
 	}
 }
 
-func TestUnreachableDropsFromReachableAndReservoir(t *testing.T) {
+func TestUnreachableDropsFromReachableButStaysKnown(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, 8, 4)
 
@@ -66,8 +66,30 @@ func TestUnreachableDropsFromReachableAndReservoir(t *testing.T) {
 	if got := roster.ReachablePeers(ctx); len(got) != 0 {
 		t.Fatalf("reachable = %d, want 0 after failure", len(got))
 	}
-	if got := roster.FreshestPeers(ctx, 4); len(got) != 0 {
-		t.Fatalf("greet targets = %d, want 0 after drop", len(got))
+	if _, ok := hashes(roster.FreshestPeers(ctx, 4))[senior.Hash]; !ok {
+		t.Fatalf("unreachable peer should remain known until evicted by capacity")
+	}
+}
+
+func TestUnreachablePeerEvictedBeforeFresherPeers(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, 2, 4)
+
+	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
+	other := seniorSeed(t, "other", "203.0.113.2", 8090)
+	roster.Discover(ctx, senior)
+	roster.ConfirmUnreachable(ctx, senior.Hash)
+	roster.Discover(ctx, other)
+
+	newest := seniorSeed(t, "newest", "203.0.113.3", 8090)
+	roster.Discover(ctx, newest)
+
+	targets := hashes(roster.FreshestPeers(ctx, 4))
+	if _, ok := targets[senior.Hash]; ok {
+		t.Fatalf("unreachable peer should have been evicted first: %v", targets)
+	}
+	if len(targets) != 2 {
+		t.Fatalf("reservoir size = %d, want 2 after eviction", len(targets))
 	}
 }
 

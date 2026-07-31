@@ -14,6 +14,8 @@ import (
 
 const peersBucket vault.Name = "peerroster"
 
+var demotedLastSeen = time.Unix(0, 0)
+
 type roster struct {
 	vault        *vault.Vault
 	peers        *vault.Collection[rosterEntry]
@@ -141,30 +143,38 @@ func (r *roster) evictActive(peer yacymodel.Hash) (wasActive bool) {
 	return wasActive
 }
 
-// Future: tolerate a bounded number of strikes with a cooldown before removal.
 func (r *roster) ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash) {
 	if r.evictActive(peer) {
 		slog.DebugContext(ctx, "peer became unreachable", slog.String("peer", peer.String()))
 	}
 
-	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		if _, err := r.peers.Delete(tx, r.key(peer)); err != nil {
-			return fmt.Errorf("delete peer: %w", err)
-		}
-
-		return nil
-	}); err != nil {
+	if err := r.demote(ctx, peer); err != nil {
 		slog.WarnContext(
 			ctx,
-			"peer removal failed",
+			"peer demotion failed",
 			slog.String("peer", peer.String()),
 			slog.Any("error", err),
 		)
-
-		return
 	}
+}
 
-	r.observer.ObserveKnownPeers(r.peerCount(ctx))
+func (r *roster) demote(ctx context.Context, peer yacymodel.Hash) error {
+	return r.vault.Update(ctx, func(tx *vault.Txn) error {
+		entry, known, err := r.peers.Get(tx, r.key(peer))
+		if err != nil {
+			return fmt.Errorf("read peer: %w", err)
+		}
+		if !known {
+			return nil
+		}
+
+		entry.lastSeen = demotedLastSeen
+		if err := r.peers.Put(tx, r.key(peer), entry); err != nil {
+			return fmt.Errorf("store peer: %w", err)
+		}
+
+		return nil
+	})
 }
 
 func (r *roster) PeersResponsibleFor(

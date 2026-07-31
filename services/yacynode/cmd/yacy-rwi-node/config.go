@@ -16,19 +16,21 @@ import (
 )
 
 const (
-	envPeerHash         = "YACY_PEER_HASH"
-	envPeerName         = "YACY_PEER_NAME"
-	envNetworkName      = "YACY_NETWORK_NAME"
-	envPeerAddr         = "YACY_PEER_ADDR"
-	envOpsAddr          = "YACY_OPS_ADDR"
-	envAdvertiseHost    = "YACY_ADVERTISE_HOST"
-	envAdvertisePort    = "YACY_ADVERTISE_PORT"
-	envDataDir          = "YACY_DATA_DIR"
-	envStorageQuota     = "YACY_STORAGE_QUOTA"
-	envTrustedProxies   = "YACY_TRUSTED_PROXIES"
-	envSeedlistURLs     = "YACY_SEEDLIST_URLS"
-	envAnnounceInterval = "YACY_ANNOUNCE_INTERVAL"
-	envGreetsPerCycle   = "YACY_GREETS_PER_CYCLE"
+	envPeerHash                = "YACY_PEER_HASH"
+	envPeerName                = "YACY_PEER_NAME"
+	envNetworkName             = "YACY_NETWORK_NAME"
+	envPeerAddr                = "YACY_PEER_ADDR"
+	envOpsAddr                 = "YACY_OPS_ADDR"
+	envAdvertiseHost           = "YACY_ADVERTISE_HOST"
+	envAdvertisePort           = "YACY_ADVERTISE_PORT"
+	envDataDir                 = "YACY_DATA_DIR"
+	envStorageQuota            = "YACY_STORAGE_QUOTA"
+	envTrustedProxies          = "YACY_TRUSTED_PROXIES"
+	envSeedlistURLs            = "YACY_SEEDLIST_URLS"
+	envAnnounceInterval        = "YACY_ANNOUNCE_INTERVAL"
+	envGreetsPerCycle          = "YACY_GREETS_PER_CYCLE"
+	envKnownRosterCapacity     = "YACY_KNOWN_ROSTER_CAPACITY"
+	envReachableRosterCapacity = "YACY_REACHABLE_ROSTER_CAPACITY"
 
 	envDistributionEnabled           = "YACY_DISTRIBUTION_ENABLED"
 	envDistributionRedundancy        = "YACY_DISTRIBUTION_REDUNDANCY"
@@ -38,12 +40,14 @@ const (
 	envDistributionRefreshInterval   = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
 	envDistributionRetryInterval     = "YACY_DISTRIBUTION_RETRY_INTERVAL"
 
-	defaultPeerAddr         = ":8090"
-	defaultOpsAddr          = ":9090"
-	defaultDataDir          = "./data"
-	defaultQuota            = "1GB"
-	defaultAnnounceInterval = 10 * time.Minute
-	defaultGreetsPerCycle   = 16
+	defaultPeerAddr                = ":8090"
+	defaultOpsAddr                 = ":9090"
+	defaultDataDir                 = "./data"
+	defaultQuota                   = "1GB"
+	defaultAnnounceInterval        = 10 * time.Minute
+	defaultGreetsPerCycle          = 16
+	defaultKnownRosterCapacity     = 4096
+	defaultReachableRosterCapacity = 256
 
 	defaultDistributionEnabled           = false
 	defaultDistributionRedundancy        = 3
@@ -57,23 +61,25 @@ const (
 )
 
 type nodeConfig struct {
-	Hash             yacymodel.Hash
-	NetworkName      string
-	Name             yacymodel.PeerName
-	AdvertiseHost    string
-	AdvertisePort    int
-	Flags            yacymodel.PeerCapabilities
-	PeerAddr         string
-	OpsAddr          string
-	StoragePath      string
-	StorageQuotaByte int64
-	TrustedProxies   []*net.IPNet
-	ProxyURL         *url.URL
-	SeedlistURLs     []string
-	AnnounceInterval time.Duration
-	GreetsPerCycle   int
-	Distribution     distributionConfig
-	Crawl            crawlConfig
+	Hash                    yacymodel.Hash
+	NetworkName             string
+	Name                    yacymodel.PeerName
+	AdvertiseHost           string
+	AdvertisePort           int
+	Flags                   yacymodel.PeerCapabilities
+	PeerAddr                string
+	OpsAddr                 string
+	StoragePath             string
+	StorageQuotaByte        int64
+	TrustedProxies          []*net.IPNet
+	ProxyURL                *url.URL
+	SeedlistURLs            []string
+	AnnounceInterval        time.Duration
+	GreetsPerCycle          int
+	KnownRosterCapacity     int
+	ReachableRosterCapacity int
+	Distribution            distributionConfig
+	Crawl                   crawlConfig
 }
 
 type distributionConfig struct {
@@ -138,29 +144,33 @@ func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
 	dataDir := envconfig.String(getenv, envDataDir, defaultDataDir)
 
 	return nodeConfig{
-		Hash:             hash,
-		NetworkName:      envconfig.String(getenv, envNetworkName, yacyproto.DefaultNetwork),
-		Name:             name,
-		AdvertiseHost:    host,
-		AdvertisePort:    port,
-		Flags:            seniorFlags(),
-		PeerAddr:         peerAddr,
-		OpsAddr:          envconfig.String(getenv, envOpsAddr, defaultOpsAddr),
-		StoragePath:      filepath.Join(dataDir, storageFileName),
-		StorageQuotaByte: quota,
-		TrustedProxies:   proxies,
-		ProxyURL:         proxyURL,
-		SeedlistURLs:     seedlistURLs,
-		AnnounceInterval: peering.AnnounceInterval,
-		GreetsPerCycle:   peering.GreetsPerCycle,
-		Distribution:     peering.Distribution,
+		Hash:                    hash,
+		NetworkName:             envconfig.String(getenv, envNetworkName, yacyproto.DefaultNetwork),
+		Name:                    name,
+		AdvertiseHost:           host,
+		AdvertisePort:           port,
+		Flags:                   seniorFlags(),
+		PeerAddr:                peerAddr,
+		OpsAddr:                 envconfig.String(getenv, envOpsAddr, defaultOpsAddr),
+		StoragePath:             filepath.Join(dataDir, storageFileName),
+		StorageQuotaByte:        quota,
+		TrustedProxies:          proxies,
+		ProxyURL:                proxyURL,
+		SeedlistURLs:            seedlistURLs,
+		AnnounceInterval:        peering.AnnounceInterval,
+		GreetsPerCycle:          peering.GreetsPerCycle,
+		KnownRosterCapacity:     peering.KnownRosterCapacity,
+		ReachableRosterCapacity: peering.ReachableRosterCapacity,
+		Distribution:            peering.Distribution,
 	}, nil
 }
 
 type peeringConfig struct {
-	AnnounceInterval time.Duration
-	GreetsPerCycle   int
-	Distribution     distributionConfig
+	AnnounceInterval        time.Duration
+	GreetsPerCycle          int
+	KnownRosterCapacity     int
+	ReachableRosterCapacity int
+	Distribution            distributionConfig
 }
 
 func loadPeeringConfig(getenv func(string) string) (peeringConfig, error) {
@@ -178,15 +188,35 @@ func loadPeeringConfig(getenv func(string) string) (peeringConfig, error) {
 		return peeringConfig{}, err
 	}
 
+	knownRosterCapacity, err := envconfig.PositiveInt(
+		getenv,
+		envKnownRosterCapacity,
+		defaultKnownRosterCapacity,
+	)
+	if err != nil {
+		return peeringConfig{}, err
+	}
+
+	reachableRosterCapacity, err := envconfig.PositiveInt(
+		getenv,
+		envReachableRosterCapacity,
+		defaultReachableRosterCapacity,
+	)
+	if err != nil {
+		return peeringConfig{}, err
+	}
+
 	distribution, err := loadDistributionConfig(getenv)
 	if err != nil {
 		return peeringConfig{}, err
 	}
 
 	return peeringConfig{
-		AnnounceInterval: announceInterval,
-		GreetsPerCycle:   greetsPerCycle,
-		Distribution:     distribution,
+		AnnounceInterval:        announceInterval,
+		GreetsPerCycle:          greetsPerCycle,
+		KnownRosterCapacity:     knownRosterCapacity,
+		ReachableRosterCapacity: reachableRosterCapacity,
+		Distribution:            distribution,
 	}, nil
 }
 
