@@ -48,10 +48,11 @@ func (p peerExchange) assemble() (peerannouncement.Announcer, peerroster.Roster,
 
 	announcer := peerannouncement.New(
 		peerannouncement.Config{
-			Client:         p.client,
-			NetworkName:    p.config.NetworkName,
-			Interval:       p.config.AnnounceInterval,
-			GreetsPerCycle: p.config.GreetsPerCycle,
+			Client:             p.client,
+			NetworkName:        p.config.NetworkName,
+			Interval:           p.config.AnnounceInterval,
+			ReachableCap:       p.config.ReachableRosterCapacity,
+			ContactConcurrency: p.config.PeerContactConcurrency,
 		},
 		p.report,
 		bootstrap.New(p.client, p.config.SeedlistURLs),

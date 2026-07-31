@@ -15,9 +15,9 @@ func TestDiscoverKeepsSeniorsAndDropsJuniors(t *testing.T) {
 	junior := seniorSeed(t, "junior", "", 0)
 	roster.Discover(ctx, senior, junior)
 
-	targets := hashes(roster.FreshestPeers(ctx, 4))
+	targets := hashes(roster.UnreachablePeers(ctx, 4))
 	if _, ok := targets[senior.Hash]; !ok {
-		t.Fatalf("senior missing from greet targets: %v", targets)
+		t.Fatalf("senior missing from probe targets: %v", targets)
 	}
 	if _, ok := targets[junior.Hash]; ok {
 		t.Fatalf("junior should have been dropped: %v", targets)
@@ -66,7 +66,7 @@ func TestUnreachableDropsFromReachableButStaysKnown(t *testing.T) {
 	if got := roster.ReachablePeers(ctx); len(got) != 0 {
 		t.Fatalf("reachable = %d, want 0 after failure", len(got))
 	}
-	if _, ok := hashes(roster.FreshestPeers(ctx, 4))[senior.Hash]; !ok {
+	if _, ok := hashes(roster.UnreachablePeers(ctx, 4))[senior.Hash]; !ok {
 		t.Fatalf("unreachable peer should remain known until evicted by capacity")
 	}
 }
@@ -84,7 +84,7 @@ func TestUnreachablePeerEvictedBeforeFresherPeers(t *testing.T) {
 	newest := seniorSeed(t, "newest", "203.0.113.3", 8090)
 	roster.Discover(ctx, newest)
 
-	targets := hashes(roster.FreshestPeers(ctx, 4))
+	targets := hashes(roster.UnreachablePeers(ctx, 4))
 	if _, ok := targets[senior.Hash]; ok {
 		t.Fatalf("unreachable peer should have been evicted first: %v", targets)
 	}
@@ -105,7 +105,7 @@ func TestDiscoverEvictsStalestBeyondCapacity(t *testing.T) {
 	roster.Discover(ctx, middle)
 	roster.Discover(ctx, newest)
 
-	targets := hashes(roster.FreshestPeers(ctx, 4))
+	targets := hashes(roster.UnreachablePeers(ctx, 4))
 	if _, ok := targets[oldest.Hash]; ok {
 		t.Fatalf("stalest peer should have been evicted: %v", targets)
 	}
@@ -114,7 +114,7 @@ func TestDiscoverEvictsStalestBeyondCapacity(t *testing.T) {
 	}
 }
 
-func TestFreshestPeersToppedUpToLimit(t *testing.T) {
+func TestUnreachablePeersCappedToLimit(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, 8, 2)
 
@@ -122,8 +122,54 @@ func TestFreshestPeersToppedUpToLimit(t *testing.T) {
 		roster.Discover(ctx, seniorSeed(t, name, "203.0.113.9", 8090))
 	}
 
-	if got := len(roster.FreshestPeers(ctx, 2)); got != 2 {
-		t.Fatalf("freshest peers = %d, want capped at limit 2", got)
+	if got := len(roster.UnreachablePeers(ctx, 2)); got != 2 {
+		t.Fatalf("unreachable peers = %d, want capped at limit 2", got)
+	}
+}
+
+func TestUnreachablePeersRotatesByLeastRecentlyContacted(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, 8, 4)
+
+	first := seniorSeed(t, "first", "203.0.113.1", 8090)
+	second := seniorSeed(t, "second", "203.0.113.2", 8090)
+	roster.Discover(ctx, first)
+	roster.Discover(ctx, second)
+
+	targets := hashes(roster.UnreachablePeers(ctx, 1))
+	if _, ok := targets[first.Hash]; !ok {
+		t.Fatalf("least recently contacted peer missing: %v", targets)
+	}
+
+	roster.ConfirmUnreachable(ctx, first.Hash)
+
+	targets = hashes(roster.UnreachablePeers(ctx, 1))
+	if _, ok := targets[second.Hash]; !ok {
+		t.Fatalf("rotation should now favor the other peer: %v", targets)
+	}
+}
+
+func TestUnreachablePeersPrioritizesReachableHistoryOverNeverConfirmed(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, 8, 1)
+
+	filler := seniorSeed(t, "filler", "203.0.113.1", 8090)
+	roster.Discover(ctx, filler)
+	roster.ConfirmReachable(ctx, filler.Hash)
+
+	rejected := seniorSeed(t, "rejected", "203.0.113.2", 8090)
+	roster.Discover(ctx, rejected)
+	roster.ConfirmReachable(ctx, rejected.Hash)
+
+	never := seniorSeed(t, "never", "203.0.113.3", 8090)
+	roster.Discover(ctx, never)
+
+	targets := roster.UnreachablePeers(ctx, 1)
+	if len(targets) != 1 || targets[0].Hash != rejected.Hash {
+		t.Fatalf(
+			"probe targets = %v, want the peer confirmed reachable but rejected for capacity first",
+			hashes(targets),
+		)
 	}
 }
 

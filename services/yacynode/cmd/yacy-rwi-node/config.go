@@ -28,7 +28,7 @@ const (
 	envTrustedProxies          = "YACY_TRUSTED_PROXIES"
 	envSeedlistURLs            = "YACY_SEEDLIST_URLS"
 	envAnnounceInterval        = "YACY_ANNOUNCE_INTERVAL"
-	envGreetsPerCycle          = "YACY_GREETS_PER_CYCLE"
+	envPeerContactConcurrency  = "YACY_PEER_CONTACT_CONCURRENCY"
 	envKnownRosterCapacity     = "YACY_KNOWN_ROSTER_CAPACITY"
 	envReachableRosterCapacity = "YACY_REACHABLE_ROSTER_CAPACITY"
 
@@ -46,7 +46,7 @@ const (
 	defaultDataDir                 = "./data"
 	defaultQuota                   = "1GB"
 	defaultAnnounceInterval        = 10 * time.Minute
-	defaultGreetsPerCycle          = 16
+	defaultPeerContactConcurrency  = 16
 	defaultKnownRosterCapacity     = 4096
 	defaultReachableRosterCapacity = 256
 
@@ -77,7 +77,7 @@ type nodeConfig struct {
 	ProxyURL                *url.URL
 	SeedlistURLs            []string
 	AnnounceInterval        time.Duration
-	GreetsPerCycle          int
+	PeerContactConcurrency  int
 	KnownRosterCapacity     int
 	ReachableRosterCapacity int
 	Distribution            distributionConfig
@@ -161,7 +161,7 @@ func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
 		ProxyURL:                proxyURL,
 		SeedlistURLs:            seedlistURLs,
 		AnnounceInterval:        peering.AnnounceInterval,
-		GreetsPerCycle:          peering.GreetsPerCycle,
+		PeerContactConcurrency:  peering.PeerContactConcurrency,
 		KnownRosterCapacity:     peering.KnownRosterCapacity,
 		ReachableRosterCapacity: peering.ReachableRosterCapacity,
 		Distribution:            peering.Distribution,
@@ -170,7 +170,7 @@ func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
 
 type peeringConfig struct {
 	AnnounceInterval        time.Duration
-	GreetsPerCycle          int
+	PeerContactConcurrency  int
 	KnownRosterCapacity     int
 	ReachableRosterCapacity int
 	Distribution            distributionConfig
@@ -186,7 +186,11 @@ func loadPeeringConfig(getenv func(string) string) (peeringConfig, error) {
 		return peeringConfig{}, err
 	}
 
-	greetsPerCycle, err := envconfig.PositiveInt(getenv, envGreetsPerCycle, defaultGreetsPerCycle)
+	peerContactConcurrency, err := envconfig.PositiveInt(
+		getenv,
+		envPeerContactConcurrency,
+		defaultPeerContactConcurrency,
+	)
 	if err != nil {
 		return peeringConfig{}, err
 	}
@@ -216,7 +220,7 @@ func loadPeeringConfig(getenv func(string) string) (peeringConfig, error) {
 
 	return peeringConfig{
 		AnnounceInterval:        announceInterval,
-		GreetsPerCycle:          greetsPerCycle,
+		PeerContactConcurrency:  peerContactConcurrency,
 		KnownRosterCapacity:     knownRosterCapacity,
 		ReachableRosterCapacity: reachableRosterCapacity,
 		Distribution:            distribution,

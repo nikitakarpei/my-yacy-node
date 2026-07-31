@@ -58,17 +58,17 @@ func Start(
 ) (testcontainers.Container, string) {
 	t.Helper()
 	env := map[string]string{
-		"YACY_PEER_HASH":         cfg.Hash.String(),
-		"YACY_PEER_NAME":         cfg.Alias,
-		"YACY_NETWORK_NAME":      yacyproto.DefaultNetwork,
-		"YACY_PEER_ADDR":         ":" + peerclient.Port,
-		"YACY_ADVERTISE_HOST":    cfg.Alias,
-		"YACY_ADVERTISE_PORT":    peerclient.Port,
-		"YACY_DATA_DIR":          "/tmp/data",
-		"YACY_ANNOUNCE_INTERVAL": "10s",
-		"YACY_GREETS_PER_CYCLE":  strconv.Itoa(MinConnectedPeers + 8),
-		"YACY_PROXY_URL":         egressproxy.NetworkURL(),
-		"LOG_LEVEL":              "debug",
+		"YACY_PEER_HASH":                 cfg.Hash.String(),
+		"YACY_PEER_NAME":                 cfg.Alias,
+		"YACY_NETWORK_NAME":              yacyproto.DefaultNetwork,
+		"YACY_PEER_ADDR":                 ":" + peerclient.Port,
+		"YACY_ADVERTISE_HOST":            cfg.Alias,
+		"YACY_ADVERTISE_PORT":            peerclient.Port,
+		"YACY_DATA_DIR":                  "/tmp/data",
+		"YACY_ANNOUNCE_INTERVAL":         "10s",
+		"YACY_REACHABLE_ROSTER_CAPACITY": strconv.Itoa(MinConnectedPeers + 8),
+		"YACY_PROXY_URL":                 egressproxy.NetworkURL(),
+		"LOG_LEVEL":                      "debug",
 	}
 	if cfg.SeedlistURL != "" {
 		env["YACY_SEEDLIST_URLS"] = cfg.SeedlistURL
