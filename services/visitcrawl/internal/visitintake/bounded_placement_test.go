@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyvisitcrawl/internal/visitintake"
 )
 
 func waitFor(t *testing.T, condition func() bool) {

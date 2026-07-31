@@ -22,19 +22,19 @@ func New() *VisitMetrics {
 	metrics := &VisitMetrics{
 		registry: registry,
 		visitsReceived: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "yacyvisitcrawl_visits_received_total",
+			Name: "visitcrawl_visits_received_total",
 			Help: "Visited-page requests received.",
 		}),
 		visitsRejected: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "yacyvisitcrawl_visits_rejected_total",
+			Name: "visitcrawl_visits_rejected_total",
 			Help: "Visited-page requests rejected for an invalid url.",
 		}),
 		ordersPlaced: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "yacyvisitcrawl_orders_placed_total",
+			Name: "visitcrawl_orders_placed_total",
 			Help: "Crawl orders placed on the broker.",
 		}),
 		ordersUnplaced: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "yacyvisitcrawl_orders_unplaced_total",
+			Name: "visitcrawl_orders_unplaced_total",
 			Help: "Crawl orders that could not be placed on the broker.",
 		}),
 	}

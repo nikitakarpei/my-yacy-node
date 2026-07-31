@@ -1,4 +1,4 @@
-module github.com/nikitakarpei/yacy-rwi-node/yacyvisitcrawl
+module github.com/nikitakarpei/yacy-rwi-node/visitcrawl
 
 go 1.26
 

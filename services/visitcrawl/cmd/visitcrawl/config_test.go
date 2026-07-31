@@ -61,12 +61,12 @@ func TestLoadServiceConfigRequiresNATSURL(t *testing.T) {
 
 func TestLoadServiceConfigOverrides(t *testing.T) {
 	env := baseEnv()
-	env["YACYVISITCRAWL_LISTEN_ADDR"] = ":9000"
-	env["YACYVISITCRAWL_ORDER_TIMEOUT"] = "2s"
-	env["YACYVISITCRAWL_MAX_IN_FLIGHT"] = "8"
-	env["YACYVISITCRAWL_CRAWL_SCOPE"] = "wide"
-	env["YACYVISITCRAWL_CRAWL_MAX_DEPTH"] = "3"
-	env["YACYVISITCRAWL_CRAWL_ALLOW_QUERY_URLS"] = "true"
+	env["VISITCRAWL_LISTEN_ADDR"] = ":9000"
+	env["VISITCRAWL_ORDER_TIMEOUT"] = "2s"
+	env["VISITCRAWL_MAX_IN_FLIGHT"] = "8"
+	env["VISITCRAWL_CRAWL_SCOPE"] = "wide"
+	env["VISITCRAWL_CRAWL_MAX_DEPTH"] = "3"
+	env["VISITCRAWL_CRAWL_ALLOW_QUERY_URLS"] = "true"
 	cfg, err := LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
@@ -84,7 +84,7 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 
 func TestLoadServiceConfigRejectsUnknownScope(t *testing.T) {
 	env := baseEnv()
-	env["YACYVISITCRAWL_CRAWL_SCOPE"] = "galaxy"
+	env["VISITCRAWL_CRAWL_SCOPE"] = "galaxy"
 	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("unknown scope should error")
 	}
@@ -92,13 +92,13 @@ func TestLoadServiceConfigRejectsUnknownScope(t *testing.T) {
 
 func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 	for _, bad := range []map[string]string{
-		{"YACYVISITCRAWL_ORDER_TIMEOUT": "0s"},
-		{"YACYVISITCRAWL_ORDER_TIMEOUT": "nope"},
-		{"YACYVISITCRAWL_MAX_IN_FLIGHT": "0"},
-		{"YACYVISITCRAWL_MAX_BODY_BYTES": "-1"},
-		{"YACYVISITCRAWL_CRAWL_MAX_DEPTH": "-1"},
-		{"YACYVISITCRAWL_CRAWL_MAX_PAGES_PER_HOST": "0"},
-		{"YACYVISITCRAWL_CRAWL_ALLOW_QUERY_URLS": "maybe"},
+		{"VISITCRAWL_ORDER_TIMEOUT": "0s"},
+		{"VISITCRAWL_ORDER_TIMEOUT": "nope"},
+		{"VISITCRAWL_MAX_IN_FLIGHT": "0"},
+		{"VISITCRAWL_MAX_BODY_BYTES": "-1"},
+		{"VISITCRAWL_CRAWL_MAX_DEPTH": "-1"},
+		{"VISITCRAWL_CRAWL_MAX_PAGES_PER_HOST": "0"},
+		{"VISITCRAWL_CRAWL_ALLOW_QUERY_URLS": "maybe"},
 	} {
 		env := baseEnv()
 		for k, v := range bad {

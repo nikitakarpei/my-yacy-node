@@ -9,8 +9,8 @@ answer with.
 
 | Service | Role |
 | --- | --- |
-| `searxng` | The search UI: queries the local index alongside web engines, and points every result link at `yacyvisitcrawl`. |
-| `yacyvisitcrawl` | Turns an opened result into one crawl order and redirects to the page, without waiting on the order. |
+| `searxng` | The search UI: queries the local index alongside web engines, and points every result link at `visitcrawl`. |
+| `visitcrawl` | Turns an opened result into one crawl order and redirects to the page, without waiting on the order. |
 | `nats` | Broker carrying crawl orders and crawled pages between services. |
 | `yacycrawler` | Fetches an ordered page and turns it into text and RWI representations. |
 | `renderproxy` | Proxies the page fetch through `lightpanda` so JS-rendered pages are fetched too. |
@@ -23,7 +23,7 @@ answer with.
 ## Setup
 
 1. Copy `.env.example` to `.env` and set `YACY_PEER_HASH`, `YACY_PEER_NAME`,
-   `YACY_ADVERTISE_HOST`, `YACYVISITCRAWL_PUBLIC_URL`, and `SEARXNG_SECRET`.
+   `YACY_ADVERTISE_HOST`, `VISITCRAWL_PUBLIC_URL`, and `SEARXNG_SECRET`.
 2. Copy `docker-compose.yml.example` to `docker-compose.yml`.
 3. Start the stack: `docker compose up -d`.
 

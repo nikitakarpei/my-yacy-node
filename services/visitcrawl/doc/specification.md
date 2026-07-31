@@ -1,9 +1,9 @@
-# yacyvisitcrawl — Technical Specification
+# visitcrawl — Technical Specification
 
 ## Context
 
 Nothing in the stack observes which pages a person actually visits, so visited pages
-never become fresh crawl work. `yacyvisitcrawl` is a standalone, disposable Go service
+never become fresh crawl work. `visitcrawl` is a standalone, disposable Go service
 that closes this gap: it receives a request naming a page someone visited, turns that
 visit into one crawl order onto the broker `yacycrawler` consumes from, and sends the
 browser on to the page. A link issuer that routes visits through the service is the

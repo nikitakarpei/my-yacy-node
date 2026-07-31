@@ -24,12 +24,12 @@ class SXNGPlugin(Plugin):
         self.info = PluginInfo(
             id=self.id,
             name="Result link router",
-            description="Route result links through yacyvisitcrawl before their destination",
+            description="Route result links through visitcrawl before their destination",
             preference_section="privacy",
         )
-        base_url = os.environ.get("YACYVISITCRAWL_BASE_URL")
+        base_url = os.environ.get("VISITCRAWL_BASE_URL")
         if not base_url:
-            raise ValueError("YACYVISITCRAWL_BASE_URL must be set")
+            raise ValueError("VISITCRAWL_BASE_URL must be set")
         self.visitcrawl_base_url = base_url.rstrip("/")
         self.disable_header = os.environ.get(
             "RESULT_LINK_ROUTER_DISABLE_HEADER", DISABLE_HEADER_DEFAULT

@@ -32,10 +32,10 @@ jobs:
     uses: ./.github/workflows/build-yacycrawler.yml
     secrets: inherit
 
-  build-yacyvisitcrawl:
+  build-visitcrawl:
     needs: verify
     if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/build-yacyvisitcrawl.yml
+    uses: ./.github/workflows/build-visitcrawl.yml
     secrets: inherit
 
   build-corpustext:

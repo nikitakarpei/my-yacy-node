@@ -28,13 +28,13 @@ services:
         condition: service_completed_successfully
       searxng-result-router-init:
         condition: service_completed_successfully
-      yacyvisitcrawl:
+      visitcrawl:
         condition: service_started
     ports:
       - "8080:8080"
     environment:
       PYTHONPATH: /opt/searxng-plugins
-      YACYVISITCRAWL_BASE_URL: ${YACYVISITCRAWL_PUBLIC_URL:?set YACYVISITCRAWL_PUBLIC_URL in .env}
+      VISITCRAWL_BASE_URL: ${VISITCRAWL_PUBLIC_URL:?set VISITCRAWL_PUBLIC_URL in .env}
       SEARXNG_SECRET: ${SEARXNG_SECRET:?set SEARXNG_SECRET in .env}
       SEARXNG_SETTINGS_PATH: /etc/searxng/settings.${COMPOSE_PROFILES:?set COMPOSE_PROFILES in .env}.yml
     volumes:

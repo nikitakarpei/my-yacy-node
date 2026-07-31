@@ -9,16 +9,16 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyvisitcrawl/internal/crawlorderbroker"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyvisitcrawl/internal/visitintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyvisitcrawl/internal/visitmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderbroker"
+	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitintake"
+	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitmetrics"
 )
 
 const (
 	opsReadHeaderLimit = 10 * time.Second
 	opsShutdownLimit   = 15 * time.Second
-	msgServiceStarted  = "yacyvisitcrawl started"
-	msgServiceStopped  = "yacyvisitcrawl stopped"
+	msgServiceStarted  = "visitcrawl started"
+	msgServiceStopped  = "visitcrawl stopped"
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig, metrics *visitmetrics.VisitMetrics) error {

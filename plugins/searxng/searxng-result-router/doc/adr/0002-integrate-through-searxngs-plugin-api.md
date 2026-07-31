@@ -32,5 +32,5 @@ The plugin's shape is dictated by SearXNG's API, not chosen freely: the class na
 signatures, and `filter_urls` field-name set (`url`, `iframe_src`, `audio_src`, `img_src`,
 `thumbnail_src`, `thumbnail`, plus infobox fields) come from `searx.plugins`/`searx.result_types`
 and change only if SearXNG changes them. Restricting rewriting to the `url` field is a
-deliberate scope choice, not an API constraint: `yacyvisitcrawl` treats a visit as "a person
+deliberate scope choice, not an API constraint: `visitcrawl` treats a visit as "a person
 went to this page", which only the primary result link represents.

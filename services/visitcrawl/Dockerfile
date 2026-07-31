@@ -24,11 +24,11 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     GOOS=$TARGETOS GOARCH=$TARGETARCH \
     go build \
         -ldflags="-s -w -X main.version=${VERSION}" \
-        -o /out/yacyvisitcrawl \
-        ./services/yacyvisitcrawl/cmd/yacyvisitcrawl
+        -o /out/visitcrawl \
+        ./services/visitcrawl/cmd/visitcrawl
 
 FROM gcr.io/distroless/static-debian12:nonroot
 
-COPY --from=build /out/yacyvisitcrawl /usr/local/bin/yacyvisitcrawl
+COPY --from=build /out/visitcrawl /usr/local/bin/visitcrawl
 
-ENTRYPOINT ["/usr/local/bin/yacyvisitcrawl"]
+ENTRYPOINT ["/usr/local/bin/visitcrawl"]

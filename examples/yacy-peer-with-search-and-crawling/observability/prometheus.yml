@@ -14,9 +14,9 @@ scrape_configs:
     static_configs:
       - targets: ["yacycrawler:9090"]
 
-  - job_name: yacyvisitcrawl
+  - job_name: visitcrawl
     static_configs:
-      - targets: ["yacyvisitcrawl:9091"]
+      - targets: ["visitcrawl:9091"]
 
   - job_name: corpustext
     static_configs:
