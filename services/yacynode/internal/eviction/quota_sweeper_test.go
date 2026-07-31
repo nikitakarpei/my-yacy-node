@@ -59,7 +59,7 @@ type fakeReferences struct {
 
 func (f fakeReferences) WordsReferencing(
 	_ *vault.Txn,
-	_ yacymodel.Hash,
+	_ yacymodel.URLHash,
 ) ([]yacymodel.Hash, error) {
 	return []yacymodel.Hash{f.word}, nil
 }
@@ -69,12 +69,13 @@ func (f fakeReferences) ReferencedURLCount(context.Context) (int, error) {
 }
 
 type fakePostings struct {
-	purged []yacymodel.Hash
+	purged []yacymodel.URLHash
 }
 
 func (f *fakePostings) PurgePosting(
 	_ *vault.Txn,
-	_, url yacymodel.Hash,
+	_ yacymodel.Hash,
+	url yacymodel.URLHash,
 ) (bool, error) {
 	f.purged = append(f.purged, url)
 
@@ -82,13 +83,13 @@ func (f *fakePostings) PurgePosting(
 }
 
 type fakeURLs struct {
-	remaining []yacymodel.Hash
-	selected  [][]yacymodel.Hash
+	remaining []yacymodel.URLHash
+	selected  [][]yacymodel.URLHash
 	noDelete  bool
 	purgeErr  error
 }
 
-func (f *fakeURLs) StalestURLs(_ context.Context, limit int) ([]yacymodel.Hash, error) {
+func (f *fakeURLs) StalestURLs(_ context.Context, limit int) ([]yacymodel.URLHash, error) {
 	if limit > len(f.remaining) {
 		limit = len(f.remaining)
 	}
@@ -101,7 +102,7 @@ func (f *fakeURLs) StalestURLs(_ context.Context, limit int) ([]yacymodel.Hash, 
 func (f *fakeURLs) Purge(
 	_ context.Context,
 	_ *vault.Txn,
-	urls []yacymodel.Hash,
+	urls []yacymodel.URLHash,
 ) (urlmeta.PurgeResult, error) {
 	if f.purgeErr != nil {
 		return urlmeta.PurgeResult{}, f.purgeErr
@@ -114,10 +115,10 @@ func (f *fakeURLs) Purge(
 	return urlmeta.PurgeResult{URLsDeleted: len(urls)}, nil
 }
 
-func hashes(n int) []yacymodel.Hash {
-	out := make([]yacymodel.Hash, n)
+func hashes(n int) []yacymodel.URLHash {
+	out := make([]yacymodel.URLHash, n)
 	for i := range out {
-		out[i] = yacymodel.WordHash(string(rune('a' + i)))
+		out[i] = urlHash(string(rune('a' + i)))
 	}
 
 	return out
@@ -217,4 +218,13 @@ func TestSweepReportsPurgeError(t *testing.T) {
 	if !errors.Is(err, wantErr) {
 		t.Fatalf("err = %v, want %v", err, wantErr)
 	}
+}
+
+func urlHash(raw string) yacymodel.URLHash {
+	hash, err := yacymodel.ParseURLHash(yacymodel.WordHash(raw).String())
+	if err != nil {
+		panic(err)
+	}
+
+	return hash
 }

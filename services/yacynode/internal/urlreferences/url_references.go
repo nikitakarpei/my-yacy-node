@@ -32,7 +32,11 @@ func openURLReferences(v *vault.Vault) (*urlReferences, error) {
 	return &urlReferences{vault: v, words: words, referenced: referenced}, nil
 }
 
-func (r *urlReferences) PostingStored(tx *vault.Txn, word, url yacymodel.Hash) error {
+func (r *urlReferences) PostingStored(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) error {
 	if err := r.words.Put(tx, wordByURL{url: url, word: word}.key(), struct{}{}); err != nil {
 		return fmt.Errorf("record word by url: %w", err)
 	}
@@ -43,7 +47,11 @@ func (r *urlReferences) PostingStored(tx *vault.Txn, word, url yacymodel.Hash) e
 	return nil
 }
 
-func (r *urlReferences) PostingPurged(tx *vault.Txn, word, url yacymodel.Hash) error {
+func (r *urlReferences) PostingPurged(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) error {
 	if _, err := r.words.Delete(tx, wordByURL{url: url, word: word}.key()); err != nil {
 		return fmt.Errorf("drop word by url: %w", err)
 	}
@@ -64,7 +72,7 @@ func (r *urlReferences) PostingPurged(tx *vault.Txn, word, url yacymodel.Hash) e
 
 func (r *urlReferences) WordsReferencing(
 	tx *vault.Txn,
-	url yacymodel.Hash,
+	url yacymodel.URLHash,
 ) ([]yacymodel.Hash, error) {
 	var words []yacymodel.Hash
 	err := r.words.Scan(

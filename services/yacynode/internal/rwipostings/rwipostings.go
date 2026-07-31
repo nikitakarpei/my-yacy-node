@@ -16,17 +16,21 @@ import (
 )
 
 type PostingObserver interface {
-	PostingStored(tx *vault.Txn, word, url yacymodel.Hash) error
-	PostingPurged(tx *vault.Txn, word, url yacymodel.Hash) error
+	PostingStored(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error
+	PostingPurged(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error
 }
 
 type PostingPurger interface {
-	PurgePosting(tx *vault.Txn, word, url yacymodel.Hash) (bool, error)
+	PurgePosting(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) (bool, error)
 }
 
 type PostingIndex interface {
 	RWICount(ctx context.Context) (int, error)
-	Posting(ctx context.Context, word, url yacymodel.Hash) (yacymodel.RWIPosting, bool, error)
+	Posting(
+		ctx context.Context,
+		word yacymodel.Hash,
+		url yacymodel.URLHash,
+	) (yacymodel.RWIPosting, bool, error)
 	ScanWord(
 		ctx context.Context,
 		word yacymodel.Hash,
@@ -42,7 +46,7 @@ type Receipt struct {
 	Busy       bool
 	TooLarge   bool
 	Pause      time.Duration
-	UnknownURL []yacymodel.Hash
+	UnknownURL []yacymodel.URLHash
 }
 
 type Config struct {

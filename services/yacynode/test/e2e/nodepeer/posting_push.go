@@ -30,14 +30,10 @@ func PushPosting(
 	probe *httpprobe.Probe,
 	nodeURL string,
 	nodeHash yacymodel.Hash,
-	word, docURL yacymodel.Hash,
+	word yacymodel.Hash,
+	docURL yacymodel.URLHash,
 ) {
 	t.Helper()
-
-	urlHash, err := yacymodel.ParseURLHash(docURL.String())
-	if err != nil {
-		t.Fatalf("parse posting url hash: %v", err)
-	}
 
 	req := yacyproto.TransferRWIRequest{
 		NetworkName: yacyproto.DefaultNetwork,
@@ -45,7 +41,7 @@ func PushPosting(
 		YouAre:      nodeHash,
 		WordCount:   1,
 		EntryCount:  1,
-		Indexes:     []yacymodel.RWIPosting{{WordHash: word, URLHash: urlHash}},
+		Indexes:     []yacymodel.RWIPosting{{WordHash: word, URLHash: docURL}},
 	}
 
 	result := probe.PostRaw(

@@ -22,7 +22,7 @@ func (s searcher) scanTerm(
 		}
 		total++
 		kept.consider(termPosting{
-			documentIdentifier: posting.URLHash.Hash(),
+			documentIdentifier: posting.URLHash,
 			occurrences:        posting.Hits,
 			textPosition:       posting.TextPosition,
 		})
@@ -39,14 +39,14 @@ func (s searcher) scanTerm(
 func (s searcher) excludedDocuments(
 	ctx context.Context,
 	terms []yacymodel.Hash,
-) (map[yacymodel.Hash]struct{}, error) {
-	excluded := make(map[yacymodel.Hash]struct{})
+) (map[yacymodel.URLHash]struct{}, error) {
+	excluded := make(map[yacymodel.URLHash]struct{})
 	for _, term := range terms {
 		err := s.index.ScanWord(
 			ctx,
 			term,
 			func(posting yacymodel.RWIPosting) (bool, error) {
-				excluded[posting.URLHash.Hash()] = struct{}{}
+				excluded[posting.URLHash] = struct{}{}
 
 				return true, nil
 			},

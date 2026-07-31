@@ -36,7 +36,7 @@ func store(
 	t *testing.T,
 	v *vault.Vault,
 	order urlmetastaleness.StalenessRanking,
-	hash yacymodel.Hash,
+	hash yacymodel.URLHash,
 	freshness yacymodel.Optional[yacymodel.CalendarDay],
 ) {
 	t.Helper()
@@ -50,9 +50,9 @@ func store(
 
 func TestStalestURLsReturnsStalestFirst(t *testing.T) {
 	vault, order := openOrder(t)
-	fresh := yacymodel.WordHash("fresh")
-	stale := yacymodel.WordHash("stale")
-	middle := yacymodel.WordHash("middle")
+	fresh := urlHash("fresh")
+	stale := urlHash("stale")
+	middle := urlHash("middle")
 	store(t, vault, order, fresh, yacymodel.Some(yacymodel.NewCalendarDay(2026, time.January, 1)))
 	store(t, vault, order, stale, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
 	store(t, vault, order, middle, yacymodel.Some(yacymodel.NewCalendarDay(2023, time.January, 1)))
@@ -68,8 +68,8 @@ func TestStalestURLsReturnsStalestFirst(t *testing.T) {
 
 func TestStalestURLsTreatsMissingFreshnessAsStalest(t *testing.T) {
 	vault, order := openOrder(t)
-	dated := yacymodel.WordHash("dated")
-	undated := yacymodel.WordHash("undated")
+	dated := urlHash("dated")
+	undated := urlHash("undated")
 	store(t, vault, order, dated, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
 	store(t, vault, order, undated, yacymodel.None[yacymodel.CalendarDay]())
 
@@ -96,8 +96,8 @@ func TestStalestURLsZeroLimit(t *testing.T) {
 
 func TestPurgedURLLeavesOrder(t *testing.T) {
 	v, order := openOrder(t)
-	kept := yacymodel.WordHash("kept")
-	gone := yacymodel.WordHash("gone")
+	kept := urlHash("kept")
+	gone := urlHash("gone")
 	store(t, v, order, kept, yacymodel.Some(yacymodel.NewCalendarDay(2025, time.January, 1)))
 	store(t, v, order, gone, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
 
@@ -120,8 +120,17 @@ func TestPurgeUnknownURLIsHarmless(t *testing.T) {
 	v, order := openOrder(t)
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return order.URLPurged(tx, yacymodel.WordHash("absent"))
+		return order.URLPurged(tx, urlHash("absent"))
 	}); err != nil {
 		t.Fatalf("URLPurged: %v", err)
 	}
+}
+
+func urlHash(raw string) yacymodel.URLHash {
+	hash, err := yacymodel.ParseURLHash(yacymodel.WordHash(raw).String())
+	if err != nil {
+		panic(err)
+	}
+
+	return hash
 }

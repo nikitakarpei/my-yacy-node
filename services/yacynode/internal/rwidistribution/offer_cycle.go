@@ -61,7 +61,7 @@ func (c *offerCycle) offerOnce(ctx context.Context) {
 			retryAfter = outcome.RetryAfter
 		}
 		for _, posting := range offer.Postings {
-			entry := duePosting{Word: posting.WordHash, URL: posting.URLHash.Hash()}
+			entry := duePosting{Word: posting.WordHash, URL: posting.URLHash}
 			if _, seen := touched[entry]; !seen {
 				touched[entry] = retryAfter
 			}

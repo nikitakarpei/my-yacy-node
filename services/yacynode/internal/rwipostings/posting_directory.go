@@ -20,7 +20,8 @@ func (d postingDirectory) RWICount(ctx context.Context) (int, error) {
 
 func (d postingDirectory) Posting(
 	ctx context.Context,
-	word, url yacymodel.Hash,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
 	var (
 		entry yacymodel.RWIPosting
@@ -48,7 +49,8 @@ func (d postingDirectory) Posting(
 
 func (d postingDirectory) PurgePosting(
 	tx *vault.Txn,
-	word, url yacymodel.Hash,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
 ) (bool, error) {
 	deleted, err := d.postings.Delete(tx, postingKey(word, url))
 	if err != nil {

@@ -16,7 +16,7 @@ type urlDirectory struct {
 
 func (d urlDirectory) MetadataByHash(
 	ctx context.Context,
-	hashes []yacymodel.Hash,
+	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLMetadata, error) {
 	metadata := make([]yacymodel.URLMetadata, 0, len(hashes))
 	err := d.vault.View(ctx, func(tx *vault.Txn) error {
@@ -42,10 +42,10 @@ func (d urlDirectory) MetadataByHash(
 
 func (d urlDirectory) MissingURLs(
 	ctx context.Context,
-	hashes []yacymodel.Hash,
-) ([]yacymodel.Hash, error) {
-	missing := make([]yacymodel.Hash, 0)
-	seen := make(map[yacymodel.Hash]struct{}, len(hashes))
+	hashes []yacymodel.URLHash,
+) ([]yacymodel.URLHash, error) {
+	missing := make([]yacymodel.URLHash, 0)
+	seen := make(map[yacymodel.URLHash]struct{}, len(hashes))
 	err := d.vault.View(ctx, func(tx *vault.Txn) error {
 		for _, hash := range hashes {
 			if _, ok := seen[hash]; ok {
@@ -92,7 +92,7 @@ func (d urlDirectory) Count(ctx context.Context) (int, error) {
 func (d urlDirectory) Purge(
 	ctx context.Context,
 	tx *vault.Txn,
-	urls []yacymodel.Hash,
+	urls []yacymodel.URLHash,
 ) (PurgeResult, error) {
 	var result PurgeResult
 	for _, hash := range urls {

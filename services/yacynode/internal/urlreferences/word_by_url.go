@@ -8,7 +8,7 @@ import (
 )
 
 type wordByURL struct {
-	url  yacymodel.Hash
+	url  yacymodel.URLHash
 	word yacymodel.Hash
 }
 

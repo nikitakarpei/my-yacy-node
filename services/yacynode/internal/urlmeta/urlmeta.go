@@ -16,9 +16,9 @@ import (
 type URLDirectory interface {
 	MetadataByHash(
 		ctx context.Context,
-		hashes []yacymodel.Hash,
+		hashes []yacymodel.URLHash,
 	) ([]yacymodel.URLMetadata, error)
-	MissingURLs(ctx context.Context, hashes []yacymodel.Hash) ([]yacymodel.Hash, error)
+	MissingURLs(ctx context.Context, hashes []yacymodel.URLHash) ([]yacymodel.URLHash, error)
 	Count(ctx context.Context) (int, error)
 }
 
@@ -27,22 +27,22 @@ type URLReceiver interface {
 }
 
 type URLEvictor interface {
-	Purge(ctx context.Context, tx *vault.Txn, urls []yacymodel.Hash) (PurgeResult, error)
+	Purge(ctx context.Context, tx *vault.Txn, urls []yacymodel.URLHash) (PurgeResult, error)
 }
 
 type URLMetadataObserver interface {
 	URLStored(
 		tx *vault.Txn,
-		hash yacymodel.Hash,
+		hash yacymodel.URLHash,
 		freshness yacymodel.Optional[yacymodel.CalendarDay],
 	) error
-	URLPurged(tx *vault.Txn, hash yacymodel.Hash) error
+	URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error
 }
 
 type Receipt struct {
 	Busy     bool
 	Double   int
-	ErrorURL []yacymodel.Hash
+	ErrorURL []yacymodel.URLHash
 }
 
 type PurgeResult struct {

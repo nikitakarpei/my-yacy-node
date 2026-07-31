@@ -12,8 +12,7 @@ func TestAddGroupsPostingsByPeer(t *testing.T) {
 	word := yacymodel.WordHash("w1")
 
 	for _, url := range []string{"u1", "u2"} {
-		urlHash := yacymodel.WordHash(url)
-		if !batch.Add(peer, fakePosting(word, urlHash)) {
+		if !batch.Add(peer, fakePosting(word, urlHash(url))) {
 			t.Fatalf("Add %v = false, want true", url)
 		}
 	}
@@ -28,7 +27,7 @@ func TestAddRefusesPostingBeyondPeerCap(t *testing.T) {
 	batch := newPeerOfferBatch()
 	peer := seed(yacymodel.WordHash("peer"))
 	word := yacymodel.WordHash("w1")
-	posting := fakePosting(word, yacymodel.WordHash("u1"))
+	posting := fakePosting(word, urlHash("u1"))
 
 	for i := range postingsPerPeerCap {
 		if !batch.Add(peer, posting) {

@@ -25,11 +25,15 @@ func openReplicaLedger(v *vault.Vault) (*replicaLedger, error) {
 	return &replicaLedger{vault: v, replicas: replicas}, nil
 }
 
-func (l *replicaLedger) PostingStored(*vault.Txn, yacymodel.Hash, yacymodel.Hash) error {
+func (l *replicaLedger) PostingStored(*vault.Txn, yacymodel.Hash, yacymodel.URLHash) error {
 	return nil
 }
 
-func (l *replicaLedger) PostingPurged(tx *vault.Txn, word, url yacymodel.Hash) error {
+func (l *replicaLedger) PostingPurged(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) error {
 	if _, err := l.replicas.Delete(tx, postingKey(word, url)); err != nil {
 		return fmt.Errorf("drop replica ledger: %w", err)
 	}
@@ -39,7 +43,8 @@ func (l *replicaLedger) PostingPurged(tx *vault.Txn, word, url yacymodel.Hash) e
 
 func (l *replicaLedger) Replicas(
 	ctx context.Context,
-	word, url yacymodel.Hash,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
 ) ([]yacymodel.Hash, error) {
 	var replicas []yacymodel.Hash
 	err := l.vault.View(ctx, func(tx *vault.Txn) error {
@@ -55,7 +60,12 @@ func (l *replicaLedger) Replicas(
 	return replicas, nil
 }
 
-func (l *replicaLedger) RecordAccepted(ctx context.Context, word, url, peer yacymodel.Hash) error {
+func (l *replicaLedger) RecordAccepted(
+	ctx context.Context,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+	peer yacymodel.Hash,
+) error {
 	err := l.vault.Update(ctx, func(tx *vault.Txn) error {
 		key := postingKey(word, url)
 		replicas, _, err := l.replicas.Get(tx, key)
@@ -79,7 +89,8 @@ func (l *replicaLedger) RecordAccepted(ctx context.Context, word, url, peer yacy
 
 func (l *replicaLedger) Drop(
 	ctx context.Context,
-	word, url yacymodel.Hash,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
 	stale []yacymodel.Hash,
 ) (int, error) {
 	var dropped int

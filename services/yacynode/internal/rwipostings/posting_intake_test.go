@@ -86,8 +86,8 @@ func urlMetadata(seed string) yacymodel.URLMetadata {
 	return yacymodel.URLMetadata{Address: urlAddress(seed)}
 }
 
-func referencedHash(entry yacymodel.RWIPosting) yacymodel.Hash {
-	return entry.URLHash.Hash()
+func referencedHash(entry yacymodel.RWIPosting) yacymodel.URLHash {
+	return entry.URLHash
 }
 
 func TestIntakePersistsAndCounts(t *testing.T) {

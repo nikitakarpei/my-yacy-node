@@ -32,7 +32,7 @@ const (
 type searchCriteria struct {
 	terms              []yacymodel.Hash
 	excludedTerms      []yacymodel.Hash
-	requiredDocuments  []yacymodel.Hash
+	requiredDocuments  []yacymodel.URLHash
 	maxResults         int
 	maxTermSpread      int
 	timeLimit          time.Duration

@@ -55,7 +55,7 @@ func openOfferCycle(
 
 func TestOfferCycleRunOffersOnceThenStops(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
@@ -83,7 +83,7 @@ func TestOfferCycleRunOffersOnceThenStops(t *testing.T) {
 
 func TestOfferCycleDropsStaleReplicaFromLedger(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	stalePeer, fresh := yacymodel.WordHash("stale"), yacymodel.WordHash("fresh")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
@@ -118,7 +118,7 @@ func TestOfferCycleDropsStaleReplicaFromLedger(t *testing.T) {
 
 func TestOfferCycleReschedulesAcceptedPostingAtRefreshInterval(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
@@ -148,7 +148,7 @@ func TestOfferCycleReschedulesAcceptedPostingAtRefreshInterval(t *testing.T) {
 
 func TestOfferCycleRetriesRejectedPostingAtRetryInterval(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
@@ -185,7 +185,7 @@ func TestOfferCycleRetriesRejectedPostingAtRetryInterval(t *testing.T) {
 
 func TestOfferCycleHonoursCourierRetryAfter(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
@@ -224,7 +224,7 @@ func TestOfferCycleHonoursCourierRetryAfter(t *testing.T) {
 
 func TestOfferCycleReschedulesUnofferedPostingAtRetryInterval(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
@@ -266,7 +266,7 @@ func TestOfferCycleReschedulesUnofferedPostingAtRetryInterval(t *testing.T) {
 
 func TestOfferCycleReschedulesAlreadySatisfiedPostingAtRefreshInterval(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),

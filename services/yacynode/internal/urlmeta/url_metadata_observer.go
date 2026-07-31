@@ -15,7 +15,7 @@ type observers []URLMetadataObserver
 func (o observers) stored(
 	ctx context.Context,
 	tx *vault.Txn,
-	hash yacymodel.Hash,
+	hash yacymodel.URLHash,
 	freshness yacymodel.Optional[yacymodel.CalendarDay],
 ) {
 	for _, observer := range o {
@@ -28,7 +28,7 @@ func (o observers) stored(
 	}
 }
 
-func (o observers) purged(ctx context.Context, tx *vault.Txn, hash yacymodel.Hash) {
+func (o observers) purged(ctx context.Context, tx *vault.Txn, hash yacymodel.URLHash) {
 	for _, observer := range o {
 		if err := observer.URLPurged(tx, hash); err != nil {
 			slog.WarnContext(ctx, urlObserverFailed,

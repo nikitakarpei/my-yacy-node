@@ -13,7 +13,7 @@ import (
 )
 
 type StaleURLSource interface {
-	StalestURLs(ctx context.Context, limit int) ([]yacymodel.Hash, error)
+	StalestURLs(ctx context.Context, limit int) ([]yacymodel.URLHash, error)
 }
 
 type StalenessRanking interface {

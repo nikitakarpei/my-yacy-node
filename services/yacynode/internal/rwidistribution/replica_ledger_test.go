@@ -32,7 +32,7 @@ func openLedger(t *testing.T) (*vault.Vault, *replicaLedger) {
 
 func TestRecordAcceptedAddsReplicas(t *testing.T) {
 	_, ledger := openLedger(t)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peerA, peerB := yacymodel.WordHash("a"), yacymodel.WordHash("b")
 
 	if err := ledger.RecordAccepted(context.Background(), word, url, peerA); err != nil {
@@ -53,7 +53,7 @@ func TestRecordAcceptedAddsReplicas(t *testing.T) {
 
 func TestRecordAcceptedIsIdempotent(t *testing.T) {
 	_, ledger := openLedger(t)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("a")
 
 	for range 2 {
@@ -73,7 +73,7 @@ func TestRecordAcceptedIsIdempotent(t *testing.T) {
 
 func TestDropRemovesStaleReplicas(t *testing.T) {
 	_, ledger := openLedger(t)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	alive, dead := yacymodel.WordHash("alive"), yacymodel.WordHash("dead")
 
 	if err := ledger.RecordAccepted(context.Background(), word, url, alive); err != nil {
@@ -106,7 +106,7 @@ func TestDropOfUnknownPostingIsHarmless(t *testing.T) {
 	dropped, err := ledger.Drop(
 		context.Background(),
 		yacymodel.WordHash("w1"),
-		yacymodel.WordHash("u1"),
+		urlHash("u1"),
 		[]yacymodel.Hash{yacymodel.WordHash("peer")},
 	)
 	if err != nil {
@@ -119,7 +119,7 @@ func TestDropOfUnknownPostingIsHarmless(t *testing.T) {
 
 func TestPostingStoredIsNoOp(t *testing.T) {
 	v, ledger := openLedger(t)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
 		return ledger.PostingStored(tx, word, url)
@@ -138,7 +138,7 @@ func TestPostingStoredIsNoOp(t *testing.T) {
 
 func TestPostingPurgedRemovesLedgerRow(t *testing.T) {
 	v, ledger := openLedger(t)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 
 	if err := ledger.RecordAccepted(context.Background(), word, url, peer); err != nil {

@@ -22,7 +22,7 @@ func rankOf(day yacymodel.Optional[yacymodel.CalendarDay]) freshnessRank {
 
 type rankedURL struct {
 	rank freshnessRank
-	hash yacymodel.Hash
+	hash yacymodel.URLHash
 }
 
 func (r rankedURL) orderKey() vault.Key {
@@ -34,15 +34,15 @@ func (r rankedURL) orderKey() vault.Key {
 	return key.Bytes()
 }
 
-func hashFromOrderKey(key vault.Key) (yacymodel.Hash, error) {
+func hashFromOrderKey(key vault.Key) (yacymodel.URLHash, error) {
 	_, encodedHash, found := bytes.Cut(key, []byte{freshnessHashSeparator})
 	if !found {
-		return yacymodel.Hash{}, fmt.Errorf("staleness order key without separator")
+		return yacymodel.URLHash{}, fmt.Errorf("staleness order key without separator")
 	}
 
-	hash, err := yacymodel.ParseHash(string(encodedHash))
+	hash, err := yacymodel.ParseURLHash(string(encodedHash))
 	if err != nil {
-		return yacymodel.Hash{}, fmt.Errorf("staleness order hash: %w", err)
+		return yacymodel.URLHash{}, fmt.Errorf("staleness order hash: %w", err)
 	}
 
 	return hash, nil

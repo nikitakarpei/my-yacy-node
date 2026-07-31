@@ -105,8 +105,8 @@ func TestDocumentSet(t *testing.T) {
 	if documentSet(nil) != nil {
 		t.Fatal("nil input should return nil")
 	}
-	first, second := hashFor("url-a"), hashFor("url-b")
-	set := documentSet([]yacymodel.Hash{first, second})
+	first, second := urlHashFor("url-a"), urlHashFor("url-b")
+	set := documentSet([]yacymodel.URLHash{first, second})
 	if _, ok := set[first]; !ok {
 		t.Fatal("first identifier missing")
 	}

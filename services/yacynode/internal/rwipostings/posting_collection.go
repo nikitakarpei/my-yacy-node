@@ -22,7 +22,7 @@ func registerPostings(
 	return collection, nil
 }
 
-func postingKey(wordHash, urlHash yacymodel.Hash) vault.Key {
+func postingKey(wordHash yacymodel.Hash, urlHash yacymodel.URLHash) vault.Key {
 	key := make(vault.Key, 0, postingKeyLength)
 	key = append(key, wordHash.String()...)
 	key = append(key, urlHash.String()...)

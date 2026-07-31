@@ -14,7 +14,7 @@ import (
 )
 
 type ReferenceQuery interface {
-	WordsReferencing(tx *vault.Txn, url yacymodel.Hash) ([]yacymodel.Hash, error)
+	WordsReferencing(tx *vault.Txn, url yacymodel.URLHash) ([]yacymodel.Hash, error)
 	ReferencedURLCount(ctx context.Context) (int, error)
 }
 
