@@ -55,10 +55,10 @@ type fakeRoster struct {
 	reachable   []yacymodel.Seed
 }
 
-func (fakeRoster) Discover(context.Context, ...yacymodel.Seed)         {}
-func (fakeRoster) ConfirmReachable(context.Context, yacymodel.Hash)    {}
-func (fakeRoster) ConfirmUnreachable(context.Context, yacymodel.Hash)  {}
-func (fakeRoster) FreshestPeers(context.Context, int) []yacymodel.Seed { return nil }
+func (fakeRoster) Discover(context.Context, ...yacymodel.Seed)            {}
+func (fakeRoster) ConfirmReachable(context.Context, yacymodel.Hash)       {}
+func (fakeRoster) ConfirmUnreachable(context.Context, yacymodel.Hash)     {}
+func (fakeRoster) UnreachablePeers(context.Context, int) []yacymodel.Seed { return nil }
 
 func (f fakeRoster) ReachablePeers(context.Context) []yacymodel.Seed {
 	return f.reachable

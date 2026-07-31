@@ -19,8 +19,8 @@ type Roster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
 	ConfirmReachable(ctx context.Context, peer yacymodel.Hash)
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
-	FreshestPeers(ctx context.Context, limit int) []yacymodel.Seed
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
+	UnreachablePeers(ctx context.Context, limit int) []yacymodel.Seed
 	PeersResponsibleFor(
 		ctx context.Context,
 		position yacymodel.DHTPosition,
@@ -35,7 +35,7 @@ func Open(
 	storage *vault.Vault,
 	now func() time.Time,
 	reservoirCap int,
-	activeCap int,
+	reachableCap int,
 	self yacymodel.Hash,
 	observer RosterObserver,
 ) (Roster, error) {
@@ -49,9 +49,9 @@ func Open(
 		peers:        peers,
 		now:          now,
 		reservoirCap: reservoirCap,
-		activeCap:    activeCap,
+		reachableCap: reachableCap,
 		self:         self,
 		observer:     observer,
-		active:       make(map[yacymodel.Hash]yacymodel.Seed),
+		reachable:    make(map[yacymodel.Hash]yacymodel.Seed),
 	}, nil
 }

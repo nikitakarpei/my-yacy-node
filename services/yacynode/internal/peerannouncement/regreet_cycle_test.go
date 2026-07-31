@@ -3,6 +3,7 @@ package peerannouncement
 import (
 	"context"
 	"errors"
+	"sync"
 	"testing"
 	"time"
 
@@ -22,31 +23,50 @@ func (g *stubGreeter) Greet(context.Context, string, yacymodel.Seed, int) (greet
 }
 
 type stubRoster struct {
-	rounds      [][]yacymodel.Seed
-	discovered  []yacymodel.Seed
-	reachable   []yacymodel.Hash
-	unreachable []yacymodel.Hash
+	mu               sync.Mutex
+	reachablePeers   []yacymodel.Seed
+	unreachablePeers []yacymodel.Seed
+	discovered       []yacymodel.Seed
+	reachable        []yacymodel.Hash
+	unreachable      []yacymodel.Hash
 }
 
-func (s *stubRoster) FreshestPeers(context.Context, int) []yacymodel.Seed {
-	if len(s.rounds) == 0 {
-		return nil
-	}
-	round := s.rounds[0]
-	s.rounds = s.rounds[1:]
+func (s *stubRoster) ReachablePeers(context.Context) []yacymodel.Seed {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
-	return round
+	return append([]yacymodel.Seed(nil), s.reachablePeers...)
+}
+
+func (s *stubRoster) UnreachablePeers(_ context.Context, limit int) []yacymodel.Seed {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if limit > len(s.unreachablePeers) {
+		limit = len(s.unreachablePeers)
+	}
+
+	return append([]yacymodel.Seed(nil), s.unreachablePeers[:limit]...)
 }
 
 func (s *stubRoster) Discover(_ context.Context, seeds ...yacymodel.Seed) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	s.discovered = append(s.discovered, seeds...)
 }
 
 func (s *stubRoster) ConfirmReachable(_ context.Context, peer yacymodel.Hash) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	s.reachable = append(s.reachable, peer)
 }
 
 func (s *stubRoster) ConfirmUnreachable(_ context.Context, peer yacymodel.Hash) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	s.unreachable = append(s.unreachable, peer)
 }
 
@@ -74,11 +94,13 @@ func TestAnnounceRecordsReachableAndGossip(t *testing.T) {
 	peer := callerSeed(t, "peer", "203.0.113.1")
 	known := callerSeed(t, "known", "198.51.100.7")
 
-	roster := &stubRoster{rounds: [][]yacymodel.Seed{{peer}}}
+	roster := &stubRoster{unreachablePeers: []yacymodel.Seed{peer}}
 	a := &announcer{
-		self:   stubSelf{seed: callerSeed(t, "self", "203.0.113.9")},
-		seeds:  &stubSeedSource{},
-		roster: roster,
+		reachableCap:       4,
+		contactConcurrency: 4,
+		self:               stubSelf{seed: callerSeed(t, "self", "203.0.113.9")},
+		seeds:              &stubSeedSource{},
+		roster:             roster,
 		greeter: &stubGreeter{result: greetResult{
 			YourType: yacymodel.PeerSenior,
 			Known:    []yacymodel.Seed{known},
@@ -99,13 +121,15 @@ func TestAnnounceSkipsSelfInTargets(t *testing.T) {
 	ctx := context.Background()
 	self := callerSeed(t, "self", "203.0.113.9")
 
-	roster := &stubRoster{rounds: [][]yacymodel.Seed{{self}}}
+	roster := &stubRoster{unreachablePeers: []yacymodel.Seed{self}}
 	greeter := &stubGreeter{result: greetResult{YourType: yacymodel.PeerSenior}}
 	a := &announcer{
-		self:    stubSelf{seed: self},
-		seeds:   &stubSeedSource{},
-		roster:  roster,
-		greeter: greeter,
+		reachableCap:       4,
+		contactConcurrency: 4,
+		self:               stubSelf{seed: self},
+		seeds:              &stubSeedSource{},
+		roster:             roster,
+		greeter:            greeter,
 	}
 
 	a.Announce(ctx)
@@ -122,12 +146,14 @@ func TestAnnounceMarksFailedGreetUnreachable(t *testing.T) {
 	ctx := context.Background()
 	peer := callerSeed(t, "peer", "203.0.113.1")
 
-	roster := &stubRoster{rounds: [][]yacymodel.Seed{{peer}}}
+	roster := &stubRoster{unreachablePeers: []yacymodel.Seed{peer}}
 	a := &announcer{
-		self:    stubSelf{seed: callerSeed(t, "self", "203.0.113.9")},
-		seeds:   &stubSeedSource{},
-		roster:  roster,
-		greeter: &stubGreeter{err: errors.New("boom")},
+		reachableCap:       4,
+		contactConcurrency: 4,
+		self:               stubSelf{seed: callerSeed(t, "self", "203.0.113.9")},
+		seeds:              &stubSeedSource{},
+		roster:             roster,
+		greeter:            &stubGreeter{err: errors.New("boom")},
 	}
 
 	a.Announce(ctx)
@@ -140,19 +166,50 @@ func TestAnnounceMarksFailedGreetUnreachable(t *testing.T) {
 	}
 }
 
+func TestAnnounceRefreshesReachablePeersEvenAtCapacity(t *testing.T) {
+	ctx := context.Background()
+	reachablePeer := callerSeed(t, "reachable", "203.0.113.1")
+	skippedPeer := callerSeed(t, "skipped", "203.0.113.2")
+
+	roster := &stubRoster{
+		reachablePeers:   []yacymodel.Seed{reachablePeer},
+		unreachablePeers: []yacymodel.Seed{skippedPeer},
+	}
+	greeter := &stubGreeter{result: greetResult{YourType: yacymodel.PeerSenior}}
+	a := &announcer{
+		reachableCap:       1,
+		contactConcurrency: 4,
+		self:               stubSelf{seed: callerSeed(t, "self", "203.0.113.9")},
+		seeds:              &stubSeedSource{},
+		roster:             roster,
+		greeter:            greeter,
+	}
+
+	a.Announce(ctx)
+
+	if greeter.calls != 1 {
+		t.Fatalf("greeter calls = %d, want 1 for the reachable peer only", greeter.calls)
+	}
+	if len(roster.reachable) != 1 || roster.reachable[0] != reachablePeer.Hash {
+		t.Fatalf("reachable = %v, want refresh of [%v]", roster.reachable, reachablePeer.Hash)
+	}
+}
+
 func TestRunFetchesSeedSourceOnStart(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
 
 	seed := callerSeed(t, "seed", "203.0.113.1")
 	source := &stubSeedSource{seeds: []yacymodel.Seed{seed}}
-	roster := &stubRoster{rounds: [][]yacymodel.Seed{{seed}}}
+	roster := &stubRoster{unreachablePeers: []yacymodel.Seed{seed}}
 	a := &announcer{
-		interval: time.Hour,
-		self:     stubSelf{seed: callerSeed(t, "self", "203.0.113.9")},
-		seeds:    source,
-		roster:   roster,
-		greeter:  &stubGreeter{result: greetResult{YourType: yacymodel.PeerSenior}},
+		interval:           time.Hour,
+		reachableCap:       4,
+		contactConcurrency: 4,
+		self:               stubSelf{seed: callerSeed(t, "self", "203.0.113.9")},
+		seeds:              source,
+		roster:             roster,
+		greeter:            &stubGreeter{result: greetResult{YourType: yacymodel.PeerSenior}},
 	}
 
 	a.Run(ctx)
