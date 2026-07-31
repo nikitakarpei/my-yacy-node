@@ -1,6 +1,7 @@
-A lightweight, composable reimplementation of a YaCy peer as small Go services.
-Each service runs and scales on its own; wire together only the ones a
-deployment needs. Services interoperate with the wider YaCy network over DHT.
+A lightweight, composable reimplementation of a [YaCy](https://yacy.net) peer
+as small Go services. Each service runs and scales on its own, and a
+deployment wires together only the services it needs. Services interoperate
+with the wider YaCy network over DHT.
 
 ## Examples
 
