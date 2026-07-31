@@ -50,10 +50,7 @@ func (c *offerCycle) offerOnce(ctx context.Context) {
 	c.observer.ObserveScheduleDrain(plan.Drained)
 	c.dropStaleReplicas(ctx, plan.StaleReplicas)
 
-	c.reschedule(ctx, plan.Replicated, c.refreshInterval)
-	c.reschedule(ctx, plan.Unoffered, c.retryInterval)
-
-	touched := make(map[duePosting]time.Duration, len(plan.Offers))
+	offered := make(map[duePosting]time.Duration, len(plan.Offers))
 	for _, offer := range plan.Offers {
 		outcome := c.courier.Offer(ctx, offer)
 		retryAfter := c.retryInterval
@@ -62,13 +59,13 @@ func (c *offerCycle) offerOnce(ctx context.Context) {
 		}
 		for _, posting := range offer.Postings {
 			entry := duePosting{Word: posting.WordHash, URL: posting.URLHash}
-			if _, seen := touched[entry]; !seen {
-				touched[entry] = retryAfter
+			if _, seen := offered[entry]; !seen {
+				offered[entry] = retryAfter
 			}
 		}
 	}
 
-	c.rescheduleByOutcome(ctx, touched)
+	c.reschedule(ctx, c.dueTimes(ctx, plan, offered))
 }
 
 func (c *offerCycle) dropStaleReplicas(ctx context.Context, stale []staleReplicas) {
@@ -88,17 +85,26 @@ func (c *offerCycle) dropStaleReplicas(ctx context.Context, stale []staleReplica
 	}
 }
 
-func (c *offerCycle) rescheduleByOutcome(
+func (c *offerCycle) dueTimes(
 	ctx context.Context,
-	touched map[duePosting]time.Duration,
-) {
+	plan offerPlan,
+	offered map[duePosting]time.Duration,
+) map[duePosting]time.Time {
 	now := c.now()
-	for entry, retryAfter := range touched {
-		replicas, err := c.ledger.Replicas(ctx, entry.Word, entry.URL)
+	due := make(map[duePosting]time.Time, len(plan.Replicated)+len(plan.Unoffered)+len(offered))
+
+	for _, posting := range plan.Replicated {
+		due[posting] = now.Add(c.refreshInterval)
+	}
+	for _, posting := range plan.Unoffered {
+		due[posting] = now.Add(c.retryInterval)
+	}
+	for posting, retryAfter := range offered {
+		replicas, err := c.ledger.Replicas(ctx, posting.Word, posting.URL)
 		if err != nil {
 			slog.WarnContext(ctx, "replicas not read for reschedule",
-				slog.String("word", entry.Word.String()),
-				slog.String("url", entry.URL.String()),
+				slog.String("word", posting.Word.String()),
+				slog.String("url", posting.URL.String()),
 				slog.Any("error", err))
 
 			continue
@@ -108,22 +114,18 @@ func (c *offerCycle) rescheduleByOutcome(
 		if len(replicas) >= c.redundancy {
 			interval = c.refreshInterval
 		}
-		if err := c.schedule.Reschedule(ctx, entry.Word, entry.URL, now.Add(interval)); err != nil {
-			slog.WarnContext(ctx, "posting not rescheduled",
-				slog.String("word", entry.Word.String()),
-				slog.String("url", entry.URL.String()),
-				slog.Any("error", err))
-		}
+		due[posting] = now.Add(interval)
 	}
+
+	return due
 }
 
-func (c *offerCycle) reschedule(ctx context.Context, entries []duePosting, interval time.Duration) {
-	at := c.now().Add(interval)
-	for _, entry := range entries {
-		if err := c.schedule.Reschedule(ctx, entry.Word, entry.URL, at); err != nil {
+func (c *offerCycle) reschedule(ctx context.Context, due map[duePosting]time.Time) {
+	for posting, at := range due {
+		if err := c.schedule.Reschedule(ctx, posting.Word, posting.URL, at); err != nil {
 			slog.WarnContext(ctx, "posting not rescheduled",
-				slog.String("word", entry.Word.String()),
-				slog.String("url", entry.URL.String()),
+				slog.String("word", posting.Word.String()),
+				slog.String("url", posting.URL.String()),
 				slog.Any("error", err))
 		}
 	}
