@@ -5,6 +5,7 @@ type fakeOfferObserver struct {
 	postingsOffered map[string]int
 	prunes          int
 	drained         int
+	cyclesSkipped   int
 }
 
 func newFakeOfferObserver() *fakeOfferObserver {
@@ -22,4 +23,8 @@ func (f *fakeOfferObserver) ObserveScheduleDrain(drained int) {
 
 func (f *fakeOfferObserver) ObserveLedgerPrune(dropped int) {
 	f.prunes += dropped
+}
+
+func (f *fakeOfferObserver) ObserveCycleSkipped(int) {
+	f.cyclesSkipped++
 }

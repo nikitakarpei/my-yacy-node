@@ -18,14 +18,15 @@ import (
 )
 
 type Config struct {
-	NetworkName      string
-	Self             yacymodel.Hash
-	Redundancy       int
-	Partitions       yacymodel.DHTRingPartitions
-	PostingsPerCycle int
-	CycleInterval    time.Duration
-	RefreshInterval  time.Duration
-	RetryInterval    time.Duration
+	NetworkName       string
+	Self              yacymodel.Hash
+	Redundancy        int
+	Partitions        yacymodel.DHTRingPartitions
+	PostingsPerCycle  int
+	CycleInterval     time.Duration
+	RefreshInterval   time.Duration
+	RetryInterval     time.Duration
+	MinReachablePeers int
 }
 
 type Runner interface {
@@ -78,14 +79,15 @@ func (d *Distribution) Cycle(
 	cfg Config,
 ) Runner {
 	return &offerCycle{
-		builder: &batchBuilder{
-			schedule:   d.schedule,
-			ledger:     d.ledger,
-			postings:   postings,
-			roster:     roster,
-			observer:   observer,
-			partitions: cfg.Partitions,
-			redundancy: cfg.Redundancy,
+		planner: &offerPlanner{
+			schedule:          d.schedule,
+			ledger:            d.ledger,
+			postings:          postings,
+			roster:            roster,
+			observer:          observer,
+			partitions:        cfg.Partitions,
+			redundancy:        cfg.Redundancy,
+			minReachablePeers: cfg.MinReachablePeers,
 		},
 		courier: httpPostingCourier{
 			client:      client,

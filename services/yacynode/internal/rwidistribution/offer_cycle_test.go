@@ -33,11 +33,11 @@ func openOfferCycle(
 ) (*offerSchedule, *replicaLedger, *fakeCourier, *fakeOfferObserver, *offerCycle) {
 	t.Helper()
 
-	schedule, ledger, builder, observer := openBatchBuilder(t, now, postings, responsible)
+	schedule, ledger, planner, observer := openOfferPlanner(t, now, postings, responsible)
 	courier := &fakeCourier{outcomes: make(map[yacymodel.Hash]offerOutcome)}
 
 	cycle := &offerCycle{
-		builder:          builder,
+		planner:          planner,
 		courier:          courier,
 		schedule:         schedule,
 		ledger:           ledger,
@@ -81,6 +81,41 @@ func TestOfferCycleRunOffersOnceThenStops(t *testing.T) {
 	}
 }
 
+func TestOfferCycleDropsStaleReplicaFromLedger(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	stalePeer, fresh := yacymodel.WordHash("stale"), yacymodel.WordHash("fresh")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		postingIdentity(word, url): fakePosting(word, url),
+	}
+	schedule, ledger, courier, observer, cycle := openOfferCycle(
+		t, func() time.Time { return now }, postings, []yacymodel.Seed{seed(fresh)},
+	)
+	courier.outcomes[fresh] = offerOutcome{Accepted: true}
+
+	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
+		t.Fatalf("Reschedule: %v", err)
+	}
+	if err := ledger.RecordAccepted(context.Background(), word, url, stalePeer); err != nil {
+		t.Fatalf("RecordAccepted: %v", err)
+	}
+
+	cycle.offerOnce(context.Background())
+
+	replicas, err := ledger.Replicas(context.Background(), word, url)
+	if err != nil {
+		t.Fatalf("Replicas: %v", err)
+	}
+	for _, replica := range replicas {
+		if replica == stalePeer {
+			t.Fatalf("replicas = %v, want %v dropped", replicas, stalePeer)
+		}
+	}
+	if observer.prunes != 1 {
+		t.Fatalf("prunes = %v, want 1", observer.prunes)
+	}
+}
+
 func TestOfferCycleReschedulesAcceptedPostingAtRefreshInterval(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
@@ -107,7 +142,7 @@ func TestOfferCycleReschedulesAcceptedPostingAtRefreshInterval(t *testing.T) {
 		t.Fatalf("DueBatch: %v", err)
 	}
 	if len(due) != 0 {
-		t.Fatalf("due = %v, want none due right after a satisfied offer", due)
+		t.Fatalf("due = %v, want none due right after a fully replicated posting", due)
 	}
 }
 
@@ -187,7 +222,7 @@ func TestOfferCycleHonoursCourierRetryAfter(t *testing.T) {
 	}
 }
 
-func TestOfferCycleReschedulesStalledPostingAtRetryInterval(t *testing.T) {
+func TestOfferCycleReschedulesUnofferedPostingAtRetryInterval(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
@@ -207,7 +242,7 @@ func TestOfferCycleReschedulesStalledPostingAtRetryInterval(t *testing.T) {
 	cycle.offerOnce(context.Background())
 
 	if len(courier.offered) != 0 {
-		t.Fatalf("offered = %v, want no offers for a stalled posting", courier.offered)
+		t.Fatalf("offered = %v, want no offers for an unoffered posting", courier.offered)
 	}
 
 	due, err := schedule.DueBatch(context.Background(), 10)
@@ -250,7 +285,7 @@ func TestOfferCycleReschedulesAlreadySatisfiedPostingAtRefreshInterval(t *testin
 	cycle.offerOnce(context.Background())
 
 	if len(courier.offered) != 0 {
-		t.Fatalf("offered = %v, want no offers for an already satisfied posting", courier.offered)
+		t.Fatalf("offered = %v, want no offers for an already replicated posting", courier.offered)
 	}
 
 	future := now.Add(cycle.refreshInterval - time.Second)

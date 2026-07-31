@@ -11,7 +11,7 @@ type postingCourier interface {
 }
 
 type offerCycle struct {
-	builder          *batchBuilder
+	planner          *offerPlanner
 	courier          postingCourier
 	schedule         *offerSchedule
 	ledger           *replicaLedger
@@ -41,16 +41,17 @@ func (c *offerCycle) Run(ctx context.Context) {
 }
 
 func (c *offerCycle) offerOnce(ctx context.Context) {
-	plan, err := c.builder.Build(ctx, c.postingsPerCycle)
+	plan, err := c.planner.Plan(ctx, c.postingsPerCycle)
 	if err != nil {
-		slog.ErrorContext(ctx, "posting offer batch not built", slog.Any("error", err))
+		slog.ErrorContext(ctx, "posting offer plan not built", slog.Any("error", err))
 
 		return
 	}
 	c.observer.ObserveScheduleDrain(plan.Drained)
+	c.dropStaleReplicas(ctx, plan.StaleReplicas)
 
-	c.reschedule(ctx, plan.Satisfied, c.refreshInterval)
-	c.reschedule(ctx, plan.Stalled, c.retryInterval)
+	c.reschedule(ctx, plan.Replicated, c.refreshInterval)
+	c.reschedule(ctx, plan.Unoffered, c.retryInterval)
 
 	touched := make(map[duePosting]time.Duration, len(plan.Offers))
 	for _, offer := range plan.Offers {
@@ -68,6 +69,23 @@ func (c *offerCycle) offerOnce(ctx context.Context) {
 	}
 
 	c.rescheduleByOutcome(ctx, touched)
+}
+
+func (c *offerCycle) dropStaleReplicas(ctx context.Context, stale []staleReplicas) {
+	for _, entry := range stale {
+		dropped, err := c.ledger.Drop(ctx, entry.Posting.Word, entry.Posting.URL, entry.Peers)
+		if err != nil {
+			slog.WarnContext(ctx, "stale replicas not dropped",
+				slog.String("word", entry.Posting.Word.String()),
+				slog.String("url", entry.Posting.URL.String()),
+				slog.Any("error", err))
+
+			continue
+		}
+		if dropped > 0 {
+			c.observer.ObserveLedgerPrune(dropped)
+		}
+	}
 }
 
 func (c *offerCycle) rescheduleByOutcome(
