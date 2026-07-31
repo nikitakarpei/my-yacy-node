@@ -15,6 +15,12 @@ renderproxy is configured entirely through environment variables.
 | `RENDERPROXY_CDP_URL` | required | CDP endpoint of the browser that loads pages. |
 | `RENDERPROXY_RENDER_CONCURRENCY` | `4` | Concurrent renders; requests past this wait. |
 
+## Egress
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `RENDERPROXY_EGRESS_PROXY_URL` | required | HTTP or HTTPS proxy the service's own origin requests leave through. The service does not start without it. |
+
 ## Limits
 
 | Variable | Default | Meaning |
