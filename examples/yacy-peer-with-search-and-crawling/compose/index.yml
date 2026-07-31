@@ -1,6 +1,6 @@
 services:
-  yacytextindexer:
-    image: ghcr.io/nikitakarpei/yacytextindexer:latest
+  corpustext:
+    image: ghcr.io/nikitakarpei/corpustext:latest
     restart: unless-stopped
     depends_on:
       - nats

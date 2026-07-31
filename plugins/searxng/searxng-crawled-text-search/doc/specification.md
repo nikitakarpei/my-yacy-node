@@ -2,7 +2,7 @@
 
 ## Context
 
-`yacytextindexer` indexes crawled pages into an operator's own full-text search index, each
+`corpustext` indexes crawled pages into an operator's own full-text search index, each
 document following the shape defined by `searchdocument`. SearXNG ships a built-in `elasticsearch`
 engine, but it renders hits as a generic key/value table with no `url` field — a shape
 `searxng-result-router` cannot rewrite, since it only rewrites the `url` field of a standard
@@ -14,7 +14,7 @@ re-crawlable click.
 
 ## Non-Goals
 
-* Indexing pages into the search index — that is `yacytextindexer`'s job.
+* Indexing pages into the search index — that is `corpustext`'s job.
 * Rewriting or routing result links — that is `searxng-result-router`'s job.
 * Running or provisioning the search index itself.
 * Tuning or reranking relevance beyond the query the search index is asked to run.

@@ -15,7 +15,7 @@ answer with.
 | `yacycrawler` | Fetches an ordered page and turns it into text and RWI representations. |
 | `renderproxy` | Proxies the page fetch through `lightpanda` so JS-rendered pages are fetched too. |
 | `lightpanda` | Headless browser that renders the page for `renderproxy`; chosen over Chromium-based ones for its low memory footprint. |
-| `yacytextindexer` | Writes the text representation into the local search index. |
+| `corpustext` | Writes the text representation into the local search index. |
 | `yacy-rwi-node` | The peer: shares RWI representations over the DHT and serves remote searches. |
 | `smokescreen` | Egress proxy every outbound connection passes through, blocking requests to internal addresses to prevent SSRF. |
 | `prometheus`, `grafana` | Metrics and per-service dashboards at `http://localhost:3000`, no login. |
