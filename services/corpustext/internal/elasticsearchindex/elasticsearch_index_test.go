@@ -1,0 +1,68 @@
+package elasticsearchindex_test
+
+import (
+	"context"
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/elasticsearchindex"
+	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+)
+
+func TestElasticsearchIndexPutsDocumentByID(t *testing.T) {
+	var gotPath string
+	var gotDoc searchdocument.Document
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		gotPath = r.URL.Path
+		if err := json.NewDecoder(r.Body).Decode(&gotDoc); err != nil {
+			t.Fatalf("decode body: %v", err)
+		}
+		w.WriteHeader(http.StatusCreated)
+	}))
+	defer server.Close()
+
+	index := elasticsearchindex.NewElasticsearchIndex(server.URL, "yacy-text", server.Client())
+	page := yacycrawlcontract.PageTextRepresentation{
+		PageReference: yacycrawlcontract.PageReference{
+			CanonicalURL: "https://example.com/",
+			Title:        "Hi",
+			CrawledAt:    time.Unix(0, 0).UTC(),
+			Language:     "en",
+		},
+		Text: []byte("words here"),
+	}
+	if err := index.Index(context.Background(), page); err != nil {
+		t.Fatalf("index: %v", err)
+	}
+	wantPath := "/yacy-text/_doc/" +
+		"0f115db062b7c0dd030b16878c99dea5c354b49dc37b38eb8846179c7783e9d7"
+	if gotPath != wantPath {
+		t.Errorf("path = %q", gotPath)
+	}
+	if gotDoc.Title != "Hi" || gotDoc.URL != "https://example.com/" ||
+		gotDoc.Content != "words here" {
+		t.Errorf("document = %+v", gotDoc)
+	}
+}
+
+func TestElasticsearchIndexReturnsErrorOnFailureStatus(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusServiceUnavailable)
+	}))
+	defer server.Close()
+
+	index := elasticsearchindex.NewElasticsearchIndex(server.URL, "yacy-text", server.Client())
+	err := index.Index(
+		context.Background(),
+		yacycrawlcontract.PageTextRepresentation{
+			PageReference: yacycrawlcontract.PageReference{CanonicalURL: "https://example.com/"},
+		},
+	)
+	if err == nil {
+		t.Fatal("expected error for non-2xx response")
+	}
+}

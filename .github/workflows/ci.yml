@@ -38,10 +38,10 @@ jobs:
     uses: ./.github/workflows/build-yacyvisitcrawl.yml
     secrets: inherit
 
-  build-yacytextindexer:
+  build-corpustext:
     needs: verify
     if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/build-yacytextindexer.yml
+    uses: ./.github/workflows/build-corpustext.yml
     secrets: inherit
 
   build-searxng-crawled-text-search:

@@ -29,11 +29,11 @@ When `search_index_engine` is `elasticsearch`:
 | Key | Meaning |
 |---|---|
 | `elasticsearch_url` | Base URL of the Elasticsearch instance to query. |
-| `elasticsearch_index` | Name of the index `yacytextindexer` writes documents into. |
+| `elasticsearch_index` | Name of the index `corpustext` writes documents into. |
 
 When `search_index_engine` is `manticore`:
 
 | Key | Meaning |
 |---|---|
 | `manticore_url` | Base URL of the Manticore instance to query. |
-| `manticore_table` | Name of the table `yacytextindexer` writes documents into. Manticore table names allow letters, digits, and underscores only. |
+| `manticore_table` | Name of the table `corpustext` writes documents into. Manticore table names allow letters, digits, and underscores only. |

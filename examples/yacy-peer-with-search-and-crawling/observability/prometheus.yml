@@ -18,9 +18,9 @@ scrape_configs:
     static_configs:
       - targets: ["yacyvisitcrawl:9091"]
 
-  - job_name: yacytextindexer
+  - job_name: corpustext
     static_configs:
-      - targets: ["yacytextindexer:9090"]
+      - targets: ["corpustext:9090"]
 
   - job_name: nats
     static_configs:
