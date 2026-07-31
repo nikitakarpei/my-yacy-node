@@ -54,7 +54,7 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	}
 }
 
-func (d *DistributionMetrics) ObserveOffer(result string, postings int) {
+func (d *DistributionMetrics) ObservePostingOffer(result string, postings int) {
 	d.offerRequests.WithLabelValues(result).Inc()
 	d.postingsOffered.WithLabelValues(result).Add(float64(postings))
 }

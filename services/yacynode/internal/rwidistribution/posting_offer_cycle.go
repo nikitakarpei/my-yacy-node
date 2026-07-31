@@ -7,15 +7,15 @@ import (
 )
 
 type postingCourier interface {
-	Offer(ctx context.Context, offer postingOffer) offerOutcome
+	Offer(ctx context.Context, offer postingOffer) postingOfferOutcome
 }
 
-type offerCycle struct {
-	planner          *offerPlanner
+type postingOfferCycle struct {
+	planner          *postingOfferPlanner
 	courier          postingCourier
-	schedule         *offerSchedule
+	schedule         *postingOfferSchedule
 	ledger           *replicaLedger
-	observer         OfferObserver
+	observer         PostingOfferCycleObserver
 	now              func() time.Time
 	postingsPerCycle int
 	cycleInterval    time.Duration
@@ -24,7 +24,7 @@ type offerCycle struct {
 	redundancy       int
 }
 
-func (c *offerCycle) Run(ctx context.Context) {
+func (c *postingOfferCycle) Run(ctx context.Context) {
 	c.offerOnce(ctx)
 
 	ticker := time.NewTicker(c.cycleInterval)
@@ -40,7 +40,7 @@ func (c *offerCycle) Run(ctx context.Context) {
 	}
 }
 
-func (c *offerCycle) offerOnce(ctx context.Context) {
+func (c *postingOfferCycle) offerOnce(ctx context.Context) {
 	plan, err := c.planner.Plan(ctx, c.postingsPerCycle)
 	if err != nil {
 		slog.ErrorContext(ctx, "posting offer plan not built", slog.Any("error", err))
@@ -68,7 +68,7 @@ func (c *offerCycle) offerOnce(ctx context.Context) {
 	c.reschedule(ctx, c.dueTimes(ctx, plan, offered))
 }
 
-func (c *offerCycle) dropStaleReplicas(ctx context.Context, stale []staleReplicas) {
+func (c *postingOfferCycle) dropStaleReplicas(ctx context.Context, stale []staleReplicas) {
 	for _, entry := range stale {
 		dropped, err := c.ledger.Drop(ctx, entry.Posting.Word, entry.Posting.URL, entry.Peers)
 		if err != nil {
@@ -85,9 +85,9 @@ func (c *offerCycle) dropStaleReplicas(ctx context.Context, stale []staleReplica
 	}
 }
 
-func (c *offerCycle) dueTimes(
+func (c *postingOfferCycle) dueTimes(
 	ctx context.Context,
-	plan offerPlan,
+	plan postingOfferPlan,
 	offered map[duePosting]time.Duration,
 ) map[duePosting]time.Time {
 	now := c.now()
@@ -120,7 +120,7 @@ func (c *offerCycle) dueTimes(
 	return due
 }
 
-func (c *offerCycle) reschedule(ctx context.Context, due map[duePosting]time.Time) {
+func (c *postingOfferCycle) reschedule(ctx context.Context, due map[duePosting]time.Time) {
 	for posting, at := range due {
 		if err := c.schedule.Reschedule(ctx, posting.Word, posting.URL, at); err != nil {
 			slog.WarnContext(ctx, "posting not rescheduled",

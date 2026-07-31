@@ -21,7 +21,7 @@ type postingReplication struct {
 	PeersNoLongerResponsible []yacymodel.Hash
 }
 
-type offerPlan struct {
+type postingOfferPlan struct {
 	Offers        []postingOffer
 	Replicated    []duePosting
 	Unoffered     []duePosting
@@ -29,18 +29,18 @@ type offerPlan struct {
 	StaleReplicas []staleReplicas
 }
 
-type offerPlanner struct {
-	schedule          *offerSchedule
+type postingOfferPlanner struct {
+	schedule          *postingOfferSchedule
 	ledger            *replicaLedger
 	postings          rwipostings.PostingIndex
 	roster            peerroster.Roster
-	observer          OfferObserver
+	observer          PostingOfferCycleObserver
 	partitions        yacymodel.DHTRingPartitions
 	redundancy        int
 	minReachablePeers int
 }
 
-func (p *offerPlanner) Plan(ctx context.Context, limit int) (offerPlan, error) {
+func (p *postingOfferPlanner) Plan(ctx context.Context, limit int) (postingOfferPlan, error) {
 	reachable := len(p.roster.ReachablePeers(ctx))
 	if reachable < p.minReachablePeers {
 		slog.DebugContext(
@@ -51,21 +51,21 @@ func (p *offerPlanner) Plan(ctx context.Context, limit int) (offerPlan, error) {
 		)
 		p.observer.ObserveCycleSkipped(reachable)
 
-		return offerPlan{}, nil
+		return postingOfferPlan{}, nil
 	}
 
 	due, err := p.schedule.DueBatch(ctx, limit)
 	if err != nil {
-		return offerPlan{}, fmt.Errorf("drain due postings: %w", err)
+		return postingOfferPlan{}, fmt.Errorf("drain due postings: %w", err)
 	}
 
-	plan := offerPlan{Drained: len(due)}
-	batch := newPeerOfferBatch()
+	plan := postingOfferPlan{Drained: len(due)}
+	batch := newPostingOfferBatch()
 
 	for _, entry := range due {
 		posting, found, err := p.postings.Posting(ctx, entry.Word, entry.URL)
 		if err != nil {
-			return offerPlan{}, fmt.Errorf("read posting: %w", err)
+			return postingOfferPlan{}, fmt.Errorf("read posting: %w", err)
 		}
 		if !found {
 			continue
@@ -73,7 +73,7 @@ func (p *offerPlanner) Plan(ctx context.Context, limit int) (offerPlan, error) {
 
 		replication, err := p.replicationOf(ctx, entry)
 		if err != nil {
-			return offerPlan{}, err
+			return postingOfferPlan{}, err
 		}
 		if len(replication.PeersNoLongerResponsible) > 0 {
 			plan.StaleReplicas = append(plan.StaleReplicas, staleReplicas{
@@ -102,7 +102,7 @@ func (p *offerPlanner) Plan(ctx context.Context, limit int) (offerPlan, error) {
 	return plan, nil
 }
 
-func (p *offerPlanner) replicationOf(
+func (p *postingOfferPlanner) replicationOf(
 	ctx context.Context,
 	entry duePosting,
 ) (postingReplication, error) {

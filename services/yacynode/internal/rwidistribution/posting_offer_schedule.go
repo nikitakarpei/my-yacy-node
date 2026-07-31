@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	offerOrderBucket vault.Name = "rwidistribution_offer_order"
-	offerDueBucket   vault.Name = "rwidistribution_offer_due"
+	postingOfferOrderBucket vault.Name = "rwidistribution_offer_order"
+	postingOfferDueBucket   vault.Name = "rwidistribution_offer_due"
 )
 
 type duePosting struct {
@@ -20,27 +20,27 @@ type duePosting struct {
 	URL  yacymodel.URLHash
 }
 
-type offerSchedule struct {
+type postingOfferSchedule struct {
 	vault *vault.Vault
 	order *vault.Collection[struct{}]
 	due   *vault.Collection[time.Time]
 	now   func() time.Time
 }
 
-func openOfferSchedule(v *vault.Vault, now func() time.Time) (*offerSchedule, error) {
-	order, err := vault.Register(v, offerOrderBucket, presenceCodec{})
+func openPostingOfferSchedule(v *vault.Vault, now func() time.Time) (*postingOfferSchedule, error) {
+	order, err := vault.Register(v, postingOfferOrderBucket, presenceCodec{})
 	if err != nil {
 		return nil, fmt.Errorf("register offer order: %w", err)
 	}
-	due, err := vault.Register(v, offerDueBucket, dueAtCodec{})
+	due, err := vault.Register(v, postingOfferDueBucket, dueAtCodec{})
 	if err != nil {
 		return nil, fmt.Errorf("register offer due: %w", err)
 	}
 
-	return &offerSchedule{vault: v, order: order, due: due, now: now}, nil
+	return &postingOfferSchedule{vault: v, order: order, due: due, now: now}, nil
 }
 
-func (s *offerSchedule) PostingStored(
+func (s *postingOfferSchedule) PostingStored(
 	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
@@ -48,7 +48,7 @@ func (s *offerSchedule) PostingStored(
 	return s.reschedule(tx, word, url, s.now())
 }
 
-func (s *offerSchedule) PostingPurged(
+func (s *postingOfferSchedule) PostingPurged(
 	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
@@ -64,7 +64,7 @@ func (s *offerSchedule) PostingPurged(
 	return s.clear(tx, word, url, at)
 }
 
-func (s *offerSchedule) Reschedule(
+func (s *postingOfferSchedule) Reschedule(
 	ctx context.Context,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
@@ -80,7 +80,7 @@ func (s *offerSchedule) Reschedule(
 	return nil
 }
 
-func (s *offerSchedule) reschedule(
+func (s *postingOfferSchedule) reschedule(
 	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
@@ -106,7 +106,7 @@ func (s *offerSchedule) reschedule(
 	return nil
 }
 
-func (s *offerSchedule) clear(
+func (s *postingOfferSchedule) clear(
 	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
@@ -122,7 +122,7 @@ func (s *offerSchedule) clear(
 	return nil
 }
 
-func (s *offerSchedule) DueBatch(ctx context.Context, limit int) ([]duePosting, error) {
+func (s *postingOfferSchedule) DueBatch(ctx context.Context, limit int) ([]duePosting, error) {
 	if limit <= 0 {
 		return nil, nil
 	}
@@ -150,4 +150,4 @@ func (s *offerSchedule) DueBatch(ctx context.Context, limit int) ([]duePosting, 
 	return due, nil
 }
 
-var _ rwipostings.PostingObserver = (*offerSchedule)(nil)
+var _ rwipostings.PostingObserver = (*postingOfferSchedule)(nil)

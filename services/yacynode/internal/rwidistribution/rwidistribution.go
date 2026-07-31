@@ -34,13 +34,13 @@ type Runner interface {
 }
 
 type Distribution struct {
-	schedule *offerSchedule
+	schedule *postingOfferSchedule
 	ledger   *replicaLedger
 	now      func() time.Time
 }
 
 func Open(v *vault.Vault, now func() time.Time) (*Distribution, error) {
-	schedule, err := openOfferSchedule(v, now)
+	schedule, err := openPostingOfferSchedule(v, now)
 	if err != nil {
 		return nil, fmt.Errorf("open offer schedule: %w", err)
 	}
@@ -83,11 +83,11 @@ func (d *Distribution) Cycle(
 	postings rwipostings.PostingIndex,
 	roster peerroster.Roster,
 	urls urlmeta.URLDirectory,
-	observer OfferObserver,
+	observer PostingOfferCycleObserver,
 	cfg Config,
 ) Runner {
-	return &offerCycle{
-		planner: &offerPlanner{
+	return &postingOfferCycle{
+		planner: &postingOfferPlanner{
 			schedule:          d.schedule,
 			ledger:            d.ledger,
 			postings:          postings,

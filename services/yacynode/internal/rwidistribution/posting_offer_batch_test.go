@@ -7,7 +7,7 @@ import (
 )
 
 func TestAddGroupsPostingsByPeer(t *testing.T) {
-	batch := newPeerOfferBatch()
+	batch := newPostingOfferBatch()
 	peer := seed(yacymodel.WordHash("peer"))
 	word := yacymodel.WordHash("w1")
 
@@ -24,7 +24,7 @@ func TestAddGroupsPostingsByPeer(t *testing.T) {
 }
 
 func TestAddRefusesPostingBeyondPeerCap(t *testing.T) {
-	batch := newPeerOfferBatch()
+	batch := newPostingOfferBatch()
 	peer := seed(yacymodel.WordHash("peer"))
 	word := yacymodel.WordHash("w1")
 	posting := fakePosting(word, urlHash("u1"))

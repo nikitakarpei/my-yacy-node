@@ -76,14 +76,14 @@ func seed(hash yacymodel.Hash) yacymodel.Seed {
 	return yacymodel.Seed{Hash: hash}
 }
 
-const offerPlannerRedundancy = 1
+const postingOfferPlannerRedundancy = 1
 
-func openOfferPlanner(
+func openPostingOfferPlanner(
 	t *testing.T,
 	now func() time.Time,
 	postings map[yacymodel.Hash]yacymodel.RWIPosting,
 	responsible []yacymodel.Seed,
-) (*offerSchedule, *replicaLedger, *offerPlanner, *fakeOfferObserver) {
+) (*postingOfferSchedule, *replicaLedger, *postingOfferPlanner, *fakePostingOfferCycleObserver) {
 	t.Helper()
 
 	v, err := memvault.Open(0)
@@ -96,9 +96,9 @@ func openOfferPlanner(
 		}
 	})
 
-	schedule, err := openOfferSchedule(v, now)
+	schedule, err := openPostingOfferSchedule(v, now)
 	if err != nil {
-		t.Fatalf("openOfferSchedule: %v", err)
+		t.Fatalf("openPostingOfferSchedule: %v", err)
 	}
 	ledger, err := openReplicaLedger(v)
 	if err != nil {
@@ -109,15 +109,15 @@ func openOfferPlanner(
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
 
-	observer := newFakeOfferObserver()
-	planner := &offerPlanner{
+	observer := newFakePostingOfferCycleObserver()
+	planner := &postingOfferPlanner{
 		schedule:   schedule,
 		ledger:     ledger,
 		postings:   fakePostingIndex{postings: postings},
 		roster:     fakeRoster{responsible: responsible, reachable: responsible},
 		observer:   observer,
 		partitions: partitions,
-		redundancy: offerPlannerRedundancy,
+		redundancy: postingOfferPlannerRedundancy,
 	}
 
 	return schedule, ledger, planner, observer
@@ -130,7 +130,7 @@ func TestPlanOffersDuePostingToResponsiblePeers(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, _, planner, _ := openOfferPlanner(
+	schedule, _, planner, _ := openPostingOfferPlanner(
 		t,
 		func() time.Time { return now },
 		postings,
@@ -161,7 +161,7 @@ func TestPlanSkipsFullyReplicatedPosting(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, ledger, planner, _ := openOfferPlanner(
+	schedule, ledger, planner, _ := openPostingOfferPlanner(
 		t,
 		func() time.Time { return now },
 		postings,
@@ -193,7 +193,12 @@ func TestPlanLeavesPostingUnofferedWithNoResponsiblePeers(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, _, planner, _ := openOfferPlanner(t, func() time.Time { return now }, postings, nil)
+	schedule, _, planner, _ := openPostingOfferPlanner(
+		t,
+		func() time.Time { return now },
+		postings,
+		nil,
+	)
 
 	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
 		t.Fatalf("Reschedule: %v", err)
@@ -215,7 +220,7 @@ func TestPlanSkipsPostingRemovedSinceScheduling(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
-	schedule, _, planner, _ := openOfferPlanner(
+	schedule, _, planner, _ := openPostingOfferPlanner(
 		t,
 		func() time.Time { return now },
 		nil,
@@ -242,7 +247,7 @@ func TestPlanSkipsCycleWhenTooFewPeersReachable(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, _, planner, observer := openOfferPlanner(
+	schedule, _, planner, observer := openPostingOfferPlanner(
 		t,
 		func() time.Time { return now },
 		postings,
@@ -274,7 +279,7 @@ func TestPlanReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
-	schedule, ledger, planner, observer := openOfferPlanner(
+	schedule, ledger, planner, observer := openPostingOfferPlanner(
 		t,
 		func() time.Time { return now },
 		postings,
