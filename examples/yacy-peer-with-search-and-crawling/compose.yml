@@ -1,0 +1,194 @@
+services:
+  nats:
+    image: nats:2.14.2
+    restart: unless-stopped
+    command: ["-js", "--store_dir=/data", "-m", "8222"]
+    ports:
+      - "4222:4222"
+    volumes:
+      - nats-data:/data
+
+  smokescreen:
+    build:
+      context: ./smokescreen
+    restart: unless-stopped
+    command: ["--listen-ip", "0.0.0.0"]
+
+  yacy-rwi-node:
+    image: ghcr.io/nikitakarpei/yacynode:latest
+    restart: unless-stopped
+    depends_on:
+      - smokescreen
+      - nats
+      - yacycrawler
+    ports:
+      - "8090:8090"
+      - "9090:9090"
+    environment:
+      YACY_PEER_HASH: ${YACY_PEER_HASH:?set YACY_PEER_HASH in .env}
+      YACY_PEER_NAME: ${YACY_PEER_NAME:?set YACY_PEER_NAME in .env}
+      YACY_ADVERTISE_HOST: ${YACY_ADVERTISE_HOST:?set YACY_ADVERTISE_HOST in .env}
+      YACY_NETWORK_NAME: ${YACY_NETWORK_NAME:-freeworld}
+      YACY_SEEDLIST_URLS: >-
+        http://sixcooler.de/yacy/seed.txt,
+        https://sonst.mifritscher.de/yacy/seed.txt,
+        http://5.45.105.16/yacyseed,
+        http://yacy.v16.de/seed/seed.txt,
+        https://frank-siebert.de/seed.txt,
+        http://seedlist.wertewesten.net/seed.txt
+      YACY_PROXY_URL: http://smokescreen:4750
+      NATS_URL: nats://nats:4222
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - yacy-data:/data
+
+  lightpanda:
+    image: lightpanda/browser:0.3.4
+    restart: unless-stopped
+    depends_on:
+      - smokescreen
+    command:
+      - "/bin/lightpanda"
+      - "serve"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "9222"
+      - "--advertise-host"
+      - "lightpanda"
+      - "--http-proxy"
+      - "http://smokescreen:4750"
+      - "--obey-robots"
+
+  renderproxy:
+    image: ghcr.io/nikitakarpei/renderproxy:latest
+    restart: unless-stopped
+    depends_on:
+      - lightpanda
+      - smokescreen
+    ports:
+      - "9094:9090"
+    environment:
+      RENDERPROXY_CDP_URL: ws://lightpanda:9222
+      RENDERPROXY_EGRESS_PROXY_URL: http://smokescreen:4750
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  yacycrawler:
+    image: ghcr.io/nikitakarpei/yacycrawler:latest
+    restart: unless-stopped
+    depends_on:
+      - nats
+      - renderproxy
+    ports:
+      - "9093:9090"
+    environment:
+      NATS_URL: nats://nats:4222
+      YACYCRAWLER_PROXY_URL: http://renderproxy:8080
+      YACYCRAWLER_PROXY_DIAL_MODE: absolute-url
+      YACYCRAWLER_PUBLISH_TEXT: "true"
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  visitcrawl:
+    image: ghcr.io/nikitakarpei/visitcrawl:latest
+    restart: unless-stopped
+    depends_on:
+      - nats
+    ports:
+      - "8091:8091"
+      - "9091:9091"
+    environment:
+      NATS_URL: nats://nats:4222
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  corpustext:
+    image: ghcr.io/nikitakarpei/corpustext:latest
+    restart: unless-stopped
+    depends_on:
+      - nats
+      - yacycrawler
+      - manticore
+    environment:
+      NATS_URL: nats://nats:4222
+      SEARCH_INDEX_ENGINE: manticore
+      MANTICORE_URL: http://manticore:9308
+      MANTICORE_TABLE: ${MANTICORE_TABLE:-yacy_text}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  manticore:
+    image: manticoresearch/manticore:27.1.5
+    restart: unless-stopped
+    ports:
+      - "9308:9308"
+    volumes:
+      - manticore-data:/var/lib/manticore
+
+  searxng-engines-seed:
+    image: docker.io/searxng/searxng:2026.7.5-a6438586a
+    entrypoint: ["true"]
+    volumes:
+      - searxng-engines:/usr/local/searxng/searx/engines
+
+  searxng-crawled-text-search-init:
+    image: ghcr.io/nikitakarpei/searxng-crawled-text-search:latest
+    depends_on:
+      searxng-engines-seed:
+        condition: service_completed_successfully
+    command: ["/payload/crawled_text_search.py", "/engines/crawled_text_search.py"]
+    volumes:
+      - searxng-engines:/engines
+
+  searxng-result-router-init:
+    image: ghcr.io/nikitakarpei/searxng-result-router:latest
+    command: ["/payload/result_link_router.py", "/plugins/result_link_router.py"]
+    volumes:
+      - searxng-plugins:/plugins
+
+  searxng:
+    image: docker.io/searxng/searxng:2026.7.5-a6438586a
+    restart: unless-stopped
+    depends_on:
+      searxng-crawled-text-search-init:
+        condition: service_completed_successfully
+      searxng-result-router-init:
+        condition: service_completed_successfully
+      visitcrawl:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    environment:
+      PYTHONPATH: /opt/searxng-plugins
+      VISITCRAWL_BASE_URL: ${VISITCRAWL_PUBLIC_URL:?set VISITCRAWL_PUBLIC_URL in .env}
+      SEARXNG_SECRET: ${SEARXNG_SECRET:?set SEARXNG_SECRET in .env}
+      SEARXNG_SETTINGS_PATH: /etc/searxng/settings.yml
+    volumes:
+      - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
+      - searxng-engines:/usr/local/searxng/searx/engines
+      - searxng-plugins:/opt/searxng-plugins:ro
+
+  nats-metrics:
+    image: natsio/prometheus-nats-exporter:0.16.0
+    restart: unless-stopped
+    depends_on:
+      - nats
+    command: ["-varz", "-jsz=all", "http://nats:8222"]
+
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    restart: unless-stopped
+    depends_on:
+      - nats-metrics
+    ports:
+      - "127.0.0.1:9099:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+
+volumes:
+  nats-data:
+  yacy-data:
+  manticore-data:
+  searxng-engines:
+  searxng-plugins:
+  prometheus-data:
