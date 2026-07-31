@@ -30,7 +30,7 @@ func (i urlIntake) Receive(
 		return Receipt{Busy: true}, nil
 	}
 
-	var existing, rejected []yacymodel.Hash
+	var existing, rejected []yacymodel.URLHash
 
 	err = i.vault.Update(ctx, func(tx *vault.Txn) error {
 		var storeErr error
@@ -52,7 +52,7 @@ func (i urlIntake) store(
 	ctx context.Context,
 	tx *vault.Txn,
 	metadata []yacymodel.URLMetadata,
-) (existing, rejected []yacymodel.Hash, err error) {
+) (existing, rejected []yacymodel.URLHash, err error) {
 	for _, stored := range metadata {
 		if err := ctx.Err(); err != nil {
 			return nil, nil, fmt.Errorf("context: %w", err)
@@ -68,18 +68,18 @@ func (i urlIntake) store(
 			continue
 		}
 
-		key := vault.Key(hash.Hash().String())
+		key := vault.Key(hash.String())
 		_, found, err := i.collection.Get(tx, key)
 		if err != nil {
 			return nil, nil, fmt.Errorf("read url metadata: %w", err)
 		}
 		if found {
-			existing = append(existing, hash.Hash())
+			existing = append(existing, hash)
 
 			continue
 		}
 		if err := i.collection.Put(tx, key, stored); err != nil {
-			rejected = append(rejected, hash.Hash())
+			rejected = append(rejected, hash)
 			slog.WarnContext(ctx, urlMetadataDiscarded,
 				slog.String("reason", "store failed"),
 				slog.Any("error", err),
@@ -87,7 +87,7 @@ func (i urlIntake) store(
 
 			continue
 		}
-		i.observers.stored(ctx, tx, hash.Hash(), stored.Freshness())
+		i.observers.stored(ctx, tx, hash, stored.Freshness())
 	}
 
 	return existing, rejected, nil

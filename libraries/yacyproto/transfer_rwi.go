@@ -22,8 +22,8 @@ type TransferRWIResponse struct {
 	ResponseHeader
 	Result     TransferRWIResult
 	Pause      time.Duration
-	UnknownURL []yacymodel.Hash
-	ErrorURL   []yacymodel.Hash
+	UnknownURL []yacymodel.URLHash
+	ErrorURL   []yacymodel.URLHash
 }
 
 func (r TransferRWIRequest) Form() url.Values {
@@ -76,8 +76,8 @@ func (r TransferRWIResponse) Encode() Message {
 	msg := Message{}
 	setString(msg, FieldResult, string(r.Result))
 	setInt(msg, FieldPause, int(r.Pause/time.Millisecond))
-	msg[FieldUnknownURL] = joinHashes(r.UnknownURL)
-	msg[FieldErrorURL] = joinHashes(r.ErrorURL)
+	msg[FieldUnknownURL] = joinURLHashes(r.UnknownURL)
+	msg[FieldErrorURL] = joinURLHashes(r.ErrorURL)
 
 	return msg
 }
@@ -93,12 +93,12 @@ func ParseTransferRWIResponse(m Message) (TransferRWIResponse, error) {
 		return TransferRWIResponse{}, err
 	}
 
-	unknown, err := splitHashes("transferRWI response", FieldUnknownURL, m[FieldUnknownURL])
+	unknown, err := splitURLHashes("transferRWI response", FieldUnknownURL, m[FieldUnknownURL])
 	if err != nil {
 		return TransferRWIResponse{}, err
 	}
 
-	errorURL, err := splitHashes("transferRWI response", FieldErrorURL, m[FieldErrorURL])
+	errorURL, err := splitURLHashes("transferRWI response", FieldErrorURL, m[FieldErrorURL])
 	if err != nil {
 		return TransferRWIResponse{}, err
 	}

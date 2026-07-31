@@ -44,7 +44,7 @@ func urlMetadata(seed string) yacymodel.URLMetadata {
 	return yacymodel.URLMetadata{Address: "http://example.com/" + seed}
 }
 
-func metadataHash(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.Hash {
+func metadataHash(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.URLHash {
 	t.Helper()
 
 	hash, err := metadata.Hash()
@@ -52,7 +52,7 @@ func metadataHash(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.Hash {
 		t.Fatalf("Hash: %v", err)
 	}
 
-	return hash.Hash()
+	return hash
 }
 
 func TestIntakePersistsAndReportsExisting(t *testing.T) {
@@ -96,7 +96,7 @@ func TestIntakeDurabilityAndLookup(t *testing.T) {
 		t.Fatalf("Intake: %v", err)
 	}
 
-	rows, err := module.Directory.MetadataByHash(ctx, []yacymodel.Hash{hash})
+	rows, err := module.Directory.MetadataByHash(ctx, []yacymodel.URLHash{hash})
 	if err != nil {
 		t.Fatalf("RowsByHash: %v", err)
 	}
@@ -104,15 +104,15 @@ func TestIntakeDurabilityAndLookup(t *testing.T) {
 		t.Fatalf("RowsByHash = %v, want one matching row", rows)
 	}
 
-	missing, err := module.Directory.MissingURLs(ctx, []yacymodel.Hash{
+	missing, err := module.Directory.MissingURLs(ctx, []yacymodel.URLHash{
 		hash,
-		yacymodel.WordHash("absent"),
-		yacymodel.WordHash("absent"),
+		urlHash("absent"),
+		urlHash("absent"),
 	})
 	if err != nil {
 		t.Fatalf("MissingURLs: %v", err)
 	}
-	if len(missing) != 1 || missing[0] != yacymodel.WordHash("absent") {
+	if len(missing) != 1 || missing[0] != urlHash("absent") {
 		t.Fatalf("MissingURLs = %v, want one absent hash", missing)
 	}
 }
@@ -170,4 +170,13 @@ func TestIntakeSurvivesObserverFailure(t *testing.T) {
 	if count != 1 {
 		t.Fatalf("Count = %d, want 1 despite observer failure", count)
 	}
+}
+
+func urlHash(raw string) yacymodel.URLHash {
+	hash, err := yacymodel.ParseURLHash(yacymodel.WordHash(raw).String())
+	if err != nil {
+		panic(err)
+	}
+
+	return hash
 }

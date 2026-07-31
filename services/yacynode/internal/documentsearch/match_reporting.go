@@ -77,7 +77,7 @@ func (s searcher) reportRequestedTerms(
 }
 
 func termWithMostMatches(
-	documentsPerTerm map[yacymodel.Hash]map[yacymodel.Hash]matchedDocument,
+	documentsPerTerm map[yacymodel.Hash]map[yacymodel.URLHash]matchedDocument,
 ) (yacymodel.Hash, bool) {
 	var (
 		selected yacymodel.Hash

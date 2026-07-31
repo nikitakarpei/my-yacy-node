@@ -98,12 +98,12 @@ func openCourierHarness(
 }
 
 type fakeURLDirectory struct {
-	metadata map[yacymodel.Hash]yacymodel.URLMetadata
+	metadata map[yacymodel.URLHash]yacymodel.URLMetadata
 }
 
 func (f fakeURLDirectory) MetadataByHash(
 	_ context.Context,
-	hashes []yacymodel.Hash,
+	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLMetadata, error) {
 	found := make([]yacymodel.URLMetadata, 0, len(hashes))
 	for _, hash := range hashes {
@@ -115,7 +115,10 @@ func (f fakeURLDirectory) MetadataByHash(
 	return found, nil
 }
 
-func (fakeURLDirectory) MissingURLs(context.Context, []yacymodel.Hash) ([]yacymodel.Hash, error) {
+func (fakeURLDirectory) MissingURLs(
+	context.Context,
+	[]yacymodel.URLHash,
+) ([]yacymodel.URLHash, error) {
 	return nil, nil
 }
 
@@ -129,7 +132,7 @@ func TestOfferRecordsReplicaOnOK(t *testing.T) {
 	defer server.Close()
 
 	ledger, roster, observer, courier := openCourierHarness(t, server)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := courierSeed(t, server)
 	offer := postingOffer{
 		Peer:     peer,
@@ -165,10 +168,10 @@ func TestOfferDeliversMetadataForUnknownURLs(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		gotPaths = append(gotPaths, r.URL.Path)
 		if r.URL.Path == yacyproto.PathTransferRWI {
-			word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+			word, url := yacymodel.WordHash("w1"), urlHash("u1")
 			resp := yacyproto.TransferRWIResponse{
 				Result:     yacyproto.ResultOK,
-				UnknownURL: []yacymodel.Hash{fakePosting(word, url).URLHash.Hash()},
+				UnknownURL: []yacymodel.URLHash{fakePosting(word, url).URLHash},
 			}
 			_, _ = w.Write([]byte(resp.Encode().Encode()))
 
@@ -180,11 +183,11 @@ func TestOfferDeliversMetadataForUnknownURLs(t *testing.T) {
 	defer server.Close()
 
 	_, _, _, courier := openCourierHarness(t, server)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	posting := fakePosting(word, url)
 	courier.urls = fakeURLDirectory{
-		metadata: map[yacymodel.Hash]yacymodel.URLMetadata{
-			posting.URLHash.Hash(): {Address: "http://example.com/u1"},
+		metadata: map[yacymodel.URLHash]yacymodel.URLMetadata{
+			posting.URLHash: {Address: "http://example.com/u1"},
 		},
 	}
 	peer := courierSeed(t, server)
@@ -206,17 +209,17 @@ func TestOfferSkipsTransferURLWhenMetadataMissing(t *testing.T) {
 	var gotPaths []string
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		gotPaths = append(gotPaths, r.URL.Path)
-		word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+		word, url := yacymodel.WordHash("w1"), urlHash("u1")
 		resp := yacyproto.TransferRWIResponse{
 			Result:     yacyproto.ResultOK,
-			UnknownURL: []yacymodel.Hash{fakePosting(word, url).URLHash.Hash()},
+			UnknownURL: []yacymodel.URLHash{fakePosting(word, url).URLHash},
 		}
 		_, _ = w.Write([]byte(resp.Encode().Encode()))
 	}))
 	defer server.Close()
 
 	_, _, _, courier := openCourierHarness(t, server)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := courierSeed(t, server)
 	offer := postingOffer{
 		Peer:     peer,
@@ -239,7 +242,7 @@ func TestOfferHonoursBusyPause(t *testing.T) {
 	defer server.Close()
 
 	ledger, roster, observer, courier := openCourierHarness(t, server)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := courierSeed(t, server)
 	offer := postingOffer{
 		Peer:     peer,
@@ -285,7 +288,7 @@ func TestOfferKeepsLoadedPeerReachable(t *testing.T) {
 	offer := postingOffer{
 		Peer: peer,
 		Postings: []yacymodel.RWIPosting{
-			fakePosting(yacymodel.WordHash("w1"), yacymodel.WordHash("u1")),
+			fakePosting(yacymodel.WordHash("w1"), urlHash("u1")),
 		},
 	}
 
@@ -316,7 +319,7 @@ func TestOfferMarksPeerUnreachableOnUnexpectedResult(t *testing.T) {
 	offer := postingOffer{
 		Peer: peer,
 		Postings: []yacymodel.RWIPosting{
-			fakePosting(yacymodel.WordHash("w1"), yacymodel.WordHash("u1")),
+			fakePosting(yacymodel.WordHash("w1"), urlHash("u1")),
 		},
 	}
 
@@ -346,7 +349,7 @@ func TestOfferMarksPeerUnreachableOnTransportFailure(t *testing.T) {
 	offer := postingOffer{
 		Peer: peer,
 		Postings: []yacymodel.RWIPosting{
-			fakePosting(yacymodel.WordHash("w1"), yacymodel.WordHash("u1")),
+			fakePosting(yacymodel.WordHash("w1"), urlHash("u1")),
 		},
 	}
 
@@ -372,7 +375,7 @@ func TestOfferMarksPeerUnreachableWithoutNetworkAddress(t *testing.T) {
 	offer := postingOffer{
 		Peer: peer,
 		Postings: []yacymodel.RWIPosting{
-			fakePosting(yacymodel.WordHash("w1"), yacymodel.WordHash("u1")),
+			fakePosting(yacymodel.WordHash("w1"), urlHash("u1")),
 		},
 	}
 

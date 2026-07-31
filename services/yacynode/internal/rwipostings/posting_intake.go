@@ -36,22 +36,21 @@ func (i postingIntake) Receive(
 		return Receipt{Busy: true, Pause: i.pause}, nil
 	}
 
-	referenced := make([]yacymodel.Hash, 0, len(entries))
+	referenced := make([]yacymodel.URLHash, 0, len(entries))
 	err = i.vault.Update(ctx, func(tx *vault.Txn) error {
 		for _, entry := range entries {
 			if err := ctx.Err(); err != nil {
 				return fmt.Errorf("context: %w", err)
 			}
 
-			hash := entry.URLHash.Hash()
-
-			if err := i.postings.Put(tx, postingKey(entry.WordHash, hash), entry); err != nil {
+			key := postingKey(entry.WordHash, entry.URLHash)
+			if err := i.postings.Put(tx, key, entry); err != nil {
 				return fmt.Errorf("store rwi posting: %w", err)
 			}
-			if err := i.observers.stored(tx, entry.WordHash, hash); err != nil {
+			if err := i.observers.stored(tx, entry.WordHash, entry.URLHash); err != nil {
 				return fmt.Errorf("note referenced url: %w", err)
 			}
-			referenced = append(referenced, hash)
+			referenced = append(referenced, entry.URLHash)
 		}
 
 		return nil

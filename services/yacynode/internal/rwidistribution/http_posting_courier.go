@@ -95,7 +95,7 @@ func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) offer
 
 func (c httpPostingCourier) recordAccepted(ctx context.Context, offer postingOffer) {
 	for _, posting := range offer.Postings {
-		word, targetURL := posting.WordHash, posting.URLHash.Hash()
+		word, targetURL := posting.WordHash, posting.URLHash
 		if err := c.ledger.RecordAccepted(ctx, word, targetURL, offer.Peer.Hash); err != nil {
 			slog.WarnContext(
 				ctx,
@@ -141,7 +141,7 @@ func (c httpPostingCourier) deliverUnknownURLs(
 	ctx context.Context,
 	endpoint string,
 	peer yacymodel.Seed,
-	unknown []yacymodel.Hash,
+	unknown []yacymodel.URLHash,
 ) {
 	if len(unknown) == 0 {
 		return

@@ -41,8 +41,8 @@ func TestTransferURLResponseRoundTrip(t *testing.T) {
 		ResponseHeader: yacyproto.ResponseHeader{Version: "1.0", Uptime: 9},
 		Result:         yacyproto.ResultErrorNotGranted,
 		Double:         3,
-		ErrorURL: []yacymodel.Hash{
-			sampleHash(t, "url-a"),
+		ErrorURL: []yacymodel.URLHash{
+			sampleURLHash(t, "url-a"),
 		},
 	}
 

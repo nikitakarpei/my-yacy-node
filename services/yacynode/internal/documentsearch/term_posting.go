@@ -3,7 +3,7 @@ package documentsearch
 import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
 type termPosting struct {
-	documentIdentifier yacymodel.Hash
+	documentIdentifier yacymodel.URLHash
 	occurrences        int
 	textPosition       int
 }

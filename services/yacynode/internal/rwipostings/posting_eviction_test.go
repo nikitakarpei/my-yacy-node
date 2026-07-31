@@ -13,11 +13,19 @@ type recordingObserver struct {
 	purged []yacymodel.Hash
 }
 
-func (o *recordingObserver) PostingStored(_ *vault.Txn, _, _ yacymodel.Hash) error {
+func (o *recordingObserver) PostingStored(
+	_ *vault.Txn,
+	_ yacymodel.Hash,
+	_ yacymodel.URLHash,
+) error {
 	return nil
 }
 
-func (o *recordingObserver) PostingPurged(_ *vault.Txn, word, _ yacymodel.Hash) error {
+func (o *recordingObserver) PostingPurged(
+	_ *vault.Txn,
+	word yacymodel.Hash,
+	_ yacymodel.URLHash,
+) error {
 	o.purged = append(o.purged, word)
 
 	return nil

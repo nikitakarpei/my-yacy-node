@@ -31,7 +31,7 @@ func openSchedule(t *testing.T, now func() time.Time) (*vault.Vault, *offerSched
 	return v, schedule
 }
 
-func store(t *testing.T, schedule *offerSchedule, word, url yacymodel.Hash) {
+func store(t *testing.T, schedule *offerSchedule, word yacymodel.Hash, url yacymodel.URLHash) {
 	t.Helper()
 
 	if err := schedule.vault.Update(context.Background(), func(tx *vault.Txn) error {
@@ -44,7 +44,7 @@ func store(t *testing.T, schedule *offerSchedule, word, url yacymodel.Hash) {
 func TestPostingStoredIsImmediatelyDue(t *testing.T) {
 	now := time.Unix(1000, 0)
 	_, schedule := openSchedule(t, func() time.Time { return now })
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	store(t, schedule, word, url)
 
 	due, err := schedule.DueBatch(context.Background(), 10)
@@ -60,11 +60,12 @@ func TestDueBatchExcludesFutureEntries(t *testing.T) {
 	now := time.Unix(1000, 0)
 	_, schedule := openSchedule(t, func() time.Time { return now })
 	overdue, future := yacymodel.WordHash("overdue"), yacymodel.WordHash("future")
+	url := urlHash("u1")
 
 	if err := schedule.Reschedule(
 		context.Background(),
 		overdue,
-		overdue,
+		url,
 		now.Add(-time.Minute),
 	); err != nil {
 		t.Fatalf("Reschedule overdue: %v", err)
@@ -72,7 +73,7 @@ func TestDueBatchExcludesFutureEntries(t *testing.T) {
 	if err := schedule.Reschedule(
 		context.Background(),
 		future,
-		future,
+		url,
 		now.Add(time.Hour),
 	); err != nil {
 		t.Fatalf("Reschedule future: %v", err)
@@ -91,11 +92,10 @@ func TestDueBatchRespectsLimit(t *testing.T) {
 	now := time.Unix(1000, 0)
 	_, schedule := openSchedule(t, func() time.Time { return now })
 	for _, seed := range []string{"a", "b", "c"} {
-		hash := yacymodel.WordHash(seed)
 		if err := schedule.Reschedule(
 			context.Background(),
-			hash,
-			hash,
+			yacymodel.WordHash(seed),
+			urlHash(seed),
 			now.Add(-time.Minute),
 		); err != nil {
 			t.Fatalf("Reschedule %s: %v", seed, err)
@@ -114,7 +114,7 @@ func TestDueBatchRespectsLimit(t *testing.T) {
 func TestRescheduleMovesOrderPosition(t *testing.T) {
 	now := time.Unix(1000, 0)
 	_, schedule := openSchedule(t, func() time.Time { return now })
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	store(t, schedule, word, url)
 
 	if err := schedule.Reschedule(context.Background(), word, url, now.Add(time.Hour)); err != nil {
@@ -133,7 +133,7 @@ func TestRescheduleMovesOrderPosition(t *testing.T) {
 func TestPostingPurgedRemovesBothRows(t *testing.T) {
 	now := time.Unix(1000, 0)
 	v, schedule := openSchedule(t, func() time.Time { return now })
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	store(t, schedule, word, url)
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
@@ -171,7 +171,7 @@ func TestPostingPurgedUnknownIsHarmless(t *testing.T) {
 		return schedule.PostingPurged(
 			tx,
 			yacymodel.WordHash("absent"),
-			yacymodel.WordHash("absent"),
+			urlHash("absent"),
 		)
 	}); err != nil {
 		t.Fatalf("PostingPurged: %v", err)

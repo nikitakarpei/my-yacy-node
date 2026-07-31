@@ -106,12 +106,7 @@ func (p *offerPlanner) replicationOf(
 	ctx context.Context,
 	entry duePosting,
 ) (postingReplication, error) {
-	urlHash, err := yacymodel.ParseURLHash(entry.URL.String())
-	if err != nil {
-		return postingReplication{}, fmt.Errorf("parse posting url: %w", err)
-	}
-
-	position, err := yacymodel.PostingPosition(entry.Word, urlHash, p.partitions)
+	position, err := yacymodel.PostingPosition(entry.Word, entry.URL, p.partitions)
 	if err != nil {
 		return postingReplication{}, fmt.Errorf("posting position: %w", err)
 	}

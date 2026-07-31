@@ -17,7 +17,8 @@ func (f fakePostingIndex) RWICount(context.Context) (int, error) { return len(f.
 
 func (f fakePostingIndex) Posting(
 	_ context.Context,
-	word, url yacymodel.Hash,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
 	entry, found := f.postings[postingIdentity(word, url)]
 
@@ -32,17 +33,21 @@ func (f fakePostingIndex) ScanWord(
 	return nil
 }
 
-func postingIdentity(word, url yacymodel.Hash) yacymodel.Hash {
+func postingIdentity(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.Hash {
 	return yacymodel.WordHash(word.String() + url.String())
 }
 
-func fakePosting(word, url yacymodel.Hash) yacymodel.RWIPosting {
-	urlHash, err := yacymodel.ParseURLHash(url.String())
+func urlHash(raw string) yacymodel.URLHash {
+	hash, err := yacymodel.ParseURLHash(yacymodel.WordHash(raw).String())
 	if err != nil {
 		panic(err)
 	}
 
-	return yacymodel.RWIPosting{WordHash: word, URLHash: urlHash}
+	return hash
+}
+
+func fakePosting(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPosting {
+	return yacymodel.RWIPosting{WordHash: word, URLHash: url}
 }
 
 type fakeRoster struct {
@@ -120,7 +125,7 @@ func openOfferPlanner(
 
 func TestPlanOffersDuePostingToResponsiblePeers(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
@@ -151,7 +156,7 @@ func TestPlanOffersDuePostingToResponsiblePeers(t *testing.T) {
 
 func TestPlanSkipsFullyReplicatedPosting(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
@@ -184,7 +189,7 @@ func TestPlanSkipsFullyReplicatedPosting(t *testing.T) {
 
 func TestPlanLeavesPostingUnofferedWithNoResponsiblePeers(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
 	}
@@ -208,7 +213,7 @@ func TestPlanLeavesPostingUnofferedWithNoResponsiblePeers(t *testing.T) {
 
 func TestPlanSkipsPostingRemovedSinceScheduling(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	schedule, _, planner, _ := openOfferPlanner(
 		t,
@@ -232,7 +237,7 @@ func TestPlanSkipsPostingRemovedSinceScheduling(t *testing.T) {
 
 func TestPlanSkipsCycleWhenTooFewPeersReachable(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),
@@ -264,7 +269,7 @@ func TestPlanSkipsCycleWhenTooFewPeersReachable(t *testing.T) {
 
 func TestPlanReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
 	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	stalePeer, fresh := yacymodel.WordHash("stale"), yacymodel.WordHash("fresh")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		postingIdentity(word, url): fakePosting(word, url),

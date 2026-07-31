@@ -50,7 +50,7 @@ func TestPostingReadsBackStoredEntry(t *testing.T) {
 	}
 
 	word := yacymodel.WordHash("w1")
-	url := urlHash("u1").Hash()
+	url := urlHash("u1")
 
 	entry, found, err := h.rwi.Index.Posting(ctx, word, url)
 	if err != nil {
@@ -62,8 +62,8 @@ func TestPostingReadsBackStoredEntry(t *testing.T) {
 	if entry.WordHash != word {
 		t.Fatalf("entry word hash = %q, want %q", entry.WordHash, word)
 	}
-	if entry.URLHash.Hash() != url {
-		t.Fatalf("entry url hash = %q, want %q", entry.URLHash.Hash(), url)
+	if entry.URLHash != url {
+		t.Fatalf("entry url hash = %q, want %q", entry.URLHash, url)
 	}
 }
 
@@ -71,7 +71,7 @@ func TestPostingMissingIsNotFound(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t, 0, 100)
 
-	_, found, err := h.rwi.Index.Posting(ctx, yacymodel.WordHash("w1"), urlHash("u1").Hash())
+	_, found, err := h.rwi.Index.Posting(ctx, yacymodel.WordHash("w1"), urlHash("u1"))
 	if err != nil {
 		t.Fatalf("Posting: %v", err)
 	}

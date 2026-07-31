@@ -17,7 +17,7 @@ const (
 
 type duePosting struct {
 	Word yacymodel.Hash
-	URL  yacymodel.Hash
+	URL  yacymodel.URLHash
 }
 
 type offerSchedule struct {
@@ -40,11 +40,19 @@ func openOfferSchedule(v *vault.Vault, now func() time.Time) (*offerSchedule, er
 	return &offerSchedule{vault: v, order: order, due: due, now: now}, nil
 }
 
-func (s *offerSchedule) PostingStored(tx *vault.Txn, word, url yacymodel.Hash) error {
+func (s *offerSchedule) PostingStored(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) error {
 	return s.reschedule(tx, word, url, s.now())
 }
 
-func (s *offerSchedule) PostingPurged(tx *vault.Txn, word, url yacymodel.Hash) error {
+func (s *offerSchedule) PostingPurged(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) error {
 	at, found, err := s.due.Get(tx, postingKey(word, url))
 	if err != nil {
 		return fmt.Errorf("read offer due: %w", err)
@@ -58,7 +66,8 @@ func (s *offerSchedule) PostingPurged(tx *vault.Txn, word, url yacymodel.Hash) e
 
 func (s *offerSchedule) Reschedule(
 	ctx context.Context,
-	word, url yacymodel.Hash,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
 	at time.Time,
 ) error {
 	err := s.vault.Update(ctx, func(tx *vault.Txn) error {
@@ -71,7 +80,12 @@ func (s *offerSchedule) Reschedule(
 	return nil
 }
 
-func (s *offerSchedule) reschedule(tx *vault.Txn, word, url yacymodel.Hash, at time.Time) error {
+func (s *offerSchedule) reschedule(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+	at time.Time,
+) error {
 	previous, found, err := s.due.Get(tx, postingKey(word, url))
 	if err != nil {
 		return fmt.Errorf("read offer due: %w", err)
@@ -92,7 +106,12 @@ func (s *offerSchedule) reschedule(tx *vault.Txn, word, url yacymodel.Hash, at t
 	return nil
 }
 
-func (s *offerSchedule) clear(tx *vault.Txn, word, url yacymodel.Hash, at time.Time) error {
+func (s *offerSchedule) clear(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+	at time.Time,
+) error {
 	if _, err := s.order.Delete(tx, orderKey(at, word, url)); err != nil {
 		return fmt.Errorf("drop offer order: %w", err)
 	}
@@ -112,14 +131,14 @@ func (s *offerSchedule) DueBatch(ctx context.Context, limit int) ([]duePosting, 
 	due := make([]duePosting, 0, limit)
 	err := s.vault.View(ctx, func(tx *vault.Txn) error {
 		return s.order.Scan(tx, nil, func(key vault.Key, _ struct{}) (bool, error) {
-			at, word, url, err := parseOrderKey(key)
+			scheduled, err := parseOrderKey(key)
 			if err != nil {
 				return false, err
 			}
-			if at.After(now) {
+			if scheduled.At.After(now) {
 				return false, nil
 			}
-			due = append(due, duePosting{Word: word, URL: url})
+			due = append(due, scheduled.Posting)
 
 			return len(due) < limit, nil
 		})

@@ -59,7 +59,7 @@ func (s quotaSweeper) Sweep(ctx context.Context) (Result, error) {
 	}
 }
 
-func (s quotaSweeper) purge(ctx context.Context, urls []yacymodel.Hash) (Result, error) {
+func (s quotaSweeper) purge(ctx context.Context, urls []yacymodel.URLHash) (Result, error) {
 	var result Result
 	err := s.vault.Update(ctx, func(tx *vault.Txn) error {
 		for _, url := range urls {

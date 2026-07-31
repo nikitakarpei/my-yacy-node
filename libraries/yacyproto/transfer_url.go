@@ -20,7 +20,7 @@ type TransferURLResponse struct {
 	ResponseHeader
 	Result   TransferURLResult
 	Double   int
-	ErrorURL []yacymodel.Hash
+	ErrorURL []yacymodel.URLHash
 }
 
 func (r TransferURLRequest) Form() url.Values {
@@ -91,7 +91,7 @@ func (r TransferURLResponse) Encode() Message {
 	msg := Message{}
 	setString(msg, FieldResult, string(r.Result))
 	setInt(msg, FieldDouble, r.Double)
-	setString(msg, FieldErrorURL, joinHashes(r.ErrorURL))
+	setString(msg, FieldErrorURL, joinURLHashes(r.ErrorURL))
 
 	return msg
 }
@@ -107,7 +107,7 @@ func ParseTransferURLResponse(m Message) (TransferURLResponse, error) {
 		return TransferURLResponse{}, err
 	}
 
-	errorURL, err := splitHashes("transferURL response", FieldErrorURL, m[FieldErrorURL])
+	errorURL, err := splitURLHashes("transferURL response", FieldErrorURL, m[FieldErrorURL])
 	if err != nil {
 		return TransferURLResponse{}, err
 	}

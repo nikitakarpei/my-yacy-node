@@ -87,8 +87,8 @@ func (h *URLHash) UnmarshalText(text []byte) error {
 	return nil
 }
 
-func (h URLHash) Hash() Hash {
-	return h.hash
+func (h URLHash) IsZero() bool {
+	return h.hash.IsZero()
 }
 
 func (h URLHash) String() string {

@@ -7,7 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func EncodeSearchIndexAbstract(urlHashes []yacymodel.Hash) string {
+func EncodeSearchIndexAbstract(urlHashes []yacymodel.URLHash) string {
 	if len(urlHashes) == 0 {
 		return "{}"
 	}

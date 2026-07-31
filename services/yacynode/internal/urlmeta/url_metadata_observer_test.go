@@ -10,14 +10,14 @@ import (
 )
 
 type recordingObserver struct {
-	stored []yacymodel.Hash
-	purged []yacymodel.Hash
+	stored []yacymodel.URLHash
+	purged []yacymodel.URLHash
 	fail   bool
 }
 
 func (r *recordingObserver) URLStored(
 	_ *vault.Txn,
-	hash yacymodel.Hash,
+	hash yacymodel.URLHash,
 	_ yacymodel.Optional[yacymodel.CalendarDay],
 ) error {
 	r.stored = append(r.stored, hash)
@@ -28,7 +28,7 @@ func (r *recordingObserver) URLStored(
 	return nil
 }
 
-func (r *recordingObserver) URLPurged(_ *vault.Txn, hash yacymodel.Hash) error {
+func (r *recordingObserver) URLPurged(_ *vault.Txn, hash yacymodel.URLHash) error {
 	r.purged = append(r.purged, hash)
 	if r.fail {
 		return fmt.Errorf("observer refused purge")

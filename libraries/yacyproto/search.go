@@ -14,7 +14,7 @@ type SearchRequest struct {
 	MySeed             yacymodel.Optional[yacymodel.Seed]
 	Query              []yacymodel.Hash
 	Exclude            []yacymodel.Hash
-	URLs               []yacymodel.Hash
+	URLs               []yacymodel.URLHash
 	Count              int
 	Time               int
 	MaxDist            int
@@ -56,7 +56,7 @@ func (r SearchRequest) Form() url.Values {
 	}
 	putString(form, FieldQuery, concatHashes(r.Query))
 	putString(form, FieldExclude, concatHashes(r.Exclude))
-	putString(form, FieldURLs, concatHashes(r.URLs))
+	putString(form, FieldURLs, concatURLHashes(r.URLs))
 	putIntOptional(form, FieldCount, r.Count)
 	putIntOptional(form, FieldTime, r.Time)
 	putIntOptional(form, FieldMaxDist, r.MaxDist)
@@ -131,7 +131,7 @@ func ParseSearchRequest(ctx context.Context, form url.Values) (SearchRequest, er
 		return SearchRequest{}, err
 	}
 
-	req.URLs, err = splitSearchHashes(FieldURLs, form.Get(FieldURLs))
+	req.URLs, err = splitSearchURLHashes(FieldURLs, form.Get(FieldURLs))
 	if err != nil {
 		return SearchRequest{}, err
 	}

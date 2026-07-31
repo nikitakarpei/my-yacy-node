@@ -53,7 +53,11 @@ func Open(v *vault.Vault, now func() time.Time) (*Distribution, error) {
 	return &Distribution{schedule: schedule, ledger: ledger, now: now}, nil
 }
 
-func (d *Distribution) PostingStored(tx *vault.Txn, word, url yacymodel.Hash) error {
+func (d *Distribution) PostingStored(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) error {
 	if err := d.schedule.PostingStored(tx, word, url); err != nil {
 		return err
 	}
@@ -61,7 +65,11 @@ func (d *Distribution) PostingStored(tx *vault.Txn, word, url yacymodel.Hash) er
 	return d.ledger.PostingStored(tx, word, url)
 }
 
-func (d *Distribution) PostingPurged(tx *vault.Txn, word, url yacymodel.Hash) error {
+func (d *Distribution) PostingPurged(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) error {
 	if err := d.schedule.PostingPurged(tx, word, url); err != nil {
 		return err
 	}

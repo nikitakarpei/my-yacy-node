@@ -8,7 +8,7 @@ import (
 )
 
 type matchedDocument struct {
-	identifier  yacymodel.Hash
+	identifier  yacymodel.URLHash
 	occurrences int
 	minPosition int
 	maxPosition int
@@ -23,12 +23,12 @@ func (d matchedDocument) termSpread(termCount int) int {
 }
 
 func keepDocumentsMatchingEveryTerm(
-	perTerm []map[yacymodel.Hash]matchedDocument,
-) map[yacymodel.Hash]matchedDocument {
+	perTerm []map[yacymodel.URLHash]matchedDocument,
+) map[yacymodel.URLHash]matchedDocument {
 	if len(perTerm) == 0 {
 		return nil
 	}
-	matchingEvery := make(map[yacymodel.Hash]matchedDocument, len(perTerm[0]))
+	matchingEvery := make(map[yacymodel.URLHash]matchedDocument, len(perTerm[0]))
 	maps.Copy(matchingEvery, perTerm[0])
 
 	for _, documents := range perTerm[1:] {
@@ -58,9 +58,9 @@ func keepDocumentsMatchingEveryTerm(
 // where YaCy's is deterministic, without depending on YaCy's join-order-sensitive
 // position queue.
 func documentsOrderedByRelevance(
-	documents map[yacymodel.Hash]matchedDocument,
+	documents map[yacymodel.URLHash]matchedDocument,
 	termCount int,
-) []yacymodel.Hash {
+) []yacymodel.URLHash {
 	ranked := make([]matchedDocument, 0, len(documents))
 	for _, document := range documents {
 		ranked = append(ranked, document)
@@ -76,7 +76,7 @@ func documentsOrderedByRelevance(
 		return compareAscending(a.identifier.String(), b.identifier.String())
 	})
 
-	identifiers := make([]yacymodel.Hash, 0, len(ranked))
+	identifiers := make([]yacymodel.URLHash, 0, len(ranked))
 	for _, document := range ranked {
 		identifiers = append(identifiers, document.identifier)
 	}
@@ -85,10 +85,10 @@ func documentsOrderedByRelevance(
 }
 
 func documentsWithinTermSpread(
-	documents map[yacymodel.Hash]matchedDocument,
+	documents map[yacymodel.URLHash]matchedDocument,
 	maxTermSpread int,
 	termCount int,
-) map[yacymodel.Hash]matchedDocument {
+) map[yacymodel.URLHash]matchedDocument {
 	if maxTermSpread <= 0 {
 		return documents
 	}
@@ -101,7 +101,7 @@ func documentsWithinTermSpread(
 	return documents
 }
 
-func takeMostRelevant(identifiers []yacymodel.Hash, limit int) []yacymodel.Hash {
+func takeMostRelevant(identifiers []yacymodel.URLHash, limit int) []yacymodel.URLHash {
 	if limit > 0 && len(identifiers) > limit {
 		return identifiers[:limit]
 	}
@@ -109,8 +109,8 @@ func takeMostRelevant(identifiers []yacymodel.Hash, limit int) []yacymodel.Hash 
 	return identifiers
 }
 
-func documentIdentifiers(documents map[yacymodel.Hash]matchedDocument) []yacymodel.Hash {
-	identifiers := make([]yacymodel.Hash, 0, len(documents))
+func documentIdentifiers(documents map[yacymodel.URLHash]matchedDocument) []yacymodel.URLHash {
+	identifiers := make([]yacymodel.URLHash, 0, len(documents))
 	for identifier := range documents {
 		identifiers = append(identifiers, identifier)
 	}

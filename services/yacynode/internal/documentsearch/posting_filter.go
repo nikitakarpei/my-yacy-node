@@ -8,8 +8,8 @@ import (
 
 type postingFilter struct {
 	language           yacymodel.Optional[yacymodel.Language]
-	requiredDocuments  map[yacymodel.Hash]struct{}
-	excludedDocuments  map[yacymodel.Hash]struct{}
+	requiredDocuments  map[yacymodel.URLHash]struct{}
+	excludedDocuments  map[yacymodel.URLHash]struct{}
 	siteHash           yacymodel.Optional[yacymodel.HostHash]
 	contentKind        contentKind
 	strictContentKind  bool
@@ -44,7 +44,7 @@ func (f postingFilter) matches(posting yacymodel.RWIPosting) bool {
 			return false
 		}
 	}
-	document := posting.URLHash.Hash()
+	document := posting.URLHash
 	if len(f.requiredDocuments) != 0 {
 		if _, ok := f.requiredDocuments[document]; !ok {
 			return false
@@ -114,11 +114,11 @@ func matchesRequiredProperties(
 	return posting.Appearance.OverlapsAny(traits)
 }
 
-func documentSet(identifiers []yacymodel.Hash) map[yacymodel.Hash]struct{} {
+func documentSet(identifiers []yacymodel.URLHash) map[yacymodel.URLHash]struct{} {
 	if len(identifiers) == 0 {
 		return nil
 	}
-	set := make(map[yacymodel.Hash]struct{}, len(identifiers))
+	set := make(map[yacymodel.URLHash]struct{}, len(identifiers))
 	for _, identifier := range identifiers {
 		set[identifier] = struct{}{}
 	}

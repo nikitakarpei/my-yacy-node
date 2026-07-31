@@ -36,10 +36,11 @@ func (s fakeScanner) ScanWord(
 
 func (s fakeScanner) Posting(
 	_ context.Context,
-	word, url yacymodel.Hash,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
 	for _, entry := range s.postings[word] {
-		if entry.URLHash.Hash() == url {
+		if entry.URLHash == url {
 			entry.WordHash = word
 			return entry, true, nil
 		}
@@ -49,12 +50,12 @@ func (s fakeScanner) Posting(
 }
 
 type fakeDirectory struct {
-	metadata map[yacymodel.Hash]yacymodel.URLMetadata
+	metadata map[yacymodel.URLHash]yacymodel.URLMetadata
 }
 
 func (d fakeDirectory) MetadataByHash(
 	_ context.Context,
-	hashes []yacymodel.Hash,
+	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLMetadata, error) {
 	out := make([]yacymodel.URLMetadata, 0, len(hashes))
 	for _, hash := range hashes {
@@ -68,8 +69,8 @@ func (d fakeDirectory) MetadataByHash(
 
 func (d fakeDirectory) MissingURLs(
 	context.Context,
-	[]yacymodel.Hash,
-) ([]yacymodel.Hash, error) {
+	[]yacymodel.URLHash,
+) ([]yacymodel.URLHash, error) {
 	return nil, nil
 }
 
@@ -127,10 +128,10 @@ func addressFor(id string) string {
 	return "http://example.com/" + id
 }
 
-func urlMetadata(ids ...string) map[yacymodel.Hash]yacymodel.URLMetadata {
-	metadata := make(map[yacymodel.Hash]yacymodel.URLMetadata, len(ids))
+func urlMetadata(ids ...string) map[yacymodel.URLHash]yacymodel.URLMetadata {
+	metadata := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(ids))
 	for _, id := range ids {
-		metadata[hashFor(id)] = yacymodel.URLMetadata{Address: addressFor(id)}
+		metadata[urlHashFor(id)] = yacymodel.URLMetadata{Address: addressFor(id)}
 	}
 
 	return metadata

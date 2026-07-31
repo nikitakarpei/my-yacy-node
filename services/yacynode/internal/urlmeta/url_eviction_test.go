@@ -22,7 +22,7 @@ func TestPurgeNotifiesObserverOfDeletedURLs(t *testing.T) {
 		if _, purgeErr := module.Evictor.Purge(
 			ctx,
 			tx,
-			[]yacymodel.Hash{metadataHash(t, row)},
+			[]yacymodel.URLHash{metadataHash(t, row)},
 		); purgeErr != nil {
 			return fmt.Errorf("purge: %w", purgeErr)
 		}
@@ -47,7 +47,7 @@ func TestPurgeSurvivesObserverFailure(t *testing.T) {
 
 	var result PurgeResult
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.Hash{metadataHash(t, row)})
+		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.URLHash{metadataHash(t, row)})
 		result = purged
 		if purgeErr != nil {
 			return fmt.Errorf("purge: %w", purgeErr)
@@ -75,7 +75,7 @@ func TestPurgeDeletesRows(t *testing.T) {
 
 	var result PurgeResult
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.Hash{metadataHash(t, row)})
+		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.URLHash{metadataHash(t, row)})
 		result = purged
 		if purgeErr != nil {
 			return fmt.Errorf("purge: %w", purgeErr)

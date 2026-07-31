@@ -32,12 +32,15 @@ func openStalenessRanking(v *vault.Vault) (*stalenessRanking, error) {
 	return &stalenessRanking{vault: v, order: order, freshness: freshness}, nil
 }
 
-func (o *stalenessRanking) StalestURLs(ctx context.Context, limit int) ([]yacymodel.Hash, error) {
+func (o *stalenessRanking) StalestURLs(
+	ctx context.Context,
+	limit int,
+) ([]yacymodel.URLHash, error) {
 	if limit <= 0 {
 		return nil, nil
 	}
 
-	stalest := make([]yacymodel.Hash, 0, limit)
+	stalest := make([]yacymodel.URLHash, 0, limit)
 	err := o.vault.View(ctx, func(tx *vault.Txn) error {
 		return o.order.Scan(
 			tx,
@@ -62,7 +65,7 @@ func (o *stalenessRanking) StalestURLs(ctx context.Context, limit int) ([]yacymo
 
 func (o *stalenessRanking) URLStored(
 	tx *vault.Txn,
-	hash yacymodel.Hash,
+	hash yacymodel.URLHash,
 	freshness yacymodel.Optional[yacymodel.CalendarDay],
 ) error {
 	rank := rankOf(freshness)
@@ -82,7 +85,7 @@ func (o *stalenessRanking) URLStored(
 
 var _ StalenessRanking = (*stalenessRanking)(nil)
 
-func (o *stalenessRanking) URLPurged(tx *vault.Txn, hash yacymodel.Hash) error {
+func (o *stalenessRanking) URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error {
 	rank, found, err := o.freshness.Get(tx, vault.Key(hash.String()))
 	if err != nil {
 		return fmt.Errorf("read staleness freshness: %w", err)

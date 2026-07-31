@@ -36,7 +36,8 @@ func store(
 	t *testing.T,
 	v *vault.Vault,
 	index urlreferences.ReferenceProjection,
-	word, url yacymodel.Hash,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
 ) {
 	t.Helper()
 
@@ -51,7 +52,8 @@ func purge(
 	t *testing.T,
 	v *vault.Vault,
 	index urlreferences.ReferenceProjection,
-	word, url yacymodel.Hash,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
 ) {
 	t.Helper()
 
@@ -66,7 +68,7 @@ func wordsReferencing(
 	t *testing.T,
 	v *vault.Vault,
 	index urlreferences.ReferenceProjection,
-	url yacymodel.Hash,
+	url yacymodel.URLHash,
 ) []yacymodel.Hash {
 	t.Helper()
 
@@ -88,10 +90,10 @@ func wordsReferencing(
 
 func TestWordsReferencingListsStoredWords(t *testing.T) {
 	vault, index := openReferences(t)
-	url := yacymodel.WordHash("u1")
+	url := urlHash("u1")
 	store(t, vault, index, yacymodel.WordHash("w1"), url)
 	store(t, vault, index, yacymodel.WordHash("w2"), url)
-	store(t, vault, index, yacymodel.WordHash("w3"), yacymodel.WordHash("other"))
+	store(t, vault, index, yacymodel.WordHash("w3"), urlHash("other"))
 
 	if got := wordsReferencing(t, vault, index, url); len(got) != 2 {
 		t.Fatalf("words referencing %q = %v, want 2", url, got)
@@ -100,7 +102,7 @@ func TestWordsReferencingListsStoredWords(t *testing.T) {
 
 func TestPurgedPostingForgetsURLWhenLastWordGoes(t *testing.T) {
 	vault, index := openReferences(t)
-	url := yacymodel.WordHash("u1")
+	url := urlHash("u1")
 	store(t, vault, index, yacymodel.WordHash("w1"), url)
 	store(t, vault, index, yacymodel.WordHash("w2"), url)
 
@@ -118,7 +120,7 @@ func TestPurgedPostingForgetsURLWhenLastWordGoes(t *testing.T) {
 func TestPurgedUnknownPostingIsHarmless(t *testing.T) {
 	vault, index := openReferences(t)
 
-	purge(t, vault, index, yacymodel.WordHash("w1"), yacymodel.WordHash("absent"))
+	purge(t, vault, index, yacymodel.WordHash("w1"), urlHash("absent"))
 	if count := referencedURLCount(t, index); count != 0 {
 		t.Fatalf("ReferencedURLCount = %d, want 0", count)
 	}
@@ -126,9 +128,9 @@ func TestPurgedUnknownPostingIsHarmless(t *testing.T) {
 
 func TestReferencedURLCountTracksDistinctURLs(t *testing.T) {
 	vault, index := openReferences(t)
-	store(t, vault, index, yacymodel.WordHash("w1"), yacymodel.WordHash("u1"))
-	store(t, vault, index, yacymodel.WordHash("w2"), yacymodel.WordHash("u1"))
-	store(t, vault, index, yacymodel.WordHash("w1"), yacymodel.WordHash("u2"))
+	store(t, vault, index, yacymodel.WordHash("w1"), urlHash("u1"))
+	store(t, vault, index, yacymodel.WordHash("w2"), urlHash("u1"))
+	store(t, vault, index, yacymodel.WordHash("w1"), urlHash("u2"))
 
 	if count := referencedURLCount(t, index); count != 2 {
 		t.Fatalf("ReferencedURLCount = %d, want 2 distinct urls", count)
@@ -144,4 +146,13 @@ func referencedURLCount(t *testing.T, index urlreferences.ReferenceProjection) i
 	}
 
 	return count
+}
+
+func urlHash(raw string) yacymodel.URLHash {
+	hash, err := yacymodel.ParseURLHash(yacymodel.WordHash(raw).String())
+	if err != nil {
+		panic(err)
+	}
+
+	return hash
 }

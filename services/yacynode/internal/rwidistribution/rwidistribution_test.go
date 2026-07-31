@@ -27,7 +27,7 @@ func TestOpenFansOutPostingStoredToScheduleAndLedger(t *testing.T) {
 		t.Fatalf("Open: %v", err)
 	}
 
-	word, url := yacymodel.WordHash("w1"), yacymodel.WordHash("u1")
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	if err := distribution.ledger.RecordAccepted(
 		context.Background(),

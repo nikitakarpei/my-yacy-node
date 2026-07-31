@@ -44,12 +44,12 @@ func TestTransferRWIResponseRoundTrip(t *testing.T) {
 		ResponseHeader: yacyproto.ResponseHeader{Version: "1.0", Uptime: 7},
 		Result:         yacyproto.ResultOK,
 		Pause:          1500 * time.Millisecond,
-		UnknownURL: []yacymodel.Hash{
-			sampleHash(t, "url-a"),
-			sampleHash(t, "url-b"),
+		UnknownURL: []yacymodel.URLHash{
+			sampleURLHash(t, "url-a"),
+			sampleURLHash(t, "url-b"),
 		},
-		ErrorURL: []yacymodel.Hash{
-			sampleHash(t, "url-c"),
+		ErrorURL: []yacymodel.URLHash{
+			sampleURLHash(t, "url-c"),
 		},
 	}
 

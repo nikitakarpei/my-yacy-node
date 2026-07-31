@@ -22,7 +22,7 @@ const (
 
 var (
 	distributionWordHash = mustHash("DISTWORDHASH")
-	distributionDocHash  = mustHash("DISTDOCHASH1")
+	distributionDocHash  = mustURLHash("DISTDOCHASH1")
 )
 
 func TestNodeDistributesRWIToRealYaCy(t *testing.T) {

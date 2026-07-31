@@ -23,8 +23,8 @@ func TestSearchRequestRoundTrip(t *testing.T) {
 		Exclude: []yacymodel.Hash{
 			sampleHash(t, "gamma"),
 		},
-		URLs: []yacymodel.Hash{
-			sampleHash(t, "url-a"),
+		URLs: []yacymodel.URLHash{
+			sampleURLHash(t, "url-a"),
 		},
 		Count:            10,
 		Time:             3000,

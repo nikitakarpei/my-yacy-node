@@ -7,7 +7,7 @@ import (
 )
 
 type termMatches struct {
-	documentsPerTerm    map[yacymodel.Hash]map[yacymodel.Hash]matchedDocument
+	documentsPerTerm    map[yacymodel.Hash]map[yacymodel.URLHash]matchedDocument
 	totalMatchesPerTerm map[yacymodel.Hash]int
 }
 
@@ -18,7 +18,7 @@ func (s searcher) documentsMatchingTerms(
 ) (termMatches, error) {
 	matches := termMatches{
 		documentsPerTerm: make(
-			map[yacymodel.Hash]map[yacymodel.Hash]matchedDocument,
+			map[yacymodel.Hash]map[yacymodel.URLHash]matchedDocument,
 			len(terms),
 		),
 		totalMatchesPerTerm: make(map[yacymodel.Hash]int, len(terms)),
@@ -35,8 +35,8 @@ func (s searcher) documentsMatchingTerms(
 	return matches, nil
 }
 
-func dedupeDocuments(postings []termPosting) map[yacymodel.Hash]matchedDocument {
-	documents := make(map[yacymodel.Hash]matchedDocument, len(postings))
+func dedupeDocuments(postings []termPosting) map[yacymodel.URLHash]matchedDocument {
+	documents := make(map[yacymodel.URLHash]matchedDocument, len(postings))
 	for _, posting := range postings {
 		if _, seen := documents[posting.documentIdentifier]; seen {
 			continue
@@ -54,9 +54,9 @@ func dedupeDocuments(postings []termPosting) map[yacymodel.Hash]matchedDocument 
 
 func documentsInTermOrder(
 	terms []yacymodel.Hash,
-	documentsPerTerm map[yacymodel.Hash]map[yacymodel.Hash]matchedDocument,
-) []map[yacymodel.Hash]matchedDocument {
-	ordered := make([]map[yacymodel.Hash]matchedDocument, 0, len(terms))
+	documentsPerTerm map[yacymodel.Hash]map[yacymodel.URLHash]matchedDocument,
+) []map[yacymodel.URLHash]matchedDocument {
+	ordered := make([]map[yacymodel.URLHash]matchedDocument, 0, len(terms))
 	for _, term := range terms {
 		ordered = append(ordered, documentsPerTerm[term])
 	}
