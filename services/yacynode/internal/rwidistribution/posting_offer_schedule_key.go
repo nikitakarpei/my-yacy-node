@@ -10,7 +10,7 @@ import (
 
 const dueAtDigits = 20
 
-type scheduledOffer struct {
+type scheduledPostingOffer struct {
 	At      time.Time
 	Posting duePosting
 }
@@ -32,32 +32,32 @@ func orderKey(at time.Time, word yacymodel.Hash, url yacymodel.URLHash) vault.Ke
 	return key
 }
 
-func parseOrderKey(key vault.Key) (scheduledOffer, error) {
+func parseOrderKey(key vault.Key) (scheduledPostingOffer, error) {
 	wantLen := dueAtDigits + yacymodel.HashLength*2
 	if len(key) != wantLen {
-		return scheduledOffer{},
+		return scheduledPostingOffer{},
 			fmt.Errorf("offer schedule order key: length %d, want %d", len(key), wantLen)
 	}
 
 	var nanos int64
 	if _, err := fmt.Sscanf(string(key[:dueAtDigits]), "%d", &nanos); err != nil {
-		return scheduledOffer{},
+		return scheduledPostingOffer{},
 			fmt.Errorf("offer schedule order key: parse due time: %w", err)
 	}
 
 	word, err := yacymodel.ParseHash(string(key[dueAtDigits : dueAtDigits+yacymodel.HashLength]))
 	if err != nil {
-		return scheduledOffer{},
+		return scheduledPostingOffer{},
 			fmt.Errorf("offer schedule order key: word hash: %w", err)
 	}
 
 	url, err := yacymodel.ParseURLHash(string(key[dueAtDigits+yacymodel.HashLength:]))
 	if err != nil {
-		return scheduledOffer{},
+		return scheduledPostingOffer{},
 			fmt.Errorf("offer schedule order key: url hash: %w", err)
 	}
 
-	return scheduledOffer{
+	return scheduledPostingOffer{
 		At:      time.Unix(0, nanos),
 		Posting: duePosting{Word: word, URL: url},
 	}, nil

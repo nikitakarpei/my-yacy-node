@@ -53,7 +53,7 @@ func TestOpenFansOutPostingStoredToScheduleAndLedger(t *testing.T) {
 		postings,
 		roster,
 		fakeURLDirectory{},
-		noOfferObserver{},
+		noPostingOfferCycleObserver{},
 		Config{
 			NetworkName:      "freeworld",
 			Self:             yacymodel.WordHash("self"),

@@ -10,9 +10,9 @@ import (
 func TestDistributionCountsOffersByResult(t *testing.T) {
 	observer := NewDistributionMetrics(prometheus.NewRegistry())
 
-	observer.ObserveOffer("ok", 3)
-	observer.ObserveOffer("ok", 2)
-	observer.ObserveOffer("busy", 1)
+	observer.ObservePostingOffer("ok", 3)
+	observer.ObservePostingOffer("ok", 2)
+	observer.ObservePostingOffer("busy", 1)
 
 	if got := testutil.ToFloat64(observer.offerRequests.WithLabelValues("ok")); got != 2 {
 		t.Errorf("ok offer requests = %v, want 2", got)

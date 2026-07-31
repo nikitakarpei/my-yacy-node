@@ -35,7 +35,7 @@ func assembleNode(
 	config nodeConfig,
 	vault *vault.Vault,
 	client *http.Client,
-	offerObserver rwidistribution.OfferObserver,
+	offerObserver rwidistribution.PostingOfferCycleObserver,
 	rosterObserver peerroster.RosterObserver,
 ) (node, error) {
 	guard := httpguard.NewRequestGuard(
@@ -111,7 +111,7 @@ func assembleDistribution(
 	storage nodeStorage,
 	roster peerroster.Roster,
 	client *http.Client,
-	offerObserver rwidistribution.OfferObserver,
+	offerObserver rwidistribution.PostingOfferCycleObserver,
 ) (rwidistribution.Runner, error) {
 	if !config.Distribution.Enabled {
 		return nil, nil

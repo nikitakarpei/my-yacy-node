@@ -10,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
-func openSchedule(t *testing.T, now func() time.Time) (*vault.Vault, *offerSchedule) {
+func openSchedule(t *testing.T, now func() time.Time) (*vault.Vault, *postingOfferSchedule) {
 	t.Helper()
 
 	v, err := memvault.Open(0)
@@ -23,15 +23,20 @@ func openSchedule(t *testing.T, now func() time.Time) (*vault.Vault, *offerSched
 		}
 	})
 
-	schedule, err := openOfferSchedule(v, now)
+	schedule, err := openPostingOfferSchedule(v, now)
 	if err != nil {
-		t.Fatalf("openOfferSchedule: %v", err)
+		t.Fatalf("openPostingOfferSchedule: %v", err)
 	}
 
 	return v, schedule
 }
 
-func store(t *testing.T, schedule *offerSchedule, word yacymodel.Hash, url yacymodel.URLHash) {
+func store(
+	t *testing.T,
+	schedule *postingOfferSchedule,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) {
 	t.Helper()
 
 	if err := schedule.vault.Update(context.Background(), func(tx *vault.Txn) error {

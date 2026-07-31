@@ -17,11 +17,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const offerMaxBodyBytes int64 = 1 << 20
+const peerResponseMaxBodyBytes int64 = 1 << 20
 
-var errOfferFailed = errors.New("posting offer failed")
+var errPeerRequestFailed = errors.New("posting offer failed")
 
-type offerOutcome struct {
+type postingOfferOutcome struct {
 	Accepted   bool
 	RetryAfter time.Duration
 }
@@ -33,22 +33,22 @@ type httpPostingCourier struct {
 	roster      peerroster.Roster
 	ledger      *replicaLedger
 	urls        urlmeta.URLDirectory
-	observer    OfferObserver
+	observer    PostingOfferCycleObserver
 }
 
-func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) offerOutcome {
+func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) postingOfferOutcome {
 	endpoint, ok := offer.Peer.NetworkAddress()
 	if !ok {
 		c.roster.ConfirmUnreachable(ctx, offer.Peer.Hash)
-		c.observer.ObserveOffer(offerResultUnreachable, len(offer.Postings))
+		c.observer.ObservePostingOffer(resultUnreachable, len(offer.Postings))
 
-		return offerOutcome{}
+		return postingOfferOutcome{}
 	}
 
 	resp, err := c.postTransferRWI(ctx, endpoint, offer)
 	if err != nil {
 		c.roster.ConfirmUnreachable(ctx, offer.Peer.Hash)
-		c.observer.ObserveOffer(offerResultError, len(offer.Postings))
+		c.observer.ObservePostingOffer(resultError, len(offer.Postings))
 		slog.WarnContext(
 			ctx,
 			"posting offer failed",
@@ -57,19 +57,19 @@ func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) offer
 			slog.Any("error", err),
 		)
 
-		return offerOutcome{}
+		return postingOfferOutcome{}
 	}
 
-	c.observer.ObserveOffer(string(resp.Result), len(offer.Postings))
+	c.observer.ObservePostingOffer(string(resp.Result), len(offer.Postings))
 
 	switch resp.Result {
 	case yacyproto.ResultOK:
 		c.recordAccepted(ctx, offer)
 		c.deliverUnknownURLs(ctx, endpoint, offer.Peer, resp.UnknownURL)
 
-		return offerOutcome{Accepted: true}
+		return postingOfferOutcome{Accepted: true}
 	case yacyproto.ResultBusy, yacyproto.ResultNotGranted:
-		return offerOutcome{RetryAfter: resp.Pause}
+		return postingOfferOutcome{RetryAfter: resp.Pause}
 	case yacyproto.ResultTooHighLoad:
 		slog.WarnContext(
 			ctx,
@@ -78,7 +78,7 @@ func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) offer
 			slog.String("endpoint", endpoint),
 		)
 
-		return offerOutcome{}
+		return postingOfferOutcome{}
 	default:
 		slog.WarnContext(
 			ctx,
@@ -89,7 +89,7 @@ func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) offer
 		)
 		c.roster.ConfirmUnreachable(ctx, offer.Peer.Hash)
 
-		return offerOutcome{}
+		return postingOfferOutcome{}
 	}
 }
 
@@ -121,7 +121,7 @@ func (c httpPostingCourier) postTransferRWI(
 		WordCount:   distinctWordCount(offer.Postings),
 		EntryCount:  len(offer.Postings),
 		Indexes:     offer.Postings,
-		Key:         offerKey(offer.Postings),
+		Key:         postingOfferKey(offer.Postings),
 	}
 
 	body, err := c.post(ctx, endpoint, yacyproto.PathTransferRWI, req.Form())
@@ -131,7 +131,7 @@ func (c httpPostingCourier) postTransferRWI(
 
 	resp, err := yacyproto.ParseTransferRWIResponse(yacyproto.ParseMessage(body))
 	if err != nil {
-		return yacyproto.TransferRWIResponse{}, fmt.Errorf("%w: %w", errOfferFailed, err)
+		return yacyproto.TransferRWIResponse{}, fmt.Errorf("%w: %w", errPeerRequestFailed, err)
 	}
 
 	return resp, nil
@@ -194,23 +194,23 @@ func (c httpPostingCourier) post(
 		strings.NewReader(form.Encode()),
 	)
 	if err != nil {
-		return "", fmt.Errorf("%w: %w", errOfferFailed, err)
+		return "", fmt.Errorf("%w: %w", errPeerRequestFailed, err)
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := c.client.Do(req)
 	if err != nil {
-		return "", fmt.Errorf("%w: %w", errOfferFailed, err)
+		return "", fmt.Errorf("%w: %w", errPeerRequestFailed, err)
 	}
 	defer closeResponseBody(ctx, resp.Body, path)
 
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("%w: status %d", errOfferFailed, resp.StatusCode)
+		return "", fmt.Errorf("%w: status %d", errPeerRequestFailed, resp.StatusCode)
 	}
 
-	raw, err := io.ReadAll(io.LimitReader(resp.Body, offerMaxBodyBytes))
+	raw, err := io.ReadAll(io.LimitReader(resp.Body, peerResponseMaxBodyBytes))
 	if err != nil {
-		return "", fmt.Errorf("%w: %w", errOfferFailed, err)
+		return "", fmt.Errorf("%w: %w", errPeerRequestFailed, err)
 	}
 
 	return string(raw), nil
@@ -225,6 +225,6 @@ func distinctWordCount(postings []yacymodel.RWIPosting) int {
 	return len(words)
 }
 
-func offerKey(postings []yacymodel.RWIPosting) string {
+func postingOfferKey(postings []yacymodel.RWIPosting) string {
 	return yacyproto.MagicMD5("", "", fmt.Sprintf("%d", len(postings)))
 }
