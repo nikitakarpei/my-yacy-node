@@ -2,6 +2,7 @@ package metrics
 
 import (
 	"testing"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
@@ -25,17 +26,31 @@ func TestDistributionCountsOffersByResult(t *testing.T) {
 	}
 }
 
-func TestDistributionCountsPostingsConsideredAndLedgerPrunes(t *testing.T) {
+func TestDistributionCountsPostingsDueAndGoneAndLedgerPrunes(t *testing.T) {
 	observer := NewDistributionMetrics(prometheus.NewRegistry())
 
-	observer.ObservePostingsConsidered(4)
-	observer.ObservePostingsConsidered(6)
+	observer.ObservePostingsDue(4)
+	observer.ObservePostingsDue(6)
+	observer.ObservePostingsGone(1)
 	observer.ObserveLedgerPrune(2)
 
-	if got := testutil.ToFloat64(observer.postingsConsidered); got != 10 {
-		t.Errorf("considered = %v, want 10", got)
+	if got := testutil.ToFloat64(observer.postingsDue); got != 10 {
+		t.Errorf("due = %v, want 10", got)
+	}
+	if got := testutil.ToFloat64(observer.postingsGone); got != 1 {
+		t.Errorf("gone = %v, want 1", got)
 	}
 	if got := testutil.ToFloat64(observer.ledgerPrunes); got != 2 {
 		t.Errorf("prunes = %v, want 2", got)
+	}
+}
+
+func TestDistributionTracksOldestDuePostingAge(t *testing.T) {
+	observer := NewDistributionMetrics(prometheus.NewRegistry())
+
+	observer.ObserveOldestDuePostingAge(90 * time.Second)
+
+	if got := testutil.ToFloat64(observer.oldestDuePostingAge); got != 90 {
+		t.Errorf("oldest due posting age = %v, want 90", got)
 	}
 }

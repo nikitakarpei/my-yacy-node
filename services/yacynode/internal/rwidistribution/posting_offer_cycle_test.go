@@ -66,9 +66,7 @@ func TestPostingOfferCycleRunOffersOnceThenStops(t *testing.T) {
 	)
 	courier.receipts[peer] = postingOfferReceipt{Outcome: postingOfferAccepted}
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	courier.onOffer = cancel
@@ -77,8 +75,8 @@ func TestPostingOfferCycleRunOffersOnceThenStops(t *testing.T) {
 	if len(courier.offered) != 1 {
 		t.Fatalf("offered = %v, want a single offer from the initial run", courier.offered)
 	}
-	if observer.considered != 1 {
-		t.Fatalf("considered = %v, want 1", observer.considered)
+	if observer.due != 1 {
+		t.Fatalf("due = %v, want 1", observer.due)
 	}
 }
 
@@ -94,9 +92,7 @@ func TestPostingOfferCycleSkipsWhenTooFewPeersReachable(t *testing.T) {
 	)
 	cycle.minReachablePeers = 2
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	cycle.offerOnce(context.Background())
 
@@ -119,6 +115,33 @@ func TestPostingOfferCycleSkipsWhenTooFewPeersReachable(t *testing.T) {
 	}
 }
 
+func TestPostingOfferCycleReportsBacklogAgeOnSkippedCycle(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	schedule, _, courier, observer, cycle := openPostingOfferCycle(
+		t, func() time.Time { return now }, postings, []yacymodel.Seed{seed(peer)},
+	)
+	cycle.minReachablePeers = 2
+
+	store(t, schedule, word, url)
+
+	later := now.Add(90 * time.Second)
+	cycle.now = func() time.Time { return later }
+	schedule.now = cycle.now
+	cycle.offerOnce(context.Background())
+
+	if len(courier.offered) != 0 {
+		t.Fatalf("offered = %v, want no offers on a skipped cycle", courier.offered)
+	}
+	if observer.oldestDueAge != 90*time.Second {
+		t.Fatalf("oldestDueAge = %v, want 90s", observer.oldestDueAge)
+	}
+}
+
 func TestPostingOfferCycleDropsStaleReplicaFromLedger(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
@@ -131,9 +154,7 @@ func TestPostingOfferCycleDropsStaleReplicaFromLedger(t *testing.T) {
 	)
 	courier.receipts[fresh] = postingOfferReceipt{Outcome: postingOfferAccepted}
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 	if err := ledger.RecordAccepted(
 		context.Background(),
 		postingOffer{
@@ -172,9 +193,7 @@ func TestPostingOfferCycleReschedulesAcceptedPostingAtRefreshInterval(t *testing
 	)
 	courier.receipts[peer] = postingOfferReceipt{Outcome: postingOfferAccepted}
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	cycle.offerOnce(context.Background())
 
@@ -199,9 +218,7 @@ func TestPostingOfferCycleRetriesRejectedPostingAtRetryInterval(t *testing.T) {
 	)
 	courier.receipts[peer] = postingOfferReceipt{Outcome: postingOfferRefused}
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	cycle.offerOnce(context.Background())
 
@@ -239,9 +256,7 @@ func TestPostingOfferCycleHonoursCourierRetryAfter(t *testing.T) {
 		RetryAfter: 5 * time.Minute,
 	}
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	cycle.offerOnce(context.Background())
 
@@ -279,9 +294,7 @@ func TestPostingOfferCycleReschedulesUnofferedPostingAtRetryInterval(t *testing.
 		nil,
 	)
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	cycle.offerOnce(context.Background())
 
@@ -319,9 +332,7 @@ func TestPostingOfferCycleReschedulesAlreadySatisfiedPostingAtRefreshInterval(t 
 		t, func() time.Time { return now }, postings, []yacymodel.Seed{seed(peer)},
 	)
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 	if err := ledger.RecordAccepted(
 		context.Background(),
 		postingOffer{Peer: seed(peer), Postings: []yacymodel.RWIPosting{fakePosting(word, url)}},
@@ -358,9 +369,7 @@ func TestPostingOfferCycleRecordsReplicaOnAcceptedOffer(t *testing.T) {
 	)
 	courier.receipts[peer] = postingOfferReceipt{Outcome: postingOfferAccepted}
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	cycle.offerOnce(context.Background())
 
@@ -402,9 +411,7 @@ func TestPostingOfferCycleReschedulesAtMaxRetryAfterAcrossPeers(t *testing.T) {
 		RetryAfter: 5 * time.Minute,
 	}
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	cycle.offerOnce(context.Background())
 
@@ -429,28 +436,23 @@ func TestPostingOfferCycleReschedulesAtMaxRetryAfterAcrossPeers(t *testing.T) {
 	}
 }
 
-func TestPostingOfferCycleForgetsGonePosting(t *testing.T) {
+func TestPostingOfferCycleCountsGonePostingSeparatelyFromDue(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
-	schedule, _, _, _, cycle := openPostingOfferCycle(
+	schedule, _, courier, observer, cycle := openPostingOfferCycle(
 		t, func() time.Time { return now }, nil, []yacymodel.Seed{seed(peer)},
 	)
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	cycle.offerOnce(context.Background())
 
-	future := now.Add(24 * time.Hour)
-	schedule.now = func() time.Time { return future }
-	due, err := schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings: %v", err)
+	if observer.due != 0 || observer.gone != 1 {
+		t.Fatalf("due = %v, gone = %v, want 0 due and 1 gone", observer.due, observer.gone)
 	}
-	if len(due) != 0 {
-		t.Fatalf("due = %v, want a gone posting to never reappear", due)
+	if len(courier.offered) != 0 {
+		t.Fatalf("offered = %v, want no offers for a posting gone from the index", courier.offered)
 	}
 }
 
@@ -466,9 +468,7 @@ func TestPostingOfferCycleRecordsNoReplicaOnRefusedOffer(t *testing.T) {
 	)
 	courier.receipts[peer] = postingOfferReceipt{Outcome: postingOfferRefused}
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	cycle.offerOnce(context.Background())
 

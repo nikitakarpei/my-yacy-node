@@ -45,7 +45,7 @@ func Open(v *vault.Vault, now func() time.Time) (*Distribution, error) {
 		return nil, fmt.Errorf("open offer schedule: %w", err)
 	}
 
-	ledger, err := openReplicaLedger(v)
+	ledger, err := openReplicaLedger(v, schedule)
 	if err != nil {
 		return nil, fmt.Errorf("open replica ledger: %w", err)
 	}

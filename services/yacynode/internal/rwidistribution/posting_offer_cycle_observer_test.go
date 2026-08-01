@@ -1,10 +1,14 @@
 package rwidistribution
 
+import "time"
+
 type fakePostingOfferCycleObserver struct {
 	offers          map[string]int
 	postingsOffered map[string]int
 	prunes          int
-	considered      int
+	due             int
+	gone            int
+	oldestDueAge    time.Duration
 	cyclesSkipped   int
 }
 
@@ -20,8 +24,16 @@ func (f *fakePostingOfferCycleObserver) ObservePostingOffer(outcome string, post
 	f.postingsOffered[outcome] += postings
 }
 
-func (f *fakePostingOfferCycleObserver) ObservePostingsConsidered(considered int) {
-	f.considered = considered
+func (f *fakePostingOfferCycleObserver) ObservePostingsDue(due int) {
+	f.due = due
+}
+
+func (f *fakePostingOfferCycleObserver) ObservePostingsGone(gone int) {
+	f.gone = gone
+}
+
+func (f *fakePostingOfferCycleObserver) ObserveOldestDuePostingAge(age time.Duration) {
+	f.oldestDueAge = age
 }
 
 func (f *fakePostingOfferCycleObserver) ObserveLedgerPrune(dropped int) {

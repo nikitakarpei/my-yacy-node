@@ -66,6 +66,8 @@ func TestDuePostingsExcludesFutureEntries(t *testing.T) {
 	_, schedule := openSchedule(t, func() time.Time { return now })
 	overdue, future := yacymodel.WordHash("overdue"), yacymodel.WordHash("future")
 	url := urlHash("u1")
+	store(t, schedule, overdue, url)
+	store(t, schedule, future, url)
 
 	if err := schedule.Reschedule(
 		context.Background(),
@@ -97,10 +99,12 @@ func TestDuePostingsRespectsLimit(t *testing.T) {
 	now := time.Unix(1000, 0)
 	_, schedule := openSchedule(t, func() time.Time { return now })
 	for _, seed := range []string{"a", "b", "c"} {
+		word, url := yacymodel.WordHash(seed), urlHash(seed)
+		store(t, schedule, word, url)
 		if err := schedule.Reschedule(
 			context.Background(),
-			yacymodel.WordHash(seed),
-			urlHash(seed),
+			word,
+			url,
 			now.Add(-time.Minute),
 		); err != nil {
 			t.Fatalf("Reschedule %s: %v", seed, err)
@@ -169,14 +173,33 @@ func TestPostingPurgedRemovesBothRows(t *testing.T) {
 	}
 }
 
-func TestForgetRemovesBothRows(t *testing.T) {
+func TestRescheduleUnknownIsHarmless(t *testing.T) {
+	_, schedule := openSchedule(t, time.Now)
+
+	if err := schedule.Reschedule(
+		context.Background(),
+		yacymodel.WordHash("absent"),
+		urlHash("absent"),
+		time.Now(),
+	); err != nil {
+		t.Fatalf("Reschedule: %v", err)
+	}
+}
+
+func TestRescheduleDoesNotResurrectPurgedPosting(t *testing.T) {
 	now := time.Unix(1000, 0)
-	_, schedule := openSchedule(t, func() time.Time { return now })
+	v, schedule := openSchedule(t, func() time.Time { return now })
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	store(t, schedule, word, url)
 
-	if err := schedule.Forget(context.Background(), word, url); err != nil {
-		t.Fatalf("Forget: %v", err)
+	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
+		return schedule.PostingPurged(tx, word, url)
+	}); err != nil {
+		t.Fatalf("PostingPurged: %v", err)
+	}
+
+	if err := schedule.Reschedule(context.Background(), word, url, now.Add(time.Hour)); err != nil {
+		t.Fatalf("Reschedule: %v", err)
 	}
 
 	due, err := schedule.DuePostings(context.Background(), 10)
@@ -184,19 +207,7 @@ func TestForgetRemovesBothRows(t *testing.T) {
 		t.Fatalf("DuePostings: %v", err)
 	}
 	if len(due) != 0 {
-		t.Fatalf("due = %v, want none after Forget", due)
-	}
-}
-
-func TestForgetUnknownIsHarmless(t *testing.T) {
-	_, schedule := openSchedule(t, time.Now)
-
-	if err := schedule.Forget(
-		context.Background(),
-		yacymodel.WordHash("absent"),
-		urlHash("absent"),
-	); err != nil {
-		t.Fatalf("Forget: %v", err)
+		t.Fatalf("due = %v, want none after purge and reschedule", due)
 	}
 }
 
@@ -211,5 +222,47 @@ func TestPostingPurgedUnknownIsHarmless(t *testing.T) {
 		)
 	}); err != nil {
 		t.Fatalf("PostingPurged: %v", err)
+	}
+}
+
+func TestOldestDueAtEmptyScheduleIsNotFound(t *testing.T) {
+	_, schedule := openSchedule(t, time.Now)
+
+	_, found, err := schedule.OldestDueAt(context.Background())
+	if err != nil {
+		t.Fatalf("OldestDueAt: %v", err)
+	}
+	if found {
+		t.Fatal("found = true, want false for empty schedule")
+	}
+}
+
+func TestOldestDueAtReturnsEarliestEntry(t *testing.T) {
+	now := time.Unix(1000, 0)
+	_, schedule := openSchedule(t, func() time.Time { return now })
+	earlier, url := yacymodel.WordHash("earlier"), urlHash("u1")
+	later := yacymodel.WordHash("later")
+	store(t, schedule, later, url)
+	if err := schedule.Reschedule(
+		context.Background(), later, url, now.Add(time.Hour),
+	); err != nil {
+		t.Fatalf("Reschedule later: %v", err)
+	}
+	store(t, schedule, earlier, url)
+	if err := schedule.Reschedule(
+		context.Background(), earlier, url, now.Add(-time.Hour),
+	); err != nil {
+		t.Fatalf("Reschedule earlier: %v", err)
+	}
+
+	oldest, found, err := schedule.OldestDueAt(context.Background())
+	if err != nil {
+		t.Fatalf("OldestDueAt: %v", err)
+	}
+	if !found {
+		t.Fatal("found = false, want true")
+	}
+	if !oldest.Equal(now.Add(-time.Hour)) {
+		t.Fatalf("oldest = %v, want %v", oldest, now.Add(-time.Hour))
 	}
 }
