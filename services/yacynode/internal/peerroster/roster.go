@@ -55,14 +55,14 @@ func (r *roster) Discover(ctx context.Context, seeds ...yacymodel.Seed) {
 func (r *roster) discoverOne(ctx context.Context, seed yacymodel.Seed) error {
 	key := r.key(seed.Hash)
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		_, known, err := r.peers.Get(tx, key)
+		entry, known, err := r.peers.Get(tx, key)
 		if err != nil {
 			return fmt.Errorf("read peer: %w", err)
 		}
-		if known {
-			return nil
+		if !known {
+			entry = rosterEntry{lastContacted: r.now()}
 		}
-		entry := rosterEntry{seed: seed, lastContacted: r.now()}
+		entry.seed = seed
 		if err := r.peers.Put(tx, key, entry); err != nil {
 			return fmt.Errorf("store peer: %w", err)
 		}
