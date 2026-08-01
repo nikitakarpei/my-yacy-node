@@ -3,7 +3,9 @@
 // loop maintains the roster from contact outcomes, while inbound admission samples
 // and refreshes it. Only the bounded reachable set lives in memory; every known peer
 // is persisted, so a restart resumes from the durable roster instead of the seed
-// source.
+// source. A peer stays credible for a bounded number of announce rounds after its
+// last confirmed reachable contact, so a cold reachable set does not read as an
+// empty one.
 package peerroster
 
 import (
@@ -20,22 +22,20 @@ type Roster interface {
 	ConfirmReachable(ctx context.Context, peer yacymodel.Hash)
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
+	Reachable(ctx context.Context, peer yacymodel.Hash) bool
+	RecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
 	UnreachablePeers(ctx context.Context, limit int) []yacymodel.Seed
-	PeersResponsibleFor(
-		ctx context.Context,
-		position yacymodel.DHTPosition,
-		want int,
-	) []yacymodel.Seed
 }
 
 var _ Roster = (*roster)(nil)
 
-//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators
 func Open(
 	storage *vault.Vault,
 	now func() time.Time,
 	reservoirCap int,
 	reachableCap int,
+	announceInterval time.Duration,
 	self yacymodel.Hash,
 	observer RosterObserver,
 ) (Roster, error) {
@@ -45,13 +45,14 @@ func Open(
 	}
 
 	return &roster{
-		vault:        storage,
-		peers:        peers,
-		now:          now,
-		reservoirCap: reservoirCap,
-		reachableCap: reachableCap,
-		self:         self,
-		observer:     observer,
-		reachable:    make(map[yacymodel.Hash]yacymodel.Seed),
+		vault:            storage,
+		peers:            peers,
+		now:              now,
+		reservoirCap:     reservoirCap,
+		reachableCap:     reachableCap,
+		announceInterval: announceInterval,
+		self:             self,
+		observer:         observer,
+		reachable:        make(map[yacymodel.Hash]yacymodel.Seed),
 	}, nil
 }

@@ -29,14 +29,12 @@ func (p DHTRingPartitions) shiftLength() uint {
 	return 63 - uint(bits.Len(uint(p))-1)
 }
 
-// WordPosition places a word on the DHT ring by the base64 order of its
-// hash (Distribution.java:74-78, horizontalDHTPosition).
-func WordPosition(word Hash) (DHTPosition, error) {
-	c, err := cardinal(word.String())
-	if err != nil {
-		return 0, fmt.Errorf("word position: %w", err)
-	}
-	return DHTPosition(c), nil
+// RingPosition places a hash on the DHT ring by its base64 order, so that
+// words and peers share one keyspace (Distribution.java:74-78,
+// horizontalDHTPosition).
+func RingPosition(hash Hash) DHTPosition {
+	position, _ := cardinal(hash.String())
+	return DHTPosition(position)
 }
 
 // PostingPosition places one word's posting for one url on the DHT ring: the
@@ -44,20 +42,14 @@ func WordPosition(word Hash) (DHTPosition, error) {
 // hash, so that one word's postings spread across up to 1<<e partitions
 // instead of piling onto the single peer nearest that word
 // (Distribution.java:130-133, verticalDHTPosition).
-func PostingPosition(word Hash, url URLHash, partitions DHTRingPartitions) (DHTPosition, error) {
-	wordPos, err := cardinal(word.String())
-	if err != nil {
-		return 0, fmt.Errorf("posting position: %w", err)
-	}
-	urlPos, err := cardinal(url.String())
-	if err != nil {
-		return 0, fmt.Errorf("posting position: %w", err)
-	}
+func PostingPosition(word Hash, url URLHash, partitions DHTRingPartitions) DHTPosition {
+	wordPos, _ := cardinal(word.String())
+	urlPos, _ := cardinal(url.String())
 	mask := uint64(1)<<partitions.shiftLength() - 1
-	return DHTPosition(wordPos&mask | urlPos&^mask), nil
+	return DHTPosition(wordPos&mask | urlPos&^mask)
 }
 
-// PositionHash reverses WordPosition, computing a hash whose position is the
+// PositionHash reverses RingPosition, computing a hash whose position is the
 // given one (Distribution.java:111-116, positionToHash).
 func PositionHash(pos DHTPosition) Hash {
 	c := uint64(pos) >> 3

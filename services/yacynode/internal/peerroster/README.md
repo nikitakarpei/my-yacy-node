@@ -13,9 +13,10 @@ lives in memory; a restart clears it, and each peer must be reconfirmed
 before it counts as reachable again.
 
 A peer becomes known once discovered, from a seedlist or from another
-peer's greet response. The known roster is bounded; once it is full, the
-stalest peer that is not currently reachable is evicted to make room for a
-new one.
+peer's greet response. This node is never known as a peer of itself, even
+when a seedlist or a greet response names it. The known roster is bounded;
+once it is full, the stalest peer that is not currently reachable is
+evicted to make room for a new one.
 
 The reachable set is bounded separately. A peer already marked reachable
 always keeps its place when reconfirmed. A newly reachable peer is admitted
@@ -29,6 +30,6 @@ reachable history, the least recently contacted peer ranks first, so
 probing rotates through the known roster instead of retrying the same few
 peers.
 
-The DHT responsibility query draws only from the reachable set and excludes
-this node itself, so a peer is never told it is responsible for its own
-postings.
+A confirmed reachable peer stays credible for a bounded number of announce
+rounds after its last confirmation, and stays credible across a restart. A
+failed contact ends its credibility at once.

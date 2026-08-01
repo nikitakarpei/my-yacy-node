@@ -2,20 +2,14 @@ package yacymodel
 
 import "testing"
 
-func TestWordPosition(t *testing.T) {
-	low, err := WordPosition(mustParseHash(t, "AAAAAAAAAAAA"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	high, err := WordPosition(mustParseHash(t, "__________AA"))
-	if err != nil {
-		t.Fatal(err)
-	}
+func TestRingPosition(t *testing.T) {
+	low := RingPosition(mustParseHash(t, "AAAAAAAAAAAA"))
+	high := RingPosition(mustParseHash(t, "__________AA"))
 	if low >= high {
 		t.Errorf("expected ring order low(%d) < high(%d)", low, high)
 	}
 	if high != MaxDHTPosition {
-		t.Errorf("WordPosition of all-last folded symbols = %d, want %d", high, MaxDHTPosition)
+		t.Errorf("RingPosition of all-last folded symbols = %d, want %d", high, MaxDHTPosition)
 	}
 }
 
@@ -23,12 +17,9 @@ func TestPositionHashRoundTrip(t *testing.T) {
 	// PositionHash can only recover the first 10 symbols a position was
 	// derived from; the trailing two are folded away by cardinal.
 	word := mustParseHash(t, "hHJBztzcFn__")
-	pos, err := WordPosition(word)
-	if err != nil {
-		t.Fatal(err)
-	}
+	pos := RingPosition(word)
 	if got := PositionHash(pos); got != word {
-		t.Errorf("PositionHash(WordPosition(%v)) = %v, want %v", word, got, word)
+		t.Errorf("PositionHash(RingPosition(%v)) = %v, want %v", word, got, word)
 	}
 }
 
@@ -47,14 +38,8 @@ func TestPostingPosition(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	pos1, err := PostingPosition(word, url1, partitions)
-	if err != nil {
-		t.Fatal(err)
-	}
-	pos2, err := PostingPosition(word, url2, partitions)
-	if err != nil {
-		t.Fatal(err)
-	}
+	pos1 := PostingPosition(word, url1, partitions)
+	pos2 := PostingPosition(word, url2, partitions)
 	if pos1 == pos2 {
 		t.Errorf(
 			"PostingPosition for the same word but different urls must differ: %d == %d",
@@ -63,10 +48,7 @@ func TestPostingPosition(t *testing.T) {
 		)
 	}
 
-	wordPos, err := WordPosition(word)
-	if err != nil {
-		t.Fatal(err)
-	}
+	wordPos := RingPosition(word)
 	shift := partitions.shiftLength()
 	mask := uint64(1)<<shift - 1
 	if uint64(pos1)&mask != uint64(wordPos)&mask {

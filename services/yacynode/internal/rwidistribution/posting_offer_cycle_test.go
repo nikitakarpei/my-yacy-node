@@ -81,7 +81,8 @@ func openPostingOfferCycle(
 ) (*postingOfferSchedule, *replicaLedger, *fakeCourier, *fakePostingOfferCycleObserver, *postingOfferCycle) {
 	t.Helper()
 
-	schedule, ledger, reader := openPostingReplicationReader(t, now, postings, responsible)
+	roster := fakeRoster{reachable: responsible}
+	schedule, ledger, reader := openPostingReplicationReader(t, now, postings, roster)
 	courier := &fakeCourier{receipts: make(map[yacymodel.Hash]postingOfferReceipt)}
 	observer := newFakePostingOfferCycleObserver()
 
@@ -107,7 +108,7 @@ func openPostingOfferCycle(
 			redundancy: postingReplicationReaderRedundancy,
 		},
 		schedule:         schedule,
-		roster:           reader.roster,
+		roster:           roster,
 		observer:         observer,
 		now:              now,
 		postingsPerCycle: 10,
@@ -241,6 +242,54 @@ func TestPostingOfferCycleDropsStaleReplicaFromLedger(t *testing.T) {
 	}
 	if observer.prunes != 1 {
 		t.Fatalf("prunes = %v, want 1", observer.prunes)
+	}
+}
+
+func TestPostingOfferCycleKeepsRecentlyReachableReplicaFromLedger(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	recentPeer := yacymodel.WordHash("recent")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	schedule, ledger, courier, observer, cycle := openPostingOfferCycle(
+		t, func() time.Time { return now }, postings, nil,
+	)
+	credible := fakeRoster{recentlyReachable: map[yacymodel.Hash]struct{}{recentPeer: {}}}
+	cycle.roster = credible
+	cycle.reader.reachability = credible
+
+	store(t, schedule, word, url)
+	if err := ledger.RecordAccepted(
+		context.Background(),
+		postingOffer{
+			Peer:     seed(recentPeer),
+			Postings: []yacymodel.RWIPosting{fakePosting(word, url)},
+		},
+	); err != nil {
+		t.Fatalf("RecordAccepted: %v", err)
+	}
+
+	cycle.runCycle(context.Background())
+
+	replicas, err := ledger.Replicas(context.Background(), word, url)
+	if err != nil {
+		t.Fatalf("Replicas: %v", err)
+	}
+	if len(replicas) != 1 || replicas[0] != recentPeer {
+		t.Fatalf(
+			"replicas = %v, want %v kept while its confirmation is still credible",
+			replicas, recentPeer,
+		)
+	}
+	if observer.prunes != 0 {
+		t.Fatalf("prunes = %v, want 0", observer.prunes)
+	}
+	if len(courier.offered) != 0 {
+		t.Fatalf(
+			"offered = %v, want no offer once the credible peer already holds a copy",
+			courier.offered,
+		)
 	}
 }
 
@@ -558,7 +607,10 @@ func TestPostingOfferCycleReportsUnaddressablePeer(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		fakePostingKey(word, url): fakePosting(word, url),
 	}
-	unaddressable := yacymodel.Seed{Hash: peer}
+	unaddressable := yacymodel.Seed{
+		Hash:         peer,
+		Capabilities: yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true}),
+	}
 	schedule, ledger, courier, observer, cycle := openPostingOfferCycle(
 		t, func() time.Time { return now }, postings, []yacymodel.Seed{unaddressable},
 	)

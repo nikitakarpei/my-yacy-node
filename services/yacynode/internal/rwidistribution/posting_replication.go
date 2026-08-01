@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -21,18 +20,24 @@ type dueReplication struct {
 	Gone     []postingIdentity
 }
 
+type peerReachability interface {
+	Reachable(ctx context.Context, peer yacymodel.Hash) bool
+	RecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
+}
+
 type postingReplicationReader struct {
-	schedule   *postingOfferSchedule
-	ledger     *replicaLedger
-	postings   rwipostings.PostingIndex
-	roster     peerroster.Roster
-	partitions yacymodel.DHTRingPartitions
-	redundancy int
+	schedule     *postingOfferSchedule
+	ledger       *replicaLedger
+	postings     rwipostings.PostingIndex
+	reachability peerReachability
+	partitions   yacymodel.DHTRingPartitions
+	redundancy   int
 }
 
 func (r *postingReplicationReader) DueReplication(
 	ctx context.Context,
 	limit int,
+	reachablePeers []yacymodel.Seed,
 ) (dueReplication, error) {
 	due, err := r.schedule.DuePostings(ctx, limit)
 	if err != nil {
@@ -51,7 +56,7 @@ func (r *postingReplicationReader) DueReplication(
 			continue
 		}
 
-		replication, err := r.replicationOf(ctx, posting)
+		replication, err := r.replicationOf(ctx, posting, reachablePeers)
 		if err != nil {
 			return dueReplication{}, err
 		}
@@ -64,46 +69,103 @@ func (r *postingReplicationReader) DueReplication(
 func (r *postingReplicationReader) replicationOf(
 	ctx context.Context,
 	posting yacymodel.RWIPosting,
+	reachablePeers []yacymodel.Seed,
 ) (postingReplication, error) {
-	position, err := yacymodel.PostingPosition(posting.WordHash, posting.URLHash, r.partitions)
-	if err != nil {
-		return postingReplication{}, fmt.Errorf("posting position: %w", err)
-	}
-
-	responsible := r.roster.PeersResponsibleFor(ctx, position, r.redundancy)
-	responsibleSeeds := make(map[yacymodel.Hash]yacymodel.Seed, len(responsible))
-	for _, seed := range responsible {
-		responsibleSeeds[seed.Hash] = seed
-	}
-
 	replicas, err := r.ledger.Replicas(ctx, posting.WordHash, posting.URLHash)
 	if err != nil {
 		return postingReplication{}, fmt.Errorf("read replica ledger: %w", err)
 	}
 
-	replication := postingReplication{Posting: posting}
-	holders := make(map[yacymodel.Hash]struct{}, len(replicas))
-	for _, peer := range replicas {
-		if _, stillResponsible := responsibleSeeds[peer]; stillResponsible {
-			holders[peer] = struct{}{}
-		} else {
-			replication.PeerHashesNoLongerResponsible = append(
-				replication.PeerHashesNoLongerResponsible,
-				peer,
-			)
-		}
-	}
+	position := yacymodel.PostingPosition(posting.WordHash, posting.URLHash, r.partitions)
+	closestPeers := yacymodel.SeedsClosestToPosition(
+		peersAcceptingRemoteIndex(reachablePeers), position, r.redundancy,
+	)
+	holders := r.currentHolders(ctx, replicas, position, closestPeers)
 
+	replication := postingReplication{
+		Posting:                       posting,
+		PeerHashesNoLongerResponsible: peersNoLongerResponsible(replicas, holders),
+	}
 	if len(holders) >= r.redundancy {
 		return replication, nil
 	}
 	replication.CopiesNeeded = r.redundancy - len(holders)
+	replication.SeedsMissingCopy = seedsMissingCopy(closestPeers, holders, replication.CopiesNeeded)
 
-	for _, seed := range responsible {
-		if _, held := holders[seed.Hash]; !held {
-			replication.SeedsMissingCopy = append(replication.SeedsMissingCopy, seed)
+	return replication, nil
+}
+
+func (r *postingReplicationReader) currentHolders(
+	ctx context.Context,
+	replicas []yacymodel.Hash,
+	position yacymodel.DHTPosition,
+	closestPeers []yacymodel.Seed,
+) map[yacymodel.Hash]struct{} {
+	holders := make(map[yacymodel.Hash]struct{}, len(replicas))
+	for _, peer := range replicas {
+		if r.stillResponsible(ctx, peer, position, closestPeers) {
+			holders[peer] = struct{}{}
 		}
 	}
 
-	return replication, nil
+	return holders
+}
+
+func peersNoLongerResponsible(
+	replicas []yacymodel.Hash,
+	holders map[yacymodel.Hash]struct{},
+) []yacymodel.Hash {
+	var lost []yacymodel.Hash
+	for _, peer := range replicas {
+		if _, held := holders[peer]; !held {
+			lost = append(lost, peer)
+		}
+	}
+
+	return lost
+}
+
+func seedsMissingCopy(
+	closestPeers []yacymodel.Seed,
+	holders map[yacymodel.Hash]struct{},
+	copiesNeeded int,
+) []yacymodel.Seed {
+	missing := make([]yacymodel.Seed, 0, copiesNeeded)
+	for _, seed := range closestPeers {
+		if len(missing) == copiesNeeded {
+			break
+		}
+		if _, held := holders[seed.Hash]; !held {
+			missing = append(missing, seed)
+		}
+	}
+
+	return missing
+}
+
+func (r *postingReplicationReader) stillResponsible(
+	ctx context.Context,
+	peer yacymodel.Hash,
+	position yacymodel.DHTPosition,
+	closestPeers []yacymodel.Seed,
+) bool {
+	if r.reachability.Reachable(ctx, peer) {
+		return r.noFartherThanClosestPeers(peer, position, closestPeers)
+	}
+
+	return r.reachability.RecentlyReachable(ctx, peer)
+}
+
+func (r *postingReplicationReader) noFartherThanClosestPeers(
+	peer yacymodel.Hash,
+	position yacymodel.DHTPosition,
+	closestPeers []yacymodel.Seed,
+) bool {
+	if len(closestPeers) < r.redundancy {
+		return true
+	}
+	farthest := closestPeers[len(closestPeers)-1].Hash
+
+	return yacymodel.DistanceToPosition(peer, position) <=
+		yacymodel.DistanceToPosition(farthest, position)
 }
