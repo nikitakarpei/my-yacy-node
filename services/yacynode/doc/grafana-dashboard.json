@@ -283,7 +283,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint) (rate(http_requests_total[5m]))",
+          "expr": "sum by (endpoint) (rate(http_requests_total[$__rate_interval]))",
           "legendFormat": "{{endpoint}}"
         }
       ]
@@ -323,7 +323,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint) (rate(http_requests_total{code=~\"5..\"}[5m]))",
+          "expr": "sum by (endpoint) (rate(http_requests_total{code=~\"5..\"}[$__rate_interval]))",
           "legendFormat": "{{endpoint}}"
         }
       ]
@@ -359,17 +359,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(http_request_duration_seconds_bucket[5m])))",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(http_request_duration_seconds_bucket[$__rate_interval])))",
           "legendFormat": "p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket[$__rate_interval])))",
           "legendFormat": "p95"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(http_request_duration_seconds_bucket[5m])))",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(http_request_duration_seconds_bucket[$__rate_interval])))",
           "legendFormat": "p99"
         }
       ]
@@ -404,7 +404,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.99, sum by (le, endpoint) (rate(http_request_duration_seconds_bucket[5m])))",
+          "expr": "histogram_quantile(0.99, sum by (le, endpoint) (rate(http_request_duration_seconds_bucket[$__rate_interval])))",
           "legendFormat": "{{endpoint}}"
         }
       ]
@@ -492,12 +492,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(eviction_urls_evicted_total[5m])",
+          "expr": "rate(eviction_urls_evicted_total[$__rate_interval])",
           "legendFormat": "URLs evicted"
         },
         {
           "refId": "B",
-          "expr": "rate(eviction_postings_evicted_total[5m])",
+          "expr": "rate(eviction_postings_evicted_total[$__rate_interval])",
           "legendFormat": "postings evicted"
         }
       ]
@@ -505,8 +505,8 @@
     {
       "id": 32,
       "title": "Eviction failures",
-      "description": "This panel shows the eviction sweeps that end in error over the selected time range.",
-      "type": "stat",
+      "description": "This panel shows when eviction sweeps end in error.",
+      "type": "state-timeline",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -520,6 +520,13 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -536,19 +543,19 @@
         }
       },
       "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
+        "mergeValues": true,
+        "showValue": "auto",
+        "legend": {
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(eviction_failures_total[$__range])",
+          "expr": "increase(eviction_failures_total[$__rate_interval])",
           "legendFormat": "failures"
         }
       ]
@@ -744,7 +751,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (increase(rwidistribution_posting_offers_sent_total[$__interval]))",
+          "expr": "sum by (result) (increase(rwidistribution_posting_offers_sent_total[$__rate_interval]))",
           "legendFormat": "{{result}}"
         }
       ]
@@ -782,7 +789,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(rwidistribution_posting_offers_sent_total{result=\"accepted\"}[5m])) / sum(rate(rwidistribution_posting_offers_sent_total[5m]))",
+          "expr": "sum(rate(rwidistribution_posting_offers_sent_total{result=\"accepted\"}[$__rate_interval])) / sum(rate(rwidistribution_posting_offers_sent_total[$__rate_interval]))",
           "legendFormat": "accepted"
         }
       ]
@@ -913,7 +920,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (rate(rwidistribution_postings_offered_total[5m]))",
+          "expr": "sum by (result) (rate(rwidistribution_postings_offered_total[$__rate_interval]))",
           "legendFormat": "{{result}}"
         }
       ]
@@ -1030,7 +1037,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (increase(rwidistribution_url_metadata_deliveries_total[$__interval]))",
+          "expr": "sum by (result) (increase(rwidistribution_url_metadata_deliveries_total[$__rate_interval]))",
           "legendFormat": "{{result}}"
         }
       ]
@@ -1146,7 +1153,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (rate(rwidistribution_urls_delivered_total[5m]))",
+          "expr": "sum by (result) (rate(rwidistribution_urls_delivered_total[$__rate_interval]))",
           "legendFormat": "{{result}}"
         }
       ]
@@ -1218,12 +1225,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(rwidistribution_postings_due_total[5m])",
+          "expr": "rate(rwidistribution_postings_due_total[$__rate_interval])",
           "legendFormat": "due"
         },
         {
           "refId": "B",
-          "expr": "rate(rwidistribution_postings_gone_total[5m])",
+          "expr": "rate(rwidistribution_postings_gone_total[$__rate_interval])",
           "legendFormat": "gone"
         }
       ]
@@ -1260,7 +1267,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_ledger_prunes_total[$__interval])",
+          "expr": "increase(rwidistribution_ledger_prunes_total[$__rate_interval])",
           "legendFormat": "pruned"
         }
       ]
@@ -1268,8 +1275,8 @@
     {
       "id": 59,
       "title": "Distribution cycles skipped",
-      "description": "This panel shows the distribution cycles skipped over the selected time range because too few peers are reachable.",
-      "type": "stat",
+      "description": "This panel shows the distribution cycles skipped because too few peers are reachable.",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -1283,35 +1290,21 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              },
-              {
-                "value": 1,
-                "color": "orange"
-              }
-            ]
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
           }
         }
       },
       "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
+        "tooltip": {
+          "mode": "multi"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_cycles_skipped_total[$__range])",
+          "expr": "increase(rwidistribution_cycles_skipped_total[$__rate_interval])",
           "legendFormat": "skipped"
         }
       ]
@@ -1359,94 +1352,38 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(rwiescrow_postings_held_total[5m])",
+          "expr": "rate(rwiescrow_postings_held_total[$__rate_interval])",
           "legendFormat": "held"
         },
         {
           "refId": "B",
-          "expr": "rate(rwiescrow_postings_released_total[5m])",
+          "expr": "rate(rwiescrow_postings_released_total[$__rate_interval])",
           "legendFormat": "released"
         },
         {
           "refId": "C",
-          "expr": "rate(rwiescrow_postings_expired_total[5m])",
+          "expr": "rate(rwiescrow_postings_expired_total[$__rate_interval])",
           "legendFormat": "expired"
         },
         {
           "refId": "D",
-          "expr": "rate(rwiescrow_postings_refused_total[5m])",
+          "expr": "rate(rwiescrow_postings_refused_total[$__rate_interval])",
           "legendFormat": "refused"
         }
       ]
     },
     {
-      "id": 63,
-      "title": "Held postings never claimed",
-      "description": "This panel shows the share of held postings dropped because their URL metadata never arrived. It names the peers that do not complete transferURL. It covers the selected time range.",
-      "type": "stat",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 12,
-        "y": 82
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit",
-          "min": 0,
-          "max": 1,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              },
-              {
-                "value": 0.1,
-                "color": "yellow"
-              },
-              {
-                "value": 0.5,
-                "color": "red"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "increase(rwiescrow_postings_expired_total[$__range]) / (increase(rwiescrow_postings_released_total[$__range]) + increase(rwiescrow_postings_expired_total[$__range]))"
-        }
-      ]
-    },
-    {
-      "id": 63,
+      "id": 64,
       "title": "Posting escrow occupancy",
       "description": "This panel shows the held postings as a fraction of the escrow capacity. The escrow refuses new postings at 100 percent.",
-      "type": "stat",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
+        "w": 12,
         "x": 12,
         "y": 82
       },
@@ -1455,6 +1392,15 @@
           "unit": "percentunit",
           "min": 0,
           "max": 1,
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 10,
+            "thresholdsStyle": {
+              "mode": "dashed"
+            }
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1475,40 +1421,107 @@
         }
       },
       "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
+        "tooltip": {
+          "mode": "multi"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "rwiescrow_held_postings / rwiescrow_capacity_postings"
+          "expr": "rwiescrow_held_postings / rwiescrow_capacity_postings",
+          "legendFormat": "occupancy"
         }
       ]
     },
     {
-      "id": 62,
-      "title": "Posting escrow expiry failures",
-      "description": "This panel shows the held posting expiry runs that end in error over the selected time range.",
-      "type": "stat",
+      "id": 63,
+      "title": "Held postings never claimed",
+      "description": "This panel shows the share of held postings dropped because their URL metadata never arrived.",
+      "type": "state-timeline",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 18,
-        "y": 82
+        "w": 8,
+        "x": 0,
+        "y": 90
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 0.1,
+                "color": "yellow"
+              },
+              {
+                "value": 0.5,
+                "color": "red"
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "mergeValues": true,
+        "showValue": "auto",
+        "legend": {
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(rwiescrow_postings_expired_total[$__rate_interval]) / (increase(rwiescrow_postings_released_total[$__rate_interval]) + increase(rwiescrow_postings_expired_total[$__rate_interval]))",
+          "legendFormat": "never claimed"
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "title": "Posting escrow refusals",
+      "description": "This panel shows when the escrow drops inbound postings because it is at capacity.",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 90
       },
       "fieldConfig": {
         "defaults": {
           "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1525,19 +1538,77 @@
         }
       },
       "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
+        "mergeValues": true,
+        "showValue": "auto",
+        "legend": {
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwiescrow_expiry_failures_total[$__range])",
+          "expr": "increase(rwiescrow_postings_refused_total[$__rate_interval])",
+          "legendFormat": "refused"
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "title": "Posting escrow expiry failures",
+      "description": "This panel shows when held posting expiry runs end in error.",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 90
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 1,
+                "color": "red"
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "mergeValues": true,
+        "showValue": "auto",
+        "legend": {
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(rwiescrow_expiry_failures_total[$__rate_interval])",
           "legendFormat": "failures"
         }
       ]
