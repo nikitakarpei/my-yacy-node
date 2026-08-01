@@ -32,6 +32,7 @@ const (
 	evictionInterval       = time.Minute
 
 	escrowHoldFor        = 5 * time.Minute
+	escrowCapacity       = 200_000
 	escrowExpiryBatch    = 256
 	escrowExpiryInterval = time.Minute
 

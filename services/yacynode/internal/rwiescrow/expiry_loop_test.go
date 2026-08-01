@@ -57,6 +57,45 @@ func TestExpiryLoopExpiresBeforeItsFirstTick(t *testing.T) {
 	}
 }
 
+type drainingExpiry struct {
+	remaining int
+	drained   chan struct{}
+}
+
+func (d *drainingExpiry) Expire(_ context.Context, _ time.Duration, limit int) (int, error) {
+	expired := min(d.remaining, limit)
+	d.remaining -= expired
+	if d.remaining == 0 {
+		close(d.drained)
+	}
+
+	return expired, nil
+}
+
+func TestExpiryLoopDrainsEveryBatchBeforeItsNextTick(t *testing.T) {
+	observer := &countingExpiries{}
+	expiry := &drainingExpiry{remaining: 25, drained: make(chan struct{})}
+
+	ctx, cancel := context.WithCancel(t.Context())
+	done := make(chan struct{})
+	go func() {
+		RunExpiryLoop(ctx, expiry, observer, ExpiryConfig{
+			HoldFor:  holdFor,
+			Interval: time.Hour,
+			Batch:    10,
+		})
+		close(done)
+	}()
+
+	<-expiry.drained
+	cancel()
+	<-done
+
+	if observer.expired != 25 {
+		t.Fatalf("observed expiries = %d, want every held posting drained", observer.expired)
+	}
+}
+
 func TestExpiryLoopReportsFailure(t *testing.T) {
 	observer := &countingExpiries{}
 	runLoopUntilFirstRun(

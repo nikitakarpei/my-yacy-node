@@ -21,6 +21,7 @@ var (
 type HoldObserver interface {
 	ObserveHeld(postings int)
 	ObserveReleased(postings int)
+	ObserveRefused(postings int)
 }
 
 type ExpiryObserver interface {
@@ -42,6 +43,7 @@ func Open(
 	v *vault.Vault,
 	admitter rwipostings.PostingAdmitter,
 	observer HoldObserver,
+	capacity int,
 	now func() time.Time,
 ) (*HeldPostings, error) {
 	held, expiry, err := registerHeldPostings(v)
@@ -55,6 +57,7 @@ func Open(
 		expiry:   expiry,
 		admitter: admitter,
 		observer: observer,
+		capacity: capacity,
 		now:      now,
 	}, nil
 }

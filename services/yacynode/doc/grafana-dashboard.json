@@ -1371,6 +1371,11 @@
           "refId": "C",
           "expr": "rate(rwiescrow_postings_expired_total[5m])",
           "legendFormat": "expired"
+        },
+        {
+          "refId": "D",
+          "expr": "rate(rwiescrow_postings_refused_total[5m])",
+          "legendFormat": "refused"
         }
       ]
     },

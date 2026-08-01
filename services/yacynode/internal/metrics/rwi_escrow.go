@@ -7,6 +7,7 @@ import (
 type RWIEscrowMetrics struct {
 	held     prometheus.Counter
 	released prometheus.Counter
+	refused  prometheus.Counter
 	expired  prometheus.Counter
 	failures prometheus.Counter
 }
@@ -21,6 +22,10 @@ func NewRWIEscrowMetrics(registry prometheus.Registerer) *RWIEscrowMetrics {
 			Name: "rwiescrow_postings_released_total",
 			Help: "Held postings admitted to the index once their URL metadata arrived.",
 		}),
+		refused: prometheus.NewCounter(prometheus.CounterOpts{
+			Name: "rwiescrow_postings_refused_total",
+			Help: "Inbound postings dropped because the escrow was at capacity.",
+		}),
 		expired: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "rwiescrow_postings_expired_total",
 			Help: "Held postings dropped because their URL metadata never arrived.",
@@ -30,7 +35,13 @@ func NewRWIEscrowMetrics(registry prometheus.Registerer) *RWIEscrowMetrics {
 			Help: "Held posting expiry runs that ended in error.",
 		}),
 	}
-	registry.MustRegister(metrics.held, metrics.released, metrics.expired, metrics.failures)
+	registry.MustRegister(
+		metrics.held,
+		metrics.released,
+		metrics.refused,
+		metrics.expired,
+		metrics.failures,
+	)
 
 	return metrics
 }
@@ -41,6 +52,10 @@ func (m *RWIEscrowMetrics) ObserveHeld(postings int) {
 
 func (m *RWIEscrowMetrics) ObserveReleased(postings int) {
 	m.released.Add(float64(postings))
+}
+
+func (m *RWIEscrowMetrics) ObserveRefused(postings int) {
+	m.refused.Add(float64(postings))
 }
 
 func (m *RWIEscrowMetrics) ObserveExpired(postings int) {

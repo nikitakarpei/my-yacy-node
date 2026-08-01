@@ -29,6 +29,7 @@ type discardedHolds struct{}
 
 func (discardedHolds) ObserveHeld(int)     {}
 func (discardedHolds) ObserveReleased(int) {}
+func (discardedHolds) ObserveRefused(int)  {}
 
 func TestCrawlRuntimeConsumesIngestBatch(t *testing.T) {
 	storage, err := openNodeStorage(openTestVault(t), discardedHolds{})

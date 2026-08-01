@@ -17,10 +17,12 @@ const holdFor = 5 * time.Minute
 type countingHolds struct {
 	held     int
 	released int
+	refused  int
 }
 
 func (c *countingHolds) ObserveHeld(postings int)     { c.held += postings }
 func (c *countingHolds) ObserveReleased(postings int) { c.released += postings }
+func (c *countingHolds) ObserveRefused(postings int)  { c.refused += postings }
 
 type harness struct {
 	vault    *vault.Vault
@@ -31,6 +33,12 @@ type harness struct {
 }
 
 func openHarness(t *testing.T) *harness {
+	t.Helper()
+
+	return openCappedHarness(t, 0)
+}
+
+func openCappedHarness(t *testing.T, capacity int) *harness {
 	t.Helper()
 
 	v, err := memvault.Open(0)
@@ -54,7 +62,7 @@ func openHarness(t *testing.T) *harness {
 		observer: &countingHolds{},
 		clock:    time.Unix(1700000000, 0),
 	}
-	escrow, err := Open(v, admitter, h.observer, func() time.Time { return h.clock })
+	escrow, err := Open(v, admitter, h.observer, capacity, func() time.Time { return h.clock })
 	if err != nil {
 		t.Fatalf("rwiescrow.Open: %v", err)
 	}
@@ -239,6 +247,31 @@ func TestReHoldRefreshesExpiryInsteadOfDuplicatingIt(t *testing.T) {
 	}
 	if expired != 1 {
 		t.Fatalf("expired = %d after the refreshed hold's deadline, want 1", expired)
+	}
+}
+
+func TestHoldRefusesNewPostingsAtCapacity(t *testing.T) {
+	h := openCappedHarness(t, 2)
+	admitted := []yacymodel.RWIPosting{posting("w1", "u1"), posting("w1", "u2")}
+
+	h.hold(t, admitted...)
+	h.hold(t, posting("w1", "u3"))
+
+	if got := h.heldCount(t); got != 2 {
+		t.Fatalf("held count = %d, want 2 at the capacity", got)
+	}
+	if h.observer.refused != 1 {
+		t.Fatalf("observed refusals = %d, want 1", h.observer.refused)
+	}
+
+	h.clock = h.clock.Add(holdFor / 2)
+	h.hold(t, admitted[0])
+
+	if h.observer.refused != 1 {
+		t.Fatalf(
+			"observed refusals = %d, want a re-hold to pass at the capacity",
+			h.observer.refused,
+		)
 	}
 }
 
