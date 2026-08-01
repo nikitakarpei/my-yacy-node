@@ -66,8 +66,8 @@ func TestHelloClassifiesReachableAddressedCallerAsSenior(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Serve: %v", err)
 	}
-	if resp.YourType != yacymodel.PeerSenior {
-		t.Fatalf("YourType = %q, want senior", resp.YourType)
+	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerSenior {
+		t.Fatalf("YourType = %q, want senior", yourType)
 	}
 	if got := len(resp.Seeds); got != 2 {
 		t.Fatalf("Seeds = %d, want 2 (self + trusted)", got)
@@ -91,8 +91,8 @@ func TestHelloClassifiesUnreachableCallerAsJunior(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Serve: %v", err)
 	}
-	if resp.YourType != yacymodel.PeerJunior {
-		t.Fatalf("YourType = %q, want junior", resp.YourType)
+	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerJunior {
+		t.Fatalf("YourType = %q, want junior", yourType)
 	}
 	if len(reachability.refreshed) != 0 {
 		t.Fatalf("refreshed = %v, want no refresh for junior caller", reachability.refreshed)
@@ -111,8 +111,8 @@ func TestHelloClassifiesAddresslessCallerAsJunior(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Serve: %v", err)
 	}
-	if resp.YourType != yacymodel.PeerJunior {
-		t.Fatalf("YourType = %q, want junior for addressless caller", resp.YourType)
+	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerJunior {
+		t.Fatalf("YourType = %q, want junior for addressless caller", yourType)
 	}
 	if probe.called {
 		t.Fatal("probe consulted for addressless caller")
@@ -139,6 +139,9 @@ func TestHelloOnForeignNetworkOmitsAdmission(t *testing.T) {
 	}
 	if got := len(resp.Seeds); got != 1 {
 		t.Fatalf("Seeds = %d, want 1 (self only)", got)
+	}
+	if resp.YourType.Present() {
+		t.Fatalf("YourType = %v, want absent for foreign network", resp.YourType)
 	}
 	if probe.called {
 		t.Fatal("probe consulted despite foreign network")

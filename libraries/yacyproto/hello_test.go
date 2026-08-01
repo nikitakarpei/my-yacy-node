@@ -38,7 +38,7 @@ func TestHelloResponseRoundTrip(t *testing.T) {
 	resp := yacyproto.HelloResponse{
 		ResponseHeader: yacyproto.ResponseHeader{Version: "1.0", Uptime: 42},
 		YourIP:         "203.0.113.7",
-		YourType:       yacymodel.PeerSenior,
+		YourType:       yacymodel.Some(yacymodel.PeerSenior),
 		MyTime:         "20260617120001",
 		Message:        "ok",
 		Seeds: []yacymodel.Seed{

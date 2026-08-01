@@ -12,7 +12,7 @@ import (
 
 type greetResult struct {
 	YourIP   string
-	YourType yacymodel.PeerType
+	YourType yacymodel.Optional[yacymodel.PeerType]
 	Known    []yacymodel.Seed
 }
 

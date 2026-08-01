@@ -43,7 +43,7 @@ func (e helloEndpoint) Serve(
 	}
 
 	if e.identity.NetworkMatches(req.NetworkName) {
-		resp.YourType = e.classifyCaller(ctx, req.Seed)
+		resp.YourType = yacymodel.Some(e.classifyCaller(ctx, req.Seed))
 		resp.Seeds = append(resp.Seeds, e.knownPeers(ctx, req.Count)...)
 	}
 

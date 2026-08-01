@@ -28,7 +28,7 @@ func TestPeerGreeterLearnsTypeAndKnownSeeds(t *testing.T) {
 		gotPath = r.URL.Path
 		resp := yacyproto.HelloResponse{
 			YourIP:   "203.0.113.9",
-			YourType: yacymodel.PeerSenior,
+			YourType: yacymodel.Some(yacymodel.PeerSenior),
 			Seeds: []yacymodel.Seed{
 				callerSeed(t, "self", "203.0.113.9"),
 				callerSeed(t, "known", "198.51.100.7"),
@@ -51,8 +51,8 @@ func TestPeerGreeterLearnsTypeAndKnownSeeds(t *testing.T) {
 	if gotPath != yacyproto.PathHello {
 		t.Errorf("path = %q, want %q", gotPath, yacyproto.PathHello)
 	}
-	if result.YourType != yacymodel.PeerSenior {
-		t.Errorf("type = %v, want senior", result.YourType)
+	if yourType, _ := result.YourType.Get(); yourType != yacymodel.PeerSenior {
+		t.Errorf("type = %v, want senior", yourType)
 	}
 	if len(result.Known) != 1 {
 		t.Fatalf("known = %d, want 1 (own seed excluded)", len(result.Known))

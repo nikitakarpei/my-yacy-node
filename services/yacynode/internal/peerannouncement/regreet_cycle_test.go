@@ -102,7 +102,7 @@ func TestAnnounceRecordsReachableAndGossip(t *testing.T) {
 		seeds:              &stubSeedSource{},
 		roster:             roster,
 		greeter: &stubGreeter{result: greetResult{
-			YourType: yacymodel.PeerSenior,
+			YourType: yacymodel.Some(yacymodel.PeerSenior),
 			Known:    []yacymodel.Seed{known},
 		}},
 	}
@@ -122,7 +122,7 @@ func TestAnnounceSkipsSelfInTargets(t *testing.T) {
 	self := callerSeed(t, "self", "203.0.113.9")
 
 	roster := &stubRoster{unreachablePeers: []yacymodel.Seed{self}}
-	greeter := &stubGreeter{result: greetResult{YourType: yacymodel.PeerSenior}}
+	greeter := &stubGreeter{result: greetResult{YourType: yacymodel.Some(yacymodel.PeerSenior)}}
 	a := &announcer{
 		reachableCap:       4,
 		contactConcurrency: 4,
@@ -166,6 +166,39 @@ func TestAnnounceMarksFailedGreetUnreachable(t *testing.T) {
 	}
 }
 
+func TestAnnounceRejectsPeerThatDidNotConfirmOurNetwork(t *testing.T) {
+	ctx := context.Background()
+	peer := callerSeed(t, "peer", "203.0.113.1")
+	known := callerSeed(t, "known", "198.51.100.7")
+
+	roster := &stubRoster{unreachablePeers: []yacymodel.Seed{peer}}
+	a := &announcer{
+		reachableCap:       4,
+		contactConcurrency: 4,
+		self:               stubSelf{seed: callerSeed(t, "self", "203.0.113.9")},
+		seeds:              &stubSeedSource{},
+		roster:             roster,
+		greeter: &stubGreeter{result: greetResult{
+			Known: []yacymodel.Seed{known},
+		}},
+	}
+
+	a.Announce(ctx)
+
+	if len(roster.unreachable) != 1 || roster.unreachable[0] != peer.Hash {
+		t.Fatalf("unreachable = %v, want [%v]", roster.unreachable, peer.Hash)
+	}
+	if len(roster.reachable) != 0 {
+		t.Fatalf("reachable = %v, want none for a peer outside our network", roster.reachable)
+	}
+	if len(roster.discovered) != 0 {
+		t.Fatalf(
+			"discovered = %v, want no seeds gossiped by a peer outside our network",
+			roster.discovered,
+		)
+	}
+}
+
 func TestAnnounceRefreshesReachablePeersEvenAtCapacity(t *testing.T) {
 	ctx := context.Background()
 	reachablePeer := callerSeed(t, "reachable", "203.0.113.1")
@@ -175,7 +208,7 @@ func TestAnnounceRefreshesReachablePeersEvenAtCapacity(t *testing.T) {
 		reachablePeers:   []yacymodel.Seed{reachablePeer},
 		unreachablePeers: []yacymodel.Seed{skippedPeer},
 	}
-	greeter := &stubGreeter{result: greetResult{YourType: yacymodel.PeerSenior}}
+	greeter := &stubGreeter{result: greetResult{YourType: yacymodel.Some(yacymodel.PeerSenior)}}
 	a := &announcer{
 		reachableCap:       1,
 		contactConcurrency: 4,
@@ -209,7 +242,9 @@ func TestRunFetchesSeedSourceOnStart(t *testing.T) {
 		self:               stubSelf{seed: callerSeed(t, "self", "203.0.113.9")},
 		seeds:              source,
 		roster:             roster,
-		greeter:            &stubGreeter{result: greetResult{YourType: yacymodel.PeerSenior}},
+		greeter: &stubGreeter{
+			result: greetResult{YourType: yacymodel.Some(yacymodel.PeerSenior)},
+		},
 	}
 
 	a.Run(ctx)

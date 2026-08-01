@@ -119,7 +119,19 @@ func (a *announcer) contactOne(
 
 		return
 	}
-	if result.YourType == yacymodel.PeerJunior {
+	yourType, confirmed := result.YourType.Get()
+	if !confirmed {
+		a.roster.ConfirmUnreachable(ctx, target.Hash)
+		slog.WarnContext(
+			ctx,
+			"peer did not confirm our network",
+			slog.String("peer", target.Hash.String()),
+			slog.String("endpoint", endpoint),
+		)
+
+		return
+	}
+	if yourType == yacymodel.PeerJunior {
 		slog.WarnContext(
 			ctx,
 			"peer reported us as junior",
