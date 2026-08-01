@@ -32,7 +32,11 @@ with the hold time.
 
 Release is per posting. `rwiescrow` observes URL metadata arrivals, so a held posting joins the index
 inside the transaction that stores its URL metadata. A background loop drops postings held longer than
-five minutes.
+five minutes, and drains every expired posting before it waits for its next tick.
+
+The escrow holds a fixed number of postings. Eviction cannot reclaim a held posting, because it selects
+from the URL metadata staleness order, so the escrow needs its own bound. A posting that arrives at the
+capacity is dropped.
 
 `rwiadmission` owns the routing decision. It asks the URL directory which URLs are unknown, holds the
 postings that name them, and admits the rest. The receipt still names the unknown URLs.
@@ -44,8 +48,9 @@ built after the escrow that observes it.
 ## Consequences
 
 The index holds only postings the node can serve. `rwiescrow_postings_expired_total` measures the peers
-that never complete `transferURL`.
+that never complete `transferURL`. `rwiescrow_postings_refused_total` rising means inbound orphans arrive
+faster than the hold period retires them.
 
 The postings already in the index stay until the vault is replaced: they are not distinguishable from
-postings whose peer is merely slow. A posting whose URL metadata arrives after five minutes is dropped,
-and the peer offers it again on its next cycle.
+postings whose peer is merely slow. A posting the escrow drops, at the capacity or after five minutes, is
+offered again by its peer on the next cycle.

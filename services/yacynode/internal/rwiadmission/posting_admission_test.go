@@ -18,6 +18,7 @@ type discardedHolds struct{}
 
 func (discardedHolds) ObserveHeld(int)     {}
 func (discardedHolds) ObserveReleased(int) {}
+func (discardedHolds) ObserveRefused(int)  {}
 
 type harness struct {
 	index    rwipostings.PostingIndex
@@ -43,7 +44,7 @@ func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	escrow, err := rwiescrow.Open(v, admitter, discardedHolds{}, time.Now)
+	escrow, err := rwiescrow.Open(v, admitter, discardedHolds{}, 0, time.Now)
 	if err != nil {
 		t.Fatalf("rwiescrow.Open: %v", err)
 	}

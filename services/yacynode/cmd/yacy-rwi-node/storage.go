@@ -51,7 +51,7 @@ func openNodeStorage(vault *vault.Vault, escrowObserver rwiescrow.HoldObserver) 
 		return nodeStorage{}, fmt.Errorf("rwi storage: %w", err)
 	}
 
-	escrow, err := rwiescrow.Open(vault, admitter, escrowObserver, time.Now)
+	escrow, err := rwiescrow.Open(vault, admitter, escrowObserver, escrowCapacity, time.Now)
 	if err != nil {
 		return nodeStorage{}, fmt.Errorf("rwi escrow: %w", err)
 	}

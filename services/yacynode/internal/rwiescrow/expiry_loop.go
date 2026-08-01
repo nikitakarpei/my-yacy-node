@@ -37,16 +37,23 @@ func expireOnce(
 	observer ExpiryObserver,
 	config ExpiryConfig,
 ) {
-	expired, err := expiry.Expire(ctx, config.HoldFor, config.Batch)
-	if err != nil {
-		observer.ObserveExpiryFailure()
-		slog.ErrorContext(ctx, failedMessage, slog.Any("error", err))
+	var total int
+	for ctx.Err() == nil {
+		expired, err := expiry.Expire(ctx, config.HoldFor, config.Batch)
+		if err != nil {
+			observer.ObserveExpiryFailure()
+			slog.ErrorContext(ctx, failedMessage, slog.Any("error", err))
 
+			return
+		}
+		observer.ObserveExpired(expired)
+		total += expired
+		if expired < config.Batch {
+			break
+		}
+	}
+	if total == 0 {
 		return
 	}
-	observer.ObserveExpired(expired)
-	if expired == 0 {
-		return
-	}
-	slog.DebugContext(ctx, expiredMessage, slog.Int("postings", expired))
+	slog.DebugContext(ctx, expiredMessage, slog.Int("postings", total))
 }

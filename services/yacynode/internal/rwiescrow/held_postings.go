@@ -17,6 +17,7 @@ type HeldPostings struct {
 	expiry   *vault.Collection[struct{}]
 	admitter rwipostings.PostingAdmitter
 	observer HoldObserver
+	capacity int
 	now      func() time.Time
 }
 
@@ -31,6 +32,16 @@ func (h *HeldPostings) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	if found {
 		if _, err := h.expiry.Delete(tx, expiryKey(previous.HeldAt, identity)); err != nil {
 			return fmt.Errorf("drop stale posting hold time: %w", err)
+		}
+	} else {
+		full, err := h.atCapacity(tx)
+		if err != nil {
+			return err
+		}
+		if full {
+			h.observer.ObserveRefused(1)
+
+			return nil
 		}
 	}
 
@@ -48,6 +59,18 @@ func (h *HeldPostings) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	}
 
 	return nil
+}
+
+func (h *HeldPostings) atCapacity(tx *vault.Txn) (bool, error) {
+	if h.capacity <= 0 {
+		return false, nil
+	}
+	length, err := h.held.Len(tx)
+	if err != nil {
+		return false, fmt.Errorf("read held posting length: %w", err)
+	}
+
+	return length >= h.capacity, nil
 }
 
 func (h *HeldPostings) URLStored(
