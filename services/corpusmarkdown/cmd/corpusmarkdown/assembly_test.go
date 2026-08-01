@@ -12,6 +12,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
+const (
+	storedDeadline  = 5 * time.Second
+	storedPollPause = 50 * time.Millisecond
+	storedReadLimit = 500 * time.Millisecond
+)
+
 func TestRunServiceStoresCrawledPageMarkdown(t *testing.T) {
 	url := natstestserver.Start(t)
 	cfg := ServiceConfig{
@@ -85,14 +91,27 @@ func waitForStored(
 	want []byte,
 ) {
 	t.Helper()
-	deadline := time.Now().Add(5 * time.Second)
+	deadline := time.Now().Add(storedDeadline)
 	for time.Now().Before(deadline) {
-		if stored, err := store.GetBytes(ctx, name); err == nil && string(stored) == string(want) {
+		if storedMarkdownMatches(ctx, store, name, want) {
 			return
 		}
-		time.Sleep(50 * time.Millisecond)
+		time.Sleep(storedPollPause)
 	}
 	t.Fatalf("markdown object %q never reached %q", name, want)
+}
+
+func storedMarkdownMatches(
+	ctx context.Context,
+	store jetstream.ObjectStore,
+	name string,
+	want []byte,
+) bool {
+	readCtx, cancel := context.WithTimeout(ctx, storedReadLimit)
+	defer cancel()
+	stored, err := store.GetBytes(readCtx, name)
+
+	return err == nil && string(stored) == string(want)
 }
 
 func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
