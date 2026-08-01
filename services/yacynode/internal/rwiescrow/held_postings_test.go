@@ -205,6 +205,43 @@ func TestHeldPostingExpiresAfterHoldPeriod(t *testing.T) {
 	}
 }
 
+func TestReHoldRefreshesExpiryInsteadOfDuplicatingIt(t *testing.T) {
+	h := openHarness(t)
+	entry := posting("w1", "u1")
+
+	h.hold(t, entry)
+	h.clock = h.clock.Add(holdFor / 2)
+	h.hold(t, entry)
+
+	if h.observer.held != 1 {
+		t.Fatalf("observed holds = %d, want 1 for a re-hold of the same posting", h.observer.held)
+	}
+	if got := h.heldCount(t); got != 1 {
+		t.Fatalf("held count = %d, want 1", got)
+	}
+
+	h.clock = h.clock.Add(holdFor/2 + time.Second)
+	expired, err := h.escrow.Expire(context.Background(), holdFor, 10)
+	if err != nil {
+		t.Fatalf("Expire: %v", err)
+	}
+	if expired != 0 {
+		t.Fatalf(
+			"expired = %d at the original hold's deadline, want 0 since the hold was refreshed",
+			expired,
+		)
+	}
+
+	h.clock = h.clock.Add(holdFor)
+	expired, err = h.escrow.Expire(context.Background(), holdFor, 10)
+	if err != nil {
+		t.Fatalf("Expire: %v", err)
+	}
+	if expired != 1 {
+		t.Fatalf("expired = %d after the refreshed hold's deadline, want 1", expired)
+	}
+}
+
 func TestExpireStopsAtLimit(t *testing.T) {
 	h := openHarness(t)
 	h.hold(t, posting("w1", "u1"), posting("w1", "u2"), posting("w1", "u3"))
