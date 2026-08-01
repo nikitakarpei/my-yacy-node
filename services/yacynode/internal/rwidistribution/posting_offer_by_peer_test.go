@@ -7,39 +7,38 @@ import (
 )
 
 func TestAddGroupsPostingsByPeer(t *testing.T) {
-	batch := newPostingOfferBatch()
+	byPeer := newPostingOffersByPeer()
 	peer := seed(yacymodel.WordHash("peer"))
 	word := yacymodel.WordHash("w1")
 
 	for _, url := range []string{"u1", "u2"} {
-		if !batch.Add(peer, fakePosting(word, urlHash(url))) {
-			t.Fatalf("Add %v = false, want true", url)
-		}
+		byPeer.Add(peer, fakePosting(word, urlHash(url)))
 	}
 
-	offers := batch.Offers()
+	offers := byPeer.Offers()
 	if len(offers) != 1 || offers[0].Peer.Hash != peer.Hash || len(offers[0].Postings) != 2 {
 		t.Fatalf("offers = %+v, want one offer to %v with 2 postings", offers, peer.Hash)
 	}
 }
 
-func TestAddRefusesPostingBeyondPeerCap(t *testing.T) {
-	batch := newPostingOfferBatch()
+func TestFullReportsPeerAtCap(t *testing.T) {
+	byPeer := newPostingOffersByPeer()
 	peer := seed(yacymodel.WordHash("peer"))
 	word := yacymodel.WordHash("w1")
 	posting := fakePosting(word, urlHash("u1"))
 
 	for i := range postingsPerPeerCap {
-		if !batch.Add(peer, posting) {
-			t.Fatalf("Add %v = false, want true below the cap", i)
+		if byPeer.Full(peer.Hash) {
+			t.Fatalf("Full = true at %v, want false below the cap", i)
 		}
+		byPeer.Add(peer, posting)
 	}
 
-	if batch.Add(peer, posting) {
-		t.Fatalf("Add = true, want false once the peer holds %v postings", postingsPerPeerCap)
+	if !byPeer.Full(peer.Hash) {
+		t.Fatalf("Full = false, want true once the peer holds %v postings", postingsPerPeerCap)
 	}
 
-	offers := batch.Offers()
+	offers := byPeer.Offers()
 	if len(offers) != 1 || len(offers[0].Postings) != postingsPerPeerCap {
 		t.Fatalf("offers = %v postings, want %v", len(offers[0].Postings), postingsPerPeerCap)
 	}

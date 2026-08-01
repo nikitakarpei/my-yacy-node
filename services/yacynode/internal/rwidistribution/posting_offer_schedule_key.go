@@ -12,7 +12,7 @@ const dueAtDigits = 20
 
 type scheduledPostingOffer struct {
 	At      time.Time
-	Posting duePosting
+	Posting postingIdentity
 }
 
 func postingKey(word yacymodel.Hash, url yacymodel.URLHash) vault.Key {
@@ -59,6 +59,6 @@ func parseOrderKey(key vault.Key) (scheduledPostingOffer, error) {
 
 	return scheduledPostingOffer{
 		At:      time.Unix(0, nanos),
-		Posting: duePosting{Word: word, URL: url},
+		Posting: postingIdentity{Word: word, URL: url},
 	}, nil
 }

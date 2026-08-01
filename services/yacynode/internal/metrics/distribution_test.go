@@ -25,15 +25,15 @@ func TestDistributionCountsOffersByResult(t *testing.T) {
 	}
 }
 
-func TestDistributionCountsScheduleDrainAndLedgerPrunes(t *testing.T) {
+func TestDistributionCountsPostingsConsideredAndLedgerPrunes(t *testing.T) {
 	observer := NewDistributionMetrics(prometheus.NewRegistry())
 
-	observer.ObserveScheduleDrain(4)
-	observer.ObserveScheduleDrain(6)
+	observer.ObservePostingsConsidered(4)
+	observer.ObservePostingsConsidered(6)
 	observer.ObserveLedgerPrune(2)
 
-	if got := testutil.ToFloat64(observer.scheduleDrained); got != 10 {
-		t.Errorf("drained = %v, want 10", got)
+	if got := testutil.ToFloat64(observer.postingsConsidered); got != 10 {
+		t.Errorf("considered = %v, want 10", got)
 	}
 	if got := testutil.ToFloat64(observer.ledgerPrunes); got != 2 {
 		t.Errorf("prunes = %v, want 2", got)

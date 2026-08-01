@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
@@ -23,10 +22,6 @@ func openReplicaLedger(v *vault.Vault) (*replicaLedger, error) {
 	}
 
 	return &replicaLedger{vault: v, replicas: replicas}, nil
-}
-
-func (l *replicaLedger) PostingStored(*vault.Txn, yacymodel.Hash, yacymodel.URLHash) error {
-	return nil
 }
 
 func (l *replicaLedger) PostingPurged(
@@ -60,34 +55,32 @@ func (l *replicaLedger) Replicas(
 	return replicas, nil
 }
 
-func (l *replicaLedger) RecordAccepted(
-	ctx context.Context,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-	peer yacymodel.Hash,
-) error {
+func (l *replicaLedger) RecordAccepted(ctx context.Context, offer postingOffer) error {
 	err := l.vault.Update(ctx, func(tx *vault.Txn) error {
-		key := postingKey(word, url)
-		replicas, _, err := l.replicas.Get(tx, key)
-		if err != nil {
-			return fmt.Errorf("read replicas: %w", err)
-		}
-		for _, existing := range replicas {
-			if existing == peer {
-				return nil
+		for _, posting := range offer.Postings {
+			key := postingKey(posting.WordHash, posting.URLHash)
+			replicas, _, err := l.replicas.Get(tx, key)
+			if err != nil {
+				return fmt.Errorf("read replicas: %w", err)
+			}
+			if containsHash(replicas, offer.Peer.Hash) {
+				continue
+			}
+			if err := l.replicas.Put(tx, key, append(replicas, offer.Peer.Hash)); err != nil {
+				return fmt.Errorf("record accepted replica: %w", err)
 			}
 		}
 
-		return l.replicas.Put(tx, key, append(replicas, peer))
+		return nil
 	})
 	if err != nil {
-		return fmt.Errorf("record accepted replica: %w", err)
+		return fmt.Errorf("record accepted replicas: %w", err)
 	}
 
 	return nil
 }
 
-func (l *replicaLedger) Drop(
+func (l *replicaLedger) RecordDropped(
 	ctx context.Context,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
@@ -140,5 +133,3 @@ func containsHash(hashes []yacymodel.Hash, target yacymodel.Hash) bool {
 
 	return false
 }
-
-var _ rwipostings.PostingObserver = (*replicaLedger)(nil)

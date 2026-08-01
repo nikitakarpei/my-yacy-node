@@ -4,7 +4,7 @@ type fakePostingOfferCycleObserver struct {
 	offers          map[string]int
 	postingsOffered map[string]int
 	prunes          int
-	drained         int
+	considered      int
 	cyclesSkipped   int
 }
 
@@ -20,14 +20,14 @@ func (f *fakePostingOfferCycleObserver) ObservePostingOffer(outcome string, post
 	f.postingsOffered[outcome] += postings
 }
 
-func (f *fakePostingOfferCycleObserver) ObserveScheduleDrain(drained int) {
-	f.drained = drained
+func (f *fakePostingOfferCycleObserver) ObservePostingsConsidered(considered int) {
+	f.considered = considered
 }
 
 func (f *fakePostingOfferCycleObserver) ObserveLedgerPrune(dropped int) {
 	f.prunes += dropped
 }
 
-func (f *fakePostingOfferCycleObserver) ObserveCycleSkipped(int) {
+func (f *fakePostingOfferCycleObserver) ObserveCycleSkipped() {
 	f.cyclesSkipped++
 }

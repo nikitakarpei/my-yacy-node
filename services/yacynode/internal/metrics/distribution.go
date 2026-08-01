@@ -7,11 +7,11 @@ import (
 const labelOutcome = "result"
 
 type DistributionMetrics struct {
-	offerRequests   *prometheus.CounterVec
-	postingsOffered *prometheus.CounterVec
-	scheduleDrained prometheus.Counter
-	ledgerPrunes    prometheus.Counter
-	cyclesSkipped   prometheus.Counter
+	offerRequests      *prometheus.CounterVec
+	postingsOffered    *prometheus.CounterVec
+	postingsConsidered prometheus.Counter
+	ledgerPrunes       prometheus.Counter
+	cyclesSkipped      prometheus.Counter
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
@@ -29,9 +29,9 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		},
 		[]string{labelOutcome},
 	)
-	scheduleDrained := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "rwidistribution_schedule_drained_total",
-		Help: "Due postings drained from the distribution schedule for offering.",
+	postingsConsidered := prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "rwidistribution_postings_considered_total",
+		Help: "Due postings read from the distribution schedule for offering.",
 	})
 	ledgerPrunes := prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "rwidistribution_ledger_prunes_total",
@@ -42,15 +42,15 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		Help: "Distribution cycles skipped because too few peers were reachable.",
 	})
 	registry.MustRegister(
-		offerRequests, postingsOffered, scheduleDrained, ledgerPrunes, cyclesSkipped,
+		offerRequests, postingsOffered, postingsConsidered, ledgerPrunes, cyclesSkipped,
 	)
 
 	return &DistributionMetrics{
-		offerRequests:   offerRequests,
-		postingsOffered: postingsOffered,
-		scheduleDrained: scheduleDrained,
-		ledgerPrunes:    ledgerPrunes,
-		cyclesSkipped:   cyclesSkipped,
+		offerRequests:      offerRequests,
+		postingsOffered:    postingsOffered,
+		postingsConsidered: postingsConsidered,
+		ledgerPrunes:       ledgerPrunes,
+		cyclesSkipped:      cyclesSkipped,
 	}
 }
 
@@ -59,14 +59,14 @@ func (d *DistributionMetrics) ObservePostingOffer(outcome string, postings int) 
 	d.postingsOffered.WithLabelValues(outcome).Add(float64(postings))
 }
 
-func (d *DistributionMetrics) ObserveScheduleDrain(drained int) {
-	d.scheduleDrained.Add(float64(drained))
+func (d *DistributionMetrics) ObservePostingsConsidered(considered int) {
+	d.postingsConsidered.Add(float64(considered))
 }
 
 func (d *DistributionMetrics) ObserveLedgerPrune(dropped int) {
 	d.ledgerPrunes.Add(float64(dropped))
 }
 
-func (d *DistributionMetrics) ObserveCycleSkipped(int) {
+func (d *DistributionMetrics) ObserveCycleSkipped() {
 	d.cyclesSkipped.Inc()
 }

@@ -52,16 +52,16 @@ func TestPostingStoredIsImmediatelyDue(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	store(t, schedule, word, url)
 
-	due, err := schedule.DueBatch(context.Background(), 10)
+	due, err := schedule.DuePostings(context.Background(), 10)
 	if err != nil {
-		t.Fatalf("DueBatch: %v", err)
+		t.Fatalf("DuePostings: %v", err)
 	}
 	if len(due) != 1 || due[0].Word != word || due[0].URL != url {
 		t.Fatalf("due = %v, want single entry for %v/%v", due, word, url)
 	}
 }
 
-func TestDueBatchExcludesFutureEntries(t *testing.T) {
+func TestDuePostingsExcludesFutureEntries(t *testing.T) {
 	now := time.Unix(1000, 0)
 	_, schedule := openSchedule(t, func() time.Time { return now })
 	overdue, future := yacymodel.WordHash("overdue"), yacymodel.WordHash("future")
@@ -84,16 +84,16 @@ func TestDueBatchExcludesFutureEntries(t *testing.T) {
 		t.Fatalf("Reschedule future: %v", err)
 	}
 
-	due, err := schedule.DueBatch(context.Background(), 10)
+	due, err := schedule.DuePostings(context.Background(), 10)
 	if err != nil {
-		t.Fatalf("DueBatch: %v", err)
+		t.Fatalf("DuePostings: %v", err)
 	}
 	if len(due) != 1 || due[0].Word != overdue {
 		t.Fatalf("due = %v, want only [overdue]", due)
 	}
 }
 
-func TestDueBatchRespectsLimit(t *testing.T) {
+func TestDuePostingsRespectsLimit(t *testing.T) {
 	now := time.Unix(1000, 0)
 	_, schedule := openSchedule(t, func() time.Time { return now })
 	for _, seed := range []string{"a", "b", "c"} {
@@ -107,9 +107,9 @@ func TestDueBatchRespectsLimit(t *testing.T) {
 		}
 	}
 
-	due, err := schedule.DueBatch(context.Background(), 2)
+	due, err := schedule.DuePostings(context.Background(), 2)
 	if err != nil {
-		t.Fatalf("DueBatch: %v", err)
+		t.Fatalf("DuePostings: %v", err)
 	}
 	if len(due) != 2 {
 		t.Fatalf("due = %v, want 2 entries", due)
@@ -126,9 +126,9 @@ func TestRescheduleMovesOrderPosition(t *testing.T) {
 		t.Fatalf("Reschedule: %v", err)
 	}
 
-	due, err := schedule.DueBatch(context.Background(), 10)
+	due, err := schedule.DuePostings(context.Background(), 10)
 	if err != nil {
-		t.Fatalf("DueBatch: %v", err)
+		t.Fatalf("DuePostings: %v", err)
 	}
 	if len(due) != 0 {
 		t.Fatalf("due = %v, want none due after rescheduling into the future", due)
@@ -147,9 +147,9 @@ func TestPostingPurgedRemovesBothRows(t *testing.T) {
 		t.Fatalf("PostingPurged: %v", err)
 	}
 
-	due, err := schedule.DueBatch(context.Background(), 10)
+	due, err := schedule.DuePostings(context.Background(), 10)
 	if err != nil {
-		t.Fatalf("DueBatch: %v", err)
+		t.Fatalf("DuePostings: %v", err)
 	}
 	if len(due) != 0 {
 		t.Fatalf("due = %v, want none after purge", due)
@@ -166,6 +166,37 @@ func TestPostingPurgedRemovesBothRows(t *testing.T) {
 	}
 	if found {
 		t.Fatal("due row still present after purge")
+	}
+}
+
+func TestForgetRemovesBothRows(t *testing.T) {
+	now := time.Unix(1000, 0)
+	_, schedule := openSchedule(t, func() time.Time { return now })
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	store(t, schedule, word, url)
+
+	if err := schedule.Forget(context.Background(), word, url); err != nil {
+		t.Fatalf("Forget: %v", err)
+	}
+
+	due, err := schedule.DuePostings(context.Background(), 10)
+	if err != nil {
+		t.Fatalf("DuePostings: %v", err)
+	}
+	if len(due) != 0 {
+		t.Fatalf("due = %v, want none after Forget", due)
+	}
+}
+
+func TestForgetUnknownIsHarmless(t *testing.T) {
+	_, schedule := openSchedule(t, time.Now)
+
+	if err := schedule.Forget(
+		context.Background(),
+		yacymodel.WordHash("absent"),
+		urlHash("absent"),
+	); err != nil {
+		t.Fatalf("Forget: %v", err)
 	}
 }
 
