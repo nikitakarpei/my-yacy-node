@@ -51,6 +51,7 @@ func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
 			CycleInterval:     time.Second,
 			RefreshInterval:   5 * time.Second,
 			RetryInterval:     2 * time.Second,
+			MinReachablePeers: 1,
 		},
 	})
 
