@@ -33,21 +33,19 @@ func (o *recordingObserver) PostingPurged(
 
 func TestPurgePostingDropsPostingAndNotifies(t *testing.T) {
 	ctx := context.Background()
-	h := openHarness(t, 0, 100)
+	h := openHarness(t)
 
-	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
+	h.admit(t,
 		posting("w1", "u1"),
 		posting("w1", "u2"),
 		posting("w2", "u1"),
-	}); err != nil {
-		t.Fatalf("Intake: %v", err)
-	}
+	)
 
 	word := yacymodel.WordHash("w1")
-	url := referencedHash(posting("w1", "u1"))
+	url := urlHash("u1")
 	var deleted bool
 	if err := h.vault.Update(ctx, func(tx *vault.Txn) error {
-		dropped, err := h.rwi.Purger.PurgePosting(tx, word, url)
+		dropped, err := h.purger.PurgePosting(tx, word, url)
 		if err != nil {
 			return fmt.Errorf("purge posting: %w", err)
 		}
@@ -61,7 +59,7 @@ func TestPurgePostingDropsPostingAndNotifies(t *testing.T) {
 		t.Fatal("PurgePosting reported nothing deleted, want the posting dropped")
 	}
 
-	rwiCount, err := h.rwi.Index.RWICount(ctx)
+	rwiCount, err := h.index.RWICount(ctx)
 	if err != nil {
 		t.Fatalf("RWICount: %v", err)
 	}

@@ -47,6 +47,18 @@ func (d postingDirectory) Posting(
 	return entry, found, nil
 }
 
+func (d postingDirectory) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
+	key := postingKey(posting.WordHash, posting.URLHash)
+	if err := d.postings.Put(tx, key, posting); err != nil {
+		return fmt.Errorf("store rwi posting: %w", err)
+	}
+	if err := d.observers.stored(tx, posting.WordHash, posting.URLHash); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (d postingDirectory) PurgePosting(
 	tx *vault.Txn,
 	word yacymodel.Hash,
@@ -112,6 +124,7 @@ func collectionLength[V any](
 }
 
 var (
-	_ PostingIndex  = postingDirectory{}
-	_ PostingPurger = postingDirectory{}
+	_ PostingIndex    = postingDirectory{}
+	_ PostingAdmitter = postingDirectory{}
+	_ PostingPurger   = postingDirectory{}
 )

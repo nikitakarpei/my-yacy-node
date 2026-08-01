@@ -8,7 +8,7 @@ import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
@@ -26,13 +26,13 @@ type IngestStream interface {
 type IngestConsumer struct {
 	stream   IngestStream
 	urls     urlmeta.URLReceiver
-	postings rwipostings.PostingReceiver
+	postings rwiadmission.PostingReceiver
 }
 
 func NewIngestConsumer(
 	stream IngestStream,
 	urls urlmeta.URLReceiver,
-	postings rwipostings.PostingReceiver,
+	postings rwiadmission.PostingReceiver,
 ) *IngestConsumer {
 	return &IngestConsumer{stream: stream, urls: urls, postings: postings}
 }

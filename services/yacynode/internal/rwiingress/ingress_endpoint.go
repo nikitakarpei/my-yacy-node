@@ -9,13 +9,13 @@ import (
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 type transferRWIEndpoint struct {
 	identity nodeidentity.Identity
-	intake   rwipostings.PostingReceiver
+	intake   rwiadmission.PostingReceiver
 }
 
 func (e transferRWIEndpoint) Serve(

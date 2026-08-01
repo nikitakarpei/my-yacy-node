@@ -10,19 +10,24 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/hermeticnetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/httpprobe"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/nodepeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/peerclient"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/yacypeer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const (
 	distributionYaCyAlias = "yacy-dist-e2e"
 	distributionNodeAlias = "node-dist-e2e"
+
+	escrowHoldGrace = 15 * time.Second
 )
 
 var (
 	distributionWordHash = mustHash("DISTWORDHASH")
-	distributionDocHash  = mustURLHash("DISTDOCHASH1")
+	distributionDocument = yacymodel.URLMetadata{Address: "http://example.invalid/dist-e2e"}
 )
 
 func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
@@ -57,9 +62,22 @@ func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
 
 	waitPeerActiveConnected(t, ctx, probe, yacyURL, nodeHash, 60*time.Second)
 
-	nodepeer.PushPosting(
-		t, ctx, probe, nodeURL, nodeHash, distributionWordHash, distributionDocHash,
-	)
+	documentHash, err := distributionDocument.Hash()
+	if err != nil {
+		t.Fatalf("document hash: %v", err)
+	}
+
+	nodepeer.PushPosting(t, ctx, probe, nodeURL, nodeHash, distributionWordHash, documentHash)
+
+	if pollwait.For(escrowHoldGrace, func() bool {
+		count, ok := peerclient.QueryCount(ctx, probe, yacyURL, yacyHash, yacyproto.ObjectRWICount)
+
+		return ok && count > 0
+	}) {
+		t.Fatal("node distributed a posting before its url metadata arrived")
+	}
+
+	nodepeer.PushURLMetadata(t, ctx, probe, nodeURL, nodeHash, distributionDocument)
 
 	yacypeer.WaitRWICount(t, ctx, probe, yacyURL, yacyHash, 1, 60*time.Second)
 }

@@ -10,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlresults"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
@@ -37,7 +37,7 @@ func (r *recordingURLReceiver) Receive(
 }
 
 type recordingPostingReceiver struct {
-	receipt rwipostings.Receipt
+	receipt rwiadmission.Receipt
 	err     error
 	calls   int
 	at      time.Time
@@ -46,7 +46,7 @@ type recordingPostingReceiver struct {
 func (r *recordingPostingReceiver) Receive(
 	_ context.Context,
 	_ []yacymodel.RWIPosting,
-) (rwipostings.Receipt, error) {
+) (rwiadmission.Receipt, error) {
 	r.calls++
 	r.at = time.Now()
 	return r.receipt, r.err
@@ -142,7 +142,7 @@ func TestAbsorbNaksWhenPostingReceiverErrors(t *testing.T) {
 
 func TestAbsorbNaksWhenPostingBatchTooLarge(t *testing.T) {
 	urls := &recordingURLReceiver{}
-	postings := &recordingPostingReceiver{receipt: rwipostings.Receipt{Busy: true, TooLarge: true}}
+	postings := &recordingPostingReceiver{receipt: rwiadmission.Receipt{Busy: true, TooLarge: true}}
 	acked, naked := deliver(t, postingChunk(), urls, postings)
 
 	if acked || !naked {

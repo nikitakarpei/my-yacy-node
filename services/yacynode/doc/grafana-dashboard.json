@@ -1286,6 +1286,104 @@
           "legendFormat": "skipped"
         }
       ]
+    },
+    {
+      "id": 60,
+      "title": "Inbound RWI escrow",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 81
+      },
+      "panels": []
+    },
+    {
+      "id": 61,
+      "title": "Posting escrow throughput",
+      "description": "This panel shows the inbound postings held for their URL metadata, released into the index when it arrives, and dropped when it never does.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 82
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cps",
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(rwiescrow_postings_held_total[5m])",
+          "legendFormat": "held"
+        },
+        {
+          "refId": "B",
+          "expr": "rate(rwiescrow_postings_released_total[5m])",
+          "legendFormat": "released"
+        },
+        {
+          "refId": "C",
+          "expr": "rate(rwiescrow_postings_expired_total[5m])",
+          "legendFormat": "expired"
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "title": "Posting escrow expiry failures",
+      "description": "This panel shows the rate of held posting expiry runs that end in error.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 82
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ops",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "red"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(rwiescrow_expiry_failures_total[5m])",
+          "legendFormat": "failures"
+        }
+      ]
     }
   ]
 }
