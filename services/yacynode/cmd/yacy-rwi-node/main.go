@@ -32,7 +32,7 @@ const (
 	evictionInterval       = time.Minute
 
 	escrowHoldFor        = 5 * time.Minute
-	escrowCapacity       = 200_000
+	escrowQuotaFraction  = 0.05
 	escrowExpiryBatch    = 256
 	escrowExpiryInterval = time.Minute
 
@@ -89,6 +89,8 @@ func run() error {
 	if err != nil {
 		return fmt.Errorf("assemble node: %w", err)
 	}
+
+	metrics.NewRWIEscrowCapacityMetrics(endpoints.Registry(), assembled.escrow)
 
 	opsMux := opsmetrics.NewMux(endpoints.Handler())
 

@@ -154,6 +154,10 @@ func (h *HeldPostings) Count(ctx context.Context) (int, error) {
 	return count, nil
 }
 
+func (h *HeldPostings) Capacity() int {
+	return h.capacity
+}
+
 func (h *HeldPostings) postingsWaitingFor(
 	tx *vault.Txn,
 	hash yacymodel.URLHash,

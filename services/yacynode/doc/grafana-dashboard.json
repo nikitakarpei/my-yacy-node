@@ -1436,6 +1436,62 @@
       ]
     },
     {
+      "id": 63,
+      "title": "Posting escrow occupancy",
+      "description": "This panel shows the held postings as a fraction of the escrow capacity. The escrow refuses new postings at 100 percent.",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 82
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 0.7,
+                "color": "yellow"
+              },
+              {
+                "value": 0.9,
+                "color": "red"
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "graphMode": "area",
+        "colorMode": "value",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rwiescrow_held_postings / rwiescrow_capacity_postings"
+        }
+      ]
+    },
+    {
       "id": 62,
       "title": "Posting escrow expiry failures",
       "description": "This panel shows the held posting expiry runs that end in error over the selected time range.",

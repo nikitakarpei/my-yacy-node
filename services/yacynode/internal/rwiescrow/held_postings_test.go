@@ -35,13 +35,13 @@ type harness struct {
 func openHarness(t *testing.T) *harness {
 	t.Helper()
 
-	return openCappedHarness(t, 0)
+	return openCappedHarness(t, 0, 0)
 }
 
-func openCappedHarness(t *testing.T, capacity int) *harness {
+func openCappedHarness(t *testing.T, quotaBytes int64, quotaFraction float64) *harness {
 	t.Helper()
 
-	v, err := memvault.Open(0)
+	v, err := memvault.Open(quotaBytes)
 	if err != nil {
 		t.Fatalf("memvault.Open: %v", err)
 	}
@@ -62,7 +62,7 @@ func openCappedHarness(t *testing.T, capacity int) *harness {
 		observer: &countingHolds{},
 		clock:    time.Unix(1700000000, 0),
 	}
-	escrow, err := Open(v, admitter, h.observer, capacity, func() time.Time { return h.clock })
+	escrow, err := Open(v, admitter, h.observer, quotaFraction, func() time.Time { return h.clock })
 	if err != nil {
 		t.Fatalf("rwiescrow.Open: %v", err)
 	}
@@ -250,8 +250,14 @@ func TestReHoldRefreshesExpiryInsteadOfDuplicatingIt(t *testing.T) {
 	}
 }
 
+const capacityFraction = 0.01
+
+func quotaHolding(postings int) int64 {
+	return int64(float64(postings*heldPostingBytes) / capacityFraction)
+}
+
 func TestHoldRefusesNewPostingsAtCapacity(t *testing.T) {
-	h := openCappedHarness(t, 2)
+	h := openCappedHarness(t, quotaHolding(2), capacityFraction)
 	admitted := []yacymodel.RWIPosting{posting("w1", "u1"), posting("w1", "u2")}
 
 	h.hold(t, admitted...)
