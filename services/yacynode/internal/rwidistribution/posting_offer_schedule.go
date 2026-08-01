@@ -15,7 +15,7 @@ const (
 	postingOfferDueBucket   vault.Name = "rwidistribution_offer_due"
 )
 
-type duePosting struct {
+type postingIdentity struct {
 	Word yacymodel.Hash
 	URL  yacymodel.URLHash
 }
@@ -49,6 +49,29 @@ func (s *postingOfferSchedule) PostingStored(
 }
 
 func (s *postingOfferSchedule) PostingPurged(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) error {
+	return s.forget(tx, word, url)
+}
+
+func (s *postingOfferSchedule) Forget(
+	ctx context.Context,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) error {
+	err := s.vault.Update(ctx, func(tx *vault.Txn) error {
+		return s.forget(tx, word, url)
+	})
+	if err != nil {
+		return fmt.Errorf("forget posting: %w", err)
+	}
+
+	return nil
+}
+
+func (s *postingOfferSchedule) forget(
 	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
@@ -122,13 +145,16 @@ func (s *postingOfferSchedule) clear(
 	return nil
 }
 
-func (s *postingOfferSchedule) DueBatch(ctx context.Context, limit int) ([]duePosting, error) {
+func (s *postingOfferSchedule) DuePostings(
+	ctx context.Context,
+	limit int,
+) ([]postingIdentity, error) {
 	if limit <= 0 {
 		return nil, nil
 	}
 
 	now := s.now()
-	due := make([]duePosting, 0, limit)
+	due := make([]postingIdentity, 0, limit)
 	err := s.vault.View(ctx, func(tx *vault.Txn) error {
 		return s.order.Scan(tx, nil, func(key vault.Key, _ struct{}) (bool, error) {
 			scheduled, err := parseOrderKey(key)

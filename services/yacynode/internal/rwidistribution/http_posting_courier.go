@@ -18,7 +18,7 @@ import (
 
 const peerResponseMaxBodyBytes int64 = 1 << 20
 
-var errPeerRequestFailed = errors.New("posting offer failed")
+var errPeerRequest = errors.New("peer request failed")
 
 type postingOfferReceipt struct {
 	Outcome    postingOfferOutcome
@@ -98,7 +98,7 @@ func (c httpPostingCourier) postTransferRWI(
 		WordCount:   distinctWordCount(offer.Postings),
 		EntryCount:  len(offer.Postings),
 		Indexes:     offer.Postings,
-		Key:         postingOfferKey(offer.Postings),
+		Key:         yacyproto.TransferRWIKey(len(offer.Postings)),
 	}
 
 	body, err := c.post(ctx, endpoint, yacyproto.PathTransferRWI, req.Form())
@@ -108,7 +108,7 @@ func (c httpPostingCourier) postTransferRWI(
 
 	resp, err := yacyproto.ParseTransferRWIResponse(yacyproto.ParseMessage(body))
 	if err != nil {
-		return yacyproto.TransferRWIResponse{}, fmt.Errorf("%w: %w", errPeerRequestFailed, err)
+		return yacyproto.TransferRWIResponse{}, fmt.Errorf("%w: %w", errPeerRequest, err)
 	}
 
 	return resp, nil
@@ -171,23 +171,23 @@ func (c httpPostingCourier) post(
 		strings.NewReader(form.Encode()),
 	)
 	if err != nil {
-		return "", fmt.Errorf("%w: %w", errPeerRequestFailed, err)
+		return "", fmt.Errorf("%w: %w", errPeerRequest, err)
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := c.client.Do(req)
 	if err != nil {
-		return "", fmt.Errorf("%w: %w", errPeerRequestFailed, err)
+		return "", fmt.Errorf("%w: %w", errPeerRequest, err)
 	}
 	defer closeResponseBody(ctx, resp.Body, path)
 
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("%w: status %d", errPeerRequestFailed, resp.StatusCode)
+		return "", fmt.Errorf("%w: status %d", errPeerRequest, resp.StatusCode)
 	}
 
 	raw, err := io.ReadAll(io.LimitReader(resp.Body, peerResponseMaxBodyBytes))
 	if err != nil {
-		return "", fmt.Errorf("%w: %w", errPeerRequestFailed, err)
+		return "", fmt.Errorf("%w: %w", errPeerRequest, err)
 	}
 
 	return string(raw), nil
@@ -200,8 +200,4 @@ func distinctWordCount(postings []yacymodel.RWIPosting) int {
 	}
 
 	return len(words)
-}
-
-func postingOfferKey(postings []yacymodel.RWIPosting) string {
-	return yacyproto.MagicMD5("", "", fmt.Sprintf("%d", len(postings)))
 }

@@ -2,11 +2,16 @@ package yacyproto
 
 import (
 	"context"
+	"fmt"
 	"net/url"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
+
+func TransferRWIKey(entryCount int) string {
+	return MagicMD5("", "", fmt.Sprintf("%d", entryCount))
+}
 
 type TransferRWIRequest struct {
 	NetworkName string

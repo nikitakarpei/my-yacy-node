@@ -11,30 +11,31 @@ type postingOffer struct {
 	Postings []yacymodel.RWIPosting
 }
 
-type postingOfferBatch struct {
+type postingOffersByPeer struct {
 	byPeer map[yacymodel.Hash]*postingOffer
 }
 
-func newPostingOfferBatch() *postingOfferBatch {
-	return &postingOfferBatch{byPeer: make(map[yacymodel.Hash]*postingOffer)}
+func newPostingOffersByPeer() *postingOffersByPeer {
+	return &postingOffersByPeer{byPeer: make(map[yacymodel.Hash]*postingOffer)}
 }
 
-func (b *postingOfferBatch) Add(peer yacymodel.Seed, posting yacymodel.RWIPosting) bool {
+func (b *postingOffersByPeer) Full(peer yacymodel.Hash) bool {
+	offer := b.byPeer[peer]
+
+	return offer != nil && len(offer.Postings) >= postingsPerPeerCap
+}
+
+func (b *postingOffersByPeer) Add(peer yacymodel.Seed, posting yacymodel.RWIPosting) {
 	offer := b.byPeer[peer.Hash]
-	if offer != nil && len(offer.Postings) >= postingsPerPeerCap {
-		return false
-	}
 	if offer == nil {
 		offer = &postingOffer{Peer: peer}
 		b.byPeer[peer.Hash] = offer
 	}
 
 	offer.Postings = append(offer.Postings, posting)
-
-	return true
 }
 
-func (b *postingOfferBatch) Offers() []postingOffer {
+func (b *postingOffersByPeer) Offers() []postingOffer {
 	offers := make([]postingOffer, 0, len(b.byPeer))
 	for _, offer := range b.byPeer {
 		offers = append(offers, *offer)

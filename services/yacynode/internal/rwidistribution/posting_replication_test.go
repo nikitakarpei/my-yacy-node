@@ -20,7 +20,7 @@ func (f fakePostingIndex) Posting(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
-	entry, found := f.postings[postingIdentity(word, url)]
+	entry, found := f.postings[fakePostingKey(word, url)]
 
 	return entry, found, nil
 }
@@ -33,7 +33,7 @@ func (f fakePostingIndex) ScanWord(
 	return nil
 }
 
-func postingIdentity(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.Hash {
+func fakePostingKey(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.Hash {
 	return yacymodel.WordHash(word.String() + url.String())
 }
 
@@ -76,14 +76,14 @@ func seed(hash yacymodel.Hash) yacymodel.Seed {
 	return yacymodel.Seed{Hash: hash}
 }
 
-const postingOfferPlannerRedundancy = 1
+const postingReplicationReaderRedundancy = 1
 
-func openPostingOfferPlanner(
+func openPostingReplicationReader(
 	t *testing.T,
 	now func() time.Time,
 	postings map[yacymodel.Hash]yacymodel.RWIPosting,
 	responsible []yacymodel.Seed,
-) (*postingOfferSchedule, *replicaLedger, *postingOfferPlanner, *fakePostingOfferCycleObserver) {
+) (*postingOfferSchedule, *replicaLedger, *postingReplicationReader) {
 	t.Helper()
 
 	v, err := memvault.Open(0)
@@ -109,28 +109,26 @@ func openPostingOfferPlanner(
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
 
-	observer := newFakePostingOfferCycleObserver()
-	planner := &postingOfferPlanner{
+	reader := &postingReplicationReader{
 		schedule:   schedule,
 		ledger:     ledger,
 		postings:   fakePostingIndex{postings: postings},
 		roster:     fakeRoster{responsible: responsible, reachable: responsible},
-		observer:   observer,
 		partitions: partitions,
-		redundancy: postingOfferPlannerRedundancy,
+		redundancy: postingReplicationReaderRedundancy,
 	}
 
-	return schedule, ledger, planner, observer
+	return schedule, ledger, reader
 }
 
-func TestPlanOffersDuePostingToResponsiblePeers(t *testing.T) {
+func TestDueReplicationReturnsMissingCopyForDuePosting(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		postingIdentity(word, url): fakePosting(word, url),
+		fakePostingKey(word, url): fakePosting(word, url),
 	}
-	schedule, _, planner, _ := openPostingOfferPlanner(
+	schedule, _, reader := openPostingReplicationReader(
 		t,
 		func() time.Time { return now },
 		postings,
@@ -141,27 +139,28 @@ func TestPlanOffersDuePostingToResponsiblePeers(t *testing.T) {
 		t.Fatalf("Reschedule: %v", err)
 	}
 
-	plan, err := planner.Plan(context.Background(), 10)
+	due, err := reader.DueReplication(context.Background(), 10)
 	if err != nil {
-		t.Fatalf("Plan: %v", err)
+		t.Fatalf("DueReplication: %v", err)
 	}
-	if len(plan.Offers) != 1 || plan.Offers[0].Peer.Hash != peer ||
-		len(plan.Offers[0].Postings) != 1 {
-		t.Fatalf("plan.Offers = %+v, want one offer to %v", plan.Offers, peer)
+	if len(due.Postings) != 1 || len(due.Gone) != 0 {
+		t.Fatalf("due = %+v, want a single posting and no gone entries", due)
 	}
-	if len(plan.Replicated) != 0 || len(plan.Unoffered) != 0 {
-		t.Fatalf("plan = %+v, want no replicated or unoffered entries", plan)
+	replication := due.Postings[0]
+	if replication.CopiesNeeded != 1 || len(replication.SeedsMissingCopy) != 1 ||
+		replication.SeedsMissingCopy[0].Hash != peer {
+		t.Fatalf("replication = %+v, want one copy needed from %v", replication, peer)
 	}
 }
 
-func TestPlanSkipsFullyReplicatedPosting(t *testing.T) {
+func TestDueReplicationReportsNoCopiesNeededWhenReplicated(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		postingIdentity(word, url): fakePosting(word, url),
+		fakePostingKey(word, url): fakePosting(word, url),
 	}
-	schedule, ledger, planner, _ := openPostingOfferPlanner(
+	schedule, ledger, reader := openPostingReplicationReader(
 		t,
 		func() time.Time { return now },
 		postings,
@@ -171,29 +170,33 @@ func TestPlanSkipsFullyReplicatedPosting(t *testing.T) {
 	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
 		t.Fatalf("Reschedule: %v", err)
 	}
-	if err := ledger.RecordAccepted(context.Background(), word, url, peer); err != nil {
+	if err := ledger.RecordAccepted(
+		context.Background(),
+		postingOffer{Peer: seed(peer), Postings: []yacymodel.RWIPosting{fakePosting(word, url)}},
+	); err != nil {
 		t.Fatalf("RecordAccepted: %v", err)
 	}
 
-	plan, err := planner.Plan(context.Background(), 10)
+	due, err := reader.DueReplication(context.Background(), 10)
 	if err != nil {
-		t.Fatalf("Plan: %v", err)
+		t.Fatalf("DueReplication: %v", err)
 	}
-	if len(plan.Offers) != 0 {
-		t.Fatalf("plan.Offers = %+v, want none", plan.Offers)
+	if len(due.Postings) != 1 {
+		t.Fatalf("due = %+v, want a single posting", due)
 	}
-	if len(plan.Replicated) != 1 || plan.Replicated[0].Word != word {
-		t.Fatalf("plan.Replicated = %+v, want [word]", plan.Replicated)
+	replication := due.Postings[0]
+	if replication.CopiesNeeded != 0 || len(replication.SeedsMissingCopy) != 0 {
+		t.Fatalf("replication = %+v, want zero copies needed", replication)
 	}
 }
 
-func TestPlanLeavesPostingUnofferedWithNoResponsiblePeers(t *testing.T) {
+func TestDueReplicationLeavesCopiesNeededWithNoResponsiblePeers(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		postingIdentity(word, url): fakePosting(word, url),
+		fakePostingKey(word, url): fakePosting(word, url),
 	}
-	schedule, _, planner, _ := openPostingOfferPlanner(
+	schedule, _, reader := openPostingReplicationReader(
 		t,
 		func() time.Time { return now },
 		postings,
@@ -204,23 +207,27 @@ func TestPlanLeavesPostingUnofferedWithNoResponsiblePeers(t *testing.T) {
 		t.Fatalf("Reschedule: %v", err)
 	}
 
-	plan, err := planner.Plan(context.Background(), 10)
+	due, err := reader.DueReplication(context.Background(), 10)
 	if err != nil {
-		t.Fatalf("Plan: %v", err)
+		t.Fatalf("DueReplication: %v", err)
 	}
-	if len(plan.Offers) != 0 || len(plan.Replicated) != 0 {
-		t.Fatalf("plan = %+v, want only an unoffered entry", plan)
+	if len(due.Postings) != 1 {
+		t.Fatalf("due = %+v, want a single posting", due)
 	}
-	if len(plan.Unoffered) != 1 || plan.Unoffered[0].Word != word {
-		t.Fatalf("plan.Unoffered = %+v, want [word]", plan.Unoffered)
+	replication := due.Postings[0]
+	if replication.CopiesNeeded != 1 || len(replication.SeedsMissingCopy) != 0 {
+		t.Fatalf(
+			"replication = %+v, want one copy needed with no peers to offer it to",
+			replication,
+		)
 	}
 }
 
-func TestPlanSkipsPostingRemovedSinceScheduling(t *testing.T) {
+func TestDueReplicationCollectsGoneForRemovedPosting(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
-	schedule, _, planner, _ := openPostingOfferPlanner(
+	schedule, _, reader := openPostingReplicationReader(
 		t,
 		func() time.Time { return now },
 		nil,
@@ -231,55 +238,23 @@ func TestPlanSkipsPostingRemovedSinceScheduling(t *testing.T) {
 		t.Fatalf("Reschedule: %v", err)
 	}
 
-	plan, err := planner.Plan(context.Background(), 10)
+	due, err := reader.DueReplication(context.Background(), 10)
 	if err != nil {
-		t.Fatalf("Plan: %v", err)
+		t.Fatalf("DueReplication: %v", err)
 	}
-	if len(plan.Offers) != 0 || len(plan.Replicated) != 0 || len(plan.Unoffered) != 0 {
-		t.Fatalf("plan = %+v, want empty plan for a posting missing from the index", plan)
+	if len(due.Postings) != 0 || len(due.Gone) != 1 || due.Gone[0].Word != word {
+		t.Fatalf("due = %+v, want a single gone entry for %v", due, word)
 	}
 }
 
-func TestPlanSkipsCycleWhenTooFewPeersReachable(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		postingIdentity(word, url): fakePosting(word, url),
-	}
-	schedule, _, planner, observer := openPostingOfferPlanner(
-		t,
-		func() time.Time { return now },
-		postings,
-		[]yacymodel.Seed{seed(peer)},
-	)
-	planner.minReachablePeers = 2
-
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
-
-	plan, err := planner.Plan(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("Plan: %v", err)
-	}
-	if len(plan.Offers) != 0 || len(plan.Replicated) != 0 || len(plan.Unoffered) != 0 ||
-		plan.Drained != 0 {
-		t.Fatalf("plan = %+v, want an empty plan while below the reachable-peer floor", plan)
-	}
-	if observer.cyclesSkipped != 1 {
-		t.Fatalf("cyclesSkipped = %v, want 1", observer.cyclesSkipped)
-	}
-}
-
-func TestPlanReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
+func TestDueReplicationReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	stalePeer, fresh := yacymodel.WordHash("stale"), yacymodel.WordHash("fresh")
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		postingIdentity(word, url): fakePosting(word, url),
+		fakePostingKey(word, url): fakePosting(word, url),
 	}
-	schedule, ledger, planner, observer := openPostingOfferPlanner(
+	schedule, ledger, reader := openPostingReplicationReader(
 		t,
 		func() time.Time { return now },
 		postings,
@@ -289,36 +264,42 @@ func TestPlanReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
 	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
 		t.Fatalf("Reschedule: %v", err)
 	}
-	if err := ledger.RecordAccepted(context.Background(), word, url, stalePeer); err != nil {
+	if err := ledger.RecordAccepted(
+		context.Background(),
+		postingOffer{
+			Peer:     seed(stalePeer),
+			Postings: []yacymodel.RWIPosting{fakePosting(word, url)},
+		},
+	); err != nil {
 		t.Fatalf("RecordAccepted: %v", err)
 	}
 
-	plan, err := planner.Plan(context.Background(), 10)
+	due, err := reader.DueReplication(context.Background(), 10)
 	if err != nil {
-		t.Fatalf("Plan: %v", err)
+		t.Fatalf("DueReplication: %v", err)
 	}
-	if len(plan.Offers) != 1 || plan.Offers[0].Peer.Hash != fresh {
+	if len(due.Postings) != 1 {
+		t.Fatalf("due = %+v, want a single posting", due)
+	}
+	replication := due.Postings[0]
+	if len(replication.SeedsMissingCopy) != 1 || replication.SeedsMissingCopy[0].Hash != fresh {
 		t.Fatalf(
-			"plan.Offers = %+v, want an offer to %v regardless of stale peer %v",
-			plan.Offers,
-			fresh,
-			stalePeer,
+			"replication = %+v, want an offer to %v regardless of stale peer %v",
+			replication, fresh, stalePeer,
 		)
 	}
-	if len(plan.StaleReplicas) != 1 || plan.StaleReplicas[0].Posting.Word != word ||
-		plan.StaleReplicas[0].Posting.URL != url || len(plan.StaleReplicas[0].Peers) != 1 ||
-		plan.StaleReplicas[0].Peers[0] != stalePeer {
-		t.Fatalf("plan.StaleReplicas = %+v, want one entry for %v", plan.StaleReplicas, stalePeer)
+	if len(replication.PeerHashesNoLongerResponsible) != 1 ||
+		replication.PeerHashesNoLongerResponsible[0] != stalePeer {
+		t.Fatalf(
+			"replication.PeerHashesNoLongerResponsible = %v, want [%v]",
+			replication.PeerHashesNoLongerResponsible, stalePeer,
+		)
 	}
-	if observer.prunes != 0 {
-		t.Fatalf("prunes = %v, want 0 since Plan must not mutate the ledger", observer.prunes)
-	}
-
 	replicas, err := ledger.Replicas(context.Background(), word, url)
 	if err != nil {
 		t.Fatalf("Replicas: %v", err)
 	}
 	if len(replicas) != 1 || replicas[0] != stalePeer {
-		t.Fatalf("replicas = %v, want [%v] unchanged by Plan", replicas, stalePeer)
+		t.Fatalf("replicas = %v, want [%v] unchanged by DueReplication", replicas, stalePeer)
 	}
 }

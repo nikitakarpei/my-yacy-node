@@ -4,17 +4,17 @@ package rwidistribution
 // operator can tell whether stored postings are reaching their responsible peers.
 type PostingOfferCycleObserver interface {
 	ObservePostingOffer(outcome string, postings int)
-	ObserveScheduleDrain(drained int)
+	ObservePostingsConsidered(considered int)
 	ObserveLedgerPrune(dropped int)
-	ObserveCycleSkipped(reachablePeers int)
+	ObserveCycleSkipped()
 }
 
 type noPostingOfferCycleObserver struct{}
 
 func (noPostingOfferCycleObserver) ObservePostingOffer(string, int) {}
 
-func (noPostingOfferCycleObserver) ObserveScheduleDrain(int) {}
+func (noPostingOfferCycleObserver) ObservePostingsConsidered(int) {}
 
 func (noPostingOfferCycleObserver) ObserveLedgerPrune(int) {}
 
-func (noPostingOfferCycleObserver) ObserveCycleSkipped(int) {}
+func (noPostingOfferCycleObserver) ObserveCycleSkipped() {}

@@ -58,11 +58,7 @@ func (d *Distribution) PostingStored(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) error {
-	if err := d.schedule.PostingStored(tx, word, url); err != nil {
-		return err
-	}
-
-	return d.ledger.PostingStored(tx, word, url)
+	return d.schedule.PostingStored(tx, word, url)
 }
 
 func (d *Distribution) PostingPurged(
@@ -87,15 +83,13 @@ func (d *Distribution) Cycle(
 	cfg Config,
 ) Runner {
 	return &postingOfferCycle{
-		planner: &postingOfferPlanner{
-			schedule:          d.schedule,
-			ledger:            d.ledger,
-			postings:          postings,
-			roster:            roster,
-			observer:          observer,
-			partitions:        cfg.Partitions,
-			redundancy:        cfg.Redundancy,
-			minReachablePeers: cfg.MinReachablePeers,
+		reader: &postingReplicationReader{
+			schedule:   d.schedule,
+			ledger:     d.ledger,
+			postings:   postings,
+			roster:     roster,
+			partitions: cfg.Partitions,
+			redundancy: cfg.Redundancy,
 		},
 		courier: httpPostingCourier{
 			client:      client,
@@ -103,15 +97,18 @@ func (d *Distribution) Cycle(
 			self:        cfg.Self,
 			urls:        urls,
 		},
-		schedule:         d.schedule,
-		ledger:           d.ledger,
-		observer:         observer,
-		now:              d.now,
-		postingsPerCycle: cfg.PostingsPerCycle,
-		cycleInterval:    cfg.CycleInterval,
-		refreshInterval:  cfg.RefreshInterval,
-		retryInterval:    cfg.RetryInterval,
-		redundancy:       cfg.Redundancy,
+		schedule: d.schedule,
+		ledger:   d.ledger,
+		roster:   roster,
+		observer: observer,
+		cadence: postingOfferCadence{
+			refresh: cfg.RefreshInterval,
+			retry:   cfg.RetryInterval,
+		},
+		now:               d.now,
+		postingsPerCycle:  cfg.PostingsPerCycle,
+		cycleInterval:     cfg.CycleInterval,
+		minReachablePeers: cfg.MinReachablePeers,
 	}
 }
 
