@@ -3,25 +3,34 @@ package rwidistribution
 import "time"
 
 type fakePostingOfferCycleObserver struct {
-	offers          map[string]int
-	postingsOffered map[string]int
-	prunes          int
-	due             int
-	gone            int
-	oldestDueAge    time.Duration
-	cyclesSkipped   int
+	offers                map[string]int
+	postingsOffered       map[string]int
+	urlMetadataDeliveries map[string]int
+	urlsDelivered         map[string]int
+	prunes                int
+	due                   int
+	gone                  int
+	oldestDueAge          time.Duration
+	cyclesSkipped         int
 }
 
 func newFakePostingOfferCycleObserver() *fakePostingOfferCycleObserver {
 	return &fakePostingOfferCycleObserver{
-		offers:          make(map[string]int),
-		postingsOffered: make(map[string]int),
+		offers:                make(map[string]int),
+		postingsOffered:       make(map[string]int),
+		urlMetadataDeliveries: make(map[string]int),
+		urlsDelivered:         make(map[string]int),
 	}
 }
 
 func (f *fakePostingOfferCycleObserver) ObservePostingOffer(outcome string, postings int) {
 	f.offers[outcome]++
 	f.postingsOffered[outcome] += postings
+}
+
+func (f *fakePostingOfferCycleObserver) ObserveURLMetadataDelivery(outcome string, urls int) {
+	f.urlMetadataDeliveries[outcome]++
+	f.urlsDelivered[outcome] += urls
 }
 
 func (f *fakePostingOfferCycleObserver) ObservePostingsDue(due int) {

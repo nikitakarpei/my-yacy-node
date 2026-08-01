@@ -73,7 +73,20 @@ func (f fakeRoster) PeersResponsibleFor(
 }
 
 func seed(hash yacymodel.Hash) yacymodel.Seed {
-	return yacymodel.Seed{Hash: hash}
+	host, err := yacymodel.ParseHost("192.0.2.1")
+	if err != nil {
+		panic(err)
+	}
+	port, err := yacymodel.ParsePort("8090")
+	if err != nil {
+		panic(err)
+	}
+
+	return yacymodel.Seed{
+		Hash:           hash,
+		PrimaryAddress: yacymodel.Some(host),
+		Port:           yacymodel.Some(port),
+	}
 }
 
 const postingReplicationReaderRedundancy = 1

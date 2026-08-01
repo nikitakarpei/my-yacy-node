@@ -6,6 +6,7 @@ import "time"
 // operator can tell whether stored postings are reaching their responsible peers.
 type PostingOfferCycleObserver interface {
 	ObservePostingOffer(outcome string, postings int)
+	ObserveURLMetadataDelivery(outcome string, urls int)
 	ObservePostingsDue(due int)
 	ObservePostingsGone(gone int)
 	ObserveOldestDuePostingAge(age time.Duration)
@@ -16,6 +17,8 @@ type PostingOfferCycleObserver interface {
 type noPostingOfferCycleObserver struct{}
 
 func (noPostingOfferCycleObserver) ObservePostingOffer(string, int) {}
+
+func (noPostingOfferCycleObserver) ObserveURLMetadataDelivery(string, int) {}
 
 func (noPostingOfferCycleObserver) ObservePostingsDue(int) {}
 

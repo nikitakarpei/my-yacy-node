@@ -82,6 +82,8 @@ func (d *Distribution) Cycle(
 	observer PostingOfferCycleObserver,
 	cfg Config,
 ) Runner {
+	exchange := peerMessageExchange{client: client}
+
 	return &postingOfferCycle{
 		reader: &postingReplicationReader{
 			schedule:   d.schedule,
@@ -91,12 +93,17 @@ func (d *Distribution) Cycle(
 			partitions: cfg.Partitions,
 			redundancy: cfg.Redundancy,
 		},
-		courier: httpPostingCourier{
-			client:      client,
+		postingCourier: httpPostingCourier{
+			exchange:    exchange,
 			networkName: cfg.NetworkName,
 			self:        cfg.Self,
-			urls:        urls,
 		},
+		urlMetadataCourier: httpURLMetadataCourier{
+			exchange:    exchange,
+			networkName: cfg.NetworkName,
+			self:        cfg.Self,
+		},
+		urls:     urls,
 		schedule: d.schedule,
 		ledger:   d.ledger,
 		roster:   roster,

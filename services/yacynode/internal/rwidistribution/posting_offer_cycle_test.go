@@ -14,13 +14,56 @@ type fakeCourier struct {
 	onOffer  func()
 }
 
-func (f *fakeCourier) Offer(_ context.Context, offer postingOffer) postingOfferReceipt {
+func (f *fakeCourier) Offer(_ context.Context, _ string, offer postingOffer) postingOfferReceipt {
 	f.offered = append(f.offered, offer)
 	if f.onOffer != nil {
 		f.onOffer()
 	}
 
 	return f.receipts[offer.Peer.Hash]
+}
+
+type fakeURLDirectory struct {
+	metadata map[yacymodel.URLHash]yacymodel.URLMetadata
+}
+
+func (f fakeURLDirectory) MetadataByHash(
+	_ context.Context,
+	hashes []yacymodel.URLHash,
+) ([]yacymodel.URLMetadata, error) {
+	found := make([]yacymodel.URLMetadata, 0, len(hashes))
+	for _, hash := range hashes {
+		if entry, ok := f.metadata[hash]; ok {
+			found = append(found, entry)
+		}
+	}
+
+	return found, nil
+}
+
+func (fakeURLDirectory) MissingURLs(
+	context.Context,
+	[]yacymodel.URLHash,
+) ([]yacymodel.URLHash, error) {
+	return nil, nil
+}
+
+func (fakeURLDirectory) Count(context.Context) (int, error) { return 0, nil }
+
+type fakeURLMetadataCourier struct {
+	receipt   urlMetadataReceipt
+	delivered []yacymodel.URLMetadata
+}
+
+func (f *fakeURLMetadataCourier) Deliver(
+	_ context.Context,
+	_ string,
+	_ yacymodel.Hash,
+	metadata []yacymodel.URLMetadata,
+) urlMetadataReceipt {
+	f.delivered = metadata
+
+	return f.receipt
 }
 
 func openPostingOfferCycle(
@@ -36,8 +79,12 @@ func openPostingOfferCycle(
 	observer := newFakePostingOfferCycleObserver()
 
 	cycle := &postingOfferCycle{
-		reader:   reader,
-		courier:  courier,
+		reader:         reader,
+		postingCourier: courier,
+		urlMetadataCourier: &fakeURLMetadataCourier{
+			receipt: urlMetadataReceipt{Outcome: urlMetadataAccepted},
+		},
+		urls:     fakeURLDirectory{},
 		schedule: schedule,
 		ledger:   ledger,
 		roster:   reader.roster,
@@ -94,7 +141,7 @@ func TestPostingOfferCycleSkipsWhenTooFewPeersReachable(t *testing.T) {
 
 	store(t, schedule, word, url)
 
-	cycle.offerOnce(context.Background())
+	cycle.runCycle(context.Background())
 
 	if len(courier.offered) != 0 {
 		t.Fatalf(
@@ -132,7 +179,7 @@ func TestPostingOfferCycleReportsBacklogAgeOnSkippedCycle(t *testing.T) {
 	later := now.Add(90 * time.Second)
 	cycle.now = func() time.Time { return later }
 	schedule.now = cycle.now
-	cycle.offerOnce(context.Background())
+	cycle.runCycle(context.Background())
 
 	if len(courier.offered) != 0 {
 		t.Fatalf("offered = %v, want no offers on a skipped cycle", courier.offered)
@@ -165,7 +212,7 @@ func TestPostingOfferCycleDropsStaleReplicaFromLedger(t *testing.T) {
 		t.Fatalf("RecordAccepted: %v", err)
 	}
 
-	cycle.offerOnce(context.Background())
+	cycle.runCycle(context.Background())
 
 	replicas, err := ledger.Replicas(context.Background(), word, url)
 	if err != nil {
@@ -195,7 +242,7 @@ func TestPostingOfferCycleReschedulesAcceptedPostingAtRefreshInterval(t *testing
 
 	store(t, schedule, word, url)
 
-	cycle.offerOnce(context.Background())
+	cycle.runCycle(context.Background())
 
 	due, err := schedule.DuePostings(context.Background(), 10)
 	if err != nil {
@@ -220,7 +267,7 @@ func TestPostingOfferCycleRetriesRejectedPostingAtRetryInterval(t *testing.T) {
 
 	store(t, schedule, word, url)
 
-	cycle.offerOnce(context.Background())
+	cycle.runCycle(context.Background())
 
 	due, err := schedule.DuePostings(context.Background(), 10)
 	if err != nil {
@@ -258,7 +305,7 @@ func TestPostingOfferCycleHonoursCourierRetryAfter(t *testing.T) {
 
 	store(t, schedule, word, url)
 
-	cycle.offerOnce(context.Background())
+	cycle.runCycle(context.Background())
 
 	afterCycleRetry := now.Add(cycle.cadence.retry + time.Second)
 	schedule.now = func() time.Time { return afterCycleRetry }
@@ -296,7 +343,7 @@ func TestPostingOfferCycleReschedulesUnofferedPostingAtRetryInterval(t *testing.
 
 	store(t, schedule, word, url)
 
-	cycle.offerOnce(context.Background())
+	cycle.runCycle(context.Background())
 
 	if len(courier.offered) != 0 {
 		t.Fatalf("offered = %v, want no offers for an unoffered posting", courier.offered)
@@ -340,7 +387,7 @@ func TestPostingOfferCycleReschedulesAlreadySatisfiedPostingAtRefreshInterval(t 
 		t.Fatalf("RecordAccepted: %v", err)
 	}
 
-	cycle.offerOnce(context.Background())
+	cycle.runCycle(context.Background())
 
 	if len(courier.offered) != 0 {
 		t.Fatalf("offered = %v, want no offers for an already replicated posting", courier.offered)
@@ -371,7 +418,7 @@ func TestPostingOfferCycleRecordsReplicaOnAcceptedOffer(t *testing.T) {
 
 	store(t, schedule, word, url)
 
-	cycle.offerOnce(context.Background())
+	cycle.runCycle(context.Background())
 
 	replicas, err := ledger.Replicas(context.Background(), word, url)
 	if err != nil {
@@ -413,7 +460,7 @@ func TestPostingOfferCycleReschedulesAtMaxRetryAfterAcrossPeers(t *testing.T) {
 
 	store(t, schedule, word, url)
 
-	cycle.offerOnce(context.Background())
+	cycle.runCycle(context.Background())
 
 	afterShorterPause := now.Add(time.Minute + time.Second)
 	schedule.now = func() time.Time { return afterShorterPause }
@@ -446,7 +493,7 @@ func TestPostingOfferCycleCountsGonePostingSeparatelyFromDue(t *testing.T) {
 
 	store(t, schedule, word, url)
 
-	cycle.offerOnce(context.Background())
+	cycle.runCycle(context.Background())
 
 	if observer.due != 0 || observer.gone != 1 {
 		t.Fatalf("due = %v, gone = %v, want 0 due and 1 gone", observer.due, observer.gone)
@@ -470,7 +517,7 @@ func TestPostingOfferCycleRecordsNoReplicaOnRefusedOffer(t *testing.T) {
 
 	store(t, schedule, word, url)
 
-	cycle.offerOnce(context.Background())
+	cycle.runCycle(context.Background())
 
 	replicas, err := ledger.Replicas(context.Background(), word, url)
 	if err != nil {
@@ -483,6 +530,95 @@ func TestPostingOfferCycleRecordsNoReplicaOnRefusedOffer(t *testing.T) {
 		t.Fatalf(
 			"observed offers = %+v, want 1 posting for outcome %q",
 			observer.postingsOffered, postingOfferRefused,
+		)
+	}
+}
+
+func TestPostingOfferCycleReportsUnaddressablePeer(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	unaddressable := yacymodel.Seed{Hash: peer}
+	schedule, ledger, courier, observer, cycle := openPostingOfferCycle(
+		t, func() time.Time { return now }, postings, []yacymodel.Seed{unaddressable},
+	)
+
+	store(t, schedule, word, url)
+
+	cycle.runCycle(context.Background())
+
+	if len(courier.offered) != 0 {
+		t.Fatalf("offered = %v, want no offer sent to an unaddressable peer", courier.offered)
+	}
+	if observer.postingsOffered[string(postingOfferUnaddressable)] != 1 {
+		t.Fatalf(
+			"observed offers = %+v, want 1 posting for outcome %q",
+			observer.postingsOffered, postingOfferUnaddressable,
+		)
+	}
+	replicas, err := ledger.Replicas(context.Background(), word, url)
+	if err != nil {
+		t.Fatalf("Replicas: %v", err)
+	}
+	if len(replicas) != 0 {
+		t.Fatalf("replicas = %v, want none for an unaddressable peer", replicas)
+	}
+}
+
+func TestPostingOfferCycleExcludesPostingWhenURLMetadataDeliveryFails(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	schedule, ledger, courier, observer, cycle := openPostingOfferCycle(
+		t, func() time.Time { return now }, postings, []yacymodel.Seed{seed(peer)},
+	)
+	courier.receipts[peer] = postingOfferReceipt{
+		Outcome:           postingOfferAccepted,
+		URLsUnknownToPeer: []yacymodel.URLHash{url},
+	}
+	cycle.urls = fakeURLDirectory{
+		metadata: map[yacymodel.URLHash]yacymodel.URLMetadata{
+			url: {Address: "http://example.com/u1"},
+		},
+	}
+	cycle.urlMetadataCourier = &fakeURLMetadataCourier{
+		receipt: urlMetadataReceipt{Outcome: urlMetadataDeferred},
+	}
+
+	store(t, schedule, word, url)
+
+	cycle.runCycle(context.Background())
+
+	replicas, err := ledger.Replicas(context.Background(), word, url)
+	if err != nil {
+		t.Fatalf("Replicas: %v", err)
+	}
+	if len(replicas) != 0 {
+		t.Fatalf("replicas = %v, want none recorded when url metadata delivery fails", replicas)
+	}
+	if observer.urlMetadataDeliveries[string(urlMetadataDeferred)] != 1 {
+		t.Fatalf(
+			"observed url metadata deliveries = %+v, want 1 for outcome %q",
+			observer.urlMetadataDeliveries, urlMetadataDeferred,
+		)
+	}
+
+	future := now.Add(cycle.cadence.retry + time.Second)
+	schedule.now = func() time.Time { return future }
+	due, err := schedule.DuePostings(context.Background(), 10)
+	if err != nil {
+		t.Fatalf("DuePostings: %v", err)
+	}
+	if len(due) != 1 || due[0].Word != word {
+		t.Fatalf(
+			"due = %v, want [word] retried after a failed url metadata delivery",
+			due,
 		)
 	}
 }
