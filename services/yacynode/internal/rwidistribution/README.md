@@ -21,6 +21,14 @@ found responsible, or a peer asked to be retried later — becomes due again
 after a retry interval or the peer's own requested delay, whichever is
 later.
 
+A peer accepts a posting in two steps. It first accepts the posting itself
+and names any URL it does not recognize; this node then sends metadata for
+those URLs. A posting counts toward redundancy only once both steps reach
+the peer. If the peer already knows every URL, or the metadata step
+succeeds, the posting counts immediately. If the metadata step fails, the
+posting is treated as not replicated and is offered again at the retry
+interval.
+
 If a peer that previously accepted a posting later leaves the network or is
 no longer responsible for it, that acceptance no longer counts, and the
 posting becomes eligible for offering again until redundancy is restored.

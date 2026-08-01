@@ -9,20 +9,22 @@ import (
 const labelOutcome = "result"
 
 type DistributionMetrics struct {
-	offerRequests       *prometheus.CounterVec
-	postingsOffered     *prometheus.CounterVec
-	postingsDue         prometheus.Counter
-	postingsGone        prometheus.Counter
-	oldestDuePostingAge prometheus.Gauge
-	ledgerPrunes        prometheus.Counter
-	cyclesSkipped       prometheus.Counter
+	postingOffers         *prometheus.CounterVec
+	postingsOffered       *prometheus.CounterVec
+	urlMetadataDeliveries *prometheus.CounterVec
+	urlsDelivered         *prometheus.CounterVec
+	postingsDue           prometheus.Counter
+	postingsGone          prometheus.Counter
+	oldestDuePostingAge   prometheus.Gauge
+	ledgerPrunes          prometheus.Counter
+	cyclesSkipped         prometheus.Counter
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
-	offerRequests := prometheus.NewCounterVec(
+	postingOffers := prometheus.NewCounterVec(
 		prometheus.CounterOpts{
-			Name: "rwidistribution_offer_requests_total",
-			Help: "Offer requests sent to peers, by offer outcome.",
+			Name: "rwidistribution_posting_offers_sent_total",
+			Help: "Posting offers sent to peers, by offer outcome.",
 		},
 		[]string{labelOutcome},
 	)
@@ -30,6 +32,20 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		prometheus.CounterOpts{
 			Name: "rwidistribution_postings_offered_total",
 			Help: "RWI postings offered to peers, by offer outcome.",
+		},
+		[]string{labelOutcome},
+	)
+	urlMetadataDeliveries := prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "rwidistribution_url_metadata_deliveries_total",
+			Help: "URL metadata deliveries sent to peers, by delivery outcome.",
+		},
+		[]string{labelOutcome},
+	)
+	urlsDelivered := prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "rwidistribution_urls_delivered_total",
+			Help: "URLs delivered to peers as metadata, by delivery outcome.",
 		},
 		[]string{labelOutcome},
 	)
@@ -54,24 +70,31 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		Help: "Distribution cycles skipped because too few peers were reachable.",
 	})
 	registry.MustRegister(
-		offerRequests, postingsOffered, postingsDue, postingsGone,
-		oldestDuePostingAge, ledgerPrunes, cyclesSkipped,
+		postingOffers, postingsOffered, urlMetadataDeliveries, urlsDelivered,
+		postingsDue, postingsGone, oldestDuePostingAge, ledgerPrunes, cyclesSkipped,
 	)
 
 	return &DistributionMetrics{
-		offerRequests:       offerRequests,
-		postingsOffered:     postingsOffered,
-		postingsDue:         postingsDue,
-		postingsGone:        postingsGone,
-		oldestDuePostingAge: oldestDuePostingAge,
-		ledgerPrunes:        ledgerPrunes,
-		cyclesSkipped:       cyclesSkipped,
+		postingOffers:         postingOffers,
+		postingsOffered:       postingsOffered,
+		urlMetadataDeliveries: urlMetadataDeliveries,
+		urlsDelivered:         urlsDelivered,
+		postingsDue:           postingsDue,
+		postingsGone:          postingsGone,
+		oldestDuePostingAge:   oldestDuePostingAge,
+		ledgerPrunes:          ledgerPrunes,
+		cyclesSkipped:         cyclesSkipped,
 	}
 }
 
 func (d *DistributionMetrics) ObservePostingOffer(outcome string, postings int) {
-	d.offerRequests.WithLabelValues(outcome).Inc()
+	d.postingOffers.WithLabelValues(outcome).Inc()
 	d.postingsOffered.WithLabelValues(outcome).Add(float64(postings))
+}
+
+func (d *DistributionMetrics) ObserveURLMetadataDelivery(outcome string, urls int) {
+	d.urlMetadataDeliveries.WithLabelValues(outcome).Inc()
+	d.urlsDelivered.WithLabelValues(outcome).Add(float64(urls))
 }
 
 func (d *DistributionMetrics) ObservePostingsDue(due int) {

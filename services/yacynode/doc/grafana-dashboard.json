@@ -792,7 +792,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "sum by (result) (rate(rwidistribution_offer_requests_total[5m]))",
+          "expr": "sum by (result) (rate(rwidistribution_posting_offers_sent_total[5m]))",
           "legendFormat": "{{result}}"
         }
       ]
@@ -833,7 +833,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "sum(rate(rwidistribution_offer_requests_total{result=\"accepted\"}[5m])) / sum(rate(rwidistribution_offer_requests_total[5m]))",
+          "expr": "sum(rate(rwidistribution_posting_offers_sent_total{result=\"accepted\"}[5m])) / sum(rate(rwidistribution_posting_offers_sent_total[5m]))",
           "legendFormat": "accepted"
         }
       ]

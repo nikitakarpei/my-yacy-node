@@ -15,14 +15,36 @@ func TestDistributionCountsOffersByResult(t *testing.T) {
 	observer.ObservePostingOffer("ok", 2)
 	observer.ObservePostingOffer("busy", 1)
 
-	if got := testutil.ToFloat64(observer.offerRequests.WithLabelValues("ok")); got != 2 {
-		t.Errorf("ok offer requests = %v, want 2", got)
+	if got := testutil.ToFloat64(observer.postingOffers.WithLabelValues("ok")); got != 2 {
+		t.Errorf("ok posting offers = %v, want 2", got)
 	}
 	if got := testutil.ToFloat64(observer.postingsOffered.WithLabelValues("ok")); got != 5 {
 		t.Errorf("ok postings = %v, want 5", got)
 	}
-	if got := testutil.ToFloat64(observer.offerRequests.WithLabelValues("busy")); got != 1 {
-		t.Errorf("busy offer requests = %v, want 1", got)
+	if got := testutil.ToFloat64(observer.postingOffers.WithLabelValues("busy")); got != 1 {
+		t.Errorf("busy posting offers = %v, want 1", got)
+	}
+}
+
+func TestDistributionCountsURLMetadataDeliveriesByResult(t *testing.T) {
+	observer := NewDistributionMetrics(prometheus.NewRegistry())
+
+	observer.ObserveURLMetadataDelivery("accepted", 3)
+	observer.ObserveURLMetadataDelivery("accepted", 2)
+	observer.ObserveURLMetadataDelivery("deferred", 1)
+
+	if got := testutil.ToFloat64(
+		observer.urlMetadataDeliveries.WithLabelValues("accepted"),
+	); got != 2 {
+		t.Errorf("accepted url metadata deliveries = %v, want 2", got)
+	}
+	if got := testutil.ToFloat64(observer.urlsDelivered.WithLabelValues("accepted")); got != 5 {
+		t.Errorf("accepted urls delivered = %v, want 5", got)
+	}
+	if got := testutil.ToFloat64(
+		observer.urlMetadataDeliveries.WithLabelValues("deferred"),
+	); got != 1 {
+		t.Errorf("deferred url metadata deliveries = %v, want 1", got)
 	}
 }
 
