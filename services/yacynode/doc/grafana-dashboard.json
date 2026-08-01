@@ -665,7 +665,8 @@
     },
     {
       "id": 51,
-      "title": "Offer requests by result",
+      "title": "Posting offers sent, by outcome",
+      "description": "This panel shows posting offers sent to peers per second, grouped by outcome.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -691,7 +692,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "ok"
+              "options": "accepted"
             },
             "properties": [
               {
@@ -706,7 +707,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "busy"
+              "options": "deferred"
             },
             "properties": [
               {
@@ -721,22 +722,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "not_granted"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "yellow"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "too high load"
+              "options": "overloaded"
             },
             "properties": [
               {
@@ -744,6 +730,21 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "refused"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
                 }
               }
             ]
@@ -766,7 +767,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "error"
+              "options": "unaddressable"
             },
             "properties": [
               {
@@ -799,7 +800,8 @@
     },
     {
       "id": 52,
-      "title": "Offer acceptance rate",
+      "title": "Posting offer acceptance rate",
+      "description": "This panel shows the share of posting offers that peers accept.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -840,7 +842,8 @@
     },
     {
       "id": 53,
-      "title": "Postings offered by result",
+      "title": "Postings offered, by outcome",
+      "description": "This panel shows postings sent to peers per second, grouped by the outcome of the offer that carried them.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -866,7 +869,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "ok"
+              "options": "accepted"
             },
             "properties": [
               {
@@ -881,7 +884,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "busy"
+              "options": "deferred"
             },
             "properties": [
               {
@@ -896,22 +899,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "not_granted"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "yellow"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "too high load"
+              "options": "overloaded"
             },
             "properties": [
               {
@@ -919,6 +907,21 @@
                 "value": {
                   "mode": "fixed",
                   "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "refused"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
                 }
               }
             ]
@@ -941,7 +944,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "error"
+              "options": "unaddressable"
             },
             "properties": [
               {
@@ -974,7 +977,248 @@
     },
     {
       "id": 54,
-      "title": "Postings drained from schedule",
+      "title": "URL metadata deliveries sent, by outcome",
+      "description": "This panel shows URL metadata delivery requests sent to peers per second, grouped by outcome.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 57
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ops",
+          "custom": {
+            "fillOpacity": 15,
+            "stacking": {
+              "mode": "normal"
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "accepted"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "deferred"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "yellow"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "refused"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "unreachable"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "unavailable"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-red"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum by (result) (rate(rwidistribution_url_metadata_deliveries_total[5m]))",
+          "legendFormat": "{{result}}"
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "title": "URLs delivered as metadata, by outcome",
+      "description": "This panel shows URLs delivered to peers as metadata per second, grouped by the outcome of the delivery that carried them.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 65
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cps",
+          "custom": {
+            "fillOpacity": 15,
+            "stacking": {
+              "mode": "normal"
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "accepted"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "deferred"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "yellow"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "refused"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "unreachable"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "unavailable"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-red"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum by (result) (rate(rwidistribution_urls_delivered_total[5m]))",
+          "legendFormat": "{{result}}"
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "title": "Oldest due posting age",
+      "description": "This panel shows how long the oldest posting has waited for an offer.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -984,7 +1228,47 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 57
+        "y": 65
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "rwidistribution_oldest_due_posting_age_seconds",
+          "legendFormat": "oldest due"
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "title": "Postings due and gone",
+      "description": "This panel shows postings entering the offer queue and postings dropped from it because they no longer exist, both per second.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 65
       },
       "fieldConfig": {
         "defaults": {
@@ -1006,15 +1290,24 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(rwidistribution_schedule_drained_total[5m])",
-          "legendFormat": "drained"
+          "expr": "rate(rwidistribution_postings_due_total[5m])",
+          "legendFormat": "due"
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "rate(rwidistribution_postings_gone_total[5m])",
+          "legendFormat": "gone"
         }
       ]
     },
     {
-      "id": 55,
+      "id": 58,
       "title": "Replica ledger entries dropped",
-      "description": "Replica ledger entries dropped per second because the peer is no longer responsible for the posting.",
+      "description": "This panel shows replica ledger entries dropped per second because the peer is no longer responsible for the posting.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1022,9 +1315,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 18,
-        "y": 57
+        "w": 12,
+        "x": 0,
+        "y": 73
       },
       "fieldConfig": {
         "defaults": {
@@ -1052,9 +1345,9 @@
       ]
     },
     {
-      "id": 56,
+      "id": 59,
       "title": "Distribution cycles skipped",
-      "description": "This panel shows how often the node skips offering postings because it does not know enough reachable peers yet.",
+      "description": "This panel shows how often the node skips a distribution cycle because too few peers are reachable.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1062,9 +1355,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 0,
-        "y": 65
+        "w": 12,
+        "x": 12,
+        "y": 73
       },
       "fieldConfig": {
         "defaults": {
