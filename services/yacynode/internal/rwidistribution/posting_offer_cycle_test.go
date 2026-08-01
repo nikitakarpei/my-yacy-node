@@ -79,20 +79,29 @@ func openPostingOfferCycle(
 	observer := newFakePostingOfferCycleObserver()
 
 	cycle := &postingOfferCycle{
-		reader:         reader,
-		postingCourier: courier,
-		urlMetadataCourier: &fakeURLMetadataCourier{
-			receipt: urlMetadataReceipt{Outcome: urlMetadataAccepted},
+		reader: reader,
+		delivery: &postingOfferDelivery{
+			postingCourier: courier,
+			urlMetadataCourier: &fakeURLMetadataCourier{
+				receipt: urlMetadataReceipt{Outcome: urlMetadataAccepted},
+			},
+			urls:     fakeURLDirectory{},
+			observer: observer,
 		},
-		urls:     fakeURLDirectory{},
-		schedule: schedule,
-		ledger:   ledger,
-		roster:   reader.roster,
-		observer: observer,
-		cadence: postingOfferCadence{
-			refresh: time.Hour,
-			retry:   time.Minute,
+		settlement: &postingOfferSettlement{
+			ledger:   ledger,
+			schedule: schedule,
+			cadence: postingOfferCadence{
+				refresh: time.Hour,
+				retry:   time.Minute,
+			},
+			observer:   observer,
+			now:        now,
+			redundancy: postingReplicationReaderRedundancy,
 		},
+		schedule:         schedule,
+		roster:           reader.roster,
+		observer:         observer,
 		now:              now,
 		postingsPerCycle: 10,
 		cycleInterval:    time.Minute,
@@ -277,7 +286,7 @@ func TestPostingOfferCycleRetriesRejectedPostingAtRetryInterval(t *testing.T) {
 		t.Fatalf("due = %v, want none due immediately after a rejected offer", due)
 	}
 
-	future := now.Add(cycle.cadence.retry + time.Second)
+	future := now.Add(cycle.settlement.cadence.retry + time.Second)
 	schedule.now = func() time.Time { return future }
 	due, err = schedule.DuePostings(context.Background(), 10)
 	if err != nil {
@@ -307,7 +316,7 @@ func TestPostingOfferCycleHonoursCourierRetryAfter(t *testing.T) {
 
 	cycle.runCycle(context.Background())
 
-	afterCycleRetry := now.Add(cycle.cadence.retry + time.Second)
+	afterCycleRetry := now.Add(cycle.settlement.cadence.retry + time.Second)
 	schedule.now = func() time.Time { return afterCycleRetry }
 	due, err := schedule.DuePostings(context.Background(), 10)
 	if err != nil {
@@ -357,7 +366,7 @@ func TestPostingOfferCycleReschedulesUnofferedPostingAtRetryInterval(t *testing.
 		t.Fatalf("due = %v, want none due immediately after stalling", due)
 	}
 
-	future := now.Add(cycle.cadence.retry + time.Second)
+	future := now.Add(cycle.settlement.cadence.retry + time.Second)
 	schedule.now = func() time.Time { return future }
 	due, err = schedule.DuePostings(context.Background(), 10)
 	if err != nil {
@@ -393,7 +402,7 @@ func TestPostingOfferCycleReschedulesAlreadySatisfiedPostingAtRefreshInterval(t 
 		t.Fatalf("offered = %v, want no offers for an already replicated posting", courier.offered)
 	}
 
-	future := now.Add(cycle.cadence.refresh - time.Second)
+	future := now.Add(cycle.settlement.cadence.refresh - time.Second)
 	schedule.now = func() time.Time { return future }
 	due, err := schedule.DuePostings(context.Background(), 10)
 	if err != nil {
@@ -449,6 +458,7 @@ func TestPostingOfferCycleReschedulesAtMaxRetryAfterAcrossPeers(t *testing.T) {
 		[]yacymodel.Seed{seed(peerA), seed(peerB)},
 	)
 	cycle.reader.redundancy = 2
+	cycle.settlement.redundancy = 2
 	courier.receipts[peerA] = postingOfferReceipt{
 		Outcome:    postingOfferDeferred,
 		RetryAfter: time.Minute,
@@ -582,12 +592,12 @@ func TestPostingOfferCycleExcludesPostingWhenURLMetadataDeliveryFails(t *testing
 		Outcome:           postingOfferAccepted,
 		URLsUnknownToPeer: []yacymodel.URLHash{url},
 	}
-	cycle.urls = fakeURLDirectory{
+	cycle.delivery.urls = fakeURLDirectory{
 		metadata: map[yacymodel.URLHash]yacymodel.URLMetadata{
 			url: {Address: "http://example.com/u1"},
 		},
 	}
-	cycle.urlMetadataCourier = &fakeURLMetadataCourier{
+	cycle.delivery.urlMetadataCourier = &fakeURLMetadataCourier{
 		receipt: urlMetadataReceipt{Outcome: urlMetadataDeferred},
 	}
 
@@ -609,7 +619,7 @@ func TestPostingOfferCycleExcludesPostingWhenURLMetadataDeliveryFails(t *testing
 		)
 	}
 
-	future := now.Add(cycle.cadence.retry + time.Second)
+	future := now.Add(cycle.settlement.cadence.retry + time.Second)
 	schedule.now = func() time.Time { return future }
 	due, err := schedule.DuePostings(context.Background(), 10)
 	if err != nil {
