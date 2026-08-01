@@ -156,8 +156,16 @@ func TestSeedWireRoundTrip(t *testing.T) {
 	}
 }
 
-func TestSeedWireRejectsUnknownKey(t *testing.T) {
-	framed := seedWireForm{
+func TestSeedWireIgnoresUnknownKey(t *testing.T) {
+	base := seedWireForm{
+		properties: map[string]string{
+			seedColHash:     "MNOPQRSTUVWX",
+			seedColName:     "example-peer",
+			seedColPeerType: yacymodel.PeerSenior.String(),
+		},
+		columns: []string{seedColHash, seedColName, seedColPeerType},
+	}
+	withUnknown := seedWireForm{
 		properties: map[string]string{
 			seedColHash:     "MNOPQRSTUVWX",
 			seedColName:     "example-peer",
@@ -165,6 +173,30 @@ func TestSeedWireRejectsUnknownKey(t *testing.T) {
 			"Country":       "de",
 		},
 		columns: []string{seedColHash, seedColName, seedColPeerType, "Country"},
+	}
+
+	want, err := ParseSeed(context.Background(), base.framed())
+	if err != nil {
+		t.Fatalf("ParseSeed(base): %v", err)
+	}
+	got, err := ParseSeed(context.Background(), withUnknown.framed())
+	if err != nil {
+		t.Fatalf("ParseSeed(withUnknown): %v", err)
+	}
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("ParseSeed with unknown key = %+v, want %+v", got, want)
+	}
+}
+
+func TestSeedWireRejectsOversizedForm(t *testing.T) {
+	framed := seedWireForm{
+		properties: map[string]string{
+			seedColHash:     "MNOPQRSTUVWX",
+			seedColName:     "example-peer",
+			seedColPeerType: yacymodel.PeerSenior.String(),
+			seedColTags:     strings.Repeat("x", seedMaxPlainBytes),
+		},
+		columns: []string{seedColHash, seedColName, seedColPeerType, seedColTags},
 	}.framed()
 
 	_, err := ParseSeed(context.Background(), framed)

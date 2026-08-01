@@ -17,6 +17,10 @@ const (
 	wireFrameBase64 = 'b'
 	wireFrameGzip   = 'z'
 	wireFrameSep    = '|'
+
+	// wireFormMaxPlainBytes bounds gzip inflation, independent of any
+	// format-specific size check.
+	wireFormMaxPlainBytes = 1 << 20
 )
 
 var errBadWireFrame = errors.New("bad wire frame")
@@ -72,9 +76,14 @@ func gzipDecompress(ctx context.Context, b []byte) (string, error) {
 			)
 		}
 	}()
-	out, err := io.ReadAll(r)
+	out, err := io.ReadAll(io.LimitReader(r, wireFormMaxPlainBytes+1))
 	if err != nil {
 		return "", fmt.Errorf("gzip read: %w", err)
+	}
+	if len(out) > wireFormMaxPlainBytes {
+		return "", fmt.Errorf(
+			"%w: gzip payload exceeds %d bytes", errBadWireFrame, wireFormMaxPlainBytes,
+		)
 	}
 	return string(out), nil
 }

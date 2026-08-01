@@ -49,6 +49,10 @@ const (
 	seedAddressSeparator = "|"
 	seedSolrAvailableYes = "OK"
 	seedSolrAvailableNo  = "NA"
+
+	// seedMaxPlainBytes bounds a decoded seed so a dropped unknown key can't
+	// turn it into unbounded storage.
+	seedMaxPlainBytes = 4096
 )
 
 var seedColumns = map[string]bool{
@@ -76,6 +80,11 @@ func (c seedWireCodec) decode(ctx context.Context, framed string) (yacymodel.See
 	if err != nil {
 		return yacymodel.Seed{}, fmt.Errorf("%w: %w", yacymodel.ErrBadSeed, err)
 	}
+	if len(plain) > seedMaxPlainBytes {
+		return yacymodel.Seed{}, fmt.Errorf(
+			"%w: seed %d bytes exceeds %d", yacymodel.ErrBadSeed, len(plain), seedMaxPlainBytes,
+		)
+	}
 
 	if open := strings.IndexByte(plain, propertyOpen); open >= 0 {
 		plain = plain[open+1:]
@@ -90,7 +99,7 @@ func (c seedWireCodec) decode(ctx context.Context, framed string) (yacymodel.See
 	}
 	for key := range properties {
 		if !seedColumns[key] {
-			return yacymodel.Seed{}, fmt.Errorf("%w: unknown key %q", yacymodel.ErrBadSeed, key)
+			delete(properties, key)
 		}
 	}
 
