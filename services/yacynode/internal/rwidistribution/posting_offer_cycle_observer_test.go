@@ -15,9 +15,9 @@ func newFakePostingOfferCycleObserver() *fakePostingOfferCycleObserver {
 	}
 }
 
-func (f *fakePostingOfferCycleObserver) ObservePostingOffer(result string, postings int) {
-	f.offers[result]++
-	f.postingsOffered[result] += postings
+func (f *fakePostingOfferCycleObserver) ObservePostingOffer(outcome string, postings int) {
+	f.offers[outcome]++
+	f.postingsOffered[outcome] += postings
 }
 
 func (f *fakePostingOfferCycleObserver) ObserveScheduleDrain(drained int) {
