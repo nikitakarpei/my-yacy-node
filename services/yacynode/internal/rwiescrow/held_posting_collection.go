@@ -15,6 +15,8 @@ const (
 
 const heldAtDigits = 20
 
+const heldPostingBytes = 256
+
 type postingIdentity struct {
 	Word yacymodel.Hash
 	URL  yacymodel.URLHash

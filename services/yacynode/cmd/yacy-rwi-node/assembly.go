@@ -25,7 +25,7 @@ import (
 type node struct {
 	peerMux      *http.ServeMux
 	sweeper      eviction.Sweeper
-	escrow       rwiescrow.PostingExpiry
+	escrow       *rwiescrow.HeldPostings
 	announcer    peerannouncement.Announcer
 	distribution rwidistribution.Runner
 	crawl        *crawlRuntime

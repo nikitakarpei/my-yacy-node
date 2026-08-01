@@ -34,9 +34,9 @@ Release is per posting. `rwiescrow` observes URL metadata arrivals, so a held po
 inside the transaction that stores its URL metadata. A background loop drops postings held longer than
 five minutes, and drains every expired posting before it waits for its next tick.
 
-The escrow holds a fixed number of postings. Eviction cannot reclaim a held posting, because it selects
-from the URL metadata staleness order, so the escrow needs its own bound. A posting that arrives at the
-capacity is dropped.
+Eviction cannot reclaim a held posting, because it selects from the URL metadata staleness order, so the
+escrow needs its own bound. The escrow holds the postings that fit in a fixed fraction of the storage
+quota. A posting that arrives at the capacity is dropped.
 
 `rwiadmission` owns the routing decision. It asks the URL directory which URLs are unknown, holds the
 postings that name them, and admits the rest. The receipt still names the unknown URLs.

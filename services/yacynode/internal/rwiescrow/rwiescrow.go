@@ -43,7 +43,7 @@ func Open(
 	v *vault.Vault,
 	admitter rwipostings.PostingAdmitter,
 	observer HoldObserver,
-	capacity int,
+	quotaFraction float64,
 	now func() time.Time,
 ) (*HeldPostings, error) {
 	held, expiry, err := registerHeldPostings(v)
@@ -57,7 +57,15 @@ func Open(
 		expiry:   expiry,
 		admitter: admitter,
 		observer: observer,
-		capacity: capacity,
+		capacity: capacityWithin(v.QuotaBytes(), quotaFraction),
 		now:      now,
 	}, nil
+}
+
+func capacityWithin(quota int64, fraction float64) int {
+	if quota <= 0 || fraction <= 0 {
+		return 0
+	}
+
+	return int(float64(quota) * fraction / heldPostingBytes)
 }

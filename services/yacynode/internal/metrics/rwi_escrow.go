@@ -1,8 +1,15 @@
 package metrics
 
 import (
+	"context"
+
 	"github.com/prometheus/client_golang/prometheus"
 )
+
+type EscrowCapacity interface {
+	Capacity() int
+	Count(context.Context) (int, error)
+}
 
 type RWIEscrowMetrics struct {
 	held     prometheus.Counter
@@ -64,4 +71,39 @@ func (m *RWIEscrowMetrics) ObserveExpired(postings int) {
 
 func (m *RWIEscrowMetrics) ObserveExpiryFailure() {
 	m.failures.Inc()
+}
+
+type RWIEscrowCapacityMetrics struct {
+	capacity prometheus.GaugeFunc
+	held     prometheus.GaugeFunc
+}
+
+func NewRWIEscrowCapacityMetrics(
+	registry prometheus.Registerer,
+	escrow EscrowCapacity,
+) *RWIEscrowCapacityMetrics {
+	capacity := prometheus.NewGaugeFunc(
+		prometheus.GaugeOpts{
+			Name: "rwiescrow_capacity_postings",
+			Help: "Postings the escrow can hold before it refuses new ones.",
+		},
+		func() float64 { return float64(escrow.Capacity()) },
+	)
+	held := prometheus.NewGaugeFunc(
+		prometheus.GaugeOpts{
+			Name: "rwiescrow_held_postings",
+			Help: "Postings currently held while their URL metadata is awaited.",
+		},
+		func() float64 {
+			postings, err := escrow.Count(context.Background())
+			if err != nil {
+				return 0
+			}
+
+			return float64(postings)
+		},
+	)
+	registry.MustRegister(capacity, held)
+
+	return &RWIEscrowCapacityMetrics{capacity: capacity, held: held}
 }
