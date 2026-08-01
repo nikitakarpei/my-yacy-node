@@ -2,10 +2,10 @@ package rwidistribution
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -15,7 +15,7 @@ type urlMetadataReceipt struct {
 }
 
 type httpURLMetadataCourier struct {
-	exchange    peerMessageExchange
+	exchange    peerwire.MessageExchange
 	networkName string
 	self        yacymodel.Hash
 }
@@ -54,7 +54,7 @@ func (c httpURLMetadataCourier) Deliver(
 			"url metadata response not parsed",
 			slog.String("peer", peer.String()),
 			slog.String("endpoint", endpoint),
-			slog.Any("error", fmt.Errorf("%w: %w", errPeerRequest, err)),
+			slog.Any("error", err),
 		)
 
 		return urlMetadataReceipt{Outcome: urlMetadataUnreachable}

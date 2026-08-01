@@ -1,4 +1,4 @@
-package rwidistribution
+package peerwire
 
 import (
 	"context"
