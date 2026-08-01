@@ -3,13 +3,12 @@ package peerroster_test
 import (
 	"context"
 	"testing"
-
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"time"
 )
 
 func TestDiscoverKeepsSeniorsAndDropsJuniors(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 4)
+	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
 
 	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
 	junior := seniorSeed(t, "junior", "", 0)
@@ -24,9 +23,25 @@ func TestDiscoverKeepsSeniorsAndDropsJuniors(t *testing.T) {
 	}
 }
 
+func TestDiscoverDropsThisNode(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
+
+	self := seniorSeed(t, "self", "203.0.113.1", 8090)
+	roster.Discover(ctx, self)
+	roster.ConfirmReachable(ctx, self.Hash)
+
+	if _, ok := hashes(roster.UnreachablePeers(ctx, 4))[self.Hash]; ok {
+		t.Fatalf("this node should never be known as a peer of itself")
+	}
+	if got := roster.ReachablePeers(ctx); len(got) != 0 {
+		t.Fatalf("reachable = %d, want 0: this node is not one of its own peers", len(got))
+	}
+}
+
 func TestReachablePromotesAndIsServed(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 4)
+	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
 
 	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
 	roster.Discover(ctx, senior)
@@ -44,7 +59,7 @@ func TestReachablePromotesAndIsServed(t *testing.T) {
 
 func TestReachableUnknownPeerIsNoop(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 4)
+	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
 
 	roster.ConfirmReachable(ctx, hashFor("ghost"))
 
@@ -55,7 +70,7 @@ func TestReachableUnknownPeerIsNoop(t *testing.T) {
 
 func TestUnreachableDropsFromReachableButStaysKnown(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 4)
+	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
 
 	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
 	roster.Discover(ctx, senior)
@@ -73,7 +88,7 @@ func TestUnreachableDropsFromReachableButStaysKnown(t *testing.T) {
 
 func TestUnreachablePeerEvictedBeforeFresherPeers(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 2, 4)
+	roster := openRoster(t, 2, 4, defaultAnnounceInterval)
 
 	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
 	other := seniorSeed(t, "other", "203.0.113.2", 8090)
@@ -95,7 +110,7 @@ func TestUnreachablePeerEvictedBeforeFresherPeers(t *testing.T) {
 
 func TestDiscoverEvictsStalestBeyondCapacity(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 2, 4)
+	roster := openRoster(t, 2, 4, defaultAnnounceInterval)
 
 	oldest := seniorSeed(t, "oldest", "203.0.113.1", 8090)
 	middle := seniorSeed(t, "middle", "203.0.113.2", 8090)
@@ -116,7 +131,7 @@ func TestDiscoverEvictsStalestBeyondCapacity(t *testing.T) {
 
 func TestUnreachablePeersCappedToLimit(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 2)
+	roster := openRoster(t, 8, 2, defaultAnnounceInterval)
 
 	for _, name := range []string{"a", "b", "c", "d"} {
 		roster.Discover(ctx, seniorSeed(t, name, "203.0.113.9", 8090))
@@ -129,7 +144,7 @@ func TestUnreachablePeersCappedToLimit(t *testing.T) {
 
 func TestUnreachablePeersRotatesByLeastRecentlyContacted(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 4)
+	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
 
 	first := seniorSeed(t, "first", "203.0.113.1", 8090)
 	second := seniorSeed(t, "second", "203.0.113.2", 8090)
@@ -151,7 +166,7 @@ func TestUnreachablePeersRotatesByLeastRecentlyContacted(t *testing.T) {
 
 func TestUnreachablePeersPrioritizesReachableHistoryOverNeverConfirmed(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 1)
+	roster := openRoster(t, 8, 1, defaultAnnounceInterval)
 
 	filler := seniorSeed(t, "filler", "203.0.113.1", 8090)
 	roster.Discover(ctx, filler)
@@ -173,60 +188,51 @@ func TestUnreachablePeersPrioritizesReachableHistoryOverNeverConfirmed(t *testin
 	}
 }
 
-func TestPeersResponsibleForExcludesSelfAndNonAcceptingPeers(t *testing.T) {
+func TestRecentlyReachableAfterConfirmation(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 8)
+	roster := openRoster(t, 8, 8, time.Minute)
 
-	accepting := indexAcceptingSeed(t, "accepting", "203.0.113.1")
-	declining := seniorSeed(t, "declining", "203.0.113.2", 8090)
-	self := indexAcceptingSeed(t, "self", "203.0.113.3")
+	peer := seniorSeed(t, "peer", "203.0.113.1", 8090)
+	roster.Discover(ctx, peer)
+	roster.ConfirmReachable(ctx, peer.Hash)
 
-	roster.Discover(ctx, accepting, declining, self)
-	roster.ConfirmReachable(ctx, accepting.Hash)
-	roster.ConfirmReachable(ctx, declining.Hash)
-	roster.ConfirmReachable(ctx, self.Hash)
-
-	position, err := yacymodel.WordPosition(hashFor("word"))
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	targets := hashes(roster.PeersResponsibleFor(ctx, position, 4))
-	if _, ok := targets[accepting.Hash]; !ok {
-		t.Fatalf("accepting peer missing from responsible peers: %v", targets)
-	}
-	if _, ok := targets[declining.Hash]; ok {
-		t.Fatalf("peer without AcceptRemoteIndex should be excluded: %v", targets)
-	}
-	if _, ok := targets[self.Hash]; ok {
-		t.Fatalf("self should be excluded from responsible peers: %v", targets)
+	if !roster.RecentlyReachable(ctx, peer.Hash) {
+		t.Fatalf("peer confirmed reachable should be recently reachable")
 	}
 }
 
-func TestPeersResponsibleForOrdersByRingDistanceAndCapsWant(t *testing.T) {
+func TestRecentlyReachableClearedByFailedContact(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 8)
+	roster := openRoster(t, 8, 8, time.Minute)
 
-	near := indexAcceptingSeed(t, "near", "203.0.113.1")
-	far := indexAcceptingSeed(t, "far", "203.0.113.2")
+	peer := seniorSeed(t, "peer", "203.0.113.1", 8090)
+	roster.Discover(ctx, peer)
+	roster.ConfirmReachable(ctx, peer.Hash)
+	roster.ConfirmUnreachable(ctx, peer.Hash)
 
-	roster.Discover(ctx, near, far)
-	roster.ConfirmReachable(ctx, near.Hash)
-	roster.ConfirmReachable(ctx, far.Hash)
-
-	nearPos, err := yacymodel.WordPosition(near.Hash)
-	if err != nil {
-		t.Fatal(err)
+	if roster.RecentlyReachable(ctx, peer.Hash) {
+		t.Fatalf("peer zeroed by ConfirmUnreachable should not be recently reachable")
 	}
+}
 
-	targets := roster.PeersResponsibleFor(ctx, nearPos, 1)
-	if len(targets) != 1 {
-		t.Fatalf("responsible peers = %d, want 1", len(targets))
+func TestRecentlyReachableExcludesUnknownPeer(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, 8, 8, time.Minute)
+
+	if roster.RecentlyReachable(ctx, hashFor("ghost")) {
+		t.Fatalf("unknown peer should not be recently reachable")
 	}
-	if targets[0].Hash != near.Hash {
-		t.Fatalf(
-			"responsible peer = %v, want the peer closest to the position (%v)",
-			targets[0].Hash, near.Hash,
-		)
+}
+
+func TestRecentlyReachableExcludesConfirmationPastWindow(t *testing.T) {
+	ctx := context.Background()
+	roster := openRoster(t, 8, 8, time.Nanosecond)
+
+	peer := seniorSeed(t, "peer", "203.0.113.1", 8090)
+	roster.Discover(ctx, peer)
+	roster.ConfirmReachable(ctx, peer.Hash)
+
+	if roster.RecentlyReachable(ctx, peer.Hash) {
+		t.Fatalf("confirmation older than the credibility window should not count")
 	}
 }

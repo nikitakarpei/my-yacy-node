@@ -88,12 +88,12 @@ func (d *Distribution) Cycle(
 
 	return &postingOfferCycle{
 		reader: &postingReplicationReader{
-			schedule:   d.schedule,
-			ledger:     d.ledger,
-			postings:   postings,
-			roster:     roster,
-			partitions: cfg.Partitions,
-			redundancy: cfg.Redundancy,
+			schedule:     d.schedule,
+			ledger:       d.ledger,
+			postings:     postings,
+			reachability: roster,
+			partitions:   cfg.Partitions,
+			redundancy:   cfg.Redundancy,
 		},
 		delivery: &postingOfferDelivery{
 			postingCourier: httpPostingCourier{

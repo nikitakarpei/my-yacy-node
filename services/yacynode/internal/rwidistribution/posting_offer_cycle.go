@@ -40,12 +40,12 @@ func (c *postingOfferCycle) Run(ctx context.Context) {
 func (c *postingOfferCycle) runCycle(ctx context.Context) {
 	c.observeOldestDuePostingAge(ctx)
 
-	reachable := len(c.roster.ReachablePeers(ctx))
-	if reachable < c.minReachablePeers {
+	reachablePeers := c.roster.ReachablePeers(ctx)
+	if len(reachablePeers) < c.minReachablePeers {
 		slog.DebugContext(
 			ctx,
 			"distribution cycle skipped: too few reachable peers",
-			slog.Int("reachablePeers", reachable),
+			slog.Int("reachablePeers", len(reachablePeers)),
 			slog.Int("minReachablePeers", c.minReachablePeers),
 		)
 		c.observer.ObserveCycleSkipped()
@@ -53,7 +53,7 @@ func (c *postingOfferCycle) runCycle(ctx context.Context) {
 		return
 	}
 
-	due, err := c.reader.DueReplication(ctx, c.postingsPerCycle)
+	due, err := c.reader.DueReplication(ctx, c.postingsPerCycle, reachablePeers)
 	if err != nil {
 		slog.ErrorContext(ctx, "posting replication not read", slog.Any("error", err))
 

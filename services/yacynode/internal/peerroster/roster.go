@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"sort"
 	"sync"
 	"time"
 
@@ -14,16 +13,19 @@ import (
 
 const peersBucket vault.Name = "peerroster"
 
+const announceRoundsBeforeConfirmationStale = 2
+
 var neverReachable time.Time
 
 type roster struct {
-	vault        *vault.Vault
-	peers        *vault.Collection[rosterEntry]
-	now          func() time.Time
-	reservoirCap int
-	reachableCap int
-	self         yacymodel.Hash
-	observer     RosterObserver
+	vault            *vault.Vault
+	peers            *vault.Collection[rosterEntry]
+	now              func() time.Time
+	reservoirCap     int
+	reachableCap     int
+	announceInterval time.Duration
+	self             yacymodel.Hash
+	observer         RosterObserver
 
 	mu        sync.Mutex
 	reachable map[yacymodel.Hash]yacymodel.Seed
@@ -35,6 +37,9 @@ func (r *roster) key(hash yacymodel.Hash) vault.Key {
 
 func (r *roster) Discover(ctx context.Context, seeds ...yacymodel.Seed) {
 	for _, seed := range seeds {
+		if seed.Hash == r.self {
+			continue
+		}
 		if _, reachable := seed.NetworkAddress(); !reachable {
 			continue
 		}
@@ -172,65 +177,6 @@ func (r *roster) ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash) {
 	r.recordContact(ctx, peer, false)
 }
 
-func (r *roster) PeersResponsibleFor(
-	ctx context.Context,
-	position yacymodel.DHTPosition,
-	want int,
-) []yacymodel.Seed {
-	if want <= 0 {
-		return nil
-	}
-
-	type candidate struct {
-		seed     yacymodel.Seed
-		distance yacymodel.DHTPosition
-	}
-
-	reachablePeers := r.ReachablePeers(ctx)
-	candidates := make([]candidate, 0, len(reachablePeers))
-	for _, seed := range reachablePeers {
-		if seed.Hash == r.self {
-			continue
-		}
-		capabilities, ok := seed.Capabilities.Get()
-		if !ok || !capabilities.AcceptRemoteIndex {
-			continue
-		}
-
-		peerPos, err := yacymodel.WordPosition(seed.Hash)
-		if err != nil {
-			slog.WarnContext(
-				ctx,
-				"peer position not computed",
-				slog.String("peer", seed.Hash.String()),
-				slog.Any("error", err),
-			)
-
-			continue
-		}
-
-		candidates = append(
-			candidates,
-			candidate{seed: seed, distance: yacymodel.Distance(position, peerPos)},
-		)
-	}
-
-	sort.Slice(candidates, func(i, j int) bool {
-		return candidates[i].distance < candidates[j].distance
-	})
-
-	if len(candidates) > want {
-		candidates = candidates[:want]
-	}
-
-	targets := make([]yacymodel.Seed, len(candidates))
-	for i, c := range candidates {
-		targets[i] = c.seed
-	}
-
-	return targets
-}
-
 func (r *roster) ReachablePeers(_ context.Context) []yacymodel.Seed {
 	r.mu.Lock()
 	defer r.mu.Unlock()
@@ -243,7 +189,41 @@ func (r *roster) ReachablePeers(_ context.Context) []yacymodel.Seed {
 	return peers
 }
 
-// Future: a recency index would replace this scan with a bounded range read.
+func (r *roster) Reachable(_ context.Context, peer yacymodel.Hash) bool {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	_, reachable := r.reachable[peer]
+
+	return reachable
+}
+
+func (r *roster) RecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool {
+	cutoff := r.now().Add(-announceRoundsBeforeConfirmationStale * r.announceInterval)
+
+	recent := false
+	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
+		entry, known, err := r.peers.Get(tx, r.key(peer))
+		if err != nil {
+			return fmt.Errorf("read peer: %w", err)
+		}
+		recent = known && entry.lastReachable.After(cutoff)
+
+		return nil
+	}); err != nil {
+		slog.WarnContext(
+			ctx,
+			"peer recency not read, peer assumed credible",
+			slog.String("peer", peer.String()),
+			slog.Any("error", err),
+		)
+
+		return true
+	}
+
+	return recent
+}
+
 func (r *roster) UnreachablePeers(ctx context.Context, limit int) []yacymodel.Seed {
 	entries := r.selectUnreachable(ctx, r.reachableKeys(), limit, func(a, b rosterEntry) bool {
 		if !a.lastReachable.Equal(b.lastReachable) {

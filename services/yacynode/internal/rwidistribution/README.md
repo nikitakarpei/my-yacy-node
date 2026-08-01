@@ -8,9 +8,8 @@ many peers accept it; distribution only replicates, it never deletes.
 ## Behavior
 
 A cycle offers nothing while the node knows fewer than the configured
-minimum of reachable peers. This keeps a thin roster, such as right after
-startup, from being read as "no peer is responsible", which would drop
-replica ledger entries for peers that are still holding a posting.
+minimum of reachable peers. This avoids offer traffic into a roster too
+thin to be worth offering into, such as right after startup.
 
 A newly stored posting becomes due for an offer immediately. Each cycle,
 due postings are offered to their responsible peers. A posting that reaches
@@ -29,9 +28,14 @@ succeeds, the posting counts immediately. If the metadata step fails, the
 posting is treated as not replicated and is offered again at the retry
 interval.
 
-If a peer that previously accepted a posting later leaves the network or is
-no longer responsible for it, that acceptance no longer counts, and the
-posting becomes eligible for offering again until redundancy is restored.
+An acceptance stops counting when closer peers displace the peer that gave
+it, when contact with that peer fails, or when the peer stays uncontacted
+past the peer roster's credibility window. The posting is then offered
+again, to as many peers as it still needs copies, until redundancy is
+restored.
+
+A peer that stops accepting a remote index receives no further offers. The
+postings it already holds keep counting for it.
 
 Deleting a posting from local storage also removes it from the distribution
 work queue; a deleted posting is never offered.

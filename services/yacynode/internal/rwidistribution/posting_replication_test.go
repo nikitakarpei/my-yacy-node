@@ -51,8 +51,8 @@ func fakePosting(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPostin
 }
 
 type fakeRoster struct {
-	responsible []yacymodel.Seed
-	reachable   []yacymodel.Seed
+	reachable         []yacymodel.Seed
+	recentlyReachable map[yacymodel.Hash]struct{}
 }
 
 func (fakeRoster) Discover(context.Context, ...yacymodel.Seed)            {}
@@ -64,12 +64,20 @@ func (f fakeRoster) ReachablePeers(context.Context) []yacymodel.Seed {
 	return f.reachable
 }
 
-func (f fakeRoster) PeersResponsibleFor(
-	context.Context,
-	yacymodel.DHTPosition,
-	int,
-) []yacymodel.Seed {
-	return f.responsible
+func (f fakeRoster) Reachable(_ context.Context, peer yacymodel.Hash) bool {
+	for _, seed := range f.reachable {
+		if seed.Hash == peer {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (f fakeRoster) RecentlyReachable(_ context.Context, peer yacymodel.Hash) bool {
+	_, recent := f.recentlyReachable[peer]
+
+	return recent
 }
 
 func seed(hash yacymodel.Hash) yacymodel.Seed {
@@ -86,7 +94,15 @@ func seed(hash yacymodel.Hash) yacymodel.Seed {
 		Hash:           hash,
 		PrimaryAddress: yacymodel.Some(host),
 		Port:           yacymodel.Some(port),
+		Capabilities:   yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true}),
 	}
+}
+
+func indexDecliningSeed(hash yacymodel.Hash) yacymodel.Seed {
+	declining := seed(hash)
+	declining.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: false})
+
+	return declining
 }
 
 const postingReplicationReaderRedundancy = 1
@@ -95,7 +111,7 @@ func openPostingReplicationReader(
 	t *testing.T,
 	now func() time.Time,
 	postings map[yacymodel.Hash]yacymodel.RWIPosting,
-	responsible []yacymodel.Seed,
+	reachability peerReachability,
 ) (*postingOfferSchedule, *replicaLedger, *postingReplicationReader) {
 	t.Helper()
 
@@ -123,12 +139,12 @@ func openPostingReplicationReader(
 	}
 
 	reader := &postingReplicationReader{
-		schedule:   schedule,
-		ledger:     ledger,
-		postings:   fakePostingIndex{postings: postings},
-		roster:     fakeRoster{responsible: responsible, reachable: responsible},
-		partitions: partitions,
-		redundancy: postingReplicationReaderRedundancy,
+		schedule:     schedule,
+		ledger:       ledger,
+		postings:     fakePostingIndex{postings: postings},
+		reachability: reachability,
+		partitions:   partitions,
+		redundancy:   postingReplicationReaderRedundancy,
 	}
 
 	return schedule, ledger, reader
@@ -145,12 +161,13 @@ func TestDueReplicationReturnsMissingCopyForDuePosting(t *testing.T) {
 		t,
 		func() time.Time { return now },
 		postings,
-		[]yacymodel.Seed{seed(peer)},
+		fakeRoster{},
 	)
+	peers := []yacymodel.Seed{seed(peer)}
 
 	store(t, schedule, word, url)
 
-	due, err := reader.DueReplication(context.Background(), 10)
+	due, err := reader.DueReplication(context.Background(), 10, peers)
 	if err != nil {
 		t.Fatalf("DueReplication: %v", err)
 	}
@@ -171,11 +188,12 @@ func TestDueReplicationReportsNoCopiesNeededWhenReplicated(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		fakePostingKey(word, url): fakePosting(word, url),
 	}
+	peers := []yacymodel.Seed{seed(peer)}
 	schedule, ledger, reader := openPostingReplicationReader(
 		t,
 		func() time.Time { return now },
 		postings,
-		[]yacymodel.Seed{seed(peer)},
+		fakeRoster{reachable: peers},
 	)
 
 	store(t, schedule, word, url)
@@ -186,7 +204,7 @@ func TestDueReplicationReportsNoCopiesNeededWhenReplicated(t *testing.T) {
 		t.Fatalf("RecordAccepted: %v", err)
 	}
 
-	due, err := reader.DueReplication(context.Background(), 10)
+	due, err := reader.DueReplication(context.Background(), 10, peers)
 	if err != nil {
 		t.Fatalf("DueReplication: %v", err)
 	}
@@ -209,12 +227,12 @@ func TestDueReplicationLeavesCopiesNeededWithNoResponsiblePeers(t *testing.T) {
 		t,
 		func() time.Time { return now },
 		postings,
-		nil,
+		fakeRoster{},
 	)
 
 	store(t, schedule, word, url)
 
-	due, err := reader.DueReplication(context.Background(), 10)
+	due, err := reader.DueReplication(context.Background(), 10, nil)
 	if err != nil {
 		t.Fatalf("DueReplication: %v", err)
 	}
@@ -238,12 +256,13 @@ func TestDueReplicationCollectsGoneForRemovedPosting(t *testing.T) {
 		t,
 		func() time.Time { return now },
 		nil,
-		[]yacymodel.Seed{seed(peer)},
+		fakeRoster{},
 	)
+	peers := []yacymodel.Seed{seed(peer)}
 
 	store(t, schedule, word, url)
 
-	due, err := reader.DueReplication(context.Background(), 10)
+	due, err := reader.DueReplication(context.Background(), 10, peers)
 	if err != nil {
 		t.Fatalf("DueReplication: %v", err)
 	}
@@ -263,8 +282,9 @@ func TestDueReplicationReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
 		t,
 		func() time.Time { return now },
 		postings,
-		[]yacymodel.Seed{seed(fresh)},
+		fakeRoster{},
 	)
+	peers := []yacymodel.Seed{seed(fresh)}
 
 	store(t, schedule, word, url)
 	if err := ledger.RecordAccepted(
@@ -277,7 +297,7 @@ func TestDueReplicationReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
 		t.Fatalf("RecordAccepted: %v", err)
 	}
 
-	due, err := reader.DueReplication(context.Background(), 10)
+	due, err := reader.DueReplication(context.Background(), 10, peers)
 	if err != nil {
 		t.Fatalf("DueReplication: %v", err)
 	}
@@ -304,5 +324,145 @@ func TestDueReplicationReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
 	}
 	if len(replicas) != 1 || replicas[0] != stalePeer {
 		t.Fatalf("replicas = %v, want [%v] unchanged by DueReplication", replicas, stalePeer)
+	}
+}
+
+func TestDueReplicationOffersOnlyAsManyCopiesAsAreNeeded(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	absentHolder := yacymodel.WordHash("absent")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	schedule, ledger, reader := openPostingReplicationReader(
+		t,
+		func() time.Time { return now },
+		postings,
+		fakeRoster{recentlyReachable: map[yacymodel.Hash]struct{}{absentHolder: {}}},
+	)
+	reader.redundancy = 3
+
+	store(t, schedule, word, url)
+	if err := ledger.RecordAccepted(
+		context.Background(),
+		postingOffer{
+			Peer:     seed(absentHolder),
+			Postings: []yacymodel.RWIPosting{fakePosting(word, url)},
+		},
+	); err != nil {
+		t.Fatalf("RecordAccepted: %v", err)
+	}
+
+	due, err := reader.DueReplication(context.Background(), 10, []yacymodel.Seed{
+		seed(yacymodel.WordHash("p1")),
+		seed(yacymodel.WordHash("p2")),
+		seed(yacymodel.WordHash("p3")),
+	})
+	if err != nil {
+		t.Fatalf("DueReplication: %v", err)
+	}
+	if len(due.Postings) != 1 {
+		t.Fatalf("due = %+v, want a single posting", due)
+	}
+	replication := due.Postings[0]
+	if replication.CopiesNeeded != 2 {
+		t.Fatalf(
+			"CopiesNeeded = %d, want 2 with one credible holder of three",
+			replication.CopiesNeeded,
+		)
+	}
+	if len(replication.SeedsMissingCopy) != replication.CopiesNeeded {
+		t.Fatalf(
+			"SeedsMissingCopy = %d seeds, want %d so accepting every offer stays within redundancy",
+			len(replication.SeedsMissingCopy),
+			replication.CopiesNeeded,
+		)
+	}
+}
+
+func TestDueReplicationPrunesReachableHolderDisplacedByCloserPeer(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	first, second := yacymodel.WordHash("first"), yacymodel.WordHash("second")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	peers := []yacymodel.Seed{seed(first), seed(second)}
+	schedule, ledger, reader := openPostingReplicationReader(
+		t,
+		func() time.Time { return now },
+		postings,
+		fakeRoster{reachable: peers},
+	)
+
+	store(t, schedule, word, url)
+	for _, peer := range peers {
+		if err := ledger.RecordAccepted(
+			context.Background(),
+			postingOffer{Peer: peer, Postings: []yacymodel.RWIPosting{fakePosting(word, url)}},
+		); err != nil {
+			t.Fatalf("RecordAccepted: %v", err)
+		}
+	}
+
+	due, err := reader.DueReplication(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("DueReplication: %v", err)
+	}
+	if len(due.Postings) != 1 {
+		t.Fatalf("due = %+v, want a single posting", due)
+	}
+	if got := due.Postings[0].PeerHashesNoLongerResponsible; len(got) != 1 {
+		t.Fatalf(
+			"PeerHashesNoLongerResponsible = %v, want the one holder beyond a redundancy of %d",
+			got, postingReplicationReaderRedundancy,
+		)
+	}
+}
+
+func TestDueReplicationKeepsHolderThatStoppedAcceptingIndex(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	schedule, ledger, reader := openPostingReplicationReader(
+		t,
+		func() time.Time { return now },
+		postings,
+		fakeRoster{reachable: []yacymodel.Seed{indexDecliningSeed(peer)}},
+	)
+
+	store(t, schedule, word, url)
+	if err := ledger.RecordAccepted(
+		context.Background(),
+		postingOffer{Peer: seed(peer), Postings: []yacymodel.RWIPosting{fakePosting(word, url)}},
+	); err != nil {
+		t.Fatalf("RecordAccepted: %v", err)
+	}
+
+	due, err := reader.DueReplication(
+		context.Background(), 10, []yacymodel.Seed{indexDecliningSeed(peer)},
+	)
+	if err != nil {
+		t.Fatalf("DueReplication: %v", err)
+	}
+	if len(due.Postings) != 1 {
+		t.Fatalf("due = %+v, want a single posting", due)
+	}
+	replication := due.Postings[0]
+	if len(replication.PeerHashesNoLongerResponsible) != 0 {
+		t.Fatalf(
+			"replication.PeerHashesNoLongerResponsible = %v, want none: a peer that stops "+
+				"accepting a remote index still serves the copy it holds",
+			replication.PeerHashesNoLongerResponsible,
+		)
+	}
+	if replication.CopiesNeeded != 0 || len(replication.SeedsMissingCopy) != 0 {
+		t.Fatalf(
+			"replication = %+v, want no further copies and no offer to the holder",
+			replication,
+		)
 	}
 }

@@ -31,6 +31,7 @@ func (p peerExchange) assemble() (peerannouncement.Announcer, peerroster.Roster,
 		time.Now,
 		p.config.KnownRosterCapacity,
 		p.config.ReachableRosterCapacity,
+		p.config.AnnounceInterval,
 		p.identity.Hash,
 		p.rosterObserver,
 	)

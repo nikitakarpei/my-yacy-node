@@ -21,6 +21,10 @@ func hashFor(base string) yacymodel.Hash {
 	return hash
 }
 
+func selfHash() yacymodel.Hash {
+	return hashFor("self")
+}
+
 func seniorSeed(t testing.TB, hash, ip string, port int) yacymodel.Seed {
 	t.Helper()
 
@@ -47,15 +51,6 @@ func seniorSeed(t testing.TB, hash, ip string, port int) yacymodel.Seed {
 	return seed
 }
 
-func indexAcceptingSeed(t testing.TB, hash, ip string) yacymodel.Seed {
-	t.Helper()
-
-	seed := seniorSeed(t, hash, ip, 8090)
-	seed.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true})
-
-	return seed
-}
-
 type tickingClock struct {
 	now time.Time
 }
@@ -66,7 +61,13 @@ func (c *tickingClock) Now() time.Time {
 	return c.now
 }
 
-func openRoster(t *testing.T, reservoirCap, reachableCap int) peerroster.Roster {
+const defaultAnnounceInterval = 10 * time.Minute
+
+func openRoster(
+	t *testing.T,
+	reservoirCap, reachableCap int,
+	announceInterval time.Duration,
+) peerroster.Roster {
 	t.Helper()
 
 	v, err := memvault.Open(0)
@@ -81,7 +82,8 @@ func openRoster(t *testing.T, reservoirCap, reachableCap int) peerroster.Roster 
 
 	clock := &tickingClock{now: time.Unix(1_000, 0)}
 	roster, err := peerroster.Open(
-		v, clock.Now, reservoirCap, reachableCap, hashFor("self"), peerroster.DiscardObserver,
+		v, clock.Now, reservoirCap, reachableCap, announceInterval, selfHash(),
+		peerroster.DiscardObserver,
 	)
 	if err != nil {
 		t.Fatalf("peerroster.Open: %v", err)
