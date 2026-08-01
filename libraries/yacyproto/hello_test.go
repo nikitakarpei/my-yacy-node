@@ -76,3 +76,34 @@ func TestParseHelloResponseRejectsBadPeerType(t *testing.T) {
 		t.Fatal("expected error for unknown peer type")
 	}
 }
+
+func TestParseHelloResponseDropsMalformedKnownSeed(t *testing.T) {
+	t.Parallel()
+
+	own := sampleSeed(t, "alpha", "peer-self")
+	known := sampleSeed(t, "gamma", "peer-c")
+	msg := yacyproto.Message{
+		"seed0": yacyproto.EncodeSeed(own),
+		"seed1": "not-a-valid-seed",
+		"seed2": yacyproto.EncodeSeed(known),
+	}
+
+	got, err := yacyproto.ParseHelloResponse(t.Context(), msg)
+	if err != nil {
+		t.Fatalf("ParseHelloResponse: %v", err)
+	}
+
+	want := []yacymodel.Seed{own, known}
+	if !reflect.DeepEqual(got.Seeds, want) {
+		t.Fatalf("Seeds:\n got %#v\nwant %#v", got.Seeds, want)
+	}
+}
+
+func TestParseHelloResponseRejectsMalformedOwnSeed(t *testing.T) {
+	t.Parallel()
+
+	msg := yacyproto.Message{"seed0": "not-a-valid-seed"}
+	if _, err := yacyproto.ParseHelloResponse(t.Context(), msg); err == nil {
+		t.Fatal("expected error for malformed own seed")
+	}
+}

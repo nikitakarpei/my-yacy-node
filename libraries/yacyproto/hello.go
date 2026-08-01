@@ -3,6 +3,7 @@ package yacyproto
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/url"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -139,6 +140,10 @@ func decodeSeed(ctx context.Context, raw string) (yacymodel.Seed, error) {
 	return seed, nil
 }
 
+// decodeSeeds decodes the response's seed list. Index 0 is the responding
+// peer's own seed and must parse for the response to be usable; a malformed
+// entry beyond that is a peer we can't identify, not a reason to discard the
+// rest of the batch, so it is dropped with a WARN instead.
 func decodeSeeds(ctx context.Context, m Message) ([]yacymodel.Seed, error) {
 	var seeds []yacymodel.Seed
 	for i := 0; ; i++ {
@@ -149,7 +154,18 @@ func decodeSeeds(ctx context.Context, m Message) ([]yacymodel.Seed, error) {
 
 		seed, err := decodeSeed(ctx, raw)
 		if err != nil {
-			return nil, err
+			if i == 0 {
+				return nil, err
+			}
+
+			slog.WarnContext(
+				ctx,
+				"dropped malformed known seed from hello response",
+				slog.Int("index", i),
+				slog.Any("error", err),
+			)
+
+			continue
 		}
 
 		seeds = append(seeds, seed)
