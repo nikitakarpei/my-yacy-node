@@ -93,7 +93,7 @@ func DomainID(host string) int {
 	if id, ok := tldRegionID[tld]; ok {
 		return id
 	}
-	if isLocalHost(host) {
+	if isSpecialUseTLD(tld) || isLocalHost(host) {
 		return tldLocalID
 	}
 	return tldGenericID

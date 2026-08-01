@@ -29,6 +29,20 @@ func TestURLHashDeterministic(t *testing.T) {
 	}
 }
 
+func TestURLHashMatchesRealYaCyForSpecialUseTLD(t *testing.T) {
+	const (
+		address = "http://transfer.example.invalid/doc-150.txt"
+		want    = "TULSZfg4-80c"
+	)
+	got, err := HashURL(address)
+	if err != nil {
+		t.Fatalf("HashURL: %v", err)
+	}
+	if got.String() != want {
+		t.Errorf("HashURL(%q) = %q, want %q", address, got, want)
+	}
+}
+
 func TestURLHashSharesHostHashAcrossPaths(t *testing.T) {
 	a, err := HashURL("http://example.com/one")
 	if err != nil {
@@ -157,6 +171,18 @@ func TestDomainID(t *testing.T) {
 		"127.0.0.1":   tldLocalID,
 		"192.168.0.1": tldLocalID,
 		"singlelabel": tldLocalID,
+
+		"transfer.example.invalid": tldLocalID,
+		"printer.local":            tldLocalID,
+		"gateway.internal":         tldLocalID,
+		"fixture.test":             tldLocalID,
+		"site.onion":               tldLocalID,
+		"resolver.alt":             tldLocalID,
+		"host.localhost":           tldLocalID,
+		"doc.example":              tldLocalID,
+
+		"8.8.8.8":     tldGenericID,
+		"example.zip": tldGenericID,
 	}
 	for host, want := range cases {
 		if got := DomainID(host); got != want {
