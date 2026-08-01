@@ -12,6 +12,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
@@ -82,7 +83,7 @@ func (d *Distribution) Cycle(
 	observer PostingOfferCycleObserver,
 	cfg Config,
 ) Runner {
-	exchange := peerMessageExchange{client: client}
+	exchange := peerwire.NewMessageExchange(client)
 
 	return &postingOfferCycle{
 		reader: &postingReplicationReader{

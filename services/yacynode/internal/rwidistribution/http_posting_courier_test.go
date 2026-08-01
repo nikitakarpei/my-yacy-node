@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -67,7 +68,7 @@ func openCourierHarness(t *testing.T, server *httptest.Server) httpPostingCourie
 	t.Helper()
 
 	return httpPostingCourier{
-		exchange:    peerMessageExchange{client: server.Client()},
+		exchange:    peerwire.NewMessageExchange(server.Client()),
 		networkName: "freeworld",
 		self:        courierHash("self"),
 	}

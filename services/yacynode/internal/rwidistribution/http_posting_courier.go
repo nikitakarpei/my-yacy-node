@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -17,7 +18,7 @@ type postingOfferReceipt struct {
 }
 
 type httpPostingCourier struct {
-	exchange    peerMessageExchange
+	exchange    peerwire.MessageExchange
 	networkName string
 	self        yacymodel.Hash
 }
@@ -92,7 +93,7 @@ func (c httpPostingCourier) postTransferRWI(
 
 	resp, err := yacyproto.ParseTransferRWIResponse(msg)
 	if err != nil {
-		return yacyproto.TransferRWIResponse{}, fmt.Errorf("%w: %w", errPeerRequest, err)
+		return yacyproto.TransferRWIResponse{}, fmt.Errorf("parse transferRWI response: %w", err)
 	}
 
 	return resp, nil

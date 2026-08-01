@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -20,7 +21,7 @@ func openURLMetadataCourierHarness(t *testing.T, server *httptest.Server) httpUR
 	t.Helper()
 
 	return httpURLMetadataCourier{
-		exchange:    peerMessageExchange{client: server.Client()},
+		exchange:    peerwire.NewMessageExchange(server.Client()),
 		networkName: "freeworld",
 		self:        courierHash("self"),
 	}

@@ -24,6 +24,8 @@ components:
     in: internal/peerroster/**
   peerannouncement:
     in: internal/peerannouncement/**
+  peerwire:
+    in: internal/peerwire/**
   bootstrap:
     in: internal/bootstrap/**
   landing:
@@ -148,9 +150,15 @@ deps:
     mayDependOn:
       - peerannouncement
       - peerroster
+      - peerwire
       - bootstrap
     canUse:
       - yacymodel
+      - yacyproto
+  peerwire:
+    mayDependOn:
+      - peerwire
+    canUse:
       - yacyproto
   bootstrap:
     mayDependOn:
@@ -217,6 +225,7 @@ deps:
       - rwipostings
       - urlmeta
       - peerroster
+      - peerwire
       - vault
       - memvault
     canUse:
