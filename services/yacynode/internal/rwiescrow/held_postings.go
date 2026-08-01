@@ -24,6 +24,16 @@ func (h *HeldPostings) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	identity := postingIdentity{Word: posting.WordHash, URL: posting.URLHash}
 	heldAt := h.now()
 
+	previous, found, err := h.held.Get(tx, heldKey(identity))
+	if err != nil {
+		return fmt.Errorf("read held posting: %w", err)
+	}
+	if found {
+		if _, err := h.expiry.Delete(tx, expiryKey(previous.HeldAt, identity)); err != nil {
+			return fmt.Errorf("drop stale posting hold time: %w", err)
+		}
+	}
+
 	if err := h.held.Put(tx, heldKey(identity), heldPosting{
 		HeldAt:  heldAt,
 		Posting: posting,
@@ -33,7 +43,9 @@ func (h *HeldPostings) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	if err := h.expiry.Put(tx, expiryKey(heldAt, identity), struct{}{}); err != nil {
 		return fmt.Errorf("record posting hold time: %w", err)
 	}
-	h.observer.ObserveHeld(1)
+	if !found {
+		h.observer.ObserveHeld(1)
+	}
 
 	return nil
 }
