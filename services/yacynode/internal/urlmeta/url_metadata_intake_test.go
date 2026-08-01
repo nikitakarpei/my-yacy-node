@@ -152,6 +152,34 @@ func TestIntakeNotifiesObserverOfStoredURLs(t *testing.T) {
 	}
 }
 
+func TestIntakeUpdatesAndNotifiesOnDuplicateURLs(t *testing.T) {
+	ctx := context.Background()
+	observer := &recordingObserver{}
+	_, module := openObservedModule(t, observer)
+	row := urlMetadata("a")
+	hash := metadataHash(t, row)
+
+	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
+		t.Fatalf("Intake: %v", err)
+	}
+	updated := row
+	updated.Title = "refreshed"
+	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{updated}); err != nil {
+		t.Fatalf("Intake duplicate: %v", err)
+	}
+	if len(observer.stored) != 2 || observer.stored[1] != hash {
+		t.Fatalf("stored = %v, want two matching hashes", observer.stored)
+	}
+
+	rows, err := module.Directory.MetadataByHash(ctx, []yacymodel.URLHash{hash})
+	if err != nil {
+		t.Fatalf("MetadataByHash: %v", err)
+	}
+	if len(rows) != 1 || rows[0].Title != "refreshed" {
+		t.Fatalf("stored row = %+v, want refreshed title", rows)
+	}
+}
+
 func TestIntakeSurvivesObserverFailure(t *testing.T) {
 	ctx := context.Background()
 	observer := &recordingObserver{fail: true}

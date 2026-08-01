@@ -75,8 +75,6 @@ func (i urlIntake) store(
 		}
 		if found {
 			existing = append(existing, hash)
-
-			continue
 		}
 		if err := i.collection.Put(tx, key, stored); err != nil {
 			rejected = append(rejected, hash)
