@@ -22,7 +22,7 @@ type HelloRequest struct {
 type HelloResponse struct {
 	ResponseHeader
 	YourIP   string
-	YourType yacymodel.PeerType
+	YourType yacymodel.Optional[yacymodel.PeerType]
 	MyTime   string
 	Message  string
 	Seeds    []yacymodel.Seed
@@ -93,7 +93,9 @@ func ParseHelloRequest(ctx context.Context, form url.Values) (HelloRequest, erro
 func (r HelloResponse) Encode() Message {
 	msg := Message{}
 	setString(msg, FieldYourIP, r.YourIP)
-	setString(msg, FieldYourType, r.YourType.String())
+	if yourType, ok := r.YourType.Get(); ok {
+		setString(msg, FieldYourType, yourType.String())
+	}
 	setString(msg, FieldMyTime, r.MyTime)
 	setString(msg, FieldMessage, r.Message)
 	for i, seed := range r.Seeds {
@@ -117,10 +119,11 @@ func ParseHelloResponse(ctx context.Context, m Message) (HelloResponse, error) {
 	}
 
 	if raw := m[FieldYourType]; raw != "" {
-		resp.YourType, err = yacymodel.ParsePeerType(raw)
+		yourType, err := yacymodel.ParsePeerType(raw)
 		if err != nil {
 			return HelloResponse{}, fmt.Errorf("hello response %s: %w", FieldYourType, err)
 		}
+		resp.YourType = yacymodel.Some(yourType)
 	}
 
 	resp.Seeds, err = decodeSeeds(ctx, m)
