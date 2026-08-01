@@ -100,7 +100,7 @@ func openPostingReplicationReader(
 	if err != nil {
 		t.Fatalf("openPostingOfferSchedule: %v", err)
 	}
-	ledger, err := openReplicaLedger(v)
+	ledger, err := openReplicaLedger(v, schedule)
 	if err != nil {
 		t.Fatalf("openReplicaLedger: %v", err)
 	}
@@ -135,9 +135,7 @@ func TestDueReplicationReturnsMissingCopyForDuePosting(t *testing.T) {
 		[]yacymodel.Seed{seed(peer)},
 	)
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	due, err := reader.DueReplication(context.Background(), 10)
 	if err != nil {
@@ -167,9 +165,7 @@ func TestDueReplicationReportsNoCopiesNeededWhenReplicated(t *testing.T) {
 		[]yacymodel.Seed{seed(peer)},
 	)
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 	if err := ledger.RecordAccepted(
 		context.Background(),
 		postingOffer{Peer: seed(peer), Postings: []yacymodel.RWIPosting{fakePosting(word, url)}},
@@ -203,9 +199,7 @@ func TestDueReplicationLeavesCopiesNeededWithNoResponsiblePeers(t *testing.T) {
 		nil,
 	)
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	due, err := reader.DueReplication(context.Background(), 10)
 	if err != nil {
@@ -234,9 +228,7 @@ func TestDueReplicationCollectsGoneForRemovedPosting(t *testing.T) {
 		[]yacymodel.Seed{seed(peer)},
 	)
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 
 	due, err := reader.DueReplication(context.Background(), 10)
 	if err != nil {
@@ -261,9 +253,7 @@ func TestDueReplicationReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
 		[]yacymodel.Seed{seed(fresh)},
 	)
 
-	if err := schedule.Reschedule(context.Background(), word, url, now); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	store(t, schedule, word, url)
 	if err := ledger.RecordAccepted(
 		context.Background(),
 		postingOffer{

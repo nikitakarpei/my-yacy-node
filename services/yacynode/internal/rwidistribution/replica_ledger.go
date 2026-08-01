@@ -13,15 +13,16 @@ const replicaLedgerBucket vault.Name = "rwidistribution_replica_ledger"
 type replicaLedger struct {
 	vault    *vault.Vault
 	replicas *vault.Collection[[]yacymodel.Hash]
+	schedule *postingOfferSchedule
 }
 
-func openReplicaLedger(v *vault.Vault) (*replicaLedger, error) {
+func openReplicaLedger(v *vault.Vault, schedule *postingOfferSchedule) (*replicaLedger, error) {
 	replicas, err := vault.Register(v, replicaLedgerBucket, replicaListCodec{})
 	if err != nil {
 		return nil, fmt.Errorf("register replica ledger: %w", err)
 	}
 
-	return &replicaLedger{vault: v, replicas: replicas}, nil
+	return &replicaLedger{vault: v, replicas: replicas, schedule: schedule}, nil
 }
 
 func (l *replicaLedger) PostingPurged(
@@ -58,6 +59,14 @@ func (l *replicaLedger) Replicas(
 func (l *replicaLedger) RecordAccepted(ctx context.Context, offer postingOffer) error {
 	err := l.vault.Update(ctx, func(tx *vault.Txn) error {
 		for _, posting := range offer.Postings {
+			_, due, err := l.schedule.dueAt(tx, posting.WordHash, posting.URLHash)
+			if err != nil {
+				return err
+			}
+			if !due {
+				continue
+			}
+
 			key := postingKey(posting.WordHash, posting.URLHash)
 			replicas, _, err := l.replicas.Get(tx, key)
 			if err != nil {

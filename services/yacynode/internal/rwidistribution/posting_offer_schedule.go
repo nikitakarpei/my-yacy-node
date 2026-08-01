@@ -45,7 +45,11 @@ func (s *postingOfferSchedule) PostingStored(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) error {
-	return s.reschedule(tx, word, url, s.now())
+	if err := s.forget(tx, word, url); err != nil {
+		return err
+	}
+
+	return s.setDueAt(tx, word, url, s.now())
 }
 
 func (s *postingOfferSchedule) PostingPurged(
@@ -56,37 +60,24 @@ func (s *postingOfferSchedule) PostingPurged(
 	return s.forget(tx, word, url)
 }
 
-func (s *postingOfferSchedule) Forget(
-	ctx context.Context,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) error {
-	err := s.vault.Update(ctx, func(tx *vault.Txn) error {
-		return s.forget(tx, word, url)
-	})
-	if err != nil {
-		return fmt.Errorf("forget posting: %w", err)
-	}
-
-	return nil
-}
-
 func (s *postingOfferSchedule) forget(
 	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) error {
-	at, found, err := s.due.Get(tx, postingKey(word, url))
+	at, found, err := s.dueAt(tx, word, url)
 	if err != nil {
-		return fmt.Errorf("read offer due: %w", err)
+		return err
 	}
 	if !found {
 		return nil
 	}
 
-	return s.clear(tx, word, url, at)
+	return s.clearDueAt(tx, word, url, at)
 }
 
+// Reschedule re-arms an existing due entry. It is a no-op when the posting
+// has no due row, so a schedule row purged mid-cycle is not resurrected.
 func (s *postingOfferSchedule) Reschedule(
 	ctx context.Context,
 	word yacymodel.Hash,
@@ -94,7 +85,18 @@ func (s *postingOfferSchedule) Reschedule(
 	at time.Time,
 ) error {
 	err := s.vault.Update(ctx, func(tx *vault.Txn) error {
-		return s.reschedule(tx, word, url, at)
+		previous, found, err := s.dueAt(tx, word, url)
+		if err != nil {
+			return err
+		}
+		if !found {
+			return nil
+		}
+		if err := s.clearDueAt(tx, word, url, previous); err != nil {
+			return err
+		}
+
+		return s.setDueAt(tx, word, url, at)
 	})
 	if err != nil {
 		return fmt.Errorf("reschedule offer: %w", err)
@@ -103,22 +105,25 @@ func (s *postingOfferSchedule) Reschedule(
 	return nil
 }
 
-func (s *postingOfferSchedule) reschedule(
+func (s *postingOfferSchedule) dueAt(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) (time.Time, bool, error) {
+	at, found, err := s.due.Get(tx, postingKey(word, url))
+	if err != nil {
+		return time.Time{}, false, fmt.Errorf("read offer due: %w", err)
+	}
+
+	return at, found, nil
+}
+
+func (s *postingOfferSchedule) setDueAt(
 	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 	at time.Time,
 ) error {
-	previous, found, err := s.due.Get(tx, postingKey(word, url))
-	if err != nil {
-		return fmt.Errorf("read offer due: %w", err)
-	}
-	if found {
-		if _, err := s.order.Delete(tx, orderKey(previous, word, url)); err != nil {
-			return fmt.Errorf("drop offer order: %w", err)
-		}
-	}
-
 	if err := s.order.Put(tx, orderKey(at, word, url), struct{}{}); err != nil {
 		return fmt.Errorf("record offer order: %w", err)
 	}
@@ -129,7 +134,7 @@ func (s *postingOfferSchedule) reschedule(
 	return nil
 }
 
-func (s *postingOfferSchedule) clear(
+func (s *postingOfferSchedule) clearDueAt(
 	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
@@ -174,6 +179,32 @@ func (s *postingOfferSchedule) DuePostings(
 	}
 
 	return due, nil
+}
+
+// OldestDueAt returns the due time of the earliest-scheduled posting still
+// awaiting an offer, or false if the schedule is empty.
+func (s *postingOfferSchedule) OldestDueAt(ctx context.Context) (time.Time, bool, error) {
+	var (
+		oldest time.Time
+		found  bool
+	)
+	err := s.vault.View(ctx, func(tx *vault.Txn) error {
+		return s.order.Scan(tx, nil, func(key vault.Key, _ struct{}) (bool, error) {
+			scheduled, err := parseOrderKey(key)
+			if err != nil {
+				return false, err
+			}
+			oldest = scheduled.At
+			found = true
+
+			return false, nil
+		})
+	})
+	if err != nil {
+		return time.Time{}, false, fmt.Errorf("select oldest due posting: %w", err)
+	}
+
+	return oldest, found, nil
 }
 
 var _ rwipostings.PostingObserver = (*postingOfferSchedule)(nil)

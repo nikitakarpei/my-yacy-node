@@ -1,17 +1,21 @@
 package metrics
 
 import (
+	"time"
+
 	"github.com/prometheus/client_golang/prometheus"
 )
 
 const labelOutcome = "result"
 
 type DistributionMetrics struct {
-	offerRequests      *prometheus.CounterVec
-	postingsOffered    *prometheus.CounterVec
-	postingsConsidered prometheus.Counter
-	ledgerPrunes       prometheus.Counter
-	cyclesSkipped      prometheus.Counter
+	offerRequests       *prometheus.CounterVec
+	postingsOffered     *prometheus.CounterVec
+	postingsDue         prometheus.Counter
+	postingsGone        prometheus.Counter
+	oldestDuePostingAge prometheus.Gauge
+	ledgerPrunes        prometheus.Counter
+	cyclesSkipped       prometheus.Counter
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
@@ -29,9 +33,17 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		},
 		[]string{labelOutcome},
 	)
-	postingsConsidered := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "rwidistribution_postings_considered_total",
-		Help: "Due postings read from the distribution schedule for offering.",
+	postingsDue := prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "rwidistribution_postings_due_total",
+		Help: "Postings the schedule reported as due for an offer, summed across cycles.",
+	})
+	postingsGone := prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "rwidistribution_postings_gone_total",
+		Help: "Due postings that no longer exist in the posting index when read for offering.",
+	})
+	oldestDuePostingAge := prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "rwidistribution_oldest_due_posting_age_seconds",
+		Help: "Age of the oldest posting still awaiting an offer.",
 	})
 	ledgerPrunes := prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "rwidistribution_ledger_prunes_total",
@@ -42,15 +54,18 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		Help: "Distribution cycles skipped because too few peers were reachable.",
 	})
 	registry.MustRegister(
-		offerRequests, postingsOffered, postingsConsidered, ledgerPrunes, cyclesSkipped,
+		offerRequests, postingsOffered, postingsDue, postingsGone,
+		oldestDuePostingAge, ledgerPrunes, cyclesSkipped,
 	)
 
 	return &DistributionMetrics{
-		offerRequests:      offerRequests,
-		postingsOffered:    postingsOffered,
-		postingsConsidered: postingsConsidered,
-		ledgerPrunes:       ledgerPrunes,
-		cyclesSkipped:      cyclesSkipped,
+		offerRequests:       offerRequests,
+		postingsOffered:     postingsOffered,
+		postingsDue:         postingsDue,
+		postingsGone:        postingsGone,
+		oldestDuePostingAge: oldestDuePostingAge,
+		ledgerPrunes:        ledgerPrunes,
+		cyclesSkipped:       cyclesSkipped,
 	}
 }
 
@@ -59,8 +74,16 @@ func (d *DistributionMetrics) ObservePostingOffer(outcome string, postings int) 
 	d.postingsOffered.WithLabelValues(outcome).Add(float64(postings))
 }
 
-func (d *DistributionMetrics) ObservePostingsConsidered(considered int) {
-	d.postingsConsidered.Add(float64(considered))
+func (d *DistributionMetrics) ObservePostingsDue(due int) {
+	d.postingsDue.Add(float64(due))
+}
+
+func (d *DistributionMetrics) ObservePostingsGone(gone int) {
+	d.postingsGone.Add(float64(gone))
+}
+
+func (d *DistributionMetrics) ObserveOldestDuePostingAge(age time.Duration) {
+	d.oldestDuePostingAge.Set(age.Seconds())
 }
 
 func (d *DistributionMetrics) ObserveLedgerPrune(dropped int) {

@@ -43,6 +43,8 @@ func (c *postingOfferCycle) Run(ctx context.Context) {
 }
 
 func (c *postingOfferCycle) offerOnce(ctx context.Context) {
+	c.observeBacklog(ctx)
+
 	reachable := len(c.roster.ReachablePeers(ctx))
 	if reachable < c.minReachablePeers {
 		slog.DebugContext(
@@ -62,7 +64,13 @@ func (c *postingOfferCycle) offerOnce(ctx context.Context) {
 
 		return
 	}
-	c.observer.ObservePostingsConsidered(len(due.Postings) + len(due.Gone))
+	c.observer.ObservePostingsDue(len(due.Postings))
+	c.observer.ObservePostingsGone(len(due.Gone))
+	for _, identity := range due.Gone {
+		slog.DebugContext(ctx, "due posting gone from index",
+			slog.String("word", identity.Word.String()),
+			slog.String("url", identity.URL.String()))
+	}
 
 	byPeer := newPostingOffersByPeer()
 	for _, replication := range due.Postings {
@@ -94,8 +102,25 @@ func (c *postingOfferCycle) offerOnce(ctx context.Context) {
 	}
 
 	c.dropStaleReplicas(ctx, due.Postings)
-	c.forgetGone(ctx, due.Gone)
 	c.reschedule(ctx, due.Postings, accepted, retryAfter)
+}
+
+func (c *postingOfferCycle) observeBacklog(ctx context.Context) {
+	oldest, found, err := c.schedule.OldestDueAt(ctx)
+	if err != nil {
+		slog.WarnContext(ctx, "oldest due posting not read", slog.Any("error", err))
+
+		return
+	}
+	if !found {
+		return
+	}
+
+	age := c.now().Sub(oldest)
+	if age < 0 {
+		age = 0
+	}
+	c.observer.ObserveOldestDuePostingAge(age)
 }
 
 func (c *postingOfferCycle) recordAccepted(ctx context.Context, offer postingOffer) {
@@ -126,17 +151,6 @@ func (c *postingOfferCycle) dropStaleReplicas(ctx context.Context, postings []po
 		}
 		if dropped > 0 {
 			c.observer.ObserveLedgerPrune(dropped)
-		}
-	}
-}
-
-func (c *postingOfferCycle) forgetGone(ctx context.Context, gone []postingIdentity) {
-	for _, identity := range gone {
-		if err := c.schedule.Forget(ctx, identity.Word, identity.URL); err != nil {
-			slog.WarnContext(ctx, "gone posting not forgotten",
-				slog.String("word", identity.Word.String()),
-				slog.String("url", identity.URL.String()),
-				slog.Any("error", err))
 		}
 	}
 }

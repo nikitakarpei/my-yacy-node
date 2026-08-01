@@ -3,6 +3,7 @@ package rwidistribution
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
@@ -22,9 +23,24 @@ func openLedger(t *testing.T) (*vault.Vault, *replicaLedger) {
 		}
 	})
 
-	ledger, err := openReplicaLedger(v)
+	schedule, err := openPostingOfferSchedule(v, time.Now)
+	if err != nil {
+		t.Fatalf("openPostingOfferSchedule: %v", err)
+	}
+
+	ledger, err := openReplicaLedger(v, schedule)
 	if err != nil {
 		t.Fatalf("openReplicaLedger: %v", err)
+	}
+
+	for _, posting := range []struct {
+		word yacymodel.Hash
+		url  yacymodel.URLHash
+	}{
+		{yacymodel.WordHash("w1"), urlHash("u1")},
+		{yacymodel.WordHash("w1"), urlHash("u2")},
+	} {
+		store(t, schedule, posting.word, posting.url)
 	}
 
 	return v, ledger
@@ -112,6 +128,27 @@ func TestRecordAcceptedCoversAllPostingsInOffer(t *testing.T) {
 		if len(replicas) != 1 || replicas[0] != peer {
 			t.Fatalf("replicas for %v = %v, want [%v]", url, replicas, peer)
 		}
+	}
+}
+
+func TestRecordAcceptedSkipsPostingWithNoDueRow(t *testing.T) {
+	_, ledger := openLedger(t)
+	word, url := yacymodel.WordHash("absent"), urlHash("absent")
+	peer := yacymodel.WordHash("a")
+
+	if err := ledger.RecordAccepted(
+		context.Background(),
+		acceptedOffer(peer, word, url),
+	); err != nil {
+		t.Fatalf("RecordAccepted: %v", err)
+	}
+
+	replicas, err := ledger.Replicas(context.Background(), word, url)
+	if err != nil {
+		t.Fatalf("Replicas: %v", err)
+	}
+	if len(replicas) != 0 {
+		t.Fatalf("replicas = %v, want none for a posting with no due row", replicas)
 	}
 }
 
