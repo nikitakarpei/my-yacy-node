@@ -16,6 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
@@ -24,12 +25,13 @@ import (
 type node struct {
 	peerMux      *http.ServeMux
 	sweeper      eviction.Sweeper
+	escrow       rwiescrow.PostingExpiry
 	announcer    peerannouncement.Announcer
 	distribution rwidistribution.Runner
 	crawl        *crawlRuntime
 }
 
-//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators
 func assembleNode(
 	ctx context.Context,
 	config nodeConfig,
@@ -37,6 +39,7 @@ func assembleNode(
 	client *http.Client,
 	offerObserver rwidistribution.PostingOfferCycleObserver,
 	rosterObserver peerroster.RosterObserver,
+	escrowObserver rwiescrow.HoldObserver,
 ) (node, error) {
 	guard := httpguard.NewRequestGuard(
 		httpguard.DefaultMaxBodyBytes,
@@ -44,7 +47,7 @@ func assembleNode(
 	)
 	identity := nodeIdentity(config)
 
-	storage, err := openNodeStorage(vault)
+	storage, err := openNodeStorage(vault, escrowObserver)
 	if err != nil {
 		return node{}, err
 	}
@@ -98,6 +101,7 @@ func assembleNode(
 	return node{
 		peerMux:      mux,
 		sweeper:      sweeper,
+		escrow:       storage.escrow,
 		announcer:    announcer,
 		distribution: distribution,
 		crawl:        runtime,

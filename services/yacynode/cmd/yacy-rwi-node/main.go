@@ -16,6 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/boltvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
@@ -29,6 +30,10 @@ const (
 	evictionTargetFraction = 0.9
 	evictionBatch          = 256
 	evictionInterval       = time.Minute
+
+	escrowHoldFor        = 5 * time.Minute
+	escrowExpiryBatch    = 256
+	escrowExpiryInterval = time.Minute
 
 	serverReadHeaderTimeout = 10 * time.Second
 	shutdownTimeout         = 15 * time.Second
@@ -66,11 +71,20 @@ func run() error {
 	evictionMetrics := metrics.NewEvictionMetrics(endpoints.Registry())
 	distributionMetrics := metrics.NewDistributionMetrics(endpoints.Registry())
 	rosterMetrics := metrics.NewPeerRosterMetrics(endpoints.Registry())
+	escrowMetrics := metrics.NewRWIEscrowMetrics(endpoints.Registry())
 
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	assembled, err := assembleNode(ctx, config, vault, client, distributionMetrics, rosterMetrics)
+	assembled, err := assembleNode(
+		ctx,
+		config,
+		vault,
+		client,
+		distributionMetrics,
+		rosterMetrics,
+		escrowMetrics,
+	)
 	if err != nil {
 		return fmt.Errorf("assemble node: %w", err)
 	}
@@ -81,6 +95,7 @@ func run() error {
 		ctx,
 		assembled,
 		evictionMetrics,
+		escrowMetrics,
 		servergroup.NamedServer{
 			Name: "peer protocol",
 			Server: buildServer(
@@ -104,6 +119,7 @@ func serve(
 	ctx context.Context,
 	assembled node,
 	evictionMetrics *metrics.EvictionMetrics,
+	escrowMetrics *metrics.RWIEscrowMetrics,
 	servers ...servergroup.NamedServer,
 ) error {
 	workers := []func(context.Context) error{
@@ -113,6 +129,14 @@ func serve(
 		},
 		func(runCtx context.Context) error {
 			eviction.RunSweepLoop(runCtx, assembled.sweeper, evictionMetrics, evictionInterval)
+			return nil
+		},
+		func(runCtx context.Context) error {
+			rwiescrow.RunExpiryLoop(runCtx, assembled.escrow, escrowMetrics, rwiescrow.ExpiryConfig{
+				HoldFor:  escrowHoldFor,
+				Interval: escrowExpiryInterval,
+				Batch:    escrowExpiryBatch,
+			})
 			return nil
 		},
 	}

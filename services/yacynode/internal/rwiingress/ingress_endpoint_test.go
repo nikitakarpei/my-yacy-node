@@ -7,7 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -23,13 +23,13 @@ type recordingIntake struct {
 func (r *recordingIntake) Receive(
 	_ context.Context,
 	postings []yacymodel.RWIPosting,
-) (rwipostings.Receipt, error) {
+) (rwiadmission.Receipt, error) {
 	if r.busy {
-		return rwipostings.Receipt{Busy: true, Pause: 5 * time.Second}, nil
+		return rwiadmission.Receipt{Busy: true, Pause: 5 * time.Second}, nil
 	}
 	r.received = append(r.received, postings...)
 
-	return rwipostings.Receipt{}, nil
+	return rwiadmission.Receipt{}, nil
 }
 
 func endpointWith(intake *recordingIntake) transferRWIEndpoint {

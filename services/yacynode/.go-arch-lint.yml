@@ -40,6 +40,10 @@ components:
     in: internal/urlreferences/**
   rwipostings:
     in: internal/rwipostings/**
+  rwiescrow:
+    in: internal/rwiescrow/**
+  rwiadmission:
+    in: internal/rwiadmission/**
   rwiingress:
     in: internal/rwiingress/**
   rwidistribution:
@@ -205,6 +209,24 @@ deps:
   rwipostings:
     mayDependOn:
       - rwipostings
+      - vault
+      - memvault
+    canUse:
+      - yacymodel
+  rwiescrow:
+    mayDependOn:
+      - rwiescrow
+      - rwipostings
+      - urlmeta
+      - vault
+      - memvault
+    canUse:
+      - yacymodel
+  rwiadmission:
+    mayDependOn:
+      - rwiadmission
+      - rwiescrow
+      - rwipostings
       - urlmeta
       - vault
       - memvault
@@ -213,7 +235,7 @@ deps:
   rwiingress:
     mayDependOn:
       - rwiingress
-      - rwipostings
+      - rwiadmission
       - httpguard
       - nodeidentity
     canUse:
@@ -270,7 +292,7 @@ deps:
     mayDependOn:
       - crawlresults
       - urlmeta
-      - rwipostings
+      - rwiadmission
     canUse:
       - yacycrawlcontract
       - yacymodel
@@ -298,6 +320,8 @@ deps:
       - crawling
       - urlmeta
       - rwipostings
+      - rwiescrow
+      - rwiadmission
       - rwiingress
       - rwidistribution
       - documentsearch

@@ -85,17 +85,29 @@ func (d *postingOfferDelivery) deliverURLMetadata(
 		return unknownToPeer
 	}
 
-	if len(metadata) != len(unknownToPeer) {
+	absent, err := d.urls.MissingURLs(ctx, unknownToPeer)
+	if err != nil {
 		slog.WarnContext(
 			ctx,
-			"url metadata incomplete for peer's unknown urls",
+			"unknown url metadata presence not read",
 			slog.String("peer", offer.Peer.Hash.String()),
-			slog.Int("unknown", len(unknownToPeer)),
-			slog.Int("found", len(metadata)),
+			slog.Any("error", err),
 		)
-		d.observer.ObserveURLMetadataDelivery(string(urlMetadataUnavailable), len(unknownToPeer))
 
 		return unknownToPeer
+	}
+	if len(absent) > 0 {
+		slog.WarnContext(
+			ctx,
+			"url metadata absent for peer's unknown urls",
+			slog.String("peer", offer.Peer.Hash.String()),
+			slog.Int("unknown", len(unknownToPeer)),
+			slog.Int("absent", len(absent)),
+		)
+		d.observer.ObserveURLMetadataDelivery(string(urlMetadataUnavailable), len(absent))
+	}
+	if len(metadata) == 0 {
+		return absent
 	}
 
 	delivery := d.urlMetadataCourier.Deliver(ctx, endpoint, offer.Peer.Hash, metadata)
@@ -105,7 +117,7 @@ func (d *postingOfferDelivery) deliverURLMetadata(
 		return unknownToPeer
 	}
 
-	return delivery.URLsRejected
+	return append(absent, delivery.URLsRejected...)
 }
 
 func postingsWithMetadataDelivered(

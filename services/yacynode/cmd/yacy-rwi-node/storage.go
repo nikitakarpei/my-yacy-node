@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
@@ -19,20 +21,19 @@ type nodeStorage struct {
 	staleness       urlmetastaleness.StalenessRanking
 	references      urlreferences.ReferenceProjection
 	postings        rwipostings.PostingIndex
-	postingReceiver rwipostings.PostingReceiver
+	postingReceiver rwiadmission.PostingReceiver
 	postingPurger   rwipostings.PostingPurger
+	escrow          *rwiescrow.HeldPostings
 	distribution    *rwidistribution.Distribution
 }
 
-func openNodeStorage(vault *vault.Vault) (nodeStorage, error) {
+func openNodeStorage(vault *vault.Vault, escrowObserver rwiescrow.HoldObserver) (
+	nodeStorage,
+	error,
+) {
 	staleness, err := urlmetastaleness.Open(vault)
 	if err != nil {
 		return nodeStorage{}, fmt.Errorf("url metadata staleness: %w", err)
-	}
-
-	urlDirectory, urlEvictor, urlReceiver, err := urlmeta.Open(vault, staleness)
-	if err != nil {
-		return nodeStorage{}, fmt.Errorf("urlmeta storage: %w", err)
 	}
 
 	references, err := urlreferences.Open(vault)
@@ -45,26 +46,37 @@ func openNodeStorage(vault *vault.Vault) (nodeStorage, error) {
 		return nodeStorage{}, fmt.Errorf("rwi distribution: %w", err)
 	}
 
-	postings, postingReceiver, postingPurger, err := rwipostings.Open(
-		vault,
-		urlDirectory,
-		rwipostings.Config{BatchCap: receiveBatchCap, Pause: receiveBusyPause},
-		references,
-		distribution,
-	)
+	postings, admitter, postingPurger, err := rwipostings.Open(vault, references, distribution)
 	if err != nil {
 		return nodeStorage{}, fmt.Errorf("rwi storage: %w", err)
 	}
 
+	escrow, err := rwiescrow.Open(vault, admitter, escrowObserver, time.Now)
+	if err != nil {
+		return nodeStorage{}, fmt.Errorf("rwi escrow: %w", err)
+	}
+
+	urlDirectory, urlEvictor, urlReceiver, err := urlmeta.Open(vault, staleness, escrow)
+	if err != nil {
+		return nodeStorage{}, fmt.Errorf("urlmeta storage: %w", err)
+	}
+
 	return nodeStorage{
-		urlDirectory:    urlDirectory,
-		urlEvictor:      urlEvictor,
-		urlReceiver:     urlReceiver,
-		staleness:       staleness,
-		references:      references,
-		postings:        postings,
-		postingReceiver: postingReceiver,
-		postingPurger:   postingPurger,
-		distribution:    distribution,
+		urlDirectory: urlDirectory,
+		urlEvictor:   urlEvictor,
+		urlReceiver:  urlReceiver,
+		staleness:    staleness,
+		references:   references,
+		postings:     postings,
+		postingReceiver: rwiadmission.Open(
+			vault,
+			urlDirectory,
+			admitter,
+			escrow,
+			rwiadmission.Config{BatchCap: receiveBatchCap, Pause: receiveBusyPause},
+		),
+		postingPurger: postingPurger,
+		escrow:        escrow,
+		distribution:  distribution,
 	}, nil
 }

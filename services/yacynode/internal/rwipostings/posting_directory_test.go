@@ -9,19 +9,17 @@ import (
 
 func TestScanWordVisitsMatchingPostings(t *testing.T) {
 	ctx := context.Background()
-	h := openHarness(t, 0, 100)
+	h := openHarness(t)
 
-	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
+	h.admit(t,
 		posting("w1", "u1"),
 		posting("w1", "u2"),
 		posting("w2", "u3"),
-	}); err != nil {
-		t.Fatalf("Intake: %v", err)
-	}
+	)
 
 	word := yacymodel.WordHash("w1")
 	var visited []yacymodel.RWIPosting
-	err := h.rwi.Index.ScanWord(ctx, word, func(entry yacymodel.RWIPosting) (bool, error) {
+	err := h.index.ScanWord(ctx, word, func(entry yacymodel.RWIPosting) (bool, error) {
 		visited = append(visited, entry)
 
 		return true, nil
@@ -41,18 +39,16 @@ func TestScanWordVisitsMatchingPostings(t *testing.T) {
 
 func TestPostingReadsBackStoredEntry(t *testing.T) {
 	ctx := context.Background()
-	h := openHarness(t, 0, 100)
+	h := openHarness(t)
 
-	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
+	h.admit(t,
 		posting("w1", "u1"),
-	}); err != nil {
-		t.Fatalf("Intake: %v", err)
-	}
+	)
 
 	word := yacymodel.WordHash("w1")
 	url := urlHash("u1")
 
-	entry, found, err := h.rwi.Index.Posting(ctx, word, url)
+	entry, found, err := h.index.Posting(ctx, word, url)
 	if err != nil {
 		t.Fatalf("Posting: %v", err)
 	}
@@ -69,9 +65,9 @@ func TestPostingReadsBackStoredEntry(t *testing.T) {
 
 func TestPostingMissingIsNotFound(t *testing.T) {
 	ctx := context.Background()
-	h := openHarness(t, 0, 100)
+	h := openHarness(t)
 
-	_, found, err := h.rwi.Index.Posting(ctx, yacymodel.WordHash("w1"), urlHash("u1"))
+	_, found, err := h.index.Posting(ctx, yacymodel.WordHash("w1"), urlHash("u1"))
 	if err != nil {
 		t.Fatalf("Posting: %v", err)
 	}
@@ -82,17 +78,15 @@ func TestPostingMissingIsNotFound(t *testing.T) {
 
 func TestScanWordStopsWhenVisitorStops(t *testing.T) {
 	ctx := context.Background()
-	h := openHarness(t, 0, 100)
+	h := openHarness(t)
 
-	if _, err := h.rwi.Receiver.Receive(ctx, []yacymodel.RWIPosting{
+	h.admit(t,
 		posting("w1", "u1"),
 		posting("w1", "u2"),
-	}); err != nil {
-		t.Fatalf("Intake: %v", err)
-	}
+	)
 
 	visited := 0
-	err := h.rwi.Index.ScanWord(
+	err := h.index.ScanWord(
 		ctx,
 		yacymodel.WordHash("w1"),
 		func(yacymodel.RWIPosting) (bool, error) {

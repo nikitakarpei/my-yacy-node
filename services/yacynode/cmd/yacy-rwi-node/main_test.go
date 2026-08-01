@@ -68,6 +68,7 @@ func assembleTestNode(t *testing.T, config nodeConfig, vault *vault.Vault) node 
 		newEgressProxyClient(config.ProxyURL, outboundRequestTimeout),
 		metrics.NewDistributionMetrics(prometheus.NewRegistry()),
 		metrics.NewPeerRosterMetrics(prometheus.NewRegistry()),
+		metrics.NewRWIEscrowMetrics(prometheus.NewRegistry()),
 	)
 	if err != nil {
 		t.Fatalf("assemble: %v", err)
@@ -86,6 +87,7 @@ func TestServeReturnsNilAfterCancel(t *testing.T) {
 		ctx,
 		assembled,
 		metrics.NewEvictionMetrics(prometheus.NewRegistry()),
+		metrics.NewRWIEscrowMetrics(prometheus.NewRegistry()),
 		servergroup.NamedServer{
 			Name:   "peer protocol",
 			Server: buildServer("127.0.0.1:0", assembled.peerMux),
@@ -110,6 +112,7 @@ func TestServeShutsDownOnListenError(t *testing.T) {
 		context.Background(),
 		assembled,
 		metrics.NewEvictionMetrics(prometheus.NewRegistry()),
+		metrics.NewRWIEscrowMetrics(prometheus.NewRegistry()),
 		servergroup.NamedServer{
 			Name:   "peer protocol",
 			Server: buildServer("203.0.113.255:-1", assembled.peerMux),

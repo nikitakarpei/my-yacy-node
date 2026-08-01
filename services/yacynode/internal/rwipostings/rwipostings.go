@@ -1,17 +1,16 @@
-// Package rwi owns RWI posting intake, storage, search, and eviction. It is the
-// only writer of postings: callers read through PostingIndex, hand postings in
-// through PostingReceiver, and drop them through PostingPurger, while projections
-// follow arrivals and departures through PostingObserver. Every port speaks the
-// yacymodel vocabulary and lends cross-module work a shared transaction, so the
-// schema never leaks.
+// Package rwipostings owns RWI posting storage, search, and eviction. It is the
+// only writer of postings: callers read through PostingIndex, add postings through
+// PostingAdmitter, and drop them through PostingPurger, while projections follow
+// arrivals and departures through PostingObserver. Every port speaks the yacymodel
+// vocabulary and lends cross-module work a shared transaction, so the schema never
+// leaks; PostingForm publishes the stored value form for packages that hold a
+// posting outside this index.
 package rwipostings
 
 import (
 	"context"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
@@ -38,43 +37,28 @@ type PostingIndex interface {
 	) error
 }
 
-type PostingReceiver interface {
-	Receive(ctx context.Context, entries []yacymodel.RWIPosting) (Receipt, error)
-}
-
-type Receipt struct {
-	Busy       bool
-	TooLarge   bool
-	Pause      time.Duration
-	UnknownURL []yacymodel.URLHash
-}
-
-type Config struct {
-	BatchCap int
-	Pause    time.Duration
+type PostingAdmitter interface {
+	Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error
 }
 
 func Open(
 	vault *vault.Vault,
-	urls urlmeta.URLDirectory,
-	cfg Config,
 	observers ...PostingObserver,
-) (PostingIndex, PostingReceiver, PostingPurger, error) {
+) (PostingIndex, PostingAdmitter, PostingPurger, error) {
 	postings, err := registerPostings(vault)
 	if err != nil {
 		return nil, nil, nil, err
 	}
 
-	watched := postingObservers(observers)
-	directory := postingDirectory{vault: vault, postings: postings, observers: watched}
-	intake := postingIntake{
+	directory := postingDirectory{
 		vault:     vault,
 		postings:  postings,
-		observers: watched,
-		urls:      urls,
-		batchCap:  cfg.BatchCap,
-		pause:     cfg.Pause,
+		observers: postingObservers(observers),
 	}
 
-	return directory, intake, directory, nil
+	return directory, directory, directory, nil
+}
+
+func PostingForm() vault.Codec[yacymodel.RWIPosting] {
+	return postingCodec{}
 }

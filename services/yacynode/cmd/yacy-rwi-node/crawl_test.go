@@ -25,8 +25,13 @@ func (s receiveSignal) Receive(
 	return receipt, err
 }
 
+type discardedHolds struct{}
+
+func (discardedHolds) ObserveHeld(int)     {}
+func (discardedHolds) ObserveReleased(int) {}
+
 func TestCrawlRuntimeConsumesIngestBatch(t *testing.T) {
-	storage, err := openNodeStorage(openTestVault(t))
+	storage, err := openNodeStorage(openTestVault(t), discardedHolds{})
 	if err != nil {
 		t.Fatalf("open storage: %v", err)
 	}

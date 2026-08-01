@@ -41,11 +41,18 @@ func (f fakeURLDirectory) MetadataByHash(
 	return found, nil
 }
 
-func (fakeURLDirectory) MissingURLs(
-	context.Context,
-	[]yacymodel.URLHash,
+func (f fakeURLDirectory) MissingURLs(
+	_ context.Context,
+	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLHash, error) {
-	return nil, nil
+	missing := make([]yacymodel.URLHash, 0, len(hashes))
+	for _, hash := range hashes {
+		if _, ok := f.metadata[hash]; !ok {
+			missing = append(missing, hash)
+		}
+	}
+
+	return missing, nil
 }
 
 func (fakeURLDirectory) Count(context.Context) (int, error) { return 0, nil }
@@ -630,5 +637,66 @@ func TestPostingOfferCycleExcludesPostingWhenURLMetadataDeliveryFails(t *testing
 			"due = %v, want [word] retried after a failed url metadata delivery",
 			due,
 		)
+	}
+}
+
+func TestPostingOfferCycleDeliversMetadataItHasWhenOneURLIsAbsent(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word := yacymodel.WordHash("w1")
+	present, absent := urlHash("u1"), urlHash("u2")
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, present): fakePosting(word, present),
+		fakePostingKey(word, absent):  fakePosting(word, absent),
+	}
+	schedule, ledger, courier, observer, cycle := openPostingOfferCycle(
+		t, func() time.Time { return now }, postings, []yacymodel.Seed{seed(peer)},
+	)
+	courier.receipts[peer] = postingOfferReceipt{
+		Outcome:           postingOfferAccepted,
+		URLsUnknownToPeer: []yacymodel.URLHash{present, absent},
+	}
+	cycle.delivery.urls = fakeURLDirectory{
+		metadata: map[yacymodel.URLHash]yacymodel.URLMetadata{
+			present: {Address: "http://example.com/u1"},
+		},
+	}
+	metadataCourier := &fakeURLMetadataCourier{
+		receipt: urlMetadataReceipt{Outcome: urlMetadataAccepted},
+	}
+	cycle.delivery.urlMetadataCourier = metadataCourier
+
+	store(t, schedule, word, present)
+	store(t, schedule, word, absent)
+
+	cycle.runCycle(context.Background())
+
+	if len(metadataCourier.delivered) != 1 {
+		t.Fatalf(
+			"delivered = %v, want the one url whose metadata this node holds",
+			metadataCourier.delivered,
+		)
+	}
+	if observer.urlMetadataDeliveries[string(urlMetadataUnavailable)] != 1 {
+		t.Fatalf(
+			"observed url metadata deliveries = %+v, want 1 for outcome %q",
+			observer.urlMetadataDeliveries, urlMetadataUnavailable,
+		)
+	}
+
+	replicas, err := ledger.Replicas(context.Background(), word, present)
+	if err != nil {
+		t.Fatalf("Replicas: %v", err)
+	}
+	if len(replicas) != 1 {
+		t.Fatalf("replicas = %v, want the deliverable posting recorded", replicas)
+	}
+
+	replicas, err = ledger.Replicas(context.Background(), word, absent)
+	if err != nil {
+		t.Fatalf("Replicas: %v", err)
+	}
+	if len(replicas) != 0 {
+		t.Fatalf("replicas = %v, want none for the posting with no url metadata", replicas)
 	}
 }

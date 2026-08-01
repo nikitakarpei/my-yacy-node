@@ -6,11 +6,13 @@ package memvault
 import (
 	"context"
 	"fmt"
+	"sync"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
 type engine struct {
+	mutex      sync.RWMutex
 	buckets    map[vault.Name]map[string][]byte
 	quotaBytes int64
 }
@@ -28,6 +30,9 @@ func Open(quotaBytes int64) (*vault.Vault, error) {
 }
 
 func (e *engine) Provision(name vault.Name) error {
+	e.mutex.Lock()
+	defer e.mutex.Unlock()
+
 	if _, ok := e.buckets[name]; !ok {
 		e.buckets[name] = map[string][]byte{}
 	}
@@ -36,6 +41,9 @@ func (e *engine) Provision(name vault.Name) error {
 }
 
 func (e *engine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
+	e.mutex.Lock()
+	defer e.mutex.Unlock()
+
 	if err := ctx.Err(); err != nil {
 		return fmt.Errorf("context: %w", err)
 	}
@@ -50,6 +58,9 @@ func (e *engine) Update(ctx context.Context, fn func(vault.EngineTxn) error) err
 }
 
 func (e *engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error {
+	e.mutex.RLock()
+	defer e.mutex.RUnlock()
+
 	if err := ctx.Err(); err != nil {
 		return fmt.Errorf("context: %w", err)
 	}
@@ -58,6 +69,9 @@ func (e *engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error
 }
 
 func (e *engine) Close() error {
+	e.mutex.Lock()
+	defer e.mutex.Unlock()
+
 	e.buckets = nil
 
 	return nil
@@ -68,6 +82,9 @@ func (e *engine) QuotaBytes() int64 {
 }
 
 func (e *engine) UsedBytes(ctx context.Context) (int64, error) {
+	e.mutex.RLock()
+	defer e.mutex.RUnlock()
+
 	if err := ctx.Err(); err != nil {
 		return 0, fmt.Errorf("context: %w", err)
 	}
