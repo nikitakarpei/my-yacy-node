@@ -61,7 +61,7 @@ func (f *fakeURLMetadataCourier) Deliver(
 	_ yacymodel.Hash,
 	metadata []yacymodel.URLMetadata,
 ) urlMetadataReceipt {
-	f.delivered = metadata
+	f.delivered = append(f.delivered, metadata...)
 
 	return f.receipt
 }

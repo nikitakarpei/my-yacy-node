@@ -19,15 +19,16 @@ import (
 )
 
 type Config struct {
-	NetworkName       string
-	Self              yacymodel.Hash
-	Redundancy        int
-	Partitions        yacymodel.DHTRingPartitions
-	PostingsPerCycle  int
-	CycleInterval     time.Duration
-	RefreshInterval   time.Duration
-	RetryInterval     time.Duration
-	MinReachablePeers int
+	NetworkName          string
+	Self                 yacymodel.Hash
+	Redundancy           int
+	Partitions           yacymodel.DHTRingPartitions
+	PostingsPerCycle     int
+	CycleInterval        time.Duration
+	RefreshInterval      time.Duration
+	RetryInterval        time.Duration
+	MinReachablePeers    int
+	URLMetadataBatchSize int
 }
 
 type Runner interface {
@@ -100,10 +101,13 @@ func (d *Distribution) Cycle(
 				networkName: cfg.NetworkName,
 				self:        cfg.Self,
 			},
-			urlMetadataCourier: httpURLMetadataCourier{
-				exchange:    exchange,
-				networkName: cfg.NetworkName,
-				self:        cfg.Self,
+			urlMetadataCourier: boundedURLMetadataCourier{
+				inner: httpURLMetadataCourier{
+					exchange:    exchange,
+					networkName: cfg.NetworkName,
+					self:        cfg.Self,
+				},
+				batchSize: cfg.URLMetadataBatchSize,
 			},
 			urls:     urls,
 			observer: observer,

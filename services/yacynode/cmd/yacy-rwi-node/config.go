@@ -32,14 +32,15 @@ const (
 	envKnownRosterCapacity     = "YACY_KNOWN_ROSTER_CAPACITY"
 	envReachableRosterCapacity = "YACY_REACHABLE_ROSTER_CAPACITY"
 
-	envDistributionEnabled           = "YACY_DISTRIBUTION_ENABLED"
-	envDistributionRedundancy        = "YACY_DISTRIBUTION_REDUNDANCY"
-	envDistributionPartitionExponent = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
-	envDistributionPostingsPerCycle  = "YACY_DISTRIBUTION_POSTINGS_PER_CYCLE"
-	envDistributionCycleInterval     = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
-	envDistributionRefreshInterval   = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
-	envDistributionRetryInterval     = "YACY_DISTRIBUTION_RETRY_INTERVAL"
-	envDistributionMinReachablePeers = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
+	envDistributionEnabled              = "YACY_DISTRIBUTION_ENABLED"
+	envDistributionRedundancy           = "YACY_DISTRIBUTION_REDUNDANCY"
+	envDistributionPartitionExponent    = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
+	envDistributionPostingsPerCycle     = "YACY_DISTRIBUTION_POSTINGS_PER_CYCLE"
+	envDistributionCycleInterval        = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
+	envDistributionRefreshInterval      = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
+	envDistributionRetryInterval        = "YACY_DISTRIBUTION_RETRY_INTERVAL"
+	envDistributionMinReachablePeers    = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
+	envDistributionURLMetadataBatchSize = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
 
 	defaultPeerAddr                = ":8090"
 	defaultOpsAddr                 = ":9090"
@@ -50,14 +51,15 @@ const (
 	defaultKnownRosterCapacity     = 4096
 	defaultReachableRosterCapacity = 256
 
-	defaultDistributionEnabled           = false
-	defaultDistributionRedundancy        = 3
-	defaultDistributionPartitionExponent = 4
-	defaultDistributionPostingsPerCycle  = 1000
-	defaultDistributionCycleInterval     = time.Minute
-	defaultDistributionRefreshInterval   = 24 * time.Hour
-	defaultDistributionRetryInterval     = 5 * time.Minute
-	defaultDistributionMinReachablePeers = 32
+	defaultDistributionEnabled              = false
+	defaultDistributionRedundancy           = 3
+	defaultDistributionPartitionExponent    = 4
+	defaultDistributionPostingsPerCycle     = 1000
+	defaultDistributionCycleInterval        = time.Minute
+	defaultDistributionRefreshInterval      = 24 * time.Hour
+	defaultDistributionRetryInterval        = 5 * time.Minute
+	defaultDistributionMinReachablePeers    = 32
+	defaultDistributionURLMetadataBatchSize = 50
 
 	storageFileName = "yacy-rwipostings.db"
 )
@@ -85,14 +87,15 @@ type nodeConfig struct {
 }
 
 type distributionConfig struct {
-	Enabled           bool
-	Redundancy        int
-	PartitionExponent uint
-	PostingsPerCycle  int
-	CycleInterval     time.Duration
-	RefreshInterval   time.Duration
-	RetryInterval     time.Duration
-	MinReachablePeers int
+	Enabled              bool
+	Redundancy           int
+	PartitionExponent    uint
+	PostingsPerCycle     int
+	CycleInterval        time.Duration
+	RefreshInterval      time.Duration
+	RetryInterval        time.Duration
+	MinReachablePeers    int
+	URLMetadataBatchSize int
 }
 
 func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
@@ -282,15 +285,23 @@ func loadDistributionConfig(getenv func(string) string) (distributionConfig, err
 		return distributionConfig{}, err
 	}
 
+	urlMetadataBatchSize, err := envconfig.PositiveInt(
+		getenv, envDistributionURLMetadataBatchSize, defaultDistributionURLMetadataBatchSize,
+	)
+	if err != nil {
+		return distributionConfig{}, err
+	}
+
 	return distributionConfig{
-		Enabled:           enabled,
-		Redundancy:        redundancy,
-		PartitionExponent: uint(partitionExponent),
-		PostingsPerCycle:  postingsPerCycle,
-		CycleInterval:     cycleInterval,
-		RefreshInterval:   refreshInterval,
-		RetryInterval:     retryInterval,
-		MinReachablePeers: minReachablePeers,
+		Enabled:              enabled,
+		Redundancy:           redundancy,
+		PartitionExponent:    uint(partitionExponent),
+		PostingsPerCycle:     postingsPerCycle,
+		CycleInterval:        cycleInterval,
+		RefreshInterval:      refreshInterval,
+		RetryInterval:        retryInterval,
+		MinReachablePeers:    minReachablePeers,
+		URLMetadataBatchSize: urlMetadataBatchSize,
 	}, nil
 }
 
