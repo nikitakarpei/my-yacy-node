@@ -48,6 +48,7 @@ type DistributionConfig struct {
 	CycleInterval     time.Duration
 	RefreshInterval   time.Duration
 	RetryInterval     time.Duration
+	MinReachablePeers int
 }
 
 func Start(
@@ -85,6 +86,11 @@ func Start(
 		env["YACY_DISTRIBUTION_CYCLE_INTERVAL"] = cfg.Distribution.CycleInterval.String()
 		env["YACY_DISTRIBUTION_REFRESH_INTERVAL"] = cfg.Distribution.RefreshInterval.String()
 		env["YACY_DISTRIBUTION_RETRY_INTERVAL"] = cfg.Distribution.RetryInterval.String()
+		if cfg.Distribution.MinReachablePeers > 0 {
+			env["YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"] = strconv.Itoa(
+				cfg.Distribution.MinReachablePeers,
+			)
+		}
 	}
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
