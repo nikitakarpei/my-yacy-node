@@ -7,7 +7,7 @@ import (
 )
 
 type postingCourier interface {
-	Offer(ctx context.Context, offer postingOffer) postingOfferOutcome
+	Offer(ctx context.Context, offer postingOffer) postingOfferReceipt
 }
 
 type postingOfferCycle struct {
@@ -52,11 +52,7 @@ func (c *postingOfferCycle) offerOnce(ctx context.Context) {
 
 	offered := make(map[duePosting]time.Duration, len(plan.Offers))
 	for _, offer := range plan.Offers {
-		outcome := c.courier.Offer(ctx, offer)
-		retryAfter := c.retryInterval
-		if outcome.RetryAfter > 0 {
-			retryAfter = outcome.RetryAfter
-		}
+		retryAfter := c.offer(ctx, offer)
 		for _, posting := range offer.Postings {
 			entry := duePosting{Word: posting.WordHash, URL: posting.URLHash}
 			if _, seen := offered[entry]; !seen {
@@ -66,6 +62,33 @@ func (c *postingOfferCycle) offerOnce(ctx context.Context) {
 	}
 
 	c.reschedule(ctx, c.dueTimes(ctx, plan, offered))
+}
+
+func (c *postingOfferCycle) offer(ctx context.Context, offer postingOffer) time.Duration {
+	receipt := c.courier.Offer(ctx, offer)
+	c.observer.ObservePostingOffer(string(receipt.Outcome), len(offer.Postings))
+
+	if receipt.Outcome == postingOfferAccepted {
+		c.recordAccepted(ctx, offer)
+	}
+	if receipt.RetryAfter > 0 {
+		return receipt.RetryAfter
+	}
+
+	return c.retryInterval
+}
+
+func (c *postingOfferCycle) recordAccepted(ctx context.Context, offer postingOffer) {
+	for _, posting := range offer.Postings {
+		word, url := posting.WordHash, posting.URLHash
+		if err := c.ledger.RecordAccepted(ctx, word, url, offer.Peer.Hash); err != nil {
+			slog.WarnContext(ctx, "replica not recorded",
+				slog.String("peer", offer.Peer.Hash.String()),
+				slog.String("word", word.String()),
+				slog.String("url", url.String()),
+				slog.Any("error", err))
+		}
+	}
 }
 
 func (c *postingOfferCycle) dropStaleReplicas(ctx context.Context, stale []staleReplicas) {

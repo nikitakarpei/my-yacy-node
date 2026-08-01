@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -21,8 +20,8 @@ const peerResponseMaxBodyBytes int64 = 1 << 20
 
 var errPeerRequestFailed = errors.New("posting offer failed")
 
-type postingOfferOutcome struct {
-	Accepted   bool
+type postingOfferReceipt struct {
+	Outcome    postingOfferOutcome
 	RetryAfter time.Duration
 }
 
@@ -30,25 +29,23 @@ type httpPostingCourier struct {
 	client      *http.Client
 	networkName string
 	self        yacymodel.Hash
-	roster      peerroster.Roster
-	ledger      *replicaLedger
 	urls        urlmeta.URLDirectory
-	observer    PostingOfferCycleObserver
 }
 
-func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) postingOfferOutcome {
+func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) postingOfferReceipt {
 	endpoint, ok := offer.Peer.NetworkAddress()
 	if !ok {
-		c.roster.ConfirmUnreachable(ctx, offer.Peer.Hash)
-		c.observer.ObservePostingOffer(resultUnreachable, len(offer.Postings))
+		slog.WarnContext(
+			ctx,
+			"posting offer not sent to peer without network address",
+			slog.String("peer", offer.Peer.Hash.String()),
+		)
 
-		return postingOfferOutcome{}
+		return postingOfferReceipt{Outcome: postingOfferUnaddressable}
 	}
 
 	resp, err := c.postTransferRWI(ctx, endpoint, offer)
 	if err != nil {
-		c.roster.ConfirmUnreachable(ctx, offer.Peer.Hash)
-		c.observer.ObservePostingOffer(resultError, len(offer.Postings))
 		slog.WarnContext(
 			ctx,
 			"posting offer failed",
@@ -57,19 +54,16 @@ func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) posti
 			slog.Any("error", err),
 		)
 
-		return postingOfferOutcome{}
+		return postingOfferReceipt{Outcome: postingOfferUnreachable}
 	}
-
-	c.observer.ObservePostingOffer(string(resp.Result), len(offer.Postings))
 
 	switch resp.Result {
 	case yacyproto.ResultOK:
-		c.recordAccepted(ctx, offer)
 		c.deliverUnknownURLs(ctx, endpoint, offer.Peer, resp.UnknownURL)
 
-		return postingOfferOutcome{Accepted: true}
+		return postingOfferReceipt{Outcome: postingOfferAccepted}
 	case yacyproto.ResultBusy, yacyproto.ResultNotGranted:
-		return postingOfferOutcome{RetryAfter: resp.Pause}
+		return postingOfferReceipt{Outcome: postingOfferDeferred, RetryAfter: resp.Pause}
 	case yacyproto.ResultTooHighLoad:
 		slog.WarnContext(
 			ctx,
@@ -78,7 +72,7 @@ func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) posti
 			slog.String("endpoint", endpoint),
 		)
 
-		return postingOfferOutcome{}
+		return postingOfferReceipt{Outcome: postingOfferOverloaded}
 	default:
 		slog.WarnContext(
 			ctx,
@@ -87,25 +81,8 @@ func (c httpPostingCourier) Offer(ctx context.Context, offer postingOffer) posti
 			slog.String("endpoint", endpoint),
 			slog.String("result", string(resp.Result)),
 		)
-		c.roster.ConfirmUnreachable(ctx, offer.Peer.Hash)
 
-		return postingOfferOutcome{}
-	}
-}
-
-func (c httpPostingCourier) recordAccepted(ctx context.Context, offer postingOffer) {
-	for _, posting := range offer.Postings {
-		word, targetURL := posting.WordHash, posting.URLHash
-		if err := c.ledger.RecordAccepted(ctx, word, targetURL, offer.Peer.Hash); err != nil {
-			slog.WarnContext(
-				ctx,
-				"replica not recorded",
-				slog.String("peer", offer.Peer.Hash.String()),
-				slog.String("word", word.String()),
-				slog.String("url", targetURL.String()),
-				slog.Any("error", err),
-			)
-		}
+		return postingOfferReceipt{Outcome: postingOfferRefused}
 	}
 }
 

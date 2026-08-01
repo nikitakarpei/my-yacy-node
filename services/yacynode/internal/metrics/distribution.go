@@ -4,7 +4,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-const labelResult = "result"
+const labelOutcome = "result"
 
 type DistributionMetrics struct {
 	offerRequests   *prometheus.CounterVec
@@ -18,16 +18,16 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	offerRequests := prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "rwidistribution_offer_requests_total",
-			Help: "Offer requests sent to peers, by peer response result.",
+			Help: "Offer requests sent to peers, by offer outcome.",
 		},
-		[]string{labelResult},
+		[]string{labelOutcome},
 	)
 	postingsOffered := prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "rwidistribution_postings_offered_total",
-			Help: "RWI postings offered to peers, by peer response result.",
+			Help: "RWI postings offered to peers, by offer outcome.",
 		},
-		[]string{labelResult},
+		[]string{labelOutcome},
 	)
 	scheduleDrained := prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "rwidistribution_schedule_drained_total",
@@ -54,9 +54,9 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	}
 }
 
-func (d *DistributionMetrics) ObservePostingOffer(result string, postings int) {
-	d.offerRequests.WithLabelValues(result).Inc()
-	d.postingsOffered.WithLabelValues(result).Add(float64(postings))
+func (d *DistributionMetrics) ObservePostingOffer(outcome string, postings int) {
+	d.offerRequests.WithLabelValues(outcome).Inc()
+	d.postingsOffered.WithLabelValues(outcome).Add(float64(postings))
 }
 
 func (d *DistributionMetrics) ObserveScheduleDrain(drained int) {

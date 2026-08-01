@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -53,48 +52,15 @@ func courierSeed(t testing.TB, server *httptest.Server) yacymodel.Seed {
 	}
 }
 
-type recordingRoster struct {
-	fakeRoster
-	unreachable []yacymodel.Hash
-}
-
-func (r *recordingRoster) ConfirmUnreachable(_ context.Context, peer yacymodel.Hash) {
-	r.unreachable = append(r.unreachable, peer)
-}
-
-func openCourierHarness(
-	t *testing.T,
-	server *httptest.Server,
-) (*replicaLedger, *recordingRoster, *fakePostingOfferCycleObserver, httpPostingCourier) {
+func openCourierHarness(t *testing.T, server *httptest.Server) httpPostingCourier {
 	t.Helper()
 
-	v, err := memvault.Open(0)
-	if err != nil {
-		t.Fatalf("Open: %v", err)
-	}
-	t.Cleanup(func() {
-		if err := v.Close(); err != nil {
-			t.Fatalf("Close: %v", err)
-		}
-	})
-	ledger, err := openReplicaLedger(v)
-	if err != nil {
-		t.Fatalf("openReplicaLedger: %v", err)
-	}
-
-	roster := &recordingRoster{}
-	observer := newFakePostingOfferCycleObserver()
-	courier := httpPostingCourier{
+	return httpPostingCourier{
 		client:      server.Client(),
 		networkName: "freeworld",
 		self:        courierHash("self"),
-		roster:      roster,
-		ledger:      ledger,
 		urls:        fakeURLDirectory{},
-		observer:    observer,
 	}
-
-	return ledger, roster, observer, courier
 }
 
 type fakeURLDirectory struct {
@@ -124,42 +90,28 @@ func (fakeURLDirectory) MissingURLs(
 
 func (fakeURLDirectory) Count(context.Context) (int, error) { return 0, nil }
 
-func TestOfferRecordsReplicaOnOK(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		resp := yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK}
+func rwiResponder(resp yacyproto.TransferRWIResponse) *httptest.Server {
+	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = w.Write([]byte(resp.Encode().Encode()))
 	}))
+}
+
+func singlePostingOffer(peer yacymodel.Seed) postingOffer {
+	return postingOffer{
+		Peer:     peer,
+		Postings: []yacymodel.RWIPosting{fakePosting(yacymodel.WordHash("w1"), urlHash("u1"))},
+	}
+}
+
+func TestOfferReportsAcceptedOnOK(t *testing.T) {
+	server := rwiResponder(yacyproto.TransferRWIResponse{Result: yacyproto.ResultOK})
 	defer server.Close()
 
-	ledger, roster, observer, courier := openCourierHarness(t, server)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := courierSeed(t, server)
-	offer := postingOffer{
-		Peer:     peer,
-		Postings: []yacymodel.RWIPosting{fakePosting(word, url)},
-	}
+	courier := openCourierHarness(t, server)
 
-	outcome := courier.Offer(context.Background(), offer)
-	if !outcome.Accepted {
-		t.Fatalf("outcome = %+v, want Accepted", outcome)
-	}
-	if len(roster.unreachable) != 0 {
-		t.Fatalf("unreachable = %v, want none", roster.unreachable)
-	}
-	if observer.postingsOffered[string(yacyproto.ResultOK)] != 1 {
-		t.Fatalf(
-			"observed offers = %+v, want 1 posting for result %q",
-			observer.postingsOffered,
-			yacyproto.ResultOK,
-		)
-	}
-
-	replicas, err := ledger.Replicas(context.Background(), word, url)
-	if err != nil {
-		t.Fatalf("Replicas: %v", err)
-	}
-	if len(replicas) != 1 || replicas[0] != peer.Hash {
-		t.Fatalf("replicas = %v, want [%v]", replicas, peer.Hash)
+	receipt := courier.Offer(context.Background(), singlePostingOffer(courierSeed(t, server)))
+	if receipt.Outcome != postingOfferAccepted {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingOfferAccepted)
 	}
 }
 
@@ -182,22 +134,17 @@ func TestOfferDeliversMetadataForUnknownURLs(t *testing.T) {
 	}))
 	defer server.Close()
 
-	_, _, _, courier := openCourierHarness(t, server)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	posting := fakePosting(word, url)
+	courier := openCourierHarness(t, server)
+	posting := fakePosting(yacymodel.WordHash("w1"), urlHash("u1"))
 	courier.urls = fakeURLDirectory{
 		metadata: map[yacymodel.URLHash]yacymodel.URLMetadata{
 			posting.URLHash: {Address: "http://example.com/u1"},
 		},
 	}
-	peer := courierSeed(t, server)
-	offer := postingOffer{
-		Peer:     peer,
-		Postings: []yacymodel.RWIPosting{posting},
-	}
 
-	if outcome := courier.Offer(context.Background(), offer); !outcome.Accepted {
-		t.Fatalf("outcome = %+v, want Accepted", outcome)
+	receipt := courier.Offer(context.Background(), singlePostingOffer(courierSeed(t, server)))
+	if receipt.Outcome != postingOfferAccepted {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingOfferAccepted)
 	}
 	if len(gotPaths) != 2 || gotPaths[0] != yacyproto.PathTransferRWI ||
 		gotPaths[1] != yacyproto.PathTransferURL {
@@ -218,178 +165,82 @@ func TestOfferSkipsTransferURLWhenMetadataMissing(t *testing.T) {
 	}))
 	defer server.Close()
 
-	_, _, _, courier := openCourierHarness(t, server)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := courierSeed(t, server)
-	offer := postingOffer{
-		Peer:     peer,
-		Postings: []yacymodel.RWIPosting{fakePosting(word, url)},
-	}
+	courier := openCourierHarness(t, server)
 
-	if outcome := courier.Offer(context.Background(), offer); !outcome.Accepted {
-		t.Fatalf("outcome = %+v, want Accepted", outcome)
+	receipt := courier.Offer(context.Background(), singlePostingOffer(courierSeed(t, server)))
+	if receipt.Outcome != postingOfferAccepted {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingOfferAccepted)
 	}
 	if len(gotPaths) != 1 || gotPaths[0] != yacyproto.PathTransferRWI {
 		t.Fatalf("paths = %v, want only [transferRWI] when no metadata is found", gotPaths)
 	}
 }
 
-func TestOfferHonoursBusyPause(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		resp := yacyproto.TransferRWIResponse{Result: yacyproto.ResultBusy, Pause: 30 * time.Second}
-		_, _ = w.Write([]byte(resp.Encode().Encode()))
-	}))
+func TestOfferReportsDeferredWithPeerPause(t *testing.T) {
+	server := rwiResponder(yacyproto.TransferRWIResponse{
+		Result: yacyproto.ResultBusy,
+		Pause:  30 * time.Second,
+	})
 	defer server.Close()
 
-	ledger, roster, observer, courier := openCourierHarness(t, server)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	peer := courierSeed(t, server)
-	offer := postingOffer{
-		Peer:     peer,
-		Postings: []yacymodel.RWIPosting{fakePosting(word, url)},
-	}
+	courier := openCourierHarness(t, server)
 
-	outcome := courier.Offer(context.Background(), offer)
-	if outcome.Accepted {
-		t.Fatal("outcome should not be accepted when busy")
+	receipt := courier.Offer(context.Background(), singlePostingOffer(courierSeed(t, server)))
+	if receipt.Outcome != postingOfferDeferred {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingOfferDeferred)
 	}
-	if outcome.RetryAfter.Seconds() != 30 {
-		t.Fatalf("RetryAfter = %v, want 30s", outcome.RetryAfter)
-	}
-	if len(roster.unreachable) != 0 {
-		t.Fatalf("unreachable = %v, want none when busy", roster.unreachable)
-	}
-	if observer.postingsOffered[string(yacyproto.ResultBusy)] != 1 {
-		t.Fatalf(
-			"observed offers = %+v, want 1 posting for result %q",
-			observer.postingsOffered,
-			yacyproto.ResultBusy,
-		)
-	}
-
-	replicas, err := ledger.Replicas(context.Background(), word, url)
-	if err != nil {
-		t.Fatalf("Replicas: %v", err)
-	}
-	if len(replicas) != 0 {
-		t.Fatalf("replicas = %v, want none when busy", replicas)
+	if receipt.RetryAfter != 30*time.Second {
+		t.Fatalf("RetryAfter = %v, want 30s", receipt.RetryAfter)
 	}
 }
 
-func TestOfferKeepsLoadedPeerReachable(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		resp := yacyproto.TransferRWIResponse{Result: yacyproto.ResultTooHighLoad}
-		_, _ = w.Write([]byte(resp.Encode().Encode()))
-	}))
+func TestOfferReportsOverloadedPeer(t *testing.T) {
+	server := rwiResponder(yacyproto.TransferRWIResponse{Result: yacyproto.ResultTooHighLoad})
 	defer server.Close()
 
-	_, roster, observer, courier := openCourierHarness(t, server)
-	peer := courierSeed(t, server)
-	offer := postingOffer{
-		Peer: peer,
-		Postings: []yacymodel.RWIPosting{
-			fakePosting(yacymodel.WordHash("w1"), urlHash("u1")),
-		},
-	}
+	courier := openCourierHarness(t, server)
 
-	outcome := courier.Offer(context.Background(), offer)
-	if outcome.Accepted {
-		t.Fatal("outcome should not be accepted")
-	}
-	if len(roster.unreachable) != 0 {
-		t.Fatalf("unreachable = %v, want none when the peer is loaded", roster.unreachable)
-	}
-	if observer.postingsOffered[string(yacyproto.ResultTooHighLoad)] != 1 {
-		t.Fatalf(
-			"observed offers = %+v, want 1 posting for result %q",
-			observer.postingsOffered, yacyproto.ResultTooHighLoad,
-		)
+	receipt := courier.Offer(context.Background(), singlePostingOffer(courierSeed(t, server)))
+	if receipt.Outcome != postingOfferOverloaded {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingOfferOverloaded)
 	}
 }
 
-func TestOfferMarksPeerUnreachableOnUnexpectedResult(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		resp := yacyproto.TransferRWIResponse{Result: yacyproto.ResultMissingIndexes}
-		_, _ = w.Write([]byte(resp.Encode().Encode()))
-	}))
+func TestOfferReportsRefusalOnUnexpectedResult(t *testing.T) {
+	server := rwiResponder(yacyproto.TransferRWIResponse{Result: yacyproto.ResultMissingIndexes})
 	defer server.Close()
 
-	_, roster, observer, courier := openCourierHarness(t, server)
-	peer := courierSeed(t, server)
-	offer := postingOffer{
-		Peer: peer,
-		Postings: []yacymodel.RWIPosting{
-			fakePosting(yacymodel.WordHash("w1"), urlHash("u1")),
-		},
-	}
+	courier := openCourierHarness(t, server)
 
-	outcome := courier.Offer(context.Background(), offer)
-	if outcome.Accepted {
-		t.Fatal("outcome should not be accepted")
-	}
-	if len(roster.unreachable) != 1 || roster.unreachable[0] != peer.Hash {
-		t.Fatalf("unreachable = %v, want [%v]", roster.unreachable, peer.Hash)
-	}
-	if observer.postingsOffered[string(yacyproto.ResultMissingIndexes)] != 1 {
-		t.Fatalf(
-			"observed offers = %+v, want 1 posting for result %q",
-			observer.postingsOffered, yacyproto.ResultMissingIndexes,
-		)
+	receipt := courier.Offer(context.Background(), singlePostingOffer(courierSeed(t, server)))
+	if receipt.Outcome != postingOfferRefused {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingOfferRefused)
 	}
 }
 
-func TestOfferMarksPeerUnreachableOnTransportFailure(t *testing.T) {
+func TestOfferReportsUnreachablePeerOnTransportFailure(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		http.Error(w, "nope", http.StatusServiceUnavailable)
 	}))
 	defer server.Close()
 
-	_, roster, observer, courier := openCourierHarness(t, server)
-	peer := courierSeed(t, server)
-	offer := postingOffer{
-		Peer: peer,
-		Postings: []yacymodel.RWIPosting{
-			fakePosting(yacymodel.WordHash("w1"), urlHash("u1")),
-		},
-	}
+	courier := openCourierHarness(t, server)
 
-	outcome := courier.Offer(context.Background(), offer)
-	if outcome.Accepted {
-		t.Fatal("outcome should not be accepted")
-	}
-	if len(roster.unreachable) != 1 || roster.unreachable[0] != peer.Hash {
-		t.Fatalf("unreachable = %v, want [%v]", roster.unreachable, peer.Hash)
-	}
-	if observer.postingsOffered[resultError] != 1 {
-		t.Fatalf(
-			"observed offers = %+v, want 1 posting for result %q",
-			observer.postingsOffered,
-			resultError,
-		)
+	receipt := courier.Offer(context.Background(), singlePostingOffer(courierSeed(t, server)))
+	if receipt.Outcome != postingOfferUnreachable {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingOfferUnreachable)
 	}
 }
 
-func TestOfferMarksPeerUnreachableWithoutNetworkAddress(t *testing.T) {
-	_, roster, observer, courier := openCourierHarness(t, httptest.NewServer(nil))
-	peer := yacymodel.Seed{Hash: courierHash("peer")}
-	offer := postingOffer{
-		Peer: peer,
-		Postings: []yacymodel.RWIPosting{
-			fakePosting(yacymodel.WordHash("w1"), urlHash("u1")),
-		},
-	}
+func TestOfferReportsUnaddressablePeer(t *testing.T) {
+	server := httptest.NewServer(nil)
+	defer server.Close()
 
-	outcome := courier.Offer(context.Background(), offer)
-	if outcome.Accepted {
-		t.Fatal("outcome should not be accepted")
-	}
-	if len(roster.unreachable) != 1 || roster.unreachable[0] != peer.Hash {
-		t.Fatalf("unreachable = %v, want [%v]", roster.unreachable, peer.Hash)
-	}
-	if observer.postingsOffered[resultUnreachable] != 1 {
-		t.Fatalf(
-			"observed offers = %+v, want 1 posting for result %q",
-			observer.postingsOffered, resultUnreachable,
-		)
+	courier := openCourierHarness(t, server)
+	offer := singlePostingOffer(yacymodel.Seed{Hash: courierHash("peer")})
+
+	receipt := courier.Offer(context.Background(), offer)
+	if receipt.Outcome != postingOfferUnaddressable {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingOfferUnaddressable)
 	}
 }
