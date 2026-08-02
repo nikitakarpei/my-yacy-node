@@ -13,11 +13,11 @@ type DistributionMetrics struct {
 	postingsOffered       *prometheus.CounterVec
 	urlMetadataDeliveries *prometheus.CounterVec
 	urlsDelivered         *prometheus.CounterVec
-	postingsDue           prometheus.Counter
 	postingsGone          prometheus.Counter
 	oldestDuePostingAge   prometheus.Gauge
 	ledgerPrunes          prometheus.Counter
 	cyclesSkipped         prometheus.Counter
+	replicationUnread     prometheus.Counter
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
@@ -49,13 +49,9 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		},
 		[]string{labelOutcome},
 	)
-	postingsDue := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "rwidistribution_postings_due_total",
-		Help: "Postings the schedule reported as due for an offer, summed across cycles.",
-	})
 	postingsGone := prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "rwidistribution_postings_gone_total",
-		Help: "Due postings that no longer exist in the posting index when read for offering.",
+		Help: "Due postings evicted between the schedule read and the posting read.",
 	})
 	oldestDuePostingAge := prometheus.NewGauge(prometheus.GaugeOpts{
 		Name: "rwidistribution_oldest_due_posting_age_seconds",
@@ -69,9 +65,13 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		Name: "rwidistribution_cycles_skipped_total",
 		Help: "Distribution cycles skipped because too few peers were reachable.",
 	})
+	replicationUnread := prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "rwidistribution_replication_unread_total",
+		Help: "Distribution cycles abandoned because the due replication could not be read.",
+	})
 	registry.MustRegister(
 		postingOffers, postingsOffered, urlMetadataDeliveries, urlsDelivered,
-		postingsDue, postingsGone, oldestDuePostingAge, ledgerPrunes, cyclesSkipped,
+		postingsGone, oldestDuePostingAge, ledgerPrunes, cyclesSkipped, replicationUnread,
 	)
 
 	return &DistributionMetrics{
@@ -79,11 +79,11 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		postingsOffered:       postingsOffered,
 		urlMetadataDeliveries: urlMetadataDeliveries,
 		urlsDelivered:         urlsDelivered,
-		postingsDue:           postingsDue,
 		postingsGone:          postingsGone,
 		oldestDuePostingAge:   oldestDuePostingAge,
 		ledgerPrunes:          ledgerPrunes,
 		cyclesSkipped:         cyclesSkipped,
+		replicationUnread:     replicationUnread,
 	}
 }
 
@@ -95,10 +95,6 @@ func (d *DistributionMetrics) ObservePostingOffer(outcome string, postings int) 
 func (d *DistributionMetrics) ObserveURLMetadataDelivery(outcome string, urls int) {
 	d.urlMetadataDeliveries.WithLabelValues(outcome).Inc()
 	d.urlsDelivered.WithLabelValues(outcome).Add(float64(urls))
-}
-
-func (d *DistributionMetrics) ObservePostingsDue(due int) {
-	d.postingsDue.Add(float64(due))
 }
 
 func (d *DistributionMetrics) ObservePostingsGone(gone int) {
@@ -115,4 +111,8 @@ func (d *DistributionMetrics) ObserveLedgerPrune(dropped int) {
 
 func (d *DistributionMetrics) ObserveCycleSkipped() {
 	d.cyclesSkipped.Inc()
+}
+
+func (d *DistributionMetrics) ObserveReplicationUnread() {
+	d.replicationUnread.Inc()
 }

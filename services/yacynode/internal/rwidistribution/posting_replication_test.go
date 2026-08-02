@@ -11,6 +11,7 @@ import (
 
 type fakePostingIndex struct {
 	postings map[yacymodel.Hash]yacymodel.RWIPosting
+	unread   error
 }
 
 func (f fakePostingIndex) RWICount(context.Context) (int, error) { return len(f.postings), nil }
@@ -20,6 +21,9 @@ func (f fakePostingIndex) Posting(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
+	if f.unread != nil {
+		return yacymodel.RWIPosting{}, false, f.unread
+	}
 	entry, found := f.postings[fakePostingKey(word, url)]
 
 	return entry, found, nil
