@@ -31,17 +31,14 @@ func TestRefusedPeerIsHeldBackForCooldown(t *testing.T) {
 	if recipients.Eligible(peer) {
 		t.Fatal("Eligible = true, want false within the cooldown")
 	}
-	if held := recipients.IneligiblePeers(); held != 1 {
-		t.Fatalf("IneligiblePeers = %d, want 1", held)
-	}
 
 	clk.at = clk.at.Add(time.Minute)
 
 	if !recipients.Eligible(peer) {
 		t.Fatal("Eligible = false, want true once the cooldown has passed")
 	}
-	if held := recipients.IneligiblePeers(); held != 0 {
-		t.Fatalf("IneligiblePeers = %d, want 0 once the cooldown has passed", held)
+	if held := len(recipients.heldBack); held != 0 {
+		t.Fatalf("held back peers = %d, want the expired hold forgotten", held)
 	}
 }
 

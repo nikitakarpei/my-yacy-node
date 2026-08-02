@@ -8,12 +8,10 @@ type fakeObserver struct {
 	urlMetadataDeliveries map[string]int
 	urlsDelivered         map[string]int
 	staleReplicasDropped  int
-	postingsAtLongestWait int
-	ineligibleRecipients  int
 	gone                  int
-	oldestDueAge          time.Duration
-	cyclesSkipped         int
-	shortfallUnread       int
+	scheduledPostings     int
+	longestOfferLateness  time.Duration
+	cyclesSkipped         map[string]int
 }
 
 func newFakeObserver() *fakeObserver {
@@ -22,6 +20,7 @@ func newFakeObserver() *fakeObserver {
 		postingsOffered:       make(map[string]int),
 		urlMetadataDeliveries: make(map[string]int),
 		urlsDelivered:         make(map[string]int),
+		cyclesSkipped:         make(map[string]int),
 	}
 }
 
@@ -39,26 +38,18 @@ func (f *fakeObserver) ObservePostingsGone(gone int) {
 	f.gone = gone
 }
 
-func (f *fakeObserver) ObserveOldestDuePostingAge(age time.Duration) {
-	f.oldestDueAge = age
+func (f *fakeObserver) ObserveScheduledPostings(postings int) {
+	f.scheduledPostings = postings
+}
+
+func (f *fakeObserver) ObserveLongestOfferLateness(lateness time.Duration) {
+	f.longestOfferLateness = lateness
 }
 
 func (f *fakeObserver) ObserveStaleReplicasDropped(dropped int) {
 	f.staleReplicasDropped += dropped
 }
 
-func (f *fakeObserver) ObservePostingsAtLongestOfferWait(postings int) {
-	f.postingsAtLongestWait = postings
-}
-
-func (f *fakeObserver) ObserveIneligibleReplicaRecipients(peers int) {
-	f.ineligibleRecipients = peers
-}
-
-func (f *fakeObserver) ObserveCycleSkipped() {
-	f.cyclesSkipped++
-}
-
-func (f *fakeObserver) ObserveShortfallUnread() {
-	f.shortfallUnread++
+func (f *fakeObserver) ObserveCycleSkipped(reason string) {
+	f.cyclesSkipped[reason]++
 }

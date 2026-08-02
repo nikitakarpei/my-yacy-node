@@ -8,7 +8,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferwait"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 )
 
@@ -59,8 +58,9 @@ func TestCycleSkipsWhenTooFewPeersReachable(t *testing.T) {
 			h.courier.offered,
 		)
 	}
-	if h.observer.cyclesSkipped != 1 {
-		t.Fatalf("cyclesSkipped = %v, want 1", h.observer.cyclesSkipped)
+	if h.observer.cyclesSkipped[skipTooFewReachablePeers] != 1 {
+		t.Fatalf("cyclesSkipped = %v, want one skip below the reachable-peer floor",
+			h.observer.cyclesSkipped)
 	}
 
 	due, err := h.schedule.DuePostings(context.Background(), 10)
@@ -94,8 +94,8 @@ func TestCycleReportsBacklogAgeOnSkippedCycle(t *testing.T) {
 	if len(h.courier.offered) != 0 {
 		t.Fatalf("offered = %v, want no offers on a skipped cycle", h.courier.offered)
 	}
-	if h.observer.oldestDueAge != 90*time.Second {
-		t.Fatalf("oldestDueAge = %v, want 90s", h.observer.oldestDueAge)
+	if h.observer.longestOfferLateness != 90*time.Second {
+		t.Fatalf("longestOfferLateness = %v, want 90s", h.observer.longestOfferLateness)
 	}
 }
 
@@ -455,26 +455,60 @@ func TestCycleCountsUnreadShortfall(t *testing.T) {
 
 	h.cycle.runCycle(context.Background())
 
-	if h.observer.shortfallUnread != 1 {
-		t.Fatalf("shortfallUnread = %v, want 1", h.observer.shortfallUnread)
+	if h.observer.cyclesSkipped[skipShortfallUnread] != 1 {
+		t.Fatalf("cyclesSkipped = %v, want one skip for an unread shortfall",
+			h.observer.cyclesSkipped)
 	}
 	if len(h.courier.offered) != 0 {
 		t.Fatalf("offered = %v, want no offers when the replication is unread", h.courier.offered)
 	}
 }
 
-func TestCycleReportsZeroOldestDueAgeOnEmptySchedule(t *testing.T) {
+func TestCycleReportsAnEmptyScheduleAsNoLateness(t *testing.T) {
 	now := time.Unix(1000, 0)
 	peer := yacymodel.WordHash("peer")
 	h := openCycle(t, &clock{at: now}, cycleOptions{
 		roster: fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
 	})
-	h.observer.oldestDueAge = time.Hour
+	h.observer.longestOfferLateness = time.Hour
 
 	h.cycle.runCycle(context.Background())
 
-	if h.observer.oldestDueAge != 0 {
-		t.Fatalf("oldestDueAge = %v, want 0 while nothing is scheduled", h.observer.oldestDueAge)
+	if h.observer.longestOfferLateness != 0 {
+		t.Fatalf(
+			"longestOfferLateness = %v, want 0 while nothing is scheduled",
+			h.observer.longestOfferLateness,
+		)
+	}
+	if h.observer.scheduledPostings != 0 {
+		t.Fatalf(
+			"scheduledPostings = %d, want 0 while nothing is scheduled",
+			h.observer.scheduledPostings,
+		)
+	}
+}
+
+func TestCycleReportsScheduledPostings(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	h := openCycle(t, &clock{at: now}, cycleOptions{
+		postings: postings,
+		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+	})
+
+	store(t, h.v, h.schedule, word, url)
+
+	h.cycle.runCycle(context.Background())
+
+	if h.observer.scheduledPostings != 1 {
+		t.Fatalf(
+			"scheduledPostings = %d, want 1 for the single stored posting",
+			h.observer.scheduledPostings,
+		)
 	}
 }
 
@@ -697,12 +731,6 @@ func TestCycleOffersToAnotherPeerAfterAnUnreachableAnswer(t *testing.T) {
 			h.courier.offered[0].Peer.Hash,
 		)
 	}
-	if h.observer.ineligibleRecipients != 2 {
-		t.Fatalf(
-			"ineligibleRecipients = %d, want 2 after both peers answered unreachable",
-			h.observer.ineligibleRecipients,
-		)
-	}
 }
 
 func TestCycleDoublesTheWaitOfAPostingThatKeepsMissingRedundancy(t *testing.T) {
@@ -736,27 +764,5 @@ func TestCycleDoublesTheWaitOfAPostingThatKeepsMissingRedundancy(t *testing.T) {
 	}
 	if len(due) != 1 || due[0].Word != word {
 		t.Fatalf("due = %v, want [word] once the doubled wait has elapsed", due)
-	}
-}
-
-func TestCycleReportsPostingsHeldAtTheLongestWait(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{postings: postings})
-	h.cycle.bounds = postingofferwait.Bounds{First: time.Hour, Longest: time.Hour}
-
-	store(t, h.v, h.schedule, word, url)
-
-	h.cycle.runCycle(context.Background())
-
-	if h.observer.postingsAtLongestWait != 1 {
-		t.Fatalf(
-			"postingsAtLongestWait = %d, want 1 for a posting whose wait can grow no further",
-			h.observer.postingsAtLongestWait,
-		)
 	}
 }

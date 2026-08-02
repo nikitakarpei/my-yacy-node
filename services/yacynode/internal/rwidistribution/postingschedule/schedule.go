@@ -188,12 +188,28 @@ func (s *Schedule) DuePostings(
 	return due, nil
 }
 
-// OldestDueAt returns the due time of the earliest-scheduled posting still
-// awaiting an offer, or false if the schedule is empty.
-func (s *Schedule) OldestDueAt(ctx context.Context) (time.Time, bool, error) {
+// ScheduledPostings returns how many postings hold a due entry.
+func (s *Schedule) ScheduledPostings(ctx context.Context) (int, error) {
+	var scheduled int
+	err := s.vault.View(ctx, func(tx *vault.Txn) error {
+		var err error
+		scheduled, err = s.order.Len(tx)
+
+		return err
+	})
+	if err != nil {
+		return 0, fmt.Errorf("count scheduled postings: %w", err)
+	}
+
+	return scheduled, nil
+}
+
+// EarliestOfferDueAt returns the time the head of the schedule is due an offer,
+// which can be in the future, or false if the schedule is empty.
+func (s *Schedule) EarliestOfferDueAt(ctx context.Context) (time.Time, bool, error) {
 	var (
-		oldest time.Time
-		found  bool
+		earliest time.Time
+		found    bool
 	)
 	err := s.vault.View(ctx, func(tx *vault.Txn) error {
 		return s.order.Scan(tx, nil, func(key vault.Key, _ struct{}) (bool, error) {
@@ -201,17 +217,17 @@ func (s *Schedule) OldestDueAt(ctx context.Context) (time.Time, bool, error) {
 			if err != nil {
 				return false, err
 			}
-			oldest = scheduled.At
+			earliest = scheduled.At
 			found = true
 
 			return false, nil
 		})
 	})
 	if err != nil {
-		return time.Time{}, false, fmt.Errorf("select oldest due posting: %w", err)
+		return time.Time{}, false, fmt.Errorf("select earliest offer due: %w", err)
 	}
 
-	return oldest, found, nil
+	return earliest, found, nil
 }
 
 var _ rwipostings.PostingObserver = (*Schedule)(nil)

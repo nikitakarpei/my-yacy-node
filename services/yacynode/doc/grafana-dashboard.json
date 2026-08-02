@@ -625,6 +625,117 @@
       "panels": []
     },
     {
+      "id": 59,
+      "title": "Distribution cycles skipped",
+      "description": "This panel shows the distribution cycles that offered nothing, by reason.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 49
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (reason) (increase(rwidistribution_cycles_skipped_total[$__rate_interval]))",
+          "legendFormat": "{{reason}}"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "title": "Posting offer acceptance rate",
+      "description": "This panel shows the share of posting offers that peers accept.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 49
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(rwidistribution_posting_offers_sent_total{result=\"accepted\"}[$__rate_interval])) / sum(rate(rwidistribution_posting_offers_sent_total[$__rate_interval]))",
+          "legendFormat": "accepted"
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "title": "Longest offer lateness",
+      "description": "This panel shows how far past its scheduled time the most overdue posting offer is.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 49
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rwidistribution_longest_offer_lateness_seconds",
+          "legendFormat": "lateness"
+        }
+      ]
+    },
+    {
       "id": 51,
       "title": "Posting offers sent, by outcome",
       "description": "This panel shows posting offers sent to peers, grouped by outcome.",
@@ -637,7 +748,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 49
+        "y": 57
       },
       "fieldConfig": {
         "defaults": {
@@ -757,44 +868,6 @@
       ]
     },
     {
-      "id": 52,
-      "title": "Posting offer acceptance rate",
-      "description": "This panel shows the share of posting offers that peers accept.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 49
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit",
-          "min": 0,
-          "max": 1,
-          "custom": {
-            "fillOpacity": 10
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(rate(rwidistribution_posting_offers_sent_total{result=\"accepted\"}[$__rate_interval])) / sum(rate(rwidistribution_posting_offers_sent_total[$__rate_interval]))",
-          "legendFormat": "accepted"
-        }
-      ]
-    },
-    {
       "id": 53,
       "title": "Postings offered, by outcome",
       "description": "This panel shows postings sent to peers per second, grouped by the outcome of the offer that carried them.",
@@ -806,7 +879,7 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
+        "x": 12,
         "y": 57
       },
       "fieldConfig": {
@@ -937,8 +1010,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
-        "y": 57
+        "x": 0,
+        "y": 65
       },
       "fieldConfig": {
         "defaults": {
@@ -1054,7 +1127,7 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
+        "x": 12,
         "y": 65
       },
       "fieldConfig": {
@@ -1159,82 +1232,9 @@
       ]
     },
     {
-      "id": 56,
-      "title": "Oldest due posting age",
-      "description": "This panel shows how long the oldest posting has waited for an offer.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 12,
-        "y": 65
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "custom": {
-            "fillOpacity": 10
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "rwidistribution_oldest_due_posting_age_seconds",
-          "legendFormat": "oldest due"
-        }
-      ]
-    },
-    {
-      "id": 57,
-      "title": "Postings evicted mid-cycle",
-      "description": "This panel shows due postings that eviction removed from the index before the cycle could read them for offering.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 18,
-        "y": 65
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "increase(rwidistribution_postings_gone_total[$__rate_interval])",
-          "legendFormat": "evicted"
-        }
-      ]
-    },
-    {
-      "id": 58,
-      "title": "Replica ledger entries dropped",
-      "description": "This panel shows replica ledger entries dropped because the peer is no longer responsible for the posting.",
+      "id": 68,
+      "title": "Postings on the offer schedule",
+      "description": "This panel shows how many postings hold a due entry on the offer schedule.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1250,8 +1250,7 @@
         "defaults": {
           "unit": "short",
           "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
+            "fillOpacity": 10
           }
         }
       },
@@ -1263,15 +1262,15 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_stale_replicas_dropped_total[$__rate_interval])",
-          "legendFormat": "dropped"
+          "expr": "rwidistribution_scheduled_postings",
+          "legendFormat": "scheduled"
         }
       ]
     },
     {
-      "id": 59,
-      "title": "Distribution cycles skipped",
-      "description": "This panel shows the distribution cycles skipped because too few peers are reachable.",
+      "id": 58,
+      "title": "Replicas dropped from peers",
+      "description": "This panel shows replicas dropped because the peer holding them is no longer responsible for the posting.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1300,16 +1299,16 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_cycles_skipped_total[$__rate_interval])",
-          "legendFormat": "skipped"
+          "expr": "increase(rwidistribution_stale_replicas_dropped_total[$__rate_interval])",
+          "legendFormat": "dropped"
         }
       ]
     },
     {
-      "id": 49,
-      "title": "Replica shortfall unread",
-      "description": "This panel shows when a distribution cycle ends early because it cannot read which postings are due.",
-      "type": "state-timeline",
+      "id": 57,
+      "title": "Postings evicted mid-cycle",
+      "description": "This panel shows due postings that eviction removed from the index before the cycle could read them for offering.",
+      "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -1323,43 +1322,22 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "color": {
-            "mode": "thresholds"
-          },
           "custom": {
-            "fillOpacity": 70,
-            "lineWidth": 0
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              },
-              {
-                "value": 1,
-                "color": "red"
-              }
-            ]
+            "drawStyle": "bars",
+            "fillOpacity": 70
           }
         }
       },
       "options": {
-        "mergeValues": true,
-        "showValue": "auto",
-        "legend": {
-          "showLegend": false
-        },
         "tooltip": {
-          "mode": "single"
+          "mode": "multi"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_shortfall_unread_total[$__rate_interval])",
-          "legendFormat": "unread"
+          "expr": "increase(rwidistribution_postings_gone_total[$__rate_interval])",
+          "legendFormat": "evicted"
         }
       ]
     },

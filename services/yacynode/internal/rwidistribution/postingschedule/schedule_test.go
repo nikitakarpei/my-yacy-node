@@ -218,19 +218,43 @@ func TestPostingPurgedUnknownIsHarmless(t *testing.T) {
 	}
 }
 
-func TestOldestDueAtEmptyScheduleIsNotFound(t *testing.T) {
+func TestScheduledPostingsCountsDueEntries(t *testing.T) {
+	now := time.Unix(1000, 0)
+	_, schedule := openSchedule(t, func() time.Time { return now })
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+
+	scheduled, err := schedule.ScheduledPostings(context.Background())
+	if err != nil {
+		t.Fatalf("ScheduledPostings: %v", err)
+	}
+	if scheduled != 0 {
+		t.Fatalf("scheduled = %d, want 0 for an empty schedule", scheduled)
+	}
+
+	store(t, schedule, word, url)
+
+	scheduled, err = schedule.ScheduledPostings(context.Background())
+	if err != nil {
+		t.Fatalf("ScheduledPostings after store: %v", err)
+	}
+	if scheduled != 1 {
+		t.Fatalf("scheduled = %d, want 1 after a posting is stored", scheduled)
+	}
+}
+
+func TestEarliestOfferDueAtEmptyScheduleIsNotFound(t *testing.T) {
 	_, schedule := openSchedule(t, time.Now)
 
-	_, found, err := schedule.OldestDueAt(context.Background())
+	_, found, err := schedule.EarliestOfferDueAt(context.Background())
 	if err != nil {
-		t.Fatalf("OldestDueAt: %v", err)
+		t.Fatalf("EarliestOfferDueAt: %v", err)
 	}
 	if found {
 		t.Fatal("found = true, want false for empty schedule")
 	}
 }
 
-func TestOldestDueAtReturnsEarliestEntry(t *testing.T) {
+func TestEarliestOfferDueAtReturnsEarliestEntry(t *testing.T) {
 	now := time.Unix(1000, 0)
 	_, schedule := openSchedule(t, func() time.Time { return now })
 	earlier, url := yacymodel.WordHash("earlier"), urlHash("u1")
@@ -240,14 +264,14 @@ func TestOldestDueAtReturnsEarliestEntry(t *testing.T) {
 	store(t, schedule, earlier, url)
 	reschedule(t, schedule, earlier, url, now.Add(-time.Hour))
 
-	oldest, found, err := schedule.OldestDueAt(context.Background())
+	earliest, found, err := schedule.EarliestOfferDueAt(context.Background())
 	if err != nil {
-		t.Fatalf("OldestDueAt: %v", err)
+		t.Fatalf("EarliestOfferDueAt: %v", err)
 	}
 	if !found {
 		t.Fatal("found = false, want true")
 	}
-	if !oldest.Equal(now.Add(-time.Hour)) {
-		t.Fatalf("oldest = %v, want %v", oldest, now.Add(-time.Hour))
+	if !earliest.Equal(now.Add(-time.Hour)) {
+		t.Fatalf("earliest = %v, want %v", earliest, now.Add(-time.Hour))
 	}
 }
