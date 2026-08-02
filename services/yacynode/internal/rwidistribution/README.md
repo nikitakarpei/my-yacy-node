@@ -9,7 +9,9 @@ accept it. Distribution only replicates; it never deletes.
 
 A cycle offers nothing while the node knows fewer than the configured minimum
 of reachable peers. Above that minimum, each cycle takes the postings that are
-due and offers each one to its responsible peers. A newly stored posting is due
+due and offers each one to its responsible peers. This node is one of those
+peers when the DHT makes it responsible for the posting, so the other peers hold
+one replica fewer. A newly stored posting is due
 immediately. Deleting a posting from local storage also removes it from the
 work queue, so a deleted posting is never offered.
 

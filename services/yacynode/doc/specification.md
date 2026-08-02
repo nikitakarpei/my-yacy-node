@@ -40,12 +40,14 @@ Additional YaCy-related capabilities can be provided by separate services when n
 * The node SHALL NOT store full document bodies.
 * The node SHALL let operators enable outbound DHT distribution of its stored postings; it
   is disabled by default.
-* The node SHALL let operators configure how many responsible peers each posting reaches.
+* The node SHALL let operators configure how many responsible peers hold each posting.
+* The node SHALL count itself as one of those peers when the DHT makes it responsible for a
+  posting.
 * The node SHALL let operators configure the fewest known reachable peers distribution needs,
   and SHALL pause distribution while the network is below it.
 * When enabled, the node SHALL offer each stored posting to the peers the DHT makes
   responsible for it.
-* The node SHALL treat a posting as distributed only once that many responsible peers accept it.
+* The node SHALL treat a posting as distributed only once that many responsible peers hold it.
 
 ## Non-Functional Requirements
 

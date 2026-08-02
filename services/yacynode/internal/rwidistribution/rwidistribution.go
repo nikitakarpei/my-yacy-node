@@ -117,7 +117,14 @@ func (d *Distribution) Cycle(
 	recipients := replicarecipients.New(cfg.RecipientCooldown, d.now)
 
 	shortfall := replicashortfall.New(
-		d.schedule, d.replicas, postings, roster, recipients, cfg.Partitions, cfg.Redundancy,
+		d.schedule,
+		d.replicas,
+		postings,
+		roster,
+		recipients,
+		cfg.Partitions,
+		cfg.Self,
+		cfg.Redundancy,
 	)
 	delivery := distributioncycle.NewOfferDelivery(
 		postingcourier.New(exchange, cfg.NetworkName, cfg.Self),
