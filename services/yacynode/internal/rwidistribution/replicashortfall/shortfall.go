@@ -49,10 +49,11 @@ type Shortfall struct {
 	reachability Reachability
 	eligibility  ReplicaEligibility
 	partitions   yacymodel.DHTRingPartitions
+	self         yacymodel.Hash
 	redundancy   int
 }
 
-//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: eight explicit, independently-meaningful collaborators
 func New(
 	schedule *postingschedule.Schedule,
 	replicas *postingreplicas.Replicas,
@@ -60,6 +61,7 @@ func New(
 	reachability Reachability,
 	eligibility ReplicaEligibility,
 	partitions yacymodel.DHTRingPartitions,
+	self yacymodel.Hash,
 	redundancy int,
 ) *Shortfall {
 	return &Shortfall{
@@ -69,6 +71,7 @@ func New(
 		reachability: reachability,
 		eligibility:  eligibility,
 		partitions:   partitions,
+		self:         self,
 		redundancy:   redundancy,
 	}
 }
@@ -120,25 +123,28 @@ func (r *Shortfall) replicasOf(
 
 	position := yacymodel.PostingPosition(posting.WordHash, posting.URLHash, r.partitions)
 	acceptingPeers := peersAcceptingRemoteIndex(reachablePeers)
+	replicasPeersOwe := r.replicasPeersOwe(acceptingPeers, position)
 	responsibilityWindow := yacymodel.SeedsClosestToPosition(
 		acceptingPeers,
 		position,
-		r.redundancy,
+		replicasPeersOwe,
 	)
-	held := r.holdersByResponsibility(ctx, holders, position, responsibilityWindow)
+	held := r.holdersByResponsibility(
+		ctx, holders, position, responsibilityWindow, replicasPeersOwe,
+	)
 
 	stale := StaleReplicas{
 		Posting: postingschedule.Identity{Word: posting.WordHash, URL: posting.URLHash},
 		Peers:   held.gone,
 	}
 	offer := ReplicaOffer{Posting: posting}
-	if len(held.responsible) >= r.redundancy {
+	if len(held.responsible) >= replicasPeersOwe {
 		stale.Peers = append(stale.Peers, held.outsideWindow...)
 		offer.Seeds = peersHoldingReplica(acceptingPeers, held.responsible)
 
 		return offer, stale, nil
 	}
-	offer.ReplicasNeeded = r.redundancy - len(held.responsible)
+	offer.ReplicasNeeded = replicasPeersOwe - len(held.responsible)
 	offer.Seeds = yacymodel.SeedsClosestToPosition(
 		peersWithoutReplica(
 			peersEligibleForReplicas(acceptingPeers, r.eligibility),
@@ -149,6 +155,17 @@ func (r *Shortfall) replicasOf(
 	)
 
 	return offer, stale, nil
+}
+
+func (r *Shortfall) replicasPeersOwe(
+	acceptingPeers []yacymodel.Seed,
+	position yacymodel.DHTPosition,
+) int {
+	if len(peersCloserThanThisNode(acceptingPeers, position, r.self)) < r.redundancy {
+		return r.redundancy - 1
+	}
+
+	return r.redundancy
 }
 
 // replicaHolders groups the peers holding a replica by the DHT responsibility
@@ -168,6 +185,7 @@ func (r *Shortfall) holdersByResponsibility(
 	holders []yacymodel.Hash,
 	position yacymodel.DHTPosition,
 	responsibilityWindow []yacymodel.Seed,
+	replicasPeersOwe int,
 ) replicaHolders {
 	var held replicaHolders
 	for _, peer := range holders {
@@ -178,7 +196,7 @@ func (r *Shortfall) holdersByResponsibility(
 			} else {
 				held.gone = append(held.gone, peer)
 			}
-		case r.noFartherThanClosestPeers(peer, position, responsibilityWindow):
+		case noFartherThanClosestPeers(peer, position, responsibilityWindow, replicasPeersOwe):
 			held.responsible = append(held.responsible, peer)
 		default:
 			held.outsideWindow = append(held.outsideWindow, peer)
@@ -188,12 +206,13 @@ func (r *Shortfall) holdersByResponsibility(
 	return held
 }
 
-func (r *Shortfall) noFartherThanClosestPeers(
+func noFartherThanClosestPeers(
 	peer yacymodel.Hash,
 	position yacymodel.DHTPosition,
 	closestPeers []yacymodel.Seed,
+	replicasPeersOwe int,
 ) bool {
-	if len(closestPeers) < r.redundancy {
+	if len(closestPeers) == 0 || len(closestPeers) < replicasPeersOwe {
 		return true
 	}
 	farthest := closestPeers[len(closestPeers)-1].Hash

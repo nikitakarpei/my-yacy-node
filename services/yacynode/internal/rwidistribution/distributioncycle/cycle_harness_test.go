@@ -23,6 +23,7 @@ type cycleOptions struct {
 	roster          fakeRoster
 	reachability    replicashortfall.Reachability
 	redundancy      int
+	self            yacymodel.Hash
 	cooldown        time.Duration
 	urls            fakeURLDirectory
 	metadataOutcome urlmetadatacourier.Outcome
@@ -55,6 +56,10 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	if redundancy == 0 {
 		redundancy = 1
 	}
+	self := opts.self
+	if self == (yacymodel.Hash{}) {
+		self = thisNodeFartherThanEveryPeer()
+	}
 	if opts.metadataOutcome == "" {
 		opts.metadataOutcome = urlmetadatacourier.Accepted
 	}
@@ -74,6 +79,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		opts.reachability,
 		recipients,
 		partitions,
+		self,
 		redundancy,
 	)
 
@@ -338,6 +344,8 @@ func seed(hash yacymodel.Hash) yacymodel.Seed {
 		Capabilities:   yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: true}),
 	}
 }
+
+func thisNodeFartherThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self5") }
 
 func fakePosting(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{WordHash: word, URLHash: url}

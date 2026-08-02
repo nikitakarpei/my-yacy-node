@@ -117,6 +117,10 @@ func (p peersHeldBack) Eligible(peer yacymodel.Hash) bool {
 
 const shortfallRedundancy = 1
 
+func thisNodeFartherThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self5") }
+
+func thisNodeCloserThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self22") }
+
 func recordAccepted(
 	t *testing.T,
 	v *vault.Vault,
@@ -171,6 +175,7 @@ func openShortfall(
 		reachability,
 		everyPeerEligible{},
 		partitions,
+		thisNodeFartherThanEveryPeer(),
 		shortfallRedundancy,
 	)
 
@@ -280,7 +285,7 @@ func TestDueRenewsTheHeldReplicaOfAPeerHeldBackFromNewReplicas(t *testing.T) {
 	}
 }
 
-func TestDueLeavesReplicasNeededWithNoResponsiblePeers(t *testing.T) {
+func TestDueOwesNoReplicasWhenNoPeerIsCloserThanThisNode(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
@@ -300,10 +305,113 @@ func TestDueLeavesReplicasNeededWithNoResponsiblePeers(t *testing.T) {
 		t.Fatalf("due = %+v, want a single posting", due)
 	}
 	missing := due.Offers[0]
-	if missing.ReplicasNeeded != 1 || len(missing.Seeds) != 0 {
+	if missing.ReplicasNeeded != 0 || len(missing.Seeds) != 0 {
 		t.Fatalf(
-			"missing = %+v, want one replica needed with no peers to offer it to",
+			"missing = %+v, want no replicas owed: this node holds the only one the DHT asks for",
 			missing,
+		)
+	}
+}
+
+func TestDueLowersReplicasOwedWhenThisNodeIsResponsible(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	peers := []yacymodel.Seed{
+		seed(yacymodel.WordHash("p1")),
+		seed(yacymodel.WordHash("p2")),
+		seed(yacymodel.WordHash("p3")),
+	}
+	v, schedule, _, shortfall := openShortfall(
+		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
+	)
+	shortfall.redundancy = 3
+	shortfall.self = thisNodeCloserThanEveryPeer()
+
+	store(t, v, schedule, word, url)
+
+	due, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due: %v", err)
+	}
+	if len(due.Offers) != 1 {
+		t.Fatalf("due = %+v, want a single posting", due)
+	}
+	missing := due.Offers[0]
+	if missing.ReplicasNeeded != 2 || len(missing.Seeds) != 2 {
+		t.Fatalf(
+			"missing = %+v, want two replicas owed: this node is one of the three the DHT"+
+				" makes responsible",
+			missing,
+		)
+	}
+}
+
+func TestDueLeavesReplicasOwedWhenThisNodeIsOutsideTheWindow(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	peers := []yacymodel.Seed{
+		seed(yacymodel.WordHash("p1")),
+		seed(yacymodel.WordHash("p2")),
+		seed(yacymodel.WordHash("p3")),
+	}
+	v, schedule, _, shortfall := openShortfall(
+		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
+	)
+	shortfall.redundancy = 3
+
+	store(t, v, schedule, word, url)
+
+	due, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due: %v", err)
+	}
+	if len(due.Offers) != 1 {
+		t.Fatalf("due = %+v, want a single posting", due)
+	}
+	missing := due.Offers[0]
+	if missing.ReplicasNeeded != 3 || len(missing.Seeds) != 3 {
+		t.Fatalf(
+			"missing = %+v, want three replicas owed: this node is farther than every peer",
+			missing,
+		)
+	}
+}
+
+func TestDueNarrowsTheLedgerWindowWhenThisNodeIsResponsible(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	peers := []yacymodel.Seed{
+		seed(yacymodel.WordHash("p1")),
+		seed(yacymodel.WordHash("p2")),
+	}
+	v, schedule, replicas, shortfall := openShortfall(
+		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
+	)
+	shortfall.redundancy = 2
+	shortfall.self = thisNodeCloserThanEveryPeer()
+
+	store(t, v, schedule, word, url)
+	for _, peer := range peers {
+		recordAccepted(t, v, replicas, peer.Hash, fakePosting(word, url))
+	}
+
+	due, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due: %v", err)
+	}
+	if len(due.Stale) != 1 || len(due.Stale[0].Peers) != 1 {
+		t.Fatalf(
+			"due.Stale = %+v, want the one holder beyond the single replica peers owe",
+			due.Stale,
 		)
 	}
 }

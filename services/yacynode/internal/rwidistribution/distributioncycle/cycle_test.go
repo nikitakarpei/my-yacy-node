@@ -279,7 +279,7 @@ func TestCycleReschedulesUnofferedPostingAtBackoffInterval(t *testing.T) {
 		fakePostingKey(word, url): fakePosting(word, url),
 	}
 	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{postings: postings})
+	h := openCycle(t, clk, cycleOptions{postings: postings, redundancy: 2})
 
 	store(t, h.v, h.schedule, word, url)
 
@@ -740,7 +740,7 @@ func TestCycleDoublesTheWaitOfAPostingThatKeepsMissingRedundancy(t *testing.T) {
 		fakePostingKey(word, url): fakePosting(word, url),
 	}
 	clk := &clock{at: now}
-	h := openCycle(t, clk, cycleOptions{postings: postings})
+	h := openCycle(t, clk, cycleOptions{postings: postings, redundancy: 2})
 
 	store(t, h.v, h.schedule, word, url)
 
