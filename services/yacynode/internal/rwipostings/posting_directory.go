@@ -18,7 +18,7 @@ func (d postingDirectory) RWICount(ctx context.Context) (int, error) {
 	return collectionLength(ctx, d.vault, d.postings)
 }
 
-func (d postingDirectory) Posting(
+func (d postingDirectory) PostingOf(
 	ctx context.Context,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,

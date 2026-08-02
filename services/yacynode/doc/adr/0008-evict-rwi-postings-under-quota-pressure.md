@@ -6,6 +6,8 @@ Date: 2026-06-20
 
 Accepted
 
+Amended by ADR 0015: the redistribute policy is dropped and distribution deletes handed-off postings.
+
 ## Context
 
 The node stores accepted RWI postings and their URL metadata until the storage quota is reached, then

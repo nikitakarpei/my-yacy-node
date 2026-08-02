@@ -14,7 +14,7 @@ type stubProbe struct {
 	called    bool
 }
 
-func (p *stubProbe) Reachable(context.Context, yacymodel.Seed, yacymodel.Hash, string) bool {
+func (p *stubProbe) IsReachable(context.Context, yacymodel.Seed, yacymodel.Hash, string) bool {
 	p.called = true
 
 	return p.reachable

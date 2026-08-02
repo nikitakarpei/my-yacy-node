@@ -92,7 +92,7 @@ func posting(word, urlSeed string) yacymodel.RWIPosting {
 func (h harness) indexed(t *testing.T, entry yacymodel.RWIPosting) bool {
 	t.Helper()
 
-	_, found, err := h.index.Posting(context.Background(), entry.WordHash, entry.URLHash)
+	_, found, err := h.index.PostingOf(context.Background(), entry.WordHash, entry.URLHash)
 	if err != nil {
 		t.Fatalf("Posting: %v", err)
 	}

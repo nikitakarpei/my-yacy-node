@@ -6,6 +6,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -15,6 +17,8 @@ import (
 )
 
 type nodeStorage struct {
+	vault           *vault.Vault
+	now             func() time.Time
 	urlDirectory    urlmeta.URLDirectory
 	urlEvictor      urlmeta.URLEvictor
 	urlReceiver     urlmeta.URLReceiver
@@ -24,10 +28,16 @@ type nodeStorage struct {
 	postingReceiver rwiadmission.PostingReceiver
 	postingPurger   rwipostings.PostingPurger
 	escrow          *rwiescrow.HeldPostings
-	distribution    *rwidistribution.Distribution
+	offerSchedule   *postingofferschedule.Schedule
+	replicas        *postingreplicas.Replicas
 }
 
-func openNodeStorage(vault *vault.Vault, escrowObserver rwiescrow.HoldObserver) (
+func openNodeStorage(
+	vault *vault.Vault,
+	now func() time.Time,
+	escrowObserver rwiescrow.HoldObserver,
+	offerObserver postingofferschedule.Observer,
+) (
 	nodeStorage,
 	error,
 ) {
@@ -41,17 +51,21 @@ func openNodeStorage(vault *vault.Vault, escrowObserver rwiescrow.HoldObserver) 
 		return nodeStorage{}, fmt.Errorf("url references: %w", err)
 	}
 
-	distribution, err := rwidistribution.Open(vault, time.Now)
+	offerSchedule, replicas, postingRecords, err := rwidistribution.Open(vault, now, offerObserver)
 	if err != nil {
 		return nodeStorage{}, fmt.Errorf("rwi distribution: %w", err)
 	}
 
-	postings, admitter, postingPurger, err := rwipostings.Open(vault, references, distribution)
+	postings, admitter, postingPurger, err := rwipostings.Open(
+		vault,
+		references,
+		postingRecords,
+	)
 	if err != nil {
 		return nodeStorage{}, fmt.Errorf("rwi storage: %w", err)
 	}
 
-	escrow, err := rwiescrow.Open(vault, admitter, escrowObserver, escrowQuotaFraction, time.Now)
+	escrow, err := rwiescrow.Open(vault, admitter, escrowObserver, escrowQuotaFraction, now)
 	if err != nil {
 		return nodeStorage{}, fmt.Errorf("rwi escrow: %w", err)
 	}
@@ -62,6 +76,8 @@ func openNodeStorage(vault *vault.Vault, escrowObserver rwiescrow.HoldObserver) 
 	}
 
 	return nodeStorage{
+		vault:        vault,
+		now:          now,
 		urlDirectory: urlDirectory,
 		urlEvictor:   urlEvictor,
 		urlReceiver:  urlReceiver,
@@ -77,6 +93,7 @@ func openNodeStorage(vault *vault.Vault, escrowObserver rwiescrow.HoldObserver) 
 		),
 		postingPurger: postingPurger,
 		escrow:        escrow,
-		distribution:  distribution,
+		offerSchedule: offerSchedule,
+		replicas:      replicas,
 	}, nil
 }

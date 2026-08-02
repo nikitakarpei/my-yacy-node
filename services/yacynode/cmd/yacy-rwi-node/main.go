@@ -143,9 +143,9 @@ func serve(
 			return nil
 		},
 	}
-	if assembled.distribution != nil {
+	if assembled.distributionCycle != nil {
 		workers = append(workers, func(runCtx context.Context) error {
-			assembled.distribution.Run(runCtx)
+			assembled.distributionCycle.Run(runCtx)
 			return nil
 		})
 	}

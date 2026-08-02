@@ -42,7 +42,7 @@ func TestCallerBackPingConfirmsValidQueryResponse(t *testing.T) {
 
 	probe := newCallerBackPing(srv.Client())
 
-	if !probe.Reachable(
+	if !probe.IsReachable(
 		context.Background(),
 		serverSeed(t, srv.URL),
 		hashFor("self"),
@@ -60,7 +60,12 @@ func TestCallerBackPingRejectsErrorStatus(t *testing.T) {
 
 	probe := newCallerBackPing(srv.Client())
 
-	if probe.Reachable(context.Background(), serverSeed(t, srv.URL), hashFor("self"), "freeworld") {
+	if probe.IsReachable(
+		context.Background(),
+		serverSeed(t, srv.URL),
+		hashFor("self"),
+		"freeworld",
+	) {
 		t.Fatal("Reachable = true, want false on error status")
 	}
 }
@@ -68,7 +73,7 @@ func TestCallerBackPingRejectsErrorStatus(t *testing.T) {
 func TestCallerBackPingRejectsUnaddressableSeed(t *testing.T) {
 	probe := newCallerBackPing(http.DefaultClient)
 
-	if probe.Reachable(
+	if probe.IsReachable(
 		context.Background(),
 		callerSeed(t, "peer", "", 0),
 		hashFor("self"),

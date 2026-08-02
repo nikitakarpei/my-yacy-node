@@ -8,6 +8,7 @@ type fakeObserver struct {
 	urlMetadataDeliveries map[string]int
 	urlsDelivered         map[string]int
 	staleReplicasDropped  int
+	postingsHandedOff     int
 	gone                  int
 	scheduledPostings     int
 	longestOfferLateness  time.Duration
@@ -48,6 +49,10 @@ func (f *fakeObserver) ObserveLongestOfferLateness(lateness time.Duration) {
 
 func (f *fakeObserver) ObserveStaleReplicasDropped(dropped int) {
 	f.staleReplicasDropped += dropped
+}
+
+func (f *fakeObserver) ObservePostingsHandedOff(handedOff int) {
+	f.postingsHandedOff += handedOff
 }
 
 func (f *fakeObserver) ObserveCycleSkipped(reason string) {

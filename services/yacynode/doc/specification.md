@@ -48,6 +48,8 @@ Additional YaCy-related capabilities can be provided by separate services when n
 * When enabled, the node SHALL offer each stored posting to the peers the DHT makes
   responsible for it.
 * The node SHALL treat a posting as distributed only once that many responsible peers hold it.
+* When enabled, the node SHALL delete a stored posting once that many peers closer to its DHT
+  position hold it.
 
 ## Non-Functional Requirements
 

@@ -77,10 +77,10 @@ func courierEndpoint(t testing.TB, server *httptest.Server) string {
 	return endpoint
 }
 
-func openCourierHarness(t *testing.T, server *httptest.Server) httpPostingCourier {
+func openCourierHarness(t *testing.T, server *httptest.Server) httpCourier {
 	t.Helper()
 
-	return httpPostingCourier{
+	return httpCourier{
 		exchange:    peerwire.NewMessageExchange(server.Client()),
 		networkName: "freeworld",
 		self:        courierHash("self"),
@@ -157,8 +157,8 @@ func TestOfferReportsDeferredWithPeerPause(t *testing.T) {
 	if receipt.Outcome != Deferred {
 		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Deferred)
 	}
-	if receipt.RetryAfter != 30*time.Second {
-		t.Fatalf("RetryAfter = %v, want 30s", receipt.RetryAfter)
+	if receipt.RequestedPause != 30*time.Second {
+		t.Fatalf("RequestedPause = %v, want 30s", receipt.RequestedPause)
 	}
 }
 

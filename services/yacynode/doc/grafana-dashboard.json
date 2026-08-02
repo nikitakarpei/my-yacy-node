@@ -1242,7 +1242,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
+        "w": 12,
         "x": 0,
         "y": 73
       },
@@ -1268,9 +1268,9 @@
       ]
     },
     {
-      "id": 58,
-      "title": "Replicas dropped from peers",
-      "description": "This panel shows replicas dropped because the peer holding them is no longer responsible for the posting.",
+      "id": 69,
+      "title": "Postings handed off to closer peers",
+      "description": "This panel shows postings deleted after peers closer to their DHT position accepted them.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1278,9 +1278,46 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
+        "w": 12,
+        "x": 12,
         "y": 73
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(rwidistribution_postings_handed_off_total[$__rate_interval])",
+          "legendFormat": "handed off"
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "title": "Replicas dropped from peers",
+      "description": "This panel shows replicas dropped because closer peers displaced the holder, or the holder stayed uncontacted past the credibility window.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 81
       },
       "fieldConfig": {
         "defaults": {
@@ -1307,7 +1344,7 @@
     {
       "id": 57,
       "title": "Postings evicted mid-cycle",
-      "description": "This panel shows due postings that eviction removed from the index before the cycle could read them for offering.",
+      "description": "This panel shows due postings that left the index before the cycle could read them for offering.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1315,9 +1352,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 73
+        "w": 12,
+        "x": 12,
+        "y": 81
       },
       "fieldConfig": {
         "defaults": {
@@ -1349,7 +1386,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 81
+        "y": 89
       },
       "panels": []
     },
@@ -1366,7 +1403,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 82
+        "y": 90
       },
       "fieldConfig": {
         "defaults": {
@@ -1417,7 +1454,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 82
+        "y": 90
       },
       "fieldConfig": {
         "defaults": {
@@ -1478,7 +1515,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 90
+        "y": 98
       },
       "fieldConfig": {
         "defaults": {
@@ -1542,7 +1579,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 90
+        "y": 98
       },
       "fieldConfig": {
         "defaults": {
@@ -1600,7 +1637,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 90
+        "y": 98
       },
       "fieldConfig": {
         "defaults": {

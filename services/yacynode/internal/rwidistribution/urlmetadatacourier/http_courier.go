@@ -11,21 +11,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-type URLMetadataReceipt struct {
+type Receipt struct {
 	Outcome      Outcome
 	URLsRejected []yacymodel.URLHash
 }
 
-type URLMetadataCourier interface {
+type Courier interface {
 	Deliver(
 		ctx context.Context,
 		endpoint string,
 		peer yacymodel.Hash,
 		metadata []yacymodel.URLMetadata,
-	) URLMetadataReceipt
+	) Receipt
 }
 
-type httpURLMetadataCourier struct {
+type httpCourier struct {
 	exchange    peerwire.MessageExchange
 	networkName string
 	self        yacymodel.Hash
@@ -35,16 +35,16 @@ func NewHTTP(
 	exchange peerwire.MessageExchange,
 	networkName string,
 	self yacymodel.Hash,
-) URLMetadataCourier {
-	return httpURLMetadataCourier{exchange: exchange, networkName: networkName, self: self}
+) Courier {
+	return httpCourier{exchange: exchange, networkName: networkName, self: self}
 }
 
-func (c httpURLMetadataCourier) Deliver(
+func (c httpCourier) Deliver(
 	ctx context.Context,
 	endpoint string,
 	peer yacymodel.Hash,
 	metadata []yacymodel.URLMetadata,
-) URLMetadataReceipt {
+) Receipt {
 	req := yacyproto.TransferURLRequest{
 		NetworkName: c.networkName,
 		Iam:         c.self,
@@ -63,7 +63,7 @@ func (c httpURLMetadataCourier) Deliver(
 			slog.Any("error", err),
 		)
 
-		return URLMetadataReceipt{Outcome: Unreachable}
+		return Receipt{Outcome: Unreachable}
 	}
 
 	resp, err := yacyproto.ParseTransferURLResponse(msg)
@@ -76,16 +76,16 @@ func (c httpURLMetadataCourier) Deliver(
 			slog.Any("error", err),
 		)
 
-		return URLMetadataReceipt{Outcome: Unreachable}
+		return Receipt{Outcome: Unreachable}
 	}
 
 	switch resp.Result {
 	case yacyproto.ResultOK, "":
-		return URLMetadataReceipt{Outcome: Accepted, URLsRejected: resp.ErrorURL}
+		return Receipt{Outcome: Accepted, URLsRejected: resp.ErrorURL}
 	case yacyproto.ResultErrorNotGranted:
-		return URLMetadataReceipt{Outcome: Deferred}
+		return Receipt{Outcome: Deferred}
 	case yacyproto.ResultWrongTarget:
-		return URLMetadataReceipt{Outcome: Refused}
+		return Receipt{Outcome: Refused}
 	default:
 		slog.WarnContext(
 			ctx,
@@ -95,6 +95,6 @@ func (c httpURLMetadataCourier) Deliver(
 			slog.String("result", string(resp.Result)),
 		)
 
-		return URLMetadataReceipt{Outcome: Refused}
+		return Receipt{Outcome: Refused}
 	}
 }

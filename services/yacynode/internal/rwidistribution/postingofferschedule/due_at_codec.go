@@ -1,4 +1,4 @@
-package postingschedule
+package postingofferschedule
 
 import (
 	"fmt"
