@@ -128,7 +128,7 @@ func (c *Cycle) runCycle(ctx context.Context) {
 			slog.String("url", identity.URL.String()))
 	}
 
-	offers := batchOffers(due.Missing)
+	offers := batchOffers(due.Offers)
 	accepted, backoff := c.deliverOffers(ctx, offers)
 	c.commitCycle(ctx, due, accepted, backoff)
 	c.observer.ObserveIneligibleReplicaRecipients(c.recipients.IneligiblePeers())
@@ -150,7 +150,7 @@ func (c *Cycle) commitCycle(
 			return err
 		}
 		atLongestWait, err = c.reschedulePostings(
-			tx, due.Missing, backoff, replicasByPosting(accepted),
+			tx, due.Offers, backoff, replicasByPosting(accepted),
 		)
 
 		return err
@@ -200,11 +200,11 @@ func (c *Cycle) dropStaleReplicas(
 	return dropped, nil
 }
 
-func batchOffers(missingReplicas []replicashortfall.MissingReplicas) []offer {
+func batchOffers(replicaOffers []replicashortfall.ReplicaOffer) []offer {
 	batch := newOfferBatch()
-	for _, missing := range missingReplicas {
-		for _, seed := range missing.Seeds {
-			batch.Add(seed, missing.Posting)
+	for _, replicaOffer := range replicaOffers {
+		for _, seed := range replicaOffer.Seeds {
+			batch.Add(seed, replicaOffer.Posting)
 		}
 	}
 
@@ -261,17 +261,17 @@ func replicasByPosting(accepted []offer) map[postingschedule.Identity]int {
 
 func (c *Cycle) reschedulePostings(
 	tx *vault.Txn,
-	missingReplicas []replicashortfall.MissingReplicas,
+	replicaOffers []replicashortfall.ReplicaOffer,
 	backoff *postingBackoff,
 	acceptedReplicas map[postingschedule.Identity]int,
 ) (int, error) {
 	var atLongestWait int
-	for _, missing := range missingReplicas {
+	for _, replicaOffer := range replicaOffers {
 		identity := postingschedule.Identity{
-			Word: missing.Posting.WordHash,
-			URL:  missing.Posting.URLHash,
+			Word: replicaOffer.Posting.WordHash,
+			URL:  replicaOffer.Posting.URLHash,
 		}
-		redundancyMet := acceptedReplicas[identity] >= missing.ReplicasNeeded
+		redundancyMet := acceptedReplicas[identity] >= replicaOffer.ReplicasNeeded
 
 		wait, err := c.offerWait(tx, identity, redundancyMet, backoff)
 		if err != nil {

@@ -325,9 +325,9 @@ func TestCycleReschedulesAlreadySatisfiedPostingAtRefreshInterval(t *testing.T) 
 
 	h.cycle.runCycle(context.Background())
 
-	if len(h.courier.offered) != 0 {
+	if len(h.courier.offered) != 1 || h.courier.offered[0].Peer.Hash != peer {
 		t.Fatalf(
-			"offered = %v, want no offers for a posting whose redundancy is met",
+			"offered = %v, want the posting renewed with the peer that holds it",
 			h.courier.offered,
 		)
 	}

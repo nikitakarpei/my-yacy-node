@@ -211,17 +211,17 @@ func TestDueReportsMissingReplicaForDuePosting(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Due: %v", err)
 	}
-	if len(due.Missing) != 1 || len(due.Gone) != 0 {
+	if len(due.Offers) != 1 || len(due.Gone) != 0 {
 		t.Fatalf("due = %+v, want a single posting and no gone entries", due)
 	}
-	missing := due.Missing[0]
+	missing := due.Offers[0]
 	if missing.ReplicasNeeded != 1 || len(missing.Seeds) != 1 ||
 		missing.Seeds[0].Hash != peer {
 		t.Fatalf("missing = %+v, want one replica needed from %v", missing, peer)
 	}
 }
 
-func TestDueReportsNoReplicasNeededWhenRedundancyMet(t *testing.T) {
+func TestDueRenewsTheHeldReplicaWhenRedundancyMet(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
 	peer := yacymodel.WordHash("peer")
@@ -240,12 +240,43 @@ func TestDueReportsNoReplicasNeededWhenRedundancyMet(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Due: %v", err)
 	}
-	if len(due.Missing) != 1 {
+	if len(due.Offers) != 1 {
 		t.Fatalf("due = %+v, want a single posting", due)
 	}
-	missing := due.Missing[0]
-	if missing.ReplicasNeeded != 0 || len(missing.Seeds) != 0 {
-		t.Fatalf("missing = %+v, want zero replicas needed", missing)
+	offer := due.Offers[0]
+	if offer.ReplicasNeeded != 0 {
+		t.Fatalf("ReplicasNeeded = %d, want zero", offer.ReplicasNeeded)
+	}
+	if len(offer.Seeds) != 1 || offer.Seeds[0].Hash != peer {
+		t.Fatalf("Seeds = %v, want the peer that holds the replica", offer.Seeds)
+	}
+}
+
+func TestDueRenewsTheHeldReplicaOfAPeerHeldBackFromNewReplicas(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	peers := []yacymodel.Seed{seed(peer)}
+	v, schedule, replicas, shortfall := openShortfall(
+		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
+	)
+	shortfall.eligibility = peersHeldBack{peer: {}}
+
+	store(t, v, schedule, word, url)
+	recordAccepted(t, v, replicas, peer, fakePosting(word, url))
+
+	due, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due: %v", err)
+	}
+	if len(due.Offers) != 1 {
+		t.Fatalf("due = %+v, want a single posting", due)
+	}
+	if seeds := due.Offers[0].Seeds; len(seeds) != 1 || seeds[0].Hash != peer {
+		t.Fatalf("Seeds = %v, want the held-back peer that holds the replica", seeds)
 	}
 }
 
@@ -265,10 +296,10 @@ func TestDueLeavesReplicasNeededWithNoResponsiblePeers(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Due: %v", err)
 	}
-	if len(due.Missing) != 1 {
+	if len(due.Offers) != 1 {
 		t.Fatalf("due = %+v, want a single posting", due)
 	}
-	missing := due.Missing[0]
+	missing := due.Offers[0]
 	if missing.ReplicasNeeded != 1 || len(missing.Seeds) != 0 {
 		t.Fatalf(
 			"missing = %+v, want one replica needed with no peers to offer it to",
@@ -292,7 +323,7 @@ func TestDueCollectsGoneForRemovedPosting(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Due: %v", err)
 	}
-	if len(due.Missing) != 0 || len(due.Gone) != 1 || due.Gone[0].Word != word {
+	if len(due.Offers) != 0 || len(due.Gone) != 1 || due.Gone[0].Word != word {
 		t.Fatalf("due = %+v, want a single gone entry for %v", due, word)
 	}
 }
@@ -316,10 +347,10 @@ func TestDueReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Due: %v", err)
 	}
-	if len(due.Missing) != 1 {
+	if len(due.Offers) != 1 {
 		t.Fatalf("due = %+v, want a single posting", due)
 	}
-	missing := due.Missing[0]
+	missing := due.Offers[0]
 	if len(missing.Seeds) != 1 || missing.Seeds[0].Hash != fresh {
 		t.Fatalf(
 			"missing = %+v, want an offer to %v regardless of stale peer %v",
@@ -363,10 +394,10 @@ func TestDueOffersOnlyAsManyReplicasAsAreNeeded(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Due: %v", err)
 	}
-	if len(due.Missing) != 1 {
+	if len(due.Offers) != 1 {
 		t.Fatalf("due = %+v, want a single posting", due)
 	}
-	missing := due.Missing[0]
+	missing := due.Offers[0]
 	if missing.ReplicasNeeded != 2 {
 		t.Fatalf(
 			"ReplicasNeeded = %d, want 2 with one credible holder of three",
@@ -403,7 +434,7 @@ func TestDuePrunesReachableHolderDisplacedByCloserPeer(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Due: %v", err)
 	}
-	if len(due.Missing) != 1 {
+	if len(due.Offers) != 1 {
 		t.Fatalf("due = %+v, want a single posting", due)
 	}
 	if len(due.Stale) != 1 || len(due.Stale[0].Peers) != 1 {
@@ -435,10 +466,10 @@ func TestDueKeepsHolderThatStoppedAcceptingIndex(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Due: %v", err)
 	}
-	if len(due.Missing) != 1 {
+	if len(due.Offers) != 1 {
 		t.Fatalf("due = %+v, want a single posting", due)
 	}
-	missing := due.Missing[0]
+	missing := due.Offers[0]
 	if len(due.Stale) != 0 {
 		t.Fatalf(
 			"due.Stale = %+v, want none: a peer that stops accepting a remote index "+
@@ -474,10 +505,10 @@ func TestDueOffersToNextPeerWhenClosestIsHeldBack(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Due: %v", err)
 	}
-	if len(first.Missing) != 1 || len(first.Missing[0].Seeds) != 1 {
+	if len(first.Offers) != 1 || len(first.Offers[0].Seeds) != 1 {
 		t.Fatalf("due = %+v, want one posting offered to the closest peer", first)
 	}
-	closest := first.Missing[0].Seeds[0].Hash
+	closest := first.Offers[0].Seeds[0].Hash
 
 	shortfall.eligibility = peersHeldBack{closest: {}}
 
@@ -485,10 +516,10 @@ func TestDueOffersToNextPeerWhenClosestIsHeldBack(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Due: %v", err)
 	}
-	if len(second.Missing) != 1 || len(second.Missing[0].Seeds) != 1 {
+	if len(second.Offers) != 1 || len(second.Offers[0].Seeds) != 1 {
 		t.Fatalf("due = %+v, want one posting still offered somewhere", second)
 	}
-	if next := second.Missing[0].Seeds[0].Hash; next == closest {
+	if next := second.Offers[0].Seeds[0].Hash; next == closest {
 		t.Fatalf(
 			"Seeds[0] = %v, want a peer other than the held-back closest peer %v",
 			next, closest,
@@ -522,8 +553,8 @@ func TestDueKeepsHolderOnHeldBackPeer(t *testing.T) {
 			due.Stale,
 		)
 	}
-	if len(due.Missing) != 1 || due.Missing[0].ReplicasNeeded != 0 {
-		t.Fatalf("due.Missing = %+v, want no further replicas needed", due.Missing)
+	if len(due.Offers) != 1 || due.Offers[0].ReplicasNeeded != 0 {
+		t.Fatalf("due.Offers = %+v, want no further replicas needed", due.Offers)
 	}
 }
 
@@ -548,23 +579,23 @@ func TestDueNarrowsResponsibilityWindowToPeersInCooldown(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Due: %v", err)
 	}
-	shortfall.eligibility = peersHeldBack{ranked.Missing[0].Seeds[0].Hash: {}}
+	shortfall.eligibility = peersHeldBack{ranked.Offers[0].Seeds[0].Hash: {}}
 
 	eligible, err := shortfall.Due(context.Background(), 10, peers)
 	if err != nil {
 		t.Fatalf("Due with the closest peer in cooldown: %v", err)
 	}
-	recordAccepted(t, v, replicas, eligible.Missing[0].Seeds[0].Hash, fakePosting(word, url))
+	recordAccepted(t, v, replicas, eligible.Offers[0].Seeds[0].Hash, fakePosting(word, url))
 
 	due, err := shortfall.Due(context.Background(), 10, peers)
 	if err != nil {
 		t.Fatalf("Due after cooldown: %v", err)
 	}
-	if len(due.Missing) != 1 || due.Missing[0].ReplicasNeeded != 1 {
+	if len(due.Offers) != 1 || due.Offers[0].ReplicasNeeded != 1 {
 		t.Fatalf(
-			"due.Missing = %+v, want one replica needed: a peer in cooldown does not widen"+
+			"due.Offers = %+v, want one replica needed: a peer in cooldown does not widen"+
 				" the responsibility window",
-			due.Missing,
+			due.Offers,
 		)
 	}
 	if len(due.Stale) != 0 {
@@ -592,7 +623,7 @@ func TestDueKeepsHolderOutsideWindowUntilRedundancyIsMet(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Due: %v", err)
 	}
-	closest := ranked.Missing[0].Seeds[0].Hash
+	closest := ranked.Offers[0].Seeds[0].Hash
 	outside := otherThan(peers, closest)
 
 	recordAccepted(t, v, replicas, outside, fakePosting(word, url))
@@ -641,8 +672,8 @@ func TestDueDropsUnreachableHolderBelowRedundancy(t *testing.T) {
 	if len(due.Stale) != 1 || due.Stale[0].Peers[0] != ghost {
 		t.Fatalf("due.Stale = %+v, want [%v]: the peer is gone", due.Stale, ghost)
 	}
-	if len(due.Missing) != 1 || due.Missing[0].ReplicasNeeded != 1 {
-		t.Fatalf("due.Missing = %+v, want one replica needed", due.Missing)
+	if len(due.Offers) != 1 || due.Offers[0].ReplicasNeeded != 1 {
+		t.Fatalf("due.Offers = %+v, want one replica needed", due.Offers)
 	}
 }
 

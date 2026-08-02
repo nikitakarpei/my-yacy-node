@@ -1,6 +1,7 @@
 // Package replicashortfall works out, for each posting due an offer, which
-// peers should hold a replica under the DHT, how many replicas are still missing,
-// and which ledger entries the DHT no longer justifies.
+// peers to offer it to under the DHT, how many of them must accept for the
+// posting to be at redundancy, and which ledger entries the DHT no longer
+// justifies.
 package replicashortfall
 
 import (
@@ -13,7 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-type MissingReplicas struct {
+type ReplicaOffer struct {
 	Posting        yacymodel.RWIPosting
 	ReplicasNeeded int
 	Seeds          []yacymodel.Seed
@@ -25,9 +26,9 @@ type StaleReplicas struct {
 }
 
 type Due struct {
-	Missing []MissingReplicas
-	Stale   []StaleReplicas
-	Gone    []postingschedule.Identity
+	Offers []ReplicaOffer
+	Stale  []StaleReplicas
+	Gone   []postingschedule.Identity
 }
 
 type Reachability interface {
@@ -94,11 +95,11 @@ func (r *Shortfall) Due(
 			continue
 		}
 
-		missing, stale, err := r.replicasOf(ctx, posting, reachablePeers)
+		offer, stale, err := r.replicasOf(ctx, posting, reachablePeers)
 		if err != nil {
 			return Due{}, err
 		}
-		result.Missing = append(result.Missing, missing)
+		result.Offers = append(result.Offers, offer)
 		if len(stale.Peers) > 0 {
 			result.Stale = append(result.Stale, stale)
 		}
@@ -111,10 +112,10 @@ func (r *Shortfall) replicasOf(
 	ctx context.Context,
 	posting yacymodel.RWIPosting,
 	reachablePeers []yacymodel.Seed,
-) (MissingReplicas, StaleReplicas, error) {
+) (ReplicaOffer, StaleReplicas, error) {
 	holders, err := r.replicas.Holders(ctx, posting.WordHash, posting.URLHash)
 	if err != nil {
-		return MissingReplicas{}, StaleReplicas{}, fmt.Errorf("read replica ledger: %w", err)
+		return ReplicaOffer{}, StaleReplicas{}, fmt.Errorf("read replica ledger: %w", err)
 	}
 
 	position := yacymodel.PostingPosition(posting.WordHash, posting.URLHash, r.partitions)
@@ -130,23 +131,24 @@ func (r *Shortfall) replicasOf(
 		Posting: postingschedule.Identity{Word: posting.WordHash, URL: posting.URLHash},
 		Peers:   held.gone,
 	}
-	missing := MissingReplicas{Posting: posting}
+	offer := ReplicaOffer{Posting: posting}
 	if len(held.responsible) >= r.redundancy {
 		stale.Peers = append(stale.Peers, held.outsideWindow...)
+		offer.Seeds = peersHoldingReplica(acceptingPeers, held.responsible)
 
-		return missing, stale, nil
+		return offer, stale, nil
 	}
-	missing.ReplicasNeeded = r.redundancy - len(held.responsible)
-	missing.Seeds = yacymodel.SeedsClosestToPosition(
+	offer.ReplicasNeeded = r.redundancy - len(held.responsible)
+	offer.Seeds = yacymodel.SeedsClosestToPosition(
 		peersWithoutReplica(
 			peersEligibleForReplicas(acceptingPeers, r.eligibility),
 			held.stillHolding(),
 		),
 		position,
-		missing.ReplicasNeeded,
+		offer.ReplicasNeeded,
 	)
 
-	return missing, stale, nil
+	return offer, stale, nil
 }
 
 // replicaHolders groups the peers holding a replica by the DHT responsibility
