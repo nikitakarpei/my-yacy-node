@@ -6,7 +6,6 @@ package distributioncycle
 import (
 	"context"
 	"log/slog"
-	"slices"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -39,7 +38,7 @@ type Cycle struct {
 	vault             *vault.Vault
 	shortfall         *replicashortfall.Shortfall
 	delivery          *OfferDelivery
-	purger            rwipostings.PostingPurger
+	handoff           *postingHandoff
 	replicas          *postingreplicas.Replicas
 	waits             *postingofferwait.Wait
 	recipients        ReplicaRecipients
@@ -75,7 +74,7 @@ func New(
 		vault:             v,
 		shortfall:         shortfall,
 		delivery:          delivery,
-		purger:            purger,
+		handoff:           newPostingHandoff(purger),
 		replicas:          replicas,
 		waits:             waits,
 		recipients:        recipients,
@@ -159,11 +158,14 @@ func (c *Cycle) commitCycle(
 			return err
 		}
 
-		handedOff, err = c.reschedulePostings(
-			ctx, tx, due.Offers, backoff, recipientsByPosting(accepted),
-		)
+		recipients := recipientsByPosting(accepted)
+		kept, err := c.handoff.HandOffPostings(ctx, tx, due.Offers, recipients)
+		if err != nil {
+			return err
+		}
+		handedOff = len(due.Offers) - len(kept)
 
-		return err
+		return c.reschedulePostings(tx, kept, backoff, recipients)
 	})
 	if err != nil {
 		slog.ErrorContext(ctx, "distribution cycle not written", slog.Any("error", err))
@@ -279,28 +281,12 @@ func recipientsByPosting(accepted []offer) map[postingschedule.Identity][]yacymo
 	return recipients
 }
 
-func handedOffToCloserPeers(
-	replicaOffer replicashortfall.ReplicaOffer,
-	recipients []yacymodel.Hash,
-) bool {
-	var closer int
-	for _, recipient := range recipients {
-		if slices.Contains(replicaOffer.RecipientsCloserThanThisNode, recipient) {
-			closer++
-		}
-	}
-
-	return closer >= replicaOffer.HandoffReplicasNeeded
-}
-
 func (c *Cycle) reschedulePostings(
-	ctx context.Context,
 	tx *vault.Txn,
 	replicaOffers []replicashortfall.ReplicaOffer,
 	backoff *postingBackoff,
 	acceptedRecipients map[postingschedule.Identity][]yacymodel.Hash,
-) (int, error) {
-	var handedOff int
+) error {
 	for _, replicaOffer := range replicaOffers {
 		identity := postingschedule.Identity{
 			Word: replicaOffer.Posting.WordHash,
@@ -308,42 +294,18 @@ func (c *Cycle) reschedulePostings(
 		}
 		recipients := acceptedRecipients[identity]
 
-		if handedOffToCloserPeers(replicaOffer, recipients) {
-			if err := c.handOffPosting(ctx, tx, identity); err != nil {
-				return 0, err
-			}
-			handedOff++
-
-			continue
-		}
-
 		wait, err := c.offerWait(
 			tx, identity, len(recipients) >= replicaOffer.ReplicasNeeded, backoff,
 		)
 		if err != nil {
-			return 0, err
+			return err
 		}
 
 		at := c.now().Add(wait)
 		if err := c.schedule.Reschedule(tx, identity.Word, identity.URL, at); err != nil {
-			return 0, err
+			return err
 		}
 	}
-
-	return handedOff, nil
-}
-
-func (c *Cycle) handOffPosting(
-	ctx context.Context,
-	tx *vault.Txn,
-	identity postingschedule.Identity,
-) error {
-	if _, err := c.purger.PurgePosting(tx, identity.Word, identity.URL); err != nil {
-		return err
-	}
-	slog.DebugContext(ctx, "posting handed off to closer peers",
-		slog.String("word", identity.Word.String()),
-		slog.String("url", identity.URL.String()))
 
 	return nil
 }
