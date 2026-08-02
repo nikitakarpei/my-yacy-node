@@ -1,8 +1,6 @@
 package replicashortfall
 
 import (
-	"context"
-
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -16,32 +14,6 @@ type replicaHolders struct {
 
 func (h replicaHolders) stillHolding() []yacymodel.Hash {
 	return append(append([]yacymodel.Hash{}, h.responsible...), h.outsideWindow...)
-}
-
-func (r *Shortfall) holdersByResponsibility(
-	ctx context.Context,
-	holders []yacymodel.Hash,
-	position yacymodel.DHTPosition,
-	responsibilityWindow []yacymodel.Seed,
-	replicasPeersOwe int,
-) replicaHolders {
-	var held replicaHolders
-	for _, peer := range holders {
-		switch {
-		case !r.reachability.Reachable(ctx, peer):
-			if r.reachability.RecentlyReachable(ctx, peer) {
-				held.responsible = append(held.responsible, peer)
-			} else {
-				held.gone = append(held.gone, peer)
-			}
-		case noFartherThanClosestPeers(peer, position, responsibilityWindow, replicasPeersOwe):
-			held.responsible = append(held.responsible, peer)
-		default:
-			held.outsideWindow = append(held.outsideWindow, peer)
-		}
-	}
-
-	return held
 }
 
 func noFartherThanClosestPeers(

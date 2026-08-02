@@ -61,10 +61,10 @@ func closerPeersHold(
 ) bool {
 	var closer int
 	for _, recipient := range recipients {
-		if slices.Contains(handoff.Peers, recipient) {
+		if slices.Contains(handoff.CloserPeersOffered, recipient) {
 			closer++
 		}
 	}
 
-	return closer >= handoff.ReplicasNeeded
+	return closer >= handoff.CloserPeersNeeded
 }
