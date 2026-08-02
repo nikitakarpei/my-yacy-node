@@ -16,17 +16,17 @@ const bucket vault.Name = "rwidistribution_replica_ledger"
 
 type Replicas struct {
 	vault    *vault.Vault
-	replicas *vault.Collection[[]yacymodel.Hash]
+	holders  *vault.Collection[[]yacymodel.Hash]
 	schedule *postingschedule.Schedule
 }
 
 func Open(v *vault.Vault, schedule *postingschedule.Schedule) (*Replicas, error) {
-	replicas, err := vault.Register(v, bucket, replicaListCodec{})
+	holders, err := vault.Register(v, bucket, holdersCodec{})
 	if err != nil {
 		return nil, fmt.Errorf("register replica ledger: %w", err)
 	}
 
-	return &Replicas{vault: v, replicas: replicas, schedule: schedule}, nil
+	return &Replicas{vault: v, holders: holders, schedule: schedule}, nil
 }
 
 func (l *Replicas) PostingPurged(
@@ -34,30 +34,31 @@ func (l *Replicas) PostingPurged(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) error {
-	if _, err := l.replicas.Delete(tx, postingschedule.PostingKey(word, url)); err != nil {
+	if _, err := l.holders.Delete(tx, postingschedule.PostingKey(word, url)); err != nil {
 		return fmt.Errorf("drop replica ledger: %w", err)
 	}
 
 	return nil
 }
 
-func (l *Replicas) Replicas(
+// Holders reports the peers that have accepted a copy of the posting.
+func (l *Replicas) Holders(
 	ctx context.Context,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) ([]yacymodel.Hash, error) {
-	var replicas []yacymodel.Hash
+	var holders []yacymodel.Hash
 	err := l.vault.View(ctx, func(tx *vault.Txn) error {
-		stored, _, err := l.replicas.Get(tx, postingschedule.PostingKey(word, url))
-		replicas = stored
+		stored, _, err := l.holders.Get(tx, postingschedule.PostingKey(word, url))
+		holders = stored
 
 		return err
 	})
 	if err != nil {
-		return nil, fmt.Errorf("read replicas: %w", err)
+		return nil, fmt.Errorf("read replica holders: %w", err)
 	}
 
-	return replicas, nil
+	return holders, nil
 }
 
 func (l *Replicas) RecordAccepted(
@@ -76,14 +77,14 @@ func (l *Replicas) RecordAccepted(
 			}
 
 			key := postingschedule.PostingKey(posting.WordHash, posting.URLHash)
-			replicas, _, err := l.replicas.Get(tx, key)
+			holders, _, err := l.holders.Get(tx, key)
 			if err != nil {
-				return fmt.Errorf("read replicas: %w", err)
+				return fmt.Errorf("read replica holders: %w", err)
 			}
-			if slices.Contains(replicas, peer) {
+			if slices.Contains(holders, peer) {
 				continue
 			}
-			if err := l.replicas.Put(tx, key, append(replicas, peer)); err != nil {
+			if err := l.holders.Put(tx, key, append(holders, peer)); err != nil {
 				return fmt.Errorf("record accepted replica: %w", err)
 			}
 		}
@@ -106,33 +107,33 @@ func (l *Replicas) RecordDropped(
 	var dropped int
 	err := l.vault.Update(ctx, func(tx *vault.Txn) error {
 		key := postingschedule.PostingKey(word, url)
-		replicas, found, err := l.replicas.Get(tx, key)
+		holders, found, err := l.holders.Get(tx, key)
 		if err != nil {
-			return fmt.Errorf("read replicas: %w", err)
+			return fmt.Errorf("read replica holders: %w", err)
 		}
 		if !found {
 			return nil
 		}
 
-		kept := make([]yacymodel.Hash, 0, len(replicas))
-		for _, peer := range replicas {
+		kept := make([]yacymodel.Hash, 0, len(holders))
+		for _, peer := range holders {
 			if slices.Contains(stale, peer) {
 				continue
 			}
 			kept = append(kept, peer)
 		}
-		dropped = len(replicas) - len(kept)
+		dropped = len(holders) - len(kept)
 
 		if dropped == 0 {
 			return nil
 		}
 		if len(kept) == 0 {
-			_, err := l.replicas.Delete(tx, key)
+			_, err := l.holders.Delete(tx, key)
 
 			return err
 		}
 
-		return l.replicas.Put(tx, key, kept)
+		return l.holders.Put(tx, key, kept)
 	})
 	if err != nil {
 		return 0, fmt.Errorf("drop stale replicas: %w", err)

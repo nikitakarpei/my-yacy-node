@@ -8,6 +8,7 @@ type fakeObserver struct {
 	urlMetadataDeliveries map[string]int
 	urlsDelivered         map[string]int
 	staleReplicasDropped  int
+	ineligibleRecipients  int
 	gone                  int
 	oldestDueAge          time.Duration
 	cyclesSkipped         int
@@ -43,6 +44,10 @@ func (f *fakeObserver) ObserveOldestDuePostingAge(age time.Duration) {
 
 func (f *fakeObserver) ObserveStaleReplicasDropped(dropped int) {
 	f.staleReplicasDropped += dropped
+}
+
+func (f *fakeObserver) ObserveIneligibleReplicaRecipients(peers int) {
+	f.ineligibleRecipients = peers
 }
 
 func (f *fakeObserver) ObserveCycleSkipped() {

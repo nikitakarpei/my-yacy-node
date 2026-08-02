@@ -35,21 +35,29 @@ type Reachability interface {
 	RecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
 }
 
+// ReplicaEligibility reports whether a peer is able to receive a posting
+// replica right now, independently of whether the peer is reachable at all.
+type ReplicaEligibility interface {
+	Eligible(peer yacymodel.Hash) bool
+}
+
 type Shortfall struct {
 	schedule     *postingschedule.Schedule
 	replicas     *postingreplicas.Replicas
 	postings     rwipostings.PostingIndex
 	reachability Reachability
+	eligibility  ReplicaEligibility
 	partitions   yacymodel.DHTRingPartitions
 	redundancy   int
 }
 
-//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators
 func New(
 	schedule *postingschedule.Schedule,
 	replicas *postingreplicas.Replicas,
 	postings rwipostings.PostingIndex,
 	reachability Reachability,
+	eligibility ReplicaEligibility,
 	partitions yacymodel.DHTRingPartitions,
 	redundancy int,
 ) *Shortfall {
@@ -58,6 +66,7 @@ func New(
 		replicas:     replicas,
 		postings:     postings,
 		reachability: reachability,
+		eligibility:  eligibility,
 		partitions:   partitions,
 		redundancy:   redundancy,
 	}
@@ -103,54 +112,56 @@ func (r *Shortfall) replicasOf(
 	posting yacymodel.RWIPosting,
 	reachablePeers []yacymodel.Seed,
 ) (MissingReplicas, StaleReplicas, error) {
-	replicas, err := r.replicas.Replicas(ctx, posting.WordHash, posting.URLHash)
+	holders, err := r.replicas.Holders(ctx, posting.WordHash, posting.URLHash)
 	if err != nil {
 		return MissingReplicas{}, StaleReplicas{}, fmt.Errorf("read replica ledger: %w", err)
 	}
 
 	position := yacymodel.PostingPosition(posting.WordHash, posting.URLHash, r.partitions)
 	closestPeers := yacymodel.SeedsClosestToPosition(
-		peersAcceptingRemoteIndex(reachablePeers), position, r.redundancy,
+		peersEligibleForReplicas(peersAcceptingRemoteIndex(reachablePeers), r.eligibility),
+		position,
+		r.redundancy,
 	)
-	holders := r.currentHolders(ctx, replicas, position, closestPeers)
+	responsible := r.responsibleHolders(ctx, holders, position, closestPeers)
 
 	stale := StaleReplicas{
 		Posting: postingschedule.Identity{Word: posting.WordHash, URL: posting.URLHash},
-		Peers:   stalePeers(replicas, holders),
+		Peers:   holdersNoLongerResponsible(holders, responsible),
 	}
 	missing := MissingReplicas{Posting: posting}
-	if len(holders) >= r.redundancy {
+	if len(responsible) >= r.redundancy {
 		return missing, stale, nil
 	}
-	missing.ReplicasNeeded = r.redundancy - len(holders)
-	missing.Seeds = missingSeeds(closestPeers, holders, missing.ReplicasNeeded)
+	missing.ReplicasNeeded = r.redundancy - len(responsible)
+	missing.Seeds = missingSeeds(closestPeers, responsible, missing.ReplicasNeeded)
 
 	return missing, stale, nil
 }
 
-func (r *Shortfall) currentHolders(
+func (r *Shortfall) responsibleHolders(
 	ctx context.Context,
-	replicas []yacymodel.Hash,
+	holders []yacymodel.Hash,
 	position yacymodel.DHTPosition,
 	closestPeers []yacymodel.Seed,
 ) map[yacymodel.Hash]struct{} {
-	holders := make(map[yacymodel.Hash]struct{}, len(replicas))
-	for _, peer := range replicas {
+	responsible := make(map[yacymodel.Hash]struct{}, len(holders))
+	for _, peer := range holders {
 		if r.stillResponsible(ctx, peer, position, closestPeers) {
-			holders[peer] = struct{}{}
+			responsible[peer] = struct{}{}
 		}
 	}
 
-	return holders
+	return responsible
 }
 
-func stalePeers(
-	replicas []yacymodel.Hash,
-	holders map[yacymodel.Hash]struct{},
+func holdersNoLongerResponsible(
+	holders []yacymodel.Hash,
+	responsible map[yacymodel.Hash]struct{},
 ) []yacymodel.Hash {
 	var lost []yacymodel.Hash
-	for _, peer := range replicas {
-		if _, held := holders[peer]; !held {
+	for _, peer := range holders {
+		if _, held := responsible[peer]; !held {
 			lost = append(lost, peer)
 		}
 	}
@@ -160,7 +171,7 @@ func stalePeers(
 
 func missingSeeds(
 	closestPeers []yacymodel.Seed,
-	holders map[yacymodel.Hash]struct{},
+	responsible map[yacymodel.Hash]struct{},
 	replicasNeeded int,
 ) []yacymodel.Seed {
 	missing := make([]yacymodel.Seed, 0, replicasNeeded)
@@ -168,7 +179,7 @@ func missingSeeds(
 		if len(missing) == replicasNeeded {
 			break
 		}
-		if _, held := holders[seed.Hash]; !held {
+		if _, held := responsible[seed.Hash]; !held {
 			missing = append(missing, seed)
 		}
 	}

@@ -103,6 +103,18 @@ func indexDecliningSeed(hash yacymodel.Hash) yacymodel.Seed {
 	return declining
 }
 
+type everyPeerEligible struct{}
+
+func (everyPeerEligible) Eligible(yacymodel.Hash) bool { return true }
+
+type peersHeldBack map[yacymodel.Hash]struct{}
+
+func (p peersHeldBack) Eligible(peer yacymodel.Hash) bool {
+	_, held := p[peer]
+
+	return !held
+}
+
 const shortfallRedundancy = 1
 
 func openShortfall(
@@ -141,6 +153,7 @@ func openShortfall(
 		replicas,
 		fakePostingIndex{postings: postings},
 		reachability,
+		everyPeerEligible{},
 		partitions,
 		shortfallRedundancy,
 	)
@@ -309,9 +322,9 @@ func TestDueReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
 		due.Stale[0].Peers[0] != stalePeer {
 		t.Fatalf("due.Stale = %+v, want the one stale peer %v", due.Stale, stalePeer)
 	}
-	stored, err := replicas.Replicas(context.Background(), word, url)
+	stored, err := replicas.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
 	if len(stored) != 1 || stored[0] != stalePeer {
 		t.Fatalf("replicas = %v, want [%v] unchanged by Due", stored, stalePeer)
@@ -442,5 +455,82 @@ func TestDueKeepsHolderThatStoppedAcceptingIndex(t *testing.T) {
 			"missing = %+v, want no further replicas and no offer to the holder",
 			missing,
 		)
+	}
+}
+
+func TestDueOffersToNextPeerWhenClosestIsHeldBack(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	peers := []yacymodel.Seed{
+		seed(yacymodel.WordHash("p1")),
+		seed(yacymodel.WordHash("p2")),
+	}
+	v, schedule, _, shortfall := openShortfall(
+		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
+	)
+
+	store(t, v, schedule, word, url)
+
+	first, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due: %v", err)
+	}
+	if len(first.Missing) != 1 || len(first.Missing[0].Seeds) != 1 {
+		t.Fatalf("due = %+v, want one posting offered to the closest peer", first)
+	}
+	closest := first.Missing[0].Seeds[0].Hash
+
+	shortfall.eligibility = peersHeldBack{closest: {}}
+
+	second, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due: %v", err)
+	}
+	if len(second.Missing) != 1 || len(second.Missing[0].Seeds) != 1 {
+		t.Fatalf("due = %+v, want one posting still offered somewhere", second)
+	}
+	if next := second.Missing[0].Seeds[0].Hash; next == closest {
+		t.Fatalf(
+			"Seeds[0] = %v, want a peer other than the held-back closest peer %v",
+			next, closest,
+		)
+	}
+}
+
+func TestDueKeepsHolderOnHeldBackPeer(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	peers := []yacymodel.Seed{seed(peer)}
+	v, schedule, replicas, shortfall := openShortfall(
+		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
+	)
+	shortfall.eligibility = peersHeldBack{peer: {}}
+
+	store(t, v, schedule, word, url)
+	if err := replicas.RecordAccepted(
+		context.Background(), peer, []yacymodel.RWIPosting{fakePosting(word, url)},
+	); err != nil {
+		t.Fatalf("RecordAccepted: %v", err)
+	}
+
+	due, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due: %v", err)
+	}
+	if len(due.Stale) != 0 {
+		t.Fatalf(
+			"due.Stale = %+v, want none: a peer in cooldown still serves the replica it holds",
+			due.Stale,
+		)
+	}
+	if len(due.Missing) != 1 || due.Missing[0].ReplicasNeeded != 0 {
+		t.Fatalf("due.Missing = %+v, want no further replicas needed", due.Missing)
 	}
 }
