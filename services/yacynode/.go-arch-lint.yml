@@ -47,7 +47,19 @@ components:
   rwiingress:
     in: internal/rwiingress/**
   rwidistribution:
-    in: internal/rwidistribution/**
+    in: internal/rwidistribution
+  postingschedule:
+    in: internal/rwidistribution/postingschedule/**
+  postingcourier:
+    in: internal/rwidistribution/postingcourier/**
+  urlmetadatacourier:
+    in: internal/rwidistribution/urlmetadatacourier/**
+  postingreplicas:
+    in: internal/rwidistribution/postingreplicas/**
+  replicashortfall:
+    in: internal/rwidistribution/replicashortfall/**
+  distributioncycle:
+    in: internal/rwidistribution/distributioncycle/**
   documentsearch:
     in: internal/documentsearch/**
   nodestatus:
@@ -243,16 +255,75 @@ deps:
       - yacyproto
   rwidistribution:
     mayDependOn:
-      - rwidistribution
       - rwipostings
       - urlmeta
       - peerroster
       - peerwire
       - vault
       - memvault
+      - postingschedule
+      - postingcourier
+      - urlmetadatacourier
+      - postingreplicas
+      - replicashortfall
+      - distributioncycle
     canUse:
       - yacymodel
       - yacyproto
+  postingschedule:
+    mayDependOn:
+      - postingschedule
+      - vault
+      - memvault
+      - rwipostings
+    canUse:
+      - yacymodel
+  postingcourier:
+    mayDependOn:
+      - postingcourier
+      - peerwire
+    canUse:
+      - yacymodel
+      - yacyproto
+  urlmetadatacourier:
+    mayDependOn:
+      - urlmetadatacourier
+      - peerwire
+    canUse:
+      - yacymodel
+      - yacyproto
+  postingreplicas:
+    mayDependOn:
+      - postingreplicas
+      - postingschedule
+      - vault
+      - memvault
+    canUse:
+      - yacymodel
+  replicashortfall:
+    mayDependOn:
+      - replicashortfall
+      - postingschedule
+      - postingreplicas
+      - rwipostings
+      - vault
+      - memvault
+    canUse:
+      - yacymodel
+  distributioncycle:
+    mayDependOn:
+      - distributioncycle
+      - postingschedule
+      - postingcourier
+      - urlmetadatacourier
+      - postingreplicas
+      - replicashortfall
+      - urlmeta
+      - peerroster
+      - vault
+      - memvault
+    canUse:
+      - yacymodel
   documentsearch:
     mayDependOn:
       - documentsearch

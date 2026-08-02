@@ -1263,8 +1263,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_ledger_prunes_total[$__rate_interval])",
-          "legendFormat": "pruned"
+          "expr": "increase(rwidistribution_stale_replicas_dropped_total[$__rate_interval])",
+          "legendFormat": "dropped"
         }
       ]
     },
@@ -1307,7 +1307,7 @@
     },
     {
       "id": 49,
-      "title": "Due replication unread",
+      "title": "Replica shortfall unread",
       "description": "This panel shows when a distribution cycle ends early because it cannot read which postings are due.",
       "type": "state-timeline",
       "datasource": {
@@ -1358,7 +1358,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_replication_unread_total[$__rate_interval])",
+          "expr": "increase(rwidistribution_shortfall_unread_total[$__rate_interval])",
           "legendFormat": "unread"
         }
       ]
