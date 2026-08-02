@@ -8,12 +8,10 @@ type Observer interface {
 	ObservePostingOffer(outcome string, postings int)
 	ObserveURLMetadataDelivery(outcome string, urls int)
 	ObservePostingsGone(gone int)
-	ObserveOldestDuePostingAge(age time.Duration)
+	ObserveScheduledPostings(postings int)
+	ObserveLongestOfferLateness(lateness time.Duration)
 	ObserveStaleReplicasDropped(dropped int)
-	ObservePostingsAtLongestOfferWait(postings int)
-	ObserveIneligibleReplicaRecipients(peers int)
-	ObserveCycleSkipped()
-	ObserveShortfallUnread()
+	ObserveCycleSkipped(reason string)
 }
 
 type NoObserver struct{}
@@ -24,14 +22,10 @@ func (NoObserver) ObserveURLMetadataDelivery(string, int) {}
 
 func (NoObserver) ObservePostingsGone(int) {}
 
-func (NoObserver) ObserveOldestDuePostingAge(time.Duration) {}
+func (NoObserver) ObserveScheduledPostings(int) {}
+
+func (NoObserver) ObserveLongestOfferLateness(time.Duration) {}
 
 func (NoObserver) ObserveStaleReplicasDropped(int) {}
 
-func (NoObserver) ObservePostingsAtLongestOfferWait(int) {}
-
-func (NoObserver) ObserveIneligibleReplicaRecipients(int) {}
-
-func (NoObserver) ObserveCycleSkipped() {}
-
-func (NoObserver) ObserveShortfallUnread() {}
+func (NoObserver) ObserveCycleSkipped(string) {}

@@ -18,6 +18,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
+const (
+	skipTooFewReachablePeers = "too_few_reachable_peers"
+	skipShortfallUnread      = "shortfall_unread"
+)
+
 // ReplicaRecipients learns from each offer answer which peers can receive a
 // replica now, so the next cycle can route around a peer that keeps refusing.
 type ReplicaRecipients interface {
@@ -26,7 +31,6 @@ type ReplicaRecipients interface {
 		outcome postingcourier.Outcome,
 		requestedPause time.Duration,
 	)
-	IneligiblePeers() int
 }
 
 type Cycle struct {
@@ -98,7 +102,8 @@ func (c *Cycle) Run(ctx context.Context) {
 }
 
 func (c *Cycle) runCycle(ctx context.Context) {
-	c.observeOldestDuePostingAge(ctx)
+	c.observeScheduledPostings(ctx)
+	c.observeLongestOfferLateness(ctx)
 
 	reachablePeers := c.roster.ReachablePeers(ctx)
 	if len(reachablePeers) < c.minReachablePeers {
@@ -108,7 +113,7 @@ func (c *Cycle) runCycle(ctx context.Context) {
 			slog.Int("reachablePeers", len(reachablePeers)),
 			slog.Int("minReachablePeers", c.minReachablePeers),
 		)
-		c.observer.ObserveCycleSkipped()
+		c.observer.ObserveCycleSkipped(skipTooFewReachablePeers)
 
 		return
 	}
@@ -116,7 +121,7 @@ func (c *Cycle) runCycle(ctx context.Context) {
 	due, err := c.shortfall.Due(ctx, c.postingsPerCycle, reachablePeers)
 	if err != nil {
 		slog.ErrorContext(ctx, "replica shortfall not read", slog.Any("error", err))
-		c.observer.ObserveShortfallUnread()
+		c.observer.ObserveCycleSkipped(skipShortfallUnread)
 
 		return
 	}
@@ -131,7 +136,6 @@ func (c *Cycle) runCycle(ctx context.Context) {
 	offers := batchOffers(due.Offers)
 	accepted, backoff := c.deliverOffers(ctx, offers)
 	c.commitCycle(ctx, due, accepted, backoff)
-	c.observer.ObserveIneligibleReplicaRecipients(c.recipients.IneligiblePeers())
 }
 
 func (c *Cycle) commitCycle(
@@ -140,7 +144,7 @@ func (c *Cycle) commitCycle(
 	accepted []offer,
 	backoff *postingBackoff,
 ) {
-	var dropped, atLongestWait int
+	var dropped int
 	err := c.vault.Update(ctx, func(tx *vault.Txn) error {
 		var err error
 		if dropped, err = c.dropStaleReplicas(tx, due.Stale); err != nil {
@@ -149,11 +153,8 @@ func (c *Cycle) commitCycle(
 		if err = c.recordAcceptedReplicas(tx, accepted); err != nil {
 			return err
 		}
-		atLongestWait, err = c.reschedulePostings(
-			tx, due.Offers, backoff, replicasByPosting(accepted),
-		)
 
-		return err
+		return c.reschedulePostings(tx, due.Offers, backoff, replicasByPosting(accepted))
 	})
 	if err != nil {
 		slog.ErrorContext(ctx, "distribution cycle not written", slog.Any("error", err))
@@ -162,24 +163,33 @@ func (c *Cycle) commitCycle(
 	}
 
 	c.observer.ObserveStaleReplicasDropped(dropped)
-	c.observer.ObservePostingsAtLongestOfferWait(atLongestWait)
 }
 
-func (c *Cycle) observeOldestDuePostingAge(ctx context.Context) {
-	oldest, found, err := c.schedule.OldestDueAt(ctx)
+func (c *Cycle) observeScheduledPostings(ctx context.Context) {
+	scheduled, err := c.schedule.ScheduledPostings(ctx)
 	if err != nil {
-		slog.WarnContext(ctx, "oldest due posting not read", slog.Any("error", err))
+		slog.WarnContext(ctx, "scheduled postings not read", slog.Any("error", err))
+
+		return
+	}
+
+	c.observer.ObserveScheduledPostings(scheduled)
+}
+
+func (c *Cycle) observeLongestOfferLateness(ctx context.Context) {
+	earliest, found, err := c.schedule.EarliestOfferDueAt(ctx)
+	if err != nil {
+		slog.WarnContext(ctx, "earliest offer due time not read", slog.Any("error", err))
 
 		return
 	}
 	if !found {
-		c.observer.ObserveOldestDuePostingAge(0)
+		c.observer.ObserveLongestOfferLateness(0)
 
 		return
 	}
 
-	age := max(c.now().Sub(oldest), 0)
-	c.observer.ObserveOldestDuePostingAge(age)
+	c.observer.ObserveLongestOfferLateness(max(c.now().Sub(earliest), 0))
 }
 
 func (c *Cycle) dropStaleReplicas(
@@ -264,8 +274,7 @@ func (c *Cycle) reschedulePostings(
 	replicaOffers []replicashortfall.ReplicaOffer,
 	backoff *postingBackoff,
 	acceptedReplicas map[postingschedule.Identity]int,
-) (int, error) {
-	var atLongestWait int
+) error {
 	for _, replicaOffer := range replicaOffers {
 		identity := postingschedule.Identity{
 			Word: replicaOffer.Posting.WordHash,
@@ -275,19 +284,16 @@ func (c *Cycle) reschedulePostings(
 
 		wait, err := c.offerWait(tx, identity, redundancyMet, backoff)
 		if err != nil {
-			return 0, err
-		}
-		if !redundancyMet && wait >= c.bounds.Longest {
-			atLongestWait++
+			return err
 		}
 
 		at := c.now().Add(wait)
 		if err := c.schedule.Reschedule(tx, identity.Word, identity.URL, at); err != nil {
-			return 0, err
+			return err
 		}
 	}
 
-	return atLongestWait, nil
+	return nil
 }
 
 func (c *Cycle) offerWait(

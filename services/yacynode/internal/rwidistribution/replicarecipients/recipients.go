@@ -46,27 +46,20 @@ func (r *Recipients) OfferAnswered(
 	r.heldBack[peer] = r.now().Add(max(requestedPause, r.cooldown))
 }
 
+// Eligible reports whether a peer can receive a replica now, and forgets a peer
+// whose cooldown has passed.
 func (r *Recipients) Eligible(peer yacymodel.Hash) bool {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
 
 	until, held := r.heldBack[peer]
-
-	return !held || !r.now().Before(until)
-}
-
-// IneligiblePeers reports how many peers are still held back, and forgets those
-// whose cooldown has passed.
-func (r *Recipients) IneligiblePeers() int {
-	r.mutex.Lock()
-	defer r.mutex.Unlock()
-
-	now := r.now()
-	for peer, until := range r.heldBack {
-		if !now.Before(until) {
-			delete(r.heldBack, peer)
-		}
+	if !held {
+		return true
 	}
+	if r.now().Before(until) {
+		return false
+	}
+	delete(r.heldBack, peer)
 
-	return len(r.heldBack)
+	return true
 }

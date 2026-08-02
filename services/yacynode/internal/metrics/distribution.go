@@ -6,7 +6,10 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-const labelOutcome = "result"
+const (
+	labelOutcome    = "result"
+	labelSkipReason = "reason"
+)
 
 type DistributionMetrics struct {
 	postingOffers         *prometheus.CounterVec
@@ -14,12 +17,10 @@ type DistributionMetrics struct {
 	urlMetadataDeliveries *prometheus.CounterVec
 	urlsDelivered         *prometheus.CounterVec
 	postingsGone          prometheus.Counter
-	oldestDuePostingAge   prometheus.Gauge
+	scheduledPostings     prometheus.Gauge
+	longestOfferLateness  prometheus.Gauge
 	staleReplicasDropped  prometheus.Counter
-	postingsAtLongestWait prometheus.Gauge
-	ineligibleRecipients  prometheus.Gauge
-	cyclesSkipped         prometheus.Counter
-	shortfallUnread       prometheus.Counter
+	cyclesSkipped         *prometheus.CounterVec
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
@@ -55,35 +56,29 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		Name: "rwidistribution_postings_gone_total",
 		Help: "Due postings evicted between the schedule read and the posting read.",
 	})
-	oldestDuePostingAge := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "rwidistribution_oldest_due_posting_age_seconds",
-		Help: "Age of the oldest posting still awaiting an offer.",
+	scheduledPostings := prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "rwidistribution_scheduled_postings",
+		Help: "Postings holding a due entry on the offer schedule.",
+	})
+	longestOfferLateness := prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "rwidistribution_longest_offer_lateness_seconds",
+		Help: "Time the most overdue posting offer is past its scheduled time.",
 	})
 	staleReplicasDropped := prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "rwidistribution_stale_replicas_dropped_total",
-		Help: "Replica ledger entries dropped for peers no longer responsible.",
+		Help: "Replicas dropped for peers no longer responsible.",
 	})
-	postingsAtLongestWait := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "rwidistribution_postings_at_longest_offer_wait",
-		Help: "Postings short of replicas whose offer wait has grown to the refresh interval.",
-	})
-	ineligibleRecipients := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "rwidistribution_ineligible_replica_recipients",
-		Help: "Peers held back from receiving replicas after answering an offer.",
-	})
-	cyclesSkipped := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "rwidistribution_cycles_skipped_total",
-		Help: "Distribution cycles skipped because too few peers were reachable.",
-	})
-	shortfallUnread := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "rwidistribution_shortfall_unread_total",
-		Help: "Distribution cycles abandoned because the replica shortfall could not be read.",
-	})
+	cyclesSkipped := prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "rwidistribution_cycles_skipped_total",
+			Help: "Distribution cycles that offered nothing, by reason.",
+		},
+		[]string{labelSkipReason},
+	)
 	registry.MustRegister(
 		postingOffers, postingsOffered, urlMetadataDeliveries, urlsDelivered,
-		postingsGone, oldestDuePostingAge, staleReplicasDropped, postingsAtLongestWait,
-		ineligibleRecipients,
-		cyclesSkipped, shortfallUnread,
+		postingsGone, scheduledPostings, longestOfferLateness, staleReplicasDropped,
+		cyclesSkipped,
 	)
 
 	return &DistributionMetrics{
@@ -92,12 +87,10 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		urlMetadataDeliveries: urlMetadataDeliveries,
 		urlsDelivered:         urlsDelivered,
 		postingsGone:          postingsGone,
-		oldestDuePostingAge:   oldestDuePostingAge,
+		scheduledPostings:     scheduledPostings,
+		longestOfferLateness:  longestOfferLateness,
 		staleReplicasDropped:  staleReplicasDropped,
-		postingsAtLongestWait: postingsAtLongestWait,
-		ineligibleRecipients:  ineligibleRecipients,
 		cyclesSkipped:         cyclesSkipped,
-		shortfallUnread:       shortfallUnread,
 	}
 }
 
@@ -115,26 +108,18 @@ func (d *DistributionMetrics) ObservePostingsGone(gone int) {
 	d.postingsGone.Add(float64(gone))
 }
 
-func (d *DistributionMetrics) ObserveOldestDuePostingAge(age time.Duration) {
-	d.oldestDuePostingAge.Set(age.Seconds())
+func (d *DistributionMetrics) ObserveScheduledPostings(postings int) {
+	d.scheduledPostings.Set(float64(postings))
+}
+
+func (d *DistributionMetrics) ObserveLongestOfferLateness(lateness time.Duration) {
+	d.longestOfferLateness.Set(lateness.Seconds())
 }
 
 func (d *DistributionMetrics) ObserveStaleReplicasDropped(dropped int) {
 	d.staleReplicasDropped.Add(float64(dropped))
 }
 
-func (d *DistributionMetrics) ObservePostingsAtLongestOfferWait(postings int) {
-	d.postingsAtLongestWait.Set(float64(postings))
-}
-
-func (d *DistributionMetrics) ObserveIneligibleReplicaRecipients(peers int) {
-	d.ineligibleRecipients.Set(float64(peers))
-}
-
-func (d *DistributionMetrics) ObserveCycleSkipped() {
-	d.cyclesSkipped.Inc()
-}
-
-func (d *DistributionMetrics) ObserveShortfallUnread() {
-	d.shortfallUnread.Inc()
+func (d *DistributionMetrics) ObserveCycleSkipped(reason string) {
+	d.cyclesSkipped.WithLabelValues(reason).Inc()
 }

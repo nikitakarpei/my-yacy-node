@@ -62,22 +62,41 @@ func TestDistributionCountsPostingsGoneAndStaleReplicasDropped(t *testing.T) {
 	}
 }
 
-func TestDistributionCountsUnreadShortfall(t *testing.T) {
+func TestDistributionCountsSkippedCyclesByReason(t *testing.T) {
 	observer := NewDistributionMetrics(prometheus.NewRegistry())
 
-	observer.ObserveShortfallUnread()
+	observer.ObserveCycleSkipped("shortfall_unread")
+	observer.ObserveCycleSkipped("too_few_reachable_peers")
+	observer.ObserveCycleSkipped("too_few_reachable_peers")
 
-	if got := testutil.ToFloat64(observer.shortfallUnread); got != 1 {
-		t.Errorf("replication unread = %v, want 1", got)
+	if got := testutil.ToFloat64(
+		observer.cyclesSkipped.WithLabelValues("shortfall_unread"),
+	); got != 1 {
+		t.Errorf("cycles skipped for an unread shortfall = %v, want 1", got)
+	}
+	if got := testutil.ToFloat64(
+		observer.cyclesSkipped.WithLabelValues("too_few_reachable_peers"),
+	); got != 2 {
+		t.Errorf("cycles skipped for too few reachable peers = %v, want 2", got)
 	}
 }
 
-func TestDistributionTracksOldestDuePostingAge(t *testing.T) {
+func TestDistributionTracksScheduledPostings(t *testing.T) {
 	observer := NewDistributionMetrics(prometheus.NewRegistry())
 
-	observer.ObserveOldestDuePostingAge(90 * time.Second)
+	observer.ObserveScheduledPostings(7)
 
-	if got := testutil.ToFloat64(observer.oldestDuePostingAge); got != 90 {
-		t.Errorf("oldest due posting age = %v, want 90", got)
+	if got := testutil.ToFloat64(observer.scheduledPostings); got != 7 {
+		t.Errorf("scheduled postings = %v, want 7", got)
+	}
+}
+
+func TestDistributionTracksLongestOfferLateness(t *testing.T) {
+	observer := NewDistributionMetrics(prometheus.NewRegistry())
+
+	observer.ObserveLongestOfferLateness(90 * time.Second)
+
+	if got := testutil.ToFloat64(observer.longestOfferLateness); got != 90 {
+		t.Errorf("longest offer lateness = %v, want 90", got)
 	}
 }
