@@ -16,31 +16,27 @@ traffic grows with the store and never falls.
 Most of the store lies outside the word-hash range the node is responsible for. A DHT search never
 routes a query for that range to this node, so those postings answer no one and hold quota.
 
-ADR 0008 planned redistribute-then-delete inside `eviction`, driven by quota pressure, at URL
-granularity. Outbound distribution was a non-goal then. The replica ledger now records which peer
-accepted which posting, so redundancy is a standing fact.
+ADR 0008 planned redistribute-then-delete as an eviction policy, driven by quota pressure, at URL
+granularity. Outbound distribution was a non-goal then. The node now records which peer accepted
+which posting, so redundancy is a standing fact rather than something to establish under pressure.
 
 Upstream YaCy deletes a posting when it transfers it, so its storage is shared across the network.
 
 ## Decision
 
-Delete a posting during the distribution cycle once at least `YACY_DISTRIBUTION_REDUNDANCY` holders are
-strictly closer to the posting's DHT position than this node.
+Delete a posting during the distribution cycle once at least `YACY_DISTRIBUTION_REDUNDANCY` holders
+are strictly closer to the posting's DHT position than this node. Holders are recorded peers that
+are reachable now, plus peers that accept the posting in the same cycle.
 
-Holders count from two sources, both measured in `replicashortfall`, which owns DHT distance: ledger
-holders that are reachable now, and peers that accepted the posting this cycle. `replicashortfall`
-publishes how many closer acceptances the posting still needs. The cycle purges the posting when it
-collects that many.
-
-The purge runs in the transaction that records the cycle, through the `rwipostings` purger the quota
-sweeper also uses, so the posting observers clear the schedule, the ledger, and the offer waits.
+The distribution cycle owns this deletion. It deletes through the same storage primitive as quota
+eviction, in the transaction that records the cycle, so the deletion is atomic with the cycle result.
 
 This node counts as one of the responsible peers, so peers owe one replica fewer when the node is
 inside the responsibility window. That also bounds the rule: inside the window, fewer peers than the
 redundancy are closer, so the deletion cannot fire.
 
-The `eviction` redistribute policy from ADR 0008 is dropped. Eviction stays quota-driven and deletes
-without transferring.
+ADR 0008's redistribute policy is dropped. Eviction stays quota-driven and deletes without
+transferring.
 
 No new configuration variable. `YACY_DISTRIBUTION_ENABLED`, off by default, is the consent to hand
 postings away. `YACY_DISTRIBUTION_REDUNDANCY` is the dial. A deployment that already enabled
@@ -55,7 +51,7 @@ Deleting whatever the node is not responsible for, without counting holders, was
 with different roster views would each delete after handing the posting to the other.
 
 Keeping ADR 0008's eviction-time redistribution was rejected. It establishes under memory pressure, at
-URL granularity, a fact the ledger already holds per posting.
+URL granularity, a fact the node already holds per posting.
 
 ## Known limitations
 
@@ -69,6 +65,5 @@ A URL whose last posting is handed off keeps its metadata row until the quota sw
 ## Consequences
 
 The store converges on the range the node is responsible for, where its postings answer searches and
-the ledger still repairs a lost replica. Refresh traffic falls with the store. Storage is shared, as in
-YaCy. Operators watch `rwidistribution_postings_handed_off_total` and a falling
-`rwidistribution_scheduled_postings`.
+a lost replica is still repaired. Refresh traffic falls with the store. Storage is shared, as in
+YaCy. Operators observe handoffs and a falling backlog of scheduled postings through metrics.
