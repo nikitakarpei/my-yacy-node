@@ -11,6 +11,7 @@ type Observer interface {
 	ObserveScheduledPostings(postings int)
 	ObserveLongestOfferLateness(lateness time.Duration)
 	ObserveStaleReplicasDropped(dropped int)
+	ObservePostingsHandedOff(handedOff int)
 	ObserveCycleSkipped(reason string)
 }
 
@@ -27,5 +28,7 @@ func (NoObserver) ObserveScheduledPostings(int) {}
 func (NoObserver) ObserveLongestOfferLateness(time.Duration) {}
 
 func (NoObserver) ObserveStaleReplicasDropped(int) {}
+
+func (NoObserver) ObservePostingsHandedOff(int) {}
 
 func (NoObserver) ObserveCycleSkipped(string) {}

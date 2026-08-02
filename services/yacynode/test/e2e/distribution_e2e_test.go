@@ -50,7 +50,7 @@ func TestNodeDistributesRWIToRealYaCy(t *testing.T) {
 		SeedlistURL: seedlistURL,
 		Distribution: nodepeer.DistributionConfig{
 			Enabled:           true,
-			Redundancy:        1,
+			Redundancy:        2,
 			PartitionExponent: 1,
 			PostingsPerCycle:  10,
 			CycleInterval:     time.Second,

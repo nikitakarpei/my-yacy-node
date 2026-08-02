@@ -131,6 +131,7 @@ func assembleDistribution(
 	return storage.distribution.Cycle(
 		client,
 		storage.postings,
+		storage.postingPurger,
 		roster,
 		storage.urlDirectory,
 		offerObserver,

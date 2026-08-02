@@ -15,11 +15,11 @@ func peersCloserThanThisNode(
 	peers []yacymodel.Seed,
 	position yacymodel.DHTPosition,
 	self yacymodel.Hash,
-) []yacymodel.Seed {
-	closer := make([]yacymodel.Seed, 0, len(peers))
+) []yacymodel.Hash {
+	closer := make([]yacymodel.Hash, 0, len(peers))
 	for _, seed := range peers {
 		if closerToPositionThanThisNode(seed.Hash, position, self) {
-			closer = append(closer, seed)
+			closer = append(closer, seed.Hash)
 		}
 	}
 

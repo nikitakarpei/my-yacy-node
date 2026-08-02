@@ -334,6 +334,7 @@ deps:
     mayDependOn:
       - distributioncycle
       - postingschedule
+      - rwipostings
       - postingcourier
       - urlmetadatacourier
       - postingofferwait

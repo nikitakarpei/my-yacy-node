@@ -103,10 +103,11 @@ func (d *Distribution) PostingPurged(
 	return d.waits.PostingPurged(tx, word, url)
 }
 
-//nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators
 func (d *Distribution) Cycle(
 	client *http.Client,
 	postings rwipostings.PostingIndex,
+	purger rwipostings.PostingPurger,
 	roster peerroster.Roster,
 	urls urlmeta.URLDirectory,
 	observer PostingOfferCycleObserver,
@@ -143,6 +144,7 @@ func (d *Distribution) Cycle(
 		d.vault,
 		shortfall,
 		delivery,
+		purger,
 		d.replicas,
 		d.waits,
 		recipients,

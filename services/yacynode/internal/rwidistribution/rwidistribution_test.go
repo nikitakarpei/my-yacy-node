@@ -31,6 +31,16 @@ func (fakePostingIndex) Posting(
 	return yacymodel.RWIPosting{}, false, nil
 }
 
+type fakePostingPurger struct{}
+
+func (fakePostingPurger) PurgePosting(
+	*vault.Txn,
+	yacymodel.Hash,
+	yacymodel.URLHash,
+) (bool, error) {
+	return false, nil
+}
+
 func (fakePostingIndex) ScanWord(
 	context.Context, yacymodel.Hash, func(yacymodel.RWIPosting) (bool, error),
 ) error {
@@ -158,6 +168,7 @@ func TestCycleReturnsRunner(t *testing.T) {
 	runner := distribution.Cycle(
 		http.DefaultClient,
 		fakePostingIndex{},
+		fakePostingPurger{},
 		fakeRoster{},
 		fakeURLDirectory{},
 		distributioncycle.NoObserver{},

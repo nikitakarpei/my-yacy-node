@@ -15,9 +15,11 @@ import (
 )
 
 type ReplicaOffer struct {
-	Posting        yacymodel.RWIPosting
-	ReplicasNeeded int
-	Seeds          []yacymodel.Seed
+	Posting                      yacymodel.RWIPosting
+	ReplicasNeeded               int
+	HandoffReplicasNeeded        int
+	Seeds                        []yacymodel.Seed
+	RecipientsCloserThanThisNode []yacymodel.Hash
 }
 
 type StaleReplicas struct {
@@ -141,6 +143,9 @@ func (r *Shortfall) replicasOf(
 	if len(held.responsible) >= replicasPeersOwe {
 		stale.Peers = append(stale.Peers, held.outsideWindow...)
 		offer.Seeds = peersHoldingReplica(acceptingPeers, held.responsible)
+		offer.HandoffReplicasNeeded = r.handoffReplicasNeeded(
+			reachablePeers, held.responsible, position,
+		)
 
 		return offer, stale, nil
 	}
@@ -153,8 +158,24 @@ func (r *Shortfall) replicasOf(
 		position,
 		offer.ReplicasNeeded,
 	)
+	offer.HandoffReplicasNeeded = r.handoffReplicasNeeded(
+		reachablePeers, held.stillHolding(), position,
+	)
+	offer.RecipientsCloserThanThisNode = peersCloserThanThisNode(offer.Seeds, position, r.self)
 
 	return offer, stale, nil
+}
+
+func (r *Shortfall) handoffReplicasNeeded(
+	reachablePeers []yacymodel.Seed,
+	holders []yacymodel.Hash,
+	position yacymodel.DHTPosition,
+) int {
+	closer := peersCloserThanThisNode(
+		peersHoldingReplica(reachablePeers, holders), position, r.self,
+	)
+
+	return r.redundancy - len(closer)
 }
 
 func (r *Shortfall) replicasPeersOwe(

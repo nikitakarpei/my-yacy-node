@@ -1,19 +1,16 @@
 # RWI distribution
 
 This package offers this node's stored RWI postings to the peers the DHT makes
-responsible for them, and keeps offering until a configured number of those
-peers have accepted. A posting stays on this node regardless of how many peers
-accept it. Distribution only replicates; it never deletes.
+responsible for them. It deletes a posting when enough closer peers hold it.
 
 ## Behavior
 
 A cycle offers nothing while the node knows fewer than the configured minimum
 of reachable peers. Above that minimum, each cycle takes the postings that are
 due and offers each one to its responsible peers. This node is one of those
-peers when the DHT makes it responsible for the posting, so the other peers hold
-one replica fewer. A newly stored posting is due
-immediately. Deleting a posting from local storage also removes it from the
-work queue, so a deleted posting is never offered.
+peers when the DHT makes it responsible, so the other peers hold one replica
+fewer. A newly stored posting is due immediately. Deleting a posting from local
+storage also removes it from the work queue.
 
 A peer accepts a posting in two steps. It first accepts the posting and names
 the URLs it does not recognize. This node then sends metadata for those URLs.
@@ -33,6 +30,13 @@ after the peer's requested delay, whichever is later. The retry wait starts at
 the retry interval and doubles on every further miss, up to the refresh
 interval. The retry wait goes back to the retry interval when the posting
 reaches its redundancy.
+
+The node deletes a posting when the redundancy is reached in holders closer to
+the posting's DHT position than this node. A holder counts only while the node
+can reach it. A posting the node is responsible for is never deleted, because
+fewer peers than the redundancy are closer. A deleted posting leaves the local
+index, the work queue, and the replica record. Its URL metadata stays until
+storage eviction reclaims it.
 
 An acceptance stops counting when closer peers displace the peer that gave it,
 or when the peer stays uncontacted past the peer roster's credibility window.
@@ -57,10 +61,9 @@ does not detect the loss of a replica and does not repair one. It selects work
 from a random range of the word hash space each round, which needs no schedule
 because a transferred posting leaves the pool.
 
-This node keeps every posting it stores. Storage is therefore not shared, and
-the node carries the full cost of its own index. In exchange, the node holds a
-record of which peer accepted which posting, detects a replica that the DHT no
-longer justifies, and offers the posting again to close the gap. Work comes
-from a due-time schedule rather than a random range, because the pool never
-shrinks. The node also pays a constant background cost: every posting is
-offered again once per refresh interval for as long as it is stored.
+This node deletes a posting only after enough closer peers hold it, so it keeps
+the range it is responsible for. Storage is shared, as in YaCy. This node also
+holds a record of which peer accepted which posting, detects a replica that the
+DHT no longer justifies, and offers the posting again to close the gap. Work
+comes from a due-time schedule rather than a random range. A posting the node
+keeps is offered again once per refresh interval.

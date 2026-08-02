@@ -6,6 +6,7 @@ package distributioncycle
 import (
 	"context"
 	"log/slog"
+	"slices"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -15,6 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicashortfall"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
@@ -37,6 +39,7 @@ type Cycle struct {
 	vault             *vault.Vault
 	shortfall         *replicashortfall.Shortfall
 	delivery          *OfferDelivery
+	purger            rwipostings.PostingPurger
 	replicas          *postingreplicas.Replicas
 	waits             *postingofferwait.Wait
 	recipients        ReplicaRecipients
@@ -50,11 +53,12 @@ type Cycle struct {
 	minReachablePeers int
 }
 
-//nolint:revive // argument-limit: fourteen explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: fifteen explicit, independently-meaningful collaborators
 func New(
 	v *vault.Vault,
 	shortfall *replicashortfall.Shortfall,
 	delivery *OfferDelivery,
+	purger rwipostings.PostingPurger,
 	replicas *postingreplicas.Replicas,
 	waits *postingofferwait.Wait,
 	recipients ReplicaRecipients,
@@ -71,6 +75,7 @@ func New(
 		vault:             v,
 		shortfall:         shortfall,
 		delivery:          delivery,
+		purger:            purger,
 		replicas:          replicas,
 		waits:             waits,
 		recipients:        recipients,
@@ -144,7 +149,7 @@ func (c *Cycle) commitCycle(
 	accepted []offer,
 	backoff *postingBackoff,
 ) {
-	var dropped int
+	var dropped, handedOff int
 	err := c.vault.Update(ctx, func(tx *vault.Txn) error {
 		var err error
 		if dropped, err = c.dropStaleReplicas(tx, due.Stale); err != nil {
@@ -154,7 +159,11 @@ func (c *Cycle) commitCycle(
 			return err
 		}
 
-		return c.reschedulePostings(tx, due.Offers, backoff, replicasByPosting(accepted))
+		handedOff, err = c.reschedulePostings(
+			ctx, tx, due.Offers, backoff, recipientsByPosting(accepted),
+		)
+
+		return err
 	})
 	if err != nil {
 		slog.ErrorContext(ctx, "distribution cycle not written", slog.Any("error", err))
@@ -163,6 +172,7 @@ func (c *Cycle) commitCycle(
 	}
 
 	c.observer.ObserveStaleReplicasDropped(dropped)
+	c.observer.ObservePostingsHandedOff(handedOff)
 }
 
 func (c *Cycle) observeScheduledPostings(ctx context.Context) {
@@ -257,41 +267,83 @@ func (c *Cycle) recordAcceptedReplicas(tx *vault.Txn, accepted []offer) error {
 	return nil
 }
 
-func replicasByPosting(accepted []offer) map[postingschedule.Identity]int {
-	replicas := make(map[postingschedule.Identity]int)
+func recipientsByPosting(accepted []offer) map[postingschedule.Identity][]yacymodel.Hash {
+	recipients := make(map[postingschedule.Identity][]yacymodel.Hash)
 	for _, peerOffer := range accepted {
 		for _, posting := range peerOffer.Postings {
 			identity := postingschedule.Identity{Word: posting.WordHash, URL: posting.URLHash}
-			replicas[identity]++
+			recipients[identity] = append(recipients[identity], peerOffer.Peer.Hash)
 		}
 	}
 
-	return replicas
+	return recipients
+}
+
+func handedOffToCloserPeers(
+	replicaOffer replicashortfall.ReplicaOffer,
+	recipients []yacymodel.Hash,
+) bool {
+	var closer int
+	for _, recipient := range recipients {
+		if slices.Contains(replicaOffer.RecipientsCloserThanThisNode, recipient) {
+			closer++
+		}
+	}
+
+	return closer >= replicaOffer.HandoffReplicasNeeded
 }
 
 func (c *Cycle) reschedulePostings(
+	ctx context.Context,
 	tx *vault.Txn,
 	replicaOffers []replicashortfall.ReplicaOffer,
 	backoff *postingBackoff,
-	acceptedReplicas map[postingschedule.Identity]int,
-) error {
+	acceptedRecipients map[postingschedule.Identity][]yacymodel.Hash,
+) (int, error) {
+	var handedOff int
 	for _, replicaOffer := range replicaOffers {
 		identity := postingschedule.Identity{
 			Word: replicaOffer.Posting.WordHash,
 			URL:  replicaOffer.Posting.URLHash,
 		}
-		redundancyMet := acceptedReplicas[identity] >= replicaOffer.ReplicasNeeded
+		recipients := acceptedRecipients[identity]
 
-		wait, err := c.offerWait(tx, identity, redundancyMet, backoff)
+		if handedOffToCloserPeers(replicaOffer, recipients) {
+			if err := c.handOffPosting(ctx, tx, identity); err != nil {
+				return 0, err
+			}
+			handedOff++
+
+			continue
+		}
+
+		wait, err := c.offerWait(
+			tx, identity, len(recipients) >= replicaOffer.ReplicasNeeded, backoff,
+		)
 		if err != nil {
-			return err
+			return 0, err
 		}
 
 		at := c.now().Add(wait)
 		if err := c.schedule.Reschedule(tx, identity.Word, identity.URL, at); err != nil {
-			return err
+			return 0, err
 		}
 	}
+
+	return handedOff, nil
+}
+
+func (c *Cycle) handOffPosting(
+	ctx context.Context,
+	tx *vault.Txn,
+	identity postingschedule.Identity,
+) error {
+	if _, err := c.purger.PurgePosting(tx, identity.Word, identity.URL); err != nil {
+		return err
+	}
+	slog.DebugContext(ctx, "posting handed off to closer peers",
+		slog.String("word", identity.Word.String()),
+		slog.String("url", identity.URL.String()))
 
 	return nil
 }

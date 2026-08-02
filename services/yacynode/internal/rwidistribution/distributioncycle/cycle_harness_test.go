@@ -32,6 +32,7 @@ type cycleOptions struct {
 type cycleHarness struct {
 	v               *vault.Vault
 	clk             *clock
+	postings        *fakePostingIndex
 	schedule        *postingschedule.Schedule
 	replicas        *postingreplicas.Replicas
 	waits           *postingofferwait.Wait
@@ -46,23 +47,27 @@ type cycleHarness struct {
 	cycle           *Cycle
 }
 
-func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
-	t.Helper()
-
+func withCycleDefaults(opts cycleOptions) cycleOptions {
 	if opts.reachability == nil {
 		opts.reachability = opts.roster
 	}
-	redundancy := opts.redundancy
-	if redundancy == 0 {
-		redundancy = 1
+	if opts.redundancy == 0 {
+		opts.redundancy = 1
 	}
-	self := opts.self
-	if self == (yacymodel.Hash{}) {
-		self = thisNodeFartherThanEveryPeer()
+	if opts.self == (yacymodel.Hash{}) {
+		opts.self = thisNodeFartherThanEveryPeer()
 	}
 	if opts.metadataOutcome == "" {
 		opts.metadataOutcome = urlmetadatacourier.Accepted
 	}
+
+	return opts
+}
+
+func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
+	t.Helper()
+
+	opts = withCycleDefaults(opts)
 
 	v, schedule, replicas, waits := openCycleVault(t, clk.now)
 
@@ -72,15 +77,17 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	}
 
 	recipients := replicarecipients.New(opts.cooldown, clk.now)
+	postings := &fakePostingIndex{postings: opts.postings, unread: opts.postingsErr}
+	postings.purged = purgeBookkeeping(schedule, replicas, waits)
 	shortfall := replicashortfall.New(
 		schedule,
 		replicas,
-		fakePostingIndex{postings: opts.postings, unread: opts.postingsErr},
+		postings,
 		opts.reachability,
 		recipients,
 		partitions,
-		self,
-		redundancy,
+		opts.self,
+		opts.redundancy,
 	)
 
 	courier := &fakeCourier{receipts: make(map[yacymodel.Hash]postingcourier.PostingReceipt)}
@@ -96,6 +103,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		v,
 		shortfall,
 		delivery,
+		postings,
 		replicas,
 		waits,
 		recipients,
@@ -112,6 +120,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	return &cycleHarness{
 		v:               v,
 		clk:             clk,
+		postings:        postings,
 		schedule:        schedule,
 		replicas:        replicas,
 		waits:           waits,
@@ -124,6 +133,23 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		delivery:        delivery,
 		bounds:          bounds,
 		cycle:           cycle,
+	}
+}
+
+func purgeBookkeeping(
+	schedule *postingschedule.Schedule,
+	replicas *postingreplicas.Replicas,
+	waits *postingofferwait.Wait,
+) func(*vault.Txn, yacymodel.Hash, yacymodel.URLHash) error {
+	return func(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error {
+		if err := schedule.PostingPurged(tx, word, url); err != nil {
+			return err
+		}
+		if err := replicas.PostingPurged(tx, word, url); err != nil {
+			return err
+		}
+
+		return waits.PostingPurged(tx, word, url)
 	}
 }
 
@@ -167,11 +193,26 @@ func openCycleVault(
 type fakePostingIndex struct {
 	postings map[yacymodel.Hash]yacymodel.RWIPosting
 	unread   error
+	purged   func(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error
 }
 
-func (f fakePostingIndex) RWICount(context.Context) (int, error) { return len(f.postings), nil }
+func (f *fakePostingIndex) RWICount(context.Context) (int, error) { return len(f.postings), nil }
 
-func (f fakePostingIndex) Posting(
+func (f *fakePostingIndex) PurgePosting(
+	tx *vault.Txn,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) (bool, error) {
+	key := fakePostingKey(word, url)
+	if _, found := f.postings[key]; !found {
+		return false, nil
+	}
+	delete(f.postings, key)
+
+	return true, f.purged(tx, word, url)
+}
+
+func (f *fakePostingIndex) Posting(
 	_ context.Context,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
@@ -184,7 +225,7 @@ func (f fakePostingIndex) Posting(
 	return entry, found, nil
 }
 
-func (f fakePostingIndex) ScanWord(
+func (f *fakePostingIndex) ScanWord(
 	context.Context,
 	yacymodel.Hash,
 	func(yacymodel.RWIPosting) (bool, error),
@@ -346,6 +387,10 @@ func seed(hash yacymodel.Hash) yacymodel.Seed {
 }
 
 func thisNodeFartherThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self5") }
+
+func thisNodeCloserThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self22") }
+
+func thisNodeFartherThanTheClosestPeer() yacymodel.Hash { return yacymodel.WordHash("self15") }
 
 func fakePosting(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{WordHash: word, URLHash: url}
