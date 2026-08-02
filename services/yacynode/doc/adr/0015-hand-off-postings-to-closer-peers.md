@@ -24,9 +24,11 @@ Upstream YaCy deletes a posting when it transfers it, so its storage is shared a
 
 ## Decision
 
-Delete a posting during the distribution cycle once at least `YACY_DISTRIBUTION_REDUNDANCY` holders
-are strictly closer to the posting's DHT position than this node. Holders are recorded peers that
-are reachable now, plus peers that accept the posting in the same cycle.
+Delete a posting during the distribution cycle once at least `YACY_DISTRIBUTION_REDUNDANCY` peers
+that hold the posting are strictly closer to the posting's DHT position than this node.
+
+A peer holds the posting if it accepted the posting in an earlier cycle and the node can still reach
+it, or if it accepts the posting in the current cycle.
 
 The distribution cycle owns this deletion. It deletes through the same storage primitive as quota
 eviction, in the transaction that records the cycle, so the deletion is atomic with the cycle result.
