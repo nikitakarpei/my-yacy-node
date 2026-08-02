@@ -117,6 +117,22 @@ func (p peersHeldBack) Eligible(peer yacymodel.Hash) bool {
 
 const shortfallRedundancy = 1
 
+func recordAccepted(
+	t *testing.T,
+	v *vault.Vault,
+	replicas *postingreplicas.Replicas,
+	peer yacymodel.Hash,
+	postings ...yacymodel.RWIPosting,
+) {
+	t.Helper()
+
+	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
+		return replicas.RecordAccepted(tx, peer, postings)
+	}); err != nil {
+		t.Fatalf("RecordAccepted: %v", err)
+	}
+}
+
 func openShortfall(
 	t *testing.T,
 	now func() time.Time,
@@ -218,11 +234,7 @@ func TestDueReportsNoReplicasNeededWhenRedundancyMet(t *testing.T) {
 	)
 
 	store(t, v, schedule, word, url)
-	if err := replicas.RecordAccepted(
-		context.Background(), peer, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
+	recordAccepted(t, v, replicas, peer, fakePosting(word, url))
 
 	due, err := shortfall.Due(context.Background(), 10, peers)
 	if err != nil {
@@ -298,11 +310,7 @@ func TestDueReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
 	peers := []yacymodel.Seed{seed(fresh)}
 
 	store(t, v, schedule, word, url)
-	if err := replicas.RecordAccepted(
-		context.Background(), stalePeer, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
+	recordAccepted(t, v, replicas, stalePeer, fakePosting(word, url))
 
 	due, err := shortfall.Due(context.Background(), 10, peers)
 	if err != nil {
@@ -345,11 +353,7 @@ func TestDueOffersOnlyAsManyReplicasAsAreNeeded(t *testing.T) {
 	shortfall.redundancy = 3
 
 	store(t, v, schedule, word, url)
-	if err := replicas.RecordAccepted(
-		context.Background(), absentHolder, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
+	recordAccepted(t, v, replicas, absentHolder, fakePosting(word, url))
 
 	due, err := shortfall.Due(context.Background(), 10, []yacymodel.Seed{
 		seed(yacymodel.WordHash("p1")),
@@ -392,11 +396,7 @@ func TestDuePrunesReachableHolderDisplacedByCloserPeer(t *testing.T) {
 
 	store(t, v, schedule, word, url)
 	for _, peer := range peers {
-		if err := replicas.RecordAccepted(
-			context.Background(), peer.Hash, []yacymodel.RWIPosting{fakePosting(word, url)},
-		); err != nil {
-			t.Fatalf("RecordAccepted: %v", err)
-		}
+		recordAccepted(t, v, replicas, peer.Hash, fakePosting(word, url))
 	}
 
 	due, err := shortfall.Due(context.Background(), 10, peers)
@@ -427,11 +427,7 @@ func TestDueKeepsHolderThatStoppedAcceptingIndex(t *testing.T) {
 	)
 
 	store(t, v, schedule, word, url)
-	if err := replicas.RecordAccepted(
-		context.Background(), peer, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
+	recordAccepted(t, v, replicas, peer, fakePosting(word, url))
 
 	due, err := shortfall.Due(
 		context.Background(), 10, []yacymodel.Seed{indexDecliningSeed(peer)},
@@ -514,11 +510,7 @@ func TestDueKeepsHolderOnHeldBackPeer(t *testing.T) {
 	shortfall.eligibility = peersHeldBack{peer: {}}
 
 	store(t, v, schedule, word, url)
-	if err := replicas.RecordAccepted(
-		context.Background(), peer, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
+	recordAccepted(t, v, replicas, peer, fakePosting(word, url))
 
 	due, err := shortfall.Due(context.Background(), 10, peers)
 	if err != nil {
@@ -533,4 +525,133 @@ func TestDueKeepsHolderOnHeldBackPeer(t *testing.T) {
 	if len(due.Missing) != 1 || due.Missing[0].ReplicasNeeded != 0 {
 		t.Fatalf("due.Missing = %+v, want no further replicas needed", due.Missing)
 	}
+}
+
+func TestDueNarrowsResponsibilityWindowToPeersInCooldown(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	peers := []yacymodel.Seed{
+		seed(yacymodel.WordHash("p1")),
+		seed(yacymodel.WordHash("p2")),
+		seed(yacymodel.WordHash("p3")),
+	}
+	v, schedule, replicas, shortfall := openShortfall(
+		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
+	)
+
+	store(t, v, schedule, word, url)
+
+	ranked, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due: %v", err)
+	}
+	shortfall.eligibility = peersHeldBack{ranked.Missing[0].Seeds[0].Hash: {}}
+
+	eligible, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due with the closest peer in cooldown: %v", err)
+	}
+	recordAccepted(t, v, replicas, eligible.Missing[0].Seeds[0].Hash, fakePosting(word, url))
+
+	due, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due after cooldown: %v", err)
+	}
+	if len(due.Missing) != 1 || due.Missing[0].ReplicasNeeded != 1 {
+		t.Fatalf(
+			"due.Missing = %+v, want one replica needed: a peer in cooldown does not widen"+
+				" the responsibility window",
+			due.Missing,
+		)
+	}
+	if len(due.Stale) != 0 {
+		t.Fatalf("due.Stale = %+v, want none while the posting is below redundancy", due.Stale)
+	}
+}
+
+func TestDueKeepsHolderOutsideWindowUntilRedundancyIsMet(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	peers := []yacymodel.Seed{
+		seed(yacymodel.WordHash("p1")),
+		seed(yacymodel.WordHash("p2")),
+	}
+	v, schedule, replicas, shortfall := openShortfall(
+		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
+	)
+
+	store(t, v, schedule, word, url)
+
+	ranked, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due: %v", err)
+	}
+	closest := ranked.Missing[0].Seeds[0].Hash
+	outside := otherThan(peers, closest)
+
+	recordAccepted(t, v, replicas, outside, fakePosting(word, url))
+
+	kept, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due below redundancy: %v", err)
+	}
+	if len(kept.Stale) != 0 {
+		t.Fatalf(
+			"due.Stale = %+v, want none: a reachable holder outside the window still serves it",
+			kept.Stale,
+		)
+	}
+
+	recordAccepted(t, v, replicas, closest, fakePosting(word, url))
+
+	dropped, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due at redundancy: %v", err)
+	}
+	if len(dropped.Stale) != 1 || dropped.Stale[0].Peers[0] != outside {
+		t.Fatalf("due.Stale = %+v, want [%v] once redundancy is met", dropped.Stale, outside)
+	}
+}
+
+func TestDueDropsUnreachableHolderBelowRedundancy(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	ghost := yacymodel.WordHash("ghost")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	peers := []yacymodel.Seed{seed(yacymodel.WordHash("p1"))}
+	v, schedule, replicas, shortfall := openShortfall(
+		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
+	)
+
+	store(t, v, schedule, word, url)
+	recordAccepted(t, v, replicas, ghost, fakePosting(word, url))
+
+	due, err := shortfall.Due(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("Due: %v", err)
+	}
+	if len(due.Stale) != 1 || due.Stale[0].Peers[0] != ghost {
+		t.Fatalf("due.Stale = %+v, want [%v]: the peer is gone", due.Stale, ghost)
+	}
+	if len(due.Missing) != 1 || due.Missing[0].ReplicasNeeded != 1 {
+		t.Fatalf("due.Missing = %+v, want one replica needed", due.Missing)
+	}
+}
+
+func otherThan(peers []yacymodel.Seed, closest yacymodel.Hash) yacymodel.Hash {
+	for _, peer := range peers {
+		if peer.Hash != closest {
+			return peer.Hash
+		}
+	}
+
+	panic("no peer other than the closest")
 }

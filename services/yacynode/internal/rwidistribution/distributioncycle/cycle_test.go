@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferwait"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 )
 
@@ -112,11 +113,7 @@ func TestCycleDropsStaleReplicaFromLedger(t *testing.T) {
 	h.courier.receipts[fresh] = postingcourier.PostingReceipt{Outcome: postingcourier.Accepted}
 
 	store(t, h.v, h.schedule, word, url)
-	if err := h.replicas.RecordAccepted(
-		context.Background(), stalePeer, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
+	recordAccepted(t, h, stalePeer, fakePosting(word, url))
 
 	h.cycle.runCycle(context.Background())
 
@@ -148,11 +145,7 @@ func TestCycleKeepsRecentlyReachableReplicaFromLedger(t *testing.T) {
 	})
 
 	store(t, h.v, h.schedule, word, url)
-	if err := h.replicas.RecordAccepted(
-		context.Background(), recentPeer, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
+	recordAccepted(t, h, recentPeer, fakePosting(word, url))
 
 	h.cycle.runCycle(context.Background())
 
@@ -229,7 +222,7 @@ func TestCycleRetriesRejectedPostingAtBackoffInterval(t *testing.T) {
 		t.Fatalf("due = %v, want none due immediately after a rejected offer", due)
 	}
 
-	clk.at = now.Add(h.cadence.Backoff + time.Second)
+	clk.at = now.Add(h.bounds.First + time.Second)
 	due, err = h.schedule.DuePostings(context.Background(), 10)
 	if err != nil {
 		t.Fatalf("DuePostings after retry interval: %v", err)
@@ -260,7 +253,7 @@ func TestCycleHonoursCourierRetryAfter(t *testing.T) {
 
 	h.cycle.runCycle(context.Background())
 
-	clk.at = now.Add(h.cadence.Backoff + time.Second)
+	clk.at = now.Add(h.bounds.First + time.Second)
 	due, err := h.schedule.DuePostings(context.Background(), 10)
 	if err != nil {
 		t.Fatalf("DuePostings: %v", err)
@@ -304,7 +297,7 @@ func TestCycleReschedulesUnofferedPostingAtBackoffInterval(t *testing.T) {
 		t.Fatalf("due = %v, want none due immediately after stalling", due)
 	}
 
-	clk.at = now.Add(h.cadence.Backoff + time.Second)
+	clk.at = now.Add(h.bounds.First + time.Second)
 	due, err = h.schedule.DuePostings(context.Background(), 10)
 	if err != nil {
 		t.Fatalf("DuePostings after retry interval: %v", err)
@@ -328,11 +321,7 @@ func TestCycleReschedulesAlreadySatisfiedPostingAtRefreshInterval(t *testing.T) 
 	})
 
 	store(t, h.v, h.schedule, word, url)
-	if err := h.replicas.RecordAccepted(
-		context.Background(), peer, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
+	recordAccepted(t, h, peer, fakePosting(word, url))
 
 	h.cycle.runCycle(context.Background())
 
@@ -343,7 +332,7 @@ func TestCycleReschedulesAlreadySatisfiedPostingAtRefreshInterval(t *testing.T) 
 		)
 	}
 
-	clk.at = now.Add(h.cadence.Refresh - time.Second)
+	clk.at = now.Add(h.bounds.Longest - time.Second)
 	due, err := h.schedule.DuePostings(context.Background(), 10)
 	if err != nil {
 		t.Fatalf("DuePostings: %v", err)
@@ -600,7 +589,7 @@ func TestCycleExcludesPostingWhenURLMetadataDeliveryFails(t *testing.T) {
 		)
 	}
 
-	clk.at = now.Add(h.cadence.Backoff + time.Second)
+	clk.at = now.Add(h.bounds.First + time.Second)
 	due, err := h.schedule.DuePostings(context.Background(), 10)
 	if err != nil {
 		t.Fatalf("DuePostings: %v", err)
@@ -696,7 +685,7 @@ func TestCycleOffersToAnotherPeerAfterAnUnreachableAnswer(t *testing.T) {
 	store(t, h.v, h.schedule, word, url)
 
 	h.cycle.runCycle(context.Background())
-	clk.at = clk.at.Add(2 * h.cadence.Backoff)
+	clk.at = clk.at.Add(2 * h.bounds.First)
 	h.cycle.runCycle(context.Background())
 
 	if len(h.courier.offered) != 2 {
@@ -712,6 +701,62 @@ func TestCycleOffersToAnotherPeerAfterAnUnreachableAnswer(t *testing.T) {
 		t.Fatalf(
 			"ineligibleRecipients = %d, want 2 after both peers answered unreachable",
 			h.observer.ineligibleRecipients,
+		)
+	}
+}
+
+func TestCycleDoublesTheWaitOfAPostingThatKeepsMissingRedundancy(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	clk := &clock{at: now}
+	h := openCycle(t, clk, cycleOptions{postings: postings})
+
+	store(t, h.v, h.schedule, word, url)
+
+	h.cycle.runCycle(context.Background())
+	clk.at = now.Add(h.bounds.First)
+	h.cycle.runCycle(context.Background())
+
+	clk.at = now.Add(2*h.bounds.First + time.Second)
+	due, err := h.schedule.DuePostings(context.Background(), 10)
+	if err != nil {
+		t.Fatalf("DuePostings: %v", err)
+	}
+	if len(due) != 0 {
+		t.Fatalf("due = %v, want none: the second miss doubles the wait", due)
+	}
+
+	clk.at = now.Add(3*h.bounds.First + time.Second)
+	due, err = h.schedule.DuePostings(context.Background(), 10)
+	if err != nil {
+		t.Fatalf("DuePostings after the doubled wait: %v", err)
+	}
+	if len(due) != 1 || due[0].Word != word {
+		t.Fatalf("due = %v, want [word] once the doubled wait has elapsed", due)
+	}
+}
+
+func TestCycleReportsPostingsHeldAtTheLongestWait(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	clk := &clock{at: now}
+	h := openCycle(t, clk, cycleOptions{postings: postings})
+	h.cycle.bounds = postingofferwait.Bounds{First: time.Hour, Longest: time.Hour}
+
+	store(t, h.v, h.schedule, word, url)
+
+	h.cycle.runCycle(context.Background())
+
+	if h.observer.postingsAtLongestWait != 1 {
+		t.Fatalf(
+			"postingsAtLongestWait = %d, want 1 for a posting whose wait can grow no further",
+			h.observer.postingsAtLongestWait,
 		)
 	}
 }

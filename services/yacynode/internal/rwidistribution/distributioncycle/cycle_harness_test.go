@@ -8,6 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferwait"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicarecipients"
@@ -32,6 +33,7 @@ type cycleHarness struct {
 	clk             *clock
 	schedule        *postingschedule.Schedule
 	replicas        *postingreplicas.Replicas
+	waits           *postingofferwait.Wait
 	shortfall       *replicashortfall.Shortfall
 	recipients      *replicarecipients.Recipients
 	courier         *fakeCourier
@@ -39,7 +41,7 @@ type cycleHarness struct {
 	urls            fakeURLDirectory
 	observer        *fakeObserver
 	delivery        *OfferDelivery
-	cadence         Cadence
+	bounds          postingofferwait.Bounds
 	cycle           *Cycle
 }
 
@@ -57,7 +59,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		opts.metadataOutcome = urlmetadatacourier.Accepted
 	}
 
-	v, schedule, replicas := openCycleVault(t, clk.now)
+	v, schedule, replicas, waits := openCycleVault(t, clk.now)
 
 	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
 	if err != nil {
@@ -83,13 +85,15 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	observer := newFakeObserver()
 
 	delivery := NewOfferDelivery(courier, metadataCourier, urls, observer)
-	cadence := Cadence{Refresh: time.Hour, Backoff: time.Minute}
+	bounds := postingofferwait.Bounds{First: time.Minute, Longest: time.Hour}
 	cycle := New(
+		v,
 		shortfall,
 		delivery,
 		replicas,
+		waits,
 		recipients,
-		cadence,
+		bounds,
 		schedule,
 		opts.roster,
 		observer,
@@ -104,6 +108,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		clk:             clk,
 		schedule:        schedule,
 		replicas:        replicas,
+		waits:           waits,
 		shortfall:       shortfall,
 		recipients:      recipients,
 		courier:         courier,
@@ -111,7 +116,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		urls:            urls,
 		observer:        observer,
 		delivery:        delivery,
-		cadence:         cadence,
+		bounds:          bounds,
 		cycle:           cycle,
 	}
 }
@@ -119,12 +124,17 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 func openCycleVault(
 	t *testing.T,
 	now func() time.Time,
-) (*vault.Vault, *postingschedule.Schedule, *postingreplicas.Replicas) {
+) (
+	*vault.Vault,
+	*postingschedule.Schedule,
+	*postingreplicas.Replicas,
+	*postingofferwait.Wait,
+) {
 	t.Helper()
 
 	v, err := memvault.Open(0)
 	if err != nil {
-		t.Fatalf("Open: %v", err)
+		t.Fatalf("memvault.Open: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {
@@ -140,8 +150,12 @@ func openCycleVault(
 	if err != nil {
 		t.Fatalf("postingreplicas.Open: %v", err)
 	}
+	waits, err := postingofferwait.Open(v)
+	if err != nil {
+		t.Fatalf("postingofferwait.Open: %v", err)
+	}
 
-	return v, schedule, replicas
+	return v, schedule, replicas, waits
 }
 
 type fakePostingIndex struct {
@@ -285,6 +299,21 @@ func store(
 		return schedule.PostingStored(tx, word, url)
 	}); err != nil {
 		t.Fatalf("PostingStored: %v", err)
+	}
+}
+
+func recordAccepted(
+	t *testing.T,
+	h *cycleHarness,
+	peer yacymodel.Hash,
+	postings ...yacymodel.RWIPosting,
+) {
+	t.Helper()
+
+	if err := h.v.Update(context.Background(), func(tx *vault.Txn) error {
+		return h.replicas.RecordAccepted(tx, peer, postings)
+	}); err != nil {
+		t.Fatalf("RecordAccepted: %v", err)
 	}
 }
 

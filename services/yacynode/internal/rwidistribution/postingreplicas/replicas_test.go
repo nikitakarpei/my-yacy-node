@@ -40,6 +40,46 @@ func store(
 	}
 }
 
+func recordAccepted(
+	t *testing.T,
+	v *vault.Vault,
+	ledger *Replicas,
+	peer yacymodel.Hash,
+	postings ...yacymodel.RWIPosting,
+) {
+	t.Helper()
+
+	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
+		return ledger.RecordAccepted(tx, peer, postings)
+	}); err != nil {
+		t.Fatalf("RecordAccepted: %v", err)
+	}
+}
+
+func recordDropped(
+	t *testing.T,
+	v *vault.Vault,
+	ledger *Replicas,
+	posting postingschedule.Identity,
+	stale []yacymodel.Hash,
+) int {
+	word, url := posting.Word, posting.URL
+
+	t.Helper()
+
+	var dropped int
+	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
+		var err error
+		dropped, err = ledger.RecordDropped(tx, word, url, stale)
+
+		return err
+	}); err != nil {
+		t.Fatalf("RecordDropped: %v", err)
+	}
+
+	return dropped
+}
+
 func openLedger(t *testing.T) (*vault.Vault, *Replicas) {
 	t.Helper()
 
@@ -77,20 +117,12 @@ func openLedger(t *testing.T) (*vault.Vault, *Replicas) {
 }
 
 func TestRecordAcceptedAddsReplicas(t *testing.T) {
-	_, ledger := openLedger(t)
+	v, ledger := openLedger(t)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peerA, peerB := yacymodel.WordHash("a"), yacymodel.WordHash("b")
 
-	if err := ledger.RecordAccepted(
-		context.Background(), peerA, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted a: %v", err)
-	}
-	if err := ledger.RecordAccepted(
-		context.Background(), peerB, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted b: %v", err)
-	}
+	recordAccepted(t, v, ledger, peerA, fakePosting(word, url))
+	recordAccepted(t, v, ledger, peerB, fakePosting(word, url))
 
 	holders, err := ledger.Holders(context.Background(), word, url)
 	if err != nil {
@@ -102,16 +134,12 @@ func TestRecordAcceptedAddsReplicas(t *testing.T) {
 }
 
 func TestRecordAcceptedIsIdempotent(t *testing.T) {
-	_, ledger := openLedger(t)
+	v, ledger := openLedger(t)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("a")
 
 	for range 2 {
-		if err := ledger.RecordAccepted(
-			context.Background(), peer, []yacymodel.RWIPosting{fakePosting(word, url)},
-		); err != nil {
-			t.Fatalf("RecordAccepted: %v", err)
-		}
+		recordAccepted(t, v, ledger, peer, fakePosting(word, url))
 	}
 
 	holders, err := ledger.Holders(context.Background(), word, url)
@@ -124,7 +152,7 @@ func TestRecordAcceptedIsIdempotent(t *testing.T) {
 }
 
 func TestRecordAcceptedCoversAllPostingsInOffer(t *testing.T) {
-	_, ledger := openLedger(t)
+	v, ledger := openLedger(t)
 	word := yacymodel.WordHash("w1")
 	urlA, urlB := urlHash("u1"), urlHash("u2")
 	peer := yacymodel.WordHash("a")
@@ -133,9 +161,7 @@ func TestRecordAcceptedCoversAllPostingsInOffer(t *testing.T) {
 		fakePosting(word, urlA),
 		fakePosting(word, urlB),
 	}
-	if err := ledger.RecordAccepted(context.Background(), peer, postings); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
+	recordAccepted(t, v, ledger, peer, postings...)
 
 	for _, url := range []yacymodel.URLHash{urlA, urlB} {
 		holders, err := ledger.Holders(context.Background(), word, url)
@@ -149,15 +175,11 @@ func TestRecordAcceptedCoversAllPostingsInOffer(t *testing.T) {
 }
 
 func TestRecordAcceptedSkipsPostingWithNoDueRow(t *testing.T) {
-	_, ledger := openLedger(t)
+	v, ledger := openLedger(t)
 	word, url := yacymodel.WordHash("absent"), urlHash("absent")
 	peer := yacymodel.WordHash("a")
 
-	if err := ledger.RecordAccepted(
-		context.Background(), peer, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
+	recordAccepted(t, v, ledger, peer, fakePosting(word, url))
 
 	holders, err := ledger.Holders(context.Background(), word, url)
 	if err != nil {
@@ -169,25 +191,20 @@ func TestRecordAcceptedSkipsPostingWithNoDueRow(t *testing.T) {
 }
 
 func TestRecordDroppedRemovesStaleReplicas(t *testing.T) {
-	_, ledger := openLedger(t)
+	v, ledger := openLedger(t)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	alive, dead := yacymodel.WordHash("alive"), yacymodel.WordHash("dead")
 
-	if err := ledger.RecordAccepted(
-		context.Background(), alive, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted alive: %v", err)
-	}
-	if err := ledger.RecordAccepted(
-		context.Background(), dead, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted dead: %v", err)
-	}
+	recordAccepted(t, v, ledger, alive, fakePosting(word, url))
+	recordAccepted(t, v, ledger, dead, fakePosting(word, url))
 
-	dropped, err := ledger.RecordDropped(context.Background(), word, url, []yacymodel.Hash{dead})
-	if err != nil {
-		t.Fatalf("RecordDropped: %v", err)
-	}
+	dropped := recordDropped(
+		t,
+		v,
+		ledger,
+		postingschedule.Identity{Word: word, URL: url},
+		[]yacymodel.Hash{dead},
+	)
 	if dropped != 1 {
 		t.Fatalf("dropped = %v, want 1", dropped)
 	}
@@ -202,17 +219,13 @@ func TestRecordDroppedRemovesStaleReplicas(t *testing.T) {
 }
 
 func TestRecordDroppedOfUnknownPostingIsHarmless(t *testing.T) {
-	_, ledger := openLedger(t)
+	v, ledger := openLedger(t)
 
-	dropped, err := ledger.RecordDropped(
-		context.Background(),
-		yacymodel.WordHash("w1"),
-		urlHash("u1"),
+	dropped := recordDropped(
+		t, v, ledger,
+		postingschedule.Identity{Word: yacymodel.WordHash("w1"), URL: urlHash("u1")},
 		[]yacymodel.Hash{yacymodel.WordHash("peer")},
 	)
-	if err != nil {
-		t.Fatalf("RecordDropped: %v", err)
-	}
 	if dropped != 0 {
 		t.Fatalf("dropped = %v, want 0", dropped)
 	}
@@ -223,11 +236,7 @@ func TestPostingPurgedRemovesLedgerRow(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
 
-	if err := ledger.RecordAccepted(
-		context.Background(), peer, []yacymodel.RWIPosting{fakePosting(word, url)},
-	); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
+	recordAccepted(t, v, ledger, peer, fakePosting(word, url))
 
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
 		return ledger.PostingPurged(tx, word, url)
