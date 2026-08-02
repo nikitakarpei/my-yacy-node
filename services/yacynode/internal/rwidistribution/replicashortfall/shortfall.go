@@ -1,7 +1,8 @@
 // Package replicashortfall works out, for each posting due an offer, which
 // peers to offer it to under the DHT, how many of them must accept for the
-// posting to be at redundancy, and which ledger entries the DHT no longer
-// justifies.
+// posting to be at redundancy, how many peers closer than this node must hold
+// it before this node may hand it off, and which ledger entries the DHT no
+// longer justifies.
 package replicashortfall
 
 import (
@@ -15,11 +16,15 @@ import (
 )
 
 type ReplicaOffer struct {
-	Posting                      yacymodel.RWIPosting
-	ReplicasNeeded               int
-	HandoffReplicasNeeded        int
-	Seeds                        []yacymodel.Seed
-	RecipientsCloserThanThisNode []yacymodel.Hash
+	Posting        yacymodel.RWIPosting
+	ReplicasNeeded int
+	Seeds          []yacymodel.Seed
+}
+
+type ReplicaHandoff struct {
+	Posting        postingschedule.Identity
+	ReplicasNeeded int
+	Peers          []yacymodel.Hash
 }
 
 type StaleReplicas struct {
@@ -28,9 +33,10 @@ type StaleReplicas struct {
 }
 
 type Due struct {
-	Offers []ReplicaOffer
-	Stale  []StaleReplicas
-	Gone   []postingschedule.Identity
+	Offers   []ReplicaOffer
+	Handoffs []ReplicaHandoff
+	Stale    []StaleReplicas
+	Gone     []postingschedule.Identity
 }
 
 type Reachability interface {
@@ -100,144 +106,18 @@ func (r *Shortfall) Due(
 			continue
 		}
 
-		offer, stale, err := r.replicasOf(ctx, posting, reachablePeers)
+		placement, err := r.placementOf(ctx, posting, reachablePeers)
 		if err != nil {
 			return Due{}, err
 		}
+
+		offer := r.replicaOfferOf(placement)
 		result.Offers = append(result.Offers, offer)
-		if len(stale.Peers) > 0 {
+		result.Handoffs = append(result.Handoffs, r.replicaHandoffOf(placement, offer))
+		if stale := staleReplicasOf(placement); len(stale.Peers) > 0 {
 			result.Stale = append(result.Stale, stale)
 		}
 	}
 
 	return result, nil
-}
-
-func (r *Shortfall) replicasOf(
-	ctx context.Context,
-	posting yacymodel.RWIPosting,
-	reachablePeers []yacymodel.Seed,
-) (ReplicaOffer, StaleReplicas, error) {
-	holders, err := r.replicas.Holders(ctx, posting.WordHash, posting.URLHash)
-	if err != nil {
-		return ReplicaOffer{}, StaleReplicas{}, fmt.Errorf("read replica ledger: %w", err)
-	}
-
-	position := yacymodel.PostingPosition(posting.WordHash, posting.URLHash, r.partitions)
-	acceptingPeers := peersAcceptingRemoteIndex(reachablePeers)
-	replicasPeersOwe := r.replicasPeersOwe(acceptingPeers, position)
-	responsibilityWindow := yacymodel.SeedsClosestToPosition(
-		acceptingPeers,
-		position,
-		replicasPeersOwe,
-	)
-	held := r.holdersByResponsibility(
-		ctx, holders, position, responsibilityWindow, replicasPeersOwe,
-	)
-
-	stale := StaleReplicas{
-		Posting: postingschedule.Identity{Word: posting.WordHash, URL: posting.URLHash},
-		Peers:   held.gone,
-	}
-	offer := ReplicaOffer{Posting: posting}
-	if len(held.responsible) >= replicasPeersOwe {
-		stale.Peers = append(stale.Peers, held.outsideWindow...)
-		offer.Seeds = peersHoldingReplica(acceptingPeers, held.responsible)
-		offer.HandoffReplicasNeeded = r.handoffReplicasNeeded(
-			reachablePeers, held.responsible, position,
-		)
-
-		return offer, stale, nil
-	}
-	offer.ReplicasNeeded = replicasPeersOwe - len(held.responsible)
-	offer.Seeds = yacymodel.SeedsClosestToPosition(
-		peersWithoutReplica(
-			peersEligibleForReplicas(acceptingPeers, r.eligibility),
-			held.stillHolding(),
-		),
-		position,
-		offer.ReplicasNeeded,
-	)
-	offer.HandoffReplicasNeeded = r.handoffReplicasNeeded(
-		reachablePeers, held.stillHolding(), position,
-	)
-	offer.RecipientsCloserThanThisNode = peersCloserThanThisNode(offer.Seeds, position, r.self)
-
-	return offer, stale, nil
-}
-
-func (r *Shortfall) handoffReplicasNeeded(
-	reachablePeers []yacymodel.Seed,
-	holders []yacymodel.Hash,
-	position yacymodel.DHTPosition,
-) int {
-	closer := peersCloserThanThisNode(
-		peersHoldingReplica(reachablePeers, holders), position, r.self,
-	)
-
-	return r.redundancy - len(closer)
-}
-
-func (r *Shortfall) replicasPeersOwe(
-	acceptingPeers []yacymodel.Seed,
-	position yacymodel.DHTPosition,
-) int {
-	if len(peersCloserThanThisNode(acceptingPeers, position, r.self)) < r.redundancy {
-		return r.redundancy - 1
-	}
-
-	return r.redundancy
-}
-
-// replicaHolders groups the peers holding a replica by the DHT responsibility
-// that decides whether the ledger keeps their entry.
-type replicaHolders struct {
-	responsible   []yacymodel.Hash
-	outsideWindow []yacymodel.Hash
-	gone          []yacymodel.Hash
-}
-
-func (h replicaHolders) stillHolding() []yacymodel.Hash {
-	return append(append([]yacymodel.Hash{}, h.responsible...), h.outsideWindow...)
-}
-
-func (r *Shortfall) holdersByResponsibility(
-	ctx context.Context,
-	holders []yacymodel.Hash,
-	position yacymodel.DHTPosition,
-	responsibilityWindow []yacymodel.Seed,
-	replicasPeersOwe int,
-) replicaHolders {
-	var held replicaHolders
-	for _, peer := range holders {
-		switch {
-		case !r.reachability.Reachable(ctx, peer):
-			if r.reachability.RecentlyReachable(ctx, peer) {
-				held.responsible = append(held.responsible, peer)
-			} else {
-				held.gone = append(held.gone, peer)
-			}
-		case noFartherThanClosestPeers(peer, position, responsibilityWindow, replicasPeersOwe):
-			held.responsible = append(held.responsible, peer)
-		default:
-			held.outsideWindow = append(held.outsideWindow, peer)
-		}
-	}
-
-	return held
-}
-
-func noFartherThanClosestPeers(
-	peer yacymodel.Hash,
-	position yacymodel.DHTPosition,
-	closestPeers []yacymodel.Seed,
-	replicasPeersOwe int,
-) bool {
-	if len(closestPeers) == 0 || len(closestPeers) < replicasPeersOwe {
-		return true
-	}
-	farthest := closestPeers[len(closestPeers)-1].Hash
-
-	return yacymodel.DistanceToPosition(peer, position) <=
-		yacymodel.DistanceToPosition(farthest, position)
 }

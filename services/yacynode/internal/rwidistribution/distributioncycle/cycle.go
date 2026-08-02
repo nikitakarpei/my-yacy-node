@@ -6,6 +6,7 @@ package distributioncycle
 import (
 	"context"
 	"log/slog"
+	"slices"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -159,13 +160,15 @@ func (c *Cycle) commitCycle(
 		}
 
 		recipients := recipientsByPosting(accepted)
-		kept, err := c.handoff.HandOffPostings(ctx, tx, due.Offers, recipients)
+		handedOffPostings, err := c.handoff.HandOffPostings(ctx, tx, due.Handoffs, recipients)
 		if err != nil {
 			return err
 		}
-		handedOff = len(due.Offers) - len(kept)
+		handedOff = len(handedOffPostings)
 
-		return c.reschedulePostings(tx, kept, backoff, recipients)
+		return c.reschedulePostings(
+			tx, keptOffers(due.Offers, handedOffPostings), backoff, recipients,
+		)
 	})
 	if err != nil {
 		slog.ErrorContext(ctx, "distribution cycle not written", slog.Any("error", err))
@@ -279,6 +282,24 @@ func recipientsByPosting(accepted []offer) map[postingschedule.Identity][]yacymo
 	}
 
 	return recipients
+}
+
+func keptOffers(
+	replicaOffers []replicashortfall.ReplicaOffer,
+	handedOff []postingschedule.Identity,
+) []replicashortfall.ReplicaOffer {
+	kept := make([]replicashortfall.ReplicaOffer, 0, len(replicaOffers))
+	for _, replicaOffer := range replicaOffers {
+		identity := postingschedule.Identity{
+			Word: replicaOffer.Posting.WordHash,
+			URL:  replicaOffer.Posting.URLHash,
+		}
+		if !slices.Contains(handedOff, identity) {
+			kept = append(kept, replicaOffer)
+		}
+	}
+
+	return kept
 }
 
 func (c *Cycle) reschedulePostings(

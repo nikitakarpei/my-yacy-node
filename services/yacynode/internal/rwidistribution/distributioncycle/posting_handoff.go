@@ -23,26 +23,21 @@ func newPostingHandoff(purger rwipostings.PostingPurger) *postingHandoff {
 func (h *postingHandoff) HandOffPostings(
 	ctx context.Context,
 	tx *vault.Txn,
-	replicaOffers []replicashortfall.ReplicaOffer,
+	handoffs []replicashortfall.ReplicaHandoff,
 	acceptedRecipients map[postingschedule.Identity][]yacymodel.Hash,
-) ([]replicashortfall.ReplicaOffer, error) {
-	kept := make([]replicashortfall.ReplicaOffer, 0, len(replicaOffers))
-	for _, replicaOffer := range replicaOffers {
-		identity := postingschedule.Identity{
-			Word: replicaOffer.Posting.WordHash,
-			URL:  replicaOffer.Posting.URLHash,
-		}
-		if !closerPeersHold(replicaOffer, acceptedRecipients[identity]) {
-			kept = append(kept, replicaOffer)
-
+) ([]postingschedule.Identity, error) {
+	var handedOff []postingschedule.Identity
+	for _, handoff := range handoffs {
+		if !closerPeersHold(handoff, acceptedRecipients[handoff.Posting]) {
 			continue
 		}
-		if err := h.handOffPosting(ctx, tx, identity); err != nil {
+		if err := h.handOffPosting(ctx, tx, handoff.Posting); err != nil {
 			return nil, err
 		}
+		handedOff = append(handedOff, handoff.Posting)
 	}
 
-	return kept, nil
+	return handedOff, nil
 }
 
 func (h *postingHandoff) handOffPosting(
@@ -61,15 +56,15 @@ func (h *postingHandoff) handOffPosting(
 }
 
 func closerPeersHold(
-	replicaOffer replicashortfall.ReplicaOffer,
+	handoff replicashortfall.ReplicaHandoff,
 	recipients []yacymodel.Hash,
 ) bool {
 	var closer int
 	for _, recipient := range recipients {
-		if slices.Contains(replicaOffer.RecipientsCloserThanThisNode, recipient) {
+		if slices.Contains(handoff.Peers, recipient) {
 			closer++
 		}
 	}
 
-	return closer >= replicaOffer.HandoffReplicasNeeded
+	return closer >= handoff.ReplicasNeeded
 }
