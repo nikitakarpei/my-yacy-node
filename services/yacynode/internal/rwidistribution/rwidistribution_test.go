@@ -135,9 +135,9 @@ func TestPostingPurgedFansOutToScheduleAndReplicas(t *testing.T) {
 		t.Fatalf("due = %v, want none after purge", due)
 	}
 
-	replicas, err := distribution.replicas.Replicas(context.Background(), word, url)
+	replicas, err := distribution.replicas.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
 	if len(replicas) != 0 {
 		t.Fatalf("replicas = %v, want none after purge", replicas)

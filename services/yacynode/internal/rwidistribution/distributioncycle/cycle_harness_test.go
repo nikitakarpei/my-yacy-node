@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicarecipients"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicashortfall"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
@@ -21,6 +22,7 @@ type cycleOptions struct {
 	roster          fakeRoster
 	reachability    replicashortfall.Reachability
 	redundancy      int
+	cooldown        time.Duration
 	urls            fakeURLDirectory
 	metadataOutcome urlmetadatacourier.Outcome
 }
@@ -31,6 +33,7 @@ type cycleHarness struct {
 	schedule        *postingschedule.Schedule
 	replicas        *postingreplicas.Replicas
 	shortfall       *replicashortfall.Shortfall
+	recipients      *replicarecipients.Recipients
 	courier         *fakeCourier
 	metadataCourier *fakeURLMetadataCourier
 	urls            fakeURLDirectory
@@ -61,11 +64,13 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
 
+	recipients := replicarecipients.New(opts.cooldown, clk.now)
 	shortfall := replicashortfall.New(
 		schedule,
 		replicas,
 		fakePostingIndex{postings: opts.postings, unread: opts.postingsErr},
 		opts.reachability,
+		recipients,
 		partitions,
 		redundancy,
 	)
@@ -83,6 +88,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		shortfall,
 		delivery,
 		replicas,
+		recipients,
 		cadence,
 		schedule,
 		opts.roster,
@@ -99,6 +105,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		schedule:        schedule,
 		replicas:        replicas,
 		shortfall:       shortfall,
+		recipients:      recipients,
 		courier:         courier,
 		metadataCourier: metadataCourier,
 		urls:            urls,

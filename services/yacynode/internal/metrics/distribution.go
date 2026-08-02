@@ -16,6 +16,7 @@ type DistributionMetrics struct {
 	postingsGone          prometheus.Counter
 	oldestDuePostingAge   prometheus.Gauge
 	staleReplicasDropped  prometheus.Counter
+	ineligibleRecipients  prometheus.Gauge
 	cyclesSkipped         prometheus.Counter
 	shortfallUnread       prometheus.Counter
 }
@@ -61,6 +62,10 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		Name: "rwidistribution_stale_replicas_dropped_total",
 		Help: "Replica ledger entries dropped for peers no longer responsible.",
 	})
+	ineligibleRecipients := prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "rwidistribution_ineligible_replica_recipients",
+		Help: "Peers held back from receiving replicas after answering an offer.",
+	})
 	cyclesSkipped := prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "rwidistribution_cycles_skipped_total",
 		Help: "Distribution cycles skipped because too few peers were reachable.",
@@ -71,7 +76,8 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	})
 	registry.MustRegister(
 		postingOffers, postingsOffered, urlMetadataDeliveries, urlsDelivered,
-		postingsGone, oldestDuePostingAge, staleReplicasDropped, cyclesSkipped, shortfallUnread,
+		postingsGone, oldestDuePostingAge, staleReplicasDropped, ineligibleRecipients,
+		cyclesSkipped, shortfallUnread,
 	)
 
 	return &DistributionMetrics{
@@ -82,6 +88,7 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		postingsGone:          postingsGone,
 		oldestDuePostingAge:   oldestDuePostingAge,
 		staleReplicasDropped:  staleReplicasDropped,
+		ineligibleRecipients:  ineligibleRecipients,
 		cyclesSkipped:         cyclesSkipped,
 		shortfallUnread:       shortfallUnread,
 	}
@@ -107,6 +114,10 @@ func (d *DistributionMetrics) ObserveOldestDuePostingAge(age time.Duration) {
 
 func (d *DistributionMetrics) ObserveStaleReplicasDropped(dropped int) {
 	d.staleReplicasDropped.Add(float64(dropped))
+}
+
+func (d *DistributionMetrics) ObserveIneligibleReplicaRecipients(peers int) {
+	d.ineligibleRecipients.Set(float64(peers))
 }
 
 func (d *DistributionMetrics) ObserveCycleSkipped() {

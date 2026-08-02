@@ -120,9 +120,9 @@ func TestCycleDropsStaleReplicaFromLedger(t *testing.T) {
 
 	h.cycle.runCycle(context.Background())
 
-	replicas, err := h.replicas.Replicas(context.Background(), word, url)
+	replicas, err := h.replicas.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
 	for _, replica := range replicas {
 		if replica == stalePeer {
@@ -156,9 +156,9 @@ func TestCycleKeepsRecentlyReachableReplicaFromLedger(t *testing.T) {
 
 	h.cycle.runCycle(context.Background())
 
-	replicas, err := h.replicas.Replicas(context.Background(), word, url)
+	replicas, err := h.replicas.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
 	if len(replicas) != 1 || replicas[0] != recentPeer {
 		t.Fatalf(
@@ -370,9 +370,9 @@ func TestCycleRecordsReplicaOnAcceptedOffer(t *testing.T) {
 
 	h.cycle.runCycle(context.Background())
 
-	replicas, err := h.replicas.Replicas(context.Background(), word, url)
+	replicas, err := h.replicas.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
 	if len(replicas) != 1 || replicas[0] != peer {
 		t.Fatalf("replicas = %v, want [%v]", replicas, peer)
@@ -506,9 +506,9 @@ func TestCycleRecordsNoReplicaOnRefusedOffer(t *testing.T) {
 
 	h.cycle.runCycle(context.Background())
 
-	replicas, err := h.replicas.Replicas(context.Background(), word, url)
+	replicas, err := h.replicas.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
 	if len(replicas) != 0 {
 		t.Fatalf("replicas = %v, want none after a refused offer", replicas)
@@ -550,9 +550,9 @@ func TestCycleReportsUnaddressablePeer(t *testing.T) {
 			h.observer.postingsOffered, postingcourier.Unaddressable,
 		)
 	}
-	replicas, err := h.replicas.Replicas(context.Background(), word, url)
+	replicas, err := h.replicas.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
 	if len(replicas) != 0 {
 		t.Fatalf("replicas = %v, want none for an unaddressable peer", replicas)
@@ -586,9 +586,9 @@ func TestCycleExcludesPostingWhenURLMetadataDeliveryFails(t *testing.T) {
 
 	h.cycle.runCycle(context.Background())
 
-	replicas, err := h.replicas.Replicas(context.Background(), word, url)
+	replicas, err := h.replicas.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
 	if len(replicas) != 0 {
 		t.Fatalf("replicas = %v, want none recorded when url metadata delivery fails", replicas)
@@ -654,19 +654,64 @@ func TestCycleDeliversMetadataItHasWhenOneURLIsAbsent(t *testing.T) {
 		)
 	}
 
-	replicas, err := h.replicas.Replicas(context.Background(), word, present)
+	replicas, err := h.replicas.Holders(context.Background(), word, present)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
 	if len(replicas) != 1 {
 		t.Fatalf("replicas = %v, want the deliverable posting recorded", replicas)
 	}
 
-	replicas, err = h.replicas.Replicas(context.Background(), word, absent)
+	replicas, err = h.replicas.Holders(context.Background(), word, absent)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
 	if len(replicas) != 0 {
 		t.Fatalf("replicas = %v, want none for the posting with no url metadata", replicas)
+	}
+}
+
+func TestCycleOffersToAnotherPeerAfterAnUnreachableAnswer(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	peers := []yacymodel.Seed{
+		seed(yacymodel.WordHash("p1")),
+		seed(yacymodel.WordHash("p2")),
+	}
+	clk := &clock{at: now}
+	h := openCycle(t, clk, cycleOptions{
+		postings: postings,
+		roster:   fakeRoster{reachable: peers},
+		cooldown: time.Hour,
+	})
+	for _, peer := range peers {
+		h.courier.receipts[peer.Hash] = postingcourier.PostingReceipt{
+			Outcome: postingcourier.Unreachable,
+		}
+	}
+
+	store(t, h.v, h.schedule, word, url)
+
+	h.cycle.runCycle(context.Background())
+	clk.at = clk.at.Add(2 * h.cadence.Backoff)
+	h.cycle.runCycle(context.Background())
+
+	if len(h.courier.offered) != 2 {
+		t.Fatalf("offered = %v, want one offer from each cycle", h.courier.offered)
+	}
+	if h.courier.offered[0].Peer.Hash == h.courier.offered[1].Peer.Hash {
+		t.Fatalf(
+			"both offers went to %v, want the second cycle to try another peer",
+			h.courier.offered[0].Peer.Hash,
+		)
+	}
+	if h.observer.ineligibleRecipients != 2 {
+		t.Fatalf(
+			"ineligibleRecipients = %d, want 2 after both peers answered unreachable",
+			h.observer.ineligibleRecipients,
+		)
 	}
 }

@@ -10,6 +10,7 @@ type Observer interface {
 	ObservePostingsGone(gone int)
 	ObserveOldestDuePostingAge(age time.Duration)
 	ObserveStaleReplicasDropped(dropped int)
+	ObserveIneligibleReplicaRecipients(peers int)
 	ObserveCycleSkipped()
 	ObserveShortfallUnread()
 }
@@ -25,6 +26,8 @@ func (NoObserver) ObservePostingsGone(int) {}
 func (NoObserver) ObserveOldestDuePostingAge(time.Duration) {}
 
 func (NoObserver) ObserveStaleReplicasDropped(int) {}
+
+func (NoObserver) ObserveIneligibleReplicaRecipients(int) {}
 
 func (NoObserver) ObserveCycleSkipped() {}
 

@@ -143,6 +143,7 @@ func assembleDistribution(
 			CycleInterval:        config.Distribution.CycleInterval,
 			RefreshInterval:      config.Distribution.RefreshInterval,
 			RetryInterval:        config.Distribution.RetryInterval,
+			RecipientCooldown:    config.Distribution.RecipientCooldown,
 			MinReachablePeers:    config.Distribution.MinReachablePeers,
 			URLMetadataBatchSize: config.Distribution.URLMetadataBatchSize,
 		},

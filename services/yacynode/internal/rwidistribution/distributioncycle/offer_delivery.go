@@ -12,6 +12,7 @@ import (
 )
 
 type OfferReceipt struct {
+	Outcome          postingcourier.Outcome
 	AcceptedPostings []yacymodel.RWIPosting
 	Backoff          time.Duration
 }
@@ -49,19 +50,20 @@ func (d *OfferDelivery) Offer(ctx context.Context, peerOffer offer) OfferReceipt
 			string(postingcourier.Unaddressable), len(peerOffer.Postings),
 		)
 
-		return OfferReceipt{}
+		return OfferReceipt{Outcome: postingcourier.Unaddressable}
 	}
 
 	receipt := d.postingCourier.Offer(ctx, endpoint, peerOffer.Peer, peerOffer.Postings)
 	d.observer.ObservePostingOffer(string(receipt.Outcome), len(peerOffer.Postings))
 
 	if receipt.Outcome != postingcourier.Accepted {
-		return OfferReceipt{Backoff: receipt.RetryAfter}
+		return OfferReceipt{Outcome: receipt.Outcome, Backoff: receipt.RetryAfter}
 	}
 
 	undelivered := d.deliverURLMetadata(ctx, endpoint, peerOffer, receipt.URLsUnknownToPeer)
 
 	return OfferReceipt{
+		Outcome:          receipt.Outcome,
 		AcceptedPostings: postingsWithMetadataDelivered(peerOffer.Postings, undelivered),
 		Backoff:          receipt.RetryAfter,
 	}

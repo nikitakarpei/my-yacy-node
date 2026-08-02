@@ -39,6 +39,7 @@ const (
 	envDistributionCycleInterval        = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
 	envDistributionRefreshInterval      = "YACY_DISTRIBUTION_REFRESH_INTERVAL"
 	envDistributionRetryInterval        = "YACY_DISTRIBUTION_RETRY_INTERVAL"
+	envDistributionRecipientCooldown    = "YACY_DISTRIBUTION_RECIPIENT_COOLDOWN"
 	envDistributionMinReachablePeers    = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
 	envDistributionURLMetadataBatchSize = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
 
@@ -58,6 +59,7 @@ const (
 	defaultDistributionCycleInterval        = time.Minute
 	defaultDistributionRefreshInterval      = 24 * time.Hour
 	defaultDistributionRetryInterval        = 5 * time.Minute
+	defaultDistributionRecipientCooldown    = 10 * time.Minute
 	defaultDistributionMinReachablePeers    = 32
 	defaultDistributionURLMetadataBatchSize = 50
 
@@ -94,6 +96,7 @@ type distributionConfig struct {
 	CycleInterval        time.Duration
 	RefreshInterval      time.Duration
 	RetryInterval        time.Duration
+	RecipientCooldown    time.Duration
 	MinReachablePeers    int
 	URLMetadataBatchSize int
 }
@@ -278,6 +281,13 @@ func loadDistributionConfig(getenv func(string) string) (distributionConfig, err
 		return distributionConfig{}, err
 	}
 
+	recipientCooldown, err := envconfig.Duration(
+		getenv, envDistributionRecipientCooldown, defaultDistributionRecipientCooldown,
+	)
+	if err != nil {
+		return distributionConfig{}, err
+	}
+
 	minReachablePeers, err := envconfig.PositiveInt(
 		getenv, envDistributionMinReachablePeers, defaultDistributionMinReachablePeers,
 	)
@@ -300,6 +310,7 @@ func loadDistributionConfig(getenv func(string) string) (distributionConfig, err
 		CycleInterval:        cycleInterval,
 		RefreshInterval:      refreshInterval,
 		RetryInterval:        retryInterval,
+		RecipientCooldown:    recipientCooldown,
 		MinReachablePeers:    minReachablePeers,
 		URLMetadataBatchSize: urlMetadataBatchSize,
 	}, nil

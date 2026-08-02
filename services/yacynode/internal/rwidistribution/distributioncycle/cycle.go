@@ -8,16 +8,30 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicashortfall"
 )
 
+// ReplicaRecipients learns from each offer answer which peers can receive a
+// replica now, so the next cycle can route around a peer that keeps refusing.
+type ReplicaRecipients interface {
+	OfferAnswered(
+		peer yacymodel.Hash,
+		outcome postingcourier.Outcome,
+		requestedPause time.Duration,
+	)
+	IneligiblePeers() int
+}
+
 type Cycle struct {
 	shortfall         *replicashortfall.Shortfall
 	delivery          *OfferDelivery
 	replicas          *postingreplicas.Replicas
+	recipients        ReplicaRecipients
 	cadence           Cadence
 	schedule          *postingschedule.Schedule
 	roster            peerroster.Roster
@@ -28,11 +42,12 @@ type Cycle struct {
 	minReachablePeers int
 }
 
-//nolint:revive // argument-limit: eleven explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: twelve explicit, independently-meaningful collaborators
 func New(
 	shortfall *replicashortfall.Shortfall,
 	delivery *OfferDelivery,
 	replicas *postingreplicas.Replicas,
+	recipients ReplicaRecipients,
 	cadence Cadence,
 	schedule *postingschedule.Schedule,
 	roster peerroster.Roster,
@@ -46,6 +61,7 @@ func New(
 		shortfall:         shortfall,
 		delivery:          delivery,
 		replicas:          replicas,
+		recipients:        recipients,
 		cadence:           cadence,
 		schedule:          schedule,
 		roster:            roster,
@@ -110,6 +126,7 @@ func (c *Cycle) runCycle(ctx context.Context) {
 	accepted, backoff := c.deliverOffers(ctx, offers)
 	recorded := c.recordAcceptedReplicas(ctx, accepted)
 	c.reschedulePostings(ctx, due.Missing, backoff, replicasByPosting(recorded))
+	c.observer.ObserveIneligibleReplicaRecipients(c.recipients.IneligiblePeers())
 }
 
 func (c *Cycle) observeOldestDuePostingAge(ctx context.Context) {
@@ -170,6 +187,7 @@ func (c *Cycle) deliverOffers(
 	var accepted []offer
 	for _, peerOffer := range offers {
 		receipt := c.delivery.Offer(ctx, peerOffer)
+		c.recipients.OfferAnswered(peerOffer.Peer.Hash, receipt.Outcome, receipt.Backoff)
 		backoff.Record(peerOffer, receipt.Backoff)
 		if len(receipt.AcceptedPostings) > 0 {
 			accepted = append(

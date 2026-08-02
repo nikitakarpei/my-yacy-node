@@ -56,6 +56,8 @@ components:
     in: internal/rwidistribution/urlmetadatacourier/**
   postingreplicas:
     in: internal/rwidistribution/postingreplicas/**
+  replicarecipients:
+    in: internal/rwidistribution/replicarecipients/**
   replicashortfall:
     in: internal/rwidistribution/replicashortfall/**
   distributioncycle:
@@ -265,6 +267,7 @@ deps:
       - postingcourier
       - urlmetadatacourier
       - postingreplicas
+      - replicarecipients
       - replicashortfall
       - distributioncycle
     canUse:
@@ -300,6 +303,12 @@ deps:
       - memvault
     canUse:
       - yacymodel
+  replicarecipients:
+    mayDependOn:
+      - replicarecipients
+      - postingcourier
+    canUse:
+      - yacymodel
   replicashortfall:
     mayDependOn:
       - replicashortfall
@@ -317,6 +326,7 @@ deps:
       - postingcourier
       - urlmetadatacourier
       - postingreplicas
+      - replicarecipients
       - replicashortfall
       - urlmeta
       - peerroster

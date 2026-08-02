@@ -17,6 +17,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicarecipients"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicashortfall"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
@@ -33,6 +34,7 @@ type Config struct {
 	CycleInterval        time.Duration
 	RefreshInterval      time.Duration
 	RetryInterval        time.Duration
+	RecipientCooldown    time.Duration
 	MinReachablePeers    int
 	URLMetadataBatchSize int
 }
@@ -94,8 +96,10 @@ func (d *Distribution) Cycle(
 ) Runner {
 	exchange := peerwire.NewMessageExchange(client)
 
+	recipients := replicarecipients.New(cfg.RecipientCooldown, d.now)
+
 	shortfall := replicashortfall.New(
-		d.schedule, d.replicas, postings, roster, cfg.Partitions, cfg.Redundancy,
+		d.schedule, d.replicas, postings, roster, recipients, cfg.Partitions, cfg.Redundancy,
 	)
 	delivery := distributioncycle.NewOfferDelivery(
 		postingcourier.New(exchange, cfg.NetworkName, cfg.Self),
@@ -114,6 +118,7 @@ func (d *Distribution) Cycle(
 		shortfall,
 		delivery,
 		d.replicas,
+		recipients,
 		distributioncycle.Cadence{Refresh: cfg.RefreshInterval, Backoff: cfg.RetryInterval},
 		d.schedule,
 		roster,

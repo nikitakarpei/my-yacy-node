@@ -92,12 +92,12 @@ func TestRecordAcceptedAddsReplicas(t *testing.T) {
 		t.Fatalf("RecordAccepted b: %v", err)
 	}
 
-	replicas, err := ledger.Replicas(context.Background(), word, url)
+	holders, err := ledger.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
-	if len(replicas) != 2 {
-		t.Fatalf("replicas = %v, want 2 entries", replicas)
+	if len(holders) != 2 {
+		t.Fatalf("holders = %v, want 2 entries", holders)
 	}
 }
 
@@ -114,12 +114,12 @@ func TestRecordAcceptedIsIdempotent(t *testing.T) {
 		}
 	}
 
-	replicas, err := ledger.Replicas(context.Background(), word, url)
+	holders, err := ledger.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
-	if len(replicas) != 1 {
-		t.Fatalf("replicas = %v, want 1 entry", replicas)
+	if len(holders) != 1 {
+		t.Fatalf("holders = %v, want 1 entry", holders)
 	}
 }
 
@@ -138,12 +138,12 @@ func TestRecordAcceptedCoversAllPostingsInOffer(t *testing.T) {
 	}
 
 	for _, url := range []yacymodel.URLHash{urlA, urlB} {
-		replicas, err := ledger.Replicas(context.Background(), word, url)
+		holders, err := ledger.Holders(context.Background(), word, url)
 		if err != nil {
-			t.Fatalf("Replicas: %v", err)
+			t.Fatalf("Holders: %v", err)
 		}
-		if len(replicas) != 1 || replicas[0] != peer {
-			t.Fatalf("replicas for %v = %v, want [%v]", url, replicas, peer)
+		if len(holders) != 1 || holders[0] != peer {
+			t.Fatalf("holders for %v = %v, want [%v]", url, holders, peer)
 		}
 	}
 }
@@ -159,12 +159,12 @@ func TestRecordAcceptedSkipsPostingWithNoDueRow(t *testing.T) {
 		t.Fatalf("RecordAccepted: %v", err)
 	}
 
-	replicas, err := ledger.Replicas(context.Background(), word, url)
+	holders, err := ledger.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
-	if len(replicas) != 0 {
-		t.Fatalf("replicas = %v, want none for a posting with no due row", replicas)
+	if len(holders) != 0 {
+		t.Fatalf("holders = %v, want none for a posting with no due row", holders)
 	}
 }
 
@@ -192,12 +192,12 @@ func TestRecordDroppedRemovesStaleReplicas(t *testing.T) {
 		t.Fatalf("dropped = %v, want 1", dropped)
 	}
 
-	replicas, err := ledger.Replicas(context.Background(), word, url)
+	holders, err := ledger.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
-	if len(replicas) != 1 || replicas[0] != alive {
-		t.Fatalf("replicas = %v, want [alive]", replicas)
+	if len(holders) != 1 || holders[0] != alive {
+		t.Fatalf("holders = %v, want [alive]", holders)
 	}
 }
 
@@ -235,11 +235,11 @@ func TestPostingPurgedRemovesLedgerRow(t *testing.T) {
 		t.Fatalf("PostingPurged: %v", err)
 	}
 
-	replicas, err := ledger.Replicas(context.Background(), word, url)
+	holders, err := ledger.Holders(context.Background(), word, url)
 	if err != nil {
-		t.Fatalf("Replicas: %v", err)
+		t.Fatalf("Holders: %v", err)
 	}
-	if len(replicas) != 0 {
-		t.Fatalf("replicas = %v, want none after purge", replicas)
+	if len(holders) != 0 {
+		t.Fatalf("holders = %v, want none after purge", holders)
 	}
 }
