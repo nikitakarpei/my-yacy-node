@@ -31,7 +31,7 @@ interval.
 An acceptance stops counting when closer peers displace the peer that gave
 it, when contact with that peer fails, or when the peer stays uncontacted
 past the peer roster's credibility window. The posting is then offered
-again, to as many peers as it still needs copies, until redundancy is
+again, to as many peers as it still needs replicas, until redundancy is
 restored.
 
 A peer that stops accepting a remote index receives no further offers. The

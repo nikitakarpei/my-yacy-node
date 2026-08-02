@@ -15,9 +15,9 @@ type DistributionMetrics struct {
 	urlsDelivered         *prometheus.CounterVec
 	postingsGone          prometheus.Counter
 	oldestDuePostingAge   prometheus.Gauge
-	ledgerPrunes          prometheus.Counter
+	staleReplicasDropped  prometheus.Counter
 	cyclesSkipped         prometheus.Counter
-	replicationUnread     prometheus.Counter
+	shortfallUnread       prometheus.Counter
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
@@ -57,21 +57,21 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		Name: "rwidistribution_oldest_due_posting_age_seconds",
 		Help: "Age of the oldest posting still awaiting an offer.",
 	})
-	ledgerPrunes := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "rwidistribution_ledger_prunes_total",
+	staleReplicasDropped := prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "rwidistribution_stale_replicas_dropped_total",
 		Help: "Replica ledger entries dropped for peers no longer responsible.",
 	})
 	cyclesSkipped := prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "rwidistribution_cycles_skipped_total",
 		Help: "Distribution cycles skipped because too few peers were reachable.",
 	})
-	replicationUnread := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "rwidistribution_replication_unread_total",
-		Help: "Distribution cycles abandoned because the due replication could not be read.",
+	shortfallUnread := prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "rwidistribution_shortfall_unread_total",
+		Help: "Distribution cycles abandoned because the replica shortfall could not be read.",
 	})
 	registry.MustRegister(
 		postingOffers, postingsOffered, urlMetadataDeliveries, urlsDelivered,
-		postingsGone, oldestDuePostingAge, ledgerPrunes, cyclesSkipped, replicationUnread,
+		postingsGone, oldestDuePostingAge, staleReplicasDropped, cyclesSkipped, shortfallUnread,
 	)
 
 	return &DistributionMetrics{
@@ -81,9 +81,9 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		urlsDelivered:         urlsDelivered,
 		postingsGone:          postingsGone,
 		oldestDuePostingAge:   oldestDuePostingAge,
-		ledgerPrunes:          ledgerPrunes,
+		staleReplicasDropped:  staleReplicasDropped,
 		cyclesSkipped:         cyclesSkipped,
-		replicationUnread:     replicationUnread,
+		shortfallUnread:       shortfallUnread,
 	}
 }
 
@@ -105,14 +105,14 @@ func (d *DistributionMetrics) ObserveOldestDuePostingAge(age time.Duration) {
 	d.oldestDuePostingAge.Set(age.Seconds())
 }
 
-func (d *DistributionMetrics) ObserveLedgerPrune(dropped int) {
-	d.ledgerPrunes.Add(float64(dropped))
+func (d *DistributionMetrics) ObserveStaleReplicasDropped(dropped int) {
+	d.staleReplicasDropped.Add(float64(dropped))
 }
 
 func (d *DistributionMetrics) ObserveCycleSkipped() {
 	d.cyclesSkipped.Inc()
 }
 
-func (d *DistributionMetrics) ObserveReplicationUnread() {
-	d.replicationUnread.Inc()
+func (d *DistributionMetrics) ObserveShortfallUnread() {
+	d.shortfallUnread.Inc()
 }

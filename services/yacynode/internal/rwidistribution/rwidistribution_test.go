@@ -8,8 +8,60 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
+
+func urlHash(raw string) yacymodel.URLHash {
+	hash, err := yacymodel.ParseURLHash(yacymodel.WordHash(raw).String())
+	if err != nil {
+		panic(err)
+	}
+
+	return hash
+}
+
+type fakePostingIndex struct{}
+
+func (fakePostingIndex) RWICount(context.Context) (int, error) { return 0, nil }
+
+func (fakePostingIndex) Posting(
+	context.Context, yacymodel.Hash, yacymodel.URLHash,
+) (yacymodel.RWIPosting, bool, error) {
+	return yacymodel.RWIPosting{}, false, nil
+}
+
+func (fakePostingIndex) ScanWord(
+	context.Context, yacymodel.Hash, func(yacymodel.RWIPosting) (bool, error),
+) error {
+	return nil
+}
+
+type fakeRoster struct{}
+
+func (fakeRoster) Discover(context.Context, ...yacymodel.Seed)            {}
+func (fakeRoster) ConfirmReachable(context.Context, yacymodel.Hash)       {}
+func (fakeRoster) ConfirmUnreachable(context.Context, yacymodel.Hash)     {}
+func (fakeRoster) UnreachablePeers(context.Context, int) []yacymodel.Seed { return nil }
+func (fakeRoster) ReachablePeers(context.Context) []yacymodel.Seed        { return nil }
+func (fakeRoster) Reachable(context.Context, yacymodel.Hash) bool         { return false }
+func (fakeRoster) RecentlyReachable(context.Context, yacymodel.Hash) bool { return false }
+
+type fakeURLDirectory struct{}
+
+func (fakeURLDirectory) MetadataByHash(
+	context.Context, []yacymodel.URLHash,
+) ([]yacymodel.URLMetadata, error) {
+	return nil, nil
+}
+
+func (fakeURLDirectory) MissingURLs(
+	context.Context, []yacymodel.URLHash,
+) ([]yacymodel.URLHash, error) {
+	return nil, nil
+}
+
+func (fakeURLDirectory) Count(context.Context) (int, error) { return 0, nil }
 
 func openDistribution(t *testing.T, now func() time.Time) (*vault.Vault, *Distribution) {
 	t.Helper()
@@ -52,7 +104,7 @@ func TestPostingStoredSchedulesPosting(t *testing.T) {
 	}
 }
 
-func TestPostingPurgedFansOutToScheduleAndLedger(t *testing.T) {
+func TestPostingPurgedFansOutToScheduleAndReplicas(t *testing.T) {
 	now := time.Unix(1000, 0)
 	v, distribution := openDistribution(t, func() time.Time { return now })
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
@@ -63,9 +115,8 @@ func TestPostingPurgedFansOutToScheduleAndLedger(t *testing.T) {
 	}); err != nil {
 		t.Fatalf("PostingStored: %v", err)
 	}
-	if err := distribution.ledger.RecordAccepted(
-		context.Background(),
-		postingOffer{Peer: seed(peer), Postings: []yacymodel.RWIPosting{fakePosting(word, url)}},
+	if err := distribution.replicas.RecordAccepted(
+		context.Background(), peer, []yacymodel.RWIPosting{{WordHash: word, URLHash: url}},
 	); err != nil {
 		t.Fatalf("RecordAccepted: %v", err)
 	}
@@ -84,7 +135,7 @@ func TestPostingPurgedFansOutToScheduleAndLedger(t *testing.T) {
 		t.Fatalf("due = %v, want none after purge", due)
 	}
 
-	replicas, err := distribution.ledger.Replicas(context.Background(), word, url)
+	replicas, err := distribution.replicas.Replicas(context.Background(), word, url)
 	if err != nil {
 		t.Fatalf("Replicas: %v", err)
 	}
@@ -107,7 +158,7 @@ func TestCycleReturnsRunner(t *testing.T) {
 		fakePostingIndex{},
 		fakeRoster{},
 		fakeURLDirectory{},
-		noPostingOfferCycleObserver{},
+		distributioncycle.NoObserver{},
 		Config{
 			NetworkName:      "freeworld",
 			Self:             yacymodel.WordHash("self"),

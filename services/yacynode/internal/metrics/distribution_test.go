@@ -48,26 +48,26 @@ func TestDistributionCountsURLMetadataDeliveriesByResult(t *testing.T) {
 	}
 }
 
-func TestDistributionCountsPostingsGoneAndLedgerPrunes(t *testing.T) {
+func TestDistributionCountsPostingsGoneAndStaleReplicasDropped(t *testing.T) {
 	observer := NewDistributionMetrics(prometheus.NewRegistry())
 
 	observer.ObservePostingsGone(1)
-	observer.ObserveLedgerPrune(2)
+	observer.ObserveStaleReplicasDropped(2)
 
 	if got := testutil.ToFloat64(observer.postingsGone); got != 1 {
 		t.Errorf("gone = %v, want 1", got)
 	}
-	if got := testutil.ToFloat64(observer.ledgerPrunes); got != 2 {
-		t.Errorf("prunes = %v, want 2", got)
+	if got := testutil.ToFloat64(observer.staleReplicasDropped); got != 2 {
+		t.Errorf("staleReplicasDropped = %v, want 2", got)
 	}
 }
 
-func TestDistributionCountsUnreadReplication(t *testing.T) {
+func TestDistributionCountsUnreadShortfall(t *testing.T) {
 	observer := NewDistributionMetrics(prometheus.NewRegistry())
 
-	observer.ObserveReplicationUnread()
+	observer.ObserveShortfallUnread()
 
-	if got := testutil.ToFloat64(observer.replicationUnread); got != 1 {
+	if got := testutil.ToFloat64(observer.shortfallUnread); got != 1 {
 		t.Errorf("replication unread = %v, want 1", got)
 	}
 }

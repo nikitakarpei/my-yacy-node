@@ -13,6 +13,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicashortfall"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
@@ -35,24 +41,26 @@ type Runner interface {
 	Run(ctx context.Context)
 }
 
+type PostingOfferCycleObserver = distributioncycle.Observer
+
 type Distribution struct {
-	schedule *postingOfferSchedule
-	ledger   *replicaLedger
+	schedule *postingschedule.Schedule
+	replicas *postingreplicas.Replicas
 	now      func() time.Time
 }
 
 func Open(v *vault.Vault, now func() time.Time) (*Distribution, error) {
-	schedule, err := openPostingOfferSchedule(v, now)
+	schedule, err := postingschedule.Open(v, now)
 	if err != nil {
 		return nil, fmt.Errorf("open offer schedule: %w", err)
 	}
 
-	ledger, err := openReplicaLedger(v, schedule)
+	replicas, err := postingreplicas.Open(v, schedule)
 	if err != nil {
 		return nil, fmt.Errorf("open replica ledger: %w", err)
 	}
 
-	return &Distribution{schedule: schedule, ledger: ledger, now: now}, nil
+	return &Distribution{schedule: schedule, replicas: replicas, now: now}, nil
 }
 
 func (d *Distribution) PostingStored(
@@ -72,7 +80,7 @@ func (d *Distribution) PostingPurged(
 		return err
 	}
 
-	return d.ledger.PostingPurged(tx, word, url)
+	return d.replicas.PostingPurged(tx, word, url)
 }
 
 //nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
@@ -86,51 +94,35 @@ func (d *Distribution) Cycle(
 ) Runner {
 	exchange := peerwire.NewMessageExchange(client)
 
-	return &postingOfferCycle{
-		reader: &postingReplicationReader{
-			schedule:     d.schedule,
-			ledger:       d.ledger,
-			postings:     postings,
-			reachability: roster,
-			partitions:   cfg.Partitions,
-			redundancy:   cfg.Redundancy,
-		},
-		delivery: &postingOfferDelivery{
-			postingCourier: httpPostingCourier{
-				exchange:    exchange,
-				networkName: cfg.NetworkName,
-				self:        cfg.Self,
-			},
-			urlMetadataCourier: boundedURLMetadataCourier{
-				inner: httpURLMetadataCourier{
-					exchange:    exchange,
-					networkName: cfg.NetworkName,
-					self:        cfg.Self,
-				},
-				batchSize: cfg.URLMetadataBatchSize,
-			},
-			urls:     urls,
-			observer: observer,
-		},
-		settlement: &postingOfferSettlement{
-			ledger:   d.ledger,
-			schedule: d.schedule,
-			cadence: postingOfferCadence{
-				refresh: cfg.RefreshInterval,
-				retry:   cfg.RetryInterval,
-			},
-			observer:   observer,
-			now:        d.now,
-			redundancy: cfg.Redundancy,
-		},
-		schedule:          d.schedule,
-		roster:            roster,
-		observer:          observer,
-		now:               d.now,
-		postingsPerCycle:  cfg.PostingsPerCycle,
-		cycleInterval:     cfg.CycleInterval,
-		minReachablePeers: cfg.MinReachablePeers,
-	}
+	shortfall := replicashortfall.New(
+		d.schedule, d.replicas, postings, roster, cfg.Partitions, cfg.Redundancy,
+	)
+	delivery := distributioncycle.NewOfferDelivery(
+		postingcourier.New(exchange, cfg.NetworkName, cfg.Self),
+		urlmetadatacourier.NewBounded(
+			urlmetadatacourier.NewHTTP(
+				exchange,
+				cfg.NetworkName,
+				cfg.Self,
+			),
+			cfg.URLMetadataBatchSize,
+		),
+		urls,
+		observer,
+	)
+	return distributioncycle.New(
+		shortfall,
+		delivery,
+		d.replicas,
+		distributioncycle.Cadence{Refresh: cfg.RefreshInterval, Backoff: cfg.RetryInterval},
+		d.schedule,
+		roster,
+		observer,
+		d.now,
+		cfg.PostingsPerCycle,
+		cfg.CycleInterval,
+		cfg.MinReachablePeers,
+	)
 }
 
 var _ rwipostings.PostingObserver = (*Distribution)(nil)
