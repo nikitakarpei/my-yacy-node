@@ -12,11 +12,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferwait"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicashortfall"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
@@ -39,7 +39,7 @@ type Cycle struct {
 	vault             *vault.Vault
 	shortfall         *replicashortfall.Shortfall
 	delivery          *OfferDelivery
-	handoff           *postingHandoff
+	handoff           *postinghandoff.Handoff
 	replicas          *postingreplicas.Replicas
 	waits             *postingofferwait.Wait
 	recipients        ReplicaRecipients
@@ -58,7 +58,7 @@ func New(
 	v *vault.Vault,
 	shortfall *replicashortfall.Shortfall,
 	delivery *OfferDelivery,
-	purger rwipostings.PostingPurger,
+	handoff *postinghandoff.Handoff,
 	replicas *postingreplicas.Replicas,
 	waits *postingofferwait.Wait,
 	recipients ReplicaRecipients,
@@ -75,7 +75,7 @@ func New(
 		vault:             v,
 		shortfall:         shortfall,
 		delivery:          delivery,
-		handoff:           newPostingHandoff(purger),
+		handoff:           handoff,
 		replicas:          replicas,
 		waits:             waits,
 		recipients:        recipients,
@@ -140,16 +140,43 @@ func (c *Cycle) runCycle(ctx context.Context) {
 
 	offers := batchOffers(due.Offers)
 	accepted, backoff := c.deliverOffers(ctx, offers)
-	c.commitCycle(ctx, due, accepted, backoff)
+	recipients := recipientsByPosting(accepted)
+
+	handedOff, err := c.handoff.PostingsHeldByCloserPeers(
+		ctx,
+		offeredPostings(due.Offers),
+		recipients,
+	)
+	if err != nil {
+		slog.ErrorContext(ctx, "postings held by closer peers not read", slog.Any("error", err))
+		handedOff = nil
+	}
+
+	c.commitCycle(ctx, due, accepted, handedOff, backoff)
+}
+
+func offeredPostings(
+	replicaOffers []replicashortfall.ReplicaOffer,
+) []postingschedule.Identity {
+	identities := make([]postingschedule.Identity, 0, len(replicaOffers))
+	for _, replicaOffer := range replicaOffers {
+		identities = append(identities, postingschedule.Identity{
+			Word: replicaOffer.Posting.WordHash,
+			URL:  replicaOffer.Posting.URLHash,
+		})
+	}
+
+	return identities
 }
 
 func (c *Cycle) commitCycle(
 	ctx context.Context,
 	due replicashortfall.Due,
 	accepted []offer,
+	handedOff []postingschedule.Identity,
 	backoff *postingBackoff,
 ) {
-	var dropped, handedOff int
+	var dropped int
 	err := c.vault.Update(ctx, func(tx *vault.Txn) error {
 		var err error
 		if dropped, err = c.dropStaleReplicas(tx, due.Stale); err != nil {
@@ -158,16 +185,12 @@ func (c *Cycle) commitCycle(
 		if err = c.recordAcceptedReplicas(tx, accepted); err != nil {
 			return err
 		}
-
-		recipients := recipientsByPosting(accepted)
-		handedOffPostings, err := c.handoff.HandOffPostings(ctx, tx, due.Handoffs, recipients)
-		if err != nil {
+		if err = c.handoff.HandOffPostings(ctx, tx, handedOff); err != nil {
 			return err
 		}
-		handedOff = len(handedOffPostings)
 
 		return c.reschedulePostings(
-			tx, keptOffers(due.Offers, handedOffPostings), backoff, recipients,
+			tx, keptOffers(due.Offers, handedOff), backoff, recipientsByPosting(accepted),
 		)
 	})
 	if err != nil {
@@ -177,7 +200,7 @@ func (c *Cycle) commitCycle(
 	}
 
 	c.observer.ObserveStaleReplicasDropped(dropped)
-	c.observer.ObservePostingsHandedOff(handedOff)
+	c.observer.ObservePostingsHandedOff(len(handedOff))
 }
 
 func (c *Cycle) observeScheduledPostings(ctx context.Context) {

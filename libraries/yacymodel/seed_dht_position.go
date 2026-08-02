@@ -9,6 +9,10 @@ func DistanceToPosition(hash Hash, position DHTPosition) DHTPosition {
 	return Distance(position, RingPosition(hash))
 }
 
+func CloserToPosition(peer, than Hash, position DHTPosition) bool {
+	return DistanceToPosition(peer, position) < DistanceToPosition(than, position)
+}
+
 func SeedsClosestToPosition(seeds []Seed, position DHTPosition, want int) []Seed {
 	if want <= 0 {
 		return nil

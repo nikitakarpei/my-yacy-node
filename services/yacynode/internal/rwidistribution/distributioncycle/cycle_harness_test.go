@@ -8,6 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferwait"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
@@ -90,6 +91,15 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		opts.redundancy,
 	)
 
+	handoff := postinghandoff.New(
+		replicas,
+		opts.roster,
+		postings,
+		partitions,
+		opts.self,
+		opts.redundancy,
+	)
+
 	courier := &fakeCourier{receipts: make(map[yacymodel.Hash]postingcourier.PostingReceipt)}
 	metadataCourier := &fakeURLMetadataCourier{
 		receipt: urlmetadatacourier.URLMetadataReceipt{Outcome: opts.metadataOutcome},
@@ -103,7 +113,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		v,
 		shortfall,
 		delivery,
-		postings,
+		handoff,
 		replicas,
 		waits,
 		recipients,

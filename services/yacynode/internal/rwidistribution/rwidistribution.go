@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferwait"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
@@ -127,6 +128,14 @@ func (d *Distribution) Cycle(
 		cfg.Self,
 		cfg.Redundancy,
 	)
+	handoff := postinghandoff.New(
+		d.replicas,
+		roster,
+		purger,
+		cfg.Partitions,
+		cfg.Self,
+		cfg.Redundancy,
+	)
 	delivery := distributioncycle.NewOfferDelivery(
 		postingcourier.New(exchange, cfg.NetworkName, cfg.Self),
 		urlmetadatacourier.NewBounded(
@@ -144,7 +153,7 @@ func (d *Distribution) Cycle(
 		d.vault,
 		shortfall,
 		delivery,
-		purger,
+		handoff,
 		d.replicas,
 		d.waits,
 		recipients,

@@ -11,7 +11,6 @@ type replicaPlacement struct {
 	posting          yacymodel.RWIPosting
 	identity         postingschedule.Identity
 	position         yacymodel.DHTPosition
-	reachablePeers   []yacymodel.Seed
 	acceptingPeers   []yacymodel.Seed
 	held             replicaHolders
 	replicasPeersOwe int
