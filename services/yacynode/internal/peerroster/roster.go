@@ -189,7 +189,7 @@ func (r *roster) ReachablePeers(_ context.Context) []yacymodel.Seed {
 	return peers
 }
 
-func (r *roster) Reachable(_ context.Context, peer yacymodel.Hash) bool {
+func (r *roster) IsReachable(_ context.Context, peer yacymodel.Hash) bool {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -198,7 +198,7 @@ func (r *roster) Reachable(_ context.Context, peer yacymodel.Hash) bool {
 	return reachable
 }
 
-func (r *roster) RecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool {
+func (r *roster) IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool {
 	cutoff := r.now().Add(-announceRoundsBeforeConfirmationStale * r.announceInterval)
 
 	recent := false

@@ -48,7 +48,7 @@ func TestPostingReadsBackStoredEntry(t *testing.T) {
 	word := yacymodel.WordHash("w1")
 	url := urlHash("u1")
 
-	entry, found, err := h.index.Posting(ctx, word, url)
+	entry, found, err := h.index.PostingOf(ctx, word, url)
 	if err != nil {
 		t.Fatalf("Posting: %v", err)
 	}
@@ -67,7 +67,7 @@ func TestPostingMissingIsNotFound(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t)
 
-	_, found, err := h.index.Posting(ctx, yacymodel.WordHash("w1"), urlHash("u1"))
+	_, found, err := h.index.PostingOf(ctx, yacymodel.WordHash("w1"), urlHash("u1"))
 	if err != nil {
 		t.Fatalf("Posting: %v", err)
 	}

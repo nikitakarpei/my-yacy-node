@@ -1,4 +1,4 @@
-package postingschedule
+package postingofferschedule
 
 type presenceCodec struct{}
 

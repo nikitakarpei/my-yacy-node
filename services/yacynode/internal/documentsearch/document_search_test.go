@@ -34,7 +34,7 @@ func (s fakeScanner) ScanWord(
 	return nil
 }
 
-func (s fakeScanner) Posting(
+func (s fakeScanner) PostingOf(
 	_ context.Context,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,

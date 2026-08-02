@@ -13,41 +13,41 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-type PostingReceipt struct {
+type Receipt struct {
 	Outcome           Outcome
-	RetryAfter        time.Duration
+	RequestedPause    time.Duration
 	URLsUnknownToPeer []yacymodel.URLHash
 }
 
-type PostingCourier interface {
+type Courier interface {
 	Offer(
 		ctx context.Context,
 		endpoint string,
 		recipient yacymodel.Seed,
 		postings []yacymodel.RWIPosting,
-	) PostingReceipt
+	) Receipt
 }
 
-type httpPostingCourier struct {
+type httpCourier struct {
 	exchange    peerwire.MessageExchange
 	networkName string
 	self        yacymodel.Hash
 }
 
-func New(
+func NewHTTP(
 	exchange peerwire.MessageExchange,
 	networkName string,
 	self yacymodel.Hash,
-) PostingCourier {
-	return httpPostingCourier{exchange: exchange, networkName: networkName, self: self}
+) Courier {
+	return httpCourier{exchange: exchange, networkName: networkName, self: self}
 }
 
-func (c httpPostingCourier) Offer(
+func (c httpCourier) Offer(
 	ctx context.Context,
 	endpoint string,
 	recipient yacymodel.Seed,
 	postings []yacymodel.RWIPosting,
-) PostingReceipt {
+) Receipt {
 	resp, err := c.postTransferRWI(ctx, endpoint, recipient, postings)
 	if err != nil {
 		slog.WarnContext(
@@ -58,17 +58,17 @@ func (c httpPostingCourier) Offer(
 			slog.Any("error", err),
 		)
 
-		return PostingReceipt{Outcome: Unreachable}
+		return Receipt{Outcome: Unreachable}
 	}
 
 	switch resp.Result {
 	case yacyproto.ResultOK:
-		return PostingReceipt{
+		return Receipt{
 			Outcome:           Accepted,
 			URLsUnknownToPeer: resp.UnknownURL,
 		}
 	case yacyproto.ResultBusy, yacyproto.ResultNotGranted:
-		return PostingReceipt{Outcome: Deferred, RetryAfter: resp.Pause}
+		return Receipt{Outcome: Deferred, RequestedPause: resp.Pause}
 	case yacyproto.ResultTooHighLoad:
 		slog.WarnContext(
 			ctx,
@@ -77,7 +77,7 @@ func (c httpPostingCourier) Offer(
 			slog.String("endpoint", endpoint),
 		)
 
-		return PostingReceipt{Outcome: Overloaded}
+		return Receipt{Outcome: Overloaded}
 	default:
 		slog.WarnContext(
 			ctx,
@@ -87,11 +87,11 @@ func (c httpPostingCourier) Offer(
 			slog.String("result", string(resp.Result)),
 		)
 
-		return PostingReceipt{Outcome: Refused}
+		return Receipt{Outcome: Refused}
 	}
 }
 
-func (c httpPostingCourier) postTransferRWI(
+func (c httpCourier) postTransferRWI(
 	ctx context.Context,
 	endpoint string,
 	recipient yacymodel.Seed,

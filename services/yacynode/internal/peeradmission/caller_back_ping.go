@@ -22,7 +22,7 @@ func newCallerBackPing(client *http.Client) callerBackPing {
 
 var _ callerReachabilityProbe = callerBackPing{}
 
-func (p callerBackPing) Reachable(
+func (p callerBackPing) IsReachable(
 	ctx context.Context,
 	caller yacymodel.Seed,
 	self yacymodel.Hash,

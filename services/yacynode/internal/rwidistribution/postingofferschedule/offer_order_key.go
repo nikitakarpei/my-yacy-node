@@ -1,10 +1,11 @@
-package postingschedule
+package postingofferschedule
 
 import (
 	"fmt"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
@@ -12,22 +13,14 @@ const dueAtDigits = 20
 
 type scheduledPostingOffer struct {
 	At      time.Time
-	Posting Identity
+	Posting postingidentity.Identity
 }
 
-func PostingKey(word yacymodel.Hash, url yacymodel.URLHash) vault.Key {
-	key := make(vault.Key, 0, yacymodel.HashLength*2)
-	key = append(key, word.String()...)
-	key = append(key, url.String()...)
-
-	return key
-}
-
-func orderKey(at time.Time, word yacymodel.Hash, url yacymodel.URLHash) vault.Key {
+func orderKeyFor(posting postingidentity.Identity, dueAt time.Time) vault.Key {
 	key := make(vault.Key, 0, dueAtDigits+yacymodel.HashLength*2)
-	key = fmt.Appendf(key, "%0*d", dueAtDigits, at.UnixNano())
-	key = append(key, word.String()...)
-	key = append(key, url.String()...)
+	key = fmt.Appendf(key, "%0*d", dueAtDigits, dueAt.UnixNano())
+	key = append(key, posting.Word.String()...)
+	key = append(key, posting.URL.String()...)
 
 	return key
 }
@@ -59,6 +52,6 @@ func parseOrderKey(key vault.Key) (scheduledPostingOffer, error) {
 
 	return scheduledPostingOffer{
 		At:      time.Unix(0, nanos),
-		Posting: Identity{Word: word, URL: url},
+		Posting: postingidentity.IdentityOf(word, url),
 	}, nil
 }

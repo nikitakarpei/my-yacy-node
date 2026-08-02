@@ -7,7 +7,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
@@ -27,7 +28,7 @@ func fakePosting(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPostin
 func store(
 	t *testing.T,
 	v *vault.Vault,
-	schedule *postingschedule.Schedule,
+	schedule *postingofferschedule.Schedule,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) {
@@ -60,24 +61,47 @@ func recordDropped(
 	t *testing.T,
 	v *vault.Vault,
 	ledger *Replicas,
-	posting postingschedule.Identity,
+	posting postingidentity.Identity,
 	stale []yacymodel.Hash,
 ) int {
-	word, url := posting.Word, posting.URL
-
 	t.Helper()
 
 	var dropped int
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
 		var err error
-		dropped, err = ledger.RecordDropped(tx, word, url, stale)
+		dropped, err = ledger.DropStaleHolders(
+			tx,
+			map[postingidentity.Identity][]yacymodel.Hash{posting: stale},
+		)
 
 		return err
 	}); err != nil {
-		t.Fatalf("RecordDropped: %v", err)
+		t.Fatalf("DropStaleHolders: %v", err)
 	}
 
 	return dropped
+}
+
+func holdersOf(
+	t *testing.T,
+	v *vault.Vault,
+	ledger *Replicas,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) []yacymodel.Hash {
+	t.Helper()
+
+	var holders []yacymodel.Hash
+	if err := v.View(context.Background(), func(tx *vault.Txn) error {
+		var err error
+		holders, err = ledger.HoldersOf(tx, postingidentity.IdentityOf(word, url))
+
+		return err
+	}); err != nil {
+		t.Fatalf("Holders: %v", err)
+	}
+
+	return holders
 }
 
 func openLedger(t *testing.T) (*vault.Vault, *Replicas) {
@@ -93,9 +117,9 @@ func openLedger(t *testing.T) (*vault.Vault, *Replicas) {
 		}
 	})
 
-	schedule, err := postingschedule.Open(v, time.Now)
+	schedule, err := postingofferschedule.Open(v, time.Now, discardedScheduleObservations{})
 	if err != nil {
-		t.Fatalf("postingschedule.Open: %v", err)
+		t.Fatalf("postingofferschedule.Open: %v", err)
 	}
 
 	ledger, err := Open(v, schedule)
@@ -124,10 +148,7 @@ func TestRecordAcceptedAddsReplicas(t *testing.T) {
 	recordAccepted(t, v, ledger, peerA, fakePosting(word, url))
 	recordAccepted(t, v, ledger, peerB, fakePosting(word, url))
 
-	holders, err := ledger.Holders(context.Background(), word, url)
-	if err != nil {
-		t.Fatalf("Holders: %v", err)
-	}
+	holders := holdersOf(t, v, ledger, word, url)
 	if len(holders) != 2 {
 		t.Fatalf("holders = %v, want 2 entries", holders)
 	}
@@ -142,10 +163,7 @@ func TestRecordAcceptedIsIdempotent(t *testing.T) {
 		recordAccepted(t, v, ledger, peer, fakePosting(word, url))
 	}
 
-	holders, err := ledger.Holders(context.Background(), word, url)
-	if err != nil {
-		t.Fatalf("Holders: %v", err)
-	}
+	holders := holdersOf(t, v, ledger, word, url)
 	if len(holders) != 1 {
 		t.Fatalf("holders = %v, want 1 entry", holders)
 	}
@@ -164,10 +182,7 @@ func TestRecordAcceptedCoversAllPostingsInOffer(t *testing.T) {
 	recordAccepted(t, v, ledger, peer, postings...)
 
 	for _, url := range []yacymodel.URLHash{urlA, urlB} {
-		holders, err := ledger.Holders(context.Background(), word, url)
-		if err != nil {
-			t.Fatalf("Holders: %v", err)
-		}
+		holders := holdersOf(t, v, ledger, word, url)
 		if len(holders) != 1 || holders[0] != peer {
 			t.Fatalf("holders for %v = %v, want [%v]", url, holders, peer)
 		}
@@ -181,10 +196,7 @@ func TestRecordAcceptedSkipsPostingWithNoDueRow(t *testing.T) {
 
 	recordAccepted(t, v, ledger, peer, fakePosting(word, url))
 
-	holders, err := ledger.Holders(context.Background(), word, url)
-	if err != nil {
-		t.Fatalf("Holders: %v", err)
-	}
+	holders := holdersOf(t, v, ledger, word, url)
 	if len(holders) != 0 {
 		t.Fatalf("holders = %v, want none for a posting with no due row", holders)
 	}
@@ -202,17 +214,14 @@ func TestRecordDroppedRemovesStaleReplicas(t *testing.T) {
 		t,
 		v,
 		ledger,
-		postingschedule.Identity{Word: word, URL: url},
+		postingidentity.Identity{Word: word, URL: url},
 		[]yacymodel.Hash{dead},
 	)
 	if dropped != 1 {
 		t.Fatalf("dropped = %v, want 1", dropped)
 	}
 
-	holders, err := ledger.Holders(context.Background(), word, url)
-	if err != nil {
-		t.Fatalf("Holders: %v", err)
-	}
+	holders := holdersOf(t, v, ledger, word, url)
 	if len(holders) != 1 || holders[0] != alive {
 		t.Fatalf("holders = %v, want [alive]", holders)
 	}
@@ -223,7 +232,7 @@ func TestRecordDroppedOfUnknownPostingIsHarmless(t *testing.T) {
 
 	dropped := recordDropped(
 		t, v, ledger,
-		postingschedule.Identity{Word: yacymodel.WordHash("w1"), URL: urlHash("u1")},
+		postingidentity.Identity{Word: yacymodel.WordHash("w1"), URL: urlHash("u1")},
 		[]yacymodel.Hash{yacymodel.WordHash("peer")},
 	)
 	if dropped != 0 {
@@ -244,11 +253,14 @@ func TestPostingPurgedRemovesLedgerRow(t *testing.T) {
 		t.Fatalf("PostingPurged: %v", err)
 	}
 
-	holders, err := ledger.Holders(context.Background(), word, url)
-	if err != nil {
-		t.Fatalf("Holders: %v", err)
-	}
+	holders := holdersOf(t, v, ledger, word, url)
 	if len(holders) != 0 {
 		t.Fatalf("holders = %v, want none after purge", holders)
 	}
 }
+
+type discardedScheduleObservations struct{}
+
+func (discardedScheduleObservations) ObserveScheduledPostings(int) {}
+
+func (discardedScheduleObservations) ObserveLongestOfferLateness(time.Duration) {}

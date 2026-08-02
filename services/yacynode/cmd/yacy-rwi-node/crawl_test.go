@@ -31,8 +31,19 @@ func (discardedHolds) ObserveHeld(int)     {}
 func (discardedHolds) ObserveReleased(int) {}
 func (discardedHolds) ObserveRefused(int)  {}
 
+type discardedScheduleObservations struct{}
+
+func (discardedScheduleObservations) ObserveScheduledPostings(int) {}
+
+func (discardedScheduleObservations) ObserveLongestOfferLateness(time.Duration) {}
+
 func TestCrawlRuntimeConsumesIngestBatch(t *testing.T) {
-	storage, err := openNodeStorage(openTestVault(t), discardedHolds{})
+	storage, err := openNodeStorage(
+		openTestVault(t),
+		time.Now,
+		discardedHolds{},
+		discardedScheduleObservations{},
+	)
 	if err != nil {
 		t.Fatalf("open storage: %v", err)
 	}

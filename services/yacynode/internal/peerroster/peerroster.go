@@ -22,8 +22,8 @@ type Roster interface {
 	ConfirmReachable(ctx context.Context, peer yacymodel.Hash)
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
-	Reachable(ctx context.Context, peer yacymodel.Hash) bool
-	RecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
+	IsReachable(ctx context.Context, peer yacymodel.Hash) bool
+	IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
 	UnreachablePeers(ctx context.Context, limit int) []yacymodel.Seed
 }
 

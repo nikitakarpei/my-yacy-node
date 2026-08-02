@@ -1,6 +1,6 @@
-// Package distributioncycle runs one distribution pass: it asks
-// replicashortfall which peers are missing a replica of each due posting, offers
-// it to them through the couriers, and writes down what happened.
+// Package distributioncycle runs one distribution pass: it asks postingoffer
+// which peers are missing a replica of each due posting, offers the posting
+// to them, and writes down what happened.
 package distributioncycle
 
 import (
@@ -9,86 +9,77 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferwait"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicashortfall"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
+type SkipReason string
+
 const (
-	skipTooFewReachablePeers = "too_few_reachable_peers"
-	skipShortfallUnread      = "shortfall_unread"
+	SkipTooFewReachablePeers SkipReason = "too_few_reachable_peers"
+	SkipDuePostingsUnread    SkipReason = "due_postings_unread"
 )
 
-// ReplicaRecipients learns from each offer answer which peers can receive a
-// replica now, so the next cycle can route around a peer that keeps refusing.
-type ReplicaRecipients interface {
-	OfferAnswered(
-		peer yacymodel.Hash,
-		outcome postingcourier.Outcome,
-		requestedPause time.Duration,
-	)
+type ReachablePeers interface {
+	ReachablePeers(ctx context.Context) []yacymodel.Seed
+}
+
+type Config struct {
+	OfferInterval     postingofferschedule.OfferInterval
+	PostingsPerCycle  int
+	CycleInterval     time.Duration
+	MinReachablePeers int
 }
 
 type Cycle struct {
-	vault             *vault.Vault
-	shortfall         *replicashortfall.Shortfall
-	delivery          *OfferDelivery
-	replicas          *postingreplicas.Replicas
-	waits             *postingofferwait.Wait
-	recipients        ReplicaRecipients
-	bounds            postingofferwait.Bounds
-	schedule          *postingschedule.Schedule
-	roster            peerroster.Roster
-	observer          Observer
-	now               func() time.Time
-	postingsPerCycle  int
-	cycleInterval     time.Duration
-	minReachablePeers int
+	vault         *vault.Vault
+	postingOffers *postingoffer.PostingOffers
+	handoff       *postinghandoff.Handoff
+	transfers     *postingtransfer.PostingTransfers
+	answers       OfferAnswers
+	replicas      *postingreplicas.Replicas
+	schedule      *postingofferschedule.Schedule
+	roster        ReachablePeers
+	observer      Observer
+	config        Config
 }
 
-//nolint:revive // argument-limit: fourteen explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
 func New(
 	v *vault.Vault,
-	shortfall *replicashortfall.Shortfall,
-	delivery *OfferDelivery,
+	postingOffers *postingoffer.PostingOffers,
+	handoff *postinghandoff.Handoff,
+	transfers *postingtransfer.PostingTransfers,
+	answers OfferAnswers,
 	replicas *postingreplicas.Replicas,
-	waits *postingofferwait.Wait,
-	recipients ReplicaRecipients,
-	bounds postingofferwait.Bounds,
-	schedule *postingschedule.Schedule,
-	roster peerroster.Roster,
+	schedule *postingofferschedule.Schedule,
+	roster ReachablePeers,
 	observer Observer,
-	now func() time.Time,
-	postingsPerCycle int,
-	cycleInterval time.Duration,
-	minReachablePeers int,
+	config Config,
 ) *Cycle {
 	return &Cycle{
-		vault:             v,
-		shortfall:         shortfall,
-		delivery:          delivery,
-		replicas:          replicas,
-		waits:             waits,
-		recipients:        recipients,
-		bounds:            bounds,
-		schedule:          schedule,
-		roster:            roster,
-		observer:          observer,
-		now:               now,
-		postingsPerCycle:  postingsPerCycle,
-		cycleInterval:     cycleInterval,
-		minReachablePeers: minReachablePeers,
+		vault:         v,
+		postingOffers: postingOffers,
+		handoff:       handoff,
+		transfers:     transfers,
+		answers:       answers,
+		replicas:      replicas,
+		schedule:      schedule,
+		roster:        roster,
+		observer:      observer,
+		config:        config,
 	}
 }
 
 func (c *Cycle) Run(ctx context.Context) {
 	c.runCycle(ctx)
 
-	ticker := time.NewTicker(c.cycleInterval)
+	ticker := time.NewTicker(c.config.CycleInterval)
 	defer ticker.Stop()
 
 	for {
@@ -102,59 +93,82 @@ func (c *Cycle) Run(ctx context.Context) {
 }
 
 func (c *Cycle) runCycle(ctx context.Context) {
-	c.observeScheduledPostings(ctx)
-	c.observeLongestOfferLateness(ctx)
+	c.schedule.ObserveBacklog(ctx)
 
-	reachablePeers := c.roster.ReachablePeers(ctx)
-	if len(reachablePeers) < c.minReachablePeers {
-		slog.DebugContext(
-			ctx,
-			"distribution cycle skipped: too few reachable peers",
-			slog.Int("reachablePeers", len(reachablePeers)),
-			slog.Int("minReachablePeers", c.minReachablePeers),
-		)
-		c.observer.ObserveCycleSkipped(skipTooFewReachablePeers)
+	peers := c.roster.ReachablePeers(ctx)
+	if len(peers) < c.config.MinReachablePeers {
+		c.skipTooFewReachablePeers(ctx, len(peers))
 
 		return
 	}
 
-	due, err := c.shortfall.Due(ctx, c.postingsPerCycle, reachablePeers)
+	offers, gonePostings, err := c.postingOffers.DueNow(ctx, c.config.PostingsPerCycle, peers)
 	if err != nil {
-		slog.ErrorContext(ctx, "replica shortfall not read", slog.Any("error", err))
-		c.observer.ObserveCycleSkipped(skipShortfallUnread)
+		c.skipDuePostingsUnread(ctx, err)
 
 		return
 	}
+	c.reportPostingsGone(ctx, gonePostings)
 
-	c.observer.ObservePostingsGone(len(due.Gone))
-	for _, identity := range due.Gone {
+	round := offerDuePostings(ctx, c.transfers, c.answers, offers)
+
+	c.commitCycle(ctx, offers, round)
+}
+
+func (c *Cycle) skipTooFewReachablePeers(ctx context.Context, reachablePeers int) {
+	slog.DebugContext(
+		ctx,
+		"distribution cycle skipped: too few reachable peers",
+		slog.Int("reachablePeers", reachablePeers),
+		slog.Int("minReachablePeers", c.config.MinReachablePeers),
+	)
+	c.observer.ObserveCycleSkipped(string(SkipTooFewReachablePeers))
+}
+
+func (c *Cycle) skipDuePostingsUnread(ctx context.Context, err error) {
+	slog.ErrorContext(ctx, "due postings not read", slog.Any("error", err))
+	c.observer.ObserveCycleSkipped(string(SkipDuePostingsUnread))
+}
+
+func (c *Cycle) reportPostingsGone(
+	ctx context.Context,
+	gonePostings []postingidentity.Identity,
+) {
+	c.observer.ObservePostingsGone(len(gonePostings))
+	for _, identity := range gonePostings {
 		slog.DebugContext(ctx, "due posting gone from index",
 			slog.String("word", identity.Word.String()),
 			slog.String("url", identity.URL.String()))
 	}
-
-	offers := batchOffers(due.Offers)
-	accepted, backoff := c.deliverOffers(ctx, offers)
-	c.commitCycle(ctx, due, accepted, backoff)
 }
 
 func (c *Cycle) commitCycle(
 	ctx context.Context,
-	due replicashortfall.Due,
-	accepted []offer,
-	backoff *postingBackoff,
+	offers []postingoffer.PostingOffer,
+	round offerRound,
 ) {
-	var dropped int
+	var (
+		droppedReplicas   int
+		handedOffPostings int
+	)
 	err := c.vault.Update(ctx, func(tx *vault.Txn) error {
 		var err error
-		if dropped, err = c.dropStaleReplicas(tx, due.Stale); err != nil {
+		if droppedReplicas, err = c.replicas.DropStaleHolders(
+			tx,
+			staleByPosting(offers),
+		); err != nil {
 			return err
 		}
-		if err = c.recordAcceptedReplicas(tx, accepted); err != nil {
+		if err = c.recordAcceptedReplicas(tx, round.acceptances); err != nil {
+			return err
+		}
+		if handedOffPostings, err = c.handoff.HandOffPostingsHeldByCloserPeers(
+			ctx, tx, offeredPostings(offers),
+		); err != nil {
 			return err
 		}
 
-		return c.reschedulePostings(tx, due.Offers, backoff, replicasByPosting(accepted))
+		return c.setNextOffers(tx, offers, round)
 	})
 	if err != nil {
 		slog.ErrorContext(ctx, "distribution cycle not written", slog.Any("error", err))
@@ -162,93 +176,29 @@ func (c *Cycle) commitCycle(
 		return
 	}
 
-	c.observer.ObserveStaleReplicasDropped(dropped)
+	c.observer.ObserveStaleReplicasDropped(droppedReplicas)
+	c.observer.ObservePostingsHandedOff(handedOffPostings)
 }
 
-func (c *Cycle) observeScheduledPostings(ctx context.Context) {
-	scheduled, err := c.schedule.ScheduledPostings(ctx)
-	if err != nil {
-		slog.WarnContext(ctx, "scheduled postings not read", slog.Any("error", err))
-
-		return
-	}
-
-	c.observer.ObserveScheduledPostings(scheduled)
-}
-
-func (c *Cycle) observeLongestOfferLateness(ctx context.Context) {
-	earliest, found, err := c.schedule.EarliestOfferDueAt(ctx)
-	if err != nil {
-		slog.WarnContext(ctx, "earliest offer due time not read", slog.Any("error", err))
-
-		return
-	}
-	if !found {
-		c.observer.ObserveLongestOfferLateness(0)
-
-		return
-	}
-
-	c.observer.ObserveLongestOfferLateness(max(c.now().Sub(earliest), 0))
-}
-
-func (c *Cycle) dropStaleReplicas(
-	tx *vault.Txn,
-	staleReplicas []replicashortfall.StaleReplicas,
-) (int, error) {
-	var dropped int
-	for _, stale := range staleReplicas {
-		posting, err := c.replicas.RecordDropped(
-			tx, stale.Posting.Word, stale.Posting.URL, stale.Peers,
-		)
-		if err != nil {
-			return 0, err
+func staleByPosting(
+	offers []postingoffer.PostingOffer,
+) map[postingidentity.Identity][]yacymodel.Hash {
+	staleHolders := make(map[postingidentity.Identity][]yacymodel.Hash, len(offers))
+	for _, offer := range offers {
+		if len(offer.StaleHolders) == 0 {
+			continue
 		}
-		dropped += posting
+		identity := postingidentity.IdentityOf(offer.Posting.WordHash, offer.Posting.URLHash)
+		staleHolders[identity] = append(staleHolders[identity], offer.StaleHolders...)
 	}
 
-	return dropped, nil
+	return staleHolders
 }
 
-func batchOffers(replicaOffers []replicashortfall.ReplicaOffer) []offer {
-	batch := newOfferBatch()
-	for _, replicaOffer := range replicaOffers {
-		for _, seed := range replicaOffer.Seeds {
-			batch.Add(seed, replicaOffer.Posting)
-		}
-	}
-
-	return batch.Offers()
-}
-
-func (c *Cycle) deliverOffers(
-	ctx context.Context,
-	offers []offer,
-) ([]offer, *postingBackoff) {
-	backoff := newPostingBackoff()
-
-	var accepted []offer
-	for _, peerOffer := range offers {
-		receipt := c.delivery.Offer(ctx, peerOffer)
-		c.recipients.OfferAnswered(peerOffer.Peer.Hash, receipt.Outcome, receipt.Backoff)
-		backoff.Record(peerOffer, receipt.Backoff)
-		if len(receipt.AcceptedPostings) > 0 {
-			accepted = append(
-				accepted,
-				offer{Peer: peerOffer.Peer, Postings: receipt.AcceptedPostings},
-			)
-		}
-	}
-
-	return accepted, backoff
-}
-
-func (c *Cycle) recordAcceptedReplicas(tx *vault.Txn, accepted []offer) error {
-	for _, peerOffer := range accepted {
+func (c *Cycle) recordAcceptedReplicas(tx *vault.Txn, acceptances []peerAcceptance) error {
+	for _, acceptance := range acceptances {
 		if err := c.replicas.RecordAccepted(
-			tx,
-			peerOffer.Peer.Hash,
-			peerOffer.Postings,
+			tx, acceptance.holder, acceptance.postings,
 		); err != nil {
 			return err
 		}
@@ -257,38 +207,34 @@ func (c *Cycle) recordAcceptedReplicas(tx *vault.Txn, accepted []offer) error {
 	return nil
 }
 
-func replicasByPosting(accepted []offer) map[postingschedule.Identity]int {
-	replicas := make(map[postingschedule.Identity]int)
-	for _, peerOffer := range accepted {
-		for _, posting := range peerOffer.Postings {
-			identity := postingschedule.Identity{Word: posting.WordHash, URL: posting.URLHash}
-			replicas[identity]++
-		}
+func offeredPostings(offers []postingoffer.PostingOffer) []yacymodel.RWIPosting {
+	postings := make([]yacymodel.RWIPosting, 0, len(offers))
+	for _, offer := range offers {
+		postings = append(postings, offer.Posting)
 	}
 
-	return replicas
+	return postings
 }
 
-func (c *Cycle) reschedulePostings(
+func (c *Cycle) setNextOffers(
 	tx *vault.Txn,
-	replicaOffers []replicashortfall.ReplicaOffer,
-	backoff *postingBackoff,
-	acceptedReplicas map[postingschedule.Identity]int,
+	offers []postingoffer.PostingOffer,
+	round offerRound,
 ) error {
-	for _, replicaOffer := range replicaOffers {
-		identity := postingschedule.Identity{
-			Word: replicaOffer.Posting.WordHash,
-			URL:  replicaOffer.Posting.URLHash,
-		}
-		redundancyMet := acceptedReplicas[identity] >= replicaOffer.ReplicasNeeded
+	acceptances := acceptancesByPosting(round.acceptances)
 
-		wait, err := c.offerWait(tx, identity, redundancyMet, backoff)
+	for _, offer := range offers {
+		identity := postingidentity.IdentityOf(offer.Posting.WordHash, offer.Posting.URLHash)
+
+		var err error
+		if acceptances[identity] >= offer.AcceptancesNeeded {
+			err = c.schedule.SetNextOfferAfterRedundancyMet(tx, identity, c.config.OfferInterval)
+		} else {
+			err = c.schedule.SetNextOfferAfterRedundancyMissed(
+				tx, identity, c.config.OfferInterval, round.pauses[identity],
+			)
+		}
 		if err != nil {
-			return err
-		}
-
-		at := c.now().Add(wait)
-		if err := c.schedule.Reschedule(tx, identity.Word, identity.URL, at); err != nil {
 			return err
 		}
 	}
@@ -296,20 +242,13 @@ func (c *Cycle) reschedulePostings(
 	return nil
 }
 
-func (c *Cycle) offerWait(
-	tx *vault.Txn,
-	identity postingschedule.Identity,
-	redundancyMet bool,
-	backoff *postingBackoff,
-) (time.Duration, error) {
-	if redundancyMet {
-		return c.bounds.Longest, c.waits.Forget(tx, identity.Word, identity.URL)
+func acceptancesByPosting(acceptances []peerAcceptance) map[postingidentity.Identity]int {
+	byPosting := make(map[postingidentity.Identity]int)
+	for _, acceptance := range acceptances {
+		for _, posting := range acceptance.postings {
+			byPosting[postingidentity.IdentityOf(posting.WordHash, posting.URLHash)]++
+		}
 	}
 
-	widened, err := c.waits.Widen(tx, identity.Word, identity.URL, c.bounds)
-	if err != nil {
-		return 0, err
-	}
-
-	return max(widened, backoff.Longest(identity)), nil
+	return byPosting
 }

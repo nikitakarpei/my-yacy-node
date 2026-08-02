@@ -196,7 +196,7 @@ func TestRecentlyReachableAfterConfirmation(t *testing.T) {
 	roster.Discover(ctx, peer)
 	roster.ConfirmReachable(ctx, peer.Hash)
 
-	if !roster.RecentlyReachable(ctx, peer.Hash) {
+	if !roster.IsRecentlyReachable(ctx, peer.Hash) {
 		t.Fatalf("peer confirmed reachable should be recently reachable")
 	}
 }
@@ -210,7 +210,7 @@ func TestRecentlyReachableClearedByFailedContact(t *testing.T) {
 	roster.ConfirmReachable(ctx, peer.Hash)
 	roster.ConfirmUnreachable(ctx, peer.Hash)
 
-	if roster.RecentlyReachable(ctx, peer.Hash) {
+	if roster.IsRecentlyReachable(ctx, peer.Hash) {
 		t.Fatalf("peer zeroed by ConfirmUnreachable should not be recently reachable")
 	}
 }
@@ -219,7 +219,7 @@ func TestRecentlyReachableExcludesUnknownPeer(t *testing.T) {
 	ctx := context.Background()
 	roster := openRoster(t, 8, 8, time.Minute)
 
-	if roster.RecentlyReachable(ctx, hashFor("ghost")) {
+	if roster.IsRecentlyReachable(ctx, hashFor("ghost")) {
 		t.Fatalf("unknown peer should not be recently reachable")
 	}
 }
@@ -232,7 +232,7 @@ func TestRecentlyReachableExcludesConfirmationPastWindow(t *testing.T) {
 	roster.Discover(ctx, peer)
 	roster.ConfirmReachable(ctx, peer.Hash)
 
-	if roster.RecentlyReachable(ctx, peer.Hash) {
+	if roster.IsRecentlyReachable(ctx, peer.Hash) {
 		t.Fatalf("confirmation older than the credibility window should not count")
 	}
 }

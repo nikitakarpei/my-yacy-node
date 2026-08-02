@@ -38,12 +38,12 @@ The node can offer its stored postings to the peers the DHT makes responsible fo
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `YACY_DISTRIBUTION_ENABLED` | `false` | Turns on outbound posting distribution. |
+| `YACY_DISTRIBUTION_ENABLED` | `false` | Turns on outbound posting distribution. The node then also deletes a posting that enough closer peers hold. |
 | `YACY_DISTRIBUTION_REDUNDANCY` | `3` | How many responsible peers must hold a posting before it counts as distributed. This node is one of them when the DHT makes it responsible. |
 | `YACY_DISTRIBUTION_PARTITION_EXPONENT` | `4` | Ring partition exponent; must match the network's `network.unit.dht.partitionExponent`. |
 | `YACY_DISTRIBUTION_POSTINGS_PER_CYCLE` | `1000` | How many due postings to offer in each cycle. |
 | `YACY_DISTRIBUTION_CYCLE_INTERVAL` | `1m` | How often to drain due postings (e.g. `30s`, `1m`, `10m`). |
-| `YACY_DISTRIBUTION_REFRESH_INTERVAL` | `24h` | How long a posting with sufficient replicas waits before it is offered again. |
-| `YACY_DISTRIBUTION_RETRY_INTERVAL` | `5m` | How long a posting with too few replicas waits before its first retry. The wait doubles on every further miss, up to `YACY_DISTRIBUTION_REFRESH_INTERVAL`. |
+| `YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL` | `24h` | How long a posting with enough replicas waits before it is offered again. |
+| `YACY_DISTRIBUTION_SHORTEST_OFFER_INTERVAL` | `5m` | How long a posting with too few replicas waits before it is offered again. The interval doubles on every further miss, up to `YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL`. |
 | `YACY_DISTRIBUTION_RECIPIENT_COOLDOWN` | `10m` | How long a peer that did not accept an offer is passed over when new replicas are placed. |
 | `YACY_DISTRIBUTION_MIN_REACHABLE_PEERS` | `32` | Fewest reachable peers the node must know before it offers postings. |

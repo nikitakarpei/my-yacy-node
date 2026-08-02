@@ -9,6 +9,10 @@ func DistanceToPosition(hash Hash, position DHTPosition) DHTPosition {
 	return Distance(position, RingPosition(hash))
 }
 
+func CloserToPosition(peer, than Hash, position DHTPosition) bool {
+	return DistanceToPosition(peer, position) < DistanceToPosition(than, position)
+}
+
 func SeedsClosestToPosition(seeds []Seed, position DHTPosition, want int) []Seed {
 	if want <= 0 {
 		return nil
@@ -39,4 +43,15 @@ func SeedsClosestToPosition(seeds []Seed, position DHTPosition, want int) []Seed
 	}
 
 	return closest
+}
+
+func SeedsCloserThanPeer(seeds []Seed, than Hash, position DHTPosition) []Seed {
+	closer := make([]Seed, 0, len(seeds))
+	for _, seed := range seeds {
+		if CloserToPosition(seed.Hash, than, position) {
+			closer = append(closer, seed)
+		}
+	}
+
+	return closer
 }

@@ -13,7 +13,7 @@ import (
 )
 
 type callerReachabilityProbe interface {
-	Reachable(
+	IsReachable(
 		ctx context.Context,
 		caller yacymodel.Seed,
 		self yacymodel.Hash,
@@ -60,7 +60,7 @@ func (e helloEndpoint) classifyCaller(
 		return yacymodel.PeerJunior
 	}
 
-	if !e.probe.Reachable(ctx, caller, e.status.SelfSeed(ctx).Hash, e.status.NetworkName(ctx)) {
+	if !e.probe.IsReachable(ctx, caller, e.status.SelfSeed(ctx).Hash, e.status.NetworkName(ctx)) {
 		return yacymodel.PeerJunior
 	}
 

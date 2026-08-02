@@ -7,26 +7,26 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type boundedURLMetadataCourier struct {
-	inner     URLMetadataCourier
+type boundedCourier struct {
+	inner     Courier
 	batchSize int
 }
 
-func NewBounded(inner URLMetadataCourier, batchSize int) URLMetadataCourier {
-	return boundedURLMetadataCourier{inner: inner, batchSize: batchSize}
+func NewBounded(inner Courier, batchSize int) Courier {
+	return boundedCourier{inner: inner, batchSize: batchSize}
 }
 
-func (c boundedURLMetadataCourier) Deliver(
+func (c boundedCourier) Deliver(
 	ctx context.Context,
 	endpoint string,
 	peer yacymodel.Hash,
 	metadata []yacymodel.URLMetadata,
-) URLMetadataReceipt {
+) Receipt {
 	if len(metadata) == 0 {
-		return URLMetadataReceipt{Outcome: Accepted}
+		return Receipt{Outcome: Accepted}
 	}
 
-	var rejected []yacymodel.URLHash
+	var rejectedURLs []yacymodel.URLHash
 	for start := 0; start < len(metadata); start += c.batchSize {
 		end := min(start+c.batchSize, len(metadata))
 
@@ -44,11 +44,11 @@ func (c boundedURLMetadataCourier) Deliver(
 				)
 			}
 
-			return URLMetadataReceipt{Outcome: receipt.Outcome}
+			return Receipt{Outcome: receipt.Outcome}
 		}
 
-		rejected = append(rejected, receipt.URLsRejected...)
+		rejectedURLs = append(rejectedURLs, receipt.URLsRejected...)
 	}
 
-	return URLMetadataReceipt{Outcome: Accepted, URLsRejected: rejected}
+	return Receipt{Outcome: Accepted, URLsRejected: rejectedURLs}
 }

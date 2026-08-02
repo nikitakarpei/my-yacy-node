@@ -60,3 +60,17 @@ func TestSeedsClosestToPositionWithoutWantSelectsNothing(t *testing.T) {
 		t.Fatalf("closest = %v, want nothing when no seed is wanted", closest)
 	}
 }
+
+func TestSeedsCloserThanPeerKeepsOnlyTheCloserSeeds(t *testing.T) {
+	near := yacymodel.WordHash("near")
+	far := yacymodel.WordHash("far")
+
+	position := yacymodel.RingPosition(near)
+
+	closer := yacymodel.SeedsCloserThanPeer(
+		[]yacymodel.Seed{seedAt(far), seedAt(near)}, far, position,
+	)
+	if len(closer) != 1 || closer[0].Hash != near {
+		t.Fatalf("closer = %v, want only the seed closer than the peer", closer)
+	}
+}

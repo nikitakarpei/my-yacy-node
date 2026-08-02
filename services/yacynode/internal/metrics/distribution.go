@@ -20,6 +20,7 @@ type DistributionMetrics struct {
 	scheduledPostings     prometheus.Gauge
 	longestOfferLateness  prometheus.Gauge
 	staleReplicasDropped  prometheus.Counter
+	postingsHandedOff     prometheus.Counter
 	cyclesSkipped         *prometheus.CounterVec
 }
 
@@ -68,6 +69,10 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		Name: "rwidistribution_stale_replicas_dropped_total",
 		Help: "Replicas dropped for peers no longer responsible.",
 	})
+	postingsHandedOff := prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "rwidistribution_postings_handed_off_total",
+		Help: "Postings deleted after peers closer to their DHT position accepted them.",
+	})
 	cyclesSkipped := prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "rwidistribution_cycles_skipped_total",
@@ -78,7 +83,7 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	registry.MustRegister(
 		postingOffers, postingsOffered, urlMetadataDeliveries, urlsDelivered,
 		postingsGone, scheduledPostings, longestOfferLateness, staleReplicasDropped,
-		cyclesSkipped,
+		postingsHandedOff, cyclesSkipped,
 	)
 
 	return &DistributionMetrics{
@@ -90,6 +95,7 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		scheduledPostings:     scheduledPostings,
 		longestOfferLateness:  longestOfferLateness,
 		staleReplicasDropped:  staleReplicasDropped,
+		postingsHandedOff:     postingsHandedOff,
 		cyclesSkipped:         cyclesSkipped,
 	}
 }
@@ -118,6 +124,10 @@ func (d *DistributionMetrics) ObserveLongestOfferLateness(lateness time.Duration
 
 func (d *DistributionMetrics) ObserveStaleReplicasDropped(dropped int) {
 	d.staleReplicasDropped.Add(float64(dropped))
+}
+
+func (d *DistributionMetrics) ObservePostingsHandedOff(handedOff int) {
+	d.postingsHandedOff.Add(float64(handedOff))
 }
 
 func (d *DistributionMetrics) ObserveCycleSkipped(reason string) {

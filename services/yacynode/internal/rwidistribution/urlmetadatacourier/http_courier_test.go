@@ -72,10 +72,10 @@ func urlResponder(resp yacyproto.TransferURLResponse) *httptest.Server {
 	}))
 }
 
-func openURLMetadataCourierHarness(t *testing.T, server *httptest.Server) httpURLMetadataCourier {
+func openURLMetadataCourierHarness(t *testing.T, server *httptest.Server) httpCourier {
 	t.Helper()
 
-	return httpURLMetadataCourier{
+	return httpCourier{
 		exchange:    peerwire.NewMessageExchange(server.Client()),
 		networkName: "freeworld",
 		self:        courierHash("self"),

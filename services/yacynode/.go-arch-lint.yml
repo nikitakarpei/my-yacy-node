@@ -48,20 +48,24 @@ components:
     in: internal/rwiingress/**
   rwidistribution:
     in: internal/rwidistribution
-  postingschedule:
-    in: internal/rwidistribution/postingschedule/**
+  postingidentity:
+    in: internal/rwidistribution/postingidentity/**
+  postingofferschedule:
+    in: internal/rwidistribution/postingofferschedule/**
   postingcourier:
     in: internal/rwidistribution/postingcourier/**
   urlmetadatacourier:
     in: internal/rwidistribution/urlmetadatacourier/**
-  postingofferwait:
-    in: internal/rwidistribution/postingofferwait/**
   postingreplicas:
     in: internal/rwidistribution/postingreplicas/**
-  replicarecipients:
-    in: internal/rwidistribution/replicarecipients/**
-  replicashortfall:
-    in: internal/rwidistribution/replicashortfall/**
+  postingoffer:
+    in: internal/rwidistribution/postingoffer/**
+  postinghandoff:
+    in: internal/rwidistribution/postinghandoff/**
+  postingtransfer:
+    in: internal/rwidistribution/postingtransfer/**
+  replicaeligibility:
+    in: internal/rwidistribution/replicaeligibility/**
   distributioncycle:
     in: internal/rwidistribution/distributioncycle/**
   documentsearch:
@@ -260,25 +264,23 @@ deps:
   rwidistribution:
     mayDependOn:
       - rwipostings
-      - urlmeta
-      - peerroster
-      - peerwire
       - vault
       - memvault
-      - postingschedule
-      - postingcourier
-      - urlmetadatacourier
-      - postingofferwait
+      - postingofferschedule
       - postingreplicas
-      - replicarecipients
-      - replicashortfall
-      - distributioncycle
+      - postingidentity
     canUse:
       - yacymodel
-      - yacyproto
-  postingschedule:
+  postingidentity:
     mayDependOn:
-      - postingschedule
+      - postingidentity
+      - vault
+    canUse:
+      - yacymodel
+  postingofferschedule:
+    mayDependOn:
+      - postingofferschedule
+      - postingidentity
       - vault
       - memvault
       - rwipostings
@@ -298,49 +300,63 @@ deps:
     canUse:
       - yacymodel
       - yacyproto
-  postingofferwait:
-    mayDependOn:
-      - postingofferwait
-      - postingschedule
-      - vault
-      - memvault
-    canUse:
-      - yacymodel
   postingreplicas:
     mayDependOn:
       - postingreplicas
-      - postingschedule
+      - postingofferschedule
+      - postingidentity
       - vault
       - memvault
     canUse:
       - yacymodel
-  replicarecipients:
+  postingoffer:
     mayDependOn:
-      - replicarecipients
-      - postingcourier
-    canUse:
-      - yacymodel
-  replicashortfall:
-    mayDependOn:
-      - replicashortfall
-      - postingschedule
+      - postingoffer
+      - postingofferschedule
+      - postingidentity
       - postingreplicas
       - rwipostings
       - vault
       - memvault
     canUse:
       - yacymodel
+  postinghandoff:
+    mayDependOn:
+      - postinghandoff
+      - postingofferschedule
+      - postingidentity
+      - postingreplicas
+      - rwipostings
+      - vault
+      - memvault
+    canUse:
+      - yacymodel
+  postingtransfer:
+    mayDependOn:
+      - postingtransfer
+      - postingcourier
+      - urlmetadatacourier
+      - urlmeta
+    canUse:
+      - yacymodel
+  replicaeligibility:
+    mayDependOn:
+      - replicaeligibility
+    canUse:
+      - yacymodel
   distributioncycle:
     mayDependOn:
       - distributioncycle
-      - postingschedule
+      - postingofferschedule
+      - postingidentity
+      - rwipostings
       - postingcourier
       - urlmetadatacourier
-      - postingofferwait
       - postingreplicas
-      - replicarecipients
-      - replicashortfall
-      - urlmeta
+      - postingoffer
+      - postinghandoff
+      - postingtransfer
+      - replicaeligibility
       - peerroster
       - vault
       - memvault
@@ -417,6 +433,16 @@ deps:
       - rwiadmission
       - rwiingress
       - rwidistribution
+      - peerwire
+      - postingcourier
+      - urlmetadatacourier
+      - postingoffer
+      - postinghandoff
+      - postingtransfer
+      - postingofferschedule
+      - postingreplicas
+      - replicaeligibility
+      - distributioncycle
       - documentsearch
       - eviction
       - metrics

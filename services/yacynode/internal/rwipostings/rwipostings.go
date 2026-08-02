@@ -25,7 +25,7 @@ type PostingPurger interface {
 
 type PostingIndex interface {
 	RWICount(ctx context.Context) (int, error)
-	Posting(
+	PostingOf(
 		ctx context.Context,
 		word yacymodel.Hash,
 		url yacymodel.URLHash,
