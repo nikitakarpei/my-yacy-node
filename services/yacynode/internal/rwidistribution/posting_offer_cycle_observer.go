@@ -7,11 +7,11 @@ import "time"
 type PostingOfferCycleObserver interface {
 	ObservePostingOffer(outcome string, postings int)
 	ObserveURLMetadataDelivery(outcome string, urls int)
-	ObservePostingsDue(due int)
 	ObservePostingsGone(gone int)
 	ObserveOldestDuePostingAge(age time.Duration)
 	ObserveLedgerPrune(dropped int)
 	ObserveCycleSkipped()
+	ObserveReplicationUnread()
 }
 
 type noPostingOfferCycleObserver struct{}
@@ -20,8 +20,6 @@ func (noPostingOfferCycleObserver) ObservePostingOffer(string, int) {}
 
 func (noPostingOfferCycleObserver) ObserveURLMetadataDelivery(string, int) {}
 
-func (noPostingOfferCycleObserver) ObservePostingsDue(int) {}
-
 func (noPostingOfferCycleObserver) ObservePostingsGone(int) {}
 
 func (noPostingOfferCycleObserver) ObserveOldestDuePostingAge(time.Duration) {}
@@ -29,3 +27,5 @@ func (noPostingOfferCycleObserver) ObserveOldestDuePostingAge(time.Duration) {}
 func (noPostingOfferCycleObserver) ObserveLedgerPrune(int) {}
 
 func (noPostingOfferCycleObserver) ObserveCycleSkipped() {}
+
+func (noPostingOfferCycleObserver) ObserveReplicationUnread() {}

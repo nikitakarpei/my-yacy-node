@@ -2,6 +2,7 @@ package rwidistribution
 
 import (
 	"context"
+	"errors"
 	"testing"
 	"time"
 
@@ -125,7 +126,7 @@ func TestPostingOfferCycleRunOffersOnceThenStops(t *testing.T) {
 	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
 		fakePostingKey(word, url): fakePosting(word, url),
 	}
-	schedule, _, courier, observer, cycle := openPostingOfferCycle(
+	schedule, _, courier, _, cycle := openPostingOfferCycle(
 		t, func() time.Time { return now }, postings, []yacymodel.Seed{seed(peer)},
 	)
 	courier.receipts[peer] = postingOfferReceipt{Outcome: postingOfferAccepted}
@@ -138,9 +139,6 @@ func TestPostingOfferCycleRunOffersOnceThenStops(t *testing.T) {
 
 	if len(courier.offered) != 1 {
 		t.Fatalf("offered = %v, want a single offer from the initial run", courier.offered)
-	}
-	if observer.due != 1 {
-		t.Fatalf("due = %v, want 1", observer.due)
 	}
 }
 
@@ -549,7 +547,7 @@ func TestPostingOfferCycleReschedulesAtMaxRetryAfterAcrossPeers(t *testing.T) {
 	}
 }
 
-func TestPostingOfferCycleCountsGonePostingSeparatelyFromDue(t *testing.T) {
+func TestPostingOfferCycleCountsPostingGoneFromIndex(t *testing.T) {
 	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	peer := yacymodel.WordHash("peer")
@@ -561,11 +559,47 @@ func TestPostingOfferCycleCountsGonePostingSeparatelyFromDue(t *testing.T) {
 
 	cycle.runCycle(context.Background())
 
-	if observer.due != 0 || observer.gone != 1 {
-		t.Fatalf("due = %v, gone = %v, want 0 due and 1 gone", observer.due, observer.gone)
+	if observer.gone != 1 {
+		t.Fatalf("gone = %v, want 1", observer.gone)
 	}
 	if len(courier.offered) != 0 {
 		t.Fatalf("offered = %v, want no offers for a posting gone from the index", courier.offered)
+	}
+}
+
+func TestPostingOfferCycleCountsUnreadReplication(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	schedule, _, courier, observer, cycle := openPostingOfferCycle(
+		t, func() time.Time { return now }, nil, []yacymodel.Seed{seed(peer)},
+	)
+	cycle.reader.postings = fakePostingIndex{unread: errors.New("vault closed")}
+
+	store(t, schedule, word, url)
+
+	cycle.runCycle(context.Background())
+
+	if observer.replicationUnread != 1 {
+		t.Fatalf("replicationUnread = %v, want 1", observer.replicationUnread)
+	}
+	if len(courier.offered) != 0 {
+		t.Fatalf("offered = %v, want no offers when the replication is unread", courier.offered)
+	}
+}
+
+func TestPostingOfferCycleReportsZeroOldestDueAgeOnEmptySchedule(t *testing.T) {
+	now := time.Unix(1000, 0)
+	peer := yacymodel.WordHash("peer")
+	_, _, _, observer, cycle := openPostingOfferCycle(
+		t, func() time.Time { return now }, nil, []yacymodel.Seed{seed(peer)},
+	)
+	observer.oldestDueAge = time.Hour
+
+	cycle.runCycle(context.Background())
+
+	if observer.oldestDueAge != 0 {
+		t.Fatalf("oldestDueAge = %v, want 0 while nothing is scheduled", observer.oldestDueAge)
 	}
 }
 

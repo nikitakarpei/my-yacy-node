@@ -1196,8 +1196,8 @@
     },
     {
       "id": 57,
-      "title": "Postings due and gone",
-      "description": "This panel shows postings entering the offer queue and postings dropped from it because they no longer exist, both per second.",
+      "title": "Postings evicted mid-cycle",
+      "description": "This panel shows due postings that eviction removed from the index before the cycle could read them for offering.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1211,9 +1211,10 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "cps",
+          "unit": "short",
           "custom": {
-            "fillOpacity": 10
+            "drawStyle": "bars",
+            "fillOpacity": 70
           }
         }
       },
@@ -1225,13 +1226,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(rwidistribution_postings_due_total[$__rate_interval])",
-          "legendFormat": "due"
-        },
-        {
-          "refId": "B",
-          "expr": "rate(rwidistribution_postings_gone_total[$__rate_interval])",
-          "legendFormat": "gone"
+          "expr": "increase(rwidistribution_postings_gone_total[$__rate_interval])",
+          "legendFormat": "evicted"
         }
       ]
     },
@@ -1246,7 +1242,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 73
       },
@@ -1283,8 +1279,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 8,
         "y": 73
       },
       "fieldConfig": {
@@ -1306,6 +1302,64 @@
           "refId": "A",
           "expr": "increase(rwidistribution_cycles_skipped_total[$__rate_interval])",
           "legendFormat": "skipped"
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "title": "Due replication unread",
+      "description": "This panel shows when a distribution cycle ends early because it cannot read which postings are due.",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 73
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 1,
+                "color": "red"
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "mergeValues": true,
+        "showValue": "auto",
+        "legend": {
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(rwidistribution_replication_unread_total[$__rate_interval])",
+          "legendFormat": "unread"
         }
       ]
     },

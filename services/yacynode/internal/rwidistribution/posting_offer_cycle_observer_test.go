@@ -8,10 +8,10 @@ type fakePostingOfferCycleObserver struct {
 	urlMetadataDeliveries map[string]int
 	urlsDelivered         map[string]int
 	prunes                int
-	due                   int
 	gone                  int
 	oldestDueAge          time.Duration
 	cyclesSkipped         int
+	replicationUnread     int
 }
 
 func newFakePostingOfferCycleObserver() *fakePostingOfferCycleObserver {
@@ -33,10 +33,6 @@ func (f *fakePostingOfferCycleObserver) ObserveURLMetadataDelivery(outcome strin
 	f.urlsDelivered[outcome] += urls
 }
 
-func (f *fakePostingOfferCycleObserver) ObservePostingsDue(due int) {
-	f.due = due
-}
-
 func (f *fakePostingOfferCycleObserver) ObservePostingsGone(gone int) {
 	f.gone = gone
 }
@@ -51,4 +47,8 @@ func (f *fakePostingOfferCycleObserver) ObserveLedgerPrune(dropped int) {
 
 func (f *fakePostingOfferCycleObserver) ObserveCycleSkipped() {
 	f.cyclesSkipped++
+}
+
+func (f *fakePostingOfferCycleObserver) ObserveReplicationUnread() {
+	f.replicationUnread++
 }

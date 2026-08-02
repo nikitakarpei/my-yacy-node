@@ -56,10 +56,10 @@ func (c *postingOfferCycle) runCycle(ctx context.Context) {
 	due, err := c.reader.DueReplication(ctx, c.postingsPerCycle, reachablePeers)
 	if err != nil {
 		slog.ErrorContext(ctx, "posting replication not read", slog.Any("error", err))
+		c.observer.ObserveReplicationUnread()
 
 		return
 	}
-	c.observer.ObservePostingsDue(len(due.Postings))
 	c.observer.ObservePostingsGone(len(due.Gone))
 	for _, identity := range due.Gone {
 		slog.DebugContext(ctx, "due posting gone from index",
@@ -100,6 +100,8 @@ func (c *postingOfferCycle) observeOldestDuePostingAge(ctx context.Context) {
 		return
 	}
 	if !found {
+		c.observer.ObserveOldestDuePostingAge(0)
+
 		return
 	}
 
