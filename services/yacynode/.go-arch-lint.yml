@@ -54,6 +54,8 @@ components:
     in: internal/rwidistribution/postingcourier/**
   urlmetadatacourier:
     in: internal/rwidistribution/urlmetadatacourier/**
+  postingofferwait:
+    in: internal/rwidistribution/postingofferwait/**
   postingreplicas:
     in: internal/rwidistribution/postingreplicas/**
   replicarecipients:
@@ -266,6 +268,7 @@ deps:
       - postingschedule
       - postingcourier
       - urlmetadatacourier
+      - postingofferwait
       - postingreplicas
       - replicarecipients
       - replicashortfall
@@ -295,6 +298,14 @@ deps:
     canUse:
       - yacymodel
       - yacyproto
+  postingofferwait:
+    mayDependOn:
+      - postingofferwait
+      - postingschedule
+      - vault
+      - memvault
+    canUse:
+      - yacymodel
   postingreplicas:
     mayDependOn:
       - postingreplicas
@@ -325,6 +336,7 @@ deps:
       - postingschedule
       - postingcourier
       - urlmetadatacourier
+      - postingofferwait
       - postingreplicas
       - replicarecipients
       - replicashortfall

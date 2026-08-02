@@ -11,9 +11,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferwait"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicashortfall"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
 // ReplicaRecipients learns from each offer answer which peers can receive a
@@ -28,11 +30,13 @@ type ReplicaRecipients interface {
 }
 
 type Cycle struct {
+	vault             *vault.Vault
 	shortfall         *replicashortfall.Shortfall
 	delivery          *OfferDelivery
 	replicas          *postingreplicas.Replicas
+	waits             *postingofferwait.Wait
 	recipients        ReplicaRecipients
-	cadence           Cadence
+	bounds            postingofferwait.Bounds
 	schedule          *postingschedule.Schedule
 	roster            peerroster.Roster
 	observer          Observer
@@ -42,13 +46,15 @@ type Cycle struct {
 	minReachablePeers int
 }
 
-//nolint:revive // argument-limit: twelve explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: fourteen explicit, independently-meaningful collaborators
 func New(
+	v *vault.Vault,
 	shortfall *replicashortfall.Shortfall,
 	delivery *OfferDelivery,
 	replicas *postingreplicas.Replicas,
+	waits *postingofferwait.Wait,
 	recipients ReplicaRecipients,
-	cadence Cadence,
+	bounds postingofferwait.Bounds,
 	schedule *postingschedule.Schedule,
 	roster peerroster.Roster,
 	observer Observer,
@@ -58,11 +64,13 @@ func New(
 	minReachablePeers int,
 ) *Cycle {
 	return &Cycle{
+		vault:             v,
 		shortfall:         shortfall,
 		delivery:          delivery,
 		replicas:          replicas,
+		waits:             waits,
 		recipients:        recipients,
-		cadence:           cadence,
+		bounds:            bounds,
 		schedule:          schedule,
 		roster:            roster,
 		observer:          observer,
@@ -120,13 +128,41 @@ func (c *Cycle) runCycle(ctx context.Context) {
 			slog.String("url", identity.URL.String()))
 	}
 
-	c.dropStaleReplicas(ctx, due.Stale)
-
 	offers := batchOffers(due.Missing)
 	accepted, backoff := c.deliverOffers(ctx, offers)
-	recorded := c.recordAcceptedReplicas(ctx, accepted)
-	c.reschedulePostings(ctx, due.Missing, backoff, replicasByPosting(recorded))
+	c.commitCycle(ctx, due, accepted, backoff)
 	c.observer.ObserveIneligibleReplicaRecipients(c.recipients.IneligiblePeers())
+}
+
+func (c *Cycle) commitCycle(
+	ctx context.Context,
+	due replicashortfall.Due,
+	accepted []offer,
+	backoff *postingBackoff,
+) {
+	var dropped, atLongestWait int
+	err := c.vault.Update(ctx, func(tx *vault.Txn) error {
+		var err error
+		if dropped, err = c.dropStaleReplicas(tx, due.Stale); err != nil {
+			return err
+		}
+		if err = c.recordAcceptedReplicas(tx, accepted); err != nil {
+			return err
+		}
+		atLongestWait, err = c.reschedulePostings(
+			tx, due.Missing, backoff, replicasByPosting(accepted),
+		)
+
+		return err
+	})
+	if err != nil {
+		slog.ErrorContext(ctx, "distribution cycle not written", slog.Any("error", err))
+
+		return
+	}
+
+	c.observer.ObserveStaleReplicasDropped(dropped)
+	c.observer.ObservePostingsAtLongestOfferWait(atLongestWait)
 }
 
 func (c *Cycle) observeOldestDuePostingAge(ctx context.Context) {
@@ -147,24 +183,21 @@ func (c *Cycle) observeOldestDuePostingAge(ctx context.Context) {
 }
 
 func (c *Cycle) dropStaleReplicas(
-	ctx context.Context,
+	tx *vault.Txn,
 	staleReplicas []replicashortfall.StaleReplicas,
-) {
+) (int, error) {
+	var dropped int
 	for _, stale := range staleReplicas {
-		word, url := stale.Posting.Word, stale.Posting.URL
-		dropped, err := c.replicas.RecordDropped(ctx, word, url, stale.Peers)
+		posting, err := c.replicas.RecordDropped(
+			tx, stale.Posting.Word, stale.Posting.URL, stale.Peers,
+		)
 		if err != nil {
-			slog.WarnContext(ctx, "stale replicas not dropped",
-				slog.String("word", word.String()),
-				slog.String("url", url.String()),
-				slog.Any("error", err))
-
-			continue
+			return 0, err
 		}
-		if dropped > 0 {
-			c.observer.ObserveStaleReplicasDropped(dropped)
-		}
+		dropped += posting
 	}
+
+	return dropped, nil
 }
 
 func batchOffers(missingReplicas []replicashortfall.MissingReplicas) []offer {
@@ -200,26 +233,23 @@ func (c *Cycle) deliverOffers(
 	return accepted, backoff
 }
 
-func (c *Cycle) recordAcceptedReplicas(ctx context.Context, accepted []offer) []offer {
-	var recorded []offer
+func (c *Cycle) recordAcceptedReplicas(tx *vault.Txn, accepted []offer) error {
 	for _, peerOffer := range accepted {
-		err := c.replicas.RecordAccepted(ctx, peerOffer.Peer.Hash, peerOffer.Postings)
-		if err != nil {
-			slog.WarnContext(ctx, "replicas not recorded",
-				slog.String("peer", peerOffer.Peer.Hash.String()),
-				slog.Any("error", err))
-
-			continue
+		if err := c.replicas.RecordAccepted(
+			tx,
+			peerOffer.Peer.Hash,
+			peerOffer.Postings,
+		); err != nil {
+			return err
 		}
-		recorded = append(recorded, peerOffer)
 	}
 
-	return recorded
+	return nil
 }
 
-func replicasByPosting(recorded []offer) map[postingschedule.Identity]int {
+func replicasByPosting(accepted []offer) map[postingschedule.Identity]int {
 	replicas := make(map[postingschedule.Identity]int)
-	for _, peerOffer := range recorded {
+	for _, peerOffer := range accepted {
 		for _, posting := range peerOffer.Postings {
 			identity := postingschedule.Identity{Word: posting.WordHash, URL: posting.URLHash}
 			replicas[identity]++
@@ -230,24 +260,50 @@ func replicasByPosting(recorded []offer) map[postingschedule.Identity]int {
 }
 
 func (c *Cycle) reschedulePostings(
-	ctx context.Context,
+	tx *vault.Txn,
 	missingReplicas []replicashortfall.MissingReplicas,
 	backoff *postingBackoff,
-	recordedReplicas map[postingschedule.Identity]int,
-) {
+	acceptedReplicas map[postingschedule.Identity]int,
+) (int, error) {
+	var atLongestWait int
 	for _, missing := range missingReplicas {
 		identity := postingschedule.Identity{
 			Word: missing.Posting.WordHash,
 			URL:  missing.Posting.URLHash,
 		}
-		redundancyMet := recordedReplicas[identity] >= missing.ReplicasNeeded
-		at := c.cadence.NextDue(c.now(), redundancyMet, backoff.Longest(identity))
+		redundancyMet := acceptedReplicas[identity] >= missing.ReplicasNeeded
 
-		if err := c.schedule.Reschedule(ctx, identity.Word, identity.URL, at); err != nil {
-			slog.WarnContext(ctx, "posting not rescheduled",
-				slog.String("word", identity.Word.String()),
-				slog.String("url", identity.URL.String()),
-				slog.Any("error", err))
+		wait, err := c.offerWait(tx, identity, redundancyMet, backoff)
+		if err != nil {
+			return 0, err
+		}
+		if !redundancyMet && wait >= c.bounds.Longest {
+			atLongestWait++
+		}
+
+		at := c.now().Add(wait)
+		if err := c.schedule.Reschedule(tx, identity.Word, identity.URL, at); err != nil {
+			return 0, err
 		}
 	}
+
+	return atLongestWait, nil
+}
+
+func (c *Cycle) offerWait(
+	tx *vault.Txn,
+	identity postingschedule.Identity,
+	redundancyMet bool,
+	backoff *postingBackoff,
+) (time.Duration, error) {
+	if redundancyMet {
+		return c.bounds.Longest, c.waits.Forget(tx, identity.Word, identity.URL)
+	}
+
+	widened, err := c.waits.Widen(tx, identity.Word, identity.URL, c.bounds)
+	if err != nil {
+		return 0, err
+	}
+
+	return max(widened, backoff.Longest(identity)), nil
 }

@@ -118,86 +118,72 @@ func (r *Shortfall) replicasOf(
 	}
 
 	position := yacymodel.PostingPosition(posting.WordHash, posting.URLHash, r.partitions)
-	closestPeers := yacymodel.SeedsClosestToPosition(
-		peersEligibleForReplicas(peersAcceptingRemoteIndex(reachablePeers), r.eligibility),
+	acceptingPeers := peersAcceptingRemoteIndex(reachablePeers)
+	responsibilityWindow := yacymodel.SeedsClosestToPosition(
+		acceptingPeers,
 		position,
 		r.redundancy,
 	)
-	responsible := r.responsibleHolders(ctx, holders, position, closestPeers)
+	held := r.holdersByResponsibility(ctx, holders, position, responsibilityWindow)
 
 	stale := StaleReplicas{
 		Posting: postingschedule.Identity{Word: posting.WordHash, URL: posting.URLHash},
-		Peers:   holdersNoLongerResponsible(holders, responsible),
+		Peers:   held.gone,
 	}
 	missing := MissingReplicas{Posting: posting}
-	if len(responsible) >= r.redundancy {
+	if len(held.responsible) >= r.redundancy {
+		stale.Peers = append(stale.Peers, held.outsideWindow...)
+
 		return missing, stale, nil
 	}
-	missing.ReplicasNeeded = r.redundancy - len(responsible)
-	missing.Seeds = missingSeeds(closestPeers, responsible, missing.ReplicasNeeded)
+	missing.ReplicasNeeded = r.redundancy - len(held.responsible)
+	missing.Seeds = yacymodel.SeedsClosestToPosition(
+		peersWithoutReplica(
+			peersEligibleForReplicas(acceptingPeers, r.eligibility),
+			held.stillHolding(),
+		),
+		position,
+		missing.ReplicasNeeded,
+	)
 
 	return missing, stale, nil
 }
 
-func (r *Shortfall) responsibleHolders(
+// replicaHolders groups the peers holding a replica by the DHT responsibility
+// that decides whether the ledger keeps their entry.
+type replicaHolders struct {
+	responsible   []yacymodel.Hash
+	outsideWindow []yacymodel.Hash
+	gone          []yacymodel.Hash
+}
+
+func (h replicaHolders) stillHolding() []yacymodel.Hash {
+	return append(append([]yacymodel.Hash{}, h.responsible...), h.outsideWindow...)
+}
+
+func (r *Shortfall) holdersByResponsibility(
 	ctx context.Context,
 	holders []yacymodel.Hash,
 	position yacymodel.DHTPosition,
-	closestPeers []yacymodel.Seed,
-) map[yacymodel.Hash]struct{} {
-	responsible := make(map[yacymodel.Hash]struct{}, len(holders))
+	responsibilityWindow []yacymodel.Seed,
+) replicaHolders {
+	var held replicaHolders
 	for _, peer := range holders {
-		if r.stillResponsible(ctx, peer, position, closestPeers) {
-			responsible[peer] = struct{}{}
+		switch {
+		case !r.reachability.Reachable(ctx, peer):
+			if r.reachability.RecentlyReachable(ctx, peer) {
+				held.responsible = append(held.responsible, peer)
+			} else {
+				held.gone = append(held.gone, peer)
+			}
+		case r.noFartherThanClosestPeers(peer, position, responsibilityWindow):
+			held.responsible = append(held.responsible, peer)
+		default:
+			held.outsideWindow = append(held.outsideWindow, peer)
 		}
 	}
 
-	return responsible
-}
-
-func holdersNoLongerResponsible(
-	holders []yacymodel.Hash,
-	responsible map[yacymodel.Hash]struct{},
-) []yacymodel.Hash {
-	var lost []yacymodel.Hash
-	for _, peer := range holders {
-		if _, held := responsible[peer]; !held {
-			lost = append(lost, peer)
-		}
-	}
-
-	return lost
-}
-
-func missingSeeds(
-	closestPeers []yacymodel.Seed,
-	responsible map[yacymodel.Hash]struct{},
-	replicasNeeded int,
-) []yacymodel.Seed {
-	missing := make([]yacymodel.Seed, 0, replicasNeeded)
-	for _, seed := range closestPeers {
-		if len(missing) == replicasNeeded {
-			break
-		}
-		if _, held := responsible[seed.Hash]; !held {
-			missing = append(missing, seed)
-		}
-	}
-
-	return missing
-}
-
-func (r *Shortfall) stillResponsible(
-	ctx context.Context,
-	peer yacymodel.Hash,
-	position yacymodel.DHTPosition,
-	closestPeers []yacymodel.Seed,
-) bool {
-	if r.reachability.Reachable(ctx, peer) {
-		return r.noFartherThanClosestPeers(peer, position, closestPeers)
-	}
-
-	return r.reachability.RecentlyReachable(ctx, peer)
+	return held
 }
 
 func (r *Shortfall) noFartherThanClosestPeers(

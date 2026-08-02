@@ -55,6 +55,22 @@ func store(
 	}
 }
 
+func reschedule(
+	t *testing.T,
+	schedule *Schedule,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+	at time.Time,
+) {
+	t.Helper()
+
+	if err := schedule.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		return schedule.Reschedule(tx, word, url, at)
+	}); err != nil {
+		t.Fatalf("Reschedule: %v", err)
+	}
+}
+
 func TestPostingStoredIsImmediatelyDue(t *testing.T) {
 	now := time.Unix(1000, 0)
 	_, schedule := openSchedule(t, func() time.Time { return now })
@@ -78,22 +94,8 @@ func TestDuePostingsExcludesFutureEntries(t *testing.T) {
 	store(t, schedule, overdue, url)
 	store(t, schedule, future, url)
 
-	if err := schedule.Reschedule(
-		context.Background(),
-		overdue,
-		url,
-		now.Add(-time.Minute),
-	); err != nil {
-		t.Fatalf("Reschedule overdue: %v", err)
-	}
-	if err := schedule.Reschedule(
-		context.Background(),
-		future,
-		url,
-		now.Add(time.Hour),
-	); err != nil {
-		t.Fatalf("Reschedule future: %v", err)
-	}
+	reschedule(t, schedule, overdue, url, now.Add(-time.Minute))
+	reschedule(t, schedule, future, url, now.Add(time.Hour))
 
 	due, err := schedule.DuePostings(context.Background(), 10)
 	if err != nil {
@@ -110,14 +112,7 @@ func TestDuePostingsRespectsLimit(t *testing.T) {
 	for _, seed := range []string{"a", "b", "c"} {
 		word, url := yacymodel.WordHash(seed), urlHash(seed)
 		store(t, schedule, word, url)
-		if err := schedule.Reschedule(
-			context.Background(),
-			word,
-			url,
-			now.Add(-time.Minute),
-		); err != nil {
-			t.Fatalf("Reschedule %s: %v", seed, err)
-		}
+		reschedule(t, schedule, word, url, now.Add(-time.Minute))
 	}
 
 	due, err := schedule.DuePostings(context.Background(), 2)
@@ -135,9 +130,7 @@ func TestRescheduleMovesOrderPosition(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	store(t, schedule, word, url)
 
-	if err := schedule.Reschedule(context.Background(), word, url, now.Add(time.Hour)); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	reschedule(t, schedule, word, url, now.Add(time.Hour))
 
 	due, err := schedule.DuePostings(context.Background(), 10)
 	if err != nil {
@@ -185,14 +178,7 @@ func TestPostingPurgedRemovesBothRows(t *testing.T) {
 func TestRescheduleUnknownIsHarmless(t *testing.T) {
 	_, schedule := openSchedule(t, time.Now)
 
-	if err := schedule.Reschedule(
-		context.Background(),
-		yacymodel.WordHash("absent"),
-		urlHash("absent"),
-		time.Now(),
-	); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	reschedule(t, schedule, yacymodel.WordHash("absent"), urlHash("absent"), time.Now())
 }
 
 func TestRescheduleDoesNotResurrectPurgedPosting(t *testing.T) {
@@ -207,9 +193,7 @@ func TestRescheduleDoesNotResurrectPurgedPosting(t *testing.T) {
 		t.Fatalf("PostingPurged: %v", err)
 	}
 
-	if err := schedule.Reschedule(context.Background(), word, url, now.Add(time.Hour)); err != nil {
-		t.Fatalf("Reschedule: %v", err)
-	}
+	reschedule(t, schedule, word, url, now.Add(time.Hour))
 
 	due, err := schedule.DuePostings(context.Background(), 10)
 	if err != nil {
@@ -252,17 +236,9 @@ func TestOldestDueAtReturnsEarliestEntry(t *testing.T) {
 	earlier, url := yacymodel.WordHash("earlier"), urlHash("u1")
 	later := yacymodel.WordHash("later")
 	store(t, schedule, later, url)
-	if err := schedule.Reschedule(
-		context.Background(), later, url, now.Add(time.Hour),
-	); err != nil {
-		t.Fatalf("Reschedule later: %v", err)
-	}
+	reschedule(t, schedule, later, url, now.Add(time.Hour))
 	store(t, schedule, earlier, url)
-	if err := schedule.Reschedule(
-		context.Background(), earlier, url, now.Add(-time.Hour),
-	); err != nil {
-		t.Fatalf("Reschedule earlier: %v", err)
-	}
+	reschedule(t, schedule, earlier, url, now.Add(-time.Hour))
 
 	oldest, found, err := schedule.OldestDueAt(context.Background())
 	if err != nil {

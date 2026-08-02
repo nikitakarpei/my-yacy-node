@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferwait"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicarecipients"
@@ -46,8 +47,10 @@ type Runner interface {
 type PostingOfferCycleObserver = distributioncycle.Observer
 
 type Distribution struct {
+	vault    *vault.Vault
 	schedule *postingschedule.Schedule
 	replicas *postingreplicas.Replicas
+	waits    *postingofferwait.Wait
 	now      func() time.Time
 }
 
@@ -62,7 +65,18 @@ func Open(v *vault.Vault, now func() time.Time) (*Distribution, error) {
 		return nil, fmt.Errorf("open replica ledger: %w", err)
 	}
 
-	return &Distribution{schedule: schedule, replicas: replicas, now: now}, nil
+	waits, err := postingofferwait.Open(v)
+	if err != nil {
+		return nil, fmt.Errorf("open offer waits: %w", err)
+	}
+
+	return &Distribution{
+		vault:    v,
+		schedule: schedule,
+		replicas: replicas,
+		waits:    waits,
+		now:      now,
+	}, nil
 }
 
 func (d *Distribution) PostingStored(
@@ -82,7 +96,11 @@ func (d *Distribution) PostingPurged(
 		return err
 	}
 
-	return d.replicas.PostingPurged(tx, word, url)
+	if err := d.replicas.PostingPurged(tx, word, url); err != nil {
+		return err
+	}
+
+	return d.waits.PostingPurged(tx, word, url)
 }
 
 //nolint:revive // argument-limit: six explicit, independently-meaningful collaborators
@@ -115,11 +133,13 @@ func (d *Distribution) Cycle(
 		observer,
 	)
 	return distributioncycle.New(
+		d.vault,
 		shortfall,
 		delivery,
 		d.replicas,
+		d.waits,
 		recipients,
-		distributioncycle.Cadence{Refresh: cfg.RefreshInterval, Backoff: cfg.RetryInterval},
+		postingofferwait.Bounds{First: cfg.RetryInterval, Longest: cfg.RefreshInterval},
 		d.schedule,
 		roster,
 		observer,

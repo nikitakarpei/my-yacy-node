@@ -82,30 +82,23 @@ func (s *Schedule) forget(
 // Reschedule re-arms an existing due entry. It is a no-op when the posting
 // has no due row, so a schedule row purged mid-cycle is not resurrected.
 func (s *Schedule) Reschedule(
-	ctx context.Context,
+	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 	at time.Time,
 ) error {
-	err := s.vault.Update(ctx, func(tx *vault.Txn) error {
-		previous, found, err := s.dueAt(tx, word, url)
-		if err != nil {
-			return err
-		}
-		if !found {
-			return nil
-		}
-		if err := s.clearDueAt(tx, word, url, previous); err != nil {
-			return err
-		}
-
-		return s.setDueAt(tx, word, url, at)
-	})
+	previous, found, err := s.dueAt(tx, word, url)
 	if err != nil {
 		return fmt.Errorf("reschedule offer: %w", err)
 	}
+	if !found {
+		return nil
+	}
+	if err := s.clearDueAt(tx, word, url, previous); err != nil {
+		return fmt.Errorf("reschedule offer: %w", err)
+	}
 
-	return nil
+	return s.setDueAt(tx, word, url, at)
 }
 
 // Scheduled reports whether a posting currently has a due entry.

@@ -115,9 +115,11 @@ func TestPostingPurgedFansOutToScheduleAndReplicas(t *testing.T) {
 	}); err != nil {
 		t.Fatalf("PostingStored: %v", err)
 	}
-	if err := distribution.replicas.RecordAccepted(
-		context.Background(), peer, []yacymodel.RWIPosting{{WordHash: word, URLHash: url}},
-	); err != nil {
+	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
+		return distribution.replicas.RecordAccepted(
+			tx, peer, []yacymodel.RWIPosting{{WordHash: word, URLHash: url}},
+		)
+	}); err != nil {
 		t.Fatalf("RecordAccepted: %v", err)
 	}
 

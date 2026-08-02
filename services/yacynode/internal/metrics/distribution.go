@@ -16,6 +16,7 @@ type DistributionMetrics struct {
 	postingsGone          prometheus.Counter
 	oldestDuePostingAge   prometheus.Gauge
 	staleReplicasDropped  prometheus.Counter
+	postingsAtLongestWait prometheus.Gauge
 	ineligibleRecipients  prometheus.Gauge
 	cyclesSkipped         prometheus.Counter
 	shortfallUnread       prometheus.Counter
@@ -62,6 +63,10 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		Name: "rwidistribution_stale_replicas_dropped_total",
 		Help: "Replica ledger entries dropped for peers no longer responsible.",
 	})
+	postingsAtLongestWait := prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "rwidistribution_postings_at_longest_offer_wait",
+		Help: "Postings short of replicas whose offer wait has grown to the refresh interval.",
+	})
 	ineligibleRecipients := prometheus.NewGauge(prometheus.GaugeOpts{
 		Name: "rwidistribution_ineligible_replica_recipients",
 		Help: "Peers held back from receiving replicas after answering an offer.",
@@ -76,7 +81,8 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	})
 	registry.MustRegister(
 		postingOffers, postingsOffered, urlMetadataDeliveries, urlsDelivered,
-		postingsGone, oldestDuePostingAge, staleReplicasDropped, ineligibleRecipients,
+		postingsGone, oldestDuePostingAge, staleReplicasDropped, postingsAtLongestWait,
+		ineligibleRecipients,
 		cyclesSkipped, shortfallUnread,
 	)
 
@@ -88,6 +94,7 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		postingsGone:          postingsGone,
 		oldestDuePostingAge:   oldestDuePostingAge,
 		staleReplicasDropped:  staleReplicasDropped,
+		postingsAtLongestWait: postingsAtLongestWait,
 		ineligibleRecipients:  ineligibleRecipients,
 		cyclesSkipped:         cyclesSkipped,
 		shortfallUnread:       shortfallUnread,
@@ -114,6 +121,10 @@ func (d *DistributionMetrics) ObserveOldestDuePostingAge(age time.Duration) {
 
 func (d *DistributionMetrics) ObserveStaleReplicasDropped(dropped int) {
 	d.staleReplicasDropped.Add(float64(dropped))
+}
+
+func (d *DistributionMetrics) ObservePostingsAtLongestOfferWait(postings int) {
+	d.postingsAtLongestWait.Set(float64(postings))
 }
 
 func (d *DistributionMetrics) ObserveIneligibleReplicaRecipients(peers int) {
