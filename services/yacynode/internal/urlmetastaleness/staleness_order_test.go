@@ -14,7 +14,7 @@ import (
 func openOrder(t *testing.T) (*vault.Vault, urlmetastaleness.StalenessRanking) {
 	t.Helper()
 
-	v, err := memvault.Open(0)
+	v, err := memvault.Open(0, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

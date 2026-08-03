@@ -21,7 +21,7 @@ func (seedCodec) Decode(raw []byte) ([]byte, error)   { return raw, nil }
 func openVault(t *testing.T, quotaBytes int64) *vault.Vault {
 	t.Helper()
 
-	v, err := memvault.Open(quotaBytes)
+	v, err := memvault.Open(quotaBytes, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

@@ -68,10 +68,13 @@ func TestRuntimeStatusAdapters(t *testing.T) {
 	}
 }
 
-func TestPublishStorageMetricsAndSweepLoop(t *testing.T) {
+func TestPublishVaultMetricsAndSweepLoop(t *testing.T) {
 	config := testConfig(t)
 	vault := openTestVault(t)
-	metrics.NewStorageMetrics(prometheus.NewRegistry(), vault)
+	registry := prometheus.NewRegistry()
+	metrics.NewVaultCapacityMetrics(registry, vault)
+	metrics.NewVaultCollectionMetrics(registry, vault)
+	metrics.NewVaultTransactionMetrics(registry)
 
 	assembled := assembleTestNode(t, config, vault)
 

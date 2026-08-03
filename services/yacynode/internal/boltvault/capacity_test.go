@@ -10,7 +10,7 @@ import (
 
 func TestQuotaAndUsedBytes(t *testing.T) {
 	ctx := context.Background()
-	store, err := boltvault.Open(filepath.Join(t.TempDir(), "node.db"), 4096)
+	store, err := boltvault.Open(filepath.Join(t.TempDir(), "node.db"), 4096, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

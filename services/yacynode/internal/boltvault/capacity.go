@@ -2,10 +2,7 @@ package boltvault
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"strings"
-	"syscall"
 
 	bolt "go.etcd.io/bbolt"
 )
@@ -35,19 +32,4 @@ func (e *engine) UsedBytes(ctx context.Context) (int64, error) {
 	}
 
 	return used, nil
-}
-
-func storageAtCapacityError(err error) bool {
-	if errors.Is(err, syscall.ENOSPC) ||
-		errors.Is(err, syscall.EDQUOT) ||
-		errors.Is(err, syscall.EFBIG) {
-		return true
-	}
-
-	message := strings.ToLower(err.Error())
-
-	return strings.Contains(message, "no space left on device") ||
-		strings.Contains(message, "disk quota exceeded") ||
-		strings.Contains(message, "file too large") ||
-		strings.Contains(message, "not enough space")
 }

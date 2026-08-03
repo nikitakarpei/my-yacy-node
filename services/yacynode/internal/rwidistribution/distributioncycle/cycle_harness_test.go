@@ -171,7 +171,7 @@ func openCycleVault(
 ) {
 	t.Helper()
 
-	v, err := memvault.Open(0)
+	v, err := memvault.Open(0, nil)
 	if err != nil {
 		t.Fatalf("memvault.Open: %v", err)
 	}

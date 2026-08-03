@@ -21,7 +21,11 @@ type engine struct {
 	quotaBytes int64
 }
 
-func Open(path string, quotaBytes int64) (*vault.Vault, error) {
+func Open(
+	path string,
+	quotaBytes int64,
+	observer vault.TransactionObserver,
+) (*vault.Vault, error) {
 	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
 		return nil, fmt.Errorf("create storage directory: %w", err)
 	}
@@ -31,7 +35,7 @@ func Open(path string, quotaBytes int64) (*vault.Vault, error) {
 		return nil, fmt.Errorf("open storage: %w", err)
 	}
 
-	vaulted, err := vault.New(&engine{db: db, quotaBytes: quotaBytes})
+	vaulted, err := vault.New(&engine{db: db, quotaBytes: quotaBytes}, observer)
 	if err != nil {
 		if closeErr := db.Close(); closeErr != nil {
 			return nil, fmt.Errorf("initialize storage: %w: %w", err, closeErr)
@@ -61,8 +65,8 @@ func (e *engine) Update(_ context.Context, fn func(vault.EngineTxn) error) error
 	if err := e.db.Update(func(tx *bolt.Tx) error {
 		return fn(boltTxn{tx: tx, writable: true})
 	}); err != nil {
-		if storageAtCapacityError(err) {
-			return vault.ErrAtCapacity
+		if cause, atCapacity := capacityCauseOf(err); atCapacity {
+			return capacityError{cause: cause, err: vault.ErrAtCapacity}
 		}
 
 		return fmt.Errorf("update storage: %w", err)

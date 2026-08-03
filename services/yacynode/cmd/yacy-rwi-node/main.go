@@ -61,14 +61,17 @@ func run() error {
 
 	client := newEgressProxyClient(config.ProxyURL, outboundRequestTimeout)
 
-	vault, err := boltvault.Open(config.StoragePath, config.StorageQuotaByte)
+	endpoints := metrics.NewHTTPEndpointMetrics()
+	vaultMetrics := metrics.NewVaultTransactionMetrics(endpoints.Registry())
+
+	vault, err := boltvault.Open(config.StoragePath, config.StorageQuotaByte, vaultMetrics)
 	if err != nil {
 		return fmt.Errorf("open storage: %w", err)
 	}
 	defer closeVault(vault)
 
-	endpoints := metrics.NewHTTPEndpointMetrics()
-	metrics.NewStorageMetrics(endpoints.Registry(), vault)
+	metrics.NewVaultCapacityMetrics(endpoints.Registry(), vault)
+	metrics.NewVaultCollectionMetrics(endpoints.Registry(), vault)
 	evictionMetrics := metrics.NewEvictionMetrics(endpoints.Registry())
 	distributionMetrics := metrics.NewDistributionMetrics(endpoints.Registry())
 	dhtRingMetrics := metrics.NewDHTRingMetrics(endpoints.Registry())

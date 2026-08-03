@@ -10,19 +10,27 @@ const lengthBucket = Name("__lengths__")
 
 type Vault struct {
 	engine     Engine
+	observer   TransactionObserver
 	mu         sync.Mutex
 	registered map[Name]struct{}
 }
 
-func New(engine Engine) (*Vault, error) {
+func New(engine Engine, observer TransactionObserver) (*Vault, error) {
 	if engine == nil {
 		return nil, errVaultClosed
+	}
+	if observer == nil {
+		observer = silentObserver{}
 	}
 	if err := engine.Provision(lengthBucket); err != nil {
 		return nil, fmt.Errorf("provision length bucket: %w", err)
 	}
 
-	return &Vault{engine: engine, registered: map[Name]struct{}{}}, nil
+	return &Vault{
+		engine:     engine,
+		observer:   observer,
+		registered: map[Name]struct{}{},
+	}, nil
 }
 
 func (v *Vault) Close() error {

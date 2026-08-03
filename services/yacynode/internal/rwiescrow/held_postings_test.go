@@ -41,7 +41,7 @@ func openHarness(t *testing.T) *harness {
 func openCappedHarness(t *testing.T, quotaBytes int64, quotaFraction float64) *harness {
 	t.Helper()
 
-	v, err := memvault.Open(quotaBytes)
+	v, err := memvault.Open(quotaBytes, nil)
 	if err != nil {
 		t.Fatalf("memvault.Open: %v", err)
 	}
