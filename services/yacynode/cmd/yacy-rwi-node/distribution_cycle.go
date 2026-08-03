@@ -25,6 +25,7 @@ type distributionCycle struct {
 	roster   peerroster.Roster
 	client   *http.Client
 	observer *metrics.DistributionMetrics
+	dhtRing  *metrics.DHTRingMetrics
 }
 
 func (d distributionCycle) assemble() (*distributioncycle.Cycle, error) {
@@ -52,6 +53,7 @@ func (d distributionCycle) assemble() (*distributioncycle.Cycle, error) {
 		d.storage.postings,
 		d.roster,
 		eligibility,
+		d.dhtRing,
 		partitions,
 		d.self,
 		d.config.Distribution.Redundancy,
@@ -84,6 +86,7 @@ func (d distributionCycle) assemble() (*distributioncycle.Cycle, error) {
 		d.storage.offerSchedule,
 		d.roster,
 		d.observer,
+		d.dhtRing,
 		distributioncycle.Config{
 			OfferInterval: postingofferschedule.OfferInterval{
 				Shortest: d.config.Distribution.ShortestOfferInterval,

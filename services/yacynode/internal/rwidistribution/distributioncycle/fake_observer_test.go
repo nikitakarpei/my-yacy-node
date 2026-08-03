@@ -13,6 +13,7 @@ type fakeObserver struct {
 	scheduledPostings     int
 	longestOfferLateness  time.Duration
 	cyclesSkipped         map[string]int
+	replicaRingFractions  []float64
 }
 
 func newFakeObserver() *fakeObserver {
@@ -57,4 +58,10 @@ func (f *fakeObserver) ObservePostingsHandedOff(handedOff int) {
 
 func (f *fakeObserver) ObserveCycleSkipped(reason string) {
 	f.cyclesSkipped[reason]++
+}
+
+func (f *fakeObserver) ObservePeersAcceptingRemoteIndexPerDHTRingSector([]int) {}
+
+func (f *fakeObserver) ObserveReplicaRingFractions(ringFractions []float64) {
+	f.replicaRingFractions = append(f.replicaRingFractions, ringFractions...)
 }

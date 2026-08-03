@@ -846,3 +846,67 @@ func TestCycleKeepsPostingAcceptedOnlyByAFartherPeer(t *testing.T) {
 		t.Fatalf("postingsHandedOff = %d, want 0", h.observer.postingsHandedOff)
 	}
 }
+
+func TestCycleReportsRingFractionOfAcceptedReplica(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	h := openCycle(t, &clock{at: now}, cycleOptions{
+		postings: postings,
+		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+	})
+	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+
+	store(t, h.v, h.schedule, word, url)
+
+	h.cycle.runCycle(context.Background())
+
+	if len(h.observer.replicaRingFractions) != 1 {
+		t.Fatalf(
+			"replicaRingFractions = %v, want one entry per accepted replica",
+			h.observer.replicaRingFractions,
+		)
+	}
+
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
+	if err != nil {
+		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+	}
+	want := yacymodel.RingFractionToPosition(
+		peer, yacymodel.PostingPosition(word, url, partitions),
+	)
+	if h.observer.replicaRingFractions[0] != want {
+		t.Errorf(
+			"replicaRingFraction = %v, want %v",
+			h.observer.replicaRingFractions[0], want,
+		)
+	}
+}
+
+func TestCycleReportsNoRingFractionsWithoutAcceptance(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	h := openCycle(t, &clock{at: now}, cycleOptions{
+		postings: postings,
+		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+	})
+	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Refused}
+
+	store(t, h.v, h.schedule, word, url)
+
+	h.cycle.runCycle(context.Background())
+
+	if len(h.observer.replicaRingFractions) != 0 {
+		t.Fatalf(
+			"replicaRingFractions = %v, want none when no peer accepted",
+			h.observer.replicaRingFractions,
+		)
+	}
+}

@@ -20,9 +20,14 @@ const replicaLedgerUnread = "read replica ledger: %w"
 
 type PostingOffer struct {
 	Posting           yacymodel.RWIPosting
+	PostingPosition   yacymodel.DHTPosition
 	Peers             []yacymodel.Seed
 	AcceptancesNeeded int
 	StaleHolders      []yacymodel.Hash
+}
+
+type Observer interface {
+	ObservePeersAcceptingRemoteIndexPerDHTRingSector(peersPerSector []int)
 }
 
 type Reachability interface {
@@ -41,12 +46,13 @@ type PostingOffers struct {
 	postings     rwipostings.PostingIndex
 	reachability Reachability
 	eligibility  ReplicaEligibility
+	observer     Observer
 	partitions   yacymodel.DHTRingPartitions
 	self         yacymodel.Hash
 	redundancy   int
 }
 
-//nolint:revive // argument-limit: nine explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: ten explicit, independently-meaningful collaborators
 func New(
 	v *vault.Vault,
 	schedule *postingofferschedule.Schedule,
@@ -54,6 +60,7 @@ func New(
 	postings rwipostings.PostingIndex,
 	reachability Reachability,
 	eligibility ReplicaEligibility,
+	observer Observer,
 	partitions yacymodel.DHTRingPartitions,
 	self yacymodel.Hash,
 	redundancy int,
@@ -65,6 +72,7 @@ func New(
 		postings:     postings,
 		reachability: reachability,
 		eligibility:  eligibility,
+		observer:     observer,
 		partitions:   partitions,
 		self:         self,
 		redundancy:   redundancy,
@@ -87,6 +95,9 @@ func (o *PostingOffers) DueNow(
 	}
 
 	acceptingPeers := peersAcceptingRemoteIndex(reachablePeers)
+	o.observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
+		yacymodel.SeedsPerDHTRingSector(acceptingPeers),
+	)
 
 	var offers []PostingOffer
 	err = o.vault.View(ctx, func(tx *vault.Txn) error {
@@ -165,7 +176,7 @@ func (o *PostingOffers) offerFor(
 	holders := o.replicaHoldersFrom(ctx, recordedHolders, window)
 
 	if len(holders.insideWindow) >= window.requiredReplicas {
-		return refreshOfferFor(posting, acceptingPeers, holders), nil
+		return refreshOfferFor(posting, acceptingPeers, holders, window), nil
 	}
 
 	return o.replicaOfferFor(posting, acceptingPeers, holders, window), nil
@@ -199,11 +210,13 @@ func refreshOfferFor(
 	posting yacymodel.RWIPosting,
 	acceptingPeers []yacymodel.Seed,
 	holders replicaHolders,
+	window replicaWindow,
 ) PostingOffer {
 	return PostingOffer{
-		Posting:      posting,
-		Peers:        holders.peersHoldingReplica(acceptingPeers),
-		StaleHolders: slices.Concat(holders.expired, holders.outsideWindow),
+		Posting:         posting,
+		PostingPosition: window.position,
+		Peers:           holders.peersHoldingReplica(acceptingPeers),
+		StaleHolders:    slices.Concat(holders.expired, holders.outsideWindow),
 	}
 }
 
@@ -217,7 +230,8 @@ func (o *PostingOffers) replicaOfferFor(
 	eligiblePeers := o.eligibility.EligiblePeers(acceptingPeers)
 
 	return PostingOffer{
-		Posting: posting,
+		Posting:         posting,
+		PostingPosition: window.position,
 		Peers: yacymodel.SeedsClosestToPosition(
 			holders.peersMissingReplica(eligiblePeers), window.position, missingReplicas,
 		),

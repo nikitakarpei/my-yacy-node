@@ -88,6 +88,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		postings,
 		opts.reachability,
 		eligibility,
+		observer,
 		partitions,
 		opts.self,
 		opts.redundancy,
@@ -118,6 +119,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		replicas,
 		schedule,
 		opts.roster,
+		observer,
 		observer,
 		Config{
 			OfferInterval:     offerInterval,
