@@ -143,11 +143,39 @@ func recordAccepted(
 	}
 }
 
+type discardedRingSectorObservations struct{}
+
+func (discardedRingSectorObservations) ObservePeersAcceptingRemoteIndexPerDHTRingSector([]int) {}
+
+type recordedRingSectorObservations struct {
+	peersPerSector [][]int
+}
+
+func (r *recordedRingSectorObservations) ObservePeersAcceptingRemoteIndexPerDHTRingSector(
+	peersPerSector []int,
+) {
+	r.peersPerSector = append(r.peersPerSector, peersPerSector)
+}
+
 func openPostingOffers(
 	t *testing.T,
 	now func() time.Time,
 	postings map[yacymodel.Hash]yacymodel.RWIPosting,
 	reachability Reachability,
+) (*vault.Vault, *postingofferschedule.Schedule, *postingreplicas.Replicas, *PostingOffers) {
+	t.Helper()
+
+	return openPostingOffersReportingTo(
+		t, now, postings, reachability, discardedRingSectorObservations{},
+	)
+}
+
+func openPostingOffersReportingTo(
+	t *testing.T,
+	now func() time.Time,
+	postings map[yacymodel.Hash]yacymodel.RWIPosting,
+	reachability Reachability,
+	observer Observer,
 ) (*vault.Vault, *postingofferschedule.Schedule, *postingreplicas.Replicas, *PostingOffers) {
 	t.Helper()
 
@@ -181,6 +209,7 @@ func openPostingOffers(
 		fakePostingIndex{postings: postings},
 		reachability,
 		everyPeerEligible{},
+		observer,
 		partitions,
 		thisNodeFartherThanEveryPeer(),
 		postingOffersRedundancy,
@@ -830,3 +859,82 @@ type discardedScheduleObservations struct{}
 func (discardedScheduleObservations) ObserveScheduledPostings(int) {}
 
 func (discardedScheduleObservations) ObserveLongestOfferLateness(time.Duration) {}
+
+func TestDueReportsAcceptingPeersPerRingSector(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	observer := &recordedRingSectorObservations{}
+	v, schedule, _, postingOffers := openPostingOffersReportingTo(
+		t, func() time.Time { return now }, postings, fakeReachability{}, observer,
+	)
+	peers := []yacymodel.Seed{seed(peer), indexDecliningSeed(yacymodel.WordHash("declining"))}
+
+	store(t, v, schedule, word, url)
+
+	if _, _, err := postingOffers.DueNow(context.Background(), 10, peers); err != nil {
+		t.Fatalf("DueNow: %v", err)
+	}
+
+	if len(observer.peersPerSector) != 1 {
+		t.Fatalf("reports = %d, want one report per DueNow", len(observer.peersPerSector))
+	}
+	perSector := observer.peersPerSector[0]
+	if len(perSector) != int(yacymodel.MaxDHTRingSector)+1 {
+		t.Fatalf("sectors = %d, want %d", len(perSector), yacymodel.MaxDHTRingSector+1)
+	}
+
+	var acceptingPeers int
+	for _, peers := range perSector {
+		acceptingPeers += peers
+	}
+	if acceptingPeers != 1 {
+		t.Errorf("accepting peers = %d, want only the peer accepting remote index", acceptingPeers)
+	}
+}
+
+func TestDueCarriesThePostingPosition(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash()
+	peer := yacymodel.WordHash("peer")
+	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
+		fakePostingKey(word, url): fakePosting(word, url),
+	}
+	peers := []yacymodel.Seed{seed(peer)}
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
+	if err != nil {
+		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+	}
+	wantPosition := yacymodel.PostingPosition(word, url, partitions)
+
+	for name, reachability := range map[string]fakeReachability{
+		"replica needed": {},
+		"replica held":   {reachable: peers},
+	} {
+		t.Run(name, func(t *testing.T) {
+			v, schedule, replicas, postingOffers := openPostingOffers(
+				t, func() time.Time { return now }, postings, reachability,
+			)
+			store(t, v, schedule, word, url)
+			if len(reachability.reachable) > 0 {
+				recordAccepted(t, v, replicas, peer, fakePosting(word, url))
+			}
+
+			due, _, err := postingOffers.DueNow(context.Background(), 10, peers)
+			if err != nil {
+				t.Fatalf("DueNow: %v", err)
+			}
+			if len(due) != 1 {
+				t.Fatalf("due = %+v, want a single posting", due)
+			}
+			if due[0].PostingPosition != wantPosition {
+				t.Errorf(
+					"PostingPosition = %d, want %d", due[0].PostingPosition, wantPosition,
+				)
+			}
+		})
+	}
+}

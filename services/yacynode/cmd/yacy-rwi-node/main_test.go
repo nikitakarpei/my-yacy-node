@@ -67,6 +67,7 @@ func assembleTestNode(t *testing.T, config nodeConfig, vault *vault.Vault) node 
 		vault,
 		newEgressProxyClient(config.ProxyURL, outboundRequestTimeout),
 		metrics.NewDistributionMetrics(prometheus.NewRegistry()),
+		metrics.NewDHTRingMetrics(prometheus.NewRegistry()),
 		metrics.NewPeerRosterMetrics(prometheus.NewRegistry()),
 		metrics.NewRWIEscrowMetrics(prometheus.NewRegistry()),
 	)

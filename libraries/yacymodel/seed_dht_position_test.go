@@ -74,3 +74,39 @@ func TestSeedsCloserThanPeerKeepsOnlyTheCloserSeeds(t *testing.T) {
 		t.Fatalf("closer = %v, want only the seed closer than the peer", closer)
 	}
 }
+
+func TestRingFractionToPositionIsZeroAtThePosition(t *testing.T) {
+	near := yacymodel.WordHash("near")
+	far := yacymodel.WordHash("far")
+
+	position := yacymodel.RingPosition(near)
+
+	if got := yacymodel.RingFractionToPosition(near, position); got != 0 {
+		t.Fatalf("fraction = %v, want 0 for the hash the position came from", got)
+	}
+	fraction := yacymodel.RingFractionToPosition(far, position)
+	if fraction <= 0 || fraction >= 1 {
+		t.Fatalf("fraction = %v, want a fraction in (0,1)", fraction)
+	}
+}
+
+func TestSeedsPerDHTRingSectorCountsEverySector(t *testing.T) {
+	peer := yacymodel.WordHash("peer")
+
+	perSector := yacymodel.SeedsPerDHTRingSector([]yacymodel.Seed{seedAt(peer)})
+
+	if len(perSector) != int(yacymodel.MaxDHTRingSector)+1 {
+		t.Fatalf("sectors = %d, want %d", len(perSector), yacymodel.MaxDHTRingSector+1)
+	}
+
+	occupied := yacymodel.DHTRingSectorOf(yacymodel.RingPosition(peer))
+	for sector, seeds := range perSector {
+		want := 0
+		if yacymodel.DHTRingSector(sector) == occupied {
+			want = 1
+		}
+		if seeds != want {
+			t.Errorf("sector %d holds %d seeds, want %d", sector, seeds, want)
+		}
+	}
+}

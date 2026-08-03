@@ -73,3 +73,9 @@ func Distance(from, to DHTPosition) DHTPosition {
 	}
 	return (MaxDHTPosition - from) + to + 1
 }
+
+// ringFractionOfDistance is a distance as a fraction of the whole DHT ring,
+// in [0,1].
+func ringFractionOfDistance(distance DHTPosition) float64 {
+	return float64(distance) / float64(uint64(MaxDHTPosition)+1)
+}

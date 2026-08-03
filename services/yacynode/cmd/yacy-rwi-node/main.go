@@ -71,6 +71,7 @@ func run() error {
 	metrics.NewStorageMetrics(endpoints.Registry(), vault)
 	evictionMetrics := metrics.NewEvictionMetrics(endpoints.Registry())
 	distributionMetrics := metrics.NewDistributionMetrics(endpoints.Registry())
+	dhtRingMetrics := metrics.NewDHTRingMetrics(endpoints.Registry())
 	rosterMetrics := metrics.NewPeerRosterMetrics(endpoints.Registry())
 	escrowMetrics := metrics.NewRWIEscrowMetrics(endpoints.Registry())
 
@@ -83,6 +84,7 @@ func run() error {
 		vault,
 		client,
 		distributionMetrics,
+		dhtRingMetrics,
 		rosterMetrics,
 		escrowMetrics,
 	)

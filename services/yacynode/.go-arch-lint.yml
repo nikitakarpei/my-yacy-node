@@ -104,6 +104,7 @@ vendors:
     in:
       - github.com/prometheus/client_golang/prometheus
       - github.com/prometheus/client_golang/prometheus/**
+      - github.com/prometheus/client_model/go
   nats:
     in:
       - github.com/nats-io/nats.go

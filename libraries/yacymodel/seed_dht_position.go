@@ -9,6 +9,12 @@ func DistanceToPosition(hash Hash, position DHTPosition) DHTPosition {
 	return Distance(position, RingPosition(hash))
 }
 
+// RingFractionToPosition is how far around the DHT ring a hash sits from a
+// position, in [0,1].
+func RingFractionToPosition(hash Hash, position DHTPosition) float64 {
+	return ringFractionOfDistance(DistanceToPosition(hash, position))
+}
+
 func CloserToPosition(peer, than Hash, position DHTPosition) bool {
 	return DistanceToPosition(peer, position) < DistanceToPosition(than, position)
 }
@@ -43,6 +49,17 @@ func SeedsClosestToPosition(seeds []Seed, position DHTPosition, want int) []Seed
 	}
 
 	return closest
+}
+
+// SeedsPerDHTRingSector counts the seeds in every sector of the DHT ring,
+// including the sectors that hold none.
+func SeedsPerDHTRingSector(seeds []Seed) []int {
+	perSector := make([]int, MaxDHTRingSector+1)
+	for _, seed := range seeds {
+		perSector[DHTRingSectorOf(RingPosition(seed.Hash))]++
+	}
+
+	return perSector
 }
 
 func SeedsCloserThanPeer(seeds []Seed, than Hash, position DHTPosition) []Seed {

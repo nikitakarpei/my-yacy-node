@@ -613,6 +613,197 @@
       ]
     },
     {
+      "id": 70,
+      "title": "DHT ring",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 48
+      },
+      "panels": []
+    },
+    {
+      "id": 71,
+      "title": "Peers accepting remote index, by ring sector",
+      "description": "This panel shows the DHT ring unrolled: each row is one sector of the keyspace, and a dark row is a sector with no peer to offer postings to.",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 18,
+        "x": 0,
+        "y": 49
+      },
+      "options": {
+        "calculate": false,
+        "yAxis": {
+          "unit": "short",
+          "reverse": false
+        },
+        "color": {
+          "mode": "scheme",
+          "scheme": "Oranges",
+          "steps": 64
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "show": true,
+          "yHistogram": false
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rwidistribution_peers_accepting_remote_index",
+          "legendFormat": "{{sector}}",
+          "format": "time_series"
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "title": "Ring sectors with no accepting peer",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 49
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 1,
+                "color": "yellow"
+              },
+              {
+                "value": 16,
+                "color": "red"
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "graphMode": "area",
+        "colorMode": "value",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(rwidistribution_peers_accepting_remote_index == 0)"
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "title": "Ring fraction from a posting to the peer that accepted its replica",
+      "description": "This panel shows how far around the ring accepted replicas land from the DHT position of the posting.",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 57
+      },
+      "options": {
+        "calculate": false,
+        "yAxis": {
+          "unit": "percentunit"
+        },
+        "color": {
+          "mode": "scheme",
+          "scheme": "Spectral",
+          "steps": 64
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "show": true,
+          "yHistogram": true
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (rate(rwidistribution_replica_ring_fraction_bucket[$__rate_interval]))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "title": "Ring fraction from a posting to the peer that accepted its replica (p50/p95)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 57
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(rwidistribution_replica_ring_fraction_bucket[$__rate_interval])))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(rwidistribution_replica_ring_fraction_bucket[$__rate_interval])))",
+          "legendFormat": "p95"
+        }
+      ]
+    },
+    {
       "id": 50,
       "title": "Outbound RWI distribution",
       "type": "row",
@@ -620,7 +811,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 48
+        "y": 65
       },
       "panels": []
     },
@@ -637,7 +828,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 49
+        "y": 66
       },
       "fieldConfig": {
         "defaults": {
@@ -674,7 +865,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 49
+        "y": 66
       },
       "fieldConfig": {
         "defaults": {
@@ -712,7 +903,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 49
+        "y": 66
       },
       "fieldConfig": {
         "defaults": {
@@ -748,7 +939,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 57
+        "y": 74
       },
       "fieldConfig": {
         "defaults": {
@@ -880,7 +1071,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 57
+        "y": 74
       },
       "fieldConfig": {
         "defaults": {
@@ -1011,7 +1202,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 65
+        "y": 82
       },
       "fieldConfig": {
         "defaults": {
@@ -1128,7 +1319,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 65
+        "y": 82
       },
       "fieldConfig": {
         "defaults": {
@@ -1244,7 +1435,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 73
+        "y": 90
       },
       "fieldConfig": {
         "defaults": {
@@ -1280,7 +1471,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 73
+        "y": 90
       },
       "fieldConfig": {
         "defaults": {
@@ -1317,7 +1508,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 81
+        "y": 98
       },
       "fieldConfig": {
         "defaults": {
@@ -1354,7 +1545,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 81
+        "y": 98
       },
       "fieldConfig": {
         "defaults": {
@@ -1386,7 +1577,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 89
+        "y": 106
       },
       "panels": []
     },
@@ -1403,7 +1594,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 90
+        "y": 107
       },
       "fieldConfig": {
         "defaults": {
@@ -1454,7 +1645,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 90
+        "y": 107
       },
       "fieldConfig": {
         "defaults": {
@@ -1515,7 +1706,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 98
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1579,7 +1770,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 98
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1637,7 +1828,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 98
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {

@@ -37,16 +37,17 @@ type Config struct {
 }
 
 type Cycle struct {
-	vault         *vault.Vault
-	postingOffers *postingoffer.PostingOffers
-	handoff       *postinghandoff.Handoff
-	transfers     *postingtransfer.PostingTransfers
-	answers       OfferAnswers
-	replicas      *postingreplicas.Replicas
-	schedule      *postingofferschedule.Schedule
-	roster        ReachablePeers
-	observer      Observer
-	config        Config
+	vault           *vault.Vault
+	postingOffers   *postingoffer.PostingOffers
+	handoff         *postinghandoff.Handoff
+	transfers       *postingtransfer.PostingTransfers
+	answers         OfferAnswers
+	replicas        *postingreplicas.Replicas
+	schedule        *postingofferschedule.Schedule
+	roster          ReachablePeers
+	cycleObserver   CycleObserver
+	dhtRingObserver DHTRingObserver
+	config          Config
 }
 
 //nolint:revive // argument-limit: independently-meaningful collaborators, not configuration to bundle further
@@ -59,20 +60,22 @@ func New(
 	replicas *postingreplicas.Replicas,
 	schedule *postingofferschedule.Schedule,
 	roster ReachablePeers,
-	observer Observer,
+	cycleObserver CycleObserver,
+	dhtRingObserver DHTRingObserver,
 	config Config,
 ) *Cycle {
 	return &Cycle{
-		vault:         v,
-		postingOffers: postingOffers,
-		handoff:       handoff,
-		transfers:     transfers,
-		answers:       answers,
-		replicas:      replicas,
-		schedule:      schedule,
-		roster:        roster,
-		observer:      observer,
-		config:        config,
+		vault:           v,
+		postingOffers:   postingOffers,
+		handoff:         handoff,
+		transfers:       transfers,
+		answers:         answers,
+		replicas:        replicas,
+		schedule:        schedule,
+		roster:          roster,
+		cycleObserver:   cycleObserver,
+		dhtRingObserver: dhtRingObserver,
+		config:          config,
 	}
 }
 
@@ -122,19 +125,19 @@ func (c *Cycle) skipTooFewReachablePeers(ctx context.Context, reachablePeers int
 		slog.Int("reachablePeers", reachablePeers),
 		slog.Int("minReachablePeers", c.config.MinReachablePeers),
 	)
-	c.observer.ObserveCycleSkipped(string(SkipTooFewReachablePeers))
+	c.cycleObserver.ObserveCycleSkipped(string(SkipTooFewReachablePeers))
 }
 
 func (c *Cycle) skipDuePostingsUnread(ctx context.Context, err error) {
 	slog.ErrorContext(ctx, "due postings not read", slog.Any("error", err))
-	c.observer.ObserveCycleSkipped(string(SkipDuePostingsUnread))
+	c.cycleObserver.ObserveCycleSkipped(string(SkipDuePostingsUnread))
 }
 
 func (c *Cycle) reportPostingsGone(
 	ctx context.Context,
 	gonePostings []postingidentity.Identity,
 ) {
-	c.observer.ObservePostingsGone(len(gonePostings))
+	c.cycleObserver.ObservePostingsGone(len(gonePostings))
 	for _, identity := range gonePostings {
 		slog.DebugContext(ctx, "due posting gone from index",
 			slog.String("word", identity.Word.String()),
@@ -176,8 +179,38 @@ func (c *Cycle) commitCycle(
 		return
 	}
 
-	c.observer.ObserveStaleReplicasDropped(droppedReplicas)
-	c.observer.ObservePostingsHandedOff(handedOffPostings)
+	c.cycleObserver.ObserveStaleReplicasDropped(droppedReplicas)
+	c.cycleObserver.ObservePostingsHandedOff(handedOffPostings)
+	c.dhtRingObserver.ObserveReplicaRingFractions(
+		replicaRingFractionsOf(offers, round.acceptances),
+	)
+}
+
+func replicaRingFractionsOf(
+	offers []postingoffer.PostingOffer,
+	acceptances []peerAcceptance,
+) []float64 {
+	offerByPosting := make(map[postingidentity.Identity]postingoffer.PostingOffer, len(offers))
+	for _, offer := range offers {
+		identity := postingidentity.IdentityOf(offer.Posting.WordHash, offer.Posting.URLHash)
+		offerByPosting[identity] = offer
+	}
+
+	var ringFractions []float64
+	for _, acceptance := range acceptances {
+		for _, posting := range acceptance.postings {
+			identity := postingidentity.IdentityOf(posting.WordHash, posting.URLHash)
+			offer, offered := offerByPosting[identity]
+			if !offered {
+				continue
+			}
+			ringFractions = append(ringFractions, yacymodel.RingFractionToPosition(
+				acceptance.holder, offer.PostingPosition,
+			))
+		}
+	}
+
+	return ringFractions
 }
 
 func staleByPosting(

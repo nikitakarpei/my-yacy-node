@@ -38,6 +38,7 @@ func assembleNode(
 	vault *vault.Vault,
 	client *http.Client,
 	offerObserver *metrics.DistributionMetrics,
+	dhtRingObserver *metrics.DHTRingMetrics,
 	rosterObserver peerroster.RosterObserver,
 	escrowObserver rwiescrow.HoldObserver,
 ) (node, error) {
@@ -93,6 +94,7 @@ func assembleNode(
 		roster:   roster,
 		client:   client,
 		observer: offerObserver,
+		dhtRing:  dhtRingObserver,
 	}.assemble()
 	if err != nil {
 		return node{}, err
