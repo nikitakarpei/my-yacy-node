@@ -17,11 +17,11 @@ type engine struct {
 	quotaBytes int64
 }
 
-func Open(quotaBytes int64) (*vault.Vault, error) {
+func Open(quotaBytes int64, observer vault.TransactionObserver) (*vault.Vault, error) {
 	vaulted, err := vault.New(&engine{
 		buckets:    map[vault.Name]map[string][]byte{},
 		quotaBytes: quotaBytes,
-	})
+	}, observer)
 	if err != nil {
 		return nil, fmt.Errorf("initialize storage: %w", err)
 	}

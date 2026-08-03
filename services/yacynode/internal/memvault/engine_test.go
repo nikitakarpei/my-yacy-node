@@ -6,15 +6,18 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaulttest"
 )
 
 func TestConformance(t *testing.T) {
-	vaulttest.RunConformance(t, memvault.Open)
+	vaulttest.RunConformance(t, func(quotaBytes int64) (*vault.Vault, error) {
+		return memvault.Open(quotaBytes, nil)
+	})
 }
 
 func TestUsedBytesRejectsCancelledContext(t *testing.T) {
-	v, err := memvault.Open(0)
+	v, err := memvault.Open(0, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

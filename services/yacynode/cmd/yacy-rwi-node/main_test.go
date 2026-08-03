@@ -49,7 +49,7 @@ func testConfig(t *testing.T) nodeConfig {
 func openTestVault(t *testing.T) *vault.Vault {
 	t.Helper()
 
-	v, err := memvault.Open(0)
+	v, err := memvault.Open(0, nil)
 	if err != nil {
 		t.Fatalf("open storage: %v", err)
 	}

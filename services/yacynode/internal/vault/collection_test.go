@@ -7,7 +7,7 @@ import (
 )
 
 func TestNilEngineRejected(t *testing.T) {
-	if _, err := vault.New(nil); err == nil {
+	if _, err := vault.New(nil, nil); err == nil {
 		t.Fatal("New(nil) succeeded, want error")
 	}
 }

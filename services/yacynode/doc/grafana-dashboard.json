@@ -130,8 +130,8 @@
     },
     {
       "id": 4,
-      "title": "Storage used",
-      "description": "This panel shows the storage used as a fraction of the quota.",
+      "title": "Vault used",
+      "description": "This panel shows the vault space used as a fraction of the quota.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -180,7 +180,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "storage_used_bytes / storage_quota_bytes"
+          "expr": "vault_used_bytes / vault_quota_bytes"
         }
       ]
     },
@@ -411,7 +411,7 @@
     },
     {
       "id": 20,
-      "title": "Storage",
+      "title": "Vault",
       "type": "row",
       "gridPos": {
         "h": 1,
@@ -423,7 +423,7 @@
     },
     {
       "id": 21,
-      "title": "Storage used vs quota",
+      "title": "Used vs quota",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -431,7 +431,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 23
       },
@@ -451,15 +451,346 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "storage_used_bytes",
+          "expr": "vault_used_bytes",
           "legendFormat": "used"
         },
         {
           "refId": "B",
-          "expr": "storage_quota_bytes",
+          "expr": "vault_quota_bytes",
           "legendFormat": "quota"
         }
+      ],
+      "description": "This panel shows the vault space used against the configured quota. A gap in the used series means the reading was unavailable, not that the vault was empty."
+    },
+    {
+      "id": 22,
+      "title": "Discarded writes",
+      "description": "This panel shows the writes the node discarded, and who is answerable for each. Any band means the node lost a write.",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 23
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 1,
+                "color": "red"
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "mergeValues": true,
+        "showValue": "auto",
+        "legend": {
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(vault_write_transactions_total{outcome=\"refused\"}[$__rate_interval])",
+          "legendFormat": "engine refused: {{cause}}"
+        },
+        {
+          "refId": "B",
+          "expr": "increase(vault_write_transactions_total{outcome=\"aborted\"}[$__rate_interval])",
+          "legendFormat": "caller aborted"
+        },
+        {
+          "refId": "C",
+          "expr": "increase(vault_write_transaction_begin_refusals_total[$__rate_interval])",
+          "legendFormat": "engine refused before opening: {{cause}}"
+        }
       ]
+    },
+    {
+      "id": 23,
+      "title": "Write transaction rate",
+      "description": "This panel shows the write transactions that open per second. A write refused before the transaction opened is absent here. Discarded writes reports it.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 31
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cps",
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(vault_write_transaction_duration_seconds_count{phase=\"execute\"}[$__rate_interval]))",
+          "legendFormat": "writes"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "title": "Reads in flight",
+      "description": "This panel shows the reads open through the vault.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 31
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "vault_reads_in_flight",
+          "legendFormat": "reads"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "title": "Write begin latency (p50/p95/p99)",
+      "description": "This panel shows the time to begin a write transaction. A rising p50 is sustained contention. A flat p50 under a rising p99 is an occasional pile-up.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 39
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.5, sum by (le) (rate(vault_write_transaction_begin_seconds_bucket[$__rate_interval])))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(vault_write_transaction_begin_seconds_bucket[$__rate_interval])))",
+          "legendFormat": "p95"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(vault_write_transaction_begin_seconds_bucket[$__rate_interval])))",
+          "legendFormat": "p99"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "title": "Write execute latency (p50/p95/p99)",
+      "description": "This panel shows the time a module spends reading and writing inside the transaction.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 39
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.5, sum by (le) (rate(vault_write_transaction_duration_seconds_bucket{phase=\"execute\"}[$__rate_interval])))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(vault_write_transaction_duration_seconds_bucket{phase=\"execute\"}[$__rate_interval])))",
+          "legendFormat": "p95"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(vault_write_transaction_duration_seconds_bucket{phase=\"execute\"}[$__rate_interval])))",
+          "legendFormat": "p99"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "title": "Write commit latency (p50/p95/p99)",
+      "description": "This panel shows the time to commit a write transaction. A rolled-back transaction is absent here.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 39
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.5, sum by (le) (rate(vault_write_transaction_duration_seconds_bucket{phase=\"commit\"}[$__rate_interval])))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(vault_write_transaction_duration_seconds_bucket{phase=\"commit\"}[$__rate_interval])))",
+          "legendFormat": "p95"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(vault_write_transaction_duration_seconds_bucket{phase=\"commit\"}[$__rate_interval])))",
+          "legendFormat": "p99"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "title": "Entries, by collection",
+      "description": "This panel shows the entries each collection holds.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 47
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "vault_collection_entries",
+          "legendFormat": "{{collection}}"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "title": "Eviction",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 55
+      },
+      "panels": []
     },
     {
       "id": 31,
@@ -474,7 +805,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 31
+        "y": 56
       },
       "fieldConfig": {
         "defaults": {
@@ -515,7 +846,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 31
+        "y": 56
       },
       "fieldConfig": {
         "defaults": {
@@ -568,7 +899,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 64
       },
       "panels": []
     },
@@ -584,7 +915,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 40
+        "y": 65
       },
       "fieldConfig": {
         "defaults": {
@@ -621,7 +952,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 48
+        "y": 73
       },
       "panels": []
     },
@@ -638,7 +969,7 @@
         "h": 8,
         "w": 18,
         "x": 0,
-        "y": 49
+        "y": 74
       },
       "options": {
         "calculate": false,
@@ -680,7 +1011,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 49
+        "y": 74
       },
       "fieldConfig": {
         "defaults": {
@@ -734,7 +1065,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 57
+        "y": 82
       },
       "options": {
         "calculate": false,
@@ -775,7 +1106,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 57
+        "y": 82
       },
       "fieldConfig": {
         "defaults": {
@@ -811,7 +1142,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 65
+        "y": 90
       },
       "panels": []
     },
@@ -828,7 +1159,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 66
+        "y": 91
       },
       "fieldConfig": {
         "defaults": {
@@ -865,7 +1196,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 66
+        "y": 91
       },
       "fieldConfig": {
         "defaults": {
@@ -903,7 +1234,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 66
+        "y": 91
       },
       "fieldConfig": {
         "defaults": {
@@ -939,7 +1270,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 74
+        "y": 99
       },
       "fieldConfig": {
         "defaults": {
@@ -1071,7 +1402,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 74
+        "y": 99
       },
       "fieldConfig": {
         "defaults": {
@@ -1202,7 +1533,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 82
+        "y": 107
       },
       "fieldConfig": {
         "defaults": {
@@ -1319,7 +1650,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 82
+        "y": 107
       },
       "fieldConfig": {
         "defaults": {
@@ -1435,7 +1766,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 90
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1471,7 +1802,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 90
+        "y": 115
       },
       "fieldConfig": {
         "defaults": {
@@ -1508,7 +1839,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 98
+        "y": 123
       },
       "fieldConfig": {
         "defaults": {
@@ -1545,7 +1876,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 98
+        "y": 123
       },
       "fieldConfig": {
         "defaults": {
@@ -1577,7 +1908,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 106
+        "y": 131
       },
       "panels": []
     },
@@ -1594,7 +1925,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 107
+        "y": 132
       },
       "fieldConfig": {
         "defaults": {
@@ -1645,7 +1976,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 107
+        "y": 132
       },
       "fieldConfig": {
         "defaults": {
@@ -1706,7 +2037,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 115
+        "y": 140
       },
       "fieldConfig": {
         "defaults": {
@@ -1770,7 +2101,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 115
+        "y": 140
       },
       "fieldConfig": {
         "defaults": {
@@ -1828,7 +2159,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 115
+        "y": 140
       },
       "fieldConfig": {
         "defaults": {

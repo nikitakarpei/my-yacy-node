@@ -17,7 +17,7 @@ type doubleEngine struct {
 func openDouble() (*vault.Vault, error) {
 	v, err := vault.New(&doubleEngine{
 		buckets: map[vault.Name]map[string][]byte{},
-	})
+	}, nil)
 	if err != nil {
 		return nil, fmt.Errorf("new vault: %w", err)
 	}

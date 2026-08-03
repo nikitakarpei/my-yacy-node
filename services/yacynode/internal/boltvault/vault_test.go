@@ -24,7 +24,7 @@ func TestConformance(t *testing.T) {
 	vaulttest.RunConformance(t, func(quotaBytes int64) (*vault.Vault, error) {
 		path := filepath.Join(dir, fmt.Sprintf("node-%d.db", seq.Add(1)))
 
-		return boltvault.Open(path, quotaBytes)
+		return boltvault.Open(path, quotaBytes, nil)
 	})
 }
 
@@ -32,7 +32,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 	ctx := context.Background()
 	path := filepath.Join(t.TempDir(), "node.db")
 
-	first, err := boltvault.Open(path, 0)
+	first, err := boltvault.Open(path, 0, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -49,7 +49,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 		t.Fatalf("Close: %v", err)
 	}
 
-	reopened, err := boltvault.Open(path, 0)
+	reopened, err := boltvault.Open(path, 0, nil)
 	if err != nil {
 		t.Fatalf("reopen: %v", err)
 	}
@@ -80,7 +80,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 
 func TestWritesAreNotGatedByQuota(t *testing.T) {
 	ctx := context.Background()
-	store, err := boltvault.Open(filepath.Join(t.TempDir(), "node.db"), 1)
+	store, err := boltvault.Open(filepath.Join(t.TempDir(), "node.db"), 1, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
