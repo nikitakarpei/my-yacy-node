@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawling"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
@@ -132,8 +131,6 @@ func mountNodeEndpoints(
 		storage.urlDirectory,
 		searchPostingsPerWord,
 	)
-
-	crawling.MountCrawlReceipt(router)
 }
 
 func newStorageSweeper(vault *vault.Vault, storage nodeStorage) eviction.Sweeper {
