@@ -50,7 +50,7 @@ func (s fakeScanner) PostingOf(
 }
 
 type fakeDirectory struct {
-	metadata map[yacymodel.URLHash]yacymodel.URLMetadata
+	documentDirectory map[yacymodel.URLHash]yacymodel.URLMetadata
 }
 
 func (d fakeDirectory) MetadataByHash(
@@ -59,7 +59,7 @@ func (d fakeDirectory) MetadataByHash(
 ) ([]yacymodel.URLMetadata, error) {
 	out := make([]yacymodel.URLMetadata, 0, len(hashes))
 	for _, hash := range hashes {
-		if stored, ok := d.metadata[hash]; ok {
+		if stored, ok := d.documentDirectory[hash]; ok {
 			out = append(out, stored)
 		}
 	}
@@ -75,7 +75,7 @@ func (d fakeDirectory) MissingURLs(
 }
 
 func (d fakeDirectory) Count(context.Context) (int, error) {
-	return len(d.metadata), nil
+	return len(d.documentDirectory), nil
 }
 
 func hashFor(base string) yacymodel.Hash {
@@ -137,6 +137,23 @@ func urlMetadata(ids ...string) map[yacymodel.URLHash]yacymodel.URLMetadata {
 	return metadata
 }
 
+func hasExactlyDocuments(got []yacymodel.URLHash, ids ...string) bool {
+	if len(got) != len(ids) {
+		return false
+	}
+	want := make(map[yacymodel.URLHash]struct{}, len(ids))
+	for _, id := range ids {
+		want[urlHashFor(id)] = struct{}{}
+	}
+	for _, hash := range got {
+		if _, ok := want[hash]; !ok {
+			return false
+		}
+	}
+
+	return true
+}
+
 func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 	word1, word2 := hashFor("w1"), hashFor("w2")
 	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
@@ -144,14 +161,14 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 		word2: {postingEntry(word2, "u2", 0, 1), postingEntry(word2, "u3", 0, 1)},
 	}}
 	s := searcher{
-		index:          index,
-		documents:      fakeDirectory{metadata: urlMetadata("u1", "u2", "u3")},
-		matchesPerTerm: 100,
+		index:              index,
+		documentDirectory:  fakeDirectory{documentDirectory: urlMetadata("u1", "u2", "u3")},
+		maxPostingsPerTerm: 100,
 	}
 
 	result, err := s.search(context.Background(), searchCriteria{
-		terms:     []yacymodel.Hash{word1, word2},
-		reporting: matchReporting{mode: reportTermWithMostMatches},
+		terms:           []yacymodel.Hash{word1, word2},
+		requestedReport: requestedMatchReport{mode: reportTermWithMostMatches},
 	})
 	if err != nil {
 		t.Fatalf("search: %v", err)
@@ -162,17 +179,21 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 			result.totalDocumentsMatchingEveryTerm,
 		)
 	}
-	if len(result.resources) != 1 {
-		t.Fatalf("resources = %d, want 1", len(result.resources))
+	if len(result.documentMetadata) != 1 {
+		t.Fatalf("resources = %d, want 1", len(result.documentMetadata))
 	}
-	if result.resources[0].Address != addressFor("u2") {
-		t.Errorf("resource = %v, want u2", result.resources[0])
+	if result.documentMetadata[0].Address != addressFor("u2") {
+		t.Errorf("resource = %v, want u2", result.documentMetadata[0])
 	}
 	if result.totalMatchesPerTerm[word1] != 2 {
 		t.Errorf("totalMatchesPerTerm[w1] = %d, want 2", result.totalMatchesPerTerm[word1])
 	}
-	if got := result.documentsMatchingEachReportedTerm[word1]; got != "{AAAAAA:u1AAAAu2AAAA}" {
-		t.Errorf("documentsMatchingEachReportedTerm[w1] = %q", got)
+	if got := result.documentsMatchingEachReportedTerm[word1]; !hasExactlyDocuments(
+		got,
+		"u1",
+		"u2",
+	) {
+		t.Errorf("documentsMatchingEachReportedTerm[w1] = %v, want u1, u2", got)
 	}
 }
 
@@ -186,9 +207,9 @@ func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
 		},
 	}}
 	s := searcher{
-		index:          index,
-		documents:      fakeDirectory{metadata: urlMetadata("u1", "u2", "u3")},
-		matchesPerTerm: 100,
+		index:              index,
+		documentDirectory:  fakeDirectory{documentDirectory: urlMetadata("u1", "u2", "u3")},
+		maxPostingsPerTerm: 100,
 	}
 
 	result, err := s.search(
@@ -204,8 +225,8 @@ func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
 			result.totalDocumentsMatchingEveryTerm,
 		)
 	}
-	if len(result.resources) != 2 {
-		t.Errorf("resources = %d, want 2", len(result.resources))
+	if len(result.documentMetadata) != 2 {
+		t.Errorf("resources = %d, want 2", len(result.documentMetadata))
 	}
 }
 
@@ -216,9 +237,9 @@ func TestSearchOrdersByOccurrencesThenTermSpread(t *testing.T) {
 		word2: {postingEntry(word2, "u2", 2, 2), postingEntry(word2, "u3", 5, 2)},
 	}}
 	s := searcher{
-		index:          index,
-		documents:      fakeDirectory{metadata: urlMetadata("u2", "u3")},
-		matchesPerTerm: 100,
+		index:              index,
+		documentDirectory:  fakeDirectory{documentDirectory: urlMetadata("u2", "u3")},
+		maxPostingsPerTerm: 100,
 	}
 
 	result, err := s.search(
@@ -228,7 +249,7 @@ func TestSearchOrdersByOccurrencesThenTermSpread(t *testing.T) {
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
-	if got := result.resources[0].Address; got != addressFor("u2") {
+	if got := result.documentMetadata[0].Address; got != addressFor("u2") {
 		t.Errorf("first resource = %q, want u2", got)
 	}
 }
@@ -241,9 +262,9 @@ func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 		word3: {postingEntry(word3, "uA", 9, 1), postingEntry(word3, "uB", 20, 1)},
 	}}
 	s := searcher{
-		index:          index,
-		documents:      fakeDirectory{metadata: urlMetadata("uA", "uB")},
-		matchesPerTerm: 100,
+		index:              index,
+		documentDirectory:  fakeDirectory{documentDirectory: urlMetadata("uA", "uB")},
+		maxPostingsPerTerm: 100,
 	}
 
 	result, err := s.search(context.Background(), searchCriteria{
@@ -253,9 +274,9 @@ func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
-	if len(result.resources) != 1 ||
-		result.resources[0].Address != addressFor("uA") {
-		t.Fatalf("resources = %v, want only uA (span 8, average gap 4)", result.resources)
+	if len(result.documentMetadata) != 1 ||
+		result.documentMetadata[0].Address != addressFor("uA") {
+		t.Fatalf("resources = %v, want only uA (span 8, average gap 4)", result.documentMetadata)
 	}
 }
 
@@ -265,9 +286,9 @@ func TestSearchCapKeepsMostFrequentPostings(t *testing.T) {
 		word: {postingEntry(word, "u1", 1, 1), postingEntry(word, "u2", 1, 5)},
 	}}
 	s := searcher{
-		index:          index,
-		documents:      fakeDirectory{metadata: urlMetadata("u1", "u2")},
-		matchesPerTerm: 1,
+		index:              index,
+		documentDirectory:  fakeDirectory{documentDirectory: urlMetadata("u1", "u2")},
+		maxPostingsPerTerm: 1,
 	}
 
 	result, err := s.search(
@@ -277,11 +298,11 @@ func TestSearchCapKeepsMostFrequentPostings(t *testing.T) {
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
-	if len(result.resources) != 1 ||
-		result.resources[0].Address != addressFor("u2") {
+	if len(result.documentMetadata) != 1 ||
+		result.documentMetadata[0].Address != addressFor("u2") {
 		t.Fatalf(
 			"resources = %v, want only u2 (highest hit count kept under cap)",
-			result.resources,
+			result.documentMetadata,
 		)
 	}
 }
@@ -293,9 +314,9 @@ func TestSearchExcludesTerms(t *testing.T) {
 		ban:  {postingEntry(ban, "u2", 0, 1)},
 	}}
 	s := searcher{
-		index:          index,
-		documents:      fakeDirectory{metadata: urlMetadata("u1", "u2")},
-		matchesPerTerm: 100,
+		index:              index,
+		documentDirectory:  fakeDirectory{documentDirectory: urlMetadata("u1", "u2")},
+		maxPostingsPerTerm: 100,
 	}
 
 	result, err := s.search(context.Background(), searchCriteria{
@@ -305,9 +326,9 @@ func TestSearchExcludesTerms(t *testing.T) {
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
-	if len(result.resources) != 1 ||
-		result.resources[0].Address != addressFor("u1") {
-		t.Fatalf("resources = %v, want only u1", result.resources)
+	if len(result.documentMetadata) != 1 ||
+		result.documentMetadata[0].Address != addressFor("u1") {
+		t.Fatalf("resources = %v, want only u1", result.documentMetadata)
 	}
 }
 
@@ -316,22 +337,29 @@ func TestSearchReportsRequestedTermsWithoutWantedTerms(t *testing.T) {
 	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1", 1, 1), postingEntry(word, "u2", 1, 1)},
 	}}
-	s := searcher{index: index, documents: fakeDirectory{}, matchesPerTerm: 100}
+	s := searcher{index: index, documentDirectory: fakeDirectory{}, maxPostingsPerTerm: 100}
 
 	result, err := s.search(context.Background(), searchCriteria{
-		reporting: matchReporting{mode: reportRequestedTerms, terms: []yacymodel.Hash{word}},
+		requestedReport: requestedMatchReport{
+			mode:  reportRequestedTerms,
+			terms: []yacymodel.Hash{word},
+		},
 	})
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
-	if result.totalDocumentsMatchingEveryTerm != 0 || len(result.resources) != 0 {
+	if result.totalDocumentsMatchingEveryTerm != 0 || len(result.documentMetadata) != 0 {
 		t.Fatalf("result = %+v, want report only", result)
 	}
 	if result.totalMatchesPerTerm[word] != 2 {
 		t.Errorf("totalMatchesPerTerm = %d, want 2", result.totalMatchesPerTerm[word])
 	}
-	if got := result.documentsMatchingEachReportedTerm[word]; got != "{AAAAAA:u1AAAAu2AAAA}" {
-		t.Errorf("documentsMatchingEachReportedTerm = %q", got)
+	if got := result.documentsMatchingEachReportedTerm[word]; !hasExactlyDocuments(
+		got,
+		"u1",
+		"u2",
+	) {
+		t.Errorf("documentsMatchingEachReportedTerm = %v, want u1, u2", got)
 	}
 }
 
@@ -362,9 +390,9 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 		word2: {nearOther, germanOther, farOther},
 	}}
 	s := searcher{
-		index:          index,
-		documents:      fakeDirectory{metadata: urlMetadata("u1", "u2", "u3")},
-		matchesPerTerm: 100,
+		index:              index,
+		documentDirectory:  fakeDirectory{documentDirectory: urlMetadata("u1", "u2", "u3")},
+		maxPostingsPerTerm: 100,
 	}
 
 	result, err := s.search(context.Background(), searchCriteria{
@@ -375,8 +403,8 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
-	if len(result.resources) != 1 ||
-		result.resources[0].Address != addressFor("u1") {
-		t.Fatalf("resources = %v, want only u1", result.resources)
+	if len(result.documentMetadata) != 1 ||
+		result.documentMetadata[0].Address != addressFor("u1") {
+		t.Fatalf("resources = %v, want only u1", result.documentMetadata)
 	}
 }

@@ -2,12 +2,12 @@ package documentsearch
 
 import "github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 
-type ignoredOption struct {
-	name    string
-	present func(yacyproto.SearchRequest) bool
+type ignorableOption struct {
+	name  string
+	isSet func(yacyproto.SearchRequest) bool
 }
 
-var ignoredOptions = []ignoredOption{
+var ignorableOptions = []ignorableOption{
 	{"prefer", func(r yacyproto.SearchRequest) bool { return r.Prefer != "" }},
 	{"filter", func(r yacyproto.SearchRequest) bool { return r.Filter != "" && r.Filter != ".*" }},
 	{"profile", func(r yacyproto.SearchRequest) bool { return r.Profile != "" }},
@@ -20,8 +20,8 @@ var ignoredOptions = []ignoredOption{
 
 func ignoredOptionNames(req yacyproto.SearchRequest) []string {
 	var names []string
-	for _, option := range ignoredOptions {
-		if option.present(req) {
+	for _, option := range ignorableOptions {
+		if option.isSet(req) {
 			names = append(names, option.name)
 		}
 	}

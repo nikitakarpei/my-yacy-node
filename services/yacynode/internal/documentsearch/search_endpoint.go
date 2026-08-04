@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -32,9 +33,9 @@ func (e searchEndpoint) Serve(
 		if err != nil {
 			return yacyproto.SearchResponse{}, fmt.Errorf("search criteria: %w", err)
 		}
-		if ignored := ignoredOptionNames(req); len(ignored) != 0 {
+		if ignoredOptions := ignoredOptionNames(req); len(ignoredOptions) != 0 {
 			slog.DebugContext(ctx, "ignoring accepted search options",
-				slog.Any("options", ignored),
+				slog.Any("options", ignoredOptions),
 			)
 		}
 		searchCtx := ctx
@@ -52,10 +53,10 @@ func (e searchEndpoint) Serve(
 		resp.SearchTime = int(result.searchDuration / time.Millisecond)
 		resp.References = strings.Join(result.topics, ",")
 		resp.JoinCount = result.totalDocumentsMatchingEveryTerm
-		resp.Count = len(result.resources)
-		resp.Resources = result.resources
+		resp.Count = len(result.documentMetadata)
+		resp.Resources = result.documentMetadata
 		resp.IndexCount = result.totalMatchesPerTerm
-		resp.IndexAbstract = result.documentsMatchingEachReportedTerm
+		resp.IndexAbstract = indexAbstractFrom(result.documentsMatchingEachReportedTerm)
 	}
 
 	slog.DebugContext(ctx, "search completed",
@@ -64,4 +65,15 @@ func (e searchEndpoint) Serve(
 	)
 
 	return resp, nil
+}
+
+func indexAbstractFrom(
+	documentsMatchingEachReportedTerm map[yacymodel.Hash][]yacymodel.URLHash,
+) map[yacymodel.Hash]string {
+	abstracts := make(map[yacymodel.Hash]string, len(documentsMatchingEachReportedTerm))
+	for term, documentHashes := range documentsMatchingEachReportedTerm {
+		abstracts[term] = yacyproto.EncodeSearchIndexAbstract(documentHashes)
+	}
+
+	return abstracts
 }

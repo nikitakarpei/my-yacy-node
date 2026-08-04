@@ -1,4 +1,4 @@
-// Package documentsearch finds documents containing wanted terms, orders them by
+// Package documentsearch finds documents containing query terms, orders them by
 // relevance, and reports how many documents matched each term.
 package documentsearch
 
@@ -15,14 +15,14 @@ func MountSearch(
 	identity nodeidentity.Identity,
 	index rwipostings.PostingIndex,
 	documents urlmeta.URLDirectory,
-	matchesPerTerm int,
+	maxPostingsPerTerm int,
 ) {
 	endpoint := searchEndpoint{
 		identity: identity,
 		searcher: searcher{
-			index:          index,
-			documents:      documents,
-			matchesPerTerm: matchesPerTerm,
+			index:              index,
+			documentDirectory:  documents,
+			maxPostingsPerTerm: maxPostingsPerTerm,
 		},
 	}
 

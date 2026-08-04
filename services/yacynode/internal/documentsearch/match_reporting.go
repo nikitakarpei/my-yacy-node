@@ -4,94 +4,100 @@ import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 type matchReport struct {
-	totalMatchesPerTerm map[yacymodel.Hash]int
-	documents           map[yacymodel.Hash]string
+	totalMatchesPerTerm               map[yacymodel.Hash]int
+	documentsMatchingEachReportedTerm map[yacymodel.Hash][]yacymodel.URLHash
 }
 
-func (s searcher) reportMatches(
+func (s searcher) matchReportFor(
 	ctx context.Context,
 	criteria searchCriteria,
-	wanted termMatches,
+	matchesForQueryTerms map[yacymodel.Hash]termMatch,
 ) (matchReport, error) {
-	switch criteria.reporting.mode {
+	switch criteria.requestedReport.mode {
 	case reportNoMatches:
 		return matchReport{}, nil
 	case reportTermWithMostMatches:
-		return reportLargestWantedTerm(criteria, wanted), nil
+		return matchReportForTermWithMostMatches(criteria, matchesForQueryTerms), nil
 	case reportRequestedTerms:
-		return s.reportRequestedTerms(ctx, criteria, wanted)
+		return s.matchReportForRequestedTerms(ctx, criteria, matchesForQueryTerms)
 	default:
 		return matchReport{}, nil
 	}
 }
 
-func reportLargestWantedTerm(criteria searchCriteria, wanted termMatches) matchReport {
-	report := matchReport{totalMatchesPerTerm: wanted.totalMatchesPerTerm}
+func matchReportForTermWithMostMatches(
+	criteria searchCriteria,
+	matchesForQueryTerms map[yacymodel.Hash]termMatch,
+) matchReport {
+	report := matchReport{totalMatchesPerTerm: totalPostingsOf(matchesForQueryTerms)}
 	if len(criteria.terms) <= 1 || len(criteria.requiredDocuments) != 0 {
 		return report
 	}
-	term, ok := termWithMostMatches(wanted.documentsPerTerm)
+	term, ok := termWithMostMatches(matchesForQueryTerms)
 	if !ok {
 		return report
 	}
-	report.documents = map[yacymodel.Hash]string{
-		term: yacyproto.EncodeSearchIndexAbstract(
-			documentIdentifiers(wanted.documentsPerTerm[term]),
-		),
+	report.documentsMatchingEachReportedTerm = map[yacymodel.Hash][]yacymodel.URLHash{
+		term: documentHashes(matchesForQueryTerms[term].postingPerDocument),
 	}
 
 	return report
 }
 
-func (s searcher) reportRequestedTerms(
+func (s searcher) matchReportForRequestedTerms(
 	ctx context.Context,
 	criteria searchCriteria,
-	wanted termMatches,
+	matchesForQueryTerms map[yacymodel.Hash]termMatch,
 ) (matchReport, error) {
 	filter, err := s.postingFilter(ctx, criteria, nil)
 	if err != nil {
 		return matchReport{}, err
 	}
-	requested, err := s.documentsMatchingTerms(ctx, criteria.reporting.terms, filter)
+	matchesForReportedTerms, err := s.termMatchesFor(ctx, criteria.requestedReport.terms, filter)
 	if err != nil {
 		return matchReport{}, err
 	}
 
-	documents := make(map[yacymodel.Hash]string, len(criteria.reporting.terms))
-	for _, term := range criteria.reporting.terms {
-		documents[term] = yacyproto.EncodeSearchIndexAbstract(
-			documentIdentifiers(requested.documentsPerTerm[term]),
+	documentsMatchingEachReportedTerm := make(
+		map[yacymodel.Hash][]yacymodel.URLHash,
+		len(criteria.requestedReport.terms),
+	)
+	for _, term := range criteria.requestedReport.terms {
+		documentsMatchingEachReportedTerm[term] = documentHashes(
+			matchesForReportedTerms[term].postingPerDocument,
 		)
 	}
 
-	totals := wanted.totalMatchesPerTerm
+	totals := totalPostingsOf(matchesForQueryTerms)
 	if len(criteria.terms) == 0 {
-		totals = requested.totalMatchesPerTerm
+		totals = totalPostingsOf(matchesForReportedTerms)
 	}
 
-	return matchReport{totalMatchesPerTerm: totals, documents: documents}, nil
+	return matchReport{
+		totalMatchesPerTerm:               totals,
+		documentsMatchingEachReportedTerm: documentsMatchingEachReportedTerm,
+	}, nil
 }
 
-func termWithMostMatches(
-	documentsPerTerm map[yacymodel.Hash]map[yacymodel.URLHash]matchedDocument,
-) (yacymodel.Hash, bool) {
+func termWithMostMatches(matches map[yacymodel.Hash]termMatch) (yacymodel.Hash, bool) {
 	var (
-		selected yacymodel.Hash
-		size     int
-		found    bool
+		mostMatchedTerm yacymodel.Hash
+		mostMatches     int
+		found           bool
 	)
-	for term, documents := range documentsPerTerm {
-		if !found || len(documents) > size ||
-			len(documents) == size && compareAscending(term.String(), selected.String()) < 0 {
-			selected = term
-			size = len(documents)
+	for term, match := range matches {
+		matchCount := len(match.postingPerDocument)
+		if !found || matchCount > mostMatches ||
+			matchCount == mostMatches &&
+				compareAscending(term.String(), mostMatchedTerm.String()) < 0 {
+			mostMatchedTerm = term
+			mostMatches = matchCount
 			found = true
 		}
 	}
 
-	return selected, found
+	return mostMatchedTerm, found
 }

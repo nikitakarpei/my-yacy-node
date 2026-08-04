@@ -11,18 +11,18 @@ import (
 )
 
 type searcher struct {
-	index          rwipostings.PostingIndex
-	documents      urlmeta.URLDirectory
-	matchesPerTerm int
+	index              rwipostings.PostingIndex
+	documentDirectory  urlmeta.URLDirectory
+	maxPostingsPerTerm int
 }
 
 type searchResult struct {
-	resources                         []yacymodel.URLMetadata
+	documentMetadata                  []yacymodel.URLMetadata
 	topics                            []string
 	totalDocumentsMatchingEveryTerm   int
 	searchDuration                    time.Duration
 	totalMatchesPerTerm               map[yacymodel.Hash]int
-	documentsMatchingEachReportedTerm map[yacymodel.Hash]string
+	documentsMatchingEachReportedTerm map[yacymodel.Hash][]yacymodel.URLHash
 }
 
 func (s searcher) search(ctx context.Context, criteria searchCriteria) (searchResult, error) {
@@ -32,38 +32,38 @@ func (s searcher) search(ctx context.Context, criteria searchCriteria) (searchRe
 	if err != nil {
 		return searchResult{}, err
 	}
-	wanted, err := s.documentsMatchingTerms(ctx, criteria.terms, filter)
+	matchesForQueryTerms, err := s.termMatchesFor(ctx, criteria.terms, filter)
 	if err != nil {
 		return searchResult{}, err
 	}
 
-	matchingEveryTerm := documentsWithinTermSpread(
-		keepDocumentsMatchingEveryTerm(
-			documentsInTermOrder(criteria.terms, wanted.documentsPerTerm),
-		),
+	matchesAcrossEveryTerm := documentMatchesAcrossEveryTerm(criteria.terms, matchesForQueryTerms)
+	matchesWithinTermSpread := documentMatchesWithinTermSpread(
+		matchesAcrossEveryTerm,
 		criteria.maxTermSpread,
 		len(criteria.terms),
 	)
-	mostRelevant := takeMostRelevant(
-		documentsOrderedByRelevance(matchingEveryTerm, len(criteria.terms)),
+	documentHashes := hashesOfMostRelevantDocuments(
+		matchesWithinTermSpread,
+		len(criteria.terms),
 		criteria.maxResults,
 	)
-	resources, err := s.documents.MetadataByHash(ctx, mostRelevant)
+	documentMetadata, err := s.documentDirectory.MetadataByHash(ctx, documentHashes)
 	if err != nil {
-		return searchResult{}, fmt.Errorf("rows by hash: %w", err)
+		return searchResult{}, fmt.Errorf("document metadata: %w", err)
 	}
 
-	report, err := s.reportMatches(ctx, criteria, wanted)
+	report, err := s.matchReportFor(ctx, criteria, matchesForQueryTerms)
 	if err != nil {
 		return searchResult{}, err
 	}
 
 	return searchResult{
-		resources:                         resources,
-		topics:                            resultTopics(resources, criteria.terms),
-		totalDocumentsMatchingEveryTerm:   len(matchingEveryTerm),
+		documentMetadata:                  documentMetadata,
+		topics:                            topicsFromTitles(documentMetadata, criteria.terms),
+		totalDocumentsMatchingEveryTerm:   len(matchesWithinTermSpread),
 		searchDuration:                    time.Since(start),
 		totalMatchesPerTerm:               report.totalMatchesPerTerm,
-		documentsMatchingEachReportedTerm: report.documents,
+		documentsMatchingEachReportedTerm: report.documentsMatchingEachReportedTerm,
 	}, nil
 }

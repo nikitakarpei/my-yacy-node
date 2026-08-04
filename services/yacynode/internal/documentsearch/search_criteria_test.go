@@ -85,19 +85,26 @@ func TestSearchReportsRequestedTermsAlongsideWantedTerms(t *testing.T) {
 		related: {postingEntry(related, "u2", 0, 1), postingEntry(related, "u3", 0, 1)},
 	}}
 	s := searcher{
-		index:          index,
-		documents:      fakeDirectory{metadata: urlMetadata("u1", "u2")},
-		matchesPerTerm: 100,
+		index:              index,
+		documentDirectory:  fakeDirectory{documentDirectory: urlMetadata("u1", "u2")},
+		maxPostingsPerTerm: 100,
 	}
 
 	result, err := s.search(context.Background(), searchCriteria{
-		terms:     []yacymodel.Hash{word},
-		reporting: matchReporting{mode: reportRequestedTerms, terms: []yacymodel.Hash{related}},
+		terms: []yacymodel.Hash{word},
+		requestedReport: requestedMatchReport{
+			mode:  reportRequestedTerms,
+			terms: []yacymodel.Hash{related},
+		},
 	})
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
-	if got := result.documentsMatchingEachReportedTerm[related]; got != "{AAAAAA:u2AAAAu3AAAA}" {
-		t.Fatalf("documentsMatchingEachReportedTerm[related] = %q", got)
+	if got := result.documentsMatchingEachReportedTerm[related]; !hasExactlyDocuments(
+		got,
+		"u2",
+		"u3",
+	) {
+		t.Fatalf("documentsMatchingEachReportedTerm[related] = %v, want u2, u3", got)
 	}
 }

@@ -20,9 +20,9 @@ type queryOperators struct {
 	SiteHost string
 }
 
-func parseQueryOperators(query string) queryOperators {
+func parseQueryOperators(modifier string) queryOperators {
 	var parsed queryOperators
-	for token := range strings.FieldsSeq(query) {
+	for token := range strings.FieldsSeq(modifier) {
 		switch {
 		case strings.HasPrefix(token, operatorLanguagePrefix):
 			if code := token[len(operatorLanguagePrefix):]; len(code) == operatorLanguageLength {
@@ -38,11 +38,11 @@ func parseQueryOperators(query string) queryOperators {
 
 func searchCriteriaFromRequest(req yacyproto.SearchRequest) (searchCriteria, error) {
 	operators := parseQueryOperators(req.Modifier)
-	siteHash, err := resolveSiteHash(req, operators)
+	siteHash, err := siteHashFromRequest(req, operators)
 	if err != nil {
 		return searchCriteria{}, err
 	}
-	language, err := resolveLanguage(operators)
+	language, err := languageFromOperators(operators)
 	if err != nil {
 		return searchCriteria{}, err
 	}
@@ -61,10 +61,10 @@ func searchCriteriaFromRequest(req yacyproto.SearchRequest) (searchCriteria, err
 		maxResults:         maxResults,
 		maxTermSpread:      req.MaxDist,
 		timeLimit:          timeLimit,
-		reporting:          matchReportingFromRequest(req),
+		requestedReport:    matchReportingFromRequest(req),
 		contentKind:        contentKindFromDomain(req.ContentDom),
 		strictContentKind:  req.StrictContentDom,
-		requiredProperties: req.RequiredAppearance,
+		requiredAppearance: req.RequiredAppearance,
 		// Deliberate divergence from YaCy: only the /language/ modifier filters; the
 		// plain language field drives YaCy's ranking boost, which this node omits.
 		language: language,
@@ -87,7 +87,7 @@ func contentKindFromDomain(domain yacyproto.SearchContentDomain) contentKind {
 	}
 }
 
-func resolveSiteHash(
+func siteHashFromRequest(
 	req yacyproto.SearchRequest, operators queryOperators,
 ) (yacymodel.Optional[yacymodel.HostHash], error) {
 	if req.SiteHash != "" {
@@ -98,11 +98,14 @@ func resolveSiteHash(
 
 		return yacymodel.Some(hash), nil
 	}
-	host := firstNonEmpty(operators.SiteHost, req.SiteHost)
-	if host == "" {
+	siteHost := operators.SiteHost
+	if siteHost == "" {
+		siteHost = req.SiteHost
+	}
+	if siteHost == "" {
 		return yacymodel.None[yacymodel.HostHash](), nil
 	}
-	hash, err := yacymodel.HashHost(host)
+	hash, err := yacymodel.HashHost(siteHost)
 	if err != nil {
 		return yacymodel.None[yacymodel.HostHash](), fmt.Errorf("site hash: %w", err)
 	}
@@ -110,7 +113,7 @@ func resolveSiteHash(
 	return yacymodel.Some(hash), nil
 }
 
-func resolveLanguage(
+func languageFromOperators(
 	operators queryOperators,
 ) (yacymodel.Optional[yacymodel.Language], error) {
 	if operators.Language == "" {
@@ -124,23 +127,13 @@ func resolveLanguage(
 	return yacymodel.Some(language), nil
 }
 
-func matchReportingFromRequest(req yacyproto.SearchRequest) matchReporting {
+func matchReportingFromRequest(req yacyproto.SearchRequest) requestedMatchReport {
 	switch req.Abstracts {
 	case "":
-		return matchReporting{mode: reportNoMatches}
+		return requestedMatchReport{mode: reportNoMatches}
 	case yacyproto.SearchAbstractsAuto:
-		return matchReporting{mode: reportTermWithMostMatches}
+		return requestedMatchReport{mode: reportTermWithMostMatches}
 	default:
-		return matchReporting{mode: reportRequestedTerms, terms: req.Abstracts.Hashes()}
+		return requestedMatchReport{mode: reportRequestedTerms, terms: req.Abstracts.Hashes()}
 	}
-}
-
-func firstNonEmpty(values ...string) string {
-	for _, value := range values {
-		if value != "" {
-			return value
-		}
-	}
-
-	return ""
 }

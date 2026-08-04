@@ -13,7 +13,7 @@ type postingFilter struct {
 	siteHash           yacymodel.Optional[yacymodel.HostHash]
 	contentKind        contentKind
 	strictContentKind  bool
-	requiredProperties yacymodel.Optional[yacymodel.Appearance]
+	requiredAppearance yacymodel.Optional[yacymodel.Appearance]
 }
 
 func (s searcher) postingFilter(
@@ -21,7 +21,7 @@ func (s searcher) postingFilter(
 	criteria searchCriteria,
 	excludedTerms []yacymodel.Hash,
 ) (postingFilter, error) {
-	excluded, err := s.excludedDocuments(ctx, excludedTerms)
+	excludedDocuments, err := s.excludedDocuments(ctx, excludedTerms)
 	if err != nil {
 		return postingFilter{}, err
 	}
@@ -29,50 +29,50 @@ func (s searcher) postingFilter(
 	return postingFilter{
 		language:           criteria.language,
 		requiredDocuments:  documentSet(criteria.requiredDocuments),
-		excludedDocuments:  excluded,
+		excludedDocuments:  excludedDocuments,
 		siteHash:           criteria.siteHash,
 		contentKind:        criteria.contentKind,
 		strictContentKind:  criteria.strictContentKind,
-		requiredProperties: criteria.requiredProperties,
+		requiredAppearance: criteria.requiredAppearance,
 	}, nil
 }
 
-func (f postingFilter) matches(posting yacymodel.RWIPosting) bool {
-	if wanted, ok := f.language.Get(); ok {
-		code, present := posting.Language.Get()
-		if !present || code != wanted {
+func (f postingFilter) accepts(posting yacymodel.RWIPosting) bool {
+	if requiredLanguage, ok := f.language.Get(); ok {
+		code, ok := posting.Language.Get()
+		if !ok || code != requiredLanguage {
 			return false
 		}
 	}
-	document := posting.URLHash
+	documentHash := posting.URLHash
 	if len(f.requiredDocuments) != 0 {
-		if _, ok := f.requiredDocuments[document]; !ok {
+		if _, ok := f.requiredDocuments[documentHash]; !ok {
 			return false
 		}
 	}
-	if _, ok := f.excludedDocuments[document]; ok {
+	if _, ok := f.excludedDocuments[documentHash]; ok {
 		return false
 	}
-	if !matchesSiteHost(posting.URLHash, f.siteHash) {
+	if !isFromRequestedSite(posting.URLHash, f.siteHash) {
 		return false
 	}
 	if !matchesContentKind(posting, f.contentKind, f.strictContentKind) {
 		return false
 	}
 
-	return matchesRequiredProperties(posting, f.requiredProperties)
+	return sharesRequiredAppearance(posting, f.requiredAppearance)
 }
 
-func matchesSiteHost(
-	location yacymodel.URLHash,
-	siteHash yacymodel.Optional[yacymodel.HostHash],
+func isFromRequestedSite(
+	documentHash yacymodel.URLHash,
+	requestedSite yacymodel.Optional[yacymodel.HostHash],
 ) bool {
-	wanted, ok := siteHash.Get()
+	wanted, ok := requestedSite.Get()
 	if !ok {
 		return true
 	}
 
-	return location.HostHash() == wanted
+	return documentHash.HostHash() == wanted
 }
 
 func matchesContentKind(posting yacymodel.RWIPosting, kind contentKind, strict bool) bool {
@@ -102,11 +102,11 @@ func matchesContentKind(posting yacymodel.RWIPosting, kind contentKind, strict b
 	}
 }
 
-func matchesRequiredProperties(
+func sharesRequiredAppearance(
 	posting yacymodel.RWIPosting,
-	required yacymodel.Optional[yacymodel.Appearance],
+	requiredAppearance yacymodel.Optional[yacymodel.Appearance],
 ) bool {
-	traits, ok := required.Get()
+	traits, ok := requiredAppearance.Get()
 	if !ok {
 		return true
 	}
@@ -114,13 +114,13 @@ func matchesRequiredProperties(
 	return posting.Appearance.OverlapsAny(traits)
 }
 
-func documentSet(identifiers []yacymodel.URLHash) map[yacymodel.URLHash]struct{} {
-	if len(identifiers) == 0 {
+func documentSet(documentHashes []yacymodel.URLHash) map[yacymodel.URLHash]struct{} {
+	if len(documentHashes) == 0 {
 		return nil
 	}
-	set := make(map[yacymodel.URLHash]struct{}, len(identifiers))
-	for _, identifier := range identifiers {
-		set[identifier] = struct{}{}
+	set := make(map[yacymodel.URLHash]struct{}, len(documentHashes))
+	for _, documentHash := range documentHashes {
+		set[documentHash] = struct{}{}
 	}
 
 	return set

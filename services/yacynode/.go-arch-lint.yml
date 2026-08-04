@@ -30,8 +30,6 @@ components:
     in: internal/bootstrap/**
   landing:
     in: internal/landing/**
-  crawling:
-    in: internal/crawling/**
   urlmeta:
     in: internal/urlmeta/**
   urlmetastaleness:
@@ -194,13 +192,6 @@ deps:
   landing:
     mayDependOn:
       - landing
-  crawling:
-    mayDependOn:
-      - crawling
-      - httpguard
-    canUse:
-      - yacymodel
-      - yacyproto
   urlmeta:
     mayDependOn:
       - urlmeta
@@ -428,7 +419,6 @@ deps:
       - peerannouncement
       - bootstrap
       - landing
-      - crawling
       - urlmeta
       - rwipostings
       - rwiescrow
