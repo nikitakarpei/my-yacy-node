@@ -8,12 +8,11 @@ const (
 )
 
 const (
-	PathHello        = "/yacy/hello.html"
-	PathTransferRWI  = "/yacy/transferRWI.html"
-	PathTransferURL  = "/yacy/transferURL.html"
-	PathSearch       = "/yacy/search.html"
-	PathQuery        = "/yacy/query.html"
-	PathCrawlReceipt = "/yacy/crawlReceipt.html"
+	PathHello       = "/yacy/hello.html"
+	PathTransferRWI = "/yacy/transferRWI.html"
+	PathTransferURL = "/yacy/transferURL.html"
+	PathSearch      = "/yacy/search.html"
+	PathQuery       = "/yacy/query.html"
 )
 
 const (
@@ -22,10 +21,9 @@ const (
 )
 
 const (
-	HelloEndpointMethods        = EndpointMethodsGetPost
-	TransferRWIEndpointMethods  = EndpointMethodsPost
-	TransferURLEndpointMethods  = EndpointMethodsPost
-	SearchEndpointMethods       = EndpointMethodsGetPost
-	QueryEndpointMethods        = EndpointMethodsGetPost
-	CrawlReceiptEndpointMethods = EndpointMethodsPost
+	HelloEndpointMethods       = EndpointMethodsGetPost
+	TransferRWIEndpointMethods = EndpointMethodsPost
+	TransferURLEndpointMethods = EndpointMethodsPost
+	SearchEndpointMethods      = EndpointMethodsGetPost
+	QueryEndpointMethods       = EndpointMethodsGetPost
 )
