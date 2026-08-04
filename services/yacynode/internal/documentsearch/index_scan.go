@@ -14,47 +14,47 @@ func (s searcher) scanTerm(
 ) ([]termPosting, int, error) {
 	// The per-term cap keeps the most frequent postings rather than the first
 	// scanned; an exact join under a memory bound would instead pivot on the rarest term.
-	kept := mostFrequentPostings{limit: s.matchesPerTerm}
+	frequentPostings := mostFrequentPostings{maxPostings: s.maxPostingsPerTerm}
 	var total int
 	err := s.index.ScanWord(ctx, term, func(posting yacymodel.RWIPosting) (bool, error) {
-		if !filter.matches(posting) {
+		if !filter.accepts(posting) {
 			return true, nil
 		}
 		total++
-		kept.consider(termPosting{
-			documentIdentifier: posting.URLHash,
-			occurrences:        posting.Hits,
-			textPosition:       posting.TextPosition,
+		frequentPostings.consider(termPosting{
+			documentHash: posting.URLHash,
+			occurrences:  posting.Hits,
+			textPosition: posting.TextPosition,
 		})
 
 		return true, nil
 	})
 	if err != nil {
-		return nil, 0, fmt.Errorf("scan word: %w", err)
+		return nil, 0, fmt.Errorf("scan term: %w", err)
 	}
 
-	return kept.collected(), total, nil
+	return frequentPostings.postings, total, nil
 }
 
 func (s searcher) excludedDocuments(
 	ctx context.Context,
 	terms []yacymodel.Hash,
 ) (map[yacymodel.URLHash]struct{}, error) {
-	excluded := make(map[yacymodel.URLHash]struct{})
+	excludedDocuments := make(map[yacymodel.URLHash]struct{})
 	for _, term := range terms {
 		err := s.index.ScanWord(
 			ctx,
 			term,
 			func(posting yacymodel.RWIPosting) (bool, error) {
-				excluded[posting.URLHash] = struct{}{}
+				excludedDocuments[posting.URLHash] = struct{}{}
 
 				return true, nil
 			},
 		)
 		if err != nil {
-			return nil, fmt.Errorf("scan excluded word: %w", err)
+			return nil, fmt.Errorf("scan excluded term: %w", err)
 		}
 	}
 
-	return excluded, nil
+	return excludedDocuments, nil
 }

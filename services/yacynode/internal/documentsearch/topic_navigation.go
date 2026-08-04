@@ -17,15 +17,15 @@ const titleWordSeparators = " /()-:_.,?!'\""
 // Topics come only from the returned page, not every matched document as YaCy does,
 // to keep search latency bounded; the field is a navigation hint, so the narrower
 // sample is acceptable.
-func resultTopics(
-	resources []yacymodel.URLMetadata,
+func topicsFromTitles(
+	documentMetadata []yacymodel.URLMetadata,
 	queryTerms []yacymodel.Hash,
 ) []string {
-	excluded := termHashSet(queryTerms)
+	queryTermHashes := termSet(queryTerms)
 	frequency := make(map[string]int)
-	for _, resource := range resources {
-		for _, word := range titleWords(resource.Title) {
-			if _, isQueryTerm := excluded[yacymodel.WordHash(word)]; isQueryTerm {
+	for _, metadata := range documentMetadata {
+		for _, word := range titleWords(metadata.Title) {
+			if _, isQueryTerm := queryTermHashes[yacymodel.WordHash(word)]; isQueryTerm {
 				continue
 			}
 			if isUnhelpfulTopicWord(word) {
@@ -42,7 +42,7 @@ func titleWords(title string) []string {
 	fields := strings.FieldsFunc(strings.ToLower(title), func(r rune) bool {
 		return strings.ContainsRune(titleWordSeparators, r)
 	})
-	words := fields[:0]
+	words := make([]string, 0, len(fields))
 	for _, word := range fields {
 		if len(word) >= minWordLength && onlyLetters(word) {
 			words = append(words, word)
@@ -81,7 +81,7 @@ func mostFrequentTopics(frequency map[string]int) []string {
 	return words
 }
 
-func termHashSet(terms []yacymodel.Hash) map[yacymodel.Hash]struct{} {
+func termSet(terms []yacymodel.Hash) map[yacymodel.Hash]struct{} {
 	if len(terms) == 0 {
 		return nil
 	}

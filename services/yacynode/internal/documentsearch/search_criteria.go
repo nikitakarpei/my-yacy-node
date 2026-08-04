@@ -14,7 +14,7 @@ const (
 	reportRequestedTerms
 )
 
-type matchReporting struct {
+type requestedMatchReport struct {
 	mode  reportingMode
 	terms []yacymodel.Hash
 }
@@ -36,10 +36,10 @@ type searchCriteria struct {
 	maxResults         int
 	maxTermSpread      int
 	timeLimit          time.Duration
-	reporting          matchReporting
+	requestedReport    requestedMatchReport
 	contentKind        contentKind
 	strictContentKind  bool
-	requiredProperties yacymodel.Optional[yacymodel.Appearance]
+	requiredAppearance yacymodel.Optional[yacymodel.Appearance]
 	language           yacymodel.Optional[yacymodel.Language]
 	siteHash           yacymodel.Optional[yacymodel.HostHash]
 }

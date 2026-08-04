@@ -1,55 +1,82 @@
 package documentsearch
 
 import (
-	"maps"
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type matchedDocument struct {
-	identifier  yacymodel.URLHash
-	occurrences int
-	minPosition int
-	maxPosition int
+type documentMatch struct {
+	documentHash      yacymodel.URLHash
+	termOccurrences   int
+	firstTermPosition int
+	lastTermPosition  int
 }
 
-func (d matchedDocument) termSpread(termCount int) int {
+func (d documentMatch) termSpread(termCount int) int {
 	if termCount <= 1 {
 		return 0
 	}
 
-	return (d.maxPosition - d.minPosition) / (termCount - 1)
+	return (d.lastTermPosition - d.firstTermPosition) / (termCount - 1)
 }
 
-func keepDocumentsMatchingEveryTerm(
-	perTerm []map[yacymodel.URLHash]matchedDocument,
-) map[yacymodel.URLHash]matchedDocument {
-	if len(perTerm) == 0 {
+func documentMatchesAcrossEveryTerm(
+	terms []yacymodel.Hash,
+	matches map[yacymodel.Hash]termMatch,
+) map[yacymodel.URLHash]documentMatch {
+	if len(terms) == 0 {
 		return nil
 	}
-	matchingEvery := make(map[yacymodel.URLHash]matchedDocument, len(perTerm[0]))
-	maps.Copy(matchingEvery, perTerm[0])
+	firstTermPostings := matches[terms[0]].postingPerDocument
+	matchingEvery := make(map[yacymodel.URLHash]documentMatch, len(firstTermPostings))
+	for documentHash, posting := range firstTermPostings {
+		matchingEvery[documentHash] = documentMatch{
+			documentHash:      documentHash,
+			termOccurrences:   posting.occurrences,
+			firstTermPosition: posting.textPosition,
+			lastTermPosition:  posting.textPosition,
+		}
+	}
 
-	for _, documents := range perTerm[1:] {
-		for identifier, document := range matchingEvery {
-			alsoHere, ok := documents[identifier]
+	for _, term := range terms[1:] {
+		postingPerDocument := matches[term].postingPerDocument
+		for documentHash, match := range matchingEvery {
+			posting, ok := postingPerDocument[documentHash]
 			if !ok {
-				delete(matchingEvery, identifier)
+				delete(matchingEvery, documentHash)
 
 				continue
 			}
 			// Deliberate divergence from YaCy, which takes the max: summing per-word
 			// hit counts across the query terms ranks by total query-term frequency,
 			// the relevance signal this node orders on.
-			document.occurrences += alsoHere.occurrences
-			document.minPosition = min(document.minPosition, alsoHere.minPosition)
-			document.maxPosition = max(document.maxPosition, alsoHere.maxPosition)
-			matchingEvery[identifier] = document
+			match.termOccurrences += posting.occurrences
+			match.firstTermPosition = min(match.firstTermPosition, posting.textPosition)
+			match.lastTermPosition = max(match.lastTermPosition, posting.textPosition)
+			matchingEvery[documentHash] = match
 		}
 	}
 
 	return matchingEvery
+}
+
+func documentMatchesWithinTermSpread(
+	matches map[yacymodel.URLHash]documentMatch,
+	maxTermSpread int,
+	termCount int,
+) map[yacymodel.URLHash]documentMatch {
+	if maxTermSpread <= 0 {
+		return matches
+	}
+	within := make(map[yacymodel.URLHash]documentMatch, len(matches))
+	for documentHash, match := range matches {
+		if match.termSpread(termCount) <= maxTermSpread {
+			within[documentHash] = match
+		}
+	}
+
+	return within
 }
 
 // Deliberate divergence from YaCy: documents are ordered by occurrences and term
@@ -57,65 +84,35 @@ func keepDocumentsMatchingEveryTerm(
 // the average gap between the query terms' text positions; it matches YaCy's value
 // where YaCy's is deterministic, without depending on YaCy's join-order-sensitive
 // position queue.
-func documentsOrderedByRelevance(
-	documents map[yacymodel.URLHash]matchedDocument,
+func hashesOfMostRelevantDocuments(
+	matches map[yacymodel.URLHash]documentMatch,
 	termCount int,
+	maxResults int,
 ) []yacymodel.URLHash {
-	ranked := make([]matchedDocument, 0, len(documents))
-	for _, document := range documents {
-		ranked = append(ranked, document)
+	ranked := make([]documentMatch, 0, len(matches))
+	for _, match := range matches {
+		ranked = append(ranked, match)
 	}
-	slices.SortFunc(ranked, func(a, b matchedDocument) int {
-		if a.occurrences != b.occurrences {
-			return compareDescending(a.occurrences, b.occurrences)
+	slices.SortFunc(ranked, func(a, b documentMatch) int {
+		if a.termOccurrences != b.termOccurrences {
+			return compareDescending(a.termOccurrences, b.termOccurrences)
 		}
 		if a.termSpread(termCount) != b.termSpread(termCount) {
 			return compareAscending(a.termSpread(termCount), b.termSpread(termCount))
 		}
 
-		return compareAscending(a.identifier.String(), b.identifier.String())
+		return compareAscending(a.documentHash.String(), b.documentHash.String())
 	})
 
-	identifiers := make([]yacymodel.URLHash, 0, len(ranked))
-	for _, document := range ranked {
-		identifiers = append(identifiers, document.identifier)
+	documentHashes := make([]yacymodel.URLHash, 0, len(ranked))
+	for _, match := range ranked {
+		documentHashes = append(documentHashes, match.documentHash)
+	}
+	if maxResults > 0 && len(documentHashes) > maxResults {
+		return documentHashes[:maxResults]
 	}
 
-	return identifiers
-}
-
-func documentsWithinTermSpread(
-	documents map[yacymodel.URLHash]matchedDocument,
-	maxTermSpread int,
-	termCount int,
-) map[yacymodel.URLHash]matchedDocument {
-	if maxTermSpread <= 0 {
-		return documents
-	}
-	for identifier, document := range documents {
-		if document.termSpread(termCount) > maxTermSpread {
-			delete(documents, identifier)
-		}
-	}
-
-	return documents
-}
-
-func takeMostRelevant(identifiers []yacymodel.URLHash, limit int) []yacymodel.URLHash {
-	if limit > 0 && len(identifiers) > limit {
-		return identifiers[:limit]
-	}
-
-	return identifiers
-}
-
-func documentIdentifiers(documents map[yacymodel.URLHash]matchedDocument) []yacymodel.URLHash {
-	identifiers := make([]yacymodel.URLHash, 0, len(documents))
-	for identifier := range documents {
-		identifiers = append(identifiers, identifier)
-	}
-
-	return identifiers
+	return documentHashes
 }
 
 func compareDescending[T ~int](a, b T) int {

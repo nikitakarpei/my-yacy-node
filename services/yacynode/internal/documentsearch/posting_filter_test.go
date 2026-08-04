@@ -55,18 +55,18 @@ func TestMatchesContentKindPassthrough(t *testing.T) {
 	}
 }
 
-func TestMatchesSiteHost(t *testing.T) {
-	location, err := yacymodel.ParseURLHash("0123456789AB")
+func TestIsFromRequestedSite(t *testing.T) {
+	documentHash, err := yacymodel.ParseURLHash("0123456789AB")
 	if err != nil {
 		t.Fatalf("parse url hash: %v", err)
 	}
-	if !matchesSiteHost(location, yacymodel.None[yacymodel.HostHash]()) {
+	if !isFromRequestedSite(documentHash, yacymodel.None[yacymodel.HostHash]()) {
 		t.Fatal("empty site hash should match")
 	}
-	if !matchesSiteHost(location, yacymodel.Some(mustHostHash(t, "6789AB"))) {
+	if !isFromRequestedSite(documentHash, yacymodel.Some(mustHostHash(t, "6789AB"))) {
 		t.Fatal("matching host hash should match")
 	}
-	if matchesSiteHost(location, yacymodel.Some(mustHostHash(t, "000000"))) {
+	if isFromRequestedSite(documentHash, yacymodel.Some(mustHostHash(t, "000000"))) {
 		t.Fatal("non-matching host hash should not match")
 	}
 }
@@ -81,19 +81,19 @@ func mustHostHash(t *testing.T, s string) yacymodel.HostHash {
 	return hash
 }
 
-func TestMatchesRequiredProperties(t *testing.T) {
+func TestSharesRequiredAppearance(t *testing.T) {
 	posting := postingWith(yacymodel.Appearance{HasImage: true})
 
-	if !matchesRequiredProperties(posting, yacymodel.None[yacymodel.Appearance]()) {
+	if !sharesRequiredAppearance(posting, yacymodel.None[yacymodel.Appearance]()) {
 		t.Fatal("no required properties should match")
 	}
-	if !matchesRequiredProperties(
+	if !sharesRequiredAppearance(
 		posting,
 		yacymodel.Some(yacymodel.Appearance{HasImage: true}),
 	) {
 		t.Fatal("required property present in appearance should match")
 	}
-	if matchesRequiredProperties(
+	if sharesRequiredAppearance(
 		posting,
 		yacymodel.Some(yacymodel.Appearance{HasVideo: true}),
 	) {
