@@ -1,49 +1,54 @@
-package documentsearch
+// Package postingfilter decides which postings of a term the search criteria
+// admit.
+package postingfilter
 
 import (
 	"context"
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-type postingFilter struct {
+type Filter struct {
 	language           yacymodel.Optional[yacymodel.Language]
 	requiredDocuments  map[yacymodel.URLHash]struct{}
 	excludedDocuments  map[yacymodel.URLHash]struct{}
 	siteHash           yacymodel.Optional[yacymodel.HostHash]
-	contentKind        contentKind
+	contentKind        searchcriteria.ContentKind
 	strictContentKind  bool
 	requiredAppearance yacymodel.Optional[yacymodel.Appearance]
 }
 
-func (s searcher) searchPostingFilterFrom(
+func FilterForSearch(
 	ctx context.Context,
-	criteria searchCriteria,
-) (postingFilter, error) {
-	excludedDocuments, err := s.documentsContaining(ctx, criteria.excludedTerms)
+	index rwipostings.PostingIndex,
+	criteria searchcriteria.Criteria,
+) (Filter, error) {
+	excludedDocuments, err := documentsContaining(ctx, index, criteria.ExcludedTerms)
 	if err != nil {
-		return postingFilter{}, err
+		return Filter{}, err
 	}
-
-	return postingFilter{
-		language:           criteria.language,
-		requiredDocuments:  documentSet(criteria.requiredDocuments),
+	return Filter{
+		language:           criteria.Language,
+		requiredDocuments:  documentSet(criteria.RequiredDocuments),
 		excludedDocuments:  excludedDocuments,
-		siteHash:           criteria.siteHash,
-		contentKind:        criteria.contentKind,
-		strictContentKind:  criteria.strictContentKind,
-		requiredAppearance: criteria.requiredAppearance,
+		siteHash:           criteria.SiteHash,
+		contentKind:        criteria.ContentKind,
+		strictContentKind:  criteria.StrictContentKind,
+		requiredAppearance: criteria.RequiredAppearance,
 	}, nil
 }
 
-func (s searcher) documentsContaining(
+func documentsContaining(
 	ctx context.Context,
+	index rwipostings.PostingIndex,
 	terms []yacymodel.Hash,
 ) (map[yacymodel.URLHash]struct{}, error) {
 	documents := make(map[yacymodel.URLHash]struct{})
 	for _, term := range terms {
-		err := s.index.ScanWord(
+		err := index.ScanWord(
 			ctx,
 			term,
 			func(posting yacymodel.RWIPosting) (bool, error) {
@@ -60,6 +65,17 @@ func (s searcher) documentsContaining(
 	return documents, nil
 }
 
+func FilterForReport(criteria searchcriteria.Criteria) Filter {
+	return Filter{
+		language:           criteria.Language,
+		requiredDocuments:  documentSet(criteria.RequiredDocuments),
+		siteHash:           criteria.SiteHash,
+		contentKind:        criteria.ContentKind,
+		strictContentKind:  criteria.StrictContentKind,
+		requiredAppearance: criteria.RequiredAppearance,
+	}
+}
+
 func documentSet(documentHashes []yacymodel.URLHash) map[yacymodel.URLHash]struct{} {
 	if len(documentHashes) == 0 {
 		return nil
@@ -72,18 +88,7 @@ func documentSet(documentHashes []yacymodel.URLHash) map[yacymodel.URLHash]struc
 	return set
 }
 
-func reportPostingFilterFrom(criteria searchCriteria) postingFilter {
-	return postingFilter{
-		language:           criteria.language,
-		requiredDocuments:  documentSet(criteria.requiredDocuments),
-		siteHash:           criteria.siteHash,
-		contentKind:        criteria.contentKind,
-		strictContentKind:  criteria.strictContentKind,
-		requiredAppearance: criteria.requiredAppearance,
-	}
-}
-
-func (f postingFilter) accepts(posting yacymodel.RWIPosting) bool {
+func (f Filter) Accepts(posting yacymodel.RWIPosting) bool {
 	if requiredLanguage, ok := f.language.Get(); ok {
 		code, ok := posting.Language.Get()
 		if !ok || code != requiredLanguage {
@@ -124,30 +129,30 @@ func isFromRequestedSite(
 	return documentHash.HostHash() == wanted
 }
 
-func isOfDocumentType(posting yacymodel.RWIPosting, kind contentKind) bool {
+func isOfDocumentType(posting yacymodel.RWIPosting, kind searchcriteria.ContentKind) bool {
 	switch kind {
-	case imageContent:
+	case searchcriteria.ImageContent:
 		return posting.DocumentType == yacymodel.DocumentTypeImage
-	case audioContent:
+	case searchcriteria.AudioContent:
 		return posting.DocumentType == yacymodel.DocumentTypeAudio
-	case videoContent:
+	case searchcriteria.VideoContent:
 		return posting.DocumentType == yacymodel.DocumentTypeMovie
-	case applicationContent:
+	case searchcriteria.ApplicationContent:
 		return posting.Appearance.HasApp
 	default:
 		return true
 	}
 }
 
-func appearsAsContentKind(posting yacymodel.RWIPosting, kind contentKind) bool {
+func appearsAsContentKind(posting yacymodel.RWIPosting, kind searchcriteria.ContentKind) bool {
 	switch kind {
-	case imageContent:
+	case searchcriteria.ImageContent:
 		return posting.Appearance.HasImage
-	case audioContent:
+	case searchcriteria.AudioContent:
 		return posting.Appearance.HasAudio
-	case videoContent:
+	case searchcriteria.VideoContent:
 		return posting.Appearance.HasVideo
-	case applicationContent:
+	case searchcriteria.ApplicationContent:
 		return posting.Appearance.HasApp
 	default:
 		return true

@@ -1,4 +1,4 @@
-package documentsearch
+package searchendpoint
 
 import "github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 

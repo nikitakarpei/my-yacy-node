@@ -1,4 +1,6 @@
-package documentsearch
+// Package searchendpoint answers the YaCy search request of a remote peer with
+// the documents and match report this node holds.
+package searchendpoint
 
 import (
 	"context"
@@ -8,56 +10,67 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const (
-	defaultSearchCount = 10
-	defaultSearchTime  = 3 * time.Second
-)
-
-type searchEndpoint struct {
-	identity nodeidentity.Identity
-	searcher searcher
+func Mount(
+	router httpguard.WireRouter,
+	identity nodeidentity.Identity,
+	results searchresult.Results,
+) {
+	httpguard.Mount(
+		router,
+		yacyproto.PathSearch,
+		yacyproto.SearchEndpointMethods,
+		yacyproto.ParseSearchRequest,
+		endpoint{identity: identity, results: results}.Serve,
+	)
 }
 
-func (e searchEndpoint) Serve(
+type endpoint struct {
+	identity nodeidentity.Identity
+	results  searchresult.Results
+}
+
+func (e endpoint) Serve(
 	ctx context.Context,
 	req yacyproto.SearchRequest,
 ) (yacyproto.SearchResponse, error) {
 	resp := yacyproto.SearchResponse{}
 
 	if e.identity.NetworkMatches(req.NetworkName) {
-		criteria, err := searchCriteriaFromRequest(req)
+		criteria, err := criteriaFromRequest(req)
 		if err != nil {
 			return yacyproto.SearchResponse{}, fmt.Errorf("search criteria: %w", err)
 		}
-		requestedReport := requestedMatchReportFrom(req)
+		requestedReport := requestedReportFromRequest(req)
 		if ignoredOptions := ignoredOptionNames(req); len(ignoredOptions) != 0 {
 			slog.DebugContext(ctx, "ignoring accepted search options",
 				slog.Any("options", ignoredOptions),
 			)
 		}
 		searchCtx := ctx
-		if criteria.timeLimit > 0 {
+		if criteria.TimeLimit > 0 {
 			var cancel func()
-			searchCtx, cancel = context.WithTimeout(ctx, criteria.timeLimit)
+			searchCtx, cancel = context.WithTimeout(ctx, criteria.TimeLimit)
 			defer cancel()
 		}
 
-		result, err := e.searcher.search(searchCtx, criteria, requestedReport)
+		result, err := e.results.ResultFor(searchCtx, criteria, requestedReport)
 		if err != nil {
 			return yacyproto.SearchResponse{}, fmt.Errorf("search: %w", err)
 		}
 
-		resp.SearchTime = int(result.searchDuration / time.Millisecond)
-		resp.References = strings.Join(result.topics, ",")
-		resp.JoinCount = result.totalDocumentsMatchingEveryTerm
-		resp.Count = len(result.documentMetadata)
-		resp.Resources = result.documentMetadata
-		resp.IndexCount = result.totalMatchesPerTerm
-		resp.IndexAbstract = indexAbstractFrom(result.documentsMatchingEachReportedTerm)
+		resp.SearchTime = int(result.Duration / time.Millisecond)
+		resp.References = strings.Join(result.Topics, ",")
+		resp.JoinCount = result.TotalDocumentsMatchingEveryTerm
+		resp.Count = len(result.DocumentMetadata)
+		resp.Resources = result.DocumentMetadata
+		resp.IndexCount = result.TotalMatchesPerTerm
+		resp.IndexAbstract = indexAbstractFrom(result.DocumentsMatchingEachReportedTerm)
 	}
 
 	slog.DebugContext(ctx, "search completed",
