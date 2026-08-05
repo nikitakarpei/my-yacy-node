@@ -447,10 +447,9 @@
         "defaults": {
           "unit": "cps",
           "custom": {
-            "fillOpacity": 15,
-            "stacking": {
-              "mode": "normal"
-            }
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
           }
         }
       },
@@ -546,10 +545,9 @@
         "defaults": {
           "unit": "cps",
           "custom": {
-            "fillOpacity": 15,
-            "stacking": {
-              "mode": "normal"
-            }
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
           }
         }
       },
