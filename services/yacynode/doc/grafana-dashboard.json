@@ -1126,7 +1126,7 @@
     {
       "id": 59,
       "title": "Distribution cycles skipped",
-      "description": "This panel shows the distribution cycles that offered nothing, by reason.",
+      "description": "This panel shows the distribution cycles that ran no batch, by reason.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1134,7 +1134,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
+        "w": 6,
         "x": 0,
         "y": 111
       },
@@ -1161,6 +1161,43 @@
       ]
     },
     {
+      "id": 85,
+      "title": "Distribution batches aborted",
+      "description": "This panel shows the distribution batches aborted before their postings were rescheduled, by reason.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 6,
+        "y": 111
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (reason) (increase(rwidistribution_batches_aborted_total[$__rate_interval]))",
+          "legendFormat": "{{reason}}"
+        }
+      ]
+    },
+    {
       "id": 52,
       "title": "Posting offer acceptance rate",
       "description": "This panel shows the share of posting offers that peers accept.",
@@ -1171,8 +1208,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
+        "w": 6,
+        "x": 12,
         "y": 111
       },
       "fieldConfig": {
@@ -1209,8 +1246,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 16,
+        "w": 6,
+        "x": 18,
         "y": 111
       },
       "fieldConfig": {

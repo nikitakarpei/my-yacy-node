@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	labelOutcome    = "result"
-	labelSkipReason = "reason"
+	labelOutcome = "result"
+	labelReason  = "reason"
 )
 
 type DistributionMetrics struct {
@@ -22,36 +22,29 @@ type DistributionMetrics struct {
 	staleReplicasDropped  prometheus.Counter
 	postingsHandedOff     prometheus.Counter
 	cyclesSkipped         *prometheus.CounterVec
+	batchesAborted        *prometheus.CounterVec
 }
 
 func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics {
-	postingOffers := prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "rwidistribution_posting_offers_sent_total",
-			Help: "Posting offers sent to peers, by offer outcome.",
-		},
-		[]string{labelOutcome},
+	postingOffers := counterFor(
+		"rwidistribution_posting_offers_sent_total",
+		"Posting offers sent to peers, by offer outcome.",
+		labelOutcome,
 	)
-	postingsOffered := prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "rwidistribution_postings_offered_total",
-			Help: "RWI postings offered to peers, by offer outcome.",
-		},
-		[]string{labelOutcome},
+	postingsOffered := counterFor(
+		"rwidistribution_postings_offered_total",
+		"RWI postings offered to peers, by offer outcome.",
+		labelOutcome,
 	)
-	urlMetadataDeliveries := prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "rwidistribution_url_metadata_deliveries_total",
-			Help: "URL metadata deliveries sent to peers, by delivery outcome.",
-		},
-		[]string{labelOutcome},
+	urlMetadataDeliveries := counterFor(
+		"rwidistribution_url_metadata_deliveries_total",
+		"URL metadata deliveries sent to peers, by delivery outcome.",
+		labelOutcome,
 	)
-	urlsDelivered := prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "rwidistribution_urls_delivered_total",
-			Help: "URLs delivered to peers as metadata, by delivery outcome.",
-		},
-		[]string{labelOutcome},
+	urlsDelivered := counterFor(
+		"rwidistribution_urls_delivered_total",
+		"URLs delivered to peers as metadata, by delivery outcome.",
+		labelOutcome,
 	)
 	postingsGone := prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "rwidistribution_postings_gone_total",
@@ -73,17 +66,20 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		Name: "rwidistribution_postings_handed_off_total",
 		Help: "Postings deleted after peers closer to their DHT position accepted them.",
 	})
-	cyclesSkipped := prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "rwidistribution_cycles_skipped_total",
-			Help: "Distribution cycles that offered nothing, by reason.",
-		},
-		[]string{labelSkipReason},
+	cyclesSkipped := counterFor(
+		"rwidistribution_cycles_skipped_total",
+		"Distribution cycles that ran no batch, by reason.",
+		labelReason,
+	)
+	batchesAborted := counterFor(
+		"rwidistribution_batches_aborted_total",
+		"Distribution batches aborted before their postings were rescheduled, by reason.",
+		labelReason,
 	)
 	registry.MustRegister(
 		postingOffers, postingsOffered, urlMetadataDeliveries, urlsDelivered,
 		postingsGone, scheduledPostings, longestOfferLateness, staleReplicasDropped,
-		postingsHandedOff, cyclesSkipped,
+		postingsHandedOff, cyclesSkipped, batchesAborted,
 	)
 
 	return &DistributionMetrics{
@@ -97,7 +93,12 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		staleReplicasDropped:  staleReplicasDropped,
 		postingsHandedOff:     postingsHandedOff,
 		cyclesSkipped:         cyclesSkipped,
+		batchesAborted:        batchesAborted,
 	}
+}
+
+func counterFor(name string, help string, label string) *prometheus.CounterVec {
+	return prometheus.NewCounterVec(prometheus.CounterOpts{Name: name, Help: help}, []string{label})
 }
 
 func (d *DistributionMetrics) ObservePostingOffer(outcome string, postings int) {
@@ -132,4 +133,8 @@ func (d *DistributionMetrics) ObservePostingsHandedOff(handedOff int) {
 
 func (d *DistributionMetrics) ObserveCycleSkipped(reason string) {
 	d.cyclesSkipped.WithLabelValues(reason).Inc()
+}
+
+func (d *DistributionMetrics) ObserveBatchAborted(reason string) {
+	d.batchesAborted.WithLabelValues(reason).Inc()
 }
