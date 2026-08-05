@@ -24,12 +24,12 @@ type postingIdentity struct {
 
 func registerHeldPostings(
 	v *vault.Vault,
-) (*vault.Collection[heldPosting], *vault.Collection[struct{}], error) {
+) (*vault.Collection[heldPosting], *vault.Set, error) {
 	held, err := vault.Register(v, heldBucket, heldPostingCodec{})
 	if err != nil {
 		return nil, nil, fmt.Errorf("register held postings: %w", err)
 	}
-	expiry, err := vault.Register(v, expiryBucket, presenceCodec{})
+	expiry, err := vault.RegisterSet(v, expiryBucket)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register held posting expiry: %w", err)
 	}

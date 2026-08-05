@@ -14,7 +14,7 @@ import (
 type HeldPostings struct {
 	vault    *vault.Vault
 	held     *vault.Collection[heldPosting]
-	expiry   *vault.Collection[struct{}]
+	expiry   *vault.Set
 	admitter rwipostings.PostingAdmitter
 	observer HoldObserver
 	capacity int
@@ -30,7 +30,7 @@ func (h *HeldPostings) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 		return fmt.Errorf("read held posting: %w", err)
 	}
 	if found {
-		if _, err := h.expiry.Delete(tx, expiryKey(previous.HeldAt, identity)); err != nil {
+		if _, err := h.expiry.Remove(tx, expiryKey(previous.HeldAt, identity)); err != nil {
 			return fmt.Errorf("drop stale posting hold time: %w", err)
 		}
 	} else {
@@ -51,7 +51,7 @@ func (h *HeldPostings) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	}); err != nil {
 		return fmt.Errorf("hold posting: %w", err)
 	}
-	if err := h.expiry.Put(tx, expiryKey(heldAt, identity), struct{}{}); err != nil {
+	if err := h.expiry.Add(tx, expiryKey(heldAt, identity)); err != nil {
 		return fmt.Errorf("record posting hold time: %w", err)
 	}
 	if !found {
@@ -190,7 +190,7 @@ func (h *HeldPostings) expiryKeysBefore(
 	limit int,
 ) ([]vault.Key, error) {
 	keys := make([]vault.Key, 0, limit)
-	err := h.expiry.Scan(tx, nil, func(key vault.Key, _ struct{}) (bool, error) {
+	err := h.expiry.Scan(tx, nil, func(key vault.Key) (bool, error) {
 		if len(key) < heldAtDigits || bytes.Compare(key[:heldAtDigits], cutoff) >= 0 {
 			return false, nil
 		}
@@ -222,7 +222,7 @@ func (h *HeldPostings) drop(
 	if _, err := h.held.Delete(tx, heldKey(identity)); err != nil {
 		return fmt.Errorf("drop held posting: %w", err)
 	}
-	if _, err := h.expiry.Delete(tx, expiryRow); err != nil {
+	if _, err := h.expiry.Remove(tx, expiryRow); err != nil {
 		return fmt.Errorf("drop posting hold time: %w", err)
 	}
 

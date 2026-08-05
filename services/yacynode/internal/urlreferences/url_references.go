@@ -15,16 +15,16 @@ const (
 
 type urlReferences struct {
 	vault      *vault.Vault
-	words      *vault.Collection[struct{}]
-	referenced *vault.Collection[struct{}]
+	words      *vault.Set
+	referenced *vault.Set
 }
 
 func openURLReferences(v *vault.Vault) (*urlReferences, error) {
-	words, err := vault.Register(v, wordsByURLBucket, presenceCodec{})
+	words, err := vault.RegisterSet(v, wordsByURLBucket)
 	if err != nil {
 		return nil, fmt.Errorf("register words by url: %w", err)
 	}
-	referenced, err := vault.Register(v, referencedURLBucket, presenceCodec{})
+	referenced, err := vault.RegisterSet(v, referencedURLBucket)
 	if err != nil {
 		return nil, fmt.Errorf("register referenced urls: %w", err)
 	}
@@ -37,10 +37,10 @@ func (r *urlReferences) PostingStored(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) error {
-	if err := r.words.Put(tx, wordByURL{url: url, word: word}.key(), struct{}{}); err != nil {
+	if err := r.words.Add(tx, wordByURL{url: url, word: word}.key()); err != nil {
 		return fmt.Errorf("record word by url: %w", err)
 	}
-	if err := r.referenced.Put(tx, vault.Key(url.String()), struct{}{}); err != nil {
+	if err := r.referenced.Add(tx, vault.Key(url.String())); err != nil {
 		return fmt.Errorf("record referenced url: %w", err)
 	}
 
@@ -52,7 +52,7 @@ func (r *urlReferences) PostingPurged(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) error {
-	if _, err := r.words.Delete(tx, wordByURL{url: url, word: word}.key()); err != nil {
+	if _, err := r.words.Remove(tx, wordByURL{url: url, word: word}.key()); err != nil {
 		return fmt.Errorf("drop word by url: %w", err)
 	}
 
@@ -63,7 +63,7 @@ func (r *urlReferences) PostingPurged(
 	if len(remaining) > 0 {
 		return nil
 	}
-	if _, err := r.referenced.Delete(tx, vault.Key(url.String())); err != nil {
+	if _, err := r.referenced.Remove(tx, vault.Key(url.String())); err != nil {
 		return fmt.Errorf("drop referenced url: %w", err)
 	}
 
@@ -78,7 +78,7 @@ func (r *urlReferences) WordsReferencing(
 	err := r.words.Scan(
 		tx,
 		vault.Key(url.String()),
-		func(key vault.Key, _ struct{}) (bool, error) {
+		func(key vault.Key) (bool, error) {
 			word, err := wordFromKey(key)
 			if err != nil {
 				return false, err
