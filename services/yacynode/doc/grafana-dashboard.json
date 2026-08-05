@@ -1253,11 +1253,9 @@
         "defaults": {
           "unit": "short",
           "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70,
-            "stacking": {
-              "mode": "normal"
-            }
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
           }
         },
         "overrides": [
@@ -1385,10 +1383,9 @@
         "defaults": {
           "unit": "cps",
           "custom": {
-            "fillOpacity": 15,
-            "stacking": {
-              "mode": "normal"
-            }
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
           }
         },
         "overrides": [
@@ -1516,11 +1513,9 @@
         "defaults": {
           "unit": "short",
           "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70,
-            "stacking": {
-              "mode": "normal"
-            }
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
           }
         },
         "overrides": [
@@ -1633,10 +1628,9 @@
         "defaults": {
           "unit": "cps",
           "custom": {
-            "fillOpacity": 15,
-            "stacking": {
-              "mode": "normal"
-            }
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
           }
         },
         "overrides": [
@@ -2212,11 +2206,9 @@
         "defaults": {
           "unit": "short",
           "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70,
-            "stacking": {
-              "mode": "normal"
-            }
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
           }
         },
         "overrides": [
@@ -2410,11 +2402,9 @@
         "defaults": {
           "unit": "short",
           "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70,
-            "stacking": {
-              "mode": "normal"
-            }
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
           }
         }
       },
