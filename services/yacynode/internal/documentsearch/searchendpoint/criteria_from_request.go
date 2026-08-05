@@ -21,10 +21,6 @@ func criteriaFromRequest(req yacyproto.SearchRequest) (searchcriteria.Criteria, 
 	if err != nil {
 		return searchcriteria.Criteria{}, err
 	}
-	language, err := languageFromOperators(operators)
-	if err != nil {
-		return searchcriteria.Criteria{}, err
-	}
 	maxResults := req.Count
 	if maxResults <= 0 {
 		maxResults = defaultSearchCount
@@ -46,7 +42,7 @@ func criteriaFromRequest(req yacyproto.SearchRequest) (searchcriteria.Criteria, 
 		RequiredAppearance: req.RequiredAppearance,
 		// Deliberate divergence from YaCy: only the /language/ modifier filters; the
 		// plain language field drives YaCy's ranking boost, which this node omits.
-		Language: language,
+		Language: operators.Language,
 		SiteHash: siteHash,
 	}, nil
 }
@@ -54,11 +50,10 @@ func criteriaFromRequest(req yacyproto.SearchRequest) (searchcriteria.Criteria, 
 const (
 	operatorLanguagePrefix = "/language/"
 	operatorSitePrefix     = "site:"
-	operatorLanguageLength = 2
 )
 
 type queryOperators struct {
-	Language string
+	Language yacymodel.Optional[yacymodel.Language]
 	SiteHost string
 }
 
@@ -67,8 +62,9 @@ func queryOperatorsIn(modifier string) queryOperators {
 	for token := range strings.FieldsSeq(modifier) {
 		switch {
 		case strings.HasPrefix(token, operatorLanguagePrefix):
-			if code := token[len(operatorLanguagePrefix):]; len(code) == operatorLanguageLength {
-				parsed.Language = strings.ToLower(code)
+			code := strings.ToLower(token[len(operatorLanguagePrefix):])
+			if language, err := yacymodel.ParseLanguage(code); err == nil {
+				parsed.Language = yacymodel.Some(language)
 			}
 		case strings.HasPrefix(token, operatorSitePrefix):
 			parsed.SiteHost = token[len(operatorSitePrefix):]
@@ -102,20 +98,6 @@ func siteHashFromRequest(
 	}
 
 	return yacymodel.Some(hash), nil
-}
-
-func languageFromOperators(
-	operators queryOperators,
-) (yacymodel.Optional[yacymodel.Language], error) {
-	if operators.Language == "" {
-		return yacymodel.None[yacymodel.Language](), nil
-	}
-	language, err := yacymodel.ParseLanguage(operators.Language)
-	if err != nil {
-		return yacymodel.None[yacymodel.Language](), fmt.Errorf("language: %w", err)
-	}
-
-	return yacymodel.Some(language), nil
 }
 
 func contentKindFromDomain(domain yacyproto.SearchContentDomain) searchcriteria.ContentKind {

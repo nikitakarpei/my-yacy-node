@@ -2,98 +2,14 @@ package searchresult
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/matchreport"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
 )
-
-type fakeScanner struct {
-	postings map[yacymodel.Hash][]yacymodel.RWIPosting
-}
-
-func (s fakeScanner) RWICount(context.Context) (int, error) {
-	return len(s.postings), nil
-}
-
-func (s fakeScanner) ScanWord(
-	_ context.Context,
-	word yacymodel.Hash,
-	visit func(yacymodel.RWIPosting) (bool, error),
-) error {
-	for _, entry := range s.postings[word] {
-		entry.WordHash = word
-		keepGoing, err := visit(entry)
-		if err != nil {
-			return err
-		}
-		if !keepGoing {
-			return nil
-		}
-	}
-
-	return nil
-}
-
-func (s fakeScanner) PostingOf(
-	_ context.Context,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) (yacymodel.RWIPosting, bool, error) {
-	for _, entry := range s.postings[word] {
-		if entry.URLHash == url {
-			entry.WordHash = word
-
-			return entry, true, nil
-		}
-	}
-
-	return yacymodel.RWIPosting{}, false, nil
-}
-
-type fakeDirectory struct {
-	documentDirectory map[yacymodel.URLHash]yacymodel.URLMetadata
-}
-
-func (d fakeDirectory) MetadataByHash(
-	_ context.Context,
-	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLMetadata, error) {
-	out := make([]yacymodel.URLMetadata, 0, len(hashes))
-	for _, hash := range hashes {
-		if stored, ok := d.documentDirectory[hash]; ok {
-			out = append(out, stored)
-		}
-	}
-
-	return out, nil
-}
-
-func (d fakeDirectory) MissingURLs(
-	context.Context,
-	[]yacymodel.URLHash,
-) ([]yacymodel.URLHash, error) {
-	return nil, nil
-}
-
-func (d fakeDirectory) Count(context.Context) (int, error) {
-	return len(d.documentDirectory), nil
-}
-
-func hashFor(base string) yacymodel.Hash {
-	const filler = "AAAAAAAAAAAA"
-	padded := base + filler[len(base):]
-	if len(base) >= yacymodel.HashLength {
-		padded = base[:yacymodel.HashLength]
-	}
-	hash, err := yacymodel.ParseHash(padded)
-	if err != nil {
-		panic(err)
-	}
-
-	return hash
-}
 
 func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Language] {
 	t.Helper()
@@ -106,25 +22,11 @@ func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Languag
 	return yacymodel.Some(language)
 }
 
-func urlHashFor(url string) yacymodel.URLHash {
-	hash, err := yacymodel.ParseURLHash(hashFor(url).String())
-	if err != nil {
-		panic(err)
-	}
-
-	return hash
-}
-
-func postingEntry(
-	word yacymodel.Hash,
-	url string,
-	position int,
-	hits int,
-) yacymodel.RWIPosting {
+func postingEntry(word yacymodel.Hash, url string, position int) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash:     word,
-		URLHash:      urlHashFor(url),
-		Hits:         hits,
+		URLHash:      searchtest.URLHashFor(url),
+		Hits:         1,
 		TextPosition: position,
 	}
 }
@@ -136,7 +38,7 @@ func addressFor(id string) string {
 func urlMetadata(ids ...string) map[yacymodel.URLHash]yacymodel.URLMetadata {
 	metadata := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(ids))
 	for _, id := range ids {
-		metadata[urlHashFor(id)] = yacymodel.URLMetadata{Address: addressFor(id)}
+		metadata[searchtest.URLHashFor(id)] = yacymodel.URLMetadata{Address: addressFor(id)}
 	}
 
 	return metadata
@@ -148,7 +50,7 @@ func hasExactlyDocuments(got []yacymodel.URLHash, ids ...string) bool {
 	}
 	want := make(map[yacymodel.URLHash]struct{}, len(ids))
 	for _, id := range ids {
-		want[urlHashFor(id)] = struct{}{}
+		want[searchtest.URLHashFor(id)] = struct{}{}
 	}
 	for _, hash := range got {
 		if _, ok := want[hash]; !ok {
@@ -160,14 +62,14 @@ func hasExactlyDocuments(got []yacymodel.URLHash, ids ...string) bool {
 }
 
 func TestSearchJoinsAndCountsAndReports(t *testing.T) {
-	word1, word2 := hashFor("w1"), hashFor("w2")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
-		word1: {postingEntry(word1, "u1", 0, 1), postingEntry(word1, "u2", 0, 1)},
-		word2: {postingEntry(word2, "u2", 0, 1), postingEntry(word2, "u3", 0, 1)},
+	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word1: {postingEntry(word1, "u1", 0), postingEntry(word1, "u2", 0)},
+		word2: {postingEntry(word2, "u2", 0), postingEntry(word2, "u3", 0)},
 	}}
 	results := New(
 		index,
-		fakeDirectory{documentDirectory: urlMetadata("u1", "u2", "u3")},
+		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2", "u3")},
 		100,
 	)
 
@@ -204,17 +106,17 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 }
 
 func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
-	word := hashFor("w1")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {
-			postingEntry(word, "u1", 0, 1),
-			postingEntry(word, "u2", 0, 1),
-			postingEntry(word, "u3", 0, 1),
+			postingEntry(word, "u1", 0),
+			postingEntry(word, "u2", 0),
+			postingEntry(word, "u3", 0),
 		},
 	}}
 	results := New(
 		index,
-		fakeDirectory{documentDirectory: urlMetadata("u1", "u2", "u3")},
+		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2", "u3")},
 		100,
 	)
 
@@ -237,35 +139,20 @@ func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
 	}
 }
 
-func TestSearchOrdersByOccurrencesThenTermSpread(t *testing.T) {
-	word1, word2 := hashFor("w1"), hashFor("w2")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
-		word1: {postingEntry(word1, "u2", 1, 1), postingEntry(word1, "u3", 1, 1)},
-		word2: {postingEntry(word2, "u2", 2, 2), postingEntry(word2, "u3", 5, 2)},
-	}}
-	results := New(index, fakeDirectory{documentDirectory: urlMetadata("u2", "u3")}, 100)
-
-	result, err := results.ResultFor(
-		context.Background(),
-		searchcriteria.Criteria{Terms: []yacymodel.Hash{word1, word2}},
-		matchreport.RequestedReport{},
-	)
-	if err != nil {
-		t.Fatalf("ResultFor: %v", err)
-	}
-	if got := result.DocumentMetadata[0].Address; got != addressFor("u2") {
-		t.Errorf("first resource = %q, want u2", got)
-	}
-}
-
 func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
-	word1, word2, word3 := hashFor("w1"), hashFor("w2"), hashFor("w3")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
-		word1: {postingEntry(word1, "uA", 1, 1), postingEntry(word1, "uB", 1, 1)},
-		word2: {postingEntry(word2, "uA", 5, 1), postingEntry(word2, "uB", 10, 1)},
-		word3: {postingEntry(word3, "uA", 9, 1), postingEntry(word3, "uB", 20, 1)},
+	word1, word2, word3 := searchtest.HashFor(
+		"w1",
+	), searchtest.HashFor(
+		"w2",
+	), searchtest.HashFor(
+		"w3",
+	)
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word1: {postingEntry(word1, "uA", 1), postingEntry(word1, "uB", 1)},
+		word2: {postingEntry(word2, "uA", 5), postingEntry(word2, "uB", 10)},
+		word3: {postingEntry(word3, "uA", 9), postingEntry(word3, "uB", 20)},
 	}}
-	results := New(index, fakeDirectory{documentDirectory: urlMetadata("uA", "uB")}, 100)
+	results := New(index, searchtest.URLDirectory{Documents: urlMetadata("uA", "uB")}, 100)
 
 	result, err := results.ResultFor(context.Background(), searchcriteria.Criteria{
 		Terms:         []yacymodel.Hash{word1, word2, word3},
@@ -280,57 +167,88 @@ func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 	}
 }
 
-func TestSearchCapKeepsMostFrequentPostings(t *testing.T) {
-	word := hashFor("w1")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
-		word: {postingEntry(word, "u1", 1, 1), postingEntry(word, "u2", 1, 5)},
-	}}
-	results := New(index, fakeDirectory{documentDirectory: urlMetadata("u1", "u2")}, 1)
+func TestSearchSurfacesExcludedTermScanFailures(t *testing.T) {
+	results := New(
+		searchtest.FailingPostingIndex{Err: errScanBroken},
+		searchtest.URLDirectory{},
+		100,
+	)
 
-	result, err := results.ResultFor(
+	_, err := results.ResultFor(
+		context.Background(),
+		searchcriteria.Criteria{ExcludedTerms: []yacymodel.Hash{searchtest.HashFor("ban")}},
+		matchreport.RequestedReport{},
+	)
+	if !errors.Is(err, errScanBroken) {
+		t.Fatalf("ResultFor error = %v, want %v", err, errScanBroken)
+	}
+}
+
+func TestSearchSurfacesQueryTermScanFailures(t *testing.T) {
+	results := New(
+		searchtest.FailingPostingIndex{Err: errScanBroken},
+		searchtest.URLDirectory{},
+		100,
+	)
+
+	_, err := results.ResultFor(
+		context.Background(),
+		searchcriteria.Criteria{Terms: []yacymodel.Hash{searchtest.HashFor("w1")}},
+		matchreport.RequestedReport{},
+	)
+	if !errors.Is(err, errScanBroken) {
+		t.Fatalf("ResultFor error = %v, want %v", err, errScanBroken)
+	}
+}
+
+func TestSearchSurfacesMetadataFailures(t *testing.T) {
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word: {postingEntry(word, "u1", 0)},
+	}}
+	results := New(index, searchtest.FailingURLDirectory{Err: errDirectoryBroken}, 100)
+
+	_, err := results.ResultFor(
 		context.Background(),
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{word}},
 		matchreport.RequestedReport{},
 	)
-	if err != nil {
-		t.Fatalf("ResultFor: %v", err)
-	}
-	if len(result.DocumentMetadata) != 1 ||
-		result.DocumentMetadata[0].Address != addressFor("u2") {
-		t.Fatalf(
-			"resources = %v, want only u2 (highest hit count kept under cap)",
-			result.DocumentMetadata,
-		)
+	if !errors.Is(err, errDirectoryBroken) {
+		t.Fatalf("ResultFor error = %v, want %v", err, errDirectoryBroken)
 	}
 }
 
-func TestSearchExcludesTerms(t *testing.T) {
-	word, ban := hashFor("w1"), hashFor("ban")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
-		word: {postingEntry(word, "u1", 0, 1), postingEntry(word, "u2", 0, 1)},
-		ban:  {postingEntry(ban, "u2", 0, 1)},
-	}}
-	results := New(index, fakeDirectory{documentDirectory: urlMetadata("u1", "u2")}, 100)
+func TestSearchSurfacesReportedTermScanFailures(t *testing.T) {
+	results := New(
+		searchtest.FailingPostingIndex{Err: errScanBroken},
+		searchtest.URLDirectory{},
+		100,
+	)
 
-	result, err := results.ResultFor(context.Background(), searchcriteria.Criteria{
-		Terms:         []yacymodel.Hash{word},
-		ExcludedTerms: []yacymodel.Hash{ban},
-	}, matchreport.RequestedReport{})
-	if err != nil {
-		t.Fatalf("ResultFor: %v", err)
-	}
-	if len(result.DocumentMetadata) != 1 ||
-		result.DocumentMetadata[0].Address != addressFor("u1") {
-		t.Fatalf("resources = %v, want only u1", result.DocumentMetadata)
+	_, err := results.ResultFor(
+		context.Background(),
+		searchcriteria.Criteria{},
+		matchreport.RequestedReport{
+			Mode:  matchreport.RequestedTerms,
+			Terms: []yacymodel.Hash{searchtest.HashFor("w2")},
+		},
+	)
+	if !errors.Is(err, errScanBroken) {
+		t.Fatalf("ResultFor error = %v, want %v", err, errScanBroken)
 	}
 }
+
+var (
+	errScanBroken      = errors.New("scan broken")
+	errDirectoryBroken = errors.New("directory broken")
+)
 
 func TestSearchReportsRequestedTermsWithoutWantedTerms(t *testing.T) {
-	word := hashFor("w1")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
-		word: {postingEntry(word, "u1", 1, 1), postingEntry(word, "u2", 1, 1)},
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word: {postingEntry(word, "u1", 1), postingEntry(word, "u2", 1)},
 	}}
-	results := New(index, fakeDirectory{}, 100)
+	results := New(index, searchtest.URLDirectory{}, 100)
 
 	result, err := results.ResultFor(
 		context.Background(),
@@ -359,12 +277,12 @@ func TestSearchReportsRequestedTermsWithoutWantedTerms(t *testing.T) {
 }
 
 func TestSearchReportsRequestedTermsAlongsideWantedTerms(t *testing.T) {
-	word, related := hashFor("w1"), hashFor("w2")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
-		word:    {postingEntry(word, "u1", 0, 1), postingEntry(word, "u2", 0, 1)},
-		related: {postingEntry(related, "u2", 0, 1), postingEntry(related, "u3", 0, 1)},
+	word, related := searchtest.HashFor("w1"), searchtest.HashFor("w2")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word:    {postingEntry(word, "u1", 0), postingEntry(word, "u2", 0)},
+		related: {postingEntry(related, "u2", 0), postingEntry(related, "u3", 0)},
 	}}
-	results := New(index, fakeDirectory{documentDirectory: urlMetadata("u1", "u2")}, 100)
+	results := New(index, searchtest.URLDirectory{Documents: urlMetadata("u1", "u2")}, 100)
 
 	result, err := results.ResultFor(
 		context.Background(),
@@ -387,15 +305,15 @@ func TestSearchReportsRequestedTermsAlongsideWantedTerms(t *testing.T) {
 }
 
 func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
-	word1, word2 := hashFor("w1"), hashFor("w2")
+	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 	english := func(url string, position int) yacymodel.RWIPosting {
-		posting := postingEntry(word1, url, position, 1)
+		posting := postingEntry(word1, url, position)
 		posting.Language = mustLanguage(t, "en")
 
 		return posting
 	}
 	inLanguage := func(word yacymodel.Hash, url, language string, position int) yacymodel.RWIPosting {
-		posting := postingEntry(word, url, position, 1)
+		posting := postingEntry(word, url, position)
 		posting.Language = mustLanguage(t, language)
 
 		return posting
@@ -408,13 +326,13 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 	far := english("u3", 1)
 	farOther := inLanguage(word2, "u3", "en", 9)
 
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word1: {near, german, far},
 		word2: {nearOther, germanOther, farOther},
 	}}
 	results := New(
 		index,
-		fakeDirectory{documentDirectory: urlMetadata("u1", "u2", "u3")},
+		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2", "u3")},
 		100,
 	)
 

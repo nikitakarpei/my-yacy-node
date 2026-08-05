@@ -6,7 +6,7 @@ GO_MODULES := services/yacynode libraries/yacymodel libraries/yacyproto librarie
 PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-crawled-text-search
 
 COVER_PROFILE := coverage.out
-COVER_EXCLUDE := /internal/vaulttest/|/test/e2e/|/internal/cdprender/|\.pb\.go
+COVER_EXCLUDE := /internal/vaulttest/|/internal/documentsearch/searchtest/|/test/e2e/|/internal/cdprender/|\.pb\.go
 
 TOOLS_BIN := $(CURDIR)/.toolchain/bin
 TOOLS_STAMP := $(TOOLS_BIN)/.installed
