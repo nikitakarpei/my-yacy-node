@@ -65,19 +65,32 @@ func TestDistributionCountsPostingsGoneAndStaleReplicasDropped(t *testing.T) {
 func TestDistributionCountsSkippedCyclesByReason(t *testing.T) {
 	observer := NewDistributionMetrics(prometheus.NewRegistry())
 
-	observer.ObserveCycleSkipped("shortfall_unread")
 	observer.ObserveCycleSkipped("too_few_reachable_peers")
 	observer.ObserveCycleSkipped("too_few_reachable_peers")
 
 	if got := testutil.ToFloat64(
-		observer.cyclesSkipped.WithLabelValues("shortfall_unread"),
-	); got != 1 {
-		t.Errorf("cycles skipped for an unread shortfall = %v, want 1", got)
-	}
-	if got := testutil.ToFloat64(
 		observer.cyclesSkipped.WithLabelValues("too_few_reachable_peers"),
 	); got != 2 {
 		t.Errorf("cycles skipped for too few reachable peers = %v, want 2", got)
+	}
+}
+
+func TestDistributionCountsAbortedBatchesByReason(t *testing.T) {
+	observer := NewDistributionMetrics(prometheus.NewRegistry())
+
+	observer.ObserveBatchAborted("due_postings_unread")
+	observer.ObserveBatchAborted("not_written")
+	observer.ObserveBatchAborted("not_written")
+
+	if got := testutil.ToFloat64(
+		observer.batchesAborted.WithLabelValues("due_postings_unread"),
+	); got != 1 {
+		t.Errorf("batches aborted for unread due postings = %v, want 1", got)
+	}
+	if got := testutil.ToFloat64(
+		observer.batchesAborted.WithLabelValues("not_written"),
+	); got != 2 {
+		t.Errorf("batches aborted for an unwritten batch = %v, want 2", got)
 	}
 }
 
