@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
@@ -70,6 +71,7 @@ func assembleTestNode(t *testing.T, config nodeConfig, vault *vault.Vault) node 
 		metrics.NewDHTRingMetrics(prometheus.NewRegistry()),
 		metrics.NewPeerRosterMetrics(prometheus.NewRegistry()),
 		metrics.NewRWIEscrowMetrics(prometheus.NewRegistry()),
+		searchmetrics.NewSearchMetrics(prometheus.NewRegistry()),
 	)
 	if err != nil {
 		t.Fatalf("assemble: %v", err)

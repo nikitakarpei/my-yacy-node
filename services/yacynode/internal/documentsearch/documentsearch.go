@@ -4,7 +4,9 @@
 package documentsearch
 
 import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchendpoint"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
@@ -12,16 +14,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
+//nolint:revive // argument-limit: the mounted search names its collaborators explicitly.
 func MountSearch(
 	router httpguard.WireRouter,
 	identity nodeidentity.Identity,
 	index rwipostings.PostingIndex,
 	documents urlmeta.URLDirectory,
 	maxPostingsPerTerm int,
+	metrics *searchmetrics.SearchMetrics,
+	partitions yacymodel.DHTRingPartitions,
 ) {
 	searchendpoint.Mount(
 		router,
 		identity,
 		searchresult.New(index, documents, maxPostingsPerTerm),
+		metrics,
+		partitions,
 	)
 }

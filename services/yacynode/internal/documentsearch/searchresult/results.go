@@ -5,6 +5,7 @@ package searchresult
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -43,8 +44,11 @@ type Result struct {
 	TotalDocumentsMatchingEveryTerm   int
 	Duration                          time.Duration
 	TotalMatchesPerTerm               map[yacymodel.Hash]int
+	PostingsHeldPerTerm               map[yacymodel.Hash]int
 	DocumentsMatchingEachReportedTerm map[yacymodel.Hash][]yacymodel.URLHash
 }
+
+var ErrDocumentDirectory = errors.New("document metadata")
 
 func (r Results) ResultFor(
 	ctx context.Context,
@@ -59,8 +63,8 @@ func (r Results) ResultFor(
 	}
 	matchesForQueryTerms, err := termmatch.MatchesFor(
 		ctx,
-		r.index,
 		criteria.Terms,
+		r.index,
 		filter,
 		r.maxPostingsPerTerm,
 	)
@@ -84,7 +88,7 @@ func (r Results) ResultFor(
 	)
 	documentMetadata, err := r.documentDirectory.MetadataByHash(ctx, documentHashes)
 	if err != nil {
-		return Result{}, fmt.Errorf("document metadata: %w", err)
+		return Result{}, fmt.Errorf("%w: %w", ErrDocumentDirectory, err)
 	}
 
 	report, err := requestedReport.ReportFor(
@@ -107,6 +111,16 @@ func (r Results) ResultFor(
 		TotalDocumentsMatchingEveryTerm:   len(matchesWithinTermSpread),
 		Duration:                          time.Since(start),
 		TotalMatchesPerTerm:               report.TotalMatchesPerTerm,
+		PostingsHeldPerTerm:               postingsHeldPerTermFrom(matchesForQueryTerms),
 		DocumentsMatchingEachReportedTerm: report.DocumentsMatchingEachReportedTerm,
 	}, nil
+}
+
+func postingsHeldPerTermFrom(matches map[yacymodel.Hash]termmatch.Match) map[yacymodel.Hash]int {
+	held := make(map[yacymodel.Hash]int, len(matches))
+	for term, match := range matches {
+		held[term] = match.PostingsHeld
+	}
+
+	return held
 }

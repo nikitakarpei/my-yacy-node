@@ -69,6 +69,42 @@ func TestDHTRingPartitionsFromExponent(t *testing.T) {
 	}
 }
 
+func TestPostingRingFractionToPosition(t *testing.T) {
+	word := mustParseHash(t, "hHJBztzcFn76")
+	partitions, err := DHTRingPartitionsFromExponent(4)
+	if err != nil {
+		t.Fatal(err)
+	}
+	peer := mustParseHash(t, "gHJBztzcFn76")
+	peerPosition := RingPosition(peer)
+
+	shift := partitions.shiftLength()
+	nearest := MaxDHTPosition
+	for k := uint64(0); k < uint64(partitions); k++ {
+		partitionPosition := DHTPosition(
+			uint64(RingPosition(word))&(uint64(1)<<shift-1) | k<<shift,
+		)
+		if d := Distance(partitionPosition, peerPosition); d < nearest {
+			nearest = d
+		}
+	}
+
+	got := PostingRingFractionToPosition(word, peerPosition, partitions)
+	want := ringFractionOfDistance(nearest)
+	if got != want {
+		t.Errorf(
+			"PostingRingFractionToPosition = %v, want nearest partition fraction %v",
+			got,
+			want,
+		)
+	}
+
+	atOwnPosition := PostingRingFractionToPosition(word, RingPosition(word), partitions)
+	if atOwnPosition != 0 {
+		t.Errorf("fraction at the word's own position = %v, want 0", atOwnPosition)
+	}
+}
+
 func TestDistance(t *testing.T) {
 	if d := Distance(10, 40); d != 30 {
 		t.Errorf("Distance(10,40) = %d, want 30", d)

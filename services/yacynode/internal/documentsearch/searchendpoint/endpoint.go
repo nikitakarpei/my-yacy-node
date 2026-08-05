@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
@@ -20,19 +21,30 @@ func Mount(
 	router httpguard.WireRouter,
 	identity nodeidentity.Identity,
 	results searchresult.Results,
+	metrics *searchmetrics.SearchMetrics,
+	partitions yacymodel.DHTRingPartitions,
 ) {
 	httpguard.Mount(
 		router,
 		yacyproto.PathSearch,
 		yacyproto.SearchEndpointMethods,
 		yacyproto.ParseSearchRequest,
-		endpoint{identity: identity, results: results}.Serve,
+		endpoint{
+			identity: identity,
+			results:  results,
+			observation: searchObservation{
+				metrics:      metrics,
+				nodePosition: yacymodel.RingPosition(identity.Hash),
+				partitions:   partitions,
+			},
+		}.Serve,
 	)
 }
 
 type endpoint struct {
-	identity nodeidentity.Identity
-	results  searchresult.Results
+	identity    nodeidentity.Identity
+	results     searchresult.Results
+	observation searchObservation
 }
 
 func (e endpoint) Serve(
@@ -44,6 +56,8 @@ func (e endpoint) Serve(
 	if e.identity.NetworkMatches(req.NetworkName) {
 		criteria, err := criteriaFromRequest(req)
 		if err != nil {
+			e.observation.observeInvalidCriteria()
+
 			return yacyproto.SearchResponse{}, fmt.Errorf("search criteria: %w", err)
 		}
 		requestedReport := requestedReportFromRequest(req)
@@ -51,6 +65,7 @@ func (e endpoint) Serve(
 			slog.DebugContext(ctx, "ignoring accepted search options",
 				slog.Any("options", ignoredOptions),
 			)
+			e.observation.observeIgnoredOptions(ignoredOptions)
 		}
 		searchCtx := ctx
 		if criteria.TimeLimit > 0 {
@@ -61,8 +76,11 @@ func (e endpoint) Serve(
 
 		result, err := e.results.ResultFor(searchCtx, criteria, requestedReport)
 		if err != nil {
+			e.observation.observeSearchFailure(err)
+
 			return yacyproto.SearchResponse{}, fmt.Errorf("search: %w", err)
 		}
+		e.observation.observeServed(result)
 
 		resp.SearchTime = int(result.Duration / time.Millisecond)
 		resp.References = strings.Join(result.Topics, ",")
@@ -71,6 +89,8 @@ func (e endpoint) Serve(
 		resp.Resources = result.DocumentMetadata
 		resp.IndexCount = result.TotalMatchesPerTerm
 		resp.IndexAbstract = indexAbstractFrom(result.DocumentsMatchingEachReportedTerm)
+	} else {
+		e.observation.observeNetworkMismatch()
 	}
 
 	slog.DebugContext(ctx, "search completed",

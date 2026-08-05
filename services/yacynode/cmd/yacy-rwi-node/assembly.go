@@ -2,10 +2,13 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/landing"
@@ -30,7 +33,7 @@ type node struct {
 	crawl             *crawlRuntime
 }
 
-//nolint:revive // argument-limit: seven explicit, independently-meaningful collaborators
+//nolint:revive // argument-limit: explicit, independently-meaningful collaborators
 func assembleNode(
 	ctx context.Context,
 	config nodeConfig,
@@ -40,12 +43,18 @@ func assembleNode(
 	dhtRingObserver *metrics.DHTRingMetrics,
 	rosterObserver peerroster.RosterObserver,
 	escrowObserver rwiescrow.HoldObserver,
+	searchObserver *searchmetrics.SearchMetrics,
 ) (node, error) {
 	guard := httpguard.NewRequestGuard(
 		httpguard.DefaultMaxBodyBytes,
 		httpguard.DefaultRequestTimeout,
 	)
 	identity := nodeIdentity(config)
+
+	partitions, err := dhtRingPartitionsOf(config)
+	if err != nil {
+		return node{}, err
+	}
 
 	storage, err := openNodeStorage(vault, time.Now, escrowObserver, offerObserver)
 	if err != nil {
@@ -64,7 +73,7 @@ func assembleNode(
 	mux.Handle("/{$}", landing.NewEndpoint())
 	router := httpguard.NewWireRouter(mux, gate)
 
-	mountNodeEndpoints(router, identity, storage)
+	mountNodeEndpoints(router, identity, storage, searchObserver, partitions)
 
 	announcer, roster, err := peerExchange{
 		router:         router,
@@ -86,18 +95,16 @@ func assembleNode(
 		return node{}, err
 	}
 
-	cycle, err := distributionCycle{
-		config:   config,
-		self:     identity.Hash,
-		storage:  storage,
-		roster:   roster,
-		client:   client,
-		observer: offerObserver,
-		dhtRing:  dhtRingObserver,
+	cycle := distributionCycle{
+		config:     config,
+		self:       identity.Hash,
+		storage:    storage,
+		roster:     roster,
+		client:     client,
+		observer:   offerObserver,
+		dhtRing:    dhtRingObserver,
+		partitions: partitions,
 	}.assemble()
-	if err != nil {
-		return node{}, err
-	}
 
 	return node{
 		peerMux:           mux,
@@ -109,10 +116,23 @@ func assembleNode(
 	}, nil
 }
 
+func dhtRingPartitionsOf(config nodeConfig) (yacymodel.DHTRingPartitions, error) {
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(
+		config.Distribution.PartitionExponent,
+	)
+	if err != nil {
+		return 0, fmt.Errorf("dht ring partitions: %w", err)
+	}
+
+	return partitions, nil
+}
+
 func mountNodeEndpoints(
 	router httpguard.WireRouter,
 	identity nodeidentity.Identity,
 	storage nodeStorage,
+	searchObserver *searchmetrics.SearchMetrics,
+	partitions yacymodel.DHTRingPartitions,
 ) {
 	urlmeta.MountTransferURL(router, identity, storage.urlReceiver)
 	rwiingress.Mount(router, identity, storage.postingReceiver)
@@ -130,6 +150,8 @@ func mountNodeEndpoints(
 		storage.postings,
 		storage.urlDirectory,
 		searchPostingsPerWord,
+		searchObserver,
+		partitions,
 	)
 }
 

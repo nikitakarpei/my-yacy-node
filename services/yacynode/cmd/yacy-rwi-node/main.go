@@ -14,6 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/boltvault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
@@ -77,6 +78,7 @@ func run() error {
 	dhtRingMetrics := metrics.NewDHTRingMetrics(endpoints.Registry())
 	rosterMetrics := metrics.NewPeerRosterMetrics(endpoints.Registry())
 	escrowMetrics := metrics.NewRWIEscrowMetrics(endpoints.Registry())
+	searchMetrics := searchmetrics.NewSearchMetrics(endpoints.Registry())
 
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
@@ -90,6 +92,7 @@ func run() error {
 		dhtRingMetrics,
 		rosterMetrics,
 		escrowMetrics,
+		searchMetrics,
 	)
 	if err != nil {
 		return fmt.Errorf("assemble node: %w", err)

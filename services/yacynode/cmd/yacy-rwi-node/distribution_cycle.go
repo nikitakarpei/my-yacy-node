@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -19,25 +18,19 @@ import (
 )
 
 type distributionCycle struct {
-	config   nodeConfig
-	self     yacymodel.Hash
-	storage  nodeStorage
-	roster   peerroster.Roster
-	client   *http.Client
-	observer *metrics.DistributionMetrics
-	dhtRing  *metrics.DHTRingMetrics
+	config     nodeConfig
+	self       yacymodel.Hash
+	storage    nodeStorage
+	roster     peerroster.Roster
+	client     *http.Client
+	observer   *metrics.DistributionMetrics
+	dhtRing    *metrics.DHTRingMetrics
+	partitions yacymodel.DHTRingPartitions
 }
 
-func (d distributionCycle) assemble() (*distributioncycle.Cycle, error) {
+func (d distributionCycle) assemble() *distributioncycle.Cycle {
 	if !d.config.Distribution.Enabled {
-		return nil, nil
-	}
-
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(
-		d.config.Distribution.PartitionExponent,
-	)
-	if err != nil {
-		return nil, fmt.Errorf("rwi distribution partitions: %w", err)
+		return nil
 	}
 
 	exchange := peerwire.NewMessageExchange(d.client)
@@ -54,7 +47,7 @@ func (d distributionCycle) assemble() (*distributioncycle.Cycle, error) {
 		d.roster,
 		eligibility,
 		d.dhtRing,
-		partitions,
+		d.partitions,
 		d.self,
 		d.config.Distribution.Redundancy,
 	)
@@ -62,7 +55,7 @@ func (d distributionCycle) assemble() (*distributioncycle.Cycle, error) {
 		d.storage.replicas,
 		d.storage.postingPurger,
 		d.roster,
-		partitions,
+		d.partitions,
 		d.self,
 		d.config.Distribution.Redundancy,
 	)
@@ -96,5 +89,5 @@ func (d distributionCycle) assemble() (*distributioncycle.Cycle, error) {
 			CycleInterval:     d.config.Distribution.CycleInterval,
 			MinReachablePeers: d.config.Distribution.MinReachablePeers,
 		},
-	), nil
+	)
 }

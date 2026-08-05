@@ -79,3 +79,17 @@ func Distance(from, to DHTPosition) DHTPosition {
 func ringFractionOfDistance(distance DHTPosition) float64 {
 	return float64(distance) / float64(uint64(MaxDHTPosition)+1)
 }
+
+// PostingRingFractionToPosition is how far around the DHT ring a position sits
+// from the nearest posting position of a word, in [0,1]. A word's postings
+// occupy every position that keeps the word's low bits (PostingPosition), so
+// the nearest one is the largest such position at or behind the given one.
+func PostingRingFractionToPosition(
+	word Hash,
+	position DHTPosition,
+	partitions DHTRingPartitions,
+) float64 {
+	wordPosition, _ := cardinal(word.String())
+	mask := uint64(1)<<partitions.shiftLength() - 1
+	return ringFractionOfDistance(DHTPosition((uint64(position) - wordPosition) & mask))
+}

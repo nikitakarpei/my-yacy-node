@@ -124,8 +124,8 @@ func (r RequestedReport) reportForRequestedTerms(
 ) (Report, error) {
 	matchesForReportedTerms, err := termmatch.MatchesFor(
 		ctx,
-		index,
 		r.Terms,
+		index,
 		postingfilter.FilterForReport(criteria),
 		maxPostingsPerTerm,
 	)
