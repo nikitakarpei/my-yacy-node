@@ -90,13 +90,11 @@ func TestSearchReportsRequestedTermsAlongsideWantedTerms(t *testing.T) {
 		maxPostingsPerTerm: 100,
 	}
 
-	result, err := s.search(context.Background(), searchCriteria{
-		terms: []yacymodel.Hash{word},
-		requestedReport: requestedMatchReport{
-			mode:  reportRequestedTerms,
-			terms: []yacymodel.Hash{related},
-		},
-	})
+	result, err := s.search(
+		context.Background(),
+		searchCriteria{terms: []yacymodel.Hash{word}},
+		requestedMatchReport{mode: reportRequestedTerms, terms: []yacymodel.Hash{related}},
+	)
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}

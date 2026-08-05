@@ -166,10 +166,11 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 		maxPostingsPerTerm: 100,
 	}
 
-	result, err := s.search(context.Background(), searchCriteria{
-		terms:           []yacymodel.Hash{word1, word2},
-		requestedReport: requestedMatchReport{mode: reportTermWithMostMatches},
-	})
+	result, err := s.search(
+		context.Background(),
+		searchCriteria{terms: []yacymodel.Hash{word1, word2}},
+		requestedMatchReport{mode: reportTermWithMostMatches},
+	)
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
@@ -215,6 +216,7 @@ func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
 	result, err := s.search(
 		context.Background(),
 		searchCriteria{terms: []yacymodel.Hash{word}, maxResults: 2},
+		requestedMatchReport{},
 	)
 	if err != nil {
 		t.Fatalf("search: %v", err)
@@ -245,6 +247,7 @@ func TestSearchOrdersByOccurrencesThenTermSpread(t *testing.T) {
 	result, err := s.search(
 		context.Background(),
 		searchCriteria{terms: []yacymodel.Hash{word1, word2}},
+		requestedMatchReport{},
 	)
 	if err != nil {
 		t.Fatalf("search: %v", err)
@@ -270,7 +273,7 @@ func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 	result, err := s.search(context.Background(), searchCriteria{
 		terms:         []yacymodel.Hash{word1, word2, word3},
 		maxTermSpread: 5,
-	})
+	}, requestedMatchReport{})
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
@@ -294,6 +297,7 @@ func TestSearchCapKeepsMostFrequentPostings(t *testing.T) {
 	result, err := s.search(
 		context.Background(),
 		searchCriteria{terms: []yacymodel.Hash{word}},
+		requestedMatchReport{},
 	)
 	if err != nil {
 		t.Fatalf("search: %v", err)
@@ -322,7 +326,7 @@ func TestSearchExcludesTerms(t *testing.T) {
 	result, err := s.search(context.Background(), searchCriteria{
 		terms:         []yacymodel.Hash{word},
 		excludedTerms: []yacymodel.Hash{ban},
-	})
+	}, requestedMatchReport{})
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
@@ -339,12 +343,11 @@ func TestSearchReportsRequestedTermsWithoutWantedTerms(t *testing.T) {
 	}}
 	s := searcher{index: index, documentDirectory: fakeDirectory{}, maxPostingsPerTerm: 100}
 
-	result, err := s.search(context.Background(), searchCriteria{
-		requestedReport: requestedMatchReport{
-			mode:  reportRequestedTerms,
-			terms: []yacymodel.Hash{word},
-		},
-	})
+	result, err := s.search(
+		context.Background(),
+		searchCriteria{},
+		requestedMatchReport{mode: reportRequestedTerms, terms: []yacymodel.Hash{word}},
+	)
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}
@@ -399,7 +402,7 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 		terms:         []yacymodel.Hash{word1, word2},
 		maxTermSpread: 5,
 		language:      mustLanguage(t, "en"),
-	})
+	}, requestedMatchReport{})
 	if err != nil {
 		t.Fatalf("search: %v", err)
 	}

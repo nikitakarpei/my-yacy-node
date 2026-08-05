@@ -25,10 +25,14 @@ type searchResult struct {
 	documentsMatchingEachReportedTerm map[yacymodel.Hash][]yacymodel.URLHash
 }
 
-func (s searcher) search(ctx context.Context, criteria searchCriteria) (searchResult, error) {
+func (s searcher) search(
+	ctx context.Context,
+	criteria searchCriteria,
+	requestedReport requestedMatchReport,
+) (searchResult, error) {
 	start := time.Now()
 
-	filter, err := s.postingFilter(ctx, criteria, criteria.excludedTerms)
+	filter, err := s.searchPostingFilterFrom(ctx, criteria)
 	if err != nil {
 		return searchResult{}, err
 	}
@@ -53,7 +57,7 @@ func (s searcher) search(ctx context.Context, criteria searchCriteria) (searchRe
 		return searchResult{}, fmt.Errorf("document metadata: %w", err)
 	}
 
-	report, err := s.matchReportFor(ctx, criteria, matchesForQueryTerms)
+	report, err := s.matchReportFor(ctx, criteria, requestedReport, matchesForQueryTerms)
 	if err != nil {
 		return searchResult{}, err
 	}

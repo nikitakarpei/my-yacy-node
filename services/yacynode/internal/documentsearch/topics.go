@@ -44,7 +44,7 @@ func titleWords(title string) []string {
 	})
 	words := make([]string, 0, len(fields))
 	for _, word := range fields {
-		if len(word) >= minWordLength && onlyLetters(word) {
+		if len(word) >= minWordLength && containsOnlyLetters(word) {
 			words = append(words, word)
 		}
 	}
@@ -52,7 +52,7 @@ func titleWords(title string) []string {
 	return words
 }
 
-func onlyLetters(word string) bool {
+func containsOnlyLetters(word string) bool {
 	for _, r := range word {
 		if r < 'a' || r > 'z' {
 			return false
@@ -60,6 +60,22 @@ func onlyLetters(word string) bool {
 	}
 
 	return true
+}
+
+// Deliberate divergence from YaCy: only its hardcoded common-word blocklist is
+// applied, not the larger stopword and badword sets.
+var unhelpfulTopicWords = map[string]struct{}{
+	"http": {}, "html": {}, "php": {}, "ftp": {}, "www": {}, "com": {},
+	"org": {}, "net": {}, "gov": {}, "edu": {}, "index": {}, "home": {},
+	"page": {}, "for": {}, "usage": {}, "the": {}, "and": {}, "zum": {},
+	"der": {}, "die": {}, "das": {}, "und": {}, "zur": {}, "bzw": {},
+	"mit": {}, "blog": {}, "wiki": {}, "aus": {}, "bei": {}, "off": {},
+}
+
+func isUnhelpfulTopicWord(word string) bool {
+	_, found := unhelpfulTopicWords[word]
+
+	return found
 }
 
 func mostFrequentTopics(frequency map[string]int) []string {

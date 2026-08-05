@@ -14,44 +14,42 @@ func postingWith(appearance yacymodel.Appearance) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{Appearance: appearance}
 }
 
-func TestMatchesContentKindStrict(t *testing.T) {
-	if !matchesContentKind(postingOfType(yacymodel.DocumentTypeImage), imageContent, true) {
+func TestIsOfDocumentType(t *testing.T) {
+	if !isOfDocumentType(postingOfType(yacymodel.DocumentTypeImage), imageContent) {
 		t.Fatal("image document should match strict image")
 	}
-	if matchesContentKind(postingOfType(yacymodel.DocumentTypeAudio), imageContent, true) {
+	if isOfDocumentType(postingOfType(yacymodel.DocumentTypeAudio), imageContent) {
 		t.Fatal("audio document should not match strict image")
 	}
-	if !matchesContentKind(postingOfType(yacymodel.DocumentTypeMovie), videoContent, true) {
+	if !isOfDocumentType(postingOfType(yacymodel.DocumentTypeMovie), videoContent) {
 		t.Fatal("movie document should match strict video")
 	}
-}
-
-func TestMatchesContentKindNonStrict(t *testing.T) {
-	if !matchesContentKind(postingWith(yacymodel.Appearance{HasAudio: true}), audioContent, false) {
-		t.Fatal("audio appearance should match non-strict audio")
-	}
-	if matchesContentKind(postingWith(yacymodel.Appearance{HasImage: true}), audioContent, false) {
-		t.Fatal("image appearance should not match non-strict audio")
-	}
-	if !matchesContentKind(postingWith(yacymodel.Appearance{HasVideo: true}), videoContent, false) {
-		t.Fatal("video appearance should match non-strict video")
-	}
-	if !matchesContentKind(
-		postingWith(yacymodel.Appearance{HasApp: true}),
-		applicationContent,
-		false,
-	) {
+	if !isOfDocumentType(postingWith(yacymodel.Appearance{HasApp: true}), applicationContent) {
 		t.Fatal("app appearance should match app")
 	}
-}
-
-func TestMatchesContentKindPassthrough(t *testing.T) {
-	posting := postingOfType(yacymodel.DocumentTypeImage)
-	if !matchesContentKind(posting, anyContent, false) {
+	if !isOfDocumentType(postingOfType(yacymodel.DocumentTypeImage), anyContent) {
 		t.Fatal("any content kind should pass through")
 	}
-	if !matchesContentKind(posting, anyContent, true) {
-		t.Fatal("any content kind should pass through when strict")
+}
+
+func TestAppearsAsContentKind(t *testing.T) {
+	if !appearsAsContentKind(postingWith(yacymodel.Appearance{HasAudio: true}), audioContent) {
+		t.Fatal("audio appearance should match loose audio")
+	}
+	if appearsAsContentKind(postingWith(yacymodel.Appearance{HasImage: true}), audioContent) {
+		t.Fatal("image appearance should not match loose audio")
+	}
+	if !appearsAsContentKind(postingWith(yacymodel.Appearance{HasVideo: true}), videoContent) {
+		t.Fatal("video appearance should match loose video")
+	}
+	if !appearsAsContentKind(postingWith(yacymodel.Appearance{HasImage: true}), imageContent) {
+		t.Fatal("image appearance should match loose image")
+	}
+	if !appearsAsContentKind(postingWith(yacymodel.Appearance{HasApp: true}), applicationContent) {
+		t.Fatal("app appearance should match app")
+	}
+	if !appearsAsContentKind(postingOfType(yacymodel.DocumentTypeImage), anyContent) {
+		t.Fatal("any content kind should pass through")
 	}
 }
 
@@ -101,7 +99,7 @@ func TestSharesRequiredAppearance(t *testing.T) {
 	}
 }
 
-func TestDocumentSet(t *testing.T) {
+func TestDocumentSetHoldsEveryDocument(t *testing.T) {
 	if documentSet(nil) != nil {
 		t.Fatal("nil input should return nil")
 	}

@@ -2,6 +2,7 @@ package documentsearch
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -18,7 +19,7 @@ func (s searcher) termMatchesFor(
 ) (map[yacymodel.Hash]termMatch, error) {
 	matches := make(map[yacymodel.Hash]termMatch, len(terms))
 	for _, term := range terms {
-		postings, total, err := s.scanTerm(ctx, term, filter)
+		postings, total, err := s.mostFrequentPostingsOf(ctx, term, filter)
 		if err != nil {
 			return nil, err
 		}
@@ -29,6 +30,35 @@ func (s searcher) termMatchesFor(
 	}
 
 	return matches, nil
+}
+
+func (s searcher) mostFrequentPostingsOf(
+	ctx context.Context,
+	term yacymodel.Hash,
+	filter postingFilter,
+) ([]termPosting, int, error) {
+	// The per-term cap keeps the most frequent postings rather than the first
+	// scanned; an exact join under a memory bound would instead pivot on the rarest term.
+	frequentPostings := mostFrequentPostings{maxPostings: s.maxPostingsPerTerm}
+	var total int
+	err := s.index.ScanWord(ctx, term, func(posting yacymodel.RWIPosting) (bool, error) {
+		if !filter.accepts(posting) {
+			return true, nil
+		}
+		total++
+		frequentPostings.consider(termPosting{
+			documentHash: posting.URLHash,
+			occurrences:  posting.Hits,
+			textPosition: posting.TextPosition,
+		})
+
+		return true, nil
+	})
+	if err != nil {
+		return nil, 0, fmt.Errorf("scan term: %w", err)
+	}
+
+	return frequentPostings.postings, total, nil
 }
 
 func postingPerDocument(postings []termPosting) map[yacymodel.URLHash]termPosting {

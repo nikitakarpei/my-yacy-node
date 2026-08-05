@@ -4,7 +4,32 @@ import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
+
+type matchReportMode int
+
+const (
+	reportNoMatches matchReportMode = iota
+	reportTermWithMostMatches
+	reportRequestedTerms
+)
+
+type requestedMatchReport struct {
+	mode  matchReportMode
+	terms []yacymodel.Hash
+}
+
+func requestedMatchReportFrom(req yacyproto.SearchRequest) requestedMatchReport {
+	switch req.Abstracts {
+	case "":
+		return requestedMatchReport{mode: reportNoMatches}
+	case yacyproto.SearchAbstractsAuto:
+		return requestedMatchReport{mode: reportTermWithMostMatches}
+	default:
+		return requestedMatchReport{mode: reportRequestedTerms, terms: req.Abstracts.Hashes()}
+	}
+}
 
 type matchReport struct {
 	totalMatchesPerTerm               map[yacymodel.Hash]int
@@ -14,15 +39,21 @@ type matchReport struct {
 func (s searcher) matchReportFor(
 	ctx context.Context,
 	criteria searchCriteria,
+	requestedReport requestedMatchReport,
 	matchesForQueryTerms map[yacymodel.Hash]termMatch,
 ) (matchReport, error) {
-	switch criteria.requestedReport.mode {
+	switch requestedReport.mode {
 	case reportNoMatches:
 		return matchReport{}, nil
 	case reportTermWithMostMatches:
 		return matchReportForTermWithMostMatches(criteria, matchesForQueryTerms), nil
 	case reportRequestedTerms:
-		return s.matchReportForRequestedTerms(ctx, criteria, matchesForQueryTerms)
+		return s.matchReportForRequestedTerms(
+			ctx,
+			criteria,
+			requestedReport.terms,
+			matchesForQueryTerms,
+		)
 	default:
 		return matchReport{}, nil
 	}
@@ -50,22 +81,23 @@ func matchReportForTermWithMostMatches(
 func (s searcher) matchReportForRequestedTerms(
 	ctx context.Context,
 	criteria searchCriteria,
+	reportedTerms []yacymodel.Hash,
 	matchesForQueryTerms map[yacymodel.Hash]termMatch,
 ) (matchReport, error) {
-	filter, err := s.postingFilter(ctx, criteria, nil)
-	if err != nil {
-		return matchReport{}, err
-	}
-	matchesForReportedTerms, err := s.termMatchesFor(ctx, criteria.requestedReport.terms, filter)
+	matchesForReportedTerms, err := s.termMatchesFor(
+		ctx,
+		reportedTerms,
+		reportPostingFilterFrom(criteria),
+	)
 	if err != nil {
 		return matchReport{}, err
 	}
 
 	documentsMatchingEachReportedTerm := make(
 		map[yacymodel.Hash][]yacymodel.URLHash,
-		len(criteria.requestedReport.terms),
+		len(reportedTerms),
 	)
-	for _, term := range criteria.requestedReport.terms {
+	for _, term := range reportedTerms {
 		documentsMatchingEachReportedTerm[term] = documentHashes(
 			matchesForReportedTerms[term].postingPerDocument,
 		)

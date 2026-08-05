@@ -2,6 +2,7 @@ package documentsearch
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -16,12 +17,11 @@ type postingFilter struct {
 	requiredAppearance yacymodel.Optional[yacymodel.Appearance]
 }
 
-func (s searcher) postingFilter(
+func (s searcher) searchPostingFilterFrom(
 	ctx context.Context,
 	criteria searchCriteria,
-	excludedTerms []yacymodel.Hash,
 ) (postingFilter, error) {
-	excludedDocuments, err := s.excludedDocuments(ctx, excludedTerms)
+	excludedDocuments, err := s.documentsContaining(ctx, criteria.excludedTerms)
 	if err != nil {
 		return postingFilter{}, err
 	}
@@ -35,6 +35,52 @@ func (s searcher) postingFilter(
 		strictContentKind:  criteria.strictContentKind,
 		requiredAppearance: criteria.requiredAppearance,
 	}, nil
+}
+
+func (s searcher) documentsContaining(
+	ctx context.Context,
+	terms []yacymodel.Hash,
+) (map[yacymodel.URLHash]struct{}, error) {
+	documents := make(map[yacymodel.URLHash]struct{})
+	for _, term := range terms {
+		err := s.index.ScanWord(
+			ctx,
+			term,
+			func(posting yacymodel.RWIPosting) (bool, error) {
+				documents[posting.URLHash] = struct{}{}
+
+				return true, nil
+			},
+		)
+		if err != nil {
+			return nil, fmt.Errorf("scan term: %w", err)
+		}
+	}
+
+	return documents, nil
+}
+
+func documentSet(documentHashes []yacymodel.URLHash) map[yacymodel.URLHash]struct{} {
+	if len(documentHashes) == 0 {
+		return nil
+	}
+	set := make(map[yacymodel.URLHash]struct{}, len(documentHashes))
+	for _, documentHash := range documentHashes {
+		set[documentHash] = struct{}{}
+	}
+
+	return set
+}
+
+func reportPostingFilterFrom(criteria searchCriteria) postingFilter {
+	return postingFilter{
+		language:           criteria.language,
+		requiredDocuments:  documentSet(criteria.requiredDocuments),
+		siteHash:           criteria.siteHash,
+		contentKind:        criteria.contentKind,
+		strictContentKind:  criteria.strictContentKind,
+		requiredAppearance: criteria.requiredAppearance,
+	}
 }
 
 func (f postingFilter) accepts(posting yacymodel.RWIPosting) bool {
@@ -56,7 +102,10 @@ func (f postingFilter) accepts(posting yacymodel.RWIPosting) bool {
 	if !isFromRequestedSite(posting.URLHash, f.siteHash) {
 		return false
 	}
-	if !matchesContentKind(posting, f.contentKind, f.strictContentKind) {
+	if f.strictContentKind && !isOfDocumentType(posting, f.contentKind) {
+		return false
+	}
+	if !f.strictContentKind && !appearsAsContentKind(posting, f.contentKind) {
 		return false
 	}
 
@@ -75,25 +124,28 @@ func isFromRequestedSite(
 	return documentHash.HostHash() == wanted
 }
 
-func matchesContentKind(posting yacymodel.RWIPosting, kind contentKind, strict bool) bool {
+func isOfDocumentType(posting yacymodel.RWIPosting, kind contentKind) bool {
 	switch kind {
 	case imageContent:
-		if strict {
-			return posting.DocumentType == yacymodel.DocumentTypeImage
-		}
+		return posting.DocumentType == yacymodel.DocumentTypeImage
+	case audioContent:
+		return posting.DocumentType == yacymodel.DocumentTypeAudio
+	case videoContent:
+		return posting.DocumentType == yacymodel.DocumentTypeMovie
+	case applicationContent:
+		return posting.Appearance.HasApp
+	default:
+		return true
+	}
+}
 
+func appearsAsContentKind(posting yacymodel.RWIPosting, kind contentKind) bool {
+	switch kind {
+	case imageContent:
 		return posting.Appearance.HasImage
 	case audioContent:
-		if strict {
-			return posting.DocumentType == yacymodel.DocumentTypeAudio
-		}
-
 		return posting.Appearance.HasAudio
 	case videoContent:
-		if strict {
-			return posting.DocumentType == yacymodel.DocumentTypeMovie
-		}
-
 		return posting.Appearance.HasVideo
 	case applicationContent:
 		return posting.Appearance.HasApp
@@ -112,16 +164,4 @@ func sharesRequiredAppearance(
 	}
 
 	return posting.Appearance.OverlapsAny(traits)
-}
-
-func documentSet(documentHashes []yacymodel.URLHash) map[yacymodel.URLHash]struct{} {
-	if len(documentHashes) == 0 {
-		return nil
-	}
-	set := make(map[yacymodel.URLHash]struct{}, len(documentHashes))
-	for _, documentHash := range documentHashes {
-		set[documentHash] = struct{}{}
-	}
-
-	return set
 }
