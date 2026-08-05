@@ -84,6 +84,8 @@ components:
     in: internal/documentsearch/searchresult/**
   searchendpoint:
     in: internal/documentsearch/searchendpoint/**
+  searchmetrics:
+    in: internal/documentsearch/searchmetrics/**
   searchtest:
     in: internal/documentsearch/searchtest/**
   nodestatus:
@@ -376,10 +378,13 @@ deps:
     mayDependOn:
       - searchresult
       - searchendpoint
+      - searchmetrics
       - rwipostings
       - urlmeta
       - httpguard
       - nodeidentity
+    canUse:
+      - yacymodel
   searchcriteria:
     mayDependOn:
       - searchcriteria
@@ -449,11 +454,18 @@ deps:
       - searchcriteria
       - matchreport
       - searchresult
+      - searchmetrics
       - httpguard
       - nodeidentity
     canUse:
       - yacymodel
       - yacyproto
+      - prometheus
+  searchmetrics:
+    mayDependOn:
+      - searchmetrics
+    canUse:
+      - prometheus
   nodestatus:
     mayDependOn:
       - nodestatus
@@ -526,6 +538,7 @@ deps:
       - replicaeligibility
       - distributioncycle
       - documentsearch
+      - searchmetrics
       - eviction
       - metrics
       - nodeidentity

@@ -23,8 +23,8 @@ func TestMatchesForHoldsOnePostingPerDocument(t *testing.T) {
 
 	matches, err := MatchesFor(
 		context.Background(),
-		index,
 		[]yacymodel.Hash{word},
+		index,
 		postingfilter.FilterForReport(searchcriteria.Criteria{}),
 		100,
 	)
@@ -48,8 +48,8 @@ func TestMatchesForKeepsMostFrequentPostingsUnderCap(t *testing.T) {
 
 	matches, err := MatchesFor(
 		context.Background(),
-		index,
 		[]yacymodel.Hash{word},
+		index,
 		postingfilter.FilterForReport(searchcriteria.Criteria{}),
 		1,
 	)
@@ -81,8 +81,8 @@ func TestMatchesForKeepsTwoMostFrequentPostingsUnderCap(t *testing.T) {
 
 	matches, err := MatchesFor(
 		context.Background(),
-		index,
 		[]yacymodel.Hash{word},
+		index,
 		postingfilter.FilterForReport(searchcriteria.Criteria{}),
 		2,
 	)
@@ -106,8 +106,8 @@ func TestMatchesForKeepsTwoMostFrequentPostingsUnderCap(t *testing.T) {
 func TestMatchesForSurfacesScanFailures(t *testing.T) {
 	_, err := MatchesFor(
 		context.Background(),
-		searchtest.FailingPostingIndex{Err: errScanBroken},
 		[]yacymodel.Hash{searchtest.HashFor("w1")},
+		searchtest.FailingPostingIndex{Err: errScanBroken},
 		postingfilter.FilterForReport(searchcriteria.Criteria{}),
 		100,
 	)
@@ -126,8 +126,8 @@ func TestMatchesForSkipsPostingsTheFilterRejects(t *testing.T) {
 
 	matches, err := MatchesFor(
 		context.Background(),
-		index,
 		[]yacymodel.Hash{word},
+		index,
 		postingfilter.FilterForReport(searchcriteria.Criteria{
 			RequiredDocuments: []yacymodel.URLHash{searchtest.URLHashFor("u9")},
 		}),

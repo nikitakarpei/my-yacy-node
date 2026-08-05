@@ -14,48 +14,41 @@ import (
 type Match struct {
 	PostingPerDocument map[yacymodel.URLHash]Posting
 	TotalMatches       int
+	PostingsHeld       int
 }
 
 func MatchesFor(
 	ctx context.Context,
-	index rwipostings.PostingIndex,
 	terms []yacymodel.Hash,
+	index rwipostings.PostingIndex,
 	filter postingfilter.Filter,
 	maxPostingsPerTerm int,
 ) (map[yacymodel.Hash]Match, error) {
 	matches := make(map[yacymodel.Hash]Match, len(terms))
 	for _, term := range terms {
-		postings, total, err := mostFrequentPostingsOf(
-			ctx,
-			index,
-			term,
-			filter,
-			maxPostingsPerTerm,
-		)
+		match, err := matchOf(ctx, term, index, filter, maxPostingsPerTerm)
 		if err != nil {
 			return nil, err
 		}
-		matches[term] = Match{
-			PostingPerDocument: postingPerDocument(postings),
-			TotalMatches:       total,
-		}
+		matches[term] = match
 	}
 
 	return matches, nil
 }
 
-func mostFrequentPostingsOf(
+func matchOf(
 	ctx context.Context,
-	index rwipostings.PostingIndex,
 	term yacymodel.Hash,
+	index rwipostings.PostingIndex,
 	filter postingfilter.Filter,
 	maxPostingsPerTerm int,
-) ([]Posting, int, error) {
+) (Match, error) {
 	// The per-term cap keeps the most frequent postings rather than the first
 	// scanned; an exact join under a memory bound would instead pivot on the rarest term.
 	frequentPostings := mostFrequentPostings{maxPostings: maxPostingsPerTerm}
-	var total int
+	var held, total int
 	err := index.ScanWord(ctx, term, func(posting yacymodel.RWIPosting) (bool, error) {
+		held++
 		if !filter.Accepts(posting) {
 			return true, nil
 		}
@@ -69,10 +62,14 @@ func mostFrequentPostingsOf(
 		return true, nil
 	})
 	if err != nil {
-		return nil, 0, fmt.Errorf("scan term: %w", err)
+		return Match{}, fmt.Errorf("scan term: %w", err)
 	}
 
-	return frequentPostings.postings, total, nil
+	return Match{
+		PostingPerDocument: postingPerDocument(frequentPostings.postings),
+		TotalMatches:       total,
+		PostingsHeld:       held,
+	}, nil
 }
 
 func postingPerDocument(postings []Posting) map[yacymodel.URLHash]Posting {
