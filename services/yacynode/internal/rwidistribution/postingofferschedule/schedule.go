@@ -30,7 +30,7 @@ type Observer interface {
 
 type Schedule struct {
 	vault          *vault.Vault
-	order          *vault.Collection[struct{}]
+	order          *vault.Set
 	dueTimes       *vault.Collection[time.Time]
 	offerIntervals *vault.Collection[time.Duration]
 	now            func() time.Time
@@ -38,7 +38,7 @@ type Schedule struct {
 }
 
 func Open(v *vault.Vault, now func() time.Time, observer Observer) (*Schedule, error) {
-	order, err := vault.Register(v, orderBucket, presenceCodec{})
+	order, err := vault.RegisterSet(v, orderBucket)
 	if err != nil {
 		return nil, fmt.Errorf("register offer order: %w", err)
 	}
@@ -103,7 +103,7 @@ func (s *Schedule) clearDueAt(
 	posting postingidentity.Identity,
 	dueAt time.Time,
 ) error {
-	if _, err := s.order.Delete(tx, orderKeyFor(posting, dueAt)); err != nil {
+	if _, err := s.order.Remove(tx, orderKeyFor(posting, dueAt)); err != nil {
 		return fmt.Errorf("drop offer order: %w", err)
 	}
 	if _, err := s.dueTimes.Delete(tx, posting.Key()); err != nil {
@@ -118,7 +118,7 @@ func (s *Schedule) setDueAt(
 	posting postingidentity.Identity,
 	dueAt time.Time,
 ) error {
-	if err := s.order.Put(tx, orderKeyFor(posting, dueAt), struct{}{}); err != nil {
+	if err := s.order.Add(tx, orderKeyFor(posting, dueAt)); err != nil {
 		return fmt.Errorf("record offer order: %w", err)
 	}
 	if err := s.dueTimes.Put(tx, posting.Key(), dueAt); err != nil {
@@ -245,7 +245,7 @@ func (s *Schedule) DuePostings(
 	now := s.now()
 	duePostings := make([]postingidentity.Identity, 0, limit)
 	err := s.vault.View(ctx, func(tx *vault.Txn) error {
-		return s.order.Scan(tx, nil, func(key vault.Key, _ struct{}) (bool, error) {
+		return s.order.Scan(tx, nil, func(key vault.Key) (bool, error) {
 			scheduledOffer, err := parseOrderKey(key)
 			if err != nil {
 				return false, err
@@ -309,7 +309,7 @@ func (s *Schedule) earliestOfferDueAt(ctx context.Context) (time.Time, bool, err
 		found         bool
 	)
 	err := s.vault.View(ctx, func(tx *vault.Txn) error {
-		return s.order.Scan(tx, nil, func(key vault.Key, _ struct{}) (bool, error) {
+		return s.order.Scan(tx, nil, func(key vault.Key) (bool, error) {
 			scheduledOffer, err := parseOrderKey(key)
 			if err != nil {
 				return false, err
