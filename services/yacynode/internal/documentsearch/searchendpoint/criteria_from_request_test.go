@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -74,5 +75,64 @@ func TestStructuredLanguageDoesNotFilter(t *testing.T) {
 	}
 	if criteria.Language.Present() {
 		t.Fatalf("Language = %v, want absent", criteria.Language)
+	}
+}
+
+func TestWrongLengthLanguageOperatorDoesNotFilter(t *testing.T) {
+	criteria, err := criteriaFromRequest(yacyproto.SearchRequest{Modifier: "/language/deu"})
+	if err != nil {
+		t.Fatalf("criteriaFromRequest: %v", err)
+	}
+	if criteria.Language.Present() {
+		t.Fatalf("Language = %v, want absent", criteria.Language)
+	}
+}
+
+func TestInvalidSiteHashIsRejected(t *testing.T) {
+	if _, err := criteriaFromRequest(yacyproto.SearchRequest{SiteHash: "!!"}); err == nil {
+		t.Fatal("criteriaFromRequest accepted an invalid site hash")
+	}
+}
+
+func TestInvalidSiteHostIsRejected(t *testing.T) {
+	if _, err := criteriaFromRequest(yacyproto.SearchRequest{SiteHost: "."}); err == nil {
+		t.Fatal("criteriaFromRequest accepted an invalid site host")
+	}
+}
+
+func TestContentKindFollowsContentDomain(t *testing.T) {
+	cases := []struct {
+		domain yacyproto.SearchContentDomain
+		kind   searchcriteria.ContentKind
+	}{
+		{yacyproto.ContentDomainImage, searchcriteria.ImageContent},
+		{yacyproto.ContentDomainAudio, searchcriteria.AudioContent},
+		{yacyproto.ContentDomainVideo, searchcriteria.VideoContent},
+		{yacyproto.ContentDomainApp, searchcriteria.ApplicationContent},
+		{yacyproto.ContentDomainText, searchcriteria.AnyContent},
+	}
+	for _, c := range cases {
+		t.Run(string(c.domain), func(t *testing.T) {
+			criteria, err := criteriaFromRequest(yacyproto.SearchRequest{ContentDom: c.domain})
+			if err != nil {
+				t.Fatalf("criteriaFromRequest: %v", err)
+			}
+			if criteria.ContentKind != c.kind {
+				t.Errorf("ContentKind = %v, want %v", criteria.ContentKind, c.kind)
+			}
+		})
+	}
+}
+
+func TestMissingCountAndTimeTakeDefaults(t *testing.T) {
+	criteria, err := criteriaFromRequest(yacyproto.SearchRequest{})
+	if err != nil {
+		t.Fatalf("criteriaFromRequest: %v", err)
+	}
+	if criteria.MaxResults != defaultSearchCount {
+		t.Errorf("MaxResults = %d, want %d", criteria.MaxResults, defaultSearchCount)
+	}
+	if criteria.TimeLimit != defaultSearchTime {
+		t.Errorf("TimeLimit = %v, want %v", criteria.TimeLimit, defaultSearchTime)
 	}
 }

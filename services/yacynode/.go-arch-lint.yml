@@ -84,6 +84,8 @@ components:
     in: internal/documentsearch/searchresult/**
   searchendpoint:
     in: internal/documentsearch/searchendpoint/**
+  searchtest:
+    in: internal/documentsearch/searchtest/**
   nodestatus:
     in: internal/nodestatus/**
   eviction:
@@ -383,6 +385,11 @@ deps:
       - searchcriteria
     canUse:
       - yacymodel
+  searchtest:
+    mayDependOn:
+      - searchtest
+    canUse:
+      - yacymodel
   titletopics:
     mayDependOn:
       - titletopics
@@ -391,6 +398,7 @@ deps:
   postingfilter:
     mayDependOn:
       - postingfilter
+      - searchtest
       - searchcriteria
       - rwipostings
     canUse:
@@ -398,6 +406,7 @@ deps:
   termmatch:
     mayDependOn:
       - termmatch
+      - searchtest
       - postingfilter
       - searchcriteria
       - rwipostings
@@ -412,6 +421,7 @@ deps:
   matchreport:
     mayDependOn:
       - matchreport
+      - searchtest
       - searchcriteria
       - postingfilter
       - termmatch
@@ -421,6 +431,7 @@ deps:
   searchresult:
     mayDependOn:
       - searchresult
+      - searchtest
       - searchcriteria
       - postingfilter
       - termmatch
@@ -434,6 +445,7 @@ deps:
   searchendpoint:
     mayDependOn:
       - searchendpoint
+      - searchtest
       - searchcriteria
       - matchreport
       - searchresult

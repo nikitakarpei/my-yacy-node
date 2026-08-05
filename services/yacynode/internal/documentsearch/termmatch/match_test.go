@@ -2,82 +2,22 @@ package termmatch
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/postingfilter"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
 )
 
-type fakeScanner struct {
-	postings map[yacymodel.Hash][]yacymodel.RWIPosting
-}
-
-func (s fakeScanner) RWICount(context.Context) (int, error) {
-	return len(s.postings), nil
-}
-
-func (s fakeScanner) ScanWord(
-	_ context.Context,
-	word yacymodel.Hash,
-	visit func(yacymodel.RWIPosting) (bool, error),
-) error {
-	for _, entry := range s.postings[word] {
-		entry.WordHash = word
-		keepGoing, err := visit(entry)
-		if err != nil {
-			return err
-		}
-		if !keepGoing {
-			return nil
-		}
-	}
-
-	return nil
-}
-
-func (s fakeScanner) PostingOf(
-	_ context.Context,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) (yacymodel.RWIPosting, bool, error) {
-	for _, entry := range s.postings[word] {
-		if entry.URLHash == url {
-			entry.WordHash = word
-
-			return entry, true, nil
-		}
-	}
-
-	return yacymodel.RWIPosting{}, false, nil
-}
-
-func hashFor(base string) yacymodel.Hash {
-	const filler = "AAAAAAAAAAAA"
-	hash, err := yacymodel.ParseHash(base + filler[len(base):])
-	if err != nil {
-		panic(err)
-	}
-
-	return hash
-}
-
-func urlHashFor(url string) yacymodel.URLHash {
-	hash, err := yacymodel.ParseURLHash(hashFor(url).String())
-	if err != nil {
-		panic(err)
-	}
-
-	return hash
-}
-
 func postingEntry(url string, hits int) yacymodel.RWIPosting {
-	return yacymodel.RWIPosting{URLHash: urlHashFor(url), Hits: hits}
+	return yacymodel.RWIPosting{URLHash: searchtest.URLHashFor(url), Hits: hits}
 }
 
 func TestMatchesForHoldsOnePostingPerDocument(t *testing.T) {
-	word := hashFor("w1")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry("u1", 1), postingEntry("u2", 3)},
 	}}
 
@@ -95,14 +35,14 @@ func TestMatchesForHoldsOnePostingPerDocument(t *testing.T) {
 	if match.TotalMatches != 2 || len(match.PostingPerDocument) != 2 {
 		t.Fatalf("match = %+v, want two postings", match)
 	}
-	if match.PostingPerDocument[urlHashFor("u2")].Occurrences != 3 {
-		t.Errorf("occurrences = %+v, want 3", match.PostingPerDocument[urlHashFor("u2")])
+	if match.PostingPerDocument[searchtest.URLHashFor("u2")].Occurrences != 3 {
+		t.Errorf("occurrences = %+v, want 3", match.PostingPerDocument[searchtest.URLHashFor("u2")])
 	}
 }
 
 func TestMatchesForKeepsMostFrequentPostingsUnderCap(t *testing.T) {
-	word := hashFor("w1")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry("u1", 1), postingEntry("u2", 7), postingEntry("u3", 4)},
 	}}
 
@@ -123,14 +63,64 @@ func TestMatchesForKeepsMostFrequentPostingsUnderCap(t *testing.T) {
 	if len(match.PostingPerDocument) != 1 {
 		t.Fatalf("kept = %d postings, want 1", len(match.PostingPerDocument))
 	}
-	if _, ok := match.PostingPerDocument[urlHashFor("u2")]; !ok {
+	if _, ok := match.PostingPerDocument[searchtest.URLHashFor("u2")]; !ok {
 		t.Error("most frequent posting not kept")
 	}
 }
 
+func TestMatchesForKeepsTwoMostFrequentPostingsUnderCap(t *testing.T) {
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word: {
+			postingEntry("u1", 5),
+			postingEntry("u2", 1),
+			postingEntry("u3", 7),
+			postingEntry("u4", 3),
+		},
+	}}
+
+	matches, err := MatchesFor(
+		context.Background(),
+		index,
+		[]yacymodel.Hash{word},
+		postingfilter.FilterForReport(searchcriteria.Criteria{}),
+		2,
+	)
+	if err != nil {
+		t.Fatalf("MatchesFor: %v", err)
+	}
+	match := matches[word]
+	if match.TotalMatches != 4 {
+		t.Errorf("TotalMatches = %d, want 4", match.TotalMatches)
+	}
+	if len(match.PostingPerDocument) != 2 {
+		t.Fatalf("kept = %d postings, want 2", len(match.PostingPerDocument))
+	}
+	for _, url := range []string{"u1", "u3"} {
+		if _, ok := match.PostingPerDocument[searchtest.URLHashFor(url)]; !ok {
+			t.Errorf("posting %s not kept, want the two most frequent", url)
+		}
+	}
+}
+
+func TestMatchesForSurfacesScanFailures(t *testing.T) {
+	_, err := MatchesFor(
+		context.Background(),
+		searchtest.FailingPostingIndex{Err: errScanBroken},
+		[]yacymodel.Hash{searchtest.HashFor("w1")},
+		postingfilter.FilterForReport(searchcriteria.Criteria{}),
+		100,
+	)
+	if !errors.Is(err, errScanBroken) {
+		t.Fatalf("MatchesFor error = %v, want %v", err, errScanBroken)
+	}
+}
+
+var errScanBroken = errors.New("scan broken")
+
 func TestMatchesForSkipsPostingsTheFilterRejects(t *testing.T) {
-	word := hashFor("w1")
-	index := fakeScanner{postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry("u1", 1)},
 	}}
 
@@ -139,7 +129,7 @@ func TestMatchesForSkipsPostingsTheFilterRejects(t *testing.T) {
 		index,
 		[]yacymodel.Hash{word},
 		postingfilter.FilterForReport(searchcriteria.Criteria{
-			RequiredDocuments: []yacymodel.URLHash{urlHashFor("u9")},
+			RequiredDocuments: []yacymodel.URLHash{searchtest.URLHashFor("u9")},
 		}),
 		100,
 	)

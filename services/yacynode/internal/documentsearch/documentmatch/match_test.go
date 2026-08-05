@@ -70,8 +70,8 @@ func TestMatchesAcrossEveryTermSumsOccurrencesOfSharedDocuments(t *testing.T) {
 }
 
 func TestMatchesAcrossEveryTermWithoutTerms(t *testing.T) {
-	if matches := MatchesAcrossEveryTerm(nil, nil); matches != nil {
-		t.Fatalf("matches = %v, want nil without terms", matches)
+	if matches := MatchesAcrossEveryTerm(nil, nil); len(matches) != 0 {
+		t.Fatalf("matches = %v, want none without terms", matches)
 	}
 }
 
