@@ -20,9 +20,13 @@ import (
 
 type SkipReason string
 
+const SkipTooFewReachablePeers SkipReason = "too_few_reachable_peers"
+
+type AbortReason string
+
 const (
-	SkipTooFewReachablePeers SkipReason = "too_few_reachable_peers"
-	SkipDuePostingsUnread    SkipReason = "due_postings_unread"
+	AbortDuePostingsUnread AbortReason = "due_postings_unread"
+	AbortBatchUnwritten    AbortReason = "not_written"
 )
 
 type ReachablePeers interface {
@@ -31,8 +35,9 @@ type ReachablePeers interface {
 
 type Config struct {
 	OfferInterval     postingofferschedule.OfferInterval
-	PostingsPerCycle  int
+	PostingsPerBatch  int
 	CycleInterval     time.Duration
+	DrainBudget       time.Duration
 	MinReachablePeers int
 }
 
@@ -45,6 +50,7 @@ type Cycle struct {
 	replicas        *postingreplicas.Replicas
 	schedule        *postingofferschedule.Schedule
 	roster          ReachablePeers
+	now             func() time.Time
 	cycleObserver   CycleObserver
 	dhtRingObserver DHTRingObserver
 	config          Config
@@ -60,6 +66,7 @@ func New(
 	replicas *postingreplicas.Replicas,
 	schedule *postingofferschedule.Schedule,
 	roster ReachablePeers,
+	now func() time.Time,
 	cycleObserver CycleObserver,
 	dhtRingObserver DHTRingObserver,
 	config Config,
@@ -73,6 +80,7 @@ func New(
 		replicas:        replicas,
 		schedule:        schedule,
 		roster:          roster,
+		now:             now,
 		cycleObserver:   cycleObserver,
 		dhtRingObserver: dhtRingObserver,
 		config:          config,
@@ -105,17 +113,7 @@ func (c *Cycle) runCycle(ctx context.Context) {
 		return
 	}
 
-	offers, gonePostings, err := c.postingOffers.DueNow(ctx, c.config.PostingsPerCycle, peers)
-	if err != nil {
-		c.skipDuePostingsUnread(ctx, err)
-
-		return
-	}
-	c.reportPostingsGone(ctx, gonePostings)
-
-	round := offerDuePostings(ctx, c.transfers, c.answers, offers)
-
-	c.commitCycle(ctx, offers, round)
+	c.drainDuePostings(ctx, peers)
 }
 
 func (c *Cycle) skipTooFewReachablePeers(ctx context.Context, reachablePeers int) {
@@ -128,9 +126,42 @@ func (c *Cycle) skipTooFewReachablePeers(ctx context.Context, reachablePeers int
 	c.cycleObserver.ObserveCycleSkipped(string(SkipTooFewReachablePeers))
 }
 
-func (c *Cycle) skipDuePostingsUnread(ctx context.Context, err error) {
+func (c *Cycle) drainDuePostings(ctx context.Context, peers []yacymodel.Seed) {
+	drainEndsAt := c.now().Add(c.config.DrainBudget)
+
+	for {
+		duePostings, batchOffered := c.offerDueBatch(ctx, peers)
+		if !batchOffered || duePostings < c.config.PostingsPerBatch {
+			return
+		}
+		if ctx.Err() != nil || !c.now().Before(drainEndsAt) {
+			return
+		}
+	}
+}
+
+func (c *Cycle) offerDueBatch(ctx context.Context, peers []yacymodel.Seed) (int, bool) {
+	offers, gonePostings, err := c.postingOffers.DueNow(ctx, c.config.PostingsPerBatch, peers)
+	if err != nil {
+		c.reportDuePostingsUnread(ctx, err)
+
+		return 0, false
+	}
+	c.reportPostingsGone(ctx, gonePostings)
+
+	round := offerDuePostings(ctx, c.transfers, c.answers, offers)
+	if err := c.commitBatch(ctx, offers, round); err != nil {
+		c.reportBatchUnwritten(ctx, err)
+
+		return 0, false
+	}
+
+	return len(offers) + len(gonePostings), true
+}
+
+func (c *Cycle) reportDuePostingsUnread(ctx context.Context, err error) {
 	slog.ErrorContext(ctx, "due postings not read", slog.Any("error", err))
-	c.cycleObserver.ObserveCycleSkipped(string(SkipDuePostingsUnread))
+	c.cycleObserver.ObserveBatchAborted(string(AbortDuePostingsUnread))
 }
 
 func (c *Cycle) reportPostingsGone(
@@ -145,11 +176,11 @@ func (c *Cycle) reportPostingsGone(
 	}
 }
 
-func (c *Cycle) commitCycle(
+func (c *Cycle) commitBatch(
 	ctx context.Context,
 	offers []postingoffer.PostingOffer,
 	round offerRound,
-) {
+) error {
 	var (
 		droppedReplicas   int
 		handedOffPostings int
@@ -174,9 +205,7 @@ func (c *Cycle) commitCycle(
 		return c.setNextOffers(tx, offers, round)
 	})
 	if err != nil {
-		slog.ErrorContext(ctx, "distribution cycle not written", slog.Any("error", err))
-
-		return
+		return err
 	}
 
 	c.cycleObserver.ObserveStaleReplicasDropped(droppedReplicas)
@@ -184,6 +213,8 @@ func (c *Cycle) commitCycle(
 	c.dhtRingObserver.ObserveReplicaRingFractions(
 		replicaRingFractionsOf(offers, round.acceptances),
 	)
+
+	return nil
 }
 
 func replicaRingFractionsOf(
@@ -284,4 +315,9 @@ func acceptancesByPosting(acceptances []peerAcceptance) map[postingidentity.Iden
 	}
 
 	return byPosting
+}
+
+func (c *Cycle) reportBatchUnwritten(ctx context.Context, err error) {
+	slog.ErrorContext(ctx, "distribution batch not written", slog.Any("error", err))
+	c.cycleObserver.ObserveBatchAborted(string(AbortBatchUnwritten))
 }

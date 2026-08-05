@@ -102,13 +102,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		opts.redundancy,
 	)
 
-	courier := &fakeCourier{receipts: make(map[yacymodel.Hash]postingcourier.Receipt)}
-	metadataCourier := &fakeURLMetadataCourier{
-		receipt: urlmetadatacourier.Receipt{Outcome: opts.metadataOutcome},
-	}
-	urls := opts.urls
-
-	transfers := postingtransfer.New(courier, metadataCourier, urls, observer)
+	courier, metadataCourier, transfers := openTransfers(opts, observer)
 	offerInterval := postingofferschedule.OfferInterval{Shortest: time.Minute, Longest: time.Hour}
 	cycle := New(
 		v,
@@ -119,12 +113,14 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		replicas,
 		schedule,
 		opts.roster,
+		clk.now,
 		observer,
 		observer,
 		Config{
 			OfferInterval:     offerInterval,
-			PostingsPerCycle:  10,
+			PostingsPerBatch:  10,
 			CycleInterval:     time.Minute,
+			DrainBudget:       time.Minute,
 			MinReachablePeers: 0,
 		},
 	)
@@ -139,12 +135,26 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		eligibility:     eligibility,
 		courier:         courier,
 		metadataCourier: metadataCourier,
-		urls:            urls,
+		urls:            opts.urls,
 		observer:        observer,
 		transfers:       transfers,
 		offerInterval:   offerInterval,
 		cycle:           cycle,
 	}
+}
+
+func openTransfers(
+	opts cycleOptions,
+	observer *fakeObserver,
+) (*fakeCourier, *fakeURLMetadataCourier, *postingtransfer.PostingTransfers) {
+	courier := &fakeCourier{receipts: make(map[yacymodel.Hash]postingcourier.Receipt)}
+	metadataCourier := &fakeURLMetadataCourier{
+		receipt: urlmetadatacourier.Receipt{Outcome: opts.metadataOutcome},
+	}
+
+	return courier, metadataCourier, postingtransfer.New(
+		courier, metadataCourier, opts.urls, observer,
+	)
 }
 
 func purgeBookkeeping(

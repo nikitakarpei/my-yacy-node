@@ -158,13 +158,15 @@ func (s *Schedule) SetNextOfferAfterRedundancyMet(
 		return err
 	}
 
-	return s.reschedule(tx, posting, s.now().Add(interval.Longest))
+	return s.reschedule(tx, posting, func(previousDueAt time.Time) time.Time {
+		return interval.nextDueAtFrom(previousDueAt, s.now())
+	})
 }
 
 func (s *Schedule) reschedule(
 	tx *vault.Txn,
 	posting postingidentity.Identity,
-	dueAt time.Time,
+	nextDueAtFrom func(previousDueAt time.Time) time.Time,
 ) error {
 	previousDueAt, found, err := s.dueAt(tx, posting)
 	if err != nil {
@@ -177,7 +179,7 @@ func (s *Schedule) reschedule(
 		return fmt.Errorf("reschedule offer: %w", err)
 	}
 
-	return s.setDueAt(tx, posting, dueAt)
+	return s.setDueAt(tx, posting, nextDueAtFrom(previousDueAt))
 }
 
 func (s *Schedule) SetNextOfferAfterRedundancyMissed(
@@ -191,7 +193,9 @@ func (s *Schedule) SetNextOfferAfterRedundancyMissed(
 		return err
 	}
 
-	return s.reschedule(tx, posting, s.now().Add(max(widenedInterval, requestedPause)))
+	return s.reschedule(tx, posting, func(time.Time) time.Time {
+		return s.now().Add(max(widenedInterval, requestedPause))
+	})
 }
 
 func (s *Schedule) widenedOfferInterval(
