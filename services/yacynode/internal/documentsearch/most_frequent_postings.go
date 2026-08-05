@@ -2,14 +2,19 @@ package documentsearch
 
 import "container/heap"
 
-type leastFrequentFirst []termPosting
+type postingsLeastFrequentFirst []termPosting
 
-func (h leastFrequentFirst) Len() int           { return len(h) }
-func (h leastFrequentFirst) Less(i, j int) bool { return h[i].occurrences < h[j].occurrences }
-func (h leastFrequentFirst) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
-func (h *leastFrequentFirst) Push(x any)        { *h = append(*h, x.(termPosting)) }
+func (h postingsLeastFrequentFirst) Len() int { return len(h) }
 
-func (h *leastFrequentFirst) Pop() any {
+func (h postingsLeastFrequentFirst) Less(i, j int) bool {
+	return h[i].occurrences < h[j].occurrences
+}
+
+func (h postingsLeastFrequentFirst) Swap(i, j int) { h[i], h[j] = h[j], h[i] }
+
+func (h *postingsLeastFrequentFirst) Push(x any) { *h = append(*h, x.(termPosting)) }
+
+func (h *postingsLeastFrequentFirst) Pop() any {
 	postings := *h
 	lastPosting := postings[len(postings)-1]
 	*h = postings[:len(postings)-1]
@@ -19,7 +24,7 @@ func (h *leastFrequentFirst) Pop() any {
 
 type mostFrequentPostings struct {
 	maxPostings int
-	postings    leastFrequentFirst
+	postings    postingsLeastFrequentFirst
 }
 
 func (m *mostFrequentPostings) consider(candidate termPosting) {

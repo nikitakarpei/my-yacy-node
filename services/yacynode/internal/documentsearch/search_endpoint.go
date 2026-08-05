@@ -33,6 +33,7 @@ func (e searchEndpoint) Serve(
 		if err != nil {
 			return yacyproto.SearchResponse{}, fmt.Errorf("search criteria: %w", err)
 		}
+		requestedReport := requestedMatchReportFrom(req)
 		if ignoredOptions := ignoredOptionNames(req); len(ignoredOptions) != 0 {
 			slog.DebugContext(ctx, "ignoring accepted search options",
 				slog.Any("options", ignoredOptions),
@@ -45,7 +46,7 @@ func (e searchEndpoint) Serve(
 			defer cancel()
 		}
 
-		result, err := e.searcher.search(searchCtx, criteria)
+		result, err := e.searcher.search(searchCtx, criteria, requestedReport)
 		if err != nil {
 			return yacyproto.SearchResponse{}, fmt.Errorf("search: %w", err)
 		}
