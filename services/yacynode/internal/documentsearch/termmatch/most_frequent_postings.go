@@ -1,18 +1,18 @@
-package documentsearch
+package termmatch
 
 import "container/heap"
 
-type postingsLeastFrequentFirst []termPosting
+type postingsLeastFrequentFirst []Posting
 
 func (h postingsLeastFrequentFirst) Len() int { return len(h) }
 
 func (h postingsLeastFrequentFirst) Less(i, j int) bool {
-	return h[i].occurrences < h[j].occurrences
+	return h[i].Occurrences < h[j].Occurrences
 }
 
 func (h postingsLeastFrequentFirst) Swap(i, j int) { h[i], h[j] = h[j], h[i] }
 
-func (h *postingsLeastFrequentFirst) Push(x any) { *h = append(*h, x.(termPosting)) }
+func (h *postingsLeastFrequentFirst) Push(x any) { *h = append(*h, x.(Posting)) }
 
 func (h *postingsLeastFrequentFirst) Pop() any {
 	postings := *h
@@ -27,13 +27,13 @@ type mostFrequentPostings struct {
 	postings    postingsLeastFrequentFirst
 }
 
-func (m *mostFrequentPostings) consider(candidate termPosting) {
+func (m *mostFrequentPostings) consider(candidate Posting) {
 	if m.maxPostings <= 0 || len(m.postings) < m.maxPostings {
 		heap.Push(&m.postings, candidate)
 
 		return
 	}
-	if m.postings[0].occurrences < candidate.occurrences {
+	if m.postings[0].Occurrences < candidate.Occurrences {
 		m.postings[0] = candidate
 		heap.Fix(&m.postings, 0)
 	}

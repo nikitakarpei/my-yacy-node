@@ -67,7 +67,23 @@ components:
   distributioncycle:
     in: internal/rwidistribution/distributioncycle/**
   documentsearch:
-    in: internal/documentsearch/**
+    in: internal/documentsearch
+  searchcriteria:
+    in: internal/documentsearch/searchcriteria/**
+  titletopics:
+    in: internal/documentsearch/titletopics/**
+  postingfilter:
+    in: internal/documentsearch/postingfilter/**
+  termmatch:
+    in: internal/documentsearch/termmatch/**
+  documentmatch:
+    in: internal/documentsearch/documentmatch/**
+  matchreport:
+    in: internal/documentsearch/matchreport/**
+  searchresult:
+    in: internal/documentsearch/searchresult/**
+  searchendpoint:
+    in: internal/documentsearch/searchendpoint/**
   nodestatus:
     in: internal/nodestatus/**
   eviction:
@@ -356,9 +372,71 @@ deps:
       - yacymodel
   documentsearch:
     mayDependOn:
-      - documentsearch
+      - searchresult
+      - searchendpoint
       - rwipostings
       - urlmeta
+      - httpguard
+      - nodeidentity
+  searchcriteria:
+    mayDependOn:
+      - searchcriteria
+    canUse:
+      - yacymodel
+  titletopics:
+    mayDependOn:
+      - titletopics
+    canUse:
+      - yacymodel
+  postingfilter:
+    mayDependOn:
+      - postingfilter
+      - searchcriteria
+      - rwipostings
+    canUse:
+      - yacymodel
+  termmatch:
+    mayDependOn:
+      - termmatch
+      - postingfilter
+      - searchcriteria
+      - rwipostings
+    canUse:
+      - yacymodel
+  documentmatch:
+    mayDependOn:
+      - documentmatch
+      - termmatch
+    canUse:
+      - yacymodel
+  matchreport:
+    mayDependOn:
+      - matchreport
+      - searchcriteria
+      - postingfilter
+      - termmatch
+      - rwipostings
+    canUse:
+      - yacymodel
+  searchresult:
+    mayDependOn:
+      - searchresult
+      - searchcriteria
+      - postingfilter
+      - termmatch
+      - documentmatch
+      - matchreport
+      - titletopics
+      - rwipostings
+      - urlmeta
+    canUse:
+      - yacymodel
+  searchendpoint:
+    mayDependOn:
+      - searchendpoint
+      - searchcriteria
+      - matchreport
+      - searchresult
       - httpguard
       - nodeidentity
     canUse:

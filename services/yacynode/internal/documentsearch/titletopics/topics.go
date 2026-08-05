@@ -1,4 +1,6 @@
-package documentsearch
+// Package titletopics names the words that recur in the titles of the returned
+// documents and are not query terms.
+package titletopics
 
 import (
 	"sort"
@@ -17,7 +19,7 @@ const titleWordSeparators = " /()-:_.,?!'\""
 // Topics come only from the returned page, not every matched document as YaCy does,
 // to keep search latency bounded; the field is a navigation hint, so the narrower
 // sample is acceptable.
-func topicsFromTitles(
+func TopicsFromTitles(
 	documentMetadata []yacymodel.URLMetadata,
 	queryTerms []yacymodel.Hash,
 ) []string {

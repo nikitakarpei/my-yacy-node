@@ -1,4 +1,4 @@
-package documentsearch
+package searchendpoint
 
 import (
 	"fmt"
@@ -6,42 +6,24 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-type contentKind int
-
 const (
-	anyContent contentKind = iota
-	imageContent
-	audioContent
-	videoContent
-	applicationContent
+	defaultSearchCount = 10
+	defaultSearchTime  = 3 * time.Second
 )
 
-type searchCriteria struct {
-	terms              []yacymodel.Hash
-	excludedTerms      []yacymodel.Hash
-	requiredDocuments  []yacymodel.URLHash
-	maxResults         int
-	maxTermSpread      int
-	timeLimit          time.Duration
-	contentKind        contentKind
-	strictContentKind  bool
-	requiredAppearance yacymodel.Optional[yacymodel.Appearance]
-	language           yacymodel.Optional[yacymodel.Language]
-	siteHash           yacymodel.Optional[yacymodel.HostHash]
-}
-
-func searchCriteriaFromRequest(req yacyproto.SearchRequest) (searchCriteria, error) {
+func criteriaFromRequest(req yacyproto.SearchRequest) (searchcriteria.Criteria, error) {
 	operators := queryOperatorsIn(req.Modifier)
 	siteHash, err := siteHashFromRequest(req, operators)
 	if err != nil {
-		return searchCriteria{}, err
+		return searchcriteria.Criteria{}, err
 	}
 	language, err := languageFromOperators(operators)
 	if err != nil {
-		return searchCriteria{}, err
+		return searchcriteria.Criteria{}, err
 	}
 	maxResults := req.Count
 	if maxResults <= 0 {
@@ -51,20 +33,21 @@ func searchCriteriaFromRequest(req yacyproto.SearchRequest) (searchCriteria, err
 	if timeLimit <= 0 {
 		timeLimit = defaultSearchTime
 	}
-	return searchCriteria{
-		terms:              req.Query,
-		excludedTerms:      req.Exclude,
-		requiredDocuments:  req.URLs,
-		maxResults:         maxResults,
-		maxTermSpread:      req.MaxDist,
-		timeLimit:          timeLimit,
-		contentKind:        contentKindFromDomain(req.ContentDom),
-		strictContentKind:  req.StrictContentDom,
-		requiredAppearance: req.RequiredAppearance,
+
+	return searchcriteria.Criteria{
+		Terms:              req.Query,
+		ExcludedTerms:      req.Exclude,
+		RequiredDocuments:  req.URLs,
+		MaxResults:         maxResults,
+		MaxTermSpread:      req.MaxDist,
+		TimeLimit:          timeLimit,
+		ContentKind:        contentKindFromDomain(req.ContentDom),
+		StrictContentKind:  req.StrictContentDom,
+		RequiredAppearance: req.RequiredAppearance,
 		// Deliberate divergence from YaCy: only the /language/ modifier filters; the
 		// plain language field drives YaCy's ranking boost, which this node omits.
-		language: language,
-		siteHash: siteHash,
+		Language: language,
+		SiteHash: siteHash,
 	}, nil
 }
 
@@ -135,17 +118,17 @@ func languageFromOperators(
 	return yacymodel.Some(language), nil
 }
 
-func contentKindFromDomain(domain yacyproto.SearchContentDomain) contentKind {
+func contentKindFromDomain(domain yacyproto.SearchContentDomain) searchcriteria.ContentKind {
 	switch domain {
 	case yacyproto.ContentDomainImage:
-		return imageContent
+		return searchcriteria.ImageContent
 	case yacyproto.ContentDomainAudio:
-		return audioContent
+		return searchcriteria.AudioContent
 	case yacyproto.ContentDomainVideo:
-		return videoContent
+		return searchcriteria.VideoContent
 	case yacyproto.ContentDomainApp:
-		return applicationContent
+		return searchcriteria.ApplicationContent
 	default:
-		return anyContent
+		return searchcriteria.AnyContent
 	}
 }
