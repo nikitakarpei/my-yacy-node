@@ -35,8 +35,9 @@ const (
 	envDistributionEnabled               = "YACY_DISTRIBUTION_ENABLED"
 	envDistributionRedundancy            = "YACY_DISTRIBUTION_REDUNDANCY"
 	envDistributionPartitionExponent     = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
-	envDistributionPostingsPerCycle      = "YACY_DISTRIBUTION_POSTINGS_PER_CYCLE"
+	envDistributionPostingsPerBatch      = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
 	envDistributionCycleInterval         = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
+	envDistributionDrainBudget           = "YACY_DISTRIBUTION_DRAIN_BUDGET"
 	envDistributionLongestOfferInterval  = "YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL"
 	envDistributionShortestOfferInterval = "YACY_DISTRIBUTION_SHORTEST_OFFER_INTERVAL"
 	envDistributionRecipientCooldown     = "YACY_DISTRIBUTION_RECIPIENT_COOLDOWN"
@@ -55,8 +56,9 @@ const (
 	defaultDistributionEnabled               = false
 	defaultDistributionRedundancy            = 3
 	defaultDistributionPartitionExponent     = 4
-	defaultDistributionPostingsPerCycle      = 1000
+	defaultDistributionPostingsPerBatch      = 1000
 	defaultDistributionCycleInterval         = time.Minute
+	defaultDistributionDrainBudget           = time.Minute
 	defaultDistributionLongestOfferInterval  = 24 * time.Hour
 	defaultDistributionShortestOfferInterval = 5 * time.Minute
 	defaultDistributionRecipientCooldown     = 10 * time.Minute
@@ -89,16 +91,16 @@ type nodeConfig struct {
 }
 
 type distributionConfig struct {
-	Enabled               bool
-	Redundancy            int
-	PartitionExponent     uint
-	PostingsPerCycle      int
-	CycleInterval         time.Duration
-	LongestOfferInterval  time.Duration
-	ShortestOfferInterval time.Duration
-	RecipientCooldown     time.Duration
-	MinReachablePeers     int
-	URLMetadataBatchSize  int
+	Enabled              bool
+	Redundancy           int
+	PartitionExponent    uint
+	PostingsPerBatch     int
+	CycleInterval        time.Duration
+	DrainBudget          time.Duration
+	OfferInterval        offerIntervalConfig
+	RecipientCooldown    time.Duration
+	MinReachablePeers    int
+	URLMetadataBatchSize int
 }
 
 func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
@@ -253,8 +255,8 @@ func loadDistributionConfig(getenv func(string) string) (distributionConfig, err
 		return distributionConfig{}, err
 	}
 
-	postingsPerCycle, err := envconfig.PositiveInt(
-		getenv, envDistributionPostingsPerCycle, defaultDistributionPostingsPerCycle,
+	postingsPerBatch, err := envconfig.PositiveInt(
+		getenv, envDistributionPostingsPerBatch, defaultDistributionPostingsPerBatch,
 	)
 	if err != nil {
 		return distributionConfig{}, err
@@ -267,16 +269,14 @@ func loadDistributionConfig(getenv func(string) string) (distributionConfig, err
 		return distributionConfig{}, err
 	}
 
-	longestOfferInterval, err := envconfig.Duration(
-		getenv, envDistributionLongestOfferInterval, defaultDistributionLongestOfferInterval,
+	drainBudget, err := envconfig.Duration(
+		getenv, envDistributionDrainBudget, defaultDistributionDrainBudget,
 	)
 	if err != nil {
 		return distributionConfig{}, err
 	}
 
-	shortestOfferInterval, err := envconfig.Duration(
-		getenv, envDistributionShortestOfferInterval, defaultDistributionShortestOfferInterval,
-	)
+	offerInterval, err := loadOfferIntervalConfig(getenv)
 	if err != nil {
 		return distributionConfig{}, err
 	}
@@ -303,17 +303,40 @@ func loadDistributionConfig(getenv func(string) string) (distributionConfig, err
 	}
 
 	return distributionConfig{
-		Enabled:               enabled,
-		Redundancy:            redundancy,
-		PartitionExponent:     uint(partitionExponent),
-		PostingsPerCycle:      postingsPerCycle,
-		CycleInterval:         cycleInterval,
-		LongestOfferInterval:  longestOfferInterval,
-		ShortestOfferInterval: shortestOfferInterval,
-		RecipientCooldown:     recipientCooldown,
-		MinReachablePeers:     minReachablePeers,
-		URLMetadataBatchSize:  urlMetadataBatchSize,
+		Enabled:              enabled,
+		Redundancy:           redundancy,
+		PartitionExponent:    uint(partitionExponent),
+		PostingsPerBatch:     postingsPerBatch,
+		CycleInterval:        cycleInterval,
+		DrainBudget:          drainBudget,
+		OfferInterval:        offerInterval,
+		RecipientCooldown:    recipientCooldown,
+		MinReachablePeers:    minReachablePeers,
+		URLMetadataBatchSize: urlMetadataBatchSize,
 	}, nil
+}
+
+type offerIntervalConfig struct {
+	Longest  time.Duration
+	Shortest time.Duration
+}
+
+func loadOfferIntervalConfig(getenv func(string) string) (offerIntervalConfig, error) {
+	longest, err := envconfig.Duration(
+		getenv, envDistributionLongestOfferInterval, defaultDistributionLongestOfferInterval,
+	)
+	if err != nil {
+		return offerIntervalConfig{}, err
+	}
+
+	shortest, err := envconfig.Duration(
+		getenv, envDistributionShortestOfferInterval, defaultDistributionShortestOfferInterval,
+	)
+	if err != nil {
+		return offerIntervalConfig{}, err
+	}
+
+	return offerIntervalConfig{Longest: longest, Shortest: shortest}, nil
 }
 
 func advertiseHost(getenv func(string) string, announcing bool) (string, error) {

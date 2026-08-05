@@ -3,6 +3,7 @@ package distributioncycle
 import (
 	"context"
 	"errors"
+	"strconv"
 	"testing"
 	"time"
 
@@ -452,12 +453,39 @@ func TestCycleCountsUnreadPostingOffer(t *testing.T) {
 
 	h.cycle.runCycle(context.Background())
 
-	if h.observer.cyclesSkipped[string(SkipDuePostingsUnread)] != 1 {
-		t.Fatalf("cyclesSkipped = %v, want one skip for an unread offer",
-			h.observer.cyclesSkipped)
+	if h.observer.batchesAborted[string(AbortDuePostingsUnread)] != 1 {
+		t.Fatalf("batchesAborted = %v, want one abort for an unread offer",
+			h.observer.batchesAborted)
 	}
 	if len(h.courier.offered) != 0 {
 		t.Fatalf("offered = %v, want no offers when offer is unread", h.courier.offered)
+	}
+}
+
+func TestCycleCountsAnUnwrittenBatch(t *testing.T) {
+	now := time.Unix(1000, 0)
+	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	peer := yacymodel.WordHash("peer")
+	h := openCycle(t, &clock{at: now}, cycleOptions{
+		postings: map[yacymodel.Hash]yacymodel.RWIPosting{
+			fakePostingKey(word, url): fakePosting(word, url),
+		},
+		roster: fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+	})
+	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+	h.courier.onOffer = func() {
+		if err := h.v.Close(); err != nil {
+			t.Errorf("Close: %v", err)
+		}
+	}
+
+	store(t, h.v, h.schedule, word, url)
+
+	h.cycle.runCycle(context.Background())
+
+	if h.observer.batchesAborted[string(AbortBatchUnwritten)] != 1 {
+		t.Fatalf("batchesAborted = %v, want one abort for an unwritten batch",
+			h.observer.batchesAborted)
 	}
 }
 
@@ -909,4 +937,81 @@ func TestCycleReportsNoRingFractionsWithoutAcceptance(t *testing.T) {
 			h.observer.replicaRingFractions,
 		)
 	}
+}
+
+func TestCycleDrainsABacklogLargerThanOneBatch(t *testing.T) {
+	now := time.Unix(1000, 0)
+	peer := yacymodel.WordHash("peer")
+	backlog := 25
+	h := openCycle(t, &clock{at: now}, cycleOptions{
+		postings: backlogPostings(backlog),
+		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+	})
+	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+
+	storeBacklog(t, h, backlog)
+
+	h.cycle.runCycle(context.Background())
+
+	due, err := h.schedule.DuePostings(context.Background(), backlog)
+	if err != nil {
+		t.Fatalf("DuePostings: %v", err)
+	}
+	if len(due) != 0 {
+		t.Fatalf("due = %d postings, want none left after one cycle", len(due))
+	}
+}
+
+func TestCycleStopsDrainingWhenTheBudgetIsSpent(t *testing.T) {
+	now := time.Unix(1000, 0)
+	peer := yacymodel.WordHash("peer")
+	backlog := 25
+	clk := &clock{at: now}
+	h := openCycle(t, clk, cycleOptions{
+		postings: backlogPostings(backlog),
+		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+	})
+	h.cycle.config.DrainBudget = 30 * time.Second
+	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
+	h.courier.onOffer = func() { clk.at = clk.at.Add(30 * time.Second) }
+
+	storeBacklog(t, h, backlog)
+
+	h.cycle.runCycle(context.Background())
+
+	due, err := h.schedule.DuePostings(context.Background(), backlog)
+	if err != nil {
+		t.Fatalf("DuePostings: %v", err)
+	}
+	if len(due) != backlog-h.cycle.config.PostingsPerBatch {
+		t.Fatalf(
+			"due = %d postings, want the %d left by the spent budget",
+			len(due), backlog-h.cycle.config.PostingsPerBatch,
+		)
+	}
+}
+
+func backlogPostings(count int) map[yacymodel.Hash]yacymodel.RWIPosting {
+	postings := make(map[yacymodel.Hash]yacymodel.RWIPosting, count)
+	for index := range count {
+		word, url := backlogPosting(index)
+		postings[fakePostingKey(word, url)] = fakePosting(word, url)
+	}
+
+	return postings
+}
+
+func storeBacklog(t *testing.T, h *cycleHarness, count int) {
+	t.Helper()
+
+	for index := range count {
+		word, url := backlogPosting(index)
+		store(t, h.v, h.schedule, word, url)
+	}
+}
+
+func backlogPosting(index int) (yacymodel.Hash, yacymodel.URLHash) {
+	name := "backlog" + strconv.Itoa(index)
+
+	return yacymodel.WordHash(name), urlHash(name)
 }

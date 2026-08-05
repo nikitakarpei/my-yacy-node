@@ -70,7 +70,11 @@ func rescheduleOffer(
 	t.Helper()
 
 	if err := schedule.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return schedule.reschedule(tx, postingidentity.IdentityOf(word, url), at)
+		return schedule.reschedule(
+			tx,
+			postingidentity.IdentityOf(word, url),
+			func(time.Time) time.Time { return at },
+		)
 	}); err != nil {
 		t.Fatalf("reschedule: %v", err)
 	}

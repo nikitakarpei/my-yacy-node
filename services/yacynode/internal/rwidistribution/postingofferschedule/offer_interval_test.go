@@ -57,19 +57,25 @@ func (o *postingOffers) missRedundancy(t *testing.T, requestedPause time.Duratio
 	return o.nextOfferIn(t)
 }
 
-func (o *postingOffers) meetRedundancy(t *testing.T) time.Duration {
+func (o *postingOffers) meetRedundancyAt(t *testing.T, now time.Time) time.Time {
 	t.Helper()
 
-	o.clock = testStart
+	o.clock = now
+	posting := postingidentity.IdentityOf(testWord, urlHash("u1"))
+	var dueAt time.Time
 	if err := o.vault.Update(context.Background(), func(tx *vault.Txn) error {
-		return o.schedule.SetNextOfferAfterRedundancyMet(
-			tx, postingidentity.IdentityOf(testWord, urlHash("u1")), testInterval,
-		)
+		if err := o.schedule.SetNextOfferAfterRedundancyMet(tx, posting, testInterval); err != nil {
+			return err
+		}
+		var err error
+		dueAt, _, err = o.schedule.dueAt(tx, posting)
+
+		return err
 	}); err != nil {
 		t.Fatalf("SetNextOfferAfterRedundancyMet: %v", err)
 	}
 
-	return o.nextOfferIn(t)
+	return dueAt
 }
 
 func (o *postingOffers) nextOfferIn(t *testing.T) time.Duration {
@@ -131,15 +137,13 @@ func TestAMissUsesTheRequestedPauseWhenItIsLonger(t *testing.T) {
 	}
 }
 
-func TestMetRedundancyUsesTheLongestOfferIntervalAndForgetsTheWidenedOne(t *testing.T) {
+func TestMetRedundancyForgetsTheWidenedInterval(t *testing.T) {
 	offers := openOffers(t)
 
 	offers.missRedundancy(t, 0)
 	offers.missRedundancy(t, 0)
+	offers.meetRedundancyAt(t, testStart)
 
-	if next := offers.meetRedundancy(t); next != testInterval.Longest {
-		t.Fatalf("next offer in %v, want %v", next, testInterval.Longest)
-	}
 	if next := offers.missRedundancy(t, 0); next != testInterval.Shortest {
 		t.Fatalf("next offer in %v, want %v once redundancy was met", next, testInterval.Shortest)
 	}
@@ -172,5 +176,41 @@ func TestAMissDoesNotScheduleAnUnscheduledPosting(t *testing.T) {
 
 	if due := offers.duePostings(t, testStart.Add(time.Hour)); due != 0 {
 		t.Fatalf("due postings = %d, want 0 for an unscheduled posting", due)
+	}
+}
+
+func TestMetRedundancyAnchorsTheNextOfferAtThePreviousDueTime(t *testing.T) {
+	offers := openOffers(t)
+	lateness := 3 * time.Minute
+
+	dueAt := offers.meetRedundancyAt(t, testStart.Add(lateness))
+
+	if want := testStart.Add(testInterval.Longest); !dueAt.Equal(want) {
+		t.Fatalf("next offer due at %v, want %v anchored at the previous due time", dueAt, want)
+	}
+}
+
+func TestMetRedundancySkipsMissedOfferGenerations(t *testing.T) {
+	offers := openOffers(t)
+	now := testStart.Add(2*testInterval.Longest + time.Minute)
+
+	dueAt := offers.meetRedundancyAt(t, now)
+
+	if want := testStart.Add(3 * testInterval.Longest); !dueAt.Equal(want) {
+		t.Fatalf("next offer due at %v, want %v skipping the missed offers", dueAt, want)
+	}
+	if !dueAt.After(now) {
+		t.Fatalf("next offer due at %v, want a time after %v", dueAt, now)
+	}
+}
+
+func TestMetRedundancyMovesPastTheExactIntervalBoundary(t *testing.T) {
+	offers := openOffers(t)
+	now := testStart.Add(testInterval.Longest)
+
+	dueAt := offers.meetRedundancyAt(t, now)
+
+	if want := testStart.Add(2 * testInterval.Longest); !dueAt.Equal(want) {
+		t.Fatalf("next offer due at %v, want %v on the interval boundary", dueAt, want)
 	}
 }

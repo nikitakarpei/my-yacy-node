@@ -44,8 +44,9 @@ type DistributionConfig struct {
 	Enabled               bool
 	Redundancy            int
 	PartitionExponent     int
-	PostingsPerCycle      int
+	PostingsPerBatch      int
 	CycleInterval         time.Duration
+	DrainBudget           time.Duration
 	LongestOfferInterval  time.Duration
 	ShortestOfferInterval time.Duration
 	MinReachablePeers     int
@@ -80,10 +81,11 @@ func Start(
 		env["YACY_DISTRIBUTION_PARTITION_EXPONENT"] = strconv.Itoa(
 			cfg.Distribution.PartitionExponent,
 		)
-		env["YACY_DISTRIBUTION_POSTINGS_PER_CYCLE"] = strconv.Itoa(
-			cfg.Distribution.PostingsPerCycle,
+		env["YACY_DISTRIBUTION_POSTINGS_PER_BATCH"] = strconv.Itoa(
+			cfg.Distribution.PostingsPerBatch,
 		)
 		env["YACY_DISTRIBUTION_CYCLE_INTERVAL"] = cfg.Distribution.CycleInterval.String()
+		env["YACY_DISTRIBUTION_DRAIN_BUDGET"] = cfg.Distribution.DrainBudget.String()
 		env["YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL"] = cfg.Distribution.LongestOfferInterval.String()
 		env["YACY_DISTRIBUTION_SHORTEST_OFFER_INTERVAL"] = cfg.Distribution.ShortestOfferInterval.String()
 		if cfg.Distribution.MinReachablePeers > 0 {

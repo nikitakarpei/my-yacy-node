@@ -78,15 +78,17 @@ func (d distributionCycle) assemble() *distributioncycle.Cycle {
 		d.storage.replicas,
 		d.storage.offerSchedule,
 		d.roster,
+		d.storage.now,
 		d.observer,
 		d.dhtRing,
 		distributioncycle.Config{
 			OfferInterval: postingofferschedule.OfferInterval{
-				Shortest: d.config.Distribution.ShortestOfferInterval,
-				Longest:  d.config.Distribution.LongestOfferInterval,
+				Shortest: d.config.Distribution.OfferInterval.Shortest,
+				Longest:  d.config.Distribution.OfferInterval.Longest,
 			},
-			PostingsPerCycle:  d.config.Distribution.PostingsPerCycle,
+			PostingsPerBatch:  d.config.Distribution.PostingsPerBatch,
 			CycleInterval:     d.config.Distribution.CycleInterval,
+			DrainBudget:       d.config.Distribution.DrainBudget,
 			MinReachablePeers: d.config.Distribution.MinReachablePeers,
 		},
 	)
