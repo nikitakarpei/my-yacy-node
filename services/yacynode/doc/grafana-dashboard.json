@@ -975,7 +975,9 @@
         "defaults": {
           "unit": "percentunit",
           "custom": {
-            "fillOpacity": 10
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
           }
         }
       },
@@ -2388,7 +2390,9 @@
         "defaults": {
           "unit": "percentunit",
           "custom": {
-            "fillOpacity": 10
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
           }
         }
       },
