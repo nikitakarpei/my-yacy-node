@@ -36,7 +36,7 @@ func (f *fakeVisitor) Visit(_ context.Context, url string) (pagevisit.VisitOutco
 	}
 	queue := f.queued[url]
 	if len(queue) == 0 {
-		return pagevisit.VisitOutcome{Conclusion: pagevisit.VisitCompleted}, nil
+		return fetchedPage(), nil
 	}
 	outcome := queue[0]
 	if len(queue) > 1 {
@@ -49,6 +49,10 @@ func (f *fakeVisitor) visitCount(url string) int {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	return f.visited[url]
+}
+
+func fetchedPage() pagevisit.VisitOutcome {
+	return pagevisit.VisitOutcome{Conclusion: pagevisit.VisitCompleted, Fetched: true}
 }
 
 type fakeDisposedPages struct {
@@ -153,6 +157,21 @@ func order(seeds []string) yacycrawlcontract.CrawlOrder {
 	}
 }
 
+func newTraverser(
+	config ordertraversal.Config,
+	visitor ordertraversal.PageVisitor,
+	observer *recordingObserver,
+	disposed *fakeDisposedPages,
+) *ordertraversal.Traverser {
+	return ordertraversal.New(
+		config,
+		visitor,
+		observer,
+		disposal.NewDisposer(observer, disposed),
+		&manualClock{},
+	)
+}
+
 func traverse(t *testing.T, traverser *ordertraversal.Traverser, seeds []string) {
 	t.Helper()
 	if err := traverser.Traverse(context.Background(), order(seeds)); err != nil {
@@ -163,16 +182,14 @@ func traverse(t *testing.T, traverser *ordertraversal.Traverser, seeds []string)
 func TestTraverseDiscoversAndCrawlsLinks(t *testing.T) {
 	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{
 		"http://host/": {
-			{Conclusion: pagevisit.VisitCompleted, DiscoveredURLs: []string{"http://host/next"}},
+			{
+				Conclusion:     pagevisit.VisitCompleted,
+				Fetched:        true,
+				DiscoveredURLs: []string{"http://host/next"},
+			},
 		},
 	}}
-	traverser := ordertraversal.New(
-		defaultConfig(),
-		visitor,
-		newObserver(),
-		&fakeDisposedPages{},
-		&manualClock{},
-	)
+	traverser := newTraverser(defaultConfig(), visitor, newObserver(), &fakeDisposedPages{})
 
 	traverse(t, traverser, []string{"http://host/"})
 
@@ -181,22 +198,100 @@ func TestTraverseDiscoversAndCrawlsLinks(t *testing.T) {
 	}
 }
 
-func TestTraverseBudgetTruncates(t *testing.T) {
+func TestTraverseDisposesTheVisitsReportedReason(t *testing.T) {
+	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{
+		"http://host/": {{
+			Conclusion: pagevisit.VisitCompleted,
+			Fetched:    true,
+			Disposal:   disposal.NotAPage,
+		}},
+	}}
+	observer := newObserver()
+	disposed := &fakeDisposedPages{}
+	traverser := newTraverser(defaultConfig(), visitor, observer, disposed)
+
+	traverse(t, traverser, []string{"http://host/"})
+
+	if observer.disposed[disposal.NotAPage] != 1 {
+		t.Fatalf("want the visit's reason observed, got %v", observer.disposed)
+	}
+	if len(disposed.calls()) != 1 || disposed.calls()[0] != "http://host/" {
+		t.Fatalf("want the disposed url recorded, got %v", disposed.calls())
+	}
+}
+
+func TestTraverseRecordsAPublishedPageAsNotDisposed(t *testing.T) {
+	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{}}
+	observer := newObserver()
+	disposed := &fakeDisposedPages{}
+	traverser := newTraverser(defaultConfig(), visitor, observer, disposed)
+
+	traverse(t, traverser, []string{"http://host/"})
+
+	if len(disposed.calls()) != 0 {
+		t.Fatalf("a published page must not be recorded disposed, got %v", disposed.calls())
+	}
+}
+
+func TestTraverseBudgetTruncatesAndRecordsTheRemainder(t *testing.T) {
 	cfg := defaultConfig()
 	cfg.RunPageBudget = 1
 	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{
 		"http://host/": {{
 			Conclusion:     pagevisit.VisitCompleted,
+			Fetched:        true,
 			DiscoveredURLs: []string{"http://host/a", "http://host/b"},
 		}},
 	}}
 	observer := newObserver()
-	traverser := ordertraversal.New(cfg, visitor, observer, &fakeDisposedPages{}, &manualClock{})
+	disposed := &fakeDisposedPages{}
+	traverser := newTraverser(cfg, visitor, observer, disposed)
 
 	traverse(t, traverser, []string{"http://host/"})
 
-	if observer.budget != 1 || observer.disposed[disposal.BudgetTruncated] == 0 {
+	if observer.budget != 1 || observer.disposed[disposal.BudgetTruncated] != 2 {
 		t.Fatalf("budget not exhausted: budget=%d disposed=%v", observer.budget, observer.disposed)
+	}
+	if len(disposed.calls()) != 2 {
+		t.Fatalf("want both truncated urls recorded, got %v", disposed.calls())
+	}
+}
+
+func TestTraverseBudgetCountsOnlyFetches(t *testing.T) {
+	cfg := defaultConfig()
+	cfg.RunPageBudget = 1
+	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{
+		"http://host/a": {{Conclusion: pagevisit.VisitCompleted, Disposal: disposal.NotDue}},
+	}}
+	observer := newObserver()
+	traverser := newTraverser(cfg, visitor, observer, &fakeDisposedPages{})
+
+	traverse(t, traverser, []string{"http://host/a", "http://host/b"})
+
+	if visitor.visitCount("http://host/b") != 1 {
+		t.Fatal("a skipped fetch leaves the budget for the next seed")
+	}
+	if observer.disposed[disposal.BudgetTruncated] != 0 {
+		t.Fatalf("nothing should be truncated, got %v", observer.disposed)
+	}
+}
+
+func TestTraverseBudgetCountsAFetchedPage(t *testing.T) {
+	cfg := defaultConfig()
+	cfg.RunPageBudget = 1
+	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{
+		"http://host/a": {fetchedPage()},
+	}}
+	observer := newObserver()
+	traverser := newTraverser(cfg, visitor, observer, &fakeDisposedPages{})
+
+	traverse(t, traverser, []string{"http://host/a", "http://host/b"})
+
+	if observer.disposed[disposal.BudgetTruncated] != 1 {
+		t.Fatalf("a fetched page should consume the budget, got %v", observer.disposed)
+	}
+	if visitor.visitCount("http://host/b") != 0 {
+		t.Fatal("budget was exhausted, the second seed should not be visited")
 	}
 }
 
@@ -207,13 +302,7 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 	}}
 	observer := newObserver()
 	disposed := &fakeDisposedPages{}
-	traverser := ordertraversal.New(
-		defaultConfig(),
-		visitor,
-		observer,
-		disposed,
-		&manualClock{},
-	)
+	traverser := newTraverser(defaultConfig(), visitor, observer, disposed)
 
 	traverse(t, traverser, []string{"http://host/"})
 
@@ -231,15 +320,9 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 func TestTraverseRetriesTransientFetchThenSucceeds(t *testing.T) {
 	transient := pagevisit.VisitOutcome{Conclusion: pagevisit.VisitRetryable}
 	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{
-		"http://host/": {transient, transient, {Conclusion: pagevisit.VisitCompleted}},
+		"http://host/": {transient, transient, fetchedPage()},
 	}}
-	traverser := ordertraversal.New(
-		defaultConfig(),
-		visitor,
-		newObserver(),
-		&fakeDisposedPages{},
-		&manualClock{},
-	)
+	traverser := newTraverser(defaultConfig(), visitor, newObserver(), &fakeDisposedPages{})
 
 	traverse(t, traverser, []string{"http://host/"})
 
@@ -258,13 +341,7 @@ func TestTraverseAbandonsTransientFetchAfterLimit(t *testing.T) {
 	}}
 	observer := newObserver()
 	disposed := &fakeDisposedPages{}
-	traverser := ordertraversal.New(
-		defaultConfig(),
-		visitor,
-		observer,
-		disposed,
-		&manualClock{},
-	)
+	traverser := newTraverser(defaultConfig(), visitor, observer, disposed)
 
 	traverse(t, traverser, []string{"http://host/"})
 
@@ -278,13 +355,7 @@ func TestTraverseAbandonsTransientFetchAfterLimit(t *testing.T) {
 
 func TestTraverseSkipsUncanonicalizableSeed(t *testing.T) {
 	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{}}
-	traverser := ordertraversal.New(
-		defaultConfig(),
-		visitor,
-		newObserver(),
-		&fakeDisposedPages{},
-		&manualClock{},
-	)
+	traverser := newTraverser(defaultConfig(), visitor, newObserver(), &fakeDisposedPages{})
 
 	traverse(t, traverser, []string{"::not a url"})
 
@@ -295,37 +366,12 @@ func TestTraverseSkipsUncanonicalizableSeed(t *testing.T) {
 
 func TestTraverseVisitorErrorFails(t *testing.T) {
 	visitor := &fakeVisitor{err: errors.New("boom")}
-	traverser := ordertraversal.New(
-		defaultConfig(),
-		visitor,
-		newObserver(),
-		&fakeDisposedPages{},
-		&manualClock{},
-	)
+	traverser := newTraverser(defaultConfig(), visitor, newObserver(), &fakeDisposedPages{})
 
 	if err := traverser.Traverse(
 		context.Background(),
 		order([]string{"http://host/"}),
 	); err == nil {
 		t.Fatal("visitor error should fail the traversal")
-	}
-}
-
-func TestTraverseCountsCeasedPageAgainstBudget(t *testing.T) {
-	cfg := defaultConfig()
-	cfg.RunPageBudget = 1
-	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{
-		"http://host/a": {{Conclusion: pagevisit.VisitCompleted}},
-	}}
-	observer := newObserver()
-	traverser := ordertraversal.New(cfg, visitor, observer, &fakeDisposedPages{}, &manualClock{})
-
-	traverse(t, traverser, []string{"http://host/a", "http://host/b"})
-
-	if observer.disposed[disposal.BudgetTruncated] != 1 {
-		t.Fatalf("ceased page should consume the budget, got %v", observer.disposed)
-	}
-	if visitor.visitCount("http://host/b") != 0 {
-		t.Fatal("budget was exhausted, the second seed should not be visited")
 	}
 }

@@ -1,4 +1,4 @@
-// Package redirectrecording records where a fetched page's redirect chain landed, then absorbs it.
+// Package redirectrecording records where a fetch's redirect chain landed, then returns the fetch.
 package redirectrecording
 
 import (
@@ -6,8 +6,7 @@ import (
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
 const (
@@ -19,37 +18,41 @@ type RedirectResolutions interface {
 	Record(ctx context.Context, requested, canonical string) error
 }
 
-type PageAbsorber interface {
-	Absorb(ctx context.Context, page fetchedpage.Page) (pageabsorption.AbsorptionOutcome, error)
-}
-
-type Absorber struct {
+type Fetch struct {
 	resolutions RedirectResolutions
-	absorber    PageAbsorber
+	fetcher     pagevisit.Fetcher
 }
 
-func New(resolutions RedirectResolutions, absorber PageAbsorber) *Absorber {
-	return &Absorber{resolutions: resolutions, absorber: absorber}
+func New(resolutions RedirectResolutions, fetcher pagevisit.Fetcher) *Fetch {
+	return &Fetch{resolutions: resolutions, fetcher: fetcher}
 }
 
-func (a *Absorber) Absorb(
+func (f *Fetch) Fetch(
 	ctx context.Context,
-	page fetchedpage.Page,
-) (pageabsorption.AbsorptionOutcome, error) {
-	a.record(ctx, page)
-	return a.absorber.Absorb(ctx, page)
+	rawURL string,
+	knownVersion pagevisit.PageVersion,
+) (pagevisit.FetchOutcome, error) {
+	outcome, err := f.fetcher.Fetch(ctx, rawURL, knownVersion)
+	if err != nil {
+		return pagevisit.FetchOutcome{}, err
+	}
+	f.record(ctx, outcome)
+	return outcome, nil
 }
 
-func (a *Absorber) record(ctx context.Context, page fetchedpage.Page) {
-	canonicalFinal, err := canonicalurl.Canonicalize(page.FinalURL)
+func (f *Fetch) record(ctx context.Context, outcome pagevisit.FetchOutcome) {
+	if len(outcome.RedirectChain) == 0 || outcome.Page.FinalURL == "" {
+		return
+	}
+	canonicalFinal, err := canonicalurl.Canonicalize(outcome.Page.FinalURL)
 	if err != nil {
 		slog.WarnContext(ctx, msgRedirectURLRejected,
-			slog.String("url", page.FinalURL),
+			slog.String("url", outcome.Page.FinalURL),
 			slog.Any("error", err),
 		)
 		return
 	}
-	for _, hop := range page.RedirectChain {
+	for _, hop := range outcome.RedirectChain {
 		canonicalHop, err := canonicalurl.Canonicalize(hop)
 		if err != nil {
 			slog.WarnContext(ctx, msgRedirectURLRejected,
@@ -61,7 +64,7 @@ func (a *Absorber) record(ctx context.Context, page fetchedpage.Page) {
 		if canonicalHop == canonicalFinal {
 			continue
 		}
-		if err := a.resolutions.Record(ctx, canonicalHop, canonicalFinal); err != nil {
+		if err := f.resolutions.Record(ctx, canonicalHop, canonicalFinal); err != nil {
 			slog.WarnContext(ctx, msgRedirectRecordFailed,
 				slog.String("requested", canonicalHop),
 				slog.String("canonical", canonicalFinal),

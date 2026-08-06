@@ -56,10 +56,10 @@ components:
     in: internal/pagerepresentations/text/**
   pagerepresentationsmarkdown:
     in: internal/pagerepresentations/markdown/**
-  recrawldecisionsalwaysdue:
-    in: internal/recrawldecisions/alwaysdue/**
-  recrawldecisionsdueaftergrace:
-    in: internal/recrawldecisions/dueaftergrace/**
+  recrawlrulesalwaysdue:
+    in: internal/recrawlrules/alwaysdue/**
+  recrawlrulesdueaftergrace:
+    in: internal/recrawlrules/dueaftergrace/**
   orderreceiversjetstream:
     in: internal/orderreceivers/jetstream/**
   redirectresolversjetstream:
@@ -148,8 +148,8 @@ deps:
   redirectrecording:
     mayDependOn:
       - redirectrecording
+      - pagevisit
       - fetchedpage
-      - pageabsorption
     canUse:
       - canonicalurl
   ordersettlement:
@@ -270,13 +270,13 @@ deps:
       - contentformatgraph
     canUse:
       - yacycrawlcontract
-  recrawldecisionsalwaysdue:
+  recrawlrulesalwaysdue:
     mayDependOn:
-      - recrawldecisionsalwaysdue
+      - recrawlrulesalwaysdue
       - pagevisit
-  recrawldecisionsdueaftergrace:
+  recrawlrulesdueaftergrace:
     mayDependOn:
-      - recrawldecisionsdueaftergrace
+      - recrawlrulesdueaftergrace
       - clock
       - pagevisit
     canUse:
@@ -309,7 +309,6 @@ deps:
       - progressobserversprometheus
       - ordersettlement
       - ordertraversal
-      - pageabsorption
       - pagepublication
       - pagevisit
       - disposal
@@ -338,6 +337,7 @@ deps:
     mayDependOn:
       - ordersettlement
       - ordertraversal
+      - disposal
       - frontier
       - retrydelay
       - pagevisit
@@ -356,8 +356,8 @@ deps:
       - pagerepresentationsrwi
       - pagerepresentationstext
       - pagerepresentationsmarkdown
-      - recrawldecisionsalwaysdue
-      - recrawldecisionsdueaftergrace
+      - recrawlrulesalwaysdue
+      - recrawlrulesdueaftergrace
       - orderreceiversjetstream
       - redirectresolversjetstream
       - progressobserversprometheus

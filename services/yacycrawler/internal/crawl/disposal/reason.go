@@ -1,7 +1,8 @@
-// Package disposal names why a crawled page reached a terminal outcome without publication.
 package disposal
 
 type Reason string
+
+const NotDisposed Reason = ""
 
 const (
 	NotDue                  Reason = "not-due"

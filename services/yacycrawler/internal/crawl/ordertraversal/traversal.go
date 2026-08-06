@@ -17,21 +17,20 @@ import (
 )
 
 const (
-	msgDeferralsExhausted       = "url dropped after exhausting deferrals"
-	msgFetchAbandoned           = "fetch abandoned after retries"
-	msgDisposedPageRecordFailed = "disposed page record failed, recall will wait out the deadline"
+	msgDeferralsExhausted = "url dropped after exhausting deferrals"
+	msgFetchAbandoned     = "fetch abandoned after retries"
 )
 
 type traversal struct {
 	config         Config
 	visitor        PageVisitor
 	observer       TraversalProgress
-	disposed       DisposedPages
+	disposer       *disposal.Disposer
 	clock          clock.Clock
 	cancel         context.CancelFunc
 	frontier       *frontier.Frontier
 	visitors       *visitors
-	budgetedPages  int
+	fetchedPages   int
 	inflightVisits int
 	abortErr       error
 }
@@ -60,8 +59,8 @@ func (t *traversal) schedule(ctx context.Context) error {
 		if t.abortErr != nil {
 			return t.drainInflight()
 		}
-		if t.budgetedPages >= budget && t.inflightVisits == 0 {
-			t.disposePendingOverBudget()
+		if t.fetchedPages >= budget && t.inflightVisits == 0 {
+			t.disposePendingOverBudget(ctx)
 			return nil
 		}
 		if t.frontier.Empty() && t.inflightVisits == 0 {
@@ -91,7 +90,7 @@ func (t *traversal) schedule(ctx context.Context) error {
 }
 
 func (t *traversal) readyVisit(budget int) (frontier.PendingVisit, bool) {
-	if t.budgetedPages+t.inflightVisits >= budget {
+	if t.fetchedPages+t.inflightVisits >= budget {
 		return frontier.PendingVisit{}, false
 	}
 	return t.frontier.Peek()
@@ -119,10 +118,10 @@ func (t *traversal) drainInflight() error {
 	return t.abortErr
 }
 
-func (t *traversal) disposePendingOverBudget() {
+func (t *traversal) disposePendingOverBudget(ctx context.Context) {
 	t.observer.BudgetExhausted()
-	for range t.frontier.DrainPending() {
-		t.observer.PageDisposed(disposal.BudgetTruncated)
+	for _, pending := range t.frontier.DrainPending() {
+		t.disposer.Dispose(ctx, pending.URL, disposal.BudgetTruncated)
 	}
 }
 
@@ -132,16 +131,16 @@ func (t *traversal) recordVisit(ctx context.Context, result completedVisit) {
 		t.abort(result.err)
 		return
 	}
+	if result.outcome.Fetched {
+		t.fetchedPages++
+	}
 	switch result.outcome.Conclusion {
 	case pagevisit.VisitDeferred:
 		t.recordDeferred(ctx, result.visit, result.outcome.DeferFor)
 	case pagevisit.VisitRetryable:
 		t.recordRetryable(ctx, result.visit)
 	case pagevisit.VisitCompleted:
-		t.budgetedPages++
-		for _, url := range result.outcome.DiscoveredURLs {
-			t.frontier.Admit(url, result.visit.Depth+1)
-		}
+		t.recordCompleted(ctx, result.visit, result.outcome)
 	}
 }
 
@@ -152,9 +151,7 @@ func (t *traversal) recordDeferred(
 ) {
 	if !t.frontier.Defer(visit, t.clock.Now(), deferFor) {
 		slog.WarnContext(ctx, msgDeferralsExhausted, slog.String("url", visit.URL))
-		t.observer.PageDisposed(disposal.DeferralsExhausted)
-		t.recordDisposed(ctx, visit.URL)
-		t.budgetedPages++
+		t.disposer.Dispose(ctx, visit.URL, disposal.DeferralsExhausted)
 		return
 	}
 	t.observer.RefusalHonored(refusal.Defer)
@@ -163,18 +160,20 @@ func (t *traversal) recordDeferred(
 func (t *traversal) recordRetryable(ctx context.Context, visit frontier.PendingVisit) {
 	if !t.frontier.Retry(visit, t.clock.Now()) {
 		slog.WarnContext(ctx, msgFetchAbandoned, slog.String("url", visit.URL))
-		t.observer.PageDisposed(disposal.FetchAbandoned)
-		t.recordDisposed(ctx, visit.URL)
-		t.budgetedPages++
+		t.disposer.Dispose(ctx, visit.URL, disposal.FetchAbandoned)
 	}
 }
 
-func (t *traversal) recordDisposed(ctx context.Context, url string) {
-	if err := t.disposed.Record(ctx, url); err != nil {
-		slog.WarnContext(ctx, msgDisposedPageRecordFailed,
-			slog.String("url", url),
-			slog.Any("error", err),
-		)
+func (t *traversal) recordCompleted(
+	ctx context.Context,
+	visit frontier.PendingVisit,
+	outcome pagevisit.VisitOutcome,
+) {
+	if outcome.Disposal != disposal.NotDisposed {
+		t.disposer.Dispose(ctx, visit.URL, outcome.Disposal)
+	}
+	for _, url := range outcome.DiscoveredURLs {
+		t.frontier.Admit(url, visit.Depth+1)
 	}
 }
 

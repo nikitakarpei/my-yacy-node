@@ -6,13 +6,14 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 )
 
 type Traverser struct {
 	config   Config
 	visitor  PageVisitor
 	observer TraversalProgress
-	disposed DisposedPages
+	disposer *disposal.Disposer
 	clock    clock.Clock
 }
 
@@ -20,14 +21,14 @@ func New(
 	config Config,
 	visitor PageVisitor,
 	observer TraversalProgress,
-	disposed DisposedPages,
+	disposer *disposal.Disposer,
 	clock clock.Clock,
 ) *Traverser {
 	return &Traverser{
 		config:   config,
 		visitor:  visitor,
 		observer: observer,
-		disposed: disposed,
+		disposer: disposer,
 		clock:    clock,
 	}
 }
@@ -40,7 +41,7 @@ func (t *Traverser) Traverse(
 		config:   t.config,
 		visitor:  t.visitor,
 		observer: t.observer,
-		disposed: t.disposed,
+		disposer: t.disposer,
 		clock:    t.clock,
 	}).run(ctx, order)
 }

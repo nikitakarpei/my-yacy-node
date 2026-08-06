@@ -1,6 +1,10 @@
 package pagevisit
 
-import "time"
+import (
+	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+)
 
 type VisitConclusion int
 
@@ -13,5 +17,7 @@ const (
 type VisitOutcome struct {
 	Conclusion     VisitConclusion
 	DeferFor       time.Duration
+	Fetched        bool
 	DiscoveredURLs []string
+	Disposal       disposal.Reason
 }

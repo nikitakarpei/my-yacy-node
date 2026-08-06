@@ -17,6 +17,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/containerexpanders/archive"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
@@ -30,8 +31,8 @@ import (
 	orderreceiversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawldecisions/alwaysdue"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawldecisions/dueaftergrace"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/alwaysdue"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	redirectresolversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolvers/jetstream"
 )
 
@@ -80,7 +81,7 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	visitor, err := buildVisitor(ctx, js, cfg, metrics, disposedPages)
+	visitor, err := buildVisitor(ctx, js, cfg, metrics)
 	if err != nil {
 		return err
 	}
@@ -88,7 +89,7 @@ func RunService(
 		traversalConfig(cfg),
 		visitor,
 		metrics,
-		disposedPages,
+		disposal.NewDisposer(metrics, disposedPages),
 		wallclock.Clock{},
 	)
 
@@ -175,7 +176,6 @@ func buildVisitor(
 	js jetstream.JetStream,
 	cfg ServiceConfig,
 	metrics *prometheus.CrawlMetrics,
-	disposedPages pagevisit.DisposedPages,
 ) (*pagevisit.Visitor, error) {
 	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
@@ -192,25 +192,24 @@ func buildVisitor(
 	if err != nil {
 		return nil, err
 	}
-	recrawl, err := recrawlDecision(ctx, js, cfg)
+	recrawl, err := recrawlRule(ctx, js, cfg)
 	if err != nil {
 		return nil, err
 	}
 	return pagevisit.New(
-		fetch,
+		redirectrecording.New(resolve, fetch),
 		recrawl,
-		redirectrecording.New(resolve, absorption),
-		disposedPages,
+		absorption,
 		metrics,
 		wallclock.Clock{},
 	), nil
 }
 
-func recrawlDecision(
+func recrawlRule(
 	ctx context.Context,
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-) (pagevisit.RecrawlDecision, error) {
+) (pagevisit.RecrawlRule, error) {
 	if cfg.RecrawlGrace <= 0 {
 		return alwaysdue.AlwaysDue{}, nil
 	}
@@ -287,12 +286,7 @@ func buildAbsorption(
 	if err != nil {
 		return nil, err
 	}
-	return pageabsorption.New(
-		extract,
-		publisher,
-		metrics,
-		wallclock.Clock{},
-	), nil
+	return pageabsorption.New(extract, publisher, wallclock.Clock{}), nil
 }
 
 func buildPublisher(

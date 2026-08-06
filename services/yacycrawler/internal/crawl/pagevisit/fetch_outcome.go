@@ -7,8 +7,9 @@ import (
 )
 
 type FetchOutcome struct {
-	Status     FetchStatus
-	DeferFor   time.Duration
-	Page       fetchedpage.Page
-	Validators Revisit
+	Status        FetchStatus
+	DeferFor      time.Duration
+	Page          fetchedpage.Page
+	RedirectChain []string
+	Version       PageVersion
 }

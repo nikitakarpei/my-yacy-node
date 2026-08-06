@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
 )
 
@@ -29,45 +29,53 @@ func (r *recordingResolutions) Record(_ context.Context, requested, canonical st
 	return nil
 }
 
-type recordingAbsorption struct {
-	links    []string
-	absorbed int
+type recordingFetch struct {
+	outcome    pagevisit.FetchOutcome
+	err        error
+	fetches    int
+	gotVersion pagevisit.PageVersion
 }
 
-func (a *recordingAbsorption) Absorb(
-	context.Context,
-	fetchedpage.Page,
-) (pageabsorption.AbsorptionOutcome, error) {
-	a.absorbed++
-	return pageabsorption.AbsorptionOutcome{DiscoveredURLs: a.links, Published: true}, nil
+func (f *recordingFetch) Fetch(
+	_ context.Context,
+	_ string,
+	knownVersion pagevisit.PageVersion,
+) (pagevisit.FetchOutcome, error) {
+	f.fetches++
+	f.gotVersion = knownVersion
+	if f.err != nil {
+		return pagevisit.FetchOutcome{}, f.err
+	}
+	return f.outcome, nil
 }
 
-func fetched(finalURL string, chain []string) fetchedpage.Page {
-	return fetchedpage.Page{
-		FinalURL:      finalURL,
+func fetchedOutcome(finalURL string, chain []string) pagevisit.FetchOutcome {
+	return pagevisit.FetchOutcome{
+		Status:        pagevisit.FetchSucceeded,
+		Page:          fetchedpage.Page{FinalURL: finalURL},
 		RedirectChain: chain,
 	}
 }
 
-func absorb(
+func fetch(
 	t *testing.T,
 	resolutions redirectrecording.RedirectResolutions,
-	page fetchedpage.Page,
-) ([]string, *recordingAbsorption) {
+	outcome pagevisit.FetchOutcome,
+) (pagevisit.FetchOutcome, *recordingFetch) {
 	t.Helper()
-	absorption := &recordingAbsorption{links: []string{"http://host/next"}}
-	outcome, err := redirectrecording.New(resolutions, absorption).
-		Absorb(context.Background(), page)
+	fetcher := &recordingFetch{outcome: outcome}
+	got, err := redirectrecording.New(resolutions, fetcher).
+		Fetch(context.Background(), "http://host/a", pagevisit.PageVersion{})
 	if err != nil {
-		t.Fatalf("absorb: %v", err)
+		t.Fatalf("fetch: %v", err)
 	}
-	return outcome.DiscoveredURLs, absorption
+	return got, fetcher
 }
 
-func TestAbsorbRecordsEdgePerNonFinalHop(t *testing.T) {
+func TestFetchRecordsEdgePerNonFinalHop(t *testing.T) {
 	resolutions := &recordingResolutions{}
 
-	absorb(t, resolutions, fetched("http://host/c", []string{
+	fetch(t, resolutions, fetchedOutcome("http://host/c", []string{
 		"http://host/a", "http://host/b", "http://host/c",
 	}))
 
@@ -85,42 +93,79 @@ func TestAbsorbRecordsEdgePerNonFinalHop(t *testing.T) {
 	}
 }
 
-func TestAbsorbRecordsNoEdgeOnDirectFetch(t *testing.T) {
+func TestFetchRecordsNoEdgeOnDirectFetch(t *testing.T) {
 	resolutions := &recordingResolutions{}
 
-	absorb(t, resolutions, fetched("http://host/", []string{"http://host/"}))
+	fetch(t, resolutions, fetchedOutcome("http://host/", []string{"http://host/"}))
 
 	if len(resolutions.edges) != 0 {
 		t.Fatalf("direct fetch recorded edges: %v", resolutions.edges)
 	}
 }
 
-func TestAbsorbPassesThroughDiscoveredLinks(t *testing.T) {
-	links, absorption := absorb(t, &recordingResolutions{}, fetched("http://host/", nil))
-
-	if absorption.absorbed != 1 {
-		t.Fatalf("absorption not reached: %d", absorption.absorbed)
-	}
-	if len(links) != 1 || links[0] != "http://host/next" {
-		t.Fatalf("links = %v", links)
-	}
-}
-
-func TestAbsorbSurvivesRecordFailure(t *testing.T) {
-	resolutions := &recordingResolutions{failWith: errors.New("bucket down")}
-
-	_, absorption := absorb(t, resolutions, fetched("http://host/b", []string{"http://host/a"}))
-
-	if absorption.absorbed != 1 {
-		t.Fatal("a failed record should not stop absorption")
-	}
-}
-
-func TestAbsorbSkipsUncanonicalizableURLs(t *testing.T) {
+func TestFetchRecordsNoEdgeWithoutAFinalURL(t *testing.T) {
 	resolutions := &recordingResolutions{}
 
-	absorb(t, resolutions, fetched("::not a url", []string{"http://host/a"}))
-	absorb(t, resolutions, fetched("http://host/b", []string{"::not a url"}))
+	fetch(t, resolutions, pagevisit.FetchOutcome{
+		Status:        pagevisit.FetchNotModified,
+		RedirectChain: []string{"http://host/a"},
+	})
+
+	if len(resolutions.edges) != 0 {
+		t.Fatalf("a fetch without a final url recorded edges: %v", resolutions.edges)
+	}
+}
+
+func TestFetchPassesThroughTheOutcome(t *testing.T) {
+	outcome, fetcher := fetch(t, &recordingResolutions{}, fetchedOutcome("http://host/", nil))
+
+	if fetcher.fetches != 1 {
+		t.Fatalf("wrapped fetcher not reached: %d", fetcher.fetches)
+	}
+	if outcome.Page.FinalURL != "http://host/" {
+		t.Fatalf("outcome = %+v", outcome)
+	}
+}
+
+func TestFetchPassesThroughTheKnownVersion(t *testing.T) {
+	fetcher := &recordingFetch{outcome: fetchedOutcome("http://host/", nil)}
+	known := pagevisit.PageVersion{EntityTag: `"etag"`}
+
+	if _, err := redirectrecording.New(&recordingResolutions{}, fetcher).
+		Fetch(context.Background(), "http://host/a", known); err != nil {
+		t.Fatalf("fetch: %v", err)
+	}
+
+	if fetcher.gotVersion != known {
+		t.Fatalf("known version = %+v, want %+v", fetcher.gotVersion, known)
+	}
+}
+
+func TestFetchPropagatesFetchError(t *testing.T) {
+	fetcher := &recordingFetch{err: errors.New("boom")}
+
+	if _, err := redirectrecording.New(&recordingResolutions{}, fetcher).
+		Fetch(context.Background(), "http://host/a", pagevisit.PageVersion{}); err == nil {
+		t.Fatal("a fetch error should reach the caller")
+	}
+}
+
+func TestFetchSurvivesRecordFailure(t *testing.T) {
+	resolutions := &recordingResolutions{failWith: errors.New("bucket down")}
+
+	_, fetcher := fetch(t, resolutions,
+		fetchedOutcome("http://host/b", []string{"http://host/a"}))
+
+	if fetcher.fetches != 1 {
+		t.Fatal("a failed record should not stop the fetch")
+	}
+}
+
+func TestFetchSkipsUncanonicalizableURLs(t *testing.T) {
+	resolutions := &recordingResolutions{}
+
+	fetch(t, resolutions, fetchedOutcome("::not a url", []string{"http://host/a"}))
+	fetch(t, resolutions, fetchedOutcome("http://host/b", []string{"::not a url"}))
 
 	if len(resolutions.edges) != 0 {
 		t.Fatalf("uncanonicalizable urls recorded: %v", resolutions.edges)
