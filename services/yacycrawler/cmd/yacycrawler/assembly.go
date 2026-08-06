@@ -298,8 +298,7 @@ func buildPublisher(
 ) (*pagepublication.Publisher, error) {
 	representations := buildPageRepresentations(js, cfg)
 	graph := contentformatgraph.New(pageDerivationCatalog())
-	if err := ensureRepresentableFormats(
-		graph,
+	if err := graph.EnsureNoDanglingFormat(
 		emittedFormats,
 		representationContentFormats(representations),
 	); err != nil {
@@ -325,55 +324,6 @@ func representationContentFormats(
 		formats = append(formats, representation.ContentFormat())
 	}
 	return formats
-}
-
-func ensureRepresentableFormats(
-	graph contentformatgraph.FormatDerivations,
-	emittedFormats, representationFormats []contentformatgraph.Format,
-) error {
-	for _, representationFormat := range representationFormats {
-		if !derivableFromAny(graph, emittedFormats, representationFormat) {
-			return fmt.Errorf(
-				"%s content is published but no admitted content type derives it",
-				representationFormat,
-			)
-		}
-	}
-	for _, emittedFormat := range emittedFormats {
-		if !derivesAny(graph, emittedFormat, representationFormats) {
-			return fmt.Errorf(
-				"%s content is extracted but no published representation reads it",
-				emittedFormat,
-			)
-		}
-	}
-	return nil
-}
-
-func derivableFromAny(
-	graph contentformatgraph.FormatDerivations,
-	emittedFormats []contentformatgraph.Format,
-	representationFormat contentformatgraph.Format,
-) bool {
-	for _, emittedFormat := range emittedFormats {
-		if graph.Derivable(emittedFormat, representationFormat) {
-			return true
-		}
-	}
-	return false
-}
-
-func derivesAny(
-	graph contentformatgraph.FormatDerivations,
-	emittedFormat contentformatgraph.Format,
-	representationFormats []contentformatgraph.Format,
-) bool {
-	for _, representationFormat := range representationFormats {
-		if graph.Derivable(emittedFormat, representationFormat) {
-			return true
-		}
-	}
-	return false
 }
 
 func buildExtractor(admitted admittedMediaTypes) (pageabsorption.PageExtractor, error) {

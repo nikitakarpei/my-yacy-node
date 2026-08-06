@@ -27,35 +27,11 @@ func TestCatalogsDeriveConfiguredRepresentations(t *testing.T) {
 	if err != nil {
 		t.Fatalf("admit media types: %v", err)
 	}
-	if err := ensureRepresentableFormats(
-		contentformatgraph.New(pageDerivationCatalog()),
+	if err := contentformatgraph.New(pageDerivationCatalog()).EnsureNoDanglingFormat(
 		admitted.emittedFormats,
 		representationContentFormats(representations),
 	); err != nil {
 		t.Fatalf("configured representation content is reachable, got %v", err)
-	}
-}
-
-func TestEnsureRepresentableFormatsRejectsUnproducedRepresentation(t *testing.T) {
-	if err := ensureRepresentableFormats(
-		contentformatgraph.New(pageDerivationCatalog()),
-		[]contentformatgraph.Format{contentformatgraph.FormatDocumentHTML},
-		[]contentformatgraph.Format{contentformatgraph.Format("unproduced")},
-	); err == nil {
-		t.Fatal("a representation no admitted content type derives should fail validation")
-	}
-}
-
-func TestEnsureRepresentableFormatsRejectsUnreadEmittedFormat(t *testing.T) {
-	if err := ensureRepresentableFormats(
-		contentformatgraph.New(pageDerivationCatalog()),
-		[]contentformatgraph.Format{
-			contentformatgraph.FormatDocumentHTML,
-			contentformatgraph.Format("unread"),
-		},
-		[]contentformatgraph.Format{contentformatgraph.FormatFullText},
-	); err == nil {
-		t.Fatal("an emitted format no representation reads should fail validation")
 	}
 }
 
