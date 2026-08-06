@@ -42,13 +42,13 @@ func New(
 	}
 }
 
-func (p *Publisher) Publish(ctx context.Context, page Page) (bool, error) {
+func (p *Publisher) Publish(ctx context.Context, page Page) error {
 	resolver := p.graph.ForPage(page.CanonicalURL, page.Format, page.Body)
 	contents := make([][]byte, len(p.representations))
 	for i, representation := range p.representations {
 		content, resolved, err := resolver.Resolve(representation.ContentFormat())
 		if err != nil {
-			return false, err
+			return err
 		}
 		if !resolved {
 			slog.ErrorContext(ctx, msgRepresentationUnresolvable,
@@ -56,7 +56,7 @@ func (p *Publisher) Publish(ctx context.Context, page Page) (bool, error) {
 				slog.String("url", page.CanonicalURL),
 				slog.String("format", string(page.Format)),
 			)
-			return false, fmt.Errorf(
+			return fmt.Errorf(
 				"%s: %w", representation.Kind(), ErrRepresentationUnresolvable,
 			)
 		}
@@ -65,14 +65,14 @@ func (p *Publisher) Publish(ctx context.Context, page Page) (bool, error) {
 	for i, representation := range p.representations {
 		messages, err := representation.Frame(page, contents[i])
 		if err != nil {
-			return false, fmt.Errorf("frame %s: %w", representation.Kind(), err)
+			return fmt.Errorf("frame %s: %w", representation.Kind(), err)
 		}
 		if err := p.send(ctx, page, representation, messages); err != nil {
-			return false, err
+			return err
 		}
 		p.observer.PagePublished(representation.Kind())
 	}
-	return true, nil
+	return nil
 }
 
 func (p *Publisher) send(

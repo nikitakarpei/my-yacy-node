@@ -7,7 +7,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 )
@@ -42,14 +41,14 @@ type recordingPublisher struct {
 	failWith error
 }
 
-func (p *recordingPublisher) Publish(_ context.Context, page pagepublication.Page) (bool, error) {
+func (p *recordingPublisher) Publish(_ context.Context, page pagepublication.Page) error {
 	if p.failWith != nil {
-		return false, p.failWith
+		return p.failWith
 	}
 	p.mu.Lock()
 	defer p.mu.Unlock()
 	p.pages = append(p.pages, page)
-	return true, nil
+	return nil
 }
 
 func (p *recordingPublisher) published() []pagepublication.Page {
@@ -58,33 +57,14 @@ func (p *recordingPublisher) published() []pagepublication.Page {
 	return append([]pagepublication.Page(nil), p.pages...)
 }
 
-type recordingObserver struct {
-	mu       sync.Mutex
-	disposed map[disposal.Reason]int
-}
-
-func newObserver() *recordingObserver {
-	return &recordingObserver{disposed: map[disposal.Reason]int{}}
-}
-
-func (o *recordingObserver) PageDisposed(reason disposal.Reason) {
-	o.mu.Lock()
-	defer o.mu.Unlock()
-	o.disposed[reason]++
-}
-
 type manualClock struct{ now time.Time }
 
 func (c *manualClock) Now() time.Time { return c.now }
 
 func (c *manualClock) Sleep(context.Context, time.Duration) error { return nil }
 
-func newAbsorber(
-	extractor PageExtractor,
-	publisher PagePublisher,
-	observer AbsorptionProgress,
-) *Absorber {
-	return New(extractor, publisher, observer, &manualClock{})
+func newAbsorber(extractor PageExtractor, publisher PagePublisher) *Absorber {
+	return New(extractor, publisher, &manualClock{})
 }
 
 func succeeded(finalURL string) fetchedpage.Page {

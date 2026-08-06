@@ -11,7 +11,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
@@ -21,7 +20,7 @@ var (
 	_ pagevisit.VisitProgress             = (*CrawlMetrics)(nil)
 	_ ordertraversal.TraversalProgress    = (*CrawlMetrics)(nil)
 	_ ordersettlement.OrderProgress       = (*CrawlMetrics)(nil)
-	_ pageabsorption.AbsorptionProgress   = (*CrawlMetrics)(nil)
+	_ disposal.DisposalProgress           = (*CrawlMetrics)(nil)
 	_ pagepublication.PublicationProgress = (*CrawlMetrics)(nil)
 )
 

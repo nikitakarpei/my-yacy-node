@@ -22,7 +22,7 @@ func TestFetchAbsoluteURLModeSendsNoConnect(t *testing.T) {
 	defer closeFn()
 
 	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
-		Fetch(context.Background(), "https://target.example/page", pagevisit.Revisit{})
+		Fetch(context.Background(), "https://target.example/page", pagevisit.PageVersion{})
 	if err != nil {
 		t.Fatalf("Fetch: %v", err)
 	}
@@ -40,7 +40,7 @@ func TestFetchAbsoluteURLModeSendsNoConnect(t *testing.T) {
 func TestFetchAbsoluteURLModeTransientOnDialFailure(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
-		Fetch(context.Background(), "https://target.example/x", pagevisit.Revisit{})
+		Fetch(context.Background(), "https://target.example/x", pagevisit.PageVersion{})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -56,7 +56,7 @@ func TestFetchAbsoluteURLModeHandlesHTTPTarget(t *testing.T) {
 	defer closeFn()
 
 	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
-		Fetch(context.Background(), "http://target.example/page", pagevisit.Revisit{})
+		Fetch(context.Background(), "http://target.example/page", pagevisit.PageVersion{})
 	if err != nil {
 		t.Fatalf("Fetch: %v", err)
 	}

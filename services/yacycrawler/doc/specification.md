@@ -23,8 +23,8 @@ service is meant for a more capable host than an always-on node.
 * The service SHALL idle until a crawl order arrives, then process it.
 * The service SHALL crawl only what an order's profile admits, from its seeds and
   discovered links.
-* Every crawl run SHALL terminate within a run-wide page budget, never by elapsed time.
-* Before fetching a page, the service SHALL ask the recrawl decision whether it is due,
+* Every crawl run SHALL terminate within a run-wide fetch budget, never by elapsed time.
+* Before fetching a page, the service SHALL ask the recrawl rule whether the page is due,
   and skip the fetch if not.
 * Every outbound fetch SHALL egress through the operator's configured proxy.
 * The service SHALL honor a target's explicit refusal, ceasing or deferring the fetch
@@ -33,8 +33,8 @@ service is meant for a more capable host than an always-on node.
   carries page references and never a body; content representations carry the body.
 * The service SHALL publish each page to every enabled representation, or none of them
   if any enabled representation cannot derive its content format.
-* Every fetched page SHALL reach one terminal outcome: published to its accepting
-  representations, or disposed per operator policy and recorded against its URL.
+* Every URL a run admits SHALL reach one terminal outcome: published to its accepting
+  representations, or disposed and recorded against its URL.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient
   backpressure waits for as long as the run holds its order.
 * A publication failure SHALL NOT be terminal; the page stays unpublished.
@@ -62,7 +62,7 @@ service is meant for a more capable host than an always-on node.
   formats it accepts, so adding a representation changes no crawl logic.
 * A representation SHALL stay whole in the domain; framing it into bounded wire messages
   is the publish edge's concern.
-* The recrawl decision SHALL sit behind a narrow interface; its default admits every page.
+* The recrawl rule SHALL sit behind a narrow interface; its default admits every page.
 * Operational behavior SHALL be observable through machine-readable metrics.
 
 ## Known Limitations

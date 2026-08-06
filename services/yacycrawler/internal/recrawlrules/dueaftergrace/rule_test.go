@@ -10,7 +10,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawldecisions/dueaftergrace"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 )
 
 type manualClock struct{ now time.Time }
@@ -34,67 +34,68 @@ func newBucket(t *testing.T) natsjetstream.KeyValue {
 	return bucket
 }
 
-func TestRevisitDueWithNoValidatorsWhenNeverVisited(t *testing.T) {
+func TestDecisionDueWithNoVersionWhenNeverVisited(t *testing.T) {
 	rule := dueaftergrace.New(newBucket(t), &manualClock{}, time.Hour)
 
-	revisit, err := rule.Revisit(context.Background(), "http://example.com/a")
+	decision, err := rule.DecisionFor(context.Background(), "http://example.com/a")
 	if err != nil {
-		t.Fatalf("revisit: %v", err)
+		t.Fatalf("decision: %v", err)
 	}
-	if !revisit.Due || revisit.EntityTag != "" || !revisit.ModifiedAt.IsZero() {
-		t.Fatalf("want due with no validators, got %+v", revisit)
+	if !decision.Due || decision.Version != (pagevisit.PageVersion{}) {
+		t.Fatalf("want due with no page version, got %+v", decision)
 	}
 }
 
-func TestRevisitNotDueWithinGraceButReturnsValidators(t *testing.T) {
+func TestDecisionNotDueWithinGraceButReturnsVersion(t *testing.T) {
 	now := time.Date(2026, time.July, 25, 12, 0, 0, 0, time.UTC)
 	clock := &manualClock{now: now}
 	rule := dueaftergrace.New(newBucket(t), clock, time.Hour)
 
 	const url = "http://example.com/a"
-	validators := pagevisit.Revisit{EntityTag: `"abc"`, ModifiedAt: now.Add(-time.Minute)}
-	if err := rule.Visited(context.Background(), url, validators); err != nil {
-		t.Fatalf("visited: %v", err)
+	version := pagevisit.PageVersion{EntityTag: `"abc"`, ModifiedAt: now.Add(-time.Minute)}
+	if err := rule.RecordVisit(context.Background(), url, version); err != nil {
+		t.Fatalf("record visit: %v", err)
 	}
 
 	clock.now = now.Add(30 * time.Minute)
-	revisit, err := rule.Revisit(context.Background(), url)
+	decision, err := rule.DecisionFor(context.Background(), url)
 	if err != nil {
-		t.Fatalf("revisit: %v", err)
+		t.Fatalf("decision: %v", err)
 	}
-	if revisit.Due {
+	if decision.Due {
 		t.Fatal("want not due within grace window")
 	}
-	if revisit.EntityTag != validators.EntityTag ||
-		!revisit.ModifiedAt.Equal(validators.ModifiedAt) {
-		t.Fatalf("validators = %+v, want %+v", revisit, validators)
+	if decision.Version.EntityTag != version.EntityTag ||
+		!decision.Version.ModifiedAt.Equal(version.ModifiedAt) {
+		t.Fatalf("page version = %+v, want %+v", decision.Version, version)
 	}
 }
 
-func TestRevisitDueOutsideGraceWindow(t *testing.T) {
+func TestDecisionDueOutsideGraceWindow(t *testing.T) {
 	now := time.Date(2026, time.July, 25, 12, 0, 0, 0, time.UTC)
 	clock := &manualClock{now: now}
 	rule := dueaftergrace.New(newBucket(t), clock, time.Hour)
 
 	const url = "http://example.com/a"
-	if err := rule.Visited(
+	if err := rule.RecordVisit(
 		context.Background(),
 		url,
-		pagevisit.Revisit{EntityTag: `"abc"`},
+		pagevisit.PageVersion{EntityTag: `"abc"`},
 	); err != nil {
-		t.Fatalf("visited: %v", err)
+		t.Fatalf("record visit: %v", err)
 	}
 
 	clock.now = now.Add(2 * time.Hour)
-	revisit, err := rule.Revisit(context.Background(), url)
+	decision, err := rule.DecisionFor(context.Background(), url)
 	if err != nil {
-		t.Fatalf("revisit: %v", err)
+		t.Fatalf("decision: %v", err)
 	}
-	if !revisit.Due {
+	if !decision.Due {
 		t.Fatal("want due outside grace window")
 	}
-	if revisit.EntityTag != `"abc"` {
-		t.Fatalf("entity tag = %q, want validators still returned", revisit.EntityTag)
+	if decision.Version.EntityTag != `"abc"` {
+		t.Fatalf("entity tag = %q, want the stored version still returned",
+			decision.Version.EntityTag)
 	}
 }
 
@@ -107,11 +108,11 @@ func (f failingBucket) Get(context.Context, string) (natsjetstream.KeyValueEntry
 	return nil, f.getErr
 }
 
-func TestRevisitPropagatesOtherErrors(t *testing.T) {
+func TestDecisionPropagatesOtherErrors(t *testing.T) {
 	boom := errors.New("boom")
 	rule := dueaftergrace.New(failingBucket{getErr: boom}, &manualClock{}, time.Hour)
 
-	if _, err := rule.Revisit(context.Background(), "http://example.com/a"); err == nil {
+	if _, err := rule.DecisionFor(context.Background(), "http://example.com/a"); err == nil {
 		t.Fatal("want error propagated")
 	}
 }

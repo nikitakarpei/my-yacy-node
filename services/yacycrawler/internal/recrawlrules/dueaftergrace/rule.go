@@ -22,34 +22,39 @@ func New(bucket jetstream.KeyValue, clock clock.Clock, grace time.Duration) *Rul
 	return &Rule{bucket: bucket, clock: clock, grace: grace}
 }
 
-func (r *Rule) Revisit(ctx context.Context, canonicalURL string) (pagevisit.Revisit, error) {
+func (r *Rule) DecisionFor(
+	ctx context.Context,
+	canonicalURL string,
+) (pagevisit.RecrawlDecision, error) {
 	entry, err := r.bucket.Get(ctx, key(canonicalURL))
 	if errors.Is(err, jetstream.ErrKeyNotFound) {
-		return pagevisit.Revisit{Due: true}, nil
+		return pagevisit.RecrawlDecision{Due: true}, nil
 	}
 	if err != nil {
-		return pagevisit.Revisit{}, fmt.Errorf("get page visit %s: %w", canonicalURL, err)
+		return pagevisit.RecrawlDecision{}, fmt.Errorf("get page visit %s: %w", canonicalURL, err)
 	}
 	record, err := unmarshalPageVisit(entry.Value())
 	if err != nil {
-		return pagevisit.Revisit{}, err
+		return pagevisit.RecrawlDecision{}, err
 	}
-	return pagevisit.Revisit{
-		Due:        r.clock.Now().Sub(record.VisitedAt) >= r.grace,
-		EntityTag:  record.EntityTag,
-		ModifiedAt: record.ModifiedAt,
+	return pagevisit.RecrawlDecision{
+		Due: r.clock.Now().Sub(record.VisitedAt) >= r.grace,
+		Version: pagevisit.PageVersion{
+			EntityTag:  record.EntityTag,
+			ModifiedAt: record.ModifiedAt,
+		},
 	}, nil
 }
 
-func (r *Rule) Visited(
+func (r *Rule) RecordVisit(
 	ctx context.Context,
 	canonicalURL string,
-	validators pagevisit.Revisit,
+	version pagevisit.PageVersion,
 ) error {
 	payload, err := marshalPageVisit(pageVisit{
 		VisitedAt:  r.clock.Now(),
-		EntityTag:  validators.EntityTag,
-		ModifiedAt: validators.ModifiedAt,
+		EntityTag:  version.EntityTag,
+		ModifiedAt: version.ModifiedAt,
 	})
 	if err != nil {
 		return err

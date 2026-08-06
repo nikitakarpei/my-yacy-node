@@ -1,6 +1,6 @@
 // Package dueaftergrace decides a page is due once a configured grace
-// window has elapsed since its last visit, and revalidates it against
-// stored ETag / Last-Modified validators once it is.
+// window has elapsed since its last visit, and supplies the page version
+// that visit recorded.
 package dueaftergrace
 
 import (
