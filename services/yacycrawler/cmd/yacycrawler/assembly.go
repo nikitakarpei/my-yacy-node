@@ -14,7 +14,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/containerexpanders/archive"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
@@ -27,7 +26,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 	disposedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/disposedpages/jetstream"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediaextractors/html"
 	orderreceiversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
@@ -49,7 +47,6 @@ const (
 	opsReadHeaderLimit    = 10 * time.Second
 	opsShutdownLimit      = 15 * time.Second
 	ordersAckWait         = 30 * time.Second
-	crawledPageFormat     = contentformatgraph.FormatDocumentHTML
 	msgServiceStarted     = "crawler started"
 	msgServiceStopped     = "crawler stopped"
 )
@@ -278,11 +275,15 @@ func buildAbsorption(
 	cfg ServiceConfig,
 	metrics *prometheus.CrawlMetrics,
 ) (*pageabsorption.Absorber, error) {
-	publisher, err := buildPublisher(js, cfg, metrics)
+	admitted, err := admittedMediaTypesFor(cfg)
 	if err != nil {
 		return nil, err
 	}
-	extract, err := buildExtractor(cfg)
+	publisher, err := buildPublisher(js, cfg, metrics, admitted.emittedFormats)
+	if err != nil {
+		return nil, err
+	}
+	extract, err := buildExtractor(admitted)
 	if err != nil {
 		return nil, err
 	}
@@ -293,11 +294,13 @@ func buildPublisher(
 	js jetstream.JetStream,
 	cfg ServiceConfig,
 	observer pagepublication.PublicationProgress,
+	emittedFormats []contentformatgraph.Format,
 ) (*pagepublication.Publisher, error) {
 	representations := buildPageRepresentations(js, cfg)
 	graph := contentformatgraph.New(pageDerivationCatalog())
-	if err := graph.EnsureDerivable(
-		crawledPageFormat,
+	if err := ensureRepresentableFormats(
+		graph,
+		emittedFormats,
 		representationContentFormats(representations),
 	); err != nil {
 		return nil, err
@@ -324,43 +327,63 @@ func representationContentFormats(
 	return formats
 }
 
-func buildExtractor(cfg ServiceConfig) (pageabsorption.PageExtractor, error) {
-	allow := allowedMediaTypes(cfg.ContentTypes)
-
-	htmlExtractor := html.New()
-	extractors := map[string]contentextraction.MediaExtractor{}
-	for _, mediaType := range htmlExtractor.MediaTypes() {
-		if allow == nil || allow[mediaType] {
-			extractors[mediaType] = htmlExtractor
+func ensureRepresentableFormats(
+	graph contentformatgraph.FormatDerivations,
+	emittedFormats, representationFormats []contentformatgraph.Format,
+) error {
+	for _, representationFormat := range representationFormats {
+		if !derivableFromAny(graph, emittedFormats, representationFormat) {
+			return fmt.Errorf(
+				"%s content is published but no admitted content type derives it",
+				representationFormat,
+			)
 		}
 	}
-
-	archiveContainer := archive.New(archiveMaxMembers, cfg.MaxBodyBytes)
-	containers := map[string]contentextraction.ContainerExpander{}
-	for _, mediaType := range archiveContainer.MediaTypes() {
-		if allow == nil || allow[mediaType] {
-			containers[mediaType] = archiveContainer
+	for _, emittedFormat := range emittedFormats {
+		if !derivesAny(graph, emittedFormat, representationFormats) {
+			return fmt.Errorf(
+				"%s content is extracted but no published representation reads it",
+				emittedFormat,
+			)
 		}
 	}
+	return nil
+}
 
+func derivableFromAny(
+	graph contentformatgraph.FormatDerivations,
+	emittedFormats []contentformatgraph.Format,
+	representationFormat contentformatgraph.Format,
+) bool {
+	for _, emittedFormat := range emittedFormats {
+		if graph.Derivable(emittedFormat, representationFormat) {
+			return true
+		}
+	}
+	return false
+}
+
+func derivesAny(
+	graph contentformatgraph.FormatDerivations,
+	emittedFormat contentformatgraph.Format,
+	representationFormats []contentformatgraph.Format,
+) bool {
+	for _, representationFormat := range representationFormats {
+		if graph.Derivable(emittedFormat, representationFormat) {
+			return true
+		}
+	}
+	return false
+}
+
+func buildExtractor(admitted admittedMediaTypes) (pageabsorption.PageExtractor, error) {
 	extraction, err := contentextraction.New(
-		extractors, containers, containerMaxDepth, containerMaxDocuments,
+		admitted.extractors, admitted.containers, containerMaxDepth, containerMaxDocuments,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", EnvContentTypes, err)
 	}
 	return extraction, nil
-}
-
-func allowedMediaTypes(contentTypes []string) map[string]bool {
-	if len(contentTypes) == 0 {
-		return nil
-	}
-	allow := make(map[string]bool, len(contentTypes))
-	for _, mediaType := range contentTypes {
-		allow[mediaType] = true
-	}
-	return allow
 }
 
 func traversalConfig(cfg ServiceConfig) ordertraversal.Config {

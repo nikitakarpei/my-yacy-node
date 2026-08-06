@@ -6,5 +6,6 @@ import (
 
 type PublicationProgress interface {
 	PagePublished(representation yacycrawlcontract.PageRepresentationKind)
+	RepresentationUnderivable(representation yacycrawlcontract.PageRepresentationKind)
 	PublicationWaited()
 }

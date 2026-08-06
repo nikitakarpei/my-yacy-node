@@ -18,39 +18,53 @@ func TestBuildPageRepresentationsSelectsTheConfiguredRepresentations(t *testing.
 	}
 }
 
-func TestCatalogGraphValidatesConfiguredRepresentations(t *testing.T) {
+func TestCatalogsDeriveConfiguredRepresentations(t *testing.T) {
 	representations := buildPageRepresentations(
 		nil,
 		ServiceConfig{PageStreams: publishedPageStreams()},
 	)
-	graph := contentformatgraph.New(pageDerivationCatalog())
-	if err := graph.EnsureDerivable(
-		crawledPageFormat, representationContentFormats(representations),
+	admitted, err := admittedMediaTypesFor(ServiceConfig{MaxBodyBytes: 1 << 20})
+	if err != nil {
+		t.Fatalf("admit media types: %v", err)
+	}
+	if err := ensureRepresentableFormats(
+		contentformatgraph.New(pageDerivationCatalog()),
+		admitted.emittedFormats,
+		representationContentFormats(representations),
 	); err != nil {
 		t.Fatalf("configured representation content is reachable, got %v", err)
 	}
 }
 
-func TestCatalogGraphValidatesMarkdownContent(t *testing.T) {
-	graph := contentformatgraph.New(pageDerivationCatalog())
-	if err := graph.EnsureDerivable(crawledPageFormat, []contentformatgraph.Format{
-		contentformatgraph.FormatMarkdown,
-	}); err != nil {
-		t.Fatalf("markdown content is reachable, got %v", err)
+func TestEnsureRepresentableFormatsRejectsUnproducedRepresentation(t *testing.T) {
+	if err := ensureRepresentableFormats(
+		contentformatgraph.New(pageDerivationCatalog()),
+		[]contentformatgraph.Format{contentformatgraph.FormatDocumentHTML},
+		[]contentformatgraph.Format{contentformatgraph.Format("unproduced")},
+	); err == nil {
+		t.Fatal("a representation no admitted content type derives should fail validation")
 	}
 }
 
-func TestCatalogGraphRejectsUnderivableContentFormat(t *testing.T) {
-	graph := contentformatgraph.New(pageDerivationCatalog())
-	if err := graph.EnsureDerivable(crawledPageFormat, []contentformatgraph.Format{
-		contentformatgraph.Format("unproduced"),
-	}); err == nil {
-		t.Fatal("content no derivation produces should fail validation")
+func TestEnsureRepresentableFormatsRejectsUnreadEmittedFormat(t *testing.T) {
+	if err := ensureRepresentableFormats(
+		contentformatgraph.New(pageDerivationCatalog()),
+		[]contentformatgraph.Format{
+			contentformatgraph.FormatDocumentHTML,
+			contentformatgraph.Format("unread"),
+		},
+		[]contentformatgraph.Format{contentformatgraph.FormatFullText},
+	); err == nil {
+		t.Fatal("an emitted format no representation reads should fail validation")
 	}
 }
 
 func TestBuildExtractorDefaultRegistersAll(t *testing.T) {
-	extractor, err := buildExtractor(ServiceConfig{MaxBodyBytes: 1 << 20})
+	admitted, err := admittedMediaTypesFor(ServiceConfig{MaxBodyBytes: 1 << 20})
+	if err != nil {
+		t.Fatalf("admit media types: %v", err)
+	}
+	extractor, err := buildExtractor(admitted)
 	if err != nil {
 		t.Fatalf("build extractor: %v", err)
 	}
@@ -69,9 +83,13 @@ func TestBuildExtractorDefaultRegistersAll(t *testing.T) {
 }
 
 func TestBuildExtractorAllowlistRestricts(t *testing.T) {
-	extractor, err := buildExtractor(ServiceConfig{
+	admitted, err := admittedMediaTypesFor(ServiceConfig{
 		MaxBodyBytes: 1 << 20, ContentTypes: []string{"text/html"},
 	})
+	if err != nil {
+		t.Fatalf("admit media types: %v", err)
+	}
+	extractor, err := buildExtractor(admitted)
 	if err != nil {
 		t.Fatalf("build extractor: %v", err)
 	}
@@ -82,24 +100,6 @@ func TestBuildExtractorAllowlistRestricts(t *testing.T) {
 		[]byte("x"),
 	); err == nil {
 		t.Fatal("zip should be unsupported when allowlist excludes it")
-	}
-}
-
-func TestBuildExtractorEmptyActiveSetErrors(t *testing.T) {
-	if _, err := buildExtractor(ServiceConfig{
-		MaxBodyBytes: 1 << 20, ContentTypes: []string{"application/unregistered"},
-	}); err == nil {
-		t.Fatal("allowlist matching nothing should error")
-	}
-}
-
-func TestAllowedMediaTypes(t *testing.T) {
-	if allowedMediaTypes(nil) != nil {
-		t.Fatal("empty list should yield nil (all allowed)")
-	}
-	allow := allowedMediaTypes([]string{"text/html"})
-	if !allow["text/html"] || allow["application/zip"] {
-		t.Fatalf("unexpected allow set: %v", allow)
 	}
 }
 

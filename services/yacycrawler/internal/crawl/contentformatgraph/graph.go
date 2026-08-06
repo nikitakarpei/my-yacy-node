@@ -1,10 +1,6 @@
 // Package contentformatgraph derives one content format from another along registered derivations.
 package contentformatgraph
 
-import (
-	"fmt"
-)
-
 type FormatDerivations struct {
 	byTargetFormat map[Format][]Derivation
 }
@@ -23,13 +19,8 @@ func New(derivations []Derivation) FormatDerivations {
 	return FormatDerivations{byTargetFormat: byTargetFormat}
 }
 
-func (g FormatDerivations) EnsureDerivable(sourceFormat Format, targetFormats []Format) error {
-	for _, format := range targetFormats {
-		if !g.derivable(sourceFormat, format, map[Format]bool{}) {
-			return fmt.Errorf("%s content is read but no derivation produces it", format)
-		}
-	}
-	return nil
+func (g FormatDerivations) Derivable(sourceFormat, targetFormat Format) bool {
+	return g.derivable(sourceFormat, targetFormat, map[Format]bool{})
 }
 
 func (g FormatDerivations) derivable(sourceFormat, format Format, resolving map[Format]bool) bool {
