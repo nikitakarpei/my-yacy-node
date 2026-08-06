@@ -5,14 +5,16 @@ as small Go services. Each service runs and scales on its own, and a
 deployment wires together only the services it needs. Services interoperate
 with the wider YaCy network over DHT.
 
+It is not an exact port of the Java implementation: some features are
+absent, and others work differently. It runs in the author's homelab and
+serves that use first.
+
 ## Motivation
 
 A stock YaCy node exceeds the memory of small hardware such as a Raspberry
 Pi, and the excess grows with the corpus. That constraint started this
 project, which has grown into an experiment in an alternative design for
-YaCy. It runs in the author's homelab and serves that use first. It is not an
-exact port of the Java implementation: some features are absent, and others
-work differently.
+YaCy.
 
 ## Deployment examples
 
