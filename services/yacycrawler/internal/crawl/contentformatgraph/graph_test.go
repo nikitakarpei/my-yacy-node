@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestValidateAcceptsReachableFormat(t *testing.T) {
+func TestDerivableAcceptsReachableFormat(t *testing.T) {
 	graph := New([]Derivation{
 		scriptedDerivation{
 			source: FormatDocumentHTML,
@@ -15,18 +15,14 @@ func TestValidateAcceptsReachableFormat(t *testing.T) {
 			target: FormatMarkdown,
 		},
 	})
-	if err := graph.EnsureDerivable(FormatDocumentHTML, []Format{
-		FormatMarkdown,
-	}); err != nil {
-		t.Fatalf("markdown is reachable from document-html: %v", err)
+	if !graph.Derivable(FormatDocumentHTML, FormatMarkdown) {
+		t.Fatal("markdown is reachable from document-html")
 	}
 }
 
-func TestValidateRejectsUnproducedFormat(t *testing.T) {
+func TestDerivableRejectsUnproducedFormat(t *testing.T) {
 	graph := New(nil)
-	if err := graph.EnsureDerivable(FormatDocumentHTML, []Format{
-		FormatReadableText,
-	}); err == nil {
-		t.Fatal("a format no derivation produces should fail validation")
+	if graph.Derivable(FormatDocumentHTML, FormatReadableText) {
+		t.Fatal("a format no derivation produces is not derivable")
 	}
 }

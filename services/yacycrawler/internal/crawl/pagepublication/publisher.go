@@ -14,9 +14,7 @@ import (
 
 const msgPublicationBackpressure = "publication backpressure, awaiting retry"
 
-const msgRepresentationUnresolvable = "enabled representation could not derive its content format, page not published"
-
-var ErrRepresentationUnresolvable = errors.New("representation content format unresolvable")
+const msgRepresentationUnderivable = "page format derives no content for this representation, representation skipped"
 
 type Publisher struct {
 	graph           contentformatgraph.FormatDerivations
@@ -43,35 +41,70 @@ func New(
 }
 
 func (p *Publisher) Publish(ctx context.Context, page Page) error {
-	resolver := p.graph.ForPage(page.CanonicalURL, page.Format, page.Body)
-	contents := make([][]byte, len(p.representations))
-	for i, representation := range p.representations {
-		content, resolved, err := resolver.Resolve(representation.ContentFormat())
-		if err != nil {
+	derived, err := p.derivableContentsFor(ctx, page)
+	if err != nil {
+		return err
+	}
+	if len(derived) == 0 {
+		return fmt.Errorf(
+			"page %s: format %s derives no enabled representation",
+			page.CanonicalURL, page.Format,
+		)
+	}
+	for _, content := range derived {
+		if err := p.publishContent(ctx, page, content); err != nil {
 			return err
 		}
+	}
+	return nil
+}
+
+type representationContent struct {
+	representation PageRepresentation
+	content        []byte
+}
+
+func (p *Publisher) derivableContentsFor(
+	ctx context.Context,
+	page Page,
+) ([]representationContent, error) {
+	resolver := p.graph.ForPage(page.CanonicalURL, page.Format, page.Body)
+	derived := make([]representationContent, 0, len(p.representations))
+	for _, representation := range p.representations {
+		content, resolved, err := resolver.Resolve(representation.ContentFormat())
+		if err != nil {
+			return nil, err
+		}
 		if !resolved {
-			slog.ErrorContext(ctx, msgRepresentationUnresolvable,
+			slog.WarnContext(ctx, msgRepresentationUnderivable,
 				slog.String("representation", string(representation.Kind())),
 				slog.String("url", page.CanonicalURL),
 				slog.String("format", string(page.Format)),
 			)
-			return fmt.Errorf(
-				"%s: %w", representation.Kind(), ErrRepresentationUnresolvable,
-			)
+			p.observer.RepresentationUnderivable(representation.Kind())
+			continue
 		}
-		contents[i] = content
+		derived = append(derived, representationContent{
+			representation: representation,
+			content:        content,
+		})
 	}
-	for i, representation := range p.representations {
-		messages, err := representation.Frame(page, contents[i])
-		if err != nil {
-			return fmt.Errorf("frame %s: %w", representation.Kind(), err)
-		}
-		if err := p.send(ctx, page, representation, messages); err != nil {
-			return err
-		}
-		p.observer.PagePublished(representation.Kind())
+	return derived, nil
+}
+
+func (p *Publisher) publishContent(
+	ctx context.Context,
+	page Page,
+	derived representationContent,
+) error {
+	messages, err := derived.representation.Frame(page, derived.content)
+	if err != nil {
+		return fmt.Errorf("frame %s: %w", derived.representation.Kind(), err)
 	}
+	if err := p.send(ctx, page, derived.representation, messages); err != nil {
+		return err
+	}
+	p.observer.PagePublished(derived.representation.Kind())
 	return nil
 }
 

@@ -33,7 +33,11 @@ func (HTMLExtraction) MediaTypes() []string {
 	return []string{mediaHTML, mediaXHTML}
 }
 
-func (HTMLExtraction) Extract(
+func (HTMLExtraction) EmittedFormat() contentformatgraph.Format {
+	return contentformatgraph.FormatDocumentHTML
+}
+
+func (e HTMLExtraction) Extract(
 	ctx context.Context,
 	pageURL, contentType string,
 	body []byte,
@@ -71,7 +75,7 @@ func (HTMLExtraction) Extract(
 	return contentextraction.ExtractedContent{
 		Title:                scan.title,
 		Body:                 document.Bytes(),
-		Format:               contentformatgraph.FormatDocumentHTML,
+		Format:               e.EmittedFormat(),
 		Language:             twoLetterLanguage(scan.language),
 		DiscoveredURLs:       links,
 		LocalLinks:           local,

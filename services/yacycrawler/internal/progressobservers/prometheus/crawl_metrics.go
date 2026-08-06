@@ -31,17 +31,18 @@ const (
 )
 
 type CrawlMetrics struct {
-	registry          *prometheus.Registry
-	ordersReceived    prometheus.Counter
-	ordersCompleted   prometheus.Counter
-	ordersRedelivered prometheus.Counter
-	pagesFetched      prometheus.Counter
-	pagesPublished    *prometheus.CounterVec
-	pagesDisposed     *prometheus.CounterVec
-	refusalsHonored   *prometheus.CounterVec
-	publicationWaits  prometheus.Counter
-	budgetExhaustions prometheus.Counter
-	fetchDurationSecs prometheus.Histogram
+	registry                   *prometheus.Registry
+	ordersReceived             prometheus.Counter
+	ordersCompleted            prometheus.Counter
+	ordersRedelivered          prometheus.Counter
+	pagesFetched               prometheus.Counter
+	pagesPublished             *prometheus.CounterVec
+	representationsUnderivable *prometheus.CounterVec
+	pagesDisposed              *prometheus.CounterVec
+	refusalsHonored            *prometheus.CounterVec
+	publicationWaits           prometheus.Counter
+	budgetExhaustions          prometheus.Counter
+	fetchDurationSecs          prometheus.Histogram
 }
 
 func New() *CrawlMetrics {
@@ -67,6 +68,10 @@ func New() *CrawlMetrics {
 		pagesPublished: prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: "yacycrawler_pages_published_total",
 			Help: "Pages published, by representation.",
+		}, []string{labelRepresentation}),
+		representationsUnderivable: prometheus.NewCounterVec(prometheus.CounterOpts{
+			Name: "yacycrawler_representations_underivable_total",
+			Help: "Representations skipped because the page format derives no content for them.",
 		}, []string{labelRepresentation}),
 		pagesDisposed: prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: "yacycrawler_pages_disposed_total",
@@ -96,6 +101,7 @@ func New() *CrawlMetrics {
 		metrics.ordersRedelivered,
 		metrics.pagesFetched,
 		metrics.pagesPublished,
+		metrics.representationsUnderivable,
 		metrics.pagesDisposed,
 		metrics.refusalsHonored,
 		metrics.publicationWaits,
@@ -114,6 +120,12 @@ func (m *CrawlMetrics) PagePublished(
 	representation yacycrawlcontract.PageRepresentationKind,
 ) {
 	m.pagesPublished.WithLabelValues(string(representation)).Inc()
+}
+
+func (m *CrawlMetrics) RepresentationUnderivable(
+	representation yacycrawlcontract.PageRepresentationKind,
+) {
+	m.representationsUnderivable.WithLabelValues(string(representation)).Inc()
 }
 
 func (m *CrawlMetrics) PageDisposed(reason disposal.Reason) {
