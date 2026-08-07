@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -13,6 +14,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
+
+const indexedDocumentPathPrefix = "/yacy_text_v1_und/_doc/"
 
 func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 	var mu sync.Mutex
@@ -35,7 +38,7 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 		Concurrency:        DefaultConcurrency,
 		SearchIndexEngine:  SearchIndexEngineElasticsearch,
 		ElasticsearchURL:   elasticsearch.URL,
-		ElasticsearchIndex: "yacy-text",
+		ElasticsearchIndex: DefaultIndexBaseName,
 		OpsAddr:            "127.0.0.1:0",
 	}
 
@@ -69,7 +72,7 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 		mu.Lock()
 		path := gotPath
 		mu.Unlock()
-		if path == "/yacy-text/_doc/0f115db062b7c0dd030b16878c99dea5c354b49dc37b38eb8846179c7783e9d7" {
+		if strings.HasPrefix(path, indexedDocumentPathPrefix) {
 			break
 		}
 		time.Sleep(50 * time.Millisecond)
@@ -77,7 +80,7 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 	mu.Lock()
 	path := gotPath
 	mu.Unlock()
-	if path != "/yacy-text/_doc/0f115db062b7c0dd030b16878c99dea5c354b49dc37b38eb8846179c7783e9d7" {
+	if !strings.HasPrefix(path, indexedDocumentPathPrefix) {
 		t.Fatalf("elasticsearch never received the indexed document, last path = %q", path)
 	}
 
@@ -108,7 +111,7 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 		Concurrency:        DefaultConcurrency,
 		SearchIndexEngine:  SearchIndexEngineElasticsearch,
 		ElasticsearchURL:   elasticsearch.URL,
-		ElasticsearchIndex: "yacy-text",
+		ElasticsearchIndex: DefaultIndexBaseName,
 		OpsAddr:            "127.0.0.1:99999",
 	}
 	createCrawledPageStream(t, natstestserver.ConnectJetStream(t, url), cfg.CrawledPageSubject)

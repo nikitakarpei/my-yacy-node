@@ -3,6 +3,7 @@
 package e2e
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"net/http"
@@ -14,9 +15,10 @@ import (
 
 type searchHit struct {
 	Source struct {
-		Title   string `json:"title"`
-		URL     string `json:"url"`
-		Content string `json:"content"`
+		Title    string `json:"title"`
+		URL      string `json:"url"`
+		Content  string `json:"content"`
+		Language string `json:"language"`
 	} `json:"_source"`
 }
 
@@ -26,15 +28,15 @@ type searchResponse struct {
 	} `json:"hits"`
 }
 
-func waitForElasticsearchIndexedHit(
+func waitForElasticsearchContentHit(
 	t *testing.T,
 	ctx context.Context,
-	elasticsearchURL, expectedURL string,
+	elasticsearchURL, target, term string,
 ) searchHit {
 	t.Helper()
 	var found searchHit
 	ok := pollwait.For(30*time.Second, func() bool {
-		hit, ok := elasticsearchSearchOnce(t, ctx, elasticsearchURL, expectedURL)
+		hit, ok := elasticsearchSearchOnce(t, ctx, elasticsearchURL, target, term)
 		if !ok {
 			return false
 		}
@@ -42,7 +44,7 @@ func waitForElasticsearchIndexedHit(
 		return true
 	})
 	if !ok {
-		t.Fatal("elasticsearch never indexed the crawled page")
+		t.Fatalf("elasticsearch never matched %q in %s", term, target)
 	}
 	return found
 }
@@ -50,14 +52,25 @@ func waitForElasticsearchIndexedHit(
 func elasticsearchSearchOnce(
 	t *testing.T,
 	ctx context.Context,
-	elasticsearchURL, expectedURL string,
+	elasticsearchURL, target, term string,
 ) (searchHit, bool) {
 	t.Helper()
-	target := elasticsearchURL + "/" + elasticsearchIndex + "/_search?q=" + "url:%22" + expectedURL + "%22"
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, target, nil)
+	query, err := json.Marshal(map[string]any{
+		"query": map[string]any{"match": map[string]any{"content": term}},
+	})
+	if err != nil {
+		t.Fatalf("marshal elasticsearch query: %v", err)
+	}
+	req, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPost,
+		elasticsearchURL+"/"+target+"/_search",
+		bytes.NewReader(query),
+	)
 	if err != nil {
 		t.Fatalf("build search request: %v", err)
 	}
+	req.Header.Set("Content-Type", "application/json")
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return searchHit{}, false

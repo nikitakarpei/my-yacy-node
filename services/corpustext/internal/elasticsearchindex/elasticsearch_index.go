@@ -11,19 +11,24 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/crawledpagedocument"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 type ElasticsearchIndex struct {
 	endpoint string
-	index    string
+	indexes  languageindex.LanguageIndexes
 	client   *http.Client
 }
 
-func NewElasticsearchIndex(endpoint, index string, client *http.Client) *ElasticsearchIndex {
+func NewElasticsearchIndex(
+	endpoint string,
+	indexes languageindex.LanguageIndexes,
+	client *http.Client,
+) *ElasticsearchIndex {
 	return &ElasticsearchIndex{
 		endpoint: strings.TrimRight(endpoint, "/"),
-		index:    index,
+		indexes:  indexes,
 		client:   client,
 	}
 }
@@ -37,7 +42,12 @@ func (idx *ElasticsearchIndex) Index(
 	if err != nil {
 		return fmt.Errorf("marshal search document %s: %w", identity, err)
 	}
-	target := fmt.Sprintf("%s/%s/_doc/%s", idx.endpoint, idx.index, url.PathEscape(identity))
+	target := fmt.Sprintf(
+		"%s/%s/_doc/%s",
+		idx.endpoint,
+		idx.indexes.NameFor(page.Language),
+		url.PathEscape(identity),
+	)
 	req, err := http.NewRequestWithContext(ctx, http.MethodPut, target, bytes.NewReader(body))
 	if err != nil {
 		return fmt.Errorf("build index request %s: %w", identity, err)

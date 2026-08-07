@@ -53,20 +53,14 @@ def response(resp):
 
 
 def _elasticsearch_request(query, params):
-    params["url"] = "{}/{}/_search".format(
+    params["url"] = "{}/{}_*/_search".format(
         elasticsearch_url.rstrip("/"), elasticsearch_index
     )
     params["data"] = json.dumps(
         {
             "from": _result_offset(params),
             "size": results_per_page,
-            "query": {
-                "combined_fields": {
-                    "query": query,
-                    "fields": ["title^{}".format(_title_weight), "content"],
-                    "operator": "and",
-                }
-            },
+            "query": _elasticsearch_query(query, _search_language(params)),
             "highlight": {
                 "fields": {"content": {}},
                 "pre_tags": [""],
@@ -76,6 +70,19 @@ def _elasticsearch_request(query, params):
     )
 
 
+def _elasticsearch_query(query, language):
+    match = {
+        "combined_fields": {
+            "query": query,
+            "fields": ["title^{}".format(_title_weight), "content"],
+            "operator": "and",
+        }
+    }
+    if not language:
+        return match
+    return {"bool": {"must": [match], "filter": [{"term": {"language": language}}]}}
+
+
 def _manticore_request(query, params):
     params["url"] = "{}/search".format(manticore_url.rstrip("/"))
     params["data"] = json.dumps(
@@ -83,7 +90,7 @@ def _manticore_request(query, params):
             "table": manticore_table,
             "offset": _result_offset(params),
             "limit": results_per_page,
-            "query": {"match": {"title,content": {"query": query, "operator": "and"}}},
+            "query": _manticore_query(query, _search_language(params)),
             "options": {
                 "field_weights": {"title": _title_weight, "content": 1},
             },
@@ -94,6 +101,20 @@ def _manticore_request(query, params):
             },
         }
     )
+
+
+def _manticore_query(query, language):
+    match = {"match": {"title,content": {"query": query, "operator": "and"}}}
+    if not language:
+        return match
+    return {"bool": {"must": [match, {"equals": {"language": language}}]}}
+
+
+def _search_language(params):
+    language = str(params.get("language") or "").strip().lower()
+    if language in ("", "all"):
+        return ""
+    return language.split("-")[0]
 
 
 def _result_offset(params):

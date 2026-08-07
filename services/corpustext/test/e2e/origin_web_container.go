@@ -11,8 +11,9 @@ import (
 
 const (
 	originAlias = "origin"
-	originTitle = "Hi"
-	originBody  = "words here"
+	originTitle = "Riverside Guide"
+	originBody  = "wildflowers grow along riverside trails"
+	stemmedTerm = "wildflower"
 	originPage  = `<html lang="en"><title>` + originTitle + `</title><body>` + originBody + `</body></html>`
 )
 

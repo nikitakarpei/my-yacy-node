@@ -18,13 +18,13 @@ const (
 	EnvElasticsearchIndex     = "ELASTICSEARCH_INDEX"
 	EnvManticoreURL           = "MANTICORE_URL"
 	EnvManticoreTable         = "MANTICORE_TABLE"
+	EnvLanguages              = "CORPUSTEXT_LANGUAGES"
 	EnvOpsAddr                = "CORPUSTEXT_OPS_ADDR"
 
 	DefaultOpsAddr            = ":9090"
 	DefaultCrawledPageDurable = "corpustext"
 	DefaultConcurrency        = 4
-	DefaultElasticsearchIndex = "yacy-text"
-	DefaultManticoreTable     = "yacy_text"
+	DefaultIndexBaseName      = "yacy_text"
 
 	SearchIndexEngineElasticsearch = "elasticsearch"
 	SearchIndexEngineManticore     = "manticore"
@@ -44,6 +44,7 @@ type ServiceConfig struct {
 	ElasticsearchIndex string
 	ManticoreURL       string
 	ManticoreTable     string
+	Languages          []string
 	OpsAddr            string
 }
 
@@ -72,6 +73,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		),
 		Concurrency:       concurrency,
 		SearchIndexEngine: strings.TrimSpace(getenv(EnvSearchIndexEngine)),
+		Languages:         envconfig.List(getenv, EnvLanguages),
 		OpsAddr:           envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 	}
 	if cfg.SearchIndexEngine == "" {
@@ -87,18 +89,14 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		cfg.ElasticsearchIndex = envconfig.String(
 			getenv,
 			EnvElasticsearchIndex,
-			DefaultElasticsearchIndex,
+			DefaultIndexBaseName,
 		)
 	case SearchIndexEngineManticore:
 		cfg.ManticoreURL = strings.TrimSpace(getenv(EnvManticoreURL))
 		if cfg.ManticoreURL == "" {
 			return ServiceConfig{}, fmt.Errorf("%s: must be set", EnvManticoreURL)
 		}
-		cfg.ManticoreTable = envconfig.String(getenv, EnvManticoreTable, DefaultManticoreTable)
-	default:
-		return ServiceConfig{}, fmt.Errorf(
-			"%s: unknown engine %q", EnvSearchIndexEngine, cfg.SearchIndexEngine,
-		)
+		cfg.ManticoreTable = envconfig.String(getenv, EnvManticoreTable, DefaultIndexBaseName)
 	}
 
 	return cfg, nil

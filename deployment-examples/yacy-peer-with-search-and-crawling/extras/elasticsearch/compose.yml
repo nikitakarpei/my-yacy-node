@@ -28,7 +28,8 @@ services:
     environment:
       SEARCH_INDEX_ENGINE: elasticsearch
       ELASTICSEARCH_URL: http://elasticsearch:9200
-      ELASTICSEARCH_INDEX: ${ELASTICSEARCH_INDEX:-yacy-text}
+      ELASTICSEARCH_INDEX: ${ELASTICSEARCH_INDEX:-yacy_text}
+      CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-}
 
   searxng:
     environment:

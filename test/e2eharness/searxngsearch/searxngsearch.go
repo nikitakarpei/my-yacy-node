@@ -21,14 +21,38 @@ type response struct {
 	Results []Result `json:"results"`
 }
 
-func Search(t *testing.T, ctx context.Context, baseURL, query string) []Result {
+func ResultsInAnyLanguage(t *testing.T, ctx context.Context, baseURL, query string) []Result {
 	t.Helper()
-	requestURL := baseURL + "/search?" + url.Values{
-		"q":      {query},
-		"format": {"json"},
-	}.Encode()
+	return results(t, ctx, baseURL, url.Values{"q": {query}, "format": {"json"}})
+}
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, requestURL, nil)
+func ResultsInLanguage(
+	t *testing.T,
+	ctx context.Context,
+	baseURL, query, language string,
+) []Result {
+	t.Helper()
+	return results(t, ctx, baseURL, url.Values{
+		"q":        {query},
+		"format":   {"json"},
+		"language": {language},
+	})
+}
+
+func OneResultInAnyLanguage(t *testing.T, ctx context.Context, baseURL, query string) Result {
+	t.Helper()
+	found := ResultsInAnyLanguage(t, ctx, baseURL, query)
+	if len(found) == 0 {
+		t.Fatal("search response carries no results")
+	}
+	return found[0]
+}
+
+func results(t *testing.T, ctx context.Context, baseURL string, values url.Values) []Result {
+	t.Helper()
+	req, err := http.NewRequestWithContext(
+		ctx, http.MethodGet, baseURL+"/search?"+values.Encode(), nil,
+	)
 	if err != nil {
 		t.Fatalf("build search request: %v", err)
 	}
@@ -48,13 +72,4 @@ func Search(t *testing.T, ctx context.Context, baseURL, query string) []Result {
 		t.Fatalf("decode search response: %v", err)
 	}
 	return decoded.Results
-}
-
-func SearchOneResult(t *testing.T, ctx context.Context, baseURL, query string) Result {
-	t.Helper()
-	results := Search(t, ctx, baseURL, query)
-	if len(results) == 0 {
-		t.Fatal("search response carries no results")
-	}
-	return results[0]
 }

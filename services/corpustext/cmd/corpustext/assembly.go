@@ -45,12 +45,15 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		return fmt.Errorf("create crawled page consumer: %w", err)
 	}
 
-	index, indexName, err := selectSearchIndex(cfg, http.DefaultClient)
+	selection, err := selectSearchIndex(cfg, http.DefaultClient)
 	if err != nil {
 		return fmt.Errorf("select search index: %w", err)
 	}
+	if err := selection.schema.Bootstrap(ctx); err != nil {
+		return fmt.Errorf("bootstrap search index schema: %w", err)
+	}
 	metrics := indexmetrics.New()
-	intake := pageintake.NewCrawledPageConsumer(consumer, index, metrics, cfg.Concurrency)
+	intake := pageintake.NewCrawledPageConsumer(consumer, selection.index, metrics, cfg.Concurrency)
 
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
@@ -61,7 +64,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	slog.InfoContext(ctx, "corpustext started",
 		slog.String("subject", cfg.CrawledPageSubject),
 		slog.String("engine", cfg.SearchIndexEngine),
-		slog.String("index", indexName),
+		slog.String("indexPrefix", selection.prefix),
 		slog.Int("concurrency", cfg.Concurrency),
 	)
 	err = servergroup.Run(ctx, opsShutdownLimit,

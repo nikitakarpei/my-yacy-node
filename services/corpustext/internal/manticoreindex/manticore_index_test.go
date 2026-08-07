@@ -31,7 +31,7 @@ func TestManticoreIndexReplacesDocumentByIdentity(t *testing.T) {
 	}))
 	defer server.Close()
 
-	index := manticoreindex.NewManticoreIndex(server.URL, "yacy-text", server.Client())
+	index := manticoreindex.NewManticoreIndex(server.URL, tablesFor(t), server.Client())
 	page := yacycrawlcontract.PageTextRepresentation{
 		PageReference: yacycrawlcontract.PageReference{
 			CanonicalURL: "https://example.com/",
@@ -47,7 +47,7 @@ func TestManticoreIndexReplacesDocumentByIdentity(t *testing.T) {
 	if gotPath != "/replace" {
 		t.Errorf("path = %q", gotPath)
 	}
-	if got.Table != "yacy-text" || got.Identity <= 0 {
+	if got.Table != "yacy_text_v1_en" || got.Identity <= 0 {
 		t.Errorf("request = %+v", got)
 	}
 	if got.Document.Title != "Hi" || got.Document.URL != "https://example.com/" ||
@@ -66,7 +66,7 @@ func TestManticoreIndexIsStableForSameURL(t *testing.T) {
 	}))
 	defer server.Close()
 
-	index := manticoreindex.NewManticoreIndex(server.URL, "yacy-text", server.Client())
+	index := manticoreindex.NewManticoreIndex(server.URL, tablesFor(t), server.Client())
 	page := yacycrawlcontract.PageTextRepresentation{
 		PageReference: yacycrawlcontract.PageReference{CanonicalURL: "https://example.com/"},
 	}
@@ -86,7 +86,7 @@ func TestManticoreIndexReturnsErrorOnFailureStatus(t *testing.T) {
 	}))
 	defer server.Close()
 
-	index := manticoreindex.NewManticoreIndex(server.URL, "yacy-text", server.Client())
+	index := manticoreindex.NewManticoreIndex(server.URL, tablesFor(t), server.Client())
 	err := index.Index(
 		context.Background(),
 		yacycrawlcontract.PageTextRepresentation{
