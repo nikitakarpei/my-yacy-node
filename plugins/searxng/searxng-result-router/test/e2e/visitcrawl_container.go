@@ -20,6 +20,7 @@ const (
 	visitcrawlAlias    = "visitcrawl"
 	visitcrawlPort     = "8091/tcp"
 	envVisitcrawlImage = "VISITCRAWL_IMAGE"
+	visitLinkSecret    = "e2e-visit-link-secret"
 )
 
 func startVisitcrawl(t *testing.T, ctx context.Context, networkName string) string {
@@ -32,8 +33,9 @@ func startVisitcrawl(t *testing.T, ctx context.Context, networkName string) stri
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {visitcrawlAlias}},
 			Env: map[string]string{
-				"NATS_URL":  natsjetstream.NetworkURL(),
-				"LOG_LEVEL": "debug",
+				"NATS_URL":               natsjetstream.NetworkURL(),
+				"VISITCRAWL_LINK_SECRET": visitLinkSecret,
+				"LOG_LEVEL":              "debug",
 			},
 			WaitingFor: wait.ForHTTP("/visit").
 				WithPort(visitcrawlPort).

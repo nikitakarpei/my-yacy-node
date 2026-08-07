@@ -36,11 +36,11 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *visitmetrics.Vi
 	)
 
 	mux := http.NewServeMux()
-	visitintake.MountVisitIntake(mux, placement, cfg.CrawlProfile, metrics, cfg.MaxBodyBytes)
+	visitintake.MountVisitIntake(mux, placement, cfg.CrawlProfile, metrics, cfg.LinkSecret)
 
 	publicServer := &http.Server{
 		Addr:              cfg.ListenAddr,
-		Handler:           mux,
+		Handler:           http.MaxBytesHandler(mux, cfg.MaxBodyBytes),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 	opsServer := &http.Server{

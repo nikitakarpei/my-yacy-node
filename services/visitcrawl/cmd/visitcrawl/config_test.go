@@ -13,7 +13,8 @@ func envFrom(values map[string]string) func(string) string {
 
 func baseEnv() map[string]string {
 	return map[string]string{
-		"NATS_URL": "nats://localhost:4222",
+		"NATS_URL":               "nats://localhost:4222",
+		"VISITCRAWL_LINK_SECRET": "shared-secret",
 	}
 }
 
@@ -37,6 +38,9 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.MaxBodyBytes != DefaultMaxBodyBytes {
 		t.Fatalf("max body bytes = %d", cfg.MaxBodyBytes)
 	}
+	if cfg.LinkSecret != "shared-secret" {
+		t.Fatalf("link secret = %q", cfg.LinkSecret)
+	}
 	if cfg.CrawlProfile.Scope != yacycrawlcontract.ScopeDomain {
 		t.Fatalf("scope = %v, want domain", cfg.CrawlProfile.Scope)
 	}
@@ -56,6 +60,14 @@ func TestLoadServiceConfigRequiresNATSURL(t *testing.T) {
 	delete(env, "NATS_URL")
 	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("missing NATS_URL should error")
+	}
+}
+
+func TestLoadServiceConfigRequiresLinkSecret(t *testing.T) {
+	env := baseEnv()
+	delete(env, EnvLinkSecret)
+	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+		t.Fatalf("missing %s should error", EnvLinkSecret)
 	}
 }
 

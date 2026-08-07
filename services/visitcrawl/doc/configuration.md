@@ -9,6 +9,12 @@ The visit intake service is configured entirely through environment variables.
 | `NATS_URL` | required | NATS server the service places crawl orders on. |
 | `NATS_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject crawl orders are placed on. Must match the crawler. |
 
+## Visit links
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `VISITCRAWL_LINK_SECRET` | required | Secret the link issuer signs visit links with. Must match the issuer. |
+
 ## Placement
 
 | Variable | Default | Meaning |

@@ -4,11 +4,11 @@
 
 Nothing in the stack observes which pages a person actually visits, so visited pages
 never become fresh crawl work. `visitcrawl` is a standalone, disposable Go service
-that closes this gap: it receives a request naming a page someone visited, turns that
+that closes this gap: it receives a signed link naming a page someone visited, turns that
 visit into one crawl order onto the broker `yacycrawler` consumes from, and sends the
-browser on to the page. A link issuer that routes visits through the service is the
-typical source, but the service serves any `yacycrawler` operator, whatever their pages
-are searched with.
+browser on to the page. A link issuer that signs the links and routes visits through the
+service is the source, but the service serves any `yacycrawler` operator, whatever their
+pages are searched with.
 
 ## Non-Goals
 
@@ -16,18 +16,21 @@ are searched with.
 * Producing search results or knowing how the visit request was formed.
 * Coupling to any particular search frontend or result source.
 * Identifying or authenticating the person who visited the page.
+* Deciding how long a visit link stays valid.
 * Guaranteeing that a visit ever yields a crawl order.
 * Persisting a history of visits.
 
 ## Functional Requirements
 
-* The service SHALL accept a request naming one visited page.
+* The service SHALL accept only a request whose link names one visited page and carries a
+  valid, unexpired signature.
+* The service SHALL reject every other request, with no crawl order and no redirect.
 * The service SHALL attempt to place one crawl order for the visited page onto the broker.
 * The service SHALL redirect the browser to the visited page whether or not the crawl order
   was placed.
 * The service SHALL NOT delay the redirect on the outcome of placing a crawl order.
-* The service SHALL let operators configure the broker it places orders on and the crawl
-  scope each order carries.
+* The service SHALL let operators configure the broker it places orders on, the secret it
+  verifies links with, and the crawl scope each order carries.
 
 ## Non-Functional Requirements
 
@@ -47,3 +50,5 @@ are searched with.
   is crawled again only if it is visited again.
 * The same page visited repeatedly produces a crawl order each time; the service does not
   deduplicate across visits.
+* A valid link works each time it is used until it expires; the service does not detect a
+  link that is used again.

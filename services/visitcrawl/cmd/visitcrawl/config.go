@@ -13,6 +13,7 @@ const (
 	EnvOrdersSubject = "NATS_ORDERS_SUBJECT"
 
 	EnvListenAddr   = "VISITCRAWL_LISTEN_ADDR"
+	EnvLinkSecret   = "VISITCRAWL_LINK_SECRET"
 	EnvOpsAddr      = "VISITCRAWL_OPS_ADDR"
 	EnvOrderTimeout = "VISITCRAWL_ORDER_TIMEOUT"
 	EnvMaxInFlight  = "VISITCRAWL_MAX_IN_FLIGHT"
@@ -40,6 +41,7 @@ const (
 type ServiceConfig struct {
 	NATSURL       string
 	OrdersSubject string
+	LinkSecret    string
 	ListenAddr    string
 	OpsAddr       string
 	OrderTimeout  time.Duration
@@ -64,6 +66,11 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		return ServiceConfig{}, err
 	}
 
+	linkSecret, err := envconfig.Required(getenv, EnvLinkSecret)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
+
 	orderTimeout, err := envconfig.Duration(getenv, EnvOrderTimeout, DefaultOrderTimeout)
 	if err != nil {
 		return ServiceConfig{}, err
@@ -84,6 +91,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	return ServiceConfig{
 		NATSURL:       natsURL,
 		OrdersSubject: envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
+		LinkSecret:    linkSecret,
 		ListenAddr:    envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
 		OpsAddr:       envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 		OrderTimeout:  orderTimeout,
