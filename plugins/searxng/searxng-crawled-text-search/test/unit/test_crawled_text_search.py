@@ -34,11 +34,12 @@ def test_request_targets_configured_index():
     assert params["method"] == "POST"
 
 
-def test_request_body_carries_multi_match_query():
+def test_request_body_carries_combined_fields_query():
     params = crawled_text_search.request("wildflower", build_params())
     body = json.loads(params["data"])
-    assert body["query"]["multi_match"]["query"] == "wildflower"
-    assert body["query"]["multi_match"]["fields"] == ["title^3", "content"]
+    assert body["query"]["combined_fields"]["query"] == "wildflower"
+    assert body["query"]["combined_fields"]["fields"] == ["title^3", "content"]
+    assert body["query"]["combined_fields"]["operator"] == "and"
 
 
 def test_request_paginates_from_pageno():
@@ -59,7 +60,10 @@ def test_manticore_request_targets_configured_table(manticore):
 def test_manticore_request_matches_both_fields_with_title_weight(manticore):
     params = crawled_text_search.request("wildflower", build_params())
     body = json.loads(params["data"])
-    assert body["query"]["match"]["title,content"] == "wildflower"
+    assert body["query"]["match"]["title,content"] == {
+        "query": "wildflower",
+        "operator": "and",
+    }
     assert (
         body["options"]["field_weights"]["title"] == crawled_text_search._title_weight
     )
