@@ -8,6 +8,8 @@ allow:
 components:
   crawledpagedocument:
     in: internal/crawledpagedocument/**
+  languageindex:
+    in: internal/languageindex/**
   elasticsearchindex:
     in: internal/elasticsearchindex/**
   manticoreindex:
@@ -55,10 +57,14 @@ deps:
     canUse:
       - yacycrawlcontract
       - searchdocument
+  languageindex:
+    mayDependOn:
+      - languageindex
   elasticsearchindex:
     mayDependOn:
       - elasticsearchindex
       - crawledpagedocument
+      - languageindex
     canUse:
       - yacycrawlcontract
       - searchdocument
@@ -66,6 +72,7 @@ deps:
     mayDependOn:
       - manticoreindex
       - crawledpagedocument
+      - languageindex
     canUse:
       - yacycrawlcontract
       - searchdocument
@@ -87,6 +94,7 @@ deps:
       - pageintake
       - elasticsearchindex
       - manticoreindex
+      - languageindex
       - indexmetrics
     canUse:
       - yacycrawlcontract

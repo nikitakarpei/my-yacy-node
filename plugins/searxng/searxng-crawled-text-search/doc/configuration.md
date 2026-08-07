@@ -17,7 +17,7 @@ engines:
     enable_http: true
     search_index_engine: elasticsearch
     elasticsearch_url: http://elasticsearch:9200
-    elasticsearch_index: yacy-text
+    elasticsearch_index: yacy_text_v1
 ```
 
 | Key | Meaning |
@@ -29,11 +29,11 @@ When `search_index_engine` is `elasticsearch`:
 | Key | Meaning |
 |---|---|
 | `elasticsearch_url` | Base URL of the Elasticsearch instance to query. |
-| `elasticsearch_index` | Name of the index `corpustext` writes documents into. |
+| `elasticsearch_index` | Prefix of the indexes `corpustext` writes documents into. The engine reads every index that starts with this prefix. |
 
 When `search_index_engine` is `manticore`:
 
 | Key | Meaning |
 |---|---|
 | `manticore_url` | Base URL of the Manticore instance to query. |
-| `manticore_table` | Name of the table `corpustext` writes documents into. Manticore table names allow letters, digits, and underscores only. |
+| `manticore_table` | Distributed table that spans the tables `corpustext` writes documents into. It carries the same prefix. |

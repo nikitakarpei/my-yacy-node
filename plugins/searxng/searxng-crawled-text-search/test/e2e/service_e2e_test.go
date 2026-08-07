@@ -6,79 +6,100 @@ import (
 	"context"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/searxngsearch"
-	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 )
 
-const (
-	seededTitle   = "Riverside Wildflower Guide"
-	seededURL     = "https://example.invalid/wildflower-guide"
-	seededContent = "A field guide to wildflowers found along riverside trails."
-)
-
-func TestCrawledTextSearchReturnsSeededDocumentFromElasticsearch(t *testing.T) {
+func TestCrawledTextSearchReadsEveryLanguageIndexInElasticsearch(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
 
+	natsURL := natsjetstream.Start(t, ctx, network.Name)
 	elasticsearchHostURL := startElasticsearch(t, ctx, network.Name)
-	seedElasticsearchDocument(
-		t,
-		ctx,
-		elasticsearchHostURL,
-		"wildflower-guide",
-		searchdocument.Document{
-			Title:     seededTitle,
-			URL:       seededURL,
-			Content:   seededContent,
-			CrawledAt: time.Now().UTC(),
-			Language:  "en",
-		},
-	)
+	startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
+	publishCrawledCorpus(t, ctx, natsURL)
+	awaitElasticsearchCorpus(t, ctx, elasticsearchHostURL)
 
 	searxngBaseURL := startSearXNG(t, ctx, network.Name, elasticsearchEngineSettings())
 
-	assertSeededDocumentIsSearchable(t, ctx, searxngBaseURL)
+	assertCrawledCorpusIsSearchable(t, ctx, searxngBaseURL)
 }
 
-func TestCrawledTextSearchReturnsSeededDocumentFromManticore(t *testing.T) {
+func TestCrawledTextSearchReadsEveryLanguageTableInManticore(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
 
+	natsURL := natsjetstream.Start(t, ctx, network.Name)
 	manticoreHostURL := startManticore(t, ctx, network.Name)
-	seedManticoreDocument(t, ctx, manticoreHostURL, searchdocument.Document{
-		Title:     seededTitle,
-		URL:       seededURL,
-		Content:   seededContent,
-		CrawledAt: time.Now().UTC(),
-		Language:  "en",
-	})
+	startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
+	publishCrawledCorpus(t, ctx, natsURL)
+	awaitManticoreCorpus(t, ctx, manticoreHostURL)
 
 	searxngBaseURL := startSearXNG(t, ctx, network.Name, manticoreEngineSettings())
 
-	assertSeededDocumentIsSearchable(t, ctx, searxngBaseURL)
+	assertCrawledCorpusIsSearchable(t, ctx, searxngBaseURL)
 }
 
-func assertSeededDocumentIsSearchable(t *testing.T, ctx context.Context, searxngBaseURL string) {
+func assertCrawledCorpusIsSearchable(t *testing.T, ctx context.Context, searxngBaseURL string) {
 	t.Helper()
-	result := searxngsearch.SearchOneResult(t, ctx, searxngBaseURL, "!"+engineBang+" wildflower")
+	assertCrawledPageIsFound(t, ctx, searxngBaseURL)
+	assertStemmedTermMatches(t, ctx, searxngBaseURL)
+	assertSearchLanguageSelectsItsIndex(t, ctx, searxngBaseURL)
 
-	if result.Title != seededTitle {
-		t.Errorf("result title = %q, want %q", result.Title, seededTitle)
-	}
-	if result.URL != seededURL {
-		t.Errorf("result url = %q, want %q", result.URL, seededURL)
-	}
-	if !strings.Contains(result.Content, "wildflower") {
-		t.Errorf("result content = %q, want it to contain %q", result.Content, "wildflower")
-	}
-
-	noResults := searxngsearch.Search(t, ctx, searxngBaseURL, "!"+engineBang+" nonexistentterm")
+	noResults := searxngsearch.ResultsInAnyLanguage(
+		t, ctx, searxngBaseURL, "!"+engineBang+" nonexistentterm",
+	)
 	if len(noResults) != 0 {
 		t.Errorf("no-match search returned %d results, want 0", len(noResults))
+	}
+}
+
+func assertCrawledPageIsFound(t *testing.T, ctx context.Context, searxngBaseURL string) {
+	t.Helper()
+	result := searxngsearch.OneResultInAnyLanguage(
+		t, ctx, searxngBaseURL, "!"+engineBang+" "+englishSearchTerm,
+	)
+	if result.Title != englishTitle {
+		t.Errorf("result title = %q, want %q", result.Title, englishTitle)
+	}
+	if result.URL != englishURL {
+		t.Errorf("result url = %q, want %q", result.URL, englishURL)
+	}
+	if !strings.Contains(result.Content, englishSearchTerm) {
+		t.Errorf("result content = %q, want it to carry %q", result.Content, englishSearchTerm)
+	}
+}
+
+func assertStemmedTermMatches(t *testing.T, ctx context.Context, searxngBaseURL string) {
+	t.Helper()
+	result := searxngsearch.OneResultInAnyLanguage(
+		t, ctx, searxngBaseURL, "!"+engineBang+" "+englishStemmed,
+	)
+	if result.URL != englishURL {
+		t.Errorf("stemmed search url = %q, want %q", result.URL, englishURL)
+	}
+}
+
+func assertSearchLanguageSelectsItsIndex(
+	t *testing.T,
+	ctx context.Context,
+	searxngBaseURL string,
+) {
+	t.Helper()
+	german := searxngsearch.ResultsInLanguage(
+		t, ctx, searxngBaseURL, "!"+engineBang+" "+germanSearchTerm, germanLanguage,
+	)
+	if len(german) != 1 || german[0].URL != germanURL {
+		t.Errorf("german search returned %v, want only %q", german, germanURL)
+	}
+	english := searxngsearch.ResultsInLanguage(
+		t, ctx, searxngBaseURL, "!"+engineBang+" "+germanSearchTerm, englishLanguage,
+	)
+	if len(english) != 0 {
+		t.Errorf("english search returned %v, want no result", english)
 	}
 }

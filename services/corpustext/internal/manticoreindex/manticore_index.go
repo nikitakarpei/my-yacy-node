@@ -10,20 +10,25 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/crawledpagedocument"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 type ManticoreIndex struct {
 	endpoint string
-	table    string
+	tables   languageindex.LanguageIndexes
 	client   *http.Client
 }
 
-func NewManticoreIndex(endpoint, table string, client *http.Client) *ManticoreIndex {
+func NewManticoreIndex(
+	endpoint string,
+	tables languageindex.LanguageIndexes,
+	client *http.Client,
+) *ManticoreIndex {
 	return &ManticoreIndex{
 		endpoint: strings.TrimRight(endpoint, "/"),
-		table:    table,
+		tables:   tables,
 		client:   client,
 	}
 }
@@ -40,7 +45,7 @@ func (idx *ManticoreIndex) Index(
 ) error {
 	identity := documentIdentity(page.CanonicalURL)
 	body, err := json.Marshal(replaceRequest{
-		Table:    idx.table,
+		Table:    idx.tables.NameFor(page.Language),
 		Identity: identity,
 		Document: crawledpagedocument.Of(page),
 	})

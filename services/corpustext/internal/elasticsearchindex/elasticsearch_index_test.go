@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 	"time"
 
@@ -25,7 +26,7 @@ func TestElasticsearchIndexPutsDocumentByID(t *testing.T) {
 	}))
 	defer server.Close()
 
-	index := elasticsearchindex.NewElasticsearchIndex(server.URL, "yacy-text", server.Client())
+	index := elasticsearchindex.NewElasticsearchIndex(server.URL, indexesFor(t), server.Client())
 	page := yacycrawlcontract.PageTextRepresentation{
 		PageReference: yacycrawlcontract.PageReference{
 			CanonicalURL: "https://example.com/",
@@ -38,14 +39,34 @@ func TestElasticsearchIndexPutsDocumentByID(t *testing.T) {
 	if err := index.Index(context.Background(), page); err != nil {
 		t.Fatalf("index: %v", err)
 	}
-	wantPath := "/yacy-text/_doc/" +
-		"0f115db062b7c0dd030b16878c99dea5c354b49dc37b38eb8846179c7783e9d7"
-	if gotPath != wantPath {
+	if !strings.HasPrefix(gotPath, "/yacy_text_v1_en/_doc/") {
 		t.Errorf("path = %q", gotPath)
 	}
 	if gotDoc.Title != "Hi" || gotDoc.URL != "https://example.com/" ||
 		gotDoc.Content != "words here" {
 		t.Errorf("document = %+v", gotDoc)
+	}
+}
+
+func TestElasticsearchIndexIsStableForSameURL(t *testing.T) {
+	var paths []string
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		paths = append(paths, r.URL.Path)
+		w.WriteHeader(http.StatusCreated)
+	}))
+	defer server.Close()
+
+	index := elasticsearchindex.NewElasticsearchIndex(server.URL, indexesFor(t), server.Client())
+	page := yacycrawlcontract.PageTextRepresentation{
+		PageReference: yacycrawlcontract.PageReference{CanonicalURL: "https://example.com/"},
+	}
+	for range 2 {
+		if err := index.Index(context.Background(), page); err != nil {
+			t.Fatalf("index: %v", err)
+		}
+	}
+	if paths[0] != paths[1] {
+		t.Errorf("path not stable: %q != %q", paths[0], paths[1])
 	}
 }
 
@@ -55,7 +76,7 @@ func TestElasticsearchIndexReturnsErrorOnFailureStatus(t *testing.T) {
 	}))
 	defer server.Close()
 
-	index := elasticsearchindex.NewElasticsearchIndex(server.URL, "yacy-text", server.Client())
+	index := elasticsearchindex.NewElasticsearchIndex(server.URL, indexesFor(t), server.Client())
 	err := index.Index(
 		context.Background(),
 		yacycrawlcontract.PageTextRepresentation{

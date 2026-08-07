@@ -9,10 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/manticore"
 )
 
-const (
-	manticoreAlias = "manticore"
-	manticoreTable = "yacy_text"
-)
+const manticoreAlias = "manticore"
 
 func startManticore(t *testing.T, ctx context.Context, networkName string) string {
 	t.Helper()
@@ -25,8 +22,9 @@ func manticoreNetworkURL() string {
 
 func manticoreCorpusTextEnv() map[string]string {
 	return map[string]string{
-		"SEARCH_INDEX_ENGINE": "manticore",
-		"MANTICORE_URL":       manticoreNetworkURL(),
-		"MANTICORE_TABLE":     manticoreTable,
+		"SEARCH_INDEX_ENGINE":  "manticore",
+		"MANTICORE_URL":        manticoreNetworkURL(),
+		"MANTICORE_TABLE":      indexBaseName,
+		"CORPUSTEXT_LANGUAGES": indexedLanguage,
 	}
 }

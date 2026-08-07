@@ -29,7 +29,9 @@ re-crawlable click.
 * The engine SHALL match a document's title and content, favouring a title match, and return as
   matched text a content fragment around the search terms.
 * The engine SHALL let operators choose which supported search index to query and configure its
-  endpoint and index name.
+  endpoint and index prefix.
+* The engine SHALL read every language index the prefix spans.
+* When SearXNG gives a search language, the engine SHALL return only documents of that language.
 * The engine SHALL return an empty result set, not an error, when the search terms match no
   document.
 * The engine SHALL fetch the page of results SearXNG asks for, consistent with SearXNG's own

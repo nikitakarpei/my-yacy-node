@@ -27,7 +27,9 @@ func TestResultLinkRouterRoutesSearchResultsThroughVisitcrawl(t *testing.T) {
 	js := connectJetStream(t, natsURL)
 	ensureOrdersStream(t, ctx, js)
 
-	result := searxngsearch.SearchOneResult(t, ctx, searxngBaseURL, "!"+testEngineBang+" test")
+	result := searxngsearch.OneResultInAnyLanguage(
+		t, ctx, searxngBaseURL, "!"+testEngineBang+" test",
+	)
 
 	wantPrefix := visitcrawlBaseURL + "/visit?"
 	if !strings.HasPrefix(result.URL, wantPrefix) {

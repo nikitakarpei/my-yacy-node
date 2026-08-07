@@ -13,15 +13,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 )
 
-func waitForManticoreIndexedHit(
+func waitForManticoreContentHit(
 	t *testing.T,
 	ctx context.Context,
-	manticoreURL, expectedURL string,
+	manticoreURL, target, term string,
 ) searchHit {
 	t.Helper()
 	var found searchHit
 	ok := pollwait.For(30*time.Second, func() bool {
-		hit, ok := manticoreSearchOnce(t, ctx, manticoreURL, expectedURL)
+		hit, ok := manticoreSearchOnce(t, ctx, manticoreURL, target, term)
 		if !ok {
 			return false
 		}
@@ -29,7 +29,7 @@ func waitForManticoreIndexedHit(
 		return true
 	})
 	if !ok {
-		t.Fatal("manticore never indexed the crawled page")
+		t.Fatalf("manticore never matched %q in %s", term, target)
 	}
 	return found
 }
@@ -37,12 +37,12 @@ func waitForManticoreIndexedHit(
 func manticoreSearchOnce(
 	t *testing.T,
 	ctx context.Context,
-	manticoreURL, expectedURL string,
+	manticoreURL, target, term string,
 ) (searchHit, bool) {
 	t.Helper()
 	query, err := json.Marshal(map[string]any{
-		"table": manticoreTable,
-		"query": map[string]any{"match": map[string]any{"url": expectedURL}},
+		"table": target,
+		"query": map[string]any{"match": map[string]any{"content": term}},
 	})
 	if err != nil {
 		t.Fatalf("marshal manticore query: %v", err)

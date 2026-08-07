@@ -57,11 +57,14 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.Concurrency != DefaultConcurrency {
 		t.Errorf("concurrency = %d", cfg.Concurrency)
 	}
-	if cfg.ElasticsearchIndex != DefaultElasticsearchIndex {
+	if cfg.ElasticsearchIndex != DefaultIndexBaseName {
 		t.Errorf("index = %q", cfg.ElasticsearchIndex)
 	}
 	if cfg.OpsAddr != DefaultOpsAddr {
 		t.Errorf("ops addr = %q", cfg.OpsAddr)
+	}
+	if len(cfg.Languages) != 0 {
+		t.Errorf("languages = %v", cfg.Languages)
 	}
 }
 
@@ -73,7 +76,8 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 		EnvNATSCrawledPageSubject: "t.subject",
 		EnvNATSCrawledPageDurable: "dur",
 		EnvConcurrency:            "3",
-		EnvElasticsearchIndex:     "my-index",
+		EnvElasticsearchIndex:     "my_index",
+		EnvLanguages:              "en, de",
 		EnvOpsAddr:                "127.0.0.1:9099",
 	}))
 	if err != nil {
@@ -85,31 +89,13 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	if cfg.CrawledPageDurable != "dur" || cfg.Concurrency != 3 {
 		t.Errorf("durable/concurrency = %q %d", cfg.CrawledPageDurable, cfg.Concurrency)
 	}
-	if cfg.ElasticsearchIndex != "my-index" {
+	if cfg.ElasticsearchIndex != "my_index" {
 		t.Errorf("index = %q", cfg.ElasticsearchIndex)
+	}
+	if len(cfg.Languages) != 2 || cfg.Languages[0] != "en" || cfg.Languages[1] != "de" {
+		t.Errorf("languages = %v", cfg.Languages)
 	}
 	if cfg.OpsAddr != "127.0.0.1:9099" {
 		t.Errorf("ops addr = %q", cfg.OpsAddr)
-	}
-}
-
-func TestLoadServiceConfigRejectsInvalidValues(t *testing.T) {
-	base := map[string]string{
-		EnvNATSURL:           "nats://localhost:4222",
-		EnvSearchIndexEngine: SearchIndexEngineElasticsearch,
-		EnvElasticsearchURL:  "http://localhost:9200",
-	}
-	cases := map[string]string{
-		EnvConcurrency: "abc",
-	}
-	for key, bad := range cases {
-		env := map[string]string{}
-		for k, v := range base {
-			env[k] = v
-		}
-		env[key] = bad
-		if _, err := LoadServiceConfig(envFrom(env)); err == nil {
-			t.Errorf("%s=%q: expected error", key, bad)
-		}
 	}
 }

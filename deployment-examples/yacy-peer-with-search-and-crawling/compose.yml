@@ -113,6 +113,7 @@ services:
       SEARCH_INDEX_ENGINE: manticore
       MANTICORE_URL: http://manticore:9308
       MANTICORE_TABLE: ${MANTICORE_TABLE:-yacy_text}
+      CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   manticore:
