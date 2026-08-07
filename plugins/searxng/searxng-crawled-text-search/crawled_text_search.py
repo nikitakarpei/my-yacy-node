@@ -61,9 +61,10 @@ def _elasticsearch_request(query, params):
             "from": _result_offset(params),
             "size": results_per_page,
             "query": {
-                "multi_match": {
+                "combined_fields": {
                     "query": query,
                     "fields": ["title^{}".format(_title_weight), "content"],
+                    "operator": "and",
                 }
             },
             "highlight": {
@@ -82,7 +83,7 @@ def _manticore_request(query, params):
             "table": manticore_table,
             "offset": _result_offset(params),
             "limit": results_per_page,
-            "query": {"match": {"title,content": query}},
+            "query": {"match": {"title,content": {"query": query, "operator": "and"}}},
             "options": {
                 "field_weights": {"title": _title_weight, "content": 1},
             },
