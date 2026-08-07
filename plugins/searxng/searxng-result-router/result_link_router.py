@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
+import hashlib
+import hmac
 import os
+import time
 import typing as t
 from urllib.parse import quote, urlparse
 
@@ -14,6 +17,7 @@ if t.TYPE_CHECKING:
 
 
 DISABLE_HEADER_DEFAULT = "X-Result-Link-Router-Disable"
+LINK_LIFETIME_DEFAULT = 86400
 
 
 class SXNGPlugin(Plugin):
@@ -31,6 +35,13 @@ class SXNGPlugin(Plugin):
         if not base_url:
             raise ValueError("VISITCRAWL_BASE_URL must be set")
         self.visitcrawl_base_url = base_url.rstrip("/")
+        link_secret = os.environ.get("VISITCRAWL_LINK_SECRET")
+        if not link_secret:
+            raise ValueError("VISITCRAWL_LINK_SECRET must be set")
+        self.link_secret = link_secret
+        self.link_lifetime = link_lifetime_from(
+            os.environ.get("RESULT_LINK_ROUTER_LINK_LIFETIME")
+        )
         self.disable_header = os.environ.get(
             "RESULT_LINK_ROUTER_DISABLE_HEADER", DISABLE_HEADER_DEFAULT
         )
@@ -51,4 +62,30 @@ class SXNGPlugin(Plugin):
     ) -> bool | str:
         if field_name != "url" or not url_src.startswith(("http://", "https://")):
             return True
-        return f"{self.visitcrawl_base_url}/visit?url={quote(url_src, safe='')}"
+        return self.visit_link_for(url_src)
+
+    def visit_link_for(self, visited_page: str) -> str:
+        expires = str(int(time.time()) + self.link_lifetime)
+        return (
+            f"{self.visitcrawl_base_url}/visit"
+            f"?url={quote(visited_page, safe='')}"
+            f"&expires={expires}"
+            f"&signature={self.signature_of(expires, visited_page)}"
+        )
+
+    def signature_of(self, expires: str, visited_page: str) -> str:
+        return hmac.new(
+            self.link_secret.encode(),
+            f"{expires}\n{visited_page}".encode(),
+            hashlib.sha256,
+        ).hexdigest()
+
+
+def link_lifetime_from(configured: str | None) -> int:
+    if configured is None:
+        return LINK_LIFETIME_DEFAULT
+    if not configured.isdigit() or int(configured) <= 0:
+        raise ValueError(
+            "RESULT_LINK_ROUTER_LINK_LIFETIME must be a positive whole number of seconds"
+        )
+    return int(configured)

@@ -98,6 +98,7 @@ services:
       - "9091:9091"
     environment:
       NATS_URL: nats://nats:4222
+      VISITCRAWL_LINK_SECRET: ${VISITCRAWL_LINK_SECRET:?set VISITCRAWL_LINK_SECRET in .env}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   corpustext:
@@ -158,6 +159,7 @@ services:
     environment:
       PYTHONPATH: /opt/searxng-plugins
       VISITCRAWL_BASE_URL: ${VISITCRAWL_PUBLIC_URL:?set VISITCRAWL_PUBLIC_URL in .env}
+      VISITCRAWL_LINK_SECRET: ${VISITCRAWL_LINK_SECRET:?set VISITCRAWL_LINK_SECRET in .env}
       SEARXNG_SECRET: ${SEARXNG_SECRET:?set SEARXNG_SECRET in .env}
       SEARXNG_SETTINGS_PATH: /etc/searxng/settings.yml
     volumes:

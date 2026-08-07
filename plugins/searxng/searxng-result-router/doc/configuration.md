@@ -1,6 +1,6 @@
 # searxng-result-router configuration
 
-The plugin is configured through an environment variable in the SearXNG process, and enabled
+The plugin is configured through environment variables in the SearXNG process, and enabled
 through SearXNG's own `settings.yml`.
 
 ## Environment
@@ -8,6 +8,8 @@ through SearXNG's own `settings.yml`.
 | Variable | Default | Meaning |
 |---|---|---|
 | `VISITCRAWL_BASE_URL` | required | Base URL of the `visitcrawl` that rewritten result links route through, e.g. `http://visitcrawl:8091`. |
+| `VISITCRAWL_LINK_SECRET` | required | Secret the plugin signs rewritten links with. Set it to the same value as the `visitcrawl` it points at. |
+| `RESULT_LINK_ROUTER_LINK_LIFETIME` | `86400` | Seconds a rewritten link stays valid after the plugin issues it. |
 | `RESULT_LINK_ROUTER_DISABLE_HEADER` | `X-Result-Link-Router-Disable` | Name of the request header that turns off link rewriting for a single request. |
 
 ## Disabling rewriting for a request

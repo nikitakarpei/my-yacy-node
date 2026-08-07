@@ -29,16 +29,20 @@ func TestResultLinkRouterRoutesSearchResultsThroughVisitcrawl(t *testing.T) {
 
 	result := searxngsearch.SearchOneResult(t, ctx, searxngBaseURL, "!"+testEngineBang+" test")
 
-	wantPrefix := visitcrawlBaseURL + "/visit?url="
+	wantPrefix := visitcrawlBaseURL + "/visit?"
 	if !strings.HasPrefix(result.URL, wantPrefix) {
 		t.Fatalf("result url = %q, want prefix %q", result.URL, wantPrefix)
 	}
-	gotDestination, err := url.QueryUnescape(strings.TrimPrefix(result.URL, wantPrefix))
+	routedLink, err := url.Parse(result.URL)
 	if err != nil {
-		t.Fatalf("decode routed url: %v", err)
+		t.Fatalf("parse routed url: %v", err)
 	}
-	if gotDestination != originDestination {
+	routedParams := routedLink.Query()
+	if gotDestination := routedParams.Get("url"); gotDestination != originDestination {
 		t.Fatalf("routed destination = %q, want %q", gotDestination, originDestination)
+	}
+	if routedParams.Get("expires") == "" || routedParams.Get("signature") == "" {
+		t.Fatalf("routed url = %q, want expires and signature", result.URL)
 	}
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, result.URL, nil)

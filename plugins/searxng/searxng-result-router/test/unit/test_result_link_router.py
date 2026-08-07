@@ -1,12 +1,19 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
+import hashlib
+import hmac
 import importlib
+from urllib.parse import quote
 
 import pytest
 
 from searx.plugins import PluginCfg
 
 result_link_router = importlib.import_module("result_link_router")
+
+BASE_URL = "http://visitcrawl:8091"
+LINK_SECRET = "shared-secret"
+NOW = 1700000000
 
 
 class FakeResult:
@@ -29,25 +36,51 @@ class FakeResult:
         return self._fields[field_name]
 
 
+@pytest.fixture(autouse=True)
+def frozen_now(monkeypatch):
+    monkeypatch.setattr(result_link_router.time, "time", lambda: NOW)
+
+
+@pytest.fixture(autouse=True)
+def configured_environment(monkeypatch):
+    monkeypatch.setenv("VISITCRAWL_BASE_URL", BASE_URL)
+    monkeypatch.setenv("VISITCRAWL_LINK_SECRET", LINK_SECRET)
+    monkeypatch.delenv("RESULT_LINK_ROUTER_LINK_LIFETIME", raising=False)
+    monkeypatch.delenv("RESULT_LINK_ROUTER_DISABLE_HEADER", raising=False)
+
+
 @pytest.fixture
-def plugin(monkeypatch):
-    monkeypatch.setenv("VISITCRAWL_BASE_URL", "http://visitcrawl:8091")
+def plugin():
     return result_link_router.SXNGPlugin(PluginCfg(active=True))
+
+
+def signed_visit_link_for(
+    visited_page: str,
+    base_url: str = BASE_URL,
+    expires: int = NOW + result_link_router.LINK_LIFETIME_DEFAULT,
+    secret: str = LINK_SECRET,
+) -> str:
+    signature = hmac.new(
+        secret.encode(), f"{expires}\n{visited_page}".encode(), hashlib.sha256
+    ).hexdigest()
+    return (
+        f"{base_url}/visit"
+        f"?url={quote(visited_page, safe='')}"
+        f"&expires={expires}"
+        f"&signature={signature}"
+    )
 
 
 def test_rewrites_http_url(plugin):
     rewritten = plugin.route_through_visitcrawl(None, "url", "http://example.com/a")
-    assert rewritten == "http://visitcrawl:8091/visit?url=http%3A%2F%2Fexample.com%2Fa"
+    assert rewritten == signed_visit_link_for("http://example.com/a")
 
 
 def test_rewrites_https_url(plugin):
     rewritten = plugin.route_through_visitcrawl(
         None, "url", "https://example.com/a?b=c"
     )
-    assert (
-        rewritten
-        == "http://visitcrawl:8091/visit?url=https%3A%2F%2Fexample.com%2Fa%3Fb%3Dc"
-    )
+    assert rewritten == signed_visit_link_for("https://example.com/a?b=c")
 
 
 def test_leaves_non_url_field_unchanged(plugin):
@@ -67,14 +100,46 @@ def test_respects_configured_base_url(monkeypatch):
     rewritten = configured.route_through_visitcrawl(
         None, "url", "https://example.com/a"
     )
-    assert (
-        rewritten
-        == "https://visitcrawl.internal:9443/visit?url=https%3A%2F%2Fexample.com%2Fa"
+    assert rewritten == signed_visit_link_for(
+        "https://example.com/a", base_url="https://visitcrawl.internal:9443"
     )
 
 
 def test_requires_base_url_configured(monkeypatch):
     monkeypatch.delenv("VISITCRAWL_BASE_URL", raising=False)
+    with pytest.raises(ValueError):
+        result_link_router.SXNGPlugin(PluginCfg(active=True))
+
+
+def test_requires_link_secret_configured(monkeypatch):
+    monkeypatch.delenv("VISITCRAWL_LINK_SECRET", raising=False)
+    with pytest.raises(ValueError):
+        result_link_router.SXNGPlugin(PluginCfg(active=True))
+
+
+def test_respects_configured_link_secret(monkeypatch):
+    monkeypatch.setenv("VISITCRAWL_LINK_SECRET", "other-secret")
+    configured = result_link_router.SXNGPlugin(PluginCfg(active=True))
+    rewritten = configured.route_through_visitcrawl(
+        None, "url", "https://example.com/a"
+    )
+    assert rewritten == signed_visit_link_for(
+        "https://example.com/a", secret="other-secret"
+    )
+
+
+def test_respects_configured_link_lifetime(monkeypatch):
+    monkeypatch.setenv("RESULT_LINK_ROUTER_LINK_LIFETIME", "60")
+    configured = result_link_router.SXNGPlugin(PluginCfg(active=True))
+    rewritten = configured.route_through_visitcrawl(
+        None, "url", "https://example.com/a"
+    )
+    assert rewritten == signed_visit_link_for("https://example.com/a", expires=NOW + 60)
+
+
+@pytest.mark.parametrize("lifetime", ["not-a-number", "0", "-60"])
+def test_rejects_unusable_link_lifetime(monkeypatch, lifetime):
+    monkeypatch.setenv("RESULT_LINK_ROUTER_LINK_LIFETIME", lifetime)
     with pytest.raises(ValueError):
         result_link_router.SXNGPlugin(PluginCfg(active=True))
 
@@ -88,10 +153,7 @@ def test_on_result_rewrites_url_and_keeps_result(plugin):
 
     assert kept is True
     assert result.filter_urls_calls == 1
-    assert (
-        result["url"]
-        == "http://visitcrawl:8091/visit?url=https%3A%2F%2Fexample.com%2Fa"
-    )
+    assert result["url"] == signed_visit_link_for("https://example.com/a")
     assert result["img_src"] == "https://example.com/a.png"
 
 
@@ -126,11 +188,10 @@ def test_on_result_rewrites_when_disable_header_absent(plugin):
     plugin.on_result(request=request, search=None, result=result)
 
     assert result.filter_urls_calls == 1
-    assert result["url"].startswith("http://visitcrawl:8091/visit?url=")
+    assert result["url"] == signed_visit_link_for("https://example.com/a")
 
 
 def test_disable_header_name_is_configurable(monkeypatch):
-    monkeypatch.setenv("VISITCRAWL_BASE_URL", "http://visitcrawl:8091")
     monkeypatch.setenv("RESULT_LINK_ROUTER_DISABLE_HEADER", "X-Custom-Disable")
     configured = result_link_router.SXNGPlugin(PluginCfg(active=True))
     result = FakeResult(url="https://example.com/a")

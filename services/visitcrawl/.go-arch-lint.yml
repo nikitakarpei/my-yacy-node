@@ -8,6 +8,8 @@ allow:
 components:
   visitintake:
     in: internal/visitintake/**
+  visitlink:
+    in: internal/visitlink/**
   crawlorderbroker:
     in: internal/crawlorderbroker/**
   visitmetrics:
@@ -45,9 +47,13 @@ deps:
   visitintake:
     mayDependOn:
       - visitintake
+      - visitlink
     canUse:
       - yacycrawlcontract
       - uuid
+  visitlink:
+    mayDependOn:
+      - visitlink
   crawlorderbroker:
     mayDependOn:
       - crawlorderbroker
@@ -64,6 +70,7 @@ deps:
   visitcrawlcmd:
     mayDependOn:
       - visitintake
+      - visitlink
       - crawlorderbroker
       - visitmetrics
     canUse:

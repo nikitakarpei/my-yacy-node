@@ -87,8 +87,9 @@ func startSearXNG(
 		Alias:        searxngAlias,
 		SettingsYAML: testSettingsYAML,
 		Env: map[string]string{
-			"PYTHONPATH":              pluginMountDir,
-			"VISITCRAWL_BASE_URL": visitcrawlBaseURL,
+			"PYTHONPATH":             pluginMountDir,
+			"VISITCRAWL_BASE_URL":    visitcrawlBaseURL,
+			"VISITCRAWL_LINK_SECRET": visitLinkSecret,
 		},
 		Files: []testcontainers.ContainerFile{
 			{

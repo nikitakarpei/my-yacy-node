@@ -2,10 +2,15 @@ package main
 
 import (
 	"context"
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"net"
 	"net/http"
+	"net/url"
+	"strconv"
 	"testing"
 	"time"
 
@@ -26,6 +31,7 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 		OrderTimeout:  DefaultOrderTimeout,
 		MaxInFlight:   DefaultMaxInFlight,
 		MaxBodyBytes:  DefaultMaxBodyBytes,
+		LinkSecret:    "shared-secret",
 		CrawlProfile: yacycrawlcontract.CrawlProfile{
 			Scope:           yacycrawlcontract.ScopeDomain,
 			URLMustMatch:    yacycrawlcontract.MatchAll,
@@ -49,7 +55,7 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 	visitReq, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodGet,
-		fmt.Sprintf("http://%s/visit?url=https%%3A%%2F%%2Fexample.org%%2Fa", cfg.ListenAddr),
+		signedVisitURL(cfg.ListenAddr, "https://example.org/a", cfg.LinkSecret),
 		nil,
 	)
 	if err != nil {
@@ -91,6 +97,14 @@ func TestRunServiceRejectsBadNATSURL(t *testing.T) {
 	if errors.Is(err, context.DeadlineExceeded) {
 		t.Fatalf("expected connect failure, got deadline exceeded")
 	}
+}
+
+func signedVisitURL(listenAddr, visitedPage, secret string) string {
+	seconds := strconv.FormatInt(time.Now().Add(time.Minute).Unix(), 10)
+	seal := hmac.New(sha256.New, []byte(secret))
+	seal.Write([]byte(seconds + "\n" + visitedPage))
+	return fmt.Sprintf("http://%s/visit?url=%s&expires=%s&signature=%s",
+		listenAddr, url.QueryEscape(visitedPage), seconds, hex.EncodeToString(seal.Sum(nil)))
 }
 
 func ordersConsumer(t *testing.T, ctx context.Context, natsURL string) jetstream.Consumer {
