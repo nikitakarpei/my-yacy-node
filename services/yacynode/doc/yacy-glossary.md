@@ -48,7 +48,7 @@ independently of this project's implementation. Sources are listed at the end.
 
 ## Sources
 
-- https://yacy.net/operation/rwi-index-distribution/
-- https://yacy.net/faq/
-- https://yacy.net/operation/performance/
-- https://github.com/yacy/yacy_net_homepage/blob/master/docs/faq.md
+- <https://yacy.net/operation/rwi-index-distribution/>
+- <https://yacy.net/faq/>
+- <https://yacy.net/operation/performance/>
+- <https://github.com/yacy/yacy_net_homepage/blob/master/docs/faq.md>

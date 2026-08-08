@@ -95,6 +95,18 @@ fetch ruff \
 	"$sum" "ruff-$triple/ruff"
 
 case "$platform" in
+	linux-amd64) mado_os=Linux-gnu; mado_arch=x86_64 ;;
+	linux-arm64) mado_os=Linux-gnu; mado_arch=arm64 ;;
+	darwin-amd64) mado_os=macOS; mado_arch=x86_64 ;;
+	darwin-arm64) mado_os=macOS; mado_arch=arm64 ;;
+esac
+set -- $(lookup mado)
+ver="$1"; sum="$2"
+fetch mado \
+	"https://github.com/akiomik/mado/releases/download/v$ver/mado-$mado_os-$mado_arch.tar.gz" \
+	"$sum" "mado"
+
+case "$platform" in
 	linux-amd64) protoc_plat=linux-x86_64 ;;
 	linux-arm64) protoc_plat=linux-aarch_64 ;;
 	darwin-amd64) protoc_plat=osx-x86_64 ;;

@@ -1,4 +1,4 @@
-## What is this?
+# What this is
 
 A lightweight, composable reimplementation of a [YaCy](https://yacy.net) peer
 as small Go services. Each service runs and scales on its own, and a

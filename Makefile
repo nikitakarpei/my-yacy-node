@@ -13,6 +13,7 @@ TOOLS_STAMP := $(TOOLS_BIN)/.installed
 GOLANGCI_LINT := $(TOOLS_BIN)/golangci-lint
 GO_ARCH_LINT := $(TOOLS_BIN)/go-arch-lint
 RUFF := $(TOOLS_BIN)/ruff
+MADO := $(TOOLS_BIN)/mado
 
 PY_VENV_STAMPS := $(foreach m,$(PY_MODULES),$(m)/.venv/.installed)
 
@@ -38,7 +39,7 @@ endef
 	fmt fmt-go fmt-py \
 	fmt-check fmt-check-go fmt-check-py \
 	tidy tidy-check \
-	lint lint-go lint-py \
+	lint lint-go lint-py lint-md \
 	arch \
 	test test-go test-py \
 	cover cover-go cover-py \
@@ -49,7 +50,7 @@ endef
 
 fmt:         fmt-go fmt-py
 fmt-check:   fmt-check-go fmt-check-py
-lint:        lint-go lint-py
+lint:        lint-go lint-py lint-md
 test:        test-go test-py
 cover:       cover-go cover-py
 cover-check: cover-check-go cover-check-py
@@ -151,6 +152,12 @@ cover-py: $(PY_VENV_STAMPS)
 
 cover-check-py: $(PY_VENV_STAMPS)
 	@$(call for_each_py,cover-check-py,.venv/bin/python -m pytest -q --cov --cov-fail-under=$(COVERAGE_MIN))
+
+# ---- Markdown ----
+
+lint-md: $(TOOLS_STAMP)
+	@echo "==> lint-md"
+	@git ls-files -z '*.md' | xargs -0 $(MADO) check
 
 # ---- misc ----
 
