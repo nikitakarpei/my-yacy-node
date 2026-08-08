@@ -12,10 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
-const (
-	ordersSubject      = "yacy.crawl.orders"
-	crawledPageSubject = "yacy.crawl.page.text"
-)
+const ordersSubject = "yacy.crawl.orders"
 
 func connectJetStream(t *testing.T, url string) jetstream.JetStream {
 	t.Helper()

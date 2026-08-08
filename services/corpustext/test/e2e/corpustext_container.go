@@ -5,6 +5,7 @@ package e2e
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/testcontainers/testcontainers-go"
 
@@ -14,8 +15,11 @@ import (
 )
 
 const (
-	corpusTextAlias    = "corpustext"
-	envCorpusTextImage = "CORPUSTEXT_IMAGE"
+	corpusTextAlias       = "corpustext"
+	envCorpusTextImage    = "CORPUSTEXT_IMAGE"
+	crawledPageSubject    = "yacy.crawl.page.text"
+	indexedLanguage       = "en"
+	corpusTextStopTimeout = 30 * time.Second
 )
 
 func startCorpusText(
@@ -23,7 +27,7 @@ func startCorpusText(
 	ctx context.Context,
 	networkName string,
 	searchIndexEnv map[string]string,
-) {
+) testcontainers.Container {
 	t.Helper()
 	env := map[string]string{
 		"NATS_URL":                  natsjetstream.NetworkURL(),
@@ -46,6 +50,18 @@ func startCorpusText(
 	}
 	t.Cleanup(func() { _ = container.Terminate(context.Background()) })
 	containerlog.DumpOnFailure(t, "corpustext", container)
+	return container
+}
+
+func restartCorpusText(t *testing.T, ctx context.Context, container testcontainers.Container) {
+	t.Helper()
+	stopTimeout := corpusTextStopTimeout
+	if err := container.Stop(ctx, &stopTimeout); err != nil {
+		t.Fatalf("stop corpustext container: %v", err)
+	}
+	if err := container.Start(ctx); err != nil {
+		t.Fatalf("restart corpustext container: %v", err)
+	}
 }
 
 func corpusTextImage(t *testing.T) string {

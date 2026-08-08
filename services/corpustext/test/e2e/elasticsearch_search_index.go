@@ -9,7 +9,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/elasticsearch"
 )
 
-const elasticsearchAlias = "elasticsearch"
+const (
+	elasticsearchAlias         = "elasticsearch"
+	elasticsearchIndexBase     = "yacy_text"
+	elasticsearchIndexPrefix   = elasticsearchIndexBase + "_v1"
+	elasticsearchLanguageIndex = elasticsearchIndexPrefix + "_" + indexedLanguage
+	elasticsearchIndexPattern  = elasticsearchIndexPrefix + "_*"
+)
 
 func startElasticsearch(t *testing.T, ctx context.Context, networkName string) string {
 	t.Helper()
@@ -24,7 +30,7 @@ func elasticsearchCorpusTextEnv() map[string]string {
 	return map[string]string{
 		"SEARCH_INDEX_ENGINE":  "elasticsearch",
 		"ELASTICSEARCH_URL":    elasticsearchNetworkURL(),
-		"ELASTICSEARCH_INDEX":  indexBaseName,
+		"ELASTICSEARCH_INDEX":  elasticsearchIndexBase,
 		"CORPUSTEXT_LANGUAGES": indexedLanguage,
 	}
 }
