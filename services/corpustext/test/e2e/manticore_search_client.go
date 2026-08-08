@@ -13,19 +13,27 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 )
 
+type manticoreHits struct {
+	Hits struct {
+		Hits []struct {
+			Source indexedPage `json:"_source"`
+		} `json:"hits"`
+	} `json:"hits"`
+}
+
 func waitForManticoreContentHit(
 	t *testing.T,
 	ctx context.Context,
 	manticoreURL, target, term string,
-) searchHit {
+) indexedPage {
 	t.Helper()
-	var found searchHit
+	var found indexedPage
 	ok := pollwait.For(30*time.Second, func() bool {
-		hit, ok := manticoreSearchOnce(t, ctx, manticoreURL, target, term)
+		page, ok := manticoreSearchOnce(t, ctx, manticoreURL, target, term)
 		if !ok {
 			return false
 		}
-		found = hit
+		found = page
 		return true
 	})
 	if !ok {
@@ -38,7 +46,7 @@ func manticoreSearchOnce(
 	t *testing.T,
 	ctx context.Context,
 	manticoreURL, target, term string,
-) (searchHit, bool) {
+) (indexedPage, bool) {
 	t.Helper()
 	query, err := json.Marshal(map[string]any{
 		"table": target,
@@ -56,18 +64,18 @@ func manticoreSearchOnce(
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return searchHit{}, false
+		return indexedPage{}, false
 	}
 	defer func() { _ = resp.Body.Close() }()
 	if resp.StatusCode != http.StatusOK {
-		return searchHit{}, false
+		return indexedPage{}, false
 	}
-	var body searchResponse
+	var body manticoreHits
 	if err := json.NewDecoder(resp.Body).Decode(&body); err != nil {
-		return searchHit{}, false
+		return indexedPage{}, false
 	}
 	if len(body.Hits.Hits) == 0 {
-		return searchHit{}, false
+		return indexedPage{}, false
 	}
-	return body.Hits.Hits[0], true
+	return body.Hits.Hits[0].Source, true
 }

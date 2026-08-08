@@ -4,7 +4,6 @@ package e2e
 
 import (
 	"context"
-	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
@@ -12,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 )
 
-func TestCrawledPageIsSearchableInElasticsearch(t *testing.T) {
+func TestCrawledPageStaysSearchableInElasticsearch(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
@@ -23,23 +22,36 @@ func TestCrawledPageIsSearchableInElasticsearch(t *testing.T) {
 	egressproxy.Start(t, ctx, network.Name)
 	startNode(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
-	startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
+	corpusText := startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
 
 	js := connectJetStream(t, natsURL)
 	ensureOrdersStream(t, ctx, js)
 
 	publishCrawlOrder(t, ctx, js, originURL)
 
-	hit := waitForElasticsearchContentHit(t, ctx, elasticsearchURL, languageIndexName, stemmedTerm)
+	hit := waitForElasticsearchContentHit(
+		t,
+		ctx,
+		elasticsearchURL,
+		elasticsearchLanguageIndex,
+		stemmedTerm,
+	)
 	assertIndexedPage(t, hit, originURL)
 
 	fanOutHit := waitForElasticsearchContentHit(
-		t, ctx, elasticsearchURL, fanOutPattern, stemmedTerm,
+		t, ctx, elasticsearchURL, elasticsearchIndexPattern, stemmedTerm,
 	)
 	assertIndexedPage(t, fanOutHit, originURL)
+
+	restartCorpusText(t, ctx, corpusText)
+
+	hitAfterRestart := waitForElasticsearchContentHit(
+		t, ctx, elasticsearchURL, elasticsearchIndexPattern, stemmedTerm,
+	)
+	assertIndexedPage(t, hitAfterRestart, originURL)
 }
 
-func TestCrawledPageIsSearchableInManticore(t *testing.T) {
+func TestCrawledPageStaysSearchableInManticore(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
@@ -50,32 +62,27 @@ func TestCrawledPageIsSearchableInManticore(t *testing.T) {
 	egressproxy.Start(t, ctx, network.Name)
 	startNode(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
-	startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
+	corpusText := startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
 
 	js := connectJetStream(t, natsURL)
 	ensureOrdersStream(t, ctx, js)
 
 	publishCrawlOrder(t, ctx, js, originURL)
 
-	hit := waitForManticoreContentHit(t, ctx, manticoreURL, languageIndexName, stemmedTerm)
+	hit := waitForManticoreContentHit(t, ctx, manticoreURL, manticoreLanguageTable, stemmedTerm)
 	assertIndexedPage(t, hit, originURL)
 
-	fanOutHit := waitForManticoreContentHit(t, ctx, manticoreURL, fanOutPrefix, stemmedTerm)
+	fanOutHit := waitForManticoreContentHit(t, ctx, manticoreURL, manticoreFanOutTable, stemmedTerm)
 	assertIndexedPage(t, fanOutHit, originURL)
-}
 
-func assertIndexedPage(t *testing.T, hit searchHit, originURL string) {
-	t.Helper()
-	if hit.Source.Title != originTitle {
-		t.Errorf("indexed title = %q, want %q", hit.Source.Title, originTitle)
-	}
-	if !strings.Contains(hit.Source.Content, originBody) {
-		t.Errorf("indexed content = %q, want it to contain %q", hit.Source.Content, originBody)
-	}
-	if hit.Source.Language != indexedLanguage {
-		t.Errorf("indexed language = %q, want %q", hit.Source.Language, indexedLanguage)
-	}
-	if !strings.Contains(hit.Source.URL, strings.TrimSuffix(originURL, "/")) {
-		t.Errorf("indexed url = %q, want it to carry %q", hit.Source.URL, originURL)
-	}
+	restartCorpusText(t, ctx, corpusText)
+
+	hitAfterRestart := waitForManticoreContentHit(
+		t,
+		ctx,
+		manticoreURL,
+		manticoreFanOutTable,
+		stemmedTerm,
+	)
+	assertIndexedPage(t, hitAfterRestart, originURL)
 }

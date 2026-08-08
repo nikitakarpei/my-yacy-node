@@ -5,7 +5,6 @@ package e2e
 import (
 	"context"
 	"testing"
-	"time"
 
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
@@ -13,17 +12,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
-const (
-	indexBaseName  = "yacy_text"
-	fanOutPrefix   = indexBaseName + "_v1"
-	crawledPageMax = 64
-)
+const crawledPageMax = 64
 
 var crawledPageSubject = yacycrawlcontract.CrawledPageSubject(
 	yacycrawlcontract.PageRepresentationKindText,
 )
 
-func publishCrawledCorpus(t *testing.T, ctx context.Context, natsURL string) {
+func connectJetStream(t *testing.T, natsURL string) jetstream.JetStream {
 	t.Helper()
 	nc, err := nats.Connect(natsURL)
 	if err != nil {
@@ -34,6 +29,11 @@ func publishCrawledCorpus(t *testing.T, ctx context.Context, natsURL string) {
 	if err != nil {
 		t.Fatalf("init jetstream: %v", err)
 	}
+	return js
+}
+
+func ensureCrawledPageStream(t *testing.T, ctx context.Context, js jetstream.JetStream) {
+	t.Helper()
 	if err := yacycrawlcontract.EnsureCrawledPageStream(
 		ctx,
 		js,
@@ -45,6 +45,10 @@ func publishCrawledCorpus(t *testing.T, ctx context.Context, natsURL string) {
 	); err != nil {
 		t.Fatalf("ensure crawled page stream: %v", err)
 	}
+}
+
+func publishCrawledCorpus(t *testing.T, ctx context.Context, js jetstream.JetStream) {
+	t.Helper()
 	for _, page := range crawledPages() {
 		publishCrawledPage(t, ctx, js, page)
 	}
@@ -65,40 +69,3 @@ func publishCrawledPage(
 		t.Fatalf("publish crawled page: %v", err)
 	}
 }
-
-func crawledPages() []yacycrawlcontract.PageTextRepresentation {
-	return []yacycrawlcontract.PageTextRepresentation{
-		{
-			PageReference: yacycrawlcontract.PageReference{
-				CanonicalURL: englishURL,
-				Title:        englishTitle,
-				CrawledAt:    time.Now().UTC(),
-				Language:     englishLanguage,
-			},
-			Text: []byte(englishContent),
-		},
-		{
-			PageReference: yacycrawlcontract.PageReference{
-				CanonicalURL: germanURL,
-				Title:        germanTitle,
-				CrawledAt:    time.Now().UTC(),
-				Language:     germanLanguage,
-			},
-			Text: []byte(germanContent),
-		},
-	}
-}
-
-const (
-	englishLanguage   = "en"
-	germanLanguage    = "de"
-	englishTitle      = "Riverside Wildflower Guide"
-	englishURL        = "https://example.invalid/wildflower-guide"
-	englishContent    = "A field guide to wildflowers found along riverside trails."
-	englishSearchTerm = "wildflower"
-	englishStemmed    = "trail"
-	germanTitle       = "Wildblumen am Uferweg"
-	germanURL         = "https://example.invalid/wildblumen-uferweg"
-	germanContent     = "Ein Feldfuehrer zu Wildblumen an den Uferwegen."
-	germanSearchTerm  = "wildblumen"
-)
