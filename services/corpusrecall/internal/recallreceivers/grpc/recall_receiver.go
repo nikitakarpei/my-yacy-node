@@ -9,7 +9,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 )
 
@@ -25,7 +25,7 @@ type RecallReceiver struct {
 
 func NewRecallReceiver(
 	recaller Recaller,
-	corpora []pagerecall.Corpus,
+	corpora []recall.Corpus,
 	listenAddress string,
 ) (*RecallReceiver, error) {
 	recallServer, err := newRecallServer(recaller, corpora)

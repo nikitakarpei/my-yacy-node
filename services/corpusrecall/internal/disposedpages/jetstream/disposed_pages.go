@@ -8,7 +8,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -23,7 +23,7 @@ func NewDisposedPages(bucket jetstream.KeyValue) *DisposedPages {
 func (p *DisposedPages) DisposalOf(
 	ctx context.Context,
 	canonicalURL string,
-) (pagerecall.PageDisposal, error) {
+) (recall.PageDisposal, error) {
 	key := yacycrawlcontract.DisposedPageKey(canonicalURL)
 	revision, err := disposalRevisionIn(ctx, p.bucket, key)
 	if err != nil {

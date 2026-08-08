@@ -2,7 +2,7 @@ package grpc
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerepresentations/markdown"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 )
 
@@ -15,7 +15,7 @@ func markdownRepresentationForm() representationForm {
 }
 
 func markdownRepresentationInContract(
-	representation pagerecall.Representation,
+	representation recall.Representation,
 ) (*corpusrecallv1.Representation, bool) {
 	page, isPage := representation.(markdown.Page)
 	if !isPage {

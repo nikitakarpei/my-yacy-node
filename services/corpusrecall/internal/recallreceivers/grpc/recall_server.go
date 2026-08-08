@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 )
 
@@ -15,8 +15,8 @@ type Recaller interface {
 	Recall(
 		ctx context.Context,
 		url string,
-		kinds []pagerecall.RepresentationKind,
-	) (pagerecall.RecalledPage, error)
+		kinds []recall.RepresentationKind,
+	) (recall.RecalledPage, error)
 }
 
 type recallServer struct {
@@ -25,7 +25,7 @@ type recallServer struct {
 	forms    servedRepresentationForms
 }
 
-func newRecallServer(recaller Recaller, corpora []pagerecall.Corpus) (*recallServer, error) {
+func newRecallServer(recaller Recaller, corpora []recall.Corpus) (*recallServer, error) {
 	forms, err := servedRepresentationFormsFor(corpora)
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (s *recallServer) Recall(
 	}
 	recalledPage, err := s.recaller.Recall(ctx, request.GetUrl(), kinds)
 	if err != nil {
-		if errors.Is(err, pagerecall.ErrTooManyRequestsInFlight) {
+		if errors.Is(err, recall.ErrTooManyRequestsInFlight) {
 			return nil, status.Error(codes.ResourceExhausted, err.Error())
 		}
 		return nil, status.Error(codes.Internal, err.Error())
@@ -57,7 +57,7 @@ func (s *recallServer) Recall(
 }
 
 func (s *recallServer) recallResponseFrom(
-	recalledPage pagerecall.RecalledPage,
+	recalledPage recall.RecalledPage,
 ) (*corpusrecallv1.RecallResponse, error) {
 	contractRepresentations, err := s.forms.contractRepresentationsFrom(
 		recalledPage.Representations,

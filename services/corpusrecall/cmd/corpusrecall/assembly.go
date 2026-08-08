@@ -13,7 +13,7 @@ import (
 	disposedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/disposedpages/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerepresentations/markdown"
 	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/progressobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	recallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recallreceivers/grpc"
 	redirectresolversjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/redirectresolvers/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
@@ -60,21 +60,21 @@ func corporaFrom(
 	ctx context.Context,
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-) ([]pagerecall.Corpus, error) {
+) ([]recall.Corpus, error) {
 	markdownStore, err := js.ObjectStore(ctx, pagemarkdownstore.BucketName)
 	if err != nil {
 		return nil, fmt.Errorf("open page markdown bucket: %w", err)
 	}
-	return []pagerecall.Corpus{markdown.NewCorpus(markdownStore, cfg.MaxResponseBytes)}, nil
+	return []recall.Corpus{markdown.NewCorpus(markdownStore, cfg.MaxResponseBytes)}, nil
 }
 
 func newRecaller(
 	ctx context.Context,
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-	corpora []pagerecall.Corpus,
+	corpora []recall.Corpus,
 	metrics *progressobserversprometheus.RecallMetrics,
-) (*pagerecall.Recaller, error) {
+) (*recall.Recaller, error) {
 	redirects, err := redirectResolutionsFrom(ctx, js)
 	if err != nil {
 		return nil, err
@@ -83,7 +83,7 @@ func newRecaller(
 	if err != nil {
 		return nil, err
 	}
-	return pagerecall.NewRecaller(
+	return recall.NewRecaller(
 		crawlorderplacersjetstream.NewCrawlOrderPlacement(js, cfg.OrdersSubject),
 		redirects,
 		disposedPages,
@@ -115,8 +115,8 @@ func disposedPagesFrom(
 	return disposedpagesjetstream.NewDisposedPages(bucket), nil
 }
 
-func recallConfigFrom(cfg ServiceConfig) pagerecall.Config {
-	return pagerecall.Config{
+func recallConfigFrom(cfg ServiceConfig) recall.Config {
+	return recall.Config{
 		RecallLimit:         cfg.RecallLimit,
 		PollInterval:        cfg.PollInterval,
 		MaxRequestsInFlight: cfg.MaxInFlight,

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 )
 
@@ -14,15 +14,15 @@ var ErrRepresentationKindNotInContract = errors.New(
 )
 
 type representationForm struct {
-	kind                       pagerecall.RepresentationKind
+	kind                       recall.RepresentationKind
 	contractKind               corpusrecallv1.RepresentationKind
-	contractRepresentationFrom func(pagerecall.Representation) (*corpusrecallv1.Representation, bool)
+	contractRepresentationFrom func(recall.Representation) (*corpusrecallv1.Representation, bool)
 }
 
 type servedRepresentationForms []representationForm
 
 func servedRepresentationFormsFor(
-	corpora []pagerecall.Corpus,
+	corpora []recall.Corpus,
 ) (servedRepresentationForms, error) {
 	served := make(servedRepresentationForms, 0, len(corpora))
 	for _, corpus := range corpora {
@@ -36,7 +36,7 @@ func servedRepresentationFormsFor(
 }
 
 func representationFormOfKind(
-	kind pagerecall.RepresentationKind,
+	kind recall.RepresentationKind,
 ) (representationForm, bool) {
 	for _, form := range []representationForm{markdownRepresentationForm()} {
 		if form.kind == kind {
@@ -46,14 +46,14 @@ func representationFormOfKind(
 	return representationForm{}, false
 }
 
-func kindNotInContract(kind pagerecall.RepresentationKind) error {
+func kindNotInContract(kind recall.RepresentationKind) error {
 	return fmt.Errorf("%w: %s", ErrRepresentationKindNotInContract, kind)
 }
 
 func (forms servedRepresentationForms) representationKindsFrom(
 	contractKinds []corpusrecallv1.RepresentationKind,
-) ([]pagerecall.RepresentationKind, error) {
-	kinds := make([]pagerecall.RepresentationKind, 0, len(contractKinds))
+) ([]recall.RepresentationKind, error) {
+	kinds := make([]recall.RepresentationKind, 0, len(contractKinds))
 	for _, contractKind := range contractKinds {
 		kind, served := forms.representationKindFrom(contractKind)
 		if !served {
@@ -66,7 +66,7 @@ func (forms servedRepresentationForms) representationKindsFrom(
 
 func (forms servedRepresentationForms) representationKindFrom(
 	contractKind corpusrecallv1.RepresentationKind,
-) (pagerecall.RepresentationKind, bool) {
+) (recall.RepresentationKind, bool) {
 	for _, form := range forms {
 		if form.contractKind == contractKind {
 			return form.kind, true
@@ -76,7 +76,7 @@ func (forms servedRepresentationForms) representationKindFrom(
 }
 
 func (forms servedRepresentationForms) contractRepresentationsFrom(
-	recalledRepresentations []pagerecall.RecalledRepresentation,
+	recalledRepresentations []recall.RecalledRepresentation,
 ) ([]*corpusrecallv1.Representation, error) {
 	contractRepresentations := make(
 		[]*corpusrecallv1.Representation, 0, len(recalledRepresentations),
@@ -92,7 +92,7 @@ func (forms servedRepresentationForms) contractRepresentationsFrom(
 }
 
 func (forms servedRepresentationForms) contractRepresentationFrom(
-	recalled pagerecall.RecalledRepresentation,
+	recalled recall.RecalledRepresentation,
 ) (*corpusrecallv1.Representation, bool) {
 	for _, form := range forms {
 		if form.kind == recalled.Kind {
@@ -103,7 +103,7 @@ func (forms servedRepresentationForms) contractRepresentationFrom(
 }
 
 func (forms servedRepresentationForms) contractRepresentationKindsFrom(
-	kinds []pagerecall.RepresentationKind,
+	kinds []recall.RepresentationKind,
 ) []corpusrecallv1.RepresentationKind {
 	contractKinds := make([]corpusrecallv1.RepresentationKind, 0, len(kinds))
 	for _, form := range forms {

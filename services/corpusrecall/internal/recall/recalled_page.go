@@ -1,4 +1,4 @@
-package pagerecall
+package recall
 
 type RepresentationKind string
 

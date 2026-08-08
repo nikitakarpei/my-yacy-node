@@ -8,11 +8,11 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 )
 
-const Kind pagerecall.RepresentationKind = "markdown"
+const Kind recall.RepresentationKind = "markdown"
 
 type Corpus struct {
 	objects  jetstream.ObjectStore
@@ -23,14 +23,14 @@ func NewCorpus(objects jetstream.ObjectStore, maxBytes int64) *Corpus {
 	return &Corpus{objects: objects, maxBytes: maxBytes}
 }
 
-func (c *Corpus) RepresentationKind() pagerecall.RepresentationKind {
+func (c *Corpus) RepresentationKind() recall.RepresentationKind {
 	return Kind
 }
 
 func (c *Corpus) RepresentationOf(
 	ctx context.Context,
 	resolvedURL string,
-) (pagerecall.Representation, bool, error) {
+) (recall.Representation, bool, error) {
 	markdown, err := c.objects.GetBytes(ctx, pagemarkdownstore.ObjectName(resolvedURL))
 	if errors.Is(err, jetstream.ErrObjectNotFound) {
 		return nil, false, nil

@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/progressobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 )
 
 func TestExpositionReportsEveryRecallOutcomeObserved(t *testing.T) {
@@ -16,8 +16,8 @@ func TestExpositionReportsEveryRecallOutcomeObserved(t *testing.T) {
 
 	metrics.RequestAccepted()
 	metrics.RequestRejected()
-	metrics.RepresentationRecalled(pagerecall.RepresentationKind("markdown"))
-	metrics.RepresentationUnavailable(pagerecall.RepresentationKind("text"))
+	metrics.RepresentationRecalled(recall.RepresentationKind("markdown"))
+	metrics.RepresentationUnavailable(recall.RepresentationKind("text"))
 
 	recorder := httptest.NewRecorder()
 	metrics.Exposition().ServeHTTP(recorder, httptest.NewRequestWithContext(
