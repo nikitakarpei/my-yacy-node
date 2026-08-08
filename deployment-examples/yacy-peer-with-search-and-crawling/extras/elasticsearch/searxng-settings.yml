@@ -13,7 +13,6 @@ engines:
     enable_http: true
     search_index_engine: elasticsearch
     elasticsearch_url: http://elasticsearch:9200
-    elasticsearch_index: yacy_text_v1
 
 plugins:
   result_link_router.SXNGPlugin:

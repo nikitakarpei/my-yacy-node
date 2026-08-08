@@ -13,7 +13,6 @@ engines:
     enable_http: true
     search_index_engine: manticore
     manticore_url: http://manticore:9308
-    manticore_table: yacy_text_v1
 
 plugins:
   result_link_router.SXNGPlugin:
