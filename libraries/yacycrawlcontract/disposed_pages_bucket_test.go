@@ -1,10 +1,8 @@
 package yacycrawlcontract_test
 
 import (
-	"context"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -20,24 +18,5 @@ func TestDisposedPageKeyIsStableHexDigest(t *testing.T) {
 	}
 	if other := yacycrawlcontract.DisposedPageKey("http://example.com/b"); other == got {
 		t.Fatal("distinct urls derived the same key")
-	}
-}
-
-func TestEnsureDisposedPagesBucketCreatesStore(t *testing.T) {
-	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-
-	if err := yacycrawlcontract.EnsureDisposedPagesBucket(
-		context.Background(),
-		js,
-		yacycrawlcontract.DisposedPagesBucketSpec{MaxBytes: 1 << 20},
-	); err != nil {
-		t.Fatalf("ensure disposed pages bucket: %v", err)
-	}
-
-	if _, err := js.KeyValue(
-		context.Background(),
-		yacycrawlcontract.DisposedPagesBucketName,
-	); err != nil {
-		t.Fatalf("disposed pages bucket: %v", err)
 	}
 }

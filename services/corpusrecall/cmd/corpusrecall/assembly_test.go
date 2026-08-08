@@ -7,10 +7,9 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/recallclienttest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -30,39 +29,37 @@ func freeAddr(t *testing.T) string {
 	return addr
 }
 
-func provisionBuckets(t *testing.T, js jetstream.JetStream, subject string) jetstream.ObjectStore {
+func provisionCrawlerState(t *testing.T, js jetstream.JetStream, subject string) {
 	t.Helper()
 	ctx := context.Background()
-	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, yacycrawlcontract.OrdersStreamSpec{
-		Subject: subject,
+	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+		Name:      yacycrawlcontract.OrdersStreamName,
+		Subjects:  []string{subject},
+		Retention: jetstream.WorkQueuePolicy,
 	}); err != nil {
-		t.Fatalf("ensure orders stream: %v", err)
+		t.Fatalf("create orders stream: %v", err)
 	}
-	if err := yacycrawlcontract.EnsureRedirectResolutionBucket(
-		ctx, js, yacycrawlcontract.RedirectResolutionBucketSpec{},
-	); err != nil {
-		t.Fatalf("ensure redirect bucket: %v", err)
+	if _, err := js.CreateKeyValue(ctx, jetstream.KeyValueConfig{
+		Bucket: yacycrawlcontract.RedirectResolutionBucketName,
+	}); err != nil {
+		t.Fatalf("create redirect resolution bucket: %v", err)
 	}
-	if err := yacycrawlcontract.EnsureDisposedPagesBucket(
-		ctx, js, yacycrawlcontract.DisposedPagesBucketSpec{},
-	); err != nil {
-		t.Fatalf("ensure disposed pages bucket: %v", err)
+	if _, err := js.CreateKeyValue(ctx, jetstream.KeyValueConfig{
+		Bucket: yacycrawlcontract.DisposedPagesBucketName,
+	}); err != nil {
+		t.Fatalf("create disposed pages bucket: %v", err)
 	}
-	store, err := pagemarkdownstore.EnsureBucket(ctx, js)
-	if err != nil {
-		t.Fatalf("ensure markdown bucket: %v", err)
-	}
-	return store
 }
 
-func recallClient(t *testing.T, addr string) corpusrecallv1.RecallClient {
+func provisionPageMarkdownBucket(t *testing.T, js jetstream.JetStream) jetstream.ObjectStore {
 	t.Helper()
-	conn, err := grpc.NewClient(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	store, err := js.CreateOrUpdateObjectStore(context.Background(), jetstream.ObjectStoreConfig{
+		Bucket: pagemarkdownstore.BucketName,
+	})
 	if err != nil {
-		t.Fatalf("dial recall: %v", err)
+		t.Fatalf("create page markdown bucket: %v", err)
 	}
-	t.Cleanup(func() { _ = conn.Close() })
-	return corpusrecallv1.NewRecallClient(conn)
+	return store
 }
 
 func testConfig(natsURL, listenAddr string) ServiceConfig {
@@ -71,7 +68,7 @@ func testConfig(natsURL, listenAddr string) ServiceConfig {
 		OrdersSubject:    DefaultOrdersSubject,
 		ListenAddr:       listenAddr,
 		OpsAddr:          "127.0.0.1:0",
-		Deadline:         2 * time.Second,
+		RecallLimit:      2 * time.Second,
 		PollInterval:     20 * time.Millisecond,
 		MaxInFlight:      DefaultMaxInFlight,
 		MaxResponseBytes: DefaultMaxResponseBytes,
@@ -81,7 +78,8 @@ func testConfig(natsURL, listenAddr string) ServiceConfig {
 func TestRunServiceRecallsStoredMarkdown(t *testing.T) {
 	url := natstestserver.Start(t)
 	js := natstestserver.ConnectJetStream(t, url)
-	store := provisionBuckets(t, js, DefaultOrdersSubject)
+	provisionCrawlerState(t, js, DefaultOrdersSubject)
+	store := provisionPageMarkdownBucket(t, js)
 
 	const canonicalURL = "https://example.com/"
 	if _, err := store.PutBytes(
@@ -97,7 +95,7 @@ func TestRunServiceRecallsStoredMarkdown(t *testing.T) {
 	runDone := make(chan error, 1)
 	go func() { runDone <- RunService(ctx, cfg) }()
 
-	client := recallClient(t, listenAddr)
+	client := recallclienttest.New(t, listenAddr)
 	resp := recallUntilMarkdown(t, client, canonicalURL)
 	if resp.GetRepresentations()[0].GetMarkdown().GetMarkdown() != "# Hi" {
 		t.Errorf("markdown = %v", resp.GetRepresentations())
@@ -146,16 +144,20 @@ func TestRunServiceFailsWhenNATSUnreachable(t *testing.T) {
 	}
 }
 
-func TestRunServiceFailsWhenOrdersStreamMissing(t *testing.T) {
-	cfg := testConfig(natstestserver.Start(t), freeAddr(t))
+func TestRunServiceFailsWhenPageMarkdownBucketMissing(t *testing.T) {
+	url := natstestserver.Start(t)
+	provisionCrawlerState(t, natstestserver.ConnectJetStream(t, url), DefaultOrdersSubject)
+	cfg := testConfig(url, freeAddr(t))
 	if err := RunService(context.Background(), cfg); err == nil {
-		t.Fatal("expected error when redirect bucket is not provisioned")
+		t.Fatal("expected error when page markdown bucket is not provisioned")
 	}
 }
 
 func TestRunServiceFailsWhenListenAddrInvalid(t *testing.T) {
 	url := natstestserver.Start(t)
-	provisionBuckets(t, natstestserver.ConnectJetStream(t, url), DefaultOrdersSubject)
+	js := natstestserver.ConnectJetStream(t, url)
+	provisionCrawlerState(t, js, DefaultOrdersSubject)
+	provisionPageMarkdownBucket(t, js)
 	cfg := testConfig(url, "127.0.0.1:99999")
 	if err := RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when listen address cannot bind")

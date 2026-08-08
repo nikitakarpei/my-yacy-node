@@ -56,10 +56,6 @@ var crawlScopeByName = map[string]yacycrawlcontract.CrawlScope{
 	"subpath": yacycrawlcontract.ScopeSubpath,
 }
 
-func (c ServiceConfig) OrdersStreamSpec() yacycrawlcontract.OrdersStreamSpec {
-	return yacycrawlcontract.OrdersStreamSpec{Subject: c.OrdersSubject}
-}
-
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	natsURL, err := envconfig.Required(getenv, EnvNATSURL)
 	if err != nil {

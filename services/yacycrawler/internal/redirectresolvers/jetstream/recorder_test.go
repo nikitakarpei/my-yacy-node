@@ -14,9 +14,9 @@ import (
 func newBucket(t *testing.T) natsjetstream.KeyValue {
 	t.Helper()
 	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	if err := yacycrawlcontract.EnsureRedirectResolutionBucket(
-		context.Background(), js, yacycrawlcontract.RedirectResolutionBucketSpec{},
-	); err != nil {
+	if _, err := js.CreateKeyValue(context.Background(), natsjetstream.KeyValueConfig{
+		Bucket: yacycrawlcontract.RedirectResolutionBucketName,
+	}); err != nil {
 		t.Fatal(err)
 	}
 	bucket, err := js.KeyValue(context.Background(), yacycrawlcontract.RedirectResolutionBucketName)

@@ -19,7 +19,7 @@ const (
 	corpusRecallAlias    = "corpusrecall"
 	corpusRecallPort     = "8092/tcp"
 	envCorpusRecallImage = "CORPUSRECALL_IMAGE"
-	corpusRecallDeadline = 5 * time.Second
+	corpusRecallLimit    = 5 * time.Second
 )
 
 func startCorpusRecall(t *testing.T, ctx context.Context, networkName string) string {
@@ -33,9 +33,9 @@ func startCorpusRecall(t *testing.T, ctx context.Context, networkName string) st
 			ExposedPorts:   []string{corpusRecallPort},
 			WaitingFor:     wait.ForListeningPort(corpusRecallPort),
 			Env: map[string]string{
-				"NATS_URL":              natsjetstream.NetworkURL(),
-				"CORPUSRECALL_DEADLINE": corpusRecallDeadline.String(),
-				"LOG_LEVEL":             "debug",
+				"NATS_URL":                  natsjetstream.NetworkURL(),
+				"CORPUSRECALL_RECALL_LIMIT": corpusRecallLimit.String(),
+				"LOG_LEVEL":                 "debug",
 			},
 		},
 	})

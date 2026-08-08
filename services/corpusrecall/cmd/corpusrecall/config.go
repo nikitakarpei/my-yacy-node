@@ -12,7 +12,7 @@ const (
 
 	EnvListenAddr       = "CORPUSRECALL_LISTEN_ADDR"
 	EnvOpsAddr          = "CORPUSRECALL_OPS_ADDR"
-	EnvDeadline         = "CORPUSRECALL_DEADLINE"
+	EnvRecallLimit      = "CORPUSRECALL_RECALL_LIMIT"
 	EnvPollInterval     = "CORPUSRECALL_POLL_INTERVAL"
 	EnvMaxInFlight      = "CORPUSRECALL_MAX_IN_FLIGHT"
 	EnvMaxResponseBytes = "CORPUSRECALL_MAX_RESPONSE_BYTES"
@@ -20,7 +20,7 @@ const (
 	DefaultOrdersSubject    = "yacy.crawl.orders"
 	DefaultListenAddr       = ":8092"
 	DefaultOpsAddr          = ":9092"
-	DefaultDeadline         = 30 * time.Second
+	DefaultRecallLimit      = 30 * time.Second
 	DefaultPollInterval     = 500 * time.Millisecond
 	DefaultMaxInFlight      = 256
 	DefaultMaxResponseBytes = 4 << 20
@@ -31,7 +31,7 @@ type ServiceConfig struct {
 	OrdersSubject    string
 	ListenAddr       string
 	OpsAddr          string
-	Deadline         time.Duration
+	RecallLimit      time.Duration
 	PollInterval     time.Duration
 	MaxInFlight      int
 	MaxResponseBytes int64
@@ -43,7 +43,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		return ServiceConfig{}, err
 	}
 
-	deadline, err := envconfig.Duration(getenv, EnvDeadline, DefaultDeadline)
+	recallLimit, err := envconfig.Duration(getenv, EnvRecallLimit, DefaultRecallLimit)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -68,7 +68,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		OrdersSubject:    envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
 		ListenAddr:       envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
 		OpsAddr:          envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
-		Deadline:         deadline,
+		RecallLimit:      recallLimit,
 		PollInterval:     pollInterval,
 		MaxInFlight:      maxInFlight,
 		MaxResponseBytes: maxResponseBytes,

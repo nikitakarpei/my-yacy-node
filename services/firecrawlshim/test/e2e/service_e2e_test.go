@@ -25,11 +25,9 @@ func TestScrapeServesCrawledMarkdown(t *testing.T) {
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 
-	js := connectJetStream(t, natsURL)
-	provisionCrawlInfrastructure(t, ctx, js)
-
 	startCrawler(t, ctx, network.Name)
 	startCorpusMarkdown(t, ctx, network.Name)
+	awaitRecallPreconditions(t, ctx, connectJetStream(t, natsURL))
 	startCorpusRecall(t, ctx, network.Name)
 	shimURL := startFirecrawlShim(t, ctx, network.Name)
 

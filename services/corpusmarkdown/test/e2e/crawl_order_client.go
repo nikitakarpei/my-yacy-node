@@ -5,16 +5,21 @@ package e2e
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
+	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
-	ordersSubject      = "yacy.crawl.orders"
-	crawledPageSubject = "yacy.crawl.page.markdown"
+	ordersSubject              = "yacy.crawl.orders"
+	crawledPageSubject         = "yacy.crawl.page.markdown"
+	ordersStreamAppearanceWait = 60 * time.Second
+	bucketAppearanceWait       = 60 * time.Second
 )
 
 func connectJetStream(t *testing.T, url string) jetstream.JetStream {
@@ -31,12 +36,14 @@ func connectJetStream(t *testing.T, url string) jetstream.JetStream {
 	return js
 }
 
-func ensureOrdersStream(t *testing.T, ctx context.Context, js jetstream.JetStream) {
+func awaitOrdersStream(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	t.Helper()
-	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, yacycrawlcontract.OrdersStreamSpec{
-		Subject: ordersSubject,
-	}); err != nil {
-		t.Fatalf("ensure orders stream: %v", err)
+	appeared := pollwait.For(ordersStreamAppearanceWait, func() bool {
+		_, err := js.Stream(ctx, yacycrawlcontract.OrdersStreamName)
+		return err == nil
+	})
+	if !appeared {
+		t.Fatalf("orders stream did not appear within %s", ordersStreamAppearanceWait)
 	}
 }
 
@@ -65,4 +72,25 @@ func publishCrawlOrder(
 	if _, err := js.Publish(ctx, ordersSubject, data); err != nil {
 		t.Fatalf("publish order: %v", err)
 	}
+}
+
+func awaitPageMarkdownBucket(
+	t *testing.T,
+	ctx context.Context,
+	js jetstream.JetStream,
+) jetstream.ObjectStore {
+	t.Helper()
+	var store jetstream.ObjectStore
+	appeared := pollwait.For(bucketAppearanceWait, func() bool {
+		opened, err := js.ObjectStore(ctx, pagemarkdownstore.BucketName)
+		if err != nil {
+			return false
+		}
+		store = opened
+		return true
+	})
+	if !appeared {
+		t.Fatalf("page markdown bucket did not appear within %s", bucketAppearanceWait)
+	}
+	return store
 }

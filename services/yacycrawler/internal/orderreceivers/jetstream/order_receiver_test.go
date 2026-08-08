@@ -17,8 +17,11 @@ const ordersSubject = "yacy.crawl.orders"
 func startJetStream(t *testing.T) natsjetstream.JetStream {
 	t.Helper()
 	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	if err := yacycrawlcontract.EnsureOrdersStream(context.Background(), js,
-		yacycrawlcontract.OrdersStreamSpec{Subject: ordersSubject}); err != nil {
+	if _, err := js.CreateOrUpdateStream(context.Background(), natsjetstream.StreamConfig{
+		Name:      yacycrawlcontract.OrdersStreamName,
+		Subjects:  []string{ordersSubject},
+		Retention: natsjetstream.WorkQueuePolicy,
+	}); err != nil {
 		t.Fatal(err)
 	}
 	return js

@@ -25,7 +25,7 @@ func TestCrawledPageStaysSearchableInElasticsearch(t *testing.T) {
 	corpusText := startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
 
 	js := connectJetStream(t, natsURL)
-	ensureOrdersStream(t, ctx, js)
+	awaitOrdersStream(t, ctx, js)
 
 	publishCrawlOrder(t, ctx, js, originURL)
 
@@ -65,7 +65,7 @@ func TestCrawledPageStaysSearchableInManticore(t *testing.T) {
 	corpusText := startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
 
 	js := connectJetStream(t, natsURL)
-	ensureOrdersStream(t, ctx, js)
+	awaitOrdersStream(t, ctx, js)
 
 	publishCrawlOrder(t, ctx, js, originURL)
 

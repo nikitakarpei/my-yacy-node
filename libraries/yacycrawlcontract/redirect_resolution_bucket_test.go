@@ -1,10 +1,8 @@
 package yacycrawlcontract_test
 
 import (
-	"context"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -20,24 +18,5 @@ func TestRedirectResolutionKeyIsStableHexDigest(t *testing.T) {
 	}
 	if other := yacycrawlcontract.RedirectResolutionKey("http://example.com/b"); other == got {
 		t.Fatal("distinct urls derived the same key")
-	}
-}
-
-func TestEnsureRedirectResolutionBucketCreatesStore(t *testing.T) {
-	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-
-	if err := yacycrawlcontract.EnsureRedirectResolutionBucket(
-		context.Background(),
-		js,
-		yacycrawlcontract.RedirectResolutionBucketSpec{MaxBytes: 1 << 20},
-	); err != nil {
-		t.Fatalf("ensure redirect resolution bucket: %v", err)
-	}
-
-	if _, err := js.KeyValue(
-		context.Background(),
-		yacycrawlcontract.RedirectResolutionBucketName,
-	); err != nil {
-		t.Fatalf("redirect resolution bucket: %v", err)
 	}
 }

@@ -19,7 +19,7 @@ func TestCrawledTextSearchReadsEveryLanguageIndexInElasticsearch(t *testing.T) {
 	elasticsearchHostURL := startElasticsearch(t, ctx, network.Name)
 
 	js := connectJetStream(t, natsURL)
-	ensureCrawledPageStream(t, ctx, js)
+	createCrawledPageStream(t, ctx, js)
 
 	startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
 	publishCrawledCorpus(t, ctx, js)
@@ -43,7 +43,7 @@ func TestCrawledTextSearchReadsEveryLanguageTableInManticore(t *testing.T) {
 	manticoreHostURL := startManticore(t, ctx, network.Name)
 
 	js := connectJetStream(t, natsURL)
-	ensureCrawledPageStream(t, ctx, js)
+	createCrawledPageStream(t, ctx, js)
 
 	startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
 	publishCrawledCorpus(t, ctx, js)

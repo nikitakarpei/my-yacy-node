@@ -25,7 +25,7 @@ func TestResultLinkRouterRoutesSearchResultsThroughVisitcrawl(t *testing.T) {
 	searxngBaseURL := startSearXNG(t, ctx, network.Name, visitcrawlBaseURL)
 
 	js := connectJetStream(t, natsURL)
-	ensureOrdersStream(t, ctx, js)
+	createOrdersStream(t, ctx, js)
 
 	result := searxngsearch.OneResultInAnyLanguage(
 		t, ctx, searxngBaseURL, "!"+testEngineBang+" test",

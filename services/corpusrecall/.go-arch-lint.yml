@@ -7,19 +7,19 @@ allow:
 
 components:
   pagerecall:
-    in: internal/pagerecall/**
-  markdownrecall:
-    in: internal/markdownrecall/**
-  redirectlookup:
-    in: internal/redirectlookup/**
-  disposedpagelookup:
-    in: internal/disposedpagelookup/**
-  crawlrequest:
-    in: internal/crawlrequest/**
-  recallgrpc:
-    in: internal/recallgrpc/**
-  recallmetrics:
-    in: internal/recallmetrics/**
+    in: internal/recall/pagerecall/**
+  pagerepresentationsmarkdown:
+    in: internal/pagerepresentations/markdown/**
+  redirectresolversjetstream:
+    in: internal/redirectresolvers/jetstream/**
+  disposedpagesjetstream:
+    in: internal/disposedpages/jetstream/**
+  crawlorderplacersjetstream:
+    in: internal/crawlorderplacers/jetstream/**
+  recallreceiversgrpc:
+    in: internal/recallreceivers/grpc/**
+  progressobserversprometheus:
+    in: internal/progressobservers/prometheus/**
   corpusrecallcmd:
     in: cmd/corpusrecall/**
 
@@ -39,6 +39,9 @@ vendors:
   corpusrecallapi:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1
+  recallclienttest:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/recallclienttest
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -70,42 +73,49 @@ deps:
       - pagerecall
     canUse:
       - canonicalurl
-  markdownrecall:
+  pagerepresentationsmarkdown:
     mayDependOn:
-      - markdownrecall
+      - pagerepresentationsmarkdown
       - pagerecall
     canUse:
       - pagemarkdownstore
       - nats
-  redirectlookup:
+      - natstestserver
+  redirectresolversjetstream:
     mayDependOn:
-      - redirectlookup
+      - redirectresolversjetstream
     canUse:
       - yacycrawlcontract
       - nats
-  disposedpagelookup:
+      - natstestserver
+  disposedpagesjetstream:
     mayDependOn:
-      - disposedpagelookup
-    canUse:
-      - yacycrawlcontract
-      - nats
-  crawlrequest:
-    mayDependOn:
-      - crawlrequest
-    canUse:
-      - yacycrawlcontract
-      - nats
-      - uuid
-  recallgrpc:
-    mayDependOn:
-      - recallgrpc
+      - disposedpagesjetstream
       - pagerecall
     canUse:
-      - corpusrecallapi
-      - grpc
-  recallmetrics:
+      - yacycrawlcontract
+      - nats
+      - natstestserver
+  crawlorderplacersjetstream:
     mayDependOn:
-      - recallmetrics
+      - crawlorderplacersjetstream
+    canUse:
+      - yacycrawlcontract
+      - nats
+      - natstestserver
+      - uuid
+  recallreceiversgrpc:
+    mayDependOn:
+      - recallreceiversgrpc
+      - pagerecall
+      - pagerepresentationsmarkdown
+    canUse:
+      - corpusrecallapi
+      - recallclienttest
+      - grpc
+  progressobserversprometheus:
+    mayDependOn:
+      - progressobserversprometheus
       - pagerecall
     canUse:
       - prometheus
@@ -113,14 +123,15 @@ deps:
     mayDependOn:
       - corpusrecallcmd
       - pagerecall
-      - markdownrecall
-      - redirectlookup
-      - disposedpagelookup
-      - crawlrequest
-      - recallgrpc
-      - recallmetrics
+      - pagerepresentationsmarkdown
+      - redirectresolversjetstream
+      - disposedpagesjetstream
+      - crawlorderplacersjetstream
+      - recallreceiversgrpc
+      - progressobserversprometheus
     canUse:
       - corpusrecallapi
+      - recallclienttest
       - pagemarkdownstore
       - yacycrawlcontract
       - nats

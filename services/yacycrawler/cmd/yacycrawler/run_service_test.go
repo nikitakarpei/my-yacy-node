@@ -7,6 +7,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nats-io/nats.go/jetstream"
+
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
@@ -17,11 +19,9 @@ func publishedPageStreams() []PageStreamConfig {
 	for _, preset := range pageRepresentationCatalog() {
 		streams = append(streams, PageStreamConfig{
 			Representation: preset.representation,
-			Stream: yacycrawlcontract.CrawledPageStreamSpec{
-				Subject: yacycrawlcontract.CrawledPageSubject(preset.representation),
-				MaxMsgs: DefaultMaxMsgs,
-			},
-			Published: preset.representation == yacycrawlcontract.PageRepresentationKindRWI,
+			Subject:        yacycrawlcontract.CrawledPageSubject(preset.representation),
+			MaxMsgs:        DefaultMaxMsgs,
+			Published:      preset.representation == yacycrawlcontract.PageRepresentationKindRWI,
 		})
 	}
 	return streams
@@ -84,8 +84,11 @@ func publishOrder(t *testing.T, natsURL string) {
 	t.Helper()
 	js := natstestserver.ConnectJetStream(t, natsURL)
 	ctx := context.Background()
-	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js,
-		yacycrawlcontract.OrdersStreamSpec{Subject: DefaultOrdersSubject}); err != nil {
+	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+		Name:      yacycrawlcontract.OrdersStreamName,
+		Subjects:  []string{DefaultOrdersSubject},
+		Retention: jetstream.WorkQueuePolicy,
+	}); err != nil {
 		t.Fatal(err)
 	}
 	payload, err := yacycrawlcontract.MarshalCrawlOrder(yacycrawlcontract.CrawlOrder{

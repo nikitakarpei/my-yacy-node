@@ -39,10 +39,10 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 		t.Fatalf("only rwi should publish by default: %v", publishedRepresentations(cfg))
 	}
 	for _, stream := range cfg.PageStreams {
-		if stream.Stream.MaxMsgs != DefaultMaxMsgs {
-			t.Fatalf("%s stream max msgs = %d", stream.Representation, stream.Stream.MaxMsgs)
+		if stream.MaxMsgs != DefaultMaxMsgs {
+			t.Fatalf("%s stream max msgs = %d", stream.Representation, stream.MaxMsgs)
 		}
-		if stream.Stream.Subject == "" {
+		if stream.Subject == "" {
 			t.Fatalf("%s stream has no subject", stream.Representation)
 		}
 	}
@@ -174,16 +174,6 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 	}
 }
 
-func TestOrdersStreamSpecCarriesSubject(t *testing.T) {
-	cfg, err := LoadServiceConfig(envFrom(baseEnv()))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if cfg.OrdersStreamSpec().Subject != DefaultOrdersSubject {
-		t.Fatalf("orders spec subject = %q", cfg.OrdersStreamSpec().Subject)
-	}
-}
-
 func TestPageOutputEnvNamesFollowTheRepresentation(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_PUBLISH_MARKDOWN"] = "true"
@@ -197,8 +187,8 @@ func TestPageOutputEnvNamesFollowTheRepresentation(t *testing.T) {
 		if output.Representation != yacycrawlcontract.PageRepresentationKindMarkdown {
 			continue
 		}
-		if output.Stream.Subject != "custom.markdown" || output.Stream.MaxMsgs != 7 {
-			t.Fatalf("markdown stream = %+v", output.Stream)
+		if output.Subject != "custom.markdown" || output.MaxMsgs != 7 {
+			t.Fatalf("markdown stream = %+v", output)
 		}
 		return
 	}

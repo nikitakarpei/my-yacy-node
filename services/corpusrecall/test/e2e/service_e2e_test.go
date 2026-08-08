@@ -9,13 +9,14 @@ import (
 	"time"
 
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/recallclienttest"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 )
 
-const recallDeadline = 90 * time.Second
+const recallServeLimit = 90 * time.Second
 
 func TestRecallServesCrawledMarkdown(t *testing.T) {
 	ctx := context.Background()
@@ -26,24 +27,22 @@ func TestRecallServesCrawledMarkdown(t *testing.T) {
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 
-	js := connectJetStream(t, natsURL)
-	provisionCrawlInfrastructure(t, ctx, js)
-
 	startCrawler(t, ctx, network.Name)
 	startCorpusMarkdown(t, ctx, network.Name)
+	awaitRecallPreconditions(t, ctx, connectJetStream(t, natsURL))
 	recallAddr := startCorpusRecall(t, ctx, network.Name)
 
-	client := dialRecall(t, recallAddr)
+	client := recallclienttest.New(t, recallAddr)
 
 	var resp *corpusrecallv1.RecallResponse
-	served := pollwait.For(recallDeadline, func() bool {
+	served := pollwait.For(recallServeLimit, func() bool {
 		callCtx, cancel := context.WithTimeout(ctx, 15*time.Second)
 		defer cancel()
 		resp = recall(t, callCtx, client, originURL)
 		return len(resp.GetRepresentations()) == 1
 	})
 	if !served {
-		t.Fatalf("recall never returned markdown within %s", recallDeadline)
+		t.Fatalf("recall never returned markdown within %s", recallServeLimit)
 	}
 
 	markdown := resp.GetRepresentations()[0].GetMarkdown()
@@ -72,25 +71,24 @@ func TestRecallReportsUnavailableForDisposedPage(t *testing.T) {
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 
-	js := connectJetStream(t, natsURL)
-	provisionCrawlInfrastructure(t, ctx, js)
-
 	startCrawler(t, ctx, network.Name)
+	startCorpusMarkdown(t, ctx, network.Name)
+	awaitRecallPreconditions(t, ctx, connectJetStream(t, natsURL))
 	recallAddr := startCorpusRecall(t, ctx, network.Name)
 
-	client := dialRecall(t, recallAddr)
+	client := recallclienttest.New(t, recallAddr)
 
-	callCtx, cancel := context.WithTimeout(ctx, recallDeadline)
+	callCtx, cancel := context.WithTimeout(ctx, recallServeLimit)
 	defer cancel()
 	start := time.Now()
 	resp := recall(t, callCtx, client, originURL+"missing")
 	elapsed := time.Since(start)
 
-	if elapsed >= corpusRecallDeadline {
+	if elapsed >= corpusRecallLimit {
 		t.Errorf(
-			"recall took %s, want an early return well inside the %s deadline",
+			"recall took %s, want an early return well inside the %s recall limit",
 			elapsed,
-			corpusRecallDeadline,
+			corpusRecallLimit,
 		)
 	}
 
@@ -115,4 +113,23 @@ func equalKinds(got, want []corpusrecallv1.RepresentationKind) bool {
 		}
 	}
 	return true
+}
+
+func recall(
+	t *testing.T,
+	ctx context.Context,
+	client corpusrecallv1.RecallClient,
+	url string,
+) *corpusrecallv1.RecallResponse {
+	t.Helper()
+	resp, err := client.Recall(ctx, &corpusrecallv1.RecallRequest{
+		Url: url,
+		Kinds: []corpusrecallv1.RepresentationKind{
+			corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
+		},
+	})
+	if err != nil {
+		t.Fatalf("recall %q: %v", url, err)
+	}
+	return resp
 }

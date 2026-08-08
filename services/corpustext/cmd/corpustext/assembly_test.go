@@ -124,12 +124,15 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 
 func createCrawledPageStream(t *testing.T, js jetstream.JetStream, subject string) {
 	t.Helper()
-	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		context.Background(),
-		js,
-		yacycrawlcontract.PageRepresentationKindText,
-		yacycrawlcontract.CrawledPageStreamSpec{Subject: subject, MaxMsgs: 64},
-	); err != nil {
+	if _, err := js.CreateOrUpdateStream(context.Background(), jetstream.StreamConfig{
+		Name: yacycrawlcontract.CrawledPageStreamName(
+			yacycrawlcontract.PageRepresentationKindText,
+		),
+		Subjects:  []string{subject},
+		Retention: jetstream.WorkQueuePolicy,
+		MaxMsgs:   64,
+		Discard:   jetstream.DiscardNew,
+	}); err != nil {
 		t.Fatalf("create crawled page stream: %v", err)
 	}
 }

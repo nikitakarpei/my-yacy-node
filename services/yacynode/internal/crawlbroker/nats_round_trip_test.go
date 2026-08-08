@@ -20,10 +20,15 @@ func openBroker(t *testing.T) (*crawlbroker.CrawlBroker, jetstream.JetStream, co
 	ctx, cancel := context.WithCancel(context.Background())
 	t.Cleanup(cancel)
 	js := natstestserver.ConnectJetStream(t, url)
-	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		ctx, js, yacycrawlcontract.PageRepresentationKindRWI,
-		yacycrawlcontract.CrawledPageStreamSpec{Subject: ingestSubject, MaxMsgs: 16},
-	); err != nil {
+	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+		Name: yacycrawlcontract.CrawledPageStreamName(
+			yacycrawlcontract.PageRepresentationKindRWI,
+		),
+		Subjects:  []string{ingestSubject},
+		Retention: jetstream.WorkQueuePolicy,
+		MaxMsgs:   16,
+		Discard:   jetstream.DiscardNew,
+	}); err != nil {
 		t.Fatalf("create ingest stream: %v", err)
 	}
 	broker, err := crawlbroker.Open(ctx, crawlbroker.Config{

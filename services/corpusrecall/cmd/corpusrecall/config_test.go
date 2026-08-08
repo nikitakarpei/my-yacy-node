@@ -38,8 +38,8 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.ListenAddr != DefaultListenAddr || cfg.OpsAddr != DefaultOpsAddr {
 		t.Errorf("addrs = %q %q", cfg.ListenAddr, cfg.OpsAddr)
 	}
-	if cfg.Deadline != DefaultDeadline || cfg.PollInterval != DefaultPollInterval {
-		t.Errorf("timings = %v %v", cfg.Deadline, cfg.PollInterval)
+	if cfg.RecallLimit != DefaultRecallLimit || cfg.PollInterval != DefaultPollInterval {
+		t.Errorf("timings = %v %v", cfg.RecallLimit, cfg.PollInterval)
 	}
 	if cfg.MaxInFlight != DefaultMaxInFlight || cfg.MaxResponseBytes != DefaultMaxResponseBytes {
 		t.Errorf("limits = %d %d", cfg.MaxInFlight, cfg.MaxResponseBytes)
@@ -52,7 +52,7 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 		EnvOrdersSubject:    "t.orders",
 		EnvListenAddr:       "127.0.0.1:1000",
 		EnvOpsAddr:          "127.0.0.1:1001",
-		EnvDeadline:         "5s",
+		EnvRecallLimit:      "5s",
 		EnvPollInterval:     "250ms",
 		EnvMaxInFlight:      "8",
 		EnvMaxResponseBytes: "1024",
@@ -64,20 +64,20 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 		cfg.OpsAddr != "127.0.0.1:1001" {
 		t.Errorf("strings = %+v", cfg)
 	}
-	if cfg.Deadline != 5*time.Second || cfg.PollInterval != 250*time.Millisecond {
-		t.Errorf("timings = %v %v", cfg.Deadline, cfg.PollInterval)
+	if cfg.RecallLimit != 5*time.Second || cfg.PollInterval != 250*time.Millisecond {
+		t.Errorf("timings = %v %v", cfg.RecallLimit, cfg.PollInterval)
 	}
 	if cfg.MaxInFlight != 8 || cfg.MaxResponseBytes != 1024 {
 		t.Errorf("limits = %d %d", cfg.MaxInFlight, cfg.MaxResponseBytes)
 	}
 }
 
-func TestLoadServiceConfigRejectsInvalidDeadline(t *testing.T) {
+func TestLoadServiceConfigRejectsInvalidRecallLimit(t *testing.T) {
 	if _, err := LoadServiceConfig(envFrom(map[string]string{
-		EnvNATSURL:  "nats://localhost:4222",
-		EnvDeadline: "soon",
+		EnvNATSURL:     "nats://localhost:4222",
+		EnvRecallLimit: "soon",
 	})); err == nil {
-		t.Fatal("expected error for non-duration deadline")
+		t.Fatal("expected error for non-duration recall limit")
 	}
 }
 

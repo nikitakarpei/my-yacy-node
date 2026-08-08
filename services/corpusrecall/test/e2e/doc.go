@@ -1,11 +1,8 @@
-// Package e2e runs the end-to-end recall test against containers.
+// Package e2e runs the end-to-end recall tests against containers.
 //
-// It starts NATS JetStream, a static origin page, an egress proxy, yacycrawler
-// (with its markdown representation enabled), corpusmarkdown, and corpusrecall on
-// a hermetic Docker network, then calls the corpusrecall gRPC port from the host.
-// The recall triggers an on-demand crawl, waits for the markdown to be stored,
-// and returns it, while reporting the unserved text representation as unavailable.
+// Each test starts the crawl and corpus services on a hermetic Docker network, then
+// calls the corpusrecall gRPC port from the host and checks the recalled page.
 //
-// The test is guarded by the e2e build tag and needs a working Docker daemon.
-// Run it with `make e2e-corpusrecall`. It is not part of the `make verify` gate.
+// The tests are guarded by the e2e build tag and need a working Docker daemon.
+// Run them with `make e2e-corpusrecall`. They are not part of the `make verify` gate.
 package e2e
