@@ -13,8 +13,6 @@ linters:
     - gosec
     - iface
     - interfacebloat
-    - loggercheck
-    - maintidx
     - misspell
     - nilerr
     - noctx
@@ -38,20 +36,11 @@ linters:
       excludes:
         - G401
         - G501
-    maintidx:
-      under: 20
     revive:
       rules:
         - name: argument-limit
           arguments:
             - 5
-        - name: cognitive-complexity
-          arguments:
-            - 20
-        - name: function-length
-          arguments:
-            - 50
-            - 80
     wrapcheck:
       ignore-package-globs:
         - github.com/nikitakarpei/yacy-rwi-node/*

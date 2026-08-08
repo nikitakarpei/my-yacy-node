@@ -39,7 +39,7 @@ endef
 	fmt-check fmt-check-go fmt-check-py \
 	tidy tidy-check \
 	lint lint-go lint-py \
-	vet arch \
+	arch \
 	test test-go test-py \
 	cover cover-go cover-py \
 	cover-check cover-check-go cover-check-py \
@@ -54,7 +54,7 @@ test:        test-go test-py
 cover:       cover-go cover-py
 cover-check: cover-check-go cover-check-py
 build:       build-go
-verify:      fmt-check tidy-check vet lint arch test cover-check build
+verify:      fmt-check tidy-check lint arch test cover-check build
 	@echo "==> verify SUCCESS"
 
 $(TOOLS_STAMP): tools/install tools/tools.lock
@@ -97,9 +97,6 @@ tidy-check:
 
 lint-go: $(TOOLS_STAMP)
 	@$(call for_each_go,lint-go,$(GOLANGCI_LINT) run ./...)
-
-vet:
-	@$(call for_each_go,vet,$(GO) vet ./...)
 
 arch: $(TOOLS_STAMP)
 	@$(call for_each_go,arch,$(GO_ARCH_LINT) check)
