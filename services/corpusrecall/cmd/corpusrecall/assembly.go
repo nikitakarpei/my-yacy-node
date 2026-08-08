@@ -11,7 +11,7 @@ import (
 
 	crawlorderplacersjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/crawlorderplacers/jetstream"
 	disposedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/disposedpages/jetstream"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerepresentations/markdown"
+	markdownjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerepresentations/markdown/jetstream"
 	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/progressobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	recallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recallreceivers/grpc"
@@ -65,7 +65,7 @@ func corporaFrom(
 	if err != nil {
 		return nil, fmt.Errorf("open page markdown bucket: %w", err)
 	}
-	return []recall.Corpus{markdown.NewCorpus(markdownStore, cfg.MaxResponseBytes)}, nil
+	return []recall.Corpus{markdownjetstream.NewCorpus(markdownStore, cfg.MaxResponseBytes)}, nil
 }
 
 func newRecaller(

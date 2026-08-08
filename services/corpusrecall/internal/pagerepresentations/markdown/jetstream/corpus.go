@@ -1,5 +1,5 @@
-// Package markdown yields the markdown page an operator's corpus holds for a URL.
-package markdown
+// Package jetstream yields the markdown page a JetStream object store holds for a URL.
+package jetstream
 
 import (
 	"context"
@@ -8,11 +8,10 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerepresentations/markdown"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 )
-
-const Kind recall.RepresentationKind = "markdown"
 
 type Corpus struct {
 	objects  jetstream.ObjectStore
@@ -24,25 +23,25 @@ func NewCorpus(objects jetstream.ObjectStore, maxBytes int64) *Corpus {
 }
 
 func (c *Corpus) RepresentationKind() recall.RepresentationKind {
-	return Kind
+	return markdown.Kind
 }
 
 func (c *Corpus) RepresentationOf(
 	ctx context.Context,
 	resolvedURL string,
 ) (recall.Representation, bool, error) {
-	markdown, err := c.objects.GetBytes(ctx, pagemarkdownstore.ObjectName(resolvedURL))
+	pageMarkdown, err := c.objects.GetBytes(ctx, pagemarkdownstore.ObjectName(resolvedURL))
 	if errors.Is(err, jetstream.ErrObjectNotFound) {
 		return nil, false, nil
 	}
 	if err != nil {
 		return nil, false, fmt.Errorf("get markdown for %q: %w", resolvedURL, err)
 	}
-	if int64(len(markdown)) > c.maxBytes {
+	if int64(len(pageMarkdown)) > c.maxBytes {
 		return nil, false, fmt.Errorf(
 			"markdown for %q is %d bytes, exceeding limit %d",
-			resolvedURL, len(markdown), c.maxBytes,
+			resolvedURL, len(pageMarkdown), c.maxBytes,
 		)
 	}
-	return Page{CanonicalURL: resolvedURL, Markdown: string(markdown)}, true, nil
+	return markdown.Page{CanonicalURL: resolvedURL, Markdown: string(pageMarkdown)}, true, nil
 }
