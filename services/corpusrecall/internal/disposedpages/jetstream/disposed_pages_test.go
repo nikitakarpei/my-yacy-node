@@ -7,7 +7,7 @@ import (
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
 	disposedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/disposedpages/jetstream"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
@@ -41,7 +41,7 @@ func disposeOfPage(t *testing.T, bucket natsjetstream.KeyValue, pageURL string) 
 	}
 }
 
-func disposalOfPage(t *testing.T, bucket natsjetstream.KeyValue) pagerecall.PageDisposal {
+func disposalOfPage(t *testing.T, bucket natsjetstream.KeyValue) recall.PageDisposal {
 	t.Helper()
 	disposal, err := disposedpagesjetstream.NewDisposedPages(bucket).DisposalOf(
 		context.Background(), canonicalURL,
@@ -52,7 +52,7 @@ func disposalOfPage(t *testing.T, bucket natsjetstream.KeyValue) pagerecall.Page
 	return disposal
 }
 
-func hasDisposalOccurred(t *testing.T, disposal pagerecall.PageDisposal) bool {
+func hasDisposalOccurred(t *testing.T, disposal recall.PageDisposal) bool {
 	t.Helper()
 	occurred, err := disposal.HasOccurred(context.Background())
 	if err != nil {

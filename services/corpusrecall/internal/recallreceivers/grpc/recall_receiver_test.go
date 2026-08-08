@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerepresentations/markdown"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/recallclienttest"
 )
@@ -19,8 +19,8 @@ const (
 
 func TestAServedReceiverAnswersRecallsUntilTheContextEnds(t *testing.T) {
 	listenAddress := freeListenAddress(t)
-	receiver := markdownReceiverAt(t, &fakeRecaller{result: pagerecall.RecalledPage{
-		Representations: []pagerecall.RecalledRepresentation{{
+	receiver := markdownReceiverAt(t, &fakeRecaller{result: recall.RecalledPage{
+		Representations: []recall.RecalledRepresentation{{
 			Kind:           markdown.Kind,
 			Representation: markdown.Page{CanonicalURL: recalledURL, Markdown: "# Hi"},
 		}},

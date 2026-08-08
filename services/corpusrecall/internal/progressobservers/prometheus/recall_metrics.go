@@ -7,7 +7,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 )
 
 type RecallMetrics struct {
@@ -51,11 +51,11 @@ func NewRecallMetrics() *RecallMetrics {
 func (m *RecallMetrics) RequestAccepted() { m.requestsAccepted.Inc() }
 func (m *RecallMetrics) RequestRejected() { m.requestsRejected.Inc() }
 
-func (m *RecallMetrics) RepresentationRecalled(kind pagerecall.RepresentationKind) {
+func (m *RecallMetrics) RepresentationRecalled(kind recall.RepresentationKind) {
 	m.recalled.WithLabelValues(string(kind)).Inc()
 }
 
-func (m *RecallMetrics) RepresentationUnavailable(kind pagerecall.RepresentationKind) {
+func (m *RecallMetrics) RepresentationUnavailable(kind recall.RepresentationKind) {
 	m.unavailable.WithLabelValues(string(kind)).Inc()
 }
 

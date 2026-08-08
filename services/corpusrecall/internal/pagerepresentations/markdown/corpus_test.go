@@ -7,7 +7,7 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerepresentations/markdown"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 )
@@ -39,7 +39,7 @@ func storedMarkdown(t *testing.T, markdownOfPage string) *markdown.Corpus {
 	return markdown.NewCorpus(store, responseLimit)
 }
 
-func recalledPage(t *testing.T, corpus *markdown.Corpus) pagerecall.Representation {
+func recalledPage(t *testing.T, corpus *markdown.Corpus) recall.Representation {
 	t.Helper()
 	representation, found, err := corpus.RepresentationOf(context.Background(), crawledURL)
 	if err != nil {

@@ -1,6 +1,6 @@
-// Package pagerecall yields the corpus representations of a page, ordering a crawl of it
+// Package recall yields the corpus representations of a page, ordering a crawl of it
 // and waiting until the corpus holds them or the recall limit runs out.
-package pagerecall
+package recall
 
 import (
 	"context"
