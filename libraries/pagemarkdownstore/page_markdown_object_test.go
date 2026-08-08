@@ -1,10 +1,8 @@
 package pagemarkdownstore_test
 
 import (
-	"context"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 )
 
@@ -35,49 +33,5 @@ func TestObjectNameDistinguishesURLs(t *testing.T) {
 	if pagemarkdownstore.ObjectName("https://example.test/a") ==
 		pagemarkdownstore.ObjectName("https://example.test/b") {
 		t.Fatal("distinct URLs collided to one object name")
-	}
-}
-
-func TestEnsureBucketStoresAndOverwritesLatest(t *testing.T) {
-	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	ctx := context.Background()
-
-	store, err := pagemarkdownstore.EnsureBucket(ctx, js)
-	if err != nil {
-		t.Fatalf("EnsureBucket: %v", err)
-	}
-
-	name := pagemarkdownstore.ObjectName("https://example.test/page")
-	if _, err := store.PutBytes(ctx, name, []byte("# first")); err != nil {
-		t.Fatalf("put first: %v", err)
-	}
-	got, err := store.GetBytes(ctx, name)
-	if err != nil {
-		t.Fatalf("get first: %v", err)
-	}
-	if string(got) != "# first" {
-		t.Fatalf("stored markdown = %q, want %q", got, "# first")
-	}
-
-	if _, err := store.PutBytes(ctx, name, []byte("# second")); err != nil {
-		t.Fatalf("put second: %v", err)
-	}
-	got, err = store.GetBytes(ctx, name)
-	if err != nil {
-		t.Fatalf("get second: %v", err)
-	}
-	if string(got) != "# second" {
-		t.Fatalf("latest markdown = %q, want %q", got, "# second")
-	}
-}
-
-func TestEnsureBucketIsIdempotent(t *testing.T) {
-	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	ctx := context.Background()
-	if _, err := pagemarkdownstore.EnsureBucket(ctx, js); err != nil {
-		t.Fatalf("first EnsureBucket: %v", err)
-	}
-	if _, err := pagemarkdownstore.EnsureBucket(ctx, js); err != nil {
-		t.Fatalf("second EnsureBucket: %v", err)
 	}
 }

@@ -23,12 +23,13 @@ port. An edge adapter translates an external API to that port without changing r
 * The service SHALL ask for a fresh crawl of the URL on every request.
 * If the requested URL redirects, the service SHALL return the page for the URL it redirects
   to.
-* The service SHALL return each wanted representation the corpus holds by the deadline.
-* The service SHALL stop waiting for a representation, ahead of the deadline, once the
+* The service SHALL return each wanted representation the corpus holds within the recall
+  limit.
+* The service SHALL stop waiting for a representation, ahead of the recall limit, once the
   crawler reports it finished the page without publishing anything.
 * The service SHALL tell the requester which wanted representations it could not provide.
-* The service SHALL let operators configure the search index, the broker, and the retrieval
-  deadline.
+* The service SHALL let operators configure the search index, the broker, and the recall
+  limit.
 
 ## Non-Functional Requirements
 
@@ -43,6 +44,6 @@ port. An edge adapter translates an external API to that port without changing r
 ## Known Limitations
 
 * First retrieval of an uncrawled page takes a full crawl-and-index cycle, bounded by the
-  deadline.
+  recall limit.
 * A page published to some wanted representations and not others leaves no early-stop
-  signal, so a request for a missing representation still waits out the deadline.
+  signal, so a request for a missing representation still waits out the recall limit.

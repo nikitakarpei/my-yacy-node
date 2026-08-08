@@ -32,18 +32,18 @@ func connectJetStream(t *testing.T, natsURL string) jetstream.JetStream {
 	return js
 }
 
-func ensureCrawledPageStream(t *testing.T, ctx context.Context, js jetstream.JetStream) {
+func createCrawledPageStream(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	t.Helper()
-	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		ctx,
-		js,
-		yacycrawlcontract.PageRepresentationKindText,
-		yacycrawlcontract.CrawledPageStreamSpec{
-			Subject: crawledPageSubject,
-			MaxMsgs: crawledPageMax,
-		},
-	); err != nil {
-		t.Fatalf("ensure crawled page stream: %v", err)
+	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+		Name: yacycrawlcontract.CrawledPageStreamName(
+			yacycrawlcontract.PageRepresentationKindText,
+		),
+		Subjects:  []string{crawledPageSubject},
+		Retention: jetstream.WorkQueuePolicy,
+		MaxMsgs:   crawledPageMax,
+		Discard:   jetstream.DiscardNew,
+	}); err != nil {
+		t.Fatalf("create crawled page stream: %v", err)
 	}
 }
 

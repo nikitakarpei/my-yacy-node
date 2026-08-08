@@ -57,9 +57,9 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		return fmt.Errorf("create crawled page consumer: %w", err)
 	}
 
-	store, err := pagemarkdownstore.EnsureBucket(ctx, js)
+	store, err := ensurePageMarkdownBucket(ctx, js)
 	if err != nil {
-		return fmt.Errorf("ensure page markdown bucket: %w", err)
+		return err
 	}
 
 	metrics := markdownstoremetrics.New()
@@ -92,4 +92,17 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	)
 	slog.InfoContext(ctx, "corpusmarkdown stopped")
 	return err
+}
+
+func ensurePageMarkdownBucket(
+	ctx context.Context,
+	js jetstream.JetStream,
+) (jetstream.ObjectStore, error) {
+	store, err := js.CreateOrUpdateObjectStore(ctx, jetstream.ObjectStoreConfig{
+		Bucket: pagemarkdownstore.BucketName,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("ensure page markdown bucket: %w", err)
+	}
+	return store, nil
 }

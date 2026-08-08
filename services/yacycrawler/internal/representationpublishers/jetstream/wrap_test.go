@@ -57,12 +57,13 @@ func consumeOne(t *testing.T, js natsjetstream.JetStream, stream string) []byte 
 func TestWrapPublishesFramedMessages(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
-	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		ctx,
-		js,
-		testRepresentation,
-		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.test", MaxMsgs: 10},
-	); err != nil {
+	if _, err := js.CreateOrUpdateStream(ctx, natsjetstream.StreamConfig{
+		Name:      yacycrawlcontract.CrawledPageStreamName(testRepresentation),
+		Subjects:  []string{"yacy.crawl.page.test"},
+		Retention: natsjetstream.WorkQueuePolicy,
+		MaxMsgs:   10,
+		Discard:   natsjetstream.DiscardNew,
+	}); err != nil {
 		t.Fatal(err)
 	}
 
@@ -84,12 +85,13 @@ func TestWrapPublishesFramedMessages(t *testing.T) {
 func TestWrapFullStreamIsRetryable(t *testing.T) {
 	js := startJetStream(t)
 	ctx := context.Background()
-	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		ctx,
-		js,
-		testRepresentation,
-		yacycrawlcontract.CrawledPageStreamSpec{Subject: "yacy.crawl.page.test.full", MaxMsgs: 1},
-	); err != nil {
+	if _, err := js.CreateOrUpdateStream(ctx, natsjetstream.StreamConfig{
+		Name:      yacycrawlcontract.CrawledPageStreamName(testRepresentation),
+		Subjects:  []string{"yacy.crawl.page.test.full"},
+		Retention: natsjetstream.WorkQueuePolicy,
+		MaxMsgs:   1,
+		Discard:   natsjetstream.DiscardNew,
+	}); err != nil {
 		t.Fatal(err)
 	}
 

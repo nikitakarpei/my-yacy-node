@@ -61,7 +61,7 @@ func RunService(
 		return err
 	}
 	defer func() { _ = conn.Close() }()
-	if err := ensureStreams(ctx, js, cfg); err != nil {
+	if err := ensureNATSState(ctx, js, cfg); err != nil {
 		return err
 	}
 
@@ -117,31 +117,83 @@ func RunService(
 	return err
 }
 
-func ensureStreams(ctx context.Context, js jetstream.JetStream, cfg ServiceConfig) error {
-	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, cfg.OrdersStreamSpec()); err != nil {
+func ensureNATSState(ctx context.Context, js jetstream.JetStream, cfg ServiceConfig) error {
+	if err := ensureOrdersStream(ctx, js, cfg.OrdersSubject); err != nil {
+		return err
+	}
+	if err := ensureCrawledPageStreams(ctx, js, cfg.PageStreams); err != nil {
+		return err
+	}
+	if err := ensureRedirectResolutionBucket(ctx, js); err != nil {
+		return err
+	}
+	if err := ensureDisposedPagesBucket(ctx, js); err != nil {
+		return err
+	}
+	return ensurePageVisitBucket(ctx, js, cfg)
+}
+
+func ensureOrdersStream(ctx context.Context, js jetstream.JetStream, subject string) error {
+	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+		Name:      yacycrawlcontract.OrdersStreamName,
+		Subjects:  []string{subject},
+		Retention: jetstream.WorkQueuePolicy,
+	}); err != nil {
 		return fmt.Errorf("ensure orders stream: %w", err)
 	}
-	for _, stream := range cfg.PageStreams {
-		if err := yacycrawlcontract.EnsureCrawledPageStream(
-			ctx, js, stream.Representation, stream.Stream,
-		); err != nil {
-			return fmt.Errorf("ensure page %s stream: %w", stream.Representation, err)
+	return nil
+}
+
+func ensureCrawledPageStreams(
+	ctx context.Context,
+	js jetstream.JetStream,
+	streams []PageStreamConfig,
+) error {
+	for _, stream := range streams {
+		if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+			Name:      yacycrawlcontract.CrawledPageStreamName(stream.Representation),
+			Subjects:  []string{stream.Subject},
+			Retention: jetstream.WorkQueuePolicy,
+			MaxMsgs:   stream.MaxMsgs,
+			Discard:   jetstream.DiscardNew,
+		}); err != nil {
+			return fmt.Errorf("ensure crawled page %s stream: %w", stream.Representation, err)
 		}
 	}
-	if err := yacycrawlcontract.EnsureRedirectResolutionBucket(
-		ctx, js, cfg.RedirectResolutionBucketSpec(),
-	); err != nil {
+	return nil
+}
+
+func ensureRedirectResolutionBucket(ctx context.Context, js jetstream.JetStream) error {
+	if _, err := js.CreateOrUpdateKeyValue(ctx, jetstream.KeyValueConfig{
+		Bucket:   yacycrawlcontract.RedirectResolutionBucketName,
+		MaxBytes: DefaultRedirectResolutionMaxBytes,
+	}); err != nil {
 		return fmt.Errorf("ensure redirect resolution bucket: %w", err)
 	}
-	if err := yacycrawlcontract.EnsureDisposedPagesBucket(
-		ctx, js, cfg.DisposedPagesBucketSpec(),
-	); err != nil {
+	return nil
+}
+
+func ensureDisposedPagesBucket(ctx context.Context, js jetstream.JetStream) error {
+	if _, err := js.CreateOrUpdateKeyValue(ctx, jetstream.KeyValueConfig{
+		Bucket:   yacycrawlcontract.DisposedPagesBucketName,
+		MaxBytes: DefaultDisposedPagesMaxBytes,
+		TTL:      DefaultDisposedPagesRetention,
+	}); err != nil {
 		return fmt.Errorf("ensure disposed pages bucket: %w", err)
 	}
-	if cfg.RecrawlGrace > 0 {
-		if err := dueaftergrace.Ensure(ctx, js, cfg.PageVisitBucketSpec()); err != nil {
-			return fmt.Errorf("ensure page visit bucket: %w", err)
-		}
+	return nil
+}
+
+func ensurePageVisitBucket(
+	ctx context.Context,
+	js jetstream.JetStream,
+	cfg ServiceConfig,
+) error {
+	if cfg.RecrawlGrace <= 0 {
+		return nil
+	}
+	if err := dueaftergrace.Ensure(ctx, js, cfg.PageVisitBucketSpec()); err != nil {
+		return fmt.Errorf("ensure page visit bucket: %w", err)
 	}
 	return nil
 }
@@ -256,7 +308,7 @@ func buildPageRepresentations(
 	)
 	for _, stream := range cfg.PageStreams {
 		if stream.Published {
-			subjects[stream.Representation] = stream.Stream.Subject
+			subjects[stream.Representation] = stream.Subject
 		}
 	}
 	representations := make([]pagepublication.PageRepresentation, 0, len(subjects))

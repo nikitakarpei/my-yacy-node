@@ -4,20 +4,18 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"net"
 	"net/http"
 	"time"
 
-	"google.golang.org/grpc"
+	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/crawlrequest"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/disposedpagelookup"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/markdownrecall"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerecall"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recallgrpc"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recallmetrics"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/redirectlookup"
-	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
+	crawlorderplacersjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/crawlorderplacers/jetstream"
+	disposedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/disposedpages/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerepresentations/markdown"
+	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/progressobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall/pagerecall"
+	recallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recallreceivers/grpc"
+	redirectresolversjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/redirectresolvers/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
@@ -28,6 +26,9 @@ import (
 const (
 	opsReadHeaderLimit = 10 * time.Second
 	opsShutdownLimit   = 15 * time.Second
+	opsServerName      = "ops"
+	msgServiceStarted  = "corpusrecall started"
+	msgServiceStopped  = "corpusrecall stopped"
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
@@ -36,79 +37,114 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		return err
 	}
 	defer func() { _ = conn.Close() }()
-	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, yacycrawlcontract.OrdersStreamSpec{
-		Subject: cfg.OrdersSubject,
-	}); err != nil {
-		return fmt.Errorf("ensure orders stream: %w", err)
+	corpora, err := corporaFrom(ctx, js, cfg)
+	if err != nil {
+		return err
 	}
+	metrics := progressobserversprometheus.NewRecallMetrics()
+	recaller, err := newRecaller(ctx, js, cfg, corpora, metrics)
+	if err != nil {
+		return err
+	}
+	receiver, err := recallreceiversgrpc.NewRecallReceiver(recaller, corpora, cfg.ListenAddr)
+	if err != nil {
+		return err
+	}
+	announceServiceStarted(ctx, cfg)
+	err = servergroup.Run(ctx, opsShutdownLimit, opsServersFor(cfg, metrics), receiver.Serve)
+	announceServiceStopped(ctx)
+	return err
+}
 
-	markdownStore, err := pagemarkdownstore.EnsureBucket(ctx, js)
+func corporaFrom(
+	ctx context.Context,
+	js jetstream.JetStream,
+	cfg ServiceConfig,
+) ([]pagerecall.Corpus, error) {
+	markdownStore, err := js.ObjectStore(ctx, pagemarkdownstore.BucketName)
 	if err != nil {
-		return fmt.Errorf("open page markdown bucket: %w", err)
+		return nil, fmt.Errorf("open page markdown bucket: %w", err)
 	}
-	redirects, err := js.KeyValue(ctx, yacycrawlcontract.RedirectResolutionBucketName)
-	if err != nil {
-		return fmt.Errorf("open redirect resolution bucket: %w", err)
-	}
-	disposedPages, err := js.KeyValue(ctx, yacycrawlcontract.DisposedPagesBucketName)
-	if err != nil {
-		return fmt.Errorf("open disposed pages bucket: %w", err)
-	}
+	return []pagerecall.Corpus{markdown.NewCorpus(markdownStore, cfg.MaxResponseBytes)}, nil
+}
 
-	metrics := recallmetrics.New()
-	placer := crawlrequest.NewOrderPlacement(js, cfg.OrdersSubject)
-	resolver := redirectlookup.NewReader(redirects)
-	disposed := disposedpagelookup.NewReader(disposedPages)
-	markdownSource := markdownrecall.NewSource(markdownStore, cfg.MaxResponseBytes)
-	kinds := []representationKind{
-		markdownRepresentation(markdownSource),
+func newRecaller(
+	ctx context.Context,
+	js jetstream.JetStream,
+	cfg ServiceConfig,
+	corpora []pagerecall.Corpus,
+	metrics *progressobserversprometheus.RecallMetrics,
+) (*pagerecall.Recaller, error) {
+	redirects, err := redirectResolutionsFrom(ctx, js)
+	if err != nil {
+		return nil, err
 	}
-	recaller := pagerecall.NewRecaller(
-		placer,
-		resolver,
-		disposed,
-		recallSources(kinds),
+	disposedPages, err := disposedPagesFrom(ctx, js)
+	if err != nil {
+		return nil, err
+	}
+	return pagerecall.NewRecaller(
+		crawlorderplacersjetstream.NewCrawlOrderPlacement(js, cfg.OrdersSubject),
+		redirects,
+		disposedPages,
+		corpora,
 		metrics,
-		pagerecall.Config{
-			Deadline:     cfg.Deadline,
-			PollInterval: cfg.PollInterval,
-			MaxInFlight:  cfg.MaxInFlight,
-		},
-	)
+		recallConfigFrom(cfg),
+	), nil
+}
 
-	var listenConfig net.ListenConfig
-	listener, err := listenConfig.Listen(ctx, "tcp", cfg.ListenAddr)
+func redirectResolutionsFrom(
+	ctx context.Context,
+	js jetstream.JetStream,
+) (*redirectresolversjetstream.RedirectResolutions, error) {
+	bucket, err := js.KeyValue(ctx, yacycrawlcontract.RedirectResolutionBucketName)
 	if err != nil {
-		return fmt.Errorf("listen %s: %w", cfg.ListenAddr, err)
+		return nil, fmt.Errorf("open redirect resolution bucket: %w", err)
 	}
-	grpcServer := grpc.NewServer()
-	recallServer := recallgrpc.NewRecallServer(recaller, representationCodecs(kinds))
-	corpusrecallv1.RegisterRecallServer(grpcServer, recallServer)
+	return redirectresolversjetstream.NewRedirectResolutions(bucket), nil
+}
 
-	opsServer := &http.Server{
-		Addr:              cfg.OpsAddr,
-		Handler:           opsmetrics.NewMux(metrics.Handler()),
-		ReadHeaderTimeout: opsReadHeaderLimit,
+func disposedPagesFrom(
+	ctx context.Context,
+	js jetstream.JetStream,
+) (*disposedpagesjetstream.DisposedPages, error) {
+	bucket, err := js.KeyValue(ctx, yacycrawlcontract.DisposedPagesBucketName)
+	if err != nil {
+		return nil, fmt.Errorf("open disposed pages bucket: %w", err)
 	}
+	return disposedpagesjetstream.NewDisposedPages(bucket), nil
+}
 
-	slog.InfoContext(ctx, "corpusrecall started",
+func recallConfigFrom(cfg ServiceConfig) pagerecall.Config {
+	return pagerecall.Config{
+		RecallLimit:         cfg.RecallLimit,
+		PollInterval:        cfg.PollInterval,
+		MaxRequestsInFlight: cfg.MaxInFlight,
+	}
+}
+
+func announceServiceStarted(ctx context.Context, cfg ServiceConfig) {
+	slog.InfoContext(ctx, msgServiceStarted,
 		slog.String("listen", cfg.ListenAddr),
 		slog.String("ordersSubject", cfg.OrdersSubject),
-		slog.Duration("deadline", cfg.Deadline),
+		slog.Duration("recallLimit", cfg.RecallLimit),
 	)
-	err = servergroup.Run(ctx, opsShutdownLimit,
-		[]servergroup.NamedServer{{Name: "ops", Server: opsServer}},
-		func(runCtx context.Context) error {
-			go func() {
-				<-runCtx.Done()
-				grpcServer.GracefulStop()
-			}()
-			if err := grpcServer.Serve(listener); err != nil {
-				return fmt.Errorf("serve grpc: %w", err)
-			}
-			return nil
+}
+
+func opsServersFor(
+	cfg ServiceConfig,
+	metrics *progressobserversprometheus.RecallMetrics,
+) []servergroup.NamedServer {
+	return []servergroup.NamedServer{{
+		Name: opsServerName,
+		Server: &http.Server{
+			Addr:              cfg.OpsAddr,
+			Handler:           opsmetrics.NewMux(metrics.Exposition()),
+			ReadHeaderTimeout: opsReadHeaderLimit,
 		},
-	)
-	slog.InfoContext(ctx, "corpusrecall stopped")
-	return err
+	}}
+}
+
+func announceServiceStopped(ctx context.Context) {
+	slog.InfoContext(ctx, msgServiceStopped)
 }

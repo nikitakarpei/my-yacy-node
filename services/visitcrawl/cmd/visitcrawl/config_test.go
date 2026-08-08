@@ -121,13 +121,3 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		}
 	}
 }
-
-func TestOrdersStreamSpec(t *testing.T) {
-	cfg, err := LoadServiceConfig(envFrom(baseEnv()))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if cfg.OrdersStreamSpec().Subject != DefaultOrdersSubject {
-		t.Fatal("orders spec subject wrong")
-	}
-}

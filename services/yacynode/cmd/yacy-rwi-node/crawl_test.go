@@ -5,6 +5,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nats-io/nats.go/jetstream"
+
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -100,10 +102,15 @@ func TestCrawlRuntimeConsumesIngestBatch(t *testing.T) {
 func createCrawlerStreams(t *testing.T, ctx context.Context, cfg crawlConfig) {
 	t.Helper()
 	js := natstestserver.ConnectJetStream(t, cfg.NATSURL)
-	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		ctx, js, yacycrawlcontract.PageRepresentationKindRWI,
-		yacycrawlcontract.CrawledPageStreamSpec{Subject: cfg.IngestSubject, MaxMsgs: 64},
-	); err != nil {
+	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+		Name: yacycrawlcontract.CrawledPageStreamName(
+			yacycrawlcontract.PageRepresentationKindRWI,
+		),
+		Subjects:  []string{cfg.IngestSubject},
+		Retention: jetstream.WorkQueuePolicy,
+		MaxMsgs:   64,
+		Discard:   jetstream.DiscardNew,
+	}); err != nil {
 		t.Fatalf("create ingest stream: %v", err)
 	}
 }

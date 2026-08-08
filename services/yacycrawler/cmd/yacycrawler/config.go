@@ -71,7 +71,8 @@ func pagePublishEnv(representation yacycrawlcontract.PageRepresentationKind) str
 
 type PageStreamConfig struct {
 	Representation yacycrawlcontract.PageRepresentationKind
-	Stream         yacycrawlcontract.CrawledPageStreamSpec
+	Subject        string
+	MaxMsgs        int64
 	Published      bool
 }
 
@@ -93,27 +94,10 @@ type ServiceConfig struct {
 	RecrawlGrace     time.Duration
 }
 
-func (c ServiceConfig) OrdersStreamSpec() yacycrawlcontract.OrdersStreamSpec {
-	return yacycrawlcontract.OrdersStreamSpec{Subject: c.OrdersSubject}
-}
-
-func (ServiceConfig) RedirectResolutionBucketSpec() yacycrawlcontract.RedirectResolutionBucketSpec {
-	return yacycrawlcontract.RedirectResolutionBucketSpec{
-		MaxBytes: DefaultRedirectResolutionMaxBytes,
-	}
-}
-
 func (ServiceConfig) PageVisitBucketSpec() dueaftergrace.BucketSpec {
 	return dueaftergrace.BucketSpec{
 		MaxBytes:  DefaultPageVisitMaxBytes,
 		Retention: DefaultPageVisitRetention,
-	}
-}
-
-func (ServiceConfig) DisposedPagesBucketSpec() yacycrawlcontract.DisposedPagesBucketSpec {
-	return yacycrawlcontract.DisposedPagesBucketSpec{
-		MaxBytes:  DefaultDisposedPagesMaxBytes,
-		Retention: DefaultDisposedPagesRetention,
 	}
 }
 
@@ -145,14 +129,12 @@ func loadPageStreams(
 		}
 		streams = append(streams, PageStreamConfig{
 			Representation: preset.representation,
-			Stream: yacycrawlcontract.CrawledPageStreamSpec{
-				Subject: envconfig.String(
-					getenv,
-					pageSubjectEnv(preset.representation),
-					yacycrawlcontract.CrawledPageSubject(preset.representation),
-				),
-				MaxMsgs: maxMsgs,
-			},
+			Subject: envconfig.String(
+				getenv,
+				pageSubjectEnv(preset.representation),
+				yacycrawlcontract.CrawledPageSubject(preset.representation),
+			),
+			MaxMsgs:   maxMsgs,
 			Published: publish,
 		})
 	}

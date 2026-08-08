@@ -32,23 +32,24 @@ func TestCrawledPageMarkdownIsStoredByURL(t *testing.T) {
 	startCorpusMarkdown(t, ctx, network.Name)
 
 	js := connectJetStream(t, natsURL)
-	ensureOrdersStream(t, ctx, js)
+	awaitOrdersStream(t, ctx, js)
 
 	publishCrawlOrder(t, ctx, js, originURL)
 
-	store, err := pagemarkdownstore.EnsureBucket(ctx, js)
-	if err != nil {
-		t.Fatalf("open markdown object store: %v", err)
-	}
+	store := awaitPageMarkdownBucket(t, ctx, js)
 	objectName := pagemarkdownstore.ObjectName(originCanonicalURL)
 
 	var stored []byte
 	found := pollwait.For(storageDeadline, func() bool {
-		stored, err = store.GetBytes(ctx, objectName)
-		return err == nil
+		markdown, err := store.GetBytes(ctx, objectName)
+		if err != nil {
+			return false
+		}
+		stored = markdown
+		return true
 	})
 	if !found {
-		t.Fatalf("markdown object %q not stored within %s: %v", objectName, storageDeadline, err)
+		t.Fatalf("markdown object %q not stored within %s", objectName, storageDeadline)
 	}
 	if len(stored) == 0 {
 		t.Fatal("stored markdown is empty")

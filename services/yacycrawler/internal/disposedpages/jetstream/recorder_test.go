@@ -4,6 +4,8 @@ import (
 	"context"
 	"testing"
 
+	natsjetstream "github.com/nats-io/nats.go/jetstream"
+
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/disposedpages/jetstream"
@@ -11,9 +13,9 @@ import (
 
 func TestRecordWritesContractKey(t *testing.T) {
 	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	if err := yacycrawlcontract.EnsureDisposedPagesBucket(
-		context.Background(), js, yacycrawlcontract.DisposedPagesBucketSpec{},
-	); err != nil {
+	if _, err := js.CreateKeyValue(context.Background(), natsjetstream.KeyValueConfig{
+		Bucket: yacycrawlcontract.DisposedPagesBucketName,
+	}); err != nil {
 		t.Fatal(err)
 	}
 	bucket, err := js.KeyValue(context.Background(), yacycrawlcontract.DisposedPagesBucketName)

@@ -16,10 +16,13 @@ const ordersSubject = "yacy.crawl.orders"
 
 func createOrdersStream(t *testing.T, ctx context.Context, url string) {
 	t.Helper()
-	if err := yacycrawlcontract.EnsureOrdersStream(
+	if _, err := natstestserver.ConnectJetStream(t, url).CreateOrUpdateStream(
 		ctx,
-		natstestserver.ConnectJetStream(t, url),
-		yacycrawlcontract.OrdersStreamSpec{Subject: ordersSubject},
+		jetstream.StreamConfig{
+			Name:      yacycrawlcontract.OrdersStreamName,
+			Subjects:  []string{ordersSubject},
+			Retention: jetstream.WorkQueuePolicy,
+		},
 	); err != nil {
 		t.Fatalf("create orders stream: %v", err)
 	}

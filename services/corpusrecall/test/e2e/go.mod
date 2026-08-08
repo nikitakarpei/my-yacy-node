@@ -6,6 +6,7 @@ require (
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/e2eharness v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
 	github.com/testcontainers/testcontainers-go v0.40.0
 	google.golang.org/grpc v1.80.0

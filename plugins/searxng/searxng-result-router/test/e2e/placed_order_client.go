@@ -32,12 +32,14 @@ func connectJetStream(t *testing.T, url string) jetstream.JetStream {
 	return js
 }
 
-func ensureOrdersStream(t *testing.T, ctx context.Context, js jetstream.JetStream) {
+func createOrdersStream(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	t.Helper()
-	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js, yacycrawlcontract.OrdersStreamSpec{
-		Subject: ordersSubject,
+	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+		Name:      yacycrawlcontract.OrdersStreamName,
+		Subjects:  []string{ordersSubject},
+		Retention: jetstream.WorkQueuePolicy,
 	}); err != nil {
-		t.Fatalf("ensure orders stream: %v", err)
+		t.Fatalf("create orders stream: %v", err)
 	}
 }
 

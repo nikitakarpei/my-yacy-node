@@ -110,8 +110,11 @@ func signedVisitURL(listenAddr, visitedPage, secret string) string {
 func ordersConsumer(t *testing.T, ctx context.Context, natsURL string) jetstream.Consumer {
 	t.Helper()
 	js := natstestserver.ConnectJetStream(t, natsURL)
-	if err := yacycrawlcontract.EnsureOrdersStream(ctx, js,
-		yacycrawlcontract.OrdersStreamSpec{Subject: DefaultOrdersSubject}); err != nil {
+	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+		Name:      yacycrawlcontract.OrdersStreamName,
+		Subjects:  []string{DefaultOrdersSubject},
+		Retention: jetstream.WorkQueuePolicy,
+	}); err != nil {
 		t.Fatal(err)
 	}
 	consumer, err := js.CreateOrUpdateConsumer(ctx, yacycrawlcontract.OrdersStreamName,

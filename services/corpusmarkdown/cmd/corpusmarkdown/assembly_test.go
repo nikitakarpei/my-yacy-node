@@ -38,7 +38,9 @@ func TestRunServiceStoresCrawledPageMarkdown(t *testing.T) {
 	go func() { runDone <- RunService(ctx, cfg) }()
 
 	const canonicalURL = "https://example.com/"
-	store, err := pagemarkdownstore.EnsureBucket(ctx, js)
+	store, err := js.CreateOrUpdateObjectStore(ctx, jetstream.ObjectStoreConfig{
+		Bucket: pagemarkdownstore.BucketName,
+	})
 	if err != nil {
 		t.Fatalf("open object store: %v", err)
 	}
@@ -160,12 +162,15 @@ func TestRunServiceFailsWhenNATSUnreachable(t *testing.T) {
 
 func createCrawledPageStream(t *testing.T, js jetstream.JetStream, subject string) {
 	t.Helper()
-	if err := yacycrawlcontract.EnsureCrawledPageStream(
-		context.Background(),
-		js,
-		yacycrawlcontract.PageRepresentationKindMarkdown,
-		yacycrawlcontract.CrawledPageStreamSpec{Subject: subject, MaxMsgs: 64},
-	); err != nil {
+	if _, err := js.CreateOrUpdateStream(context.Background(), jetstream.StreamConfig{
+		Name: yacycrawlcontract.CrawledPageStreamName(
+			yacycrawlcontract.PageRepresentationKindMarkdown,
+		),
+		Subjects:  []string{subject},
+		Retention: jetstream.WorkQueuePolicy,
+		MaxMsgs:   64,
+		Discard:   jetstream.DiscardNew,
+	}); err != nil {
 		t.Fatalf("create crawled page stream: %v", err)
 	}
 }
