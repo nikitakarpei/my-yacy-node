@@ -7,7 +7,7 @@ crawler. Prometheus already collects the metrics; this only adds a UI to view th
 
 From the example root, layer this file on top of the base stack:
 
-```
+```sh
 docker compose -f compose.yml -f extras/grafana/compose.yml up -d
 ```
 

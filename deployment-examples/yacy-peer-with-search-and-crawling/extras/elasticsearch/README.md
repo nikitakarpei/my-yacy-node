@@ -7,7 +7,7 @@ Manticore; use it if you already run Elasticsearch elsewhere or need its query f
 
 From the example root, layer this file on top of the base stack:
 
-```
+```sh
 docker compose -f compose.yml -f extras/elasticsearch/compose.yml up -d
 ```
 
