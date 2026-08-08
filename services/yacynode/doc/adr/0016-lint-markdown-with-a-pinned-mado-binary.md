@@ -14,8 +14,8 @@ can land unnoticed.
 
 ## Decision
 
-`make lint-md` runs `mado` over every git-tracked `*.md` file and feeds `make
-verify` through `lint`. `mado` is a single static Rust binary with a
+`make lint-md` runs `mado` over every git-tracked `*.md` file and feeds
+`make verify` through `lint`. `mado` is a single static Rust binary with a
 markdownlint-compatible rule set, fetched and checksum-verified through
 `tools/tools.lock`, matching `golangci-lint` and `ruff`.
 
