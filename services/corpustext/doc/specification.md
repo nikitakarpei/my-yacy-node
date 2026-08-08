@@ -2,14 +2,13 @@
 
 ## Context
 
-`corpustext` is a separate, optional, disposable Go service that makes an operator's
-own crawled corpus searchable as full text. `yacycrawler` can optionally publish a `text`
-representation of the pages it crawls; this service consumes that one representation and
-indexes it into an operator-run full-text search index.
+`corpustext` is an optional Go service that makes an operator's own crawled corpus
+searchable as full text. It consumes the `text` representation `yacycrawler` publishes for
+the pages it crawls and indexes it into an operator-run full-text search index.
 
 ## Non-Goals
 
-* Serving search queries or exposing any query API.
+* Serving search queries.
 * Running or provisioning the search index server itself.
 * Crawling, fetching, or parsing pages — that is `yacycrawler`'s job.
 * Storing text anywhere other than the operator's own search index.
@@ -21,19 +20,17 @@ indexes it into an operator-run full-text search index.
   preserving its canonical URL, text, and metadata.
 * Re-indexing a page whose canonical URL is already indexed SHALL overwrite that document
   rather than add a duplicate.
-* The service SHALL write each page into the index of the page's language.
-* Each configured language SHALL get its own index with that language's text analysis;
-  every other page SHALL go to one language-neutral index.
-* Index names SHALL have the form `<base>_v<version>_<language>`, identical in every
-  supported search index. The version SHALL change only with a release of the service.
-* A search client SHALL be able to read every index through the shared
-  `<base>_v<version>` prefix.
+* Each configured language SHALL get an index with that language's text analysis.
+* The service SHALL write a page into the index of its language, or into one
+  language-neutral index.
+* Index names SHALL carry a schema version, which SHALL change only with a
+  release of the service.
+* The service SHALL publish one name per version that a search client reads
+  every index of that version through.
 * At startup the service SHALL create each missing index and SHALL NOT change or delete
   an existing index.
-* The service SHALL let operators choose which supported search index to use and configure
-  its endpoint and index name.
-* While the search index is unavailable, the service SHALL drop no page's content, resuming
-  indexing once the search index returns.
+* The service SHALL let operators choose which supported search index to use.
+* The service SHALL drop no page's content while the search index is unavailable.
 
 ## Non-Functional Requirements
 
@@ -50,12 +47,12 @@ indexes it into an operator-run full-text search index.
 
 ## Known Limitations
 
-* A URL that is never recrawled is never refreshed and a removed URL is never deleted, so
-  the index can hold stale documents; freshness and deletion scheduling are out of scope.
-* Content held longer than the broker's retention while the search index is down is lost to
-  indexing until a recrawl — a broker-retention limit this service can't absorb.
-* If the crawler's canonicalization changes, a page's canonical URL changes with it; with
-  no migration here, its old and new documents both persist until an operator intervenes.
+* A URL that is never recrawled is never refreshed, and a removed URL is never deleted, so
+  the index can hold stale documents.
+* Content held longer than the broker's retention while the search index is down stays
+  unindexed until a recrawl.
+* If the crawler's canonicalization changes, a page gets a new canonical URL, and its old
+  and new documents both stay in the index until an operator intervenes.
 * A change of the configured languages or a new version starts new, empty indexes;
   earlier documents stay in the old indexes until a recrawl or reindex.
 * Deleting the indexes of an old version is the operator's task.

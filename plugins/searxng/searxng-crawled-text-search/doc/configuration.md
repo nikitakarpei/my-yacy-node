@@ -19,20 +19,20 @@ engines:
     elasticsearch_url: http://elasticsearch:9200
 ```
 
-| Key | Meaning |
-|---|---|
-| `search_index_engine` | Required. Which search index to query: `elasticsearch` or `manticore`. |
+| Key | Default | Meaning |
+|---|---|---|
+| `search_index_engine` | required | Which search index to query: `elasticsearch` or `manticore`. |
 
 When `search_index_engine` is `elasticsearch`:
 
-| Key | Meaning |
-|---|---|
-| `elasticsearch_url` | Base URL of the Elasticsearch instance to query. |
-| `elasticsearch_index` | Prefix of the indexes `corpustext` writes documents into, default `yacy_text_v1`. The engine reads every index that starts with this prefix. |
+| Key | Default | Meaning |
+|---|---|---|
+| `elasticsearch_url` | required | Base URL of the Elasticsearch instance to query. |
+| `elasticsearch_index` | `yacy_text_v1` | Prefix of the indexes `corpustext` writes documents into. |
 
 When `search_index_engine` is `manticore`:
 
-| Key | Meaning |
-|---|---|
-| `manticore_url` | Base URL of the Manticore instance to query. |
-| `manticore_table` | Distributed table that spans the tables `corpustext` writes documents into, default `yacy_text_v1`. It carries the same prefix. |
+| Key | Default | Meaning |
+|---|---|---|
+| `manticore_url` | required | Base URL of the Manticore instance to query. |
+| `manticore_table` | `yacy_text_v1` | Distributed table that spans the tables `corpustext` writes documents into. |
