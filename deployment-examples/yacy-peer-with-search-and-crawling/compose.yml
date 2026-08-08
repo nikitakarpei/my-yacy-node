@@ -3,8 +3,6 @@ services:
     image: nats:2.14.2
     restart: unless-stopped
     command: ["-js", "--store_dir=/data", "-m", "8222"]
-    ports:
-      - "4222:4222"
     volumes:
       - nats-data:/data
 
@@ -23,7 +21,6 @@ services:
       - yacycrawler
     ports:
       - "8090:8090"
-      - "9090:9090"
     environment:
       YACY_PEER_HASH: ${YACY_PEER_HASH:?set YACY_PEER_HASH in .env}
       YACY_PEER_NAME: ${YACY_PEER_NAME:?set YACY_PEER_NAME in .env}
@@ -66,8 +63,6 @@ services:
     depends_on:
       - lightpanda
       - smokescreen
-    ports:
-      - "9094:9090"
     environment:
       RENDERPROXY_CDP_URL: ws://lightpanda:9222
       RENDERPROXY_EGRESS_PROXY_URL: http://smokescreen:4750
@@ -79,8 +74,6 @@ services:
     depends_on:
       - nats
       - renderproxy
-    ports:
-      - "9093:9090"
     environment:
       NATS_URL: nats://nats:4222
       YACYCRAWLER_PROXY_URL: http://renderproxy:8080
@@ -95,7 +88,6 @@ services:
       - nats
     ports:
       - "8091:8091"
-      - "9091:9091"
     environment:
       NATS_URL: nats://nats:4222
       VISITCRAWL_LINK_SECRET: ${VISITCRAWL_LINK_SECRET:?set VISITCRAWL_LINK_SECRET in .env}
@@ -118,8 +110,6 @@ services:
   manticore:
     image: manticoresearch/manticore:27.1.5
     restart: unless-stopped
-    ports:
-      - "9308:9308"
     volumes:
       - manticore-data:/var/lib/manticore
 
