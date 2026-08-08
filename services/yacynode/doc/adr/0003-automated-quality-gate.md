@@ -16,8 +16,8 @@ coverage, and that behaves identically on every machine.
 ## Decision
 
 `make verify` is the single gate. It runs, across both workspace modules: a formatting check,
-`go vet`, lint, an architecture-boundary check, the test suite with a coverage floor, and a
-build. A change is not done until it is green.
+lint, an architecture-boundary check, the test suite with a coverage floor, and a build. A
+change is not done until it is green.
 
 - **Boundaries** are checked by `go-arch-lint` (`.go-arch-lint.yml`, version 3), which declares
   the `api`, `core`, `infrastructure`, and `cmd` components and the allowed dependencies
