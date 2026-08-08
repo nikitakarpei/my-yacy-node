@@ -16,7 +16,7 @@ The indexer is configured entirely through environment variables.
 |---|---|---|
 | `CORPUSTEXT_CONCURRENCY` | `4` | Documents indexed concurrently. |
 | `SEARCH_INDEX_ENGINE` | required | Which search index to write to: `elasticsearch` or `manticore`. |
-| `CORPUSTEXT_LANGUAGES` | empty | Languages that get their own index, separated by commas. |
+| `CORPUSTEXT_LANGUAGES` | empty | Languages that get their own index, separated by commas: `en`, `de`, `fr`, `ru`. |
 
 When `SEARCH_INDEX_ENGINE` is `elasticsearch`:
 
@@ -31,16 +31,6 @@ When `SEARCH_INDEX_ENGINE` is `manticore`:
 |---|---|---|
 | `MANTICORE_URL` | required | Manticore endpoint documents are indexed into. |
 | `MANTICORE_TABLE` | `yacy_text` | Base name of the Manticore tables. |
-
-## Index names
-
-Each index name has the form `<base>_v<version>_<language>`. The base name comes from
-`ELASTICSEARCH_INDEX` or `MANTICORE_TABLE`. The indexer stops at startup when it does
-not accept the base name or a language, and reports the prefix `<base>_v<version>` in
-its startup log. A search client reads all the indexes through this prefix.
-
-After a change of `CORPUSTEXT_LANGUAGES` or of the schema version, crawl the pages
-again or reindex them.
 
 ## Operations
 

@@ -10,7 +10,7 @@ indexes it into an operator-run full-text search index.
 ## Non-Goals
 
 * Serving search queries or exposing any query API.
-* Running or provisioning the search index itself.
+* Running or provisioning the search index server itself.
 * Crawling, fetching, or parsing pages — that is `yacycrawler`'s job.
 * Storing text anywhere other than the operator's own search index.
 
@@ -21,6 +21,15 @@ indexes it into an operator-run full-text search index.
   preserving its canonical URL, text, and metadata.
 * Re-indexing a page whose canonical URL is already indexed SHALL overwrite that document
   rather than add a duplicate.
+* The service SHALL write each page into the index of the page's language.
+* Each configured language SHALL get its own index with that language's text analysis;
+  every other page SHALL go to one language-neutral index.
+* Index names SHALL have the form `<base>_v<version>_<language>`, identical in every
+  supported search index. The version SHALL change only with a release of the service.
+* A search client SHALL be able to read every index through the shared
+  `<base>_v<version>` prefix.
+* At startup the service SHALL create each missing index and SHALL NOT change or delete
+  an existing index.
 * The service SHALL let operators choose which supported search index to use and configure
   its endpoint and index name.
 * While the search index is unavailable, the service SHALL drop no page's content, resuming
@@ -36,9 +45,8 @@ indexes it into an operator-run full-text search index.
   the crawler's `text` representation without depending on this service's prior state.
 * The service SHALL support many concurrent instances over the crawler's published pages,
   with each page indexed by exactly one instance.
-* The service SHALL expose its indexing behavior as machine-readable metrics and a liveness
-  signal, so operators can observe pages received, indexed, disposed, and failed, and index
-  latency, without altering how pages are indexed.
+* The service SHALL expose machine-readable metrics and a liveness signal covering pages
+  received, indexed, disposed, and failed, and index latency.
 
 ## Known Limitations
 
@@ -48,3 +56,6 @@ indexes it into an operator-run full-text search index.
   indexing until a recrawl — a broker-retention limit this service can't absorb.
 * If the crawler's canonicalization changes, a page's canonical URL changes with it; with
   no migration here, its old and new documents both persist until an operator intervenes.
+* A change of the configured languages or a new version starts new, empty indexes;
+  earlier documents stay in the old indexes until a recrawl or reindex.
+* Deleting the indexes of an old version is the operator's task.

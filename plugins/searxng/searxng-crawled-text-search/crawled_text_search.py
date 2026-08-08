@@ -9,9 +9,9 @@ paging = True
 results_per_page = 10
 search_index_engine = ""
 elasticsearch_url = ""
-elasticsearch_index = ""
+elasticsearch_index = "yacy_text_v1"
 manticore_url = ""
-manticore_table = ""
+manticore_table = "yacy_text_v1"
 
 _content_fragment_length = 300
 _title_weight = 3

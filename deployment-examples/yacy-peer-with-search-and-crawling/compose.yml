@@ -112,8 +112,7 @@ services:
       NATS_URL: nats://nats:4222
       SEARCH_INDEX_ENGINE: manticore
       MANTICORE_URL: http://manticore:9308
-      MANTICORE_TABLE: ${MANTICORE_TABLE:-yacy_text}
-      CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-}
+      CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   manticore:

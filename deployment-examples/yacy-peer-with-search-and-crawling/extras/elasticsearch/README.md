@@ -14,7 +14,3 @@ docker compose -f compose.yml -f extras/elasticsearch/compose.yml up -d
 This starts `elasticsearch` and `elasticsearch-metrics` alongside the base services, points
 `corpustext` and `searxng` at Elasticsearch, adds the `elasticsearch` scrape job to
 Prometheus, and scales `manticore` to zero so it doesn't run alongside it.
-
-Set `ELASTICSEARCH_INDEX` in `.env` to change the base name of the indexes (default
-`yacy_text`), and set `elasticsearch_index` in `searxng-settings.yml` to the prefix
-`corpustext` reports at startup.
