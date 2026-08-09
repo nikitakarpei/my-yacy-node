@@ -93,7 +93,7 @@ func (c *Collection[K, V]) Scan(
 	fn func(K, V) (bool, error),
 ) error {
 	if err := tx.etx.Bucket(c.name).Scan(keys, func(key, raw []byte) (bool, error) {
-		decodedKey, err := c.keys.Decode(vaultkey.KeyFrom(key))
+		decodedKey, err := c.keys.Decode(key)
 		if err != nil {
 			return false, fmt.Errorf("decode %s key: %w", c.name, err)
 		}

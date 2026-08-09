@@ -15,6 +15,7 @@ func TestSingleRangesOfTheOnlyPositionSplitAtThatPosition(t *testing.T) {
 		key := layout.Key(text).Bytes()
 
 		assertRangeAnswers(t, layout.KeysWithFirst(bound), key, text == bound)
+		assertRangeAnswers(t, layout.KeysFromFirst(bound), key, text >= bound)
 		assertRangeAnswers(t, layout.KeysThroughFirst(bound), key, text <= bound)
 		assertRangeAnswers(t, layout.KeysBeforeFirst(bound), key, text < bound)
 	}
@@ -24,7 +25,7 @@ func TestSinglePartsRejectsAKeyOfAnotherLayout(t *testing.T) {
 	layout := vaultkey.Single(vaultkey.Text)
 	foreign := vaultkey.Pair(vaultkey.Text, vaultkey.Text).Key("one", "two")
 
-	if _, err := layout.Parts(foreign); err == nil {
+	if _, err := layout.Parts(foreign.Bytes()); err == nil {
 		t.Fatal("Parts accepted a two-part key")
 	}
 }

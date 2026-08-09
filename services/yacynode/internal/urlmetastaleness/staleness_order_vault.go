@@ -47,8 +47,8 @@ func (orderKeyCodec) Encode(ranked rankedURL) vaultkey.Key {
 	return orderKeyLayout.Key(ranked.rank, ranked.hash)
 }
 
-func (orderKeyCodec) Decode(key vaultkey.Key) (rankedURL, error) {
-	rank, hash, err := orderKeyLayout.Parts(key)
+func (orderKeyCodec) Decode(storedKey []byte) (rankedURL, error) {
+	rank, hash, err := orderKeyLayout.Parts(storedKey)
 	if err != nil {
 		return rankedURL{}, fmt.Errorf("staleness order key: %w", err)
 	}
@@ -64,8 +64,8 @@ func (freshnessKeyCodec) Encode(hash yacymodel.URLHash) vaultkey.Key {
 	return freshnessKeyLayout.Key(hash)
 }
 
-func (freshnessKeyCodec) Decode(key vaultkey.Key) (yacymodel.URLHash, error) {
-	hash, err := freshnessKeyLayout.Parts(key)
+func (freshnessKeyCodec) Decode(storedKey []byte) (yacymodel.URLHash, error) {
+	hash, err := freshnessKeyLayout.Parts(storedKey)
 	if err != nil {
 		return yacymodel.URLHash{}, fmt.Errorf("staleness freshness key: %w", err)
 	}

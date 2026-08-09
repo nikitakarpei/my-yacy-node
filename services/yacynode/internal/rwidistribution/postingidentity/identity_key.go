@@ -15,8 +15,8 @@ func (KeyCodec) Encode(identity Identity) vaultkey.Key {
 	return identityKeyLayout.Key(identity.Word, identity.URL)
 }
 
-func (KeyCodec) Decode(key vaultkey.Key) (Identity, error) {
-	word, url, err := identityKeyLayout.Parts(key)
+func (KeyCodec) Decode(storedKey []byte) (Identity, error) {
+	word, url, err := identityKeyLayout.Parts(storedKey)
 	if err != nil {
 		return Identity{}, fmt.Errorf("posting identity key: %w", err)
 	}

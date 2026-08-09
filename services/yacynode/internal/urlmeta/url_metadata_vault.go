@@ -35,8 +35,8 @@ func (urlMetadataKeyCodec) Encode(hash yacymodel.URLHash) vaultkey.Key {
 	return urlMetadataKeyLayout.Key(hash)
 }
 
-func (urlMetadataKeyCodec) Decode(key vaultkey.Key) (yacymodel.URLHash, error) {
-	hash, err := urlMetadataKeyLayout.Parts(key)
+func (urlMetadataKeyCodec) Decode(storedKey []byte) (yacymodel.URLHash, error) {
+	hash, err := urlMetadataKeyLayout.Parts(storedKey)
 	if err != nil {
 		return yacymodel.URLHash{}, fmt.Errorf("url metadata key: %w", err)
 	}

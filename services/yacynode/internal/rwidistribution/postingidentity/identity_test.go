@@ -39,7 +39,7 @@ func TestKeyIsStableAndDistinctPerPosting(t *testing.T) {
 func TestKeyRoundTripsToTheSamePosting(t *testing.T) {
 	posting := IdentityOf(yacymodel.WordHash("w1"), urlHash("u1"))
 
-	decoded, err := KeyCodec{}.Decode(KeyCodec{}.Encode(posting))
+	decoded, err := KeyCodec{}.Decode(KeyCodec{}.Encode(posting).Bytes())
 	if err != nil {
 		t.Fatalf("Decode: %v", err)
 	}

@@ -284,7 +284,7 @@ func boundedScanVisitsEveryKeyInRange(t *testing.T, open func(int64) (vault.Engi
 		{"UnboundedOnBothSides", vaultkey.EveryKey(), boundedScanKeys},
 		{
 			"IncludedLowerBoundOnly",
-			vaultkey.KeysFrom(stringKeyLayout.Key("cc")),
+			stringKeyLayout.KeysFromFirst("cc"),
 			[]string{"cc", "ee"},
 		},
 		{
@@ -318,7 +318,7 @@ func scannedKeys(
 	var visited []string
 	if err := engine.View(context.Background(), func(etx vault.EngineTxn) error {
 		return etx.Bucket(boundedScanBucket).Scan(keys, func(key, _ []byte) (bool, error) {
-			decoded, err := stringKeyCodec{}.Decode(vaultkey.KeyFrom(key))
+			decoded, err := stringKeyCodec{}.Decode(key)
 			if err != nil {
 				return false, err
 			}
@@ -362,7 +362,7 @@ func boundedScanStopsWhenAsked(t *testing.T, open func(int64) (vault.Engine, err
 		return etx.Bucket(boundedScanBucket).Scan(
 			vaultkey.EveryKey(),
 			func(key, _ []byte) (bool, error) {
-				decoded, err := stringKeyCodec{}.Decode(vaultkey.KeyFrom(key))
+				decoded, err := stringKeyCodec{}.Decode(key)
 				if err != nil {
 					return false, err
 				}

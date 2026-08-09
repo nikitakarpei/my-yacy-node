@@ -13,10 +13,6 @@ type Key struct {
 	encoded []byte
 }
 
-func KeyFrom(encoded []byte) Key {
-	return Key{encoded: bytes.Clone(encoded)}
-}
-
 func (key Key) Bytes() []byte {
 	return bytes.Clone(key.encoded)
 }
@@ -34,8 +30,8 @@ func keyOf(items []any) Key {
 
 var errKeyLayoutMismatch = errors.New("key does not match layout")
 
-func (key Key) parseInto(targets []any) error {
-	remainder, err := orderedcode.Parse(string(key.encoded), targets...)
+func parseInto(storedKey []byte, targets []any) error {
+	remainder, err := orderedcode.Parse(string(storedKey), targets...)
 	if err != nil {
 		return fmt.Errorf("%w: %w", errKeyLayoutMismatch, err)
 	}

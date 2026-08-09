@@ -12,8 +12,8 @@ type stringKeyCodec struct{}
 
 func (stringKeyCodec) Encode(key string) vaultkey.Key { return stringKeyLayout.Key(key) }
 
-func (stringKeyCodec) Decode(key vaultkey.Key) (string, error) {
-	decoded, err := stringKeyLayout.Parts(key)
+func (stringKeyCodec) Decode(storedKey []byte) (string, error) {
+	decoded, err := stringKeyLayout.Parts(storedKey)
 	if err != nil {
 		return "", fmt.Errorf("conformance key: %w", err)
 	}

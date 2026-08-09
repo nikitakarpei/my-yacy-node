@@ -11,7 +11,7 @@ func TestPairRoundTripsBothPositions(t *testing.T) {
 
 	for _, first := range orderedTexts() {
 		for _, second := range orderedTexts() {
-			decodedFirst, decodedSecond, err := layout.Parts(layout.Key(first, second))
+			decodedFirst, decodedSecond, err := layout.Parts(layout.Key(first, second).Bytes())
 			if err != nil {
 				t.Fatalf("Parts(%q, %q) failed: %v", first, second, err)
 			}
@@ -32,6 +32,7 @@ func TestPairRangesOfTheFirstPositionSplitAtThatFirst(t *testing.T) {
 			key := layout.Key(first, second).Bytes()
 
 			assertRangeAnswers(t, layout.KeysWithFirst(bound), key, first == bound)
+			assertRangeAnswers(t, layout.KeysFromFirst(bound), key, first >= bound)
 			assertRangeAnswers(t, layout.KeysThroughFirst(bound), key, first <= bound)
 			assertRangeAnswers(t, layout.KeysBeforeFirst(bound), key, first < bound)
 		}
@@ -55,7 +56,7 @@ func TestPairPartsRejectsAKeyOfAnotherLayout(t *testing.T) {
 	layout := vaultkey.Pair(vaultkey.Text, vaultkey.Text)
 	foreign := vaultkey.Single(vaultkey.Text).Key("only one part")
 
-	if _, _, err := layout.Parts(foreign); err == nil {
+	if _, _, err := layout.Parts(foreign.Bytes()); err == nil {
 		t.Fatal("Parts accepted a single-part key")
 	}
 }

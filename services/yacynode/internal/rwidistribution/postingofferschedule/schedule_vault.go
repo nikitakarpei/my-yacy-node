@@ -57,8 +57,8 @@ func (orderKeyCodec) Encode(offer scheduledPostingOffer) vaultkey.Key {
 	return orderKeyLayout.Key(offer.At, offer.Posting.Word, offer.Posting.URL)
 }
 
-func (orderKeyCodec) Decode(key vaultkey.Key) (scheduledPostingOffer, error) {
-	dueAt, word, url, err := orderKeyLayout.Parts(key)
+func (orderKeyCodec) Decode(storedKey []byte) (scheduledPostingOffer, error) {
+	dueAt, word, url, err := orderKeyLayout.Parts(storedKey)
 	if err != nil {
 		return scheduledPostingOffer{}, fmt.Errorf("offer schedule order key: %w", err)
 	}
