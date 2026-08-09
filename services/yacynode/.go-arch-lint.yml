@@ -8,6 +8,8 @@ allow:
 components:
   vaultkey:
     in: internal/vaultkey/**
+  hashcodec:
+    in: internal/hashcodec/**
   vault:
     in: internal/vault/**
   boltvault:
@@ -150,6 +152,12 @@ deps:
       - vaultkey
     canUse:
       - orderedcode
+  hashcodec:
+    mayDependOn:
+      - hashcodec
+      - vaultkey
+    canUse:
+      - yacymodel
   vault:
     mayDependOn:
       - vault
@@ -198,6 +206,7 @@ deps:
     mayDependOn:
       - peerroster
       - vaultkey
+      - hashcodec
       - vault
       - memvault
     canUse:
@@ -230,6 +239,7 @@ deps:
     mayDependOn:
       - urlmeta
       - vaultkey
+      - hashcodec
       - vault
       - memvault
       - httpguard
@@ -242,6 +252,7 @@ deps:
       - urlmetastaleness
       - urlmeta
       - vaultkey
+      - hashcodec
       - vault
       - memvault
     canUse:
@@ -251,6 +262,7 @@ deps:
       - urlreferences
       - rwipostings
       - vaultkey
+      - hashcodec
       - vault
       - memvault
     canUse:
@@ -259,6 +271,7 @@ deps:
     mayDependOn:
       - rwipostings
       - vaultkey
+      - hashcodec
       - vault
       - memvault
     canUse:
@@ -269,6 +282,7 @@ deps:
       - rwipostings
       - urlmeta
       - vaultkey
+      - hashcodec
       - vault
       - memvault
     canUse:
@@ -306,6 +320,7 @@ deps:
     mayDependOn:
       - postingidentity
       - vaultkey
+      - hashcodec
     canUse:
       - yacymodel
   postingofferschedule:
@@ -313,6 +328,7 @@ deps:
       - postingofferschedule
       - postingidentity
       - vaultkey
+      - hashcodec
       - vault
       - memvault
       - rwipostings

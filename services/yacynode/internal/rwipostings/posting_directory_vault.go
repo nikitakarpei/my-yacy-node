@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
@@ -26,12 +27,12 @@ func registerPostings(
 	return collection, nil
 }
 
-var postingKeyLayout = vaultkey.Pair(vaultkey.Text, vaultkey.Text)
+var postingKeyLayout = vaultkey.Pair(hashcodec.Hash, hashcodec.URLHash)
 
 type postingKeyCodec struct{}
 
 func (postingKeyCodec) Encode(posting postingIdentity) vaultkey.Key {
-	return postingKeyLayout.Key(posting.word.String(), posting.url.String())
+	return postingKeyLayout.Key(posting.word, posting.url)
 }
 
 func (postingKeyCodec) Decode(key vaultkey.Key) (postingIdentity, error) {
@@ -40,20 +41,11 @@ func (postingKeyCodec) Decode(key vaultkey.Key) (postingIdentity, error) {
 		return postingIdentity{}, fmt.Errorf("rwi posting key: %w", err)
 	}
 
-	parsedWord, err := yacymodel.ParseHash(word)
-	if err != nil {
-		return postingIdentity{}, fmt.Errorf("rwi posting word hash: %w", err)
-	}
-	parsedURL, err := yacymodel.ParseURLHash(url)
-	if err != nil {
-		return postingIdentity{}, fmt.Errorf("rwi posting url hash: %w", err)
-	}
-
-	return postingIdentity{word: parsedWord, url: parsedURL}, nil
+	return postingIdentity{word: word, url: url}, nil
 }
 
 func postingKeysOf(word yacymodel.Hash) vaultkey.KeyRange {
-	return postingKeyLayout.KeysWithFirst(word.String())
+	return postingKeyLayout.KeysWithFirst(word)
 }
 
 const storedPostingFormat byte = 0x02

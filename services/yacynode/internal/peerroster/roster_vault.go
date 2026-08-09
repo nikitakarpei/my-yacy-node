@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -23,12 +24,12 @@ func registerRoster(v *vault.Vault) (*vault.Collection[yacymodel.Hash, rosterEnt
 	return peers, nil
 }
 
-var peerKeyLayout = vaultkey.Single(vaultkey.Text)
+var peerKeyLayout = vaultkey.Single(hashcodec.Hash)
 
 type peerKeyCodec struct{}
 
 func (peerKeyCodec) Encode(peer yacymodel.Hash) vaultkey.Key {
-	return peerKeyLayout.Key(peer.String())
+	return peerKeyLayout.Key(peer)
 }
 
 func (peerKeyCodec) Decode(key vaultkey.Key) (yacymodel.Hash, error) {
@@ -37,7 +38,7 @@ func (peerKeyCodec) Decode(key vaultkey.Key) (yacymodel.Hash, error) {
 		return yacymodel.Hash{}, fmt.Errorf("peer roster key: %w", err)
 	}
 
-	return yacymodel.ParseHash(peer)
+	return peer, nil
 }
 
 type rosterEntryValueCodec struct{}

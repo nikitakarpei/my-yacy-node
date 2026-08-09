@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
@@ -26,12 +27,12 @@ func registerCollection(
 	return collection, nil
 }
 
-var urlMetadataKeyLayout = vaultkey.Single(vaultkey.Text)
+var urlMetadataKeyLayout = vaultkey.Single(hashcodec.URLHash)
 
 type urlMetadataKeyCodec struct{}
 
 func (urlMetadataKeyCodec) Encode(hash yacymodel.URLHash) vaultkey.Key {
-	return urlMetadataKeyLayout.Key(hash.String())
+	return urlMetadataKeyLayout.Key(hash)
 }
 
 func (urlMetadataKeyCodec) Decode(key vaultkey.Key) (yacymodel.URLHash, error) {
@@ -40,5 +41,5 @@ func (urlMetadataKeyCodec) Decode(key vaultkey.Key) (yacymodel.URLHash, error) {
 		return yacymodel.URLHash{}, fmt.Errorf("url metadata key: %w", err)
 	}
 
-	return yacymodel.ParseURLHash(hash)
+	return hash, nil
 }

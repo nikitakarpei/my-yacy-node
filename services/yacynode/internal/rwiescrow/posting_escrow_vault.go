@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
@@ -36,12 +37,12 @@ func registerPostingEscrow(
 	return escrowed, holds, nil
 }
 
-var escrowedPostingKeyLayout = vaultkey.Pair(vaultkey.Text, vaultkey.Text)
+var escrowedPostingKeyLayout = vaultkey.Pair(hashcodec.URLHash, hashcodec.Hash)
 
 type escrowedPostingKeyCodec struct{}
 
 func (escrowedPostingKeyCodec) Encode(posting postingIdentity) vaultkey.Key {
-	return escrowedPostingKeyLayout.Key(posting.URL.String(), posting.Word.String())
+	return escrowedPostingKeyLayout.Key(posting.URL, posting.Word)
 }
 
 func (escrowedPostingKeyCodec) Decode(key vaultkey.Key) (postingIdentity, error) {
@@ -50,24 +51,11 @@ func (escrowedPostingKeyCodec) Decode(key vaultkey.Key) (postingIdentity, error)
 		return postingIdentity{}, fmt.Errorf("escrowed posting key: %w", err)
 	}
 
-	return parsedIdentity(word, url)
-}
-
-func parsedIdentity(word string, url string) (postingIdentity, error) {
-	parsedWord, err := yacymodel.ParseHash(word)
-	if err != nil {
-		return postingIdentity{}, fmt.Errorf("posting word hash: %w", err)
-	}
-	parsedURL, err := yacymodel.ParseURLHash(url)
-	if err != nil {
-		return postingIdentity{}, fmt.Errorf("posting url hash: %w", err)
-	}
-
-	return postingIdentity{Word: parsedWord, URL: parsedURL}, nil
+	return postingIdentity{Word: word, URL: url}, nil
 }
 
 func escrowedPostingKeysOf(url yacymodel.URLHash) vaultkey.KeyRange {
-	return escrowedPostingKeyLayout.KeysWithFirst(url.String())
+	return escrowedPostingKeyLayout.KeysWithFirst(url)
 }
 
 type escrowedPostingValueCodec struct{}
@@ -108,16 +96,12 @@ func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
 	}, nil
 }
 
-var postingHoldKeyLayout = vaultkey.Triple(vaultkey.Time, vaultkey.Text, vaultkey.Text)
+var postingHoldKeyLayout = vaultkey.Triple(vaultkey.Time, hashcodec.Hash, hashcodec.URLHash)
 
 type postingHoldKeyCodec struct{}
 
 func (postingHoldKeyCodec) Encode(hold postingHold) vaultkey.Key {
-	return postingHoldKeyLayout.Key(
-		hold.HeldAt,
-		hold.Posting.Word.String(),
-		hold.Posting.URL.String(),
-	)
+	return postingHoldKeyLayout.Key(hold.HeldAt, hold.Posting.Word, hold.Posting.URL)
 }
 
 func (postingHoldKeyCodec) Decode(key vaultkey.Key) (postingHold, error) {
@@ -125,12 +109,8 @@ func (postingHoldKeyCodec) Decode(key vaultkey.Key) (postingHold, error) {
 	if err != nil {
 		return postingHold{}, fmt.Errorf("posting hold key: %w", err)
 	}
-	posting, err := parsedIdentity(word, url)
-	if err != nil {
-		return postingHold{}, err
-	}
 
-	return postingHold{HeldAt: heldAt, Posting: posting}, nil
+	return postingHold{HeldAt: heldAt, Posting: postingIdentity{Word: word, URL: url}}, nil
 }
 
 func postingHoldKeysBefore(cutoff time.Time) vaultkey.KeyRange {
