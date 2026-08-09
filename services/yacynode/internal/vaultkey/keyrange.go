@@ -15,8 +15,16 @@ func KeysFrom(bound Key) KeyRange {
 	return KeyRange{firstIncluded: bound.encoded}
 }
 
-func KeysUnder(prefix Key) KeyRange {
-	return KeyRange{firstIncluded: prefix.encoded, firstExcluded: successorOf(prefix.encoded)}
+func (keys KeyRange) Contains(key []byte) bool {
+	if bytes.Compare(key, keys.firstIncluded) < 0 {
+		return false
+	}
+
+	return keys.firstExcluded == nil || bytes.Compare(key, keys.firstExcluded) < 0
+}
+
+func (keys KeyRange) FirstIncludedKey() []byte {
+	return keys.firstIncluded
 }
 
 func successorOf(prefix []byte) []byte {
@@ -33,24 +41,4 @@ func successorOf(prefix []byte) []byte {
 	}
 
 	return nil
-}
-
-func KeysBefore(bound Key) KeyRange {
-	return KeyRange{firstExcluded: bound.encoded}
-}
-
-func KeysThrough(bound Key) KeyRange {
-	return KeyRange{firstExcluded: successorOf(bound.encoded)}
-}
-
-func (keys KeyRange) Contains(key []byte) bool {
-	if bytes.Compare(key, keys.firstIncluded) < 0 {
-		return false
-	}
-
-	return keys.firstExcluded == nil || bytes.Compare(key, keys.firstExcluded) < 0
-}
-
-func (keys KeyRange) FirstIncludedKey() []byte {
-	return keys.firstIncluded
 }

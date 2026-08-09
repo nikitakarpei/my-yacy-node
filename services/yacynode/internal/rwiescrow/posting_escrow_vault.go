@@ -67,7 +67,7 @@ func parsedIdentity(word string, url string) (postingIdentity, error) {
 }
 
 func escrowedPostingKeysOf(url yacymodel.URLHash) vaultkey.KeyRange {
-	return vaultkey.KeysUnder(escrowedPostingKeyLayout.First(url.String()))
+	return escrowedPostingKeyLayout.KeysWithFirst(url.String())
 }
 
 type escrowedPostingValueCodec struct{}
@@ -134,5 +134,5 @@ func (postingHoldKeyCodec) Decode(key vaultkey.Key) (postingHold, error) {
 }
 
 func postingHoldKeysBefore(cutoff time.Time) vaultkey.KeyRange {
-	return vaultkey.KeysBefore(postingHoldKeyLayout.First(cutoff))
+	return postingHoldKeyLayout.KeysBeforeFirst(cutoff)
 }

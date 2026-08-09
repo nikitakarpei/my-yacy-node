@@ -55,7 +55,7 @@ func (wordByURLKeyCodec) Decode(key vaultkey.Key) (wordByURL, error) {
 }
 
 func wordByURLKeysOf(url yacymodel.URLHash) vaultkey.KeyRange {
-	return vaultkey.KeysUnder(wordByURLKeyLayout.First(url.String()))
+	return wordByURLKeyLayout.KeysWithFirst(url.String())
 }
 
 var referencedURLKeyLayout = vaultkey.Single(vaultkey.Text)

@@ -1,7 +1,6 @@
 package vaultkey_test
 
 import (
-	"bytes"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
@@ -23,18 +22,18 @@ func TestPairRoundTripsBothPositions(t *testing.T) {
 	}
 }
 
-func TestPairFirstIsABytePrefixOfTheFullKey(t *testing.T) {
+func TestPairRangesOfTheFirstPositionSplitAtThatFirst(t *testing.T) {
 	layout := vaultkey.Pair(vaultkey.Text, vaultkey.Text)
+	firsts := orderedTexts()
+	bound := firsts[len(firsts)/2]
 
-	for _, first := range orderedTexts() {
-		prefix := layout.First(first).Bytes()
-
+	for _, first := range firsts {
 		for _, second := range orderedTexts() {
-			full := layout.Key(first, second).Bytes()
-			if !bytes.HasPrefix(full, prefix) {
-				t.Fatalf("Key(%q, %q) = %x does not start with First(%q) = %x",
-					first, second, full, first, prefix)
-			}
+			key := layout.Key(first, second).Bytes()
+
+			assertRangeAnswers(t, layout.KeysWithFirst(bound), key, first == bound)
+			assertRangeAnswers(t, layout.KeysThroughFirst(bound), key, first <= bound)
+			assertRangeAnswers(t, layout.KeysBeforeFirst(bound), key, first < bound)
 		}
 	}
 }

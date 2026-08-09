@@ -1,7 +1,6 @@
 package vaultkey_test
 
 import (
-	"bytes"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
@@ -29,25 +28,19 @@ func TestTripleRoundTripsAllThreePositions(t *testing.T) {
 	}
 }
 
-func TestTriplePrefixesAreBytePrefixesOfTheFullKey(t *testing.T) {
+func TestTripleRangesOfTheFirstPositionSplitAtThatFirst(t *testing.T) {
 	layout := vaultkey.Triple(vaultkey.Text, vaultkey.Text, vaultkey.Text)
+	firsts := orderedTexts()
+	bound := firsts[len(firsts)/2]
 
-	for _, first := range orderedTexts() {
+	for _, first := range firsts {
 		for _, second := range orderedTexts() {
-			firstPrefix := layout.First(first).Bytes()
-			firstTwoPrefix := layout.FirstTwo(first, second).Bytes()
-
-			if !bytes.HasPrefix(firstTwoPrefix, firstPrefix) {
-				t.Fatalf("FirstTwo(%q, %q) = %x does not start with First(%q) = %x",
-					first, second, firstTwoPrefix, first, firstPrefix)
-			}
-
 			for _, third := range orderedTexts() {
-				full := layout.Key(first, second, third).Bytes()
-				if !bytes.HasPrefix(full, firstTwoPrefix) {
-					t.Fatalf("Key(%q, %q, %q) = %x does not start with %x",
-						first, second, third, full, firstTwoPrefix)
-				}
+				key := layout.Key(first, second, third).Bytes()
+
+				assertRangeAnswers(t, layout.KeysWithFirst(bound), key, first == bound)
+				assertRangeAnswers(t, layout.KeysThroughFirst(bound), key, first <= bound)
+				assertRangeAnswers(t, layout.KeysBeforeFirst(bound), key, first < bound)
 			}
 		}
 	}
