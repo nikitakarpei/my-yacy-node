@@ -20,6 +20,10 @@ func (layout PairKey[A, B]) KeysWithFirst(first A) KeyRange {
 	return layout.first.keysWith(first)
 }
 
+func (layout PairKey[A, B]) KeysFromFirst(first A) KeyRange {
+	return layout.first.keysFrom(first)
+}
+
 func (layout PairKey[A, B]) KeysThroughFirst(first A) KeyRange {
 	return layout.first.keysThrough(first)
 }
@@ -28,7 +32,7 @@ func (layout PairKey[A, B]) KeysBeforeFirst(first A) KeyRange {
 	return layout.first.keysBefore(first)
 }
 
-func (layout PairKey[A, B]) Parts(key Key) (A, B, error) {
+func (layout PairKey[A, B]) Parts(storedKey []byte) (A, B, error) {
 	firstTargets, firstValue := layout.first.holder()
 	secondTargets, secondValue := layout.second.holder()
 
@@ -37,7 +41,7 @@ func (layout PairKey[A, B]) Parts(key Key) (A, B, error) {
 		second B
 	)
 
-	if err := key.parseInto(append(firstTargets, secondTargets...)); err != nil {
+	if err := parseInto(storedKey, append(firstTargets, secondTargets...)); err != nil {
 		return first, second, err
 	}
 

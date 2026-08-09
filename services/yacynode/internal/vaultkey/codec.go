@@ -18,6 +18,16 @@ func (codec Codec[A]) keysWith(value A) KeyRange {
 	return KeyRange{firstIncluded: encoding, firstExcluded: successorOf(encoding)}
 }
 
+func (codec Codec[A]) keysFrom(value A) KeyRange {
+	encoding := codec.encodingOf(value)
+
+	if codec.descending {
+		return KeyRange{firstExcluded: successorOf(encoding)}
+	}
+
+	return KeyRange{firstIncluded: encoding}
+}
+
 func (codec Codec[A]) keysThrough(value A) KeyRange {
 	encoding := codec.encodingOf(value)
 

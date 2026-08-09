@@ -22,6 +22,10 @@ func (layout TripleKey[A, B, C]) KeysWithFirst(first A) KeyRange {
 	return layout.first.keysWith(first)
 }
 
+func (layout TripleKey[A, B, C]) KeysFromFirst(first A) KeyRange {
+	return layout.first.keysFrom(first)
+}
+
 func (layout TripleKey[A, B, C]) KeysThroughFirst(first A) KeyRange {
 	return layout.first.keysThrough(first)
 }
@@ -30,7 +34,7 @@ func (layout TripleKey[A, B, C]) KeysBeforeFirst(first A) KeyRange {
 	return layout.first.keysBefore(first)
 }
 
-func (layout TripleKey[A, B, C]) Parts(key Key) (A, B, C, error) {
+func (layout TripleKey[A, B, C]) Parts(storedKey []byte) (A, B, C, error) {
 	firstTargets, firstValue := layout.first.holder()
 	secondTargets, secondValue := layout.second.holder()
 	thirdTargets, thirdValue := layout.third.holder()
@@ -45,7 +49,7 @@ func (layout TripleKey[A, B, C]) Parts(key Key) (A, B, C, error) {
 		third  C
 	)
 
-	if err := key.parseInto(targets); err != nil {
+	if err := parseInto(storedKey, targets); err != nil {
 		return first, second, third, err
 	}
 

@@ -11,14 +11,11 @@ func EveryKey() KeyRange {
 	return KeyRange{}
 }
 
-func KeysFrom(bound Key) KeyRange {
-	return KeyRange{firstIncluded: bound.encoded}
-}
-
 func (keys KeyRange) Bounds() (firstIncluded, firstExcluded []byte) {
 	return bytes.Clone(keys.firstIncluded), bytes.Clone(keys.firstExcluded)
 }
 
+// No codec emits an all-0xFF encoding, so the nil successor never stands for a real key.
 func successorOf(prefix []byte) []byte {
 	for position := len(prefix) - 1; position >= 0; position-- {
 		if prefix[position] == 0xFF {

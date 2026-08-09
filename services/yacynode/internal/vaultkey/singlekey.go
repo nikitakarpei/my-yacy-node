@@ -16,6 +16,10 @@ func (layout SingleKey[A]) KeysWithFirst(first A) KeyRange {
 	return layout.first.keysWith(first)
 }
 
+func (layout SingleKey[A]) KeysFromFirst(first A) KeyRange {
+	return layout.first.keysFrom(first)
+}
+
 func (layout SingleKey[A]) KeysThroughFirst(first A) KeyRange {
 	return layout.first.keysThrough(first)
 }
@@ -24,10 +28,10 @@ func (layout SingleKey[A]) KeysBeforeFirst(first A) KeyRange {
 	return layout.first.keysBefore(first)
 }
 
-func (layout SingleKey[A]) Parts(key Key) (A, error) {
+func (layout SingleKey[A]) Parts(storedKey []byte) (A, error) {
 	firstTargets, firstValue := layout.first.holder()
 
-	if err := key.parseInto(firstTargets); err != nil {
+	if err := parseInto(storedKey, firstTargets); err != nil {
 		var unparsed A
 
 		return unparsed, err

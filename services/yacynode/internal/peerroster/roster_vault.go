@@ -32,8 +32,8 @@ func (peerKeyCodec) Encode(peer yacymodel.Hash) vaultkey.Key {
 	return peerKeyLayout.Key(peer)
 }
 
-func (peerKeyCodec) Decode(key vaultkey.Key) (yacymodel.Hash, error) {
-	peer, err := peerKeyLayout.Parts(key)
+func (peerKeyCodec) Decode(storedKey []byte) (yacymodel.Hash, error) {
+	peer, err := peerKeyLayout.Parts(storedKey)
 	if err != nil {
 		return yacymodel.Hash{}, fmt.Errorf("peer roster key: %w", err)
 	}

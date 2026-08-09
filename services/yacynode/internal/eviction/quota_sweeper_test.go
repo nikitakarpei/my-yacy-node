@@ -20,8 +20,8 @@ type seedKeyCodec struct{}
 
 func (seedKeyCodec) Encode(key string) vaultkey.Key { return seedKeyLayout.Key(key) }
 
-func (seedKeyCodec) Decode(key vaultkey.Key) (string, error) {
-	decoded, err := seedKeyLayout.Parts(key)
+func (seedKeyCodec) Decode(storedKey []byte) (string, error) {
+	decoded, err := seedKeyLayout.Parts(storedKey)
 	if err != nil {
 		return "", fmt.Errorf("seed key: %w", err)
 	}

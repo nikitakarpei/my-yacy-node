@@ -37,8 +37,8 @@ func (wordByURLKeyCodec) Encode(reference wordByURL) vaultkey.Key {
 	return wordByURLKeyLayout.Key(reference.url, reference.word)
 }
 
-func (wordByURLKeyCodec) Decode(key vaultkey.Key) (wordByURL, error) {
-	url, word, err := wordByURLKeyLayout.Parts(key)
+func (wordByURLKeyCodec) Decode(storedKey []byte) (wordByURL, error) {
+	url, word, err := wordByURLKeyLayout.Parts(storedKey)
 	if err != nil {
 		return wordByURL{}, fmt.Errorf("word by url key: %w", err)
 	}
@@ -58,8 +58,8 @@ func (referencedURLKeyCodec) Encode(url yacymodel.URLHash) vaultkey.Key {
 	return referencedURLKeyLayout.Key(url)
 }
 
-func (referencedURLKeyCodec) Decode(key vaultkey.Key) (yacymodel.URLHash, error) {
-	url, err := referencedURLKeyLayout.Parts(key)
+func (referencedURLKeyCodec) Decode(storedKey []byte) (yacymodel.URLHash, error) {
+	url, err := referencedURLKeyLayout.Parts(storedKey)
 	if err != nil {
 		return yacymodel.URLHash{}, fmt.Errorf("referenced url key: %w", err)
 	}

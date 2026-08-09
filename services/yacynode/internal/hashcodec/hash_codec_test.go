@@ -21,7 +21,7 @@ func TestHashKeysCarryTheHashText(t *testing.T) {
 		t.Fatalf("key(%s) differs from the text key of its string form", word)
 	}
 
-	decoded, err := layout.Parts(layout.Key(word))
+	decoded, err := layout.Parts(layout.Key(word).Bytes())
 	if err != nil {
 		t.Fatalf("Parts(%s) failed: %v", word, err)
 	}
@@ -44,7 +44,7 @@ func TestURLHashKeysCarryTheHashText(t *testing.T) {
 		t.Fatalf("key(%s) differs from the text key of its string form", url)
 	}
 
-	decoded, err := layout.Parts(layout.Key(url))
+	decoded, err := layout.Parts(layout.Key(url).Bytes())
 	if err != nil {
 		t.Fatalf("Parts(%s) failed: %v", url, err)
 	}
@@ -56,13 +56,13 @@ func TestURLHashKeysCarryTheHashText(t *testing.T) {
 func TestHashKeysFailWhenTheTextIsNoHash(t *testing.T) {
 	notAHash := vaultkey.Single(vaultkey.Text).Key("too short")
 
-	if _, err := vaultkey.Single(hashcodec.Hash).Parts(notAHash); !errors.Is(
+	if _, err := vaultkey.Single(hashcodec.Hash).Parts(notAHash.Bytes()); !errors.Is(
 		err,
 		yacymodel.ErrInvalidHash,
 	) {
 		t.Fatalf("Parts error = %v, want %v", err, yacymodel.ErrInvalidHash)
 	}
-	if _, err := vaultkey.Single(hashcodec.URLHash).Parts(notAHash); !errors.Is(
+	if _, err := vaultkey.Single(hashcodec.URLHash).Parts(notAHash.Bytes()); !errors.Is(
 		err,
 		yacymodel.ErrInvalidHash,
 	) {

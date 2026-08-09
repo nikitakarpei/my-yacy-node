@@ -45,8 +45,8 @@ func (escrowedPostingKeyCodec) Encode(posting postingIdentity) vaultkey.Key {
 	return escrowedPostingKeyLayout.Key(posting.URL, posting.Word)
 }
 
-func (escrowedPostingKeyCodec) Decode(key vaultkey.Key) (postingIdentity, error) {
-	url, word, err := escrowedPostingKeyLayout.Parts(key)
+func (escrowedPostingKeyCodec) Decode(storedKey []byte) (postingIdentity, error) {
+	url, word, err := escrowedPostingKeyLayout.Parts(storedKey)
 	if err != nil {
 		return postingIdentity{}, fmt.Errorf("escrowed posting key: %w", err)
 	}
@@ -104,8 +104,8 @@ func (postingHoldKeyCodec) Encode(hold postingHold) vaultkey.Key {
 	return postingHoldKeyLayout.Key(hold.HeldAt, hold.Posting.Word, hold.Posting.URL)
 }
 
-func (postingHoldKeyCodec) Decode(key vaultkey.Key) (postingHold, error) {
-	heldAt, word, url, err := postingHoldKeyLayout.Parts(key)
+func (postingHoldKeyCodec) Decode(storedKey []byte) (postingHold, error) {
+	heldAt, word, url, err := postingHoldKeyLayout.Parts(storedKey)
 	if err != nil {
 		return postingHold{}, fmt.Errorf("posting hold key: %w", err)
 	}

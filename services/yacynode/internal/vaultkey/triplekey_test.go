@@ -14,7 +14,7 @@ func TestTripleRoundTripsAllThreePositions(t *testing.T) {
 			for _, number := range orderedIntegers() {
 				key := layout.Key(instant, text, number)
 
-				decodedInstant, decodedText, decodedNumber, err := layout.Parts(key)
+				decodedInstant, decodedText, decodedNumber, err := layout.Parts(key.Bytes())
 				if err != nil {
 					t.Fatalf("Parts(%s, %q, %d) failed: %v", instant, text, number, err)
 				}
@@ -39,6 +39,7 @@ func TestTripleRangesOfTheFirstPositionSplitAtThatFirst(t *testing.T) {
 				key := layout.Key(first, second, third).Bytes()
 
 				assertRangeAnswers(t, layout.KeysWithFirst(bound), key, first == bound)
+				assertRangeAnswers(t, layout.KeysFromFirst(bound), key, first >= bound)
 				assertRangeAnswers(t, layout.KeysThroughFirst(bound), key, first <= bound)
 				assertRangeAnswers(t, layout.KeysBeforeFirst(bound), key, first < bound)
 			}
@@ -50,7 +51,7 @@ func TestTriplePartsRejectsAKeyOfAnotherLayout(t *testing.T) {
 	layout := vaultkey.Triple(vaultkey.Text, vaultkey.Text, vaultkey.Text)
 	foreign := vaultkey.Pair(vaultkey.Text, vaultkey.Text).Key("one", "two")
 
-	if _, _, _, err := layout.Parts(foreign); err == nil {
+	if _, _, _, err := layout.Parts(foreign.Bytes()); err == nil {
 		t.Fatal("Parts accepted a two-part key")
 	}
 }

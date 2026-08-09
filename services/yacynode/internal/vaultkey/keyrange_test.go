@@ -19,28 +19,6 @@ func TestEveryKeyIsUnboundedOnBothSides(t *testing.T) {
 	}
 }
 
-func TestKeysFromHoldsItsBoundAndIsUnboundedAbove(t *testing.T) {
-	layout := vaultkey.Single(vaultkey.Integer)
-	keys := vaultkey.KeysFrom(layout.Key(10))
-
-	firstIncluded, firstExcluded := keys.Bounds()
-	if !bytes.Equal(firstIncluded, layout.Key(10).Bytes()) {
-		t.Fatalf("KeysFrom lower bound = %x, want %x", firstIncluded, layout.Key(10).Bytes())
-	}
-	if firstExcluded != nil {
-		t.Fatalf("KeysFrom upper bound = %x, want nil", firstExcluded)
-	}
-	if !holdsKey(keys, layout.Key(10).Bytes()) {
-		t.Fatal("KeysFrom excludes its bound")
-	}
-	if holdsKey(keys, layout.Key(9).Bytes()) {
-		t.Fatal("KeysFrom holds a smaller key")
-	}
-	if !holdsKey(keys, layout.Key(math.MaxInt64).Bytes()) {
-		t.Fatal("KeysFrom is bounded above")
-	}
-}
-
 func TestRangesOfTheFirstPositionReadInDomainOrderInBothDirections(t *testing.T) {
 	const bound = int64(2)
 
@@ -58,6 +36,8 @@ func TestRangesOfTheFirstPositionReadInDomainOrderInBothDirections(t *testing.T)
 
 					assertRangeAnswers(
 						t, directed.layout.KeysWithFirst(bound), key, first == bound)
+					assertRangeAnswers(
+						t, directed.layout.KeysFromFirst(bound), key, first >= bound)
 					assertRangeAnswers(
 						t, directed.layout.KeysThroughFirst(bound), key, first <= bound)
 					assertRangeAnswers(

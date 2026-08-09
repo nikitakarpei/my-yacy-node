@@ -35,8 +35,8 @@ func (postingKeyCodec) Encode(posting postingIdentity) vaultkey.Key {
 	return postingKeyLayout.Key(posting.word, posting.url)
 }
 
-func (postingKeyCodec) Decode(key vaultkey.Key) (postingIdentity, error) {
-	word, url, err := postingKeyLayout.Parts(key)
+func (postingKeyCodec) Decode(storedKey []byte) (postingIdentity, error) {
+	word, url, err := postingKeyLayout.Parts(storedKey)
 	if err != nil {
 		return postingIdentity{}, fmt.Errorf("rwi posting key: %w", err)
 	}
