@@ -1,6 +1,10 @@
 package vault
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
+)
 
 type Collection[V any] struct {
 	vault *Vault
@@ -66,7 +70,8 @@ func (c *Collection[V]) Delete(tx *Txn, key Key) (bool, error) {
 }
 
 func (c *Collection[V]) Scan(tx *Txn, prefix Key, fn func(Key, V) (bool, error)) error {
-	if err := tx.etx.Bucket(c.name).Scan(prefix, func(key Key, raw []byte) (bool, error) {
+	keys := vaultkey.KeysUnder(vaultkey.KeyFrom(prefix))
+	if err := tx.etx.Bucket(c.name).Scan(keys, func(key, raw []byte) (bool, error) {
 		val, err := c.codec.Decode(raw)
 		if err != nil {
 			return false, fmt.Errorf("decode %s: %w", c.name, err)

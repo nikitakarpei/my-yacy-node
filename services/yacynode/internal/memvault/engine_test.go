@@ -11,8 +11,8 @@ import (
 )
 
 func TestConformance(t *testing.T) {
-	vaulttest.RunConformance(t, func(quotaBytes int64) (*vault.Vault, error) {
-		return memvault.Open(quotaBytes, nil)
+	vaulttest.RunConformance(t, func(quotaBytes int64) (vault.Engine, error) {
+		return memvault.OpenEngine(quotaBytes), nil
 	})
 }
 

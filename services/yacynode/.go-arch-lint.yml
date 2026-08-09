@@ -153,11 +153,13 @@ deps:
   vault:
     mayDependOn:
       - vault
+      - vaultkey
       - vaulttest
   boltvault:
     deepScan: false
     mayDependOn:
       - boltvault
+      - vaultkey
       - vault
       - vaulttest
     canUse:
@@ -165,11 +167,13 @@ deps:
   memvault:
     mayDependOn:
       - memvault
+      - vaultkey
       - vault
       - vaulttest
   vaulttest:
     mayDependOn:
       - vaulttest
+      - vaultkey
       - vault
   httpguard:
     mayDependOn:

@@ -3,6 +3,8 @@ package vault
 import (
 	"context"
 	"errors"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 var ErrAtCapacity = errors.New("vault at capacity")
@@ -32,5 +34,5 @@ type EngineBucket interface {
 	Get(Key) []byte
 	Put(Key, []byte) error
 	Delete(Key) error
-	Scan(prefix Key, fn func(Key, []byte) (bool, error)) error
+	Scan(keys vaultkey.KeyRange, fn func(key, value []byte) (bool, error)) error
 }

@@ -18,15 +18,19 @@ type engine struct {
 }
 
 func Open(quotaBytes int64, observer vault.TransactionObserver) (*vault.Vault, error) {
-	vaulted, err := vault.New(&engine{
-		buckets:    map[vault.Name]map[string][]byte{},
-		quotaBytes: quotaBytes,
-	}, observer)
+	vaulted, err := vault.New(OpenEngine(quotaBytes), observer)
 	if err != nil {
 		return nil, fmt.Errorf("initialize storage: %w", err)
 	}
 
 	return vaulted, nil
+}
+
+func OpenEngine(quotaBytes int64) vault.Engine {
+	return &engine{
+		buckets:    map[vault.Name]map[string][]byte{},
+		quotaBytes: quotaBytes,
+	}
 }
 
 func (e *engine) Provision(name vault.Name) error {

@@ -1,5 +1,7 @@
 package vaultkey
 
+import "bytes"
+
 type KeyRange struct {
 	firstIncluded []byte
 	firstExcluded []byte
@@ -7,6 +9,10 @@ type KeyRange struct {
 
 func EveryKey() KeyRange {
 	return KeyRange{}
+}
+
+func KeysFrom(bound Key) KeyRange {
+	return KeyRange{firstIncluded: bound.encoded}
 }
 
 func KeysUnder(prefix Key) KeyRange {
@@ -35,6 +41,14 @@ func KeysBefore(bound Key) KeyRange {
 
 func KeysThrough(bound Key) KeyRange {
 	return KeyRange{firstExcluded: successorOf(bound.encoded)}
+}
+
+func (keys KeyRange) Contains(key []byte) bool {
+	if bytes.Compare(key, keys.firstIncluded) < 0 {
+		return false
+	}
+
+	return keys.firstExcluded == nil || bytes.Compare(key, keys.firstExcluded) < 0
 }
 
 func (keys KeyRange) FirstIncludedKey() []byte {

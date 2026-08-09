@@ -5,7 +5,6 @@
 package boltvault
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"os"
@@ -14,6 +13,7 @@ import (
 	bolt "go.etcd.io/bbolt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 type engine struct {
@@ -26,6 +26,24 @@ func Open(
 	quotaBytes int64,
 	observer vault.TransactionObserver,
 ) (*vault.Vault, error) {
+	opened, err := OpenEngine(path, quotaBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	vaulted, err := vault.New(opened, observer)
+	if err != nil {
+		if closeErr := opened.Close(); closeErr != nil {
+			return nil, fmt.Errorf("initialize storage: %w: %w", err, closeErr)
+		}
+
+		return nil, fmt.Errorf("initialize storage: %w", err)
+	}
+
+	return vaulted, nil
+}
+
+func OpenEngine(path string, quotaBytes int64) (vault.Engine, error) {
 	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
 		return nil, fmt.Errorf("create storage directory: %w", err)
 	}
@@ -35,16 +53,7 @@ func Open(
 		return nil, fmt.Errorf("open storage: %w", err)
 	}
 
-	vaulted, err := vault.New(&engine{db: db, quotaBytes: quotaBytes}, observer)
-	if err != nil {
-		if closeErr := db.Close(); closeErr != nil {
-			return nil, fmt.Errorf("initialize storage: %w: %w", err, closeErr)
-		}
-
-		return nil, fmt.Errorf("initialize storage: %w", err)
-	}
-
-	return vaulted, nil
+	return &engine{db: db, quotaBytes: quotaBytes}, nil
 }
 
 func (e *engine) Provision(name vault.Name) error {
@@ -129,29 +138,29 @@ func (b boltBucket) Delete(key vault.Key) error {
 	return nil
 }
 
-func (b boltBucket) Scan(prefix vault.Key, fn func(vault.Key, []byte) (bool, error)) error {
+func (b boltBucket) Scan(keys vaultkey.KeyRange, fn func(key, value []byte) (bool, error)) error {
 	cursor := b.bucket.Cursor()
 
-	var key, raw []byte
-	if len(prefix) == 0 {
-		key, raw = cursor.First()
-	} else {
-		key, raw = cursor.Seek(prefix)
-	}
-
-	for ; key != nil; key, raw = cursor.Next() {
-		if len(prefix) > 0 && !bytes.HasPrefix(key, prefix) {
-			break
-		}
-
-		keep, err := fn(key, raw)
+	key, value := firstEntryFrom(cursor, keys.FirstIncludedKey())
+	for key != nil && keys.Contains(key) {
+		keep, err := fn(key, value)
 		if err != nil {
 			return err
 		}
 		if !keep {
 			return nil
 		}
+
+		key, value = cursor.Next()
 	}
 
 	return nil
+}
+
+func firstEntryFrom(cursor *bolt.Cursor, firstIncluded []byte) ([]byte, []byte) {
+	if len(firstIncluded) == 0 {
+		return cursor.First()
+	}
+
+	return cursor.Seek(firstIncluded)
 }
