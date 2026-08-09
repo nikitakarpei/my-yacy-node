@@ -159,6 +159,10 @@ func (r *Recaller) representationOf(
 ) (Representation, bool) {
 	corpus, held := r.corpusByKind[kind]
 	if !held {
+		slog.ErrorContext(ctx, "no corpus serves the requested representation kind",
+			slog.String("kind", string(kind)),
+			slog.String("url", canonicalURL),
+		)
 		return nil, false
 	}
 	ticker := time.NewTicker(r.pollInterval)
