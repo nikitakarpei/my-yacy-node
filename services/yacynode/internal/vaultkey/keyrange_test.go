@@ -1,7 +1,7 @@
 package vaultkey_test
 
 import (
-	"bytes"
+	"math"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
@@ -10,9 +10,13 @@ import (
 func TestEveryKeyIsUnboundedOnBothSides(t *testing.T) {
 	keys := vaultkey.EveryKey()
 
-	if keys.FirstIncludedKey() != nil || keys.FirstExcludedKey() != nil {
-		t.Fatalf("EveryKey = [%x, %x), want unbounded",
-			keys.FirstIncludedKey(), keys.FirstExcludedKey())
+	if keys.FirstIncludedKey() != nil {
+		t.Fatalf("EveryKey lower bound = %x, want nil", keys.FirstIncludedKey())
+	}
+	for _, key := range [][]byte{nil, {}, []byte("a"), {0xFF, 0xFF}} {
+		if !keys.Contains(key) {
+			t.Fatalf("EveryKey excludes %x", key)
+		}
 	}
 }
 
@@ -69,8 +73,8 @@ func TestKeysFromHoldsItsBoundAndIsUnboundedAbove(t *testing.T) {
 	if keys.Contains(layout.Key(9).Bytes()) {
 		t.Fatal("KeysFrom holds a smaller key")
 	}
-	if keys.FirstExcludedKey() != nil {
-		t.Fatalf("FirstExcludedKey = %x, want nil", keys.FirstExcludedKey())
+	if !keys.Contains(layout.Key(math.MaxInt64).Bytes()) {
+		t.Fatal("KeysFrom is bounded above")
 	}
 }
 
@@ -122,28 +126,28 @@ func TestKeysThroughHoldsItsBoundAndEveryKeyUnderIt(t *testing.T) {
 func TestUpperBoundTruncatesAtTheLastByteBelow0xFF(t *testing.T) {
 	keys := vaultkey.KeysUnder(vaultkey.KeyFrom([]byte{0x01, 0xFF, 0xFF}))
 
-	if want := []byte{0x02}; !bytes.Equal(keys.FirstExcludedKey(), want) {
-		t.Fatalf("FirstExcludedKey = %x, want %x", keys.FirstExcludedKey(), want)
+	for _, key := range [][]byte{
+		{0x01, 0xFF, 0xFF},
+		{0x01, 0xFF, 0xFF, 0x00},
+		{0x01, 0xFF, 0xFF, 0xFF},
+	} {
+		if !keys.Contains(key) {
+			t.Fatalf("KeysUnder excludes %x, a key under its prefix", key)
+		}
 	}
-}
 
-func TestANilExcludedKeyMeansUnbounded(t *testing.T) {
-	for _, prefix := range [][]byte{nil, {0xFF}, {0xFF, 0xFF}} {
-		keys := vaultkey.KeysUnder(vaultkey.KeyFrom(prefix))
-		if keys.FirstExcludedKey() != nil {
-			t.Fatalf("KeysUnder(%x) upper bound = %x, want nil",
-				prefix, keys.FirstExcludedKey())
+	for _, key := range [][]byte{{0x02}, {0x02, 0x00}} {
+		if keys.Contains(key) {
+			t.Fatalf("KeysUnder holds %x, a key past its prefix", key)
 		}
 	}
 }
 
-func TestAnEmptyExcludedKeyDoesNotMeanUnbounded(t *testing.T) {
-	keys := vaultkey.KeysBefore(vaultkey.KeyFrom([]byte{}))
-
-	if keys.FirstExcludedKey() == nil {
-		t.Fatal("KeysBefore an empty key reads as unbounded")
-	}
-	if len(keys.FirstExcludedKey()) != 0 {
-		t.Fatalf("FirstExcludedKey = %x, want empty", keys.FirstExcludedKey())
+func TestAPrefixOfOnly0xFFIsUnboundedAbove(t *testing.T) {
+	for _, prefix := range [][]byte{nil, {0xFF}, {0xFF, 0xFF}} {
+		keys := vaultkey.KeysUnder(vaultkey.KeyFrom(prefix))
+		if !keys.Contains([]byte{0xFF, 0xFF, 0xFF, 0xFF}) {
+			t.Fatalf("KeysUnder(%x) is bounded above", prefix)
+		}
 	}
 }

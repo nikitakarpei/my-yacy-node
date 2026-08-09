@@ -54,7 +54,3 @@ func (keys KeyRange) Contains(key []byte) bool {
 func (keys KeyRange) FirstIncludedKey() []byte {
 	return keys.firstIncluded
 }
-
-func (keys KeyRange) FirstExcludedKey() []byte {
-	return keys.firstExcluded
-}
