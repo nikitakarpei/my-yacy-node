@@ -54,7 +54,7 @@ func (escrowedPostingKeyCodec) Decode(storedKey []byte) (postingIdentity, error)
 	return postingIdentity{Word: word, URL: url}, nil
 }
 
-func escrowedPostingKeysOf(url yacymodel.URLHash) vaultkey.KeyRange {
+func everyPostingWaitingFor(url yacymodel.URLHash) vaultkey.KeyRange {
 	return escrowedPostingKeyLayout.KeysWithFirst(url)
 }
 
@@ -113,6 +113,6 @@ func (postingHoldKeyCodec) Decode(storedKey []byte) (postingHold, error) {
 	return postingHold{HeldAt: heldAt, Posting: postingIdentity{Word: word, URL: url}}, nil
 }
 
-func postingHoldKeysBefore(cutoff time.Time) vaultkey.KeyRange {
+func everyHoldPlacedBefore(cutoff time.Time) vaultkey.KeyRange {
 	return postingHoldKeyLayout.KeysBeforeFirst(cutoff)
 }

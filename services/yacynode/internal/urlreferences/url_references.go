@@ -73,7 +73,7 @@ func (r *urlReferences) WordsReferencing(
 	var words []yacymodel.Hash
 	err := r.words.Scan(
 		tx,
-		wordByURLKeysOf(url),
+		everyWordReferencing(url),
 		func(reference wordByURL) (bool, error) {
 			words = append(words, reference.word)
 

@@ -88,7 +88,7 @@ func (d postingDirectory) ScanWord(
 	err := d.vault.View(ctx, func(tx *vault.Txn) error {
 		return d.postings.Scan(
 			tx,
-			postingKeysOf(word),
+			everyPostingOf(word),
 			func(_ postingIdentity, entry yacymodel.RWIPosting) (bool, error) {
 				if err := ctx.Err(); err != nil {
 					return false, fmt.Errorf("context: %w", err)

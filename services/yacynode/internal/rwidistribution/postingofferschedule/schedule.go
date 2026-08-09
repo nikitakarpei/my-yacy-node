@@ -241,7 +241,7 @@ func (s *Schedule) DuePostings(
 	err := s.vault.View(ctx, func(tx *vault.Txn) error {
 		return s.order.Scan(
 			tx,
-			orderKeysThrough(now),
+			everyOfferDueBy(now),
 			func(scheduledOffer scheduledPostingOffer) (bool, error) {
 				duePostings = append(duePostings, scheduledOffer.Posting)
 

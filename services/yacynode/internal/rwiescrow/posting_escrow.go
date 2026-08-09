@@ -178,7 +178,7 @@ func (e *PostingEscrow) postingsWaitingFor(
 	var waiting []escrowedPosting
 	err := e.escrowed.Scan(
 		tx,
-		escrowedPostingKeysOf(hash),
+		everyPostingWaitingFor(hash),
 		func(identity postingIdentity, escrowed escrowedPosting) (bool, error) {
 			escrowed.Posting.WordHash = identity.Word
 			waiting = append(waiting, escrowed)
@@ -199,7 +199,7 @@ func (e *PostingEscrow) postingHoldsBefore(
 	limit int,
 ) ([]postingHold, error) {
 	holds := make([]postingHold, 0, limit)
-	err := e.holds.Scan(tx, postingHoldKeysBefore(cutoff), func(hold postingHold) (bool, error) {
+	err := e.holds.Scan(tx, everyHoldPlacedBefore(cutoff), func(hold postingHold) (bool, error) {
 		holds = append(holds, hold)
 
 		return len(holds) < limit, nil
