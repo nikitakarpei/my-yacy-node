@@ -54,7 +54,12 @@ func openVault(t *testing.T, quotaBytes int64) *vault.Vault {
 func seedUsage(t *testing.T, v *vault.Vault) {
 	t.Helper()
 
-	collection, err := vault.Register(v, vault.Name("seed"), seedKeyCodec{}, seedValueCodec{})
+	collection, err := vault.RegisterCollection(
+		v,
+		vault.Name("seed"),
+		seedKeyCodec{},
+		seedValueCodec{},
+	)
 	if err != nil {
 		t.Fatalf("Register seed: %v", err)
 	}

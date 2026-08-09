@@ -7,13 +7,17 @@ package vault
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sync"
 )
 
 type Name string
 
-const lengthBucket = Name("__lengths__")
+var (
+	errVaultClosed  = errors.New("vault closed")
+	errEngineAbsent = errors.New("vault needs a storage engine")
+)
 
 type Vault struct {
 	engine     Engine
@@ -24,7 +28,7 @@ type Vault struct {
 
 func New(engine Engine, observer TransactionObserver) (*Vault, error) {
 	if engine == nil {
-		return nil, errVaultClosed
+		return nil, errEngineAbsent
 	}
 	if observer == nil {
 		observer = silentObserver{}

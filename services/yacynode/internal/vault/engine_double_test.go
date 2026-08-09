@@ -14,10 +14,12 @@ type doubleEngine struct {
 	quotaBytes int64
 }
 
+func newDoubleEngine() *doubleEngine {
+	return &doubleEngine{buckets: map[vault.Name]map[string][]byte{}}
+}
+
 func openDouble() (*vault.Vault, error) {
-	v, err := vault.New(&doubleEngine{
-		buckets: map[vault.Name]map[string][]byte{},
-	}, nil)
+	v, err := vault.New(newDoubleEngine(), nil)
 	if err != nil {
 		return nil, fmt.Errorf("new vault: %w", err)
 	}

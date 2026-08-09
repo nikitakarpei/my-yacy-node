@@ -4,8 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log/slog"
 	"time"
+)
+
+var errTransactionNeverOpened = errors.New(
+	"engine reported success without opening a transaction",
 )
 
 type Txn struct {
@@ -63,52 +66,6 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 
 		return nil
 	}
-}
-
-func reportWriteBeginRefused(ctx context.Context, observer TransactionObserver, err error) {
-	cause := refusalCauseOf(err)
-	observer.ObserveWriteBeginRefused(cause)
-	slog.ErrorContext(
-		ctx,
-		"write transaction refused before it began",
-		slog.String("cause", string(cause)),
-		slog.Any("error", err),
-	)
-}
-
-func reportWriteAborted(
-	ctx context.Context,
-	observer TransactionObserver,
-	timeline *writeTimeline,
-	closureFailure error,
-) {
-	observer.ObserveWriteAborted(timeline.executeDuration(), timeline.closeDuration())
-	slog.WarnContext(ctx, "write transaction aborted by caller", slog.Any("error", closureFailure))
-}
-
-func reportWriteCommitRefused(
-	ctx context.Context,
-	observer TransactionObserver,
-	timeline *writeTimeline,
-	engineFailure error,
-) {
-	cause := refusalCauseOf(engineFailure)
-	observer.ObserveWriteCommitRefused(timeline.executeDuration(), timeline.closeDuration(), cause)
-	slog.ErrorContext(
-		ctx,
-		"write transaction refused by storage engine",
-		slog.String("cause", string(cause)),
-		slog.Any("error", engineFailure),
-	)
-}
-
-func reportWriteCommitted(
-	ctx context.Context,
-	observer TransactionObserver,
-	timeline *writeTimeline,
-) {
-	observer.ObserveWriteCommitted(timeline.executeDuration(), timeline.closeDuration())
-	slog.DebugContext(ctx, "write transaction committed")
 }
 
 func (v *Vault) View(ctx context.Context, fn func(*Txn) error) error {

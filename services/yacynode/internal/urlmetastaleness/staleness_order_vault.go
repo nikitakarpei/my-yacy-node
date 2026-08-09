@@ -20,7 +20,7 @@ func registerStalenessRanking(
 	if err != nil {
 		return nil, nil, fmt.Errorf("register staleness order: %w", err)
 	}
-	freshness, err := vault.Register(
+	freshness, err := vault.RegisterCollection(
 		v,
 		freshnessBucket,
 		freshnessKeyCodec{},

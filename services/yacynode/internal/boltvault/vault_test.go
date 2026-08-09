@@ -52,7 +52,12 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
-	words, err := vault.Register(first, vault.Name("words"), stringKeyCodec{}, stringValueCodec{})
+	words, err := vault.RegisterCollection(
+		first,
+		vault.Name("words"),
+		stringKeyCodec{},
+		stringValueCodec{},
+	)
 	if err != nil {
 		t.Fatalf("Register: %v", err)
 	}
@@ -74,7 +79,12 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 			t.Fatalf("Close: %v", err)
 		}
 	})
-	words, err = vault.Register(reopened, vault.Name("words"), stringKeyCodec{}, stringValueCodec{})
+	words, err = vault.RegisterCollection(
+		reopened,
+		vault.Name("words"),
+		stringKeyCodec{},
+		stringValueCodec{},
+	)
 	if err != nil {
 		t.Fatalf("re-register: %v", err)
 	}
@@ -105,7 +115,12 @@ func TestWritesAreNotGatedByQuota(t *testing.T) {
 			t.Fatalf("Close: %v", err)
 		}
 	})
-	words, err := vault.Register(store, vault.Name("words"), stringKeyCodec{}, stringValueCodec{})
+	words, err := vault.RegisterCollection(
+		store,
+		vault.Name("words"),
+		stringKeyCodec{},
+		stringValueCodec{},
+	)
 	if err != nil {
 		t.Fatalf("Register: %v", err)
 	}

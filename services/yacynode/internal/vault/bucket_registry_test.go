@@ -8,6 +8,38 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
+func TestRejectsDuplicateRegistration(t *testing.T) {
+	v, _ := openWords(t)
+
+	if _, err := vault.RegisterCollection(
+		v,
+		vault.Name("words"),
+		stringKeyCodec{},
+		stringValueCodec{},
+	); err == nil {
+		t.Fatal("duplicate RegisterCollection succeeded, want error")
+	}
+}
+
+func TestRegisterRejectsClosedVault(t *testing.T) {
+	v, err := openDouble()
+	if err != nil {
+		t.Fatalf("openDouble: %v", err)
+	}
+	if err := v.Close(); err != nil {
+		t.Fatalf("Close: %v", err)
+	}
+
+	if _, err := vault.RegisterCollection(
+		v,
+		vault.Name("words"),
+		stringKeyCodec{},
+		stringValueCodec{},
+	); err == nil {
+		t.Fatal("RegisterCollection on closed vault succeeded, want error")
+	}
+}
+
 func TestEntriesByCollectionReportsRegisteredLengths(t *testing.T) {
 	v, err := openDouble()
 	if err != nil {
@@ -20,11 +52,16 @@ func TestEntriesByCollectionReportsRegisteredLengths(t *testing.T) {
 	})
 	ctx := context.Background()
 
-	words, err := vault.Register(v, "words", stringKeyCodec{}, stringValueCodec{})
+	words, err := vault.RegisterCollection(v, "words", stringKeyCodec{}, stringValueCodec{})
 	if err != nil {
 		t.Fatalf("Register words: %v", err)
 	}
-	if _, err := vault.Register(v, "urls", stringKeyCodec{}, stringValueCodec{}); err != nil {
+	if _, err := vault.RegisterCollection(
+		v,
+		"urls",
+		stringKeyCodec{},
+		stringValueCodec{},
+	); err != nil {
 		t.Fatalf("Register urls: %v", err)
 	}
 

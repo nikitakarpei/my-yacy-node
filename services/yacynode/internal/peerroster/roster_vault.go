@@ -15,7 +15,7 @@ import (
 const peersBucket vault.Name = "peerroster"
 
 func registerRoster(v *vault.Vault) (*vault.Collection[yacymodel.Hash, rosterEntry], error) {
-	peers, err := vault.Register(v, peersBucket, peerKeyCodec{}, rosterEntryValueCodec{})
+	peers, err := vault.RegisterCollection(v, peersBucket, peerKeyCodec{}, rosterEntryValueCodec{})
 	if err != nil {
 		return nil, fmt.Errorf("register peer roster: %w", err)
 	}
