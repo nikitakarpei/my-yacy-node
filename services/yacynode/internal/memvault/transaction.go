@@ -58,15 +58,25 @@ func (b memBucket) Scan(keys vaultkey.KeyRange, fn func(key, value []byte) (bool
 }
 
 func orderedKeysOf(entries map[string][]byte, keys vaultkey.KeyRange) []string {
+	firstIncluded, firstExcluded := keys.Bounds()
+
 	ordered := make([]string, 0, len(entries))
 	for key := range entries {
-		if keys.Contains([]byte(key)) {
+		if isWithinBounds(key, firstIncluded, firstExcluded) {
 			ordered = append(ordered, key)
 		}
 	}
 	sort.Strings(ordered)
 
 	return ordered
+}
+
+func isWithinBounds(key string, firstIncluded, firstExcluded []byte) bool {
+	if key < string(firstIncluded) {
+		return false
+	}
+
+	return firstExcluded == nil || key < string(firstExcluded)
 }
 
 func snapshot(source map[vault.Name]map[string][]byte) map[vault.Name]map[string][]byte {
