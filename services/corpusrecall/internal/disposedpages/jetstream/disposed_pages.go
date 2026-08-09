@@ -12,6 +12,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
+const orderedDisposalMarkFormat = "%020d"
+
 type DisposedPages struct {
 	bucket jetstream.KeyValue
 }
@@ -20,47 +22,39 @@ func NewDisposedPages(bucket jetstream.KeyValue) *DisposedPages {
 	return &DisposedPages{bucket: bucket}
 }
 
-func (p *DisposedPages) DisposalOf(
+func (p *DisposedPages) DisposalMarkOf(
 	ctx context.Context,
 	canonicalURL string,
-) (recall.PageDisposal, error) {
-	key := yacycrawlcontract.DisposedPageKey(canonicalURL)
-	revision, err := disposalRevisionIn(ctx, p.bucket, key)
-	if err != nil {
-		return nil, err
-	}
-	return &PageDisposal{
-		bucket:           p.bucket,
-		key:              key,
-		revisionAtLookup: revision,
-	}, nil
+) (recall.DisposalMark, error) {
+	return disposalMarkIn(ctx, p.bucket, canonicalURL)
 }
 
-func disposalRevisionIn(
+func disposalMarkIn(
 	ctx context.Context,
 	bucket jetstream.KeyValue,
-	key string,
-) (uint64, error) {
+	canonicalURL string,
+) (recall.DisposalMark, error) {
+	key := yacycrawlcontract.DisposedPageKey(canonicalURL)
 	entry, err := bucket.Get(ctx, key)
 	if errors.Is(err, jetstream.ErrKeyNotFound) {
-		return 0, nil
+		return "", nil
 	}
 	if err != nil {
-		return 0, fmt.Errorf("look up disposal under %q: %w", key, err)
+		return "", fmt.Errorf("look up disposal under %q: %w", key, err)
 	}
-	return entry.Revision(), nil
+	return recall.DisposalMark(
+		fmt.Sprintf(orderedDisposalMarkFormat, entry.Revision()),
+	), nil
 }
 
-type PageDisposal struct {
-	bucket           jetstream.KeyValue
-	key              string
-	revisionAtLookup uint64
-}
-
-func (d *PageDisposal) HasOccurred(ctx context.Context) (bool, error) {
-	revision, err := disposalRevisionIn(ctx, d.bucket, d.key)
+func (p *DisposedPages) DisposalOccurredSince(
+	ctx context.Context,
+	canonicalURL string,
+	mark recall.DisposalMark,
+) (bool, error) {
+	current, err := disposalMarkIn(ctx, p.bucket, canonicalURL)
 	if err != nil {
 		return false, err
 	}
-	return revision > d.revisionAtLookup, nil
+	return current > mark, nil
 }
