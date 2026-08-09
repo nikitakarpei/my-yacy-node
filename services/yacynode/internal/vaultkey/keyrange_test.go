@@ -1,6 +1,7 @@
 package vaultkey_test
 
 import (
+	"bytes"
 	"math"
 	"testing"
 
@@ -8,15 +9,13 @@ import (
 )
 
 func TestEveryKeyIsUnboundedOnBothSides(t *testing.T) {
-	keys := vaultkey.EveryKey()
+	firstIncluded, firstExcluded := vaultkey.EveryKey().Bounds()
 
-	if keys.FirstIncludedKey() != nil {
-		t.Fatalf("EveryKey lower bound = %x, want nil", keys.FirstIncludedKey())
+	if firstIncluded != nil {
+		t.Fatalf("EveryKey lower bound = %x, want nil", firstIncluded)
 	}
-	for _, key := range [][]byte{nil, {}, []byte("a"), {0xFF, 0xFF}} {
-		if !keys.Contains(key) {
-			t.Fatalf("EveryKey excludes %x", key)
-		}
+	if firstExcluded != nil {
+		t.Fatalf("EveryKey upper bound = %x, want nil", firstExcluded)
 	}
 }
 
@@ -24,13 +23,20 @@ func TestKeysFromHoldsItsBoundAndIsUnboundedAbove(t *testing.T) {
 	layout := vaultkey.Single(vaultkey.Integer)
 	keys := vaultkey.KeysFrom(layout.Key(10))
 
-	if !keys.Contains(layout.Key(10).Bytes()) {
+	firstIncluded, firstExcluded := keys.Bounds()
+	if !bytes.Equal(firstIncluded, layout.Key(10).Bytes()) {
+		t.Fatalf("KeysFrom lower bound = %x, want %x", firstIncluded, layout.Key(10).Bytes())
+	}
+	if firstExcluded != nil {
+		t.Fatalf("KeysFrom upper bound = %x, want nil", firstExcluded)
+	}
+	if !holdsKey(keys, layout.Key(10).Bytes()) {
 		t.Fatal("KeysFrom excludes its bound")
 	}
-	if keys.Contains(layout.Key(9).Bytes()) {
+	if holdsKey(keys, layout.Key(9).Bytes()) {
 		t.Fatal("KeysFrom holds a smaller key")
 	}
-	if !keys.Contains(layout.Key(math.MaxInt64).Bytes()) {
+	if !holdsKey(keys, layout.Key(math.MaxInt64).Bytes()) {
 		t.Fatal("KeysFrom is bounded above")
 	}
 }
@@ -62,10 +68,28 @@ func TestRangesOfTheFirstPositionReadInDomainOrderInBothDirections(t *testing.T)
 	}
 }
 
+func TestKeysBeforeTheSmallestFirstValueHoldNoKey(t *testing.T) {
+	layout := vaultkey.Pair(vaultkey.Integer, vaultkey.Text)
+	keys := layout.KeysBeforeFirst(math.MinInt64)
+
+	for _, first := range []int64{math.MinInt64, 0, math.MaxInt64} {
+		assertRangeAnswers(t, keys, layout.Key(first, "").Bytes(), false)
+	}
+}
+
 func assertRangeAnswers(t *testing.T, keys vaultkey.KeyRange, key []byte, want bool) {
 	t.Helper()
 
-	if got := keys.Contains(key); got != want {
-		t.Fatalf("Contains(%x) = %v, want %v", key, got, want)
+	if got := holdsKey(keys, key); got != want {
+		t.Fatalf("range holds %x = %v, want %v", key, got, want)
 	}
+}
+
+func holdsKey(keys vaultkey.KeyRange, key []byte) bool {
+	firstIncluded, firstExcluded := keys.Bounds()
+	if bytes.Compare(key, firstIncluded) < 0 {
+		return false
+	}
+
+	return firstExcluded == nil || bytes.Compare(key, firstExcluded) < 0
 }

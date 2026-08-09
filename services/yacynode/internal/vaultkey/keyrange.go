@@ -15,16 +15,8 @@ func KeysFrom(bound Key) KeyRange {
 	return KeyRange{firstIncluded: bound.encoded}
 }
 
-func (keys KeyRange) Contains(key []byte) bool {
-	if bytes.Compare(key, keys.firstIncluded) < 0 {
-		return false
-	}
-
-	return keys.firstExcluded == nil || bytes.Compare(key, keys.firstExcluded) < 0
-}
-
-func (keys KeyRange) FirstIncludedKey() []byte {
-	return keys.firstIncluded
+func (keys KeyRange) Bounds() (firstIncluded, firstExcluded []byte) {
+	return bytes.Clone(keys.firstIncluded), bytes.Clone(keys.firstExcluded)
 }
 
 func successorOf(prefix []byte) []byte {

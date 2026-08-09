@@ -5,6 +5,7 @@
 package boltvault
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"os"
@@ -139,10 +140,11 @@ func (b boltBucket) Delete(key []byte) error {
 }
 
 func (b boltBucket) Scan(keys vaultkey.KeyRange, fn func(key, value []byte) (bool, error)) error {
-	cursor := b.bucket.Cursor()
+	firstIncluded, firstExcluded := keys.Bounds()
 
-	key, value := firstEntryFrom(cursor, keys.FirstIncludedKey())
-	for key != nil && keys.Contains(key) {
+	cursor := b.bucket.Cursor()
+	key, value := firstEntryFrom(cursor, firstIncluded)
+	for key != nil && isBeforeFirstExcluded(key, firstExcluded) {
 		keep, err := fn(key, value)
 		if err != nil {
 			return err
@@ -163,4 +165,8 @@ func firstEntryFrom(cursor *bolt.Cursor, firstIncluded []byte) ([]byte, []byte) 
 	}
 
 	return cursor.Seek(firstIncluded)
+}
+
+func isBeforeFirstExcluded(key, firstExcluded []byte) bool {
+	return firstExcluded == nil || bytes.Compare(key, firstExcluded) < 0
 }
