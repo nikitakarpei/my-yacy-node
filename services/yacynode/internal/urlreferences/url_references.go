@@ -6,12 +6,15 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 const (
 	wordsByURLBucket    vault.Name = "urlreferences_words"
 	referencedURLBucket vault.Name = "rwi_refs"
 )
+
+var referencedURLKeyLayout = vaultkey.Single(vaultkey.Text)
 
 type urlReferences struct {
 	vault      *vault.Vault
@@ -40,11 +43,15 @@ func (r *urlReferences) PostingStored(
 	if err := r.words.Add(tx, wordByURL{url: url, word: word}.key()); err != nil {
 		return fmt.Errorf("record word by url: %w", err)
 	}
-	if err := r.referenced.Add(tx, vault.Key(url.String())); err != nil {
+	if err := r.referenced.Add(tx, referencedURLKey(url)); err != nil {
 		return fmt.Errorf("record referenced url: %w", err)
 	}
 
 	return nil
+}
+
+func referencedURLKey(url yacymodel.URLHash) vault.Key {
+	return referencedURLKeyLayout.Key(url.String()).Bytes()
 }
 
 func (r *urlReferences) PostingPurged(
@@ -63,7 +70,7 @@ func (r *urlReferences) PostingPurged(
 	if len(remaining) > 0 {
 		return nil
 	}
-	if _, err := r.referenced.Remove(tx, vault.Key(url.String())); err != nil {
+	if _, err := r.referenced.Remove(tx, referencedURLKey(url)); err != nil {
 		return fmt.Errorf("drop referenced url: %w", err)
 	}
 

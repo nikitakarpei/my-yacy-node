@@ -9,9 +9,12 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 const peersBucket vault.Name = "peerroster"
+
+var peerKeyLayout = vaultkey.Single(vaultkey.Text)
 
 const announceRoundsBeforeConfirmationStale = 2
 
@@ -29,10 +32,6 @@ type roster struct {
 
 	mu        sync.Mutex
 	reachable map[yacymodel.Hash]yacymodel.Seed
-}
-
-func (r *roster) key(hash yacymodel.Hash) vault.Key {
-	return vault.Key(hash.String())
 }
 
 func (r *roster) Discover(ctx context.Context, seeds ...yacymodel.Seed) {
@@ -58,7 +57,7 @@ func (r *roster) Discover(ctx context.Context, seeds ...yacymodel.Seed) {
 }
 
 func (r *roster) discoverOne(ctx context.Context, seed yacymodel.Seed) error {
-	key := r.key(seed.Hash)
+	key := peerKey(seed.Hash)
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
 		entry, known, err := r.peers.Get(tx, key)
 		if err != nil {
@@ -78,6 +77,10 @@ func (r *roster) discoverOne(ctx context.Context, seed yacymodel.Seed) error {
 	}
 
 	return nil
+}
+
+func peerKey(peer yacymodel.Hash) vault.Key {
+	return peerKeyLayout.Key(peer.String()).Bytes()
 }
 
 func (r *roster) ConfirmReachable(ctx context.Context, peer yacymodel.Hash) {
@@ -124,7 +127,7 @@ func (r *roster) recordContact(
 	var confirmed yacymodel.Seed
 	found := false
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		entry, known, err := r.peers.Get(tx, r.key(peer))
+		entry, known, err := r.peers.Get(tx, peerKey(peer))
 		if err != nil {
 			return fmt.Errorf("read peer: %w", err)
 		}
@@ -138,7 +141,7 @@ func (r *roster) recordContact(
 		} else {
 			entry.lastReachable = neverReachable
 		}
-		if err := r.peers.Put(tx, r.key(peer), entry); err != nil {
+		if err := r.peers.Put(tx, peerKey(peer), entry); err != nil {
 			return fmt.Errorf("store peer: %w", err)
 		}
 		confirmed, found = entry.seed, true
@@ -203,7 +206,7 @@ func (r *roster) IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) b
 
 	recent := false
 	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
-		entry, known, err := r.peers.Get(tx, r.key(peer))
+		entry, known, err := r.peers.Get(tx, peerKey(peer))
 		if err != nil {
 			return fmt.Errorf("read peer: %w", err)
 		}
@@ -256,7 +259,7 @@ func (r *roster) reachableKeys() map[yacymodel.Hash]struct{} {
 func (r *roster) evictOverflow(ctx context.Context) {
 	for _, hash := range r.stalestBeyondCapacity(ctx) {
 		if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-			if _, err := r.peers.Delete(tx, r.key(hash)); err != nil {
+			if _, err := r.peers.Delete(tx, peerKey(hash)); err != nil {
 				return fmt.Errorf("delete peer: %w", err)
 			}
 

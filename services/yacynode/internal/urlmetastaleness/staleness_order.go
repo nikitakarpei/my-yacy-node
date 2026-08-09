@@ -6,12 +6,15 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 const (
 	orderBucket     vault.Name = "urlmeta_staleness_order"
 	freshnessBucket vault.Name = "urlmeta_staleness_freshness"
 )
+
+var freshnessKeyLayout = vaultkey.Single(vaultkey.Text)
 
 type stalenessRanking struct {
 	vault     *vault.Vault
@@ -72,17 +75,21 @@ func (o *stalenessRanking) URLStored(
 	if err := o.order.Add(tx, rankedURL{rank: rank, hash: hash}.orderKey()); err != nil {
 		return fmt.Errorf("record staleness order: %w", err)
 	}
-	if err := o.freshness.Put(tx, vault.Key(hash.String()), rank); err != nil {
+	if err := o.freshness.Put(tx, freshnessKey(hash), rank); err != nil {
 		return fmt.Errorf("record staleness freshness: %w", err)
 	}
 
 	return nil
 }
 
+func freshnessKey(hash yacymodel.URLHash) vault.Key {
+	return freshnessKeyLayout.Key(hash.String()).Bytes()
+}
+
 var _ StalenessRanking = (*stalenessRanking)(nil)
 
 func (o *stalenessRanking) URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error {
-	rank, found, err := o.freshness.Get(tx, vault.Key(hash.String()))
+	rank, found, err := o.freshness.Get(tx, freshnessKey(hash))
 	if err != nil {
 		return fmt.Errorf("read staleness freshness: %w", err)
 	}
@@ -92,7 +99,7 @@ func (o *stalenessRanking) URLPurged(tx *vault.Txn, hash yacymodel.URLHash) erro
 	if _, err := o.order.Remove(tx, rankedURL{rank: rank, hash: hash}.orderKey()); err != nil {
 		return fmt.Errorf("drop staleness order: %w", err)
 	}
-	if _, err := o.freshness.Delete(tx, vault.Key(hash.String())); err != nil {
+	if _, err := o.freshness.Delete(tx, freshnessKey(hash)); err != nil {
 		return fmt.Errorf("drop staleness freshness: %w", err)
 	}
 

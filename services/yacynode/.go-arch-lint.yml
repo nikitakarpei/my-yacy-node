@@ -197,6 +197,7 @@ deps:
   peerroster:
     mayDependOn:
       - peerroster
+      - vaultkey
       - vault
       - memvault
     canUse:
@@ -228,6 +229,7 @@ deps:
   urlmeta:
     mayDependOn:
       - urlmeta
+      - vaultkey
       - vault
       - memvault
       - httpguard
@@ -239,6 +241,7 @@ deps:
     mayDependOn:
       - urlmetastaleness
       - urlmeta
+      - vaultkey
       - vault
       - memvault
     canUse:
