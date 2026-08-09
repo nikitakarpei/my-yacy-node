@@ -12,7 +12,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
-var ErrTooManyRequestsInFlight = errors.New("too many recall requests in flight")
+var (
+	ErrTooManyRequestsInFlight       = errors.New("too many recall requests in flight")
+	ErrRepresentationKindServedTwice = errors.New(
+		"representation kind served by more than one corpus",
+	)
+)
 
 type CrawlOrderPlacer interface {
 	Place(ctx context.Context, canonicalURL string) error
@@ -64,25 +69,33 @@ func NewRecaller(
 	corpora []Corpus,
 	progress RecallProgress,
 	config Config,
-) *Recaller {
+) (*Recaller, error) {
+	corpusByKind, err := corpusByKindFrom(corpora)
+	if err != nil {
+		return nil, err
+	}
 	return &Recaller{
 		crawlOrders:      crawlOrders,
 		redirects:        redirects,
 		disposedPages:    disposedPages,
-		corpusByKind:     corpusByKindFrom(corpora),
+		corpusByKind:     corpusByKind,
 		progress:         progress,
 		recallLimit:      config.RecallLimit,
 		pollInterval:     config.PollInterval,
 		requestsInFlight: make(chan struct{}, config.MaxRequestsInFlight),
-	}
+	}, nil
 }
 
-func corpusByKindFrom(corpora []Corpus) map[RepresentationKind]Corpus {
+func corpusByKindFrom(corpora []Corpus) (map[RepresentationKind]Corpus, error) {
 	corpusByKind := make(map[RepresentationKind]Corpus, len(corpora))
 	for _, corpus := range corpora {
-		corpusByKind[corpus.RepresentationKind()] = corpus
+		kind := corpus.RepresentationKind()
+		if _, taken := corpusByKind[kind]; taken {
+			return nil, fmt.Errorf("%w: %s", ErrRepresentationKindServedTwice, kind)
+		}
+		corpusByKind[kind] = corpus
 	}
-	return corpusByKind
+	return corpusByKind, nil
 }
 
 func (r *Recaller) Recall(
