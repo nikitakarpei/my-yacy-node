@@ -6,6 +6,8 @@ allow:
   deepScan: false
 
 components:
+  vaultkey:
+    in: internal/vaultkey/**
   vault:
     in: internal/vault/**
   boltvault:
@@ -118,6 +120,8 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
   bbolt:
     in: go.etcd.io/bbolt
+  orderedcode:
+    in: github.com/google/orderedcode
   prometheus:
     in:
       - github.com/prometheus/client_golang/prometheus
@@ -141,6 +145,11 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
 
 deps:
+  vaultkey:
+    mayDependOn:
+      - vaultkey
+    canUse:
+      - orderedcode
   vault:
     mayDependOn:
       - vault

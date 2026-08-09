@@ -1,0 +1,46 @@
+package vaultkey
+
+type KeyRange struct {
+	firstIncluded []byte
+	firstExcluded []byte
+}
+
+func EveryKey() KeyRange {
+	return KeyRange{}
+}
+
+func KeysUnder(prefix Key) KeyRange {
+	return KeyRange{firstIncluded: prefix.encoded, firstExcluded: successorOf(prefix.encoded)}
+}
+
+func successorOf(prefix []byte) []byte {
+	for position := len(prefix) - 1; position >= 0; position-- {
+		if prefix[position] == 0xFF {
+			continue
+		}
+
+		successor := make([]byte, position+1)
+		copy(successor, prefix[:position+1])
+		successor[position]++
+
+		return successor
+	}
+
+	return nil
+}
+
+func KeysBefore(bound Key) KeyRange {
+	return KeyRange{firstExcluded: bound.encoded}
+}
+
+func KeysThrough(bound Key) KeyRange {
+	return KeyRange{firstExcluded: successorOf(bound.encoded)}
+}
+
+func (keys KeyRange) FirstIncludedKey() []byte {
+	return keys.firstIncluded
+}
+
+func (keys KeyRange) FirstExcludedKey() []byte {
+	return keys.firstExcluded
+}
