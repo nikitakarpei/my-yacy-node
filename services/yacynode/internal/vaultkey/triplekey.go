@@ -38,15 +38,30 @@ func (layout TripleKey[A, B, C]) Parts(key Key) (A, B, C, error) {
 	targets = append(targets, secondTargets...)
 	targets = append(targets, thirdTargets...)
 
-	if err := key.parseInto(targets); err != nil {
-		var (
-			unparsedFirst  A
-			unparsedSecond B
-			unparsedThird  C
-		)
+	var (
+		first  A
+		second B
+		third  C
+	)
 
-		return unparsedFirst, unparsedSecond, unparsedThird, err
+	if err := key.parseInto(targets); err != nil {
+		return first, second, third, err
 	}
 
-	return firstValue(), secondValue(), thirdValue(), nil
+	first, err := firstValue()
+	if err != nil {
+		return first, second, third, err
+	}
+
+	second, err = secondValue()
+	if err != nil {
+		return first, second, third, err
+	}
+
+	third, err = thirdValue()
+	if err != nil {
+		return first, second, third, err
+	}
+
+	return first, second, third, nil
 }

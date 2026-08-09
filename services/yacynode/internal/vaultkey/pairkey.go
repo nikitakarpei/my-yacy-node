@@ -24,14 +24,24 @@ func (layout PairKey[A, B]) Parts(key Key) (A, B, error) {
 	firstTargets, firstValue := layout.first.holder()
 	secondTargets, secondValue := layout.second.holder()
 
-	if err := key.parseInto(append(firstTargets, secondTargets...)); err != nil {
-		var (
-			unparsedFirst  A
-			unparsedSecond B
-		)
+	var (
+		first  A
+		second B
+	)
 
-		return unparsedFirst, unparsedSecond, err
+	if err := key.parseInto(append(firstTargets, secondTargets...)); err != nil {
+		return first, second, err
 	}
 
-	return firstValue(), secondValue(), nil
+	first, err := firstValue()
+	if err != nil {
+		return first, second, err
+	}
+
+	second, err = secondValue()
+	if err != nil {
+		return first, second, err
+	}
+
+	return first, second, nil
 }
