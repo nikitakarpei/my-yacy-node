@@ -10,7 +10,6 @@ package peerroster
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -39,9 +38,9 @@ func Open(
 	self yacymodel.Hash,
 	observer RosterObserver,
 ) (Roster, error) {
-	peers, err := vault.Register(storage, peersBucket, peerKeyCodec{}, rosterEntryValueCodec{})
+	peers, err := registerRoster(storage)
 	if err != nil {
-		return nil, fmt.Errorf("register peer roster: %w", err)
+		return nil, err
 	}
 
 	return &roster{

@@ -18,15 +18,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-const (
-	orderBucket         vault.Name = "rwidistribution_offer_order"
-	dueBucket           vault.Name = "rwidistribution_offer_due"
-	offerIntervalBucket vault.Name = "rwidistribution_offer_interval"
-)
-
 type Observer interface {
 	ObserveScheduledPostings(postings int)
 	ObserveLongestOfferLateness(lateness time.Duration)
+}
+
+type scheduledPostingOffer struct {
+	At      time.Time
+	Posting postingidentity.Identity
 }
 
 type Schedule struct {
@@ -39,22 +38,9 @@ type Schedule struct {
 }
 
 func Open(v *vault.Vault, now func() time.Time, observer Observer) (*Schedule, error) {
-	order, err := vault.RegisterSet(v, orderBucket, orderKeyCodec{})
+	order, dueTimes, offerIntervals, err := registerSchedule(v)
 	if err != nil {
-		return nil, fmt.Errorf("register offer order: %w", err)
-	}
-	dueTimes, err := vault.Register(v, dueBucket, postingidentity.KeyCodec{}, dueAtValueCodec{})
-	if err != nil {
-		return nil, fmt.Errorf("register offer due: %w", err)
-	}
-	offerIntervals, err := vault.Register(
-		v,
-		offerIntervalBucket,
-		postingidentity.KeyCodec{},
-		offerIntervalValueCodec{},
-	)
-	if err != nil {
-		return nil, fmt.Errorf("register offer interval: %w", err)
+		return nil, err
 	}
 
 	return &Schedule{

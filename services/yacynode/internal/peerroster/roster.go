@@ -12,11 +12,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-const peersBucket vault.Name = "peerroster"
-
 const announceRoundsBeforeConfirmationStale = 2
 
 var neverReachable time.Time
+
+type rosterEntry struct {
+	seed          yacymodel.Seed
+	lastReachable time.Time
+	lastContacted time.Time
+}
 
 type roster struct {
 	vault            *vault.Vault
