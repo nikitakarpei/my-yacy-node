@@ -7,9 +7,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-const dueAtDigits = 20
+var orderKeyLayout = vaultkey.Triple(vaultkey.Time, vaultkey.Text, vaultkey.Text)
 
 type scheduledPostingOffer struct {
 	At      time.Time
@@ -17,41 +18,29 @@ type scheduledPostingOffer struct {
 }
 
 func orderKeyFor(posting postingidentity.Identity, dueAt time.Time) vault.Key {
-	key := make(vault.Key, 0, dueAtDigits+yacymodel.HashLength*2)
-	key = fmt.Appendf(key, "%0*d", dueAtDigits, dueAt.UnixNano())
-	key = append(key, posting.Word.String()...)
-	key = append(key, posting.URL.String()...)
-
-	return key
+	return orderKeyLayout.Key(dueAt, posting.Word.String(), posting.URL.String()).Bytes()
 }
 
 func parseOrderKey(key vault.Key) (scheduledPostingOffer, error) {
-	wantLen := dueAtDigits + yacymodel.HashLength*2
-	if len(key) != wantLen {
-		return scheduledPostingOffer{},
-			fmt.Errorf("offer schedule order key: length %d, want %d", len(key), wantLen)
+	dueAt, word, url, err := orderKeyLayout.Parts(vaultkey.KeyFrom(key))
+	if err != nil {
+		return scheduledPostingOffer{}, fmt.Errorf("offer schedule order key: %w", err)
 	}
 
-	var nanos int64
-	if _, err := fmt.Sscanf(string(key[:dueAtDigits]), "%d", &nanos); err != nil {
-		return scheduledPostingOffer{},
-			fmt.Errorf("offer schedule order key: parse due time: %w", err)
-	}
-
-	word, err := yacymodel.ParseHash(string(key[dueAtDigits : dueAtDigits+yacymodel.HashLength]))
+	parsedWord, err := yacymodel.ParseHash(word)
 	if err != nil {
 		return scheduledPostingOffer{},
 			fmt.Errorf("offer schedule order key: word hash: %w", err)
 	}
 
-	url, err := yacymodel.ParseURLHash(string(key[dueAtDigits+yacymodel.HashLength:]))
+	parsedURL, err := yacymodel.ParseURLHash(url)
 	if err != nil {
 		return scheduledPostingOffer{},
 			fmt.Errorf("offer schedule order key: url hash: %w", err)
 	}
 
 	return scheduledPostingOffer{
-		At:      time.Unix(0, nanos),
-		Posting: postingidentity.IdentityOf(word, url),
+		At:      dueAt,
+		Posting: postingidentity.IdentityOf(parsedWord, parsedURL),
 	}, nil
 }

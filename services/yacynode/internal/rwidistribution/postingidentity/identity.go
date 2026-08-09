@@ -5,7 +5,10 @@ package postingidentity
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
+
+var identityKeyLayout = vaultkey.Pair(vaultkey.Text, vaultkey.Text)
 
 type Identity struct {
 	Word yacymodel.Hash
@@ -17,9 +20,5 @@ func IdentityOf(word yacymodel.Hash, url yacymodel.URLHash) Identity {
 }
 
 func (i Identity) Key() vault.Key {
-	key := make(vault.Key, 0, yacymodel.HashLength*2)
-	key = append(key, i.Word.String()...)
-	key = append(key, i.URL.String()...)
-
-	return key
+	return identityKeyLayout.Key(i.Word.String(), i.URL.String()).Bytes()
 }
