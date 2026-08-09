@@ -1,7 +1,7 @@
 // Package vaulttest holds the storage-contract suite every vault Engine driver
 // runs against itself. A driver passes its own opener to RunConformance and the
 // suite exercises the guarantees a backend must honour: durable round trips,
-// scan ordering, transaction atomicity, bucket isolation, and byte accounting.
+// bounded scans, transaction atomicity, bucket isolation, and byte accounting.
 // Engine-independent behaviour the port enforces lives with the port's own
 // tests, not here.
 package vaulttest
@@ -10,9 +10,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"slices"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 type stringCodec struct{}
@@ -20,7 +22,7 @@ type stringCodec struct{}
 func (stringCodec) Encode(value string) ([]byte, error) { return []byte(value), nil }
 func (stringCodec) Decode(raw []byte) (string, error)   { return string(raw), nil }
 
-func RunConformance(t *testing.T, open func(quotaBytes int64) (*vault.Vault, error)) {
+func RunConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, error)) {
 	t.Helper()
 
 	t.Run("RoundTripAndLength", func(t *testing.T) { roundTripAndLength(t, open) })
@@ -32,6 +34,11 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (*vault.Vault, err
 	t.Run("ScanVisitsPrefixInOrder", func(t *testing.T) { scanVisitsPrefixInOrder(t, open) })
 	t.Run("ScanStopsWhenAsked", func(t *testing.T) { scanStopsWhenAsked(t, open) })
 	t.Run(
+		"BoundedScanVisitsEveryKeyInRange",
+		func(t *testing.T) { boundedScanVisitsEveryKeyInRange(t, open) },
+	)
+	t.Run("BoundedScanStopsWhenAsked", func(t *testing.T) { boundedScanStopsWhenAsked(t, open) })
+	t.Run(
 		"CrossCollectionAtomicRollback",
 		func(t *testing.T) { crossCollectionAtomicRollback(t, open) },
 	)
@@ -42,22 +49,37 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (*vault.Vault, err
 
 func openVault(
 	t *testing.T,
-	open func(int64) (*vault.Vault, error),
+	open func(int64) (vault.Engine, error),
 	quotaBytes int64,
 ) *vault.Vault {
 	t.Helper()
 
-	v, err := open(quotaBytes)
+	v, err := vault.New(openEngine(t, open, quotaBytes), nil)
+	if err != nil {
+		t.Fatalf("New: %v", err)
+	}
+
+	return v
+}
+
+func openEngine(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+	quotaBytes int64,
+) vault.Engine {
+	t.Helper()
+
+	opened, err := open(quotaBytes)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
 	t.Cleanup(func() {
-		if err := v.Close(); err != nil {
+		if err := opened.Close(); err != nil {
 			t.Fatalf("Close: %v", err)
 		}
 	})
 
-	return v
+	return opened
 }
 
 func register(t *testing.T, v *vault.Vault, name string) *vault.Collection[string] {
@@ -75,7 +97,7 @@ func wrapTest(err error) error {
 	return fmt.Errorf("vault op: %w", err)
 }
 
-func roundTripAndLength(t *testing.T, open func(int64) (*vault.Vault, error)) {
+func roundTripAndLength(t *testing.T, open func(int64) (vault.Engine, error)) {
 	ctx := context.Background()
 	v := openVault(t, open, 0)
 	words := register(t, v, "words")
@@ -113,7 +135,7 @@ func roundTripAndLength(t *testing.T, open func(int64) (*vault.Vault, error)) {
 	}
 }
 
-func missingKeyReportsAbsent(t *testing.T, open func(int64) (*vault.Vault, error)) {
+func missingKeyReportsAbsent(t *testing.T, open func(int64) (vault.Engine, error)) {
 	v := openVault(t, open, 0)
 	words := register(t, v, "words")
 
@@ -132,7 +154,7 @@ func missingKeyReportsAbsent(t *testing.T, open func(int64) (*vault.Vault, error
 	}
 }
 
-func lengthAfterDeleteAndOverwrite(t *testing.T, open func(int64) (*vault.Vault, error)) {
+func lengthAfterDeleteAndOverwrite(t *testing.T, open func(int64) (vault.Engine, error)) {
 	ctx := context.Background()
 	v := openVault(t, open, 0)
 	words := register(t, v, "words")
@@ -179,7 +201,7 @@ func lengthAfterDeleteAndOverwrite(t *testing.T, open func(int64) (*vault.Vault,
 	}
 }
 
-func scanVisitsPrefixInOrder(t *testing.T, open func(int64) (*vault.Vault, error)) {
+func scanVisitsPrefixInOrder(t *testing.T, open func(int64) (vault.Engine, error)) {
 	ctx := context.Background()
 	v := openVault(t, open, 0)
 	words := register(t, v, "words")
@@ -212,7 +234,7 @@ func scanVisitsPrefixInOrder(t *testing.T, open func(int64) (*vault.Vault, error
 	}
 }
 
-func scanStopsWhenAsked(t *testing.T, open func(int64) (*vault.Vault, error)) {
+func scanStopsWhenAsked(t *testing.T, open func(int64) (vault.Engine, error)) {
 	ctx := context.Background()
 	v := openVault(t, open, 0)
 	words := register(t, v, "words")
@@ -245,7 +267,108 @@ func scanStopsWhenAsked(t *testing.T, open func(int64) (*vault.Vault, error)) {
 	}
 }
 
-func crossCollectionAtomicRollback(t *testing.T, open func(int64) (*vault.Vault, error)) {
+const boundedScanBucket = vault.Name("bounded")
+
+var boundedScanKeys = []string{"aa", "b1", "cc", "ee"}
+
+func boundedScanVisitsEveryKeyInRange(t *testing.T, open func(int64) (vault.Engine, error)) {
+	for _, scenario := range []struct {
+		name string
+		keys vaultkey.KeyRange
+		want []string
+	}{
+		{"UnboundedOnBothSides", vaultkey.EveryKey(), boundedScanKeys},
+		{
+			"IncludedLowerBoundOnly",
+			vaultkey.KeysFrom(vaultkey.KeyFrom([]byte("cc"))),
+			[]string{"cc", "ee"},
+		},
+		{
+			"ExcludedUpperBoundOnly",
+			vaultkey.KeysBefore(vaultkey.KeyFrom([]byte("cc"))),
+			[]string{"aa", "b1"},
+		},
+		{"BothBounds", vaultkey.KeysUnder(vaultkey.KeyFrom([]byte("b"))), []string{"b1"}},
+		{"BoundsBetweenStoredKeys", vaultkey.KeysUnder(vaultkey.KeyFrom([]byte("d"))), nil},
+		{"EmptyRange", vaultkey.KeysBefore(vaultkey.KeyFrom([]byte{})), nil},
+	} {
+		t.Run(scenario.name, func(t *testing.T) {
+			visited := scannedKeys(t, open, scenario.keys)
+			if !slices.Equal(visited, scenario.want) {
+				t.Fatalf("bounded scan visited = %v, want %v", visited, scenario.want)
+			}
+		})
+	}
+}
+
+func scannedKeys(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+	keys vaultkey.KeyRange,
+) []string {
+	t.Helper()
+
+	engine := openEngine(t, open, 0)
+	storeBoundedScanKeys(t, engine)
+
+	var visited []string
+	if err := engine.View(context.Background(), func(etx vault.EngineTxn) error {
+		return etx.Bucket(boundedScanBucket).Scan(keys, func(key, _ []byte) (bool, error) {
+			visited = append(visited, string(key))
+
+			return true, nil
+		})
+	}); err != nil {
+		t.Fatalf("View: %v", err)
+	}
+
+	return visited
+}
+
+func storeBoundedScanKeys(t *testing.T, engine vault.Engine) {
+	t.Helper()
+
+	if err := engine.Provision(boundedScanBucket); err != nil {
+		t.Fatalf("Provision: %v", err)
+	}
+	if err := engine.Update(context.Background(), func(etx vault.EngineTxn) error {
+		bucket := etx.Bucket(boundedScanBucket)
+		for _, key := range boundedScanKeys {
+			if err := bucket.Put(vault.Key(key), []byte(key)); err != nil {
+				return wrapTest(err)
+			}
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+}
+
+func boundedScanStopsWhenAsked(t *testing.T, open func(int64) (vault.Engine, error)) {
+	engine := openEngine(t, open, 0)
+	storeBoundedScanKeys(t, engine)
+
+	var visited []string
+	if err := engine.View(context.Background(), func(etx vault.EngineTxn) error {
+		return etx.Bucket(boundedScanBucket).Scan(
+			vaultkey.EveryKey(),
+			func(key, _ []byte) (bool, error) {
+				visited = append(visited, string(key))
+
+				return false, nil
+			},
+		)
+	}); err != nil {
+		t.Fatalf("View: %v", err)
+	}
+
+	if want := boundedScanKeys[:1]; !slices.Equal(visited, want) {
+		t.Fatalf("bounded scan visited = %v, want %v", visited, want)
+	}
+}
+
+func crossCollectionAtomicRollback(t *testing.T, open func(int64) (vault.Engine, error)) {
 	ctx := context.Background()
 	v := openVault(t, open, 0)
 	left := register(t, v, "left")
@@ -285,7 +408,7 @@ func crossCollectionAtomicRollback(t *testing.T, open func(int64) (*vault.Vault,
 	}
 }
 
-func bucketOwnershipIsolation(t *testing.T, open func(int64) (*vault.Vault, error)) {
+func bucketOwnershipIsolation(t *testing.T, open func(int64) (vault.Engine, error)) {
 	ctx := context.Background()
 	v := openVault(t, open, 0)
 	left := register(t, v, "left")
@@ -312,7 +435,7 @@ func bucketOwnershipIsolation(t *testing.T, open func(int64) (*vault.Vault, erro
 	}
 }
 
-func atCapacityTracksQuota(t *testing.T, open func(int64) (*vault.Vault, error)) {
+func atCapacityTracksQuota(t *testing.T, open func(int64) (vault.Engine, error)) {
 	ctx := context.Background()
 	v := openVault(t, open, 1)
 	words := register(t, v, "words")
@@ -340,7 +463,7 @@ func atCapacityTracksQuota(t *testing.T, open func(int64) (*vault.Vault, error))
 	}
 }
 
-func usedBytesGrowsWithData(t *testing.T, open func(int64) (*vault.Vault, error)) {
+func usedBytesGrowsWithData(t *testing.T, open func(int64) (vault.Engine, error)) {
 	ctx := context.Background()
 	v := openVault(t, open, 4096)
 	words := register(t, v, "words")

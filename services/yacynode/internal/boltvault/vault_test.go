@@ -21,10 +21,10 @@ func TestConformance(t *testing.T) {
 	dir := t.TempDir()
 	var seq atomic.Int64
 
-	vaulttest.RunConformance(t, func(quotaBytes int64) (*vault.Vault, error) {
+	vaulttest.RunConformance(t, func(quotaBytes int64) (vault.Engine, error) {
 		path := filepath.Join(dir, fmt.Sprintf("node-%d.db", seq.Add(1)))
 
-		return boltvault.Open(path, quotaBytes, nil)
+		return boltvault.OpenEngine(path, quotaBytes)
 	})
 }
 

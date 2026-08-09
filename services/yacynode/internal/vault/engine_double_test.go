@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"sort"
-	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 type doubleEngine struct {
@@ -114,17 +114,12 @@ func (b doubleBucket) Delete(key vault.Key) error {
 	return nil
 }
 
-func (b doubleBucket) Scan(prefix vault.Key, fn func(vault.Key, []byte) (bool, error)) error {
-	keys := make([]string, 0, len(b.entries))
-	for key := range b.entries {
-		if strings.HasPrefix(key, string(prefix)) {
-			keys = append(keys, key)
-		}
-	}
-	sort.Strings(keys)
-
-	for _, key := range keys {
-		keep, err := fn(vault.Key(key), copyBytes(b.entries[key]))
+func (b doubleBucket) Scan(
+	keys vaultkey.KeyRange,
+	fn func(key, value []byte) (bool, error),
+) error {
+	for _, key := range orderedKeysOf(b.entries, keys) {
+		keep, err := fn([]byte(key), copyBytes(b.entries[key]))
 		if err != nil {
 			return err
 		}
@@ -134,6 +129,18 @@ func (b doubleBucket) Scan(prefix vault.Key, fn func(vault.Key, []byte) (bool, e
 	}
 
 	return nil
+}
+
+func orderedKeysOf(entries map[string][]byte, keys vaultkey.KeyRange) []string {
+	ordered := make([]string, 0, len(entries))
+	for key := range entries {
+		if keys.Contains([]byte(key)) {
+			ordered = append(ordered, key)
+		}
+	}
+	sort.Strings(ordered)
+
+	return ordered
 }
 
 func snapshotBuckets(

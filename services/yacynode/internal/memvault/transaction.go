@@ -1,11 +1,10 @@
 package memvault
 
 import (
-	"fmt"
 	"sort"
-	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 type memTxn struct {
@@ -44,19 +43,11 @@ func (b memBucket) Delete(key vault.Key) error {
 	return nil
 }
 
-func (b memBucket) Scan(prefix vault.Key, fn func(vault.Key, []byte) (bool, error)) error {
-	ordered := make([]string, 0, len(b.entries))
-	for key := range b.entries {
-		if strings.HasPrefix(key, string(prefix)) {
-			ordered = append(ordered, key)
-		}
-	}
-	sort.Strings(ordered)
-
-	for _, key := range ordered {
-		keep, err := fn(vault.Key(key), b.entries[key])
+func (b memBucket) Scan(keys vaultkey.KeyRange, fn func(key, value []byte) (bool, error)) error {
+	for _, key := range orderedKeysOf(b.entries, keys) {
+		keep, err := fn([]byte(key), b.entries[key])
 		if err != nil {
-			return fmt.Errorf("scan: %w", err)
+			return err
 		}
 		if !keep {
 			return nil
@@ -64,6 +55,18 @@ func (b memBucket) Scan(prefix vault.Key, fn func(vault.Key, []byte) (bool, erro
 	}
 
 	return nil
+}
+
+func orderedKeysOf(entries map[string][]byte, keys vaultkey.KeyRange) []string {
+	ordered := make([]string, 0, len(entries))
+	for key := range entries {
+		if keys.Contains([]byte(key)) {
+			ordered = append(ordered, key)
+		}
+	}
+	sort.Strings(ordered)
+
+	return ordered
 }
 
 func snapshot(source map[vault.Name]map[string][]byte) map[vault.Name]map[string][]byte {
