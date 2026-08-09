@@ -22,7 +22,7 @@ type memBucket struct {
 	entries map[string][]byte
 }
 
-func (b memBucket) Get(key vault.Key) []byte {
+func (b memBucket) Get(key []byte) []byte {
 	value, ok := b.entries[string(key)]
 	if !ok {
 		return nil
@@ -31,13 +31,13 @@ func (b memBucket) Get(key vault.Key) []byte {
 	return value
 }
 
-func (b memBucket) Put(key vault.Key, value []byte) error {
+func (b memBucket) Put(key []byte, value []byte) error {
 	b.entries[string(key)] = copyValue(value)
 
 	return nil
 }
 
-func (b memBucket) Delete(key vault.Key) error {
+func (b memBucket) Delete(key []byte) error {
 	delete(b.entries, string(key))
 
 	return nil

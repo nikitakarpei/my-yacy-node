@@ -18,11 +18,11 @@ func TestDueAtSurvivesTheValueRoundTrip(t *testing.T) {
 		"far future":     time.Date(2500, time.January, 1, 0, 0, 0, 0, time.UTC),
 	} {
 		t.Run(name, func(t *testing.T) {
-			raw, err := dueAtCodec{}.Encode(dueAt)
+			raw, err := dueAtValueCodec{}.Encode(dueAt)
 			if err != nil {
 				t.Fatalf("Encode: %v", err)
 			}
-			decoded, err := dueAtCodec{}.Decode(raw)
+			decoded, err := dueAtValueCodec{}.Decode(raw)
 			if err != nil {
 				t.Fatalf("Decode: %v", err)
 			}
@@ -30,7 +30,12 @@ func TestDueAtSurvivesTheValueRoundTrip(t *testing.T) {
 			if !decoded.Equal(dueAt) {
 				t.Fatalf("due at = %v, want %v", decoded, dueAt)
 			}
-			if !bytes.Equal(orderKeyFor(posting, decoded), orderKeyFor(posting, dueAt)) {
+			decodedOffer := scheduledPostingOffer{At: decoded, Posting: posting}
+			storedOffer := scheduledPostingOffer{At: dueAt, Posting: posting}
+			if !bytes.Equal(
+				orderKeyCodec{}.Encode(decodedOffer).Bytes(),
+				orderKeyCodec{}.Encode(storedOffer).Bytes(),
+			) {
 				t.Fatal(
 					"the decoded due time addresses a different order row than the stored one",
 				)

@@ -11,12 +11,28 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-type seedCodec struct{}
+var seedKeyLayout = vaultkey.Single(vaultkey.Text)
 
-func (seedCodec) Encode(value []byte) ([]byte, error) { return value, nil }
-func (seedCodec) Decode(raw []byte) ([]byte, error)   { return raw, nil }
+type seedKeyCodec struct{}
+
+func (seedKeyCodec) Encode(key string) vaultkey.Key { return seedKeyLayout.Key(key) }
+
+func (seedKeyCodec) Decode(key vaultkey.Key) (string, error) {
+	decoded, err := seedKeyLayout.Parts(key)
+	if err != nil {
+		return "", fmt.Errorf("seed key: %w", err)
+	}
+
+	return decoded, nil
+}
+
+type seedValueCodec struct{}
+
+func (seedValueCodec) Encode(value []byte) ([]byte, error) { return value, nil }
+func (seedValueCodec) Decode(raw []byte) ([]byte, error)   { return raw, nil }
 
 func openVault(t *testing.T, quotaBytes int64) *vault.Vault {
 	t.Helper()
@@ -38,12 +54,12 @@ func openVault(t *testing.T, quotaBytes int64) *vault.Vault {
 func seedUsage(t *testing.T, v *vault.Vault) {
 	t.Helper()
 
-	collection, err := vault.Register(v, vault.Name("seed"), seedCodec{})
+	collection, err := vault.Register(v, vault.Name("seed"), seedKeyCodec{}, seedValueCodec{})
 	if err != nil {
 		t.Fatalf("Register seed: %v", err)
 	}
 	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		if err := collection.Put(tx, vault.Key("seed"), make([]byte, 64)); err != nil {
+		if err := collection.Put(tx, "seed", make([]byte, 64)); err != nil {
 			return fmt.Errorf("put seed: %w", err)
 		}
 

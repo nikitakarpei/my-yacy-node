@@ -10,7 +10,7 @@ import (
 
 type postingDirectory struct {
 	vault     *vault.Vault
-	postings  *vault.Collection[yacymodel.RWIPosting]
+	postings  *vault.Collection[postingIdentity, yacymodel.RWIPosting]
 	observers postingObservers
 }
 
@@ -28,7 +28,7 @@ func (d postingDirectory) PostingOf(
 		found bool
 	)
 	err := d.vault.View(ctx, func(tx *vault.Txn) error {
-		stored, ok, err := d.postings.Get(tx, postingKey(word, url))
+		stored, ok, err := d.postings.Get(tx, postingIdentity{word: word, url: url})
 		if err != nil {
 			return fmt.Errorf("read rwi posting: %w", err)
 		}
@@ -48,7 +48,7 @@ func (d postingDirectory) PostingOf(
 }
 
 func (d postingDirectory) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
-	key := postingKey(posting.WordHash, posting.URLHash)
+	key := postingIdentity{word: posting.WordHash, url: posting.URLHash}
 	if err := d.postings.Put(tx, key, posting); err != nil {
 		return fmt.Errorf("store rwi posting: %w", err)
 	}
@@ -64,7 +64,7 @@ func (d postingDirectory) PurgePosting(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (bool, error) {
-	deleted, err := d.postings.Delete(tx, postingKey(word, url))
+	deleted, err := d.postings.Delete(tx, postingIdentity{word: word, url: url})
 	if err != nil {
 		return false, fmt.Errorf("delete rwi posting: %w", err)
 	}
@@ -83,8 +83,8 @@ func (d postingDirectory) ScanWord(
 	err := d.vault.View(ctx, func(tx *vault.Txn) error {
 		return d.postings.Scan(
 			tx,
-			postingKeyPrefixOfWord(word),
-			func(_ vault.Key, entry yacymodel.RWIPosting) (bool, error) {
+			postingKeysOf(word),
+			func(_ postingIdentity, entry yacymodel.RWIPosting) (bool, error) {
 				if err := ctx.Err(); err != nil {
 					return false, fmt.Errorf("context: %w", err)
 				}
@@ -101,10 +101,10 @@ func (d postingDirectory) ScanWord(
 	return nil
 }
 
-func collectionLength[V any](
+func collectionLength[K, V any](
 	ctx context.Context,
 	v *vault.Vault,
-	collection *vault.Collection[V],
+	collection *vault.Collection[K, V],
 ) (int, error) {
 	var length int
 	err := v.View(ctx, func(tx *vault.Txn) error {

@@ -16,9 +16,9 @@ type rosterEntry struct {
 	lastContacted time.Time
 }
 
-type rosterEntryCodec struct{}
+type rosterEntryValueCodec struct{}
 
-func (rosterEntryCodec) Encode(entry rosterEntry) ([]byte, error) {
+func (rosterEntryValueCodec) Encode(entry rosterEntry) ([]byte, error) {
 	contactTimes, err := binary.Append(nil, binary.BigEndian, []int64{
 		entry.lastReachable.Unix(),
 		int64(entry.lastReachable.Nanosecond()),
@@ -32,7 +32,7 @@ func (rosterEntryCodec) Encode(entry rosterEntry) ([]byte, error) {
 	return append(contactTimes, yacyproto.EncodeSeed(entry.seed)...), nil
 }
 
-func (rosterEntryCodec) Decode(raw []byte) (rosterEntry, error) {
+func (rosterEntryValueCodec) Decode(raw []byte) (rosterEntry, error) {
 	contactTimes := make([]int64, 4)
 	contactTimesLength, err := binary.Decode(raw, binary.BigEndian, contactTimes)
 	if err != nil {

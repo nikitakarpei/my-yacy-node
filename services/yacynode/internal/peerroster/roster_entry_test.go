@@ -29,7 +29,7 @@ func TestRosterEntryRoundTripsContactTimesOutsideTheNanosecondEpochRange(t *test
 		time.Date(2026, time.August, 9, 12, 0, 0, 1, time.UTC),
 		time.Date(3000, time.January, 1, 0, 0, 0, 0, time.UTC),
 	} {
-		encoded, err := rosterEntryCodec{}.Encode(rosterEntry{
+		encoded, err := rosterEntryValueCodec{}.Encode(rosterEntry{
 			seed:          contactedSeed(t),
 			lastReachable: instant,
 			lastContacted: instant.Add(time.Second),
@@ -38,7 +38,7 @@ func TestRosterEntryRoundTripsContactTimesOutsideTheNanosecondEpochRange(t *test
 			t.Fatalf("Encode(%s) failed: %v", instant, err)
 		}
 
-		decoded, err := rosterEntryCodec{}.Decode(encoded)
+		decoded, err := rosterEntryValueCodec{}.Decode(encoded)
 		if err != nil {
 			t.Fatalf("Decode(%s) failed: %v", instant, err)
 		}

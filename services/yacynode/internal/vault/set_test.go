@@ -5,9 +5,10 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-func openMembers(t *testing.T) (*vault.Vault, *vault.Set) {
+func openMembers(t *testing.T) (*vault.Vault, *vault.Set[string]) {
 	t.Helper()
 
 	v, err := openDouble()
@@ -20,7 +21,7 @@ func openMembers(t *testing.T) (*vault.Vault, *vault.Set) {
 		}
 	})
 
-	members, err := vault.RegisterSet(v, vault.Name("members"))
+	members, err := vault.RegisterSet(v, vault.Name("members"), stringKeyCodec{})
 	if err != nil {
 		t.Fatalf("RegisterSet: %v", err)
 	}
@@ -33,7 +34,7 @@ func TestAddedKeysAreScannedAndCounted(t *testing.T) {
 	v, members := openMembers(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return members.Add(tx, vault.Key("a"))
+		return members.Add(tx, "a")
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -49,8 +50,8 @@ func TestAddedKeysAreScannedAndCounted(t *testing.T) {
 
 		var scanned []string
 
-		if err := members.Scan(tx, nil, func(key vault.Key) (bool, error) {
-			scanned = append(scanned, string(key))
+		if err := members.Scan(tx, vaultkey.EveryKey(), func(key string) (bool, error) {
+			scanned = append(scanned, key)
 
 			return true, nil
 		}); err != nil {
@@ -71,11 +72,11 @@ func TestRemovedKeyLeavesSetEmpty(t *testing.T) {
 	v, members := openMembers(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		if err := members.Add(tx, vault.Key("a")); err != nil {
+		if err := members.Add(tx, "a"); err != nil {
 			return wrap(err)
 		}
 
-		removed, err := members.Remove(tx, vault.Key("a"))
+		removed, err := members.Remove(tx, "a")
 		if err != nil {
 			return wrap(err)
 		}
@@ -106,7 +107,7 @@ func TestRemovedKeyLeavesSetEmpty(t *testing.T) {
 func TestRegisterSetRejectsDuplicateBucket(t *testing.T) {
 	v, _ := openMembers(t)
 
-	if _, err := vault.RegisterSet(v, vault.Name("members")); err == nil {
+	if _, err := vault.RegisterSet(v, vault.Name("members"), stringKeyCodec{}); err == nil {
 		t.Fatal("duplicate RegisterSet succeeded, want error")
 	}
 }

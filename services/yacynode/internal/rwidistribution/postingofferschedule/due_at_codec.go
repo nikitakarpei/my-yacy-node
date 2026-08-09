@@ -6,9 +6,9 @@ import (
 	"time"
 )
 
-type dueAtCodec struct{}
+type dueAtValueCodec struct{}
 
-func (dueAtCodec) Encode(at time.Time) ([]byte, error) {
+func (dueAtValueCodec) Encode(at time.Time) ([]byte, error) {
 	raw, err := binary.Append(nil, binary.BigEndian, []int64{
 		at.Unix(),
 		int64(at.Nanosecond()),
@@ -20,7 +20,7 @@ func (dueAtCodec) Encode(at time.Time) ([]byte, error) {
 	return raw, nil
 }
 
-func (dueAtCodec) Decode(raw []byte) (time.Time, error) {
+func (dueAtValueCodec) Decode(raw []byte) (time.Time, error) {
 	dueAt := make([]int64, 2)
 	if _, err := binary.Decode(raw, binary.BigEndian, dueAt); err != nil {
 		return time.Time{}, fmt.Errorf("due at: %w", err)

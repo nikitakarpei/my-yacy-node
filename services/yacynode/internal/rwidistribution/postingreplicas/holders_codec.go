@@ -6,9 +6,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type holdersCodec struct{}
+type holdersValueCodec struct{}
 
-func (holdersCodec) Encode(holders []yacymodel.Hash) ([]byte, error) {
+func (holdersValueCodec) Encode(holders []yacymodel.Hash) ([]byte, error) {
 	raw := make([]byte, 0, len(holders)*yacymodel.HashLength)
 	for _, peer := range holders {
 		raw = append(raw, peer.String()...)
@@ -17,7 +17,7 @@ func (holdersCodec) Encode(holders []yacymodel.Hash) ([]byte, error) {
 	return raw, nil
 }
 
-func (holdersCodec) Decode(raw []byte) ([]yacymodel.Hash, error) {
+func (holdersValueCodec) Decode(raw []byte) ([]yacymodel.Hash, error) {
 	if len(raw)%yacymodel.HashLength != 0 {
 		return nil, fmt.Errorf(
 			"replica holders: length %d not a multiple of %d",

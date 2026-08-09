@@ -5,13 +5,13 @@ import (
 	"time"
 )
 
-type offerIntervalCodec struct{}
+type offerIntervalValueCodec struct{}
 
-func (offerIntervalCodec) Encode(interval time.Duration) ([]byte, error) {
+func (offerIntervalValueCodec) Encode(interval time.Duration) ([]byte, error) {
 	return fmt.Appendf(nil, "%d", interval.Nanoseconds()), nil
 }
 
-func (offerIntervalCodec) Decode(raw []byte) (time.Duration, error) {
+func (offerIntervalValueCodec) Decode(raw []byte) (time.Duration, error) {
 	var nanos int64
 	if _, err := fmt.Sscanf(string(raw), "%d", &nanos); err != nil {
 		return 0, fmt.Errorf("offer interval: %w", err)

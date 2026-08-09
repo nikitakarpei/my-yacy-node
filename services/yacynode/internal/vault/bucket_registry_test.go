@@ -20,17 +20,17 @@ func TestEntriesByCollectionReportsRegisteredLengths(t *testing.T) {
 	})
 	ctx := context.Background()
 
-	words, err := vault.Register[string](v, "words", stringCodec{})
+	words, err := vault.Register(v, "words", stringKeyCodec{}, stringValueCodec{})
 	if err != nil {
 		t.Fatalf("Register words: %v", err)
 	}
-	if _, err := vault.Register[string](v, "urls", stringCodec{}); err != nil {
+	if _, err := vault.Register(v, "urls", stringKeyCodec{}, stringValueCodec{}); err != nil {
 		t.Fatalf("Register urls: %v", err)
 	}
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
 		for index := range 3 {
-			if err := words.Put(tx, vault.Key(fmt.Sprintf("k%d", index)), "v"); err != nil {
+			if err := words.Put(tx, fmt.Sprintf("k%d", index), "v"); err != nil {
 				return err
 			}
 		}

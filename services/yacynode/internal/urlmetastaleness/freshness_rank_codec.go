@@ -1,13 +1,13 @@
 package urlmetastaleness
 
-// freshnessRankCodec stores a rank as the plain text it already is, so the
+// freshnessRankValueCodec stores a rank as the plain text it already is, so the
 // vault's byte order stays stalest-first.
-type freshnessRankCodec struct{}
+type freshnessRankValueCodec struct{}
 
-func (freshnessRankCodec) Encode(rank freshnessRank) ([]byte, error) {
+func (freshnessRankValueCodec) Encode(rank freshnessRank) ([]byte, error) {
 	return []byte(rank), nil
 }
 
-func (freshnessRankCodec) Decode(raw []byte) (freshnessRank, error) {
+func (freshnessRankValueCodec) Decode(raw []byte) (freshnessRank, error) {
 	return freshnessRank(raw), nil
 }

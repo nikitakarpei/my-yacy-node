@@ -9,11 +9,9 @@ import (
 
 const storedURLMetadataFormat byte = 0x02
 
-// storedURLMetadataCodec translates between the url metadata domain type and
-// this node's on-disk row.
-type storedURLMetadataCodec struct{}
+type urlMetadataValueCodec struct{}
 
-func (storedURLMetadataCodec) Encode(metadata yacymodel.URLMetadata) ([]byte, error) {
+func (urlMetadataValueCodec) Encode(metadata yacymodel.URLMetadata) ([]byte, error) {
 	var w urlMetadataWriter
 	w.uint8(storedURLMetadataFormat)
 	w.text(metadata.Address)
@@ -46,7 +44,7 @@ func (storedURLMetadataCodec) Encode(metadata yacymodel.URLMetadata) ([]byte, er
 	return w.bytes(), nil
 }
 
-func (storedURLMetadataCodec) Decode(data []byte) (yacymodel.URLMetadata, error) {
+func (urlMetadataValueCodec) Decode(data []byte) (yacymodel.URLMetadata, error) {
 	if len(data) == 0 {
 		return yacymodel.URLMetadata{}, fmt.Errorf(
 			"%w: empty url metadata value",

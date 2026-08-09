@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
@@ -15,19 +14,30 @@ type wordByURL struct {
 	word yacymodel.Hash
 }
 
-func (w wordByURL) key() vault.Key {
-	return wordByURLKeyLayout.Key(w.url.String(), w.word.String()).Bytes()
+type wordByURLKeyCodec struct{}
+
+func (wordByURLKeyCodec) Encode(reference wordByURL) vaultkey.Key {
+	return wordByURLKeyLayout.Key(reference.url.String(), reference.word.String())
 }
 
-func wordKeyPrefixOfURL(url yacymodel.URLHash) vault.Key {
-	return wordByURLKeyLayout.First(url.String()).Bytes()
-}
-
-func wordFromKey(key vault.Key) (yacymodel.Hash, error) {
-	_, word, err := wordByURLKeyLayout.Parts(vaultkey.KeyFrom(key))
+func (wordByURLKeyCodec) Decode(key vaultkey.Key) (wordByURL, error) {
+	url, word, err := wordByURLKeyLayout.Parts(key)
 	if err != nil {
-		return yacymodel.Hash{}, fmt.Errorf("word by url key: %w", err)
+		return wordByURL{}, fmt.Errorf("word by url key: %w", err)
 	}
 
-	return yacymodel.ParseHash(word)
+	parsedURL, err := yacymodel.ParseURLHash(url)
+	if err != nil {
+		return wordByURL{}, fmt.Errorf("word by url url hash: %w", err)
+	}
+	parsedWord, err := yacymodel.ParseHash(word)
+	if err != nil {
+		return wordByURL{}, fmt.Errorf("word by url word hash: %w", err)
+	}
+
+	return wordByURL{url: parsedURL, word: parsedWord}, nil
+}
+
+func wordKeysOf(url yacymodel.URLHash) vaultkey.KeyRange {
+	return vaultkey.KeysUnder(wordByURLKeyLayout.First(url.String()))
 }

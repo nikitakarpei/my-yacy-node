@@ -6,21 +6,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-type Collection[V any] struct {
-	vault *Vault
-	name  Name
-	codec Codec[V]
+type Collection[K, V any] struct {
+	name   Name
+	keys   KeyCodec[K]
+	values ValueCodec[V]
 }
 
-func (c *Collection[V]) Get(tx *Txn, key Key) (V, bool, error) {
+func (c *Collection[K, V]) Get(tx *Txn, key K) (V, bool, error) {
 	var zero V
 
-	raw := tx.etx.Bucket(c.name).Get(key)
+	raw := tx.etx.Bucket(c.name).Get(c.keys.Encode(key).Bytes())
 	if raw == nil {
 		return zero, false, nil
 	}
 
-	val, err := c.codec.Decode(raw)
+	val, err := c.values.Decode(raw)
 	if err != nil {
 		return zero, false, fmt.Errorf("decode %s: %w", c.name, err)
 	}
@@ -28,19 +28,20 @@ func (c *Collection[V]) Get(tx *Txn, key Key) (V, bool, error) {
 	return val, true, nil
 }
 
-func (c *Collection[V]) Put(tx *Txn, key Key, val V) error {
+func (c *Collection[K, V]) Put(tx *Txn, key K, val V) error {
 	if !tx.etx.Writable() {
 		return errReadOnly
 	}
 
-	raw, err := c.codec.Encode(val)
+	raw, err := c.values.Encode(val)
 	if err != nil {
 		return fmt.Errorf("encode %s: %w", c.name, err)
 	}
 
+	encodedKey := c.keys.Encode(key).Bytes()
 	bucket := tx.etx.Bucket(c.name)
-	existed := bucket.Get(key) != nil
-	if err := bucket.Put(key, raw); err != nil {
+	existed := bucket.Get(encodedKey) != nil
+	if err := bucket.Put(encodedKey, raw); err != nil {
 		return fmt.Errorf("store %s: %w", c.name, err)
 	}
 	if existed {
@@ -50,16 +51,17 @@ func (c *Collection[V]) Put(tx *Txn, key Key, val V) error {
 	return adjustLength(tx, c.name, 1)
 }
 
-func (c *Collection[V]) Delete(tx *Txn, key Key) (bool, error) {
+func (c *Collection[K, V]) Delete(tx *Txn, key K) (bool, error) {
 	if !tx.etx.Writable() {
 		return false, errReadOnly
 	}
 
+	encodedKey := c.keys.Encode(key).Bytes()
 	bucket := tx.etx.Bucket(c.name)
-	if bucket.Get(key) == nil {
+	if bucket.Get(encodedKey) == nil {
 		return false, nil
 	}
-	if err := bucket.Delete(key); err != nil {
+	if err := bucket.Delete(encodedKey); err != nil {
 		return false, fmt.Errorf("delete %s: %w", c.name, err)
 	}
 	if err := adjustLength(tx, c.name, -1); err != nil {
@@ -69,15 +71,22 @@ func (c *Collection[V]) Delete(tx *Txn, key Key) (bool, error) {
 	return true, nil
 }
 
-func (c *Collection[V]) Scan(tx *Txn, prefix Key, fn func(Key, V) (bool, error)) error {
-	keys := vaultkey.KeysUnder(vaultkey.KeyFrom(prefix))
+func (c *Collection[K, V]) Scan(
+	tx *Txn,
+	keys vaultkey.KeyRange,
+	fn func(K, V) (bool, error),
+) error {
 	if err := tx.etx.Bucket(c.name).Scan(keys, func(key, raw []byte) (bool, error) {
-		val, err := c.codec.Decode(raw)
+		decodedKey, err := c.keys.Decode(vaultkey.KeyFrom(key))
+		if err != nil {
+			return false, fmt.Errorf("decode %s key: %w", c.name, err)
+		}
+		val, err := c.values.Decode(raw)
 		if err != nil {
 			return false, fmt.Errorf("decode %s: %w", c.name, err)
 		}
 
-		return fn(append(Key(nil), key...), val)
+		return fn(decodedKey, val)
 	}); err != nil {
 		return fmt.Errorf("scan %s: %w", c.name, err)
 	}
@@ -85,6 +94,6 @@ func (c *Collection[V]) Scan(tx *Txn, prefix Key, fn func(Key, V) (bool, error))
 	return nil
 }
 
-func (c *Collection[V]) Len(tx *Txn) (int, error) {
+func (c *Collection[K, V]) Len(tx *Txn) (int, error) {
 	return readLength(tx, c.name)
 }

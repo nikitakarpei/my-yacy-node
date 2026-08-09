@@ -14,9 +14,9 @@ type heldPosting struct {
 	Posting yacymodel.RWIPosting
 }
 
-type heldPostingCodec struct{}
+type heldPostingValueCodec struct{}
 
-func (heldPostingCodec) Encode(held heldPosting) ([]byte, error) {
+func (heldPostingValueCodec) Encode(held heldPosting) ([]byte, error) {
 	raw, err := rwipostings.PostingForm().Encode(held.Posting)
 	if err != nil {
 		return nil, fmt.Errorf("encode held posting: %w", err)
@@ -33,7 +33,7 @@ func (heldPostingCodec) Encode(held heldPosting) ([]byte, error) {
 	return append(heldAt, raw...), nil
 }
 
-func (heldPostingCodec) Decode(raw []byte) (heldPosting, error) {
+func (heldPostingValueCodec) Decode(raw []byte) (heldPosting, error) {
 	heldAt := make([]int64, 2)
 	heldAtLength, err := binary.Decode(raw, binary.BigEndian, heldAt)
 	if err != nil {

@@ -6,7 +6,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
@@ -17,12 +16,14 @@ type scheduledPostingOffer struct {
 	Posting postingidentity.Identity
 }
 
-func orderKeyFor(posting postingidentity.Identity, dueAt time.Time) vault.Key {
-	return orderKeyLayout.Key(dueAt, posting.Word.String(), posting.URL.String()).Bytes()
+type orderKeyCodec struct{}
+
+func (orderKeyCodec) Encode(offer scheduledPostingOffer) vaultkey.Key {
+	return orderKeyLayout.Key(offer.At, offer.Posting.Word.String(), offer.Posting.URL.String())
 }
 
-func parseOrderKey(key vault.Key) (scheduledPostingOffer, error) {
-	dueAt, word, url, err := orderKeyLayout.Parts(vaultkey.KeyFrom(key))
+func (orderKeyCodec) Decode(key vaultkey.Key) (scheduledPostingOffer, error) {
+	dueAt, word, url, err := orderKeyLayout.Parts(key)
 	if err != nil {
 		return scheduledPostingOffer{}, fmt.Errorf("offer schedule order key: %w", err)
 	}
@@ -43,4 +44,8 @@ func parseOrderKey(key vault.Key) (scheduledPostingOffer, error) {
 		At:      dueAt,
 		Posting: postingidentity.IdentityOf(parsedWord, parsedURL),
 	}, nil
+}
+
+func orderKeysThrough(dueAt time.Time) vaultkey.KeyRange {
+	return vaultkey.KeysThrough(orderKeyLayout.First(dueAt))
 }

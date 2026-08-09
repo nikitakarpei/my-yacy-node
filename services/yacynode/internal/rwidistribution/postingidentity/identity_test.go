@@ -19,8 +19,9 @@ func urlHash(raw string) yacymodel.URLHash {
 func TestKeyIsStableAndDistinctPerPosting(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	posting := IdentityOf(word, url)
+	keyOf := KeyCodec{}.Encode
 
-	if !bytes.Equal(posting.Key(), IdentityOf(word, url).Key()) {
+	if !bytes.Equal(keyOf(posting).Bytes(), keyOf(IdentityOf(word, url)).Bytes()) {
 		t.Fatal("one posting addresses two rows")
 	}
 	for name, other := range map[string]Identity{
@@ -28,10 +29,22 @@ func TestKeyIsStableAndDistinctPerPosting(t *testing.T) {
 		"another url":  IdentityOf(word, urlHash("u2")),
 	} {
 		t.Run(name, func(t *testing.T) {
-			if bytes.Equal(posting.Key(), other.Key()) {
+			if bytes.Equal(keyOf(posting).Bytes(), keyOf(other).Bytes()) {
 				t.Fatal("two postings share one row")
 			}
 		})
+	}
+}
+
+func TestKeyRoundTripsToTheSamePosting(t *testing.T) {
+	posting := IdentityOf(yacymodel.WordHash("w1"), urlHash("u1"))
+
+	decoded, err := KeyCodec{}.Decode(KeyCodec{}.Encode(posting))
+	if err != nil {
+		t.Fatalf("Decode: %v", err)
+	}
+	if decoded != posting {
+		t.Fatalf("Decode = %+v, want %+v", decoded, posting)
 	}
 }
 

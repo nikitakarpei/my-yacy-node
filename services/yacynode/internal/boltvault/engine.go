@@ -118,11 +118,11 @@ type boltBucket struct {
 	bucket *bolt.Bucket
 }
 
-func (b boltBucket) Get(key vault.Key) []byte {
+func (b boltBucket) Get(key []byte) []byte {
 	return b.bucket.Get(key)
 }
 
-func (b boltBucket) Put(key vault.Key, val []byte) error {
+func (b boltBucket) Put(key []byte, val []byte) error {
 	if err := b.bucket.Put(key, val); err != nil {
 		return fmt.Errorf("store: %w", err)
 	}
@@ -130,7 +130,7 @@ func (b boltBucket) Put(key vault.Key, val []byte) error {
 	return nil
 }
 
-func (b boltBucket) Delete(key vault.Key) error {
+func (b boltBucket) Delete(key []byte) error {
 	if err := b.bucket.Delete(key); err != nil {
 		return fmt.Errorf("delete: %w", err)
 	}

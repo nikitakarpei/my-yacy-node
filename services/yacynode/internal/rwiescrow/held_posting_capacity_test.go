@@ -10,12 +10,15 @@ func TestHeldPostingFitsItsByteBudget(t *testing.T) {
 	identity := postingIdentity{Word: entry.WordHash, URL: entry.URLHash}
 	heldAt := time.Unix(1700000000, 0)
 
-	value, err := heldPostingCodec{}.Encode(heldPosting{HeldAt: heldAt, Posting: entry})
+	value, err := heldPostingValueCodec{}.Encode(heldPosting{HeldAt: heldAt, Posting: entry})
 	if err != nil {
 		t.Fatalf("Encode: %v", err)
 	}
 
-	footprint := len(heldKey(identity)) + len(value) + len(expiryKey(heldAt, identity))
+	hold := postingHold{HeldAt: heldAt, Posting: identity}
+	footprint := len(heldPostingKeyCodec{}.Encode(identity).Bytes()) +
+		len(value) +
+		len(expiryKeyCodec{}.Encode(hold).Bytes())
 	if footprint > heldPostingBytes {
 		t.Fatalf("held posting footprint = %d bytes, want at most %d", footprint, heldPostingBytes)
 	}

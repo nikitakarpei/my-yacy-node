@@ -8,9 +8,9 @@ import (
 
 const storedPostingFormat byte = 0x02
 
-type postingCodec struct{}
+type postingValueCodec struct{}
 
-func (postingCodec) Encode(posting yacymodel.RWIPosting) ([]byte, error) {
+func (postingValueCodec) Encode(posting yacymodel.RWIPosting) ([]byte, error) {
 	var w postingWriter
 	w.uint8(storedPostingFormat)
 	w.fixed([]byte(posting.URLHash.String()))
@@ -37,7 +37,7 @@ func (postingCodec) Encode(posting yacymodel.RWIPosting) ([]byte, error) {
 	return w.bytes(), nil
 }
 
-func (postingCodec) Decode(data []byte) (yacymodel.RWIPosting, error) {
+func (postingValueCodec) Decode(data []byte) (yacymodel.RWIPosting, error) {
 	if len(data) == 0 {
 		return yacymodel.RWIPosting{}, fmt.Errorf(
 			"%w: empty posting value",

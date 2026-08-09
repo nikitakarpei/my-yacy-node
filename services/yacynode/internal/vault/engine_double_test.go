@@ -93,7 +93,7 @@ type doubleBucket struct {
 	entries map[string][]byte
 }
 
-func (b doubleBucket) Get(key vault.Key) []byte {
+func (b doubleBucket) Get(key []byte) []byte {
 	value, ok := b.entries[string(key)]
 	if !ok {
 		return nil
@@ -102,13 +102,13 @@ func (b doubleBucket) Get(key vault.Key) []byte {
 	return copyBytes(value)
 }
 
-func (b doubleBucket) Put(key vault.Key, value []byte) error {
+func (b doubleBucket) Put(key []byte, value []byte) error {
 	b.entries[string(key)] = copyBytes(value)
 
 	return nil
 }
 
-func (b doubleBucket) Delete(key vault.Key) error {
+func (b doubleBucket) Delete(key []byte) error {
 	delete(b.entries, string(key))
 
 	return nil
