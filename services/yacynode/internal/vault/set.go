@@ -7,7 +7,7 @@ type Set[K any] struct {
 }
 
 func RegisterSet[K any](v *Vault, bucket Name, keys KeyCodec[K]) (*Set[K], error) {
-	entries, err := Register(v, bucket, keys, presenceCodec{})
+	entries, err := Register(v, bucket, keys, presenceValueCodec{})
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +33,7 @@ func (s *Set[K]) Len(tx *Txn) (int, error) {
 	return s.entries.Len(tx)
 }
 
-type presenceCodec struct{}
+type presenceValueCodec struct{}
 
-func (presenceCodec) Encode(struct{}) ([]byte, error) { return []byte{}, nil }
-func (presenceCodec) Decode([]byte) (struct{}, error) { return struct{}{}, nil }
+func (presenceValueCodec) Encode(struct{}) ([]byte, error) { return []byte{}, nil }
+func (presenceValueCodec) Decode([]byte) (struct{}, error) { return struct{}{}, nil }

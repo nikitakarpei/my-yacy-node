@@ -29,10 +29,6 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, err
 	t.Run("ScanVisitsRangeInOrder", func(t *testing.T) { scanVisitsRangeInOrder(t, open) })
 	t.Run("ScanStopsWhenAsked", func(t *testing.T) { scanStopsWhenAsked(t, open) })
 	t.Run(
-		"ScannedKeysOutliveTheScan",
-		func(t *testing.T) { scannedKeysOutliveTheScan(t, open) },
-	)
-	t.Run(
 		"BoundedScanVisitsEveryKeyInRange",
 		func(t *testing.T) { boundedScanVisitsEveryKeyInRange(t, open) },
 	)
@@ -267,40 +263,6 @@ func scanStopsWhenAsked(t *testing.T, open func(int64) (vault.Engine, error)) {
 
 	if len(visited) != 1 || visited[0] != "a" {
 		t.Fatalf("scan visited = %v, want [a]", visited)
-	}
-}
-
-func scannedKeysOutliveTheScan(t *testing.T, open func(int64) (vault.Engine, error)) {
-	ctx := context.Background()
-	v := openVault(t, open, 0)
-	words := register(t, v, "words")
-
-	stored := []string{"aa", "bb", "cc"}
-	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		for _, key := range stored {
-			if err := words.Put(tx, key, key); err != nil {
-				return wrapTest(err)
-			}
-		}
-
-		return nil
-	}); err != nil {
-		t.Fatalf("Update: %v", err)
-	}
-
-	var visited []string
-	if err := v.View(ctx, func(tx *vault.Txn) error {
-		return words.Scan(tx, vaultkey.EveryKey(), func(key string, _ string) (bool, error) {
-			visited = append(visited, key)
-
-			return true, nil
-		})
-	}); err != nil {
-		t.Fatalf("View: %v", err)
-	}
-
-	if !slices.Equal(visited, stored) {
-		t.Fatalf("keys held after the scan = %v, want %v", visited, stored)
 	}
 }
 

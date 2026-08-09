@@ -26,10 +26,10 @@ func (heldPostingKeyCodec) Decode(key vaultkey.Key) (postingIdentity, error) {
 		return postingIdentity{}, fmt.Errorf("held posting key: %w", err)
 	}
 
-	return identityOf(word, url)
+	return parsedIdentity(word, url)
 }
 
-func identityOf(word string, url string) (postingIdentity, error) {
+func parsedIdentity(word string, url string) (postingIdentity, error) {
 	parsedWord, err := yacymodel.ParseHash(word)
 	if err != nil {
 		return postingIdentity{}, fmt.Errorf("held posting word hash: %w", err)

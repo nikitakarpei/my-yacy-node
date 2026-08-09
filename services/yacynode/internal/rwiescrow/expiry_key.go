@@ -25,7 +25,7 @@ func (expiryKeyCodec) Decode(key vaultkey.Key) (postingHold, error) {
 	if err != nil {
 		return postingHold{}, fmt.Errorf("held posting expiry key: %w", err)
 	}
-	posting, err := identityOf(word, url)
+	posting, err := parsedIdentity(word, url)
 	if err != nil {
 		return postingHold{}, err
 	}
