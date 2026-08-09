@@ -90,7 +90,7 @@ func newRecaller(
 		corpora,
 		metrics,
 		recallConfigFrom(cfg),
-	), nil
+	)
 }
 
 func redirectResolutionsFrom(

@@ -180,7 +180,8 @@ type recallerBuilder struct {
 	maxRequestsInFlight int
 }
 
-func (r recallerBuilder) recaller() *recall.Recaller {
+func (r recallerBuilder) recaller(t *testing.T) *recall.Recaller {
+	t.Helper()
 	if r.crawlOrders == nil {
 		r.crawlOrders = &recordingCrawlOrders{}
 	}
@@ -203,7 +204,7 @@ func (r recallerBuilder) recaller() *recall.Recaller {
 	if r.markdownCorpus != nil {
 		corpora = append(corpora, r.markdownCorpus)
 	}
-	return recall.NewRecaller(
+	recaller, err := recall.NewRecaller(
 		r.crawlOrders,
 		r.redirects,
 		r.disposedPages,
@@ -215,6 +216,10 @@ func (r recallerBuilder) recaller() *recall.Recaller {
 			MaxRequestsInFlight: r.maxRequestsInFlight,
 		},
 	)
+	if err != nil {
+		t.Fatalf("new recaller: %v", err)
+	}
+	return recaller
 }
 
 func recalledMarkdownPage(t *testing.T, recaller *recall.Recaller) recall.RecalledPage {
@@ -259,6 +264,21 @@ func assertOnlyRecalledMarkdown(t *testing.T, recalled recall.RecalledPage) {
 	}
 }
 
+func TestRecallerIsRefusedWhenTwoCorporaServeOneRepresentationKind(t *testing.T) {
+	_, err := recall.NewRecaller(
+		&recordingCrawlOrders{},
+		unredirectedURL{},
+		keptPages{},
+		[]recall.Corpus{emptyCorpus{}, &filledCorpus{}},
+		&recordingProgress{},
+		recall.Config{},
+	)
+
+	if !errors.Is(err, recall.ErrRepresentationKindServedTwice) {
+		t.Fatalf("new recaller error = %v", err)
+	}
+}
+
 func TestRecallReturnsTheRepresentationTheCorpusHolds(t *testing.T) {
 	crawlOrders := &recordingCrawlOrders{}
 	progress := &recordingProgress{}
@@ -266,7 +286,7 @@ func TestRecallReturnsTheRepresentationTheCorpusHolds(t *testing.T) {
 		crawlOrders:    crawlOrders,
 		markdownCorpus: &filledCorpus{},
 		progress:       progress,
-	}.recaller()
+	}.recaller(t)
 
 	assertOnlyRecalledMarkdown(t, recalledMarkdownPage(t, recaller))
 
@@ -282,14 +302,14 @@ func TestRecallReturnsTheRepresentationTheCorpusHolds(t *testing.T) {
 }
 
 func TestRecallReturnsTheRepresentationTheCorpusGainsWhileWaiting(t *testing.T) {
-	recaller := recallerBuilder{markdownCorpus: &filledCorpus{readsBeforeFill: 2}}.recaller()
+	recaller := recallerBuilder{markdownCorpus: &filledCorpus{readsBeforeFill: 2}}.recaller(t)
 
 	assertOnlyRecalledMarkdown(t, recalledMarkdownPage(t, recaller))
 }
 
 func TestRecallReportsAKindNoCorpusServesUnavailable(t *testing.T) {
 	progress := &recordingProgress{}
-	recaller := recallerBuilder{markdownCorpus: &filledCorpus{}, progress: progress}.recaller()
+	recaller := recallerBuilder{markdownCorpus: &filledCorpus{}, progress: progress}.recaller(t)
 
 	recalled, err := recaller.Recall(
 		context.Background(), requestedURL, []recall.RepresentationKind{kindText},
@@ -308,13 +328,13 @@ func TestRecallReportsAKindTheCorpusNeverHoldsUnavailableAtTheRecallLimit(t *tes
 	recaller := recallerBuilder{
 		markdownCorpus: emptyCorpus{},
 		recallLimit:    20 * time.Millisecond,
-	}.recaller()
+	}.recaller(t)
 
 	assertOnlyUnavailableKind(t, recalledMarkdownPage(t, recaller), kindMarkdown)
 }
 
 func TestRecallReportsAKindUnavailableWhenTheCorpusReadFails(t *testing.T) {
-	recaller := recallerBuilder{markdownCorpus: failingCorpus{}}.recaller()
+	recaller := recallerBuilder{markdownCorpus: failingCorpus{}}.recaller(t)
 
 	assertOnlyUnavailableKind(t, recalledMarkdownPage(t, recaller), kindMarkdown)
 }
@@ -323,7 +343,7 @@ func TestRecallReportsAKindUnavailableWhenTheRedirectLookupFails(t *testing.T) {
 	recaller := recallerBuilder{
 		redirects:      failingRedirects{},
 		markdownCorpus: &filledCorpus{},
-	}.recaller()
+	}.recaller(t)
 
 	assertOnlyUnavailableKind(t, recalledMarkdownPage(t, recaller), kindMarkdown)
 }
@@ -333,7 +353,7 @@ func TestRecallStopsWaitingWhenThePageIsDisposedOfDuringTheRecall(t *testing.T) 
 		disposedPages:  pageDisposedDuringRecall{},
 		markdownCorpus: emptyCorpus{},
 		recallLimit:    time.Minute,
-	}.recaller()
+	}.recaller(t)
 
 	start := time.Now()
 	assertOnlyUnavailableKind(t, recalledMarkdownPage(t, recaller), kindMarkdown)
@@ -347,7 +367,7 @@ func TestRecallKeepsWaitingWhenTheDisposalLookupFailsMidRecall(t *testing.T) {
 	recaller := recallerBuilder{
 		disposedPages:  failingDisposalLookup{},
 		markdownCorpus: &filledCorpus{readsBeforeFill: 2},
-	}.recaller()
+	}.recaller(t)
 
 	assertOnlyRecalledMarkdown(t, recalledMarkdownPage(t, recaller))
 }
@@ -356,7 +376,7 @@ func TestRecallFailsWhenTheDisposalLookupFailsAtTheStart(t *testing.T) {
 	recaller := recallerBuilder{
 		disposedPages:  failingDisposalLookup{failsAtRecallStart: true},
 		markdownCorpus: &filledCorpus{},
-	}.recaller()
+	}.recaller(t)
 
 	if _, err := recaller.Recall(
 		context.Background(), requestedURL, []recall.RepresentationKind{kindMarkdown},
@@ -366,7 +386,7 @@ func TestRecallFailsWhenTheDisposalLookupFailsAtTheStart(t *testing.T) {
 }
 
 func TestRecallFailsWhenTheURLCannotBeCanonicalized(t *testing.T) {
-	recaller := recallerBuilder{markdownCorpus: &filledCorpus{}}.recaller()
+	recaller := recallerBuilder{markdownCorpus: &filledCorpus{}}.recaller(t)
 
 	if _, err := recaller.Recall(context.Background(), "://nonsense", nil); err == nil {
 		t.Fatal("expected a canonicalization error")
@@ -377,7 +397,7 @@ func TestRecallFailsWhenTheCrawlOrderCannotBePlaced(t *testing.T) {
 	recaller := recallerBuilder{
 		crawlOrders:    &recordingCrawlOrders{err: errors.New("no stream")},
 		markdownCorpus: &filledCorpus{},
-	}.recaller()
+	}.recaller(t)
 
 	if _, err := recaller.Recall(
 		context.Background(), requestedURL, []recall.RepresentationKind{kindMarkdown},
@@ -394,7 +414,7 @@ func TestRecallRejectsARequestBeyondTheInFlightLimit(t *testing.T) {
 		markdownCorpus:      &filledCorpus{},
 		progress:            progress,
 		maxRequestsInFlight: 1,
-	}.recaller()
+	}.recaller(t)
 
 	go func() {
 		_, _ = recaller.Recall(
