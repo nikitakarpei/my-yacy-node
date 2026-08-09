@@ -59,11 +59,11 @@ func fullPosting(t *testing.T) yacymodel.RWIPosting {
 func TestStoredPostingRoundTrip(t *testing.T) {
 	entry := fullPosting(t)
 
-	encoded, err := postingCodec{}.Encode(entry)
+	encoded, err := postingValueCodec{}.Encode(entry)
 	if err != nil {
 		t.Fatalf("Encode: %v", err)
 	}
-	decoded, err := postingCodec{}.Decode(encoded)
+	decoded, err := postingValueCodec{}.Decode(encoded)
 	if err != nil {
 		t.Fatalf("Decode: %v", err)
 	}
@@ -74,30 +74,35 @@ func TestStoredPostingRoundTrip(t *testing.T) {
 }
 
 func TestStoredPostingRejectsEmptyValue(t *testing.T) {
-	if _, err := (postingCodec{}).Decode(nil); !errors.Is(err, yacymodel.ErrBadRWIPosting) {
+	if _, err := (postingValueCodec{}).Decode(nil); !errors.Is(err, yacymodel.ErrBadRWIPosting) {
 		t.Errorf("err = %v, want ErrBadRWIPosting", err)
 	}
 }
 
 func TestStoredPostingRejectsUnknownFormat(t *testing.T) {
-	encoded, err := postingCodec{}.Encode(fullPosting(t))
+	encoded, err := postingValueCodec{}.Encode(fullPosting(t))
 	if err != nil {
 		t.Fatalf("Encode: %v", err)
 	}
 	encoded[0] = 0x01
 
-	if _, err := (postingCodec{}).Decode(encoded); !errors.Is(err, yacymodel.ErrBadRWIPosting) {
+	if _, err := (postingValueCodec{}).Decode(
+		encoded,
+	); !errors.Is(
+		err,
+		yacymodel.ErrBadRWIPosting,
+	) {
 		t.Errorf("err = %v, want ErrBadRWIPosting for old 0x01 blob", err)
 	}
 }
 
 func TestStoredPostingRejectsTruncatedBinary(t *testing.T) {
-	encoded, err := postingCodec{}.Encode(fullPosting(t))
+	encoded, err := postingValueCodec{}.Encode(fullPosting(t))
 	if err != nil {
 		t.Fatalf("Encode: %v", err)
 	}
 	for length := 1; length < len(encoded); length++ {
-		if _, err := (postingCodec{}).Decode(
+		if _, err := (postingValueCodec{}).Decode(
 			encoded[:length],
 		); !errors.Is(
 			err,

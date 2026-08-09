@@ -14,15 +14,13 @@ import (
 
 const peersBucket vault.Name = "peerroster"
 
-var peerKeyLayout = vaultkey.Single(vaultkey.Text)
-
 const announceRoundsBeforeConfirmationStale = 2
 
 var neverReachable time.Time
 
 type roster struct {
 	vault            *vault.Vault
-	peers            *vault.Collection[rosterEntry]
+	peers            *vault.Collection[yacymodel.Hash, rosterEntry]
 	now              func() time.Time
 	reservoirCap     int
 	reachableCap     int
@@ -57,9 +55,8 @@ func (r *roster) Discover(ctx context.Context, seeds ...yacymodel.Seed) {
 }
 
 func (r *roster) discoverOne(ctx context.Context, seed yacymodel.Seed) error {
-	key := peerKey(seed.Hash)
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		entry, known, err := r.peers.Get(tx, key)
+		entry, known, err := r.peers.Get(tx, seed.Hash)
 		if err != nil {
 			return fmt.Errorf("read peer: %w", err)
 		}
@@ -67,7 +64,7 @@ func (r *roster) discoverOne(ctx context.Context, seed yacymodel.Seed) error {
 			entry = rosterEntry{lastContacted: r.now()}
 		}
 		entry.seed = seed
-		if err := r.peers.Put(tx, key, entry); err != nil {
+		if err := r.peers.Put(tx, seed.Hash, entry); err != nil {
 			return fmt.Errorf("store peer: %w", err)
 		}
 
@@ -77,10 +74,6 @@ func (r *roster) discoverOne(ctx context.Context, seed yacymodel.Seed) error {
 	}
 
 	return nil
-}
-
-func peerKey(peer yacymodel.Hash) vault.Key {
-	return peerKeyLayout.Key(peer.String()).Bytes()
 }
 
 func (r *roster) ConfirmReachable(ctx context.Context, peer yacymodel.Hash) {
@@ -127,7 +120,7 @@ func (r *roster) recordContact(
 	var confirmed yacymodel.Seed
 	found := false
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		entry, known, err := r.peers.Get(tx, peerKey(peer))
+		entry, known, err := r.peers.Get(tx, peer)
 		if err != nil {
 			return fmt.Errorf("read peer: %w", err)
 		}
@@ -141,7 +134,7 @@ func (r *roster) recordContact(
 		} else {
 			entry.lastReachable = neverReachable
 		}
-		if err := r.peers.Put(tx, peerKey(peer), entry); err != nil {
+		if err := r.peers.Put(tx, peer, entry); err != nil {
 			return fmt.Errorf("store peer: %w", err)
 		}
 		confirmed, found = entry.seed, true
@@ -206,7 +199,7 @@ func (r *roster) IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) b
 
 	recent := false
 	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
-		entry, known, err := r.peers.Get(tx, peerKey(peer))
+		entry, known, err := r.peers.Get(tx, peer)
 		if err != nil {
 			return fmt.Errorf("read peer: %w", err)
 		}
@@ -259,7 +252,7 @@ func (r *roster) reachableKeys() map[yacymodel.Hash]struct{} {
 func (r *roster) evictOverflow(ctx context.Context) {
 	for _, hash := range r.stalestBeyondCapacity(ctx) {
 		if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-			if _, err := r.peers.Delete(tx, peerKey(hash)); err != nil {
+			if _, err := r.peers.Delete(tx, hash); err != nil {
 				return fmt.Errorf("delete peer: %w", err)
 			}
 
@@ -312,26 +305,30 @@ func (r *roster) selectUnreachable(
 
 	kept := make([]rosterEntry, 0, limit)
 	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
-		return r.peers.Scan(tx, nil, func(_ vault.Key, entry rosterEntry) (bool, error) {
-			if _, ok := reachable[entry.seed.Hash]; ok {
-				return true, nil
-			}
+		return r.peers.Scan(
+			tx,
+			vaultkey.EveryKey(),
+			func(_ yacymodel.Hash, entry rosterEntry) (bool, error) {
+				if _, ok := reachable[entry.seed.Hash]; ok {
+					return true, nil
+				}
 
-			pos := 0
-			for pos < len(kept) && !precedes(entry, kept[pos]) {
-				pos++
-			}
-			if pos >= limit {
-				return true, nil
-			}
-			if len(kept) < limit {
-				kept = append(kept, rosterEntry{})
-			}
-			copy(kept[pos+1:], kept[pos:])
-			kept[pos] = entry
+				pos := 0
+				for pos < len(kept) && !precedes(entry, kept[pos]) {
+					pos++
+				}
+				if pos >= limit {
+					return true, nil
+				}
+				if len(kept) < limit {
+					kept = append(kept, rosterEntry{})
+				}
+				copy(kept[pos+1:], kept[pos:])
+				kept[pos] = entry
 
-			return true, nil
-		})
+				return true, nil
+			},
+		)
 	}); err != nil {
 		slog.WarnContext(ctx, "peer roster scan failed", slog.Any("error", err))
 

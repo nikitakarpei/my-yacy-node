@@ -14,20 +14,23 @@ const (
 	freshnessBucket vault.Name = "urlmeta_staleness_freshness"
 )
 
-var freshnessKeyLayout = vaultkey.Single(vaultkey.Text)
-
 type stalenessRanking struct {
 	vault     *vault.Vault
-	order     *vault.Set
-	freshness *vault.Collection[freshnessRank]
+	order     *vault.Set[rankedURL]
+	freshness *vault.Collection[yacymodel.URLHash, freshnessRank]
 }
 
 func openStalenessRanking(v *vault.Vault) (*stalenessRanking, error) {
-	order, err := vault.RegisterSet(v, orderBucket)
+	order, err := vault.RegisterSet(v, orderBucket, orderKeyCodec{})
 	if err != nil {
 		return nil, fmt.Errorf("register staleness order: %w", err)
 	}
-	freshness, err := vault.Register(v, freshnessBucket, freshnessRankCodec{})
+	freshness, err := vault.Register(
+		v,
+		freshnessBucket,
+		freshnessKeyCodec{},
+		freshnessRankValueCodec{},
+	)
 	if err != nil {
 		return nil, fmt.Errorf("register staleness freshness: %w", err)
 	}
@@ -47,13 +50,9 @@ func (o *stalenessRanking) StalestURLs(
 	err := o.vault.View(ctx, func(tx *vault.Txn) error {
 		return o.order.Scan(
 			tx,
-			nil,
-			func(key vault.Key) (bool, error) {
-				hash, err := hashFromOrderKey(key)
-				if err != nil {
-					return false, err
-				}
-				stalest = append(stalest, hash)
+			vaultkey.EveryKey(),
+			func(ranked rankedURL) (bool, error) {
+				stalest = append(stalest, ranked.hash)
 
 				return len(stalest) < limit, nil
 			},
@@ -72,34 +71,30 @@ func (o *stalenessRanking) URLStored(
 	freshness yacymodel.Optional[yacymodel.CalendarDay],
 ) error {
 	rank := rankOf(freshness)
-	if err := o.order.Add(tx, rankedURL{rank: rank, hash: hash}.orderKey()); err != nil {
+	if err := o.order.Add(tx, rankedURL{rank: rank, hash: hash}); err != nil {
 		return fmt.Errorf("record staleness order: %w", err)
 	}
-	if err := o.freshness.Put(tx, freshnessKey(hash), rank); err != nil {
+	if err := o.freshness.Put(tx, hash, rank); err != nil {
 		return fmt.Errorf("record staleness freshness: %w", err)
 	}
 
 	return nil
 }
 
-func freshnessKey(hash yacymodel.URLHash) vault.Key {
-	return freshnessKeyLayout.Key(hash.String()).Bytes()
-}
-
 var _ StalenessRanking = (*stalenessRanking)(nil)
 
 func (o *stalenessRanking) URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error {
-	rank, found, err := o.freshness.Get(tx, freshnessKey(hash))
+	rank, found, err := o.freshness.Get(tx, hash)
 	if err != nil {
 		return fmt.Errorf("read staleness freshness: %w", err)
 	}
 	if !found {
 		return nil
 	}
-	if _, err := o.order.Remove(tx, rankedURL{rank: rank, hash: hash}.orderKey()); err != nil {
+	if _, err := o.order.Remove(tx, rankedURL{rank: rank, hash: hash}); err != nil {
 		return fmt.Errorf("drop staleness order: %w", err)
 	}
-	if _, err := o.freshness.Delete(tx, freshnessKey(hash)); err != nil {
+	if _, err := o.freshness.Delete(tx, hash); err != nil {
 		return fmt.Errorf("drop staleness freshness: %w", err)
 	}
 

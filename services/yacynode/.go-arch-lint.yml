@@ -306,7 +306,6 @@ deps:
     mayDependOn:
       - postingidentity
       - vaultkey
-      - vault
     canUse:
       - yacymodel
   postingofferschedule:
@@ -502,6 +501,7 @@ deps:
       - urlmeta
       - urlmetastaleness
       - urlreferences
+      - vaultkey
       - vault
       - memvault
     canUse:

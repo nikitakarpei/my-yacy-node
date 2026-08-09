@@ -10,7 +10,7 @@ import (
 
 type urlDirectory struct {
 	vault      *vault.Vault
-	collection *vault.Collection[yacymodel.URLMetadata]
+	collection *vault.Collection[yacymodel.URLHash, yacymodel.URLMetadata]
 	observers  observers
 }
 
@@ -21,7 +21,7 @@ func (d urlDirectory) MetadataByHash(
 	metadata := make([]yacymodel.URLMetadata, 0, len(hashes))
 	err := d.vault.View(ctx, func(tx *vault.Txn) error {
 		for _, hash := range hashes {
-			stored, ok, err := d.collection.Get(tx, urlMetadataKey(hash))
+			stored, ok, err := d.collection.Get(tx, hash)
 			if err != nil {
 				return fmt.Errorf("read url metadata: %w", err)
 			}
@@ -53,7 +53,7 @@ func (d urlDirectory) MissingURLs(
 			}
 			seen[hash] = struct{}{}
 
-			_, ok, err := d.collection.Get(tx, urlMetadataKey(hash))
+			_, ok, err := d.collection.Get(tx, hash)
 			if err != nil {
 				return fmt.Errorf("read url metadata: %w", err)
 			}
@@ -96,7 +96,7 @@ func (d urlDirectory) Purge(
 ) (PurgeResult, error) {
 	var result PurgeResult
 	for _, hash := range urls {
-		deleted, err := d.collection.Delete(tx, urlMetadataKey(hash))
+		deleted, err := d.collection.Delete(tx, hash)
 		if err != nil {
 			return PurgeResult{}, fmt.Errorf("delete url metadata: %w", err)
 		}

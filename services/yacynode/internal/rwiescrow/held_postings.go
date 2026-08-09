@@ -12,8 +12,8 @@ import (
 
 type HeldPostings struct {
 	vault    *vault.Vault
-	held     *vault.Collection[heldPosting]
-	expiry   *vault.Set
+	held     *vault.Collection[postingIdentity, heldPosting]
+	expiry   *vault.Set[postingHold]
 	admitter rwipostings.PostingAdmitter
 	observer HoldObserver
 	capacity int
@@ -24,12 +24,15 @@ func (h *HeldPostings) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 	identity := postingIdentity{Word: posting.WordHash, URL: posting.URLHash}
 	heldAt := h.now()
 
-	previous, found, err := h.held.Get(tx, heldKey(identity))
+	previous, found, err := h.held.Get(tx, identity)
 	if err != nil {
 		return fmt.Errorf("read held posting: %w", err)
 	}
 	if found {
-		if _, err := h.expiry.Remove(tx, expiryKey(previous.HeldAt, identity)); err != nil {
+		if _, err := h.expiry.Remove(
+			tx,
+			postingHold{HeldAt: previous.HeldAt, Posting: identity},
+		); err != nil {
 			return fmt.Errorf("drop stale posting hold time: %w", err)
 		}
 	} else {
@@ -44,13 +47,13 @@ func (h *HeldPostings) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error {
 		}
 	}
 
-	if err := h.held.Put(tx, heldKey(identity), heldPosting{
+	if err := h.held.Put(tx, identity, heldPosting{
 		HeldAt:  heldAt,
 		Posting: posting,
 	}); err != nil {
 		return fmt.Errorf("hold posting: %w", err)
 	}
-	if err := h.expiry.Add(tx, expiryKey(heldAt, identity)); err != nil {
+	if err := h.expiry.Add(tx, postingHold{HeldAt: heldAt, Posting: identity}); err != nil {
 		return fmt.Errorf("record posting hold time: %w", err)
 	}
 	if !found {
@@ -160,12 +163,8 @@ func (h *HeldPostings) postingsWaitingFor(
 	var waiting []heldPosting
 	err := h.held.Scan(
 		tx,
-		heldKeyPrefixOfURL(hash),
-		func(key vault.Key, held heldPosting) (bool, error) {
-			identity, err := parseHeldKey(key)
-			if err != nil {
-				return false, err
-			}
+		heldPostingKeysOf(hash),
+		func(identity postingIdentity, held heldPosting) (bool, error) {
 			held.Posting.WordHash = identity.Word
 			waiting = append(waiting, held)
 
@@ -185,14 +184,7 @@ func (h *HeldPostings) postingHoldsBefore(
 	limit int,
 ) ([]postingHold, error) {
 	holds := make([]postingHold, 0, limit)
-	err := h.expiry.Scan(tx, nil, func(key vault.Key) (bool, error) {
-		hold, err := parseExpiryKey(key)
-		if err != nil {
-			return false, err
-		}
-		if !hold.HeldAt.Before(cutoff) {
-			return false, nil
-		}
+	err := h.expiry.Scan(tx, expiryKeysBefore(cutoff), func(hold postingHold) (bool, error) {
 		holds = append(holds, hold)
 
 		return len(holds) < limit, nil
@@ -216,10 +208,10 @@ func (h *HeldPostings) release(tx *vault.Txn, held heldPosting) error {
 }
 
 func (h *HeldPostings) drop(tx *vault.Txn, hold postingHold) error {
-	if _, err := h.held.Delete(tx, heldKey(hold.Posting)); err != nil {
+	if _, err := h.held.Delete(tx, hold.Posting); err != nil {
 		return fmt.Errorf("drop held posting: %w", err)
 	}
-	if _, err := h.expiry.Remove(tx, expiryKey(hold.HeldAt, hold.Posting)); err != nil {
+	if _, err := h.expiry.Remove(tx, hold); err != nil {
 		return fmt.Errorf("drop posting hold time: %w", err)
 	}
 

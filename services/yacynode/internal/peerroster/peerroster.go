@@ -39,7 +39,7 @@ func Open(
 	self yacymodel.Hash,
 	observer RosterObserver,
 ) (Roster, error) {
-	peers, err := vault.Register(storage, peersBucket, rosterEntryCodec{})
+	peers, err := vault.Register(storage, peersBucket, peerKeyCodec{}, rosterEntryValueCodec{})
 	if err != nil {
 		return nil, fmt.Errorf("register peer roster: %w", err)
 	}

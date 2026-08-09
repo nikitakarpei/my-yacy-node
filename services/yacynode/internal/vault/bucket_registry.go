@@ -7,7 +7,12 @@ import (
 	"fmt"
 )
 
-func Register[V any](v *Vault, bucket Name, codec Codec[V]) (*Collection[V], error) {
+func Register[K, V any](
+	v *Vault,
+	bucket Name,
+	keys KeyCodec[K],
+	values ValueCodec[V],
+) (*Collection[K, V], error) {
 	if v == nil || v.engine == nil {
 		return nil, errVaultClosed
 	}
@@ -25,7 +30,7 @@ func Register[V any](v *Vault, bucket Name, codec Codec[V]) (*Collection[V], err
 
 	v.registered[bucket] = struct{}{}
 
-	return &Collection[V]{vault: v, name: bucket, codec: codec}, nil
+	return &Collection[K, V]{name: bucket, keys: keys, values: values}, nil
 }
 
 func (v *Vault) EntriesByCollection(ctx context.Context) (map[Name]int, error) {
@@ -75,17 +80,17 @@ func lengthsOf(tx *Txn, collections []Name) (map[Name]int, error) {
 }
 
 func readLength(tx *Txn, bucket Name) (int, error) {
-	return decodeLength(tx.etx.Bucket(lengthBucket).Get(Key(bucket)))
+	return decodeLength(tx.etx.Bucket(lengthBucket).Get([]byte(bucket)))
 }
 
 func adjustLength(tx *Txn, bucket Name, delta int) error {
 	lengths := tx.etx.Bucket(lengthBucket)
-	current, err := decodeLength(lengths.Get(Key(bucket)))
+	current, err := decodeLength(lengths.Get([]byte(bucket)))
 	if err != nil {
 		return err
 	}
 
-	return putLength(lengths, Key(bucket), max(current+delta, 0))
+	return putLength(lengths, []byte(bucket), max(current+delta, 0))
 }
 
 func decodeLength(raw []byte) (int, error) {
@@ -104,7 +109,7 @@ func decodeLength(raw []byte) (int, error) {
 	return int(n), nil
 }
 
-func putLength(lengths EngineBucket, key Key, n int) error {
+func putLength(lengths EngineBucket, key []byte, n int) error {
 	if n < 0 {
 		return errors.New("negative length counter")
 	}

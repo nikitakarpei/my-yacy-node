@@ -31,8 +31,8 @@ type EngineTxn interface {
 }
 
 type EngineBucket interface {
-	Get(Key) []byte
-	Put(Key, []byte) error
-	Delete(Key) error
+	Get([]byte) []byte
+	Put([]byte, []byte) error
+	Delete([]byte) error
 	Scan(keys vaultkey.KeyRange, fn func(key, value []byte) (bool, error)) error
 }

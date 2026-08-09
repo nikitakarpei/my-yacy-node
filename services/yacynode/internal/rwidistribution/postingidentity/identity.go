@@ -2,13 +2,7 @@
 // gives that identity a stable on-disk key.
 package postingidentity
 
-import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
-)
-
-var identityKeyLayout = vaultkey.Pair(vaultkey.Text, vaultkey.Text)
+import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 
 type Identity struct {
 	Word yacymodel.Hash
@@ -17,8 +11,4 @@ type Identity struct {
 
 func IdentityOf(word yacymodel.Hash, url yacymodel.URLHash) Identity {
 	return Identity{Word: word, URL: url}
-}
-
-func (i Identity) Key() vault.Key {
-	return identityKeyLayout.Key(i.Word.String(), i.URL.String()).Bytes()
 }

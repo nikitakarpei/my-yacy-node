@@ -59,6 +59,6 @@ func Open(
 	return directory, directory, directory, nil
 }
 
-func PostingForm() vault.Codec[yacymodel.RWIPosting] {
-	return postingCodec{}
+func PostingForm() vault.ValueCodec[yacymodel.RWIPosting] {
+	return postingValueCodec{}
 }

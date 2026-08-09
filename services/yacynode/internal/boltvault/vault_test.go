@@ -9,13 +9,29 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/boltvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaulttest"
 )
 
-type stringCodec struct{}
+var stringKeyLayout = vaultkey.Single(vaultkey.Text)
 
-func (stringCodec) Encode(value string) ([]byte, error) { return []byte(value), nil }
-func (stringCodec) Decode(raw []byte) (string, error)   { return string(raw), nil }
+type stringKeyCodec struct{}
+
+func (stringKeyCodec) Encode(key string) vaultkey.Key { return stringKeyLayout.Key(key) }
+
+func (stringKeyCodec) Decode(key vaultkey.Key) (string, error) {
+	decoded, err := stringKeyLayout.Parts(key)
+	if err != nil {
+		return "", fmt.Errorf("word key: %w", err)
+	}
+
+	return decoded, nil
+}
+
+type stringValueCodec struct{}
+
+func (stringValueCodec) Encode(value string) ([]byte, error) { return []byte(value), nil }
+func (stringValueCodec) Decode(raw []byte) (string, error)   { return string(raw), nil }
 
 func TestConformance(t *testing.T) {
 	dir := t.TempDir()
@@ -36,12 +52,12 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
-	words, err := vault.Register(first, vault.Name("words"), stringCodec{})
+	words, err := vault.Register(first, vault.Name("words"), stringKeyCodec{}, stringValueCodec{})
 	if err != nil {
 		t.Fatalf("Register: %v", err)
 	}
 	if err := first.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, vault.Key("a"), "alpha")
+		return words.Put(tx, "a", "alpha")
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
@@ -58,13 +74,13 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 			t.Fatalf("Close: %v", err)
 		}
 	})
-	words, err = vault.Register(reopened, vault.Name("words"), stringCodec{})
+	words, err = vault.Register(reopened, vault.Name("words"), stringKeyCodec{}, stringValueCodec{})
 	if err != nil {
 		t.Fatalf("re-register: %v", err)
 	}
 
 	if err := reopened.View(ctx, func(tx *vault.Txn) error {
-		got, ok, err := words.Get(tx, vault.Key("a"))
+		got, ok, err := words.Get(tx, "a")
 		if err != nil {
 			return fmt.Errorf("get: %w", err)
 		}
@@ -89,13 +105,13 @@ func TestWritesAreNotGatedByQuota(t *testing.T) {
 			t.Fatalf("Close: %v", err)
 		}
 	})
-	words, err := vault.Register(store, vault.Name("words"), stringCodec{})
+	words, err := vault.Register(store, vault.Name("words"), stringKeyCodec{}, stringValueCodec{})
 	if err != nil {
 		t.Fatalf("Register: %v", err)
 	}
 
 	if err := store.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, vault.Key("a"), "alpha")
+		return words.Put(tx, "a", "alpha")
 	}); err != nil {
 		t.Fatalf("Update over quota = %v, want nil (kernel does not gate writes)", err)
 	}

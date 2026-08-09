@@ -62,7 +62,7 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 }
 
 func TestStoredURLMetadataCodecRoundTripsEveryField(t *testing.T) {
-	codec := storedURLMetadataCodec{}
+	codec := urlMetadataValueCodec{}
 
 	want := fullURLMetadata(t)
 
@@ -80,7 +80,7 @@ func TestStoredURLMetadataCodecRoundTripsEveryField(t *testing.T) {
 }
 
 func TestStoredURLMetadataCodecRoundTripsAbsentValues(t *testing.T) {
-	codec := storedURLMetadataCodec{}
+	codec := urlMetadataValueCodec{}
 
 	want := yacymodel.URLMetadata{Address: "https://example.org/"}
 
@@ -98,7 +98,7 @@ func TestStoredURLMetadataCodecRoundTripsAbsentValues(t *testing.T) {
 }
 
 func TestStoredURLMetadataCodecRejectsEmptyValue(t *testing.T) {
-	codec := storedURLMetadataCodec{}
+	codec := urlMetadataValueCodec{}
 
 	if _, err := codec.Decode(nil); !errors.Is(
 		err, yacymodel.ErrBadURLMetadata,
@@ -108,7 +108,7 @@ func TestStoredURLMetadataCodecRejectsEmptyValue(t *testing.T) {
 }
 
 func TestStoredURLMetadataCodecRejectsUnknownFormat(t *testing.T) {
-	codec := storedURLMetadataCodec{}
+	codec := urlMetadataValueCodec{}
 
 	if _, err := codec.Decode([]byte{0xff}); !errors.Is(
 		err, yacymodel.ErrBadURLMetadata,
@@ -118,7 +118,7 @@ func TestStoredURLMetadataCodecRejectsUnknownFormat(t *testing.T) {
 }
 
 func TestStoredURLMetadataCodecRejectsTruncatedValue(t *testing.T) {
-	codec := storedURLMetadataCodec{}
+	codec := urlMetadataValueCodec{}
 
 	encoded, err := codec.Encode(fullURLMetadata(t))
 	if err != nil {

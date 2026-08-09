@@ -7,12 +7,28 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-type stringCodec struct{}
+var stringKeyLayout = vaultkey.Single(vaultkey.Text)
 
-func (stringCodec) Encode(value string) ([]byte, error) { return []byte(value), nil }
-func (stringCodec) Decode(raw []byte) (string, error)   { return string(raw), nil }
+type stringKeyCodec struct{}
+
+func (stringKeyCodec) Encode(key string) vaultkey.Key { return stringKeyLayout.Key(key) }
+
+func (stringKeyCodec) Decode(key vaultkey.Key) (string, error) {
+	decoded, err := stringKeyLayout.Parts(key)
+	if err != nil {
+		return "", fmt.Errorf("word key: %w", err)
+	}
+
+	return decoded, nil
+}
+
+type stringValueCodec struct{}
+
+func (stringValueCodec) Encode(value string) ([]byte, error) { return []byte(value), nil }
+func (stringValueCodec) Decode(raw []byte) (string, error)   { return string(raw), nil }
 
 type failingEncodeCodec struct{}
 
@@ -33,7 +49,7 @@ func (failingDecodeCodec) Decode(
 	return "", errors.New("decode boom")
 }
 
-func openWords(t *testing.T) (*vault.Vault, *vault.Collection[string]) {
+func openWords(t *testing.T) (*vault.Vault, *vault.Collection[string, string]) {
 	t.Helper()
 
 	v, err := openDouble()
@@ -46,7 +62,7 @@ func openWords(t *testing.T) (*vault.Vault, *vault.Collection[string]) {
 		}
 	})
 
-	words, err := vault.Register(v, vault.Name("words"), stringCodec{})
+	words, err := vault.Register(v, vault.Name("words"), stringKeyCodec{}, stringValueCodec{})
 	if err != nil {
 		t.Fatalf("Register: %v", err)
 	}
@@ -61,13 +77,13 @@ func TestPutThenGetTranslatesThroughCodec(t *testing.T) {
 	v, words := openWords(t)
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, vault.Key("a"), "alpha")
+		return words.Put(tx, "a", "alpha")
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
 
 	if err := v.View(ctx, func(tx *vault.Txn) error {
-		got, ok, err := words.Get(tx, vault.Key("a"))
+		got, ok, err := words.Get(tx, "a")
 		if err != nil {
 			return wrap(err)
 		}
@@ -83,7 +99,7 @@ func TestPutThenGetTranslatesThroughCodec(t *testing.T) {
 			t.Fatalf("Len = %d, want 1", length)
 		}
 
-		return words.Scan(tx, nil, func(_ vault.Key, value string) (bool, error) {
+		return words.Scan(tx, vaultkey.EveryKey(), func(_ string, value string) (bool, error) {
 			if value != "alpha" {
 				t.Fatalf("Scan value = %q, want alpha", value)
 			}
@@ -98,7 +114,12 @@ func TestPutThenGetTranslatesThroughCodec(t *testing.T) {
 func TestRejectsDuplicateRegistration(t *testing.T) {
 	v, _ := openWords(t)
 
-	if _, err := vault.Register(v, vault.Name("words"), stringCodec{}); err == nil {
+	if _, err := vault.Register(
+		v,
+		vault.Name("words"),
+		stringKeyCodec{},
+		stringValueCodec{},
+	); err == nil {
 		t.Fatal("duplicate Register succeeded, want error")
 	}
 }
@@ -112,7 +133,12 @@ func TestRegisterRejectsClosedVault(t *testing.T) {
 		t.Fatalf("Close: %v", err)
 	}
 
-	if _, err := vault.Register(v, vault.Name("words"), stringCodec{}); err == nil {
+	if _, err := vault.Register(
+		v,
+		vault.Name("words"),
+		stringKeyCodec{},
+		stringValueCodec{},
+	); err == nil {
 		t.Fatal("Register on closed vault succeeded, want error")
 	}
 }
@@ -122,14 +148,14 @@ func TestWriteInsideViewReturnsError(t *testing.T) {
 	v, words := openWords(t)
 
 	putErr := v.View(ctx, func(tx *vault.Txn) error {
-		return words.Put(tx, vault.Key("a"), "alpha")
+		return words.Put(tx, "a", "alpha")
 	})
 	if putErr == nil {
 		t.Fatal("Put inside View succeeded, want error")
 	}
 
 	deleteErr := v.View(ctx, func(tx *vault.Txn) error {
-		_, delErr := words.Delete(tx, vault.Key("a"))
+		_, delErr := words.Delete(tx, "a")
 		if delErr != nil {
 			return wrap(delErr)
 		}
@@ -152,13 +178,18 @@ func TestEncodeErrorSurfaces(t *testing.T) {
 			t.Fatalf("Close: %v", err)
 		}
 	})
-	collection, err := vault.Register(v, vault.Name("words"), failingEncodeCodec{})
+	collection, err := vault.Register(
+		v,
+		vault.Name("words"),
+		stringKeyCodec{},
+		failingEncodeCodec{},
+	)
 	if err != nil {
 		t.Fatalf("Register: %v", err)
 	}
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return collection.Put(tx, vault.Key("a"), "alpha")
+		return collection.Put(tx, "a", "alpha")
 	}); err == nil {
 		t.Fatal("Put with failing encode succeeded, want error")
 	}
@@ -175,19 +206,24 @@ func TestDecodeErrorSurfaces(t *testing.T) {
 			t.Fatalf("Close: %v", err)
 		}
 	})
-	collection, err := vault.Register(v, vault.Name("words"), failingDecodeCodec{})
+	collection, err := vault.Register(
+		v,
+		vault.Name("words"),
+		stringKeyCodec{},
+		failingDecodeCodec{},
+	)
 	if err != nil {
 		t.Fatalf("Register: %v", err)
 	}
 
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
-		return collection.Put(tx, vault.Key("a"), "alpha")
+		return collection.Put(tx, "a", "alpha")
 	}); err != nil {
 		t.Fatalf("Update: %v", err)
 	}
 
 	getErr := v.View(ctx, func(tx *vault.Txn) error {
-		_, _, err := collection.Get(tx, vault.Key("a"))
+		_, _, err := collection.Get(tx, "a")
 		if err != nil {
 			return wrap(err)
 		}
@@ -199,7 +235,11 @@ func TestDecodeErrorSurfaces(t *testing.T) {
 	}
 
 	scanErr := v.View(ctx, func(tx *vault.Txn) error {
-		return collection.Scan(tx, nil, func(vault.Key, string) (bool, error) { return true, nil })
+		return collection.Scan(
+			tx,
+			vaultkey.EveryKey(),
+			func(string, string) (bool, error) { return true, nil },
+		)
 	})
 	if scanErr == nil {
 		t.Fatal("Scan with failing decode succeeded, want error")

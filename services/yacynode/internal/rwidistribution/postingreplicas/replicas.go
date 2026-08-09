@@ -15,12 +15,12 @@ import (
 const bucket vault.Name = "rwidistribution_replica_ledger"
 
 type Replicas struct {
-	holders  *vault.Collection[[]yacymodel.Hash]
+	holders  *vault.Collection[postingidentity.Identity, []yacymodel.Hash]
 	schedule *postingofferschedule.Schedule
 }
 
 func Open(v *vault.Vault, schedule *postingofferschedule.Schedule) (*Replicas, error) {
-	holders, err := vault.Register(v, bucket, holdersCodec{})
+	holders, err := vault.Register(v, bucket, postingidentity.KeyCodec{}, holdersValueCodec{})
 	if err != nil {
 		return nil, fmt.Errorf("register replica ledger: %w", err)
 	}
@@ -34,7 +34,7 @@ func (l *Replicas) PostingPurged(
 	url yacymodel.URLHash,
 ) error {
 	posting := postingidentity.IdentityOf(word, url)
-	if _, err := l.holders.Delete(tx, posting.Key()); err != nil {
+	if _, err := l.holders.Delete(tx, posting); err != nil {
 		return fmt.Errorf("drop replica ledger: %w", err)
 	}
 
@@ -45,7 +45,7 @@ func (l *Replicas) HoldersOf(
 	tx *vault.Txn,
 	posting postingidentity.Identity,
 ) ([]yacymodel.Hash, error) {
-	holders, _, err := l.holders.Get(tx, posting.Key())
+	holders, _, err := l.holders.Get(tx, posting)
 	if err != nil {
 		return nil, fmt.Errorf("read replica holders: %w", err)
 	}
@@ -68,15 +68,14 @@ func (l *Replicas) RecordAccepted(
 			continue
 		}
 
-		key := identity.Key()
-		holders, _, err := l.holders.Get(tx, key)
+		holders, _, err := l.holders.Get(tx, identity)
 		if err != nil {
 			return fmt.Errorf("read replica holders: %w", err)
 		}
 		if slices.Contains(holders, peer) {
 			continue
 		}
-		if err := l.holders.Put(tx, key, append(holders, peer)); err != nil {
+		if err := l.holders.Put(tx, identity, append(holders, peer)); err != nil {
 			return fmt.Errorf("record accepted replica: %w", err)
 		}
 	}
@@ -105,8 +104,7 @@ func (l *Replicas) dropHolders(
 	posting postingidentity.Identity,
 	staleHolders []yacymodel.Hash,
 ) (int, error) {
-	key := posting.Key()
-	holders, found, err := l.holders.Get(tx, key)
+	holders, found, err := l.holders.Get(tx, posting)
 	if err != nil {
 		return 0, fmt.Errorf("read replica holders: %w", err)
 	}
@@ -127,13 +125,13 @@ func (l *Replicas) dropHolders(
 		return 0, nil
 	}
 	if len(keptHolders) == 0 {
-		if _, err := l.holders.Delete(tx, key); err != nil {
+		if _, err := l.holders.Delete(tx, posting); err != nil {
 			return 0, fmt.Errorf("drop stale replicas: %w", err)
 		}
 
 		return droppedReplicas, nil
 	}
-	if err := l.holders.Put(tx, key, keptHolders); err != nil {
+	if err := l.holders.Put(tx, posting, keptHolders); err != nil {
 		return 0, fmt.Errorf("drop stale replicas: %w", err)
 	}
 

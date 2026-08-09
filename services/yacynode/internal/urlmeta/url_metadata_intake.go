@@ -14,7 +14,7 @@ const urlMetadataDiscarded = "url metadata discarded"
 
 type urlIntake struct {
 	vault      *vault.Vault
-	collection *vault.Collection[yacymodel.URLMetadata]
+	collection *vault.Collection[yacymodel.URLHash, yacymodel.URLMetadata]
 	observers  observers
 }
 
@@ -68,15 +68,14 @@ func (i urlIntake) store(
 			continue
 		}
 
-		key := urlMetadataKey(hash)
-		_, found, err := i.collection.Get(tx, key)
+		_, found, err := i.collection.Get(tx, hash)
 		if err != nil {
 			return nil, nil, fmt.Errorf("read url metadata: %w", err)
 		}
 		if found {
 			existing = append(existing, hash)
 		}
-		if err := i.collection.Put(tx, key, stored); err != nil {
+		if err := i.collection.Put(tx, hash, stored); err != nil {
 			rejected = append(rejected, hash)
 			slog.WarnContext(ctx, urlMetadataDiscarded,
 				slog.String("reason", "store failed"),

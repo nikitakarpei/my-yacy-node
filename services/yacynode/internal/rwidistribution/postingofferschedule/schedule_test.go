@@ -172,7 +172,7 @@ func TestPostingPurgedRemovesBothRows(t *testing.T) {
 
 	var found bool
 	if err := v.View(context.Background(), func(tx *vault.Txn) error {
-		_, ok, err := schedule.dueTimes.Get(tx, postingidentity.IdentityOf(word, url).Key())
+		_, ok, err := schedule.dueTimes.Get(tx, postingidentity.IdentityOf(word, url))
 		found = ok
 
 		return err
