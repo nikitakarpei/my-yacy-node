@@ -53,7 +53,7 @@ func (postingKeyCodec) Decode(key vaultkey.Key) (postingIdentity, error) {
 }
 
 func postingKeysOf(word yacymodel.Hash) vaultkey.KeyRange {
-	return vaultkey.KeysUnder(postingKeyLayout.First(word.String()))
+	return postingKeyLayout.KeysWithFirst(word.String())
 }
 
 const storedPostingFormat byte = 0x02

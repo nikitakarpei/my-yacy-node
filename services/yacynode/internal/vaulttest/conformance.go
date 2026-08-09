@@ -222,7 +222,7 @@ func scanVisitsRangeInOrder(t *testing.T, open func(int64) (vault.Engine, error)
 	if err := v.View(ctx, func(tx *vault.Txn) error {
 		return words.Scan(
 			tx,
-			vaultkey.KeysThrough(stringKeyLayout.Key("pb")),
+			stringKeyLayout.KeysThroughFirst("pb"),
 			func(_ string, value string) (bool, error) {
 				visited = append(visited, value)
 
@@ -284,17 +284,17 @@ func boundedScanVisitsEveryKeyInRange(t *testing.T, open func(int64) (vault.Engi
 		{"UnboundedOnBothSides", vaultkey.EveryKey(), boundedScanKeys},
 		{
 			"IncludedLowerBoundOnly",
-			vaultkey.KeysFrom(vaultkey.KeyFrom([]byte("cc"))),
+			vaultkey.KeysFrom(stringKeyLayout.Key("cc")),
 			[]string{"cc", "ee"},
 		},
 		{
 			"ExcludedUpperBoundOnly",
-			vaultkey.KeysBefore(vaultkey.KeyFrom([]byte("cc"))),
+			stringKeyLayout.KeysBeforeFirst("cc"),
 			[]string{"aa", "b1"},
 		},
-		{"BothBounds", vaultkey.KeysUnder(vaultkey.KeyFrom([]byte("b"))), []string{"b1"}},
-		{"BoundsBetweenStoredKeys", vaultkey.KeysUnder(vaultkey.KeyFrom([]byte("d"))), nil},
-		{"EmptyRange", vaultkey.KeysBefore(vaultkey.KeyFrom([]byte{})), nil},
+		{"BothBounds", stringKeyLayout.KeysWithFirst("b1"), []string{"b1"}},
+		{"BoundsBetweenStoredKeys", stringKeyLayout.KeysWithFirst("d"), nil},
+		{"UpperBoundBelowEveryKey", stringKeyLayout.KeysBeforeFirst(""), nil},
 	} {
 		t.Run(scenario.name, func(t *testing.T) {
 			visited := scannedKeys(t, open, scenario.keys)
@@ -318,7 +318,11 @@ func scannedKeys(
 	var visited []string
 	if err := engine.View(context.Background(), func(etx vault.EngineTxn) error {
 		return etx.Bucket(boundedScanBucket).Scan(keys, func(key, _ []byte) (bool, error) {
-			visited = append(visited, string(key))
+			decoded, err := stringKeyCodec{}.Decode(vaultkey.KeyFrom(key))
+			if err != nil {
+				return false, err
+			}
+			visited = append(visited, decoded)
 
 			return true, nil
 		})
@@ -338,7 +342,7 @@ func storeBoundedScanKeys(t *testing.T, engine vault.Engine) {
 	if err := engine.Update(context.Background(), func(etx vault.EngineTxn) error {
 		bucket := etx.Bucket(boundedScanBucket)
 		for _, key := range boundedScanKeys {
-			if err := bucket.Put([]byte(key), []byte(key)); err != nil {
+			if err := bucket.Put(stringKeyLayout.Key(key).Bytes(), []byte(key)); err != nil {
 				return wrapTest(err)
 			}
 		}
@@ -358,7 +362,11 @@ func boundedScanStopsWhenAsked(t *testing.T, open func(int64) (vault.Engine, err
 		return etx.Bucket(boundedScanBucket).Scan(
 			vaultkey.EveryKey(),
 			func(key, _ []byte) (bool, error) {
-				visited = append(visited, string(key))
+				decoded, err := stringKeyCodec{}.Decode(vaultkey.KeyFrom(key))
+				if err != nil {
+					return false, err
+				}
+				visited = append(visited, decoded)
 
 				return false, nil
 			},

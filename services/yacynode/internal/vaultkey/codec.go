@@ -12,6 +12,36 @@ type Codec[A any] struct {
 	descending bool
 }
 
+func (codec Codec[A]) keysWith(value A) KeyRange {
+	encoding := codec.encodingOf(value)
+
+	return KeyRange{firstIncluded: encoding, firstExcluded: successorOf(encoding)}
+}
+
+func (codec Codec[A]) keysThrough(value A) KeyRange {
+	encoding := codec.encodingOf(value)
+
+	if codec.descending {
+		return KeyRange{firstIncluded: encoding}
+	}
+
+	return KeyRange{firstExcluded: successorOf(encoding)}
+}
+
+func (codec Codec[A]) keysBefore(value A) KeyRange {
+	encoding := codec.encodingOf(value)
+
+	if codec.descending {
+		return KeyRange{firstIncluded: successorOf(encoding)}
+	}
+
+	return KeyRange{firstExcluded: encoding}
+}
+
+func (codec Codec[A]) encodingOf(value A) []byte {
+	return keyOf(codec.items(value)).encoded
+}
+
 var Text = Codec[string]{
 	items: func(text string) []any { return []any{text} },
 	holder: func() ([]any, func() (string, error)) {

@@ -18,15 +18,16 @@ func (layout TripleKey[A, B, C]) Key(first A, second B, third C) Key {
 	return keyOf(items)
 }
 
-func (layout TripleKey[A, B, C]) First(first A) Key {
-	return keyOf(layout.first.items(first))
+func (layout TripleKey[A, B, C]) KeysWithFirst(first A) KeyRange {
+	return layout.first.keysWith(first)
 }
 
-func (layout TripleKey[A, B, C]) FirstTwo(first A, second B) Key {
-	items := layout.first.items(first)
-	items = append(items, layout.second.items(second)...)
+func (layout TripleKey[A, B, C]) KeysThroughFirst(first A) KeyRange {
+	return layout.first.keysThrough(first)
+}
 
-	return keyOf(items)
+func (layout TripleKey[A, B, C]) KeysBeforeFirst(first A) KeyRange {
+	return layout.first.keysBefore(first)
 }
 
 func (layout TripleKey[A, B, C]) Parts(key Key) (A, B, C, error) {

@@ -82,7 +82,7 @@ func (orderKeyCodec) Decode(key vaultkey.Key) (scheduledPostingOffer, error) {
 }
 
 func orderKeysThrough(dueAt time.Time) vaultkey.KeyRange {
-	return vaultkey.KeysThrough(orderKeyLayout.First(dueAt))
+	return orderKeyLayout.KeysThroughFirst(dueAt)
 }
 
 type dueAtValueCodec struct{}

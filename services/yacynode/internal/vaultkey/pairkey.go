@@ -16,8 +16,16 @@ func (layout PairKey[A, B]) Key(first A, second B) Key {
 	return keyOf(items)
 }
 
-func (layout PairKey[A, B]) First(first A) Key {
-	return keyOf(layout.first.items(first))
+func (layout PairKey[A, B]) KeysWithFirst(first A) KeyRange {
+	return layout.first.keysWith(first)
+}
+
+func (layout PairKey[A, B]) KeysThroughFirst(first A) KeyRange {
+	return layout.first.keysThrough(first)
+}
+
+func (layout PairKey[A, B]) KeysBeforeFirst(first A) KeyRange {
+	return layout.first.keysBefore(first)
 }
 
 func (layout PairKey[A, B]) Parts(key Key) (A, B, error) {
