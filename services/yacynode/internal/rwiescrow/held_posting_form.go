@@ -1,6 +1,7 @@
 package rwiescrow
 
 import (
+	"encoding/binary"
 	"fmt"
 	"time"
 
@@ -21,27 +22,29 @@ func (heldPostingCodec) Encode(held heldPosting) ([]byte, error) {
 		return nil, fmt.Errorf("encode held posting: %w", err)
 	}
 
-	return append(heldAtPrefix(held.HeldAt), raw...), nil
+	heldAt, err := binary.Append(nil, binary.BigEndian, []int64{
+		held.HeldAt.Unix(),
+		int64(held.HeldAt.Nanosecond()),
+	})
+	if err != nil {
+		return nil, fmt.Errorf("encode held posting hold time: %w", err)
+	}
+
+	return append(heldAt, raw...), nil
 }
 
 func (heldPostingCodec) Decode(raw []byte) (heldPosting, error) {
-	if len(raw) < heldAtDigits {
-		return heldPosting{}, fmt.Errorf(
-			"held posting value: length %d, want at least %d",
-			len(raw),
-			heldAtDigits,
-		)
-	}
-
-	var nanos int64
-	if _, err := fmt.Sscanf(string(raw[:heldAtDigits]), "%d", &nanos); err != nil {
+	heldAt := make([]int64, 2)
+	heldAtLength, err := binary.Decode(raw, binary.BigEndian, heldAt)
+	if err != nil {
 		return heldPosting{}, fmt.Errorf("held posting hold time: %w", err)
 	}
+	seconds, nanoseconds := heldAt[0], heldAt[1]
 
-	posting, err := rwipostings.PostingForm().Decode(raw[heldAtDigits:])
+	posting, err := rwipostings.PostingForm().Decode(raw[heldAtLength:])
 	if err != nil {
 		return heldPosting{}, fmt.Errorf("decode held posting: %w", err)
 	}
 
-	return heldPosting{HeldAt: time.Unix(0, nanos), Posting: posting}, nil
+	return heldPosting{HeldAt: time.Unix(seconds, nanoseconds).UTC(), Posting: posting}, nil
 }

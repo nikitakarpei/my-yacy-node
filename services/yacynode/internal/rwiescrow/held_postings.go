@@ -1,7 +1,6 @@
 package rwiescrow
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"time"
@@ -109,23 +108,19 @@ func (h *HeldPostings) Expire(
 		return 0, nil
 	}
 
-	cutoff := heldAtPrefix(h.now().Add(-holdFor))
+	cutoff := h.now().Add(-holdFor)
 	var expired int
 	err := h.vault.Update(ctx, func(tx *vault.Txn) error {
-		keys, err := h.expiryKeysBefore(tx, cutoff, limit)
+		expiredHolds, err := h.postingHoldsBefore(tx, cutoff, limit)
 		if err != nil {
 			return err
 		}
-		for _, key := range keys {
-			identity, err := parseExpiryKey(key)
-			if err != nil {
-				return err
-			}
-			if err := h.drop(tx, key, identity); err != nil {
+		for _, hold := range expiredHolds {
+			if err := h.drop(tx, hold); err != nil {
 				return err
 			}
 		}
-		expired = len(keys)
+		expired = len(expiredHolds)
 
 		return nil
 	})
@@ -165,7 +160,7 @@ func (h *HeldPostings) postingsWaitingFor(
 	var waiting []heldPosting
 	err := h.held.Scan(
 		tx,
-		vault.Key(hash.String()),
+		heldKeyPrefixOfURL(hash),
 		func(key vault.Key, held heldPosting) (bool, error) {
 			identity, err := parseHeldKey(key)
 			if err != nil {
@@ -184,45 +179,47 @@ func (h *HeldPostings) postingsWaitingFor(
 	return waiting, nil
 }
 
-func (h *HeldPostings) expiryKeysBefore(
+func (h *HeldPostings) postingHoldsBefore(
 	tx *vault.Txn,
-	cutoff vault.Key,
+	cutoff time.Time,
 	limit int,
-) ([]vault.Key, error) {
-	keys := make([]vault.Key, 0, limit)
+) ([]postingHold, error) {
+	holds := make([]postingHold, 0, limit)
 	err := h.expiry.Scan(tx, nil, func(key vault.Key) (bool, error) {
-		if len(key) < heldAtDigits || bytes.Compare(key[:heldAtDigits], cutoff) >= 0 {
+		hold, err := parseExpiryKey(key)
+		if err != nil {
+			return false, err
+		}
+		if !hold.HeldAt.Before(cutoff) {
 			return false, nil
 		}
-		keys = append(keys, key)
+		holds = append(holds, hold)
 
-		return len(keys) < limit, nil
+		return len(holds) < limit, nil
 	})
 	if err != nil {
-		return nil, fmt.Errorf("read expired posting holds: %w", err)
+		return nil, fmt.Errorf("read posting holds placed before the cutoff: %w", err)
 	}
 
-	return keys, nil
+	return holds, nil
 }
 
 func (h *HeldPostings) release(tx *vault.Txn, held heldPosting) error {
-	identity := postingIdentity{Word: held.Posting.WordHash, URL: held.Posting.URLHash}
 	if err := h.admitter.Admit(tx, held.Posting); err != nil {
 		return fmt.Errorf("admit released posting: %w", err)
 	}
 
-	return h.drop(tx, expiryKey(held.HeldAt, identity), identity)
+	return h.drop(tx, postingHold{
+		HeldAt:  held.HeldAt,
+		Posting: postingIdentity{Word: held.Posting.WordHash, URL: held.Posting.URLHash},
+	})
 }
 
-func (h *HeldPostings) drop(
-	tx *vault.Txn,
-	expiryRow vault.Key,
-	identity postingIdentity,
-) error {
-	if _, err := h.held.Delete(tx, heldKey(identity)); err != nil {
+func (h *HeldPostings) drop(tx *vault.Txn, hold postingHold) error {
+	if _, err := h.held.Delete(tx, heldKey(hold.Posting)); err != nil {
 		return fmt.Errorf("drop held posting: %w", err)
 	}
-	if _, err := h.expiry.Remove(tx, expiryRow); err != nil {
+	if _, err := h.expiry.Remove(tx, expiryKey(hold.HeldAt, hold.Posting)); err != nil {
 		return fmt.Errorf("drop posting hold time: %w", err)
 	}
 

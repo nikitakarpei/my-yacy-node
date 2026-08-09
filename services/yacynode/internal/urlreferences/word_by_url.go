@@ -5,7 +5,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
+
+var wordByURLKeyLayout = vaultkey.Pair(vaultkey.Text, vaultkey.Text)
 
 type wordByURL struct {
 	url  yacymodel.URLHash
@@ -13,17 +16,18 @@ type wordByURL struct {
 }
 
 func (w wordByURL) key() vault.Key {
-	key := make(vault.Key, 0, 2*yacymodel.HashLength)
-	key = append(key, w.url.String()...)
-	key = append(key, w.word.String()...)
+	return wordByURLKeyLayout.Key(w.url.String(), w.word.String()).Bytes()
+}
 
-	return key
+func wordKeyPrefixOfURL(url yacymodel.URLHash) vault.Key {
+	return wordByURLKeyLayout.First(url.String()).Bytes()
 }
 
 func wordFromKey(key vault.Key) (yacymodel.Hash, error) {
-	if len(key) != 2*yacymodel.HashLength {
-		return yacymodel.Hash{}, fmt.Errorf("word by url key length %d", len(key))
+	_, word, err := wordByURLKeyLayout.Parts(vaultkey.KeyFrom(key))
+	if err != nil {
+		return yacymodel.Hash{}, fmt.Errorf("word by url key: %w", err)
 	}
 
-	return yacymodel.ParseHash(string(key[yacymodel.HashLength:]))
+	return yacymodel.ParseHash(word)
 }

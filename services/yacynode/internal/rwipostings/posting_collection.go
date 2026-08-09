@@ -5,11 +5,12 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 const postingsBucket vault.Name = "rwi"
 
-const postingKeyLength = yacymodel.HashLength + yacymodel.HashLength
+var postingKeyLayout = vaultkey.Pair(vaultkey.Text, vaultkey.Text)
 
 func registerPostings(
 	v *vault.Vault,
@@ -23,9 +24,9 @@ func registerPostings(
 }
 
 func postingKey(wordHash yacymodel.Hash, urlHash yacymodel.URLHash) vault.Key {
-	key := make(vault.Key, 0, postingKeyLength)
-	key = append(key, wordHash.String()...)
-	key = append(key, urlHash.String()...)
+	return postingKeyLayout.Key(wordHash.String(), urlHash.String()).Bytes()
+}
 
-	return key
+func postingKeyPrefixOfWord(wordHash yacymodel.Hash) vault.Key {
+	return postingKeyLayout.First(wordHash.String()).Bytes()
 }

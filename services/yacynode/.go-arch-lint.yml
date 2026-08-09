@@ -247,6 +247,7 @@ deps:
     mayDependOn:
       - urlreferences
       - rwipostings
+      - vaultkey
       - vault
       - memvault
     canUse:
@@ -254,6 +255,7 @@ deps:
   rwipostings:
     mayDependOn:
       - rwipostings
+      - vaultkey
       - vault
       - memvault
     canUse:
@@ -263,6 +265,7 @@ deps:
       - rwiescrow
       - rwipostings
       - urlmeta
+      - vaultkey
       - vault
       - memvault
     canUse:
