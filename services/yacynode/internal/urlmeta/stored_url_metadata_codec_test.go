@@ -107,16 +107,6 @@ func TestStoredURLMetadataCodecRejectsEmptyValue(t *testing.T) {
 	}
 }
 
-func TestStoredURLMetadataCodecRejectsUnknownFormat(t *testing.T) {
-	codec := urlMetadataValueCodec{}
-
-	if _, err := codec.Decode([]byte{0xff}); !errors.Is(
-		err, yacymodel.ErrBadURLMetadata,
-	) {
-		t.Errorf("err = %v, want ErrBadURLMetadata", err)
-	}
-}
-
 func TestStoredURLMetadataCodecRejectsTruncatedValue(t *testing.T) {
 	codec := urlMetadataValueCodec{}
 

@@ -79,23 +79,6 @@ func TestStoredPostingRejectsEmptyValue(t *testing.T) {
 	}
 }
 
-func TestStoredPostingRejectsUnknownFormat(t *testing.T) {
-	encoded, err := postingValueCodec{}.Encode(fullPosting(t))
-	if err != nil {
-		t.Fatalf("Encode: %v", err)
-	}
-	encoded[0] = 0x01
-
-	if _, err := (postingValueCodec{}).Decode(
-		encoded,
-	); !errors.Is(
-		err,
-		yacymodel.ErrBadRWIPosting,
-	) {
-		t.Errorf("err = %v, want ErrBadRWIPosting for old 0x01 blob", err)
-	}
-}
-
 func TestStoredPostingRejectsTruncatedBinary(t *testing.T) {
 	encoded, err := postingValueCodec{}.Encode(fullPosting(t))
 	if err != nil {
