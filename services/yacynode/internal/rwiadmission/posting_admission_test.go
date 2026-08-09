@@ -22,7 +22,7 @@ func (discardedHolds) ObserveRefused(int)  {}
 
 type harness struct {
 	index    rwipostings.PostingIndex
-	escrow   *rwiescrow.HeldPostings
+	escrow   *rwiescrow.PostingEscrow
 	urls     urlmeta.URLReceiver
 	receiver PostingReceiver
 }
@@ -260,4 +260,4 @@ func TestReceiveReportsEachUnknownURLOnce(t *testing.T) {
 	}
 }
 
-var _ PostingHolder = (*rwiescrow.HeldPostings)(nil)
+var _ PostingHolder = (*rwiescrow.PostingEscrow)(nil)

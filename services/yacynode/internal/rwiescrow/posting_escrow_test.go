@@ -27,7 +27,7 @@ func (c *countingHolds) ObserveRefused(postings int)  { c.refused += postings }
 type harness struct {
 	vault    *vault.Vault
 	index    rwipostings.PostingIndex
-	escrow   *HeldPostings
+	escrow   *PostingEscrow
 	observer *countingHolds
 	clock    time.Time
 }
@@ -108,7 +108,7 @@ func (h *harness) indexed(t *testing.T, entry yacymodel.RWIPosting) bool {
 	return found
 }
 
-func (h *harness) heldCount(t *testing.T) int {
+func (h *harness) escrowedCount(t *testing.T) int {
 	t.Helper()
 
 	count, err := h.escrow.Count(context.Background())
@@ -137,17 +137,17 @@ func posting(word, urlSeed string) yacymodel.RWIPosting {
 	}
 }
 
-func TestHeldPostingStaysOutOfIndex(t *testing.T) {
+func TestEscrowedPostingStaysOutOfIndex(t *testing.T) {
 	h := openHarness(t)
 	entry := posting("w1", "u1")
 
 	h.hold(t, entry)
 
 	if h.indexed(t, entry) {
-		t.Fatal("held posting reached the index before its url metadata arrived")
+		t.Fatal("escrowed posting reached the index before its url metadata arrived")
 	}
-	if got := h.heldCount(t); got != 1 {
-		t.Fatalf("held count = %d, want 1", got)
+	if got := h.escrowedCount(t); got != 1 {
+		t.Fatalf("escrowed count = %d, want 1", got)
 	}
 	if h.observer.held != 1 {
 		t.Fatalf("observed holds = %d, want 1", h.observer.held)
@@ -156,10 +156,14 @@ func TestHeldPostingStaysOutOfIndex(t *testing.T) {
 
 func TestStoredURLReleasesEveryPostingWaitingForIt(t *testing.T) {
 	h := openHarness(t)
-	held := []yacymodel.RWIPosting{posting("w1", "u1"), posting("w2", "u1"), posting("w1", "u2")}
-	waiting, other := held[:2], held[2]
+	escrowed := []yacymodel.RWIPosting{
+		posting("w1", "u1"),
+		posting("w2", "u1"),
+		posting("w1", "u2"),
+	}
+	waiting, other := escrowed[:2], escrowed[2]
 
-	h.hold(t, held...)
+	h.hold(t, escrowed...)
 	h.storeURL(t, urlHash("u1"))
 
 	for _, entry := range waiting {
@@ -173,15 +177,15 @@ func TestStoredURLReleasesEveryPostingWaitingForIt(t *testing.T) {
 	if h.indexed(t, other) {
 		t.Fatal("posting for another url was admitted")
 	}
-	if got := h.heldCount(t); got != 1 {
-		t.Fatalf("held count = %d, want 1 posting still waiting", got)
+	if got := h.escrowedCount(t); got != 1 {
+		t.Fatalf("escrowed count = %d, want 1 posting still waiting", got)
 	}
 	if h.observer.released != 2 {
 		t.Fatalf("observed releases = %d, want 2", h.observer.released)
 	}
 }
 
-func TestHeldPostingExpiresAfterHoldPeriod(t *testing.T) {
+func TestEscrowedPostingExpiresAfterHoldPeriod(t *testing.T) {
 	ctx := context.Background()
 	h := openHarness(t)
 	entry := posting("w1", "u1")
@@ -208,12 +212,12 @@ func TestHeldPostingExpiresAfterHoldPeriod(t *testing.T) {
 	if h.indexed(t, entry) {
 		t.Fatal("expired posting reached the index")
 	}
-	if got := h.heldCount(t); got != 0 {
-		t.Fatalf("held count = %d after expiry, want 0", got)
+	if got := h.escrowedCount(t); got != 0 {
+		t.Fatalf("escrowed count = %d after expiry, want 0", got)
 	}
 }
 
-func TestReHoldRefreshesExpiryInsteadOfDuplicatingIt(t *testing.T) {
+func TestReHoldRefreshesTheHoldInsteadOfDuplicatingIt(t *testing.T) {
 	h := openHarness(t)
 	entry := posting("w1", "u1")
 
@@ -224,8 +228,8 @@ func TestReHoldRefreshesExpiryInsteadOfDuplicatingIt(t *testing.T) {
 	if h.observer.held != 1 {
 		t.Fatalf("observed holds = %d, want 1 for a re-hold of the same posting", h.observer.held)
 	}
-	if got := h.heldCount(t); got != 1 {
-		t.Fatalf("held count = %d, want 1", got)
+	if got := h.escrowedCount(t); got != 1 {
+		t.Fatalf("escrowed count = %d, want 1", got)
 	}
 
 	h.clock = h.clock.Add(holdFor/2 + time.Second)
@@ -253,7 +257,7 @@ func TestReHoldRefreshesExpiryInsteadOfDuplicatingIt(t *testing.T) {
 const capacityFraction = 0.01
 
 func quotaHolding(postings int) int64 {
-	return int64(float64(postings*heldPostingBytes) / capacityFraction)
+	return int64(float64(postings*escrowedPostingBytes) / capacityFraction)
 }
 
 func TestHoldRefusesNewPostingsAtCapacity(t *testing.T) {
@@ -263,8 +267,8 @@ func TestHoldRefusesNewPostingsAtCapacity(t *testing.T) {
 	h.hold(t, admitted...)
 	h.hold(t, posting("w1", "u3"))
 
-	if got := h.heldCount(t); got != 2 {
-		t.Fatalf("held count = %d, want 2 at the capacity", got)
+	if got := h.escrowedCount(t); got != 2 {
+		t.Fatalf("escrowed count = %d, want 2 at the capacity", got)
 	}
 	if h.observer.refused != 1 {
 		t.Fatalf("observed refusals = %d, want 1", h.observer.refused)
@@ -293,8 +297,8 @@ func TestExpireStopsAtLimit(t *testing.T) {
 	if expired != 2 {
 		t.Fatalf("expired = %d, want 2 at the limit", expired)
 	}
-	if got := h.heldCount(t); got != 1 {
-		t.Fatalf("held count = %d, want 1 left for the next run", got)
+	if got := h.escrowedCount(t); got != 1 {
+		t.Fatalf("escrowed count = %d, want 1 left for the next run", got)
 	}
 }
 
@@ -347,7 +351,7 @@ func TestReleasedPostingIsNotExpired(t *testing.T) {
 	}
 }
 
-func TestPurgedURLLeavesHeldPostingsAlone(t *testing.T) {
+func TestPurgedURLLeavesEscrowedPostingsAlone(t *testing.T) {
 	h := openHarness(t)
 	entry := posting("w1", "u1")
 
@@ -358,7 +362,7 @@ func TestPurgedURLLeavesHeldPostingsAlone(t *testing.T) {
 		t.Fatalf("URLPurged: %v", err)
 	}
 
-	if got := h.heldCount(t); got != 1 {
-		t.Fatalf("held count = %d, want 1", got)
+	if got := h.escrowedCount(t); got != 1 {
+		t.Fatalf("escrowed count = %d, want 1", got)
 	}
 }

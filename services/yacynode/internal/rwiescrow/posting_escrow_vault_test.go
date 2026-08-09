@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func TestHeldPostingHoldTimeSurvivesTheValueRoundTrip(t *testing.T) {
+func TestEscrowedPostingHoldTimeSurvivesTheValueRoundTrip(t *testing.T) {
 	entry := posting("w1", "u1")
 	identity := postingIdentity{Word: entry.WordHash, URL: entry.URLHash}
 
@@ -16,26 +16,28 @@ func TestHeldPostingHoldTimeSurvivesTheValueRoundTrip(t *testing.T) {
 		"far future":     time.Date(2500, time.January, 1, 0, 0, 0, 0, time.UTC),
 	} {
 		t.Run(name, func(t *testing.T) {
-			raw, err := heldPostingValueCodec{}.Encode(heldPosting{HeldAt: heldAt, Posting: entry})
+			raw, err := escrowedPostingValueCodec{}.Encode(
+				escrowedPosting{HeldAt: heldAt, Posting: entry},
+			)
 			if err != nil {
 				t.Fatalf("Encode: %v", err)
 			}
-			held, err := heldPostingValueCodec{}.Decode(raw)
+			escrowed, err := escrowedPostingValueCodec{}.Decode(raw)
 			if err != nil {
 				t.Fatalf("Decode: %v", err)
 			}
 
-			if !held.HeldAt.Equal(heldAt) {
-				t.Fatalf("hold time = %v, want %v", held.HeldAt, heldAt)
+			if !escrowed.HeldAt.Equal(heldAt) {
+				t.Fatalf("hold time = %v, want %v", escrowed.HeldAt, heldAt)
 			}
-			decodedHold := postingHold{HeldAt: held.HeldAt, Posting: identity}
+			decodedHold := postingHold{HeldAt: escrowed.HeldAt, Posting: identity}
 			storedHold := postingHold{HeldAt: heldAt, Posting: identity}
 			if !bytes.Equal(
-				expiryKeyCodec{}.Encode(decodedHold).Bytes(),
-				expiryKeyCodec{}.Encode(storedHold).Bytes(),
+				postingHoldKeyCodec{}.Encode(decodedHold).Bytes(),
+				postingHoldKeyCodec{}.Encode(storedHold).Bytes(),
 			) {
 				t.Fatal(
-					"the decoded hold time addresses a different expiry row than the stored one",
+					"the decoded hold time addresses a different hold row than the stored one",
 				)
 			}
 		})
