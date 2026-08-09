@@ -1,14 +1,14 @@
 package urlmetastaleness
 
 import (
-	"bytes"
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-const freshnessHashSeparator = 0x00
+var orderKeyLayout = vaultkey.Pair(vaultkey.Text, vaultkey.Text)
 
 // freshnessRank orders days as plain text so the vault's byte order is also
 // stalest-first order. A url with no known day ranks stalest.
@@ -26,24 +26,14 @@ type rankedURL struct {
 }
 
 func (r rankedURL) orderKey() vault.Key {
-	var key bytes.Buffer
-	key.WriteString(string(r.rank))
-	key.WriteByte(freshnessHashSeparator)
-	key.WriteString(r.hash.String())
-
-	return key.Bytes()
+	return orderKeyLayout.Key(string(r.rank), r.hash.String()).Bytes()
 }
 
 func hashFromOrderKey(key vault.Key) (yacymodel.URLHash, error) {
-	_, encodedHash, found := bytes.Cut(key, []byte{freshnessHashSeparator})
-	if !found {
-		return yacymodel.URLHash{}, fmt.Errorf("staleness order key without separator")
-	}
-
-	hash, err := yacymodel.ParseURLHash(string(encodedHash))
+	_, hash, err := orderKeyLayout.Parts(vaultkey.KeyFrom(key))
 	if err != nil {
-		return yacymodel.URLHash{}, fmt.Errorf("staleness order hash: %w", err)
+		return yacymodel.URLHash{}, fmt.Errorf("staleness order key: %w", err)
 	}
 
-	return hash, nil
+	return yacymodel.ParseURLHash(hash)
 }
