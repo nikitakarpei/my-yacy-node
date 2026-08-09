@@ -21,5 +21,5 @@ func (layout SingleKey[A]) Parts(key Key) (A, error) {
 		return unparsed, err
 	}
 
-	return firstValue(), nil
+	return firstValue()
 }
