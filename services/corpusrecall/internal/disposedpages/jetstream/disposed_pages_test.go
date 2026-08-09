@@ -41,84 +41,90 @@ func disposeOfPage(t *testing.T, bucket natsjetstream.KeyValue, pageURL string) 
 	}
 }
 
-func disposalOfPage(t *testing.T, bucket natsjetstream.KeyValue) recall.PageDisposal {
+func disposalMarkOfPage(t *testing.T, bucket natsjetstream.KeyValue) recall.DisposalMark {
 	t.Helper()
-	disposal, err := disposedpagesjetstream.NewDisposedPages(bucket).DisposalOf(
+	mark, err := disposedpagesjetstream.NewDisposedPages(bucket).DisposalMarkOf(
 		context.Background(), canonicalURL,
 	)
 	if err != nil {
-		t.Fatalf("disposal of %q: %v", canonicalURL, err)
+		t.Fatalf("disposal mark of %q: %v", canonicalURL, err)
 	}
-	return disposal
+	return mark
 }
 
-func hasDisposalOccurred(t *testing.T, disposal recall.PageDisposal) bool {
+func disposalOccurredSince(
+	t *testing.T,
+	bucket natsjetstream.KeyValue,
+	mark recall.DisposalMark,
+) bool {
 	t.Helper()
-	occurred, err := disposal.HasOccurred(context.Background())
+	occurred, err := disposedpagesjetstream.NewDisposedPages(bucket).DisposalOccurredSince(
+		context.Background(), canonicalURL, mark,
+	)
 	if err != nil {
-		t.Fatalf("has disposal occurred: %v", err)
+		t.Fatalf("disposal occurred since %q: %v", mark, err)
 	}
 	return occurred
 }
 
 func TestPageIsNotDisposedWhileTheCrawlerRecordsNothing(t *testing.T) {
-	disposal := disposalOfPage(t, emptyDisposedPagesBucket(t))
+	bucket := emptyDisposedPagesBucket(t)
 
-	if hasDisposalOccurred(t, disposal) {
+	if disposalOccurredSince(t, bucket, disposalMarkOfPage(t, bucket)) {
 		t.Error("page reported disposed with no disposal recorded")
 	}
 }
 
-func TestPageIsNotDisposedWhenTheDisposalPredatesTheLookup(t *testing.T) {
+func TestPageIsNotDisposedWhenTheDisposalPredatesTheMark(t *testing.T) {
 	bucket := emptyDisposedPagesBucket(t)
 	disposeOfPage(t, bucket, canonicalURL)
 
-	disposal := disposalOfPage(t, bucket)
+	mark := disposalMarkOfPage(t, bucket)
 
-	if hasDisposalOccurred(t, disposal) {
-		t.Error("page reported disposed by a disposal older than the lookup")
+	if disposalOccurredSince(t, bucket, mark) {
+		t.Error("page reported disposed by a disposal older than the mark")
 	}
 }
 
-func TestPageIsDisposedWhenTheCrawlerDisposesOfItAfterTheLookup(t *testing.T) {
+func TestPageIsDisposedWhenTheCrawlerDisposesOfItAfterTheMark(t *testing.T) {
 	bucket := emptyDisposedPagesBucket(t)
 	disposeOfPage(t, bucket, canonicalURL)
-	disposal := disposalOfPage(t, bucket)
+	mark := disposalMarkOfPage(t, bucket)
 
 	disposeOfPage(t, bucket, canonicalURL)
 
-	if !hasDisposalOccurred(t, disposal) {
+	if !disposalOccurredSince(t, bucket, mark) {
 		t.Error("page reported kept after the crawler disposed of it")
 	}
 }
 
 func TestPageIsNotDisposedWhenTheCrawlerDisposesOfAnotherPage(t *testing.T) {
 	bucket := emptyDisposedPagesBucket(t)
-	disposal := disposalOfPage(t, bucket)
+	mark := disposalMarkOfPage(t, bucket)
 
 	disposeOfPage(t, bucket, otherCanonicalURL)
 
-	if hasDisposalOccurred(t, disposal) {
+	if disposalOccurredSince(t, bucket, mark) {
 		t.Error("page reported disposed by the disposal of another page")
 	}
 }
 
-func TestTheDisposalOfAPageIsUnknownWhenTheBucketCannotBeRead(t *testing.T) {
+func TestTheDisposalMarkOfAPageIsUnknownWhenTheBucketCannotBeRead(t *testing.T) {
 	pages := disposedpagesjetstream.NewDisposedPages(emptyDisposedPagesBucket(t))
 	abandoned, abandon := context.WithCancel(context.Background())
 	abandon()
 
-	if _, err := pages.DisposalOf(abandoned, canonicalURL); err == nil {
+	if _, err := pages.DisposalMarkOf(abandoned, canonicalURL); err == nil {
 		t.Fatal("expected an error when the bucket cannot be read")
 	}
 }
 
-func TestWhetherADisposalHasOccurredIsUnknownWhenTheBucketCannotBeRead(t *testing.T) {
-	disposal := disposalOfPage(t, emptyDisposedPagesBucket(t))
+func TestWhetherADisposalOccurredIsUnknownWhenTheBucketCannotBeRead(t *testing.T) {
+	pages := disposedpagesjetstream.NewDisposedPages(emptyDisposedPagesBucket(t))
 	abandoned, abandon := context.WithCancel(context.Background())
 	abandon()
 
-	if _, err := disposal.HasOccurred(abandoned); err == nil {
+	if _, err := pages.DisposalOccurredSince(abandoned, canonicalURL, ""); err == nil {
 		t.Fatal("expected an error when the bucket cannot be read")
 	}
 }

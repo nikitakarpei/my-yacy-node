@@ -99,47 +99,57 @@ func (failingCorpus) RepresentationOf(
 
 type keptPages struct{}
 
-func (keptPages) DisposalOf(
+func (keptPages) DisposalMarkOf(
 	_ context.Context,
 	_ string,
-) (recall.PageDisposal, error) {
-	return unoccurredDisposal{}, nil
+) (recall.DisposalMark, error) {
+	return "", nil
 }
 
-type unoccurredDisposal struct{}
-
-func (unoccurredDisposal) HasOccurred(_ context.Context) (bool, error) { return false, nil }
+func (keptPages) DisposalOccurredSince(
+	_ context.Context,
+	_ string,
+	_ recall.DisposalMark,
+) (bool, error) {
+	return false, nil
+}
 
 type pageDisposedDuringRecall struct{}
 
-func (pageDisposedDuringRecall) DisposalOf(
+func (pageDisposedDuringRecall) DisposalMarkOf(
 	_ context.Context,
 	_ string,
-) (recall.PageDisposal, error) {
-	return occurredDisposal{}, nil
+) (recall.DisposalMark, error) {
+	return "", nil
 }
 
-type occurredDisposal struct{}
-
-func (occurredDisposal) HasOccurred(_ context.Context) (bool, error) { return true, nil }
+func (pageDisposedDuringRecall) DisposalOccurredSince(
+	_ context.Context,
+	_ string,
+	_ recall.DisposalMark,
+) (bool, error) {
+	return true, nil
+}
 
 type failingDisposalLookup struct {
 	failsAtRecallStart bool
 }
 
-func (d failingDisposalLookup) DisposalOf(
+func (d failingDisposalLookup) DisposalMarkOf(
 	_ context.Context,
 	_ string,
-) (recall.PageDisposal, error) {
+) (recall.DisposalMark, error) {
 	if d.failsAtRecallStart {
-		return nil, errors.New("disposal bucket down")
+		return "", errors.New("disposal bucket down")
 	}
-	return unreadableDisposal{}, nil
+	return "", nil
 }
 
-type unreadableDisposal struct{}
-
-func (unreadableDisposal) HasOccurred(_ context.Context) (bool, error) {
+func (failingDisposalLookup) DisposalOccurredSince(
+	_ context.Context,
+	_ string,
+	_ recall.DisposalMark,
+) (bool, error) {
 	return false, errors.New("disposal bucket down")
 }
 

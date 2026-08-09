@@ -27,12 +27,15 @@ type Corpus interface {
 	RepresentationOf(ctx context.Context, resolvedURL string) (Representation, bool, error)
 }
 
-type DisposedPages interface {
-	DisposalOf(ctx context.Context, canonicalURL string) (PageDisposal, error)
-}
+type DisposalMark string
 
-type PageDisposal interface {
-	HasOccurred(ctx context.Context) (bool, error)
+type DisposedPages interface {
+	DisposalMarkOf(ctx context.Context, canonicalURL string) (DisposalMark, error)
+	DisposalOccurredSince(
+		ctx context.Context,
+		canonicalURL string,
+		mark DisposalMark,
+	) (bool, error)
 }
 
 type RecallProgress interface {
@@ -101,9 +104,9 @@ func (r *Recaller) Recall(
 		return RecalledPage{}, fmt.Errorf("canonicalize %q: %w", requestedURL, err)
 	}
 
-	disposal, err := r.disposedPages.DisposalOf(ctx, canonicalURL)
+	disposalMark, err := r.disposedPages.DisposalMarkOf(ctx, canonicalURL)
 	if err != nil {
-		return RecalledPage{}, fmt.Errorf("look up disposal of %q: %w", canonicalURL, err)
+		return RecalledPage{}, fmt.Errorf("look up disposal mark of %q: %w", canonicalURL, err)
 	}
 
 	if err := r.crawlOrders.Place(ctx, canonicalURL); err != nil {
@@ -119,7 +122,7 @@ func (r *Recaller) Recall(
 			recallCtx,
 			canonicalURL,
 			kind,
-			disposal,
+			disposalMark,
 		)
 		if !found {
 			recalled.UnavailableKinds = append(recalled.UnavailableKinds, kind)
@@ -139,7 +142,7 @@ func (r *Recaller) representationOf(
 	ctx context.Context,
 	canonicalURL string,
 	kind RepresentationKind,
-	disposal PageDisposal,
+	disposalMark DisposalMark,
 ) (Representation, bool) {
 	corpus, held := r.corpusByKind[kind]
 	if !held {
@@ -160,7 +163,7 @@ func (r *Recaller) representationOf(
 		case found:
 			return representation, true
 		}
-		if disposalHasOccurred(ctx, canonicalURL, disposal) {
+		if r.disposalConfirmedSince(ctx, canonicalURL, disposalMark) {
 			return nil, false
 		}
 		select {
@@ -183,12 +186,12 @@ func (r *Recaller) representationHeldBy(
 	return corpus.RepresentationOf(ctx, resolvedURL)
 }
 
-func disposalHasOccurred(
+func (r *Recaller) disposalConfirmedSince(
 	ctx context.Context,
 	canonicalURL string,
-	disposal PageDisposal,
+	mark DisposalMark,
 ) bool {
-	disposed, err := disposal.HasOccurred(ctx)
+	disposed, err := r.disposedPages.DisposalOccurredSince(ctx, canonicalURL, mark)
 	if err != nil {
 		slog.WarnContext(ctx, "disposal lookup failed",
 			slog.String("url", canonicalURL),
