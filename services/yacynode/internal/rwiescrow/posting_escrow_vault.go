@@ -61,7 +61,7 @@ func everyPostingWaitingFor(url yacymodel.URLHash) vaultkey.KeyRange {
 type escrowedPostingValueCodec struct{}
 
 func (escrowedPostingValueCodec) Encode(escrowed escrowedPosting) ([]byte, error) {
-	raw, err := rwipostings.PostingForm().Encode(escrowed.Posting)
+	raw, err := rwipostings.PostingCodec().Encode(escrowed.Posting)
 	if err != nil {
 		return nil, fmt.Errorf("encode escrowed posting: %w", err)
 	}
@@ -85,7 +85,7 @@ func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
 	}
 	seconds, nanoseconds := heldAt[0], heldAt[1]
 
-	posting, err := rwipostings.PostingForm().Decode(raw[heldAtLength:])
+	posting, err := rwipostings.PostingCodec().Decode(raw[heldAtLength:])
 	if err != nil {
 		return escrowedPosting{}, fmt.Errorf("decode escrowed posting: %w", err)
 	}

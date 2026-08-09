@@ -48,13 +48,10 @@ func everyPostingOf(word yacymodel.Hash) vaultkey.KeyRange {
 	return postingKeyLayout.KeysWithFirst(word)
 }
 
-const storedPostingFormat byte = 0x02
-
 type postingValueCodec struct{}
 
 func (postingValueCodec) Encode(posting yacymodel.RWIPosting) ([]byte, error) {
 	var w postingWriter
-	w.uint8(storedPostingFormat)
 	w.fixed([]byte(posting.URLHash.String()))
 	w.varint(int64(posting.LastModified))
 	w.count(posting.TitleWords)
@@ -86,16 +83,7 @@ func (postingValueCodec) Decode(data []byte) (yacymodel.RWIPosting, error) {
 			yacymodel.ErrBadRWIPosting,
 		)
 	}
-	if data[0] != storedPostingFormat {
-		return yacymodel.RWIPosting{}, fmt.Errorf(
-			"%w: unknown stored posting format 0x%02x, want 0x%02x",
-			yacymodel.ErrBadRWIPosting,
-			data[0],
-			storedPostingFormat,
-		)
-	}
-
-	r := newPostingReader(data[1:])
+	r := newPostingReader(data)
 	rawURLHash := r.fixed("url hash", yacymodel.HashLength)
 	posting := yacymodel.RWIPosting{
 		LastModified:           yacymodel.MicroDate(r.varint("last modified")),

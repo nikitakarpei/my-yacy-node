@@ -3,7 +3,7 @@
 // PostingAdmitter, and drop them through PostingPurger, while projections follow
 // arrivals and departures through PostingObserver. Every port speaks the yacymodel
 // vocabulary and lends cross-module work a shared transaction, so the schema never
-// leaks; PostingForm publishes the stored value form for packages that hold a
+// leaks; PostingCodec publishes the stored value codec for packages that hold a
 // posting outside this index.
 package rwipostings
 
@@ -59,6 +59,6 @@ func Open(
 	return directory, directory, directory, nil
 }
 
-func PostingForm() vault.ValueCodec[yacymodel.RWIPosting] {
+func PostingCodec() vault.ValueCodec[yacymodel.RWIPosting] {
 	return postingValueCodec{}
 }

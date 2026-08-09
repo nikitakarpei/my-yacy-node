@@ -7,13 +7,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const storedURLMetadataFormat byte = 0x02
-
 type urlMetadataValueCodec struct{}
 
 func (urlMetadataValueCodec) Encode(metadata yacymodel.URLMetadata) ([]byte, error) {
 	var w urlMetadataWriter
-	w.uint8(storedURLMetadataFormat)
 	w.text(metadata.Address)
 	w.referrer(metadata.Referrer)
 	w.text(metadata.Title)
@@ -51,16 +48,7 @@ func (urlMetadataValueCodec) Decode(data []byte) (yacymodel.URLMetadata, error) 
 			yacymodel.ErrBadURLMetadata,
 		)
 	}
-	if data[0] != storedURLMetadataFormat {
-		return yacymodel.URLMetadata{}, fmt.Errorf(
-			"%w: unknown stored url metadata format 0x%02x, want 0x%02x",
-			yacymodel.ErrBadURLMetadata,
-			data[0],
-			storedURLMetadataFormat,
-		)
-	}
-
-	r := newURLMetadataReader(data[1:])
+	r := newURLMetadataReader(data)
 	metadata := yacymodel.URLMetadata{Address: r.text("address")}
 	referrer, referrerErr := r.referrer()
 	metadata.Referrer = referrer
