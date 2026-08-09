@@ -4,7 +4,57 @@ import (
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
+
+const postingsBucket vault.Name = "rwi"
+
+func registerPostings(
+	v *vault.Vault,
+) (*vault.Collection[postingIdentity, yacymodel.RWIPosting], error) {
+	collection, err := vault.Register(
+		v,
+		postingsBucket,
+		postingKeyCodec{},
+		postingValueCodec{},
+	)
+	if err != nil {
+		return nil, fmt.Errorf("register rwi posting collection: %w", err)
+	}
+
+	return collection, nil
+}
+
+var postingKeyLayout = vaultkey.Pair(vaultkey.Text, vaultkey.Text)
+
+type postingKeyCodec struct{}
+
+func (postingKeyCodec) Encode(posting postingIdentity) vaultkey.Key {
+	return postingKeyLayout.Key(posting.word.String(), posting.url.String())
+}
+
+func (postingKeyCodec) Decode(key vaultkey.Key) (postingIdentity, error) {
+	word, url, err := postingKeyLayout.Parts(key)
+	if err != nil {
+		return postingIdentity{}, fmt.Errorf("rwi posting key: %w", err)
+	}
+
+	parsedWord, err := yacymodel.ParseHash(word)
+	if err != nil {
+		return postingIdentity{}, fmt.Errorf("rwi posting word hash: %w", err)
+	}
+	parsedURL, err := yacymodel.ParseURLHash(url)
+	if err != nil {
+		return postingIdentity{}, fmt.Errorf("rwi posting url hash: %w", err)
+	}
+
+	return postingIdentity{word: parsedWord, url: parsedURL}, nil
+}
+
+func postingKeysOf(word yacymodel.Hash) vaultkey.KeyRange {
+	return vaultkey.KeysUnder(postingKeyLayout.First(word.String()))
+}
 
 const storedPostingFormat byte = 0x02
 
@@ -83,4 +133,39 @@ func (postingValueCodec) Decode(data []byte) (yacymodel.RWIPosting, error) {
 	posting.URLHash = urlHash
 
 	return posting, nil
+}
+
+func appearanceFields(a *yacymodel.Appearance) []*bool {
+	return []*bool{
+		&a.IndexOf,
+		&a.HasLocation,
+		&a.HasImage,
+		&a.HasAudio,
+		&a.HasVideo,
+		&a.HasApp,
+		&a.AppearsInDescription,
+		&a.AppearsInTitle,
+		&a.AppearsInCreator,
+		&a.AppearsInSubject,
+		&a.AppearsInIdentifier,
+		&a.Emphasized,
+	}
+}
+
+func packAppearance(a yacymodel.Appearance) uint16 {
+	var bits uint16
+	for position, field := range appearanceFields(&a) {
+		if *field {
+			bits |= 1 << uint(position)
+		}
+	}
+	return bits
+}
+
+func unpackAppearance(bits uint16) yacymodel.Appearance {
+	var a yacymodel.Appearance
+	for position, field := range appearanceFields(&a) {
+		*field = bits&(1<<uint(position)) != 0
+	}
+	return a
 }

@@ -8,10 +8,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
-const (
-	wordsByURLBucket    vault.Name = "urlreferences_words"
-	referencedURLBucket vault.Name = "rwi_refs"
-)
+type wordByURL struct {
+	url  yacymodel.URLHash
+	word yacymodel.Hash
+}
 
 type urlReferences struct {
 	vault      *vault.Vault
@@ -20,13 +20,9 @@ type urlReferences struct {
 }
 
 func openURLReferences(v *vault.Vault) (*urlReferences, error) {
-	words, err := vault.RegisterSet(v, wordsByURLBucket, wordByURLKeyCodec{})
+	words, referenced, err := registerURLReferences(v)
 	if err != nil {
-		return nil, fmt.Errorf("register words by url: %w", err)
-	}
-	referenced, err := vault.RegisterSet(v, referencedURLBucket, referencedURLKeyCodec{})
-	if err != nil {
-		return nil, fmt.Errorf("register referenced urls: %w", err)
+		return nil, err
 	}
 
 	return &urlReferences{vault: v, words: words, referenced: referenced}, nil
@@ -77,7 +73,7 @@ func (r *urlReferences) WordsReferencing(
 	var words []yacymodel.Hash
 	err := r.words.Scan(
 		tx,
-		wordKeysOf(url),
+		wordByURLKeysOf(url),
 		func(reference wordByURL) (bool, error) {
 			words = append(words, reference.word)
 

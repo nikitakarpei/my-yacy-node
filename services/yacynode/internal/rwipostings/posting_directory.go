@@ -8,6 +8,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
+type postingIdentity struct {
+	word yacymodel.Hash
+	url  yacymodel.URLHash
+}
+
 type postingDirectory struct {
 	vault     *vault.Vault
 	postings  *vault.Collection[postingIdentity, yacymodel.RWIPosting]

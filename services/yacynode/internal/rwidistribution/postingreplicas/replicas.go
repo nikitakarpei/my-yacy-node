@@ -12,17 +12,15 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
-const bucket vault.Name = "rwidistribution_replica_ledger"
-
 type Replicas struct {
 	holders  *vault.Collection[postingidentity.Identity, []yacymodel.Hash]
 	schedule *postingofferschedule.Schedule
 }
 
 func Open(v *vault.Vault, schedule *postingofferschedule.Schedule) (*Replicas, error) {
-	holders, err := vault.Register(v, bucket, postingidentity.KeyCodec{}, holdersValueCodec{})
+	holders, err := registerReplicaLedger(v)
 	if err != nil {
-		return nil, fmt.Errorf("register replica ledger: %w", err)
+		return nil, err
 	}
 
 	return &Replicas{holders: holders, schedule: schedule}, nil

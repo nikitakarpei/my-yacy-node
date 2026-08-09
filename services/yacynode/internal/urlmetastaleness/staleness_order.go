@@ -9,10 +9,20 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-const (
-	orderBucket     vault.Name = "urlmeta_staleness_order"
-	freshnessBucket vault.Name = "urlmeta_staleness_freshness"
-)
+// freshnessRank orders days as plain text so the vault's byte order is also
+// stalest-first order. A url with no known day ranks stalest.
+type freshnessRank string
+
+func rankOf(day yacymodel.Optional[yacymodel.CalendarDay]) freshnessRank {
+	value, _ := day.Get()
+
+	return freshnessRank(fmt.Sprintf("%04d%02d%02d", value.Year, value.Month, value.Day))
+}
+
+type rankedURL struct {
+	rank freshnessRank
+	hash yacymodel.URLHash
+}
 
 type stalenessRanking struct {
 	vault     *vault.Vault
@@ -21,18 +31,9 @@ type stalenessRanking struct {
 }
 
 func openStalenessRanking(v *vault.Vault) (*stalenessRanking, error) {
-	order, err := vault.RegisterSet(v, orderBucket, orderKeyCodec{})
+	order, freshness, err := registerStalenessRanking(v)
 	if err != nil {
-		return nil, fmt.Errorf("register staleness order: %w", err)
-	}
-	freshness, err := vault.Register(
-		v,
-		freshnessBucket,
-		freshnessKeyCodec{},
-		freshnessRankValueCodec{},
-	)
-	if err != nil {
-		return nil, fmt.Errorf("register staleness freshness: %w", err)
+		return nil, err
 	}
 
 	return &stalenessRanking{vault: v, order: order, freshness: freshness}, nil
