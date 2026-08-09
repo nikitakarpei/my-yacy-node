@@ -106,10 +106,6 @@ func openObserved(t *testing.T, engine vault.Engine) (*vault.Vault, *recordingOb
 	return v, observer
 }
 
-func newDoubleEngine() *doubleEngine {
-	return &doubleEngine{buckets: map[vault.Name]map[string][]byte{}}
-}
-
 func TestCommittedWriteReportsBeginAndCommit(t *testing.T) {
 	v, observer := openObserved(t, newDoubleEngine())
 

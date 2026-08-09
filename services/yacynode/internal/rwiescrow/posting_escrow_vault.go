@@ -19,7 +19,7 @@ const (
 func registerPostingEscrow(
 	v *vault.Vault,
 ) (*vault.Collection[postingIdentity, escrowedPosting], *vault.Set[postingHold], error) {
-	escrowed, err := vault.Register(
+	escrowed, err := vault.RegisterCollection(
 		v,
 		escrowedPostingBucket,
 		escrowedPostingKeyCodec{},

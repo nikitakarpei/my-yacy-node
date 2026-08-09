@@ -1,15 +1,31 @@
 package vault
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
+var errReadOnly = errors.New("write inside read-only transaction")
+
 type Collection[K, V any] struct {
 	name   Name
 	keys   KeyCodec[K]
 	values ValueCodec[V]
+}
+
+func RegisterCollection[K, V any](
+	v *Vault,
+	bucket Name,
+	keys KeyCodec[K],
+	values ValueCodec[V],
+) (*Collection[K, V], error) {
+	if err := v.provision(bucket); err != nil {
+		return nil, err
+	}
+
+	return &Collection[K, V]{name: bucket, keys: keys, values: values}, nil
 }
 
 func (c *Collection[K, V]) Get(tx *Txn, key K) (V, bool, error) {

@@ -13,7 +13,7 @@ const bucketName vault.Name = "urlmeta"
 func registerCollection(
 	v *vault.Vault,
 ) (*vault.Collection[yacymodel.URLHash, yacymodel.URLMetadata], error) {
-	collection, err := vault.Register(
+	collection, err := vault.RegisterCollection(
 		v,
 		bucketName,
 		urlMetadataKeyCodec{},

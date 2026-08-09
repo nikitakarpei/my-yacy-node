@@ -13,7 +13,7 @@ const postingsBucket vault.Name = "rwi"
 func registerPostings(
 	v *vault.Vault,
 ) (*vault.Collection[postingIdentity, yacymodel.RWIPosting], error) {
-	collection, err := vault.Register(
+	collection, err := vault.RegisterCollection(
 		v,
 		postingsBucket,
 		postingKeyCodec{},

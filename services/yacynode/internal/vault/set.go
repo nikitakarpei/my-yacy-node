@@ -7,7 +7,7 @@ type Set[K any] struct {
 }
 
 func RegisterSet[K any](v *Vault, bucket Name, keys KeyCodec[K]) (*Set[K], error) {
-	entries, err := Register(v, bucket, keys, presenceValueCodec{})
+	entries, err := RegisterCollection(v, bucket, keys, presenceValueCodec{})
 	if err != nil {
 		return nil, err
 	}

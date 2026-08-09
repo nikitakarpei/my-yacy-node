@@ -27,11 +27,16 @@ func registerSchedule(v *vault.Vault) (
 	if err != nil {
 		return nil, nil, nil, fmt.Errorf("register offer order: %w", err)
 	}
-	dueTimes, err := vault.Register(v, dueBucket, postingidentity.KeyCodec{}, dueAtValueCodec{})
+	dueTimes, err := vault.RegisterCollection(
+		v,
+		dueBucket,
+		postingidentity.KeyCodec{},
+		dueAtValueCodec{},
+	)
 	if err != nil {
 		return nil, nil, nil, fmt.Errorf("register offer due: %w", err)
 	}
-	offerIntervals, err := vault.Register(
+	offerIntervals, err := vault.RegisterCollection(
 		v,
 		offerIntervalBucket,
 		postingidentity.KeyCodec{},

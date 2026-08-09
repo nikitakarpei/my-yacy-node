@@ -80,7 +80,12 @@ func openEngine(
 func register(t *testing.T, v *vault.Vault, name string) *vault.Collection[string, string] {
 	t.Helper()
 
-	collection, err := vault.Register(v, vault.Name(name), stringKeyCodec{}, stringValueCodec{})
+	collection, err := vault.RegisterCollection(
+		v,
+		vault.Name(name),
+		stringKeyCodec{},
+		stringValueCodec{},
+	)
 	if err != nil {
 		t.Fatalf("Register %s: %v", name, err)
 	}
