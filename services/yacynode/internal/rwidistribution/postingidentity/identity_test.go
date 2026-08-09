@@ -1,6 +1,7 @@
 package postingidentity
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -15,14 +16,22 @@ func urlHash(raw string) yacymodel.URLHash {
 	return hash
 }
 
-func TestKeyMatchesWordAndURLBytes(t *testing.T) {
+func TestKeyIsStableAndDistinctPerPosting(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
+	posting := IdentityOf(word, url)
 
-	got := string(IdentityOf(word, url).Key())
-	want := word.String() + url.String()
-
-	if got != want {
-		t.Fatalf("Key = %q, want %q", got, want)
+	if !bytes.Equal(posting.Key(), IdentityOf(word, url).Key()) {
+		t.Fatal("one posting addresses two rows")
+	}
+	for name, other := range map[string]Identity{
+		"another word": IdentityOf(yacymodel.WordHash("w2"), url),
+		"another url":  IdentityOf(word, urlHash("u2")),
+	} {
+		t.Run(name, func(t *testing.T) {
+			if bytes.Equal(posting.Key(), other.Key()) {
+				t.Fatal("two postings share one row")
+			}
+		})
 	}
 }
 

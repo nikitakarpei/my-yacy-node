@@ -1,6 +1,7 @@
 package postingofferschedule
 
 import (
+	"encoding/binary"
 	"fmt"
 	"time"
 )
@@ -8,14 +9,23 @@ import (
 type dueAtCodec struct{}
 
 func (dueAtCodec) Encode(at time.Time) ([]byte, error) {
-	return fmt.Appendf(nil, "%0*d", dueAtDigits, at.UnixNano()), nil
+	raw, err := binary.Append(nil, binary.BigEndian, []int64{
+		at.Unix(),
+		int64(at.Nanosecond()),
+	})
+	if err != nil {
+		return nil, fmt.Errorf("encode due at: %w", err)
+	}
+
+	return raw, nil
 }
 
 func (dueAtCodec) Decode(raw []byte) (time.Time, error) {
-	var nanos int64
-	if _, err := fmt.Sscanf(string(raw), "%d", &nanos); err != nil {
+	dueAt := make([]int64, 2)
+	if _, err := binary.Decode(raw, binary.BigEndian, dueAt); err != nil {
 		return time.Time{}, fmt.Errorf("due at: %w", err)
 	}
+	seconds, nanoseconds := dueAt[0], dueAt[1]
 
-	return time.Unix(0, nanos), nil
+	return time.Unix(seconds, nanoseconds).UTC(), nil
 }

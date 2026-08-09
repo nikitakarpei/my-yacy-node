@@ -302,6 +302,7 @@ deps:
   postingidentity:
     mayDependOn:
       - postingidentity
+      - vaultkey
       - vault
     canUse:
       - yacymodel
@@ -309,6 +310,7 @@ deps:
     mayDependOn:
       - postingofferschedule
       - postingidentity
+      - vaultkey
       - vault
       - memvault
       - rwipostings
