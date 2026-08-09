@@ -115,7 +115,7 @@ func (r *Recaller) Recall(
 
 	var recalled RecalledPage
 	for _, kind := range kinds {
-		representation, found := r.awaitedRepresentationOf(
+		representation, found := r.representationOf(
 			recallCtx,
 			canonicalURL,
 			kind,
@@ -135,7 +135,7 @@ func (r *Recaller) Recall(
 	return recalled, nil
 }
 
-func (r *Recaller) awaitedRepresentationOf(
+func (r *Recaller) representationOf(
 	ctx context.Context,
 	canonicalURL string,
 	kind RepresentationKind,
@@ -148,7 +148,7 @@ func (r *Recaller) awaitedRepresentationOf(
 	ticker := time.NewTicker(r.pollInterval)
 	defer ticker.Stop()
 	for {
-		representation, found, err := r.representationOf(ctx, canonicalURL, corpus)
+		representation, found, err := r.representationHeldBy(ctx, corpus, canonicalURL)
 		switch {
 		case err != nil:
 			slog.WarnContext(ctx, "corpus read failed",
@@ -171,10 +171,10 @@ func (r *Recaller) awaitedRepresentationOf(
 	}
 }
 
-func (r *Recaller) representationOf(
+func (r *Recaller) representationHeldBy(
 	ctx context.Context,
-	canonicalURL string,
 	corpus Corpus,
+	canonicalURL string,
 ) (Representation, bool, error) {
 	resolvedURL, err := r.redirects.ResolvedURLOf(ctx, canonicalURL)
 	if err != nil {
