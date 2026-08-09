@@ -77,7 +77,7 @@ func (r *urlReferences) WordsReferencing(
 	var words []yacymodel.Hash
 	err := r.words.Scan(
 		tx,
-		vault.Key(url.String()),
+		wordKeyPrefixOfURL(url),
 		func(key vault.Key) (bool, error) {
 			word, err := wordFromKey(key)
 			if err != nil {

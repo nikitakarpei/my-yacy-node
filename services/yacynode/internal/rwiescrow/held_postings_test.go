@@ -298,6 +298,35 @@ func TestExpireStopsAtLimit(t *testing.T) {
 	}
 }
 
+func TestExpireTakesTheOldestHoldFirst(t *testing.T) {
+	ctx := context.Background()
+	h := openHarness(t)
+	oldest, newest := posting("w1", "u1"), posting("w1", "u2")
+
+	h.hold(t, oldest)
+	h.clock = h.clock.Add(time.Minute)
+	h.hold(t, newest)
+	h.clock = h.clock.Add(holdFor + time.Second)
+
+	expired, err := h.escrow.Expire(ctx, holdFor, 1)
+	if err != nil {
+		t.Fatalf("Expire: %v", err)
+	}
+	if expired != 1 {
+		t.Fatalf("expired = %d, want 1 at the limit", expired)
+	}
+
+	h.storeURL(t, oldest.URLHash)
+	if h.indexed(t, oldest) {
+		t.Fatal("the oldest hold outlived an expiry run that stopped at one posting")
+	}
+
+	h.storeURL(t, newest.URLHash)
+	if !h.indexed(t, newest) {
+		t.Fatal("the newer hold expired before the oldest one")
+	}
+}
+
 func TestReleasedPostingIsNotExpired(t *testing.T) {
 	h := openHarness(t)
 	entry := posting("w1", "u1")

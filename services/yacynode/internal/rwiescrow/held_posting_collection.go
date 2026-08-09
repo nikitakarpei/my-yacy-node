@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 const (
@@ -13,13 +14,21 @@ const (
 	expiryBucket vault.Name = "rwi_escrow_expiry"
 )
 
-const heldAtDigits = 20
-
 const heldPostingBytes = 256
+
+var (
+	heldKeyLayout   = vaultkey.Pair(vaultkey.Text, vaultkey.Text)
+	expiryKeyLayout = vaultkey.Triple(vaultkey.Time, vaultkey.Text, vaultkey.Text)
+)
 
 type postingIdentity struct {
 	Word yacymodel.Hash
 	URL  yacymodel.URLHash
+}
+
+type postingHold struct {
+	HeldAt  time.Time
+	Posting postingIdentity
 }
 
 func registerHeldPostings(
@@ -38,55 +47,48 @@ func registerHeldPostings(
 }
 
 func heldKey(posting postingIdentity) vault.Key {
-	key := make(vault.Key, 0, yacymodel.HashLength*2)
-	key = append(key, posting.URL.String()...)
-	key = append(key, posting.Word.String()...)
+	return heldKeyLayout.Key(posting.URL.String(), posting.Word.String()).Bytes()
+}
 
-	return key
+func heldKeyPrefixOfURL(url yacymodel.URLHash) vault.Key {
+	return heldKeyLayout.First(url.String()).Bytes()
 }
 
 func parseHeldKey(key vault.Key) (postingIdentity, error) {
-	wantLength := yacymodel.HashLength * 2
-	if len(key) != wantLength {
-		return postingIdentity{},
-			fmt.Errorf("held posting key: length %d, want %d", len(key), wantLength)
-	}
-
-	return parseIdentity(key)
-}
-
-func expiryKey(heldAt time.Time, posting postingIdentity) vault.Key {
-	key := make(vault.Key, 0, heldAtDigits+yacymodel.HashLength*2)
-	key = append(key, heldAtPrefix(heldAt)...)
-	key = append(key, posting.URL.String()...)
-	key = append(key, posting.Word.String()...)
-
-	return key
-}
-
-func parseExpiryKey(key vault.Key) (postingIdentity, error) {
-	wantLength := heldAtDigits + yacymodel.HashLength*2
-	if len(key) != wantLength {
-		return postingIdentity{},
-			fmt.Errorf("held posting expiry key: length %d, want %d", len(key), wantLength)
-	}
-
-	return parseIdentity(key[heldAtDigits:])
-}
-
-func parseIdentity(raw []byte) (postingIdentity, error) {
-	url, err := yacymodel.ParseURLHash(string(raw[:yacymodel.HashLength]))
+	url, word, err := heldKeyLayout.Parts(vaultkey.KeyFrom(key))
 	if err != nil {
-		return postingIdentity{}, fmt.Errorf("held posting url hash: %w", err)
+		return postingIdentity{}, fmt.Errorf("held posting key: %w", err)
 	}
-	word, err := yacymodel.ParseHash(string(raw[yacymodel.HashLength:]))
+
+	return parseIdentity(word, url)
+}
+
+func parseIdentity(word string, url string) (postingIdentity, error) {
+	parsedWord, err := yacymodel.ParseHash(word)
 	if err != nil {
 		return postingIdentity{}, fmt.Errorf("held posting word hash: %w", err)
 	}
+	parsedURL, err := yacymodel.ParseURLHash(url)
+	if err != nil {
+		return postingIdentity{}, fmt.Errorf("held posting url hash: %w", err)
+	}
 
-	return postingIdentity{Word: word, URL: url}, nil
+	return postingIdentity{Word: parsedWord, URL: parsedURL}, nil
 }
 
-func heldAtPrefix(at time.Time) vault.Key {
-	return fmt.Appendf(make(vault.Key, 0, heldAtDigits), "%0*d", heldAtDigits, at.UnixNano())
+func expiryKey(heldAt time.Time, posting postingIdentity) vault.Key {
+	return expiryKeyLayout.Key(heldAt, posting.Word.String(), posting.URL.String()).Bytes()
+}
+
+func parseExpiryKey(key vault.Key) (postingHold, error) {
+	heldAt, word, url, err := expiryKeyLayout.Parts(vaultkey.KeyFrom(key))
+	if err != nil {
+		return postingHold{}, fmt.Errorf("held posting expiry key: %w", err)
+	}
+	posting, err := parseIdentity(word, url)
+	if err != nil {
+		return postingHold{}, err
+	}
+
+	return postingHold{HeldAt: heldAt, Posting: posting}, nil
 }
