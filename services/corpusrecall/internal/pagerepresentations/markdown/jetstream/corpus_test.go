@@ -22,9 +22,12 @@ const (
 func storedMarkdown(t *testing.T, markdownOfPage string) *markdownjetstream.Corpus {
 	t.Helper()
 	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	store, err := js.CreateOrUpdateObjectStore(context.Background(), natsjetstream.ObjectStoreConfig{
-		Bucket: pagemarkdownstore.BucketName,
-	})
+	store, err := js.CreateOrUpdateObjectStore(
+		context.Background(),
+		natsjetstream.ObjectStoreConfig{
+			Bucket: pagemarkdownstore.BucketName,
+		},
+	)
 	if err != nil {
 		t.Fatalf("create page markdown bucket: %v", err)
 	}
@@ -74,9 +77,12 @@ func TestRepresentationIsMissingWhenTheCorpusHoldsNoMarkdown(t *testing.T) {
 
 func TestRepresentationFailsWhenTheMarkdownExceedsTheResponseLimit(t *testing.T) {
 	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	store, err := js.CreateOrUpdateObjectStore(context.Background(), natsjetstream.ObjectStoreConfig{
-		Bucket: pagemarkdownstore.BucketName,
-	})
+	store, err := js.CreateOrUpdateObjectStore(
+		context.Background(),
+		natsjetstream.ObjectStoreConfig{
+			Bucket: pagemarkdownstore.BucketName,
+		},
+	)
 	if err != nil {
 		t.Fatalf("create page markdown bucket: %v", err)
 	}
@@ -86,7 +92,8 @@ func TestRepresentationFailsWhenTheMarkdownExceedsTheResponseLimit(t *testing.T)
 		t.Fatalf("store markdown: %v", err)
 	}
 
-	_, _, err = markdownjetstream.NewCorpus(store, 1).RepresentationOf(context.Background(), crawledURL)
+	_, _, err = markdownjetstream.NewCorpus(store, 1).
+		RepresentationOf(context.Background(), crawledURL)
 
 	if err == nil {
 		t.Fatal("expected an error for markdown beyond the response limit")

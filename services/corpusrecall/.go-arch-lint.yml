@@ -6,8 +6,8 @@ allow:
   deepScan: false
 
 components:
-  pagerecall:
-    in: internal/recall/pagerecall/**
+  recall:
+    in: internal/recall/**
   pagerepresentationsmarkdown:
     in: internal/pagerepresentations/markdown/**
   redirectresolversjetstream:
@@ -68,15 +68,15 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
 
 deps:
-  pagerecall:
+  recall:
     mayDependOn:
-      - pagerecall
+      - recall
     canUse:
       - canonicalurl
   pagerepresentationsmarkdown:
     mayDependOn:
       - pagerepresentationsmarkdown
-      - pagerecall
+      - recall
     canUse:
       - pagemarkdownstore
       - nats
@@ -91,7 +91,7 @@ deps:
   disposedpagesjetstream:
     mayDependOn:
       - disposedpagesjetstream
-      - pagerecall
+      - recall
     canUse:
       - yacycrawlcontract
       - nats
@@ -107,7 +107,7 @@ deps:
   recallreceiversgrpc:
     mayDependOn:
       - recallreceiversgrpc
-      - pagerecall
+      - recall
       - pagerepresentationsmarkdown
     canUse:
       - corpusrecallapi
@@ -116,13 +116,13 @@ deps:
   progressobserversprometheus:
     mayDependOn:
       - progressobserversprometheus
-      - pagerecall
+      - recall
     canUse:
       - prometheus
   corpusrecallcmd:
     mayDependOn:
       - corpusrecallcmd
-      - pagerecall
+      - recall
       - pagerepresentationsmarkdown
       - redirectresolversjetstream
       - disposedpagesjetstream
