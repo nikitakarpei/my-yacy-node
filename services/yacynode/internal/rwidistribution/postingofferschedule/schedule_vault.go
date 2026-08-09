@@ -66,7 +66,7 @@ func (orderKeyCodec) Decode(storedKey []byte) (scheduledPostingOffer, error) {
 	return scheduledPostingOffer{At: dueAt, Posting: postingidentity.IdentityOf(word, url)}, nil
 }
 
-func orderKeysThrough(dueAt time.Time) vaultkey.KeyRange {
+func everyOfferDueBy(dueAt time.Time) vaultkey.KeyRange {
 	return orderKeyLayout.KeysThroughFirst(dueAt)
 }
 

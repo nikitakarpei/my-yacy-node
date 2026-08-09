@@ -46,7 +46,7 @@ func (wordByURLKeyCodec) Decode(storedKey []byte) (wordByURL, error) {
 	return wordByURL{url: url, word: word}, nil
 }
 
-func wordByURLKeysOf(url yacymodel.URLHash) vaultkey.KeyRange {
+func everyWordReferencing(url yacymodel.URLHash) vaultkey.KeyRange {
 	return wordByURLKeyLayout.KeysWithFirst(url)
 }
 

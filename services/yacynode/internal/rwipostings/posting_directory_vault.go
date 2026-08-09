@@ -44,7 +44,7 @@ func (postingKeyCodec) Decode(storedKey []byte) (postingIdentity, error) {
 	return postingIdentity{word: word, url: url}, nil
 }
 
-func postingKeysOf(word yacymodel.Hash) vaultkey.KeyRange {
+func everyPostingOf(word yacymodel.Hash) vaultkey.KeyRange {
 	return postingKeyLayout.KeysWithFirst(word)
 }
 
