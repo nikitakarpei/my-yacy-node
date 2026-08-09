@@ -5,22 +5,28 @@ import (
 	"time"
 )
 
-func TestHeldPostingFitsItsByteBudget(t *testing.T) {
+func TestEscrowedPostingFitsItsByteBudget(t *testing.T) {
 	entry := posting("w1", "u1")
 	identity := postingIdentity{Word: entry.WordHash, URL: entry.URLHash}
 	heldAt := time.Unix(1700000000, 0)
 
-	value, err := heldPostingValueCodec{}.Encode(heldPosting{HeldAt: heldAt, Posting: entry})
+	value, err := escrowedPostingValueCodec{}.Encode(
+		escrowedPosting{HeldAt: heldAt, Posting: entry},
+	)
 	if err != nil {
 		t.Fatalf("Encode: %v", err)
 	}
 
 	hold := postingHold{HeldAt: heldAt, Posting: identity}
-	footprint := len(heldPostingKeyCodec{}.Encode(identity).Bytes()) +
+	footprint := len(escrowedPostingKeyCodec{}.Encode(identity).Bytes()) +
 		len(value) +
-		len(expiryKeyCodec{}.Encode(hold).Bytes())
-	if footprint > heldPostingBytes {
-		t.Fatalf("held posting footprint = %d bytes, want at most %d", footprint, heldPostingBytes)
+		len(postingHoldKeyCodec{}.Encode(hold).Bytes())
+	if footprint > escrowedPostingBytes {
+		t.Fatalf(
+			"escrowed posting footprint = %d bytes, want at most %d",
+			footprint,
+			escrowedPostingBytes,
+		)
 	}
 }
 

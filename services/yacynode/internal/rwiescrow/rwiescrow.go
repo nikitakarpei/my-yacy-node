@@ -1,7 +1,7 @@
 // Package rwiescrow holds an inbound RWI posting outside the index until the URL
-// metadata it names arrives. A held posting joins the index inside the transaction
-// that stores that metadata, and is dropped when it waits longer than the hold
-// period. The index therefore carries only postings this node can redistribute.
+// metadata it names arrives. An escrowed posting joins the index inside the
+// transaction that stores that metadata, and is dropped when its hold outlives the
+// hold period. The index therefore carries only postings this node can redistribute.
 package rwiescrow
 
 import (
@@ -14,9 +14,11 @@ import (
 )
 
 var (
-	_ urlmeta.URLMetadataObserver = (*HeldPostings)(nil)
-	_ PostingExpiry               = (*HeldPostings)(nil)
+	_ urlmeta.URLMetadataObserver = (*PostingEscrow)(nil)
+	_ PostingExpiry               = (*PostingEscrow)(nil)
 )
+
+const escrowedPostingBytes = 256
 
 type HoldObserver interface {
 	ObserveHeld(postings int)
@@ -45,16 +47,16 @@ func Open(
 	observer HoldObserver,
 	quotaFraction float64,
 	now func() time.Time,
-) (*HeldPostings, error) {
-	held, expiry, err := registerHeldPostings(v)
+) (*PostingEscrow, error) {
+	escrowed, holds, err := registerPostingEscrow(v)
 	if err != nil {
 		return nil, err
 	}
 
-	return &HeldPostings{
+	return &PostingEscrow{
 		vault:    v,
-		held:     held,
-		expiry:   expiry,
+		escrowed: escrowed,
+		holds:    holds,
 		admitter: admitter,
 		observer: observer,
 		capacity: capacityWithin(v.QuotaBytes(), quotaFraction),
@@ -67,5 +69,5 @@ func capacityWithin(quota int64, fraction float64) int {
 		return 0
 	}
 
-	return int(float64(quota) * fraction / heldPostingBytes)
+	return int(float64(quota) * fraction / escrowedPostingBytes)
 }

@@ -27,7 +27,7 @@ type nodeStorage struct {
 	postings        rwipostings.PostingIndex
 	postingReceiver rwiadmission.PostingReceiver
 	postingPurger   rwipostings.PostingPurger
-	escrow          *rwiescrow.HeldPostings
+	escrow          *rwiescrow.PostingEscrow
 	offerSchedule   *postingofferschedule.Schedule
 	replicas        *postingreplicas.Replicas
 }
