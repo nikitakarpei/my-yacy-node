@@ -8,10 +8,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
-type PageVisitor interface {
-	Visit(ctx context.Context, url string) (pagevisit.VisitOutcome, error)
-}
-
 type completedVisit struct {
 	visit   frontier.PendingVisit
 	outcome pagevisit.VisitOutcome
@@ -24,7 +20,11 @@ type visitors struct {
 	running sync.WaitGroup
 }
 
-func startVisitors(ctx context.Context, visitor PageVisitor, concurrency int) *visitors {
+func startVisitors(
+	ctx context.Context,
+	visitor pagevisit.Visitor,
+	concurrency int,
+) *visitors {
 	v := &visitors{
 		pending: make(chan frontier.PendingVisit),
 		results: make(chan completedVisit, concurrency),

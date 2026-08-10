@@ -53,6 +53,9 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.CrawlProfile.MaxPagesPerHost != DefaultCrawlMaxPagesPerHost {
 		t.Fatalf("max pages per host = %d", cfg.CrawlProfile.MaxPagesPerHost)
 	}
+	if !cfg.CrawlProfile.IgnoresIndexingRefusal {
+		t.Fatal("an indexing refusal is ignored by default")
+	}
 }
 
 func TestLoadServiceConfigRequiresNATSURL(t *testing.T) {
@@ -79,6 +82,7 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env["VISITCRAWL_CRAWL_SCOPE"] = "wide"
 	env["VISITCRAWL_CRAWL_MAX_DEPTH"] = "3"
 	env["VISITCRAWL_CRAWL_ALLOW_QUERY_URLS"] = "true"
+	env["VISITCRAWL_CRAWL_IGNORES_INDEXING_REFUSAL"] = "false"
 	cfg, err := LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
@@ -91,6 +95,9 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	}
 	if !cfg.CrawlProfile.AllowQueryURLs {
 		t.Fatal("allow query urls should be true")
+	}
+	if cfg.CrawlProfile.IgnoresIndexingRefusal {
+		t.Fatal("indexing refusal override should be applied")
 	}
 }
 
@@ -111,6 +118,7 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"VISITCRAWL_CRAWL_MAX_DEPTH": "-1"},
 		{"VISITCRAWL_CRAWL_MAX_PAGES_PER_HOST": "0"},
 		{"VISITCRAWL_CRAWL_ALLOW_QUERY_URLS": "maybe"},
+		{"VISITCRAWL_CRAWL_IGNORES_INDEXING_REFUSAL": "maybe"},
 	} {
 		env := baseEnv()
 		for k, v := range bad {

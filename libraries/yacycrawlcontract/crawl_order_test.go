@@ -9,13 +9,14 @@ func TestCrawlOrderRoundTrip(t *testing.T) {
 	order := CrawlOrder{
 		OrderID: "3f8a2c14-6b2d-4e1a-9c7f-8d0e1a2b3c4d",
 		Profile: CrawlProfile{
-			Name:            "deep",
-			Scope:           ScopeSubpath,
-			URLMustMatch:    MatchAll,
-			URLMustNotMatch: ".*\\.pdf",
-			MaxDepth:        4,
-			AllowQueryURLs:  true,
-			MaxPagesPerHost: 100,
+			Name:                   "deep",
+			Scope:                  ScopeSubpath,
+			URLMustMatch:           MatchAll,
+			URLMustNotMatch:        ".*\\.pdf",
+			MaxDepth:               4,
+			AllowQueryURLs:         true,
+			MaxPagesPerHost:        100,
+			IgnoresIndexingRefusal: true,
 		},
 		SeedURLs: []string{"https://example.org/a", "https://example.org/b"},
 	}

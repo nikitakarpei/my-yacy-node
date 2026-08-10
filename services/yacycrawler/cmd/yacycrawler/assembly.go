@@ -78,13 +78,13 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	visitor, err := buildVisitor(ctx, js, cfg, metrics)
+	visitorSource, err := buildVisitorSource(ctx, js, cfg, metrics)
 	if err != nil {
 		return err
 	}
 	traverser := ordertraversal.New(
 		traversalConfig(cfg),
-		visitor,
+		visitorSource,
 		metrics,
 		disposal.NewDisposer(metrics, disposedPages),
 		wallclock.Clock{},
@@ -220,12 +220,12 @@ func disposedPagesRecorder(
 	return disposedpagesjetstream.New(bucket), nil
 }
 
-func buildVisitor(
+func buildVisitorSource(
 	ctx context.Context,
 	js jetstream.JetStream,
 	cfg ServiceConfig,
 	metrics *prometheus.CrawlMetrics,
-) (*pagevisit.Visitor, error) {
+) (pagevisit.VisitorSource, error) {
 	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
 		cfg.ProxyDialMode,
@@ -237,7 +237,7 @@ func buildVisitor(
 	if err != nil {
 		return nil, err
 	}
-	absorption, err := buildAbsorption(js, cfg, metrics)
+	absorbers, err := buildAbsorberSource(js, cfg, metrics)
 	if err != nil {
 		return nil, err
 	}
@@ -248,7 +248,7 @@ func buildVisitor(
 	return pagevisit.New(
 		redirectrecording.New(resolve, fetch),
 		recrawl,
-		absorption,
+		absorbers,
 		metrics,
 		wallclock.Clock{},
 	), nil
@@ -322,11 +322,11 @@ func buildPageRepresentations(
 	return representations
 }
 
-func buildAbsorption(
+func buildAbsorberSource(
 	js jetstream.JetStream,
 	cfg ServiceConfig,
 	metrics *prometheus.CrawlMetrics,
-) (*pageabsorption.Absorber, error) {
+) (pageabsorption.AbsorberSource, error) {
 	admitted, err := admittedMediaTypesFor(cfg)
 	if err != nil {
 		return nil, err

@@ -63,8 +63,19 @@ func (c *manualClock) Now() time.Time { return c.now }
 
 func (c *manualClock) Sleep(context.Context, time.Duration) error { return nil }
 
-func newAbsorber(extractor PageExtractor, publisher PagePublisher) *Absorber {
-	return New(extractor, publisher, &manualClock{})
+func newAbsorber(extractor PageExtractor, publisher PagePublisher) Absorber {
+	return New(extractor, publisher, &manualClock{}).AbsorberFor(Honored)
+}
+
+func refusingDocument(url string) contentextraction.ExtractedDocument {
+	return contentextraction.ExtractedDocument{
+		URL: url,
+		ExtractedContent: contentextraction.ExtractedContent{
+			Body:            []byte("b"),
+			Format:          contentformatgraph.FormatReadableText,
+			RefusesIndexing: true,
+		},
+	}
 }
 
 func succeeded(finalURL string) fetchedpage.Page {
