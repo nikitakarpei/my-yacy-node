@@ -2,6 +2,7 @@ package searchendpoint
 
 import (
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
@@ -134,5 +135,29 @@ func TestMissingCountAndTimeTakeDefaults(t *testing.T) {
 	}
 	if criteria.TimeLimit != defaultSearchTime {
 		t.Errorf("TimeLimit = %v, want %v", criteria.TimeLimit, defaultSearchTime)
+	}
+}
+
+func TestTimeBeyondTheMaximumIsClamped(t *testing.T) {
+	criteria, err := criteriaFromRequest(yacyproto.SearchRequest{
+		Time: 10_000,
+	})
+	if err != nil {
+		t.Fatalf("criteriaFromRequest: %v", err)
+	}
+	if criteria.TimeLimit != maxSearchTime {
+		t.Errorf("TimeLimit = %v, want %v", criteria.TimeLimit, maxSearchTime)
+	}
+}
+
+func TestTimeBelowTheMaximumIsKept(t *testing.T) {
+	criteria, err := criteriaFromRequest(yacyproto.SearchRequest{
+		Time: 500,
+	})
+	if err != nil {
+		t.Fatalf("criteriaFromRequest: %v", err)
+	}
+	if criteria.TimeLimit != 500*time.Millisecond {
+		t.Errorf("TimeLimit = %v, want %v", criteria.TimeLimit, 500*time.Millisecond)
 	}
 }
