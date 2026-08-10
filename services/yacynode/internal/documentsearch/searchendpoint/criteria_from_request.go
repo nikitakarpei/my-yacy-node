@@ -13,6 +13,7 @@ import (
 const (
 	defaultSearchCount = 10
 	defaultSearchTime  = 3 * time.Second
+	maxSearchTime      = 3 * time.Second
 )
 
 func criteriaFromRequest(req yacyproto.SearchRequest) (searchcriteria.Criteria, error) {
@@ -25,18 +26,13 @@ func criteriaFromRequest(req yacyproto.SearchRequest) (searchcriteria.Criteria, 
 	if maxResults <= 0 {
 		maxResults = defaultSearchCount
 	}
-	timeLimit := time.Duration(req.Time) * time.Millisecond
-	if timeLimit <= 0 {
-		timeLimit = defaultSearchTime
-	}
-
 	return searchcriteria.Criteria{
 		Terms:              req.Query,
 		ExcludedTerms:      req.Exclude,
 		RequiredDocuments:  req.URLs,
 		MaxResults:         maxResults,
 		MaxTermSpread:      req.MaxDist,
-		TimeLimit:          timeLimit,
+		TimeLimit:          timeLimitFromRequest(req),
 		ContentKind:        contentKindFromDomain(req.ContentDom),
 		StrictContentKind:  req.StrictContentDom,
 		RequiredAppearance: req.RequiredAppearance,
@@ -98,6 +94,15 @@ func siteHashFromRequest(
 	}
 
 	return yacymodel.Some(hash), nil
+}
+
+func timeLimitFromRequest(req yacyproto.SearchRequest) time.Duration {
+	timeLimit := time.Duration(req.Time) * time.Millisecond
+	if timeLimit <= 0 {
+		return defaultSearchTime
+	}
+
+	return min(timeLimit, maxSearchTime)
 }
 
 func contentKindFromDomain(domain yacyproto.SearchContentDomain) searchcriteria.ContentKind {
