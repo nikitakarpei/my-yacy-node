@@ -19,23 +19,25 @@ const (
 	EnvMaxInFlight  = "VISITCRAWL_MAX_IN_FLIGHT"
 	EnvMaxBodyBytes = "VISITCRAWL_MAX_BODY_BYTES"
 
-	EnvCrawlScope           = "VISITCRAWL_CRAWL_SCOPE"
-	EnvCrawlName            = "VISITCRAWL_CRAWL_NAME"
-	EnvCrawlMaxDepth        = "VISITCRAWL_CRAWL_MAX_DEPTH"
-	EnvCrawlURLMustMatch    = "VISITCRAWL_CRAWL_URL_MUST_MATCH"
-	EnvCrawlURLMustNotMatch = "VISITCRAWL_CRAWL_URL_MUST_NOT_MATCH"
-	EnvCrawlMaxPagesPerHost = "VISITCRAWL_CRAWL_MAX_PAGES_PER_HOST"
-	EnvCrawlAllowQueryURLs  = "VISITCRAWL_CRAWL_ALLOW_QUERY_URLS"
+	EnvCrawlScope                  = "VISITCRAWL_CRAWL_SCOPE"
+	EnvCrawlName                   = "VISITCRAWL_CRAWL_NAME"
+	EnvCrawlMaxDepth               = "VISITCRAWL_CRAWL_MAX_DEPTH"
+	EnvCrawlURLMustMatch           = "VISITCRAWL_CRAWL_URL_MUST_MATCH"
+	EnvCrawlURLMustNotMatch        = "VISITCRAWL_CRAWL_URL_MUST_NOT_MATCH"
+	EnvCrawlMaxPagesPerHost        = "VISITCRAWL_CRAWL_MAX_PAGES_PER_HOST"
+	EnvCrawlAllowQueryURLs         = "VISITCRAWL_CRAWL_ALLOW_QUERY_URLS"
+	EnvCrawlIgnoresIndexingRefusal = "VISITCRAWL_CRAWL_IGNORES_INDEXING_REFUSAL"
 
-	DefaultOrdersSubject        = "yacy.crawl.orders"
-	DefaultListenAddr           = ":8091"
-	DefaultOpsAddr              = ":9091"
-	DefaultOrderTimeout         = 5 * time.Second
-	DefaultMaxInFlight          = 256
-	DefaultMaxBodyBytes         = 4 << 10
-	DefaultCrawlScope           = "domain"
-	DefaultCrawlMaxDepth        = 1
-	DefaultCrawlMaxPagesPerHost = 100
+	DefaultOrdersSubject               = "yacy.crawl.orders"
+	DefaultListenAddr                  = ":8091"
+	DefaultOpsAddr                     = ":9091"
+	DefaultOrderTimeout                = 5 * time.Second
+	DefaultMaxInFlight                 = 256
+	DefaultMaxBodyBytes                = 4 << 10
+	DefaultCrawlScope                  = "domain"
+	DefaultCrawlMaxDepth               = 1
+	DefaultCrawlMaxPagesPerHost        = 100
+	DefaultCrawlIgnoresIndexingRefusal = true
 )
 
 type ServiceConfig struct {
@@ -128,15 +130,24 @@ func crawlProfile(getenv func(string) string) (yacycrawlcontract.CrawlProfile, e
 	if err != nil {
 		return yacycrawlcontract.CrawlProfile{}, err
 	}
+	ignoresIndexingRefusal, err := envconfig.Bool(
+		getenv,
+		EnvCrawlIgnoresIndexingRefusal,
+		DefaultCrawlIgnoresIndexingRefusal,
+	)
+	if err != nil {
+		return yacycrawlcontract.CrawlProfile{}, err
+	}
 
 	return yacycrawlcontract.CrawlProfile{
-		Name:            envconfig.String(getenv, EnvCrawlName, ""),
-		Scope:           scope,
-		URLMustMatch:    matchOrAll(envconfig.String(getenv, EnvCrawlURLMustMatch, "")),
-		URLMustNotMatch: envconfig.String(getenv, EnvCrawlURLMustNotMatch, ""),
-		MaxDepth:        maxDepth,
-		AllowQueryURLs:  allowQueryURLs,
-		MaxPagesPerHost: maxPagesPerHost,
+		Name:                   envconfig.String(getenv, EnvCrawlName, ""),
+		Scope:                  scope,
+		URLMustMatch:           matchOrAll(envconfig.String(getenv, EnvCrawlURLMustMatch, "")),
+		URLMustNotMatch:        envconfig.String(getenv, EnvCrawlURLMustNotMatch, ""),
+		MaxDepth:               maxDepth,
+		AllowQueryURLs:         allowQueryURLs,
+		MaxPagesPerHost:        maxPagesPerHost,
+		IgnoresIndexingRefusal: ignoresIndexingRefusal,
 	}, nil
 }
 

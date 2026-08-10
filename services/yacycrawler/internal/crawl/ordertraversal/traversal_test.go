@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"slices"
 	"sync"
 	"testing"
 	"time"
@@ -12,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
@@ -157,15 +159,27 @@ func order(seeds []string) yacycrawlcontract.CrawlOrder {
 	}
 }
 
+type fixedVisitorSource struct {
+	visitor          pagevisit.Visitor
+	indexingRefusals []pageabsorption.IndexingRefusal
+}
+
+func (s *fixedVisitorSource) VisitorFor(
+	indexingRefusal pageabsorption.IndexingRefusal,
+) pagevisit.Visitor {
+	s.indexingRefusals = append(s.indexingRefusals, indexingRefusal)
+	return s.visitor
+}
+
 func newTraverser(
 	config ordertraversal.Config,
-	visitor ordertraversal.PageVisitor,
+	visitor pagevisit.Visitor,
 	observer *recordingObserver,
 	disposed *fakeDisposedPages,
 ) *ordertraversal.Traverser {
 	return ordertraversal.New(
 		config,
-		visitor,
+		&fixedVisitorSource{visitor: visitor},
 		observer,
 		disposal.NewDisposer(observer, disposed),
 		&manualClock{},
@@ -176,6 +190,37 @@ func traverse(t *testing.T, traverser *ordertraversal.Traverser, seeds []string)
 	t.Helper()
 	if err := traverser.Traverse(context.Background(), order(seeds)); err != nil {
 		t.Fatalf("traverse: %v", err)
+	}
+}
+
+func TestTraverseTakesItsVisitorFromTheOrdersIndexingRefusal(t *testing.T) {
+	observer := newObserver()
+	visitors := &fixedVisitorSource{
+		visitor: &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{}},
+	}
+	traverser := ordertraversal.New(
+		defaultConfig(),
+		visitors,
+		observer,
+		disposal.NewDisposer(observer, &fakeDisposedPages{}),
+		&manualClock{},
+	)
+
+	ignoring := order([]string{"http://host/"})
+	ignoring.Profile.IgnoresIndexingRefusal = true
+	if err := traverser.Traverse(context.Background(), ignoring); err != nil {
+		t.Fatalf("traverse ignoring order: %v", err)
+	}
+	if err := traverser.Traverse(
+		context.Background(),
+		order([]string{"http://host/"}),
+	); err != nil {
+		t.Fatalf("traverse honoring order: %v", err)
+	}
+
+	want := []pageabsorption.IndexingRefusal{pageabsorption.Ignored, pageabsorption.Honored}
+	if !slices.Equal(visitors.indexingRefusals, want) {
+		t.Fatalf("visitors built for %v, want %v", visitors.indexingRefusals, want)
 	}
 }
 

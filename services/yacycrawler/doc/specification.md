@@ -29,6 +29,8 @@ service is meant for a more capable host than an always-on node.
 * Every outbound fetch SHALL egress through the operator's configured proxy.
 * The service SHALL honor a target's explicit refusal, ceasing or deferring the fetch
   rather than pressing against it.
+* The service SHALL honor a page's indexing refusal, unless the order's profile ignores
+  it.
 * The service SHALL publish each of a page's representations on its own stream: `rwi`
   carries page references and never a body; content representations carry the body.
 * The service SHALL publish each page to every enabled representation, or none of them

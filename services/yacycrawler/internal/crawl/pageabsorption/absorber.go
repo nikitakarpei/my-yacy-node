@@ -19,6 +19,10 @@ const (
 	msgExtractionFailed    = "document extraction failed"
 )
 
+type Absorber interface {
+	Absorb(ctx context.Context, page fetchedpage.Page) (AbsorptionOutcome, error)
+}
+
 type PageExtractor interface {
 	ExtractDocuments(
 		ctx context.Context,
@@ -31,25 +35,14 @@ type PagePublisher interface {
 	Publish(ctx context.Context, page pagepublication.Page) error
 }
 
-type Absorber struct {
-	extractor PageExtractor
-	publisher PagePublisher
-	clock     clock.Clock
+type absorber struct {
+	extractor       PageExtractor
+	publisher       PagePublisher
+	clock           clock.Clock
+	indexingRefusal IndexingRefusal
 }
 
-func New(
-	extractor PageExtractor,
-	publisher PagePublisher,
-	clock clock.Clock,
-) *Absorber {
-	return &Absorber{
-		extractor: extractor,
-		publisher: publisher,
-		clock:     clock,
-	}
-}
-
-func (a *Absorber) Absorb(
+func (a *absorber) Absorb(
 	ctx context.Context,
 	page fetchedpage.Page,
 ) (AbsorptionOutcome, error) {
@@ -59,7 +52,7 @@ func (a *Absorber) Absorb(
 	return a.absorbDocuments(ctx, page)
 }
 
-func (a *Absorber) absorbDocuments(
+func (a *absorber) absorbDocuments(
 	ctx context.Context,
 	page fetchedpage.Page,
 ) (AbsorptionOutcome, error) {
@@ -101,7 +94,7 @@ func extractionDisposal(err error) disposal.Reason {
 	}
 }
 
-func (a *Absorber) absorbDocument(
+func (a *absorber) absorbDocument(
 	ctx context.Context,
 	page fetchedpage.Page,
 	document contentextraction.ExtractedDocument,
@@ -116,7 +109,7 @@ func (a *Absorber) absorbDocument(
 	}
 
 	absorbed := absorbedDocument{discoveredURLs: a.discoverLinks(page, document)}
-	if document.RefusesIndexing || page.RefusesIndexing {
+	if a.indexingRefusal == Honored && (document.RefusesIndexing || page.RefusesIndexing) {
 		absorbed.disposal = disposal.IndexingRefused
 		return absorbed, nil
 	}
@@ -126,7 +119,7 @@ func (a *Absorber) absorbDocument(
 	return absorbed, nil
 }
 
-func (a *Absorber) discoverLinks(
+func (a *absorber) discoverLinks(
 	page fetchedpage.Page,
 	document contentextraction.ExtractedDocument,
 ) []string {
@@ -136,7 +129,7 @@ func (a *Absorber) discoverLinks(
 	return document.DiscoveredURLs
 }
 
-func (a *Absorber) publishDocument(
+func (a *absorber) publishDocument(
 	ctx context.Context,
 	canonical string,
 	document contentextraction.ExtractedDocument,

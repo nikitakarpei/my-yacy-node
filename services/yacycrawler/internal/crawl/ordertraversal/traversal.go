@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/profileadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
@@ -23,7 +24,7 @@ const (
 
 type traversal struct {
 	config         Config
-	visitor        PageVisitor
+	visitorSource  pagevisit.VisitorSource
 	observer       TraversalProgress
 	disposer       *disposal.Disposer
 	clock          clock.Clock
@@ -47,10 +48,20 @@ func (t *traversal) run(ctx context.Context, order yacycrawlcontract.CrawlOrder)
 	defer cancel()
 	t.cancel = cancel
 
-	t.visitors = startVisitors(runCtx, t.visitor, t.config.VisitConcurrency)
+	visitor := t.visitorSource.VisitorFor(indexingRefusalOf(order.Profile))
+	t.visitors = startVisitors(runCtx, visitor, t.config.VisitConcurrency)
 	err = t.schedule(runCtx)
 	t.visitors.stop()
 	return err
+}
+
+func indexingRefusalOf(
+	profile yacycrawlcontract.CrawlProfile,
+) pageabsorption.IndexingRefusal {
+	if profile.IgnoresIndexingRefusal {
+		return pageabsorption.Ignored
+	}
+	return pageabsorption.Honored
 }
 
 func (t *traversal) schedule(ctx context.Context) error {

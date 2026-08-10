@@ -36,6 +36,7 @@ Every placed order carries the same crawl profile, built once from these variabl
 | `VISITCRAWL_CRAWL_URL_MUST_NOT_MATCH` | none | Regular expression that excludes a URL from the crawl. |
 | `VISITCRAWL_CRAWL_MAX_PAGES_PER_HOST` | `100` | Pages per host the crawl may fetch; `-1` is unlimited. |
 | `VISITCRAWL_CRAWL_ALLOW_QUERY_URLS` | `false` | Whether URLs with a query string may be crawled. |
+| `VISITCRAWL_CRAWL_IGNORES_INDEXING_REFUSAL` | `true` | Whether the crawl indexes a page that refuses indexing. |
 
 ## Operations
 

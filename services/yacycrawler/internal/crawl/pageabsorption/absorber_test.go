@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
 )
 
-func absorb(t *testing.T, a *Absorber, page fetchedpage.Page) AbsorptionOutcome {
+func absorb(t *testing.T, a Absorber, page fetchedpage.Page) AbsorptionOutcome {
 	t.Helper()
 	outcome, err := a.Absorb(context.Background(), page)
 	if err != nil {
@@ -138,14 +138,9 @@ func TestAbsorbReportsNoDisposalWhenOneMemberPublishes(t *testing.T) {
 }
 
 func TestAbsorbHonorsMetaNoIndex(t *testing.T) {
-	extract := fakeExtract{documents: []contentextraction.ExtractedDocument{{
-		URL: "http://host/",
-		ExtractedContent: contentextraction.ExtractedContent{
-			Body:            []byte("b"),
-			Format:          contentformatgraph.FormatReadableText,
-			RefusesIndexing: true,
-		},
-	}}}
+	extract := fakeExtract{
+		documents: []contentextraction.ExtractedDocument{refusingDocument("http://host/")},
+	}
 	publisher := &recordingPublisher{}
 	a := newAbsorber(extract, publisher)
 
@@ -153,6 +148,21 @@ func TestAbsorbHonorsMetaNoIndex(t *testing.T) {
 
 	if len(publisher.published()) != 0 || outcome.Disposal != disposal.IndexingRefused {
 		t.Fatalf("noindex not honored: published=%+v disposal=%q",
+			publisher.published(), outcome.Disposal)
+	}
+}
+
+func TestAbsorbPublishesRefusedIndexingWhenTheOrderIgnoresIt(t *testing.T) {
+	extract := fakeExtract{
+		documents: []contentextraction.ExtractedDocument{refusingDocument("http://host/")},
+	}
+	publisher := &recordingPublisher{}
+	a := New(extract, publisher, &manualClock{}).AbsorberFor(Ignored)
+
+	outcome := absorb(t, a, succeeded("http://host/"))
+
+	if len(publisher.published()) != 1 || outcome.Disposal != disposal.NotDisposed {
+		t.Fatalf("noindex not ignored: published=%+v disposal=%q",
 			publisher.published(), outcome.Disposal)
 	}
 }
