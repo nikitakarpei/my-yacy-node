@@ -31,17 +31,33 @@ func RegisterCollection[K, V any](
 func (c *Collection[K, V]) Get(tx *Txn, key K) (V, bool, error) {
 	var zero V
 
-	raw := tx.etx.Bucket(c.name).Get(c.keys.Encode(key).Bytes())
-	if raw == nil {
+	record := tx.etx.Bucket(c.name).Get(c.keys.Encode(key).Bytes())
+	if record == nil {
 		return zero, false, nil
 	}
 
-	val, err := c.values.Decode(raw)
+	val, err := c.valueFrom(record)
 	if err != nil {
-		return zero, false, fmt.Errorf("decode %s: %w", c.name, err)
+		return zero, false, err
 	}
 
 	return val, true, nil
+}
+
+func (c *Collection[K, V]) valueFrom(record []byte) (V, error) {
+	var zero V
+
+	payload, err := payloadOf(record)
+	if err != nil {
+		return zero, fmt.Errorf("read %s: %w", c.name, err)
+	}
+
+	val, err := c.values.Decode(payload)
+	if err != nil {
+		return zero, fmt.Errorf("decode %s: %w", c.name, err)
+	}
+
+	return val, nil
 }
 
 func (c *Collection[K, V]) Put(tx *Txn, key K, val V) error {
@@ -49,7 +65,7 @@ func (c *Collection[K, V]) Put(tx *Txn, key K, val V) error {
 		return errReadOnly
 	}
 
-	raw, err := c.values.Encode(val)
+	payload, err := c.values.Encode(val)
 	if err != nil {
 		return fmt.Errorf("encode %s: %w", c.name, err)
 	}
@@ -57,7 +73,7 @@ func (c *Collection[K, V]) Put(tx *Txn, key K, val V) error {
 	encodedKey := c.keys.Encode(key).Bytes()
 	bucket := tx.etx.Bucket(c.name)
 	existed := bucket.Get(encodedKey) != nil
-	if err := bucket.Put(encodedKey, raw); err != nil {
+	if err := bucket.Put(encodedKey, recordFrom(payload)); err != nil {
 		return fmt.Errorf("store %s: %w", c.name, err)
 	}
 	if existed {
@@ -92,14 +108,14 @@ func (c *Collection[K, V]) Scan(
 	keys vaultkey.KeyRange,
 	fn func(K, V) (bool, error),
 ) error {
-	if err := tx.etx.Bucket(c.name).Scan(keys, func(key, raw []byte) (bool, error) {
+	if err := tx.etx.Bucket(c.name).Scan(keys, func(key, record []byte) (bool, error) {
 		decodedKey, err := c.keys.Decode(key)
 		if err != nil {
 			return false, fmt.Errorf("decode %s key: %w", c.name, err)
 		}
-		val, err := c.values.Decode(raw)
+		val, err := c.valueFrom(record)
 		if err != nil {
-			return false, fmt.Errorf("decode %s: %w", c.name, err)
+			return false, err
 		}
 
 		return fn(decodedKey, val)
