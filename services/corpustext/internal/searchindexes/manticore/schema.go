@@ -1,4 +1,4 @@
-package manticoreindex
+package manticore
 
 import (
 	"context"
@@ -16,25 +16,25 @@ import (
 
 const detailLimit = 4096
 
-type ManticoreSchema struct {
+type Schema struct {
 	endpoint string
 	indexes  languageindex.LanguageIndexes
 	client   *http.Client
 }
 
-func NewManticoreSchema(
+func NewSchema(
 	endpoint string,
 	indexes languageindex.LanguageIndexes,
 	client *http.Client,
-) *ManticoreSchema {
-	return &ManticoreSchema{
+) *Schema {
+	return &Schema{
 		endpoint: strings.TrimRight(endpoint, "/"),
 		indexes:  indexes,
 		client:   client,
 	}
 }
 
-func (schema *ManticoreSchema) Bootstrap(ctx context.Context) error {
+func (schema *Schema) Bootstrap(ctx context.Context) error {
 	for _, index := range schema.indexes.All() {
 		if err := schema.createIfAbsent(ctx, index); err != nil {
 			return err
@@ -44,7 +44,7 @@ func (schema *ManticoreSchema) Bootstrap(ctx context.Context) error {
 	return schema.recreateFanOutTable(ctx)
 }
 
-func (schema *ManticoreSchema) createIfAbsent(
+func (schema *Schema) createIfAbsent(
 	ctx context.Context,
 	index languageindex.LanguageIndex,
 ) error {
@@ -84,7 +84,7 @@ func columnDeclarations() []string {
 	return declarations
 }
 
-func (schema *ManticoreSchema) rowsOf(
+func (schema *Schema) rowsOf(
 	ctx context.Context,
 	statement string,
 ) ([]map[string]any, error) {
@@ -136,7 +136,7 @@ func rowsIn(detail []byte) ([]map[string]any, error) {
 	return rows, nil
 }
 
-func (schema *ManticoreSchema) reportColumnDrift(
+func (schema *Schema) reportColumnDrift(
 	ctx context.Context,
 	index languageindex.LanguageIndex,
 ) {
@@ -171,7 +171,7 @@ func columnTypesIn(rows []map[string]any) map[string]string {
 	return types
 }
 
-func (schema *ManticoreSchema) recreateFanOutTable(ctx context.Context) error {
+func (schema *Schema) recreateFanOutTable(ctx context.Context) error {
 	prefix := schema.indexes.Prefix()
 	if _, err := schema.rowsOf(ctx, "DROP TABLE IF EXISTS "+prefix); err != nil {
 		return fmt.Errorf("drop table %s: %w", prefix, err)

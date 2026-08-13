@@ -1,4 +1,4 @@
-package elasticsearchindex
+package elasticsearch
 
 type elasticsearchAnalyzer struct {
 	analyzerType string

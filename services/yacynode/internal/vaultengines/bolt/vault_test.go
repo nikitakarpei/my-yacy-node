@@ -1,4 +1,4 @@
-package boltvault_test
+package bolt_test
 
 import (
 	"context"
@@ -7,8 +7,8 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/boltvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/bolt"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaulttest"
 )
@@ -40,7 +40,7 @@ func TestConformance(t *testing.T) {
 	vaulttest.RunConformance(t, func(quotaBytes int64) (vault.Engine, error) {
 		path := filepath.Join(dir, fmt.Sprintf("node-%d.db", seq.Add(1)))
 
-		return boltvault.OpenEngine(path, quotaBytes)
+		return bolt.OpenEngine(path, quotaBytes)
 	})
 }
 
@@ -48,7 +48,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 	ctx := context.Background()
 	path := filepath.Join(t.TempDir(), "node.db")
 
-	first, err := boltvault.Open(path, 0, nil)
+	first, err := bolt.Open(path, 0, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -70,7 +70,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 		t.Fatalf("Close: %v", err)
 	}
 
-	reopened, err := boltvault.Open(path, 0, nil)
+	reopened, err := bolt.Open(path, 0, nil)
 	if err != nil {
 		t.Fatalf("reopen: %v", err)
 	}
@@ -106,7 +106,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 
 func TestWritesAreNotGatedByQuota(t *testing.T) {
 	ctx := context.Background()
-	store, err := boltvault.Open(filepath.Join(t.TempDir(), "node.db"), 1, nil)
+	store, err := bolt.Open(filepath.Join(t.TempDir(), "node.db"), 1, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

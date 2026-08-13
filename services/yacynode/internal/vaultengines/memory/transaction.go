@@ -1,4 +1,4 @@
-package memvault
+package memory
 
 import (
 	"sort"

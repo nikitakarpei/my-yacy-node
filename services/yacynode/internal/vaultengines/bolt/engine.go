@@ -1,8 +1,8 @@
-// Package boltvault is the bbolt implementation of the vault Engine. It owns the
+// Package bolt is the bbolt implementation of the vault Engine. It owns the
 // embedded database file and is the single holder of the database handle; no
 // caller receives the raw handle and no bolt type appears on its exported
 // surface.
-package boltvault
+package bolt
 
 import (
 	"bytes"

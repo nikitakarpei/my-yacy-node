@@ -1,4 +1,4 @@
-package manticoreindex_test
+package manticore_test
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/manticoreindex"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/manticore"
 )
 
 func tablesFor(t *testing.T) languageindex.LanguageIndexes {
@@ -37,7 +37,7 @@ func TestManticoreSchemaStemsOnlyTheLanguageTable(t *testing.T) {
 	server := statementRecorder(t, &statements, `[{"total":0,"error":"","warning":""}]`)
 	defer server.Close()
 
-	schema := manticoreindex.NewManticoreSchema(server.URL, tablesFor(t), server.Client())
+	schema := manticore.NewSchema(server.URL, tablesFor(t), server.Client())
 	if err := schema.Bootstrap(context.Background()); err != nil {
 		t.Fatalf("bootstrap: %v", err)
 	}
@@ -57,7 +57,7 @@ func TestManticoreSchemaRecreatesTheFanOutTableOverEveryLanguage(t *testing.T) {
 	server := statementRecorder(t, &statements, `[{"total":0,"error":"","warning":""}]`)
 	defer server.Close()
 
-	schema := manticoreindex.NewManticoreSchema(server.URL, tablesFor(t), server.Client())
+	schema := manticore.NewSchema(server.URL, tablesFor(t), server.Client())
 	if err := schema.Bootstrap(context.Background()); err != nil {
 		t.Fatalf("bootstrap: %v", err)
 	}
@@ -99,7 +99,7 @@ func TestManticoreSchemaFailsOnStatementError(t *testing.T) {
 	server := statementRecorder(t, &statements, `[{"total":0,"error":"syntax error","warning":""}]`)
 	defer server.Close()
 
-	schema := manticoreindex.NewManticoreSchema(server.URL, tablesFor(t), server.Client())
+	schema := manticore.NewSchema(server.URL, tablesFor(t), server.Client())
 	if err := schema.Bootstrap(context.Background()); err == nil {
 		t.Fatal("expected error when the statement is rejected")
 	}

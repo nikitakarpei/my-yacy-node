@@ -1,4 +1,4 @@
-package elasticsearchindex
+package elasticsearch
 
 import (
 	"crypto/sha256"

@@ -1,4 +1,4 @@
-package elasticsearchindex_test
+package elasticsearch_test
 
 import (
 	"context"
@@ -8,8 +8,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/elasticsearchindex"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/elasticsearch"
 )
 
 func indexesFor(t *testing.T) languageindex.LanguageIndexes {
@@ -37,7 +37,7 @@ func TestElasticsearchSchemaCreatesOneIndexPerLanguage(t *testing.T) {
 	}))
 	defer server.Close()
 
-	schema := elasticsearchindex.NewElasticsearchSchema(
+	schema := elasticsearch.NewSchema(
 		server.URL, indexesFor(t), server.Client(),
 	)
 	if err := schema.Bootstrap(context.Background()); err != nil {
@@ -82,7 +82,7 @@ func TestElasticsearchSchemaAcceptsAnExistingIndex(t *testing.T) {
 	}))
 	defer server.Close()
 
-	schema := elasticsearchindex.NewElasticsearchSchema(
+	schema := elasticsearch.NewSchema(
 		server.URL, indexesFor(t), server.Client(),
 	)
 	if err := schema.Bootstrap(context.Background()); err != nil {
@@ -96,7 +96,7 @@ func TestElasticsearchSchemaFailsOnCreateRejection(t *testing.T) {
 	}))
 	defer server.Close()
 
-	schema := elasticsearchindex.NewElasticsearchSchema(
+	schema := elasticsearch.NewSchema(
 		server.URL, indexesFor(t), server.Client(),
 	)
 	if err := schema.Bootstrap(context.Background()); err == nil {

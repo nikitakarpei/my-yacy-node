@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 func urlHash(raw string) yacymodel.URLHash {
@@ -26,7 +26,7 @@ func openSchedule(
 ) (*vault.Vault, *Schedule, *recordedObservations) {
 	t.Helper()
 
-	v, err := memvault.Open(0, nil)
+	v, err := memory.Open(0, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

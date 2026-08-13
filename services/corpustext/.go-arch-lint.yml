@@ -10,10 +10,10 @@ components:
     in: internal/crawledpagedocument/**
   languageindex:
     in: internal/languageindex/**
-  elasticsearchindex:
-    in: internal/elasticsearchindex/**
-  manticoreindex:
-    in: internal/manticoreindex/**
+  searchindexeselasticsearch:
+    in: internal/searchindexes/elasticsearch/**
+  searchindexesmanticore:
+    in: internal/searchindexes/manticore/**
   pageintake:
     in: internal/pageintake/**
   indexmetrics:
@@ -60,17 +60,17 @@ deps:
   languageindex:
     mayDependOn:
       - languageindex
-  elasticsearchindex:
+  searchindexeselasticsearch:
     mayDependOn:
-      - elasticsearchindex
+      - searchindexeselasticsearch
       - crawledpagedocument
       - languageindex
     canUse:
       - yacycrawlcontract
       - searchdocument
-  manticoreindex:
+  searchindexesmanticore:
     mayDependOn:
-      - manticoreindex
+      - searchindexesmanticore
       - crawledpagedocument
       - languageindex
     canUse:

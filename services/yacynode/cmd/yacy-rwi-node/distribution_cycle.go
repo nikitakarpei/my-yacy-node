@@ -60,9 +60,9 @@ func (d distributionCycle) assemble() *distributioncycle.Cycle {
 		d.config.Distribution.Redundancy,
 	)
 	transfers := postingtransfer.New(
-		postingcourier.NewHTTP(exchange, d.config.NetworkName, d.self),
+		postingcourier.New(exchange, d.config.NetworkName, d.self),
 		urlmetadatacourier.NewBounded(
-			urlmetadatacourier.NewHTTP(exchange, d.config.NetworkName, d.self),
+			urlmetadatacourier.New(exchange, d.config.NetworkName, d.self),
 			d.config.Distribution.URLMetadataBatchSize,
 		),
 		d.storage.urlDirectory,

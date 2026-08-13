@@ -1,4 +1,4 @@
-package boltvault
+package bolt
 
 import (
 	"context"

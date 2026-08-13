@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 func localIdentity() nodeidentity.Identity {
@@ -22,7 +22,7 @@ type urlPorts struct {
 func openModule(t *testing.T, quotaBytes int64) urlPorts {
 	t.Helper()
 
-	v, err := memvault.Open(quotaBytes, nil)
+	v, err := memory.Open(quotaBytes, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

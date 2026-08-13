@@ -19,10 +19,10 @@ components:
     in: internal/hashcodec/**
   vault:
     in: internal/vault/**
-  boltvault:
-    in: internal/boltvault/**
-  memvault:
-    in: internal/memvault/**
+  vaultenginesbolt:
+    in: internal/vaultengines/bolt/**
+  vaultenginesmemory:
+    in: internal/vaultengines/memory/**
   vaulttest:
     in: internal/vaulttest/**
   httpguard:
@@ -137,17 +137,17 @@ deps:
     mayDependOn:
       - vault
       - vaultkey
-  boltvault:
+  vaultenginesbolt:
     deepScan: false
     mayDependOn:
-      - boltvault
+      - vaultenginesbolt
       - vaultkey
       - vault
     canUse:
       - bbolt
-  memvault:
+  vaultenginesmemory:
     mayDependOn:
-      - memvault
+      - vaultenginesmemory
       - vaultkey
       - vault
   vaulttest:
@@ -176,7 +176,7 @@ deps:
       - vaultkey
       - hashcodec
       - vault
-      - memvault
+      - vaultenginesmemory
     canUse:
       - yacyproto
   peerannouncement:
@@ -206,7 +206,7 @@ deps:
       - vaultkey
       - hashcodec
       - vault
-      - memvault
+      - vaultenginesmemory
       - httpguard
       - nodeidentity
     canUse:
@@ -218,7 +218,7 @@ deps:
       - vaultkey
       - hashcodec
       - vault
-      - memvault
+      - vaultenginesmemory
   urlreferences:
     mayDependOn:
       - urlreferences
@@ -226,14 +226,14 @@ deps:
       - vaultkey
       - hashcodec
       - vault
-      - memvault
+      - vaultenginesmemory
   rwipostings:
     mayDependOn:
       - rwipostings
       - vaultkey
       - hashcodec
       - vault
-      - memvault
+      - vaultenginesmemory
   rwiescrow:
     mayDependOn:
       - rwiescrow
@@ -242,7 +242,7 @@ deps:
       - vaultkey
       - hashcodec
       - vault
-      - memvault
+      - vaultenginesmemory
   rwiadmission:
     mayDependOn:
       - rwiadmission
@@ -250,7 +250,7 @@ deps:
       - rwipostings
       - urlmeta
       - vault
-      - memvault
+      - vaultenginesmemory
   rwiingress:
     mayDependOn:
       - rwiingress
@@ -264,7 +264,7 @@ deps:
       - rwidistribution
       - rwipostings
       - vault
-      - memvault
+      - vaultenginesmemory
       - vaultkey
       - hashcodec
       - peerroster
@@ -319,7 +319,7 @@ deps:
       - urlreferences
       - vaultkey
       - vault
-      - memvault
+      - vaultenginesmemory
   metrics:
     mayDependOn:
       - metrics

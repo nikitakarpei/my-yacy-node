@@ -6,10 +6,10 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 const busyPause = 5 * time.Second
@@ -30,9 +30,9 @@ type harness struct {
 func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
 	t.Helper()
 
-	v, err := memvault.Open(quotaBytes, nil)
+	v, err := memory.Open(quotaBytes, nil)
 	if err != nil {
-		t.Fatalf("memvault.Open: %v", err)
+		t.Fatalf("memory.Open: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {

@@ -1,4 +1,4 @@
-package manticoreindex
+package manticore
 
 import (
 	"crypto/sha256"

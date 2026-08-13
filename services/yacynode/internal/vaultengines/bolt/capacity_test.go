@@ -1,16 +1,16 @@
-package boltvault_test
+package bolt_test
 
 import (
 	"context"
 	"path/filepath"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/boltvault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/bolt"
 )
 
 func TestQuotaAndUsedBytes(t *testing.T) {
 	ctx := context.Background()
-	store, err := boltvault.Open(filepath.Join(t.TempDir(), "node.db"), 4096, nil)
+	store, err := bolt.Open(filepath.Join(t.TempDir(), "node.db"), 4096, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

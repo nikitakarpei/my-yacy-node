@@ -1,4 +1,4 @@
-package elasticsearchindex
+package elasticsearch
 
 import (
 	"bytes"
@@ -20,25 +20,25 @@ const (
 	detailLimit            = 4096
 )
 
-type ElasticsearchSchema struct {
+type Schema struct {
 	endpoint string
 	indexes  languageindex.LanguageIndexes
 	client   *http.Client
 }
 
-func NewElasticsearchSchema(
+func NewSchema(
 	endpoint string,
 	indexes languageindex.LanguageIndexes,
 	client *http.Client,
-) *ElasticsearchSchema {
-	return &ElasticsearchSchema{
+) *Schema {
+	return &Schema{
 		endpoint: strings.TrimRight(endpoint, "/"),
 		indexes:  indexes,
 		client:   client,
 	}
 }
 
-func (schema *ElasticsearchSchema) Bootstrap(ctx context.Context) error {
+func (schema *Schema) Bootstrap(ctx context.Context) error {
 	for _, index := range schema.indexes.All() {
 		if err := schema.createIfAbsent(ctx, index); err != nil {
 			return err
@@ -48,7 +48,7 @@ func (schema *ElasticsearchSchema) Bootstrap(ctx context.Context) error {
 	return nil
 }
 
-func (schema *ElasticsearchSchema) createIfAbsent(
+func (schema *Schema) createIfAbsent(
 	ctx context.Context,
 	index languageindex.LanguageIndex,
 ) error {
@@ -94,7 +94,7 @@ func documentProperties() map[string]any {
 	}
 }
 
-func (schema *ElasticsearchSchema) send(
+func (schema *Schema) send(
 	ctx context.Context,
 	method, path string,
 	body io.Reader,
@@ -118,7 +118,7 @@ func (schema *ElasticsearchSchema) send(
 	return resp.StatusCode, detail, nil
 }
 
-func (schema *ElasticsearchSchema) reportMappingDrift(
+func (schema *Schema) reportMappingDrift(
 	ctx context.Context,
 	index languageindex.LanguageIndex,
 ) {
@@ -142,7 +142,7 @@ func (schema *ElasticsearchSchema) reportMappingDrift(
 	}
 }
 
-func (schema *ElasticsearchSchema) livePropertiesOf(
+func (schema *Schema) livePropertiesOf(
 	ctx context.Context,
 	name string,
 ) (map[string]any, error) {

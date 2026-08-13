@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 const hashFiller = "AAAAAAAAAAAA"
@@ -70,9 +70,9 @@ func openRoster(
 ) peerroster.Roster {
 	t.Helper()
 
-	v, err := memvault.Open(0, nil)
+	v, err := memory.Open(0, nil)
 	if err != nil {
-		t.Fatalf("memvault.Open: %v", err)
+		t.Fatalf("memory.Open: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {

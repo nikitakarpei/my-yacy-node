@@ -1,4 +1,4 @@
-package manticoreindex
+package manticore
 
 import (
 	"bytes"
@@ -15,18 +15,18 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
-type ManticoreIndex struct {
+type Index struct {
 	endpoint string
 	tables   languageindex.LanguageIndexes
 	client   *http.Client
 }
 
-func NewManticoreIndex(
+func New(
 	endpoint string,
 	tables languageindex.LanguageIndexes,
 	client *http.Client,
-) *ManticoreIndex {
-	return &ManticoreIndex{
+) *Index {
+	return &Index{
 		endpoint: strings.TrimRight(endpoint, "/"),
 		tables:   tables,
 		client:   client,
@@ -39,7 +39,7 @@ type replaceRequest struct {
 	Document searchdocument.Document `json:"doc"`
 }
 
-func (idx *ManticoreIndex) Index(
+func (idx *Index) Index(
 	ctx context.Context,
 	page yacycrawlcontract.PageTextRepresentation,
 ) error {
