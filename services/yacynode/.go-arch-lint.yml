@@ -5,6 +5,13 @@ allow:
   depOnAnyVendor: false
   deepScan: false
 
+commonVendors:
+  - yacymodel
+
+commonComponents:
+  - vaulttest
+  - searchtest
+
 components:
   vaultkey:
     in: internal/vaultkey/**
@@ -156,20 +163,16 @@ deps:
     mayDependOn:
       - hashcodec
       - vaultkey
-    canUse:
-      - yacymodel
   vault:
     mayDependOn:
       - vault
       - vaultkey
-      - vaulttest
   boltvault:
     deepScan: false
     mayDependOn:
       - boltvault
       - vaultkey
       - vault
-      - vaulttest
     canUse:
       - bbolt
   memvault:
@@ -177,21 +180,17 @@ deps:
       - memvault
       - vaultkey
       - vault
-      - vaulttest
   vaulttest:
     mayDependOn:
-      - vaulttest
       - vaultkey
       - vault
   httpguard:
     mayDependOn:
       - httpguard
     canUse:
-      - yacymodel
       - yacyproto
   nodeidentity:
     canUse:
-      - yacymodel
       - yacyproto
   peeradmission:
     mayDependOn:
@@ -200,7 +199,6 @@ deps:
       - httpguard
       - nodeidentity
     canUse:
-      - yacymodel
       - yacyproto
   peerroster:
     mayDependOn:
@@ -210,7 +208,6 @@ deps:
       - vault
       - memvault
     canUse:
-      - yacymodel
       - yacyproto
   peerannouncement:
     mayDependOn:
@@ -219,7 +216,6 @@ deps:
       - peerwire
       - bootstrap
     canUse:
-      - yacymodel
       - yacyproto
   peerwire:
     mayDependOn:
@@ -230,7 +226,6 @@ deps:
     mayDependOn:
       - bootstrap
     canUse:
-      - yacymodel
       - yacyproto
   landing:
     mayDependOn:
@@ -245,7 +240,6 @@ deps:
       - httpguard
       - nodeidentity
     canUse:
-      - yacymodel
       - yacyproto
   urlmetastaleness:
     mayDependOn:
@@ -255,8 +249,6 @@ deps:
       - hashcodec
       - vault
       - memvault
-    canUse:
-      - yacymodel
   urlreferences:
     mayDependOn:
       - urlreferences
@@ -265,8 +257,6 @@ deps:
       - hashcodec
       - vault
       - memvault
-    canUse:
-      - yacymodel
   rwipostings:
     mayDependOn:
       - rwipostings
@@ -274,8 +264,6 @@ deps:
       - hashcodec
       - vault
       - memvault
-    canUse:
-      - yacymodel
   rwiescrow:
     mayDependOn:
       - rwiescrow
@@ -285,8 +273,6 @@ deps:
       - hashcodec
       - vault
       - memvault
-    canUse:
-      - yacymodel
   rwiadmission:
     mayDependOn:
       - rwiadmission
@@ -295,8 +281,6 @@ deps:
       - urlmeta
       - vault
       - memvault
-    canUse:
-      - yacymodel
   rwiingress:
     mayDependOn:
       - rwiingress
@@ -304,7 +288,6 @@ deps:
       - httpguard
       - nodeidentity
     canUse:
-      - yacymodel
       - yacyproto
   rwidistribution:
     mayDependOn:
@@ -314,15 +297,11 @@ deps:
       - postingofferschedule
       - postingreplicas
       - postingidentity
-    canUse:
-      - yacymodel
   postingidentity:
     mayDependOn:
       - postingidentity
       - vaultkey
       - hashcodec
-    canUse:
-      - yacymodel
   postingofferschedule:
     mayDependOn:
       - postingofferschedule
@@ -332,21 +311,17 @@ deps:
       - vault
       - memvault
       - rwipostings
-    canUse:
-      - yacymodel
   postingcourier:
     mayDependOn:
       - postingcourier
       - peerwire
     canUse:
-      - yacymodel
       - yacyproto
   urlmetadatacourier:
     mayDependOn:
       - urlmetadatacourier
       - peerwire
     canUse:
-      - yacymodel
       - yacyproto
   postingreplicas:
     mayDependOn:
@@ -355,8 +330,6 @@ deps:
       - postingidentity
       - vault
       - memvault
-    canUse:
-      - yacymodel
   postingoffer:
     mayDependOn:
       - postingoffer
@@ -366,8 +339,6 @@ deps:
       - rwipostings
       - vault
       - memvault
-    canUse:
-      - yacymodel
   postinghandoff:
     mayDependOn:
       - postinghandoff
@@ -377,21 +348,15 @@ deps:
       - rwipostings
       - vault
       - memvault
-    canUse:
-      - yacymodel
   postingtransfer:
     mayDependOn:
       - postingtransfer
       - postingcourier
       - urlmetadatacourier
       - urlmeta
-    canUse:
-      - yacymodel
   replicaeligibility:
     mayDependOn:
       - replicaeligibility
-    canUse:
-      - yacymodel
   distributioncycle:
     mayDependOn:
       - distributioncycle
@@ -408,8 +373,6 @@ deps:
       - peerroster
       - vault
       - memvault
-    canUse:
-      - yacymodel
   documentsearch:
     mayDependOn:
       - searchresult
@@ -419,60 +382,37 @@ deps:
       - urlmeta
       - httpguard
       - nodeidentity
-    canUse:
-      - yacymodel
   searchcriteria:
     mayDependOn:
       - searchcriteria
-    canUse:
-      - yacymodel
-  searchtest:
-    mayDependOn:
-      - searchtest
-    canUse:
-      - yacymodel
   titletopics:
     mayDependOn:
       - titletopics
-    canUse:
-      - yacymodel
   postingfilter:
     mayDependOn:
       - postingfilter
-      - searchtest
       - searchcriteria
       - rwipostings
-    canUse:
-      - yacymodel
   termmatch:
     mayDependOn:
       - termmatch
-      - searchtest
       - postingfilter
       - searchcriteria
       - rwipostings
-    canUse:
-      - yacymodel
   documentmatch:
     mayDependOn:
       - documentmatch
       - termmatch
-    canUse:
-      - yacymodel
   matchreport:
     mayDependOn:
       - matchreport
-      - searchtest
       - searchcriteria
       - postingfilter
       - termmatch
       - rwipostings
-    canUse:
-      - yacymodel
   searchresult:
     mayDependOn:
       - searchresult
-      - searchtest
       - searchcriteria
       - postingfilter
       - termmatch
@@ -481,12 +421,9 @@ deps:
       - titletopics
       - rwipostings
       - urlmeta
-    canUse:
-      - yacymodel
   searchendpoint:
     mayDependOn:
       - searchendpoint
-      - searchtest
       - searchcriteria
       - matchreport
       - searchresult
@@ -494,7 +431,6 @@ deps:
       - httpguard
       - nodeidentity
     canUse:
-      - yacymodel
       - yacyproto
       - prometheus
   searchmetrics:
@@ -508,7 +444,6 @@ deps:
       - httpguard
       - nodeidentity
     canUse:
-      - yacymodel
       - yacyproto
   eviction:
     mayDependOn:
@@ -520,8 +455,6 @@ deps:
       - vaultkey
       - vault
       - memvault
-    canUse:
-      - yacymodel
   metrics:
     mayDependOn:
       - metrics
@@ -536,14 +469,12 @@ deps:
       - rwiadmission
     canUse:
       - yacycrawlcontract
-      - yacymodel
   crawlbroker:
     mayDependOn:
       - crawlbroker
       - crawlresults
     canUse:
       - yacycrawlcontract
-      - yacymodel
       - nats
       - natstestserver
       - serviceruntime
@@ -586,7 +517,6 @@ deps:
       - crawlbroker
     canUse:
       - yacycrawlcontract
-      - yacymodel
       - yacyproto
       - prometheus
       - nats
