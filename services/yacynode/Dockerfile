@@ -6,18 +6,19 @@ ARG TARGETOS
 ARG TARGETARCH
 ARG VERSION=dev
 
-ENV CGO_ENABLED=0 GOFLAGS=-trimpath
+ENV CGO_ENABLED=0 GOFLAGS=-trimpath GOWORK=off
 
 WORKDIR /src
 
-COPY go.work go.work.sum ./
 COPY --parents libraries/*/go.mod libraries/*/go.sum services/*/go.mod services/*/go.sum ./
+
+WORKDIR /src/services/yacynode
 
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
     go mod download
 
-COPY . .
+COPY . /src
 
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
@@ -25,7 +26,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     go build \
         -ldflags="-s -w -X main.version=${VERSION}" \
         -o /out/yacy-rwi-node \
-        ./services/yacynode/cmd/yacy-rwi-node
+        ./cmd/yacy-rwi-node
 
 RUN mkdir -p /out/data
 
