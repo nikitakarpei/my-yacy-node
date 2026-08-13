@@ -2,6 +2,9 @@ GO ?= go
 PYTHON ?= python3
 COVERAGE_MIN ?= 80
 
+# go.work serves the editor; every target here builds each module as a standalone consumer sees it.
+export GOWORK := off
+
 GO_MODULES := services/yacynode libraries/yacymodel libraries/yacyproto libraries/yacycrawlcontract libraries/bytesize libraries/serviceruntime libraries/canonicalurl libraries/pagemarkdownstore libraries/corpusrecallapi services/yacycrawler services/corpustext services/visitcrawl services/corpusmarkdown services/corpusrecall services/firecrawlshim services/renderproxy
 PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-crawled-text-search
 
