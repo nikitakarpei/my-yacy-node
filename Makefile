@@ -11,6 +11,8 @@ PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-craw
 COVER_PROFILE := coverage.out
 COVER_PATTERN := $(CURDIR)/tools/covignore-pattern
 
+ARCH_DIAGRAM_DIR := $(CURDIR)/arch-diagrams
+
 TOOLS_BIN := $(CURDIR)/.toolchain/bin
 TOOLS_STAMP := $(TOOLS_BIN)/.installed
 GOLANGCI_LINT := $(TOOLS_BIN)/golangci-lint
@@ -44,7 +46,7 @@ endef
 	tidy tidy-check \
 	workspace \
 	lint lint-go lint-py lint-md \
-	arch \
+	arch arch-diagram \
 	test test-go test-py \
 	cover cover-go cover-py \
 	cover-check cover-check-go cover-check-py \
@@ -105,6 +107,12 @@ lint-go: $(TOOLS_STAMP)
 
 arch: $(TOOLS_STAMP)
 	@$(call for_each_go,arch,$(GO_ARCH_LINT) check)
+
+arch-diagram: $(TOOLS_STAMP)
+	@mkdir -p $(ARCH_DIAGRAM_DIR)
+	@$(call for_each_go,arch-diagram,$(GO_ARCH_LINT) graph \
+		--out $(ARCH_DIAGRAM_DIR)/$$(echo $$m | tr / -).svg)
+	@echo "    written to $(ARCH_DIAGRAM_DIR)/"
 
 test-go:
 	@$(call for_each_go,test-go,$(GO) test -race ./...)
