@@ -479,50 +479,8 @@ deps:
       - natstestserver
       - serviceruntime
   cmd:
-    mayDependOn:
-      - vault
-      - boltvault
-      - memvault
-      - httpguard
-      - peeradmission
-      - peerroster
-      - peerannouncement
-      - bootstrap
-      - landing
-      - urlmeta
-      - rwipostings
-      - rwiescrow
-      - rwiadmission
-      - rwiingress
-      - rwidistribution
-      - peerwire
-      - postingcourier
-      - urlmetadatacourier
-      - postingoffer
-      - postinghandoff
-      - postingtransfer
-      - postingofferschedule
-      - postingreplicas
-      - replicaeligibility
-      - distributioncycle
-      - documentsearch
-      - searchmetrics
-      - eviction
-      - metrics
-      - nodeidentity
-      - nodestatus
-      - urlmetastaleness
-      - urlreferences
-      - crawlresults
-      - crawlbroker
-    canUse:
-      - yacycrawlcontract
-      - yacyproto
-      - prometheus
-      - nats
-      - natstestserver
-      - bytesize
-      - serviceruntime
+    anyProjectDeps: true
+    anyVendorDeps: true
 
 excludeFiles:
   - "test/e2e"
