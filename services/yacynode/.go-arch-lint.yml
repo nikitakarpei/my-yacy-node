@@ -56,45 +56,15 @@ components:
   rwiingress:
     in: internal/rwiingress/**
   rwidistribution:
-    in: internal/rwidistribution
-  postingidentity:
-    in: internal/rwidistribution/postingidentity/**
-  postingofferschedule:
-    in: internal/rwidistribution/postingofferschedule/**
+    in: internal/rwidistribution/**
   postingcourier:
     in: internal/rwidistribution/postingcourier/**
   urlmetadatacourier:
     in: internal/rwidistribution/urlmetadatacourier/**
-  postingreplicas:
-    in: internal/rwidistribution/postingreplicas/**
-  postingoffer:
-    in: internal/rwidistribution/postingoffer/**
-  postinghandoff:
-    in: internal/rwidistribution/postinghandoff/**
-  postingtransfer:
-    in: internal/rwidistribution/postingtransfer/**
   replicaeligibility:
     in: internal/rwidistribution/replicaeligibility/**
-  distributioncycle:
-    in: internal/rwidistribution/distributioncycle/**
   documentsearch:
-    in: internal/documentsearch
-  searchcriteria:
-    in: internal/documentsearch/searchcriteria/**
-  titletopics:
-    in: internal/documentsearch/titletopics/**
-  postingfilter:
-    in: internal/documentsearch/postingfilter/**
-  termmatch:
-    in: internal/documentsearch/termmatch/**
-  documentmatch:
-    in: internal/documentsearch/documentmatch/**
-  matchreport:
-    in: internal/documentsearch/matchreport/**
-  searchresult:
-    in: internal/documentsearch/searchresult/**
-  searchendpoint:
-    in: internal/documentsearch/searchendpoint/**
+    in: internal/documentsearch/**
   searchmetrics:
     in: internal/documentsearch/searchmetrics/**
   searchtest:
@@ -291,26 +261,17 @@ deps:
       - yacyproto
   rwidistribution:
     mayDependOn:
+      - rwidistribution
       - rwipostings
       - vault
       - memvault
-      - postingofferschedule
-      - postingreplicas
-      - postingidentity
-  postingidentity:
-    mayDependOn:
-      - postingidentity
       - vaultkey
       - hashcodec
-  postingofferschedule:
-    mayDependOn:
-      - postingofferschedule
-      - postingidentity
-      - vaultkey
-      - hashcodec
-      - vault
-      - memvault
-      - rwipostings
+      - peerroster
+      - urlmeta
+      - postingcourier
+      - urlmetadatacourier
+      - replicaeligibility
   postingcourier:
     mayDependOn:
       - postingcourier
@@ -323,111 +284,15 @@ deps:
       - peerwire
     canUse:
       - yacyproto
-  postingreplicas:
-    mayDependOn:
-      - postingreplicas
-      - postingofferschedule
-      - postingidentity
-      - vault
-      - memvault
-  postingoffer:
-    mayDependOn:
-      - postingoffer
-      - postingofferschedule
-      - postingidentity
-      - postingreplicas
-      - rwipostings
-      - vault
-      - memvault
-  postinghandoff:
-    mayDependOn:
-      - postinghandoff
-      - postingofferschedule
-      - postingidentity
-      - postingreplicas
-      - rwipostings
-      - vault
-      - memvault
-  postingtransfer:
-    mayDependOn:
-      - postingtransfer
-      - postingcourier
-      - urlmetadatacourier
-      - urlmeta
   replicaeligibility:
     mayDependOn:
       - replicaeligibility
-  distributioncycle:
-    mayDependOn:
-      - distributioncycle
-      - postingofferschedule
-      - postingidentity
-      - rwipostings
-      - postingcourier
-      - urlmetadatacourier
-      - postingreplicas
-      - postingoffer
-      - postinghandoff
-      - postingtransfer
-      - replicaeligibility
-      - peerroster
-      - vault
-      - memvault
   documentsearch:
     mayDependOn:
-      - searchresult
-      - searchendpoint
+      - documentsearch
       - searchmetrics
       - rwipostings
       - urlmeta
-      - httpguard
-      - nodeidentity
-  searchcriteria:
-    mayDependOn:
-      - searchcriteria
-  titletopics:
-    mayDependOn:
-      - titletopics
-  postingfilter:
-    mayDependOn:
-      - postingfilter
-      - searchcriteria
-      - rwipostings
-  termmatch:
-    mayDependOn:
-      - termmatch
-      - postingfilter
-      - searchcriteria
-      - rwipostings
-  documentmatch:
-    mayDependOn:
-      - documentmatch
-      - termmatch
-  matchreport:
-    mayDependOn:
-      - matchreport
-      - searchcriteria
-      - postingfilter
-      - termmatch
-      - rwipostings
-  searchresult:
-    mayDependOn:
-      - searchresult
-      - searchcriteria
-      - postingfilter
-      - termmatch
-      - documentmatch
-      - matchreport
-      - titletopics
-      - rwipostings
-      - urlmeta
-  searchendpoint:
-    mayDependOn:
-      - searchendpoint
-      - searchcriteria
-      - matchreport
-      - searchresult
-      - searchmetrics
       - httpguard
       - nodeidentity
     canUse:
