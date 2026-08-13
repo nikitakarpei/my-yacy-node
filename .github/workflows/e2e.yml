@@ -16,9 +16,7 @@ jobs:
         uses: actions/setup-go@v7
         with:
           go-version-file: services/yacynode/go.mod
-          cache-dependency-path: |
-            go.work.sum
-            **/go.sum
+          cache-dependency-path: "**/go.sum"
 
       - name: Cache tool binaries
         uses: actions/cache@v6

@@ -2,14 +2,14 @@ GO ?= go
 PYTHON ?= python3
 COVERAGE_MIN ?= 80
 
-# go.work serves the editor; every target here builds each module as a standalone consumer sees it.
+# make workspace writes go.work for the editor; every target here builds each module as a standalone consumer sees it.
 export GOWORK := off
 
-GO_MODULES := services/yacynode libraries/yacymodel libraries/yacyproto libraries/yacycrawlcontract libraries/bytesize libraries/serviceruntime libraries/canonicalurl libraries/pagemarkdownstore libraries/corpusrecallapi services/yacycrawler services/corpustext services/visitcrawl services/corpusmarkdown services/corpusrecall services/firecrawlshim services/renderproxy
+GO_MODULES := $(patsubst %/go.mod,%,$(wildcard libraries/*/go.mod services/*/go.mod))
 PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-crawled-text-search
 
 COVER_PROFILE := coverage.out
-COVER_EXCLUDE := /internal/vaulttest/|/internal/documentsearch/searchtest/|/test/e2e/|/corpusrecallapi/recallclienttest/|/internal/cdprender/|\.pb\.go
+COVER_PATTERN := $(CURDIR)/tools/covignore-pattern
 
 TOOLS_BIN := $(CURDIR)/.toolchain/bin
 TOOLS_STAMP := $(TOOLS_BIN)/.installed
@@ -42,6 +42,7 @@ endef
 	fmt fmt-go fmt-py \
 	fmt-check fmt-check-go fmt-check-py \
 	tidy tidy-check \
+	workspace \
 	lint lint-go lint-py lint-md \
 	arch \
 	test test-go test-py \
@@ -115,15 +116,15 @@ cover-go:
 	@set -e; for m in $(GO_MODULES); do \
 		echo "==> cover $$m"; \
 		( cd $$m && $(GO) test -coverprofile=$(COVER_PROFILE) ./... && \
-			grep -vE '$(COVER_EXCLUDE)' $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
+			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
 			$(GO) tool cover -func=$(COVER_PROFILE).gated ); \
 	done
 
 cover-check-go:
-	@echo "==> cover-check-go (min $(COVERAGE_MIN)%)"; \
+	@echo "==> cover-check-go"; \
 	for m in $(GO_MODULES); do \
 		if ! out=$$( cd $$m && $(GO) test -race -coverprofile=$(COVER_PROFILE) ./... >/dev/null && \
-			grep -vE '$(COVER_EXCLUDE)' $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
+			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
 			stmts=$$(awk 'NR > 1 { sum += $$2 } END { print sum + 0 }' $(COVER_PROFILE).gated); \
 			if [ "$$stmts" -eq 0 ]; then echo "    no statements to cover"; exit 0; fi; \
 			total=$$($(GO) tool cover -func=$(COVER_PROFILE).gated | \
@@ -163,6 +164,11 @@ lint-md: $(TOOLS_STAMP)
 	@git ls-files -z '*.md' | xargs -0 $(MADO) check
 
 # ---- misc ----
+
+workspace:
+	@echo "==> workspace"
+	@rm -f go.work go.work.sum
+	@GOWORK= $(GO) work init $(GO_MODULES)
 
 peer-hash:
 	cd services/yacynode && $(GO) run ./cmd/yacy-peer-hash

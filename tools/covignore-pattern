@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+
+module=$(${GO:-go} list -m)
+
+pattern=$(
+	find . -name .covignore -print |
+		sed 's|^\./||; s|\.covignore$||' |
+		while read -r dir; do
+			printf '%s/%s\n' "$module" "$dir"
+		done |
+		paste -sd'|' -
+)
+
+if [ -z "$pattern" ]; then
+	pattern='^$'
+fi
+
+printf '%s\n' "$pattern"

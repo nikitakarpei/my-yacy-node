@@ -13,3 +13,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .coverage
+
+# Editor workspace; run make workspace to write it.
+go.work
+go.work.sum
