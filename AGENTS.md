@@ -36,6 +36,8 @@ Vocabulary: A package speaks one vocabulary, taken from the running system's own
 
 Dependencies: Record each new third-party dependency in its own ADR before use.
 
+Arch-lint: The composition root may use anything. Every other component lists what it may use. A change that allows more — a new common component or vendor, a new edge, a wider glob — names the dropped rule in the commit. When a component gains or loses files, read its dependencies from what those files import. Do not copy the old rules.
+
 Version pinning: Pin all versions. Runtime deps: go.mod. Build/lint tools: Go tool directives in go.mod. make verify uses only pinned tools, never PATH versions.
 
 Testing: Code lands with tests. make verify runs tests and coverage and is the only gate; a change is done only when it is green and total coverage stays at or above the threshold.
