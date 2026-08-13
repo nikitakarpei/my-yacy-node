@@ -1,4 +1,4 @@
-package elasticsearchindex
+package elasticsearch
 
 import (
 	"bytes"
@@ -15,25 +15,25 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
-type ElasticsearchIndex struct {
+type Index struct {
 	endpoint string
 	indexes  languageindex.LanguageIndexes
 	client   *http.Client
 }
 
-func NewElasticsearchIndex(
+func New(
 	endpoint string,
 	indexes languageindex.LanguageIndexes,
 	client *http.Client,
-) *ElasticsearchIndex {
-	return &ElasticsearchIndex{
+) *Index {
+	return &Index{
 		endpoint: strings.TrimRight(endpoint, "/"),
 		indexes:  indexes,
 		client:   client,
 	}
 }
 
-func (idx *ElasticsearchIndex) Index(
+func (idx *Index) Index(
 	ctx context.Context,
 	page yacycrawlcontract.PageTextRepresentation,
 ) error {

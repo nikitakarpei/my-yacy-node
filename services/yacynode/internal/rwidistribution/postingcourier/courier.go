@@ -34,7 +34,7 @@ type httpCourier struct {
 	self        yacymodel.Hash
 }
 
-func NewHTTP(
+func New(
 	exchange peerwire.MessageExchange,
 	networkName string,
 	self yacymodel.Hash,

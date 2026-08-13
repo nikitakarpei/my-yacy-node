@@ -1,7 +1,7 @@
-// Package memvault is the in-memory implementation of the vault Engine. It keeps
+// Package memory is the in-memory implementation of the vault Engine. It keeps
 // every bucket in process memory, owns no file, and survives only as long as the
 // process. It backs tests and any deployment that cannot reach a filesystem.
-package memvault
+package memory
 
 import (
 	"context"

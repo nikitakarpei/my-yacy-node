@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/elasticsearchindex"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/manticoreindex"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/elasticsearch"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/manticore"
 )
 
 type searchIndexSchema interface {
@@ -32,10 +32,10 @@ func selectSearchIndex(
 			return searchIndexSelection{}, err
 		}
 		return searchIndexSelection{
-			index: elasticsearchindex.NewElasticsearchIndex(
+			index: elasticsearch.New(
 				cfg.ElasticsearchURL, indexes, client,
 			),
-			schema: elasticsearchindex.NewElasticsearchSchema(
+			schema: elasticsearch.NewSchema(
 				cfg.ElasticsearchURL, indexes, client,
 			),
 			prefix: indexes.Prefix(),
@@ -46,8 +46,8 @@ func selectSearchIndex(
 			return searchIndexSelection{}, err
 		}
 		return searchIndexSelection{
-			index:  manticoreindex.NewManticoreIndex(cfg.ManticoreURL, tables, client),
-			schema: manticoreindex.NewManticoreSchema(cfg.ManticoreURL, tables, client),
+			index:  manticore.New(cfg.ManticoreURL, tables, client),
+			schema: manticore.NewSchema(cfg.ManticoreURL, tables, client),
 			prefix: tables.Prefix(),
 		}, nil
 	default:

@@ -13,12 +13,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/boltvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/bolt"
 )
 
 const (
@@ -65,7 +65,7 @@ func run() error {
 	endpoints := metrics.NewHTTPEndpointMetrics()
 	vaultMetrics := metrics.NewVaultTransactionMetrics(endpoints.Registry())
 
-	vault, err := boltvault.Open(config.StoragePath, config.StorageQuotaByte, vaultMetrics)
+	vault, err := bolt.Open(config.StoragePath, config.StorageQuotaByte, vaultMetrics)
 	if err != nil {
 		return fmt.Errorf("open storage: %w", err)
 	}

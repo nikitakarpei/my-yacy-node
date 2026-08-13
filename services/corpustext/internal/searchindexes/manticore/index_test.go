@@ -1,32 +1,37 @@
-package elasticsearchindex_test
+package manticore_test
 
 import (
 	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"strings"
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/elasticsearchindex"
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/manticore"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
-func TestElasticsearchIndexPutsDocumentByID(t *testing.T) {
+type replaceRequest struct {
+	Table    string                  `json:"table"`
+	Identity int64                   `json:"id"`
+	Document searchdocument.Document `json:"doc"`
+}
+
+func TestManticoreIndexReplacesDocumentByIdentity(t *testing.T) {
 	var gotPath string
-	var gotDoc searchdocument.Document
+	var got replaceRequest
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		gotPath = r.URL.Path
-		if err := json.NewDecoder(r.Body).Decode(&gotDoc); err != nil {
+		if err := json.NewDecoder(r.Body).Decode(&got); err != nil {
 			t.Fatalf("decode body: %v", err)
 		}
-		w.WriteHeader(http.StatusCreated)
+		w.WriteHeader(http.StatusOK)
 	}))
 	defer server.Close()
 
-	index := elasticsearchindex.NewElasticsearchIndex(server.URL, indexesFor(t), server.Client())
+	index := manticore.New(server.URL, tablesFor(t), server.Client())
 	page := yacycrawlcontract.PageTextRepresentation{
 		PageReference: yacycrawlcontract.PageReference{
 			CanonicalURL: "https://example.com/",
@@ -39,24 +44,29 @@ func TestElasticsearchIndexPutsDocumentByID(t *testing.T) {
 	if err := index.Index(context.Background(), page); err != nil {
 		t.Fatalf("index: %v", err)
 	}
-	if !strings.HasPrefix(gotPath, "/yacy_text_v1_en/_doc/") {
+	if gotPath != "/replace" {
 		t.Errorf("path = %q", gotPath)
 	}
-	if gotDoc.Title != "Hi" || gotDoc.URL != "https://example.com/" ||
-		gotDoc.Content != "words here" {
-		t.Errorf("document = %+v", gotDoc)
+	if got.Table != "yacy_text_v1_en" || got.Identity <= 0 {
+		t.Errorf("request = %+v", got)
+	}
+	if got.Document.Title != "Hi" || got.Document.URL != "https://example.com/" ||
+		got.Document.Content != "words here" {
+		t.Errorf("document = %+v", got.Document)
 	}
 }
 
-func TestElasticsearchIndexIsStableForSameURL(t *testing.T) {
-	var paths []string
+func TestManticoreIndexIsStableForSameURL(t *testing.T) {
+	var identities []int64
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		paths = append(paths, r.URL.Path)
-		w.WriteHeader(http.StatusCreated)
+		var req replaceRequest
+		_ = json.NewDecoder(r.Body).Decode(&req)
+		identities = append(identities, req.Identity)
+		w.WriteHeader(http.StatusOK)
 	}))
 	defer server.Close()
 
-	index := elasticsearchindex.NewElasticsearchIndex(server.URL, indexesFor(t), server.Client())
+	index := manticore.New(server.URL, tablesFor(t), server.Client())
 	page := yacycrawlcontract.PageTextRepresentation{
 		PageReference: yacycrawlcontract.PageReference{CanonicalURL: "https://example.com/"},
 	}
@@ -65,18 +75,18 @@ func TestElasticsearchIndexIsStableForSameURL(t *testing.T) {
 			t.Fatalf("index: %v", err)
 		}
 	}
-	if paths[0] != paths[1] {
-		t.Errorf("path not stable: %q != %q", paths[0], paths[1])
+	if identities[0] != identities[1] {
+		t.Errorf("identity not stable: %d != %d", identities[0], identities[1])
 	}
 }
 
-func TestElasticsearchIndexReturnsErrorOnFailureStatus(t *testing.T) {
+func TestManticoreIndexReturnsErrorOnFailureStatus(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusServiceUnavailable)
 	}))
 	defer server.Close()
 
-	index := elasticsearchindex.NewElasticsearchIndex(server.URL, indexesFor(t), server.Client())
+	index := manticore.New(server.URL, tablesFor(t), server.Client())
 	err := index.Index(
 		context.Background(),
 		yacycrawlcontract.PageTextRepresentation{

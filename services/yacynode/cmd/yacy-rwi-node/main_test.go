@@ -9,9 +9,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 func TestRunRejectsInvalidConfig(t *testing.T) {
@@ -50,7 +50,7 @@ func testConfig(t *testing.T) nodeConfig {
 func openTestVault(t *testing.T) *vault.Vault {
 	t.Helper()
 
-	v, err := memvault.Open(0, nil)
+	v, err := memory.Open(0, nil)
 	if err != nil {
 		t.Fatalf("open storage: %v", err)
 	}

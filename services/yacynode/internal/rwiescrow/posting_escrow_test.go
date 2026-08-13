@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 const holdFor = 5 * time.Minute
@@ -41,9 +41,9 @@ func openHarness(t *testing.T) *harness {
 func openCappedHarness(t *testing.T, quotaBytes int64, quotaFraction float64) *harness {
 	t.Helper()
 
-	v, err := memvault.Open(quotaBytes, nil)
+	v, err := memory.Open(quotaBytes, nil)
 	if err != nil {
-		t.Fatalf("memvault.Open: %v", err)
+		t.Fatalf("memory.Open: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {

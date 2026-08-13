@@ -8,9 +8,9 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/memvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
@@ -37,7 +37,7 @@ func (seedValueCodec) Decode(raw []byte) ([]byte, error)   { return raw, nil }
 func openVault(t *testing.T, quotaBytes int64) *vault.Vault {
 	t.Helper()
 
-	v, err := memvault.Open(quotaBytes, nil)
+	v, err := memory.Open(quotaBytes, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

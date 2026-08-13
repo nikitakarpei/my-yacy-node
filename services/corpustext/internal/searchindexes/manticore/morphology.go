@@ -1,4 +1,4 @@
-package manticoreindex
+package manticore
 
 func morphologyOf(language string) string {
 	return languageMorphologies[language]
