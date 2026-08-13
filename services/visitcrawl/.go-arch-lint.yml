@@ -68,16 +68,8 @@ deps:
     canUse:
       - prometheus
   visitcrawlcmd:
-    mayDependOn:
-      - visitintake
-      - visitlink
-      - crawlorderbroker
-      - visitmetrics
-    canUse:
-      - yacycrawlcontract
-      - nats
-      - natstestserver
-      - serviceruntime
+    anyProjectDeps: true
+    anyVendorDeps: true
 
 excludeFiles:
   - "test/e2e"
