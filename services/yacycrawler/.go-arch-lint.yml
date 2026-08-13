@@ -5,6 +5,13 @@ allow:
   depOnAnyVendor: false
   deepScan: false
 
+commonVendors:
+  - yacycrawlcontract
+
+commonComponents:
+  - clock
+  - contentformatgraph
+
 components:
   clock:
     in: internal/crawl/clock/**
@@ -121,9 +128,6 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
 
 deps:
-  clock:
-    mayDependOn:
-      - clock
   disposal:
     mayDependOn:
       - disposal
@@ -143,8 +147,6 @@ deps:
   profileadmission:
     mayDependOn:
       - profileadmission
-    canUse:
-      - yacycrawlcontract
   redirectrecording:
     mayDependOn:
       - redirectrecording
@@ -155,14 +157,10 @@ deps:
   ordersettlement:
     mayDependOn:
       - ordersettlement
-      - clock
       - contextcancellation
-    canUse:
-      - yacycrawlcontract
   ordertraversal:
     mayDependOn:
       - ordertraversal
-      - clock
       - retrydelay
       - disposal
       - refusal
@@ -172,12 +170,10 @@ deps:
       - pageabsorption
       - contextcancellation
     canUse:
-      - yacycrawlcontract
       - canonicalurl
   pagevisit:
     mayDependOn:
       - pagevisit
-      - clock
       - disposal
       - refusal
       - fetchedpage
@@ -185,10 +181,8 @@ deps:
   pageabsorption:
     mayDependOn:
       - pageabsorption
-      - clock
       - disposal
       - contentextraction
-      - contentformatgraph
       - pagepublication
       - fetchedpage
     canUse:
@@ -196,19 +190,11 @@ deps:
   pagepublication:
     mayDependOn:
       - pagepublication
-      - clock
       - disposal
-      - contentformatgraph
       - retrydelay
-    canUse:
-      - yacycrawlcontract
-  contentformatgraph:
-    mayDependOn:
-      - contentformatgraph
   contentextraction:
     mayDependOn:
       - contentextraction
-      - contentformatgraph
   pagefetchershttp:
     mayDependOn:
       - pagefetchershttp
@@ -218,7 +204,6 @@ deps:
     mayDependOn:
       - mediaextractorshtml
       - contentextraction
-      - contentformatgraph
     canUse:
       - canonicalurl
       - xnet
@@ -229,48 +214,36 @@ deps:
   pagederivationsfulltext:
     mayDependOn:
       - pagederivationsfulltext
-      - contentformatgraph
       - htmlflattening
   pagederivationsreadablehtml:
     mayDependOn:
       - pagederivationsreadablehtml
-      - contentformatgraph
     canUse:
       - readability
       - xnet
   pagederivationsreadabletext:
     mayDependOn:
       - pagederivationsreadabletext
-      - contentformatgraph
       - htmlflattening
   pagederivationsmarkdown:
     mayDependOn:
       - pagederivationsmarkdown
-      - contentformatgraph
     canUse:
       - htmltomarkdown
   pagerepresentationsrwi:
     mayDependOn:
       - pagerepresentationsrwi
       - pagepublication
-      - contentformatgraph
     canUse:
-      - yacycrawlcontract
       - yacymodel
   pagerepresentationstext:
     mayDependOn:
       - pagerepresentationstext
       - pagepublication
-      - contentformatgraph
-    canUse:
-      - yacycrawlcontract
   pagerepresentationsmarkdown:
     mayDependOn:
       - pagerepresentationsmarkdown
       - pagepublication
-      - contentformatgraph
-    canUse:
-      - yacycrawlcontract
   recrawlrulesalwaysdue:
     mayDependOn:
       - recrawlrulesalwaysdue
@@ -278,7 +251,6 @@ deps:
   recrawlrulesdueaftergrace:
     mayDependOn:
       - recrawlrulesdueaftergrace
-      - clock
       - pagevisit
     canUse:
       - nats
@@ -288,21 +260,18 @@ deps:
       - orderreceiversjetstream
       - ordersettlement
     canUse:
-      - yacycrawlcontract
       - nats
       - natstestserver
   redirectresolversjetstream:
     mayDependOn:
       - redirectresolversjetstream
     canUse:
-      - yacycrawlcontract
       - nats
       - natstestserver
   disposedpagesjetstream:
     mayDependOn:
       - disposedpagesjetstream
     canUse:
-      - yacycrawlcontract
       - nats
       - natstestserver
   progressobserversprometheus:
@@ -316,14 +285,11 @@ deps:
       - refusal
     canUse:
       - prometheus
-      - yacycrawlcontract
   representationpublishersjetstream:
     mayDependOn:
       - representationpublishersjetstream
       - pagepublication
-      - contentformatgraph
     canUse:
-      - yacycrawlcontract
       - nats
       - natstestserver
   htmlflattening:
@@ -335,41 +301,8 @@ deps:
     mayDependOn:
       - contextcancellation
   crawlercmd:
-    mayDependOn:
-      - ordersettlement
-      - ordertraversal
-      - disposal
-      - frontier
-      - retrydelay
-      - pagevisit
-      - redirectrecording
-      - pageabsorption
-      - pagepublication
-      - contentformatgraph
-      - contentextraction
-      - pagefetchershttp
-      - mediaextractorshtml
-      - containerexpandersarchive
-      - pagederivationsfulltext
-      - pagederivationsreadablehtml
-      - pagederivationsreadabletext
-      - pagederivationsmarkdown
-      - pagerepresentationsrwi
-      - pagerepresentationstext
-      - pagerepresentationsmarkdown
-      - recrawlrulesalwaysdue
-      - recrawlrulesdueaftergrace
-      - orderreceiversjetstream
-      - redirectresolversjetstream
-      - progressobserversprometheus
-      - representationpublishersjetstream
-      - disposedpagesjetstream
-    canUse:
-      - yacycrawlcontract
-      - nats
-      - natstestserver
-      - serviceruntime
-      - wallclock
+    anyProjectDeps: true
+    anyVendorDeps: true
 
 excludeFiles:
   - "test/e2e"
