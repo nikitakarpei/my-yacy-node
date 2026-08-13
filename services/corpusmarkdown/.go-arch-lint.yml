@@ -58,15 +58,8 @@ deps:
     canUse:
       - prometheus
   corpusmarkdowncmd:
-    mayDependOn:
-      - markdownintake
-      - markdownstoremetrics
-    canUse:
-      - yacycrawlcontract
-      - pagemarkdownstore
-      - nats
-      - natstestserver
-      - serviceruntime
+    anyProjectDeps: true
+    anyVendorDeps: true
 
 excludeFiles:
   - "test/e2e"

@@ -120,24 +120,8 @@ deps:
     canUse:
       - prometheus
   corpusrecallcmd:
-    mayDependOn:
-      - corpusrecallcmd
-      - recall
-      - pagerepresentationsmarkdown
-      - redirectresolversjetstream
-      - disposedpagesjetstream
-      - crawlorderplacersjetstream
-      - recallreceiversgrpc
-      - progressobserversprometheus
-    canUse:
-      - corpusrecallapi
-      - recallclienttest
-      - pagemarkdownstore
-      - yacycrawlcontract
-      - nats
-      - natstestserver
-      - grpc
-      - serviceruntime
+    anyProjectDeps: true
+    anyVendorDeps: true
 
 excludeFiles:
   - "test/e2e"

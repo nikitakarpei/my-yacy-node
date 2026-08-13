@@ -90,17 +90,8 @@ deps:
     canUse:
       - prometheus
   corpustextcmd:
-    mayDependOn:
-      - pageintake
-      - elasticsearchindex
-      - manticoreindex
-      - languageindex
-      - indexmetrics
-    canUse:
-      - yacycrawlcontract
-      - nats
-      - natstestserver
-      - serviceruntime
+    anyProjectDeps: true
+    anyVendorDeps: true
 
 excludeFiles:
   - "test/e2e"

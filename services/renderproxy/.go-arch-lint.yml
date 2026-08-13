@@ -5,6 +5,9 @@ allow:
   depOnAnyVendor: false
   deepScan: false
 
+commonComponents:
+  - renderedpage
+
 components:
   renderedpage:
     in: internal/renderedpage/**
@@ -44,38 +47,25 @@ deps:
   cdprender:
     mayDependOn:
       - cdprender
-      - renderedpage
     canUse:
       - chromedp
   rendergate:
     mayDependOn:
       - rendergate
-      - renderedpage
   redirectpreflight:
     mayDependOn:
       - redirectpreflight
-      - renderedpage
   proxyintake:
     mayDependOn:
       - proxyintake
-      - renderedpage
   rendermetrics:
     mayDependOn:
       - rendermetrics
     canUse:
       - prometheus
   renderproxycmd:
-    mayDependOn:
-      - renderedpage
-      - cdprender
-      - rendergate
-      - redirectpreflight
-      - proxyintake
-      - rendermetrics
-    canUse:
-      - chromedp
-      - prometheus
-      - serviceruntime
+    anyProjectDeps: true
+    anyVendorDeps: true
 
 excludeFiles:
   - "test/e2e"
