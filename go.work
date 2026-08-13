@@ -14,10 +14,10 @@ use (
 	./libraries/yacyproto
 	./services/corpusmarkdown
 	./services/corpusrecall
+	./services/corpustext
 	./services/firecrawlshim
 	./services/renderproxy
+	./services/visitcrawl
 	./services/yacycrawler
 	./services/yacynode
-	./services/corpustext
-	./services/visitcrawl
 )
