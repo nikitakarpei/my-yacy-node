@@ -1,0 +1,29 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  natstestserver:
+    in:
+      - .
+      - "**"
+
+vendors:
+  nats:
+    in:
+      - github.com/nats-io/nats.go
+      - github.com/nats-io/nats.go/**
+  natsserver:
+    in:
+      - github.com/nats-io/nats-server/v2/server
+
+deps:
+  natstestserver:
+    mayDependOn:
+      - natstestserver
+    canUse:
+      - nats
+      - natsserver
