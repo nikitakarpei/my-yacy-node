@@ -1,4 +1,4 @@
-package ordertraversal
+package visitdispatch_test
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitdispatch"
 )
 
 type dispatchedVisitor struct {
@@ -23,6 +24,7 @@ func (v *dispatchedVisitor) Visit(_ context.Context, url string) (pagevisit.Visi
 	if v.err != nil {
 		return pagevisit.VisitOutcome{}, v.err
 	}
+
 	return pagevisit.VisitOutcome{
 		Conclusion:     pagevisit.VisitCompleted,
 		DiscoveredURLs: []string{url + "/next"},
@@ -30,26 +32,26 @@ func (v *dispatchedVisitor) Visit(_ context.Context, url string) (pagevisit.Visi
 }
 
 func TestDispatchReportsOnePerVisit(t *testing.T) {
-	visitors := startVisitors(t.Context(), &dispatchedVisitor{}, 2)
-	defer visitors.stop()
+	visitors := visitdispatch.StartVisitors(t.Context(), &dispatchedVisitor{}, 2)
+	defer visitors.Stop()
 
 	urls := []string{"http://host/a", "http://host/b", "http://host/c"}
 	go func() {
 		for _, url := range urls {
-			visitors.pending <- frontier.PendingVisit{URL: url}
+			visitors.Pending() <- frontier.PendingVisit{URL: url}
 		}
 	}()
 
 	seen := map[string]int{}
 	for range urls {
-		result := <-visitors.results
-		if result.err != nil {
-			t.Fatalf("visit %s: %v", result.visit.URL, result.err)
+		result := <-visitors.Completed()
+		if result.Err != nil {
+			t.Fatalf("visit %s: %v", result.Visit.URL, result.Err)
 		}
-		if len(result.outcome.DiscoveredURLs) != 1 {
-			t.Fatalf("outcome not carried back: %+v", result.outcome)
+		if len(result.Outcome.DiscoveredURLs) != 1 {
+			t.Fatalf("outcome not carried back: %+v", result.Outcome)
 		}
-		seen[result.visit.URL]++
+		seen[result.Visit.URL]++
 	}
 	for _, url := range urls {
 		if seen[url] != 1 {
@@ -59,23 +61,24 @@ func TestDispatchReportsOnePerVisit(t *testing.T) {
 }
 
 func TestDispatchCarriesVisitError(t *testing.T) {
-	visitors := startVisitors(t.Context(), &dispatchedVisitor{err: errors.New("boom")}, 1)
-	defer visitors.stop()
+	failing := &dispatchedVisitor{err: errors.New("boom")}
+	visitors := visitdispatch.StartVisitors(t.Context(), failing, 1)
+	defer visitors.Stop()
 
-	visitors.pending <- frontier.PendingVisit{URL: "http://host/"}
+	visitors.Pending() <- frontier.PendingVisit{URL: "http://host/"}
 
-	if result := <-visitors.results; result.err == nil {
+	if result := <-visitors.Completed(); result.Err == nil {
 		t.Fatal("visit error should reach the caller")
 	}
 }
 
 func TestStopEndsEveryVisitor(t *testing.T) {
 	visitor := &dispatchedVisitor{}
-	visitors := startVisitors(t.Context(), visitor, 3)
+	visitors := visitdispatch.StartVisitors(t.Context(), visitor, 3)
 
-	visitors.pending <- frontier.PendingVisit{URL: "http://host/"}
-	<-visitors.results
-	visitors.stop()
+	visitors.Pending() <- frontier.PendingVisit{URL: "http://host/"}
+	<-visitors.Completed()
+	visitors.Stop()
 
 	if len(visitor.visited) != 1 {
 		t.Fatalf("visited = %v", visitor.visited)
