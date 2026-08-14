@@ -29,9 +29,6 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  natstestserver:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/natstestserver
 
 deps:
   servergroup:
@@ -47,7 +44,6 @@ deps:
   jetstreamconnect:
     canUse:
       - nats
-      - natstestserver
 
 excludeFiles:
   - "_test\.go"

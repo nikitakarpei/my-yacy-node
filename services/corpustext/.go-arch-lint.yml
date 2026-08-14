@@ -52,17 +52,11 @@ vendors:
 
 deps:
   crawledpagedocument:
-    mayDependOn:
-      - crawledpagedocument
     canUse:
       - yacycrawlcontract
       - searchdocument
-  languageindex:
-    mayDependOn:
-      - languageindex
   searchindexeselasticsearch:
     mayDependOn:
-      - searchindexeselasticsearch
       - crawledpagedocument
       - languageindex
     canUse:
@@ -70,23 +64,18 @@ deps:
       - searchdocument
   searchindexesmanticore:
     mayDependOn:
-      - searchindexesmanticore
       - crawledpagedocument
       - languageindex
     canUse:
       - yacycrawlcontract
       - searchdocument
   pageintake:
-    mayDependOn:
-      - pageintake
     canUse:
       - yacycrawlcontract
       - nats
       - natstestserver
       - serviceruntime
   indexmetrics:
-    mayDependOn:
-      - indexmetrics
     canUse:
       - prometheus
   corpustextcmd:
@@ -94,4 +83,5 @@ deps:
     anyVendorDeps: true
 
 excludeFiles:
+  - "_test\.go"
   - "test/e2e"

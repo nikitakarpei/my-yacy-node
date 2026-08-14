@@ -1,4 +1,4 @@
-package indexmetrics
+package indexmetrics_test
 
 import (
 	"context"
@@ -6,10 +6,12 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/indexmetrics"
 )
 
 func TestIndexMetricsRecordsAndExposesCounters(t *testing.T) {
-	metrics := New()
+	metrics := indexmetrics.New()
 
 	metrics.PageReceived()
 	metrics.PageIndexed()

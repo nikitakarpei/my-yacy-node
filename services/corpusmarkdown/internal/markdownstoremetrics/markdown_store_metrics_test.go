@@ -1,14 +1,16 @@
-package markdownstoremetrics
+package markdownstoremetrics_test
 
 import (
 	"context"
 	"net/http/httptest"
 	"strings"
 	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownstoremetrics"
 )
 
 func TestMarkdownStoreMetricsRecordsAndExposesCounters(t *testing.T) {
-	metrics := New()
+	metrics := markdownstoremetrics.New()
 
 	metrics.PageReceived()
 	metrics.PageStored()

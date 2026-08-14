@@ -1,14 +1,16 @@
-package yacycrawlcontract
+package yacycrawlcontract_test
 
 import (
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 func TestPageMarkdownRepresentationRoundTrip(t *testing.T) {
-	page := PageMarkdownRepresentation{
-		PageReference: PageReference{
+	page := yacycrawlcontract.PageMarkdownRepresentation{
+		PageReference: yacycrawlcontract.PageReference{
 			CanonicalURL: "https://example.org/a",
 			Title:        "Hi",
 			CrawledAt:    time.Date(2026, 7, 4, 0, 0, 0, 0, time.UTC),
@@ -17,11 +19,11 @@ func TestPageMarkdownRepresentationRoundTrip(t *testing.T) {
 		Markdown: []byte("# words here"),
 	}
 
-	data, err := MarshalPageMarkdownRepresentation(page)
+	data, err := yacycrawlcontract.MarshalPageMarkdownRepresentation(page)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
 	}
-	got, err := UnmarshalPageMarkdownRepresentation(data)
+	got, err := yacycrawlcontract.UnmarshalPageMarkdownRepresentation(data)
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
@@ -31,7 +33,9 @@ func TestPageMarkdownRepresentationRoundTrip(t *testing.T) {
 }
 
 func TestUnmarshalPageMarkdownRepresentationRejectsInvalidJSON(t *testing.T) {
-	if _, err := UnmarshalPageMarkdownRepresentation([]byte("not json")); err == nil {
+	if _, err := yacycrawlcontract.UnmarshalPageMarkdownRepresentation(
+		[]byte("not json"),
+	); err == nil {
 		t.Fatal("expected error for invalid JSON")
 	}
 }
