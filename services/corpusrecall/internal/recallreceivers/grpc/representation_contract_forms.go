@@ -23,16 +23,15 @@ type representationContractForm struct {
 	contractRepresentationFrom func(recall.Representation) (*corpusrecallv1.Representation, bool)
 }
 
-type servedRepresentationContractForms []representationContractForm
+type representationContractForms []representationContractForm
 
 func servedRepresentationContractFormsFor(
 	corpora []recall.Corpus,
-) (servedRepresentationContractForms, error) {
-	served := make(servedRepresentationContractForms, 0, len(corpora))
+) (representationContractForms, error) {
+	served := make(representationContractForms, 0, len(corpora))
 	for _, corpus := range corpora {
-		contractForm, hasContractForm := contractFormOfRepresentationKind(
-			corpus.RepresentationKind(),
-		)
+		contractForm, hasContractForm := allRepresentationContractForms().
+			contractFormOfRepresentationKind(corpus.RepresentationKind())
 		if !hasContractForm {
 			return nil, noContractFormForRepresentationKind(corpus.RepresentationKind())
 		}
@@ -41,10 +40,10 @@ func servedRepresentationContractFormsFor(
 	return served, nil
 }
 
-func contractFormOfRepresentationKind(
+func (contractForms representationContractForms) contractFormOfRepresentationKind(
 	representationKind recall.RepresentationKind,
 ) (representationContractForm, bool) {
-	for _, contractForm := range []representationContractForm{markdownRepresentationContractForm()} {
+	for _, contractForm := range contractForms {
 		if contractForm.representationKind == representationKind {
 			return contractForm, true
 		}
@@ -52,11 +51,15 @@ func contractFormOfRepresentationKind(
 	return representationContractForm{}, false
 }
 
+func allRepresentationContractForms() representationContractForms {
+	return representationContractForms{markdownRepresentationContractForm()}
+}
+
 func noContractFormForRepresentationKind(representationKind recall.RepresentationKind) error {
 	return fmt.Errorf("%w: %s", ErrRepresentationKindHasNoContractForm, representationKind)
 }
 
-func (contractForms servedRepresentationContractForms) representationKindsFrom(
+func (contractForms representationContractForms) representationKindsFrom(
 	contractRepresentationKinds []corpusrecallv1.RepresentationKind,
 ) ([]recall.RepresentationKind, error) {
 	representationKinds := make([]recall.RepresentationKind, 0, len(contractRepresentationKinds))
@@ -72,7 +75,7 @@ func (contractForms servedRepresentationContractForms) representationKindsFrom(
 	return representationKinds, nil
 }
 
-func (contractForms servedRepresentationContractForms) representationKindFrom(
+func (contractForms representationContractForms) representationKindFrom(
 	contractRepresentationKind corpusrecallv1.RepresentationKind,
 ) (recall.RepresentationKind, bool) {
 	for _, contractForm := range contractForms {
@@ -83,7 +86,7 @@ func (contractForms servedRepresentationContractForms) representationKindFrom(
 	return "", false
 }
 
-func (contractForms servedRepresentationContractForms) contractRepresentationsFrom(
+func (contractForms representationContractForms) contractRepresentationsFrom(
 	recalledRepresentations []recall.RecalledRepresentation,
 ) ([]*corpusrecallv1.Representation, error) {
 	contractRepresentations := make(
@@ -99,20 +102,18 @@ func (contractForms servedRepresentationContractForms) contractRepresentationsFr
 	return contractRepresentations, nil
 }
 
-func (contractForms servedRepresentationContractForms) contractRepresentationFrom(
+func (contractForms representationContractForms) contractRepresentationFrom(
 	recalled recall.RecalledRepresentation,
 ) (*corpusrecallv1.Representation, error) {
-	for _, contractForm := range contractForms {
-		if contractForm.representationKind != recalled.Kind {
-			continue
-		}
-		expressed, expressible := contractForm.contractRepresentationFrom(recalled.Representation)
-		if !expressible {
-			return nil, representationNotMatchingItsKind(recalled)
-		}
-		return expressed, nil
+	contractForm, served := contractForms.contractFormOfRepresentationKind(recalled.Kind)
+	if !served {
+		return nil, noContractFormForRepresentationKind(recalled.Kind)
 	}
-	return nil, noContractFormForRepresentationKind(recalled.Kind)
+	expressed, expressible := contractForm.contractRepresentationFrom(recalled.Representation)
+	if !expressible {
+		return nil, representationNotMatchingItsKind(recalled)
+	}
+	return expressed, nil
 }
 
 func representationNotMatchingItsKind(recalled recall.RecalledRepresentation) error {
@@ -122,7 +123,7 @@ func representationNotMatchingItsKind(recalled recall.RecalledRepresentation) er
 	)
 }
 
-func (contractForms servedRepresentationContractForms) contractRepresentationKindsFrom(
+func (contractForms representationContractForms) contractRepresentationKindsFrom(
 	representationKinds []recall.RepresentationKind,
 ) []corpusrecallv1.RepresentationKind {
 	contractRepresentationKinds := make(

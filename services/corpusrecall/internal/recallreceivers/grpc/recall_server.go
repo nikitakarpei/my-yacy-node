@@ -21,16 +21,19 @@ type Recaller interface {
 
 type recallServer struct {
 	corpusrecallv1.UnimplementedRecallServer
-	recaller      Recaller
-	contractForms servedRepresentationContractForms
+	recaller                          Recaller
+	servedRepresentationContractForms representationContractForms
 }
 
 func newRecallServer(recaller Recaller, corpora []recall.Corpus) (*recallServer, error) {
-	contractForms, err := servedRepresentationContractFormsFor(corpora)
+	servedRepresentationContractForms, err := servedRepresentationContractFormsFor(corpora)
 	if err != nil {
 		return nil, err
 	}
-	return &recallServer{recaller: recaller, contractForms: contractForms}, nil
+	return &recallServer{
+		recaller:                          recaller,
+		servedRepresentationContractForms: servedRepresentationContractForms,
+	}, nil
 }
 
 func (s *recallServer) Recall(
@@ -38,7 +41,9 @@ func (s *recallServer) Recall(
 	request *corpusrecallv1.RecallRequest,
 ) (*corpusrecallv1.RecallResponse, error) {
 	requestedContractKinds := request.GetKinds()
-	representationKinds, err := s.contractForms.representationKindsFrom(requestedContractKinds)
+	representationKinds, err := s.servedRepresentationContractForms.representationKindsFrom(
+		requestedContractKinds,
+	)
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
@@ -59,7 +64,7 @@ func (s *recallServer) Recall(
 func (s *recallServer) recallResponseFrom(
 	recalledPage recall.RecalledPage,
 ) (*corpusrecallv1.RecallResponse, error) {
-	contractRepresentations, err := s.contractForms.contractRepresentationsFrom(
+	contractRepresentations, err := s.servedRepresentationContractForms.contractRepresentationsFrom(
 		recalledPage.Representations,
 	)
 	if err != nil {
@@ -67,7 +72,7 @@ func (s *recallServer) recallResponseFrom(
 	}
 	return &corpusrecallv1.RecallResponse{
 		Representations: contractRepresentations,
-		Unavailable: s.contractForms.contractRepresentationKindsFrom(
+		Unavailable: s.servedRepresentationContractForms.contractRepresentationKindsFrom(
 			recalledPage.UnavailableKinds,
 		),
 	}, nil
