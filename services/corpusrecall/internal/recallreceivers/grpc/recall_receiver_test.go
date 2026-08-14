@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"net"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -244,6 +245,11 @@ func TestRecallFailsWhenARepresentationHasNoFormInTheContract(t *testing.T) {
 	if status.Code(err) != codes.Internal {
 		t.Fatalf("code = %v, want Internal", status.Code(err))
 	}
+	if !strings.Contains(
+		status.Convert(err).Message(), grpc.ErrRepresentationKindNotInContract.Error(),
+	) {
+		t.Errorf("message = %q", status.Convert(err).Message())
+	}
 }
 
 func TestRecallFailsWhenARepresentationIsNotThePageItsFormExpresses(t *testing.T) {
@@ -258,6 +264,11 @@ func TestRecallFailsWhenARepresentationIsNotThePageItsFormExpresses(t *testing.T
 
 	if status.Code(err) != codes.Internal {
 		t.Fatalf("code = %v, want Internal", status.Code(err))
+	}
+	if !strings.Contains(
+		status.Convert(err).Message(), grpc.ErrRepresentationDoesNotMatchItsKind.Error(),
+	) {
+		t.Errorf("message = %q", status.Convert(err).Message())
 	}
 }
 

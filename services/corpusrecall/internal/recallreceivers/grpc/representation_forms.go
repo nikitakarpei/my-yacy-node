@@ -13,6 +13,10 @@ var ErrRepresentationKindNotInContract = errors.New(
 	"representation kind has no form in the recall contract",
 )
 
+var ErrRepresentationDoesNotMatchItsKind = errors.New(
+	"representation does not match its kind",
+)
+
 type representationForm struct {
 	kind                       recall.RepresentationKind
 	contractKind               corpusrecallv1.RepresentationKind
@@ -82,9 +86,9 @@ func (forms servedRepresentationForms) contractRepresentationsFrom(
 		[]*corpusrecallv1.Representation, 0, len(recalledRepresentations),
 	)
 	for _, recalled := range recalledRepresentations {
-		expressed, formed := forms.contractRepresentationFrom(recalled)
-		if !formed {
-			return nil, kindNotInContract(recalled.Kind)
+		expressed, err := forms.contractRepresentationFrom(recalled)
+		if err != nil {
+			return nil, err
 		}
 		contractRepresentations = append(contractRepresentations, expressed)
 	}
@@ -93,13 +97,25 @@ func (forms servedRepresentationForms) contractRepresentationsFrom(
 
 func (forms servedRepresentationForms) contractRepresentationFrom(
 	recalled recall.RecalledRepresentation,
-) (*corpusrecallv1.Representation, bool) {
+) (*corpusrecallv1.Representation, error) {
 	for _, form := range forms {
-		if form.kind == recalled.Kind {
-			return form.contractRepresentationFrom(recalled.Representation)
+		if form.kind != recalled.Kind {
+			continue
 		}
+		expressed, expressible := form.contractRepresentationFrom(recalled.Representation)
+		if !expressible {
+			return nil, representationNotMatchingItsKind(recalled)
+		}
+		return expressed, nil
 	}
-	return nil, false
+	return nil, kindNotInContract(recalled.Kind)
+}
+
+func representationNotMatchingItsKind(recalled recall.RecalledRepresentation) error {
+	return fmt.Errorf(
+		"%w: %s holds %T",
+		ErrRepresentationDoesNotMatchItsKind, recalled.Kind, recalled.Representation,
+	)
 }
 
 func (forms servedRepresentationForms) contractRepresentationKindsFrom(
