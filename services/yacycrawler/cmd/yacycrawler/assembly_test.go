@@ -7,10 +7,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 )
 
+func publishedRWIStreamOnly() []PageStreamConfig {
+	representation := yacycrawlcontract.PageRepresentationKindRWI
+
+	return []PageStreamConfig{{
+		Representation: representation,
+		Subject:        yacycrawlcontract.CrawledPageSubject(representation),
+		MaxMsgs:        DefaultMaxMsgs,
+		Published:      true,
+	}}
+}
+
 func TestBuildPageRepresentationsSelectsTheConfiguredRepresentations(t *testing.T) {
 	representations := buildPageRepresentations(
 		nil,
-		ServiceConfig{PageStreams: publishedPageStreams()},
+		ServiceConfig{PageStreams: publishedRWIStreamOnly()},
 	)
 	if len(representations) != 1 ||
 		representations[0].Kind() != yacycrawlcontract.PageRepresentationKindRWI {
@@ -21,7 +32,7 @@ func TestBuildPageRepresentationsSelectsTheConfiguredRepresentations(t *testing.
 func TestCatalogsDeriveConfiguredRepresentations(t *testing.T) {
 	representations := buildPageRepresentations(
 		nil,
-		ServiceConfig{PageStreams: publishedPageStreams()},
+		ServiceConfig{PageStreams: publishedRWIStreamOnly()},
 	)
 	admitted, err := admittedMediaTypesFor(ServiceConfig{MaxBodyBytes: 1 << 20})
 	if err != nil {
