@@ -1,4 +1,4 @@
-package rendermetrics
+package rendermetrics_test
 
 import (
 	"context"
@@ -6,10 +6,12 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendermetrics"
 )
 
 func TestRenderMetricsRecordsAndExposesCounters(t *testing.T) {
-	metrics := New()
+	metrics := rendermetrics.New()
 
 	metrics.RenderSucceeded()
 	metrics.RenderFailed("too_large")

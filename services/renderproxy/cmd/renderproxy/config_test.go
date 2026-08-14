@@ -1,6 +1,10 @@
-package main
+package main_test
 
-import "testing"
+import (
+	"testing"
+
+	renderproxy "github.com/nikitakarpei/yacy-rwi-node/renderproxy/cmd/renderproxy"
+)
 
 func envFrom(values map[string]string) func(string) string {
 	return func(key string) string { return values[key] }
@@ -14,29 +18,29 @@ func baseEnv() map[string]string {
 }
 
 func TestLoadServiceConfigDefaults(t *testing.T) {
-	cfg, err := LoadServiceConfig(envFrom(baseEnv()))
+	cfg, err := renderproxy.LoadServiceConfig(envFrom(baseEnv()))
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.ListenAddr != DefaultListenAddr {
+	if cfg.ListenAddr != renderproxy.DefaultListenAddr {
 		t.Fatalf("listen addr = %q", cfg.ListenAddr)
 	}
-	if cfg.RenderConcurrency != DefaultRenderConcurrency {
+	if cfg.RenderConcurrency != renderproxy.DefaultRenderConcurrency {
 		t.Fatalf("render concurrency = %d", cfg.RenderConcurrency)
 	}
-	if cfg.RequestDeadline != DefaultRequestDeadline {
+	if cfg.RequestDeadline != renderproxy.DefaultRequestDeadline {
 		t.Fatalf("request deadline = %v", cfg.RequestDeadline)
 	}
-	if cfg.MaxResponseBytes != DefaultMaxResponseBytes {
+	if cfg.MaxResponseBytes != renderproxy.DefaultMaxResponseBytes {
 		t.Fatalf("max response bytes = %d", cfg.MaxResponseBytes)
 	}
-	if cfg.OpsAddr != DefaultOpsAddr {
+	if cfg.OpsAddr != renderproxy.DefaultOpsAddr {
 		t.Fatalf("ops addr = %q", cfg.OpsAddr)
 	}
 }
 
 func TestLoadServiceConfigRequiresCDPURL(t *testing.T) {
-	if _, err := LoadServiceConfig(envFrom(nil)); err == nil {
+	if _, err := renderproxy.LoadServiceConfig(envFrom(nil)); err == nil {
 		t.Fatal("expected error for missing CDP URL")
 	}
 }
@@ -44,7 +48,7 @@ func TestLoadServiceConfigRequiresCDPURL(t *testing.T) {
 func TestLoadServiceConfigRequiresEgressProxyURL(t *testing.T) {
 	env := baseEnv()
 	delete(env, "RENDERPROXY_EGRESS_PROXY_URL")
-	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+	if _, err := renderproxy.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("expected error for missing egress proxy URL")
 	}
 }
@@ -52,7 +56,7 @@ func TestLoadServiceConfigRequiresEgressProxyURL(t *testing.T) {
 func TestLoadServiceConfigRejectsNonHTTPEgressProxyURL(t *testing.T) {
 	env := baseEnv()
 	env["RENDERPROXY_EGRESS_PROXY_URL"] = "socks5://smokescreen:4750"
-	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+	if _, err := renderproxy.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("expected error for non-http egress proxy URL")
 	}
 }
@@ -66,7 +70,7 @@ func TestLoadServiceConfigRejectsNonPositiveValues(t *testing.T) {
 	for key, value := range cases {
 		env := baseEnv()
 		env[key] = value
-		if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+		if _, err := renderproxy.LoadServiceConfig(envFrom(env)); err == nil {
 			t.Fatalf("expected error for %s=%s", key, value)
 		}
 	}

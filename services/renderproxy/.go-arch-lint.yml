@@ -13,6 +13,8 @@ components:
     in: internal/renderedpage/**
   cdprender:
     in: internal/cdprender/**
+  cdpdocumentbinding:
+    in: internal/cdpdocumentbinding/**
   rendergate:
     in: internal/rendergate/**
   redirectpreflight:
@@ -30,6 +32,8 @@ vendors:
       - github.com/chromedp/chromedp
       - github.com/chromedp/chromedp/**
       - github.com/chromedp/cdproto/**
+  cdproto:
+    in: github.com/chromedp/cdproto/**
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
@@ -41,26 +45,15 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
 
 deps:
-  renderedpage:
-    mayDependOn:
-      - renderedpage
   cdprender:
-    mayDependOn:
-      - cdprender
     canUse:
       - chromedp
-  rendergate:
     mayDependOn:
-      - rendergate
-  redirectpreflight:
-    mayDependOn:
-      - redirectpreflight
-  proxyintake:
-    mayDependOn:
-      - proxyintake
+      - cdpdocumentbinding
+  cdpdocumentbinding:
+    canUse:
+      - cdproto
   rendermetrics:
-    mayDependOn:
-      - rendermetrics
     canUse:
       - prometheus
   renderproxycmd:
@@ -69,3 +62,4 @@ deps:
 
 excludeFiles:
   - "test/e2e"
+  - "_test\\.go"

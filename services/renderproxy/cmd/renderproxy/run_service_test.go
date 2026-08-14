@@ -1,4 +1,4 @@
-package main
+package main_test
 
 import (
 	"context"
@@ -8,12 +8,13 @@ import (
 	"testing"
 	"time"
 
+	renderproxy "github.com/nikitakarpei/yacy-rwi-node/renderproxy/cmd/renderproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendermetrics"
 )
 
 func TestRunServiceServesMetricsUntilContextCanceled(t *testing.T) {
 	opsListener := reservePort(t)
-	cfg := ServiceConfig{
+	cfg := renderproxy.ServiceConfig{
 		ListenAddr:        reservePort(t).String(),
 		CDPURL:            "http://127.0.0.1:1",
 		EgressProxyURL:    &url.URL{Scheme: "http", Host: "127.0.0.1:1"},
@@ -25,7 +26,7 @@ func TestRunServiceServesMetricsUntilContextCanceled(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(t.Context())
 	serviceDone := make(chan error, 1)
-	go func() { serviceDone <- RunService(ctx, cfg, rendermetrics.New()) }()
+	go func() { serviceDone <- renderproxy.RunService(ctx, cfg, rendermetrics.New()) }()
 
 	waitForHealthy(t, "http://"+cfg.OpsAddr+"/metrics")
 

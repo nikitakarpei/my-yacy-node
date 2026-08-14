@@ -1,4 +1,6 @@
-package cdprender
+// Package cdpdocumentbinding binds the main document request from a stream
+// of CDP network events and records the status and content type observed for it.
+package cdpdocumentbinding
 
 import (
 	"sync"
@@ -6,7 +8,7 @@ import (
 	"github.com/chromedp/cdproto/network"
 )
 
-type mainDocumentResponse struct {
+type Binding struct {
 	mu          sync.Mutex
 	requestID   network.RequestID
 	bound       bool
@@ -15,7 +17,7 @@ type mainDocumentResponse struct {
 	seen        bool
 }
 
-func (m *mainDocumentResponse) observe(event any) {
+func (m *Binding) Observe(event any) {
 	switch e := event.(type) {
 	case *network.EventRequestWillBeSent:
 		if e.Type != network.ResourceTypeDocument {
@@ -41,20 +43,20 @@ func (m *mainDocumentResponse) observe(event any) {
 	}
 }
 
-type mainDocumentResult struct {
-	statusCode  int
-	contentType string
-	requestID   network.RequestID
-	seen        bool
+type BoundDocument struct {
+	StatusCode  int
+	ContentType string
+	RequestID   network.RequestID
+	Seen        bool
 }
 
-func (m *mainDocumentResponse) result() mainDocumentResult {
+func (m *Binding) BoundDocument() BoundDocument {
 	m.mu.Lock()
 	defer m.mu.Unlock()
-	return mainDocumentResult{
-		statusCode:  m.statusCode,
-		contentType: m.contentType,
-		requestID:   m.requestID,
-		seen:        m.seen,
+	return BoundDocument{
+		StatusCode:  m.statusCode,
+		ContentType: m.contentType,
+		RequestID:   m.requestID,
+		Seen:        m.seen,
 	}
 }
