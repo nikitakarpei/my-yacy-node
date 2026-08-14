@@ -1,4 +1,4 @@
-package rwiadmission
+package rwiadmission_test
 
 import (
 	"context"
@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -25,7 +26,7 @@ type harness struct {
 	index    rwipostings.PostingIndex
 	escrow   *rwiescrow.PostingEscrow
 	urls     urlmeta.URLReceiver
-	receiver PostingReceiver
+	receiver rwiadmission.PostingReceiver
 }
 
 func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
@@ -58,12 +59,12 @@ func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
 		index:  index,
 		escrow: escrow,
 		urls:   urlReceiver,
-		receiver: Open(
+		receiver: rwiadmission.Open(
 			v,
 			urlDirectory,
 			admitter,
 			escrow,
-			Config{BatchCap: batchCap, Pause: busyPause},
+			rwiadmission.Config{BatchCap: batchCap, Pause: busyPause},
 		),
 	}
 }
@@ -261,4 +262,4 @@ func TestReceiveReportsEachUnknownURLOnce(t *testing.T) {
 	}
 }
 
-var _ PostingHolder = (*rwiescrow.PostingEscrow)(nil)
+var _ rwiadmission.PostingHolder = (*rwiescrow.PostingEscrow)(nil)
