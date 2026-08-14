@@ -11,6 +11,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
+const (
+	seedPeerHash       = "MNOPQRSTUVWX"
+	newsOriginatorHash = "ABCDEFGHIJKL"
+)
+
 func mustPeerName(t *testing.T, name string) yacymodel.PeerName {
 	t.Helper()
 	parsed, err := yacymodel.ParsePeerName(name)
@@ -99,7 +104,7 @@ func fullSeed(t *testing.T) yacymodel.Seed {
 	received := time.Date(2026, time.July, 19, 12, 0, 5, 0, time.UTC)
 
 	return yacymodel.Seed{
-		Hash:           mustHash(t, "MNOPQRSTUVWX"),
+		Hash:           mustHash(t, seedPeerHash),
 		Name:           mustPeerName(t, "example-peer"),
 		PeerType:       yacymodel.PeerSenior,
 		PrimaryAddress: yacymodel.Some(mustHost(t, "192.0.2.10")),
@@ -138,7 +143,7 @@ func fullSeed(t *testing.T) yacymodel.Seed {
 		URLsReceived:      4,
 		News: yacymodel.Some(mustPeerNews(
 			t,
-			mustHash(t, "ABCDEFGHIJKL"),
+			mustHash(t, newsOriginatorHash),
 			yacymodel.NewsCrawlStart,
 			created,
 			yacymodel.Some(received),
@@ -211,7 +216,7 @@ func TestParseRemoteSeedRejectsASeedWithNoAddress(t *testing.T) {
 	t.Parallel()
 
 	seed := yacymodel.Seed{
-		Hash:     mustHash(t, "MNOPQRSTUVWX"),
+		Hash:     mustHash(t, seedPeerHash),
 		Name:     mustPeerName(t, "example-peer"),
 		PeerType: yacymodel.PeerSenior,
 	}
@@ -352,7 +357,7 @@ func TestSeedRoundTripsPeerNews(t *testing.T) {
 
 	want := mustPeerNews(
 		t,
-		mustHash(t, "ABCDEFGHIJKL"),
+		mustHash(t, newsOriginatorHash),
 		yacymodel.NewsCrawlStart,
 		time.Date(2026, time.July, 19, 12, 0, 0, 0, time.UTC),
 		yacymodel.Some(time.Date(2026, time.July, 19, 12, 0, 5, 0, time.UTC)),
@@ -374,7 +379,7 @@ func TestParseSeedRejectsAnOversizedNewsRecord(t *testing.T) {
 	seed := fullSeed(t)
 	seed.News = yacymodel.Some(mustPeerNews(
 		t,
-		mustHash(t, "ABCDEFGHIJKL"),
+		mustHash(t, newsOriginatorHash),
 		yacymodel.NewsCrawlStart,
 		time.Date(2026, time.July, 19, 12, 0, 0, 0, time.UTC),
 		yacymodel.None[time.Time](),
@@ -392,7 +397,7 @@ func TestParseSeedRejectsAnUnknownNewsCategory(t *testing.T) {
 	t.Parallel()
 
 	record := framed('b', yacymodel.Encode(
-		[]byte("{ori=ABCDEFGHIJKL,cat=nonesuch1,cre=20260719120000,dis=0}"),
+		[]byte("{ori="+newsOriginatorHash+",cat=nonesuch1,cre=20260719120000,dis=0}"),
 	))
 	frame := seedFrameWithColumn(t, sampleSeed(t, "alpha", "example-peer"), "news", record)
 
