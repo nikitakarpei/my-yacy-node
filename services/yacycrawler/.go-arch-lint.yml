@@ -37,6 +37,8 @@ components:
     in: internal/crawl/ordertraversal/**
   visitdispatch:
     in: internal/crawl/visitdispatch/**
+  mediatypeallowance:
+    in: internal/mediatypeallowance/**
   pagevisit:
     in: internal/crawl/pagevisit/**
   pageabsorption:
@@ -179,6 +181,9 @@ deps:
       - visitdispatch
       - frontier
       - pagevisit
+  mediatypeallowance:
+    mayDependOn:
+      - mediatypeallowance
   pagevisit:
     mayDependOn:
       - pagevisit
