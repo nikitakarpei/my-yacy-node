@@ -1,4 +1,4 @@
-package pageabsorption
+package pageabsorption_test
 
 import (
 	"context"
@@ -9,9 +9,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 )
 
-func absorb(t *testing.T, a Absorber, page fetchedpage.Page) AbsorptionOutcome {
+func absorb(
+	t *testing.T,
+	a pageabsorption.Absorber,
+	page fetchedpage.Page,
+) pageabsorption.AbsorptionOutcome {
 	t.Helper()
 	outcome, err := a.Absorb(context.Background(), page)
 	if err != nil {
@@ -20,7 +25,7 @@ func absorb(t *testing.T, a Absorber, page fetchedpage.Page) AbsorptionOutcome {
 	return outcome
 }
 
-func absorbWithExtractionError(t *testing.T, err error) AbsorptionOutcome {
+func absorbWithExtractionError(t *testing.T, err error) pageabsorption.AbsorptionOutcome {
 	t.Helper()
 	a := newAbsorber(fakeExtract{err: err}, &recordingPublisher{})
 	return absorb(t, a, succeeded("http://host/"))
@@ -157,7 +162,7 @@ func TestAbsorbPublishesRefusedIndexingWhenTheOrderIgnoresIt(t *testing.T) {
 		documents: []contentextraction.ExtractedDocument{refusingDocument("http://host/")},
 	}
 	publisher := &recordingPublisher{}
-	a := New(extract, publisher, &manualClock{}).AbsorberFor(Ignored)
+	a := pageabsorption.New(extract, publisher, &manualClock{}).AbsorberFor(pageabsorption.Ignored)
 
 	outcome := absorb(t, a, succeeded("http://host/"))
 

@@ -1,4 +1,4 @@
-package pagevisit
+package pagevisit_test
 
 import (
 	"context"
@@ -11,41 +11,42 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 )
 
 type fakeFetch struct {
 	mu         sync.Mutex
-	outcome    FetchOutcome
+	outcome    pagevisit.FetchOutcome
 	err        error
-	gotVersion PageVersion
+	gotVersion pagevisit.PageVersion
 	sawFetch   bool
 }
 
 func (f *fakeFetch) Fetch(
 	_ context.Context,
 	_ string,
-	knownVersion PageVersion,
-) (FetchOutcome, error) {
+	knownVersion pagevisit.PageVersion,
+) (pagevisit.FetchOutcome, error) {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	f.gotVersion = knownVersion
 	f.sawFetch = true
 	if f.err != nil {
-		return FetchOutcome{}, f.err
+		return pagevisit.FetchOutcome{}, f.err
 	}
 	return f.outcome, nil
 }
 
 type visitedCall struct {
 	url     string
-	version PageVersion
+	version pagevisit.PageVersion
 }
 
 type fakeRecrawl struct {
 	mu      sync.Mutex
 	due     bool
-	version PageVersion
+	version pagevisit.PageVersion
 	err     error
 
 	visitedErr   error
@@ -55,17 +56,17 @@ type fakeRecrawl struct {
 func (f *fakeRecrawl) DecisionFor(
 	context.Context,
 	string,
-) (RecrawlDecision, error) {
+) (pagevisit.RecrawlDecision, error) {
 	if f.err != nil {
-		return RecrawlDecision{}, f.err
+		return pagevisit.RecrawlDecision{}, f.err
 	}
-	return RecrawlDecision{Due: f.due, Version: f.version}, nil
+	return pagevisit.RecrawlDecision{Due: f.due, Version: f.version}, nil
 }
 
 func (f *fakeRecrawl) RecordVisit(
 	_ context.Context,
 	url string,
-	version PageVersion,
+	version pagevisit.PageVersion,
 ) error {
 	f.mu.Lock()
 	defer f.mu.Unlock()
@@ -98,6 +99,14 @@ func (a *fakeAbsorption) Absorb(
 	}, nil
 }
 
+type fixedAbsorberSource struct {
+	absorber pageabsorption.Absorber
+}
+
+func (s fixedAbsorberSource) AbsorberFor(pageabsorption.IndexingRefusal) pageabsorption.Absorber {
+	return s.absorber
+}
+
 type recordingObserver struct {
 	mu       sync.Mutex
 	refusals map[refusal.Demand]int
@@ -128,45 +137,40 @@ func (c *manualClock) Now() time.Time { return c.now }
 
 func (c *manualClock) Sleep(context.Context, time.Duration) error { return nil }
 
-func fetchedOutcome() FetchOutcome {
-	return FetchOutcome{
-		Status: FetchSucceeded,
+func fetchedOutcome() pagevisit.FetchOutcome {
+	return pagevisit.FetchOutcome{
+		Status: pagevisit.FetchSucceeded,
 		Page: fetchedpage.Page{
 			FinalURL:    "http://host/",
 			ContentType: "text/html",
 			Body:        []byte("x"),
 		},
-		Version: PageVersion{EntityTag: `"etag"`},
+		Version: pagevisit.PageVersion{EntityTag: `"etag"`},
 	}
 }
 
-func fetchOf(outcome FetchOutcome) *fakeFetch {
+func fetchOf(outcome pagevisit.FetchOutcome) *fakeFetch {
 	return &fakeFetch{outcome: outcome}
 }
 
 func newVisitor(
-	fetcher Fetcher,
-	recrawl RecrawlRule,
+	fetcher pagevisit.Fetcher,
+	recrawl pagevisit.RecrawlRule,
 	absorber pageabsorption.Absorber,
-	observer VisitProgress,
+	observer pagevisit.VisitProgress,
 	clock clock.Clock,
-) *visitor {
-	return &visitor{
-		fetcher:  fetcher,
-		recrawl:  recrawl,
-		absorber: absorber,
-		observer: observer,
-		clock:    clock,
-	}
+) pagevisit.Visitor {
+	source := pagevisit.New(fetcher, recrawl, fixedAbsorberSource{absorber}, observer, clock)
+	return source.VisitorFor(pageabsorption.Honored)
 }
 
-func visitHost(t *testing.T, visitor Visitor) VisitOutcome {
+func visitHost(t *testing.T, visitor pagevisit.Visitor) pagevisit.VisitOutcome {
 	t.Helper()
 	outcome, err := visitor.Visit(context.Background(), "http://host/")
 	if err != nil {
 		t.Fatalf("visit: %v", err)
 	}
-	if outcome.Conclusion != VisitCompleted {
+	if outcome.Conclusion != pagevisit.VisitCompleted {
 		t.Fatalf("want concluded, got %v", outcome.Conclusion)
 	}
 	return outcome
@@ -222,7 +226,7 @@ func TestVisitAbsorptionErrorFails(t *testing.T) {
 func TestVisitReportsNotAPageDisposal(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	visitor := newVisitor(
-		fetchOf(FetchOutcome{Status: FetchNotAPage}),
+		fetchOf(pagevisit.FetchOutcome{Status: pagevisit.FetchNotAPage}),
 		recrawl,
 		&fakeAbsorption{},
 		newObserver(),
@@ -246,7 +250,7 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 	observer := newObserver()
 	recrawl := &fakeRecrawl{due: true}
 	visitor := newVisitor(
-		fetchOf(FetchOutcome{Status: FetchCeased}),
+		fetchOf(pagevisit.FetchOutcome{Status: pagevisit.FetchCeased}),
 		recrawl,
 		&fakeAbsorption{},
 		observer,
@@ -272,7 +276,7 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 func TestVisitReportsTransient(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	visitor := newVisitor(
-		fetchOf(FetchOutcome{Status: FetchFailed}),
+		fetchOf(pagevisit.FetchOutcome{Status: pagevisit.FetchFailed}),
 		recrawl,
 		&fakeAbsorption{},
 		newObserver(),
@@ -283,7 +287,7 @@ func TestVisitReportsTransient(t *testing.T) {
 	if err != nil {
 		t.Fatalf("visit: %v", err)
 	}
-	if outcome.Conclusion != VisitRetryable {
+	if outcome.Conclusion != pagevisit.VisitRetryable {
 		t.Fatalf("want retryable, got %v", outcome.Conclusion)
 	}
 	if outcome.Disposal != disposal.NotDisposed {
@@ -296,7 +300,7 @@ func TestVisitReportsTransient(t *testing.T) {
 
 func TestVisitUnknownFetchStatusFails(t *testing.T) {
 	visitor := newVisitor(
-		fetchOf(FetchOutcome{Status: FetchStatus(99)}),
+		fetchOf(pagevisit.FetchOutcome{Status: pagevisit.FetchStatus(99)}),
 		&fakeRecrawl{due: true},
 		&fakeAbsorption{},
 		newObserver(),
@@ -310,7 +314,7 @@ func TestVisitUnknownFetchStatusFails(t *testing.T) {
 
 func TestVisitReportsDeferred(t *testing.T) {
 	visitor := newVisitor(
-		fetchOf(FetchOutcome{Status: FetchDeferred, DeferFor: time.Second}),
+		fetchOf(pagevisit.FetchOutcome{Status: pagevisit.FetchDeferred, DeferFor: time.Second}),
 		&fakeRecrawl{due: true},
 		&fakeAbsorption{},
 		newObserver(),
@@ -321,7 +325,7 @@ func TestVisitReportsDeferred(t *testing.T) {
 	if err != nil {
 		t.Fatalf("visit: %v", err)
 	}
-	if outcome.Conclusion != VisitDeferred || outcome.DeferFor != time.Second {
+	if outcome.Conclusion != pagevisit.VisitDeferred || outcome.DeferFor != time.Second {
 		t.Fatalf("want deferred for 1s, got %+v", outcome)
 	}
 }
@@ -372,7 +376,7 @@ func TestVisitReportsNotDueWithoutFetching(t *testing.T) {
 
 func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
 	fetch := fetchOf(fetchedOutcome())
-	known := PageVersion{EntityTag: `"stored-etag"`}
+	known := pagevisit.PageVersion{EntityTag: `"stored-etag"`}
 	visitor := newVisitor(
 		fetch,
 		&fakeRecrawl{due: true, version: known},
@@ -430,9 +434,9 @@ func TestVisitReportsAbsorptionDisposal(t *testing.T) {
 func TestVisitNotModifiedRecordsVersionWithoutAbsorbing(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	visitor := newVisitor(
-		fetchOf(FetchOutcome{
-			Status:  FetchNotModified,
-			Version: PageVersion{EntityTag: `"same"`},
+		fetchOf(pagevisit.FetchOutcome{
+			Status:  pagevisit.FetchNotModified,
+			Version: pagevisit.PageVersion{EntityTag: `"same"`},
 		}),
 		recrawl,
 		&fakeAbsorption{},

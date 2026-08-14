@@ -1,9 +1,10 @@
-package pagevisit
+package pagevisit_test
 
 import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
 type recordingAbsorberSource struct {
@@ -22,7 +23,7 @@ func TestVisitorForTakesItsAbsorberFromTheIndexingRefusal(t *testing.T) {
 	absorbers := &recordingAbsorberSource{absorber: &fakeAbsorption{
 		links: map[string][]string{"http://host/": {"http://host/next"}},
 	}}
-	source := New(
+	source := pagevisit.New(
 		fetchOf(fetchedOutcome()),
 		&fakeRecrawl{due: true},
 		absorbers,
