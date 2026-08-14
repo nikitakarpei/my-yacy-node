@@ -34,9 +34,6 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  natstestserver:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/natstestserver
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
@@ -73,7 +70,6 @@ deps:
     canUse:
       - yacycrawlcontract
       - nats
-      - natstestserver
       - serviceruntime
   indexmetrics:
     canUse:
