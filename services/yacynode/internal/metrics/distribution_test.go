@@ -1,115 +1,177 @@
-package metrics
+package metrics_test
 
 import (
+	"strings"
 	"testing"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 )
 
 func TestDistributionCountsOffersByResult(t *testing.T) {
-	observer := NewDistributionMetrics(prometheus.NewRegistry())
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
 
 	observer.ObservePostingOffer("ok", 3)
 	observer.ObservePostingOffer("ok", 2)
 	observer.ObservePostingOffer("busy", 1)
 
-	if got := testutil.ToFloat64(observer.postingOffers.WithLabelValues("ok")); got != 2 {
-		t.Errorf("ok posting offers = %v, want 2", got)
-	}
-	if got := testutil.ToFloat64(observer.postingsOffered.WithLabelValues("ok")); got != 5 {
-		t.Errorf("ok postings = %v, want 5", got)
-	}
-	if got := testutil.ToFloat64(observer.postingOffers.WithLabelValues("busy")); got != 1 {
-		t.Errorf("busy posting offers = %v, want 1", got)
+	expected := `
+# HELP rwidistribution_posting_offers_sent_total Posting offers sent to peers, by offer outcome.
+# TYPE rwidistribution_posting_offers_sent_total counter
+rwidistribution_posting_offers_sent_total{result="busy"} 1
+rwidistribution_posting_offers_sent_total{result="ok"} 2
+# HELP rwidistribution_postings_offered_total RWI postings offered to peers, by offer outcome.
+# TYPE rwidistribution_postings_offered_total counter
+rwidistribution_postings_offered_total{result="busy"} 1
+rwidistribution_postings_offered_total{result="ok"} 5
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"rwidistribution_posting_offers_sent_total",
+		"rwidistribution_postings_offered_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
 func TestDistributionCountsURLMetadataDeliveriesByResult(t *testing.T) {
-	observer := NewDistributionMetrics(prometheus.NewRegistry())
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
 
 	observer.ObserveURLMetadataDelivery("accepted", 3)
 	observer.ObserveURLMetadataDelivery("accepted", 2)
 	observer.ObserveURLMetadataDelivery("deferred", 1)
 
-	if got := testutil.ToFloat64(
-		observer.urlMetadataDeliveries.WithLabelValues("accepted"),
-	); got != 2 {
-		t.Errorf("accepted url metadata deliveries = %v, want 2", got)
-	}
-	if got := testutil.ToFloat64(observer.urlsDelivered.WithLabelValues("accepted")); got != 5 {
-		t.Errorf("accepted urls delivered = %v, want 5", got)
-	}
-	if got := testutil.ToFloat64(
-		observer.urlMetadataDeliveries.WithLabelValues("deferred"),
-	); got != 1 {
-		t.Errorf("deferred url metadata deliveries = %v, want 1", got)
+	expected := `
+# HELP rwidistribution_url_metadata_deliveries_total URL metadata deliveries sent to peers, by delivery outcome.
+# TYPE rwidistribution_url_metadata_deliveries_total counter
+rwidistribution_url_metadata_deliveries_total{result="accepted"} 2
+rwidistribution_url_metadata_deliveries_total{result="deferred"} 1
+# HELP rwidistribution_urls_delivered_total URLs delivered to peers as metadata, by delivery outcome.
+# TYPE rwidistribution_urls_delivered_total counter
+rwidistribution_urls_delivered_total{result="accepted"} 5
+rwidistribution_urls_delivered_total{result="deferred"} 1
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"rwidistribution_url_metadata_deliveries_total",
+		"rwidistribution_urls_delivered_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
 func TestDistributionCountsPostingsGoneAndStaleReplicasDropped(t *testing.T) {
-	observer := NewDistributionMetrics(prometheus.NewRegistry())
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
 
 	observer.ObservePostingsGone(1)
 	observer.ObserveStaleReplicasDropped(2)
 
-	if got := testutil.ToFloat64(observer.postingsGone); got != 1 {
-		t.Errorf("gone = %v, want 1", got)
-	}
-	if got := testutil.ToFloat64(observer.staleReplicasDropped); got != 2 {
-		t.Errorf("staleReplicasDropped = %v, want 2", got)
+	expected := `
+# HELP rwidistribution_postings_gone_total Due postings evicted between the schedule read and the posting read.
+# TYPE rwidistribution_postings_gone_total counter
+rwidistribution_postings_gone_total 1
+# HELP rwidistribution_stale_replicas_dropped_total Replicas dropped for peers no longer responsible.
+# TYPE rwidistribution_stale_replicas_dropped_total counter
+rwidistribution_stale_replicas_dropped_total 2
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"rwidistribution_postings_gone_total",
+		"rwidistribution_stale_replicas_dropped_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
 func TestDistributionCountsSkippedCyclesByReason(t *testing.T) {
-	observer := NewDistributionMetrics(prometheus.NewRegistry())
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
 
 	observer.ObserveCycleSkipped("too_few_reachable_peers")
 	observer.ObserveCycleSkipped("too_few_reachable_peers")
 
-	if got := testutil.ToFloat64(
-		observer.cyclesSkipped.WithLabelValues("too_few_reachable_peers"),
-	); got != 2 {
-		t.Errorf("cycles skipped for too few reachable peers = %v, want 2", got)
+	expected := `
+# HELP rwidistribution_cycles_skipped_total Distribution cycles that ran no batch, by reason.
+# TYPE rwidistribution_cycles_skipped_total counter
+rwidistribution_cycles_skipped_total{reason="too_few_reachable_peers"} 2
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"rwidistribution_cycles_skipped_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
 func TestDistributionCountsAbortedBatchesByReason(t *testing.T) {
-	observer := NewDistributionMetrics(prometheus.NewRegistry())
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
 
 	observer.ObserveBatchAborted("due_postings_unread")
 	observer.ObserveBatchAborted("not_written")
 	observer.ObserveBatchAborted("not_written")
 
-	if got := testutil.ToFloat64(
-		observer.batchesAborted.WithLabelValues("due_postings_unread"),
-	); got != 1 {
-		t.Errorf("batches aborted for unread due postings = %v, want 1", got)
-	}
-	if got := testutil.ToFloat64(
-		observer.batchesAborted.WithLabelValues("not_written"),
-	); got != 2 {
-		t.Errorf("batches aborted for an unwritten batch = %v, want 2", got)
+	expected := `
+# HELP rwidistribution_batches_aborted_total Distribution batches aborted before their postings were rescheduled, by reason.
+# TYPE rwidistribution_batches_aborted_total counter
+rwidistribution_batches_aborted_total{reason="due_postings_unread"} 1
+rwidistribution_batches_aborted_total{reason="not_written"} 2
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"rwidistribution_batches_aborted_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
 func TestDistributionTracksScheduledPostings(t *testing.T) {
-	observer := NewDistributionMetrics(prometheus.NewRegistry())
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
 
 	observer.ObserveScheduledPostings(7)
 
-	if got := testutil.ToFloat64(observer.scheduledPostings); got != 7 {
-		t.Errorf("scheduled postings = %v, want 7", got)
+	expected := `
+# HELP rwidistribution_scheduled_postings Postings holding a due entry on the offer schedule.
+# TYPE rwidistribution_scheduled_postings gauge
+rwidistribution_scheduled_postings 7
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"rwidistribution_scheduled_postings",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
 func TestDistributionTracksLongestOfferLateness(t *testing.T) {
-	observer := NewDistributionMetrics(prometheus.NewRegistry())
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
 
 	observer.ObserveLongestOfferLateness(90 * time.Second)
 
-	if got := testutil.ToFloat64(observer.longestOfferLateness); got != 90 {
-		t.Errorf("longest offer lateness = %v, want 90", got)
+	expected := `
+# HELP rwidistribution_longest_offer_lateness_seconds Time the most overdue posting offer is past its scheduled time.
+# TYPE rwidistribution_longest_offer_lateness_seconds gauge
+rwidistribution_longest_offer_lateness_seconds 90
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"rwidistribution_longest_offer_lateness_seconds",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
