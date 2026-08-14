@@ -9,8 +9,8 @@ import (
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 )
 
-var ErrRepresentationKindNotInContract = errors.New(
-	"representation kind has no form in the recall contract",
+var ErrRepresentationKindHasNoContractForm = errors.New(
+	"no contract form serves this representation kind",
 )
 
 var ErrRepresentationDoesNotMatchItsKind = errors.New(
@@ -32,7 +32,7 @@ func servedRepresentationFormsFor(
 	for _, corpus := range corpora {
 		form, formed := representationFormOfKind(corpus.RepresentationKind())
 		if !formed {
-			return nil, kindNotInContract(corpus.RepresentationKind())
+			return nil, noContractFormForKind(corpus.RepresentationKind())
 		}
 		served = append(served, form)
 	}
@@ -50,8 +50,8 @@ func representationFormOfKind(
 	return representationForm{}, false
 }
 
-func kindNotInContract(kind recall.RepresentationKind) error {
-	return fmt.Errorf("%w: %s", ErrRepresentationKindNotInContract, kind)
+func noContractFormForKind(kind recall.RepresentationKind) error {
+	return fmt.Errorf("%w: %s", ErrRepresentationKindHasNoContractForm, kind)
 }
 
 func (forms servedRepresentationForms) representationKindsFrom(
@@ -108,7 +108,7 @@ func (forms servedRepresentationForms) contractRepresentationFrom(
 		}
 		return expressed, nil
 	}
-	return nil, kindNotInContract(recalled.Kind)
+	return nil, noContractFormForKind(recalled.Kind)
 }
 
 func representationNotMatchingItsKind(recalled recall.RecalledRepresentation) error {

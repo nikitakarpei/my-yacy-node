@@ -26,7 +26,7 @@ const (
 
 const recalledURL = "https://example.com/"
 
-const kindWithoutForm recall.RepresentationKind = "text"
+const kindWithoutContractForm recall.RepresentationKind = "text"
 
 type receiverUnderTest struct {
 	t      *testing.T
@@ -155,12 +155,12 @@ func TestAReceiverRefusesToServeAListenAddressThatCannotBind(t *testing.T) {
 func TestAReceiverRefusesACorpusWhoseKindHasNoContractForm(t *testing.T) {
 	_, err := grpc.NewRecallReceiver(
 		&fakeRecaller{},
-		[]recall.Corpus{fakeCorpus{kind: kindWithoutForm}},
+		[]recall.Corpus{fakeCorpus{kind: kindWithoutContractForm}},
 		freeListenAddress(t),
 	)
 
-	if !errors.Is(err, grpc.ErrRepresentationKindNotInContract) {
-		t.Fatalf("error = %v, want %v", err, grpc.ErrRepresentationKindNotInContract)
+	if !errors.Is(err, grpc.ErrRepresentationKindHasNoContractForm) {
+		t.Fatalf("error = %v, want %v", err, grpc.ErrRepresentationKindHasNoContractForm)
 	}
 }
 
@@ -235,9 +235,9 @@ func TestRecallRejectsAKindTheServedContractDoesNotName(t *testing.T) {
 	}
 }
 
-func TestRecallFailsWhenARepresentationHasNoFormInTheContract(t *testing.T) {
+func TestRecallFailsWhenARepresentationKindHasNoContractForm(t *testing.T) {
 	receiver := recallReceiverUnderTest(t, &fakeRecaller{result: recall.RecalledPage{
-		Representations: []recall.RecalledRepresentation{{Kind: kindWithoutForm}},
+		Representations: []recall.RecalledRepresentation{{Kind: kindWithoutContractForm}},
 	}})
 
 	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{})
@@ -246,13 +246,13 @@ func TestRecallFailsWhenARepresentationHasNoFormInTheContract(t *testing.T) {
 		t.Fatalf("code = %v, want Internal", status.Code(err))
 	}
 	if !strings.Contains(
-		status.Convert(err).Message(), grpc.ErrRepresentationKindNotInContract.Error(),
+		status.Convert(err).Message(), grpc.ErrRepresentationKindHasNoContractForm.Error(),
 	) {
 		t.Errorf("message = %q", status.Convert(err).Message())
 	}
 }
 
-func TestRecallFailsWhenARepresentationIsNotThePageItsFormExpresses(t *testing.T) {
+func TestRecallFailsWhenARepresentationDoesNotMatchItsKind(t *testing.T) {
 	receiver := recallReceiverUnderTest(t, &fakeRecaller{result: recall.RecalledPage{
 		Representations: []recall.RecalledRepresentation{{
 			Kind:           markdown.Kind,
