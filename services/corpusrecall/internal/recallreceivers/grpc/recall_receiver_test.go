@@ -26,7 +26,7 @@ const (
 
 const recalledURL = "https://example.com/"
 
-const kindWithoutContractForm recall.RepresentationKind = "text"
+const representationKindWithoutContractForm recall.RepresentationKind = "text"
 
 type receiverUnderTest struct {
 	t      *testing.T
@@ -97,34 +97,34 @@ func waitUntilListening(t *testing.T, listenAddress string) {
 }
 
 type fakeRecaller struct {
-	mutex  sync.Mutex
-	kinds  []recall.RepresentationKind
-	result recall.RecalledPage
-	err    error
+	mutex               sync.Mutex
+	representationKinds []recall.RepresentationKind
+	result              recall.RecalledPage
+	err                 error
 }
 
 func (f *fakeRecaller) Recall(
 	_ context.Context,
 	_ string,
-	kinds []recall.RepresentationKind,
+	representationKinds []recall.RepresentationKind,
 ) (recall.RecalledPage, error) {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
-	f.kinds = kinds
+	f.representationKinds = representationKinds
 	return f.result, f.err
 }
 
-func (f *fakeRecaller) kindsRecalled() []recall.RepresentationKind {
+func (f *fakeRecaller) representationKindsRecalled() []recall.RepresentationKind {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
-	return f.kinds
+	return f.representationKinds
 }
 
 type fakeCorpus struct {
-	kind recall.RepresentationKind
+	representationKind recall.RepresentationKind
 }
 
-func (c fakeCorpus) RepresentationKind() recall.RepresentationKind { return c.kind }
+func (c fakeCorpus) RepresentationKind() recall.RepresentationKind { return c.representationKind }
 
 func (fakeCorpus) RepresentationOf(
 	_ context.Context,
@@ -134,10 +134,10 @@ func (fakeCorpus) RepresentationOf(
 }
 
 func markdownCorpora() []recall.Corpus {
-	return []recall.Corpus{fakeCorpus{kind: markdown.Kind}}
+	return []recall.Corpus{fakeCorpus{representationKind: markdown.Kind}}
 }
 
-type pageForeignToTheMarkdownForm struct{}
+type pageForeignToTheMarkdownContractForm struct{}
 
 func TestAReceiverRefusesToServeAListenAddressThatCannotBind(t *testing.T) {
 	receiver, err := grpc.NewRecallReceiver(
@@ -155,7 +155,7 @@ func TestAReceiverRefusesToServeAListenAddressThatCannotBind(t *testing.T) {
 func TestAReceiverRefusesACorpusWhoseKindHasNoContractForm(t *testing.T) {
 	_, err := grpc.NewRecallReceiver(
 		&fakeRecaller{},
-		[]recall.Corpus{fakeCorpus{kind: kindWithoutContractForm}},
+		[]recall.Corpus{fakeCorpus{representationKind: representationKindWithoutContractForm}},
 		freeListenAddress(t),
 	)
 
@@ -177,9 +177,9 @@ func TestRecallAsksForTheKindsTheRequestNames(t *testing.T) {
 		t.Fatalf("recall: %v", err)
 	}
 
-	kinds := recaller.kindsRecalled()
-	if len(kinds) != 1 || kinds[0] != markdown.Kind {
-		t.Errorf("kinds recalled = %v", kinds)
+	representationKinds := recaller.representationKindsRecalled()
+	if len(representationKinds) != 1 || representationKinds[0] != markdown.Kind {
+		t.Errorf("representationKinds recalled = %v", representationKinds)
 	}
 }
 
@@ -237,7 +237,9 @@ func TestRecallRejectsAKindTheServedContractDoesNotName(t *testing.T) {
 
 func TestRecallFailsWhenARepresentationKindHasNoContractForm(t *testing.T) {
 	receiver := recallReceiverUnderTest(t, &fakeRecaller{result: recall.RecalledPage{
-		Representations: []recall.RecalledRepresentation{{Kind: kindWithoutContractForm}},
+		Representations: []recall.RecalledRepresentation{
+			{Kind: representationKindWithoutContractForm},
+		},
 	}})
 
 	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{})
@@ -256,7 +258,7 @@ func TestRecallFailsWhenARepresentationDoesNotMatchItsKind(t *testing.T) {
 	receiver := recallReceiverUnderTest(t, &fakeRecaller{result: recall.RecalledPage{
 		Representations: []recall.RecalledRepresentation{{
 			Kind:           markdown.Kind,
-			Representation: pageForeignToTheMarkdownForm{},
+			Representation: pageForeignToTheMarkdownContractForm{},
 		}},
 	}})
 

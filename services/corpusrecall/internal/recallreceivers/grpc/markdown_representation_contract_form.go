@@ -6,15 +6,15 @@ import (
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 )
 
-func markdownRepresentationForm() representationForm {
-	return representationForm{
-		kind:                       markdown.Kind,
-		contractKind:               corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
-		contractRepresentationFrom: markdownRepresentationInContract,
+func markdownRepresentationContractForm() representationContractForm {
+	return representationContractForm{
+		representationKind:         markdown.Kind,
+		contractRepresentationKind: corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
+		contractRepresentationFrom: contractMarkdownRepresentationFrom,
 	}
 }
 
-func markdownRepresentationInContract(
+func contractMarkdownRepresentationFrom(
 	representation recall.Representation,
 ) (*corpusrecallv1.Representation, bool) {
 	page, isPage := representation.(markdown.Page)

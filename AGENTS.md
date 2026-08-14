@@ -10,6 +10,8 @@ Naming: read doc/naming.md before naming a package, type, or derived value. Alwa
 
 Naming — a name stands alone: a name carries its full meaning without help from what surrounds it. Never leave a word out because the package, file, type, function, or a nearby argument already suggests it. The reader meets the name by itself — at a call site, in a log line, in an error — where none of that context is in view.
 
+Naming — a collision renames both: when the right name for new code is already taken, never settle for a worse one. Rename both — give the new code the name it needs, and give the existing code the name that fits what it really holds. Code that is already there never lowers the quality of the code being added.
+
 Naming — derivation: a function that returns a value is named for the value, never for the making of it — a domain noun phrase joined to its source by a preposition that names the relation: `Of` an attribute the subject has, `From` a value derived from it, `For` a value serving it (`replicas.HoldersOf(tx, posting)`, `interval.widenedFrom(previousInterval)`). It reads at the call site as the value, with its arguments as the subject. A function that acts keeps its verb.
 
 Naming — a hard name means a weak unit: if a good name will not come, or the user says a name is unreadable, treat it as a design problem, not a wording problem. Do not look for a better word. Look at what the code does and what it owns. If the name has to hide a side effect, or if it names the returned value while the body also reserves, starts, or retries something, then the code is doing a job that no unit owns yet. Give that job its own unit, then name it.
