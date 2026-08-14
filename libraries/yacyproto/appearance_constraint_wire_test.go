@@ -1,50 +1,62 @@
-package yacyproto
+package yacyproto_test
 
 import (
+	"net/url"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-func TestAppearanceConstraintWireCodecRoundTrip(t *testing.T) {
+func TestSearchRequestCarriesTheRequiredAppearance(t *testing.T) {
+	t.Parallel()
+
 	want := yacymodel.Appearance{HasImage: true, AppearsInTitle: true}
+	form := yacyproto.SearchRequest{RequiredAppearance: yacymodel.Some(want)}.Form()
 
-	encoded := (appearanceConstraintWireCodec{}).encode(yacymodel.Some(want))
-	got, err := (appearanceConstraintWireCodec{}).decode(encoded)
+	req, err := yacyproto.ParseSearchRequest(t.Context(), form)
 	if err != nil {
-		t.Fatal(err)
+		t.Fatalf("ParseSearchRequest: %v", err)
 	}
-	appearance, ok := got.Get()
-	if !ok || appearance != want {
-		t.Fatalf("round trip = %+v, %v, want %+v", appearance, ok, want)
+	got, ok := req.RequiredAppearance.Get()
+	if !ok || got != want {
+		t.Fatalf("RequiredAppearance = %+v, %v, want %+v", got, ok, want)
 	}
 }
 
-// TestAppearanceConstraintWireCodecDecodesUnconstrained covers the three ways a
-// peer says "no constraint". YaCy's own empty_constraint is an all-zero
-// bitfield, which must not be read as "match nothing".
-func TestAppearanceConstraintWireCodecDecodesUnconstrained(t *testing.T) {
+func TestSearchRequestReadsEveryEmptyConstraintAsUnconstrained(t *testing.T) {
+	t.Parallel()
+
 	allSetBits := yacymodel.Encode([]byte{0xff, 0xff, 0xff, 0xff})
-	for _, encoded := range []string{"", "AAAAAA", allSetBits} {
-		got, err := (appearanceConstraintWireCodec{}).decode(encoded)
+	for _, constraint := range []string{"", "AAAAAA", allSetBits} {
+		form := url.Values{yacyproto.FieldConstraint: {constraint}}
+		req, err := yacyproto.ParseSearchRequest(t.Context(), form)
 		if err != nil {
-			t.Fatalf("decode(%q) error = %v", encoded, err)
+			t.Fatalf("ParseSearchRequest(%q): %v", constraint, err)
 		}
-		if _, ok := got.Get(); ok {
-			t.Errorf("decode(%q) is constrained, want unconstrained", encoded)
+		if _, ok := req.RequiredAppearance.Get(); ok {
+			t.Errorf("constraint %q is required, want unconstrained", constraint)
 		}
 	}
 }
 
-func TestAppearanceConstraintWireCodecEncodesNoneAsEmpty(t *testing.T) {
-	got := (appearanceConstraintWireCodec{}).encode(yacymodel.None[yacymodel.Appearance]())
-	if got != "" {
-		t.Fatalf("encode(None) = %q, want empty", got)
+func TestSearchRequestOmitsAnAbsentAppearanceConstraint(t *testing.T) {
+	t.Parallel()
+
+	form := yacyproto.SearchRequest{
+		RequiredAppearance: yacymodel.None[yacymodel.Appearance](),
+	}.Form()
+
+	if got := form.Get(yacyproto.FieldConstraint); got != "" {
+		t.Fatalf("constraint = %q, want empty", got)
 	}
 }
 
-func TestAppearanceConstraintWireCodecRejectsBadEncoding(t *testing.T) {
-	if _, err := (appearanceConstraintWireCodec{}).decode("AA=A"); err == nil {
+func TestSearchRequestRejectsAMalformedAppearanceConstraint(t *testing.T) {
+	t.Parallel()
+
+	form := url.Values{yacyproto.FieldConstraint: {"AA=A"}}
+	if _, err := yacyproto.ParseSearchRequest(t.Context(), form); err == nil {
 		t.Fatal("expected error for malformed constraint")
 	}
 }

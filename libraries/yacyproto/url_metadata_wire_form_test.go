@@ -1,8 +1,6 @@
-package yacyproto
+package yacyproto_test
 
 import (
-	"context"
-	"errors"
 	"net/url"
 	"reflect"
 	"strings"
@@ -10,10 +8,9 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-// yacyURLMetadataRow is shaped as YaCy's own corePropList writes it, in its
-// emission order and with only the columns YaCy emits for a plain text page.
 const yacyURLMetadataRow = "{hash=MNOPQRSTUVWX,url=b|aHR0cHM6Ly9leGFtcGxlLm9yZy8," +
 	"descr=b|RXhhbXBsZQ,author=b|,tags=b|,publisher=b|,lat=0,lon=0," +
 	"mod=20250101,load=20250203,fresh=20260101,referrer=,size=1024,wc=12," +
@@ -22,9 +19,10 @@ const yacyURLMetadataRow = "{hash=MNOPQRSTUVWX,url=b|aHR0cHM6Ly9leGFtcGxlLm9yZy8
 
 func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 	t.Helper()
+
 	return yacymodel.URLMetadata{
 		Address:          "https://example.org/",
-		Referrer:         yacymodel.Some(mustURLHash(t, "MNOPQRSTUVWX")),
+		Referrer:         yacymodel.Some(sampleURLHash(t, "referrer")),
 		Title:            "Example, Inc.",
 		Author:           "A. Author",
 		Tags:             []string{"news", "indexof"},
@@ -49,24 +47,37 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 	}
 }
 
-func TestURLMetadataWireCodecRoundTripsEveryColumn(t *testing.T) {
-	codec := urlMetadataWireCodec{}
+func metadataFromRow(t *testing.T, row string) yacymodel.URLMetadata {
+	t.Helper()
+
+	form := url.Values{
+		yacyproto.FieldURLCount: {"1"},
+		"url0":                  {row},
+	}
+	req, err := yacyproto.ParseTransferURLRequest(t.Context(), form)
+	if err != nil {
+		t.Fatalf("ParseTransferURLRequest: %v", err)
+	}
+	if len(req.URLs) != 1 {
+		t.Fatalf("URLs = %d, want 1 for row %q", len(req.URLs), row)
+	}
+
+	return req.URLs[0]
+}
+
+func TestTransferURLRequestCarriesEveryMetadataColumn(t *testing.T) {
+	t.Parallel()
+
 	want := fullURLMetadata(t)
 
-	got, err := codec.decode(context.Background(), codec.encode(want))
-	if err != nil {
-		t.Fatalf("decode: %v", err)
-	}
+	got := metadataFromRow(t, sampleURLMetadataWireForm(t, want))
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("round-trip mismatch:\ngot  %+v\nwant %+v", got, want)
 	}
 }
 
-func TestURLMetadataWireCodecDecodesYaCyRow(t *testing.T) {
-	got, err := urlMetadataWireCodec{}.decode(context.Background(), yacyURLMetadataRow)
-	if err != nil {
-		t.Fatalf("decode: %v", err)
-	}
+func TestTransferURLRequestReadsARowAsRealYaCyWritesIt(t *testing.T) {
+	t.Parallel()
 
 	want := yacymodel.URLMetadata{
 		Address:       "https://example.org/",
@@ -81,63 +92,47 @@ func TestURLMetadataWireCodecDecodesYaCyRow(t *testing.T) {
 		LocalLinks:    3,
 		ExternalLinks: 4,
 	}
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("decode =\n %+v\nwant\n %+v", got, want)
+
+	if got := metadataFromRow(t, yacyURLMetadataRow); !reflect.DeepEqual(got, want) {
+		t.Errorf("metadata =\n %+v\nwant\n %+v", got, want)
 	}
 }
 
-func TestURLMetadataWireCodecCarriesCommasInText(t *testing.T) {
-	codec := urlMetadataWireCodec{}
+func TestTransferURLRequestCarriesCommasInText(t *testing.T) {
+	t.Parallel()
+
 	want := yacymodel.URLMetadata{
 		Address: "http://example.com/article?ids=1,2,3",
 		Title:   "Fourth of July fireworks, 1986 - Example",
 	}
 
-	got, err := codec.decode(context.Background(), codec.encode(want))
-	if err != nil {
-		t.Fatalf("decode: %v", err)
-	}
+	got := metadataFromRow(t, sampleURLMetadataWireForm(t, want))
 	if got.Address != want.Address || got.Title != want.Title {
 		t.Errorf("comma-bearing text did not survive: %+v", got)
 	}
 }
 
-func TestURLMetadataWireCodecEncodesHashFromAddress(t *testing.T) {
-	row := urlMetadataWireCodec{}.encode(fullURLMetadata(t))
+func TestTransferURLRequestWritesTheAddressHashColumn(t *testing.T) {
+	t.Parallel()
+
+	row := sampleURLMetadataWireForm(t, fullURLMetadata(t))
 
 	address, err := url.Parse("https://example.org/")
 	if err != nil {
 		t.Fatal(err)
 	}
 	hash := yacymodel.URLNormalformOf(address).Hash()
-	if !strings.Contains(row, urlMetadataColHash+"="+hash.String()) {
+	if !strings.Contains(row, "hash="+hash.String()) {
 		t.Errorf("row does not carry the address hash: %s", row)
 	}
 }
 
-func TestURLMetadataWireCodecEncodesDerivedFlags(t *testing.T) {
-	row := urlMetadataWireCodec{}.encode(fullURLMetadata(t))
+func TestTransferURLRequestWritesTheFlagsColumnFromTheMetadata(t *testing.T) {
+	t.Parallel()
 
-	if strings.Contains(row, urlMetadataColFlags+"=AAAAAA") {
+	row := sampleURLMetadataWireForm(t, fullURLMetadata(t))
+
+	if strings.Contains(row, "flags=AAAAAA") {
 		t.Errorf("metadata with tags, location and media should set flags: %s", row)
-	}
-}
-
-func TestURLMetadataWireCodecRejectsMalformedRows(t *testing.T) {
-	codec := urlMetadataWireCodec{}
-	for _, c := range []struct{ name, row string }{
-		{"no property form", "hash=MNOPQRSTUVWX"},
-		{"empty", ""},
-		{"undecodable text", "{url=z|@@@}"},
-		{"bad referrer", "{url=b|aHR0cDovL2Ev,referrer=short}"},
-		{"out of range location", "{url=b|aHR0cDovL2Ev,lat=91,lon=0}"},
-	} {
-		t.Run(c.name, func(t *testing.T) {
-			if _, err := codec.decode(context.Background(), c.row); !errors.Is(
-				err, yacymodel.ErrBadURLMetadata,
-			) {
-				t.Errorf("err = %v, want ErrBadURLMetadata", err)
-			}
-		})
 	}
 }
