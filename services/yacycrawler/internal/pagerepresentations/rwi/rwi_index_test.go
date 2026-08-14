@@ -35,21 +35,15 @@ func representationFromFrame(
 	if err != nil {
 		return yacycrawlcontract.PageRWIRepresentation{}, err
 	}
-	var representation yacycrawlcontract.PageRWIRepresentation
+	chunks := make([]yacycrawlcontract.PageRWIChunk, 0, len(messages))
 	for _, message := range messages {
 		chunk, err := yacycrawlcontract.UnmarshalPageRWIChunk(message)
 		if err != nil {
 			return yacycrawlcontract.PageRWIRepresentation{}, err
 		}
-		switch chunk := chunk.(type) {
-		case yacycrawlcontract.PageRWIMetadataChunk:
-			representation.CanonicalURL = chunk.CanonicalURL
-			representation.Metadata = chunk.Metadata
-		case yacycrawlcontract.PageRWIPostingChunk:
-			representation.Postings = append(representation.Postings, chunk.Postings...)
-		}
+		chunks = append(chunks, chunk)
 	}
-	return representation, nil
+	return yacycrawlcontract.PageRWIRepresentationFromChunks(chunks)
 }
 
 func TestBuildProducesParseablePostings(t *testing.T) {
