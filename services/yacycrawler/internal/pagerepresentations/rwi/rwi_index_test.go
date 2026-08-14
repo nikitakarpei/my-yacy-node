@@ -1,6 +1,7 @@
 package rwi
 
 import (
+	"net/url"
 	"testing"
 	"time"
 
@@ -35,10 +36,7 @@ func TestBuildProducesParseablePostings(t *testing.T) {
 	if len(index.Postings) == 0 {
 		t.Fatal("no postings")
 	}
-	urlHash, err := yacymodel.HashURL(samplePage().CanonicalURL)
-	if err != nil {
-		t.Fatal(err)
-	}
+	urlHash := hashOfCanonicalURL(t)
 	for _, posting := range index.Postings {
 		if posting.URLHash != urlHash {
 			t.Fatalf("posting url hash = %q, want %q", posting.URLHash, urlHash)
@@ -116,10 +114,7 @@ func TestBuildMetadataCarriesURLHash(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Hash: %v", err)
 	}
-	want, err := yacymodel.HashURL(samplePage().CanonicalURL)
-	if err != nil {
-		t.Fatal(err)
-	}
+	want := hashOfCanonicalURL(t)
 	if got != want {
 		t.Fatalf("metadata url hash = %q, want %q", got, want)
 	}
@@ -254,4 +249,15 @@ func TestBuildCountsPhrasesAndPhrasePositions(t *testing.T) {
 			sleepsPhrase,
 		)
 	}
+}
+
+func hashOfCanonicalURL(t *testing.T) yacymodel.URLHash {
+	t.Helper()
+
+	address, err := url.Parse(samplePage().CanonicalURL)
+	if err != nil {
+		t.Fatalf("parse canonical url: %v", err)
+	}
+
+	return yacymodel.URLNormalformOf(address).Hash()
 }

@@ -3,6 +3,7 @@ package rwiescrow
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"testing"
 	"time"
 
@@ -120,12 +121,12 @@ func (h *harness) escrowedCount(t *testing.T) int {
 }
 
 func urlHash(seed string) yacymodel.URLHash {
-	hash, err := yacymodel.HashURL("http://example.com/" + seed)
+	address, err := url.Parse("http://example.com/" + seed)
 	if err != nil {
 		panic(err)
 	}
 
-	return hash
+	return yacymodel.URLNormalformOf(address).Hash()
 }
 
 func posting(word, urlSeed string) yacymodel.RWIPosting {

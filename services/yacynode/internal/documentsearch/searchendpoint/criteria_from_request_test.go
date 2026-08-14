@@ -1,6 +1,7 @@
 package searchendpoint
 
 import (
+	"net/url"
 	"testing"
 	"time"
 
@@ -29,10 +30,7 @@ func TestSiteHashFromOperatorBeforeStructuredHost(t *testing.T) {
 		t.Fatalf("criteriaFromRequest: %v", err)
 	}
 
-	want, err := yacymodel.HashHost("example.com")
-	if err != nil {
-		t.Fatalf("HashHost: %v", err)
-	}
+	want := hostHashOfSiteOrFail(t, "example.com")
 	got, ok := criteria.SiteHash.Get()
 	if !ok || got != want {
 		t.Fatalf("SiteHash = %q (present %v), want %q", got.String(), ok, want.String())
@@ -45,10 +43,7 @@ func TestSiteHashFromStructuredHostFallback(t *testing.T) {
 		t.Fatalf("criteriaFromRequest: %v", err)
 	}
 
-	want, err := yacymodel.HashHost("example.com")
-	if err != nil {
-		t.Fatalf("HashHost: %v", err)
-	}
+	want := hostHashOfSiteOrFail(t, "example.com")
 	got, ok := criteria.SiteHash.Get()
 	if !ok || got != want {
 		t.Fatalf("SiteHash = %q (present %v), want %q", got.String(), ok, want.String())
@@ -160,4 +155,48 @@ func TestTimeBelowTheMaximumIsKept(t *testing.T) {
 	if criteria.TimeLimit != 500*time.Millisecond {
 		t.Errorf("TimeLimit = %v, want %v", criteria.TimeLimit, 500*time.Millisecond)
 	}
+}
+
+func TestHostHashOfSiteNormalizesCaseAndDots(t *testing.T) {
+	want := hostHashOfSiteOrFail(t, "example.com")
+	for _, site := range []string{"Example.COM", ".example.com.", "EXAMPLE.com"} {
+		if got := hostHashOfSiteOrFail(t, site); got != want {
+			t.Errorf("host hash of site %q = %q, want %q", site, got.String(), want.String())
+		}
+	}
+}
+
+func TestHostHashOfSiteReadsAnFtpHostAsAnFtpSite(t *testing.T) {
+	overFTP := hostHashOfSiteOrFail(t, "ftp.example.com")
+	overHTTP := hostHashOfSiteOrFail(t, "www.example.com")
+	if overFTP == overHTTP {
+		t.Errorf("an ftp site must not share a host hash with an http site, both %q", overFTP)
+	}
+
+	address, err := url.Parse("ftp://ftp.example.com/")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if want := yacymodel.URLNormalformOf(address).HostHash(); overFTP != want {
+		t.Errorf("host hash of an ftp site = %q, want %q", overFTP.String(), want.String())
+	}
+}
+
+func TestHostHashOfSiteRejectsASiteWithNoHost(t *testing.T) {
+	for _, site := range []string{"", ".", "..."} {
+		if _, err := hostHashOfSite(site); err == nil {
+			t.Errorf("site %q names no host and must be rejected", site)
+		}
+	}
+}
+
+func hostHashOfSiteOrFail(t *testing.T, site string) yacymodel.HostHash {
+	t.Helper()
+
+	hash, err := hostHashOfSite(site)
+	if err != nil {
+		t.Fatalf("host hash of site %q: %v", site, err)
+	}
+
+	return hash
 }

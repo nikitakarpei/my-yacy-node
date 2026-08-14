@@ -2,6 +2,8 @@ package yacymodel
 
 import (
 	"errors"
+	"fmt"
+	"net/url"
 	"strings"
 )
 
@@ -46,7 +48,12 @@ type URLMetadata struct {
 }
 
 func (m URLMetadata) Hash() (URLHash, error) {
-	return HashURL(m.Address)
+	address, err := url.Parse(m.Address)
+	if err != nil {
+		return URLHash{}, fmt.Errorf("%w: address %q: %w", ErrBadURLMetadata, m.Address, err)
+	}
+
+	return URLNormalformOf(address).Hash(), nil
 }
 
 // Freshness is the day this metadata last stood for the document, preferring

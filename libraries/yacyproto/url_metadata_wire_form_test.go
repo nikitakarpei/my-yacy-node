@@ -3,6 +3,7 @@ package yacyproto
 import (
 	"context"
 	"errors"
+	"net/url"
 	"reflect"
 	"strings"
 	"testing"
@@ -104,10 +105,11 @@ func TestURLMetadataWireCodecCarriesCommasInText(t *testing.T) {
 func TestURLMetadataWireCodecEncodesHashFromAddress(t *testing.T) {
 	row := urlMetadataWireCodec{}.encode(fullURLMetadata(t))
 
-	hash, err := yacymodel.HashURL("https://example.org/")
+	address, err := url.Parse("https://example.org/")
 	if err != nil {
 		t.Fatal(err)
 	}
+	hash := yacymodel.URLNormalformOf(address).Hash()
 	if !strings.Contains(row, urlMetadataColHash+"="+hash.String()) {
 		t.Errorf("row does not carry the address hash: %s", row)
 	}

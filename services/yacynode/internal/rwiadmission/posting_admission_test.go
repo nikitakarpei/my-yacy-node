@@ -2,6 +2,7 @@ package rwiadmission
 
 import (
 	"context"
+	"net/url"
 	"testing"
 	"time"
 
@@ -72,12 +73,12 @@ func urlAddress(seed string) string {
 }
 
 func urlHash(seed string) yacymodel.URLHash {
-	hash, err := yacymodel.HashURL(urlAddress(seed))
+	address, err := url.Parse(urlAddress(seed))
 	if err != nil {
 		panic(err)
 	}
 
-	return hash
+	return yacymodel.URLNormalformOf(address).Hash()
 }
 
 func posting(word, urlSeed string) yacymodel.RWIPosting {

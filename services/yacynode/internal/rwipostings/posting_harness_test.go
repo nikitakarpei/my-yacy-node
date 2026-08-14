@@ -3,6 +3,7 @@ package rwipostings
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -57,12 +58,12 @@ func (h harness) admit(t *testing.T, postings ...yacymodel.RWIPosting) {
 }
 
 func urlHash(seed string) yacymodel.URLHash {
-	hash, err := yacymodel.HashURL("http://example.com/" + seed)
+	address, err := url.Parse("http://example.com/" + seed)
 	if err != nil {
 		panic(err)
 	}
 
-	return hash
+	return yacymodel.URLNormalformOf(address).Hash()
 }
 
 func posting(word, urlSeed string) yacymodel.RWIPosting {
