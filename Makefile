@@ -123,7 +123,7 @@ build-go:
 cover-go:
 	@set -e; for m in $(GO_MODULES); do \
 		echo "==> cover $$m"; \
-		( cd $$m && $(GO) test -coverprofile=$(COVER_PROFILE) ./... && \
+		( cd $$m && $(GO) test -coverpkg=./... -coverprofile=$(COVER_PROFILE) ./... && \
 			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
 			$(GO) tool cover -func=$(COVER_PROFILE).gated ); \
 	done
@@ -131,7 +131,7 @@ cover-go:
 cover-check-go:
 	@echo "==> cover-check-go"; \
 	for m in $(GO_MODULES); do \
-		if ! out=$$( cd $$m && $(GO) test -race -coverprofile=$(COVER_PROFILE) ./... >/dev/null && \
+		if ! out=$$( cd $$m && $(GO) test -race -coverpkg=./... -coverprofile=$(COVER_PROFILE) ./... >/dev/null && \
 			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
 			stmts=$$(awk 'NR > 1 { sum += $$2 } END { print sum + 0 }' $(COVER_PROFILE).gated); \
 			if [ "$$stmts" -eq 0 ]; then echo "    no statements to cover"; exit 0; fi; \
