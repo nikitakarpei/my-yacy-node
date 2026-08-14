@@ -8,6 +8,12 @@ A package name has the form `<subject><head>`. The subject is the domain object 
 
 Implementations of a port live under a plural directory that carries the port name and holds no code. Each is a package named for its technology or variant, and takes `New` (`pagefetchers/http`, `vaultengines/bolt`, `recrawlrules/dueaftergrace`). The interface belongs to the consumer that calls it.
 
+## Protocols
+
+A package that speaks one wire protocol carries the protocol in its name.
+
+Do not give such a package a name that reads as pure domain vocabulary.
+
 ## Style
 
 Name a thing for what it is in the problem domain, not for how it is built or what it is for. Strip implementation terms (count, map, hash, digest, buffer) and destination terms (shared, peer, abstract, response); keep the domain noun. Spell names in full; abbreviation is not permitted. Protocol and transport vocabulary stays at the edge that translates to and from it.
