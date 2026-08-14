@@ -7,6 +7,9 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderbroker"
@@ -21,7 +24,12 @@ const (
 	msgServiceStopped  = "visitcrawl stopped"
 )
 
-func RunService(ctx context.Context, cfg ServiceConfig, metrics *visitmetrics.VisitMetrics) error {
+func RunService(
+	ctx context.Context,
+	cfg ServiceConfig,
+	registry *prometheus.Registry,
+) error {
+	metrics := visitmetrics.New(registry)
 	broker, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
 		NATSURL:       cfg.NATSURL,
 		OrdersSubject: cfg.OrdersSubject,
@@ -45,7 +53,7 @@ func RunService(ctx context.Context, cfg ServiceConfig, metrics *visitmetrics.Vi
 	}
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
-		Handler:           opsmetrics.NewMux(metrics.Handler()),
+		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 

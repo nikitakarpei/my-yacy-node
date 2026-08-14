@@ -8,6 +8,8 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownintake"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownstoremetrics"
@@ -62,7 +64,8 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		return err
 	}
 
-	metrics := markdownstoremetrics.New()
+	registry := prometheus.NewRegistry()
+	metrics := markdownstoremetrics.New(registry)
 	intake := markdownintake.NewPageMarkdownConsumer(
 		consumer,
 		objectStoreMarkdown{store: store},
@@ -72,7 +75,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
-		Handler:           opsmetrics.NewMux(metrics.Handler()),
+		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 

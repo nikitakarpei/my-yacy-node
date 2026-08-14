@@ -1,11 +1,9 @@
 package prometheus
 
 import (
-	"net/http"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
@@ -31,7 +29,6 @@ const (
 )
 
 type CrawlMetrics struct {
-	registry                   *prometheus.Registry
 	ordersReceived             prometheus.Counter
 	ordersCompleted            prometheus.Counter
 	ordersRedelivered          prometheus.Counter
@@ -45,10 +42,8 @@ type CrawlMetrics struct {
 	fetchDurationSecs          prometheus.Histogram
 }
 
-func New() *CrawlMetrics {
-	registry := prometheus.NewRegistry()
+func New(registry prometheus.Registerer) *CrawlMetrics {
 	metrics := &CrawlMetrics{
-		registry: registry,
 		ordersReceived: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "yacycrawler_orders_received_total",
 			Help: "Crawl orders received.",
@@ -141,8 +136,4 @@ func (m *CrawlMetrics) BudgetExhausted()   { m.budgetExhaustions.Inc() }
 
 func (m *CrawlMetrics) FetchCompleted(elapsed time.Duration) {
 	m.fetchDurationSecs.Observe(elapsed.Seconds())
-}
-
-func (m *CrawlMetrics) Handler() http.Handler {
-	return promhttp.HandlerFor(m.registry, promhttp.HandlerOpts{})
 }

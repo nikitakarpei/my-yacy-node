@@ -10,6 +10,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendergate"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendermetrics"
@@ -31,10 +34,11 @@ func (r *blockingRenderer) Render(
 
 func gateWithSlotHeld(
 	t *testing.T,
-) (*rendergate.Renderer, *rendermetrics.RenderMetrics, chan<- struct{}, *sync.WaitGroup) {
+) (*rendergate.Renderer, *prometheus.Registry, chan<- struct{}, *sync.WaitGroup) {
 	t.Helper()
 
-	metrics := rendermetrics.New()
+	registry := prometheus.NewRegistry()
+	metrics := rendermetrics.New(registry)
 	inner := &blockingRenderer{entered: make(chan struct{}), release: make(chan struct{})}
 	gate := rendergate.New(inner, 1, time.Second, 1024, metrics)
 
@@ -44,15 +48,15 @@ func gateWithSlotHeld(
 	})
 	<-inner.entered
 
-	return gate, metrics, inner.release, &wg
+	return gate, registry, inner.release, &wg
 }
 
-func scrapedMetrics(t *testing.T, metrics *rendermetrics.RenderMetrics) string {
+func scrapedMetrics(t *testing.T, registry *prometheus.Registry) string {
 	t.Helper()
 
 	recorder := httptest.NewRecorder()
 	request := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/metrics", nil)
-	metrics.Handler().ServeHTTP(recorder, request)
+	promhttp.HandlerFor(registry, promhttp.HandlerOpts{}).ServeHTTP(recorder, request)
 
 	body, err := io.ReadAll(recorder.Result().Body)
 	if err != nil {
@@ -62,7 +66,7 @@ func scrapedMetrics(t *testing.T, metrics *rendermetrics.RenderMetrics) string {
 }
 
 func TestRenderWaitsForSlotWhenConcurrencyCapReached(t *testing.T) {
-	gate, metrics, release, wg := gateWithSlotHeld(t)
+	gate, registry, release, wg := gateWithSlotHeld(t)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
@@ -71,14 +75,14 @@ func TestRenderWaitsForSlotWhenConcurrencyCapReached(t *testing.T) {
 	close(release)
 	wg.Wait()
 
-	body := scrapedMetrics(t, metrics)
+	body := scrapedMetrics(t, registry)
 	if !strings.Contains(body, "renderproxy_render_waits_total 1") {
 		t.Fatalf("metrics body does not contain wait count line:\n%s", body)
 	}
 }
 
 func TestRenderReportsSlotWaitTimeout(t *testing.T) {
-	gate, metrics, release, wg := gateWithSlotHeld(t)
+	gate, registry, release, wg := gateWithSlotHeld(t)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
@@ -89,7 +93,7 @@ func TestRenderReportsSlotWaitTimeout(t *testing.T) {
 	close(release)
 	wg.Wait()
 
-	body := scrapedMetrics(t, metrics)
+	body := scrapedMetrics(t, registry)
 	want := `renderproxy_renders_failed_total{reason="` + rendergate.ReasonSlotWaitTimeout + `"} 1`
 	if !strings.Contains(body, want) {
 		t.Fatalf("metrics body does not contain failure count line:\n%s", body)

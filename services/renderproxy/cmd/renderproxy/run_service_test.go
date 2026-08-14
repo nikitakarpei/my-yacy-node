@@ -8,8 +8,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+
 	renderproxy "github.com/nikitakarpei/yacy-rwi-node/renderproxy/cmd/renderproxy"
-	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendermetrics"
 )
 
 func TestRunServiceServesMetricsUntilContextCanceled(t *testing.T) {
@@ -26,7 +27,10 @@ func TestRunServiceServesMetricsUntilContextCanceled(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(t.Context())
 	serviceDone := make(chan error, 1)
-	go func() { serviceDone <- renderproxy.RunService(ctx, cfg, rendermetrics.New()) }()
+	registry := prometheus.NewRegistry()
+	go func() {
+		serviceDone <- renderproxy.RunService(ctx, cfg, registry)
+	}()
 
 	waitForHealthy(t, "http://"+cfg.OpsAddr+"/metrics")
 

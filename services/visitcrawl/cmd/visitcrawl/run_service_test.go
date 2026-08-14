@@ -15,10 +15,10 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
+	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	visitcrawl "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/cmd/visitcrawl"
-	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -43,7 +43,10 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	serviceErr := make(chan error, 1)
-	go func() { serviceErr <- visitcrawl.RunService(ctx, cfg, visitmetrics.New()) }()
+	registry := prometheus.NewRegistry()
+	go func() {
+		serviceErr <- visitcrawl.RunService(ctx, cfg, registry)
+	}()
 
 	consumer := ordersConsumer(t, ctx, natsURL)
 	waitForListening(t, cfg.ListenAddr)
@@ -91,7 +94,8 @@ func TestRunServiceRejectsBadNATSURL(t *testing.T) {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
-	err := visitcrawl.RunService(ctx, cfg, visitmetrics.New())
+	registry := prometheus.NewRegistry()
+	err := visitcrawl.RunService(ctx, cfg, registry)
 	if err == nil {
 		t.Fatal("unreachable nats should fail")
 	}

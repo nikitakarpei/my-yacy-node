@@ -7,11 +7,15 @@ import (
 	"testing"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/indexmetrics"
 )
 
 func TestIndexMetricsRecordsAndExposesCounters(t *testing.T) {
-	metrics := indexmetrics.New()
+	registry := prometheus.NewRegistry()
+	metrics := indexmetrics.New(registry)
 
 	metrics.PageReceived()
 	metrics.PageIndexed()
@@ -20,7 +24,7 @@ func TestIndexMetricsRecordsAndExposesCounters(t *testing.T) {
 
 	req := httptest.NewRequestWithContext(context.Background(), "GET", "/metrics", nil)
 	rec := httptest.NewRecorder()
-	metrics.Handler().ServeHTTP(rec, req)
+	promhttp.HandlerFor(registry, promhttp.HandlerOpts{}).ServeHTTP(rec, req)
 
 	body := rec.Body.String()
 	for _, want := range []string{

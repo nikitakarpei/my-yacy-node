@@ -6,11 +6,15 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownstoremetrics"
 )
 
 func TestMarkdownStoreMetricsRecordsAndExposesCounters(t *testing.T) {
-	metrics := markdownstoremetrics.New()
+	registry := prometheus.NewRegistry()
+	metrics := markdownstoremetrics.New(registry)
 
 	metrics.PageReceived()
 	metrics.PageStored()
@@ -18,7 +22,7 @@ func TestMarkdownStoreMetricsRecordsAndExposesCounters(t *testing.T) {
 
 	req := httptest.NewRequestWithContext(context.Background(), "GET", "/metrics", nil)
 	rec := httptest.NewRecorder()
-	metrics.Handler().ServeHTTP(rec, req)
+	promhttp.HandlerFor(registry, promhttp.HandlerOpts{}).ServeHTTP(rec, req)
 
 	body := rec.Body.String()
 	for _, want := range []string{
