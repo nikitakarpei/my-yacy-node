@@ -1,8 +1,9 @@
-package grpc
+package grpc_test
 
 import (
 	"context"
 	"errors"
+	"sync"
 	"testing"
 
 	"google.golang.org/grpc/codes"
@@ -13,11 +14,10 @@ import (
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 )
 
-const kindWithoutForm recall.RepresentationKind = "text"
-
 const recalledURL = "https://example.com/"
 
 type fakeRecaller struct {
+	mutex  sync.Mutex
 	kinds  []recall.RepresentationKind
 	result recall.RecalledPage
 	err    error
@@ -28,46 +28,25 @@ func (f *fakeRecaller) Recall(
 	_ string,
 	kinds []recall.RepresentationKind,
 ) (recall.RecalledPage, error) {
+	f.mutex.Lock()
+	defer f.mutex.Unlock()
 	f.kinds = kinds
 	return f.result, f.err
 }
 
-type fakeCorpus struct {
-	kind recall.RepresentationKind
-}
-
-func (c fakeCorpus) RepresentationKind() recall.RepresentationKind { return c.kind }
-
-func (fakeCorpus) RepresentationOf(
-	_ context.Context,
-	_ string,
-) (recall.Representation, bool, error) {
-	return nil, false, nil
+func (f *fakeRecaller) kindsRecalled() []recall.RepresentationKind {
+	f.mutex.Lock()
+	defer f.mutex.Unlock()
+	return f.kinds
 }
 
 type pageForeignToTheMarkdownForm struct{}
 
-func markdownCorpora() []recall.Corpus {
-	return []recall.Corpus{fakeCorpus{kind: markdown.Kind}}
-}
-
-func markdownServer(
-	t *testing.T,
-	recaller Recaller,
-) *recallServer {
-	t.Helper()
-	server, err := newRecallServer(recaller, markdownCorpora())
-	if err != nil {
-		t.Fatalf("new recall server: %v", err)
-	}
-	return server
-}
-
 func TestRecallAsksForTheKindsTheRequestNames(t *testing.T) {
 	recaller := &fakeRecaller{}
-	server := markdownServer(t, recaller)
+	receiver := recallReceiverUnderTest(t, recaller)
 
-	if _, err := server.Recall(context.Background(), &corpusrecallv1.RecallRequest{
+	if _, err := receiver.Recall(&corpusrecallv1.RecallRequest{
 		Url: recalledURL,
 		Kinds: []corpusrecallv1.RepresentationKind{
 			corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
@@ -76,22 +55,21 @@ func TestRecallAsksForTheKindsTheRequestNames(t *testing.T) {
 		t.Fatalf("recall: %v", err)
 	}
 
-	if len(recaller.kinds) != 1 || recaller.kinds[0] != markdown.Kind {
-		t.Errorf("kinds recalled = %v", recaller.kinds)
+	kinds := recaller.kindsRecalled()
+	if len(kinds) != 1 || kinds[0] != markdown.Kind {
+		t.Errorf("kinds recalled = %v", kinds)
 	}
 }
 
 func TestRecallAnswersWithTheRepresentationsTheRecallYields(t *testing.T) {
-	server := markdownServer(t, &fakeRecaller{result: recall.RecalledPage{
+	receiver := recallReceiverUnderTest(t, &fakeRecaller{result: recall.RecalledPage{
 		Representations: []recall.RecalledRepresentation{{
 			Kind:           markdown.Kind,
 			Representation: markdown.Page{CanonicalURL: recalledURL, Markdown: "# Hi"},
 		}},
 	}})
 
-	response, err := server.Recall(context.Background(), &corpusrecallv1.RecallRequest{
-		Url: recalledURL,
-	})
+	response, err := receiver.Recall(&corpusrecallv1.RecallRequest{Url: recalledURL})
 	if err != nil {
 		t.Fatalf("recall: %v", err)
 	}
@@ -105,13 +83,11 @@ func TestRecallAnswersWithTheRepresentationsTheRecallYields(t *testing.T) {
 }
 
 func TestRecallNamesTheKindsTheRecallCouldNotProvide(t *testing.T) {
-	server := markdownServer(t, &fakeRecaller{result: recall.RecalledPage{
+	receiver := recallReceiverUnderTest(t, &fakeRecaller{result: recall.RecalledPage{
 		UnavailableKinds: []recall.RepresentationKind{markdown.Kind},
 	}})
 
-	response, err := server.Recall(context.Background(), &corpusrecallv1.RecallRequest{
-		Url: recalledURL,
-	})
+	response, err := receiver.Recall(&corpusrecallv1.RecallRequest{Url: recalledURL})
 	if err != nil {
 		t.Fatalf("recall: %v", err)
 	}
@@ -124,9 +100,9 @@ func TestRecallNamesTheKindsTheRecallCouldNotProvide(t *testing.T) {
 }
 
 func TestRecallRejectsAKindTheServedContractDoesNotName(t *testing.T) {
-	server := markdownServer(t, &fakeRecaller{})
+	receiver := recallReceiverUnderTest(t, &fakeRecaller{})
 
-	_, err := server.Recall(context.Background(), &corpusrecallv1.RecallRequest{
+	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{
 		Kinds: []corpusrecallv1.RepresentationKind{
 			corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_TEXT,
 		},
@@ -138,11 +114,11 @@ func TestRecallRejectsAKindTheServedContractDoesNotName(t *testing.T) {
 }
 
 func TestRecallFailsWhenARepresentationHasNoFormInTheContract(t *testing.T) {
-	server := markdownServer(t, &fakeRecaller{result: recall.RecalledPage{
+	receiver := recallReceiverUnderTest(t, &fakeRecaller{result: recall.RecalledPage{
 		Representations: []recall.RecalledRepresentation{{Kind: kindWithoutForm}},
 	}})
 
-	_, err := server.Recall(context.Background(), &corpusrecallv1.RecallRequest{})
+	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{})
 
 	if status.Code(err) != codes.Internal {
 		t.Fatalf("code = %v, want Internal", status.Code(err))
@@ -150,14 +126,14 @@ func TestRecallFailsWhenARepresentationHasNoFormInTheContract(t *testing.T) {
 }
 
 func TestRecallFailsWhenARepresentationIsNotThePageItsFormExpresses(t *testing.T) {
-	server := markdownServer(t, &fakeRecaller{result: recall.RecalledPage{
+	receiver := recallReceiverUnderTest(t, &fakeRecaller{result: recall.RecalledPage{
 		Representations: []recall.RecalledRepresentation{{
 			Kind:           markdown.Kind,
 			Representation: pageForeignToTheMarkdownForm{},
 		}},
 	}})
 
-	_, err := server.Recall(context.Background(), &corpusrecallv1.RecallRequest{})
+	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{})
 
 	if status.Code(err) != codes.Internal {
 		t.Fatalf("code = %v, want Internal", status.Code(err))
@@ -165,9 +141,11 @@ func TestRecallFailsWhenARepresentationIsNotThePageItsFormExpresses(t *testing.T
 }
 
 func TestRecallMapsInFlightLimitToResourceExhausted(t *testing.T) {
-	server := markdownServer(t, &fakeRecaller{err: recall.ErrTooManyRequestsInFlight})
+	receiver := recallReceiverUnderTest(
+		t, &fakeRecaller{err: recall.ErrTooManyRequestsInFlight},
+	)
 
-	_, err := server.Recall(context.Background(), &corpusrecallv1.RecallRequest{})
+	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{})
 
 	if status.Code(err) != codes.ResourceExhausted {
 		t.Fatalf("code = %v, want ResourceExhausted", status.Code(err))
@@ -175,22 +153,11 @@ func TestRecallMapsInFlightLimitToResourceExhausted(t *testing.T) {
 }
 
 func TestRecallMapsOtherFailureToInternal(t *testing.T) {
-	server := markdownServer(t, &fakeRecaller{err: errors.New("boom")})
+	receiver := recallReceiverUnderTest(t, &fakeRecaller{err: errors.New("boom")})
 
-	_, err := server.Recall(context.Background(), &corpusrecallv1.RecallRequest{})
+	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{})
 
 	if status.Code(err) != codes.Internal {
 		t.Fatalf("code = %v, want Internal", status.Code(err))
-	}
-}
-
-func TestARecallServerRefusesACorpusWhoseKindHasNoContractForm(t *testing.T) {
-	_, err := newRecallServer(
-		&fakeRecaller{},
-		[]recall.Corpus{fakeCorpus{kind: kindWithoutForm}},
-	)
-
-	if !errors.Is(err, ErrRepresentationKindNotInContract) {
-		t.Fatalf("error = %v, want %v", err, ErrRepresentationKindNotInContract)
 	}
 }

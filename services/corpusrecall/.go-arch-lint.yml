@@ -39,9 +39,6 @@ vendors:
   corpusrecallapi:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1
-  recallclienttest:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/recallclienttest
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -103,7 +100,6 @@ deps:
       - pagerepresentationsmarkdown
     canUse:
       - corpusrecallapi
-      - recallclienttest
       - grpc
   progressobserversprometheus:
     mayDependOn:

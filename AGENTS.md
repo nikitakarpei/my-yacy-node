@@ -10,6 +10,8 @@ Naming: read doc/naming.md before naming a package, type, or derived value. Alwa
 
 Naming — derivation: a function that returns a value is named for the value, never for the making of it — a domain noun phrase joined to its source by a preposition that names the relation: `Of` an attribute the subject has, `From` a value derived from it, `For` a value serving it (`replicas.HoldersOf(tx, posting)`, `interval.widenedFrom(previousInterval)`). It reads at the call site as the value, with its arguments as the subject. A function that acts keeps its verb.
 
+Naming — a hard name means a weak unit: if a good name will not come, or the user says a name is unreadable, treat it as a design problem, not a wording problem. Do not look for a better word. Look at what the code does and what it owns. If the name has to hide a side effect, or if it names the returned value while the body also reserves, starts, or retries something, then the code is doing a job that no unit owns yet. Give that job its own unit, then name it.
+
 Vocabulary: one fact carries one word along its whole path — wire, ledger, config, doc — and one word carries one meaning per file. Transport words stay at the transport edge. A boolean parameter that selects the rule is two functions with symmetric names.
 
 Single source of truth: every fact lives in exactly one place — a constant, config, or doc. Never restate it in comments, errors, logs, or a second doc.
