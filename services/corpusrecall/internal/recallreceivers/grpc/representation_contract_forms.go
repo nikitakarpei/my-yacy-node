@@ -3,7 +3,6 @@ package grpc
 import (
 	"errors"
 	"fmt"
-	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
@@ -11,6 +10,10 @@ import (
 
 var ErrRepresentationKindHasNoContractForm = errors.New(
 	"no contract form serves this representation kind",
+)
+
+var ErrContractRepresentationKindNotServed = errors.New(
+	"no served contract form offers this representation kind",
 )
 
 var ErrRepresentationDoesNotMatchItsKind = errors.New(
@@ -68,11 +71,17 @@ func (contractForms representationContractForms) representationKindsFrom(
 			contractRepresentationKind,
 		)
 		if !served {
-			return nil, fmt.Errorf("unserved representation kind %s", contractRepresentationKind)
+			return nil, contractRepresentationKindNotServed(contractRepresentationKind)
 		}
 		representationKinds = append(representationKinds, representationKind)
 	}
 	return representationKinds, nil
+}
+
+func contractRepresentationKindNotServed(
+	contractRepresentationKind corpusrecallv1.RepresentationKind,
+) error {
+	return fmt.Errorf("%w: %s", ErrContractRepresentationKindNotServed, contractRepresentationKind)
 }
 
 func (contractForms representationContractForms) representationKindFrom(
@@ -125,19 +134,21 @@ func representationNotMatchingItsKind(recalled recall.RecalledRepresentation) er
 
 func (contractForms representationContractForms) contractRepresentationKindsFrom(
 	representationKinds []recall.RepresentationKind,
-) []corpusrecallv1.RepresentationKind {
+) ([]corpusrecallv1.RepresentationKind, error) {
 	contractRepresentationKinds := make(
 		[]corpusrecallv1.RepresentationKind,
 		0,
 		len(representationKinds),
 	)
-	for _, contractForm := range contractForms {
-		if slices.Contains(representationKinds, contractForm.representationKind) {
-			contractRepresentationKinds = append(
-				contractRepresentationKinds,
-				contractForm.contractRepresentationKind,
-			)
+	for _, representationKind := range representationKinds {
+		contractForm, served := contractForms.contractFormOfRepresentationKind(representationKind)
+		if !served {
+			return nil, noContractFormForRepresentationKind(representationKind)
 		}
+		contractRepresentationKinds = append(
+			contractRepresentationKinds,
+			contractForm.contractRepresentationKind,
+		)
 	}
-	return contractRepresentationKinds
+	return contractRepresentationKinds, nil
 }

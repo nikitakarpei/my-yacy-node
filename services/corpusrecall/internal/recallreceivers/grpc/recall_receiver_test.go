@@ -191,7 +191,12 @@ func TestRecallAnswersWithTheRepresentationsTheRecallYields(t *testing.T) {
 		}},
 	}})
 
-	response, err := receiver.Recall(&corpusrecallv1.RecallRequest{Url: recalledURL})
+	response, err := receiver.Recall(&corpusrecallv1.RecallRequest{
+		Url: recalledURL,
+		Kinds: []corpusrecallv1.RepresentationKind{
+			corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
+		},
+	})
 	if err != nil {
 		t.Fatalf("recall: %v", err)
 	}
@@ -209,7 +214,12 @@ func TestRecallNamesTheKindsTheRecallCouldNotProvide(t *testing.T) {
 		UnavailableKinds: []recall.RepresentationKind{markdown.Kind},
 	}})
 
-	response, err := receiver.Recall(&corpusrecallv1.RecallRequest{Url: recalledURL})
+	response, err := receiver.Recall(&corpusrecallv1.RecallRequest{
+		Url: recalledURL,
+		Kinds: []corpusrecallv1.RepresentationKind{
+			corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
+		},
+	})
 	if err != nil {
 		t.Fatalf("recall: %v", err)
 	}
@@ -218,6 +228,21 @@ func TestRecallNamesTheKindsTheRecallCouldNotProvide(t *testing.T) {
 	if len(unavailable) != 1 ||
 		unavailable[0] != corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN {
 		t.Errorf("unavailable = %v", unavailable)
+	}
+}
+
+func TestRecallRejectsARequestThatNamesNoKind(t *testing.T) {
+	receiver := recallReceiverUnderTest(t, &fakeRecaller{})
+
+	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{Url: recalledURL})
+
+	if status.Code(err) != codes.InvalidArgument {
+		t.Fatalf("code = %v, want InvalidArgument", status.Code(err))
+	}
+	if !strings.Contains(
+		status.Convert(err).Message(), grpc.ErrRequestNamesNoRepresentationKind.Error(),
+	) {
+		t.Errorf("message = %q", status.Convert(err).Message())
 	}
 }
 
@@ -233,6 +258,11 @@ func TestRecallRejectsAKindTheServedContractDoesNotName(t *testing.T) {
 	if status.Code(err) != codes.InvalidArgument {
 		t.Fatalf("code = %v, want InvalidArgument", status.Code(err))
 	}
+	if !strings.Contains(
+		status.Convert(err).Message(), grpc.ErrContractRepresentationKindNotServed.Error(),
+	) {
+		t.Errorf("message = %q", status.Convert(err).Message())
+	}
 }
 
 func TestRecallFailsWhenARepresentationKindHasNoContractForm(t *testing.T) {
@@ -242,7 +272,12 @@ func TestRecallFailsWhenARepresentationKindHasNoContractForm(t *testing.T) {
 		},
 	}})
 
-	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{})
+	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{
+		Url: recalledURL,
+		Kinds: []corpusrecallv1.RepresentationKind{
+			corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
+		},
+	})
 
 	if status.Code(err) != codes.Internal {
 		t.Fatalf("code = %v, want Internal", status.Code(err))
@@ -262,7 +297,12 @@ func TestRecallFailsWhenARepresentationDoesNotMatchItsKind(t *testing.T) {
 		}},
 	}})
 
-	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{})
+	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{
+		Url: recalledURL,
+		Kinds: []corpusrecallv1.RepresentationKind{
+			corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
+		},
+	})
 
 	if status.Code(err) != codes.Internal {
 		t.Fatalf("code = %v, want Internal", status.Code(err))
@@ -279,7 +319,12 @@ func TestRecallMapsInFlightLimitToResourceExhausted(t *testing.T) {
 		t, &fakeRecaller{err: recall.ErrTooManyRequestsInFlight},
 	)
 
-	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{})
+	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{
+		Url: recalledURL,
+		Kinds: []corpusrecallv1.RepresentationKind{
+			corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
+		},
+	})
 
 	if status.Code(err) != codes.ResourceExhausted {
 		t.Fatalf("code = %v, want ResourceExhausted", status.Code(err))
@@ -289,7 +334,12 @@ func TestRecallMapsInFlightLimitToResourceExhausted(t *testing.T) {
 func TestRecallMapsOtherFailureToInternal(t *testing.T) {
 	receiver := recallReceiverUnderTest(t, &fakeRecaller{err: errors.New("boom")})
 
-	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{})
+	_, err := receiver.Recall(&corpusrecallv1.RecallRequest{
+		Url: recalledURL,
+		Kinds: []corpusrecallv1.RepresentationKind{
+			corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
+		},
+	})
 
 	if status.Code(err) != codes.Internal {
 		t.Fatalf("code = %v, want Internal", status.Code(err))
