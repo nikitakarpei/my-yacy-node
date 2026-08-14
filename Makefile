@@ -131,8 +131,9 @@ cover-go:
 cover-check-go:
 	@echo "==> cover-check-go"; \
 	for m in $(GO_MODULES); do \
-		if ! out=$$( cd $$m && $(GO) test -race -coverpkg=./... -coverprofile=$(COVER_PROFILE) ./... >/dev/null && \
-			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
+		if ! out=$$( cd $$m && rm -f $(COVER_PROFILE) $(COVER_PROFILE).gated && \
+			$(GO) test -race -coverpkg=./... -coverprofile=$(COVER_PROFILE) ./... >/dev/null && \
+			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated || exit 1; \
 			stmts=$$(awk 'NR > 1 { sum += $$2 } END { print sum + 0 }' $(COVER_PROFILE).gated); \
 			if [ "$$stmts" -eq 0 ]; then echo "    no statements to cover"; exit 0; fi; \
 			total=$$($(GO) tool cover -func=$(COVER_PROFILE).gated | \
