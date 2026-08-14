@@ -9,9 +9,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-func postingURLHash(t *testing.T) yacymodel.URLHash {
+const (
+	postingWordHash = "ABCDEFGHIJKL"
+	postingURLHash  = "MNOPQRSTUVWX"
+)
+
+func mustPostingURLHash(t *testing.T) yacymodel.URLHash {
 	t.Helper()
-	hash, err := yacymodel.ParseURLHash("MNOPQRSTUVWX")
+	hash, err := yacymodel.ParseURLHash(postingURLHash)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -58,8 +63,8 @@ func TestTransferRWIRequestCarriesEveryPostingColumn(t *testing.T) {
 	t.Parallel()
 
 	want := yacymodel.RWIPosting{
-		WordHash:               mustHash(t, "ABCDEFGHIJKL"),
-		URLHash:                postingURLHash(t),
+		WordHash:               mustHash(t, postingWordHash),
+		URLHash:                mustPostingURLHash(t),
 		LastModified:           yacymodel.MicroDateFromTime(mustParseDay(t, "2026-07-18")),
 		TitleWords:             3,
 		TextWords:              120,
@@ -85,11 +90,11 @@ func TestTransferRWIRequestCarriesEveryPostingColumn(t *testing.T) {
 func TestTransferRWIRequestReadsALineAsARealPeerSendsIt(t *testing.T) {
 	t.Parallel()
 
-	line := "ABCDEFGHIJKL{a=100,c=7,d=105,g=0,h=MNOPQRSTUVWX,i=0,k=0,l=en,m=42,n=4," +
-		"o=1,p=8,r=3,s=100,t=258,u=3,w=120,x=2,y=5,z=AAAAAA}"
+	line := postingWordHash + "{a=100,c=7,d=105,g=0,h=" + postingURLHash + ",i=0,k=0,l=en,m=42," +
+		"n=4,o=1,p=8,r=3,s=100,t=258,u=3,w=120,x=2,y=5,z=AAAAAA}"
 
 	got := postingFromLine(t, line)
-	if got.WordHash.String() != "ABCDEFGHIJKL" || got.URLHash.String() != "MNOPQRSTUVWX" {
+	if got.WordHash.String() != postingWordHash || got.URLHash.String() != postingURLHash {
 		t.Fatalf("hashes = %q/%q", got.WordHash, got.URLHash)
 	}
 	if got.Hits != 7 || got.TextPosition != 258 || got.DocumentType != yacymodel.DocumentTypeImage {
@@ -100,7 +105,8 @@ func TestTransferRWIRequestReadsALineAsARealPeerSendsIt(t *testing.T) {
 func TestTransferRWIRequestNormalizesYaCyPropertyForm(t *testing.T) {
 	t.Parallel()
 
-	got := postingFromLine(t, "ABCDEFGHIJKL{c=1,d=104,h=MNOPQRSTUVWX,l=eng,t=258x,x=2,z=AAAAAAA}")
+	line := postingWordHash + "{c=1,d=104,h=" + postingURLHash + ",l=eng,t=258x,x=2,z=AAAAAAA}"
+	got := postingFromLine(t, line)
 	if got.Hits != 1 || got.TextPosition != 258 || got.LocalLinks != 2 {
 		t.Fatalf("cardinals = %+v", got)
 	}
@@ -115,7 +121,8 @@ func TestTransferRWIRequestNormalizesYaCyPropertyForm(t *testing.T) {
 func TestTransferRWIRequestKeepsALastModifiedDateWiderThanTwoBytes(t *testing.T) {
 	t.Parallel()
 
-	got := postingFromLine(t, "ABCDEFGHIJKL{a=200000,h=MNOPQRSTUVWX}")
+	line := postingWordHash + "{a=200000,h=" + postingURLHash + "}"
+	got := postingFromLine(t, line)
 	if got.LastModified != yacymodel.MicroDate(200000) {
 		t.Fatalf("last modified = %d, want 200000", got.LastModified)
 	}
@@ -132,8 +139,8 @@ func TestTransferRWIRequestWrapsTheLastModifiedDateAtTheYaCyModulus(t *testing.T
 	}
 	for written, want := range cases {
 		posting := yacymodel.RWIPosting{
-			WordHash:     mustHash(t, "ABCDEFGHIJKL"),
-			URLHash:      postingURLHash(t),
+			WordHash:     mustHash(t, postingWordHash),
+			URLHash:      mustPostingURLHash(t),
 			LastModified: written,
 		}
 		if got := postingRoundTrip(t, posting).LastModified; got != want {
@@ -146,10 +153,10 @@ func TestTransferRWIRequestReadsASparseLine(t *testing.T) {
 	t.Parallel()
 
 	want := yacymodel.RWIPosting{
-		WordHash: mustHash(t, "ABCDEFGHIJKL"),
-		URLHash:  postingURLHash(t),
+		WordHash: mustHash(t, postingWordHash),
+		URLHash:  mustPostingURLHash(t),
 	}
-	if got := postingFromLine(t, "ABCDEFGHIJKL{h=MNOPQRSTUVWX}"); got != want {
+	if got := postingFromLine(t, postingWordHash+"{h="+postingURLHash+"}"); got != want {
 		t.Fatalf("posting = %+v, want %+v", got, want)
 	}
 }
