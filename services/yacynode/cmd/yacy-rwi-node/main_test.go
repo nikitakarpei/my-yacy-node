@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
@@ -99,7 +100,9 @@ func TestServeReturnsNilAfterCancel(t *testing.T) {
 			Name: "ops",
 			Server: buildServer(
 				"127.0.0.1:0",
-				opsmetrics.NewMux(metrics.NewHTTPEndpointMetrics().Handler()),
+				opsmetrics.NewMux(
+					promhttp.HandlerFor(prometheus.NewRegistry(), promhttp.HandlerOpts{}),
+				),
 			),
 		},
 	)

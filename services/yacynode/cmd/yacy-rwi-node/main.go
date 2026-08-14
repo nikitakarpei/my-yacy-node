@@ -10,6 +10,9 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
@@ -62,8 +65,9 @@ func run() error {
 
 	client := newEgressProxyClient(config.ProxyURL, outboundRequestTimeout)
 
-	endpoints := metrics.NewHTTPEndpointMetrics()
-	vaultMetrics := metrics.NewVaultTransactionMetrics(endpoints.Registry())
+	registry := prometheus.NewRegistry()
+	endpoints := metrics.NewHTTPEndpointMetrics(registry)
+	vaultMetrics := metrics.NewVaultTransactionMetrics(registry)
 
 	vault, err := bolt.Open(config.StoragePath, config.StorageQuotaByte, vaultMetrics)
 	if err != nil {
@@ -71,14 +75,14 @@ func run() error {
 	}
 	defer closeVault(vault)
 
-	metrics.NewVaultCapacityMetrics(endpoints.Registry(), vault)
-	metrics.NewVaultCollectionMetrics(endpoints.Registry(), vault)
-	evictionMetrics := metrics.NewEvictionMetrics(endpoints.Registry())
-	distributionMetrics := metrics.NewDistributionMetrics(endpoints.Registry())
-	dhtRingMetrics := metrics.NewDHTRingMetrics(endpoints.Registry())
-	rosterMetrics := metrics.NewPeerRosterMetrics(endpoints.Registry())
-	escrowMetrics := metrics.NewRWIEscrowMetrics(endpoints.Registry())
-	searchMetrics := searchmetrics.NewSearchMetrics(endpoints.Registry())
+	metrics.NewVaultCapacityMetrics(registry, vault)
+	metrics.NewVaultCollectionMetrics(registry, vault)
+	evictionMetrics := metrics.NewEvictionMetrics(registry)
+	distributionMetrics := metrics.NewDistributionMetrics(registry)
+	dhtRingMetrics := metrics.NewDHTRingMetrics(registry)
+	rosterMetrics := metrics.NewPeerRosterMetrics(registry)
+	escrowMetrics := metrics.NewRWIEscrowMetrics(registry)
+	searchMetrics := searchmetrics.NewSearchMetrics(registry)
 
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
@@ -98,9 +102,9 @@ func run() error {
 		return fmt.Errorf("assemble node: %w", err)
 	}
 
-	metrics.NewRWIEscrowCapacityMetrics(endpoints.Registry(), assembled.escrow)
+	metrics.NewRWIEscrowCapacityMetrics(registry, assembled.escrow)
 
-	opsMux := opsmetrics.NewMux(endpoints.Handler())
+	opsMux := opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
 
 	return serve(
 		ctx,

@@ -7,11 +7,15 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 )
 
 func TestInstrumentHTTPCountsThroughMiddleware(t *testing.T) {
-	endpoints := metrics.NewHTTPEndpointMetrics()
+	registry := prometheus.NewRegistry()
+	endpoints := metrics.NewHTTPEndpointMetrics(registry)
 	mux := http.NewServeMux()
 	mux.HandleFunc("/yacy/hello.html", func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -28,7 +32,7 @@ func TestInstrumentHTTPCountsThroughMiddleware(t *testing.T) {
 	scrapeReq, _ := http.NewRequestWithContext(
 		context.Background(), http.MethodGet, "/metrics", nil,
 	)
-	endpoints.Handler().ServeHTTP(scrape, scrapeReq)
+	promhttp.HandlerFor(registry, promhttp.HandlerOpts{}).ServeHTTP(scrape, scrapeReq)
 
 	want := `http_request_duration_seconds_count{endpoint="/yacy/hello.html"} 1`
 	if !strings.Contains(scrape.Body.String(), want) {

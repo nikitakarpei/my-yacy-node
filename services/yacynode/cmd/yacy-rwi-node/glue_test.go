@@ -16,7 +16,8 @@ import (
 )
 
 func TestMiddlewareRecordsStatus(t *testing.T) {
-	handler := logHTTPRequests(instrumentHTTP(metrics.NewHTTPEndpointMetrics(), http.HandlerFunc(
+	endpoints := metrics.NewHTTPEndpointMetrics(prometheus.NewRegistry())
+	handler := logHTTPRequests(instrumentHTTP(endpoints, http.HandlerFunc(
 		func(w http.ResponseWriter, _ *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 		},
