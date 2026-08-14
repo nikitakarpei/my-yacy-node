@@ -25,19 +25,16 @@ type Recaller interface {
 
 type recallServer struct {
 	corpusrecallv1.UnimplementedRecallServer
-	recaller                          Recaller
-	servedRepresentationContractForms representationContractForms
+	recaller                  Recaller
+	servedRepresentationKinds servedRepresentationKinds
 }
 
 func newRecallServer(recaller Recaller, corpora []recall.Corpus) (*recallServer, error) {
-	servedRepresentationContractForms, err := servedRepresentationContractFormsFor(corpora)
+	served, err := servedRepresentationKindsFor(corpora)
 	if err != nil {
 		return nil, err
 	}
-	return &recallServer{
-		recaller:                          recaller,
-		servedRepresentationContractForms: servedRepresentationContractForms,
-	}, nil
+	return &recallServer{recaller: recaller, servedRepresentationKinds: served}, nil
 }
 
 func (s *recallServer) Recall(
@@ -50,7 +47,7 @@ func (s *recallServer) Recall(
 			codes.InvalidArgument, ErrRequestNamesNoRepresentationKind.Error(),
 		)
 	}
-	representationKinds, err := s.servedRepresentationContractForms.representationKindsFrom(
+	representationKinds, err := s.servedRepresentationKinds.representationKindsFrom(
 		requestedContractKinds,
 	)
 	if err != nil {
@@ -63,25 +60,21 @@ func (s *recallServer) Recall(
 		}
 		return nil, status.Error(codes.Internal, err.Error())
 	}
-	response, err := s.recallResponseFrom(recalledPage)
+	response, err := recallResponseFrom(recalledPage)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 	return response, nil
 }
 
-func (s *recallServer) recallResponseFrom(
+func recallResponseFrom(
 	recalledPage recall.RecalledPage,
 ) (*corpusrecallv1.RecallResponse, error) {
-	contractRepresentations, err := s.servedRepresentationContractForms.contractRepresentationsFrom(
-		recalledPage.Representations,
-	)
+	contractRepresentations, err := contractRepresentationsFrom(recalledPage.Representations)
 	if err != nil {
 		return nil, err
 	}
-	unavailable, err := s.servedRepresentationContractForms.contractRepresentationKindsFrom(
-		recalledPage.UnavailableKinds,
-	)
+	unavailable, err := contractRepresentationKindsFrom(recalledPage.UnavailableKinds)
 	if err != nil {
 		return nil, err
 	}

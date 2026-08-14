@@ -26,7 +26,7 @@ const (
 
 const recalledURL = "https://example.com/"
 
-const representationKindWithoutContractForm recall.RepresentationKind = "text"
+const representationKindOutsideTheContract recall.RepresentationKind = "text"
 
 type receiverUnderTest struct {
 	t      *testing.T
@@ -137,7 +137,7 @@ func markdownCorpora() []recall.Corpus {
 	return []recall.Corpus{fakeCorpus{representationKind: markdown.Kind}}
 }
 
-type pageForeignToTheMarkdownContractForm struct{}
+type pageForeignToTheMarkdownRepresentation struct{}
 
 func TestAReceiverRefusesToServeAListenAddressThatCannotBind(t *testing.T) {
 	receiver, err := grpc.NewRecallReceiver(
@@ -152,15 +152,15 @@ func TestAReceiverRefusesToServeAListenAddressThatCannotBind(t *testing.T) {
 	}
 }
 
-func TestAReceiverRefusesACorpusWhoseKindHasNoContractForm(t *testing.T) {
+func TestAReceiverRefusesACorpusWhoseKindIsNotInTheContract(t *testing.T) {
 	_, err := grpc.NewRecallReceiver(
 		&fakeRecaller{},
-		[]recall.Corpus{fakeCorpus{representationKind: representationKindWithoutContractForm}},
+		[]recall.Corpus{fakeCorpus{representationKind: representationKindOutsideTheContract}},
 		freeListenAddress(t),
 	)
 
-	if !errors.Is(err, grpc.ErrRepresentationKindHasNoContractForm) {
-		t.Fatalf("error = %v, want %v", err, grpc.ErrRepresentationKindHasNoContractForm)
+	if !errors.Is(err, grpc.ErrRepresentationKindNotInTheContract) {
+		t.Fatalf("error = %v, want %v", err, grpc.ErrRepresentationKindNotInTheContract)
 	}
 }
 
@@ -265,10 +265,10 @@ func TestRecallRejectsAKindTheServedContractDoesNotName(t *testing.T) {
 	}
 }
 
-func TestRecallFailsWhenARepresentationKindHasNoContractForm(t *testing.T) {
+func TestRecallFailsWhenARecalledKindIsNotInTheContract(t *testing.T) {
 	receiver := recallReceiverUnderTest(t, &fakeRecaller{result: recall.RecalledPage{
 		Representations: []recall.RecalledRepresentation{
-			{Kind: representationKindWithoutContractForm},
+			{Kind: representationKindOutsideTheContract},
 		},
 	}})
 
@@ -283,7 +283,7 @@ func TestRecallFailsWhenARepresentationKindHasNoContractForm(t *testing.T) {
 		t.Fatalf("code = %v, want Internal", status.Code(err))
 	}
 	if !strings.Contains(
-		status.Convert(err).Message(), grpc.ErrRepresentationKindHasNoContractForm.Error(),
+		status.Convert(err).Message(), grpc.ErrRepresentationKindNotInTheContract.Error(),
 	) {
 		t.Errorf("message = %q", status.Convert(err).Message())
 	}
@@ -293,7 +293,7 @@ func TestRecallFailsWhenARepresentationDoesNotMatchItsKind(t *testing.T) {
 	receiver := recallReceiverUnderTest(t, &fakeRecaller{result: recall.RecalledPage{
 		Representations: []recall.RecalledRepresentation{{
 			Kind:           markdown.Kind,
-			Representation: pageForeignToTheMarkdownContractForm{},
+			Representation: pageForeignToTheMarkdownRepresentation{},
 		}},
 	}})
 
