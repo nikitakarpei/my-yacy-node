@@ -22,8 +22,9 @@ vendors:
 
 deps:
   pagemarkdownstore:
-    mayDependOn:
-      - pagemarkdownstore
     canUse:
       - nats
       - natstestserver
+
+excludeFiles:
+  - "_test\.go"

@@ -1,4 +1,4 @@
-package searchdocument
+package searchdocument_test
 
 import (
 	_ "embed"
@@ -6,6 +6,8 @@ import (
 	"reflect"
 	"sort"
 	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 )
 
 //go:embed document.schema.json
@@ -31,7 +33,7 @@ func TestDocumentFieldsMatchSchema(t *testing.T) {
 		t.Fatalf("schema required %v does not cover properties %v", parsed.Required, schemaFields)
 	}
 
-	documentType := reflect.TypeOf(Document{})
+	documentType := reflect.TypeOf(searchdocument.Document{})
 	structFields := make([]string, 0, documentType.NumField())
 	for i := range documentType.NumField() {
 		structFields = append(structFields, documentType.Field(i).Tag.Get("json"))
@@ -39,6 +41,10 @@ func TestDocumentFieldsMatchSchema(t *testing.T) {
 	sort.Strings(structFields)
 
 	if !reflect.DeepEqual(structFields, schemaFields) {
-		t.Errorf("Document json tags %v do not match schema fields %v", structFields, schemaFields)
+		t.Errorf(
+			"searchdocument.Document json tags %v do not match schema fields %v",
+			structFields,
+			schemaFields,
+		)
 	}
 }
