@@ -903,9 +903,8 @@ func TestCycleReportsRingFractionOfAcceptedReplica(t *testing.T) {
 	if err != nil {
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
-	want := yacymodel.RingFractionToPosition(
-		peer, yacymodel.PostingPosition(word, url, partitions),
-	)
+	postingPosition := yacymodel.DHTRingPositionOfPosting(fakePosting(word, url), partitions)
+	want := postingPosition.DistanceTo(yacymodel.DHTRingPositionOf(peer)).FractionOfDHTRing()
 	if h.observer.replicaRingFractions[0] != want {
 		t.Errorf(
 			"replicaRingFraction = %v, want %v",

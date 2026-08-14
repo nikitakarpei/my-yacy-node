@@ -908,7 +908,7 @@ func TestDueCarriesThePostingPosition(t *testing.T) {
 	if err != nil {
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
-	wantPosition := yacymodel.PostingPosition(word, url, partitions)
+	wantPosition := yacymodel.DHTRingPositionOfPosting(fakePosting(word, url), partitions)
 
 	for name, reachability := range map[string]fakeReachability{
 		"replica needed": {},

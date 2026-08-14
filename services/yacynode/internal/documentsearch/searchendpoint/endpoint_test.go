@@ -69,7 +69,7 @@ func observedEndpoint(
 		results:  results,
 		observation: searchObservation{
 			metrics:      searchmetrics.NewSearchMetrics(registry),
-			nodePosition: yacymodel.RingPosition(searchIdentity().Hash),
+			nodePosition: yacymodel.DHTRingPositionOf(searchIdentity().Hash),
 			partitions:   partitions,
 		},
 	}, registry

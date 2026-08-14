@@ -235,9 +235,9 @@ func replicaRingFractionsOf(
 			if !offered {
 				continue
 			}
-			ringFractions = append(ringFractions, yacymodel.RingFractionToPosition(
-				acceptance.holder, offer.PostingPosition,
-			))
+			ringFractions = append(ringFractions, offer.PostingPosition.DistanceTo(
+				yacymodel.DHTRingPositionOf(acceptance.holder),
+			).FractionOfDHTRing())
 		}
 	}
 

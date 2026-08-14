@@ -11,7 +11,7 @@ import (
 
 type searchObservation struct {
 	metrics      *searchmetrics.SearchMetrics
-	nodePosition yacymodel.DHTPosition
+	nodePosition yacymodel.DHTRingPosition
 	partitions   yacymodel.DHTRingPartitions
 }
 
@@ -51,11 +51,11 @@ func (o searchObservation) observeServed(result searchresult.Result) {
 		o.metrics.ObserveSearchOutcome(searchmetrics.SearchServedNoResults)
 	}
 	for term, postingsHeld := range result.PostingsHeldPerTerm {
-		fraction := yacymodel.PostingRingFractionToPosition(term, o.nodePosition, o.partitions)
+		nearness := o.nodePosition.DistanceFromPostingsOfWord(term, o.partitions)
 		if postingsHeld > 0 {
-			o.metrics.ObserveTermInIndex(fraction)
+			o.metrics.ObserveTermInIndex(nearness.FractionOfDHTRing())
 		} else {
-			o.metrics.ObserveTermNotInIndex(fraction)
+			o.metrics.ObserveTermNotInIndex(nearness.FractionOfDHTRing())
 		}
 	}
 }

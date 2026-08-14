@@ -22,6 +22,8 @@ Name a thing for what it is in the problem domain, not for how it is built or wh
 
 The preposition binds to the first parameter. The parameters after it are the context the value is computed against; context and transaction parameters are never the subject. A value with no single subject takes no preposition. A misstated relation fails the name.
 
+A derivation names the domain fact, not the conversion. A name that reads as the subject expressed as another type fails, even when the relation is stated correctly. A derived value has two ends; a name that gives only the source hides the subject and states a conversion.
+
 `new<Type>` is reserved for a collaborator assembled from injected dependencies, never for a computed value.
 
 ## Subjects and predicates
