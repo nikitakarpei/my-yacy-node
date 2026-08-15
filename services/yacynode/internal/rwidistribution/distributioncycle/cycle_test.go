@@ -689,10 +689,10 @@ func TestCycleDeliversMetadataItHasWhenOneURLIsAbsent(t *testing.T) {
 			h.metadataCourier.delivered,
 		)
 	}
-	if h.observer.urlMetadataDeliveries[string(urlmetadatacourier.Unavailable)] != 1 {
+	if h.observer.urlsUnknownToUs != 1 {
 		t.Fatalf(
-			"observed url metadata deliveries = %+v, want 1 for outcome %q",
-			h.observer.urlMetadataDeliveries, urlmetadatacourier.Unavailable,
+			"observed urls unknown to us = %d, want the one url whose metadata this node lacks",
+			h.observer.urlsUnknownToUs,
 		)
 	}
 

@@ -1617,21 +1617,6 @@
                 }
               }
             ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "unavailable"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "dark-red"
-                }
-              }
-            ]
           }
         ]
       },
@@ -1732,21 +1717,6 @@
                 }
               }
             ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "unavailable"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "mode": "fixed",
-                  "fixedColor": "dark-red"
-                }
-              }
-            ]
           }
         ]
       },
@@ -1764,9 +1734,9 @@
       ]
     },
     {
-      "id": 68,
-      "title": "Postings on the offer schedule",
-      "description": "This panel shows how many postings hold a due entry on the offer schedule.",
+      "id": 58,
+      "title": "Replicas dropped from peers",
+      "description": "This panel shows replicas dropped because closer peers displaced the holder, or the holder stayed uncontacted past the credibility window.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1782,7 +1752,8 @@
         "defaults": {
           "unit": "short",
           "custom": {
-            "fillOpacity": 10
+            "drawStyle": "bars",
+            "fillOpacity": 70
           }
         }
       },
@@ -1794,8 +1765,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rwidistribution_scheduled_postings",
-          "legendFormat": "scheduled"
+          "expr": "increase(rwidistribution_stale_replicas_dropped_total[$__rate_interval])",
+          "legendFormat": "dropped"
         }
       ]
     },
@@ -1837,9 +1808,9 @@
       ]
     },
     {
-      "id": 58,
-      "title": "Replicas dropped from peers",
-      "description": "This panel shows replicas dropped because closer peers displaced the holder, or the holder stayed uncontacted past the credibility window.",
+      "id": 57,
+      "title": "Postings evicted mid-cycle",
+      "description": "This panel shows due postings that left the index before the cycle could read them for offering.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1868,15 +1839,15 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_stale_replicas_dropped_total[$__rate_interval])",
-          "legendFormat": "dropped"
+          "expr": "increase(rwidistribution_postings_gone_total[$__rate_interval])",
+          "legendFormat": "evicted"
         }
       ]
     },
     {
-      "id": 57,
-      "title": "Postings evicted mid-cycle",
-      "description": "This panel shows due postings that left the index before the cycle could read them for offering.",
+      "id": 86,
+      "title": "URLs a peer asked for that this node does not hold",
+      "description": "This panel shows URLs a peer asked for after a posting offer whose metadata this node does not hold, so no delivery carried them.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1892,8 +1863,9 @@
         "defaults": {
           "unit": "short",
           "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
           }
         }
       },
@@ -1905,8 +1877,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_postings_gone_total[$__rate_interval])",
-          "legendFormat": "evicted"
+          "expr": "increase(rwidistribution_urls_unknown_to_us_total[$__rate_interval])",
+          "legendFormat": "unknown to us"
         }
       ]
     },
