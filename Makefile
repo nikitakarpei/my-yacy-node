@@ -6,7 +6,7 @@ COVERAGE_MIN ?= 80
 export GOWORK := off
 
 GO_MODULES := $(patsubst %/go.mod,%,$(wildcard libraries/*/go.mod services/*/go.mod))
-GO_E2E := $(patsubst %/go.mod,%,$(wildcard services/*/test/e2e/go.mod plugins/*/*/test/e2e/go.mod))
+GO_E2E_MODULES := $(patsubst %/go.mod,%,$(wildcard services/*/test/e2e/go.mod plugins/*/*/test/e2e/go.mod))
 PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-crawled-text-search
 
 COVER_PROFILE := coverage.out
@@ -32,9 +32,9 @@ for m in $(GO_MODULES); do \
 done
 endef
 
-define for_each_e2e
+define for_each_go_e2e
 echo "==> $(1)"; \
-for m in $(GO_E2E); do \
+for m in $(GO_E2E_MODULES); do \
 	if ! out=$$(cd $$m && $(2) 2>&1); then \
 		echo "==> $(1) $$m FAILED"; echo "$$out"; exit 1; \
 	fi; \
@@ -51,12 +51,12 @@ done
 endef
 
 .PHONY: tools \
-	fmt fmt-go fmt-e2e fmt-py \
-	fmt-check fmt-check-go fmt-check-e2e fmt-check-py \
-	tidy tidy-go tidy-e2e \
-	tidy-check tidy-check-go tidy-check-e2e \
+	fmt fmt-go fmt-go-e2e fmt-py \
+	fmt-check fmt-check-go fmt-check-go-e2e fmt-check-py \
+	tidy tidy-go tidy-go-e2e \
+	tidy-check tidy-check-go tidy-check-go-e2e \
 	workspace \
-	lint lint-go lint-e2e lint-py lint-md \
+	lint lint-go lint-go-e2e lint-py lint-md \
 	arch arch-diagram \
 	test test-go test-py \
 	cover cover-go cover-py \
@@ -65,11 +65,11 @@ endef
 	proto \
 	e2e e2e-images
 
-fmt:         fmt-go fmt-e2e fmt-py
-fmt-check:   fmt-check-go fmt-check-e2e fmt-check-py
-tidy:        tidy-go tidy-e2e
-tidy-check:  tidy-check-go tidy-check-e2e
-lint:        lint-go lint-e2e lint-py lint-md
+fmt:         fmt-go fmt-go-e2e fmt-py
+fmt-check:   fmt-check-go fmt-check-go-e2e fmt-check-py
+tidy:        tidy-go tidy-go-e2e
+tidy-check:  tidy-check-go tidy-check-go-e2e
+lint:        lint-go lint-go-e2e lint-py lint-md
 test:        test-go test-py
 cover:       cover-go cover-py
 cover-check: cover-check-go cover-check-py
@@ -109,29 +109,29 @@ fmt-go: $(TOOLS_STAMP)
 fmt-check-go: $(TOOLS_STAMP)
 	@$(call for_each_go,fmt-check-go,$(GOLANGCI_LINT) fmt --diff)
 
-fmt-e2e: $(TOOLS_STAMP)
-	@$(call for_each_e2e,fmt-e2e,$(GOLANGCI_LINT) fmt)
+fmt-go-e2e: $(TOOLS_STAMP)
+	@$(call for_each_go_e2e,fmt-go-e2e,$(GOLANGCI_LINT) fmt)
 
-fmt-check-e2e: $(TOOLS_STAMP)
-	@$(call for_each_e2e,fmt-check-e2e,$(GOLANGCI_LINT) fmt --diff)
+fmt-check-go-e2e: $(TOOLS_STAMP)
+	@$(call for_each_go_e2e,fmt-check-go-e2e,$(GOLANGCI_LINT) fmt --diff)
 
 tidy-go:
 	@$(call for_each_go,tidy-go,$(GO) mod tidy)
 
-tidy-e2e:
-	@$(call for_each_e2e,tidy-e2e,$(GO) mod tidy)
+tidy-go-e2e:
+	@$(call for_each_go_e2e,tidy-go-e2e,$(GO) mod tidy)
 
 tidy-check-go:
 	@$(call for_each_go,tidy-check-go,$(GO) mod tidy -diff)
 
-tidy-check-e2e:
-	@$(call for_each_e2e,tidy-check-e2e,$(GO) mod tidy -diff)
+tidy-check-go-e2e:
+	@$(call for_each_go_e2e,tidy-check-go-e2e,$(GO) mod tidy -diff)
 
 lint-go: $(TOOLS_STAMP)
 	@$(call for_each_go,lint-go,$(GOLANGCI_LINT) run ./...)
 
-lint-e2e: $(TOOLS_STAMP)
-	@$(call for_each_e2e,lint-e2e,$(GOLANGCI_LINT) run --build-tags e2e ./...)
+lint-go-e2e: $(TOOLS_STAMP)
+	@$(call for_each_go_e2e,lint-go-e2e,$(GOLANGCI_LINT) run --build-tags e2e ./...)
 
 arch: $(TOOLS_STAMP)
 	@$(call for_each_go,arch,$(GO_ARCH_LINT) check)
