@@ -1,8 +1,10 @@
-// Package rendergate bounds concurrency, deadline, and response size around a renderer.
+// Package rendergate bounds concurrency and deadline around a renderer and reports
+// how each render ended.
 package rendergate
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -26,7 +28,6 @@ type Renderer struct {
 	inner    renderedpage.Renderer
 	slots    chan struct{}
 	deadline time.Duration
-	maxBytes int64
 	metrics  Metrics
 }
 
@@ -34,14 +35,12 @@ func New(
 	inner renderedpage.Renderer,
 	concurrency int,
 	deadline time.Duration,
-	maxBytes int64,
 	metrics Metrics,
 ) *Renderer {
 	return &Renderer{
 		inner:    inner,
 		slots:    make(chan struct{}, concurrency),
 		deadline: deadline,
-		maxBytes: maxBytes,
 		metrics:  metrics,
 	}
 }
@@ -59,16 +58,19 @@ func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.P
 	page, err := r.inner.Render(renderCtx, targetURL)
 	r.metrics.RenderObserved(time.Since(start))
 	if err != nil {
-		r.metrics.RenderFailed(ReasonRenderFailed)
+		r.metrics.RenderFailed(failureReasonOf(err))
 		return renderedpage.Page{}, fmt.Errorf("render %s: %w", targetURL, err)
-	}
-	if int64(len(page.Body)) > r.maxBytes {
-		r.metrics.RenderFailed(ReasonTooLarge)
-		return renderedpage.Page{}, fmt.Errorf("rendered page exceeds %d bytes", r.maxBytes)
 	}
 
 	r.metrics.RenderSucceeded()
 	return page, nil
+}
+
+func failureReasonOf(err error) string {
+	if errors.Is(err, renderedpage.ErrTooLarge) {
+		return ReasonTooLarge
+	}
+	return ReasonRenderFailed
 }
 
 func (r *Renderer) acquire(ctx context.Context) error {
