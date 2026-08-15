@@ -1,4 +1,4 @@
-package metrics
+package metrics_test
 
 import (
 	"strings"
@@ -7,11 +7,13 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 )
 
 func TestVaultTransactionReportsBeginLatency(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	transactions := NewVaultTransactionMetrics(registry)
+	transactions := metrics.NewVaultTransactionMetrics(registry)
 
 	transactions.ObserveWriteBegan(time.Millisecond)
 
@@ -28,7 +30,7 @@ func TestVaultTransactionReportsBeginLatency(t *testing.T) {
 
 func TestVaultTransactionCountsBeginRefusalsByCause(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	transactions := NewVaultTransactionMetrics(registry)
+	transactions := metrics.NewVaultTransactionMetrics(registry)
 
 	transactions.ObserveWriteBeginRefused("no_space")
 	transactions.ObserveWriteBeginRefused("no_space")
@@ -51,7 +53,7 @@ vault_write_transaction_begin_refusals_total{cause="unclassified"} 1
 
 func TestVaultTransactionCountsOutcomes(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	transactions := NewVaultTransactionMetrics(registry)
+	transactions := metrics.NewVaultTransactionMetrics(registry)
 
 	transactions.ObserveWriteCommitted(time.Millisecond, 2*time.Millisecond)
 	transactions.ObserveWriteAborted(time.Millisecond, time.Millisecond)
@@ -103,7 +105,7 @@ vault_write_transactions_total{cause="no_space",outcome="refused"} 1
 
 func TestVaultTransactionTracksReadsInFlight(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	transactions := NewVaultTransactionMetrics(registry)
+	transactions := metrics.NewVaultTransactionMetrics(registry)
 
 	transactions.ObserveReadBegan()
 	transactions.ObserveReadBegan()

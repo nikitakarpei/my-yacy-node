@@ -1,15 +1,16 @@
-package yacycrawlcontract
+package yacycrawlcontract_test
 
 import (
 	"reflect"
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func TestPageRWIMetadataChunkRoundTrip(t *testing.T) {
-	chunk := PageRWIMetadataChunk{
+	chunk := yacycrawlcontract.PageRWIMetadataChunk{
 		CanonicalURL: "https://example.org/a",
 		Metadata: []yacymodel.URLMetadata{
 			{
@@ -21,21 +22,21 @@ func TestPageRWIMetadataChunkRoundTrip(t *testing.T) {
 		},
 	}
 
-	data, err := MarshalPageRWIChunk(chunk)
+	data, err := yacycrawlcontract.MarshalPageRWIChunk(chunk)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
 	}
-	got, err := UnmarshalPageRWIChunk(data)
+	got, err := yacycrawlcontract.UnmarshalPageRWIChunk(data)
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
-	if !reflect.DeepEqual(PageRWIChunk(chunk), got) {
+	if !reflect.DeepEqual(yacycrawlcontract.PageRWIChunk(chunk), got) {
 		t.Errorf("round-trip mismatch:\nwant %#v\ngot  %#v", chunk, got)
 	}
 }
 
 func TestPageRWIPostingChunkRoundTrip(t *testing.T) {
-	chunk := PageRWIPostingChunk{
+	chunk := yacycrawlcontract.PageRWIPostingChunk{
 		CanonicalURL: "https://example.org/a",
 		Postings: []yacymodel.RWIPosting{
 			{
@@ -45,27 +46,27 @@ func TestPageRWIPostingChunkRoundTrip(t *testing.T) {
 		},
 	}
 
-	data, err := MarshalPageRWIChunk(chunk)
+	data, err := yacycrawlcontract.MarshalPageRWIChunk(chunk)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
 	}
-	got, err := UnmarshalPageRWIChunk(data)
+	got, err := yacycrawlcontract.UnmarshalPageRWIChunk(data)
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
-	if !reflect.DeepEqual(PageRWIChunk(chunk), got) {
+	if !reflect.DeepEqual(yacycrawlcontract.PageRWIChunk(chunk), got) {
 		t.Errorf("round-trip mismatch:\nwant %#v\ngot  %#v", chunk, got)
 	}
 }
 
 func TestUnmarshalPageRWIChunkRejectsUnknownKind(t *testing.T) {
-	if _, err := UnmarshalPageRWIChunk([]byte(`{"Kind":"sonnet"}`)); err == nil {
+	if _, err := yacycrawlcontract.UnmarshalPageRWIChunk([]byte(`{"Kind":"sonnet"}`)); err == nil {
 		t.Fatal("expected error for unknown chunk kind")
 	}
 }
 
 func TestUnmarshalPageRWIChunkRejectsInvalidJSON(t *testing.T) {
-	if _, err := UnmarshalPageRWIChunk([]byte("not json")); err == nil {
+	if _, err := yacycrawlcontract.UnmarshalPageRWIChunk([]byte("not json")); err == nil {
 		t.Fatal("expected error for invalid JSON")
 	}
 }

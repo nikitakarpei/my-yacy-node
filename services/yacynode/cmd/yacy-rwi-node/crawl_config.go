@@ -8,36 +8,36 @@ import (
 )
 
 const (
-	envNATSURL           = "NATS_URL"
-	envNATSIngestSubject = "NATS_INGEST_SUBJECT"
-	envNATSIngestDurable = "NATS_INGEST_DURABLE"
+	EnvNATSURL           = "NATS_URL"
+	EnvNATSIngestSubject = "NATS_INGEST_SUBJECT"
+	EnvNATSIngestDurable = "NATS_INGEST_DURABLE"
 
-	defaultIngestDurable = "yacy-node"
+	DefaultIngestDurable = "yacy-node"
 )
 
-var defaultIngestSubject = yacycrawlcontract.CrawledPageSubject(
+var DefaultIngestSubject = yacycrawlcontract.CrawledPageSubject(
 	yacycrawlcontract.PageRepresentationKindRWI,
 )
 
-type crawlConfig struct {
+type CrawlConfig struct {
 	NATSURL       string
 	IngestSubject string
 	IngestDurable string
 }
 
-func (c crawlConfig) Enabled() bool {
+func (c CrawlConfig) Enabled() bool {
 	return c.NATSURL != ""
 }
 
-func loadCrawlConfig(getenv func(string) string) crawlConfig {
-	url := strings.TrimSpace(getenv(envNATSURL))
+func loadCrawlConfig(getenv func(string) string) CrawlConfig {
+	url := strings.TrimSpace(getenv(EnvNATSURL))
 	if url == "" {
-		return crawlConfig{}
+		return CrawlConfig{}
 	}
 
-	return crawlConfig{
+	return CrawlConfig{
 		NATSURL:       url,
-		IngestSubject: envconfig.String(getenv, envNATSIngestSubject, defaultIngestSubject),
-		IngestDurable: envconfig.String(getenv, envNATSIngestDurable, defaultIngestDurable),
+		IngestSubject: envconfig.String(getenv, EnvNATSIngestSubject, DefaultIngestSubject),
+		IngestDurable: envconfig.String(getenv, EnvNATSIngestDurable, DefaultIngestDurable),
 	}
 }

@@ -1,4 +1,4 @@
-package yacycrawlcontract
+package yacycrawlcontract_test
 
 import (
 	"testing"

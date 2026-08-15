@@ -1,24 +1,25 @@
-package peeradmission
+package peeradmission_test
 
 import (
 	"context"
+	"io"
+	"net/http"
+	"net/http/httptest"
 	"slices"
+	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-type stubProbe struct {
-	reachable bool
-	called    bool
-}
+type helloRuntimeStatus struct{}
 
-func (p *stubProbe) IsReachable(context.Context, yacymodel.Seed, yacymodel.Hash, string) bool {
-	p.called = true
+func (helloRuntimeStatus) Version(context.Context) string { return "1.0" }
 
-	return p.reachable
-}
+func (helloRuntimeStatus) Uptime(context.Context) int { return 0 }
 
 type stubReachability struct {
 	seeds     []yacymodel.Seed
@@ -33,17 +34,24 @@ func (s *stubReachability) ConfirmReachable(_ context.Context, peer yacymodel.Ha
 	s.refreshed = append(s.refreshed, peer)
 }
 
-func newEndpoint(
-	t testing.TB,
-	probe callerReachabilityProbe,
+func muxWithHello(
+	t *testing.T,
 	reachability *stubReachability,
-) helloEndpoint {
-	return helloEndpoint{
-		identity:     localPeer(),
-		status:       selfStatus(t),
-		probe:        probe,
-		reachability: reachability,
-	}
+	client *http.Client,
+) *http.ServeMux {
+	mux := http.NewServeMux()
+	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
+		Guard: httpguard.NewRequestGuard(
+			httpguard.DefaultMaxBodyBytes,
+			httpguard.DefaultRequestTimeout,
+		),
+		Respond: httpguard.NewWireResponder(helloRuntimeStatus{}),
+		Address: httpguard.NewClientAddressResolver(nil),
+	})
+
+	peeradmission.MountHello(router, localPeer(), selfStatus(t), reachability, client)
+
+	return mux
 }
 
 func helloRequest(network string, caller yacymodel.Seed, count int) yacyproto.HelloRequest {
@@ -55,17 +63,68 @@ func helloRequest(network string, caller yacymodel.Seed, count int) yacyproto.He
 	}
 }
 
-func TestHelloClassifiesReachableAddressedCallerAsSenior(t *testing.T) {
-	reachability := &stubReachability{
-		seeds: []yacymodel.Seed{callerSeed(t, "trusted", "203.0.113.1", 8090)},
-	}
-	endpoint := newEndpoint(t, &stubProbe{reachable: true}, reachability)
+func serveHello(
+	t *testing.T,
+	mux *http.ServeMux,
+	req yacyproto.HelloRequest,
+) yacyproto.HelloResponse {
+	t.Helper()
 
-	caller := callerSeed(t, "caller", "10.0.0.1", 8090)
-	resp, err := endpoint.Serve(context.Background(), helloRequest("freeworld", caller, 0))
-	if err != nil {
-		t.Fatalf("Serve: %v", err)
+	rec := httptest.NewRecorder()
+	httpReq := httptest.NewRequestWithContext(
+		context.Background(),
+		http.MethodPost,
+		yacyproto.PathHello,
+		strings.NewReader(req.Form().Encode()),
+	)
+	httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	mux.ServeHTTP(rec, httpReq)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200, body = %q", rec.Code, rec.Body.String())
 	}
+
+	body, err := io.ReadAll(rec.Body)
+	if err != nil {
+		t.Fatalf("read body: %v", err)
+	}
+
+	resp, err := yacyproto.ParseHelloResponse(
+		context.Background(),
+		yacyproto.ParseMessage(string(body)),
+	)
+	if err != nil {
+		t.Fatalf("ParseHelloResponse: %v", err)
+	}
+
+	return resp
+}
+
+func backPingServer(reachable bool) *httptest.Server {
+	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		if !reachable {
+			http.Error(w, "boom", http.StatusInternalServerError)
+
+			return
+		}
+		resp := yacyproto.QueryResponse{Response: 3}
+		_, _ = io.WriteString(w, resp.Encode().Encode())
+	}))
+}
+
+func TestHelloClassifiesReachableAddressedCallerAsSenior(t *testing.T) {
+	srv := backPingServer(true)
+	defer srv.Close()
+
+	reachability := &stubReachability{
+		seeds: []yacymodel.Seed{peerSeed(t, "trusted", "203.0.113.1", 8090)},
+	}
+	mux := muxWithHello(t, reachability, srv.Client())
+
+	caller := reachableCallerSeed(t, srv.URL)
+	resp := serveHello(t, mux, helloRequest("freeworld", caller, 0))
+
 	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerSenior {
 		t.Fatalf("YourType = %q, want senior", yourType)
 	}
@@ -81,16 +140,17 @@ func TestHelloClassifiesReachableAddressedCallerAsSenior(t *testing.T) {
 }
 
 func TestHelloClassifiesUnreachableCallerAsJunior(t *testing.T) {
-	reachability := &stubReachability{}
-	endpoint := newEndpoint(t, &stubProbe{reachable: false}, reachability)
+	srv := backPingServer(false)
+	defer srv.Close()
 
-	resp, err := endpoint.Serve(
-		context.Background(),
-		helloRequest("freeworld", callerSeed(t, "caller", "10.0.0.1", 8090), 0),
+	reachability := &stubReachability{}
+	mux := muxWithHello(t, reachability, srv.Client())
+
+	resp := serveHello(
+		t,
+		mux,
+		helloRequest("freeworld", reachableCallerSeed(t, srv.URL), 0),
 	)
-	if err != nil {
-		t.Fatalf("Serve: %v", err)
-	}
 	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerJunior {
 		t.Fatalf("YourType = %q, want junior", yourType)
 	}
@@ -101,21 +161,15 @@ func TestHelloClassifiesUnreachableCallerAsJunior(t *testing.T) {
 
 func TestHelloClassifiesAddresslessCallerAsJunior(t *testing.T) {
 	reachability := &stubReachability{}
-	probe := &stubProbe{reachable: true}
-	endpoint := newEndpoint(t, probe, reachability)
+	mux := muxWithHello(t, reachability, http.DefaultClient)
 
-	resp, err := endpoint.Serve(
-		context.Background(),
-		helloRequest("freeworld", callerSeed(t, "caller", "", 0), 0),
+	resp := serveHello(
+		t,
+		mux,
+		helloRequest("freeworld", addresslessCallerSeed(t), 0),
 	)
-	if err != nil {
-		t.Fatalf("Serve: %v", err)
-	}
 	if yourType, _ := resp.YourType.Get(); yourType != yacymodel.PeerJunior {
 		t.Fatalf("YourType = %q, want junior for addressless caller", yourType)
-	}
-	if probe.called {
-		t.Fatal("probe consulted for addressless caller")
 	}
 	if len(reachability.refreshed) != 0 {
 		t.Fatalf("refreshed = %v, want no refresh for addressless caller", reachability.refreshed)
@@ -123,46 +177,37 @@ func TestHelloClassifiesAddresslessCallerAsJunior(t *testing.T) {
 }
 
 func TestHelloOnForeignNetworkOmitsAdmission(t *testing.T) {
-	probe := &stubProbe{reachable: true}
-	endpoint := newEndpoint(
-		t,
-		probe,
-		&stubReachability{seeds: []yacymodel.Seed{callerSeed(t, "trusted", "203.0.113.1", 8090)}},
-	)
-
-	resp, err := endpoint.Serve(
-		context.Background(),
-		helloRequest("otherworld", callerSeed(t, "caller", "10.0.0.1", 8090), 0),
-	)
-	if err != nil {
-		t.Fatalf("Serve: %v", err)
+	reachability := &stubReachability{
+		seeds: []yacymodel.Seed{peerSeed(t, "trusted", "203.0.113.1", 8090)},
 	}
+	mux := muxWithHello(t, reachability, http.DefaultClient)
+
+	resp := serveHello(
+		t,
+		mux,
+		helloRequest("otherworld", unreachableCallerSeed(t), 0),
+	)
 	if got := len(resp.Seeds); got != 1 {
 		t.Fatalf("Seeds = %d, want 1 (self only)", got)
 	}
 	if resp.YourType.Present() {
 		t.Fatalf("YourType = %v, want absent for foreign network", resp.YourType)
 	}
-	if probe.called {
-		t.Fatal("probe consulted despite foreign network")
-	}
 }
 
 func TestHelloLimitsKnownPeersToCount(t *testing.T) {
 	reachability := &stubReachability{seeds: []yacymodel.Seed{
-		callerSeed(t, "a", "203.0.113.1", 8090),
-		callerSeed(t, "b", "203.0.113.2", 8090),
-		callerSeed(t, "c", "203.0.113.3", 8090),
+		peerSeed(t, "a", "203.0.113.1", 8090),
+		peerSeed(t, "b", "203.0.113.2", 8090),
+		peerSeed(t, "c", "203.0.113.3", 8090),
 	}}
-	endpoint := newEndpoint(t, &stubProbe{reachable: true}, reachability)
+	mux := muxWithHello(t, reachability, http.DefaultClient)
 
-	resp, err := endpoint.Serve(
-		context.Background(),
-		helloRequest("freeworld", callerSeed(t, "caller", "10.0.0.1", 8090), 2),
+	resp := serveHello(
+		t,
+		mux,
+		helloRequest("freeworld", unreachableCallerSeed(t), 2),
 	)
-	if err != nil {
-		t.Fatalf("Serve: %v", err)
-	}
 
 	if got := len(resp.Seeds); got != 3 {
 		t.Fatalf("Seeds = %d, want 3 (self + two of three known)", got)
@@ -177,18 +222,16 @@ func TestHelloLimitsKnownPeersToCount(t *testing.T) {
 
 func TestHelloCountZeroReturnsAllKnownPeers(t *testing.T) {
 	reachability := &stubReachability{seeds: []yacymodel.Seed{
-		callerSeed(t, "a", "203.0.113.1", 8090),
-		callerSeed(t, "b", "203.0.113.2", 8090),
+		peerSeed(t, "a", "203.0.113.1", 8090),
+		peerSeed(t, "b", "203.0.113.2", 8090),
 	}}
-	endpoint := newEndpoint(t, &stubProbe{reachable: true}, reachability)
+	mux := muxWithHello(t, reachability, http.DefaultClient)
 
-	resp, err := endpoint.Serve(
-		context.Background(),
-		helloRequest("freeworld", callerSeed(t, "caller", "10.0.0.1", 8090), 0),
+	resp := serveHello(
+		t,
+		mux,
+		helloRequest("freeworld", unreachableCallerSeed(t), 0),
 	)
-	if err != nil {
-		t.Fatalf("Serve: %v", err)
-	}
 	if got := len(resp.Seeds); got != 3 {
 		t.Fatalf("Seeds = %d, want 3 (self + two known)", got)
 	}

@@ -82,7 +82,7 @@ var intranetHostPattern = regexp.MustCompile(`(?i)^((localhost)` +
 	`|(\[?::1)` +
 	`|(\[?(fc|fd).*:.*))$`)
 
-func DomainID(host string) int {
+func domainID(host string) int {
 	if host == "" {
 		return tldLocalID
 	}

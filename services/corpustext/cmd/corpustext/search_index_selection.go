@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
@@ -51,8 +50,6 @@ func selectSearchIndex(
 			prefix: tables.Prefix(),
 		}, nil
 	default:
-		return searchIndexSelection{}, fmt.Errorf(
-			"%s: unknown engine %q", EnvSearchIndexEngine, cfg.SearchIndexEngine,
-		)
+		return searchIndexSelection{}, unknownSearchIndexEngine(cfg.SearchIndexEngine)
 	}
 }

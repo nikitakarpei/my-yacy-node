@@ -1,4 +1,4 @@
-package main
+package main_test
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	corpusrecall "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/cmd/corpusrecall"
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/recallclienttest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
@@ -62,23 +63,23 @@ func provisionPageMarkdownBucket(t *testing.T, js jetstream.JetStream) jetstream
 	return store
 }
 
-func testConfig(natsURL, listenAddr string) ServiceConfig {
-	return ServiceConfig{
+func testConfig(natsURL, listenAddr string) corpusrecall.ServiceConfig {
+	return corpusrecall.ServiceConfig{
 		NATSURL:          natsURL,
-		OrdersSubject:    DefaultOrdersSubject,
+		OrdersSubject:    corpusrecall.DefaultOrdersSubject,
 		ListenAddr:       listenAddr,
 		OpsAddr:          "127.0.0.1:0",
 		RecallLimit:      2 * time.Second,
 		PollInterval:     20 * time.Millisecond,
-		MaxInFlight:      DefaultMaxInFlight,
-		MaxResponseBytes: DefaultMaxResponseBytes,
+		MaxInFlight:      corpusrecall.DefaultMaxInFlight,
+		MaxResponseBytes: corpusrecall.DefaultMaxResponseBytes,
 	}
 }
 
 func TestRunServiceRecallsStoredMarkdown(t *testing.T) {
 	url := natstestserver.Start(t)
 	js := natstestserver.ConnectJetStream(t, url)
-	provisionCrawlerState(t, js, DefaultOrdersSubject)
+	provisionCrawlerState(t, js, corpusrecall.DefaultOrdersSubject)
 	store := provisionPageMarkdownBucket(t, js)
 
 	const canonicalURL = "https://example.com/"
@@ -93,7 +94,7 @@ func TestRunServiceRecallsStoredMarkdown(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	runDone := make(chan error, 1)
-	go func() { runDone <- RunService(ctx, cfg) }()
+	go func() { runDone <- corpusrecall.RunService(ctx, cfg) }()
 
 	client := recallclienttest.New(t, listenAddr)
 	resp := recallUntilMarkdown(t, client, canonicalURL)
@@ -139,16 +140,20 @@ func recallUntilMarkdown(
 
 func TestRunServiceFailsWhenNATSUnreachable(t *testing.T) {
 	cfg := testConfig("nats://127.0.0.1:1", freeAddr(t))
-	if err := RunService(context.Background(), cfg); err == nil {
+	if err := corpusrecall.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when nats is unreachable")
 	}
 }
 
 func TestRunServiceFailsWhenPageMarkdownBucketMissing(t *testing.T) {
 	url := natstestserver.Start(t)
-	provisionCrawlerState(t, natstestserver.ConnectJetStream(t, url), DefaultOrdersSubject)
+	provisionCrawlerState(
+		t,
+		natstestserver.ConnectJetStream(t, url),
+		corpusrecall.DefaultOrdersSubject,
+	)
 	cfg := testConfig(url, freeAddr(t))
-	if err := RunService(context.Background(), cfg); err == nil {
+	if err := corpusrecall.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when page markdown bucket is not provisioned")
 	}
 }
@@ -156,10 +161,10 @@ func TestRunServiceFailsWhenPageMarkdownBucketMissing(t *testing.T) {
 func TestRunServiceFailsWhenListenAddrInvalid(t *testing.T) {
 	url := natstestserver.Start(t)
 	js := natstestserver.ConnectJetStream(t, url)
-	provisionCrawlerState(t, js, DefaultOrdersSubject)
+	provisionCrawlerState(t, js, corpusrecall.DefaultOrdersSubject)
 	provisionPageMarkdownBucket(t, js)
 	cfg := testConfig(url, "127.0.0.1:99999")
-	if err := RunService(context.Background(), cfg); err == nil {
+	if err := corpusrecall.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when listen address cannot bind")
 	}
 }

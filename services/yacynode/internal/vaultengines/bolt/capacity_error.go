@@ -24,6 +24,7 @@ func (e capacityError) Unwrap() error { return e.err }
 
 func (e capacityError) Cause() vault.WriteRefusalCause { return e.cause }
 
+// TECHDEBT: testing — the exhaustion causes are untested; no exported seam makes bolt run out
 func capacityCauseOf(err error) (vault.WriteRefusalCause, bool) {
 	switch {
 	case errors.Is(err, syscall.ENOSPC):

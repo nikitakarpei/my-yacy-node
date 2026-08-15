@@ -1,7 +1,7 @@
-package urlmeta
+package urlmeta_test
 
 import (
-	"errors"
+	"context"
 	"reflect"
 	"testing"
 	"time"
@@ -61,62 +61,41 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 	}
 }
 
-func TestStoredURLMetadataCodecRoundTripsEveryField(t *testing.T) {
-	codec := urlMetadataValueCodec{}
+func receivedThenRead(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.URLMetadata {
+	t.Helper()
 
-	want := fullURLMetadata(t)
+	ctx := context.Background()
+	module := openModule(t, 0)
+	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{metadata}); err != nil {
+		t.Fatalf("Receive: %v", err)
+	}
 
-	encoded, err := codec.Encode(want)
+	rows, err := module.Directory.MetadataByHash(
+		ctx,
+		[]yacymodel.URLHash{metadataHash(t, metadata)},
+	)
 	if err != nil {
-		t.Fatal(err)
+		t.Fatalf("MetadataByHash: %v", err)
 	}
-	got, err := codec.Decode(encoded)
-	if err != nil {
-		t.Fatal(err)
+	if len(rows) != 1 {
+		t.Fatalf("rows = %v, want the one received row", rows)
 	}
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("round-trip mismatch:\ngot  %+v\nwant %+v", got, want)
+
+	return rows[0]
+}
+
+func TestStoredURLMetadataKeepsEveryField(t *testing.T) {
+	stored := fullURLMetadata(t)
+
+	if read := receivedThenRead(t, stored); !reflect.DeepEqual(read, stored) {
+		t.Errorf("read back\n got  %+v\n want %+v", read, stored)
 	}
 }
 
-func TestStoredURLMetadataCodecRoundTripsAbsentValues(t *testing.T) {
-	codec := urlMetadataValueCodec{}
+func TestStoredURLMetadataKeepsAbsentValues(t *testing.T) {
+	stored := yacymodel.URLMetadata{Address: "https://example.org/"}
 
-	want := yacymodel.URLMetadata{Address: "https://example.org/"}
-
-	encoded, err := codec.Encode(want)
-	if err != nil {
-		t.Fatal(err)
-	}
-	got, err := codec.Decode(encoded)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("round-trip mismatch:\ngot  %+v\nwant %+v", got, want)
-	}
-}
-
-func TestStoredURLMetadataCodecRejectsEmptyValue(t *testing.T) {
-	codec := urlMetadataValueCodec{}
-
-	if _, err := codec.Decode(nil); !errors.Is(
-		err, yacymodel.ErrBadURLMetadata,
-	) {
-		t.Errorf("err = %v, want ErrBadURLMetadata", err)
-	}
-}
-
-func TestStoredURLMetadataCodecRejectsTruncatedValue(t *testing.T) {
-	codec := urlMetadataValueCodec{}
-
-	encoded, err := codec.Encode(fullURLMetadata(t))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if _, err := codec.Decode(
-		encoded[:len(encoded)-1],
-	); !errors.Is(err, yacymodel.ErrBadURLMetadata) {
-		t.Errorf("err = %v, want ErrBadURLMetadata", err)
+	if read := receivedThenRead(t, stored); !reflect.DeepEqual(read, stored) {
+		t.Errorf("read back\n got  %+v\n want %+v", read, stored)
 	}
 }

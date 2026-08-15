@@ -8,6 +8,26 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
+func mustHash(t *testing.T, raw string) yacymodel.Hash {
+	t.Helper()
+	hash, err := yacymodel.ParseHash(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return hash
+}
+
+func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Language] {
+	t.Helper()
+	language, err := yacymodel.ParseLanguage(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return yacymodel.Some(language)
+}
+
 func sampleHash(tb testing.TB, word string) yacymodel.Hash {
 	tb.Helper()
 

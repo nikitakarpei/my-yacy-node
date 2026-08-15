@@ -27,8 +27,6 @@ vendors:
 
 deps:
   firecrawlscrape:
-    mayDependOn:
-      - firecrawlscrape
     canUse:
       - corpusrecallapi
       - grpc
@@ -37,4 +35,5 @@ deps:
     anyVendorDeps: true
 
 excludeFiles:
+  - "_test\\.go"
   - "test/e2e"

@@ -7,6 +7,7 @@ import (
 
 	"github.com/chromedp/chromedp"
 
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/cdpdocumentbinding"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
 )
 
@@ -31,8 +32,8 @@ func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.P
 	stopPropagation := context.AfterFunc(ctx, tabCancel)
 	defer stopPropagation()
 
-	var outcome mainDocumentResponse
-	chromedp.ListenTarget(tabCtx, outcome.observe)
+	var binding cdpdocumentbinding.Binding
+	chromedp.ListenTarget(tabCtx, binding.Observe)
 
 	if err := chromedp.Run(tabCtx, chromedp.Navigate(targetURL)); err != nil {
 		if ctxErr := ctx.Err(); ctxErr != nil {
@@ -41,15 +42,15 @@ func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.P
 		return renderedpage.Page{}, fmt.Errorf("render %s: %w", targetURL, err)
 	}
 
-	document := outcome.result()
-	if !document.seen {
+	document := binding.BoundDocument()
+	if !document.Seen {
 		return renderedpage.Page{}, fmt.Errorf(
 			"render %s: no document response observed",
 			targetURL,
 		)
 	}
 
-	body, err := extractDocumentBody(tabCtx, document.requestID, document.contentType)
+	body, err := extractDocumentBody(tabCtx, document.RequestID, document.ContentType)
 	if err != nil {
 		if ctxErr := ctx.Err(); ctxErr != nil {
 			return renderedpage.Page{}, fmt.Errorf("render %s: %w", targetURL, ctxErr)
@@ -58,8 +59,8 @@ func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.P
 	}
 
 	return renderedpage.Page{
-		StatusCode:  document.statusCode,
-		ContentType: document.contentType,
+		StatusCode:  document.StatusCode,
+		ContentType: document.ContentType,
 		Body:        body,
 	}, nil
 }

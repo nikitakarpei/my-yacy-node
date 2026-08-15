@@ -1,4 +1,4 @@
-package rendergate
+package rendergate_test
 
 import (
 	"context"
@@ -10,93 +10,58 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendergate"
 )
 
 type stubRenderer struct {
 	page  renderedpage.Page
 	err   error
 	delay time.Duration
-
-	mu          sync.Mutex
-	inFlight    int
-	maxInFlight int
 }
 
 func (s *stubRenderer) Render(ctx context.Context, targetURL string) (renderedpage.Page, error) {
-	s.mu.Lock()
-	s.inFlight++
-	if s.inFlight > s.maxInFlight {
-		s.maxInFlight = s.inFlight
-	}
-	s.mu.Unlock()
-
 	select {
 	case <-time.After(s.delay):
 	case <-ctx.Done():
-		s.mu.Lock()
-		s.inFlight--
-		s.mu.Unlock()
 		return renderedpage.Page{}, fmt.Errorf("stub render canceled: %w", ctx.Err())
 	}
 
-	s.mu.Lock()
-	s.inFlight--
-	s.mu.Unlock()
 	return s.page, s.err
 }
 
-type stubMetrics struct {
-	waited    atomic.Int64
-	succeeded atomic.Int64
-	failed    atomic.Int64
+type blockingRenderer struct {
+	entered chan struct{}
+	release chan struct{}
+}
 
-	mu           sync.Mutex
-	failedReason string
+func (r *blockingRenderer) Render(context.Context, string) (renderedpage.Page, error) {
+	close(r.entered)
+	<-r.release
+
+	return renderedpage.Page{}, nil
+}
+
+type stubMetrics struct {
+	waited       atomic.Int64
+	succeeded    atomic.Int64
+	failed       atomic.Int64
+	failedReason atomic.Pointer[string]
 }
 
 func (m *stubMetrics) RenderWaited()    { m.waited.Add(1) }
 func (m *stubMetrics) RenderSucceeded() { m.succeeded.Add(1) }
+
 func (m *stubMetrics) RenderFailed(reason string) {
 	m.failed.Add(1)
-	m.mu.Lock()
-	m.failedReason = reason
-	m.mu.Unlock()
+	m.failedReason.Store(&reason)
 }
+
 func (m *stubMetrics) RenderObserved(time.Duration) {}
-
-func (m *stubMetrics) lastFailedReason() string {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	return m.failedReason
-}
-
-func TestRenderCapsConcurrency(t *testing.T) {
-	inner := &stubRenderer{delay: 20 * time.Millisecond}
-	metrics := &stubMetrics{}
-	gated := New(inner, 2, time.Second, 1024, metrics)
-
-	var wg sync.WaitGroup
-	for range 5 {
-		wg.Go(func() {
-			_, _ = gated.Render(context.Background(), "http://example.com")
-		})
-	}
-	wg.Wait()
-
-	inner.mu.Lock()
-	defer inner.mu.Unlock()
-	if inner.maxInFlight > 2 {
-		t.Fatalf("max in-flight = %d, want <= 2", inner.maxInFlight)
-	}
-	if metrics.waited.Load() == 0 {
-		t.Fatal("expected at least one wait to be recorded")
-	}
-}
 
 func TestRenderFailsWhenPageTooLarge(t *testing.T) {
 	inner := &stubRenderer{page: renderedpage.Page{Body: make([]byte, 100)}}
 	metrics := &stubMetrics{}
-	gated := New(inner, 1, time.Second, 10, metrics)
+	gated := rendergate.New(inner, 1, time.Second, 10, metrics)
 
 	if _, err := gated.Render(context.Background(), "http://example.com"); err == nil {
 		t.Fatal("expected error for oversized page")
@@ -109,7 +74,7 @@ func TestRenderFailsWhenPageTooLarge(t *testing.T) {
 func TestRenderAppliesDeadline(t *testing.T) {
 	inner := &stubRenderer{delay: 50 * time.Millisecond}
 	metrics := &stubMetrics{}
-	gated := New(inner, 1, 5*time.Millisecond, 1024, metrics)
+	gated := rendergate.New(inner, 1, 5*time.Millisecond, 1024, metrics)
 
 	_, err := gated.Render(context.Background(), "http://example.com")
 	if !errors.Is(err, context.DeadlineExceeded) {
@@ -117,38 +82,66 @@ func TestRenderAppliesDeadline(t *testing.T) {
 	}
 }
 
-func TestRenderRecordsSlotWaitTimeout(t *testing.T) {
-	inner := &stubRenderer{delay: 100 * time.Millisecond}
-	metrics := &stubMetrics{}
-	gated := New(inner, 1, time.Second, 1024, metrics)
-
-	held := make(chan struct{})
-	go func() {
-		close(held)
-		_, _ = gated.Render(context.Background(), "http://example.com")
-	}()
-	<-held
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Millisecond)
-	defer cancel()
-	_, err := gated.Render(ctx, "http://example.com")
-	if !errors.Is(err, context.DeadlineExceeded) {
-		t.Fatalf("err = %v, want context.DeadlineExceeded", err)
-	}
-	if got := metrics.lastFailedReason(); got != ReasonSlotWaitTimeout {
-		t.Fatalf("failed reason = %q, want %q", got, ReasonSlotWaitTimeout)
-	}
-}
-
 func TestRenderPropagatesInnerError(t *testing.T) {
 	inner := &stubRenderer{err: errors.New("boom")}
 	metrics := &stubMetrics{}
-	gated := New(inner, 1, time.Second, 1024, metrics)
+	gated := rendergate.New(inner, 1, time.Second, 1024, metrics)
 
 	if _, err := gated.Render(context.Background(), "http://example.com"); err == nil {
 		t.Fatal("expected error")
 	}
 	if metrics.succeeded.Load() != 0 {
 		t.Fatal("did not expect success recorded")
+	}
+}
+
+func TestRenderWaitsForSlotWhenConcurrencyCapReached(t *testing.T) {
+	gated, metrics, release, held := gateWithSlotHeld(t)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	_, _ = gated.Render(ctx, "http://example.com")
+
+	close(release)
+	held.Wait()
+
+	if metrics.waited.Load() != 1 {
+		t.Fatalf("waited count = %d, want 1", metrics.waited.Load())
+	}
+}
+
+func gateWithSlotHeld(
+	t *testing.T,
+) (*rendergate.Renderer, *stubMetrics, chan<- struct{}, *sync.WaitGroup) {
+	t.Helper()
+
+	metrics := &stubMetrics{}
+	inner := &blockingRenderer{entered: make(chan struct{}), release: make(chan struct{})}
+	gated := rendergate.New(inner, 1, time.Second, 1024, metrics)
+
+	var held sync.WaitGroup
+	held.Go(func() {
+		_, _ = gated.Render(context.Background(), "http://example.com")
+	})
+	<-inner.entered
+
+	return gated, metrics, inner.release, &held
+}
+
+func TestRenderReportsSlotWaitTimeout(t *testing.T) {
+	gated, metrics, release, held := gateWithSlotHeld(t)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	if _, err := gated.Render(ctx, "http://example.com"); err == nil {
+		t.Fatal("expected error from render with an already cancelled context")
+	}
+
+	close(release)
+	held.Wait()
+
+	reason := metrics.failedReason.Load()
+	if reason == nil || *reason != rendergate.ReasonSlotWaitTimeout {
+		t.Fatalf("failure reason = %v, want %s", reason, rendergate.ReasonSlotWaitTimeout)
 	}
 }

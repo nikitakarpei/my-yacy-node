@@ -87,7 +87,7 @@ func (h *Handoff) isHeldByCloserPeers(
 		return false, fmt.Errorf("read replica ledger: %w", err)
 	}
 
-	position := yacymodel.PostingPosition(posting.WordHash, posting.URLHash, h.partitions)
+	position := yacymodel.DHTRingPositionOfPosting(posting, h.partitions)
 
 	return len(h.holdersCloserThanThisNode(ctx, holders, position)) >= h.redundancy, nil
 }
@@ -95,14 +95,14 @@ func (h *Handoff) isHeldByCloserPeers(
 func (h *Handoff) holdersCloserThanThisNode(
 	ctx context.Context,
 	holders []yacymodel.Hash,
-	position yacymodel.DHTPosition,
+	position yacymodel.DHTRingPosition,
 ) []yacymodel.Hash {
 	closerHolders := make([]yacymodel.Hash, 0, len(holders))
 	for _, peer := range holders {
 		if !h.reachability.IsReachable(ctx, peer) {
 			continue
 		}
-		if yacymodel.CloserToPosition(peer, h.self, position) {
+		if yacymodel.CloserToDHTRingPosition(peer, h.self, position) {
 			closerHolders = append(closerHolders, peer)
 		}
 	}

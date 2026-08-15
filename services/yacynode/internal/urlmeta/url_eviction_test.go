@@ -1,4 +1,4 @@
-package urlmeta
+package urlmeta_test
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
@@ -45,7 +46,7 @@ func TestPurgeSurvivesObserverFailure(t *testing.T) {
 		t.Fatalf("Intake: %v", err)
 	}
 
-	var result PurgeResult
+	var result urlmeta.PurgeResult
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
 		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.URLHash{metadataHash(t, row)})
 		result = purged
@@ -73,7 +74,7 @@ func TestPurgeDeletesRows(t *testing.T) {
 		t.Fatalf("Intake: %v", err)
 	}
 
-	var result PurgeResult
+	var result urlmeta.PurgeResult
 	if err := v.Update(ctx, func(tx *vault.Txn) error {
 		purged, purgeErr := module.Evictor.Purge(ctx, tx, []yacymodel.URLHash{metadataHash(t, row)})
 		result = purged

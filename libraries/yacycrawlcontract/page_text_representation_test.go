@@ -1,14 +1,16 @@
-package yacycrawlcontract
+package yacycrawlcontract_test
 
 import (
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 func TestPageTextRepresentationRoundTrip(t *testing.T) {
-	page := PageTextRepresentation{
-		PageReference: PageReference{
+	page := yacycrawlcontract.PageTextRepresentation{
+		PageReference: yacycrawlcontract.PageReference{
 			CanonicalURL: "https://example.org/a",
 			Title:        "Hi",
 			CrawledAt:    time.Date(2026, 7, 4, 0, 0, 0, 0, time.UTC),
@@ -17,11 +19,11 @@ func TestPageTextRepresentationRoundTrip(t *testing.T) {
 		Text: []byte("words here"),
 	}
 
-	data, err := MarshalPageTextRepresentation(page)
+	data, err := yacycrawlcontract.MarshalPageTextRepresentation(page)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
 	}
-	got, err := UnmarshalPageTextRepresentation(data)
+	got, err := yacycrawlcontract.UnmarshalPageTextRepresentation(data)
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
@@ -31,19 +33,19 @@ func TestPageTextRepresentationRoundTrip(t *testing.T) {
 }
 
 func TestPageTextRepresentationRoundTripsArbitraryTextBytes(t *testing.T) {
-	page := PageTextRepresentation{
-		PageReference: PageReference{
+	page := yacycrawlcontract.PageTextRepresentation{
+		PageReference: yacycrawlcontract.PageReference{
 			CanonicalURL: "https://example.org/b",
 			CrawledAt:    time.Date(2026, 7, 4, 0, 0, 0, 0, time.UTC),
 		},
 		Text: []byte{0x00, 0x01, 0xff},
 	}
 
-	data, err := MarshalPageTextRepresentation(page)
+	data, err := yacycrawlcontract.MarshalPageTextRepresentation(page)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
 	}
-	got, err := UnmarshalPageTextRepresentation(data)
+	got, err := yacycrawlcontract.UnmarshalPageTextRepresentation(data)
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
@@ -53,7 +55,7 @@ func TestPageTextRepresentationRoundTripsArbitraryTextBytes(t *testing.T) {
 }
 
 func TestUnmarshalPageTextRepresentationRejectsInvalidJSON(t *testing.T) {
-	if _, err := UnmarshalPageTextRepresentation([]byte("not json")); err == nil {
+	if _, err := yacycrawlcontract.UnmarshalPageTextRepresentation([]byte("not json")); err == nil {
 		t.Fatal("expected error for invalid JSON")
 	}
 }

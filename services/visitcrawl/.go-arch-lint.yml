@@ -26,9 +26,6 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  natstestserver:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/natstestserver
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
@@ -46,25 +43,16 @@ vendors:
 deps:
   visitintake:
     mayDependOn:
-      - visitintake
       - visitlink
     canUse:
       - yacycrawlcontract
       - uuid
-  visitlink:
-    mayDependOn:
-      - visitlink
   crawlorderbroker:
-    mayDependOn:
-      - crawlorderbroker
     canUse:
       - yacycrawlcontract
       - nats
-      - natstestserver
       - serviceruntime
   visitmetrics:
-    mayDependOn:
-      - visitmetrics
     canUse:
       - prometheus
   visitcrawlcmd:
@@ -72,4 +60,5 @@ deps:
     anyVendorDeps: true
 
 excludeFiles:
+  - "_test\\.go"
   - "test/e2e"

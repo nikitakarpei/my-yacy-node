@@ -1,10 +1,11 @@
-package rwipostings
+package rwipostings_test
 
 import (
 	"errors"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 func urlHashFromWord(t *testing.T, word string) yacymodel.URLHash {
@@ -57,13 +58,15 @@ func fullPosting(t *testing.T) yacymodel.RWIPosting {
 }
 
 func TestStoredPostingRoundTrip(t *testing.T) {
+	codec := rwipostings.PostingCodec()
+
 	entry := fullPosting(t)
 
-	encoded, err := postingValueCodec{}.Encode(entry)
+	encoded, err := codec.Encode(entry)
 	if err != nil {
 		t.Fatalf("Encode: %v", err)
 	}
-	decoded, err := postingValueCodec{}.Decode(encoded)
+	decoded, err := codec.Decode(encoded)
 	if err != nil {
 		t.Fatalf("Decode: %v", err)
 	}
@@ -74,23 +77,23 @@ func TestStoredPostingRoundTrip(t *testing.T) {
 }
 
 func TestStoredPostingRejectsEmptyValue(t *testing.T) {
-	if _, err := (postingValueCodec{}).Decode(nil); !errors.Is(err, yacymodel.ErrBadRWIPosting) {
+	codec := rwipostings.PostingCodec()
+
+	if _, err := codec.Decode(nil); !errors.Is(err, yacymodel.ErrBadRWIPosting) {
 		t.Errorf("err = %v, want ErrBadRWIPosting", err)
 	}
 }
 
 func TestStoredPostingRejectsTruncatedBinary(t *testing.T) {
-	encoded, err := postingValueCodec{}.Encode(fullPosting(t))
+	codec := rwipostings.PostingCodec()
+
+	encoded, err := codec.Encode(fullPosting(t))
 	if err != nil {
 		t.Fatalf("Encode: %v", err)
 	}
 	for length := 1; length < len(encoded); length++ {
-		if _, err := (postingValueCodec{}).Decode(
-			encoded[:length],
-		); !errors.Is(
-			err,
-			yacymodel.ErrBadRWIPosting,
-		) {
+		_, err := codec.Decode(encoded[:length])
+		if !errors.Is(err, yacymodel.ErrBadRWIPosting) {
 			t.Errorf("truncated to %d bytes: err = %v, want ErrBadRWIPosting", length, err)
 		}
 	}

@@ -1,4 +1,4 @@
-package urlmeta
+package urlmeta_test
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
@@ -14,9 +15,9 @@ func localIdentity() nodeidentity.Identity {
 }
 
 type urlPorts struct {
-	Directory URLDirectory
-	Evictor   URLEvictor
-	Receiver  URLReceiver
+	Directory urlmeta.URLDirectory
+	Evictor   urlmeta.URLEvictor
+	Receiver  urlmeta.URLReceiver
 }
 
 func openModule(t *testing.T, quotaBytes int64) urlPorts {
@@ -32,7 +33,7 @@ func openModule(t *testing.T, quotaBytes int64) urlPorts {
 		}
 	})
 
-	directory, evictor, receiver, err := Open(v)
+	directory, evictor, receiver, err := urlmeta.Open(v)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

@@ -1,23 +1,24 @@
-package replicaeligibility
+package replicaeligibility_test
 
 import (
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
 )
 
 type clock struct{ at time.Time }
 
 func (c *clock) now() time.Time { return c.at }
 
-func eligible(peers *Peers, peer yacymodel.Hash) bool {
+func eligible(peers *replicaeligibility.Peers, peer yacymodel.Hash) bool {
 	return len(peers.EligiblePeers([]yacymodel.Seed{{Hash: peer}})) == 1
 }
 
 func TestUnknownPeerIsEligible(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
-	peers := New(time.Minute, clk.now)
+	peers := replicaeligibility.New(time.Minute, clk.now)
 
 	if !eligible(peers, yacymodel.WordHash("peer")) {
 		t.Fatal("EligiblePeers = false, want true for a peer that was never offered a posting")
@@ -26,7 +27,7 @@ func TestUnknownPeerIsEligible(t *testing.T) {
 
 func TestRefusedPeerIsHeldBackForCooldown(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
-	peers := New(time.Minute, clk.now)
+	peers := replicaeligibility.New(time.Minute, clk.now)
 	peer := yacymodel.WordHash("peer")
 
 	peers.OfferDeclined(peer, 0)
@@ -40,14 +41,11 @@ func TestRefusedPeerIsHeldBackForCooldown(t *testing.T) {
 	if !eligible(peers, peer) {
 		t.Fatal("EligiblePeers = false, want true once the cooldown has passed")
 	}
-	if heldBack := len(peers.heldBackUntil); heldBack != 0 {
-		t.Fatalf("held back peers = %d, want the expired hold forgotten", heldBack)
-	}
 }
 
 func TestRequestedPauseOutlastsCooldown(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
-	peers := New(time.Minute, clk.now)
+	peers := replicaeligibility.New(time.Minute, clk.now)
 	peer := yacymodel.WordHash("peer")
 
 	peers.OfferDeclined(peer, time.Hour)
@@ -61,7 +59,7 @@ func TestRequestedPauseOutlastsCooldown(t *testing.T) {
 
 func TestAcceptanceClearsHoldBack(t *testing.T) {
 	clk := &clock{at: time.Unix(1000, 0)}
-	peers := New(time.Hour, clk.now)
+	peers := replicaeligibility.New(time.Hour, clk.now)
 	peer := yacymodel.WordHash("peer")
 
 	peers.OfferDeclined(peer, 0)

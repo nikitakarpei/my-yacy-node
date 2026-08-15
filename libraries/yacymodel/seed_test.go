@@ -1,18 +1,22 @@
-package yacymodel
+package yacymodel_test
 
-import "testing"
+import (
+	"testing"
 
-func addressableSeed(t *testing.T) Seed {
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
+
+func addressableSeed(t *testing.T) yacymodel.Seed {
 	t.Helper()
-	host, err := ParseHost("192.0.2.1")
+	host, err := yacymodel.ParseHost("192.0.2.1")
 	if err != nil {
 		t.Fatal(err)
 	}
-	port, err := ParsePort("8090")
+	port, err := yacymodel.ParsePort("8090")
 	if err != nil {
 		t.Fatal(err)
 	}
-	return Seed{PrimaryAddress: Some(host), Port: Some(port)}
+	return yacymodel.Seed{PrimaryAddress: yacymodel.Some(host), Port: yacymodel.Some(port)}
 }
 
 func TestSeedNetworkAddress(t *testing.T) {
@@ -24,8 +28,8 @@ func TestSeedNetworkAddress(t *testing.T) {
 }
 
 func TestSeedNetworkAddressMissingPort(t *testing.T) {
-	host, _ := ParseHost("192.0.2.1")
-	seed := Seed{PrimaryAddress: Some(host)}
+	host, _ := yacymodel.ParseHost("192.0.2.1")
+	seed := yacymodel.Seed{PrimaryAddress: yacymodel.Some(host)}
 	if _, ok := seed.NetworkAddress(); ok {
 		t.Fatal("NetworkAddress present without port")
 	}
@@ -43,20 +47,20 @@ func TestSeedHTTPEndpoint(t *testing.T) {
 }
 
 func TestSeedHTTPEndpointUnreachable(t *testing.T) {
-	if _, err := (Seed{}).HTTPEndpoint("/x"); err == nil {
+	if _, err := (yacymodel.Seed{}).HTTPEndpoint("/x"); err == nil {
 		t.Fatal("HTTPEndpoint on addressless seed did not fail")
 	}
 }
 
 func TestSeedIsAddressable(t *testing.T) {
-	if (Seed{}).IsAddressable() {
+	if (yacymodel.Seed{}).IsAddressable() {
 		t.Fatal("empty seed reported addressable")
 	}
 	if !addressableSeed(t).IsAddressable() {
 		t.Fatal("seed with primary address not addressable")
 	}
-	host, _ := ParseHost("2001:db8::1")
-	viaAdditional := Seed{AdditionalAddresses: Some([]Host{host})}
+	host, _ := yacymodel.ParseHost("2001:db8::1")
+	viaAdditional := yacymodel.Seed{AdditionalAddresses: yacymodel.Some([]yacymodel.Host{host})}
 	if !viaAdditional.IsAddressable() {
 		t.Fatal("seed with additional address not addressable")
 	}

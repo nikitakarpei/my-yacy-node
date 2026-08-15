@@ -1,118 +1,151 @@
-package yacymodel
+package yacymodel_test
 
-import "testing"
+import (
+	"testing"
 
-func TestRingPosition(t *testing.T) {
-	low := RingPosition(mustParseHash(t, "AAAAAAAAAAAA"))
-	high := RingPosition(mustParseHash(t, "__________AA"))
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
+
+func TestDHTRingPositionOf(t *testing.T) {
+	low := yacymodel.DHTRingPositionOf(mustParseHash(t, "AAAAAAAAAAAA"))
+	high := yacymodel.DHTRingPositionOf(mustParseHash(t, "__________AA"))
 	if low >= high {
 		t.Errorf("expected ring order low(%d) < high(%d)", low, high)
 	}
-	if high != MaxDHTPosition {
-		t.Errorf("RingPosition of all-last folded symbols = %d, want %d", high, MaxDHTPosition)
-	}
-}
-
-func TestPositionHashRoundTrip(t *testing.T) {
-	// PositionHash can only recover the first 10 symbols a position was
-	// derived from; the trailing two are folded away by cardinal.
-	word := mustParseHash(t, "hHJBztzcFn__")
-	pos := RingPosition(word)
-	if got := PositionHash(pos); got != word {
-		t.Errorf("PositionHash(RingPosition(%v)) = %v, want %v", word, got, word)
-	}
-}
-
-func TestPostingPosition(t *testing.T) {
-	word := mustParseHash(t, "hHJBztzcFn76")
-	url1, err := ParseURLHash("AAAAAAAAAAAA")
-	if err != nil {
-		t.Fatal(err)
-	}
-	url2, err := ParseURLHash("____________")
-	if err != nil {
-		t.Fatal(err)
-	}
-	partitions, err := DHTRingPartitionsFromExponent(4)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	pos1 := PostingPosition(word, url1, partitions)
-	pos2 := PostingPosition(word, url2, partitions)
-	if pos1 == pos2 {
+	if high != yacymodel.MaxDHTRingPosition {
 		t.Errorf(
-			"PostingPosition for the same word but different urls must differ: %d == %d",
-			pos1,
-			pos2,
+			"DHTRingPositionOf all-last folded symbols = %d, want %d",
+			high, yacymodel.MaxDHTRingPosition,
+		)
+	}
+}
+
+func TestDHTRingPositionOfFoldsSymbolsPastTheTenth(t *testing.T) {
+	if yacymodel.DHTRingPositionOf(yacymodel.Hash{}) != yacymodel.DHTRingPositionOf(
+		mustParseHash(t, "AAAAAAAAAAAA"),
+	) {
+		t.Error("the zero hash and all-first symbols must take the same ring position")
+	}
+
+	eleventhB := yacymodel.DHTRingPositionOf(mustParseHash(t, "AAAAAAAAAAAB"))
+	eleventhZ := yacymodel.DHTRingPositionOf(mustParseHash(t, "AAAAAAAAAAAZ"))
+	if eleventhB != eleventhZ {
+		t.Errorf(
+			"symbols past the tenth must not move the position: %d != %d",
+			eleventhB,
+			eleventhZ,
+		)
+	}
+}
+
+func TestHashFromDHTRingPositionRoundTrip(t *testing.T) {
+	word := mustParseHash(t, "hHJBztzcFn__")
+	position := yacymodel.DHTRingPositionOf(word)
+	if got := yacymodel.HashFromDHTRingPosition(position); got != word {
+		t.Errorf("HashFromDHTRingPosition(DHTRingPositionOf(%v)) = %v, want %v", word, got, word)
+	}
+}
+
+func TestDHTRingPositionOfPosting(t *testing.T) {
+	word := mustParseHash(t, "hHJBztzcFn76")
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(4)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	first := postingOfWordForURL(t, word, "AAAAAAAAAAAA")
+	second := postingOfWordForURL(t, word, "____________")
+
+	firstPosition := yacymodel.DHTRingPositionOfPosting(first, partitions)
+	secondPosition := yacymodel.DHTRingPositionOfPosting(second, partitions)
+	if firstPosition == secondPosition {
+		t.Errorf(
+			"postings of one word for different urls must take different positions: %d == %d",
+			firstPosition,
+			secondPosition,
 		)
 	}
 
-	wordPos := RingPosition(word)
-	shift := partitions.shiftLength()
-	mask := uint64(1)<<shift - 1
-	if uint64(pos1)&mask != uint64(wordPos)&mask {
-		t.Errorf("PostingPosition must keep the word hash's low %d bits", shift)
+	for _, position := range []yacymodel.DHTRingPosition{firstPosition, secondPosition} {
+		if distance := position.DistanceFromPostingsOfWord(word, partitions); distance != 0 {
+			t.Errorf(
+				"a posting position must lie on the postings of its word: distance %d, want 0",
+				distance,
+			)
+		}
 	}
 }
 
 func TestDHTRingPartitionsFromExponent(t *testing.T) {
-	p, err := DHTRingPartitionsFromExponent(4)
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(4)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if p != 16 {
-		t.Errorf("DHTRingPartitionsFromExponent(4) = %d, want 16", p)
+	if partitions != 16 {
+		t.Errorf("DHTRingPartitionsFromExponent(4) = %d, want 16", partitions)
 	}
-	if _, err := DHTRingPartitionsFromExponent(63); err == nil {
+	if _, err := yacymodel.DHTRingPartitionsFromExponent(63); err == nil {
 		t.Errorf("DHTRingPartitionsFromExponent(63) should fail")
 	}
 }
 
-func TestPostingRingFractionToPosition(t *testing.T) {
+func TestDistanceFromPostingsOfWord(t *testing.T) {
 	word := mustParseHash(t, "hHJBztzcFn76")
-	partitions, err := DHTRingPartitionsFromExponent(4)
+	wholeRing, err := yacymodel.DHTRingPartitionsFromExponent(0)
 	if err != nil {
 		t.Fatal(err)
 	}
-	peer := mustParseHash(t, "gHJBztzcFn76")
-	peerPosition := RingPosition(peer)
 
-	shift := partitions.shiftLength()
-	nearest := MaxDHTPosition
-	for k := uint64(0); k < uint64(partitions); k++ {
-		partitionPosition := DHTPosition(
-			uint64(RingPosition(word))&(uint64(1)<<shift-1) | k<<shift,
-		)
-		if d := Distance(partitionPosition, peerPosition); d < nearest {
-			nearest = d
-		}
+	wordPosition := yacymodel.DHTRingPositionOf(word)
+	if distance := wordPosition.DistanceFromPostingsOfWord(word, wholeRing); distance != 0 {
+		t.Errorf("distance at the word's own position = %d, want 0", distance)
 	}
 
-	got := PostingRingFractionToPosition(word, peerPosition, partitions)
-	want := ringFractionOfDistance(nearest)
-	if got != want {
-		t.Errorf(
-			"PostingRingFractionToPosition = %v, want nearest partition fraction %v",
-			got,
-			want,
-		)
-	}
-
-	atOwnPosition := PostingRingFractionToPosition(word, RingPosition(word), partitions)
-	if atOwnPosition != 0 {
-		t.Errorf("fraction at the word's own position = %v, want 0", atOwnPosition)
+	halfway := wordPosition + yacymodel.MaxDHTRingPosition/2
+	fraction := halfway.DistanceFromPostingsOfWord(word, wholeRing).FractionOfDHTRing()
+	if fraction < 0.49 || fraction > 0.51 {
+		t.Errorf("fraction half a ring past the word = %v, want about 0.5", fraction)
 	}
 }
 
-func TestDistance(t *testing.T) {
-	if d := Distance(10, 40); d != 30 {
-		t.Errorf("Distance(10,40) = %d, want 30", d)
+func TestDistanceTo(t *testing.T) {
+	if distance := yacymodel.DHTRingPosition(10).DistanceTo(40); distance != 30 {
+		t.Errorf("DistanceTo forward = %d, want 30", distance)
 	}
-	if d := Distance(40, 10); d != (MaxDHTPosition-40)+10+1 {
-		t.Errorf("Distance wrap = %d", d)
+
+	wrapped := yacymodel.DHTRingPosition(40).DistanceTo(10)
+	want := yacymodel.DHTRingDistance((yacymodel.MaxDHTRingPosition-40)+10) + 1
+	if wrapped != want {
+		t.Errorf("DistanceTo wrapping the ring = %d, want %d", wrapped, want)
 	}
-	if d := Distance(5, 5); d != 0 {
-		t.Errorf("Distance(5,5) = %d, want 0", d)
+
+	if distance := yacymodel.DHTRingPosition(5).DistanceTo(5); distance != 0 {
+		t.Errorf("DistanceTo the same position = %d, want 0", distance)
 	}
+}
+
+func TestFractionOfDHTRing(t *testing.T) {
+	if fraction := yacymodel.DHTRingDistance(0).FractionOfDHTRing(); fraction != 0 {
+		t.Errorf("FractionOfDHTRing of no distance = %v, want 0", fraction)
+	}
+
+	half := yacymodel.DHTRingDistance(yacymodel.MaxDHTRingPosition / 2).FractionOfDHTRing()
+	if half < 0.49 || half > 0.51 {
+		t.Errorf("FractionOfDHTRing of half the ring = %v, want about 0.5", half)
+	}
+}
+
+func postingOfWordForURL(
+	t *testing.T,
+	word yacymodel.Hash,
+	rawURLHash string,
+) yacymodel.RWIPosting {
+	t.Helper()
+
+	urlHash, err := yacymodel.ParseURLHash(rawURLHash)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return yacymodel.RWIPosting{WordHash: word, URLHash: urlHash}
 }

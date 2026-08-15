@@ -6,23 +6,25 @@ import (
 
 type replicaWindow struct {
 	closest          []yacymodel.Seed
-	position         yacymodel.DHTPosition
+	position         yacymodel.DHTRingPosition
 	requiredReplicas int
 }
 
 func replicaWindowFor(
-	position yacymodel.DHTPosition,
+	position yacymodel.DHTRingPosition,
 	acceptingPeers []yacymodel.Seed,
 	self yacymodel.Hash,
 	redundancy int,
 ) replicaWindow {
 	requiredReplicas := redundancy
-	if len(yacymodel.SeedsCloserThanPeer(acceptingPeers, self, position)) < redundancy {
+	if len(
+		yacymodel.SeedsCloserToDHTRingPositionThanPeer(acceptingPeers, self, position),
+	) < redundancy {
 		requiredReplicas = redundancy - 1
 	}
 
 	return replicaWindow{
-		closest: yacymodel.SeedsClosestToPosition(
+		closest: yacymodel.SeedsClosestToDHTRingPosition(
 			acceptingPeers, position, requiredReplicas,
 		),
 		position:         position,
@@ -36,6 +38,6 @@ func (r replicaWindow) contains(peer yacymodel.Hash) bool {
 	}
 	farthest := r.closest[len(r.closest)-1].Hash
 
-	return yacymodel.DistanceToPosition(peer, r.position) <=
-		yacymodel.DistanceToPosition(farthest, r.position)
+	return r.position.DistanceTo(yacymodel.DHTRingPositionOf(peer)) <=
+		r.position.DistanceTo(yacymodel.DHTRingPositionOf(farthest))
 }

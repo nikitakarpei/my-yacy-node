@@ -1,4 +1,4 @@
-package peerwire
+package peerwire_test
 
 import (
 	"context"
@@ -7,6 +7,8 @@ import (
 	"net/url"
 	"strings"
 	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 )
 
 func exchangeEndpoint(t *testing.T, server *httptest.Server) string {
@@ -37,7 +39,7 @@ func TestExchangePostsFormAndParsesReply(t *testing.T) {
 	}))
 	defer server.Close()
 
-	msg, err := NewMessageExchange(server.Client()).Exchange(
+	msg, err := peerwire.NewMessageExchange(server.Client()).Exchange(
 		context.Background(),
 		exchangeEndpoint(t, server),
 		"/yacy/transferRWI.html",
@@ -66,7 +68,7 @@ func TestExchangeReportsStatusAndReportedBody(t *testing.T) {
 	}))
 	defer server.Close()
 
-	_, err := NewMessageExchange(server.Client()).Exchange(
+	_, err := peerwire.NewMessageExchange(server.Client()).Exchange(
 		context.Background(),
 		exchangeEndpoint(t, server),
 		"/yacy/transferRWI.html",
@@ -89,7 +91,7 @@ func TestExchangeReportsStatusWithoutReportedBody(t *testing.T) {
 	}))
 	defer server.Close()
 
-	_, err := NewMessageExchange(server.Client()).Exchange(
+	_, err := peerwire.NewMessageExchange(server.Client()).Exchange(
 		context.Background(),
 		exchangeEndpoint(t, server),
 		"/yacy/transferRWI.html",
@@ -98,13 +100,13 @@ func TestExchangeReportsStatusWithoutReportedBody(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected error on non-200")
 	}
-	if !strings.Contains(err.Error(), failureReportAbsent) {
-		t.Errorf("error = %q, want %q", err, failureReportAbsent)
+	if !strings.Contains(err.Error(), "no reported body") {
+		t.Errorf("error = %q, want %q", err, "no reported body")
 	}
 }
 
 func TestExchangeRejectsEmptyEndpoint(t *testing.T) {
-	_, err := NewMessageExchange(http.DefaultClient).Exchange(
+	_, err := peerwire.NewMessageExchange(http.DefaultClient).Exchange(
 		context.Background(),
 		"  ",
 		"/yacy/transferRWI.html",
@@ -121,7 +123,7 @@ func TestExchangeReportsUnreachablePeer(t *testing.T) {
 	client := server.Client()
 	server.Close()
 
-	_, err := NewMessageExchange(client).Exchange(
+	_, err := peerwire.NewMessageExchange(client).Exchange(
 		context.Background(),
 		endpoint,
 		"/yacy/transferRWI.html",

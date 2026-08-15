@@ -22,8 +22,9 @@ vendors:
 
 deps:
   natstestserver:
-    mayDependOn:
-      - natstestserver
     canUse:
       - nats
       - natsserver
+
+excludeFiles:
+  - "_test\\.go"

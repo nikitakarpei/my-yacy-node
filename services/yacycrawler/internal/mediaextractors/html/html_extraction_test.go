@@ -77,3 +77,20 @@ func TestMediaTypesDeclared(t *testing.T) {
 		t.Fatalf("unexpected media types: %v", got)
 	}
 }
+
+func TestExtractReportsNoLanguageWithoutATwoLetterLanguageTag(t *testing.T) {
+	for _, opening := range []string{`<html>`, `<html lang="english">`, `<html lang="e1">`} {
+		page := `<!DOCTYPE html>` + opening +
+			`<head><title>Sample Article</title></head>` +
+			`<body><article><p>` + longText + `</p></article></body></html>`
+
+		doc, err := html.New().
+			Extract(t.Context(), "http://host.example/p", "text/html", []byte(page))
+		if err != nil {
+			t.Fatalf("Extract %s: %v", opening, err)
+		}
+		if doc.Language != "" {
+			t.Errorf("%s yields language %q, want none", opening, doc.Language)
+		}
+	}
+}

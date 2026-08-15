@@ -8,6 +8,12 @@ A package name has the form `<subject><head>`. The subject is the domain object 
 
 Implementations of a port live under a plural directory that carries the port name and holds no code. Each is a package named for its technology or variant, and takes `New` (`pagefetchers/http`, `vaultengines/bolt`, `recrawlrules/dueaftergrace`). The interface belongs to the consumer that calls it.
 
+## Protocols
+
+A package that speaks one wire protocol carries the protocol in its name.
+
+Do not give such a package a name that reads as pure domain vocabulary.
+
 ## Style
 
 Name a thing for what it is in the problem domain, not for how it is built or what it is for. Strip implementation terms (count, map, hash, digest, buffer) and destination terms (shared, peer, abstract, response); keep the domain noun. Spell names in full; abbreviation is not permitted. Protocol and transport vocabulary stays at the edge that translates to and from it.
@@ -15,6 +21,8 @@ Name a thing for what it is in the problem domain, not for how it is built or wh
 ## Derivation
 
 The preposition binds to the first parameter. The parameters after it are the context the value is computed against; context and transaction parameters are never the subject. A value with no single subject takes no preposition. A misstated relation fails the name.
+
+A derivation names the domain fact, not the conversion. A name that reads as the subject expressed as another type fails, even when the relation is stated correctly. A derived value has two ends; a name that gives only the source hides the subject and states a conversion.
 
 `new<Type>` is reserved for a collaborator assembled from injected dependencies, never for a computed value.
 

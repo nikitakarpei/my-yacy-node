@@ -1,11 +1,13 @@
-package rwiadmission
+package rwiadmission_test
 
 import (
 	"context"
+	"net/url"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -24,7 +26,7 @@ type harness struct {
 	index    rwipostings.PostingIndex
 	escrow   *rwiescrow.PostingEscrow
 	urls     urlmeta.URLReceiver
-	receiver PostingReceiver
+	receiver rwiadmission.PostingReceiver
 }
 
 func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
@@ -57,12 +59,12 @@ func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
 		index:  index,
 		escrow: escrow,
 		urls:   urlReceiver,
-		receiver: Open(
+		receiver: rwiadmission.Open(
 			v,
 			urlDirectory,
 			admitter,
 			escrow,
-			Config{BatchCap: batchCap, Pause: busyPause},
+			rwiadmission.Config{BatchCap: batchCap, Pause: busyPause},
 		),
 	}
 }
@@ -72,12 +74,12 @@ func urlAddress(seed string) string {
 }
 
 func urlHash(seed string) yacymodel.URLHash {
-	hash, err := yacymodel.HashURL(urlAddress(seed))
+	address, err := url.Parse(urlAddress(seed))
 	if err != nil {
 		panic(err)
 	}
 
-	return hash
+	return yacymodel.URLNormalformOf(address).Hash()
 }
 
 func posting(word, urlSeed string) yacymodel.RWIPosting {
@@ -260,4 +262,4 @@ func TestReceiveReportsEachUnknownURLOnce(t *testing.T) {
 	}
 }
 
-var _ PostingHolder = (*rwiescrow.PostingEscrow)(nil)
+var _ rwiadmission.PostingHolder = (*rwiescrow.PostingEscrow)(nil)

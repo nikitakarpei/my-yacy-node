@@ -26,9 +26,6 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  natstestserver:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/natstestserver
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
@@ -44,17 +41,12 @@ vendors:
 
 deps:
   markdownintake:
-    mayDependOn:
-      - markdownintake
     canUse:
       - yacycrawlcontract
       - pagemarkdownstore
       - nats
-      - natstestserver
       - serviceruntime
   markdownstoremetrics:
-    mayDependOn:
-      - markdownstoremetrics
     canUse:
       - prometheus
   corpusmarkdowncmd:
@@ -62,4 +54,5 @@ deps:
     anyVendorDeps: true
 
 excludeFiles:
+  - "_test\\.go"
   - "test/e2e"

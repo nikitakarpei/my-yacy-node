@@ -11,26 +11,30 @@ import (
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 )
 
+var ErrRequestNamesNoRepresentationKind = errors.New(
+	"the request names no representation kind",
+)
+
 type Recaller interface {
 	Recall(
 		ctx context.Context,
 		url string,
-		kinds []recall.RepresentationKind,
+		representationKinds []recall.RepresentationKind,
 	) (recall.RecalledPage, error)
 }
 
 type recallServer struct {
 	corpusrecallv1.UnimplementedRecallServer
-	recaller Recaller
-	forms    servedRepresentationForms
+	recaller                  Recaller
+	servedRepresentationKinds servedRepresentationKinds
 }
 
 func newRecallServer(recaller Recaller, corpora []recall.Corpus) (*recallServer, error) {
-	forms, err := servedRepresentationFormsFor(corpora)
+	served, err := servedRepresentationKindsFor(corpora)
 	if err != nil {
 		return nil, err
 	}
-	return &recallServer{recaller: recaller, forms: forms}, nil
+	return &recallServer{recaller: recaller, servedRepresentationKinds: served}, nil
 }
 
 func (s *recallServer) Recall(
@@ -38,35 +42,44 @@ func (s *recallServer) Recall(
 	request *corpusrecallv1.RecallRequest,
 ) (*corpusrecallv1.RecallResponse, error) {
 	requestedContractKinds := request.GetKinds()
-	kinds, err := s.forms.representationKindsFrom(requestedContractKinds)
+	if len(requestedContractKinds) == 0 {
+		return nil, status.Error(
+			codes.InvalidArgument, ErrRequestNamesNoRepresentationKind.Error(),
+		)
+	}
+	representationKinds, err := s.servedRepresentationKinds.representationKindsFrom(
+		requestedContractKinds,
+	)
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	recalledPage, err := s.recaller.Recall(ctx, request.GetUrl(), kinds)
+	recalledPage, err := s.recaller.Recall(ctx, request.GetUrl(), representationKinds)
 	if err != nil {
 		if errors.Is(err, recall.ErrTooManyRequestsInFlight) {
 			return nil, status.Error(codes.ResourceExhausted, err.Error())
 		}
 		return nil, status.Error(codes.Internal, err.Error())
 	}
-	response, err := s.recallResponseFrom(recalledPage)
+	response, err := recallResponseFrom(recalledPage)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 	return response, nil
 }
 
-func (s *recallServer) recallResponseFrom(
+func recallResponseFrom(
 	recalledPage recall.RecalledPage,
 ) (*corpusrecallv1.RecallResponse, error) {
-	contractRepresentations, err := s.forms.contractRepresentationsFrom(
-		recalledPage.Representations,
-	)
+	contractRepresentations, err := contractRepresentationsFrom(recalledPage.Representations)
+	if err != nil {
+		return nil, err
+	}
+	unavailable, err := contractRepresentationKindsFrom(recalledPage.UnavailableKinds)
 	if err != nil {
 		return nil, err
 	}
 	return &corpusrecallv1.RecallResponse{
 		Representations: contractRepresentations,
-		Unavailable:     s.forms.contractRepresentationKindsFrom(recalledPage.UnavailableKinds),
+		Unavailable:     unavailable,
 	}, nil
 }

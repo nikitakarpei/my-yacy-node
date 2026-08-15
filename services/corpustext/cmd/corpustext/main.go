@@ -10,14 +10,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
 )
 
-var lookupEnv = os.Getenv
-
 func main() {
 	os.Exit(start())
 }
 
 func start() int {
-	if err := applog.Configure(lookupEnv); err != nil {
+	if err := applog.Configure(os.Getenv); err != nil {
 		slog.ErrorContext(
 			context.Background(),
 			"corpustext logging invalid",
@@ -26,7 +24,7 @@ func start() int {
 		return 2
 	}
 
-	cfg, err := LoadServiceConfig(lookupEnv)
+	cfg, err := LoadServiceConfig(os.Getenv)
 	if err != nil {
 		slog.ErrorContext(
 			context.Background(),

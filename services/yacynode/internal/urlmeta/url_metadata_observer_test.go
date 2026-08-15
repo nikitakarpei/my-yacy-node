@@ -1,10 +1,11 @@
-package urlmeta
+package urlmeta_test
 
 import (
 	"fmt"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
@@ -39,7 +40,7 @@ func (r *recordingObserver) URLPurged(_ *vault.Txn, hash yacymodel.URLHash) erro
 
 func openObservedModule(
 	t *testing.T,
-	watchers ...URLMetadataObserver,
+	watchers ...urlmeta.URLMetadataObserver,
 ) (*vault.Vault, urlPorts) {
 	t.Helper()
 
@@ -53,7 +54,7 @@ func openObservedModule(
 		}
 	})
 
-	directory, evictor, receiver, err := Open(v, watchers...)
+	directory, evictor, receiver, err := urlmeta.Open(v, watchers...)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

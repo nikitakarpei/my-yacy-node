@@ -1,20 +1,22 @@
-package rwipostings
+package rwipostings_test
 
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 type harness struct {
 	vault    *vault.Vault
-	index    PostingIndex
-	admitter PostingAdmitter
-	purger   PostingPurger
+	index    rwipostings.PostingIndex
+	admitter rwipostings.PostingAdmitter
+	purger   rwipostings.PostingPurger
 	observer *recordingObserver
 }
 
@@ -32,7 +34,7 @@ func openHarness(t *testing.T) harness {
 	})
 
 	observer := &recordingObserver{}
-	index, admitter, purger, err := Open(v, observer)
+	index, admitter, purger, err := rwipostings.Open(v, observer)
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
@@ -57,12 +59,12 @@ func (h harness) admit(t *testing.T, postings ...yacymodel.RWIPosting) {
 }
 
 func urlHash(seed string) yacymodel.URLHash {
-	hash, err := yacymodel.HashURL("http://example.com/" + seed)
+	address, err := url.Parse("http://example.com/" + seed)
 	if err != nil {
 		panic(err)
 	}
 
-	return hash
+	return yacymodel.URLNormalformOf(address).Hash()
 }
 
 func posting(word, urlSeed string) yacymodel.RWIPosting {

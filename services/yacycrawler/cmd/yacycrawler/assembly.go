@@ -8,6 +8,8 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
@@ -28,7 +30,7 @@ import (
 	disposedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/disposedpages/jetstream"
 	orderreceiversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
+	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/alwaysdue"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	redirectresolversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolvers/jetstream"
@@ -54,8 +56,9 @@ const (
 func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
-	metrics *prometheus.CrawlMetrics,
+	registry *prometheus.Registry,
 ) error {
+	metrics := progressobserversprometheus.New(registry)
 	js, conn, err := jetstreamconnect.Open(cfg.NATSURL)
 	if err != nil {
 		return err
@@ -92,7 +95,7 @@ func RunService(
 
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
-		Handler:           opsmetrics.NewMux(metrics.Handler()),
+		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 
@@ -224,7 +227,7 @@ func buildVisitorSource(
 	ctx context.Context,
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-	metrics *prometheus.CrawlMetrics,
+	metrics *progressobserversprometheus.CrawlMetrics,
 ) (pagevisit.VisitorSource, error) {
 	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
@@ -325,7 +328,7 @@ func buildPageRepresentations(
 func buildAbsorberSource(
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-	metrics *prometheus.CrawlMetrics,
+	metrics *progressobserversprometheus.CrawlMetrics,
 ) (pageabsorption.AbsorberSource, error) {
 	admitted, err := admittedMediaTypesFor(cfg)
 	if err != nil {

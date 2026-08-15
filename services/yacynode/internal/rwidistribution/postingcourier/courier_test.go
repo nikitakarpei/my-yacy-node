@@ -1,4 +1,4 @@
-package postingcourier
+package postingcourier_test
 
 import (
 	"context"
@@ -11,6 +11,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -77,14 +78,14 @@ func courierEndpoint(t testing.TB, server *httptest.Server) string {
 	return endpoint
 }
 
-func openCourierHarness(t *testing.T, server *httptest.Server) httpCourier {
+func openCourierHarness(t *testing.T, server *httptest.Server) postingcourier.Courier {
 	t.Helper()
 
-	return httpCourier{
-		exchange:    peerwire.NewMessageExchange(server.Client()),
-		networkName: "freeworld",
-		self:        courierHash("self"),
-	}
+	return postingcourier.New(
+		peerwire.NewMessageExchange(server.Client()),
+		"freeworld",
+		courierHash("self"),
+	)
 }
 
 func rwiResponder(resp yacyproto.TransferRWIResponse) *httptest.Server {
@@ -109,8 +110,8 @@ func TestOfferReportsAcceptedOnOK(t *testing.T) {
 		courierSeed(t, server),
 		singlePosting(),
 	)
-	if receipt.Outcome != Accepted {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Accepted)
+	if receipt.Outcome != postingcourier.Accepted {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Accepted)
 	}
 }
 
@@ -131,8 +132,8 @@ func TestOfferReturnsUnknownURLsWithoutActingOnThem(t *testing.T) {
 		courierSeed(t, server),
 		singlePosting(),
 	)
-	if receipt.Outcome != Accepted {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Accepted)
+	if receipt.Outcome != postingcourier.Accepted {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Accepted)
 	}
 	if len(receipt.URLsUnknownToPeer) != 1 || receipt.URLsUnknownToPeer[0] != unknown {
 		t.Fatalf("URLsUnknownToPeer = %v, want [%v]", receipt.URLsUnknownToPeer, unknown)
@@ -154,8 +155,8 @@ func TestOfferReportsDeferredWithPeerPause(t *testing.T) {
 		courierSeed(t, server),
 		singlePosting(),
 	)
-	if receipt.Outcome != Deferred {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Deferred)
+	if receipt.Outcome != postingcourier.Deferred {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Deferred)
 	}
 	if receipt.RequestedPause != 30*time.Second {
 		t.Fatalf("RequestedPause = %v, want 30s", receipt.RequestedPause)
@@ -174,8 +175,8 @@ func TestOfferReportsOverloadedPeer(t *testing.T) {
 		courierSeed(t, server),
 		singlePosting(),
 	)
-	if receipt.Outcome != Overloaded {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Overloaded)
+	if receipt.Outcome != postingcourier.Overloaded {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Overloaded)
 	}
 }
 
@@ -191,8 +192,8 @@ func TestOfferReportsRefusalOnUnexpectedResult(t *testing.T) {
 		courierSeed(t, server),
 		singlePosting(),
 	)
-	if receipt.Outcome != Refused {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Refused)
+	if receipt.Outcome != postingcourier.Refused {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Refused)
 	}
 }
 
@@ -210,7 +211,7 @@ func TestOfferReportsUnreachablePeerOnTransportFailure(t *testing.T) {
 		courierSeed(t, server),
 		singlePosting(),
 	)
-	if receipt.Outcome != Unreachable {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Unreachable)
+	if receipt.Outcome != postingcourier.Unreachable {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, postingcourier.Unreachable)
 	}
 }

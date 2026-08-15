@@ -11,14 +11,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 )
 
 type distributionCycle struct {
-	config     nodeConfig
+	config     NodeConfig
 	self       yacymodel.Hash
 	storage    nodeStorage
 	roster     peerroster.Roster
@@ -82,7 +82,7 @@ func (d distributionCycle) assemble() *distributioncycle.Cycle {
 		d.observer,
 		d.dhtRing,
 		distributioncycle.Config{
-			OfferInterval: postingofferschedule.OfferInterval{
+			OfferInterval: postingofferinterval.Bounds{
 				Shortest: d.config.Distribution.OfferInterval.Shortest,
 				Longest:  d.config.Distribution.OfferInterval.Longest,
 			},

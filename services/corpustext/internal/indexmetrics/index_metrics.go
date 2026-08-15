@@ -1,25 +1,20 @@
 package indexmetrics
 
 import (
-	"net/http"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 type IndexMetrics struct {
-	registry          *prometheus.Registry
 	pagesReceived     prometheus.Counter
 	pagesIndexed      prometheus.Counter
 	indexFailures     prometheus.Counter
 	indexDurationSecs prometheus.Histogram
 }
 
-func New() *IndexMetrics {
-	registry := prometheus.NewRegistry()
+func New(registry prometheus.Registerer) *IndexMetrics {
 	metrics := &IndexMetrics{
-		registry: registry,
 		pagesReceived: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "corpustext_pages_received_total",
 			Help: "Crawled pages received for indexing.",
@@ -53,8 +48,4 @@ func (m *IndexMetrics) IndexFailed()  { m.indexFailures.Inc() }
 
 func (m *IndexMetrics) IndexObserved(elapsed time.Duration) {
 	m.indexDurationSecs.Observe(elapsed.Seconds())
-}
-
-func (m *IndexMetrics) Handler() http.Handler {
-	return promhttp.HandlerFor(m.registry, promhttp.HandlerOpts{})
 }

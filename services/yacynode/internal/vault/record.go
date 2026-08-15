@@ -17,6 +17,7 @@ func recordFrom(payload []byte) []byte {
 	return append(record, payload...)
 }
 
+// TECHDEBT: testing — an unreadable record's refusal is untested; no exported seam writes one
 func payloadOf(record []byte) ([]byte, error) {
 	metadataLength, headerLength := binary.Uvarint(record)
 	if headerLength <= 0 {

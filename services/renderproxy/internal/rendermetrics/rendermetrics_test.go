@@ -1,4 +1,4 @@
-package rendermetrics
+package rendermetrics_test
 
 import (
 	"context"
@@ -6,10 +6,16 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendermetrics"
 )
 
 func TestRenderMetricsRecordsAndExposesCounters(t *testing.T) {
-	metrics := New()
+	registry := prometheus.NewRegistry()
+	metrics := rendermetrics.New(registry)
 
 	metrics.RenderSucceeded()
 	metrics.RenderFailed("too_large")
@@ -18,7 +24,7 @@ func TestRenderMetricsRecordsAndExposesCounters(t *testing.T) {
 
 	req := httptest.NewRequestWithContext(context.Background(), "GET", "/metrics", nil)
 	rec := httptest.NewRecorder()
-	metrics.Handler().ServeHTTP(rec, req)
+	promhttp.HandlerFor(registry, promhttp.HandlerOpts{}).ServeHTTP(rec, req)
 
 	body := rec.Body.String()
 	for _, want := range []string{

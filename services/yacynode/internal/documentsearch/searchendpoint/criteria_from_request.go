@@ -2,6 +2,7 @@ package searchendpoint
 
 import (
 	"fmt"
+	"net/url"
 	"strings"
 	"time"
 
@@ -14,6 +15,12 @@ const (
 	defaultSearchCount = 10
 	defaultSearchTime  = 3 * time.Second
 	maxSearchTime      = 3 * time.Second
+)
+
+const (
+	ftpSitePrefix  = "ftp."
+	siteHTTPScheme = "http://"
+	siteFTPScheme  = "ftp://"
 )
 
 func criteriaFromRequest(req yacyproto.SearchRequest) (searchcriteria.Criteria, error) {
@@ -88,12 +95,33 @@ func siteHashFromRequest(
 	if siteHost == "" {
 		return yacymodel.None[yacymodel.HostHash](), nil
 	}
-	hash, err := yacymodel.HashHost(siteHost)
+	hash, err := hostHashOfSite(siteHost)
 	if err != nil {
 		return yacymodel.None[yacymodel.HostHash](), fmt.Errorf("site hash: %w", err)
 	}
 
 	return yacymodel.Some(hash), nil
+}
+
+func hostHashOfSite(site string) (yacymodel.HostHash, error) {
+	host := strings.Trim(strings.ToLower(site), ".")
+	if host == "" {
+		return yacymodel.HostHash{}, fmt.Errorf("site %q names no host", site)
+	}
+
+	scheme := siteHTTPScheme
+	if strings.HasPrefix(host, ftpSitePrefix) {
+		scheme = siteFTPScheme
+	}
+	address, err := url.Parse(scheme + host)
+	if err != nil {
+		return yacymodel.HostHash{}, fmt.Errorf("parse site %q: %w", site, err)
+	}
+	if address.Hostname() == "" {
+		return yacymodel.HostHash{}, fmt.Errorf("site %q names no host", site)
+	}
+
+	return yacymodel.URLNormalformOf(address).HostHash(), nil
 }
 
 func timeLimitFromRequest(req yacyproto.SearchRequest) time.Duration {

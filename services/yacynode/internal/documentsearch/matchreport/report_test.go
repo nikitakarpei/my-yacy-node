@@ -1,4 +1,4 @@
-package matchreport
+package matchreport_test
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/matchreport"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
@@ -23,7 +24,7 @@ func matchOf(urls ...string) termmatch.Match {
 }
 
 func TestReportForNoMatchesStaysEmpty(t *testing.T) {
-	report, err := RequestedReport{Mode: NoMatches}.ReportFor(
+	report, err := matchreport.RequestedReport{Mode: matchreport.NoMatches}.ReportFor(
 		context.Background(),
 		searchtest.PostingIndex{},
 		100,
@@ -45,7 +46,7 @@ func TestReportForTermWithMostMatchesNamesTheWidestTerm(t *testing.T) {
 		word2: matchOf("u2"),
 	}
 
-	report, err := RequestedReport{Mode: TermWithMostMatches}.ReportFor(
+	report, err := matchreport.RequestedReport{Mode: matchreport.TermWithMostMatches}.ReportFor(
 		context.Background(),
 		searchtest.PostingIndex{},
 		100,
@@ -69,7 +70,7 @@ func TestReportForTermWithMostMatchesNamesTheWidestTerm(t *testing.T) {
 func TestReportForTermWithMostMatchesCountsOnlyOnSingleTerm(t *testing.T) {
 	word := searchtest.HashFor("w1")
 
-	report, err := RequestedReport{Mode: TermWithMostMatches}.ReportFor(
+	report, err := matchreport.RequestedReport{Mode: matchreport.TermWithMostMatches}.ReportFor(
 		context.Background(),
 		searchtest.PostingIndex{},
 		100,
@@ -87,7 +88,7 @@ func TestReportForTermWithMostMatchesCountsOnlyOnSingleTerm(t *testing.T) {
 func TestReportForTermWithMostMatchesCountsOnlyWithRequiredDocuments(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	report, err := RequestedReport{Mode: TermWithMostMatches}.ReportFor(
+	report, err := matchreport.RequestedReport{Mode: matchreport.TermWithMostMatches}.ReportFor(
 		context.Background(),
 		searchtest.PostingIndex{},
 		100,
@@ -114,7 +115,7 @@ func TestReportForTermWithMostMatchesCountsOnlyWithRequiredDocuments(t *testing.
 func TestReportForTermWithMostMatchesBreaksTiesBySmallerTerm(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	report, err := RequestedReport{Mode: TermWithMostMatches}.ReportFor(
+	report, err := matchreport.RequestedReport{Mode: matchreport.TermWithMostMatches}.ReportFor(
 		context.Background(),
 		searchtest.PostingIndex{},
 		100,
@@ -144,7 +145,7 @@ func TestReportForTermWithMostMatchesBreaksTiesBySmallerTerm(t *testing.T) {
 func TestReportForTermWithMostMatchesCountsOnlyWithoutMatches(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 
-	report, err := RequestedReport{Mode: TermWithMostMatches}.ReportFor(
+	report, err := matchreport.RequestedReport{Mode: matchreport.TermWithMostMatches}.ReportFor(
 		context.Background(),
 		searchtest.PostingIndex{},
 		100,
@@ -171,8 +172,8 @@ func TestReportForRequestedTermsScansThoseTerms(t *testing.T) {
 		},
 	}}
 
-	report, err := RequestedReport{
-		Mode:  RequestedTerms,
+	report, err := matchreport.RequestedReport{
+		Mode:  matchreport.RequestedTerms,
 		Terms: []yacymodel.Hash{related},
 	}.ReportFor(
 		context.Background(),
@@ -196,8 +197,8 @@ func TestReportForRequestedTermsScansThoseTerms(t *testing.T) {
 }
 
 func TestReportForRequestedTermsSurfacesScanFailures(t *testing.T) {
-	_, err := RequestedReport{
-		Mode:  RequestedTerms,
+	_, err := matchreport.RequestedReport{
+		Mode:  matchreport.RequestedTerms,
 		Terms: []yacymodel.Hash{searchtest.HashFor("w2")},
 	}.ReportFor(
 		context.Background(),
@@ -219,8 +220,8 @@ func TestReportForRequestedTermsCountsThemWithoutQueryTerms(t *testing.T) {
 		related: {{URLHash: searchtest.URLHashFor("u2"), Hits: 1}},
 	}}
 
-	report, err := RequestedReport{
-		Mode:  RequestedTerms,
+	report, err := matchreport.RequestedReport{
+		Mode:  matchreport.RequestedTerms,
 		Terms: []yacymodel.Hash{related},
 	}.ReportFor(
 		context.Background(),

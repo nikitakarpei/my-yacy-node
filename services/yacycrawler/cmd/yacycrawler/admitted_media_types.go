@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediatypeallowance"
 )
 
 type admittedMediaTypes struct {
@@ -20,7 +23,7 @@ func admittedMediaTypesFor(cfg ServiceConfig) (admittedMediaTypes, error) {
 	); err != nil {
 		return admittedMediaTypes{}, err
 	}
-	allowance := mediaTypeAllowanceFrom(cfg.ContentTypes)
+	allowance := mediatypeallowance.MediaTypeAllowanceFrom(cfg.ContentTypes)
 	return admittedMediaTypes{
 		extractors:     admittedExtractorsFrom(extractors, allowance),
 		containers:     admittedContainersFrom(expanders, allowance),
@@ -46,14 +49,24 @@ func registeredMediaTypes(
 	return registered
 }
 
+func ensureRegisteredMediaTypes(contentTypes []string, registered map[string]bool) error {
+	for _, mediaType := range contentTypes {
+		if !registered[mediaType] {
+			return fmt.Errorf("%s: no extractor reads %q", EnvContentTypes, mediaType)
+		}
+	}
+
+	return nil
+}
+
 func admittedExtractorsFrom(
 	extractors []registeredMediaExtractor,
-	allowance mediaTypeAllowance,
+	allowance mediatypeallowance.MediaTypeAllowance,
 ) map[string]contentextraction.MediaExtractor {
 	admitted := map[string]contentextraction.MediaExtractor{}
 	for _, extractor := range extractors {
 		for _, mediaType := range extractor.MediaTypes() {
-			if allowance.admits(mediaType) {
+			if allowance.Admits(mediaType) {
 				admitted[mediaType] = extractor
 			}
 		}
@@ -63,12 +76,12 @@ func admittedExtractorsFrom(
 
 func admittedContainersFrom(
 	expanders []registeredContainerExpander,
-	allowance mediaTypeAllowance,
+	allowance mediatypeallowance.MediaTypeAllowance,
 ) map[string]contentextraction.ContainerExpander {
 	admitted := map[string]contentextraction.ContainerExpander{}
 	for _, expander := range expanders {
 		for _, mediaType := range expander.MediaTypes() {
-			if allowance.admits(mediaType) {
+			if allowance.Admits(mediaType) {
 				admitted[mediaType] = expander
 			}
 		}
@@ -78,12 +91,12 @@ func admittedContainersFrom(
 
 func emittedFormatsFrom(
 	extractors []registeredMediaExtractor,
-	allowance mediaTypeAllowance,
+	allowance mediatypeallowance.MediaTypeAllowance,
 ) []contentformatgraph.Format {
 	var formats []contentformatgraph.Format
 	for _, extractor := range extractors {
 		for _, mediaType := range extractor.MediaTypes() {
-			if allowance.admits(mediaType) {
+			if allowance.Admits(mediaType) {
 				formats = append(formats, extractor.EmittedFormat())
 				break
 			}

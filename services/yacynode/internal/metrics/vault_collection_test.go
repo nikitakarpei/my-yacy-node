@@ -1,4 +1,4 @@
-package metrics
+package metrics_test
 
 import (
 	"context"
@@ -9,6 +9,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
@@ -25,7 +26,7 @@ func (s stubVaultCollections) EntriesByCollection(
 
 func TestVaultCollectionReportsEntries(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	NewVaultCollectionMetrics(registry, stubVaultCollections{
+	metrics.NewVaultCollectionMetrics(registry, stubVaultCollections{
 		entries: map[vault.Name]int{"rwi": 7, "urlmeta": 0},
 	})
 
@@ -42,7 +43,10 @@ vault_collection_entries{collection="urlmeta"} 0
 
 func TestVaultCollectionOmitsEntriesOnError(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	NewVaultCollectionMetrics(registry, stubVaultCollections{err: errors.New("unavailable")})
+	metrics.NewVaultCollectionMetrics(
+		registry,
+		stubVaultCollections{err: errors.New("unavailable")},
+	)
 
 	if got := testutil.CollectAndCount(registry, "vault_collection_entries"); got != 0 {
 		t.Errorf("vault_collection_entries samples = %d, want none on error", got)

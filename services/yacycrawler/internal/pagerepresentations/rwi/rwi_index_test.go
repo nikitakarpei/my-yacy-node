@@ -1,11 +1,14 @@
-package rwi
+package rwi_test
 
 import (
+	"net/url"
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerepresentations/rwi"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -24,8 +27,27 @@ func samplePage() pagepublication.Page {
 
 const sampleText = "the quick brown fox the fox"
 
+func representationFromFrame(
+	page pagepublication.Page,
+	content []byte,
+) (yacycrawlcontract.PageRWIRepresentation, error) {
+	messages, err := rwi.New().Frame(page, content)
+	if err != nil {
+		return yacycrawlcontract.PageRWIRepresentation{}, err
+	}
+	chunks := make([]yacycrawlcontract.PageRWIChunk, 0, len(messages))
+	for _, message := range messages {
+		chunk, err := yacycrawlcontract.UnmarshalPageRWIChunk(message)
+		if err != nil {
+			return yacycrawlcontract.PageRWIRepresentation{}, err
+		}
+		chunks = append(chunks, chunk)
+	}
+	return yacycrawlcontract.PageRWIRepresentationFromChunks(chunks)
+}
+
 func TestBuildProducesParseablePostings(t *testing.T) {
-	index, err := buildRepresentation(samplePage(), []byte(sampleText))
+	index, err := representationFromFrame(samplePage(), []byte(sampleText))
 	if err != nil {
 		t.Fatalf("Build: %v", err)
 	}
@@ -35,10 +57,7 @@ func TestBuildProducesParseablePostings(t *testing.T) {
 	if len(index.Postings) == 0 {
 		t.Fatal("no postings")
 	}
-	urlHash, err := yacymodel.HashURL(samplePage().CanonicalURL)
-	if err != nil {
-		t.Fatal(err)
-	}
+	urlHash := hashOfCanonicalURL(t)
 	for _, posting := range index.Postings {
 		if posting.URLHash != urlHash {
 			t.Fatalf("posting url hash = %q, want %q", posting.URLHash, urlHash)
@@ -50,7 +69,7 @@ func TestBuildProducesParseablePostings(t *testing.T) {
 }
 
 func TestBuildCountsRepeatedWords(t *testing.T) {
-	index, err := buildRepresentation(samplePage(), []byte(sampleText))
+	index, err := representationFromFrame(samplePage(), []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -71,7 +90,7 @@ func TestBuildCountsRepeatedWords(t *testing.T) {
 
 func TestBuildCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 	page := samplePage()
-	index, err := buildRepresentation(page, []byte(sampleText))
+	index, err := representationFromFrame(page, []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -105,7 +124,7 @@ func TestBuildCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 }
 
 func TestBuildMetadataCarriesURLHash(t *testing.T) {
-	index, err := buildRepresentation(samplePage(), []byte(sampleText))
+	index, err := representationFromFrame(samplePage(), []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -116,10 +135,7 @@ func TestBuildMetadataCarriesURLHash(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Hash: %v", err)
 	}
-	want, err := yacymodel.HashURL(samplePage().CanonicalURL)
-	if err != nil {
-		t.Fatal(err)
-	}
+	want := hashOfCanonicalURL(t)
 	if got != want {
 		t.Fatalf("metadata url hash = %q, want %q", got, want)
 	}
@@ -128,7 +144,7 @@ func TestBuildMetadataCarriesURLHash(t *testing.T) {
 func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 	page := samplePage()
 	page.Language = ""
-	index, err := buildRepresentation(page, []byte(sampleText))
+	index, err := representationFromFrame(page, []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -141,7 +157,7 @@ func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 
 func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
 	page := samplePage()
-	index, err := buildRepresentation(page, []byte("a fox I saw"))
+	index, err := representationFromFrame(page, []byte("a fox I saw"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -158,7 +174,7 @@ func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
 
 func TestBuildKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
 	page := samplePage()
-	index, err := buildRepresentation(page, []byte("state-of-the-art design"))
+	index, err := representationFromFrame(page, []byte("state-of-the-art design"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -176,7 +192,7 @@ func TestBuildKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
 
 func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 	page := samplePage()
-	index, err := buildRepresentation(page, []byte("the price is 1,234.56 today"))
+	index, err := representationFromFrame(page, []byte("the price is 1,234.56 today"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -195,7 +211,7 @@ func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 func TestBuildIndexesEveryWordOfGivenText(t *testing.T) {
 	page := samplePage()
 	fullText := []byte("navigation menu the quick fox")
-	index, err := buildRepresentation(page, fullText)
+	index, err := representationFromFrame(page, fullText)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -211,7 +227,7 @@ func TestBuildIndexesEveryWordOfGivenText(t *testing.T) {
 func TestBuildMetadataByteSizeReflectsDocumentBody(t *testing.T) {
 	page := samplePage()
 	page.Body = []byte("<html><body>the quick fox</body></html>")
-	index, err := buildRepresentation(page, []byte("the quick fox"))
+	index, err := representationFromFrame(page, []byte("the quick fox"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -226,7 +242,7 @@ func TestBuildMetadataByteSizeReflectsDocumentBody(t *testing.T) {
 
 func TestBuildCountsPhrasesAndPhrasePositions(t *testing.T) {
 	page := samplePage()
-	index, err := buildRepresentation(page, []byte("the quick fox jumps. the lazy dog sleeps."))
+	index, err := representationFromFrame(page, []byte("the quick fox jumps. the lazy dog sleeps."))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -254,4 +270,15 @@ func TestBuildCountsPhrasesAndPhrasePositions(t *testing.T) {
 			sleepsPhrase,
 		)
 	}
+}
+
+func hashOfCanonicalURL(t *testing.T) yacymodel.URLHash {
+	t.Helper()
+
+	address, err := url.Parse(samplePage().CanonicalURL)
+	if err != nil {
+		t.Fatalf("parse canonical url: %v", err)
+	}
+
+	return yacymodel.URLNormalformOf(address).Hash()
 }

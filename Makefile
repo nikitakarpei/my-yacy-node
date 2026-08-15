@@ -6,6 +6,7 @@ COVERAGE_MIN ?= 80
 export GOWORK := off
 
 GO_MODULES := $(patsubst %/go.mod,%,$(wildcard libraries/*/go.mod services/*/go.mod))
+GO_E2E_MODULES := $(patsubst %/go.mod,%,$(wildcard services/*/test/e2e/go.mod plugins/*/*/test/e2e/go.mod))
 PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-crawled-text-search
 
 COVER_PROFILE := coverage.out
@@ -31,6 +32,15 @@ for m in $(GO_MODULES); do \
 done
 endef
 
+define for_each_go_e2e
+echo "==> $(1)"; \
+for m in $(GO_E2E_MODULES); do \
+	if ! out=$$(cd $$m && $(2) 2>&1); then \
+		echo "==> $(1) $$m FAILED"; echo "$$out"; exit 1; \
+	fi; \
+done
+endef
+
 define for_each_py
 echo "==> $(1)"; \
 for m in $(PY_MODULES); do \
@@ -41,22 +51,25 @@ done
 endef
 
 .PHONY: tools \
-	fmt fmt-go fmt-py \
-	fmt-check fmt-check-go fmt-check-py \
-	tidy tidy-check \
+	fmt fmt-go fmt-go-e2e fmt-py \
+	fmt-check fmt-check-go fmt-check-go-e2e fmt-check-py \
+	tidy tidy-go tidy-go-e2e \
+	tidy-check tidy-check-go tidy-check-go-e2e \
 	workspace \
-	lint lint-go lint-py lint-md \
+	lint lint-go lint-go-e2e lint-py lint-md \
 	arch arch-diagram \
 	test test-go test-py \
 	cover cover-go cover-py \
 	cover-check cover-check-go cover-check-py \
-	build verify peer-hash \
+	build build-go verify peer-hash \
 	proto \
 	e2e e2e-images
 
-fmt:         fmt-go fmt-py
-fmt-check:   fmt-check-go fmt-check-py
-lint:        lint-go lint-py lint-md
+fmt:         fmt-go fmt-go-e2e fmt-py
+fmt-check:   fmt-check-go fmt-check-go-e2e fmt-check-py
+tidy:        tidy-go tidy-go-e2e
+tidy-check:  tidy-check-go tidy-check-go-e2e
+lint:        lint-go lint-go-e2e lint-py lint-md
 test:        test-go test-py
 cover:       cover-go cover-py
 cover-check: cover-check-go cover-check-py
@@ -96,14 +109,29 @@ fmt-go: $(TOOLS_STAMP)
 fmt-check-go: $(TOOLS_STAMP)
 	@$(call for_each_go,fmt-check-go,$(GOLANGCI_LINT) fmt --diff)
 
-tidy:
-	@$(call for_each_go,tidy,$(GO) mod tidy)
+fmt-go-e2e: $(TOOLS_STAMP)
+	@$(call for_each_go_e2e,fmt-go-e2e,$(GOLANGCI_LINT) fmt)
 
-tidy-check:
-	@$(call for_each_go,tidy-check,$(GO) mod tidy -diff)
+fmt-check-go-e2e: $(TOOLS_STAMP)
+	@$(call for_each_go_e2e,fmt-check-go-e2e,$(GOLANGCI_LINT) fmt --diff)
+
+tidy-go:
+	@$(call for_each_go,tidy-go,$(GO) mod tidy)
+
+tidy-go-e2e:
+	@$(call for_each_go_e2e,tidy-go-e2e,$(GO) mod tidy)
+
+tidy-check-go:
+	@$(call for_each_go,tidy-check-go,$(GO) mod tidy -diff)
+
+tidy-check-go-e2e:
+	@$(call for_each_go_e2e,tidy-check-go-e2e,$(GO) mod tidy -diff)
 
 lint-go: $(TOOLS_STAMP)
 	@$(call for_each_go,lint-go,$(GOLANGCI_LINT) run ./...)
+
+lint-go-e2e: $(TOOLS_STAMP)
+	@$(call for_each_go_e2e,lint-go-e2e,$(GOLANGCI_LINT) run --build-tags e2e ./...)
 
 arch: $(TOOLS_STAMP)
 	@$(call for_each_go,arch,$(GO_ARCH_LINT) check)
@@ -123,7 +151,7 @@ build-go:
 cover-go:
 	@set -e; for m in $(GO_MODULES); do \
 		echo "==> cover $$m"; \
-		( cd $$m && $(GO) test -coverprofile=$(COVER_PROFILE) ./... && \
+		( cd $$m && $(GO) test -count=1 -coverpkg=./... -coverprofile=$(COVER_PROFILE) ./... && \
 			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
 			$(GO) tool cover -func=$(COVER_PROFILE).gated ); \
 	done
@@ -131,8 +159,9 @@ cover-go:
 cover-check-go:
 	@echo "==> cover-check-go"; \
 	for m in $(GO_MODULES); do \
-		if ! out=$$( cd $$m && $(GO) test -race -coverprofile=$(COVER_PROFILE) ./... >/dev/null && \
-			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
+		if ! out=$$( cd $$m && rm -f $(COVER_PROFILE) $(COVER_PROFILE).gated && \
+			$(GO) test -count=1 -race -coverpkg=./... -coverprofile=$(COVER_PROFILE) ./... >/dev/null && \
+			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated || exit 1; \
 			stmts=$$(awk 'NR > 1 { sum += $$2 } END { print sum + 0 }' $(COVER_PROFILE).gated); \
 			if [ "$$stmts" -eq 0 ]; then echo "    no statements to cover"; exit 0; fi; \
 			total=$$($(GO) tool cover -func=$(COVER_PROFILE).gated | \

@@ -1,4 +1,4 @@
-package main
+package main_test
 
 import (
 	"context"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	corpusmarkdown "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/cmd/corpusmarkdown"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -20,11 +21,11 @@ const (
 
 func TestRunServiceStoresCrawledPageMarkdown(t *testing.T) {
 	url := natstestserver.Start(t)
-	cfg := ServiceConfig{
+	cfg := corpusmarkdown.ServiceConfig{
 		NATSURL:            url,
-		CrawledPageSubject: DefaultCrawledPageSubject,
-		CrawledPageDurable: DefaultCrawledPageDurable,
-		Concurrency:        DefaultConcurrency,
+		CrawledPageSubject: corpusmarkdown.DefaultCrawledPageSubject,
+		CrawledPageDurable: corpusmarkdown.DefaultCrawledPageDurable,
+		Concurrency:        corpusmarkdown.DefaultConcurrency,
 		OpsAddr:            "127.0.0.1:0",
 	}
 
@@ -35,7 +36,7 @@ func TestRunServiceStoresCrawledPageMarkdown(t *testing.T) {
 	createCrawledPageStream(t, js, cfg.CrawledPageSubject)
 
 	runDone := make(chan error, 1)
-	go func() { runDone <- RunService(ctx, cfg) }()
+	go func() { runDone <- corpusmarkdown.RunService(ctx, cfg) }()
 
 	const canonicalURL = "https://example.com/"
 	store, err := js.CreateOrUpdateObjectStore(ctx, jetstream.ObjectStoreConfig{
@@ -80,7 +81,7 @@ func publishMarkdown(
 	if err != nil {
 		t.Fatalf("marshal crawled page: %v", err)
 	}
-	if _, err := js.Publish(ctx, DefaultCrawledPageSubject, data); err != nil {
+	if _, err := js.Publish(ctx, corpusmarkdown.DefaultCrawledPageSubject, data); err != nil {
 		t.Fatalf("publish crawled page: %v", err)
 	}
 }
@@ -118,44 +119,44 @@ func storedMarkdownMatches(
 
 func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 	url := natstestserver.Start(t)
-	cfg := ServiceConfig{
+	cfg := corpusmarkdown.ServiceConfig{
 		NATSURL:            url,
-		CrawledPageSubject: DefaultCrawledPageSubject,
-		CrawledPageDurable: DefaultCrawledPageDurable,
-		Concurrency:        DefaultConcurrency,
+		CrawledPageSubject: corpusmarkdown.DefaultCrawledPageSubject,
+		CrawledPageDurable: corpusmarkdown.DefaultCrawledPageDurable,
+		Concurrency:        corpusmarkdown.DefaultConcurrency,
 		OpsAddr:            "127.0.0.1:99999",
 	}
 	createCrawledPageStream(t, natstestserver.ConnectJetStream(t, url), cfg.CrawledPageSubject)
 
-	if err := RunService(context.Background(), cfg); err == nil {
+	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when ops address cannot bind")
 	}
 }
 
 func TestRunServiceFailsWhenStreamMissing(t *testing.T) {
-	cfg := ServiceConfig{
+	cfg := corpusmarkdown.ServiceConfig{
 		NATSURL:            natstestserver.Start(t),
-		CrawledPageSubject: DefaultCrawledPageSubject,
-		CrawledPageDurable: DefaultCrawledPageDurable,
-		Concurrency:        DefaultConcurrency,
+		CrawledPageSubject: corpusmarkdown.DefaultCrawledPageSubject,
+		CrawledPageDurable: corpusmarkdown.DefaultCrawledPageDurable,
+		Concurrency:        corpusmarkdown.DefaultConcurrency,
 		OpsAddr:            "127.0.0.1:0",
 	}
 
-	if err := RunService(context.Background(), cfg); err == nil {
+	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when crawled page stream is not provisioned")
 	}
 }
 
 func TestRunServiceFailsWhenNATSUnreachable(t *testing.T) {
-	cfg := ServiceConfig{
+	cfg := corpusmarkdown.ServiceConfig{
 		NATSURL:            "nats://127.0.0.1:1",
-		CrawledPageSubject: DefaultCrawledPageSubject,
-		CrawledPageDurable: DefaultCrawledPageDurable,
-		Concurrency:        DefaultConcurrency,
+		CrawledPageSubject: corpusmarkdown.DefaultCrawledPageSubject,
+		CrawledPageDurable: corpusmarkdown.DefaultCrawledPageDurable,
+		Concurrency:        corpusmarkdown.DefaultConcurrency,
 		OpsAddr:            "127.0.0.1:0",
 	}
 
-	if err := RunService(context.Background(), cfg); err == nil {
+	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when nats is unreachable")
 	}
 }

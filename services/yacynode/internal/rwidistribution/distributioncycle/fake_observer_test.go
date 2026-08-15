@@ -1,6 +1,8 @@
-package distributioncycle
+package distributioncycle_test
 
 import "time"
+
+const cycleEndBuffer = 16
 
 type fakeObserver struct {
 	offers                map[string]int
@@ -13,8 +15,10 @@ type fakeObserver struct {
 	scheduledPostings     int
 	longestOfferLateness  time.Duration
 	cyclesSkipped         map[string]int
+	cyclesCompleted       int
 	batchesAborted        map[string]int
 	replicaRingFractions  []float64
+	cycleEnds             chan struct{}
 }
 
 func newFakeObserver() *fakeObserver {
@@ -25,6 +29,7 @@ func newFakeObserver() *fakeObserver {
 		urlsDelivered:         make(map[string]int),
 		cyclesSkipped:         make(map[string]int),
 		batchesAborted:        make(map[string]int),
+		cycleEnds:             make(chan struct{}, cycleEndBuffer),
 	}
 }
 
@@ -60,6 +65,12 @@ func (f *fakeObserver) ObservePostingsHandedOff(handedOff int) {
 
 func (f *fakeObserver) ObserveCycleSkipped(reason string) {
 	f.cyclesSkipped[reason]++
+	f.cycleEnds <- struct{}{}
+}
+
+func (f *fakeObserver) ObserveCycleCompleted() {
+	f.cyclesCompleted++
+	f.cycleEnds <- struct{}{}
 }
 
 func (f *fakeObserver) ObserveBatchAborted(reason string) {

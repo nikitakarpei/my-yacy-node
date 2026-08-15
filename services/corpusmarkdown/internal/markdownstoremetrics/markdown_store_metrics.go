@@ -1,23 +1,15 @@
 package markdownstoremetrics
 
-import (
-	"net/http"
-
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-)
+import "github.com/prometheus/client_golang/prometheus"
 
 type MarkdownStoreMetrics struct {
-	registry      *prometheus.Registry
 	pagesReceived prometheus.Counter
 	pagesStored   prometheus.Counter
 	storeFailures prometheus.Counter
 }
 
-func New() *MarkdownStoreMetrics {
-	registry := prometheus.NewRegistry()
+func New(registry prometheus.Registerer) *MarkdownStoreMetrics {
 	metrics := &MarkdownStoreMetrics{
-		registry: registry,
 		pagesReceived: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "corpusmarkdown_pages_received_total",
 			Help: "Crawled page markdown representations received for storage.",
@@ -42,7 +34,3 @@ func New() *MarkdownStoreMetrics {
 func (m *MarkdownStoreMetrics) PageReceived() { m.pagesReceived.Inc() }
 func (m *MarkdownStoreMetrics) PageStored()   { m.pagesStored.Inc() }
 func (m *MarkdownStoreMetrics) StoreFailed()  { m.storeFailures.Inc() }
-
-func (m *MarkdownStoreMetrics) Handler() http.Handler {
-	return promhttp.HandlerFor(m.registry, promhttp.HandlerOpts{})
-}

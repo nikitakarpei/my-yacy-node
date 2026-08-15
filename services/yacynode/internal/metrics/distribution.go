@@ -22,6 +22,7 @@ type DistributionMetrics struct {
 	staleReplicasDropped  prometheus.Counter
 	postingsHandedOff     prometheus.Counter
 	cyclesSkipped         *prometheus.CounterVec
+	cyclesCompleted       prometheus.Counter
 	batchesAborted        *prometheus.CounterVec
 }
 
@@ -71,6 +72,10 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		"Distribution cycles that ran no batch, by reason.",
 		labelReason,
 	)
+	cyclesCompleted := prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "rwidistribution_cycles_completed_total",
+		Help: "Distribution cycles that ran to the end of their due postings.",
+	})
 	batchesAborted := counterFor(
 		"rwidistribution_batches_aborted_total",
 		"Distribution batches aborted before their postings were rescheduled, by reason.",
@@ -79,7 +84,7 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 	registry.MustRegister(
 		postingOffers, postingsOffered, urlMetadataDeliveries, urlsDelivered,
 		postingsGone, scheduledPostings, longestOfferLateness, staleReplicasDropped,
-		postingsHandedOff, cyclesSkipped, batchesAborted,
+		postingsHandedOff, cyclesSkipped, cyclesCompleted, batchesAborted,
 	)
 
 	return &DistributionMetrics{
@@ -93,6 +98,7 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 		staleReplicasDropped:  staleReplicasDropped,
 		postingsHandedOff:     postingsHandedOff,
 		cyclesSkipped:         cyclesSkipped,
+		cyclesCompleted:       cyclesCompleted,
 		batchesAborted:        batchesAborted,
 	}
 }
@@ -133,6 +139,10 @@ func (d *DistributionMetrics) ObservePostingsHandedOff(handedOff int) {
 
 func (d *DistributionMetrics) ObserveCycleSkipped(reason string) {
 	d.cyclesSkipped.WithLabelValues(reason).Inc()
+}
+
+func (d *DistributionMetrics) ObserveCycleCompleted() {
+	d.cyclesCompleted.Inc()
 }
 
 func (d *DistributionMetrics) ObserveBatchAborted(reason string) {

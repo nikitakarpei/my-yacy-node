@@ -1,4 +1,4 @@
-package main
+package main_test
 
 import (
 	"slices"
@@ -6,11 +6,36 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	yacycrawler "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/cmd/yacycrawler"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
 )
 
 func envFrom(values map[string]string) func(string) string {
 	return func(key string) string { return values[key] }
+}
+
+func pageStreamRepresentations(
+	cfg yacycrawler.ServiceConfig,
+) []yacycrawlcontract.PageRepresentationKind {
+	kinds := make([]yacycrawlcontract.PageRepresentationKind, 0, len(cfg.PageStreams))
+	for _, stream := range cfg.PageStreams {
+		kinds = append(kinds, stream.Representation)
+	}
+
+	return kinds
+}
+
+func publishedPageStreamRepresentations(
+	cfg yacycrawler.ServiceConfig,
+) []yacycrawlcontract.PageRepresentationKind {
+	kinds := make([]yacycrawlcontract.PageRepresentationKind, 0, len(cfg.PageStreams))
+	for _, stream := range cfg.PageStreams {
+		if stream.Published {
+			kinds = append(kinds, stream.Representation)
+		}
+	}
+
+	return kinds
 }
 
 func baseEnv() map[string]string {
@@ -21,38 +46,46 @@ func baseEnv() map[string]string {
 }
 
 func TestLoadServiceConfigDefaults(t *testing.T) {
-	cfg, err := LoadServiceConfig(envFrom(baseEnv()))
+	cfg, err := yacycrawler.LoadServiceConfig(envFrom(baseEnv()))
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.OrdersSubject != DefaultOrdersSubject {
+	if cfg.OrdersSubject != yacycrawler.DefaultOrdersSubject {
 		t.Fatalf("orders subject = %q", cfg.OrdersSubject)
 	}
-	if cfg.FetchConcurrency != DefaultFetchConcurrency ||
-		cfg.RunPageBudget != DefaultRunPageBudget {
+	if cfg.FetchConcurrency != yacycrawler.DefaultFetchConcurrency ||
+		cfg.RunPageBudget != yacycrawler.DefaultRunPageBudget {
 		t.Fatalf("unexpected defaults: %+v", cfg)
 	}
-	if len(cfg.PageStreams) != len(pageRepresentationCatalog()) {
+	everyRepresentation := []yacycrawlcontract.PageRepresentationKind{
+		yacycrawlcontract.PageRepresentationKindRWI,
+		yacycrawlcontract.PageRepresentationKindText,
+		yacycrawlcontract.PageRepresentationKindMarkdown,
+	}
+	if !slices.Equal(pageStreamRepresentations(cfg), everyRepresentation) {
 		t.Fatalf("every representation should get a stream: %+v", cfg.PageStreams)
 	}
-	if !slices.Equal(publishedRepresentations(cfg), []string{"rwi"}) {
-		t.Fatalf("only rwi should publish by default: %v", publishedRepresentations(cfg))
+	published := publishedPageStreamRepresentations(cfg)
+	if !slices.Equal(published, []yacycrawlcontract.PageRepresentationKind{
+		yacycrawlcontract.PageRepresentationKindRWI,
+	}) {
+		t.Fatalf("only rwi should publish by default: %v", published)
 	}
 	for _, stream := range cfg.PageStreams {
-		if stream.MaxMsgs != DefaultMaxMsgs {
+		if stream.MaxMsgs != yacycrawler.DefaultMaxMsgs {
 			t.Fatalf("%s stream max msgs = %d", stream.Representation, stream.MaxMsgs)
 		}
 		if stream.Subject == "" {
 			t.Fatalf("%s stream has no subject", stream.Representation)
 		}
 	}
-	if cfg.FetchDeadline != DefaultFetchDeadline {
+	if cfg.FetchDeadline != yacycrawler.DefaultFetchDeadline {
 		t.Fatalf("fetch deadline = %v", cfg.FetchDeadline)
 	}
 	if cfg.ContentTypes != nil {
 		t.Fatalf("content types should default empty, got %v", cfg.ContentTypes)
 	}
-	if cfg.UserAgent != DefaultUserAgent {
+	if cfg.UserAgent != yacycrawler.DefaultUserAgent {
 		t.Fatalf("user agent = %q", cfg.UserAgent)
 	}
 	if cfg.ProxyDialMode != http.ProxyDialTunnel {
@@ -63,7 +96,7 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 func TestLoadServiceConfigAcceptsAbsoluteURLDialMode(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_PROXY_DIAL_MODE"] = "absolute-url"
-	cfg, err := LoadServiceConfig(envFrom(env))
+	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
@@ -75,7 +108,7 @@ func TestLoadServiceConfigAcceptsAbsoluteURLDialMode(t *testing.T) {
 func TestLoadServiceConfigRejectsUnknownDialMode(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_PROXY_DIAL_MODE"] = "nonsense"
-	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("unknown proxy dial mode should error")
 	}
 }
@@ -83,7 +116,7 @@ func TestLoadServiceConfigRejectsUnknownDialMode(t *testing.T) {
 func TestLoadServiceConfigOverridesUserAgent(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_USER_AGENT"] = "acme-crawler (+https://acme.test)"
-	cfg, err := LoadServiceConfig(envFrom(env))
+	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
@@ -95,7 +128,7 @@ func TestLoadServiceConfigOverridesUserAgent(t *testing.T) {
 func TestLoadServiceConfigRequiresNATSURL(t *testing.T) {
 	env := baseEnv()
 	delete(env, "NATS_URL")
-	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("missing NATS_URL should error")
 	}
 }
@@ -103,7 +136,7 @@ func TestLoadServiceConfigRequiresNATSURL(t *testing.T) {
 func TestLoadServiceConfigRequiresProxy(t *testing.T) {
 	env := baseEnv()
 	delete(env, "YACYCRAWLER_PROXY_URL")
-	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("missing proxy should error")
 	}
 }
@@ -111,7 +144,7 @@ func TestLoadServiceConfigRequiresProxy(t *testing.T) {
 func TestLoadServiceConfigRejectsNonHTTPProxy(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_PROXY_URL"] = "ftp://proxy"
-	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("non-http proxy should error")
 	}
 }
@@ -120,7 +153,7 @@ func TestLoadServiceConfigBothOutputsDisabled(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_PUBLISH_RWI"] = "false"
 	env["YACYCRAWLER_PUBLISH_TEXT"] = "false"
-	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("both outputs disabled should error")
 	}
 }
@@ -128,7 +161,7 @@ func TestLoadServiceConfigBothOutputsDisabled(t *testing.T) {
 func TestLoadServiceConfigParsesContentTypes(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_CONTENT_TYPES"] = "text/html, Application/PDF ,"
-	cfg, err := LoadServiceConfig(envFrom(env))
+	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -143,15 +176,16 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env["YACYCRAWLER_FETCH_CONCURRENCY"] = "8"
 	env["YACYCRAWLER_FETCH_DEADLINE"] = "5s"
 	env["YACYCRAWLER_PUBLISH_TEXT"] = "true"
-	cfg, err := LoadServiceConfig(envFrom(env))
+	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
 	}
 	if cfg.FetchConcurrency != 8 || cfg.FetchDeadline != 5*time.Second {
 		t.Fatalf("overrides not applied: %+v", cfg)
 	}
-	if !slices.Contains(publishedRepresentations(cfg), "text") {
-		t.Fatalf("text output should be enabled: %v", publishedRepresentations(cfg))
+	published := publishedPageStreamRepresentations(cfg)
+	if !slices.Contains(published, yacycrawlcontract.PageRepresentationKindText) {
+		t.Fatalf("text output should be enabled: %v", published)
 	}
 }
 
@@ -168,7 +202,7 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		for k, v := range bad {
 			env[k] = v
 		}
-		if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+		if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
 			t.Errorf("expected error for %v", bad)
 		}
 	}
@@ -179,7 +213,7 @@ func TestPageOutputEnvNamesFollowTheRepresentation(t *testing.T) {
 	env["YACYCRAWLER_PUBLISH_MARKDOWN"] = "true"
 	env["NATS_PAGE_MARKDOWN_SUBJECT"] = "custom.markdown"
 	env["NATS_PAGE_MARKDOWN_MAX_MSGS"] = "7"
-	cfg, err := LoadServiceConfig(envFrom(env))
+	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
 	}
