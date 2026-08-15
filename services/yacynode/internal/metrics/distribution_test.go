@@ -113,6 +113,27 @@ rwidistribution_cycles_skipped_total{reason="too_few_reachable_peers"} 2
 	}
 }
 
+func TestDistributionCountsCompletedCycles(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObserveCycleCompleted()
+	observer.ObserveCycleCompleted()
+
+	expected := `
+# HELP rwidistribution_cycles_completed_total Distribution cycles that ran to the end of their due postings.
+# TYPE rwidistribution_cycles_completed_total counter
+rwidistribution_cycles_completed_total 2
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"rwidistribution_cycles_completed_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
 func TestDistributionCountsAbortedBatchesByReason(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)

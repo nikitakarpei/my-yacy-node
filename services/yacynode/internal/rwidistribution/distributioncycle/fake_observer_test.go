@@ -13,6 +13,7 @@ type fakeObserver struct {
 	scheduledPostings     int
 	longestOfferLateness  time.Duration
 	cyclesSkipped         map[string]int
+	cyclesCompleted       int
 	batchesAborted        map[string]int
 	replicaRingFractions  []float64
 }
@@ -60,6 +61,10 @@ func (f *fakeObserver) ObservePostingsHandedOff(handedOff int) {
 
 func (f *fakeObserver) ObserveCycleSkipped(reason string) {
 	f.cyclesSkipped[reason]++
+}
+
+func (f *fakeObserver) ObserveCycleCompleted() {
+	f.cyclesCompleted++
 }
 
 func (f *fakeObserver) ObserveBatchAborted(reason string) {

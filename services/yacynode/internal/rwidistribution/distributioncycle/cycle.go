@@ -114,6 +114,7 @@ func (c *Cycle) runCycle(ctx context.Context) {
 	}
 
 	c.drainDuePostings(ctx, peers)
+	c.cycleObserver.ObserveCycleCompleted()
 }
 
 func (c *Cycle) skipTooFewReachablePeers(ctx context.Context, reachablePeers int) {
