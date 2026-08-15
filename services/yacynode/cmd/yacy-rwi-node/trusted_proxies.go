@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// TECHDEBT: naming — parseTrustedProxies names the parsing, and returns networks, not proxies
 func parseTrustedProxies(raw string) ([]*net.IPNet, error) {
 	var nets []*net.IPNet
 	for item := range strings.SplitSeq(raw, ",") {

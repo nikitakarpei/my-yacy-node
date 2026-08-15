@@ -33,6 +33,8 @@ type node struct {
 	crawl             *crawlRuntime
 }
 
+// TECHDEBT: structure — the 9-arg list breaks revive argument-limit and is suppressed, not fixed
+//
 //nolint:revive // argument-limit: explicit, independently-meaningful collaborators
 func assembleNode(
 	ctx context.Context,

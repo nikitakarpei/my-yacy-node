@@ -19,6 +19,7 @@ type peerRoster interface {
 	UnreachablePeers(ctx context.Context, limit int) []yacymodel.Seed
 }
 
+// TECHDEBT: vocabulary — one fact spelled four ways here: regreet, announce, contact, greet
 type announcer struct {
 	interval           time.Duration
 	reachableCap       int
@@ -57,6 +58,7 @@ func (a *announcer) announce(ctx context.Context) {
 	a.contactAll(ctx, self, targets)
 }
 
+// TECHDEBT: abstraction — contactAll picks targets and also runs the fan-out concurrency
 func (a *announcer) contactAll(ctx context.Context, self yacymodel.Seed, targets []yacymodel.Seed) {
 	concurrency := max(a.contactConcurrency, 1)
 	slots := make(chan struct{}, concurrency)

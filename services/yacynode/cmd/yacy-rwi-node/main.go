@@ -51,6 +51,7 @@ func main() {
 	}
 }
 
+// TECHDEBT: abstraction — run names steps and also builds clients, metrics, and servers inline
 func run() error {
 	if err := applog.Configure(os.Getenv); err != nil {
 		return fmt.Errorf("configure logging: %w", err)
@@ -122,6 +123,7 @@ func run() error {
 	)
 }
 
+// TECHDEBT: naming — buildServer names the making, not the value it returns
 func buildServer(addr string, handler http.Handler) *http.Server {
 	return &http.Server{
 		Addr:              addr,
@@ -130,6 +132,7 @@ func buildServer(addr string, handler http.Handler) *http.Server {
 	}
 }
 
+// TECHDEBT: abstraction — serve names steps and also assembles the worker closure list
 func serve(
 	ctx context.Context,
 	assembled node,
