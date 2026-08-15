@@ -55,7 +55,7 @@ func TestRealYaCyTransfersRWIToFleet(t *testing.T) {
 	waitFleetSenior(t, ctx, probe, yacyURL, fleet, 60*time.Second)
 	waitFleetActiveConnected(t, ctx, probe, yacyURL, fleet, 15*time.Second)
 
-	yacyURL = yacypeer.Restart(t, ctx, probe, yacyContainer)
+	yacypeer.Restart(t, ctx, probe, yacyContainer)
 
 	received := pollwait.For(180*time.Second, func() bool {
 		for _, node := range fleet {

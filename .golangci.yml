@@ -58,6 +58,15 @@ linters:
       static-msg: true
   exclusions:
     generated: strict
+    rules:
+      - path: (^|/)test/e2e/
+        linters:
+          - revive
+        text: argument-limit
+      - path: (^|/)test/e2e/
+        linters:
+          - gosec
+        text: G101
 
 formatters:
   enable:
