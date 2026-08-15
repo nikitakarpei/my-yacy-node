@@ -25,7 +25,7 @@ func TestRenderproxyRendersScriptedPageEndToEnd(t *testing.T) {
 	renderproxyURL := startRenderproxy(t, ctx, network.Name, lightpanda.NetworkURL(), nil)
 
 	client := forwardProxyClient(t, renderproxyURL)
-	resp := proxiedResponse(t, ctx, client, originURL)
+	resp := renderproxyResponseFor(t, ctx, client, originURL)
 	defer func() { _ = resp.Body.Close() }()
 
 	body, err := io.ReadAll(resp.Body)
@@ -37,7 +37,7 @@ func TestRenderproxyRendersScriptedPageEndToEnd(t *testing.T) {
 	}
 }
 
-func proxiedResponse(
+func renderproxyResponseFor(
 	t *testing.T,
 	ctx context.Context,
 	client *http.Client,
@@ -66,7 +66,7 @@ func TestRenderproxyReturnsNonHTMLRawBodyEndToEnd(t *testing.T) {
 	renderproxyURL := startRenderproxy(t, ctx, network.Name, lightpanda.NetworkURL(), nil)
 
 	client := forwardProxyClient(t, renderproxyURL)
-	resp := proxiedResponse(t, ctx, client, originURL)
+	resp := renderproxyResponseFor(t, ctx, client, originURL)
 	defer func() { _ = resp.Body.Close() }()
 
 	body, err := io.ReadAll(resp.Body)
@@ -101,7 +101,7 @@ func TestRenderproxyTimesOutHangingOriginEndToEnd(t *testing.T) {
 	client := forwardProxyClient(t, renderproxyURL)
 
 	start := time.Now()
-	resp := proxiedResponse(t, ctx, client, originURL)
+	resp := renderproxyResponseFor(t, ctx, client, originURL)
 	defer func() { _ = resp.Body.Close() }()
 	elapsed := time.Since(start)
 
