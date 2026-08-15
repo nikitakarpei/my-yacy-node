@@ -1,4 +1,4 @@
-package searchendpoint
+package searchendpoint_test
 
 import (
 	"context"
@@ -13,95 +13,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
-
-func postingEntry(word yacymodel.Hash, url string) yacymodel.RWIPosting {
-	return yacymodel.RWIPosting{
-		WordHash: word,
-		URLHash:  searchtest.URLHashFor(url),
-		Hits:     1,
-	}
-}
-
-func urlMetadata(ids ...string) map[yacymodel.URLHash]yacymodel.URLMetadata {
-	metadata := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(ids))
-	for _, id := range ids {
-		metadata[searchtest.URLHashFor(id)] = yacymodel.URLMetadata{
-			Address: "http://example.com/" + id,
-		}
-	}
-
-	return metadata
-}
-
-func searchIdentity() nodeidentity.Identity {
-	return nodeidentity.Identity{Hash: yacymodel.WordHash("self"), NetworkName: "freeworld"}
-}
-
-func newSearchEndpoint(
-	t *testing.T,
-	index searchtest.PostingIndex,
-	documents searchtest.URLDirectory,
-) endpoint {
-	t.Helper()
-
-	served, _ := observedEndpoint(t, searchresult.New(index, documents, 100))
-
-	return served
-}
-
-func observedEndpoint(
-	t *testing.T,
-	results searchresult.Results,
-) (endpoint, *prometheus.Registry) {
-	t.Helper()
-
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(4)
-	if err != nil {
-		t.Fatal(err)
-	}
-	registry := prometheus.NewRegistry()
-
-	return endpoint{
-		identity: searchIdentity(),
-		results:  results,
-		observation: searchObservation{
-			metrics:      searchmetrics.NewSearchMetrics(registry),
-			nodePosition: yacymodel.DHTRingPositionOf(searchIdentity().Hash),
-			partitions:   partitions,
-		},
-	}, registry
-}
-
-func serveSearch(
-	t *testing.T,
-	served endpoint,
-	req yacyproto.SearchRequest,
-) yacyproto.SearchResponse {
-	t.Helper()
-
-	resp, err := served.Serve(context.Background(), req)
-	if err != nil {
-		t.Fatalf("Serve: %v", err)
-	}
-
-	return resp
-}
 
 func TestEndpointJoinsAndAnswers(t *testing.T) {
 	word := searchtest.HashFor("w1")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1"), postingEntry(word, "u2")},
 	}}
-	served := newSearchEndpoint(
-		t,
-		index,
-		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2")},
-	)
+	mux := mountedSearch(t, index, searchtest.URLDirectory{Documents: urlMetadata("u1", "u2")})
 
-	resp := serveSearch(t, served, yacyproto.SearchRequest{
+	resp := search(t, mux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		Query:       []yacymodel.Hash{word},
 		Count:       10,
@@ -118,13 +40,9 @@ func TestEndpointReportsTermWithMostMatches(t *testing.T) {
 		word1: {postingEntry(word1, "u1"), postingEntry(word1, "u2")},
 		word2: {postingEntry(word2, "u2")},
 	}}
-	served := newSearchEndpoint(
-		t,
-		index,
-		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2")},
-	)
+	mux := mountedSearch(t, index, searchtest.URLDirectory{Documents: urlMetadata("u1", "u2")})
 
-	resp := serveSearch(t, served, yacyproto.SearchRequest{
+	resp := search(t, mux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		Query:       []yacymodel.Hash{word1, word2},
 		Abstracts:   yacyproto.SearchAbstractsAuto,
@@ -143,9 +61,9 @@ func TestEndpointReportsRequestedTerms(t *testing.T) {
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1"), postingEntry(word, "u2")},
 	}}
-	served := newSearchEndpoint(t, index, searchtest.URLDirectory{})
+	mux := mountedSearch(t, index, searchtest.URLDirectory{})
 
-	resp := serveSearch(t, served, yacyproto.SearchRequest{
+	resp := search(t, mux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		Abstracts:   yacyproto.SearchAbstracts(word.String()),
 	})
@@ -166,9 +84,9 @@ func TestEndpointAnswersWithTitleTopics(t *testing.T) {
 			Title:   "orange kitten pictures",
 		},
 	}}
-	served := newSearchEndpoint(t, index, documents)
+	mux := mountedSearch(t, index, documents)
 
-	resp := serveSearch(t, served, yacyproto.SearchRequest{
+	resp := search(t, mux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		Query:       []yacymodel.Hash{word},
 	})
@@ -179,30 +97,30 @@ func TestEndpointAnswersWithTitleTopics(t *testing.T) {
 }
 
 func TestEndpointRejectsMalformedCriteria(t *testing.T) {
-	served := newSearchEndpoint(t, searchtest.PostingIndex{}, searchtest.URLDirectory{})
+	mux := mountedSearch(t, searchtest.PostingIndex{}, searchtest.URLDirectory{})
 
-	_, err := served.Serve(context.Background(), yacyproto.SearchRequest{
+	rec := postSearch(t, mux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		SiteHash:    "!!",
 	})
-	if err == nil {
-		t.Fatal("Serve accepted a malformed site hash")
+	if rec.Code == 200 {
+		t.Fatal("search accepted a malformed site hash")
 	}
 }
 
 func TestEndpointSurfacesSearchFailures(t *testing.T) {
-	served, registry := observedEndpoint(t, searchresult.New(
+	mux, registry := mountedSearchResults(t, searchresult.New(
 		searchtest.FailingPostingIndex{Err: errScanBroken},
 		searchtest.URLDirectory{},
 		100,
 	))
 
-	_, err := served.Serve(context.Background(), yacyproto.SearchRequest{
+	rec := postSearch(t, mux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		Query:       []yacymodel.Hash{searchtest.HashFor("w1")},
 	})
-	if !errors.Is(err, errScanBroken) {
-		t.Fatalf("Serve error = %v, want %v", err, errScanBroken)
+	if rec.Code == 200 {
+		t.Fatal("search succeeded despite a broken index")
 	}
 	if got := searchesEnded(t, registry, searchmetrics.SearchIndexFailure); got != 1 {
 		t.Errorf("index_failure searches = %v, want 1", got)
@@ -212,9 +130,9 @@ func TestEndpointSurfacesSearchFailures(t *testing.T) {
 var errScanBroken = errors.New("scan broken")
 
 func TestEndpointRejectsWrongNetwork(t *testing.T) {
-	served := newSearchEndpoint(t, searchtest.PostingIndex{}, searchtest.URLDirectory{})
+	mux := mountedSearch(t, searchtest.PostingIndex{}, searchtest.URLDirectory{})
 
-	resp := serveSearch(t, served, yacyproto.SearchRequest{NetworkName: "othernet"})
+	resp := search(t, mux, yacyproto.SearchRequest{NetworkName: "othernet"})
 
 	if resp.Count != 0 {
 		t.Errorf("Count = %d, want 0 on network mismatch", resp.Count)
@@ -226,18 +144,18 @@ func TestEndpointObservesServedOutcomesAndTermPresence(t *testing.T) {
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1")},
 	}}
-	served, registry := observedEndpoint(t, searchresult.New(
+	mux, registry := mountedSearchResults(t, searchresult.New(
 		index,
 		searchtest.URLDirectory{Documents: urlMetadata("u1")},
 		100,
 	))
 
-	serveSearch(t, served, yacyproto.SearchRequest{
+	search(t, mux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		Query:       []yacymodel.Hash{word},
 		Count:       10,
 	})
-	serveSearch(t, served, yacyproto.SearchRequest{
+	search(t, mux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		Query:       []yacymodel.Hash{missingWord},
 		Count:       10,
@@ -258,12 +176,12 @@ func TestEndpointObservesServedOutcomesAndTermPresence(t *testing.T) {
 }
 
 func TestEndpointObservesNetworkMismatch(t *testing.T) {
-	served, registry := observedEndpoint(
+	mux, registry := mountedSearchResults(
 		t,
 		searchresult.New(searchtest.PostingIndex{}, searchtest.URLDirectory{}, 100),
 	)
 
-	serveSearch(t, served, yacyproto.SearchRequest{NetworkName: "othernet"})
+	search(t, mux, yacyproto.SearchRequest{NetworkName: "othernet"})
 
 	if got := searchesEnded(t, registry, searchmetrics.SearchNetworkMismatch); got != 1 {
 		t.Errorf("network_mismatch searches = %v, want 1", got)
@@ -271,17 +189,17 @@ func TestEndpointObservesNetworkMismatch(t *testing.T) {
 }
 
 func TestEndpointObservesInvalidCriteria(t *testing.T) {
-	served, registry := observedEndpoint(
+	mux, registry := mountedSearchResults(
 		t,
 		searchresult.New(searchtest.PostingIndex{}, searchtest.URLDirectory{}, 100),
 	)
 
-	_, err := served.Serve(context.Background(), yacyproto.SearchRequest{
+	rec := postSearch(t, mux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		SiteHash:    "!!",
 	})
-	if err == nil {
-		t.Fatal("Serve accepted a malformed site hash")
+	if rec.Code == 200 {
+		t.Fatal("search accepted a malformed site hash")
 	}
 	if got := searchesEnded(t, registry, searchmetrics.SearchInvalidCriteria); got != 1 {
 		t.Errorf("invalid_criteria searches = %v, want 1", got)
@@ -289,31 +207,31 @@ func TestEndpointObservesInvalidCriteria(t *testing.T) {
 }
 
 func TestEndpointObservesDeadlineAndMetadataFailures(t *testing.T) {
-	deadlineServed, deadlineRegistry := observedEndpoint(t, searchresult.New(
+	deadlineMux, deadlineRegistry := mountedSearchResults(t, searchresult.New(
 		searchtest.FailingPostingIndex{Err: context.DeadlineExceeded},
 		searchtest.URLDirectory{},
 		100,
 	))
-	if _, err := deadlineServed.Serve(context.Background(), yacyproto.SearchRequest{
+	if rec := postSearch(t, deadlineMux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		Query:       []yacymodel.Hash{searchtest.HashFor("w1")},
-	}); err == nil {
-		t.Fatal("Serve ignored an exceeded deadline")
+	}); rec.Code == 200 {
+		t.Fatal("search ignored an exceeded deadline")
 	}
 	if got := searchesEnded(t, deadlineRegistry, searchmetrics.SearchDeadlineExceeded); got != 1 {
 		t.Errorf("deadline_exceeded searches = %v, want 1", got)
 	}
 
-	metadataServed, metadataRegistry := observedEndpoint(t, searchresult.New(
+	metadataMux, metadataRegistry := mountedSearchResults(t, searchresult.New(
 		searchtest.PostingIndex{},
 		searchtest.FailingURLDirectory{Err: errScanBroken},
 		100,
 	))
-	if _, err := metadataServed.Serve(context.Background(), yacyproto.SearchRequest{
+	if rec := postSearch(t, metadataMux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		Query:       []yacymodel.Hash{searchtest.HashFor("w1")},
-	}); err == nil {
-		t.Fatal("Serve ignored a failing document directory")
+	}); rec.Code == 200 {
+		t.Fatal("search ignored a failing document directory")
 	}
 	if got := searchesEnded(t, metadataRegistry, searchmetrics.SearchMetadataFailure); got != 1 {
 		t.Errorf("metadata_failure searches = %v, want 1", got)
@@ -321,12 +239,12 @@ func TestEndpointObservesDeadlineAndMetadataFailures(t *testing.T) {
 }
 
 func TestEndpointObservesUnsupportedOptions(t *testing.T) {
-	served, registry := observedEndpoint(
+	mux, registry := mountedSearchResults(
 		t,
 		searchresult.New(searchtest.PostingIndex{}, searchtest.URLDirectory{}, 100),
 	)
 
-	serveSearch(t, served, yacyproto.SearchRequest{
+	search(t, mux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
 		Prefer:      "www",
 	})
