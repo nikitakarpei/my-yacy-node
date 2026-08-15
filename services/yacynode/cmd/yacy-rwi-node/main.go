@@ -44,6 +44,7 @@ const (
 	shutdownTimeout         = 15 * time.Second
 )
 
+// TECHDEBT: testing — package main has no exported surface, so every test here is white-box
 func main() {
 	if err := run(); err != nil {
 		slog.ErrorContext(context.Background(), "node terminated", slog.Any("error", err))
