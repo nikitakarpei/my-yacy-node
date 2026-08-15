@@ -7,5 +7,4 @@ const (
 	Deferred    Outcome = "deferred"
 	Refused     Outcome = "refused"
 	Unreachable Outcome = "unreachable"
-	Unavailable Outcome = "unavailable"
 )
