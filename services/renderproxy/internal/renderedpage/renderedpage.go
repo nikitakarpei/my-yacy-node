@@ -1,6 +1,11 @@
 package renderedpage
 
-import "context"
+import (
+	"context"
+	"errors"
+)
+
+var ErrTooLarge = errors.New("page exceeds the response byte limit")
 
 type Page struct {
 	StatusCode  int

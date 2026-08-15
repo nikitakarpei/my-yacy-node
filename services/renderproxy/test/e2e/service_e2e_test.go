@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -78,6 +79,80 @@ func TestRenderproxyReturnsNonHTMLRawBodyEndToEnd(t *testing.T) {
 	}
 	if string(body) != nonhtmlPayload {
 		t.Fatalf("raw body = %q, want %q", body, nonhtmlPayload)
+	}
+}
+
+func TestRenderproxyRefusesRenderedPageBeyondTheResponseLimitEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	network := dockernetwork.New(t, ctx)
+
+	originURL := startScriptedOrigin(t, ctx, network.Name)
+	lightpanda.Start(t, ctx, network.Name)
+	renderproxyURL := startRenderproxy(
+		t,
+		ctx,
+		network.Name,
+		lightpanda.NetworkURL(),
+		map[string]string{"RENDERPROXY_MAX_RESPONSE_BYTES": "16"},
+	)
+
+	client := forwardProxyClient(t, renderproxyURL)
+	resp := renderproxyResponseFor(t, ctx, client, originURL)
+	defer func() { _ = resp.Body.Close() }()
+
+	if resp.StatusCode != http.StatusBadGateway {
+		t.Fatalf("status = %d, want %d", resp.StatusCode, http.StatusBadGateway)
+	}
+}
+
+func TestRenderproxyRefusesRawBodyBeyondTheResponseLimitEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	network := dockernetwork.New(t, ctx)
+
+	originURL := startNonHTMLOrigin(t, ctx, network.Name)
+	lightpanda.Start(t, ctx, network.Name)
+	renderproxyURL := startRenderproxy(
+		t,
+		ctx,
+		network.Name,
+		lightpanda.NetworkURL(),
+		map[string]string{"RENDERPROXY_MAX_RESPONSE_BYTES": "8"},
+	)
+
+	client := forwardProxyClient(t, renderproxyURL)
+	resp := renderproxyResponseFor(t, ctx, client, originURL)
+	defer func() { _ = resp.Body.Close() }()
+
+	if resp.StatusCode != http.StatusBadGateway {
+		t.Fatalf("status = %d, want %d", resp.StatusCode, http.StatusBadGateway)
+	}
+}
+
+func TestRenderproxyRefusesACompressedBodyThatUnpacksBeyondTheLimitEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	network := dockernetwork.New(t, ctx)
+
+	originURL := startCompressedOrigin(t, ctx, network.Name)
+	lightpanda.Start(t, ctx, network.Name)
+	renderproxyURL := startRenderproxy(
+		t,
+		ctx,
+		network.Name,
+		lightpanda.NetworkURL(),
+		map[string]string{
+			"RENDERPROXY_MAX_RESPONSE_BYTES": strconv.Itoa(compressedPayloadSize / 2),
+		},
+	)
+
+	client := forwardProxyClient(t, renderproxyURL)
+	resp := renderproxyResponseFor(t, ctx, client, originURL)
+	defer func() { _ = resp.Body.Close() }()
+
+	if resp.StatusCode != http.StatusBadGateway {
+		t.Fatalf("status = %d, want %d", resp.StatusCode, http.StatusBadGateway)
 	}
 }
 

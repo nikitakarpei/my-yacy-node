@@ -3,53 +3,41 @@ package cdprender
 import (
 	"context"
 	"fmt"
-	"mime"
-	"strings"
 
-	"github.com/chromedp/cdproto/network"
 	"github.com/chromedp/chromedp"
+
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
 )
 
-func extractDocumentBody(
-	ctx context.Context,
-	requestID network.RequestID,
-	contentType string,
-) ([]byte, error) {
-	if isHypertext(contentType) {
-		var html string
-		if err := chromedp.Run(
-			ctx,
-			chromedp.OuterHTML("html", &html, chromedp.ByQuery),
-		); err != nil {
-			return nil, fmt.Errorf("serialize rendered document: %w", err)
-		}
-		return []byte(html), nil
+func serializedDocumentWithinLimit(ctx context.Context, maxBytes int64) ([]byte, error) {
+	sizeInBrowser, err := documentSizeInBrowser(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if sizeInBrowser > maxBytes {
+		return nil, fmt.Errorf(
+			"%w: rendered document is %d bytes, limit %d",
+			renderedpage.ErrTooLarge, sizeInBrowser, maxBytes,
+		)
 	}
 
-	var body []byte
-	err := chromedp.Run(ctx, chromedp.ActionFunc(func(ctx context.Context) error {
-		raw, err := network.GetResponseBody(requestID).Do(ctx)
-		if err != nil {
-			return fmt.Errorf("get response body: %w", err)
-		}
-		body = raw
-		return nil
-	}))
-	if err != nil {
-		return nil, fmt.Errorf("read response body: %w", err)
+	var html string
+	if err := chromedp.Run(
+		ctx,
+		chromedp.OuterHTML("html", &html, chromedp.ByQuery),
+	); err != nil {
+		return nil, fmt.Errorf("serialize rendered document: %w", err)
 	}
-	return body, nil
+	return []byte(html), nil
 }
 
-func isHypertext(contentType string) bool {
-	essence, _, err := mime.ParseMediaType(contentType)
-	if err != nil {
-		essence = strings.TrimSpace(contentType)
+func documentSizeInBrowser(ctx context.Context) (int64, error) {
+	var byteCount int64
+	if err := chromedp.Run(ctx, chromedp.Evaluate(
+		`unescape(encodeURIComponent(document.documentElement.outerHTML)).length`,
+		&byteCount,
+	)); err != nil {
+		return 0, fmt.Errorf("measure rendered document: %w", err)
 	}
-	switch strings.ToLower(essence) {
-	case "text/html", "application/xhtml+xml":
-		return true
-	default:
-		return false
-	}
+	return byteCount, nil
 }

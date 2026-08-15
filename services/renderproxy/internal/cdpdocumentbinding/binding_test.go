@@ -36,9 +36,8 @@ func TestBindingCarriesTheDocumentStatusAndContentType(t *testing.T) {
 	outcome.Observe(responseReceived("1", http.StatusOK, "text/html", "http://origin/page"))
 
 	got := outcome.BoundDocument()
-	if !got.Seen || got.StatusCode != http.StatusOK || got.ContentType != "text/html" ||
-		got.RequestID != "1" {
-		t.Fatalf("got %+v, want {200 text/html 1 true}", got)
+	if !got.Seen || got.StatusCode != http.StatusOK || got.ContentType != "text/html" {
+		t.Fatalf("got %+v, want {200 text/html true}", got)
 	}
 }
 

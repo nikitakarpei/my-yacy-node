@@ -10,8 +10,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/cdprender"
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/originpreflight"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/proxyintake"
-	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/redirectpreflight"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendergate"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendermetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
@@ -31,14 +31,13 @@ func RunService(
 	registry *prometheus.Registry,
 ) error {
 	metrics := rendermetrics.New(registry)
-	browser := cdprender.New(ctx, cfg.CDPURL)
+	browser := cdprender.New(ctx, cfg.CDPURL, cfg.MaxResponseBytes)
 	defer browser.Close()
 
 	gated := rendergate.New(
-		redirectpreflight.New(browser, cfg.EgressProxyURL),
+		originpreflight.New(browser, cfg.EgressProxyURL, cfg.MaxResponseBytes),
 		cfg.RenderConcurrency,
 		cfg.RequestDeadline,
-		cfg.MaxResponseBytes,
 		metrics,
 	)
 

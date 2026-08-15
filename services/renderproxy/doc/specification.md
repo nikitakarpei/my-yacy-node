@@ -8,10 +8,10 @@ an origin would give. It exists so an HTTP client can stay a plain fetcher and s
 obtain script-loaded pages.
 
 It accepts proxy requests in absolute-URL form only. It contacts the requested origin
-itself: a redirect response is relayed to the client unchanged; any other response is
-rendered by driving the browser and returned. The service's own origin requests leave
-through a required egress proxy; the browser reaches origins through its own configured
-proxy.
+itself: a redirect response is relayed to the client unchanged; a hypertext response is
+rendered by driving the browser and returned; any other response is returned as the
+origin gives it. The service's own origin requests leave through a required egress proxy;
+the browser reaches origins through its own configured proxy.
 
 ## Non-Goals
 
@@ -27,8 +27,10 @@ proxy.
 
 * The service SHALL answer a proxied GET whose origin returns a redirect with that redirect's
   status and `Location`, and SHALL not drive the browser for it.
-* The service SHALL return, for a proxied GET whose origin does not redirect, the target page
-  as the browser has it once loading settles.
+* The service SHALL return, for a proxied GET whose origin returns a hypertext page, that
+  page as the browser has it once loading settles.
+* The service SHALL return, for a proxied GET whose origin returns a response that is not
+  hypertext, that response as the origin gives it, and SHALL not drive the browser for it.
 * The service SHALL route its own origin requests through the configured egress proxy, and
   SHALL fail startup when no egress proxy is configured.
 * The service SHALL relay the origin's HTTP status and refusal responses to the client

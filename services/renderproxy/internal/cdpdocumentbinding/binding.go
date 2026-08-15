@@ -46,7 +46,6 @@ func (m *Binding) Observe(event any) {
 type BoundDocument struct {
 	StatusCode  int
 	ContentType string
-	RequestID   network.RequestID
 	Seen        bool
 }
 
@@ -56,7 +55,6 @@ func (m *Binding) BoundDocument() BoundDocument {
 	return BoundDocument{
 		StatusCode:  m.statusCode,
 		ContentType: m.contentType,
-		RequestID:   m.requestID,
 		Seen:        m.seen,
 	}
 }

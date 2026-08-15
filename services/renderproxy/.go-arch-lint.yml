@@ -17,8 +17,8 @@ components:
     in: internal/cdpdocumentbinding/**
   rendergate:
     in: internal/rendergate/**
-  redirectpreflight:
-    in: internal/redirectpreflight/**
+  originpreflight:
+    in: internal/originpreflight/**
   proxyintake:
     in: internal/proxyintake/**
   rendermetrics:
