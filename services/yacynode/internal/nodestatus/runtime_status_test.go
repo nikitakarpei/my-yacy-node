@@ -1,4 +1,4 @@
-package nodestatus
+package nodestatus_test
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
 )
 
 type stubCounter struct {
@@ -42,23 +43,23 @@ func testIdentity() nodeidentity.Identity {
 	}
 }
 
-func clockAt(t time.Time) func() time.Time {
-	return func() time.Time { return t }
+func clockAt(instant time.Time) func() time.Time {
+	return func() time.Time { return instant }
 }
 
-func reportAt(start time.Time, elapsed time.Duration, rwi, urls stubCounter) nodeReport {
+func statusAfter(elapsed time.Duration, rwi, urls stubCounter) nodestatus.RuntimeStatus {
+	start := time.Date(2026, time.June, 22, 10, 0, 0, 0, time.UTC)
 	id := testIdentity()
 	id.Start = start
 
-	return newReport(id, clockAt(start.Add(elapsed)), rwi, urls)
+	return nodestatus.NewRuntimeStatus(id, clockAt(start.Add(elapsed)), rwi, urls)
 }
 
 func TestSelfSeedRefreshesDynamicFields(t *testing.T) {
-	start := time.Date(2026, time.June, 22, 10, 0, 0, 0, time.UTC)
 	counts := stubCounter{rwi: 7, urls: 3}
-	report := reportAt(start, 90*time.Minute, counts, counts)
+	status := statusAfter(90*time.Minute, counts, counts)
 
-	seed := report.SelfSeed(context.Background())
+	seed := status.SelfSeed(context.Background())
 
 	if seed.Uptime != 90*time.Minute {
 		t.Fatalf("Uptime = %v, want 90m", seed.Uptime)
@@ -78,11 +79,10 @@ func TestSelfSeedRefreshesDynamicFields(t *testing.T) {
 }
 
 func TestSelfSeedKeepsIdentityFields(t *testing.T) {
-	start := time.Date(2026, time.June, 22, 10, 0, 0, 0, time.UTC)
 	counts := stubCounter{}
-	report := reportAt(start, 0, counts, counts)
+	status := statusAfter(0, counts, counts)
 
-	seed := report.SelfSeed(context.Background())
+	seed := status.SelfSeed(context.Background())
 
 	if seed.Hash != yacymodel.WordHash("self") {
 		t.Fatalf("Hash = %q, want self hash", seed.Hash)
@@ -103,11 +103,10 @@ func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 }
 
 func TestSelfSeedCountErrorsReportZero(t *testing.T) {
-	start := time.Date(2026, time.June, 22, 10, 0, 0, 0, time.UTC)
 	counts := stubCounter{rwi: 5, urls: 9, err: errors.New("boom")}
-	report := reportAt(start, time.Hour, counts, counts)
+	status := statusAfter(time.Hour, counts, counts)
 
-	seed := report.SelfSeed(context.Background())
+	seed := status.SelfSeed(context.Background())
 
 	if seed.IndexedWords != 0 {
 		t.Fatalf("IndexedWords = %d, want 0 on error", seed.IndexedWords)
@@ -118,15 +117,14 @@ func TestSelfSeedCountErrorsReportZero(t *testing.T) {
 }
 
 func TestHeaderReportsVersionAndUptime(t *testing.T) {
-	start := time.Date(2026, time.June, 22, 10, 0, 0, 0, time.UTC)
-	report := reportAt(start, 45*time.Minute, stubCounter{}, stubCounter{})
+	status := statusAfter(45*time.Minute, stubCounter{}, stubCounter{})
 
 	ctx := context.Background()
 
-	if got := report.Version(ctx); got != "1.2" {
+	if got := status.Version(ctx); got != "1.2" {
 		t.Fatalf("Version = %q, want 1.2", got)
 	}
-	if got := report.Uptime(ctx); got != 45 {
+	if got := status.Uptime(ctx); got != 45 {
 		t.Fatalf("Uptime = %d, want 45", got)
 	}
 }

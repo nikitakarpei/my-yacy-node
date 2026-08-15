@@ -12,7 +12,7 @@ import (
 
 const msgCountUnavailable = "count unavailable for self seed"
 
-type nodeReport struct {
+type runtimeStatus struct {
 	id   nodeidentity.Identity
 	base yacymodel.Seed
 	now  func() time.Time
@@ -20,30 +20,15 @@ type nodeReport struct {
 	urls URLCounter
 }
 
-func newReport(
-	id nodeidentity.Identity,
-	now func() time.Time,
-	rwi RWICounter,
-	urls URLCounter,
-) nodeReport {
-	return nodeReport{
-		id:   id,
-		base: baseSeed(id),
-		now:  now,
-		rwi:  rwi,
-		urls: urls,
-	}
-}
-
-func (r nodeReport) Version(context.Context) string {
+func (r runtimeStatus) Version(context.Context) string {
 	return r.id.Version
 }
 
-func (r nodeReport) Uptime(context.Context) int {
+func (r runtimeStatus) Uptime(context.Context) int {
 	return r.id.Uptime(r.now())
 }
 
-func (r nodeReport) SelfSeed(ctx context.Context) yacymodel.Seed {
+func (r runtimeStatus) SelfSeed(ctx context.Context) yacymodel.Seed {
 	now := r.now()
 	seed := r.base
 	seed.Uptime = time.Duration(r.id.Uptime(now)) * time.Minute

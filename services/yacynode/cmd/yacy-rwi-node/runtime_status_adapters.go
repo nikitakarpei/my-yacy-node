@@ -8,7 +8,7 @@ import (
 )
 
 type peeringStatus struct {
-	report      nodestatus.Report
+	status      nodestatus.RuntimeStatus
 	networkName string
 }
 
@@ -17,5 +17,5 @@ func (s peeringStatus) NetworkName(context.Context) string {
 }
 
 func (s peeringStatus) SelfSeed(ctx context.Context) yacymodel.Seed {
-	return s.report.SelfSeed(ctx)
+	return s.status.SelfSeed(ctx)
 }

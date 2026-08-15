@@ -42,25 +42,25 @@ func TestStatusRecorderKeepsFirstStatus(t *testing.T) {
 	}
 }
 
-type stubReport struct{ seed yacymodel.Seed }
+type stubStatus struct{ seed yacymodel.Seed }
 
-func (s stubReport) Version(context.Context) string { return "1.83" }
+func (s stubStatus) Version(context.Context) string { return "1.83" }
 
-func (s stubReport) Uptime(context.Context) int { return 5 }
+func (s stubStatus) Uptime(context.Context) int { return 5 }
 
-func (s stubReport) SelfSeed(context.Context) yacymodel.Seed { return s.seed }
+func (s stubStatus) SelfSeed(context.Context) yacymodel.Seed { return s.seed }
 
-var _ nodestatus.Report = stubReport{}
+var _ nodestatus.RuntimeStatus = stubStatus{}
 
 func TestRuntimeStatusAdapters(t *testing.T) {
 	hash, err := yacymodel.ParseHash("0123456789AB")
 	if err != nil {
 		t.Fatalf("parse hash: %v", err)
 	}
-	report := stubReport{seed: yacymodel.Seed{Hash: hash}}
+	status := stubStatus{seed: yacymodel.Seed{Hash: hash}}
 	ctx := context.Background()
 
-	peer := peeringStatus{report: report, networkName: "freeworld"}
+	peer := peeringStatus{status: status, networkName: "freeworld"}
 	if got := peer.NetworkName(ctx); got != "freeworld" {
 		t.Errorf("peering network = %q", got)
 	}

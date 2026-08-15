@@ -45,10 +45,6 @@ func assembleNode(
 	escrowObserver rwiescrow.HoldObserver,
 	searchObserver *searchmetrics.SearchMetrics,
 ) (node, error) {
-	guard := httpguard.NewRequestGuard(
-		httpguard.DefaultMaxBodyBytes,
-		httpguard.DefaultRequestTimeout,
-	)
 	identity := nodeIdentity(config)
 
 	partitions, err := dhtRingPartitionsOf(config)
@@ -61,24 +57,23 @@ func assembleNode(
 		return node{}, err
 	}
 
-	report := nodestatus.NewReport(identity, storage.postings, storage.urlDirectory)
-
-	gate := httpguard.WireGate{
-		Guard:   guard,
-		Respond: httpguard.NewWireResponder(report),
-		Address: httpguard.NewClientAddressResolver(config.TrustedProxies),
-	}
+	status := nodestatus.NewRuntimeStatus(
+		identity,
+		time.Now,
+		storage.postings,
+		storage.urlDirectory,
+	)
 
 	mux := http.NewServeMux()
 	mux.Handle("/{$}", landing.NewEndpoint())
-	router := httpguard.NewWireRouter(mux, gate)
+	router := wireRouterOn(mux, config, status)
 
 	mountNodeEndpoints(router, identity, storage, searchObserver, partitions)
 
 	announcer, roster, err := peerExchange{
 		router:         router,
 		identity:       identity,
-		report:         report,
+		status:         status,
 		config:         config,
 		vault:          vault,
 		client:         client,
@@ -125,6 +120,21 @@ func dhtRingPartitionsOf(config nodeConfig) (yacymodel.DHTRingPartitions, error)
 	}
 
 	return partitions, nil
+}
+
+func wireRouterOn(
+	mux *http.ServeMux,
+	config nodeConfig,
+	status nodestatus.RuntimeStatus,
+) httpguard.WireRouter {
+	return httpguard.NewWireRouter(mux, httpguard.WireGate{
+		Guard: httpguard.NewRequestGuard(
+			httpguard.DefaultMaxBodyBytes,
+			httpguard.DefaultRequestTimeout,
+		),
+		Respond: httpguard.NewWireResponder(status),
+		Address: httpguard.NewClientAddressResolver(config.TrustedProxies),
+	})
 }
 
 func mountNodeEndpoints(
