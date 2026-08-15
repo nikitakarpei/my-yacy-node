@@ -96,8 +96,8 @@ func TestLoadNodeConfigReadsOverrides(t *testing.T) {
 	if config.StorageQuotaByte != 2<<20 {
 		t.Errorf("StorageQuotaByte = %d, want 2MB", config.StorageQuotaByte)
 	}
-	if len(config.TrustedProxies) != 1 {
-		t.Errorf("TrustedProxies = %d, want 1", len(config.TrustedProxies))
+	if len(config.TrustedProxyNetworks) != 1 {
+		t.Errorf("TrustedProxies = %d, want 1", len(config.TrustedProxyNetworks))
 	}
 	if got := config.SeedlistURLs; len(got) != 2 || got[0] != "http://a" || got[1] != "http://b" {
 		t.Errorf("SeedlistURLs = %v, want trimmed pair", got)
@@ -177,19 +177,19 @@ func TestLoadNodeConfigRejects(t *testing.T) {
 	}
 }
 
-func TestParseTrustedProxiesAcceptsIPAndCIDR(t *testing.T) {
-	nets, err := parseTrustedProxies("10.0.0.1, 192.168.0.0/16, , ::1")
+func TestTrustedProxyNetworksAcceptIPsAndCIDRs(t *testing.T) {
+	networks, err := trustedProxyNetworksFrom("10.0.0.1, 192.168.0.0/16, , ::1")
 	if err != nil {
 		t.Fatalf("parse: %v", err)
 	}
-	if len(nets) != 3 {
-		t.Fatalf("nets = %d, want 3", len(nets))
+	if len(networks) != 3 {
+		t.Fatalf("networks = %d, want 3", len(networks))
 	}
 }
 
-func TestParseTrustedProxiesRejects(t *testing.T) {
+func TestTrustedProxyNetworksRejectMalformedEntries(t *testing.T) {
 	for _, raw := range []string{"999.0.0.1", "10.0.0.0/99"} {
-		if _, err := parseTrustedProxies(raw); err == nil {
+		if _, err := trustedProxyNetworksFrom(raw); err == nil {
 			t.Errorf("%q: expected error", raw)
 		}
 	}

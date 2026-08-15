@@ -79,7 +79,7 @@ type nodeConfig struct {
 	OpsAddr                 string
 	StoragePath             string
 	StorageQuotaByte        int64
-	TrustedProxies          []*net.IPNet
+	TrustedProxyNetworks    []*net.IPNet
 	ProxyURL                *url.URL
 	SeedlistURLs            []string
 	AnnounceInterval        time.Duration
@@ -142,7 +142,7 @@ func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
 		return nodeConfig{}, fmt.Errorf("%s: %w", envStorageQuota, err)
 	}
 
-	proxies, err := parseTrustedProxies(getenv(envTrustedProxies))
+	trustedProxyNetworks, err := trustedProxyNetworksFrom(getenv(envTrustedProxies))
 	if err != nil {
 		return nodeConfig{}, fmt.Errorf("%s: %w", envTrustedProxies, err)
 	}
@@ -165,7 +165,7 @@ func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
 		OpsAddr:                 envconfig.String(getenv, envOpsAddr, defaultOpsAddr),
 		StoragePath:             filepath.Join(dataDir, storageFileName),
 		StorageQuotaByte:        quota,
-		TrustedProxies:          proxies,
+		TrustedProxyNetworks:    trustedProxyNetworks,
 		ProxyURL:                proxyURL,
 		SeedlistURLs:            seedlistURLs,
 		AnnounceInterval:        peering.AnnounceInterval,

@@ -7,7 +7,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
 )
 
-// TECHDEBT: naming — the file name says adapters, an umbrella word; it declares only peeringStatus
 type peeringStatus struct {
 	status      nodestatus.RuntimeStatus
 	networkName string

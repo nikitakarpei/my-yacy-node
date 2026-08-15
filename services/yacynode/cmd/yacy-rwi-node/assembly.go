@@ -135,7 +135,7 @@ func wireRouterOn(
 			httpguard.DefaultRequestTimeout,
 		),
 		Respond: httpguard.NewWireResponder(status),
-		Address: httpguard.NewClientAddressResolver(config.TrustedProxies),
+		Address: httpguard.NewClientAddressResolver(config.TrustedProxyNetworks),
 	})
 }
 

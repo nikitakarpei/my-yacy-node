@@ -6,9 +6,8 @@ import (
 	"strings"
 )
 
-// TECHDEBT: naming — parseTrustedProxies names the parsing, and returns networks, not proxies
-func parseTrustedProxies(raw string) ([]*net.IPNet, error) {
-	var nets []*net.IPNet
+func trustedProxyNetworksFrom(raw string) ([]*net.IPNet, error) {
+	var networks []*net.IPNet
 	for item := range strings.SplitSeq(raw, ",") {
 		entry := strings.TrimSpace(item)
 		if entry == "" {
@@ -20,7 +19,7 @@ func parseTrustedProxies(raw string) ([]*net.IPNet, error) {
 			if err != nil {
 				return nil, fmt.Errorf("invalid CIDR %q: %w", entry, err)
 			}
-			nets = append(nets, network)
+			networks = append(networks, network)
 
 			continue
 		}
@@ -29,10 +28,10 @@ func parseTrustedProxies(raw string) ([]*net.IPNet, error) {
 		if ip == nil {
 			return nil, fmt.Errorf("invalid IP %q", entry)
 		}
-		nets = append(nets, hostNetwork(ip))
+		networks = append(networks, hostNetwork(ip))
 	}
 
-	return nets, nil
+	return networks, nil
 }
 
 func hostNetwork(ip net.IP) *net.IPNet {
