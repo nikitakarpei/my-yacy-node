@@ -19,9 +19,9 @@ import (
 )
 
 const (
-	nodeHash    = "0123456789AB"
-	nodeNetwork = "testnet"
-	settleFor   = 5 * time.Second
+	nodeHashText = "0123456789AB"
+	nodeNetwork  = "testnet"
+	settleFor    = 5 * time.Second
 )
 
 func TestRunNodeStopsWhenItsContextIsCanceled(t *testing.T) {
@@ -68,10 +68,6 @@ func TestHelloAnswersWithTheNodesOwnSeed(t *testing.T) {
 	node := startNode(t, nodeConfigFor(t))
 	defer node.stop()
 
-	hash, err := yacymodel.ParseHash(nodeHash)
-	if err != nil {
-		t.Fatalf("parse hash: %v", err)
-	}
 	resp := node.hello(t, yacyproto.HelloRequest{
 		NetworkName: nodeNetwork,
 		Iam:         callerSeed(t).Hash,
@@ -83,8 +79,8 @@ func TestHelloAnswersWithTheNodesOwnSeed(t *testing.T) {
 	if !found {
 		t.Fatal("hello answered with no seed of its own")
 	}
-	if own.Hash != hash {
-		t.Errorf("own seed hash = %v, want %v", own.Hash, hash)
+	if want := nodeHash(t); own.Hash != want {
+		t.Errorf("own seed hash = %v, want %v", own.Hash, want)
 	}
 	if _, classified := resp.YourType.Get(); !classified {
 		t.Error("hello left the caller unclassified, so it never read its own network name")
@@ -120,6 +116,17 @@ func callerSeed(t *testing.T) yacymodel.Seed {
 	}
 }
 
+func nodeHash(t *testing.T) yacymodel.Hash {
+	t.Helper()
+
+	hash, err := yacymodel.ParseHash(nodeHashText)
+	if err != nil {
+		t.Fatalf("parse node hash: %v", err)
+	}
+
+	return hash
+}
+
 func TestOpsEndpointPublishesWhatStorageHolds(t *testing.T) {
 	node := startNode(t, nodeConfigFor(t))
 	defer node.stop()
@@ -136,7 +143,7 @@ func nodeConfigFor(t *testing.T) yacynode.NodeConfig {
 	t.Helper()
 
 	config, err := yacynode.LoadNodeConfig(envFrom(map[string]string{
-		yacynode.EnvPeerHash:    nodeHash,
+		yacynode.EnvPeerHash:    nodeHashText,
 		yacynode.EnvPeerName:    "node",
 		yacynode.EnvNetworkName: nodeNetwork,
 		yacynode.EnvProxyURL:    "http://127.0.0.1:1",
@@ -245,6 +252,35 @@ func (n runningNode) hello(t *testing.T, req yacyproto.HelloRequest) yacyproto.H
 	)
 	if err != nil {
 		t.Fatalf("ParseHelloResponse: %v", err)
+	}
+
+	return parsed
+}
+
+func (n runningNode) query(t *testing.T, object yacyproto.QueryObject) yacyproto.QueryResponse {
+	t.Helper()
+
+	n.awaitReady(t)
+
+	req := yacyproto.QueryRequest{
+		NetworkName: nodeNetwork,
+		YouAre:      nodeHash(t),
+		Iam:         callerSeed(t).Hash,
+		Object:      object,
+	}
+	status, body := n.answerTo(
+		t,
+		http.MethodPost,
+		"http://"+n.peerAddr+yacyproto.PathQuery,
+		strings.NewReader(req.Form().Encode()),
+	)
+	if status != http.StatusOK {
+		t.Fatalf("query status = %d, want 200, body = %q", status, body)
+	}
+
+	parsed, err := yacyproto.ParseQueryResponse(yacyproto.ParseMessage(body))
+	if err != nil {
+		t.Fatalf("ParseQueryResponse: %v", err)
 	}
 
 	return parsed
