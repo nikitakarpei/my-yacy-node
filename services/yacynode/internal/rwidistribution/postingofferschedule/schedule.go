@@ -1,8 +1,7 @@
 // Package postingofferschedule tracks when each stored posting is next due for
 // a distribution offer, ordered so the earliest-due posting can be found
 // without scanning every posting. A posting that misses its redundancy comes
-// back after the offer interval this package holds for it, and that interval
-// widens on every further miss.
+// back after the offer interval this package stores for it.
 package postingofferschedule
 
 import (
@@ -13,6 +12,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
@@ -147,14 +147,14 @@ func (s *Schedule) forgetOfferInterval(tx *vault.Txn, posting postingidentity.Id
 func (s *Schedule) SetNextOfferAfterRedundancyMet(
 	tx *vault.Txn,
 	posting postingidentity.Identity,
-	interval OfferInterval,
+	bounds postingofferinterval.Bounds,
 ) error {
 	if err := s.forgetOfferInterval(tx, posting); err != nil {
 		return err
 	}
 
 	return s.reschedule(tx, posting, func(previousDueAt time.Time) time.Time {
-		return interval.nextDueAtFrom(previousDueAt, s.now())
+		return bounds.NextOfferDueFrom(previousDueAt, s.now())
 	})
 }
 
@@ -180,43 +180,29 @@ func (s *Schedule) reschedule(
 func (s *Schedule) SetNextOfferAfterRedundancyMissed(
 	tx *vault.Txn,
 	posting postingidentity.Identity,
-	interval OfferInterval,
+	bounds postingofferinterval.Bounds,
 	requestedPause time.Duration,
 ) error {
-	widenedInterval, err := s.widenedOfferInterval(tx, posting, interval)
-	if err != nil {
-		return err
-	}
-
-	return s.reschedule(tx, posting, func(time.Time) time.Time {
-		return s.now().Add(max(widenedInterval, requestedPause))
-	})
-}
-
-func (s *Schedule) widenedOfferInterval(
-	tx *vault.Txn,
-	posting postingidentity.Identity,
-	interval OfferInterval,
-) (time.Duration, error) {
 	postingScheduled, err := s.IsScheduled(tx, posting)
 	if err != nil {
-		return 0, fmt.Errorf("read offer schedule: %w", err)
+		return fmt.Errorf("read offer schedule: %w", err)
 	}
 	if !postingScheduled {
-		return 0, nil
+		return nil
 	}
 
 	previousInterval, _, err := s.offerIntervals.Get(tx, posting)
 	if err != nil {
-		return 0, fmt.Errorf("read offer interval: %w", err)
+		return fmt.Errorf("read offer interval: %w", err)
 	}
-
-	widenedInterval := interval.widenedFrom(previousInterval)
-	if err := s.offerIntervals.Put(tx, posting, widenedInterval); err != nil {
-		return 0, fmt.Errorf("record offer interval: %w", err)
+	if err := s.offerIntervals.Put(tx, posting, bounds.WidenedFrom(previousInterval)); err != nil {
+		return fmt.Errorf("record offer interval: %w", err)
 	}
+	pause := bounds.PauseFrom(previousInterval, requestedPause)
 
-	return widenedInterval, nil
+	return s.reschedule(tx, posting, func(time.Time) time.Time {
+		return s.now().Add(pause)
+	})
 }
 
 func (s *Schedule) IsScheduled(

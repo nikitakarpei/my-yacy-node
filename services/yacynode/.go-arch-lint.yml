@@ -8,10 +8,6 @@ allow:
 commonVendors:
   - yacymodel
 
-commonComponents:
-  - vaulttest
-  - searchtest
-
 components:
   vaultkey:
     in: internal/vaultkey/**
@@ -110,9 +106,6 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  natstestserver:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/natstestserver
   bytesize:
     in: github.com/nikitakarpei/yacy-rwi-node/bytesize
   serviceruntime:
@@ -125,29 +118,23 @@ vendors:
 
 deps:
   vaultkey:
-    mayDependOn:
-      - vaultkey
     canUse:
       - orderedcode
   hashcodec:
     mayDependOn:
-      - hashcodec
       - vaultkey
   vault:
     mayDependOn:
-      - vault
       - vaultkey
   vaultenginesbolt:
     deepScan: false
     mayDependOn:
-      - vaultenginesbolt
       - vaultkey
       - vault
     canUse:
       - bbolt
   vaultenginesmemory:
     mayDependOn:
-      - vaultenginesmemory
       - vaultkey
       - vault
   vaulttest:
@@ -155,8 +142,6 @@ deps:
       - vaultkey
       - vault
   httpguard:
-    mayDependOn:
-      - httpguard
     canUse:
       - yacyproto
   nodeidentity:
@@ -164,96 +149,69 @@ deps:
       - yacyproto
   peeradmission:
     mayDependOn:
-      - peeradmission
-      - peerroster
       - httpguard
       - nodeidentity
     canUse:
       - yacyproto
   peerroster:
     mayDependOn:
-      - peerroster
       - vaultkey
       - hashcodec
       - vault
-      - vaultenginesmemory
     canUse:
       - yacyproto
   peerannouncement:
     mayDependOn:
-      - peerannouncement
-      - peerroster
       - peerwire
       - bootstrap
     canUse:
       - yacyproto
   peerwire:
-    mayDependOn:
-      - peerwire
     canUse:
       - yacyproto
   bootstrap:
-    mayDependOn:
-      - bootstrap
     canUse:
       - yacyproto
-  landing:
-    mayDependOn:
-      - landing
   urlmeta:
     mayDependOn:
-      - urlmeta
       - vaultkey
       - hashcodec
       - vault
-      - vaultenginesmemory
       - httpguard
       - nodeidentity
     canUse:
       - yacyproto
   urlmetastaleness:
     mayDependOn:
-      - urlmetastaleness
       - urlmeta
       - vaultkey
       - hashcodec
       - vault
-      - vaultenginesmemory
   urlreferences:
     mayDependOn:
-      - urlreferences
       - rwipostings
       - vaultkey
       - hashcodec
       - vault
-      - vaultenginesmemory
   rwipostings:
     mayDependOn:
-      - rwipostings
       - vaultkey
       - hashcodec
       - vault
-      - vaultenginesmemory
   rwiescrow:
     mayDependOn:
-      - rwiescrow
       - rwipostings
       - urlmeta
       - vaultkey
       - hashcodec
       - vault
-      - vaultenginesmemory
   rwiadmission:
     mayDependOn:
-      - rwiadmission
-      - rwiescrow
       - rwipostings
       - urlmeta
       - vault
-      - vaultenginesmemory
   rwiingress:
     mayDependOn:
-      - rwiingress
       - rwiadmission
       - httpguard
       - nodeidentity
@@ -264,29 +222,21 @@ deps:
       - rwidistribution
       - rwipostings
       - vault
-      - vaultenginesmemory
       - vaultkey
       - hashcodec
-      - peerroster
       - urlmeta
       - postingcourier
       - urlmetadatacourier
-      - replicaeligibility
   postingcourier:
     mayDependOn:
-      - postingcourier
       - peerwire
     canUse:
       - yacyproto
   urlmetadatacourier:
     mayDependOn:
-      - urlmetadatacourier
       - peerwire
     canUse:
       - yacyproto
-  replicaeligibility:
-    mayDependOn:
-      - replicaeligibility
   documentsearch:
     mayDependOn:
       - documentsearch
@@ -297,51 +247,40 @@ deps:
       - nodeidentity
     canUse:
       - yacyproto
-      - prometheus
   searchmetrics:
-    mayDependOn:
-      - searchmetrics
     canUse:
       - prometheus
   nodestatus:
     mayDependOn:
-      - nodestatus
       - httpguard
       - nodeidentity
     canUse:
       - yacyproto
   eviction:
     mayDependOn:
-      - eviction
       - rwipostings
       - urlmeta
       - urlmetastaleness
       - urlreferences
-      - vaultkey
       - vault
-      - vaultenginesmemory
   metrics:
     mayDependOn:
-      - metrics
       - eviction
       - vault
     canUse:
       - prometheus
   crawlresults:
     mayDependOn:
-      - crawlresults
       - urlmeta
       - rwiadmission
     canUse:
       - yacycrawlcontract
   crawlbroker:
     mayDependOn:
-      - crawlbroker
       - crawlresults
     canUse:
       - yacycrawlcontract
       - nats
-      - natstestserver
       - serviceruntime
   cmd:
     anyProjectDeps: true
@@ -349,3 +288,4 @@ deps:
 
 excludeFiles:
   - "test/e2e"
+  - "_test\\.go"

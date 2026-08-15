@@ -1,4 +1,4 @@
-package main
+package main_test
 
 import (
 	"context"
@@ -11,6 +11,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	corpustext "github.com/nikitakarpei/yacy-rwi-node/corpustext/cmd/corpustext"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
@@ -31,14 +32,14 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 	defer elasticsearch.Close()
 
 	url := natstestserver.Start(t)
-	cfg := ServiceConfig{
+	cfg := corpustext.ServiceConfig{
 		NATSURL:            url,
 		CrawledPageSubject: "yacy.crawl.page.text",
-		CrawledPageDurable: DefaultCrawledPageDurable,
-		Concurrency:        DefaultConcurrency,
-		SearchIndexEngine:  SearchIndexEngineElasticsearch,
+		CrawledPageDurable: corpustext.DefaultCrawledPageDurable,
+		Concurrency:        corpustext.DefaultConcurrency,
+		SearchIndexEngine:  corpustext.SearchIndexEngineElasticsearch,
 		ElasticsearchURL:   elasticsearch.URL,
-		ElasticsearchIndex: DefaultIndexBaseName,
+		ElasticsearchIndex: corpustext.DefaultIndexBaseName,
 		OpsAddr:            "127.0.0.1:0",
 	}
 
@@ -49,7 +50,7 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 	js := natstestserver.ConnectJetStream(t, url)
 	createCrawledPageStream(t, js, cfg.CrawledPageSubject)
 
-	go func() { runDone <- RunService(ctx, cfg) }()
+	go func() { runDone <- corpustext.RunService(ctx, cfg) }()
 
 	data, err := yacycrawlcontract.MarshalPageTextRepresentation(
 		yacycrawlcontract.PageTextRepresentation{
@@ -104,19 +105,19 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 	defer elasticsearch.Close()
 
 	url := natstestserver.Start(t)
-	cfg := ServiceConfig{
+	cfg := corpustext.ServiceConfig{
 		NATSURL:            url,
 		CrawledPageSubject: "yacy.crawl.page.text",
-		CrawledPageDurable: DefaultCrawledPageDurable,
-		Concurrency:        DefaultConcurrency,
-		SearchIndexEngine:  SearchIndexEngineElasticsearch,
+		CrawledPageDurable: corpustext.DefaultCrawledPageDurable,
+		Concurrency:        corpustext.DefaultConcurrency,
+		SearchIndexEngine:  corpustext.SearchIndexEngineElasticsearch,
 		ElasticsearchURL:   elasticsearch.URL,
-		ElasticsearchIndex: DefaultIndexBaseName,
+		ElasticsearchIndex: corpustext.DefaultIndexBaseName,
 		OpsAddr:            "127.0.0.1:99999",
 	}
 	createCrawledPageStream(t, natstestserver.ConnectJetStream(t, url), cfg.CrawledPageSubject)
 
-	err := RunService(context.Background(), cfg)
+	err := corpustext.RunService(context.Background(), cfg)
 	if err == nil {
 		t.Fatal("expected error when ops address cannot bind")
 	}

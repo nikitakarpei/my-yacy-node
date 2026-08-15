@@ -29,39 +29,21 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  natstestserver:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/natstestserver
 
 deps:
-  applog:
-    mayDependOn:
-      - applog
-  envconfig:
-    mayDependOn:
-      - envconfig
-  opsmetrics:
-    mayDependOn:
-      - opsmetrics
   servergroup:
-    mayDependOn:
-      - servergroup
     canUse:
       - errgroup
   poisonhalt:
-    mayDependOn:
-      - poisonhalt
     canUse:
       - nats
   pullintake:
-    mayDependOn:
-      - pullintake
     canUse:
       - nats
       - errgroup
   jetstreamconnect:
-    mayDependOn:
-      - jetstreamconnect
     canUse:
       - nats
-      - natstestserver
+
+excludeFiles:
+  - "_test\\.go"

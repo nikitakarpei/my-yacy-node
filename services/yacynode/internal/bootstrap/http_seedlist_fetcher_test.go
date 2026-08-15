@@ -1,4 +1,4 @@
-package bootstrap
+package bootstrap_test
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -62,11 +63,8 @@ func TestSeedlistFetcherDecodesLines(t *testing.T) {
 	}))
 	defer server.Close()
 
-	fetcher := newHTTPSeedlistFetcher(server.Client())
-	seeds, err := fetcher.Fetch(context.Background(), server.URL)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	source := bootstrap.New(server.Client(), []string{server.URL})
+	seeds := source.Fetch(context.Background())
 	if len(seeds) != 2 {
 		t.Fatalf("got %d seeds, want 2 (bad line skipped)", len(seeds))
 	}
@@ -78,8 +76,9 @@ func TestSeedlistFetcherRejectsNon200(t *testing.T) {
 	}))
 	defer server.Close()
 
-	fetcher := newHTTPSeedlistFetcher(server.Client())
-	if _, err := fetcher.Fetch(context.Background(), server.URL); err == nil {
-		t.Fatal("expected error on non-200")
+	source := bootstrap.New(server.Client(), []string{server.URL})
+	seeds := source.Fetch(context.Background())
+	if len(seeds) != 0 {
+		t.Fatalf("got %d seeds, want 0 (non-200 response rejected)", len(seeds))
 	}
 }

@@ -1,4 +1,4 @@
-package urlmetadatacourier
+package urlmetadatacourier_test
 
 import (
 	"context"
@@ -10,6 +10,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -72,14 +73,17 @@ func urlResponder(resp yacyproto.TransferURLResponse) *httptest.Server {
 	}))
 }
 
-func openURLMetadataCourierHarness(t *testing.T, server *httptest.Server) httpCourier {
+func openURLMetadataCourierHarness(
+	t *testing.T,
+	server *httptest.Server,
+) urlmetadatacourier.Courier {
 	t.Helper()
 
-	return httpCourier{
-		exchange:    peerwire.NewMessageExchange(server.Client()),
-		networkName: "freeworld",
-		self:        courierHash("self"),
-	}
+	return urlmetadatacourier.New(
+		peerwire.NewMessageExchange(server.Client()),
+		"freeworld",
+		courierHash("self"),
+	)
 }
 
 func singleURLMetadata() []yacymodel.URLMetadata {
@@ -95,8 +99,8 @@ func TestDeliverReportsAcceptedOnOK(t *testing.T) {
 	receipt := courier.Deliver(
 		context.Background(), courierEndpoint(t, server), courierHash("peer"), singleURLMetadata(),
 	)
-	if receipt.Outcome != Accepted {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Accepted)
+	if receipt.Outcome != urlmetadatacourier.Accepted {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
 	}
 }
 
@@ -113,8 +117,8 @@ func TestDeliverReportsAcceptedWithRejectedURLs(t *testing.T) {
 	receipt := courier.Deliver(
 		context.Background(), courierEndpoint(t, server), courierHash("peer"), singleURLMetadata(),
 	)
-	if receipt.Outcome != Accepted {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Accepted)
+	if receipt.Outcome != urlmetadatacourier.Accepted {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
 	}
 	if len(receipt.URLsRejected) != 1 || receipt.URLsRejected[0] != rejected {
 		t.Fatalf("URLsRejected = %v, want [%v]", receipt.URLsRejected, rejected)
@@ -130,8 +134,8 @@ func TestDeliverReportsDeferredOnErrorNotGranted(t *testing.T) {
 	receipt := courier.Deliver(
 		context.Background(), courierEndpoint(t, server), courierHash("peer"), singleURLMetadata(),
 	)
-	if receipt.Outcome != Deferred {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Deferred)
+	if receipt.Outcome != urlmetadatacourier.Deferred {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Deferred)
 	}
 }
 
@@ -144,8 +148,8 @@ func TestDeliverReportsRefusedOnWrongTarget(t *testing.T) {
 	receipt := courier.Deliver(
 		context.Background(), courierEndpoint(t, server), courierHash("peer"), singleURLMetadata(),
 	)
-	if receipt.Outcome != Refused {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Refused)
+	if receipt.Outcome != urlmetadatacourier.Refused {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Refused)
 	}
 }
 
@@ -160,7 +164,7 @@ func TestDeliverReportsUnreachableOnTransportFailure(t *testing.T) {
 	receipt := courier.Deliver(
 		context.Background(), courierEndpoint(t, server), courierHash("peer"), singleURLMetadata(),
 	)
-	if receipt.Outcome != Unreachable {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Unreachable)
+	if receipt.Outcome != urlmetadatacourier.Unreachable {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Unreachable)
 	}
 }

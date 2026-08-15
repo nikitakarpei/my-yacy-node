@@ -8,6 +8,8 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	crawlorderplacersjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/crawlorderplacers/jetstream"
 	disposedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/disposedpages/jetstream"
@@ -41,7 +43,8 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
-	metrics := progressobserversprometheus.NewRecallMetrics()
+	registry := prometheus.NewRegistry()
+	metrics := progressobserversprometheus.NewRecallMetrics(registry)
 	recaller, err := newRecaller(ctx, js, cfg, corpora, metrics)
 	if err != nil {
 		return err
@@ -51,7 +54,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		return err
 	}
 	announceServiceStarted(ctx, cfg)
-	err = servergroup.Run(ctx, opsShutdownLimit, opsServersFor(cfg, metrics), receiver.Serve)
+	err = servergroup.Run(ctx, opsShutdownLimit, opsServersFor(cfg, registry), receiver.Serve)
 	announceServiceStopped(ctx)
 	return err
 }
@@ -133,13 +136,15 @@ func announceServiceStarted(ctx context.Context, cfg ServiceConfig) {
 
 func opsServersFor(
 	cfg ServiceConfig,
-	metrics *progressobserversprometheus.RecallMetrics,
+	registry *prometheus.Registry,
 ) []servergroup.NamedServer {
 	return []servergroup.NamedServer{{
 		Name: opsServerName,
 		Server: &http.Server{
-			Addr:              cfg.OpsAddr,
-			Handler:           opsmetrics.NewMux(metrics.Exposition()),
+			Addr: cfg.OpsAddr,
+			Handler: opsmetrics.NewMux(
+				promhttp.HandlerFor(registry, promhttp.HandlerOpts{}),
+			),
 			ReadHeaderTimeout: opsReadHeaderLimit,
 		},
 	}}

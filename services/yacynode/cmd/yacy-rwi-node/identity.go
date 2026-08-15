@@ -6,7 +6,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 )
 
-func nodeIdentity(config nodeConfig) nodeidentity.Identity {
+func nodeIdentity(config NodeConfig) nodeidentity.Identity {
 	return nodeidentity.Identity{
 		Hash:        config.Hash,
 		NetworkName: config.NetworkName,

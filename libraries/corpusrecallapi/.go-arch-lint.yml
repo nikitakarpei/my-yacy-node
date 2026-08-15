@@ -28,3 +28,6 @@ deps:
     canUse:
       - grpc
       - protobuf
+
+excludeFiles:
+  - "_test\\.go"

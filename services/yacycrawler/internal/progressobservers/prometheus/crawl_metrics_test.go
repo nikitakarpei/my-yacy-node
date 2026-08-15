@@ -8,11 +8,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
+	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
 )
 
 func TestMetricsRecordAndExpose(t *testing.T) {
-	metrics := prometheus.New()
+	registry := prometheus.NewRegistry()
+	metrics := progressobserversprometheus.New(registry)
 	metrics.OrderReceived()
 	metrics.OrderCompleted()
 	metrics.OrderRedelivered()
@@ -25,7 +29,7 @@ func TestMetricsRecordAndExpose(t *testing.T) {
 	metrics.FetchCompleted(250 * time.Millisecond)
 
 	recorder := httptest.NewRecorder()
-	metrics.Handler().
+	promhttp.HandlerFor(registry, promhttp.HandlerOpts{}).
 		ServeHTTP(recorder, httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/metrics", nil))
 
 	body := recorder.Body.String()

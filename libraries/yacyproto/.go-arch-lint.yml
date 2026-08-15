@@ -19,7 +19,8 @@ vendors:
 
 deps:
   yacyproto:
-    mayDependOn:
-      - yacyproto
     canUse:
       - yacymodel
+
+excludeFiles:
+  - "_test\\.go"

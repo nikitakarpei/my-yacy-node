@@ -25,10 +25,7 @@ func TestRenderproxyRendersScriptedPageEndToEnd(t *testing.T) {
 	renderproxyURL := startRenderproxy(t, ctx, network.Name, lightpanda.NetworkURL(), nil)
 
 	client := forwardProxyClient(t, renderproxyURL)
-	resp, err := client.Get(originURL)
-	if err != nil {
-		t.Fatalf("proxy request: %v", err)
-	}
+	resp := renderproxyResponseFor(t, ctx, client, originURL)
 	defer func() { _ = resp.Body.Close() }()
 
 	body, err := io.ReadAll(resp.Body)
@@ -38,6 +35,25 @@ func TestRenderproxyRendersScriptedPageEndToEnd(t *testing.T) {
 	if !strings.Contains(string(body), renderedMarker) {
 		t.Fatalf("rendered body missing marker: status=%d body=%q", resp.StatusCode, body)
 	}
+}
+
+func renderproxyResponseFor(
+	t *testing.T,
+	ctx context.Context,
+	client *http.Client,
+	originURL string,
+) *http.Response {
+	t.Helper()
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, originURL, nil)
+	if err != nil {
+		t.Fatalf("build proxy request: %v", err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		t.Fatalf("proxy request: %v", err)
+	}
+
+	return resp
 }
 
 func TestRenderproxyReturnsNonHTMLRawBodyEndToEnd(t *testing.T) {
@@ -50,10 +66,7 @@ func TestRenderproxyReturnsNonHTMLRawBodyEndToEnd(t *testing.T) {
 	renderproxyURL := startRenderproxy(t, ctx, network.Name, lightpanda.NetworkURL(), nil)
 
 	client := forwardProxyClient(t, renderproxyURL)
-	resp, err := client.Get(originURL)
-	if err != nil {
-		t.Fatalf("proxy request: %v", err)
-	}
+	resp := renderproxyResponseFor(t, ctx, client, originURL)
 	defer func() { _ = resp.Body.Close() }()
 
 	body, err := io.ReadAll(resp.Body)
@@ -88,10 +101,7 @@ func TestRenderproxyTimesOutHangingOriginEndToEnd(t *testing.T) {
 	client := forwardProxyClient(t, renderproxyURL)
 
 	start := time.Now()
-	resp, err := client.Get(originURL)
-	if err != nil {
-		t.Fatalf("proxy request: %v", err)
-	}
+	resp := renderproxyResponseFor(t, ctx, client, originURL)
 	defer func() { _ = resp.Body.Close() }()
 	elapsed := time.Since(start)
 
@@ -139,8 +149,16 @@ func connectResponseStatus(t *testing.T, renderproxyURL string) int {
 	client := &http.Client{Transport: transport, Timeout: 10 * time.Second}
 
 	// The connect target need not exist; only the intercepted CONNECT status matters.
-	resp, err := client.Get("https://example.invalid/")
-	if err == nil {
+	req, err := http.NewRequestWithContext(
+		t.Context(),
+		http.MethodGet,
+		"https://example.invalid/",
+		nil,
+	)
+	if err != nil {
+		t.Fatalf("build connect request: %v", err)
+	}
+	if resp, err := client.Do(req); err == nil {
 		_ = resp.Body.Close()
 	}
 	return status

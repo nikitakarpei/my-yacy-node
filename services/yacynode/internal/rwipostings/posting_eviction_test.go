@@ -1,4 +1,4 @@
-package rwipostings
+package rwipostings_test
 
 import (
 	"context"

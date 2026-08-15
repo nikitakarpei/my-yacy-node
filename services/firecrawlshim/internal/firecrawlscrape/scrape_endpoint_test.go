@@ -1,4 +1,4 @@
-package firecrawlscrape
+package firecrawlscrape_test
 
 import (
 	"context"
@@ -13,7 +13,25 @@ import (
 	"google.golang.org/grpc"
 
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
+	"github.com/nikitakarpei/yacy-rwi-node/firecrawlshim/internal/firecrawlscrape"
 )
+
+type scrapeResponse struct {
+	Success bool       `json:"success"`
+	Data    scrapeData `json:"data"`
+	Error   string     `json:"error"`
+}
+
+type scrapeData struct {
+	Markdown string         `json:"markdown"`
+	Metadata scrapeMetadata `json:"metadata"`
+}
+
+type scrapeMetadata struct {
+	Title     string `json:"title"`
+	Language  string `json:"language"`
+	SourceURL string `json:"sourceURL"`
+}
 
 type fakeRecaller struct {
 	response *corpusrecallv1.RecallResponse
@@ -30,9 +48,13 @@ func (f *fakeRecaller) Recall(
 	return f.response, f.err
 }
 
-func serve(t *testing.T, recaller Recaller, body string) *httptest.ResponseRecorder {
+func serve(
+	t *testing.T,
+	recaller firecrawlscrape.Recaller,
+	body string,
+) *httptest.ResponseRecorder {
 	t.Helper()
-	scraper := NewScraper(recaller, time.Second)
+	scraper := firecrawlscrape.NewScraper(recaller, time.Second)
 	request := httptest.NewRequestWithContext(
 		context.Background(), http.MethodPost, "/v1/scrape", strings.NewReader(body),
 	)

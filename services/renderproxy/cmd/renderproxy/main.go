@@ -7,7 +7,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendermetrics"
+	"github.com/prometheus/client_golang/prometheus"
+
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
 )
 
@@ -29,5 +30,6 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	return RunService(ctx, cfg, rendermetrics.New())
+	registry := prometheus.NewRegistry()
+	return RunService(ctx, cfg, registry)
 }

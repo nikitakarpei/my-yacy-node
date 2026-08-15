@@ -1,46 +1,64 @@
-package metrics
+package metrics_test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
-	dto "github.com/prometheus/client_model/go"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 )
 
 func TestDHTRingTracksAcceptingPeersPerSector(t *testing.T) {
-	observer := NewDHTRingMetrics(prometheus.NewRegistry())
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDHTRingMetrics(registry)
 
 	observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector([]int{0, 2, 0})
 
-	if got := testutil.ToFloat64(
-		observer.peersAcceptingRemoteIndexPerSector.WithLabelValues("01"),
-	); got != 2 {
-		t.Errorf("accepting peers in sector 01 = %v, want 2", got)
-	}
-	if got := testutil.ToFloat64(
-		observer.peersAcceptingRemoteIndexPerSector.WithLabelValues("00"),
-	); got != 0 {
-		t.Errorf("accepting peers in sector 00 = %v, want 0", got)
-	}
-	if got := testutil.CollectAndCount(observer.peersAcceptingRemoteIndexPerSector); got != 3 {
-		t.Errorf("sectors = %v, want every sector reported including the empty ones", got)
+	expected := `
+# HELP rwidistribution_peers_accepting_remote_index Peers accepting remote index, by the DHT ring sector they occupy.
+# TYPE rwidistribution_peers_accepting_remote_index gauge
+rwidistribution_peers_accepting_remote_index{sector="00"} 0
+rwidistribution_peers_accepting_remote_index{sector="01"} 2
+rwidistribution_peers_accepting_remote_index{sector="02"} 0
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"rwidistribution_peers_accepting_remote_index",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
 func TestDHTRingTracksReplicaRingFractions(t *testing.T) {
-	observer := NewDHTRingMetrics(prometheus.NewRegistry())
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDHTRingMetrics(registry)
 
 	observer.ObserveReplicaRingFractions([]float64{0.1, 0.4})
 
-	var collected dto.Metric
-	if err := observer.ringFractionFromPostingToHolder.Write(&collected); err != nil {
-		t.Fatalf("Write: %v", err)
+	if got := testutil.CollectAndCount(
+		registry,
+		"rwidistribution_replica_ring_fraction",
+	); got != 1 {
+		t.Errorf("series = %v, want 1", got)
 	}
-	if got := collected.GetHistogram().GetSampleCount(); got != 2 {
-		t.Errorf("samples = %v, want one per reported fraction", got)
+
+	families, err := registry.Gather()
+	if err != nil {
+		t.Fatalf("Gather: %v", err)
 	}
-	if got := collected.GetHistogram().GetSampleSum(); got < 0.49 || got > 0.51 {
-		t.Errorf("sample sum = %v, want about 0.5", got)
+	for _, family := range families {
+		if family.GetName() != "rwidistribution_replica_ring_fraction" {
+			continue
+		}
+		histogram := family.GetMetric()[0].GetHistogram()
+		if got := histogram.GetSampleCount(); got != 2 {
+			t.Errorf("samples = %v, want one per reported fraction", got)
+		}
+		if got := histogram.GetSampleSum(); got < 0.49 || got > 0.51 {
+			t.Errorf("sample sum = %v, want about 0.5", got)
+		}
 	}
 }

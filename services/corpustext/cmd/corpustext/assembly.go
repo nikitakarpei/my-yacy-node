@@ -8,6 +8,8 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/indexmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
@@ -52,12 +54,13 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err := selection.schema.Bootstrap(ctx); err != nil {
 		return fmt.Errorf("bootstrap search index schema: %w", err)
 	}
-	metrics := indexmetrics.New()
+	registry := prometheus.NewRegistry()
+	metrics := indexmetrics.New(registry)
 	intake := pageintake.NewCrawledPageConsumer(consumer, selection.index, metrics, cfg.Concurrency)
 
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
-		Handler:           opsmetrics.NewMux(metrics.Handler()),
+		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 

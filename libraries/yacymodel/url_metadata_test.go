@@ -14,11 +14,7 @@ func TestURLMetadataHashDerivesFromAddress(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Hash: %v", err)
 	}
-	want, err := yacymodel.HashURL("http://example.com/a")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got != want {
+	if want := hashOfAddress(t, "http://example.com/a"); got != want {
 		t.Errorf("Hash = %q, want %q", got, want)
 	}
 }

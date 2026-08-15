@@ -67,21 +67,3 @@ func Decode(s string) ([]byte, error) {
 	}
 	return out, nil
 }
-
-const cardinalSymbols = 10
-
-func cardinal(s string) (uint64, error) {
-	n := min(len(s), cardinalSymbols)
-	var c uint64
-	for i := range n {
-		v := decodeTable[s[i]]
-		if v < 0 {
-			return 0, fmt.Errorf("%w: %q", ErrInvalidBase64, s[i])
-		}
-		c = c<<6 | uint64(v)
-	}
-	for range cardinalSymbols - n {
-		c <<= 6
-	}
-	return c<<3 | 7, nil
-}

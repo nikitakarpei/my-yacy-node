@@ -2,26 +2,20 @@
 package prometheus
 
 import (
-	"net/http"
-
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 )
 
 type RecallMetrics struct {
-	registry         *prometheus.Registry
 	requestsAccepted prometheus.Counter
 	requestsRejected prometheus.Counter
 	recalled         *prometheus.CounterVec
 	unavailable      *prometheus.CounterVec
 }
 
-func NewRecallMetrics() *RecallMetrics {
-	registry := prometheus.NewRegistry()
+func NewRecallMetrics(registry prometheus.Registerer) *RecallMetrics {
 	metrics := &RecallMetrics{
-		registry: registry,
 		requestsAccepted: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "corpusrecall_requests_accepted_total",
 			Help: "Recall requests admitted for retrieval.",
@@ -57,8 +51,4 @@ func (m *RecallMetrics) RepresentationRecalled(kind recall.RepresentationKind) {
 
 func (m *RecallMetrics) RepresentationUnavailable(kind recall.RepresentationKind) {
 	m.unavailable.WithLabelValues(string(kind)).Inc()
-}
-
-func (m *RecallMetrics) Exposition() http.Handler {
-	return promhttp.HandlerFor(m.registry, promhttp.HandlerOpts{})
 }

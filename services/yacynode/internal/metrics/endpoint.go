@@ -1,12 +1,10 @@
 package metrics
 
 import (
-	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 const (
@@ -16,13 +14,11 @@ const (
 )
 
 type HTTPEndpointMetrics struct {
-	registry  *prometheus.Registry
 	requests  *prometheus.CounterVec
 	durations *prometheus.HistogramVec
 }
 
-func NewHTTPEndpointMetrics() *HTTPEndpointMetrics {
-	registry := prometheus.NewRegistry()
+func NewHTTPEndpointMetrics(registry prometheus.Registerer) *HTTPEndpointMetrics {
 	requests := prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "http_requests_total",
@@ -40,11 +36,7 @@ func NewHTTPEndpointMetrics() *HTTPEndpointMetrics {
 	)
 	registry.MustRegister(requests, durations)
 
-	return &HTTPEndpointMetrics{registry: registry, requests: requests, durations: durations}
-}
-
-func (e *HTTPEndpointMetrics) Registry() *prometheus.Registry {
-	return e.registry
+	return &HTTPEndpointMetrics{requests: requests, durations: durations}
 }
 
 func (e *HTTPEndpointMetrics) Observe(endpoint string, status int, elapsed time.Duration) {
@@ -53,8 +45,4 @@ func (e *HTTPEndpointMetrics) Observe(endpoint string, status int, elapsed time.
 	}
 	e.requests.WithLabelValues(endpoint, strconv.Itoa(status)).Inc()
 	e.durations.WithLabelValues(endpoint).Observe(elapsed.Seconds())
-}
-
-func (e *HTTPEndpointMetrics) Handler() http.Handler {
-	return promhttp.HandlerFor(e.registry, promhttp.HandlerOpts{})
 }

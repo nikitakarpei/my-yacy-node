@@ -1,4 +1,4 @@
-package metrics
+package metrics_test
 
 import (
 	"context"
@@ -8,6 +8,8 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 )
 
 type stubVaultCapacity struct {
@@ -22,7 +24,7 @@ func (s stubVaultCapacity) UsedBytes(context.Context) (int64, error) { return s.
 
 func TestVaultCapacityReportsLevels(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	NewVaultCapacityMetrics(registry, stubVaultCapacity{quota: 1024, used: 256})
+	metrics.NewVaultCapacityMetrics(registry, stubVaultCapacity{quota: 1024, used: 256})
 
 	expected := `
 # HELP vault_quota_bytes Configured vault quota in bytes.
@@ -39,7 +41,7 @@ vault_used_bytes 256
 
 func TestVaultCapacityOmitsUsedBytesOnError(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	NewVaultCapacityMetrics(
+	metrics.NewVaultCapacityMetrics(
 		registry,
 		stubVaultCapacity{quota: 1024, used: 256, err: errors.New("unavailable")},
 	)

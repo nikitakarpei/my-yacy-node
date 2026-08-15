@@ -14,10 +14,11 @@ func buildRepresentation(
 	page pagepublication.Page,
 	fullText []byte,
 ) (yacycrawlcontract.PageRWIRepresentation, error) {
-	urlHash, err := yacymodel.HashURL(page.CanonicalURL)
+	canonicalAddress, err := url.Parse(page.CanonicalURL)
 	if err != nil {
-		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("hash url: %w", err)
+		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("parse canonical url: %w", err)
 	}
+	urlHash := yacymodel.URLNormalformOf(canonicalAddress).Hash()
 
 	order, occurrences, textStats := tokenize(string(fullText))
 	_, _, titleStats := tokenize(page.Title)

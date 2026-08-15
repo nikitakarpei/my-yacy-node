@@ -1,10 +1,11 @@
-package postingidentity
+package postingidentity_test
 
 import (
 	"bytes"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 )
 
 func urlHash(raw string) yacymodel.URLHash {
@@ -18,15 +19,15 @@ func urlHash(raw string) yacymodel.URLHash {
 
 func TestKeyIsStableAndDistinctPerPosting(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
-	posting := IdentityOf(word, url)
-	keyOf := KeyCodec{}.Encode
+	posting := postingidentity.IdentityOf(word, url)
+	keyOf := postingidentity.KeyCodec{}.Encode
 
-	if !bytes.Equal(keyOf(posting).Bytes(), keyOf(IdentityOf(word, url)).Bytes()) {
+	if !bytes.Equal(keyOf(posting).Bytes(), keyOf(postingidentity.IdentityOf(word, url)).Bytes()) {
 		t.Fatal("one posting addresses two rows")
 	}
-	for name, other := range map[string]Identity{
-		"another word": IdentityOf(yacymodel.WordHash("w2"), url),
-		"another url":  IdentityOf(word, urlHash("u2")),
+	for name, other := range map[string]postingidentity.Identity{
+		"another word": postingidentity.IdentityOf(yacymodel.WordHash("w2"), url),
+		"another url":  postingidentity.IdentityOf(word, urlHash("u2")),
 	} {
 		t.Run(name, func(t *testing.T) {
 			if bytes.Equal(keyOf(posting).Bytes(), keyOf(other).Bytes()) {
@@ -37,9 +38,10 @@ func TestKeyIsStableAndDistinctPerPosting(t *testing.T) {
 }
 
 func TestKeyRoundTripsToTheSamePosting(t *testing.T) {
-	posting := IdentityOf(yacymodel.WordHash("w1"), urlHash("u1"))
+	posting := postingidentity.IdentityOf(yacymodel.WordHash("w1"), urlHash("u1"))
 
-	decoded, err := KeyCodec{}.Decode(KeyCodec{}.Encode(posting).Bytes())
+	encoded := postingidentity.KeyCodec{}.Encode(posting).Bytes()
+	decoded, err := postingidentity.KeyCodec{}.Decode(encoded)
 	if err != nil {
 		t.Fatalf("Decode: %v", err)
 	}
@@ -51,7 +53,7 @@ func TestKeyRoundTripsToTheSamePosting(t *testing.T) {
 func TestIdentityOfCarriesWordAndURL(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 
-	identity := IdentityOf(word, url)
+	identity := postingidentity.IdentityOf(word, url)
 
 	if identity.Word != word || identity.URL != url {
 		t.Fatalf("IdentityOf = %+v, want {%v %v}", identity, word, url)

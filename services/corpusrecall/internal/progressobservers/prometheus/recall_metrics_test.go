@@ -7,12 +7,16 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/progressobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 )
 
 func TestExpositionReportsEveryRecallOutcomeObserved(t *testing.T) {
-	metrics := progressobserversprometheus.NewRecallMetrics()
+	registry := prometheus.NewRegistry()
+	metrics := progressobserversprometheus.NewRecallMetrics(registry)
 
 	metrics.RequestAccepted()
 	metrics.RequestRejected()
@@ -20,7 +24,8 @@ func TestExpositionReportsEveryRecallOutcomeObserved(t *testing.T) {
 	metrics.RepresentationUnavailable(recall.RepresentationKind("text"))
 
 	recorder := httptest.NewRecorder()
-	metrics.Exposition().ServeHTTP(recorder, httptest.NewRequestWithContext(
+	handler := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
+	handler.ServeHTTP(recorder, httptest.NewRequestWithContext(
 		context.Background(), http.MethodGet, "/metrics", nil,
 	))
 

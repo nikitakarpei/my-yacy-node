@@ -1,10 +1,12 @@
-package bootstrap
+package bootstrap_test
 
 import (
 	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
 )
 
 func TestSeedlistsFetchAllURLsAndSkipFailures(t *testing.T) {
@@ -17,7 +19,7 @@ func TestSeedlistsFetchAllURLsAndSkipFailures(t *testing.T) {
 	}))
 	defer bad.Close()
 
-	source := New(good.Client(), []string{good.URL, bad.URL})
+	source := bootstrap.New(good.Client(), []string{good.URL, bad.URL})
 	seeds := source.Fetch(context.Background())
 
 	if len(seeds) != 1 {

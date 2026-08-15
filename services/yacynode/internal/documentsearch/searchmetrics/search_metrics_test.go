@@ -1,71 +1,95 @@
-package searchmetrics
+package searchmetrics_test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
-	dto "github.com/prometheus/client_model/go"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 )
 
 func TestSearchMetricsCountSearchesPerOutcome(t *testing.T) {
-	observer := NewSearchMetrics(prometheus.NewRegistry())
+	registry := prometheus.NewRegistry()
+	observer := searchmetrics.NewSearchMetrics(registry)
 
-	observer.ObserveSearchOutcome(SearchServedWithResults)
-	observer.ObserveSearchOutcome(SearchServedWithResults)
-	observer.ObserveSearchOutcome(SearchIndexFailure)
+	observer.ObserveSearchOutcome(searchmetrics.SearchServedWithResults)
+	observer.ObserveSearchOutcome(searchmetrics.SearchServedWithResults)
+	observer.ObserveSearchOutcome(searchmetrics.SearchIndexFailure)
 
-	if got := testutil.ToFloat64(
-		observer.searchesPerOutcome.WithLabelValues(string(SearchServedWithResults)),
-	); got != 2 {
-		t.Errorf("served_with_results = %v, want 2", got)
-	}
-	if got := testutil.ToFloat64(
-		observer.searchesPerOutcome.WithLabelValues(string(SearchIndexFailure)),
-	); got != 1 {
-		t.Errorf("index_failure = %v, want 1", got)
+	expected := `
+# HELP documentsearch_searches_total Search requests answered, by how each one ended.
+# TYPE documentsearch_searches_total counter
+documentsearch_searches_total{outcome="index_failure"} 1
+documentsearch_searches_total{outcome="served_with_results"} 2
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"documentsearch_searches_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
 func TestSearchMetricsSplitTermRingFractionsByPresence(t *testing.T) {
-	observer := NewSearchMetrics(prometheus.NewRegistry())
+	registry := prometheus.NewRegistry()
+	observer := searchmetrics.NewSearchMetrics(registry)
 
 	observer.ObserveTermInIndex(0.01)
 	observer.ObserveTermNotInIndex(0.2)
 	observer.ObserveTermNotInIndex(0.3)
 
-	if got := sampleCount(t, observer, termInIndex); got != 1 {
+	if got := sampleCount(t, registry, "in_index"); got != 1 {
 		t.Errorf("in_index samples = %v, want 1", got)
 	}
-	if got := sampleCount(t, observer, termNotInIndex); got != 2 {
+	if got := sampleCount(t, registry, "not_in_index"); got != 2 {
 		t.Errorf("not_in_index samples = %v, want 2", got)
 	}
 }
 
-func sampleCount(t *testing.T, observer *SearchMetrics, presence string) uint64 {
+func sampleCount(t *testing.T, gatherer prometheus.Gatherer, presence string) uint64 {
 	t.Helper()
 
-	histogram, err := observer.termRingFractionPerPresence.GetMetricWithLabelValues(presence)
+	families, err := gatherer.Gather()
 	if err != nil {
-		t.Fatalf("GetMetricWithLabelValues: %v", err)
-	}
-	var collected dto.Metric
-	if err := histogram.(prometheus.Histogram).Write(&collected); err != nil {
-		t.Fatalf("Write: %v", err)
+		t.Fatalf("Gather: %v", err)
 	}
 
-	return collected.GetHistogram().GetSampleCount()
+	for _, family := range families {
+		if family.GetName() != "documentsearch_query_term_ring_fraction" {
+			continue
+		}
+		for _, metric := range family.GetMetric() {
+			for _, label := range metric.GetLabel() {
+				if label.GetName() == "presence" && label.GetValue() == presence {
+					return metric.GetHistogram().GetSampleCount()
+				}
+			}
+		}
+	}
+
+	return 0
 }
 
 func TestSearchMetricsCountRequestsPerUnsupportedOption(t *testing.T) {
-	observer := NewSearchMetrics(prometheus.NewRegistry())
+	registry := prometheus.NewRegistry()
+	observer := searchmetrics.NewSearchMetrics(registry)
 
 	observer.ObserveUnsupportedOptionRequested("prefer")
 	observer.ObserveUnsupportedOptionRequested("prefer")
 
-	if got := testutil.ToFloat64(
-		observer.requestsPerUnsupportedOption.WithLabelValues("prefer"),
-	); got != 2 {
-		t.Errorf("prefer requests = %v, want 2", got)
+	expected := `
+# HELP documentsearch_unsupported_options_requested_total Search options peers requested that this node accepts but ignores.
+# TYPE documentsearch_unsupported_options_requested_total counter
+documentsearch_unsupported_options_requested_total{option="prefer"} 2
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"documentsearch_unsupported_options_requested_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }

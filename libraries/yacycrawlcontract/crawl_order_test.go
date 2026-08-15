@@ -1,17 +1,19 @@
-package yacycrawlcontract
+package yacycrawlcontract_test
 
 import (
 	"reflect"
 	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 func TestCrawlOrderRoundTrip(t *testing.T) {
-	order := CrawlOrder{
+	order := yacycrawlcontract.CrawlOrder{
 		OrderID: "3f8a2c14-6b2d-4e1a-9c7f-8d0e1a2b3c4d",
-		Profile: CrawlProfile{
+		Profile: yacycrawlcontract.CrawlProfile{
 			Name:                   "deep",
-			Scope:                  ScopeSubpath,
-			URLMustMatch:           MatchAll,
+			Scope:                  yacycrawlcontract.ScopeSubpath,
+			URLMustMatch:           yacycrawlcontract.MatchAll,
 			URLMustNotMatch:        ".*\\.pdf",
 			MaxDepth:               4,
 			AllowQueryURLs:         true,
@@ -21,11 +23,11 @@ func TestCrawlOrderRoundTrip(t *testing.T) {
 		SeedURLs: []string{"https://example.org/a", "https://example.org/b"},
 	}
 
-	data, err := MarshalCrawlOrder(order)
+	data, err := yacycrawlcontract.MarshalCrawlOrder(order)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
 	}
-	got, err := UnmarshalCrawlOrder(data)
+	got, err := yacycrawlcontract.UnmarshalCrawlOrder(data)
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}

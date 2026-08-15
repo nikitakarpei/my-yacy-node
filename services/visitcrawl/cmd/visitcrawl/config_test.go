@@ -1,9 +1,10 @@
-package main
+package main_test
 
 import (
 	"testing"
 	"time"
 
+	visitcrawl "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/cmd/visitcrawl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -19,23 +20,23 @@ func baseEnv() map[string]string {
 }
 
 func TestLoadServiceConfigDefaults(t *testing.T) {
-	cfg, err := LoadServiceConfig(envFrom(baseEnv()))
+	cfg, err := visitcrawl.LoadServiceConfig(envFrom(baseEnv()))
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.OrdersSubject != DefaultOrdersSubject {
+	if cfg.OrdersSubject != visitcrawl.DefaultOrdersSubject {
 		t.Fatalf("orders subject = %q", cfg.OrdersSubject)
 	}
-	if cfg.ListenAddr != DefaultListenAddr || cfg.OpsAddr != DefaultOpsAddr {
+	if cfg.ListenAddr != visitcrawl.DefaultListenAddr || cfg.OpsAddr != visitcrawl.DefaultOpsAddr {
 		t.Fatalf("unexpected addr defaults: %+v", cfg)
 	}
-	if cfg.OrderTimeout != DefaultOrderTimeout {
+	if cfg.OrderTimeout != visitcrawl.DefaultOrderTimeout {
 		t.Fatalf("order timeout = %v", cfg.OrderTimeout)
 	}
-	if cfg.MaxInFlight != DefaultMaxInFlight {
+	if cfg.MaxInFlight != visitcrawl.DefaultMaxInFlight {
 		t.Fatalf("max in flight = %d", cfg.MaxInFlight)
 	}
-	if cfg.MaxBodyBytes != DefaultMaxBodyBytes {
+	if cfg.MaxBodyBytes != visitcrawl.DefaultMaxBodyBytes {
 		t.Fatalf("max body bytes = %d", cfg.MaxBodyBytes)
 	}
 	if cfg.LinkSecret != "shared-secret" {
@@ -47,10 +48,10 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.CrawlProfile.URLMustMatch != yacycrawlcontract.MatchAll {
 		t.Fatalf("urlMustMatch = %q, want MatchAll", cfg.CrawlProfile.URLMustMatch)
 	}
-	if cfg.CrawlProfile.MaxDepth != DefaultCrawlMaxDepth {
+	if cfg.CrawlProfile.MaxDepth != visitcrawl.DefaultCrawlMaxDepth {
 		t.Fatalf("max depth = %d", cfg.CrawlProfile.MaxDepth)
 	}
-	if cfg.CrawlProfile.MaxPagesPerHost != DefaultCrawlMaxPagesPerHost {
+	if cfg.CrawlProfile.MaxPagesPerHost != visitcrawl.DefaultCrawlMaxPagesPerHost {
 		t.Fatalf("max pages per host = %d", cfg.CrawlProfile.MaxPagesPerHost)
 	}
 	if !cfg.CrawlProfile.IgnoresIndexingRefusal {
@@ -61,16 +62,16 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 func TestLoadServiceConfigRequiresNATSURL(t *testing.T) {
 	env := baseEnv()
 	delete(env, "NATS_URL")
-	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+	if _, err := visitcrawl.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("missing NATS_URL should error")
 	}
 }
 
 func TestLoadServiceConfigRequiresLinkSecret(t *testing.T) {
 	env := baseEnv()
-	delete(env, EnvLinkSecret)
-	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
-		t.Fatalf("missing %s should error", EnvLinkSecret)
+	delete(env, visitcrawl.EnvLinkSecret)
+	if _, err := visitcrawl.LoadServiceConfig(envFrom(env)); err == nil {
+		t.Fatalf("missing %s should error", visitcrawl.EnvLinkSecret)
 	}
 }
 
@@ -83,7 +84,7 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env["VISITCRAWL_CRAWL_MAX_DEPTH"] = "3"
 	env["VISITCRAWL_CRAWL_ALLOW_QUERY_URLS"] = "true"
 	env["VISITCRAWL_CRAWL_IGNORES_INDEXING_REFUSAL"] = "false"
-	cfg, err := LoadServiceConfig(envFrom(env))
+	cfg, err := visitcrawl.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -104,7 +105,7 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 func TestLoadServiceConfigRejectsUnknownScope(t *testing.T) {
 	env := baseEnv()
 	env["VISITCRAWL_CRAWL_SCOPE"] = "galaxy"
-	if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+	if _, err := visitcrawl.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("unknown scope should error")
 	}
 }
@@ -124,7 +125,7 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		for k, v := range bad {
 			env[k] = v
 		}
-		if _, err := LoadServiceConfig(envFrom(env)); err == nil {
+		if _, err := visitcrawl.LoadServiceConfig(envFrom(env)); err == nil {
 			t.Errorf("expected error for %v", bad)
 		}
 	}

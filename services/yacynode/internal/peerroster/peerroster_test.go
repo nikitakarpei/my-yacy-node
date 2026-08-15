@@ -70,6 +70,19 @@ func openRoster(
 ) peerroster.Roster {
 	t.Helper()
 
+	clockStart := time.Unix(1_000, 0)
+
+	return openRosterClockedFrom(t, clockStart, reservoirCap, reachableCap, announceInterval)
+}
+
+func openRosterClockedFrom(
+	t *testing.T,
+	clockStart time.Time,
+	reservoirCap, reachableCap int,
+	announceInterval time.Duration,
+) peerroster.Roster {
+	t.Helper()
+
 	v, err := memory.Open(0, nil)
 	if err != nil {
 		t.Fatalf("memory.Open: %v", err)
@@ -80,7 +93,7 @@ func openRoster(
 		}
 	})
 
-	clock := &tickingClock{now: time.Unix(1_000, 0)}
+	clock := &tickingClock{now: clockStart}
 	roster, err := peerroster.Open(
 		v, clock.Now, reservoirCap, reachableCap, announceInterval, selfHash(),
 		peerroster.DiscardObserver,

@@ -10,27 +10,27 @@ func seedAt(hash yacymodel.Hash) yacymodel.Seed {
 	return yacymodel.Seed{Hash: hash}
 }
 
-func TestDistanceToPositionIsZeroAtThePosition(t *testing.T) {
+func TestDistanceToIsZeroAtTheSamePosition(t *testing.T) {
 	near := yacymodel.WordHash("near")
 	far := yacymodel.WordHash("far")
 
-	position := yacymodel.RingPosition(near)
+	position := yacymodel.DHTRingPositionOf(near)
 
-	if got := yacymodel.DistanceToPosition(near, position); got != 0 {
+	if got := position.DistanceTo(yacymodel.DHTRingPositionOf(near)); got != 0 {
 		t.Fatalf("distance = %d, want 0 for the hash the position came from", got)
 	}
-	if yacymodel.DistanceToPosition(far, position) == 0 {
+	if position.DistanceTo(yacymodel.DHTRingPositionOf(far)) == 0 {
 		t.Fatalf("distance = 0, want a nonzero distance for a different hash")
 	}
 }
 
-func TestSeedsClosestToPositionOrdersByRingDistance(t *testing.T) {
+func TestSeedsClosestToDHTRingPositionOrdersByRingDistance(t *testing.T) {
 	near := yacymodel.WordHash("near")
 	far := yacymodel.WordHash("far")
 
-	position := yacymodel.RingPosition(near)
+	position := yacymodel.DHTRingPositionOf(near)
 
-	closest := yacymodel.SeedsClosestToPosition(
+	closest := yacymodel.SeedsClosestToDHTRingPosition(
 		[]yacymodel.Seed{seedAt(far), seedAt(near)}, position, 2,
 	)
 	if len(closest) != 2 || closest[0].Hash != near {
@@ -38,13 +38,13 @@ func TestSeedsClosestToPositionOrdersByRingDistance(t *testing.T) {
 	}
 }
 
-func TestSeedsClosestToPositionCapsToWant(t *testing.T) {
+func TestSeedsClosestToDHTRingPositionCapsToWant(t *testing.T) {
 	near := yacymodel.WordHash("near")
 	far := yacymodel.WordHash("far")
 
-	position := yacymodel.RingPosition(near)
+	position := yacymodel.DHTRingPositionOf(near)
 
-	closest := yacymodel.SeedsClosestToPosition(
+	closest := yacymodel.SeedsClosestToDHTRingPosition(
 		[]yacymodel.Seed{seedAt(far), seedAt(near)}, position, 1,
 	)
 	if len(closest) != 1 || closest[0].Hash != near {
@@ -52,8 +52,8 @@ func TestSeedsClosestToPositionCapsToWant(t *testing.T) {
 	}
 }
 
-func TestSeedsClosestToPositionWithoutWantSelectsNothing(t *testing.T) {
-	closest := yacymodel.SeedsClosestToPosition(
+func TestSeedsClosestToDHTRingPositionWithoutWantSelectsNothing(t *testing.T) {
+	closest := yacymodel.SeedsClosestToDHTRingPosition(
 		[]yacymodel.Seed{seedAt(yacymodel.WordHash("near"))}, 0, 0,
 	)
 	if len(closest) != 0 {
@@ -61,13 +61,13 @@ func TestSeedsClosestToPositionWithoutWantSelectsNothing(t *testing.T) {
 	}
 }
 
-func TestSeedsCloserThanPeerKeepsOnlyTheCloserSeeds(t *testing.T) {
+func TestSeedsCloserToDHTRingPositionThanPeerKeepsOnlyTheCloserSeeds(t *testing.T) {
 	near := yacymodel.WordHash("near")
 	far := yacymodel.WordHash("far")
 
-	position := yacymodel.RingPosition(near)
+	position := yacymodel.DHTRingPositionOf(near)
 
-	closer := yacymodel.SeedsCloserThanPeer(
+	closer := yacymodel.SeedsCloserToDHTRingPositionThanPeer(
 		[]yacymodel.Seed{seedAt(far), seedAt(near)}, far, position,
 	)
 	if len(closer) != 1 || closer[0].Hash != near {
@@ -75,16 +75,18 @@ func TestSeedsCloserThanPeerKeepsOnlyTheCloserSeeds(t *testing.T) {
 	}
 }
 
-func TestRingFractionToPositionIsZeroAtThePosition(t *testing.T) {
+func TestFractionOfDHTRingIsZeroAtTheSamePosition(t *testing.T) {
 	near := yacymodel.WordHash("near")
 	far := yacymodel.WordHash("far")
 
-	position := yacymodel.RingPosition(near)
+	position := yacymodel.DHTRingPositionOf(near)
 
-	if got := yacymodel.RingFractionToPosition(near, position); got != 0 {
+	got := position.DistanceTo(yacymodel.DHTRingPositionOf(near)).FractionOfDHTRing()
+	if got != 0 {
 		t.Fatalf("fraction = %v, want 0 for the hash the position came from", got)
 	}
-	fraction := yacymodel.RingFractionToPosition(far, position)
+
+	fraction := position.DistanceTo(yacymodel.DHTRingPositionOf(far)).FractionOfDHTRing()
 	if fraction <= 0 || fraction >= 1 {
 		t.Fatalf("fraction = %v, want a fraction in (0,1)", fraction)
 	}
@@ -99,7 +101,7 @@ func TestSeedsPerDHTRingSectorCountsEverySector(t *testing.T) {
 		t.Fatalf("sectors = %d, want %d", len(perSector), yacymodel.MaxDHTRingSector+1)
 	}
 
-	occupied := yacymodel.DHTRingSectorOf(yacymodel.RingPosition(peer))
+	occupied := yacymodel.DHTRingSectorOf(yacymodel.DHTRingPositionOf(peer))
 	for sector, seeds := range perSector {
 		want := 0
 		if yacymodel.DHTRingSector(sector) == occupied {

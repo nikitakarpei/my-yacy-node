@@ -1,4 +1,4 @@
-package distributioncycle
+package distributioncycle_test
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 )
@@ -44,14 +45,14 @@ func TestCycleSkipsWhenTooFewPeersReachable(t *testing.T) {
 		fakePostingKey(word, url): fakePosting(word, url),
 	}
 	h := openCycle(t, &clock{at: now}, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+		postings:          postings,
+		roster:            fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+		minReachablePeers: 2,
 	})
-	h.cycle.config.MinReachablePeers = 2
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if len(h.courier.offered) != 0 {
 		t.Fatalf(
@@ -59,7 +60,7 @@ func TestCycleSkipsWhenTooFewPeersReachable(t *testing.T) {
 			h.courier.offered,
 		)
 	}
-	if h.observer.cyclesSkipped[string(SkipTooFewReachablePeers)] != 1 {
+	if h.observer.cyclesSkipped[string(distributioncycle.SkipTooFewReachablePeers)] != 1 {
 		t.Fatalf("cyclesSkipped = %v, want one skip below the reachable-peer floor",
 			h.observer.cyclesSkipped)
 	}
@@ -82,15 +83,15 @@ func TestCycleReportsLongestOfferLatenessOnSkippedCycle(t *testing.T) {
 	}
 	clk := &clock{at: now}
 	h := openCycle(t, clk, cycleOptions{
-		postings: postings,
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+		postings:          postings,
+		roster:            fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+		minReachablePeers: 2,
 	})
-	h.cycle.config.MinReachablePeers = 2
 
 	store(t, h.v, h.schedule, word, url)
 
 	clk.at = now.Add(90 * time.Second)
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if len(h.courier.offered) != 0 {
 		t.Fatalf("offered = %v, want no offers on a skipped cycle", h.courier.offered)
@@ -116,7 +117,7 @@ func TestCycleDropsStaleReplicaFromLedger(t *testing.T) {
 	store(t, h.v, h.schedule, word, url)
 	recordAccepted(t, h, stalePeer, fakePosting(word, url))
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	replicas := holdersOf(t, h, word, url)
 	for _, replica := range replicas {
@@ -145,7 +146,7 @@ func TestCycleKeepsRecentlyReachableReplicaFromLedger(t *testing.T) {
 	store(t, h.v, h.schedule, word, url)
 	recordAccepted(t, h, recentPeer, fakePosting(word, url))
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	replicas := holdersOf(t, h, word, url)
 	if len(replicas) != 1 || replicas[0] != recentPeer {
@@ -182,7 +183,7 @@ func TestCycleReschedulesAcceptedPostingAtTheLongestOfferInterval(t *testing.T) 
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	due, err := h.schedule.DuePostings(context.Background(), 10)
 	if err != nil {
@@ -209,7 +210,7 @@ func TestCycleRetriesRejectedPostingAtBackoffInterval(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	due, err := h.schedule.DuePostings(context.Background(), 10)
 	if err != nil {
@@ -248,7 +249,7 @@ func TestCycleHonoursCourierRetryAfter(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	clk.at = now.Add(h.offerInterval.Shortest + time.Second)
 	due, err := h.schedule.DuePostings(context.Background(), 10)
@@ -280,7 +281,7 @@ func TestCycleReschedulesUnofferedPostingAtBackoffInterval(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if len(h.courier.offered) != 0 {
 		t.Fatalf("offered = %v, want no offers for an unoffered posting", h.courier.offered)
@@ -322,7 +323,7 @@ func TestCycleReschedulesAlreadySatisfiedPostingAtTheLongestOfferInterval(t *tes
 	store(t, h.v, h.schedule, word, url)
 	recordAccepted(t, h, peer, fakePosting(word, url))
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if len(h.courier.offered) != 1 || h.courier.offered[0].Peer.Hash != peer {
 		t.Fatalf(
@@ -358,7 +359,7 @@ func TestCycleRecordsReplicaOnAcceptedOffer(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	replicas := holdersOf(t, h, word, url)
 	if len(replicas) != 1 || replicas[0] != peer {
@@ -396,7 +397,7 @@ func TestCycleReschedulesAtLongestBackoffAcrossPeers(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	clk.at = now.Add(time.Minute + time.Second)
 	due, err := h.schedule.DuePostings(context.Background(), 10)
@@ -427,7 +428,7 @@ func TestCycleCountsPostingGoneFromIndex(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if h.observer.gone != 1 {
 		t.Fatalf("gone = %v, want 1", h.observer.gone)
@@ -451,9 +452,9 @@ func TestCycleCountsUnreadPostingOffer(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
-	if h.observer.batchesAborted[string(AbortDuePostingsUnread)] != 1 {
+	if h.observer.batchesAborted[string(distributioncycle.AbortDuePostingsUnread)] != 1 {
 		t.Fatalf("batchesAborted = %v, want one abort for an unread offer",
 			h.observer.batchesAborted)
 	}
@@ -481,9 +482,9 @@ func TestCycleCountsAnUnwrittenBatch(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
-	if h.observer.batchesAborted[string(AbortBatchUnwritten)] != 1 {
+	if h.observer.batchesAborted[string(distributioncycle.AbortBatchUnwritten)] != 1 {
 		t.Fatalf("batchesAborted = %v, want one abort for an unwritten batch",
 			h.observer.batchesAborted)
 	}
@@ -497,7 +498,7 @@ func TestCycleReportsAnEmptyScheduleAsNoLateness(t *testing.T) {
 	})
 	h.observer.longestOfferLateness = time.Hour
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if h.observer.longestOfferLateness != 0 {
 		t.Fatalf(
@@ -527,7 +528,7 @@ func TestCycleReportsScheduledPostings(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if h.observer.scheduledPostings != 1 {
 		t.Fatalf(
@@ -552,7 +553,7 @@ func TestCycleRecordsNoReplicaOnRefusedOffer(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	replicas := holdersOf(t, h, word, url)
 	if len(replicas) != 0 {
@@ -584,7 +585,7 @@ func TestCycleReportsUnaddressablePeer(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if len(h.courier.offered) != 0 {
 		t.Fatalf("offered = %v, want no offer sent to an unaddressable peer", h.courier.offered)
@@ -626,7 +627,7 @@ func TestCycleExcludesPostingWhenURLMetadataDeliveryFails(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	replicas := holdersOf(t, h, word, url)
 	if len(replicas) != 0 {
@@ -680,7 +681,7 @@ func TestCycleDeliversMetadataItHasWhenOneURLIsAbsent(t *testing.T) {
 	store(t, h.v, h.schedule, word, present)
 	store(t, h.v, h.schedule, word, absent)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if len(h.metadataCourier.delivered) != 1 {
 		t.Fatalf(
@@ -730,9 +731,9 @@ func TestCycleOffersToAnotherPeerAfterAnUnreachableAnswer(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 	clk.at = clk.at.Add(2 * h.offerInterval.Shortest)
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if len(h.courier.offered) != 2 {
 		t.Fatalf("offered = %v, want one offer from each cycle", h.courier.offered)
@@ -756,9 +757,9 @@ func TestCycleDoublesTheWaitOfAPostingThatKeepsMissingRedundancy(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 	clk.at = now.Add(h.offerInterval.Shortest)
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	clk.at = now.Add(2*h.offerInterval.Shortest + time.Second)
 	due, err := h.schedule.DuePostings(context.Background(), 10)
@@ -794,7 +795,7 @@ func TestCycleHandsOffPostingAcceptedByACloserPeer(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if _, found := h.postings.postings[fakePostingKey(word, url)]; found {
 		t.Fatal("posting still stored, want it handed off to the closer peer")
@@ -803,7 +804,7 @@ func TestCycleHandsOffPostingAcceptedByACloserPeer(t *testing.T) {
 		t.Fatalf("postingsHandedOff = %d, want 1", h.observer.postingsHandedOff)
 	}
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if h.observer.scheduledPostings != 0 {
 		t.Fatalf(
@@ -834,7 +835,7 @@ func TestCycleKeepsPostingThisNodeIsResponsibleFor(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if _, found := h.postings.postings[fakePostingKey(word, url)]; !found {
 		t.Fatal("posting handed off, want it kept: the DHT makes this node responsible for it")
@@ -863,9 +864,9 @@ func TestCycleKeepsPostingAcceptedOnlyByAFartherPeer(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 	clk.at = now.Add(2 * h.offerInterval.Shortest)
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if _, found := h.postings.postings[fakePostingKey(word, url)]; !found {
 		t.Fatal("posting handed off, want it kept: only a farther peer holds it")
@@ -890,7 +891,7 @@ func TestCycleReportsRingFractionOfAcceptedReplica(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if len(h.observer.replicaRingFractions) != 1 {
 		t.Fatalf(
@@ -903,9 +904,8 @@ func TestCycleReportsRingFractionOfAcceptedReplica(t *testing.T) {
 	if err != nil {
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
-	want := yacymodel.RingFractionToPosition(
-		peer, yacymodel.PostingPosition(word, url, partitions),
-	)
+	postingPosition := yacymodel.DHTRingPositionOfPosting(fakePosting(word, url), partitions)
+	want := postingPosition.DistanceTo(yacymodel.DHTRingPositionOf(peer)).FractionOfDHTRing()
 	if h.observer.replicaRingFractions[0] != want {
 		t.Errorf(
 			"replicaRingFraction = %v, want %v",
@@ -929,7 +929,7 @@ func TestCycleReportsNoRingFractionsWithoutAcceptance(t *testing.T) {
 
 	store(t, h.v, h.schedule, word, url)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	if len(h.observer.replicaRingFractions) != 0 {
 		t.Fatalf(
@@ -951,7 +951,7 @@ func TestCycleDrainsABacklogLargerThanOneBatch(t *testing.T) {
 
 	storeBacklog(t, h, backlog)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	due, err := h.schedule.DuePostings(context.Background(), backlog)
 	if err != nil {
@@ -968,25 +968,25 @@ func TestCycleStopsDrainingWhenTheBudgetIsSpent(t *testing.T) {
 	backlog := 25
 	clk := &clock{at: now}
 	h := openCycle(t, clk, cycleOptions{
-		postings: backlogPostings(backlog),
-		roster:   fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+		postings:    backlogPostings(backlog),
+		roster:      fakeRoster{reachable: []yacymodel.Seed{seed(peer)}},
+		drainBudget: 30 * time.Second,
 	})
-	h.cycle.config.DrainBudget = 30 * time.Second
 	h.courier.receipts[peer] = postingcourier.Receipt{Outcome: postingcourier.Accepted}
 	h.courier.onOffer = func() { clk.at = clk.at.Add(30 * time.Second) }
 
 	storeBacklog(t, h, backlog)
 
-	h.cycle.runCycle(context.Background())
+	h.runCycle(t)
 
 	due, err := h.schedule.DuePostings(context.Background(), backlog)
 	if err != nil {
 		t.Fatalf("DuePostings: %v", err)
 	}
-	if len(due) != backlog-h.cycle.config.PostingsPerBatch {
+	if len(due) != backlog-postingsPerBatch {
 		t.Fatalf(
 			"due = %d postings, want the %d left by the spent budget",
-			len(due), backlog-h.cycle.config.PostingsPerBatch,
+			len(due), backlog-postingsPerBatch,
 		)
 	}
 }

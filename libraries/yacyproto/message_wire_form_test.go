@@ -1,9 +1,13 @@
-package yacyproto
+package yacyproto_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
+)
 
 func TestParseMessage(t *testing.T) {
-	msg := ParseMessage("version=1.0\r\nuptime=42\n\nresult=ok\n")
+	msg := yacyproto.ParseMessage("version=1.0\r\nuptime=42\n\nresult=ok\n")
 	if msg["version"] != "1.0" {
 		t.Errorf("version = %q", msg["version"])
 	}
@@ -19,21 +23,21 @@ func TestParseMessage(t *testing.T) {
 }
 
 func TestParseMessageIgnoresMalformedLines(t *testing.T) {
-	msg := ParseMessage("noeq\n=novalue\nok=yes\n")
+	msg := yacyproto.ParseMessage("noeq\n=novalue\nok=yes\n")
 	if len(msg) != 1 || msg["ok"] != "yes" {
 		t.Errorf("message = %v", msg)
 	}
 }
 
 func TestParseMessageLastWins(t *testing.T) {
-	msg := ParseMessage("k=first\nk=second\n")
+	msg := yacyproto.ParseMessage("k=first\nk=second\n")
 	if msg["k"] != "second" {
 		t.Errorf("k = %q, want second", msg["k"])
 	}
 }
 
 func TestParseMessageUsesYaCyTableRules(t *testing.T) {
-	msg := ParseMessage("# ignored\n spaced = value \nkey\\=part=line\\nnext\\\\tail\n")
+	msg := yacyproto.ParseMessage("# ignored\n spaced = value \nkey\\=part=line\\nnext\\\\tail\n")
 	if msg["spaced"] != "value" {
 		t.Errorf("spaced = %q", msg["spaced"])
 	}
@@ -43,7 +47,7 @@ func TestParseMessageUsesYaCyTableRules(t *testing.T) {
 }
 
 func TestMessageEncodeDeterministic(t *testing.T) {
-	msg := Message{"b": "2", "a": "1", "c": "3"}
+	msg := yacyproto.Message{"b": "2", "a": "1", "c": "3"}
 	want := "a=1\nb=2\nc=3\n"
 	if got := msg.Encode(); got != want {
 		t.Errorf("Encode() = %q, want %q", got, want)
@@ -51,8 +55,8 @@ func TestMessageEncodeDeterministic(t *testing.T) {
 }
 
 func TestMessageRoundTrip(t *testing.T) {
-	msg := Message{"version": "1.0", "result": "ok"}
-	got := ParseMessage(msg.Encode())
+	msg := yacyproto.Message{"version": "1.0", "result": "ok"}
+	got := yacyproto.ParseMessage(msg.Encode())
 	if got["version"] != "1.0" || got["result"] != "ok" {
 		t.Errorf("round trip = %v", got)
 	}

@@ -1,0 +1,17 @@
+TECHDEBT NOTICE - yacyproto needs a refactor
+
+Cognitive complexity is high and the package exports more than it should.
+
+It should export the request and response structs and the functions that
+encode and decode them. Nothing else.
+
+EncodeSeed breaks that rule. A seed is not a request or a response, so
+its exported encoder is a sign that either a caller uses the wire
+encoding where it should not, or the business logic does not hold strict
+domain types and leans on the wire form instead.
+
+Both readings are true today. rosterEntryValueCodec in
+yacynode/internal/peerroster stores a seed as its wire bytes, so the
+protocol schema is also the vault schema.
+
+Fix the exported surface first. The rest of the debt follows from it.

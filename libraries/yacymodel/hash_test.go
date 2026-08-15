@@ -1,8 +1,10 @@
-package yacymodel
+package yacymodel_test
 
 import (
 	"errors"
 	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func TestParseHash(t *testing.T) {
@@ -17,19 +19,19 @@ func TestParseHash(t *testing.T) {
 		{"ABCDEFGHIJK=", false},
 	}
 	for _, c := range cases {
-		_, err := ParseHash(c.in)
+		_, err := yacymodel.ParseHash(c.in)
 		if (err == nil) != c.ok {
 			t.Errorf("ParseHash(%q) err = %v, want ok=%v", c.in, err, c.ok)
 		}
-		if err != nil && !errors.Is(err, ErrInvalidHash) {
+		if err != nil && !errors.Is(err, yacymodel.ErrInvalidHash) {
 			t.Errorf("ParseHash(%q) = %v, want ErrInvalidHash", c.in, err)
 		}
 	}
 }
 
-func mustParseHash(t *testing.T, s string) Hash {
+func mustParseHash(t *testing.T, s string) yacymodel.Hash {
 	t.Helper()
-	h, err := ParseHash(s)
+	h, err := yacymodel.ParseHash(s)
 	if err != nil {
 		t.Fatalf("ParseHash(%q): %v", s, err)
 	}
@@ -37,17 +39,17 @@ func mustParseHash(t *testing.T, s string) Hash {
 }
 
 func TestWordHash(t *testing.T) {
-	h := WordHash("Hello")
-	if _, err := ParseHash(h.String()); err != nil {
+	h := yacymodel.WordHash("Hello")
+	if _, err := yacymodel.ParseHash(h.String()); err != nil {
 		t.Fatalf("WordHash produced invalid hash %q: %v", h, err)
 	}
-	if len(h.String()) != HashLength {
-		t.Errorf("WordHash length = %d, want %d", len(h.String()), HashLength)
+	if len(h.String()) != yacymodel.HashLength {
+		t.Errorf("WordHash length = %d, want %d", len(h.String()), yacymodel.HashLength)
 	}
-	if h != WordHash("hello") {
-		t.Errorf("WordHash must lower-case: %q != %q", h, WordHash("hello"))
+	if h != yacymodel.WordHash("hello") {
+		t.Errorf("WordHash must lower-case: %q != %q", h, yacymodel.WordHash("hello"))
 	}
-	if WordHash("hello") == WordHash("world") {
+	if yacymodel.WordHash("hello") == yacymodel.WordHash("world") {
 		t.Error("distinct words must hash distinctly")
 	}
 }

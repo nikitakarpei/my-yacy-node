@@ -18,8 +18,8 @@ import (
 type peerExchange struct {
 	router         httpguard.WireRouter
 	identity       nodeidentity.Identity
-	report         nodestatus.Report
-	config         nodeConfig
+	status         nodestatus.RuntimeStatus
+	config         NodeConfig
 	vault          *vault.Vault
 	client         *http.Client
 	rosterObserver peerroster.RosterObserver
@@ -42,7 +42,7 @@ func (p peerExchange) assemble() (peerannouncement.Announcer, peerroster.Roster,
 	peeradmission.MountHello(
 		p.router,
 		p.identity,
-		peeringStatus{report: p.report, networkName: p.config.NetworkName},
+		peeringStatus{status: p.status, networkName: p.config.NetworkName},
 		roster,
 		p.client,
 	)
@@ -55,7 +55,7 @@ func (p peerExchange) assemble() (peerannouncement.Announcer, peerroster.Roster,
 			ReachableCap:       p.config.ReachableRosterCapacity,
 			ContactConcurrency: p.config.PeerContactConcurrency,
 		},
-		p.report,
+		p.status,
 		bootstrap.New(p.client, p.config.SeedlistURLs),
 		roster,
 	)

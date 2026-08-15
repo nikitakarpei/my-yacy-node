@@ -1,10 +1,12 @@
-package rwiescrow
+package rwiescrow_test
 
 import (
 	"context"
 	"errors"
 	"testing"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 )
 
 type countingExpiry struct {
@@ -29,13 +31,17 @@ type countingExpiries struct {
 func (c *countingExpiries) ObserveExpired(postings int) { c.expired += postings }
 func (c *countingExpiries) ObserveExpiryFailure()       { c.failures++ }
 
-func runLoopUntilFirstRun(t *testing.T, expiry *countingExpiry, observer ExpiryObserver) {
+func runLoopUntilFirstRun(
+	t *testing.T,
+	expiry *countingExpiry,
+	observer rwiescrow.ExpiryObserver,
+) {
 	t.Helper()
 
 	ctx, cancel := context.WithCancel(context.Background())
 	done := make(chan struct{})
 	go func() {
-		RunExpiryLoop(ctx, expiry, observer, ExpiryConfig{
+		rwiescrow.RunExpiryLoop(ctx, expiry, observer, rwiescrow.ExpiryConfig{
 			HoldFor:  holdFor,
 			Interval: time.Hour,
 			Batch:    10,
@@ -79,7 +85,7 @@ func TestExpiryLoopDrainsEveryBatchBeforeItsNextTick(t *testing.T) {
 	ctx, cancel := context.WithCancel(t.Context())
 	done := make(chan struct{})
 	go func() {
-		RunExpiryLoop(ctx, expiry, observer, ExpiryConfig{
+		rwiescrow.RunExpiryLoop(ctx, expiry, observer, rwiescrow.ExpiryConfig{
 			HoldFor:  holdFor,
 			Interval: time.Hour,
 			Batch:    10,

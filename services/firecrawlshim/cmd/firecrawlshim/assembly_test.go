@@ -1,4 +1,4 @@
-package main
+package main_test
 
 import (
 	"context"
@@ -8,6 +8,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	firecrawlshim "github.com/nikitakarpei/yacy-rwi-node/firecrawlshim/cmd/firecrawlshim"
 )
 
 func freeAddr(t *testing.T) string {
@@ -24,7 +26,7 @@ func freeAddr(t *testing.T) string {
 }
 
 func TestRunServiceRejectsInvalidTarget(t *testing.T) {
-	err := RunService(context.Background(), ServiceConfig{
+	err := firecrawlshim.RunService(context.Background(), firecrawlshim.ServiceConfig{
 		ListenAddr:    freeAddr(t),
 		RecallTarget:  "\x00",
 		RecallTimeout: time.Second,
@@ -36,7 +38,7 @@ func TestRunServiceRejectsInvalidTarget(t *testing.T) {
 
 func TestRunServiceServesUntilContextCancelled(t *testing.T) {
 	addr := freeAddr(t)
-	cfg := ServiceConfig{
+	cfg := firecrawlshim.ServiceConfig{
 		ListenAddr:    addr,
 		RecallTarget:  "passthrough:///corpusrecall:8092",
 		RecallTimeout: time.Second,
@@ -44,7 +46,7 @@ func TestRunServiceServesUntilContextCancelled(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	done := make(chan error, 1)
-	go func() { done <- RunService(ctx, cfg) }()
+	go func() { done <- firecrawlshim.RunService(ctx, cfg) }()
 
 	waitForListening(t, addr)
 

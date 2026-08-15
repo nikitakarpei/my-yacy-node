@@ -34,9 +34,6 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  natstestserver:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/natstestserver
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
@@ -52,41 +49,28 @@ vendors:
 
 deps:
   crawledpagedocument:
-    mayDependOn:
-      - crawledpagedocument
     canUse:
       - yacycrawlcontract
       - searchdocument
-  languageindex:
-    mayDependOn:
-      - languageindex
   searchindexeselasticsearch:
     mayDependOn:
-      - searchindexeselasticsearch
       - crawledpagedocument
       - languageindex
     canUse:
       - yacycrawlcontract
-      - searchdocument
   searchindexesmanticore:
     mayDependOn:
-      - searchindexesmanticore
       - crawledpagedocument
       - languageindex
     canUse:
       - yacycrawlcontract
       - searchdocument
   pageintake:
-    mayDependOn:
-      - pageintake
     canUse:
       - yacycrawlcontract
       - nats
-      - natstestserver
       - serviceruntime
   indexmetrics:
-    mayDependOn:
-      - indexmetrics
     canUse:
       - prometheus
   corpustextcmd:
@@ -94,4 +78,5 @@ deps:
     anyVendorDeps: true
 
 excludeFiles:
+  - "_test\\.go"
   - "test/e2e"

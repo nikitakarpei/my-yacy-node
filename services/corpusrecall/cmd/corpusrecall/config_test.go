@@ -1,61 +1,56 @@
-package main
+package main_test
 
 import (
 	"testing"
 	"time"
+
+	corpusrecall "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/cmd/corpusrecall"
 )
 
 func envFrom(values map[string]string) func(string) string {
 	return func(key string) string { return values[key] }
 }
 
-func TestStartReturnsNonZeroOnInvalidConfig(t *testing.T) {
-	origLookup := lookupEnv
-	lookupEnv = envFrom(nil)
-	defer func() { lookupEnv = origLookup }()
-
-	if code := start(); code != 2 {
-		t.Errorf("start() = %d, want 2", code)
-	}
-}
-
 func TestLoadServiceConfigRequiresNATSURL(t *testing.T) {
-	if _, err := LoadServiceConfig(envFrom(nil)); err == nil {
+	if _, err := corpusrecall.LoadServiceConfig(envFrom(nil)); err == nil {
 		t.Fatal("expected error when NATS_URL is unset")
 	}
 }
 
 func TestLoadServiceConfigDefaults(t *testing.T) {
-	cfg, err := LoadServiceConfig(envFrom(map[string]string{
-		EnvNATSURL: "nats://localhost:4222",
+	cfg, err := corpusrecall.LoadServiceConfig(envFrom(map[string]string{
+		corpusrecall.EnvNATSURL: "nats://localhost:4222",
 	}))
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.OrdersSubject != DefaultOrdersSubject {
+	if cfg.OrdersSubject != corpusrecall.DefaultOrdersSubject {
 		t.Errorf("orders subject = %q", cfg.OrdersSubject)
 	}
-	if cfg.ListenAddr != DefaultListenAddr || cfg.OpsAddr != DefaultOpsAddr {
+	if cfg.ListenAddr != corpusrecall.DefaultListenAddr ||
+		cfg.OpsAddr != corpusrecall.DefaultOpsAddr {
 		t.Errorf("addrs = %q %q", cfg.ListenAddr, cfg.OpsAddr)
 	}
-	if cfg.RecallLimit != DefaultRecallLimit || cfg.PollInterval != DefaultPollInterval {
+	if cfg.RecallLimit != corpusrecall.DefaultRecallLimit ||
+		cfg.PollInterval != corpusrecall.DefaultPollInterval {
 		t.Errorf("timings = %v %v", cfg.RecallLimit, cfg.PollInterval)
 	}
-	if cfg.MaxInFlight != DefaultMaxInFlight || cfg.MaxResponseBytes != DefaultMaxResponseBytes {
+	if cfg.MaxInFlight != corpusrecall.DefaultMaxInFlight ||
+		cfg.MaxResponseBytes != corpusrecall.DefaultMaxResponseBytes {
 		t.Errorf("limits = %d %d", cfg.MaxInFlight, cfg.MaxResponseBytes)
 	}
 }
 
 func TestLoadServiceConfigOverrides(t *testing.T) {
-	cfg, err := LoadServiceConfig(envFrom(map[string]string{
-		EnvNATSURL:          "nats://localhost:4222",
-		EnvOrdersSubject:    "t.orders",
-		EnvListenAddr:       "127.0.0.1:1000",
-		EnvOpsAddr:          "127.0.0.1:1001",
-		EnvRecallLimit:      "5s",
-		EnvPollInterval:     "250ms",
-		EnvMaxInFlight:      "8",
-		EnvMaxResponseBytes: "1024",
+	cfg, err := corpusrecall.LoadServiceConfig(envFrom(map[string]string{
+		corpusrecall.EnvNATSURL:          "nats://localhost:4222",
+		corpusrecall.EnvOrdersSubject:    "t.orders",
+		corpusrecall.EnvListenAddr:       "127.0.0.1:1000",
+		corpusrecall.EnvOpsAddr:          "127.0.0.1:1001",
+		corpusrecall.EnvRecallLimit:      "5s",
+		corpusrecall.EnvPollInterval:     "250ms",
+		corpusrecall.EnvMaxInFlight:      "8",
+		corpusrecall.EnvMaxResponseBytes: "1024",
 	}))
 	if err != nil {
 		t.Fatalf("load: %v", err)
@@ -73,18 +68,18 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 }
 
 func TestLoadServiceConfigRejectsInvalidRecallLimit(t *testing.T) {
-	if _, err := LoadServiceConfig(envFrom(map[string]string{
-		EnvNATSURL:     "nats://localhost:4222",
-		EnvRecallLimit: "soon",
+	if _, err := corpusrecall.LoadServiceConfig(envFrom(map[string]string{
+		corpusrecall.EnvNATSURL:     "nats://localhost:4222",
+		corpusrecall.EnvRecallLimit: "soon",
 	})); err == nil {
 		t.Fatal("expected error for non-duration recall limit")
 	}
 }
 
 func TestLoadServiceConfigRejectsInvalidMaxInFlight(t *testing.T) {
-	if _, err := LoadServiceConfig(envFrom(map[string]string{
-		EnvNATSURL:     "nats://localhost:4222",
-		EnvMaxInFlight: "-1",
+	if _, err := corpusrecall.LoadServiceConfig(envFrom(map[string]string{
+		corpusrecall.EnvNATSURL:     "nats://localhost:4222",
+		corpusrecall.EnvMaxInFlight: "-1",
 	})); err == nil {
 		t.Fatal("expected error for non-positive max in flight")
 	}

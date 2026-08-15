@@ -5,5 +5,6 @@ type CycleObserver interface {
 	ObserveStaleReplicasDropped(droppedReplicas int)
 	ObservePostingsHandedOff(handedOffPostings int)
 	ObserveCycleSkipped(reason string)
+	ObserveCycleCompleted()
 	ObserveBatchAborted(reason string)
 }

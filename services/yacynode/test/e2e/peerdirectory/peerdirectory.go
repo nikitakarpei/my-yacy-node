@@ -7,6 +7,8 @@ package peerdirectory
 import (
 	"bytes"
 	"encoding/xml"
+	"errors"
+	"fmt"
 	"io"
 	"strings"
 )
@@ -20,7 +22,7 @@ func SeniorHashes(body []byte) (map[string]struct{}, error) {
 	}
 	out := map[string]struct{}{}
 	if err := xml.Unmarshal(body, &doc); err != nil {
-		return out, err
+		return out, fmt.Errorf("parse seed list: %w", err)
 	}
 	for _, seed := range doc.Seeds {
 		if seed.Hash != "" && seed.PeerType == "senior" {
@@ -35,11 +37,11 @@ func ActivePeerHashes(body []byte) (map[string]struct{}, error) {
 	out := map[string]struct{}{}
 	for {
 		token, err := decoder.Token()
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		if err != nil {
-			return map[string]struct{}{}, err
+			return map[string]struct{}{}, fmt.Errorf("read peer directory: %w", err)
 		}
 		start, ok := token.(xml.StartElement)
 		if !ok || start.Name.Local != "hash" {
@@ -47,7 +49,7 @@ func ActivePeerHashes(body []byte) (map[string]struct{}, error) {
 		}
 		var hash string
 		if err := decoder.DecodeElement(&hash, &start); err != nil {
-			return map[string]struct{}{}, err
+			return map[string]struct{}{}, fmt.Errorf("read peer hash: %w", err)
 		}
 		hash = strings.TrimSpace(hash)
 		if hash != "" {

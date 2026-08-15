@@ -1,6 +1,6 @@
 // Package nodestatus owns the node's runtime status: its self-seed, the
 // version/uptime header every endpoint echoes, and the query.html capacity
-// answers. Its published port, Report, is the only surface other modules
+// answers. Its published port, RuntimeStatus, is the only surface other modules
 // import. Live counts arrive through the RWICounter and URLCounter ports, so
 // nodestatus never reads another module's schema.
 package nodestatus
@@ -15,7 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-type Report interface {
+type RuntimeStatus interface {
 	Version(ctx context.Context) string
 	Uptime(ctx context.Context) int
 	SelfSeed(ctx context.Context) yacymodel.Seed
@@ -33,8 +33,19 @@ type URLCounter interface {
 	Count(ctx context.Context) (int, error)
 }
 
-func NewReport(id nodeidentity.Identity, rwi RWICounter, urls URLCounter) Report {
-	return newReport(id, time.Now, rwi, urls)
+func NewRuntimeStatus(
+	id nodeidentity.Identity,
+	now func() time.Time,
+	rwi RWICounter,
+	urls URLCounter,
+) RuntimeStatus {
+	return runtimeStatus{
+		id:   id,
+		base: baseSeed(id),
+		now:  now,
+		rwi:  rwi,
+		urls: urls,
+	}
 }
 
 func MountQuery(

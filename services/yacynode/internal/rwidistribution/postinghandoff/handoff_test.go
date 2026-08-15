@@ -1,4 +1,4 @@
-package postinghandoff
+package postinghandoff_test
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
@@ -56,10 +57,15 @@ func thisNodeFartherThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("
 
 func openHandoff(
 	t *testing.T,
-	reachability Reachability,
+	reachability postinghandoff.Reachability,
 	purger rwipostings.PostingPurger,
 	redundancy int,
-) (*vault.Vault, *postingofferschedule.Schedule, *postingreplicas.Replicas, *Handoff) {
+) (
+	*vault.Vault,
+	*postingofferschedule.Schedule,
+	*postingreplicas.Replicas,
+	*postinghandoff.Handoff,
+) {
 	t.Helper()
 
 	v, err := memory.Open(0, nil)
@@ -89,7 +95,7 @@ func openHandoff(
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
 
-	handoff := New(
+	handoff := postinghandoff.New(
 		replicas,
 		purger,
 		reachability,
@@ -136,7 +142,7 @@ func recordAccepted(
 func handOff(
 	t *testing.T,
 	v *vault.Vault,
-	handoff *Handoff,
+	handoff *postinghandoff.Handoff,
 	posting yacymodel.RWIPosting,
 ) int {
 	t.Helper()

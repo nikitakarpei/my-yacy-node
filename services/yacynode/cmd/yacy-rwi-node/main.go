@@ -4,41 +4,16 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
+
+	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/bolt"
-)
-
-const (
-	version = "1.83"
-
-	receiveBatchCap       = 1000
-	receiveBusyPause      = 30 * time.Second
-	searchPostingsPerWord = 1000
-
-	evictionTargetFraction = 0.9
-	evictionBatch          = 256
-	evictionInterval       = time.Minute
-
-	escrowHoldFor        = 5 * time.Minute
-	escrowQuotaFraction  = 0.05
-	escrowExpiryBatch    = 256
-	escrowExpiryInterval = time.Minute
-
-	serverReadHeaderTimeout = 10 * time.Second
-	shutdownTimeout         = 15 * time.Second
 )
 
 func main() {
@@ -53,130 +28,31 @@ func run() error {
 		return fmt.Errorf("configure logging: %w", err)
 	}
 
-	config, err := loadNodeConfig(os.Getenv)
+	config, err := LoadNodeConfig(os.Getenv)
 	if err != nil {
 		return fmt.Errorf("load node config: %w", err)
 	}
 
-	config.Crawl = loadCrawlConfig(os.Getenv)
+	registry := prometheus.NewRegistry()
 
-	client := newEgressProxyClient(config.ProxyURL, outboundRequestTimeout)
-
-	endpoints := metrics.NewHTTPEndpointMetrics()
-	vaultMetrics := metrics.NewVaultTransactionMetrics(endpoints.Registry())
-
-	vault, err := bolt.Open(config.StoragePath, config.StorageQuotaByte, vaultMetrics)
+	storage, err := bolt.Open(
+		config.StoragePath,
+		config.StorageQuotaByte,
+		metrics.NewVaultTransactionMetrics(registry),
+	)
 	if err != nil {
 		return fmt.Errorf("open storage: %w", err)
 	}
-	defer closeVault(vault)
-
-	metrics.NewVaultCapacityMetrics(endpoints.Registry(), vault)
-	metrics.NewVaultCollectionMetrics(endpoints.Registry(), vault)
-	evictionMetrics := metrics.NewEvictionMetrics(endpoints.Registry())
-	distributionMetrics := metrics.NewDistributionMetrics(endpoints.Registry())
-	dhtRingMetrics := metrics.NewDHTRingMetrics(endpoints.Registry())
-	rosterMetrics := metrics.NewPeerRosterMetrics(endpoints.Registry())
-	escrowMetrics := metrics.NewRWIEscrowMetrics(endpoints.Registry())
-	searchMetrics := searchmetrics.NewSearchMetrics(endpoints.Registry())
+	defer closeVault(storage)
 
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	assembled, err := assembleNode(
-		ctx,
-		config,
-		vault,
-		client,
-		distributionMetrics,
-		dhtRingMetrics,
-		rosterMetrics,
-		escrowMetrics,
-		searchMetrics,
-	)
-	if err != nil {
-		return fmt.Errorf("assemble node: %w", err)
-	}
-
-	metrics.NewRWIEscrowCapacityMetrics(endpoints.Registry(), assembled.escrow)
-
-	opsMux := opsmetrics.NewMux(endpoints.Handler())
-
-	return serve(
-		ctx,
-		assembled,
-		evictionMetrics,
-		escrowMetrics,
-		servergroup.NamedServer{
-			Name: "peer protocol",
-			Server: buildServer(
-				config.PeerAddr,
-				logHTTPRequests(instrumentHTTP(endpoints, assembled.peerMux)),
-			),
-		},
-		servergroup.NamedServer{Name: "ops", Server: buildServer(config.OpsAddr, opsMux)},
-	)
+	return RunNode(ctx, config, storage, registry)
 }
 
-func buildServer(addr string, handler http.Handler) *http.Server {
-	return &http.Server{
-		Addr:              addr,
-		Handler:           handler,
-		ReadHeaderTimeout: serverReadHeaderTimeout,
-	}
-}
-
-func serve(
-	ctx context.Context,
-	assembled node,
-	evictionMetrics *metrics.EvictionMetrics,
-	escrowMetrics *metrics.RWIEscrowMetrics,
-	servers ...servergroup.NamedServer,
-) error {
-	workers := []func(context.Context) error{
-		func(runCtx context.Context) error {
-			assembled.announcer.Run(runCtx)
-			return nil
-		},
-		func(runCtx context.Context) error {
-			eviction.RunSweepLoop(runCtx, assembled.sweeper, evictionMetrics, evictionInterval)
-			return nil
-		},
-		func(runCtx context.Context) error {
-			rwiescrow.RunExpiryLoop(runCtx, assembled.escrow, escrowMetrics, rwiescrow.ExpiryConfig{
-				HoldFor:  escrowHoldFor,
-				Interval: escrowExpiryInterval,
-				Batch:    escrowExpiryBatch,
-			})
-			return nil
-		},
-	}
-	if assembled.distributionCycle != nil {
-		workers = append(workers, func(runCtx context.Context) error {
-			assembled.distributionCycle.Run(runCtx)
-			return nil
-		})
-	}
-	if assembled.crawl != nil {
-		defer assembled.crawl.Close()
-		workers = append(workers, func(runCtx context.Context) error {
-			assembled.crawl.Run(runCtx)
-			return nil
-		})
-	}
-
-	for _, s := range servers {
-		slog.InfoContext(ctx, "serving",
-			slog.String("service", s.Name),
-			slog.String("addr", s.Server.Addr),
-		)
-	}
-
-	return servergroup.Run(ctx, shutdownTimeout, servers, workers...)
-}
-
-func closeVault(vault *vault.Vault) {
-	if err := vault.Close(); err != nil {
+func closeVault(storage *vault.Vault) {
+	if err := storage.Close(); err != nil {
 		slog.ErrorContext(context.Background(), "storage close failed", slog.Any("error", err))
 	}
 }

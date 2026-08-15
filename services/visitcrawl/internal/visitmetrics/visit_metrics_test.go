@@ -7,18 +7,22 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitmetrics"
 )
 
 func TestMetricsRecordAndExpose(t *testing.T) {
-	metrics := visitmetrics.New()
+	registry := prometheus.NewRegistry()
+	metrics := visitmetrics.New(registry)
 	metrics.VisitReceived()
 	metrics.VisitRejected()
 	metrics.OrderPlaced()
 	metrics.OrderUnplaced()
 
 	recorder := httptest.NewRecorder()
-	metrics.Handler().
+	promhttp.HandlerFor(registry, promhttp.HandlerOpts{}).
 		ServeHTTP(recorder, httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/metrics", nil))
 
 	body := recorder.Body.String()

@@ -16,59 +16,59 @@ import (
 )
 
 const (
-	envPeerHash                = "YACY_PEER_HASH"
-	envPeerName                = "YACY_PEER_NAME"
-	envNetworkName             = "YACY_NETWORK_NAME"
-	envPeerAddr                = "YACY_PEER_ADDR"
-	envOpsAddr                 = "YACY_OPS_ADDR"
-	envAdvertiseHost           = "YACY_ADVERTISE_HOST"
-	envAdvertisePort           = "YACY_ADVERTISE_PORT"
-	envDataDir                 = "YACY_DATA_DIR"
-	envStorageQuota            = "YACY_STORAGE_QUOTA"
-	envTrustedProxies          = "YACY_TRUSTED_PROXIES"
-	envSeedlistURLs            = "YACY_SEEDLIST_URLS"
-	envAnnounceInterval        = "YACY_ANNOUNCE_INTERVAL"
-	envPeerContactConcurrency  = "YACY_PEER_CONTACT_CONCURRENCY"
-	envKnownRosterCapacity     = "YACY_KNOWN_ROSTER_CAPACITY"
-	envReachableRosterCapacity = "YACY_REACHABLE_ROSTER_CAPACITY"
+	EnvPeerHash                = "YACY_PEER_HASH"
+	EnvPeerName                = "YACY_PEER_NAME"
+	EnvNetworkName             = "YACY_NETWORK_NAME"
+	EnvPeerAddr                = "YACY_PEER_ADDR"
+	EnvOpsAddr                 = "YACY_OPS_ADDR"
+	EnvAdvertiseHost           = "YACY_ADVERTISE_HOST"
+	EnvAdvertisePort           = "YACY_ADVERTISE_PORT"
+	EnvDataDir                 = "YACY_DATA_DIR"
+	EnvStorageQuota            = "YACY_STORAGE_QUOTA"
+	EnvTrustedProxies          = "YACY_TRUSTED_PROXIES"
+	EnvSeedlistURLs            = "YACY_SEEDLIST_URLS"
+	EnvAnnounceInterval        = "YACY_ANNOUNCE_INTERVAL"
+	EnvPeerContactConcurrency  = "YACY_PEER_CONTACT_CONCURRENCY"
+	EnvKnownRosterCapacity     = "YACY_KNOWN_ROSTER_CAPACITY"
+	EnvReachableRosterCapacity = "YACY_REACHABLE_ROSTER_CAPACITY"
 
-	envDistributionEnabled               = "YACY_DISTRIBUTION_ENABLED"
-	envDistributionRedundancy            = "YACY_DISTRIBUTION_REDUNDANCY"
-	envDistributionPartitionExponent     = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
-	envDistributionPostingsPerBatch      = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
-	envDistributionCycleInterval         = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
-	envDistributionDrainBudget           = "YACY_DISTRIBUTION_DRAIN_BUDGET"
-	envDistributionLongestOfferInterval  = "YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL"
-	envDistributionShortestOfferInterval = "YACY_DISTRIBUTION_SHORTEST_OFFER_INTERVAL"
-	envDistributionRecipientCooldown     = "YACY_DISTRIBUTION_RECIPIENT_COOLDOWN"
-	envDistributionMinReachablePeers     = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
-	envDistributionURLMetadataBatchSize  = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
+	EnvDistributionEnabled               = "YACY_DISTRIBUTION_ENABLED"
+	EnvDistributionRedundancy            = "YACY_DISTRIBUTION_REDUNDANCY"
+	EnvDistributionPartitionExponent     = "YACY_DISTRIBUTION_PARTITION_EXPONENT"
+	EnvDistributionPostingsPerBatch      = "YACY_DISTRIBUTION_POSTINGS_PER_BATCH"
+	EnvDistributionCycleInterval         = "YACY_DISTRIBUTION_CYCLE_INTERVAL"
+	EnvDistributionDrainBudget           = "YACY_DISTRIBUTION_DRAIN_BUDGET"
+	EnvDistributionLongestOfferInterval  = "YACY_DISTRIBUTION_LONGEST_OFFER_INTERVAL"
+	EnvDistributionShortestOfferInterval = "YACY_DISTRIBUTION_SHORTEST_OFFER_INTERVAL"
+	EnvDistributionRecipientCooldown     = "YACY_DISTRIBUTION_RECIPIENT_COOLDOWN"
+	EnvDistributionMinReachablePeers     = "YACY_DISTRIBUTION_MIN_REACHABLE_PEERS"
+	EnvDistributionURLMetadataBatchSize  = "YACY_DISTRIBUTION_URL_METADATA_BATCH_SIZE"
 
-	defaultPeerAddr                = ":8090"
-	defaultOpsAddr                 = ":9090"
-	defaultDataDir                 = "./data"
-	defaultQuota                   = "1GB"
-	defaultAnnounceInterval        = 10 * time.Minute
-	defaultPeerContactConcurrency  = 16
-	defaultKnownRosterCapacity     = 4096
-	defaultReachableRosterCapacity = 256
+	DefaultPeerAddr                = ":8090"
+	DefaultOpsAddr                 = ":9090"
+	DefaultDataDir                 = "./data"
+	DefaultQuota                   = "1GB"
+	DefaultAnnounceInterval        = 10 * time.Minute
+	DefaultPeerContactConcurrency  = 16
+	DefaultKnownRosterCapacity     = 4096
+	DefaultReachableRosterCapacity = 256
 
-	defaultDistributionEnabled               = false
-	defaultDistributionRedundancy            = 3
-	defaultDistributionPartitionExponent     = 4
-	defaultDistributionPostingsPerBatch      = 1000
-	defaultDistributionCycleInterval         = time.Minute
-	defaultDistributionDrainBudget           = time.Minute
-	defaultDistributionLongestOfferInterval  = 24 * time.Hour
-	defaultDistributionShortestOfferInterval = 5 * time.Minute
-	defaultDistributionRecipientCooldown     = 10 * time.Minute
-	defaultDistributionMinReachablePeers     = 32
-	defaultDistributionURLMetadataBatchSize  = 50
+	DefaultDistributionEnabled               = false
+	DefaultDistributionRedundancy            = 3
+	DefaultDistributionPartitionExponent     = 4
+	DefaultDistributionPostingsPerBatch      = 1000
+	DefaultDistributionCycleInterval         = time.Minute
+	DefaultDistributionDrainBudget           = time.Minute
+	DefaultDistributionLongestOfferInterval  = 24 * time.Hour
+	DefaultDistributionShortestOfferInterval = 5 * time.Minute
+	DefaultDistributionRecipientCooldown     = 10 * time.Minute
+	DefaultDistributionMinReachablePeers     = 32
+	DefaultDistributionURLMetadataBatchSize  = 50
 
-	storageFileName = "yacy-rwipostings.db"
+	StorageFileName = "yacy-rwipostings.db"
 )
 
-type nodeConfig struct {
+type NodeConfig struct {
 	Hash                    yacymodel.Hash
 	NetworkName             string
 	Name                    yacymodel.PeerName
@@ -79,93 +79,93 @@ type nodeConfig struct {
 	OpsAddr                 string
 	StoragePath             string
 	StorageQuotaByte        int64
-	TrustedProxies          []*net.IPNet
+	TrustedProxyNetworks    []*net.IPNet
 	ProxyURL                *url.URL
 	SeedlistURLs            []string
 	AnnounceInterval        time.Duration
 	PeerContactConcurrency  int
 	KnownRosterCapacity     int
 	ReachableRosterCapacity int
-	Distribution            distributionConfig
-	Crawl                   crawlConfig
+	Distribution            DistributionConfig
+	Crawl                   CrawlConfig
 }
 
-type distributionConfig struct {
+type DistributionConfig struct {
 	Enabled              bool
 	Redundancy           int
 	PartitionExponent    uint
 	PostingsPerBatch     int
 	CycleInterval        time.Duration
 	DrainBudget          time.Duration
-	OfferInterval        offerIntervalConfig
+	OfferInterval        OfferIntervalConfig
 	RecipientCooldown    time.Duration
 	MinReachablePeers    int
 	URLMetadataBatchSize int
 }
 
-func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
-	hash, err := yacymodel.ParseHash(strings.TrimSpace(getenv(envPeerHash)))
+func LoadNodeConfig(getenv func(string) string) (NodeConfig, error) {
+	hash, err := yacymodel.ParseHash(strings.TrimSpace(getenv(EnvPeerHash)))
 	if err != nil {
-		return nodeConfig{}, fmt.Errorf("%s: %w", envPeerHash, err)
+		return NodeConfig{}, fmt.Errorf("%s: %w", EnvPeerHash, err)
 	}
 
-	rawName, err := requiredEnv(getenv, envPeerName)
+	rawName, err := requiredEnv(getenv, EnvPeerName)
 	if err != nil {
-		return nodeConfig{}, err
+		return NodeConfig{}, err
 	}
 	name, err := yacymodel.ParsePeerName(rawName)
 	if err != nil {
-		return nodeConfig{}, fmt.Errorf("%s: %w", envPeerName, err)
+		return NodeConfig{}, fmt.Errorf("%s: %w", EnvPeerName, err)
 	}
 
-	peerAddr := envconfig.String(getenv, envPeerAddr, defaultPeerAddr)
+	peerAddr := envconfig.String(getenv, EnvPeerAddr, DefaultPeerAddr)
 
-	seedlistURLs := envconfig.List(getenv, envSeedlistURLs)
+	seedlistURLs := envconfig.List(getenv, EnvSeedlistURLs)
 
 	peering, err := loadPeeringConfig(getenv)
 	if err != nil {
-		return nodeConfig{}, err
+		return NodeConfig{}, err
 	}
 
 	host, err := advertiseHost(getenv, len(seedlistURLs) > 0)
 	if err != nil {
-		return nodeConfig{}, err
+		return NodeConfig{}, err
 	}
 
 	port, err := advertisePort(getenv, peerAddr)
 	if err != nil {
-		return nodeConfig{}, err
+		return NodeConfig{}, err
 	}
 
-	quota, err := bytesize.Parse(envconfig.String(getenv, envStorageQuota, defaultQuota))
+	quota, err := bytesize.Parse(envconfig.String(getenv, EnvStorageQuota, DefaultQuota))
 	if err != nil {
-		return nodeConfig{}, fmt.Errorf("%s: %w", envStorageQuota, err)
+		return NodeConfig{}, fmt.Errorf("%s: %w", EnvStorageQuota, err)
 	}
 
-	proxies, err := parseTrustedProxies(getenv(envTrustedProxies))
+	trustedProxyNetworks, err := trustedProxyNetworksFrom(getenv(EnvTrustedProxies))
 	if err != nil {
-		return nodeConfig{}, fmt.Errorf("%s: %w", envTrustedProxies, err)
+		return NodeConfig{}, fmt.Errorf("%s: %w", EnvTrustedProxies, err)
 	}
 
 	proxyURL, err := egressProxyURL(getenv)
 	if err != nil {
-		return nodeConfig{}, err
+		return NodeConfig{}, err
 	}
 
-	dataDir := envconfig.String(getenv, envDataDir, defaultDataDir)
+	dataDir := envconfig.String(getenv, EnvDataDir, DefaultDataDir)
 
-	return nodeConfig{
+	return NodeConfig{
 		Hash:                    hash,
-		NetworkName:             envconfig.String(getenv, envNetworkName, yacyproto.DefaultNetwork),
+		NetworkName:             envconfig.String(getenv, EnvNetworkName, yacyproto.DefaultNetwork),
 		Name:                    name,
 		AdvertiseHost:           host,
 		AdvertisePort:           port,
 		Flags:                   seniorFlags(),
 		PeerAddr:                peerAddr,
-		OpsAddr:                 envconfig.String(getenv, envOpsAddr, defaultOpsAddr),
-		StoragePath:             filepath.Join(dataDir, storageFileName),
+		OpsAddr:                 envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		StoragePath:             filepath.Join(dataDir, StorageFileName),
 		StorageQuotaByte:        quota,
-		TrustedProxies:          proxies,
+		TrustedProxyNetworks:    trustedProxyNetworks,
 		ProxyURL:                proxyURL,
 		SeedlistURLs:            seedlistURLs,
 		AnnounceInterval:        peering.AnnounceInterval,
@@ -173,6 +173,7 @@ func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
 		KnownRosterCapacity:     peering.KnownRosterCapacity,
 		ReachableRosterCapacity: peering.ReachableRosterCapacity,
 		Distribution:            peering.Distribution,
+		Crawl:                   loadCrawlConfig(getenv),
 	}, nil
 }
 
@@ -181,14 +182,14 @@ type peeringConfig struct {
 	PeerContactConcurrency  int
 	KnownRosterCapacity     int
 	ReachableRosterCapacity int
-	Distribution            distributionConfig
+	Distribution            DistributionConfig
 }
 
 func loadPeeringConfig(getenv func(string) string) (peeringConfig, error) {
 	announceInterval, err := envconfig.Duration(
 		getenv,
-		envAnnounceInterval,
-		defaultAnnounceInterval,
+		EnvAnnounceInterval,
+		DefaultAnnounceInterval,
 	)
 	if err != nil {
 		return peeringConfig{}, err
@@ -196,8 +197,8 @@ func loadPeeringConfig(getenv func(string) string) (peeringConfig, error) {
 
 	peerContactConcurrency, err := envconfig.PositiveInt(
 		getenv,
-		envPeerContactConcurrency,
-		defaultPeerContactConcurrency,
+		EnvPeerContactConcurrency,
+		DefaultPeerContactConcurrency,
 	)
 	if err != nil {
 		return peeringConfig{}, err
@@ -205,8 +206,8 @@ func loadPeeringConfig(getenv func(string) string) (peeringConfig, error) {
 
 	knownRosterCapacity, err := envconfig.PositiveInt(
 		getenv,
-		envKnownRosterCapacity,
-		defaultKnownRosterCapacity,
+		EnvKnownRosterCapacity,
+		DefaultKnownRosterCapacity,
 	)
 	if err != nil {
 		return peeringConfig{}, err
@@ -214,8 +215,8 @@ func loadPeeringConfig(getenv func(string) string) (peeringConfig, error) {
 
 	reachableRosterCapacity, err := envconfig.PositiveInt(
 		getenv,
-		envReachableRosterCapacity,
-		defaultReachableRosterCapacity,
+		EnvReachableRosterCapacity,
+		DefaultReachableRosterCapacity,
 	)
 	if err != nil {
 		return peeringConfig{}, err
@@ -235,74 +236,74 @@ func loadPeeringConfig(getenv func(string) string) (peeringConfig, error) {
 	}, nil
 }
 
-func loadDistributionConfig(getenv func(string) string) (distributionConfig, error) {
-	enabled, err := envconfig.Bool(getenv, envDistributionEnabled, defaultDistributionEnabled)
+func loadDistributionConfig(getenv func(string) string) (DistributionConfig, error) {
+	enabled, err := envconfig.Bool(getenv, EnvDistributionEnabled, DefaultDistributionEnabled)
 	if err != nil {
-		return distributionConfig{}, err
+		return DistributionConfig{}, err
 	}
 
 	redundancy, err := envconfig.PositiveInt(
-		getenv, envDistributionRedundancy, defaultDistributionRedundancy,
+		getenv, EnvDistributionRedundancy, DefaultDistributionRedundancy,
 	)
 	if err != nil {
-		return distributionConfig{}, err
+		return DistributionConfig{}, err
 	}
 
 	partitionExponent, err := envconfig.PositiveInt(
-		getenv, envDistributionPartitionExponent, defaultDistributionPartitionExponent,
+		getenv, EnvDistributionPartitionExponent, DefaultDistributionPartitionExponent,
 	)
 	if err != nil {
-		return distributionConfig{}, err
+		return DistributionConfig{}, err
 	}
 
 	postingsPerBatch, err := envconfig.PositiveInt(
-		getenv, envDistributionPostingsPerBatch, defaultDistributionPostingsPerBatch,
+		getenv, EnvDistributionPostingsPerBatch, DefaultDistributionPostingsPerBatch,
 	)
 	if err != nil {
-		return distributionConfig{}, err
+		return DistributionConfig{}, err
 	}
 
 	cycleInterval, err := envconfig.Duration(
-		getenv, envDistributionCycleInterval, defaultDistributionCycleInterval,
+		getenv, EnvDistributionCycleInterval, DefaultDistributionCycleInterval,
 	)
 	if err != nil {
-		return distributionConfig{}, err
+		return DistributionConfig{}, err
 	}
 
 	drainBudget, err := envconfig.Duration(
-		getenv, envDistributionDrainBudget, defaultDistributionDrainBudget,
+		getenv, EnvDistributionDrainBudget, DefaultDistributionDrainBudget,
 	)
 	if err != nil {
-		return distributionConfig{}, err
+		return DistributionConfig{}, err
 	}
 
 	offerInterval, err := loadOfferIntervalConfig(getenv)
 	if err != nil {
-		return distributionConfig{}, err
+		return DistributionConfig{}, err
 	}
 
 	recipientCooldown, err := envconfig.Duration(
-		getenv, envDistributionRecipientCooldown, defaultDistributionRecipientCooldown,
+		getenv, EnvDistributionRecipientCooldown, DefaultDistributionRecipientCooldown,
 	)
 	if err != nil {
-		return distributionConfig{}, err
+		return DistributionConfig{}, err
 	}
 
 	minReachablePeers, err := envconfig.PositiveInt(
-		getenv, envDistributionMinReachablePeers, defaultDistributionMinReachablePeers,
+		getenv, EnvDistributionMinReachablePeers, DefaultDistributionMinReachablePeers,
 	)
 	if err != nil {
-		return distributionConfig{}, err
+		return DistributionConfig{}, err
 	}
 
 	urlMetadataBatchSize, err := envconfig.PositiveInt(
-		getenv, envDistributionURLMetadataBatchSize, defaultDistributionURLMetadataBatchSize,
+		getenv, EnvDistributionURLMetadataBatchSize, DefaultDistributionURLMetadataBatchSize,
 	)
 	if err != nil {
-		return distributionConfig{}, err
+		return DistributionConfig{}, err
 	}
 
-	return distributionConfig{
+	return DistributionConfig{
 		Enabled:              enabled,
 		Redundancy:           redundancy,
 		PartitionExponent:    uint(partitionExponent),
@@ -316,49 +317,49 @@ func loadDistributionConfig(getenv func(string) string) (distributionConfig, err
 	}, nil
 }
 
-type offerIntervalConfig struct {
+type OfferIntervalConfig struct {
 	Longest  time.Duration
 	Shortest time.Duration
 }
 
-func loadOfferIntervalConfig(getenv func(string) string) (offerIntervalConfig, error) {
+func loadOfferIntervalConfig(getenv func(string) string) (OfferIntervalConfig, error) {
 	longest, err := envconfig.Duration(
-		getenv, envDistributionLongestOfferInterval, defaultDistributionLongestOfferInterval,
+		getenv, EnvDistributionLongestOfferInterval, DefaultDistributionLongestOfferInterval,
 	)
 	if err != nil {
-		return offerIntervalConfig{}, err
+		return OfferIntervalConfig{}, err
 	}
 
 	shortest, err := envconfig.Duration(
-		getenv, envDistributionShortestOfferInterval, defaultDistributionShortestOfferInterval,
+		getenv, EnvDistributionShortestOfferInterval, DefaultDistributionShortestOfferInterval,
 	)
 	if err != nil {
-		return offerIntervalConfig{}, err
+		return OfferIntervalConfig{}, err
 	}
 
-	return offerIntervalConfig{Longest: longest, Shortest: shortest}, nil
+	return OfferIntervalConfig{Longest: longest, Shortest: shortest}, nil
 }
 
 func advertiseHost(getenv func(string) string, announcing bool) (string, error) {
-	host := strings.TrimSpace(getenv(envAdvertiseHost))
+	host := strings.TrimSpace(getenv(EnvAdvertiseHost))
 	if host == "" && announcing {
-		return "", fmt.Errorf("%s: must be set when announcing to the network", envAdvertiseHost)
+		return "", fmt.Errorf("%s: must be set when announcing to the network", EnvAdvertiseHost)
 	}
 
 	return host, nil
 }
 
 func advertisePort(getenv func(string) string, peerAddr string) (int, error) {
-	if raw := strings.TrimSpace(getenv(envAdvertisePort)); raw != "" {
-		return positiveInt(envAdvertisePort, raw)
+	if raw := strings.TrimSpace(getenv(EnvAdvertisePort)); raw != "" {
+		return positiveInt(EnvAdvertisePort, raw)
 	}
 
 	_, portPart, err := net.SplitHostPort(peerAddr)
 	if err != nil {
-		return 0, fmt.Errorf("%s: %w", envPeerAddr, err)
+		return 0, fmt.Errorf("%s: %w", EnvPeerAddr, err)
 	}
 
-	return positiveInt(envPeerAddr, portPart)
+	return positiveInt(EnvPeerAddr, portPart)
 }
 
 func seniorFlags() yacymodel.PeerCapabilities {

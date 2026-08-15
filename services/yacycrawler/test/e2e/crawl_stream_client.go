@@ -81,8 +81,9 @@ func fetchOnePageRWIRepresentation(
 		t.Fatalf("create crawled page rwi consumer: %v", err)
 	}
 
-	var representation yacycrawlcontract.PageRWIRepresentation
-	for len(representation.Postings) == 0 {
+	var chunks []yacycrawlcontract.PageRWIChunk
+	postingChunks := 0
+	for {
 		msg, err := consumer.Next(jetstream.FetchMaxWait(60 * time.Second))
 		if err != nil {
 			t.Fatalf("fetch page rwi chunk: %v", err)
@@ -91,21 +92,24 @@ func fetchOnePageRWIRepresentation(
 		if err != nil {
 			t.Fatalf("decode page rwi chunk: %v", err)
 		}
-		switch chunk := chunk.(type) {
-		case yacycrawlcontract.PageRWIMetadataChunk:
-			if representation.CanonicalURL == "" {
-				representation.CanonicalURL = chunk.CanonicalURL
-			}
-			representation.Metadata = append(representation.Metadata, chunk.Metadata...)
-		case yacycrawlcontract.PageRWIPostingChunk:
-			if representation.CanonicalURL == "" {
-				representation.CanonicalURL = chunk.CanonicalURL
-			}
-			representation.Postings = append(representation.Postings, chunk.Postings...)
+		chunks = append(chunks, chunk)
+		if _, isPosting := chunk.(yacycrawlcontract.PageRWIPostingChunk); isPosting {
+			postingChunks++
+		}
+		metadata, err := msg.Metadata()
+		if err != nil {
+			t.Fatalf("page rwi chunk metadata: %v", err)
 		}
 		if err := msg.Ack(); err != nil {
 			t.Fatalf("ack: %v", err)
 		}
+		if metadata.NumPending == 0 && postingChunks > 0 {
+			break
+		}
+	}
+	representation, err := yacycrawlcontract.PageRWIRepresentationFromChunks(chunks)
+	if err != nil {
+		t.Fatalf("join page rwi chunks: %v", err)
 	}
 	return representation
 }

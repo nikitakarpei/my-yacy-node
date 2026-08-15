@@ -1,4 +1,4 @@
-package proxyintake
+package proxyintake_test
 
 import (
 	"context"
@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/proxyintake"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
 )
 
@@ -20,7 +21,7 @@ func (s stubRenderer) Render(context.Context, string) (renderedpage.Page, error)
 }
 
 func TestServeHTTPRefusesConnect(t *testing.T) {
-	handler := New(stubRenderer{})
+	handler := proxyintake.New(stubRenderer{})
 	req := httptest.NewRequestWithContext(
 		context.Background(),
 		http.MethodConnect,
@@ -37,7 +38,7 @@ func TestServeHTTPRefusesConnect(t *testing.T) {
 }
 
 func TestServeHTTPRejectsNonAbsoluteRequest(t *testing.T) {
-	handler := New(stubRenderer{})
+	handler := proxyintake.New(stubRenderer{})
 	req := httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/path", nil)
 	rec := httptest.NewRecorder()
 
@@ -49,7 +50,7 @@ func TestServeHTTPRejectsNonAbsoluteRequest(t *testing.T) {
 }
 
 func TestServeHTTPReturnsRenderedPage(t *testing.T) {
-	handler := New(stubRenderer{page: renderedpage.Page{
+	handler := proxyintake.New(stubRenderer{page: renderedpage.Page{
 		StatusCode:  http.StatusOK,
 		ContentType: "text/html",
 		Body:        []byte("<html>hi</html>"),
@@ -76,7 +77,7 @@ func TestServeHTTPReturnsRenderedPage(t *testing.T) {
 }
 
 func TestServeHTTPRelaysRedirectLocation(t *testing.T) {
-	handler := New(stubRenderer{page: renderedpage.Page{
+	handler := proxyintake.New(stubRenderer{page: renderedpage.Page{
 		StatusCode: http.StatusMovedPermanently,
 		Location:   "https://example.com/final",
 	}})
@@ -113,7 +114,7 @@ func (w *failingResponseWriter) WriteHeader(code int)      { w.code = code }
 func (w *failingResponseWriter) Write([]byte) (int, error) { return 0, errors.New("client gone") }
 
 func TestServeHTTPSurvivesWriteFailure(t *testing.T) {
-	handler := New(stubRenderer{page: renderedpage.Page{
+	handler := proxyintake.New(stubRenderer{page: renderedpage.Page{
 		StatusCode: http.StatusOK,
 		Body:       []byte("<html>hi</html>"),
 	}})
@@ -133,7 +134,7 @@ func TestServeHTTPSurvivesWriteFailure(t *testing.T) {
 }
 
 func TestServeHTTPFailsOnDeadlineExceeded(t *testing.T) {
-	handler := New(stubRenderer{err: context.DeadlineExceeded})
+	handler := proxyintake.New(stubRenderer{err: context.DeadlineExceeded})
 	req := httptest.NewRequestWithContext(
 		context.Background(),
 		http.MethodGet,
@@ -150,7 +151,7 @@ func TestServeHTTPFailsOnDeadlineExceeded(t *testing.T) {
 }
 
 func TestServeHTTPFailsOnRenderError(t *testing.T) {
-	handler := New(stubRenderer{err: errors.New("browser unreachable")})
+	handler := proxyintake.New(stubRenderer{err: errors.New("browser unreachable")})
 	req := httptest.NewRequestWithContext(
 		context.Background(),
 		http.MethodGet,

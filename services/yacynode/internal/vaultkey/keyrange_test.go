@@ -19,9 +19,9 @@ func TestEveryKeyIsUnboundedOnBothSides(t *testing.T) {
 	}
 }
 
-func TestRangesOfTheFirstPositionReadInDomainOrderInBothDirections(t *testing.T) {
-	const bound = int64(2)
+var firstValuesSpanningTheEncodings = []int64{math.MinInt64, 1, 2, 3, 1 << 62, math.MaxInt64}
 
+func TestRangesOfTheFirstPositionReadInDomainOrderInBothDirections(t *testing.T) {
 	for _, directed := range []struct {
 		direction string
 		layout    vaultkey.PairKey[int64, string]
@@ -30,18 +30,20 @@ func TestRangesOfTheFirstPositionReadInDomainOrderInBothDirections(t *testing.T)
 		{"Descending", vaultkey.Pair(vaultkey.IntegerDescending, vaultkey.Text)},
 	} {
 		t.Run(directed.direction, func(t *testing.T) {
-			for _, first := range []int64{math.MinInt64, 1, 2, 3, math.MaxInt64} {
-				for _, second := range []string{"", "\xff\xff"} {
-					key := directed.layout.Key(first, second).Bytes()
+			for _, bound := range firstValuesSpanningTheEncodings {
+				for _, first := range firstValuesSpanningTheEncodings {
+					for _, second := range []string{"", "\xff\xff"} {
+						key := directed.layout.Key(first, second).Bytes()
 
-					assertRangeAnswers(
-						t, directed.layout.KeysWithFirst(bound), key, first == bound)
-					assertRangeAnswers(
-						t, directed.layout.KeysFromFirst(bound), key, first >= bound)
-					assertRangeAnswers(
-						t, directed.layout.KeysThroughFirst(bound), key, first <= bound)
-					assertRangeAnswers(
-						t, directed.layout.KeysBeforeFirst(bound), key, first < bound)
+						assertRangeAnswers(
+							t, directed.layout.KeysWithFirst(bound), key, first == bound)
+						assertRangeAnswers(
+							t, directed.layout.KeysFromFirst(bound), key, first >= bound)
+						assertRangeAnswers(
+							t, directed.layout.KeysThroughFirst(bound), key, first <= bound)
+						assertRangeAnswers(
+							t, directed.layout.KeysBeforeFirst(bound), key, first < bound)
+					}
 				}
 			}
 		})

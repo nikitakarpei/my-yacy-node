@@ -11,7 +11,7 @@ components:
       - .
       - "**"
 
-deps:
-  searchdocument:
-    mayDependOn:
-      - searchdocument
+deps: {}
+
+excludeFiles:
+  - "_test\\.go"

@@ -39,16 +39,10 @@ vendors:
   corpusrecallapi:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1
-  recallclienttest:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/recallclienttest
   nats:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  natstestserver:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/natstestserver
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
@@ -69,8 +63,6 @@ vendors:
 
 deps:
   recall:
-    mayDependOn:
-      - recall
     canUse:
       - canonicalurl
   pagerepresentationsmarkdown:
@@ -80,42 +72,30 @@ deps:
     canUse:
       - pagemarkdownstore
       - nats
-      - natstestserver
   redirectresolversjetstream:
-    mayDependOn:
-      - redirectresolversjetstream
     canUse:
       - yacycrawlcontract
       - nats
-      - natstestserver
   disposedpagesjetstream:
     mayDependOn:
-      - disposedpagesjetstream
       - recall
     canUse:
       - yacycrawlcontract
       - nats
-      - natstestserver
   crawlorderplacersjetstream:
-    mayDependOn:
-      - crawlorderplacersjetstream
     canUse:
       - yacycrawlcontract
       - nats
-      - natstestserver
       - uuid
   recallreceiversgrpc:
     mayDependOn:
-      - recallreceiversgrpc
       - recall
       - pagerepresentationsmarkdown
     canUse:
       - corpusrecallapi
-      - recallclienttest
       - grpc
   progressobserversprometheus:
     mayDependOn:
-      - progressobserversprometheus
       - recall
     canUse:
       - prometheus
@@ -124,4 +104,5 @@ deps:
     anyVendorDeps: true
 
 excludeFiles:
+  - "_test\\.go"
   - "test/e2e"

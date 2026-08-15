@@ -1,4 +1,4 @@
-package rwi
+package rwi_test
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerepresentations/rwi"
 )
 
 func TestRepresentationChunksBoundPostings(t *testing.T) {
@@ -14,7 +15,7 @@ func TestRepresentationChunksBoundPostings(t *testing.T) {
 	for i := range words {
 		words[i] = fmt.Sprintf("w%d", i)
 	}
-	representation := New()
+	representation := rwi.New()
 	publication, err := representation.Frame(samplePage(), []byte(strings.Join(words, " ")))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
@@ -31,7 +32,7 @@ func TestRepresentationChunksBoundPostings(t *testing.T) {
 }
 
 func TestRepresentationDeclaresKindAndContentFormat(t *testing.T) {
-	representation := New()
+	representation := rwi.New()
 	if representation.Kind() != yacycrawlcontract.PageRepresentationKindRWI {
 		t.Fatalf("representation = %q", representation.Kind())
 	}

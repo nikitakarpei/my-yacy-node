@@ -5,19 +5,24 @@ import (
 	"math/bits"
 )
 
-// DHTPosition places an object on the 63-bit DHT ring, closed at the high end.
-type DHTPosition uint64
+// DHTRingPosition is where something sits on the DHT ring. The ring is 63 bits
+// wide and ends at MaxDHTRingPosition.
+type DHTRingPosition uint64
 
-const MaxDHTPosition = DHTPosition(1)<<63 - 1
+const MaxDHTRingPosition = DHTRingPosition(1)<<63 - 1
 
-// DHTRingPartitions is how many equal partitions the DHT ring is divided
-// into. It is always a power of two, so it is constructed only from its
-// exponent rather than an arbitrary count.
+// DHTRingDistance is how far apart two positions are. You always measure it
+// forward around the ring.
+type DHTRingDistance uint64
+
+// DHTRingPartitions is how many equal parts the ring is cut into. The count is
+// always a power of two, so you build it from the exponent and not from the
+// count.
 type DHTRingPartitions uint
 
-// DHTRingPartitionsFromExponent builds a DHTRingPartitions of 1<<exponent
-// partitions. exponent is the number of high bits of a posting's position
-// that its url hash contributes (Distribution.java:49-52).
+// DHTRingPartitionsFromExponent makes 1<<exponent partitions. The exponent is
+// how many of the high bits of a posting's position come from its url hash
+// (Distribution.java:49-52).
 func DHTRingPartitionsFromExponent(exponent uint) (DHTRingPartitions, error) {
 	if exponent >= 63 {
 		return 0, fmt.Errorf("dht ring partition exponent %d out of range [0,63)", exponent)
@@ -29,67 +34,87 @@ func (p DHTRingPartitions) shiftLength() uint {
 	return 63 - uint(bits.Len(uint(p))-1)
 }
 
-// RingPosition places a hash on the DHT ring by its base64 order, so that
-// words and peers share one keyspace (Distribution.java:74-78,
+const dhtRingPositionSymbols = 10
+
+// DHTRingPositionOf puts a hash on the ring in base64 order. Words and peers
+// go on the same ring, so you can compare them (Distribution.java:74-78,
 // horizontalDHTPosition).
-func RingPosition(hash Hash) DHTPosition {
-	position, _ := cardinal(hash.String())
-	return DHTPosition(position)
-}
+func DHTRingPositionOf(hash Hash) DHTRingPosition {
+	symbols := hash.String()
+	read := min(len(symbols), dhtRingPositionSymbols)
 
-// PostingPosition places one word's posting for one url on the DHT ring: the
-// low 63-e bits come from the word hash and the high e bits from the url
-// hash, so that one word's postings spread across up to 1<<e partitions
-// instead of piling onto the single peer nearest that word
-// (Distribution.java:130-133, verticalDHTPosition).
-func PostingPosition(word Hash, url URLHash, partitions DHTRingPartitions) DHTPosition {
-	wordPos, _ := cardinal(word.String())
-	urlPos, _ := cardinal(url.String())
-	mask := uint64(1)<<partitions.shiftLength() - 1
-	return DHTPosition(wordPos&mask | urlPos&^mask)
-}
-
-// PositionHash reverses RingPosition, computing a hash whose position is the
-// given one (Distribution.java:111-116, positionToHash).
-func PositionHash(pos DHTPosition) Hash {
-	c := uint64(pos) >> 3
-	b := make([]byte, HashLength)
-	for p := 9; p >= 0; p-- {
-		b[p] = Alphabet[c&0x3f]
-		c >>= 6
+	var position uint64
+	for i := range read {
+		position = position<<6 | uint64(decodeTable[symbols[i]]&0x3f)
 	}
-	b[10] = Alphabet[len(Alphabet)-1]
-	b[11] = Alphabet[len(Alphabet)-1]
-	h, _ := ParseHash(string(b))
-	return h
-}
-
-// Distance is the cardinal number of positions from one DHT position to
-// another, going forward around the ring closed at MaxDHTPosition
-// (Distribution.java:101-103, horizontalDHTDistance).
-func Distance(from, to DHTPosition) DHTPosition {
-	if to >= from {
-		return to - from
+	for range dhtRingPositionSymbols - read {
+		position <<= 6
 	}
-	return (MaxDHTPosition - from) + to + 1
+
+	return DHTRingPosition(position<<3 | 7)
 }
 
-// ringFractionOfDistance is a distance as a fraction of the whole DHT ring,
-// in [0,1].
-func ringFractionOfDistance(distance DHTPosition) float64 {
-	return float64(distance) / float64(uint64(MaxDHTPosition)+1)
+// HashFromDHTRingPosition turns a position back into a hash that sits there. It
+// reverses DHTRingPositionOf, but it can only recover the first ten symbols
+// (Distribution.java:111-116, positionToHash).
+func HashFromDHTRingPosition(position DHTRingPosition) Hash {
+	remaining := uint64(position) >> 3
+	symbols := make([]byte, HashLength)
+	for i := dhtRingPositionSymbols - 1; i >= 0; i-- {
+		symbols[i] = Alphabet[remaining&0x3f]
+		remaining >>= 6
+	}
+	for i := dhtRingPositionSymbols; i < HashLength; i++ {
+		symbols[i] = Alphabet[len(Alphabet)-1]
+	}
+
+	hash, _ := ParseHash(string(symbols))
+
+	return hash
 }
 
-// PostingRingFractionToPosition is how far around the DHT ring a position sits
-// from the nearest posting position of a word, in [0,1]. A word's postings
-// occupy every position that keeps the word's low bits (PostingPosition), so
-// the nearest one is the largest such position at or behind the given one.
-func PostingRingFractionToPosition(
-	word Hash,
-	position DHTPosition,
+// DistanceTo is how far you go forward around the ring to reach another
+// position. The ring wraps at MaxDHTRingPosition (Distribution.java:101-103,
+// horizontalDHTDistance).
+func (p DHTRingPosition) DistanceTo(other DHTRingPosition) DHTRingDistance {
+	if other >= p {
+		return DHTRingDistance(other - p)
+	}
+
+	return DHTRingDistance((MaxDHTRingPosition - p) + other + 1)
+}
+
+// FractionOfDHTRing is this distance as a part of the whole ring, from 0 to 1.
+func (d DHTRingDistance) FractionOfDHTRing() float64 {
+	return float64(d) / float64(uint64(MaxDHTRingPosition)+1)
+}
+
+// DHTRingPositionOfPosting puts one posting on the ring. The low bits come from
+// the word hash and the high bits from the url hash. This spreads the postings
+// of one word over the partitions, so they do not all go to the peer nearest
+// that word (Distribution.java:130-133, verticalDHTPosition).
+func DHTRingPositionOfPosting(
+	posting RWIPosting,
 	partitions DHTRingPartitions,
-) float64 {
-	wordPosition, _ := cardinal(word.String())
+) DHTRingPosition {
+	wordPosition := DHTRingPositionOf(posting.WordHash)
+	urlPosition := DHTRingPositionOf(posting.URLHash.hash)
+	mask := DHTRingPosition(uint64(1)<<partitions.shiftLength() - 1)
+
+	return wordPosition&mask | urlPosition&^mask
+}
+
+// DistanceFromPostingsOfWord is how far this position is past the postings of a
+// word. In each partition there is one position where the postings of a word go.
+// This position is inside one partition. The distance goes forward from the
+// posting position in that partition to this position. Zero means that the
+// postings of the word go here.
+func (p DHTRingPosition) DistanceFromPostingsOfWord(
+	word Hash,
+	partitions DHTRingPartitions,
+) DHTRingDistance {
+	wordPosition := DHTRingPositionOf(word)
 	mask := uint64(1)<<partitions.shiftLength() - 1
-	return ringFractionOfDistance(DHTPosition((uint64(position) - wordPosition) & mask))
+
+	return DHTRingDistance((uint64(p) - uint64(wordPosition)) & mask)
 }

@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/profileadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitdispatch"
 )
 
 const (
@@ -30,7 +31,7 @@ type traversal struct {
 	clock          clock.Clock
 	cancel         context.CancelFunc
 	frontier       *frontier.Frontier
-	visitors       *visitors
+	visitors       *visitdispatch.RunningVisitors
 	fetchedPages   int
 	inflightVisits int
 	abortErr       error
@@ -49,9 +50,9 @@ func (t *traversal) run(ctx context.Context, order yacycrawlcontract.CrawlOrder)
 	t.cancel = cancel
 
 	visitor := t.visitorSource.VisitorFor(indexingRefusalOf(order.Profile))
-	t.visitors = startVisitors(runCtx, visitor, t.config.VisitConcurrency)
+	t.visitors = visitdispatch.StartVisitors(runCtx, visitor, t.config.VisitConcurrency)
 	err = t.schedule(runCtx)
-	t.visitors.stop()
+	t.visitors.Stop()
 	return err
 }
 
@@ -82,7 +83,7 @@ func (t *traversal) schedule(ctx context.Context) error {
 		next, ready := t.readyVisit(budget)
 		switch {
 		case ready:
-			toVisit = t.visitors.pending
+			toVisit = t.visitors.Pending()
 		case t.inflightVisits == 0:
 			t.awaitEarliestDue(ctx)
 			continue
@@ -92,7 +93,7 @@ func (t *traversal) schedule(ctx context.Context) error {
 		case toVisit <- next:
 			t.frontier.Drop()
 			t.inflightVisits++
-		case result := <-t.visitors.results:
+		case result := <-t.visitors.Completed():
 			t.recordVisit(ctx, result)
 		case <-ctx.Done():
 			t.abort(contextcancellation.Err(ctx))
@@ -123,7 +124,7 @@ func (t *traversal) awaitEarliestDue(ctx context.Context) {
 
 func (t *traversal) drainInflight() error {
 	for t.inflightVisits > 0 {
-		<-t.visitors.results
+		<-t.visitors.Completed()
 		t.inflightVisits--
 	}
 	return t.abortErr
@@ -136,22 +137,22 @@ func (t *traversal) disposePendingOverBudget(ctx context.Context) {
 	}
 }
 
-func (t *traversal) recordVisit(ctx context.Context, result completedVisit) {
+func (t *traversal) recordVisit(ctx context.Context, result visitdispatch.CompletedVisit) {
 	t.inflightVisits--
-	if result.err != nil {
-		t.abort(result.err)
+	if result.Err != nil {
+		t.abort(result.Err)
 		return
 	}
-	if result.outcome.Fetched {
+	if result.Outcome.Fetched {
 		t.fetchedPages++
 	}
-	switch result.outcome.Conclusion {
+	switch result.Outcome.Conclusion {
 	case pagevisit.VisitDeferred:
-		t.recordDeferred(ctx, result.visit, result.outcome.DeferFor)
+		t.recordDeferred(ctx, result.Visit, result.Outcome.DeferFor)
 	case pagevisit.VisitRetryable:
-		t.recordRetryable(ctx, result.visit)
+		t.recordRetryable(ctx, result.Visit)
 	case pagevisit.VisitCompleted:
-		t.recordCompleted(ctx, result.visit, result.outcome)
+		t.recordCompleted(ctx, result.Visit, result.Outcome)
 	}
 }
 

@@ -20,7 +20,7 @@ const replicaLedgerUnread = "read replica ledger: %w"
 
 type PostingOffer struct {
 	Posting           yacymodel.RWIPosting
-	PostingPosition   yacymodel.DHTPosition
+	PostingPosition   yacymodel.DHTRingPosition
 	Peers             []yacymodel.Seed
 	AcceptancesNeeded int
 	StaleHolders      []yacymodel.Hash
@@ -171,7 +171,7 @@ func (o *PostingOffers) offerFor(
 		return PostingOffer{}, fmt.Errorf(replicaLedgerUnread, err)
 	}
 
-	position := yacymodel.PostingPosition(posting.WordHash, posting.URLHash, o.partitions)
+	position := yacymodel.DHTRingPositionOfPosting(posting, o.partitions)
 	window := replicaWindowFor(position, acceptingPeers, o.self, o.redundancy)
 	holders := o.replicaHoldersFrom(ctx, recordedHolders, window)
 
@@ -232,7 +232,7 @@ func (o *PostingOffers) replicaOfferFor(
 	return PostingOffer{
 		Posting:         posting,
 		PostingPosition: window.position,
-		Peers: yacymodel.SeedsClosestToPosition(
+		Peers: yacymodel.SeedsClosestToDHTRingPosition(
 			holders.peersMissingReplica(eligiblePeers), window.position, missingReplicas,
 		),
 		AcceptancesNeeded: missingReplicas,

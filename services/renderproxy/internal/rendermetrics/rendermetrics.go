@@ -1,27 +1,22 @@
 package rendermetrics
 
 import (
-	"net/http"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 const labelReason = "reason"
 
 type RenderMetrics struct {
-	registry           *prometheus.Registry
 	rendersSucceeded   prometheus.Counter
 	rendersFailed      *prometheus.CounterVec
 	renderWaits        prometheus.Counter
 	renderDurationSecs prometheus.Histogram
 }
 
-func New() *RenderMetrics {
-	registry := prometheus.NewRegistry()
+func New(registry prometheus.Registerer) *RenderMetrics {
 	metrics := &RenderMetrics{
-		registry: registry,
 		rendersSucceeded: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "renderproxy_renders_succeeded_total",
 			Help: "Pages returned after a settled render.",
@@ -57,8 +52,4 @@ func (m *RenderMetrics) RenderWaited() { m.renderWaits.Inc() }
 
 func (m *RenderMetrics) RenderObserved(elapsed time.Duration) {
 	m.renderDurationSecs.Observe(elapsed.Seconds())
-}
-
-func (m *RenderMetrics) Handler() http.Handler {
-	return promhttp.HandlerFor(m.registry, promhttp.HandlerOpts{})
 }

@@ -12,6 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
@@ -34,7 +35,7 @@ type ReachablePeers interface {
 }
 
 type Config struct {
-	OfferInterval     postingofferschedule.OfferInterval
+	OfferInterval     postingofferinterval.Bounds
 	PostingsPerBatch  int
 	CycleInterval     time.Duration
 	DrainBudget       time.Duration
@@ -114,6 +115,7 @@ func (c *Cycle) runCycle(ctx context.Context) {
 	}
 
 	c.drainDuePostings(ctx, peers)
+	c.cycleObserver.ObserveCycleCompleted()
 }
 
 func (c *Cycle) skipTooFewReachablePeers(ctx context.Context, reachablePeers int) {
@@ -235,9 +237,9 @@ func replicaRingFractionsOf(
 			if !offered {
 				continue
 			}
-			ringFractions = append(ringFractions, yacymodel.RingFractionToPosition(
-				acceptance.holder, offer.PostingPosition,
-			))
+			ringFractions = append(ringFractions, offer.PostingPosition.DistanceTo(
+				yacymodel.DHTRingPositionOf(acceptance.holder),
+			).FractionOfDHTRing())
 		}
 	}
 

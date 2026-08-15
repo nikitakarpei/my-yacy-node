@@ -1,4 +1,4 @@
-package postingreplicas
+package postingreplicas_test
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
@@ -44,7 +45,7 @@ func store(
 func recordAccepted(
 	t *testing.T,
 	v *vault.Vault,
-	ledger *Replicas,
+	ledger *postingreplicas.Replicas,
 	peer yacymodel.Hash,
 	postings ...yacymodel.RWIPosting,
 ) {
@@ -60,7 +61,7 @@ func recordAccepted(
 func recordDropped(
 	t *testing.T,
 	v *vault.Vault,
-	ledger *Replicas,
+	ledger *postingreplicas.Replicas,
 	posting postingidentity.Identity,
 	stale []yacymodel.Hash,
 ) int {
@@ -85,7 +86,7 @@ func recordDropped(
 func holdersOf(
 	t *testing.T,
 	v *vault.Vault,
-	ledger *Replicas,
+	ledger *postingreplicas.Replicas,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) []yacymodel.Hash {
@@ -104,7 +105,7 @@ func holdersOf(
 	return holders
 }
 
-func openLedger(t *testing.T) (*vault.Vault, *Replicas) {
+func openLedger(t *testing.T) (*vault.Vault, *postingreplicas.Replicas) {
 	t.Helper()
 
 	v, err := memory.Open(0, nil)
@@ -122,7 +123,7 @@ func openLedger(t *testing.T) (*vault.Vault, *Replicas) {
 		t.Fatalf("postingofferschedule.Open: %v", err)
 	}
 
-	ledger, err := Open(v, schedule)
+	ledger, err := postingreplicas.Open(v, schedule)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

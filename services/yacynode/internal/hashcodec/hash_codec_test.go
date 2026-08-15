@@ -3,6 +3,7 @@ package hashcodec_test
 import (
 	"bytes"
 	"errors"
+	neturl "net/url"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -31,10 +32,11 @@ func TestHashKeysCarryTheHashText(t *testing.T) {
 }
 
 func TestURLHashKeysCarryTheHashText(t *testing.T) {
-	url, err := yacymodel.HashURL("http://example.org/page")
+	address, err := neturl.Parse("http://example.org/page")
 	if err != nil {
-		t.Fatalf("HashURL failed: %v", err)
+		t.Fatalf("parse address: %v", err)
 	}
+	url := yacymodel.URLNormalformOf(address).Hash()
 	layout := vaultkey.Single(hashcodec.URLHash)
 
 	if !bytes.Equal(

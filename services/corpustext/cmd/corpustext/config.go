@@ -97,7 +97,13 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			return ServiceConfig{}, fmt.Errorf("%s: must be set", EnvManticoreURL)
 		}
 		cfg.ManticoreTable = envconfig.String(getenv, EnvManticoreTable, DefaultIndexBaseName)
+	default:
+		return ServiceConfig{}, unknownSearchIndexEngine(cfg.SearchIndexEngine)
 	}
 
 	return cfg, nil
+}
+
+func unknownSearchIndexEngine(engine string) error {
+	return fmt.Errorf("%s: unknown engine %q", EnvSearchIndexEngine, engine)
 }

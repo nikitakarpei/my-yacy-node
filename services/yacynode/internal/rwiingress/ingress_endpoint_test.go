@@ -1,15 +1,27 @@
-package rwiingress
+package rwiingress_test
 
 import (
 	"context"
+	"io"
+	"net/http"
+	"net/http/httptest"
+	"strings"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
+
+type stubRuntimeStatus struct{}
+
+func (stubRuntimeStatus) Version(context.Context) string { return "1.0" }
+
+func (stubRuntimeStatus) Uptime(context.Context) int { return 0 }
 
 func localIdentity() nodeidentity.Identity {
 	return nodeidentity.Identity{Hash: yacymodel.WordHash("self"), NetworkName: "freeworld"}
@@ -32,8 +44,19 @@ func (r *recordingIntake) Receive(
 	return rwiadmission.Receipt{}, nil
 }
 
-func endpointWith(intake *recordingIntake) transferRWIEndpoint {
-	return transferRWIEndpoint{identity: localIdentity(), intake: intake}
+func muxWith(intake *recordingIntake) *http.ServeMux {
+	mux := http.NewServeMux()
+	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
+		Guard: httpguard.NewRequestGuard(
+			httpguard.DefaultMaxBodyBytes,
+			httpguard.DefaultRequestTimeout,
+		),
+		Respond: httpguard.NewWireResponder(stubRuntimeStatus{}),
+		Address: httpguard.NewClientAddressResolver(nil),
+	})
+	rwiingress.Mount(router, localIdentity(), intake)
+
+	return mux
 }
 
 func posting(t *testing.T, word, urlSeed string) yacymodel.RWIPosting {
@@ -58,8 +81,43 @@ func urlHashFromWord(t *testing.T, word string) yacymodel.URLHash {
 	return hash
 }
 
+func transferRWI(
+	t *testing.T,
+	mux *http.ServeMux,
+	req yacyproto.TransferRWIRequest,
+) yacyproto.TransferRWIResponse {
+	t.Helper()
+
+	rec := httptest.NewRecorder()
+	httpReq := httptest.NewRequestWithContext(
+		context.Background(),
+		http.MethodPost,
+		yacyproto.PathTransferRWI,
+		strings.NewReader(req.Form().Encode()),
+	)
+	httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	mux.ServeHTTP(rec, httpReq)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200, body = %q", rec.Code, rec.Body.String())
+	}
+
+	body, err := io.ReadAll(rec.Body)
+	if err != nil {
+		t.Fatalf("read body: %v", err)
+	}
+
+	resp, err := yacyproto.ParseTransferRWIResponse(yacyproto.ParseMessage(string(body)))
+	if err != nil {
+		t.Fatalf("ParseTransferRWIResponse: %v", err)
+	}
+
+	return resp
+}
+
 func TestTransferRWIReportsBusy(t *testing.T) {
-	endpoint := endpointWith(&recordingIntake{busy: true})
+	mux := muxWith(&recordingIntake{busy: true})
 
 	req := yacyproto.TransferRWIRequest{
 		NetworkName: "freeworld",
@@ -69,10 +127,7 @@ func TestTransferRWIReportsBusy(t *testing.T) {
 		Indexes:     []yacymodel.RWIPosting{posting(t, "w1", "u1")},
 	}
 
-	resp, err := endpoint.Serve(context.Background(), req)
-	if err != nil {
-		t.Fatalf("Serve: %v", err)
-	}
+	resp := transferRWI(t, mux, req)
 	if resp.Result != yacyproto.ResultBusy {
 		t.Fatalf("Result = %q, want busy", resp.Result)
 	}
@@ -83,7 +138,7 @@ func TestTransferRWIReportsBusy(t *testing.T) {
 
 func TestTransferRWIStoresAndAnswers(t *testing.T) {
 	intake := &recordingIntake{}
-	endpoint := endpointWith(intake)
+	mux := muxWith(intake)
 
 	req := yacyproto.TransferRWIRequest{
 		NetworkName: "freeworld",
@@ -93,10 +148,7 @@ func TestTransferRWIStoresAndAnswers(t *testing.T) {
 		Indexes:     []yacymodel.RWIPosting{posting(t, "w1", "u1")},
 	}
 
-	resp, err := endpoint.Serve(context.Background(), req)
-	if err != nil {
-		t.Fatalf("Serve: %v", err)
-	}
+	resp := transferRWI(t, mux, req)
 	if resp.Result != yacyproto.TransferRWIResult(yacyproto.ResultOK) {
 		t.Fatalf("Result = %q, want ok", resp.Result)
 	}
@@ -106,14 +158,11 @@ func TestTransferRWIStoresAndAnswers(t *testing.T) {
 }
 
 func TestTransferRWIRejectsWrongNetwork(t *testing.T) {
-	endpoint := endpointWith(&recordingIntake{})
+	mux := muxWith(&recordingIntake{})
 
 	req := yacyproto.TransferRWIRequest{NetworkName: "othernet", YouAre: localIdentity().Hash}
 
-	resp, err := endpoint.Serve(context.Background(), req)
-	if err != nil {
-		t.Fatalf("Serve: %v", err)
-	}
+	resp := transferRWI(t, mux, req)
 	if resp.Result != yacyproto.TransferRWIResult(yacyproto.ResultWrongTarget) {
 		t.Fatalf("Result = %q, want wrong_target", resp.Result)
 	}

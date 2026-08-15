@@ -1,4 +1,4 @@
-package postingtransfer
+package postingtransfer_test
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 )
 
@@ -154,7 +155,7 @@ func TestSendReportsUnaddressablePeer(t *testing.T) {
 	peer := yacymodel.WordHash("peer")
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	observer := newFakeObserver()
-	postingTransfers := New(
+	postingTransfers := postingtransfer.New(
 		fakePostingCourier{}, &fakeURLMetadataCourier{}, fakeURLDirectory{}, observer,
 	)
 
@@ -180,7 +181,7 @@ func TestSendAcceptsPostingsWithNoUnknownURLs(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	posting := fakePosting(word, url)
 	observer := newFakeObserver()
-	postingTransfers := New(
+	postingTransfers := postingtransfer.New(
 		fakePostingCourier{
 			receipt: postingcourier.Receipt{Outcome: postingcourier.Accepted},
 		},
@@ -202,7 +203,7 @@ func TestSendExcludesPostingWhenURLMetadataDeliveryFails(t *testing.T) {
 	peer := yacymodel.WordHash("peer")
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	observer := newFakeObserver()
-	postingTransfers := New(
+	postingTransfers := postingtransfer.New(
 		fakePostingCourier{receipt: postingcourier.Receipt{
 			Outcome:           postingcourier.Accepted,
 			URLsUnknownToPeer: []yacymodel.URLHash{url},
@@ -244,7 +245,7 @@ func TestSendDeliversMetadataItHasWhenOneURLIsAbsent(t *testing.T) {
 		receipt: urlmetadatacourier.Receipt{Outcome: urlmetadatacourier.Accepted},
 	}
 	observer := newFakeObserver()
-	postingTransfers := New(
+	postingTransfers := postingtransfer.New(
 		fakePostingCourier{receipt: postingcourier.Receipt{
 			Outcome:           postingcourier.Accepted,
 			URLsUnknownToPeer: []yacymodel.URLHash{present, absent},

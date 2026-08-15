@@ -1,10 +1,11 @@
-package titletopics
+package titletopics_test
 
 import (
 	"reflect"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/titletopics"
 )
 
 func titled(title string) yacymodel.URLMetadata {
@@ -18,7 +19,7 @@ func TestTopicsFromTitlesOrdersByFrequency(t *testing.T) {
 		titled("alpha"),
 	}
 
-	got := TopicsFromTitles(resources, nil)
+	got := titletopics.TopicsFromTitles(resources, nil)
 	want := []string{"alpha", "beta", "gamma"}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("topics = %v, want %v", got, want)
@@ -32,7 +33,7 @@ func TestTopicsFromTitlesExcludesQueryTerms(t *testing.T) {
 	}
 	queryTerms := []yacymodel.Hash{yacymodel.WordHash("budget")}
 
-	got := TopicsFromTitles(resources, queryTerms)
+	got := titletopics.TopicsFromTitles(resources, queryTerms)
 	want := []string{"review", "report"}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("topics = %v, want %v", got, want)
@@ -45,29 +46,30 @@ func TestTopicsFromTitlesDropsShortAndNonLetters(t *testing.T) {
 		titled("release notes"),
 	}
 
-	got := TopicsFromTitles(resources, nil)
+	got := titletopics.TopicsFromTitles(resources, nil)
 	want := []string{"notes", "release"}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("topics = %v, want %v", got, want)
 	}
 }
 
-func TestTopicsFromTitlesCapsAtFive(t *testing.T) {
+func TestTopicsFromTitlesCapsAtFiveAlphabeticallyAmongEquallyFrequentWords(t *testing.T) {
 	resources := []yacymodel.URLMetadata{
 		titled("one two three four five six seven"),
 		titled("one two three four five six seven"),
 	}
 
-	got := TopicsFromTitles(resources, nil)
-	if len(got) != maxTopics {
-		t.Fatalf("topic count = %d, want %d", len(got), maxTopics)
+	got := titletopics.TopicsFromTitles(resources, nil)
+	want := []string{"five", "four", "one", "seven", "six"}
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("topics = %v, want %v", got, want)
 	}
 }
 
 func TestTopicsFromTitlesReturnsSingleWord(t *testing.T) {
 	resources := []yacymodel.URLMetadata{titled("alpha alpha alpha")}
 
-	got := TopicsFromTitles(resources, nil)
+	got := titletopics.TopicsFromTitles(resources, nil)
 	want := []string{"alpha"}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("topics = %v, want %v", got, want)
@@ -80,7 +82,7 @@ func TestTopicsFromTitlesDropsUnhelpfulWords(t *testing.T) {
 		titled("the alpha"),
 	}
 
-	got := TopicsFromTitles(resources, nil)
+	got := titletopics.TopicsFromTitles(resources, nil)
 	want := []string{"alpha", "beta"}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("topics = %v, want %v", got, want)

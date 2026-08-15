@@ -25,15 +25,6 @@ const (
 
 var nodeHash = mustHash("ABCDEFGHIJKL")
 
-func mustURLHash(raw string) yacymodel.URLHash {
-	hash, err := yacymodel.ParseURLHash(raw)
-	if err != nil {
-		panic(err)
-	}
-
-	return hash
-}
-
 func mustHash(raw string) yacymodel.Hash {
 	hash, err := yacymodel.ParseHash(raw)
 	if err != nil {

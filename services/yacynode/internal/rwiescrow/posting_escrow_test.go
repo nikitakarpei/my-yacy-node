@@ -1,12 +1,14 @@
-package rwiescrow
+package rwiescrow_test
 
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
@@ -27,7 +29,7 @@ func (c *countingHolds) ObserveRefused(postings int)  { c.refused += postings }
 type harness struct {
 	vault    *vault.Vault
 	index    rwipostings.PostingIndex
-	escrow   *PostingEscrow
+	escrow   *rwiescrow.PostingEscrow
 	observer *countingHolds
 	clock    time.Time
 }
@@ -60,9 +62,15 @@ func openCappedHarness(t *testing.T, quotaBytes int64, quotaFraction float64) *h
 		vault:    v,
 		index:    index,
 		observer: &countingHolds{},
-		clock:    time.Unix(1700000000, 0),
+		clock:    time.Unix(1700000000, 123456789),
 	}
-	escrow, err := Open(v, admitter, h.observer, quotaFraction, func() time.Time { return h.clock })
+	escrow, err := rwiescrow.Open(
+		v,
+		admitter,
+		h.observer,
+		quotaFraction,
+		func() time.Time { return h.clock },
+	)
 	if err != nil {
 		t.Fatalf("rwiescrow.Open: %v", err)
 	}
@@ -120,12 +128,12 @@ func (h *harness) escrowedCount(t *testing.T) int {
 }
 
 func urlHash(seed string) yacymodel.URLHash {
-	hash, err := yacymodel.HashURL("http://example.com/" + seed)
+	address, err := url.Parse("http://example.com/" + seed)
 	if err != nil {
 		panic(err)
 	}
 
-	return hash
+	return yacymodel.URLNormalformOf(address).Hash()
 }
 
 func posting(word, urlSeed string) yacymodel.RWIPosting {
@@ -217,6 +225,39 @@ func TestEscrowedPostingExpiresAfterHoldPeriod(t *testing.T) {
 	}
 }
 
+func TestPostingHeldOutsideTheNanosecondEpochRangeExpiresOnTime(t *testing.T) {
+	ctx := context.Background()
+	h := openHarness(t)
+	h.clock = time.Date(2500, time.January, 1, 0, 0, 0, 123456789, time.UTC)
+	entry := posting("w1", "u1")
+
+	h.hold(t, entry)
+	h.clock = h.clock.Add(holdFor / 2)
+	h.hold(t, entry)
+	h.clock = h.clock.Add(holdFor/2 + time.Second)
+
+	expired, err := h.escrow.Expire(ctx, holdFor, 10)
+	if err != nil {
+		t.Fatalf("Expire: %v", err)
+	}
+	if expired != 0 {
+		t.Fatalf(
+			"expired = %d, want 0 while the refreshed hold is still within its period",
+			expired,
+		)
+	}
+
+	h.clock = h.clock.Add(holdFor)
+
+	expired, err = h.escrow.Expire(ctx, holdFor, 10)
+	if err != nil {
+		t.Fatalf("Expire: %v", err)
+	}
+	if expired != 1 {
+		t.Fatalf("expired = %d after the hold period, want 1", expired)
+	}
+}
+
 func TestReHoldRefreshesTheHoldInsteadOfDuplicatingIt(t *testing.T) {
 	h := openHarness(t)
 	entry := posting("w1", "u1")
@@ -254,21 +295,24 @@ func TestReHoldRefreshesTheHoldInsteadOfDuplicatingIt(t *testing.T) {
 	}
 }
 
-const capacityFraction = 0.01
-
-func quotaHolding(postings int) int64 {
-	return int64(float64(postings*escrowedPostingBytes) / capacityFraction)
-}
+const (
+	cappedQuotaBytes    = int64(1) << 20
+	cappedQuotaFraction = 0.001
+)
 
 func TestHoldRefusesNewPostingsAtCapacity(t *testing.T) {
-	h := openCappedHarness(t, quotaHolding(2), capacityFraction)
-	admitted := []yacymodel.RWIPosting{posting("w1", "u1"), posting("w1", "u2")}
+	h := openCappedHarness(t, cappedQuotaBytes, cappedQuotaFraction)
+	capacity := h.escrow.Capacity()
+	if capacity <= 0 {
+		t.Fatalf("capacity = %d, want a positive limit to fill", capacity)
+	}
+	admitted := postingsNumbering(capacity)
 
 	h.hold(t, admitted...)
-	h.hold(t, posting("w1", "u3"))
+	h.hold(t, posting("w1", "beyond"))
 
-	if got := h.escrowedCount(t); got != 2 {
-		t.Fatalf("escrowed count = %d, want 2 at the capacity", got)
+	if got := h.escrowedCount(t); got != capacity {
+		t.Fatalf("escrowed count = %d, want %d at the capacity", got, capacity)
 	}
 	if h.observer.refused != 1 {
 		t.Fatalf("observed refusals = %d, want 1", h.observer.refused)
@@ -283,6 +327,15 @@ func TestHoldRefusesNewPostingsAtCapacity(t *testing.T) {
 			h.observer.refused,
 		)
 	}
+}
+
+func postingsNumbering(postings int) []yacymodel.RWIPosting {
+	numbered := make([]yacymodel.RWIPosting, postings)
+	for position := range numbered {
+		numbered[position] = posting("w1", fmt.Sprintf("u%d", position))
+	}
+
+	return numbered
 }
 
 func TestExpireStopsAtLimit(t *testing.T) {

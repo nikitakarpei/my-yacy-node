@@ -15,7 +15,7 @@ type crawlRuntime struct {
 
 func buildCrawlRuntime(
 	ctx context.Context,
-	config crawlConfig,
+	config CrawlConfig,
 	storage nodeStorage,
 ) (*crawlRuntime, error) {
 	if !config.Enabled() {

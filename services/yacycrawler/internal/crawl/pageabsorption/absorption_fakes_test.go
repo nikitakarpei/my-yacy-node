@@ -1,4 +1,4 @@
-package pageabsorption
+package pageabsorption_test
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 )
 
@@ -63,8 +64,12 @@ func (c *manualClock) Now() time.Time { return c.now }
 
 func (c *manualClock) Sleep(context.Context, time.Duration) error { return nil }
 
-func newAbsorber(extractor PageExtractor, publisher PagePublisher) Absorber {
-	return New(extractor, publisher, &manualClock{}).AbsorberFor(Honored)
+func newAbsorber(
+	extractor pageabsorption.PageExtractor,
+	publisher pageabsorption.PagePublisher,
+) pageabsorption.Absorber {
+	return pageabsorption.New(extractor, publisher, &manualClock{}).
+		AbsorberFor(pageabsorption.Honored)
 }
 
 func refusingDocument(url string) contentextraction.ExtractedDocument {

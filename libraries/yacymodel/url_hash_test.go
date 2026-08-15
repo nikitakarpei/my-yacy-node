@@ -1,31 +1,26 @@
-package yacymodel
+package yacymodel_test
 
-import "testing"
+import (
+	"testing"
 
-func TestURLHashIsValidTwelveChar(t *testing.T) {
-	h, err := HashURL("http://example.com/path?q=1")
-	if err != nil {
-		t.Fatalf("HashURL: %v", err)
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
+
+func TestURLHashIsAParseableTwelveSymbolHash(t *testing.T) {
+	hash := hashOfAddress(t, "http://example.com/path?q=1")
+	if len(hash.String()) != yacymodel.HashLength {
+		t.Fatalf("url hash length = %d, want %d", len(hash.String()), yacymodel.HashLength)
 	}
-	if len(h.String()) != HashLength {
-		t.Fatalf("URLHash length = %d, want %d", len(h.String()), HashLength)
-	}
-	if _, err := ParseURLHash(h.String()); err != nil {
-		t.Errorf("URLHash produced invalid hash %q: %v", h, err)
+	if _, err := yacymodel.ParseURLHash(hash.String()); err != nil {
+		t.Errorf("url hash %q does not parse: %v", hash, err)
 	}
 }
 
-func TestURLHashDeterministic(t *testing.T) {
-	first, err := HashURL("http://example.com/")
-	if err != nil {
-		t.Fatalf("HashURL first: %v", err)
-	}
-	second, err := HashURL("http://example.com/")
-	if err != nil {
-		t.Fatalf("HashURL second: %v", err)
-	}
+func TestURLHashIsDeterministic(t *testing.T) {
+	first := hashOfAddress(t, "http://example.com/")
+	second := hashOfAddress(t, "http://example.com/")
 	if first != second {
-		t.Error("URLHash must be deterministic")
+		t.Errorf("url hash must be deterministic: %q then %q", first, second)
 	}
 }
 
@@ -34,173 +29,85 @@ func TestURLHashMatchesRealYaCyForSpecialUseTLD(t *testing.T) {
 		address = "http://transfer.example.invalid/doc-150.txt"
 		want    = "TULSZfg4-80c"
 	)
-	got, err := HashURL(address)
-	if err != nil {
-		t.Fatalf("HashURL: %v", err)
-	}
-	if got.String() != want {
-		t.Errorf("HashURL(%q) = %q, want %q", address, got, want)
+	if got := hashOfAddress(t, address); got.String() != want {
+		t.Errorf("hash of %q = %q, want %q", address, got, want)
 	}
 }
 
-func TestURLHashSharesHostHashAcrossPaths(t *testing.T) {
-	a, err := HashURL("http://example.com/one")
-	if err != nil {
-		t.Fatalf("HashURL a: %v", err)
-	}
-	b, err := HashURL("http://example.com/two")
-	if err != nil {
-		t.Fatalf("HashURL b: %v", err)
-	}
-	if a == b {
-		t.Error("different paths must yield different url hashes")
-	}
-	aHost := a.HostHash()
-	bHost := b.HostHash()
-	if aHost != bHost {
-		t.Errorf("same host must share host hash: %q vs %q", aHost.String(), bHost.String())
-	}
-}
+func TestURLHashEncodingIsFrozen(t *testing.T) {
+	cases := map[string]string{
+		"http://example.de/": "-QU1M7NH-7-A",
+		"http://example.ru/": "CYe0z7P0yZBA",
+		"http://example.br/": "3kp2X7J0kuTE",
+		"http://example.jp/": "Re7-j7TLc0dI",
+		"http://example.ir/": "LU5jE7lSmaAM",
+		"http://example.us/": "pug_Z7L2Q4LQ",
+		"http://example.za/": "gt1MV7E2yesU",
 
-func TestURLHashHostHashIsLastSixChars(t *testing.T) {
-	h, err := HashURL("http://example.com/path")
-	if err != nil {
-		t.Fatalf("HashURL: %v", err)
-	}
-	hostHash := h.HostHash()
-	if hostHash.String() != h.String()[6:] {
-		t.Errorf("HostHash = %q, want %q", hostHash.String(), h.String()[6:])
-	}
-}
+		"http://example.com/": "pr8XV7QpK89Y",
+		"http://example.zip/": "t3W5Y7JLp4kY",
+		"http://8.8.8.8/":     "CBPqTsg_XLIY",
 
-func TestHashHostNormalizesCaseAndDots(t *testing.T) {
-	want, err := HashHost("example.com")
-	if err != nil {
-		t.Fatalf("HashHost: %v", err)
+		"http://localhost/":     "ydtWn7sIW_pc",
+		"http://127.0.0.1/":     "aZ_PRjJhfryc",
+		"http://site.onion/":    "cgKOV7BYHCjc",
+		"http://printer.local/": "29i2X7wOGGwc",
+		"http://doc.example/":   "q2iRT7ZE1a9c",
+
+		"http://exampleab.com/":         "AMOmD7IlHtxZ",
+		"http://longexampledomain.com/": "zMNQE7pM_BVb",
+		"https://example.com/":          "GCzO2s5gBFP4",
+		"http://bücher.de/":             "0Vuap7fMfOoC",
 	}
-	for _, in := range []string{"Example.COM", ".example.com.", "EXAMPLE.com"} {
-		got, err := HashHost(in)
-		if err != nil {
-			t.Fatalf("HashHost(%q): %v", in, err)
-		}
-		if got != want {
-			t.Errorf("HashHost(%q) = %q, want %q", in, got.String(), want.String())
+	for address, want := range cases {
+		if got := hashOfAddress(t, address); got.String() != want {
+			t.Errorf("hash of %q = %q, want %q", address, got, want)
 		}
 	}
 }
 
-func TestHashHostUsesFtpSchemeForFtpHosts(t *testing.T) {
-	got, err := HashHost("ftp.example.com")
-	if err != nil {
-		t.Fatalf("HashHost: %v", err)
-	}
-	want, err := HashURL("ftp://ftp.example.com/")
-	if err != nil {
-		t.Fatalf("HashURL: %v", err)
-	}
-	if got != want.HostHash() {
-		t.Fatalf("ftp host hash = %q, want %q", got.String(), want.HostHash().String())
+func TestURLHashIgnoresTheHostCase(t *testing.T) {
+	lower := hashOfAddress(t, "http://example.com/Path")
+	mixed := hashOfAddress(t, "http://Example.COM/Path")
+	if lower != mixed {
+		t.Errorf("a mixed-case host must not change the url hash: %q vs %q", mixed, lower)
 	}
 }
 
-func TestURLHashFlagByteEncodesProtocolDomainAndLength(t *testing.T) {
-	cases := []struct {
-		url  string
-		flag byte
-	}{
-		{"http://example.com/", byte(tldGenericID << 2)},
-		{"https://example.com/", 32 | byte(tldGenericID<<2)},
-		{"http://example.de/", byte(tldEuropeRussiaID << 2)},
-		{"http://example.jp/", byte(tldSouthEastAsiaID << 2)},
-		{"http://exampleab.com/", byte(tldGenericID<<2) | 1},
-		{"http://longexampledomain.com/", byte(tldGenericID<<2) | 3},
-	}
-	for _, c := range cases {
-		h, err := HashURL(c.url)
-		if err != nil {
-			t.Fatalf("HashURL(%q): %v", c.url, err)
-		}
-		got := h.String()[11]
-		want := Alphabet[c.flag]
-		if got != want {
-			t.Errorf("%s flag char = %q, want %q (flag %d)", c.url, got, want, c.flag)
-		}
+func TestURLHashDistinguishesPathsOnOneHost(t *testing.T) {
+	first := hashOfAddress(t, "http://example.com/one")
+	second := hashOfAddress(t, "http://example.com/two")
+	if first == second {
+		t.Errorf("different paths must yield different url hashes, both %q", first)
 	}
 }
 
-func TestURLHashSubdomainChangesLocalAndHostHash(t *testing.T) {
-	bare, err := HashURL("http://example.com/")
-	if err != nil {
-		t.Fatalf("HashURL bare: %v", err)
-	}
-	sub, err := HashURL("http://www.example.com/")
-	if err != nil {
-		t.Fatalf("HashURL sub: %v", err)
-	}
+func TestURLHashDistinguishesASubdomain(t *testing.T) {
+	bare := hashOfAddress(t, "http://example.com/")
+	sub := hashOfAddress(t, "http://www.example.com/")
 	if bare == sub {
-		t.Error("subdomain must change the url hash")
+		t.Errorf("a subdomain must change the url hash, both %q", bare)
 	}
 }
 
-func TestNormalformOmitsDefaultPortAndLowercasesHost(t *testing.T) {
-	cases := map[string]string{
-		"http://Example.COM:80/Path":     "http://example.com/Path",
-		"https://Example.com:443/":       "https://example.com/",
-		"http://example.com:8080/x":      "http://example.com:8080/x",
-		"http://example.com/a?sid=1&b=2": "http://example.com/a?b=2",
-		"http://example.com/a?b=2&sid=1": "http://example.com/a?b=2",
-		"http://example.com/a?sid=1":     "http://example.com/a",
-	}
-	for in, want := range cases {
-		if got := parseURLAddress(in).normalform(); got != want {
-			t.Errorf("normalform(%q) = %q, want %q", in, got, want)
-		}
+func TestURLHashIgnoresDotSegments(t *testing.T) {
+	dotted := hashOfAddress(t, "http://example.com/a/b/../c")
+	resolved := hashOfAddress(t, "http://example.com/a/c")
+	if dotted != resolved {
+		t.Errorf("dot-segment url hash %q must equal resolved %q", dotted, resolved)
 	}
 }
 
-func TestDomainID(t *testing.T) {
-	cases := map[string]int{
-		"example.com": tldGenericID,
-		"example.de":  tldEuropeRussiaID,
-		"example.jp":  tldSouthEastAsiaID,
-		"example.br":  tldMiddleSouthAmericaID,
-		"example.ir":  tldMiddleEastWestAsiaID,
-		"example.us":  tldNorthAmericaOceaniaID,
-		"example.za":  tldAfricaID,
-		"localhost":   tldLocalID,
-		"127.0.0.1":   tldLocalID,
-		"192.168.0.1": tldLocalID,
-		"singlelabel": tldLocalID,
-
-		"transfer.example.invalid": tldLocalID,
-		"printer.local":            tldLocalID,
-		"gateway.internal":         tldLocalID,
-		"fixture.test":             tldLocalID,
-		"site.onion":               tldLocalID,
-		"resolver.alt":             tldLocalID,
-		"host.localhost":           tldLocalID,
-		"doc.example":              tldLocalID,
-
-		"8.8.8.8":     tldGenericID,
-		"example.zip": tldGenericID,
-	}
-	for host, want := range cases {
-		if got := DomainID(host); got != want {
-			t.Errorf("DomainID(%q) = %d, want %d", host, got, want)
-		}
+func TestURLHashUsesThePunycodeHost(t *testing.T) {
+	unicode := hashOfAddress(t, "http://bücher.example/")
+	ascii := hashOfAddress(t, "http://xn--bcher-kva.example/")
+	if unicode != ascii {
+		t.Errorf("idn url hash %q must equal punycode form %q", unicode, ascii)
 	}
 }
 
-func TestRootpathExtraction(t *testing.T) {
-	cases := map[string]string{
-		"http://example.com/":        "",
-		"http://example.com/foo/bar": "foo",
-		"http://example.com/foo/":    "",
-		"http://example.com/a/b/c":   "a",
-	}
-	for url, want := range cases {
-		if got := parseURLAddress(url).rootpath(); got != want {
-			t.Errorf("rootpath(%q) = %q, want %q", url, got, want)
-		}
-	}
+func hashOfAddress(t *testing.T, raw string) yacymodel.URLHash {
+	t.Helper()
+
+	return normalformOfAddress(t, raw).Hash()
 }

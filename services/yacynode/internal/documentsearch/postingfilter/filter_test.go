@@ -1,4 +1,4 @@
-package postingfilter
+package postingfilter_test
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/postingfilter"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
 )
@@ -25,17 +26,17 @@ func TestFilterForReportRejectsOtherSites(t *testing.T) {
 	}
 	posting := yacymodel.RWIPosting{URLHash: documentHash}
 
-	anySite := FilterForReport(searchcriteria.Criteria{})
+	anySite := postingfilter.FilterForReport(searchcriteria.Criteria{})
 	if !anySite.Accepts(posting) {
 		t.Error("posting should be accepted when no site is requested")
 	}
-	sameSite := FilterForReport(searchcriteria.Criteria{
+	sameSite := postingfilter.FilterForReport(searchcriteria.Criteria{
 		SiteHash: yacymodel.Some(mustHostHash(t, "6789AB")),
 	})
 	if !sameSite.Accepts(posting) {
 		t.Error("posting from the requested site should be accepted")
 	}
-	otherSite := FilterForReport(searchcriteria.Criteria{
+	otherSite := postingfilter.FilterForReport(searchcriteria.Criteria{
 		SiteHash: yacymodel.Some(mustHostHash(t, "000000")),
 	})
 	if otherSite.Accepts(posting) {
@@ -87,7 +88,7 @@ func TestFilterForReportRequiresContentKindAppearance(t *testing.T) {
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			filter := FilterForReport(searchcriteria.Criteria{ContentKind: c.kind})
+			filter := postingfilter.FilterForReport(searchcriteria.Criteria{ContentKind: c.kind})
 			if !filter.Accepts(postingWith(c.appearing)) {
 				t.Error("posting appearing as the requested kind should be accepted")
 			}
@@ -96,7 +97,9 @@ func TestFilterForReportRequiresContentKindAppearance(t *testing.T) {
 			}
 		})
 	}
-	anyKind := FilterForReport(searchcriteria.Criteria{ContentKind: searchcriteria.AnyContent})
+	anyKind := postingfilter.FilterForReport(
+		searchcriteria.Criteria{ContentKind: searchcriteria.AnyContent},
+	)
 	if !anyKind.Accepts(yacymodel.RWIPosting{}) {
 		t.Error("any content kind should accept every posting")
 	}
@@ -136,7 +139,7 @@ func TestFilterForReportRejectsOtherDocumentTypes(t *testing.T) {
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			filter := FilterForReport(searchcriteria.Criteria{
+			filter := postingfilter.FilterForReport(searchcriteria.Criteria{
 				ContentKind:       c.kind,
 				StrictContentKind: true,
 			})
@@ -148,7 +151,7 @@ func TestFilterForReportRejectsOtherDocumentTypes(t *testing.T) {
 			}
 		})
 	}
-	anyKind := FilterForReport(searchcriteria.Criteria{StrictContentKind: true})
+	anyKind := postingfilter.FilterForReport(searchcriteria.Criteria{StrictContentKind: true})
 	if !anyKind.Accepts(postingOfType(yacymodel.DocumentTypeImage)) {
 		t.Error("any content kind should accept every document type")
 	}
@@ -157,17 +160,17 @@ func TestFilterForReportRejectsOtherDocumentTypes(t *testing.T) {
 func TestFilterForReportRequiresSharedAppearance(t *testing.T) {
 	posting := postingWith(yacymodel.Appearance{HasImage: true})
 
-	unconstrained := FilterForReport(searchcriteria.Criteria{})
+	unconstrained := postingfilter.FilterForReport(searchcriteria.Criteria{})
 	if !unconstrained.Accepts(posting) {
 		t.Error("posting should be accepted when no appearance is required")
 	}
-	overlapping := FilterForReport(searchcriteria.Criteria{
+	overlapping := postingfilter.FilterForReport(searchcriteria.Criteria{
 		RequiredAppearance: yacymodel.Some(yacymodel.Appearance{HasImage: true}),
 	})
 	if !overlapping.Accepts(posting) {
 		t.Error("posting sharing the required appearance should be accepted")
 	}
-	disjoint := FilterForReport(searchcriteria.Criteria{
+	disjoint := postingfilter.FilterForReport(searchcriteria.Criteria{
 		RequiredAppearance: yacymodel.Some(yacymodel.Appearance{HasVideo: true}),
 	})
 	if disjoint.Accepts(posting) {
@@ -181,7 +184,7 @@ func TestFilterForSearchRejectsDocumentsHoldingAnExcludedTerm(t *testing.T) {
 		banned: {{URLHash: searchtest.URLHashFor("url-b")}},
 	}}
 
-	filter, err := FilterForSearch(
+	filter, err := postingfilter.FilterForSearch(
 		context.Background(),
 		index,
 		searchcriteria.Criteria{ExcludedTerms: []yacymodel.Hash{banned}},
@@ -198,7 +201,7 @@ func TestFilterForSearchRejectsDocumentsHoldingAnExcludedTerm(t *testing.T) {
 }
 
 func TestFilterForSearchSurfacesScanFailures(t *testing.T) {
-	_, err := FilterForSearch(
+	_, err := postingfilter.FilterForSearch(
 		context.Background(),
 		searchtest.FailingPostingIndex{Err: errScanBroken},
 		searchcriteria.Criteria{ExcludedTerms: []yacymodel.Hash{searchtest.HashFor("ban")}},
@@ -211,7 +214,7 @@ func TestFilterForSearchSurfacesScanFailures(t *testing.T) {
 var errScanBroken = errors.New("scan broken")
 
 func TestFilterForReportRejectsUnrequiredDocuments(t *testing.T) {
-	filter := FilterForReport(searchcriteria.Criteria{
+	filter := postingfilter.FilterForReport(searchcriteria.Criteria{
 		RequiredDocuments: []yacymodel.URLHash{searchtest.URLHashFor("url-a")},
 	})
 
@@ -232,7 +235,9 @@ func TestFilterForReportRejectsOtherLanguages(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ParseLanguage: %v", err)
 	}
-	filter := FilterForReport(searchcriteria.Criteria{Language: yacymodel.Some(english)})
+	filter := postingfilter.FilterForReport(
+		searchcriteria.Criteria{Language: yacymodel.Some(english)},
+	)
 
 	if !filter.Accepts(yacymodel.RWIPosting{Language: yacymodel.Some(english)}) {
 		t.Error("posting in the required language should be accepted")

@@ -1,14 +1,15 @@
-package urlmetadatacourier
+package urlmetadatacourier_test
 
 import (
 	"context"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 )
 
 type scriptedURLMetadataCourier struct {
-	receipts []Receipt
+	receipts []urlmetadatacourier.Receipt
 	calls    [][]yacymodel.URLMetadata
 }
 
@@ -17,7 +18,7 @@ func (c *scriptedURLMetadataCourier) Deliver(
 	_ string,
 	_ yacymodel.Hash,
 	metadata []yacymodel.URLMetadata,
-) Receipt {
+) urlmetadatacourier.Receipt {
 	call := len(c.calls)
 	c.calls = append(c.calls, metadata)
 
@@ -25,7 +26,7 @@ func (c *scriptedURLMetadataCourier) Deliver(
 		return c.receipts[call]
 	}
 
-	return Receipt{Outcome: Accepted}
+	return urlmetadatacourier.Receipt{Outcome: urlmetadatacourier.Accepted}
 }
 
 func metadataRows(n int) []yacymodel.URLMetadata {
@@ -39,12 +40,12 @@ func metadataRows(n int) []yacymodel.URLMetadata {
 
 func TestBoundedDeliverEmptyInputSendsNoBatches(t *testing.T) {
 	inner := &scriptedURLMetadataCourier{}
-	courier := boundedCourier{inner: inner, batchSize: 2}
+	courier := urlmetadatacourier.NewBounded(inner, 2)
 
 	receipt := courier.Deliver(context.Background(), "peer:8090", courierHash("peer"), nil)
 
-	if receipt.Outcome != Accepted {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Accepted)
+	if receipt.Outcome != urlmetadatacourier.Accepted {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
 	}
 	if len(inner.calls) != 0 {
 		t.Fatalf("inner calls = %d, want 0", len(inner.calls))
@@ -53,9 +54,9 @@ func TestBoundedDeliverEmptyInputSendsNoBatches(t *testing.T) {
 
 func TestBoundedDeliverInputSmallerThanBatchSizeSendsOneBatch(t *testing.T) {
 	inner := &scriptedURLMetadataCourier{
-		receipts: []Receipt{{Outcome: Accepted}},
+		receipts: []urlmetadatacourier.Receipt{{Outcome: urlmetadatacourier.Accepted}},
 	}
-	courier := boundedCourier{inner: inner, batchSize: 50}
+	courier := urlmetadatacourier.NewBounded(inner, 50)
 
 	receipt := courier.Deliver(
 		context.Background(),
@@ -64,8 +65,8 @@ func TestBoundedDeliverInputSmallerThanBatchSizeSendsOneBatch(t *testing.T) {
 		metadataRows(10),
 	)
 
-	if receipt.Outcome != Accepted {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Accepted)
+	if receipt.Outcome != urlmetadatacourier.Accepted {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
 	}
 	if len(inner.calls) != 1 || len(inner.calls[0]) != 10 {
 		t.Fatalf("inner calls = %v, want one call of 10 rows", inner.calls)
@@ -74,13 +75,13 @@ func TestBoundedDeliverInputSmallerThanBatchSizeSendsOneBatch(t *testing.T) {
 
 func TestBoundedDeliverSplitsIntoBatches(t *testing.T) {
 	inner := &scriptedURLMetadataCourier{
-		receipts: []Receipt{
-			{Outcome: Accepted},
-			{Outcome: Accepted},
-			{Outcome: Accepted},
+		receipts: []urlmetadatacourier.Receipt{
+			{Outcome: urlmetadatacourier.Accepted},
+			{Outcome: urlmetadatacourier.Accepted},
+			{Outcome: urlmetadatacourier.Accepted},
 		},
 	}
-	courier := boundedCourier{inner: inner, batchSize: 2}
+	courier := urlmetadatacourier.NewBounded(inner, 2)
 
 	receipt := courier.Deliver(
 		context.Background(),
@@ -89,8 +90,8 @@ func TestBoundedDeliverSplitsIntoBatches(t *testing.T) {
 		metadataRows(5),
 	)
 
-	if receipt.Outcome != Accepted {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Accepted)
+	if receipt.Outcome != urlmetadatacourier.Accepted {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
 	}
 
 	wantSizes := []int{2, 2, 1}
@@ -108,12 +109,12 @@ func TestBoundedDeliverAccumulatesRejectedURLsAcrossBatches(t *testing.T) {
 	first := urlHash("u1")
 	second := urlHash("u2")
 	inner := &scriptedURLMetadataCourier{
-		receipts: []Receipt{
-			{Outcome: Accepted, URLsRejected: []yacymodel.URLHash{first}},
-			{Outcome: Accepted, URLsRejected: []yacymodel.URLHash{second}},
+		receipts: []urlmetadatacourier.Receipt{
+			{Outcome: urlmetadatacourier.Accepted, URLsRejected: []yacymodel.URLHash{first}},
+			{Outcome: urlmetadatacourier.Accepted, URLsRejected: []yacymodel.URLHash{second}},
 		},
 	}
-	courier := boundedCourier{inner: inner, batchSize: 2}
+	courier := urlmetadatacourier.NewBounded(inner, 2)
 
 	receipt := courier.Deliver(
 		context.Background(),
@@ -122,8 +123,8 @@ func TestBoundedDeliverAccumulatesRejectedURLsAcrossBatches(t *testing.T) {
 		metadataRows(4),
 	)
 
-	if receipt.Outcome != Accepted {
-		t.Fatalf("outcome = %q, want %q", receipt.Outcome, Accepted)
+	if receipt.Outcome != urlmetadatacourier.Accepted {
+		t.Fatalf("outcome = %q, want %q", receipt.Outcome, urlmetadatacourier.Accepted)
 	}
 	if len(receipt.URLsRejected) != 2 || receipt.URLsRejected[0] != first ||
 		receipt.URLsRejected[1] != second {
@@ -132,21 +133,21 @@ func TestBoundedDeliverAccumulatesRejectedURLsAcrossBatches(t *testing.T) {
 }
 
 func TestBoundedDeliverStopsAfterFirstFailedBatch(t *testing.T) {
-	outcomes := []Outcome{
-		Deferred,
-		Refused,
-		Unreachable,
+	outcomes := []urlmetadatacourier.Outcome{
+		urlmetadatacourier.Deferred,
+		urlmetadatacourier.Refused,
+		urlmetadatacourier.Unreachable,
 	}
 
 	for _, outcome := range outcomes {
 		t.Run(string(outcome), func(t *testing.T) {
 			inner := &scriptedURLMetadataCourier{
-				receipts: []Receipt{
-					{Outcome: Accepted},
+				receipts: []urlmetadatacourier.Receipt{
+					{Outcome: urlmetadatacourier.Accepted},
 					{Outcome: outcome},
 				},
 			}
-			courier := boundedCourier{inner: inner, batchSize: 2}
+			courier := urlmetadatacourier.NewBounded(inner, 2)
 
 			receipt := courier.Deliver(
 				context.Background(),

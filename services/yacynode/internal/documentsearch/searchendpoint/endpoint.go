@@ -34,7 +34,7 @@ func Mount(
 			results:  results,
 			observation: searchObservation{
 				metrics:      metrics,
-				nodePosition: yacymodel.RingPosition(identity.Hash),
+				nodePosition: yacymodel.DHTRingPositionOf(identity.Hash),
 				partitions:   partitions,
 			},
 		}.Serve,

@@ -1,4 +1,4 @@
-package postingoffer
+package postingoffer_test
 
 import (
 	"context"
@@ -7,15 +7,189 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
+const (
+	postingOffersRedundancy = 1
+	recipientCooldown       = time.Minute
+)
+
+type postingOfferOptions struct {
+	postings     map[yacymodel.Hash]yacymodel.RWIPosting
+	reachability postingoffer.Reachability
+	observer     postingoffer.Observer
+	self         yacymodel.Hash
+	redundancy   int
+}
+
+type postingOfferHarness struct {
+	vault         *vault.Vault
+	schedule      *postingofferschedule.Schedule
+	replicas      *postingreplicas.Replicas
+	eligibility   *replicaeligibility.Peers
+	postingOffers *postingoffer.PostingOffers
+}
+
+func openPostingOffers(t *testing.T, options postingOfferOptions) postingOfferHarness {
+	t.Helper()
+
+	options = withPostingOfferDefaults(options)
+
+	v, err := memory.Open(0, nil)
+	if err != nil {
+		t.Fatalf("memory.Open: %v", err)
+	}
+	t.Cleanup(func() {
+		if err := v.Close(); err != nil {
+			t.Fatalf("Close: %v", err)
+		}
+	})
+
+	schedule, err := postingofferschedule.Open(v, frozenNow, discardedScheduleObservations{})
+	if err != nil {
+		t.Fatalf("postingofferschedule.Open: %v", err)
+	}
+	replicas, err := postingreplicas.Open(v, schedule)
+	if err != nil {
+		t.Fatalf("postingreplicas.Open: %v", err)
+	}
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
+	if err != nil {
+		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
+	}
+	eligibility := replicaeligibility.New(recipientCooldown, frozenNow)
+
+	return postingOfferHarness{
+		vault:       v,
+		schedule:    schedule,
+		replicas:    replicas,
+		eligibility: eligibility,
+		postingOffers: postingoffer.New(
+			v,
+			schedule,
+			replicas,
+			fakePostingIndex{postings: options.postings},
+			options.reachability,
+			eligibility,
+			options.observer,
+			partitions,
+			options.self,
+			options.redundancy,
+		),
+	}
+}
+
+func withPostingOfferDefaults(options postingOfferOptions) postingOfferOptions {
+	if options.reachability == nil {
+		options.reachability = fakeReachability{}
+	}
+	if options.observer == nil {
+		options.observer = discardedRingSectorObservations{}
+	}
+	if options.self.IsZero() {
+		options.self = thisNodeFartherThanEveryPeer()
+	}
+	if options.redundancy == 0 {
+		options.redundancy = postingOffersRedundancy
+	}
+
+	return options
+}
+
+func (h postingOfferHarness) holdBack(peer yacymodel.Hash) {
+	h.eligibility.OfferDeclined(peer, 0)
+}
+
+func (h postingOfferHarness) storePosting(
+	t *testing.T,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) {
+	t.Helper()
+
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		return h.schedule.PostingStored(tx, word, url)
+	}); err != nil {
+		t.Fatalf("PostingStored: %v", err)
+	}
+}
+
+func (h postingOfferHarness) recordAccepted(
+	t *testing.T,
+	peer yacymodel.Hash,
+	postings ...yacymodel.RWIPosting,
+) {
+	t.Helper()
+
+	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+		return h.replicas.RecordAccepted(tx, peer, postings)
+	}); err != nil {
+		t.Fatalf("RecordAccepted: %v", err)
+	}
+}
+
+func (h postingOfferHarness) holdersOf(
+	t *testing.T,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) []yacymodel.Hash {
+	t.Helper()
+
+	var holders []yacymodel.Hash
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		var err error
+		holders, err = h.replicas.HoldersOf(tx, postingidentity.IdentityOf(word, url))
+
+		return err
+	}); err != nil {
+		t.Fatalf("HoldersOf: %v", err)
+	}
+
+	return holders
+}
+
+func (h postingOfferHarness) dueNow(
+	t *testing.T,
+	peers []yacymodel.Seed,
+) ([]postingoffer.PostingOffer, []postingidentity.Identity) {
+	t.Helper()
+
+	offers, gonePostings, err := h.postingOffers.DueNow(context.Background(), 10, peers)
+	if err != nil {
+		t.Fatalf("DueNow: %v", err)
+	}
+
+	return offers, gonePostings
+}
+
+func (h postingOfferHarness) dueOffer(
+	t *testing.T,
+	peers []yacymodel.Seed,
+) postingoffer.PostingOffer {
+	t.Helper()
+
+	offers, _ := h.dueNow(t, peers)
+	if len(offers) != 1 {
+		t.Fatalf("offers = %+v, want a single posting", offers)
+	}
+
+	return offers[0]
+}
+
+func frozenNow() time.Time { return time.Unix(1000, 0) }
+
+func thisNodeFartherThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self5") }
+
+func thisNodeCloserThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self22") }
+
 type fakePostingIndex struct {
 	postings map[yacymodel.Hash]yacymodel.RWIPosting
-	unread   error
 }
 
 func (f fakePostingIndex) RWICount(context.Context) (int, error) { return len(f.postings), nil }
@@ -25,9 +199,6 @@ func (f fakePostingIndex) PostingOf(
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
-	if f.unread != nil {
-		return yacymodel.RWIPosting{}, false, f.unread
-	}
 	entry, found := f.postings[fakePostingKey(word, url)]
 
 	return entry, found, nil
@@ -56,6 +227,15 @@ func urlHash() yacymodel.URLHash {
 
 func fakePosting(word yacymodel.Hash, url yacymodel.URLHash) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{WordHash: word, URLHash: url}
+}
+
+func storedPostings(postings ...yacymodel.RWIPosting) map[yacymodel.Hash]yacymodel.RWIPosting {
+	byKey := make(map[yacymodel.Hash]yacymodel.RWIPosting, len(postings))
+	for _, posting := range postings {
+		byKey[fakePostingKey(posting.WordHash, posting.URLHash)] = posting
+	}
+
+	return byKey
 }
 
 type fakeReachability struct {
@@ -97,6 +277,15 @@ func seed(hash yacymodel.Hash) yacymodel.Seed {
 	}
 }
 
+func peerSeeds(names ...string) []yacymodel.Seed {
+	seeds := make([]yacymodel.Seed, 0, len(names))
+	for _, name := range names {
+		seeds = append(seeds, seed(yacymodel.WordHash(name)))
+	}
+
+	return seeds
+}
+
 func indexDecliningSeed(hash yacymodel.Hash) yacymodel.Seed {
 	declining := seed(hash)
 	declining.Capabilities = yacymodel.Some(yacymodel.PeerCapabilities{AcceptRemoteIndex: false})
@@ -104,43 +293,14 @@ func indexDecliningSeed(hash yacymodel.Hash) yacymodel.Seed {
 	return declining
 }
 
-type everyPeerEligible struct{}
-
-func (everyPeerEligible) EligiblePeers(peers []yacymodel.Seed) []yacymodel.Seed { return peers }
-
-type peersHeldBack map[yacymodel.Hash]struct{}
-
-func (p peersHeldBack) EligiblePeers(peers []yacymodel.Seed) []yacymodel.Seed {
-	eligible := make([]yacymodel.Seed, 0, len(peers))
+func otherThan(peers []yacymodel.Seed, closest yacymodel.Hash) yacymodel.Hash {
 	for _, peer := range peers {
-		if _, held := p[peer.Hash]; !held {
-			eligible = append(eligible, peer)
+		if peer.Hash != closest {
+			return peer.Hash
 		}
 	}
 
-	return eligible
-}
-
-const postingOffersRedundancy = 1
-
-func thisNodeFartherThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self5") }
-
-func thisNodeCloserThanEveryPeer() yacymodel.Hash { return yacymodel.WordHash("self22") }
-
-func recordAccepted(
-	t *testing.T,
-	v *vault.Vault,
-	replicas *postingreplicas.Replicas,
-	peer yacymodel.Hash,
-	postings ...yacymodel.RWIPosting,
-) {
-	t.Helper()
-
-	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return replicas.RecordAccepted(tx, peer, postings)
-	}); err != nil {
-		t.Fatalf("RecordAccepted: %v", err)
-	}
+	panic("no peer other than the closest")
 }
 
 type discardedRingSectorObservations struct{}
@@ -157,191 +317,61 @@ func (r *recordedRingSectorObservations) ObservePeersAcceptingRemoteIndexPerDHTR
 	r.peersPerSector = append(r.peersPerSector, peersPerSector)
 }
 
-func openPostingOffers(
-	t *testing.T,
-	now func() time.Time,
-	postings map[yacymodel.Hash]yacymodel.RWIPosting,
-	reachability Reachability,
-) (*vault.Vault, *postingofferschedule.Schedule, *postingreplicas.Replicas, *PostingOffers) {
-	t.Helper()
+type discardedScheduleObservations struct{}
 
-	return openPostingOffersReportingTo(
-		t, now, postings, reachability, discardedRingSectorObservations{},
-	)
-}
+func (discardedScheduleObservations) ObserveScheduledPostings(int) {}
 
-func openPostingOffersReportingTo(
-	t *testing.T,
-	now func() time.Time,
-	postings map[yacymodel.Hash]yacymodel.RWIPosting,
-	reachability Reachability,
-	observer Observer,
-) (*vault.Vault, *postingofferschedule.Schedule, *postingreplicas.Replicas, *PostingOffers) {
-	t.Helper()
-
-	v, err := memory.Open(0, nil)
-	if err != nil {
-		t.Fatalf("Open: %v", err)
-	}
-	t.Cleanup(func() {
-		if err := v.Close(); err != nil {
-			t.Fatalf("Close: %v", err)
-		}
-	})
-
-	schedule, err := postingofferschedule.Open(v, now, discardedScheduleObservations{})
-	if err != nil {
-		t.Fatalf("postingofferschedule.Open: %v", err)
-	}
-	replicas, err := postingreplicas.Open(v, schedule)
-	if err != nil {
-		t.Fatalf("postingreplicas.Open: %v", err)
-	}
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
-	if err != nil {
-		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
-	}
-
-	postingOffers := New(
-		v,
-		schedule,
-		replicas,
-		fakePostingIndex{postings: postings},
-		reachability,
-		everyPeerEligible{},
-		observer,
-		partitions,
-		thisNodeFartherThanEveryPeer(),
-		postingOffersRedundancy,
-	)
-
-	return v, schedule, replicas, postingOffers
-}
-
-func store(
-	t *testing.T,
-	v *vault.Vault,
-	schedule *postingofferschedule.Schedule,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) {
-	t.Helper()
-
-	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
-		return schedule.PostingStored(tx, word, url)
-	}); err != nil {
-		t.Fatalf("PostingStored: %v", err)
-	}
-}
+func (discardedScheduleObservations) ObserveLongestOfferLateness(time.Duration) {}
 
 func TestDueReportsMissingReplicaForDuePosting(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	v, schedule, _, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{},
-	)
-	peers := []yacymodel.Seed{seed(peer)}
+	peers := peerSeeds("peer")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings: storedPostings(fakePosting(word, url)),
+	})
 
-	store(t, v, schedule, word, url)
+	harness.storePosting(t, word, url)
 
-	due, dueGone, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
+	offers, gonePostings := harness.dueNow(t, peers)
+	if len(offers) != 1 || len(gonePostings) != 0 {
+		t.Fatalf("offers = %+v, want a single posting and no gone entries", offers)
 	}
-	if len(due) != 1 || len(dueGone) != 0 {
-		t.Fatalf("due = %+v, want a single posting and no gone entries", due)
-	}
-	missing := due[0]
+	missing := offers[0]
 	if missing.AcceptancesNeeded != 1 || len(missing.Peers) != 1 ||
-		missing.Peers[0].Hash != peer {
-		t.Fatalf("missing = %+v, want one replica needed from %v", missing, peer)
+		missing.Peers[0].Hash != peers[0].Hash {
+		t.Fatalf("missing = %+v, want one replica needed from %v", missing, peers[0].Hash)
 	}
 }
 
 func TestDueRenewsTheHeldReplicaWhenRedundancyMet(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{seed(peer)}
-	v, schedule, replicas, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
-	)
+	peers := peerSeeds("peer")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+	})
 
-	store(t, v, schedule, word, url)
-	recordAccepted(t, v, replicas, peer, fakePosting(word, url))
+	harness.storePosting(t, word, url)
+	harness.recordAccepted(t, peers[0].Hash, fakePosting(word, url))
 
-	due, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	if len(due) != 1 {
-		t.Fatalf("due = %+v, want a single posting", due)
-	}
-	offer := due[0]
+	offer := harness.dueOffer(t, peers)
 	if offer.AcceptancesNeeded != 0 {
 		t.Fatalf("AcceptancesNeeded = %d, want zero", offer.AcceptancesNeeded)
 	}
-	if len(offer.Peers) != 1 || offer.Peers[0].Hash != peer {
+	if len(offer.Peers) != 1 || offer.Peers[0].Hash != peers[0].Hash {
 		t.Fatalf("Peers = %v, want the peer that holds the replica", offer.Peers)
 	}
 }
 
-func TestDueRenewsTheHeldReplicaOfAPeerHeldBackFromNewReplicas(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash()
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{seed(peer)}
-	v, schedule, replicas, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
-	)
-	postingOffers.eligibility = peersHeldBack{peer: {}}
-
-	store(t, v, schedule, word, url)
-	recordAccepted(t, v, replicas, peer, fakePosting(word, url))
-
-	due, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	if len(due) != 1 {
-		t.Fatalf("due = %+v, want a single posting", due)
-	}
-	if recipients := due[0].Peers; len(recipients) != 1 ||
-		recipients[0].Hash != peer {
-		t.Fatalf("Peers = %v, want the held-back peer that holds the replica", recipients)
-	}
-}
-
 func TestDueOwesNoReplicasWhenNoPeerIsCloserThanThisNode(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	v, schedule, _, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{},
-	)
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings: storedPostings(fakePosting(word, url)),
+	})
 
-	store(t, v, schedule, word, url)
+	harness.storePosting(t, word, url)
 
-	due, _, err := postingOffers.DueNow(context.Background(), 10, nil)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	if len(due) != 1 {
-		t.Fatalf("due = %+v, want a single posting", due)
-	}
-	missing := due[0]
+	missing := harness.dueOffer(t, nil)
 	if missing.AcceptancesNeeded != 0 || len(missing.Peers) != 0 {
 		t.Fatalf(
 			"missing = %+v, want no replicas owed: this node holds the only one the DHT asks for",
@@ -351,32 +381,18 @@ func TestDueOwesNoReplicasWhenNoPeerIsCloserThanThisNode(t *testing.T) {
 }
 
 func TestDueLowersReplicasOwedWhenThisNodeIsResponsible(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{
-		seed(yacymodel.WordHash("p1")),
-		seed(yacymodel.WordHash("p2")),
-		seed(yacymodel.WordHash("p3")),
-	}
-	v, schedule, _, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
-	)
-	postingOffers.redundancy = 3
-	postingOffers.self = thisNodeCloserThanEveryPeer()
+	peers := peerSeeds("p1", "p2", "p3")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+		self:         thisNodeCloserThanEveryPeer(),
+		redundancy:   3,
+	})
 
-	store(t, v, schedule, word, url)
+	harness.storePosting(t, word, url)
 
-	due, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	if len(due) != 1 {
-		t.Fatalf("due = %+v, want a single posting", due)
-	}
-	missing := due[0]
+	missing := harness.dueOffer(t, peers)
 	if missing.AcceptancesNeeded != 2 || len(missing.Peers) != 2 {
 		t.Fatalf(
 			"missing = %+v, want two replicas owed: this node is one of the three the DHT"+
@@ -387,31 +403,17 @@ func TestDueLowersReplicasOwedWhenThisNodeIsResponsible(t *testing.T) {
 }
 
 func TestDueLeavesReplicasOwedWhenThisNodeIsOutsideTheWindow(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{
-		seed(yacymodel.WordHash("p1")),
-		seed(yacymodel.WordHash("p2")),
-		seed(yacymodel.WordHash("p3")),
-	}
-	v, schedule, _, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
-	)
-	postingOffers.redundancy = 3
+	peers := peerSeeds("p1", "p2", "p3")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+		redundancy:   3,
+	})
 
-	store(t, v, schedule, word, url)
+	harness.storePosting(t, word, url)
 
-	due, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	if len(due) != 1 {
-		t.Fatalf("due = %+v, want a single posting", due)
-	}
-	missing := due[0]
+	missing := harness.dueOffer(t, peers)
 	if missing.AcceptancesNeeded != 3 || len(missing.Peers) != 3 {
 		t.Fatalf(
 			"missing = %+v, want three replicas owed: this node is farther than every peer",
@@ -421,124 +423,83 @@ func TestDueLeavesReplicasOwedWhenThisNodeIsOutsideTheWindow(t *testing.T) {
 }
 
 func TestDueNarrowsTheLedgerWindowWhenThisNodeIsResponsible(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{
-		seed(yacymodel.WordHash("p1")),
-		seed(yacymodel.WordHash("p2")),
-	}
-	v, schedule, replicas, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
-	)
-	postingOffers.redundancy = 2
-	postingOffers.self = thisNodeCloserThanEveryPeer()
+	peers := peerSeeds("p1", "p2")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+		self:         thisNodeCloserThanEveryPeer(),
+		redundancy:   2,
+	})
 
-	store(t, v, schedule, word, url)
+	harness.storePosting(t, word, url)
 	for _, peer := range peers {
-		recordAccepted(t, v, replicas, peer.Hash, fakePosting(word, url))
+		harness.recordAccepted(t, peer.Hash, fakePosting(word, url))
 	}
 
-	due, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	if len(due) != 1 || len(due[0].StaleHolders) != 1 {
+	offer := harness.dueOffer(t, peers)
+	if len(offer.StaleHolders) != 1 {
 		t.Fatalf(
-			"due = %+v, want the one holder beyond the single replica peers owe",
-			due,
+			"StaleHolders = %+v, want the one holder beyond the single replica peers owe",
+			offer.StaleHolders,
 		)
 	}
 }
 
 func TestDueCollectsGoneForRemovedPosting(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	peer := yacymodel.WordHash("peer")
-	v, schedule, _, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, nil, fakeReachability{},
-	)
-	peers := []yacymodel.Seed{seed(peer)}
+	harness := openPostingOffers(t, postingOfferOptions{})
 
-	store(t, v, schedule, word, url)
+	harness.storePosting(t, word, url)
 
-	due, dueGone, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	if len(due) != 0 || len(dueGone) != 1 || dueGone[0].Word != word {
-		t.Fatalf("due = %+v, want a single gone entry for %v", due, word)
+	offers, gonePostings := harness.dueNow(t, peerSeeds("peer"))
+	if len(offers) != 0 || len(gonePostings) != 1 || gonePostings[0].Word != word {
+		t.Fatalf("offers = %+v, want a single gone entry for %v", offers, word)
 	}
 }
 
 func TestDueReportsStaleReplicaWithoutDroppingIt(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	stalePeer, fresh := yacymodel.WordHash("stale"), yacymodel.WordHash("fresh")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	v, schedule, replicas, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{},
-	)
-	peers := []yacymodel.Seed{seed(fresh)}
+	stalePeer := yacymodel.WordHash("stale")
+	peers := peerSeeds("fresh")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings: storedPostings(fakePosting(word, url)),
+	})
 
-	store(t, v, schedule, word, url)
-	recordAccepted(t, v, replicas, stalePeer, fakePosting(word, url))
+	harness.storePosting(t, word, url)
+	harness.recordAccepted(t, stalePeer, fakePosting(word, url))
 
-	due, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	if len(due) != 1 {
-		t.Fatalf("due = %+v, want a single posting", due)
-	}
-	missing := due[0]
-	if len(missing.Peers) != 1 || missing.Peers[0].Hash != fresh {
+	missing := harness.dueOffer(t, peers)
+	if len(missing.Peers) != 1 || missing.Peers[0].Hash != peers[0].Hash {
 		t.Fatalf(
 			"missing = %+v, want an offer to %v regardless of stale peer %v",
-			missing, fresh, stalePeer,
+			missing, peers[0].Hash, stalePeer,
 		)
 	}
 	if len(missing.StaleHolders) != 1 || missing.StaleHolders[0] != stalePeer {
 		t.Fatalf("StaleHolders = %+v, want the one stale peer %v", missing.StaleHolders, stalePeer)
 	}
-	stored := holdersOf(t, v, replicas, word, url)
+	stored := harness.holdersOf(t, word, url)
 	if len(stored) != 1 || stored[0] != stalePeer {
-		t.Fatalf("replicas = %v, want [%v] unchanged by Due", stored, stalePeer)
+		t.Fatalf("replicas = %v, want [%v] unchanged by DueNow", stored, stalePeer)
 	}
 }
 
 func TestDueOffersOnlyAsManyReplicasAsAreNeeded(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
 	absentHolder := yacymodel.WordHash("absent")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	v, schedule, replicas, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings,
-		fakeReachability{recentlyReachable: map[yacymodel.Hash]struct{}{absentHolder: {}}},
-	)
-	postingOffers.redundancy = 3
-
-	store(t, v, schedule, word, url)
-	recordAccepted(t, v, replicas, absentHolder, fakePosting(word, url))
-
-	due, _, err := postingOffers.DueNow(context.Background(), 10, []yacymodel.Seed{
-		seed(yacymodel.WordHash("p1")),
-		seed(yacymodel.WordHash("p2")),
-		seed(yacymodel.WordHash("p3")),
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings: storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{
+			recentlyReachable: map[yacymodel.Hash]struct{}{absentHolder: {}},
+		},
+		redundancy: 3,
 	})
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	if len(due) != 1 {
-		t.Fatalf("due = %+v, want a single posting", due)
-	}
-	missing := due[0]
+
+	harness.storePosting(t, word, url)
+	harness.recordAccepted(t, absentHolder, fakePosting(word, url))
+
+	missing := harness.dueOffer(t, peerSeeds("p1", "p2", "p3"))
 	if missing.AcceptancesNeeded != 2 {
 		t.Fatalf(
 			"AcceptancesNeeded = %d, want 2 with one credible holder of three",
@@ -554,60 +515,19 @@ func TestDueOffersOnlyAsManyReplicasAsAreNeeded(t *testing.T) {
 	}
 }
 
-func TestDuePrunesReachableHolderDisplacedByCloserPeer(t *testing.T) {
-	now := time.Unix(1000, 0)
-	word, url := yacymodel.WordHash("w1"), urlHash()
-	first, second := yacymodel.WordHash("first"), yacymodel.WordHash("second")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{seed(first), seed(second)}
-	v, schedule, replicas, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
-	)
-
-	store(t, v, schedule, word, url)
-	for _, peer := range peers {
-		recordAccepted(t, v, replicas, peer.Hash, fakePosting(word, url))
-	}
-
-	due, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	if len(due) != 1 || len(due[0].StaleHolders) != 1 {
-		t.Fatalf(
-			"due = %+v, want the one holder beyond a redundancy of %d",
-			due, postingOffersRedundancy,
-		)
-	}
-}
-
 func TestDueKeepsHolderThatStoppedAcceptingIndex(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
 	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	v, schedule, replicas, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings,
-		fakeReachability{reachable: []yacymodel.Seed{indexDecliningSeed(peer)}},
-	)
+	declining := []yacymodel.Seed{indexDecliningSeed(peer)}
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: declining},
+	})
 
-	store(t, v, schedule, word, url)
-	recordAccepted(t, v, replicas, peer, fakePosting(word, url))
+	harness.storePosting(t, word, url)
+	harness.recordAccepted(t, peer, fakePosting(word, url))
 
-	due, _, err := postingOffers.DueNow(
-		context.Background(), 10, []yacymodel.Seed{indexDecliningSeed(peer)},
-	)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	if len(due) != 1 {
-		t.Fatalf("due = %+v, want a single posting", due)
-	}
-	missing := due[0]
+	missing := harness.dueOffer(t, declining)
 	if len(missing.StaleHolders) != 0 {
 		t.Fatalf(
 			"StaleHolders = %+v, want none: a peer that stops accepting a remote index "+
@@ -624,260 +544,163 @@ func TestDueKeepsHolderThatStoppedAcceptingIndex(t *testing.T) {
 }
 
 func TestDueOffersToNextPeerWhenClosestIsHeldBack(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{
-		seed(yacymodel.WordHash("p1")),
-		seed(yacymodel.WordHash("p2")),
-	}
-	v, schedule, _, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
-	)
+	peers := peerSeeds("p1", "p2")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+	})
 
-	store(t, v, schedule, word, url)
+	harness.storePosting(t, word, url)
 
-	first, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
+	first := harness.dueOffer(t, peers)
+	if len(first.Peers) != 1 {
+		t.Fatalf("offer = %+v, want one posting offered to the closest peer", first)
 	}
-	if len(first) != 1 || len(first[0].Peers) != 1 {
-		t.Fatalf("due = %+v, want one posting offered to the closest peer", first)
-	}
-	closest := first[0].Peers[0].Hash
+	closest := first.Peers[0].Hash
 
-	postingOffers.eligibility = peersHeldBack{closest: {}}
+	harness.holdBack(closest)
 
-	second, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
+	second := harness.dueOffer(t, peers)
+	if len(second.Peers) != 1 {
+		t.Fatalf("offer = %+v, want one posting still offered somewhere", second)
 	}
-	if len(second) != 1 || len(second[0].Peers) != 1 {
-		t.Fatalf("due = %+v, want one posting still offered somewhere", second)
-	}
-	if next := second[0].Peers[0].Hash; next == closest {
+	if next := second.Peers[0].Hash; next == closest {
 		t.Fatalf(
-			"Recipients[0] = %v, want a peer other than the held-back closest peer %v",
+			"Peers[0] = %v, want a peer other than the held-back closest peer %v",
 			next, closest,
 		)
 	}
 }
 
 func TestDueKeepsHolderOnHeldBackPeer(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{seed(peer)}
-	v, schedule, replicas, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
-	)
-	postingOffers.eligibility = peersHeldBack{peer: {}}
+	peers := peerSeeds("peer")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+	})
 
-	store(t, v, schedule, word, url)
-	recordAccepted(t, v, replicas, peer, fakePosting(word, url))
+	harness.storePosting(t, word, url)
+	harness.recordAccepted(t, peers[0].Hash, fakePosting(word, url))
+	harness.holdBack(peers[0].Hash)
 
-	due, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	if len(due) != 1 || len(due[0].StaleHolders) != 0 {
+	offer := harness.dueOffer(t, peers)
+	if len(offer.StaleHolders) != 0 {
 		t.Fatalf(
-			"due = %+v, want none stale: a peer in cooldown still serves the replica"+
-				" it holds",
-			due,
+			"StaleHolders = %+v, want none: a peer in cooldown still serves the replica it holds",
+			offer.StaleHolders,
 		)
 	}
-	if due[0].AcceptancesNeeded != 0 {
-		t.Fatalf("due = %+v, want no further replicas needed", due)
+	if offer.AcceptancesNeeded != 0 {
+		t.Fatalf("AcceptancesNeeded = %d, want no further replicas", offer.AcceptancesNeeded)
+	}
+	if len(offer.Peers) != 1 || offer.Peers[0].Hash != peers[0].Hash {
+		t.Fatalf("Peers = %v, want the held-back peer that holds the replica", offer.Peers)
 	}
 }
 
 func TestDueNarrowsResponsibilityWindowToPeersInCooldown(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{
-		seed(yacymodel.WordHash("p1")),
-		seed(yacymodel.WordHash("p2")),
-		seed(yacymodel.WordHash("p3")),
-	}
-	v, schedule, replicas, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
-	)
+	peers := peerSeeds("p1", "p2", "p3")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+	})
 
-	store(t, v, schedule, word, url)
+	harness.storePosting(t, word, url)
 
-	ranked, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	postingOffers.eligibility = peersHeldBack{ranked[0].Peers[0].Hash: {}}
+	closest := harness.dueOffer(t, peers).Peers[0].Hash
+	harness.holdBack(closest)
 
-	eligible, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due with the closest peer in cooldown: %v", err)
-	}
-	recordAccepted(t, v, replicas, eligible[0].Peers[0].Hash, fakePosting(word, url))
+	eligible := harness.dueOffer(t, peers)
+	harness.recordAccepted(t, eligible.Peers[0].Hash, fakePosting(word, url))
 
-	due, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due after cooldown: %v", err)
-	}
-	if len(due) != 1 || due[0].AcceptancesNeeded != 1 {
+	offer := harness.dueOffer(t, peers)
+	if offer.AcceptancesNeeded != 1 {
 		t.Fatalf(
-			"due = %+v, want one replica needed: a peer in cooldown does not widen"+
+			"AcceptancesNeeded = %d, want one replica needed: a peer in cooldown does not widen"+
 				" the responsibility window",
-			due,
+			offer.AcceptancesNeeded,
 		)
 	}
-	if len(due[0].StaleHolders) != 0 {
+	if len(offer.StaleHolders) != 0 {
 		t.Fatalf(
 			"StaleHolders = %+v, want none while the posting is below redundancy",
-			due[0].StaleHolders,
+			offer.StaleHolders,
 		)
 	}
 }
 
 func TestDueKeepsHolderOutsideWindowUntilRedundancyIsMet(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{
-		seed(yacymodel.WordHash("p1")),
-		seed(yacymodel.WordHash("p2")),
-	}
-	v, schedule, replicas, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
-	)
+	peers := peerSeeds("p1", "p2")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+	})
 
-	store(t, v, schedule, word, url)
+	harness.storePosting(t, word, url)
 
-	ranked, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
-	}
-	closest := ranked[0].Peers[0].Hash
+	closest := harness.dueOffer(t, peers).Peers[0].Hash
 	outside := otherThan(peers, closest)
 
-	recordAccepted(t, v, replicas, outside, fakePosting(word, url))
+	harness.recordAccepted(t, outside, fakePosting(word, url))
 
-	kept, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due below redundancy: %v", err)
-	}
-	if len(kept[0].StaleHolders) != 0 {
+	kept := harness.dueOffer(t, peers)
+	if len(kept.StaleHolders) != 0 {
 		t.Fatalf(
 			"StaleHolders = %+v, want none: a reachable holder outside the window still serves it",
-			kept[0].StaleHolders,
+			kept.StaleHolders,
 		)
 	}
 
-	recordAccepted(t, v, replicas, closest, fakePosting(word, url))
+	harness.recordAccepted(t, closest, fakePosting(word, url))
 
-	dropped, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due at redundancy: %v", err)
-	}
-	if len(dropped[0].StaleHolders) != 1 || dropped[0].StaleHolders[0] != outside {
+	dropped := harness.dueOffer(t, peers)
+	if len(dropped.StaleHolders) != 1 || dropped.StaleHolders[0] != outside {
 		t.Fatalf(
 			"StaleHolders = %+v, want [%v] once redundancy is met",
-			dropped[0].StaleHolders, outside,
+			dropped.StaleHolders, outside,
 		)
 	}
 }
 
 func TestDueDropsUnreachableHolderBelowRedundancy(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
 	ghost := yacymodel.WordHash("ghost")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{seed(yacymodel.WordHash("p1"))}
-	v, schedule, replicas, postingOffers := openPostingOffers(
-		t, func() time.Time { return now }, postings, fakeReachability{reachable: peers},
-	)
+	peers := peerSeeds("p1")
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings:     storedPostings(fakePosting(word, url)),
+		reachability: fakeReachability{reachable: peers},
+	})
 
-	store(t, v, schedule, word, url)
-	recordAccepted(t, v, replicas, ghost, fakePosting(word, url))
+	harness.storePosting(t, word, url)
+	harness.recordAccepted(t, ghost, fakePosting(word, url))
 
-	due, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-	if err != nil {
-		t.Fatalf("Due: %v", err)
+	offer := harness.dueOffer(t, peers)
+	if len(offer.StaleHolders) != 1 || offer.StaleHolders[0] != ghost {
+		t.Fatalf("StaleHolders = %+v, want [%v]: the peer is gone", offer.StaleHolders, ghost)
 	}
-	if len(due[0].StaleHolders) != 1 || due[0].StaleHolders[0] != ghost {
-		t.Fatalf("StaleHolders = %+v, want [%v]: the peer is gone", due[0].StaleHolders, ghost)
-	}
-	if due[0].AcceptancesNeeded != 1 {
-		t.Fatalf("due = %+v, want one replica needed", due)
+	if offer.AcceptancesNeeded != 1 {
+		t.Fatalf("AcceptancesNeeded = %d, want one replica needed", offer.AcceptancesNeeded)
 	}
 }
-
-func otherThan(peers []yacymodel.Seed, closest yacymodel.Hash) yacymodel.Hash {
-	for _, peer := range peers {
-		if peer.Hash != closest {
-			return peer.Hash
-		}
-	}
-
-	panic("no peer other than the closest")
-}
-
-func holdersOf(
-	t *testing.T,
-	v *vault.Vault,
-	replicas *postingreplicas.Replicas,
-	word yacymodel.Hash,
-	url yacymodel.URLHash,
-) []yacymodel.Hash {
-	t.Helper()
-
-	var holders []yacymodel.Hash
-	if err := v.View(context.Background(), func(tx *vault.Txn) error {
-		var err error
-		holders, err = replicas.HoldersOf(tx, postingidentity.IdentityOf(word, url))
-
-		return err
-	}); err != nil {
-		t.Fatalf("Holders: %v", err)
-	}
-
-	return holders
-}
-
-type discardedScheduleObservations struct{}
-
-func (discardedScheduleObservations) ObserveScheduledPostings(int) {}
-
-func (discardedScheduleObservations) ObserveLongestOfferLateness(time.Duration) {}
 
 func TestDueReportsAcceptingPeersPerRingSector(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
 	observer := &recordedRingSectorObservations{}
-	v, schedule, _, postingOffers := openPostingOffersReportingTo(
-		t, func() time.Time { return now }, postings, fakeReachability{}, observer,
-	)
-	peers := []yacymodel.Seed{seed(peer), indexDecliningSeed(yacymodel.WordHash("declining"))}
-
-	store(t, v, schedule, word, url)
-
-	if _, _, err := postingOffers.DueNow(context.Background(), 10, peers); err != nil {
-		t.Fatalf("DueNow: %v", err)
+	harness := openPostingOffers(t, postingOfferOptions{
+		postings: storedPostings(fakePosting(word, url)),
+		observer: observer,
+	})
+	peers := []yacymodel.Seed{
+		seed(yacymodel.WordHash("peer")),
+		indexDecliningSeed(yacymodel.WordHash("declining")),
 	}
+
+	harness.storePosting(t, word, url)
+	harness.dueNow(t, peers)
 
 	if len(observer.peersPerSector) != 1 {
 		t.Fatalf("reports = %d, want one report per DueNow", len(observer.peersPerSector))
@@ -897,42 +720,32 @@ func TestDueReportsAcceptingPeersPerRingSector(t *testing.T) {
 }
 
 func TestDueCarriesThePostingPosition(t *testing.T) {
-	now := time.Unix(1000, 0)
 	word, url := yacymodel.WordHash("w1"), urlHash()
-	peer := yacymodel.WordHash("peer")
-	postings := map[yacymodel.Hash]yacymodel.RWIPosting{
-		fakePostingKey(word, url): fakePosting(word, url),
-	}
-	peers := []yacymodel.Seed{seed(peer)}
+	peers := peerSeeds("peer")
 	partitions, err := yacymodel.DHTRingPartitionsFromExponent(0)
 	if err != nil {
 		t.Fatalf("DHTRingPartitionsFromExponent: %v", err)
 	}
-	wantPosition := yacymodel.PostingPosition(word, url, partitions)
+	wantPosition := yacymodel.DHTRingPositionOfPosting(fakePosting(word, url), partitions)
 
 	for name, reachability := range map[string]fakeReachability{
 		"replica needed": {},
 		"replica held":   {reachable: peers},
 	} {
 		t.Run(name, func(t *testing.T) {
-			v, schedule, replicas, postingOffers := openPostingOffers(
-				t, func() time.Time { return now }, postings, reachability,
-			)
-			store(t, v, schedule, word, url)
+			harness := openPostingOffers(t, postingOfferOptions{
+				postings:     storedPostings(fakePosting(word, url)),
+				reachability: reachability,
+			})
+			harness.storePosting(t, word, url)
 			if len(reachability.reachable) > 0 {
-				recordAccepted(t, v, replicas, peer, fakePosting(word, url))
+				harness.recordAccepted(t, peers[0].Hash, fakePosting(word, url))
 			}
 
-			due, _, err := postingOffers.DueNow(context.Background(), 10, peers)
-			if err != nil {
-				t.Fatalf("DueNow: %v", err)
-			}
-			if len(due) != 1 {
-				t.Fatalf("due = %+v, want a single posting", due)
-			}
-			if due[0].PostingPosition != wantPosition {
+			offer := harness.dueOffer(t, peers)
+			if offer.PostingPosition != wantPosition {
 				t.Errorf(
-					"PostingPosition = %d, want %d", due[0].PostingPosition, wantPosition,
+					"PostingPosition = %d, want %d", offer.PostingPosition, wantPosition,
 				)
 			}
 		})

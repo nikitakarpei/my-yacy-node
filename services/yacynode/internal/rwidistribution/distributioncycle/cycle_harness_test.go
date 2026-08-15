@@ -1,4 +1,4 @@
-package distributioncycle
+package distributioncycle_test
 
 import (
 	"context"
@@ -6,10 +6,12 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
@@ -19,16 +21,24 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
+const (
+	cycleEndWait     = 10 * time.Second
+	postingsPerBatch = 10
+	drainBudget      = time.Minute
+)
+
 type cycleOptions struct {
-	postings        map[yacymodel.Hash]yacymodel.RWIPosting
-	postingsErr     error
-	roster          fakeRoster
-	reachability    postingoffer.Reachability
-	redundancy      int
-	self            yacymodel.Hash
-	cooldown        time.Duration
-	urls            fakeURLDirectory
-	metadataOutcome urlmetadatacourier.Outcome
+	postings          map[yacymodel.Hash]yacymodel.RWIPosting
+	postingsErr       error
+	roster            fakeRoster
+	reachability      postingoffer.Reachability
+	redundancy        int
+	self              yacymodel.Hash
+	cooldown          time.Duration
+	urls              fakeURLDirectory
+	metadataOutcome   urlmetadatacourier.Outcome
+	minReachablePeers int
+	drainBudget       time.Duration
 }
 
 type cycleHarness struct {
@@ -44,8 +54,8 @@ type cycleHarness struct {
 	urls            fakeURLDirectory
 	observer        *fakeObserver
 	transfers       *postingtransfer.PostingTransfers
-	offerInterval   postingofferschedule.OfferInterval
-	cycle           *Cycle
+	offerInterval   postingofferinterval.Bounds
+	cycle           *distributioncycle.Cycle
 }
 
 func withCycleDefaults(opts cycleOptions) cycleOptions {
@@ -57,6 +67,9 @@ func withCycleDefaults(opts cycleOptions) cycleOptions {
 	}
 	if opts.self == (yacymodel.Hash{}) {
 		opts.self = thisNodeFartherThanEveryPeer()
+	}
+	if opts.drainBudget == 0 {
+		opts.drainBudget = drainBudget
 	}
 	if opts.metadataOutcome == "" {
 		opts.metadataOutcome = urlmetadatacourier.Accepted
@@ -103,8 +116,8 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	)
 
 	courier, metadataCourier, transfers := openTransfers(opts, observer)
-	offerInterval := postingofferschedule.OfferInterval{Shortest: time.Minute, Longest: time.Hour}
-	cycle := New(
+	offerInterval := postingofferinterval.Bounds{Shortest: time.Minute, Longest: time.Hour}
+	cycle := distributioncycle.New(
 		v,
 		offers,
 		handoff,
@@ -116,12 +129,12 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		clk.now,
 		observer,
 		observer,
-		Config{
+		distributioncycle.Config{
 			OfferInterval:     offerInterval,
-			PostingsPerBatch:  10,
+			PostingsPerBatch:  postingsPerBatch,
 			CycleInterval:     time.Minute,
-			DrainBudget:       time.Minute,
-			MinReachablePeers: 0,
+			DrainBudget:       opts.drainBudget,
+			MinReachablePeers: opts.minReachablePeers,
 		},
 	)
 
@@ -141,6 +154,27 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		offerInterval:   offerInterval,
 		cycle:           cycle,
 	}
+}
+
+func (h *cycleHarness) runCycle(t *testing.T) {
+	t.Helper()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	stopped := make(chan struct{})
+	go func() {
+		defer close(stopped)
+		h.cycle.Run(ctx)
+	}()
+
+	select {
+	case <-h.observer.cycleEnds:
+	case <-time.After(cycleEndWait):
+		cancel()
+		t.Fatal("timed out waiting for the distribution cycle to end")
+	}
+
+	cancel()
+	<-stopped
 }
 
 func openTransfers(

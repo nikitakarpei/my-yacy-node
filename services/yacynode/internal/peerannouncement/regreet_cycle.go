@@ -11,15 +11,6 @@ import (
 
 const announceHelloPeerCount = 30
 
-type peerGreeter interface {
-	Greet(
-		ctx context.Context,
-		endpoint string,
-		self yacymodel.Seed,
-		count int,
-	) (greetResult, error)
-}
-
 type peerRoster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
 	ConfirmReachable(ctx context.Context, peer yacymodel.Hash)
@@ -28,6 +19,7 @@ type peerRoster interface {
 	UnreachablePeers(ctx context.Context, limit int) []yacymodel.Seed
 }
 
+// TECHDEBT: vocabulary — one fact spelled four ways here: regreet, announce, contact, greet
 type announcer struct {
 	interval           time.Duration
 	reachableCap       int
@@ -35,12 +27,12 @@ type announcer struct {
 	self               SelfSeed
 	seeds              bootstrap.SeedSource
 	roster             peerRoster
-	greeter            peerGreeter
+	greeter            httpPeerGreeter
 }
 
 func (a *announcer) Run(ctx context.Context) {
 	a.roster.Discover(ctx, a.seeds.Fetch(ctx)...)
-	a.Announce(ctx)
+	a.announce(ctx)
 
 	ticker := time.NewTicker(a.interval)
 	defer ticker.Stop()
@@ -50,12 +42,12 @@ func (a *announcer) Run(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		case <-ticker.C:
-			a.Announce(ctx)
+			a.announce(ctx)
 		}
 	}
 }
 
-func (a *announcer) Announce(ctx context.Context) {
+func (a *announcer) announce(ctx context.Context) {
 	self := a.self.SelfSeed(ctx)
 
 	targets := a.roster.ReachablePeers(ctx)
@@ -66,6 +58,7 @@ func (a *announcer) Announce(ctx context.Context) {
 	a.contactAll(ctx, self, targets)
 }
 
+// TECHDEBT: abstraction — contactAll picks targets and also runs the fan-out concurrency
 func (a *announcer) contactAll(ctx context.Context, self yacymodel.Seed, targets []yacymodel.Seed) {
 	concurrency := max(a.contactConcurrency, 1)
 	slots := make(chan struct{}, concurrency)

@@ -1,4 +1,4 @@
-package termmatch
+package termmatch_test
 
 import (
 	"context"
@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/postingfilter"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
 )
 
 func postingEntry(url string, hits int) yacymodel.RWIPosting {
@@ -21,7 +22,7 @@ func TestMatchesForHoldsOnePostingPerDocument(t *testing.T) {
 		word: {postingEntry("u1", 1), postingEntry("u2", 3)},
 	}}
 
-	matches, err := MatchesFor(
+	matches, err := termmatch.MatchesFor(
 		context.Background(),
 		[]yacymodel.Hash{word},
 		index,
@@ -46,7 +47,7 @@ func TestMatchesForKeepsMostFrequentPostingsUnderCap(t *testing.T) {
 		word: {postingEntry("u1", 1), postingEntry("u2", 7), postingEntry("u3", 4)},
 	}}
 
-	matches, err := MatchesFor(
+	matches, err := termmatch.MatchesFor(
 		context.Background(),
 		[]yacymodel.Hash{word},
 		index,
@@ -79,7 +80,7 @@ func TestMatchesForKeepsTwoMostFrequentPostingsUnderCap(t *testing.T) {
 		},
 	}}
 
-	matches, err := MatchesFor(
+	matches, err := termmatch.MatchesFor(
 		context.Background(),
 		[]yacymodel.Hash{word},
 		index,
@@ -104,7 +105,7 @@ func TestMatchesForKeepsTwoMostFrequentPostingsUnderCap(t *testing.T) {
 }
 
 func TestMatchesForSurfacesScanFailures(t *testing.T) {
-	_, err := MatchesFor(
+	_, err := termmatch.MatchesFor(
 		context.Background(),
 		[]yacymodel.Hash{searchtest.HashFor("w1")},
 		searchtest.FailingPostingIndex{Err: errScanBroken},
@@ -124,7 +125,7 @@ func TestMatchesForSkipsPostingsTheFilterRejects(t *testing.T) {
 		word: {postingEntry("u1", 1)},
 	}}
 
-	matches, err := MatchesFor(
+	matches, err := termmatch.MatchesFor(
 		context.Background(),
 		[]yacymodel.Hash{word},
 		index,

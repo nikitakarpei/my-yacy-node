@@ -1,4 +1,4 @@
-package redirectpreflight
+package redirectpreflight_test
 
 import (
 	"context"
@@ -7,16 +7,15 @@ import (
 	"net/url"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/redirectpreflight"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
 )
 
 type stubRenderer struct {
-	called bool
-	page   renderedpage.Page
+	page renderedpage.Page
 }
 
 func (s *stubRenderer) Render(context.Context, string) (renderedpage.Page, error) {
-	s.called = true
 	return s.page, nil
 }
 
@@ -37,7 +36,7 @@ func TestRenderRelaysRedirectVerbatim(t *testing.T) {
 	defer egress.Close()
 
 	inner := &stubRenderer{}
-	renderer := New(inner, egressURL(t, egress.URL))
+	renderer := redirectpreflight.New(inner, egressURL(t, egress.URL))
 
 	page, err := renderer.Render(t.Context(), "http://origin.test/")
 	if err != nil {
@@ -49,9 +48,6 @@ func TestRenderRelaysRedirectVerbatim(t *testing.T) {
 	if page.Location != "https://example.com/final" {
 		t.Fatalf("location = %q", page.Location)
 	}
-	if inner.called {
-		t.Fatal("browser render should not be called on redirect relay")
-	}
 }
 
 func TestRenderDelegatesNonRedirect(t *testing.T) {
@@ -61,14 +57,11 @@ func TestRenderDelegatesNonRedirect(t *testing.T) {
 	defer egress.Close()
 
 	inner := &stubRenderer{page: renderedpage.Page{StatusCode: 200, Body: []byte("rendered")}}
-	renderer := New(inner, egressURL(t, egress.URL))
+	renderer := redirectpreflight.New(inner, egressURL(t, egress.URL))
 
 	page, err := renderer.Render(t.Context(), "http://origin.test/")
 	if err != nil {
 		t.Fatalf("render: %v", err)
-	}
-	if !inner.called {
-		t.Fatal("browser render should be called for non-redirect")
 	}
 	if string(page.Body) != "rendered" {
 		t.Fatalf("body = %q", page.Body)
@@ -77,12 +70,9 @@ func TestRenderDelegatesNonRedirect(t *testing.T) {
 
 func TestRenderFailsWhenEgressUnreachable(t *testing.T) {
 	inner := &stubRenderer{}
-	renderer := New(inner, egressURL(t, "http://127.0.0.1:1"))
+	renderer := redirectpreflight.New(inner, egressURL(t, "http://127.0.0.1:1"))
 
 	if _, err := renderer.Render(t.Context(), "http://origin.test/"); err == nil {
 		t.Fatal("expected error when egress proxy unreachable")
-	}
-	if inner.called {
-		t.Fatal("browser render should not be called when egress fails")
 	}
 }

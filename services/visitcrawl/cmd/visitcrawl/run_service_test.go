@@ -1,4 +1,4 @@
-package main
+package main_test
 
 import (
 	"context"
@@ -15,34 +15,38 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
+	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitmetrics"
+	visitcrawl "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/cmd/visitcrawl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 	natsURL := natstestserver.Start(t)
-	cfg := ServiceConfig{
+	cfg := visitcrawl.ServiceConfig{
 		NATSURL:       natsURL,
-		OrdersSubject: DefaultOrdersSubject,
+		OrdersSubject: visitcrawl.DefaultOrdersSubject,
 		ListenAddr:    freeAddr(t),
 		OpsAddr:       freeAddr(t),
-		OrderTimeout:  DefaultOrderTimeout,
-		MaxInFlight:   DefaultMaxInFlight,
-		MaxBodyBytes:  DefaultMaxBodyBytes,
+		OrderTimeout:  visitcrawl.DefaultOrderTimeout,
+		MaxInFlight:   visitcrawl.DefaultMaxInFlight,
+		MaxBodyBytes:  visitcrawl.DefaultMaxBodyBytes,
 		LinkSecret:    "shared-secret",
 		CrawlProfile: yacycrawlcontract.CrawlProfile{
 			Scope:           yacycrawlcontract.ScopeDomain,
 			URLMustMatch:    yacycrawlcontract.MatchAll,
-			MaxPagesPerHost: DefaultCrawlMaxPagesPerHost,
+			MaxPagesPerHost: visitcrawl.DefaultCrawlMaxPagesPerHost,
 		},
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	serviceErr := make(chan error, 1)
-	go func() { serviceErr <- RunService(ctx, cfg, visitmetrics.New()) }()
+	registry := prometheus.NewRegistry()
+	go func() {
+		serviceErr <- visitcrawl.RunService(ctx, cfg, registry)
+	}()
 
 	consumer := ordersConsumer(t, ctx, natsURL)
 	waitForListening(t, cfg.ListenAddr)
@@ -85,12 +89,13 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 }
 
 func TestRunServiceRejectsBadNATSURL(t *testing.T) {
-	cfg := ServiceConfig{
+	cfg := visitcrawl.ServiceConfig{
 		NATSURL: "nats://127.0.0.1:1", ListenAddr: "127.0.0.1:0", OpsAddr: "127.0.0.1:0",
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
-	err := RunService(ctx, cfg, visitmetrics.New())
+	registry := prometheus.NewRegistry()
+	err := visitcrawl.RunService(ctx, cfg, registry)
 	if err == nil {
 		t.Fatal("unreachable nats should fail")
 	}
@@ -112,7 +117,7 @@ func ordersConsumer(t *testing.T, ctx context.Context, natsURL string) jetstream
 	js := natstestserver.ConnectJetStream(t, natsURL)
 	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
 		Name:      yacycrawlcontract.OrdersStreamName,
-		Subjects:  []string{DefaultOrdersSubject},
+		Subjects:  []string{visitcrawl.DefaultOrdersSubject},
 		Retention: jetstream.WorkQueuePolicy,
 	}); err != nil {
 		t.Fatal(err)
@@ -120,7 +125,7 @@ func ordersConsumer(t *testing.T, ctx context.Context, natsURL string) jetstream
 	consumer, err := js.CreateOrUpdateConsumer(ctx, yacycrawlcontract.OrdersStreamName,
 		jetstream.ConsumerConfig{
 			AckPolicy:     jetstream.AckExplicitPolicy,
-			FilterSubject: DefaultOrdersSubject,
+			FilterSubject: visitcrawl.DefaultOrdersSubject,
 		})
 	if err != nil {
 		t.Fatal(err)

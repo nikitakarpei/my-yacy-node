@@ -1,12 +1,28 @@
-package yacyproto
+package yacyproto_test
 
 import (
-	"errors"
+	"net/url"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
+
+const (
+	postingWordHash = "ABCDEFGHIJKL"
+	postingURLHash  = "MNOPQRSTUVWX"
+)
+
+func mustPostingURLHash(t *testing.T) yacymodel.URLHash {
+	t.Helper()
+	hash, err := yacymodel.ParseURLHash(postingURLHash)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return hash
+}
 
 func mustParseDay(t *testing.T, day string) time.Time {
 	t.Helper()
@@ -14,13 +30,41 @@ func mustParseDay(t *testing.T, day string) time.Time {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	return parsed
 }
 
-func TestRWIPostingWireCodecRoundTrip(t *testing.T) {
-	original := yacymodel.RWIPosting{
-		WordHash:               mustHash(t, "ABCDEFGHIJKL"),
-		URLHash:                mustURLHash(t, "MNOPQRSTUVWX"),
+func postingFromLine(t *testing.T, line string) yacymodel.RWIPosting {
+	t.Helper()
+
+	form := url.Values{yacyproto.FieldIndexes: {line}}
+	req, err := yacyproto.ParseTransferRWIRequest(t.Context(), form)
+	if err != nil {
+		t.Fatalf("ParseTransferRWIRequest: %v", err)
+	}
+	if len(req.Indexes) != 1 {
+		t.Fatalf("Indexes = %d, want 1 for line %q", len(req.Indexes), line)
+	}
+
+	return req.Indexes[0]
+}
+
+func postingRoundTrip(t *testing.T, posting yacymodel.RWIPosting) yacymodel.RWIPosting {
+	t.Helper()
+
+	line := yacyproto.TransferRWIRequest{
+		Indexes: []yacymodel.RWIPosting{posting},
+	}.Form().Get(yacyproto.FieldIndexes)
+
+	return postingFromLine(t, line)
+}
+
+func TestTransferRWIRequestCarriesEveryPostingColumn(t *testing.T) {
+	t.Parallel()
+
+	want := yacymodel.RWIPosting{
+		WordHash:               mustHash(t, postingWordHash),
+		URLHash:                mustPostingURLHash(t),
 		LastModified:           yacymodel.MicroDateFromTime(mustParseDay(t, "2026-07-18")),
 		TitleWords:             3,
 		TextWords:              120,
@@ -38,91 +82,81 @@ func TestRWIPostingWireCodecRoundTrip(t *testing.T) {
 		PhrasePosition:         1,
 	}
 
-	got, err := rwiPostingWireCodec{}.decode(rwiPostingWireCodec{}.encode(original))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got != original {
-		t.Fatalf("round trip = %+v, want %+v", got, original)
+	if got := postingRoundTrip(t, want); got != want {
+		t.Fatalf("round trip = %+v, want %+v", got, want)
 	}
 }
 
-// TestRWIPostingWireCodecDecodesStoredLine locks in that a property-form line
-// as a real YaCy peer sends it -- including the freshUntil, typeofword,
-// worddistance and reserve columns this node has no use for -- still decodes.
-func TestRWIPostingWireCodecDecodesStoredLine(t *testing.T) {
-	line := "ABCDEFGHIJKL{a=100,c=7,d=105,g=0,h=MNOPQRSTUVWX,i=0,k=0,l=en,m=42,n=4," +
-		"o=1,p=8,r=3,s=100,t=258,u=3,w=120,x=2,y=5,z=AAAAAA}"
+func TestTransferRWIRequestReadsALineAsARealPeerSendsIt(t *testing.T) {
+	t.Parallel()
 
-	got, err := rwiPostingWireCodec{}.decode(line)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got.WordHash.String() != "ABCDEFGHIJKL" || got.URLHash.String() != "MNOPQRSTUVWX" {
-		t.Fatalf("decode() hashes = %q/%q", got.WordHash, got.URLHash)
+	line := postingWordHash + "{a=100,c=7,d=105,g=0,h=" + postingURLHash + ",i=0,k=0,l=en,m=42," +
+		"n=4,o=1,p=8,r=3,s=100,t=258,u=3,w=120,x=2,y=5,z=AAAAAA}"
+
+	got := postingFromLine(t, line)
+	if got.WordHash.String() != postingWordHash || got.URLHash.String() != postingURLHash {
+		t.Fatalf("hashes = %q/%q", got.WordHash, got.URLHash)
 	}
 	if got.Hits != 7 || got.TextPosition != 258 || got.DocumentType != yacymodel.DocumentTypeImage {
-		t.Fatalf("decode() = %+v", got)
+		t.Fatalf("posting = %+v", got)
 	}
 }
 
-func TestRWIPostingWireCodecDecodeNormalizesYaCyPropertyForm(t *testing.T) {
-	got, err := rwiPostingWireCodec{}.decode(
-		"ABCDEFGHIJKL{c=1,d=104,h=MNOPQRSTUVWX,l=eng,t=258x,x=2,z=AAAAAAA}",
-	)
-	if err != nil {
-		t.Fatal(err)
-	}
+func TestTransferRWIRequestNormalizesYaCyPropertyForm(t *testing.T) {
+	t.Parallel()
+
+	line := postingWordHash + "{c=1,d=104,h=" + postingURLHash + ",l=eng,t=258x,x=2,z=AAAAAAA}"
+	got := postingFromLine(t, line)
 	if got.Hits != 1 || got.TextPosition != 258 || got.LocalLinks != 2 {
-		t.Fatalf("decode() cardinals = %+v", got)
+		t.Fatalf("cardinals = %+v", got)
 	}
 	if language, ok := got.Language.Get(); !ok || language.String() != "en" {
-		t.Fatalf("decode() language = %v, want %q", got.Language, "en")
+		t.Fatalf("language = %v, want %q", got.Language, "en")
 	}
 	if got.DocumentType != yacymodel.DocumentTypeHTML {
-		t.Fatalf("decode() document type = %v", got.DocumentType)
+		t.Fatalf("document type = %v", got.DocumentType)
 	}
 }
 
-// TestRWIPostingWireCodecDecodeKeepsWideDate covers a day count above 65535.
-// The last modified column wraps at YaCy's 64**3 day modulus, not at the two
-// bytes the other wide columns use.
-func TestRWIPostingWireCodecDecodeKeepsWideDate(t *testing.T) {
-	got, err := rwiPostingWireCodec{}.decode("ABCDEFGHIJKL{a=200000,h=MNOPQRSTUVWX}")
-	if err != nil {
-		t.Fatal(err)
-	}
+func TestTransferRWIRequestKeepsALastModifiedDateWiderThanTwoBytes(t *testing.T) {
+	t.Parallel()
+
+	line := postingWordHash + "{a=200000,h=" + postingURLHash + "}"
+	got := postingFromLine(t, line)
 	if got.LastModified != yacymodel.MicroDate(200000) {
-		t.Fatalf("decode() last modified = %d, want 200000", got.LastModified)
+		t.Fatalf("last modified = %d, want 200000", got.LastModified)
 	}
 }
 
-func TestRWIPostingWireCodecDecodeSparseLine(t *testing.T) {
-	got, err := rwiPostingWireCodec{}.decode("ABCDEFGHIJKL{h=MNOPQRSTUVWX}")
-	if err != nil {
-		t.Fatal(err)
-	}
-	want := yacymodel.RWIPosting{
-		WordHash: mustHash(t, "ABCDEFGHIJKL"),
-		URLHash:  mustURLHash(t, "MNOPQRSTUVWX"),
-	}
-	if got != want {
-		t.Fatalf("decode() = %+v, want %+v", got, want)
-	}
-}
+func TestTransferRWIRequestWrapsTheLastModifiedDateAtTheYaCyModulus(t *testing.T) {
+	t.Parallel()
 
-func TestRWIPostingWireCodecDecodeErrors(t *testing.T) {
-	cases := []string{
-		"ABCDEFGHIJKLnobraces",
-		"short{h=MNOPQRSTUVWX}",
-		"ABCDEFGHIJKL{h=MNOPQRSTUVWX,badtoken}",
-		"ABCDEFGHIJKL{h=notahash}",
-		"ABCDEFGHIJKL{}",
+	const modulus = 262144
+	cases := map[yacymodel.MicroDate]yacymodel.MicroDate{
+		modulus:     0,
+		-1:          modulus - 1,
+		modulus + 5: 5,
 	}
-	for _, c := range cases {
-		_, err := (rwiPostingWireCodec{}).decode(c)
-		if !errors.Is(err, yacymodel.ErrBadRWIPosting) {
-			t.Errorf("decode(%q) = %v, want ErrBadRWIPosting", c, err)
+	for written, want := range cases {
+		posting := yacymodel.RWIPosting{
+			WordHash:     mustHash(t, postingWordHash),
+			URLHash:      mustPostingURLHash(t),
+			LastModified: written,
 		}
+		if got := postingRoundTrip(t, posting).LastModified; got != want {
+			t.Errorf("last modified %d round trips to %d, want %d", written, got, want)
+		}
+	}
+}
+
+func TestTransferRWIRequestReadsASparseLine(t *testing.T) {
+	t.Parallel()
+
+	want := yacymodel.RWIPosting{
+		WordHash: mustHash(t, postingWordHash),
+		URLHash:  mustPostingURLHash(t),
+	}
+	if got := postingFromLine(t, postingWordHash+"{h="+postingURLHash+"}"); got != want {
+		t.Fatalf("posting = %+v, want %+v", got, want)
 	}
 }

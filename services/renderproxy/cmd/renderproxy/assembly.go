@@ -6,6 +6,9 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/cdprender"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/proxyintake"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/redirectpreflight"
@@ -25,8 +28,9 @@ const (
 func RunService(
 	ctx context.Context,
 	cfg ServiceConfig,
-	metrics *rendermetrics.RenderMetrics,
+	registry *prometheus.Registry,
 ) error {
+	metrics := rendermetrics.New(registry)
 	browser := cdprender.New(ctx, cfg.CDPURL)
 	defer browser.Close()
 
@@ -45,7 +49,7 @@ func RunService(
 	}
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
-		Handler:           opsmetrics.NewMux(metrics.Handler()),
+		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 

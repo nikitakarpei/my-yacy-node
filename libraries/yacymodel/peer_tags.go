@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	tagMaxLength   = 100
-	peerTagsMaxLen = 64
+	MaxTagLength   = 100
+	MaxTagsPerPeer = 64
 )
 
 var (
@@ -22,7 +22,7 @@ type Tag struct {
 }
 
 func ParseTag(s string) (Tag, error) {
-	if s == "" || len(s) > tagMaxLength {
+	if s == "" || len(s) > MaxTagLength {
 		return Tag{}, fmt.Errorf("%w: length %d", ErrBadTag, len(s))
 	}
 	if strings.ContainsAny(s, ",=|{}") {
@@ -42,7 +42,7 @@ type PeerTags struct {
 func MatchAllTags() PeerTags { return PeerTags{} }
 
 func NewPeerTags(tags []Tag) (PeerTags, error) {
-	if len(tags) > peerTagsMaxLen {
+	if len(tags) > MaxTagsPerPeer {
 		return PeerTags{}, fmt.Errorf("%w: %d tags", ErrBadPeerTags, len(tags))
 	}
 	return PeerTags{tags: tags}, nil
