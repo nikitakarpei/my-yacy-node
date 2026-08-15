@@ -541,7 +541,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 31
       },
@@ -567,6 +567,44 @@
       ]
     },
     {
+      "id": 29,
+      "title": "Write transactions that wrote nothing",
+      "description": "This panel shows the share of committed write transactions in which the caller called no store or delete operation.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 31
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(vault_write_transactions_total{outcome=\"committed\",called_write_operation=\"false\"}[$__rate_interval])) / sum(rate(vault_write_transactions_total{outcome=\"committed\"}[$__rate_interval]))",
+          "legendFormat": "wrote nothing"
+        }
+      ]
+    },
+    {
       "id": 26,
       "title": "Reads in flight",
       "description": "This panel shows the reads open through the vault.",
@@ -577,8 +615,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 16,
         "y": 31
       },
       "fieldConfig": {

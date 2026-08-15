@@ -12,7 +12,8 @@ var errTransactionNeverOpened = errors.New(
 )
 
 type Txn struct {
-	etx EngineTxn
+	etx                  EngineTxn
+	calledWriteOperation bool
 }
 
 func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
@@ -29,11 +30,15 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 
 	var closureFailure error
 
+	var calledWriteOperation bool
+
 	engineFailure := v.engine.Update(ctx, func(etx EngineTxn) error {
 		timeline = newWriteTimeline()
 		v.observer.ObserveWriteBegan(timeline.openedAt.Sub(beganAt))
 
-		closureFailure = fn(&Txn{etx: etx})
+		tx := &Txn{etx: etx}
+		closureFailure = fn(tx)
+		calledWriteOperation = tx.calledWriteOperation
 		timeline.markExecuted()
 
 		return closureFailure
@@ -62,7 +67,7 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 
 		return wrapTxnError("write storage", engineFailure)
 	default:
-		reportWriteCommitted(ctx, v.observer, timeline)
+		reportWriteCommitted(ctx, v.observer, timeline, calledWriteOperation)
 
 		return nil
 	}

@@ -64,6 +64,7 @@ func (c *Collection[K, V]) Put(tx *Txn, key K, val V) error {
 	if !tx.etx.Writable() {
 		return errReadOnly
 	}
+	tx.calledWriteOperation = true
 
 	payload, err := c.values.Encode(val)
 	if err != nil {
@@ -87,6 +88,7 @@ func (c *Collection[K, V]) Delete(tx *Txn, key K) (bool, error) {
 	if !tx.etx.Writable() {
 		return false, errReadOnly
 	}
+	tx.calledWriteOperation = true
 
 	encodedKey := c.keys.Encode(key).Bytes()
 	bucket := tx.etx.Bucket(c.name)
