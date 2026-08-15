@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+
+profile=${COVER_PROFILE:-coverage.out}
+gated=$profile.gated
+minimum=${COVERAGE_MIN:-80}
+go=${GO:-go}
+
+rm -f "$profile" "$gated"
+
+# shellcheck disable=SC2086
+if ! output=$($go test -race $COVER_FLAGS -coverprofile="$profile" ./... 2>&1); then
+	printf '%s\n' "$output"
+	exit 1
+fi
+
+grep -vE "$($COVER_PATTERN)" "$profile" > "$gated"
+
+statements=$(awk 'NR > 1 { sum += $2 } END { print sum + 0 }' "$gated")
+if [ "$statements" -eq 0 ]; then
+	exit 0
+fi
+
+total=$($go tool cover -func="$gated" | awk '/^total:/ { gsub(/%/, "", $3); print $3 }')
+
+awk -v covered="${total:-0}" -v minimum="$minimum" \
+	'BEGIN { if (covered + 0 < minimum + 0) { exit 1 } }' ||
+	{ echo "coverage ${total:-0}% below $minimum%"; exit 1; }
