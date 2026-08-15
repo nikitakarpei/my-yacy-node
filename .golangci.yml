@@ -21,6 +21,7 @@ linters:
     - revive
     - sloglint
     - testifylint
+    - testpackage
     - unconvert
     - unparam
     - usestdlibvars
@@ -46,6 +47,10 @@ linters:
         - github.com/nikitakarpei/yacy-rwi-node/*
         - golang.org/x/sync/errgroup
         - google.golang.org/grpc/status
+    testpackage:
+      allow-packages:
+        - e2e
+      skip-regexp: $^
     sloglint:
       attr-only: true
       context: all
