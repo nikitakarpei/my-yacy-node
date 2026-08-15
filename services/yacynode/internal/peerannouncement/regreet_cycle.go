@@ -11,15 +11,6 @@ import (
 
 const announceHelloPeerCount = 30
 
-type peerGreeter interface {
-	Greet(
-		ctx context.Context,
-		endpoint string,
-		self yacymodel.Seed,
-		count int,
-	) (greetResult, error)
-}
-
 type peerRoster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
 	ConfirmReachable(ctx context.Context, peer yacymodel.Hash)
@@ -35,12 +26,12 @@ type announcer struct {
 	self               SelfSeed
 	seeds              bootstrap.SeedSource
 	roster             peerRoster
-	greeter            peerGreeter
+	greeter            httpPeerGreeter
 }
 
 func (a *announcer) Run(ctx context.Context) {
 	a.roster.Discover(ctx, a.seeds.Fetch(ctx)...)
-	a.Announce(ctx)
+	a.announce(ctx)
 
 	ticker := time.NewTicker(a.interval)
 	defer ticker.Stop()
@@ -50,12 +41,12 @@ func (a *announcer) Run(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		case <-ticker.C:
-			a.Announce(ctx)
+			a.announce(ctx)
 		}
 	}
 }
 
-func (a *announcer) Announce(ctx context.Context) {
+func (a *announcer) announce(ctx context.Context) {
 	self := a.self.SelfSeed(ctx)
 
 	targets := a.roster.ReachablePeers(ctx)
