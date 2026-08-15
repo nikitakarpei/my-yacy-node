@@ -11,16 +11,7 @@ components:
       - .
       - "**"
 
-vendors:
-  nats:
-    in:
-      - github.com/nats-io/nats.go
-      - github.com/nats-io/nats.go/**
-
-deps:
-  pagemarkdownstore:
-    canUse:
-      - nats
+deps: {}
 
 excludeFiles:
-  - "_test\.go"
+  - "_test\\.go"

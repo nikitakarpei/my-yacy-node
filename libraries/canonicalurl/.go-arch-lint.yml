@@ -13,4 +13,4 @@ components:
 
 deps: {}
 excludeFiles:
-  - "_test\.go"
+  - "_test\\.go"

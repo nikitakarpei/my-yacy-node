@@ -27,4 +27,4 @@ deps:
       - natsserver
 
 excludeFiles:
-  - "_test\.go"
+  - "_test\\.go"

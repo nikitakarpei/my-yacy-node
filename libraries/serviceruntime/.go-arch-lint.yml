@@ -46,4 +46,4 @@ deps:
       - nats
 
 excludeFiles:
-  - "_test\.go"
+  - "_test\\.go"

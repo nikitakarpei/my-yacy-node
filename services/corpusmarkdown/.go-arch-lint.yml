@@ -54,5 +54,5 @@ deps:
     anyVendorDeps: true
 
 excludeFiles:
-  - "_test\.go"
+  - "_test\\.go"
   - "test/e2e"

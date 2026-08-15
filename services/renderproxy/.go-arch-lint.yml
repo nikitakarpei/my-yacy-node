@@ -31,7 +31,6 @@ vendors:
     in:
       - github.com/chromedp/chromedp
       - github.com/chromedp/chromedp/**
-      - github.com/chromedp/cdproto/**
   cdproto:
     in: github.com/chromedp/cdproto/**
   prometheus:
@@ -48,6 +47,7 @@ deps:
   cdprender:
     canUse:
       - chromedp
+      - cdproto
     mayDependOn:
       - cdpdocumentbinding
   cdpdocumentbinding:

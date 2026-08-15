@@ -43,9 +43,6 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  natstestserver:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/natstestserver
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
@@ -75,24 +72,20 @@ deps:
     canUse:
       - pagemarkdownstore
       - nats
-      - natstestserver
   redirectresolversjetstream:
     canUse:
       - yacycrawlcontract
       - nats
-      - natstestserver
   disposedpagesjetstream:
     mayDependOn:
       - recall
     canUse:
       - yacycrawlcontract
       - nats
-      - natstestserver
   crawlorderplacersjetstream:
     canUse:
       - yacycrawlcontract
       - nats
-      - natstestserver
       - uuid
   recallreceiversgrpc:
     mayDependOn:
@@ -111,5 +104,5 @@ deps:
     anyVendorDeps: true
 
 excludeFiles:
-  - "_test\.go"
+  - "_test\\.go"
   - "test/e2e"

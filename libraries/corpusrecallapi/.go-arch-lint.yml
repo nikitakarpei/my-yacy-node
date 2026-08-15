@@ -30,4 +30,4 @@ deps:
       - protobuf
 
 excludeFiles:
-  - "_test\.go"
+  - "_test\\.go"
