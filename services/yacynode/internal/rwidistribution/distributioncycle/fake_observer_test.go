@@ -9,6 +9,7 @@ type fakeObserver struct {
 	postingsOffered       map[string]int
 	urlMetadataDeliveries map[string]int
 	urlsDelivered         map[string]int
+	urlsUnknownToUs       int
 	staleReplicasDropped  int
 	postingsHandedOff     int
 	gone                  int
@@ -41,6 +42,10 @@ func (f *fakeObserver) ObservePostingOffer(outcome string, postings int) {
 func (f *fakeObserver) ObserveURLMetadataDelivery(outcome string, urls int) {
 	f.urlMetadataDeliveries[outcome]++
 	f.urlsDelivered[outcome] += urls
+}
+
+func (f *fakeObserver) ObserveURLsUnknownToUs(urls int) {
+	f.urlsUnknownToUs += urls
 }
 
 func (f *fakeObserver) ObservePostingsGone(gone int) {

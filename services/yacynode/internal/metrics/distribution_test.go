@@ -39,6 +39,27 @@ rwidistribution_postings_offered_total{result="ok"} 5
 	}
 }
 
+func TestDistributionCountsURLsUnknownToUs(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	observer := metrics.NewDistributionMetrics(registry)
+
+	observer.ObserveURLsUnknownToUs(3)
+	observer.ObserveURLsUnknownToUs(2)
+
+	expected := `
+# HELP rwidistribution_urls_unknown_to_us_total URLs a peer asked for whose metadata this node does not hold, so no delivery carried them.
+# TYPE rwidistribution_urls_unknown_to_us_total counter
+rwidistribution_urls_unknown_to_us_total 5
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"rwidistribution_urls_unknown_to_us_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
 func TestDistributionCountsURLMetadataDeliveriesByResult(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	observer := metrics.NewDistributionMetrics(registry)

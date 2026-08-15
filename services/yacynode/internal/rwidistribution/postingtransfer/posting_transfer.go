@@ -18,6 +18,7 @@ import (
 type Observer interface {
 	ObservePostingOffer(outcome string, postings int)
 	ObserveURLMetadataDelivery(outcome string, urls int)
+	ObserveURLsUnknownToUs(urls int)
 }
 
 type OfferAnswer struct {
@@ -121,9 +122,7 @@ func (t *PostingTransfers) deliverURLMetadata(
 			slog.Int("unknownToPeer", len(urlsUnknownToPeer)),
 			slog.Int("unknownToUs", len(urlsUnknownToUs)),
 		)
-		t.observer.ObserveURLMetadataDelivery(
-			string(urlmetadatacourier.Unavailable), len(urlsUnknownToUs),
-		)
+		t.observer.ObserveURLsUnknownToUs(len(urlsUnknownToUs))
 	}
 	if len(metadata) == 0 {
 		return urlsUnknownToUs

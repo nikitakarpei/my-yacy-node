@@ -92,6 +92,7 @@ type fakeObserver struct {
 	postingsOffered       map[string]int
 	urlMetadataDeliveries map[string]int
 	urlsDelivered         map[string]int
+	urlsUnknownToUs       int
 }
 
 func newFakeObserver() *fakeObserver {
@@ -111,6 +112,10 @@ func (f *fakeObserver) ObservePostingOffer(outcome string, postings int) {
 func (f *fakeObserver) ObserveURLMetadataDelivery(outcome string, urls int) {
 	f.urlMetadataDeliveries[outcome]++
 	f.urlsDelivered[outcome] += urls
+}
+
+func (f *fakeObserver) ObserveURLsUnknownToUs(urls int) {
+	f.urlsUnknownToUs += urls
 }
 
 var reachableHost = func() yacymodel.Host {
@@ -271,10 +276,10 @@ func TestSendDeliversMetadataItHasWhenOneURLIsAbsent(t *testing.T) {
 			metadataCourier.delivered,
 		)
 	}
-	if observer.urlMetadataDeliveries[string(urlmetadatacourier.Unavailable)] != 1 {
+	if observer.urlsUnknownToUs != 1 {
 		t.Fatalf(
-			"observed url metadata deliveries = %+v, want 1 for outcome %q",
-			observer.urlMetadataDeliveries, urlmetadatacourier.Unavailable,
+			"observed urls unknown to us = %d, want the one url whose metadata this node lacks",
+			observer.urlsUnknownToUs,
 		)
 	}
 	if len(answer.AcceptedPostings) != 1 || answer.AcceptedPostings[0].URLHash != present {
