@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
@@ -53,7 +54,7 @@ type cycleHarness struct {
 	urls            fakeURLDirectory
 	observer        *fakeObserver
 	transfers       *postingtransfer.PostingTransfers
-	offerInterval   postingofferschedule.OfferInterval
+	offerInterval   postingofferinterval.Bounds
 	cycle           *distributioncycle.Cycle
 }
 
@@ -115,7 +116,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	)
 
 	courier, metadataCourier, transfers := openTransfers(opts, observer)
-	offerInterval := postingofferschedule.OfferInterval{Shortest: time.Minute, Longest: time.Hour}
+	offerInterval := postingofferinterval.Bounds{Shortest: time.Minute, Longest: time.Hour}
 	cycle := distributioncycle.New(
 		v,
 		offers,

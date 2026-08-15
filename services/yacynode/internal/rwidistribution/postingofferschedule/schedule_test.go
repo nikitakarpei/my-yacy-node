@@ -78,6 +78,73 @@ func TestPostingPurgedUnknownIsHarmless(t *testing.T) {
 	offers.purge(t, yacymodel.WordHash("absent"), urlHash("absent"))
 }
 
+func TestMetRedundancyForgetsTheWidenedInterval(t *testing.T) {
+	offers := openOffersWithPosting(t)
+
+	missRedundancy(t, offers)
+	missRedundancy(t, offers)
+	offers.clock = testStart
+	offers.meetRedundancy(t, testWord, urlHash("u1"))
+
+	if next := missRedundancy(t, offers); next != testInterval.Shortest {
+		t.Fatalf("next offer in %v, want %v once redundancy was met", next, testInterval.Shortest)
+	}
+}
+
+func openOffersWithPosting(t *testing.T) *postingOffers {
+	t.Helper()
+
+	offers := openOffers(t, testStart)
+	offers.store(t, testWord, urlHash("u1"))
+
+	return offers
+}
+
+func missRedundancy(t *testing.T, offers *postingOffers) time.Duration {
+	t.Helper()
+
+	offers.clock = testStart
+	offers.pauseOffer(t, testWord, urlHash("u1"), 0)
+
+	return nextOfferIn(t, offers)
+}
+
+func nextOfferIn(t *testing.T, offers *postingOffers) time.Duration {
+	t.Helper()
+
+	wellAfterAnyOffer := 24 * time.Hour
+	offers.clock = testStart.Add(wellAfterAnyOffer)
+	offers.schedule.ObserveBacklog(t.Context())
+
+	return wellAfterAnyOffer - offers.observed.lateness
+}
+
+func TestPurgedPostingReturnsToTheShortestOfferInterval(t *testing.T) {
+	offers := openOffersWithPosting(t)
+
+	missRedundancy(t, offers)
+	offers.purge(t, testWord, urlHash("u1"))
+	offers.store(t, testWord, urlHash("u1"))
+
+	if next := missRedundancy(t, offers); next != testInterval.Shortest {
+		t.Fatalf(
+			"next offer in %v, want %v after the posting was purged",
+			next,
+			testInterval.Shortest,
+		)
+	}
+}
+
+func TestAMissDoesNotScheduleAnUnscheduledPosting(t *testing.T) {
+	offers := openOffers(t, testStart)
+
+	missRedundancy(t, offers)
+
+	if due := offers.duePostingsAt(t, testStart.Add(time.Hour)); due != 0 {
+		t.Fatalf("due postings = %d, want 0 for an unscheduled posting", due)
+	}
+}
+
 func TestObserveCountsScheduledPostings(t *testing.T) {
 	offers := openOffers(t, testStart)
 
