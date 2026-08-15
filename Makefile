@@ -11,6 +11,13 @@ PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-craw
 
 COVER_PROFILE := coverage.out
 COVER_PATTERN := $(CURDIR)/tools/covignore-pattern
+COVER_GATE := $(CURDIR)/tools/gate-coverage
+# -count=1 because the test cache merges stale and fresh coverage under -coverpkg (golang/go#74873).
+COVER_FLAGS := -coverpkg=./... -count=1
+
+export GO COVERAGE_MIN COVER_PROFILE COVER_PATTERN COVER_FLAGS
+
+JOBS ?= $(shell nproc 2>/dev/null || echo 4)
 
 ARCH_DIAGRAM_DIR := $(CURDIR)/arch-diagrams
 
@@ -25,11 +32,10 @@ PY_VENV_STAMPS := $(foreach m,$(PY_MODULES),$(m)/.venv/.installed)
 
 define for_each_go
 echo "==> $(1)"; \
-for m in $(GO_MODULES); do \
-	if ! out=$$(cd $$m && $(2) 2>&1); then \
-		echo "==> $(1) $$m FAILED"; echo "$$out"; exit 1; \
-	fi; \
-done
+printf '%s\n' $(GO_MODULES) | xargs -P $(JOBS) -I{} sh -c \
+	'if ! out=$$(cd {} && $(2) 2>&1); then \
+		echo "==> $(1) {} FAILED"; echo "$$out"; exit 255; \
+	fi'
 endef
 
 define for_each_go_e2e
@@ -128,7 +134,7 @@ tidy-check-go-e2e:
 	@$(call for_each_go_e2e,tidy-check-go-e2e,$(GO) mod tidy -diff)
 
 lint-go: $(TOOLS_STAMP)
-	@$(call for_each_go,lint-go,$(GOLANGCI_LINT) run ./...)
+	@$(call for_each_go,lint-go,$(GOLANGCI_LINT) run --allow-parallel-runners ./...)
 
 lint-go-e2e: $(TOOLS_STAMP)
 	@$(call for_each_go_e2e,lint-go-e2e,$(GOLANGCI_LINT) run --build-tags e2e ./...)
@@ -151,28 +157,13 @@ build-go:
 cover-go:
 	@set -e; for m in $(GO_MODULES); do \
 		echo "==> cover $$m"; \
-		( cd $$m && $(GO) test -count=1 -coverpkg=./... -coverprofile=$(COVER_PROFILE) ./... && \
+		( cd $$m && $(GO) test $(COVER_FLAGS) -coverprofile=$(COVER_PROFILE) ./... && \
 			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
 			$(GO) tool cover -func=$(COVER_PROFILE).gated ); \
 	done
 
 cover-check-go:
-	@echo "==> cover-check-go"; \
-	for m in $(GO_MODULES); do \
-		if ! out=$$( cd $$m && rm -f $(COVER_PROFILE) $(COVER_PROFILE).gated && \
-			$(GO) test -count=1 -race -coverpkg=./... -coverprofile=$(COVER_PROFILE) ./... >/dev/null && \
-			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated || exit 1; \
-			stmts=$$(awk 'NR > 1 { sum += $$2 } END { print sum + 0 }' $(COVER_PROFILE).gated); \
-			if [ "$$stmts" -eq 0 ]; then echo "    no statements to cover"; exit 0; fi; \
-			total=$$($(GO) tool cover -func=$(COVER_PROFILE).gated | \
-				awk '/^total:/ { gsub(/%/, "", $$3); print $$3 }'); \
-			echo "    total: $${total:-0}%"; \
-			awk -v c="$${total:-0}" -v min="$(COVERAGE_MIN)" \
-				'BEGIN { if (c + 0 < min + 0) { exit 1 } }' || \
-				{ echo "coverage $${total:-0}% below $(COVERAGE_MIN)% in $$m"; exit 1; } ) 2>&1; then \
-			echo "==> cover-check-go $$m FAILED"; echo "$$out"; exit 1; \
-		fi; \
-	done
+	@$(call for_each_go,cover-check-go,$(COVER_GATE))
 
 # ---- Python stack ----
 
@@ -198,7 +189,9 @@ cover-check-py: $(PY_VENV_STAMPS)
 
 lint-md: $(TOOLS_STAMP)
 	@echo "==> lint-md"
-	@git ls-files -z '*.md' | xargs -0 $(MADO) check
+	@if ! out=$$(git ls-files -z '*.md' | xargs -0 $(MADO) check 2>&1); then \
+		echo "$$out"; exit 1; \
+	fi
 
 # ---- misc ----
 
