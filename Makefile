@@ -80,7 +80,7 @@ test:        test-go test-py
 cover:       cover-go cover-py
 cover-check: cover-check-go cover-check-py
 build:       build-go
-verify:      fmt-check tidy-check lint arch test cover-check build
+verify:      fmt-check tidy-check lint arch cover-check build
 	@echo "==> verify SUCCESS"
 
 $(TOOLS_STAMP): tools/install tools/tools.lock
