@@ -52,10 +52,10 @@ func TestCrawlRuntimeConsumesIngestBatch(t *testing.T) {
 	received := make(chan struct{})
 	storage.urlReceiver = receiveSignal{URLReceiver: storage.urlReceiver, received: received}
 
-	cfg := crawlConfig{
+	cfg := CrawlConfig{
 		NATSURL:       natstestserver.Start(t),
-		IngestSubject: defaultIngestSubject,
-		IngestDurable: defaultIngestDurable,
+		IngestSubject: DefaultIngestSubject,
+		IngestDurable: DefaultIngestDurable,
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -99,7 +99,7 @@ func TestCrawlRuntimeConsumesIngestBatch(t *testing.T) {
 	runtime.Close()
 }
 
-func createCrawlerStreams(t *testing.T, ctx context.Context, cfg crawlConfig) {
+func createCrawlerStreams(t *testing.T, ctx context.Context, cfg CrawlConfig) {
 	t.Helper()
 	js := natstestserver.ConnectJetStream(t, cfg.NATSURL)
 	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
@@ -118,7 +118,7 @@ func createCrawlerStreams(t *testing.T, ctx context.Context, cfg crawlConfig) {
 func publishIngestChunk(
 	t *testing.T,
 	ctx context.Context,
-	cfg crawlConfig,
+	cfg CrawlConfig,
 	chunk yacycrawlcontract.PageRWIMetadataChunk,
 ) {
 	t.Helper()

@@ -38,7 +38,7 @@ type node struct {
 //nolint:revive // argument-limit: explicit, independently-meaningful collaborators
 func assembleNode(
 	ctx context.Context,
-	config nodeConfig,
+	config NodeConfig,
 	vault *vault.Vault,
 	client *http.Client,
 	offerObserver *metrics.DistributionMetrics,
@@ -113,7 +113,7 @@ func assembleNode(
 	}, nil
 }
 
-func dhtRingPartitionsOf(config nodeConfig) (yacymodel.DHTRingPartitions, error) {
+func dhtRingPartitionsOf(config NodeConfig) (yacymodel.DHTRingPartitions, error) {
 	partitions, err := yacymodel.DHTRingPartitionsFromExponent(
 		config.Distribution.PartitionExponent,
 	)
@@ -126,7 +126,7 @@ func dhtRingPartitionsOf(config nodeConfig) (yacymodel.DHTRingPartitions, error)
 
 func wireRouterOn(
 	mux *http.ServeMux,
-	config nodeConfig,
+	config NodeConfig,
 	status nodestatus.RuntimeStatus,
 ) httpguard.WireRouter {
 	return httpguard.NewWireRouter(mux, httpguard.WireGate{

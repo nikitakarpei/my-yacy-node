@@ -18,7 +18,7 @@ import (
 )
 
 type distributionCycle struct {
-	config     nodeConfig
+	config     NodeConfig
 	self       yacymodel.Hash
 	storage    nodeStorage
 	roster     peerroster.Roster

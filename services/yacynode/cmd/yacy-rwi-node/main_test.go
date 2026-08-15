@@ -16,26 +16,26 @@ import (
 )
 
 func TestRunRejectsInvalidConfig(t *testing.T) {
-	t.Setenv(envPeerHash, "")
+	t.Setenv(EnvPeerHash, "")
 	if err := run(); err == nil {
 		t.Fatal("expected error for missing config")
 	}
 }
 
-func testConfig(t *testing.T) nodeConfig {
+func testConfig(t *testing.T) NodeConfig {
 	t.Helper()
 
-	config, err := loadNodeConfig(func(key string) string {
+	config, err := LoadNodeConfig(func(key string) string {
 		switch key {
-		case envPeerHash:
+		case EnvPeerHash:
 			return "0123456789AB"
-		case envPeerName:
+		case EnvPeerName:
 			return "node"
-		case envAdvertiseHost:
+		case EnvAdvertiseHost:
 			return "203.0.113.1"
-		case envDataDir:
+		case EnvDataDir:
 			return t.TempDir()
-		case envProxyURL:
+		case EnvProxyURL:
 			return "http://proxy:4750"
 		default:
 			return ""
@@ -60,7 +60,7 @@ func openTestVault(t *testing.T) *vault.Vault {
 	return v
 }
 
-func assembleTestNode(t *testing.T, config nodeConfig, vault *vault.Vault) node {
+func assembleTestNode(t *testing.T, config NodeConfig, vault *vault.Vault) node {
 	t.Helper()
 
 	assembled, err := assembleNode(

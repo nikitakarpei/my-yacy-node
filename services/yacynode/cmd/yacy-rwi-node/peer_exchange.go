@@ -19,7 +19,7 @@ type peerExchange struct {
 	router         httpguard.WireRouter
 	identity       nodeidentity.Identity
 	status         nodestatus.RuntimeStatus
-	config         nodeConfig
+	config         NodeConfig
 	vault          *vault.Vault
 	client         *http.Client
 	rosterObserver peerroster.RosterObserver

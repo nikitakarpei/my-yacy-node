@@ -58,7 +58,7 @@ func run() error {
 		return fmt.Errorf("configure logging: %w", err)
 	}
 
-	config, err := loadNodeConfig(os.Getenv)
+	config, err := LoadNodeConfig(os.Getenv)
 	if err != nil {
 		return fmt.Errorf("load node config: %w", err)
 	}
