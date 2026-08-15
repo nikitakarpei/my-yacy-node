@@ -22,7 +22,7 @@ Single source of truth: every fact lives in exactly one place — a constant, co
 
 Comments: only the forms allowed here, plus any the user approves for a specific change. Use naming and structure instead. Allowed: godoc package docs, and `// TECHDEBT:` markers.
 
-Tech debt: when you read code that breaks a rule in this file, mark it where you found it with a single `// TECHDEBT: <which rule, and what breaks it>` line, even when the file is outside the task. Mark it once, on the declaration that owns the violation. Never mark code you are already changing — fix that instead.
+Tech debt: when you read code that breaks a rule in this file, mark it where you found it with a single `// TECHDEBT: <which rule, and what breaks it>` line, even when the file is outside the task. A marker names the rule and the breach, never a remedy. Mark it once, on the declaration that owns the violation. Never mark code you are already changing — fix that instead.
 
 Docs: each doc is self-contained, at most 80 lines unless the user approves an exception, with paragraphs of at most five lines, written in ASD-STE100 Simplified Technical English. It covers only what someone using the system needs — no implementation detail, no rationale — and every sentence must be true against the running system.
 
