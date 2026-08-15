@@ -1,46 +1,113 @@
-package urlmeta
+package urlmeta_test
 
 import (
 	"context"
+	"io"
+	"net/http"
+	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-func (m urlPorts) endpoint() transferURLEndpoint {
-	return transferURLEndpoint{identity: localIdentity(), intake: m.Receiver}
+type stubRuntimeStatus struct{}
+
+func (stubRuntimeStatus) Version(context.Context) string { return "1.0" }
+
+func (stubRuntimeStatus) Uptime(context.Context) int { return 0 }
+
+func muxWith(t *testing.T, receiver urlmeta.URLReceiver) *http.ServeMux {
+	t.Helper()
+
+	mux := http.NewServeMux()
+	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
+		Guard: httpguard.NewRequestGuard(
+			httpguard.DefaultMaxBodyBytes,
+			httpguard.DefaultRequestTimeout,
+		),
+		Respond: httpguard.NewWireResponder(stubRuntimeStatus{}),
+		Address: httpguard.NewClientAddressResolver(nil),
+	})
+	urlmeta.MountTransferURL(router, localIdentity(), receiver)
+
+	return mux
+}
+
+func transferURL(
+	t *testing.T,
+	mux *http.ServeMux,
+	req yacyproto.TransferURLRequest,
+) yacyproto.TransferURLResponse {
+	t.Helper()
+
+	rec := httptest.NewRecorder()
+	httpReq := httptest.NewRequestWithContext(
+		context.Background(),
+		http.MethodPost,
+		yacyproto.PathTransferURL,
+		strings.NewReader(req.Form().Encode()),
+	)
+	httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	mux.ServeHTTP(rec, httpReq)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200, body = %q", rec.Code, rec.Body.String())
+	}
+
+	body, err := io.ReadAll(rec.Body)
+	if err != nil {
+		t.Fatalf("read body: %v", err)
+	}
+
+	resp, err := yacyproto.ParseTransferURLResponse(yacyproto.ParseMessage(string(body)))
+	if err != nil {
+		t.Fatalf("ParseTransferURLResponse: %v", err)
+	}
+
+	return resp
 }
 
 func TestTransferURLStoresAndAnswers(t *testing.T) {
 	module := openModule(t, 0)
+	mux := muxWith(t, module.Receiver)
 
-	req := yacyproto.TransferURLRequest{
+	resp := transferURL(t, mux, yacyproto.TransferURLRequest{
 		NetworkName: "freeworld",
 		YouAre:      localIdentity().Hash,
 		URLCount:    1,
 		URLs:        []yacymodel.URLMetadata{urlMetadata("a")},
-	}
+	})
 
-	resp, err := module.endpoint().Serve(context.Background(), req)
-	if err != nil {
-		t.Fatalf("Serve: %v", err)
-	}
 	if resp.Result != yacyproto.TransferURLResult(yacyproto.ResultOK) {
 		t.Fatalf("Result = %q, want ok", resp.Result)
+	}
+
+	count, err := module.Directory.Count(context.Background())
+	if err != nil {
+		t.Fatalf("Count: %v", err)
+	}
+	if count != 1 {
+		t.Fatalf("Count = %d, want the transferred url stored", count)
 	}
 }
 
 func TestTransferURLRejectsWrongNetwork(t *testing.T) {
 	module := openModule(t, 0)
+	mux := muxWith(t, module.Receiver)
 
-	req := yacyproto.TransferURLRequest{NetworkName: "othernet", YouAre: localIdentity().Hash}
+	resp := transferURL(t, mux, yacyproto.TransferURLRequest{
+		NetworkName: "othernetwork",
+		YouAre:      localIdentity().Hash,
+		URLCount:    1,
+		URLs:        []yacymodel.URLMetadata{urlMetadata("a")},
+	})
 
-	resp, err := module.endpoint().Serve(context.Background(), req)
-	if err != nil {
-		t.Fatalf("Serve: %v", err)
-	}
 	if resp.Result != yacyproto.TransferURLResult(yacyproto.ResultWrongTarget) {
-		t.Fatalf("Result = %q, want wrong_target", resp.Result)
+		t.Fatalf("Result = %q, want wrong target", resp.Result)
 	}
 }
