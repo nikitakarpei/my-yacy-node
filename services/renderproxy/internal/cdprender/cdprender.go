@@ -14,11 +14,12 @@ import (
 type Renderer struct {
 	allocatorCtx context.Context
 	allocatorEnd context.CancelFunc
+	maxBytes     int64
 }
 
-func New(ctx context.Context, cdpURL string) *Renderer {
+func New(ctx context.Context, cdpURL string, maxBytes int64) *Renderer {
 	allocatorCtx, allocatorEnd := chromedp.NewRemoteAllocator(ctx, cdpURL)
-	return &Renderer{allocatorCtx: allocatorCtx, allocatorEnd: allocatorEnd}
+	return &Renderer{allocatorCtx: allocatorCtx, allocatorEnd: allocatorEnd, maxBytes: maxBytes}
 }
 
 func (r *Renderer) Close() {
@@ -50,7 +51,7 @@ func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.P
 		)
 	}
 
-	body, err := extractDocumentBody(tabCtx, document.RequestID, document.ContentType)
+	body, err := serializedDocumentWithinLimit(tabCtx, r.maxBytes)
 	if err != nil {
 		if ctxErr := ctx.Err(); ctxErr != nil {
 			return renderedpage.Page{}, fmt.Errorf("render %s: %w", targetURL, ctxErr)

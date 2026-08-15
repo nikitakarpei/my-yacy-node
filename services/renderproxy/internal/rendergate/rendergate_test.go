@@ -58,23 +58,24 @@ func (m *stubMetrics) RenderFailed(reason string) {
 
 func (m *stubMetrics) RenderObserved(time.Duration) {}
 
-func TestRenderFailsWhenPageTooLarge(t *testing.T) {
-	inner := &stubRenderer{page: renderedpage.Page{Body: make([]byte, 100)}}
+func TestRenderReportsTooLargeWhenTheRendererRefusesAnOversizedPage(t *testing.T) {
+	inner := &stubRenderer{err: fmt.Errorf("render: %w", renderedpage.ErrTooLarge)}
 	metrics := &stubMetrics{}
-	gated := rendergate.New(inner, 1, time.Second, 10, metrics)
+	gated := rendergate.New(inner, 1, time.Second, metrics)
 
 	if _, err := gated.Render(context.Background(), "http://example.com"); err == nil {
 		t.Fatal("expected error for oversized page")
 	}
-	if metrics.failed.Load() != 1 {
-		t.Fatalf("failed count = %d, want 1", metrics.failed.Load())
+	reason := metrics.failedReason.Load()
+	if reason == nil || *reason != rendergate.ReasonTooLarge {
+		t.Fatalf("failure reason = %v, want %s", reason, rendergate.ReasonTooLarge)
 	}
 }
 
 func TestRenderAppliesDeadline(t *testing.T) {
 	inner := &stubRenderer{delay: 50 * time.Millisecond}
 	metrics := &stubMetrics{}
-	gated := rendergate.New(inner, 1, 5*time.Millisecond, 1024, metrics)
+	gated := rendergate.New(inner, 1, 5*time.Millisecond, metrics)
 
 	_, err := gated.Render(context.Background(), "http://example.com")
 	if !errors.Is(err, context.DeadlineExceeded) {
@@ -85,7 +86,7 @@ func TestRenderAppliesDeadline(t *testing.T) {
 func TestRenderPropagatesInnerError(t *testing.T) {
 	inner := &stubRenderer{err: errors.New("boom")}
 	metrics := &stubMetrics{}
-	gated := rendergate.New(inner, 1, time.Second, 1024, metrics)
+	gated := rendergate.New(inner, 1, time.Second, metrics)
 
 	if _, err := gated.Render(context.Background(), "http://example.com"); err == nil {
 		t.Fatal("expected error")
@@ -117,7 +118,7 @@ func gateWithSlotHeld(
 
 	metrics := &stubMetrics{}
 	inner := &blockingRenderer{entered: make(chan struct{}), release: make(chan struct{})}
-	gated := rendergate.New(inner, 1, time.Second, 1024, metrics)
+	gated := rendergate.New(inner, 1, time.Second, metrics)
 
 	var held sync.WaitGroup
 	held.Go(func() {
