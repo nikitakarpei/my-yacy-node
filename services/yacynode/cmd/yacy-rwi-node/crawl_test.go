@@ -11,6 +11,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 type receiveSignal struct {
@@ -39,9 +41,21 @@ func (discardedScheduleObservations) ObserveScheduledPostings(int) {}
 
 func (discardedScheduleObservations) ObserveLongestOfferLateness(time.Duration) {}
 
+func openCrawlTestVault(t *testing.T) *vault.Vault {
+	t.Helper()
+
+	opened, err := memory.Open(0, nil)
+	if err != nil {
+		t.Fatalf("open storage: %v", err)
+	}
+	t.Cleanup(func() { _ = opened.Close() })
+
+	return opened
+}
+
 func TestCrawlRuntimeConsumesIngestBatch(t *testing.T) {
 	storage, err := openNodeStorage(
-		openTestVault(t),
+		openCrawlTestVault(t),
 		time.Now,
 		discardedHolds{},
 		discardedScheduleObservations{},
