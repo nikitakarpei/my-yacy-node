@@ -30,18 +30,29 @@ func (c *Corpus) RepresentationOf(
 	ctx context.Context,
 	resolvedURL string,
 ) (recall.Representation, bool, error) {
-	pageMarkdown, err := c.objects.GetBytes(ctx, pagemarkdownstore.ObjectName(resolvedURL))
+	objectName := pagemarkdownstore.ObjectName(resolvedURL)
+
+	info, err := c.objects.GetInfo(ctx, objectName)
+	if errors.Is(err, jetstream.ErrObjectNotFound) {
+		return nil, false, nil
+	}
+	if err != nil {
+		return nil, false, fmt.Errorf("get markdown info for %q: %w", resolvedURL, err)
+	}
+	if c.maxBytes >= 0 && info.Size > uint64(c.maxBytes) {
+		return nil, false, fmt.Errorf(
+			"markdown for %q is %d bytes, exceeding limit %d",
+			resolvedURL, info.Size, c.maxBytes,
+		)
+	}
+
+	// Best effort: no revision-pinned read exists, so the object may change between the calls.
+	pageMarkdown, err := c.objects.GetBytes(ctx, objectName)
 	if errors.Is(err, jetstream.ErrObjectNotFound) {
 		return nil, false, nil
 	}
 	if err != nil {
 		return nil, false, fmt.Errorf("get markdown for %q: %w", resolvedURL, err)
-	}
-	if int64(len(pageMarkdown)) > c.maxBytes {
-		return nil, false, fmt.Errorf(
-			"markdown for %q is %d bytes, exceeding limit %d",
-			resolvedURL, len(pageMarkdown), c.maxBytes,
-		)
 	}
 	return markdown.Page{CanonicalURL: resolvedURL, Markdown: string(pageMarkdown)}, true, nil
 }

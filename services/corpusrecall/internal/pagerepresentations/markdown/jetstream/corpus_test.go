@@ -2,6 +2,8 @@ package jetstream_test
 
 import (
 	"context"
+	"runtime"
+	"strings"
 	"testing"
 
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
@@ -76,27 +78,31 @@ func TestRepresentationIsMissingWhenTheCorpusHoldsNoMarkdown(t *testing.T) {
 }
 
 func TestRepresentationFailsWhenTheMarkdownExceedsTheResponseLimit(t *testing.T) {
-	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	store, err := js.CreateOrUpdateObjectStore(
-		context.Background(),
-		natsjetstream.ObjectStoreConfig{
-			Bucket: pagemarkdownstore.BucketName,
-		},
-	)
-	if err != nil {
-		t.Fatalf("create page markdown bucket: %v", err)
-	}
-	if _, err := store.PutBytes(
-		context.Background(), pagemarkdownstore.ObjectName(crawledURL), []byte(crawledMarkdown),
-	); err != nil {
-		t.Fatalf("store markdown: %v", err)
-	}
+	corpus := storedMarkdown(t, strings.Repeat("a", responseLimit+1))
 
-	_, _, err = markdownjetstream.NewCorpus(store, 1).
-		RepresentationOf(context.Background(), crawledURL)
+	if _, _, err := corpus.RepresentationOf(context.Background(), crawledURL); err == nil {
+		t.Fatal("expected an error for markdown beyond the response limit")
+	}
+}
+
+func TestMarkdownBeyondTheResponseLimitIsNeverHeldInMemory(t *testing.T) {
+	const oversizedBytes = 8 << 20
+	corpus := storedMarkdown(t, strings.Repeat("a", oversizedBytes))
+
+	var beforeRecall, afterRecall runtime.MemStats
+	runtime.ReadMemStats(&beforeRecall)
+	_, _, err := corpus.RepresentationOf(context.Background(), crawledURL)
+	runtime.ReadMemStats(&afterRecall)
 
 	if err == nil {
 		t.Fatal("expected an error for markdown beyond the response limit")
+	}
+	allocated := afterRecall.TotalAlloc - beforeRecall.TotalAlloc
+	if allocated > oversizedBytes/4 {
+		t.Fatalf(
+			"refusing %d bytes of markdown allocated %d bytes, want far less",
+			oversizedBytes, allocated,
+		)
 	}
 }
 
