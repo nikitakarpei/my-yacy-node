@@ -63,8 +63,6 @@ func run() error {
 		return fmt.Errorf("load node config: %w", err)
 	}
 
-	config.Crawl = loadCrawlConfig(os.Getenv)
-
 	client := newEgressProxyClient(config.ProxyURL, outboundRequestTimeout)
 
 	registry := prometheus.NewRegistry()

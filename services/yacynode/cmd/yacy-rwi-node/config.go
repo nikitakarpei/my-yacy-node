@@ -173,6 +173,7 @@ func loadNodeConfig(getenv func(string) string) (nodeConfig, error) {
 		KnownRosterCapacity:     peering.KnownRosterCapacity,
 		ReachableRosterCapacity: peering.ReachableRosterCapacity,
 		Distribution:            peering.Distribution,
+		Crawl:                   loadCrawlConfig(getenv),
 	}, nil
 }
 

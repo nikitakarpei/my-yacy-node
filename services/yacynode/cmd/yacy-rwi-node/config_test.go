@@ -38,22 +38,50 @@ func TestLoadNodeConfigAppliesDefaults(t *testing.T) {
 	if config.StorageQuotaByte != 1<<30 {
 		t.Errorf("StorageQuotaByte = %d, want 1GB", config.StorageQuotaByte)
 	}
+	if config.Crawl.Enabled() {
+		t.Errorf("Crawl = %+v, want disabled without a broker", config.Crawl)
+	}
+}
+
+func TestLoadNodeConfigDefaultsTheCrawlSubjectAndDurable(t *testing.T) {
+	config, err := loadNodeConfig(envFrom(map[string]string{
+		envPeerHash: "0123456789AB",
+		envPeerName: "node",
+		envProxyURL: "http://proxy:4750",
+		envNATSURL:  "nats://localhost:4222",
+	}))
+	if err != nil {
+		t.Fatalf("load config: %v", err)
+	}
+
+	if !config.Crawl.Enabled() {
+		t.Fatalf("Crawl = %+v, want enabled by the broker url", config.Crawl)
+	}
+	if config.Crawl.IngestSubject != defaultIngestSubject {
+		t.Errorf("IngestSubject = %q, want %q", config.Crawl.IngestSubject, defaultIngestSubject)
+	}
+	if config.Crawl.IngestDurable != defaultIngestDurable {
+		t.Errorf("IngestDurable = %q, want %q", config.Crawl.IngestDurable, defaultIngestDurable)
+	}
 }
 
 func TestLoadNodeConfigReadsOverrides(t *testing.T) {
 	config, err := loadNodeConfig(envFrom(map[string]string{
-		envPeerHash:         "0123456789AB",
-		envPeerName:         "node",
-		envProxyURL:         "http://proxy:4750",
-		envNetworkName:      "testnet",
-		envPeerAddr:         ":7000",
-		envOpsAddr:          ":7001",
-		envAdvertiseHost:    "203.0.113.1",
-		envAdvertisePort:    "9999",
-		envStorageQuota:     "2MB",
-		envTrustedProxies:   "10.0.0.0/8",
-		envSeedlistURLs:     " http://a , http://b ,",
-		envAnnounceInterval: "30s",
+		envPeerHash:          "0123456789AB",
+		envPeerName:          "node",
+		envProxyURL:          "http://proxy:4750",
+		envNetworkName:       "testnet",
+		envPeerAddr:          ":7000",
+		envOpsAddr:           ":7001",
+		envAdvertiseHost:     "203.0.113.1",
+		envAdvertisePort:     "9999",
+		envStorageQuota:      "2MB",
+		envTrustedProxies:    "10.0.0.0/8",
+		envSeedlistURLs:      " http://a , http://b ,",
+		envAnnounceInterval:  "30s",
+		envNATSURL:           "nats://broker:4222",
+		envNATSIngestSubject: "ingest.subject",
+		envNATSIngestDurable: "ingest-durable",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -76,6 +104,10 @@ func TestLoadNodeConfigReadsOverrides(t *testing.T) {
 	}
 	if config.AnnounceInterval != 30*time.Second {
 		t.Errorf("AnnounceInterval = %v, want 30s", config.AnnounceInterval)
+	}
+	if config.Crawl.IngestSubject != "ingest.subject" ||
+		config.Crawl.IngestDurable != "ingest-durable" {
+		t.Errorf("Crawl = %+v, want the named subject and durable", config.Crawl)
 	}
 }
 
