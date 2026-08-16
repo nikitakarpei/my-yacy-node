@@ -47,6 +47,26 @@ func TestRunNodeReportsAnUnusableListenAddress(t *testing.T) {
 	}
 }
 
+func TestRunNodeReportsAnUnreachableCrawlBroker(t *testing.T) {
+	config := nodeConfigFor(t)
+	config.Crawl = nodeconfiguration.CrawlConfig{
+		NATSURL:       "nats://127.0.0.1:1",
+		IngestSubject: nodeconfiguration.DefaultIngestSubject,
+		IngestDurable: nodeconfiguration.DefaultIngestDurable,
+	}
+
+	node := startNode(t, config)
+	defer node.stop()
+
+	err := node.wait(t)
+	if err == nil {
+		t.Fatal("RunNode returned nil, want the broker failure")
+	}
+	if !strings.Contains(err.Error(), "crawl broker") {
+		t.Fatalf("RunNode: %v, want a crawl broker failure", err)
+	}
+}
+
 func TestServedPeerRequestsAreCountedByEndpointAndStatus(t *testing.T) {
 	node := startNode(t, nodeConfigFor(t))
 	defer node.stop()
@@ -253,35 +273,6 @@ func (n runningNode) hello(t *testing.T, req yacyproto.HelloRequest) yacyproto.H
 	)
 	if err != nil {
 		t.Fatalf("ParseHelloResponse: %v", err)
-	}
-
-	return parsed
-}
-
-func (n runningNode) query(t *testing.T, object yacyproto.QueryObject) yacyproto.QueryResponse {
-	t.Helper()
-
-	n.awaitReady(t)
-
-	req := yacyproto.QueryRequest{
-		NetworkName: nodeNetwork,
-		YouAre:      nodeHash(t),
-		Iam:         callerSeed(t).Hash,
-		Object:      object,
-	}
-	status, body := n.answerTo(
-		t,
-		http.MethodPost,
-		"http://"+n.peerAddr+yacyproto.PathQuery,
-		strings.NewReader(req.Form().Encode()),
-	)
-	if status != http.StatusOK {
-		t.Fatalf("query status = %d, want 200, body = %q", status, body)
-	}
-
-	parsed, err := yacyproto.ParseQueryResponse(yacyproto.ParseMessage(body))
-	if err != nil {
-		t.Fatalf("ParseQueryResponse: %v", err)
 	}
 
 	return parsed
