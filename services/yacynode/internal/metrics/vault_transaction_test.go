@@ -55,16 +55,16 @@ func TestVaultTransactionCountsOutcomes(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	transactions := metrics.NewVaultTransactionMetrics(registry)
 
-	transactions.ObserveWriteCommitted(time.Millisecond, 2*time.Millisecond)
+	transactions.ObserveWriteCommitted(time.Millisecond, 2*time.Millisecond, true)
 	transactions.ObserveWriteAborted(time.Millisecond, time.Millisecond)
 	transactions.ObserveWriteCommitRefused(time.Millisecond, time.Millisecond, "no_space")
 
 	expected := `
 # HELP vault_write_transactions_total Vault write transactions that opened, by how they ended.
 # TYPE vault_write_transactions_total counter
-vault_write_transactions_total{cause="",outcome="aborted"} 1
-vault_write_transactions_total{cause="",outcome="committed"} 1
-vault_write_transactions_total{cause="no_space",outcome="refused"} 1
+vault_write_transactions_total{called_write_operation="",cause="",outcome="aborted"} 1
+vault_write_transactions_total{called_write_operation="",cause="no_space",outcome="refused"} 1
+vault_write_transactions_total{called_write_operation="true",cause="",outcome="committed"} 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
@@ -100,6 +100,29 @@ vault_write_transactions_total{cause="no_space",outcome="refused"} 1
 		"execute",
 	); count != 3 {
 		t.Errorf("execute duration count = %d, want 3", count)
+	}
+}
+
+func TestVaultTransactionSeparatesCommitsThatCalledNoWriteOperation(t *testing.T) {
+	registry := prometheus.NewRegistry()
+	transactions := metrics.NewVaultTransactionMetrics(registry)
+
+	transactions.ObserveWriteCommitted(time.Millisecond, time.Millisecond, true)
+	transactions.ObserveWriteCommitted(time.Millisecond, time.Millisecond, false)
+	transactions.ObserveWriteCommitted(time.Millisecond, time.Millisecond, false)
+
+	expected := `
+# HELP vault_write_transactions_total Vault write transactions that opened, by how they ended.
+# TYPE vault_write_transactions_total counter
+vault_write_transactions_total{called_write_operation="false",cause="",outcome="committed"} 2
+vault_write_transactions_total{called_write_operation="true",cause="",outcome="committed"} 1
+`
+	if err := testutil.GatherAndCompare(
+		registry,
+		strings.NewReader(expected),
+		"vault_write_transactions_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 

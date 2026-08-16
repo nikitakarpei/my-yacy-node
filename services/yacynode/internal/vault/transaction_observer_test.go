@@ -13,6 +13,7 @@ type recordingObserver struct {
 	begins        int
 	beginRefusals []vault.WriteRefusalCause
 	committed     int
+	writing       int
 	aborted       int
 	refused       int
 	refusalCauses []vault.WriteRefusalCause
@@ -32,8 +33,11 @@ func (o *recordingObserver) ObserveWriteBeginRefused(cause vault.WriteRefusalCau
 	o.beginRefusals = append(o.beginRefusals, cause)
 }
 
-func (o *recordingObserver) ObserveWriteCommitted(_, _ time.Duration) {
+func (o *recordingObserver) ObserveWriteCommitted(_, _ time.Duration, calledWriteOperation bool) {
 	o.committed++
+	if calledWriteOperation {
+		o.writing++
+	}
 	o.executeCount++
 	o.closeCount++
 }
@@ -122,6 +126,84 @@ func TestCommittedWriteReportsBeginAndCommit(t *testing.T) {
 	if observer.aborted != 0 || observer.refused != 0 {
 		t.Errorf("aborted = %d, refused = %d, want 0 and 0", observer.aborted, observer.refused)
 	}
+}
+
+func TestCommittedWriteThatStoresReportsWriteOperation(t *testing.T) {
+	v, observer, words := openObservedWords(t)
+
+	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
+		return words.Put(tx, "a", "alpha")
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+
+	if observer.committed != 1 || observer.writing != 1 {
+		t.Errorf(
+			"committed = %d, writing = %d, want 1 and 1",
+			observer.committed,
+			observer.writing,
+		)
+	}
+}
+
+func TestCommittedWriteThatOnlyReadsReportsNoWriteOperation(t *testing.T) {
+	v, observer, words := openObservedWords(t)
+
+	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
+		_, _, err := words.Get(tx, "a")
+
+		return err
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+
+	if observer.committed != 1 || observer.writing != 0 {
+		t.Errorf(
+			"committed = %d, writing = %d, want 1 and 0",
+			observer.committed,
+			observer.writing,
+		)
+	}
+}
+
+func TestCommittedWriteDeletingAbsentKeyReportsWriteOperation(t *testing.T) {
+	v, observer, words := openObservedWords(t)
+
+	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
+		_, err := words.Delete(tx, "a")
+
+		return err
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+
+	if observer.committed != 1 || observer.writing != 1 {
+		t.Errorf(
+			"committed = %d, writing = %d, want 1 and 1",
+			observer.committed,
+			observer.writing,
+		)
+	}
+}
+
+func openObservedWords(
+	t *testing.T,
+) (*vault.Vault, *recordingObserver, *vault.Collection[string, string]) {
+	t.Helper()
+
+	v, observer := openObserved(t, newDoubleEngine())
+
+	words, err := vault.RegisterCollection(
+		v,
+		vault.Name("words"),
+		stringKeyCodec{},
+		stringValueCodec{},
+	)
+	if err != nil {
+		t.Fatalf("RegisterCollection: %v", err)
+	}
+
+	return v, observer, words
 }
 
 func TestAbortedClosureReportsAborted(t *testing.T) {

@@ -5,7 +5,7 @@ import "time"
 type TransactionObserver interface {
 	ObserveWriteBegan(elapsed time.Duration)
 	ObserveWriteBeginRefused(cause WriteRefusalCause)
-	ObserveWriteCommitted(executed, committed time.Duration)
+	ObserveWriteCommitted(executed, committed time.Duration, calledWriteOperation bool)
 	ObserveWriteAborted(executed, rolledBack time.Duration)
 	ObserveWriteCommitRefused(executed, rolledBack time.Duration, cause WriteRefusalCause)
 	ObserveReadBegan()
@@ -18,7 +18,7 @@ func (silentObserver) ObserveWriteBegan(time.Duration) {}
 
 func (silentObserver) ObserveWriteBeginRefused(WriteRefusalCause) {}
 
-func (silentObserver) ObserveWriteCommitted(time.Duration, time.Duration) {}
+func (silentObserver) ObserveWriteCommitted(time.Duration, time.Duration, bool) {}
 
 func (silentObserver) ObserveWriteAborted(time.Duration, time.Duration) {}
 

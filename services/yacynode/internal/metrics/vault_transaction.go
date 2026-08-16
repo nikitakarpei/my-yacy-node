@@ -1,6 +1,7 @@
 package metrics
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -9,9 +10,10 @@ import (
 )
 
 const (
-	labelWritePhase   = "phase"
-	labelWriteOutcome = "outcome"
-	labelWriteCause   = "cause"
+	labelWritePhase           = "phase"
+	labelWriteOutcome         = "outcome"
+	labelWriteCause           = "cause"
+	labelWriteCalledOperation = "called_write_operation"
 
 	phaseExecute  = "execute"
 	phaseCommit   = "commit"
@@ -57,7 +59,7 @@ func NewVaultTransactionMetrics(registry prometheus.Registerer) *VaultTransactio
 				Name: "vault_write_transactions_total",
 				Help: "Vault write transactions that opened, by how they ended.",
 			},
-			[]string{labelWriteOutcome, labelWriteCause},
+			[]string{labelWriteOutcome, labelWriteCause, labelWriteCalledOperation},
 		),
 		readsInFlight: prometheus.NewGauge(prometheus.GaugeOpts{
 			Name: "vault_reads_in_flight",
@@ -83,16 +85,23 @@ func (m *VaultTransactionMetrics) ObserveWriteBeginRefused(cause vault.WriteRefu
 	m.beginRefusals.WithLabelValues(string(cause)).Inc()
 }
 
-func (m *VaultTransactionMetrics) ObserveWriteCommitted(executed, committed time.Duration) {
+func (m *VaultTransactionMetrics) ObserveWriteCommitted(
+	executed, committed time.Duration,
+	calledWriteOperation bool,
+) {
 	m.durations.WithLabelValues(phaseExecute).Observe(executed.Seconds())
 	m.durations.WithLabelValues(phaseCommit).Observe(committed.Seconds())
-	m.transactions.WithLabelValues(outcomeCommitted, "").Inc()
+	m.transactions.WithLabelValues(
+		outcomeCommitted,
+		"",
+		strconv.FormatBool(calledWriteOperation),
+	).Inc()
 }
 
 func (m *VaultTransactionMetrics) ObserveWriteAborted(executed, rolledBack time.Duration) {
 	m.durations.WithLabelValues(phaseExecute).Observe(executed.Seconds())
 	m.durations.WithLabelValues(phaseRollback).Observe(rolledBack.Seconds())
-	m.transactions.WithLabelValues(outcomeAborted, "").Inc()
+	m.transactions.WithLabelValues(outcomeAborted, "", "").Inc()
 }
 
 func (m *VaultTransactionMetrics) ObserveWriteCommitRefused(
@@ -101,7 +110,7 @@ func (m *VaultTransactionMetrics) ObserveWriteCommitRefused(
 ) {
 	m.durations.WithLabelValues(phaseExecute).Observe(executed.Seconds())
 	m.durations.WithLabelValues(phaseRollback).Observe(rolledBack.Seconds())
-	m.transactions.WithLabelValues(outcomeRefused, string(cause)).Inc()
+	m.transactions.WithLabelValues(outcomeRefused, string(cause), "").Inc()
 }
 
 func (m *VaultTransactionMetrics) ObserveReadBegan() {
