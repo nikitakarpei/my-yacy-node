@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
@@ -17,6 +18,7 @@ type postingAdmission struct {
 	urls     urlmeta.URLDirectory
 	admitter rwipostings.PostingAdmitter
 	escrow   PostingHolder
+	observer RefusalObserver
 	batchCap int
 	pause    time.Duration
 }
@@ -26,6 +28,8 @@ func (a postingAdmission) Receive(
 	entries []yacymodel.RWIPosting,
 ) (Receipt, error) {
 	if len(entries) > a.batchCap {
+		a.observer.ObserveRefused(RefusalRequestTooLarge, len(entries))
+
 		return Receipt{Busy: true, TooLarge: true, Pause: a.pause}, nil
 	}
 
@@ -34,6 +38,8 @@ func (a postingAdmission) Receive(
 		return Receipt{}, fmt.Errorf("check capacity: %w", err)
 	}
 	if atCapacity {
+		a.observer.ObserveRefused(RefusalStorageFull, len(entries))
+
 		return Receipt{Busy: true, Pause: a.pause}, nil
 	}
 
@@ -64,6 +70,13 @@ func (a postingAdmission) Receive(
 		return nil
 	})
 	if errors.Is(err, vault.ErrAtCapacity) {
+		a.observer.ObserveRefused(RefusalStorageFull, len(entries))
+
+		return Receipt{Busy: true, Pause: a.pause}, nil
+	}
+	if errors.Is(err, rwiescrow.ErrEscrowFull) {
+		a.observer.ObserveRefused(RefusalEscrowFull, len(entries))
+
 		return Receipt{Busy: true, Pause: a.pause}, nil
 	}
 	if err != nil {

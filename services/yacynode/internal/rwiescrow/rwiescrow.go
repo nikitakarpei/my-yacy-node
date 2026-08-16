@@ -6,6 +6,7 @@ package rwiescrow
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
@@ -18,12 +19,11 @@ var (
 	_ PostingExpiry               = (*PostingEscrow)(nil)
 )
 
-const escrowedPostingBytes = 256
+var ErrEscrowFull = errors.New("escrow holds as many postings as it can")
 
 type HoldObserver interface {
 	ObserveHeld(postings int)
 	ObserveReleased(postings int)
-	ObserveRefused(postings int)
 }
 
 type ExpiryObserver interface {
@@ -45,7 +45,7 @@ func Open(
 	v *vault.Vault,
 	admitter rwipostings.PostingAdmitter,
 	observer HoldObserver,
-	quotaFraction float64,
+	capacity int,
 	now func() time.Time,
 ) (*PostingEscrow, error) {
 	escrowed, holds, err := registerPostingEscrow(v)
@@ -59,15 +59,7 @@ func Open(
 		holds:    holds,
 		admitter: admitter,
 		observer: observer,
-		capacity: capacityWithin(v.QuotaBytes(), quotaFraction),
+		capacity: capacity,
 		now:      now,
 	}, nil
-}
-
-func capacityWithin(quota int64, fraction float64) int {
-	if quota <= 0 || fraction <= 0 {
-		return 0
-	}
-
-	return int(float64(quota) * fraction / escrowedPostingBytes)
 }

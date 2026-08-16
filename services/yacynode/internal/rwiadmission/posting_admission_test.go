@@ -20,16 +20,24 @@ type discardedHolds struct{}
 
 func (discardedHolds) ObserveHeld(int)     {}
 func (discardedHolds) ObserveReleased(int) {}
-func (discardedHolds) ObserveRefused(int)  {}
+
+type recordedRefusals struct {
+	postings map[rwiadmission.RefusalReason]int
+}
+
+func (r *recordedRefusals) ObserveRefused(reason rwiadmission.RefusalReason, postings int) {
+	r.postings[reason] += postings
+}
 
 type harness struct {
 	index    rwipostings.PostingIndex
 	escrow   *rwiescrow.PostingEscrow
 	urls     urlmeta.URLReceiver
 	receiver rwiadmission.PostingReceiver
+	refusals *recordedRefusals
 }
 
-func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
+func openHarness(t *testing.T, quotaBytes int64, batchCap, escrowCapacity int) harness {
 	t.Helper()
 
 	v, err := memory.Open(quotaBytes, nil)
@@ -46,7 +54,7 @@ func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
 	if err != nil {
 		t.Fatalf("rwipostings.Open: %v", err)
 	}
-	escrow, err := rwiescrow.Open(v, admitter, discardedHolds{}, 0, time.Now)
+	escrow, err := rwiescrow.Open(v, admitter, discardedHolds{}, escrowCapacity, time.Now)
 	if err != nil {
 		t.Fatalf("rwiescrow.Open: %v", err)
 	}
@@ -54,6 +62,7 @@ func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
 	if err != nil {
 		t.Fatalf("urlmeta.Open: %v", err)
 	}
+	refusals := &recordedRefusals{postings: map[rwiadmission.RefusalReason]int{}}
 
 	return harness{
 		index:  index,
@@ -64,8 +73,9 @@ func openHarness(t *testing.T, quotaBytes int64, batchCap int) harness {
 			urlDirectory,
 			admitter,
 			escrow,
-			rwiadmission.Config{BatchCap: batchCap, Pause: busyPause},
+			rwiadmission.Config{BatchCap: batchCap, Pause: busyPause, Refusals: refusals},
 		),
+		refusals: refusals,
 	}
 }
 
@@ -126,7 +136,7 @@ func (h harness) storeMetadata(t *testing.T, seeds ...string) {
 }
 
 func TestKnownURLPostingJoinsIndex(t *testing.T) {
-	h := openHarness(t, 0, 100)
+	h := openHarness(t, 0, 100, 100)
 	h.storeMetadata(t, "u1")
 	entry := posting("w1", "u1")
 
@@ -146,7 +156,7 @@ func TestKnownURLPostingJoinsIndex(t *testing.T) {
 }
 
 func TestUnknownURLPostingWaitsInEscrow(t *testing.T) {
-	h := openHarness(t, 0, 100)
+	h := openHarness(t, 0, 100, 100)
 	entry := posting("w1", "u1")
 
 	receipt, err := h.receiver.Receive(context.Background(), []yacymodel.RWIPosting{entry})
@@ -165,7 +175,7 @@ func TestUnknownURLPostingWaitsInEscrow(t *testing.T) {
 }
 
 func TestPostingJoinsIndexWhenItsURLMetadataArrives(t *testing.T) {
-	h := openHarness(t, 0, 100)
+	h := openHarness(t, 0, 100, 100)
 	entry := posting("w1", "u1")
 
 	if _, err := h.receiver.Receive(
@@ -185,7 +195,7 @@ func TestPostingJoinsIndexWhenItsURLMetadataArrives(t *testing.T) {
 }
 
 func TestReceiveRoutesEachPostingByItsOwnURL(t *testing.T) {
-	h := openHarness(t, 0, 100)
+	h := openHarness(t, 0, 100, 100)
 	h.storeMetadata(t, "u1")
 	known, unknown := posting("w1", "u1"), posting("w1", "u2")
 
@@ -208,7 +218,7 @@ func TestReceiveRoutesEachPostingByItsOwnURL(t *testing.T) {
 }
 
 func TestReceiveBusyOverBatchCap(t *testing.T) {
-	h := openHarness(t, 0, 1)
+	h := openHarness(t, 0, 1, 100)
 
 	receipt, err := h.receiver.Receive(context.Background(), []yacymodel.RWIPosting{
 		posting("w1", "u1"),
@@ -220,10 +230,13 @@ func TestReceiveBusyOverBatchCap(t *testing.T) {
 	if !receipt.Busy || !receipt.TooLarge || receipt.Pause != busyPause {
 		t.Fatalf("receipt = %+v, want Busy and TooLarge with the configured pause", receipt)
 	}
+	if got := h.refusals.postings[rwiadmission.RefusalRequestTooLarge]; got != 2 {
+		t.Fatalf("postings refused as too large = %d, want the whole request of 2", got)
+	}
 }
 
 func TestReceiveBusyAtCapacity(t *testing.T) {
-	h := openHarness(t, 1, 100)
+	h := openHarness(t, 1, 100, 100)
 
 	if _, err := h.receiver.Receive(
 		context.Background(),
@@ -242,10 +255,40 @@ func TestReceiveBusyAtCapacity(t *testing.T) {
 	if !receipt.Busy || receipt.Pause != busyPause {
 		t.Fatalf("receipt = %+v, want Busy with the configured pause", receipt)
 	}
+	if got := h.refusals.postings[rwiadmission.RefusalStorageFull]; got != 1 {
+		t.Fatalf("postings refused for a full storage = %d, want the whole request of 1", got)
+	}
+}
+
+func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {
+	h := openHarness(t, 0, 100, 1)
+
+	if _, err := h.receiver.Receive(
+		context.Background(),
+		[]yacymodel.RWIPosting{posting("w1", "u1")},
+	); err != nil {
+		t.Fatalf("Receive: %v", err)
+	}
+
+	refused := []yacymodel.RWIPosting{posting("w2", "u2"), posting("w3", "u3")}
+	receipt, err := h.receiver.Receive(context.Background(), refused)
+	if err != nil {
+		t.Fatalf("Receive over the escrow capacity: %v", err)
+	}
+	if !receipt.Busy || receipt.Pause != busyPause {
+		t.Fatalf("receipt = %+v, want Busy with the configured pause", receipt)
+	}
+	if got := h.heldCount(t); got != 1 {
+		t.Fatalf("held count = %d, want the refused request to leave no posting behind", got)
+	}
+	if got := h.refusals.postings[rwiadmission.RefusalEscrowFull]; got != len(refused) {
+		t.Fatalf("postings refused for a full escrow = %d, want the whole request of %d",
+			got, len(refused))
+	}
 }
 
 func TestReceiveReportsEachUnknownURLOnce(t *testing.T) {
-	h := openHarness(t, 0, 100)
+	h := openHarness(t, 0, 100, 100)
 
 	receipt, err := h.receiver.Receive(context.Background(), []yacymodel.RWIPosting{
 		posting("w1", "u1"),

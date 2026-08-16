@@ -41,7 +41,6 @@ const (
 	evictionInterval       = time.Minute
 
 	escrowHoldFor        = 5 * time.Minute
-	escrowQuotaFraction  = 0.05
 	escrowExpiryBatch    = 256
 	escrowExpiryInterval = time.Minute
 
@@ -108,10 +107,9 @@ func assembleNode(
 	}
 
 	egress := newEgressProxyClient(config.ProxyURL, outboundRequestTimeout)
-	offerObserver := metrics.NewDistributionMetrics(registry)
-	escrowObserver := metrics.NewRWIEscrowMetrics(registry)
+	observers := nodeObserversOn(registry)
 
-	storage, err := openNodeStorage(vault, time.Now, escrowObserver, offerObserver)
+	storage, err := openNodeStorage(vault, time.Now, config.Escrow.PostingCapacity, observers)
 	if err != nil {
 		return node{}, err
 	}
@@ -158,7 +156,7 @@ func assembleNode(
 		storage:    storage,
 		roster:     roster,
 		client:     egress,
-		observer:   offerObserver,
+		observer:   observers.offers,
 		dhtRing:    metrics.NewDHTRingMetrics(registry),
 		partitions: partitions,
 	}.assemble()
@@ -170,7 +168,7 @@ func assembleNode(
 		sweeper:           newStorageSweeper(vault, storage),
 		escrow:            storage.escrow,
 		evictionObserver:  metrics.NewEvictionMetrics(registry),
-		escrowObserver:    escrowObserver,
+		escrowObserver:    observers.escrow,
 		announcer:         announcer,
 		distributionCycle: cycle,
 		crawl:             crawl,
@@ -186,6 +184,20 @@ func dhtRingPartitionsOf(config NodeConfig) (yacymodel.DHTRingPartitions, error)
 	}
 
 	return partitions, nil
+}
+
+type nodeObservers struct {
+	escrow   *metrics.RWIEscrowMetrics
+	refusals *metrics.RWIAdmissionMetrics
+	offers   *metrics.DistributionMetrics
+}
+
+func nodeObserversOn(registry *prometheus.Registry) nodeObservers {
+	return nodeObservers{
+		escrow:   metrics.NewRWIEscrowMetrics(registry),
+		refusals: metrics.NewRWIAdmissionMetrics(registry),
+		offers:   metrics.NewDistributionMetrics(registry),
+	}
 }
 
 func wireRouterOn(

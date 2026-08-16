@@ -2,6 +2,7 @@ package rwiescrow_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/url"
 	"testing"
@@ -14,17 +15,18 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
-const holdFor = 5 * time.Minute
+const (
+	holdFor             = 5 * time.Minute
+	roomForEveryPosting = 100
+)
 
 type countingHolds struct {
 	held     int
 	released int
-	refused  int
 }
 
 func (c *countingHolds) ObserveHeld(postings int)     { c.held += postings }
 func (c *countingHolds) ObserveReleased(postings int) { c.released += postings }
-func (c *countingHolds) ObserveRefused(postings int)  { c.refused += postings }
 
 type harness struct {
 	vault    *vault.Vault
@@ -37,13 +39,13 @@ type harness struct {
 func openHarness(t *testing.T) *harness {
 	t.Helper()
 
-	return openCappedHarness(t, 0, 0)
+	return openCappedHarness(t, roomForEveryPosting)
 }
 
-func openCappedHarness(t *testing.T, quotaBytes int64, quotaFraction float64) *harness {
+func openCappedHarness(t *testing.T, capacity int) *harness {
 	t.Helper()
 
-	v, err := memory.Open(quotaBytes, nil)
+	v, err := memory.Open(0, nil)
 	if err != nil {
 		t.Fatalf("memory.Open: %v", err)
 	}
@@ -68,7 +70,7 @@ func openCappedHarness(t *testing.T, quotaBytes int64, quotaFraction float64) *h
 		v,
 		admitter,
 		h.observer,
-		quotaFraction,
+		capacity,
 		func() time.Time { return h.clock },
 	)
 	if err != nil {
@@ -82,7 +84,13 @@ func openCappedHarness(t *testing.T, quotaBytes int64, quotaFraction float64) *h
 func (h *harness) hold(t *testing.T, postings ...yacymodel.RWIPosting) {
 	t.Helper()
 
-	if err := h.vault.Update(context.Background(), func(tx *vault.Txn) error {
+	if err := h.holding(postings...); err != nil {
+		t.Fatalf("Hold: %v", err)
+	}
+}
+
+func (h *harness) holding(postings ...yacymodel.RWIPosting) error {
+	return h.vault.Update(context.Background(), func(tx *vault.Txn) error {
 		for _, entry := range postings {
 			if err := h.escrow.Hold(tx, entry); err != nil {
 				return fmt.Errorf("hold: %w", err)
@@ -90,9 +98,7 @@ func (h *harness) hold(t *testing.T, postings ...yacymodel.RWIPosting) {
 		}
 
 		return nil
-	}); err != nil {
-		t.Fatalf("Hold: %v", err)
-	}
+	})
 }
 
 func (h *harness) storeURL(t *testing.T, hash yacymodel.URLHash) {
@@ -295,37 +301,27 @@ func TestReHoldRefreshesTheHoldInsteadOfDuplicatingIt(t *testing.T) {
 	}
 }
 
-const (
-	cappedQuotaBytes    = int64(1) << 20
-	cappedQuotaFraction = 0.001
-)
+const cappedCapacity = 3
 
-func TestHoldRefusesNewPostingsAtCapacity(t *testing.T) {
-	h := openCappedHarness(t, cappedQuotaBytes, cappedQuotaFraction)
-	capacity := h.escrow.Capacity()
-	if capacity <= 0 {
-		t.Fatalf("capacity = %d, want a positive limit to fill", capacity)
+func TestHoldReportsTheEscrowIsFullAtCapacity(t *testing.T) {
+	h := openCappedHarness(t, cappedCapacity)
+	if got := h.escrow.Capacity(); got != cappedCapacity {
+		t.Fatalf("capacity = %d, want the configured %d", got, cappedCapacity)
 	}
-	admitted := postingsNumbering(capacity)
-
+	admitted := postingsNumbering(cappedCapacity)
 	h.hold(t, admitted...)
-	h.hold(t, posting("w1", "beyond"))
 
-	if got := h.escrowedCount(t); got != capacity {
-		t.Fatalf("escrowed count = %d, want %d at the capacity", got, capacity)
+	if err := h.holding(posting("w1", "beyond")); !errors.Is(err, rwiescrow.ErrEscrowFull) {
+		t.Fatalf("Hold at the capacity = %v, want ErrEscrowFull", err)
 	}
-	if h.observer.refused != 1 {
-		t.Fatalf("observed refusals = %d, want 1", h.observer.refused)
+	if got := h.escrowedCount(t); got != cappedCapacity {
+		t.Fatalf("escrowed count = %d, want %d at the capacity", got, cappedCapacity)
 	}
 
 	h.clock = h.clock.Add(holdFor / 2)
-	h.hold(t, admitted[0])
 
-	if h.observer.refused != 1 {
-		t.Fatalf(
-			"observed refusals = %d, want a re-hold to pass at the capacity",
-			h.observer.refused,
-		)
+	if err := h.holding(admitted[0]); err != nil {
+		t.Fatalf("re-hold at the capacity = %v, want it to pass", err)
 	}
 }
 
