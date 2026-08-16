@@ -59,6 +59,13 @@ linters:
   exclusions:
     generated: strict
     rules:
+      - path: (^|/)cmd/
+        linters:
+          - funlen
+      - path: (^|/)cmd/
+        linters:
+          - revive
+        text: argument-limit
       - path: (^|/)test/e2e/
         linters:
           - revive
