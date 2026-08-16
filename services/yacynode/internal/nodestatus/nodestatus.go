@@ -16,6 +16,7 @@ import (
 )
 
 type RuntimeStatus interface {
+	NetworkName(ctx context.Context) string
 	Version(ctx context.Context) string
 	Uptime(ctx context.Context) int
 	SelfSeed(ctx context.Context) yacymodel.Seed
