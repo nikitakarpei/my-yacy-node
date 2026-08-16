@@ -7,6 +7,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 )
 
+const version = "1.83"
+
 func nodeIdentity(config nodeconfiguration.IdentityConfig) nodeidentity.Identity {
 	return nodeidentity.Identity{
 		Hash:        config.Hash,

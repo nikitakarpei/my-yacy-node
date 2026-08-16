@@ -32,25 +32,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
-const (
-	version = "1.83"
-
-	receiveBatchCap       = 1000
-	receiveBusyPause      = 30 * time.Second
-	searchPostingsPerWord = 1000
-
-	evictionTargetFraction = 0.9
-	evictionBatch          = 256
-	evictionInterval       = time.Minute
-
-	escrowHoldFor        = 5 * time.Minute
-	escrowExpiryBatch    = 256
-	escrowExpiryInterval = time.Minute
-
-	serverReadHeaderTimeout = 10 * time.Second
-	shutdownTimeout         = 15 * time.Second
-)
-
 type node struct {
 	peerHandler       http.Handler
 	sweeper           eviction.Sweeper
@@ -61,6 +42,8 @@ type node struct {
 	distributionCycle *distributioncycle.Cycle
 	crawl             *crawlRuntime
 }
+
+const shutdownTimeout = 15 * time.Second
 
 func RunNode(
 	ctx context.Context,
@@ -224,6 +207,8 @@ func wireRouterOn(
 	})
 }
 
+const searchPostingsPerWord = 1000
+
 func mountNodeEndpoints(
 	router httpguard.WireRouter,
 	identity nodeidentity.Identity,
@@ -252,6 +237,11 @@ func mountNodeEndpoints(
 	)
 }
 
+const (
+	evictionTargetFraction = 0.9
+	evictionBatch          = 256
+)
+
 func newStorageSweeper(vault *vault.Vault, storage nodeStorage) eviction.Sweeper {
 	return eviction.NewSweeper(
 		vault,
@@ -263,6 +253,8 @@ func newStorageSweeper(vault *vault.Vault, storage nodeStorage) eviction.Sweeper
 	)
 }
 
+const serverReadHeaderTimeout = 10 * time.Second
+
 func serverOn(addr string, handler http.Handler) *http.Server {
 	return &http.Server{
 		Addr:              addr,
@@ -270,6 +262,14 @@ func serverOn(addr string, handler http.Handler) *http.Server {
 		ReadHeaderTimeout: serverReadHeaderTimeout,
 	}
 }
+
+const (
+	evictionInterval = time.Minute
+
+	escrowHoldFor        = 5 * time.Minute
+	escrowExpiryBatch    = 256
+	escrowExpiryInterval = time.Minute
+)
 
 func backgroundLoopsOf(assembled node) []func(context.Context) error {
 	loops := []func(context.Context) error{

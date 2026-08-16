@@ -32,6 +32,11 @@ type nodeStorage struct {
 	replicas        *postingreplicas.Replicas
 }
 
+const (
+	receiveBatchCap  = 1000
+	receiveBusyPause = 30 * time.Second
+)
+
 func openNodeStorage(
 	vault *vault.Vault,
 	now func() time.Time,
