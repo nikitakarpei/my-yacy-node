@@ -12,7 +12,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/landing"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
@@ -39,38 +38,39 @@ func assembleNode(
 	vault *vault.Vault,
 	registry *prometheus.Registry,
 ) (node, error) {
-	identity := nodeIdentity(config.Identity)
+	now := time.Now
+	identity := nodeIdentity(config.Identity, now)
 
-	partitions, err := dhtRingPartitionsOf(config.Distribution)
+	partitions, err := dhtRingPartitionsOf(config.Distribution.PartitionExponent)
 	if err != nil {
 		return node{}, err
 	}
 
-	egress := newEgressProxyClient(config.Egress.ProxyURL, outboundRequestTimeout)
-	observers := nodeObserversOn(registry)
+	egress := newEgressProxyClient(config.Egress.ProxyURL)
+	observers := storageObserversOn(registry)
 
-	storage, err := openNodeStorage(vault, time.Now, config.Escrow.PostingCapacity, observers)
+	storage, err := openNodeStorage(vault, now, config.Escrow.PostingCapacity, observers)
 	if err != nil {
 		return node{}, err
 	}
 	status := nodestatus.NewRuntimeStatus(
 		identity,
-		time.Now,
+		now,
 		storage.postings,
 		storage.urlDirectory,
 	)
 
 	mux := http.NewServeMux()
-	mux.Handle("/{$}", landing.NewEndpoint())
-	router := wireRouterOn(mux, config.Serving, status)
+	router := wireRouterOn(mux, config.Serving.TrustedProxyNetworks, status)
 
-	mountNodeEndpoints(
-		router,
-		identity,
-		storage,
-		searchmetrics.NewSearchMetrics(registry),
-		partitions,
-	)
+	nodeEndpoints{
+		mux:            mux,
+		router:         router,
+		identity:       identity,
+		storage:        storage,
+		searchObserver: searchmetrics.NewSearchMetrics(registry),
+		partitions:     partitions,
+	}.mount()
 
 	announcer, roster, err := peerExchange{
 		router:         router,
@@ -78,6 +78,7 @@ func assembleNode(
 		status:         status,
 		config:         config.PeerExchange,
 		vault:          vault,
+		now:            now,
 		client:         egress,
 		rosterObserver: metrics.NewPeerRosterMetrics(registry),
 	}.assemble()
@@ -104,7 +105,7 @@ func assembleNode(
 
 	return node{
 		peerHandler:       httpobservation.NewHandler(mux, requestObserversOn(registry)...),
-		sweeper:           newStorageSweeper(vault, storage),
+		sweeper:           newStorageSweeper(storage),
 		escrow:            storage.escrow,
 		evictionObserver:  metrics.NewEvictionMetrics(registry),
 		escrowObserver:    observers.escrow,
@@ -114,27 +115,11 @@ func assembleNode(
 	}, nil
 }
 
-func dhtRingPartitionsOf(
-	config nodeconfiguration.DistributionConfig,
-) (yacymodel.DHTRingPartitions, error) {
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(config.PartitionExponent)
+func dhtRingPartitionsOf(exponent uint) (yacymodel.DHTRingPartitions, error) {
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(exponent)
 	if err != nil {
 		return 0, fmt.Errorf("dht ring partitions: %w", err)
 	}
 
 	return partitions, nil
-}
-
-type nodeObservers struct {
-	escrow   *metrics.RWIEscrowMetrics
-	refusals *metrics.RWIAdmissionMetrics
-	offers   *metrics.DistributionMetrics
-}
-
-func nodeObserversOn(registry *prometheus.Registry) nodeObservers {
-	return nodeObservers{
-		escrow:   metrics.NewRWIEscrowMetrics(registry),
-		refusals: metrics.NewRWIAdmissionMetrics(registry),
-		offers:   metrics.NewDistributionMetrics(registry),
-	}
 }

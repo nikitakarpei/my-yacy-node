@@ -9,7 +9,10 @@ import (
 
 const version = "1.83"
 
-func nodeIdentity(config nodeconfiguration.IdentityConfig) nodeidentity.Identity {
+func nodeIdentity(
+	config nodeconfiguration.IdentityConfig,
+	now func() time.Time,
+) nodeidentity.Identity {
 	return nodeidentity.Identity{
 		Hash:        config.Hash,
 		NetworkName: config.NetworkName,
@@ -18,6 +21,6 @@ func nodeIdentity(config nodeconfiguration.IdentityConfig) nodeidentity.Identity
 		Port:        config.AdvertisePort,
 		Flags:       config.Flags,
 		Version:     version,
-		Start:       time.Now(),
+		Start:       now(),
 	}
 }

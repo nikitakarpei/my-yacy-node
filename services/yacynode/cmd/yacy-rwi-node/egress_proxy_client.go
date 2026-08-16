@@ -8,9 +8,9 @@ import (
 
 const outboundRequestTimeout = 30 * time.Second
 
-func newEgressProxyClient(proxyURL *url.URL, timeout time.Duration) *http.Client {
+func newEgressProxyClient(proxyURL *url.URL) *http.Client {
 	return &http.Client{
-		Timeout:   timeout,
+		Timeout:   outboundRequestTimeout,
 		Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)},
 	}
 }

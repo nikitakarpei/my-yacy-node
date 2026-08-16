@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
@@ -33,6 +36,20 @@ type nodeStorage struct {
 	replicas        *postingreplicas.Replicas
 }
 
+type storageObservers struct {
+	escrow   *metrics.RWIEscrowMetrics
+	refusals *metrics.RWIAdmissionMetrics
+	offers   *metrics.DistributionMetrics
+}
+
+func storageObserversOn(registry *prometheus.Registry) storageObservers {
+	return storageObservers{
+		escrow:   metrics.NewRWIEscrowMetrics(registry),
+		refusals: metrics.NewRWIAdmissionMetrics(registry),
+		offers:   metrics.NewDistributionMetrics(registry),
+	}
+}
+
 const (
 	receiveBatchCap  = 1000
 	receiveBusyPause = 30 * time.Second
@@ -42,7 +59,7 @@ func openNodeStorage(
 	vault *vault.Vault,
 	now func() time.Time,
 	escrowPostingCapacity int,
-	observers nodeObservers,
+	observers storageObservers,
 ) (
 	nodeStorage,
 	error,
@@ -117,9 +134,9 @@ const (
 	evictionBatch          = 256
 )
 
-func newStorageSweeper(vault *vault.Vault, storage nodeStorage) eviction.Sweeper {
+func newStorageSweeper(storage nodeStorage) eviction.Sweeper {
 	return eviction.NewSweeper(
-		vault,
+		storage.vault,
 		storage.postingPurger,
 		storage.references,
 		storage.urlEvictor,

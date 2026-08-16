@@ -18,22 +18,16 @@ const (
 
 func backgroundLoopsOf(assembled node) []func(context.Context) error {
 	loops := []func(context.Context) error{
-		func(ctx context.Context) error {
-			assembled.announcer.Run(ctx)
-
-			return nil
-		},
-		func(ctx context.Context) error {
+		neverFailing(assembled.announcer.Run),
+		neverFailing(func(ctx context.Context) {
 			eviction.RunSweepLoop(
 				ctx,
 				assembled.sweeper,
 				assembled.evictionObserver,
 				evictionInterval,
 			)
-
-			return nil
-		},
-		func(ctx context.Context) error {
+		}),
+		neverFailing(func(ctx context.Context) {
 			rwiescrow.RunExpiryLoop(
 				ctx,
 				assembled.escrow,
@@ -44,24 +38,22 @@ func backgroundLoopsOf(assembled node) []func(context.Context) error {
 					Batch:    escrowExpiryBatch,
 				},
 			)
-
-			return nil
-		},
+		}),
 	}
 	if assembled.distributionCycle != nil {
-		loops = append(loops, func(ctx context.Context) error {
-			assembled.distributionCycle.Run(ctx)
-
-			return nil
-		})
+		loops = append(loops, neverFailing(assembled.distributionCycle.Run))
 	}
 	if assembled.crawl != nil {
-		loops = append(loops, func(ctx context.Context) error {
-			assembled.crawl.Run(ctx)
-
-			return nil
-		})
+		loops = append(loops, neverFailing(assembled.crawl.Run))
 	}
 
 	return loops
+}
+
+func neverFailing(loop func(context.Context)) func(context.Context) error {
+	return func(ctx context.Context) error {
+		loop(ctx)
+
+		return nil
+	}
 }

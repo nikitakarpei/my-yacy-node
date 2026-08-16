@@ -22,6 +22,7 @@ type peerExchange struct {
 	status         nodestatus.RuntimeStatus
 	config         nodeconfiguration.PeerExchangeConfig
 	vault          *vault.Vault
+	now            func() time.Time
 	client         *http.Client
 	rosterObserver peerroster.RosterObserver
 }
@@ -29,7 +30,7 @@ type peerExchange struct {
 func (p peerExchange) assemble() (peerannouncement.Announcer, peerroster.Roster, error) {
 	roster, err := peerroster.Open(
 		p.vault,
-		time.Now,
+		p.now,
 		p.config.KnownRosterCapacity,
 		p.config.ReachableRosterCapacity,
 		p.config.AnnounceInterval,
@@ -44,7 +45,7 @@ func (p peerExchange) assemble() (peerannouncement.Announcer, peerroster.Roster,
 	peeradmission.MountHello(
 		p.router,
 		p.identity,
-		peeringStatus{status: p.status, networkName: p.identity.NetworkName},
+		peerAdmissionStatus{status: p.status, networkName: p.identity.NetworkName},
 		roster,
 		p.client,
 	)
