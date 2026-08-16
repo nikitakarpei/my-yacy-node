@@ -22,6 +22,18 @@ type PostingHolder interface {
 	Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error
 }
 
+type RefusalReason string
+
+const (
+	RefusalRequestTooLarge RefusalReason = "request_too_large"
+	RefusalStorageFull     RefusalReason = "storage_full"
+	RefusalEscrowFull      RefusalReason = "escrow_full"
+)
+
+type RefusalObserver interface {
+	ObserveRefused(reason RefusalReason, postings int)
+}
+
 type Receipt struct {
 	Busy       bool
 	TooLarge   bool
@@ -32,6 +44,7 @@ type Receipt struct {
 type Config struct {
 	BatchCap int
 	Pause    time.Duration
+	Refusals RefusalObserver
 }
 
 func Open(
@@ -46,6 +59,7 @@ func Open(
 		urls:     urls,
 		admitter: admitter,
 		escrow:   escrow,
+		observer: config.Refusals,
 		batchCap: config.BatchCap,
 		pause:    config.Pause,
 	}

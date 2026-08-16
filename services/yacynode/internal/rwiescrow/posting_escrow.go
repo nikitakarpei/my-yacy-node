@@ -56,9 +56,7 @@ func (e *PostingEscrow) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error 
 			return err
 		}
 		if full {
-			e.observer.ObserveRefused(1)
-
-			return nil
+			return ErrEscrowFull
 		}
 	}
 
@@ -79,9 +77,6 @@ func (e *PostingEscrow) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error 
 }
 
 func (e *PostingEscrow) atCapacity(tx *vault.Txn) (bool, error) {
-	if e.capacity <= 0 {
-		return false, nil
-	}
 	length, err := e.escrowed.Len(tx)
 	if err != nil {
 		return false, fmt.Errorf("read escrowed posting length: %w", err)
