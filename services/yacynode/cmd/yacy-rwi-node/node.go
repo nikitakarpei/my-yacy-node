@@ -47,19 +47,19 @@ import (
 )
 
 type node struct {
-	peerHandler       http.Handler
-	sweeper           eviction.Sweeper
-	escrow            *rwiescrow.PostingEscrow
-	evictionObserver  *metrics.EvictionMetrics
-	escrowObserver    *metrics.RWIEscrowMetrics
-	announcer         peerannouncement.Announcer
-	distributionCycle *distributioncycle.Cycle
-	crawl             *crawlResultIngest
+	peerHandler           http.Handler
+	evictionSweeper       eviction.Sweeper
+	postingEscrow         *rwiescrow.PostingEscrow
+	evictionObserver      *metrics.EvictionMetrics
+	postingEscrowObserver *metrics.RWIEscrowMetrics
+	peerAnnouncer         peerannouncement.Announcer
+	distributionCycle     *distributioncycle.Cycle
+	crawlResultIngest     *crawlResultIngest
 }
 
 const advertisedYaCyVersion = "1.83"
 
-const outboundRequestTimeout = 30 * time.Second
+const egressRequestTimeout = 30 * time.Second
 
 const (
 	postingAdmissionBatchCapacity = 1000
@@ -92,7 +92,7 @@ func assembleNode(
 		Start:       now(),
 	}
 
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(
+	dhtRingPartitions, err := yacymodel.DHTRingPartitionsFromExponent(
 		config.Distribution.PartitionExponent,
 	)
 	if err != nil {
@@ -100,9 +100,12 @@ func assembleNode(
 	}
 
 	egressClient := &http.Client{
-		Timeout:   outboundRequestTimeout,
+		Timeout:   egressRequestTimeout,
 		Transport: &http.Transport{Proxy: http.ProxyURL(config.Egress.ProxyURL)},
 	}
+
+	metrics.NewVaultCapacityMetrics(registry, vault)
+	metrics.NewVaultCollectionMetrics(registry, vault)
 
 	urlMetadataStaleness, err := urlmetastaleness.Open(vault)
 	if err != nil {
@@ -134,18 +137,19 @@ func assembleNode(
 		return node{}, fmt.Errorf("rwi storage: %w", err)
 	}
 
-	escrowObserver := metrics.NewRWIEscrowMetrics(registry)
+	postingEscrowObserver := metrics.NewRWIEscrowMetrics(registry)
 
 	postingEscrow, err := rwiescrow.Open(
 		vault,
 		postingAdmitter,
-		escrowObserver,
+		postingEscrowObserver,
 		config.Escrow.PostingCapacity,
 		now,
 	)
 	if err != nil {
 		return node{}, fmt.Errorf("rwi escrow: %w", err)
 	}
+	metrics.NewRWIEscrowCapacityMetrics(registry, postingEscrow)
 
 	urlDirectory, urlEvictor, urlReceiver, err := urlmeta.Open(
 		vault,
@@ -191,7 +195,7 @@ func assembleNode(
 		urlDirectory,
 		searchPostingsPerWord,
 		searchmetrics.NewSearchMetrics(registry),
-		partitions,
+		dhtRingPartitions,
 	)
 
 	peerRoster, err := peerroster.Open(
@@ -209,7 +213,7 @@ func assembleNode(
 
 	peeradmission.MountHello(router, identity, runtimeStatus, peerRoster, egressClient)
 
-	announcer := peerannouncement.New(
+	peerAnnouncer := peerannouncement.New(
 		peerannouncement.Config{
 			Client:             egressClient,
 			NetworkName:        identity.NetworkName,
@@ -261,7 +265,7 @@ func assembleNode(
 				peerRoster,
 				replicaEligibility,
 				dhtRingObserver,
-				partitions,
+				dhtRingPartitions,
 				identity.Hash,
 				config.Distribution.Redundancy,
 			),
@@ -269,7 +273,7 @@ func assembleNode(
 				postingReplicas,
 				postingPurger,
 				peerRoster,
-				partitions,
+				dhtRingPartitions,
 				identity.Hash,
 				config.Distribution.Redundancy,
 			),
@@ -312,7 +316,7 @@ func assembleNode(
 			httpaccesslog.New(),
 			endpointMetricsObserver{endpoints: metrics.NewHTTPEndpointMetrics(registry)},
 		),
-		sweeper: eviction.NewSweeper(
+		evictionSweeper: eviction.NewSweeper(
 			vault,
 			postingPurger,
 			urlReferences,
@@ -320,11 +324,11 @@ func assembleNode(
 			urlMetadataStaleness,
 			eviction.Config{TargetFraction: evictionTargetFraction, BatchSize: evictionBatchSize},
 		),
-		escrow:            postingEscrow,
-		evictionObserver:  metrics.NewEvictionMetrics(registry),
-		escrowObserver:    escrowObserver,
-		announcer:         announcer,
-		distributionCycle: distributionCycle,
-		crawl:             crawl,
+		postingEscrow:         postingEscrow,
+		evictionObserver:      metrics.NewEvictionMetrics(registry),
+		postingEscrowObserver: postingEscrowObserver,
+		peerAnnouncer:         peerAnnouncer,
+		distributionCycle:     distributionCycle,
+		crawlResultIngest:     crawl,
 	}, nil
 }
