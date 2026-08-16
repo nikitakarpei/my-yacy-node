@@ -73,7 +73,16 @@ func reportWriteCommitted(
 	ctx context.Context,
 	observer TransactionObserver,
 	timeline *writeTimeline,
+	calledWriteOperation bool,
 ) {
-	observer.ObserveWriteCommitted(timeline.executeDuration(), timeline.closeDuration())
-	slog.DebugContext(ctx, "write transaction committed")
+	observer.ObserveWriteCommitted(
+		timeline.executeDuration(),
+		timeline.closeDuration(),
+		calledWriteOperation,
+	)
+	slog.DebugContext(
+		ctx,
+		"write transaction committed",
+		slog.Bool("calledWriteOperation", calledWriteOperation),
+	)
 }
