@@ -12,6 +12,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/bolt"
 )
@@ -28,7 +29,7 @@ func run() error {
 		return fmt.Errorf("configure logging: %w", err)
 	}
 
-	config, err := LoadNodeConfig(os.Getenv)
+	config, err := nodeconfiguration.Load(os.Getenv)
 	if err != nil {
 		return fmt.Errorf("load node config: %w", err)
 	}
@@ -36,8 +37,8 @@ func run() error {
 	registry := prometheus.NewRegistry()
 
 	storage, err := bolt.Open(
-		config.StoragePath,
-		config.StorageQuotaByte,
+		config.Storage.Path,
+		config.Storage.QuotaByte,
 		metrics.NewVaultTransactionMetrics(registry),
 	)
 	if err != nil {

@@ -24,6 +24,10 @@ func (r runtimeStatus) Version(context.Context) string {
 	return r.id.Version
 }
 
+func (r runtimeStatus) NetworkName(context.Context) string {
+	return r.id.NetworkName
+}
+
 func (r runtimeStatus) Uptime(context.Context) int {
 	return r.id.Uptime(r.now())
 }
