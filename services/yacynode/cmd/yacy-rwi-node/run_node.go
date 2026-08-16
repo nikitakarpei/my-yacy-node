@@ -38,10 +38,6 @@ func RunNode(
 	if err != nil {
 		return fmt.Errorf("assemble node: %w", err)
 	}
-	if assembledNode.crawlResultIngest != nil {
-		defer assembledNode.crawlResultIngest.Close()
-	}
-
 	servers := []servergroup.NamedServer{
 		{
 			Name:   "peer protocol",
@@ -85,6 +81,8 @@ func RunNode(
 		loops = append(loops, neverFailingLoop(assembledNode.distributionCycle.Run))
 	}
 	if assembledNode.crawlResultIngest != nil {
+		defer assembledNode.crawlResultIngest.Close()
+
 		loops = append(loops, neverFailingLoop(assembledNode.crawlResultIngest.Run))
 	}
 
