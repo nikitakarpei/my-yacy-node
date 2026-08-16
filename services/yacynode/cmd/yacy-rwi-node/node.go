@@ -3,311 +3,332 @@ package main
 import (
 	"context"
 	"fmt"
-	"log/slog"
 	"net/http"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlbroker"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlresults"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/landing"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postinghandoff"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingoffer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiingress"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
+type node struct {
+	peerHandler           http.Handler
+	evictionSweeper       eviction.Sweeper
+	postingEscrow         *rwiescrow.PostingEscrow
+	evictionObserver      *metrics.EvictionMetrics
+	postingEscrowObserver *metrics.RWIEscrowMetrics
+	peerAnnouncer         peerannouncement.Announcer
+	distributionCycle     *distributioncycle.Cycle
+	crawlResultIngest     *crawlResultIngest
+}
+
+const advertisedYaCyVersion = "1.83"
+
+const egressRequestTimeout = 30 * time.Second
+
 const (
-	version = "1.83"
-
-	receiveBatchCap       = 1000
-	receiveBusyPause      = 30 * time.Second
-	searchPostingsPerWord = 1000
-
-	evictionTargetFraction = 0.9
-	evictionBatch          = 256
-	evictionInterval       = time.Minute
-
-	escrowHoldFor        = 5 * time.Minute
-	escrowExpiryBatch    = 256
-	escrowExpiryInterval = time.Minute
-
-	serverReadHeaderTimeout = 10 * time.Second
-	shutdownTimeout         = 15 * time.Second
+	postingAdmissionBatchCapacity = 1000
+	postingAdmissionBusyPause     = 30 * time.Second
 )
 
-type node struct {
-	peerHandler       http.Handler
-	sweeper           eviction.Sweeper
-	escrow            *rwiescrow.PostingEscrow
-	evictionObserver  *metrics.EvictionMetrics
-	escrowObserver    *metrics.RWIEscrowMetrics
-	announcer         peerannouncement.Announcer
-	distributionCycle *distributioncycle.Cycle
-	crawl             *crawlRuntime
-}
+const (
+	evictionTargetFraction = 0.9
+	evictionBatchSize      = 256
+)
 
-func RunNode(
-	ctx context.Context,
-	config NodeConfig,
-	vault *vault.Vault,
-	registry *prometheus.Registry,
-) error {
-	metrics.NewVaultCapacityMetrics(registry, vault)
-	metrics.NewVaultCollectionMetrics(registry, vault)
-
-	assembled, err := assembleNode(ctx, config, vault, registry)
-	if err != nil {
-		return fmt.Errorf("assemble node: %w", err)
-	}
-	metrics.NewRWIEscrowCapacityMetrics(registry, assembled.escrow)
-	if assembled.crawl != nil {
-		defer assembled.crawl.Close()
-	}
-
-	servers := []servergroup.NamedServer{
-		{Name: "peer protocol", Server: serverOn(config.PeerAddr, assembled.peerHandler)},
-		{Name: "ops", Server: serverOn(config.OpsAddr, opsmetrics.NewMux(
-			promhttp.HandlerFor(registry, promhttp.HandlerOpts{}),
-		))},
-	}
-	for _, server := range servers {
-		slog.InfoContext(ctx, "serving",
-			slog.String("service", server.Name),
-			slog.String("addr", server.Server.Addr),
-		)
-	}
-
-	return servergroup.Run(ctx, shutdownTimeout, servers, backgroundLoopsOf(assembled)...)
-}
+const searchPostingsPerWord = 1000
 
 func assembleNode(
 	ctx context.Context,
-	config NodeConfig,
+	config nodeconfiguration.Settings,
 	vault *vault.Vault,
 	registry *prometheus.Registry,
 ) (node, error) {
-	identity := nodeIdentity(config)
+	now := time.Now
 
-	partitions, err := dhtRingPartitionsOf(config)
-	if err != nil {
-		return node{}, err
+	identity := nodeidentity.Identity{
+		Hash:        config.Identity.Hash,
+		NetworkName: config.Identity.NetworkName,
+		Name:        config.Identity.Name,
+		Host:        config.Identity.AdvertiseHost,
+		Port:        config.Identity.AdvertisePort,
+		Flags:       config.Identity.Flags,
+		Version:     advertisedYaCyVersion,
+		Start:       now(),
 	}
 
-	egress := newEgressProxyClient(config.ProxyURL, outboundRequestTimeout)
-	observers := nodeObserversOn(registry)
-
-	storage, err := openNodeStorage(vault, time.Now, config.Escrow.PostingCapacity, observers)
-	if err != nil {
-		return node{}, err
-	}
-	status := nodestatus.NewRuntimeStatus(
-		identity,
-		time.Now,
-		storage.postings,
-		storage.urlDirectory,
-	)
-
-	mux := http.NewServeMux()
-	mux.Handle("/{$}", landing.NewEndpoint())
-	router := wireRouterOn(mux, config, status)
-
-	mountNodeEndpoints(
-		router,
-		identity,
-		storage,
-		searchmetrics.NewSearchMetrics(registry),
-		partitions,
-	)
-
-	announcer, roster, err := peerExchange{
-		router:         router,
-		identity:       identity,
-		status:         status,
-		config:         config,
-		vault:          vault,
-		client:         egress,
-		rosterObserver: metrics.NewPeerRosterMetrics(registry),
-	}.assemble()
-	if err != nil {
-		return node{}, err
-	}
-
-	crawl, err := buildCrawlRuntime(ctx, config.Crawl, storage)
-	if err != nil {
-		return node{}, err
-	}
-
-	cycle := distributionCycle{
-		config:     config,
-		self:       identity.Hash,
-		storage:    storage,
-		roster:     roster,
-		client:     egress,
-		observer:   observers.offers,
-		dhtRing:    metrics.NewDHTRingMetrics(registry),
-		partitions: partitions,
-	}.assemble()
-
-	return node{
-		peerHandler: logHTTPRequests(
-			instrumentHTTP(metrics.NewHTTPEndpointMetrics(registry), mux),
-		),
-		sweeper:           newStorageSweeper(vault, storage),
-		escrow:            storage.escrow,
-		evictionObserver:  metrics.NewEvictionMetrics(registry),
-		escrowObserver:    observers.escrow,
-		announcer:         announcer,
-		distributionCycle: cycle,
-		crawl:             crawl,
-	}, nil
-}
-
-func dhtRingPartitionsOf(config NodeConfig) (yacymodel.DHTRingPartitions, error) {
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(
+	dhtRingPartitions, err := yacymodel.DHTRingPartitionsFromExponent(
 		config.Distribution.PartitionExponent,
 	)
 	if err != nil {
-		return 0, fmt.Errorf("dht ring partitions: %w", err)
+		return node{}, fmt.Errorf("dht ring partitions: %w", err)
 	}
 
-	return partitions, nil
-}
-
-type nodeObservers struct {
-	escrow   *metrics.RWIEscrowMetrics
-	refusals *metrics.RWIAdmissionMetrics
-	offers   *metrics.DistributionMetrics
-}
-
-func nodeObserversOn(registry *prometheus.Registry) nodeObservers {
-	return nodeObservers{
-		escrow:   metrics.NewRWIEscrowMetrics(registry),
-		refusals: metrics.NewRWIAdmissionMetrics(registry),
-		offers:   metrics.NewDistributionMetrics(registry),
+	egressClient := &http.Client{
+		Timeout:   egressRequestTimeout,
+		Transport: &http.Transport{Proxy: http.ProxyURL(config.Egress.ProxyURL)},
 	}
-}
 
-func wireRouterOn(
-	mux *http.ServeMux,
-	config NodeConfig,
-	status nodestatus.RuntimeStatus,
-) httpguard.WireRouter {
-	return httpguard.NewWireRouter(mux, httpguard.WireGate{
+	metrics.NewVaultCapacityMetrics(registry, vault)
+	metrics.NewVaultCollectionMetrics(registry, vault)
+
+	urlMetadataStaleness, err := urlmetastaleness.Open(vault)
+	if err != nil {
+		return node{}, fmt.Errorf("url metadata staleness: %w", err)
+	}
+
+	urlReferences, err := urlreferences.Open(vault)
+	if err != nil {
+		return node{}, fmt.Errorf("url references: %w", err)
+	}
+
+	distributionObserver := metrics.NewDistributionMetrics(registry)
+
+	offerSchedule, postingReplicas, postingRecords, err := rwidistribution.Open(
+		vault,
+		now,
+		distributionObserver,
+	)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi distribution: %w", err)
+	}
+
+	postings, postingAdmitter, postingPurger, err := rwipostings.Open(
+		vault,
+		urlReferences,
+		postingRecords,
+	)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi storage: %w", err)
+	}
+
+	postingEscrowObserver := metrics.NewRWIEscrowMetrics(registry)
+
+	postingEscrow, err := rwiescrow.Open(
+		vault,
+		postingAdmitter,
+		postingEscrowObserver,
+		config.Escrow.PostingCapacity,
+		now,
+	)
+	if err != nil {
+		return node{}, fmt.Errorf("rwi escrow: %w", err)
+	}
+	metrics.NewRWIEscrowCapacityMetrics(registry, postingEscrow)
+
+	urlDirectory, urlEvictor, urlReceiver, err := urlmeta.Open(
+		vault,
+		urlMetadataStaleness,
+		postingEscrow,
+	)
+	if err != nil {
+		return node{}, fmt.Errorf("urlmeta storage: %w", err)
+	}
+
+	postingReceiver := rwiadmission.Open(
+		vault,
+		urlDirectory,
+		postingAdmitter,
+		postingEscrow,
+		rwiadmission.Config{
+			BatchCap: postingAdmissionBatchCapacity,
+			Pause:    postingAdmissionBusyPause,
+			Refusals: metrics.NewRWIAdmissionMetrics(registry),
+		},
+	)
+
+	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, postings, urlDirectory)
+
+	mux := http.NewServeMux()
+	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
 		Guard: httpguard.NewRequestGuard(
 			httpguard.DefaultMaxBodyBytes,
 			httpguard.DefaultRequestTimeout,
 		),
-		Respond: httpguard.NewWireResponder(status),
-		Address: httpguard.NewClientAddressResolver(config.TrustedProxyNetworks),
+		Respond: httpguard.NewWireResponder(runtimeStatus),
+		Address: httpguard.NewClientAddressResolver(config.Serving.TrustedProxyNetworks),
 	})
-}
 
-func mountNodeEndpoints(
-	router httpguard.WireRouter,
-	identity nodeidentity.Identity,
-	storage nodeStorage,
-	searchObserver *searchmetrics.SearchMetrics,
-	partitions yacymodel.DHTRingPartitions,
-) {
-	urlmeta.MountTransferURL(router, identity, storage.urlReceiver)
-	rwiingress.Mount(router, identity, storage.postingReceiver)
-	nodestatus.MountQuery(
-		router,
-		identity,
-		storage.postings,
-		storage.references,
-		storage.urlDirectory,
-	)
-
+	mux.Handle("/{$}", landing.NewEndpoint())
+	urlmeta.MountTransferURL(router, identity, urlReceiver)
+	rwiingress.Mount(router, identity, postingReceiver)
+	nodestatus.MountQuery(router, identity, postings, urlReferences, urlDirectory)
 	documentsearch.MountSearch(
 		router,
 		identity,
-		storage.postings,
-		storage.urlDirectory,
+		postings,
+		urlDirectory,
 		searchPostingsPerWord,
-		searchObserver,
-		partitions,
+		searchmetrics.NewSearchMetrics(registry),
+		dhtRingPartitions,
 	)
-}
 
-func newStorageSweeper(vault *vault.Vault, storage nodeStorage) eviction.Sweeper {
-	return eviction.NewSweeper(
+	peerRoster, err := peerroster.Open(
 		vault,
-		storage.postingPurger,
-		storage.references,
-		storage.urlEvictor,
-		storage.staleness,
-		eviction.Config{TargetFraction: evictionTargetFraction, BatchSize: evictionBatch},
+		now,
+		config.PeerExchange.KnownRosterCapacity,
+		config.PeerExchange.ReachableRosterCapacity,
+		config.PeerExchange.AnnounceInterval,
+		identity.Hash,
+		metrics.NewPeerRosterMetrics(registry),
 	)
-}
-
-func serverOn(addr string, handler http.Handler) *http.Server {
-	return &http.Server{
-		Addr:              addr,
-		Handler:           handler,
-		ReadHeaderTimeout: serverReadHeaderTimeout,
+	if err != nil {
+		return node{}, fmt.Errorf("open peer roster: %w", err)
 	}
-}
 
-func backgroundLoopsOf(assembled node) []func(context.Context) error {
-	loops := []func(context.Context) error{
-		func(ctx context.Context) error {
-			assembled.announcer.Run(ctx)
+	peeradmission.MountHello(router, identity, runtimeStatus, peerRoster, egressClient)
 
-			return nil
+	peerAnnouncer := peerannouncement.New(
+		peerannouncement.Config{
+			Client:             egressClient,
+			NetworkName:        identity.NetworkName,
+			Interval:           config.PeerExchange.AnnounceInterval,
+			ReachableCap:       config.PeerExchange.ReachableRosterCapacity,
+			ContactConcurrency: config.PeerExchange.PeerContactConcurrency,
 		},
-		func(ctx context.Context) error {
-			eviction.RunSweepLoop(
-				ctx,
-				assembled.sweeper,
-				assembled.evictionObserver,
-				evictionInterval,
-			)
+		runtimeStatus,
+		bootstrap.New(egressClient, config.PeerExchange.SeedlistURLs),
+		peerRoster,
+	)
 
-			return nil
-		},
-		func(ctx context.Context) error {
-			rwiescrow.RunExpiryLoop(
-				ctx,
-				assembled.escrow,
-				assembled.escrowObserver,
-				rwiescrow.ExpiryConfig{
-					HoldFor:  escrowHoldFor,
-					Interval: escrowExpiryInterval,
-					Batch:    escrowExpiryBatch,
+	var crawl *crawlResultIngest
+
+	if config.Crawl.Enabled() {
+		crawlBroker, crawlBrokerErr := crawlbroker.Open(ctx, crawlbroker.Config{
+			NATSURL:       config.Crawl.NATSURL,
+			IngestSubject: config.Crawl.IngestSubject,
+			IngestDurable: config.Crawl.IngestDurable,
+		})
+		if crawlBrokerErr != nil {
+			return node{}, fmt.Errorf("open crawl broker: %w", crawlBrokerErr)
+		}
+
+		crawl = &crawlResultIngest{
+			broker: crawlBroker,
+			consumer: crawlresults.NewIngestConsumer(
+				crawlBroker.Ingest,
+				urlReceiver,
+				postingReceiver,
+			),
+		}
+	}
+
+	var distributionCycle *distributioncycle.Cycle
+
+	if config.Distribution.Enabled {
+		peerMessageExchange := peerwire.NewMessageExchange(egressClient)
+		replicaEligibility := replicaeligibility.New(config.Distribution.RecipientCooldown, now)
+		dhtRingObserver := metrics.NewDHTRingMetrics(registry)
+
+		distributionCycle = distributioncycle.New(
+			vault,
+			postingoffer.New(
+				vault,
+				offerSchedule,
+				postingReplicas,
+				postings,
+				peerRoster,
+				replicaEligibility,
+				dhtRingObserver,
+				dhtRingPartitions,
+				identity.Hash,
+				config.Distribution.Redundancy,
+			),
+			postinghandoff.New(
+				postingReplicas,
+				postingPurger,
+				peerRoster,
+				dhtRingPartitions,
+				identity.Hash,
+				config.Distribution.Redundancy,
+			),
+			postingtransfer.New(
+				postingcourier.New(peerMessageExchange, identity.NetworkName, identity.Hash),
+				urlmetadatacourier.NewBounded(
+					urlmetadatacourier.New(
+						peerMessageExchange,
+						identity.NetworkName,
+						identity.Hash,
+					),
+					config.Distribution.URLMetadataBatchSize,
+				),
+				urlDirectory,
+				distributionObserver,
+			),
+			replicaEligibility,
+			postingReplicas,
+			offerSchedule,
+			peerRoster,
+			now,
+			distributionObserver,
+			dhtRingObserver,
+			distributioncycle.Config{
+				OfferInterval: postingofferinterval.Bounds{
+					Shortest: config.Distribution.OfferInterval.Shortest,
+					Longest:  config.Distribution.OfferInterval.Longest,
 				},
-			)
-
-			return nil
-		},
-	}
-	if assembled.distributionCycle != nil {
-		loops = append(loops, func(ctx context.Context) error {
-			assembled.distributionCycle.Run(ctx)
-
-			return nil
-		})
-	}
-	if assembled.crawl != nil {
-		loops = append(loops, func(ctx context.Context) error {
-			assembled.crawl.Run(ctx)
-
-			return nil
-		})
+				PostingsPerBatch:  config.Distribution.PostingsPerBatch,
+				CycleInterval:     config.Distribution.CycleInterval,
+				DrainBudget:       config.Distribution.DrainBudget,
+				MinReachablePeers: config.Distribution.MinReachablePeers,
+			},
+		)
 	}
 
-	return loops
+	return node{
+		peerHandler: httpobservation.NewHandler(
+			mux,
+			httpaccesslog.New(),
+			endpointMetricsObserver{endpoints: metrics.NewHTTPEndpointMetrics(registry)},
+		),
+		evictionSweeper: eviction.NewSweeper(
+			vault,
+			postingPurger,
+			urlReferences,
+			urlEvictor,
+			urlMetadataStaleness,
+			eviction.Config{TargetFraction: evictionTargetFraction, BatchSize: evictionBatchSize},
+		),
+		postingEscrow:         postingEscrow,
+		evictionObserver:      metrics.NewEvictionMetrics(registry),
+		postingEscrowObserver: postingEscrowObserver,
+		peerAnnouncer:         peerAnnouncer,
+		distributionCycle:     distributionCycle,
+		crawlResultIngest:     crawl,
+	}, nil
 }
