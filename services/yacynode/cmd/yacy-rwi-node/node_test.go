@@ -13,6 +13,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	yacynode "github.com/nikitakarpei/yacy-rwi-node/yacynode/cmd/yacy-rwi-node"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -36,7 +37,7 @@ func TestRunNodeStopsWhenItsContextIsCanceled(t *testing.T) {
 
 func TestRunNodeReportsAnUnusableListenAddress(t *testing.T) {
 	config := nodeConfigFor(t)
-	config.PeerAddr = "203.0.113.255:-1"
+	config.Serving.PeerAddr = "203.0.113.255:-1"
 
 	node := startNode(t, config)
 	defer node.stop()
@@ -139,20 +140,20 @@ func TestOpsEndpointPublishesWhatStorageHolds(t *testing.T) {
 	}
 }
 
-func nodeConfigFor(t *testing.T) yacynode.NodeConfig {
+func nodeConfigFor(t *testing.T) nodeconfiguration.Settings {
 	t.Helper()
 
-	config, err := yacynode.LoadNodeConfig(envFrom(map[string]string{
-		yacynode.EnvPeerHash:    nodeHashText,
-		yacynode.EnvPeerName:    "node",
-		yacynode.EnvNetworkName: nodeNetwork,
-		yacynode.EnvProxyURL:    "http://127.0.0.1:1",
+	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvPeerHash:    nodeHashText,
+		nodeconfiguration.EnvPeerName:    "node",
+		nodeconfiguration.EnvNetworkName: nodeNetwork,
+		nodeconfiguration.EnvProxyURL:    "http://127.0.0.1:1",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
 	}
-	config.PeerAddr = reservedAddr(t)
-	config.OpsAddr = reservedAddr(t)
+	config.Serving.PeerAddr = reservedAddr(t)
+	config.Serving.OpsAddr = reservedAddr(t)
 
 	return config
 }
@@ -192,13 +193,13 @@ type runningNode struct {
 	stopped  chan error
 }
 
-func startNode(t *testing.T, config yacynode.NodeConfig) runningNode {
+func startNode(t *testing.T, config nodeconfiguration.Settings) runningNode {
 	t.Helper()
 
 	ctx, cancel := context.WithCancel(context.Background())
 	node := runningNode{
-		peerAddr: config.PeerAddr,
-		opsAddr:  config.OpsAddr,
+		peerAddr: config.Serving.PeerAddr,
+		opsAddr:  config.Serving.OpsAddr,
 		stop:     cancel,
 		stopped:  make(chan error, 1),
 	}
@@ -351,4 +352,8 @@ func (n runningNode) answerTo(
 	}
 
 	return resp.StatusCode, string(body)
+}
+
+func envFrom(values map[string]string) func(string) string {
+	return func(key string) string { return values[key] }
 }

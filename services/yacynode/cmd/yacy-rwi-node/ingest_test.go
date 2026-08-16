@@ -9,7 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	yacynode "github.com/nikitakarpei/yacy-rwi-node/yacynode/cmd/yacy-rwi-node"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -53,7 +53,7 @@ func createIngestStream(t *testing.T, broker string) {
 		Name: yacycrawlcontract.CrawledPageStreamName(
 			yacycrawlcontract.PageRepresentationKindRWI,
 		),
-		Subjects:  []string{yacynode.DefaultIngestSubject},
+		Subjects:  []string{nodeconfiguration.DefaultIngestSubject},
 		Retention: jetstream.WorkQueuePolicy,
 		MaxMsgs:   ingestStreamCapacity,
 		Discard:   jetstream.DiscardNew,
@@ -62,11 +62,11 @@ func createIngestStream(t *testing.T, broker string) {
 	}
 }
 
-func crawlConfigFor(broker string) yacynode.CrawlConfig {
-	return yacynode.CrawlConfig{
+func crawlConfigFor(broker string) nodeconfiguration.CrawlConfig {
+	return nodeconfiguration.CrawlConfig{
 		NATSURL:       broker,
-		IngestSubject: yacynode.DefaultIngestSubject,
-		IngestDurable: yacynode.DefaultIngestDurable,
+		IngestSubject: nodeconfiguration.DefaultIngestSubject,
+		IngestDurable: nodeconfiguration.DefaultIngestDurable,
 	}
 }
 
@@ -82,7 +82,7 @@ func publishIngestChunk(
 		t.Fatalf("marshal ingest chunk: %v", err)
 	}
 	js := natstestserver.ConnectJetStream(t, broker)
-	if _, err := js.Publish(t.Context(), yacynode.DefaultIngestSubject, data); err != nil {
+	if _, err := js.Publish(t.Context(), nodeconfiguration.DefaultIngestSubject, data); err != nil {
 		t.Fatalf("publish ingest chunk: %v", err)
 	}
 }

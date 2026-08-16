@@ -7,6 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
@@ -19,7 +20,7 @@ type peerExchange struct {
 	router         httpguard.WireRouter
 	identity       nodeidentity.Identity
 	status         nodestatus.RuntimeStatus
-	config         NodeConfig
+	config         nodeconfiguration.PeerExchangeConfig
 	vault          *vault.Vault
 	client         *http.Client
 	rosterObserver peerroster.RosterObserver
@@ -32,6 +33,7 @@ func (p peerExchange) assemble() (peerannouncement.Announcer, peerroster.Roster,
 		p.config.KnownRosterCapacity,
 		p.config.ReachableRosterCapacity,
 		p.config.AnnounceInterval,
+
 		p.identity.Hash,
 		p.rosterObserver,
 	)
@@ -42,7 +44,7 @@ func (p peerExchange) assemble() (peerannouncement.Announcer, peerroster.Roster,
 	peeradmission.MountHello(
 		p.router,
 		p.identity,
-		peeringStatus{status: p.status, networkName: p.config.NetworkName},
+		peeringStatus{status: p.status, networkName: p.identity.NetworkName},
 		roster,
 		p.client,
 	)
@@ -50,7 +52,7 @@ func (p peerExchange) assemble() (peerannouncement.Announcer, peerroster.Roster,
 	announcer := peerannouncement.New(
 		peerannouncement.Config{
 			Client:             p.client,
-			NetworkName:        p.config.NetworkName,
+			NetworkName:        p.identity.NetworkName,
 			Interval:           p.config.AnnounceInterval,
 			ReachableCap:       p.config.ReachableRosterCapacity,
 			ContactConcurrency: p.config.PeerContactConcurrency,

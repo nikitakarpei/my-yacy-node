@@ -5,6 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
@@ -18,24 +19,25 @@ import (
 )
 
 type distributionCycle struct {
-	config     NodeConfig
-	self       yacymodel.Hash
-	storage    nodeStorage
-	roster     peerroster.Roster
-	client     *http.Client
-	observer   *metrics.DistributionMetrics
-	dhtRing    *metrics.DHTRingMetrics
-	partitions yacymodel.DHTRingPartitions
+	config      nodeconfiguration.DistributionConfig
+	networkName string
+	self        yacymodel.Hash
+	storage     nodeStorage
+	roster      peerroster.Roster
+	client      *http.Client
+	observer    *metrics.DistributionMetrics
+	dhtRing     *metrics.DHTRingMetrics
+	partitions  yacymodel.DHTRingPartitions
 }
 
 func (d distributionCycle) assemble() *distributioncycle.Cycle {
-	if !d.config.Distribution.Enabled {
+	if !d.config.Enabled {
 		return nil
 	}
 
 	exchange := peerwire.NewMessageExchange(d.client)
 	eligibility := replicaeligibility.New(
-		d.config.Distribution.RecipientCooldown,
+		d.config.RecipientCooldown,
 		d.storage.now,
 	)
 
@@ -49,7 +51,7 @@ func (d distributionCycle) assemble() *distributioncycle.Cycle {
 		d.dhtRing,
 		d.partitions,
 		d.self,
-		d.config.Distribution.Redundancy,
+		d.config.Redundancy,
 	)
 	handoff := postinghandoff.New(
 		d.storage.replicas,
@@ -57,13 +59,13 @@ func (d distributionCycle) assemble() *distributioncycle.Cycle {
 		d.roster,
 		d.partitions,
 		d.self,
-		d.config.Distribution.Redundancy,
+		d.config.Redundancy,
 	)
 	transfers := postingtransfer.New(
-		postingcourier.New(exchange, d.config.NetworkName, d.self),
+		postingcourier.New(exchange, d.networkName, d.self),
 		urlmetadatacourier.NewBounded(
-			urlmetadatacourier.New(exchange, d.config.NetworkName, d.self),
-			d.config.Distribution.URLMetadataBatchSize,
+			urlmetadatacourier.New(exchange, d.networkName, d.self),
+			d.config.URLMetadataBatchSize,
 		),
 		d.storage.urlDirectory,
 		d.observer,
@@ -83,13 +85,13 @@ func (d distributionCycle) assemble() *distributioncycle.Cycle {
 		d.dhtRing,
 		distributioncycle.Config{
 			OfferInterval: postingofferinterval.Bounds{
-				Shortest: d.config.Distribution.OfferInterval.Shortest,
-				Longest:  d.config.Distribution.OfferInterval.Longest,
+				Shortest: d.config.OfferInterval.Shortest,
+				Longest:  d.config.OfferInterval.Longest,
 			},
-			PostingsPerBatch:  d.config.Distribution.PostingsPerBatch,
-			CycleInterval:     d.config.Distribution.CycleInterval,
-			DrainBudget:       d.config.Distribution.DrainBudget,
-			MinReachablePeers: d.config.Distribution.MinReachablePeers,
+			PostingsPerBatch:  d.config.PostingsPerBatch,
+			CycleInterval:     d.config.CycleInterval,
+			DrainBudget:       d.config.DrainBudget,
+			MinReachablePeers: d.config.MinReachablePeers,
 		},
 	)
 }

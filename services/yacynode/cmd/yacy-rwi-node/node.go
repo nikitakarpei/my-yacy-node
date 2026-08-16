@@ -19,6 +19,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/landing"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
@@ -61,7 +62,7 @@ type node struct {
 
 func RunNode(
 	ctx context.Context,
-	config NodeConfig,
+	config nodeconfiguration.Settings,
 	vault *vault.Vault,
 	registry *prometheus.Registry,
 ) error {
@@ -78,8 +79,8 @@ func RunNode(
 	}
 
 	servers := []servergroup.NamedServer{
-		{Name: "peer protocol", Server: serverOn(config.PeerAddr, assembled.peerHandler)},
-		{Name: "ops", Server: serverOn(config.OpsAddr, opsmetrics.NewMux(
+		{Name: "peer protocol", Server: serverOn(config.Serving.PeerAddr, assembled.peerHandler)},
+		{Name: "ops", Server: serverOn(config.Serving.OpsAddr, opsmetrics.NewMux(
 			promhttp.HandlerFor(registry, promhttp.HandlerOpts{}),
 		))},
 	}
@@ -95,18 +96,18 @@ func RunNode(
 
 func assembleNode(
 	ctx context.Context,
-	config NodeConfig,
+	config nodeconfiguration.Settings,
 	vault *vault.Vault,
 	registry *prometheus.Registry,
 ) (node, error) {
-	identity := nodeIdentity(config)
+	identity := nodeIdentity(config.Identity)
 
-	partitions, err := dhtRingPartitionsOf(config)
+	partitions, err := dhtRingPartitionsOf(config.Distribution)
 	if err != nil {
 		return node{}, err
 	}
 
-	egress := newEgressProxyClient(config.ProxyURL, outboundRequestTimeout)
+	egress := newEgressProxyClient(config.Egress.ProxyURL, outboundRequestTimeout)
 	observers := nodeObserversOn(registry)
 
 	storage, err := openNodeStorage(vault, time.Now, config.Escrow.PostingCapacity, observers)
@@ -122,7 +123,7 @@ func assembleNode(
 
 	mux := http.NewServeMux()
 	mux.Handle("/{$}", landing.NewEndpoint())
-	router := wireRouterOn(mux, config, status)
+	router := wireRouterOn(mux, config.Serving, status)
 
 	mountNodeEndpoints(
 		router,
@@ -136,7 +137,7 @@ func assembleNode(
 		router:         router,
 		identity:       identity,
 		status:         status,
-		config:         config,
+		config:         config.PeerExchange,
 		vault:          vault,
 		client:         egress,
 		rosterObserver: metrics.NewPeerRosterMetrics(registry),
@@ -151,14 +152,15 @@ func assembleNode(
 	}
 
 	cycle := distributionCycle{
-		config:     config,
-		self:       identity.Hash,
-		storage:    storage,
-		roster:     roster,
-		client:     egress,
-		observer:   observers.offers,
-		dhtRing:    metrics.NewDHTRingMetrics(registry),
-		partitions: partitions,
+		config:      config.Distribution,
+		networkName: identity.NetworkName,
+		self:        identity.Hash,
+		storage:     storage,
+		roster:      roster,
+		client:      egress,
+		observer:    observers.offers,
+		dhtRing:     metrics.NewDHTRingMetrics(registry),
+		partitions:  partitions,
 	}.assemble()
 
 	return node{
@@ -175,10 +177,10 @@ func assembleNode(
 	}, nil
 }
 
-func dhtRingPartitionsOf(config NodeConfig) (yacymodel.DHTRingPartitions, error) {
-	partitions, err := yacymodel.DHTRingPartitionsFromExponent(
-		config.Distribution.PartitionExponent,
-	)
+func dhtRingPartitionsOf(
+	config nodeconfiguration.DistributionConfig,
+) (yacymodel.DHTRingPartitions, error) {
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(config.PartitionExponent)
 	if err != nil {
 		return 0, fmt.Errorf("dht ring partitions: %w", err)
 	}
@@ -202,7 +204,7 @@ func nodeObserversOn(registry *prometheus.Registry) nodeObservers {
 
 func wireRouterOn(
 	mux *http.ServeMux,
-	config NodeConfig,
+	config nodeconfiguration.ServingConfig,
 	status nodestatus.RuntimeStatus,
 ) httpguard.WireRouter {
 	return httpguard.NewWireRouter(mux, httpguard.WireGate{

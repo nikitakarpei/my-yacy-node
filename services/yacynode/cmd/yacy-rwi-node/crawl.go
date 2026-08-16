@@ -6,6 +6,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlresults"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 )
 
 type crawlRuntime struct {
@@ -15,7 +16,7 @@ type crawlRuntime struct {
 
 func buildCrawlRuntime(
 	ctx context.Context,
-	config CrawlConfig,
+	config nodeconfiguration.CrawlConfig,
 	storage nodeStorage,
 ) (*crawlRuntime, error) {
 	if !config.Enabled() {
