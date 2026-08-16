@@ -3,9 +3,19 @@ package main
 import (
 	"context"
 
+	"github.com/prometheus/client_golang/prometheus"
+
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 )
+
+func requestObserversOn(registry *prometheus.Registry) []httpobservation.Observer {
+	return []httpobservation.Observer{
+		httpaccesslog.New(),
+		endpointMetricsObserver{endpoints: metrics.NewHTTPEndpointMetrics(registry)},
+	}
+}
 
 type endpointMetricsObserver struct {
 	endpoints *metrics.HTTPEndpointMetrics

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
@@ -109,4 +110,20 @@ func openNodeStorage(
 		offerSchedule: offerSchedule,
 		replicas:      replicas,
 	}, nil
+}
+
+const (
+	evictionTargetFraction = 0.9
+	evictionBatch          = 256
+)
+
+func newStorageSweeper(vault *vault.Vault, storage nodeStorage) eviction.Sweeper {
+	return eviction.NewSweeper(
+		vault,
+		storage.postingPurger,
+		storage.references,
+		storage.urlEvictor,
+		storage.staleness,
+		eviction.Config{TargetFraction: evictionTargetFraction, BatchSize: evictionBatch},
+	)
 }
