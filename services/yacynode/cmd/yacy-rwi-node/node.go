@@ -10,6 +10,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -164,9 +166,7 @@ func assembleNode(
 	}.assemble()
 
 	return node{
-		peerHandler: logHTTPRequests(
-			instrumentHTTP(metrics.NewHTTPEndpointMetrics(registry), mux),
-		),
+		peerHandler:       httpobservation.NewHandler(mux, requestObserversOn(registry)...),
 		sweeper:           newStorageSweeper(vault, storage),
 		escrow:            storage.escrow,
 		evictionObserver:  metrics.NewEvictionMetrics(registry),
@@ -199,6 +199,13 @@ func nodeObserversOn(registry *prometheus.Registry) nodeObservers {
 		escrow:   metrics.NewRWIEscrowMetrics(registry),
 		refusals: metrics.NewRWIAdmissionMetrics(registry),
 		offers:   metrics.NewDistributionMetrics(registry),
+	}
+}
+
+func requestObserversOn(registry *prometheus.Registry) []httpobservation.Observer {
+	return []httpobservation.Observer{
+		httpaccesslog.New(),
+		endpointMetricsObserver{endpoints: metrics.NewHTTPEndpointMetrics(registry)},
 	}
 }
 

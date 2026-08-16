@@ -10,6 +10,10 @@ components:
     in: applog/**
   envconfig:
     in: envconfig/**
+  httpobservation:
+    in: httpobservation/**
+  httpaccesslog:
+    in: httpaccesslog/**
   opsmetrics:
     in: opsmetrics/**
   servergroup:
@@ -31,6 +35,9 @@ vendors:
       - github.com/nats-io/nats.go/**
 
 deps:
+  httpaccesslog:
+    mayDependOn:
+      - httpobservation
   servergroup:
     canUse:
       - errgroup
