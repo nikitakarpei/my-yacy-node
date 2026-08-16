@@ -208,6 +208,7 @@ deps:
   rwiadmission:
     mayDependOn:
       - rwipostings
+      - rwiescrow
       - urlmeta
       - vault
   rwiingress:
@@ -266,6 +267,7 @@ deps:
   metrics:
     mayDependOn:
       - eviction
+      - rwiadmission
       - vault
     canUse:
       - prometheus

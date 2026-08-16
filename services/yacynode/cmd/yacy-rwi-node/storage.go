@@ -35,8 +35,8 @@ type nodeStorage struct {
 func openNodeStorage(
 	vault *vault.Vault,
 	now func() time.Time,
-	escrowObserver rwiescrow.HoldObserver,
-	offerObserver postingofferschedule.Observer,
+	escrowPostingCapacity int,
+	observers nodeObservers,
 ) (
 	nodeStorage,
 	error,
@@ -51,7 +51,11 @@ func openNodeStorage(
 		return nodeStorage{}, fmt.Errorf("url references: %w", err)
 	}
 
-	offerSchedule, replicas, postingRecords, err := rwidistribution.Open(vault, now, offerObserver)
+	offerSchedule, replicas, postingRecords, err := rwidistribution.Open(
+		vault,
+		now,
+		observers.offers,
+	)
 	if err != nil {
 		return nodeStorage{}, fmt.Errorf("rwi distribution: %w", err)
 	}
@@ -65,7 +69,7 @@ func openNodeStorage(
 		return nodeStorage{}, fmt.Errorf("rwi storage: %w", err)
 	}
 
-	escrow, err := rwiescrow.Open(vault, admitter, escrowObserver, escrowQuotaFraction, now)
+	escrow, err := rwiescrow.Open(vault, admitter, observers.escrow, escrowPostingCapacity, now)
 	if err != nil {
 		return nodeStorage{}, fmt.Errorf("rwi escrow: %w", err)
 	}
@@ -89,7 +93,11 @@ func openNodeStorage(
 			urlDirectory,
 			admitter,
 			escrow,
-			rwiadmission.Config{BatchCap: receiveBatchCap, Pause: receiveBusyPause},
+			rwiadmission.Config{
+				BatchCap: receiveBatchCap,
+				Pause:    receiveBusyPause,
+				Refusals: observers.refusals,
+			},
 		),
 		postingPurger: postingPurger,
 		escrow:        escrow,

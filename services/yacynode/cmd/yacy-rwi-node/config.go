@@ -25,6 +25,7 @@ const (
 	EnvAdvertisePort           = "YACY_ADVERTISE_PORT"
 	EnvDataDir                 = "YACY_DATA_DIR"
 	EnvStorageQuota            = "YACY_STORAGE_QUOTA"
+	EnvEscrowPostingCapacity   = "YACY_ESCROW_POSTING_CAPACITY"
 	EnvTrustedProxies          = "YACY_TRUSTED_PROXIES"
 	EnvSeedlistURLs            = "YACY_SEEDLIST_URLS"
 	EnvAnnounceInterval        = "YACY_ANNOUNCE_INTERVAL"
@@ -48,6 +49,7 @@ const (
 	DefaultOpsAddr                 = ":9090"
 	DefaultDataDir                 = "./data"
 	DefaultQuota                   = "1GB"
+	DefaultEscrowPostingCapacity   = 8192
 	DefaultAnnounceInterval        = 10 * time.Minute
 	DefaultPeerContactConcurrency  = 16
 	DefaultKnownRosterCapacity     = 4096
@@ -86,8 +88,13 @@ type NodeConfig struct {
 	PeerContactConcurrency  int
 	KnownRosterCapacity     int
 	ReachableRosterCapacity int
+	Escrow                  EscrowConfig
 	Distribution            DistributionConfig
 	Crawl                   CrawlConfig
+}
+
+type EscrowConfig struct {
+	PostingCapacity int
 }
 
 type DistributionConfig struct {
@@ -142,6 +149,11 @@ func LoadNodeConfig(getenv func(string) string) (NodeConfig, error) {
 		return NodeConfig{}, fmt.Errorf("%s: %w", EnvStorageQuota, err)
 	}
 
+	escrow, err := loadEscrowConfig(getenv)
+	if err != nil {
+		return NodeConfig{}, err
+	}
+
 	trustedProxyNetworks, err := trustedProxyNetworksFrom(getenv(EnvTrustedProxies))
 	if err != nil {
 		return NodeConfig{}, fmt.Errorf("%s: %w", EnvTrustedProxies, err)
@@ -165,6 +177,7 @@ func LoadNodeConfig(getenv func(string) string) (NodeConfig, error) {
 		OpsAddr:                 envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 		StoragePath:             filepath.Join(dataDir, StorageFileName),
 		StorageQuotaByte:        quota,
+		Escrow:                  escrow,
 		TrustedProxyNetworks:    trustedProxyNetworks,
 		ProxyURL:                proxyURL,
 		SeedlistURLs:            seedlistURLs,
@@ -360,6 +373,19 @@ func advertisePort(getenv func(string) string, peerAddr string) (int, error) {
 	}
 
 	return positiveInt(EnvPeerAddr, portPart)
+}
+
+func loadEscrowConfig(getenv func(string) string) (EscrowConfig, error) {
+	postingCapacity, err := envconfig.PositiveInt(
+		getenv,
+		EnvEscrowPostingCapacity,
+		DefaultEscrowPostingCapacity,
+	)
+	if err != nil {
+		return EscrowConfig{}, err
+	}
+
+	return EscrowConfig{PostingCapacity: postingCapacity}, nil
 }
 
 func seniorFlags() yacymodel.PeerCapabilities {
