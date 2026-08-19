@@ -12,15 +12,15 @@ import (
 )
 
 const (
-	EnvPeerHash      = "YACY_PEER_HASH"
-	EnvPeerName      = "YACY_PEER_NAME"
-	EnvNetworkName   = "YACY_NETWORK_NAME"
-	EnvAdvertiseHost = "YACY_ADVERTISE_HOST"
-	EnvAdvertisePort = "YACY_ADVERTISE_PORT"
+	EnvInitialPeerHash = "YACY_INITIAL_PEER_HASH"
+	EnvPeerName        = "YACY_PEER_NAME"
+	EnvNetworkName     = "YACY_NETWORK_NAME"
+	EnvAdvertiseHost   = "YACY_ADVERTISE_HOST"
+	EnvAdvertisePort   = "YACY_ADVERTISE_PORT"
 )
 
 type IdentityConfig struct {
-	Hash          yacymodel.Hash
+	InitialHash   yacymodel.Optional[yacymodel.Hash]
 	NetworkName   string
 	Name          yacymodel.PeerName
 	AdvertiseHost string
@@ -33,9 +33,9 @@ func loadIdentityConfig(
 	listenAddr string,
 	announcing bool,
 ) (IdentityConfig, error) {
-	hash, err := yacymodel.ParseHash(strings.TrimSpace(getenv(EnvPeerHash)))
+	initialHash, err := initialPeerHash(getenv)
 	if err != nil {
-		return IdentityConfig{}, fmt.Errorf("%s: %w", EnvPeerHash, err)
+		return IdentityConfig{}, err
 	}
 
 	name, err := peerName(getenv)
@@ -54,13 +54,29 @@ func loadIdentityConfig(
 	}
 
 	return IdentityConfig{
-		Hash:          hash,
+		InitialHash:   initialHash,
 		NetworkName:   envconfig.String(getenv, EnvNetworkName, yacyproto.DefaultNetwork),
 		Name:          name,
 		AdvertiseHost: host,
 		AdvertisePort: port,
 		Flags:         seniorFlags(),
 	}, nil
+}
+
+func initialPeerHash(
+	getenv func(string) string,
+) (yacymodel.Optional[yacymodel.Hash], error) {
+	stated := strings.TrimSpace(getenv(EnvInitialPeerHash))
+	if stated == "" {
+		return yacymodel.None[yacymodel.Hash](), nil
+	}
+
+	hash, err := yacymodel.ParseHash(stated)
+	if err != nil {
+		return yacymodel.None[yacymodel.Hash](), fmt.Errorf("%s: %w", EnvInitialPeerHash, err)
+	}
+
+	return yacymodel.Some(hash), nil
 }
 
 func peerName(getenv func(string) string) (yacymodel.PeerName, error) {

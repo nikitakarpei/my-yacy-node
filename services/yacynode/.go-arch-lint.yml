@@ -35,6 +35,8 @@ components:
     in: internal/peerannouncement/**
   peerwire:
     in: internal/peerwire/**
+  peerhash:
+    in: internal/peerhash/**
   bootstrap:
     in: internal/bootstrap/**
   landing:
@@ -179,6 +181,10 @@ deps:
   peerwire:
     canUse:
       - yacyproto
+  peerhash:
+    mayDependOn:
+      - vaultkey
+      - vault
   bootstrap:
     canUse:
       - yacyproto

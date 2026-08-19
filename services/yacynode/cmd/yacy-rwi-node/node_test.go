@@ -2,6 +2,7 @@ package main_test
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net"
 	"net/http"
@@ -30,7 +31,7 @@ func TestRunNodeStopsWhenItsContextIsCanceled(t *testing.T) {
 
 	node.stop()
 
-	if err := node.wait(t); err != nil {
+	if err := node.wait(t); err != nil && !errors.Is(err, context.Canceled) {
 		t.Fatalf("RunNode: %v", err)
 	}
 }
@@ -164,10 +165,10 @@ func nodeConfigFor(t *testing.T) nodeconfiguration.Settings {
 	t.Helper()
 
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvPeerHash:    nodeHashText,
-		nodeconfiguration.EnvPeerName:    "node",
-		nodeconfiguration.EnvNetworkName: nodeNetwork,
-		nodeconfiguration.EnvProxyURL:    "http://127.0.0.1:1",
+		nodeconfiguration.EnvInitialPeerHash: nodeHashText,
+		nodeconfiguration.EnvPeerName:        "node",
+		nodeconfiguration.EnvNetworkName:     nodeNetwork,
+		nodeconfiguration.EnvProxyURL:        "http://127.0.0.1:1",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)

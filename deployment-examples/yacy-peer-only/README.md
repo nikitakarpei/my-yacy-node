@@ -13,7 +13,9 @@ contributes storage and search capacity to the network and nothing else.
 
 ## Setup
 
-1. Copy `.env.example` to `.env` and set `YACY_PEER_HASH`, `YACY_PEER_NAME`, and
-   `YACY_ADVERTISE_HOST`.
+1. Copy `.env.example` to `.env` and set `YACY_PEER_NAME` and `YACY_ADVERTISE_HOST`.
+   Leave `YACY_INITIAL_PEER_HASH` empty: the node generates its peer hash on the first
+   start and keeps it in the `yacy-data` volume. Back up that hash, because the peer
+   loses its identity on the network with the volume.
 2. Copy `docker-compose.yml.example` to `docker-compose.yml`.
 3. Start the stack: `docker compose up -d`.

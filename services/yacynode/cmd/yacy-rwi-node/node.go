@@ -25,6 +25,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerhash"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
@@ -81,8 +82,13 @@ func assembleNode(
 ) (node, error) {
 	now := time.Now
 
+	settledPeerHash, err := peerhash.Settle(ctx, vault, config.Identity.InitialHash)
+	if err != nil {
+		return node{}, fmt.Errorf("settle peer hash: %w", err)
+	}
+
 	identity := nodeidentity.Identity{
-		Hash:        config.Identity.Hash,
+		Hash:        settledPeerHash,
 		NetworkName: config.Identity.NetworkName,
 		Name:        config.Identity.Name,
 		Host:        config.Identity.AdvertiseHost,
