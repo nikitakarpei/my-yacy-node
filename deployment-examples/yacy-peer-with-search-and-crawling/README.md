@@ -9,6 +9,7 @@ answer with.
 
 | Service | Role |
 | --- | --- |
+| `caddy` | The one address a browser reaches the stack at. |
 | `searxng` | The search UI: queries the local index alongside web engines, and points every result link at `visitcrawl`. |
 | `visitcrawl` | Turns an opened result into one crawl order and redirects to the page, without waiting on the order. |
 | `nats` | Broker carrying crawl orders and crawled pages between services. |
@@ -24,9 +25,12 @@ answer with.
 ## Setup
 
 1. Copy `.env.example` to `.env` and set `YACY_ADVERTISE_HOST`,
-   `VISITCRAWL_PUBLIC_URL`, `VISITCRAWL_LINK_SECRET`, and `SEARXNG_SECRET`.
+   `VISITCRAWL_LINK_SECRET`, and `SEARXNG_SECRET`.
 2. Start the stack: `docker compose up -d`.
 3. Open `http://localhost:8080` to search.
+
+To serve other people, publish that address, ideally behind TLS. No other service needs to
+be reachable.
 
 ## Extras
 

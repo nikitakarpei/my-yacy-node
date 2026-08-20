@@ -11,7 +11,6 @@ from searx.plugins import PluginCfg
 
 result_link_router = importlib.import_module("result_link_router")
 
-BASE_URL = "http://visitcrawl:8091"
 LINK_SECRET = "shared-secret"
 NOW = 1700000000
 
@@ -43,7 +42,6 @@ def frozen_now(monkeypatch):
 
 @pytest.fixture(autouse=True)
 def configured_environment(monkeypatch):
-    monkeypatch.setenv("VISITCRAWL_BASE_URL", BASE_URL)
     monkeypatch.setenv("VISITCRAWL_LINK_SECRET", LINK_SECRET)
     monkeypatch.delenv("RESULT_LINK_ROUTER_LINK_LIFETIME", raising=False)
     monkeypatch.delenv("RESULT_LINK_ROUTER_DISABLE_HEADER", raising=False)
@@ -56,7 +54,6 @@ def plugin():
 
 def signed_visit_link_for(
     visited_page: str,
-    base_url: str = BASE_URL,
     expires: int = NOW + result_link_router.LINK_LIFETIME_DEFAULT,
     secret: str = LINK_SECRET,
 ) -> str:
@@ -64,7 +61,7 @@ def signed_visit_link_for(
         secret.encode(), f"{expires}\n{visited_page}".encode(), hashlib.sha256
     ).hexdigest()
     return (
-        f"{base_url}/visit"
+        "/visit"
         f"?url={quote(visited_page, safe='')}"
         f"&expires={expires}"
         f"&signature={signature}"
@@ -92,23 +89,6 @@ def test_leaves_non_url_field_unchanged(plugin):
 
 def test_leaves_non_http_scheme_unchanged(plugin):
     assert plugin.route_through_visitcrawl(None, "url", "ftp://example.com/a") is True
-
-
-def test_respects_configured_base_url(monkeypatch):
-    monkeypatch.setenv("VISITCRAWL_BASE_URL", "https://visitcrawl.internal:9443/")
-    configured = result_link_router.SXNGPlugin(PluginCfg(active=True))
-    rewritten = configured.route_through_visitcrawl(
-        None, "url", "https://example.com/a"
-    )
-    assert rewritten == signed_visit_link_for(
-        "https://example.com/a", base_url="https://visitcrawl.internal:9443"
-    )
-
-
-def test_requires_base_url_configured(monkeypatch):
-    monkeypatch.delenv("VISITCRAWL_BASE_URL", raising=False)
-    with pytest.raises(ValueError):
-        result_link_router.SXNGPlugin(PluginCfg(active=True))
 
 
 def test_requires_link_secret_configured(monkeypatch):

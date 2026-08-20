@@ -20,18 +20,19 @@ func TestResultLinkRouterRoutesSearchResultsThroughVisitcrawl(t *testing.T) {
 	network := dockernetwork.New(t, ctx)
 
 	natsURL := natsjetstream.Start(t, ctx, network.Name)
-	startOrigin(t, ctx, network.Name)
-	visitcrawlBaseURL := startVisitcrawl(t, ctx, network.Name)
-	searxngBaseURL := startSearXNG(t, ctx, network.Name, visitcrawlBaseURL)
+	startSearchUpstream(t, ctx, network.Name)
+	startVisitcrawl(t, ctx, network.Name)
+	startSearXNG(t, ctx, network.Name)
+	resultsOriginURL := startResultsOrigin(t, ctx, network.Name)
 
 	js := connectJetStream(t, natsURL)
 	createOrdersStream(t, ctx, js)
 
 	result := searxngsearch.OneResultInAnyLanguage(
-		t, ctx, searxngBaseURL, "!"+testEngineBang+" test",
+		t, ctx, resultsOriginURL, "!"+testEngineBang+" test",
 	)
 
-	wantPrefix := visitcrawlBaseURL + "/visit?"
+	wantPrefix := visitPath + "?"
 	if !strings.HasPrefix(result.URL, wantPrefix) {
 		t.Fatalf("result url = %q, want prefix %q", result.URL, wantPrefix)
 	}
@@ -40,14 +41,16 @@ func TestResultLinkRouterRoutesSearchResultsThroughVisitcrawl(t *testing.T) {
 		t.Fatalf("parse routed url: %v", err)
 	}
 	routedParams := routedLink.Query()
-	if gotDestination := routedParams.Get("url"); gotDestination != originDestination {
-		t.Fatalf("routed destination = %q, want %q", gotDestination, originDestination)
+	if gotDestination := routedParams.Get("url"); gotDestination != destinationPageURL {
+		t.Fatalf("routed destination = %q, want %q", gotDestination, destinationPageURL)
 	}
 	if routedParams.Get("expires") == "" || routedParams.Get("signature") == "" {
 		t.Fatalf("routed url = %q, want expires and signature", result.URL)
 	}
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, result.URL, nil)
+	req, err := http.NewRequestWithContext(
+		ctx, http.MethodGet, resultsOriginURL+result.URL, nil,
+	)
 	if err != nil {
 		t.Fatalf("build visit request: %v", err)
 	}
@@ -63,12 +66,12 @@ func TestResultLinkRouterRoutesSearchResultsThroughVisitcrawl(t *testing.T) {
 	if resp.StatusCode != http.StatusFound {
 		t.Fatalf("visit status = %d, want %d", resp.StatusCode, http.StatusFound)
 	}
-	if location := resp.Header.Get("Location"); location != originDestination {
-		t.Fatalf("visit redirect location = %q, want %q", location, originDestination)
+	if location := resp.Header.Get("Location"); location != destinationPageURL {
+		t.Fatalf("visit redirect location = %q, want %q", location, destinationPageURL)
 	}
 
 	order := fetchOnePlacedOrder(t, ctx, js)
-	if len(order.SeedURLs) != 1 || order.SeedURLs[0] != originDestination {
-		t.Fatalf("placed order seed urls = %v, want [%q]", order.SeedURLs, originDestination)
+	if len(order.SeedURLs) != 1 || order.SeedURLs[0] != destinationPageURL {
+		t.Fatalf("placed order seed urls = %v, want [%q]", order.SeedURLs, destinationPageURL)
 	}
 }

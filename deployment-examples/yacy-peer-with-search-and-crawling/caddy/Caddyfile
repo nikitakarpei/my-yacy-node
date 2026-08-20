@@ -1,0 +1,8 @@
+:8080 {
+	handle /visit* {
+		reverse_proxy visitcrawl:8091
+	}
+	handle {
+		reverse_proxy searxng:8080
+	}
+}

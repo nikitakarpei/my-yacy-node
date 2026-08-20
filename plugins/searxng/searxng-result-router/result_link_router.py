@@ -31,10 +31,6 @@ class SXNGPlugin(Plugin):
             description="Route result links through visitcrawl before their destination",
             preference_section="privacy",
         )
-        base_url = os.environ.get("VISITCRAWL_BASE_URL")
-        if not base_url:
-            raise ValueError("VISITCRAWL_BASE_URL must be set")
-        self.visitcrawl_base_url = base_url.rstrip("/")
         link_secret = os.environ.get("VISITCRAWL_LINK_SECRET")
         if not link_secret:
             raise ValueError("VISITCRAWL_LINK_SECRET must be set")
@@ -67,7 +63,7 @@ class SXNGPlugin(Plugin):
     def visit_link_for(self, visited_page: str) -> str:
         expires = str(int(time.time()) + self.link_lifetime)
         return (
-            f"{self.visitcrawl_base_url}/visit"
+            "/visit"
             f"?url={quote(visited_page, safe='')}"
             f"&expires={expires}"
             f"&signature={self.signature_of(expires, visited_page)}"

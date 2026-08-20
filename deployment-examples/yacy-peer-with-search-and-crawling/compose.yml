@@ -86,8 +86,6 @@ services:
     restart: unless-stopped
     depends_on:
       - nats
-    ports:
-      - "8091:8091"
     environment:
       CRAWL_NATS_URL: nats://nats:4222
       VISITCRAWL_LINK_SECRET: ${VISITCRAWL_LINK_SECRET:?set VISITCRAWL_LINK_SECRET in .env}
@@ -144,11 +142,8 @@ services:
         condition: service_completed_successfully
       visitcrawl:
         condition: service_started
-    ports:
-      - "8080:8080"
     environment:
       PYTHONPATH: /opt/searxng-plugins
-      VISITCRAWL_BASE_URL: ${VISITCRAWL_PUBLIC_URL:?set VISITCRAWL_PUBLIC_URL in .env}
       VISITCRAWL_LINK_SECRET: ${VISITCRAWL_LINK_SECRET:?set VISITCRAWL_LINK_SECRET in .env}
       SEARXNG_SECRET: ${SEARXNG_SECRET:?set SEARXNG_SECRET in .env}
       SEARXNG_SETTINGS_PATH: /etc/searxng/settings.yml
@@ -156,6 +151,19 @@ services:
       - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
       - searxng-engines:/usr/local/searxng/searx/engines
       - searxng-plugins:/opt/searxng-plugins:ro
+
+  caddy:
+    image: docker.io/library/caddy:2.11.4-alpine
+    restart: unless-stopped
+    depends_on:
+      - searxng
+      - visitcrawl
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
 
   nats-metrics:
     image: natsio/prometheus-nats-exporter:0.16.0
@@ -184,3 +192,5 @@ volumes:
   searxng-engines:
   searxng-plugins:
   prometheus-data:
+  caddy-data:
+  caddy-config:
