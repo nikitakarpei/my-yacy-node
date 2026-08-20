@@ -6,19 +6,18 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-var seedKeyLayout = vaultkey.Single(vaultkey.Text)
+var seedKeyLayout = vault.SingleKey(vault.TextKeyPart)
 
 type seedKeyCodec struct{}
 
-func (seedKeyCodec) Encode(key string) vaultkey.Key { return seedKeyLayout.Key(key) }
+func (seedKeyCodec) Encode(key string) vault.Key { return seedKeyLayout.Key(key) }
 
 func (seedKeyCodec) Decode(storedKey []byte) (string, error) {
 	decoded, err := seedKeyLayout.Parts(storedKey)
@@ -37,7 +36,7 @@ func (seedValueCodec) Decode(raw []byte) ([]byte, error)   { return raw, nil }
 func openVault(t *testing.T, quotaBytes int64) *vault.Vault {
 	t.Helper()
 
-	v, err := memory.Open(quotaBytes, nil)
+	v, err := memoryvault.Open(quotaBytes, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

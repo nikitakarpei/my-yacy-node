@@ -4,9 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 // freshnessRank orders days as plain text so the vault's byte order is also
@@ -51,7 +50,7 @@ func (o *stalenessRanking) StalestURLs(
 	err := o.vault.View(ctx, func(tx *vault.Txn) error {
 		return o.order.Scan(
 			tx,
-			vaultkey.EveryKey(),
+			vault.EveryKey(),
 			func(ranked rankedURL) (bool, error) {
 				stalest = append(stalest, ranked.hash)
 

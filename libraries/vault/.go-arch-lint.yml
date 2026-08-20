@@ -1,0 +1,27 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  vault:
+    in: .
+  vaultenginetest:
+    in: vaultenginetest/**
+
+vendors:
+  orderedcode:
+    in: github.com/google/orderedcode
+
+deps:
+  vault:
+    canUse:
+      - orderedcode
+  vaultenginetest:
+    mayDependOn:
+      - vault
+
+excludeFiles:
+  - "_test\\.go"

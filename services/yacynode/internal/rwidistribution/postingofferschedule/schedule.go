@@ -10,12 +10,11 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 type Observer interface {
@@ -288,7 +287,7 @@ func (s *Schedule) earliestOfferDueAt(ctx context.Context) (time.Time, bool, err
 	err := s.vault.View(ctx, func(tx *vault.Txn) error {
 		return s.order.Scan(
 			tx,
-			vaultkey.EveryKey(),
+			vault.EveryKey(),
 			func(scheduledOffer scheduledPostingOffer) (bool, error) {
 				earliestDueAt = scheduledOffer.At
 				found = true

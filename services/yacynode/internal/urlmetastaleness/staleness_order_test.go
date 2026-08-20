@@ -5,16 +5,16 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmetastaleness"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 func openOrder(t *testing.T) (*vault.Vault, urlmetastaleness.StalenessRanking) {
 	t.Helper()
 
-	v, err := memory.Open(0, nil)
+	v, err := memoryvault.Open(0, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

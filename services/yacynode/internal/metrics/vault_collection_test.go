@@ -9,8 +9,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
 type stubVaultCollections struct {

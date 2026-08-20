@@ -5,12 +5,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingofferschedule"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingreplicas"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 func urlHash(raw string) yacymodel.URLHash {
@@ -108,7 +108,7 @@ func holdersOf(
 func openLedger(t *testing.T) (*vault.Vault, *postingreplicas.Replicas) {
 	t.Helper()
 
-	v, err := memory.Open(0, nil)
+	v, err := memoryvault.Open(0, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

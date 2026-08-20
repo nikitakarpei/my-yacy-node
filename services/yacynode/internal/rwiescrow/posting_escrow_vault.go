@@ -5,11 +5,10 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 const (
@@ -37,11 +36,11 @@ func registerPostingEscrow(
 	return escrowed, holds, nil
 }
 
-var escrowedPostingKeyLayout = vaultkey.Pair(hashcodec.URLHash, hashcodec.Hash)
+var escrowedPostingKeyLayout = vault.PairKey(hashcodec.URLHash, hashcodec.Hash)
 
 type escrowedPostingKeyCodec struct{}
 
-func (escrowedPostingKeyCodec) Encode(posting postingIdentity) vaultkey.Key {
+func (escrowedPostingKeyCodec) Encode(posting postingIdentity) vault.Key {
 	return escrowedPostingKeyLayout.Key(posting.URL, posting.Word)
 }
 
@@ -54,7 +53,7 @@ func (escrowedPostingKeyCodec) Decode(storedKey []byte) (postingIdentity, error)
 	return postingIdentity{Word: word, URL: url}, nil
 }
 
-func everyPostingWaitingFor(url yacymodel.URLHash) vaultkey.KeyRange {
+func everyPostingWaitingFor(url yacymodel.URLHash) vault.KeyRange {
 	return escrowedPostingKeyLayout.KeysWithFirst(url)
 }
 
@@ -96,11 +95,11 @@ func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
 	}, nil
 }
 
-var postingHoldKeyLayout = vaultkey.Triple(vaultkey.Time, hashcodec.Hash, hashcodec.URLHash)
+var postingHoldKeyLayout = vault.TripleKey(vault.TimeKeyPart, hashcodec.Hash, hashcodec.URLHash)
 
 type postingHoldKeyCodec struct{}
 
-func (postingHoldKeyCodec) Encode(hold postingHold) vaultkey.Key {
+func (postingHoldKeyCodec) Encode(hold postingHold) vault.Key {
 	return postingHoldKeyLayout.Key(hold.HeldAt, hold.Posting.Word, hold.Posting.URL)
 }
 
@@ -113,6 +112,6 @@ func (postingHoldKeyCodec) Decode(storedKey []byte) (postingHold, error) {
 	return postingHold{HeldAt: heldAt, Posting: postingIdentity{Word: word, URL: url}}, nil
 }
 
-func everyHoldPlacedBefore(cutoff time.Time) vaultkey.KeyRange {
+func everyHoldPlacedBefore(cutoff time.Time) vault.KeyRange {
 	return postingHoldKeyLayout.KeysBeforeFirst(cutoff)
 }

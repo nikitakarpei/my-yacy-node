@@ -4,8 +4,8 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
 const urlObserverFailed = "url metadata observer failed"

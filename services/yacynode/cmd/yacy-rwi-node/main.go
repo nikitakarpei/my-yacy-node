@@ -11,10 +11,10 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/bolt"
 )
 
 func main() {
@@ -36,7 +36,7 @@ func run() error {
 
 	registry := prometheus.NewRegistry()
 
-	storage, err := bolt.Open(
+	storage, err := boltvault.Open(
 		config.Storage.Path,
 		config.Storage.QuotaByte,
 		metrics.NewVaultTransactionMetrics(registry),

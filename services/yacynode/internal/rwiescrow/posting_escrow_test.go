@@ -8,11 +8,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 const (
@@ -45,9 +45,9 @@ func openHarness(t *testing.T) *harness {
 func openCappedHarness(t *testing.T, capacity int) *harness {
 	t.Helper()
 
-	v, err := memory.Open(0, nil)
+	v, err := memoryvault.Open(0, nil)
 	if err != nil {
-		t.Fatalf("memory.Open: %v", err)
+		t.Fatalf("memoryvault.Open: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {

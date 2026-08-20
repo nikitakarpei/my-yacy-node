@@ -12,11 +12,11 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	yacynode "github.com/nikitakarpei/yacy-rwi-node/yacynode/cmd/yacy-rwi-node"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -182,7 +182,7 @@ func nodeConfigFor(t *testing.T) nodeconfiguration.Settings {
 func openTestVault(t *testing.T) *vault.Vault {
 	t.Helper()
 
-	opened, err := memory.Open(1<<20, nil)
+	opened, err := memoryvault.Open(1<<20, nil)
 	if err != nil {
 		t.Fatalf("open storage: %v", err)
 	}

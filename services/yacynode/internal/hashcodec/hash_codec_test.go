@@ -6,18 +6,18 @@ import (
 	neturl "net/url"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 func TestHashKeysCarryTheHashText(t *testing.T) {
 	word := yacymodel.WordHash("keyword")
-	layout := vaultkey.Single(hashcodec.Hash)
+	layout := vault.SingleKey(hashcodec.Hash)
 
 	if !bytes.Equal(
 		layout.Key(word).Bytes(),
-		vaultkey.Single(vaultkey.Text).Key(word.String()).Bytes(),
+		vault.SingleKey(vault.TextKeyPart).Key(word.String()).Bytes(),
 	) {
 		t.Fatalf("key(%s) differs from the text key of its string form", word)
 	}
@@ -37,11 +37,11 @@ func TestURLHashKeysCarryTheHashText(t *testing.T) {
 		t.Fatalf("parse address: %v", err)
 	}
 	url := yacymodel.URLNormalformOf(address).Hash()
-	layout := vaultkey.Single(hashcodec.URLHash)
+	layout := vault.SingleKey(hashcodec.URLHash)
 
 	if !bytes.Equal(
 		layout.Key(url).Bytes(),
-		vaultkey.Single(vaultkey.Text).Key(url.String()).Bytes(),
+		vault.SingleKey(vault.TextKeyPart).Key(url.String()).Bytes(),
 	) {
 		t.Fatalf("key(%s) differs from the text key of its string form", url)
 	}
@@ -56,15 +56,15 @@ func TestURLHashKeysCarryTheHashText(t *testing.T) {
 }
 
 func TestHashKeysFailWhenTheTextIsNoHash(t *testing.T) {
-	notAHash := vaultkey.Single(vaultkey.Text).Key("too short")
+	notAHash := vault.SingleKey(vault.TextKeyPart).Key("too short")
 
-	if _, err := vaultkey.Single(hashcodec.Hash).Parts(notAHash.Bytes()); !errors.Is(
+	if _, err := vault.SingleKey(hashcodec.Hash).Parts(notAHash.Bytes()); !errors.Is(
 		err,
 		yacymodel.ErrInvalidHash,
 	) {
 		t.Fatalf("Parts error = %v, want %v", err, yacymodel.ErrInvalidHash)
 	}
-	if _, err := vaultkey.Single(hashcodec.URLHash).Parts(notAHash.Bytes()); !errors.Is(
+	if _, err := vault.SingleKey(hashcodec.URLHash).Parts(notAHash.Bytes()); !errors.Is(
 		err,
 		yacymodel.ErrInvalidHash,
 	) {

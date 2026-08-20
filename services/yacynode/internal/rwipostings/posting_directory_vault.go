@@ -3,10 +3,9 @@ package rwipostings
 import (
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 const postingsBucket vault.Name = "rwi"
@@ -27,11 +26,11 @@ func registerPostings(
 	return collection, nil
 }
 
-var postingKeyLayout = vaultkey.Pair(hashcodec.Hash, hashcodec.URLHash)
+var postingKeyLayout = vault.PairKey(hashcodec.Hash, hashcodec.URLHash)
 
 type postingKeyCodec struct{}
 
-func (postingKeyCodec) Encode(posting postingIdentity) vaultkey.Key {
+func (postingKeyCodec) Encode(posting postingIdentity) vault.Key {
 	return postingKeyLayout.Key(posting.word, posting.url)
 }
 
@@ -44,7 +43,7 @@ func (postingKeyCodec) Decode(storedKey []byte) (postingIdentity, error) {
 	return postingIdentity{word: word, url: url}, nil
 }
 
-func everyPostingOf(word yacymodel.Hash) vaultkey.KeyRange {
+func everyPostingOf(word yacymodel.Hash) vault.KeyRange {
 	return postingKeyLayout.KeysWithFirst(word)
 }
 

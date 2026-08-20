@@ -3,10 +3,9 @@ package urlmeta
 import (
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 const bucketName vault.Name = "urlmeta"
@@ -27,11 +26,11 @@ func registerCollection(
 	return collection, nil
 }
 
-var urlMetadataKeyLayout = vaultkey.Single(hashcodec.URLHash)
+var urlMetadataKeyLayout = vault.SingleKey(hashcodec.URLHash)
 
 type urlMetadataKeyCodec struct{}
 
-func (urlMetadataKeyCodec) Encode(hash yacymodel.URLHash) vaultkey.Key {
+func (urlMetadataKeyCodec) Encode(hash yacymodel.URLHash) vault.Key {
 	return urlMetadataKeyLayout.Key(hash)
 }
 
