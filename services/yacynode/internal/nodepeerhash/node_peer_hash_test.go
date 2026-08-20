@@ -3,10 +3,10 @@ package nodepeerhash_test
 import (
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodepeerhash"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 const (
@@ -15,7 +15,7 @@ const (
 )
 
 func TestSettleAdoptsTheConfiguredHashAndKeepsIt(t *testing.T) {
-	storedData := memory.OpenEngine(1 << 20)
+	storedData := memoryvault.OpenEngine(1 << 20)
 
 	adopted := settle(t, storedData, yacymodel.Some(mustParseHash(t, configuredHashText)))
 	if adopted != mustParseHash(t, configuredHashText) {
@@ -29,7 +29,7 @@ func TestSettleAdoptsTheConfiguredHashAndKeepsIt(t *testing.T) {
 }
 
 func TestSettleGeneratesAHashWhenNoneIsConfigured(t *testing.T) {
-	storedData := memory.OpenEngine(1 << 20)
+	storedData := memoryvault.OpenEngine(1 << 20)
 
 	generated := settle(t, storedData, yacymodel.None[yacymodel.Hash]())
 	if generated == (yacymodel.Hash{}) {
@@ -43,7 +43,7 @@ func TestSettleGeneratesAHashWhenNoneIsConfigured(t *testing.T) {
 }
 
 func TestSettleRefusesAConfiguredHashTheDataDoesNotBelongTo(t *testing.T) {
-	storedData := memory.OpenEngine(1 << 20)
+	storedData := memoryvault.OpenEngine(1 << 20)
 
 	stored := settle(t, storedData, yacymodel.Some(mustParseHash(t, configuredHashText)))
 

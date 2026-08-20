@@ -3,10 +3,9 @@ package urlreferences
 import (
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 const (
@@ -29,11 +28,11 @@ func registerURLReferences(
 	return words, referenced, nil
 }
 
-var wordByURLKeyLayout = vaultkey.Pair(hashcodec.URLHash, hashcodec.Hash)
+var wordByURLKeyLayout = vault.PairKey(hashcodec.URLHash, hashcodec.Hash)
 
 type wordByURLKeyCodec struct{}
 
-func (wordByURLKeyCodec) Encode(reference wordByURL) vaultkey.Key {
+func (wordByURLKeyCodec) Encode(reference wordByURL) vault.Key {
 	return wordByURLKeyLayout.Key(reference.url, reference.word)
 }
 
@@ -46,15 +45,15 @@ func (wordByURLKeyCodec) Decode(storedKey []byte) (wordByURL, error) {
 	return wordByURL{url: url, word: word}, nil
 }
 
-func everyWordReferencing(url yacymodel.URLHash) vaultkey.KeyRange {
+func everyWordReferencing(url yacymodel.URLHash) vault.KeyRange {
 	return wordByURLKeyLayout.KeysWithFirst(url)
 }
 
-var referencedURLKeyLayout = vaultkey.Single(hashcodec.URLHash)
+var referencedURLKeyLayout = vault.SingleKey(hashcodec.URLHash)
 
 type referencedURLKeyCodec struct{}
 
-func (referencedURLKeyCodec) Encode(url yacymodel.URLHash) vaultkey.Key {
+func (referencedURLKeyCodec) Encode(url yacymodel.URLHash) vault.Key {
 	return referencedURLKeyLayout.Key(url)
 }
 

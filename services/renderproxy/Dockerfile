@@ -10,7 +10,7 @@ ENV CGO_ENABLED=0 GOFLAGS=-trimpath GOWORK=off
 
 WORKDIR /src
 
-COPY --parents libraries/*/go.mod libraries/*/go.sum services/*/go.mod services/*/go.sum services/*/contract/go.mod services/*/contract/go.sum ./
+COPY --parents libraries/*/go.mod libraries/*/go.sum libraries/*/*/go.mod libraries/*/*/go.sum services/*/go.mod services/*/go.sum services/*/contract/go.mod services/*/contract/go.sum ./
 
 WORKDIR /src/services/renderproxy
 

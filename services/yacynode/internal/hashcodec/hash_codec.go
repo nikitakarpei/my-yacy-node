@@ -3,10 +3,10 @@
 package hashcodec
 
 import (
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-var Hash = vaultkey.TextAs(yacymodel.Hash.String, yacymodel.ParseHash)
+var Hash = vault.TextKeyPartFrom(yacymodel.Hash.String, yacymodel.ParseHash)
 
-var URLHash = vaultkey.TextAs(yacymodel.URLHash.String, yacymodel.ParseURLHash)
+var URLHash = vault.TextKeyPartFrom(yacymodel.URLHash.String, yacymodel.ParseURLHash)
