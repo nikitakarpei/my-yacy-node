@@ -23,9 +23,8 @@ answer with.
 
 ## Setup
 
-1. Copy `.env.example` to `.env` and set `YACY_PEER_HASH`, `YACY_PEER_NAME`,
-   `YACY_ADVERTISE_HOST`, `VISITCRAWL_PUBLIC_URL`, `VISITCRAWL_LINK_SECRET`, and
-   `SEARXNG_SECRET`.
+1. Copy `.env.example` to `.env` and set `YACY_ADVERTISE_HOST`,
+   `VISITCRAWL_PUBLIC_URL`, `VISITCRAWL_LINK_SECRET`, and `SEARXNG_SECRET`.
 2. Start the stack: `docker compose up -d`.
 3. Open `http://localhost:8080` to search.
 
