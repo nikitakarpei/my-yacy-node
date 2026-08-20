@@ -9,6 +9,7 @@ answer with.
 
 | Service | Role |
 | --- | --- |
+| `caddy` | The one address the stack is reached at, by a browser and by other peers. |
 | `searxng` | The search UI: queries the local index alongside web engines, and points every result link at `visitcrawl`. |
 | `visitcrawl` | Turns an opened result into one crawl order and redirects to the page, without waiting on the order. |
 | `nats` | Broker carrying crawl orders and crawled pages between services. |
@@ -23,10 +24,20 @@ answer with.
 
 ## Setup
 
-1. Copy `.env.example` to `.env` and set `YACY_ADVERTISE_HOST`,
-   `VISITCRAWL_PUBLIC_URL`, `VISITCRAWL_LINK_SECRET`, and `SEARXNG_SECRET`.
-2. Start the stack: `docker compose up -d`.
-3. Open `http://localhost:8080` to search.
+1. Write `.env`, with a secret for the visit links and a secret for the search UI:
+
+   ```sh
+   cp .env.example .env
+   printf 'VISITCRAWL_LINK_SECRET=%s\nSEARXNG_SECRET=%s\n' \
+     "$(openssl rand -hex 32)" "$(openssl rand -hex 32)" >> .env
+   ```
+
+2. Set `YACY_ADVERTISE_HOST` in `.env` to the address other peers reach the stack at.
+3. Start the stack: `docker compose up -d`.
+4. Open `http://localhost:8080` to search.
+
+To serve other people, and to let the peer take part in the YaCy network, publish that
+address. Nothing else is published beyond the machine it runs on.
 
 ## Extras
 
