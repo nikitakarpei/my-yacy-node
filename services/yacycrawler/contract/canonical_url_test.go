@@ -132,3 +132,40 @@ func TestCanonicalURLDecodedFromJSONCarriesItsParts(t *testing.T) {
 		t.Fatalf("hostname = %q, hasQuery = %v", decoded.Hostname(), decoded.HasQuery())
 	}
 }
+
+func TestCanonicalURLDirectory(t *testing.T) {
+	for input, want := range map[string]string{
+		"http://example.com/":         "http://example.com/",
+		"http://example.com/a/b":      "http://example.com/a/",
+		"http://example.com/a/b/":     "http://example.com/a/b/",
+		"http://example.com/a?q=/x/y": "http://example.com/",
+		"http://example.com:8080/a/b": "http://example.com:8080/a/",
+	} {
+		got, err := yacycrawlcontract.CanonicalURLOf(input)
+		if err != nil {
+			t.Fatalf("CanonicalURLOf(%q): %v", input, err)
+		}
+		if got.Directory().String() != want {
+			t.Errorf(
+				"CanonicalURLOf(%q).Directory() = %q, want %q",
+				input,
+				got.Directory().String(),
+				want,
+			)
+		}
+	}
+}
+
+func TestCanonicalURLDirectoryIsItsOwnDirectory(t *testing.T) {
+	canonical, err := yacycrawlcontract.CanonicalURLOf("http://example.com/a/b?q=1")
+	if err != nil {
+		t.Fatalf("CanonicalURLOf: %v", err)
+	}
+	directory := canonical.Directory()
+	if directory.Directory() != directory {
+		t.Fatalf("directory of %q is %q", directory.String(), directory.Directory().String())
+	}
+	if directory.Hostname() != "example.com" || directory.HasQuery() {
+		t.Fatalf("hostname = %q, hasQuery = %v", directory.Hostname(), directory.HasQuery())
+	}
+}

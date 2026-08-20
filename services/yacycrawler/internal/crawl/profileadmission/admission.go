@@ -18,7 +18,7 @@ type Admission struct {
 	urlMustMatch    *regexp.Regexp
 	urlMustNotMatch *regexp.Regexp
 	seedHosts       map[string]struct{}
-	seedDirectories []string
+	seedDirectories []yacycrawlcontract.CanonicalURL
 	admittedURLs    map[yacycrawlcontract.CanonicalURL]struct{}
 	pagesPerHost    map[string]int
 }
@@ -53,9 +53,8 @@ func New(
 		pagesPerHost:    map[string]int{},
 	}
 	for _, seed := range canonicalSeeds {
-		host, directory := hostAndDirectory(seed)
-		admission.seedHosts[host] = struct{}{}
-		admission.seedDirectories = append(admission.seedDirectories, directory)
+		admission.seedHosts[seed.Hostname()] = struct{}{}
+		admission.seedDirectories = append(admission.seedDirectories, seed.Directory())
 	}
 	return admission, nil
 }
@@ -102,7 +101,7 @@ func (a *Admission) withinScope(host string, canonicalURL yacycrawlcontract.Cano
 		return ok
 	case yacycrawlcontract.ScopeSubpath:
 		for _, directory := range a.seedDirectories {
-			if strings.HasPrefix(canonicalURL.String(), directory) {
+			if strings.HasPrefix(canonicalURL.String(), directory.String()) {
 				return true
 			}
 		}
@@ -110,16 +109,6 @@ func (a *Admission) withinScope(host string, canonicalURL yacycrawlcontract.Cano
 	default:
 		return false
 	}
-}
-
-func hostAndDirectory(
-	canonicalURL yacycrawlcontract.CanonicalURL,
-) (host, directory string) {
-	directory = canonicalURL.String()
-	if slash := strings.LastIndexByte(directory, '/'); slash >= 0 {
-		directory = directory[:slash+1]
-	}
-	return canonicalURL.Hostname(), directory
 }
 
 func matchOrAll(pattern string) string {

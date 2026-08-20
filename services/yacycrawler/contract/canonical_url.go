@@ -16,9 +16,10 @@ const (
 )
 
 type CanonicalURL struct {
-	value    string
-	hostname string
-	hasQuery bool
+	value     string
+	hostname  string
+	directory string
+	hasQuery  bool
 }
 
 func (c CanonicalURL) String() string { return c.value }
@@ -26,6 +27,10 @@ func (c CanonicalURL) String() string { return c.value }
 func (c CanonicalURL) Hostname() string { return c.hostname }
 
 func (c CanonicalURL) HasQuery() bool { return c.hasQuery }
+
+func (c CanonicalURL) Directory() CanonicalURL {
+	return CanonicalURL{value: c.directory, hostname: c.hostname, directory: c.directory}
+}
 
 func (c CanonicalURL) CanonicalURLOfLink(linkURL string) (CanonicalURL, error) {
 	parsedLinkURL, err := url.Parse(strings.TrimSpace(linkURL))
@@ -94,10 +99,18 @@ func canonicalURLOf(parsed *url.URL) (CanonicalURL, error) {
 	parsed.Path = cleanedPathOf(parsed.Path)
 
 	return CanonicalURL{
-		value:    parsed.String(),
-		hostname: hostname,
-		hasQuery: parsed.RawQuery != "",
+		value:     parsed.String(),
+		hostname:  hostname,
+		directory: directoryOf(parsed),
+		hasQuery:  parsed.RawQuery != "",
 	}, nil
+}
+
+func directoryOf(parsed *url.URL) string {
+	directory := *parsed
+	directory.RawQuery = ""
+	directory.Path = parsed.Path[:strings.LastIndexByte(parsed.Path, '/')+1]
+	return directory.String()
 }
 
 func cleanedPathOf(rawPath string) string {
