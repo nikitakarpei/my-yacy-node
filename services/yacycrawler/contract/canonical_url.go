@@ -27,6 +27,18 @@ func (c CanonicalURL) Hostname() string { return c.hostname }
 
 func (c CanonicalURL) HasQuery() bool { return c.hasQuery }
 
+func (c CanonicalURL) CanonicalURLOfLink(linkURL string) (CanonicalURL, error) {
+	parsedLinkURL, err := url.Parse(strings.TrimSpace(linkURL))
+	if err != nil {
+		return CanonicalURL{}, fmt.Errorf("parse link url: %w", err)
+	}
+	parsedBaseURL, err := url.Parse(c.value)
+	if err != nil {
+		return CanonicalURL{}, fmt.Errorf("parse base url: %w", err)
+	}
+	return canonicalURLOf(parsedBaseURL.ResolveReference(parsedLinkURL))
+}
+
 func (c CanonicalURL) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(c.value)
 	if err != nil {
@@ -57,18 +69,6 @@ func CanonicalURLOf(rawURL string) (CanonicalURL, error) {
 		return CanonicalURL{}, fmt.Errorf("parse url: %w", err)
 	}
 	return canonicalURLOf(parsed)
-}
-
-func CanonicalURLOfLink(linkURL, baseURL string) (CanonicalURL, error) {
-	parsedLinkURL, err := url.Parse(strings.TrimSpace(linkURL))
-	if err != nil {
-		return CanonicalURL{}, fmt.Errorf("parse link url: %w", err)
-	}
-	parsedBaseURL, err := url.Parse(strings.TrimSpace(baseURL))
-	if err != nil {
-		return CanonicalURL{}, fmt.Errorf("parse base url: %w", err)
-	}
-	return canonicalURLOf(parsedBaseURL.ResolveReference(parsedLinkURL))
 }
 
 func canonicalURLOf(parsed *url.URL) (CanonicalURL, error) {

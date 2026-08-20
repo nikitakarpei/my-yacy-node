@@ -37,7 +37,11 @@ func TestCanonicalURLOfRejectsBadInput(t *testing.T) {
 }
 
 func TestCanonicalURLOfLink(t *testing.T) {
-	got, err := yacycrawlcontract.CanonicalURLOfLink("../other", "http://example.com/dir/page")
+	base, err := yacycrawlcontract.CanonicalURLOf("http://example.com/dir/page")
+	if err != nil {
+		t.Fatalf("CanonicalURLOf: %v", err)
+	}
+	got, err := base.CanonicalURLOfLink("../other")
 	if err != nil {
 		t.Fatalf("CanonicalURLOfLink: %v", err)
 	}
@@ -47,11 +51,15 @@ func TestCanonicalURLOfLink(t *testing.T) {
 }
 
 func TestCanonicalURLOfLinkRejectsBadInput(t *testing.T) {
-	if _, err := yacycrawlcontract.CanonicalURLOfLink("x", "::bad"); err == nil {
-		t.Error("bad base should error")
+	base, err := yacycrawlcontract.CanonicalURLOf("http://h/")
+	if err != nil {
+		t.Fatalf("CanonicalURLOf: %v", err)
 	}
-	if _, err := yacycrawlcontract.CanonicalURLOfLink("::bad", "http://h/"); err == nil {
+	if _, err := base.CanonicalURLOfLink("::bad"); err == nil {
 		t.Error("bad link should error")
+	}
+	if _, err := (yacycrawlcontract.CanonicalURL{}).CanonicalURLOfLink("relative"); err == nil {
+		t.Error("relative link on an unset base should error")
 	}
 }
 
