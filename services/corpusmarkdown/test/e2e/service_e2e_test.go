@@ -25,13 +25,13 @@ func TestCrawledPageMarkdownIsStoredByURL(t *testing.T) {
 
 	network := dockernetwork.New(t, ctx)
 
-	natsURL := natsjetstream.Start(t, ctx, network.Name)
+	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
 	startCorpusMarkdown(t, ctx, network.Name)
 
-	js := connectJetStream(t, natsURL)
+	js := connectJetStream(t, crawlNATSURL)
 	awaitOrdersStream(t, ctx, js)
 
 	publishCrawlOrder(t, ctx, js, originURL)

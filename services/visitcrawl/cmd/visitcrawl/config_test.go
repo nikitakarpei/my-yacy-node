@@ -14,7 +14,7 @@ func envFrom(values map[string]string) func(string) string {
 
 func baseEnv() map[string]string {
 	return map[string]string{
-		"NATS_URL":               "nats://localhost:4222",
+		"CRAWL_NATS_URL":         "nats://localhost:4222",
 		"VISITCRAWL_LINK_SECRET": "shared-secret",
 	}
 }
@@ -59,11 +59,11 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	}
 }
 
-func TestLoadServiceConfigRequiresNATSURL(t *testing.T) {
+func TestLoadServiceConfigRequiresCrawlNATSURL(t *testing.T) {
 	env := baseEnv()
-	delete(env, "NATS_URL")
+	delete(env, "CRAWL_NATS_URL")
 	if _, err := visitcrawl.LoadServiceConfig(envFrom(env)); err == nil {
-		t.Fatal("missing NATS_URL should error")
+		t.Fatal("missing CRAWL_NATS_URL should error")
 	}
 }
 

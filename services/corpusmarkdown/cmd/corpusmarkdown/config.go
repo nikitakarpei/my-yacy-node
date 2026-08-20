@@ -6,7 +6,8 @@ import (
 )
 
 const (
-	EnvNATSURL                = "NATS_URL"
+	EnvCrawlNATSURL           = "CRAWL_NATS_URL"
+	EnvPageMarkdownNATSURL    = "PAGE_MARKDOWN_NATS_URL"
 	EnvNATSCrawledPageSubject = "NATS_CRAWLED_PAGE_SUBJECT"
 	EnvNATSCrawledPageDurable = "NATS_CRAWLED_PAGE_DURABLE"
 	EnvConcurrency            = "CORPUSMARKDOWN_CONCURRENCY"
@@ -22,15 +23,21 @@ var DefaultCrawledPageSubject = yacycrawlcontract.CrawledPageSubject(
 )
 
 type ServiceConfig struct {
-	NATSURL            string
-	CrawledPageSubject string
-	CrawledPageDurable string
-	Concurrency        int
-	OpsAddr            string
+	CrawlNATSURL        string
+	PageMarkdownNATSURL string
+	CrawledPageSubject  string
+	CrawledPageDurable  string
+	Concurrency         int
+	OpsAddr             string
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
-	natsURL, err := envconfig.Required(getenv, EnvNATSURL)
+	crawlNATSURL, err := envconfig.Required(getenv, EnvCrawlNATSURL)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
+
+	pageMarkdownNATSURL, err := envconfig.Required(getenv, EnvPageMarkdownNATSURL)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -41,7 +48,8 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		NATSURL: natsURL,
+		CrawlNATSURL:        crawlNATSURL,
+		PageMarkdownNATSURL: pageMarkdownNATSURL,
 		CrawledPageSubject: envconfig.String(
 			getenv,
 			EnvNATSCrawledPageSubject,

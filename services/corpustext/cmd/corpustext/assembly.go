@@ -25,7 +25,7 @@ const (
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
-	js, conn, err := jetstreamconnect.Open(cfg.NATSURL)
+	js, conn, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
 	if err != nil {
 		return err
 	}

@@ -33,7 +33,7 @@ func startNode(t *testing.T, ctx context.Context, networkName string) {
 				"YACY_INITIAL_PEER_HASH": nodePeerHash,
 				"YACY_PEER_NAME":         nodeAlias,
 				"YACY_ADVERTISE_HOST":    nodeAlias,
-				"NATS_URL":               natsjetstream.NetworkURL(),
+				"CRAWL_NATS_URL":         natsjetstream.NetworkURL(),
 				"YACY_PROXY_URL":         egressproxy.NetworkURL(),
 				"LOG_LEVEL":              "debug",
 			},
