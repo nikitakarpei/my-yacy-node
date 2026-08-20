@@ -34,18 +34,25 @@ const (
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
-	js, conn, err := jetstreamconnect.Open(cfg.NATSURL)
+	crawlJetStream, crawlConnection, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
 	if err != nil {
 		return err
 	}
-	defer func() { _ = conn.Close() }()
-	corpora, err := corporaFrom(ctx, js, cfg)
+	defer func() { _ = crawlConnection.Close() }()
+	pageMarkdownJetStream, pageMarkdownConnection, err := jetstreamconnect.Open(
+		cfg.PageMarkdownNATSURL,
+	)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = pageMarkdownConnection.Close() }()
+	corpora, err := corporaFrom(ctx, pageMarkdownJetStream, cfg)
 	if err != nil {
 		return err
 	}
 	registry := prometheus.NewRegistry()
 	metrics := progressobserversprometheus.NewRecallMetrics(registry)
-	recaller, err := newRecaller(ctx, js, cfg, corpora, metrics)
+	recaller, err := newRecaller(ctx, crawlJetStream, cfg, corpora, metrics)
 	if err != nil {
 		return err
 	}
@@ -61,10 +68,10 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 
 func corporaFrom(
 	ctx context.Context,
-	js jetstream.JetStream,
+	pageMarkdownJetStream jetstream.JetStream,
 	cfg ServiceConfig,
 ) ([]recall.Corpus, error) {
-	markdownStore, err := js.ObjectStore(ctx, pagemarkdownstore.BucketName)
+	markdownStore, err := pageMarkdownJetStream.ObjectStore(ctx, pagemarkdownstore.BucketName)
 	if err != nil {
 		return nil, fmt.Errorf("open page markdown bucket: %w", err)
 	}
@@ -73,21 +80,21 @@ func corporaFrom(
 
 func newRecaller(
 	ctx context.Context,
-	js jetstream.JetStream,
+	crawlJetStream jetstream.JetStream,
 	cfg ServiceConfig,
 	corpora []recall.Corpus,
 	metrics *progressobserversprometheus.RecallMetrics,
 ) (*recall.Recaller, error) {
-	redirects, err := redirectResolutionsFrom(ctx, js)
+	redirects, err := redirectResolutionsFrom(ctx, crawlJetStream)
 	if err != nil {
 		return nil, err
 	}
-	disposedPages, err := disposedPagesFrom(ctx, js)
+	disposedPages, err := disposedPagesFrom(ctx, crawlJetStream)
 	if err != nil {
 		return nil, err
 	}
 	return recall.NewRecaller(
-		crawlorderplacersjetstream.NewCrawlOrderPlacement(js, cfg.OrdersSubject),
+		crawlorderplacersjetstream.NewCrawlOrderPlacement(crawlJetStream, cfg.OrdersSubject),
 		redirects,
 		disposedPages,
 		corpora,
@@ -98,9 +105,9 @@ func newRecaller(
 
 func redirectResolutionsFrom(
 	ctx context.Context,
-	js jetstream.JetStream,
+	crawlJetStream jetstream.JetStream,
 ) (*redirectresolversjetstream.RedirectResolutions, error) {
-	bucket, err := js.KeyValue(ctx, yacycrawlcontract.RedirectResolutionBucketName)
+	bucket, err := crawlJetStream.KeyValue(ctx, yacycrawlcontract.RedirectResolutionBucketName)
 	if err != nil {
 		return nil, fmt.Errorf("open redirect resolution bucket: %w", err)
 	}
@@ -109,9 +116,9 @@ func redirectResolutionsFrom(
 
 func disposedPagesFrom(
 	ctx context.Context,
-	js jetstream.JetStream,
+	crawlJetStream jetstream.JetStream,
 ) (*disposedpagesjetstream.DisposedPages, error) {
-	bucket, err := js.KeyValue(ctx, yacycrawlcontract.DisposedPagesBucketName)
+	bucket, err := crawlJetStream.KeyValue(ctx, yacycrawlcontract.DisposedPagesBucketName)
 	if err != nil {
 		return nil, fmt.Errorf("open disposed pages bucket: %w", err)
 	}

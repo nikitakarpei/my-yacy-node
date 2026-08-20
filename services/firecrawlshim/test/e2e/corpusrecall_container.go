@@ -31,7 +31,8 @@ func startCorpusRecall(t *testing.T, ctx context.Context, networkName string) st
 			ExposedPorts:   []string{corpusRecallPort},
 			WaitingFor:     wait.ForListeningPort(corpusRecallPort),
 			Env: map[string]string{
-				"NATS_URL":                  natsjetstream.NetworkURL(),
+				"CRAWL_NATS_URL":            natsjetstream.NetworkURL(),
+				"PAGE_MARKDOWN_NATS_URL":    natsjetstream.NetworkURL(),
 				"CORPUSRECALL_RECALL_LIMIT": "5s",
 				"LOG_LEVEL":                 "debug",
 			},

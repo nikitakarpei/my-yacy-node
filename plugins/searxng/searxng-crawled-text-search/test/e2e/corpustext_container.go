@@ -27,7 +27,7 @@ func startCorpusText(
 ) {
 	t.Helper()
 	env := map[string]string{
-		"NATS_URL":             natsjetstream.NetworkURL(),
+		"CRAWL_NATS_URL":       natsjetstream.NetworkURL(),
 		"CORPUSTEXT_LANGUAGES": indexedLanguages,
 	}
 	for key, value := range searchIndexEnv {

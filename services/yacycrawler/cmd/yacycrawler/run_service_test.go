@@ -36,7 +36,7 @@ func publishedPageStreams() []yacycrawler.PageStreamConfig {
 func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	cfg := yacycrawler.ServiceConfig{
-		NATSURL:          natstestserver.Start(t),
+		CrawlNATSURL:     natstestserver.Start(t),
 		OrdersSubject:    yacycrawler.DefaultOrdersSubject,
 		OrdersDurable:    yacycrawler.DefaultOrdersDurable,
 		PageStreams:      publishedPageStreams(),
@@ -49,7 +49,7 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 		OpsAddr:          "127.0.0.1:0",
 	}
 
-	publishOrder(t, cfg.NATSURL)
+	publishOrder(t, cfg.CrawlNATSURL)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
@@ -63,7 +63,7 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	cfg := yacycrawler.ServiceConfig{
-		NATSURL: natstestserver.Start(t), OrdersSubject: yacycrawler.DefaultOrdersSubject,
+		CrawlNATSURL: natstestserver.Start(t), OrdersSubject: yacycrawler.DefaultOrdersSubject,
 		OrdersDurable: yacycrawler.DefaultOrdersDurable,
 		PageStreams:   publishedPageStreams(),
 		ProxyURL:      proxy, FetchConcurrency: 2,
@@ -77,9 +77,9 @@ func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 	}
 }
 
-func TestRunServiceRejectsBadNATSURL(t *testing.T) {
+func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {
 	cfg := yacycrawler.ServiceConfig{
-		NATSURL:          "nats://127.0.0.1:1",
+		CrawlNATSURL:     "nats://127.0.0.1:1",
 		FetchConcurrency: 2,
 		OpsAddr:          "127.0.0.1:0",
 	}
@@ -89,9 +89,9 @@ func TestRunServiceRejectsBadNATSURL(t *testing.T) {
 	}
 }
 
-func publishOrder(t *testing.T, natsURL string) {
+func publishOrder(t *testing.T, crawlNATSURL string) {
 	t.Helper()
-	js := natstestserver.ConnectJetStream(t, natsURL)
+	js := natstestserver.ConnectJetStream(t, crawlNATSURL)
 	ctx := context.Background()
 	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
 		Name:      yacycrawlcontract.OrdersStreamName,

@@ -33,7 +33,7 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 
 	url := natstestserver.Start(t)
 	cfg := corpustext.ServiceConfig{
-		NATSURL:            url,
+		CrawlNATSURL:       url,
 		CrawledPageSubject: "yacy.crawl.page.text",
 		CrawledPageDurable: corpustext.DefaultCrawledPageDurable,
 		Concurrency:        corpustext.DefaultConcurrency,
@@ -106,7 +106,7 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 
 	url := natstestserver.Start(t)
 	cfg := corpustext.ServiceConfig{
-		NATSURL:            url,
+		CrawlNATSURL:       url,
 		CrawledPageSubject: "yacy.crawl.page.text",
 		CrawledPageDurable: corpustext.DefaultCrawledPageDurable,
 		Concurrency:        corpustext.DefaultConcurrency,

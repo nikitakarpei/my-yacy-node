@@ -27,7 +27,8 @@ func startCorpusMarkdown(t *testing.T, ctx context.Context, networkName string) 
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {corpusMarkdownAlias}},
 			Env: map[string]string{
-				"NATS_URL":                  natsjetstream.NetworkURL(),
+				"CRAWL_NATS_URL":            natsjetstream.NetworkURL(),
+				"PAGE_MARKDOWN_NATS_URL":    natsjetstream.NetworkURL(),
 				"NATS_CRAWLED_PAGE_SUBJECT": crawledPageSubject,
 				"LOG_LEVEL":                 "debug",
 			},

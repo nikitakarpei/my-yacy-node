@@ -37,29 +37,24 @@ func (o objectStoreMarkdown) Put(ctx context.Context, name string, markdown []by
 }
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
-	js, conn, err := jetstreamconnect.Open(cfg.NATSURL)
+	crawlJetStream, crawlConnection, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
 	if err != nil {
 		return err
 	}
-	defer func() { _ = conn.Close() }()
-	stream, err := js.Stream(
-		ctx,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindMarkdown),
+	defer func() { _ = crawlConnection.Close() }()
+	pageMarkdownJetStream, pageMarkdownConnection, err := jetstreamconnect.Open(
+		cfg.PageMarkdownNATSURL,
 	)
 	if err != nil {
-		return fmt.Errorf("lookup crawled page stream: %w", err)
+		return err
 	}
-	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
-		Durable:       cfg.CrawledPageDurable,
-		FilterSubject: cfg.CrawledPageSubject,
-		AckPolicy:     jetstream.AckExplicitPolicy,
-		MaxAckPending: cfg.Concurrency,
-	})
-	if err != nil {
-		return fmt.Errorf("create crawled page consumer: %w", err)
-	}
+	defer func() { _ = pageMarkdownConnection.Close() }()
 
-	store, err := ensurePageMarkdownBucket(ctx, js)
+	consumer, err := crawledPageConsumerFor(ctx, crawlJetStream, cfg)
+	if err != nil {
+		return err
+	}
+	store, err := ensurePageMarkdownBucket(ctx, pageMarkdownJetStream)
 	if err != nil {
 		return err
 	}
@@ -97,11 +92,35 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	return err
 }
 
+func crawledPageConsumerFor(
+	ctx context.Context,
+	crawlJetStream jetstream.JetStream,
+	cfg ServiceConfig,
+) (jetstream.Consumer, error) {
+	stream, err := crawlJetStream.Stream(
+		ctx,
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindMarkdown),
+	)
+	if err != nil {
+		return nil, fmt.Errorf("lookup crawled page stream: %w", err)
+	}
+	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
+		Durable:       cfg.CrawledPageDurable,
+		FilterSubject: cfg.CrawledPageSubject,
+		AckPolicy:     jetstream.AckExplicitPolicy,
+		MaxAckPending: cfg.Concurrency,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("create crawled page consumer: %w", err)
+	}
+	return consumer, nil
+}
+
 func ensurePageMarkdownBucket(
 	ctx context.Context,
-	js jetstream.JetStream,
+	pageMarkdownJetStream jetstream.JetStream,
 ) (jetstream.ObjectStore, error) {
-	store, err := js.CreateOrUpdateObjectStore(ctx, jetstream.ObjectStoreConfig{
+	store, err := pageMarkdownJetStream.CreateOrUpdateObjectStore(ctx, jetstream.ObjectStoreConfig{
 		Bucket: pagemarkdownstore.BucketName,
 	})
 	if err != nil {

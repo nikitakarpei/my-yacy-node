@@ -34,7 +34,7 @@ services:
         https://frank-siebert.de/seed.txt,
         http://seedlist.wertewesten.net/seed.txt
       YACY_PROXY_URL: http://smokescreen:4750
-      NATS_URL: nats://nats:4222
+      CRAWL_NATS_URL: nats://nats:4222
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
       - yacy-data:/data
@@ -75,7 +75,7 @@ services:
       - nats
       - renderproxy
     environment:
-      NATS_URL: nats://nats:4222
+      CRAWL_NATS_URL: nats://nats:4222
       YACYCRAWLER_PROXY_URL: http://renderproxy:8080
       YACYCRAWLER_PROXY_DIAL_MODE: absolute-url
       YACYCRAWLER_PUBLISH_TEXT: "true"
@@ -89,7 +89,7 @@ services:
     ports:
       - "8091:8091"
     environment:
-      NATS_URL: nats://nats:4222
+      CRAWL_NATS_URL: nats://nats:4222
       VISITCRAWL_LINK_SECRET: ${VISITCRAWL_LINK_SECRET:?set VISITCRAWL_LINK_SECRET in .env}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
@@ -101,7 +101,7 @@ services:
       - yacycrawler
       - manticore
     environment:
-      NATS_URL: nats://nats:4222
+      CRAWL_NATS_URL: nats://nats:4222
       SEARCH_INDEX_ENGINE: manticore
       MANTICORE_URL: http://manticore:9308
       CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}

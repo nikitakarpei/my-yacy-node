@@ -23,13 +23,13 @@ func TestRecallServesCrawledMarkdown(t *testing.T) {
 
 	network := dockernetwork.New(t, ctx)
 
-	natsURL := natsjetstream.Start(t, ctx, network.Name)
+	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 
 	startCrawler(t, ctx, network.Name)
 	startCorpusMarkdown(t, ctx, network.Name)
-	awaitRecallPreconditions(t, ctx, connectJetStream(t, natsURL))
+	awaitRecallPreconditions(t, ctx, connectJetStream(t, crawlNATSURL))
 	recallAddr := startCorpusRecall(t, ctx, network.Name)
 
 	client := recallclienttest.New(t, recallAddr)
@@ -67,13 +67,13 @@ func TestRecallReportsUnavailableForDisposedPage(t *testing.T) {
 
 	network := dockernetwork.New(t, ctx)
 
-	natsURL := natsjetstream.Start(t, ctx, network.Name)
+	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 
 	startCrawler(t, ctx, network.Name)
 	startCorpusMarkdown(t, ctx, network.Name)
-	awaitRecallPreconditions(t, ctx, connectJetStream(t, natsURL))
+	awaitRecallPreconditions(t, ctx, connectJetStream(t, crawlNATSURL))
 	recallAddr := startCorpusRecall(t, ctx, network.Name)
 
 	client := recallclienttest.New(t, recallAddr)

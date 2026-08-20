@@ -30,7 +30,7 @@ func startCorpusText(
 ) testcontainers.Container {
 	t.Helper()
 	env := map[string]string{
-		"NATS_URL":                  natsjetstream.NetworkURL(),
+		"CRAWL_NATS_URL":            natsjetstream.NetworkURL(),
 		"NATS_CRAWLED_PAGE_SUBJECT": crawledPageSubject,
 	}
 	for key, value := range searchIndexEnv {

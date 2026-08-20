@@ -40,7 +40,7 @@ func publishedPageStreamRepresentations(
 
 func baseEnv() map[string]string {
 	return map[string]string{
-		"NATS_URL":              "nats://localhost:4222",
+		"CRAWL_NATS_URL":        "nats://localhost:4222",
 		"YACYCRAWLER_PROXY_URL": "http://proxy:8080",
 	}
 }
@@ -125,11 +125,11 @@ func TestLoadServiceConfigOverridesUserAgent(t *testing.T) {
 	}
 }
 
-func TestLoadServiceConfigRequiresNATSURL(t *testing.T) {
+func TestLoadServiceConfigRequiresCrawlNATSURL(t *testing.T) {
 	env := baseEnv()
-	delete(env, "NATS_URL")
+	delete(env, "CRAWL_NATS_URL")
 	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
-		t.Fatal("missing NATS_URL should error")
+		t.Fatal("missing CRAWL_NATS_URL should error")
 	}
 }
 

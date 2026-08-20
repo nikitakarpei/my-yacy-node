@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	EnvNATSURL       = "NATS_URL"
+	EnvCrawlNATSURL  = "CRAWL_NATS_URL"
 	EnvOrdersSubject = "NATS_ORDERS_SUBJECT"
 	EnvOrdersDurable = "NATS_ORDERS_DURABLE"
 
@@ -77,7 +77,7 @@ type PageStreamConfig struct {
 }
 
 type ServiceConfig struct {
-	NATSURL          string
+	CrawlNATSURL     string
 	OrdersSubject    string
 	OrdersDurable    string
 	PageStreams      []PageStreamConfig
@@ -199,7 +199,7 @@ func loadServiceLimits(getenv func(string) string) (serviceLimits, error) {
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
-	natsURL, err := envconfig.Required(getenv, EnvNATSURL)
+	crawlNATSURL, err := envconfig.Required(getenv, EnvCrawlNATSURL)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -225,7 +225,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		NATSURL:          natsURL,
+		CrawlNATSURL:     crawlNATSURL,
 		OrdersSubject:    envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
 		OrdersDurable:    envconfig.String(getenv, EnvOrdersDurable, DefaultOrdersDurable),
 		PageStreams:      pageStreams,

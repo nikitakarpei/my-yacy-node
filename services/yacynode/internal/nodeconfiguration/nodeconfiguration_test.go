@@ -64,7 +64,7 @@ func TestLoadDefaultsTheCrawlSubjectAndDurable(t *testing.T) {
 		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
 		nodeconfiguration.EnvPeerName:        "node",
 		nodeconfiguration.EnvProxyURL:        "http://proxy:4750",
-		nodeconfiguration.EnvNATSURL:         "nats://localhost:4222",
+		nodeconfiguration.EnvCrawlNATSURL:    "nats://localhost:4222",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -103,7 +103,7 @@ func TestLoadReadsOverrides(t *testing.T) {
 		nodeconfiguration.EnvTrustedProxies:    "10.0.0.0/8",
 		nodeconfiguration.EnvSeedlistURLs:      " http://a , http://b ,",
 		nodeconfiguration.EnvAnnounceInterval:  "30s",
-		nodeconfiguration.EnvNATSURL:           "nats://broker:4222",
+		nodeconfiguration.EnvCrawlNATSURL:      "nats://broker:4222",
 		nodeconfiguration.EnvNATSIngestSubject: "ingest.subject",
 		nodeconfiguration.EnvNATSIngestDurable: "ingest-durable",
 	}))

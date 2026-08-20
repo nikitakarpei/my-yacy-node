@@ -33,7 +33,7 @@ func startVisitcrawl(t *testing.T, ctx context.Context, networkName string) stri
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {visitcrawlAlias}},
 			Env: map[string]string{
-				"NATS_URL":               natsjetstream.NetworkURL(),
+				"CRAWL_NATS_URL":         natsjetstream.NetworkURL(),
 				"VISITCRAWL_LINK_SECRET": visitLinkSecret,
 				"LOG_LEVEL":              "debug",
 			},

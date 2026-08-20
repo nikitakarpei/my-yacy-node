@@ -19,38 +19,42 @@ const (
 	storedReadLimit = 500 * time.Millisecond
 )
 
-func TestRunServiceStoresCrawledPageMarkdown(t *testing.T) {
-	url := natstestserver.Start(t)
+func TestRunServiceStoresCrawledPageMarkdownOnItsOwnNATS(t *testing.T) {
+	crawlURL := natstestserver.Start(t)
+	pageMarkdownURL := natstestserver.Start(t)
 	cfg := corpusmarkdown.ServiceConfig{
-		NATSURL:            url,
-		CrawledPageSubject: corpusmarkdown.DefaultCrawledPageSubject,
-		CrawledPageDurable: corpusmarkdown.DefaultCrawledPageDurable,
-		Concurrency:        corpusmarkdown.DefaultConcurrency,
-		OpsAddr:            "127.0.0.1:0",
+		CrawlNATSURL:        crawlURL,
+		PageMarkdownNATSURL: pageMarkdownURL,
+		CrawledPageSubject:  corpusmarkdown.DefaultCrawledPageSubject,
+		CrawledPageDurable:  corpusmarkdown.DefaultCrawledPageDurable,
+		Concurrency:         corpusmarkdown.DefaultConcurrency,
+		OpsAddr:             "127.0.0.1:0",
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	js := natstestserver.ConnectJetStream(t, url)
-	createCrawledPageStream(t, js, cfg.CrawledPageSubject)
+	crawlJetStream := natstestserver.ConnectJetStream(t, crawlURL)
+	pageMarkdownJetStream := natstestserver.ConnectJetStream(t, pageMarkdownURL)
+	createCrawledPageStream(t, crawlJetStream, cfg.CrawledPageSubject)
 
 	runDone := make(chan error, 1)
 	go func() { runDone <- corpusmarkdown.RunService(ctx, cfg) }()
 
 	const canonicalURL = "https://example.com/"
-	store, err := js.CreateOrUpdateObjectStore(ctx, jetstream.ObjectStoreConfig{
-		Bucket: pagemarkdownstore.BucketName,
-	})
+	store, err := pageMarkdownJetStream.CreateOrUpdateObjectStore(
+		ctx,
+		jetstream.ObjectStoreConfig{Bucket: pagemarkdownstore.BucketName},
+	)
 	if err != nil {
 		t.Fatalf("open object store: %v", err)
 	}
 	objectName := pagemarkdownstore.ObjectName(canonicalURL)
 
-	publishMarkdown(t, ctx, js, canonicalURL, []byte("# Hi\n\nwords here"))
+	publishMarkdown(t, ctx, crawlJetStream, canonicalURL, []byte("# Hi\n\nwords here"))
 	waitForStored(t, ctx, store, objectName, []byte("# Hi\n\nwords here"))
 
-	publishMarkdown(t, ctx, js, canonicalURL, []byte("# Hi again"))
+	publishMarkdown(t, ctx, crawlJetStream, canonicalURL, []byte("# Hi again"))
 	waitForStored(t, ctx, store, objectName, []byte("# Hi again"))
 
 	cancel()
@@ -120,11 +124,12 @@ func storedMarkdownMatches(
 func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 	url := natstestserver.Start(t)
 	cfg := corpusmarkdown.ServiceConfig{
-		NATSURL:            url,
-		CrawledPageSubject: corpusmarkdown.DefaultCrawledPageSubject,
-		CrawledPageDurable: corpusmarkdown.DefaultCrawledPageDurable,
-		Concurrency:        corpusmarkdown.DefaultConcurrency,
-		OpsAddr:            "127.0.0.1:99999",
+		CrawlNATSURL:        url,
+		PageMarkdownNATSURL: url,
+		CrawledPageSubject:  corpusmarkdown.DefaultCrawledPageSubject,
+		CrawledPageDurable:  corpusmarkdown.DefaultCrawledPageDurable,
+		Concurrency:         corpusmarkdown.DefaultConcurrency,
+		OpsAddr:             "127.0.0.1:99999",
 	}
 	createCrawledPageStream(t, natstestserver.ConnectJetStream(t, url), cfg.CrawledPageSubject)
 
@@ -134,12 +139,14 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 }
 
 func TestRunServiceFailsWhenStreamMissing(t *testing.T) {
+	url := natstestserver.Start(t)
 	cfg := corpusmarkdown.ServiceConfig{
-		NATSURL:            natstestserver.Start(t),
-		CrawledPageSubject: corpusmarkdown.DefaultCrawledPageSubject,
-		CrawledPageDurable: corpusmarkdown.DefaultCrawledPageDurable,
-		Concurrency:        corpusmarkdown.DefaultConcurrency,
-		OpsAddr:            "127.0.0.1:0",
+		CrawlNATSURL:        url,
+		PageMarkdownNATSURL: url,
+		CrawledPageSubject:  corpusmarkdown.DefaultCrawledPageSubject,
+		CrawledPageDurable:  corpusmarkdown.DefaultCrawledPageDurable,
+		Concurrency:         corpusmarkdown.DefaultConcurrency,
+		OpsAddr:             "127.0.0.1:0",
 	}
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
@@ -147,17 +154,35 @@ func TestRunServiceFailsWhenStreamMissing(t *testing.T) {
 	}
 }
 
-func TestRunServiceFailsWhenNATSUnreachable(t *testing.T) {
+func TestRunServiceFailsWhenCrawlNATSUnreachable(t *testing.T) {
 	cfg := corpusmarkdown.ServiceConfig{
-		NATSURL:            "nats://127.0.0.1:1",
-		CrawledPageSubject: corpusmarkdown.DefaultCrawledPageSubject,
-		CrawledPageDurable: corpusmarkdown.DefaultCrawledPageDurable,
-		Concurrency:        corpusmarkdown.DefaultConcurrency,
-		OpsAddr:            "127.0.0.1:0",
+		CrawlNATSURL:        "nats://127.0.0.1:1",
+		PageMarkdownNATSURL: natstestserver.Start(t),
+		CrawledPageSubject:  corpusmarkdown.DefaultCrawledPageSubject,
+		CrawledPageDurable:  corpusmarkdown.DefaultCrawledPageDurable,
+		Concurrency:         corpusmarkdown.DefaultConcurrency,
+		OpsAddr:             "127.0.0.1:0",
 	}
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
-		t.Fatal("expected error when nats is unreachable")
+		t.Fatal("expected error when the crawl nats is unreachable")
+	}
+}
+
+func TestRunServiceFailsWhenPageMarkdownNATSUnreachable(t *testing.T) {
+	url := natstestserver.Start(t)
+	cfg := corpusmarkdown.ServiceConfig{
+		CrawlNATSURL:        url,
+		PageMarkdownNATSURL: "nats://127.0.0.1:1",
+		CrawledPageSubject:  corpusmarkdown.DefaultCrawledPageSubject,
+		CrawledPageDurable:  corpusmarkdown.DefaultCrawledPageDurable,
+		Concurrency:         corpusmarkdown.DefaultConcurrency,
+		OpsAddr:             "127.0.0.1:0",
+	}
+	createCrawledPageStream(t, natstestserver.ConnectJetStream(t, url), cfg.CrawledPageSubject)
+
+	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
+		t.Fatal("expected error when the page markdown nats is unreachable")
 	}
 }
 

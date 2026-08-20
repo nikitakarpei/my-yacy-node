@@ -6,7 +6,8 @@ The service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `NATS_URL` | required | NATS server the service consumes crawled pages from. |
+| `CRAWL_NATS_URL` | required | NATS server the service consumes crawled pages from. |
+| `PAGE_MARKDOWN_NATS_URL` | required | NATS server that holds the page markdown bucket. |
 | `NATS_CRAWLED_PAGE_SUBJECT` | `yacy.crawl.page.markdown` | Subject the service consumes crawled page markdown from. |
 | `NATS_CRAWLED_PAGE_DURABLE` | `corpusmarkdown` | Durable queue-consumer name shared across instances. |
 

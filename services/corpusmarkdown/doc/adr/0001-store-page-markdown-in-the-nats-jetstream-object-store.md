@@ -29,7 +29,7 @@ writer and any future reader so both address a page identically.
 
 ## Consequences
 
-- The service adds no infrastructure beyond the JetStream the node already runs.
+- The service needs no storage technology beyond the JetStream the node already runs.
 - Recall is a single get by canonical URL; no query engine or index is involved.
 - Object Store durability is bounded by the JetStream deployment's storage and
   replication; operators size and replicate JetStream for the corpus they keep.

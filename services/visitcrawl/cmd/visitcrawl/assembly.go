@@ -31,7 +31,7 @@ func RunService(
 ) error {
 	metrics := visitmetrics.New(registry)
 	broker, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
-		NATSURL:       cfg.NATSURL,
+		NATSURL:       cfg.CrawlNATSURL,
 		OrdersSubject: cfg.OrdersSubject,
 	})
 	if err != nil {

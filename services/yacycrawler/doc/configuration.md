@@ -6,7 +6,7 @@ The crawler is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `NATS_URL` | required | NATS server the crawler connects to. |
+| `CRAWL_NATS_URL` | required | NATS server the crawler connects to. |
 | `NATS_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject the crawler consumes orders from. |
 | `NATS_ORDERS_DURABLE` | `yacycrawler` | Durable queue-consumer name shared across instances. |
 

@@ -21,7 +21,8 @@ if the orders stream does not exist.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `NATS_URL` | required | NATS server the service places crawl orders on and reads the corpus from. |
+| `CRAWL_NATS_URL` | required | NATS server the service places crawl orders on. |
+| `PAGE_MARKDOWN_NATS_URL` | required | NATS server the service reads the page markdown from. |
 | `NATS_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject the service publishes on-demand crawl orders to. |
 
 ## Retrieval

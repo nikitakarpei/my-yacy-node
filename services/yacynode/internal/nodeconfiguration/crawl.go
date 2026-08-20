@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	EnvNATSURL           = "NATS_URL"
+	EnvCrawlNATSURL      = "CRAWL_NATS_URL"
 	EnvNATSIngestSubject = "NATS_INGEST_SUBJECT"
 	EnvNATSIngestDurable = "NATS_INGEST_DURABLE"
 
@@ -30,7 +30,7 @@ func (c CrawlConfig) Enabled() bool {
 }
 
 func loadCrawlConfig(getenv func(string) string) CrawlConfig {
-	url := strings.TrimSpace(getenv(EnvNATSURL))
+	url := strings.TrimSpace(getenv(EnvCrawlNATSURL))
 	if url == "" {
 		return CrawlConfig{}
 	}

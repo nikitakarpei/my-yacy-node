@@ -16,7 +16,7 @@ func TestCrawledPageStaysSearchableInElasticsearch(t *testing.T) {
 
 	network := dockernetwork.New(t, ctx)
 
-	natsURL := natsjetstream.Start(t, ctx, network.Name)
+	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
 	originURL := startOrigin(t, ctx, network.Name)
 	elasticsearchURL := startElasticsearch(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
@@ -24,7 +24,7 @@ func TestCrawledPageStaysSearchableInElasticsearch(t *testing.T) {
 	startCrawler(t, ctx, network.Name)
 	corpusText := startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
 
-	js := connectJetStream(t, natsURL)
+	js := connectJetStream(t, crawlNATSURL)
 	awaitOrdersStream(t, ctx, js)
 
 	publishCrawlOrder(t, ctx, js, originURL)
@@ -56,7 +56,7 @@ func TestCrawledPageStaysSearchableInManticore(t *testing.T) {
 
 	network := dockernetwork.New(t, ctx)
 
-	natsURL := natsjetstream.Start(t, ctx, network.Name)
+	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
 	originURL := startOrigin(t, ctx, network.Name)
 	manticoreURL := startManticore(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
@@ -64,7 +64,7 @@ func TestCrawledPageStaysSearchableInManticore(t *testing.T) {
 	startCrawler(t, ctx, network.Name)
 	corpusText := startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
 
-	js := connectJetStream(t, natsURL)
+	js := connectJetStream(t, crawlNATSURL)
 	awaitOrdersStream(t, ctx, js)
 
 	publishCrawlOrder(t, ctx, js, originURL)

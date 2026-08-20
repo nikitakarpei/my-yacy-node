@@ -10,15 +10,15 @@ func envFrom(values map[string]string) func(string) string {
 	return func(key string) string { return values[key] }
 }
 
-func TestLoadServiceConfigRequiresNATSURL(t *testing.T) {
+func TestLoadServiceConfigRequiresCrawlNATSURL(t *testing.T) {
 	if _, err := corpustext.LoadServiceConfig(envFrom(nil)); err == nil {
-		t.Fatal("expected error when NATS_URL is unset")
+		t.Fatal("expected error when CRAWL_NATS_URL is unset")
 	}
 }
 
 func TestLoadServiceConfigRequiresSearchIndexEngine(t *testing.T) {
 	if _, err := corpustext.LoadServiceConfig(envFrom(map[string]string{
-		corpustext.EnvNATSURL: "nats://localhost:4222",
+		corpustext.EnvCrawlNATSURL: "nats://localhost:4222",
 	})); err == nil {
 		t.Fatal("expected error when SEARCH_INDEX_ENGINE is unset")
 	}
@@ -26,7 +26,7 @@ func TestLoadServiceConfigRequiresSearchIndexEngine(t *testing.T) {
 
 func TestLoadServiceConfigRejectsUnknownSearchIndexEngine(t *testing.T) {
 	if _, err := corpustext.LoadServiceConfig(envFrom(map[string]string{
-		corpustext.EnvNATSURL:           "nats://localhost:4222",
+		corpustext.EnvCrawlNATSURL:      "nats://localhost:4222",
 		corpustext.EnvSearchIndexEngine: "sphinx",
 	})); err == nil {
 		t.Fatal("expected error for an unknown search index engine")
@@ -35,7 +35,7 @@ func TestLoadServiceConfigRejectsUnknownSearchIndexEngine(t *testing.T) {
 
 func TestLoadServiceConfigRequiresElasticsearchURL(t *testing.T) {
 	if _, err := corpustext.LoadServiceConfig(envFrom(map[string]string{
-		corpustext.EnvNATSURL:           "nats://localhost:4222",
+		corpustext.EnvCrawlNATSURL:      "nats://localhost:4222",
 		corpustext.EnvSearchIndexEngine: corpustext.SearchIndexEngineElasticsearch,
 	})); err == nil {
 		t.Fatal("expected error when ELASTICSEARCH_URL is unset")
@@ -44,7 +44,7 @@ func TestLoadServiceConfigRequiresElasticsearchURL(t *testing.T) {
 
 func TestLoadServiceConfigManticoreRequiresURL(t *testing.T) {
 	if _, err := corpustext.LoadServiceConfig(envFrom(map[string]string{
-		corpustext.EnvNATSURL:           "nats://localhost:4222",
+		corpustext.EnvCrawlNATSURL:      "nats://localhost:4222",
 		corpustext.EnvSearchIndexEngine: corpustext.SearchIndexEngineManticore,
 	})); err == nil {
 		t.Fatal("expected error when MANTICORE_URL is unset")
@@ -53,7 +53,7 @@ func TestLoadServiceConfigManticoreRequiresURL(t *testing.T) {
 
 func TestLoadServiceConfigManticoreDefaults(t *testing.T) {
 	cfg, err := corpustext.LoadServiceConfig(envFrom(map[string]string{
-		corpustext.EnvNATSURL:           "nats://localhost:4222",
+		corpustext.EnvCrawlNATSURL:      "nats://localhost:4222",
 		corpustext.EnvSearchIndexEngine: corpustext.SearchIndexEngineManticore,
 		corpustext.EnvManticoreURL:      "http://localhost:9308",
 	}))
@@ -70,7 +70,7 @@ func TestLoadServiceConfigManticoreDefaults(t *testing.T) {
 
 func TestLoadServiceConfigDefaults(t *testing.T) {
 	cfg, err := corpustext.LoadServiceConfig(envFrom(map[string]string{
-		corpustext.EnvNATSURL:           "nats://localhost:4222",
+		corpustext.EnvCrawlNATSURL:      "nats://localhost:4222",
 		corpustext.EnvSearchIndexEngine: corpustext.SearchIndexEngineElasticsearch,
 		corpustext.EnvElasticsearchURL:  "http://localhost:9200",
 	}))
@@ -99,7 +99,7 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 
 func TestLoadServiceConfigOverrides(t *testing.T) {
 	cfg, err := corpustext.LoadServiceConfig(envFrom(map[string]string{
-		corpustext.EnvNATSURL:                "nats://localhost:4222",
+		corpustext.EnvCrawlNATSURL:           "nats://localhost:4222",
 		corpustext.EnvSearchIndexEngine:      corpustext.SearchIndexEngineElasticsearch,
 		corpustext.EnvElasticsearchURL:       "http://localhost:9200",
 		corpustext.EnvNATSCrawledPageSubject: "t.subject",
