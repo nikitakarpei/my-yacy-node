@@ -23,9 +23,9 @@ import (
 )
 
 func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
-	natsURL := natstestserver.Start(t)
+	crawlNATSURL := natstestserver.Start(t)
 	cfg := visitcrawl.ServiceConfig{
-		NATSURL:       natsURL,
+		CrawlNATSURL:  crawlNATSURL,
 		OrdersSubject: visitcrawl.DefaultOrdersSubject,
 		ListenAddr:    freeAddr(t),
 		OpsAddr:       freeAddr(t),
@@ -48,7 +48,7 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 		serviceErr <- visitcrawl.RunService(ctx, cfg, registry)
 	}()
 
-	consumer := ordersConsumer(t, ctx, natsURL)
+	consumer := ordersConsumer(t, ctx, crawlNATSURL)
 	waitForListening(t, cfg.ListenAddr)
 
 	client := &http.Client{
@@ -88,9 +88,9 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 	}
 }
 
-func TestRunServiceRejectsBadNATSURL(t *testing.T) {
+func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {
 	cfg := visitcrawl.ServiceConfig{
-		NATSURL: "nats://127.0.0.1:1", ListenAddr: "127.0.0.1:0", OpsAddr: "127.0.0.1:0",
+		CrawlNATSURL: "nats://127.0.0.1:1", ListenAddr: "127.0.0.1:0", OpsAddr: "127.0.0.1:0",
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
@@ -112,9 +112,9 @@ func signedVisitURL(listenAddr, visitedPage, secret string) string {
 		listenAddr, url.QueryEscape(visitedPage), seconds, hex.EncodeToString(seal.Sum(nil)))
 }
 
-func ordersConsumer(t *testing.T, ctx context.Context, natsURL string) jetstream.Consumer {
+func ordersConsumer(t *testing.T, ctx context.Context, crawlNATSURL string) jetstream.Consumer {
 	t.Helper()
-	js := natstestserver.ConnectJetStream(t, natsURL)
+	js := natstestserver.ConnectJetStream(t, crawlNATSURL)
 	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
 		Name:      yacycrawlcontract.OrdersStreamName,
 		Subjects:  []string{visitcrawl.DefaultOrdersSubject},

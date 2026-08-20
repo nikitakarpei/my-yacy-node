@@ -25,11 +25,11 @@ The node is configured through environment variables.
 
 ## Crawl ingest
 
-The node does not crawl. It receives crawled pages from a separate crawl fleet over NATS JetStream and stores them as postings. Ingest is off until `NATS_URL` is set; without it the node behaves as a pure peer.
+The node does not crawl. It receives crawled pages from a separate crawl fleet over NATS JetStream and stores them as postings. Ingest is off until `CRAWL_NATS_URL` is set; without it the node behaves as a pure peer.
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `NATS_URL` | _(empty)_ | NATS server to reach the crawl fleet (e.g. `nats://nats:4222`). Empty disables ingest. |
+| `CRAWL_NATS_URL` | _(empty)_ | NATS server to reach the crawl fleet (e.g. `nats://nats:4222`). Empty disables ingest. |
 | `NATS_INGEST_SUBJECT` | `yacy.crawl.page.rwi` | Subject crawled batches arrive on. Must match the crawler. |
 | `NATS_INGEST_DURABLE` | `yacy-node` | Durable consumer name for reading ingest batches. |
 

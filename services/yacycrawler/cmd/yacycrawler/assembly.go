@@ -59,7 +59,7 @@ func RunService(
 	registry *prometheus.Registry,
 ) error {
 	metrics := progressobserversprometheus.New(registry)
-	js, conn, err := jetstreamconnect.Open(cfg.NATSURL)
+	js, conn, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
 	if err != nil {
 		return err
 	}

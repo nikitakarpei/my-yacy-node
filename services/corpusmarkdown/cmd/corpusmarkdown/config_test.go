@@ -10,15 +10,26 @@ func envFrom(values map[string]string) func(string) string {
 	return func(key string) string { return values[key] }
 }
 
-func TestLoadServiceConfigRequiresNATSURL(t *testing.T) {
-	if _, err := corpusmarkdown.LoadServiceConfig(envFrom(nil)); err == nil {
-		t.Fatal("expected error when NATS_URL is unset")
+func TestLoadServiceConfigRequiresCrawlNATSURL(t *testing.T) {
+	if _, err := corpusmarkdown.LoadServiceConfig(envFrom(map[string]string{
+		corpusmarkdown.EnvPageMarkdownNATSURL: "nats://localhost:4222",
+	})); err == nil {
+		t.Fatal("expected error when CRAWL_NATS_URL is unset")
+	}
+}
+
+func TestLoadServiceConfigRequiresPageMarkdownNATSURL(t *testing.T) {
+	if _, err := corpusmarkdown.LoadServiceConfig(envFrom(map[string]string{
+		corpusmarkdown.EnvCrawlNATSURL: "nats://crawl:4222",
+	})); err == nil {
+		t.Fatal("expected error when PAGE_MARKDOWN_NATS_URL is unset")
 	}
 }
 
 func TestLoadServiceConfigDefaults(t *testing.T) {
 	cfg, err := corpusmarkdown.LoadServiceConfig(envFrom(map[string]string{
-		corpusmarkdown.EnvNATSURL: "nats://localhost:4222",
+		corpusmarkdown.EnvCrawlNATSURL:        "nats://crawl:4222",
+		corpusmarkdown.EnvPageMarkdownNATSURL: "nats://corpus:4222",
 	}))
 	if err != nil {
 		t.Fatalf("load: %v", err)
@@ -35,11 +46,18 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.OpsAddr != corpusmarkdown.DefaultOpsAddr {
 		t.Errorf("ops addr = %q", cfg.OpsAddr)
 	}
+	if cfg.CrawlNATSURL != "nats://crawl:4222" {
+		t.Errorf("crawl nats url = %q", cfg.CrawlNATSURL)
+	}
+	if cfg.PageMarkdownNATSURL != "nats://corpus:4222" {
+		t.Errorf("page markdown nats url = %q", cfg.PageMarkdownNATSURL)
+	}
 }
 
 func TestLoadServiceConfigOverrides(t *testing.T) {
 	cfg, err := corpusmarkdown.LoadServiceConfig(envFrom(map[string]string{
-		corpusmarkdown.EnvNATSURL:                "nats://localhost:4222",
+		corpusmarkdown.EnvCrawlNATSURL:           "nats://localhost:4222",
+		corpusmarkdown.EnvPageMarkdownNATSURL:    "nats://localhost:4222",
 		corpusmarkdown.EnvNATSCrawledPageSubject: "t.subject",
 		corpusmarkdown.EnvNATSCrawledPageDurable: "dur",
 		corpusmarkdown.EnvConcurrency:            "3",
@@ -61,8 +79,9 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 
 func TestLoadServiceConfigRejectsInvalidConcurrency(t *testing.T) {
 	if _, err := corpusmarkdown.LoadServiceConfig(envFrom(map[string]string{
-		corpusmarkdown.EnvNATSURL:     "nats://localhost:4222",
-		corpusmarkdown.EnvConcurrency: "abc",
+		corpusmarkdown.EnvCrawlNATSURL:        "nats://localhost:4222",
+		corpusmarkdown.EnvPageMarkdownNATSURL: "nats://localhost:4222",
+		corpusmarkdown.EnvConcurrency:         "abc",
 	})); err == nil {
 		t.Fatal("expected error for non-numeric concurrency")
 	}

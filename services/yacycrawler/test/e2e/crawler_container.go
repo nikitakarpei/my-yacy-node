@@ -28,7 +28,7 @@ func startCrawler(t *testing.T, ctx context.Context, networkName string) {
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {crawlerAlias}},
 			Env: map[string]string{
-				"NATS_URL":                      natsjetstream.NetworkURL(),
+				"CRAWL_NATS_URL":                natsjetstream.NetworkURL(),
 				"YACYCRAWLER_PROXY_URL":         egressproxy.NetworkURL(),
 				"YACYCRAWLER_FETCH_CONCURRENCY": "1",
 				"LOG_LEVEL":                     "debug",
