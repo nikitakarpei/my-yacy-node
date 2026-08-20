@@ -110,8 +110,6 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  bytesize:
-    in: github.com/nikitakarpei/yacy-rwi-node/bytesize
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
@@ -152,7 +150,6 @@ deps:
       - yacyproto
   nodeconfiguration:
     canUse:
-      - bytesize
       - serviceruntime
       - yacyproto
       - yacycrawlcontract

@@ -5,7 +5,6 @@ go 1.26
 require (
 	github.com/google/orderedcode v0.0.1
 	github.com/nats-io/nats.go v1.52.0
-	github.com/nikitakarpei/yacy-rwi-node/bytesize v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
@@ -38,8 +37,6 @@ require (
 	golang.org/x/time v0.15.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 )
-
-replace github.com/nikitakarpei/yacy-rwi-node/bytesize => ../../libraries/bytesize
 
 replace github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../corpustext/contract
 
