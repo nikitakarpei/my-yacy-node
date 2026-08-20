@@ -44,13 +44,13 @@ require (
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 
-replace github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi => ../../libraries/corpusrecallapi
+replace github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi => ./contract
 
-replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ../../libraries/pagemarkdownstore
+replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ../corpusmarkdown/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
 
-replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../libraries/yacycrawlcontract
+replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../yacycrawler/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 

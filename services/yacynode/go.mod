@@ -41,11 +41,11 @@ require (
 
 replace github.com/nikitakarpei/yacy-rwi-node/bytesize => ../../libraries/bytesize
 
-replace github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../libraries/searchdocument
+replace github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../corpustext/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
 
-replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../libraries/yacycrawlcontract
+replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../yacycrawler/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 

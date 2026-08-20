@@ -254,3 +254,4 @@ deps:
 excludeFiles:
   - "test/e2e"
   - "_test\\.go"
+  - "contract"
