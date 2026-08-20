@@ -20,7 +20,10 @@ func OpenCorpus(
 ) (*Corpus, error) {
 	objects, err := pageMarkdownJetStream.CreateOrUpdateObjectStore(
 		ctx,
-		jetstream.ObjectStoreConfig{Bucket: pagemarkdownstore.BucketName},
+		jetstream.ObjectStoreConfig{
+			Bucket:      pagemarkdownstore.BucketName,
+			Compression: true,
+		},
 	)
 	if err != nil {
 		return nil, fmt.Errorf("ensure page markdown bucket: %w", err)

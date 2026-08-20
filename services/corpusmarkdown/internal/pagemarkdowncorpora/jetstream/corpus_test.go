@@ -4,6 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/nats-io/nats.go/jetstream"
+
 	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
@@ -38,6 +40,29 @@ func storedMarkdown(t *testing.T, url string, canonicalURL string) string {
 		t.Fatalf("get markdown for %q: %v", canonicalURL, err)
 	}
 	return string(markdown)
+}
+
+func bucketStatus(t *testing.T, url string) jetstream.ObjectStoreStatus {
+	t.Helper()
+	objects, err := natstestserver.ConnectJetStream(t, url).
+		ObjectStore(context.Background(), pagemarkdownstore.BucketName)
+	if err != nil {
+		t.Fatalf("open page markdown bucket: %v", err)
+	}
+	status, err := objects.Status(context.Background())
+	if err != nil {
+		t.Fatalf("page markdown bucket status: %v", err)
+	}
+	return status
+}
+
+func TestOpenCorpusCompressesTheStoredMarkdown(t *testing.T) {
+	url := natstestserver.Start(t)
+	openedCorpus(t, url)
+
+	if !bucketStatus(t, url).IsCompressed() {
+		t.Error("page markdown bucket is not compressed")
+	}
 }
 
 func TestPutHoldsTheMarkdownUnderTheCanonicalURL(t *testing.T) {
