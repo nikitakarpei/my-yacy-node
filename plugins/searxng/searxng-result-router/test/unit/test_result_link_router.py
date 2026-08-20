@@ -13,6 +13,17 @@ result_link_router = importlib.import_module("result_link_router")
 
 LINK_SECRET = "shared-secret"
 NOW = 1700000000
+RESULTS_ORIGIN = "http://search.example"
+
+
+class FakeRequest:
+    def __init__(
+        self,
+        headers: dict[str, str] | None = None,
+        host_url: str = RESULTS_ORIGIN + "/",
+    ) -> None:
+        self.headers = headers or {}
+        self.host_url = host_url
 
 
 class FakeResult:
@@ -61,7 +72,7 @@ def signed_visit_link_for(
         secret.encode(), f"{expires}\n{visited_page}".encode(), hashlib.sha256
     ).hexdigest()
     return (
-        "/visit"
+        f"{RESULTS_ORIGIN}/visit"
         f"?url={quote(visited_page, safe='')}"
         f"&expires={expires}"
         f"&signature={signature}"
@@ -69,26 +80,35 @@ def signed_visit_link_for(
 
 
 def test_rewrites_http_url(plugin):
-    rewritten = plugin.route_through_visitcrawl(None, "url", "http://example.com/a")
+    rewritten = plugin.route_through_visitcrawl(
+        RESULTS_ORIGIN, None, "url", "http://example.com/a"
+    )
     assert rewritten == signed_visit_link_for("http://example.com/a")
 
 
 def test_rewrites_https_url(plugin):
     rewritten = plugin.route_through_visitcrawl(
-        None, "url", "https://example.com/a?b=c"
+        RESULTS_ORIGIN, None, "url", "https://example.com/a?b=c"
     )
     assert rewritten == signed_visit_link_for("https://example.com/a?b=c")
 
 
 def test_leaves_non_url_field_unchanged(plugin):
     assert (
-        plugin.route_through_visitcrawl(None, "img_src", "http://example.com/a.png")
+        plugin.route_through_visitcrawl(
+            RESULTS_ORIGIN, None, "img_src", "http://example.com/a.png"
+        )
         is True
     )
 
 
 def test_leaves_non_http_scheme_unchanged(plugin):
-    assert plugin.route_through_visitcrawl(None, "url", "ftp://example.com/a") is True
+    assert (
+        plugin.route_through_visitcrawl(
+            RESULTS_ORIGIN, None, "url", "ftp://example.com/a"
+        )
+        is True
+    )
 
 
 def test_requires_link_secret_configured(monkeypatch):
@@ -101,7 +121,7 @@ def test_respects_configured_link_secret(monkeypatch):
     monkeypatch.setenv("VISITCRAWL_LINK_SECRET", "other-secret")
     configured = result_link_router.SXNGPlugin(PluginCfg(active=True))
     rewritten = configured.route_through_visitcrawl(
-        None, "url", "https://example.com/a"
+        RESULTS_ORIGIN, None, "url", "https://example.com/a"
     )
     assert rewritten == signed_visit_link_for(
         "https://example.com/a", secret="other-secret"
@@ -112,7 +132,7 @@ def test_respects_configured_link_lifetime(monkeypatch):
     monkeypatch.setenv("RESULT_LINK_ROUTER_LINK_LIFETIME", "60")
     configured = result_link_router.SXNGPlugin(PluginCfg(active=True))
     rewritten = configured.route_through_visitcrawl(
-        None, "url", "https://example.com/a"
+        RESULTS_ORIGIN, None, "url", "https://example.com/a"
     )
     assert rewritten == signed_visit_link_for("https://example.com/a", expires=NOW + 60)
 
@@ -129,7 +149,7 @@ def test_on_result_rewrites_url_and_keeps_result(plugin):
         url="https://example.com/a", img_src="https://example.com/a.png"
     )
 
-    kept = plugin.on_result(request=None, search=None, result=result)
+    kept = plugin.on_result(request=FakeRequest(), search=None, result=result)
 
     assert kept is True
     assert result.filter_urls_calls == 1
@@ -140,14 +160,21 @@ def test_on_result_rewrites_url_and_keeps_result(plugin):
 def test_on_result_shows_visited_page_as_pretty_url(plugin):
     result = FakeResult(url="https://example.com/a")
 
-    plugin.on_result(request=None, search=None, result=result)
+    plugin.on_result(request=FakeRequest(), search=None, result=result)
 
     assert result.parsed_url.geturl() == "https://example.com/a"
 
 
-class FakeRequest:
-    def __init__(self, headers: dict[str, str]) -> None:
-        self.headers = headers
+def test_on_result_routes_through_the_host_the_search_came_to(plugin):
+    result = FakeResult(url="https://example.com/a")
+
+    plugin.on_result(
+        request=FakeRequest(host_url="http://other.example:8080/"),
+        search=None,
+        result=result,
+    )
+
+    assert result["url"].startswith("http://other.example:8080/visit?")
 
 
 def test_on_result_skips_rewrite_when_disable_header_present(plugin):

@@ -32,7 +32,7 @@ func TestResultLinkRouterRoutesSearchResultsThroughVisitcrawl(t *testing.T) {
 		t, ctx, resultsOriginURL, "!"+testEngineBang+" test",
 	)
 
-	wantPrefix := visitPath + "?"
+	wantPrefix := resultsOriginURL + visitPath + "?"
 	if !strings.HasPrefix(result.URL, wantPrefix) {
 		t.Fatalf("result url = %q, want prefix %q", result.URL, wantPrefix)
 	}
@@ -48,9 +48,7 @@ func TestResultLinkRouterRoutesSearchResultsThroughVisitcrawl(t *testing.T) {
 		t.Fatalf("routed url = %q, want expires and signature", result.URL)
 	}
 
-	req, err := http.NewRequestWithContext(
-		ctx, http.MethodGet, resultsOriginURL+result.URL, nil,
-	)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, result.URL, nil)
 	if err != nil {
 		t.Fatalf("build visit request: %v", err)
 	}

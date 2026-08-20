@@ -45,9 +45,8 @@ destination. It runs inside the operator's own SearXNG instance and depends on n
 
 * Rewriting applies only where the plugin runs; results from a SearXNG instance without it
   link straight to their destinations.
-* The plugin cannot tell whether `visitcrawl` is reachable before rewriting a link; an
-  outage there, or a deployment that does not serve `/visit` on the results origin, breaks
-  every rewritten result until an operator notices.
+* An outage of `visitcrawl`, or a results origin that does not serve `/visit`, breaks every
+  rewritten result until an operator notices.
 * `visitcrawl` refuses a rewritten link after it expires, and refuses every rewritten link
   when its secret and the plugin's secret differ.
 * Rewritten links are specific to `visitcrawl`'s link format and path; a differently shaped
