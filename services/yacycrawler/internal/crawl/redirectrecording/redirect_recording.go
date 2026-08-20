@@ -5,7 +5,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
@@ -44,7 +44,7 @@ func (f *Fetch) record(ctx context.Context, outcome pagevisit.FetchOutcome) {
 	if len(outcome.RedirectChain) == 0 || outcome.Page.FinalURL == "" {
 		return
 	}
-	canonicalFinal, err := canonicalurl.Canonicalize(outcome.Page.FinalURL)
+	canonicalFinal, err := yacycrawlcontract.CanonicalURLOf(outcome.Page.FinalURL)
 	if err != nil {
 		slog.WarnContext(ctx, msgRedirectURLRejected,
 			slog.String("url", outcome.Page.FinalURL),
@@ -53,7 +53,7 @@ func (f *Fetch) record(ctx context.Context, outcome pagevisit.FetchOutcome) {
 		return
 	}
 	for _, hop := range outcome.RedirectChain {
-		canonicalHop, err := canonicalurl.Canonicalize(hop)
+		canonicalHop, err := yacycrawlcontract.CanonicalURLOf(hop)
 		if err != nil {
 			slog.WarnContext(ctx, msgRedirectURLRejected,
 				slog.String("url", hop),

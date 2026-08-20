@@ -9,7 +9,7 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 var (
@@ -112,7 +112,7 @@ func (r *Recaller) Recall(
 	}
 	r.progress.RequestAccepted()
 
-	canonicalURL, err := canonicalurl.Canonicalize(requestedURL)
+	canonicalURL, err := yacycrawlcontract.CanonicalURLOf(requestedURL)
 	if err != nil {
 		return RecalledPage{}, fmt.Errorf("canonicalize %q: %w", requestedURL, err)
 	}

@@ -1,4 +1,4 @@
-package canonicalurl
+package yacycrawlcontract
 
 import (
 	"fmt"
@@ -14,27 +14,27 @@ const (
 	portHTTPS   = "443"
 )
 
-func Canonicalize(rawURL string) (string, error) {
+func CanonicalURLOf(rawURL string) (string, error) {
 	parsed, err := url.Parse(strings.TrimSpace(rawURL))
 	if err != nil {
 		return "", fmt.Errorf("parse url: %w", err)
 	}
-	return canonicalize(parsed)
+	return canonicalURLOf(parsed)
 }
 
-func ResolveReference(base, ref string) (string, error) {
-	parsedBase, err := url.Parse(strings.TrimSpace(base))
+func CanonicalURLOfReference(baseURL, referenceURL string) (string, error) {
+	parsedBaseURL, err := url.Parse(strings.TrimSpace(baseURL))
 	if err != nil {
 		return "", fmt.Errorf("parse base url: %w", err)
 	}
-	parsedRef, err := url.Parse(strings.TrimSpace(ref))
+	parsedReferenceURL, err := url.Parse(strings.TrimSpace(referenceURL))
 	if err != nil {
 		return "", fmt.Errorf("parse reference url: %w", err)
 	}
-	return canonicalize(parsedBase.ResolveReference(parsedRef))
+	return canonicalURLOf(parsedBaseURL.ResolveReference(parsedReferenceURL))
 }
 
-func canonicalize(parsed *url.URL) (string, error) {
+func canonicalURLOf(parsed *url.URL) (string, error) {
 	scheme := strings.ToLower(parsed.Scheme)
 	if scheme != schemeHTTP && scheme != schemeHTTPS {
 		return "", fmt.Errorf("unsupported scheme %q", parsed.Scheme)
@@ -54,17 +54,17 @@ func canonicalize(parsed *url.URL) (string, error) {
 		parsed.Host = host + ":" + port
 	}
 	parsed.Fragment = ""
-	parsed.Path = cleanPath(parsed.Path)
+	parsed.Path = cleanedPathOf(parsed.Path)
 
 	return parsed.String(), nil
 }
 
-func cleanPath(raw string) string {
-	if raw == "" {
+func cleanedPathOf(rawPath string) string {
+	if rawPath == "" {
 		return "/"
 	}
-	trailingSlash := strings.HasSuffix(raw, "/")
-	cleaned := path.Clean(raw)
+	trailingSlash := strings.HasSuffix(rawPath, "/")
+	cleaned := path.Clean(rawPath)
 	if cleaned == "." {
 		return "/"
 	}

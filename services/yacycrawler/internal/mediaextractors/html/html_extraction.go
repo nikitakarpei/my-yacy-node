@@ -11,7 +11,7 @@ import (
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/charset"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 )
@@ -101,7 +101,7 @@ func resolveLinks(base string, hrefs []string) (links []string, local, external 
 	baseHost := hostOf(base)
 	seen := map[string]struct{}{}
 	for _, href := range hrefs {
-		canonical, err := canonicalurl.ResolveReference(base, href)
+		canonical, err := yacycrawlcontract.CanonicalURLOfReference(base, href)
 		if err != nil {
 			continue
 		}
