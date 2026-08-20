@@ -6,7 +6,7 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
 const labelCollection = "collection"

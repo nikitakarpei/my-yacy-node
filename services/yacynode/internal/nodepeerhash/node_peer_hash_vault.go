@@ -3,9 +3,8 @@ package nodepeerhash
 import (
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 const peerHashBucket vault.Name = "nodepeerhash"
@@ -28,11 +27,11 @@ func registerPeerHashByPeer(storage *vault.Vault) (*peerHashByPeer, error) {
 	return peerHashByPeer, nil
 }
 
-var peerKeyLayout = vaultkey.Single(vaultkey.Text)
+var peerKeyLayout = vault.SingleKey(vault.TextKeyPart)
 
 type peerKeyCodec struct{}
 
-func (peerKeyCodec) Encode(peer string) vaultkey.Key {
+func (peerKeyCodec) Encode(peer string) vault.Key {
 	return peerKeyLayout.Key(peer)
 }
 

@@ -3,17 +3,18 @@ module github.com/nikitakarpei/yacy-rwi-node/yacynode
 go 1.26
 
 require (
-	github.com/google/orderedcode v0.0.1
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/bytesize v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
 	github.com/prometheus/client_golang v1.23.2
 	github.com/prometheus/client_model v0.6.2
-	go.etcd.io/bbolt v1.4.3
 )
 
 require (
@@ -21,6 +22,7 @@ require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/google/go-tpm v0.9.8 // indirect
+	github.com/google/orderedcode v0.0.1 // indirect
 	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/minio/highwayhash v1.0.4 // indirect
@@ -31,6 +33,7 @@ require (
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
+	go.etcd.io/bbolt v1.4.3 // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	golang.org/x/crypto v0.52.0 // indirect
 	golang.org/x/sync v0.21.0 // indirect
@@ -52,3 +55,9 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacym
 replace github.com/nikitakarpei/yacy-rwi-node/yacyproto => ../../libraries/yacyproto
 
 replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/natstestserver
+
+replace github.com/nikitakarpei/yacy-rwi-node/vault => ../../libraries/vault
+
+replace github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault => ../../libraries/vaultengines/boltvault
+
+replace github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault => ../../libraries/vaultengines/memoryvault

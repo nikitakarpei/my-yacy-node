@@ -12,10 +12,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
 const shutdownTimeout = 15 * time.Second

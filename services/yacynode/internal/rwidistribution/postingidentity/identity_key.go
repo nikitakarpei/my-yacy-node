@@ -3,15 +3,15 @@ package postingidentity
 import (
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-var identityKeyLayout = vaultkey.Pair(hashcodec.Hash, hashcodec.URLHash)
+var identityKeyLayout = vault.PairKey(hashcodec.Hash, hashcodec.URLHash)
 
 type KeyCodec struct{}
 
-func (KeyCodec) Encode(identity Identity) vaultkey.Key {
+func (KeyCodec) Encode(identity Identity) vault.Key {
 	return identityKeyLayout.Key(identity.Word, identity.URL)
 }
 

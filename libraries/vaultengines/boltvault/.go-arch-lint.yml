@@ -1,0 +1,27 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  boltvault:
+    in:
+      - .
+      - "**"
+
+vendors:
+  vault:
+    in: github.com/nikitakarpei/yacy-rwi-node/vault
+  bbolt:
+    in: go.etcd.io/bbolt
+
+deps:
+  boltvault:
+    canUse:
+      - vault
+      - bbolt
+
+excludeFiles:
+  - "_test\\.go"

@@ -7,9 +7,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 const announceRoundsBeforeConfirmationStale = 2
@@ -311,7 +310,7 @@ func (r *roster) selectUnreachable(
 	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
 		return r.peers.Scan(
 			tx,
-			vaultkey.EveryKey(),
+			vault.EveryKey(),
 			func(_ yacymodel.Hash, entry rosterEntry) (bool, error) {
 				if _, ok := reachable[entry.seed.Hash]; ok {
 					return true, nil
