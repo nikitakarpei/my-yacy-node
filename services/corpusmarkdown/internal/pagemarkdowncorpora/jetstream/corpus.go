@@ -8,6 +8,7 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 type Corpus struct {
@@ -31,7 +32,11 @@ func OpenCorpus(
 	return &Corpus{objects: objects}, nil
 }
 
-func (c *Corpus) Put(ctx context.Context, canonicalURL string, markdown []byte) error {
+func (c *Corpus) Put(
+	ctx context.Context,
+	canonicalURL yacycrawlcontract.CanonicalURL,
+	markdown []byte,
+) error {
 	objectName := pagemarkdownstore.ObjectName(canonicalURL)
 	if _, err := c.objects.PutBytes(ctx, objectName, markdown); err != nil {
 		return fmt.Errorf("put markdown for %q: %w", canonicalURL, err)

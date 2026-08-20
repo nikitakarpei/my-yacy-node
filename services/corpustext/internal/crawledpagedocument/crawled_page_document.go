@@ -8,7 +8,7 @@ import (
 func Of(page yacycrawlcontract.PageTextRepresentation) searchdocument.Document {
 	return searchdocument.Document{
 		Title:     page.Title,
-		URL:       page.CanonicalURL,
+		URL:       page.CanonicalURL.String(),
 		Content:   string(page.Text),
 		CrawledAt: page.CrawledAt,
 		Language:  page.Language,

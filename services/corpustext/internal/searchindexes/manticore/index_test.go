@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/manticore"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 type replaceRequest struct {
@@ -34,7 +35,7 @@ func TestManticoreIndexReplacesDocumentByIdentity(t *testing.T) {
 	index := manticore.New(server.URL, tablesFor(t), server.Client())
 	page := yacycrawlcontract.PageTextRepresentation{
 		PageReference: yacycrawlcontract.PageReference{
-			CanonicalURL: "https://example.com/",
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 			Title:        "Hi",
 			CrawledAt:    time.Unix(0, 0).UTC(),
 			Language:     "en",
@@ -68,7 +69,9 @@ func TestManticoreIndexIsStableForSameURL(t *testing.T) {
 
 	index := manticore.New(server.URL, tablesFor(t), server.Client())
 	page := yacycrawlcontract.PageTextRepresentation{
-		PageReference: yacycrawlcontract.PageReference{CanonicalURL: "https://example.com/"},
+		PageReference: yacycrawlcontract.PageReference{
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
+		},
 	}
 	for range 2 {
 		if err := index.Index(context.Background(), page); err != nil {
@@ -90,7 +93,9 @@ func TestManticoreIndexReturnsErrorOnFailureStatus(t *testing.T) {
 	err := index.Index(
 		context.Background(),
 		yacycrawlcontract.PageTextRepresentation{
-			PageReference: yacycrawlcontract.PageReference{CanonicalURL: "https://example.com/"},
+			PageReference: yacycrawlcontract.PageReference{
+				CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
+			},
 		},
 	)
 	if err == nil {

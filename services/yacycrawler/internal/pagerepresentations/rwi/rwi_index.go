@@ -14,7 +14,7 @@ func buildRepresentation(
 	page pagepublication.Page,
 	fullText []byte,
 ) (yacycrawlcontract.PageRWIRepresentation, error) {
-	canonicalAddress, err := url.Parse(page.CanonicalURL)
+	canonicalAddress, err := url.Parse(page.CanonicalURL.String())
 	if err != nil {
 		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("parse canonical url: %w", err)
 	}
@@ -60,8 +60,8 @@ func sharedPosting(
 		Language:      languageOf(page),
 		LocalLinks:    page.LocalLinks,
 		ExternalLinks: page.ExternalLinks,
-		URLLength:     len(page.CanonicalURL),
-		URLComponents: componentCount(page.CanonicalURL),
+		URLLength:     len(page.CanonicalURL.String()),
+		URLComponents: componentCount(page.CanonicalURL.String()),
 	}
 }
 
@@ -71,7 +71,7 @@ func metadataOf(
 	wordCount int,
 ) yacymodel.URLMetadata {
 	return yacymodel.URLMetadata{
-		Address:       page.CanonicalURL,
+		Address:       page.CanonicalURL.String(),
 		Title:         page.Title,
 		Loaded:        yacymodel.Some(yacymodel.CalendarDayOf(page.CrawledAt)),
 		DocumentType:  yacymodel.DocumentTypeText,

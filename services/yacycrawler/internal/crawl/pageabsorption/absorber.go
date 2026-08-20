@@ -122,7 +122,7 @@ func (a *absorber) absorbDocument(
 func (a *absorber) discoverLinks(
 	page fetchedpage.Page,
 	document contentextraction.ExtractedDocument,
-) []string {
+) []yacycrawlcontract.CanonicalURL {
 	if document.RefusesLinkDiscovery || page.RefusesLinkDiscovery {
 		return nil
 	}
@@ -131,7 +131,7 @@ func (a *absorber) discoverLinks(
 
 func (a *absorber) publishDocument(
 	ctx context.Context,
-	canonical string,
+	canonical yacycrawlcontract.CanonicalURL,
 	document contentextraction.ExtractedDocument,
 ) error {
 	crawled := pagepublication.Page{

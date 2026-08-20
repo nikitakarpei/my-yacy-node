@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 func TestObjectNameIsDeterministicPerURL(t *testing.T) {
@@ -17,8 +18,9 @@ func TestObjectNameIsDeterministicPerURL(t *testing.T) {
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			first := pagemarkdownstore.ObjectName(tc.url)
-			second := pagemarkdownstore.ObjectName(tc.url)
+			canonicalURL := canonicalurltest.CanonicalURLOf(t, tc.url)
+			first := pagemarkdownstore.ObjectName(canonicalURL)
+			second := pagemarkdownstore.ObjectName(canonicalURL)
 			if first != second {
 				t.Fatalf("ObjectName not deterministic: %q vs %q", first, second)
 			}
@@ -30,8 +32,8 @@ func TestObjectNameIsDeterministicPerURL(t *testing.T) {
 }
 
 func TestObjectNameDistinguishesURLs(t *testing.T) {
-	if pagemarkdownstore.ObjectName("https://example.test/a") ==
-		pagemarkdownstore.ObjectName("https://example.test/b") {
+	if pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, "https://example.test/a")) ==
+		pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, "https://example.test/b")) {
 		t.Fatal("distinct URLs collided to one object name")
 	}
 }

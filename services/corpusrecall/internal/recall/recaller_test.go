@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
@@ -26,8 +27,11 @@ type recordingCrawlOrders struct {
 	err         error
 }
 
-func (c *recordingCrawlOrders) Place(_ context.Context, canonicalURL string) error {
-	c.orderedURLs = append(c.orderedURLs, canonicalURL)
+func (c *recordingCrawlOrders) Place(
+	_ context.Context,
+	canonicalURL yacycrawlcontract.CanonicalURL,
+) error {
+	c.orderedURLs = append(c.orderedURLs, canonicalURL.String())
 	return c.err
 }
 
@@ -36,7 +40,7 @@ type blockingCrawlOrders struct {
 	release chan struct{}
 }
 
-func (c *blockingCrawlOrders) Place(_ context.Context, _ string) error {
+func (c *blockingCrawlOrders) Place(_ context.Context, _ yacycrawlcontract.CanonicalURL) error {
 	close(c.entered)
 	<-c.release
 	return nil
@@ -44,14 +48,20 @@ func (c *blockingCrawlOrders) Place(_ context.Context, _ string) error {
 
 type unredirectedURL struct{}
 
-func (unredirectedURL) ResolvedURLOf(_ context.Context, canonicalURL string) (string, error) {
+func (unredirectedURL) ResolvedURLOf(
+	_ context.Context,
+	canonicalURL yacycrawlcontract.CanonicalURL,
+) (yacycrawlcontract.CanonicalURL, error) {
 	return canonicalURL, nil
 }
 
 type failingRedirects struct{}
 
-func (failingRedirects) ResolvedURLOf(_ context.Context, _ string) (string, error) {
-	return "", errors.New("redirect bucket down")
+func (failingRedirects) ResolvedURLOf(
+	_ context.Context,
+	_ yacycrawlcontract.CanonicalURL,
+) (yacycrawlcontract.CanonicalURL, error) {
+	return yacycrawlcontract.CanonicalURL{}, errors.New("redirect bucket down")
 }
 
 type emptyCorpus struct{}
@@ -60,7 +70,7 @@ func (emptyCorpus) RepresentationKind() recall.RepresentationKind { return kindM
 
 func (emptyCorpus) RepresentationOf(
 	_ context.Context,
-	_ string,
+	_ yacycrawlcontract.CanonicalURL,
 ) (recall.Representation, bool, error) {
 	return nil, false, nil
 }
@@ -75,7 +85,7 @@ func (*filledCorpus) RepresentationKind() recall.RepresentationKind { return kin
 
 func (c *filledCorpus) RepresentationOf(
 	_ context.Context,
-	_ string,
+	_ yacycrawlcontract.CanonicalURL,
 ) (recall.Representation, bool, error) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
@@ -92,7 +102,7 @@ func (failingCorpus) RepresentationKind() recall.RepresentationKind { return kin
 
 func (failingCorpus) RepresentationOf(
 	_ context.Context,
-	_ string,
+	_ yacycrawlcontract.CanonicalURL,
 ) (recall.Representation, bool, error) {
 	return nil, false, errors.New("corpus down")
 }
@@ -101,14 +111,14 @@ type keptPages struct{}
 
 func (keptPages) DisposalMarkOf(
 	_ context.Context,
-	_ string,
+	_ yacycrawlcontract.CanonicalURL,
 ) (recall.DisposalMark, error) {
 	return "", nil
 }
 
 func (keptPages) DisposalOccurredSince(
 	_ context.Context,
-	_ string,
+	_ yacycrawlcontract.CanonicalURL,
 	_ recall.DisposalMark,
 ) (bool, error) {
 	return false, nil
@@ -118,14 +128,14 @@ type pageDisposedDuringRecall struct{}
 
 func (pageDisposedDuringRecall) DisposalMarkOf(
 	_ context.Context,
-	_ string,
+	_ yacycrawlcontract.CanonicalURL,
 ) (recall.DisposalMark, error) {
 	return "", nil
 }
 
 func (pageDisposedDuringRecall) DisposalOccurredSince(
 	_ context.Context,
-	_ string,
+	_ yacycrawlcontract.CanonicalURL,
 	_ recall.DisposalMark,
 ) (bool, error) {
 	return true, nil
@@ -137,7 +147,7 @@ type failingDisposalLookup struct {
 
 func (d failingDisposalLookup) DisposalMarkOf(
 	_ context.Context,
-	_ string,
+	_ yacycrawlcontract.CanonicalURL,
 ) (recall.DisposalMark, error) {
 	if d.failsAtRecallStart {
 		return "", errors.New("disposal bucket down")
@@ -147,7 +157,7 @@ func (d failingDisposalLookup) DisposalMarkOf(
 
 func (failingDisposalLookup) DisposalOccurredSince(
 	_ context.Context,
-	_ string,
+	_ yacycrawlcontract.CanonicalURL,
 	_ recall.DisposalMark,
 ) (bool, error) {
 	return false, errors.New("disposal bucket down")

@@ -15,7 +15,7 @@ const (
 )
 
 type RedirectResolutions interface {
-	Record(ctx context.Context, requested, canonical string) error
+	Record(ctx context.Context, requested, canonical yacycrawlcontract.CanonicalURL) error
 }
 
 type Fetch struct {
@@ -66,8 +66,8 @@ func (f *Fetch) record(ctx context.Context, outcome pagevisit.FetchOutcome) {
 		}
 		if err := f.resolutions.Record(ctx, canonicalHop, canonicalFinal); err != nil {
 			slog.WarnContext(ctx, msgRedirectRecordFailed,
-				slog.String("requested", canonicalHop),
-				slog.String("canonical", canonicalFinal),
+				slog.String("requested", canonicalHop.String()),
+				slog.String("canonical", canonicalFinal.String()),
 				slog.Any("error", err),
 			)
 		}

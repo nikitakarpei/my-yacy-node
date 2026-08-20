@@ -6,12 +6,13 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 func TestPageMarkdownRepresentationRoundTrip(t *testing.T) {
 	page := yacycrawlcontract.PageMarkdownRepresentation{
 		PageReference: yacycrawlcontract.PageReference{
-			CanonicalURL: "https://example.org/a",
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
 			Title:        "Hi",
 			CrawledAt:    time.Date(2026, 7, 4, 0, 0, 0, 0, time.UTC),
 			Language:     "en",

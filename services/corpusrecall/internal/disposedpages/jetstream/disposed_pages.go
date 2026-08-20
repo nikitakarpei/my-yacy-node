@@ -24,7 +24,7 @@ func NewDisposedPages(bucket jetstream.KeyValue) *DisposedPages {
 
 func (p *DisposedPages) DisposalMarkOf(
 	ctx context.Context,
-	canonicalURL string,
+	canonicalURL yacycrawlcontract.CanonicalURL,
 ) (recall.DisposalMark, error) {
 	return disposalMarkIn(ctx, p.bucket, canonicalURL)
 }
@@ -32,7 +32,7 @@ func (p *DisposedPages) DisposalMarkOf(
 func disposalMarkIn(
 	ctx context.Context,
 	bucket jetstream.KeyValue,
-	canonicalURL string,
+	canonicalURL yacycrawlcontract.CanonicalURL,
 ) (recall.DisposalMark, error) {
 	key := yacycrawlcontract.DisposedPageKey(canonicalURL)
 	entry, err := bucket.Get(ctx, key)
@@ -49,7 +49,7 @@ func disposalMarkIn(
 
 func (p *DisposedPages) DisposalOccurredSince(
 	ctx context.Context,
-	canonicalURL string,
+	canonicalURL yacycrawlcontract.CanonicalURL,
 	mark recall.DisposalMark,
 ) (bool, error) {
 	current, err := disposalMarkIn(ctx, p.bucket, canonicalURL)

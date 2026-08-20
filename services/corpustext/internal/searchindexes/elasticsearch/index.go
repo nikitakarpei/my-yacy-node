@@ -37,7 +37,7 @@ func (idx *Index) Index(
 	ctx context.Context,
 	page yacycrawlcontract.PageTextRepresentation,
 ) error {
-	identity := documentIdentity(page.CanonicalURL)
+	identity := documentIdentity(page.CanonicalURL.String())
 	body, err := json.Marshal(crawledpagedocument.Of(page))
 	if err != nil {
 		return fmt.Errorf("marshal search document %s: %w", identity, err)

@@ -1,13 +1,16 @@
 package contentextraction
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
+import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
+)
 
 type ExtractedContent struct {
 	Title                string
 	Body                 []byte
 	Format               contentformatgraph.Format
 	Language             string
-	DiscoveredURLs       []string
+	DiscoveredURLs       []yacycrawlcontract.CanonicalURL
 	LocalLinks           int
 	ExternalLinks        int
 	RefusesIndexing      bool

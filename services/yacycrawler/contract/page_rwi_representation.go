@@ -8,7 +8,7 @@ import (
 )
 
 type PageRWIRepresentation struct {
-	CanonicalURL string                  `json:"CanonicalURL"`
+	CanonicalURL CanonicalURL            `json:"CanonicalURL"`
 	Metadata     []yacymodel.URLMetadata `json:"Metadata"`
 	Postings     []yacymodel.RWIPosting  `json:"Postings"`
 }
@@ -47,8 +47,8 @@ func PageRWIRepresentationFromChunks(
 		if postingChunk.CanonicalURL != representation.CanonicalURL {
 			return PageRWIRepresentation{}, fmt.Errorf(
 				"join page rwi chunks: posting chunk canonical url %q disagrees with metadata chunk canonical url %q",
-				postingChunk.CanonicalURL,
-				representation.CanonicalURL,
+				postingChunk.CanonicalURL.String(),
+				representation.CanonicalURL.String(),
 			)
 		}
 		representation.Postings = append(representation.Postings, postingChunk.Postings...)

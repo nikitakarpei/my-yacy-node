@@ -20,6 +20,7 @@ const (
 	queryParamSignature = "signature"
 	msgVisitRejected    = "visit rejected"
 	msgVisitRedirected  = "visit redirected"
+	msgVisitUnordered   = "visit not ordered for a crawl"
 )
 
 var (
@@ -57,11 +58,23 @@ func (e visitedPageEndpoint) ServeHTTP(w http.ResponseWriter, req *http.Request)
 		return
 	}
 
-	e.placement.Attempt(crawlOrderFromVisit(link.VisitedPage, e.profile))
+	e.orderCrawl(req.Context(), link.VisitedPage)
 
 	slog.DebugContext(req.Context(), msgVisitRedirected,
 		slog.String("visitedPage", link.VisitedPage))
 	http.Redirect(w, req, link.VisitedPage, http.StatusFound)
+}
+
+func (e visitedPageEndpoint) orderCrawl(ctx context.Context, visitedPage string) {
+	order, err := crawlOrderFromVisit(visitedPage, e.profile)
+	if err != nil {
+		slog.WarnContext(ctx, msgVisitUnordered,
+			slog.String("visitedPage", visitedPage),
+			slog.Any("error", err),
+		)
+		return
+	}
+	e.placement.Attempt(order)
 }
 
 func visitLinkFrom(query url.Values) (visitlink.VisitLink, error) {

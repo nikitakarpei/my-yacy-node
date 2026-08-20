@@ -43,7 +43,7 @@ func (idx *Index) Index(
 	ctx context.Context,
 	page yacycrawlcontract.PageTextRepresentation,
 ) error {
-	identity := documentIdentity(page.CanonicalURL)
+	identity := documentIdentity(page.CanonicalURL.String())
 	body, err := json.Marshal(replaceRequest{
 		Table:    idx.tables.NameFor(page.Language),
 		Identity: identity,

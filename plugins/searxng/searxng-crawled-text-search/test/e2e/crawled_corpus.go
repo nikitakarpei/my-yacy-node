@@ -3,16 +3,18 @@
 package e2e
 
 import (
+	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
-func crawledPages() []yacycrawlcontract.PageTextRepresentation {
+func crawledPages(t *testing.T) []yacycrawlcontract.PageTextRepresentation {
 	return []yacycrawlcontract.PageTextRepresentation{
 		{
 			PageReference: yacycrawlcontract.PageReference{
-				CanonicalURL: englishURL,
+				CanonicalURL: canonicalurltest.CanonicalURLOf(t, englishURL),
 				Title:        englishTitle,
 				CrawledAt:    time.Now().UTC(),
 				Language:     englishLanguage,
@@ -21,7 +23,7 @@ func crawledPages() []yacycrawlcontract.PageTextRepresentation {
 		},
 		{
 			PageReference: yacycrawlcontract.PageReference{
-				CanonicalURL: germanURL,
+				CanonicalURL: canonicalurltest.CanonicalURLOf(t, germanURL),
 				Title:        germanTitle,
 				CrawledAt:    time.Now().UTC(),
 				Language:     germanLanguage,
@@ -30,7 +32,7 @@ func crawledPages() []yacycrawlcontract.PageTextRepresentation {
 		},
 		{
 			PageReference: yacycrawlcontract.PageReference{
-				CanonicalURL: spanishURL,
+				CanonicalURL: canonicalurltest.CanonicalURLOf(t, spanishURL),
 				Title:        spanishTitle,
 				CrawledAt:    time.Now().UTC(),
 				Language:     spanishLanguage,

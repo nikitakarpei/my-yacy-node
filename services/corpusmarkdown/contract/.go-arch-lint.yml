@@ -11,7 +11,16 @@ components:
       - .
       - "**"
 
-deps: {}
+vendors:
+  yacycrawlcontract:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
+      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+
+deps:
+  pagemarkdownstore:
+    canUse:
+      - yacycrawlcontract
 
 excludeFiles:
   - "_test\\.go"

@@ -1,6 +1,7 @@
 package yacycrawlcontract_test
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -21,8 +22,8 @@ func TestCanonicalURLOf(t *testing.T) {
 		if err != nil {
 			t.Fatalf("CanonicalURLOf(%q): %v", input, err)
 		}
-		if got != want {
-			t.Errorf("CanonicalURLOf(%q) = %q, want %q", input, got, want)
+		if got.String() != want {
+			t.Errorf("CanonicalURLOf(%q) = %q, want %q", input, got.String(), want)
 		}
 	}
 }
@@ -40,8 +41,8 @@ func TestCanonicalURLOfReference(t *testing.T) {
 	if err != nil {
 		t.Fatalf("CanonicalURLOfReference: %v", err)
 	}
-	if got != "http://example.com/other" {
-		t.Fatalf("got %q", got)
+	if got.String() != "http://example.com/other" {
+		t.Fatalf("got %q", got.String())
 	}
 }
 
@@ -51,5 +52,35 @@ func TestCanonicalURLOfReferenceRejectsBadInput(t *testing.T) {
 	}
 	if _, err := yacycrawlcontract.CanonicalURLOfReference("http://h/", "::bad"); err == nil {
 		t.Error("bad ref should error")
+	}
+}
+
+func TestCanonicalURLRoundTripsThroughJSON(t *testing.T) {
+	canonical, err := yacycrawlcontract.CanonicalURLOf("HTTP://Example.COM/a")
+	if err != nil {
+		t.Fatalf("CanonicalURLOf: %v", err)
+	}
+	data, err := json.Marshal(canonical)
+	if err != nil {
+		t.Fatalf("marshal: %v", err)
+	}
+	if string(data) != `"http://example.com/a"` {
+		t.Fatalf("marshalled to %s", data)
+	}
+	var decoded yacycrawlcontract.CanonicalURL
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		t.Fatalf("unmarshal: %v", err)
+	}
+	if decoded != canonical {
+		t.Fatalf("decoded %q, want %q", decoded.String(), canonical.String())
+	}
+}
+
+func TestCanonicalURLRejectsUncanonicalJSON(t *testing.T) {
+	for _, data := range []string{`"HTTP://Example.COM/a"`, `"http://example.com/a/../b"`, `"ftp://h/"`, `5`} {
+		var decoded yacycrawlcontract.CanonicalURL
+		if err := json.Unmarshal([]byte(data), &decoded); err == nil {
+			t.Errorf("unmarshal %s should error", data)
+		}
 	}
 }

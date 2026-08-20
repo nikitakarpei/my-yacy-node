@@ -50,6 +50,7 @@ deps:
   pagemarkdowncorporajetstream:
     canUse:
       - pagemarkdownstore
+      - yacycrawlcontract
       - nats
   markdownstoremetrics:
     canUse:

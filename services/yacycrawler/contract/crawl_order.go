@@ -6,9 +6,9 @@ import (
 )
 
 type CrawlOrder struct {
-	OrderID  string       `json:"OrderID"`
-	Profile  CrawlProfile `json:"Profile"`
-	SeedURLs []string     `json:"SeedURLs"`
+	OrderID  string         `json:"OrderID"`
+	Profile  CrawlProfile   `json:"Profile"`
+	SeedURLs []CanonicalURL `json:"SeedURLs"`
 }
 
 func MarshalCrawlOrder(order CrawlOrder) ([]byte, error) {

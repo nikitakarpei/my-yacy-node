@@ -6,15 +6,16 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerepresentations/rwi"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func samplePage() pagepublication.Page {
+func samplePage(t *testing.T) pagepublication.Page {
 	return pagepublication.Page{
-		CanonicalURL:  "http://example.com/article",
+		CanonicalURL:  canonicalurltest.CanonicalURLOf(t, "http://example.com/article"),
 		Title:         "Hello World",
 		Body:          []byte("the quick brown fox the fox"),
 		Format:        contentformatgraph.FormatDocumentHTML,
@@ -47,11 +48,11 @@ func representationFromFrame(
 }
 
 func TestBuildProducesParseablePostings(t *testing.T) {
-	index, err := representationFromFrame(samplePage(), []byte(sampleText))
+	index, err := representationFromFrame(samplePage(t), []byte(sampleText))
 	if err != nil {
 		t.Fatalf("Build: %v", err)
 	}
-	if index.CanonicalURL != "http://example.com/article" {
+	if index.CanonicalURL != canonicalurltest.CanonicalURLOf(t, "http://example.com/article") {
 		t.Fatalf("canonical url: %q", index.CanonicalURL)
 	}
 	if len(index.Postings) == 0 {
@@ -69,7 +70,7 @@ func TestBuildProducesParseablePostings(t *testing.T) {
 }
 
 func TestBuildCountsRepeatedWords(t *testing.T) {
-	index, err := representationFromFrame(samplePage(), []byte(sampleText))
+	index, err := representationFromFrame(samplePage(t), []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -89,7 +90,7 @@ func TestBuildCountsRepeatedWords(t *testing.T) {
 }
 
 func TestBuildCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
-	page := samplePage()
+	page := samplePage(t)
 	index, err := representationFromFrame(page, []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
@@ -101,7 +102,7 @@ func TestBuildCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 		t.Fatalf("want one metadata row, got %d", len(index.Metadata))
 	}
 	metadata := index.Metadata[0]
-	if metadata.Address != page.CanonicalURL {
+	if metadata.Address != page.CanonicalURL.String() {
 		t.Fatalf("address = %q", metadata.Address)
 	}
 	if metadata.Title != page.Title {
@@ -124,7 +125,7 @@ func TestBuildCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 }
 
 func TestBuildMetadataCarriesURLHash(t *testing.T) {
-	index, err := representationFromFrame(samplePage(), []byte(sampleText))
+	index, err := representationFromFrame(samplePage(t), []byte(sampleText))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -142,7 +143,7 @@ func TestBuildMetadataCarriesURLHash(t *testing.T) {
 }
 
 func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
-	page := samplePage()
+	page := samplePage(t)
 	page.Language = ""
 	index, err := representationFromFrame(page, []byte(sampleText))
 	if err != nil {
@@ -156,7 +157,7 @@ func TestBuildOmitsLanguageWhenAbsent(t *testing.T) {
 }
 
 func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
-	page := samplePage()
+	page := samplePage(t)
 	index, err := representationFromFrame(page, []byte("a fox I saw"))
 	if err != nil {
 		t.Fatal(err)
@@ -173,7 +174,7 @@ func TestBuildDropsWordsShorterThanTwoCharacters(t *testing.T) {
 }
 
 func TestBuildKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
-	page := samplePage()
+	page := samplePage(t)
 	index, err := representationFromFrame(page, []byte("state-of-the-art design"))
 	if err != nil {
 		t.Fatal(err)
@@ -191,7 +192,7 @@ func TestBuildKeepsHyphenatedCompoundAsOneWord(t *testing.T) {
 }
 
 func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
-	page := samplePage()
+	page := samplePage(t)
 	index, err := representationFromFrame(page, []byte("the price is 1,234.56 today"))
 	if err != nil {
 		t.Fatal(err)
@@ -209,7 +210,7 @@ func TestBuildKeepsDigitSeparatedNumberAsOneWord(t *testing.T) {
 }
 
 func TestBuildIndexesEveryWordOfGivenText(t *testing.T) {
-	page := samplePage()
+	page := samplePage(t)
 	fullText := []byte("navigation menu the quick fox")
 	index, err := representationFromFrame(page, fullText)
 	if err != nil {
@@ -225,7 +226,7 @@ func TestBuildIndexesEveryWordOfGivenText(t *testing.T) {
 }
 
 func TestBuildMetadataByteSizeReflectsDocumentBody(t *testing.T) {
-	page := samplePage()
+	page := samplePage(t)
 	page.Body = []byte("<html><body>the quick fox</body></html>")
 	index, err := representationFromFrame(page, []byte("the quick fox"))
 	if err != nil {
@@ -241,7 +242,7 @@ func TestBuildMetadataByteSizeReflectsDocumentBody(t *testing.T) {
 }
 
 func TestBuildCountsPhrasesAndPhrasePositions(t *testing.T) {
-	page := samplePage()
+	page := samplePage(t)
 	index, err := representationFromFrame(page, []byte("the quick fox jumps. the lazy dog sleeps."))
 	if err != nil {
 		t.Fatal(err)
@@ -275,7 +276,7 @@ func TestBuildCountsPhrasesAndPhrasePositions(t *testing.T) {
 func hashOfCanonicalURL(t *testing.T) yacymodel.URLHash {
 	t.Helper()
 
-	address, err := url.Parse(samplePage().CanonicalURL)
+	address, err := url.Parse(samplePage(t).CanonicalURL.String())
 	if err != nil {
 		t.Fatalf("parse canonical url: %v", err)
 	}

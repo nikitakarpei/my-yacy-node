@@ -97,11 +97,14 @@ func resolveBase(pageURL, baseHref string) (string, error) {
 	return parsed.ResolveReference(ref).String(), nil
 }
 
-func resolveLinks(base string, hrefs []string) (links []string, local, external int) {
-	baseHost := hostOf(base)
-	seen := map[string]struct{}{}
+func resolveLinks(
+	baseURL string,
+	hrefs []string,
+) (links []yacycrawlcontract.CanonicalURL, local, external int) {
+	baseHost := hostOf(baseURL)
+	seen := map[yacycrawlcontract.CanonicalURL]struct{}{}
 	for _, href := range hrefs {
-		canonical, err := yacycrawlcontract.CanonicalURLOfReference(base, href)
+		canonical, err := yacycrawlcontract.CanonicalURLOfReference(baseURL, href)
 		if err != nil {
 			continue
 		}
@@ -110,7 +113,7 @@ func resolveLinks(base string, hrefs []string) (links []string, local, external 
 		}
 		seen[canonical] = struct{}{}
 		links = append(links, canonical)
-		if hostOf(canonical) == baseHost {
+		if hostOf(canonical.String()) == baseHost {
 			local++
 		} else {
 			external++

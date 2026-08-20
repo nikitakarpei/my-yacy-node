@@ -18,10 +18,10 @@ func New(bucket jetstream.KeyValue) *Recorder {
 	return &Recorder{bucket: bucket}
 }
 
-func (r *Recorder) Record(ctx context.Context, url string) error {
-	key := yacycrawlcontract.DisposedPageKey(url)
+func (r *Recorder) Record(ctx context.Context, canonicalURL yacycrawlcontract.CanonicalURL) error {
+	key := yacycrawlcontract.DisposedPageKey(canonicalURL)
 	if _, err := r.bucket.Put(ctx, key, nil); err != nil {
-		return fmt.Errorf("put disposed page %s: %w", url, err)
+		return fmt.Errorf("put disposed page %s: %w", canonicalURL, err)
 	}
 	return nil
 }

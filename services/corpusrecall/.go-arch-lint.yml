@@ -67,6 +67,7 @@ deps:
       - recall
     canUse:
       - pagemarkdownstore
+      - yacycrawlcontract
       - nats
   redirectresolversjetstream:
     canUse:
