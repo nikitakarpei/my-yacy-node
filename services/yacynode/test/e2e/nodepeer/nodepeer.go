@@ -60,7 +60,7 @@ func Start(
 ) (testcontainers.Container, string) {
 	t.Helper()
 	env := map[string]string{
-		"YACY_PEER_HASH":                 cfg.Hash.String(),
+		"YACY_INITIAL_PEER_HASH":         cfg.Hash.String(),
 		"YACY_PEER_NAME":                 cfg.Alias,
 		"YACY_NETWORK_NAME":              yacyproto.DefaultNetwork,
 		"YACY_PEER_ADDR":                 ":" + peerclient.Port,

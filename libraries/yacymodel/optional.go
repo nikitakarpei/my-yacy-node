@@ -26,6 +26,14 @@ func (o Optional[T]) Present() bool {
 	return o.present
 }
 
+func (o Optional[T]) OrElse(fallback T) T {
+	if !o.present {
+		return fallback
+	}
+
+	return o.value
+}
+
 func (o Optional[T]) MarshalJSON() ([]byte, error) {
 	if !o.present {
 		return []byte("null"), nil

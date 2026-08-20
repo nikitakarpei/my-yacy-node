@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"time"
 
@@ -22,6 +23,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodepeerhash"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peeradmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerannouncement"
@@ -81,16 +83,36 @@ func assembleNode(
 ) (node, error) {
 	now := time.Now
 
+	selfPeerHash, err := nodepeerhash.Open(vault)
+	if err != nil {
+		return node{}, fmt.Errorf("open peer hash: %w", err)
+	}
+
+	settledPeerHash, err := selfPeerHash.Settle(ctx, config.Identity.InitialHash)
+	if err != nil {
+		return node{}, fmt.Errorf("settle peer hash: %w", err)
+	}
+
+	derivedPeerName, err := nodeidentity.PeerNameFromHash(settledPeerHash)
+	if err != nil {
+		return node{}, err
+	}
+
 	identity := nodeidentity.Identity{
-		Hash:        config.Identity.Hash,
+		Hash:        settledPeerHash,
 		NetworkName: config.Identity.NetworkName,
-		Name:        config.Identity.Name,
+		Name:        config.Identity.Name.OrElse(derivedPeerName),
 		Host:        config.Identity.AdvertiseHost,
 		Port:        config.Identity.AdvertisePort,
 		Flags:       config.Identity.Flags,
 		Version:     advertisedYaCyVersion,
 		Start:       now(),
 	}
+
+	slog.InfoContext(ctx, "node identity",
+		slog.String("peer", identity.Hash.String()),
+		slog.String("name", identity.Name.String()),
+	)
 
 	dhtRingPartitions, err := yacymodel.DHTRingPartitionsFromExponent(
 		config.Distribution.PartitionExponent,

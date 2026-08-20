@@ -14,9 +14,9 @@ func envFrom(values map[string]string) func(string) string {
 
 func TestLoadAppliesDefaults(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName: "node",
-		nodeconfiguration.EnvProxyURL: "http://proxy:4750",
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "node",
+		nodeconfiguration.EnvProxyURL:        "http://proxy:4750",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -61,10 +61,10 @@ func TestLoadAppliesDefaults(t *testing.T) {
 
 func TestLoadDefaultsTheCrawlSubjectAndDurable(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName: "node",
-		nodeconfiguration.EnvProxyURL: "http://proxy:4750",
-		nodeconfiguration.EnvNATSURL:  "nats://localhost:4222",
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "node",
+		nodeconfiguration.EnvProxyURL:        "http://proxy:4750",
+		nodeconfiguration.EnvNATSURL:         "nats://localhost:4222",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -91,7 +91,7 @@ func TestLoadDefaultsTheCrawlSubjectAndDurable(t *testing.T) {
 
 func TestLoadReadsOverrides(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvPeerHash:          "0123456789AB",
+		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
 		nodeconfiguration.EnvPeerName:          "node",
 		nodeconfiguration.EnvProxyURL:          "http://proxy:4750",
 		nodeconfiguration.EnvNetworkName:       "testnet",
@@ -138,10 +138,10 @@ func TestLoadReadsOverrides(t *testing.T) {
 
 func TestLoadReadsEveryTrustedProxyNotation(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvPeerHash:       "0123456789AB",
-		nodeconfiguration.EnvPeerName:       "node",
-		nodeconfiguration.EnvProxyURL:       "http://proxy:4750",
-		nodeconfiguration.EnvTrustedProxies: "10.0.0.1, 192.168.0.0/16, , ::1",
+		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+		nodeconfiguration.EnvPeerName:        "node",
+		nodeconfiguration.EnvProxyURL:        "http://proxy:4750",
+		nodeconfiguration.EnvTrustedProxies:  "10.0.0.1, 192.168.0.0/16, , ::1",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -155,53 +155,84 @@ func TestLoadReadsEveryTrustedProxyNotation(t *testing.T) {
 	}
 }
 
+func TestLoadLeavesTheInitialPeerHashUnstated(t *testing.T) {
+	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvPeerName: "node",
+		nodeconfiguration.EnvProxyURL: "http://proxy:4750",
+	}))
+	if err != nil {
+		t.Fatalf("load config: %v", err)
+	}
+
+	if config.Identity.InitialHash.Present() {
+		t.Errorf("InitialHash = %v, want absent without the variable", config.Identity.InitialHash)
+	}
+}
+
+func TestLoadLeavesThePeerNameUnstated(t *testing.T) {
+	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvProxyURL: "http://proxy:4750",
+	}))
+	if err != nil {
+		t.Fatalf("load config: %v", err)
+	}
+
+	if config.Identity.Name.Present() {
+		t.Errorf("Name = %v, want absent without the variable", config.Identity.Name)
+	}
+}
+
 func TestLoadRejects(t *testing.T) {
 	cases := map[string]map[string]string{
-		"bad hash":     {nodeconfiguration.EnvPeerHash: "short"},
-		"missing name": {nodeconfiguration.EnvPeerHash: "0123456789AB"},
+		"bad hash": {nodeconfiguration.EnvInitialPeerHash: "short"},
+		"bad name": {
+			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+			nodeconfiguration.EnvPeerName:        "has space",
+			nodeconfiguration.EnvProxyURL:        "http://proxy:4750",
+		},
 		"announce no host": {
-			nodeconfiguration.EnvPeerHash:     "0123456789AB",
-			nodeconfiguration.EnvPeerName:     "n",
-			nodeconfiguration.EnvSeedlistURLs: "http://seed",
+			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+			nodeconfiguration.EnvPeerName:        "n",
+			nodeconfiguration.EnvSeedlistURLs:    "http://seed",
 		},
 		"bad port": {
-			nodeconfiguration.EnvPeerHash:      "0123456789AB",
-			nodeconfiguration.EnvPeerName:      "n",
-			nodeconfiguration.EnvAdvertisePort: "-3",
+			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+			nodeconfiguration.EnvPeerName:        "n",
+			nodeconfiguration.EnvAdvertisePort:   "-3",
 		},
 		"bad quota": {
-			nodeconfiguration.EnvPeerHash:     "0123456789AB",
-			nodeconfiguration.EnvPeerName:     "n",
-			nodeconfiguration.EnvStorageQuota: "big",
+			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+			nodeconfiguration.EnvPeerName:        "n",
+			nodeconfiguration.EnvStorageQuota:    "big",
 		},
 		"bad announce interval": {
-			nodeconfiguration.EnvPeerHash:         "0123456789AB",
+			nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
 			nodeconfiguration.EnvPeerName:         "n",
 			nodeconfiguration.EnvAnnounceInterval: "nope",
 		},
 		"negative announce interval": {
-			nodeconfiguration.EnvPeerHash:         "0123456789AB",
+			nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
 			nodeconfiguration.EnvPeerName:         "n",
 			nodeconfiguration.EnvAnnounceInterval: "-1s",
 		},
 		"bad trusted proxy ip": {
-			nodeconfiguration.EnvPeerHash:       "0123456789AB",
-			nodeconfiguration.EnvPeerName:       "n",
-			nodeconfiguration.EnvTrustedProxies: "999.0.0.1",
+			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+			nodeconfiguration.EnvPeerName:        "n",
+			nodeconfiguration.EnvTrustedProxies:  "999.0.0.1",
 		},
 		"bad trusted proxy mask": {
-			nodeconfiguration.EnvPeerHash:       "0123456789AB",
-			nodeconfiguration.EnvPeerName:       "n",
-			nodeconfiguration.EnvTrustedProxies: "10.0.0.0/99",
+			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+			nodeconfiguration.EnvPeerName:        "n",
+			nodeconfiguration.EnvTrustedProxies:  "10.0.0.0/99",
 		},
 		"missing proxy url": {
-			nodeconfiguration.EnvPeerHash: "0123456789AB",
-			nodeconfiguration.EnvPeerName: "n",
+			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+			nodeconfiguration.EnvPeerName:        "n",
 		},
 		"non-http proxy url": {
-			nodeconfiguration.EnvPeerHash: "0123456789AB",
-			nodeconfiguration.EnvPeerName: "n",
-			nodeconfiguration.EnvProxyURL: "socks5://proxy:1080",
+			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+			nodeconfiguration.EnvPeerName:        "n",
+			nodeconfiguration.EnvProxyURL:        "socks5://proxy:1080",
 		},
 	}
 	for name, env := range cases {
