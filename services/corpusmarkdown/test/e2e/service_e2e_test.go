@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 const (
@@ -37,7 +38,9 @@ func TestCrawledPageMarkdownIsStoredByURL(t *testing.T) {
 	publishCrawlOrder(t, ctx, js, originURL)
 
 	store := awaitPageMarkdownBucket(t, ctx, js)
-	objectName := pagemarkdownstore.ObjectName(originCanonicalURL)
+	objectName := pagemarkdownstore.ObjectName(
+		canonicalurltest.CanonicalURLOf(t, originCanonicalURL),
+	)
 
 	var stored []byte
 	found := pollwait.For(storageDeadline, func() bool {

@@ -6,13 +6,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
-func crawlOrderFromVisit(
-	visitedPage string,
+func crawlOrderFor(
+	seedURL yacycrawlcontract.CanonicalURL,
 	profile yacycrawlcontract.CrawlProfile,
 ) yacycrawlcontract.CrawlOrder {
 	return yacycrawlcontract.CrawlOrder{
 		OrderID:  uuid.NewString(),
 		Profile:  profile,
-		SeedURLs: []string{visitedPage},
+		SeedURLs: []yacycrawlcontract.CanonicalURL{seedURL},
 	}
 }

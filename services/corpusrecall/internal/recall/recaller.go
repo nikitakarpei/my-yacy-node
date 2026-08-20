@@ -9,7 +9,7 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 var (
@@ -20,25 +20,34 @@ var (
 )
 
 type CrawlOrderPlacer interface {
-	Place(ctx context.Context, canonicalURL string) error
+	Place(ctx context.Context, canonicalURL yacycrawlcontract.CanonicalURL) error
 }
 
 type RedirectResolutions interface {
-	ResolvedURLOf(ctx context.Context, canonicalURL string) (string, error)
+	ResolvedURLOf(
+		ctx context.Context,
+		canonicalURL yacycrawlcontract.CanonicalURL,
+	) (yacycrawlcontract.CanonicalURL, error)
 }
 
 type Corpus interface {
 	RepresentationKind() RepresentationKind
-	RepresentationOf(ctx context.Context, resolvedURL string) (Representation, bool, error)
+	RepresentationOf(
+		ctx context.Context,
+		resolvedURL yacycrawlcontract.CanonicalURL,
+	) (Representation, bool, error)
 }
 
 type DisposalMark string
 
 type DisposedPages interface {
-	DisposalMarkOf(ctx context.Context, canonicalURL string) (DisposalMark, error)
+	DisposalMarkOf(
+		ctx context.Context,
+		canonicalURL yacycrawlcontract.CanonicalURL,
+	) (DisposalMark, error)
 	DisposalOccurredSince(
 		ctx context.Context,
-		canonicalURL string,
+		canonicalURL yacycrawlcontract.CanonicalURL,
 		mark DisposalMark,
 	) (bool, error)
 }
@@ -112,7 +121,7 @@ func (r *Recaller) Recall(
 	}
 	r.progress.RequestAccepted()
 
-	canonicalURL, err := canonicalurl.Canonicalize(requestedURL)
+	canonicalURL, err := yacycrawlcontract.CanonicalURLOf(requestedURL)
 	if err != nil {
 		return RecalledPage{}, fmt.Errorf("canonicalize %q: %w", requestedURL, err)
 	}
@@ -153,7 +162,7 @@ func (r *Recaller) Recall(
 
 func (r *Recaller) representationOf(
 	ctx context.Context,
-	canonicalURL string,
+	canonicalURL yacycrawlcontract.CanonicalURL,
 	kind RepresentationKind,
 	disposalMark DisposalMark,
 ) (Representation, bool) {
@@ -161,7 +170,7 @@ func (r *Recaller) representationOf(
 	if !held {
 		slog.ErrorContext(ctx, "no corpus serves the requested representation kind",
 			slog.String("kind", string(kind)),
-			slog.String("url", canonicalURL),
+			slog.String("url", canonicalURL.String()),
 		)
 		return nil, false
 	}
@@ -173,7 +182,7 @@ func (r *Recaller) representationOf(
 		case err != nil:
 			slog.WarnContext(ctx, "corpus read failed",
 				slog.String("kind", string(kind)),
-				slog.String("url", canonicalURL),
+				slog.String("url", canonicalURL.String()),
 				slog.Any("error", err),
 			)
 			return nil, false
@@ -194,7 +203,7 @@ func (r *Recaller) representationOf(
 func (r *Recaller) representationHeldBy(
 	ctx context.Context,
 	corpus Corpus,
-	canonicalURL string,
+	canonicalURL yacycrawlcontract.CanonicalURL,
 ) (Representation, bool, error) {
 	resolvedURL, err := r.redirects.ResolvedURLOf(ctx, canonicalURL)
 	if err != nil {
@@ -205,13 +214,13 @@ func (r *Recaller) representationHeldBy(
 
 func (r *Recaller) disposalConfirmedSince(
 	ctx context.Context,
-	canonicalURL string,
+	canonicalURL yacycrawlcontract.CanonicalURL,
 	mark DisposalMark,
 ) bool {
 	disposed, err := r.disposedPages.DisposalOccurredSince(ctx, canonicalURL, mark)
 	if err != nil {
 		slog.WarnContext(ctx, "disposal lookup failed",
-			slog.String("url", canonicalURL),
+			slog.String("url", canonicalURL.String()),
 			slog.Any("error", err),
 		)
 		return false

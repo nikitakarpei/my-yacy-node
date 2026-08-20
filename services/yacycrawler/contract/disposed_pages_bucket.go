@@ -7,7 +7,7 @@ import (
 
 const DisposedPagesBucketName = "YACY_DISPOSED_PAGES"
 
-func DisposedPageKey(canonicalURL string) string {
-	sum := sha256.Sum256([]byte(canonicalURL))
+func DisposedPageKey(canonicalURL CanonicalURL) string {
+	sum := sha256.Sum256([]byte(canonicalURL.String()))
 	return hex.EncodeToString(sum[:])
 }

@@ -71,7 +71,7 @@ require (
 
 replace (
 	github.com/nikitakarpei/yacy-rwi-node/e2eharness => ../../../../test/e2eharness
-	github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ../../../../libraries/pagemarkdownstore
-	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../../../libraries/yacycrawlcontract
+	github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ../../../corpusmarkdown/contract
+	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../../yacycrawler/contract
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../../../libraries/yacymodel
 )

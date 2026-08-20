@@ -12,6 +12,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	yacycrawler "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/cmd/yacycrawler"
 )
 
@@ -106,7 +107,9 @@ func publishOrder(t *testing.T, crawlNATSURL string) {
 			Scope: yacycrawlcontract.ScopeWide, URLMustMatch: yacycrawlcontract.MatchAll,
 			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
 		},
-		SeedURLs: []string{"http://origin.example/"},
+		SeedURLs: []yacycrawlcontract.CanonicalURL{
+			canonicalurltest.CanonicalURLOf(t, "http://origin.example/"),
+		},
 	})
 	if err != nil {
 		t.Fatal(err)

@@ -5,6 +5,8 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 )
 
@@ -21,8 +23,11 @@ type recordingDisposedPages struct {
 	failWith error
 }
 
-func (d *recordingDisposedPages) Record(_ context.Context, url string) error {
-	d.urls = append(d.urls, url)
+func (d *recordingDisposedPages) Record(
+	_ context.Context,
+	canonicalURL yacycrawlcontract.CanonicalURL,
+) error {
+	d.urls = append(d.urls, canonicalURL.String())
 	return d.failWith
 }
 
@@ -31,7 +36,7 @@ func TestDisposeObservesAndRecordsTogether(t *testing.T) {
 	disposed := &recordingDisposedPages{}
 
 	disposal.NewDisposer(observer, disposed).
-		Dispose(context.Background(), "http://host/a", disposal.NotAPage)
+		Dispose(context.Background(), canonicalurltest.CanonicalURLOf(t, "http://host/a"), disposal.NotAPage)
 
 	if len(observer.reasons) != 1 || observer.reasons[0] != disposal.NotAPage {
 		t.Fatalf("observed reasons = %v", observer.reasons)
@@ -46,7 +51,11 @@ func TestDisposeSurvivesRecordFailure(t *testing.T) {
 	disposed := &recordingDisposedPages{failWith: errors.New("bucket down")}
 
 	disposal.NewDisposer(observer, disposed).
-		Dispose(context.Background(), "http://host/a", disposal.BudgetTruncated)
+		Dispose(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://host/a"),
+			disposal.BudgetTruncated,
+		)
 
 	if len(observer.reasons) != 1 {
 		t.Fatalf("a failed record must not hide the disposal, got %v", observer.reasons)

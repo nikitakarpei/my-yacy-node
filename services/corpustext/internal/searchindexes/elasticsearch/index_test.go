@@ -12,6 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/elasticsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 func TestElasticsearchIndexPutsDocumentByID(t *testing.T) {
@@ -29,7 +30,7 @@ func TestElasticsearchIndexPutsDocumentByID(t *testing.T) {
 	index := elasticsearch.New(server.URL, indexesFor(t), server.Client())
 	page := yacycrawlcontract.PageTextRepresentation{
 		PageReference: yacycrawlcontract.PageReference{
-			CanonicalURL: "https://example.com/",
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 			Title:        "Hi",
 			CrawledAt:    time.Unix(0, 0).UTC(),
 			Language:     "en",
@@ -58,7 +59,9 @@ func TestElasticsearchIndexIsStableForSameURL(t *testing.T) {
 
 	index := elasticsearch.New(server.URL, indexesFor(t), server.Client())
 	page := yacycrawlcontract.PageTextRepresentation{
-		PageReference: yacycrawlcontract.PageReference{CanonicalURL: "https://example.com/"},
+		PageReference: yacycrawlcontract.PageReference{
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
+		},
 	}
 	for range 2 {
 		if err := index.Index(context.Background(), page); err != nil {
@@ -80,7 +83,9 @@ func TestElasticsearchIndexReturnsErrorOnFailureStatus(t *testing.T) {
 	err := index.Index(
 		context.Background(),
 		yacycrawlcontract.PageTextRepresentation{
-			PageReference: yacycrawlcontract.PageReference{CanonicalURL: "https://example.com/"},
+			PageReference: yacycrawlcontract.PageReference{
+				CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
+			},
 		},
 	)
 	if err == nil {

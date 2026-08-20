@@ -16,7 +16,7 @@ func TestRepresentationChunksBoundPostings(t *testing.T) {
 		words[i] = fmt.Sprintf("w%d", i)
 	}
 	representation := rwi.New()
-	publication, err := representation.Frame(samplePage(), []byte(strings.Join(words, " ")))
+	publication, err := representation.Frame(samplePage(t), []byte(strings.Join(words, " ")))
 	if err != nil {
 		t.Fatalf("derive: %v", err)
 	}

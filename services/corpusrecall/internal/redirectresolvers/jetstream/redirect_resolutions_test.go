@@ -9,6 +9,7 @@ import (
 	redirectresolversjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/redirectresolvers/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 const canonicalURL = "https://example.com/"
@@ -33,12 +34,14 @@ func recordedRedirects(t *testing.T) natsjetstream.KeyValue {
 func TestResolvedURLIsTheCanonicalURLWhenNoRedirectIsRecorded(t *testing.T) {
 	resolutions := redirectresolversjetstream.NewRedirectResolutions(recordedRedirects(t))
 
-	got, err := resolutions.ResolvedURLOf(context.Background(), canonicalURL)
+	got, err := resolutions.ResolvedURLOf(
+		context.Background(), canonicalurltest.CanonicalURLOf(t, canonicalURL),
+	)
 	if err != nil {
 		t.Fatalf("resolve: %v", err)
 	}
 
-	if got != canonicalURL {
+	if got.String() != canonicalURL {
 		t.Errorf("resolved = %q, want %q", got, canonicalURL)
 	}
 }
@@ -48,19 +51,21 @@ func TestResolvedURLIsTheRedirectTargetTheCrawlerRecorded(t *testing.T) {
 	bucket := recordedRedirects(t)
 	if _, err := bucket.Put(
 		context.Background(),
-		yacycrawlcontract.RedirectResolutionKey(canonicalURL),
+		yacycrawlcontract.RedirectResolutionKey(canonicalurltest.CanonicalURLOf(t, canonicalURL)),
 		[]byte(target),
 	); err != nil {
 		t.Fatalf("record redirect: %v", err)
 	}
 	resolutions := redirectresolversjetstream.NewRedirectResolutions(bucket)
 
-	got, err := resolutions.ResolvedURLOf(context.Background(), canonicalURL)
+	got, err := resolutions.ResolvedURLOf(
+		context.Background(), canonicalurltest.CanonicalURLOf(t, canonicalURL),
+	)
 	if err != nil {
 		t.Fatalf("resolve: %v", err)
 	}
 
-	if got != target {
+	if got.String() != target {
 		t.Errorf("resolved = %q, want %q", got, target)
 	}
 }
@@ -70,7 +75,10 @@ func TestResolvedURLIsUnknownWhenTheBucketCannotBeRead(t *testing.T) {
 	abandoned, abandon := context.WithCancel(context.Background())
 	abandon()
 
-	if _, err := resolutions.ResolvedURLOf(abandoned, canonicalURL); err == nil {
+	if _, err := resolutions.ResolvedURLOf(
+		abandoned,
+		canonicalurltest.CanonicalURLOf(t, canonicalURL),
+	); err == nil {
 		t.Fatal("expected an error when the bucket cannot be read")
 	}
 }

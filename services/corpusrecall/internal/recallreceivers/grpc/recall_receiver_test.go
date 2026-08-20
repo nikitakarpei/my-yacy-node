@@ -17,6 +17,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recallreceivers/grpc"
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/recallclienttest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 const (
@@ -128,7 +130,7 @@ func (c fakeCorpus) RepresentationKind() recall.RepresentationKind { return c.re
 
 func (fakeCorpus) RepresentationOf(
 	_ context.Context,
-	_ string,
+	_ yacycrawlcontract.CanonicalURL,
 ) (recall.Representation, bool, error) {
 	return nil, false, nil
 }
@@ -186,8 +188,11 @@ func TestRecallAsksForTheKindsTheRequestNames(t *testing.T) {
 func TestRecallAnswersWithTheRepresentationsTheRecallYields(t *testing.T) {
 	receiver := recallReceiverUnderTest(t, &fakeRecaller{result: recall.RecalledPage{
 		Representations: []recall.RecalledRepresentation{{
-			Kind:           markdown.Kind,
-			Representation: markdown.Page{CanonicalURL: recalledURL, Markdown: "# Hi"},
+			Kind: markdown.Kind,
+			Representation: markdown.Page{
+				CanonicalURL: canonicalurltest.CanonicalURLOf(t, recalledURL),
+				Markdown:     "# Hi",
+			},
 		}},
 	}})
 

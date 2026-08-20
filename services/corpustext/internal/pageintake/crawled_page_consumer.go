@@ -64,7 +64,7 @@ func (c *CrawledPageConsumer) processOne(ctx context.Context, msg jetstream.Msg)
 	c.progress.IndexObserved(time.Since(started))
 	if err != nil {
 		slog.WarnContext(ctx, msgCrawledPageIndexFailed,
-			slog.String("url", page.CanonicalURL),
+			slog.String("url", page.CanonicalURL.String()),
 			slog.Any("error", err),
 		)
 		c.progress.IndexFailed()
@@ -72,7 +72,7 @@ func (c *CrawledPageConsumer) processOne(ctx context.Context, msg jetstream.Msg)
 		return nil
 	}
 	c.progress.PageIndexed()
-	slog.DebugContext(ctx, msgCrawledPageIndexed, slog.String("url", page.CanonicalURL))
+	slog.DebugContext(ctx, msgCrawledPageIndexed, slog.String("url", page.CanonicalURL.String()))
 	_ = msg.Ack()
 	return nil
 }

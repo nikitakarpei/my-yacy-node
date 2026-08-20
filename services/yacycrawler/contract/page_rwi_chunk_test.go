@@ -6,12 +6,13 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func TestPageRWIMetadataChunkRoundTrip(t *testing.T) {
 	chunk := yacycrawlcontract.PageRWIMetadataChunk{
-		CanonicalURL: "https://example.org/a",
+		CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
 		Metadata: []yacymodel.URLMetadata{
 			{
 				Address:  "https://example.org/a",
@@ -37,7 +38,7 @@ func TestPageRWIMetadataChunkRoundTrip(t *testing.T) {
 
 func TestPageRWIPostingChunkRoundTrip(t *testing.T) {
 	chunk := yacycrawlcontract.PageRWIPostingChunk{
-		CanonicalURL: "https://example.org/a",
+		CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
 		Postings: []yacymodel.RWIPosting{
 			{
 				WordHash: mustHash(t, "wordhash0123"),

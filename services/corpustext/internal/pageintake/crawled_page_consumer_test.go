@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 type fakeMsg struct {
@@ -101,7 +102,9 @@ func TestCrawledPageConsumerAcksOnSuccessfulIndex(t *testing.T) {
 	acked := make(chan string, 1)
 	data, err := yacycrawlcontract.MarshalPageTextRepresentation(
 		yacycrawlcontract.PageTextRepresentation{
-			PageReference: yacycrawlcontract.PageReference{CanonicalURL: "https://example.com/"},
+			PageReference: yacycrawlcontract.PageReference{
+				CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
+			},
 		},
 	)
 	if err != nil {
@@ -133,7 +136,9 @@ func TestCrawledPageConsumerNaksOnIndexFailure(t *testing.T) {
 	acked := make(chan string, 1)
 	data, err := yacycrawlcontract.MarshalPageTextRepresentation(
 		yacycrawlcontract.PageTextRepresentation{
-			PageReference: yacycrawlcontract.PageReference{CanonicalURL: "https://example.com/"},
+			PageReference: yacycrawlcontract.PageReference{
+				CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
+			},
 		},
 	)
 	if err != nil {

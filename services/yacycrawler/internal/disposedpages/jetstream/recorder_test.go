@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/disposedpages/jetstream"
 )
 
@@ -24,7 +25,7 @@ func TestRecordWritesContractKey(t *testing.T) {
 	}
 	recorder := jetstream.New(bucket)
 
-	const url = "http://example.com/a"
+	url := canonicalurltest.CanonicalURLOf(t, "http://example.com/a")
 	if err := recorder.Record(context.Background(), url); err != nil {
 		t.Fatalf("record: %v", err)
 	}

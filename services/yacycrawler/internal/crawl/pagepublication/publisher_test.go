@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
@@ -34,7 +35,7 @@ func (o *fakeRepresentation) ContentFormat() contentformatgraph.Format {
 }
 
 func (o *fakeRepresentation) Frame(page pagepublication.Page, _ []byte) ([][]byte, error) {
-	return [][]byte{[]byte(page.CanonicalURL)}, nil
+	return [][]byte{[]byte(page.CanonicalURL.String())}, nil
 }
 
 func (o *fakeRepresentation) Publish(_ context.Context, messages [][]byte) error {
@@ -161,9 +162,9 @@ func newPublisher(
 	)
 }
 
-func readablePage() pagepublication.Page {
+func readablePage(t *testing.T) pagepublication.Page {
 	return pagepublication.Page{
-		CanonicalURL: "http://host/",
+		CanonicalURL: canonicalurltest.CanonicalURLOf(t, "http://host/"),
 		Body:         []byte("body"),
 		Format:       contentformatgraph.FormatReadableText,
 	}
@@ -174,7 +175,7 @@ func TestPublishReachesEveryRepresentation(t *testing.T) {
 	text := &fakeRepresentation{kind: yacycrawlcontract.PageRepresentationKindText}
 	p := newPublisher([]pagepublication.PageRepresentation{rwi, text}, newObserver())
 
-	if err := p.Publish(t.Context(), readablePage()); err != nil {
+	if err := p.Publish(t.Context(), readablePage(t)); err != nil {
 		t.Fatalf("publish: %v", err)
 	}
 	if len(rwi.published) != 1 || len(text.published) != 1 {
@@ -191,7 +192,7 @@ func TestPublishSkipsTheRepresentationThatCannotDerive(t *testing.T) {
 	observer := newObserver()
 	p := newPublisher([]pagepublication.PageRepresentation{rwi, markdown}, observer)
 
-	if err := p.Publish(t.Context(), readablePage()); err != nil {
+	if err := p.Publish(t.Context(), readablePage(t)); err != nil {
 		t.Fatalf("an underivable representation should not fail publication: %v", err)
 	}
 	if len(rwi.published) != 1 {
@@ -212,7 +213,7 @@ func TestPublishFailsWhenNoRepresentationDerives(t *testing.T) {
 	}
 	p := newPublisher([]pagepublication.PageRepresentation{rwi}, newObserver())
 
-	if err := p.Publish(t.Context(), readablePage()); err == nil {
+	if err := p.Publish(t.Context(), readablePage(t)); err == nil {
 		t.Fatal("a page no representation derives should fail publication")
 	}
 	if len(rwi.published) != 0 {
@@ -227,7 +228,7 @@ func TestPublishHardErrorFails(t *testing.T) {
 	}
 	p := newPublisher([]pagepublication.PageRepresentation{representation}, newObserver())
 
-	if err := p.Publish(t.Context(), readablePage()); err == nil {
+	if err := p.Publish(t.Context(), readablePage(t)); err == nil {
 		t.Fatal("hard publish error should fail publication")
 	}
 }
@@ -237,7 +238,7 @@ func TestPublishRetriesTransientFailure(t *testing.T) {
 	observer := newObserver()
 	p := newPublisher([]pagepublication.PageRepresentation{representation}, observer)
 
-	if err := p.Publish(t.Context(), readablePage()); err != nil {
+	if err := p.Publish(t.Context(), readablePage(t)); err != nil {
 		t.Fatalf("publish: %v", err)
 	}
 	if representation.published != 1 {

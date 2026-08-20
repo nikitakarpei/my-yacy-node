@@ -48,7 +48,7 @@ func contractMarkdownRepresentationFrom(page markdown.Page) *corpusrecallv1.Repr
 	return &corpusrecallv1.Representation{
 		Representation: &corpusrecallv1.Representation_Markdown{
 			Markdown: &corpusrecallv1.MarkdownRepresentation{
-				CanonicalUrl: page.CanonicalURL,
+				CanonicalUrl: page.CanonicalURL.String(),
 				Markdown:     page.Markdown,
 			},
 		},

@@ -31,11 +31,14 @@ func NewCrawlOrderPlacement(
 	return &CrawlOrderPlacement{orders: orders, subject: subject}
 }
 
-func (p *CrawlOrderPlacement) Place(ctx context.Context, canonicalURL string) error {
+func (p *CrawlOrderPlacement) Place(
+	ctx context.Context,
+	canonicalURL yacycrawlcontract.CanonicalURL,
+) error {
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID:  uuid.NewString(),
 		Profile:  recallProfile,
-		SeedURLs: []string{canonicalURL},
+		SeedURLs: []yacycrawlcontract.CanonicalURL{canonicalURL},
 	}
 	payload, err := yacycrawlcontract.MarshalCrawlOrder(order)
 	if err != nil {

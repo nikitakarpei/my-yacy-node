@@ -5,17 +5,18 @@ COVERAGE_MIN ?= 80
 # make workspace writes go.work for the editor; every target here builds each module as a standalone consumer sees it.
 export GOWORK := off
 
-GO_MODULES := $(patsubst %/go.mod,%,$(wildcard libraries/*/go.mod libraries/*/*/go.mod services/*/go.mod))
+GO_MODULES := $(patsubst %/go.mod,%,$(wildcard libraries/*/go.mod libraries/*/*/go.mod services/*/go.mod services/*/contract/go.mod))
 GO_E2E_MODULES := $(patsubst %/go.mod,%,$(wildcard services/*/test/e2e/go.mod plugins/*/*/test/e2e/go.mod))
 PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-crawled-text-search
 
 COVER_PROFILE := coverage.out
 COVER_PATTERN := $(CURDIR)/tools/covignore-pattern
 COVER_GATE := $(CURDIR)/tools/gate-coverage
+COVER_PACKAGES := $(CURDIR)/tools/coverage-packages
 # -count=1 because the test cache merges stale and fresh coverage under -coverpkg (golang/go#74873).
-COVER_FLAGS := -coverpkg=./... -count=1
+COVER_FLAGS := -count=1
 
-export GO COVERAGE_MIN COVER_PROFILE COVER_PATTERN COVER_FLAGS
+export GO COVERAGE_MIN COVER_PROFILE COVER_PATTERN COVER_PACKAGES COVER_FLAGS
 
 JOBS ?= $(shell nproc 2>/dev/null || echo 4)
 
@@ -92,7 +93,7 @@ tools: $(TOOLS_STAMP)
 PROTOC := $(TOOLS_BIN)/protoc
 PROTO_GEN_GO := $(TOOLS_BIN)/protoc-gen-go
 PROTO_GEN_GO_GRPC := $(TOOLS_BIN)/protoc-gen-go-grpc
-CORPUSRECALL_API_DIR := libraries/corpusrecallapi
+CORPUSRECALL_API_DIR := services/corpusrecall/contract
 
 proto: $(TOOLS_STAMP)
 	@echo "==> proto"
@@ -157,7 +158,7 @@ build-go:
 cover-go:
 	@set -e; for m in $(GO_MODULES); do \
 		echo "==> cover $$m"; \
-		( cd $$m && $(GO) test $(COVER_FLAGS) -coverprofile=$(COVER_PROFILE) ./... && \
+		( cd $$m && $(GO) test -coverpkg=$$($(COVER_PACKAGES)) $(COVER_FLAGS) -coverprofile=$(COVER_PROFILE) ./... && \
 			grep -vE "$$($(COVER_PATTERN))" $(COVER_PROFILE) > $(COVER_PROFILE).gated; \
 			$(GO) tool cover -func=$(COVER_PROFILE).gated ); \
 	done

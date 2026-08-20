@@ -8,7 +8,7 @@ import (
 )
 
 type Page struct {
-	CanonicalURL  string
+	CanonicalURL  yacycrawlcontract.CanonicalURL
 	Title         string
 	Body          []byte
 	Format        contentformatgraph.Format

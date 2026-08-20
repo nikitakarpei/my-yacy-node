@@ -1,14 +1,17 @@
 package pageabsorption
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+)
 
 type AbsorptionOutcome struct {
-	DiscoveredURLs []string
+	DiscoveredURLs []yacycrawlcontract.CanonicalURL
 	Disposal       disposal.Reason
 }
 
 type absorbedDocument struct {
-	discoveredURLs []string
+	discoveredURLs []yacycrawlcontract.CanonicalURL
 	disposal       disposal.Reason
 }
 

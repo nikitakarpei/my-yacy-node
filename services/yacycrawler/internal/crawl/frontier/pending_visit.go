@@ -1,9 +1,13 @@
 package frontier
 
-import "time"
+import (
+	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+)
 
 type PendingVisit struct {
-	URL       string
+	URL       yacycrawlcontract.CanonicalURL
 	Depth     int
 	deferrals int
 	attempts  int

@@ -5,6 +5,8 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
@@ -176,9 +178,11 @@ func TestAbsorbHonorsNoFollow(t *testing.T) {
 	extract := fakeExtract{documents: []contentextraction.ExtractedDocument{{
 		URL: "http://host/",
 		ExtractedContent: contentextraction.ExtractedContent{
-			Body:           []byte("b"),
-			Format:         contentformatgraph.FormatReadableText,
-			DiscoveredURLs: []string{"http://host/next"},
+			Body:   []byte("b"),
+			Format: contentformatgraph.FormatReadableText,
+			DiscoveredURLs: []yacycrawlcontract.CanonicalURL{
+				canonicalurltest.CanonicalURLOf(t, "http://host/next"),
+			},
 		},
 	}}}
 	a := newAbsorber(extract, &recordingPublisher{})
@@ -194,15 +198,18 @@ func TestAbsorbReturnsDiscoveredLinks(t *testing.T) {
 	extract := fakeExtract{documents: []contentextraction.ExtractedDocument{{
 		URL: "http://host/",
 		ExtractedContent: contentextraction.ExtractedContent{
-			Body:           []byte("b"),
-			Format:         contentformatgraph.FormatReadableText,
-			DiscoveredURLs: []string{"http://host/next"},
+			Body:   []byte("b"),
+			Format: contentformatgraph.FormatReadableText,
+			DiscoveredURLs: []yacycrawlcontract.CanonicalURL{
+				canonicalurltest.CanonicalURLOf(t, "http://host/next"),
+			},
 		},
 	}}}
 	a := newAbsorber(extract, &recordingPublisher{})
 
 	outcome := absorb(t, a, succeeded("http://host/"))
-	if len(outcome.DiscoveredURLs) != 1 || outcome.DiscoveredURLs[0] != "http://host/next" {
+	if len(outcome.DiscoveredURLs) != 1 ||
+		outcome.DiscoveredURLs[0] != canonicalurltest.CanonicalURLOf(t, "http://host/next") {
 		t.Fatalf("want the discovered link returned, got %v", outcome.DiscoveredURLs)
 	}
 }

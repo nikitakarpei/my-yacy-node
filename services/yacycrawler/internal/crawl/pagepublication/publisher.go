@@ -48,7 +48,7 @@ func (p *Publisher) Publish(ctx context.Context, page Page) error {
 	if len(derived) == 0 {
 		return fmt.Errorf(
 			"page %s: format %s derives no enabled representation",
-			page.CanonicalURL, page.Format,
+			page.CanonicalURL.String(), page.Format,
 		)
 	}
 	for _, content := range derived {
@@ -68,7 +68,7 @@ func (p *Publisher) derivableContentsFor(
 	ctx context.Context,
 	page Page,
 ) ([]representationContent, error) {
-	resolver := p.graph.ForPage(page.CanonicalURL, page.Format, page.Body)
+	resolver := p.graph.ForPage(page.CanonicalURL.String(), page.Format, page.Body)
 	derived := make([]representationContent, 0, len(p.representations))
 	for _, representation := range p.representations {
 		content, resolved, err := resolver.Resolve(representation.ContentFormat())
@@ -78,7 +78,7 @@ func (p *Publisher) derivableContentsFor(
 		if !resolved {
 			slog.WarnContext(ctx, msgRepresentationUnderivable,
 				slog.String("representation", string(representation.Kind())),
-				slog.String("url", page.CanonicalURL),
+				slog.String("url", page.CanonicalURL.String()),
 				slog.String("format", string(page.Format)),
 			)
 			p.observer.RepresentationUnderivable(representation.Kind())
@@ -128,7 +128,7 @@ func (p *Publisher) send(
 		waits++
 		slog.WarnContext(ctx, msgPublicationBackpressure,
 			slog.String("representation", string(representation.Kind())),
-			slog.String("url", page.CanonicalURL),
+			slog.String("url", page.CanonicalURL.String()),
 			slog.Int("waits", waits),
 			slog.Any("error", err),
 		)

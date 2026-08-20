@@ -9,6 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlbroker"
 )
 
@@ -50,7 +51,7 @@ func TestIngestReceiverDeliversDecodableBatchAndSkipsGarbage(t *testing.T) {
 		t.Fatalf("publish garbage: %v", err)
 	}
 	chunk := yacycrawlcontract.PageRWIMetadataChunk{
-		CanonicalURL: "https://example.org",
+		CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.org"),
 	}
 	data, err := yacycrawlcontract.MarshalPageRWIChunk(chunk)
 	if err != nil {

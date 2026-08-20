@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
@@ -15,7 +16,7 @@ import (
 const msgRecrawlRecordFailed = "recrawl record failed, next visit may be redundant"
 
 type Visitor interface {
-	Visit(ctx context.Context, url string) (VisitOutcome, error)
+	Visit(ctx context.Context, canonicalURL yacycrawlcontract.CanonicalURL) (VisitOutcome, error)
 }
 
 type visitor struct {
@@ -26,7 +27,10 @@ type visitor struct {
 	clock    clock.Clock
 }
 
-func (v *visitor) Visit(ctx context.Context, url string) (VisitOutcome, error) {
+func (v *visitor) Visit(
+	ctx context.Context,
+	url yacycrawlcontract.CanonicalURL,
+) (VisitOutcome, error) {
 	decision, err := v.recrawl.DecisionFor(ctx, url)
 	if err != nil {
 		return VisitOutcome{}, fmt.Errorf("recrawl decision: %w", err)
@@ -69,11 +73,11 @@ func (v *visitor) Visit(ctx context.Context, url string) (VisitOutcome, error) {
 
 func (v *visitor) fetchPage(
 	ctx context.Context,
-	rawURL string,
+	rawURL yacycrawlcontract.CanonicalURL,
 	knownVersion PageVersion,
 ) (FetchOutcome, error) {
 	start := v.clock.Now()
-	outcome, err := v.fetcher.Fetch(ctx, rawURL, knownVersion)
+	outcome, err := v.fetcher.Fetch(ctx, rawURL.String(), knownVersion)
 	if err != nil {
 		return FetchOutcome{}, fmt.Errorf("fetch %s: %w", rawURL, err)
 	}
@@ -83,7 +87,7 @@ func (v *visitor) fetchPage(
 
 func (v *visitor) absorb(
 	ctx context.Context,
-	url string,
+	url yacycrawlcontract.CanonicalURL,
 	outcome FetchOutcome,
 ) (VisitOutcome, error) {
 	absorption, err := v.absorber.Absorb(ctx, outcome.Page)
@@ -99,10 +103,14 @@ func (v *visitor) absorb(
 	}, nil
 }
 
-func (v *visitor) recordVisit(ctx context.Context, url string, version PageVersion) {
+func (v *visitor) recordVisit(
+	ctx context.Context,
+	url yacycrawlcontract.CanonicalURL,
+	version PageVersion,
+) {
 	if err := v.recrawl.RecordVisit(ctx, url, version); err != nil {
 		slog.WarnContext(ctx, msgRecrawlRecordFailed,
-			slog.String("url", url),
+			slog.String("url", url.String()),
 			slog.Any("error", err),
 		)
 	}

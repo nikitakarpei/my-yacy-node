@@ -5,14 +5,15 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerepresentations/text"
 )
 
-func samplePage() pagepublication.Page {
+func samplePage(t *testing.T) pagepublication.Page {
 	return pagepublication.Page{
-		CanonicalURL: "http://example.com/a",
+		CanonicalURL: canonicalurltest.CanonicalURLOf(t, "http://example.com/a"),
 		Title:        "Hi",
 		Language:     "en",
 		CrawledAt:    time.Unix(1_700_000_000, 0),
@@ -21,7 +22,7 @@ func samplePage() pagepublication.Page {
 
 func TestRepresentationFramesTheRenderedText(t *testing.T) {
 	representation := text.New()
-	publication, err := representation.Frame(samplePage(), []byte("the quick brown fox"))
+	publication, err := representation.Frame(samplePage(t), []byte("the quick brown fox"))
 	if err != nil {
 		t.Fatalf("frame: %v", err)
 	}

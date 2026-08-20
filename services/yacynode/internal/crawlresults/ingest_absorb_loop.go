@@ -85,17 +85,17 @@ func (c *IngestConsumer) absorbPostings(
 func (c *IngestConsumer) acknowledge(
 	ctx context.Context,
 	delivery IngestDelivery,
-	canonicalURL string,
+	canonicalURL yacycrawlcontract.CanonicalURL,
 	metadata int,
 	postings int,
 ) {
 	if err := delivery.Ack(ctx); err != nil {
 		slog.WarnContext(ctx, msgIngestAckFailed,
-			slog.String("url", canonicalURL), slog.Any("error", err))
+			slog.String("url", canonicalURL.String()), slog.Any("error", err))
 		return
 	}
 	slog.DebugContext(ctx, msgIngestChunkAbsorbed,
-		slog.String("url", canonicalURL),
+		slog.String("url", canonicalURL.String()),
 		slog.Int("metadata", metadata),
 		slog.Int("postings", postings))
 }
@@ -103,27 +103,27 @@ func (c *IngestConsumer) acknowledge(
 func (c *IngestConsumer) redeliver(
 	ctx context.Context,
 	delivery IngestDelivery,
-	canonicalURL string,
+	canonicalURL yacycrawlcontract.CanonicalURL,
 	cause error,
 ) {
 	slog.WarnContext(ctx, msgIngestChunkDeferred,
-		slog.String("url", canonicalURL), slog.Any("error", cause))
+		slog.String("url", canonicalURL.String()), slog.Any("error", cause))
 	if err := delivery.Nak(ctx); err != nil {
 		slog.WarnContext(ctx, msgIngestNakFailed,
-			slog.String("url", canonicalURL), slog.Any("error", err))
+			slog.String("url", canonicalURL.String()), slog.Any("error", err))
 	}
 }
 
 func (c *IngestConsumer) redeliverTooLarge(
 	ctx context.Context,
 	delivery IngestDelivery,
-	canonicalURL string,
+	canonicalURL yacycrawlcontract.CanonicalURL,
 	postingCount int,
 ) {
 	slog.ErrorContext(ctx, msgIngestChunkTooLarge,
-		slog.String("url", canonicalURL), slog.Int("postings", postingCount))
+		slog.String("url", canonicalURL.String()), slog.Int("postings", postingCount))
 	if err := delivery.Nak(ctx); err != nil {
 		slog.WarnContext(ctx, msgIngestNakFailed,
-			slog.String("url", canonicalURL), slog.Any("error", err))
+			slog.String("url", canonicalURL.String()), slog.Any("error", err))
 	}
 }

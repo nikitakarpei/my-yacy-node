@@ -50,6 +50,7 @@ deps:
   pagemarkdowncorporajetstream:
     canUse:
       - pagemarkdownstore
+      - yacycrawlcontract
       - nats
   markdownstoremetrics:
     canUse:
@@ -61,3 +62,4 @@ deps:
 excludeFiles:
   - "_test\\.go"
   - "test/e2e"
+  - "contract"

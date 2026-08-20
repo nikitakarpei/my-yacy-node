@@ -7,7 +7,7 @@ import (
 
 const RedirectResolutionBucketName = "YACY_REDIRECT_RESOLUTION"
 
-func RedirectResolutionKey(canonicalURL string) string {
-	sum := sha256.Sum256([]byte(canonicalURL))
+func RedirectResolutionKey(canonicalURL CanonicalURL) string {
+	sum := sha256.Sum256([]byte(canonicalURL.String()))
 	return hex.EncodeToString(sum[:])
 }

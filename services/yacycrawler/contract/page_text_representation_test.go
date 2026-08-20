@@ -6,12 +6,13 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 func TestPageTextRepresentationRoundTrip(t *testing.T) {
 	page := yacycrawlcontract.PageTextRepresentation{
 		PageReference: yacycrawlcontract.PageReference{
-			CanonicalURL: "https://example.org/a",
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
 			Title:        "Hi",
 			CrawledAt:    time.Date(2026, 7, 4, 0, 0, 0, 0, time.UTC),
 			Language:     "en",
@@ -35,7 +36,7 @@ func TestPageTextRepresentationRoundTrip(t *testing.T) {
 func TestPageTextRepresentationRoundTripsArbitraryTextBytes(t *testing.T) {
 	page := yacycrawlcontract.PageTextRepresentation{
 		PageReference: yacycrawlcontract.PageReference{
-			CanonicalURL: "https://example.org/b",
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.org/b"),
 			CrawledAt:    time.Date(2026, 7, 4, 0, 0, 0, 0, time.UTC),
 		},
 		Text: []byte{0x00, 0x01, 0xff},

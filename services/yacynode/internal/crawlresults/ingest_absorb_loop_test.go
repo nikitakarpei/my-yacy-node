@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlresults"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
@@ -75,18 +76,18 @@ func deliver(
 	return acked, naked
 }
 
-func metadataChunk() yacycrawlcontract.PageRWIMetadataChunk {
+func metadataChunk(t *testing.T) yacycrawlcontract.PageRWIMetadataChunk {
 	return yacycrawlcontract.PageRWIMetadataChunk{
-		CanonicalURL: "https://example.org",
+		CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.org"),
 		Metadata: []yacymodel.URLMetadata{
 			{Address: "http://example.com/a"},
 		},
 	}
 }
 
-func postingChunk() yacycrawlcontract.PageRWIPostingChunk {
+func postingChunk(t *testing.T) yacycrawlcontract.PageRWIPostingChunk {
 	return yacycrawlcontract.PageRWIPostingChunk{
-		CanonicalURL: "https://example.org",
+		CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.org"),
 		Postings:     []yacymodel.RWIPosting{{WordHash: yacymodel.WordHash("w")}},
 	}
 }
@@ -94,7 +95,7 @@ func postingChunk() yacycrawlcontract.PageRWIPostingChunk {
 func TestAbsorbMetadataChunkStoresURLsAndAcks(t *testing.T) {
 	urls := &recordingURLReceiver{}
 	postings := &recordingPostingReceiver{}
-	acked, naked := deliver(t, metadataChunk(), urls, postings)
+	acked, naked := deliver(t, metadataChunk(t), urls, postings)
 
 	if !acked || naked {
 		t.Fatalf("acked=%v naked=%v, want acked", acked, naked)
@@ -107,7 +108,7 @@ func TestAbsorbMetadataChunkStoresURLsAndAcks(t *testing.T) {
 func TestAbsorbPostingChunkStoresPostingsAndAcks(t *testing.T) {
 	urls := &recordingURLReceiver{}
 	postings := &recordingPostingReceiver{}
-	acked, naked := deliver(t, postingChunk(), urls, postings)
+	acked, naked := deliver(t, postingChunk(t), urls, postings)
 
 	if !acked || naked {
 		t.Fatalf("acked=%v naked=%v, want acked", acked, naked)
@@ -120,7 +121,7 @@ func TestAbsorbPostingChunkStoresPostingsAndAcks(t *testing.T) {
 func TestAbsorbNaksWhenURLReceiverBusy(t *testing.T) {
 	urls := &recordingURLReceiver{receipt: urlmeta.Receipt{Busy: true}}
 	postings := &recordingPostingReceiver{}
-	acked, naked := deliver(t, metadataChunk(), urls, postings)
+	acked, naked := deliver(t, metadataChunk(t), urls, postings)
 
 	if acked || !naked {
 		t.Fatalf("acked=%v naked=%v, want naked", acked, naked)
@@ -133,7 +134,7 @@ func TestAbsorbNaksWhenURLReceiverBusy(t *testing.T) {
 func TestAbsorbNaksWhenPostingReceiverErrors(t *testing.T) {
 	urls := &recordingURLReceiver{}
 	postings := &recordingPostingReceiver{err: errors.New("boom")}
-	acked, naked := deliver(t, postingChunk(), urls, postings)
+	acked, naked := deliver(t, postingChunk(t), urls, postings)
 
 	if acked || !naked {
 		t.Fatalf("acked=%v naked=%v, want naked", acked, naked)
@@ -143,7 +144,7 @@ func TestAbsorbNaksWhenPostingReceiverErrors(t *testing.T) {
 func TestAbsorbNaksWhenPostingBatchTooLarge(t *testing.T) {
 	urls := &recordingURLReceiver{}
 	postings := &recordingPostingReceiver{receipt: rwiadmission.Receipt{Busy: true, TooLarge: true}}
-	acked, naked := deliver(t, postingChunk(), urls, postings)
+	acked, naked := deliver(t, postingChunk(t), urls, postings)
 
 	if acked || !naked {
 		t.Fatalf("acked=%v naked=%v, want naked", acked, naked)

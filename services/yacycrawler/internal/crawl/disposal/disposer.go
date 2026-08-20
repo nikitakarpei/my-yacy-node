@@ -4,6 +4,8 @@ package disposal
 import (
 	"context"
 	"log/slog"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const msgDisposedPageRecordFailed = "disposed page record failed, recall will wait out the deadline"
@@ -13,7 +15,7 @@ type DisposalProgress interface {
 }
 
 type DisposedPages interface {
-	Record(ctx context.Context, url string) error
+	Record(ctx context.Context, canonicalURL yacycrawlcontract.CanonicalURL) error
 }
 
 type Disposer struct {
@@ -25,11 +27,15 @@ func NewDisposer(observer DisposalProgress, disposed DisposedPages) *Disposer {
 	return &Disposer{observer: observer, disposed: disposed}
 }
 
-func (d *Disposer) Dispose(ctx context.Context, url string, reason Reason) {
+func (d *Disposer) Dispose(
+	ctx context.Context,
+	canonicalURL yacycrawlcontract.CanonicalURL,
+	reason Reason,
+) {
 	d.observer.PageDisposed(reason)
-	if err := d.disposed.Record(ctx, url); err != nil {
+	if err := d.disposed.Record(ctx, canonicalURL); err != nil {
 		slog.WarnContext(ctx, msgDisposedPageRecordFailed,
-			slog.String("url", url),
+			slog.String("url", canonicalURL.String()),
 			slog.Any("error", err),
 		)
 	}

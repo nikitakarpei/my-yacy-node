@@ -73,10 +73,10 @@ require (
 
 replace (
 	github.com/nikitakarpei/yacy-rwi-node/e2eharness => ../../../../../test/e2eharness
-	github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../../../../libraries/searchdocument
+	github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../../../../services/corpustext/contract
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../../../../libraries/yacycrawlcontract
+replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../../../../services/yacycrawler/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../../../../libraries/yacymodel
 

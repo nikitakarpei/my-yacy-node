@@ -14,7 +14,7 @@ const indexingLimit = 60 * time.Second
 func awaitIndexedCorpus(t *testing.T, documents func() int) {
 	t.Helper()
 	ok := pollwait.For(indexingLimit, func() bool {
-		return documents() >= len(crawledPages())
+		return documents() >= len(crawledPages(t))
 	})
 	if !ok {
 		t.Fatal("the crawled corpus was never indexed")

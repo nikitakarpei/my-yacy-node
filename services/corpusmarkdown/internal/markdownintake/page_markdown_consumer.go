@@ -17,7 +17,7 @@ const (
 )
 
 type PageMarkdownCorpus interface {
-	Put(ctx context.Context, canonicalURL string, markdown []byte) error
+	Put(ctx context.Context, canonicalURL yacycrawlcontract.CanonicalURL, markdown []byte) error
 }
 
 type StoreProgress interface {
@@ -59,7 +59,7 @@ func (c *PageMarkdownConsumer) processOne(ctx context.Context, msg jetstream.Msg
 	}
 	if err := c.corpus.Put(ctx, page.CanonicalURL, page.Markdown); err != nil {
 		slog.WarnContext(ctx, msgMarkdownStoreFailed,
-			slog.String("url", page.CanonicalURL),
+			slog.String("url", page.CanonicalURL.String()),
 			slog.Any("error", err),
 		)
 		c.progress.StoreFailed()
@@ -67,7 +67,7 @@ func (c *PageMarkdownConsumer) processOne(ctx context.Context, msg jetstream.Msg
 		return nil
 	}
 	c.progress.PageStored()
-	slog.DebugContext(ctx, msgMarkdownStored, slog.String("url", page.CanonicalURL))
+	slog.DebugContext(ctx, msgMarkdownStored, slog.String("url", page.CanonicalURL.String()))
 	_ = msg.Ack()
 	return nil
 }

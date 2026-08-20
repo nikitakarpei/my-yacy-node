@@ -7,6 +7,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
@@ -55,7 +57,7 @@ type fakeRecrawl struct {
 
 func (f *fakeRecrawl) DecisionFor(
 	context.Context,
-	string,
+	yacycrawlcontract.CanonicalURL,
 ) (pagevisit.RecrawlDecision, error) {
 	if f.err != nil {
 		return pagevisit.RecrawlDecision{}, f.err
@@ -65,12 +67,15 @@ func (f *fakeRecrawl) DecisionFor(
 
 func (f *fakeRecrawl) RecordVisit(
 	_ context.Context,
-	url string,
+	canonicalURL yacycrawlcontract.CanonicalURL,
 	version pagevisit.PageVersion,
 ) error {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	f.visitedCalls = append(f.visitedCalls, visitedCall{url: url, version: version})
+	f.visitedCalls = append(
+		f.visitedCalls,
+		visitedCall{url: canonicalURL.String(), version: version},
+	)
 	return f.visitedErr
 }
 
@@ -81,7 +86,7 @@ func (f *fakeRecrawl) calls() []visitedCall {
 }
 
 type fakeAbsorption struct {
-	links    map[string][]string
+	links    map[string][]yacycrawlcontract.CanonicalURL
 	err      error
 	disposal disposal.Reason
 }
@@ -166,7 +171,10 @@ func newVisitor(
 
 func visitHost(t *testing.T, visitor pagevisit.Visitor) pagevisit.VisitOutcome {
 	t.Helper()
-	outcome, err := visitor.Visit(context.Background(), "http://host/")
+	outcome, err := visitor.Visit(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	)
 	if err != nil {
 		t.Fatalf("visit: %v", err)
 	}
@@ -181,8 +189,8 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome()),
 		&fakeRecrawl{due: true},
-		&fakeAbsorption{links: map[string][]string{
-			"http://host/": {"http://host/next"},
+		&fakeAbsorption{links: map[string][]yacycrawlcontract.CanonicalURL{
+			"http://host/": {canonicalurltest.CanonicalURLOf(t, "http://host/next")},
 		}},
 		observer,
 		&manualClock{},
@@ -194,7 +202,8 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 		t.Fatalf("want one fetched page observed, got %d", observer.fetched)
 	}
 
-	if len(outcome.DiscoveredURLs) != 1 || outcome.DiscoveredURLs[0] != "http://host/next" {
+	if len(outcome.DiscoveredURLs) != 1 ||
+		outcome.DiscoveredURLs[0] != canonicalurltest.CanonicalURLOf(t, "http://host/next") {
 		t.Fatalf("want discovered link, got %v", outcome.DiscoveredURLs)
 	}
 	if !outcome.Fetched {
@@ -215,7 +224,10 @@ func TestVisitAbsorptionErrorFails(t *testing.T) {
 		&manualClock{},
 	)
 
-	if _, err := visitor.Visit(context.Background(), "http://host/"); err == nil {
+	if _, err := visitor.Visit(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	); err == nil {
 		t.Fatal("absorption error should fail the visit")
 	}
 	if len(recrawl.calls()) != 0 {
@@ -283,7 +295,10 @@ func TestVisitReportsTransient(t *testing.T) {
 		&manualClock{},
 	)
 
-	outcome, err := visitor.Visit(context.Background(), "http://host/")
+	outcome, err := visitor.Visit(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	)
 	if err != nil {
 		t.Fatalf("visit: %v", err)
 	}
@@ -307,7 +322,10 @@ func TestVisitUnknownFetchStatusFails(t *testing.T) {
 		&manualClock{},
 	)
 
-	if _, err := visitor.Visit(context.Background(), "http://host/"); err == nil {
+	if _, err := visitor.Visit(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	); err == nil {
 		t.Fatal("an unknown fetch status should fail the visit, not retry silently")
 	}
 }
@@ -321,7 +339,10 @@ func TestVisitReportsDeferred(t *testing.T) {
 		&manualClock{},
 	)
 
-	outcome, err := visitor.Visit(context.Background(), "http://host/")
+	outcome, err := visitor.Visit(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	)
 	if err != nil {
 		t.Fatalf("visit: %v", err)
 	}
@@ -339,7 +360,10 @@ func TestVisitFetchErrorFails(t *testing.T) {
 		&manualClock{},
 	)
 
-	if _, err := visitor.Visit(context.Background(), "http://host/"); err == nil {
+	if _, err := visitor.Visit(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	); err == nil {
 		t.Fatal("fetch error should fail the visit")
 	}
 }
@@ -350,7 +374,10 @@ func TestVisitRecrawlDecisionErrorFails(t *testing.T) {
 		newObserver(), &manualClock{},
 	)
 
-	if _, err := visitor.Visit(context.Background(), "http://host/"); err == nil {
+	if _, err := visitor.Visit(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	); err == nil {
 		t.Fatal("recrawl decision error should fail the visit")
 	}
 }
@@ -385,7 +412,10 @@ func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
 		&manualClock{},
 	)
 
-	if _, err := visitor.Visit(context.Background(), "http://host/"); err != nil {
+	if _, err := visitor.Visit(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	); err != nil {
 		t.Fatalf("visit: %v", err)
 	}
 	if fetch.gotVersion != known {
@@ -399,7 +429,10 @@ func TestVisitRecordsVersionAfterSuccessfulAbsorb(t *testing.T) {
 		fetchOf(fetchedOutcome()), recrawl, &fakeAbsorption{}, newObserver(), &manualClock{},
 	)
 
-	if _, err := visitor.Visit(context.Background(), "http://host/"); err != nil {
+	if _, err := visitor.Visit(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	); err != nil {
 		t.Fatalf("visit: %v", err)
 	}
 	calls := recrawl.calls()

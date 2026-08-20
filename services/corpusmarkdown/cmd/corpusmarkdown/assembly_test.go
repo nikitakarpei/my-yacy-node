@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 const (
@@ -49,12 +50,24 @@ func TestRunServiceStoresCrawledPageMarkdownOnItsOwnNATS(t *testing.T) {
 	if err != nil {
 		t.Fatalf("open object store: %v", err)
 	}
-	objectName := pagemarkdownstore.ObjectName(canonicalURL)
+	objectName := pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, canonicalURL))
 
-	publishMarkdown(t, ctx, crawlJetStream, canonicalURL, []byte("# Hi\n\nwords here"))
+	publishMarkdown(
+		t,
+		ctx,
+		crawlJetStream,
+		canonicalurltest.CanonicalURLOf(t, canonicalURL),
+		[]byte("# Hi\n\nwords here"),
+	)
 	waitForStored(t, ctx, store, objectName, []byte("# Hi\n\nwords here"))
 
-	publishMarkdown(t, ctx, crawlJetStream, canonicalURL, []byte("# Hi again"))
+	publishMarkdown(
+		t,
+		ctx,
+		crawlJetStream,
+		canonicalurltest.CanonicalURLOf(t, canonicalURL),
+		[]byte("# Hi again"),
+	)
 	waitForStored(t, ctx, store, objectName, []byte("# Hi again"))
 
 	cancel()
@@ -72,7 +85,7 @@ func publishMarkdown(
 	t *testing.T,
 	ctx context.Context,
 	js jetstream.JetStream,
-	canonicalURL string,
+	canonicalURL yacycrawlcontract.CanonicalURL,
 	markdown []byte,
 ) {
 	t.Helper()

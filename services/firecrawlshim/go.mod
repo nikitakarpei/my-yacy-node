@@ -17,6 +17,6 @@ require (
 	google.golang.org/protobuf v1.36.11 // indirect
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi => ../../libraries/corpusrecallapi
+replace github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi => ../corpusrecall/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime

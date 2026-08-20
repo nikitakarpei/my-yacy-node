@@ -89,10 +89,6 @@ components:
     in: cmd/yacycrawler/**
 
 vendors:
-  canonicalurl:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
-      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
   yacycrawlcontract:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
@@ -136,7 +132,7 @@ deps:
     mayDependOn:
       - pagevisit
     canUse:
-      - canonicalurl
+      - yacycrawlcontract
   ordersettlement:
     mayDependOn:
       - contextcancellation
@@ -151,7 +147,7 @@ deps:
       - pageabsorption
       - contextcancellation
     canUse:
-      - canonicalurl
+      - yacycrawlcontract
   visitdispatch:
     mayDependOn:
       - frontier
@@ -169,7 +165,7 @@ deps:
       - pagepublication
       - fetchedpage
     canUse:
-      - canonicalurl
+      - yacycrawlcontract
   pagepublication:
     mayDependOn:
       - retrydelay
@@ -181,7 +177,7 @@ deps:
     mayDependOn:
       - contentextraction
     canUse:
-      - canonicalurl
+      - yacycrawlcontract
       - xnet
   containerexpandersarchive:
     mayDependOn:
@@ -254,3 +250,4 @@ deps:
 excludeFiles:
   - "test/e2e"
   - "_test\\.go"
+  - "contract"

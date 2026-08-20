@@ -14,6 +14,7 @@ import (
 	corpustext "github.com/nikitakarpei/yacy-rwi-node/corpustext/cmd/corpustext"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 const indexedDocumentPathPrefix = "/yacy_text_v1_und/_doc/"
@@ -55,7 +56,7 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 	data, err := yacycrawlcontract.MarshalPageTextRepresentation(
 		yacycrawlcontract.PageTextRepresentation{
 			PageReference: yacycrawlcontract.PageReference{
-				CanonicalURL: "https://example.com/",
+				CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 				Title:        "Hi",
 			},
 			Text: []byte("words here"),
