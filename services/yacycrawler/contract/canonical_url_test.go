@@ -84,3 +84,43 @@ func TestCanonicalURLRejectsUncanonicalJSON(t *testing.T) {
 		}
 	}
 }
+
+func TestCanonicalURLHostnameExcludesThePort(t *testing.T) {
+	for input, want := range map[string]string{
+		"HTTP://Example.COM/a":      "example.com",
+		"http://example.com:8080/x": "example.com",
+	} {
+		got, err := yacycrawlcontract.CanonicalURLOf(input)
+		if err != nil {
+			t.Fatalf("CanonicalURLOf(%q): %v", input, err)
+		}
+		if got.Hostname() != want {
+			t.Errorf("CanonicalURLOf(%q).Hostname() = %q, want %q", input, got.Hostname(), want)
+		}
+	}
+}
+
+func TestCanonicalURLHasQuery(t *testing.T) {
+	for input, want := range map[string]bool{
+		"http://example.com/a":     false,
+		"http://example.com/a?q=1": true,
+	} {
+		got, err := yacycrawlcontract.CanonicalURLOf(input)
+		if err != nil {
+			t.Fatalf("CanonicalURLOf(%q): %v", input, err)
+		}
+		if got.HasQuery() != want {
+			t.Errorf("CanonicalURLOf(%q).HasQuery() = %v, want %v", input, got.HasQuery(), want)
+		}
+	}
+}
+
+func TestCanonicalURLDecodedFromJSONCarriesItsParts(t *testing.T) {
+	var decoded yacycrawlcontract.CanonicalURL
+	if err := json.Unmarshal([]byte(`"http://example.com/a?q=1"`), &decoded); err != nil {
+		t.Fatalf("unmarshal: %v", err)
+	}
+	if decoded.Hostname() != "example.com" || !decoded.HasQuery() {
+		t.Fatalf("hostname = %q, hasQuery = %v", decoded.Hostname(), decoded.HasQuery())
+	}
+}

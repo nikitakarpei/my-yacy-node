@@ -113,7 +113,7 @@ func resolveLinks(
 		}
 		seen[canonical] = struct{}{}
 		links = append(links, canonical)
-		if hostOf(canonical.String()) == baseHost {
+		if canonical.Hostname() == baseHost {
 			local++
 		} else {
 			external++

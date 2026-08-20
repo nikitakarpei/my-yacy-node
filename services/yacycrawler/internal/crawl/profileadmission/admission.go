@@ -3,7 +3,6 @@ package profileadmission
 
 import (
 	"fmt"
-	"net/url"
 	"regexp"
 	"strings"
 
@@ -54,10 +53,7 @@ func New(
 		pagesPerHost:    map[string]int{},
 	}
 	for _, seed := range canonicalSeeds {
-		host, directory, err := hostAndDirectory(seed)
-		if err != nil {
-			return nil, err
-		}
+		host, directory := hostAndDirectory(seed)
 		admission.seedHosts[host] = struct{}{}
 		admission.seedDirectories = append(admission.seedDirectories, directory)
 	}
@@ -74,11 +70,7 @@ func (a *Admission) Admit(canonicalURL yacycrawlcontract.CanonicalURL, depth int
 	if len(a.admittedURLs) >= a.maxAdmittedURLs {
 		return false
 	}
-	parsed, err := url.Parse(canonicalURL.String())
-	if err != nil {
-		return false
-	}
-	if parsed.RawQuery != "" && !a.allowQueryURLs {
+	if canonicalURL.HasQuery() && !a.allowQueryURLs {
 		return false
 	}
 	if !a.urlMustMatch.MatchString(canonicalURL.String()) {
@@ -87,7 +79,7 @@ func (a *Admission) Admit(canonicalURL yacycrawlcontract.CanonicalURL, depth int
 	if a.urlMustNotMatch != nil && a.urlMustNotMatch.MatchString(canonicalURL.String()) {
 		return false
 	}
-	host := strings.ToLower(parsed.Hostname())
+	host := canonicalURL.Hostname()
 	if !a.withinScope(host, canonicalURL) {
 		return false
 	}
@@ -122,17 +114,12 @@ func (a *Admission) withinScope(host string, canonicalURL yacycrawlcontract.Cano
 
 func hostAndDirectory(
 	canonicalURL yacycrawlcontract.CanonicalURL,
-) (host, directory string, err error) {
-	parsed, err := url.Parse(canonicalURL.String())
-	if err != nil {
-		return "", "", fmt.Errorf("parse seed url: %w", err)
+) (host, directory string) {
+	directory = canonicalURL.String()
+	if slash := strings.LastIndexByte(directory, '/'); slash >= 0 {
+		directory = directory[:slash+1]
 	}
-	host = strings.ToLower(parsed.Hostname())
-	trimmed := canonicalURL.String()
-	if slash := strings.LastIndexByte(trimmed, '/'); slash >= 0 {
-		trimmed = trimmed[:slash+1]
-	}
-	return host, trimmed, nil
+	return canonicalURL.Hostname(), directory
 }
 
 func matchOrAll(pattern string) string {

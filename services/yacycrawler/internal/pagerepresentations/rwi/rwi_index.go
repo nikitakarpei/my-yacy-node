@@ -23,7 +23,7 @@ func buildRepresentation(
 	order, occurrences, textStats := tokenize(string(fullText))
 	_, _, titleStats := tokenize(page.Title)
 
-	shared := sharedPosting(page, urlHash)
+	shared := sharedPosting(page, urlHash, canonicalAddress.Path)
 	shared.TitleWords = titleStats.Words
 	shared.TextWords = textStats.Words
 	shared.Phrases = textStats.Phrases
@@ -52,6 +52,7 @@ func buildRepresentation(
 func sharedPosting(
 	page pagepublication.Page,
 	urlHash yacymodel.URLHash,
+	canonicalPath string,
 ) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		URLHash:       urlHash,
@@ -61,7 +62,7 @@ func sharedPosting(
 		LocalLinks:    page.LocalLinks,
 		ExternalLinks: page.ExternalLinks,
 		URLLength:     len(page.CanonicalURL.String()),
-		URLComponents: componentCount(page.CanonicalURL.String()),
+		URLComponents: componentCount(canonicalPath),
 	}
 }
 
@@ -95,12 +96,8 @@ func languageOf(page pagepublication.Page) yacymodel.Optional[yacymodel.Language
 	return yacymodel.Some(language)
 }
 
-func componentCount(canonicalURL string) int {
-	parsed, err := url.Parse(canonicalURL)
-	if err != nil {
-		return 0
-	}
-	trimmed := strings.Trim(parsed.Path, "/")
+func componentCount(canonicalPath string) int {
+	trimmed := strings.Trim(canonicalPath, "/")
 	if trimmed == "" {
 		return 0
 	}

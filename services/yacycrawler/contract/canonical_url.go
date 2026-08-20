@@ -15,9 +15,17 @@ const (
 	portHTTPS   = "443"
 )
 
-type CanonicalURL struct{ value string }
+type CanonicalURL struct {
+	value    string
+	hostname string
+	hasQuery bool
+}
 
 func (c CanonicalURL) String() string { return c.value }
+
+func (c CanonicalURL) Hostname() string { return c.hostname }
+
+func (c CanonicalURL) HasQuery() bool { return c.hasQuery }
 
 func (c CanonicalURL) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(c.value)
@@ -68,8 +76,8 @@ func canonicalURLOf(parsed *url.URL) (CanonicalURL, error) {
 	if scheme != schemeHTTP && scheme != schemeHTTPS {
 		return CanonicalURL{}, fmt.Errorf("unsupported scheme %q", parsed.Scheme)
 	}
-	host := strings.ToLower(parsed.Hostname())
-	if host == "" {
+	hostname := strings.ToLower(parsed.Hostname())
+	if hostname == "" {
 		return CanonicalURL{}, fmt.Errorf("missing host in %q", parsed.String())
 	}
 	port := parsed.Port()
@@ -78,14 +86,18 @@ func canonicalURLOf(parsed *url.URL) (CanonicalURL, error) {
 	}
 
 	parsed.Scheme = scheme
-	parsed.Host = host
+	parsed.Host = hostname
 	if port != "" {
-		parsed.Host = host + ":" + port
+		parsed.Host = hostname + ":" + port
 	}
 	parsed.Fragment = ""
 	parsed.Path = cleanedPathOf(parsed.Path)
 
-	return CanonicalURL{value: parsed.String()}, nil
+	return CanonicalURL{
+		value:    parsed.String(),
+		hostname: hostname,
+		hasQuery: parsed.RawQuery != "",
+	}, nil
 }
 
 func cleanedPathOf(rawPath string) string {
