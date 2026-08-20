@@ -5,6 +5,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
@@ -17,8 +19,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/replicaeligibility"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 const (
@@ -215,9 +215,9 @@ func openCycleVault(
 ) {
 	t.Helper()
 
-	v, err := memory.Open(0, nil)
+	v, err := memoryvault.Open(0, nil)
 	if err != nil {
-		t.Fatalf("memory.Open: %v", err)
+		t.Fatalf("memoryvault.Open: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {

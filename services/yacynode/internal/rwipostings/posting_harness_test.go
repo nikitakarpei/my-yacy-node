@@ -6,10 +6,10 @@ import (
 	"net/url"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultengines/memory"
 )
 
 type harness struct {
@@ -23,7 +23,7 @@ type harness struct {
 func openHarness(t *testing.T) harness {
 	t.Helper()
 
-	v, err := memory.Open(0, nil)
+	v, err := memoryvault.Open(0, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}

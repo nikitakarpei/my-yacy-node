@@ -9,18 +9,8 @@ commonVendors:
   - yacymodel
 
 components:
-  vaultkey:
-    in: internal/vaultkey/**
   hashcodec:
     in: internal/hashcodec/**
-  vault:
-    in: internal/vault/**
-  vaultenginesbolt:
-    in: internal/vaultengines/bolt/**
-  vaultenginesmemory:
-    in: internal/vaultengines/memory/**
-  vaulttest:
-    in: internal/vaulttest/**
   httpguard:
     in: internal/httpguard/**
   nodeconfiguration:
@@ -97,10 +87,10 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  bbolt:
-    in: go.etcd.io/bbolt
-  orderedcode:
-    in: github.com/google/orderedcode
+  vault:
+    in: github.com/nikitakarpei/yacy-rwi-node/vault
+  boltvault:
+    in: github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault
   prometheus:
     in:
       - github.com/prometheus/client_golang/prometheus
@@ -123,29 +113,8 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
 
 deps:
-  vaultkey:
-    canUse:
-      - orderedcode
   hashcodec:
-    mayDependOn:
-      - vaultkey
-  vault:
-    mayDependOn:
-      - vaultkey
-  vaultenginesbolt:
-    deepScan: false
-    mayDependOn:
-      - vaultkey
-      - vault
     canUse:
-      - bbolt
-  vaultenginesmemory:
-    mayDependOn:
-      - vaultkey
-      - vault
-  vaulttest:
-    mayDependOn:
-      - vaultkey
       - vault
   httpguard:
     canUse:
@@ -167,11 +136,10 @@ deps:
       - yacyproto
   peerroster:
     mayDependOn:
-      - vaultkey
       - hashcodec
-      - vault
     canUse:
       - yacyproto
+      - vault
   peerannouncement:
     mayDependOn:
       - peerwire
@@ -182,50 +150,49 @@ deps:
     canUse:
       - yacyproto
   nodepeerhash:
-    mayDependOn:
-      - vaultkey
+    canUse:
       - vault
   bootstrap:
     canUse:
       - yacyproto
   urlmeta:
     mayDependOn:
-      - vaultkey
       - hashcodec
-      - vault
       - httpguard
       - nodeidentity
     canUse:
       - yacyproto
+      - vault
   urlmetastaleness:
     mayDependOn:
       - urlmeta
-      - vaultkey
       - hashcodec
+    canUse:
       - vault
   urlreferences:
     mayDependOn:
       - rwipostings
-      - vaultkey
       - hashcodec
+    canUse:
       - vault
   rwipostings:
     mayDependOn:
-      - vaultkey
       - hashcodec
+    canUse:
       - vault
   rwiescrow:
     mayDependOn:
       - rwipostings
       - urlmeta
-      - vaultkey
       - hashcodec
+    canUse:
       - vault
   rwiadmission:
     mayDependOn:
       - rwipostings
       - rwiescrow
       - urlmeta
+    canUse:
       - vault
   rwiingress:
     mayDependOn:
@@ -238,12 +205,12 @@ deps:
     mayDependOn:
       - rwidistribution
       - rwipostings
-      - vault
-      - vaultkey
       - hashcodec
       - urlmeta
       - postingcourier
       - urlmetadatacourier
+    canUse:
+      - vault
   postingcourier:
     mayDependOn:
       - peerwire
@@ -279,14 +246,15 @@ deps:
       - urlmeta
       - urlmetastaleness
       - urlreferences
+    canUse:
       - vault
   metrics:
     mayDependOn:
       - eviction
       - rwiadmission
-      - vault
     canUse:
       - prometheus
+      - vault
   crawlresults:
     mayDependOn:
       - urlmeta

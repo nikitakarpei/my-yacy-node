@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
 const (
@@ -49,11 +48,11 @@ func registerSchedule(v *vault.Vault) (
 	return order, dueTimes, offerIntervals, nil
 }
 
-var orderKeyLayout = vaultkey.Triple(vaultkey.Time, hashcodec.Hash, hashcodec.URLHash)
+var orderKeyLayout = vault.TripleKey(vault.TimeKeyPart, hashcodec.Hash, hashcodec.URLHash)
 
 type orderKeyCodec struct{}
 
-func (orderKeyCodec) Encode(offer scheduledPostingOffer) vaultkey.Key {
+func (orderKeyCodec) Encode(offer scheduledPostingOffer) vault.Key {
 	return orderKeyLayout.Key(offer.At, offer.Posting.Word, offer.Posting.URL)
 }
 
@@ -66,7 +65,7 @@ func (orderKeyCodec) Decode(storedKey []byte) (scheduledPostingOffer, error) {
 	return scheduledPostingOffer{At: dueAt, Posting: postingidentity.IdentityOf(word, url)}, nil
 }
 
-func everyOfferDueBy(dueAt time.Time) vaultkey.KeyRange {
+func everyOfferDueBy(dueAt time.Time) vault.KeyRange {
 	return orderKeyLayout.KeysThroughFirst(dueAt)
 }
 

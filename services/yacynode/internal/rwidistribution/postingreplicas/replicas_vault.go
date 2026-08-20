@@ -3,9 +3,9 @@ package postingreplicas
 import (
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vault"
 )
 
 const bucket vault.Name = "rwidistribution_replica_ledger"
