@@ -10,6 +10,8 @@ components:
     in: internal/markdownintake/**
   markdownstoremetrics:
     in: internal/markdownstoremetrics/**
+  pagemarkdowncorporajetstream:
+    in: internal/pagemarkdowncorpora/jetstream/**
   corpusmarkdowncmd:
     in: cmd/corpusmarkdown/**
 
@@ -43,9 +45,12 @@ deps:
   markdownintake:
     canUse:
       - yacycrawlcontract
-      - pagemarkdownstore
       - nats
       - serviceruntime
+  pagemarkdowncorporajetstream:
+    canUse:
+      - pagemarkdownstore
+      - nats
   markdownstoremetrics:
     canUse:
       - prometheus

@@ -1,6 +1,6 @@
 // Package pagemarkdownstore is the single source of truth binding a crawled
-// page's canonical URL to its markdown object in the NATS JetStream Object
-// Store, shared by the writer that fills the store and future readers.
+// page's canonical URL to the bucket and object name that hold its markdown,
+// shared by the writer that fills the corpus and the readers that recall from it.
 package pagemarkdownstore
 
 import (
