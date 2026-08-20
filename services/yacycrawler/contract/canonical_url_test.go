@@ -36,22 +36,22 @@ func TestCanonicalURLOfRejectsBadInput(t *testing.T) {
 	}
 }
 
-func TestCanonicalURLOfReference(t *testing.T) {
-	got, err := yacycrawlcontract.CanonicalURLOfReference("http://example.com/dir/page", "../other")
+func TestCanonicalURLOfLink(t *testing.T) {
+	got, err := yacycrawlcontract.CanonicalURLOfLink("../other", "http://example.com/dir/page")
 	if err != nil {
-		t.Fatalf("CanonicalURLOfReference: %v", err)
+		t.Fatalf("CanonicalURLOfLink: %v", err)
 	}
 	if got.String() != "http://example.com/other" {
 		t.Fatalf("got %q", got.String())
 	}
 }
 
-func TestCanonicalURLOfReferenceRejectsBadInput(t *testing.T) {
-	if _, err := yacycrawlcontract.CanonicalURLOfReference("::bad", "x"); err == nil {
+func TestCanonicalURLOfLinkRejectsBadInput(t *testing.T) {
+	if _, err := yacycrawlcontract.CanonicalURLOfLink("x", "::bad"); err == nil {
 		t.Error("bad base should error")
 	}
-	if _, err := yacycrawlcontract.CanonicalURLOfReference("http://h/", "::bad"); err == nil {
-		t.Error("bad ref should error")
+	if _, err := yacycrawlcontract.CanonicalURLOfLink("::bad", "http://h/"); err == nil {
+		t.Error("bad link should error")
 	}
 }
 

@@ -104,7 +104,7 @@ func resolveLinks(
 	baseHost := hostOf(baseURL)
 	seen := map[yacycrawlcontract.CanonicalURL]struct{}{}
 	for _, href := range hrefs {
-		canonical, err := yacycrawlcontract.CanonicalURLOfReference(baseURL, href)
+		canonical, err := yacycrawlcontract.CanonicalURLOfLink(href, baseURL)
 		if err != nil {
 			continue
 		}

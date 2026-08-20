@@ -59,16 +59,16 @@ func CanonicalURLOf(rawURL string) (CanonicalURL, error) {
 	return canonicalURLOf(parsed)
 }
 
-func CanonicalURLOfReference(baseURL, referenceURL string) (CanonicalURL, error) {
+func CanonicalURLOfLink(linkURL, baseURL string) (CanonicalURL, error) {
+	parsedLinkURL, err := url.Parse(strings.TrimSpace(linkURL))
+	if err != nil {
+		return CanonicalURL{}, fmt.Errorf("parse link url: %w", err)
+	}
 	parsedBaseURL, err := url.Parse(strings.TrimSpace(baseURL))
 	if err != nil {
 		return CanonicalURL{}, fmt.Errorf("parse base url: %w", err)
 	}
-	parsedReferenceURL, err := url.Parse(strings.TrimSpace(referenceURL))
-	if err != nil {
-		return CanonicalURL{}, fmt.Errorf("parse reference url: %w", err)
-	}
-	return canonicalURLOf(parsedBaseURL.ResolveReference(parsedReferenceURL))
+	return canonicalURLOf(parsedBaseURL.ResolveReference(parsedLinkURL))
 }
 
 func canonicalURLOf(parsed *url.URL) (CanonicalURL, error) {
