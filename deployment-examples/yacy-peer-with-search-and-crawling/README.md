@@ -9,7 +9,7 @@ answer with.
 
 | Service | Role |
 | --- | --- |
-| `caddy` | The address a browser reaches the search UI at. |
+| `caddy` | The one address the stack is reached at, by a browser and by other peers. |
 | `searxng` | The search UI: queries the local index alongside web engines, and points every result link at `visitcrawl`. |
 | `visitcrawl` | Turns an opened result into one crawl order and redirects to the page, without waiting on the order. |
 | `nats` | Broker carrying crawl orders and crawled pages between services. |
@@ -29,9 +29,8 @@ answer with.
 2. Start the stack: `docker compose up -d`.
 3. Open `http://localhost:8080` to search.
 
-To serve other people, publish that address, ideally behind TLS. The peer serves the YaCy
-network on port 8090, which stays reachable from that network. Nothing else is published
-beyond the machine it runs on.
+To serve other people, and to let the peer take part in the YaCy network, publish that
+address. Nothing else is published beyond the machine it runs on.
 
 ## Extras
 
