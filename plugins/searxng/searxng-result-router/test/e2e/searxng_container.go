@@ -14,32 +14,32 @@ import (
 )
 
 const (
-	searxngAlias      = "searxng"
-	pluginMountDir    = "/opt/e2e-plugins"
-	pluginSourcePath  = "../../result_link_router.py"
-	engineMountDir    = "/usr/local/searxng/searx/engines"
-	testEngineModule  = "offline_test_engine"
-	testEngineName    = "origin"
-	testEngineBang    = "ot"
-	originDestination = "http://example.invalid/origin-page"
+	searxngAlias       = "searxng"
+	pluginMountDir     = "/opt/e2e-plugins"
+	pluginSourcePath   = "../../result_link_router.py"
+	engineMountDir     = "/usr/local/searxng/searx/engines"
+	testEngineModule   = "offline_test_engine"
+	testEngineName     = "origin"
+	testEngineBang     = "ot"
+	destinationPageURL = "http://example.invalid/destination-page"
 )
 
-func testEngineSource(originURL string) string {
+func testEngineSource(searchUpstreamURL string) string {
 	return `categories = ["general"]
 about = {}
 
 
 def request(query, params):
-    params["url"] = "` + originURL + `"
+    params["url"] = "` + searchUpstreamURL + `"
     return params
 
 
 def response(resp):
     return [
         {
-            "title": "Origin page",
-            "url": "` + originDestination + `",
-            "content": "origin page content",
+            "title": "Destination page",
+            "url": "` + destinationPageURL + `",
+            "content": "destination page content",
         }
     ]
 `
@@ -71,24 +71,18 @@ plugins:
     active: true
 `
 
-func startSearXNG(
-	t *testing.T,
-	ctx context.Context,
-	networkName string,
-	visitcrawlBaseURL string,
-) string {
+func startSearXNG(t *testing.T, ctx context.Context, networkName string) {
 	t.Helper()
 	pluginPath, err := filepath.Abs(pluginSourcePath)
 	if err != nil {
 		t.Fatalf("resolve plugin source path: %v", err)
 	}
 
-	return searxng.Start(t, ctx, networkName, searxng.Config{
+	searxng.Start(t, ctx, networkName, searxng.Config{
 		Alias:        searxngAlias,
 		SettingsYAML: testSettingsYAML,
 		Env: map[string]string{
 			"PYTHONPATH":             pluginMountDir,
-			"VISITCRAWL_BASE_URL":    visitcrawlBaseURL,
 			"VISITCRAWL_LINK_SECRET": visitLinkSecret,
 		},
 		Files: []testcontainers.ContainerFile{
@@ -98,7 +92,7 @@ func startSearXNG(
 				FileMode:          0o644,
 			},
 			{
-				Reader:            strings.NewReader(testEngineSource(originNetworkURL())),
+				Reader:            strings.NewReader(testEngineSource(searchUpstreamNetworkURL())),
 				ContainerFilePath: engineMountDir + "/" + testEngineModule + ".py",
 				FileMode:          0o644,
 			},

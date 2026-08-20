@@ -11,7 +11,6 @@ import (
 	"github.com/testcontainers/testcontainers-go/wait"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerurl"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 )
@@ -23,7 +22,7 @@ const (
 	visitLinkSecret    = "e2e-visit-link-secret"
 )
 
-func startVisitcrawl(t *testing.T, ctx context.Context, networkName string) string {
+func startVisitcrawl(t *testing.T, ctx context.Context, networkName string) {
 	t.Helper()
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
@@ -48,7 +47,6 @@ func startVisitcrawl(t *testing.T, ctx context.Context, networkName string) stri
 	}
 	t.Cleanup(func() { _ = container.Terminate(context.Background()) })
 	containerlog.DumpOnFailure(t, "visitcrawl", container)
-	return containerurl.HostURL(t, ctx, container, visitcrawlPort)
 }
 
 func visitcrawlImage(t *testing.T) string {
