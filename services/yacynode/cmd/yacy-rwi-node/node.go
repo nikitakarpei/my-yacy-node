@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"time"
 
@@ -107,6 +108,11 @@ func assembleNode(
 		Version:     advertisedYaCyVersion,
 		Start:       now(),
 	}
+
+	slog.InfoContext(ctx, "node identity",
+		slog.String("peer", identity.Hash.String()),
+		slog.String("name", identity.Name.String()),
+	)
 
 	dhtRingPartitions, err := yacymodel.DHTRingPartitionsFromExponent(
 		config.Distribution.PartitionExponent,
