@@ -5,6 +5,7 @@ import hmac
 import os
 import time
 import typing as t
+from functools import partial
 from urllib.parse import quote, urlparse
 
 from searx.plugins import Plugin, PluginInfo
@@ -31,10 +32,6 @@ class SXNGPlugin(Plugin):
             description="Route result links through visitcrawl before their destination",
             preference_section="privacy",
         )
-        base_url = os.environ.get("VISITCRAWL_BASE_URL")
-        if not base_url:
-            raise ValueError("VISITCRAWL_BASE_URL must be set")
-        self.visitcrawl_base_url = base_url.rstrip("/")
         link_secret = os.environ.get("VISITCRAWL_LINK_SECRET")
         if not link_secret:
             raise ValueError("VISITCRAWL_LINK_SECRET must be set")
@@ -49,25 +46,31 @@ class SXNGPlugin(Plugin):
     def on_result(
         self, request: "SXNG_Request", search: "SearchWithPlugins", result: "Result"
     ) -> bool:
-        if request is not None and request.headers.get(self.disable_header) is not None:
+        if request.headers.get(self.disable_header) is not None:
             return True
         visited_page_url = getattr(result, "url", None)
-        result.filter_urls(self.route_through_visitcrawl)
+        result.filter_urls(
+            partial(self.route_through_visitcrawl, results_origin_of(request))
+        )
         if visited_page_url and visited_page_url.startswith(("http://", "https://")):
             result.parsed_url = urlparse(visited_page_url)
         return True
 
     def route_through_visitcrawl(
-        self, result: "Result | LegacyResult", field_name: str, url_src: str
+        self,
+        results_origin: str,
+        result: "Result | LegacyResult",
+        field_name: str,
+        url_src: str,
     ) -> bool | str:
         if field_name != "url" or not url_src.startswith(("http://", "https://")):
             return True
-        return self.visit_link_for(url_src)
+        return self.visit_link_for(results_origin, url_src)
 
-    def visit_link_for(self, visited_page: str) -> str:
+    def visit_link_for(self, results_origin: str, visited_page: str) -> str:
         expires = str(int(time.time()) + self.link_lifetime)
         return (
-            f"{self.visitcrawl_base_url}/visit"
+            f"{results_origin}/visit"
             f"?url={quote(visited_page, safe='')}"
             f"&expires={expires}"
             f"&signature={self.signature_of(expires, visited_page)}"
@@ -79,6 +82,10 @@ class SXNGPlugin(Plugin):
             f"{expires}\n{visited_page}".encode(),
             hashlib.sha256,
         ).hexdigest()
+
+
+def results_origin_of(request: "SXNG_Request") -> str:
+    return request.host_url.rstrip("/")
 
 
 def link_lifetime_from(configured: str | None) -> int:
