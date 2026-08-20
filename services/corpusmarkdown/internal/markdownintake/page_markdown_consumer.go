@@ -6,7 +6,6 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -17,8 +16,8 @@ const (
 	msgMarkdownStored      = "page markdown stored"
 )
 
-type MarkdownStore interface {
-	Put(ctx context.Context, name string, markdown []byte) error
+type PageMarkdownCorpus interface {
+	Put(ctx context.Context, canonicalURL string, markdown []byte) error
 }
 
 type StoreProgress interface {
@@ -29,20 +28,20 @@ type StoreProgress interface {
 
 type PageMarkdownConsumer struct {
 	source      pullintake.MessageSource
-	store       MarkdownStore
+	corpus      PageMarkdownCorpus
 	progress    StoreProgress
 	concurrency int
 }
 
 func NewPageMarkdownConsumer(
 	source pullintake.MessageSource,
-	store MarkdownStore,
+	corpus PageMarkdownCorpus,
 	progress StoreProgress,
 	concurrency int,
 ) *PageMarkdownConsumer {
 	return &PageMarkdownConsumer{
 		source:      source,
-		store:       store,
+		corpus:      corpus,
 		progress:    progress,
 		concurrency: concurrency,
 	}
@@ -58,11 +57,7 @@ func (c *PageMarkdownConsumer) processOne(ctx context.Context, msg jetstream.Msg
 	if err != nil {
 		return poisonhalt.Halt(ctx, msg, err)
 	}
-	if err := c.store.Put(
-		ctx,
-		pagemarkdownstore.ObjectName(page.CanonicalURL),
-		page.Markdown,
-	); err != nil {
+	if err := c.corpus.Put(ctx, page.CanonicalURL, page.Markdown); err != nil {
 		slog.WarnContext(ctx, msgMarkdownStoreFailed,
 			slog.String("url", page.CanonicalURL),
 			slog.Any("error", err),

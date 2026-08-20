@@ -11,7 +11,6 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownintake"
-	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
@@ -64,22 +63,22 @@ func (s fakeSource) Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesCo
 	return s.iterator, nil
 }
 
-type recordingStore struct {
-	fail    bool
-	mu      sync.Mutex
-	entries map[string][]byte
+type recordingCorpus struct {
+	fail     bool
+	mu       sync.Mutex
+	markdown map[string][]byte
 }
 
-func (s *recordingStore) Put(_ context.Context, name string, markdown []byte) error {
-	if s.fail {
+func (c *recordingCorpus) Put(_ context.Context, canonicalURL string, markdown []byte) error {
+	if c.fail {
 		return errors.New("store failed")
 	}
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	if s.entries == nil {
-		s.entries = map[string][]byte{}
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if c.markdown == nil {
+		c.markdown = map[string][]byte{}
 	}
-	s.entries[name] = markdown
+	c.markdown[canonicalURL] = markdown
 	return nil
 }
 
@@ -119,9 +118,9 @@ func TestPageMarkdownConsumerStoresAndAcks(t *testing.T) {
 	source := fakeSource{iterator: &fakeIterator{
 		messages: []jetstream.Msg{markdownMessage(t, canonicalURL, markdown, acked)},
 	}}
-	store := &recordingStore{}
+	corpus := &recordingCorpus{}
 	progress := &recordingProgress{}
-	consumer := markdownintake.NewPageMarkdownConsumer(source, store, progress, 1)
+	consumer := markdownintake.NewPageMarkdownConsumer(source, corpus, progress, 1)
 
 	if err := consumer.Run(context.Background()); err != nil {
 		t.Fatalf("run: %v", err)
@@ -129,7 +128,7 @@ func TestPageMarkdownConsumerStoresAndAcks(t *testing.T) {
 	if action := <-acked; action != "ack" {
 		t.Errorf("action = %q, want ack", action)
 	}
-	got := store.entries[pagemarkdownstore.ObjectName(canonicalURL)]
+	got := corpus.markdown[canonicalURL]
 	if string(got) != string(markdown) {
 		t.Errorf("stored = %q, want %q", got, markdown)
 	}
@@ -146,7 +145,7 @@ func TestPageMarkdownConsumerNaksOnStoreFailure(t *testing.T) {
 	progress := &recordingProgress{}
 	consumer := markdownintake.NewPageMarkdownConsumer(
 		source,
-		&recordingStore{fail: true},
+		&recordingCorpus{fail: true},
 		progress,
 		1,
 	)
@@ -168,7 +167,7 @@ func TestPageMarkdownConsumerHaltsOnDecodeFailure(t *testing.T) {
 		messages: []jetstream.Msg{&fakeMsg{data: []byte("not json"), acked: acked}},
 	}}
 	progress := &recordingProgress{}
-	consumer := markdownintake.NewPageMarkdownConsumer(source, &recordingStore{}, progress, 1)
+	consumer := markdownintake.NewPageMarkdownConsumer(source, &recordingCorpus{}, progress, 1)
 
 	err := consumer.Run(context.Background())
 	if !errors.Is(err, poisonhalt.ErrPoisonMessage) {
