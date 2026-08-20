@@ -13,6 +13,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownintake"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownstoremetrics"
+	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
@@ -24,17 +25,6 @@ const (
 	opsReadHeaderLimit = 10 * time.Second
 	opsShutdownLimit   = 15 * time.Second
 )
-
-type objectStoreMarkdown struct {
-	store jetstream.ObjectStore
-}
-
-func (o objectStoreMarkdown) Put(ctx context.Context, name string, markdown []byte) error {
-	if _, err := o.store.PutBytes(ctx, name, markdown); err != nil {
-		return fmt.Errorf("put page markdown: %w", err)
-	}
-	return nil
-}
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
 	crawlJetStream, crawlConnection, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
@@ -54,19 +44,14 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
-	store, err := ensurePageMarkdownBucket(ctx, pageMarkdownJetStream)
+	corpus, err := pagemarkdowncorporajetstream.OpenCorpus(ctx, pageMarkdownJetStream)
 	if err != nil {
 		return err
 	}
 
 	registry := prometheus.NewRegistry()
 	metrics := markdownstoremetrics.New(registry)
-	intake := markdownintake.NewPageMarkdownConsumer(
-		consumer,
-		objectStoreMarkdown{store: store},
-		metrics,
-		cfg.Concurrency,
-	)
+	intake := markdownintake.NewPageMarkdownConsumer(consumer, corpus, metrics, cfg.Concurrency)
 
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
@@ -114,17 +99,4 @@ func crawledPageConsumerFor(
 		return nil, fmt.Errorf("create crawled page consumer: %w", err)
 	}
 	return consumer, nil
-}
-
-func ensurePageMarkdownBucket(
-	ctx context.Context,
-	pageMarkdownJetStream jetstream.JetStream,
-) (jetstream.ObjectStore, error) {
-	store, err := pageMarkdownJetStream.CreateOrUpdateObjectStore(ctx, jetstream.ObjectStoreConfig{
-		Bucket: pagemarkdownstore.BucketName,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("ensure page markdown bucket: %w", err)
-	}
-	return store, nil
 }
