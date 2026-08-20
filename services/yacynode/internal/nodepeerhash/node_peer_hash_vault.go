@@ -1,4 +1,4 @@
-package peerhash
+package nodepeerhash
 
 import (
 	"fmt"
@@ -8,24 +8,24 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/vaultkey"
 )
 
-const peerHashBucket vault.Name = "peerhash_peers"
+const peerHashBucket vault.Name = "nodepeerhash"
 
-const ownPeer = "own"
+const selfPeer = "self"
 
-type peerHashCollection = vault.Collection[string, yacymodel.Hash]
+type peerHashByPeer = vault.Collection[string, yacymodel.Hash]
 
-func registerPeerHashes(storage *vault.Vault) (*peerHashCollection, error) {
-	peerHashes, err := vault.RegisterCollection(
+func registerPeerHashByPeer(storage *vault.Vault) (*peerHashByPeer, error) {
+	peerHashByPeer, err := vault.RegisterCollection(
 		storage,
 		peerHashBucket,
 		peerKeyCodec{},
 		peerHashValueCodec{},
 	)
 	if err != nil {
-		return nil, fmt.Errorf("register peer hashes: %w", err)
+		return nil, fmt.Errorf("register peer hash: %w", err)
 	}
 
-	return peerHashes, nil
+	return peerHashByPeer, nil
 }
 
 var peerKeyLayout = vaultkey.Single(vaultkey.Text)
