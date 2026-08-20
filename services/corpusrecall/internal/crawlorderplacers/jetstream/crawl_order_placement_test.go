@@ -10,6 +10,7 @@ import (
 	crawlorderplacersjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/crawlorderplacers/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 const (
@@ -55,12 +56,16 @@ func TestPlacedOrderSeedsACrawlOfTheCanonicalURL(t *testing.T) {
 	js := ordersStream(t)
 	placement := crawlorderplacersjetstream.NewCrawlOrderPlacement(js, ordersSubject)
 
-	if err := placement.Place(context.Background(), canonicalURL); err != nil {
+	if err := placement.Place(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, canonicalURL),
+	); err != nil {
 		t.Fatalf("place: %v", err)
 	}
 
 	order := orderOnStream(t, js)
-	if len(order.SeedURLs) != 1 || order.SeedURLs[0] != canonicalURL {
+	if len(order.SeedURLs) != 1 ||
+		order.SeedURLs[0] != canonicalurltest.CanonicalURLOf(t, canonicalURL) {
 		t.Errorf("seed urls = %v", order.SeedURLs)
 	}
 	if order.OrderID == "" {
@@ -72,7 +77,10 @@ func TestPlacingAnOrderFailsWhenNoStreamCarriesTheSubject(t *testing.T) {
 	js := ordersStream(t)
 	placement := crawlorderplacersjetstream.NewCrawlOrderPlacement(js, "yacy.crawl.unbound")
 
-	if err := placement.Place(context.Background(), canonicalURL); err == nil {
+	if err := placement.Place(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, canonicalURL),
+	); err == nil {
 		t.Fatal("expected an error when no stream carries the subject")
 	}
 }

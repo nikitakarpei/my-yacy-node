@@ -12,6 +12,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 const (
@@ -60,7 +61,7 @@ func publishCrawlOrder(
 			MaxDepth:        0,
 			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
 		},
-		SeedURLs: []string{originURL},
+		SeedURLs: []yacycrawlcontract.CanonicalURL{canonicalurltest.CanonicalURLOf(t, originURL)},
 	}
 	data, err := yacycrawlcontract.MarshalCrawlOrder(order)
 	if err != nil {

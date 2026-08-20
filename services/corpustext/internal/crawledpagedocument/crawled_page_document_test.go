@@ -6,13 +6,14 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/crawledpagedocument"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 func TestOfMapsFields(t *testing.T) {
 	crawledAt := time.Date(2026, 7, 4, 0, 0, 0, 0, time.UTC)
 	doc := crawledpagedocument.Of(yacycrawlcontract.PageTextRepresentation{
 		PageReference: yacycrawlcontract.PageReference{
-			CanonicalURL: "https://example.com/",
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 			Title:        "Hi",
 			CrawledAt:    crawledAt,
 			Language:     "en",

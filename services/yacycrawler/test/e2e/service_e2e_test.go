@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 func TestCrawlerIsOrderDrivenEndToEnd(t *testing.T) {
@@ -34,7 +35,7 @@ func TestCrawlerIsOrderDrivenEndToEnd(t *testing.T) {
 			MaxDepth:        0,
 			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
 		},
-		SeedURLs: []string{originURL},
+		SeedURLs: []yacycrawlcontract.CanonicalURL{canonicalurltest.CanonicalURLOf(t, originURL)},
 	}
 	data, err := yacycrawlcontract.MarshalCrawlOrder(order)
 	if err != nil {
@@ -45,7 +46,7 @@ func TestCrawlerIsOrderDrivenEndToEnd(t *testing.T) {
 	}
 
 	representation := fetchOnePageRWIRepresentation(t, ctx, js)
-	if representation.CanonicalURL != originURL {
+	if representation.CanonicalURL != canonicalurltest.CanonicalURLOf(t, originURL) {
 		t.Errorf("representation canonical url = %q, want %q",
 			representation.CanonicalURL, originURL)
 	}

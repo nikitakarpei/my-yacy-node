@@ -4,10 +4,12 @@ package frontier
 import (
 	"container/heap"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 type Admission interface {
-	Admit(canonicalURL string, depth int) bool
+	Admit(canonicalURL yacycrawlcontract.CanonicalURL, depth int) bool
 }
 
 type Frontier struct {
@@ -17,7 +19,11 @@ type Frontier struct {
 	deferred  deferredVisits
 }
 
-func New(admission Admission, canonicalSeeds []string, config Config) *Frontier {
+func New(
+	admission Admission,
+	canonicalSeeds []yacycrawlcontract.CanonicalURL,
+	config Config,
+) *Frontier {
 	f := &Frontier{config: config, admission: admission}
 	for _, seed := range canonicalSeeds {
 		f.Admit(seed, 0)
@@ -25,7 +31,7 @@ func New(admission Admission, canonicalSeeds []string, config Config) *Frontier 
 	return f
 }
 
-func (f *Frontier) Admit(canonicalURL string, depth int) bool {
+func (f *Frontier) Admit(canonicalURL yacycrawlcontract.CanonicalURL, depth int) bool {
 	if !f.admission.Admit(canonicalURL, depth) {
 		return false
 	}

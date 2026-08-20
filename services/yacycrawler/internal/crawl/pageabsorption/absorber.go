@@ -6,7 +6,7 @@ import (
 	"errors"
 	"log/slog"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
@@ -99,7 +99,7 @@ func (a *absorber) absorbDocument(
 	page fetchedpage.Page,
 	document contentextraction.ExtractedDocument,
 ) (absorbedDocument, error) {
-	canonical, err := canonicalurl.Canonicalize(document.URL)
+	canonical, err := yacycrawlcontract.CanonicalURLOf(document.URL)
 	if err != nil {
 		slog.WarnContext(ctx, msgDocumentURLRejected,
 			slog.String("url", document.URL),
@@ -122,7 +122,7 @@ func (a *absorber) absorbDocument(
 func (a *absorber) discoverLinks(
 	page fetchedpage.Page,
 	document contentextraction.ExtractedDocument,
-) []string {
+) []yacycrawlcontract.CanonicalURL {
 	if document.RefusesLinkDiscovery || page.RefusesLinkDiscovery {
 		return nil
 	}
@@ -131,7 +131,7 @@ func (a *absorber) discoverLinks(
 
 func (a *absorber) publishDocument(
 	ctx context.Context,
-	canonical string,
+	canonical yacycrawlcontract.CanonicalURL,
 	document contentextraction.ExtractedDocument,
 ) error {
 	crawled := pagepublication.Page{

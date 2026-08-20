@@ -49,7 +49,7 @@ func createCrawledPageStream(t *testing.T, ctx context.Context, js jetstream.Jet
 
 func publishCrawledCorpus(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	t.Helper()
-	for _, page := range crawledPages() {
+	for _, page := range crawledPages(t) {
 		publishCrawledPage(t, ctx, js, page)
 	}
 }

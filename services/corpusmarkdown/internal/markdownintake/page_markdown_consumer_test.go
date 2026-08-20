@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownintake"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 type fakeMsg struct {
@@ -69,7 +70,11 @@ type recordingCorpus struct {
 	markdown map[string][]byte
 }
 
-func (c *recordingCorpus) Put(_ context.Context, canonicalURL string, markdown []byte) error {
+func (c *recordingCorpus) Put(
+	_ context.Context,
+	canonicalURL yacycrawlcontract.CanonicalURL,
+	markdown []byte,
+) error {
 	if c.fail {
 		return errors.New("store failed")
 	}
@@ -78,7 +83,7 @@ func (c *recordingCorpus) Put(_ context.Context, canonicalURL string, markdown [
 	if c.markdown == nil {
 		c.markdown = map[string][]byte{}
 	}
-	c.markdown[canonicalURL] = markdown
+	c.markdown[canonicalURL.String()] = markdown
 	return nil
 }
 
@@ -94,7 +99,7 @@ func (p *recordingProgress) StoreFailed()  { p.failed++ }
 
 func markdownMessage(
 	t *testing.T,
-	canonicalURL string,
+	canonicalURL yacycrawlcontract.CanonicalURL,
 	markdown []byte,
 	acked chan string,
 ) *fakeMsg {
@@ -116,7 +121,9 @@ func TestPageMarkdownConsumerStoresAndAcks(t *testing.T) {
 	const canonicalURL = "https://example.com/"
 	markdown := []byte("# Hi")
 	source := fakeSource{iterator: &fakeIterator{
-		messages: []jetstream.Msg{markdownMessage(t, canonicalURL, markdown, acked)},
+		messages: []jetstream.Msg{
+			markdownMessage(t, canonicalurltest.CanonicalURLOf(t, canonicalURL), markdown, acked),
+		},
 	}}
 	corpus := &recordingCorpus{}
 	progress := &recordingProgress{}
@@ -140,7 +147,14 @@ func TestPageMarkdownConsumerStoresAndAcks(t *testing.T) {
 func TestPageMarkdownConsumerNaksOnStoreFailure(t *testing.T) {
 	acked := make(chan string, 1)
 	source := fakeSource{iterator: &fakeIterator{
-		messages: []jetstream.Msg{markdownMessage(t, "https://example.com/", []byte("x"), acked)},
+		messages: []jetstream.Msg{
+			markdownMessage(
+				t,
+				canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
+				[]byte("x"),
+				acked,
+			),
+		},
 	}}
 	progress := &recordingProgress{}
 	consumer := markdownintake.NewPageMarkdownConsumer(

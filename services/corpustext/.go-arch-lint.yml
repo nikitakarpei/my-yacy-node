@@ -80,3 +80,4 @@ deps:
 excludeFiles:
   - "_test\\.go"
   - "test/e2e"
+  - "contract"

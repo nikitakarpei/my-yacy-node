@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolvers/jetstream"
 )
 
@@ -30,8 +31,8 @@ func TestRecordWritesContractKeyWithCanonicalValue(t *testing.T) {
 	bucket := newBucket(t)
 	recorder := jetstream.New(bucket)
 
-	const requested = "http://example.com/a"
-	const canonical = "http://example.com/c"
+	requested := canonicalurltest.CanonicalURLOf(t, "http://example.com/a")
+	canonical := canonicalurltest.CanonicalURLOf(t, "http://example.com/c")
 	if err := recorder.Record(context.Background(), requested, canonical); err != nil {
 		t.Fatalf("record: %v", err)
 	}
@@ -43,7 +44,7 @@ func TestRecordWritesContractKeyWithCanonicalValue(t *testing.T) {
 	if err != nil {
 		t.Fatalf("get: %v", err)
 	}
-	if got := string(entry.Value()); got != canonical {
+	if got := string(entry.Value()); got != canonical.String() {
 		t.Fatalf("value = %q, want %q", got, canonical)
 	}
 }
@@ -52,7 +53,7 @@ func TestRecordSkipsSelfEdge(t *testing.T) {
 	bucket := newBucket(t)
 	recorder := jetstream.New(bucket)
 
-	const url = "http://example.com/a"
+	url := canonicalurltest.CanonicalURLOf(t, "http://example.com/a")
 	if err := recorder.Record(context.Background(), url, url); err != nil {
 		t.Fatalf("record: %v", err)
 	}

@@ -56,8 +56,13 @@ func (e visitedPageEndpoint) ServeHTTP(w http.ResponseWriter, req *http.Request)
 		e.rejectVisit(req.Context(), w, errExpiredLink)
 		return
 	}
+	seedURL, err := seedURLFrom(link.VisitedPage)
+	if err != nil {
+		e.rejectVisit(req.Context(), w, err)
+		return
+	}
 
-	e.placement.Attempt(crawlOrderFromVisit(link.VisitedPage, e.profile))
+	e.placement.Attempt(crawlOrderFor(seedURL, e.profile))
 
 	slog.DebugContext(req.Context(), msgVisitRedirected,
 		slog.String("visitedPage", link.VisitedPage))
@@ -88,17 +93,15 @@ func visitedPageFrom(raw string) (string, error) {
 	if raw == "" {
 		return "", fmt.Errorf("%s: must be set", queryParamURL)
 	}
-	parsed, err := url.Parse(raw)
-	if err != nil {
-		return "", fmt.Errorf("%s: %w", queryParamURL, err)
-	}
-	if parsed.Scheme != "http" && parsed.Scheme != "https" {
-		return "", fmt.Errorf("%s: scheme must be http or https", queryParamURL)
-	}
-	if parsed.Host == "" {
-		return "", fmt.Errorf("%s: must include a host", queryParamURL)
-	}
 	return raw, nil
+}
+
+func seedURLFrom(visitedPage string) (yacycrawlcontract.CanonicalURL, error) {
+	canonicalURL, err := yacycrawlcontract.CanonicalURLOf(visitedPage)
+	if err != nil {
+		return yacycrawlcontract.CanonicalURL{}, fmt.Errorf("%s: %w", queryParamURL, err)
+	}
+	return canonicalURL, nil
 }
 
 func expiresFrom(raw string) (time.Time, error) {

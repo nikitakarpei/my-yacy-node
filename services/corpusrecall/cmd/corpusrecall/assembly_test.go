@@ -14,6 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 func freeAddr(t *testing.T) string {
@@ -85,7 +86,9 @@ func TestRunServiceRecallsStoredMarkdownFromItsOwnNATS(t *testing.T) {
 
 	const canonicalURL = "https://example.com/"
 	if _, err := store.PutBytes(
-		context.Background(), pagemarkdownstore.ObjectName(canonicalURL), []byte("# Hi"),
+		context.Background(),
+		pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, canonicalURL)),
+		[]byte("# Hi"),
 	); err != nil {
 		t.Fatalf("seed markdown: %v", err)
 	}

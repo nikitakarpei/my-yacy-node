@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 const ordersSubject = "yacy.crawl.orders"
@@ -44,9 +45,11 @@ func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 	t.Cleanup(broker.Close)
 
 	order := yacycrawlcontract.CrawlOrder{
-		OrderID:  "order-1",
-		Profile:  yacycrawlcontract.CrawlProfile{Name: "docs"},
-		SeedURLs: []string{"https://example.org"},
+		OrderID: "order-1",
+		Profile: yacycrawlcontract.CrawlProfile{Name: "docs"},
+		SeedURLs: []yacycrawlcontract.CanonicalURL{
+			canonicalurltest.CanonicalURLOf(t, "https://example.org"),
+		},
 	}
 	if err := broker.Orders.Place(ctx, order); err != nil {
 		t.Fatalf("place order: %v", err)

@@ -5,7 +5,6 @@ go 1.26
 require (
 	github.com/google/uuid v1.6.0
 	github.com/nats-io/nats.go v1.52.0
-	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore v0.0.0
@@ -42,15 +41,14 @@ require (
 	google.golang.org/protobuf v1.36.11 // indirect
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 
-replace github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi => ../../libraries/corpusrecallapi
+replace github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi => ./contract
 
-replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ../../libraries/pagemarkdownstore
+replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ../corpusmarkdown/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
 
-replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../libraries/yacycrawlcontract
+replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../yacycrawler/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 

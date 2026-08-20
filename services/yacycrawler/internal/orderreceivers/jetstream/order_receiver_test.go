@@ -9,6 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
 )
 
@@ -49,7 +50,10 @@ func TestReceiverDeliversDecodedOrder(t *testing.T) {
 	defer cancel()
 
 	payload, err := yacycrawlcontract.MarshalCrawlOrder(yacycrawlcontract.CrawlOrder{
-		OrderID: "o1", SeedURLs: []string{"http://a.com/"},
+		OrderID: "o1",
+		SeedURLs: []yacycrawlcontract.CanonicalURL{
+			canonicalurltest.CanonicalURLOf(t, "http://a.com/"),
+		},
 	})
 	if err != nil {
 		t.Fatal(err)

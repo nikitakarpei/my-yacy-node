@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# ./... as a -coverpkg pattern matches by directory and so reaches into nested
+# modules; go list resolves it against this module only.
+${GO:-go} list ./... | paste -sd,

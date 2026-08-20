@@ -5,7 +5,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
@@ -15,7 +15,7 @@ const (
 )
 
 type RedirectResolutions interface {
-	Record(ctx context.Context, requested, canonical string) error
+	Record(ctx context.Context, requested, canonical yacycrawlcontract.CanonicalURL) error
 }
 
 type Fetch struct {
@@ -44,7 +44,7 @@ func (f *Fetch) record(ctx context.Context, outcome pagevisit.FetchOutcome) {
 	if len(outcome.RedirectChain) == 0 || outcome.Page.FinalURL == "" {
 		return
 	}
-	canonicalFinal, err := canonicalurl.Canonicalize(outcome.Page.FinalURL)
+	canonicalFinal, err := yacycrawlcontract.CanonicalURLOf(outcome.Page.FinalURL)
 	if err != nil {
 		slog.WarnContext(ctx, msgRedirectURLRejected,
 			slog.String("url", outcome.Page.FinalURL),
@@ -53,7 +53,7 @@ func (f *Fetch) record(ctx context.Context, outcome pagevisit.FetchOutcome) {
 		return
 	}
 	for _, hop := range outcome.RedirectChain {
-		canonicalHop, err := canonicalurl.Canonicalize(hop)
+		canonicalHop, err := yacycrawlcontract.CanonicalURLOf(hop)
 		if err != nil {
 			slog.WarnContext(ctx, msgRedirectURLRejected,
 				slog.String("url", hop),
@@ -66,8 +66,8 @@ func (f *Fetch) record(ctx context.Context, outcome pagevisit.FetchOutcome) {
 		}
 		if err := f.resolutions.Record(ctx, canonicalHop, canonicalFinal); err != nil {
 			slog.WarnContext(ctx, msgRedirectRecordFailed,
-				slog.String("requested", canonicalHop),
-				slog.String("canonical", canonicalFinal),
+				slog.String("requested", canonicalHop.String()),
+				slog.String("canonical", canonicalFinal.String()),
 				slog.Any("error", err),
 			)
 		}

@@ -24,10 +24,6 @@ components:
     in: cmd/corpusrecall/**
 
 vendors:
-  canonicalurl:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
-      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
   pagemarkdownstore:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore
@@ -64,13 +60,14 @@ vendors:
 deps:
   recall:
     canUse:
-      - canonicalurl
+      - yacycrawlcontract
   pagerepresentationsmarkdown:
     mayDependOn:
       - pagerepresentationsmarkdown
       - recall
     canUse:
       - pagemarkdownstore
+      - yacycrawlcontract
       - nats
   redirectresolversjetstream:
     canUse:
@@ -106,3 +103,4 @@ deps:
 excludeFiles:
   - "_test\\.go"
   - "test/e2e"
+  - "contract"

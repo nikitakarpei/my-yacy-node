@@ -38,12 +38,11 @@ type traversal struct {
 }
 
 func (t *traversal) run(ctx context.Context, order yacycrawlcontract.CrawlOrder) error {
-	seeds := canonicalSeeds(ctx, order.SeedURLs)
-	admission, err := profileadmission.New(order.Profile, seeds, t.config.MaxAdmittedURLs)
+	admission, err := profileadmission.New(order.Profile, order.SeedURLs, t.config.MaxAdmittedURLs)
 	if err != nil {
 		return fmt.Errorf("build admission: %w", err)
 	}
-	t.frontier = frontier.New(admission, seeds, t.config.Frontier)
+	t.frontier = frontier.New(admission, order.SeedURLs, t.config.Frontier)
 
 	runCtx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -162,7 +161,7 @@ func (t *traversal) recordDeferred(
 	deferFor time.Duration,
 ) {
 	if !t.frontier.Defer(visit, t.clock.Now(), deferFor) {
-		slog.WarnContext(ctx, msgDeferralsExhausted, slog.String("url", visit.URL))
+		slog.WarnContext(ctx, msgDeferralsExhausted, slog.String("url", visit.URL.String()))
 		t.disposer.Dispose(ctx, visit.URL, disposal.DeferralsExhausted)
 		return
 	}
@@ -171,7 +170,7 @@ func (t *traversal) recordDeferred(
 
 func (t *traversal) recordRetryable(ctx context.Context, visit frontier.PendingVisit) {
 	if !t.frontier.Retry(visit, t.clock.Now()) {
-		slog.WarnContext(ctx, msgFetchAbandoned, slog.String("url", visit.URL))
+		slog.WarnContext(ctx, msgFetchAbandoned, slog.String("url", visit.URL.String()))
 		t.disposer.Dispose(ctx, visit.URL, disposal.FetchAbandoned)
 	}
 }

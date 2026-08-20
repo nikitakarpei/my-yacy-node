@@ -21,14 +21,22 @@ func NewRedirectResolutions(bucket jetstream.KeyValue) *RedirectResolutions {
 
 func (r *RedirectResolutions) ResolvedURLOf(
 	ctx context.Context,
-	canonicalURL string,
-) (string, error) {
+	canonicalURL yacycrawlcontract.CanonicalURL,
+) (yacycrawlcontract.CanonicalURL, error) {
 	entry, err := r.bucket.Get(ctx, yacycrawlcontract.RedirectResolutionKey(canonicalURL))
 	if errors.Is(err, jetstream.ErrKeyNotFound) {
 		return canonicalURL, nil
 	}
 	if err != nil {
-		return "", fmt.Errorf("resolve redirect for %q: %w", canonicalURL, err)
+		return yacycrawlcontract.CanonicalURL{}, fmt.Errorf(
+			"resolve redirect for %q: %w", canonicalURL, err,
+		)
 	}
-	return string(entry.Value()), nil
+	resolvedURL, err := yacycrawlcontract.CanonicalURLOf(string(entry.Value()))
+	if err != nil {
+		return yacycrawlcontract.CanonicalURL{}, fmt.Errorf(
+			"resolve redirect for %q: %w", canonicalURL, err,
+		)
+	}
+	return resolvedURL, nil
 }

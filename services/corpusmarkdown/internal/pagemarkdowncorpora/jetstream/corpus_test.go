@@ -9,6 +9,8 @@ import (
 	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 const crawledURL = "https://example.com/"
@@ -25,7 +27,7 @@ func openedCorpus(t *testing.T, url string) *pagemarkdowncorporajetstream.Corpus
 	return corpus
 }
 
-func storedMarkdown(t *testing.T, url string, canonicalURL string) string {
+func storedMarkdown(t *testing.T, url string, canonicalURL yacycrawlcontract.CanonicalURL) string {
 	t.Helper()
 	objects, err := natstestserver.ConnectJetStream(t, url).
 		ObjectStore(context.Background(), pagemarkdownstore.BucketName)
@@ -69,11 +71,19 @@ func TestPutHoldsTheMarkdownUnderTheCanonicalURL(t *testing.T) {
 	url := natstestserver.Start(t)
 	corpus := openedCorpus(t, url)
 
-	if err := corpus.Put(context.Background(), crawledURL, []byte("# Hi")); err != nil {
+	if err := corpus.Put(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, crawledURL),
+		[]byte("# Hi"),
+	); err != nil {
 		t.Fatalf("put: %v", err)
 	}
 
-	if got := storedMarkdown(t, url, crawledURL); got != "# Hi" {
+	if got := storedMarkdown(
+		t,
+		url,
+		canonicalurltest.CanonicalURLOf(t, crawledURL),
+	); got != "# Hi" {
 		t.Errorf("stored = %q, want %q", got, "# Hi")
 	}
 }
@@ -82,14 +92,26 @@ func TestPutReplacesTheMarkdownOfARecrawledURL(t *testing.T) {
 	url := natstestserver.Start(t)
 	corpus := openedCorpus(t, url)
 
-	if err := corpus.Put(context.Background(), crawledURL, []byte("# Hi")); err != nil {
+	if err := corpus.Put(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, crawledURL),
+		[]byte("# Hi"),
+	); err != nil {
 		t.Fatalf("first put: %v", err)
 	}
-	if err := corpus.Put(context.Background(), crawledURL, []byte("# Hi again")); err != nil {
+	if err := corpus.Put(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, crawledURL),
+		[]byte("# Hi again"),
+	); err != nil {
 		t.Fatalf("second put: %v", err)
 	}
 
-	if got := storedMarkdown(t, url, crawledURL); got != "# Hi again" {
+	if got := storedMarkdown(
+		t,
+		url,
+		canonicalurltest.CanonicalURLOf(t, crawledURL),
+	); got != "# Hi again" {
 		t.Errorf("stored = %q, want %q", got, "# Hi again")
 	}
 }
@@ -99,7 +121,11 @@ func TestPutFailsWhenTheMarkdownCannotBeWritten(t *testing.T) {
 	abandoned, abandon := context.WithCancel(context.Background())
 	abandon()
 
-	if err := corpus.Put(abandoned, crawledURL, []byte("# Hi")); err == nil {
+	if err := corpus.Put(
+		abandoned,
+		canonicalurltest.CanonicalURLOf(t, crawledURL),
+		[]byte("# Hi"),
+	); err == nil {
 		t.Fatal("expected error when the markdown cannot be written")
 	}
 }

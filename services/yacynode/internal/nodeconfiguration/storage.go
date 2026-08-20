@@ -1,10 +1,8 @@
 package nodeconfiguration
 
 import (
-	"fmt"
 	"path/filepath"
 
-	"github.com/nikitakarpei/yacy-rwi-node/bytesize"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 )
 
@@ -24,9 +22,9 @@ type StorageConfig struct {
 }
 
 func loadStorageConfig(getenv func(string) string) (StorageConfig, error) {
-	quota, err := bytesize.Parse(envconfig.String(getenv, EnvStorageQuota, DefaultQuota))
+	quota, err := envconfig.ByteSize(getenv, EnvStorageQuota, DefaultQuota)
 	if err != nil {
-		return StorageConfig{}, fmt.Errorf("%s: %w", EnvStorageQuota, err)
+		return StorageConfig{}, err
 	}
 
 	dataDir := envconfig.String(getenv, EnvDataDir, DefaultDataDir)
