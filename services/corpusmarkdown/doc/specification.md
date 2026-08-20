@@ -30,6 +30,8 @@ this service consumes that one representation and writes it to a URL-addressed o
 
 * The service SHALL keep memory bounded independently of corpus size, capping how many pages
   it stores concurrently.
+* The service SHALL keep the markdown compressed on disk, without a change to the bytes
+  a reader gets.
 * The service SHALL persist no state of its own: the markdown of record lives in the object
   store and any pending backlog lives with the broker.
 * The service SHALL be independently disposable: operators MAY stop it and later re-enable
