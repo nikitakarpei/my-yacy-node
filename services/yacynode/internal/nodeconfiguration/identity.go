@@ -22,7 +22,7 @@ const (
 type IdentityConfig struct {
 	InitialHash   yacymodel.Optional[yacymodel.Hash]
 	NetworkName   string
-	Name          yacymodel.PeerName
+	Name          yacymodel.Optional[yacymodel.PeerName]
 	AdvertiseHost string
 	AdvertisePort int
 	Flags         yacymodel.PeerCapabilities
@@ -79,18 +79,21 @@ func initialPeerHash(
 	return yacymodel.Some(hash), nil
 }
 
-func peerName(getenv func(string) string) (yacymodel.PeerName, error) {
-	raw, err := envconfig.Required(getenv, EnvPeerName)
-	if err != nil {
-		return yacymodel.PeerName{}, err
+func peerName(
+	getenv func(string) string,
+) (yacymodel.Optional[yacymodel.PeerName], error) {
+	stated := strings.TrimSpace(getenv(EnvPeerName))
+	if stated == "" {
+		return yacymodel.None[yacymodel.PeerName](), nil
 	}
 
-	name, err := yacymodel.ParsePeerName(raw)
+	name, err := yacymodel.ParsePeerName(stated)
 	if err != nil {
-		return yacymodel.PeerName{}, fmt.Errorf("%s: %w", EnvPeerName, err)
+		return yacymodel.None[yacymodel.PeerName](),
+			fmt.Errorf("%s: %w", EnvPeerName, err)
 	}
 
-	return name, nil
+	return yacymodel.Some(name), nil
 }
 
 func advertiseHost(getenv func(string) string, announcing bool) (string, error) {

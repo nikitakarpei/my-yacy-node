@@ -13,6 +13,6 @@ contributes storage and search capacity to the network and nothing else.
 
 ## Setup
 
-1. Copy `.env.example` to `.env` and set `YACY_PEER_NAME` and `YACY_ADVERTISE_HOST`.
+1. Copy `.env.example` to `.env` and set `YACY_ADVERTISE_HOST`.
 2. Copy `docker-compose.yml.example` to `docker-compose.yml`.
 3. Start the stack: `docker compose up -d`.

@@ -92,10 +92,15 @@ func assembleNode(
 		return node{}, fmt.Errorf("settle peer hash: %w", err)
 	}
 
+	derivedPeerName, err := nodeidentity.PeerNameFromHash(settledPeerHash)
+	if err != nil {
+		return node{}, err
+	}
+
 	identity := nodeidentity.Identity{
 		Hash:        settledPeerHash,
 		NetworkName: config.Identity.NetworkName,
-		Name:        config.Identity.Name,
+		Name:        config.Identity.Name.OrElse(derivedPeerName),
 		Host:        config.Identity.AdvertiseHost,
 		Port:        config.Identity.AdvertisePort,
 		Flags:       config.Identity.Flags,

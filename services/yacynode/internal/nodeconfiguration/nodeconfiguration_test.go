@@ -169,10 +169,27 @@ func TestLoadLeavesTheInitialPeerHashUnstated(t *testing.T) {
 	}
 }
 
+func TestLoadLeavesThePeerNameUnstated(t *testing.T) {
+	config, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvProxyURL: "http://proxy:4750",
+	}))
+	if err != nil {
+		t.Fatalf("load config: %v", err)
+	}
+
+	if config.Identity.Name.Present() {
+		t.Errorf("Name = %v, want absent without the variable", config.Identity.Name)
+	}
+}
+
 func TestLoadRejects(t *testing.T) {
 	cases := map[string]map[string]string{
-		"bad hash":     {nodeconfiguration.EnvInitialPeerHash: "short"},
-		"missing name": {nodeconfiguration.EnvInitialPeerHash: "0123456789AB"},
+		"bad hash": {nodeconfiguration.EnvInitialPeerHash: "short"},
+		"bad name": {
+			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
+			nodeconfiguration.EnvPeerName:        "has space",
+			nodeconfiguration.EnvProxyURL:        "http://proxy:4750",
+		},
 		"announce no host": {
 			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
 			nodeconfiguration.EnvPeerName:        "n",
