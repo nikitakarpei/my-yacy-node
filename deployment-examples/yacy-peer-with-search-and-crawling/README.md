@@ -25,9 +25,6 @@ answer with.
 
 1. Copy `.env.example` to `.env` and set `YACY_PEER_NAME`, `YACY_ADVERTISE_HOST`,
    `VISITCRAWL_PUBLIC_URL`, `VISITCRAWL_LINK_SECRET`, and `SEARXNG_SECRET`.
-   Leave `YACY_INITIAL_PEER_HASH` empty: the node generates its peer hash on the first
-   start and keeps it in the `yacy-data` volume. Back up that hash, because the peer
-   loses its identity on the network with the volume.
 2. Start the stack: `docker compose up -d`.
 3. Open `http://localhost:8080` to search.
 

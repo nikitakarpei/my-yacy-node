@@ -8,7 +8,7 @@ The node is configured through environment variables.
 | `YACY_DATA_DIR` | `./data` | Where the node persists its data. |
 | `YACY_PEER_ADDR` | `:8090` | Listen address for the YaCy peer protocol. |
 | `YACY_OPS_ADDR` | `:9090` | Listen address for the `/metrics` endpoint. |
-| `YACY_INITIAL_PEER_HASH` | _(empty)_ | The 12-character enhanced-Base64 peer hash to start with. The node takes it only on the first start over an empty data directory, and keeps it with that data for its life. Leave it empty to let the node generate one. On a later start it must be empty or equal to the stored hash, or the node refuses to run. |
+| `YACY_INITIAL_PEER_HASH` | _(empty)_ | The 12-character enhanced-Base64 peer hash to start with. Leave it empty to let the node generate one. |
 | `YACY_PEER_NAME` | _(required)_ | Peer name advertised to the network. |
 | `YACY_NETWORK_NAME` | `freeworld` | YaCy network to join. Only peers on the same network exchange data. |
 | `YACY_SEEDLIST_URLS` | _(empty)_ | Comma-separated YaCy seedlist URLs to discover peers from. |

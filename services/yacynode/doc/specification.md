@@ -21,9 +21,9 @@ Additional YaCy-related capabilities can be provided by separate services when n
 
 * The node SHALL advertise one YaCy Senior peer identity.
 * The node SHALL require operators to configure the peer name it advertises.
-* The node SHALL keep one peer hash for the life of its data: it SHALL take the peer hash the
-  operator states on the first start with empty storage, or generate one, store it, and refuse to
-  start when the operator states a different peer hash afterwards.
+* The node SHALL store one peer hash for the life of its data, stated by the operator on the first
+  start or generated.
+* The node SHALL refuse to start when the operator states a different peer hash afterwards.
 * The node SHALL allow operators to configure the public host and port advertised in its YaCy seed.
 * The node SHALL announce itself through configured YaCy seedlists.
 * The node SHALL allow operators to configure a proxy for outbound connections.
