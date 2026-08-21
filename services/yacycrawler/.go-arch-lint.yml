@@ -26,8 +26,6 @@ components:
     in: internal/crawl/profileadmission/**
   redirectrecording:
     in: internal/crawl/redirectrecording/**
-  pagepublication:
-    in: internal/crawl/pagepublication/**
   ordersettlement:
     in: internal/crawl/ordersettlement/**
   ordertraversal:
@@ -42,8 +40,6 @@ components:
     in: internal/crawl/reachedpagepublication/**
   pageabsorption:
     in: internal/crawl/pageabsorption/**
-  pagerepresentationsrwi:
-    in: internal/pagerepresentations/rwi/**
   recrawlrulesalwaysdue:
     in: internal/recrawlrules/alwaysdue/**
   recrawlrulesdueaftergrace:
@@ -54,8 +50,6 @@ components:
     in: internal/redirectresolvers/jetstream/**
   progressobserversprometheus:
     in: internal/progressobservers/prometheus/**
-  representationpublishersjetstream:
-    in: internal/representationpublishers/jetstream/**
   contextcancellation:
     in: internal/contextcancellation/**
   disposedpagesjetstream:
@@ -74,10 +68,6 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  yacymodel:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/yacymodel
-      - github.com/nikitakarpei/yacy-rwi-node/yacymodel/**
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -149,22 +139,10 @@ deps:
   pageabsorption:
     mayDependOn:
       - disposal
-      - pagepublication
     canUse:
       - canonicalurl
       - pagescrapecontentextraction
       - pagescrapepagefetch
-  pagepublication:
-    mayDependOn:
-      - retrydelay
-    canUse:
-      - pagescrapecontentformatgraph
-  pagerepresentationsrwi:
-    mayDependOn:
-      - pagepublication
-    canUse:
-      - yacymodel
-      - pagescrapecontentformatgraph
   recrawlrulesalwaysdue:
     mayDependOn:
       - pagevisit
@@ -194,7 +172,6 @@ deps:
     mayDependOn:
       - ordersettlement
       - ordertraversal
-      - pagepublication
       - pagevisit
       - fetchtiming
       - reachedpagepublication
@@ -202,12 +179,6 @@ deps:
       - refusal
     canUse:
       - prometheus
-  representationpublishersjetstream:
-    mayDependOn:
-      - pagepublication
-    canUse:
-      - nats
-      - pagescrapecontentformatgraph
   crawlercmd:
     anyProjectDeps: true
     anyVendorDeps: true

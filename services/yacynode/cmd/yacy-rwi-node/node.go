@@ -14,8 +14,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlbroker"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlresults"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
@@ -56,7 +54,7 @@ type node struct {
 	postingEscrowObserver *metrics.RWIEscrowMetrics
 	peerAnnouncer         peerannouncement.Announcer
 	distributionCycle     *distributioncycle.Cycle
-	crawlResultIngest     *crawlResultIngest
+	reachedPageIngest     *reachedPageIngest
 }
 
 const advertisedYaCyVersion = "1.83"
@@ -248,26 +246,16 @@ func assembleNode(
 		peerRoster,
 	)
 
-	var crawl *crawlResultIngest
+	var crawl *reachedPageIngest
 
 	if config.Crawl.Enabled() {
-		crawlBroker, crawlBrokerErr := crawlbroker.Open(ctx, crawlbroker.Config{
-			NATSURL:       config.Crawl.NATSURL,
-			IngestSubject: config.Crawl.IngestSubject,
-			IngestDurable: config.Crawl.IngestDurable,
-		})
-		if crawlBrokerErr != nil {
-			return node{}, fmt.Errorf("open crawl broker: %w", crawlBrokerErr)
+		crawlIngest, crawlIngestErr := openReachedPageIngest(
+			ctx, config.Crawl, urlReceiver, postingReceiver,
+		)
+		if crawlIngestErr != nil {
+			return node{}, crawlIngestErr
 		}
-
-		crawl = &crawlResultIngest{
-			broker: crawlBroker,
-			consumer: crawlresults.NewIngestConsumer(
-				crawlBroker.Ingest,
-				urlReceiver,
-				postingReceiver,
-			),
-		}
+		crawl = crawlIngest
 	}
 
 	var distributionCycle *distributioncycle.Cycle
@@ -351,6 +339,6 @@ func assembleNode(
 		postingEscrowObserver: postingEscrowObserver,
 		peerAnnouncer:         peerAnnouncer,
 		distributionCycle:     distributionCycle,
-		crawlResultIngest:     crawl,
+		reachedPageIngest:     crawl,
 	}, nil
 }

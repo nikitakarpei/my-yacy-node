@@ -3,9 +3,10 @@
 ## Context
 
 `yacycrawler` is a standalone, optional, disposable crawling service. It accepts crawl
-orders, fetches the web pages they reach, and publishes representations of them through
-the message-broker API defined in `yacycrawlcontract`. A YaCy node is the typical order
-source and consumer, but the service depends on no consumer's internals.
+orders, fetches the web pages they reach, and publishes the URL of every page it reached
+through the message-broker API defined in `yacycrawlcontract`. Consumers scrape those
+pages for whatever content they want. A YaCy node is the typical order source and
+consumer, but the service depends on no consumer's internals.
 
 Several instances can share one order stream, each order running on one instance. The
 service is meant for a more capable host than an always-on node.
@@ -14,6 +15,7 @@ service is meant for a more capable host than an always-on node.
 
 * Participating in the YaCy DHT peer protocol.
 * Ranking, indexing, or judging what it fetches.
+* Deriving, carrying, or storing page content for a consumer.
 * Authorizing broker subjects beyond the broker deployment's own trust boundary.
 * Defeating anti-bot walls; a wall is a refusal signal to honor, not an obstacle to evade.
 * Guaranteeing delivery beyond the broker's own semantics.
@@ -31,12 +33,10 @@ service is meant for a more capable host than an always-on node.
   rather than pressing against it.
 * The service SHALL honor a page's indexing refusal, unless the order's profile ignores
   it.
-* The service SHALL publish each of a page's representations on its own stream: `rwi`
-  carries page references and never a body; content representations carry the body.
-* The service SHALL publish each page to every enabled representation, or none of them
-  if any enabled representation cannot derive its content format.
-* Every URL a run admits SHALL reach one terminal outcome: published to its accepting
-  representations, or disposed and recorded against its URL.
+* The service SHALL publish the canonical URL of each page it reached, and never the
+  page's content.
+* Every URL a run admits SHALL reach one terminal outcome: published as reached, or
+  disposed and recorded against its URL.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient
   backpressure waits for as long as the run holds its order.
 * A publication failure SHALL NOT be terminal; the page stays unpublished.
@@ -60,10 +60,6 @@ service is meant for a more capable host than an always-on node.
   delivery with acknowledgment and redelivery, with no change to crawl logic.
 * The page-fetch mechanism SHALL be replaceable behind a narrow interface, with no
   change to crawl logic.
-* Deriving a representation SHALL sit behind a narrow interface declaring the content
-  formats it accepts, so adding a representation changes no crawl logic.
-* A representation SHALL stay whole in the domain; framing it into bounded wire messages
-  is the publish edge's concern.
 * The recrawl rule SHALL sit behind a narrow interface; its default admits every page.
 * Operational behavior SHALL be observable through machine-readable metrics.
 
@@ -74,9 +70,9 @@ service is meant for a more capable host than an always-on node.
   policy; the service adds none of them.
 * A proxy that rewrites fetch responses must preserve the refusal and wait signals the
   service honors, or the service cannot act on them.
-* Content representations carry renderable web content that anyone with broker publish
-  rights can inject; restrict publish rights on their subjects to the crawler.
-* A consumer's outage-survival for a content representation holds only within the
-  retention window the operator sizes.
-* A page stalled on one representation stays published on the ones before it; only the
-  order's redelivery recovers it.
+* A reached page names a URL anyone with broker publish rights can inject, sending every
+  consumer to fetch it; restrict publish rights on the reached-page subject to the crawler.
+* A consumer's outage-survival holds only within the retention window the operator sizes
+  on the reached-page stream.
+* Each consumer fetches the page again for itself, so the origin serves it once per
+  interested consumer and each consumer can see a different page than the crawler saw.

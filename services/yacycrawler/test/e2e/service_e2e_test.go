@@ -16,22 +16,7 @@ import (
 
 const orderID = "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"
 
-func TestCrawlerIsOrderDrivenEndToEnd(t *testing.T) {
-	ctx := context.Background()
-
-	js, originURL := startCrawlOfOriginSite(t, ctx)
-
-	representation := fetchOnePageRWIRepresentation(t, ctx, js)
-	if representation.CanonicalURL != originURL {
-		t.Errorf("representation canonical url = %q, want %q",
-			representation.CanonicalURL, originURL)
-	}
-	if len(representation.Postings) == 0 {
-		t.Error("representation carries no postings")
-	}
-}
-
-func TestCrawlerPublishesEveryPageItReachesEndToEnd(t *testing.T) {
+func TestCrawlerPublishesEveryPageAnOrderReachesEndToEnd(t *testing.T) {
 	ctx := context.Background()
 
 	js, originURL := startCrawlOfOriginSite(t, ctx)

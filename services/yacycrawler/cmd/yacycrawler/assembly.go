@@ -11,9 +11,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
@@ -26,7 +24,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
@@ -41,17 +38,15 @@ import (
 )
 
 const (
-	fetchRetryLimit     = 3
-	fetchRetryFloor     = 500 * time.Millisecond
-	fetchRetryCeiling   = 30 * time.Second
-	publishRetryFloor   = 500 * time.Millisecond
-	publishRetryCeiling = 30 * time.Second
-	maxDeferPerURL      = 3
-	opsReadHeaderLimit  = 10 * time.Second
-	opsShutdownLimit    = 15 * time.Second
-	ordersAckWait       = 30 * time.Second
-	msgServiceStarted   = "crawler started"
-	msgServiceStopped   = "crawler stopped"
+	fetchRetryLimit    = 3
+	fetchRetryFloor    = 500 * time.Millisecond
+	fetchRetryCeiling  = 30 * time.Second
+	maxDeferPerURL     = 3
+	opsReadHeaderLimit = 10 * time.Second
+	opsShutdownLimit   = 15 * time.Second
+	ordersAckWait      = 30 * time.Second
+	msgServiceStarted  = "crawler started"
+	msgServiceStopped  = "crawler stopped"
 )
 
 func RunService(
@@ -103,7 +98,6 @@ func RunService(
 	slog.InfoContext(ctx, msgServiceStarted,
 		slog.String("orders", cfg.OrdersSubject),
 		slog.Int("fetchConcurrency", cfg.FetchConcurrency),
-		slog.Any("representations", publishedRepresentations(cfg)),
 	)
 
 	err = servergroup.Run(ctx, opsShutdownLimit,
@@ -125,9 +119,6 @@ func ensureNATSState(ctx context.Context, js jetstream.JetStream, cfg ServiceCon
 	if err := ensureOrdersStream(ctx, js, cfg.OrdersSubject); err != nil {
 		return err
 	}
-	if err := ensureCrawledPageStreams(ctx, js, cfg.PageStreams); err != nil {
-		return err
-	}
 	if err := ensureReachedPagesStream(ctx, js); err != nil {
 		return err
 	}
@@ -147,25 +138,6 @@ func ensureOrdersStream(ctx context.Context, js jetstream.JetStream, subject str
 		Retention: jetstream.WorkQueuePolicy,
 	}); err != nil {
 		return fmt.Errorf("ensure orders stream: %w", err)
-	}
-	return nil
-}
-
-func ensureCrawledPageStreams(
-	ctx context.Context,
-	js jetstream.JetStream,
-	streams []PageStreamConfig,
-) error {
-	for _, stream := range streams {
-		if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
-			Name:      yacycrawlcontract.CrawledPageStreamName(stream.Representation),
-			Subjects:  []string{stream.Subject},
-			Retention: jetstream.WorkQueuePolicy,
-			MaxMsgs:   stream.MaxMsgs,
-			Discard:   jetstream.DiscardNew,
-		}); err != nil {
-			return fmt.Errorf("ensure crawled page %s stream: %w", stream.Representation, err)
-		}
 	}
 	return nil
 }
@@ -257,7 +229,7 @@ func buildVisitorSource(
 	if err != nil {
 		return nil, err
 	}
-	absorbers, err := buildAbsorberSource(js, cfg, metrics)
+	absorbers, err := buildAbsorberSource(cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -289,16 +261,6 @@ func recrawlRule(
 	return dueaftergrace.New(bucket, wallclock.Clock{}, cfg.RecrawlGrace), nil
 }
 
-func publishedRepresentations(cfg ServiceConfig) []string {
-	names := make([]string, 0, len(cfg.PageStreams))
-	for _, stream := range cfg.PageStreams {
-		if stream.Published {
-			names = append(names, string(stream.Representation))
-		}
-	}
-	return names
-}
-
 func ordersConsumer(
 	ctx context.Context,
 	js jetstream.JetStream,
@@ -318,40 +280,8 @@ func ordersConsumer(
 	return consumer, nil
 }
 
-func buildPageRepresentations(
-	js jetstream.JetStream,
-	cfg ServiceConfig,
-) []pagepublication.PageRepresentation {
-	subjects := make(
-		map[yacycrawlcontract.PageRepresentationKind]string,
-		len(cfg.PageStreams),
-	)
-	for _, stream := range cfg.PageStreams {
-		if stream.Published {
-			subjects[stream.Representation] = stream.Subject
-		}
-	}
-	representations := make([]pagepublication.PageRepresentation, 0, len(subjects))
-	for _, preset := range pageRepresentationCatalog() {
-		subject, published := subjects[preset.representation]
-		if !published {
-			continue
-		}
-		representations = append(representations, preset.build(js, subject))
-	}
-	return representations
-}
-
-func buildAbsorberSource(
-	js jetstream.JetStream,
-	cfg ServiceConfig,
-	metrics *progressobserversprometheus.CrawlMetrics,
-) (pageabsorption.AbsorberSource, error) {
+func buildAbsorberSource(cfg ServiceConfig) (pageabsorption.AbsorberSource, error) {
 	admitted, err := admittedMediaTypesFor(cfg)
-	if err != nil {
-		return nil, err
-	}
-	publisher, err := buildPublisher(js, cfg, metrics, admitted.emittedFormats)
 	if err != nil {
 		return nil, err
 	}
@@ -359,43 +289,7 @@ func buildAbsorberSource(
 	if err != nil {
 		return nil, err
 	}
-	return pageabsorption.New(extract, publisher, wallclock.Clock{}), nil
-}
-
-func buildPublisher(
-	js jetstream.JetStream,
-	cfg ServiceConfig,
-	observer pagepublication.PublicationProgress,
-	emittedFormats []contentformatgraph.Format,
-) (*pagepublication.Publisher, error) {
-	representations := buildPageRepresentations(js, cfg)
-	graph := contentformatgraph.New(pagescrape.PageDerivationCatalog())
-	if err := graph.EnsureNoDanglingFormat(
-		emittedFormats,
-		representationContentFormats(representations),
-	); err != nil {
-		return nil, err
-	}
-	return pagepublication.New(
-		graph,
-		representations,
-		observer,
-		wallclock.Clock{},
-		retrydelay.Bounds{
-			Floor:   publishRetryFloor,
-			Ceiling: publishRetryCeiling,
-		},
-	), nil
-}
-
-func representationContentFormats(
-	representations []pagepublication.PageRepresentation,
-) []contentformatgraph.Format {
-	formats := make([]contentformatgraph.Format, 0, len(representations))
-	for _, representation := range representations {
-		formats = append(formats, representation.ContentFormat())
-	}
-	return formats
+	return pageabsorption.New(extract), nil
 }
 
 func buildExtractor(admitted admittedMediaTypes) (pageabsorption.PageExtractor, error) {

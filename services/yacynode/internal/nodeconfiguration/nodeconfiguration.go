@@ -50,6 +50,11 @@ func Load(getenv func(string) string) (Settings, error) {
 		return Settings{}, err
 	}
 
+	crawl, err := loadCrawlConfig(getenv)
+	if err != nil {
+		return Settings{}, err
+	}
+
 	return Settings{
 		Identity:     identity,
 		Serving:      serving,
@@ -57,7 +62,7 @@ func Load(getenv func(string) string) (Settings, error) {
 		Escrow:       escrow,
 		PeerExchange: peerExchange,
 		Distribution: distribution,
-		Crawl:        loadCrawlConfig(getenv),
+		Crawl:        crawl,
 		Egress:       egress,
 	}, nil
 }

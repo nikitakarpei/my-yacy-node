@@ -1,4 +1,4 @@
-// Package pageabsorption turns a fetched page into a published document and discovered links.
+// Package pageabsorption turns a fetched page into its disposal outcome and discovered links.
 package pageabsorption
 
 import (
@@ -9,9 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 )
 
 const (
@@ -31,14 +29,8 @@ type PageExtractor interface {
 	) (contentextraction.ExtractedDocument, error)
 }
 
-type PagePublisher interface {
-	Publish(ctx context.Context, page pagepublication.Page) error
-}
-
 type absorber struct {
 	extractor       PageExtractor
-	publisher       PagePublisher
-	clock           clock.Clock
 	indexingRefusal IndexingRefusal
 }
 
@@ -69,10 +61,6 @@ func (a *absorber) Absorb(
 	outcome := AbsorptionOutcome{DiscoveredURLs: discoveredLinksOf(page, document)}
 	if a.indexingRefusal == Honored && (document.RefusesIndexing || page.RefusesIndexing) {
 		outcome.Disposal = disposal.IndexingRefused
-		return outcome, nil
-	}
-	if err := a.publishDocument(ctx, canonical, document); err != nil {
-		return AbsorptionOutcome{}, err
 	}
 	return outcome, nil
 }
@@ -92,22 +80,4 @@ func discoveredLinksOf(
 		return nil
 	}
 	return document.DiscoveredURLs
-}
-
-func (a *absorber) publishDocument(
-	ctx context.Context,
-	canonical string,
-	document contentextraction.ExtractedDocument,
-) error {
-	crawled := pagepublication.Page{
-		CanonicalURL:  canonical,
-		Title:         document.Title,
-		Body:          document.Body,
-		Format:        document.Format,
-		Language:      document.Language,
-		CrawledAt:     a.clock.Now(),
-		LocalLinks:    document.LocalLinks,
-		ExternalLinks: document.ExternalLinks,
-	}
-	return a.publisher.Publish(ctx, crawled)
 }

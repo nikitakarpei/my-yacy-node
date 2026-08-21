@@ -8,7 +8,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 )
 
@@ -52,30 +51,10 @@ const (
 	DefaultDisposedPagesMaxBytes  = 256 << 20
 )
 
-func pageSubjectEnv(representation yacycrawlcontract.PageRepresentationKind) string {
-	return "NATS_PAGE_" + strings.ToUpper(string(representation)) + "_SUBJECT"
-}
-
-func pageMaxMsgsEnv(representation yacycrawlcontract.PageRepresentationKind) string {
-	return "NATS_PAGE_" + strings.ToUpper(string(representation)) + "_MAX_MSGS"
-}
-
-func pagePublishEnv(representation yacycrawlcontract.PageRepresentationKind) string {
-	return "YACYCRAWLER_PUBLISH_" + strings.ToUpper(string(representation))
-}
-
-type PageStreamConfig struct {
-	Representation yacycrawlcontract.PageRepresentationKind
-	Subject        string
-	MaxMsgs        int64
-	Published      bool
-}
-
 type ServiceConfig struct {
 	CrawlNATSURL     string
 	OrdersSubject    string
 	OrdersDurable    string
-	PageStreams      []PageStreamConfig
 	ProxyURL         *url.URL
 	ProxyDialMode    http.ProxyDialMode
 	FetchConcurrency int
@@ -94,60 +73,6 @@ func (ServiceConfig) PageVisitBucketSpec() dueaftergrace.BucketSpec {
 		MaxBytes:  DefaultPageVisitMaxBytes,
 		Retention: DefaultPageVisitRetention,
 	}
-}
-
-func loadPageStreams(
-	getenv func(string) string,
-	catalog []pageRepresentationPreset,
-) ([]PageStreamConfig, error) {
-	streams := make([]PageStreamConfig, 0, len(catalog))
-	published := 0
-	for _, preset := range catalog {
-		publish, err := envconfig.Bool(
-			getenv,
-			pagePublishEnv(preset.representation),
-			preset.enabled,
-		)
-		if err != nil {
-			return nil, err
-		}
-		if publish {
-			published++
-		}
-		maxMsgs, err := envconfig.PositiveInt64(
-			getenv,
-			pageMaxMsgsEnv(preset.representation),
-			DefaultMaxMsgs,
-		)
-		if err != nil {
-			return nil, err
-		}
-		streams = append(streams, PageStreamConfig{
-			Representation: preset.representation,
-			Subject: envconfig.String(
-				getenv,
-				pageSubjectEnv(preset.representation),
-				yacycrawlcontract.CrawledPageSubject(preset.representation),
-			),
-			MaxMsgs:   maxMsgs,
-			Published: publish,
-		})
-	}
-	if published == 0 {
-		return nil, fmt.Errorf(
-			"at least one of %s must be enabled",
-			strings.Join(pagePublishEnvNames(catalog), ", "),
-		)
-	}
-	return streams, nil
-}
-
-func pagePublishEnvNames(catalog []pageRepresentationPreset) []string {
-	names := make([]string, 0, len(catalog))
-	for _, preset := range catalog {
-		names = append(names, pagePublishEnv(preset.representation))
-	}
-	return names
 }
 
 type serviceLimits struct {
@@ -206,10 +131,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	pageStreams, err := loadPageStreams(getenv, pageRepresentationCatalog())
-	if err != nil {
-		return ServiceConfig{}, err
-	}
 	limits, err := loadServiceLimits(getenv)
 	if err != nil {
 		return ServiceConfig{}, err
@@ -223,7 +144,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		CrawlNATSURL:     crawlNATSURL,
 		OrdersSubject:    envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
 		OrdersDurable:    envconfig.String(getenv, EnvOrdersDurable, DefaultOrdersDurable),
-		PageStreams:      pageStreams,
 		ProxyURL:         proxyURL,
 		ProxyDialMode:    proxyDialMode,
 		FetchConcurrency: limits.fetchConcurrency,

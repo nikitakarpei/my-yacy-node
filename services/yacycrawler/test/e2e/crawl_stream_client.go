@@ -56,54 +56,6 @@ func awaitStream(
 	return stream
 }
 
-func fetchOnePageRWIRepresentation(
-	t *testing.T,
-	ctx context.Context,
-	js jetstream.JetStream,
-) yacycrawlcontract.PageRWIRepresentation {
-	t.Helper()
-	stream := awaitStream(t, ctx, js,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindRWI))
-	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
-		AckPolicy: jetstream.AckExplicitPolicy,
-	})
-	if err != nil {
-		t.Fatalf("create crawled page rwi consumer: %v", err)
-	}
-
-	var chunks []yacycrawlcontract.PageRWIChunk
-	postingChunks := 0
-	for {
-		msg, err := consumer.Next(jetstream.FetchMaxWait(messageArrivalWait))
-		if err != nil {
-			t.Fatalf("fetch page rwi chunk: %v", err)
-		}
-		chunk, err := yacycrawlcontract.UnmarshalPageRWIChunk(msg.Data())
-		if err != nil {
-			t.Fatalf("decode page rwi chunk: %v", err)
-		}
-		chunks = append(chunks, chunk)
-		if _, isPosting := chunk.(yacycrawlcontract.PageRWIPostingChunk); isPosting {
-			postingChunks++
-		}
-		metadata, err := msg.Metadata()
-		if err != nil {
-			t.Fatalf("page rwi chunk metadata: %v", err)
-		}
-		if err := msg.Ack(); err != nil {
-			t.Fatalf("ack: %v", err)
-		}
-		if metadata.NumPending == 0 && postingChunks > 0 {
-			break
-		}
-	}
-	representation, err := yacycrawlcontract.PageRWIRepresentationFromChunks(chunks)
-	if err != nil {
-		t.Fatalf("join page rwi chunks: %v", err)
-	}
-	return representation
-}
-
 func fetchOneReachedPage(
 	t *testing.T,
 	ctx context.Context,

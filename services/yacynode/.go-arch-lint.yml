@@ -65,8 +65,10 @@ components:
     in: internal/eviction/**
   metrics:
     in: internal/metrics/**
-  crawlresults:
-    in: internal/crawlresults/**
+  pagerwi:
+    in: internal/pagerwi/**
+  reachedpageintake:
+    in: internal/reachedpageintake/**
   crawlbroker:
     in: internal/crawlbroker/**
   cmd:
@@ -102,6 +104,10 @@ vendors:
       - github.com/nats-io/nats.go/**
   bytesize:
     in: github.com/nikitakarpei/yacy-rwi-node/bytesize
+  pagescrape:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrape
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/**
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
@@ -111,6 +117,8 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
   hashcodec:
@@ -125,6 +133,7 @@ deps:
       - serviceruntime
       - yacyproto
       - yacycrawlcontract
+      - pagescrape
   nodeidentity:
     canUse:
       - yacyproto
@@ -255,15 +264,20 @@ deps:
     canUse:
       - prometheus
       - vault
-  crawlresults:
+  pagerwi:
+    canUse:
+      - pagescrape
+  reachedpageintake:
     mayDependOn:
+      - pagerwi
       - urlmeta
       - rwiadmission
     canUse:
       - yacycrawlcontract
+      - pagescrape
+      - nats
+      - serviceruntime
   crawlbroker:
-    mayDependOn:
-      - crawlresults
     canUse:
       - yacycrawlcontract
       - nats

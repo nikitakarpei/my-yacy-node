@@ -1,41 +1,15 @@
 package main_test
 
 import (
-	"slices"
 	"testing"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	yacycrawler "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/cmd/yacycrawler"
 )
 
 func envFrom(values map[string]string) func(string) string {
 	return func(key string) string { return values[key] }
-}
-
-func pageStreamRepresentations(
-	cfg yacycrawler.ServiceConfig,
-) []yacycrawlcontract.PageRepresentationKind {
-	kinds := make([]yacycrawlcontract.PageRepresentationKind, 0, len(cfg.PageStreams))
-	for _, stream := range cfg.PageStreams {
-		kinds = append(kinds, stream.Representation)
-	}
-
-	return kinds
-}
-
-func publishedPageStreamRepresentations(
-	cfg yacycrawler.ServiceConfig,
-) []yacycrawlcontract.PageRepresentationKind {
-	kinds := make([]yacycrawlcontract.PageRepresentationKind, 0, len(cfg.PageStreams))
-	for _, stream := range cfg.PageStreams {
-		if stream.Published {
-			kinds = append(kinds, stream.Representation)
-		}
-	}
-
-	return kinds
 }
 
 func baseEnv() map[string]string {
@@ -56,26 +30,6 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.FetchConcurrency != yacycrawler.DefaultFetchConcurrency ||
 		cfg.RunPageBudget != yacycrawler.DefaultRunPageBudget {
 		t.Fatalf("unexpected defaults: %+v", cfg)
-	}
-	everyRepresentation := []yacycrawlcontract.PageRepresentationKind{
-		yacycrawlcontract.PageRepresentationKindRWI,
-	}
-	if !slices.Equal(pageStreamRepresentations(cfg), everyRepresentation) {
-		t.Fatalf("every representation should get a stream: %+v", cfg.PageStreams)
-	}
-	published := publishedPageStreamRepresentations(cfg)
-	if !slices.Equal(published, []yacycrawlcontract.PageRepresentationKind{
-		yacycrawlcontract.PageRepresentationKindRWI,
-	}) {
-		t.Fatalf("only rwi should publish by default: %v", published)
-	}
-	for _, stream := range cfg.PageStreams {
-		if stream.MaxMsgs != yacycrawler.DefaultMaxMsgs {
-			t.Fatalf("%s stream max msgs = %d", stream.Representation, stream.MaxMsgs)
-		}
-		if stream.Subject == "" {
-			t.Fatalf("%s stream has no subject", stream.Representation)
-		}
 	}
 	if cfg.FetchDeadline != yacycrawler.DefaultFetchDeadline {
 		t.Fatalf("fetch deadline = %v", cfg.FetchDeadline)
@@ -171,10 +125,6 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	if cfg.FetchConcurrency != 8 || cfg.FetchDeadline != 5*time.Second {
 		t.Fatalf("overrides not applied: %+v", cfg)
 	}
-	published := publishedPageStreamRepresentations(cfg)
-	if !slices.Contains(published, yacycrawlcontract.PageRepresentationKindRWI) {
-		t.Fatalf("rwi output should stay enabled: %v", published)
-	}
 }
 
 func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
@@ -183,9 +133,6 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"YACYCRAWLER_FETCH_CONCURRENCY": "notint"},
 		{"YACYCRAWLER_MAX_BODY_BYTES": "-1"},
 		{"YACYCRAWLER_FETCH_DEADLINE": "nope"},
-		{"YACYCRAWLER_PUBLISH_RWI": "maybe"},
-		{"YACYCRAWLER_PUBLISH_RWI": "false"},
-		{"NATS_PAGE_RWI_MAX_MSGS": "0"},
 	} {
 		env := baseEnv()
 		for k, v := range bad {
@@ -195,24 +142,4 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 			t.Errorf("expected error for %v", bad)
 		}
 	}
-}
-
-func TestPageOutputEnvNamesFollowTheRepresentation(t *testing.T) {
-	env := baseEnv()
-	env["NATS_PAGE_RWI_SUBJECT"] = "custom.rwi"
-	env["NATS_PAGE_RWI_MAX_MSGS"] = "7"
-	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
-	if err != nil {
-		t.Fatal(err)
-	}
-	for _, output := range cfg.PageStreams {
-		if output.Representation != yacycrawlcontract.PageRepresentationKindRWI {
-			continue
-		}
-		if output.Subject != "custom.rwi" || output.MaxMsgs != 7 {
-			t.Fatalf("rwi stream = %+v", output)
-		}
-		return
-	}
-	t.Fatal("rwi output should be configured")
 }

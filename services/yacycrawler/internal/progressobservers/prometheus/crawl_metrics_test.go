@@ -22,10 +22,8 @@ func TestMetricsRecordAndExpose(t *testing.T) {
 	metrics.OrderRedelivered()
 	metrics.PageFetched()
 	metrics.ReachedPagePublished()
-	metrics.PagePublished("index")
 	metrics.PageDisposed("unsupported-media-type")
 	metrics.RefusalHonored("ceased")
-	metrics.PublicationWaited()
 	metrics.BudgetExhausted()
 	metrics.FetchCompleted(250 * time.Millisecond)
 
@@ -37,7 +35,6 @@ func TestMetricsRecordAndExpose(t *testing.T) {
 	for _, want := range []string{
 		"yacycrawler_orders_received_total 1",
 		"yacycrawler_reached_pages_published_total 1",
-		"yacycrawler_pages_published_total",
 		"yacycrawler_pages_disposed_total",
 		"yacycrawler_fetch_duration_seconds",
 	} {

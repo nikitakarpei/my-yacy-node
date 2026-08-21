@@ -10,7 +10,8 @@ The crawler is configured entirely through environment variables.
 | `NATS_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject the crawler consumes orders from. |
 | `NATS_ORDERS_DURABLE` | `yacycrawler` | Durable queue-consumer name shared across instances. |
 
-Per-representation stream variables are covered under Representations.
+The crawler publishes every page it reaches on the `crawl.reachedpage` subject of the
+`CRAWL_REACHED_PAGES` stream, which it creates. Neither is configurable.
 
 ## Fetching
 
@@ -31,25 +32,6 @@ Per-representation stream variables are covered under Representations.
 |---|---|---|
 | `YACYCRAWLER_RUN_PAGE_BUDGET` | `1000` | Pages a single run may fetch before it stops. |
 | `YACYCRAWLER_FRONTIER_CAP` | `10000` | Largest frontier a single run may hold. |
-
-## Representations
-
-Each enabled representation of a crawled page is published to its own stream. Every
-representation `<REP>` is configured by the same three variables, where `<REP>` is its
-name upper-cased:
-
-| Variable | Default | Meaning |
-|---|---|---|
-| `YACYCRAWLER_PUBLISH_<REP>` | per representation | Publish this representation. |
-| `NATS_PAGE_<REP>_SUBJECT` | per representation | Subject this representation publishes to. |
-| `NATS_PAGE_<REP>_MAX_MSGS` | `1024` | Bound on this representation's stream. |
-
-| Representation | Enabled | Subject | Content |
-|---|---|---|---|
-| `rwi` | `true` | `yacy.crawl.page.rwi` | Page references and postings. |
-
-At least one representation must be enabled, or startup fails. Each representation accepts only
-some content formats; a page whose format none of the enabled ones accepts is disposed.
 
 ## Operations
 

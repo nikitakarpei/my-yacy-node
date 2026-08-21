@@ -25,13 +25,22 @@ The node is configured through environment variables.
 
 ## Crawl ingest
 
-The node does not crawl. It receives crawled pages from a separate crawl fleet over NATS JetStream and stores them as postings. Ingest is off until `CRAWL_NATS_URL` is set; without it the node behaves as a pure peer.
+The node does not crawl. A separate crawl fleet publishes the URL of every page it
+reaches; the node fetches each of those pages through its own proxy, derives the page's
+words, and stores them as postings. Ingest is off until `CRAWL_NATS_URL` is set; without
+it the node behaves as a pure peer.
 
 | Variable | Default | Description |
 | --- | --- | --- |
 | `CRAWL_NATS_URL` | _(empty)_ | NATS server to reach the crawl fleet (e.g. `nats://nats:4222`). Empty disables ingest. |
-| `NATS_INGEST_SUBJECT` | `yacy.crawl.page.rwi` | Subject crawled batches arrive on. Must match the crawler. |
-| `NATS_INGEST_DURABLE` | `yacy-node` | Durable consumer name for reading ingest batches. |
+| `NATS_REACHED_PAGE_SUBJECT` | `crawl.reachedpage` | Subject reached pages arrive on. Must match the crawler. |
+| `NATS_REACHED_PAGE_DURABLE` | `yacy-node` | Durable queue-consumer name shared across nodes. |
+| `YACY_CRAWL_PROXY_URL` | _(required with ingest)_ | Egress proxy every page fetch goes through. |
+| `YACY_CRAWL_PROXY_DIAL_MODE` | `tunnel` | How to reach the proxy: `tunnel` or `absolute-url`. |
+| `YACY_CRAWL_USER_AGENT` | `yacy-rwi-node (+https://yacy.net)` | User agent each fetch sends. |
+| `YACY_CRAWL_MAX_BODY_BYTES` | `2097152` | Largest body a fetch reads. |
+| `YACY_CRAWL_FETCH_DEADLINE` | `30s` | Time limit on one fetch. |
+| `YACY_CRAWL_CONCURRENCY` | `4` | Pages fetched and stored concurrently. |
 
 ## Distribution
 

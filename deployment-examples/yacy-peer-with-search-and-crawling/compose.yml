@@ -19,6 +19,7 @@ services:
       - smokescreen
       - nats
       - yacycrawler
+      - renderproxy
     environment:
       YACY_INITIAL_PEER_HASH: ${YACY_INITIAL_PEER_HASH:-}
       YACY_PEER_NAME: ${YACY_PEER_NAME:-}
@@ -35,6 +36,8 @@ services:
         http://seedlist.wertewesten.net/seed.txt
       YACY_PROXY_URL: http://smokescreen:4750
       CRAWL_NATS_URL: nats://nats:4222
+      YACY_CRAWL_PROXY_URL: http://renderproxy:8080
+      YACY_CRAWL_PROXY_DIAL_MODE: absolute-url
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
       - yacy-data:/data

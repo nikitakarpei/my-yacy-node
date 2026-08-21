@@ -10,7 +10,6 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/prometheus/client_golang v1.23.2
 )
 

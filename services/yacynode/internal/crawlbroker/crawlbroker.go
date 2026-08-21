@@ -1,25 +1,29 @@
-// Package crawlbroker is the node's NATS JetStream edge to the crawl fleet. It is
-// the only place that speaks the broker protocol: it receives ingest batches,
-// exposing them as the plain port the inner packages consume. Open wires the
-// connection; Close releases it.
+// Package crawlbroker is the node's NATS JetStream edge to the crawl fleet. It is the
+// only place that speaks the broker protocol: it opens the durable consumer the node
+// reads reached pages through. Open wires the connection; Close releases it.
 package crawlbroker
 
 import (
 	"context"
+	"fmt"
 	"io"
 
+	"github.com/nats-io/nats.go/jetstream"
+
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 type Config struct {
-	NATSURL       string
-	IngestSubject string
-	IngestDurable string
+	NATSURL            string
+	ReachedPageSubject string
+	ReachedPageDurable string
+	Concurrency        int
 }
 
 type CrawlBroker struct {
-	conn   io.Closer
-	Ingest *IngestReceiver
+	conn         io.Closer
+	ReachedPages jetstream.Consumer
 }
 
 func Open(ctx context.Context, cfg Config) (*CrawlBroker, error) {
@@ -28,16 +32,35 @@ func Open(ctx context.Context, cfg Config) (*CrawlBroker, error) {
 		return nil, err
 	}
 
-	ingest, err := newIngestReceiver(ctx, js, cfg.IngestDurable, cfg.IngestSubject)
+	reachedPages, err := reachedPageConsumerFor(ctx, js, cfg)
 	if err != nil {
 		_ = conn.Close()
 		return nil, err
 	}
 
-	return &CrawlBroker{
-		conn:   conn,
-		Ingest: ingest,
-	}, nil
+	return &CrawlBroker{conn: conn, ReachedPages: reachedPages}, nil
+}
+
+func reachedPageConsumerFor(
+	ctx context.Context,
+	js jetstream.JetStream,
+	cfg Config,
+) (jetstream.Consumer, error) {
+	stream, err := js.Stream(ctx, yacycrawlcontract.ReachedPagesStreamName)
+	if err != nil {
+		return nil, fmt.Errorf("open reached pages stream: %w", err)
+	}
+	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
+		Durable:       cfg.ReachedPageDurable,
+		AckPolicy:     jetstream.AckExplicitPolicy,
+		FilterSubject: cfg.ReachedPageSubject,
+		MaxAckPending: cfg.Concurrency,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("create reached page consumer: %w", err)
+	}
+
+	return consumer, nil
 }
 
 func (b *CrawlBroker) Close() {

@@ -6,12 +6,14 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"net/url"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 
+	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -51,9 +53,12 @@ func TestRunNodeReportsAnUnusableListenAddress(t *testing.T) {
 func TestRunNodeReportsAnUnreachableCrawlBroker(t *testing.T) {
 	config := nodeConfigFor(t)
 	config.Crawl = nodeconfiguration.CrawlConfig{
-		NATSURL:       "nats://127.0.0.1:1",
-		IngestSubject: nodeconfiguration.DefaultIngestSubject,
-		IngestDurable: nodeconfiguration.DefaultIngestDurable,
+		NATSURL:            "nats://127.0.0.1:1",
+		ReachedPageSubject: nodeconfiguration.DefaultReachedPageSubject,
+		ReachedPageDurable: nodeconfiguration.DefaultReachedPageDurable,
+		ProxyURL:           &url.URL{Scheme: "http", Host: "renderproxy:8080"},
+		ProxyDialMode:      pagefetchershttp.ProxyDialTunnel,
+		Concurrency:        nodeconfiguration.DefaultCrawlConcurrency,
 	}
 
 	node := startNode(t, config)

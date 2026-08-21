@@ -1,29 +1,34 @@
-package rwi
+// Package pagerwi turns a scraped page into the reverse word index the node stores:
+// one URL metadata row and one posting per distinct word of the page's text.
+package pagerwi
 
 import (
 	"fmt"
 	"net/url"
 	"strings"
+	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func buildRepresentation(
-	page pagepublication.Page,
-	fullText []byte,
-) (yacycrawlcontract.PageRWIRepresentation, error) {
+type PageRWI struct {
+	CanonicalURL string
+	Metadata     yacymodel.URLMetadata
+	Postings     []yacymodel.RWIPosting
+}
+
+func Of(page pagescrape.ScrapedPage, reachedAt time.Time) (PageRWI, error) {
 	canonicalAddress, err := url.Parse(page.CanonicalURL)
 	if err != nil {
-		return yacycrawlcontract.PageRWIRepresentation{}, fmt.Errorf("parse canonical url: %w", err)
+		return PageRWI{}, fmt.Errorf("parse canonical url: %w", err)
 	}
 	urlHash := yacymodel.URLNormalformOf(canonicalAddress).Hash()
 
-	order, occurrences, textStats := tokenize(string(fullText))
+	order, occurrences, textStats := tokenize(string(page.Content))
 	_, _, titleStats := tokenize(page.Title)
 
-	shared := sharedPosting(page, urlHash)
+	shared := sharedPosting(page, reachedAt, urlHash)
 	shared.TitleWords = titleStats.Words
 	shared.TextWords = textStats.Words
 	shared.Phrases = textStats.Phrases
@@ -40,22 +45,21 @@ func buildRepresentation(
 		postings = append(postings, posting)
 	}
 
-	return yacycrawlcontract.PageRWIRepresentation{
+	return PageRWI{
 		CanonicalURL: page.CanonicalURL,
-		Metadata: []yacymodel.URLMetadata{
-			metadataOf(page, len(page.Body), textStats.Words),
-		},
-		Postings: postings,
+		Metadata:     metadataOf(page, reachedAt, textStats.Words),
+		Postings:     postings,
 	}, nil
 }
 
 func sharedPosting(
-	page pagepublication.Page,
+	page pagescrape.ScrapedPage,
+	reachedAt time.Time,
 	urlHash yacymodel.URLHash,
 ) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		URLHash:       urlHash,
-		LastModified:  yacymodel.MicroDateFromTime(page.CrawledAt),
+		LastModified:  yacymodel.MicroDateFromTime(reachedAt),
 		DocumentType:  yacymodel.DocumentTypeText,
 		Language:      languageOf(page),
 		LocalLinks:    page.LocalLinks,
@@ -66,24 +70,24 @@ func sharedPosting(
 }
 
 func metadataOf(
-	page pagepublication.Page,
-	textLength int,
+	page pagescrape.ScrapedPage,
+	reachedAt time.Time,
 	wordCount int,
 ) yacymodel.URLMetadata {
 	return yacymodel.URLMetadata{
 		Address:       page.CanonicalURL,
 		Title:         page.Title,
-		Loaded:        yacymodel.Some(yacymodel.CalendarDayOf(page.CrawledAt)),
+		Loaded:        yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),
 		DocumentType:  yacymodel.DocumentTypeText,
 		Language:      languageOf(page),
-		ByteSize:      textLength,
+		ByteSize:      len(page.Content),
 		WordCount:     wordCount,
 		LocalLinks:    page.LocalLinks,
 		ExternalLinks: page.ExternalLinks,
 	}
 }
 
-func languageOf(page pagepublication.Page) yacymodel.Optional[yacymodel.Language] {
+func languageOf(page pagescrape.ScrapedPage) yacymodel.Optional[yacymodel.Language] {
 	if page.Language == "" {
 		return yacymodel.None[yacymodel.Language]()
 	}

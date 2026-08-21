@@ -15,24 +15,12 @@ import (
 	yacycrawler "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/cmd/yacycrawler"
 )
 
-func publishedPageStreams() []yacycrawler.PageStreamConfig {
-	representation := yacycrawlcontract.PageRepresentationKindRWI
-
-	return []yacycrawler.PageStreamConfig{{
-		Representation: representation,
-		Subject:        yacycrawlcontract.CrawledPageSubject(representation),
-		MaxMsgs:        yacycrawler.DefaultMaxMsgs,
-		Published:      true,
-	}}
-}
-
 func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	cfg := yacycrawler.ServiceConfig{
 		CrawlNATSURL:     natstestserver.Start(t),
 		OrdersSubject:    yacycrawler.DefaultOrdersSubject,
 		OrdersDurable:    yacycrawler.DefaultOrdersDurable,
-		PageStreams:      publishedPageStreams(),
 		ProxyURL:         proxy,
 		FetchConcurrency: 2,
 		RunPageBudget:    yacycrawler.DefaultRunPageBudget,
@@ -58,7 +46,6 @@ func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 	cfg := yacycrawler.ServiceConfig{
 		CrawlNATSURL: natstestserver.Start(t), OrdersSubject: yacycrawler.DefaultOrdersSubject,
 		OrdersDurable: yacycrawler.DefaultOrdersDurable,
-		PageStreams:   publishedPageStreams(),
 		ProxyURL:      proxy, FetchConcurrency: 2,
 		MaxBodyBytes:  yacycrawler.DefaultMaxBodyBytes,
 		FetchDeadline: time.Second, OpsAddr: "127.0.0.1:0",
