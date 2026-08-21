@@ -20,8 +20,7 @@ import (
 )
 
 const (
-	reachedPageURL  = "https://example.com/"
-	postingBatchCap = 2
+	reachedPageURL = "https://example.com/"
 )
 
 type fakeMsg struct {
@@ -110,14 +109,14 @@ func (r *recordingURLs) Receive(
 type recordingPostings struct {
 	receipt rwiadmission.Receipt
 	err     error
-	batches [][]yacymodel.RWIPosting
+	calls   [][]yacymodel.RWIPosting
 }
 
 func (r *recordingPostings) Receive(
 	_ context.Context,
 	postings []yacymodel.RWIPosting,
 ) (rwiadmission.Receipt, error) {
-	r.batches = append(r.batches, postings)
+	r.calls = append(r.calls, postings)
 
 	return r.receipt, r.err
 }
@@ -157,12 +156,11 @@ func run(
 	t.Helper()
 
 	return reachedpageintake.NewReachedPageConsumer(reachedpageintake.Config{
-		Source:          fakeSource{iterator: &fakeIterator{messages: []jetstream.Msg{msg}}},
-		Scraper:         scraper,
-		URLs:            urls,
-		Postings:        postings,
-		PostingBatchCap: postingBatchCap,
-		Concurrency:     1,
+		Source:      fakeSource{iterator: &fakeIterator{messages: []jetstream.Msg{msg}}},
+		Scraper:     scraper,
+		URLs:        urls,
+		Postings:    postings,
+		Concurrency: 1,
 	}).Run(context.Background())
 }
 
@@ -188,12 +186,12 @@ func TestConsumerStoresTheIndexItDerivesFromAReachedPage(t *testing.T) {
 	if urls.received[0].Title != "Hi" {
 		t.Errorf("stored title = %q, want the scraped title", urls.received[0].Title)
 	}
-	if len(postings.batches) != 1 || len(postings.batches[0]) != 2 {
-		t.Errorf("stored batches %v, want one batch of two postings", postings.batches)
+	if len(postings.calls) != 1 || len(postings.calls[0]) != 2 {
+		t.Errorf("admitted %v, want one call carrying two postings", postings.calls)
 	}
 }
 
-func TestConsumerStoresPostingsInBatchesTheAdmissionAccepts(t *testing.T) {
+func TestConsumerAdmitsEveryPostingOfAPageInOneCall(t *testing.T) {
 	acked := make(chan string, 1)
 	postings := &recordingPostings{}
 
@@ -204,16 +202,11 @@ func TestConsumerStoresPostingsInBatchesTheAdmissionAccepts(t *testing.T) {
 	}
 
 	<-acked
-	if len(postings.batches) != 3 {
-		t.Fatalf(
-			"stored %d batches, want five postings split by a cap of two",
-			len(postings.batches),
-		)
+	if len(postings.calls) != 1 {
+		t.Fatalf("admitted over %d calls, want one call for the page", len(postings.calls))
 	}
-	for _, batch := range postings.batches {
-		if len(batch) > postingBatchCap {
-			t.Errorf("batch of %d postings exceeds the cap of %d", len(batch), postingBatchCap)
-		}
+	if len(postings.calls[0]) != 5 {
+		t.Fatalf("admitted %d postings, want one per distinct word", len(postings.calls[0]))
 	}
 }
 
@@ -229,8 +222,8 @@ func TestConsumerAcksAReachedPageThatDerivesNoIndex(t *testing.T) {
 	if action := <-acked; action != "ack" {
 		t.Errorf("action = %q, want ack", action)
 	}
-	if len(postings.batches) != 0 {
-		t.Errorf("stored %v, want nothing", postings.batches)
+	if len(postings.calls) != 0 {
+		t.Errorf("stored %v, want nothing", postings.calls)
 	}
 }
 
@@ -253,8 +246,8 @@ func TestConsumerAcksAReachedPageWhoseURLNoIndexCanBeBuiltFrom(t *testing.T) {
 	if action := <-acked; action != "ack" {
 		t.Errorf("action = %q, want ack", action)
 	}
-	if len(postings.batches) != 0 {
-		t.Errorf("stored %v, want nothing", postings.batches)
+	if len(postings.calls) != 0 {
+		t.Errorf("stored %v, want nothing", postings.calls)
 	}
 }
 
@@ -284,16 +277,15 @@ func TestConsumerNaksAndWithholdsPostingsWhenURLStorageIsBusy(t *testing.T) {
 	if action := <-acked; action != "nak" {
 		t.Errorf("action = %q, want nak", action)
 	}
-	if len(postings.batches) != 0 {
-		t.Errorf("stored %v, want no postings while url storage is busy", postings.batches)
+	if len(postings.calls) != 0 {
+		t.Errorf("stored %v, want no postings while url storage is busy", postings.calls)
 	}
 }
 
 func TestConsumerNaksWhenPostingAdmissionRefuses(t *testing.T) {
 	for name, postings := range map[string]*recordingPostings{
-		"busy":      {receipt: rwiadmission.Receipt{Busy: true}},
-		"too large": {receipt: rwiadmission.Receipt{Busy: true, TooLarge: true}},
-		"failing":   {err: errors.New("boom")},
+		"busy":    {receipt: rwiadmission.Receipt{Busy: true}},
+		"failing": {err: errors.New("boom")},
 	} {
 		t.Run(name, func(t *testing.T) {
 			acked := make(chan string, 1)

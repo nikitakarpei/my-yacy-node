@@ -44,12 +44,11 @@ func openReachedPageIngest(
 	return &reachedPageIngest{
 		broker: broker,
 		consumer: reachedpageintake.NewReachedPageConsumer(reachedpageintake.Config{
-			Source:          broker.ReachedPages,
-			Scraper:         scraper,
-			URLs:            urls,
-			Postings:        postings,
-			PostingBatchCap: postingAdmissionBatchCapacity,
-			Concurrency:     config.Concurrency,
+			Source:      broker.ReachedPages,
+			Scraper:     scraper,
+			URLs:        urls,
+			Postings:    postings,
+			Concurrency: config.Concurrency,
 		}),
 	}, nil
 }

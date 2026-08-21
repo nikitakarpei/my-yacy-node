@@ -36,13 +36,11 @@ type RefusalObserver interface {
 
 type Receipt struct {
 	Busy       bool
-	TooLarge   bool
 	Pause      time.Duration
 	UnknownURL []yacymodel.URLHash
 }
 
 type Config struct {
-	BatchCap int
 	Pause    time.Duration
 	Refusals RefusalObserver
 }
@@ -60,7 +58,6 @@ func Open(
 		admitter: admitter,
 		escrow:   escrow,
 		observer: config.Refusals,
-		batchCap: config.BatchCap,
 		pause:    config.Pause,
 	}
 }

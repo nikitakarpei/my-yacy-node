@@ -107,12 +107,13 @@ func (s *Scraper) pageFrom(ctx context.Context, fetched pagefetch.FetchedPage) (
 		return ScrapedPage{}, false
 	}
 	return ScrapedPage{
-		CanonicalURL:  canonical,
-		Title:         document.Title,
-		Language:      document.Language,
-		LocalLinks:    document.LocalLinks,
-		ExternalLinks: document.ExternalLinks,
-		Content:       content,
+		CanonicalURL:     canonical,
+		Title:            document.Title,
+		Language:         document.Language,
+		LocalLinks:       document.LocalLinks,
+		ExternalLinks:    document.ExternalLinks,
+		DocumentByteSize: len(fetched.Body),
+		Content:          content,
 	}, true
 }
 

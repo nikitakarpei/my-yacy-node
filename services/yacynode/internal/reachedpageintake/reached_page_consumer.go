@@ -1,5 +1,5 @@
 // Package reachedpageintake scrapes each page the crawl fleet reached and stores its
-// reverse word index: the page's URL metadata, then its postings in bounded batches.
+// reverse word index: the page's URL metadata, then its postings.
 package reachedpageintake
 
 import (
@@ -25,7 +25,6 @@ const (
 	msgIndexUnbuildable = "reached page yields no reverse word index, page skipped"
 	msgPageStored       = "reached page stored"
 	msgStoreDeferred    = "reached page store deferred"
-	msgBatchTooLarge    = "posting batch exceeds admission cap, deferred until an operator intervenes"
 )
 
 type PageScraper interface {
@@ -33,31 +32,28 @@ type PageScraper interface {
 }
 
 type ReachedPageConsumer struct {
-	source          pullintake.MessageSource
-	scraper         PageScraper
-	urls            urlmeta.URLReceiver
-	postings        rwiadmission.PostingReceiver
-	postingBatchCap int
-	concurrency     int
+	source      pullintake.MessageSource
+	scraper     PageScraper
+	urls        urlmeta.URLReceiver
+	postings    rwiadmission.PostingReceiver
+	concurrency int
 }
 
 type Config struct {
-	Source          pullintake.MessageSource
-	Scraper         PageScraper
-	URLs            urlmeta.URLReceiver
-	Postings        rwiadmission.PostingReceiver
-	PostingBatchCap int
-	Concurrency     int
+	Source      pullintake.MessageSource
+	Scraper     PageScraper
+	URLs        urlmeta.URLReceiver
+	Postings    rwiadmission.PostingReceiver
+	Concurrency int
 }
 
 func NewReachedPageConsumer(config Config) *ReachedPageConsumer {
 	return &ReachedPageConsumer{
-		source:          config.Source,
-		scraper:         config.Scraper,
-		urls:            config.URLs,
-		postings:        config.Postings,
-		postingBatchCap: config.PostingBatchCap,
-		concurrency:     config.Concurrency,
+		source:      config.Source,
+		scraper:     config.Scraper,
+		urls:        config.URLs,
+		postings:    config.Postings,
+		concurrency: config.Concurrency,
 	}
 }
 
@@ -103,54 +99,21 @@ func (c *ReachedPageConsumer) store(
 	msg jetstream.Msg,
 	index pagerwi.PageRWI,
 ) {
-	receipt, err := c.urls.Receive(ctx, []yacymodel.URLMetadata{index.Metadata})
-	if err != nil || receipt.Busy {
+	urlReceipt, err := c.urls.Receive(ctx, []yacymodel.URLMetadata{index.Metadata})
+	if err != nil || urlReceipt.Busy {
 		redeliver(ctx, msg, index.CanonicalURL, err)
 		return
 	}
-	for _, batch := range postingBatchesOf(index.Postings, c.postingBatchCap) {
-		if !c.storeBatch(ctx, msg, index.CanonicalURL, batch) {
-			return
-		}
+	postingReceipt, err := c.postings.Receive(ctx, index.Postings)
+	if err != nil || postingReceipt.Busy {
+		redeliver(ctx, msg, index.CanonicalURL, err)
+		return
 	}
 	_ = msg.Ack()
 	slog.DebugContext(ctx, msgPageStored,
 		slog.String("url", index.CanonicalURL),
 		slog.Int("postings", len(index.Postings)),
 	)
-}
-
-func (c *ReachedPageConsumer) storeBatch(
-	ctx context.Context,
-	msg jetstream.Msg,
-	canonicalURL string,
-	batch []yacymodel.RWIPosting,
-) bool {
-	receipt, err := c.postings.Receive(ctx, batch)
-	if receipt.TooLarge {
-		slog.ErrorContext(ctx, msgBatchTooLarge,
-			slog.String("url", canonicalURL),
-			slog.Int("postings", len(batch)),
-		)
-		_ = msg.Nak()
-		return false
-	}
-	if err != nil || receipt.Busy {
-		redeliver(ctx, msg, canonicalURL, err)
-		return false
-	}
-	return true
-}
-
-func postingBatchesOf(
-	postings []yacymodel.RWIPosting,
-	batchCap int,
-) [][]yacymodel.RWIPosting {
-	batches := make([][]yacymodel.RWIPosting, 0, len(postings)/batchCap+1)
-	for start := 0; start < len(postings); start += batchCap {
-		batches = append(batches, postings[start:min(start+batchCap, len(postings))])
-	}
-	return batches
 }
 
 func redeliver(ctx context.Context, msg jetstream.Msg, canonicalURL string, cause error) {

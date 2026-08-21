@@ -10,18 +10,22 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 )
 
-const sampleText = "the quick brown fox the fox"
+const (
+	sampleText             = "the quick brown fox the fox"
+	documentMarkupByteSize = 512
+)
 
 var reachedAt = time.Unix(1_700_000_000, 0)
 
 func samplePage(text string) pagescrape.ScrapedPage {
 	return pagescrape.ScrapedPage{
-		CanonicalURL:  "http://example.com/article",
-		Title:         "Hello World",
-		Language:      "en",
-		LocalLinks:    3,
-		ExternalLinks: 1,
-		Content:       []byte(text),
+		CanonicalURL:     "http://example.com/article",
+		Title:            "Hello World",
+		Language:         "en",
+		LocalLinks:       3,
+		ExternalLinks:    1,
+		DocumentByteSize: len(text) + documentMarkupByteSize,
+		Content:          []byte(text),
 	}
 }
 
@@ -84,8 +88,8 @@ func TestOfCarriesTextStatsAndPageReferenceIntoMetadata(t *testing.T) {
 	if metadata.Title != page.Title {
 		t.Fatalf("title = %q", metadata.Title)
 	}
-	if metadata.ByteSize != len(sampleText) {
-		t.Fatalf("byte size = %d, want %d", metadata.ByteSize, len(sampleText))
+	if metadata.ByteSize != page.DocumentByteSize {
+		t.Fatalf("byte size = %d, want %d", metadata.ByteSize, page.DocumentByteSize)
 	}
 	if metadata.WordCount == 0 {
 		t.Fatal("word count = 0, want nonzero")
@@ -146,11 +150,17 @@ func TestOfIndexesEveryWordOfThePageText(t *testing.T) {
 	assertWordIndexed(t, "navigation menu the quick fox", "navigation")
 }
 
-func TestOfMetadataByteSizeReflectsThePageText(t *testing.T) {
-	index := indexOf(t, samplePage("the quick fox"))
+func TestOfMetadataByteSizeReflectsTheFetchedDocument(t *testing.T) {
+	page := samplePage("the quick fox")
 
-	if index.Metadata.ByteSize != len("the quick fox") {
-		t.Fatalf("byte size = %d, want %d", index.Metadata.ByteSize, len("the quick fox"))
+	index := indexOf(t, page)
+
+	if index.Metadata.ByteSize != page.DocumentByteSize {
+		t.Fatalf(
+			"byte size = %d, want the fetched document size %d",
+			index.Metadata.ByteSize,
+			page.DocumentByteSize,
+		)
 	}
 }
 

@@ -62,8 +62,8 @@ const advertisedYaCyVersion = "1.83"
 const egressRequestTimeout = 30 * time.Second
 
 const (
-	postingAdmissionBatchCapacity = 1000
-	postingAdmissionBusyPause     = 30 * time.Second
+	peerPostingTransferCapacity = 1000
+	postingAdmissionBusyPause   = 30 * time.Second
 )
 
 const (
@@ -180,15 +180,15 @@ func assembleNode(
 		return node{}, fmt.Errorf("urlmeta storage: %w", err)
 	}
 
+	admissionRefusals := metrics.NewRWIAdmissionMetrics(registry)
 	postingReceiver := rwiadmission.Open(
 		vault,
 		urlDirectory,
 		postingAdmitter,
 		postingEscrow,
 		rwiadmission.Config{
-			BatchCap: postingAdmissionBatchCapacity,
 			Pause:    postingAdmissionBusyPause,
-			Refusals: metrics.NewRWIAdmissionMetrics(registry),
+			Refusals: admissionRefusals,
 		},
 	)
 
@@ -206,7 +206,11 @@ func assembleNode(
 
 	mux.Handle("/{$}", landing.NewEndpoint())
 	urlmeta.MountTransferURL(router, identity, urlReceiver)
-	rwiingress.Mount(router, identity, postingReceiver)
+	rwiingress.Mount(router, identity, postingReceiver, rwiingress.Config{
+		PostingCap: peerPostingTransferCapacity,
+		Pause:      postingAdmissionBusyPause,
+		Refusals:   admissionRefusals,
+	})
 	nodestatus.MountQuery(router, identity, postings, urlReferences, urlDirectory)
 	documentsearch.MountSearch(
 		router,
