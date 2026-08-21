@@ -20,6 +20,15 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  pagescrape:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrape
+  pagescrapecontentformatgraph:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph
+  pagescrapepagefetchershttp:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http
   pagemarkdownstore:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore
@@ -45,6 +54,7 @@ deps:
   markdownintake:
     canUse:
       - yacycrawlcontract
+      - pagescrape
       - nats
       - serviceruntime
   pagemarkdowncorporajetstream:

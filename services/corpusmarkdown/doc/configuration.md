@@ -6,16 +6,26 @@ The service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CRAWL_NATS_URL` | required | NATS server the service consumes crawled pages from. |
+| `CRAWL_NATS_URL` | required | NATS server the service consumes reached pages from. |
 | `PAGE_MARKDOWN_NATS_URL` | required | NATS server that holds the page markdown bucket. |
-| `NATS_CRAWLED_PAGE_SUBJECT` | `yacy.crawl.page.markdown` | Subject the service consumes crawled page markdown from. |
-| `NATS_CRAWLED_PAGE_DURABLE` | `corpusmarkdown` | Durable queue-consumer name shared across instances. |
+| `NATS_REACHED_PAGE_SUBJECT` | `crawl.reachedpage` | Subject the service consumes reached pages from. |
+| `NATS_REACHED_PAGE_DURABLE` | `corpusmarkdown` | Durable queue-consumer name shared across instances. |
+
+## Fetching
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `CORPUSMARKDOWN_PROXY_URL` | required | Egress proxy every page fetch goes through. |
+| `CORPUSMARKDOWN_PROXY_DIAL_MODE` | `tunnel` | How to reach the proxy: `tunnel` or `absolute-url`. |
+| `CORPUSMARKDOWN_USER_AGENT` | `corpusmarkdown (+https://yacy.net)` | User agent each fetch sends. |
+| `CORPUSMARKDOWN_MAX_BODY_BYTES` | `2097152` | Largest body a fetch reads. |
+| `CORPUSMARKDOWN_FETCH_DEADLINE` | `30s` | Time limit on one fetch. |
 
 ## Storage
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CORPUSMARKDOWN_CONCURRENCY` | `4` | Pages stored concurrently. |
+| `CORPUSMARKDOWN_CONCURRENCY` | `4` | Pages fetched and stored concurrently. |
 
 ## Operations
 

@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
@@ -31,12 +30,9 @@ func absorbWithExtractionError(t *testing.T, err error) pageabsorption.Absorptio
 	return absorb(t, a, succeeded("http://host/"))
 }
 
-func TestAbsorbPublishesEveryExtractedDocument(t *testing.T) {
-	extract := fakeExtract{
-		documents: []contentextraction.ExtractedDocument{document("http://host/", "t", "body")},
-	}
+func TestAbsorbPublishesTheExtractedDocument(t *testing.T) {
 	publisher := &recordingPublisher{}
-	a := newAbsorber(extract, publisher)
+	a := newAbsorber(fakeExtract{document: document("t", "body")}, publisher)
 
 	outcome := absorb(t, a, succeeded("http://host/"))
 
@@ -48,27 +44,22 @@ func TestAbsorbPublishesEveryExtractedDocument(t *testing.T) {
 	}
 }
 
+func TestAbsorbPublishesUnderTheFetchedPageURL(t *testing.T) {
+	publisher := &recordingPublisher{}
+	a := newAbsorber(fakeExtract{document: document("t", "body")}, publisher)
+
+	absorb(t, a, succeeded("http://HOST:80/a"))
+
+	if got := publisher.published(); got[0].CanonicalURL != "http://host/a" {
+		t.Fatalf("want the canonical page url, got %q", got[0].CanonicalURL)
+	}
+}
+
 func TestAbsorbReportsUnsupportedMediaType(t *testing.T) {
 	outcome := absorbWithExtractionError(t, contentextraction.ErrUnsupportedMediaType)
 
 	if outcome.Disposal != disposal.UnsupportedMediaType {
 		t.Fatalf("want unsupported-media-type disposal, got %q", outcome.Disposal)
-	}
-}
-
-func TestAbsorbReportsNestingTooDeep(t *testing.T) {
-	outcome := absorbWithExtractionError(t, contentextraction.ErrNestingTooDeep)
-
-	if outcome.Disposal != disposal.NestingTooDeep {
-		t.Fatalf("want nesting-too-deep disposal, got %q", outcome.Disposal)
-	}
-}
-
-func TestAbsorbReportsDocumentBudgetExhausted(t *testing.T) {
-	outcome := absorbWithExtractionError(t, contentextraction.ErrDocumentBudgetExhausted)
-
-	if outcome.Disposal != disposal.DocumentBudgetExhausted {
-		t.Fatalf("want document-budget-exhausted disposal, got %q", outcome.Disposal)
 	}
 }
 
@@ -80,74 +71,19 @@ func TestAbsorbReportsUnextractableOnUnknownExtractionError(t *testing.T) {
 	}
 }
 
-func TestAbsorbReportsEmptyExtraction(t *testing.T) {
-	a := newAbsorber(fakeExtract{documents: nil}, &recordingPublisher{})
+func TestAbsorbReportsUncanonicalizablePageURL(t *testing.T) {
+	a := newAbsorber(fakeExtract{document: document("t", "b")}, &recordingPublisher{})
 
-	outcome := absorb(t, a, succeeded("http://host/"))
-
-	if outcome.Disposal != disposal.Unextractable {
-		t.Fatalf("want unextractable disposal, got %q", outcome.Disposal)
-	}
-}
-
-func TestAbsorbReportsUncanonicalizableDocumentURL(t *testing.T) {
-	extract := fakeExtract{
-		documents: []contentextraction.ExtractedDocument{document("::not a url", "t", "b")},
-	}
-	a := newAbsorber(extract, &recordingPublisher{})
-
-	outcome := absorb(t, a, succeeded("http://host/"))
+	outcome := absorb(t, a, succeeded("::not a url"))
 
 	if outcome.Disposal != disposal.UncanonicalizableURL {
 		t.Fatalf("want uncanonicalizable-url disposal, got %q", outcome.Disposal)
 	}
 }
 
-func TestAbsorbFansOutContainerDocuments(t *testing.T) {
-	extract := fakeExtract{documents: []contentextraction.ExtractedDocument{
-		document("http://host/a.zip!/one.html", "one", "a"),
-		document("http://host/a.zip!/two.html", "two", "b"),
-	}}
-	publisher := &recordingPublisher{}
-	a := newAbsorber(extract, publisher)
-
-	page := succeeded("http://host/a.zip")
-	page.ContentType = "application/zip"
-	absorb(t, a, page)
-
-	got := publisher.published()
-	if len(got) != 2 {
-		t.Fatalf("want 2 member documents published, got %+v", got)
-	}
-	if got[0].CanonicalURL == got[1].CanonicalURL {
-		t.Fatalf("members collapsed to one URL: %+v", got)
-	}
-}
-
-func TestAbsorbReportsNoDisposalWhenOneMemberPublishes(t *testing.T) {
-	extract := fakeExtract{documents: []contentextraction.ExtractedDocument{
-		{URL: "http://host/a.zip!/one.html", ExtractedContent: contentextraction.ExtractedContent{
-			Body:            []byte("a"),
-			Format:          contentformatgraph.FormatReadableText,
-			RefusesIndexing: true,
-		}},
-		document("http://host/a.zip!/two.html", "two", "b"),
-	}}
-	a := newAbsorber(extract, &recordingPublisher{})
-
-	outcome := absorb(t, a, succeeded("http://host/a.zip"))
-
-	if outcome.Disposal != disposal.NotDisposed {
-		t.Fatalf("one published member leaves the page published, got %+v", outcome)
-	}
-}
-
 func TestAbsorbHonorsMetaNoIndex(t *testing.T) {
-	extract := fakeExtract{
-		documents: []contentextraction.ExtractedDocument{refusingDocument("http://host/")},
-	}
 	publisher := &recordingPublisher{}
-	a := newAbsorber(extract, publisher)
+	a := newAbsorber(fakeExtract{document: refusingDocument()}, publisher)
 
 	outcome := absorb(t, a, succeeded("http://host/"))
 
@@ -158,11 +94,9 @@ func TestAbsorbHonorsMetaNoIndex(t *testing.T) {
 }
 
 func TestAbsorbPublishesRefusedIndexingWhenTheOrderIgnoresIt(t *testing.T) {
-	extract := fakeExtract{
-		documents: []contentextraction.ExtractedDocument{refusingDocument("http://host/")},
-	}
 	publisher := &recordingPublisher{}
-	a := pageabsorption.New(extract, publisher, &manualClock{}).AbsorberFor(pageabsorption.Ignored)
+	a := pageabsorption.New(fakeExtract{document: refusingDocument()}, publisher, &manualClock{}).
+		AbsorberFor(pageabsorption.Ignored)
 
 	outcome := absorb(t, a, succeeded("http://host/"))
 
@@ -173,15 +107,10 @@ func TestAbsorbPublishesRefusedIndexingWhenTheOrderIgnoresIt(t *testing.T) {
 }
 
 func TestAbsorbHonorsNoFollow(t *testing.T) {
-	extract := fakeExtract{documents: []contentextraction.ExtractedDocument{{
-		URL: "http://host/",
-		ExtractedContent: contentextraction.ExtractedContent{
-			Body:           []byte("b"),
-			Format:         contentformatgraph.FormatReadableText,
-			DiscoveredURLs: []string{"http://host/next"},
-		},
-	}}}
-	a := newAbsorber(extract, &recordingPublisher{})
+	a := newAbsorber(
+		fakeExtract{document: linkingDocument("http://host/next")},
+		&recordingPublisher{},
+	)
 
 	page := succeeded("http://host/")
 	page.RefusesLinkDiscovery = true
@@ -191,15 +120,10 @@ func TestAbsorbHonorsNoFollow(t *testing.T) {
 }
 
 func TestAbsorbReturnsDiscoveredLinks(t *testing.T) {
-	extract := fakeExtract{documents: []contentextraction.ExtractedDocument{{
-		URL: "http://host/",
-		ExtractedContent: contentextraction.ExtractedContent{
-			Body:           []byte("b"),
-			Format:         contentformatgraph.FormatReadableText,
-			DiscoveredURLs: []string{"http://host/next"},
-		},
-	}}}
-	a := newAbsorber(extract, &recordingPublisher{})
+	a := newAbsorber(
+		fakeExtract{document: linkingDocument("http://host/next")},
+		&recordingPublisher{},
+	)
 
 	outcome := absorb(t, a, succeeded("http://host/"))
 	if len(outcome.DiscoveredURLs) != 1 || outcome.DiscoveredURLs[0] != "http://host/next" {
@@ -220,11 +144,8 @@ func TestAbsorbReportsOversized(t *testing.T) {
 }
 
 func TestAbsorbPublicationErrorFails(t *testing.T) {
-	extract := fakeExtract{
-		documents: []contentextraction.ExtractedDocument{document("http://host/", "", "b")},
-	}
 	publisher := &recordingPublisher{failWith: errors.New("hard broker error")}
-	a := newAbsorber(extract, publisher)
+	a := newAbsorber(fakeExtract{document: document("", "b")}, publisher)
 
 	if _, err := a.Absorb(context.Background(), succeeded("http://host/")); err == nil {
 		t.Fatal("publish error should fail absorption")

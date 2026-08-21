@@ -1,6 +1,15 @@
 package contentextraction
 
+import "github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+
 type ExtractedDocument struct {
-	URL string
-	ExtractedContent
+	Title                string
+	Body                 []byte
+	Format               contentformatgraph.Format
+	Language             string
+	DiscoveredURLs       []string
+	LocalLinks           int
+	ExternalLinks        int
+	RefusesIndexing      bool
+	RefusesLinkDiscovery bool
 }

@@ -48,7 +48,6 @@ name upper-cased:
 |---|---|---|---|
 | `rwi` | `true` | `yacy.crawl.page.rwi` | Page references and postings. |
 | `text` | `false` | `yacy.crawl.page.text` | Page content as text. |
-| `markdown` | `false` | `yacy.crawl.page.markdown` | Page content as markdown. |
 
 At least one representation must be enabled, or startup fails. Each representation accepts only
 some content formats; a page whose format none of the enabled ones accepts is disposed.

@@ -13,26 +13,39 @@ import (
 )
 
 type fakeExtract struct {
-	documents []contentextraction.ExtractedDocument
-	err       error
+	document contentextraction.ExtractedDocument
+	err      error
 }
 
-func (f fakeExtract) ExtractDocuments(
+func (f fakeExtract) DocumentFrom(
 	_ context.Context,
 	_, _ string,
 	_ []byte,
-) ([]contentextraction.ExtractedDocument, error) {
-	return f.documents, f.err
+) (contentextraction.ExtractedDocument, error) {
+	return f.document, f.err
 }
 
-func document(url, title, text string) contentextraction.ExtractedDocument {
+func document(title, text string) contentextraction.ExtractedDocument {
 	return contentextraction.ExtractedDocument{
-		URL: url,
-		ExtractedContent: contentextraction.ExtractedContent{
-			Title:  title,
-			Body:   []byte(text),
-			Format: contentformatgraph.FormatReadableText,
-		},
+		Title:  title,
+		Body:   []byte(text),
+		Format: contentformatgraph.FormatReadableText,
+	}
+}
+
+func refusingDocument() contentextraction.ExtractedDocument {
+	return contentextraction.ExtractedDocument{
+		Body:            []byte("b"),
+		Format:          contentformatgraph.FormatReadableText,
+		RefusesIndexing: true,
+	}
+}
+
+func linkingDocument(discovered string) contentextraction.ExtractedDocument {
+	return contentextraction.ExtractedDocument{
+		Body:           []byte("b"),
+		Format:         contentformatgraph.FormatReadableText,
+		DiscoveredURLs: []string{discovered},
 	}
 }
 
@@ -70,17 +83,6 @@ func newAbsorber(
 ) pageabsorption.Absorber {
 	return pageabsorption.New(extractor, publisher, &manualClock{}).
 		AbsorberFor(pageabsorption.Honored)
-}
-
-func refusingDocument(url string) contentextraction.ExtractedDocument {
-	return contentextraction.ExtractedDocument{
-		URL: url,
-		ExtractedContent: contentextraction.ExtractedContent{
-			Body:            []byte("b"),
-			Format:          contentformatgraph.FormatReadableText,
-			RefusesIndexing: true,
-		},
-	}
 }
 
 func succeeded(finalURL string) pagefetch.FetchedPage {

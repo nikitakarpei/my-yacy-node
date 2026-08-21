@@ -52,11 +52,6 @@ const (
 	DefaultDisposedPagesMaxBytes  = 256 << 20
 )
 
-var proxyDialModeByName = map[string]http.ProxyDialMode{
-	"tunnel":       http.ProxyDialTunnel,
-	"absolute-url": http.ProxyDialAbsoluteURL,
-}
-
 func pageSubjectEnv(representation yacycrawlcontract.PageRepresentationKind) string {
 	return "NATS_PAGE_" + strings.ToUpper(string(representation)) + "_SUBJECT"
 }
@@ -203,7 +198,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	proxyURL, err := requiredURL(getenv, EnvProxyURL)
+	proxyURL, err := envconfig.RequiredHTTPURL(getenv, EnvProxyURL)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -243,29 +238,12 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}, nil
 }
 
-func requiredURL(getenv func(string) string, key string) (*url.URL, error) {
-	raw := strings.TrimSpace(getenv(key))
-	if raw == "" {
-		return nil, fmt.Errorf("%s: must be set", key)
-	}
-	parsed, err := url.Parse(raw)
-	if err != nil {
-		return nil, fmt.Errorf("%s: %w", key, err)
-	}
-	if parsed.Scheme != "http" && parsed.Scheme != "https" {
-		return nil, fmt.Errorf("%s: scheme must be http or https", key)
-	}
-	if parsed.Host == "" {
-		return nil, fmt.Errorf("%s: must include a host", key)
-	}
-	return parsed, nil
-}
-
 func proxyDialModeFromEnv(getenv func(string) string) (http.ProxyDialMode, error) {
-	name := envconfig.String(getenv, EnvProxyDialMode, DefaultProxyDialMode)
-	mode, ok := proxyDialModeByName[name]
-	if !ok {
-		return 0, fmt.Errorf("%s: unknown proxy dial mode %q", EnvProxyDialMode, name)
+	mode, err := http.ProxyDialModeNamed(
+		envconfig.String(getenv, EnvProxyDialMode, DefaultProxyDialMode),
+	)
+	if err != nil {
+		return 0, fmt.Errorf("%s: %w", EnvProxyDialMode, err)
 	}
 	return mode, nil
 }

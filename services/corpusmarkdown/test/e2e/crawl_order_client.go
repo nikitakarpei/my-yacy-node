@@ -17,7 +17,6 @@ import (
 
 const (
 	ordersSubject              = "yacy.crawl.orders"
-	crawledPageSubject         = "yacy.crawl.page.markdown"
 	ordersStreamAppearanceWait = 60 * time.Second
 	bucketAppearanceWait       = 60 * time.Second
 )

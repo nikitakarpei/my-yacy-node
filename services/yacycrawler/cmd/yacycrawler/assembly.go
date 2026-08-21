@@ -11,6 +11,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
@@ -40,20 +41,17 @@ import (
 )
 
 const (
-	fetchRetryLimit       = 3
-	fetchRetryFloor       = 500 * time.Millisecond
-	fetchRetryCeiling     = 30 * time.Second
-	publishRetryFloor     = 500 * time.Millisecond
-	publishRetryCeiling   = 30 * time.Second
-	maxDeferPerURL        = 3
-	containerMaxDepth     = 4
-	containerMaxDocuments = 1024
-	archiveMaxMembers     = 1024
-	opsReadHeaderLimit    = 10 * time.Second
-	opsShutdownLimit      = 15 * time.Second
-	ordersAckWait         = 30 * time.Second
-	msgServiceStarted     = "crawler started"
-	msgServiceStopped     = "crawler stopped"
+	fetchRetryLimit     = 3
+	fetchRetryFloor     = 500 * time.Millisecond
+	fetchRetryCeiling   = 30 * time.Second
+	publishRetryFloor   = 500 * time.Millisecond
+	publishRetryCeiling = 30 * time.Second
+	maxDeferPerURL      = 3
+	opsReadHeaderLimit  = 10 * time.Second
+	opsShutdownLimit    = 15 * time.Second
+	ordersAckWait       = 30 * time.Second
+	msgServiceStarted   = "crawler started"
+	msgServiceStopped   = "crawler stopped"
 )
 
 func RunService(
@@ -371,7 +369,7 @@ func buildPublisher(
 	emittedFormats []contentformatgraph.Format,
 ) (*pagepublication.Publisher, error) {
 	representations := buildPageRepresentations(js, cfg)
-	graph := contentformatgraph.New(pageDerivationCatalog())
+	graph := contentformatgraph.New(pagescrape.PageDerivationCatalog())
 	if err := graph.EnsureNoDanglingFormat(
 		emittedFormats,
 		representationContentFormats(representations),
@@ -401,9 +399,7 @@ func representationContentFormats(
 }
 
 func buildExtractor(admitted admittedMediaTypes) (pageabsorption.PageExtractor, error) {
-	extraction, err := contentextraction.New(
-		admitted.extractors, admitted.containers, containerMaxDepth, containerMaxDocuments,
-	)
+	extraction, err := contentextraction.New(admitted.extractors)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", EnvContentTypes, err)
 	}

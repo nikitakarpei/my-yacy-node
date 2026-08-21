@@ -184,12 +184,12 @@ func TestPublishReachesEveryRepresentation(t *testing.T) {
 
 func TestPublishSkipsTheRepresentationThatCannotDerive(t *testing.T) {
 	rwi := &fakeRepresentation{kind: yacycrawlcontract.PageRepresentationKindRWI}
-	markdown := &fakeRepresentation{
-		kind:          yacycrawlcontract.PageRepresentationKindMarkdown,
+	text := &fakeRepresentation{
+		kind:          yacycrawlcontract.PageRepresentationKindText,
 		contentFormat: contentformatgraph.FormatMarkdown,
 	}
 	observer := newObserver()
-	p := newPublisher([]pagepublication.PageRepresentation{rwi, markdown}, observer)
+	p := newPublisher([]pagepublication.PageRepresentation{rwi, text}, observer)
 
 	if err := p.Publish(t.Context(), readablePage()); err != nil {
 		t.Fatalf("an underivable representation should not fail publication: %v", err)
@@ -197,10 +197,10 @@ func TestPublishSkipsTheRepresentationThatCannotDerive(t *testing.T) {
 	if len(rwi.published) != 1 {
 		t.Fatalf("derivable sibling withheld: rwi=%v", rwi.published)
 	}
-	if len(markdown.published) != 0 {
-		t.Fatalf("underivable representation advanced: markdown=%v", markdown.published)
+	if len(text.published) != 0 {
+		t.Fatalf("underivable representation advanced: text=%v", text.published)
 	}
-	if observer.underivable[yacycrawlcontract.PageRepresentationKindMarkdown] != 1 {
+	if observer.underivable[yacycrawlcontract.PageRepresentationKindText] != 1 {
 		t.Fatalf("underivable representation unobserved: %v", observer.underivable)
 	}
 }

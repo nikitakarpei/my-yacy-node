@@ -6,6 +6,8 @@ allow:
   deepScan: false
 
 components:
+  pagescrape:
+    in: .
   pagefetch:
     in: pagefetch/**
   pagefetchershttp:
@@ -16,8 +18,6 @@ components:
     in: contentformatgraph/**
   mediaextractorshtml:
     in: mediaextractors/html/**
-  containerexpandersarchive:
-    in: containerexpanders/archive/**
   pagederivationsfulltext:
     in: pagederivations/fulltext/**
   pagederivationsmarkdown:
@@ -47,6 +47,18 @@ vendors:
       - golang.org/x/net/**
 
 deps:
+  pagescrape:
+    mayDependOn:
+      - pagefetch
+      - contentextraction
+      - contentformatgraph
+      - mediaextractorshtml
+      - pagederivationsfulltext
+      - pagederivationsmarkdown
+      - pagederivationsreadablehtml
+      - pagederivationsreadabletext
+    canUse:
+      - canonicalurl
   pagefetchershttp:
     mayDependOn:
       - pagefetch
@@ -60,9 +72,6 @@ deps:
     canUse:
       - canonicalurl
       - xnet
-  containerexpandersarchive:
-    mayDependOn:
-      - contentextraction
   pagederivationsfulltext:
     mayDependOn:
       - contentformatgraph

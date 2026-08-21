@@ -41,21 +41,21 @@ func (e HTMLExtraction) Extract(
 	ctx context.Context,
 	pageURL, contentType string,
 	body []byte,
-) (contentextraction.ExtractedContent, error) {
+) (contentextraction.ExtractedDocument, error) {
 	decoded, err := charset.NewReader(bytes.NewReader(body), contentType)
 	if err != nil {
-		return contentextraction.ExtractedContent{}, fmt.Errorf("decode charset: %w", err)
+		return contentextraction.ExtractedDocument{}, fmt.Errorf("decode charset: %w", err)
 	}
 	root, err := html.Parse(decoded)
 	if err != nil {
-		return contentextraction.ExtractedContent{}, fmt.Errorf("parse html: %w", err)
+		return contentextraction.ExtractedDocument{}, fmt.Errorf("parse html: %w", err)
 	}
 
 	scan := scanTree(root)
 
 	var document bytes.Buffer
 	if err := html.Render(&document, root); err != nil {
-		return contentextraction.ExtractedContent{}, fmt.Errorf("render html: %w", err)
+		return contentextraction.ExtractedDocument{}, fmt.Errorf("render html: %w", err)
 	}
 
 	base := pageURL
@@ -72,7 +72,7 @@ func (e HTMLExtraction) Extract(
 	}
 	links, local, external := resolveLinks(base, scan.hrefs)
 
-	return contentextraction.ExtractedContent{
+	return contentextraction.ExtractedDocument{
 		Title:                scan.title,
 		Body:                 document.Bytes(),
 		Format:               e.EmittedFormat(),

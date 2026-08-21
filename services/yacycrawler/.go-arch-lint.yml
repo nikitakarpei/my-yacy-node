@@ -46,8 +46,6 @@ components:
     in: internal/pagerepresentations/rwi/**
   pagerepresentationstext:
     in: internal/pagerepresentations/text/**
-  pagerepresentationsmarkdown:
-    in: internal/pagerepresentations/markdown/**
   recrawlrulesalwaysdue:
     in: internal/recrawlrules/alwaysdue/**
   recrawlrulesdueaftergrace:
@@ -170,11 +168,6 @@ deps:
       - yacymodel
       - pagescrapecontentformatgraph
   pagerepresentationstext:
-    mayDependOn:
-      - pagepublication
-    canUse:
-      - pagescrapecontentformatgraph
-  pagerepresentationsmarkdown:
     mayDependOn:
       - pagepublication
     canUse:

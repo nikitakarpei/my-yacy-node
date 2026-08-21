@@ -60,7 +60,6 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	everyRepresentation := []yacycrawlcontract.PageRepresentationKind{
 		yacycrawlcontract.PageRepresentationKindRWI,
 		yacycrawlcontract.PageRepresentationKindText,
-		yacycrawlcontract.PageRepresentationKindMarkdown,
 	}
 	if !slices.Equal(pageStreamRepresentations(cfg), everyRepresentation) {
 		t.Fatalf("every representation should get a stream: %+v", cfg.PageStreams)
@@ -210,21 +209,21 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 
 func TestPageOutputEnvNamesFollowTheRepresentation(t *testing.T) {
 	env := baseEnv()
-	env["YACYCRAWLER_PUBLISH_MARKDOWN"] = "true"
-	env["NATS_PAGE_MARKDOWN_SUBJECT"] = "custom.markdown"
-	env["NATS_PAGE_MARKDOWN_MAX_MSGS"] = "7"
+	env["YACYCRAWLER_PUBLISH_TEXT"] = "true"
+	env["NATS_PAGE_TEXT_SUBJECT"] = "custom.text"
+	env["NATS_PAGE_TEXT_MAX_MSGS"] = "7"
 	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
 	}
 	for _, output := range cfg.PageStreams {
-		if output.Representation != yacycrawlcontract.PageRepresentationKindMarkdown {
+		if output.Representation != yacycrawlcontract.PageRepresentationKindText {
 			continue
 		}
-		if output.Subject != "custom.markdown" || output.MaxMsgs != 7 {
-			t.Fatalf("markdown stream = %+v", output)
+		if output.Subject != "custom.text" || output.MaxMsgs != 7 {
+			t.Fatalf("text stream = %+v", output)
 		}
 		return
 	}
-	t.Fatal("markdown output should be enabled")
+	t.Fatal("text output should be enabled")
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/mediatypeallowance"
@@ -10,39 +11,28 @@ import (
 
 type admittedMediaTypes struct {
 	extractors     map[string]contentextraction.MediaExtractor
-	containers     map[string]contentextraction.ContainerExpander
 	emittedFormats []contentformatgraph.Format
 }
 
 func admittedMediaTypesFor(cfg ServiceConfig) (admittedMediaTypes, error) {
-	extractors := mediaExtractorCatalog()
-	expanders := containerExpanderCatalog(cfg)
+	extractors := pagescrape.MediaExtractorCatalog()
 	if err := ensureRegisteredMediaTypes(
 		cfg.ContentTypes,
-		registeredMediaTypes(extractors, expanders),
+		registeredMediaTypes(extractors),
 	); err != nil {
 		return admittedMediaTypes{}, err
 	}
 	allowance := mediatypeallowance.MediaTypeAllowanceFrom(cfg.ContentTypes)
 	return admittedMediaTypes{
 		extractors:     admittedExtractorsFrom(extractors, allowance),
-		containers:     admittedContainersFrom(expanders, allowance),
 		emittedFormats: emittedFormatsFrom(extractors, allowance),
 	}, nil
 }
 
-func registeredMediaTypes(
-	extractors []registeredMediaExtractor,
-	expanders []registeredContainerExpander,
-) map[string]bool {
+func registeredMediaTypes(extractors []pagescrape.RegisteredMediaExtractor) map[string]bool {
 	registered := map[string]bool{}
 	for _, extractor := range extractors {
 		for _, mediaType := range extractor.MediaTypes() {
-			registered[mediaType] = true
-		}
-	}
-	for _, expander := range expanders {
-		for _, mediaType := range expander.MediaTypes() {
 			registered[mediaType] = true
 		}
 	}
@@ -60,7 +50,7 @@ func ensureRegisteredMediaTypes(contentTypes []string, registered map[string]boo
 }
 
 func admittedExtractorsFrom(
-	extractors []registeredMediaExtractor,
+	extractors []pagescrape.RegisteredMediaExtractor,
 	allowance mediatypeallowance.MediaTypeAllowance,
 ) map[string]contentextraction.MediaExtractor {
 	admitted := map[string]contentextraction.MediaExtractor{}
@@ -74,23 +64,8 @@ func admittedExtractorsFrom(
 	return admitted
 }
 
-func admittedContainersFrom(
-	expanders []registeredContainerExpander,
-	allowance mediatypeallowance.MediaTypeAllowance,
-) map[string]contentextraction.ContainerExpander {
-	admitted := map[string]contentextraction.ContainerExpander{}
-	for _, expander := range expanders {
-		for _, mediaType := range expander.MediaTypes() {
-			if allowance.Admits(mediaType) {
-				admitted[mediaType] = expander
-			}
-		}
-	}
-	return admitted
-}
-
 func emittedFormatsFrom(
-	extractors []registeredMediaExtractor,
+	extractors []pagescrape.RegisteredMediaExtractor,
 	allowance mediatypeallowance.MediaTypeAllowance,
 ) []contentformatgraph.Format {
 	var formats []contentformatgraph.Format

@@ -16,11 +16,10 @@ import (
 )
 
 func publishedPageStreams() []yacycrawler.PageStreamConfig {
-	streams := make([]yacycrawler.PageStreamConfig, 0, 3)
+	streams := make([]yacycrawler.PageStreamConfig, 0, 2)
 	for _, representation := range []yacycrawlcontract.PageRepresentationKind{
 		yacycrawlcontract.PageRepresentationKindRWI,
 		yacycrawlcontract.PageRepresentationKindText,
-		yacycrawlcontract.PageRepresentationKindMarkdown,
 	} {
 		streams = append(streams, yacycrawler.PageStreamConfig{
 			Representation: representation,

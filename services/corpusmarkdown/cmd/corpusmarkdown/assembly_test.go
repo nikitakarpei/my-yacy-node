@@ -2,6 +2,10 @@ package main_test
 
 import (
 	"context"
+	"net/http"
+	"net/http/httptest"
+	"net/url"
+	"strings"
 	"testing"
 	"time"
 
@@ -17,31 +21,55 @@ const (
 	storedDeadline  = 5 * time.Second
 	storedPollPause = 50 * time.Millisecond
 	storedReadLimit = 500 * time.Millisecond
+
+	originURL = "http://origin.example/"
 )
 
-func TestRunServiceStoresCrawledPageMarkdownOnItsOwnNATS(t *testing.T) {
-	crawlURL := natstestserver.Start(t)
-	pageMarkdownURL := natstestserver.Start(t)
-	cfg := corpusmarkdown.ServiceConfig{
+func originServing(t *testing.T, body string) *url.URL {
+	t.Helper()
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+		_, _ = w.Write([]byte(body))
+	}))
+	t.Cleanup(server.Close)
+	parsed, err := url.Parse(server.URL)
+	if err != nil {
+		t.Fatalf("parse origin url: %v", err)
+	}
+	return parsed
+}
+
+func serviceConfig(crawlURL, pageMarkdownURL string, proxy *url.URL) corpusmarkdown.ServiceConfig {
+	return corpusmarkdown.ServiceConfig{
 		CrawlNATSURL:        crawlURL,
 		PageMarkdownNATSURL: pageMarkdownURL,
-		CrawledPageSubject:  corpusmarkdown.DefaultCrawledPageSubject,
-		CrawledPageDurable:  corpusmarkdown.DefaultCrawledPageDurable,
+		ReachedPageSubject:  corpusmarkdown.DefaultReachedPageSubject,
+		ReachedPageDurable:  corpusmarkdown.DefaultReachedPageDurable,
+		ProxyURL:            proxy,
+		UserAgent:           corpusmarkdown.DefaultUserAgent,
+		MaxBodyBytes:        corpusmarkdown.DefaultMaxBodyBytes,
+		FetchDeadline:       time.Second,
 		Concurrency:         corpusmarkdown.DefaultConcurrency,
 		OpsAddr:             "127.0.0.1:0",
 	}
+}
+
+func TestRunServiceStoresTheMarkdownItScrapesFromAReachedPage(t *testing.T) {
+	crawlURL := natstestserver.Start(t)
+	pageMarkdownURL := natstestserver.Start(t)
+	proxy := originServing(t, "<html lang=\"en\"><title>Hi</title><body>words here</body></html>")
+	cfg := serviceConfig(crawlURL, pageMarkdownURL, proxy)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	crawlJetStream := natstestserver.ConnectJetStream(t, crawlURL)
 	pageMarkdownJetStream := natstestserver.ConnectJetStream(t, pageMarkdownURL)
-	createCrawledPageStream(t, crawlJetStream, cfg.CrawledPageSubject)
+	createReachedPagesStream(t, crawlJetStream, cfg.ReachedPageSubject)
 
 	runDone := make(chan error, 1)
 	go func() { runDone <- corpusmarkdown.RunService(ctx, cfg) }()
 
-	const canonicalURL = "https://example.com/"
 	store, err := pageMarkdownJetStream.CreateOrUpdateObjectStore(
 		ctx,
 		jetstream.ObjectStoreConfig{Bucket: pagemarkdownstore.BucketName},
@@ -49,13 +77,9 @@ func TestRunServiceStoresCrawledPageMarkdownOnItsOwnNATS(t *testing.T) {
 	if err != nil {
 		t.Fatalf("open object store: %v", err)
 	}
-	objectName := pagemarkdownstore.ObjectName(canonicalURL)
 
-	publishMarkdown(t, ctx, crawlJetStream, canonicalURL, []byte("# Hi\n\nwords here"))
-	waitForStored(t, ctx, store, objectName, []byte("# Hi\n\nwords here"))
-
-	publishMarkdown(t, ctx, crawlJetStream, canonicalURL, []byte("# Hi again"))
-	waitForStored(t, ctx, store, objectName, []byte("# Hi again"))
+	publishReachedPage(t, ctx, crawlJetStream, originURL)
+	waitForStored(t, ctx, store, pagemarkdownstore.ObjectName(originURL), "words here")
 
 	cancel()
 	select {
@@ -68,25 +92,21 @@ func TestRunServiceStoresCrawledPageMarkdownOnItsOwnNATS(t *testing.T) {
 	}
 }
 
-func publishMarkdown(
+func publishReachedPage(
 	t *testing.T,
 	ctx context.Context,
 	js jetstream.JetStream,
 	canonicalURL string,
-	markdown []byte,
 ) {
 	t.Helper()
-	data, err := yacycrawlcontract.MarshalPageMarkdownRepresentation(
-		yacycrawlcontract.PageMarkdownRepresentation{
-			PageReference: yacycrawlcontract.PageReference{CanonicalURL: canonicalURL},
-			Markdown:      markdown,
-		},
+	data, err := yacycrawlcontract.MarshalReachedPage(
+		yacycrawlcontract.ReachedPage{CanonicalURL: canonicalURL},
 	)
 	if err != nil {
-		t.Fatalf("marshal crawled page: %v", err)
+		t.Fatalf("marshal reached page: %v", err)
 	}
-	if _, err := js.Publish(ctx, corpusmarkdown.DefaultCrawledPageSubject, data); err != nil {
-		t.Fatalf("publish crawled page: %v", err)
+	if _, err := js.Publish(ctx, corpusmarkdown.DefaultReachedPageSubject, data); err != nil {
+		t.Fatalf("publish reached page: %v", err)
 	}
 }
 
@@ -94,44 +114,36 @@ func waitForStored(
 	t *testing.T,
 	ctx context.Context,
 	store jetstream.ObjectStore,
-	name string,
-	want []byte,
+	name, want string,
 ) {
 	t.Helper()
 	deadline := time.Now().Add(storedDeadline)
 	for time.Now().Before(deadline) {
-		if storedMarkdownMatches(ctx, store, name, want) {
+		if storedMarkdownCarries(ctx, store, name, want) {
 			return
 		}
 		time.Sleep(storedPollPause)
 	}
-	t.Fatalf("markdown object %q never reached %q", name, want)
+	t.Fatalf("markdown object %q never carried %q", name, want)
 }
 
-func storedMarkdownMatches(
+func storedMarkdownCarries(
 	ctx context.Context,
 	store jetstream.ObjectStore,
-	name string,
-	want []byte,
+	name, want string,
 ) bool {
 	readCtx, cancel := context.WithTimeout(ctx, storedReadLimit)
 	defer cancel()
 	stored, err := store.GetBytes(readCtx, name)
 
-	return err == nil && string(stored) == string(want)
+	return err == nil && strings.Contains(string(stored), want)
 }
 
 func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
-	url := natstestserver.Start(t)
-	cfg := corpusmarkdown.ServiceConfig{
-		CrawlNATSURL:        url,
-		PageMarkdownNATSURL: url,
-		CrawledPageSubject:  corpusmarkdown.DefaultCrawledPageSubject,
-		CrawledPageDurable:  corpusmarkdown.DefaultCrawledPageDurable,
-		Concurrency:         corpusmarkdown.DefaultConcurrency,
-		OpsAddr:             "127.0.0.1:99999",
-	}
-	createCrawledPageStream(t, natstestserver.ConnectJetStream(t, url), cfg.CrawledPageSubject)
+	natsURL := natstestserver.Start(t)
+	cfg := serviceConfig(natsURL, natsURL, originServing(t, "<html></html>"))
+	cfg.OpsAddr = "127.0.0.1:99999"
+	createReachedPagesStream(t, natstestserver.ConnectJetStream(t, natsURL), cfg.ReachedPageSubject)
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when ops address cannot bind")
@@ -139,30 +151,20 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 }
 
 func TestRunServiceFailsWhenStreamMissing(t *testing.T) {
-	url := natstestserver.Start(t)
-	cfg := corpusmarkdown.ServiceConfig{
-		CrawlNATSURL:        url,
-		PageMarkdownNATSURL: url,
-		CrawledPageSubject:  corpusmarkdown.DefaultCrawledPageSubject,
-		CrawledPageDurable:  corpusmarkdown.DefaultCrawledPageDurable,
-		Concurrency:         corpusmarkdown.DefaultConcurrency,
-		OpsAddr:             "127.0.0.1:0",
-	}
+	natsURL := natstestserver.Start(t)
+	cfg := serviceConfig(natsURL, natsURL, originServing(t, "<html></html>"))
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
-		t.Fatal("expected error when crawled page stream is not provisioned")
+		t.Fatal("expected error when the reached pages stream is not provisioned")
 	}
 }
 
 func TestRunServiceFailsWhenCrawlNATSUnreachable(t *testing.T) {
-	cfg := corpusmarkdown.ServiceConfig{
-		CrawlNATSURL:        "nats://127.0.0.1:1",
-		PageMarkdownNATSURL: natstestserver.Start(t),
-		CrawledPageSubject:  corpusmarkdown.DefaultCrawledPageSubject,
-		CrawledPageDurable:  corpusmarkdown.DefaultCrawledPageDurable,
-		Concurrency:         corpusmarkdown.DefaultConcurrency,
-		OpsAddr:             "127.0.0.1:0",
-	}
+	cfg := serviceConfig(
+		"nats://127.0.0.1:1",
+		natstestserver.Start(t),
+		originServing(t, "<html></html>"),
+	)
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when the crawl nats is unreachable")
@@ -170,33 +172,24 @@ func TestRunServiceFailsWhenCrawlNATSUnreachable(t *testing.T) {
 }
 
 func TestRunServiceFailsWhenPageMarkdownNATSUnreachable(t *testing.T) {
-	url := natstestserver.Start(t)
-	cfg := corpusmarkdown.ServiceConfig{
-		CrawlNATSURL:        url,
-		PageMarkdownNATSURL: "nats://127.0.0.1:1",
-		CrawledPageSubject:  corpusmarkdown.DefaultCrawledPageSubject,
-		CrawledPageDurable:  corpusmarkdown.DefaultCrawledPageDurable,
-		Concurrency:         corpusmarkdown.DefaultConcurrency,
-		OpsAddr:             "127.0.0.1:0",
-	}
-	createCrawledPageStream(t, natstestserver.ConnectJetStream(t, url), cfg.CrawledPageSubject)
+	natsURL := natstestserver.Start(t)
+	cfg := serviceConfig(natsURL, "nats://127.0.0.1:1", originServing(t, "<html></html>"))
+	createReachedPagesStream(t, natstestserver.ConnectJetStream(t, natsURL), cfg.ReachedPageSubject)
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when the page markdown nats is unreachable")
 	}
 }
 
-func createCrawledPageStream(t *testing.T, js jetstream.JetStream, subject string) {
+func createReachedPagesStream(t *testing.T, js jetstream.JetStream, subject string) {
 	t.Helper()
 	if _, err := js.CreateOrUpdateStream(context.Background(), jetstream.StreamConfig{
-		Name: yacycrawlcontract.CrawledPageStreamName(
-			yacycrawlcontract.PageRepresentationKindMarkdown,
-		),
+		Name:      yacycrawlcontract.ReachedPagesStreamName,
 		Subjects:  []string{subject},
 		Retention: jetstream.WorkQueuePolicy,
 		MaxMsgs:   64,
 		Discard:   jetstream.DiscardNew,
 	}); err != nil {
-		t.Fatalf("create crawled page stream: %v", err)
+		t.Fatalf("create reached pages stream: %v", err)
 	}
 }

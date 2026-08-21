@@ -4,7 +4,9 @@ Date: 2026-07-06
 
 ## Status
 
-Accepted
+Partly superseded by [ADR 5](0005-extract-one-document-per-fetch.md) — container expansion,
+member addressing, and the nesting and document bounds were removed. Media-type routing to a
+registered single-document extractor stands.
 
 ## Context
 

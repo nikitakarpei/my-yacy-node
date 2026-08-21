@@ -1,4 +1,4 @@
-// Package pageabsorption turns a fetched page into published documents and discovered links.
+// Package pageabsorption turns a fetched page into a published document and discovered links.
 package pageabsorption
 
 import (
@@ -15,8 +15,8 @@ import (
 )
 
 const (
-	msgDocumentURLRejected = "extracted document url rejected"
-	msgExtractionFailed    = "document extraction failed"
+	msgPageURLRejected  = "fetched page url rejected"
+	msgExtractionFailed = "document extraction failed"
 )
 
 type Absorber interface {
@@ -24,11 +24,11 @@ type Absorber interface {
 }
 
 type PageExtractor interface {
-	ExtractDocuments(
+	DocumentFrom(
 		ctx context.Context,
 		pageURL, contentType string,
 		body []byte,
-	) ([]contentextraction.ExtractedDocument, error)
+	) (contentextraction.ExtractedDocument, error)
 }
 
 type PagePublisher interface {
@@ -49,77 +49,42 @@ func (a *absorber) Absorb(
 	if page.Truncated {
 		return AbsorptionOutcome{Disposal: disposal.Oversized}, nil
 	}
-	return a.absorbDocuments(ctx, page)
-}
-
-func (a *absorber) absorbDocuments(
-	ctx context.Context,
-	page pagefetch.FetchedPage,
-) (AbsorptionOutcome, error) {
-	documents, err := a.extractor.ExtractDocuments(
-		ctx, page.FinalURL, page.ContentType, page.Body,
-	)
+	canonical, err := canonicalurl.Canonicalize(page.FinalURL)
+	if err != nil {
+		slog.WarnContext(ctx, msgPageURLRejected,
+			slog.String("url", page.FinalURL),
+			slog.Any("error", err),
+		)
+		return AbsorptionOutcome{Disposal: disposal.UncanonicalizableURL}, nil
+	}
+	document, err := a.extractor.DocumentFrom(ctx, canonical, page.ContentType, page.Body)
 	if err != nil {
 		slog.WarnContext(ctx, msgExtractionFailed,
-			slog.String("url", page.FinalURL),
+			slog.String("url", canonical),
 			slog.Any("error", err),
 		)
 		return AbsorptionOutcome{Disposal: extractionDisposal(err)}, nil
 	}
-	if len(documents) == 0 {
-		return AbsorptionOutcome{Disposal: disposal.Unextractable}, nil
-	}
 
-	var absorbed []absorbedDocument
-	for _, document := range documents {
-		documentAbsorption, err := a.absorbDocument(ctx, page, document)
-		if err != nil {
-			return AbsorptionOutcome{}, err
-		}
-		absorbed = append(absorbed, documentAbsorption)
+	outcome := AbsorptionOutcome{DiscoveredURLs: discoveredLinksOf(page, document)}
+	if a.indexingRefusal == Honored && (document.RefusesIndexing || page.RefusesIndexing) {
+		outcome.Disposal = disposal.IndexingRefused
+		return outcome, nil
 	}
-	return absorptionOutcomeFrom(absorbed), nil
+	if err := a.publishDocument(ctx, canonical, document); err != nil {
+		return AbsorptionOutcome{}, err
+	}
+	return outcome, nil
 }
 
 func extractionDisposal(err error) disposal.Reason {
-	switch {
-	case errors.Is(err, contentextraction.ErrUnsupportedMediaType):
+	if errors.Is(err, contentextraction.ErrUnsupportedMediaType) {
 		return disposal.UnsupportedMediaType
-	case errors.Is(err, contentextraction.ErrNestingTooDeep):
-		return disposal.NestingTooDeep
-	case errors.Is(err, contentextraction.ErrDocumentBudgetExhausted):
-		return disposal.DocumentBudgetExhausted
-	default:
-		return disposal.Unextractable
 	}
+	return disposal.Unextractable
 }
 
-func (a *absorber) absorbDocument(
-	ctx context.Context,
-	page pagefetch.FetchedPage,
-	document contentextraction.ExtractedDocument,
-) (absorbedDocument, error) {
-	canonical, err := canonicalurl.Canonicalize(document.URL)
-	if err != nil {
-		slog.WarnContext(ctx, msgDocumentURLRejected,
-			slog.String("url", document.URL),
-			slog.Any("error", err),
-		)
-		return absorbedDocument{disposal: disposal.UncanonicalizableURL}, nil
-	}
-
-	absorbed := absorbedDocument{discoveredURLs: a.discoverLinks(page, document)}
-	if a.indexingRefusal == Honored && (document.RefusesIndexing || page.RefusesIndexing) {
-		absorbed.disposal = disposal.IndexingRefused
-		return absorbed, nil
-	}
-	if err := a.publishDocument(ctx, canonical, document); err != nil {
-		return absorbedDocument{}, err
-	}
-	return absorbed, nil
-}
-
-func (a *absorber) discoverLinks(
+func discoveredLinksOf(
 	page pagefetch.FetchedPage,
 	document contentextraction.ExtractedDocument,
 ) []string {
