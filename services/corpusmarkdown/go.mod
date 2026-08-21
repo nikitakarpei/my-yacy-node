@@ -10,6 +10,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
 	github.com/prometheus/client_golang v1.23.2
+	google.golang.org/grpc v1.83.1
 )
 
 require (
@@ -22,6 +23,7 @@ require (
 	github.com/itlightning/dateparse v0.2.1 // indirect
 	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260526163538-3dc84a4a5aaa // indirect
 )
 
 require (
@@ -45,10 +47,8 @@ require (
 	golang.org/x/sync v0.21.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
-	google.golang.org/protobuf v1.36.11 // indirect
+	google.golang.org/protobuf v1.36.12 // indirect
 )
-
-replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ./contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
 
@@ -61,3 +61,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../libraries/pagescrape
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ./contract

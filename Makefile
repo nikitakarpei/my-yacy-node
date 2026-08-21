@@ -94,6 +94,7 @@ PROTOC := $(TOOLS_BIN)/protoc
 PROTO_GEN_GO := $(TOOLS_BIN)/protoc-gen-go
 PROTO_GEN_GO_GRPC := $(TOOLS_BIN)/protoc-gen-go-grpc
 CORPUSRECALL_API_DIR := services/corpusrecall/contract
+CORPUSMARKDOWN_API_DIR := services/corpusmarkdown/contract
 
 proto: $(TOOLS_STAMP)
 	@echo "==> proto"
@@ -102,6 +103,11 @@ proto: $(TOOLS_STAMP)
 		--go_out=$(CORPUSRECALL_API_DIR) --go_opt=paths=source_relative \
 		--go-grpc_out=$(CORPUSRECALL_API_DIR) --go-grpc_opt=paths=source_relative \
 		corpusrecall/v1/recall.proto
+	@PATH="$(TOOLS_BIN):$$PATH" $(PROTOC) \
+		--proto_path=$(CORPUSMARKDOWN_API_DIR) \
+		--go_out=$(CORPUSMARKDOWN_API_DIR) --go_opt=paths=source_relative \
+		--go-grpc_out=$(CORPUSMARKDOWN_API_DIR) --go-grpc_opt=paths=source_relative \
+		corpusmarkdown/v1/markdowncorpus.proto
 
 $(PY_VENV_STAMPS): %/.venv/.installed: %/requirements-dev.txt
 	$(PYTHON) -m venv $*/.venv

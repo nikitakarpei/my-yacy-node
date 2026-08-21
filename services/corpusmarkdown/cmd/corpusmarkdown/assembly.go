@@ -12,6 +12,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownintake"
+	markdownrecallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/grpc"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownstoremetrics"
 	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
@@ -68,7 +69,10 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 
+	receiver := markdownrecallreceiversgrpc.NewMarkdownRecallReceiver(corpus, cfg.ListenAddr)
+
 	slog.InfoContext(ctx, "corpusmarkdown started",
+		slog.String("listen", cfg.ListenAddr),
 		slog.String("subject", cfg.ReachedPageSubject),
 		slog.String("bucket", pagemarkdownstore.BucketName),
 		slog.Int("concurrency", cfg.Concurrency),
@@ -81,6 +85,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 			}
 			return nil
 		},
+		receiver.Serve,
 	)
 	slog.InfoContext(ctx, "corpusmarkdown stopped")
 	return err

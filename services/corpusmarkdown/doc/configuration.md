@@ -27,6 +27,12 @@ The service is configured entirely through environment variables.
 |---|---|---|
 | `CORPUSMARKDOWN_CONCURRENCY` | `4` | Pages fetched and stored concurrently. |
 
+## Recall
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `CORPUSMARKDOWN_LISTEN_ADDR` | `:8094` | Address serving the markdown corpus gRPC contract. |
+
 ## Operations
 
 | Variable | Default | Meaning |

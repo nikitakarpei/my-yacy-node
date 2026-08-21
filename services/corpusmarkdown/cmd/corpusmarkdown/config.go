@@ -21,8 +21,10 @@ const (
 	EnvMaxBodyBytes           = "CORPUSMARKDOWN_MAX_BODY_BYTES"
 	EnvFetchDeadline          = "CORPUSMARKDOWN_FETCH_DEADLINE"
 	EnvConcurrency            = "CORPUSMARKDOWN_CONCURRENCY"
+	EnvListenAddr             = "CORPUSMARKDOWN_LISTEN_ADDR"
 	EnvOpsAddr                = "CORPUSMARKDOWN_OPS_ADDR"
 
+	DefaultListenAddr         = ":8094"
 	DefaultOpsAddr            = ":9090"
 	DefaultReachedPageDurable = "corpusmarkdown"
 	DefaultProxyDialMode      = "tunnel"
@@ -45,6 +47,7 @@ type ServiceConfig struct {
 	MaxBodyBytes        int64
 	FetchDeadline       time.Duration
 	Concurrency         int
+	ListenAddr          string
 	OpsAddr             string
 }
 
@@ -119,6 +122,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		MaxBodyBytes:  fetch.maxBodyBytes,
 		FetchDeadline: fetch.fetchDeadline,
 		Concurrency:   concurrency,
+		ListenAddr:    envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
 		OpsAddr:       envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 	}, nil
 }

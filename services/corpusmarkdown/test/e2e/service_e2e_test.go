@@ -14,6 +14,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
+	corpusmarkdownv1 "github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/corpusmarkdown/v1"
+	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/markdowncorpusclienttest"
 )
 
 const (
@@ -21,7 +23,7 @@ const (
 	originCanonicalURL = "http://" + originAlias + "/"
 )
 
-func TestCrawledPageMarkdownIsStoredByURL(t *testing.T) {
+func TestCrawledPageMarkdownIsStoredAndRecalledByURL(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
@@ -30,7 +32,7 @@ func TestCrawledPageMarkdownIsStoredByURL(t *testing.T) {
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
-	startCorpusMarkdown(t, ctx, network.Name)
+	recallAddress := startCorpusMarkdown(t, ctx, network.Name)
 
 	js := connectJetStream(t, crawlNATSURL)
 	awaitOrdersStream(t, ctx, js)
@@ -59,5 +61,23 @@ func TestCrawledPageMarkdownIsStoredByURL(t *testing.T) {
 	}
 	if !strings.Contains(string(stored), originBody) {
 		t.Errorf("stored markdown = %q, want it to contain %q", stored, originBody)
+	}
+
+	recallPageResponse, err := markdowncorpusclienttest.New(t, recallAddress).
+		RecallPage(ctx, &corpusmarkdownv1.RecallPageRequest{Url: originCanonicalURL})
+	if err != nil {
+		t.Fatalf("recall page: %v", err)
+	}
+	if recallPageResponse.GetMarkdown() != string(stored) {
+		t.Errorf(
+			"recalled markdown = %q, want the stored %q",
+			recallPageResponse.GetMarkdown(), stored,
+		)
+	}
+	if recallPageResponse.GetCanonicalUrl() != originCanonicalURL {
+		t.Errorf(
+			"recalled canonicalUrl = %q, want %q",
+			recallPageResponse.GetCanonicalUrl(), originCanonicalURL,
+		)
 	}
 }

@@ -5,12 +5,12 @@
 `corpusmarkdown` is a separate, optional, disposable Go service that keeps the latest
 markdown of an operator's own crawled pages for exact-URL recall. `yacycrawler` publishes
 the URL of every page it reaches; this service fetches each of those pages through the
-egress proxy, derives markdown from it, and writes the markdown to a URL-addressed object
-store.
+egress proxy, derives markdown from it, writes the markdown to a URL-addressed object
+store, and serves that markdown back to callers that ask for one URL.
 
 ## Non-Goals
 
-* Serving recall queries or exposing any read API.
+* Crawling on demand, or waiting for a page the corpus does not hold yet.
 * Indexing, ranking, or searching the stored markdown.
 * Deciding which pages to store: the crawler decides which pages it reaches.
 * Judging a page again: a reached page is already admitted, so this service applies no
@@ -30,6 +30,9 @@ store.
   leave the store unchanged and SHALL NOT be fetched again for that message.
 * While the fetch or the object store is unavailable, the service SHALL drop no page,
   resuming once it returns.
+* The service SHALL serve the markdown it holds for a requested URL over gRPC.
+* For a URL the service holds no markdown for, it SHALL answer that the corpus holds none,
+  and SHALL neither fetch the page nor order a crawl.
 * On an undecodable message the service SHALL halt intake and leave the message pending for
   an operator, rather than discard it.
 
