@@ -84,7 +84,7 @@ func (s *Scraper) Scrape(ctx context.Context, pageURL string) (ScrapedPage, bool
 }
 
 func (s *Scraper) pageFrom(ctx context.Context, fetched pagefetch.FetchedPage) (ScrapedPage, bool) {
-	canonical, err := canonicalurl.Canonicalize(fetched.FinalURL)
+	canonical, err := canonicalurl.CanonicalURLOf(fetched.FinalURL)
 	if err != nil {
 		slog.WarnContext(ctx, msgDocumentURLRejected,
 			slog.String("url", fetched.FinalURL),
@@ -93,11 +93,11 @@ func (s *Scraper) pageFrom(ctx context.Context, fetched pagefetch.FetchedPage) (
 		return ScrapedPage{}, false
 	}
 	document, err := s.extractor.DocumentFrom(
-		ctx, canonical, fetched.ContentType, fetched.Body,
+		ctx, canonical.String(), fetched.ContentType, fetched.Body,
 	)
 	if err != nil {
 		slog.WarnContext(ctx, msgExtractionFailed,
-			slog.String("url", canonical),
+			slog.String("url", canonical.String()),
 			slog.Any("error", err),
 		)
 		return ScrapedPage{}, false
@@ -119,15 +119,15 @@ func (s *Scraper) pageFrom(ctx context.Context, fetched pagefetch.FetchedPage) (
 
 func (s *Scraper) contentOf(
 	ctx context.Context,
-	canonical string,
+	canonical canonicalurl.CanonicalURL,
 	document contentextraction.ExtractedDocument,
 ) ([]byte, bool) {
 	content, resolved, err := s.derivations.
-		ForPage(canonical, document.Format, document.Body).
+		ForPage(canonical.String(), document.Format, document.Body).
 		Resolve(s.targetFormat)
 	if err != nil || !resolved {
 		slog.WarnContext(ctx, msgContentUnderivable,
-			slog.String("url", canonical),
+			slog.String("url", canonical.String()),
 			slog.String("format", string(document.Format)),
 			slog.String("targetFormat", string(s.targetFormat)),
 			slog.Any("error", err),

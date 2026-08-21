@@ -221,3 +221,42 @@ func TestRequiredHTTPURLRejectsWhatIsNotAWebAddress(t *testing.T) {
 		}
 	}
 }
+
+func TestByteSize(t *testing.T) {
+	units := []struct {
+		raw  string
+		want int64
+	}{
+		{"1B", 1},
+		{"2KB", 2 << 10},
+		{"3MB", 3 << 20},
+		{"4GB", 4 << 30},
+		{"1TB", 1 << 40},
+		{" 5 MB ", 5 << 20},
+		{"0B", 0},
+	}
+	for _, unit := range units {
+		getenv := fixedEnv(map[string]string{"QUOTA": unit.raw})
+		if got, err := envconfig.ByteSize(getenv, "QUOTA", "1GB"); err != nil || got != unit.want {
+			t.Errorf("%q = %d, %v, want %d", unit.raw, got, err, unit.want)
+		}
+	}
+
+	blank := fixedEnv(map[string]string{"BLANK": "  "})
+	if got, err := envconfig.ByteSize(blank, "BLANK", "2KB"); err != nil || got != 2<<10 {
+		t.Errorf("BLANK = %d, %v, want %d", got, err, 2<<10)
+	}
+	if got, err := envconfig.ByteSize(blank, "MISSING", "1TB"); err != nil || got != 1<<40 {
+		t.Errorf("MISSING = %d, %v, want %d", got, err, int64(1)<<40)
+	}
+	if _, err := envconfig.ByteSize(blank, "MISSING", "nonsense"); err == nil {
+		t.Error("bad fallback: expected error")
+	}
+
+	for _, raw := range []string{"100", "xxKB", "-1GB"} {
+		getenv := fixedEnv(map[string]string{"QUOTA": raw})
+		if _, err := envconfig.ByteSize(getenv, "QUOTA", "1GB"); err == nil {
+			t.Errorf("%q: expected error", raw)
+		}
+	}
+}

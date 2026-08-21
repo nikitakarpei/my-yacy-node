@@ -5,6 +5,9 @@ allow:
   depOnAnyVendor: false
   deepScan: false
 
+commonVendors:
+  - canonicalurl
+
 components:
   markdownintake:
     in: internal/markdownintake/**
@@ -20,6 +23,10 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
   pagescrape:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagescrape
@@ -60,6 +67,7 @@ deps:
   pagemarkdowncorporajetstream:
     canUse:
       - pagemarkdownstore
+      - yacycrawlcontract
       - nats
   markdownstoremetrics:
     canUse:
@@ -71,3 +79,4 @@ deps:
 excludeFiles:
   - "_test\\.go"
   - "test/e2e"
+  - "contract"

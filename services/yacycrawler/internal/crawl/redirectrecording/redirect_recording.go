@@ -15,7 +15,7 @@ const (
 )
 
 type RedirectResolutions interface {
-	Record(ctx context.Context, requested, canonical string) error
+	Record(ctx context.Context, requested, canonical canonicalurl.CanonicalURL) error
 }
 
 type Fetch struct {
@@ -44,7 +44,7 @@ func (f *Fetch) record(ctx context.Context, outcome pagefetch.FetchOutcome) {
 	if len(outcome.RedirectChain) == 0 || outcome.Page.FinalURL == "" {
 		return
 	}
-	canonicalFinal, err := canonicalurl.Canonicalize(outcome.Page.FinalURL)
+	canonicalFinal, err := canonicalurl.CanonicalURLOf(outcome.Page.FinalURL)
 	if err != nil {
 		slog.WarnContext(ctx, msgRedirectURLRejected,
 			slog.String("url", outcome.Page.FinalURL),
@@ -53,7 +53,7 @@ func (f *Fetch) record(ctx context.Context, outcome pagefetch.FetchOutcome) {
 		return
 	}
 	for _, hop := range outcome.RedirectChain {
-		canonicalHop, err := canonicalurl.Canonicalize(hop)
+		canonicalHop, err := canonicalurl.CanonicalURLOf(hop)
 		if err != nil {
 			slog.WarnContext(ctx, msgRedirectURLRejected,
 				slog.String("url", hop),
@@ -66,8 +66,8 @@ func (f *Fetch) record(ctx context.Context, outcome pagefetch.FetchOutcome) {
 		}
 		if err := f.resolutions.Record(ctx, canonicalHop, canonicalFinal); err != nil {
 			slog.WarnContext(ctx, msgRedirectRecordFailed,
-				slog.String("requested", canonicalHop),
-				slog.String("canonical", canonicalFinal),
+				slog.String("requested", canonicalHop.String()),
+				slog.String("canonical", canonicalFinal.String()),
 				slog.Any("error", err),
 			)
 		}

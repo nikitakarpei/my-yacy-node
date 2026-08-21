@@ -1,9 +1,13 @@
 package frontier
 
-import "time"
+import (
+	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+)
 
 type PendingVisit struct {
-	URL       string
+	URL       canonicalurl.CanonicalURL
 	Depth     int
 	deferrals int
 	attempts  int

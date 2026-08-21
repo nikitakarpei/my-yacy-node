@@ -8,6 +8,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	corpusrecall "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/cmd/corpusrecall"
 	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/recallclienttest"
@@ -85,7 +86,9 @@ func TestRunServiceRecallsStoredMarkdownFromItsOwnNATS(t *testing.T) {
 
 	const canonicalURL = "https://example.com/"
 	if _, err := store.PutBytes(
-		context.Background(), pagemarkdownstore.ObjectName(canonicalURL), []byte("# Hi"),
+		context.Background(),
+		pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, canonicalURL)),
+		[]byte("# Hi"),
 	); err != nil {
 		t.Fatalf("seed markdown: %v", err)
 	}

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
@@ -16,7 +17,7 @@ import (
 const msgRecrawlRecordFailed = "recrawl record failed, next visit may be redundant"
 
 type Visitor interface {
-	Visit(ctx context.Context, url string) (VisitOutcome, error)
+	Visit(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) (VisitOutcome, error)
 }
 
 type visitor struct {
@@ -27,7 +28,10 @@ type visitor struct {
 	reached  *reachedpagepublication.Publisher
 }
 
-func (v *visitor) Visit(ctx context.Context, url string) (VisitOutcome, error) {
+func (v *visitor) Visit(
+	ctx context.Context,
+	url canonicalurl.CanonicalURL,
+) (VisitOutcome, error) {
 	decision, err := v.recrawl.DecisionFor(ctx, url)
 	if err != nil {
 		return VisitOutcome{}, fmt.Errorf("recrawl decision: %w", err)
@@ -36,7 +40,7 @@ func (v *visitor) Visit(ctx context.Context, url string) (VisitOutcome, error) {
 		return VisitOutcome{Conclusion: VisitCompleted, Disposal: disposal.NotDue}, nil
 	}
 
-	outcome, err := v.fetcher.Fetch(ctx, url, decision.Version)
+	outcome, err := v.fetcher.Fetch(ctx, url.String(), decision.Version)
 	if err != nil {
 		return VisitOutcome{}, fmt.Errorf("fetch %s: %w", url, err)
 	}
@@ -70,7 +74,7 @@ func (v *visitor) Visit(ctx context.Context, url string) (VisitOutcome, error) {
 
 func (v *visitor) absorb(
 	ctx context.Context,
-	url string,
+	url canonicalurl.CanonicalURL,
 	outcome pagefetch.FetchOutcome,
 ) (VisitOutcome, error) {
 	absorption, err := v.absorber.Absorb(ctx, outcome.Page)
@@ -91,10 +95,14 @@ func (v *visitor) absorb(
 	}, nil
 }
 
-func (v *visitor) recordVisit(ctx context.Context, url string, version pagefetch.PageVersion) {
+func (v *visitor) recordVisit(
+	ctx context.Context,
+	url canonicalurl.CanonicalURL,
+	version pagefetch.PageVersion,
+) {
 	if err := v.recrawl.RecordVisit(ctx, url, version); err != nil {
 		slog.WarnContext(ctx, msgRecrawlRecordFailed,
-			slog.String("url", url),
+			slog.String("url", url.String()),
 			slog.Any("error", err),
 		)
 	}

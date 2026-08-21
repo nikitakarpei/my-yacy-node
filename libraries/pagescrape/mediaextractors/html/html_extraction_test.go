@@ -94,3 +94,37 @@ func TestExtractReportsNoLanguageWithoutATwoLetterLanguageTag(t *testing.T) {
 		}
 	}
 }
+
+func TestExtractResolvesLinksAgainstTheBaseHref(t *testing.T) {
+	page := `<!DOCTYPE html><html lang="en"><head><title>T</title>
+<base href="http://other.example/dir/"></head>
+<body><a href="page">relative</a></body></html>`
+
+	doc, err := html.New().
+		Extract(t.Context(), "http://host.example/p", "text/html", []byte(page))
+	if err != nil {
+		t.Fatalf("Extract: %v", err)
+	}
+	if len(doc.DiscoveredURLs) != 1 ||
+		doc.DiscoveredURLs[0].String() != "http://other.example/dir/page" {
+		t.Fatalf("discovered = %v", doc.DiscoveredURLs)
+	}
+	if doc.LocalLinks != 1 || doc.ExternalLinks != 0 {
+		t.Fatalf("links local=%d external=%d", doc.LocalLinks, doc.ExternalLinks)
+	}
+}
+
+func TestExtractDiscoversOnlyAbsoluteLinksOfAPageWithoutACanonicalURL(t *testing.T) {
+	page := `<!DOCTYPE html><html lang="en"><head><title>T</title></head>
+<body><a href="/relative">relative</a>
+<a href="http://other.example/ext">absolute</a></body></html>`
+
+	doc, err := html.New().Extract(t.Context(), "file:///tmp/p", "text/html", []byte(page))
+	if err != nil {
+		t.Fatalf("Extract: %v", err)
+	}
+	if len(doc.DiscoveredURLs) != 1 ||
+		doc.DiscoveredURLs[0].String() != "http://other.example/ext" {
+		t.Fatalf("discovered = %v", doc.DiscoveredURLs)
+	}
+}

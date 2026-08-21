@@ -8,6 +8,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
@@ -25,7 +26,7 @@ func New(bucket jetstream.KeyValue, clock clock.Clock, grace time.Duration) *Rul
 
 func (r *Rule) DecisionFor(
 	ctx context.Context,
-	canonicalURL string,
+	canonicalURL canonicalurl.CanonicalURL,
 ) (pagevisit.RecrawlDecision, error) {
 	entry, err := r.bucket.Get(ctx, key(canonicalURL))
 	if errors.Is(err, jetstream.ErrKeyNotFound) {
@@ -49,7 +50,7 @@ func (r *Rule) DecisionFor(
 
 func (r *Rule) RecordVisit(
 	ctx context.Context,
-	canonicalURL string,
+	canonicalURL canonicalurl.CanonicalURL,
 	version pagefetch.PageVersion,
 ) error {
 	payload, err := marshalPageVisit(pageVisit{

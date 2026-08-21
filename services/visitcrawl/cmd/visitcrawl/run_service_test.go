@@ -17,6 +17,7 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	visitcrawl "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/cmd/visitcrawl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -78,7 +79,8 @@ func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 	}
 
 	order := nextPlacedOrder(t, consumer)
-	if len(order.SeedURLs) != 1 || order.SeedURLs[0] != "https://example.org/a" {
+	if len(order.SeedURLs) != 1 ||
+		order.SeedURLs[0] != canonicalurltest.CanonicalURLOf(t, "https://example.org/a") {
 		t.Fatalf("order seeds = %v", order.SeedURLs)
 	}
 

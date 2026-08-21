@@ -9,6 +9,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
@@ -26,23 +28,26 @@ type fakeVisitor struct {
 	visited map[string]int
 }
 
-func (f *fakeVisitor) Visit(_ context.Context, url string) (pagevisit.VisitOutcome, error) {
+func (f *fakeVisitor) Visit(
+	_ context.Context,
+	canonicalURL canonicalurl.CanonicalURL,
+) (pagevisit.VisitOutcome, error) {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	if f.visited == nil {
 		f.visited = map[string]int{}
 	}
-	f.visited[url]++
+	f.visited[canonicalURL.String()]++
 	if f.err != nil {
 		return pagevisit.VisitOutcome{}, f.err
 	}
-	queue := f.queued[url]
+	queue := f.queued[canonicalURL.String()]
 	if len(queue) == 0 {
 		return fetchedPage(), nil
 	}
 	outcome := queue[0]
 	if len(queue) > 1 {
-		f.queued[url] = queue[1:]
+		f.queued[canonicalURL.String()] = queue[1:]
 	}
 	return outcome, nil
 }
@@ -62,10 +67,13 @@ type fakeDisposedPages struct {
 	urls []string
 }
 
-func (d *fakeDisposedPages) Record(_ context.Context, url string) error {
+func (d *fakeDisposedPages) Record(
+	_ context.Context,
+	canonicalURL canonicalurl.CanonicalURL,
+) error {
 	d.mu.Lock()
 	defer d.mu.Unlock()
-	d.urls = append(d.urls, url)
+	d.urls = append(d.urls, canonicalURL.String())
 	return nil
 }
 
@@ -153,7 +161,7 @@ func wideProfile() yacycrawlcontract.CrawlProfile {
 	}
 }
 
-func order(seeds []string) yacycrawlcontract.CrawlOrder {
+func order(seeds []canonicalurl.CanonicalURL) yacycrawlcontract.CrawlOrder {
 	return yacycrawlcontract.CrawlOrder{
 		OrderID: "o1", Profile: wideProfile(), SeedURLs: seeds,
 	}
@@ -186,7 +194,11 @@ func newTraverser(
 	)
 }
 
-func traverse(t *testing.T, traverser *ordertraversal.Traverser, seeds []string) {
+func traverse(
+	t *testing.T,
+	traverser *ordertraversal.Traverser,
+	seeds []canonicalurl.CanonicalURL,
+) {
 	t.Helper()
 	if err := traverser.Traverse(context.Background(), order(seeds)); err != nil {
 		t.Fatalf("traverse: %v", err)
@@ -206,14 +218,16 @@ func TestTraverseTakesItsVisitorFromTheOrdersIndexingRefusal(t *testing.T) {
 		&manualClock{},
 	)
 
-	ignoring := order([]string{"http://host/"})
+	ignoring := order(
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")},
+	)
 	ignoring.Profile.IgnoresIndexingRefusal = true
 	if err := traverser.Traverse(context.Background(), ignoring); err != nil {
 		t.Fatalf("traverse ignoring order: %v", err)
 	}
 	if err := traverser.Traverse(
 		context.Background(),
-		order([]string{"http://host/"}),
+		order([]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")}),
 	); err != nil {
 		t.Fatalf("traverse honoring order: %v", err)
 	}
@@ -228,15 +242,21 @@ func TestTraverseDiscoversAndCrawlsLinks(t *testing.T) {
 	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{
 		"http://host/": {
 			{
-				Conclusion:     pagevisit.VisitCompleted,
-				Fetched:        true,
-				DiscoveredURLs: []string{"http://host/next"},
+				Conclusion: pagevisit.VisitCompleted,
+				Fetched:    true,
+				DiscoveredURLs: []canonicalurl.CanonicalURL{
+					canonicalurltest.CanonicalURLOf(t, "http://host/next"),
+				},
 			},
 		},
 	}}
 	traverser := newTraverser(defaultConfig(), visitor, newObserver(), &fakeDisposedPages{})
 
-	traverse(t, traverser, []string{"http://host/"})
+	traverse(
+		t,
+		traverser,
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")},
+	)
 
 	if visitor.visitCount("http://host/next") != 1 {
 		t.Fatalf("want discovered link visited, got counts %v", visitor.visited)
@@ -255,7 +275,11 @@ func TestTraverseDisposesTheVisitsReportedReason(t *testing.T) {
 	disposed := &fakeDisposedPages{}
 	traverser := newTraverser(defaultConfig(), visitor, observer, disposed)
 
-	traverse(t, traverser, []string{"http://host/"})
+	traverse(
+		t,
+		traverser,
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")},
+	)
 
 	if observer.disposed[disposal.NotAPage] != 1 {
 		t.Fatalf("want the visit's reason observed, got %v", observer.disposed)
@@ -271,7 +295,11 @@ func TestTraverseRecordsAPublishedPageAsNotDisposed(t *testing.T) {
 	disposed := &fakeDisposedPages{}
 	traverser := newTraverser(defaultConfig(), visitor, observer, disposed)
 
-	traverse(t, traverser, []string{"http://host/"})
+	traverse(
+		t,
+		traverser,
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")},
+	)
 
 	if len(disposed.calls()) != 0 {
 		t.Fatalf("a published page must not be recorded disposed, got %v", disposed.calls())
@@ -282,17 +310,26 @@ func TestTraverseBudgetTruncatesAndRecordsTheRemainder(t *testing.T) {
 	cfg := defaultConfig()
 	cfg.RunPageBudget = 1
 	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{
-		"http://host/": {{
-			Conclusion:     pagevisit.VisitCompleted,
-			Fetched:        true,
-			DiscoveredURLs: []string{"http://host/a", "http://host/b"},
-		}},
+		"http://host/": {
+			{
+				Conclusion: pagevisit.VisitCompleted,
+				Fetched:    true,
+				DiscoveredURLs: []canonicalurl.CanonicalURL{
+					canonicalurltest.CanonicalURLOf(t, "http://host/a"),
+					canonicalurltest.CanonicalURLOf(t, "http://host/b"),
+				},
+			},
+		},
 	}}
 	observer := newObserver()
 	disposed := &fakeDisposedPages{}
 	traverser := newTraverser(cfg, visitor, observer, disposed)
 
-	traverse(t, traverser, []string{"http://host/"})
+	traverse(
+		t,
+		traverser,
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")},
+	)
 
 	if observer.budget != 1 || observer.disposed[disposal.BudgetTruncated] != 2 {
 		t.Fatalf("budget not exhausted: budget=%d disposed=%v", observer.budget, observer.disposed)
@@ -311,7 +348,14 @@ func TestTraverseBudgetCountsOnlyFetches(t *testing.T) {
 	observer := newObserver()
 	traverser := newTraverser(cfg, visitor, observer, &fakeDisposedPages{})
 
-	traverse(t, traverser, []string{"http://host/a", "http://host/b"})
+	traverse(
+		t,
+		traverser,
+		[]canonicalurl.CanonicalURL{
+			canonicalurltest.CanonicalURLOf(t, "http://host/a"),
+			canonicalurltest.CanonicalURLOf(t, "http://host/b"),
+		},
+	)
 
 	if visitor.visitCount("http://host/b") != 1 {
 		t.Fatal("a skipped fetch leaves the budget for the next seed")
@@ -330,7 +374,14 @@ func TestTraverseBudgetCountsAFetchedPage(t *testing.T) {
 	observer := newObserver()
 	traverser := newTraverser(cfg, visitor, observer, &fakeDisposedPages{})
 
-	traverse(t, traverser, []string{"http://host/a", "http://host/b"})
+	traverse(
+		t,
+		traverser,
+		[]canonicalurl.CanonicalURL{
+			canonicalurltest.CanonicalURLOf(t, "http://host/a"),
+			canonicalurltest.CanonicalURLOf(t, "http://host/b"),
+		},
+	)
 
 	if observer.disposed[disposal.BudgetTruncated] != 1 {
 		t.Fatalf("a fetched page should consume the budget, got %v", observer.disposed)
@@ -349,7 +400,11 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 	disposed := &fakeDisposedPages{}
 	traverser := newTraverser(defaultConfig(), visitor, observer, disposed)
 
-	traverse(t, traverser, []string{"http://host/"})
+	traverse(
+		t,
+		traverser,
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")},
+	)
 
 	if observer.refusals[refusal.Defer] == 0 {
 		t.Fatal("expected defer refusals")
@@ -369,7 +424,11 @@ func TestTraverseRetriesTransientFetchThenSucceeds(t *testing.T) {
 	}}
 	traverser := newTraverser(defaultConfig(), visitor, newObserver(), &fakeDisposedPages{})
 
-	traverse(t, traverser, []string{"http://host/"})
+	traverse(
+		t,
+		traverser,
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")},
+	)
 
 	if visitor.visitCount("http://host/") != 3 {
 		t.Fatalf(
@@ -388,7 +447,11 @@ func TestTraverseAbandonsTransientFetchAfterLimit(t *testing.T) {
 	disposed := &fakeDisposedPages{}
 	traverser := newTraverser(defaultConfig(), visitor, observer, disposed)
 
-	traverse(t, traverser, []string{"http://host/"})
+	traverse(
+		t,
+		traverser,
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")},
+	)
 
 	if observer.disposed[disposal.FetchAbandoned] != 1 {
 		t.Fatalf("expected fetch-abandoned after retry limit, got %v", observer.disposed)
@@ -398,24 +461,13 @@ func TestTraverseAbandonsTransientFetchAfterLimit(t *testing.T) {
 	}
 }
 
-func TestTraverseSkipsUncanonicalizableSeed(t *testing.T) {
-	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{}}
-	traverser := newTraverser(defaultConfig(), visitor, newObserver(), &fakeDisposedPages{})
-
-	traverse(t, traverser, []string{"::not a url"})
-
-	if len(visitor.visited) != 0 {
-		t.Fatalf("uncanonicalizable seed should not be visited, got %v", visitor.visited)
-	}
-}
-
 func TestTraverseVisitorErrorFails(t *testing.T) {
 	visitor := &fakeVisitor{err: errors.New("boom")}
 	traverser := newTraverser(defaultConfig(), visitor, newObserver(), &fakeDisposedPages{})
 
 	if err := traverser.Traverse(
 		context.Background(),
-		order([]string{"http://host/"}),
+		order([]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")}),
 	); err == nil {
 		t.Fatal("visitor error should fail the traversal")
 	}

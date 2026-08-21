@@ -9,6 +9,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -56,7 +57,9 @@ func publishReachedPage(
 ) {
 	t.Helper()
 	data, err := yacycrawlcontract.MarshalReachedPage(
-		yacycrawlcontract.ReachedPage{CanonicalURL: canonicalURL},
+		yacycrawlcontract.ReachedPage{
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, canonicalURL),
+		},
 	)
 	if err != nil {
 		t.Fatalf("marshal reached page: %v", err)

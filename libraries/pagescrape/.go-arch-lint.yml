@@ -65,6 +65,8 @@ deps:
   contentextraction:
     mayDependOn:
       - contentformatgraph
+    canUse:
+      - canonicalurl
   mediaextractorshtml:
     mayDependOn:
       - contentextraction

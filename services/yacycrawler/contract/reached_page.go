@@ -3,10 +3,12 @@ package yacycrawlcontract
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
 type ReachedPage struct {
-	CanonicalURL string `json:"CanonicalURL"`
+	CanonicalURL canonicalurl.CanonicalURL `json:"CanonicalURL"`
 }
 
 func MarshalReachedPage(page ReachedPage) ([]byte, error) {

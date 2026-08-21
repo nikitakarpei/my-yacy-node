@@ -7,6 +7,8 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -44,9 +46,11 @@ func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 	t.Cleanup(broker.Close)
 
 	order := yacycrawlcontract.CrawlOrder{
-		OrderID:  "order-1",
-		Profile:  yacycrawlcontract.CrawlProfile{Name: "docs"},
-		SeedURLs: []string{"https://example.org"},
+		OrderID: "order-1",
+		Profile: yacycrawlcontract.CrawlProfile{Name: "docs"},
+		SeedURLs: []canonicalurl.CanonicalURL{
+			canonicalurltest.CanonicalURLOf(t, "https://example.org"),
+		},
 	}
 	if err := broker.Orders.Place(ctx, order); err != nil {
 		t.Fatalf("place order: %v", err)

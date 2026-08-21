@@ -4,6 +4,7 @@ go 1.26
 
 require (
 	github.com/nats-io/nats.go v1.52.0
+	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
@@ -19,7 +20,6 @@ require (
 	github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c // indirect
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/itlightning/dateparse v0.2.1 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0 // indirect
 	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
 )
@@ -48,11 +48,11 @@ require (
 	google.golang.org/protobuf v1.36.11 // indirect
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ../../libraries/pagemarkdownstore
+replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ./contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
 
-replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../libraries/yacycrawlcontract
+replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../yacycrawler/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 

@@ -8,6 +8,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerepresentations/markdown"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
@@ -28,7 +29,7 @@ func (c *Corpus) RepresentationKind() recall.RepresentationKind {
 
 func (c *Corpus) RepresentationOf(
 	ctx context.Context,
-	resolvedURL string,
+	resolvedURL canonicalurl.CanonicalURL,
 ) (recall.Representation, bool, error) {
 	objectName := pagemarkdownstore.ObjectName(resolvedURL)
 
@@ -54,5 +55,8 @@ func (c *Corpus) RepresentationOf(
 	if err != nil {
 		return nil, false, fmt.Errorf("get markdown for %q: %w", resolvedURL, err)
 	}
-	return markdown.Page{CanonicalURL: resolvedURL, Markdown: string(pageMarkdown)}, true, nil
+	return markdown.Page{
+		CanonicalURL: resolvedURL,
+		Markdown:     string(pageMarkdown),
+	}, true, nil
 }

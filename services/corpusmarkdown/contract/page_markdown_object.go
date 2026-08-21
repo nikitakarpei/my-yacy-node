@@ -6,11 +6,13 @@ package pagemarkdownstore
 import (
 	"crypto/sha256"
 	"encoding/hex"
+
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
 const BucketName = "YACY_PAGE_MARKDOWN"
 
-func ObjectName(canonicalURL string) string {
-	sum := sha256.Sum256([]byte(canonicalURL))
+func ObjectName(canonicalURL canonicalurl.CanonicalURL) string {
+	sum := sha256.Sum256([]byte(canonicalURL.String()))
 	return hex.EncodeToString(sum[:])
 }

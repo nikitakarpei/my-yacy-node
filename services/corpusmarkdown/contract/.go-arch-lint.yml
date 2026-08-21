@@ -1,0 +1,31 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  pagemarkdownstore:
+    in:
+      - .
+      - "**"
+
+vendors:
+  yacycrawlcontract:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
+      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+
+deps:
+  pagemarkdownstore:
+    canUse:
+      - yacycrawlcontract
+      - canonicalurl
+
+excludeFiles:
+  - "_test\\.go"

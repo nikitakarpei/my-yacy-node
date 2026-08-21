@@ -4,6 +4,8 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -20,7 +22,10 @@ func TestCrawlOrderRoundTrip(t *testing.T) {
 			MaxPagesPerHost:        100,
 			IgnoresIndexingRefusal: true,
 		},
-		SeedURLs: []string{"https://example.org/a", "https://example.org/b"},
+		SeedURLs: []canonicalurl.CanonicalURL{
+			canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
+			canonicalurltest.CanonicalURLOf(t, "https://example.org/b"),
+		},
 	}
 
 	data, err := yacycrawlcontract.MarshalCrawlOrder(order)

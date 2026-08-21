@@ -3,10 +3,10 @@ package profileadmission
 
 import (
 	"fmt"
-	"net/url"
 	"regexp"
 	"strings"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -19,14 +19,14 @@ type Admission struct {
 	urlMustMatch    *regexp.Regexp
 	urlMustNotMatch *regexp.Regexp
 	seedHosts       map[string]struct{}
-	seedDirectories []string
-	admittedURLs    map[string]struct{}
+	seedDirectories []canonicalurl.CanonicalURL
+	admittedURLs    map[canonicalurl.CanonicalURL]struct{}
 	pagesPerHost    map[string]int
 }
 
 func New(
 	profile yacycrawlcontract.CrawlProfile,
-	canonicalSeeds []string,
+	canonicalSeeds []canonicalurl.CanonicalURL,
 	maxAdmittedURLs int,
 ) (*Admission, error) {
 	mustMatch, err := regexp.Compile(matchOrAll(profile.URLMustMatch))
@@ -50,21 +50,17 @@ func New(
 		urlMustMatch:    mustMatch,
 		urlMustNotMatch: mustNotMatch,
 		seedHosts:       map[string]struct{}{},
-		admittedURLs:    map[string]struct{}{},
+		admittedURLs:    map[canonicalurl.CanonicalURL]struct{}{},
 		pagesPerHost:    map[string]int{},
 	}
 	for _, seed := range canonicalSeeds {
-		host, directory, err := hostAndDirectory(seed)
-		if err != nil {
-			return nil, err
-		}
-		admission.seedHosts[host] = struct{}{}
-		admission.seedDirectories = append(admission.seedDirectories, directory)
+		admission.seedHosts[seed.Hostname()] = struct{}{}
+		admission.seedDirectories = append(admission.seedDirectories, seed.Directory())
 	}
 	return admission, nil
 }
 
-func (a *Admission) Admit(canonicalURL string, depth int) bool {
+func (a *Admission) Admit(canonicalURL canonicalurl.CanonicalURL, depth int) bool {
 	if depth > a.maxDepth {
 		return false
 	}
@@ -74,20 +70,16 @@ func (a *Admission) Admit(canonicalURL string, depth int) bool {
 	if len(a.admittedURLs) >= a.maxAdmittedURLs {
 		return false
 	}
-	parsed, err := url.Parse(canonicalURL)
-	if err != nil {
+	if canonicalURL.HasQuery() && !a.allowQueryURLs {
 		return false
 	}
-	if parsed.RawQuery != "" && !a.allowQueryURLs {
+	if !a.urlMustMatch.MatchString(canonicalURL.String()) {
 		return false
 	}
-	if !a.urlMustMatch.MatchString(canonicalURL) {
+	if a.urlMustNotMatch != nil && a.urlMustNotMatch.MatchString(canonicalURL.String()) {
 		return false
 	}
-	if a.urlMustNotMatch != nil && a.urlMustNotMatch.MatchString(canonicalURL) {
-		return false
-	}
-	host := strings.ToLower(parsed.Hostname())
+	host := canonicalURL.Hostname()
 	if !a.withinScope(host, canonicalURL) {
 		return false
 	}
@@ -101,7 +93,7 @@ func (a *Admission) Admit(canonicalURL string, depth int) bool {
 	return true
 }
 
-func (a *Admission) withinScope(host, canonicalURL string) bool {
+func (a *Admission) withinScope(host string, canonicalURL canonicalurl.CanonicalURL) bool {
 	switch a.scope {
 	case yacycrawlcontract.ScopeWide:
 		return true
@@ -110,7 +102,7 @@ func (a *Admission) withinScope(host, canonicalURL string) bool {
 		return ok
 	case yacycrawlcontract.ScopeSubpath:
 		for _, directory := range a.seedDirectories {
-			if strings.HasPrefix(canonicalURL, directory) {
+			if strings.HasPrefix(canonicalURL.String(), directory.String()) {
 				return true
 			}
 		}
@@ -118,19 +110,6 @@ func (a *Admission) withinScope(host, canonicalURL string) bool {
 	default:
 		return false
 	}
-}
-
-func hostAndDirectory(canonicalURL string) (host, directory string, err error) {
-	parsed, err := url.Parse(canonicalURL)
-	if err != nil {
-		return "", "", fmt.Errorf("parse seed url: %w", err)
-	}
-	host = strings.ToLower(parsed.Hostname())
-	trimmed := canonicalURL
-	if slash := strings.LastIndexByte(trimmed, '/'); slash >= 0 {
-		trimmed = trimmed[:slash+1]
-	}
-	return host, trimmed, nil
 }
 
 func matchOrAll(pattern string) string {

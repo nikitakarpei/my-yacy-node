@@ -7,6 +7,7 @@ allow:
 
 commonVendors:
   - yacycrawlcontract
+  - canonicalurl
 
 commonComponents:
   - clock
@@ -101,7 +102,6 @@ deps:
       - retrydelay
   redirectrecording:
     canUse:
-      - canonicalurl
       - pagescrapepagefetch
   ordersettlement:
     mayDependOn:
@@ -117,7 +117,7 @@ deps:
       - pageabsorption
       - contextcancellation
     canUse:
-      - canonicalurl
+      - yacycrawlcontract
   visitdispatch:
     mayDependOn:
       - frontier
@@ -133,14 +133,10 @@ deps:
       - reachedpagepublication
     canUse:
       - pagescrapepagefetch
-  reachedpagepublication:
-    canUse:
-      - canonicalurl
   pageabsorption:
     mayDependOn:
       - disposal
     canUse:
-      - canonicalurl
       - pagescrapecontentextraction
       - pagescrapepagefetch
   recrawlrulesalwaysdue:
@@ -186,3 +182,4 @@ deps:
 excludeFiles:
   - "test/e2e"
   - "_test\\.go"
+  - "contract"

@@ -5,6 +5,9 @@ allow:
   depOnAnyVendor: false
   deepScan: false
 
+commonVendors:
+  - canonicalurl
+
 components:
   recall:
     in: internal/recall/**
@@ -64,13 +67,14 @@ vendors:
 deps:
   recall:
     canUse:
-      - canonicalurl
+      - yacycrawlcontract
   pagerepresentationsmarkdown:
     mayDependOn:
       - pagerepresentationsmarkdown
       - recall
     canUse:
       - pagemarkdownstore
+      - yacycrawlcontract
       - nats
   redirectresolversjetstream:
     canUse:
@@ -106,3 +110,4 @@ deps:
 excludeFiles:
   - "_test\\.go"
   - "test/e2e"
+  - "contract"

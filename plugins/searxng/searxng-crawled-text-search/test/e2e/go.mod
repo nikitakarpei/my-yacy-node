@@ -3,6 +3,7 @@ module github.com/nikitakarpei/yacy-rwi-node/searxng-crawled-text-search/test/e2
 go 1.26
 
 require (
+	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/e2eharness v0.0.0
 	github.com/testcontainers/testcontainers-go v0.40.0
 )
@@ -71,11 +72,12 @@ require (
 )
 
 replace (
+	github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../../../../libraries/canonicalurl
 	github.com/nikitakarpei/yacy-rwi-node/e2eharness => ../../../../../test/e2eharness
-	github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../../../../libraries/searchdocument
+	github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../../../../services/corpustext/contract
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../../../../libraries/yacycrawlcontract
+replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../../../../services/yacycrawler/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../../../../libraries/yacymodel
 

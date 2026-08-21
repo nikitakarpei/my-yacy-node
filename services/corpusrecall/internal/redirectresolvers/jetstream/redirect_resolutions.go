@@ -8,6 +8,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -21,14 +22,22 @@ func NewRedirectResolutions(bucket jetstream.KeyValue) *RedirectResolutions {
 
 func (r *RedirectResolutions) ResolvedURLOf(
 	ctx context.Context,
-	canonicalURL string,
-) (string, error) {
+	canonicalURL canonicalurl.CanonicalURL,
+) (canonicalurl.CanonicalURL, error) {
 	entry, err := r.bucket.Get(ctx, yacycrawlcontract.RedirectResolutionKey(canonicalURL))
 	if errors.Is(err, jetstream.ErrKeyNotFound) {
 		return canonicalURL, nil
 	}
 	if err != nil {
-		return "", fmt.Errorf("resolve redirect for %q: %w", canonicalURL, err)
+		return canonicalurl.CanonicalURL{}, fmt.Errorf(
+			"resolve redirect for %q: %w", canonicalURL, err,
+		)
 	}
-	return string(entry.Value()), nil
+	resolvedURL, err := canonicalurl.CanonicalURLOf(string(entry.Value()))
+	if err != nil {
+		return canonicalurl.CanonicalURL{}, fmt.Errorf(
+			"resolve redirect for %q: %w", canonicalURL, err,
+		)
+	}
+	return resolvedURL, nil
 }

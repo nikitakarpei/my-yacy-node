@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/scrapedpagedocument"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 )
@@ -11,7 +12,7 @@ import (
 func TestOfMapsFields(t *testing.T) {
 	scrapedAt := time.Date(2026, 7, 4, 0, 0, 0, 0, time.UTC)
 	doc := scrapedpagedocument.Of(pagescrape.ScrapedPage{
-		CanonicalURL: "https://example.com/",
+		CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 		Title:        "Hi",
 		Language:     "en",
 		Content:      []byte("words here"),

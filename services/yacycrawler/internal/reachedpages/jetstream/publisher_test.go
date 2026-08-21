@@ -7,6 +7,7 @@ import (
 
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/reachedpages/jetstream"
@@ -25,7 +26,8 @@ func TestPublishWritesContractMessage(t *testing.T) {
 	publisher := jetstream.New(js)
 
 	const url = "http://example.com/a"
-	if err := publisher.Publish(ctx, url); err != nil {
+	canonicalURL := canonicalurltest.CanonicalURLOf(t, url)
+	if err := publisher.Publish(ctx, canonicalURL); err != nil {
 		t.Fatalf("publish: %v", err)
 	}
 
@@ -44,7 +46,7 @@ func TestPublishWritesContractMessage(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
-	if page.CanonicalURL != url {
+	if page.CanonicalURL != canonicalURL {
 		t.Fatalf("canonical url = %q, want %q", page.CanonicalURL, url)
 	}
 }

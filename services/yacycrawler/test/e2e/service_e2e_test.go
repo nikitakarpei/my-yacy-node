@@ -8,6 +8,8 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
@@ -22,7 +24,7 @@ func TestCrawlerPublishesEveryPageAnOrderReachesEndToEnd(t *testing.T) {
 	js, originURL := startCrawlOfOriginSite(t, ctx)
 
 	reached := fetchOneReachedPage(t, ctx, js)
-	if reached.CanonicalURL != originURL {
+	if reached.CanonicalURL.String() != originURL {
 		t.Errorf("reached page canonical url = %q, want %q", reached.CanonicalURL, originURL)
 	}
 }
@@ -49,7 +51,7 @@ func startCrawlOfOriginSite(t *testing.T, ctx context.Context) (jetstream.JetStr
 			MaxDepth:        0,
 			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
 		},
-		SeedURLs: []string{originURL},
+		SeedURLs: []canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, originURL)},
 	}
 	data, err := yacycrawlcontract.MarshalCrawlOrder(order)
 	if err != nil {

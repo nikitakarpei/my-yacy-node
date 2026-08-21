@@ -18,4 +18,4 @@ require (
 	golang.org/x/text v0.37.0 // indirect
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../canonicalurl
+replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl

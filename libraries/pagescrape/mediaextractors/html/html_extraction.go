@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	"net/url"
 	"strings"
 
 	"golang.org/x/net/html"
@@ -21,6 +20,7 @@ const (
 	mediaXHTML = "application/xhtml+xml"
 
 	msgBaseHrefUnresolved = "base href unresolved, using page url"
+	msgPageURLUncanonical = "page url is not canonical, resolving links without it"
 )
 
 type HTMLExtraction struct{}
@@ -58,19 +58,7 @@ func (e HTMLExtraction) Extract(
 		return contentextraction.ExtractedDocument{}, fmt.Errorf("render html: %w", err)
 	}
 
-	base := pageURL
-	if scan.baseHref != "" {
-		if resolved, resolveErr := resolveBase(pageURL, scan.baseHref); resolveErr == nil {
-			base = resolved
-		} else {
-			slog.DebugContext(ctx, msgBaseHrefUnresolved,
-				slog.String("url", pageURL),
-				slog.String("baseHref", scan.baseHref),
-				slog.Any("error", resolveErr),
-			)
-		}
-	}
-	links, local, external := resolveLinks(base, scan.hrefs)
+	links, local, external := discoveredLinks(baseURLOf(ctx, pageURL, scan.baseHref), scan.hrefs)
 
 	return contentextraction.ExtractedDocument{
 		Title:                scan.title,
@@ -85,23 +73,38 @@ func (e HTMLExtraction) Extract(
 	}, nil
 }
 
-func resolveBase(pageURL, baseHref string) (string, error) {
-	parsed, err := url.Parse(pageURL)
+func baseURLOf(ctx context.Context, pageURL, baseHref string) canonicalurl.CanonicalURL {
+	canonicalPageURL, err := canonicalurl.CanonicalURLOf(pageURL)
 	if err != nil {
-		return "", fmt.Errorf("parse page url: %w", err)
+		slog.DebugContext(ctx, msgPageURLUncanonical,
+			slog.String("url", pageURL),
+			slog.Any("error", err),
+		)
+		return canonicalurl.CanonicalURL{}
 	}
-	ref, err := url.Parse(baseHref)
+	if baseHref == "" {
+		return canonicalPageURL
+	}
+	base, err := canonicalPageURL.CanonicalURLOfLink(baseHref)
 	if err != nil {
-		return "", fmt.Errorf("parse base href: %w", err)
+		slog.DebugContext(ctx, msgBaseHrefUnresolved,
+			slog.String("url", pageURL),
+			slog.String("baseHref", baseHref),
+			slog.Any("error", err),
+		)
+		return canonicalPageURL
 	}
-	return parsed.ResolveReference(ref).String(), nil
+	return base
 }
 
-func resolveLinks(base string, hrefs []string) (links []string, local, external int) {
-	baseHost := hostOf(base)
-	seen := map[string]struct{}{}
+func discoveredLinks(
+	baseURL canonicalurl.CanonicalURL,
+	hrefs []string,
+) (links []canonicalurl.CanonicalURL, local, external int) {
+	baseHost := baseURL.Hostname()
+	seen := map[canonicalurl.CanonicalURL]struct{}{}
 	for _, href := range hrefs {
-		canonical, err := canonicalurl.ResolveReference(base, href)
+		canonical, err := baseURL.CanonicalURLOfLink(href)
 		if err != nil {
 			continue
 		}
@@ -110,21 +113,13 @@ func resolveLinks(base string, hrefs []string) (links []string, local, external 
 		}
 		seen[canonical] = struct{}{}
 		links = append(links, canonical)
-		if hostOf(canonical) == baseHost {
+		if canonical.Hostname() == baseHost {
 			local++
 		} else {
 			external++
 		}
 	}
 	return links, local, external
-}
-
-func hostOf(rawURL string) string {
-	parsed, err := url.Parse(rawURL)
-	if err != nil {
-		return ""
-	}
-	return strings.ToLower(parsed.Hostname())
 }
 
 func twoLetterLanguage(language string) string {

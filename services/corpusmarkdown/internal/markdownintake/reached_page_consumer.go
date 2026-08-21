@@ -7,6 +7,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
@@ -25,7 +26,7 @@ type PageScraper interface {
 }
 
 type PageMarkdownCorpus interface {
-	Put(ctx context.Context, canonicalURL string, markdown []byte) error
+	Put(ctx context.Context, canonicalURL canonicalurl.CanonicalURL, markdown []byte) error
 }
 
 type StoreProgress interface {
@@ -69,10 +70,10 @@ func (c *ReachedPageConsumer) processOne(ctx context.Context, msg jetstream.Msg)
 	if err != nil {
 		return poisonhalt.Halt(ctx, msg, err)
 	}
-	scraped, derived, err := c.scraper.Scrape(ctx, reached.CanonicalURL)
+	scraped, derived, err := c.scraper.Scrape(ctx, reached.CanonicalURL.String())
 	if err != nil {
 		slog.WarnContext(ctx, msgScrapeFailed,
-			slog.String("url", reached.CanonicalURL),
+			slog.String("url", reached.CanonicalURL.String()),
 			slog.Any("error", err),
 		)
 		c.progress.ScrapeFailed()
@@ -80,7 +81,11 @@ func (c *ReachedPageConsumer) processOne(ctx context.Context, msg jetstream.Msg)
 		return nil
 	}
 	if !derived {
-		slog.DebugContext(ctx, msgNoMarkdownDerived, slog.String("url", reached.CanonicalURL))
+		slog.DebugContext(
+			ctx,
+			msgNoMarkdownDerived,
+			slog.String("url", reached.CanonicalURL.String()),
+		)
 		_ = msg.Ack()
 		return nil
 	}
@@ -94,7 +99,7 @@ func (c *ReachedPageConsumer) store(
 ) error {
 	if err := c.corpus.Put(ctx, scraped.CanonicalURL, scraped.Content); err != nil {
 		slog.WarnContext(ctx, msgMarkdownStoreFailed,
-			slog.String("url", scraped.CanonicalURL),
+			slog.String("url", scraped.CanonicalURL.String()),
 			slog.Any("error", err),
 		)
 		c.progress.StoreFailed()
@@ -102,7 +107,7 @@ func (c *ReachedPageConsumer) store(
 		return nil
 	}
 	c.progress.PageStored()
-	slog.DebugContext(ctx, msgMarkdownStored, slog.String("url", scraped.CanonicalURL))
+	slog.DebugContext(ctx, msgMarkdownStored, slog.String("url", scraped.CanonicalURL.String()))
 	_ = msg.Ack()
 	return nil
 }

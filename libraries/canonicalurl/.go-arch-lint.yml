@@ -7,10 +7,13 @@ allow:
 
 components:
   canonicalurl:
-    in:
-      - .
-      - "**"
+    in: .
+  canonicalurltest:
+    in: canonicalurltest/**
 
-deps: {}
+deps:
+  canonicalurltest:
+    mayDependOn:
+      - canonicalurl
 excludeFiles:
   - "_test\\.go"

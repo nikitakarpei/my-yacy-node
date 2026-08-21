@@ -6,7 +6,8 @@ module=$(${GO:-go} list -m)
 pattern=$(
 	{
 		printf '/main\\.go:\n'
-		find . -name .covignore -print |
+		find . -mindepth 1 -type d -exec test -e '{}/go.mod' ';' -prune \
+			-o -name .covignore -print |
 			sed 's|^\./||; s|\.covignore$||' |
 			while read -r dir; do
 				printf '%s/%s\n' "$module" "$dir"

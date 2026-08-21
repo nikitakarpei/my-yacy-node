@@ -7,6 +7,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -18,10 +19,10 @@ func New(bucket jetstream.KeyValue) *Recorder {
 	return &Recorder{bucket: bucket}
 }
 
-func (r *Recorder) Record(ctx context.Context, url string) error {
-	key := yacycrawlcontract.DisposedPageKey(url)
+func (r *Recorder) Record(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) error {
+	key := yacycrawlcontract.DisposedPageKey(canonicalURL)
 	if _, err := r.bucket.Put(ctx, key, nil); err != nil {
-		return fmt.Errorf("put disposed page %s: %w", url, err)
+		return fmt.Errorf("put disposed page %s: %w", canonicalURL, err)
 	}
 	return nil
 }

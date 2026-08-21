@@ -3,12 +3,13 @@ package yacycrawlcontract_test
 import (
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 func TestReachedPageRoundTrip(t *testing.T) {
 	page := yacycrawlcontract.ReachedPage{
-		CanonicalURL: "https://example.org/a",
+		CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
 	}
 
 	data, err := yacycrawlcontract.MarshalReachedPage(page)

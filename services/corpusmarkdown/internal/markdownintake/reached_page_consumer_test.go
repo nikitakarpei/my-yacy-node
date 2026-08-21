@@ -10,6 +10,8 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownintake"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
@@ -88,7 +90,11 @@ type recordingCorpus struct {
 	markdown map[string][]byte
 }
 
-func (c *recordingCorpus) Put(_ context.Context, reachedPageURL string, markdown []byte) error {
+func (c *recordingCorpus) Put(
+	_ context.Context,
+	reachedPageURL canonicalurl.CanonicalURL,
+	markdown []byte,
+) error {
 	if c.fail {
 		return errors.New("store failed")
 	}
@@ -97,7 +103,7 @@ func (c *recordingCorpus) Put(_ context.Context, reachedPageURL string, markdown
 	if c.markdown == nil {
 		c.markdown = map[string][]byte{}
 	}
-	c.markdown[reachedPageURL] = markdown
+	c.markdown[reachedPageURL.String()] = markdown
 	return nil
 }
 
@@ -118,7 +124,9 @@ const reachedPageURL = "https://example.com/"
 func reachedPageMessage(t *testing.T, acked chan string) *fakeMsg {
 	t.Helper()
 	data, err := yacycrawlcontract.MarshalReachedPage(
-		yacycrawlcontract.ReachedPage{CanonicalURL: reachedPageURL},
+		yacycrawlcontract.ReachedPage{
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, reachedPageURL),
+		},
 	)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
@@ -145,7 +153,10 @@ func run(
 func TestConsumerStoresTheMarkdownItScrapesFromAReachedPage(t *testing.T) {
 	acked := make(chan string, 1)
 	scraper := &fakeScrape{
-		page:    pagescrape.ScrapedPage{CanonicalURL: reachedPageURL, Content: []byte("# Hi")},
+		page: pagescrape.ScrapedPage{
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, reachedPageURL),
+			Content:      []byte("# Hi"),
+		},
 		scraped: true,
 	}
 	corpus := &recordingCorpus{}
@@ -208,7 +219,10 @@ func TestConsumerNaksWhenTheScrapeFails(t *testing.T) {
 func TestConsumerNaksWhenTheStoreFails(t *testing.T) {
 	acked := make(chan string, 1)
 	scraper := &fakeScrape{
-		page:    pagescrape.ScrapedPage{CanonicalURL: "https://example.com/", Content: []byte("x")},
+		page: pagescrape.ScrapedPage{
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
+			Content:      []byte("x"),
+		},
 		scraped: true,
 	}
 	progress := &recordingProgress{}

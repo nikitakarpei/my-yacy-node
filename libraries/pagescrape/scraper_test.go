@@ -65,7 +65,7 @@ func TestScrapeDerivesTheTargetFormatOfTheFetchedDocument(t *testing.T) {
 	if !scraped {
 		t.Fatal("want a scraped page")
 	}
-	if page.CanonicalURL != "http://host/a" {
+	if page.CanonicalURL.String() != "http://host/a" {
 		t.Errorf("canonical url = %q, want http://host/a", page.CanonicalURL)
 	}
 	if !strings.Contains(string(page.Content), "words here") {

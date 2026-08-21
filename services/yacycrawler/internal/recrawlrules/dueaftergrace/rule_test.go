@@ -8,6 +8,7 @@ import (
 
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
@@ -37,7 +38,10 @@ func newBucket(t *testing.T) natsjetstream.KeyValue {
 func TestDecisionDueWithNoVersionWhenNeverVisited(t *testing.T) {
 	rule := dueaftergrace.New(newBucket(t), &manualClock{}, time.Hour)
 
-	decision, err := rule.DecisionFor(context.Background(), "http://example.com/a")
+	decision, err := rule.DecisionFor(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://example.com/a"),
+	)
 	if err != nil {
 		t.Fatalf("decision: %v", err)
 	}
@@ -51,7 +55,7 @@ func TestDecisionNotDueWithinGraceButReturnsVersion(t *testing.T) {
 	clock := &manualClock{now: now}
 	rule := dueaftergrace.New(newBucket(t), clock, time.Hour)
 
-	const url = "http://example.com/a"
+	url := canonicalurltest.CanonicalURLOf(t, "http://example.com/a")
 	version := pagefetch.PageVersion{EntityTag: `"abc"`, ModifiedAt: now.Add(-time.Minute)}
 	if err := rule.RecordVisit(context.Background(), url, version); err != nil {
 		t.Fatalf("record visit: %v", err)
@@ -76,7 +80,7 @@ func TestDecisionDueOutsideGraceWindow(t *testing.T) {
 	clock := &manualClock{now: now}
 	rule := dueaftergrace.New(newBucket(t), clock, time.Hour)
 
-	const url = "http://example.com/a"
+	url := canonicalurltest.CanonicalURLOf(t, "http://example.com/a")
 	if err := rule.RecordVisit(
 		context.Background(),
 		url,
@@ -112,7 +116,10 @@ func TestDecisionPropagatesOtherErrors(t *testing.T) {
 	boom := errors.New("boom")
 	rule := dueaftergrace.New(failingBucket{getErr: boom}, &manualClock{}, time.Hour)
 
-	if _, err := rule.DecisionFor(context.Background(), "http://example.com/a"); err == nil {
+	if _, err := rule.DecisionFor(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://example.com/a"),
+	); err == nil {
 		t.Fatal("want error propagated")
 	}
 }

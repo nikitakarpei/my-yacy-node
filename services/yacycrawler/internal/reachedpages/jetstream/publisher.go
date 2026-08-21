@@ -7,6 +7,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -18,7 +19,10 @@ func New(stream jetstream.JetStream) *Publisher {
 	return &Publisher{stream: stream}
 }
 
-func (p *Publisher) Publish(ctx context.Context, canonicalURL string) error {
+func (p *Publisher) Publish(
+	ctx context.Context,
+	canonicalURL canonicalurl.CanonicalURL,
+) error {
 	data, err := yacycrawlcontract.MarshalReachedPage(
 		yacycrawlcontract.ReachedPage{CanonicalURL: canonicalURL},
 	)

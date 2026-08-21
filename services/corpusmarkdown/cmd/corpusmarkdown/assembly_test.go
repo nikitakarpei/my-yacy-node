@@ -11,6 +11,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	corpusmarkdown "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/cmd/corpusmarkdown"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
@@ -79,7 +80,8 @@ func TestRunServiceStoresTheMarkdownItScrapesFromAReachedPage(t *testing.T) {
 	}
 
 	publishReachedPage(t, ctx, crawlJetStream, originURL)
-	waitForStored(t, ctx, store, pagemarkdownstore.ObjectName(originURL), "words here")
+	waitForStored(t, ctx, store,
+		pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, originURL)), "words here")
 
 	cancel()
 	select {
@@ -100,7 +102,9 @@ func publishReachedPage(
 ) {
 	t.Helper()
 	data, err := yacycrawlcontract.MarshalReachedPage(
-		yacycrawlcontract.ReachedPage{CanonicalURL: canonicalURL},
+		yacycrawlcontract.ReachedPage{
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, canonicalURL),
+		},
 	)
 	if err != nil {
 		t.Fatalf("marshal reached page: %v", err)

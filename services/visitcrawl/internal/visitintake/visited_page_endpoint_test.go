@@ -15,6 +15,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
@@ -103,7 +104,7 @@ func TestVisitRedirectsAndAttemptsPlacement(t *testing.T) {
 		t.Fatalf("attempts = %d, want 1", placement.attempts)
 	}
 	if len(placement.order.SeedURLs) != 1 ||
-		placement.order.SeedURLs[0] != "https://example.org/a" {
+		placement.order.SeedURLs[0] != canonicalurltest.CanonicalURLOf(t, "https://example.org/a") {
 		t.Fatalf("order seeds = %v", placement.order.SeedURLs)
 	}
 	if placement.order.OrderID == "" {

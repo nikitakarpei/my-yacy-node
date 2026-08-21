@@ -5,6 +5,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 )
 
@@ -21,11 +22,14 @@ type recordingReachedPages struct {
 	failWith error
 }
 
-func (r *recordingReachedPages) Publish(_ context.Context, canonicalURL string) error {
+func (r *recordingReachedPages) Publish(
+	_ context.Context,
+	canonicalURL canonicalurl.CanonicalURL,
+) error {
 	if r.failWith != nil {
 		return r.failWith
 	}
-	r.urls = append(r.urls, canonicalURL)
+	r.urls = append(r.urls, canonicalURL.String())
 	return nil
 }
 

@@ -6,36 +6,50 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitdispatch"
 )
 
 type dispatchedVisitor struct {
-	mu      sync.Mutex
-	visited []string
-	err     error
+	mu         sync.Mutex
+	visited    []string
+	discovered canonicalurl.CanonicalURL
+	err        error
 }
 
-func (v *dispatchedVisitor) Visit(_ context.Context, url string) (pagevisit.VisitOutcome, error) {
+func (v *dispatchedVisitor) Visit(
+	_ context.Context,
+	canonicalURL canonicalurl.CanonicalURL,
+) (pagevisit.VisitOutcome, error) {
 	v.mu.Lock()
 	defer v.mu.Unlock()
-	v.visited = append(v.visited, url)
+	v.visited = append(v.visited, canonicalURL.String())
 	if v.err != nil {
 		return pagevisit.VisitOutcome{}, v.err
 	}
 
 	return pagevisit.VisitOutcome{
 		Conclusion:     pagevisit.VisitCompleted,
-		DiscoveredURLs: []string{url + "/next"},
+		DiscoveredURLs: []canonicalurl.CanonicalURL{v.discovered},
 	}, nil
 }
 
 func TestDispatchReportsOnePerVisit(t *testing.T) {
-	visitors := visitdispatch.StartVisitors(t.Context(), &dispatchedVisitor{}, 2)
+	visitors := visitdispatch.StartVisitors(
+		t.Context(),
+		&dispatchedVisitor{discovered: canonicalurltest.CanonicalURLOf(t, "http://host/next")},
+		2,
+	)
 	defer visitors.Stop()
 
-	urls := []string{"http://host/a", "http://host/b", "http://host/c"}
+	urls := []canonicalurl.CanonicalURL{
+		canonicalurltest.CanonicalURLOf(t, "http://host/a"),
+		canonicalurltest.CanonicalURLOf(t, "http://host/b"),
+		canonicalurltest.CanonicalURLOf(t, "http://host/c"),
+	}
 	go func() {
 		for _, url := range urls {
 			visitors.Pending() <- frontier.PendingVisit{URL: url}
@@ -51,11 +65,11 @@ func TestDispatchReportsOnePerVisit(t *testing.T) {
 		if len(result.Outcome.DiscoveredURLs) != 1 {
 			t.Fatalf("outcome not carried back: %+v", result.Outcome)
 		}
-		seen[result.Visit.URL]++
+		seen[result.Visit.URL.String()]++
 	}
 	for _, url := range urls {
-		if seen[url] != 1 {
-			t.Fatalf("%s reported %d times", url, seen[url])
+		if seen[url.String()] != 1 {
+			t.Fatalf("%s reported %d times", url, seen[url.String()])
 		}
 	}
 }
@@ -65,7 +79,7 @@ func TestDispatchCarriesVisitError(t *testing.T) {
 	visitors := visitdispatch.StartVisitors(t.Context(), failing, 1)
 	defer visitors.Stop()
 
-	visitors.Pending() <- frontier.PendingVisit{URL: "http://host/"}
+	visitors.Pending() <- frontier.PendingVisit{URL: canonicalurltest.CanonicalURLOf(t, "http://host/")}
 
 	if result := <-visitors.Completed(); result.Err == nil {
 		t.Fatal("visit error should reach the caller")
@@ -76,7 +90,7 @@ func TestStopEndsEveryVisitor(t *testing.T) {
 	visitor := &dispatchedVisitor{}
 	visitors := visitdispatch.StartVisitors(t.Context(), visitor, 3)
 
-	visitors.Pending() <- frontier.PendingVisit{URL: "http://host/"}
+	visitors.Pending() <- frontier.PendingVisit{URL: canonicalurltest.CanonicalURLOf(t, "http://host/")}
 	<-visitors.Completed()
 	visitors.Stop()
 

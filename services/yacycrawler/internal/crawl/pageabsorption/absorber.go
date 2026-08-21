@@ -41,7 +41,7 @@ func (a *absorber) Absorb(
 	if page.Truncated {
 		return AbsorptionOutcome{Disposal: disposal.Oversized}, nil
 	}
-	canonical, err := canonicalurl.Canonicalize(page.FinalURL)
+	canonical, err := canonicalurl.CanonicalURLOf(page.FinalURL)
 	if err != nil {
 		slog.WarnContext(ctx, msgPageURLRejected,
 			slog.String("url", page.FinalURL),
@@ -49,10 +49,10 @@ func (a *absorber) Absorb(
 		)
 		return AbsorptionOutcome{Disposal: disposal.UncanonicalizableURL}, nil
 	}
-	document, err := a.extractor.DocumentFrom(ctx, canonical, page.ContentType, page.Body)
+	document, err := a.extractor.DocumentFrom(ctx, canonical.String(), page.ContentType, page.Body)
 	if err != nil {
 		slog.WarnContext(ctx, msgExtractionFailed,
-			slog.String("url", canonical),
+			slog.String("url", canonical.String()),
 			slog.Any("error", err),
 		)
 		return AbsorptionOutcome{Disposal: extractionDisposal(err)}, nil
@@ -75,7 +75,7 @@ func extractionDisposal(err error) disposal.Reason {
 func discoveredLinksOf(
 	page pagefetch.FetchedPage,
 	document contentextraction.ExtractedDocument,
-) []string {
+) []canonicalurl.CanonicalURL {
 	if document.RefusesLinkDiscovery || page.RefusesLinkDiscovery {
 		return nil
 	}

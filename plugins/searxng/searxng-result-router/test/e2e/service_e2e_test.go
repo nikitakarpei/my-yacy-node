@@ -9,6 +9,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/searxngsearch"
@@ -69,7 +70,8 @@ func TestResultLinkRouterRoutesSearchResultsThroughVisitcrawl(t *testing.T) {
 	}
 
 	order := fetchOnePlacedOrder(t, ctx, js)
-	if len(order.SeedURLs) != 1 || order.SeedURLs[0] != destinationPageURL {
+	if len(order.SeedURLs) != 1 ||
+		order.SeedURLs[0] != canonicalurltest.CanonicalURLOf(t, destinationPageURL) {
 		t.Fatalf("placed order seed urls = %v, want [%q]", order.SeedURLs, destinationPageURL)
 	}
 }

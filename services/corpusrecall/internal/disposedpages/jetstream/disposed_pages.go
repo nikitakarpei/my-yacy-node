@@ -8,6 +8,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
@@ -24,7 +25,7 @@ func NewDisposedPages(bucket jetstream.KeyValue) *DisposedPages {
 
 func (p *DisposedPages) DisposalMarkOf(
 	ctx context.Context,
-	canonicalURL string,
+	canonicalURL canonicalurl.CanonicalURL,
 ) (recall.DisposalMark, error) {
 	return disposalMarkIn(ctx, p.bucket, canonicalURL)
 }
@@ -32,7 +33,7 @@ func (p *DisposedPages) DisposalMarkOf(
 func disposalMarkIn(
 	ctx context.Context,
 	bucket jetstream.KeyValue,
-	canonicalURL string,
+	canonicalURL canonicalurl.CanonicalURL,
 ) (recall.DisposalMark, error) {
 	key := yacycrawlcontract.DisposedPageKey(canonicalURL)
 	entry, err := bucket.Get(ctx, key)
@@ -49,7 +50,7 @@ func disposalMarkIn(
 
 func (p *DisposedPages) DisposalOccurredSince(
 	ctx context.Context,
-	canonicalURL string,
+	canonicalURL canonicalurl.CanonicalURL,
 	mark recall.DisposalMark,
 ) (bool, error) {
 	current, err := disposalMarkIn(ctx, p.bucket, canonicalURL)

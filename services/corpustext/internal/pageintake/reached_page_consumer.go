@@ -74,10 +74,10 @@ func (c *ReachedPageConsumer) processOne(ctx context.Context, msg jetstream.Msg)
 		return poisonhalt.Halt(ctx, msg, err)
 	}
 	scrapedAt := time.Now()
-	scraped, derived, err := c.scraper.Scrape(ctx, reached.CanonicalURL)
+	scraped, derived, err := c.scraper.Scrape(ctx, reached.CanonicalURL.String())
 	if err != nil {
 		slog.WarnContext(ctx, msgScrapeFailed,
-			slog.String("url", reached.CanonicalURL),
+			slog.String("url", reached.CanonicalURL.String()),
 			slog.Any("error", err),
 		)
 		c.progress.ScrapeFailed()
@@ -85,7 +85,7 @@ func (c *ReachedPageConsumer) processOne(ctx context.Context, msg jetstream.Msg)
 		return nil
 	}
 	if !derived {
-		slog.DebugContext(ctx, msgNoTextDerived, slog.String("url", reached.CanonicalURL))
+		slog.DebugContext(ctx, msgNoTextDerived, slog.String("url", reached.CanonicalURL.String()))
 		_ = msg.Ack()
 		return nil
 	}

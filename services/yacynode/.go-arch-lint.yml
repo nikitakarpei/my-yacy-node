@@ -7,6 +7,7 @@ allow:
 
 commonVendors:
   - yacymodel
+  - canonicalurl
 
 components:
   hashcodec:
@@ -102,12 +103,14 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
-  bytesize:
-    in: github.com/nikitakarpei/yacy-rwi-node/bytesize
   pagescrape:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagescrape
       - github.com/nikitakarpei/yacy-rwi-node/pagescrape/**
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
@@ -129,7 +132,6 @@ deps:
       - yacyproto
   nodeconfiguration:
     canUse:
-      - bytesize
       - serviceruntime
       - yacyproto
       - yacycrawlcontract

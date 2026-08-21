@@ -16,7 +16,7 @@ type PublicationProgress interface {
 }
 
 type ReachedPages interface {
-	Publish(ctx context.Context, canonicalURL string) error
+	Publish(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) error
 }
 
 type Publisher struct {
@@ -29,7 +29,7 @@ func NewPublisher(observer PublicationProgress, reached ReachedPages) *Publisher
 }
 
 func (p *Publisher) Publish(ctx context.Context, finalURL string) error {
-	canonicalURL, err := canonicalurl.Canonicalize(finalURL)
+	canonicalURL, err := canonicalurl.CanonicalURLOf(finalURL)
 	if err != nil {
 		slog.WarnContext(ctx, msgReachedPageURLRejected,
 			slog.String("url", finalURL),

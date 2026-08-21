@@ -4,7 +4,7 @@ go 1.26
 
 require (
 	github.com/nats-io/nats.go v1.52.0
-	github.com/nikitakarpei/yacy-rwi-node/bytesize v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
@@ -34,7 +34,6 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
@@ -48,13 +47,11 @@ require (
 	google.golang.org/protobuf v1.36.11 // indirect
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/bytesize => ../../libraries/bytesize
-
-replace github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../libraries/searchdocument
+replace github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../corpustext/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
 
-replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../libraries/yacycrawlcontract
+replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../yacycrawler/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 

@@ -10,7 +10,7 @@ import (
 func Of(page pagescrape.ScrapedPage, scrapedAt time.Time) searchdocument.Document {
 	return searchdocument.Document{
 		Title:     page.Title,
-		URL:       page.CanonicalURL,
+		URL:       page.CanonicalURL.String(),
 		Content:   string(page.Content),
 		CrawledAt: scrapedAt,
 		Language:  page.Language,

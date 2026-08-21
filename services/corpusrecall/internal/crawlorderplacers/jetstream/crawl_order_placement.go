@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -31,11 +32,14 @@ func NewCrawlOrderPlacement(
 	return &CrawlOrderPlacement{orders: orders, subject: subject}
 }
 
-func (p *CrawlOrderPlacement) Place(ctx context.Context, canonicalURL string) error {
+func (p *CrawlOrderPlacement) Place(
+	ctx context.Context,
+	canonicalURL canonicalurl.CanonicalURL,
+) error {
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID:  uuid.NewString(),
 		Profile:  recallProfile,
-		SeedURLs: []string{canonicalURL},
+		SeedURLs: []canonicalurl.CanonicalURL{canonicalURL},
 	}
 	payload, err := yacycrawlcontract.MarshalCrawlOrder(order)
 	if err != nil {

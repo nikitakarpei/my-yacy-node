@@ -20,11 +20,10 @@ import (
 )
 
 const (
-	msgScrapeFailed     = "reached page scrape failed"
-	msgNoIndexDerived   = "reached page derives no index, nothing stored"
-	msgIndexUnbuildable = "reached page yields no reverse word index, page skipped"
-	msgPageStored       = "reached page stored"
-	msgStoreDeferred    = "reached page store deferred"
+	msgScrapeFailed   = "reached page scrape failed"
+	msgNoIndexDerived = "reached page derives no index, nothing stored"
+	msgPageStored     = "reached page stored"
+	msgStoreDeferred  = "reached page store deferred"
 )
 
 type PageScraper interface {
@@ -67,30 +66,21 @@ func (c *ReachedPageConsumer) processOne(ctx context.Context, msg jetstream.Msg)
 		return poisonhalt.Halt(ctx, msg, err)
 	}
 	reachedAt := time.Now()
-	scraped, derived, err := c.scraper.Scrape(ctx, reached.CanonicalURL)
+	scraped, derived, err := c.scraper.Scrape(ctx, reached.CanonicalURL.String())
 	if err != nil {
 		slog.WarnContext(ctx, msgScrapeFailed,
-			slog.String("url", reached.CanonicalURL),
+			slog.String("url", reached.CanonicalURL.String()),
 			slog.Any("error", err),
 		)
 		_ = msg.Nak()
 		return nil
 	}
 	if !derived {
-		slog.DebugContext(ctx, msgNoIndexDerived, slog.String("url", reached.CanonicalURL))
+		slog.DebugContext(ctx, msgNoIndexDerived, slog.String("url", reached.CanonicalURL.String()))
 		_ = msg.Ack()
 		return nil
 	}
-	index, err := pagerwi.Of(scraped, reachedAt)
-	if err != nil {
-		slog.WarnContext(ctx, msgIndexUnbuildable,
-			slog.String("url", scraped.CanonicalURL),
-			slog.Any("error", err),
-		)
-		_ = msg.Ack()
-		return nil
-	}
-	c.store(ctx, msg, index)
+	c.store(ctx, msg, pagerwi.Of(scraped, reachedAt))
 	return nil
 }
 
@@ -101,17 +91,17 @@ func (c *ReachedPageConsumer) store(
 ) {
 	urlReceipt, err := c.urls.Receive(ctx, []yacymodel.URLMetadata{index.Metadata})
 	if err != nil || urlReceipt.Busy {
-		redeliver(ctx, msg, index.CanonicalURL, err)
+		redeliver(ctx, msg, index.CanonicalURL.String(), err)
 		return
 	}
 	postingReceipt, err := c.postings.Receive(ctx, index.Postings)
 	if err != nil || postingReceipt.Busy {
-		redeliver(ctx, msg, index.CanonicalURL, err)
+		redeliver(ctx, msg, index.CanonicalURL.String(), err)
 		return
 	}
 	_ = msg.Ack()
 	slog.DebugContext(ctx, msgPageStored,
-		slog.String("url", index.CanonicalURL),
+		slog.String("url", index.CanonicalURL.String()),
 		slog.Int("postings", len(index.Postings)),
 	)
 }

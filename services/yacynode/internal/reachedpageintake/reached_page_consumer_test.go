@@ -10,6 +10,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
@@ -125,7 +126,9 @@ func reachedPageMessage(t *testing.T, acked chan string) *fakeMsg {
 	t.Helper()
 
 	data, err := yacycrawlcontract.MarshalReachedPage(
-		yacycrawlcontract.ReachedPage{CanonicalURL: reachedPageURL},
+		yacycrawlcontract.ReachedPage{
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, reachedPageURL),
+		},
 	)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
@@ -134,10 +137,11 @@ func reachedPageMessage(t *testing.T, acked chan string) *fakeMsg {
 	return &fakeMsg{data: data, acked: acked}
 }
 
-func scrapedPage(text string) *fakeScrape {
+func scrapedPage(t *testing.T, text string) *fakeScrape {
+	t.Helper()
 	return &fakeScrape{
 		page: pagescrape.ScrapedPage{
-			CanonicalURL: reachedPageURL,
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, reachedPageURL),
 			Title:        "Hi",
 			Language:     "en",
 			Content:      []byte(text),
@@ -166,7 +170,7 @@ func run(
 
 func TestConsumerStoresTheIndexItDerivesFromAReachedPage(t *testing.T) {
 	acked := make(chan string, 1)
-	scraper := scrapedPage("alpha beta")
+	scraper := scrapedPage(t, "alpha beta")
 	urls := &recordingURLs{}
 	postings := &recordingPostings{}
 
@@ -196,7 +200,7 @@ func TestConsumerAdmitsEveryPostingOfAPageInOneCall(t *testing.T) {
 	postings := &recordingPostings{}
 
 	if err := run(t, reachedPageMessage(t, acked),
-		scrapedPage("alpha beta gamma delta epsilon"),
+		scrapedPage(t, "alpha beta gamma delta epsilon"),
 		&recordingURLs{}, postings); err != nil {
 		t.Fatalf("run: %v", err)
 	}
@@ -227,30 +231,6 @@ func TestConsumerAcksAReachedPageThatDerivesNoIndex(t *testing.T) {
 	}
 }
 
-func TestConsumerAcksAReachedPageWhoseURLNoIndexCanBeBuiltFrom(t *testing.T) {
-	acked := make(chan string, 1)
-	scraper := scrapedPage("alpha")
-	scraper.page.CanonicalURL = "://nonsense"
-	postings := &recordingPostings{}
-
-	if err := run(
-		t,
-		reachedPageMessage(t, acked),
-		scraper,
-		&recordingURLs{},
-		postings,
-	); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if action := <-acked; action != "ack" {
-		t.Errorf("action = %q, want ack", action)
-	}
-	if len(postings.calls) != 0 {
-		t.Errorf("stored %v, want nothing", postings.calls)
-	}
-}
-
 func TestConsumerNaksWhenTheScrapeFails(t *testing.T) {
 	acked := make(chan string, 1)
 	scraper := &fakeScrape{err: errors.New("fetch broke down")}
@@ -269,7 +249,7 @@ func TestConsumerNaksAndWithholdsPostingsWhenURLStorageIsBusy(t *testing.T) {
 	acked := make(chan string, 1)
 	postings := &recordingPostings{}
 
-	if err := run(t, reachedPageMessage(t, acked), scrapedPage("alpha"),
+	if err := run(t, reachedPageMessage(t, acked), scrapedPage(t, "alpha"),
 		&recordingURLs{receipt: urlmeta.Receipt{Busy: true}}, postings); err != nil {
 		t.Fatalf("run: %v", err)
 	}
@@ -291,7 +271,7 @@ func TestConsumerNaksWhenPostingAdmissionRefuses(t *testing.T) {
 			acked := make(chan string, 1)
 
 			if err := run(t, reachedPageMessage(t, acked),
-				scrapedPage("alpha"), &recordingURLs{}, postings); err != nil {
+				scrapedPage(t, "alpha"), &recordingURLs{}, postings); err != nil {
 				t.Fatalf("run: %v", err)
 			}
 
@@ -306,7 +286,7 @@ func TestConsumerHaltsOnAnUndecodableMessage(t *testing.T) {
 	acked := make(chan string, 1)
 	msg := &fakeMsg{data: []byte("not a reached page"), acked: acked}
 
-	err := run(t, msg, scrapedPage("alpha"), &recordingURLs{}, &recordingPostings{})
+	err := run(t, msg, scrapedPage(t, "alpha"), &recordingURLs{}, &recordingPostings{})
 
 	if !errors.Is(err, poisonhalt.ErrPoisonMessage) {
 		t.Fatalf("err = %v, want a poison message halt", err)

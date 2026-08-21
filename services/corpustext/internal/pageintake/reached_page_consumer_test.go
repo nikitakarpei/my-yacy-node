@@ -10,6 +10,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
@@ -118,7 +119,9 @@ const reachedPageURL = "https://example.com/"
 func reachedPageMessage(t *testing.T, acked chan string) *fakeMsg {
 	t.Helper()
 	data, err := yacycrawlcontract.MarshalReachedPage(
-		yacycrawlcontract.ReachedPage{CanonicalURL: reachedPageURL},
+		yacycrawlcontract.ReachedPage{
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, reachedPageURL),
+		},
 	)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
@@ -142,10 +145,11 @@ func run(
 		Run(context.Background())
 }
 
-func scrapedPage() *fakeScrape {
+func scrapedPage(t *testing.T) *fakeScrape {
+	t.Helper()
 	return &fakeScrape{
 		page: pagescrape.ScrapedPage{
-			CanonicalURL: reachedPageURL,
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, reachedPageURL),
 			Title:        "Hi",
 			Language:     "en",
 			Content:      []byte("words here"),
@@ -156,7 +160,7 @@ func scrapedPage() *fakeScrape {
 
 func TestConsumerIndexesTheTextItScrapesFromAReachedPage(t *testing.T) {
 	acked := make(chan string, 1)
-	scraper := scrapedPage()
+	scraper := scrapedPage(t)
 	searchIndex := &recordingIndex{}
 	progress := &recordingProgress{}
 
@@ -224,7 +228,7 @@ func TestConsumerNaksWhenTheIndexFails(t *testing.T) {
 	progress := &recordingProgress{}
 
 	if err := run(t, sourceOf(reachedPageMessage(t, acked)),
-		scrapedPage(), &recordingIndex{fail: true}, progress); err != nil {
+		scrapedPage(t), &recordingIndex{fail: true}, progress); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 

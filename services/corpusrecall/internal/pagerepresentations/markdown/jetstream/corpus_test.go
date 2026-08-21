@@ -8,6 +8,7 @@ import (
 
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerepresentations/markdown"
 	markdownjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerepresentations/markdown/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
@@ -36,7 +37,7 @@ func storedMarkdown(t *testing.T, markdownOfPage string) *markdownjetstream.Corp
 	if markdownOfPage != "" {
 		if _, err := store.PutBytes(
 			context.Background(),
-			pagemarkdownstore.ObjectName(crawledURL),
+			pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, crawledURL)),
 			[]byte(markdownOfPage),
 		); err != nil {
 			t.Fatalf("store markdown: %v", err)
@@ -47,7 +48,9 @@ func storedMarkdown(t *testing.T, markdownOfPage string) *markdownjetstream.Corp
 
 func recalledPage(t *testing.T, corpus *markdownjetstream.Corpus) recall.Representation {
 	t.Helper()
-	representation, found, err := corpus.RepresentationOf(context.Background(), crawledURL)
+	representation, found, err := corpus.RepresentationOf(
+		context.Background(), canonicalurltest.CanonicalURLOf(t, crawledURL),
+	)
 	if err != nil {
 		t.Fatalf("representation of %q: %v", crawledURL, err)
 	}
@@ -60,7 +63,10 @@ func recalledPage(t *testing.T, corpus *markdownjetstream.Corpus) recall.Represe
 func TestRepresentationIsTheMarkdownPageTheCorpusHolds(t *testing.T) {
 	representation := recalledPage(t, storedMarkdown(t, crawledMarkdown))
 
-	if representation != (markdown.Page{CanonicalURL: crawledURL, Markdown: crawledMarkdown}) {
+	if representation != (markdown.Page{
+		CanonicalURL: canonicalurltest.CanonicalURLOf(t, crawledURL),
+		Markdown:     crawledMarkdown,
+	}) {
 		t.Errorf("representation = %+v", representation)
 	}
 }
@@ -68,7 +74,9 @@ func TestRepresentationIsTheMarkdownPageTheCorpusHolds(t *testing.T) {
 func TestRepresentationIsMissingWhenTheCorpusHoldsNoMarkdown(t *testing.T) {
 	corpus := storedMarkdown(t, "")
 
-	representation, found, err := corpus.RepresentationOf(context.Background(), crawledURL)
+	representation, found, err := corpus.RepresentationOf(
+		context.Background(), canonicalurltest.CanonicalURLOf(t, crawledURL),
+	)
 	if err != nil {
 		t.Fatalf("representation of %q: %v", crawledURL, err)
 	}
@@ -80,7 +88,9 @@ func TestRepresentationIsMissingWhenTheCorpusHoldsNoMarkdown(t *testing.T) {
 func TestRepresentationFailsWhenTheMarkdownExceedsTheResponseLimit(t *testing.T) {
 	corpus := storedMarkdown(t, strings.Repeat("a", responseLimit+1))
 
-	if _, _, err := corpus.RepresentationOf(context.Background(), crawledURL); err == nil {
+	if _, _, err := corpus.RepresentationOf(
+		context.Background(), canonicalurltest.CanonicalURLOf(t, crawledURL),
+	); err == nil {
 		t.Fatal("expected an error for markdown beyond the response limit")
 	}
 }
@@ -91,7 +101,9 @@ func TestMarkdownBeyondTheResponseLimitIsNeverHeldInMemory(t *testing.T) {
 
 	var beforeRecall, afterRecall runtime.MemStats
 	runtime.ReadMemStats(&beforeRecall)
-	_, _, err := corpus.RepresentationOf(context.Background(), crawledURL)
+	_, _, err := corpus.RepresentationOf(
+		context.Background(), canonicalurltest.CanonicalURLOf(t, crawledURL),
+	)
 	runtime.ReadMemStats(&afterRecall)
 
 	if err == nil {
@@ -111,7 +123,10 @@ func TestRepresentationFailsWhenTheCorpusCannotBeRead(t *testing.T) {
 	abandoned, abandon := context.WithCancel(context.Background())
 	abandon()
 
-	if _, _, err := corpus.RepresentationOf(abandoned, crawledURL); err == nil {
+	if _, _, err := corpus.RepresentationOf(
+		abandoned,
+		canonicalurltest.CanonicalURLOf(t, crawledURL),
+	); err == nil {
 		t.Fatal("expected an error when the corpus cannot be read")
 	}
 }

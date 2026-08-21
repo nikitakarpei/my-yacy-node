@@ -10,6 +10,8 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	yacycrawler "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/cmd/yacycrawler"
@@ -86,7 +88,9 @@ func publishOrder(t *testing.T, crawlNATSURL string) {
 			Scope: yacycrawlcontract.ScopeWide, URLMustMatch: yacycrawlcontract.MatchAll,
 			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
 		},
-		SeedURLs: []string{"http://origin.example/"},
+		SeedURLs: []canonicalurl.CanonicalURL{
+			canonicalurltest.CanonicalURLOf(t, "http://origin.example/"),
+		},
 	})
 	if err != nil {
 		t.Fatal(err)

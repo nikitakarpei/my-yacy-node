@@ -16,11 +16,18 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacymodel
       - github.com/nikitakarpei/yacy-rwi-node/yacymodel/**
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
 
 deps:
   yacycrawlcontract:
+    mayDependOn:
+      - yacycrawlcontract
     canUse:
       - yacymodel
+      - canonicalurl
 
 excludeFiles:
   - "_test\\.go"

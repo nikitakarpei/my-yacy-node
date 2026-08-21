@@ -5,6 +5,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
@@ -87,7 +88,7 @@ func TestAbsorbLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T
 }
 
 func TestAbsorbHonorsNoFollow(t *testing.T) {
-	a := newAbsorber(fakeExtract{document: linkingDocument("http://host/next")})
+	a := newAbsorber(fakeExtract{document: linkingDocument(t, "http://host/next")})
 
 	page := succeeded("http://host/")
 	page.RefusesLinkDiscovery = true
@@ -97,10 +98,11 @@ func TestAbsorbHonorsNoFollow(t *testing.T) {
 }
 
 func TestAbsorbReturnsDiscoveredLinks(t *testing.T) {
-	a := newAbsorber(fakeExtract{document: linkingDocument("http://host/next")})
+	a := newAbsorber(fakeExtract{document: linkingDocument(t, "http://host/next")})
 
 	outcome := absorb(t, a, succeeded("http://host/"))
-	if len(outcome.DiscoveredURLs) != 1 || outcome.DiscoveredURLs[0] != "http://host/next" {
+	if len(outcome.DiscoveredURLs) != 1 ||
+		outcome.DiscoveredURLs[0] != canonicalurltest.CanonicalURLOf(t, "http://host/next") {
 		t.Fatalf("want the discovered link returned, got %v", outcome.DiscoveredURLs)
 	}
 }

@@ -6,6 +6,7 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
 )
@@ -18,13 +19,19 @@ type recordingResolutions struct {
 	failWith error
 }
 
-func (r *recordingResolutions) Record(_ context.Context, requested, canonical string) error {
+func (r *recordingResolutions) Record(
+	_ context.Context,
+	requested, canonical canonicalurl.CanonicalURL,
+) error {
 	if r.failWith != nil {
 		return r.failWith
 	}
 	r.mu.Lock()
 	defer r.mu.Unlock()
-	r.edges = append(r.edges, redirectEdge{requested: requested, canonical: canonical})
+	r.edges = append(r.edges, redirectEdge{
+		requested: requested.String(),
+		canonical: canonical.String(),
+	})
 	return nil
 }
 

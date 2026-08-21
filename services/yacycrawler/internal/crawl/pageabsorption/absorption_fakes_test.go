@@ -2,7 +2,10 @@ package pageabsorption_test
 
 import (
 	"context"
+	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
@@ -38,11 +41,14 @@ func refusingDocument() contentextraction.ExtractedDocument {
 	}
 }
 
-func linkingDocument(discovered string) contentextraction.ExtractedDocument {
+func linkingDocument(t *testing.T, discovered string) contentextraction.ExtractedDocument {
+	t.Helper()
 	return contentextraction.ExtractedDocument{
-		Body:           []byte("b"),
-		Format:         contentformatgraph.FormatReadableText,
-		DiscoveredURLs: []string{discovered},
+		Body:   []byte("b"),
+		Format: contentformatgraph.FormatReadableText,
+		DiscoveredURLs: []canonicalurl.CanonicalURL{
+			canonicalurltest.CanonicalURLOf(t, discovered),
+		},
 	}
 }
 

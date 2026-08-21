@@ -12,6 +12,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/pagerepresentations/markdown"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recall"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusrecall/internal/recallreceivers/grpc"
@@ -128,7 +130,7 @@ func (c fakeCorpus) RepresentationKind() recall.RepresentationKind { return c.re
 
 func (fakeCorpus) RepresentationOf(
 	_ context.Context,
-	_ string,
+	_ canonicalurl.CanonicalURL,
 ) (recall.Representation, bool, error) {
 	return nil, false, nil
 }
@@ -186,8 +188,11 @@ func TestRecallAsksForTheKindsTheRequestNames(t *testing.T) {
 func TestRecallAnswersWithTheRepresentationsTheRecallYields(t *testing.T) {
 	receiver := recallReceiverUnderTest(t, &fakeRecaller{result: recall.RecalledPage{
 		Representations: []recall.RecalledRepresentation{{
-			Kind:           markdown.Kind,
-			Representation: markdown.Page{CanonicalURL: recalledURL, Markdown: "# Hi"},
+			Kind: markdown.Kind,
+			Representation: markdown.Page{
+				CanonicalURL: canonicalurltest.CanonicalURLOf(t, recalledURL),
+				Markdown:     "# Hi",
+			},
 		}},
 	}})
 
