@@ -15,10 +15,9 @@ import (
 )
 
 const (
-	ordersSubject              = "yacy.crawl.orders"
-	ordersStreamAppearanceWait = 60 * time.Second
-	pageStreamAppearLimit      = 30 * time.Second
-	pageStreamPollDelay        = 250 * time.Millisecond
+	ordersSubject        = "yacy.crawl.orders"
+	streamAppearanceWait = 60 * time.Second
+	messageArrivalWait   = 60 * time.Second
 )
 
 func connectJetStream(t *testing.T, url string) jetstream.JetStream {
@@ -35,36 +34,26 @@ func connectJetStream(t *testing.T, url string) jetstream.JetStream {
 	return js
 }
 
-func awaitOrdersStream(t *testing.T, ctx context.Context, js jetstream.JetStream) {
-	t.Helper()
-	appeared := pollwait.For(ordersStreamAppearanceWait, func() bool {
-		_, err := js.Stream(ctx, yacycrawlcontract.OrdersStreamName)
-		return err == nil
-	})
-	if !appeared {
-		t.Fatalf("orders stream did not appear within %s", ordersStreamAppearanceWait)
-	}
-}
-
-func awaitPageStream(
+func awaitStream(
 	t *testing.T,
 	ctx context.Context,
 	js jetstream.JetStream,
-	representation yacycrawlcontract.PageRepresentationKind,
+	name string,
 ) jetstream.Stream {
 	t.Helper()
-	name := yacycrawlcontract.CrawledPageStreamName(representation)
-	deadline := time.Now().Add(pageStreamAppearLimit)
-	for {
-		stream, err := js.Stream(ctx, name)
-		if err == nil {
-			return stream
+	var stream jetstream.Stream
+	appeared := pollwait.For(streamAppearanceWait, func() bool {
+		found, err := js.Stream(ctx, name)
+		if err != nil {
+			return false
 		}
-		if time.Now().After(deadline) {
-			t.Fatalf("crawler did not create the %s stream: %v", name, err)
-		}
-		time.Sleep(pageStreamPollDelay)
+		stream = found
+		return true
+	})
+	if !appeared {
+		t.Fatalf("crawler did not create the %s stream within %s", name, streamAppearanceWait)
 	}
+	return stream
 }
 
 func fetchOnePageRWIRepresentation(
@@ -73,7 +62,8 @@ func fetchOnePageRWIRepresentation(
 	js jetstream.JetStream,
 ) yacycrawlcontract.PageRWIRepresentation {
 	t.Helper()
-	stream := awaitPageStream(t, ctx, js, yacycrawlcontract.PageRepresentationKindRWI)
+	stream := awaitStream(t, ctx, js,
+		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindRWI))
 	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
 		AckPolicy: jetstream.AckExplicitPolicy,
 	})
@@ -84,7 +74,7 @@ func fetchOnePageRWIRepresentation(
 	var chunks []yacycrawlcontract.PageRWIChunk
 	postingChunks := 0
 	for {
-		msg, err := consumer.Next(jetstream.FetchMaxWait(60 * time.Second))
+		msg, err := consumer.Next(jetstream.FetchMaxWait(messageArrivalWait))
 		if err != nil {
 			t.Fatalf("fetch page rwi chunk: %v", err)
 		}
@@ -112,4 +102,31 @@ func fetchOnePageRWIRepresentation(
 		t.Fatalf("join page rwi chunks: %v", err)
 	}
 	return representation
+}
+
+func fetchOneReachedPage(
+	t *testing.T,
+	ctx context.Context,
+	js jetstream.JetStream,
+) yacycrawlcontract.ReachedPage {
+	t.Helper()
+	stream := awaitStream(t, ctx, js, yacycrawlcontract.ReachedPagesStreamName)
+	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
+		AckPolicy: jetstream.AckExplicitPolicy,
+	})
+	if err != nil {
+		t.Fatalf("create reached page consumer: %v", err)
+	}
+	msg, err := consumer.Next(jetstream.FetchMaxWait(messageArrivalWait))
+	if err != nil {
+		t.Fatalf("fetch reached page: %v", err)
+	}
+	page, err := yacycrawlcontract.UnmarshalReachedPage(msg.Data())
+	if err != nil {
+		t.Fatalf("decode reached page: %v", err)
+	}
+	if err := msg.Ack(); err != nil {
+		t.Fatalf("ack reached page: %v", err)
+	}
+	return page
 }

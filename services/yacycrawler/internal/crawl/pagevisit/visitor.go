@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 )
 
@@ -19,11 +20,11 @@ type Visitor interface {
 }
 
 type visitor struct {
-	fetcher  Fetcher
+	fetcher  pagefetch.Fetcher
 	recrawl  RecrawlRule
 	absorber pageabsorption.Absorber
 	observer VisitProgress
-	clock    clock.Clock
+	reached  *reachedpagepublication.Publisher
 }
 
 func (v *visitor) Visit(ctx context.Context, url string) (VisitOutcome, error) {
@@ -35,62 +36,53 @@ func (v *visitor) Visit(ctx context.Context, url string) (VisitOutcome, error) {
 		return VisitOutcome{Conclusion: VisitCompleted, Disposal: disposal.NotDue}, nil
 	}
 
-	outcome, err := v.fetchPage(ctx, url, decision.Version)
+	outcome, err := v.fetcher.Fetch(ctx, url, decision.Version)
 	if err != nil {
-		return VisitOutcome{}, err
+		return VisitOutcome{}, fmt.Errorf("fetch %s: %w", url, err)
 	}
 
 	switch outcome.Status {
-	case FetchSucceeded:
+	case pagefetch.FetchSucceeded:
 		v.observer.PageFetched()
 		return v.absorb(ctx, url, outcome)
-	case FetchNotModified:
+	case pagefetch.FetchNotModified:
 		v.recordVisit(ctx, url, outcome.Version)
 		return VisitOutcome{Conclusion: VisitCompleted, Disposal: disposal.NotModified}, nil
-	case FetchCeased:
+	case pagefetch.FetchCeased:
 		v.recordVisit(ctx, url, outcome.Version)
 		v.observer.RefusalHonored(refusal.Cease)
 		return VisitOutcome{Conclusion: VisitCompleted, Disposal: disposal.Refused}, nil
-	case FetchDeferred:
+	case pagefetch.FetchDeferred:
 		return VisitOutcome{Conclusion: VisitDeferred, DeferFor: outcome.DeferFor}, nil
-	case FetchNotAPage:
+	case pagefetch.FetchNotAPage:
 		v.observer.PageFetched()
 		return VisitOutcome{
 			Conclusion: VisitCompleted,
 			Fetched:    true,
 			Disposal:   disposal.NotAPage,
 		}, nil
-	case FetchFailed:
+	case pagefetch.FetchFailed:
 		return VisitOutcome{Conclusion: VisitRetryable}, nil
 	default:
 		return VisitOutcome{}, fmt.Errorf("unknown fetch status %d for %s", outcome.Status, url)
 	}
 }
 
-func (v *visitor) fetchPage(
-	ctx context.Context,
-	rawURL string,
-	knownVersion PageVersion,
-) (FetchOutcome, error) {
-	start := v.clock.Now()
-	outcome, err := v.fetcher.Fetch(ctx, rawURL, knownVersion)
-	if err != nil {
-		return FetchOutcome{}, fmt.Errorf("fetch %s: %w", rawURL, err)
-	}
-	v.observer.FetchCompleted(v.clock.Now().Sub(start))
-	return outcome, nil
-}
-
 func (v *visitor) absorb(
 	ctx context.Context,
 	url string,
-	outcome FetchOutcome,
+	outcome pagefetch.FetchOutcome,
 ) (VisitOutcome, error) {
 	absorption, err := v.absorber.Absorb(ctx, outcome.Page)
 	if err != nil {
 		return VisitOutcome{}, err
 	}
 	v.recordVisit(ctx, url, outcome.Version)
+	if absorption.Disposal == disposal.NotDisposed {
+		if err := v.reached.Publish(ctx, outcome.Page.FinalURL); err != nil {
+			return VisitOutcome{}, err
+		}
+	}
 	return VisitOutcome{
 		Conclusion:     VisitCompleted,
 		Fetched:        true,
@@ -99,7 +91,7 @@ func (v *visitor) absorb(
 	}, nil
 }
 
-func (v *visitor) recordVisit(ctx context.Context, url string, version PageVersion) {
+func (v *visitor) recordVisit(ctx context.Context, url string, version pagefetch.PageVersion) {
 	if err := v.recrawl.RecordVisit(ctx, url, version); err != nil {
 		slog.WarnContext(ctx, msgRecrawlRecordFailed,
 			slog.String("url", url),

@@ -3,8 +3,8 @@ package text
 import (
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 )
 

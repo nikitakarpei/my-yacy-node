@@ -5,6 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 )
 
 type recordingAbsorberSource struct {
@@ -23,12 +24,13 @@ func TestVisitorForTakesItsAbsorberFromTheIndexingRefusal(t *testing.T) {
 	absorbers := &recordingAbsorberSource{absorber: &fakeAbsorption{
 		links: map[string][]string{"http://host/": {"http://host/next"}},
 	}}
+	observer := newObserver()
 	source := pagevisit.New(
 		fetchOf(fetchedOutcome()),
 		&fakeRecrawl{due: true},
 		absorbers,
-		newObserver(),
-		&manualClock{},
+		observer,
+		reachedpagepublication.NewPublisher(observer, &fakeReachedPages{}),
 	)
 
 	visitor := source.VisitorFor(pageabsorption.Ignored)

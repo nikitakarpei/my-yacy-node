@@ -7,6 +7,9 @@ const (
 
 	crawledPageStreamPrefix  = "YACY_CRAWL_PAGE_"
 	crawledPageSubjectPrefix = "yacy.crawl.page."
+
+	ReachedPagesStreamName = "CRAWL_REACHED_PAGES"
+	ReachedPageSubject     = "crawl.reachedpage"
 )
 
 func CrawledPageStreamName(representation PageRepresentationKind) string {

@@ -6,8 +6,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
 )
 
@@ -30,29 +29,29 @@ func (r *recordingResolutions) Record(_ context.Context, requested, canonical st
 }
 
 type recordingFetch struct {
-	outcome    pagevisit.FetchOutcome
+	outcome    pagefetch.FetchOutcome
 	err        error
 	fetches    int
-	gotVersion pagevisit.PageVersion
+	gotVersion pagefetch.PageVersion
 }
 
 func (f *recordingFetch) Fetch(
 	_ context.Context,
 	_ string,
-	knownVersion pagevisit.PageVersion,
-) (pagevisit.FetchOutcome, error) {
+	knownVersion pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
 	f.fetches++
 	f.gotVersion = knownVersion
 	if f.err != nil {
-		return pagevisit.FetchOutcome{}, f.err
+		return pagefetch.FetchOutcome{}, f.err
 	}
 	return f.outcome, nil
 }
 
-func fetchedOutcome(finalURL string, chain []string) pagevisit.FetchOutcome {
-	return pagevisit.FetchOutcome{
-		Status:        pagevisit.FetchSucceeded,
-		Page:          fetchedpage.Page{FinalURL: finalURL},
+func fetchedOutcome(finalURL string, chain []string) pagefetch.FetchOutcome {
+	return pagefetch.FetchOutcome{
+		Status:        pagefetch.FetchSucceeded,
+		Page:          pagefetch.FetchedPage{FinalURL: finalURL},
 		RedirectChain: chain,
 	}
 }
@@ -60,12 +59,12 @@ func fetchedOutcome(finalURL string, chain []string) pagevisit.FetchOutcome {
 func fetch(
 	t *testing.T,
 	resolutions redirectrecording.RedirectResolutions,
-	outcome pagevisit.FetchOutcome,
-) (pagevisit.FetchOutcome, *recordingFetch) {
+	outcome pagefetch.FetchOutcome,
+) (pagefetch.FetchOutcome, *recordingFetch) {
 	t.Helper()
 	fetcher := &recordingFetch{outcome: outcome}
 	got, err := redirectrecording.New(resolutions, fetcher).
-		Fetch(context.Background(), "http://host/a", pagevisit.PageVersion{})
+		Fetch(context.Background(), "http://host/a", pagefetch.PageVersion{})
 	if err != nil {
 		t.Fatalf("fetch: %v", err)
 	}
@@ -106,8 +105,8 @@ func TestFetchRecordsNoEdgeOnDirectFetch(t *testing.T) {
 func TestFetchRecordsNoEdgeWithoutAFinalURL(t *testing.T) {
 	resolutions := &recordingResolutions{}
 
-	fetch(t, resolutions, pagevisit.FetchOutcome{
-		Status:        pagevisit.FetchNotModified,
+	fetch(t, resolutions, pagefetch.FetchOutcome{
+		Status:        pagefetch.FetchNotModified,
 		RedirectChain: []string{"http://host/a"},
 	})
 
@@ -129,7 +128,7 @@ func TestFetchPassesThroughTheOutcome(t *testing.T) {
 
 func TestFetchPassesThroughTheKnownVersion(t *testing.T) {
 	fetcher := &recordingFetch{outcome: fetchedOutcome("http://host/", nil)}
-	known := pagevisit.PageVersion{EntityTag: `"etag"`}
+	known := pagefetch.PageVersion{EntityTag: `"etag"`}
 
 	if _, err := redirectrecording.New(&recordingResolutions{}, fetcher).
 		Fetch(context.Background(), "http://host/a", known); err != nil {
@@ -145,7 +144,7 @@ func TestFetchPropagatesFetchError(t *testing.T) {
 	fetcher := &recordingFetch{err: errors.New("boom")}
 
 	if _, err := redirectrecording.New(&recordingResolutions{}, fetcher).
-		Fetch(context.Background(), "http://host/a", pagevisit.PageVersion{}); err == nil {
+		Fetch(context.Background(), "http://host/a", pagefetch.PageVersion{}); err == nil {
 		t.Fatal("a fetch error should reach the caller")
 	}
 }

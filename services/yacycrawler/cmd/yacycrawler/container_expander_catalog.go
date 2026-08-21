@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/containerexpanders/archive"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/containerexpanders/archive"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
 )
 
 type registeredContainerExpander interface {

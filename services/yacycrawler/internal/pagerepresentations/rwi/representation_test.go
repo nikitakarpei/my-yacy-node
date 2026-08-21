@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerepresentations/rwi"
 )
 

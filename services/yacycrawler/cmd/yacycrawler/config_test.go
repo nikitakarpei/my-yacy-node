@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	yacycrawler "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/cmd/yacycrawler"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
 )
 
 func envFrom(values map[string]string) func(string) string {

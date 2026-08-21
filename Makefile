@@ -145,7 +145,7 @@ arch: $(TOOLS_STAMP)
 arch-diagram: $(TOOLS_STAMP)
 	@mkdir -p $(ARCH_DIAGRAM_DIR)
 	@$(call for_each_go,arch-diagram,$(GO_ARCH_LINT) graph \
-		--out $(ARCH_DIAGRAM_DIR)/$$(echo $$m | tr / -).svg)
+		--out $(ARCH_DIAGRAM_DIR)/$$(echo {} | tr / -).svg)
 	@echo "    written to $(ARCH_DIAGRAM_DIR)/"
 
 test-go:

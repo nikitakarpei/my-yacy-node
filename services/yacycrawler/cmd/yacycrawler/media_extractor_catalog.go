@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediaextractors/html"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/mediaextractors/html"
 )
 
 type registeredMediaExtractor interface {

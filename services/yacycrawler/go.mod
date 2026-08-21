@@ -3,21 +3,21 @@ module github.com/nikitakarpei/yacy-rwi-node/yacycrawler
 go 1.26
 
 require (
-	codeberg.org/readeck/go-readability/v2 v2.1.2
-	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
+	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/wallclock v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/prometheus/client_golang v1.23.2
-	golang.org/x/net v0.55.0
 )
 
 require (
+	codeberg.org/readeck/go-readability/v2 v2.1.2 // indirect
 	github.com/JohannesKaufmann/dom v0.3.1 // indirect
+	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2 // indirect
 	github.com/andybalholm/cascadia v1.3.4 // indirect
 	github.com/antithesishq/antithesis-sdk-go v0.7.0-default-no-op // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -38,6 +38,7 @@ require (
 	github.com/prometheus/procfs v0.16.1 // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	golang.org/x/crypto v0.52.0 // indirect
+	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/sync v0.21.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
@@ -56,3 +57,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacym
 replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/natstestserver
 
 replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallclock
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../libraries/pagescrape

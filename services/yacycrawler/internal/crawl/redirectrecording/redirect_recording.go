@@ -6,7 +6,7 @@ import (
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 )
 
 const (
@@ -20,27 +20,27 @@ type RedirectResolutions interface {
 
 type Fetch struct {
 	resolutions RedirectResolutions
-	fetcher     pagevisit.Fetcher
+	fetcher     pagefetch.Fetcher
 }
 
-func New(resolutions RedirectResolutions, fetcher pagevisit.Fetcher) *Fetch {
+func New(resolutions RedirectResolutions, fetcher pagefetch.Fetcher) *Fetch {
 	return &Fetch{resolutions: resolutions, fetcher: fetcher}
 }
 
 func (f *Fetch) Fetch(
 	ctx context.Context,
 	rawURL string,
-	knownVersion pagevisit.PageVersion,
-) (pagevisit.FetchOutcome, error) {
+	knownVersion pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
 	outcome, err := f.fetcher.Fetch(ctx, rawURL, knownVersion)
 	if err != nil {
-		return pagevisit.FetchOutcome{}, err
+		return pagefetch.FetchOutcome{}, err
 	}
 	f.record(ctx, outcome)
 	return outcome, nil
 }
 
-func (f *Fetch) record(ctx context.Context, outcome pagevisit.FetchOutcome) {
+func (f *Fetch) record(ctx context.Context, outcome pagefetch.FetchOutcome) {
 	if len(outcome.RedirectChain) == 0 || outcome.Page.FinalURL == "" {
 		return
 	}

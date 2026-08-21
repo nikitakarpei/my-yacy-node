@@ -1,8 +1,9 @@
 package pagevisit
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 )
 
 type VisitorSource interface {
@@ -10,26 +11,26 @@ type VisitorSource interface {
 }
 
 type visitorSource struct {
-	fetcher   Fetcher
+	fetcher   pagefetch.Fetcher
 	recrawl   RecrawlRule
 	absorbers pageabsorption.AbsorberSource
 	observer  VisitProgress
-	clock     clock.Clock
+	reached   *reachedpagepublication.Publisher
 }
 
 func New(
-	fetcher Fetcher,
+	fetcher pagefetch.Fetcher,
 	recrawl RecrawlRule,
 	absorbers pageabsorption.AbsorberSource,
 	observer VisitProgress,
-	clock clock.Clock,
+	reached *reachedpagepublication.Publisher,
 ) VisitorSource {
 	return &visitorSource{
 		fetcher:   fetcher,
 		recrawl:   recrawl,
 		absorbers: absorbers,
 		observer:  observer,
-		clock:     clock,
+		reached:   reached,
 	}
 }
 
@@ -41,6 +42,6 @@ func (s *visitorSource) VisitorFor(
 		recrawl:  s.recrawl,
 		absorber: s.absorbers.AbsorberFor(indexingRefusal),
 		observer: s.observer,
-		clock:    s.clock,
+		reached:  s.reached,
 	}
 }

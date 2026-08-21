@@ -5,9 +5,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 )
@@ -83,8 +83,8 @@ func refusingDocument(url string) contentextraction.ExtractedDocument {
 	}
 }
 
-func succeeded(finalURL string) fetchedpage.Page {
-	return fetchedpage.Page{
+func succeeded(finalURL string) pagefetch.FetchedPage {
+	return pagefetch.FetchedPage{
 		FinalURL:    finalURL,
 		ContentType: "text/html",
 		Body:        []byte("x"),

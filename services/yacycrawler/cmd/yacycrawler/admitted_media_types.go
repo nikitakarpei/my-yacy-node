@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediatypeallowance"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/mediatypeallowance"
 )
 
 type admittedMediaTypes struct {

@@ -11,26 +11,29 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchtiming"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 	disposedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/disposedpages/jetstream"
 	orderreceiversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
-	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchers/http"
 	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
+	reachedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/reachedpages/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/alwaysdue"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	redirectresolversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolvers/jetstream"
@@ -127,6 +130,9 @@ func ensureNATSState(ctx context.Context, js jetstream.JetStream, cfg ServiceCon
 	if err := ensureCrawledPageStreams(ctx, js, cfg.PageStreams); err != nil {
 		return err
 	}
+	if err := ensureReachedPagesStream(ctx, js); err != nil {
+		return err
+	}
 	if err := ensureRedirectResolutionBucket(ctx, js); err != nil {
 		return err
 	}
@@ -162,6 +168,19 @@ func ensureCrawledPageStreams(
 		}); err != nil {
 			return fmt.Errorf("ensure crawled page %s stream: %w", stream.Representation, err)
 		}
+	}
+	return nil
+}
+
+func ensureReachedPagesStream(ctx context.Context, js jetstream.JetStream) error {
+	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+		Name:      yacycrawlcontract.ReachedPagesStreamName,
+		Subjects:  []string{yacycrawlcontract.ReachedPageSubject},
+		Retention: jetstream.WorkQueuePolicy,
+		MaxMsgs:   DefaultMaxMsgs,
+		Discard:   jetstream.DiscardNew,
+	}); err != nil {
+		return fmt.Errorf("ensure reached pages stream: %w", err)
 	}
 	return nil
 }
@@ -249,11 +268,11 @@ func buildVisitorSource(
 		return nil, err
 	}
 	return pagevisit.New(
-		redirectrecording.New(resolve, fetch),
+		redirectrecording.New(resolve, fetchtiming.New(metrics, wallclock.Clock{}, fetch)),
 		recrawl,
 		absorbers,
 		metrics,
-		wallclock.Clock{},
+		reachedpagepublication.NewPublisher(metrics, reachedpagesjetstream.New(js)),
 	), nil
 }
 

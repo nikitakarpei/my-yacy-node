@@ -7,10 +7,10 @@ import (
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchedpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 )
 
@@ -20,7 +20,7 @@ const (
 )
 
 type Absorber interface {
-	Absorb(ctx context.Context, page fetchedpage.Page) (AbsorptionOutcome, error)
+	Absorb(ctx context.Context, page pagefetch.FetchedPage) (AbsorptionOutcome, error)
 }
 
 type PageExtractor interface {
@@ -44,7 +44,7 @@ type absorber struct {
 
 func (a *absorber) Absorb(
 	ctx context.Context,
-	page fetchedpage.Page,
+	page pagefetch.FetchedPage,
 ) (AbsorptionOutcome, error) {
 	if page.Truncated {
 		return AbsorptionOutcome{Disposal: disposal.Oversized}, nil
@@ -54,7 +54,7 @@ func (a *absorber) Absorb(
 
 func (a *absorber) absorbDocuments(
 	ctx context.Context,
-	page fetchedpage.Page,
+	page pagefetch.FetchedPage,
 ) (AbsorptionOutcome, error) {
 	documents, err := a.extractor.ExtractDocuments(
 		ctx, page.FinalURL, page.ContentType, page.Body,
@@ -96,7 +96,7 @@ func extractionDisposal(err error) disposal.Reason {
 
 func (a *absorber) absorbDocument(
 	ctx context.Context,
-	page fetchedpage.Page,
+	page pagefetch.FetchedPage,
 	document contentextraction.ExtractedDocument,
 ) (absorbedDocument, error) {
 	canonical, err := canonicalurl.Canonicalize(document.URL)
@@ -120,7 +120,7 @@ func (a *absorber) absorbDocument(
 }
 
 func (a *absorber) discoverLinks(
-	page fetchedpage.Page,
+	page pagefetch.FetchedPage,
 	document contentextraction.ExtractedDocument,
 ) []string {
 	if document.RefusesLinkDiscovery || page.RefusesLinkDiscovery {

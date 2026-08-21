@@ -9,7 +9,7 @@ import (
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 )
 
@@ -41,7 +41,7 @@ func TestDecisionDueWithNoVersionWhenNeverVisited(t *testing.T) {
 	if err != nil {
 		t.Fatalf("decision: %v", err)
 	}
-	if !decision.Due || decision.Version != (pagevisit.PageVersion{}) {
+	if !decision.Due || decision.Version != (pagefetch.PageVersion{}) {
 		t.Fatalf("want due with no page version, got %+v", decision)
 	}
 }
@@ -52,7 +52,7 @@ func TestDecisionNotDueWithinGraceButReturnsVersion(t *testing.T) {
 	rule := dueaftergrace.New(newBucket(t), clock, time.Hour)
 
 	const url = "http://example.com/a"
-	version := pagevisit.PageVersion{EntityTag: `"abc"`, ModifiedAt: now.Add(-time.Minute)}
+	version := pagefetch.PageVersion{EntityTag: `"abc"`, ModifiedAt: now.Add(-time.Minute)}
 	if err := rule.RecordVisit(context.Background(), url, version); err != nil {
 		t.Fatalf("record visit: %v", err)
 	}
@@ -80,7 +80,7 @@ func TestDecisionDueOutsideGraceWindow(t *testing.T) {
 	if err := rule.RecordVisit(
 		context.Background(),
 		url,
-		pagevisit.PageVersion{EntityTag: `"abc"`},
+		pagefetch.PageVersion{EntityTag: `"abc"`},
 	); err != nil {
 		t.Fatalf("record visit: %v", err)
 	}

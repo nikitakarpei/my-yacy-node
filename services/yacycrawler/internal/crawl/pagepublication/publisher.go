@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 )
 

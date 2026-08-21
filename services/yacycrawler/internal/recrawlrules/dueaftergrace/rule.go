@@ -8,6 +8,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
@@ -39,7 +40,7 @@ func (r *Rule) DecisionFor(
 	}
 	return pagevisit.RecrawlDecision{
 		Due: r.clock.Now().Sub(record.VisitedAt) >= r.grace,
-		Version: pagevisit.PageVersion{
+		Version: pagefetch.PageVersion{
 			EntityTag:  record.EntityTag,
 			ModifiedAt: record.ModifiedAt,
 		},
@@ -49,7 +50,7 @@ func (r *Rule) DecisionFor(
 func (r *Rule) RecordVisit(
 	ctx context.Context,
 	canonicalURL string,
-	version pagevisit.PageVersion,
+	version pagefetch.PageVersion,
 ) error {
 	payload, err := marshalPageVisit(pageVisit{
 		VisitedAt:  r.clock.Now(),

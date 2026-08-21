@@ -33,6 +33,7 @@ type CrawlMetrics struct {
 	ordersCompleted            prometheus.Counter
 	ordersRedelivered          prometheus.Counter
 	pagesFetched               prometheus.Counter
+	reachedPagesPublished      prometheus.Counter
 	pagesPublished             *prometheus.CounterVec
 	representationsUnderivable *prometheus.CounterVec
 	pagesDisposed              *prometheus.CounterVec
@@ -59,6 +60,10 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 		pagesFetched: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "yacycrawler_pages_fetched_total",
 			Help: "Pages fetched.",
+		}),
+		reachedPagesPublished: prometheus.NewCounter(prometheus.CounterOpts{
+			Name: "yacycrawler_reached_pages_published_total",
+			Help: "Reached pages published.",
 		}),
 		pagesPublished: prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: "yacycrawler_pages_published_total",
@@ -95,6 +100,7 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 		metrics.ordersCompleted,
 		metrics.ordersRedelivered,
 		metrics.pagesFetched,
+		metrics.reachedPagesPublished,
 		metrics.pagesPublished,
 		metrics.representationsUnderivable,
 		metrics.pagesDisposed,
@@ -106,10 +112,11 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 	return metrics
 }
 
-func (m *CrawlMetrics) OrderReceived()    { m.ordersReceived.Inc() }
-func (m *CrawlMetrics) OrderCompleted()   { m.ordersCompleted.Inc() }
-func (m *CrawlMetrics) OrderRedelivered() { m.ordersRedelivered.Inc() }
-func (m *CrawlMetrics) PageFetched()      { m.pagesFetched.Inc() }
+func (m *CrawlMetrics) OrderReceived()        { m.ordersReceived.Inc() }
+func (m *CrawlMetrics) OrderCompleted()       { m.ordersCompleted.Inc() }
+func (m *CrawlMetrics) OrderRedelivered()     { m.ordersRedelivered.Inc() }
+func (m *CrawlMetrics) PageFetched()          { m.pagesFetched.Inc() }
+func (m *CrawlMetrics) ReachedPagePublished() { m.reachedPagesPublished.Inc() }
 
 func (m *CrawlMetrics) PagePublished(
 	representation yacycrawlcontract.PageRepresentationKind,
