@@ -9,10 +9,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/crawledpagedocument"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 type Index struct {
@@ -41,13 +39,13 @@ type replaceRequest struct {
 
 func (idx *Index) Index(
 	ctx context.Context,
-	page yacycrawlcontract.PageTextRepresentation,
+	document searchdocument.Document,
 ) error {
-	identity := documentIdentity(page.CanonicalURL)
+	identity := documentIdentity(document.URL)
 	body, err := json.Marshal(replaceRequest{
-		Table:    idx.tables.NameFor(page.Language),
+		Table:    idx.tables.NameFor(document.Language),
 		Identity: identity,
-		Document: crawledpagedocument.Of(page),
+		Document: document,
 	})
 	if err != nil {
 		return fmt.Errorf("marshal search document %d: %w", identity, err)

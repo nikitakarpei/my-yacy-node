@@ -59,7 +59,6 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	}
 	everyRepresentation := []yacycrawlcontract.PageRepresentationKind{
 		yacycrawlcontract.PageRepresentationKindRWI,
-		yacycrawlcontract.PageRepresentationKindText,
 	}
 	if !slices.Equal(pageStreamRepresentations(cfg), everyRepresentation) {
 		t.Fatalf("every representation should get a stream: %+v", cfg.PageStreams)
@@ -148,15 +147,6 @@ func TestLoadServiceConfigRejectsNonHTTPProxy(t *testing.T) {
 	}
 }
 
-func TestLoadServiceConfigBothOutputsDisabled(t *testing.T) {
-	env := baseEnv()
-	env["YACYCRAWLER_PUBLISH_RWI"] = "false"
-	env["YACYCRAWLER_PUBLISH_TEXT"] = "false"
-	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
-		t.Fatal("both outputs disabled should error")
-	}
-}
-
 func TestLoadServiceConfigParsesContentTypes(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_CONTENT_TYPES"] = "text/html, Application/PDF ,"
@@ -174,7 +164,6 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env := baseEnv()
 	env["YACYCRAWLER_FETCH_CONCURRENCY"] = "8"
 	env["YACYCRAWLER_FETCH_DEADLINE"] = "5s"
-	env["YACYCRAWLER_PUBLISH_TEXT"] = "true"
 	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
@@ -183,8 +172,8 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 		t.Fatalf("overrides not applied: %+v", cfg)
 	}
 	published := publishedPageStreamRepresentations(cfg)
-	if !slices.Contains(published, yacycrawlcontract.PageRepresentationKindText) {
-		t.Fatalf("text output should be enabled: %v", published)
+	if !slices.Contains(published, yacycrawlcontract.PageRepresentationKindRWI) {
+		t.Fatalf("rwi output should stay enabled: %v", published)
 	}
 }
 
@@ -195,6 +184,7 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"YACYCRAWLER_MAX_BODY_BYTES": "-1"},
 		{"YACYCRAWLER_FETCH_DEADLINE": "nope"},
 		{"YACYCRAWLER_PUBLISH_RWI": "maybe"},
+		{"YACYCRAWLER_PUBLISH_RWI": "false"},
 		{"NATS_PAGE_RWI_MAX_MSGS": "0"},
 	} {
 		env := baseEnv()
@@ -209,21 +199,20 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 
 func TestPageOutputEnvNamesFollowTheRepresentation(t *testing.T) {
 	env := baseEnv()
-	env["YACYCRAWLER_PUBLISH_TEXT"] = "true"
-	env["NATS_PAGE_TEXT_SUBJECT"] = "custom.text"
-	env["NATS_PAGE_TEXT_MAX_MSGS"] = "7"
+	env["NATS_PAGE_RWI_SUBJECT"] = "custom.rwi"
+	env["NATS_PAGE_RWI_MAX_MSGS"] = "7"
 	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
 	}
 	for _, output := range cfg.PageStreams {
-		if output.Representation != yacycrawlcontract.PageRepresentationKindText {
+		if output.Representation != yacycrawlcontract.PageRepresentationKindRWI {
 			continue
 		}
-		if output.Subject != "custom.text" || output.MaxMsgs != 7 {
-			t.Fatalf("text stream = %+v", output)
+		if output.Subject != "custom.rwi" || output.MaxMsgs != 7 {
+			t.Fatalf("rwi stream = %+v", output)
 		}
 		return
 	}
-	t.Fatal("text output should be enabled")
+	t.Fatal("rwi output should be configured")
 }

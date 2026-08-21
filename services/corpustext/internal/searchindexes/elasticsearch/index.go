@@ -10,9 +10,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/crawledpagedocument"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/languageindex"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 )
 
 type Index struct {
@@ -35,17 +34,17 @@ func New(
 
 func (idx *Index) Index(
 	ctx context.Context,
-	page yacycrawlcontract.PageTextRepresentation,
+	document searchdocument.Document,
 ) error {
-	identity := documentIdentity(page.CanonicalURL)
-	body, err := json.Marshal(crawledpagedocument.Of(page))
+	identity := documentIdentity(document.URL)
+	body, err := json.Marshal(document)
 	if err != nil {
 		return fmt.Errorf("marshal search document %s: %w", identity, err)
 	}
 	target := fmt.Sprintf(
 		"%s/%s/_doc/%s",
 		idx.endpoint,
-		idx.indexes.NameFor(page.Language),
+		idx.indexes.NameFor(document.Language),
 		url.PathEscape(identity),
 	)
 	req, err := http.NewRequestWithContext(ctx, http.MethodPut, target, bytes.NewReader(body))

@@ -16,7 +16,6 @@ import (
 )
 
 const (
-	crawledPageSubject      = "yacy.crawl.page.markdown"
 	natsStateAppearanceWait = 60 * time.Second
 )
 

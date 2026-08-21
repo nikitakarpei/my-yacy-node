@@ -78,7 +78,6 @@ services:
       CRAWL_NATS_URL: nats://nats:4222
       YACYCRAWLER_PROXY_URL: http://renderproxy:8080
       YACYCRAWLER_PROXY_DIAL_MODE: absolute-url
-      YACYCRAWLER_PUBLISH_TEXT: "true"
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   visitcrawl:
@@ -97,9 +96,12 @@ services:
     depends_on:
       - nats
       - yacycrawler
+      - renderproxy
       - manticore
     environment:
       CRAWL_NATS_URL: nats://nats:4222
+      CORPUSTEXT_PROXY_URL: http://renderproxy:8080
+      CORPUSTEXT_PROXY_DIAL_MODE: absolute-url
       SEARCH_INDEX_ENGINE: manticore
       MANTICORE_URL: http://manticore:9308
       CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}

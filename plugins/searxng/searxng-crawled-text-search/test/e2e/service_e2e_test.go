@@ -7,10 +7,11 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 )
 
-func TestCrawledTextSearchReadsEveryLanguageIndexInElasticsearch(t *testing.T) {
+func TestReachedTextSearchReadsEveryLanguageIndexInElasticsearch(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
@@ -18,11 +19,14 @@ func TestCrawledTextSearchReadsEveryLanguageIndexInElasticsearch(t *testing.T) {
 	natsURL := natsjetstream.Start(t, ctx, network.Name)
 	elasticsearchHostURL := startElasticsearch(t, ctx, network.Name)
 
+	egressproxy.Start(t, ctx, network.Name)
+	startOrigins(t, ctx, network.Name)
+
 	js := connectJetStream(t, natsURL)
-	createCrawledPageStream(t, ctx, js)
+	createReachedPagesStream(t, ctx, js)
 
 	startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
-	publishCrawledCorpus(t, ctx, js)
+	publishReachedCorpus(t, ctx, js)
 	awaitElasticsearchCorpus(t, ctx, elasticsearchHostURL)
 	assertCatchAllHoldsTheUnconfiguredPage(
 		t,
@@ -31,10 +35,10 @@ func TestCrawledTextSearchReadsEveryLanguageIndexInElasticsearch(t *testing.T) {
 
 	searxngBaseURL := startSearXNG(t, ctx, network.Name, elasticsearchEngineSettings())
 
-	assertCrawledCorpusIsSearchable(t, ctx, searxngBaseURL)
+	assertReachedCorpusIsSearchable(t, ctx, searxngBaseURL)
 }
 
-func TestCrawledTextSearchReadsEveryLanguageTableInManticore(t *testing.T) {
+func TestReachedTextSearchReadsEveryLanguageTableInManticore(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
@@ -42,11 +46,14 @@ func TestCrawledTextSearchReadsEveryLanguageTableInManticore(t *testing.T) {
 	natsURL := natsjetstream.Start(t, ctx, network.Name)
 	manticoreHostURL := startManticore(t, ctx, network.Name)
 
+	egressproxy.Start(t, ctx, network.Name)
+	startOrigins(t, ctx, network.Name)
+
 	js := connectJetStream(t, natsURL)
-	createCrawledPageStream(t, ctx, js)
+	createReachedPagesStream(t, ctx, js)
 
 	startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
-	publishCrawledCorpus(t, ctx, js)
+	publishReachedCorpus(t, ctx, js)
 	awaitManticoreCorpus(t, ctx, manticoreHostURL)
 	assertCatchAllHoldsTheUnconfiguredPage(
 		t,
@@ -55,5 +62,5 @@ func TestCrawledTextSearchReadsEveryLanguageTableInManticore(t *testing.T) {
 
 	searxngBaseURL := startSearXNG(t, ctx, network.Name, manticoreEngineSettings())
 
-	assertCrawledCorpusIsSearchable(t, ctx, searxngBaseURL)
+	assertReachedCorpusIsSearchable(t, ctx, searxngBaseURL)
 }

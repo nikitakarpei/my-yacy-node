@@ -21,9 +21,9 @@ store.
 
 * The service SHALL consume only the crawler's reached-page stream.
 * For each reached page, the service SHALL fetch the page through its configured proxy and
-  derive markdown from every document the page holds.
-* The service SHALL store each derived markdown under an object name derived solely from the
-  document's canonical URL.
+  derive markdown from the document it holds.
+* The service SHALL store the derived markdown under an object name derived solely from the
+  fetched page's canonical URL.
 * Storing a page whose canonical URL is already stored SHALL overwrite it, so the store
   holds one current copy per URL.
 * A reached page that the service cannot read, or from which no markdown derives, SHALL

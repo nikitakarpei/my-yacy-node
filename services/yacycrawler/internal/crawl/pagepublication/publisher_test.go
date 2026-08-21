@@ -14,6 +14,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 )
 
+const siblingRepresentation = yacycrawlcontract.PageRepresentationKind("sibling")
+
 type fakeRepresentation struct {
 	kind          yacycrawlcontract.PageRepresentationKind
 	contentFormat contentformatgraph.Format
@@ -171,25 +173,28 @@ func readablePage() pagepublication.Page {
 
 func TestPublishReachesEveryRepresentation(t *testing.T) {
 	rwi := &fakeRepresentation{kind: yacycrawlcontract.PageRepresentationKindRWI}
-	text := &fakeRepresentation{kind: yacycrawlcontract.PageRepresentationKindText}
-	p := newPublisher([]pagepublication.PageRepresentation{rwi, text}, newObserver())
+	sibling := &fakeRepresentation{kind: siblingRepresentation}
+	p := newPublisher([]pagepublication.PageRepresentation{rwi, sibling}, newObserver())
 
 	if err := p.Publish(t.Context(), readablePage()); err != nil {
 		t.Fatalf("publish: %v", err)
 	}
-	if len(rwi.published) != 1 || len(text.published) != 1 {
-		t.Fatalf("representations not both advanced: rwi=%v text=%v", rwi.published, text.published)
+	if len(rwi.published) != 1 || len(sibling.published) != 1 {
+		t.Fatalf(
+			"representations not both advanced: rwi=%v sibling=%v",
+			rwi.published, sibling.published,
+		)
 	}
 }
 
 func TestPublishSkipsTheRepresentationThatCannotDerive(t *testing.T) {
 	rwi := &fakeRepresentation{kind: yacycrawlcontract.PageRepresentationKindRWI}
-	text := &fakeRepresentation{
-		kind:          yacycrawlcontract.PageRepresentationKindText,
+	sibling := &fakeRepresentation{
+		kind:          siblingRepresentation,
 		contentFormat: contentformatgraph.FormatMarkdown,
 	}
 	observer := newObserver()
-	p := newPublisher([]pagepublication.PageRepresentation{rwi, text}, observer)
+	p := newPublisher([]pagepublication.PageRepresentation{rwi, sibling}, observer)
 
 	if err := p.Publish(t.Context(), readablePage()); err != nil {
 		t.Fatalf("an underivable representation should not fail publication: %v", err)
@@ -197,10 +202,10 @@ func TestPublishSkipsTheRepresentationThatCannotDerive(t *testing.T) {
 	if len(rwi.published) != 1 {
 		t.Fatalf("derivable sibling withheld: rwi=%v", rwi.published)
 	}
-	if len(text.published) != 0 {
-		t.Fatalf("underivable representation advanced: text=%v", text.published)
+	if len(sibling.published) != 0 {
+		t.Fatalf("underivable representation advanced: sibling=%v", sibling.published)
 	}
-	if observer.underivable[yacycrawlcontract.PageRepresentationKindText] != 1 {
+	if observer.underivable[siblingRepresentation] != 1 {
 		t.Fatalf("underivable representation unobserved: %v", observer.underivable)
 	}
 }

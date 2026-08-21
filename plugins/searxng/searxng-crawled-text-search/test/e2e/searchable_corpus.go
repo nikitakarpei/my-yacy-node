@@ -10,16 +10,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/searxngsearch"
 )
 
-func assertCrawledCorpusIsSearchable(t *testing.T, ctx context.Context, searxngBaseURL string) {
+func assertReachedCorpusIsSearchable(t *testing.T, ctx context.Context, searxngBaseURL string) {
 	t.Helper()
-	assertCrawledPageIsFound(t, ctx, searxngBaseURL)
+	assertReachedPageIsFound(t, ctx, searxngBaseURL)
 	assertStemmedTermMatches(t, ctx, searxngBaseURL)
 	assertSearchLanguageSelectsItsIndex(t, ctx, searxngBaseURL)
 	assertCatchAllPageIsFound(t, ctx, searxngBaseURL)
 	assertUnmatchedTermFindsNothing(t, ctx, searxngBaseURL)
 }
 
-func assertCrawledPageIsFound(t *testing.T, ctx context.Context, searxngBaseURL string) {
+func assertReachedPageIsFound(t *testing.T, ctx context.Context, searxngBaseURL string) {
 	t.Helper()
 	result := searxngsearch.OneResultInAnyLanguage(
 		t, ctx, searxngBaseURL, "!"+engineBang+" "+englishSearchTerm,

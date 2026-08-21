@@ -2,16 +2,24 @@ package main
 
 import (
 	"fmt"
+	"net/url"
 	"strings"
+	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
 	EnvCrawlNATSURL           = "CRAWL_NATS_URL"
-	EnvNATSCrawledPageSubject = "NATS_CRAWLED_PAGE_SUBJECT"
-	EnvNATSCrawledPageDurable = "NATS_CRAWLED_PAGE_DURABLE"
+	EnvNATSReachedPageSubject = "NATS_REACHED_PAGE_SUBJECT"
+	EnvNATSReachedPageDurable = "NATS_REACHED_PAGE_DURABLE"
+	EnvProxyURL               = "CORPUSTEXT_PROXY_URL"
+	EnvProxyDialMode          = "CORPUSTEXT_PROXY_DIAL_MODE"
+	EnvUserAgent              = "CORPUSTEXT_USER_AGENT"
+	EnvMaxBodyBytes           = "CORPUSTEXT_MAX_BODY_BYTES"
+	EnvFetchDeadline          = "CORPUSTEXT_FETCH_DEADLINE"
 	EnvConcurrency            = "CORPUSTEXT_CONCURRENCY"
 	EnvSearchIndexEngine      = "SEARCH_INDEX_ENGINE"
 	EnvElasticsearchURL       = "ELASTICSEARCH_URL"
@@ -22,7 +30,11 @@ const (
 	EnvOpsAddr                = "CORPUSTEXT_OPS_ADDR"
 
 	DefaultOpsAddr            = ":9090"
-	DefaultCrawledPageDurable = "corpustext"
+	DefaultReachedPageDurable = "corpustext"
+	DefaultProxyDialMode      = "tunnel"
+	DefaultUserAgent          = "corpustext (+https://yacy.net)"
+	DefaultMaxBodyBytes       = 2 << 20
+	DefaultFetchDeadline      = 30 * time.Second
 	DefaultConcurrency        = 4
 	DefaultIndexBaseName      = "yacy_text"
 
@@ -30,14 +42,17 @@ const (
 	SearchIndexEngineManticore     = "manticore"
 )
 
-var DefaultCrawledPageSubject = yacycrawlcontract.CrawledPageSubject(
-	yacycrawlcontract.PageRepresentationKindText,
-)
+var DefaultReachedPageSubject = yacycrawlcontract.ReachedPageSubject
 
 type ServiceConfig struct {
 	CrawlNATSURL       string
-	CrawledPageSubject string
-	CrawledPageDurable string
+	ReachedPageSubject string
+	ReachedPageDurable string
+	ProxyURL           *url.URL
+	ProxyDialMode      http.ProxyDialMode
+	UserAgent          string
+	MaxBodyBytes       int64
+	FetchDeadline      time.Duration
 	Concurrency        int
 	SearchIndexEngine  string
 	ElasticsearchURL   string
@@ -48,8 +63,46 @@ type ServiceConfig struct {
 	OpsAddr            string
 }
 
+type fetchSettings struct {
+	proxyURL      *url.URL
+	proxyDialMode http.ProxyDialMode
+	maxBodyBytes  int64
+	fetchDeadline time.Duration
+}
+
+func loadFetchSettings(getenv func(string) string) (fetchSettings, error) {
+	proxyURL, err := envconfig.RequiredHTTPURL(getenv, EnvProxyURL)
+	if err != nil {
+		return fetchSettings{}, err
+	}
+	proxyDialMode, err := http.ProxyDialModeNamed(
+		envconfig.String(getenv, EnvProxyDialMode, DefaultProxyDialMode),
+	)
+	if err != nil {
+		return fetchSettings{}, fmt.Errorf("%s: %w", EnvProxyDialMode, err)
+	}
+	maxBodyBytes, err := envconfig.PositiveInt64(getenv, EnvMaxBodyBytes, DefaultMaxBodyBytes)
+	if err != nil {
+		return fetchSettings{}, err
+	}
+	fetchDeadline, err := envconfig.Duration(getenv, EnvFetchDeadline, DefaultFetchDeadline)
+	if err != nil {
+		return fetchSettings{}, err
+	}
+	return fetchSettings{
+		proxyURL:      proxyURL,
+		proxyDialMode: proxyDialMode,
+		maxBodyBytes:  maxBodyBytes,
+		fetchDeadline: fetchDeadline,
+	}, nil
+}
+
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	crawlNATSURL, err := envconfig.Required(getenv, EnvCrawlNATSURL)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
+	fetch, err := loadFetchSettings(getenv)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -61,16 +114,21 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 
 	cfg := ServiceConfig{
 		CrawlNATSURL: crawlNATSURL,
-		CrawledPageSubject: envconfig.String(
+		ReachedPageSubject: envconfig.String(
 			getenv,
-			EnvNATSCrawledPageSubject,
-			DefaultCrawledPageSubject,
+			EnvNATSReachedPageSubject,
+			DefaultReachedPageSubject,
 		),
-		CrawledPageDurable: envconfig.String(
+		ReachedPageDurable: envconfig.String(
 			getenv,
-			EnvNATSCrawledPageDurable,
-			DefaultCrawledPageDurable,
+			EnvNATSReachedPageDurable,
+			DefaultReachedPageDurable,
 		),
+		ProxyURL:          fetch.proxyURL,
+		ProxyDialMode:     fetch.proxyDialMode,
+		UserAgent:         envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
+		MaxBodyBytes:      fetch.maxBodyBytes,
+		FetchDeadline:     fetch.fetchDeadline,
 		Concurrency:       concurrency,
 		SearchIndexEngine: strings.TrimSpace(getenv(EnvSearchIndexEngine)),
 		Languages:         envconfig.List(getenv, EnvLanguages),

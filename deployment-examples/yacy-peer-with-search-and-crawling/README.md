@@ -12,7 +12,7 @@ answer with.
 | `caddy` | The one address the stack is reached at, by a browser and by other peers. |
 | `searxng` | The search UI: queries the local index alongside web engines, and points every result link at `visitcrawl`. |
 | `visitcrawl` | Turns an opened result into one crawl order and redirects to the page, without waiting on the order. |
-| `nats` | Broker carrying crawl orders and crawled pages between services. |
+| `nats` | Broker carrying crawl orders and reached pages between services. |
 | `yacycrawler` | Fetches an ordered page and turns it into text and RWI representations. |
 | `renderproxy` | Proxies the page fetch through `lightpanda` so JS-rendered pages are fetched too. |
 | `lightpanda` | Headless browser that renders the page for `renderproxy`; chosen over Chromium-based ones for its low memory footprint. |

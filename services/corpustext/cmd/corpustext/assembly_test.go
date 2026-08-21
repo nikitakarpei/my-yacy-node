@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"sync"
 	"testing"
@@ -16,74 +17,86 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
-const indexedDocumentPathPrefix = "/yacy_text_v1_und/_doc/"
+const (
+	indexedDocumentPathPrefix = "/yacy_text_v1_en/_doc/"
+	originURL                 = "http://origin.example/"
+	originHTML                = `<html lang="en"><title>Hi</title><body>words here</body></html>`
 
-func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
-	var mu sync.Mutex
-	var gotPath string
-	elasticsearch := httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			mu.Lock()
-			gotPath = r.URL.Path
-			mu.Unlock()
-			w.WriteHeader(http.StatusCreated)
-		}),
-	)
-	defer elasticsearch.Close()
+	indexedDeadline  = 5 * time.Second
+	indexedPollPause = 50 * time.Millisecond
+)
 
-	url := natstestserver.Start(t)
-	cfg := corpustext.ServiceConfig{
-		CrawlNATSURL:       url,
-		CrawledPageSubject: "yacy.crawl.page.text",
-		CrawledPageDurable: corpustext.DefaultCrawledPageDurable,
+func origin(t *testing.T) *url.URL {
+	t.Helper()
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+		_, _ = w.Write([]byte(originHTML))
+	}))
+	t.Cleanup(server.Close)
+	parsed, err := url.Parse(server.URL)
+	if err != nil {
+		t.Fatalf("parse origin url: %v", err)
+	}
+	return parsed
+}
+
+type recordingElasticsearch struct {
+	mu       sync.Mutex
+	lastPath string
+}
+
+func (e *recordingElasticsearch) serve(t *testing.T) string {
+	t.Helper()
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		e.mu.Lock()
+		e.lastPath = r.URL.Path
+		e.mu.Unlock()
+		w.WriteHeader(http.StatusCreated)
+	}))
+	t.Cleanup(server.Close)
+	return server.URL
+}
+
+func (e *recordingElasticsearch) path() string {
+	e.mu.Lock()
+	defer e.mu.Unlock()
+	return e.lastPath
+}
+
+func serviceConfig(crawlURL, elasticsearchURL string, proxy *url.URL) corpustext.ServiceConfig {
+	return corpustext.ServiceConfig{
+		CrawlNATSURL:       crawlURL,
+		ReachedPageSubject: corpustext.DefaultReachedPageSubject,
+		ReachedPageDurable: corpustext.DefaultReachedPageDurable,
+		ProxyURL:           proxy,
+		UserAgent:          corpustext.DefaultUserAgent,
+		MaxBodyBytes:       corpustext.DefaultMaxBodyBytes,
+		FetchDeadline:      time.Second,
 		Concurrency:        corpustext.DefaultConcurrency,
 		SearchIndexEngine:  corpustext.SearchIndexEngineElasticsearch,
-		ElasticsearchURL:   elasticsearch.URL,
+		ElasticsearchURL:   elasticsearchURL,
 		ElasticsearchIndex: corpustext.DefaultIndexBaseName,
+		Languages:          []string{"en"},
 		OpsAddr:            "127.0.0.1:0",
 	}
+}
+
+func TestRunServiceIndexesTheTextItScrapesFromAReachedPage(t *testing.T) {
+	elasticsearch := &recordingElasticsearch{}
+	crawlURL := natstestserver.Start(t)
+	cfg := serviceConfig(crawlURL, elasticsearch.serve(t), origin(t))
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	runDone := make(chan error, 1)
-	js := natstestserver.ConnectJetStream(t, url)
-	createCrawledPageStream(t, js, cfg.CrawledPageSubject)
+	crawlJetStream := natstestserver.ConnectJetStream(t, crawlURL)
+	createReachedPagesStream(t, crawlJetStream, cfg.ReachedPageSubject)
 
+	runDone := make(chan error, 1)
 	go func() { runDone <- corpustext.RunService(ctx, cfg) }()
 
-	data, err := yacycrawlcontract.MarshalPageTextRepresentation(
-		yacycrawlcontract.PageTextRepresentation{
-			PageReference: yacycrawlcontract.PageReference{
-				CanonicalURL: "https://example.com/",
-				Title:        "Hi",
-			},
-			Text: []byte("words here"),
-		},
-	)
-	if err != nil {
-		t.Fatalf("marshal crawled page: %v", err)
-	}
-	if _, err := js.Publish(ctx, cfg.CrawledPageSubject, data); err != nil {
-		t.Fatalf("publish crawled page: %v", err)
-	}
-
-	deadline := time.Now().Add(5 * time.Second)
-	for time.Now().Before(deadline) {
-		mu.Lock()
-		path := gotPath
-		mu.Unlock()
-		if strings.HasPrefix(path, indexedDocumentPathPrefix) {
-			break
-		}
-		time.Sleep(50 * time.Millisecond)
-	}
-	mu.Lock()
-	path := gotPath
-	mu.Unlock()
-	if !strings.HasPrefix(path, indexedDocumentPathPrefix) {
-		t.Fatalf("elasticsearch never received the indexed document, last path = %q", path)
-	}
+	publishReachedPage(t, ctx, crawlJetStream, originURL)
+	waitForIndexed(t, elasticsearch)
 
 	cancel()
 	select {
@@ -96,44 +109,84 @@ func TestRunServiceIndexesCrawledPageIntoElasticsearch(t *testing.T) {
 	}
 }
 
-func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
-	elasticsearch := httptest.NewServer(
-		http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-			w.WriteHeader(http.StatusCreated)
-		}),
-	)
-	defer elasticsearch.Close()
-
-	url := natstestserver.Start(t)
-	cfg := corpustext.ServiceConfig{
-		CrawlNATSURL:       url,
-		CrawledPageSubject: "yacy.crawl.page.text",
-		CrawledPageDurable: corpustext.DefaultCrawledPageDurable,
-		Concurrency:        corpustext.DefaultConcurrency,
-		SearchIndexEngine:  corpustext.SearchIndexEngineElasticsearch,
-		ElasticsearchURL:   elasticsearch.URL,
-		ElasticsearchIndex: corpustext.DefaultIndexBaseName,
-		OpsAddr:            "127.0.0.1:99999",
+func waitForIndexed(t *testing.T, elasticsearch *recordingElasticsearch) {
+	t.Helper()
+	deadline := time.Now().Add(indexedDeadline)
+	for time.Now().Before(deadline) {
+		if strings.HasPrefix(elasticsearch.path(), indexedDocumentPathPrefix) {
+			return
+		}
+		time.Sleep(indexedPollPause)
 	}
-	createCrawledPageStream(t, natstestserver.ConnectJetStream(t, url), cfg.CrawledPageSubject)
+	t.Fatalf(
+		"elasticsearch never received the indexed document, last path = %q",
+		elasticsearch.path(),
+	)
+}
 
-	err := corpustext.RunService(context.Background(), cfg)
-	if err == nil {
+func publishReachedPage(
+	t *testing.T,
+	ctx context.Context,
+	js jetstream.JetStream,
+	canonicalURL string,
+) {
+	t.Helper()
+	data, err := yacycrawlcontract.MarshalReachedPage(
+		yacycrawlcontract.ReachedPage{CanonicalURL: canonicalURL},
+	)
+	if err != nil {
+		t.Fatalf("marshal reached page: %v", err)
+	}
+	if _, err := js.Publish(ctx, corpustext.DefaultReachedPageSubject, data); err != nil {
+		t.Fatalf("publish reached page: %v", err)
+	}
+}
+
+func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
+	elasticsearch := &recordingElasticsearch{}
+	crawlURL := natstestserver.Start(t)
+	cfg := serviceConfig(crawlURL, elasticsearch.serve(t), origin(t))
+	cfg.OpsAddr = "127.0.0.1:99999"
+	createReachedPagesStream(
+		t, natstestserver.ConnectJetStream(t, crawlURL), cfg.ReachedPageSubject,
+	)
+
+	if err := corpustext.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when ops address cannot bind")
 	}
 }
 
-func createCrawledPageStream(t *testing.T, js jetstream.JetStream, subject string) {
+func TestRunServiceFailsWhenStreamMissing(t *testing.T) {
+	elasticsearch := &recordingElasticsearch{}
+	cfg := serviceConfig(
+		natstestserver.Start(t), elasticsearch.serve(t), origin(t),
+	)
+
+	if err := corpustext.RunService(context.Background(), cfg); err == nil {
+		t.Fatal("expected error when the reached pages stream is not provisioned")
+	}
+}
+
+func TestRunServiceFailsWhenCrawlNATSUnreachable(t *testing.T) {
+	elasticsearch := &recordingElasticsearch{}
+	cfg := serviceConfig(
+		"nats://127.0.0.1:1", elasticsearch.serve(t), origin(t),
+	)
+
+	if err := corpustext.RunService(context.Background(), cfg); err == nil {
+		t.Fatal("expected error when the crawl nats is unreachable")
+	}
+}
+
+func createReachedPagesStream(t *testing.T, js jetstream.JetStream, subject string) {
 	t.Helper()
 	if _, err := js.CreateOrUpdateStream(context.Background(), jetstream.StreamConfig{
-		Name: yacycrawlcontract.CrawledPageStreamName(
-			yacycrawlcontract.PageRepresentationKindText,
-		),
+		Name:      yacycrawlcontract.ReachedPagesStreamName,
 		Subjects:  []string{subject},
 		Retention: jetstream.WorkQueuePolicy,
 		MaxMsgs:   64,
 		Discard:   jetstream.DiscardNew,
 	}); err != nil {
-		t.Fatalf("create crawled page stream: %v", err)
+		t.Fatalf("create reached pages stream: %v", err)
 	}
 }

@@ -16,20 +16,14 @@ import (
 )
 
 func publishedPageStreams() []yacycrawler.PageStreamConfig {
-	streams := make([]yacycrawler.PageStreamConfig, 0, 2)
-	for _, representation := range []yacycrawlcontract.PageRepresentationKind{
-		yacycrawlcontract.PageRepresentationKindRWI,
-		yacycrawlcontract.PageRepresentationKindText,
-	} {
-		streams = append(streams, yacycrawler.PageStreamConfig{
-			Representation: representation,
-			Subject:        yacycrawlcontract.CrawledPageSubject(representation),
-			MaxMsgs:        yacycrawler.DefaultMaxMsgs,
-			Published:      representation == yacycrawlcontract.PageRepresentationKindRWI,
-		})
-	}
+	representation := yacycrawlcontract.PageRepresentationKindRWI
 
-	return streams
+	return []yacycrawler.PageStreamConfig{{
+		Representation: representation,
+		Subject:        yacycrawlcontract.CrawledPageSubject(representation),
+		MaxMsgs:        yacycrawler.DefaultMaxMsgs,
+		Published:      true,
+	}}
 }
 
 func TestRunServiceProcessesOrderThenStops(t *testing.T) {

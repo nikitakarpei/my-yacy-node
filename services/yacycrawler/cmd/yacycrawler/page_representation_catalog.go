@@ -6,7 +6,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerepresentations/rwi"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagerepresentations/text"
 	representationpublishersjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/representationpublishers/jetstream"
 )
 
@@ -23,13 +22,6 @@ func pageRepresentationCatalog() []pageRepresentationPreset {
 			enabled:        true,
 			build: func(js jetstream.JetStream, subject string) pagepublication.PageRepresentation {
 				return representationpublishersjetstream.Wrap(rwi.New(), subject, js)
-			},
-		},
-		{
-			representation: yacycrawlcontract.PageRepresentationKindText,
-			enabled:        false,
-			build: func(js jetstream.JetStream, subject string) pagepublication.PageRepresentation {
-				return representationpublishersjetstream.Wrap(text.New(), subject, js)
 			},
 		},
 	}
