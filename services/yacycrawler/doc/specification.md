@@ -3,10 +3,10 @@
 ## Context
 
 `yacycrawler` is a standalone, optional, disposable crawling service. It accepts crawl
-orders, fetches the web pages they reach, and publishes the URL of every page it reached
-through the message-broker API defined in `yacycrawlcontract`. Consumers scrape those
-pages for whatever content they want. A YaCy node is the typical order source and
-consumer, but the service depends on no consumer's internals.
+orders, fetches the web pages they reach, publishes the URL of each reached page through
+the message-broker API in `yacycrawlcontract`, and answers what crawling last did with a
+URL. Consumers scrape those pages for whatever content they want. A YaCy node is the
+typical order source and consumer, but the service depends on no consumer's internals.
 
 Several instances can share one order stream, each order running on one instance. The
 service is meant for a more capable host than an always-on node.
@@ -36,7 +36,9 @@ service is meant for a more capable host than an always-on node.
 * The service SHALL publish the canonical URL of each page it reached, and never the
   page's content.
 * Every URL a run admits SHALL reach one terminal outcome: published as reached, or
-  disposed and recorded against its URL.
+  disposed and recorded against its URL together with the reason.
+* The service SHALL answer, for one URL, where crawling resolved it to and whether it is
+  disposed, with a mark that changes each time that URL is disposed again.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient
   backpressure waits for as long as the run holds its order.
 * A publication failure SHALL NOT be terminal; the page stays unpublished.

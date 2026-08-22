@@ -28,6 +28,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
+	crawloutcomereceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawloutcomereceivers/grpc"
 	disposedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/disposedpages/jetstream"
 	orderreceiversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
 	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
@@ -68,16 +69,20 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	receiver, err := orderreceiversjetstream.NewOrderReceiver(ctx, consumer)
+	orderReceiver, err := orderreceiversjetstream.NewOrderReceiver(ctx, consumer)
 	if err != nil {
 		return fmt.Errorf("start order receiver: %w", err)
 	}
 
-	disposedPages, err := disposedPagesRecorder(ctx, js)
+	disposedPages, err := openDisposedPages(ctx, js)
 	if err != nil {
 		return err
 	}
-	visitorSource, err := buildVisitorSource(ctx, js, cfg, metrics)
+	redirectResolutions, err := openRedirectResolutions(ctx, js)
+	if err != nil {
+		return err
+	}
+	visitorSource, err := buildVisitorSource(ctx, js, cfg, metrics, redirectResolutions)
 	if err != nil {
 		return err
 	}
@@ -95,8 +100,13 @@ func RunService(
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 
+	crawlOutcomeReceiver := crawloutcomereceiversgrpc.NewCrawlOutcomeReceiver(
+		redirectResolutions, disposedPages, cfg.ListenAddr,
+	)
+
 	slog.InfoContext(ctx, msgServiceStarted,
 		slog.String("orders", cfg.OrdersSubject),
+		slog.String("listen", cfg.ListenAddr),
 		slog.Int("fetchConcurrency", cfg.FetchConcurrency),
 	)
 
@@ -108,8 +118,9 @@ func RunService(
 				metrics,
 				wallclock.Clock{},
 				ordersAckWait/2,
-			).Settle(runCtx, receiver.Deliveries())
+			).Settle(runCtx, orderReceiver.Deliveries())
 		},
+		crawlOutcomeReceiver.Serve,
 	)
 	slog.InfoContext(ctx, msgServiceStopped)
 	return err
@@ -190,26 +201,26 @@ func ensurePageVisitBucket(
 	return nil
 }
 
-func redirectRecorder(
+func openRedirectResolutions(
 	ctx context.Context,
 	js jetstream.JetStream,
-) (redirectrecording.RedirectResolutions, error) {
+) (*redirectresolversjetstream.RedirectResolutions, error) {
 	bucket, err := js.KeyValue(ctx, yacycrawlcontract.RedirectResolutionBucketName)
 	if err != nil {
 		return nil, fmt.Errorf("open redirect resolution bucket: %w", err)
 	}
-	return redirectresolversjetstream.New(bucket), nil
+	return redirectresolversjetstream.NewRedirectResolutions(bucket), nil
 }
 
-func disposedPagesRecorder(
+func openDisposedPages(
 	ctx context.Context,
 	js jetstream.JetStream,
-) (*disposedpagesjetstream.Recorder, error) {
+) (*disposedpagesjetstream.DisposedPages, error) {
 	bucket, err := js.KeyValue(ctx, yacycrawlcontract.DisposedPagesBucketName)
 	if err != nil {
 		return nil, fmt.Errorf("open disposed pages bucket: %w", err)
 	}
-	return disposedpagesjetstream.New(bucket), nil
+	return disposedpagesjetstream.NewDisposedPages(bucket), nil
 }
 
 func buildVisitorSource(
@@ -217,6 +228,7 @@ func buildVisitorSource(
 	js jetstream.JetStream,
 	cfg ServiceConfig,
 	metrics *progressobserversprometheus.CrawlMetrics,
+	redirectResolutions redirectrecording.RedirectResolutions,
 ) (pagevisit.VisitorSource, error) {
 	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
@@ -225,10 +237,6 @@ func buildVisitorSource(
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
 	)
-	resolve, err := redirectRecorder(ctx, js)
-	if err != nil {
-		return nil, err
-	}
 	absorbers, err := buildAbsorberSource(cfg)
 	if err != nil {
 		return nil, err
@@ -238,7 +246,10 @@ func buildVisitorSource(
 		return nil, err
 	}
 	return pagevisit.New(
-		redirectrecording.New(resolve, fetchtiming.New(metrics, wallclock.Clock{}, fetch)),
+		redirectrecording.New(
+			redirectResolutions,
+			fetchtiming.New(metrics, wallclock.Clock{}, fetch),
+		),
 		recrawl,
 		absorbers,
 		metrics,

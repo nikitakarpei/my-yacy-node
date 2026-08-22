@@ -20,6 +20,14 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  grpc:
+    in:
+      - google.golang.org/grpc
+      - google.golang.org/grpc/**
+  protobuf:
+    in:
+      - google.golang.org/protobuf
+      - google.golang.org/protobuf/**
 
 deps:
   yacycrawlcontract:
@@ -28,6 +36,8 @@ deps:
     canUse:
       - yacymodel
       - canonicalurl
+      - grpc
+      - protobuf
 
 excludeFiles:
   - "_test\\.go"

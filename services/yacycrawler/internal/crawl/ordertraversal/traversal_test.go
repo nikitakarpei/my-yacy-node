@@ -70,6 +70,7 @@ type fakeDisposedPages struct {
 func (d *fakeDisposedPages) Record(
 	_ context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
+	_ disposal.Reason,
 ) error {
 	d.mu.Lock()
 	defer d.mu.Unlock()

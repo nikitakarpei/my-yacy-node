@@ -20,14 +20,17 @@ func (o *recordingObserver) PageDisposed(reason disposal.Reason) {
 
 type recordingDisposedPages struct {
 	urls     []string
+	reasons  []disposal.Reason
 	failWith error
 }
 
 func (d *recordingDisposedPages) Record(
 	_ context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
+	reason disposal.Reason,
 ) error {
 	d.urls = append(d.urls, canonicalURL.String())
+	d.reasons = append(d.reasons, reason)
 	return d.failWith
 }
 
@@ -43,6 +46,9 @@ func TestDisposeObservesAndRecordsTogether(t *testing.T) {
 	}
 	if len(disposed.urls) != 1 || disposed.urls[0] != "http://host/a" {
 		t.Fatalf("recorded urls = %v", disposed.urls)
+	}
+	if len(disposed.reasons) != 1 || disposed.reasons[0] != disposal.NotAPage {
+		t.Fatalf("recorded reasons = %v", disposed.reasons)
 	}
 }
 

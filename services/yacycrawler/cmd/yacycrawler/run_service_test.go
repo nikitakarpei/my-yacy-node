@@ -30,6 +30,7 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 		MaxBodyBytes:     yacycrawler.DefaultMaxBodyBytes,
 		FetchDeadline:    time.Second,
 		OpsAddr:          "127.0.0.1:0",
+		ListenAddr:       "127.0.0.1:0",
 	}
 
 	publishOrder(t, cfg.CrawlNATSURL)
@@ -51,6 +52,7 @@ func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 		ProxyURL:      proxy, FetchConcurrency: 2,
 		MaxBodyBytes:  yacycrawler.DefaultMaxBodyBytes,
 		FetchDeadline: time.Second, OpsAddr: "127.0.0.1:0",
+		ListenAddr:   "127.0.0.1:0",
 		ContentTypes: []string{"application/unregistered"},
 	}
 	registry := prometheus.NewRegistry()
@@ -64,6 +66,7 @@ func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {
 		CrawlNATSURL:     "nats://127.0.0.1:1",
 		FetchConcurrency: 2,
 		OpsAddr:          "127.0.0.1:0",
+		ListenAddr:       "127.0.0.1:0",
 	}
 	registry := prometheus.NewRegistry()
 	if err := yacycrawler.RunService(context.Background(), cfg, registry); err == nil {

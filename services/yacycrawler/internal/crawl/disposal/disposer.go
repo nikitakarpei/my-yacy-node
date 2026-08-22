@@ -15,7 +15,7 @@ type DisposalProgress interface {
 }
 
 type DisposedPages interface {
-	Record(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) error
+	Record(ctx context.Context, canonicalURL canonicalurl.CanonicalURL, reason Reason) error
 }
 
 type Disposer struct {
@@ -33,7 +33,7 @@ func (d *Disposer) Dispose(
 	reason Reason,
 ) {
 	d.observer.PageDisposed(reason)
-	if err := d.disposed.Record(ctx, canonicalURL); err != nil {
+	if err := d.disposed.Record(ctx, canonicalURL, reason); err != nil {
 		slog.WarnContext(ctx, msgDisposedPageRecordFailed,
 			slog.String("url", canonicalURL.String()),
 			slog.Any("error", err),

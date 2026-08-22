@@ -57,6 +57,8 @@ components:
     in: internal/disposedpages/jetstream/**
   reachedpagesjetstream:
     in: internal/reachedpages/jetstream/**
+  crawloutcomereceiversgrpc:
+    in: internal/crawloutcomereceivers/grpc/**
   crawlercmd:
     in: cmd/yacycrawler/**
 
@@ -79,6 +81,10 @@ vendors:
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
+  grpc:
+    in:
+      - google.golang.org/grpc
+      - google.golang.org/grpc/**
   pagescrapepagefetch:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch
@@ -159,8 +165,15 @@ deps:
     canUse:
       - nats
   disposedpagesjetstream:
+    mayDependOn:
+      - disposal
     canUse:
       - nats
+  crawloutcomereceiversgrpc:
+    mayDependOn:
+      - disposal
+    canUse:
+      - grpc
   reachedpagesjetstream:
     canUse:
       - nats
