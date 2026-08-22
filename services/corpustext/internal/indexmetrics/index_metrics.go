@@ -18,7 +18,7 @@ func New(registry prometheus.Registerer) *IndexMetrics {
 	metrics := &IndexMetrics{
 		pagesReceived: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "corpustext_pages_received_total",
-			Help: "Reached pages received for scraping.",
+			Help: "Scrape requests received for scraping.",
 		}),
 		pagesIndexed: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "corpustext_pages_indexed_total",
@@ -26,7 +26,7 @@ func New(registry prometheus.Registerer) *IndexMetrics {
 		}),
 		scrapeFailures: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "corpustext_scrape_failures_total",
-			Help: "Scrapes that failed and returned the reached page for redelivery.",
+			Help: "Scrapes that failed and returned the scrape request for redelivery.",
 		}),
 		indexFailures: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "corpustext_index_failures_total",

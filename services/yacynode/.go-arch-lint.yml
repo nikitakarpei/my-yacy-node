@@ -68,8 +68,8 @@ components:
     in: internal/metrics/**
   pagerwi:
     in: internal/pagerwi/**
-  reachedpageintake:
-    in: internal/reachedpageintake/**
+  scraperequestintake:
+    in: internal/scraperequestintake/**
   crawlbroker:
     in: internal/crawlbroker/**
   cmd:
@@ -90,6 +90,8 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  scraperequestcontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
   vault:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
   boltvault:
@@ -135,6 +137,7 @@ deps:
       - serviceruntime
       - yacyproto
       - yacycrawlcontract
+      - scraperequestcontract
       - pagescrape
   nodeidentity:
     canUse:
@@ -269,19 +272,21 @@ deps:
   pagerwi:
     canUse:
       - pagescrape
-  reachedpageintake:
+  scraperequestintake:
     mayDependOn:
       - pagerwi
       - urlmeta
       - rwiadmission
     canUse:
       - yacycrawlcontract
+      - scraperequestcontract
       - pagescrape
       - nats
       - serviceruntime
   crawlbroker:
     canUse:
       - yacycrawlcontract
+      - scraperequestcontract
       - nats
       - serviceruntime
   cmd:

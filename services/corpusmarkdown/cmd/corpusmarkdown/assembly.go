@@ -19,10 +19,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
@@ -44,7 +44,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	}
 	defer func() { _ = pageMarkdownConnection.Close() }()
 
-	consumer, err := reachedPageConsumerFor(ctx, crawlJetStream, cfg)
+	consumer, err := scrapeRequestConsumerFor(ctx, crawlJetStream, cfg)
 	if err != nil {
 		return err
 	}
@@ -59,7 +59,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 
 	registry := prometheus.NewRegistry()
 	metrics := markdownstoremetrics.New(registry)
-	intake := markdownintake.NewReachedPageConsumer(
+	intake := markdownintake.NewScrapeRequestConsumer(
 		consumer, scraper, corpus, metrics, cfg.Concurrency,
 	)
 
@@ -73,7 +73,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 
 	slog.InfoContext(ctx, "corpusmarkdown started",
 		slog.String("listen", cfg.ListenAddr),
-		slog.String("subject", cfg.ReachedPageSubject),
+		slog.String("subject", cfg.ScrapeRequestSubject),
 		slog.String("bucket", pagemarkdownstore.BucketName),
 		slog.Int("concurrency", cfg.Concurrency),
 	)
@@ -81,7 +81,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		[]servergroup.NamedServer{{Name: "ops", Server: opsServer}},
 		func(runCtx context.Context) error {
 			if err := intake.Run(runCtx); err != nil {
-				return fmt.Errorf("run reached page consumer: %w", err)
+				return fmt.Errorf("run scrape request consumer: %w", err)
 			}
 			return nil
 		},
@@ -91,23 +91,23 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	return err
 }
 
-func reachedPageConsumerFor(
+func scrapeRequestConsumerFor(
 	ctx context.Context,
 	crawlJetStream jetstream.JetStream,
 	cfg ServiceConfig,
 ) (jetstream.Consumer, error) {
-	stream, err := crawlJetStream.Stream(ctx, yacycrawlcontract.ReachedPagesStreamName)
+	stream, err := crawlJetStream.Stream(ctx, scraperequestcontract.ScrapeRequestsStreamName)
 	if err != nil {
-		return nil, fmt.Errorf("lookup reached pages stream: %w", err)
+		return nil, fmt.Errorf("lookup scrape requests stream: %w", err)
 	}
 	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
-		Durable:       cfg.ReachedPageDurable,
-		FilterSubject: cfg.ReachedPageSubject,
+		Durable:       cfg.ScrapeRequestDurable,
+		FilterSubject: cfg.ScrapeRequestSubject,
 		AckPolicy:     jetstream.AckExplicitPolicy,
 		MaxAckPending: cfg.Concurrency,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("create reached page consumer: %w", err)
+		return nil, fmt.Errorf("create scrape request consumer: %w", err)
 	}
 	return consumer, nil
 }

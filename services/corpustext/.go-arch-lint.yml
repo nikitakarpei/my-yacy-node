@@ -26,6 +26,8 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  scraperequestcontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
   pagescrape:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagescrape
@@ -76,6 +78,7 @@ deps:
       - scrapedpagedocument
     canUse:
       - yacycrawlcontract
+      - scraperequestcontract
       - pagescrape
       - searchdocument
       - nats

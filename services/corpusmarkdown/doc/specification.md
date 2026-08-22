@@ -13,20 +13,20 @@ store, and serves that markdown back to callers that ask for one URL.
 * Crawling on demand, or waiting for a page the corpus does not hold yet.
 * Indexing, ranking, or searching the stored markdown.
 * Deciding which pages to store: the crawler decides which pages it reaches.
-* Judging a page again: a reached page is already admitted, so this service applies no
+* Judging a page again: a scrape request is already admitted, so this service applies no
   scope, robots, or indexing rule of its own.
 * Storing markdown anywhere other than the operator's own object store.
 
 ## Functional Requirements
 
-* The service SHALL consume only the crawler's reached-page stream.
-* For each reached page, the service SHALL fetch the page through its configured proxy and
+* The service SHALL consume only the crawler's scrape-request stream.
+* For each scrape request, the service SHALL fetch the page through its configured proxy and
   derive markdown from the document it holds.
 * The service SHALL store the derived markdown under an object name derived solely from the
   fetched page's canonical URL.
 * Storing a page whose canonical URL is already stored SHALL overwrite it, so the store
   holds one current copy per URL.
-* A reached page that the service cannot read, or from which no markdown derives, SHALL
+* A scrape request that the service cannot read, or from which no markdown derives, SHALL
   leave the store unchanged and SHALL NOT be fetched again for that message.
 * While the fetch or the object store is unavailable, the service SHALL drop no page,
   resuming once it returns.
@@ -47,7 +47,7 @@ store, and serves that markdown back to callers that ask for one URL.
   store and any pending backlog lives with the broker.
 * The service SHALL be independently disposable: operators MAY stop it and later start it
   again without depending on this service's prior state.
-* The service SHALL support many concurrent instances over the crawler's reached pages,
+* The service SHALL support many concurrent instances over the crawler's scrape requests,
   with each page stored by exactly one instance.
 * The service SHALL expose its behavior as machine-readable metrics and a liveness signal,
   so operators can observe pages received, stored, and failed, without altering how pages

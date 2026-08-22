@@ -9,27 +9,27 @@ import (
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/reachedpageintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/scraperequestintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
-type reachedPageIngest struct {
+type scrapeRequestIngest struct {
 	broker   *crawlbroker.CrawlBroker
-	consumer *reachedpageintake.ReachedPageConsumer
+	consumer *scraperequestintake.ScrapeRequestConsumer
 }
 
-func openReachedPageIngest(
+func openScrapeRequestIngest(
 	ctx context.Context,
 	config nodeconfiguration.CrawlConfig,
 	urls urlmeta.URLReceiver,
 	postings rwiadmission.PostingReceiver,
-) (*reachedPageIngest, error) {
+) (*scrapeRequestIngest, error) {
 	broker, err := crawlbroker.Open(ctx, crawlbroker.Config{
-		NATSURL:            config.NATSURL,
-		ReachedPageSubject: config.ReachedPageSubject,
-		ReachedPageDurable: config.ReachedPageDurable,
-		Concurrency:        config.Concurrency,
+		NATSURL:              config.NATSURL,
+		ScrapeRequestSubject: config.ScrapeRequestSubject,
+		ScrapeRequestDurable: config.ScrapeRequestDurable,
+		Concurrency:          config.Concurrency,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("open crawl broker: %w", err)
@@ -41,10 +41,10 @@ func openReachedPageIngest(
 		return nil, err
 	}
 
-	return &reachedPageIngest{
+	return &scrapeRequestIngest{
 		broker: broker,
-		consumer: reachedpageintake.NewReachedPageConsumer(reachedpageintake.Config{
-			Source:      broker.ReachedPages,
+		consumer: scraperequestintake.NewScrapeRequestConsumer(scraperequestintake.Config{
+			Source:      broker.ScrapeRequests,
 			Scraper:     scraper,
 			URLs:        urls,
 			Postings:    postings,
@@ -71,10 +71,10 @@ func pageScraperFor(config nodeconfiguration.CrawlConfig) (*pagescrape.Scraper, 
 	return scraper, nil
 }
 
-func (i *reachedPageIngest) Run(ctx context.Context) error {
+func (i *scrapeRequestIngest) Run(ctx context.Context) error {
 	return i.consumer.Run(ctx)
 }
 
-func (i *reachedPageIngest) Close() {
+func (i *scrapeRequestIngest) Close() {
 	i.broker.Close()
 }

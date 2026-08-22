@@ -6,49 +6,49 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
-	EnvCrawlNATSURL           = "CRAWL_NATS_URL"
-	EnvPageMarkdownNATSURL    = "PAGE_MARKDOWN_NATS_URL"
-	EnvNATSReachedPageSubject = "NATS_REACHED_PAGE_SUBJECT"
-	EnvNATSReachedPageDurable = "NATS_REACHED_PAGE_DURABLE"
-	EnvProxyURL               = "CORPUSMARKDOWN_PROXY_URL"
-	EnvProxyDialMode          = "CORPUSMARKDOWN_PROXY_DIAL_MODE"
-	EnvUserAgent              = "CORPUSMARKDOWN_USER_AGENT"
-	EnvMaxBodyBytes           = "CORPUSMARKDOWN_MAX_BODY_BYTES"
-	EnvFetchDeadline          = "CORPUSMARKDOWN_FETCH_DEADLINE"
-	EnvConcurrency            = "CORPUSMARKDOWN_CONCURRENCY"
-	EnvListenAddr             = "CORPUSMARKDOWN_LISTEN_ADDR"
-	EnvOpsAddr                = "CORPUSMARKDOWN_OPS_ADDR"
+	EnvCrawlNATSURL             = "CRAWL_NATS_URL"
+	EnvPageMarkdownNATSURL      = "PAGE_MARKDOWN_NATS_URL"
+	EnvNATSScrapeRequestSubject = "NATS_SCRAPE_REQUEST_SUBJECT"
+	EnvNATSScrapeRequestDurable = "NATS_SCRAPE_REQUEST_DURABLE"
+	EnvProxyURL                 = "CORPUSMARKDOWN_PROXY_URL"
+	EnvProxyDialMode            = "CORPUSMARKDOWN_PROXY_DIAL_MODE"
+	EnvUserAgent                = "CORPUSMARKDOWN_USER_AGENT"
+	EnvMaxBodyBytes             = "CORPUSMARKDOWN_MAX_BODY_BYTES"
+	EnvFetchDeadline            = "CORPUSMARKDOWN_FETCH_DEADLINE"
+	EnvConcurrency              = "CORPUSMARKDOWN_CONCURRENCY"
+	EnvListenAddr               = "CORPUSMARKDOWN_LISTEN_ADDR"
+	EnvOpsAddr                  = "CORPUSMARKDOWN_OPS_ADDR"
 
-	DefaultListenAddr         = ":8094"
-	DefaultOpsAddr            = ":9090"
-	DefaultReachedPageDurable = "corpusmarkdown"
-	DefaultProxyDialMode      = "tunnel"
-	DefaultUserAgent          = "corpusmarkdown (+https://yacy.net)"
-	DefaultMaxBodyBytes       = 2 << 20
-	DefaultFetchDeadline      = 30 * time.Second
-	DefaultConcurrency        = 4
+	DefaultListenAddr           = ":8094"
+	DefaultOpsAddr              = ":9090"
+	DefaultScrapeRequestDurable = "corpusmarkdown"
+	DefaultProxyDialMode        = "tunnel"
+	DefaultUserAgent            = "corpusmarkdown (+https://yacy.net)"
+	DefaultMaxBodyBytes         = 2 << 20
+	DefaultFetchDeadline        = 30 * time.Second
+	DefaultConcurrency          = 4
 )
 
-var DefaultReachedPageSubject = yacycrawlcontract.ReachedPageSubject
+var DefaultScrapeRequestSubject = scraperequestcontract.ScrapeRequestSubject
 
 type ServiceConfig struct {
-	CrawlNATSURL        string
-	PageMarkdownNATSURL string
-	ReachedPageSubject  string
-	ReachedPageDurable  string
-	ProxyURL            *url.URL
-	ProxyDialMode       http.ProxyDialMode
-	UserAgent           string
-	MaxBodyBytes        int64
-	FetchDeadline       time.Duration
-	Concurrency         int
-	ListenAddr          string
-	OpsAddr             string
+	CrawlNATSURL         string
+	PageMarkdownNATSURL  string
+	ScrapeRequestSubject string
+	ScrapeRequestDurable string
+	ProxyURL             *url.URL
+	ProxyDialMode        http.ProxyDialMode
+	UserAgent            string
+	MaxBodyBytes         int64
+	FetchDeadline        time.Duration
+	Concurrency          int
+	ListenAddr           string
+	OpsAddr              string
 }
 
 type fetchSettings struct {
@@ -106,15 +106,15 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	return ServiceConfig{
 		CrawlNATSURL:        crawlNATSURL,
 		PageMarkdownNATSURL: pageMarkdownNATSURL,
-		ReachedPageSubject: envconfig.String(
+		ScrapeRequestSubject: envconfig.String(
 			getenv,
-			EnvNATSReachedPageSubject,
-			DefaultReachedPageSubject,
+			EnvNATSScrapeRequestSubject,
+			DefaultScrapeRequestSubject,
 		),
-		ReachedPageDurable: envconfig.String(
+		ScrapeRequestDurable: envconfig.String(
 			getenv,
-			EnvNATSReachedPageDurable,
-			DefaultReachedPageDurable,
+			EnvNATSScrapeRequestDurable,
+			DefaultScrapeRequestDurable,
 		),
 		ProxyURL:      fetch.proxyURL,
 		ProxyDialMode: fetch.proxyDialMode,

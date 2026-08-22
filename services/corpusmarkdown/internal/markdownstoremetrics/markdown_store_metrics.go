@@ -13,7 +13,7 @@ func New(registry prometheus.Registerer) *MarkdownStoreMetrics {
 	metrics := &MarkdownStoreMetrics{
 		pagesReceived: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "corpusmarkdown_pages_received_total",
-			Help: "Reached pages received for scraping.",
+			Help: "Scrape requests received for scraping.",
 		}),
 		pagesStored: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "corpusmarkdown_pages_stored_total",
@@ -21,7 +21,7 @@ func New(registry prometheus.Registerer) *MarkdownStoreMetrics {
 		}),
 		scrapeFailures: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "corpusmarkdown_scrape_failures_total",
-			Help: "Scrapes that failed and returned the reached page for redelivery.",
+			Help: "Scrapes that failed and returned the scrape request for redelivery.",
 		}),
 		storeFailures: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "corpusmarkdown_store_failures_total",

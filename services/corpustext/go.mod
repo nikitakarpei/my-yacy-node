@@ -9,7 +9,6 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
 	github.com/prometheus/client_golang v1.23.2
 )
 
@@ -58,3 +57,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../libraries/pagescrape
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
+
+require github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
+
+replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract

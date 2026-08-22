@@ -74,8 +74,8 @@ func TestLoadDefaultsTheCrawlIngest(t *testing.T) {
 	if !config.Crawl.Enabled() {
 		t.Fatalf("Crawl = %+v, want enabled by the broker url", config.Crawl)
 	}
-	if config.Crawl.ReachedPageSubject != nodeconfiguration.DefaultReachedPageSubject ||
-		config.Crawl.ReachedPageDurable != nodeconfiguration.DefaultReachedPageDurable {
+	if config.Crawl.ScrapeRequestSubject != nodeconfiguration.DefaultScrapeRequestSubject ||
+		config.Crawl.ScrapeRequestDurable != nodeconfiguration.DefaultScrapeRequestDurable {
 		t.Errorf("Crawl = %+v, want the default subject and durable", config.Crawl)
 	}
 	if config.Crawl.UserAgent != nodeconfiguration.DefaultCrawlUserAgent ||
@@ -104,23 +104,23 @@ func TestLoadRequiresACrawlProxyWhenIngestIsEnabled(t *testing.T) {
 
 func TestLoadReadsOverrides(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:        "0123456789AB",
-		nodeconfiguration.EnvPeerName:               "node",
-		nodeconfiguration.EnvProxyURL:               "http://proxy:4750",
-		nodeconfiguration.EnvNetworkName:            "testnet",
-		nodeconfiguration.EnvPeerAddr:               ":7000",
-		nodeconfiguration.EnvOpsAddr:                ":7001",
-		nodeconfiguration.EnvAdvertiseHost:          "203.0.113.1",
-		nodeconfiguration.EnvAdvertisePort:          "9999",
-		nodeconfiguration.EnvStorageQuota:           "2MB",
-		nodeconfiguration.EnvTrustedProxies:         "10.0.0.0/8",
-		nodeconfiguration.EnvSeedlistURLs:           " http://a , http://b ,",
-		nodeconfiguration.EnvAnnounceInterval:       "30s",
-		nodeconfiguration.EnvCrawlNATSURL:           "nats://broker:4222",
-		nodeconfiguration.EnvCrawlProxyURL:          "http://renderproxy:8080",
-		nodeconfiguration.EnvNATSReachedPageSubject: "reached.subject",
-		nodeconfiguration.EnvNATSReachedPageDurable: "reached-durable",
-		nodeconfiguration.EnvCrawlConcurrency:       "9",
+		nodeconfiguration.EnvInitialPeerHash:          "0123456789AB",
+		nodeconfiguration.EnvPeerName:                 "node",
+		nodeconfiguration.EnvProxyURL:                 "http://proxy:4750",
+		nodeconfiguration.EnvNetworkName:              "testnet",
+		nodeconfiguration.EnvPeerAddr:                 ":7000",
+		nodeconfiguration.EnvOpsAddr:                  ":7001",
+		nodeconfiguration.EnvAdvertiseHost:            "203.0.113.1",
+		nodeconfiguration.EnvAdvertisePort:            "9999",
+		nodeconfiguration.EnvStorageQuota:             "2MB",
+		nodeconfiguration.EnvTrustedProxies:           "10.0.0.0/8",
+		nodeconfiguration.EnvSeedlistURLs:             " http://a , http://b ,",
+		nodeconfiguration.EnvAnnounceInterval:         "30s",
+		nodeconfiguration.EnvCrawlNATSURL:             "nats://broker:4222",
+		nodeconfiguration.EnvCrawlProxyURL:            "http://renderproxy:8080",
+		nodeconfiguration.EnvNATSScrapeRequestSubject: "reached.subject",
+		nodeconfiguration.EnvNATSScrapeRequestDurable: "reached-durable",
+		nodeconfiguration.EnvCrawlConcurrency:         "9",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -145,8 +145,8 @@ func TestLoadReadsOverrides(t *testing.T) {
 	if config.PeerExchange.AnnounceInterval != 30*time.Second {
 		t.Errorf("AnnounceInterval = %v, want 30s", config.PeerExchange.AnnounceInterval)
 	}
-	if config.Crawl.ReachedPageSubject != "reached.subject" ||
-		config.Crawl.ReachedPageDurable != "reached-durable" ||
+	if config.Crawl.ScrapeRequestSubject != "reached.subject" ||
+		config.Crawl.ScrapeRequestDurable != "reached-durable" ||
 		config.Crawl.Concurrency != 9 {
 		t.Errorf("Crawl = %+v, want the named subject, durable, and concurrency", config.Crawl)
 	}

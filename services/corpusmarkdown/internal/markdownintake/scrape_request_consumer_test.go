@@ -1,4 +1,4 @@
-package pageintake_test
+package markdownintake_test
 
 import (
 	"context"
@@ -10,12 +10,12 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownintake"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
-	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 type fakeMsg struct {
@@ -84,43 +84,48 @@ func (s *fakeScrape) Scrape(
 	return s.page, s.scraped, s.err
 }
 
-type recordingIndex struct {
-	fail      bool
-	mu        sync.Mutex
-	documents []searchdocument.Document
+type recordingCorpus struct {
+	fail     bool
+	mu       sync.Mutex
+	markdown map[string][]byte
 }
 
-func (i *recordingIndex) Index(_ context.Context, document searchdocument.Document) error {
-	if i.fail {
-		return errors.New("index failed")
+func (c *recordingCorpus) Put(
+	_ context.Context,
+	scrapeRequestURL canonicalurl.CanonicalURL,
+	markdown []byte,
+) error {
+	if c.fail {
+		return errors.New("store failed")
 	}
-	i.mu.Lock()
-	defer i.mu.Unlock()
-	i.documents = append(i.documents, document)
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if c.markdown == nil {
+		c.markdown = map[string][]byte{}
+	}
+	c.markdown[scrapeRequestURL.String()] = markdown
 	return nil
 }
 
 type recordingProgress struct {
-	received       int
-	indexed        int
-	scrapeFailures int
-	indexFailures  int
-	observed       int
+	received int
+	stored   int
+	scraped  int
+	failed   int
 }
 
-func (p *recordingProgress) PageReceived()               { p.received++ }
-func (p *recordingProgress) PageIndexed()                { p.indexed++ }
-func (p *recordingProgress) ScrapeFailed()               { p.scrapeFailures++ }
-func (p *recordingProgress) IndexFailed()                { p.indexFailures++ }
-func (p *recordingProgress) IndexObserved(time.Duration) { p.observed++ }
+func (p *recordingProgress) PageReceived() { p.received++ }
+func (p *recordingProgress) PageStored()   { p.stored++ }
+func (p *recordingProgress) ScrapeFailed() { p.scraped++ }
+func (p *recordingProgress) StoreFailed()  { p.failed++ }
 
-const reachedPageURL = "https://example.com/"
+const scrapeRequestURL = "https://example.com/"
 
-func reachedPageMessage(t *testing.T, acked chan string) *fakeMsg {
+func scrapeRequestMessage(t *testing.T, acked chan string) *fakeMsg {
 	t.Helper()
-	data, err := yacycrawlcontract.MarshalReachedPage(
-		yacycrawlcontract.ReachedPage{
-			CanonicalURL: canonicalurltest.CanonicalURLOf(t, reachedPageURL),
+	data, err := scraperequestcontract.MarshalScrapeRequest(
+		scraperequestcontract.ScrapeRequest{
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
 		},
 	)
 	if err != nil {
@@ -136,73 +141,61 @@ func sourceOf(messages ...jetstream.Msg) fakeSource {
 func run(
 	t *testing.T,
 	source fakeSource,
-	scraper pageintake.PageScraper,
-	searchIndex pageintake.SearchIndex,
-	progress pageintake.IndexProgress,
+	scraper markdownintake.PageScraper,
+	corpus markdownintake.PageMarkdownCorpus,
+	progress markdownintake.StoreProgress,
 ) error {
 	t.Helper()
-	return pageintake.NewReachedPageConsumer(source, scraper, searchIndex, progress, 1).
+	return markdownintake.NewScrapeRequestConsumer(source, scraper, corpus, progress, 1).
 		Run(context.Background())
 }
 
-func scrapedPage(t *testing.T) *fakeScrape {
-	t.Helper()
-	return &fakeScrape{
+func TestConsumerStoresTheMarkdownItScrapesFromAScrapeRequest(t *testing.T) {
+	acked := make(chan string, 1)
+	scraper := &fakeScrape{
 		page: pagescrape.ScrapedPage{
-			CanonicalURL: canonicalurltest.CanonicalURLOf(t, reachedPageURL),
-			Title:        "Hi",
-			Language:     "en",
-			Content:      []byte("words here"),
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			Content:      []byte("# Hi"),
 		},
 		scraped: true,
 	}
-}
-
-func TestConsumerIndexesTheTextItScrapesFromAReachedPage(t *testing.T) {
-	acked := make(chan string, 1)
-	scraper := scrapedPage(t)
-	searchIndex := &recordingIndex{}
+	corpus := &recordingCorpus{}
 	progress := &recordingProgress{}
 
-	if err := run(t, sourceOf(reachedPageMessage(t, acked)),
-		scraper, searchIndex, progress); err != nil {
+	if err := run(t, sourceOf(scrapeRequestMessage(t, acked)),
+		scraper, corpus, progress); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if action := <-acked; action != "ack" {
 		t.Errorf("action = %q, want ack", action)
 	}
-	if len(scraper.urls) != 1 || scraper.urls[0] != reachedPageURL {
-		t.Errorf("scraped %v, want the reached page url", scraper.urls)
+	if len(scraper.urls) != 1 || scraper.urls[0] != scrapeRequestURL {
+		t.Errorf("scraped %v, want the scrape request url", scraper.urls)
 	}
-	if len(searchIndex.documents) != 1 {
-		t.Fatalf("indexed %v, want one document", searchIndex.documents)
+	if got := corpus.markdown[scrapeRequestURL]; string(got) != "# Hi" {
+		t.Errorf("stored = %q, want # Hi", got)
 	}
-	indexed := searchIndex.documents[0]
-	if indexed.URL != reachedPageURL || indexed.Title != "Hi" ||
-		indexed.Content != "words here" || indexed.Language != "en" {
-		t.Errorf("indexed = %+v, want the scraped page", indexed)
-	}
-	if progress.received != 1 || progress.indexed != 1 || progress.observed != 1 {
-		t.Errorf("progress = %+v, want one received/indexed/observed", progress)
+	if progress.received != 1 || progress.stored != 1 {
+		t.Errorf("progress = %+v, want one received and one stored", progress)
 	}
 }
 
-func TestConsumerAcksAReachedPageThatDerivesNoText(t *testing.T) {
+func TestConsumerAcksAScrapeRequestThatDerivesNoMarkdown(t *testing.T) {
 	acked := make(chan string, 1)
-	searchIndex := &recordingIndex{}
+	corpus := &recordingCorpus{}
 	progress := &recordingProgress{}
 
-	if err := run(t, sourceOf(reachedPageMessage(t, acked)),
-		&fakeScrape{}, searchIndex, progress); err != nil {
+	if err := run(t, sourceOf(scrapeRequestMessage(t, acked)),
+		&fakeScrape{}, corpus, progress); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if action := <-acked; action != "ack" {
 		t.Errorf("action = %q, want ack", action)
 	}
-	if len(searchIndex.documents) != 0 || progress.indexed != 0 {
-		t.Errorf("indexed %v, want nothing", searchIndex.documents)
+	if len(corpus.markdown) != 0 || progress.stored != 0 {
+		t.Errorf("stored %v, want nothing", corpus.markdown)
 	}
 }
 
@@ -210,33 +203,40 @@ func TestConsumerNaksWhenTheScrapeFails(t *testing.T) {
 	acked := make(chan string, 1)
 	progress := &recordingProgress{}
 
-	if err := run(t, sourceOf(reachedPageMessage(t, acked)),
-		&fakeScrape{err: errors.New("fetch broke")}, &recordingIndex{}, progress); err != nil {
+	if err := run(t, sourceOf(scrapeRequestMessage(t, acked)),
+		&fakeScrape{err: errors.New("fetch broke")}, &recordingCorpus{}, progress); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if action := <-acked; action != "nak" {
 		t.Errorf("action = %q, want nak", action)
 	}
-	if progress.scrapeFailures != 1 || progress.observed != 0 {
-		t.Errorf("progress = %+v, want one scrape failure and no index attempt", progress)
+	if progress.scraped != 1 || progress.stored != 0 {
+		t.Errorf("progress = %+v, want one scrape failure", progress)
 	}
 }
 
-func TestConsumerNaksWhenTheIndexFails(t *testing.T) {
+func TestConsumerNaksWhenTheStoreFails(t *testing.T) {
 	acked := make(chan string, 1)
+	scraper := &fakeScrape{
+		page: pagescrape.ScrapedPage{
+			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
+			Content:      []byte("x"),
+		},
+		scraped: true,
+	}
 	progress := &recordingProgress{}
 
-	if err := run(t, sourceOf(reachedPageMessage(t, acked)),
-		scrapedPage(t), &recordingIndex{fail: true}, progress); err != nil {
+	if err := run(t, sourceOf(scrapeRequestMessage(t, acked)),
+		scraper, &recordingCorpus{fail: true}, progress); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if action := <-acked; action != "nak" {
 		t.Errorf("action = %q, want nak", action)
 	}
-	if progress.indexFailures != 1 || progress.indexed != 0 || progress.observed != 1 {
-		t.Errorf("progress = %+v, want one index failure", progress)
+	if progress.failed != 1 || progress.stored != 0 {
+		t.Errorf("progress = %+v, want one store failure", progress)
 	}
 }
 
@@ -245,7 +245,7 @@ func TestConsumerHaltsOnAnUndecodableMessage(t *testing.T) {
 	progress := &recordingProgress{}
 
 	err := run(t, sourceOf(&fakeMsg{data: []byte("not json"), acked: acked}),
-		&fakeScrape{}, &recordingIndex{}, progress)
+		&fakeScrape{}, &recordingCorpus{}, progress)
 
 	if !errors.Is(err, poisonhalt.ErrPoisonMessage) {
 		t.Fatalf("run error = %v, want poison halt", err)

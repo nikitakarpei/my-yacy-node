@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 )
 
-func TestReachedTextSearchReadsEveryLanguageIndexInElasticsearch(t *testing.T) {
+func TestScrapedCorpusTextSearchReadsEveryLanguageIndexInElasticsearch(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
@@ -23,10 +23,10 @@ func TestReachedTextSearchReadsEveryLanguageIndexInElasticsearch(t *testing.T) {
 	startOrigins(t, ctx, network.Name)
 
 	js := connectJetStream(t, natsURL)
-	createReachedPagesStream(t, ctx, js)
+	createScrapeRequestsStream(t, ctx, js)
 
 	startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
-	publishReachedCorpus(t, ctx, js)
+	publishScrapedCorpus(t, ctx, js)
 	awaitElasticsearchCorpus(t, ctx, elasticsearchHostURL)
 	assertCatchAllHoldsTheUnconfiguredPage(
 		t,
@@ -35,10 +35,10 @@ func TestReachedTextSearchReadsEveryLanguageIndexInElasticsearch(t *testing.T) {
 
 	searxngBaseURL := startSearXNG(t, ctx, network.Name, elasticsearchEngineSettings())
 
-	assertReachedCorpusIsSearchable(t, ctx, searxngBaseURL)
+	assertScrapedCorpusIsSearchable(t, ctx, searxngBaseURL)
 }
 
-func TestReachedTextSearchReadsEveryLanguageTableInManticore(t *testing.T) {
+func TestScrapedCorpusTextSearchReadsEveryLanguageTableInManticore(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
@@ -50,10 +50,10 @@ func TestReachedTextSearchReadsEveryLanguageTableInManticore(t *testing.T) {
 	startOrigins(t, ctx, network.Name)
 
 	js := connectJetStream(t, natsURL)
-	createReachedPagesStream(t, ctx, js)
+	createScrapeRequestsStream(t, ctx, js)
 
 	startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
-	publishReachedCorpus(t, ctx, js)
+	publishScrapedCorpus(t, ctx, js)
 	awaitManticoreCorpus(t, ctx, manticoreHostURL)
 	assertCatchAllHoldsTheUnconfiguredPage(
 		t,
@@ -62,5 +62,5 @@ func TestReachedTextSearchReadsEveryLanguageTableInManticore(t *testing.T) {
 
 	searxngBaseURL := startSearXNG(t, ctx, network.Name, manticoreEngineSettings())
 
-	assertReachedCorpusIsSearchable(t, ctx, searxngBaseURL)
+	assertScrapedCorpusIsSearchable(t, ctx, searxngBaseURL)
 }

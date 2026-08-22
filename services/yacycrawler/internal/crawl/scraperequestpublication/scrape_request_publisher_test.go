@@ -1,4 +1,4 @@
-package reachedpagepublication_test
+package scraperequestpublication_test
 
 import (
 	"context"
@@ -6,23 +6,23 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/scraperequestpublication"
 )
 
 type countingObserver struct {
 	publications int
 }
 
-func (o *countingObserver) ReachedPagePublished() {
+func (o *countingObserver) ScrapeRequestPublished() {
 	o.publications++
 }
 
-type recordingReachedPages struct {
+type recordingScrapeRequests struct {
 	urls     []string
 	failWith error
 }
 
-func (r *recordingReachedPages) Publish(
+func (r *recordingScrapeRequests) Publish(
 	_ context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
 ) error {
@@ -35,15 +35,15 @@ func (r *recordingReachedPages) Publish(
 
 func TestPublishSendsTheCanonicalFormOfTheFinalURL(t *testing.T) {
 	observer := &countingObserver{}
-	reached := &recordingReachedPages{}
+	scrapeRequests := &recordingScrapeRequests{}
 
-	err := reachedpagepublication.NewPublisher(observer, reached).
+	err := scraperequestpublication.NewPublisher(observer, scrapeRequests).
 		Publish(context.Background(), "HTTP://Host:80/a#section")
 	if err != nil {
 		t.Fatalf("publish err = %v", err)
 	}
-	if len(reached.urls) != 1 || reached.urls[0] != "http://host/a" {
-		t.Fatalf("published urls = %v", reached.urls)
+	if len(scrapeRequests.urls) != 1 || scrapeRequests.urls[0] != "http://host/a" {
+		t.Fatalf("published urls = %v", scrapeRequests.urls)
 	}
 	if observer.publications != 1 {
 		t.Fatalf("observed publications = %d", observer.publications)
@@ -52,15 +52,15 @@ func TestPublishSendsTheCanonicalFormOfTheFinalURL(t *testing.T) {
 
 func TestPublishSkipsAURLItCannotCanonicalize(t *testing.T) {
 	observer := &countingObserver{}
-	reached := &recordingReachedPages{}
+	scrapeRequests := &recordingScrapeRequests{}
 
-	err := reachedpagepublication.NewPublisher(observer, reached).
+	err := scraperequestpublication.NewPublisher(observer, scrapeRequests).
 		Publish(context.Background(), "ftp://host/a")
 	if err != nil {
 		t.Fatalf("publish err = %v", err)
 	}
-	if len(reached.urls) != 0 {
-		t.Fatalf("published urls = %v", reached.urls)
+	if len(scrapeRequests.urls) != 0 {
+		t.Fatalf("published urls = %v", scrapeRequests.urls)
 	}
 	if observer.publications != 0 {
 		t.Fatalf("observed publications = %d", observer.publications)
@@ -70,9 +70,9 @@ func TestPublishSkipsAURLItCannotCanonicalize(t *testing.T) {
 func TestPublishReportsAFailedPublication(t *testing.T) {
 	observer := &countingObserver{}
 	failure := errors.New("stream down")
-	reached := &recordingReachedPages{failWith: failure}
+	scrapeRequests := &recordingScrapeRequests{failWith: failure}
 
-	err := reachedpagepublication.NewPublisher(observer, reached).
+	err := scraperequestpublication.NewPublisher(observer, scrapeRequests).
 		Publish(context.Background(), "http://host/a")
 	if !errors.Is(err, failure) {
 		t.Fatalf("publish err = %v", err)

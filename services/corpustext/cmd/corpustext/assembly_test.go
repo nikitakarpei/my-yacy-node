@@ -15,7 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	corpustext "github.com/nikitakarpei/yacy-rwi-node/corpustext/cmd/corpustext"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 )
 
 const (
@@ -66,23 +66,23 @@ func (e *recordingElasticsearch) path() string {
 
 func serviceConfig(crawlURL, elasticsearchURL string, proxy *url.URL) corpustext.ServiceConfig {
 	return corpustext.ServiceConfig{
-		CrawlNATSURL:       crawlURL,
-		ReachedPageSubject: corpustext.DefaultReachedPageSubject,
-		ReachedPageDurable: corpustext.DefaultReachedPageDurable,
-		ProxyURL:           proxy,
-		UserAgent:          corpustext.DefaultUserAgent,
-		MaxBodyBytes:       corpustext.DefaultMaxBodyBytes,
-		FetchDeadline:      time.Second,
-		Concurrency:        corpustext.DefaultConcurrency,
-		SearchIndexEngine:  corpustext.SearchIndexEngineElasticsearch,
-		ElasticsearchURL:   elasticsearchURL,
-		ElasticsearchIndex: corpustext.DefaultIndexBaseName,
-		Languages:          []string{"en"},
-		OpsAddr:            "127.0.0.1:0",
+		CrawlNATSURL:         crawlURL,
+		ScrapeRequestSubject: corpustext.DefaultScrapeRequestSubject,
+		ScrapeRequestDurable: corpustext.DefaultScrapeRequestDurable,
+		ProxyURL:             proxy,
+		UserAgent:            corpustext.DefaultUserAgent,
+		MaxBodyBytes:         corpustext.DefaultMaxBodyBytes,
+		FetchDeadline:        time.Second,
+		Concurrency:          corpustext.DefaultConcurrency,
+		SearchIndexEngine:    corpustext.SearchIndexEngineElasticsearch,
+		ElasticsearchURL:     elasticsearchURL,
+		ElasticsearchIndex:   corpustext.DefaultIndexBaseName,
+		Languages:            []string{"en"},
+		OpsAddr:              "127.0.0.1:0",
 	}
 }
 
-func TestRunServiceIndexesTheTextItScrapesFromAReachedPage(t *testing.T) {
+func TestRunServiceIndexesTheTextItScrapesFromAScrapeRequest(t *testing.T) {
 	elasticsearch := &recordingElasticsearch{}
 	crawlURL := natstestserver.Start(t)
 	cfg := serviceConfig(crawlURL, elasticsearch.serve(t), origin(t))
@@ -91,12 +91,12 @@ func TestRunServiceIndexesTheTextItScrapesFromAReachedPage(t *testing.T) {
 	defer cancel()
 
 	crawlJetStream := natstestserver.ConnectJetStream(t, crawlURL)
-	createReachedPagesStream(t, crawlJetStream, cfg.ReachedPageSubject)
+	createScrapeRequestsStream(t, crawlJetStream, cfg.ScrapeRequestSubject)
 
 	runDone := make(chan error, 1)
 	go func() { runDone <- corpustext.RunService(ctx, cfg) }()
 
-	publishReachedPage(t, ctx, crawlJetStream, originURL)
+	publishScrapeRequest(t, ctx, crawlJetStream, originURL)
 	waitForIndexed(t, elasticsearch)
 
 	cancel()
@@ -125,23 +125,23 @@ func waitForIndexed(t *testing.T, elasticsearch *recordingElasticsearch) {
 	)
 }
 
-func publishReachedPage(
+func publishScrapeRequest(
 	t *testing.T,
 	ctx context.Context,
 	js jetstream.JetStream,
 	canonicalURL string,
 ) {
 	t.Helper()
-	data, err := yacycrawlcontract.MarshalReachedPage(
-		yacycrawlcontract.ReachedPage{
+	data, err := scraperequestcontract.MarshalScrapeRequest(
+		scraperequestcontract.ScrapeRequest{
 			CanonicalURL: canonicalurltest.CanonicalURLOf(t, canonicalURL),
 		},
 	)
 	if err != nil {
-		t.Fatalf("marshal reached page: %v", err)
+		t.Fatalf("marshal scrape request: %v", err)
 	}
-	if _, err := js.Publish(ctx, corpustext.DefaultReachedPageSubject, data); err != nil {
-		t.Fatalf("publish reached page: %v", err)
+	if _, err := js.Publish(ctx, corpustext.DefaultScrapeRequestSubject, data); err != nil {
+		t.Fatalf("publish scrape request: %v", err)
 	}
 }
 
@@ -150,8 +150,8 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 	crawlURL := natstestserver.Start(t)
 	cfg := serviceConfig(crawlURL, elasticsearch.serve(t), origin(t))
 	cfg.OpsAddr = "127.0.0.1:99999"
-	createReachedPagesStream(
-		t, natstestserver.ConnectJetStream(t, crawlURL), cfg.ReachedPageSubject,
+	createScrapeRequestsStream(
+		t, natstestserver.ConnectJetStream(t, crawlURL), cfg.ScrapeRequestSubject,
 	)
 
 	if err := corpustext.RunService(context.Background(), cfg); err == nil {
@@ -166,7 +166,7 @@ func TestRunServiceFailsWhenStreamMissing(t *testing.T) {
 	)
 
 	if err := corpustext.RunService(context.Background(), cfg); err == nil {
-		t.Fatal("expected error when the reached pages stream is not provisioned")
+		t.Fatal("expected error when the scrape requests stream is not provisioned")
 	}
 }
 
@@ -181,15 +181,15 @@ func TestRunServiceFailsWhenCrawlNATSUnreachable(t *testing.T) {
 	}
 }
 
-func createReachedPagesStream(t *testing.T, js jetstream.JetStream, subject string) {
+func createScrapeRequestsStream(t *testing.T, js jetstream.JetStream, subject string) {
 	t.Helper()
 	if _, err := js.CreateOrUpdateStream(context.Background(), jetstream.StreamConfig{
-		Name:      yacycrawlcontract.ReachedPagesStreamName,
+		Name:      scraperequestcontract.ScrapeRequestsStreamName,
 		Subjects:  []string{subject},
 		Retention: jetstream.WorkQueuePolicy,
 		MaxMsgs:   64,
 		Discard:   jetstream.DiscardNew,
 	}); err != nil {
-		t.Fatalf("create reached pages stream: %v", err)
+		t.Fatalf("create scrape requests stream: %v", err)
 	}
 }

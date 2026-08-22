@@ -10,7 +10,6 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0
 	github.com/prometheus/client_golang v1.23.2
@@ -68,3 +67,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault => ../../
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../libraries/pagescrape
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
+
+require github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
+
+replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract

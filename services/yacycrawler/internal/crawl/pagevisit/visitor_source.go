@@ -5,7 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/scraperequestpublication"
 )
 
 type VisitorSource interface {
@@ -21,11 +21,11 @@ type PageExtractor interface {
 }
 
 type visitorSource struct {
-	fetcher   pagefetch.Fetcher
-	recrawl   RecrawlRule
-	extractor PageExtractor
-	observer  VisitProgress
-	reached   *reachedpagepublication.Publisher
+	fetcher        pagefetch.Fetcher
+	recrawl        RecrawlRule
+	extractor      PageExtractor
+	observer       VisitProgress
+	scrapeRequests *scraperequestpublication.Publisher
 }
 
 func New(
@@ -33,14 +33,14 @@ func New(
 	recrawl RecrawlRule,
 	extractor PageExtractor,
 	observer VisitProgress,
-	reached *reachedpagepublication.Publisher,
+	scrapeRequests *scraperequestpublication.Publisher,
 ) VisitorSource {
 	return &visitorSource{
-		fetcher:   fetcher,
-		recrawl:   recrawl,
-		extractor: extractor,
-		observer:  observer,
-		reached:   reached,
+		fetcher:        fetcher,
+		recrawl:        recrawl,
+		extractor:      extractor,
+		observer:       observer,
+		scrapeRequests: scrapeRequests,
 	}
 }
 
@@ -51,6 +51,6 @@ func (s *visitorSource) VisitorFor(indexingRefusal IndexingRefusal) Visitor {
 		extractor:       s.extractor,
 		indexingRefusal: indexingRefusal,
 		observer:        s.observer,
-		reached:         s.reached,
+		scrapeRequests:  s.scrapeRequests,
 	}
 }

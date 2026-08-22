@@ -7,41 +7,41 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
-	EnvCrawlNATSURL           = "CRAWL_NATS_URL"
-	EnvNATSReachedPageSubject = "NATS_REACHED_PAGE_SUBJECT"
-	EnvNATSReachedPageDurable = "NATS_REACHED_PAGE_DURABLE"
-	EnvCrawlProxyURL          = "YACY_CRAWL_PROXY_URL"
-	EnvCrawlProxyDialMode     = "YACY_CRAWL_PROXY_DIAL_MODE"
-	EnvCrawlUserAgent         = "YACY_CRAWL_USER_AGENT"
-	EnvCrawlMaxBodyBytes      = "YACY_CRAWL_MAX_BODY_BYTES"
-	EnvCrawlFetchDeadline     = "YACY_CRAWL_FETCH_DEADLINE"
-	EnvCrawlConcurrency       = "YACY_CRAWL_CONCURRENCY"
+	EnvCrawlNATSURL             = "CRAWL_NATS_URL"
+	EnvNATSScrapeRequestSubject = "NATS_SCRAPE_REQUEST_SUBJECT"
+	EnvNATSScrapeRequestDurable = "NATS_SCRAPE_REQUEST_DURABLE"
+	EnvCrawlProxyURL            = "YACY_CRAWL_PROXY_URL"
+	EnvCrawlProxyDialMode       = "YACY_CRAWL_PROXY_DIAL_MODE"
+	EnvCrawlUserAgent           = "YACY_CRAWL_USER_AGENT"
+	EnvCrawlMaxBodyBytes        = "YACY_CRAWL_MAX_BODY_BYTES"
+	EnvCrawlFetchDeadline       = "YACY_CRAWL_FETCH_DEADLINE"
+	EnvCrawlConcurrency         = "YACY_CRAWL_CONCURRENCY"
 
-	DefaultReachedPageDurable = "yacy-node"
-	DefaultCrawlProxyDialMode = "tunnel"
-	DefaultCrawlUserAgent     = "yacy-rwi-node (+https://yacy.net)"
-	DefaultCrawlMaxBodyBytes  = 2 << 20
-	DefaultCrawlFetchDeadline = 30 * time.Second
-	DefaultCrawlConcurrency   = 4
+	DefaultScrapeRequestDurable = "yacy-node"
+	DefaultCrawlProxyDialMode   = "tunnel"
+	DefaultCrawlUserAgent       = "yacy-rwi-node (+https://yacy.net)"
+	DefaultCrawlMaxBodyBytes    = 2 << 20
+	DefaultCrawlFetchDeadline   = 30 * time.Second
+	DefaultCrawlConcurrency     = 4
 )
 
-var DefaultReachedPageSubject = yacycrawlcontract.ReachedPageSubject
+var DefaultScrapeRequestSubject = scraperequestcontract.ScrapeRequestSubject
 
 type CrawlConfig struct {
-	NATSURL            string
-	ReachedPageSubject string
-	ReachedPageDurable string
-	ProxyURL           *url.URL
-	ProxyDialMode      http.ProxyDialMode
-	UserAgent          string
-	MaxBodyBytes       int64
-	FetchDeadline      time.Duration
-	Concurrency        int
+	NATSURL              string
+	ScrapeRequestSubject string
+	ScrapeRequestDurable string
+	ProxyURL             *url.URL
+	ProxyDialMode        http.ProxyDialMode
+	UserAgent            string
+	MaxBodyBytes         int64
+	FetchDeadline        time.Duration
+	Concurrency          int
 }
 
 func (c CrawlConfig) Enabled() bool {
@@ -84,11 +84,11 @@ func loadCrawlConfig(getenv func(string) string) (CrawlConfig, error) {
 
 	return CrawlConfig{
 		NATSURL: natsURL,
-		ReachedPageSubject: envconfig.String(
-			getenv, EnvNATSReachedPageSubject, DefaultReachedPageSubject,
+		ScrapeRequestSubject: envconfig.String(
+			getenv, EnvNATSScrapeRequestSubject, DefaultScrapeRequestSubject,
 		),
-		ReachedPageDurable: envconfig.String(
-			getenv, EnvNATSReachedPageDurable, DefaultReachedPageDurable,
+		ScrapeRequestDurable: envconfig.String(
+			getenv, EnvNATSScrapeRequestDurable, DefaultScrapeRequestDurable,
 		),
 		ProxyURL:      proxyURL,
 		ProxyDialMode: proxyDialMode,

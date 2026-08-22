@@ -12,13 +12,13 @@ answer with.
 | `caddy` | The one address the stack is reached at, by a browser and by other peers. |
 | `searxng` | The search UI: queries the local index alongside web engines, and points every result link at `visitcrawl`. |
 | `visitcrawl` | Turns an opened result into one crawl order and redirects to the page, without waiting on the order. |
-| `nats` | Broker carrying crawl orders and reached pages between services. |
+| `nats` | Broker carrying crawl orders and scrape requests between services. |
 | `yacycrawler` | Fetches an ordered page and publishes the URL of every page it reached. |
 | `renderproxy` | Proxies the page fetch through `lightpanda` so JS-rendered pages are fetched too. |
 | `lightpanda` | Headless browser that renders the page for `renderproxy`; chosen over Chromium-based ones for its low memory footprint. |
-| `corpustext` | Fetches each reached page and writes its text into the local search index. |
+| `corpustext` | Fetches each scrape request and writes its text into the local search index. |
 | `manticore` | Stores and serves the local search index. |
-| `yacy-rwi-node` | The peer: fetches each reached page for its own word index, shares it over the DHT, and serves remote searches. |
+| `yacy-rwi-node` | The peer: fetches each scrape request for its own word index, shares it over the DHT, and serves remote searches. |
 | `smokescreen` | Egress proxy every outbound connection passes through, blocking requests to internal addresses to prevent SSRF. |
 | `prometheus` | Collects metrics from every service. |
 

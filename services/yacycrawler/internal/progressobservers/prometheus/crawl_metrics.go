@@ -25,15 +25,15 @@ const (
 )
 
 type CrawlMetrics struct {
-	ordersReceived        prometheus.Counter
-	ordersCompleted       prometheus.Counter
-	ordersRedelivered     prometheus.Counter
-	pagesFetched          prometheus.Counter
-	reachedPagesPublished prometheus.Counter
-	pagesDisposed         *prometheus.CounterVec
-	refusalsHonored       *prometheus.CounterVec
-	budgetExhaustions     prometheus.Counter
-	fetchDurationSecs     prometheus.Histogram
+	ordersReceived          prometheus.Counter
+	ordersCompleted         prometheus.Counter
+	ordersRedelivered       prometheus.Counter
+	pagesFetched            prometheus.Counter
+	scrapeRequestsPublished prometheus.Counter
+	pagesDisposed           *prometheus.CounterVec
+	refusalsHonored         *prometheus.CounterVec
+	budgetExhaustions       prometheus.Counter
+	fetchDurationSecs       prometheus.Histogram
 }
 
 func New(registry prometheus.Registerer) *CrawlMetrics {
@@ -54,9 +54,9 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 			Name: "yacycrawler_pages_fetched_total",
 			Help: "Pages fetched.",
 		}),
-		reachedPagesPublished: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "yacycrawler_reached_pages_published_total",
-			Help: "Reached pages published.",
+		scrapeRequestsPublished: prometheus.NewCounter(prometheus.CounterOpts{
+			Name: "yacycrawler_scrape_requests_published_total",
+			Help: "Scrape requests published.",
 		}),
 		pagesDisposed: prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: "yacycrawler_pages_disposed_total",
@@ -81,7 +81,7 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 		metrics.ordersCompleted,
 		metrics.ordersRedelivered,
 		metrics.pagesFetched,
-		metrics.reachedPagesPublished,
+		metrics.scrapeRequestsPublished,
 		metrics.pagesDisposed,
 		metrics.refusalsHonored,
 		metrics.budgetExhaustions,
@@ -90,11 +90,11 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 	return metrics
 }
 
-func (m *CrawlMetrics) OrderReceived()        { m.ordersReceived.Inc() }
-func (m *CrawlMetrics) OrderCompleted()       { m.ordersCompleted.Inc() }
-func (m *CrawlMetrics) OrderRedelivered()     { m.ordersRedelivered.Inc() }
-func (m *CrawlMetrics) PageFetched()          { m.pagesFetched.Inc() }
-func (m *CrawlMetrics) ReachedPagePublished() { m.reachedPagesPublished.Inc() }
+func (m *CrawlMetrics) OrderReceived()          { m.ordersReceived.Inc() }
+func (m *CrawlMetrics) OrderCompleted()         { m.ordersCompleted.Inc() }
+func (m *CrawlMetrics) OrderRedelivered()       { m.ordersRedelivered.Inc() }
+func (m *CrawlMetrics) PageFetched()            { m.pagesFetched.Inc() }
+func (m *CrawlMetrics) ScrapeRequestPublished() { m.scrapeRequestsPublished.Inc() }
 
 func (m *CrawlMetrics) PageDisposed(reason disposal.Reason) {
 	m.pagesDisposed.WithLabelValues(string(reason)).Inc()

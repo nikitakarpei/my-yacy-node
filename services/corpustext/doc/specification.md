@@ -12,18 +12,18 @@ indexes it into an operator-run full-text search index.
 * Serving search queries.
 * Running or provisioning the search index server itself.
 * Deciding which pages to index: the crawler decides which pages it reaches.
-* Judging a page again: a reached page is already admitted, so this service applies no
+* Judging a page again: a scrape request is already admitted, so this service applies no
   scope, robots, or indexing rule of its own.
 * Storing text anywhere other than the operator's own search index.
 
 ## Functional Requirements
 
-* The service SHALL consume only the crawler's reached-page stream.
-* For each reached page, the service SHALL fetch the page through its configured proxy and
+* The service SHALL consume only the crawler's scrape-request stream.
+* For each scrape request, the service SHALL fetch the page through its configured proxy and
   derive the text of the document it holds.
 * The service SHALL produce a search-index document carrying the fetched page's canonical
   URL, text, title, and language.
-* A reached page that the service cannot read, or from which no text derives, SHALL leave
+* A scrape request that the service cannot read, or from which no text derives, SHALL leave
   the index unchanged and SHALL NOT be fetched again for that message.
 * On an undecodable message the service SHALL halt intake and leave the message pending for
   an operator, rather than discard it.
@@ -50,7 +50,7 @@ indexes it into an operator-run full-text search index.
   index and any pending backlog lives with the broker.
 * The service SHALL be independently disposable: operators MAY stop it and later start it
   again without depending on this service's prior state.
-* The service SHALL support many concurrent instances over the crawler's reached pages,
+* The service SHALL support many concurrent instances over the crawler's scrape requests,
   with each page indexed by exactly one instance.
 * The service SHALL expose machine-readable metrics and a liveness signal covering pages
   received, indexed, and failed, and index latency.

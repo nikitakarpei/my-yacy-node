@@ -11,7 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 )
 
-func TestReachedPageStaysSearchableInElasticsearch(t *testing.T) {
+func TestScrapeRequestStaysSearchableInElasticsearch(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
@@ -51,7 +51,7 @@ func TestReachedPageStaysSearchableInElasticsearch(t *testing.T) {
 	assertIndexedPage(t, hitAfterRestart, originURL)
 }
 
-func TestReachedPageStaysSearchableInManticore(t *testing.T) {
+func TestScrapeRequestStaysSearchableInManticore(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)

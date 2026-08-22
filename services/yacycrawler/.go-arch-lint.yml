@@ -7,6 +7,7 @@ allow:
 
 commonVendors:
   - yacycrawlcontract
+  - scraperequestcontract
   - canonicalurl
 
 commonComponents:
@@ -37,8 +38,8 @@ components:
     in: internal/crawl/fetchtiming/**
   pagevisit:
     in: internal/crawl/pagevisit/**
-  reachedpagepublication:
-    in: internal/crawl/reachedpagepublication/**
+  scraperequestpublication:
+    in: internal/crawl/scraperequestpublication/**
   recrawlrulesalwaysdue:
     in: internal/recrawlrules/alwaysdue/**
   recrawlrulesdueaftergrace:
@@ -53,8 +54,8 @@ components:
     in: internal/contextcancellation/**
   disposedpagesjetstream:
     in: internal/disposedpages/jetstream/**
-  reachedpagesjetstream:
-    in: internal/reachedpages/jetstream/**
+  scraperequestsjetstream:
+    in: internal/scraperequests/jetstream/**
   crawloutcomereceiversgrpc:
     in: internal/crawloutcomereceivers/grpc/**
   crawlercmd:
@@ -69,6 +70,8 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  scraperequestcontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -121,6 +124,7 @@ deps:
       - contextcancellation
     canUse:
       - yacycrawlcontract
+      - scraperequestcontract
   visitdispatch:
     mayDependOn:
       - frontier
@@ -132,7 +136,7 @@ deps:
     mayDependOn:
       - disposal
       - refusal
-      - reachedpagepublication
+      - scraperequestpublication
     canUse:
       - pagescrapecontentextraction
       - pagescrapepagefetch
@@ -165,7 +169,7 @@ deps:
       - disposal
     canUse:
       - grpc
-  reachedpagesjetstream:
+  scraperequestsjetstream:
     canUse:
       - nats
   progressobserversprometheus:
@@ -174,7 +178,7 @@ deps:
       - ordertraversal
       - pagevisit
       - fetchtiming
-      - reachedpagepublication
+      - scraperequestpublication
       - disposal
       - refusal
     canUse:

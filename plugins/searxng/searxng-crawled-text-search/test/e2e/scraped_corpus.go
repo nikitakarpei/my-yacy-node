@@ -31,7 +31,7 @@ const (
 	spanishSearchTerm = "silvestres"
 )
 
-func reachedPageURLs() []string {
+func scrapedCorpusURLs() []string {
 	return []string{englishURL, germanURL, spanishURL}
 }
 

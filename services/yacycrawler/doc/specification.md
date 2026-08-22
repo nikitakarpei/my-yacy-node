@@ -3,10 +3,10 @@
 ## Context
 
 `yacycrawler` is a standalone, optional, disposable crawling service. It accepts crawl
-orders, fetches the web pages they reach, publishes the URL of each reached page through
-the message-broker API in `yacycrawlcontract`, and answers what crawling last did with a
-URL. Consumers scrape those pages for whatever content they want. A YaCy node is the
-typical order source and consumer, but the service depends on no consumer's internals.
+orders, fetches the web pages they reach, publishes a scrape request for each page it
+reached, and answers what crawling last did with a URL. Consumers scrape those pages for
+whatever content they want. A YaCy node is the typical order source and consumer, but the
+service depends on no consumer's internals.
 
 Several instances can share one order stream, each order running on one instance. The
 service is meant for a more capable host than an always-on node.
@@ -33,10 +33,10 @@ service is meant for a more capable host than an always-on node.
   rather than pressing against it.
 * The service SHALL honor a page's indexing refusal, unless the order's profile ignores
   it.
-* The service SHALL publish the canonical URL of each page it reached, and never the
-  page's content.
-* Every URL a run admits SHALL reach one terminal outcome: published as reached, or
-  disposed and recorded against its URL together with the reason.
+* The service SHALL publish a scrape request naming the canonical URL of each page it
+  reached, and never the page's content.
+* Every URL a run admits SHALL reach one terminal outcome: published as a scrape request,
+  or disposed and recorded against its URL together with the reason.
 * The service SHALL answer, for one URL, where crawling resolved it to and whether it is
   disposed, with a mark that changes each time that URL is disposed again.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient
@@ -72,9 +72,9 @@ service is meant for a more capable host than an always-on node.
   policy; the service adds none of them.
 * A proxy that rewrites fetch responses must preserve the refusal and wait signals the
   service honors, or the service cannot act on them.
-* A reached page names a URL anyone with broker publish rights can inject, sending every
-  consumer to fetch it; restrict publish rights on the reached-page subject to the crawler.
+* A scrape request names a URL anyone with broker publish rights can inject, sending every
+  consumer to fetch it; restrict publish rights on the scrape-request subject to the crawler.
 * A consumer's outage-survival holds only within the retention window the operator sizes
-  on the reached-page stream.
+  on the scrape-request stream.
 * Each consumer fetches the page again for itself, so the origin serves it once per
   interested consumer and each consumer can see a different page than the crawler saw.

@@ -15,7 +15,7 @@ import (
 	corpusmarkdown "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/cmd/corpusmarkdown"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 )
 
 const (
@@ -42,20 +42,20 @@ func originServing(t *testing.T, body string) *url.URL {
 
 func serviceConfig(crawlURL, pageMarkdownURL string, proxy *url.URL) corpusmarkdown.ServiceConfig {
 	return corpusmarkdown.ServiceConfig{
-		CrawlNATSURL:        crawlURL,
-		PageMarkdownNATSURL: pageMarkdownURL,
-		ReachedPageSubject:  corpusmarkdown.DefaultReachedPageSubject,
-		ReachedPageDurable:  corpusmarkdown.DefaultReachedPageDurable,
-		ProxyURL:            proxy,
-		UserAgent:           corpusmarkdown.DefaultUserAgent,
-		MaxBodyBytes:        corpusmarkdown.DefaultMaxBodyBytes,
-		FetchDeadline:       time.Second,
-		Concurrency:         corpusmarkdown.DefaultConcurrency,
-		OpsAddr:             "127.0.0.1:0",
+		CrawlNATSURL:         crawlURL,
+		PageMarkdownNATSURL:  pageMarkdownURL,
+		ScrapeRequestSubject: corpusmarkdown.DefaultScrapeRequestSubject,
+		ScrapeRequestDurable: corpusmarkdown.DefaultScrapeRequestDurable,
+		ProxyURL:             proxy,
+		UserAgent:            corpusmarkdown.DefaultUserAgent,
+		MaxBodyBytes:         corpusmarkdown.DefaultMaxBodyBytes,
+		FetchDeadline:        time.Second,
+		Concurrency:          corpusmarkdown.DefaultConcurrency,
+		OpsAddr:              "127.0.0.1:0",
 	}
 }
 
-func TestRunServiceStoresTheMarkdownItScrapesFromAReachedPage(t *testing.T) {
+func TestRunServiceStoresTheMarkdownItScrapesFromAScrapeRequest(t *testing.T) {
 	crawlURL := natstestserver.Start(t)
 	pageMarkdownURL := natstestserver.Start(t)
 	proxy := originServing(t, "<html lang=\"en\"><title>Hi</title><body>words here</body></html>")
@@ -66,7 +66,7 @@ func TestRunServiceStoresTheMarkdownItScrapesFromAReachedPage(t *testing.T) {
 
 	crawlJetStream := natstestserver.ConnectJetStream(t, crawlURL)
 	pageMarkdownJetStream := natstestserver.ConnectJetStream(t, pageMarkdownURL)
-	createReachedPagesStream(t, crawlJetStream, cfg.ReachedPageSubject)
+	createScrapeRequestsStream(t, crawlJetStream, cfg.ScrapeRequestSubject)
 
 	runDone := make(chan error, 1)
 	go func() { runDone <- corpusmarkdown.RunService(ctx, cfg) }()
@@ -79,7 +79,7 @@ func TestRunServiceStoresTheMarkdownItScrapesFromAReachedPage(t *testing.T) {
 		t.Fatalf("open object store: %v", err)
 	}
 
-	publishReachedPage(t, ctx, crawlJetStream, originURL)
+	publishScrapeRequest(t, ctx, crawlJetStream, originURL)
 	waitForStored(t, ctx, store,
 		pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, originURL)), "words here")
 
@@ -94,23 +94,23 @@ func TestRunServiceStoresTheMarkdownItScrapesFromAReachedPage(t *testing.T) {
 	}
 }
 
-func publishReachedPage(
+func publishScrapeRequest(
 	t *testing.T,
 	ctx context.Context,
 	js jetstream.JetStream,
 	canonicalURL string,
 ) {
 	t.Helper()
-	data, err := yacycrawlcontract.MarshalReachedPage(
-		yacycrawlcontract.ReachedPage{
+	data, err := scraperequestcontract.MarshalScrapeRequest(
+		scraperequestcontract.ScrapeRequest{
 			CanonicalURL: canonicalurltest.CanonicalURLOf(t, canonicalURL),
 		},
 	)
 	if err != nil {
-		t.Fatalf("marshal reached page: %v", err)
+		t.Fatalf("marshal scrape request: %v", err)
 	}
-	if _, err := js.Publish(ctx, corpusmarkdown.DefaultReachedPageSubject, data); err != nil {
-		t.Fatalf("publish reached page: %v", err)
+	if _, err := js.Publish(ctx, corpusmarkdown.DefaultScrapeRequestSubject, data); err != nil {
+		t.Fatalf("publish scrape request: %v", err)
 	}
 }
 
@@ -147,7 +147,11 @@ func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 	natsURL := natstestserver.Start(t)
 	cfg := serviceConfig(natsURL, natsURL, originServing(t, "<html></html>"))
 	cfg.OpsAddr = "127.0.0.1:99999"
-	createReachedPagesStream(t, natstestserver.ConnectJetStream(t, natsURL), cfg.ReachedPageSubject)
+	createScrapeRequestsStream(
+		t,
+		natstestserver.ConnectJetStream(t, natsURL),
+		cfg.ScrapeRequestSubject,
+	)
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when ops address cannot bind")
@@ -159,7 +163,7 @@ func TestRunServiceFailsWhenStreamMissing(t *testing.T) {
 	cfg := serviceConfig(natsURL, natsURL, originServing(t, "<html></html>"))
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
-		t.Fatal("expected error when the reached pages stream is not provisioned")
+		t.Fatal("expected error when the scrape requests stream is not provisioned")
 	}
 }
 
@@ -178,22 +182,26 @@ func TestRunServiceFailsWhenCrawlNATSUnreachable(t *testing.T) {
 func TestRunServiceFailsWhenPageMarkdownNATSUnreachable(t *testing.T) {
 	natsURL := natstestserver.Start(t)
 	cfg := serviceConfig(natsURL, "nats://127.0.0.1:1", originServing(t, "<html></html>"))
-	createReachedPagesStream(t, natstestserver.ConnectJetStream(t, natsURL), cfg.ReachedPageSubject)
+	createScrapeRequestsStream(
+		t,
+		natstestserver.ConnectJetStream(t, natsURL),
+		cfg.ScrapeRequestSubject,
+	)
 
 	if err := corpusmarkdown.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when the page markdown nats is unreachable")
 	}
 }
 
-func createReachedPagesStream(t *testing.T, js jetstream.JetStream, subject string) {
+func createScrapeRequestsStream(t *testing.T, js jetstream.JetStream, subject string) {
 	t.Helper()
 	if _, err := js.CreateOrUpdateStream(context.Background(), jetstream.StreamConfig{
-		Name:      yacycrawlcontract.ReachedPagesStreamName,
+		Name:      scraperequestcontract.ScrapeRequestsStreamName,
 		Subjects:  []string{subject},
 		Retention: jetstream.WorkQueuePolicy,
 		MaxMsgs:   64,
 		Discard:   jetstream.DiscardNew,
 	}); err != nil {
-		t.Fatalf("create reached pages stream: %v", err)
+		t.Fatalf("create scrape requests stream: %v", err)
 	}
 }

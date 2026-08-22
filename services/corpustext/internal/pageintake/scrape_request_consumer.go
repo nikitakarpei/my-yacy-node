@@ -1,4 +1,4 @@
-// Package pageintake derives the readable text of each page the crawler reached and indexes it.
+// Package pageintake derives the readable text of each page the crawler scrapeRequest and indexes it.
 package pageintake
 
 import (
@@ -10,17 +10,17 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/scrapedpagedocument"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
-	msgScrapeFailed  = "reached page scrape failed"
-	msgIndexFailed   = "reached page index failed"
-	msgPageIndexed   = "reached page indexed"
-	msgNoTextDerived = "reached page derives no text, nothing indexed"
+	msgScrapeFailed  = "scrape request scrape failed"
+	msgIndexFailed   = "scrape request index failed"
+	msgPageIndexed   = "scrape request indexed"
+	msgNoTextDerived = "scrape request derives no text, nothing indexed"
 )
 
 type PageScraper interface {
@@ -39,7 +39,7 @@ type IndexProgress interface {
 	IndexObserved(elapsed time.Duration)
 }
 
-type ReachedPageConsumer struct {
+type ScrapeRequestConsumer struct {
 	source      pullintake.MessageSource
 	scraper     PageScraper
 	searchIndex SearchIndex
@@ -47,14 +47,14 @@ type ReachedPageConsumer struct {
 	concurrency int
 }
 
-func NewReachedPageConsumer(
+func NewScrapeRequestConsumer(
 	source pullintake.MessageSource,
 	scraper PageScraper,
 	searchIndex SearchIndex,
 	progress IndexProgress,
 	concurrency int,
-) *ReachedPageConsumer {
-	return &ReachedPageConsumer{
+) *ScrapeRequestConsumer {
+	return &ScrapeRequestConsumer{
 		source:      source,
 		scraper:     scraper,
 		searchIndex: searchIndex,
@@ -63,21 +63,21 @@ func NewReachedPageConsumer(
 	}
 }
 
-func (c *ReachedPageConsumer) Run(ctx context.Context) error {
+func (c *ScrapeRequestConsumer) Run(ctx context.Context) error {
 	return pullintake.Run(ctx, c.source, c.concurrency, c.processOne)
 }
 
-func (c *ReachedPageConsumer) processOne(ctx context.Context, msg jetstream.Msg) error {
+func (c *ScrapeRequestConsumer) processOne(ctx context.Context, msg jetstream.Msg) error {
 	c.progress.PageReceived()
-	reached, err := yacycrawlcontract.UnmarshalReachedPage(msg.Data())
+	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(msg.Data())
 	if err != nil {
 		return poisonhalt.Halt(ctx, msg, err)
 	}
 	scrapedAt := time.Now()
-	scraped, derived, err := c.scraper.Scrape(ctx, reached.CanonicalURL.String())
+	scraped, derived, err := c.scraper.Scrape(ctx, scrapeRequest.CanonicalURL.String())
 	if err != nil {
 		slog.WarnContext(ctx, msgScrapeFailed,
-			slog.String("url", reached.CanonicalURL.String()),
+			slog.String("url", scrapeRequest.CanonicalURL.String()),
 			slog.Any("error", err),
 		)
 		c.progress.ScrapeFailed()
@@ -85,14 +85,18 @@ func (c *ReachedPageConsumer) processOne(ctx context.Context, msg jetstream.Msg)
 		return nil
 	}
 	if !derived {
-		slog.DebugContext(ctx, msgNoTextDerived, slog.String("url", reached.CanonicalURL.String()))
+		slog.DebugContext(
+			ctx,
+			msgNoTextDerived,
+			slog.String("url", scrapeRequest.CanonicalURL.String()),
+		)
 		_ = msg.Ack()
 		return nil
 	}
 	return c.index(ctx, msg, scrapedpagedocument.Of(scraped, scrapedAt))
 }
 
-func (c *ReachedPageConsumer) index(
+func (c *ScrapeRequestConsumer) index(
 	ctx context.Context,
 	msg jetstream.Msg,
 	document searchdocument.Document,

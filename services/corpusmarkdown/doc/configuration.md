@@ -6,10 +6,10 @@ The service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CRAWL_NATS_URL` | required | NATS server the service consumes reached pages from. |
+| `CRAWL_NATS_URL` | required | NATS server the service consumes scrape requests from. |
 | `PAGE_MARKDOWN_NATS_URL` | required | NATS server that holds the page markdown bucket. |
-| `NATS_REACHED_PAGE_SUBJECT` | `crawl.reachedpage` | Subject the service consumes reached pages from. |
-| `NATS_REACHED_PAGE_DURABLE` | `corpusmarkdown` | Durable queue-consumer name shared across instances. |
+| `NATS_SCRAPE_REQUEST_SUBJECT` | `scrape.request` | Subject the service consumes scrape requests from. |
+| `NATS_SCRAPE_REQUEST_DURABLE` | `corpusmarkdown` | Durable queue-consumer name shared across instances. |
 
 ## Fetching
 

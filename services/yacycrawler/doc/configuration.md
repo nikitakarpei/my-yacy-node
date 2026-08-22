@@ -10,8 +10,8 @@ The crawler is configured entirely through environment variables.
 | `NATS_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject the crawler consumes orders from. |
 | `NATS_ORDERS_DURABLE` | `yacycrawler` | Durable queue-consumer name shared across instances. |
 
-The crawler publishes every page it reaches on the `crawl.reachedpage` subject of the
-`CRAWL_REACHED_PAGES` stream, which it creates. Neither is configurable.
+The crawler publishes a scrape request for every page it reaches on the `scrape.request`
+subject of the `SCRAPE_REQUESTS` stream, which it creates. Neither is configurable.
 
 ## Fetching
 

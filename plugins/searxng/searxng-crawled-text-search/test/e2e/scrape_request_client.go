@@ -10,10 +10,10 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 )
 
-const reachedPageMax = 64
+const scrapeRequestMax = 64
 
 func connectJetStream(t *testing.T, natsURL string) jetstream.JetStream {
 	t.Helper()
@@ -29,42 +29,42 @@ func connectJetStream(t *testing.T, natsURL string) jetstream.JetStream {
 	return js
 }
 
-func createReachedPagesStream(t *testing.T, ctx context.Context, js jetstream.JetStream) {
+func createScrapeRequestsStream(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	t.Helper()
 	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
-		Name:      yacycrawlcontract.ReachedPagesStreamName,
-		Subjects:  []string{yacycrawlcontract.ReachedPageSubject},
+		Name:      scraperequestcontract.ScrapeRequestsStreamName,
+		Subjects:  []string{scraperequestcontract.ScrapeRequestSubject},
 		Retention: jetstream.WorkQueuePolicy,
-		MaxMsgs:   reachedPageMax,
+		MaxMsgs:   scrapeRequestMax,
 		Discard:   jetstream.DiscardNew,
 	}); err != nil {
-		t.Fatalf("create reached pages stream: %v", err)
+		t.Fatalf("create scrape requests stream: %v", err)
 	}
 }
 
-func publishReachedCorpus(t *testing.T, ctx context.Context, js jetstream.JetStream) {
+func publishScrapedCorpus(t *testing.T, ctx context.Context, js jetstream.JetStream) {
 	t.Helper()
-	for _, pageURL := range reachedPageURLs() {
-		publishReachedPage(t, ctx, js, pageURL)
+	for _, pageURL := range scrapedCorpusURLs() {
+		publishScrapeRequest(t, ctx, js, pageURL)
 	}
 }
 
-func publishReachedPage(
+func publishScrapeRequest(
 	t *testing.T,
 	ctx context.Context,
 	js jetstream.JetStream,
 	canonicalURL string,
 ) {
 	t.Helper()
-	data, err := yacycrawlcontract.MarshalReachedPage(
-		yacycrawlcontract.ReachedPage{
+	data, err := scraperequestcontract.MarshalScrapeRequest(
+		scraperequestcontract.ScrapeRequest{
 			CanonicalURL: canonicalurltest.CanonicalURLOf(t, canonicalURL),
 		},
 	)
 	if err != nil {
-		t.Fatalf("marshal reached page: %v", err)
+		t.Fatalf("marshal scrape request: %v", err)
 	}
-	if _, err := js.Publish(ctx, yacycrawlcontract.ReachedPageSubject, data); err != nil {
-		t.Fatalf("publish reached page: %v", err)
+	if _, err := js.Publish(ctx, scraperequestcontract.ScrapeRequestSubject, data); err != nil {
+		t.Fatalf("publish scrape request: %v", err)
 	}
 }

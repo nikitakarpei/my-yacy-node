@@ -1,4 +1,4 @@
-// Package markdownintake derives the markdown of each page the crawler reached and stores it.
+// Package markdownintake derives the markdown of each page the crawler scrapeRequest and stores it.
 package markdownintake
 
 import (
@@ -9,16 +9,16 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
-	msgScrapeFailed        = "reached page scrape failed"
+	msgScrapeFailed        = "scrape request scrape failed"
 	msgMarkdownStoreFailed = "page markdown store failed"
 	msgMarkdownStored      = "page markdown stored"
-	msgNoMarkdownDerived   = "reached page derives no markdown, nothing stored"
+	msgNoMarkdownDerived   = "scrape request derives no markdown, nothing stored"
 )
 
 type PageScraper interface {
@@ -36,7 +36,7 @@ type StoreProgress interface {
 	StoreFailed()
 }
 
-type ReachedPageConsumer struct {
+type ScrapeRequestConsumer struct {
 	source      pullintake.MessageSource
 	scraper     PageScraper
 	corpus      PageMarkdownCorpus
@@ -44,14 +44,14 @@ type ReachedPageConsumer struct {
 	concurrency int
 }
 
-func NewReachedPageConsumer(
+func NewScrapeRequestConsumer(
 	source pullintake.MessageSource,
 	scraper PageScraper,
 	corpus PageMarkdownCorpus,
 	progress StoreProgress,
 	concurrency int,
-) *ReachedPageConsumer {
-	return &ReachedPageConsumer{
+) *ScrapeRequestConsumer {
+	return &ScrapeRequestConsumer{
 		source:      source,
 		scraper:     scraper,
 		corpus:      corpus,
@@ -60,20 +60,20 @@ func NewReachedPageConsumer(
 	}
 }
 
-func (c *ReachedPageConsumer) Run(ctx context.Context) error {
+func (c *ScrapeRequestConsumer) Run(ctx context.Context) error {
 	return pullintake.Run(ctx, c.source, c.concurrency, c.processOne)
 }
 
-func (c *ReachedPageConsumer) processOne(ctx context.Context, msg jetstream.Msg) error {
+func (c *ScrapeRequestConsumer) processOne(ctx context.Context, msg jetstream.Msg) error {
 	c.progress.PageReceived()
-	reached, err := yacycrawlcontract.UnmarshalReachedPage(msg.Data())
+	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(msg.Data())
 	if err != nil {
 		return poisonhalt.Halt(ctx, msg, err)
 	}
-	scraped, derived, err := c.scraper.Scrape(ctx, reached.CanonicalURL.String())
+	scraped, derived, err := c.scraper.Scrape(ctx, scrapeRequest.CanonicalURL.String())
 	if err != nil {
 		slog.WarnContext(ctx, msgScrapeFailed,
-			slog.String("url", reached.CanonicalURL.String()),
+			slog.String("url", scrapeRequest.CanonicalURL.String()),
 			slog.Any("error", err),
 		)
 		c.progress.ScrapeFailed()
@@ -84,7 +84,7 @@ func (c *ReachedPageConsumer) processOne(ctx context.Context, msg jetstream.Msg)
 		slog.DebugContext(
 			ctx,
 			msgNoMarkdownDerived,
-			slog.String("url", reached.CanonicalURL.String()),
+			slog.String("url", scrapeRequest.CanonicalURL.String()),
 		)
 		_ = msg.Ack()
 		return nil
@@ -92,7 +92,7 @@ func (c *ReachedPageConsumer) processOne(ctx context.Context, msg jetstream.Msg)
 	return c.store(ctx, msg, scraped)
 }
 
-func (c *ReachedPageConsumer) store(
+func (c *ScrapeRequestConsumer) store(
 	ctx context.Context,
 	msg jetstream.Msg,
 	scraped pagescrape.ScrapedPage,

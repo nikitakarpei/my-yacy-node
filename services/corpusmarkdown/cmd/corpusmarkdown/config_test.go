@@ -39,11 +39,11 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.ReachedPageSubject != corpusmarkdown.DefaultReachedPageSubject {
-		t.Errorf("subject = %q", cfg.ReachedPageSubject)
+	if cfg.ScrapeRequestSubject != corpusmarkdown.DefaultScrapeRequestSubject {
+		t.Errorf("subject = %q", cfg.ScrapeRequestSubject)
 	}
-	if cfg.ReachedPageDurable != corpusmarkdown.DefaultReachedPageDurable {
-		t.Errorf("durable = %q", cfg.ReachedPageDurable)
+	if cfg.ScrapeRequestDurable != corpusmarkdown.DefaultScrapeRequestDurable {
+		t.Errorf("durable = %q", cfg.ScrapeRequestDurable)
 	}
 	if cfg.Concurrency != corpusmarkdown.DefaultConcurrency {
 		t.Errorf("concurrency = %d", cfg.Concurrency)
@@ -68,8 +68,8 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 
 func TestLoadServiceConfigOverrides(t *testing.T) {
 	env := requiredEnv()
-	env[corpusmarkdown.EnvNATSReachedPageSubject] = "t.subject"
-	env[corpusmarkdown.EnvNATSReachedPageDurable] = "dur"
+	env[corpusmarkdown.EnvNATSScrapeRequestSubject] = "t.subject"
+	env[corpusmarkdown.EnvNATSScrapeRequestDurable] = "dur"
 	env[corpusmarkdown.EnvProxyDialMode] = "absolute-url"
 	env[corpusmarkdown.EnvUserAgent] = "agent (+https://example.test)"
 	env[corpusmarkdown.EnvMaxBodyBytes] = "4096"
@@ -81,8 +81,8 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.ReachedPageSubject != "t.subject" || cfg.ReachedPageDurable != "dur" {
-		t.Errorf("subject/durable = %q %q", cfg.ReachedPageSubject, cfg.ReachedPageDurable)
+	if cfg.ScrapeRequestSubject != "t.subject" || cfg.ScrapeRequestDurable != "dur" {
+		t.Errorf("subject/durable = %q %q", cfg.ScrapeRequestSubject, cfg.ScrapeRequestDurable)
 	}
 	if cfg.ProxyDialMode != httppkg.ProxyDialAbsoluteURL {
 		t.Errorf("proxy dial mode = %d", cfg.ProxyDialMode)

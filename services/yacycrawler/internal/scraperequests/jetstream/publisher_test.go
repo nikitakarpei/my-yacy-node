@@ -9,16 +9,16 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/reachedpages/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/scraperequests/jetstream"
 )
 
 func TestPublishWritesContractMessage(t *testing.T) {
 	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 	ctx := context.Background()
 	if _, err := js.CreateOrUpdateStream(ctx, natsjetstream.StreamConfig{
-		Name:      yacycrawlcontract.ReachedPagesStreamName,
-		Subjects:  []string{yacycrawlcontract.ReachedPageSubject},
+		Name:      scraperequestcontract.ScrapeRequestsStreamName,
+		Subjects:  []string{scraperequestcontract.ScrapeRequestSubject},
 		Retention: natsjetstream.WorkQueuePolicy,
 	}); err != nil {
 		t.Fatal(err)
@@ -31,7 +31,7 @@ func TestPublishWritesContractMessage(t *testing.T) {
 		t.Fatalf("publish: %v", err)
 	}
 
-	consumer, err := js.CreateOrUpdateConsumer(ctx, yacycrawlcontract.ReachedPagesStreamName,
+	consumer, err := js.CreateOrUpdateConsumer(ctx, scraperequestcontract.ScrapeRequestsStreamName,
 		natsjetstream.ConsumerConfig{AckPolicy: natsjetstream.AckExplicitPolicy})
 	if err != nil {
 		t.Fatal(err)
@@ -42,7 +42,7 @@ func TestPublishWritesContractMessage(t *testing.T) {
 	}
 	_ = msg.Ack()
 
-	page, err := yacycrawlcontract.UnmarshalReachedPage(msg.Data())
+	page, err := scraperequestcontract.UnmarshalScrapeRequest(msg.Data())
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}

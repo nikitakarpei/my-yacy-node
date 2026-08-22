@@ -25,6 +25,8 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  scraperequestcontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -67,6 +69,7 @@ deps:
   markdownintake:
     canUse:
       - yacycrawlcontract
+      - scraperequestcontract
       - pagescrape
       - nats
       - serviceruntime
@@ -74,6 +77,7 @@ deps:
     canUse:
       - pagemarkdownstore
       - yacycrawlcontract
+      - scraperequestcontract
       - nats
   markdownrecallreceiversgrpc:
     canUse:

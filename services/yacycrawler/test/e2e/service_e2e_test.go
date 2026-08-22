@@ -29,17 +29,35 @@ func TestCrawlerPublishesEveryPageAnOrderReachesEndToEnd(t *testing.T) {
 
 	js, originURL, _ := startCrawlOfOriginSite(t, ctx)
 
-	reached := fetchOneReachedPage(t, ctx, js)
-	if reached.CanonicalURL.String() != originURL {
-		t.Errorf("reached page canonical url = %q, want %q", reached.CanonicalURL, originURL)
+	scrapeRequest := fetchOneScrapeRequest(t, ctx, js)
+	if scrapeRequest.CanonicalURL.String() != originURL {
+		t.Errorf(
+			"scrape request canonical url = %q, want %q",
+			scrapeRequest.CanonicalURL,
+			originURL,
+		)
 	}
 }
 
-func TestReadPageAnswersWhatCrawlingDidWithAReachedPageEndToEnd(t *testing.T) {
+func TestEveryCorpusConsumesTheSameScrapeRequestEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	js, originURL, _ := startCrawlOfOriginSite(t, ctx)
+
+	first := fetchScrapeRequestForDurable(t, ctx, js, "corpusmarkdown")
+	second := fetchScrapeRequestForDurable(t, ctx, js, "corpustext")
+
+	if first.CanonicalURL.String() != originURL || second.CanonicalURL.String() != originURL {
+		t.Errorf("corpora read %q and %q, want both %q",
+			first.CanonicalURL, second.CanonicalURL, originURL)
+	}
+}
+
+func TestReadPageAnswersWhatCrawlingDidWithAScrapeRequestEndToEnd(t *testing.T) {
 	ctx := context.Background()
 
 	js, originURL, crawlerAddress := startCrawlOfOriginSite(t, ctx)
-	fetchOneReachedPage(t, ctx, js)
+	fetchOneScrapeRequest(t, ctx, js)
 
 	client := crawloutcomesclienttest.New(t, crawlerAddress)
 	rpcCtx, cancel := context.WithTimeout(ctx, readPageRPCWait)

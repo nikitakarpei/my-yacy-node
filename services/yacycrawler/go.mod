@@ -61,3 +61,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallc
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../libraries/pagescrape
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
+
+require github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
+
+replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract

@@ -54,7 +54,7 @@ type node struct {
 	postingEscrowObserver *metrics.RWIEscrowMetrics
 	peerAnnouncer         peerannouncement.Announcer
 	distributionCycle     *distributioncycle.Cycle
-	reachedPageIngest     *reachedPageIngest
+	scrapeRequestIngest   *scrapeRequestIngest
 }
 
 const advertisedYaCyVersion = "1.83"
@@ -250,10 +250,10 @@ func assembleNode(
 		peerRoster,
 	)
 
-	var crawl *reachedPageIngest
+	var crawl *scrapeRequestIngest
 
 	if config.Crawl.Enabled() {
-		crawlIngest, crawlIngestErr := openReachedPageIngest(
+		crawlIngest, crawlIngestErr := openScrapeRequestIngest(
 			ctx, config.Crawl, urlReceiver, postingReceiver,
 		)
 		if crawlIngestErr != nil {
@@ -343,6 +343,6 @@ func assembleNode(
 		postingEscrowObserver: postingEscrowObserver,
 		peerAnnouncer:         peerAnnouncer,
 		distributionCycle:     distributionCycle,
-		reachedPageIngest:     crawl,
+		scrapeRequestIngest:   crawl,
 	}, nil
 }

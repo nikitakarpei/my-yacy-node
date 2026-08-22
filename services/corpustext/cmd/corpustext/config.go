@@ -7,60 +7,60 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
-	EnvCrawlNATSURL           = "CRAWL_NATS_URL"
-	EnvNATSReachedPageSubject = "NATS_REACHED_PAGE_SUBJECT"
-	EnvNATSReachedPageDurable = "NATS_REACHED_PAGE_DURABLE"
-	EnvProxyURL               = "CORPUSTEXT_PROXY_URL"
-	EnvProxyDialMode          = "CORPUSTEXT_PROXY_DIAL_MODE"
-	EnvUserAgent              = "CORPUSTEXT_USER_AGENT"
-	EnvMaxBodyBytes           = "CORPUSTEXT_MAX_BODY_BYTES"
-	EnvFetchDeadline          = "CORPUSTEXT_FETCH_DEADLINE"
-	EnvConcurrency            = "CORPUSTEXT_CONCURRENCY"
-	EnvSearchIndexEngine      = "SEARCH_INDEX_ENGINE"
-	EnvElasticsearchURL       = "ELASTICSEARCH_URL"
-	EnvElasticsearchIndex     = "ELASTICSEARCH_INDEX"
-	EnvManticoreURL           = "MANTICORE_URL"
-	EnvManticoreTable         = "MANTICORE_TABLE"
-	EnvLanguages              = "CORPUSTEXT_LANGUAGES"
-	EnvOpsAddr                = "CORPUSTEXT_OPS_ADDR"
+	EnvCrawlNATSURL             = "CRAWL_NATS_URL"
+	EnvNATSScrapeRequestSubject = "NATS_SCRAPE_REQUEST_SUBJECT"
+	EnvNATSScrapeRequestDurable = "NATS_SCRAPE_REQUEST_DURABLE"
+	EnvProxyURL                 = "CORPUSTEXT_PROXY_URL"
+	EnvProxyDialMode            = "CORPUSTEXT_PROXY_DIAL_MODE"
+	EnvUserAgent                = "CORPUSTEXT_USER_AGENT"
+	EnvMaxBodyBytes             = "CORPUSTEXT_MAX_BODY_BYTES"
+	EnvFetchDeadline            = "CORPUSTEXT_FETCH_DEADLINE"
+	EnvConcurrency              = "CORPUSTEXT_CONCURRENCY"
+	EnvSearchIndexEngine        = "SEARCH_INDEX_ENGINE"
+	EnvElasticsearchURL         = "ELASTICSEARCH_URL"
+	EnvElasticsearchIndex       = "ELASTICSEARCH_INDEX"
+	EnvManticoreURL             = "MANTICORE_URL"
+	EnvManticoreTable           = "MANTICORE_TABLE"
+	EnvLanguages                = "CORPUSTEXT_LANGUAGES"
+	EnvOpsAddr                  = "CORPUSTEXT_OPS_ADDR"
 
-	DefaultOpsAddr            = ":9090"
-	DefaultReachedPageDurable = "corpustext"
-	DefaultProxyDialMode      = "tunnel"
-	DefaultUserAgent          = "corpustext (+https://yacy.net)"
-	DefaultMaxBodyBytes       = 2 << 20
-	DefaultFetchDeadline      = 30 * time.Second
-	DefaultConcurrency        = 4
-	DefaultIndexBaseName      = "yacy_text"
+	DefaultOpsAddr              = ":9090"
+	DefaultScrapeRequestDurable = "corpustext"
+	DefaultProxyDialMode        = "tunnel"
+	DefaultUserAgent            = "corpustext (+https://yacy.net)"
+	DefaultMaxBodyBytes         = 2 << 20
+	DefaultFetchDeadline        = 30 * time.Second
+	DefaultConcurrency          = 4
+	DefaultIndexBaseName        = "yacy_text"
 
 	SearchIndexEngineElasticsearch = "elasticsearch"
 	SearchIndexEngineManticore     = "manticore"
 )
 
-var DefaultReachedPageSubject = yacycrawlcontract.ReachedPageSubject
+var DefaultScrapeRequestSubject = scraperequestcontract.ScrapeRequestSubject
 
 type ServiceConfig struct {
-	CrawlNATSURL       string
-	ReachedPageSubject string
-	ReachedPageDurable string
-	ProxyURL           *url.URL
-	ProxyDialMode      http.ProxyDialMode
-	UserAgent          string
-	MaxBodyBytes       int64
-	FetchDeadline      time.Duration
-	Concurrency        int
-	SearchIndexEngine  string
-	ElasticsearchURL   string
-	ElasticsearchIndex string
-	ManticoreURL       string
-	ManticoreTable     string
-	Languages          []string
-	OpsAddr            string
+	CrawlNATSURL         string
+	ScrapeRequestSubject string
+	ScrapeRequestDurable string
+	ProxyURL             *url.URL
+	ProxyDialMode        http.ProxyDialMode
+	UserAgent            string
+	MaxBodyBytes         int64
+	FetchDeadline        time.Duration
+	Concurrency          int
+	SearchIndexEngine    string
+	ElasticsearchURL     string
+	ElasticsearchIndex   string
+	ManticoreURL         string
+	ManticoreTable       string
+	Languages            []string
+	OpsAddr              string
 }
 
 type fetchSettings struct {
@@ -114,15 +114,15 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 
 	cfg := ServiceConfig{
 		CrawlNATSURL: crawlNATSURL,
-		ReachedPageSubject: envconfig.String(
+		ScrapeRequestSubject: envconfig.String(
 			getenv,
-			EnvNATSReachedPageSubject,
-			DefaultReachedPageSubject,
+			EnvNATSScrapeRequestSubject,
+			DefaultScrapeRequestSubject,
 		),
-		ReachedPageDurable: envconfig.String(
+		ScrapeRequestDurable: envconfig.String(
 			getenv,
-			EnvNATSReachedPageDurable,
-			DefaultReachedPageDurable,
+			EnvNATSScrapeRequestDurable,
+			DefaultScrapeRequestDurable,
 		),
 		ProxyURL:          fetch.proxyURL,
 		ProxyDialMode:     fetch.proxyDialMode,

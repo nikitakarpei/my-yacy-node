@@ -13,6 +13,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
@@ -24,17 +25,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/scraperequestpublication"
 	crawloutcomereceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawloutcomereceivers/grpc"
 	disposedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/disposedpages/jetstream"
 	orderreceiversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
 	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
-	reachedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/reachedpages/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/alwaysdue"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	redirectresolversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolvers/jetstream"
+	scraperequestsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/scraperequests/jetstream"
 )
 
 const (
@@ -129,7 +130,7 @@ func ensureNATSState(ctx context.Context, js jetstream.JetStream, cfg ServiceCon
 	if err := ensureOrdersStream(ctx, js, cfg.OrdersSubject); err != nil {
 		return err
 	}
-	if err := ensureReachedPagesStream(ctx, js); err != nil {
+	if err := ensureScrapeRequestsStream(ctx, js); err != nil {
 		return err
 	}
 	if err := ensureRedirectResolutionBucket(ctx, js); err != nil {
@@ -152,15 +153,15 @@ func ensureOrdersStream(ctx context.Context, js jetstream.JetStream, subject str
 	return nil
 }
 
-func ensureReachedPagesStream(ctx context.Context, js jetstream.JetStream) error {
+func ensureScrapeRequestsStream(ctx context.Context, js jetstream.JetStream) error {
 	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
-		Name:      yacycrawlcontract.ReachedPagesStreamName,
-		Subjects:  []string{yacycrawlcontract.ReachedPageSubject},
-		Retention: jetstream.WorkQueuePolicy,
+		Name:      scraperequestcontract.ScrapeRequestsStreamName,
+		Subjects:  []string{scraperequestcontract.ScrapeRequestSubject},
+		Retention: jetstream.LimitsPolicy,
 		MaxMsgs:   DefaultMaxMsgs,
-		Discard:   jetstream.DiscardNew,
+		Discard:   jetstream.DiscardOld,
 	}); err != nil {
-		return fmt.Errorf("ensure reached pages stream: %w", err)
+		return fmt.Errorf("ensure scrape requests stream: %w", err)
 	}
 	return nil
 }
@@ -252,7 +253,7 @@ func buildVisitorSource(
 		recrawl,
 		extractor,
 		metrics,
-		reachedpagepublication.NewPublisher(metrics, reachedpagesjetstream.New(js)),
+		scraperequestpublication.NewPublisher(metrics, scraperequestsjetstream.New(js)),
 	), nil
 }
 

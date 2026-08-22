@@ -53,12 +53,12 @@ func TestRunNodeReportsAnUnusableListenAddress(t *testing.T) {
 func TestRunNodeReportsAnUnreachableCrawlBroker(t *testing.T) {
 	config := nodeConfigFor(t)
 	config.Crawl = nodeconfiguration.CrawlConfig{
-		NATSURL:            "nats://127.0.0.1:1",
-		ReachedPageSubject: nodeconfiguration.DefaultReachedPageSubject,
-		ReachedPageDurable: nodeconfiguration.DefaultReachedPageDurable,
-		ProxyURL:           &url.URL{Scheme: "http", Host: "renderproxy:8080"},
-		ProxyDialMode:      pagefetchershttp.ProxyDialTunnel,
-		Concurrency:        nodeconfiguration.DefaultCrawlConcurrency,
+		NATSURL:              "nats://127.0.0.1:1",
+		ScrapeRequestSubject: nodeconfiguration.DefaultScrapeRequestSubject,
+		ScrapeRequestDurable: nodeconfiguration.DefaultScrapeRequestDurable,
+		ProxyURL:             &url.URL{Scheme: "http", Host: "renderproxy:8080"},
+		ProxyDialMode:        pagefetchershttp.ProxyDialTunnel,
+		Concurrency:          nodeconfiguration.DefaultCrawlConcurrency,
 	}
 
 	node := startNode(t, config)

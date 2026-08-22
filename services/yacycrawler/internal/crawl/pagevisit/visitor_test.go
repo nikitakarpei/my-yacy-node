@@ -14,8 +14,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/scraperequestpublication"
 )
 
 type fakeFetch struct {
@@ -131,10 +131,10 @@ func readableExtract() fakeExtract {
 }
 
 type recordingObserver struct {
-	mu               sync.Mutex
-	refusals         map[refusal.Demand]int
-	fetched          int
-	reachedPublished int
+	mu                      sync.Mutex
+	refusals                map[refusal.Demand]int
+	fetched                 int
+	scrapeRequestsPublished int
 }
 
 func newObserver() *recordingObserver {
@@ -153,19 +153,19 @@ func (o *recordingObserver) RefusalHonored(kind refusal.Demand) {
 	o.refusals[kind]++
 }
 
-func (o *recordingObserver) ReachedPagePublished() {
+func (o *recordingObserver) ScrapeRequestPublished() {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	o.reachedPublished++
+	o.scrapeRequestsPublished++
 }
 
-type fakeReachedPages struct {
+type fakeScrapeRequests struct {
 	mu        sync.Mutex
 	err       error
 	published []string
 }
 
-func (f *fakeReachedPages) Publish(
+func (f *fakeScrapeRequests) Publish(
 	_ context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
 ) error {
@@ -178,7 +178,7 @@ func (f *fakeReachedPages) Publish(
 	return nil
 }
 
-func (f *fakeReachedPages) calls() []string {
+func (f *fakeScrapeRequests) calls() []string {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	return append([]string(nil), f.published...)
@@ -205,9 +205,9 @@ func newVisitor(
 	recrawl pagevisit.RecrawlRule,
 	extractor pagevisit.PageExtractor,
 	observer *recordingObserver,
-	reached reachedpagepublication.ReachedPages,
+	scrapeRequests scraperequestpublication.ScrapeRequests,
 ) pagevisit.Visitor {
-	return newVisitorSource(fetcher, recrawl, extractor, observer, reached).
+	return newVisitorSource(fetcher, recrawl, extractor, observer, scrapeRequests).
 		VisitorFor(pagevisit.Honored)
 }
 
@@ -216,14 +216,14 @@ func newVisitorSource(
 	recrawl pagevisit.RecrawlRule,
 	extractor pagevisit.PageExtractor,
 	observer *recordingObserver,
-	reached reachedpagepublication.ReachedPages,
+	scrapeRequests scraperequestpublication.ScrapeRequests,
 ) pagevisit.VisitorSource {
 	return pagevisit.New(
 		fetcher,
 		recrawl,
 		extractor,
 		observer,
-		reachedpagepublication.NewPublisher(observer, reached),
+		scraperequestpublication.NewPublisher(observer, scrapeRequests),
 	)
 }
 
@@ -244,13 +244,13 @@ func visitHost(t *testing.T, visitor pagevisit.Visitor) pagevisit.VisitOutcome {
 
 func TestVisitAbsorbsFetchedPage(t *testing.T) {
 	observer := newObserver()
-	reached := &fakeReachedPages{}
+	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome()),
 		&fakeRecrawl{due: true},
 		fakeExtract{document: linkingDocument(t, "http://host/next")},
 		observer,
-		reached,
+		scrapeRequests,
 	)
 
 	outcome := visitHost(t, visitor)
@@ -269,23 +269,26 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 	if outcome.Disposal != disposal.NotDisposed {
 		t.Fatalf("published page should report no disposal, got %q", outcome.Disposal)
 	}
-	if calls := reached.calls(); len(calls) != 1 || calls[0] != "http://host/" {
-		t.Fatalf("want the reached page published once with its canonical url, got %v", calls)
+	if calls := scrapeRequests.calls(); len(calls) != 1 || calls[0] != "http://host/" {
+		t.Fatalf("want the scrape request published once with its canonical url, got %v", calls)
 	}
-	if observer.reachedPublished != 1 {
-		t.Fatalf("want the reached page metric observed once, got %d", observer.reachedPublished)
+	if observer.scrapeRequestsPublished != 1 {
+		t.Fatalf(
+			"want the scrape request metric observed once, got %d",
+			observer.scrapeRequestsPublished,
+		)
 	}
 }
 
 func TestVisitReportsNotAPageDisposal(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
-	reached := &fakeReachedPages{}
+	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}),
 		recrawl,
 		readableExtract(),
 		newObserver(),
-		reached,
+		scrapeRequests,
 	)
 
 	outcome := visitHost(t, visitor)
@@ -299,21 +302,21 @@ func TestVisitReportsNotAPageDisposal(t *testing.T) {
 	if len(recrawl.calls()) != 0 {
 		t.Fatalf("visited should not be recorded for not-a-page, got %v", recrawl.calls())
 	}
-	if calls := reached.calls(); len(calls) != 0 {
-		t.Fatalf("a not-a-page fetch should publish no reached page, got %v", calls)
+	if calls := scrapeRequests.calls(); len(calls) != 0 {
+		t.Fatalf("a not-a-page fetch should publish no scrape request, got %v", calls)
 	}
 }
 
 func TestVisitCeasesOnHTTPCease(t *testing.T) {
 	observer := newObserver()
 	recrawl := &fakeRecrawl{due: true}
-	reached := &fakeReachedPages{}
+	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchCeased}),
 		recrawl,
 		readableExtract(),
 		observer,
-		reached,
+		scrapeRequests,
 	)
 
 	outcome := visitHost(t, visitor)
@@ -330,8 +333,8 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 	if len(recrawl.calls()) != 1 {
 		t.Fatalf("visited should be recorded on refusal so grace applies, got %v", recrawl.calls())
 	}
-	if calls := reached.calls(); len(calls) != 0 {
-		t.Fatalf("a ceased fetch should publish no reached page, got %v", calls)
+	if calls := scrapeRequests.calls(); len(calls) != 0 {
+		t.Fatalf("a ceased fetch should publish no scrape request, got %v", calls)
 	}
 }
 
@@ -342,7 +345,7 @@ func TestVisitReportsTransient(t *testing.T) {
 		recrawl,
 		readableExtract(),
 		newObserver(),
-		&fakeReachedPages{},
+		&fakeScrapeRequests{},
 	)
 
 	outcome, err := visitor.Visit(
@@ -369,7 +372,7 @@ func TestVisitUnknownFetchStatusFails(t *testing.T) {
 		&fakeRecrawl{due: true},
 		readableExtract(),
 		newObserver(),
-		&fakeReachedPages{},
+		&fakeScrapeRequests{},
 	)
 
 	if _, err := visitor.Visit(
@@ -386,7 +389,7 @@ func TestVisitReportsDeferred(t *testing.T) {
 		&fakeRecrawl{due: true},
 		readableExtract(),
 		newObserver(),
-		&fakeReachedPages{},
+		&fakeScrapeRequests{},
 	)
 
 	outcome, err := visitor.Visit(
@@ -407,7 +410,7 @@ func TestVisitFetchErrorFails(t *testing.T) {
 		&fakeRecrawl{due: true},
 		readableExtract(),
 		newObserver(),
-		&fakeReachedPages{},
+		&fakeScrapeRequests{},
 	)
 
 	if _, err := visitor.Visit(
@@ -424,7 +427,7 @@ func TestVisitRecrawlDecisionErrorFails(t *testing.T) {
 		&fakeRecrawl{err: errors.New("boom")},
 		readableExtract(),
 		newObserver(),
-		&fakeReachedPages{},
+		&fakeScrapeRequests{},
 	)
 
 	if _, err := visitor.Visit(
@@ -442,7 +445,7 @@ func TestVisitReportsNotDueWithoutFetching(t *testing.T) {
 		&fakeRecrawl{due: false},
 		readableExtract(),
 		newObserver(),
-		&fakeReachedPages{},
+		&fakeScrapeRequests{},
 	)
 
 	outcome := visitHost(t, visitor)
@@ -466,7 +469,7 @@ func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
 		&fakeRecrawl{due: true, version: known},
 		readableExtract(),
 		newObserver(),
-		&fakeReachedPages{},
+		&fakeScrapeRequests{},
 	)
 
 	if _, err := visitor.Visit(
@@ -487,7 +490,7 @@ func TestVisitRecordsVersionAfterAbsorbingThePage(t *testing.T) {
 		recrawl,
 		readableExtract(),
 		newObserver(),
-		&fakeReachedPages{},
+		&fakeScrapeRequests{},
 	)
 
 	if _, err := visitor.Visit(
@@ -507,13 +510,13 @@ func TestVisitRecordsVersionAfterAbsorbingThePage(t *testing.T) {
 
 func TestVisitReportsTheDisposalAbsorptionReached(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
-	reached := &fakeReachedPages{}
+	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome()),
 		recrawl,
 		fakeExtract{err: errors.New("parser broke")},
 		newObserver(),
-		reached,
+		scrapeRequests,
 	)
 
 	outcome := visitHost(t, visitor)
@@ -524,14 +527,14 @@ func TestVisitReportsTheDisposalAbsorptionReached(t *testing.T) {
 	if len(recrawl.calls()) != 1 {
 		t.Fatalf("want the visit recorded regardless of publication, got %v", recrawl.calls())
 	}
-	if calls := reached.calls(); len(calls) != 0 {
-		t.Fatalf("a disposed page should publish no reached page, got %v", calls)
+	if calls := scrapeRequests.calls(); len(calls) != 0 {
+		t.Fatalf("a disposed page should publish no scrape request, got %v", calls)
 	}
 }
 
 func TestVisitNotModifiedRecordsVersionWithoutAbsorbing(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
-	reached := &fakeReachedPages{}
+	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
 		fetchOf(
 			pagefetch.FetchOutcome{
@@ -542,7 +545,7 @@ func TestVisitNotModifiedRecordsVersionWithoutAbsorbing(t *testing.T) {
 		recrawl,
 		readableExtract(),
 		newObserver(),
-		reached,
+		scrapeRequests,
 	)
 
 	outcome := visitHost(t, visitor)
@@ -554,8 +557,8 @@ func TestVisitNotModifiedRecordsVersionWithoutAbsorbing(t *testing.T) {
 	if len(calls) != 1 || calls[0].version.EntityTag != `"same"` {
 		t.Fatalf("want the version recorded once, got %v", calls)
 	}
-	if calls := reached.calls(); len(calls) != 0 {
-		t.Fatalf("a not-modified fetch should publish no reached page, got %v", calls)
+	if calls := scrapeRequests.calls(); len(calls) != 0 {
+		t.Fatalf("a not-modified fetch should publish no scrape request, got %v", calls)
 	}
 }
 
@@ -566,26 +569,26 @@ func TestVisitedErrorIsRecoverable(t *testing.T) {
 		recrawl,
 		readableExtract(),
 		newObserver(),
-		&fakeReachedPages{},
+		&fakeScrapeRequests{},
 	)
 
 	visitHost(t, visitor)
 }
 
-func TestVisitReachedPagePublishErrorFails(t *testing.T) {
-	reached := &fakeReachedPages{err: errors.New("publish boom")}
+func TestVisitScrapeRequestPublishErrorFails(t *testing.T) {
+	scrapeRequests := &fakeScrapeRequests{err: errors.New("publish boom")}
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome()),
 		&fakeRecrawl{due: true},
 		readableExtract(),
 		newObserver(),
-		reached,
+		scrapeRequests,
 	)
 
 	if _, err := visitor.Visit(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
 	); err == nil {
-		t.Fatal("a reached page publish error should fail the visit")
+		t.Fatal("a scrape request publish error should fail the visit")
 	}
 }

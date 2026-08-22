@@ -11,8 +11,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/scraperequestpublication"
 )
 
 const (
@@ -31,7 +31,7 @@ type visitor struct {
 	extractor       PageExtractor
 	indexingRefusal IndexingRefusal
 	observer        VisitProgress
-	reached         *reachedpagepublication.Publisher
+	scrapeRequests  *scraperequestpublication.Publisher
 }
 
 func (v *visitor) Visit(
@@ -86,7 +86,7 @@ func (v *visitor) absorb(
 	absorption := v.absorptionOf(ctx, outcome.Page)
 	v.recordVisit(ctx, url, outcome.Version)
 	if absorption.Disposal == disposal.NotDisposed {
-		if err := v.reached.Publish(ctx, outcome.Page.FinalURL); err != nil {
+		if err := v.scrapeRequests.Publish(ctx, outcome.Page.FinalURL); err != nil {
 			return VisitOutcome{}, err
 		}
 	}

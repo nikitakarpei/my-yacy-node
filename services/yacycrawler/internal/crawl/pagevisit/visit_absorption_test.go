@@ -22,7 +22,7 @@ func absorbedOutcome(
 		&fakeRecrawl{due: true},
 		extractor,
 		newObserver(),
-		&fakeReachedPages{},
+		&fakeScrapeRequests{},
 	))
 }
 
@@ -107,7 +107,7 @@ func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T)
 		&fakeRecrawl{due: true},
 		fakeExtract{document: refusingDocument()},
 		newObserver(),
-		&fakeReachedPages{},
+		&fakeScrapeRequests{},
 	)
 
 	outcome := visitHost(t, source.VisitorFor(pagevisit.Ignored))

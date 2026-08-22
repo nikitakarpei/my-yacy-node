@@ -80,10 +80,10 @@ func RunNode(
 	if assembledNode.distributionCycle != nil {
 		loops = append(loops, neverFailingLoop(assembledNode.distributionCycle.Run))
 	}
-	if assembledNode.reachedPageIngest != nil {
-		defer assembledNode.reachedPageIngest.Close()
+	if assembledNode.scrapeRequestIngest != nil {
+		defer assembledNode.scrapeRequestIngest.Close()
 
-		loops = append(loops, assembledNode.reachedPageIngest.Run)
+		loops = append(loops, assembledNode.scrapeRequestIngest.Run)
 	}
 
 	return servergroup.Run(ctx, shutdownTimeout, servers, loops...)
