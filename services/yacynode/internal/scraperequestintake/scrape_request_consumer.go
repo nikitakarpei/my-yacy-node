@@ -9,6 +9,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
@@ -30,7 +31,7 @@ const (
 type PageScraper interface {
 	Scrape(
 		ctx context.Context,
-		pageURL string,
+		pageURL canonicalurl.CanonicalURL,
 		targetFormat documentextraction.Format,
 	) (pagescrape.ScrapedPage, bool, error)
 }
@@ -72,7 +73,7 @@ func (c *ScrapeRequestConsumer) processOne(ctx context.Context, msg jetstream.Ms
 	}
 	reachedAt := time.Now()
 	scraped, derived, err := c.scraper.Scrape(
-		ctx, scrapeRequest.CanonicalURL.String(), documentextraction.FormatFullText,
+		ctx, scrapeRequest.CanonicalURL, documentextraction.FormatFullText,
 	)
 	if err != nil {
 		slog.WarnContext(ctx, msgScrapeFailed,

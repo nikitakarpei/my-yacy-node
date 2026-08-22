@@ -10,6 +10,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
@@ -85,11 +86,11 @@ type fakeScrape struct {
 
 func (s *fakeScrape) Scrape(
 	_ context.Context,
-	pageURL string,
+	pageURL canonicalurl.CanonicalURL,
 	targetFormat documentextraction.Format,
 ) (pagescrape.ScrapedPage, bool, error) {
 	s.mu.Lock()
-	s.urls = append(s.urls, pageURL)
+	s.urls = append(s.urls, pageURL.String())
 	s.targetFormats = append(s.targetFormats, targetFormat)
 	s.mu.Unlock()
 

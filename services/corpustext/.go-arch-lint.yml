@@ -31,6 +31,10 @@ vendors:
   pagescrape:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagescrape
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
   documentextraction:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/documentextraction
@@ -84,6 +88,7 @@ deps:
       - nats
       - serviceruntime
       - documentextraction
+      - canonicalurl
   indexmetrics:
     canUse:
       - prometheus

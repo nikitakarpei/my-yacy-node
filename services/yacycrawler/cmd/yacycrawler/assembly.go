@@ -24,7 +24,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/scraperequestpublication"
 	orderreceiversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
 	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/alwaysdue"
@@ -167,9 +166,7 @@ func buildVisitorSource(
 		recrawl,
 		documentextraction.New(),
 		metrics,
-		scraperequestpublication.NewPublisher(
-			metrics, scraperequestsjetstream.New(scrapeRequestJetStream),
-		),
+		scraperequestsjetstream.New(scrapeRequestJetStream),
 	), nil
 }
 

@@ -14,7 +14,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/scraperequestpublication"
 )
 
 type fakeFetch struct {
@@ -27,7 +26,7 @@ type fakeFetch struct {
 
 func (f *fakeFetch) Fetch(
 	_ context.Context,
-	_ string,
+	_ canonicalurl.CanonicalURL,
 	knownVersion pagefetch.PageVersion,
 ) (pagefetch.FetchOutcome, error) {
 	f.mu.Lock()
@@ -183,11 +182,12 @@ func (f *fakeScrapeRequests) calls() []string {
 	return append([]string(nil), f.published...)
 }
 
-func fetchedOutcome() pagefetch.FetchOutcome {
+func fetchedOutcome(t *testing.T) pagefetch.FetchOutcome {
+	t.Helper()
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			FinalURL:    "http://host/",
+			FinalURL:    canonicalurltest.CanonicalURLOf(t, "http://host/"),
 			ContentType: "text/html",
 			Body:        []byte("x"),
 		},
@@ -204,7 +204,7 @@ func newVisitor(
 	recrawl pagevisit.RecrawlRule,
 	extractor pagevisit.PageExtractor,
 	observer *recordingObserver,
-	scrapeRequests scraperequestpublication.ScrapeRequests,
+	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.Visitor {
 	return newVisitorSource(fetcher, recrawl, extractor, observer, scrapeRequests).
 		VisitorFor(pagevisit.Honored)
@@ -215,14 +215,14 @@ func newVisitorSource(
 	recrawl pagevisit.RecrawlRule,
 	extractor pagevisit.PageExtractor,
 	observer *recordingObserver,
-	scrapeRequests scraperequestpublication.ScrapeRequests,
+	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.VisitorSource {
 	return pagevisit.New(
 		fetcher,
 		recrawl,
 		extractor,
 		observer,
-		scraperequestpublication.NewPublisher(observer, scrapeRequests),
+		scrapeRequests,
 	)
 }
 
@@ -245,7 +245,7 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 	observer := newObserver()
 	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
-		fetchOf(fetchedOutcome()),
+		fetchOf(fetchedOutcome(t)),
 		&fakeRecrawl{due: true},
 		fakeExtract{document: linkingDocument(t, "http://host/next")},
 		observer,
@@ -438,7 +438,7 @@ func TestVisitRecrawlDecisionErrorFails(t *testing.T) {
 }
 
 func TestVisitReportsNotDueWithoutFetching(t *testing.T) {
-	fetch := fetchOf(fetchedOutcome())
+	fetch := fetchOf(fetchedOutcome(t))
 	visitor := newVisitor(
 		fetch,
 		&fakeRecrawl{due: false},
@@ -461,7 +461,7 @@ func TestVisitReportsNotDueWithoutFetching(t *testing.T) {
 }
 
 func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
-	fetch := fetchOf(fetchedOutcome())
+	fetch := fetchOf(fetchedOutcome(t))
 	known := pagefetch.PageVersion{EntityTag: `"stored-etag"`}
 	visitor := newVisitor(
 		fetch,
@@ -485,7 +485,7 @@ func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
 func TestVisitRecordsVersionAfterAbsorbingThePage(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	visitor := newVisitor(
-		fetchOf(fetchedOutcome()),
+		fetchOf(fetchedOutcome(t)),
 		recrawl,
 		readableExtract(),
 		newObserver(),
@@ -511,7 +511,7 @@ func TestVisitReportsTheDisposalAbsorptionReached(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
-		fetchOf(fetchedOutcome()),
+		fetchOf(fetchedOutcome(t)),
 		recrawl,
 		fakeExtract{err: errors.New("parser broke")},
 		newObserver(),
@@ -564,7 +564,7 @@ func TestVisitNotModifiedRecordsVersionWithoutAbsorbing(t *testing.T) {
 func TestVisitedErrorIsRecoverable(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true, visitedErr: errors.New("bucket down")}
 	visitor := newVisitor(
-		fetchOf(fetchedOutcome()),
+		fetchOf(fetchedOutcome(t)),
 		recrawl,
 		readableExtract(),
 		newObserver(),
@@ -577,7 +577,7 @@ func TestVisitedErrorIsRecoverable(t *testing.T) {
 func TestVisitScrapeRequestPublishErrorFails(t *testing.T) {
 	scrapeRequests := &fakeScrapeRequests{err: errors.New("publish boom")}
 	visitor := newVisitor(
-		fetchOf(fetchedOutcome()),
+		fetchOf(fetchedOutcome(t)),
 		&fakeRecrawl{due: true},
 		readableExtract(),
 		newObserver(),

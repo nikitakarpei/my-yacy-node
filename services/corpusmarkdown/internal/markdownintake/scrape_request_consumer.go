@@ -25,7 +25,7 @@ const (
 type PageScraper interface {
 	Scrape(
 		ctx context.Context,
-		pageURL string,
+		pageURL canonicalurl.CanonicalURL,
 		targetFormat documentextraction.Format,
 	) (pagescrape.ScrapedPage, bool, error)
 }
@@ -76,7 +76,7 @@ func (c *ScrapeRequestConsumer) processOne(ctx context.Context, msg jetstream.Ms
 		return poisonhalt.Halt(ctx, msg, err)
 	}
 	scraped, derived, err := c.scraper.Scrape(
-		ctx, scrapeRequest.CanonicalURL.String(), documentextraction.FormatMarkdown,
+		ctx, scrapeRequest.CanonicalURL, documentextraction.FormatMarkdown,
 	)
 	if err != nil {
 		slog.WarnContext(ctx, msgScrapeFailed,

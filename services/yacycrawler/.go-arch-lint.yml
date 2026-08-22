@@ -36,8 +36,6 @@ components:
     in: internal/crawl/fetchtiming/**
   pagevisit:
     in: internal/crawl/pagevisit/**
-  scraperequestpublication:
-    in: internal/crawl/scraperequestpublication/**
   recrawlrulesalwaysdue:
     in: internal/recrawlrules/alwaysdue/**
   recrawlrulesdueaftergrace:
@@ -121,8 +119,8 @@ deps:
     mayDependOn:
       - disposal
       - refusal
-      - scraperequestpublication
     canUse:
+      - canonicalurl
       - documentextraction
       - pagescrapepagefetch
   recrawlrulesalwaysdue:
@@ -150,7 +148,6 @@ deps:
       - ordertraversal
       - pagevisit
       - fetchtiming
-      - scraperequestpublication
       - disposal
       - refusal
     canUse:

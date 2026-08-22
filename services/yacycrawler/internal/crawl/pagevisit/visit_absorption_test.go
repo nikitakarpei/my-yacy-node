@@ -30,16 +30,17 @@ func fetchOutcomeOf(page pagefetch.FetchedPage) pagefetch.FetchOutcome {
 	return pagefetch.FetchOutcome{Status: pagefetch.FetchSucceeded, Page: page}
 }
 
-func fetchedPage(finalURL string) pagefetch.FetchedPage {
+func fetchedPage(t *testing.T) pagefetch.FetchedPage {
+	t.Helper()
 	return pagefetch.FetchedPage{
-		FinalURL:    finalURL,
+		FinalURL:    canonicalurltest.CanonicalURLOf(t, "http://host/"),
 		ContentType: "text/html",
 		Body:        []byte("x"),
 	}
 }
 
 func TestVisitLeavesAReadablePageUndisposed(t *testing.T) {
-	outcome := absorbedOutcome(t, readableExtract(), fetchedPage("http://host/"))
+	outcome := absorbedOutcome(t, readableExtract(), fetchedPage(t))
 
 	if outcome.Disposal != disposal.NotDisposed {
 		t.Fatalf("a readable page carries no disposal reason, got %q", outcome.Disposal)
@@ -50,7 +51,7 @@ func TestVisitReportsUnsupportedMediaType(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
 		fakeExtract{err: documentextraction.ErrUnsupportedMediaType},
-		fetchedPage("http://host/"),
+		fetchedPage(t),
 	)
 
 	if outcome.Disposal != disposal.UnsupportedMediaType {
@@ -62,7 +63,7 @@ func TestVisitReportsUnextractableOnUnknownExtractionError(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
 		fakeExtract{err: errors.New("parser broke")},
-		fetchedPage("http://host/"),
+		fetchedPage(t),
 	)
 
 	if outcome.Disposal != disposal.Unextractable {
@@ -70,16 +71,8 @@ func TestVisitReportsUnextractableOnUnknownExtractionError(t *testing.T) {
 	}
 }
 
-func TestVisitReportsUncanonicalizablePageURL(t *testing.T) {
-	outcome := absorbedOutcome(t, readableExtract(), fetchedPage("::not a url"))
-
-	if outcome.Disposal != disposal.UncanonicalizableURL {
-		t.Fatalf("want uncanonicalizable-url disposal, got %q", outcome.Disposal)
-	}
-}
-
 func TestVisitReportsOversized(t *testing.T) {
-	page := fetchedPage("http://host/")
+	page := fetchedPage(t)
 	page.Truncated = true
 
 	outcome := absorbedOutcome(t, readableExtract(), page)
@@ -93,7 +86,7 @@ func TestVisitHonorsMetaNoIndex(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
 		fakeExtract{document: refusingDocument()},
-		fetchedPage("http://host/"),
+		fetchedPage(t),
 	)
 
 	if outcome.Disposal != disposal.IndexingRefused {
@@ -103,7 +96,7 @@ func TestVisitHonorsMetaNoIndex(t *testing.T) {
 
 func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T) {
 	source := newVisitorSource(
-		fetchOf(fetchOutcomeOf(fetchedPage("http://host/"))),
+		fetchOf(fetchOutcomeOf(fetchedPage(t))),
 		&fakeRecrawl{due: true},
 		fakeExtract{document: refusingDocument()},
 		newObserver(),
@@ -118,7 +111,7 @@ func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T)
 }
 
 func TestVisitHonorsNoFollow(t *testing.T) {
-	page := fetchedPage("http://host/")
+	page := fetchedPage(t)
 	page.RefusesLinkDiscovery = true
 
 	outcome := absorbedOutcome(
@@ -136,7 +129,7 @@ func TestVisitReportsDiscoveredLinks(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
 		fakeExtract{document: linkingDocument(t, "http://host/next")},
-		fetchedPage("http://host/"),
+		fetchedPage(t),
 	)
 
 	if len(outcome.DiscoveredURLs) != 1 ||

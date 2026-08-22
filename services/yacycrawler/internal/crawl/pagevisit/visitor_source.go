@@ -3,9 +3,9 @@ package pagevisit
 import (
 	"context"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/scraperequestpublication"
 )
 
 type VisitorSource interface {
@@ -20,12 +20,16 @@ type PageExtractor interface {
 	) (documentextraction.Document, error)
 }
 
+type ScrapeRequests interface {
+	Publish(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) error
+}
+
 type visitorSource struct {
 	fetcher        pagefetch.Fetcher
 	recrawl        RecrawlRule
 	extractor      PageExtractor
 	observer       VisitProgress
-	scrapeRequests *scraperequestpublication.Publisher
+	scrapeRequests ScrapeRequests
 }
 
 func New(
@@ -33,7 +37,7 @@ func New(
 	recrawl RecrawlRule,
 	extractor PageExtractor,
 	observer VisitProgress,
-	scrapeRequests *scraperequestpublication.Publisher,
+	scrapeRequests ScrapeRequests,
 ) VisitorSource {
 	return &visitorSource{
 		fetcher:        fetcher,

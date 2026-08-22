@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 )
 
@@ -26,8 +27,9 @@ const (
 
 	defaultDeferFor = time.Minute
 
-	msgFetchTransient = "fetch failed, treating as transient"
-	msgBodyReadFailed = "response body read failed, treating as transient"
+	msgFetchTransient   = "fetch failed, treating as transient"
+	msgBodyReadFailed   = "response body read failed, treating as transient"
+	msgFinalURLRejected = "fetched page url rejected, page treated as no page"
 )
 
 type ProxiedFetch struct {
@@ -54,13 +56,13 @@ func New(
 
 func (f *ProxiedFetch) Fetch(
 	ctx context.Context,
-	rawURL string,
+	pageURL canonicalurl.CanonicalURL,
 	knownVersion pagefetch.PageVersion,
 ) (pagefetch.FetchOutcome, error) {
 	fetchCtx, cancel := context.WithTimeout(ctx, f.deadline)
 	defer cancel()
 
-	request, err := http.NewRequestWithContext(fetchCtx, http.MethodGet, rawURL, nil)
+	request, err := http.NewRequestWithContext(fetchCtx, http.MethodGet, pageURL.String(), nil)
 	if err != nil {
 		return pagefetch.FetchOutcome{}, fmt.Errorf("build request: %w", err)
 	}
@@ -70,10 +72,10 @@ func (f *ProxiedFetch) Fetch(
 	response, err := f.client.Do(request)
 	if err != nil {
 		if ctx.Err() != nil {
-			return pagefetch.FetchOutcome{}, fmt.Errorf("fetch %s: %w", rawURL, ctx.Err())
+			return pagefetch.FetchOutcome{}, fmt.Errorf("fetch %s: %w", pageURL, ctx.Err())
 		}
 		slog.WarnContext(ctx, msgFetchTransient,
-			slog.String("url", rawURL),
+			slog.String("url", pageURL.String()),
 			slog.Any("error", err),
 		)
 		return pagefetch.FetchOutcome{Status: pagefetch.FetchFailed}, nil
@@ -129,19 +131,26 @@ func (f *ProxiedFetch) fetched(
 	if truncated {
 		body = body[:f.maxBodyBytes]
 	}
+	finalURL, err := canonicalurl.CanonicalURLOf(response.Request.URL.String())
+	if err != nil {
+		slog.WarnContext(ctx, msgFinalURLRejected,
+			slog.String("url", response.Request.URL.String()),
+			slog.Any("error", err),
+		)
+		return pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}, nil
+	}
 	noIndex, noFollow := robotsDirectives(response.Header.Values(headerXRobotsTag))
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			FinalURL:             response.Request.URL.String(),
+			FinalURL:             finalURL,
 			ContentType:          response.Header.Get(headerContentType),
 			Body:                 body,
 			Truncated:            truncated,
 			RefusesIndexing:      noIndex,
 			RefusesLinkDiscovery: noFollow,
 		},
-		RedirectChain: redirectChain(response),
-		Version:       pageVersionOf(response),
+		Version: pageVersionOf(response),
 	}, nil
 }
 
@@ -163,21 +172,6 @@ func pageVersionOf(response *http.Response) pagefetch.PageVersion {
 		version.ModifiedAt = modified
 	}
 	return version
-}
-
-func redirectChain(response *http.Response) []string {
-	var chain []string
-	for request := response.Request; request != nil; {
-		chain = append(chain, request.URL.String())
-		if request.Response == nil {
-			break
-		}
-		request = request.Response.Request
-	}
-	for left, right := 0, len(chain)-1; left < right; left, right = left+1, right-1 {
-		chain[left], chain[right] = chain[right], chain[left]
-	}
-	return chain
 }
 
 func readBody(source io.Reader, limit int64) ([]byte, error) {

@@ -16,6 +16,5 @@ const (
 	Oversized            Reason = "oversized"
 	UnsupportedMediaType Reason = "unsupported-media-type"
 	Unextractable        Reason = "unextractable"
-	UncanonicalizableURL Reason = "uncanonicalizable-url"
 	IndexingRefused      Reason = "indexing-refused"
 )

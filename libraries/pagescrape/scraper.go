@@ -18,10 +18,9 @@ import (
 )
 
 const (
-	msgNothingToScrape     = "fetch holds no content to scrape"
-	msgExtractionFailed    = "document extraction failed, page skipped"
-	msgDocumentURLRejected = "fetched page url rejected, page skipped"
-	msgContentUnderivable  = "document derives no content in the target format, page skipped"
+	msgNothingToScrape    = "fetch holds no content to scrape"
+	msgExtractionFailed   = "document extraction failed, page skipped"
+	msgContentUnderivable = "document derives no content in the target format, page skipped"
 )
 
 type Scraper struct {
@@ -47,7 +46,7 @@ func New(fetcher pagefetch.Fetcher) (*Scraper, error) {
 
 func (s *Scraper) Scrape(
 	ctx context.Context,
-	pageURL string,
+	pageURL canonicalurl.CanonicalURL,
 	targetFormat documentextraction.Format,
 ) (ScrapedPage, bool, error) {
 	outcome, err := s.fetcher.Fetch(ctx, pageURL, pagefetch.PageVersion{})
@@ -67,7 +66,7 @@ func (s *Scraper) Scrape(
 			outcome.DeferFor,
 		)
 	case pagefetch.FetchNotModified, pagefetch.FetchCeased, pagefetch.FetchNotAPage:
-		slog.DebugContext(ctx, msgNothingToScrape, slog.String("url", pageURL))
+		slog.DebugContext(ctx, msgNothingToScrape, slog.String("url", pageURL.String()))
 		return ScrapedPage{}, false, nil
 	default:
 		return ScrapedPage{}, false, fmt.Errorf(
@@ -83,30 +82,22 @@ func (s *Scraper) pageFrom(
 	fetched pagefetch.FetchedPage,
 	targetFormat documentextraction.Format,
 ) (ScrapedPage, bool) {
-	canonical, err := canonicalurl.CanonicalURLOf(fetched.FinalURL)
-	if err != nil {
-		slog.WarnContext(ctx, msgDocumentURLRejected,
-			slog.String("url", fetched.FinalURL),
-			slog.Any("error", err),
-		)
-		return ScrapedPage{}, false
-	}
 	document, err := s.extractor.DocumentFrom(
-		ctx, canonical.String(), fetched.ContentType, fetched.Body,
+		ctx, fetched.FinalURL.String(), fetched.ContentType, fetched.Body,
 	)
 	if err != nil {
 		slog.WarnContext(ctx, msgExtractionFailed,
-			slog.String("url", canonical.String()),
+			slog.String("url", fetched.FinalURL.String()),
 			slog.Any("error", err),
 		)
 		return ScrapedPage{}, false
 	}
-	content, derived := s.contentOf(ctx, canonical, document, targetFormat)
+	content, derived := s.contentOf(ctx, fetched.FinalURL, document, targetFormat)
 	if !derived {
 		return ScrapedPage{}, false
 	}
 	return ScrapedPage{
-		CanonicalURL:     canonical,
+		CanonicalURL:     fetched.FinalURL,
 		Title:            document.Title,
 		Language:         document.Language,
 		LocalLinks:       document.LocalLinks,
@@ -118,16 +109,16 @@ func (s *Scraper) pageFrom(
 
 func (s *Scraper) contentOf(
 	ctx context.Context,
-	canonical canonicalurl.CanonicalURL,
+	pageURL canonicalurl.CanonicalURL,
 	document documentextraction.Document,
 	targetFormat documentextraction.Format,
 ) ([]byte, bool) {
 	content, resolved, err := s.derivations.
-		ForPage(canonical.String(), document.Format, document.Body).
+		ForPage(pageURL.String(), document.Format, document.Body).
 		Resolve(targetFormat)
 	if err != nil || !resolved {
 		slog.WarnContext(ctx, msgContentUnderivable,
-			slog.String("url", canonical.String()),
+			slog.String("url", pageURL.String()),
 			slog.String("format", string(document.Format)),
 			slog.String("targetFormat", string(targetFormat)),
 			slog.Any("error", err),

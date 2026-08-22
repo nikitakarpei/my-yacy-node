@@ -5,6 +5,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 )
@@ -25,11 +26,11 @@ func New(observer FetchProgress, clock clock.Clock, fetcher pagefetch.Fetcher) *
 
 func (f *Fetch) Fetch(
 	ctx context.Context,
-	rawURL string,
+	pageURL canonicalurl.CanonicalURL,
 	knownVersion pagefetch.PageVersion,
 ) (pagefetch.FetchOutcome, error) {
 	start := f.clock.Now()
-	outcome, err := f.fetcher.Fetch(ctx, rawURL, knownVersion)
+	outcome, err := f.fetcher.Fetch(ctx, pageURL, knownVersion)
 	if err != nil {
 		return pagefetch.FetchOutcome{}, err
 	}

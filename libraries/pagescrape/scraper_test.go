@@ -7,6 +7,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
@@ -23,17 +25,18 @@ type fakeFetch struct {
 
 func (f fakeFetch) Fetch(
 	context.Context,
-	string,
+	canonicalurl.CanonicalURL,
 	pagefetch.PageVersion,
 ) (pagefetch.FetchOutcome, error) {
 	return f.outcome, f.err
 }
 
-func succeededWith(finalURL, contentType, body string) pagefetch.FetchOutcome {
+func succeededWith(t *testing.T, finalURL, contentType, body string) pagefetch.FetchOutcome {
+	t.Helper()
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			FinalURL:    finalURL,
+			FinalURL:    canonicalurltest.CanonicalURLOf(t, finalURL),
 			ContentType: contentType,
 			Body:        []byte(body),
 		},
@@ -52,7 +55,11 @@ func newScraper(t *testing.T, fetch pagefetch.Fetcher) *pagescrape.Scraper {
 func scrape(t *testing.T, outcome pagefetch.FetchOutcome) (pagescrape.ScrapedPage, bool) {
 	t.Helper()
 	page, scraped, err := newScraper(t, fakeFetch{outcome: outcome}).
-		Scrape(context.Background(), "http://host/", documentextraction.FormatMarkdown)
+		Scrape(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://host/"),
+			documentextraction.FormatMarkdown,
+		)
 	if err != nil {
 		t.Fatalf("scrape: %v", err)
 	}
@@ -60,7 +67,7 @@ func scrape(t *testing.T, outcome pagefetch.FetchOutcome) (pagescrape.ScrapedPag
 }
 
 func TestScrapeDerivesTheTargetFormatOfTheFetchedDocument(t *testing.T) {
-	page, scraped := scrape(t, succeededWith("http://HOST:80/a", "text/html", originHTML))
+	page, scraped := scrape(t, succeededWith(t, "http://HOST:80/a", "text/html", originHTML))
 
 	if !scraped {
 		t.Fatal("want a scraped page")
@@ -74,7 +81,7 @@ func TestScrapeDerivesTheTargetFormatOfTheFetchedDocument(t *testing.T) {
 }
 
 func TestScrapeCarriesWhatTheDocumentSaysAboutItself(t *testing.T) {
-	page, scraped := scrape(t, succeededWith("http://host/a", "text/html", originHTML))
+	page, scraped := scrape(t, succeededWith(t, "http://host/a", "text/html", originHTML))
 
 	if !scraped {
 		t.Fatal("want a scraped page")
@@ -92,7 +99,7 @@ func TestScrapeCarriesWhatTheDocumentSaysAboutItself(t *testing.T) {
 }
 
 func TestScrapeYieldsNoPageForAnUnreadableMediaType(t *testing.T) {
-	page, scraped := scrape(t, succeededWith(
+	page, scraped := scrape(t, succeededWith(t,
 		"http://host/a.bin", "application/octet-stream", "\x00\x01",
 	))
 
@@ -124,7 +131,9 @@ func TestScrapeFailsWhenAnotherAttemptCanSucceed(t *testing.T) {
 	}
 	for name, fetch := range attempts {
 		_, _, err := newScraper(t, fetch).Scrape(
-			context.Background(), "http://host/", documentextraction.FormatMarkdown,
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://host/"),
+			documentextraction.FormatMarkdown,
 		)
 		if err == nil {
 			t.Errorf("%s should fail the scrape", name)
@@ -133,9 +142,13 @@ func TestScrapeFailsWhenAnotherAttemptCanSucceed(t *testing.T) {
 }
 
 func TestATargetFormatNothingDerivesYieldsNoPage(t *testing.T) {
-	_, scraped, err := newScraper(t, fakeFetch{outcome: succeededWith(
+	_, scraped, err := newScraper(t, fakeFetch{outcome: succeededWith(t,
 		"http://host/", "text/html", "<html><body>text</body></html>",
-	)}).Scrape(context.Background(), "http://host/", documentextraction.Format("braille"))
+	)}).Scrape(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+		documentextraction.Format("braille"),
+	)
 	if err != nil {
 		t.Fatalf("scrape: %v", err)
 	}

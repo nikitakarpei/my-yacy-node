@@ -55,9 +55,14 @@ deps:
     canUse:
       - canonicalurl
       - documentextraction
+  pagefetch:
+    canUse:
+      - canonicalurl
   pagefetchershttp:
     mayDependOn:
       - pagefetch
+    canUse:
+      - canonicalurl
   contentformatgraph:
     canUse:
       - documentextraction

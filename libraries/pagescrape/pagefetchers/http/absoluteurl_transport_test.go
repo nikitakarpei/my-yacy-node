@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	httppkg "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 )
@@ -22,7 +23,10 @@ func TestFetchAbsoluteURLModeSendsNoConnect(t *testing.T) {
 	defer closeFn()
 
 	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
-		Fetch(context.Background(), "https://target.example/page", pagefetch.PageVersion{})
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "https://target.example/page"),
+			pagefetch.PageVersion{})
 	if err != nil {
 		t.Fatalf("Fetch: %v", err)
 	}
@@ -40,7 +44,10 @@ func TestFetchAbsoluteURLModeSendsNoConnect(t *testing.T) {
 func TestFetchAbsoluteURLModeTransientOnDialFailure(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
-		Fetch(context.Background(), "https://target.example/x", pagefetch.PageVersion{})
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "https://target.example/x"),
+			pagefetch.PageVersion{})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -56,7 +63,10 @@ func TestFetchAbsoluteURLModeHandlesHTTPTarget(t *testing.T) {
 	defer closeFn()
 
 	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
-		Fetch(context.Background(), "http://target.example/page", pagefetch.PageVersion{})
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://target.example/page"),
+			pagefetch.PageVersion{})
 	if err != nil {
 		t.Fatalf("Fetch: %v", err)
 	}

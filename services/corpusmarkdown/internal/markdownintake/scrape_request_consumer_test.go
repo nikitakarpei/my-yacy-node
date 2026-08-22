@@ -78,11 +78,11 @@ type fakeScrape struct {
 
 func (s *fakeScrape) Scrape(
 	_ context.Context,
-	pageURL string,
+	pageURL canonicalurl.CanonicalURL,
 	targetFormat documentextraction.Format,
 ) (pagescrape.ScrapedPage, bool, error) {
 	s.mu.Lock()
-	s.urls = append(s.urls, pageURL)
+	s.urls = append(s.urls, pageURL.String())
 	s.targetFormats = append(s.targetFormats, targetFormat)
 	s.mu.Unlock()
 	return s.page, s.scraped, s.err

@@ -12,12 +12,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/scraperequestpublication"
 )
 
 const (
 	msgRecrawlRecordFailed = "recrawl record failed, next visit may be redundant"
-	msgPageURLRejected     = "fetched page url rejected"
 	msgExtractionFailed    = "document extraction failed"
 )
 
@@ -31,7 +29,7 @@ type visitor struct {
 	extractor       PageExtractor
 	indexingRefusal IndexingRefusal
 	observer        VisitProgress
-	scrapeRequests  *scraperequestpublication.Publisher
+	scrapeRequests  ScrapeRequests
 }
 
 func (v *visitor) Visit(
@@ -46,7 +44,7 @@ func (v *visitor) Visit(
 		return VisitOutcome{Conclusion: VisitCompleted, Disposal: disposal.NotDue}, nil
 	}
 
-	outcome, err := v.fetcher.Fetch(ctx, url.String(), decision.Version)
+	outcome, err := v.fetcher.Fetch(ctx, url, decision.Version)
 	if err != nil {
 		return VisitOutcome{}, fmt.Errorf("fetch %s: %w", url, err)
 	}
@@ -87,8 +85,11 @@ func (v *visitor) absorb(
 	v.recordVisit(ctx, url, outcome.Version)
 	if absorption.Disposal == disposal.NotDisposed {
 		if err := v.scrapeRequests.Publish(ctx, outcome.Page.FinalURL); err != nil {
-			return VisitOutcome{}, err
+			return VisitOutcome{}, fmt.Errorf(
+				"publish scrape request %s: %w", outcome.Page.FinalURL, err,
+			)
 		}
+		v.observer.ScrapeRequestPublished()
 	}
 	return absorption, nil
 }
@@ -100,18 +101,12 @@ func (v *visitor) absorptionOf(
 	if page.Truncated {
 		return absorbedPage(disposal.Oversized, nil)
 	}
-	canonical, err := canonicalurl.CanonicalURLOf(page.FinalURL)
-	if err != nil {
-		slog.WarnContext(ctx, msgPageURLRejected,
-			slog.String("url", page.FinalURL),
-			slog.Any("error", err),
-		)
-		return absorbedPage(disposal.UncanonicalizableURL, nil)
-	}
-	document, err := v.extractor.DocumentFrom(ctx, canonical.String(), page.ContentType, page.Body)
+	document, err := v.extractor.DocumentFrom(
+		ctx, page.FinalURL.String(), page.ContentType, page.Body,
+	)
 	if err != nil {
 		slog.WarnContext(ctx, msgExtractionFailed,
-			slog.String("url", canonical.String()),
+			slog.String("url", page.FinalURL.String()),
 			slog.Any("error", err),
 		)
 		return absorbedPage(disposalOfExtractionFailure(err), nil)

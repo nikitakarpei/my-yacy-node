@@ -6,6 +6,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchtiming"
 )
@@ -40,7 +42,7 @@ type steppingFetch struct {
 
 func (f *steppingFetch) Fetch(
 	context.Context,
-	string,
+	canonicalurl.CanonicalURL,
 	pagefetch.PageVersion,
 ) (pagefetch.FetchOutcome, error) {
 	return f.outcome, f.err
@@ -52,7 +54,11 @@ func TestFetchReportsTheDurationTheFetchTook(t *testing.T) {
 	fetched := pagefetch.FetchOutcome{Status: pagefetch.FetchSucceeded}
 
 	outcome, err := fetchtiming.New(observer, clock, &steppingFetch{outcome: fetched}).
-		Fetch(context.Background(), "http://host/a", pagefetch.PageVersion{})
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://host/a"),
+			pagefetch.PageVersion{},
+		)
 	if err != nil {
 		t.Fatalf("fetch err = %v", err)
 	}
@@ -70,7 +76,11 @@ func TestFetchReportsNothingWhenTheFetchFails(t *testing.T) {
 	failure := errors.New("origin down")
 
 	_, err := fetchtiming.New(observer, clock, &steppingFetch{err: failure}).
-		Fetch(context.Background(), "http://host/a", pagefetch.PageVersion{})
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://host/a"),
+			pagefetch.PageVersion{},
+		)
 	if !errors.Is(err, failure) {
 		t.Fatalf("fetch err = %v", err)
 	}
