@@ -39,14 +39,6 @@ func awaitRecallPreconditions(t *testing.T, ctx context.Context, js jetstream.Je
 		_, err := js.Stream(ctx, yacycrawlcontract.OrdersStreamName)
 		return err == nil
 	})
-	awaitNATSState(t, "redirect resolution bucket", func() bool {
-		_, err := js.KeyValue(ctx, yacycrawlcontract.RedirectResolutionBucketName)
-		return err == nil
-	})
-	awaitNATSState(t, "disposed pages bucket", func() bool {
-		_, err := js.KeyValue(ctx, yacycrawlcontract.DisposedPagesBucketName)
-		return err == nil
-	})
 	awaitNATSState(t, "page markdown bucket", func() bool {
 		_, err := js.ObjectStore(ctx, pagemarkdownstore.BucketName)
 		return err == nil

@@ -4,16 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
-	"time"
 
-	"google.golang.org/grpc"
-
-	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
 	"github.com/nikitakarpei/yacy-rwi-node/firecrawlshim/internal/firecrawlscrape"
+	"github.com/nikitakarpei/yacy-rwi-node/firecrawlshim/internal/markdownrecall"
 )
 
 type scrapeResponse struct {
@@ -28,38 +26,34 @@ type scrapeData struct {
 }
 
 type scrapeMetadata struct {
-	Title     string `json:"title"`
-	Language  string `json:"language"`
 	SourceURL string `json:"sourceURL"`
 }
 
-type fakeRecaller struct {
-	response *corpusrecallv1.RecallResponse
-	err      error
-	request  *corpusrecallv1.RecallRequest
+type fakeMarkdownRecaller struct {
+	recalled     markdownrecall.RecalledPage
+	failWith     error
+	requestedURL string
 }
 
-func (f *fakeRecaller) Recall(
+func (f *fakeMarkdownRecaller) RecallPage(
 	_ context.Context,
-	in *corpusrecallv1.RecallRequest,
-	_ ...grpc.CallOption,
-) (*corpusrecallv1.RecallResponse, error) {
-	f.request = in
-	return f.response, f.err
+	requestedURL string,
+) (markdownrecall.RecalledPage, error) {
+	f.requestedURL = requestedURL
+	return f.recalled, f.failWith
 }
 
 func serve(
 	t *testing.T,
-	recaller firecrawlscrape.Recaller,
+	recaller firecrawlscrape.MarkdownRecaller,
 	body string,
 ) *httptest.ResponseRecorder {
 	t.Helper()
-	scraper := firecrawlscrape.NewScraper(recaller, time.Second)
 	request := httptest.NewRequestWithContext(
 		context.Background(), http.MethodPost, "/v1/scrape", strings.NewReader(body),
 	)
 	recorder := httptest.NewRecorder()
-	scraper.ServeHTTP(recorder, request)
+	firecrawlscrape.NewScraper(recaller).ServeHTTP(recorder, request)
 	return recorder
 }
 
@@ -72,83 +66,31 @@ func decode(t *testing.T, recorder *httptest.ResponseRecorder) scrapeResponse {
 	return response
 }
 
-func TestScrapeReturnsMarkdown(t *testing.T) {
-	recaller := &fakeRecaller{response: &corpusrecallv1.RecallResponse{
-		Representations: []*corpusrecallv1.Representation{{
-			Representation: &corpusrecallv1.Representation_Markdown{
-				Markdown: &corpusrecallv1.MarkdownRepresentation{
-					CanonicalUrl: "https://example.com/",
-					Markdown:     "# Hello",
-				},
-			},
-		}},
+func TestScrapeReturnsTheRecalledMarkdown(t *testing.T) {
+	recaller := &fakeMarkdownRecaller{recalled: markdownrecall.RecalledPage{
+		CanonicalURL: "https://example.com/",
+		Markdown:     "# Hello",
 	}}
 
-	recorder := serve(t, recaller, `{"url":"https://example.com"}`)
+	recorder := serve(t, recaller, `{"url":"https://example.com","formats":["markdown"]}`)
 
 	if recorder.Code != http.StatusOK {
 		t.Fatalf("status = %d, want 200", recorder.Code)
 	}
 	response := decode(t, recorder)
-	if !response.Success {
-		t.Errorf("success = false, want true")
-	}
-	if response.Data.Markdown != "# Hello" {
-		t.Errorf("markdown = %q", response.Data.Markdown)
+	if !response.Success || response.Data.Markdown != "# Hello" {
+		t.Errorf("response = %+v", response)
 	}
 	if response.Data.Metadata.SourceURL != "https://example.com/" {
 		t.Errorf("sourceURL = %q", response.Data.Metadata.SourceURL)
 	}
-	kinds := recaller.request.GetKinds()
-	if len(kinds) != 1 ||
-		kinds[0] != corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN {
-		t.Errorf("kinds = %v, want [MARKDOWN]", kinds)
-	}
-}
-
-func TestScrapeMapsTextMetadata(t *testing.T) {
-	recaller := &fakeRecaller{response: &corpusrecallv1.RecallResponse{
-		Representations: []*corpusrecallv1.Representation{{
-			Representation: &corpusrecallv1.Representation_Text{
-				Text: &corpusrecallv1.TextRepresentation{
-					CanonicalUrl: "https://example.com/",
-					Title:        "Title",
-					Language:     "en",
-				},
-			},
-		}},
-	}}
-
-	recorder := serve(t, recaller, `{"url":"https://example.com","formats":["text"]}`)
-
-	response := decode(t, recorder)
-	if response.Data.Metadata.Title != "Title" || response.Data.Metadata.Language != "en" {
-		t.Errorf("metadata = %+v", response.Data.Metadata)
-	}
-	if response.Data.Metadata.SourceURL != "https://example.com/" {
-		t.Errorf("sourceURL = %q", response.Data.Metadata.SourceURL)
-	}
-	kinds := recaller.request.GetKinds()
-	if len(kinds) != 1 ||
-		kinds[0] != corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_TEXT {
-		t.Errorf("kinds = %v, want [TEXT]", kinds)
-	}
-}
-
-func TestScrapeUnknownFormatFallsBackToMarkdown(t *testing.T) {
-	recaller := &fakeRecaller{response: &corpusrecallv1.RecallResponse{}}
-
-	serve(t, recaller, `{"url":"https://example.com","formats":["screenshot"]}`)
-
-	kinds := recaller.request.GetKinds()
-	if len(kinds) != 1 ||
-		kinds[0] != corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN {
-		t.Errorf("kinds = %v, want [MARKDOWN]", kinds)
+	if recaller.requestedURL != "https://example.com" {
+		t.Errorf("recalled url = %q", recaller.requestedURL)
 	}
 }
 
 func TestScrapeRejectsInvalidBody(t *testing.T) {
-	recorder := serve(t, &fakeRecaller{}, `not json`)
+	recorder := serve(t, &fakeMarkdownRecaller{}, `not json`)
 
 	if recorder.Code != http.StatusBadRequest {
 		t.Fatalf("status = %d, want 400", recorder.Code)
@@ -159,15 +101,17 @@ func TestScrapeRejectsInvalidBody(t *testing.T) {
 }
 
 func TestScrapeRejectsMissingURL(t *testing.T) {
-	recorder := serve(t, &fakeRecaller{}, `{}`)
+	recorder := serve(t, &fakeMarkdownRecaller{}, `{}`)
 
 	if recorder.Code != http.StatusBadRequest {
 		t.Fatalf("status = %d, want 400", recorder.Code)
 	}
 }
 
-func TestScrapeReportsRecallFailure(t *testing.T) {
-	recorder := serve(t, &fakeRecaller{err: errors.New("boom")}, `{"url":"https://example.com"}`)
+func TestScrapeReportsAnUnreachableCollaboratorAsAGatewayFailure(t *testing.T) {
+	recaller := &fakeMarkdownRecaller{failWith: errors.New("boom")}
+
+	recorder := serve(t, recaller, `{"url":"https://example.com"}`)
 
 	if recorder.Code != http.StatusBadGateway {
 		t.Fatalf("status = %d, want 502", recorder.Code)
@@ -175,5 +119,27 @@ func TestScrapeReportsRecallFailure(t *testing.T) {
 	response := decode(t, recorder)
 	if response.Success || !strings.Contains(response.Error, "boom") {
 		t.Errorf("response = %+v", response)
+	}
+}
+
+func TestScrapeReportsMarkdownTheCorpusNeverHeldAsNotFound(t *testing.T) {
+	recaller := &fakeMarkdownRecaller{
+		failWith: fmt.Errorf("%w within the recall limit", markdownrecall.ErrMarkdownUnavailable),
+	}
+
+	recorder := serve(t, recaller, `{"url":"https://example.com"}`)
+
+	if recorder.Code != http.StatusNotFound {
+		t.Fatalf("status = %d, want 404", recorder.Code)
+	}
+}
+
+func TestScrapeReportsARecallBeyondTheInFlightLimitAsUnavailable(t *testing.T) {
+	recaller := &fakeMarkdownRecaller{failWith: markdownrecall.ErrTooManyRecallsInFlight}
+
+	recorder := serve(t, recaller, `{"url":"https://example.com"}`)
+
+	if recorder.Code != http.StatusServiceUnavailable {
+		t.Fatalf("status = %d, want 503", recorder.Code)
 	}
 }

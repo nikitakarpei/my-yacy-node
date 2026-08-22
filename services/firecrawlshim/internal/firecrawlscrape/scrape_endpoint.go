@@ -1,34 +1,27 @@
-// Package firecrawlscrape serves the Firecrawl v1 scrape endpoint by recalling a
-// URL's corpus representation from corpusrecall.
+// Package firecrawlscrape serves the Firecrawl v1 scrape endpoint by recalling the
+// markdown of a URL from the operator's own corpus.
 package firecrawlscrape
 
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"log/slog"
 	"net/http"
-	"time"
 
-	"google.golang.org/grpc"
-
-	corpusrecallv1 "github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1"
+	"github.com/nikitakarpei/yacy-rwi-node/firecrawlshim/internal/markdownrecall"
 )
 
-type Recaller interface {
-	Recall(
-		ctx context.Context,
-		in *corpusrecallv1.RecallRequest,
-		opts ...grpc.CallOption,
-	) (*corpusrecallv1.RecallResponse, error)
+type MarkdownRecaller interface {
+	RecallPage(ctx context.Context, requestedURL string) (markdownrecall.RecalledPage, error)
 }
 
 type Scraper struct {
-	recaller Recaller
-	timeout  time.Duration
+	markdownRecaller MarkdownRecaller
 }
 
-func NewScraper(recaller Recaller, timeout time.Duration) *Scraper {
-	return &Scraper{recaller: recaller, timeout: timeout}
+func NewScraper(markdownRecaller MarkdownRecaller) *Scraper {
+	return &Scraper{markdownRecaller: markdownRecaller}
 }
 
 func (s *Scraper) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -42,24 +35,38 @@ func (s *Scraper) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ctx, cancel := context.WithTimeout(r.Context(), s.timeout)
-	defer cancel()
-
-	recalled, err := s.recaller.Recall(ctx, &corpusrecallv1.RecallRequest{
-		Url:   request.URL,
-		Kinds: kindsFor(request.Formats),
-	})
+	recalled, err := s.markdownRecaller.RecallPage(r.Context(), request.URL)
 	if err != nil {
-		slog.WarnContext(ctx, "recall failed",
-			slog.String("url", request.URL),
-			slog.Any("error", err),
-		)
-		s.fail(w, r, http.StatusBadGateway, "recall failed", err)
+		s.failRecall(w, r, request.URL, err)
 		return
 	}
 
-	slog.DebugContext(ctx, "scrape served", slog.String("url", request.URL))
+	slog.DebugContext(r.Context(), "scrape served", slog.String("url", request.URL))
 	writeJSON(w, http.StatusOK, scrapeResponse{Success: true, Data: scrapeDataFrom(recalled)})
+}
+
+func (s *Scraper) failRecall(
+	w http.ResponseWriter,
+	r *http.Request,
+	requestedURL string,
+	err error,
+) {
+	slog.WarnContext(r.Context(), "recall failed",
+		slog.String("url", requestedURL),
+		slog.Any("error", err),
+	)
+	s.fail(w, r, recallFailureCodeOf(err), "recall failed", err)
+}
+
+func recallFailureCodeOf(err error) int {
+	switch {
+	case errors.Is(err, markdownrecall.ErrTooManyRecallsInFlight):
+		return http.StatusServiceUnavailable
+	case errors.Is(err, markdownrecall.ErrMarkdownUnavailable):
+		return http.StatusNotFound
+	default:
+		return http.StatusBadGateway
+	}
 }
 
 func (s *Scraper) fail(
@@ -77,44 +84,9 @@ func (s *Scraper) fail(
 	writeJSON(w, code, scrapeResponse{Success: false, Error: detail})
 }
 
-func kindsFor(formats []string) []corpusrecallv1.RepresentationKind {
-	if len(formats) == 0 {
-		return []corpusrecallv1.RepresentationKind{
-			corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
-		}
-	}
-	kinds := make([]corpusrecallv1.RepresentationKind, 0, len(formats))
-	for _, format := range formats {
-		switch format {
-		case "markdown":
-			kinds = append(kinds, corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN)
-		case "text":
-			kinds = append(kinds, corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_TEXT)
-		}
-	}
-	if len(kinds) == 0 {
-		return []corpusrecallv1.RepresentationKind{
-			corpusrecallv1.RepresentationKind_REPRESENTATION_KIND_MARKDOWN,
-		}
-	}
-	return kinds
-}
-
-func scrapeDataFrom(recalled *corpusrecallv1.RecallResponse) *scrapeData {
-	data := &scrapeData{}
-	for _, representation := range recalled.GetRepresentations() {
-		if markdown := representation.GetMarkdown(); markdown != nil {
-			data.Markdown = markdown.GetMarkdown()
-			data.Metadata.SourceURL = markdown.GetCanonicalUrl()
-		}
-		if text := representation.GetText(); text != nil {
-			data.Metadata.Title = text.GetTitle()
-			data.Metadata.Language = text.GetLanguage()
-			if data.Metadata.SourceURL == "" {
-				data.Metadata.SourceURL = text.GetCanonicalUrl()
-			}
-		}
-	}
+func scrapeDataFrom(recalled markdownrecall.RecalledPage) *scrapeData {
+	data := &scrapeData{Markdown: recalled.Markdown}
+	data.Metadata.SourceURL = recalled.CanonicalURL
 	return data
 }
 

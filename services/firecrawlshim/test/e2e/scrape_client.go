@@ -21,7 +21,9 @@ type scrapeResult struct {
 	Error string `json:"error"`
 }
 
-func scrape(t *testing.T, ctx context.Context, baseURL, url string) scrapeResult {
+func scrape(
+	t *testing.T, ctx context.Context, baseURL, url string,
+) (scrapeResult, int) {
 	t.Helper()
 	body := `{"url":"` + url + `","formats":["markdown"]}`
 	request, err := http.NewRequestWithContext(
@@ -42,5 +44,5 @@ func scrape(t *testing.T, ctx context.Context, baseURL, url string) scrapeResult
 	if err := json.NewDecoder(response.Body).Decode(&result); err != nil {
 		t.Fatalf("decode scrape response: %v", err)
 	}
-	return result
+	return result, response.StatusCode
 }

@@ -6,30 +6,60 @@ allow:
   deepScan: false
 
 components:
+  crawlorderplacersjetstream:
+    in: internal/crawlorderplacers/jetstream/**
   firecrawlscrape:
     in: internal/firecrawlscrape/**
+  markdownrecall:
+    in: internal/markdownrecall/**
   firecrawlshimcmd:
     in: cmd/firecrawlshim/**
 
 vendors:
-  corpusrecallapi:
+  canonicalurl:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/corpusrecallapi/corpusrecall/v1
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+  corpusmarkdownapi:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/corpusmarkdown/v1
+  crawlerapi:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/crawler/v1
   grpc:
     in:
       - google.golang.org/grpc
       - google.golang.org/grpc/**
+  jetstream:
+    in:
+      - github.com/nats-io/nats.go/jetstream
+  uuid:
+    in:
+      - github.com/google/uuid
+  yacycrawlcontract:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
 
 deps:
-  firecrawlscrape:
+  crawlorderplacersjetstream:
     canUse:
-      - corpusrecallapi
+      - canonicalurl
+      - jetstream
+      - uuid
+      - yacycrawlcontract
+  markdownrecall:
+    canUse:
+      - corpusmarkdownapi
+      - crawlerapi
       - grpc
+  firecrawlscrape:
+    mayDependOn:
+      - markdownrecall
   firecrawlshimcmd:
     anyProjectDeps: true
     anyVendorDeps: true

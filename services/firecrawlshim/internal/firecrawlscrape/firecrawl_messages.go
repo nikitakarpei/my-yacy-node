@@ -17,7 +17,5 @@ type scrapeData struct {
 }
 
 type scrapeMetadata struct {
-	Title     string `json:"title,omitempty"`
-	Language  string `json:"language,omitempty"`
 	SourceURL string `json:"sourceURL,omitempty"`
 }

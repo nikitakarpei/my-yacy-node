@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/testcontainers/testcontainers-go"
+	"github.com/testcontainers/testcontainers-go/wait"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
@@ -16,6 +17,7 @@ import (
 
 const (
 	crawlerAlias    = "crawler"
+	crawlerPort     = "8095/tcp"
 	envCrawlerImage = "YACYCRAWLER_IMAGE"
 )
 
@@ -27,6 +29,8 @@ func startCrawler(t *testing.T, ctx context.Context, networkName string) {
 			Image:          crawlerImage(t),
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {crawlerAlias}},
+			ExposedPorts:   []string{crawlerPort},
+			WaitingFor:     wait.ForListeningPort(crawlerPort),
 			Env: map[string]string{
 				"CRAWL_NATS_URL":                natsjetstream.NetworkURL(),
 				"YACYCRAWLER_PROXY_URL":         egressproxy.NetworkURL(),
