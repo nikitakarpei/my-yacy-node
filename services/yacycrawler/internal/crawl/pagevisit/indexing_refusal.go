@@ -1,4 +1,4 @@
-package pageabsorption
+package pagevisit
 
 type IndexingRefusal int
 

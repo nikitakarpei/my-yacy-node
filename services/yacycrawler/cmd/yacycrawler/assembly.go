@@ -23,7 +23,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
@@ -237,7 +236,7 @@ func buildVisitorSource(
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
 	)
-	absorbers, err := buildAbsorberSource(cfg)
+	extractor, err := buildExtractor(cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -251,7 +250,7 @@ func buildVisitorSource(
 			fetchtiming.New(metrics, wallclock.Clock{}, fetch),
 		),
 		recrawl,
-		absorbers,
+		extractor,
 		metrics,
 		reachedpagepublication.NewPublisher(metrics, reachedpagesjetstream.New(js)),
 	), nil
@@ -291,19 +290,11 @@ func ordersConsumer(
 	return consumer, nil
 }
 
-func buildAbsorberSource(cfg ServiceConfig) (pageabsorption.AbsorberSource, error) {
+func buildExtractor(cfg ServiceConfig) (pagevisit.PageExtractor, error) {
 	admitted, err := admittedMediaTypesFor(cfg)
 	if err != nil {
 		return nil, err
 	}
-	extract, err := buildExtractor(admitted)
-	if err != nil {
-		return nil, err
-	}
-	return pageabsorption.New(extract), nil
-}
-
-func buildExtractor(admitted admittedMediaTypes) (pageabsorption.PageExtractor, error) {
 	extraction, err := contentextraction.New(admitted.extractors)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", EnvContentTypes, err)

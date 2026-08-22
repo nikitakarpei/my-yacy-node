@@ -11,7 +11,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/profileadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
@@ -57,11 +56,11 @@ func (t *traversal) run(ctx context.Context, order yacycrawlcontract.CrawlOrder)
 
 func indexingRefusalOf(
 	profile yacycrawlcontract.CrawlProfile,
-) pageabsorption.IndexingRefusal {
+) pagevisit.IndexingRefusal {
 	if profile.IgnoresIndexingRefusal {
-		return pageabsorption.Ignored
+		return pagevisit.Ignored
 	}
-	return pageabsorption.Honored
+	return pagevisit.Honored
 }
 
 func (t *traversal) schedule(ctx context.Context) error {

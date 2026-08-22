@@ -39,8 +39,6 @@ components:
     in: internal/crawl/pagevisit/**
   reachedpagepublication:
     in: internal/crawl/reachedpagepublication/**
-  pageabsorption:
-    in: internal/crawl/pageabsorption/**
   recrawlrulesalwaysdue:
     in: internal/recrawlrules/alwaysdue/**
   recrawlrulesdueaftergrace:
@@ -120,7 +118,6 @@ deps:
       - frontier
       - profileadmission
       - pagevisit
-      - pageabsorption
       - contextcancellation
     canUse:
       - yacycrawlcontract
@@ -135,13 +132,7 @@ deps:
     mayDependOn:
       - disposal
       - refusal
-      - pageabsorption
       - reachedpagepublication
-    canUse:
-      - pagescrapepagefetch
-  pageabsorption:
-    mayDependOn:
-      - disposal
     canUse:
       - pagescrapecontentextraction
       - pagescrapepagefetch

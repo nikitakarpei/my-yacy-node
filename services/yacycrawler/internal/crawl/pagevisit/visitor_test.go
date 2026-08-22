@@ -9,9 +9,10 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
@@ -85,31 +86,48 @@ func (f *fakeRecrawl) calls() []visitedCall {
 	return append([]visitedCall(nil), f.visitedCalls...)
 }
 
-type fakeAbsorption struct {
-	links    map[string][]canonicalurl.CanonicalURL
+type fakeExtract struct {
+	document contentextraction.ExtractedDocument
 	err      error
-	disposal disposal.Reason
 }
 
-func (a *fakeAbsorption) Absorb(
+func (f fakeExtract) DocumentFrom(
 	_ context.Context,
-	page pagefetch.FetchedPage,
-) (pageabsorption.AbsorptionOutcome, error) {
-	if a.err != nil {
-		return pageabsorption.AbsorptionOutcome{}, a.err
+	_, _ string,
+	_ []byte,
+) (contentextraction.ExtractedDocument, error) {
+	return f.document, f.err
+}
+
+func readableDocument() contentextraction.ExtractedDocument {
+	return contentextraction.ExtractedDocument{
+		Title:  "title",
+		Body:   []byte("body"),
+		Format: contentformatgraph.FormatReadableText,
 	}
-	return pageabsorption.AbsorptionOutcome{
-		DiscoveredURLs: a.links[page.FinalURL],
-		Disposal:       a.disposal,
-	}, nil
 }
 
-type fixedAbsorberSource struct {
-	absorber pageabsorption.Absorber
+func refusingDocument() contentextraction.ExtractedDocument {
+	return contentextraction.ExtractedDocument{
+		Body:            []byte("b"),
+		Format:          contentformatgraph.FormatReadableText,
+		RefusesIndexing: true,
+	}
 }
 
-func (s fixedAbsorberSource) AbsorberFor(pageabsorption.IndexingRefusal) pageabsorption.Absorber {
-	return s.absorber
+func linkingDocument(t *testing.T, discovered string) contentextraction.ExtractedDocument {
+	t.Helper()
+	return contentextraction.ExtractedDocument{
+		Body:   []byte("b"),
+		Format: contentformatgraph.FormatReadableText,
+		DiscoveredURLs: []canonicalurl.CanonicalURL{
+			canonicalurltest.CanonicalURLOf(t, discovered),
+		},
+	}
+}
+
+func readableExtract() fakeExtract {
+	return fakeExtract{document: readableDocument()}
 }
 
 type recordingObserver struct {
@@ -185,18 +203,28 @@ func fetchOf(outcome pagefetch.FetchOutcome) *fakeFetch {
 func newVisitor(
 	fetcher pagefetch.Fetcher,
 	recrawl pagevisit.RecrawlRule,
-	absorber pageabsorption.Absorber,
+	extractor pagevisit.PageExtractor,
 	observer *recordingObserver,
 	reached reachedpagepublication.ReachedPages,
 ) pagevisit.Visitor {
-	source := pagevisit.New(
+	return newVisitorSource(fetcher, recrawl, extractor, observer, reached).
+		VisitorFor(pagevisit.Honored)
+}
+
+func newVisitorSource(
+	fetcher pagefetch.Fetcher,
+	recrawl pagevisit.RecrawlRule,
+	extractor pagevisit.PageExtractor,
+	observer *recordingObserver,
+	reached reachedpagepublication.ReachedPages,
+) pagevisit.VisitorSource {
+	return pagevisit.New(
 		fetcher,
 		recrawl,
-		fixedAbsorberSource{absorber},
+		extractor,
 		observer,
 		reachedpagepublication.NewPublisher(observer, reached),
 	)
-	return source.VisitorFor(pageabsorption.Honored)
 }
 
 func visitHost(t *testing.T, visitor pagevisit.Visitor) pagevisit.VisitOutcome {
@@ -220,9 +248,7 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome()),
 		&fakeRecrawl{due: true},
-		&fakeAbsorption{links: map[string][]canonicalurl.CanonicalURL{
-			"http://host/": {canonicalurltest.CanonicalURLOf(t, "http://host/next")},
-		}},
+		fakeExtract{document: linkingDocument(t, "http://host/next")},
 		observer,
 		reached,
 	)
@@ -251,34 +277,13 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 	}
 }
 
-func TestVisitAbsorptionErrorFails(t *testing.T) {
-	recrawl := &fakeRecrawl{due: true}
-	visitor := newVisitor(
-		fetchOf(fetchedOutcome()),
-		recrawl,
-		&fakeAbsorption{err: errors.New("absorb boom")},
-		newObserver(),
-		&fakeReachedPages{},
-	)
-
-	if _, err := visitor.Visit(
-		context.Background(),
-		canonicalurltest.CanonicalURLOf(t, "http://host/"),
-	); err == nil {
-		t.Fatal("absorption error should fail the visit")
-	}
-	if len(recrawl.calls()) != 0 {
-		t.Fatalf("visited should not be recorded after absorb error, got %v", recrawl.calls())
-	}
-}
-
 func TestVisitReportsNotAPageDisposal(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	reached := &fakeReachedPages{}
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}),
 		recrawl,
-		&fakeAbsorption{},
+		readableExtract(),
 		newObserver(),
 		reached,
 	)
@@ -306,7 +311,7 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchCeased}),
 		recrawl,
-		&fakeAbsorption{},
+		readableExtract(),
 		observer,
 		reached,
 	)
@@ -335,7 +340,7 @@ func TestVisitReportsTransient(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchFailed}),
 		recrawl,
-		&fakeAbsorption{},
+		readableExtract(),
 		newObserver(),
 		&fakeReachedPages{},
 	)
@@ -362,7 +367,7 @@ func TestVisitUnknownFetchStatusFails(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchStatus(99)}),
 		&fakeRecrawl{due: true},
-		&fakeAbsorption{},
+		readableExtract(),
 		newObserver(),
 		&fakeReachedPages{},
 	)
@@ -379,7 +384,7 @@ func TestVisitReportsDeferred(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchDeferred, DeferFor: time.Second}),
 		&fakeRecrawl{due: true},
-		&fakeAbsorption{},
+		readableExtract(),
 		newObserver(),
 		&fakeReachedPages{},
 	)
@@ -400,7 +405,7 @@ func TestVisitFetchErrorFails(t *testing.T) {
 	visitor := newVisitor(
 		&fakeFetch{err: errors.New("boom")},
 		&fakeRecrawl{due: true},
-		&fakeAbsorption{},
+		readableExtract(),
 		newObserver(),
 		&fakeReachedPages{},
 	)
@@ -417,7 +422,7 @@ func TestVisitRecrawlDecisionErrorFails(t *testing.T) {
 	visitor := newVisitor(
 		&fakeFetch{},
 		&fakeRecrawl{err: errors.New("boom")},
-		&fakeAbsorption{},
+		readableExtract(),
 		newObserver(),
 		&fakeReachedPages{},
 	)
@@ -435,7 +440,7 @@ func TestVisitReportsNotDueWithoutFetching(t *testing.T) {
 	visitor := newVisitor(
 		fetch,
 		&fakeRecrawl{due: false},
-		&fakeAbsorption{},
+		readableExtract(),
 		newObserver(),
 		&fakeReachedPages{},
 	)
@@ -459,7 +464,7 @@ func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
 	visitor := newVisitor(
 		fetch,
 		&fakeRecrawl{due: true, version: known},
-		&fakeAbsorption{},
+		readableExtract(),
 		newObserver(),
 		&fakeReachedPages{},
 	)
@@ -475,12 +480,12 @@ func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
 	}
 }
 
-func TestVisitRecordsVersionAfterSuccessfulAbsorb(t *testing.T) {
+func TestVisitRecordsVersionAfterAbsorbingThePage(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome()),
 		recrawl,
-		&fakeAbsorption{},
+		readableExtract(),
 		newObserver(),
 		&fakeReachedPages{},
 	)
@@ -500,13 +505,13 @@ func TestVisitRecordsVersionAfterSuccessfulAbsorb(t *testing.T) {
 	}
 }
 
-func TestVisitReportsAbsorptionDisposal(t *testing.T) {
+func TestVisitReportsTheDisposalAbsorptionReached(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	reached := &fakeReachedPages{}
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome()),
 		recrawl,
-		&fakeAbsorption{disposal: disposal.Unextractable},
+		fakeExtract{err: errors.New("parser broke")},
 		newObserver(),
 		reached,
 	)
@@ -514,7 +519,7 @@ func TestVisitReportsAbsorptionDisposal(t *testing.T) {
 	outcome := visitHost(t, visitor)
 
 	if outcome.Disposal != disposal.Unextractable {
-		t.Fatalf("want the absorber's reason reported, got %q", outcome.Disposal)
+		t.Fatalf("want the absorbed reason reported, got %q", outcome.Disposal)
 	}
 	if len(recrawl.calls()) != 1 {
 		t.Fatalf("want the visit recorded regardless of publication, got %v", recrawl.calls())
@@ -535,7 +540,7 @@ func TestVisitNotModifiedRecordsVersionWithoutAbsorbing(t *testing.T) {
 			},
 		),
 		recrawl,
-		&fakeAbsorption{},
+		readableExtract(),
 		newObserver(),
 		reached,
 	)
@@ -559,7 +564,7 @@ func TestVisitedErrorIsRecoverable(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome()),
 		recrawl,
-		&fakeAbsorption{},
+		readableExtract(),
 		newObserver(),
 		&fakeReachedPages{},
 	)
@@ -572,7 +577,7 @@ func TestVisitReachedPagePublishErrorFails(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome()),
 		&fakeRecrawl{due: true},
-		&fakeAbsorption{},
+		readableExtract(),
 		newObserver(),
 		reached,
 	)

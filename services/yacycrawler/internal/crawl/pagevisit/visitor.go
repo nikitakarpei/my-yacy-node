@@ -1,31 +1,37 @@
-// Package pagevisit fetches one URL and hands what it holds to absorption.
+// Package pagevisit fetches one URL and turns what it holds into the outcome of a visit.
 package pagevisit
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 )
 
-const msgRecrawlRecordFailed = "recrawl record failed, next visit may be redundant"
+const (
+	msgRecrawlRecordFailed = "recrawl record failed, next visit may be redundant"
+	msgPageURLRejected     = "fetched page url rejected"
+	msgExtractionFailed    = "document extraction failed"
+)
 
 type Visitor interface {
 	Visit(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) (VisitOutcome, error)
 }
 
 type visitor struct {
-	fetcher  pagefetch.Fetcher
-	recrawl  RecrawlRule
-	absorber pageabsorption.Absorber
-	observer VisitProgress
-	reached  *reachedpagepublication.Publisher
+	fetcher         pagefetch.Fetcher
+	recrawl         RecrawlRule
+	extractor       PageExtractor
+	indexingRefusal IndexingRefusal
+	observer        VisitProgress
+	reached         *reachedpagepublication.Publisher
 }
 
 func (v *visitor) Visit(
@@ -77,22 +83,70 @@ func (v *visitor) absorb(
 	url canonicalurl.CanonicalURL,
 	outcome pagefetch.FetchOutcome,
 ) (VisitOutcome, error) {
-	absorption, err := v.absorber.Absorb(ctx, outcome.Page)
-	if err != nil {
-		return VisitOutcome{}, err
-	}
+	absorption := v.absorptionOf(ctx, outcome.Page)
 	v.recordVisit(ctx, url, outcome.Version)
 	if absorption.Disposal == disposal.NotDisposed {
 		if err := v.reached.Publish(ctx, outcome.Page.FinalURL); err != nil {
 			return VisitOutcome{}, err
 		}
 	}
+	return absorption, nil
+}
+
+func (v *visitor) absorptionOf(
+	ctx context.Context,
+	page pagefetch.FetchedPage,
+) VisitOutcome {
+	if page.Truncated {
+		return absorbedPage(disposal.Oversized, nil)
+	}
+	canonical, err := canonicalurl.CanonicalURLOf(page.FinalURL)
+	if err != nil {
+		slog.WarnContext(ctx, msgPageURLRejected,
+			slog.String("url", page.FinalURL),
+			slog.Any("error", err),
+		)
+		return absorbedPage(disposal.UncanonicalizableURL, nil)
+	}
+	document, err := v.extractor.DocumentFrom(ctx, canonical.String(), page.ContentType, page.Body)
+	if err != nil {
+		slog.WarnContext(ctx, msgExtractionFailed,
+			slog.String("url", canonical.String()),
+			slog.Any("error", err),
+		)
+		return absorbedPage(disposalOfExtractionFailure(err), nil)
+	}
+
+	if v.indexingRefusal == Honored && (document.RefusesIndexing || page.RefusesIndexing) {
+		return absorbedPage(disposal.IndexingRefused, discoveredLinksOf(page, document))
+	}
+	return absorbedPage(disposal.NotDisposed, discoveredLinksOf(page, document))
+}
+
+func absorbedPage(reason disposal.Reason, discoveredURLs []canonicalurl.CanonicalURL) VisitOutcome {
 	return VisitOutcome{
 		Conclusion:     VisitCompleted,
 		Fetched:        true,
-		DiscoveredURLs: absorption.DiscoveredURLs,
-		Disposal:       absorption.Disposal,
-	}, nil
+		DiscoveredURLs: discoveredURLs,
+		Disposal:       reason,
+	}
+}
+
+func disposalOfExtractionFailure(err error) disposal.Reason {
+	if errors.Is(err, contentextraction.ErrUnsupportedMediaType) {
+		return disposal.UnsupportedMediaType
+	}
+	return disposal.Unextractable
+}
+
+func discoveredLinksOf(
+	page pagefetch.FetchedPage,
+	document contentextraction.ExtractedDocument,
+) []canonicalurl.CanonicalURL {
+	if document.RefusesLinkDiscovery || page.RefusesLinkDiscovery {
+		return nil
+	}
+	return document.DiscoveredURLs
 }
 
 func (v *visitor) recordVisit(

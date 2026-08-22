@@ -15,7 +15,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
@@ -170,11 +169,11 @@ func order(seeds []canonicalurl.CanonicalURL) yacycrawlcontract.CrawlOrder {
 
 type fixedVisitorSource struct {
 	visitor          pagevisit.Visitor
-	indexingRefusals []pageabsorption.IndexingRefusal
+	indexingRefusals []pagevisit.IndexingRefusal
 }
 
 func (s *fixedVisitorSource) VisitorFor(
-	indexingRefusal pageabsorption.IndexingRefusal,
+	indexingRefusal pagevisit.IndexingRefusal,
 ) pagevisit.Visitor {
 	s.indexingRefusals = append(s.indexingRefusals, indexingRefusal)
 	return s.visitor
@@ -233,7 +232,7 @@ func TestTraverseTakesItsVisitorFromTheOrdersIndexingRefusal(t *testing.T) {
 		t.Fatalf("traverse honoring order: %v", err)
 	}
 
-	want := []pageabsorption.IndexingRefusal{pageabsorption.Ignored, pageabsorption.Honored}
+	want := []pagevisit.IndexingRefusal{pagevisit.Ignored, pagevisit.Honored}
 	if !slices.Equal(visitors.indexingRefusals, want) {
 		t.Fatalf("visitors built for %v, want %v", visitors.indexingRefusals, want)
 	}

@@ -1,19 +1,29 @@
 package pagevisit
 
 import (
+	"context"
+
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/reachedpagepublication"
 )
 
 type VisitorSource interface {
-	VisitorFor(indexingRefusal pageabsorption.IndexingRefusal) Visitor
+	VisitorFor(indexingRefusal IndexingRefusal) Visitor
+}
+
+type PageExtractor interface {
+	DocumentFrom(
+		ctx context.Context,
+		pageURL, contentType string,
+		body []byte,
+	) (contentextraction.ExtractedDocument, error)
 }
 
 type visitorSource struct {
 	fetcher   pagefetch.Fetcher
 	recrawl   RecrawlRule
-	absorbers pageabsorption.AbsorberSource
+	extractor PageExtractor
 	observer  VisitProgress
 	reached   *reachedpagepublication.Publisher
 }
@@ -21,27 +31,26 @@ type visitorSource struct {
 func New(
 	fetcher pagefetch.Fetcher,
 	recrawl RecrawlRule,
-	absorbers pageabsorption.AbsorberSource,
+	extractor PageExtractor,
 	observer VisitProgress,
 	reached *reachedpagepublication.Publisher,
 ) VisitorSource {
 	return &visitorSource{
 		fetcher:   fetcher,
 		recrawl:   recrawl,
-		absorbers: absorbers,
+		extractor: extractor,
 		observer:  observer,
 		reached:   reached,
 	}
 }
 
-func (s *visitorSource) VisitorFor(
-	indexingRefusal pageabsorption.IndexingRefusal,
-) Visitor {
+func (s *visitorSource) VisitorFor(indexingRefusal IndexingRefusal) Visitor {
 	return &visitor{
-		fetcher:  s.fetcher,
-		recrawl:  s.recrawl,
-		absorber: s.absorbers.AbsorberFor(indexingRefusal),
-		observer: s.observer,
-		reached:  s.reached,
+		fetcher:         s.fetcher,
+		recrawl:         s.recrawl,
+		extractor:       s.extractor,
+		indexingRefusal: indexingRefusal,
+		observer:        s.observer,
+		reached:         s.reached,
 	}
 }
