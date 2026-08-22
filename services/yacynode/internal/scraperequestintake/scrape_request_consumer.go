@@ -9,6 +9,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
@@ -27,7 +28,11 @@ const (
 )
 
 type PageScraper interface {
-	Scrape(ctx context.Context, pageURL string) (pagescrape.ScrapedPage, bool, error)
+	Scrape(
+		ctx context.Context,
+		pageURL string,
+		targetFormat documentextraction.Format,
+	) (pagescrape.ScrapedPage, bool, error)
 }
 
 type ScrapeRequestConsumer struct {
@@ -66,7 +71,9 @@ func (c *ScrapeRequestConsumer) processOne(ctx context.Context, msg jetstream.Ms
 		return poisonhalt.Halt(ctx, msg, err)
 	}
 	reachedAt := time.Now()
-	scraped, derived, err := c.scraper.Scrape(ctx, scrapeRequest.CanonicalURL.String())
+	scraped, derived, err := c.scraper.Scrape(
+		ctx, scrapeRequest.CanonicalURL.String(), documentextraction.FormatFullText,
+	)
 	if err != nil {
 		slog.WarnContext(ctx, msgScrapeFailed,
 			slog.String("url", scrapeRequest.CanonicalURL.String()),

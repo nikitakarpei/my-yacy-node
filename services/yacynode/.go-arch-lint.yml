@@ -105,6 +105,9 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
+  documentextraction:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/documentextraction
   pagescrape:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagescrape
@@ -283,6 +286,7 @@ deps:
       - pagescrape
       - nats
       - serviceruntime
+      - documentextraction
   crawlbroker:
     canUse:
       - yacycrawlcontract

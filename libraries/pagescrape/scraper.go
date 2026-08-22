@@ -25,39 +25,38 @@ const (
 )
 
 type Scraper struct {
-	fetcher      pagefetch.Fetcher
-	extractor    *documentextraction.DocumentExtractor
-	derivations  contentformatgraph.FormatDerivations
-	targetFormat documentextraction.Format
+	fetcher     pagefetch.Fetcher
+	extractor   *documentextraction.DocumentExtractor
+	derivations contentformatgraph.FormatDerivations
 }
 
-func New(
-	fetcher pagefetch.Fetcher,
-	targetFormat documentextraction.Format,
-) (*Scraper, error) {
+func New(fetcher pagefetch.Fetcher) (*Scraper, error) {
 	derivations := contentformatgraph.New(pageDerivationCatalog())
 	if err := derivations.EnsureNoDanglingFormat(
 		documentextraction.EmittedFormats(),
-		[]documentextraction.Format{targetFormat},
+		derivations.TargetFormats(),
 	); err != nil {
 		return nil, err
 	}
 	return &Scraper{
-		fetcher:      fetcher,
-		extractor:    documentextraction.New(),
-		derivations:  derivations,
-		targetFormat: targetFormat,
+		fetcher:     fetcher,
+		extractor:   documentextraction.New(),
+		derivations: derivations,
 	}, nil
 }
 
-func (s *Scraper) Scrape(ctx context.Context, pageURL string) (ScrapedPage, bool, error) {
+func (s *Scraper) Scrape(
+	ctx context.Context,
+	pageURL string,
+	targetFormat documentextraction.Format,
+) (ScrapedPage, bool, error) {
 	outcome, err := s.fetcher.Fetch(ctx, pageURL, pagefetch.PageVersion{})
 	if err != nil {
 		return ScrapedPage{}, false, fmt.Errorf("fetch %s: %w", pageURL, err)
 	}
 	switch outcome.Status {
 	case pagefetch.FetchSucceeded:
-		page, scraped := s.pageFrom(ctx, outcome.Page)
+		page, scraped := s.pageFrom(ctx, outcome.Page, targetFormat)
 		return page, scraped, nil
 	case pagefetch.FetchFailed:
 		return ScrapedPage{}, false, fmt.Errorf("fetch %s: failed", pageURL)
@@ -79,7 +78,11 @@ func (s *Scraper) Scrape(ctx context.Context, pageURL string) (ScrapedPage, bool
 	}
 }
 
-func (s *Scraper) pageFrom(ctx context.Context, fetched pagefetch.FetchedPage) (ScrapedPage, bool) {
+func (s *Scraper) pageFrom(
+	ctx context.Context,
+	fetched pagefetch.FetchedPage,
+	targetFormat documentextraction.Format,
+) (ScrapedPage, bool) {
 	canonical, err := canonicalurl.CanonicalURLOf(fetched.FinalURL)
 	if err != nil {
 		slog.WarnContext(ctx, msgDocumentURLRejected,
@@ -98,7 +101,7 @@ func (s *Scraper) pageFrom(ctx context.Context, fetched pagefetch.FetchedPage) (
 		)
 		return ScrapedPage{}, false
 	}
-	content, derived := s.contentOf(ctx, canonical, document)
+	content, derived := s.contentOf(ctx, canonical, document, targetFormat)
 	if !derived {
 		return ScrapedPage{}, false
 	}
@@ -117,15 +120,16 @@ func (s *Scraper) contentOf(
 	ctx context.Context,
 	canonical canonicalurl.CanonicalURL,
 	document documentextraction.Document,
+	targetFormat documentextraction.Format,
 ) ([]byte, bool) {
 	content, resolved, err := s.derivations.
 		ForPage(canonical.String(), document.Format, document.Body).
-		Resolve(s.targetFormat)
+		Resolve(targetFormat)
 	if err != nil || !resolved {
 		slog.WarnContext(ctx, msgContentUnderivable,
 			slog.String("url", canonical.String()),
 			slog.String("format", string(document.Format)),
-			slog.String("targetFormat", string(s.targetFormat)),
+			slog.String("targetFormat", string(targetFormat)),
 			slog.Any("error", err),
 		)
 		return nil, false

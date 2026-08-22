@@ -31,9 +31,9 @@ vendors:
   pagescrape:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagescrape
-  pagescrapecontentformatgraph:
+  documentextraction:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph
+      - github.com/nikitakarpei/yacy-rwi-node/documentextraction
   pagescrapepagefetchershttp:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http
@@ -83,6 +83,7 @@ deps:
       - searchdocument
       - nats
       - serviceruntime
+      - documentextraction
   indexmetrics:
     canUse:
       - prometheus

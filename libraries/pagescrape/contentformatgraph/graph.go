@@ -25,6 +25,14 @@ func New(derivations []Derivation) FormatDerivations {
 	return FormatDerivations{byTargetFormat: byTargetFormat}
 }
 
+func (g FormatDerivations) TargetFormats() []documentextraction.Format {
+	targetFormats := make([]documentextraction.Format, 0, len(g.byTargetFormat))
+	for targetFormat := range g.byTargetFormat {
+		targetFormats = append(targetFormats, targetFormat)
+	}
+	return targetFormats
+}
+
 func (g FormatDerivations) Derivable(sourceFormat, targetFormat documentextraction.Format) bool {
 	return g.derivable(sourceFormat, targetFormat, map[documentextraction.Format]bool{})
 }

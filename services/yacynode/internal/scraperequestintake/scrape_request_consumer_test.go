@@ -11,6 +11,7 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
@@ -74,19 +75,22 @@ func (s fakeSource) Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesCo
 }
 
 type fakeScrape struct {
-	page    pagescrape.ScrapedPage
-	scraped bool
-	err     error
-	mu      sync.Mutex
-	urls    []string
+	page          pagescrape.ScrapedPage
+	scraped       bool
+	err           error
+	mu            sync.Mutex
+	urls          []string
+	targetFormats []documentextraction.Format
 }
 
 func (s *fakeScrape) Scrape(
 	_ context.Context,
 	pageURL string,
+	targetFormat documentextraction.Format,
 ) (pagescrape.ScrapedPage, bool, error) {
 	s.mu.Lock()
 	s.urls = append(s.urls, pageURL)
+	s.targetFormats = append(s.targetFormats, targetFormat)
 	s.mu.Unlock()
 
 	return s.page, s.scraped, s.err
@@ -183,6 +187,10 @@ func TestConsumerStoresTheIndexItDerivesFromAScrapeRequest(t *testing.T) {
 	}
 	if len(scraper.urls) != 1 || scraper.urls[0] != scrapeRequestURL {
 		t.Errorf("scraped %v, want the scrape request url", scraper.urls)
+	}
+	if len(scraper.targetFormats) != 1 ||
+		scraper.targetFormats[0] != documentextraction.FormatFullText {
+		t.Errorf("scraped as %v, want %s", scraper.targetFormats, documentextraction.FormatFullText)
 	}
 	if len(urls.received) != 1 || urls.received[0].Address != scrapeRequestURL {
 		t.Fatalf("stored metadata %+v, want one row for the scrape request", urls.received)

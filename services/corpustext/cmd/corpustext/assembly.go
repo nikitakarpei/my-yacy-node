@@ -13,7 +13,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/indexmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
-	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
@@ -37,7 +36,15 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
-	scraper, err := textScraperFor(cfg)
+	scraper, err := pagescrape.New(
+		pagefetchershttp.New(
+			cfg.ProxyURL,
+			cfg.ProxyDialMode,
+			cfg.UserAgent,
+			cfg.MaxBodyBytes,
+			cfg.FetchDeadline,
+		),
+	)
 	if err != nil {
 		return err
 	}
@@ -102,17 +109,4 @@ func scrapeRequestConsumerFor(
 		return nil, fmt.Errorf("create scrape request consumer: %w", err)
 	}
 	return consumer, nil
-}
-
-func textScraperFor(cfg ServiceConfig) (*pagescrape.Scraper, error) {
-	return pagescrape.New(
-		pagefetchershttp.New(
-			cfg.ProxyURL,
-			cfg.ProxyDialMode,
-			cfg.UserAgent,
-			cfg.MaxBodyBytes,
-			cfg.FetchDeadline,
-		),
-		documentextraction.FormatReadableText,
-	)
 }

@@ -40,9 +40,9 @@ func succeededWith(finalURL, contentType, body string) pagefetch.FetchOutcome {
 	}
 }
 
-func newMarkdownScraper(t *testing.T, fetch pagefetch.Fetcher) *pagescrape.Scraper {
+func newScraper(t *testing.T, fetch pagefetch.Fetcher) *pagescrape.Scraper {
 	t.Helper()
-	scraper, err := pagescrape.New(fetch, documentextraction.FormatMarkdown)
+	scraper, err := pagescrape.New(fetch)
 	if err != nil {
 		t.Fatalf("new scraper: %v", err)
 	}
@@ -51,8 +51,8 @@ func newMarkdownScraper(t *testing.T, fetch pagefetch.Fetcher) *pagescrape.Scrap
 
 func scrape(t *testing.T, outcome pagefetch.FetchOutcome) (pagescrape.ScrapedPage, bool) {
 	t.Helper()
-	page, scraped, err := newMarkdownScraper(t, fakeFetch{outcome: outcome}).
-		Scrape(context.Background(), "http://host/")
+	page, scraped, err := newScraper(t, fakeFetch{outcome: outcome}).
+		Scrape(context.Background(), "http://host/", documentextraction.FormatMarkdown)
 	if err != nil {
 		t.Fatalf("scrape: %v", err)
 	}
@@ -123,17 +123,23 @@ func TestScrapeFailsWhenAnotherAttemptCanSucceed(t *testing.T) {
 		}},
 	}
 	for name, fetch := range attempts {
-		_, _, err := newMarkdownScraper(t, fetch).Scrape(context.Background(), "http://host/")
+		_, _, err := newScraper(t, fetch).Scrape(
+			context.Background(), "http://host/", documentextraction.FormatMarkdown,
+		)
 		if err == nil {
 			t.Errorf("%s should fail the scrape", name)
 		}
 	}
 }
 
-func TestNewRejectsATargetFormatNothingDerives(t *testing.T) {
-	if _, err := pagescrape.New(
-		fakeFetch{}, documentextraction.Format("braille"),
-	); err == nil {
-		t.Fatal("a target format no derivation reaches should fail construction")
+func TestATargetFormatNothingDerivesYieldsNoPage(t *testing.T) {
+	_, scraped, err := newScraper(t, fakeFetch{outcome: succeededWith(
+		"http://host/", "text/html", "<html><body>text</body></html>",
+	)}).Scrape(context.Background(), "http://host/", documentextraction.Format("braille"))
+	if err != nil {
+		t.Fatalf("scrape: %v", err)
+	}
+	if scraped {
+		t.Fatal("a target format no derivation reaches should yield no page")
 	}
 }

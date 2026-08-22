@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlbroker"
@@ -34,7 +33,15 @@ func openScrapeRequestIngest(
 	if err != nil {
 		return nil, fmt.Errorf("open crawl broker: %w", err)
 	}
-	scraper, err := pageScraperFor(config)
+	scraper, err := pagescrape.New(
+		pagefetchershttp.New(
+			config.ProxyURL,
+			config.ProxyDialMode,
+			config.UserAgent,
+			config.MaxBodyBytes,
+			config.FetchDeadline,
+		),
+	)
 	if err != nil {
 		broker.Close()
 
@@ -51,24 +58,6 @@ func openScrapeRequestIngest(
 			Concurrency: config.Concurrency,
 		}),
 	}, nil
-}
-
-func pageScraperFor(config nodeconfiguration.CrawlConfig) (*pagescrape.Scraper, error) {
-	scraper, err := pagescrape.New(
-		pagefetchershttp.New(
-			config.ProxyURL,
-			config.ProxyDialMode,
-			config.UserAgent,
-			config.MaxBodyBytes,
-			config.FetchDeadline,
-		),
-		documentextraction.FormatFullText,
-	)
-	if err != nil {
-		return nil, fmt.Errorf("build page scraper: %w", err)
-	}
-
-	return scraper, nil
 }
 
 func (i *scrapeRequestIngest) Run(ctx context.Context) error {

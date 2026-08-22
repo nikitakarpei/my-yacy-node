@@ -15,7 +15,6 @@ import (
 	markdownrecallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/grpc"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownstoremetrics"
 	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
-	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
@@ -54,7 +53,15 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
-	scraper, err := markdownScraperFor(cfg)
+	scraper, err := pagescrape.New(
+		pagefetchershttp.New(
+			cfg.ProxyURL,
+			cfg.ProxyDialMode,
+			cfg.UserAgent,
+			cfg.MaxBodyBytes,
+			cfg.FetchDeadline,
+		),
+	)
 	if err != nil {
 		return err
 	}
@@ -115,17 +122,4 @@ func scrapeRequestConsumerFor(
 		return nil, fmt.Errorf("create scrape request consumer: %w", err)
 	}
 	return consumer, nil
-}
-
-func markdownScraperFor(cfg ServiceConfig) (*pagescrape.Scraper, error) {
-	return pagescrape.New(
-		pagefetchershttp.New(
-			cfg.ProxyURL,
-			cfg.ProxyDialMode,
-			cfg.UserAgent,
-			cfg.MaxBodyBytes,
-			cfg.FetchDeadline,
-		),
-		documentextraction.FormatMarkdown,
-	)
 }
