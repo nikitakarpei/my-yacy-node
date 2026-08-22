@@ -19,7 +19,7 @@ store, and serves that markdown back to callers that ask for one URL.
 
 ## Functional Requirements
 
-* The service SHALL consume only the crawler's scrape-request stream.
+* The service SHALL consume only the scrape-request stream.
 * For each scrape request, the service SHALL fetch the page through its configured proxy and
   derive markdown from the document it holds.
 * The service SHALL store the derived markdown under an object name derived solely from the

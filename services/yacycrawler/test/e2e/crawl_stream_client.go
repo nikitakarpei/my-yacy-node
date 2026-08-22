@@ -51,7 +51,7 @@ func awaitStream(
 		return true
 	})
 	if !appeared {
-		t.Fatalf("crawler did not create the %s stream within %s", name, streamAppearanceWait)
+		t.Fatalf("the %s stream did not appear within %s", name, streamAppearanceWait)
 	}
 	return stream
 }

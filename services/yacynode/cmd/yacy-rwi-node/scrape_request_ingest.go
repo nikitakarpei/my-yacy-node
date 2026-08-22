@@ -26,7 +26,7 @@ func openScrapeRequestIngest(
 	postings rwiadmission.PostingReceiver,
 ) (*scrapeRequestIngest, error) {
 	broker, err := crawlbroker.Open(ctx, crawlbroker.Config{
-		NATSURL:              config.NATSURL,
+		ScrapeRequestNATSURL: config.ScrapeRequestNATSURL,
 		ScrapeRequestSubject: config.ScrapeRequestSubject,
 		ScrapeRequestDurable: config.ScrapeRequestDurable,
 		Concurrency:          config.Concurrency,

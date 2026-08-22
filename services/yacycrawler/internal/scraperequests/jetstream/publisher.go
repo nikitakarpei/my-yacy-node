@@ -1,4 +1,4 @@
-// Package jetstream publishes pages the crawler reached.
+// Package jetstream publishes a scrape request for every page the crawler admits.
 package jetstream
 
 import (

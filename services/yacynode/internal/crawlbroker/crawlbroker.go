@@ -15,7 +15,7 @@ import (
 )
 
 type Config struct {
-	NATSURL              string
+	ScrapeRequestNATSURL string
 	ScrapeRequestSubject string
 	ScrapeRequestDurable string
 	Concurrency          int
@@ -27,7 +27,7 @@ type CrawlBroker struct {
 }
 
 func Open(ctx context.Context, cfg Config) (*CrawlBroker, error) {
-	js, conn, err := jetstreamconnect.Open(cfg.NATSURL)
+	js, conn, err := jetstreamconnect.Open(cfg.ScrapeRequestNATSURL)
 	if err != nil {
 		return nil, err
 	}

@@ -32,7 +32,7 @@ func startCorpusMarkdown(t *testing.T, ctx context.Context, networkName string) 
 			ExposedPorts:   []string{corpusMarkdownPort},
 			WaitingFor:     wait.ForListeningPort(corpusMarkdownPort),
 			Env: map[string]string{
-				"CRAWL_NATS_URL":           natsjetstream.NetworkURL(),
+				"SCRAPE_REQUEST_NATS_URL":  natsjetstream.NetworkURL(),
 				"PAGE_MARKDOWN_NATS_URL":   natsjetstream.NetworkURL(),
 				"CORPUSMARKDOWN_PROXY_URL": egressproxy.NetworkURL(),
 				"LOG_LEVEL":                "debug",

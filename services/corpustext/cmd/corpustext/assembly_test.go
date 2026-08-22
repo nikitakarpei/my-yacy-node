@@ -64,9 +64,12 @@ func (e *recordingElasticsearch) path() string {
 	return e.lastPath
 }
 
-func serviceConfig(crawlURL, elasticsearchURL string, proxy *url.URL) corpustext.ServiceConfig {
+func serviceConfig(
+	scrapeRequestNATSURL, elasticsearchURL string,
+	proxy *url.URL,
+) corpustext.ServiceConfig {
 	return corpustext.ServiceConfig{
-		CrawlNATSURL:         crawlURL,
+		ScrapeRequestNATSURL: scrapeRequestNATSURL,
 		ScrapeRequestSubject: corpustext.DefaultScrapeRequestSubject,
 		ScrapeRequestDurable: corpustext.DefaultScrapeRequestDurable,
 		ProxyURL:             proxy,
@@ -84,19 +87,19 @@ func serviceConfig(crawlURL, elasticsearchURL string, proxy *url.URL) corpustext
 
 func TestRunServiceIndexesTheTextItScrapesFromAScrapeRequest(t *testing.T) {
 	elasticsearch := &recordingElasticsearch{}
-	crawlURL := natstestserver.Start(t)
-	cfg := serviceConfig(crawlURL, elasticsearch.serve(t), origin(t))
+	scrapeRequestNATSURL := natstestserver.Start(t)
+	cfg := serviceConfig(scrapeRequestNATSURL, elasticsearch.serve(t), origin(t))
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	crawlJetStream := natstestserver.ConnectJetStream(t, crawlURL)
-	createScrapeRequestsStream(t, crawlJetStream, cfg.ScrapeRequestSubject)
+	scrapeRequestJetStream := natstestserver.ConnectJetStream(t, scrapeRequestNATSURL)
+	createScrapeRequestsStream(t, scrapeRequestJetStream, cfg.ScrapeRequestSubject)
 
 	runDone := make(chan error, 1)
 	go func() { runDone <- corpustext.RunService(ctx, cfg) }()
 
-	publishScrapeRequest(t, ctx, crawlJetStream, originURL)
+	publishScrapeRequest(t, ctx, scrapeRequestJetStream, originURL)
 	waitForIndexed(t, elasticsearch)
 
 	cancel()
@@ -147,11 +150,11 @@ func publishScrapeRequest(
 
 func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 	elasticsearch := &recordingElasticsearch{}
-	crawlURL := natstestserver.Start(t)
-	cfg := serviceConfig(crawlURL, elasticsearch.serve(t), origin(t))
+	scrapeRequestNATSURL := natstestserver.Start(t)
+	cfg := serviceConfig(scrapeRequestNATSURL, elasticsearch.serve(t), origin(t))
 	cfg.OpsAddr = "127.0.0.1:99999"
 	createScrapeRequestsStream(
-		t, natstestserver.ConnectJetStream(t, crawlURL), cfg.ScrapeRequestSubject,
+		t, natstestserver.ConnectJetStream(t, scrapeRequestNATSURL), cfg.ScrapeRequestSubject,
 	)
 
 	if err := corpustext.RunService(context.Background(), cfg); err == nil {

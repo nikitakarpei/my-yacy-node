@@ -40,9 +40,12 @@ func originServing(t *testing.T, body string) *url.URL {
 	return parsed
 }
 
-func serviceConfig(crawlURL, pageMarkdownURL string, proxy *url.URL) corpusmarkdown.ServiceConfig {
+func serviceConfig(
+	scrapeRequestNATSURL, pageMarkdownURL string,
+	proxy *url.URL,
+) corpusmarkdown.ServiceConfig {
 	return corpusmarkdown.ServiceConfig{
-		CrawlNATSURL:         crawlURL,
+		ScrapeRequestNATSURL: scrapeRequestNATSURL,
 		PageMarkdownNATSURL:  pageMarkdownURL,
 		ScrapeRequestSubject: corpusmarkdown.DefaultScrapeRequestSubject,
 		ScrapeRequestDurable: corpusmarkdown.DefaultScrapeRequestDurable,
@@ -56,17 +59,17 @@ func serviceConfig(crawlURL, pageMarkdownURL string, proxy *url.URL) corpusmarkd
 }
 
 func TestRunServiceStoresTheMarkdownItScrapesFromAScrapeRequest(t *testing.T) {
-	crawlURL := natstestserver.Start(t)
+	scrapeRequestNATSURL := natstestserver.Start(t)
 	pageMarkdownURL := natstestserver.Start(t)
 	proxy := originServing(t, "<html lang=\"en\"><title>Hi</title><body>words here</body></html>")
-	cfg := serviceConfig(crawlURL, pageMarkdownURL, proxy)
+	cfg := serviceConfig(scrapeRequestNATSURL, pageMarkdownURL, proxy)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	crawlJetStream := natstestserver.ConnectJetStream(t, crawlURL)
+	scrapeRequestJetStream := natstestserver.ConnectJetStream(t, scrapeRequestNATSURL)
 	pageMarkdownJetStream := natstestserver.ConnectJetStream(t, pageMarkdownURL)
-	createScrapeRequestsStream(t, crawlJetStream, cfg.ScrapeRequestSubject)
+	createScrapeRequestsStream(t, scrapeRequestJetStream, cfg.ScrapeRequestSubject)
 
 	runDone := make(chan error, 1)
 	go func() { runDone <- corpusmarkdown.RunService(ctx, cfg) }()
@@ -79,7 +82,7 @@ func TestRunServiceStoresTheMarkdownItScrapesFromAScrapeRequest(t *testing.T) {
 		t.Fatalf("open object store: %v", err)
 	}
 
-	publishScrapeRequest(t, ctx, crawlJetStream, originURL)
+	publishScrapeRequest(t, ctx, scrapeRequestJetStream, originURL)
 	waitForStored(t, ctx, store,
 		pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, originURL)), "words here")
 

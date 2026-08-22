@@ -19,18 +19,20 @@ import (
 
 func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
+	crawlNATSURL := natstestserver.Start(t)
 	cfg := yacycrawler.ServiceConfig{
-		CrawlNATSURL:     natstestserver.Start(t),
-		OrdersSubject:    yacycrawler.DefaultOrdersSubject,
-		OrdersDurable:    yacycrawler.DefaultOrdersDurable,
-		ProxyURL:         proxy,
-		FetchConcurrency: 2,
-		RunPageBudget:    yacycrawler.DefaultRunPageBudget,
-		FrontierCap:      yacycrawler.DefaultFrontierCap,
-		MaxBodyBytes:     yacycrawler.DefaultMaxBodyBytes,
-		FetchDeadline:    time.Second,
-		OpsAddr:          "127.0.0.1:0",
-		ListenAddr:       "127.0.0.1:0",
+		CrawlNATSURL:         crawlNATSURL,
+		ScrapeRequestNATSURL: crawlNATSURL,
+		OrdersSubject:        yacycrawler.DefaultOrdersSubject,
+		OrdersDurable:        yacycrawler.DefaultOrdersDurable,
+		ProxyURL:             proxy,
+		FetchConcurrency:     2,
+		RunPageBudget:        yacycrawler.DefaultRunPageBudget,
+		FrontierCap:          yacycrawler.DefaultFrontierCap,
+		MaxBodyBytes:         yacycrawler.DefaultMaxBodyBytes,
+		FetchDeadline:        time.Second,
+		OpsAddr:              "127.0.0.1:0",
+		ListenAddr:           "127.0.0.1:0",
 	}
 
 	publishOrder(t, cfg.CrawlNATSURL)
@@ -46,8 +48,10 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 
 func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
+	natsURL := natstestserver.Start(t)
 	cfg := yacycrawler.ServiceConfig{
-		CrawlNATSURL: natstestserver.Start(t), OrdersSubject: yacycrawler.DefaultOrdersSubject,
+		CrawlNATSURL: natsURL, ScrapeRequestNATSURL: natsURL,
+		OrdersSubject: yacycrawler.DefaultOrdersSubject,
 		OrdersDurable: yacycrawler.DefaultOrdersDurable,
 		ProxyURL:      proxy, FetchConcurrency: 2,
 		MaxBodyBytes:  yacycrawler.DefaultMaxBodyBytes,
@@ -63,10 +67,11 @@ func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 
 func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {
 	cfg := yacycrawler.ServiceConfig{
-		CrawlNATSURL:     "nats://127.0.0.1:1",
-		FetchConcurrency: 2,
-		OpsAddr:          "127.0.0.1:0",
-		ListenAddr:       "127.0.0.1:0",
+		CrawlNATSURL:         "nats://127.0.0.1:1",
+		ScrapeRequestNATSURL: "nats://127.0.0.1:1",
+		FetchConcurrency:     2,
+		OpsAddr:              "127.0.0.1:0",
+		ListenAddr:           "127.0.0.1:0",
 	}
 	registry := prometheus.NewRegistry()
 	if err := yacycrawler.RunService(context.Background(), cfg, registry); err == nil {

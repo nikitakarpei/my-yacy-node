@@ -14,15 +14,15 @@ func envFrom(values map[string]string) func(string) string {
 
 func requiredEnv() map[string]string {
 	return map[string]string{
-		corpusmarkdown.EnvCrawlNATSURL:        "nats://crawl:4222",
-		corpusmarkdown.EnvPageMarkdownNATSURL: "nats://corpus:4222",
-		corpusmarkdown.EnvProxyURL:            "http://egress:3128",
+		corpusmarkdown.EnvScrapeRequestNATSURL: "nats://crawl:4222",
+		corpusmarkdown.EnvPageMarkdownNATSURL:  "nats://corpus:4222",
+		corpusmarkdown.EnvProxyURL:             "http://egress:3128",
 	}
 }
 
 func TestLoadServiceConfigRequiresEveryAddress(t *testing.T) {
 	for _, missing := range []string{
-		corpusmarkdown.EnvCrawlNATSURL,
+		corpusmarkdown.EnvScrapeRequestNATSURL,
 		corpusmarkdown.EnvPageMarkdownNATSURL,
 		corpusmarkdown.EnvProxyURL,
 	} {

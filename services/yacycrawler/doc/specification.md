@@ -3,9 +3,8 @@
 ## Context
 
 `yacycrawler` is a standalone, optional, disposable crawling service. It accepts crawl
-orders, fetches the web pages they reach, publishes a scrape request for each page it
-reached, and answers what crawling last did with a URL. Consumers scrape those pages for
-whatever content they want. A YaCy node is the typical order source and consumer, but the
+orders. For each order, it fetches the pages the order admits and publishes a scrape
+request for each page. A YaCy node is the typical order source and consumer, but the
 service depends on no consumer's internals.
 
 Several instances can share one order stream, each order running on one instance. The
@@ -17,6 +16,7 @@ service is meant for a more capable host than an always-on node.
 * Ranking, indexing, or judging what it fetches.
 * Deriving, carrying, or storing page content for a consumer.
 * Authorizing broker subjects beyond the broker deployment's own trust boundary.
+* Creating the scrape-request stream, or sizing its retention; an operator does both.
 * Defeating anti-bot walls; a wall is a refusal signal to honor, not an obstacle to evade.
 * Guaranteeing delivery beyond the broker's own semantics.
 

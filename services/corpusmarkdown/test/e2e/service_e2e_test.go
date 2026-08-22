@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	corpusmarkdownv1 "github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/corpusmarkdown/v1"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/markdowncorpusclienttest"
@@ -29,6 +30,7 @@ func TestCrawledPageMarkdownIsStoredAndRecalledByURL(t *testing.T) {
 	network := dockernetwork.New(t, ctx)
 
 	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
+	scraperequeststream.Provision(t, ctx, crawlNATSURL)
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)

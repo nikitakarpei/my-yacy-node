@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	EnvCrawlNATSURL             = "CRAWL_NATS_URL"
+	EnvScrapeRequestNATSURL     = "SCRAPE_REQUEST_NATS_URL"
 	EnvPageMarkdownNATSURL      = "PAGE_MARKDOWN_NATS_URL"
 	EnvNATSScrapeRequestSubject = "NATS_SCRAPE_REQUEST_SUBJECT"
 	EnvNATSScrapeRequestDurable = "NATS_SCRAPE_REQUEST_DURABLE"
@@ -37,7 +37,7 @@ const (
 var DefaultScrapeRequestSubject = scraperequestcontract.ScrapeRequestSubject
 
 type ServiceConfig struct {
-	CrawlNATSURL         string
+	ScrapeRequestNATSURL string
 	PageMarkdownNATSURL  string
 	ScrapeRequestSubject string
 	ScrapeRequestDurable string
@@ -86,7 +86,7 @@ func loadFetchSettings(getenv func(string) string) (fetchSettings, error) {
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
-	crawlNATSURL, err := envconfig.Required(getenv, EnvCrawlNATSURL)
+	scrapeRequestNATSURL, err := envconfig.Required(getenv, EnvScrapeRequestNATSURL)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -104,8 +104,8 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		CrawlNATSURL:        crawlNATSURL,
-		PageMarkdownNATSURL: pageMarkdownNATSURL,
+		ScrapeRequestNATSURL: scrapeRequestNATSURL,
+		PageMarkdownNATSURL:  pageMarkdownNATSURL,
 		ScrapeRequestSubject: envconfig.String(
 			getenv,
 			EnvNATSScrapeRequestSubject,

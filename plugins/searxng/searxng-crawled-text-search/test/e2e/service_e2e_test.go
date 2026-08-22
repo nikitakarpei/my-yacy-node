@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
 )
 
 func TestScrapedCorpusTextSearchReadsEveryLanguageIndexInElasticsearch(t *testing.T) {
@@ -22,8 +23,8 @@ func TestScrapedCorpusTextSearchReadsEveryLanguageIndexInElasticsearch(t *testin
 	egressproxy.Start(t, ctx, network.Name)
 	startOrigins(t, ctx, network.Name)
 
+	scraperequeststream.Provision(t, ctx, natsURL)
 	js := connectJetStream(t, natsURL)
-	createScrapeRequestsStream(t, ctx, js)
 
 	startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
 	publishScrapedCorpus(t, ctx, js)
@@ -49,8 +50,8 @@ func TestScrapedCorpusTextSearchReadsEveryLanguageTableInManticore(t *testing.T)
 	egressproxy.Start(t, ctx, network.Name)
 	startOrigins(t, ctx, network.Name)
 
+	scraperequeststream.Provision(t, ctx, natsURL)
 	js := connectJetStream(t, natsURL)
-	createScrapeRequestsStream(t, ctx, js)
 
 	startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
 	publishScrapedCorpus(t, ctx, js)

@@ -61,11 +61,11 @@ func TestLoadAppliesDefaults(t *testing.T) {
 
 func TestLoadDefaultsTheCrawlIngest(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "node",
-		nodeconfiguration.EnvProxyURL:        "http://proxy:4750",
-		nodeconfiguration.EnvCrawlNATSURL:    "nats://localhost:4222",
-		nodeconfiguration.EnvCrawlProxyURL:   "http://renderproxy:8080",
+		nodeconfiguration.EnvInitialPeerHash:      "0123456789AB",
+		nodeconfiguration.EnvPeerName:             "node",
+		nodeconfiguration.EnvProxyURL:             "http://proxy:4750",
+		nodeconfiguration.EnvScrapeRequestNATSURL: "nats://localhost:4222",
+		nodeconfiguration.EnvCrawlProxyURL:        "http://renderproxy:8080",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -91,10 +91,10 @@ func TestLoadDefaultsTheCrawlIngest(t *testing.T) {
 
 func TestLoadRequiresACrawlProxyWhenIngestIsEnabled(t *testing.T) {
 	_, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "node",
-		nodeconfiguration.EnvProxyURL:        "http://proxy:4750",
-		nodeconfiguration.EnvCrawlNATSURL:    "nats://localhost:4222",
+		nodeconfiguration.EnvInitialPeerHash:      "0123456789AB",
+		nodeconfiguration.EnvPeerName:             "node",
+		nodeconfiguration.EnvProxyURL:             "http://proxy:4750",
+		nodeconfiguration.EnvScrapeRequestNATSURL: "nats://localhost:4222",
 	}))
 
 	if err == nil {
@@ -116,7 +116,7 @@ func TestLoadReadsOverrides(t *testing.T) {
 		nodeconfiguration.EnvTrustedProxies:           "10.0.0.0/8",
 		nodeconfiguration.EnvSeedlistURLs:             " http://a , http://b ,",
 		nodeconfiguration.EnvAnnounceInterval:         "30s",
-		nodeconfiguration.EnvCrawlNATSURL:             "nats://broker:4222",
+		nodeconfiguration.EnvScrapeRequestNATSURL:     "nats://broker:4222",
 		nodeconfiguration.EnvCrawlProxyURL:            "http://renderproxy:8080",
 		nodeconfiguration.EnvNATSScrapeRequestSubject: "reached.subject",
 		nodeconfiguration.EnvNATSScrapeRequestDurable: "reached-durable",

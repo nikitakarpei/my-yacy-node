@@ -12,9 +12,10 @@ import (
 )
 
 const (
-	EnvCrawlNATSURL  = "CRAWL_NATS_URL"
-	EnvOrdersSubject = "NATS_ORDERS_SUBJECT"
-	EnvOrdersDurable = "NATS_ORDERS_DURABLE"
+	EnvCrawlNATSURL         = "CRAWL_NATS_URL"
+	EnvScrapeRequestNATSURL = "SCRAPE_REQUEST_NATS_URL"
+	EnvOrdersSubject        = "NATS_ORDERS_SUBJECT"
+	EnvOrdersDurable        = "NATS_ORDERS_DURABLE"
 
 	EnvProxyURL         = "YACYCRAWLER_PROXY_URL"
 	EnvProxyDialMode    = "YACYCRAWLER_PROXY_DIAL_MODE"
@@ -32,7 +33,6 @@ const (
 
 	DefaultOrdersSubject    = "yacy.crawl.orders"
 	DefaultOrdersDurable    = "yacycrawler"
-	DefaultMaxMsgs          = 1024
 	DefaultFetchConcurrency = 4
 	DefaultRunPageBudget    = 1000
 	DefaultFrontierCap      = 10000
@@ -54,21 +54,22 @@ const (
 )
 
 type ServiceConfig struct {
-	CrawlNATSURL     string
-	OrdersSubject    string
-	OrdersDurable    string
-	ProxyURL         *url.URL
-	ProxyDialMode    http.ProxyDialMode
-	FetchConcurrency int
-	RunPageBudget    int
-	FrontierCap      int
-	MaxBodyBytes     int64
-	FetchDeadline    time.Duration
-	ContentTypes     []string
-	OpsAddr          string
-	ListenAddr       string
-	UserAgent        string
-	RecrawlGrace     time.Duration
+	CrawlNATSURL         string
+	ScrapeRequestNATSURL string
+	OrdersSubject        string
+	OrdersDurable        string
+	ProxyURL             *url.URL
+	ProxyDialMode        http.ProxyDialMode
+	FetchConcurrency     int
+	RunPageBudget        int
+	FrontierCap          int
+	MaxBodyBytes         int64
+	FetchDeadline        time.Duration
+	ContentTypes         []string
+	OpsAddr              string
+	ListenAddr           string
+	UserAgent            string
+	RecrawlGrace         time.Duration
 }
 
 func (ServiceConfig) PageVisitBucketSpec() dueaftergrace.BucketSpec {
@@ -126,6 +127,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	scrapeRequestNATSURL, err := envconfig.Required(getenv, EnvScrapeRequestNATSURL)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
 	proxyURL, err := envconfig.RequiredHTTPURL(getenv, EnvProxyURL)
 	if err != nil {
 		return ServiceConfig{}, err
@@ -144,21 +149,22 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		CrawlNATSURL:     crawlNATSURL,
-		OrdersSubject:    envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
-		OrdersDurable:    envconfig.String(getenv, EnvOrdersDurable, DefaultOrdersDurable),
-		ProxyURL:         proxyURL,
-		ProxyDialMode:    proxyDialMode,
-		FetchConcurrency: limits.fetchConcurrency,
-		RunPageBudget:    limits.runPageBudget,
-		FrontierCap:      limits.frontierCap,
-		MaxBodyBytes:     limits.maxBodyBytes,
-		FetchDeadline:    limits.fetchDeadline,
-		ContentTypes:     mediaTypes(getenv, EnvContentTypes),
-		OpsAddr:          envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
-		ListenAddr:       envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
-		UserAgent:        envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
-		RecrawlGrace:     recrawlGrace,
+		CrawlNATSURL:         crawlNATSURL,
+		ScrapeRequestNATSURL: scrapeRequestNATSURL,
+		OrdersSubject:        envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
+		OrdersDurable:        envconfig.String(getenv, EnvOrdersDurable, DefaultOrdersDurable),
+		ProxyURL:             proxyURL,
+		ProxyDialMode:        proxyDialMode,
+		FetchConcurrency:     limits.fetchConcurrency,
+		RunPageBudget:        limits.runPageBudget,
+		FrontierCap:          limits.frontierCap,
+		MaxBodyBytes:         limits.maxBodyBytes,
+		FetchDeadline:        limits.fetchDeadline,
+		ContentTypes:         mediaTypes(getenv, EnvContentTypes),
+		OpsAddr:              envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		ListenAddr:           envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
+		UserAgent:            envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
+		RecrawlGrace:         recrawlGrace,
 	}, nil
 }
 

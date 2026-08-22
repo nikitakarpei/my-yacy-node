@@ -28,7 +28,7 @@ const (
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
-	js, conn, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
+	js, conn, err := jetstreamconnect.Open(cfg.ScrapeRequestNATSURL)
 	if err != nil {
 		return err
 	}
@@ -82,10 +82,13 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 
 func scrapeRequestConsumerFor(
 	ctx context.Context,
-	crawlJetStream jetstream.JetStream,
+	scrapeRequestJetStream jetstream.JetStream,
 	cfg ServiceConfig,
 ) (jetstream.Consumer, error) {
-	stream, err := crawlJetStream.Stream(ctx, scraperequestcontract.ScrapeRequestsStreamName)
+	stream, err := scrapeRequestJetStream.Stream(
+		ctx,
+		scraperequestcontract.ScrapeRequestsStreamName,
+	)
 	if err != nil {
 		return nil, fmt.Errorf("lookup scrape requests stream: %w", err)
 	}

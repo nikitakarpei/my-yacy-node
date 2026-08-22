@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
 )
 
 const scrapeDeadline = 90 * time.Second
@@ -28,6 +29,7 @@ func TestScrapeServesCrawledMarkdown(t *testing.T) {
 	network := dockernetwork.New(t, ctx)
 
 	natsURL := natsjetstream.Start(t, ctx, network.Name)
+	scraperequeststream.Provision(t, ctx, natsURL)
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 
@@ -65,6 +67,7 @@ func TestScrapeStopsEarlyWhenCrawlingDisposesOfThePage(t *testing.T) {
 	network := dockernetwork.New(t, ctx)
 
 	natsURL := natsjetstream.Start(t, ctx, network.Name)
+	scraperequeststream.Provision(t, ctx, natsURL)
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 

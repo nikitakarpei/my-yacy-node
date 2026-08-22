@@ -14,6 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	crawlerv1 "github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/crawler/v1"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/crawloutcomesclienttest"
@@ -87,6 +88,7 @@ func startCrawlOfOriginSite(
 	network := dockernetwork.New(t, ctx)
 
 	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
+	scraperequeststream.Provision(t, ctx, crawlNATSURL)
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 	crawlerAddress := startCrawler(t, ctx, network.Name)

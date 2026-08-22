@@ -10,6 +10,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/manticore"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 )
@@ -17,32 +18,34 @@ import (
 const (
 	corpusTextAlias    = "corpustext"
 	envCorpusTextImage = "CORPUSTEXT_IMAGE"
-	indexedLanguages   = englishLanguage + "," + germanLanguage
+	manticoreAlias     = "manticore"
+	manticoreTableBase = "yacy_text"
+	indexedLanguage    = "en"
+	manticoreTable     = manticoreTableBase + "_v1_" + indexedLanguage
 )
 
-func startCorpusText(
-	t *testing.T,
-	ctx context.Context,
-	networkName string,
-	searchIndexEnv map[string]string,
-) {
+func startManticore(t *testing.T, ctx context.Context, networkName string) string {
 	t.Helper()
-	env := map[string]string{
-		"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL(),
-		"CORPUSTEXT_PROXY_URL":    egressproxy.NetworkURL(),
-		"CORPUSTEXT_LANGUAGES":    indexedLanguages,
-		"LOG_LEVEL":               "debug",
-	}
-	for key, value := range searchIndexEnv {
-		env[key] = value
-	}
+	return manticore.Start(t, ctx, networkName, manticoreAlias)
+}
+
+func startCorpusText(t *testing.T, ctx context.Context, networkName string) {
+	t.Helper()
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image:          requiredimage.FromEnv(t, envCorpusTextImage, "corpustext", "e2e"),
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {corpusTextAlias}},
-			Env:            env,
+			Env: map[string]string{
+				"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL(),
+				"CORPUSTEXT_PROXY_URL":    egressproxy.NetworkURL(),
+				"SEARCH_INDEX_ENGINE":     "manticore",
+				"MANTICORE_URL":           manticore.NetworkURL(manticoreAlias),
+				"MANTICORE_TABLE":         manticoreTableBase,
+				"CORPUSTEXT_LANGUAGES":    indexedLanguage,
+				"LOG_LEVEL":               "debug",
+			},
 		},
 	})
 	if err != nil {

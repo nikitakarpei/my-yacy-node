@@ -13,7 +13,8 @@ answer with.
 | `searxng` | The search UI: queries the local index alongside web engines, and points every result link at `visitcrawl`. |
 | `visitcrawl` | Turns an opened result into one crawl order and redirects to the page, without waiting on the order. |
 | `nats` | Broker carrying crawl orders and scrape requests between services. |
-| `yacycrawler` | Fetches an ordered page and publishes the URL of every page it reached. |
+| `scrape-requests-stream` | Creates the `SCRAPE_REQUESTS` stream once, before any service publishes to it or reads it. |
+| `yacycrawler` | Fetches an ordered page and publishes a scrape request for every page it admits. |
 | `renderproxy` | Proxies the page fetch through `lightpanda` so JS-rendered pages are fetched too. |
 | `lightpanda` | Headless browser that renders the page for `renderproxy`; chosen over Chromium-based ones for its low memory footprint. |
 | `corpustext` | Fetches each scrape request and writes its text into the local search index. |
@@ -38,6 +39,17 @@ answer with.
 
 To serve other people, and to let the peer take part in the YaCy network, publish that
 address. Nothing else is published beyond the machine it runs on.
+
+## Scrape request retention
+
+The `SCRAPE_REQUESTS` stream keeps the newest 100000 requests and discards older ones. No
+service defends that window. A corpus that stays down while more than 100000 requests are
+published loses the requests that fall off, and it does not scrape those pages.
+
+To give a corpus a longer outage window, raise `--max-msgs` in the
+`scrape-requests-stream` service, then run `docker compose up -d scrape-requests-stream`.
+The service creates the stream only when it is absent, so change a running stream with
+`nats stream edit SCRAPE_REQUESTS`.
 
 ## Extras
 

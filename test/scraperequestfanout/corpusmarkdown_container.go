@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/testcontainers/testcontainers-go"
-	"github.com/testcontainers/testcontainers-go/wait"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
@@ -17,7 +16,6 @@ import (
 
 const (
 	corpusMarkdownAlias    = "corpusmarkdown"
-	corpusMarkdownPort     = "8094/tcp"
 	envCorpusMarkdownImage = "CORPUSMARKDOWN_IMAGE"
 )
 
@@ -26,11 +24,14 @@ func startCorpusMarkdown(t *testing.T, ctx context.Context, networkName string) 
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
 		ContainerRequest: testcontainers.ContainerRequest{
-			Image:          corpusMarkdownImage(t),
+			Image: requiredimage.FromEnv(
+				t,
+				envCorpusMarkdownImage,
+				"corpusmarkdown",
+				"e2e",
+			),
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {corpusMarkdownAlias}},
-			ExposedPorts:   []string{corpusMarkdownPort},
-			WaitingFor:     wait.ForListeningPort(corpusMarkdownPort),
 			Env: map[string]string{
 				"SCRAPE_REQUEST_NATS_URL":  natsjetstream.NetworkURL(),
 				"PAGE_MARKDOWN_NATS_URL":   natsjetstream.NetworkURL(),
@@ -44,9 +45,4 @@ func startCorpusMarkdown(t *testing.T, ctx context.Context, networkName string) 
 	}
 	t.Cleanup(func() { _ = container.Terminate(context.Background()) })
 	containerlog.DumpOnFailure(t, "corpusmarkdown", container)
-}
-
-func corpusMarkdownImage(t *testing.T) string {
-	t.Helper()
-	return requiredimage.FromEnv(t, envCorpusMarkdownImage, "corpusmarkdown", "e2e")
 }

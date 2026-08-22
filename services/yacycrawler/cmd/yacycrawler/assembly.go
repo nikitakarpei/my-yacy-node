@@ -13,7 +13,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
@@ -61,6 +60,13 @@ func RunService(
 		return err
 	}
 	defer func() { _ = conn.Close() }()
+	scrapeRequestJetStream, scrapeRequestConnection, err := jetstreamconnect.Open(
+		cfg.ScrapeRequestNATSURL,
+	)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = scrapeRequestConnection.Close() }()
 	if err := ensureNATSState(ctx, js, cfg); err != nil {
 		return err
 	}
@@ -82,7 +88,9 @@ func RunService(
 	if err != nil {
 		return err
 	}
-	visitorSource, err := buildVisitorSource(ctx, js, cfg, metrics, redirectResolutions)
+	visitorSource, err := buildVisitorSource(
+		ctx, js, scrapeRequestJetStream, cfg, metrics, redirectResolutions,
+	)
 	if err != nil {
 		return err
 	}
@@ -130,9 +138,6 @@ func ensureNATSState(ctx context.Context, js jetstream.JetStream, cfg ServiceCon
 	if err := ensureOrdersStream(ctx, js, cfg.OrdersSubject); err != nil {
 		return err
 	}
-	if err := ensureScrapeRequestsStream(ctx, js); err != nil {
-		return err
-	}
 	if err := ensureRedirectResolutionBucket(ctx, js); err != nil {
 		return err
 	}
@@ -149,19 +154,6 @@ func ensureOrdersStream(ctx context.Context, js jetstream.JetStream, subject str
 		Retention: jetstream.WorkQueuePolicy,
 	}); err != nil {
 		return fmt.Errorf("ensure orders stream: %w", err)
-	}
-	return nil
-}
-
-func ensureScrapeRequestsStream(ctx context.Context, js jetstream.JetStream) error {
-	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
-		Name:      scraperequestcontract.ScrapeRequestsStreamName,
-		Subjects:  []string{scraperequestcontract.ScrapeRequestSubject},
-		Retention: jetstream.LimitsPolicy,
-		MaxMsgs:   DefaultMaxMsgs,
-		Discard:   jetstream.DiscardOld,
-	}); err != nil {
-		return fmt.Errorf("ensure scrape requests stream: %w", err)
 	}
 	return nil
 }
@@ -226,6 +218,7 @@ func openDisposedPages(
 func buildVisitorSource(
 	ctx context.Context,
 	js jetstream.JetStream,
+	scrapeRequestJetStream jetstream.JetStream,
 	cfg ServiceConfig,
 	metrics *progressobserversprometheus.CrawlMetrics,
 	redirectResolutions redirectrecording.RedirectResolutions,
@@ -253,7 +246,9 @@ func buildVisitorSource(
 		recrawl,
 		extractor,
 		metrics,
-		scraperequestpublication.NewPublisher(metrics, scraperequestsjetstream.New(js)),
+		scraperequestpublication.NewPublisher(
+			metrics, scraperequestsjetstream.New(scrapeRequestJetStream),
+		),
 	), nil
 }
 

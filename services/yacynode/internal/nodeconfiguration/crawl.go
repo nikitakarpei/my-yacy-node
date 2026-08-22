@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	EnvCrawlNATSURL             = "CRAWL_NATS_URL"
+	EnvScrapeRequestNATSURL     = "SCRAPE_REQUEST_NATS_URL"
 	EnvNATSScrapeRequestSubject = "NATS_SCRAPE_REQUEST_SUBJECT"
 	EnvNATSScrapeRequestDurable = "NATS_SCRAPE_REQUEST_DURABLE"
 	EnvCrawlProxyURL            = "YACY_CRAWL_PROXY_URL"
@@ -33,7 +33,7 @@ const (
 var DefaultScrapeRequestSubject = scraperequestcontract.ScrapeRequestSubject
 
 type CrawlConfig struct {
-	NATSURL              string
+	ScrapeRequestNATSURL string
 	ScrapeRequestSubject string
 	ScrapeRequestDurable string
 	ProxyURL             *url.URL
@@ -45,12 +45,12 @@ type CrawlConfig struct {
 }
 
 func (c CrawlConfig) Enabled() bool {
-	return c.NATSURL != ""
+	return c.ScrapeRequestNATSURL != ""
 }
 
 func loadCrawlConfig(getenv func(string) string) (CrawlConfig, error) {
-	natsURL := strings.TrimSpace(getenv(EnvCrawlNATSURL))
-	if natsURL == "" {
+	scrapeRequestNATSURL := strings.TrimSpace(getenv(EnvScrapeRequestNATSURL))
+	if scrapeRequestNATSURL == "" {
 		return CrawlConfig{}, nil
 	}
 	proxyURL, err := envconfig.RequiredHTTPURL(getenv, EnvCrawlProxyURL)
@@ -83,7 +83,7 @@ func loadCrawlConfig(getenv func(string) string) (CrawlConfig, error) {
 	}
 
 	return CrawlConfig{
-		NATSURL: natsURL,
+		ScrapeRequestNATSURL: scrapeRequestNATSURL,
 		ScrapeRequestSubject: envconfig.String(
 			getenv, EnvNATSScrapeRequestSubject, DefaultScrapeRequestSubject,
 		),

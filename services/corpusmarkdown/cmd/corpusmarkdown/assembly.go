@@ -31,11 +31,13 @@ const (
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
-	crawlJetStream, crawlConnection, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
+	scrapeRequestJetStream, scrapeRequestConnection, err := jetstreamconnect.Open(
+		cfg.ScrapeRequestNATSURL,
+	)
 	if err != nil {
 		return err
 	}
-	defer func() { _ = crawlConnection.Close() }()
+	defer func() { _ = scrapeRequestConnection.Close() }()
 	pageMarkdownJetStream, pageMarkdownConnection, err := jetstreamconnect.Open(
 		cfg.PageMarkdownNATSURL,
 	)
@@ -44,7 +46,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	}
 	defer func() { _ = pageMarkdownConnection.Close() }()
 
-	consumer, err := scrapeRequestConsumerFor(ctx, crawlJetStream, cfg)
+	consumer, err := scrapeRequestConsumerFor(ctx, scrapeRequestJetStream, cfg)
 	if err != nil {
 		return err
 	}
@@ -93,10 +95,13 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 
 func scrapeRequestConsumerFor(
 	ctx context.Context,
-	crawlJetStream jetstream.JetStream,
+	scrapeRequestJetStream jetstream.JetStream,
 	cfg ServiceConfig,
 ) (jetstream.Consumer, error) {
-	stream, err := crawlJetStream.Stream(ctx, scraperequestcontract.ScrapeRequestsStreamName)
+	stream, err := scrapeRequestJetStream.Stream(
+		ctx,
+		scraperequestcontract.ScrapeRequestsStreamName,
+	)
 	if err != nil {
 		return nil, fmt.Errorf("lookup scrape requests stream: %w", err)
 	}

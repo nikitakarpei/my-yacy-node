@@ -6,7 +6,7 @@ COVERAGE_MIN ?= 80
 export GOWORK := off
 
 GO_MODULES := $(patsubst %/go.mod,%,$(wildcard libraries/*/go.mod libraries/*/*/go.mod services/*/go.mod services/*/contract/go.mod))
-GO_E2E_MODULES := $(patsubst %/go.mod,%,$(wildcard services/*/test/e2e/go.mod plugins/*/*/test/e2e/go.mod))
+GO_E2E_MODULES := $(patsubst %/go.mod,%,$(wildcard services/*/test/e2e/go.mod plugins/*/*/test/e2e/go.mod test/*/go.mod))
 PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-crawled-text-search
 
 COVER_PROFILE := coverage.out
@@ -247,11 +247,12 @@ $(foreach m,$(E2E_IMAGE_MODULES),$(eval $(call e2e_image_rule,$(m))))
 
 e2e-images: $(foreach m,$(E2E_IMAGE_MODULES),e2e-$(m)-image)
 
-# Modules that own a test/e2e suite, and the images each suite needs.
-E2E_SUITE_MODULES := yacynode yacycrawler corpustext corpusmarkdown firecrawlshim searxng-result-router searxng-crawled-text-search renderproxy
+# Every e2e suite, where it lives, and the images it needs.
+E2E_SUITE_MODULES := yacynode yacycrawler corpustext corpusmarkdown firecrawlshim searxng-result-router searxng-crawled-text-search renderproxy scraperequestfanout
 
 E2E_PATH_searxng-result-router         := plugins/searxng/searxng-result-router
 E2E_PATH_searxng-crawled-text-search   := plugins/searxng/searxng-crawled-text-search
+E2E_SUITE_DIR_scraperequestfanout      := test/scraperequestfanout
 
 E2E_ENV_yacynode                       := YACY_NODE_IMAGE=$(E2E_IMAGE_yacynode)
 E2E_ENV_yacycrawler                    := YACYCRAWLER_IMAGE=$(E2E_IMAGE_yacycrawler)
@@ -261,11 +262,12 @@ E2E_ENV_firecrawlshim                  := YACYCRAWLER_IMAGE=$(E2E_IMAGE_yacycraw
 E2E_ENV_searxng-result-router          := VISITCRAWL_IMAGE=$(E2E_IMAGE_visitcrawl)
 E2E_ENV_searxng-crawled-text-search    := CORPUSTEXT_IMAGE=$(E2E_IMAGE_corpustext)
 E2E_ENV_renderproxy                    := RENDERPROXY_IMAGE=$(E2E_IMAGE_renderproxy)
+E2E_ENV_scraperequestfanout            := CORPUSTEXT_IMAGE=$(E2E_IMAGE_corpustext) CORPUSMARKDOWN_IMAGE=$(E2E_IMAGE_corpusmarkdown)
 
 define e2e_suite_rule
 e2e-$(1):
 	@echo "==> e2e-$(1)"; \
-	if ! out=$$$$(cd $$(E2E_PATH_$(1))/test/e2e && GOWORK=off $$(E2E_DOCKER_ENV) $$(E2E_ENV_$(1)) \
+	if ! out=$$$$(cd $$(or $$(E2E_SUITE_DIR_$(1)),$$(E2E_PATH_$(1))/test/e2e) && GOWORK=off $$(E2E_DOCKER_ENV) $$(E2E_ENV_$(1)) \
 		$$(GO) test -tags e2e -timeout $$(E2E_TIMEOUT) -count=1 -v ./... 2>&1); then \
 		echo "==> e2e-$(1) FAILED"; echo "$$$$out"; exit 1; \
 	fi
