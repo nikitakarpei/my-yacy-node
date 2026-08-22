@@ -59,12 +59,13 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	}
 }
 
-func TestLoadDefaultsTheCrawlSubjectAndDurable(t *testing.T) {
+func TestLoadDefaultsTheCrawlIngest(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
-		nodeconfiguration.EnvPeerName:        "node",
-		nodeconfiguration.EnvProxyURL:        "http://proxy:4750",
-		nodeconfiguration.EnvCrawlNATSURL:    "nats://localhost:4222",
+		nodeconfiguration.EnvInitialPeerHash:      "0123456789AB",
+		nodeconfiguration.EnvPeerName:             "node",
+		nodeconfiguration.EnvProxyURL:             "http://proxy:4750",
+		nodeconfiguration.EnvScrapeRequestNATSURL: "nats://localhost:4222",
+		nodeconfiguration.EnvCrawlProxyURL:        "http://renderproxy:8080",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -73,39 +74,53 @@ func TestLoadDefaultsTheCrawlSubjectAndDurable(t *testing.T) {
 	if !config.Crawl.Enabled() {
 		t.Fatalf("Crawl = %+v, want enabled by the broker url", config.Crawl)
 	}
-	if config.Crawl.IngestSubject != nodeconfiguration.DefaultIngestSubject {
-		t.Errorf(
-			"IngestSubject = %q, want %q",
-			config.Crawl.IngestSubject,
-			nodeconfiguration.DefaultIngestSubject,
-		)
+	if config.Crawl.ScrapeRequestSubject != nodeconfiguration.DefaultScrapeRequestSubject ||
+		config.Crawl.ScrapeRequestDurable != nodeconfiguration.DefaultScrapeRequestDurable {
+		t.Errorf("Crawl = %+v, want the default subject and durable", config.Crawl)
 	}
-	if config.Crawl.IngestDurable != nodeconfiguration.DefaultIngestDurable {
-		t.Errorf(
-			"IngestDurable = %q, want %q",
-			config.Crawl.IngestDurable,
-			nodeconfiguration.DefaultIngestDurable,
-		)
+	if config.Crawl.UserAgent != nodeconfiguration.DefaultCrawlUserAgent ||
+		config.Crawl.MaxBodyBytes != nodeconfiguration.DefaultCrawlMaxBodyBytes ||
+		config.Crawl.FetchDeadline != nodeconfiguration.DefaultCrawlFetchDeadline ||
+		config.Crawl.Concurrency != nodeconfiguration.DefaultCrawlConcurrency {
+		t.Errorf("Crawl = %+v, want the default fetch settings", config.Crawl)
+	}
+	if config.Crawl.ProxyURL == nil || config.Crawl.ProxyURL.Host != "renderproxy:8080" {
+		t.Errorf("Crawl proxy = %v, want the configured proxy", config.Crawl.ProxyURL)
+	}
+}
+
+func TestLoadRequiresACrawlProxyWhenIngestIsEnabled(t *testing.T) {
+	_, err := nodeconfiguration.Load(envFrom(map[string]string{
+		nodeconfiguration.EnvInitialPeerHash:      "0123456789AB",
+		nodeconfiguration.EnvPeerName:             "node",
+		nodeconfiguration.EnvProxyURL:             "http://proxy:4750",
+		nodeconfiguration.EnvScrapeRequestNATSURL: "nats://localhost:4222",
+	}))
+
+	if err == nil {
+		t.Fatal("crawl ingest without a fetch proxy should fail")
 	}
 }
 
 func TestLoadReadsOverrides(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:   "0123456789AB",
-		nodeconfiguration.EnvPeerName:          "node",
-		nodeconfiguration.EnvProxyURL:          "http://proxy:4750",
-		nodeconfiguration.EnvNetworkName:       "testnet",
-		nodeconfiguration.EnvPeerAddr:          ":7000",
-		nodeconfiguration.EnvOpsAddr:           ":7001",
-		nodeconfiguration.EnvAdvertiseHost:     "203.0.113.1",
-		nodeconfiguration.EnvAdvertisePort:     "9999",
-		nodeconfiguration.EnvStorageQuota:      "2MB",
-		nodeconfiguration.EnvTrustedProxies:    "10.0.0.0/8",
-		nodeconfiguration.EnvSeedlistURLs:      " http://a , http://b ,",
-		nodeconfiguration.EnvAnnounceInterval:  "30s",
-		nodeconfiguration.EnvCrawlNATSURL:      "nats://broker:4222",
-		nodeconfiguration.EnvNATSIngestSubject: "ingest.subject",
-		nodeconfiguration.EnvNATSIngestDurable: "ingest-durable",
+		nodeconfiguration.EnvInitialPeerHash:          "0123456789AB",
+		nodeconfiguration.EnvPeerName:                 "node",
+		nodeconfiguration.EnvProxyURL:                 "http://proxy:4750",
+		nodeconfiguration.EnvNetworkName:              "testnet",
+		nodeconfiguration.EnvPeerAddr:                 ":7000",
+		nodeconfiguration.EnvOpsAddr:                  ":7001",
+		nodeconfiguration.EnvAdvertiseHost:            "203.0.113.1",
+		nodeconfiguration.EnvAdvertisePort:            "9999",
+		nodeconfiguration.EnvStorageQuota:             "2MB",
+		nodeconfiguration.EnvTrustedProxies:           "10.0.0.0/8",
+		nodeconfiguration.EnvSeedlistURLs:             " http://a , http://b ,",
+		nodeconfiguration.EnvAnnounceInterval:         "30s",
+		nodeconfiguration.EnvScrapeRequestNATSURL:     "nats://broker:4222",
+		nodeconfiguration.EnvCrawlProxyURL:            "http://renderproxy:8080",
+		nodeconfiguration.EnvNATSScrapeRequestSubject: "reached.subject",
+		nodeconfiguration.EnvNATSScrapeRequestDurable: "reached-durable",
+		nodeconfiguration.EnvCrawlConcurrency:         "9",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -130,9 +145,10 @@ func TestLoadReadsOverrides(t *testing.T) {
 	if config.PeerExchange.AnnounceInterval != 30*time.Second {
 		t.Errorf("AnnounceInterval = %v, want 30s", config.PeerExchange.AnnounceInterval)
 	}
-	if config.Crawl.IngestSubject != "ingest.subject" ||
-		config.Crawl.IngestDurable != "ingest-durable" {
-		t.Errorf("Crawl = %+v, want the named subject and durable", config.Crawl)
+	if config.Crawl.ScrapeRequestSubject != "reached.subject" ||
+		config.Crawl.ScrapeRequestDurable != "reached-durable" ||
+		config.Crawl.Concurrency != 9 {
+		t.Errorf("Crawl = %+v, want the named subject, durable, and concurrency", config.Crawl)
 	}
 }
 

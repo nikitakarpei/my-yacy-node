@@ -7,6 +7,7 @@ allow:
 
 commonVendors:
   - yacymodel
+  - canonicalurl
 
 components:
   hashcodec:
@@ -65,8 +66,10 @@ components:
     in: internal/eviction/**
   metrics:
     in: internal/metrics/**
-  crawlresults:
-    in: internal/crawlresults/**
+  pagerwi:
+    in: internal/pagerwi/**
+  scraperequestintake:
+    in: internal/scraperequestintake/**
   crawlbroker:
     in: internal/crawlbroker/**
   cmd:
@@ -87,6 +90,8 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  scraperequestcontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
   vault:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
   boltvault:
@@ -100,6 +105,14 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
+  pagescrape:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrape
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/**
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
@@ -109,6 +122,8 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
   hashcodec:
@@ -122,6 +137,8 @@ deps:
       - serviceruntime
       - yacyproto
       - yacycrawlcontract
+      - scraperequestcontract
+      - pagescrape
   nodeidentity:
     canUse:
       - yacyproto
@@ -252,17 +269,24 @@ deps:
     canUse:
       - prometheus
       - vault
-  crawlresults:
+  pagerwi:
+    canUse:
+      - pagescrape
+  scraperequestintake:
     mayDependOn:
+      - pagerwi
       - urlmeta
       - rwiadmission
     canUse:
       - yacycrawlcontract
+      - scraperequestcontract
+      - pagescrape
+      - nats
+      - serviceruntime
   crawlbroker:
-    mayDependOn:
-      - crawlresults
     canUse:
       - yacycrawlcontract
+      - scraperequestcontract
       - nats
       - serviceruntime
   cmd:

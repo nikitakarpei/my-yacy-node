@@ -7,10 +7,11 @@ allow:
 
 commonVendors:
   - yacycrawlcontract
+  - scraperequestcontract
+  - canonicalurl
 
 commonComponents:
   - clock
-  - contentformatgraph
 
 components:
   clock:
@@ -21,82 +22,48 @@ components:
     in: internal/crawl/refusal/**
   retrydelay:
     in: internal/crawl/retrydelay/**
-  fetchedpage:
-    in: internal/crawl/fetchedpage/**
   frontier:
     in: internal/crawl/frontier/**
   profileadmission:
     in: internal/crawl/profileadmission/**
-  redirectrecording:
-    in: internal/crawl/redirectrecording/**
-  pagepublication:
-    in: internal/crawl/pagepublication/**
   ordersettlement:
     in: internal/crawl/ordersettlement/**
   ordertraversal:
     in: internal/crawl/ordertraversal/**
   visitdispatch:
     in: internal/crawl/visitdispatch/**
-  mediatypeallowance:
-    in: internal/mediatypeallowance/**
+  fetchtiming:
+    in: internal/crawl/fetchtiming/**
   pagevisit:
     in: internal/crawl/pagevisit/**
-  pageabsorption:
-    in: internal/crawl/pageabsorption/**
-  contentformatgraph:
-    in: internal/crawl/contentformatgraph/**
-  contentextraction:
-    in: internal/crawl/contentextraction/**
-  pagefetchershttp:
-    in: internal/pagefetchers/http/**
-  mediaextractorshtml:
-    in: internal/mediaextractors/html/**
-  containerexpandersarchive:
-    in: internal/containerexpanders/archive/**
-  pagederivationsfulltext:
-    in: internal/pagederivations/fulltext/**
-  pagederivationsreadablehtml:
-    in: internal/pagederivations/readablehtml/**
-  pagederivationsreadabletext:
-    in: internal/pagederivations/readabletext/**
-  pagederivationsmarkdown:
-    in: internal/pagederivations/markdown/**
-  pagerepresentationsrwi:
-    in: internal/pagerepresentations/rwi/**
-  pagerepresentationstext:
-    in: internal/pagerepresentations/text/**
-  pagerepresentationsmarkdown:
-    in: internal/pagerepresentations/markdown/**
+  scraperequestpublication:
+    in: internal/crawl/scraperequestpublication/**
   recrawlrulesalwaysdue:
     in: internal/recrawlrules/alwaysdue/**
   recrawlrulesdueaftergrace:
     in: internal/recrawlrules/dueaftergrace/**
   orderreceiversjetstream:
     in: internal/orderreceivers/jetstream/**
-  redirectresolversjetstream:
-    in: internal/redirectresolvers/jetstream/**
   progressobserversprometheus:
     in: internal/progressobservers/prometheus/**
-  representationpublishersjetstream:
-    in: internal/representationpublishers/jetstream/**
-  htmlflattening:
-    in: internal/htmlflattening/**
   contextcancellation:
     in: internal/contextcancellation/**
-  disposedpagesjetstream:
-    in: internal/disposedpages/jetstream/**
+  scraperequestsjetstream:
+    in: internal/scraperequests/jetstream/**
   crawlercmd:
     in: cmd/yacycrawler/**
 
 vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
   yacycrawlcontract:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  yacymodel:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/yacymodel
-      - github.com/nikitakarpei/yacy-rwi-node/yacymodel/**
+  scraperequestcontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -107,15 +74,15 @@ vendors:
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
-  readability:
+  pagescrapepagefetch:
     in:
-      - codeberg.org/readeck/go-readability/v2
-  htmltomarkdown:
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch
+  pagescrapecontentextraction:
     in:
-      - github.com/JohannesKaufmann/html-to-markdown/v2
-  xnet:
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction
+  pagescrapecontentformatgraph:
     in:
-      - golang.org/x/net/**
+      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
@@ -128,11 +95,6 @@ deps:
   frontier:
     mayDependOn:
       - retrydelay
-  redirectrecording:
-    mayDependOn:
-      - pagevisit
-    canUse:
-      - yacycrawlcontract
   ordersettlement:
     mayDependOn:
       - contextcancellation
@@ -144,105 +106,55 @@ deps:
       - frontier
       - profileadmission
       - pagevisit
-      - pageabsorption
       - contextcancellation
     canUse:
       - yacycrawlcontract
+      - scraperequestcontract
   visitdispatch:
     mayDependOn:
       - frontier
       - pagevisit
+  fetchtiming:
+    canUse:
+      - pagescrapepagefetch
   pagevisit:
     mayDependOn:
       - disposal
       - refusal
-      - fetchedpage
-      - pageabsorption
-  pageabsorption:
-    mayDependOn:
-      - disposal
-      - contentextraction
-      - pagepublication
-      - fetchedpage
+      - scraperequestpublication
     canUse:
-      - yacycrawlcontract
-  pagepublication:
-    mayDependOn:
-      - retrydelay
-  pagefetchershttp:
-    mayDependOn:
-      - pagevisit
-      - fetchedpage
-  mediaextractorshtml:
-    mayDependOn:
-      - contentextraction
-    canUse:
-      - yacycrawlcontract
-      - xnet
-  containerexpandersarchive:
-    mayDependOn:
-      - contentextraction
-  pagederivationsfulltext:
-    mayDependOn:
-      - htmlflattening
-  pagederivationsreadablehtml:
-    canUse:
-      - readability
-      - xnet
-  pagederivationsreadabletext:
-    mayDependOn:
-      - htmlflattening
-  pagederivationsmarkdown:
-    canUse:
-      - htmltomarkdown
-  pagerepresentationsrwi:
-    mayDependOn:
-      - pagepublication
-    canUse:
-      - yacymodel
-  pagerepresentationstext:
-    mayDependOn:
-      - pagepublication
-  pagerepresentationsmarkdown:
-    mayDependOn:
-      - pagepublication
+      - pagescrapecontentextraction
+      - pagescrapepagefetch
   recrawlrulesalwaysdue:
     mayDependOn:
       - pagevisit
+    canUse:
+      - pagescrapepagefetch
   recrawlrulesdueaftergrace:
     mayDependOn:
       - pagevisit
     canUse:
       - nats
+      - pagescrapepagefetch
   orderreceiversjetstream:
     mayDependOn:
       - ordersettlement
     canUse:
       - nats
-  redirectresolversjetstream:
-    canUse:
-      - nats
-  disposedpagesjetstream:
+  scraperequestsjetstream:
     canUse:
       - nats
   progressobserversprometheus:
     mayDependOn:
       - ordersettlement
       - ordertraversal
-      - pagepublication
       - pagevisit
+      - fetchtiming
+      - scraperequestpublication
       - disposal
       - refusal
     canUse:
       - prometheus
-  representationpublishersjetstream:
-    mayDependOn:
-      - pagepublication
-    canUse:
-      - nats
-  htmlflattening:
-    canUse:
-      - xnet
   crawlercmd:
     anyProjectDeps: true
     anyVendorDeps: true

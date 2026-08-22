@@ -1,46 +1,56 @@
 package pagevisit
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
+	"context"
+
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/scraperequestpublication"
 )
 
 type VisitorSource interface {
-	VisitorFor(indexingRefusal pageabsorption.IndexingRefusal) Visitor
+	VisitorFor(indexingRefusal IndexingRefusal) Visitor
+}
+
+type PageExtractor interface {
+	DocumentFrom(
+		ctx context.Context,
+		pageURL, contentType string,
+		body []byte,
+	) (contentextraction.ExtractedDocument, error)
 }
 
 type visitorSource struct {
-	fetcher   Fetcher
-	recrawl   RecrawlRule
-	absorbers pageabsorption.AbsorberSource
-	observer  VisitProgress
-	clock     clock.Clock
+	fetcher        pagefetch.Fetcher
+	recrawl        RecrawlRule
+	extractor      PageExtractor
+	observer       VisitProgress
+	scrapeRequests *scraperequestpublication.Publisher
 }
 
 func New(
-	fetcher Fetcher,
+	fetcher pagefetch.Fetcher,
 	recrawl RecrawlRule,
-	absorbers pageabsorption.AbsorberSource,
+	extractor PageExtractor,
 	observer VisitProgress,
-	clock clock.Clock,
+	scrapeRequests *scraperequestpublication.Publisher,
 ) VisitorSource {
 	return &visitorSource{
-		fetcher:   fetcher,
-		recrawl:   recrawl,
-		absorbers: absorbers,
-		observer:  observer,
-		clock:     clock,
+		fetcher:        fetcher,
+		recrawl:        recrawl,
+		extractor:      extractor,
+		observer:       observer,
+		scrapeRequests: scrapeRequests,
 	}
 }
 
-func (s *visitorSource) VisitorFor(
-	indexingRefusal pageabsorption.IndexingRefusal,
-) Visitor {
+func (s *visitorSource) VisitorFor(indexingRefusal IndexingRefusal) Visitor {
 	return &visitor{
-		fetcher:  s.fetcher,
-		recrawl:  s.recrawl,
-		absorber: s.absorbers.AbsorberFor(indexingRefusal),
-		observer: s.observer,
-		clock:    s.clock,
+		fetcher:         s.fetcher,
+		recrawl:         s.recrawl,
+		extractor:       s.extractor,
+		indexingRefusal: indexingRefusal,
+		observer:        s.observer,
+		scrapeRequests:  s.scrapeRequests,
 	}
 }

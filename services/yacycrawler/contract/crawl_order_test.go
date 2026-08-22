@@ -4,8 +4,9 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 func TestCrawlOrderRoundTrip(t *testing.T) {
@@ -21,7 +22,7 @@ func TestCrawlOrderRoundTrip(t *testing.T) {
 			MaxPagesPerHost:        100,
 			IgnoresIndexingRefusal: true,
 		},
-		SeedURLs: []yacycrawlcontract.CanonicalURL{
+		SeedURLs: []canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
 			canonicalurltest.CanonicalURLOf(t, "https://example.org/b"),
 		},
@@ -37,5 +38,15 @@ func TestCrawlOrderRoundTrip(t *testing.T) {
 	}
 	if !reflect.DeepEqual(order, got) {
 		t.Errorf("round-trip mismatch:\nwant %#v\ngot  %#v", order, got)
+	}
+}
+
+func TestUnmarshalCrawlOrderRejectsASeedThatIsNotCanonical(t *testing.T) {
+	_, err := yacycrawlcontract.UnmarshalCrawlOrder(
+		[]byte(`{"OrderID":"o1","SeedURLs":["HTTPS://Example.ORG/a"]}`),
+	)
+
+	if err == nil {
+		t.Fatal("UnmarshalCrawlOrder returned nil, want the uncanonical seed failure")
 	}
 }

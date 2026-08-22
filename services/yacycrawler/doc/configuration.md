@@ -6,11 +6,14 @@ The crawler is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CRAWL_NATS_URL` | required | NATS server the crawler connects to. |
+| `CRAWL_NATS_URL` | required | NATS server the crawler consumes crawl orders from. |
+| `SCRAPE_REQUEST_NATS_URL` | required | NATS server the crawler publishes scrape requests to. |
 | `NATS_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject the crawler consumes orders from. |
 | `NATS_ORDERS_DURABLE` | `yacycrawler` | Durable queue-consumer name shared across instances. |
 
-Per-representation stream variables are covered under Representations.
+The crawler publishes a scrape request for every page it admits on the `scrape.request`
+subject of the `SCRAPE_REQUESTS` stream. Neither is configurable. The crawler does not
+create that stream. An operator creates it before the crawler starts.
 
 ## Fetching
 
@@ -31,27 +34,6 @@ Per-representation stream variables are covered under Representations.
 |---|---|---|
 | `YACYCRAWLER_RUN_PAGE_BUDGET` | `1000` | Pages a single run may fetch before it stops. |
 | `YACYCRAWLER_FRONTIER_CAP` | `10000` | Largest frontier a single run may hold. |
-
-## Representations
-
-Each enabled representation of a crawled page is published to its own stream. Every
-representation `<REP>` is configured by the same three variables, where `<REP>` is its
-name upper-cased:
-
-| Variable | Default | Meaning |
-|---|---|---|
-| `YACYCRAWLER_PUBLISH_<REP>` | per representation | Publish this representation. |
-| `NATS_PAGE_<REP>_SUBJECT` | per representation | Subject this representation publishes to. |
-| `NATS_PAGE_<REP>_MAX_MSGS` | `1024` | Bound on this representation's stream. |
-
-| Representation | Enabled | Subject | Content |
-|---|---|---|---|
-| `rwi` | `true` | `yacy.crawl.page.rwi` | Page references and postings. |
-| `text` | `false` | `yacy.crawl.page.text` | Page content as text. |
-| `markdown` | `false` | `yacy.crawl.page.markdown` | Page content as markdown. |
-
-At least one representation must be enabled, or startup fails. Each representation accepts only
-some content formats; a page whose format none of the enabled ones accepts is disposed.
 
 ## Operations
 

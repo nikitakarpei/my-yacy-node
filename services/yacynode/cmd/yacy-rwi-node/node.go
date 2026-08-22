@@ -14,8 +14,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/bootstrap"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlbroker"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlresults"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/eviction"
@@ -56,7 +54,7 @@ type node struct {
 	postingEscrowObserver *metrics.RWIEscrowMetrics
 	peerAnnouncer         peerannouncement.Announcer
 	distributionCycle     *distributioncycle.Cycle
-	crawlResultIngest     *crawlResultIngest
+	scrapeRequestIngest   *scrapeRequestIngest
 }
 
 const advertisedYaCyVersion = "1.83"
@@ -64,8 +62,8 @@ const advertisedYaCyVersion = "1.83"
 const egressRequestTimeout = 30 * time.Second
 
 const (
-	postingAdmissionBatchCapacity = 1000
-	postingAdmissionBusyPause     = 30 * time.Second
+	peerPostingTransferCapacity = 1000
+	postingAdmissionBusyPause   = 30 * time.Second
 )
 
 const (
@@ -182,15 +180,15 @@ func assembleNode(
 		return node{}, fmt.Errorf("urlmeta storage: %w", err)
 	}
 
+	admissionRefusals := metrics.NewRWIAdmissionMetrics(registry)
 	postingReceiver := rwiadmission.Open(
 		vault,
 		urlDirectory,
 		postingAdmitter,
 		postingEscrow,
 		rwiadmission.Config{
-			BatchCap: postingAdmissionBatchCapacity,
 			Pause:    postingAdmissionBusyPause,
-			Refusals: metrics.NewRWIAdmissionMetrics(registry),
+			Refusals: admissionRefusals,
 		},
 	)
 
@@ -208,7 +206,11 @@ func assembleNode(
 
 	mux.Handle("/{$}", landing.NewEndpoint())
 	urlmeta.MountTransferURL(router, identity, urlReceiver)
-	rwiingress.Mount(router, identity, postingReceiver)
+	rwiingress.Mount(router, identity, postingReceiver, rwiingress.Config{
+		PostingCap: peerPostingTransferCapacity,
+		Pause:      postingAdmissionBusyPause,
+		Refusals:   admissionRefusals,
+	})
 	nodestatus.MountQuery(router, identity, postings, urlReferences, urlDirectory)
 	documentsearch.MountSearch(
 		router,
@@ -248,26 +250,16 @@ func assembleNode(
 		peerRoster,
 	)
 
-	var crawl *crawlResultIngest
+	var crawl *scrapeRequestIngest
 
 	if config.Crawl.Enabled() {
-		crawlBroker, crawlBrokerErr := crawlbroker.Open(ctx, crawlbroker.Config{
-			NATSURL:       config.Crawl.NATSURL,
-			IngestSubject: config.Crawl.IngestSubject,
-			IngestDurable: config.Crawl.IngestDurable,
-		})
-		if crawlBrokerErr != nil {
-			return node{}, fmt.Errorf("open crawl broker: %w", crawlBrokerErr)
+		crawlIngest, crawlIngestErr := openScrapeRequestIngest(
+			ctx, config.Crawl, urlReceiver, postingReceiver,
+		)
+		if crawlIngestErr != nil {
+			return node{}, crawlIngestErr
 		}
-
-		crawl = &crawlResultIngest{
-			broker: crawlBroker,
-			consumer: crawlresults.NewIngestConsumer(
-				crawlBroker.Ingest,
-				urlReceiver,
-				postingReceiver,
-			),
-		}
+		crawl = crawlIngest
 	}
 
 	var distributionCycle *distributioncycle.Cycle
@@ -351,6 +343,6 @@ func assembleNode(
 		postingEscrowObserver: postingEscrowObserver,
 		peerAnnouncer:         peerAnnouncer,
 		distributionCycle:     distributionCycle,
-		crawlResultIngest:     crawl,
+		scrapeRequestIngest:   crawl,
 	}, nil
 }

@@ -194,6 +194,34 @@ func TestList(t *testing.T) {
 	}
 }
 
+func TestRequiredHTTPURL(t *testing.T) {
+	parsed, err := envconfig.RequiredHTTPURL(
+		fixedEnv(map[string]string{"PROXY": "http://proxy:3128"}), "PROXY",
+	)
+	if err != nil {
+		t.Fatalf("required http url: %v", err)
+	}
+	if parsed.Host != "proxy:3128" {
+		t.Errorf("host = %q, want proxy:3128", parsed.Host)
+	}
+}
+
+func TestRequiredHTTPURLRejectsWhatIsNotAWebAddress(t *testing.T) {
+	rejected := map[string]string{
+		"unset":        "",
+		"other scheme": "ftp://proxy:3128",
+		"missing host": "http://",
+		"unparsable":   "http://[::1",
+	}
+	for name, raw := range rejected {
+		if _, err := envconfig.RequiredHTTPURL(
+			fixedEnv(map[string]string{"PROXY": raw}), "PROXY",
+		); err == nil {
+			t.Errorf("%s should be rejected", name)
+		}
+	}
+}
+
 func TestByteSize(t *testing.T) {
 	units := []struct {
 		raw  string

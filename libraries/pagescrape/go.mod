@@ -1,0 +1,21 @@
+module github.com/nikitakarpei/yacy-rwi-node/pagescrape
+
+go 1.26
+
+require (
+	codeberg.org/readeck/go-readability/v2 v2.1.2
+	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2
+	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
+	golang.org/x/net v0.55.0
+)
+
+require (
+	github.com/JohannesKaufmann/dom v0.3.1 // indirect
+	github.com/andybalholm/cascadia v1.3.4 // indirect
+	github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c // indirect
+	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
+	github.com/itlightning/dateparse v0.2.1 // indirect
+	golang.org/x/text v0.37.0 // indirect
+)
+
+replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl

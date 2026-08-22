@@ -10,6 +10,7 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 )
@@ -17,7 +18,6 @@ import (
 const (
 	corpusTextAlias       = "corpustext"
 	envCorpusTextImage    = "CORPUSTEXT_IMAGE"
-	crawledPageSubject    = "yacy.crawl.page.text"
 	indexedLanguage       = "en"
 	corpusTextStopTimeout = 30 * time.Second
 )
@@ -30,8 +30,9 @@ func startCorpusText(
 ) testcontainers.Container {
 	t.Helper()
 	env := map[string]string{
-		"CRAWL_NATS_URL":            natsjetstream.NetworkURL(),
-		"NATS_CRAWLED_PAGE_SUBJECT": crawledPageSubject,
+		"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL(),
+		"CORPUSTEXT_PROXY_URL":    egressproxy.NetworkURL(),
+		"LOG_LEVEL":               "debug",
 	}
 	for key, value := range searchIndexEnv {
 		env[key] = value

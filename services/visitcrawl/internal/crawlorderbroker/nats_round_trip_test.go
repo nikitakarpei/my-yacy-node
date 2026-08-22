@@ -7,10 +7,11 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 const ordersSubject = "yacy.crawl.orders"
@@ -47,7 +48,7 @@ func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID: "order-1",
 		Profile: yacycrawlcontract.CrawlProfile{Name: "docs"},
-		SeedURLs: []yacycrawlcontract.CanonicalURL{
+		SeedURLs: []canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, "https://example.org"),
 		},
 	}

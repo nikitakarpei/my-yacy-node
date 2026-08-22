@@ -3,8 +3,8 @@ package pagemarkdownstore_test
 import (
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 func TestObjectNameIsDeterministicPerURL(t *testing.T) {

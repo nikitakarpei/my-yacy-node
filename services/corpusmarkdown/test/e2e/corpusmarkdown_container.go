@@ -7,18 +7,21 @@ import (
 	"testing"
 
 	"github.com/testcontainers/testcontainers-go"
+	"github.com/testcontainers/testcontainers-go/wait"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 )
 
 const (
 	corpusMarkdownAlias    = "corpusmarkdown"
+	corpusMarkdownPort     = "8094/tcp"
 	envCorpusMarkdownImage = "CORPUSMARKDOWN_IMAGE"
 )
 
-func startCorpusMarkdown(t *testing.T, ctx context.Context, networkName string) {
+func startCorpusMarkdown(t *testing.T, ctx context.Context, networkName string) string {
 	t.Helper()
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
@@ -26,11 +29,13 @@ func startCorpusMarkdown(t *testing.T, ctx context.Context, networkName string) 
 			Image:          corpusMarkdownImage(t),
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {corpusMarkdownAlias}},
+			ExposedPorts:   []string{corpusMarkdownPort},
+			WaitingFor:     wait.ForListeningPort(corpusMarkdownPort),
 			Env: map[string]string{
-				"CRAWL_NATS_URL":            natsjetstream.NetworkURL(),
-				"PAGE_MARKDOWN_NATS_URL":    natsjetstream.NetworkURL(),
-				"NATS_CRAWLED_PAGE_SUBJECT": crawledPageSubject,
-				"LOG_LEVEL":                 "debug",
+				"SCRAPE_REQUEST_NATS_URL":  natsjetstream.NetworkURL(),
+				"PAGE_MARKDOWN_NATS_URL":   natsjetstream.NetworkURL(),
+				"CORPUSMARKDOWN_PROXY_URL": egressproxy.NetworkURL(),
+				"LOG_LEVEL":                "debug",
 			},
 		},
 	})
@@ -39,6 +44,16 @@ func startCorpusMarkdown(t *testing.T, ctx context.Context, networkName string) 
 	}
 	t.Cleanup(func() { _ = container.Terminate(context.Background()) })
 	containerlog.DumpOnFailure(t, "corpusmarkdown", container)
+
+	host, err := container.Host(ctx)
+	if err != nil {
+		t.Fatalf("corpusmarkdown host: %v", err)
+	}
+	port, err := container.MappedPort(ctx, corpusMarkdownPort)
+	if err != nil {
+		t.Fatalf("corpusmarkdown mapped port: %v", err)
+	}
+	return host + ":" + port.Port()
 }
 
 func corpusMarkdownImage(t *testing.T) string {

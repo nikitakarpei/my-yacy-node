@@ -1,0 +1,101 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  pagescrape:
+    in: .
+  pagefetch:
+    in: pagefetch/**
+  pagefetchershttp:
+    in: pagefetchers/http/**
+  contentextraction:
+    in: contentextraction/**
+  contentformatgraph:
+    in: contentformatgraph/**
+  mediaextractorshtml:
+    in: mediaextractors/html/**
+  pagederivationsfulltext:
+    in: pagederivations/fulltext/**
+  pagederivationsmarkdown:
+    in: pagederivations/markdown/**
+  pagederivationsreadablehtml:
+    in: pagederivations/readablehtml/**
+  pagederivationsreadabletext:
+    in: pagederivations/readabletext/**
+  htmlflattening:
+    in: htmlflattening/**
+  mediatypeallowance:
+    in: mediatypeallowance/**
+
+vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  readability:
+    in:
+      - codeberg.org/readeck/go-readability/v2
+  htmltomarkdown:
+    in:
+      - github.com/JohannesKaufmann/html-to-markdown/v2
+  xnet:
+    in:
+      - golang.org/x/net/**
+
+deps:
+  pagescrape:
+    mayDependOn:
+      - pagefetch
+      - contentextraction
+      - contentformatgraph
+      - mediaextractorshtml
+      - pagederivationsfulltext
+      - pagederivationsmarkdown
+      - pagederivationsreadablehtml
+      - pagederivationsreadabletext
+    canUse:
+      - canonicalurl
+  pagefetchershttp:
+    mayDependOn:
+      - pagefetch
+  contentextraction:
+    mayDependOn:
+      - contentformatgraph
+    canUse:
+      - canonicalurl
+  mediaextractorshtml:
+    mayDependOn:
+      - contentextraction
+      - contentformatgraph
+    canUse:
+      - canonicalurl
+      - xnet
+  pagederivationsfulltext:
+    mayDependOn:
+      - contentformatgraph
+      - htmlflattening
+  pagederivationsmarkdown:
+    mayDependOn:
+      - contentformatgraph
+    canUse:
+      - htmltomarkdown
+  pagederivationsreadablehtml:
+    mayDependOn:
+      - contentformatgraph
+    canUse:
+      - readability
+      - xnet
+  pagederivationsreadabletext:
+    mayDependOn:
+      - contentformatgraph
+      - htmlflattening
+  htmlflattening:
+    canUse:
+      - xnet
+
+excludeFiles:
+  - "_test\\.go"

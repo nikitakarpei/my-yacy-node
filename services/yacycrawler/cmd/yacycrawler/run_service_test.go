@@ -10,44 +10,28 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	yacycrawler "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/cmd/yacycrawler"
 )
 
-func publishedPageStreams() []yacycrawler.PageStreamConfig {
-	streams := make([]yacycrawler.PageStreamConfig, 0, 3)
-	for _, representation := range []yacycrawlcontract.PageRepresentationKind{
-		yacycrawlcontract.PageRepresentationKindRWI,
-		yacycrawlcontract.PageRepresentationKindText,
-		yacycrawlcontract.PageRepresentationKindMarkdown,
-	} {
-		streams = append(streams, yacycrawler.PageStreamConfig{
-			Representation: representation,
-			Subject:        yacycrawlcontract.CrawledPageSubject(representation),
-			MaxMsgs:        yacycrawler.DefaultMaxMsgs,
-			Published:      representation == yacycrawlcontract.PageRepresentationKindRWI,
-		})
-	}
-
-	return streams
-}
-
 func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
+	crawlNATSURL := natstestserver.Start(t)
 	cfg := yacycrawler.ServiceConfig{
-		CrawlNATSURL:     natstestserver.Start(t),
-		OrdersSubject:    yacycrawler.DefaultOrdersSubject,
-		OrdersDurable:    yacycrawler.DefaultOrdersDurable,
-		PageStreams:      publishedPageStreams(),
-		ProxyURL:         proxy,
-		FetchConcurrency: 2,
-		RunPageBudget:    yacycrawler.DefaultRunPageBudget,
-		FrontierCap:      yacycrawler.DefaultFrontierCap,
-		MaxBodyBytes:     yacycrawler.DefaultMaxBodyBytes,
-		FetchDeadline:    time.Second,
-		OpsAddr:          "127.0.0.1:0",
+		CrawlNATSURL:         crawlNATSURL,
+		ScrapeRequestNATSURL: crawlNATSURL,
+		OrdersSubject:        yacycrawler.DefaultOrdersSubject,
+		OrdersDurable:        yacycrawler.DefaultOrdersDurable,
+		ProxyURL:             proxy,
+		FetchConcurrency:     2,
+		RunPageBudget:        yacycrawler.DefaultRunPageBudget,
+		FrontierCap:          yacycrawler.DefaultFrontierCap,
+		MaxBodyBytes:         yacycrawler.DefaultMaxBodyBytes,
+		FetchDeadline:        time.Second,
+		OpsAddr:              "127.0.0.1:0",
 	}
 
 	publishOrder(t, cfg.CrawlNATSURL)
@@ -63,10 +47,11 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 
 func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
+	natsURL := natstestserver.Start(t)
 	cfg := yacycrawler.ServiceConfig{
-		CrawlNATSURL: natstestserver.Start(t), OrdersSubject: yacycrawler.DefaultOrdersSubject,
+		CrawlNATSURL: natsURL, ScrapeRequestNATSURL: natsURL,
+		OrdersSubject: yacycrawler.DefaultOrdersSubject,
 		OrdersDurable: yacycrawler.DefaultOrdersDurable,
-		PageStreams:   publishedPageStreams(),
 		ProxyURL:      proxy, FetchConcurrency: 2,
 		MaxBodyBytes:  yacycrawler.DefaultMaxBodyBytes,
 		FetchDeadline: time.Second, OpsAddr: "127.0.0.1:0",
@@ -80,9 +65,10 @@ func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
 
 func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {
 	cfg := yacycrawler.ServiceConfig{
-		CrawlNATSURL:     "nats://127.0.0.1:1",
-		FetchConcurrency: 2,
-		OpsAddr:          "127.0.0.1:0",
+		CrawlNATSURL:         "nats://127.0.0.1:1",
+		ScrapeRequestNATSURL: "nats://127.0.0.1:1",
+		FetchConcurrency:     2,
+		OpsAddr:              "127.0.0.1:0",
 	}
 	registry := prometheus.NewRegistry()
 	if err := yacycrawler.RunService(context.Background(), cfg, registry); err == nil {
@@ -107,7 +93,7 @@ func publishOrder(t *testing.T, crawlNATSURL string) {
 			Scope: yacycrawlcontract.ScopeWide, URLMustMatch: yacycrawlcontract.MatchAll,
 			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
 		},
-		SeedURLs: []yacycrawlcontract.CanonicalURL{
+		SeedURLs: []canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, "http://origin.example/"),
 		},
 	})

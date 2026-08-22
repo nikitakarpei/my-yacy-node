@@ -5,6 +5,9 @@ allow:
   depOnAnyVendor: false
   deepScan: false
 
+commonVendors:
+  - canonicalurl
+
 components:
   visitintake:
     in: internal/visitintake/**
@@ -22,6 +25,10 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
   nats:
     in:
       - github.com/nats-io/nats.go

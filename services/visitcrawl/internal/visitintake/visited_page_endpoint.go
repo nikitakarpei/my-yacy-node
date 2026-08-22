@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitlink"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
@@ -96,10 +97,10 @@ func visitedPageFrom(raw string) (string, error) {
 	return raw, nil
 }
 
-func seedURLFrom(visitedPage string) (yacycrawlcontract.CanonicalURL, error) {
-	canonicalURL, err := yacycrawlcontract.CanonicalURLOf(visitedPage)
+func seedURLFrom(visitedPage string) (canonicalurl.CanonicalURL, error) {
+	canonicalURL, err := canonicalurl.CanonicalURLOf(visitedPage)
 	if err != nil {
-		return yacycrawlcontract.CanonicalURL{}, fmt.Errorf("%s: %w", queryParamURL, err)
+		return canonicalurl.CanonicalURL{}, fmt.Errorf("%s: %w", queryParamURL, err)
 	}
 	return canonicalURL, nil
 }
