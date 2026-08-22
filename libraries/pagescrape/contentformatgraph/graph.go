@@ -1,15 +1,19 @@
 // Package contentformatgraph derives one content format from another along registered derivations.
 package contentformatgraph
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
+)
 
 type FormatDerivations struct {
-	byTargetFormat map[Format][]Derivation
+	byTargetFormat map[documentextraction.Format][]Derivation
 }
 
 func New(derivations []Derivation) FormatDerivations {
 	byTargetFormat := make(
-		map[Format][]Derivation,
+		map[documentextraction.Format][]Derivation,
 		len(derivations),
 	)
 	for _, derivation := range derivations {
@@ -21,11 +25,14 @@ func New(derivations []Derivation) FormatDerivations {
 	return FormatDerivations{byTargetFormat: byTargetFormat}
 }
 
-func (g FormatDerivations) Derivable(sourceFormat, targetFormat Format) bool {
-	return g.derivable(sourceFormat, targetFormat, map[Format]bool{})
+func (g FormatDerivations) Derivable(sourceFormat, targetFormat documentextraction.Format) bool {
+	return g.derivable(sourceFormat, targetFormat, map[documentextraction.Format]bool{})
 }
 
-func (g FormatDerivations) derivable(sourceFormat, format Format, resolving map[Format]bool) bool {
+func (g FormatDerivations) derivable(
+	sourceFormat, format documentextraction.Format,
+	resolving map[documentextraction.Format]bool,
+) bool {
 	if format == sourceFormat {
 		return true
 	}
@@ -41,7 +48,9 @@ func (g FormatDerivations) derivable(sourceFormat, format Format, resolving map[
 	return false
 }
 
-func (g FormatDerivations) EnsureNoDanglingFormat(sourceFormats, targetFormats []Format) error {
+func (g FormatDerivations) EnsureNoDanglingFormat(
+	sourceFormats, targetFormats []documentextraction.Format,
+) error {
 	for _, targetFormat := range targetFormats {
 		if !g.derivableFromAny(sourceFormats, targetFormat) {
 			return fmt.Errorf("no source format derives %s", targetFormat)
@@ -55,7 +64,10 @@ func (g FormatDerivations) EnsureNoDanglingFormat(sourceFormats, targetFormats [
 	return nil
 }
 
-func (g FormatDerivations) derivableFromAny(sourceFormats []Format, targetFormat Format) bool {
+func (g FormatDerivations) derivableFromAny(
+	sourceFormats []documentextraction.Format,
+	targetFormat documentextraction.Format,
+) bool {
 	for _, sourceFormat := range sourceFormats {
 		if g.Derivable(sourceFormat, targetFormat) {
 			return true
@@ -64,7 +76,10 @@ func (g FormatDerivations) derivableFromAny(sourceFormats []Format, targetFormat
 	return false
 }
 
-func (g FormatDerivations) derivesAny(sourceFormat Format, targetFormats []Format) bool {
+func (g FormatDerivations) derivesAny(
+	sourceFormat documentextraction.Format,
+	targetFormats []documentextraction.Format,
+) bool {
 	for _, targetFormat := range targetFormats {
 		if g.Derivable(sourceFormat, targetFormat) {
 			return true
@@ -75,14 +90,14 @@ func (g FormatDerivations) derivesAny(sourceFormat Format, targetFormats []Forma
 
 func (g FormatDerivations) ForPage(
 	pageURL string,
-	format Format,
+	format documentextraction.Format,
 	body []byte,
 ) *PageFormats {
 	return &PageFormats{
 		pageURL:      pageURL,
 		graph:        g,
-		contents:     map[Format][]byte{format: body},
-		unresolvable: make(map[Format]bool),
-		resolving:    make(map[Format]bool),
+		contents:     map[documentextraction.Format][]byte{format: body},
+		unresolvable: make(map[documentextraction.Format]bool),
+		resolving:    make(map[documentextraction.Format]bool),
 	}
 }

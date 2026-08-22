@@ -24,7 +24,6 @@ create that stream. An operator creates it before the crawler starts.
 | `YACYCRAWLER_MAX_BODY_BYTES` | `2097152` | Largest response body accepted; larger is disposed. |
 | `YACYCRAWLER_FETCH_DEADLINE` | `30s` | Deadline for a single fetch. |
 | `YACYCRAWLER_FETCH_CONCURRENCY` | `4` | Concurrent fetches within a single run. |
-| `YACYCRAWLER_CONTENT_TYPES` | all | Comma-separated media types to crawl. Empty crawls every supported type. A media type no extractor reads fails startup. |
 | `YACYCRAWLER_USER_AGENT` | `yacycrawler (+https://yacy.net)` | User-Agent sent with every fetch. |
 | `YACYCRAWLER_RECRAWL_GRACE` | `1h` | Minimum time between visits to the same URL. `0` disables suppression. |
 

@@ -1,9 +1,8 @@
-// Package contentextraction turns a fetched body into the document it holds.
-package contentextraction
+// Package documentextraction turns a fetched body into the document it holds.
+package documentextraction
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log/slog"
 	"mime"
@@ -12,32 +11,27 @@ import (
 
 const msgMediaTypeUnparsed = "content type unparsed, falling back to its leading segment"
 
-var ErrNoExtractableMediaType = errors.New("no media type is extractable")
-
 type DocumentExtractor struct {
 	extractors map[string]MediaExtractor
 }
 
-func New(extractors map[string]MediaExtractor) (*DocumentExtractor, error) {
-	if len(extractors) == 0 {
-		return nil, ErrNoExtractableMediaType
-	}
-	return &DocumentExtractor{extractors: extractors}, nil
+func New() *DocumentExtractor {
+	return &DocumentExtractor{extractors: mediaExtractorsByMediaType()}
 }
 
 func (e *DocumentExtractor) DocumentFrom(
 	ctx context.Context,
 	pageURL, contentType string,
 	body []byte,
-) (ExtractedDocument, error) {
+) (Document, error) {
 	media := mediaType(ctx, contentType)
 	extractor, extractable := e.extractors[media]
 	if !extractable {
-		return ExtractedDocument{}, ErrUnsupportedMediaType
+		return Document{}, ErrUnsupportedMediaType
 	}
 	document, err := extractor.Extract(ctx, pageURL, contentType, body)
 	if err != nil {
-		return ExtractedDocument{}, fmt.Errorf("extract %s: %w", media, err)
+		return Document{}, fmt.Errorf("extract %s: %w", media, err)
 	}
 	return document, nil
 }

@@ -1,4 +1,4 @@
-package html
+package documentextraction
 
 import (
 	"strings"

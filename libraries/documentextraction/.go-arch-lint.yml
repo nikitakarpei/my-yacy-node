@@ -1,0 +1,28 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  documentextraction:
+    in: .
+
+vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  xnet:
+    in:
+      - golang.org/x/net/**
+
+deps:
+  documentextraction:
+    canUse:
+      - canonicalurl
+      - xnet
+
+excludeFiles:
+  - "_test\\.go"

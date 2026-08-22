@@ -9,6 +9,7 @@ import (
 	readability "codeberg.org/readeck/go-readability/v2"
 	"golang.org/x/net/html"
 
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 )
 
@@ -18,12 +19,12 @@ func NewDocumentHTMLDerivation() DocumentHTMLDerivation {
 	return DocumentHTMLDerivation{}
 }
 
-func (DocumentHTMLDerivation) SourceFormat() contentformatgraph.Format {
-	return contentformatgraph.FormatDocumentHTML
+func (DocumentHTMLDerivation) SourceFormat() documentextraction.Format {
+	return documentextraction.FormatDocumentHTML
 }
 
-func (DocumentHTMLDerivation) TargetFormat() contentformatgraph.Format {
-	return contentformatgraph.FormatReadableHTML
+func (DocumentHTMLDerivation) TargetFormat() documentextraction.Format {
+	return documentextraction.FormatReadableHTML
 }
 
 func (DocumentHTMLDerivation) Derive(pageURL string, body []byte) ([]byte, error) {

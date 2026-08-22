@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/url"
-	"strings"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
@@ -25,7 +24,6 @@ const (
 	EnvFrontierCap   = "YACYCRAWLER_FRONTIER_CAP"
 	EnvMaxBodyBytes  = "YACYCRAWLER_MAX_BODY_BYTES"
 	EnvFetchDeadline = "YACYCRAWLER_FETCH_DEADLINE"
-	EnvContentTypes  = "YACYCRAWLER_CONTENT_TYPES"
 	EnvOpsAddr       = "YACYCRAWLER_OPS_ADDR"
 	EnvUserAgent     = "YACYCRAWLER_USER_AGENT"
 	EnvRecrawlGrace  = "YACYCRAWLER_RECRAWL_GRACE"
@@ -58,7 +56,6 @@ type ServiceConfig struct {
 	FrontierCap          int
 	MaxBodyBytes         int64
 	FetchDeadline        time.Duration
-	ContentTypes         []string
 	OpsAddr              string
 	UserAgent            string
 	RecrawlGrace         time.Duration
@@ -152,7 +149,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		FrontierCap:          limits.frontierCap,
 		MaxBodyBytes:         limits.maxBodyBytes,
 		FetchDeadline:        limits.fetchDeadline,
-		ContentTypes:         mediaTypes(getenv, EnvContentTypes),
 		OpsAddr:              envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 		UserAgent:            envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
 		RecrawlGrace:         recrawlGrace,
@@ -167,12 +163,4 @@ func proxyDialModeFromEnv(getenv func(string) string) (http.ProxyDialMode, error
 		return 0, fmt.Errorf("%s: %w", EnvProxyDialMode, err)
 	}
 	return mode, nil
-}
-
-func mediaTypes(getenv func(string) string, key string) []string {
-	values := envconfig.List(getenv, key)
-	for i, value := range values {
-		values[i] = strings.ToLower(value)
-	}
-	return values
 }

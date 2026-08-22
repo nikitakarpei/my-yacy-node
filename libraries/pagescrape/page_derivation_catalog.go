@@ -8,7 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagederivations/readabletext"
 )
 
-func PageDerivationCatalog() []contentformatgraph.Derivation {
+func pageDerivationCatalog() []contentformatgraph.Derivation {
 	return []contentformatgraph.Derivation{
 		fulltext.NewDocumentHTMLDerivation(),
 		readablehtml.NewDocumentHTMLDerivation(),

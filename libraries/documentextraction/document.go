@@ -1,14 +1,13 @@
-package contentextraction
+package documentextraction
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 )
 
-type ExtractedDocument struct {
+type Document struct {
 	Title                string
 	Body                 []byte
-	Format               contentformatgraph.Format
+	Format               Format
 	Language             string
 	DiscoveredURLs       []canonicalurl.CanonicalURL
 	LocalLinks           int

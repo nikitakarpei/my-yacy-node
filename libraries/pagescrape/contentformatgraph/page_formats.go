@@ -3,18 +3,20 @@ package contentformatgraph
 import (
 	"errors"
 	"fmt"
+
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 )
 
 type PageFormats struct {
 	pageURL      string
 	graph        FormatDerivations
-	contents     map[Format][]byte
-	unresolvable map[Format]bool
-	resolving    map[Format]bool
+	contents     map[documentextraction.Format][]byte
+	unresolvable map[documentextraction.Format]bool
+	resolving    map[documentextraction.Format]bool
 }
 
 func (r *PageFormats) Resolve(
-	format Format,
+	format documentextraction.Format,
 ) ([]byte, bool, error) {
 	if content, done := r.contents[format]; done {
 		return content, true, nil

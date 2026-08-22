@@ -45,24 +45,6 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 	}
 }
 
-func TestRunServiceFailsOnEmptyExtractor(t *testing.T) {
-	proxy, _ := url.Parse("http://127.0.0.1:1")
-	natsURL := natstestserver.Start(t)
-	cfg := yacycrawler.ServiceConfig{
-		CrawlNATSURL: natsURL, ScrapeRequestNATSURL: natsURL,
-		OrdersSubject: yacycrawler.DefaultOrdersSubject,
-		OrdersDurable: yacycrawler.DefaultOrdersDurable,
-		ProxyURL:      proxy, FetchConcurrency: 2,
-		MaxBodyBytes:  yacycrawler.DefaultMaxBodyBytes,
-		FetchDeadline: time.Second, OpsAddr: "127.0.0.1:0",
-		ContentTypes: []string{"application/unregistered"},
-	}
-	registry := prometheus.NewRegistry()
-	if err := yacycrawler.RunService(context.Background(), cfg, registry); err == nil {
-		t.Fatal("empty active extractor set should fail startup")
-	}
-}
-
 func TestRunServiceRejectsBadCrawlNATSURL(t *testing.T) {
 	cfg := yacycrawler.ServiceConfig{
 		CrawlNATSURL:         "nats://127.0.0.1:1",

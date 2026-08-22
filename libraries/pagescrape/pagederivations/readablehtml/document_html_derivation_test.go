@@ -5,6 +5,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagederivations/readablehtml"
 )
@@ -19,10 +20,10 @@ const document = `<!DOCTYPE html><html lang="en"><head><title>Sample Article</ti
 
 func TestDeriveDeclaresDocumentHTMLToReadableHTML(t *testing.T) {
 	derivation := readablehtml.NewDocumentHTMLDerivation()
-	if source := derivation.SourceFormat(); source != contentformatgraph.FormatDocumentHTML {
+	if source := derivation.SourceFormat(); source != documentextraction.FormatDocumentHTML {
 		t.Fatalf("source format = %q, want document-html", source)
 	}
-	if target := derivation.TargetFormat(); target != contentformatgraph.FormatReadableHTML {
+	if target := derivation.TargetFormat(); target != documentextraction.FormatReadableHTML {
 		t.Fatalf("target format = %q, want readable-html", target)
 	}
 }

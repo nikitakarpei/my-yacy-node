@@ -12,12 +12,8 @@ components:
     in: pagefetch/**
   pagefetchershttp:
     in: pagefetchers/http/**
-  contentextraction:
-    in: contentextraction/**
   contentformatgraph:
     in: contentformatgraph/**
-  mediaextractorshtml:
-    in: mediaextractors/html/**
   pagederivationsfulltext:
     in: pagederivations/fulltext/**
   pagederivationsmarkdown:
@@ -28,10 +24,11 @@ components:
     in: pagederivations/readabletext/**
   htmlflattening:
     in: htmlflattening/**
-  mediatypeallowance:
-    in: mediatypeallowance/**
 
 vendors:
+  documentextraction:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/documentextraction
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -50,49 +47,41 @@ deps:
   pagescrape:
     mayDependOn:
       - pagefetch
-      - contentextraction
       - contentformatgraph
-      - mediaextractorshtml
       - pagederivationsfulltext
       - pagederivationsmarkdown
       - pagederivationsreadablehtml
       - pagederivationsreadabletext
     canUse:
       - canonicalurl
+      - documentextraction
   pagefetchershttp:
     mayDependOn:
       - pagefetch
-  contentextraction:
-    mayDependOn:
-      - contentformatgraph
+  contentformatgraph:
     canUse:
-      - canonicalurl
-  mediaextractorshtml:
-    mayDependOn:
-      - contentextraction
-      - contentformatgraph
-    canUse:
-      - canonicalurl
-      - xnet
+      - documentextraction
   pagederivationsfulltext:
     mayDependOn:
-      - contentformatgraph
       - htmlflattening
-  pagederivationsmarkdown:
-    mayDependOn:
-      - contentformatgraph
     canUse:
+      - documentextraction
+  pagederivationsmarkdown:
+    canUse:
+      - documentextraction
       - htmltomarkdown
   pagederivationsreadablehtml:
     mayDependOn:
       - contentformatgraph
     canUse:
+      - documentextraction
       - readability
       - xnet
   pagederivationsreadabletext:
     mayDependOn:
-      - contentformatgraph
       - htmlflattening
+    canUse:
+      - documentextraction
   htmlflattening:
     canUse:
       - xnet

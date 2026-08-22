@@ -1,7 +1,7 @@
 package readabletext
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/htmlflattening"
 )
 
@@ -11,12 +11,12 @@ func NewReadableHTMLDerivation() ReadableHTMLDerivation {
 	return ReadableHTMLDerivation{}
 }
 
-func (ReadableHTMLDerivation) SourceFormat() contentformatgraph.Format {
-	return contentformatgraph.FormatReadableHTML
+func (ReadableHTMLDerivation) SourceFormat() documentextraction.Format {
+	return documentextraction.FormatReadableHTML
 }
 
-func (ReadableHTMLDerivation) TargetFormat() contentformatgraph.Format {
-	return contentformatgraph.FormatReadableText
+func (ReadableHTMLDerivation) TargetFormat() documentextraction.Format {
+	return documentextraction.FormatReadableText
 }
 
 func (ReadableHTMLDerivation) Derive(_ string, body []byte) ([]byte, error) {

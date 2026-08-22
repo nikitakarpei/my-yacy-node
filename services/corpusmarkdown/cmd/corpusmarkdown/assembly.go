@@ -15,9 +15,9 @@ import (
 	markdownrecallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/grpc"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownstoremetrics"
 	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
@@ -126,6 +126,6 @@ func markdownScraperFor(cfg ServiceConfig) (*pagescrape.Scraper, error) {
 			cfg.MaxBodyBytes,
 			cfg.FetchDeadline,
 		),
-		contentformatgraph.FormatMarkdown,
+		documentextraction.FormatMarkdown,
 	)
 }

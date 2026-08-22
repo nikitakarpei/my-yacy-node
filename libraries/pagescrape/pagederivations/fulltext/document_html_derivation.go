@@ -1,7 +1,7 @@
 package fulltext
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/htmlflattening"
 )
 
@@ -11,12 +11,12 @@ func NewDocumentHTMLDerivation() DocumentHTMLDerivation {
 	return DocumentHTMLDerivation{}
 }
 
-func (DocumentHTMLDerivation) SourceFormat() contentformatgraph.Format {
-	return contentformatgraph.FormatDocumentHTML
+func (DocumentHTMLDerivation) SourceFormat() documentextraction.Format {
+	return documentextraction.FormatDocumentHTML
 }
 
-func (DocumentHTMLDerivation) TargetFormat() contentformatgraph.Format {
-	return contentformatgraph.FormatFullText
+func (DocumentHTMLDerivation) TargetFormat() documentextraction.Format {
+	return documentextraction.FormatFullText
 }
 
 func (DocumentHTMLDerivation) Derive(_ string, body []byte) ([]byte, error) {

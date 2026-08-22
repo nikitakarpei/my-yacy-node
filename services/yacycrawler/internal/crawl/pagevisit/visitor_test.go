@@ -9,8 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
@@ -87,7 +86,7 @@ func (f *fakeRecrawl) calls() []visitedCall {
 }
 
 type fakeExtract struct {
-	document contentextraction.ExtractedDocument
+	document documentextraction.Document
 	err      error
 }
 
@@ -95,31 +94,31 @@ func (f fakeExtract) DocumentFrom(
 	_ context.Context,
 	_, _ string,
 	_ []byte,
-) (contentextraction.ExtractedDocument, error) {
+) (documentextraction.Document, error) {
 	return f.document, f.err
 }
 
-func readableDocument() contentextraction.ExtractedDocument {
-	return contentextraction.ExtractedDocument{
+func readableDocument() documentextraction.Document {
+	return documentextraction.Document{
 		Title:  "title",
 		Body:   []byte("body"),
-		Format: contentformatgraph.FormatReadableText,
+		Format: documentextraction.FormatReadableText,
 	}
 }
 
-func refusingDocument() contentextraction.ExtractedDocument {
-	return contentextraction.ExtractedDocument{
+func refusingDocument() documentextraction.Document {
+	return documentextraction.Document{
 		Body:            []byte("b"),
-		Format:          contentformatgraph.FormatReadableText,
+		Format:          documentextraction.FormatReadableText,
 		RefusesIndexing: true,
 	}
 }
 
-func linkingDocument(t *testing.T, discovered string) contentextraction.ExtractedDocument {
+func linkingDocument(t *testing.T, discovered string) documentextraction.Document {
 	t.Helper()
-	return contentextraction.ExtractedDocument{
+	return documentextraction.Document{
 		Body:   []byte("b"),
-		Format: contentformatgraph.FormatReadableText,
+		Format: documentextraction.FormatReadableText,
 		DiscoveredURLs: []canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, discovered),
 		},

@@ -11,7 +11,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
@@ -158,10 +158,6 @@ func buildVisitorSource(
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
 	)
-	extractor, err := buildExtractor(cfg)
-	if err != nil {
-		return nil, err
-	}
 	recrawl, err := recrawlRule(ctx, js, cfg)
 	if err != nil {
 		return nil, err
@@ -169,7 +165,7 @@ func buildVisitorSource(
 	return pagevisit.New(
 		fetchtiming.New(metrics, wallclock.Clock{}, fetch),
 		recrawl,
-		extractor,
+		documentextraction.New(),
 		metrics,
 		scraperequestpublication.NewPublisher(
 			metrics, scraperequestsjetstream.New(scrapeRequestJetStream),
@@ -209,18 +205,6 @@ func ordersConsumer(
 		return nil, fmt.Errorf("create orders consumer: %w", err)
 	}
 	return consumer, nil
-}
-
-func buildExtractor(cfg ServiceConfig) (pagevisit.PageExtractor, error) {
-	admitted, err := admittedMediaTypesFor(cfg)
-	if err != nil {
-		return nil, err
-	}
-	extraction, err := contentextraction.New(admitted.extractors)
-	if err != nil {
-		return nil, fmt.Errorf("%s: %w", EnvContentTypes, err)
-	}
-	return extraction, nil
 }
 
 func traversalConfig(cfg ServiceConfig) ordertraversal.Config {

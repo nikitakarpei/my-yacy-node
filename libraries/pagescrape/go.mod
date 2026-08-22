@@ -6,6 +6,7 @@ require (
 	codeberg.org/readeck/go-readability/v2 v2.1.2
 	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0
 	golang.org/x/net v0.55.0
 )
 
@@ -19,3 +20,5 @@ require (
 )
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
+
+replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction

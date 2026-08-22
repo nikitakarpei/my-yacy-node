@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagederivations/fulltext"
 )
 
@@ -33,10 +33,10 @@ func TestDeriveFlattensWholeDocumentAndStripsMarkup(t *testing.T) {
 
 func TestDeriveDeclaresDocumentHTMLToFullText(t *testing.T) {
 	derivation := fulltext.NewDocumentHTMLDerivation()
-	if derivation.SourceFormat() != contentformatgraph.FormatDocumentHTML {
+	if derivation.SourceFormat() != documentextraction.FormatDocumentHTML {
 		t.Fatalf("source format = %q", derivation.SourceFormat())
 	}
-	if derivation.TargetFormat() != contentformatgraph.FormatFullText {
+	if derivation.TargetFormat() != documentextraction.FormatFullText {
 		t.Fatalf("target format = %q", derivation.TargetFormat())
 	}
 }

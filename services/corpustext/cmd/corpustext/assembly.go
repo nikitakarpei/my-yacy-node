@@ -13,8 +13,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/indexmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
@@ -113,6 +113,6 @@ func textScraperFor(cfg ServiceConfig) (*pagescrape.Scraper, error) {
 			cfg.MaxBodyBytes,
 			cfg.FetchDeadline,
 		),
-		contentformatgraph.FormatReadableText,
+		documentextraction.FormatReadableText,
 	)
 }

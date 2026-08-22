@@ -1,4 +1,4 @@
-package contentextraction
+package documentextraction
 
 import (
 	"context"
@@ -12,5 +12,5 @@ type MediaExtractor interface {
 		ctx context.Context,
 		pageURL, contentType string,
 		body []byte,
-	) (ExtractedDocument, error)
+	) (Document, error)
 }

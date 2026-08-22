@@ -3,7 +3,7 @@ package pagevisit
 import (
 	"context"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/scraperequestpublication"
 )
@@ -17,7 +17,7 @@ type PageExtractor interface {
 		ctx context.Context,
 		pageURL, contentType string,
 		body []byte,
-	) (contentextraction.ExtractedDocument, error)
+	) (documentextraction.Document, error)
 }
 
 type visitorSource struct {

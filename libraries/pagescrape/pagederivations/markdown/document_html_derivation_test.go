@@ -4,16 +4,16 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagederivations/markdown"
 )
 
 func TestDeriveDeclaresDocumentHTMLToMarkdown(t *testing.T) {
 	derivation := markdown.NewDocumentHTMLDerivation()
-	if source := derivation.SourceFormat(); source != contentformatgraph.FormatDocumentHTML {
+	if source := derivation.SourceFormat(); source != documentextraction.FormatDocumentHTML {
 		t.Fatalf("source format = %q, want document-html", source)
 	}
-	if target := derivation.TargetFormat(); target != contentformatgraph.FormatMarkdown {
+	if target := derivation.TargetFormat(); target != documentextraction.FormatMarkdown {
 		t.Fatalf("target format = %q, want markdown", target)
 	}
 }

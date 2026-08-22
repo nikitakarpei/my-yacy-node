@@ -13,17 +13,10 @@ require (
 )
 
 require (
-	codeberg.org/readeck/go-readability/v2 v2.1.2 // indirect
-	github.com/JohannesKaufmann/dom v0.3.1 // indirect
-	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2 // indirect
-	github.com/andybalholm/cascadia v1.3.4 // indirect
 	github.com/antithesishq/antithesis-sdk-go v0.7.0-default-no-op // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c // indirect
-	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/google/go-tpm v0.9.8 // indirect
-	github.com/itlightning/dateparse v0.2.1 // indirect
 	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/minio/highwayhash v1.0.4 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
@@ -59,6 +52,11 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../libraries/page
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 
-require github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
+require (
+	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
+)
 
 replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract
+
+replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction

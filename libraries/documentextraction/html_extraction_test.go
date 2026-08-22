@@ -1,11 +1,10 @@
-package html_test
+package documentextraction_test
 
 import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/mediaextractors/html"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 )
 
 const article = `<!DOCTYPE html><html lang="en"><head><title>Sample Article</title></head>
@@ -20,15 +19,15 @@ const longText = "The quick brown fox jumps over the lazy dog while the industri
 	"beaver builds a sturdy dam across the wide and winding river near the old mill town."
 
 func TestExtractArticle(t *testing.T) {
-	doc, err := html.New().
-		Extract(t.Context(), "http://host.example/dir/p", "text/html", []byte(article))
+	doc, err := documentextraction.New().
+		DocumentFrom(t.Context(), "http://host.example/dir/p", "text/html", []byte(article))
 	if err != nil {
-		t.Fatalf("Extract: %v", err)
+		t.Fatalf("DocumentFrom: %v", err)
 	}
 	if doc.Title != "Sample Article" {
 		t.Fatalf("title = %q", doc.Title)
 	}
-	if doc.Format != contentformatgraph.FormatDocumentHTML {
+	if doc.Format != documentextraction.FormatDocumentHTML {
 		t.Fatalf("format = %q, want document-html", doc.Format)
 	}
 	if !strings.Contains(string(doc.Body), "quick brown fox") {
@@ -49,10 +48,10 @@ func TestExtractHonorsMetaRobots(t *testing.T) {
 	page := `<!DOCTYPE html><html lang="en"><head><title>T</title>
 <meta name="robots" content="noindex,nofollow"></head>
 <body><article><p>` + longText + `</p><p>` + longText + `</p></article></body></html>`
-	doc, err := html.New().
-		Extract(t.Context(), "http://host.example/p", "text/html", []byte(page))
+	doc, err := documentextraction.New().
+		DocumentFrom(t.Context(), "http://host.example/p", "text/html", []byte(page))
 	if err != nil {
-		t.Fatalf("Extract: %v", err)
+		t.Fatalf("DocumentFrom: %v", err)
 	}
 	if !doc.RefusesIndexing || !doc.RefusesLinkDiscovery {
 		t.Fatalf("meta robots not honored: %+v", doc)
@@ -60,10 +59,10 @@ func TestExtractHonorsMetaRobots(t *testing.T) {
 }
 
 func TestExtractYieldsWholeDocument(t *testing.T) {
-	doc, err := html.New().
-		Extract(t.Context(), "http://host.example/dir/p", "text/html", []byte(article))
+	doc, err := documentextraction.New().
+		DocumentFrom(t.Context(), "http://host.example/dir/p", "text/html", []byte(article))
 	if err != nil {
-		t.Fatalf("Extract: %v", err)
+		t.Fatalf("DocumentFrom: %v", err)
 	}
 	body := string(doc.Body)
 	if !strings.Contains(body, "<title>Sample Article</title>") {
@@ -72,9 +71,11 @@ func TestExtractYieldsWholeDocument(t *testing.T) {
 }
 
 func TestMediaTypesDeclared(t *testing.T) {
-	got := html.New().MediaTypes()
-	if len(got) != 2 || got[0] != "text/html" {
-		t.Fatalf("unexpected media types: %v", got)
+	for _, mediaType := range []string{"text/html", "application/xhtml+xml"} {
+		if _, err := documentextraction.New().
+			DocumentFrom(t.Context(), "http://host.example/p", mediaType, []byte(article)); err != nil {
+			t.Fatalf("DocumentFrom %s: %v", mediaType, err)
+		}
 	}
 }
 
@@ -84,10 +85,10 @@ func TestExtractReportsNoLanguageWithoutATwoLetterLanguageTag(t *testing.T) {
 			`<head><title>Sample Article</title></head>` +
 			`<body><article><p>` + longText + `</p></article></body></html>`
 
-		doc, err := html.New().
-			Extract(t.Context(), "http://host.example/p", "text/html", []byte(page))
+		doc, err := documentextraction.New().
+			DocumentFrom(t.Context(), "http://host.example/p", "text/html", []byte(page))
 		if err != nil {
-			t.Fatalf("Extract %s: %v", opening, err)
+			t.Fatalf("DocumentFrom %s: %v", opening, err)
 		}
 		if doc.Language != "" {
 			t.Errorf("%s yields language %q, want none", opening, doc.Language)
@@ -100,10 +101,10 @@ func TestExtractResolvesLinksAgainstTheBaseHref(t *testing.T) {
 <base href="http://other.example/dir/"></head>
 <body><a href="page">relative</a></body></html>`
 
-	doc, err := html.New().
-		Extract(t.Context(), "http://host.example/p", "text/html", []byte(page))
+	doc, err := documentextraction.New().
+		DocumentFrom(t.Context(), "http://host.example/p", "text/html", []byte(page))
 	if err != nil {
-		t.Fatalf("Extract: %v", err)
+		t.Fatalf("DocumentFrom: %v", err)
 	}
 	if len(doc.DiscoveredURLs) != 1 ||
 		doc.DiscoveredURLs[0].String() != "http://other.example/dir/page" {
@@ -119,9 +120,10 @@ func TestExtractDiscoversOnlyAbsoluteLinksOfAPageWithoutACanonicalURL(t *testing
 <body><a href="/relative">relative</a>
 <a href="http://other.example/ext">absolute</a></body></html>`
 
-	doc, err := html.New().Extract(t.Context(), "file:///tmp/p", "text/html", []byte(page))
+	doc, err := documentextraction.New().
+		DocumentFrom(t.Context(), "file:///tmp/p", "text/html", []byte(page))
 	if err != nil {
-		t.Fatalf("Extract: %v", err)
+		t.Fatalf("DocumentFrom: %v", err)
 	}
 	if len(doc.DiscoveredURLs) != 1 ||
 		doc.DiscoveredURLs[0].String() != "http://other.example/ext" {

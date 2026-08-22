@@ -1,4 +1,4 @@
-package contentformatgraph
+package documentextraction
 
 type Format string
 

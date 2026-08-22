@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
@@ -62,7 +62,7 @@ func pageScraperFor(config nodeconfiguration.CrawlConfig) (*pagescrape.Scraper, 
 			config.MaxBodyBytes,
 			config.FetchDeadline,
 		),
-		contentformatgraph.FormatFullText,
+		documentextraction.FormatFullText,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("build page scraper: %w", err)

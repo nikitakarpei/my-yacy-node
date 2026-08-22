@@ -3,21 +3,22 @@ package contentformatgraph_test
 import (
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 )
 
 func TestDerivableAcceptsReachableFormat(t *testing.T) {
 	graph := contentformatgraph.New([]contentformatgraph.Derivation{
 		scriptedDerivation{
-			source: contentformatgraph.FormatDocumentHTML,
-			target: contentformatgraph.FormatReadableHTML,
+			source: documentextraction.FormatDocumentHTML,
+			target: documentextraction.FormatReadableHTML,
 		},
 		scriptedDerivation{
-			source: contentformatgraph.FormatReadableHTML,
-			target: contentformatgraph.FormatMarkdown,
+			source: documentextraction.FormatReadableHTML,
+			target: documentextraction.FormatMarkdown,
 		},
 	})
-	if !graph.Derivable(contentformatgraph.FormatDocumentHTML, contentformatgraph.FormatMarkdown) {
+	if !graph.Derivable(documentextraction.FormatDocumentHTML, documentextraction.FormatMarkdown) {
 		t.Fatal("markdown is reachable from document-html")
 	}
 }
@@ -25,8 +26,8 @@ func TestDerivableAcceptsReachableFormat(t *testing.T) {
 func TestDerivableRejectsUnproducedFormat(t *testing.T) {
 	graph := contentformatgraph.New(nil)
 	if graph.Derivable(
-		contentformatgraph.FormatDocumentHTML,
-		contentformatgraph.FormatReadableText,
+		documentextraction.FormatDocumentHTML,
+		documentextraction.FormatReadableText,
 	) {
 		t.Fatal("a format no derivation produces is not derivable")
 	}
@@ -35,16 +36,16 @@ func TestDerivableRejectsUnproducedFormat(t *testing.T) {
 func readableTextGraph() contentformatgraph.FormatDerivations {
 	return contentformatgraph.New([]contentformatgraph.Derivation{
 		scriptedDerivation{
-			source: contentformatgraph.FormatDocumentHTML,
-			target: contentformatgraph.FormatReadableText,
+			source: documentextraction.FormatDocumentHTML,
+			target: documentextraction.FormatReadableText,
 		},
 	})
 }
 
 func TestEnsureNoDanglingFormatAcceptsLinkedFormats(t *testing.T) {
 	if err := readableTextGraph().EnsureNoDanglingFormat(
-		[]contentformatgraph.Format{contentformatgraph.FormatDocumentHTML},
-		[]contentformatgraph.Format{contentformatgraph.FormatReadableText},
+		[]documentextraction.Format{documentextraction.FormatDocumentHTML},
+		[]documentextraction.Format{documentextraction.FormatReadableText},
 	); err != nil {
 		t.Fatalf("linked source and target formats should pass, got %v", err)
 	}
@@ -52,10 +53,10 @@ func TestEnsureNoDanglingFormatAcceptsLinkedFormats(t *testing.T) {
 
 func TestEnsureNoDanglingFormatRejectsUnderivedTarget(t *testing.T) {
 	if err := readableTextGraph().EnsureNoDanglingFormat(
-		[]contentformatgraph.Format{contentformatgraph.FormatDocumentHTML},
-		[]contentformatgraph.Format{
-			contentformatgraph.FormatReadableText,
-			contentformatgraph.FormatMarkdown,
+		[]documentextraction.Format{documentextraction.FormatDocumentHTML},
+		[]documentextraction.Format{
+			documentextraction.FormatReadableText,
+			documentextraction.FormatMarkdown,
 		},
 	); err == nil {
 		t.Fatal("a target format no source format derives should fail")
@@ -64,11 +65,11 @@ func TestEnsureNoDanglingFormatRejectsUnderivedTarget(t *testing.T) {
 
 func TestEnsureNoDanglingFormatRejectsUnreadSource(t *testing.T) {
 	if err := readableTextGraph().EnsureNoDanglingFormat(
-		[]contentformatgraph.Format{
-			contentformatgraph.FormatDocumentHTML,
-			contentformatgraph.FormatFullText,
+		[]documentextraction.Format{
+			documentextraction.FormatDocumentHTML,
+			documentextraction.FormatFullText,
 		},
-		[]contentformatgraph.Format{contentformatgraph.FormatReadableText},
+		[]documentextraction.Format{documentextraction.FormatReadableText},
 	); err == nil {
 		t.Fatal("a source format that derives no target format should fail")
 	}

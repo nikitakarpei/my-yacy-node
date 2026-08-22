@@ -5,7 +5,7 @@ import (
 
 	htmltomarkdown "github.com/JohannesKaufmann/html-to-markdown/v2"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 )
 
 type DocumentHTMLDerivation struct{}
@@ -14,12 +14,12 @@ func NewDocumentHTMLDerivation() DocumentHTMLDerivation {
 	return DocumentHTMLDerivation{}
 }
 
-func (DocumentHTMLDerivation) SourceFormat() contentformatgraph.Format {
-	return contentformatgraph.FormatDocumentHTML
+func (DocumentHTMLDerivation) SourceFormat() documentextraction.Format {
+	return documentextraction.FormatDocumentHTML
 }
 
-func (DocumentHTMLDerivation) TargetFormat() contentformatgraph.Format {
-	return contentformatgraph.FormatMarkdown
+func (DocumentHTMLDerivation) TargetFormat() documentextraction.Format {
+	return documentextraction.FormatMarkdown
 }
 
 func (DocumentHTMLDerivation) Derive(_ string, body []byte) ([]byte, error) {

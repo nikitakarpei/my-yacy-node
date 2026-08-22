@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
@@ -49,7 +49,7 @@ func TestVisitLeavesAReadablePageUndisposed(t *testing.T) {
 func TestVisitReportsUnsupportedMediaType(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
-		fakeExtract{err: contentextraction.ErrUnsupportedMediaType},
+		fakeExtract{err: documentextraction.ErrUnsupportedMediaType},
 		fetchedPage("http://host/"),
 	)
 

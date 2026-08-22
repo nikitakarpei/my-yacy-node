@@ -8,7 +8,7 @@ import (
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
@@ -133,7 +133,7 @@ func absorbedPage(reason disposal.Reason, discoveredURLs []canonicalurl.Canonica
 }
 
 func disposalOfExtractionFailure(err error) disposal.Reason {
-	if errors.Is(err, contentextraction.ErrUnsupportedMediaType) {
+	if errors.Is(err, documentextraction.ErrUnsupportedMediaType) {
 		return disposal.UnsupportedMediaType
 	}
 	return disposal.Unextractable
@@ -141,7 +141,7 @@ func disposalOfExtractionFailure(err error) disposal.Reason {
 
 func discoveredLinksOf(
 	page pagefetch.FetchedPage,
-	document contentextraction.ExtractedDocument,
+	document documentextraction.Document,
 ) []canonicalurl.CanonicalURL {
 	if document.RefusesLinkDiscovery || page.RefusesLinkDiscovery {
 		return nil

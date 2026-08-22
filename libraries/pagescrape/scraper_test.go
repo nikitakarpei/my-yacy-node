@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 )
 
@@ -42,7 +42,7 @@ func succeededWith(finalURL, contentType, body string) pagefetch.FetchOutcome {
 
 func newMarkdownScraper(t *testing.T, fetch pagefetch.Fetcher) *pagescrape.Scraper {
 	t.Helper()
-	scraper, err := pagescrape.New(fetch, contentformatgraph.FormatMarkdown)
+	scraper, err := pagescrape.New(fetch, documentextraction.FormatMarkdown)
 	if err != nil {
 		t.Fatalf("new scraper: %v", err)
 	}
@@ -132,7 +132,7 @@ func TestScrapeFailsWhenAnotherAttemptCanSucceed(t *testing.T) {
 
 func TestNewRejectsATargetFormatNothingDerives(t *testing.T) {
 	if _, err := pagescrape.New(
-		fakeFetch{}, contentformatgraph.Format("braille"),
+		fakeFetch{}, documentextraction.Format("braille"),
 	); err == nil {
 		t.Fatal("a target format no derivation reaches should fail construction")
 	}

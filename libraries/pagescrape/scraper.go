@@ -12,7 +12,7 @@ import (
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 )
@@ -26,29 +26,25 @@ const (
 
 type Scraper struct {
 	fetcher      pagefetch.Fetcher
-	extractor    *contentextraction.DocumentExtractor
+	extractor    *documentextraction.DocumentExtractor
 	derivations  contentformatgraph.FormatDerivations
-	targetFormat contentformatgraph.Format
+	targetFormat documentextraction.Format
 }
 
 func New(
 	fetcher pagefetch.Fetcher,
-	targetFormat contentformatgraph.Format,
+	targetFormat documentextraction.Format,
 ) (*Scraper, error) {
-	extractor, err := contentextraction.New(mediaExtractorsByMediaType())
-	if err != nil {
-		return nil, err
-	}
-	derivations := contentformatgraph.New(PageDerivationCatalog())
+	derivations := contentformatgraph.New(pageDerivationCatalog())
 	if err := derivations.EnsureNoDanglingFormat(
-		emittedFormats(),
-		[]contentformatgraph.Format{targetFormat},
+		documentextraction.EmittedFormats(),
+		[]documentextraction.Format{targetFormat},
 	); err != nil {
 		return nil, err
 	}
 	return &Scraper{
 		fetcher:      fetcher,
-		extractor:    extractor,
+		extractor:    documentextraction.New(),
 		derivations:  derivations,
 		targetFormat: targetFormat,
 	}, nil
@@ -120,7 +116,7 @@ func (s *Scraper) pageFrom(ctx context.Context, fetched pagefetch.FetchedPage) (
 func (s *Scraper) contentOf(
 	ctx context.Context,
 	canonical canonicalurl.CanonicalURL,
-	document contentextraction.ExtractedDocument,
+	document documentextraction.Document,
 ) ([]byte, bool) {
 	content, resolved, err := s.derivations.
 		ForPage(canonical.String(), document.Format, document.Body).

@@ -4,17 +4,18 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 )
 
 type scriptedDerivation struct {
-	source contentformatgraph.Format
-	target contentformatgraph.Format
+	source documentextraction.Format
+	target documentextraction.Format
 	derive func(body []byte) ([]byte, error)
 }
 
-func (d scriptedDerivation) SourceFormat() contentformatgraph.Format { return d.source }
-func (d scriptedDerivation) TargetFormat() contentformatgraph.Format { return d.target }
+func (d scriptedDerivation) SourceFormat() documentextraction.Format { return d.source }
+func (d scriptedDerivation) TargetFormat() documentextraction.Format { return d.target }
 
 func (d scriptedDerivation) Derive(_ string, body []byte) ([]byte, error) {
 	return d.derive(body)
@@ -33,7 +34,7 @@ func unextractable(_ []byte) ([]byte, error) {
 func resolverFor(derivations ...contentformatgraph.Derivation) *contentformatgraph.PageFormats {
 	return contentformatgraph.New(derivations).ForPage(
 		"http://host/",
-		contentformatgraph.FormatDocumentHTML,
+		documentextraction.FormatDocumentHTML,
 		[]byte("document"),
 	)
 }
@@ -41,35 +42,35 @@ func resolverFor(derivations ...contentformatgraph.Derivation) *contentformatgra
 func TestResolvePrefersEarlierCandidateOverFallback(t *testing.T) {
 	resolver := resolverFor(
 		scriptedDerivation{
-			source: contentformatgraph.FormatDocumentHTML,
-			target: contentformatgraph.FormatFullText,
+			source: documentextraction.FormatDocumentHTML,
+			target: documentextraction.FormatFullText,
 			derive: passthrough("full"),
 		},
 		scriptedDerivation{
-			source: contentformatgraph.FormatDocumentHTML,
-			target: contentformatgraph.FormatReadableHTML,
+			source: documentextraction.FormatDocumentHTML,
+			target: documentextraction.FormatReadableHTML,
 			derive: passthrough("readable-html"),
 		},
 		scriptedDerivation{
-			source: contentformatgraph.FormatReadableHTML,
-			target: contentformatgraph.FormatReadableText,
+			source: documentextraction.FormatReadableHTML,
+			target: documentextraction.FormatReadableText,
 			derive: passthrough("readable-text"),
 		},
 		scriptedDerivation{
-			source: contentformatgraph.FormatFullText,
-			target: contentformatgraph.FormatReadableText,
+			source: documentextraction.FormatFullText,
+			target: documentextraction.FormatReadableText,
 			derive: passthrough("fallback"),
 		},
 	)
 
-	content, ready, err := resolver.Resolve(contentformatgraph.FormatReadableText)
+	content, ready, err := resolver.Resolve(documentextraction.FormatReadableText)
 	if err != nil || !ready {
 		t.Fatalf("resolve readable-text: ready=%v err=%v", ready, err)
 	}
 	if got := string(content); got != "readable-text:readable-html:document" {
 		t.Fatalf("readable-text derived via fallback, not readable-html: %q", got)
 	}
-	cached, ready, err := resolver.Resolve(contentformatgraph.FormatReadableText)
+	cached, ready, err := resolver.Resolve(documentextraction.FormatReadableText)
 	if err != nil || !ready || string(cached) != string(content) {
 		t.Fatalf("re-resolved readable-text differs: %q", cached)
 	}
@@ -78,28 +79,28 @@ func TestResolvePrefersEarlierCandidateOverFallback(t *testing.T) {
 func TestResolveFallsBackWhenPreferredCandidateUnextractable(t *testing.T) {
 	resolver := resolverFor(
 		scriptedDerivation{
-			source: contentformatgraph.FormatDocumentHTML,
-			target: contentformatgraph.FormatFullText,
+			source: documentextraction.FormatDocumentHTML,
+			target: documentextraction.FormatFullText,
 			derive: passthrough("full"),
 		},
 		scriptedDerivation{
-			source: contentformatgraph.FormatDocumentHTML,
-			target: contentformatgraph.FormatReadableHTML,
+			source: documentextraction.FormatDocumentHTML,
+			target: documentextraction.FormatReadableHTML,
 			derive: unextractable,
 		},
 		scriptedDerivation{
-			source: contentformatgraph.FormatReadableHTML,
-			target: contentformatgraph.FormatReadableText,
+			source: documentextraction.FormatReadableHTML,
+			target: documentextraction.FormatReadableText,
 			derive: passthrough("readable-text"),
 		},
 		scriptedDerivation{
-			source: contentformatgraph.FormatFullText,
-			target: contentformatgraph.FormatReadableText,
+			source: documentextraction.FormatFullText,
+			target: documentextraction.FormatReadableText,
 			derive: passthrough("fallback"),
 		},
 	)
 
-	content, ready, err := resolver.Resolve(contentformatgraph.FormatReadableText)
+	content, ready, err := resolver.Resolve(documentextraction.FormatReadableText)
 	if err != nil || !ready {
 		t.Fatalf("resolve readable-text: ready=%v err=%v", ready, err)
 	}
@@ -111,18 +112,18 @@ func TestResolveFallsBackWhenPreferredCandidateUnextractable(t *testing.T) {
 func TestResolveLeavesFormatUnresolvedWhenNoCandidateApplies(t *testing.T) {
 	resolver := resolverFor(
 		scriptedDerivation{
-			source: contentformatgraph.FormatDocumentHTML,
-			target: contentformatgraph.FormatReadableHTML,
+			source: documentextraction.FormatDocumentHTML,
+			target: documentextraction.FormatReadableHTML,
 			derive: unextractable,
 		},
 		scriptedDerivation{
-			source: contentformatgraph.FormatReadableHTML,
-			target: contentformatgraph.FormatReadableText,
+			source: documentextraction.FormatReadableHTML,
+			target: documentextraction.FormatReadableText,
 			derive: passthrough("readable-text"),
 		},
 	)
 
-	_, ready, err := resolver.Resolve(contentformatgraph.FormatReadableText)
+	_, ready, err := resolver.Resolve(documentextraction.FormatReadableText)
 	if err != nil {
 		t.Fatalf("resolve readable-text: %v", err)
 	}

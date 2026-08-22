@@ -35,9 +35,6 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.FetchDeadline != yacycrawler.DefaultFetchDeadline {
 		t.Fatalf("fetch deadline = %v", cfg.FetchDeadline)
 	}
-	if cfg.ContentTypes != nil {
-		t.Fatalf("content types should default empty, got %v", cfg.ContentTypes)
-	}
 	if cfg.UserAgent != yacycrawler.DefaultUserAgent {
 		t.Fatalf("user agent = %q", cfg.UserAgent)
 	}
@@ -107,19 +104,6 @@ func TestLoadServiceConfigRejectsNonHTTPProxy(t *testing.T) {
 	env["YACYCRAWLER_PROXY_URL"] = "ftp://proxy"
 	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("non-http proxy should error")
-	}
-}
-
-func TestLoadServiceConfigParsesContentTypes(t *testing.T) {
-	env := baseEnv()
-	env["YACYCRAWLER_CONTENT_TYPES"] = "text/html, Application/PDF ,"
-	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(cfg.ContentTypes) != 2 ||
-		cfg.ContentTypes[0] != "text/html" || cfg.ContentTypes[1] != "application/pdf" {
-		t.Fatalf("content types = %v", cfg.ContentTypes)
 	}
 }
 

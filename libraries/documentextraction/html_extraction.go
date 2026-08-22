@@ -1,4 +1,4 @@
-package html
+package documentextraction
 
 import (
 	"bytes"
@@ -11,8 +11,6 @@ import (
 	"golang.org/x/net/html/charset"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 )
 
 const (
@@ -25,7 +23,7 @@ const (
 
 type HTMLExtraction struct{}
 
-func New() HTMLExtraction {
+func newHTMLExtraction() HTMLExtraction {
 	return HTMLExtraction{}
 }
 
@@ -33,34 +31,34 @@ func (HTMLExtraction) MediaTypes() []string {
 	return []string{mediaHTML, mediaXHTML}
 }
 
-func (HTMLExtraction) EmittedFormat() contentformatgraph.Format {
-	return contentformatgraph.FormatDocumentHTML
+func (HTMLExtraction) EmittedFormat() Format {
+	return FormatDocumentHTML
 }
 
 func (e HTMLExtraction) Extract(
 	ctx context.Context,
 	pageURL, contentType string,
 	body []byte,
-) (contentextraction.ExtractedDocument, error) {
+) (Document, error) {
 	decoded, err := charset.NewReader(bytes.NewReader(body), contentType)
 	if err != nil {
-		return contentextraction.ExtractedDocument{}, fmt.Errorf("decode charset: %w", err)
+		return Document{}, fmt.Errorf("decode charset: %w", err)
 	}
 	root, err := html.Parse(decoded)
 	if err != nil {
-		return contentextraction.ExtractedDocument{}, fmt.Errorf("parse html: %w", err)
+		return Document{}, fmt.Errorf("parse html: %w", err)
 	}
 
 	scan := scanTree(root)
 
 	var document bytes.Buffer
 	if err := html.Render(&document, root); err != nil {
-		return contentextraction.ExtractedDocument{}, fmt.Errorf("render html: %w", err)
+		return Document{}, fmt.Errorf("render html: %w", err)
 	}
 
 	links, local, external := discoveredLinks(baseURLOf(ctx, pageURL, scan.baseHref), scan.hrefs)
 
-	return contentextraction.ExtractedDocument{
+	return Document{
 		Title:                scan.title,
 		Body:                 document.Bytes(),
 		Format:               e.EmittedFormat(),
