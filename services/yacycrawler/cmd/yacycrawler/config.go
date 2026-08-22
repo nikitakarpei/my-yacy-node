@@ -27,7 +27,6 @@ const (
 	EnvFetchDeadline = "YACYCRAWLER_FETCH_DEADLINE"
 	EnvContentTypes  = "YACYCRAWLER_CONTENT_TYPES"
 	EnvOpsAddr       = "YACYCRAWLER_OPS_ADDR"
-	EnvListenAddr    = "YACYCRAWLER_LISTEN_ADDR"
 	EnvUserAgent     = "YACYCRAWLER_USER_AGENT"
 	EnvRecrawlGrace  = "YACYCRAWLER_RECRAWL_GRACE"
 
@@ -39,18 +38,12 @@ const (
 	DefaultMaxBodyBytes     = 2 << 20
 	DefaultFetchDeadline    = 30 * time.Second
 	DefaultOpsAddr          = ":9090"
-	DefaultListenAddr       = ":8095"
 	DefaultUserAgent        = "yacycrawler (+https://yacy.net)"
 	DefaultProxyDialMode    = "tunnel"
-
-	DefaultRedirectResolutionMaxBytes = 256 << 20
 
 	DefaultRecrawlGrace       = time.Hour
 	DefaultPageVisitRetention = 30 * 24 * time.Hour
 	DefaultPageVisitMaxBytes  = 256 << 20
-
-	DefaultDisposedPagesRetention = 24 * time.Hour
-	DefaultDisposedPagesMaxBytes  = 256 << 20
 )
 
 type ServiceConfig struct {
@@ -67,7 +60,6 @@ type ServiceConfig struct {
 	FetchDeadline        time.Duration
 	ContentTypes         []string
 	OpsAddr              string
-	ListenAddr           string
 	UserAgent            string
 	RecrawlGrace         time.Duration
 }
@@ -162,7 +154,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		FetchDeadline:        limits.fetchDeadline,
 		ContentTypes:         mediaTypes(getenv, EnvContentTypes),
 		OpsAddr:              envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
-		ListenAddr:           envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
 		UserAgent:            envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
 		RecrawlGrace:         recrawlGrace,
 	}, nil

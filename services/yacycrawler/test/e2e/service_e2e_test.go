@@ -5,7 +5,6 @@ package e2e
 import (
 	"context"
 	"testing"
-	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
 
@@ -16,19 +15,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	crawlerv1 "github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/crawler/v1"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/crawloutcomesclienttest"
 )
 
-const (
-	orderID         = "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"
-	readPageRPCWait = 10 * time.Second
-)
+const orderID = "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"
 
 func TestCrawlerPublishesEveryPageAnOrderReachesEndToEnd(t *testing.T) {
 	ctx := context.Background()
 
-	js, originURL, _ := startCrawlOfOriginSite(t, ctx)
+	js, originURL := startCrawlOfOriginSite(t, ctx)
 
 	scrapeRequest := fetchOneScrapeRequest(t, ctx, js)
 	if scrapeRequest.CanonicalURL.String() != originURL {
@@ -43,7 +37,7 @@ func TestCrawlerPublishesEveryPageAnOrderReachesEndToEnd(t *testing.T) {
 func TestEveryCorpusConsumesTheSameScrapeRequestEndToEnd(t *testing.T) {
 	ctx := context.Background()
 
-	js, originURL, _ := startCrawlOfOriginSite(t, ctx)
+	js, originURL := startCrawlOfOriginSite(t, ctx)
 
 	first := fetchScrapeRequestForDurable(t, ctx, js, "corpusmarkdown")
 	second := fetchScrapeRequestForDurable(t, ctx, js, "corpustext")
@@ -54,35 +48,10 @@ func TestEveryCorpusConsumesTheSameScrapeRequestEndToEnd(t *testing.T) {
 	}
 }
 
-func TestReadPageAnswersWhatCrawlingDidWithAScrapeRequestEndToEnd(t *testing.T) {
-	ctx := context.Background()
-
-	js, originURL, crawlerAddress := startCrawlOfOriginSite(t, ctx)
-	fetchOneScrapeRequest(t, ctx, js)
-
-	client := crawloutcomesclienttest.New(t, crawlerAddress)
-	rpcCtx, cancel := context.WithTimeout(ctx, readPageRPCWait)
-	defer cancel()
-	outcome, err := client.ReadPage(rpcCtx, &crawlerv1.ReadPageRequest{Url: originURL})
-	if err != nil {
-		t.Fatalf("read page: %v", err)
-	}
-
-	if outcome.GetCanonicalUrl() != originURL {
-		t.Errorf("canonical url = %q, want %q", outcome.GetCanonicalUrl(), originURL)
-	}
-	if outcome.GetResolvedUrl() != originURL {
-		t.Errorf("resolved url = %q, want %q", outcome.GetResolvedUrl(), originURL)
-	}
-	if outcome.GetDisposal() != nil {
-		t.Errorf("disposal = %v, want nil", outcome.GetDisposal())
-	}
-}
-
 func startCrawlOfOriginSite(
 	t *testing.T,
 	ctx context.Context,
-) (jetstream.JetStream, string, string) {
+) (jetstream.JetStream, string) {
 	t.Helper()
 
 	network := dockernetwork.New(t, ctx)
@@ -91,7 +60,7 @@ func startCrawlOfOriginSite(
 	scraperequeststream.Provision(t, ctx, crawlNATSURL)
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
-	crawlerAddress := startCrawler(t, ctx, network.Name)
+	startCrawler(t, ctx, network.Name)
 
 	js := connectJetStream(t, crawlNATSURL)
 	awaitStream(t, ctx, js, yacycrawlcontract.OrdersStreamName)
@@ -114,5 +83,5 @@ func startCrawlOfOriginSite(
 	if _, err := js.Publish(ctx, ordersSubject, data); err != nil {
 		t.Fatalf("publish order: %v", err)
 	}
-	return js, originURL, crawlerAddress
+	return js, originURL
 }

@@ -61,28 +61,6 @@ func fetchedPage() pagevisit.VisitOutcome {
 	return pagevisit.VisitOutcome{Conclusion: pagevisit.VisitCompleted, Fetched: true}
 }
 
-type fakeDisposedPages struct {
-	mu   sync.Mutex
-	urls []string
-}
-
-func (d *fakeDisposedPages) Record(
-	_ context.Context,
-	canonicalURL canonicalurl.CanonicalURL,
-	_ disposal.Reason,
-) error {
-	d.mu.Lock()
-	defer d.mu.Unlock()
-	d.urls = append(d.urls, canonicalURL.String())
-	return nil
-}
-
-func (d *fakeDisposedPages) calls() []string {
-	d.mu.Lock()
-	defer d.mu.Unlock()
-	return append([]string(nil), d.urls...)
-}
-
 type recordingObserver struct {
 	mu       sync.Mutex
 	disposed map[disposal.Reason]int
@@ -183,13 +161,11 @@ func newTraverser(
 	config ordertraversal.Config,
 	visitor pagevisit.Visitor,
 	observer *recordingObserver,
-	disposed *fakeDisposedPages,
 ) *ordertraversal.Traverser {
 	return ordertraversal.New(
 		config,
 		&fixedVisitorSource{visitor: visitor},
 		observer,
-		disposal.NewDisposer(observer, disposed),
 		&manualClock{},
 	)
 }
@@ -214,7 +190,6 @@ func TestTraverseTakesItsVisitorFromTheOrdersIndexingRefusal(t *testing.T) {
 		defaultConfig(),
 		visitors,
 		observer,
-		disposal.NewDisposer(observer, &fakeDisposedPages{}),
 		&manualClock{},
 	)
 
@@ -250,7 +225,7 @@ func TestTraverseDiscoversAndCrawlsLinks(t *testing.T) {
 			},
 		},
 	}}
-	traverser := newTraverser(defaultConfig(), visitor, newObserver(), &fakeDisposedPages{})
+	traverser := newTraverser(defaultConfig(), visitor, newObserver())
 
 	traverse(
 		t,
@@ -272,8 +247,7 @@ func TestTraverseDisposesTheVisitsReportedReason(t *testing.T) {
 		}},
 	}}
 	observer := newObserver()
-	disposed := &fakeDisposedPages{}
-	traverser := newTraverser(defaultConfig(), visitor, observer, disposed)
+	traverser := newTraverser(defaultConfig(), visitor, observer)
 
 	traverse(
 		t,
@@ -284,16 +258,12 @@ func TestTraverseDisposesTheVisitsReportedReason(t *testing.T) {
 	if observer.disposed[disposal.NotAPage] != 1 {
 		t.Fatalf("want the visit's reason observed, got %v", observer.disposed)
 	}
-	if len(disposed.calls()) != 1 || disposed.calls()[0] != "http://host/" {
-		t.Fatalf("want the disposed url recorded, got %v", disposed.calls())
-	}
 }
 
 func TestTraverseRecordsAPublishedPageAsNotDisposed(t *testing.T) {
 	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{}}
 	observer := newObserver()
-	disposed := &fakeDisposedPages{}
-	traverser := newTraverser(defaultConfig(), visitor, observer, disposed)
+	traverser := newTraverser(defaultConfig(), visitor, observer)
 
 	traverse(
 		t,
@@ -301,8 +271,8 @@ func TestTraverseRecordsAPublishedPageAsNotDisposed(t *testing.T) {
 		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://host/")},
 	)
 
-	if len(disposed.calls()) != 0 {
-		t.Fatalf("a published page must not be recorded disposed, got %v", disposed.calls())
+	if len(observer.disposed) != 0 {
+		t.Fatalf("a published page must not be observed disposed, got %v", observer.disposed)
 	}
 }
 
@@ -322,8 +292,7 @@ func TestTraverseBudgetTruncatesAndRecordsTheRemainder(t *testing.T) {
 		},
 	}}
 	observer := newObserver()
-	disposed := &fakeDisposedPages{}
-	traverser := newTraverser(cfg, visitor, observer, disposed)
+	traverser := newTraverser(cfg, visitor, observer)
 
 	traverse(
 		t,
@@ -334,9 +303,6 @@ func TestTraverseBudgetTruncatesAndRecordsTheRemainder(t *testing.T) {
 	if observer.budget != 1 || observer.disposed[disposal.BudgetTruncated] != 2 {
 		t.Fatalf("budget not exhausted: budget=%d disposed=%v", observer.budget, observer.disposed)
 	}
-	if len(disposed.calls()) != 2 {
-		t.Fatalf("want both truncated urls recorded, got %v", disposed.calls())
-	}
 }
 
 func TestTraverseBudgetCountsOnlyFetches(t *testing.T) {
@@ -346,7 +312,7 @@ func TestTraverseBudgetCountsOnlyFetches(t *testing.T) {
 		"http://host/a": {{Conclusion: pagevisit.VisitCompleted, Disposal: disposal.NotDue}},
 	}}
 	observer := newObserver()
-	traverser := newTraverser(cfg, visitor, observer, &fakeDisposedPages{})
+	traverser := newTraverser(cfg, visitor, observer)
 
 	traverse(
 		t,
@@ -372,7 +338,7 @@ func TestTraverseBudgetCountsAFetchedPage(t *testing.T) {
 		"http://host/a": {fetchedPage()},
 	}}
 	observer := newObserver()
-	traverser := newTraverser(cfg, visitor, observer, &fakeDisposedPages{})
+	traverser := newTraverser(cfg, visitor, observer)
 
 	traverse(
 		t,
@@ -397,8 +363,7 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 		"http://host/": {deferred, deferred, deferred, deferred},
 	}}
 	observer := newObserver()
-	disposed := &fakeDisposedPages{}
-	traverser := newTraverser(defaultConfig(), visitor, observer, disposed)
+	traverser := newTraverser(defaultConfig(), visitor, observer)
 
 	traverse(
 		t,
@@ -412,9 +377,6 @@ func TestTraverseDefersThenGivesUp(t *testing.T) {
 	if observer.disposed[disposal.DeferralsExhausted] != 1 {
 		t.Fatalf("expected deferrals-exhausted after defer limit, got %v", observer.disposed)
 	}
-	if len(disposed.calls()) != 1 {
-		t.Fatalf("want disposed page recorded once, got %v", disposed.calls())
-	}
 }
 
 func TestTraverseRetriesTransientFetchThenSucceeds(t *testing.T) {
@@ -422,7 +384,7 @@ func TestTraverseRetriesTransientFetchThenSucceeds(t *testing.T) {
 	visitor := &fakeVisitor{queued: map[string][]pagevisit.VisitOutcome{
 		"http://host/": {transient, transient, fetchedPage()},
 	}}
-	traverser := newTraverser(defaultConfig(), visitor, newObserver(), &fakeDisposedPages{})
+	traverser := newTraverser(defaultConfig(), visitor, newObserver())
 
 	traverse(
 		t,
@@ -444,8 +406,7 @@ func TestTraverseAbandonsTransientFetchAfterLimit(t *testing.T) {
 		"http://host/": {transient, transient, transient},
 	}}
 	observer := newObserver()
-	disposed := &fakeDisposedPages{}
-	traverser := newTraverser(defaultConfig(), visitor, observer, disposed)
+	traverser := newTraverser(defaultConfig(), visitor, observer)
 
 	traverse(
 		t,
@@ -456,14 +417,11 @@ func TestTraverseAbandonsTransientFetchAfterLimit(t *testing.T) {
 	if observer.disposed[disposal.FetchAbandoned] != 1 {
 		t.Fatalf("expected fetch-abandoned after retry limit, got %v", observer.disposed)
 	}
-	if len(disposed.calls()) != 1 {
-		t.Fatalf("want disposed page recorded once, got %v", disposed.calls())
-	}
 }
 
 func TestTraverseVisitorErrorFails(t *testing.T) {
 	visitor := &fakeVisitor{err: errors.New("boom")}
-	traverser := newTraverser(defaultConfig(), visitor, newObserver(), &fakeDisposedPages{})
+	traverser := newTraverser(defaultConfig(), visitor, newObserver())
 
 	if err := traverser.Traverse(
 		context.Background(),

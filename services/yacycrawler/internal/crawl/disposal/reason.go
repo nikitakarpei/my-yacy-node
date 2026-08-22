@@ -1,3 +1,4 @@
+// Package disposal names why a page reached a terminal outcome without publication.
 package disposal
 
 type Reason string

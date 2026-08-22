@@ -16,7 +16,6 @@ var (
 	_ pagevisit.VisitProgress          = (*CrawlMetrics)(nil)
 	_ ordertraversal.TraversalProgress = (*CrawlMetrics)(nil)
 	_ ordersettlement.OrderProgress    = (*CrawlMetrics)(nil)
-	_ disposal.DisposalProgress        = (*CrawlMetrics)(nil)
 )
 
 const (

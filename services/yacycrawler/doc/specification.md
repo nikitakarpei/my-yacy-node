@@ -36,9 +36,7 @@ service is meant for a more capable host than an always-on node.
 * The service SHALL publish a scrape request naming the canonical URL of each page it
   reached, and never the page's content.
 * Every URL a run admits SHALL reach one terminal outcome: published as a scrape request,
-  or disposed and recorded against its URL together with the reason.
-* The service SHALL answer, for one URL, where crawling resolved it to and whether it is
-  disposed, with a mark that changes each time that URL is disposed again.
+  or disposed, counted against the reason for it.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient
   backpressure waits for as long as the run holds its order.
 * A publication failure SHALL NOT be terminal; the page stays unpublished.
@@ -74,7 +72,5 @@ service is meant for a more capable host than an always-on node.
   service honors, or the service cannot act on them.
 * A scrape request names a URL anyone with broker publish rights can inject, sending every
   consumer to fetch it; restrict publish rights on the scrape-request subject to the crawler.
-* A consumer's outage-survival holds only within the retention window the operator sizes
-  on the scrape-request stream.
 * Each consumer fetches the page again for itself, so the origin serves it once per
   interested consumer and each consumer can see a different page than the crawler saw.

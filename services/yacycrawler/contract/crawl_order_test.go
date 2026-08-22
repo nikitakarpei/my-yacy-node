@@ -40,3 +40,13 @@ func TestCrawlOrderRoundTrip(t *testing.T) {
 		t.Errorf("round-trip mismatch:\nwant %#v\ngot  %#v", order, got)
 	}
 }
+
+func TestUnmarshalCrawlOrderRejectsASeedThatIsNotCanonical(t *testing.T) {
+	_, err := yacycrawlcontract.UnmarshalCrawlOrder(
+		[]byte(`{"OrderID":"o1","SeedURLs":["HTTPS://Example.ORG/a"]}`),
+	)
+
+	if err == nil {
+		t.Fatal("UnmarshalCrawlOrder returned nil, want the uncanonical seed failure")
+	}
+}

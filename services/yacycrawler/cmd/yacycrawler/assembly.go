@@ -18,22 +18,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchtiming"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/redirectrecording"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/scraperequestpublication"
-	crawloutcomereceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawloutcomereceivers/grpc"
-	disposedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/disposedpages/jetstream"
 	orderreceiversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
 	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/alwaysdue"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
-	redirectresolversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/redirectresolvers/jetstream"
 	scraperequestsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/scraperequests/jetstream"
 )
 
@@ -80,17 +75,7 @@ func RunService(
 		return fmt.Errorf("start order receiver: %w", err)
 	}
 
-	disposedPages, err := openDisposedPages(ctx, js)
-	if err != nil {
-		return err
-	}
-	redirectResolutions, err := openRedirectResolutions(ctx, js)
-	if err != nil {
-		return err
-	}
-	visitorSource, err := buildVisitorSource(
-		ctx, js, scrapeRequestJetStream, cfg, metrics, redirectResolutions,
-	)
+	visitorSource, err := buildVisitorSource(ctx, js, scrapeRequestJetStream, cfg, metrics)
 	if err != nil {
 		return err
 	}
@@ -98,7 +83,6 @@ func RunService(
 		traversalConfig(cfg),
 		visitorSource,
 		metrics,
-		disposal.NewDisposer(metrics, disposedPages),
 		wallclock.Clock{},
 	)
 
@@ -108,13 +92,8 @@ func RunService(
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 
-	crawlOutcomeReceiver := crawloutcomereceiversgrpc.NewCrawlOutcomeReceiver(
-		redirectResolutions, disposedPages, cfg.ListenAddr,
-	)
-
 	slog.InfoContext(ctx, msgServiceStarted,
 		slog.String("orders", cfg.OrdersSubject),
-		slog.String("listen", cfg.ListenAddr),
 		slog.Int("fetchConcurrency", cfg.FetchConcurrency),
 	)
 
@@ -128,7 +107,6 @@ func RunService(
 				ordersAckWait/2,
 			).Settle(runCtx, orderReceiver.Deliveries())
 		},
-		crawlOutcomeReceiver.Serve,
 	)
 	slog.InfoContext(ctx, msgServiceStopped)
 	return err
@@ -136,12 +114,6 @@ func RunService(
 
 func ensureNATSState(ctx context.Context, js jetstream.JetStream, cfg ServiceConfig) error {
 	if err := ensureOrdersStream(ctx, js, cfg.OrdersSubject); err != nil {
-		return err
-	}
-	if err := ensureRedirectResolutionBucket(ctx, js); err != nil {
-		return err
-	}
-	if err := ensureDisposedPagesBucket(ctx, js); err != nil {
 		return err
 	}
 	return ensurePageVisitBucket(ctx, js, cfg)
@@ -154,27 +126,6 @@ func ensureOrdersStream(ctx context.Context, js jetstream.JetStream, subject str
 		Retention: jetstream.WorkQueuePolicy,
 	}); err != nil {
 		return fmt.Errorf("ensure orders stream: %w", err)
-	}
-	return nil
-}
-
-func ensureRedirectResolutionBucket(ctx context.Context, js jetstream.JetStream) error {
-	if _, err := js.CreateOrUpdateKeyValue(ctx, jetstream.KeyValueConfig{
-		Bucket:   yacycrawlcontract.RedirectResolutionBucketName,
-		MaxBytes: DefaultRedirectResolutionMaxBytes,
-	}); err != nil {
-		return fmt.Errorf("ensure redirect resolution bucket: %w", err)
-	}
-	return nil
-}
-
-func ensureDisposedPagesBucket(ctx context.Context, js jetstream.JetStream) error {
-	if _, err := js.CreateOrUpdateKeyValue(ctx, jetstream.KeyValueConfig{
-		Bucket:   yacycrawlcontract.DisposedPagesBucketName,
-		MaxBytes: DefaultDisposedPagesMaxBytes,
-		TTL:      DefaultDisposedPagesRetention,
-	}); err != nil {
-		return fmt.Errorf("ensure disposed pages bucket: %w", err)
 	}
 	return nil
 }
@@ -193,35 +144,12 @@ func ensurePageVisitBucket(
 	return nil
 }
 
-func openRedirectResolutions(
-	ctx context.Context,
-	js jetstream.JetStream,
-) (*redirectresolversjetstream.RedirectResolutions, error) {
-	bucket, err := js.KeyValue(ctx, yacycrawlcontract.RedirectResolutionBucketName)
-	if err != nil {
-		return nil, fmt.Errorf("open redirect resolution bucket: %w", err)
-	}
-	return redirectresolversjetstream.NewRedirectResolutions(bucket), nil
-}
-
-func openDisposedPages(
-	ctx context.Context,
-	js jetstream.JetStream,
-) (*disposedpagesjetstream.DisposedPages, error) {
-	bucket, err := js.KeyValue(ctx, yacycrawlcontract.DisposedPagesBucketName)
-	if err != nil {
-		return nil, fmt.Errorf("open disposed pages bucket: %w", err)
-	}
-	return disposedpagesjetstream.NewDisposedPages(bucket), nil
-}
-
 func buildVisitorSource(
 	ctx context.Context,
 	js jetstream.JetStream,
 	scrapeRequestJetStream jetstream.JetStream,
 	cfg ServiceConfig,
 	metrics *progressobserversprometheus.CrawlMetrics,
-	redirectResolutions redirectrecording.RedirectResolutions,
 ) (pagevisit.VisitorSource, error) {
 	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
@@ -239,10 +167,7 @@ func buildVisitorSource(
 		return nil, err
 	}
 	return pagevisit.New(
-		redirectrecording.New(
-			redirectResolutions,
-			fetchtiming.New(metrics, wallclock.Clock{}, fetch),
-		),
+		fetchtiming.New(metrics, wallclock.Clock{}, fetch),
 		recrawl,
 		extractor,
 		metrics,

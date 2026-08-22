@@ -26,8 +26,6 @@ components:
     in: internal/crawl/frontier/**
   profileadmission:
     in: internal/crawl/profileadmission/**
-  redirectrecording:
-    in: internal/crawl/redirectrecording/**
   ordersettlement:
     in: internal/crawl/ordersettlement/**
   ordertraversal:
@@ -46,18 +44,12 @@ components:
     in: internal/recrawlrules/dueaftergrace/**
   orderreceiversjetstream:
     in: internal/orderreceivers/jetstream/**
-  redirectresolversjetstream:
-    in: internal/redirectresolvers/jetstream/**
   progressobserversprometheus:
     in: internal/progressobservers/prometheus/**
   contextcancellation:
     in: internal/contextcancellation/**
-  disposedpagesjetstream:
-    in: internal/disposedpages/jetstream/**
   scraperequestsjetstream:
     in: internal/scraperequests/jetstream/**
-  crawloutcomereceiversgrpc:
-    in: internal/crawloutcomereceivers/grpc/**
   crawlercmd:
     in: cmd/yacycrawler/**
 
@@ -82,10 +74,6 @@ vendors:
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
-  grpc:
-    in:
-      - google.golang.org/grpc
-      - google.golang.org/grpc/**
   pagescrapepagefetch:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch
@@ -107,9 +95,6 @@ deps:
   frontier:
     mayDependOn:
       - retrydelay
-  redirectrecording:
-    canUse:
-      - pagescrapepagefetch
   ordersettlement:
     mayDependOn:
       - contextcancellation
@@ -156,19 +141,6 @@ deps:
       - ordersettlement
     canUse:
       - nats
-  redirectresolversjetstream:
-    canUse:
-      - nats
-  disposedpagesjetstream:
-    mayDependOn:
-      - disposal
-    canUse:
-      - nats
-  crawloutcomereceiversgrpc:
-    mayDependOn:
-      - disposal
-    canUse:
-      - grpc
   scraperequestsjetstream:
     canUse:
       - nats

@@ -26,7 +26,6 @@ type traversal struct {
 	config         Config
 	visitorSource  pagevisit.VisitorSource
 	observer       TraversalProgress
-	disposer       *disposal.Disposer
 	clock          clock.Clock
 	cancel         context.CancelFunc
 	frontier       *frontier.Frontier
@@ -70,7 +69,7 @@ func (t *traversal) schedule(ctx context.Context) error {
 			return t.drainInflight()
 		}
 		if t.fetchedPages >= budget && t.inflightVisits == 0 {
-			t.disposePendingOverBudget(ctx)
+			t.disposePendingOverBudget()
 			return nil
 		}
 		if t.frontier.Empty() && t.inflightVisits == 0 {
@@ -128,10 +127,10 @@ func (t *traversal) drainInflight() error {
 	return t.abortErr
 }
 
-func (t *traversal) disposePendingOverBudget(ctx context.Context) {
+func (t *traversal) disposePendingOverBudget() {
 	t.observer.BudgetExhausted()
-	for _, pending := range t.frontier.DrainPending() {
-		t.disposer.Dispose(ctx, pending.URL, disposal.BudgetTruncated)
+	for range t.frontier.DrainPending() {
+		t.observer.PageDisposed(disposal.BudgetTruncated)
 	}
 }
 
@@ -150,7 +149,7 @@ func (t *traversal) recordVisit(ctx context.Context, result visitdispatch.Comple
 	case pagevisit.VisitRetryable:
 		t.recordRetryable(ctx, result.Visit)
 	case pagevisit.VisitCompleted:
-		t.recordCompleted(ctx, result.Visit, result.Outcome)
+		t.recordCompleted(result.Visit, result.Outcome)
 	}
 }
 
@@ -161,7 +160,7 @@ func (t *traversal) recordDeferred(
 ) {
 	if !t.frontier.Defer(visit, t.clock.Now(), deferFor) {
 		slog.WarnContext(ctx, msgDeferralsExhausted, slog.String("url", visit.URL.String()))
-		t.disposer.Dispose(ctx, visit.URL, disposal.DeferralsExhausted)
+		t.observer.PageDisposed(disposal.DeferralsExhausted)
 		return
 	}
 	t.observer.RefusalHonored(refusal.Defer)
@@ -170,17 +169,16 @@ func (t *traversal) recordDeferred(
 func (t *traversal) recordRetryable(ctx context.Context, visit frontier.PendingVisit) {
 	if !t.frontier.Retry(visit, t.clock.Now()) {
 		slog.WarnContext(ctx, msgFetchAbandoned, slog.String("url", visit.URL.String()))
-		t.disposer.Dispose(ctx, visit.URL, disposal.FetchAbandoned)
+		t.observer.PageDisposed(disposal.FetchAbandoned)
 	}
 }
 
 func (t *traversal) recordCompleted(
-	ctx context.Context,
 	visit frontier.PendingVisit,
 	outcome pagevisit.VisitOutcome,
 ) {
 	if outcome.Disposal != disposal.NotDisposed {
-		t.disposer.Dispose(ctx, visit.URL, outcome.Disposal)
+		t.observer.PageDisposed(outcome.Disposal)
 	}
 	for _, url := range outcome.DiscoveredURLs {
 		t.frontier.Admit(url, visit.Depth+1)

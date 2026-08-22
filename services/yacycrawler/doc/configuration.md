@@ -35,12 +35,6 @@ create that stream. An operator creates it before the crawler starts.
 | `YACYCRAWLER_RUN_PAGE_BUDGET` | `1000` | Pages a single run may fetch before it stops. |
 | `YACYCRAWLER_FRONTIER_CAP` | `10000` | Largest frontier a single run may hold. |
 
-## Crawl outcomes
-
-| Variable | Default | Meaning |
-|---|---|---|
-| `YACYCRAWLER_LISTEN_ADDR` | `:8095` | Address serving the crawl outcomes gRPC contract. |
-
 ## Operations
 
 | Variable | Default | Meaning |
