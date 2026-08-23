@@ -10,8 +10,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
 )
 
 const originHTML = `<html lang="en"><head><title>Hi</title></head>` +

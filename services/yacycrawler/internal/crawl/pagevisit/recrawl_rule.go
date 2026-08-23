@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
 type RecrawlRule interface {

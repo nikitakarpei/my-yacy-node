@@ -5,7 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
 type VisitorSource interface {

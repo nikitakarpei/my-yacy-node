@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 )

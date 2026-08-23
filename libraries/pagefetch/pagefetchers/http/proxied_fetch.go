@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
 const (

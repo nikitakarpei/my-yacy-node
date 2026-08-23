@@ -5,6 +5,7 @@ go 1.26
 require (
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
@@ -63,6 +64,8 @@ replace github.com/nikitakarpei/yacy-rwi-node/vault => ../../libraries/vault
 replace github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault => ../../libraries/vaultengines/boltvault
 
 replace github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault => ../../libraries/vaultengines/memoryvault
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../libraries/pagescrape
 

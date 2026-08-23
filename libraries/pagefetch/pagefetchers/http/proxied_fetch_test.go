@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
-	httppkg "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	httppkg "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 )
 
 const testUserAgent = "test-agent (+https://example.test)"
@@ -225,6 +225,57 @@ func TestFetchDeferHonorsRetryAfter(t *testing.T) {
 			pagefetch.PageVersion{})
 	if outcome.DeferFor != 42*time.Second {
 		t.Fatalf("defer = %v, want 42s", outcome.DeferFor)
+	}
+}
+
+func TestFetchDeferHonorsRetryAfterDate(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Retry-After", time.Now().Add(time.Hour).UTC().Format(http.TimeFormat))
+		w.WriteHeader(http.StatusServiceUnavailable)
+	})
+	defer closeFn()
+
+	outcome, _ := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
+			pagefetch.PageVersion{})
+	if outcome.DeferFor < 55*time.Minute || outcome.DeferFor > time.Hour {
+		t.Fatalf("defer = %v, want about an hour", outcome.DeferFor)
+	}
+}
+
+func TestFetchDeferFallsBackWhenRetryAfterIsPast(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Retry-After", "-1")
+		w.WriteHeader(http.StatusTooManyRequests)
+	})
+	defer closeFn()
+
+	outcome, _ := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
+			pagefetch.PageVersion{})
+	if outcome.DeferFor != time.Minute {
+		t.Fatalf("defer = %v, want the default minute", outcome.DeferFor)
+	}
+}
+
+func TestFetchReadsXRobotsTagNone(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("X-Robots-Tag", "none")
+		_, _ = w.Write([]byte("hi"))
+	})
+	defer closeFn()
+
+	outcome, _ := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
+			pagefetch.PageVersion{})
+	if !outcome.Page.RefusesIndexing || !outcome.Page.RefusesLinkDiscovery {
+		t.Fatalf("none not parsed: %+v", outcome)
 	}
 }
 

@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch"
-	httppkg "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	httppkg "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 )
 
 func TestFetchAbsoluteURLModeSendsNoConnect(t *testing.T) {

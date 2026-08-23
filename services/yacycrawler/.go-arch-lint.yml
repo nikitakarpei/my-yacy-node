@@ -72,15 +72,12 @@ vendors:
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
-  pagescrapepagefetch:
+  pagefetch:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetch
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
   documentextraction:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/documentextraction
-  pagescrapecontentformatgraph:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
@@ -114,7 +111,7 @@ deps:
       - pagevisit
   fetchtiming:
     canUse:
-      - pagescrapepagefetch
+      - pagefetch
   pagevisit:
     mayDependOn:
       - disposal
@@ -122,18 +119,18 @@ deps:
     canUse:
       - canonicalurl
       - documentextraction
-      - pagescrapepagefetch
+      - pagefetch
   recrawlrulesalwaysdue:
     mayDependOn:
       - pagevisit
     canUse:
-      - pagescrapepagefetch
+      - pagefetch
   recrawlrulesdueaftergrace:
     mayDependOn:
       - pagevisit
     canUse:
       - nats
-      - pagescrapepagefetch
+      - pagefetch
   orderreceiversjetstream:
     mayDependOn:
       - ordersettlement

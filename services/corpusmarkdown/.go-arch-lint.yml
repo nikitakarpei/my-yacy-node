@@ -37,9 +37,9 @@ vendors:
   documentextraction:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/documentextraction
-  pagescrapepagefetchershttp:
+  pagefetchershttp:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http
   pagemarkdownstore:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	corpustext "github.com/nikitakarpei/yacy-rwi-node/corpustext/cmd/corpustext"
-	httppkg "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
+	httppkg "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 )
 
 func envFrom(values map[string]string) func(string) string {

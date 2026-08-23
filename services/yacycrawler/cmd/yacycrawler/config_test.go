@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	yacycrawler "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/cmd/yacycrawler"
 )
 

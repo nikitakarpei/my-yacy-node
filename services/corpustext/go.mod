@@ -6,6 +6,7 @@ require (
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
+	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
@@ -53,6 +54,8 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../yacycrawle
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 
 replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/natstestserver
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../libraries/pagescrape
 

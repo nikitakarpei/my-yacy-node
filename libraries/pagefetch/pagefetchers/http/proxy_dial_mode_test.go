@@ -3,7 +3,7 @@ package http_test
 import (
 	"testing"
 
-	httppkg "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
+	httppkg "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 )
 
 func TestProxyDialModeNamed(t *testing.T) {

@@ -13,8 +13,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/indexmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
+	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
-	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"

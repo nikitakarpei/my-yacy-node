@@ -8,10 +8,6 @@ allow:
 components:
   pagescrape:
     in: .
-  pagefetch:
-    in: pagefetch/**
-  pagefetchershttp:
-    in: pagefetchers/http/**
   contentformatgraph:
     in: contentformatgraph/**
   pagederivationsfulltext:
@@ -29,6 +25,9 @@ vendors:
   documentextraction:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/documentextraction
+  pagefetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -46,7 +45,6 @@ vendors:
 deps:
   pagescrape:
     mayDependOn:
-      - pagefetch
       - contentformatgraph
       - pagederivationsfulltext
       - pagederivationsmarkdown
@@ -55,14 +53,7 @@ deps:
     canUse:
       - canonicalurl
       - documentextraction
-  pagefetch:
-    canUse:
-      - canonicalurl
-  pagefetchershttp:
-    mayDependOn:
       - pagefetch
-    canUse:
-      - canonicalurl
   contentformatgraph:
     canUse:
       - documentextraction
