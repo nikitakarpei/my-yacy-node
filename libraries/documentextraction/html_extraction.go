@@ -53,15 +53,17 @@ func (htmlExtraction) DocumentFrom(
 		return Document{}, fmt.Errorf("render html: %w", err)
 	}
 
-	counts := linkCountsOf(baseURLOf(ctx, pageURL, scan.baseHref), scan.hrefs)
+	baseURL := baseURLOf(ctx, pageURL, scan.baseHref)
+	links := distinctLinksFrom(scan.hrefs, baseURL)
+	baseHost := baseURL.Hostname()
 
 	return Document{
 		Title:         scan.title,
 		Body:          document.Bytes(),
 		Format:        FormatDocumentHTML,
 		Language:      twoLetterLanguage(scan.language),
-		LocalLinks:    counts.local,
-		ExternalLinks: counts.external,
+		LocalLinks:    localLinksOf(links, baseHost),
+		ExternalLinks: externalLinksOf(links, baseHost),
 	}, nil
 }
 

@@ -9,31 +9,44 @@ import (
 
 const msgBaseHrefUnresolved = "base href unresolved, using page url"
 
-type linkCounts struct {
-	local    int
-	external int
-}
-
-func linkCountsOf(baseURL canonicalurl.CanonicalURL, hrefs []string) linkCounts {
-	baseHost := baseURL.Hostname()
-	var counts linkCounts
+func distinctLinksFrom(
+	hrefs []string,
+	baseURL canonicalurl.CanonicalURL,
+) []canonicalurl.CanonicalURL {
+	links := make([]canonicalurl.CanonicalURL, 0, len(hrefs))
 	seen := map[canonicalurl.CanonicalURL]struct{}{}
 	for _, href := range hrefs {
-		canonical, err := baseURL.CanonicalURLOfLink(href)
+		link, err := baseURL.CanonicalURLOfLink(href)
 		if err != nil {
 			continue
 		}
-		if _, ok := seen[canonical]; ok {
+		if _, ok := seen[link]; ok {
 			continue
 		}
-		seen[canonical] = struct{}{}
-		if canonical.Hostname() == baseHost {
-			counts.local++
-		} else {
-			counts.external++
+		seen[link] = struct{}{}
+		links = append(links, link)
+	}
+	return links
+}
+
+func localLinksOf(links []canonicalurl.CanonicalURL, baseHost string) int {
+	localLinks := 0
+	for _, link := range links {
+		if link.Hostname() == baseHost {
+			localLinks++
 		}
 	}
-	return counts
+	return localLinks
+}
+
+func externalLinksOf(links []canonicalurl.CanonicalURL, baseHost string) int {
+	externalLinks := 0
+	for _, link := range links {
+		if link.Hostname() != baseHost {
+			externalLinks++
+		}
+	}
+	return externalLinks
 }
 
 func baseURLOf(
