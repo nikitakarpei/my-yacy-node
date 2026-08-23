@@ -1,5 +1,5 @@
-// Package pagerwi turns a scraped page into the reverse word index the node stores:
-// one URL metadata row and one posting per distinct word of the page's text.
+// Package pagerwi turns a fetched page and the document it holds into the reverse word index
+// the node stores: one URL metadata row and one posting per distinct word of the page's text.
 package pagerwi
 
 import (
@@ -7,7 +7,8 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -17,14 +18,19 @@ type PageRWI struct {
 	Postings     []yacymodel.RWIPosting
 }
 
-func Of(page pagescrape.ScrapedPage, reachedAt time.Time) PageRWI {
-	canonicalAddress := page.CanonicalURL.WebAddress()
+func Of(
+	fetched pagefetch.FetchedPage,
+	document documentextraction.Document,
+	text []byte,
+	reachedAt time.Time,
+) PageRWI {
+	canonicalAddress := fetched.FinalURL.WebAddress()
 	urlHash := yacymodel.URLNormalformOf(canonicalAddress).Hash()
 
-	order, occurrences, textStats := tokenize(string(page.Content))
-	_, _, titleStats := tokenize(page.Title)
+	order, occurrences, textStats := tokenize(string(text))
+	_, _, titleStats := tokenize(document.Title)
 
-	shared := sharedPosting(page, reachedAt, urlHash, canonicalAddress.Path)
+	shared := sharedPosting(fetched.FinalURL, document, reachedAt, urlHash)
 	shared.TitleWords = titleStats.Words
 	shared.TextWords = textStats.Words
 	shared.Phrases = textStats.Phrases
@@ -42,53 +48,57 @@ func Of(page pagescrape.ScrapedPage, reachedAt time.Time) PageRWI {
 	}
 
 	return PageRWI{
-		CanonicalURL: page.CanonicalURL,
-		Metadata:     metadataOf(page, reachedAt, textStats.Words),
-		Postings:     postings,
+		CanonicalURL: fetched.FinalURL,
+		Metadata: metadataOf(
+			fetched.FinalURL, document, len(fetched.Body), reachedAt, textStats.Words,
+		),
+		Postings: postings,
 	}
 }
 
 func sharedPosting(
-	page pagescrape.ScrapedPage,
+	pageURL canonicalurl.CanonicalURL,
+	document documentextraction.Document,
 	reachedAt time.Time,
 	urlHash yacymodel.URLHash,
-	canonicalPath string,
 ) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		URLHash:       urlHash,
 		LastModified:  yacymodel.MicroDateFromTime(reachedAt),
 		DocumentType:  yacymodel.DocumentTypeText,
-		Language:      languageOf(page),
-		LocalLinks:    page.LocalLinks,
-		ExternalLinks: page.ExternalLinks,
-		URLLength:     len(page.CanonicalURL.String()),
-		URLComponents: componentCount(canonicalPath),
+		Language:      languageOf(document),
+		LocalLinks:    document.LocalLinks,
+		ExternalLinks: document.ExternalLinks,
+		URLLength:     len(pageURL.String()),
+		URLComponents: componentCount(pageURL.WebAddress().Path),
 	}
 }
 
 func metadataOf(
-	page pagescrape.ScrapedPage,
+	pageURL canonicalurl.CanonicalURL,
+	document documentextraction.Document,
+	documentByteSize int,
 	reachedAt time.Time,
 	wordCount int,
 ) yacymodel.URLMetadata {
 	return yacymodel.URLMetadata{
-		Address:       page.CanonicalURL.String(),
-		Title:         page.Title,
+		Address:       pageURL.String(),
+		Title:         document.Title,
 		Loaded:        yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),
 		DocumentType:  yacymodel.DocumentTypeText,
-		Language:      languageOf(page),
-		ByteSize:      page.DocumentByteSize,
+		Language:      languageOf(document),
+		ByteSize:      documentByteSize,
 		WordCount:     wordCount,
-		LocalLinks:    page.LocalLinks,
-		ExternalLinks: page.ExternalLinks,
+		LocalLinks:    document.LocalLinks,
+		ExternalLinks: document.ExternalLinks,
 	}
 }
 
-func languageOf(page pagescrape.ScrapedPage) yacymodel.Optional[yacymodel.Language] {
-	if page.Language == "" {
+func languageOf(document documentextraction.Document) yacymodel.Optional[yacymodel.Language] {
+	if document.Language == "" {
 		return yacymodel.None[yacymodel.Language]()
 	}
-	language, err := yacymodel.ParseLanguage(page.Language)
+	language, err := yacymodel.ParseLanguage(document.Language)
 	if err != nil {
 		return yacymodel.None[yacymodel.Language]()
 	}

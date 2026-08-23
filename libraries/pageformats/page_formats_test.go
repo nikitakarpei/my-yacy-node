@@ -1,46 +1,53 @@
-package contentformatgraph_test
+package pageformats_test
 
 import (
-	"fmt"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 )
 
 type scriptedDerivation struct {
 	source documentextraction.Format
 	target documentextraction.Format
-	derive func(body []byte) ([]byte, error)
+	derive func(body []byte) ([]byte, bool, error)
 }
 
 func (d scriptedDerivation) SourceFormat() documentextraction.Format { return d.source }
 func (d scriptedDerivation) TargetFormat() documentextraction.Format { return d.target }
 
-func (d scriptedDerivation) Derive(_ string, body []byte) ([]byte, error) {
+func (d scriptedDerivation) Derive(
+	_ canonicalurl.CanonicalURL,
+	body []byte,
+) ([]byte, bool, error) {
 	return d.derive(body)
 }
 
-func passthrough(tag string) func([]byte) ([]byte, error) {
-	return func(body []byte) ([]byte, error) {
-		return append([]byte(tag+":"), body...), nil
+func passthrough(tag string) func([]byte) ([]byte, bool, error) {
+	return func(body []byte) ([]byte, bool, error) {
+		return append([]byte(tag+":"), body...), true, nil
 	}
 }
 
-func unextractable(_ []byte) ([]byte, error) {
-	return nil, fmt.Errorf("%w: empty", contentformatgraph.ErrUnderivable)
+func underivable(_ []byte) ([]byte, bool, error) {
+	return nil, false, nil
 }
 
-func resolverFor(derivations ...contentformatgraph.Derivation) *contentformatgraph.PageFormats {
-	return contentformatgraph.New(derivations).ForPage(
-		"http://host/",
-		documentextraction.FormatDocumentHTML,
-		[]byte("document"),
+func resolverFor(t *testing.T, derivations ...pageformats.Derivation) *pageformats.PageFormats {
+	t.Helper()
+	return pageformats.FormatDerivationsOf(derivations).ForPage(
+		documentextraction.Document{
+			Format: documentextraction.FormatDocumentHTML,
+			Body:   []byte("document"),
+		},
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
 	)
 }
 
 func TestResolvePrefersEarlierCandidateOverFallback(t *testing.T) {
-	resolver := resolverFor(
+	resolver := resolverFor(t,
 		scriptedDerivation{
 			source: documentextraction.FormatDocumentHTML,
 			target: documentextraction.FormatFullText,
@@ -76,8 +83,8 @@ func TestResolvePrefersEarlierCandidateOverFallback(t *testing.T) {
 	}
 }
 
-func TestResolveFallsBackWhenPreferredCandidateUnextractable(t *testing.T) {
-	resolver := resolverFor(
+func TestResolveFallsBackWhenThePreferredCandidateDerivesNothing(t *testing.T) {
+	resolver := resolverFor(t,
 		scriptedDerivation{
 			source: documentextraction.FormatDocumentHTML,
 			target: documentextraction.FormatFullText,
@@ -86,7 +93,7 @@ func TestResolveFallsBackWhenPreferredCandidateUnextractable(t *testing.T) {
 		scriptedDerivation{
 			source: documentextraction.FormatDocumentHTML,
 			target: documentextraction.FormatReadableHTML,
-			derive: unextractable,
+			derive: underivable,
 		},
 		scriptedDerivation{
 			source: documentextraction.FormatReadableHTML,
@@ -110,11 +117,11 @@ func TestResolveFallsBackWhenPreferredCandidateUnextractable(t *testing.T) {
 }
 
 func TestResolveLeavesFormatUnresolvedWhenNoCandidateApplies(t *testing.T) {
-	resolver := resolverFor(
+	resolver := resolverFor(t,
 		scriptedDerivation{
 			source: documentextraction.FormatDocumentHTML,
 			target: documentextraction.FormatReadableHTML,
-			derive: unextractable,
+			derive: underivable,
 		},
 		scriptedDerivation{
 			source: documentextraction.FormatReadableHTML,

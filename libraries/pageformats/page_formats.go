@@ -1,14 +1,14 @@
-package contentformatgraph
+package pageformats
 
 import (
-	"errors"
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 )
 
 type PageFormats struct {
-	pageURL      string
+	pageURL      canonicalurl.CanonicalURL
 	graph        FormatDerivations
 	contents     map[documentextraction.Format][]byte
 	unresolvable map[documentextraction.Format]bool
@@ -34,12 +34,12 @@ func (r *PageFormats) Resolve(
 		if !ready {
 			continue
 		}
-		content, err := derivation.Derive(r.pageURL, source)
+		content, derived, err := derivation.Derive(r.pageURL, source)
 		if err != nil {
-			if errors.Is(err, ErrUnderivable) {
-				continue
-			}
 			return nil, false, fmt.Errorf("derive %s: %w", format, err)
+		}
+		if !derived {
+			continue
 		}
 		r.contents[format] = content
 		return content, true, nil

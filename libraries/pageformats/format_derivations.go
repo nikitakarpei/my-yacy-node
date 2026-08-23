@@ -1,9 +1,9 @@
-// Package contentformatgraph derives one content format from another along registered derivations.
-package contentformatgraph
+package pageformats
 
 import (
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 )
 
@@ -11,7 +11,7 @@ type FormatDerivations struct {
 	byTargetFormat map[documentextraction.Format][]Derivation
 }
 
-func New(derivations []Derivation) FormatDerivations {
+func FormatDerivationsOf(derivations []Derivation) FormatDerivations {
 	byTargetFormat := make(
 		map[documentextraction.Format][]Derivation,
 		len(derivations),
@@ -97,14 +97,13 @@ func (g FormatDerivations) derivesAny(
 }
 
 func (g FormatDerivations) ForPage(
-	pageURL string,
-	format documentextraction.Format,
-	body []byte,
+	document documentextraction.Document,
+	pageURL canonicalurl.CanonicalURL,
 ) *PageFormats {
 	return &PageFormats{
 		pageURL:      pageURL,
 		graph:        g,
-		contents:     map[documentextraction.Format][]byte{format: body},
+		contents:     map[documentextraction.Format][]byte{document.Format: document.Body},
 		unresolvable: make(map[documentextraction.Format]bool),
 		resolving:    make(map[documentextraction.Format]bool),
 	}

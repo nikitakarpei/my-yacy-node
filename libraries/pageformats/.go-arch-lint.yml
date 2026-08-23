@@ -5,29 +5,28 @@ allow:
   depOnAnyVendor: false
   deepScan: false
 
+commonVendors:
+  - documentextraction
+  - canonicalurl
+
 components:
-  pagescrape:
+  pageformats:
     in: .
-  contentformatgraph:
-    in: contentformatgraph/**
   pagederivationsfulltext:
-    in: pagederivations/fulltext/**
+    in: internal/pagederivations/fulltext/**
   pagederivationsmarkdown:
-    in: pagederivations/markdown/**
+    in: internal/pagederivations/markdown/**
   pagederivationsreadablehtml:
-    in: pagederivations/readablehtml/**
+    in: internal/pagederivations/readablehtml/**
   pagederivationsreadabletext:
-    in: pagederivations/readabletext/**
+    in: internal/pagederivations/readabletext/**
   htmlflattening:
-    in: htmlflattening/**
+    in: internal/htmlflattening/**
 
 vendors:
   documentextraction:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/documentextraction
-  pagefetch:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -43,41 +42,25 @@ vendors:
       - golang.org/x/net/**
 
 deps:
-  pagescrape:
+  pageformats:
     mayDependOn:
-      - contentformatgraph
       - pagederivationsfulltext
       - pagederivationsmarkdown
       - pagederivationsreadablehtml
       - pagederivationsreadabletext
-    canUse:
-      - canonicalurl
-      - documentextraction
-      - pagefetch
-  contentformatgraph:
-    canUse:
-      - documentextraction
   pagederivationsfulltext:
     mayDependOn:
       - htmlflattening
-    canUse:
-      - documentextraction
   pagederivationsmarkdown:
     canUse:
-      - documentextraction
       - htmltomarkdown
   pagederivationsreadablehtml:
-    mayDependOn:
-      - contentformatgraph
     canUse:
-      - documentextraction
       - readability
       - xnet
   pagederivationsreadabletext:
     mayDependOn:
       - htmlflattening
-    canUse:
-      - documentextraction
   htmlflattening:
     canUse:
       - xnet

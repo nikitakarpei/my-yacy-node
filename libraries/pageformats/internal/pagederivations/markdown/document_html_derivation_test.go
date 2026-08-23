@@ -4,8 +4,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagederivations/markdown"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/markdown"
 )
 
 func TestDeriveDeclaresDocumentHTMLToMarkdown(t *testing.T) {
@@ -19,15 +20,15 @@ func TestDeriveDeclaresDocumentHTMLToMarkdown(t *testing.T) {
 }
 
 func TestDeriveConvertsWholeDocumentToMarkdown(t *testing.T) {
-	body, err := markdown.NewDocumentHTMLDerivation().Derive(
-		"https://example.com/",
+	body, derived, err := markdown.NewDocumentHTMLDerivation().Derive(
+		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 		[]byte(
 			`<html><body><h1>Title</h1><p>A <b>bold</b> word and a `+
 				`<a href="http://e.example/x">link</a>.</p></body></html>`,
 		),
 	)
-	if err != nil {
-		t.Fatalf("derive: %v", err)
+	if err != nil || !derived {
+		t.Fatalf("derive: derived=%v err=%v", derived, err)
 	}
 	markdown := string(body)
 	if !strings.Contains(markdown, "# Title") {

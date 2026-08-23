@@ -1,13 +1,12 @@
 package readablehtml_test
 
 import (
-	"errors"
 	"strings"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagederivations/readablehtml"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/readablehtml"
 )
 
 const longText = "The quick brown fox jumps over the lazy dog while the industrious " +
@@ -29,10 +28,11 @@ func TestDeriveDeclaresDocumentHTMLToReadableHTML(t *testing.T) {
 }
 
 func TestDeriveExtractsMainArticle(t *testing.T) {
-	body, err := readablehtml.NewDocumentHTMLDerivation().
-		Derive("http://host.example/p", []byte(document))
-	if err != nil {
-		t.Fatalf("derive: %v", err)
+	body, derived, err := readablehtml.NewDocumentHTMLDerivation().Derive(
+		canonicalurltest.CanonicalURLOf(t, "http://host.example/p"), []byte(document),
+	)
+	if err != nil || !derived {
+		t.Fatalf("derive: derived=%v err=%v", derived, err)
 	}
 	readable := string(body)
 	if !strings.Contains(readable, "quick brown fox") {
@@ -43,10 +43,15 @@ func TestDeriveExtractsMainArticle(t *testing.T) {
 	}
 }
 
-func TestDeriveEmptyContentUnextractable(t *testing.T) {
-	_, err := readablehtml.NewDocumentHTMLDerivation().
-		Derive("http://host.example/p", []byte("<html><body></body></html>"))
-	if !errors.Is(err, contentformatgraph.ErrUnderivable) {
-		t.Fatalf("want ErrUnextractable, got %v", err)
+func TestAPageWithNoArticleDerivesNothing(t *testing.T) {
+	_, derived, err := readablehtml.NewDocumentHTMLDerivation().Derive(
+		canonicalurltest.CanonicalURLOf(t, "http://host.example/p"),
+		[]byte("<html><body></body></html>"),
+	)
+	if err != nil {
+		t.Fatalf("an empty page is not a failure, got %v", err)
+	}
+	if derived {
+		t.Fatal("a page with no article should derive nothing")
 	}
 }

@@ -12,8 +12,8 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -24,24 +24,31 @@ import (
 
 const (
 	scrapeRequestURL = "https://example.com/"
+	pageTitle        = "Hi"
 )
 
 type fakeMsg struct {
-	data  []byte
-	acked chan string
+	data     []byte
+	acked    chan string
+	nakDelay time.Duration
 }
 
-func (m *fakeMsg) Subject() string                  { return "subj" }
-func (m *fakeMsg) Reply() string                    { return "" }
-func (m *fakeMsg) Data() []byte                     { return m.data }
-func (m *fakeMsg) Headers() nats.Header             { return nil }
-func (m *fakeMsg) Ack() error                       { m.acked <- "ack"; return nil }
-func (m *fakeMsg) DoubleAck(context.Context) error  { m.acked <- "ack"; return nil }
-func (m *fakeMsg) Nak() error                       { m.acked <- "nak"; return nil }
-func (m *fakeMsg) NakWithDelay(time.Duration) error { m.acked <- "nak"; return nil }
-func (m *fakeMsg) InProgress() error                { return nil }
-func (m *fakeMsg) Term() error                      { m.acked <- "term"; return nil }
-func (m *fakeMsg) TermWithReason(string) error      { m.acked <- "term"; return nil }
+func (m *fakeMsg) Subject() string                 { return "subj" }
+func (m *fakeMsg) Reply() string                   { return "" }
+func (m *fakeMsg) Data() []byte                    { return m.data }
+func (m *fakeMsg) Headers() nats.Header            { return nil }
+func (m *fakeMsg) Ack() error                      { m.acked <- "ack"; return nil }
+func (m *fakeMsg) DoubleAck(context.Context) error { m.acked <- "ack"; return nil }
+func (m *fakeMsg) Nak() error                      { m.acked <- "nak"; return nil }
+func (m *fakeMsg) InProgress() error               { return nil }
+func (m *fakeMsg) Term() error                     { m.acked <- "term"; return nil }
+func (m *fakeMsg) TermWithReason(string) error     { m.acked <- "term"; return nil }
+
+func (m *fakeMsg) NakWithDelay(delay time.Duration) error {
+	m.nakDelay = delay
+	m.acked <- "nak-with-delay"
+	return nil
+}
 
 func (m *fakeMsg) Metadata() (*jetstream.MsgMetadata, error) {
 	return &jetstream.MsgMetadata{}, nil
@@ -75,26 +82,23 @@ func (s fakeSource) Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesCo
 	return s.iterator, nil
 }
 
-type fakeScrape struct {
-	page          pagescrape.ScrapedPage
-	scraped       bool
-	err           error
-	mu            sync.Mutex
-	urls          []string
-	targetFormats []documentextraction.Format
+type fakeFetch struct {
+	outcome pagefetch.FetchOutcome
+	err     error
+	mu      sync.Mutex
+	urls    []string
 }
 
-func (s *fakeScrape) Scrape(
+func (f *fakeFetch) Fetch(
 	_ context.Context,
 	pageURL canonicalurl.CanonicalURL,
-	targetFormat documentextraction.Format,
-) (pagescrape.ScrapedPage, bool, error) {
-	s.mu.Lock()
-	s.urls = append(s.urls, pageURL.String())
-	s.targetFormats = append(s.targetFormats, targetFormat)
-	s.mu.Unlock()
+	_ pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
+	f.mu.Lock()
+	f.urls = append(f.urls, pageURL.String())
+	f.mu.Unlock()
 
-	return s.page, s.scraped, s.err
+	return f.outcome, f.err
 }
 
 type recordingURLs struct {
@@ -142,31 +146,40 @@ func scrapeRequestMessage(t *testing.T, acked chan string) *fakeMsg {
 	return &fakeMsg{data: data, acked: acked}
 }
 
-func scrapedPage(t *testing.T, text string) *fakeScrape {
+func fetchOf(t *testing.T, text string) *fakeFetch {
 	t.Helper()
-	return &fakeScrape{
-		page: pagescrape.ScrapedPage{
-			CanonicalURL: canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
-			Title:        "Hi",
-			Language:     "en",
-			Content:      []byte(text),
+
+	return &fakeFetch{outcome: pagefetch.FetchOutcome{
+		Status: pagefetch.FetchSucceeded,
+		Page: pagefetch.FetchedPage{
+			FinalURL:    canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			ContentType: "text/html",
+			Body: []byte(
+				`<html lang="en"><head><title>` + pageTitle + `</title></head>` +
+					`<body><p> ` + text + `</p></body></html>`,
+			),
 		},
-		scraped: true,
-	}
+	}}
 }
 
 func run(
 	t *testing.T,
 	msg jetstream.Msg,
-	scraper scraperequestintake.PageScraper,
+	fetcher scraperequestintake.PageFetcher,
 	urls urlmeta.URLReceiver,
 	postings rwiadmission.PostingReceiver,
 ) error {
 	t.Helper()
 
+	derivations, err := pageformats.New()
+	if err != nil {
+		t.Fatalf("page formats: %v", err)
+	}
+
 	return scraperequestintake.NewScrapeRequestConsumer(scraperequestintake.Config{
 		Source:      fakeSource{iterator: &fakeIterator{messages: []jetstream.Msg{msg}}},
-		Scraper:     scraper,
+		Fetcher:     fetcher,
+		Derivations: derivations,
 		URLs:        urls,
 		Postings:    postings,
 		Concurrency: 1,
@@ -175,33 +188,27 @@ func run(
 
 func TestConsumerStoresTheIndexItDerivesFromAScrapeRequest(t *testing.T) {
 	acked := make(chan string, 1)
-	scraper := scrapedPage(t, "alpha beta")
+	fetcher := fetchOf(t, "alpha beta")
 	urls := &recordingURLs{}
 	postings := &recordingPostings{}
 
-	if err := run(t, scrapeRequestMessage(t, acked), scraper, urls, postings); err != nil {
+	if err := run(t, scrapeRequestMessage(t, acked), fetcher, urls, postings); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if action := <-acked; action != "ack" {
 		t.Errorf("action = %q, want ack", action)
 	}
-	if len(scraper.urls) != 1 || scraper.urls[0] != scrapeRequestURL {
-		t.Errorf("scraped %v, want the scrape request url", scraper.urls)
-	}
-	if len(scraper.targetFormats) != 1 ||
-		scraper.targetFormats[0] != documentextraction.FormatFullText {
-		t.Errorf("scraped as %v, want %s", scraper.targetFormats, documentextraction.FormatFullText)
+	if len(fetcher.urls) != 1 || fetcher.urls[0] != scrapeRequestURL {
+		t.Errorf("fetched %v, want the scrape request url", fetcher.urls)
 	}
 	if len(urls.received) != 1 || urls.received[0].Address != scrapeRequestURL {
 		t.Fatalf("stored metadata %+v, want one row for the scrape request", urls.received)
 	}
-	if urls.received[0].Title != "Hi" {
-		t.Errorf("stored title = %q, want the scraped title", urls.received[0].Title)
+	if urls.received[0].Title != pageTitle {
+		t.Errorf("stored title = %q, want the extracted title", urls.received[0].Title)
 	}
-	if len(postings.calls) != 1 || len(postings.calls[0]) != 2 {
-		t.Errorf("admitted %v, want one call carrying two postings", postings.calls)
-	}
+	assertWordsAdmitted(t, postings, "alpha", "beta")
 }
 
 func TestConsumerAdmitsEveryPostingOfAPageInOneCall(t *testing.T) {
@@ -209,26 +216,29 @@ func TestConsumerAdmitsEveryPostingOfAPageInOneCall(t *testing.T) {
 	postings := &recordingPostings{}
 
 	if err := run(t, scrapeRequestMessage(t, acked),
-		scrapedPage(t, "alpha beta gamma delta epsilon"),
+		fetchOf(t, "alpha beta gamma delta epsilon"),
 		&recordingURLs{}, postings); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	<-acked
-	if len(postings.calls) != 1 {
-		t.Fatalf("admitted over %d calls, want one call for the page", len(postings.calls))
-	}
-	if len(postings.calls[0]) != 5 {
-		t.Fatalf("admitted %d postings, want one per distinct word", len(postings.calls[0]))
-	}
+	assertWordsAdmitted(t, postings, "alpha", "beta", "gamma", "delta", "epsilon")
 }
 
-func TestConsumerAcksAScrapeRequestThatDerivesNoIndex(t *testing.T) {
+func TestConsumerAcksAScrapeRequestHoldingNoExtractableDocument(t *testing.T) {
 	acked := make(chan string, 1)
 	postings := &recordingPostings{}
+	fetcher := &fakeFetch{outcome: pagefetch.FetchOutcome{
+		Status: pagefetch.FetchSucceeded,
+		Page: pagefetch.FetchedPage{
+			FinalURL:    canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			ContentType: "application/pdf",
+			Body:        []byte("%PDF-1.4"),
+		},
+	}}
 
 	if err := run(t, scrapeRequestMessage(t, acked),
-		&fakeScrape{}, &recordingURLs{}, postings); err != nil {
+		fetcher, &recordingURLs{}, postings); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -240,12 +250,12 @@ func TestConsumerAcksAScrapeRequestThatDerivesNoIndex(t *testing.T) {
 	}
 }
 
-func TestConsumerNaksWhenTheScrapeFails(t *testing.T) {
+func TestConsumerNaksWhenTheFetchBreaks(t *testing.T) {
 	acked := make(chan string, 1)
-	scraper := &fakeScrape{err: errors.New("fetch broke down")}
+	fetcher := &fakeFetch{err: errors.New("fetch broke down")}
 
 	if err := run(t, scrapeRequestMessage(t, acked),
-		scraper, &recordingURLs{}, &recordingPostings{}); err != nil {
+		fetcher, &recordingURLs{}, &recordingPostings{}); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -254,11 +264,63 @@ func TestConsumerNaksWhenTheScrapeFails(t *testing.T) {
 	}
 }
 
+func TestConsumerNaksWhenTheFetchReportsFailure(t *testing.T) {
+	acked := make(chan string, 1)
+	fetcher := &fakeFetch{outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchFailed}}
+
+	if err := run(t, scrapeRequestMessage(t, acked),
+		fetcher, &recordingURLs{}, &recordingPostings{}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := <-acked; action != "nak" {
+		t.Errorf("action = %q, want nak", action)
+	}
+}
+
+func TestConsumerHoldsADeferredScrapeRequestBackForAsLongAsTheOriginAsks(t *testing.T) {
+	acked := make(chan string, 1)
+	message := scrapeRequestMessage(t, acked)
+	fetcher := &fakeFetch{outcome: pagefetch.FetchOutcome{
+		Status:   pagefetch.FetchDeferred,
+		DeferFor: 30 * time.Second,
+	}}
+
+	if err := run(t, message, fetcher, &recordingURLs{}, &recordingPostings{}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := <-acked; action != "nak-with-delay" {
+		t.Errorf("action = %q, want nak-with-delay", action)
+	}
+	if message.nakDelay != 30*time.Second {
+		t.Errorf("nak delay = %v, want the deferral the origin asked for", message.nakDelay)
+	}
+}
+
+func TestConsumerAcksAScrapeRequestThatFetchesNoPage(t *testing.T) {
+	acked := make(chan string, 1)
+	postings := &recordingPostings{}
+	fetcher := &fakeFetch{outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}}
+
+	if err := run(t, scrapeRequestMessage(t, acked),
+		fetcher, &recordingURLs{}, postings); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := <-acked; action != "ack" {
+		t.Errorf("action = %q, want ack", action)
+	}
+	if len(postings.calls) != 0 {
+		t.Errorf("stored %v, want nothing", postings.calls)
+	}
+}
+
 func TestConsumerNaksAndWithholdsPostingsWhenURLStorageIsBusy(t *testing.T) {
 	acked := make(chan string, 1)
 	postings := &recordingPostings{}
 
-	if err := run(t, scrapeRequestMessage(t, acked), scrapedPage(t, "alpha"),
+	if err := run(t, scrapeRequestMessage(t, acked), fetchOf(t, "alpha"),
 		&recordingURLs{receipt: urlmeta.Receipt{Busy: true}}, postings); err != nil {
 		t.Fatalf("run: %v", err)
 	}
@@ -280,7 +342,7 @@ func TestConsumerNaksWhenPostingAdmissionRefuses(t *testing.T) {
 			acked := make(chan string, 1)
 
 			if err := run(t, scrapeRequestMessage(t, acked),
-				scrapedPage(t, "alpha"), &recordingURLs{}, postings); err != nil {
+				fetchOf(t, "alpha"), &recordingURLs{}, postings); err != nil {
 				t.Fatalf("run: %v", err)
 			}
 
@@ -295,7 +357,7 @@ func TestConsumerHaltsOnAnUndecodableMessage(t *testing.T) {
 	acked := make(chan string, 1)
 	msg := &fakeMsg{data: []byte("not a scrape request"), acked: acked}
 
-	err := run(t, msg, scrapedPage(t, "alpha"), &recordingURLs{}, &recordingPostings{})
+	err := run(t, msg, fetchOf(t, "alpha"), &recordingURLs{}, &recordingPostings{})
 
 	if !errors.Is(err, poisonhalt.ErrPoisonMessage) {
 		t.Fatalf("err = %v, want a poison message halt", err)
@@ -304,5 +366,22 @@ func TestConsumerHaltsOnAnUndecodableMessage(t *testing.T) {
 	case action := <-acked:
 		t.Errorf("message answered with %q, want it left pending", action)
 	default:
+	}
+}
+
+func assertWordsAdmitted(t *testing.T, postings *recordingPostings, words ...string) {
+	t.Helper()
+
+	if len(postings.calls) != 1 {
+		t.Fatalf("admitted over %d calls, want one call for the page", len(postings.calls))
+	}
+	admitted := map[yacymodel.Hash]bool{}
+	for _, posting := range postings.calls[0] {
+		admitted[posting.WordHash] = true
+	}
+	for _, word := range words {
+		if !admitted[yacymodel.WordHash(word)] {
+			t.Errorf("word %q should be admitted, got %v", word, postings.calls[0])
+		}
 	}
 }

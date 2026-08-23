@@ -11,7 +11,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/scrapedpagedocument"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
@@ -19,18 +20,21 @@ import (
 )
 
 const (
-	msgScrapeFailed  = "scrape request scrape failed"
-	msgIndexFailed   = "scrape request index failed"
-	msgPageIndexed   = "scrape request indexed"
-	msgNoTextDerived = "scrape request derives no text, nothing indexed"
+	msgFetchFailed      = "scrape request fetch failed"
+	msgFetchDeferred    = "scrape request fetch deferred by the origin"
+	msgNothingToScrape  = "scrape request fetch holds no content to scrape"
+	msgExtractionFailed = "scrape request document extraction failed, nothing indexed"
+	msgIndexFailed      = "scrape request index failed"
+	msgPageIndexed      = "scrape request indexed"
+	msgNoTextDerived    = "scrape request derives no text, nothing indexed"
 )
 
-type PageScraper interface {
-	Scrape(
+type PageFetcher interface {
+	Fetch(
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
-		targetFormat documentextraction.Format,
-	) (pagescrape.ScrapedPage, bool, error)
+		version pagefetch.PageVersion,
+	) (pagefetch.FetchOutcome, error)
 }
 
 type SearchIndex interface {
@@ -47,25 +51,30 @@ type IndexProgress interface {
 
 type ScrapeRequestConsumer struct {
 	source      pullintake.MessageSource
-	scraper     PageScraper
+	fetcher     PageFetcher
+	derivations pageformats.FormatDerivations
 	searchIndex SearchIndex
 	progress    IndexProgress
 	concurrency int
 }
 
-func NewScrapeRequestConsumer(
-	source pullintake.MessageSource,
-	scraper PageScraper,
-	searchIndex SearchIndex,
-	progress IndexProgress,
-	concurrency int,
-) *ScrapeRequestConsumer {
+type Config struct {
+	Source      pullintake.MessageSource
+	Fetcher     PageFetcher
+	Derivations pageformats.FormatDerivations
+	SearchIndex SearchIndex
+	Progress    IndexProgress
+	Concurrency int
+}
+
+func NewScrapeRequestConsumer(config Config) *ScrapeRequestConsumer {
 	return &ScrapeRequestConsumer{
-		source:      source,
-		scraper:     scraper,
-		searchIndex: searchIndex,
-		progress:    progress,
-		concurrency: concurrency,
+		source:      config.Source,
+		fetcher:     config.Fetcher,
+		derivations: config.Derivations,
+		searchIndex: config.SearchIndex,
+		progress:    config.Progress,
+		concurrency: config.Concurrency,
 	}
 }
 
@@ -80,28 +89,81 @@ func (c *ScrapeRequestConsumer) processOne(ctx context.Context, msg jetstream.Ms
 		return poisonhalt.Halt(ctx, msg, err)
 	}
 	scrapedAt := time.Now()
-	scraped, derived, err := c.scraper.Scrape(
-		ctx, scrapeRequest.CanonicalURL, documentextraction.FormatReadableText,
-	)
+	fetched, scrapable := c.fetch(ctx, msg, scrapeRequest.CanonicalURL)
+	if !scrapable {
+		return nil
+	}
+	document, text, derived := c.readableTextOf(ctx, fetched)
+	if !derived {
+		slog.DebugContext(ctx, msgNoTextDerived, slog.String("url", fetched.FinalURL.String()))
+		_ = msg.Ack()
+		return nil
+	}
+	return c.index(ctx, msg, scrapedpagedocument.Of(
+		fetched.FinalURL, document, text, scrapedAt,
+	))
+}
+
+func (c *ScrapeRequestConsumer) fetch(
+	ctx context.Context,
+	msg jetstream.Msg,
+	pageURL canonicalurl.CanonicalURL,
+) (pagefetch.FetchedPage, bool) {
+	outcome, err := c.fetcher.Fetch(ctx, pageURL, pagefetch.PageVersion{})
 	if err != nil {
-		slog.WarnContext(ctx, msgScrapeFailed,
-			slog.String("url", scrapeRequest.CanonicalURL.String()),
+		slog.WarnContext(ctx, msgFetchFailed,
+			slog.String("url", pageURL.String()),
 			slog.Any("error", err),
 		)
 		c.progress.ScrapeFailed()
 		_ = msg.Nak()
-		return nil
+		return pagefetch.FetchedPage{}, false
 	}
-	if !derived {
-		slog.DebugContext(
-			ctx,
-			msgNoTextDerived,
-			slog.String("url", scrapeRequest.CanonicalURL.String()),
+	switch outcome.Status {
+	case pagefetch.FetchSucceeded:
+		return outcome.Page, true
+	case pagefetch.FetchFailed:
+		slog.WarnContext(ctx, msgFetchFailed, slog.String("url", pageURL.String()))
+		c.progress.ScrapeFailed()
+		_ = msg.Nak()
+	case pagefetch.FetchDeferred:
+		slog.DebugContext(ctx, msgFetchDeferred,
+			slog.String("url", pageURL.String()),
+			slog.Duration("deferFor", outcome.DeferFor),
 		)
+		_ = msg.NakWithDelay(outcome.DeferFor)
+	default:
+		slog.DebugContext(ctx, msgNothingToScrape, slog.String("url", pageURL.String()))
 		_ = msg.Ack()
-		return nil
 	}
-	return c.index(ctx, msg, scrapedpagedocument.Of(scraped, scrapedAt))
+	return pagefetch.FetchedPage{}, false
+}
+
+func (c *ScrapeRequestConsumer) readableTextOf(
+	ctx context.Context,
+	fetched pagefetch.FetchedPage,
+) (documentextraction.Document, []byte, bool) {
+	document, err := documentextraction.DocumentFrom(
+		ctx, fetched.Body, fetched.ContentType, fetched.FinalURL,
+	)
+	if err != nil {
+		slog.WarnContext(ctx, msgExtractionFailed,
+			slog.String("url", fetched.FinalURL.String()),
+			slog.Any("error", err),
+		)
+		return documentextraction.Document{}, nil, false
+	}
+	text, derived, err := c.derivations.
+		ForPage(document, fetched.FinalURL).
+		Resolve(documentextraction.FormatReadableText)
+	if err != nil {
+		slog.WarnContext(ctx, msgNoTextDerived,
+			slog.String("url", fetched.FinalURL.String()),
+			slog.Any("error", err),
+		)
+		return documentextraction.Document{}, nil, false
+	}
+	return document, text, derived
 }
 
 func (c *ScrapeRequestConsumer) index(

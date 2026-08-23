@@ -4,8 +4,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagederivations/fulltext"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/fulltext"
 )
 
 func TestDeriveFlattensWholeDocumentAndStripsMarkup(t *testing.T) {
@@ -15,9 +16,11 @@ func TestDeriveFlattensWholeDocumentAndStripsMarkup(t *testing.T) {
 			`<article><p>the quick fox</p></article>` +
 			`<script>var drop = 1</script></body></html>`,
 	)
-	text, err := derivation.Derive("http://example.com/", body)
-	if err != nil {
-		t.Fatal(err)
+	text, derived, err := derivation.Derive(
+		canonicalurltest.CanonicalURLOf(t, "http://example.com/"), body,
+	)
+	if err != nil || !derived {
+		t.Fatalf("derive: derived=%v err=%v", derived, err)
 	}
 	flat := string(text)
 	if !strings.Contains(flat, "navigation menu") {

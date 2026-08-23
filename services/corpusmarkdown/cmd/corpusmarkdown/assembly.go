@@ -16,8 +16,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownstoremetrics"
 	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
@@ -53,24 +53,28 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
-	scraper, err := pagescrape.New(
-		pagefetchershttp.New(
-			cfg.ProxyURL,
-			cfg.ProxyDialMode,
-			cfg.UserAgent,
-			cfg.MaxBodyBytes,
-			cfg.FetchDeadline,
-		),
-	)
+	derivations, err := pageformats.New()
 	if err != nil {
 		return err
 	}
+	fetcher := pagefetchershttp.New(
+		cfg.ProxyURL,
+		cfg.ProxyDialMode,
+		cfg.UserAgent,
+		cfg.MaxBodyBytes,
+		cfg.FetchDeadline,
+	)
 
 	registry := prometheus.NewRegistry()
 	metrics := markdownstoremetrics.New(registry)
-	intake := markdownintake.NewScrapeRequestConsumer(
-		consumer, scraper, corpus, metrics, cfg.Concurrency,
-	)
+	intake := markdownintake.NewScrapeRequestConsumer(markdownintake.Config{
+		Source:      consumer,
+		Fetcher:     fetcher,
+		Derivations: derivations,
+		Corpus:      corpus,
+		Progress:    metrics,
+		Concurrency: cfg.Concurrency,
+	})
 
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,

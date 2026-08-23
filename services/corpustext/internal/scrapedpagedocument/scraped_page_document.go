@@ -3,16 +3,22 @@ package scrapedpagedocument
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 )
 
-func Of(page pagescrape.ScrapedPage, scrapedAt time.Time) searchdocument.Document {
+func Of(
+	pageURL canonicalurl.CanonicalURL,
+	document documentextraction.Document,
+	text []byte,
+	scrapedAt time.Time,
+) searchdocument.Document {
 	return searchdocument.Document{
-		Title:     page.Title,
-		URL:       page.CanonicalURL.String(),
-		Content:   string(page.Content),
+		Title:     document.Title,
+		URL:       pageURL.String(),
+		Content:   string(text),
 		CrawledAt: scrapedAt,
-		Language:  page.Language,
+		Language:  document.Language,
 	}
 }

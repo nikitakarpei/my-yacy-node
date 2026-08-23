@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/scraperequestbroker"
@@ -33,15 +33,7 @@ func openScrapeRequestIngest(
 	if err != nil {
 		return nil, fmt.Errorf("open scrape request broker: %w", err)
 	}
-	scraper, err := pagescrape.New(
-		pagefetchershttp.New(
-			config.ProxyURL,
-			config.ProxyDialMode,
-			config.UserAgent,
-			config.MaxBodyBytes,
-			config.FetchDeadline,
-		),
-	)
+	derivations, err := pageformats.New()
 	if err != nil {
 		broker.Close()
 
@@ -51,8 +43,15 @@ func openScrapeRequestIngest(
 	return &scrapeRequestIngest{
 		broker: broker,
 		consumer: scraperequestintake.NewScrapeRequestConsumer(scraperequestintake.Config{
-			Source:      broker.ScrapeRequests,
-			Scraper:     scraper,
+			Source: broker.ScrapeRequests,
+			Fetcher: pagefetchershttp.New(
+				config.ProxyURL,
+				config.ProxyDialMode,
+				config.UserAgent,
+				config.MaxBodyBytes,
+				config.FetchDeadline,
+			),
+			Derivations: derivations,
 			URLs:        urls,
 			Postings:    postings,
 			Concurrency: config.Concurrency,

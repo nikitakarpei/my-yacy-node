@@ -3,6 +3,7 @@ package markdownintake_test
 import (
 	"context"
 	"errors"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -13,28 +14,34 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownintake"
-	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 )
 
 type fakeMsg struct {
-	data  []byte
-	acked chan string
+	data     []byte
+	acked    chan string
+	nakDelay time.Duration
 }
 
-func (m *fakeMsg) Subject() string                  { return "subj" }
-func (m *fakeMsg) Reply() string                    { return "" }
-func (m *fakeMsg) Data() []byte                     { return m.data }
-func (m *fakeMsg) Headers() nats.Header             { return nil }
-func (m *fakeMsg) Ack() error                       { m.acked <- "ack"; return nil }
-func (m *fakeMsg) DoubleAck(context.Context) error  { m.acked <- "ack"; return nil }
-func (m *fakeMsg) Nak() error                       { m.acked <- "nak"; return nil }
-func (m *fakeMsg) NakWithDelay(time.Duration) error { m.acked <- "nak"; return nil }
-func (m *fakeMsg) InProgress() error                { return nil }
-func (m *fakeMsg) Term() error                      { m.acked <- "term"; return nil }
-func (m *fakeMsg) TermWithReason(string) error      { m.acked <- "term"; return nil }
+func (m *fakeMsg) Subject() string                 { return "subj" }
+func (m *fakeMsg) Reply() string                   { return "" }
+func (m *fakeMsg) Data() []byte                    { return m.data }
+func (m *fakeMsg) Headers() nats.Header            { return nil }
+func (m *fakeMsg) Ack() error                      { m.acked <- "ack"; return nil }
+func (m *fakeMsg) DoubleAck(context.Context) error { m.acked <- "ack"; return nil }
+func (m *fakeMsg) Nak() error                      { m.acked <- "nak"; return nil }
+func (m *fakeMsg) InProgress() error               { return nil }
+func (m *fakeMsg) Term() error                     { m.acked <- "term"; return nil }
+func (m *fakeMsg) TermWithReason(string) error     { m.acked <- "term"; return nil }
+
+func (m *fakeMsg) NakWithDelay(delay time.Duration) error {
+	m.nakDelay = delay
+	m.acked <- "nak-with-delay"
+	return nil
+}
 
 func (m *fakeMsg) Metadata() (*jetstream.MsgMetadata, error) {
 	return &jetstream.MsgMetadata{}, nil
@@ -67,25 +74,22 @@ func (s fakeSource) Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesCo
 	return s.iterator, nil
 }
 
-type fakeScrape struct {
-	page          pagescrape.ScrapedPage
-	scraped       bool
-	err           error
-	mu            sync.Mutex
-	urls          []string
-	targetFormats []documentextraction.Format
+type fakeFetch struct {
+	outcome pagefetch.FetchOutcome
+	err     error
+	mu      sync.Mutex
+	urls    []string
 }
 
-func (s *fakeScrape) Scrape(
+func (f *fakeFetch) Fetch(
 	_ context.Context,
 	pageURL canonicalurl.CanonicalURL,
-	targetFormat documentextraction.Format,
-) (pagescrape.ScrapedPage, bool, error) {
-	s.mu.Lock()
-	s.urls = append(s.urls, pageURL.String())
-	s.targetFormats = append(s.targetFormats, targetFormat)
-	s.mu.Unlock()
-	return s.page, s.scraped, s.err
+	_ pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
+	f.mu.Lock()
+	f.urls = append(f.urls, pageURL.String())
+	f.mu.Unlock()
+	return f.outcome, f.err
 }
 
 type recordingCorpus struct {
@@ -125,6 +129,13 @@ func (p *recordingProgress) StoreFailed()           { p.failed++ }
 
 const scrapeRequestURL = "https://example.com/"
 
+const article = `<!DOCTYPE html><html lang="en"><head><title>Sample Article</title></head>` +
+	`<body><article><h1>Sample Article</h1><p>` + longText + `</p><p>` + longText +
+	`</p></article></body></html>`
+
+const longText = "The quick brown fox jumps over the lazy dog while the industrious " +
+	"beaver builds a sturdy dam across the wide and winding river near the old mill town."
+
 func scrapeRequestMessage(t *testing.T, acked chan string) *fakeMsg {
 	t.Helper()
 	data, err := scraperequestcontract.MarshalScrapeRequest(
@@ -142,60 +153,75 @@ func sourceOf(messages ...jetstream.Msg) fakeSource {
 	return fakeSource{iterator: &fakeIterator{messages: messages}}
 }
 
+func fetchOf(page pagefetch.FetchedPage) *fakeFetch {
+	return &fakeFetch{
+		outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchSucceeded, Page: page},
+	}
+}
+
+func fetchedPage(t *testing.T, contentType string, body string) pagefetch.FetchedPage {
+	t.Helper()
+	return pagefetch.FetchedPage{
+		FinalURL:    canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+		ContentType: contentType,
+		Body:        []byte(body),
+	}
+}
+
 func run(
 	t *testing.T,
 	source fakeSource,
-	scraper markdownintake.PageScraper,
+	fetcher markdownintake.PageFetcher,
 	corpus markdownintake.PageMarkdownCorpus,
 	progress markdownintake.StoreProgress,
 ) error {
 	t.Helper()
-	return markdownintake.NewScrapeRequestConsumer(source, scraper, corpus, progress, 1).
-		Run(context.Background())
+	derivations, err := pageformats.New()
+	if err != nil {
+		t.Fatalf("page formats: %v", err)
+	}
+	return markdownintake.NewScrapeRequestConsumer(markdownintake.Config{
+		Source:      source,
+		Fetcher:     fetcher,
+		Derivations: derivations,
+		Corpus:      corpus,
+		Progress:    progress,
+		Concurrency: 1,
+	}).Run(context.Background())
 }
 
-func TestConsumerStoresTheMarkdownItScrapesFromAScrapeRequest(t *testing.T) {
+func TestConsumerStoresTheMarkdownItDerivesFromAScrapeRequest(t *testing.T) {
 	acked := make(chan string, 1)
-	scraper := &fakeScrape{
-		page: pagescrape.ScrapedPage{
-			CanonicalURL: canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
-			Content:      []byte("# Hi"),
-		},
-		scraped: true,
-	}
+	fetcher := fetchOf(fetchedPage(t, "text/html", article))
 	corpus := &recordingCorpus{}
 	progress := &recordingProgress{}
 
 	if err := run(t, sourceOf(scrapeRequestMessage(t, acked)),
-		scraper, corpus, progress); err != nil {
+		fetcher, corpus, progress); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if action := <-acked; action != "ack" {
 		t.Errorf("action = %q, want ack", action)
 	}
-	if len(scraper.urls) != 1 || scraper.urls[0] != scrapeRequestURL {
-		t.Errorf("scraped %v, want the scrape request url", scraper.urls)
+	if len(fetcher.urls) != 1 || fetcher.urls[0] != scrapeRequestURL {
+		t.Errorf("fetched %v, want the scrape request url", fetcher.urls)
 	}
-	if len(scraper.targetFormats) != 1 ||
-		scraper.targetFormats[0] != documentextraction.FormatMarkdown {
-		t.Errorf("scraped as %v, want %s", scraper.targetFormats, documentextraction.FormatMarkdown)
-	}
-	if got := corpus.markdown[scrapeRequestURL]; string(got) != "# Hi" {
-		t.Errorf("stored = %q, want # Hi", got)
+	if got := string(corpus.markdown[scrapeRequestURL]); !strings.Contains(got, "quick brown fox") {
+		t.Errorf("stored = %q, want the article as markdown", got)
 	}
 	if progress.received != 1 || progress.stored != 1 {
 		t.Errorf("progress = %+v, want one received and one stored", progress)
 	}
 }
 
-func TestConsumerAcksAScrapeRequestThatDerivesNoMarkdown(t *testing.T) {
+func TestConsumerAcksAScrapeRequestHoldingNoExtractableDocument(t *testing.T) {
 	acked := make(chan string, 1)
 	corpus := &recordingCorpus{}
 	progress := &recordingProgress{}
 
 	if err := run(t, sourceOf(scrapeRequestMessage(t, acked)),
-		&fakeScrape{}, corpus, progress); err != nil {
+		fetchOf(fetchedPage(t, "application/pdf", "%PDF-1.4")), corpus, progress); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -207,12 +233,12 @@ func TestConsumerAcksAScrapeRequestThatDerivesNoMarkdown(t *testing.T) {
 	}
 }
 
-func TestConsumerNaksWhenTheScrapeFails(t *testing.T) {
+func TestConsumerNaksWhenTheFetchBreaks(t *testing.T) {
 	acked := make(chan string, 1)
 	progress := &recordingProgress{}
 
 	if err := run(t, sourceOf(scrapeRequestMessage(t, acked)),
-		&fakeScrape{err: errors.New("fetch broke")}, &recordingCorpus{}, progress); err != nil {
+		&fakeFetch{err: errors.New("fetch broke")}, &recordingCorpus{}, progress); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -224,19 +250,70 @@ func TestConsumerNaksWhenTheScrapeFails(t *testing.T) {
 	}
 }
 
+func TestConsumerNaksWhenTheFetchReportsFailure(t *testing.T) {
+	acked := make(chan string, 1)
+	progress := &recordingProgress{}
+	fetcher := &fakeFetch{outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchFailed}}
+
+	if err := run(t, sourceOf(scrapeRequestMessage(t, acked)),
+		fetcher, &recordingCorpus{}, progress); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := <-acked; action != "nak" {
+		t.Errorf("action = %q, want nak", action)
+	}
+	if progress.scraped != 1 {
+		t.Errorf("progress = %+v, want one scrape failure", progress)
+	}
+}
+
+func TestConsumerHoldsADeferredScrapeRequestBackForAsLongAsTheOriginAsks(t *testing.T) {
+	acked := make(chan string, 1)
+	message := scrapeRequestMessage(t, acked)
+	fetcher := &fakeFetch{outcome: pagefetch.FetchOutcome{
+		Status:   pagefetch.FetchDeferred,
+		DeferFor: 30 * time.Second,
+	}}
+
+	if err := run(t, sourceOf(message),
+		fetcher, &recordingCorpus{}, &recordingProgress{}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := <-acked; action != "nak-with-delay" {
+		t.Errorf("action = %q, want nak-with-delay", action)
+	}
+	if message.nakDelay != 30*time.Second {
+		t.Errorf("nak delay = %v, want the deferral the origin asked for", message.nakDelay)
+	}
+}
+
+func TestConsumerAcksAScrapeRequestThatFetchesNoPage(t *testing.T) {
+	acked := make(chan string, 1)
+	progress := &recordingProgress{}
+	fetcher := &fakeFetch{outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}}
+
+	if err := run(t, sourceOf(scrapeRequestMessage(t, acked)),
+		fetcher, &recordingCorpus{}, progress); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := <-acked; action != "ack" {
+		t.Errorf("action = %q, want ack", action)
+	}
+	if progress.stored != 0 || progress.scraped != 0 {
+		t.Errorf("progress = %+v, want nothing stored and no failure", progress)
+	}
+}
+
 func TestConsumerNaksWhenTheStoreFails(t *testing.T) {
 	acked := make(chan string, 1)
-	scraper := &fakeScrape{
-		page: pagescrape.ScrapedPage{
-			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
-			Content:      []byte("x"),
-		},
-		scraped: true,
-	}
 	progress := &recordingProgress{}
 
 	if err := run(t, sourceOf(scrapeRequestMessage(t, acked)),
-		scraper, &recordingCorpus{fail: true}, progress); err != nil {
+		fetchOf(fetchedPage(t, "text/html", article)),
+		&recordingCorpus{fail: true}, progress); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -253,7 +330,7 @@ func TestConsumerHaltsOnAnUndecodableMessage(t *testing.T) {
 	progress := &recordingProgress{}
 
 	err := run(t, sourceOf(&fakeMsg{data: []byte("not json"), acked: acked}),
-		&fakeScrape{}, &recordingCorpus{}, progress)
+		&fakeFetch{}, &recordingCorpus{}, progress)
 
 	if !errors.Is(err, poisonhalt.ErrPoisonMessage) {
 		t.Fatalf("run error = %v, want poison halt", err)

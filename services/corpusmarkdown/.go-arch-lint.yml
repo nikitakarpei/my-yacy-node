@@ -31,9 +31,12 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
-  pagescrape:
+  pageformats:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagescrape
+      - github.com/nikitakarpei/yacy-rwi-node/pageformats
+  pagefetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
   documentextraction:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/documentextraction
@@ -70,7 +73,8 @@ deps:
     canUse:
       - yacycrawlcontract
       - scraperequestcontract
-      - pagescrape
+      - pageformats
+      - pagefetch
       - nats
       - serviceruntime
       - documentextraction

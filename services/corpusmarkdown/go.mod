@@ -38,7 +38,7 @@ require (
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/pagescrape v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
@@ -60,7 +60,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
 
-replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../libraries/pagescrape
+replace github.com/nikitakarpei/yacy-rwi-node/pageformats => ../../libraries/pageformats
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 

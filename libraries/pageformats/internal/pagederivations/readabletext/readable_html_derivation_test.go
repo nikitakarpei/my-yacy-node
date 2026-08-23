@@ -3,8 +3,9 @@ package readabletext_test
 import (
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagederivations/readabletext"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/readabletext"
 )
 
 func TestReadableHTMLDerivationDeclaresReadableHTMLToReadableText(t *testing.T) {
@@ -18,12 +19,12 @@ func TestReadableHTMLDerivationDeclaresReadableHTMLToReadableText(t *testing.T) 
 }
 
 func TestReadableHTMLDerivationFlattensMarkup(t *testing.T) {
-	body, err := readabletext.NewReadableHTMLDerivation().Derive(
-		"https://example.com/",
+	body, derived, err := readabletext.NewReadableHTMLDerivation().Derive(
+		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 		[]byte(`<p>first</p><p>second</p>`),
 	)
-	if err != nil {
-		t.Fatalf("derive: %v", err)
+	if err != nil || !derived {
+		t.Fatalf("derive: derived=%v err=%v", derived, err)
 	}
 	if string(body) != "first\nsecond" {
 		t.Fatalf("markup not flattened: %q", body)

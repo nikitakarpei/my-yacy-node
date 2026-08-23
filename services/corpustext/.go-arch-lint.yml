@@ -28,9 +28,12 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
   scraperequestcontract:
     in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
-  pagescrape:
+  pageformats:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagescrape
+      - github.com/nikitakarpei/yacy-rwi-node/pageformats
+  pagefetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -65,7 +68,8 @@ vendors:
 deps:
   scrapedpagedocument:
     canUse:
-      - pagescrape
+      - canonicalurl
+      - documentextraction
       - searchdocument
   searchindexeselasticsearch:
     mayDependOn:
@@ -83,7 +87,8 @@ deps:
     canUse:
       - yacycrawlcontract
       - scraperequestcontract
-      - pagescrape
+      - pageformats
+      - pagefetch
       - searchdocument
       - nats
       - serviceruntime

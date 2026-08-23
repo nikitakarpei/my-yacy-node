@@ -1,8 +1,9 @@
 package readabletext
 
 import (
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/htmlflattening"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/htmlflattening"
 )
 
 type ReadableHTMLDerivation struct{}
@@ -19,10 +20,13 @@ func (ReadableHTMLDerivation) TargetFormat() documentextraction.Format {
 	return documentextraction.FormatReadableText
 }
 
-func (ReadableHTMLDerivation) Derive(_ string, body []byte) ([]byte, error) {
+func (ReadableHTMLDerivation) Derive(
+	_ canonicalurl.CanonicalURL,
+	body []byte,
+) ([]byte, bool, error) {
 	text, err := htmlflattening.Flatten(body)
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
-	return []byte(text), nil
+	return []byte(text), true, nil
 }

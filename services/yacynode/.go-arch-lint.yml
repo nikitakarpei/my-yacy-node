@@ -108,9 +108,12 @@ vendors:
   documentextraction:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/documentextraction
-  pagescrape:
+  pageformats:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagescrape
+      - github.com/nikitakarpei/yacy-rwi-node/pageformats
+  pagefetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
   pagefetchershttp:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http
@@ -143,7 +146,8 @@ deps:
       - yacyproto
       - yacycrawlcontract
       - scraperequestcontract
-      - pagescrape
+      - pageformats
+      - pagefetch
       - pagefetchershttp
   nodeidentity:
     canUse:
@@ -277,7 +281,9 @@ deps:
       - vault
   pagerwi:
     canUse:
-      - pagescrape
+      - canonicalurl
+      - documentextraction
+      - pagefetch
   scraperequestintake:
     mayDependOn:
       - pagerwi
@@ -286,7 +292,8 @@ deps:
     canUse:
       - yacycrawlcontract
       - scraperequestcontract
-      - pagescrape
+      - pageformats
+      - pagefetch
       - pagefetchershttp
       - nats
       - serviceruntime

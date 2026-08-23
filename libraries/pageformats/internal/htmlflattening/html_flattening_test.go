@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/htmlflattening"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/htmlflattening"
 )
 
 func TestFlattenStripsMarkup(t *testing.T) {

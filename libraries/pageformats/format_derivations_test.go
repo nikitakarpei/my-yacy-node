@@ -1,14 +1,14 @@
-package contentformatgraph_test
+package pageformats_test
 
 import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 )
 
 func TestDerivableAcceptsReachableFormat(t *testing.T) {
-	graph := contentformatgraph.New([]contentformatgraph.Derivation{
+	graph := pageformats.FormatDerivationsOf([]pageformats.Derivation{
 		scriptedDerivation{
 			source: documentextraction.FormatDocumentHTML,
 			target: documentextraction.FormatReadableHTML,
@@ -24,7 +24,7 @@ func TestDerivableAcceptsReachableFormat(t *testing.T) {
 }
 
 func TestDerivableRejectsUnproducedFormat(t *testing.T) {
-	graph := contentformatgraph.New(nil)
+	graph := pageformats.FormatDerivationsOf(nil)
 	if graph.Derivable(
 		documentextraction.FormatDocumentHTML,
 		documentextraction.FormatReadableText,
@@ -33,8 +33,8 @@ func TestDerivableRejectsUnproducedFormat(t *testing.T) {
 	}
 }
 
-func readableTextGraph() contentformatgraph.FormatDerivations {
-	return contentformatgraph.New([]contentformatgraph.Derivation{
+func readableTextGraph() pageformats.FormatDerivations {
+	return pageformats.FormatDerivationsOf([]pageformats.Derivation{
 		scriptedDerivation{
 			source: documentextraction.FormatDocumentHTML,
 			target: documentextraction.FormatReadableText,

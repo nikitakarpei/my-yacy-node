@@ -3,14 +3,13 @@ package readablehtml
 import (
 	"bytes"
 	"fmt"
-	"net/url"
 	"strings"
 
 	readability "codeberg.org/readeck/go-readability/v2"
 	"golang.org/x/net/html"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/contentformatgraph"
 )
 
 type DocumentHTMLDerivation struct{}
@@ -27,25 +26,39 @@ func (DocumentHTMLDerivation) TargetFormat() documentextraction.Format {
 	return documentextraction.FormatReadableHTML
 }
 
-func (DocumentHTMLDerivation) Derive(pageURL string, body []byte) ([]byte, error) {
+func (DocumentHTMLDerivation) Derive(
+	pageURL canonicalurl.CanonicalURL,
+	body []byte,
+) ([]byte, bool, error) {
 	root, err := html.Parse(bytes.NewReader(body))
 	if err != nil {
-		return nil, fmt.Errorf("parse html: %w", err)
+		return nil, false, fmt.Errorf("parse html: %w", err)
 	}
-	parsedURL, _ := url.Parse(pageURL)
+	article, readable := readableArticleOf(root, pageURL)
+	if !readable {
+		return nil, false, nil
+	}
+	markup, rendered := markupOf(article)
+	return markup, rendered, nil
+}
 
-	article, err := readability.FromDocument(root, parsedURL)
+func readableArticleOf(
+	root *html.Node,
+	pageURL canonicalurl.CanonicalURL,
+) (readability.Article, bool) {
+	article, err := readability.FromDocument(root, pageURL.WebAddress())
 	if err != nil {
-		return nil, fmt.Errorf("%w: %w", contentformatgraph.ErrUnderivable, err)
+		return readability.Article{}, false
 	}
-	if !hasReadableText(article.Node) {
-		return nil, fmt.Errorf("%w: empty content", contentformatgraph.ErrUnderivable)
+	return article, hasReadableText(article.Node)
+}
+
+func markupOf(article readability.Article) ([]byte, bool) {
+	var markup bytes.Buffer
+	if err := article.RenderHTML(&markup); err != nil {
+		return nil, false
 	}
-	var readable bytes.Buffer
-	if err := article.RenderHTML(&readable); err != nil {
-		return nil, fmt.Errorf("%w: %w", contentformatgraph.ErrUnderivable, err)
-	}
-	return readable.Bytes(), nil
+	return markup.Bytes(), true
 }
 
 func hasReadableText(node *html.Node) bool {

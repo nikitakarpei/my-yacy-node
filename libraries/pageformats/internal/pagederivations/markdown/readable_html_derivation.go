@@ -5,6 +5,7 @@ import (
 
 	htmltomarkdown "github.com/JohannesKaufmann/html-to-markdown/v2"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 )
 
@@ -22,10 +23,13 @@ func (ReadableHTMLDerivation) TargetFormat() documentextraction.Format {
 	return documentextraction.FormatMarkdown
 }
 
-func (ReadableHTMLDerivation) Derive(_ string, body []byte) ([]byte, error) {
+func (ReadableHTMLDerivation) Derive(
+	_ canonicalurl.CanonicalURL,
+	body []byte,
+) ([]byte, bool, error) {
 	markdown, err := htmltomarkdown.ConvertString(string(body))
 	if err != nil {
-		return nil, fmt.Errorf("convert html to markdown: %w", err)
+		return nil, false, fmt.Errorf("convert html to markdown: %w", err)
 	}
-	return []byte(markdown), nil
+	return []byte(markdown), true, nil
 }

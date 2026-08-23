@@ -50,7 +50,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/wallclock => ../../libraries/wallc
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
 
-replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../libraries/pagescrape
+replace github.com/nikitakarpei/yacy-rwi-node/pageformats => ../../libraries/pageformats
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 
