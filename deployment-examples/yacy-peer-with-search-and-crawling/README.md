@@ -14,12 +14,12 @@ answer with.
 | `visitcrawl` | Turns an opened result into one crawl order and redirects to the page, without waiting on the order. |
 | `nats` | Broker carrying crawl orders and scrape requests between services. |
 | `scrape-requests-stream` | Creates the `SCRAPE_REQUESTS` stream once, before any service publishes to it or reads it. |
-| `yacycrawler` | Fetches an ordered page and publishes a scrape request for every page it admits. |
+| `yacycrawler` | Follows a crawl order and publishes a scrape request for every page it admits. |
 | `renderproxy` | Proxies the page fetch through `lightpanda` so JS-rendered pages are fetched too. |
 | `lightpanda` | Headless browser that renders the page for `renderproxy`; chosen over Chromium-based ones for its low memory footprint. |
-| `corpustext` | Fetches each scrape request and writes its text into the local search index. |
+| `corpustext` | Fetches the page each scrape request names and writes its text into the local search index. |
 | `manticore` | Stores and serves the local search index. |
-| `yacy-rwi-node` | The peer: fetches each scrape request for its own word index, shares it over the DHT, and serves remote searches. |
+| `yacy-rwi-node` | The peer: fetches the page each scrape request names into its own word index, shares it over the DHT, and serves remote searches. |
 | `smokescreen` | Egress proxy every outbound connection passes through, blocking requests to internal addresses to prevent SSRF. |
 | `prometheus` | Collects metrics from every service. |
 

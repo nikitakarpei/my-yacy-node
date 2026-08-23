@@ -118,10 +118,10 @@ type recordingProgress struct {
 	failed   int
 }
 
-func (p *recordingProgress) PageReceived() { p.received++ }
-func (p *recordingProgress) PageStored()   { p.stored++ }
-func (p *recordingProgress) ScrapeFailed() { p.scraped++ }
-func (p *recordingProgress) StoreFailed()  { p.failed++ }
+func (p *recordingProgress) ScrapeRequestReceived() { p.received++ }
+func (p *recordingProgress) PageStored()            { p.stored++ }
+func (p *recordingProgress) ScrapeFailed()          { p.scraped++ }
+func (p *recordingProgress) StoreFailed()           { p.failed++ }
 
 const scrapeRequestURL = "https://example.com/"
 

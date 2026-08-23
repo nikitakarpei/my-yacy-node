@@ -18,7 +18,6 @@ indexes it into an operator-run full-text search index.
 
 ## Functional Requirements
 
-* The service SHALL consume only the scrape-request stream.
 * For each scrape request, the service SHALL fetch the page through its configured proxy and
   derive the text of the document it holds.
 * The service SHALL produce a search-index document carrying the fetched page's canonical

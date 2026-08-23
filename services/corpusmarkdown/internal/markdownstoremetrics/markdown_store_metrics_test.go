@@ -16,7 +16,7 @@ func TestMarkdownStoreMetricsRecordsAndExposesCounters(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	metrics := markdownstoremetrics.New(registry)
 
-	metrics.PageReceived()
+	metrics.ScrapeRequestReceived()
 	metrics.PageStored()
 	metrics.StoreFailed()
 
@@ -26,7 +26,7 @@ func TestMarkdownStoreMetricsRecordsAndExposesCounters(t *testing.T) {
 
 	body := rec.Body.String()
 	for _, want := range []string{
-		"corpusmarkdown_pages_received_total 1",
+		"corpusmarkdown_scrape_requests_received_total 1",
 		"corpusmarkdown_pages_stored_total 1",
 		"corpusmarkdown_store_failures_total 1",
 	} {

@@ -35,7 +35,7 @@ type PageMarkdownCorpus interface {
 }
 
 type StoreProgress interface {
-	PageReceived()
+	ScrapeRequestReceived()
 	PageStored()
 	ScrapeFailed()
 	StoreFailed()
@@ -70,7 +70,7 @@ func (c *ScrapeRequestConsumer) Run(ctx context.Context) error {
 }
 
 func (c *ScrapeRequestConsumer) processOne(ctx context.Context, msg jetstream.Msg) error {
-	c.progress.PageReceived()
+	c.progress.ScrapeRequestReceived()
 	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(msg.Data())
 	if err != nil {
 		return poisonhalt.Halt(ctx, msg, err)
