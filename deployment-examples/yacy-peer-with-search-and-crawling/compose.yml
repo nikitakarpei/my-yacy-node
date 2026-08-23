@@ -55,7 +55,7 @@ services:
         http://yacy.v16.de/seed/seed.txt,
         https://frank-siebert.de/seed.txt,
         http://seedlist.wertewesten.net/seed.txt
-      YACY_EGRESS_PROXY_URL: http://smokescreen:4750
+      EGRESS_PROXY_URL: http://smokescreen:4750
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
       SCRAPE_PROXY_URL: http://renderproxy:8080
       SCRAPE_PROXY_DIAL_MODE: absolute-url
@@ -89,7 +89,7 @@ services:
       - smokescreen
     environment:
       RENDERPROXY_CDP_URL: ws://lightpanda:9222
-      RENDERPROXY_EGRESS_PROXY_URL: http://smokescreen:4750
+      EGRESS_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   yacycrawler:

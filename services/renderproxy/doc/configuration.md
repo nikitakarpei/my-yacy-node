@@ -19,7 +19,7 @@ renderproxy is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `RENDERPROXY_EGRESS_PROXY_URL` | required | HTTP or HTTPS proxy the service's own origin requests leave through. The service does not start without it. |
+| `EGRESS_PROXY_URL` | required | HTTP or HTTPS proxy the service's own origin requests leave through. The service does not start without it. |
 
 ## Limits
 

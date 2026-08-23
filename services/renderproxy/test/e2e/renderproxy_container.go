@@ -31,9 +31,9 @@ func startRenderproxy(
 	t.Helper()
 	egressproxy.Start(t, ctx, networkName)
 	env := map[string]string{
-		"RENDERPROXY_CDP_URL":          cdpURL,
-		"RENDERPROXY_EGRESS_PROXY_URL": egressproxy.NetworkURL(),
-		"LOG_LEVEL":                    "debug",
+		"RENDERPROXY_CDP_URL": cdpURL,
+		"EGRESS_PROXY_URL":    egressproxy.NetworkURL(),
+		"LOG_LEVEL":           "debug",
 	}
 	for k, v := range extraEnv {
 		env[k] = v
