@@ -2,31 +2,32 @@
 
 The node is configured through environment variables.
 
-## Runtime
+## Process
 
 | Variable | Default | Description |
 | --- | --- | --- |
 | `LOG_LEVEL` | `INFO` | Log verbosity: `DEBUG`, `INFO`, `WARN`, or `ERROR`. |
-| `YACY_DATA_DIR` | `./data` | Where the node persists its data. |
-| `YACY_OPS_ADDR` | `:9090` | Listen address for the `/metrics` endpoint. |
 | `EGRESS_PROXY_URL` | _(required)_ | `http` or `https` URL of the proxy all outbound connections are routed through. |
+| `YACY_PEER_ADDR` | `:8090` | Listen address for the YaCy peer protocol. |
+| `YACY_OPS_ADDR` | `:9090` | Listen address for the `/metrics` endpoint. |
+| `YACY_TRUSTED_PROXIES` | _(empty)_ | Comma-separated CIDRs or IPs of reverse proxies fronting the node. Set this when running behind a reverse proxy so peers are not told the proxy's address. |
 
 ## Peer identity
+
+Every peer publishes a seed that says who it is and where to reach it.
 
 | Variable | Default | Description |
 | --- | --- | --- |
 | `YACY_INITIAL_PEER_HASH` | _(empty)_ | The 12-character enhanced-Base64 peer hash to start with. Leave it empty to let the node generate one. |
 | `YACY_PEER_NAME` | _(empty)_ | Peer name advertised to the network. Leave it empty to let the node derive a name from its peer hash. |
 | `YACY_NETWORK_NAME` | `freeworld` | YaCy network to join. Only peers on the same network exchange data. |
+| `YACY_ADVERTISE_HOST` | _(empty)_ | Public IP or DNS name other peers use to reach you. Required when `YACY_SEEDLIST_URLS` is set. |
+| `YACY_ADVERTISE_PORT` | _(the `YACY_PEER_ADDR` port)_ | Port other peers use to reach you. |
 
-## Peer network
+## Peer exchange
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `YACY_PEER_ADDR` | `:8090` | Listen address for the YaCy peer protocol. |
-| `YACY_ADVERTISE_HOST` | _(empty)_ | Public IP or DNS name other peers use to reach you. Required when `YACY_SEEDLIST_URLS` is set. |
-| `YACY_ADVERTISE_PORT` | _(the `YACY_PEER_ADDR` port)_ | Port other peers use to reach you. |
-| `YACY_TRUSTED_PROXIES` | _(empty)_ | Comma-separated CIDRs or IPs of reverse proxies fronting the node. Set this when running behind a reverse proxy so peers are not told the proxy's address. |
 | `YACY_SEEDLIST_URLS` | _(empty)_ | Comma-separated YaCy seedlist URLs to discover peers from. |
 | `YACY_ANNOUNCE_INTERVAL` | `10m` | How often to re-announce yourself to the network (e.g. `30s`, `10m`, `1h`). |
 | `YACY_PEER_CONTACT_CONCURRENCY` | `16` | How many peers to contact at once within an announce cycle. |
@@ -37,6 +38,7 @@ The node is configured through environment variables.
 
 | Variable | Default | Description |
 | --- | --- | --- |
+| `YACY_DATA_DIR` | `./data` | Where the node persists its data. |
 | `YACY_STORAGE_QUOTA` | `1GB` | Storage quota, as a human-readable size (e.g. `512MB`, `1GB`, `20GB`). |
 | `YACY_ESCROW_POSTING_CAPACITY` | `8192` | How many inbound postings wait at once for their URL metadata. The node refuses further transfers until held postings expire. |
 
@@ -44,8 +46,7 @@ The node is configured through environment variables.
 
 The node does not crawl. A separate crawl fleet publishes the URL of every page it
 reaches; the node fetches each of those pages through its own proxy, derives the page's
-words, and stores them as postings. Intake is off until `SCRAPE_REQUEST_NATS_URL` is set; without
-it the node behaves as a pure peer.
+words, and stores them as postings. Without a scrape request server it is a pure peer.
 
 | Variable | Default | Description |
 | --- | --- | --- |
