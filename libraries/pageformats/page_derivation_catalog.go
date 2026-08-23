@@ -10,18 +10,18 @@ import (
 )
 
 func New() (DerivableFormats, error) {
-	derivableFormats := DerivableFormatsOf(pageDerivationCatalog())
-	if err := derivableFormats.EnsureNoDanglingFormat(
+	derivableFormats := derivableFormatsOf(pageDerivationCatalog())
+	if err := derivableFormats.ensureNoDanglingFormat(
 		documentextraction.EmittedFormats(),
-		derivableFormats.TargetFormats(),
+		derivableFormats.targetFormats(),
 	); err != nil {
 		return DerivableFormats{}, err
 	}
 	return derivableFormats, nil
 }
 
-func pageDerivationCatalog() []FormatDerivation {
-	return []FormatDerivation{
+func pageDerivationCatalog() []formatDerivation {
+	return []formatDerivation{
 		fulltext.FromDocumentHTML(),
 		readablehtml.FromDocumentHTML(),
 		readabletext.FromReadableHTML(),

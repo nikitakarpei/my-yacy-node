@@ -8,12 +8,12 @@ import (
 )
 
 type DerivableFormats struct {
-	byTargetFormat map[documentextraction.Format][]FormatDerivation
+	byTargetFormat map[documentextraction.Format][]formatDerivation
 }
 
-func DerivableFormatsOf(derivations []FormatDerivation) DerivableFormats {
+func derivableFormatsOf(derivations []formatDerivation) DerivableFormats {
 	byTargetFormat := make(
-		map[documentextraction.Format][]FormatDerivation,
+		map[documentextraction.Format][]formatDerivation,
 		len(derivations),
 	)
 	for _, derivation := range derivations {
@@ -75,16 +75,12 @@ func (f DerivableFormats) bodyIn(
 	return nil, false, nil
 }
 
-func (f DerivableFormats) TargetFormats() []documentextraction.Format {
+func (f DerivableFormats) targetFormats() []documentextraction.Format {
 	targetFormats := make([]documentextraction.Format, 0, len(f.byTargetFormat))
 	for targetFormat := range f.byTargetFormat {
 		targetFormats = append(targetFormats, targetFormat)
 	}
 	return targetFormats
-}
-
-func (f DerivableFormats) Derivable(sourceFormat, targetFormat documentextraction.Format) bool {
-	return f.derivable(sourceFormat, targetFormat, map[documentextraction.Format]bool{})
 }
 
 func (f DerivableFormats) derivable(
@@ -106,7 +102,7 @@ func (f DerivableFormats) derivable(
 	return false
 }
 
-func (f DerivableFormats) EnsureNoDanglingFormat(
+func (f DerivableFormats) ensureNoDanglingFormat(
 	sourceFormats, targetFormats []documentextraction.Format,
 ) error {
 	for _, targetFormat := range targetFormats {
@@ -127,7 +123,7 @@ func (f DerivableFormats) derivableFromAny(
 	targetFormat documentextraction.Format,
 ) bool {
 	for _, sourceFormat := range sourceFormats {
-		if f.Derivable(sourceFormat, targetFormat) {
+		if f.derivable(sourceFormat, targetFormat, map[documentextraction.Format]bool{}) {
 			return true
 		}
 	}
@@ -139,7 +135,7 @@ func (f DerivableFormats) derivesAny(
 	targetFormats []documentextraction.Format,
 ) bool {
 	for _, targetFormat := range targetFormats {
-		if f.Derivable(sourceFormat, targetFormat) {
+		if f.derivable(sourceFormat, targetFormat, map[documentextraction.Format]bool{}) {
 			return true
 		}
 	}

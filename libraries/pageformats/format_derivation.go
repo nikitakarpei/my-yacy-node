@@ -5,7 +5,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 )
 
-type FormatDerivation interface {
+type formatDerivation interface {
 	SourceFormat() documentextraction.Format
 	TargetFormat() documentextraction.Format
 	BodyFrom(pageURL canonicalurl.CanonicalURL, sourceBody []byte) ([]byte, bool, error)
