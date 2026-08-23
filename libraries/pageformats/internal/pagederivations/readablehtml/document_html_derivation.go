@@ -2,6 +2,7 @@ package readablehtml
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"strings"
 
@@ -27,6 +28,7 @@ func (DocumentHTMLDerivation) TargetFormat() documentextraction.Format {
 }
 
 func (DocumentHTMLDerivation) BodyFrom(
+	_ context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	body []byte,
 ) ([]byte, bool, error) {
@@ -34,31 +36,18 @@ func (DocumentHTMLDerivation) BodyFrom(
 	if err != nil {
 		return nil, false, fmt.Errorf("parse html: %w", err)
 	}
-	article, readable := readableArticleOf(root, pageURL)
-	if !readable {
-		return nil, false, nil
-	}
-	markup, rendered := markupOf(article)
-	return markup, rendered, nil
-}
-
-func readableArticleOf(
-	root *html.Node,
-	pageURL canonicalurl.CanonicalURL,
-) (readability.Article, bool) {
 	article, err := readability.FromDocument(root, pageURL.WebAddress())
 	if err != nil {
-		return readability.Article{}, false
+		return nil, false, fmt.Errorf("extract the readable article: %w", err)
 	}
-	return article, hasReadableText(article.Node)
-}
-
-func markupOf(article readability.Article) ([]byte, bool) {
-	var markup bytes.Buffer
-	if err := article.RenderHTML(&markup); err != nil {
-		return nil, false
+	if !hasReadableText(article.Node) {
+		return nil, false, nil
 	}
-	return markup.Bytes(), true
+	markup, err := markupOf(article)
+	if err != nil {
+		return nil, false, err
+	}
+	return markup, true, nil
 }
 
 func hasReadableText(node *html.Node) bool {
@@ -74,4 +63,12 @@ func hasReadableText(node *html.Node) bool {
 		}
 	}
 	return false
+}
+
+func markupOf(article readability.Article) ([]byte, error) {
+	var markup bytes.Buffer
+	if err := article.RenderHTML(&markup); err != nil {
+		return nil, fmt.Errorf("render the readable html: %w", err)
+	}
+	return markup.Bytes(), nil
 }

@@ -29,6 +29,7 @@ func TestDeriveDeclaresDocumentHTMLToReadableHTML(t *testing.T) {
 
 func TestDeriveExtractsMainArticle(t *testing.T) {
 	body, derived, err := readablehtml.FromDocumentHTML().BodyFrom(
+		t.Context(),
 		canonicalurltest.CanonicalURLOf(t, "http://host.example/p"), []byte(document),
 	)
 	if err != nil || !derived {
@@ -45,6 +46,7 @@ func TestDeriveExtractsMainArticle(t *testing.T) {
 
 func TestAPageWithNoArticleDerivesNothing(t *testing.T) {
 	_, derived, err := readablehtml.FromDocumentHTML().BodyFrom(
+		t.Context(),
 		canonicalurltest.CanonicalURLOf(t, "http://host.example/p"),
 		[]byte("<html><body></body></html>"),
 	)

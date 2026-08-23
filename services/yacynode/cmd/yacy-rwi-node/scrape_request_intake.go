@@ -33,7 +33,7 @@ func openScrapeRequestIntake(
 	if err != nil {
 		return nil, fmt.Errorf("open scrape request broker: %w", err)
 	}
-	derivableFormats, err := pageformats.New()
+	formatDerivations, err := pageformats.New()
 	if err != nil {
 		broker.Close()
 
@@ -51,7 +51,7 @@ func openScrapeRequestIntake(
 				config.MaxBodyBytes,
 				config.FetchDeadline,
 			),
-			Formats:                        derivableFormats,
+			FormatDerivations:              formatDerivations,
 			URLs:                           urls,
 			Postings:                       postings,
 			ScrapeRequestIntakeConcurrency: config.ScrapeRequestIntakeConcurrency,

@@ -14,53 +14,69 @@ const (
 	transcript   = documentextraction.Format("audio-transcript")
 )
 
-func derivation(
-	sourceFormat, targetFormat documentextraction.Format,
-) derivationreach.DerivationFormats {
-	return derivationreach.DerivationFormats{
-		SourceFormat: sourceFormat,
-		TargetFormat: targetFormat,
-	}
+type formatDerivation struct {
+	sourceFormat documentextraction.Format
+	targetFormat documentextraction.Format
 }
 
-func TestEnsureNoCycleAcceptsDerivationsThatOnlyMoveForward(t *testing.T) {
-	err := derivationreach.EnsureNoCycle([]derivationreach.DerivationFormats{
-		derivation(documentHTML, readableHTML),
-		derivation(readableHTML, markdown),
-		derivation(documentHTML, markdown),
-	})
+func derivation(
+	sourceFormat, targetFormat documentextraction.Format,
+) formatDerivation {
+	return formatDerivation{sourceFormat: sourceFormat, targetFormat: targetFormat}
+}
+
+func (d formatDerivation) SourceFormat() documentextraction.Format {
+	return d.sourceFormat
+}
+
+func (d formatDerivation) TargetFormat() documentextraction.Format {
+	return d.targetFormat
+}
+
+func TestEnsureFormatsDerivableAcceptsDerivationsThatOnlyMoveForward(t *testing.T) {
+	err := derivationreach.EnsureFormatsDerivable(
+		[]formatDerivation{
+			derivation(documentHTML, readableHTML),
+			derivation(readableHTML, markdown),
+			derivation(documentHTML, markdown),
+		},
+		[]documentextraction.Format{documentHTML},
+	)
 	if err != nil {
 		t.Fatalf("derivations that only move forward hold no cycle: %v", err)
 	}
 }
 
-func TestEnsureNoCycleRejectsAFormatThatDerivesFromItself(t *testing.T) {
-	err := derivationreach.EnsureNoCycle([]derivationreach.DerivationFormats{
-		derivation(documentHTML, readableHTML),
-		derivation(readableHTML, markdown),
-		derivation(markdown, readableHTML),
-	})
+func TestEnsureFormatsDerivableRejectsAFormatThatDerivesFromItself(t *testing.T) {
+	err := derivationreach.EnsureFormatsDerivable(
+		[]formatDerivation{
+			derivation(documentHTML, readableHTML),
+			derivation(readableHTML, markdown),
+			derivation(markdown, readableHTML),
+		},
+		[]documentextraction.Format{documentHTML},
+	)
 	if err == nil {
 		t.Fatal("readable-html derives from markdown, which derives from readable-html")
 	}
 }
 
-func TestEnsureNoDanglingFormatAcceptsAFullyConnectedCatalog(t *testing.T) {
-	err := derivationreach.EnsureNoDanglingFormat(
-		[]derivationreach.DerivationFormats{
+func TestEnsureFormatsDerivableReachesATargetThroughAChain(t *testing.T) {
+	err := derivationreach.EnsureFormatsDerivable(
+		[]formatDerivation{
 			derivation(documentHTML, readableHTML),
 			derivation(readableHTML, markdown),
 		},
 		[]documentextraction.Format{documentHTML},
 	)
 	if err != nil {
-		t.Fatalf("document-html reaches every target format: %v", err)
+		t.Fatalf("markdown is reachable through readable-html: %v", err)
 	}
 }
 
-func TestEnsureNoDanglingFormatRejectsATargetNoEmittedFormatReaches(t *testing.T) {
-	err := derivationreach.EnsureNoDanglingFormat(
-		[]derivationreach.DerivationFormats{
+func TestEnsureFormatsDerivableRejectsATargetNoEmittedFormatReaches(t *testing.T) {
+	err := derivationreach.EnsureFormatsDerivable(
+		[]formatDerivation{
 			derivation(documentHTML, readableHTML),
 			derivation(transcript, markdown),
 		},
@@ -71,27 +87,14 @@ func TestEnsureNoDanglingFormatRejectsATargetNoEmittedFormatReaches(t *testing.T
 	}
 }
 
-func TestEnsureNoDanglingFormatRejectsAnEmittedFormatThatReachesNoTarget(t *testing.T) {
-	err := derivationreach.EnsureNoDanglingFormat(
-		[]derivationreach.DerivationFormats{
+func TestEnsureFormatsDerivableAcceptsAnEmittedFormatThatDerivesNoTarget(t *testing.T) {
+	err := derivationreach.EnsureFormatsDerivable(
+		[]formatDerivation{
 			derivation(documentHTML, readableHTML),
 		},
-		[]documentextraction.Format{documentHTML, transcript},
-	)
-	if err == nil {
-		t.Fatal("audio-transcript derives no target format")
-	}
-}
-
-func TestEnsureNoDanglingFormatReachesATargetThroughAChain(t *testing.T) {
-	err := derivationreach.EnsureNoDanglingFormat(
-		[]derivationreach.DerivationFormats{
-			derivation(documentHTML, readableHTML),
-			derivation(readableHTML, markdown),
-		},
-		[]documentextraction.Format{documentHTML},
+		[]documentextraction.Format{documentHTML, markdown},
 	)
 	if err != nil {
-		t.Fatalf("markdown is reachable through readable-html: %v", err)
+		t.Fatalf("an extractor may emit a format that needs no further derivation: %v", err)
 	}
 }

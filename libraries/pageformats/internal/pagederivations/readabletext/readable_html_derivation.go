@@ -1,6 +1,8 @@
 package readabletext
 
 import (
+	"context"
+
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/htmlflattening"
@@ -21,6 +23,7 @@ func (ReadableHTMLDerivation) TargetFormat() documentextraction.Format {
 }
 
 func (ReadableHTMLDerivation) BodyFrom(
+	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	body []byte,
 ) ([]byte, bool, error) {

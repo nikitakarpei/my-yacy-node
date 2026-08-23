@@ -8,11 +8,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/readabletext"
 )
 
-func New() (DerivableFormats, error) {
-	return derivableFormatsOf(pageDerivationCatalog())
+func New() (FormatDerivationCatalog, error) {
+	return formatDerivationCatalogOf(pageFormatDerivations())
 }
 
-func pageDerivationCatalog() []formatDerivation {
+func pageFormatDerivations() []formatDerivation {
 	return []formatDerivation{
 		fulltext.FromDocumentHTML(),
 		readablehtml.FromDocumentHTML(),

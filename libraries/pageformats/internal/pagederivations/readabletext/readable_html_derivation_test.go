@@ -20,6 +20,7 @@ func TestReadableHTMLDerivationDeclaresReadableHTMLToReadableText(t *testing.T) 
 
 func TestReadableHTMLDerivationFlattensMarkup(t *testing.T) {
 	body, derived, err := readabletext.FromReadableHTML().BodyFrom(
+		t.Context(),
 		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 		[]byte(`<p>first</p><p>second</p>`),
 	)

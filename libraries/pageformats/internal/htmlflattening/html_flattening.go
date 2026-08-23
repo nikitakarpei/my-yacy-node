@@ -1,3 +1,5 @@
+// Package htmlflattening removes the markup from an html body and keeps its
+// text, with one line for each block element.
 package htmlflattening
 
 import (

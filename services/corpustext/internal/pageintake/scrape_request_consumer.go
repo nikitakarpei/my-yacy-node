@@ -50,7 +50,7 @@ type IndexProgress interface {
 type ScrapeRequestConsumer struct {
 	source                         pullintake.MessageSource
 	fetcher                        PageFetcher
-	formats                        pageformats.DerivableFormats
+	formatDerivations              pageformats.FormatDerivationCatalog
 	searchIndex                    SearchIndex
 	progress                       IndexProgress
 	scrapeRequestIntakeConcurrency int
@@ -59,7 +59,7 @@ type ScrapeRequestConsumer struct {
 type Config struct {
 	Source                         pullintake.MessageSource
 	Fetcher                        PageFetcher
-	Formats                        pageformats.DerivableFormats
+	FormatDerivations              pageformats.FormatDerivationCatalog
 	SearchIndex                    SearchIndex
 	Progress                       IndexProgress
 	ScrapeRequestIntakeConcurrency int
@@ -69,7 +69,7 @@ func NewScrapeRequestConsumer(config Config) *ScrapeRequestConsumer {
 	return &ScrapeRequestConsumer{
 		source:                         config.Source,
 		fetcher:                        config.Fetcher,
-		formats:                        config.Formats,
+		formatDerivations:              config.FormatDerivations,
 		searchIndex:                    config.SearchIndex,
 		progress:                       config.Progress,
 		scrapeRequestIntakeConcurrency: config.ScrapeRequestIntakeConcurrency,
@@ -154,16 +154,9 @@ func (c *ScrapeRequestConsumer) readableTextOf(
 		)
 		return documentextraction.Document{}, nil, false
 	}
-	text, derived, err := c.formats.BodyIn(
-		documentextraction.FormatReadableText, document, fetched.FinalURL,
+	text, derived := c.formatDerivations.BodyIn(
+		ctx, documentextraction.FormatReadableText, document, fetched.FinalURL,
 	)
-	if err != nil {
-		slog.WarnContext(ctx, msgNoTextDerived,
-			slog.String("url", fetched.FinalURL.String()),
-			slog.Any("error", err),
-		)
-		return documentextraction.Document{}, nil, false
-	}
 	return document, text, derived
 }
 

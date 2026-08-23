@@ -1,6 +1,7 @@
 package markdown
 
 import (
+	"context"
 	"fmt"
 
 	htmltomarkdown "github.com/JohannesKaufmann/html-to-markdown/v2"
@@ -24,6 +25,7 @@ func (DocumentHTMLDerivation) TargetFormat() documentextraction.Format {
 }
 
 func (DocumentHTMLDerivation) BodyFrom(
+	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	body []byte,
 ) ([]byte, bool, error) {

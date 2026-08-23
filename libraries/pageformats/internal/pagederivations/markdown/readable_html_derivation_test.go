@@ -21,6 +21,7 @@ func TestDeriveDeclaresReadableHTMLToMarkdown(t *testing.T) {
 
 func TestDeriveConvertsStructureToMarkdown(t *testing.T) {
 	body, derived, err := markdown.FromReadableHTML().BodyFrom(
+		t.Context(),
 		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 		[]byte(
 			`<h1>Title</h1><p>A <b>bold</b> word and a <a href="http://e.example/x">link</a>.</p>`,

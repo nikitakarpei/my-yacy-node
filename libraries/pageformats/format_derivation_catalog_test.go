@@ -26,11 +26,12 @@ func bodyIn(
 	documentHTML string,
 ) ([]byte, bool) {
 	t.Helper()
-	derivableFormats, err := pageformats.New()
+	catalog, err := pageformats.New()
 	if err != nil {
 		t.Fatalf("new: %v", err)
 	}
-	body, derived, err := derivableFormats.BodyIn(
+	body, derived := catalog.BodyIn(
+		t.Context(),
 		format,
 		documentextraction.Document{
 			Format: documentextraction.FormatDocumentHTML,
@@ -38,9 +39,6 @@ func bodyIn(
 		},
 		canonicalurltest.CanonicalURLOf(t, "http://host.example/p"),
 	)
-	if err != nil {
-		t.Fatalf("body in %s: %v", format, err)
-	}
 	return body, derived
 }
 

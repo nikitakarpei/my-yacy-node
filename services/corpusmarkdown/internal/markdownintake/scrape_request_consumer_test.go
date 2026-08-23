@@ -176,14 +176,14 @@ func run(
 	progress markdownintake.StoreProgress,
 ) error {
 	t.Helper()
-	derivableFormats, err := pageformats.New()
+	formatDerivations, err := pageformats.New()
 	if err != nil {
 		t.Fatalf("page formats: %v", err)
 	}
 	return markdownintake.NewScrapeRequestConsumer(markdownintake.Config{
 		Source:                         source,
 		Fetcher:                        fetcher,
-		Formats:                        derivableFormats,
+		FormatDerivations:              formatDerivations,
 		Corpus:                         corpus,
 		Progress:                       progress,
 		ScrapeRequestIntakeConcurrency: 1,

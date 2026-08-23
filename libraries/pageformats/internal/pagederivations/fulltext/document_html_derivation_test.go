@@ -17,6 +17,7 @@ func TestDeriveFlattensWholeDocumentAndStripsMarkup(t *testing.T) {
 			`<script>var drop = 1</script></body></html>`,
 	)
 	text, derived, err := derivation.BodyFrom(
+		t.Context(),
 		canonicalurltest.CanonicalURLOf(t, "http://example.com/"), body,
 	)
 	if err != nil || !derived {

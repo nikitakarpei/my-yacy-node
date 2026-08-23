@@ -171,7 +171,7 @@ func run(
 ) error {
 	t.Helper()
 
-	derivableFormats, err := pageformats.New()
+	formatDerivations, err := pageformats.New()
 	if err != nil {
 		t.Fatalf("page formats: %v", err)
 	}
@@ -181,7 +181,7 @@ func run(
 			iterator: &fakeIterator{messages: []jetstream.Msg{msg}},
 		},
 		Fetcher:                        fetcher,
-		Formats:                        derivableFormats,
+		FormatDerivations:              formatDerivations,
 		URLs:                           urls,
 		Postings:                       postings,
 		ScrapeRequestIntakeConcurrency: 1,
