@@ -5,41 +5,34 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagepublication"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 )
 
 var (
-	_ pagevisit.VisitProgress             = (*CrawlMetrics)(nil)
-	_ ordertraversal.TraversalProgress    = (*CrawlMetrics)(nil)
-	_ ordersettlement.OrderProgress       = (*CrawlMetrics)(nil)
-	_ disposal.DisposalProgress           = (*CrawlMetrics)(nil)
-	_ pagepublication.PublicationProgress = (*CrawlMetrics)(nil)
+	_ pagevisit.VisitProgress          = (*CrawlMetrics)(nil)
+	_ ordertraversal.TraversalProgress = (*CrawlMetrics)(nil)
+	_ ordersettlement.OrderProgress    = (*CrawlMetrics)(nil)
 )
 
 const (
-	labelRepresentation = "representation"
-	labelReason         = "reason"
-	labelDemand         = "demand"
+	labelReason = "reason"
+	labelDemand = "demand"
 )
 
 type CrawlMetrics struct {
-	ordersReceived             prometheus.Counter
-	ordersCompleted            prometheus.Counter
-	ordersRedelivered          prometheus.Counter
-	pagesFetched               prometheus.Counter
-	pagesPublished             *prometheus.CounterVec
-	representationsUnderivable *prometheus.CounterVec
-	pagesDisposed              *prometheus.CounterVec
-	refusalsHonored            *prometheus.CounterVec
-	publicationWaits           prometheus.Counter
-	budgetExhaustions          prometheus.Counter
-	fetchDurationSecs          prometheus.Histogram
+	ordersReceived          prometheus.Counter
+	ordersCompleted         prometheus.Counter
+	ordersRedelivered       prometheus.Counter
+	pagesFetched            prometheus.Counter
+	scrapeRequestsPublished prometheus.Counter
+	pagesDisposed           *prometheus.CounterVec
+	refusalsHonored         *prometheus.CounterVec
+	budgetExhaustions       prometheus.Counter
+	fetchDurationSecs       prometheus.Histogram
 }
 
 func New(registry prometheus.Registerer) *CrawlMetrics {
@@ -60,14 +53,10 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 			Name: "yacycrawler_pages_fetched_total",
 			Help: "Pages fetched.",
 		}),
-		pagesPublished: prometheus.NewCounterVec(prometheus.CounterOpts{
-			Name: "yacycrawler_pages_published_total",
-			Help: "Pages published, by representation.",
-		}, []string{labelRepresentation}),
-		representationsUnderivable: prometheus.NewCounterVec(prometheus.CounterOpts{
-			Name: "yacycrawler_representations_underivable_total",
-			Help: "Representations skipped because the page format derives no content for them.",
-		}, []string{labelRepresentation}),
+		scrapeRequestsPublished: prometheus.NewCounter(prometheus.CounterOpts{
+			Name: "yacycrawler_scrape_requests_published_total",
+			Help: "Scrape requests published.",
+		}),
 		pagesDisposed: prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: "yacycrawler_pages_disposed_total",
 			Help: "Pages disposed, by reason.",
@@ -76,10 +65,6 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 			Name: "yacycrawler_refusals_honored_total",
 			Help: "Target refusals honored, by demand.",
 		}, []string{labelDemand}),
-		publicationWaits: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "yacycrawler_publication_waits_total",
-			Help: "Waits on transient publication backpressure.",
-		}),
 		budgetExhaustions: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "yacycrawler_budget_exhaustions_total",
 			Help: "Runs that reached the page budget with frontier remaining.",
@@ -95,33 +80,20 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 		metrics.ordersCompleted,
 		metrics.ordersRedelivered,
 		metrics.pagesFetched,
-		metrics.pagesPublished,
-		metrics.representationsUnderivable,
+		metrics.scrapeRequestsPublished,
 		metrics.pagesDisposed,
 		metrics.refusalsHonored,
-		metrics.publicationWaits,
 		metrics.budgetExhaustions,
 		metrics.fetchDurationSecs,
 	)
 	return metrics
 }
 
-func (m *CrawlMetrics) OrderReceived()    { m.ordersReceived.Inc() }
-func (m *CrawlMetrics) OrderCompleted()   { m.ordersCompleted.Inc() }
-func (m *CrawlMetrics) OrderRedelivered() { m.ordersRedelivered.Inc() }
-func (m *CrawlMetrics) PageFetched()      { m.pagesFetched.Inc() }
-
-func (m *CrawlMetrics) PagePublished(
-	representation yacycrawlcontract.PageRepresentationKind,
-) {
-	m.pagesPublished.WithLabelValues(string(representation)).Inc()
-}
-
-func (m *CrawlMetrics) RepresentationUnderivable(
-	representation yacycrawlcontract.PageRepresentationKind,
-) {
-	m.representationsUnderivable.WithLabelValues(string(representation)).Inc()
-}
+func (m *CrawlMetrics) OrderReceived()          { m.ordersReceived.Inc() }
+func (m *CrawlMetrics) OrderCompleted()         { m.ordersCompleted.Inc() }
+func (m *CrawlMetrics) OrderRedelivered()       { m.ordersRedelivered.Inc() }
+func (m *CrawlMetrics) PageFetched()            { m.pagesFetched.Inc() }
+func (m *CrawlMetrics) ScrapeRequestPublished() { m.scrapeRequestsPublished.Inc() }
 
 func (m *CrawlMetrics) PageDisposed(reason disposal.Reason) {
 	m.pagesDisposed.WithLabelValues(string(reason)).Inc()
@@ -131,8 +103,7 @@ func (m *CrawlMetrics) RefusalHonored(demand refusal.Demand) {
 	m.refusalsHonored.WithLabelValues(string(demand)).Inc()
 }
 
-func (m *CrawlMetrics) PublicationWaited() { m.publicationWaits.Inc() }
-func (m *CrawlMetrics) BudgetExhausted()   { m.budgetExhaustions.Inc() }
+func (m *CrawlMetrics) BudgetExhausted() { m.budgetExhaustions.Inc() }
 
 func (m *CrawlMetrics) FetchCompleted(elapsed time.Duration) {
 	m.fetchDurationSecs.Observe(elapsed.Seconds())

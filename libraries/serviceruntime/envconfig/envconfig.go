@@ -4,6 +4,7 @@ package envconfig
 
 import (
 	"fmt"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -22,6 +23,24 @@ func Required(getenv func(string) string, key string) (string, error) {
 		return "", fmt.Errorf("%s: must be set", key)
 	}
 	return value, nil
+}
+
+func RequiredHTTPURL(getenv func(string) string, key string) (*url.URL, error) {
+	raw, err := Required(getenv, key)
+	if err != nil {
+		return nil, err
+	}
+	parsed, err := url.Parse(raw)
+	if err != nil {
+		return nil, fmt.Errorf("%s: %w", key, err)
+	}
+	if parsed.Scheme != "http" && parsed.Scheme != "https" {
+		return nil, fmt.Errorf("%s: scheme must be http or https", key)
+	}
+	if parsed.Host == "" {
+		return nil, fmt.Errorf("%s: must include a host", key)
+	}
+	return parsed, nil
 }
 
 func List(getenv func(string) string, key string) []string {

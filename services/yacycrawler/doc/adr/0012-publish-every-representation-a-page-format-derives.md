@@ -4,7 +4,9 @@ Date: 2026-08-06
 
 ## Status
 
-Accepted
+Superseded by the split of content derivation out of the crawler (issue #30). The crawler
+publishes only the URL of every page it reached, and each consumer derives the content it
+wants for itself, so the crawler holds no representations to publish.
 
 ## Context
 

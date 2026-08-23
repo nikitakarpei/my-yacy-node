@@ -5,6 +5,9 @@ allow:
   depOnAnyVendor: false
   deepScan: false
 
+commonVendors:
+  - canonicalurl
+
 components:
   markdownintake:
     in: internal/markdownintake/**
@@ -12,6 +15,8 @@ components:
     in: internal/markdownstoremetrics/**
   pagemarkdowncorporajetstream:
     in: internal/pagemarkdowncorpora/jetstream/**
+  markdownrecallreceiversgrpc:
+    in: internal/markdownrecallreceivers/grpc/**
   corpusmarkdowncmd:
     in: cmd/corpusmarkdown/**
 
@@ -20,10 +25,32 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  scraperequestcontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  pageformats:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pageformats
+  pagefetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
+  documentextraction:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/documentextraction
+  pagefetchershttp:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http
   pagemarkdownstore:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore
       - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/**
+  grpc:
+    in:
+      - google.golang.org/grpc
+      - google.golang.org/grpc/**
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -45,13 +72,21 @@ deps:
   markdownintake:
     canUse:
       - yacycrawlcontract
-      - nats
+      - scraperequestcontract
+      - pageformats
+      - pagefetch
       - serviceruntime
+      - documentextraction
   pagemarkdowncorporajetstream:
     canUse:
       - pagemarkdownstore
       - yacycrawlcontract
+      - scraperequestcontract
       - nats
+  markdownrecallreceiversgrpc:
+    canUse:
+      - pagemarkdownstore
+      - grpc
   markdownstoremetrics:
     canUse:
       - prometheus

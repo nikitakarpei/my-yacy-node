@@ -9,6 +9,7 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 )
@@ -27,8 +28,10 @@ func startCorpusText(
 ) {
 	t.Helper()
 	env := map[string]string{
-		"CRAWL_NATS_URL":       natsjetstream.NetworkURL(),
-		"CORPUSTEXT_LANGUAGES": indexedLanguages,
+		"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL(),
+		"SCRAPE_PROXY_URL":        egressproxy.NetworkURL(),
+		"CORPUSTEXT_LANGUAGES":    indexedLanguages,
+		"LOG_LEVEL":               "debug",
 	}
 	for key, value := range searchIndexEnv {
 		env[key] = value

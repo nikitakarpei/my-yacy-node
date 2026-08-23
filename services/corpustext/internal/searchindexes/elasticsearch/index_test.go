@@ -11,8 +11,6 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/searchindexes/elasticsearch"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 func TestElasticsearchIndexPutsDocumentByID(t *testing.T) {
@@ -28,16 +26,14 @@ func TestElasticsearchIndexPutsDocumentByID(t *testing.T) {
 	defer server.Close()
 
 	index := elasticsearch.New(server.URL, indexesFor(t), server.Client())
-	page := yacycrawlcontract.PageTextRepresentation{
-		PageReference: yacycrawlcontract.PageReference{
-			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
-			Title:        "Hi",
-			CrawledAt:    time.Unix(0, 0).UTC(),
-			Language:     "en",
-		},
-		Text: []byte("words here"),
+	document := searchdocument.Document{
+		URL:       "https://example.com/",
+		Title:     "Hi",
+		Content:   "words here",
+		CrawledAt: time.Unix(0, 0).UTC(),
+		Language:  "en",
 	}
-	if err := index.Index(context.Background(), page); err != nil {
+	if err := index.Index(context.Background(), document); err != nil {
 		t.Fatalf("index: %v", err)
 	}
 	if !strings.HasPrefix(gotPath, "/yacy_text_v1_en/_doc/") {
@@ -58,13 +54,9 @@ func TestElasticsearchIndexIsStableForSameURL(t *testing.T) {
 	defer server.Close()
 
 	index := elasticsearch.New(server.URL, indexesFor(t), server.Client())
-	page := yacycrawlcontract.PageTextRepresentation{
-		PageReference: yacycrawlcontract.PageReference{
-			CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
-		},
-	}
+	document := searchdocument.Document{URL: "https://example.com/"}
 	for range 2 {
-		if err := index.Index(context.Background(), page); err != nil {
+		if err := index.Index(context.Background(), document); err != nil {
 			t.Fatalf("index: %v", err)
 		}
 	}
@@ -82,11 +74,7 @@ func TestElasticsearchIndexReturnsErrorOnFailureStatus(t *testing.T) {
 	index := elasticsearch.New(server.URL, indexesFor(t), server.Client())
 	err := index.Index(
 		context.Background(),
-		yacycrawlcontract.PageTextRepresentation{
-			PageReference: yacycrawlcontract.PageReference{
-				CanonicalURL: canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
-			},
-		},
+		searchdocument.Document{URL: "https://example.com/"},
 	)
 	if err == nil {
 		t.Fatal("expected error for non-2xx response")

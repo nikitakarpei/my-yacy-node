@@ -1,0 +1,19 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  canonicalurl:
+    in: .
+  canonicalurltest:
+    in: canonicalurltest/**
+
+deps:
+  canonicalurltest:
+    mayDependOn:
+      - canonicalurl
+excludeFiles:
+  - "_test\\.go"

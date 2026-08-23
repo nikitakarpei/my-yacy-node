@@ -9,10 +9,10 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/searxngsearch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 func TestResultLinkRouterRoutesSearchResultsThroughVisitcrawl(t *testing.T) {

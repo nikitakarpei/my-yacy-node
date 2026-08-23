@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
@@ -18,14 +19,14 @@ type Admission struct {
 	urlMustMatch    *regexp.Regexp
 	urlMustNotMatch *regexp.Regexp
 	seedHosts       map[string]struct{}
-	seedDirectories []yacycrawlcontract.CanonicalURL
-	admittedURLs    map[yacycrawlcontract.CanonicalURL]struct{}
+	seedDirectories []canonicalurl.CanonicalURL
+	admittedURLs    map[canonicalurl.CanonicalURL]struct{}
 	pagesPerHost    map[string]int
 }
 
 func New(
 	profile yacycrawlcontract.CrawlProfile,
-	canonicalSeeds []yacycrawlcontract.CanonicalURL,
+	canonicalSeeds []canonicalurl.CanonicalURL,
 	maxAdmittedURLs int,
 ) (*Admission, error) {
 	mustMatch, err := regexp.Compile(matchOrAll(profile.URLMustMatch))
@@ -49,7 +50,7 @@ func New(
 		urlMustMatch:    mustMatch,
 		urlMustNotMatch: mustNotMatch,
 		seedHosts:       map[string]struct{}{},
-		admittedURLs:    map[yacycrawlcontract.CanonicalURL]struct{}{},
+		admittedURLs:    map[canonicalurl.CanonicalURL]struct{}{},
 		pagesPerHost:    map[string]int{},
 	}
 	for _, seed := range canonicalSeeds {
@@ -59,7 +60,7 @@ func New(
 	return admission, nil
 }
 
-func (a *Admission) Admit(canonicalURL yacycrawlcontract.CanonicalURL, depth int) bool {
+func (a *Admission) Admit(canonicalURL canonicalurl.CanonicalURL, depth int) bool {
 	if depth > a.maxDepth {
 		return false
 	}
@@ -92,7 +93,7 @@ func (a *Admission) Admit(canonicalURL yacycrawlcontract.CanonicalURL, depth int
 	return true
 }
 
-func (a *Admission) withinScope(host string, canonicalURL yacycrawlcontract.CanonicalURL) bool {
+func (a *Admission) withinScope(host string, canonicalURL canonicalurl.CanonicalURL) bool {
 	switch a.scope {
 	case yacycrawlcontract.ScopeWide:
 		return true

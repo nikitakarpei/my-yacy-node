@@ -6,8 +6,8 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitdispatch"
@@ -16,13 +16,13 @@ import (
 type dispatchedVisitor struct {
 	mu         sync.Mutex
 	visited    []string
-	discovered yacycrawlcontract.CanonicalURL
+	discovered canonicalurl.CanonicalURL
 	err        error
 }
 
 func (v *dispatchedVisitor) Visit(
 	_ context.Context,
-	canonicalURL yacycrawlcontract.CanonicalURL,
+	canonicalURL canonicalurl.CanonicalURL,
 ) (pagevisit.VisitOutcome, error) {
 	v.mu.Lock()
 	defer v.mu.Unlock()
@@ -33,7 +33,7 @@ func (v *dispatchedVisitor) Visit(
 
 	return pagevisit.VisitOutcome{
 		Conclusion:     pagevisit.VisitCompleted,
-		DiscoveredURLs: []yacycrawlcontract.CanonicalURL{v.discovered},
+		DiscoveredURLs: []canonicalurl.CanonicalURL{v.discovered},
 	}, nil
 }
 
@@ -45,7 +45,7 @@ func TestDispatchReportsOnePerVisit(t *testing.T) {
 	)
 	defer visitors.Stop()
 
-	urls := []yacycrawlcontract.CanonicalURL{
+	urls := []canonicalurl.CanonicalURL{
 		canonicalurltest.CanonicalURLOf(t, "http://host/a"),
 		canonicalurltest.CanonicalURLOf(t, "http://host/b"),
 		canonicalurltest.CanonicalURLOf(t, "http://host/c"),

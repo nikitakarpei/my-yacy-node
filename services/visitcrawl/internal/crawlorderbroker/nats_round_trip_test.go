@@ -7,13 +7,14 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
-const ordersSubject = "yacy.crawl.orders"
+const crawlOrdersSubject = "yacy.crawl.orders"
 
 func createOrdersStream(t *testing.T, ctx context.Context, url string) {
 	t.Helper()
@@ -21,7 +22,7 @@ func createOrdersStream(t *testing.T, ctx context.Context, url string) {
 		ctx,
 		jetstream.StreamConfig{
 			Name:      yacycrawlcontract.OrdersStreamName,
-			Subjects:  []string{ordersSubject},
+			Subjects:  []string{crawlOrdersSubject},
 			Retention: jetstream.WorkQueuePolicy,
 		},
 	); err != nil {
@@ -36,8 +37,8 @@ func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 	createOrdersStream(t, ctx, url)
 
 	broker, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
-		NATSURL:       url,
-		OrdersSubject: ordersSubject,
+		NATSURL:            url,
+		CrawlOrdersSubject: crawlOrdersSubject,
 	})
 	if err != nil {
 		t.Fatalf("open broker: %v", err)
@@ -47,7 +48,7 @@ func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID: "order-1",
 		Profile: yacycrawlcontract.CrawlProfile{Name: "docs"},
-		SeedURLs: []yacycrawlcontract.CanonicalURL{
+		SeedURLs: []canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, "https://example.org"),
 		},
 	}
@@ -61,7 +62,7 @@ func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 		yacycrawlcontract.OrdersStreamName,
 		jetstream.ConsumerConfig{
 			AckPolicy:     jetstream.AckExplicitPolicy,
-			FilterSubject: ordersSubject,
+			FilterSubject: crawlOrdersSubject,
 		},
 	)
 	if err != nil {
@@ -84,8 +85,8 @@ func TestOpenRejectsUnreachableNATS(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	if _, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
-		NATSURL:       "nats://127.0.0.1:1",
-		OrdersSubject: ordersSubject,
+		NATSURL:            "nats://127.0.0.1:1",
+		CrawlOrdersSubject: crawlOrdersSubject,
 	}); err == nil {
 		t.Fatal("unreachable nats should fail to open")
 	}

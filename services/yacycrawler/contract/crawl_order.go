@@ -3,12 +3,14 @@ package yacycrawlcontract
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
 type CrawlOrder struct {
-	OrderID  string         `json:"OrderID"`
-	Profile  CrawlProfile   `json:"Profile"`
-	SeedURLs []CanonicalURL `json:"SeedURLs"`
+	OrderID  string                      `json:"OrderID"`
+	Profile  CrawlProfile                `json:"Profile"`
+	SeedURLs []canonicalurl.CanonicalURL `json:"SeedURLs"`
 }
 
 func MarshalCrawlOrder(order CrawlOrder) ([]byte, error) {

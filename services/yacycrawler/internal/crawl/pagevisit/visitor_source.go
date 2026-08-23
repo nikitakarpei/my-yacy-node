@@ -1,46 +1,47 @@
 package pagevisit
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pageabsorption"
+	"context"
+
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
 type VisitorSource interface {
-	VisitorFor(indexingRefusal pageabsorption.IndexingRefusal) Visitor
+	VisitorFor(indexingRefusal IndexingRefusal) Visitor
+}
+
+type ScrapeRequests interface {
+	Publish(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) error
 }
 
 type visitorSource struct {
-	fetcher   Fetcher
-	recrawl   RecrawlRule
-	absorbers pageabsorption.AbsorberSource
-	observer  VisitProgress
-	clock     clock.Clock
+	fetcher        pagefetch.Fetcher
+	recrawl        RecrawlRule
+	observer       VisitProgress
+	scrapeRequests ScrapeRequests
 }
 
 func New(
-	fetcher Fetcher,
+	fetcher pagefetch.Fetcher,
 	recrawl RecrawlRule,
-	absorbers pageabsorption.AbsorberSource,
 	observer VisitProgress,
-	clock clock.Clock,
+	scrapeRequests ScrapeRequests,
 ) VisitorSource {
 	return &visitorSource{
-		fetcher:   fetcher,
-		recrawl:   recrawl,
-		absorbers: absorbers,
-		observer:  observer,
-		clock:     clock,
+		fetcher:        fetcher,
+		recrawl:        recrawl,
+		observer:       observer,
+		scrapeRequests: scrapeRequests,
 	}
 }
 
-func (s *visitorSource) VisitorFor(
-	indexingRefusal pageabsorption.IndexingRefusal,
-) Visitor {
+func (s *visitorSource) VisitorFor(indexingRefusal IndexingRefusal) Visitor {
 	return &visitor{
-		fetcher:  s.fetcher,
-		recrawl:  s.recrawl,
-		absorber: s.absorbers.AbsorberFor(indexingRefusal),
-		observer: s.observer,
-		clock:    s.clock,
+		fetcher:         s.fetcher,
+		recrawl:         s.recrawl,
+		indexingRefusal: indexingRefusal,
+		observer:        s.observer,
+		scrapeRequests:  s.scrapeRequests,
 	}
 }

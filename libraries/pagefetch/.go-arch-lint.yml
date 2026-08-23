@@ -1,0 +1,31 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  pagefetch:
+    in: .
+  pagefetchershttp:
+    in: pagefetchers/http/**
+
+vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+
+deps:
+  pagefetch:
+    canUse:
+      - canonicalurl
+  pagefetchershttp:
+    mayDependOn:
+      - pagefetch
+    canUse:
+      - canonicalurl
+
+excludeFiles:
+  - "_test\\.go"

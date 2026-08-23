@@ -19,7 +19,6 @@ type postingAdmission struct {
 	admitter rwipostings.PostingAdmitter
 	escrow   PostingHolder
 	observer RefusalObserver
-	batchCap int
 	pause    time.Duration
 }
 
@@ -27,12 +26,6 @@ func (a postingAdmission) Receive(
 	ctx context.Context,
 	entries []yacymodel.RWIPosting,
 ) (Receipt, error) {
-	if len(entries) > a.batchCap {
-		a.observer.ObserveRefused(RefusalRequestTooLarge, len(entries))
-
-		return Receipt{Busy: true, TooLarge: true, Pause: a.pause}, nil
-	}
-
 	atCapacity, err := a.vault.AtCapacity(ctx)
 	if err != nil {
 		return Receipt{}, fmt.Errorf("check capacity: %w", err)

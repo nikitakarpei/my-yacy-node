@@ -12,13 +12,16 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownintake"
+	markdownrecallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/grpc"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownstoremetrics"
 	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
+	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
+	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 const (
@@ -27,11 +30,13 @@ const (
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
-	crawlJetStream, crawlConnection, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
+	scrapeRequestJetStream, scrapeRequestConnection, err := jetstreamconnect.Open(
+		cfg.ScrapeRequestNATSURL,
+	)
 	if err != nil {
 		return err
 	}
-	defer func() { _ = crawlConnection.Close() }()
+	defer func() { _ = scrapeRequestConnection.Close() }()
 	pageMarkdownJetStream, pageMarkdownConnection, err := jetstreamconnect.Open(
 		cfg.PageMarkdownNATSURL,
 	)
@@ -40,7 +45,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	}
 	defer func() { _ = pageMarkdownConnection.Close() }()
 
-	consumer, err := crawledPageConsumerFor(ctx, crawlJetStream, cfg)
+	consumer, err := scrapeRequestConsumerFor(ctx, scrapeRequestJetStream, cfg)
 	if err != nil {
 		return err
 	}
@@ -48,10 +53,28 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
+	formatDerivations, err := pageformats.New()
+	if err != nil {
+		return err
+	}
+	fetcher := pagefetchershttp.New(
+		cfg.ProxyURL,
+		cfg.ProxyDialMode,
+		cfg.UserAgent,
+		cfg.MaxBodyBytes,
+		cfg.FetchDeadline,
+	)
 
 	registry := prometheus.NewRegistry()
 	metrics := markdownstoremetrics.New(registry)
-	intake := markdownintake.NewPageMarkdownConsumer(consumer, corpus, metrics, cfg.Concurrency)
+	intake := markdownintake.NewScrapeRequestConsumer(markdownintake.Config{
+		Source:                         consumer,
+		Fetcher:                        fetcher,
+		FormatDerivations:              formatDerivations,
+		Corpus:                         corpus,
+		Progress:                       metrics,
+		ScrapeRequestIntakeConcurrency: cfg.ScrapeRequestIntakeConcurrency,
+	})
 
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
@@ -59,44 +82,48 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 
+	receiver := markdownrecallreceiversgrpc.NewMarkdownRecallReceiver(corpus, cfg.ListenAddr)
+
 	slog.InfoContext(ctx, "corpusmarkdown started",
-		slog.String("subject", cfg.CrawledPageSubject),
+		slog.String("listen", cfg.ListenAddr),
+		slog.String("subject", cfg.ScrapeRequestSubject),
 		slog.String("bucket", pagemarkdownstore.BucketName),
-		slog.Int("concurrency", cfg.Concurrency),
+		slog.Int("scrapeRequestIntakeConcurrency", cfg.ScrapeRequestIntakeConcurrency),
 	)
 	err = servergroup.Run(ctx, opsShutdownLimit,
 		[]servergroup.NamedServer{{Name: "ops", Server: opsServer}},
 		func(runCtx context.Context) error {
 			if err := intake.Run(runCtx); err != nil {
-				return fmt.Errorf("run page markdown consumer: %w", err)
+				return fmt.Errorf("run scrape request consumer: %w", err)
 			}
 			return nil
 		},
+		receiver.Serve,
 	)
 	slog.InfoContext(ctx, "corpusmarkdown stopped")
 	return err
 }
 
-func crawledPageConsumerFor(
+func scrapeRequestConsumerFor(
 	ctx context.Context,
-	crawlJetStream jetstream.JetStream,
+	scrapeRequestJetStream jetstream.JetStream,
 	cfg ServiceConfig,
 ) (jetstream.Consumer, error) {
-	stream, err := crawlJetStream.Stream(
+	stream, err := scrapeRequestJetStream.Stream(
 		ctx,
-		yacycrawlcontract.CrawledPageStreamName(yacycrawlcontract.PageRepresentationKindMarkdown),
+		scraperequestcontract.ScrapeRequestsStreamName,
 	)
 	if err != nil {
-		return nil, fmt.Errorf("lookup crawled page stream: %w", err)
+		return nil, fmt.Errorf("lookup scrape requests stream: %w", err)
 	}
 	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
-		Durable:       cfg.CrawledPageDurable,
-		FilterSubject: cfg.CrawledPageSubject,
+		Durable:       cfg.ScrapeRequestDurable,
+		FilterSubject: cfg.ScrapeRequestSubject,
 		AckPolicy:     jetstream.AckExplicitPolicy,
-		MaxAckPending: cfg.Concurrency,
+		MaxAckPending: cfg.ScrapeRequestIntakeConcurrency,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("create crawled page consumer: %w", err)
+		return nil, fmt.Errorf("create scrape request consumer: %w", err)
 	}
 	return consumer, nil
 }

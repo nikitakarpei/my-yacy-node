@@ -12,7 +12,7 @@ import (
 const (
 	EnvListenAddr        = "RENDERPROXY_LISTEN_ADDR"
 	EnvCDPURL            = "RENDERPROXY_CDP_URL"
-	EnvEgressProxyURL    = "RENDERPROXY_EGRESS_PROXY_URL"
+	EnvEgressProxyURL    = "EGRESS_PROXY_URL"
 	EnvRenderConcurrency = "RENDERPROXY_RENDER_CONCURRENCY"
 	EnvRequestDeadline   = "RENDERPROXY_REQUEST_DEADLINE"
 	EnvMaxResponseBytes  = "RENDERPROXY_MAX_RESPONSE_BYTES"

@@ -6,8 +6,8 @@ allow:
   deepScan: false
 
 components:
-  crawledpagedocument:
-    in: internal/crawledpagedocument/**
+  scrapedpagedocument:
+    in: internal/scrapedpagedocument/**
   languageindex:
     in: internal/languageindex/**
   searchindexeselasticsearch:
@@ -26,6 +26,24 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  scraperequestcontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  pageformats:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pageformats
+  pagefetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  documentextraction:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/documentextraction
+  pagefetchershttp:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http
   searchdocument:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/searchdocument
@@ -48,28 +66,33 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
-  crawledpagedocument:
+  scrapedpagedocument:
     canUse:
-      - yacycrawlcontract
+      - canonicalurl
+      - documentextraction
       - searchdocument
   searchindexeselasticsearch:
     mayDependOn:
-      - crawledpagedocument
       - languageindex
     canUse:
-      - yacycrawlcontract
+      - searchdocument
   searchindexesmanticore:
     mayDependOn:
-      - crawledpagedocument
       - languageindex
     canUse:
-      - yacycrawlcontract
       - searchdocument
   pageintake:
+    mayDependOn:
+      - scrapedpagedocument
     canUse:
       - yacycrawlcontract
-      - nats
+      - scraperequestcontract
+      - pageformats
+      - pagefetch
+      - searchdocument
       - serviceruntime
+      - documentextraction
+      - canonicalurl
   indexmetrics:
     canUse:
       - prometheus

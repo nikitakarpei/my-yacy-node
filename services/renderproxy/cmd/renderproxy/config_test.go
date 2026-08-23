@@ -12,8 +12,8 @@ func envFrom(values map[string]string) func(string) string {
 
 func baseEnv() map[string]string {
 	return map[string]string{
-		"RENDERPROXY_CDP_URL":          "ws://browser:9222",
-		"RENDERPROXY_EGRESS_PROXY_URL": "http://smokescreen:4750",
+		"RENDERPROXY_CDP_URL": "ws://browser:9222",
+		"EGRESS_PROXY_URL":    "http://smokescreen:4750",
 	}
 }
 
@@ -47,7 +47,7 @@ func TestLoadServiceConfigRequiresCDPURL(t *testing.T) {
 
 func TestLoadServiceConfigRequiresEgressProxyURL(t *testing.T) {
 	env := baseEnv()
-	delete(env, "RENDERPROXY_EGRESS_PROXY_URL")
+	delete(env, "EGRESS_PROXY_URL")
 	if _, err := renderproxy.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("expected error for missing egress proxy URL")
 	}
@@ -55,7 +55,7 @@ func TestLoadServiceConfigRequiresEgressProxyURL(t *testing.T) {
 
 func TestLoadServiceConfigRejectsNonHTTPEgressProxyURL(t *testing.T) {
 	env := baseEnv()
-	env["RENDERPROXY_EGRESS_PROXY_URL"] = "socks5://smokescreen:4750"
+	env["EGRESS_PROXY_URL"] = "socks5://smokescreen:4750"
 	if _, err := renderproxy.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("expected error for non-http egress proxy URL")
 	}

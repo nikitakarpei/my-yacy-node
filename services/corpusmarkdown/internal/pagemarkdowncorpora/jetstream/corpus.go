@@ -1,14 +1,16 @@
-// Package jetstream holds each crawled page's markdown in a JetStream object store bucket.
+// Package jetstream holds each crawled page's markdown in a JetStream object
+// store bucket and yields it back by canonical URL.
 package jetstream
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
 type Corpus struct {
@@ -34,7 +36,7 @@ func OpenCorpus(
 
 func (c *Corpus) Put(
 	ctx context.Context,
-	canonicalURL yacycrawlcontract.CanonicalURL,
+	canonicalURL canonicalurl.CanonicalURL,
 	markdown []byte,
 ) error {
 	objectName := pagemarkdownstore.ObjectName(canonicalURL)
@@ -42,4 +44,19 @@ func (c *Corpus) Put(
 		return fmt.Errorf("put markdown for %q: %w", canonicalURL, err)
 	}
 	return nil
+}
+
+func (c *Corpus) MarkdownOf(
+	ctx context.Context,
+	canonicalURL canonicalurl.CanonicalURL,
+) ([]byte, bool, error) {
+	objectName := pagemarkdownstore.ObjectName(canonicalURL)
+	markdown, err := c.objects.GetBytes(ctx, objectName)
+	if errors.Is(err, jetstream.ErrObjectNotFound) {
+		return nil, false, nil
+	}
+	if err != nil {
+		return nil, false, fmt.Errorf("get markdown for %q: %w", canonicalURL, err)
+	}
+	return markdown, true, nil
 }

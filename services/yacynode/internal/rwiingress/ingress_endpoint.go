@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
@@ -14,8 +15,11 @@ import (
 )
 
 type transferRWIEndpoint struct {
-	identity nodeidentity.Identity
-	intake   rwiadmission.PostingReceiver
+	identity   nodeidentity.Identity
+	intake     rwiadmission.PostingReceiver
+	postingCap int
+	pause      time.Duration
+	refusals   rwiadmission.RefusalObserver
 }
 
 func (e transferRWIEndpoint) Serve(
@@ -26,6 +30,14 @@ func (e transferRWIEndpoint) Serve(
 
 	if !e.identity.Addresses(req.NetworkName, req.YouAre) {
 		resp.Result = yacyproto.ResultWrongTarget
+
+		return resp, nil
+	}
+
+	if len(req.Indexes) > e.postingCap {
+		e.refusals.ObserveRefused(rwiadmission.RefusalRequestTooLarge, len(req.Indexes))
+		resp.Result = yacyproto.ResultBusy
+		resp.Pause = e.pause
 
 		return resp, nil
 	}

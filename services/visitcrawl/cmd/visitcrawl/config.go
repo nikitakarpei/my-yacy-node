@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	EnvCrawlNATSURL  = "CRAWL_NATS_URL"
-	EnvOrdersSubject = "NATS_ORDERS_SUBJECT"
+	EnvCrawlNATSURL       = "CRAWL_NATS_URL"
+	EnvCrawlOrdersSubject = "CRAWL_ORDERS_SUBJECT"
 
 	EnvListenAddr   = "VISITCRAWL_LISTEN_ADDR"
 	EnvLinkSecret   = "VISITCRAWL_LINK_SECRET"
@@ -19,16 +19,16 @@ const (
 	EnvMaxInFlight  = "VISITCRAWL_MAX_IN_FLIGHT"
 	EnvMaxBodyBytes = "VISITCRAWL_MAX_BODY_BYTES"
 
-	EnvCrawlScope                  = "VISITCRAWL_CRAWL_SCOPE"
-	EnvCrawlName                   = "VISITCRAWL_CRAWL_NAME"
-	EnvCrawlMaxDepth               = "VISITCRAWL_CRAWL_MAX_DEPTH"
-	EnvCrawlURLMustMatch           = "VISITCRAWL_CRAWL_URL_MUST_MATCH"
-	EnvCrawlURLMustNotMatch        = "VISITCRAWL_CRAWL_URL_MUST_NOT_MATCH"
-	EnvCrawlMaxPagesPerHost        = "VISITCRAWL_CRAWL_MAX_PAGES_PER_HOST"
-	EnvCrawlAllowQueryURLs         = "VISITCRAWL_CRAWL_ALLOW_QUERY_URLS"
-	EnvCrawlIgnoresIndexingRefusal = "VISITCRAWL_CRAWL_IGNORES_INDEXING_REFUSAL"
+	EnvCrawlScope                  = "VISITCRAWL_SCOPE"
+	EnvCrawlProfileName            = "VISITCRAWL_PROFILE_NAME"
+	EnvCrawlMaxDepth               = "VISITCRAWL_MAX_DEPTH"
+	EnvCrawlURLMustMatch           = "VISITCRAWL_URL_MUST_MATCH"
+	EnvCrawlURLMustNotMatch        = "VISITCRAWL_URL_MUST_NOT_MATCH"
+	EnvCrawlMaxPagesPerHost        = "VISITCRAWL_MAX_PAGES_PER_HOST"
+	EnvCrawlAllowQueryURLs         = "VISITCRAWL_ALLOW_QUERY_URLS"
+	EnvCrawlIgnoresIndexingRefusal = "VISITCRAWL_IGNORES_INDEXING_REFUSAL"
 
-	DefaultOrdersSubject               = "yacy.crawl.orders"
+	DefaultCrawlOrdersSubject          = "yacy.crawl.orders"
 	DefaultListenAddr                  = ":8091"
 	DefaultOpsAddr                     = ":9091"
 	DefaultOrderTimeout                = 5 * time.Second
@@ -41,15 +41,15 @@ const (
 )
 
 type ServiceConfig struct {
-	CrawlNATSURL  string
-	OrdersSubject string
-	LinkSecret    string
-	ListenAddr    string
-	OpsAddr       string
-	OrderTimeout  time.Duration
-	MaxInFlight   int
-	MaxBodyBytes  int64
-	CrawlProfile  yacycrawlcontract.CrawlProfile
+	CrawlNATSURL       string
+	CrawlOrdersSubject string
+	LinkSecret         string
+	ListenAddr         string
+	OpsAddr            string
+	OrderTimeout       time.Duration
+	MaxInFlight        int
+	MaxBodyBytes       int64
+	CrawlProfile       yacycrawlcontract.CrawlProfile
 }
 
 var crawlScopeByName = map[string]yacycrawlcontract.CrawlScope{
@@ -87,15 +87,19 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		CrawlNATSURL:  crawlNATSURL,
-		OrdersSubject: envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
-		LinkSecret:    linkSecret,
-		ListenAddr:    envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
-		OpsAddr:       envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
-		OrderTimeout:  orderTimeout,
-		MaxInFlight:   maxInFlight,
-		MaxBodyBytes:  maxBodyBytes,
-		CrawlProfile:  profile,
+		CrawlNATSURL: crawlNATSURL,
+		CrawlOrdersSubject: envconfig.String(
+			getenv,
+			EnvCrawlOrdersSubject,
+			DefaultCrawlOrdersSubject,
+		),
+		LinkSecret:   linkSecret,
+		ListenAddr:   envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
+		OpsAddr:      envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		OrderTimeout: orderTimeout,
+		MaxInFlight:  maxInFlight,
+		MaxBodyBytes: maxBodyBytes,
+		CrawlProfile: profile,
 	}, nil
 }
 
@@ -140,7 +144,7 @@ func crawlProfile(getenv func(string) string) (yacycrawlcontract.CrawlProfile, e
 	}
 
 	return yacycrawlcontract.CrawlProfile{
-		Name:                   envconfig.String(getenv, EnvCrawlName, ""),
+		Name:                   envconfig.String(getenv, EnvCrawlProfileName, ""),
 		Scope:                  scope,
 		URLMustMatch:           matchOrAll(envconfig.String(getenv, EnvCrawlURLMustMatch, "")),
 		URLMustNotMatch:        envconfig.String(getenv, EnvCrawlURLMustNotMatch, ""),

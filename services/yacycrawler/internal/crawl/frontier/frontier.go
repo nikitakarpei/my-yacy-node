@@ -5,11 +5,11 @@ import (
 	"container/heap"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
 type Admission interface {
-	Admit(canonicalURL yacycrawlcontract.CanonicalURL, depth int) bool
+	Admit(canonicalURL canonicalurl.CanonicalURL, depth int) bool
 }
 
 type Frontier struct {
@@ -21,7 +21,7 @@ type Frontier struct {
 
 func New(
 	admission Admission,
-	canonicalSeeds []yacycrawlcontract.CanonicalURL,
+	canonicalSeeds []canonicalurl.CanonicalURL,
 	config Config,
 ) *Frontier {
 	f := &Frontier{config: config, admission: admission}
@@ -31,7 +31,7 @@ func New(
 	return f
 }
 
-func (f *Frontier) Admit(canonicalURL yacycrawlcontract.CanonicalURL, depth int) bool {
+func (f *Frontier) Admit(canonicalURL canonicalurl.CanonicalURL, depth int) bool {
 	if !f.admission.Admit(canonicalURL, depth) {
 		return false
 	}

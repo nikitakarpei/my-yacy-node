@@ -12,7 +12,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
 const BucketName = "YACY_PAGE_VISITS"
@@ -22,7 +22,7 @@ type BucketSpec struct {
 	Retention time.Duration
 }
 
-func key(canonicalURL yacycrawlcontract.CanonicalURL) string {
+func key(canonicalURL canonicalurl.CanonicalURL) string {
 	sum := sha256.Sum256([]byte(canonicalURL.String()))
 	return hex.EncodeToString(sum[:])
 }

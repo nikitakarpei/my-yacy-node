@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -44,7 +45,24 @@ func (r *recordingIntake) Receive(
 	return rwiadmission.Receipt{}, nil
 }
 
+const (
+	peerPostingCap = 2
+	refusalPause   = 30 * time.Second
+)
+
+type recordedRefusals struct {
+	postings map[rwiadmission.RefusalReason]int
+}
+
+func (r *recordedRefusals) ObserveRefused(reason rwiadmission.RefusalReason, postings int) {
+	r.postings[reason] += postings
+}
+
 func muxWith(intake *recordingIntake) *http.ServeMux {
+	return muxRefusing(intake, &recordedRefusals{postings: map[rwiadmission.RefusalReason]int{}})
+}
+
+func muxRefusing(intake *recordingIntake, refusals *recordedRefusals) *http.ServeMux {
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
 		Guard: httpguard.NewRequestGuard(
@@ -54,7 +72,11 @@ func muxWith(intake *recordingIntake) *http.ServeMux {
 		Respond: httpguard.NewWireResponder(stubRuntimeStatus{}),
 		Address: httpguard.NewClientAddressResolver(nil),
 	})
-	rwiingress.Mount(router, localIdentity(), intake)
+	rwiingress.Mount(router, localIdentity(), intake, rwiingress.Config{
+		PostingCap: peerPostingCap,
+		Pause:      refusalPause,
+		Refusals:   refusals,
+	})
 
 	return mux
 }
@@ -165,5 +187,37 @@ func TestTransferRWIRejectsWrongNetwork(t *testing.T) {
 	resp := transferRWI(t, mux, req)
 	if resp.Result != yacyproto.TransferRWIResult(yacyproto.ResultWrongTarget) {
 		t.Fatalf("Result = %q, want wrong_target", resp.Result)
+	}
+}
+
+func TestTransferRWIRefusesMorePostingsThanTheCap(t *testing.T) {
+	intake := &recordingIntake{}
+	refusals := &recordedRefusals{postings: map[rwiadmission.RefusalReason]int{}}
+	mux := muxRefusing(intake, refusals)
+
+	oversized := make([]yacymodel.RWIPosting, 0, peerPostingCap+1)
+	for seed := 0; seed <= peerPostingCap; seed++ {
+		oversized = append(oversized, posting(t, "w"+strconv.Itoa(seed), "u"+strconv.Itoa(seed)))
+	}
+
+	resp := transferRWI(t, mux, yacyproto.TransferRWIRequest{
+		NetworkName: "freeworld",
+		YouAre:      localIdentity().Hash,
+		WordCount:   len(oversized),
+		EntryCount:  len(oversized),
+		Indexes:     oversized,
+	})
+
+	if resp.Result != yacyproto.ResultBusy {
+		t.Fatalf("Result = %q, want busy", resp.Result)
+	}
+	if resp.Pause != refusalPause {
+		t.Fatalf("Pause = %v, want %v", resp.Pause, refusalPause)
+	}
+	if len(intake.received) != 0 {
+		t.Fatalf("received = %d postings, want none admitted", len(intake.received))
+	}
+	if got := refusals.postings[rwiadmission.RefusalRequestTooLarge]; got != len(oversized) {
+		t.Fatalf("postings refused as too large = %d, want %d", got, len(oversized))
 	}
 }

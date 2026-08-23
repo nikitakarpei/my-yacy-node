@@ -1,10 +1,14 @@
 package yacycrawlcontract
 
-import "time"
+import (
+	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+)
 
 type PageReference struct {
-	CanonicalURL CanonicalURL `json:"CanonicalURL"`
-	Title        string       `json:"Title"`
-	CrawledAt    time.Time    `json:"CrawledAt"`
-	Language     string       `json:"Language"`
+	CanonicalURL canonicalurl.CanonicalURL `json:"CanonicalURL"`
+	Title        string                    `json:"Title"`
+	CrawledAt    time.Time                 `json:"CrawledAt"`
+	Language     string                    `json:"Language"`
 }

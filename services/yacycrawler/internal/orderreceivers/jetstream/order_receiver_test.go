@@ -7,9 +7,10 @@ import (
 
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
 )
 
@@ -51,7 +52,7 @@ func TestReceiverDeliversDecodedOrder(t *testing.T) {
 
 	payload, err := yacycrawlcontract.MarshalCrawlOrder(yacycrawlcontract.CrawlOrder{
 		OrderID: "o1",
-		SeedURLs: []yacycrawlcontract.CanonicalURL{
+		SeedURLs: []canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, "http://a.com/"),
 		},
 	})
