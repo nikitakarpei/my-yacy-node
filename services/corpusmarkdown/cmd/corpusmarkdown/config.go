@@ -11,44 +11,44 @@ import (
 )
 
 const (
-	EnvScrapeRequestNATSURL     = "SCRAPE_REQUEST_NATS_URL"
-	EnvPageMarkdownNATSURL      = "PAGE_MARKDOWN_NATS_URL"
-	EnvNATSScrapeRequestSubject = "NATS_SCRAPE_REQUEST_SUBJECT"
-	EnvNATSScrapeRequestDurable = "NATS_SCRAPE_REQUEST_DURABLE"
-	EnvProxyURL                 = "SCRAPE_PROXY_URL"
-	EnvProxyDialMode            = "SCRAPE_PROXY_DIAL_MODE"
-	EnvUserAgent                = "SCRAPE_USER_AGENT"
-	EnvMaxBodyBytes             = "CORPUSMARKDOWN_MAX_BODY_BYTES"
-	EnvFetchDeadline            = "CORPUSMARKDOWN_FETCH_DEADLINE"
-	EnvConcurrency              = "CORPUSMARKDOWN_CONCURRENCY"
-	EnvListenAddr               = "CORPUSMARKDOWN_LISTEN_ADDR"
-	EnvOpsAddr                  = "CORPUSMARKDOWN_OPS_ADDR"
+	EnvScrapeRequestNATSURL           = "SCRAPE_REQUEST_NATS_URL"
+	EnvPageMarkdownNATSURL            = "PAGE_MARKDOWN_NATS_URL"
+	EnvNATSScrapeRequestSubject       = "NATS_SCRAPE_REQUEST_SUBJECT"
+	EnvNATSScrapeRequestDurable       = "NATS_SCRAPE_REQUEST_DURABLE"
+	EnvProxyURL                       = "SCRAPE_PROXY_URL"
+	EnvProxyDialMode                  = "SCRAPE_PROXY_DIAL_MODE"
+	EnvUserAgent                      = "SCRAPE_USER_AGENT"
+	EnvScrapeMaxBodyBytes             = "SCRAPE_MAX_BODY_BYTES"
+	EnvScrapeFetchDeadline            = "SCRAPE_FETCH_DEADLINE"
+	EnvScrapeRequestIntakeConcurrency = "SCRAPE_REQUEST_INTAKE_CONCURRENCY"
+	EnvListenAddr                     = "CORPUSMARKDOWN_LISTEN_ADDR"
+	EnvOpsAddr                        = "CORPUSMARKDOWN_OPS_ADDR"
 
-	DefaultListenAddr           = ":8094"
-	DefaultOpsAddr              = ":9090"
-	DefaultScrapeRequestDurable = "corpusmarkdown"
-	DefaultProxyDialMode        = "tunnel"
-	DefaultUserAgent            = "corpusmarkdown (+https://yacy.net)"
-	DefaultMaxBodyBytes         = 2 << 20
-	DefaultFetchDeadline        = 30 * time.Second
-	DefaultConcurrency          = 4
+	DefaultListenAddr                     = ":8094"
+	DefaultOpsAddr                        = ":9090"
+	DefaultScrapeRequestDurable           = "corpusmarkdown"
+	DefaultProxyDialMode                  = "tunnel"
+	DefaultUserAgent                      = "corpusmarkdown (+https://yacy.net)"
+	DefaultScrapeMaxBodyBytes             = 2 << 20
+	DefaultScrapeFetchDeadline            = 30 * time.Second
+	DefaultScrapeRequestIntakeConcurrency = 4
 )
 
 var DefaultScrapeRequestSubject = scraperequestcontract.ScrapeRequestSubject
 
 type ServiceConfig struct {
-	ScrapeRequestNATSURL string
-	PageMarkdownNATSURL  string
-	ScrapeRequestSubject string
-	ScrapeRequestDurable string
-	ProxyURL             *url.URL
-	ProxyDialMode        http.ProxyDialMode
-	UserAgent            string
-	MaxBodyBytes         int64
-	FetchDeadline        time.Duration
-	Concurrency          int
-	ListenAddr           string
-	OpsAddr              string
+	ScrapeRequestNATSURL           string
+	PageMarkdownNATSURL            string
+	ScrapeRequestSubject           string
+	ScrapeRequestDurable           string
+	ProxyURL                       *url.URL
+	ProxyDialMode                  http.ProxyDialMode
+	UserAgent                      string
+	MaxBodyBytes                   int64
+	FetchDeadline                  time.Duration
+	ScrapeRequestIntakeConcurrency int
+	ListenAddr                     string
+	OpsAddr                        string
 }
 
 type fetchSettings struct {
@@ -69,11 +69,19 @@ func loadFetchSettings(getenv func(string) string) (fetchSettings, error) {
 	if err != nil {
 		return fetchSettings{}, fmt.Errorf("%s: %w", EnvProxyDialMode, err)
 	}
-	maxBodyBytes, err := envconfig.PositiveInt64(getenv, EnvMaxBodyBytes, DefaultMaxBodyBytes)
+	maxBodyBytes, err := envconfig.PositiveInt64(
+		getenv,
+		EnvScrapeMaxBodyBytes,
+		DefaultScrapeMaxBodyBytes,
+	)
 	if err != nil {
 		return fetchSettings{}, err
 	}
-	fetchDeadline, err := envconfig.Duration(getenv, EnvFetchDeadline, DefaultFetchDeadline)
+	fetchDeadline, err := envconfig.Duration(
+		getenv,
+		EnvScrapeFetchDeadline,
+		DefaultScrapeFetchDeadline,
+	)
 	if err != nil {
 		return fetchSettings{}, err
 	}
@@ -98,7 +106,11 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	concurrency, err := envconfig.PositiveInt(getenv, EnvConcurrency, DefaultConcurrency)
+	scrapeRequestIntakeConcurrency, err := envconfig.PositiveInt(
+		getenv,
+		EnvScrapeRequestIntakeConcurrency,
+		DefaultScrapeRequestIntakeConcurrency,
+	)
 	if err != nil {
 		return ServiceConfig{}, err
 	}
@@ -116,13 +128,13 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 			EnvNATSScrapeRequestDurable,
 			DefaultScrapeRequestDurable,
 		),
-		ProxyURL:      fetch.proxyURL,
-		ProxyDialMode: fetch.proxyDialMode,
-		UserAgent:     envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
-		MaxBodyBytes:  fetch.maxBodyBytes,
-		FetchDeadline: fetch.fetchDeadline,
-		Concurrency:   concurrency,
-		ListenAddr:    envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
-		OpsAddr:       envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		ProxyURL:                       fetch.proxyURL,
+		ProxyDialMode:                  fetch.proxyDialMode,
+		UserAgent:                      envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
+		MaxBodyBytes:                   fetch.maxBodyBytes,
+		FetchDeadline:                  fetch.fetchDeadline,
+		ScrapeRequestIntakeConcurrency: scrapeRequestIntakeConcurrency,
+		ListenAddr:                     envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
+		OpsAddr:                        envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
 	}, nil
 }

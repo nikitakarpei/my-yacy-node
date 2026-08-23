@@ -46,36 +46,36 @@ type StoreProgress interface {
 }
 
 type ScrapeRequestConsumer struct {
-	source      pullintake.MessageSource
-	fetcher     PageFetcher
-	formats     pageformats.DerivableFormats
-	corpus      PageMarkdownCorpus
-	progress    StoreProgress
-	concurrency int
+	source                         pullintake.MessageSource
+	fetcher                        PageFetcher
+	formats                        pageformats.DerivableFormats
+	corpus                         PageMarkdownCorpus
+	progress                       StoreProgress
+	scrapeRequestIntakeConcurrency int
 }
 
 type Config struct {
-	Source      pullintake.MessageSource
-	Fetcher     PageFetcher
-	Formats     pageformats.DerivableFormats
-	Corpus      PageMarkdownCorpus
-	Progress    StoreProgress
-	Concurrency int
+	Source                         pullintake.MessageSource
+	Fetcher                        PageFetcher
+	Formats                        pageformats.DerivableFormats
+	Corpus                         PageMarkdownCorpus
+	Progress                       StoreProgress
+	ScrapeRequestIntakeConcurrency int
 }
 
 func NewScrapeRequestConsumer(config Config) *ScrapeRequestConsumer {
 	return &ScrapeRequestConsumer{
-		source:      config.Source,
-		fetcher:     config.Fetcher,
-		formats:     config.Formats,
-		corpus:      config.Corpus,
-		progress:    config.Progress,
-		concurrency: config.Concurrency,
+		source:                         config.Source,
+		fetcher:                        config.Fetcher,
+		formats:                        config.Formats,
+		corpus:                         config.Corpus,
+		progress:                       config.Progress,
+		scrapeRequestIntakeConcurrency: config.ScrapeRequestIntakeConcurrency,
 	}
 }
 
 func (c *ScrapeRequestConsumer) Run(ctx context.Context) error {
-	return pullintake.Run(ctx, c.source, c.concurrency, c.processOne)
+	return pullintake.Run(ctx, c.source, c.scrapeRequestIntakeConcurrency, c.processOne)
 }
 
 func (c *ScrapeRequestConsumer) processOne(ctx context.Context, msg jetstream.Msg) error {

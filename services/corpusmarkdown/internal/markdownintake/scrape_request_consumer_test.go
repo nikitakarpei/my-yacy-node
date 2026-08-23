@@ -181,12 +181,12 @@ func run(
 		t.Fatalf("page formats: %v", err)
 	}
 	return markdownintake.NewScrapeRequestConsumer(markdownintake.Config{
-		Source:      source,
-		Fetcher:     fetcher,
-		Formats:     derivableFormats,
-		Corpus:      corpus,
-		Progress:    progress,
-		Concurrency: 1,
+		Source:                         source,
+		Fetcher:                        fetcher,
+		Formats:                        derivableFormats,
+		Corpus:                         corpus,
+		Progress:                       progress,
+		ScrapeRequestIntakeConcurrency: 1,
 	}).Run(context.Background())
 }
 

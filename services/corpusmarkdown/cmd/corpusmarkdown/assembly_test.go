@@ -45,16 +45,16 @@ func serviceConfig(
 	proxy *url.URL,
 ) corpusmarkdown.ServiceConfig {
 	return corpusmarkdown.ServiceConfig{
-		ScrapeRequestNATSURL: scrapeRequestNATSURL,
-		PageMarkdownNATSURL:  pageMarkdownURL,
-		ScrapeRequestSubject: corpusmarkdown.DefaultScrapeRequestSubject,
-		ScrapeRequestDurable: corpusmarkdown.DefaultScrapeRequestDurable,
-		ProxyURL:             proxy,
-		UserAgent:            corpusmarkdown.DefaultUserAgent,
-		MaxBodyBytes:         corpusmarkdown.DefaultMaxBodyBytes,
-		FetchDeadline:        time.Second,
-		Concurrency:          corpusmarkdown.DefaultConcurrency,
-		OpsAddr:              "127.0.0.1:0",
+		ScrapeRequestNATSURL:           scrapeRequestNATSURL,
+		PageMarkdownNATSURL:            pageMarkdownURL,
+		ScrapeRequestSubject:           corpusmarkdown.DefaultScrapeRequestSubject,
+		ScrapeRequestDurable:           corpusmarkdown.DefaultScrapeRequestDurable,
+		ProxyURL:                       proxy,
+		UserAgent:                      corpusmarkdown.DefaultUserAgent,
+		MaxBodyBytes:                   corpusmarkdown.DefaultScrapeMaxBodyBytes,
+		FetchDeadline:                  time.Second,
+		ScrapeRequestIntakeConcurrency: corpusmarkdown.DefaultScrapeRequestIntakeConcurrency,
+		OpsAddr:                        "127.0.0.1:0",
 	}
 }
 

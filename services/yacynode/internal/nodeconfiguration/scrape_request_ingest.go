@@ -12,36 +12,36 @@ import (
 )
 
 const (
-	EnvScrapeRequestNATSURL     = "SCRAPE_REQUEST_NATS_URL"
-	EnvNATSScrapeRequestSubject = "NATS_SCRAPE_REQUEST_SUBJECT"
-	EnvNATSScrapeRequestDurable = "NATS_SCRAPE_REQUEST_DURABLE"
-	EnvScrapeProxyURL           = "SCRAPE_PROXY_URL"
-	EnvScrapeProxyDialMode      = "SCRAPE_PROXY_DIAL_MODE"
-	EnvScrapeUserAgent          = "SCRAPE_USER_AGENT"
-	EnvScrapeMaxBodyBytes       = "YACY_SCRAPE_MAX_BODY_BYTES"
-	EnvScrapeFetchDeadline      = "YACY_SCRAPE_FETCH_DEADLINE"
-	EnvScrapeConcurrency        = "YACY_SCRAPE_CONCURRENCY"
+	EnvScrapeRequestNATSURL           = "SCRAPE_REQUEST_NATS_URL"
+	EnvNATSScrapeRequestSubject       = "NATS_SCRAPE_REQUEST_SUBJECT"
+	EnvNATSScrapeRequestDurable       = "NATS_SCRAPE_REQUEST_DURABLE"
+	EnvScrapeProxyURL                 = "SCRAPE_PROXY_URL"
+	EnvScrapeProxyDialMode            = "SCRAPE_PROXY_DIAL_MODE"
+	EnvScrapeUserAgent                = "SCRAPE_USER_AGENT"
+	EnvScrapeMaxBodyBytes             = "SCRAPE_MAX_BODY_BYTES"
+	EnvScrapeFetchDeadline            = "SCRAPE_FETCH_DEADLINE"
+	EnvScrapeRequestIntakeConcurrency = "SCRAPE_REQUEST_INTAKE_CONCURRENCY"
 
-	DefaultScrapeRequestDurable = "yacy-node"
-	DefaultScrapeProxyDialMode  = "tunnel"
-	DefaultScrapeUserAgent      = "yacy-rwi-node (+https://yacy.net)"
-	DefaultScrapeMaxBodyBytes   = 2 << 20
-	DefaultScrapeFetchDeadline  = 30 * time.Second
-	DefaultScrapeConcurrency    = 4
+	DefaultScrapeRequestDurable           = "yacy-node"
+	DefaultScrapeProxyDialMode            = "tunnel"
+	DefaultScrapeUserAgent                = "yacy-rwi-node (+https://yacy.net)"
+	DefaultScrapeMaxBodyBytes             = 2 << 20
+	DefaultScrapeFetchDeadline            = 30 * time.Second
+	DefaultScrapeRequestIntakeConcurrency = 4
 )
 
 var DefaultScrapeRequestSubject = scraperequestcontract.ScrapeRequestSubject
 
 type ScrapeRequestIngestConfig struct {
-	ScrapeRequestNATSURL string
-	ScrapeRequestSubject string
-	ScrapeRequestDurable string
-	ProxyURL             *url.URL
-	ProxyDialMode        http.ProxyDialMode
-	UserAgent            string
-	MaxBodyBytes         int64
-	FetchDeadline        time.Duration
-	Concurrency          int
+	ScrapeRequestNATSURL           string
+	ScrapeRequestSubject           string
+	ScrapeRequestDurable           string
+	ProxyURL                       *url.URL
+	ProxyDialMode                  http.ProxyDialMode
+	UserAgent                      string
+	MaxBodyBytes                   int64
+	FetchDeadline                  time.Duration
+	ScrapeRequestIntakeConcurrency int
 }
 
 func (c ScrapeRequestIngestConfig) Enabled() bool {
@@ -75,8 +75,8 @@ func loadScrapeRequestIngestConfig(getenv func(string) string) (ScrapeRequestIng
 	if err != nil {
 		return ScrapeRequestIngestConfig{}, err
 	}
-	concurrency, err := envconfig.PositiveInt(
-		getenv, EnvScrapeConcurrency, DefaultScrapeConcurrency,
+	scrapeRequestIntakeConcurrency, err := envconfig.PositiveInt(
+		getenv, EnvScrapeRequestIntakeConcurrency, DefaultScrapeRequestIntakeConcurrency,
 	)
 	if err != nil {
 		return ScrapeRequestIngestConfig{}, err
@@ -92,9 +92,13 @@ func loadScrapeRequestIngestConfig(getenv func(string) string) (ScrapeRequestIng
 		),
 		ProxyURL:      proxyURL,
 		ProxyDialMode: proxyDialMode,
-		UserAgent:     envconfig.String(getenv, EnvScrapeUserAgent, DefaultScrapeUserAgent),
-		MaxBodyBytes:  maxBodyBytes,
-		FetchDeadline: fetchDeadline,
-		Concurrency:   concurrency,
+		UserAgent: envconfig.String(
+			getenv,
+			EnvScrapeUserAgent,
+			DefaultScrapeUserAgent,
+		),
+		MaxBodyBytes:                   maxBodyBytes,
+		FetchDeadline:                  fetchDeadline,
+		ScrapeRequestIntakeConcurrency: scrapeRequestIntakeConcurrency,
 	}, nil
 }

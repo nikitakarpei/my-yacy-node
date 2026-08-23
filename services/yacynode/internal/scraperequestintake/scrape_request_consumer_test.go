@@ -177,12 +177,14 @@ func run(
 	}
 
 	return scraperequestintake.NewScrapeRequestConsumer(scraperequestintake.Config{
-		Source:      fakeSource{iterator: &fakeIterator{messages: []jetstream.Msg{msg}}},
-		Fetcher:     fetcher,
-		Formats:     derivableFormats,
-		URLs:        urls,
-		Postings:    postings,
-		Concurrency: 1,
+		Source: fakeSource{
+			iterator: &fakeIterator{messages: []jetstream.Msg{msg}},
+		},
+		Fetcher:                        fetcher,
+		Formats:                        derivableFormats,
+		URLs:                           urls,
+		Postings:                       postings,
+		ScrapeRequestIntakeConcurrency: 1,
 	}).Run(context.Background())
 }
 

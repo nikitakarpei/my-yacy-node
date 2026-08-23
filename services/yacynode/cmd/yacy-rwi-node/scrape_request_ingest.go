@@ -25,10 +25,10 @@ func openScrapeRequestIngest(
 	postings rwiadmission.PostingReceiver,
 ) (*scrapeRequestIngest, error) {
 	broker, err := scraperequestbroker.Open(ctx, scraperequestbroker.Config{
-		ScrapeRequestNATSURL: config.ScrapeRequestNATSURL,
-		ScrapeRequestSubject: config.ScrapeRequestSubject,
-		ScrapeRequestDurable: config.ScrapeRequestDurable,
-		Concurrency:          config.Concurrency,
+		ScrapeRequestNATSURL:           config.ScrapeRequestNATSURL,
+		ScrapeRequestSubject:           config.ScrapeRequestSubject,
+		ScrapeRequestDurable:           config.ScrapeRequestDurable,
+		ScrapeRequestIntakeConcurrency: config.ScrapeRequestIntakeConcurrency,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("open scrape request broker: %w", err)
@@ -51,10 +51,10 @@ func openScrapeRequestIngest(
 				config.MaxBodyBytes,
 				config.FetchDeadline,
 			),
-			Formats:     derivableFormats,
-			URLs:        urls,
-			Postings:    postings,
-			Concurrency: config.Concurrency,
+			Formats:                        derivableFormats,
+			URLs:                           urls,
+			Postings:                       postings,
+			ScrapeRequestIntakeConcurrency: config.ScrapeRequestIntakeConcurrency,
 		}),
 	}, nil
 }

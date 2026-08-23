@@ -45,8 +45,8 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.ScrapeRequestDurable != corpusmarkdown.DefaultScrapeRequestDurable {
 		t.Errorf("durable = %q", cfg.ScrapeRequestDurable)
 	}
-	if cfg.Concurrency != corpusmarkdown.DefaultConcurrency {
-		t.Errorf("concurrency = %d", cfg.Concurrency)
+	if cfg.ScrapeRequestIntakeConcurrency != corpusmarkdown.DefaultScrapeRequestIntakeConcurrency {
+		t.Errorf("scrapeRequestIntakeConcurrency = %d", cfg.ScrapeRequestIntakeConcurrency)
 	}
 	if cfg.OpsAddr != corpusmarkdown.DefaultOpsAddr {
 		t.Errorf("ops addr = %q", cfg.OpsAddr)
@@ -54,8 +54,8 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.ProxyDialMode != httppkg.ProxyDialTunnel {
 		t.Errorf("proxy dial mode = %d", cfg.ProxyDialMode)
 	}
-	if cfg.MaxBodyBytes != corpusmarkdown.DefaultMaxBodyBytes ||
-		cfg.FetchDeadline != corpusmarkdown.DefaultFetchDeadline {
+	if cfg.MaxBodyBytes != corpusmarkdown.DefaultScrapeMaxBodyBytes ||
+		cfg.FetchDeadline != corpusmarkdown.DefaultScrapeFetchDeadline {
 		t.Errorf("fetch limits = %d bytes, %s", cfg.MaxBodyBytes, cfg.FetchDeadline)
 	}
 	if cfg.UserAgent != corpusmarkdown.DefaultUserAgent {
@@ -72,9 +72,9 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env[corpusmarkdown.EnvNATSScrapeRequestDurable] = "dur"
 	env[corpusmarkdown.EnvProxyDialMode] = "absolute-url"
 	env[corpusmarkdown.EnvUserAgent] = "agent (+https://example.test)"
-	env[corpusmarkdown.EnvMaxBodyBytes] = "4096"
-	env[corpusmarkdown.EnvFetchDeadline] = "5s"
-	env[corpusmarkdown.EnvConcurrency] = "3"
+	env[corpusmarkdown.EnvScrapeMaxBodyBytes] = "4096"
+	env[corpusmarkdown.EnvScrapeFetchDeadline] = "5s"
+	env[corpusmarkdown.EnvScrapeRequestIntakeConcurrency] = "3"
 	env[corpusmarkdown.EnvOpsAddr] = "127.0.0.1:9099"
 
 	cfg, err := corpusmarkdown.LoadServiceConfig(envFrom(env))
@@ -93,18 +93,22 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	if cfg.MaxBodyBytes != 4096 || cfg.FetchDeadline != 5*time.Second {
 		t.Errorf("fetch limits = %d bytes, %s", cfg.MaxBodyBytes, cfg.FetchDeadline)
 	}
-	if cfg.Concurrency != 3 || cfg.OpsAddr != "127.0.0.1:9099" {
-		t.Errorf("concurrency/ops addr = %d %q", cfg.Concurrency, cfg.OpsAddr)
+	if cfg.ScrapeRequestIntakeConcurrency != 3 || cfg.OpsAddr != "127.0.0.1:9099" {
+		t.Errorf(
+			"scrapeRequestIntakeConcurrency/ops addr = %d %q",
+			cfg.ScrapeRequestIntakeConcurrency,
+			cfg.OpsAddr,
+		)
 	}
 }
 
 func TestLoadServiceConfigRejectsWhatItCannotRead(t *testing.T) {
 	rejected := map[string]map[string]string{
-		"concurrency":     {corpusmarkdown.EnvConcurrency: "abc"},
-		"max body bytes":  {corpusmarkdown.EnvMaxBodyBytes: "-1"},
-		"fetch deadline":  {corpusmarkdown.EnvFetchDeadline: "soon"},
-		"proxy dial mode": {corpusmarkdown.EnvProxyDialMode: "carrier-pigeon"},
-		"proxy url":       {corpusmarkdown.EnvProxyURL: "ftp://egress:3128"},
+		"scrapeRequestIntakeConcurrency": {corpusmarkdown.EnvScrapeRequestIntakeConcurrency: "abc"},
+		"max body bytes":                 {corpusmarkdown.EnvScrapeMaxBodyBytes: "-1"},
+		"fetch deadline":                 {corpusmarkdown.EnvScrapeFetchDeadline: "soon"},
+		"proxy dial mode":                {corpusmarkdown.EnvProxyDialMode: "carrier-pigeon"},
+		"proxy url":                      {corpusmarkdown.EnvProxyURL: "ftp://egress:3128"},
 	}
 	for name, overrides := range rejected {
 		env := requiredEnv()

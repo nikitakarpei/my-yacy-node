@@ -15,10 +15,10 @@ import (
 )
 
 type Config struct {
-	ScrapeRequestNATSURL string
-	ScrapeRequestSubject string
-	ScrapeRequestDurable string
-	Concurrency          int
+	ScrapeRequestNATSURL           string
+	ScrapeRequestSubject           string
+	ScrapeRequestDurable           string
+	ScrapeRequestIntakeConcurrency int
 }
 
 type ScrapeRequestBroker struct {
@@ -54,7 +54,7 @@ func scrapeRequestConsumerFor(
 		Durable:       cfg.ScrapeRequestDurable,
 		AckPolicy:     jetstream.AckExplicitPolicy,
 		FilterSubject: cfg.ScrapeRequestSubject,
-		MaxAckPending: cfg.Concurrency,
+		MaxAckPending: cfg.ScrapeRequestIntakeConcurrency,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("create scrape request consumer: %w", err)

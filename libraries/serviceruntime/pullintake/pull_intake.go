@@ -18,7 +18,7 @@ type MessageSource interface {
 
 type Process func(ctx context.Context, msg jetstream.Msg) error
 
-func Run(ctx context.Context, source MessageSource, concurrency int, process Process) error {
+func Run(ctx context.Context, source MessageSource, messageConcurrency int, process Process) error {
 	iter, err := source.Messages()
 	if err != nil {
 		return fmt.Errorf("open message iterator: %w", err)
@@ -26,7 +26,7 @@ func Run(ctx context.Context, source MessageSource, concurrency int, process Pro
 	defer iter.Stop()
 
 	group, groupCtx := errgroup.WithContext(ctx)
-	group.SetLimit(concurrency)
+	group.SetLimit(messageConcurrency)
 	go stopIteratorOnCancel(groupCtx, iter)
 
 	for {

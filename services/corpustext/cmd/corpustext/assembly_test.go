@@ -69,19 +69,19 @@ func serviceConfig(
 	proxy *url.URL,
 ) corpustext.ServiceConfig {
 	return corpustext.ServiceConfig{
-		ScrapeRequestNATSURL: scrapeRequestNATSURL,
-		ScrapeRequestSubject: corpustext.DefaultScrapeRequestSubject,
-		ScrapeRequestDurable: corpustext.DefaultScrapeRequestDurable,
-		ProxyURL:             proxy,
-		UserAgent:            corpustext.DefaultUserAgent,
-		MaxBodyBytes:         corpustext.DefaultMaxBodyBytes,
-		FetchDeadline:        time.Second,
-		Concurrency:          corpustext.DefaultConcurrency,
-		SearchIndexEngine:    corpustext.SearchIndexEngineElasticsearch,
-		ElasticsearchURL:     elasticsearchURL,
-		ElasticsearchIndex:   corpustext.DefaultIndexBaseName,
-		Languages:            []string{"en"},
-		OpsAddr:              "127.0.0.1:0",
+		ScrapeRequestNATSURL:           scrapeRequestNATSURL,
+		ScrapeRequestSubject:           corpustext.DefaultScrapeRequestSubject,
+		ScrapeRequestDurable:           corpustext.DefaultScrapeRequestDurable,
+		ProxyURL:                       proxy,
+		UserAgent:                      corpustext.DefaultUserAgent,
+		MaxBodyBytes:                   corpustext.DefaultScrapeMaxBodyBytes,
+		FetchDeadline:                  time.Second,
+		ScrapeRequestIntakeConcurrency: corpustext.DefaultScrapeRequestIntakeConcurrency,
+		SearchIndexEngine:              corpustext.SearchIndexEngineElasticsearch,
+		ElasticsearchURL:               elasticsearchURL,
+		ElasticsearchIndex:             corpustext.DefaultIndexBaseName,
+		Languages:                      []string{"en"},
+		OpsAddr:                        "127.0.0.1:0",
 	}
 }
 

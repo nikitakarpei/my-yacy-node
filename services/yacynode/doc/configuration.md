@@ -38,9 +38,9 @@ it the node behaves as a pure peer.
 | `SCRAPE_PROXY_URL` | _(required with ingest)_ | Egress proxy every page fetch goes through. |
 | `SCRAPE_PROXY_DIAL_MODE` | `tunnel` | How to reach the proxy: `tunnel` or `absolute-url`. |
 | `SCRAPE_USER_AGENT` | `yacy-rwi-node (+https://yacy.net)` | User agent each fetch sends. |
-| `YACY_SCRAPE_MAX_BODY_BYTES` | `2097152` | Largest body a fetch reads. |
-| `YACY_SCRAPE_FETCH_DEADLINE` | `30s` | Time limit on one fetch. |
-| `YACY_SCRAPE_CONCURRENCY` | `4` | Pages fetched and stored concurrently. |
+| `SCRAPE_MAX_BODY_BYTES` | `2097152` | Largest body a fetch reads. |
+| `SCRAPE_FETCH_DEADLINE` | `30s` | Time limit on one fetch. |
+| `SCRAPE_REQUEST_INTAKE_CONCURRENCY` | `4` | Scrape requests the node works on at once. |
 
 ## Distribution
 

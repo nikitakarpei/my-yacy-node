@@ -68,12 +68,12 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	registry := prometheus.NewRegistry()
 	metrics := markdownstoremetrics.New(registry)
 	intake := markdownintake.NewScrapeRequestConsumer(markdownintake.Config{
-		Source:      consumer,
-		Fetcher:     fetcher,
-		Formats:     derivableFormats,
-		Corpus:      corpus,
-		Progress:    metrics,
-		Concurrency: cfg.Concurrency,
+		Source:                         consumer,
+		Fetcher:                        fetcher,
+		Formats:                        derivableFormats,
+		Corpus:                         corpus,
+		Progress:                       metrics,
+		ScrapeRequestIntakeConcurrency: cfg.ScrapeRequestIntakeConcurrency,
 	})
 
 	opsServer := &http.Server{
@@ -88,7 +88,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		slog.String("listen", cfg.ListenAddr),
 		slog.String("subject", cfg.ScrapeRequestSubject),
 		slog.String("bucket", pagemarkdownstore.BucketName),
-		slog.Int("concurrency", cfg.Concurrency),
+		slog.Int("scrapeRequestIntakeConcurrency", cfg.ScrapeRequestIntakeConcurrency),
 	)
 	err = servergroup.Run(ctx, opsShutdownLimit,
 		[]servergroup.NamedServer{{Name: "ops", Server: opsServer}},
@@ -120,7 +120,7 @@ func scrapeRequestConsumerFor(
 		Durable:       cfg.ScrapeRequestDurable,
 		FilterSubject: cfg.ScrapeRequestSubject,
 		AckPolicy:     jetstream.AckExplicitPolicy,
-		MaxAckPending: cfg.Concurrency,
+		MaxAckPending: cfg.ScrapeRequestIntakeConcurrency,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("create scrape request consumer: %w", err)

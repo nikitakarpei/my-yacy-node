@@ -18,14 +18,14 @@ The service is configured entirely through environment variables.
 | `SCRAPE_PROXY_URL` | required | Egress proxy every page fetch goes through. |
 | `SCRAPE_PROXY_DIAL_MODE` | `tunnel` | How to reach the proxy: `tunnel` or `absolute-url`. |
 | `SCRAPE_USER_AGENT` | `corpusmarkdown (+https://yacy.net)` | User agent each fetch sends. |
-| `CORPUSMARKDOWN_MAX_BODY_BYTES` | `2097152` | Largest body a fetch reads. |
-| `CORPUSMARKDOWN_FETCH_DEADLINE` | `30s` | Time limit on one fetch. |
+| `SCRAPE_MAX_BODY_BYTES` | `2097152` | Largest body a fetch reads. |
+| `SCRAPE_FETCH_DEADLINE` | `30s` | Time limit on one fetch. |
 
 ## Storage
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CORPUSMARKDOWN_CONCURRENCY` | `4` | Pages fetched and stored concurrently. |
+| `SCRAPE_REQUEST_INTAKE_CONCURRENCY` | `4` | Scrape requests the service works on at once. |
 
 ## Recall
 

@@ -90,7 +90,7 @@ func TestLoadDefaultsTheScrapeRequestIngest(t *testing.T) {
 	if config.ScrapeRequestIngest.UserAgent != nodeconfiguration.DefaultScrapeUserAgent ||
 		config.ScrapeRequestIngest.MaxBodyBytes != nodeconfiguration.DefaultScrapeMaxBodyBytes ||
 		config.ScrapeRequestIngest.FetchDeadline != nodeconfiguration.DefaultScrapeFetchDeadline ||
-		config.ScrapeRequestIngest.Concurrency != nodeconfiguration.DefaultScrapeConcurrency {
+		config.ScrapeRequestIngest.ScrapeRequestIntakeConcurrency != nodeconfiguration.DefaultScrapeRequestIntakeConcurrency {
 		t.Errorf(
 			"ScrapeRequestIngest = %+v, want the default fetch settings",
 			config.ScrapeRequestIngest,
@@ -120,23 +120,23 @@ func TestLoadRequiresAScrapeProxyWhenIngestIsEnabled(t *testing.T) {
 
 func TestLoadReadsOverrides(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:          "0123456789AB",
-		nodeconfiguration.EnvPeerName:                 "node",
-		nodeconfiguration.EnvEgressProxyURL:           "http://proxy:4750",
-		nodeconfiguration.EnvNetworkName:              "testnet",
-		nodeconfiguration.EnvPeerAddr:                 ":7000",
-		nodeconfiguration.EnvOpsAddr:                  ":7001",
-		nodeconfiguration.EnvAdvertiseHost:            "203.0.113.1",
-		nodeconfiguration.EnvAdvertisePort:            "9999",
-		nodeconfiguration.EnvStorageQuota:             "2MB",
-		nodeconfiguration.EnvTrustedProxies:           "10.0.0.0/8",
-		nodeconfiguration.EnvSeedlistURLs:             " http://a , http://b ,",
-		nodeconfiguration.EnvAnnounceInterval:         "30s",
-		nodeconfiguration.EnvScrapeRequestNATSURL:     "nats://broker:4222",
-		nodeconfiguration.EnvScrapeProxyURL:           "http://renderproxy:8080",
-		nodeconfiguration.EnvNATSScrapeRequestSubject: "reached.subject",
-		nodeconfiguration.EnvNATSScrapeRequestDurable: "reached-durable",
-		nodeconfiguration.EnvScrapeConcurrency:        "9",
+		nodeconfiguration.EnvInitialPeerHash:                "0123456789AB",
+		nodeconfiguration.EnvPeerName:                       "node",
+		nodeconfiguration.EnvEgressProxyURL:                 "http://proxy:4750",
+		nodeconfiguration.EnvNetworkName:                    "testnet",
+		nodeconfiguration.EnvPeerAddr:                       ":7000",
+		nodeconfiguration.EnvOpsAddr:                        ":7001",
+		nodeconfiguration.EnvAdvertiseHost:                  "203.0.113.1",
+		nodeconfiguration.EnvAdvertisePort:                  "9999",
+		nodeconfiguration.EnvStorageQuota:                   "2MB",
+		nodeconfiguration.EnvTrustedProxies:                 "10.0.0.0/8",
+		nodeconfiguration.EnvSeedlistURLs:                   " http://a , http://b ,",
+		nodeconfiguration.EnvAnnounceInterval:               "30s",
+		nodeconfiguration.EnvScrapeRequestNATSURL:           "nats://broker:4222",
+		nodeconfiguration.EnvScrapeProxyURL:                 "http://renderproxy:8080",
+		nodeconfiguration.EnvNATSScrapeRequestSubject:       "reached.subject",
+		nodeconfiguration.EnvNATSScrapeRequestDurable:       "reached-durable",
+		nodeconfiguration.EnvScrapeRequestIntakeConcurrency: "9",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -163,9 +163,9 @@ func TestLoadReadsOverrides(t *testing.T) {
 	}
 	if config.ScrapeRequestIngest.ScrapeRequestSubject != "reached.subject" ||
 		config.ScrapeRequestIngest.ScrapeRequestDurable != "reached-durable" ||
-		config.ScrapeRequestIngest.Concurrency != 9 {
+		config.ScrapeRequestIngest.ScrapeRequestIntakeConcurrency != 9 {
 		t.Errorf(
-			"ScrapeRequestIngest = %+v, want the named subject, durable, and concurrency",
+			"ScrapeRequestIngest = %+v, want the named subject, durable, and scrapeRequestIntakeConcurrency",
 			config.ScrapeRequestIngest,
 		)
 	}
