@@ -25,7 +25,6 @@ const (
 
 type Scraper struct {
 	fetcher     pagefetch.Fetcher
-	extractor   *documentextraction.DocumentExtractor
 	derivations contentformatgraph.FormatDerivations
 }
 
@@ -39,7 +38,6 @@ func New(fetcher pagefetch.Fetcher) (*Scraper, error) {
 	}
 	return &Scraper{
 		fetcher:     fetcher,
-		extractor:   documentextraction.New(),
 		derivations: derivations,
 	}, nil
 }
@@ -82,7 +80,7 @@ func (s *Scraper) pageFrom(
 	fetched pagefetch.FetchedPage,
 	targetFormat documentextraction.Format,
 ) (ScrapedPage, bool) {
-	document, err := s.extractor.DocumentFrom(
+	document, err := documentextraction.DocumentFrom(
 		ctx, fetched.FinalURL.String(), fetched.ContentType, fetched.Body,
 	)
 	if err != nil {

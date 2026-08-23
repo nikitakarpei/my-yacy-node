@@ -1,49 +1,37 @@
-// Package documentextraction turns a fetched body into the document it holds.
 package documentextraction
 
-import (
-	"context"
-	"fmt"
-	"log/slog"
-	"mime"
-	"strings"
-)
+import "context"
 
-const msgMediaTypeUnparsed = "content type unparsed, falling back to its leading segment"
-
-type DocumentExtractor struct {
-	extractors map[string]MediaExtractor
+type documentExtractor interface {
+	Extract(
+		ctx context.Context,
+		pageURL, contentType string,
+		body []byte,
+	) (Document, error)
+	MediaTypes() []string
+	EmittedFormat() Format
 }
 
-func New() *DocumentExtractor {
-	return &DocumentExtractor{extractors: mediaExtractorsByMediaType()}
+func documentExtractorCatalog() []documentExtractor {
+	return []documentExtractor{newHTMLExtraction()}
 }
 
-func (e *DocumentExtractor) DocumentFrom(
-	ctx context.Context,
-	pageURL, contentType string,
-	body []byte,
-) (Document, error) {
-	media := mediaType(ctx, contentType)
-	extractor, extractable := e.extractors[media]
-	if !extractable {
-		return Document{}, ErrUnsupportedMediaType
+func documentExtractorFor(media string) (documentExtractor, bool) {
+	for _, extractor := range documentExtractorCatalog() {
+		for _, mediaType := range extractor.MediaTypes() {
+			if mediaType == media {
+				return extractor, true
+			}
+		}
 	}
-	document, err := extractor.Extract(ctx, pageURL, contentType, body)
-	if err != nil {
-		return Document{}, fmt.Errorf("extract %s: %w", media, err)
-	}
-	return document, nil
+	return nil, false
 }
 
-func mediaType(ctx context.Context, contentType string) string {
-	media, _, err := mime.ParseMediaType(contentType)
-	if err != nil {
-		slog.WarnContext(ctx, msgMediaTypeUnparsed,
-			slog.String("contentType", contentType),
-			slog.Any("error", err),
-		)
-		return strings.ToLower(strings.TrimSpace(strings.SplitN(contentType, ";", 2)[0]))
+func EmittedFormats() []Format {
+	catalog := documentExtractorCatalog()
+	formats := make([]Format, 0, len(catalog))
+	for _, extractor := range catalog {
+		formats = append(formats, extractor.EmittedFormat())
 	}
-	return media
+	return formats
 }

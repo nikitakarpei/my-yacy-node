@@ -164,7 +164,7 @@ func buildVisitorSource(
 	return pagevisit.New(
 		fetchtiming.New(metrics, wallclock.Clock{}, fetch),
 		recrawl,
-		documentextraction.New(),
+		documentextraction.DocumentFrom,
 		metrics,
 		scraperequestsjetstream.New(scrapeRequestJetStream),
 	), nil

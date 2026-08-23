@@ -26,7 +26,7 @@ type Visitor interface {
 type visitor struct {
 	fetcher         pagefetch.Fetcher
 	recrawl         RecrawlRule
-	extractor       PageExtractor
+	documentSource  DocumentSource
 	indexingRefusal IndexingRefusal
 	observer        VisitProgress
 	scrapeRequests  ScrapeRequests
@@ -101,7 +101,7 @@ func (v *visitor) absorptionOf(
 	if page.Truncated {
 		return absorbedPage(disposal.Oversized, nil)
 	}
-	document, err := v.extractor.DocumentFrom(
+	document, err := v.documentSource(
 		ctx, page.FinalURL.String(), page.ContentType, page.Body,
 	)
 	if err != nil {

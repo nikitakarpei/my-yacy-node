@@ -19,8 +19,12 @@ const longText = "The quick brown fox jumps over the lazy dog while the industri
 	"beaver builds a sturdy dam across the wide and winding river near the old mill town."
 
 func TestExtractArticle(t *testing.T) {
-	doc, err := documentextraction.New().
-		DocumentFrom(t.Context(), "http://host.example/dir/p", "text/html", []byte(article))
+	doc, err := documentextraction.DocumentFrom(
+		t.Context(),
+		"http://host.example/dir/p",
+		"text/html",
+		[]byte(article),
+	)
 	if err != nil {
 		t.Fatalf("DocumentFrom: %v", err)
 	}
@@ -48,8 +52,12 @@ func TestExtractHonorsMetaRobots(t *testing.T) {
 	page := `<!DOCTYPE html><html lang="en"><head><title>T</title>
 <meta name="robots" content="noindex,nofollow"></head>
 <body><article><p>` + longText + `</p><p>` + longText + `</p></article></body></html>`
-	doc, err := documentextraction.New().
-		DocumentFrom(t.Context(), "http://host.example/p", "text/html", []byte(page))
+	doc, err := documentextraction.DocumentFrom(
+		t.Context(),
+		"http://host.example/p",
+		"text/html",
+		[]byte(page),
+	)
 	if err != nil {
 		t.Fatalf("DocumentFrom: %v", err)
 	}
@@ -59,8 +67,12 @@ func TestExtractHonorsMetaRobots(t *testing.T) {
 }
 
 func TestExtractYieldsWholeDocument(t *testing.T) {
-	doc, err := documentextraction.New().
-		DocumentFrom(t.Context(), "http://host.example/dir/p", "text/html", []byte(article))
+	doc, err := documentextraction.DocumentFrom(
+		t.Context(),
+		"http://host.example/dir/p",
+		"text/html",
+		[]byte(article),
+	)
 	if err != nil {
 		t.Fatalf("DocumentFrom: %v", err)
 	}
@@ -72,8 +84,12 @@ func TestExtractYieldsWholeDocument(t *testing.T) {
 
 func TestMediaTypesDeclared(t *testing.T) {
 	for _, mediaType := range []string{"text/html", "application/xhtml+xml"} {
-		if _, err := documentextraction.New().
-			DocumentFrom(t.Context(), "http://host.example/p", mediaType, []byte(article)); err != nil {
+		if _, err := documentextraction.DocumentFrom(
+			t.Context(),
+			"http://host.example/p",
+			mediaType,
+			[]byte(article),
+		); err != nil {
 			t.Fatalf("DocumentFrom %s: %v", mediaType, err)
 		}
 	}
@@ -85,8 +101,12 @@ func TestExtractReportsNoLanguageWithoutATwoLetterLanguageTag(t *testing.T) {
 			`<head><title>Sample Article</title></head>` +
 			`<body><article><p>` + longText + `</p></article></body></html>`
 
-		doc, err := documentextraction.New().
-			DocumentFrom(t.Context(), "http://host.example/p", "text/html", []byte(page))
+		doc, err := documentextraction.DocumentFrom(
+			t.Context(),
+			"http://host.example/p",
+			"text/html",
+			[]byte(page),
+		)
 		if err != nil {
 			t.Fatalf("DocumentFrom %s: %v", opening, err)
 		}
@@ -101,8 +121,12 @@ func TestExtractResolvesLinksAgainstTheBaseHref(t *testing.T) {
 <base href="http://other.example/dir/"></head>
 <body><a href="page">relative</a></body></html>`
 
-	doc, err := documentextraction.New().
-		DocumentFrom(t.Context(), "http://host.example/p", "text/html", []byte(page))
+	doc, err := documentextraction.DocumentFrom(
+		t.Context(),
+		"http://host.example/p",
+		"text/html",
+		[]byte(page),
+	)
 	if err != nil {
 		t.Fatalf("DocumentFrom: %v", err)
 	}
@@ -120,8 +144,12 @@ func TestExtractDiscoversOnlyAbsoluteLinksOfAPageWithoutACanonicalURL(t *testing
 <body><a href="/relative">relative</a>
 <a href="http://other.example/ext">absolute</a></body></html>`
 
-	doc, err := documentextraction.New().
-		DocumentFrom(t.Context(), "file:///tmp/p", "text/html", []byte(page))
+	doc, err := documentextraction.DocumentFrom(
+		t.Context(),
+		"file:///tmp/p",
+		"text/html",
+		[]byte(page),
+	)
 	if err != nil {
 		t.Fatalf("DocumentFrom: %v", err)
 	}

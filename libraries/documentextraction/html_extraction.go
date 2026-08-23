@@ -21,21 +21,21 @@ const (
 	msgPageURLUncanonical = "page url is not canonical, resolving links without it"
 )
 
-type HTMLExtraction struct{}
+type htmlExtraction struct{}
 
-func newHTMLExtraction() HTMLExtraction {
-	return HTMLExtraction{}
+func newHTMLExtraction() htmlExtraction {
+	return htmlExtraction{}
 }
 
-func (HTMLExtraction) MediaTypes() []string {
+func (htmlExtraction) MediaTypes() []string {
 	return []string{mediaHTML, mediaXHTML}
 }
 
-func (HTMLExtraction) EmittedFormat() Format {
+func (htmlExtraction) EmittedFormat() Format {
 	return FormatDocumentHTML
 }
 
-func (e HTMLExtraction) Extract(
+func (e htmlExtraction) Extract(
 	ctx context.Context,
 	pageURL, contentType string,
 	body []byte,

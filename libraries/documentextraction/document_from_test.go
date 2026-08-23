@@ -8,7 +8,7 @@ import (
 )
 
 func TestTheExtractorRegisteredForTheMediaTypeReadsTheBody(t *testing.T) {
-	document, err := documentextraction.New().DocumentFrom(
+	document, err := documentextraction.DocumentFrom(
 		t.Context(),
 		"http://host/",
 		"text/html",
@@ -23,7 +23,7 @@ func TestTheExtractorRegisteredForTheMediaTypeReadsTheBody(t *testing.T) {
 }
 
 func TestTheMediaTypeIsReadWithoutItsParameters(t *testing.T) {
-	document, err := documentextraction.New().DocumentFrom(
+	document, err := documentextraction.DocumentFrom(
 		t.Context(),
 		"http://host/",
 		"text/html; charset=utf-8",
@@ -38,7 +38,7 @@ func TestTheMediaTypeIsReadWithoutItsParameters(t *testing.T) {
 }
 
 func TestAMediaTypeNoExtractorReadsIsUnsupported(t *testing.T) {
-	_, err := documentextraction.New().DocumentFrom(
+	_, err := documentextraction.DocumentFrom(
 		t.Context(), "http://host/page.pdf", "application/pdf", nil,
 	)
 	if !errors.Is(err, documentextraction.ErrUnsupportedMediaType) {

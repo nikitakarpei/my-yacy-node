@@ -84,12 +84,12 @@ func (f *fakeRecrawl) calls() []visitedCall {
 	return append([]visitedCall(nil), f.visitedCalls...)
 }
 
-type fakeExtract struct {
+type fakeDocumentSource struct {
 	document documentextraction.Document
 	err      error
 }
 
-func (f fakeExtract) DocumentFrom(
+func (f fakeDocumentSource) documentFrom(
 	_ context.Context,
 	_, _ string,
 	_ []byte,
@@ -124,8 +124,8 @@ func linkingDocument(t *testing.T, discovered string) documentextraction.Documen
 	}
 }
 
-func readableExtract() fakeExtract {
-	return fakeExtract{document: readableDocument()}
+func readableDocumentSource() fakeDocumentSource {
+	return fakeDocumentSource{document: readableDocument()}
 }
 
 type recordingObserver struct {
@@ -202,25 +202,25 @@ func fetchOf(outcome pagefetch.FetchOutcome) *fakeFetch {
 func newVisitor(
 	fetcher pagefetch.Fetcher,
 	recrawl pagevisit.RecrawlRule,
-	extractor pagevisit.PageExtractor,
+	documentSource fakeDocumentSource,
 	observer *recordingObserver,
 	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.Visitor {
-	return newVisitorSource(fetcher, recrawl, extractor, observer, scrapeRequests).
+	return newVisitorSource(fetcher, recrawl, documentSource, observer, scrapeRequests).
 		VisitorFor(pagevisit.Honored)
 }
 
 func newVisitorSource(
 	fetcher pagefetch.Fetcher,
 	recrawl pagevisit.RecrawlRule,
-	extractor pagevisit.PageExtractor,
+	documentSource fakeDocumentSource,
 	observer *recordingObserver,
 	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.VisitorSource {
 	return pagevisit.New(
 		fetcher,
 		recrawl,
-		extractor,
+		documentSource.documentFrom,
 		observer,
 		scrapeRequests,
 	)
@@ -247,7 +247,7 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome(t)),
 		&fakeRecrawl{due: true},
-		fakeExtract{document: linkingDocument(t, "http://host/next")},
+		fakeDocumentSource{document: linkingDocument(t, "http://host/next")},
 		observer,
 		scrapeRequests,
 	)
@@ -285,7 +285,7 @@ func TestVisitReportsNotAPageDisposal(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}),
 		recrawl,
-		readableExtract(),
+		readableDocumentSource(),
 		newObserver(),
 		scrapeRequests,
 	)
@@ -313,7 +313,7 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchCeased}),
 		recrawl,
-		readableExtract(),
+		readableDocumentSource(),
 		observer,
 		scrapeRequests,
 	)
@@ -342,7 +342,7 @@ func TestVisitReportsTransient(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchFailed}),
 		recrawl,
-		readableExtract(),
+		readableDocumentSource(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -369,7 +369,7 @@ func TestVisitUnknownFetchStatusFails(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchStatus(99)}),
 		&fakeRecrawl{due: true},
-		readableExtract(),
+		readableDocumentSource(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -386,7 +386,7 @@ func TestVisitReportsDeferred(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchDeferred, DeferFor: time.Second}),
 		&fakeRecrawl{due: true},
-		readableExtract(),
+		readableDocumentSource(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -407,7 +407,7 @@ func TestVisitFetchErrorFails(t *testing.T) {
 	visitor := newVisitor(
 		&fakeFetch{err: errors.New("boom")},
 		&fakeRecrawl{due: true},
-		readableExtract(),
+		readableDocumentSource(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -424,7 +424,7 @@ func TestVisitRecrawlDecisionErrorFails(t *testing.T) {
 	visitor := newVisitor(
 		&fakeFetch{},
 		&fakeRecrawl{err: errors.New("boom")},
-		readableExtract(),
+		readableDocumentSource(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -442,7 +442,7 @@ func TestVisitReportsNotDueWithoutFetching(t *testing.T) {
 	visitor := newVisitor(
 		fetch,
 		&fakeRecrawl{due: false},
-		readableExtract(),
+		readableDocumentSource(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -466,7 +466,7 @@ func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
 	visitor := newVisitor(
 		fetch,
 		&fakeRecrawl{due: true, version: known},
-		readableExtract(),
+		readableDocumentSource(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -487,7 +487,7 @@ func TestVisitRecordsVersionAfterAbsorbingThePage(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome(t)),
 		recrawl,
-		readableExtract(),
+		readableDocumentSource(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -513,7 +513,7 @@ func TestVisitReportsTheDisposalAbsorptionReached(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome(t)),
 		recrawl,
-		fakeExtract{err: errors.New("parser broke")},
+		fakeDocumentSource{err: errors.New("parser broke")},
 		newObserver(),
 		scrapeRequests,
 	)
@@ -542,7 +542,7 @@ func TestVisitNotModifiedRecordsVersionWithoutAbsorbing(t *testing.T) {
 			},
 		),
 		recrawl,
-		readableExtract(),
+		readableDocumentSource(),
 		newObserver(),
 		scrapeRequests,
 	)
@@ -566,7 +566,7 @@ func TestVisitedErrorIsRecoverable(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome(t)),
 		recrawl,
-		readableExtract(),
+		readableDocumentSource(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -579,7 +579,7 @@ func TestVisitScrapeRequestPublishErrorFails(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome(t)),
 		&fakeRecrawl{due: true},
-		readableExtract(),
+		readableDocumentSource(),
 		newObserver(),
 		scrapeRequests,
 	)

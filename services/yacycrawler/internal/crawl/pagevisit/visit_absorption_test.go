@@ -13,14 +13,14 @@ import (
 
 func absorbedOutcome(
 	t *testing.T,
-	extractor fakeExtract,
+	documentSource fakeDocumentSource,
 	page pagefetch.FetchedPage,
 ) pagevisit.VisitOutcome {
 	t.Helper()
 	return visitHost(t, newVisitor(
 		fetchOf(fetchOutcomeOf(page)),
 		&fakeRecrawl{due: true},
-		extractor,
+		documentSource,
 		newObserver(),
 		&fakeScrapeRequests{},
 	))
@@ -40,7 +40,7 @@ func fetchedPage(t *testing.T) pagefetch.FetchedPage {
 }
 
 func TestVisitLeavesAReadablePageUndisposed(t *testing.T) {
-	outcome := absorbedOutcome(t, readableExtract(), fetchedPage(t))
+	outcome := absorbedOutcome(t, readableDocumentSource(), fetchedPage(t))
 
 	if outcome.Disposal != disposal.NotDisposed {
 		t.Fatalf("a readable page carries no disposal reason, got %q", outcome.Disposal)
@@ -50,7 +50,7 @@ func TestVisitLeavesAReadablePageUndisposed(t *testing.T) {
 func TestVisitReportsUnsupportedMediaType(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
-		fakeExtract{err: documentextraction.ErrUnsupportedMediaType},
+		fakeDocumentSource{err: documentextraction.ErrUnsupportedMediaType},
 		fetchedPage(t),
 	)
 
@@ -62,7 +62,7 @@ func TestVisitReportsUnsupportedMediaType(t *testing.T) {
 func TestVisitReportsUnextractableOnUnknownExtractionError(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
-		fakeExtract{err: errors.New("parser broke")},
+		fakeDocumentSource{err: errors.New("parser broke")},
 		fetchedPage(t),
 	)
 
@@ -75,7 +75,7 @@ func TestVisitReportsOversized(t *testing.T) {
 	page := fetchedPage(t)
 	page.Truncated = true
 
-	outcome := absorbedOutcome(t, readableExtract(), page)
+	outcome := absorbedOutcome(t, readableDocumentSource(), page)
 
 	if outcome.Disposal != disposal.Oversized {
 		t.Fatalf("want oversized disposal, got %q", outcome.Disposal)
@@ -85,7 +85,7 @@ func TestVisitReportsOversized(t *testing.T) {
 func TestVisitHonorsMetaNoIndex(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
-		fakeExtract{document: refusingDocument()},
+		fakeDocumentSource{document: refusingDocument()},
 		fetchedPage(t),
 	)
 
@@ -98,7 +98,7 @@ func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T)
 	source := newVisitorSource(
 		fetchOf(fetchOutcomeOf(fetchedPage(t))),
 		&fakeRecrawl{due: true},
-		fakeExtract{document: refusingDocument()},
+		fakeDocumentSource{document: refusingDocument()},
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -116,7 +116,7 @@ func TestVisitHonorsNoFollow(t *testing.T) {
 
 	outcome := absorbedOutcome(
 		t,
-		fakeExtract{document: linkingDocument(t, "http://host/next")},
+		fakeDocumentSource{document: linkingDocument(t, "http://host/next")},
 		page,
 	)
 
@@ -128,7 +128,7 @@ func TestVisitHonorsNoFollow(t *testing.T) {
 func TestVisitReportsDiscoveredLinks(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
-		fakeExtract{document: linkingDocument(t, "http://host/next")},
+		fakeDocumentSource{document: linkingDocument(t, "http://host/next")},
 		fetchedPage(t),
 	)
 
