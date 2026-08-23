@@ -110,7 +110,7 @@ func (v *visitor) absorptionOf(
 		return absorbedPage(disposalOfUnreadableLinks(err), nil)
 	}
 
-	if v.indexingRefusal == Honored && (links.RefusesIndexing || page.RefusesIndexing) {
+	if v.indexingRefusal == Honored && refusesIndexing(page, links) {
 		return absorbedPage(disposal.IndexingRefused, discoveredURLsOf(page, links))
 	}
 	return absorbedPage(disposal.NotDisposed, discoveredURLsOf(page, links))
@@ -130,6 +130,10 @@ func disposalOfUnreadableLinks(err error) disposal.Reason {
 		return disposal.UnsupportedMediaType
 	}
 	return disposal.Unextractable
+}
+
+func refusesIndexing(page pagefetch.FetchedPage, links pagelinks.PageLinks) bool {
+	return page.RefusesIndexing || links.RefusesIndexing
 }
 
 func discoveredURLsOf(

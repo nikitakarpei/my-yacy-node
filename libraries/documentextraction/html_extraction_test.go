@@ -48,24 +48,6 @@ func TestExtractArticle(t *testing.T) {
 	}
 }
 
-func TestExtractHonorsMetaRobots(t *testing.T) {
-	page := `<!DOCTYPE html><html lang="en"><head><title>T</title>
-<meta name="robots" content="noindex,nofollow"></head>
-<body><article><p>` + longText + `</p><p>` + longText + `</p></article></body></html>`
-	doc, err := documentextraction.DocumentFrom(
-		t.Context(),
-		"http://host.example/p",
-		"text/html",
-		[]byte(page),
-	)
-	if err != nil {
-		t.Fatalf("DocumentFrom: %v", err)
-	}
-	if !doc.RefusesIndexing || !doc.RefusesLinkDiscovery {
-		t.Fatalf("meta robots not honored: %+v", doc)
-	}
-}
-
 func TestExtractYieldsWholeDocument(t *testing.T) {
 	doc, err := documentextraction.DocumentFrom(
 		t.Context(),

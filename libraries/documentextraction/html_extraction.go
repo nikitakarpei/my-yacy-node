@@ -55,14 +55,12 @@ func (e htmlExtraction) Extract(
 	links := pagelinks.PageLinksOf(ctx, pageURL, root)
 
 	return Document{
-		Title:                scan.title,
-		Body:                 document.Bytes(),
-		Format:               e.EmittedFormat(),
-		Language:             twoLetterLanguage(scan.language),
-		LocalLinks:           links.LocalLinks,
-		ExternalLinks:        links.ExternalLinks,
-		RefusesIndexing:      links.RefusesIndexing,
-		RefusesLinkDiscovery: links.RefusesLinkDiscovery,
+		Title:         scan.title,
+		Body:          document.Bytes(),
+		Format:        e.EmittedFormat(),
+		Language:      twoLetterLanguage(scan.language),
+		LocalLinks:    links.LocalLinks,
+		ExternalLinks: links.ExternalLinks,
 	}, nil
 }
 
