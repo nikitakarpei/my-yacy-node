@@ -8,6 +8,8 @@ import (
 )
 
 type treeScan struct {
+	hrefs    []string
+	baseHref string
 	title    string
 	language string
 }
@@ -29,6 +31,14 @@ func scanTree(root *html.Node) treeScan {
 
 func (scan *treeScan) inspect(node *html.Node) {
 	switch node.DataAtom {
+	case atom.A:
+		if href, ok := attribute(node, "href"); ok {
+			scan.hrefs = append(scan.hrefs, href)
+		}
+	case atom.Base:
+		if href, ok := attribute(node, "href"); ok && scan.baseHref == "" {
+			scan.baseHref = href
+		}
 	case atom.Html:
 		if lang, ok := attribute(node, "lang"); ok && scan.language == "" {
 			scan.language = lang

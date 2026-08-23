@@ -8,8 +8,6 @@ import (
 
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/charset"
-
-	"github.com/nikitakarpei/yacy-rwi-node/pagelinks"
 )
 
 const (
@@ -52,15 +50,15 @@ func (e htmlExtraction) Extract(
 		return Document{}, fmt.Errorf("render html: %w", err)
 	}
 
-	links := pagelinks.PageLinksOf(ctx, pageURL, root)
+	counts := linkCountsOf(baseURLOf(ctx, pageURL, scan.baseHref), scan.hrefs)
 
 	return Document{
 		Title:         scan.title,
 		Body:          document.Bytes(),
 		Format:        e.EmittedFormat(),
 		Language:      twoLetterLanguage(scan.language),
-		LocalLinks:    links.LocalLinks,
-		ExternalLinks: links.ExternalLinks,
+		LocalLinks:    counts.local,
+		ExternalLinks: counts.external,
 	}, nil
 }
 

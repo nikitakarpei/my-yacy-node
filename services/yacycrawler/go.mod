@@ -30,7 +30,7 @@ require (
 	github.com/prometheus/procfs v0.16.1 // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	golang.org/x/crypto v0.52.0 // indirect
-	golang.org/x/net v0.55.0 // indirect
+	golang.org/x/net v0.55.0
 	golang.org/x/sync v0.21.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
@@ -54,11 +54,6 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../libraries/page
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 
-require (
-	github.com/nikitakarpei/yacy-rwi-node/pagelinks v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
-)
+require github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
 
 replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract
-
-replace github.com/nikitakarpei/yacy-rwi-node/pagelinks => ../../libraries/pagelinks

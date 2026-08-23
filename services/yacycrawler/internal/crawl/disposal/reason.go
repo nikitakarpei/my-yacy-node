@@ -15,6 +15,5 @@ const (
 	BudgetTruncated      Reason = "budget-truncated"
 	Oversized            Reason = "oversized"
 	UnsupportedMediaType Reason = "unsupported-media-type"
-	Unextractable        Reason = "unextractable"
 	IndexingRefused      Reason = "indexing-refused"
 )

@@ -12,7 +12,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
-	"github.com/nikitakarpei/yacy-rwi-node/pagelinks"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
@@ -164,7 +163,6 @@ func buildVisitorSource(
 	return pagevisit.New(
 		fetchtiming.New(metrics, wallclock.Clock{}, fetch),
 		recrawl,
-		pagelinks.PageLinksFrom,
 		metrics,
 		scraperequestsjetstream.New(scrapeRequestJetStream),
 	), nil

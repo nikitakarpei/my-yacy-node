@@ -32,7 +32,6 @@ require (
 	github.com/nats-io/nats-server/v2 v2.14.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/pagelinks v0.0.0 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
@@ -70,5 +69,3 @@ require (
 replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract
 
 replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction
-
-replace github.com/nikitakarpei/yacy-rwi-node/pagelinks => ../../libraries/pagelinks

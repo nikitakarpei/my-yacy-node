@@ -10,9 +10,10 @@ components:
     in: .
 
 vendors:
-  pagelinks:
+  canonicalurl:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagelinks
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
   xnet:
     in:
       - golang.org/x/net/**
@@ -20,7 +21,7 @@ vendors:
 deps:
   documentextraction:
     canUse:
-      - pagelinks
+      - canonicalurl
       - xnet
 
 excludeFiles:

@@ -97,3 +97,79 @@ func TestExtractReportsNoLanguageWithoutATwoLetterLanguageTag(t *testing.T) {
 		}
 	}
 }
+
+func TestLinkCountsResolveAgainstTheBaseHref(t *testing.T) {
+	page := `<!DOCTYPE html><html><head><title>t</title>` +
+		`<base href="http://other.example/base/"></head>` +
+		`<body><p>` + longText + `</p><a href="sibling">s</a>` +
+		`<a href="http://host.example/x">x</a></body></html>`
+
+	doc, err := documentextraction.DocumentFrom(
+		t.Context(),
+		"http://host.example/dir/p",
+		"text/html",
+		[]byte(page),
+	)
+	if err != nil {
+		t.Fatalf("DocumentFrom: %v", err)
+	}
+	if doc.LocalLinks != 1 || doc.ExternalLinks != 1 {
+		t.Fatalf("base href ignored, local=%d external=%d", doc.LocalLinks, doc.ExternalLinks)
+	}
+}
+
+func TestAnUnresolvableBaseHrefLeavesThePageURLInPlace(t *testing.T) {
+	page := `<!DOCTYPE html><html><head><title>t</title>` +
+		`<base href="::not a url::"></head>` +
+		`<body><p>` + longText + `</p><a href="/local">l</a></body></html>`
+
+	doc, err := documentextraction.DocumentFrom(
+		t.Context(),
+		"http://host.example/dir/p",
+		"text/html",
+		[]byte(page),
+	)
+	if err != nil {
+		t.Fatalf("DocumentFrom: %v", err)
+	}
+	if doc.LocalLinks != 1 || doc.ExternalLinks != 0 {
+		t.Fatalf("local=%d external=%d", doc.LocalLinks, doc.ExternalLinks)
+	}
+}
+
+func TestARepeatedLinkCountsOnce(t *testing.T) {
+	page := `<!DOCTYPE html><html><head><title>t</title></head>` +
+		`<body><p>` + longText + `</p><a href="/one">a</a><a href="/one">b</a>` +
+		`<a>no href</a><a href="::broken::">c</a></body></html>`
+
+	doc, err := documentextraction.DocumentFrom(
+		t.Context(),
+		"http://host.example/dir/p",
+		"text/html",
+		[]byte(page),
+	)
+	if err != nil {
+		t.Fatalf("DocumentFrom: %v", err)
+	}
+	if doc.LocalLinks != 1 || doc.ExternalLinks != 0 {
+		t.Fatalf("local=%d external=%d", doc.LocalLinks, doc.ExternalLinks)
+	}
+}
+
+func TestAnUncanonicalPageURLCountsNoLinks(t *testing.T) {
+	page := `<!DOCTYPE html><html><head><title>t</title></head>` +
+		`<body><p>` + longText + `</p><a href="/local">l</a></body></html>`
+
+	doc, err := documentextraction.DocumentFrom(
+		t.Context(),
+		"::not a url::",
+		"text/html",
+		[]byte(page),
+	)
+	if err != nil {
+		t.Fatalf("DocumentFrom: %v", err)
+	}
+	if doc.LocalLinks != 0 || doc.ExternalLinks != 0 {
+		t.Fatalf("local=%d external=%d", doc.LocalLinks, doc.ExternalLinks)
+	}
+}

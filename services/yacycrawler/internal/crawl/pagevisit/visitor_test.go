@@ -10,7 +10,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/pagelinks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
@@ -84,36 +83,6 @@ func (f *fakeRecrawl) calls() []visitedCall {
 	return append([]visitedCall(nil), f.visitedCalls...)
 }
 
-type fakePageLinks struct {
-	links pagelinks.PageLinks
-	err   error
-}
-
-func (f fakePageLinks) pageLinksFrom(
-	_ context.Context,
-	_, _ string,
-	_ []byte,
-) (pagelinks.PageLinks, error) {
-	return f.links, f.err
-}
-
-func refusingLinks() pagelinks.PageLinks {
-	return pagelinks.PageLinks{RefusesIndexing: true}
-}
-
-func linkingLinks(t *testing.T, linked string) pagelinks.PageLinks {
-	t.Helper()
-	return pagelinks.PageLinks{
-		LinkedURLs: []canonicalurl.CanonicalURL{
-			canonicalurltest.CanonicalURLOf(t, linked),
-		},
-	}
-}
-
-func readablePageLinks() fakePageLinks {
-	return fakePageLinks{}
-}
-
 type recordingObserver struct {
 	mu                      sync.Mutex
 	refusals                map[refusal.Demand]int
@@ -175,10 +144,17 @@ func fetchedOutcome(t *testing.T) pagefetch.FetchOutcome {
 		Page: pagefetch.FetchedPage{
 			FinalURL:    canonicalurltest.CanonicalURLOf(t, "http://host/"),
 			ContentType: "text/html",
-			Body:        []byte("x"),
+			Body:        []byte(pageLinkingNext),
 		},
 		Version: pagefetch.PageVersion{EntityTag: `"etag"`},
 	}
+}
+
+func unreadableOutcome(t *testing.T) pagefetch.FetchOutcome {
+	t.Helper()
+	outcome := fetchedOutcome(t)
+	outcome.Page.ContentType = "application/pdf"
+	return outcome
 }
 
 func fetchOf(outcome pagefetch.FetchOutcome) *fakeFetch {
@@ -188,28 +164,20 @@ func fetchOf(outcome pagefetch.FetchOutcome) *fakeFetch {
 func newVisitor(
 	fetcher pagefetch.Fetcher,
 	recrawl pagevisit.RecrawlRule,
-	pageLinks fakePageLinks,
 	observer *recordingObserver,
 	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.Visitor {
-	return newVisitorSource(fetcher, recrawl, pageLinks, observer, scrapeRequests).
+	return newVisitorSource(fetcher, recrawl, observer, scrapeRequests).
 		VisitorFor(pagevisit.Honored)
 }
 
 func newVisitorSource(
 	fetcher pagefetch.Fetcher,
 	recrawl pagevisit.RecrawlRule,
-	pageLinks fakePageLinks,
 	observer *recordingObserver,
 	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.VisitorSource {
-	return pagevisit.New(
-		fetcher,
-		recrawl,
-		pageLinks.pageLinksFrom,
-		observer,
-		scrapeRequests,
-	)
+	return pagevisit.New(fetcher, recrawl, observer, scrapeRequests)
 }
 
 func visitHost(t *testing.T, visitor pagevisit.Visitor) pagevisit.VisitOutcome {
@@ -233,7 +201,6 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome(t)),
 		&fakeRecrawl{due: true},
-		fakePageLinks{links: linkingLinks(t, "http://host/next")},
 		observer,
 		scrapeRequests,
 	)
@@ -271,7 +238,6 @@ func TestVisitReportsNotAPageDisposal(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}),
 		recrawl,
-		readablePageLinks(),
 		newObserver(),
 		scrapeRequests,
 	)
@@ -299,7 +265,6 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchCeased}),
 		recrawl,
-		readablePageLinks(),
 		observer,
 		scrapeRequests,
 	)
@@ -328,7 +293,6 @@ func TestVisitReportsTransient(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchFailed}),
 		recrawl,
-		readablePageLinks(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -355,7 +319,6 @@ func TestVisitUnknownFetchStatusFails(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchStatus(99)}),
 		&fakeRecrawl{due: true},
-		readablePageLinks(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -372,7 +335,6 @@ func TestVisitReportsDeferred(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchDeferred, DeferFor: time.Second}),
 		&fakeRecrawl{due: true},
-		readablePageLinks(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -393,7 +355,6 @@ func TestVisitFetchErrorFails(t *testing.T) {
 	visitor := newVisitor(
 		&fakeFetch{err: errors.New("boom")},
 		&fakeRecrawl{due: true},
-		readablePageLinks(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -410,7 +371,6 @@ func TestVisitRecrawlDecisionErrorFails(t *testing.T) {
 	visitor := newVisitor(
 		&fakeFetch{},
 		&fakeRecrawl{err: errors.New("boom")},
-		readablePageLinks(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -428,7 +388,6 @@ func TestVisitReportsNotDueWithoutFetching(t *testing.T) {
 	visitor := newVisitor(
 		fetch,
 		&fakeRecrawl{due: false},
-		readablePageLinks(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -452,7 +411,6 @@ func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
 	visitor := newVisitor(
 		fetch,
 		&fakeRecrawl{due: true, version: known},
-		readablePageLinks(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -473,7 +431,6 @@ func TestVisitRecordsVersionAfterAbsorbingThePage(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome(t)),
 		recrawl,
-		readablePageLinks(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -497,16 +454,15 @@ func TestVisitReportsTheDisposalAbsorptionReached(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
-		fetchOf(fetchedOutcome(t)),
+		fetchOf(unreadableOutcome(t)),
 		recrawl,
-		fakePageLinks{err: errors.New("parser broke")},
 		newObserver(),
 		scrapeRequests,
 	)
 
 	outcome := visitHost(t, visitor)
 
-	if outcome.Disposal != disposal.Unextractable {
+	if outcome.Disposal != disposal.UnsupportedMediaType {
 		t.Fatalf("want the absorbed reason reported, got %q", outcome.Disposal)
 	}
 	if len(recrawl.calls()) != 1 {
@@ -528,7 +484,6 @@ func TestVisitNotModifiedRecordsVersionWithoutAbsorbing(t *testing.T) {
 			},
 		),
 		recrawl,
-		readablePageLinks(),
 		newObserver(),
 		scrapeRequests,
 	)
@@ -552,7 +507,6 @@ func TestVisitedErrorIsRecoverable(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome(t)),
 		recrawl,
-		readablePageLinks(),
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -565,7 +519,6 @@ func TestVisitScrapeRequestPublishErrorFails(t *testing.T) {
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome(t)),
 		&fakeRecrawl{due: true},
-		readablePageLinks(),
 		newObserver(),
 		scrapeRequests,
 	)

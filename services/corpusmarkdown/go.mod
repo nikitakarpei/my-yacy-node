@@ -20,7 +20,6 @@ require (
 	github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c // indirect
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/itlightning/dateparse v0.2.1 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/pagelinks v0.0.0 // indirect
 	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260526163538-3dc84a4a5aaa // indirect
@@ -75,5 +74,3 @@ require (
 replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract
 
 replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction
-
-replace github.com/nikitakarpei/yacy-rwi-node/pagelinks => ../../libraries/pagelinks

@@ -36,6 +36,12 @@ components:
     in: internal/crawl/fetchtiming/**
   pagevisit:
     in: internal/crawl/pagevisit/**
+  pagemarkup:
+    in: internal/crawl/pagemarkup/**
+  pagerobots:
+    in: internal/crawl/pagerobots/**
+  linkdiscovery:
+    in: internal/crawl/linkdiscovery/**
   recrawlrulesalwaysdue:
     in: internal/recrawlrules/alwaysdue/**
   recrawlrulesdueaftergrace:
@@ -75,9 +81,10 @@ vendors:
   pagefetch:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagefetch
-  pagelinks:
+  nethtml:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagelinks
+      - golang.org/x/net/html
+      - golang.org/x/net/html/**
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
@@ -112,13 +119,29 @@ deps:
   fetchtiming:
     canUse:
       - pagefetch
+  pagemarkup:
+    canUse:
+      - nethtml
+  pagerobots:
+    mayDependOn:
+      - pagemarkup
+    canUse:
+      - nethtml
+  linkdiscovery:
+    mayDependOn:
+      - pagemarkup
+    canUse:
+      - canonicalurl
+      - nethtml
   pagevisit:
     mayDependOn:
       - disposal
       - refusal
+      - pagemarkup
+      - pagerobots
+      - linkdiscovery
     canUse:
       - canonicalurl
-      - pagelinks
       - pagefetch
   recrawlrulesalwaysdue:
     mayDependOn:

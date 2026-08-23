@@ -1,26 +1,27 @@
 package pagevisit_test
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/pagelinks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
-func absorbedOutcome(
-	t *testing.T,
-	pageLinks fakePageLinks,
-	page pagefetch.FetchedPage,
-) pagevisit.VisitOutcome {
+const (
+	pageLinkingNext      = `<html><body><a href="/next">next</a></body></html>`
+	pageRefusingIndexing = `<html><head><meta name="robots" content="noindex">` +
+		`</head><body><a href="/next">next</a></body></html>`
+	pageRefusingLinkDiscovery = `<html><head><meta name="robots" content="nofollow">` +
+		`</head><body><a href="/next">next</a></body></html>`
+)
+
+func absorbedOutcome(t *testing.T, page pagefetch.FetchedPage) pagevisit.VisitOutcome {
 	t.Helper()
 	return visitHost(t, newVisitor(
 		fetchOf(fetchOutcomeOf(page)),
 		&fakeRecrawl{due: true},
-		pageLinks,
 		newObserver(),
 		&fakeScrapeRequests{},
 	))
@@ -32,15 +33,20 @@ func fetchOutcomeOf(page pagefetch.FetchedPage) pagefetch.FetchOutcome {
 
 func fetchedPage(t *testing.T) pagefetch.FetchedPage {
 	t.Helper()
+	return pageHolding(t, pageLinkingNext)
+}
+
+func pageHolding(t *testing.T, markup string) pagefetch.FetchedPage {
+	t.Helper()
 	return pagefetch.FetchedPage{
 		FinalURL:    canonicalurltest.CanonicalURLOf(t, "http://host/"),
 		ContentType: "text/html",
-		Body:        []byte("x"),
+		Body:        []byte(markup),
 	}
 }
 
 func TestVisitLeavesAReadablePageUndisposed(t *testing.T) {
-	outcome := absorbedOutcome(t, readablePageLinks(), fetchedPage(t))
+	outcome := absorbedOutcome(t, fetchedPage(t))
 
 	if outcome.Disposal != disposal.NotDisposed {
 		t.Fatalf("a readable page carries no disposal reason, got %q", outcome.Disposal)
@@ -48,26 +54,13 @@ func TestVisitLeavesAReadablePageUndisposed(t *testing.T) {
 }
 
 func TestVisitReportsUnsupportedMediaType(t *testing.T) {
-	outcome := absorbedOutcome(
-		t,
-		fakePageLinks{err: pagelinks.ErrNotHTML},
-		fetchedPage(t),
-	)
+	page := fetchedPage(t)
+	page.ContentType = "application/pdf"
+
+	outcome := absorbedOutcome(t, page)
 
 	if outcome.Disposal != disposal.UnsupportedMediaType {
 		t.Fatalf("want unsupported-media-type disposal, got %q", outcome.Disposal)
-	}
-}
-
-func TestVisitReportsUnextractableOnUnknownExtractionError(t *testing.T) {
-	outcome := absorbedOutcome(
-		t,
-		fakePageLinks{err: errors.New("parser broke")},
-		fetchedPage(t),
-	)
-
-	if outcome.Disposal != disposal.Unextractable {
-		t.Fatalf("want unextractable disposal, got %q", outcome.Disposal)
 	}
 }
 
@@ -75,7 +68,7 @@ func TestVisitReportsOversized(t *testing.T) {
 	page := fetchedPage(t)
 	page.Truncated = true
 
-	outcome := absorbedOutcome(t, readablePageLinks(), page)
+	outcome := absorbedOutcome(t, page)
 
 	if outcome.Disposal != disposal.Oversized {
 		t.Fatalf("want oversized disposal, got %q", outcome.Disposal)
@@ -83,22 +76,25 @@ func TestVisitReportsOversized(t *testing.T) {
 }
 
 func TestVisitHonorsMetaNoIndex(t *testing.T) {
-	outcome := absorbedOutcome(
-		t,
-		fakePageLinks{links: refusingLinks()},
-		fetchedPage(t),
-	)
+	outcome := absorbedOutcome(t, pageHolding(t, pageRefusingIndexing))
 
 	if outcome.Disposal != disposal.IndexingRefused {
 		t.Fatalf("noindex not honored, disposal = %q", outcome.Disposal)
 	}
 }
 
+func TestVisitStillFollowsAPageThatRefusesIndexing(t *testing.T) {
+	outcome := absorbedOutcome(t, pageHolding(t, pageRefusingIndexing))
+
+	if len(outcome.DiscoveredURLs) != 1 {
+		t.Fatalf("noindex should leave links followable, got %v", outcome.DiscoveredURLs)
+	}
+}
+
 func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T) {
 	source := newVisitorSource(
-		fetchOf(fetchOutcomeOf(fetchedPage(t))),
+		fetchOf(fetchOutcomeOf(pageHolding(t, pageRefusingIndexing))),
 		&fakeRecrawl{due: true},
-		fakePageLinks{links: refusingLinks()},
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -110,15 +106,19 @@ func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T)
 	}
 }
 
-func TestVisitHonorsNoFollow(t *testing.T) {
+func TestVisitHonorsMetaNoFollow(t *testing.T) {
+	outcome := absorbedOutcome(t, pageHolding(t, pageRefusingLinkDiscovery))
+
+	if len(outcome.DiscoveredURLs) != 0 {
+		t.Fatalf("nofollow should suppress discovered links, got %v", outcome.DiscoveredURLs)
+	}
+}
+
+func TestVisitHonorsARefusalTheHeadersState(t *testing.T) {
 	page := fetchedPage(t)
 	page.RefusesLinkDiscovery = true
 
-	outcome := absorbedOutcome(
-		t,
-		fakePageLinks{links: linkingLinks(t, "http://host/next")},
-		page,
-	)
+	outcome := absorbedOutcome(t, page)
 
 	if len(outcome.DiscoveredURLs) != 0 {
 		t.Fatalf("nofollow should suppress discovered links, got %v", outcome.DiscoveredURLs)
@@ -126,11 +126,7 @@ func TestVisitHonorsNoFollow(t *testing.T) {
 }
 
 func TestVisitReportsDiscoveredLinks(t *testing.T) {
-	outcome := absorbedOutcome(
-		t,
-		fakePageLinks{links: linkingLinks(t, "http://host/next")},
-		fetchedPage(t),
-	)
+	outcome := absorbedOutcome(t, fetchedPage(t))
 
 	if len(outcome.DiscoveredURLs) != 1 ||
 		outcome.DiscoveredURLs[0] != canonicalurltest.CanonicalURLOf(t, "http://host/next") {
