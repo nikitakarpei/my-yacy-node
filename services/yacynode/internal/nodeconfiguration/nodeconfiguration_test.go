@@ -54,15 +54,15 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if config.PeerExchange.SeedlistURLs != nil {
 		t.Errorf("SeedlistURLs = %v, want nil", config.PeerExchange.SeedlistURLs)
 	}
-	if config.ScrapeRequestIngest.Enabled() {
+	if config.ScrapeRequestIntake.Enabled() {
 		t.Errorf(
-			"ScrapeRequestIngest = %+v, want disabled without a broker",
-			config.ScrapeRequestIngest,
+			"ScrapeRequestIntake = %+v, want disabled without a broker",
+			config.ScrapeRequestIntake,
 		)
 	}
 }
 
-func TestLoadDefaultsTheScrapeRequestIngest(t *testing.T) {
+func TestLoadDefaultsTheScrapeRequestIntake(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
 		nodeconfiguration.EnvInitialPeerHash:      "0123456789AB",
 		nodeconfiguration.EnvPeerName:             "node",
@@ -74,33 +74,33 @@ func TestLoadDefaultsTheScrapeRequestIngest(t *testing.T) {
 		t.Fatalf("load config: %v", err)
 	}
 
-	if !config.ScrapeRequestIngest.Enabled() {
+	if !config.ScrapeRequestIntake.Enabled() {
 		t.Fatalf(
-			"ScrapeRequestIngest = %+v, want enabled by the broker url",
-			config.ScrapeRequestIngest,
+			"ScrapeRequestIntake = %+v, want enabled by the broker url",
+			config.ScrapeRequestIntake,
 		)
 	}
-	if config.ScrapeRequestIngest.ScrapeRequestSubject != nodeconfiguration.DefaultScrapeRequestSubject ||
-		config.ScrapeRequestIngest.ScrapeRequestDurable != nodeconfiguration.DefaultScrapeRequestDurable {
+	if config.ScrapeRequestIntake.ScrapeRequestSubject != nodeconfiguration.DefaultScrapeRequestSubject ||
+		config.ScrapeRequestIntake.ScrapeRequestDurable != nodeconfiguration.DefaultScrapeRequestDurable {
 		t.Errorf(
-			"ScrapeRequestIngest = %+v, want the default subject and durable",
-			config.ScrapeRequestIngest,
+			"ScrapeRequestIntake = %+v, want the default subject and durable",
+			config.ScrapeRequestIntake,
 		)
 	}
-	if config.ScrapeRequestIngest.UserAgent != nodeconfiguration.DefaultScrapeUserAgent ||
-		config.ScrapeRequestIngest.MaxBodyBytes != nodeconfiguration.DefaultScrapeMaxBodyBytes ||
-		config.ScrapeRequestIngest.FetchDeadline != nodeconfiguration.DefaultScrapeFetchDeadline ||
-		config.ScrapeRequestIngest.ScrapeRequestIntakeConcurrency != nodeconfiguration.DefaultScrapeRequestIntakeConcurrency {
+	if config.ScrapeRequestIntake.UserAgent != nodeconfiguration.DefaultScrapeUserAgent ||
+		config.ScrapeRequestIntake.MaxBodyBytes != nodeconfiguration.DefaultScrapeMaxBodyBytes ||
+		config.ScrapeRequestIntake.FetchDeadline != nodeconfiguration.DefaultScrapeFetchDeadline ||
+		config.ScrapeRequestIntake.ScrapeRequestIntakeConcurrency != nodeconfiguration.DefaultScrapeRequestIntakeConcurrency {
 		t.Errorf(
-			"ScrapeRequestIngest = %+v, want the default fetch settings",
-			config.ScrapeRequestIngest,
+			"ScrapeRequestIntake = %+v, want the default fetch settings",
+			config.ScrapeRequestIntake,
 		)
 	}
-	if config.ScrapeRequestIngest.ProxyURL == nil ||
-		config.ScrapeRequestIngest.ProxyURL.Host != "renderproxy:8080" {
+	if config.ScrapeRequestIntake.ProxyURL == nil ||
+		config.ScrapeRequestIntake.ProxyURL.Host != "renderproxy:8080" {
 		t.Errorf(
-			"scrape request ingest proxy = %v, want the configured proxy",
-			config.ScrapeRequestIngest.ProxyURL,
+			"scrape request intake proxy = %v, want the configured proxy",
+			config.ScrapeRequestIntake.ProxyURL,
 		)
 	}
 }
@@ -114,7 +114,7 @@ func TestLoadRequiresAScrapeProxyWhenIngestIsEnabled(t *testing.T) {
 	}))
 
 	if err == nil {
-		t.Fatal("scrape request ingest without a fetch proxy should fail")
+		t.Fatal("scrape request intake without a fetch proxy should fail")
 	}
 }
 
@@ -161,12 +161,12 @@ func TestLoadReadsOverrides(t *testing.T) {
 	if config.PeerExchange.AnnounceInterval != 30*time.Second {
 		t.Errorf("AnnounceInterval = %v, want 30s", config.PeerExchange.AnnounceInterval)
 	}
-	if config.ScrapeRequestIngest.ScrapeRequestSubject != "reached.subject" ||
-		config.ScrapeRequestIngest.ScrapeRequestDurable != "reached-durable" ||
-		config.ScrapeRequestIngest.ScrapeRequestIntakeConcurrency != 9 {
+	if config.ScrapeRequestIntake.ScrapeRequestSubject != "reached.subject" ||
+		config.ScrapeRequestIntake.ScrapeRequestDurable != "reached-durable" ||
+		config.ScrapeRequestIntake.ScrapeRequestIntakeConcurrency != 9 {
 		t.Errorf(
-			"ScrapeRequestIngest = %+v, want the named subject, durable, and scrapeRequestIntakeConcurrency",
-			config.ScrapeRequestIngest,
+			"ScrapeRequestIntake = %+v, want the named subject, durable, and scrapeRequestIntakeConcurrency",
+			config.ScrapeRequestIntake,
 		)
 	}
 }

@@ -13,17 +13,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
-type scrapeRequestIngest struct {
+type scrapeRequestIntake struct {
 	broker   *scraperequestbroker.ScrapeRequestBroker
 	consumer *scraperequestintake.ScrapeRequestConsumer
 }
 
-func openScrapeRequestIngest(
+func openScrapeRequestIntake(
 	ctx context.Context,
-	config nodeconfiguration.ScrapeRequestIngestConfig,
+	config nodeconfiguration.ScrapeRequestIntakeConfig,
 	urls urlmeta.URLReceiver,
 	postings rwiadmission.PostingReceiver,
-) (*scrapeRequestIngest, error) {
+) (*scrapeRequestIntake, error) {
 	broker, err := scraperequestbroker.Open(ctx, scraperequestbroker.Config{
 		ScrapeRequestNATSURL:           config.ScrapeRequestNATSURL,
 		ScrapeRequestSubject:           config.ScrapeRequestSubject,
@@ -40,7 +40,7 @@ func openScrapeRequestIngest(
 		return nil, err
 	}
 
-	return &scrapeRequestIngest{
+	return &scrapeRequestIntake{
 		broker: broker,
 		consumer: scraperequestintake.NewScrapeRequestConsumer(scraperequestintake.Config{
 			Source: broker.ScrapeRequests,
@@ -59,10 +59,10 @@ func openScrapeRequestIngest(
 	}, nil
 }
 
-func (i *scrapeRequestIngest) Run(ctx context.Context) error {
+func (i *scrapeRequestIntake) Run(ctx context.Context) error {
 	return i.consumer.Run(ctx)
 }
 
-func (i *scrapeRequestIngest) Close() {
+func (i *scrapeRequestIntake) Close() {
 	i.broker.Close()
 }

@@ -10,7 +10,7 @@ type Settings struct {
 	Escrow              EscrowConfig
 	PeerExchange        PeerExchangeConfig
 	Distribution        DistributionConfig
-	ScrapeRequestIngest ScrapeRequestIngestConfig
+	ScrapeRequestIntake ScrapeRequestIntakeConfig
 	Egress              EgressConfig
 }
 
@@ -50,7 +50,7 @@ func Load(getenv func(string) string) (Settings, error) {
 		return Settings{}, err
 	}
 
-	scrapeRequestIngest, err := loadScrapeRequestIngestConfig(getenv)
+	scrapeRequestIntake, err := loadScrapeRequestIntakeConfig(getenv)
 	if err != nil {
 		return Settings{}, err
 	}
@@ -62,7 +62,7 @@ func Load(getenv func(string) string) (Settings, error) {
 		Escrow:              escrow,
 		PeerExchange:        peerExchange,
 		Distribution:        distribution,
-		ScrapeRequestIngest: scrapeRequestIngest,
+		ScrapeRequestIntake: scrapeRequestIntake,
 		Egress:              egress,
 	}, nil
 }

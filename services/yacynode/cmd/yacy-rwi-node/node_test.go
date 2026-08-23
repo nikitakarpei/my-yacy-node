@@ -52,7 +52,7 @@ func TestRunNodeReportsAnUnusableListenAddress(t *testing.T) {
 
 func TestRunNodeReportsAnUnreachableScrapeRequestBroker(t *testing.T) {
 	config := nodeConfigFor(t)
-	config.ScrapeRequestIngest = nodeconfiguration.ScrapeRequestIngestConfig{
+	config.ScrapeRequestIntake = nodeconfiguration.ScrapeRequestIntakeConfig{
 		ScrapeRequestNATSURL:           "nats://127.0.0.1:1",
 		ScrapeRequestSubject:           nodeconfiguration.DefaultScrapeRequestSubject,
 		ScrapeRequestDurable:           nodeconfiguration.DefaultScrapeRequestDurable,

@@ -32,7 +32,7 @@ const (
 
 var DefaultScrapeRequestSubject = scraperequestcontract.ScrapeRequestSubject
 
-type ScrapeRequestIngestConfig struct {
+type ScrapeRequestIntakeConfig struct {
 	ScrapeRequestNATSURL           string
 	ScrapeRequestSubject           string
 	ScrapeRequestDurable           string
@@ -44,45 +44,45 @@ type ScrapeRequestIngestConfig struct {
 	ScrapeRequestIntakeConcurrency int
 }
 
-func (c ScrapeRequestIngestConfig) Enabled() bool {
+func (c ScrapeRequestIntakeConfig) Enabled() bool {
 	return c.ScrapeRequestNATSURL != ""
 }
 
-func loadScrapeRequestIngestConfig(getenv func(string) string) (ScrapeRequestIngestConfig, error) {
+func loadScrapeRequestIntakeConfig(getenv func(string) string) (ScrapeRequestIntakeConfig, error) {
 	scrapeRequestNATSURL := strings.TrimSpace(getenv(EnvScrapeRequestNATSURL))
 	if scrapeRequestNATSURL == "" {
-		return ScrapeRequestIngestConfig{}, nil
+		return ScrapeRequestIntakeConfig{}, nil
 	}
 	proxyURL, err := envconfig.RequiredHTTPURL(getenv, EnvScrapeProxyURL)
 	if err != nil {
-		return ScrapeRequestIngestConfig{}, err
+		return ScrapeRequestIntakeConfig{}, err
 	}
 	proxyDialMode, err := http.ProxyDialModeNamed(
 		envconfig.String(getenv, EnvScrapeProxyDialMode, DefaultScrapeProxyDialMode),
 	)
 	if err != nil {
-		return ScrapeRequestIngestConfig{}, fmt.Errorf("%s: %w", EnvScrapeProxyDialMode, err)
+		return ScrapeRequestIntakeConfig{}, fmt.Errorf("%s: %w", EnvScrapeProxyDialMode, err)
 	}
 	maxBodyBytes, err := envconfig.PositiveInt64(
 		getenv, EnvScrapeMaxBodyBytes, DefaultScrapeMaxBodyBytes,
 	)
 	if err != nil {
-		return ScrapeRequestIngestConfig{}, err
+		return ScrapeRequestIntakeConfig{}, err
 	}
 	fetchDeadline, err := envconfig.Duration(
 		getenv, EnvScrapeFetchDeadline, DefaultScrapeFetchDeadline,
 	)
 	if err != nil {
-		return ScrapeRequestIngestConfig{}, err
+		return ScrapeRequestIntakeConfig{}, err
 	}
 	scrapeRequestIntakeConcurrency, err := envconfig.PositiveInt(
 		getenv, EnvScrapeRequestIntakeConcurrency, DefaultScrapeRequestIntakeConcurrency,
 	)
 	if err != nil {
-		return ScrapeRequestIngestConfig{}, err
+		return ScrapeRequestIntakeConfig{}, err
 	}
 
-	return ScrapeRequestIngestConfig{
+	return ScrapeRequestIntakeConfig{
 		ScrapeRequestNATSURL: scrapeRequestNATSURL,
 		ScrapeRequestSubject: envconfig.String(
 			getenv, EnvScrapeRequestSubject, DefaultScrapeRequestSubject,
