@@ -2,7 +2,6 @@
 package pageformats
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/fulltext"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/markdown"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/readablehtml"
@@ -10,17 +9,7 @@ import (
 )
 
 func New() (DerivableFormats, error) {
-	derivableFormats := derivableFormatsOf(pageDerivationCatalog())
-	if err := derivableFormats.ensureNoDerivationCycle(); err != nil {
-		return DerivableFormats{}, err
-	}
-	if err := derivableFormats.ensureNoDanglingFormat(
-		documentextraction.EmittedFormats(),
-		derivableFormats.targetFormats(),
-	); err != nil {
-		return DerivableFormats{}, err
-	}
-	return derivableFormats, nil
+	return derivableFormatsOf(pageDerivationCatalog())
 }
 
 func pageDerivationCatalog() []formatDerivation {

@@ -22,6 +22,8 @@ components:
     in: internal/pagederivations/readabletext/**
   htmlflattening:
     in: internal/htmlflattening/**
+  derivationreach:
+    in: internal/derivationreach/**
 
 vendors:
   documentextraction:
@@ -44,6 +46,7 @@ vendors:
 deps:
   pageformats:
     mayDependOn:
+      - derivationreach
       - pagederivationsfulltext
       - pagederivationsmarkdown
       - pagederivationsreadablehtml
