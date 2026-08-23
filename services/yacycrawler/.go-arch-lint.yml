@@ -75,9 +75,9 @@ vendors:
   pagefetch:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagefetch
-  documentextraction:
+  pagelinks:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/documentextraction
+      - github.com/nikitakarpei/yacy-rwi-node/pagelinks
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
@@ -118,7 +118,7 @@ deps:
       - refusal
     canUse:
       - canonicalurl
-      - documentextraction
+      - pagelinks
       - pagefetch
   recrawlrulesalwaysdue:
     mayDependOn:

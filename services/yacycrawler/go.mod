@@ -55,10 +55,10 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagescrape => ../../libraries/page
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 
 require (
-	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagelinks v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
 )
 
 replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract
 
-replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction
+replace github.com/nikitakarpei/yacy-rwi-node/pagelinks => ../../libraries/pagelinks

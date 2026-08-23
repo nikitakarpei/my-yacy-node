@@ -4,19 +4,19 @@ import (
 	"context"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pagelinks"
 )
 
 type VisitorSource interface {
 	VisitorFor(indexingRefusal IndexingRefusal) Visitor
 }
 
-type DocumentSource func(
+type PageLinksSource func(
 	ctx context.Context,
 	pageURL, contentType string,
 	body []byte,
-) (documentextraction.Document, error)
+) (pagelinks.PageLinks, error)
 
 type ScrapeRequests interface {
 	Publish(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) error
@@ -25,7 +25,7 @@ type ScrapeRequests interface {
 type visitorSource struct {
 	fetcher        pagefetch.Fetcher
 	recrawl        RecrawlRule
-	documentSource DocumentSource
+	pageLinks      PageLinksSource
 	observer       VisitProgress
 	scrapeRequests ScrapeRequests
 }
@@ -33,14 +33,14 @@ type visitorSource struct {
 func New(
 	fetcher pagefetch.Fetcher,
 	recrawl RecrawlRule,
-	documentSource DocumentSource,
+	pageLinks PageLinksSource,
 	observer VisitProgress,
 	scrapeRequests ScrapeRequests,
 ) VisitorSource {
 	return &visitorSource{
 		fetcher:        fetcher,
 		recrawl:        recrawl,
-		documentSource: documentSource,
+		pageLinks:      pageLinks,
 		observer:       observer,
 		scrapeRequests: scrapeRequests,
 	}
@@ -50,7 +50,7 @@ func (s *visitorSource) VisitorFor(indexingRefusal IndexingRefusal) Visitor {
 	return &visitor{
 		fetcher:         s.fetcher,
 		recrawl:         s.recrawl,
-		documentSource:  s.documentSource,
+		pageLinks:       s.pageLinks,
 		indexingRefusal: indexingRefusal,
 		observer:        s.observer,
 		scrapeRequests:  s.scrapeRequests,

@@ -6,21 +6,22 @@ allow:
   deepScan: false
 
 components:
-  documentextraction:
+  pagelinks:
     in: .
 
 vendors:
-  pagelinks:
+  canonicalurl:
     in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagelinks
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
   xnet:
     in:
       - golang.org/x/net/**
 
 deps:
-  documentextraction:
+  pagelinks:
     canUse:
-      - pagelinks
+      - canonicalurl
       - xnet
 
 excludeFiles:

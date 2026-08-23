@@ -8,15 +8,15 @@ import (
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pagelinks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 )
 
 const (
 	msgRecrawlRecordFailed = "recrawl record failed, next visit may be redundant"
-	msgExtractionFailed    = "document extraction failed"
+	msgLinkReadingFailed   = "page links unreadable"
 )
 
 type Visitor interface {
@@ -26,7 +26,7 @@ type Visitor interface {
 type visitor struct {
 	fetcher         pagefetch.Fetcher
 	recrawl         RecrawlRule
-	documentSource  DocumentSource
+	pageLinks       PageLinksSource
 	indexingRefusal IndexingRefusal
 	observer        VisitProgress
 	scrapeRequests  ScrapeRequests
@@ -101,21 +101,19 @@ func (v *visitor) absorptionOf(
 	if page.Truncated {
 		return absorbedPage(disposal.Oversized, nil)
 	}
-	document, err := v.documentSource(
-		ctx, page.FinalURL.String(), page.ContentType, page.Body,
-	)
+	links, err := v.pageLinks(ctx, page.FinalURL.String(), page.ContentType, page.Body)
 	if err != nil {
-		slog.WarnContext(ctx, msgExtractionFailed,
+		slog.WarnContext(ctx, msgLinkReadingFailed,
 			slog.String("url", page.FinalURL.String()),
 			slog.Any("error", err),
 		)
-		return absorbedPage(disposalOfExtractionFailure(err), nil)
+		return absorbedPage(disposalOfUnreadableLinks(err), nil)
 	}
 
-	if v.indexingRefusal == Honored && (document.RefusesIndexing || page.RefusesIndexing) {
-		return absorbedPage(disposal.IndexingRefused, discoveredLinksOf(page, document))
+	if v.indexingRefusal == Honored && (links.RefusesIndexing || page.RefusesIndexing) {
+		return absorbedPage(disposal.IndexingRefused, discoveredURLsOf(page, links))
 	}
-	return absorbedPage(disposal.NotDisposed, discoveredLinksOf(page, document))
+	return absorbedPage(disposal.NotDisposed, discoveredURLsOf(page, links))
 }
 
 func absorbedPage(reason disposal.Reason, discoveredURLs []canonicalurl.CanonicalURL) VisitOutcome {
@@ -127,21 +125,21 @@ func absorbedPage(reason disposal.Reason, discoveredURLs []canonicalurl.Canonica
 	}
 }
 
-func disposalOfExtractionFailure(err error) disposal.Reason {
-	if errors.Is(err, documentextraction.ErrUnsupportedMediaType) {
+func disposalOfUnreadableLinks(err error) disposal.Reason {
+	if errors.Is(err, pagelinks.ErrNotHTML) {
 		return disposal.UnsupportedMediaType
 	}
 	return disposal.Unextractable
 }
 
-func discoveredLinksOf(
+func discoveredURLsOf(
 	page pagefetch.FetchedPage,
-	document documentextraction.Document,
+	links pagelinks.PageLinks,
 ) []canonicalurl.CanonicalURL {
-	if document.RefusesLinkDiscovery || page.RefusesLinkDiscovery {
+	if links.RefusesLinkDiscovery || page.RefusesLinkDiscovery {
 		return nil
 	}
-	return document.DiscoveredURLs
+	return links.LinkedURLs
 }
 
 func (v *visitor) recordVisit(

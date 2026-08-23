@@ -5,22 +5,22 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pagelinks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
 func absorbedOutcome(
 	t *testing.T,
-	documentSource fakeDocumentSource,
+	pageLinks fakePageLinks,
 	page pagefetch.FetchedPage,
 ) pagevisit.VisitOutcome {
 	t.Helper()
 	return visitHost(t, newVisitor(
 		fetchOf(fetchOutcomeOf(page)),
 		&fakeRecrawl{due: true},
-		documentSource,
+		pageLinks,
 		newObserver(),
 		&fakeScrapeRequests{},
 	))
@@ -40,7 +40,7 @@ func fetchedPage(t *testing.T) pagefetch.FetchedPage {
 }
 
 func TestVisitLeavesAReadablePageUndisposed(t *testing.T) {
-	outcome := absorbedOutcome(t, readableDocumentSource(), fetchedPage(t))
+	outcome := absorbedOutcome(t, readablePageLinks(), fetchedPage(t))
 
 	if outcome.Disposal != disposal.NotDisposed {
 		t.Fatalf("a readable page carries no disposal reason, got %q", outcome.Disposal)
@@ -50,7 +50,7 @@ func TestVisitLeavesAReadablePageUndisposed(t *testing.T) {
 func TestVisitReportsUnsupportedMediaType(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
-		fakeDocumentSource{err: documentextraction.ErrUnsupportedMediaType},
+		fakePageLinks{err: pagelinks.ErrNotHTML},
 		fetchedPage(t),
 	)
 
@@ -62,7 +62,7 @@ func TestVisitReportsUnsupportedMediaType(t *testing.T) {
 func TestVisitReportsUnextractableOnUnknownExtractionError(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
-		fakeDocumentSource{err: errors.New("parser broke")},
+		fakePageLinks{err: errors.New("parser broke")},
 		fetchedPage(t),
 	)
 
@@ -75,7 +75,7 @@ func TestVisitReportsOversized(t *testing.T) {
 	page := fetchedPage(t)
 	page.Truncated = true
 
-	outcome := absorbedOutcome(t, readableDocumentSource(), page)
+	outcome := absorbedOutcome(t, readablePageLinks(), page)
 
 	if outcome.Disposal != disposal.Oversized {
 		t.Fatalf("want oversized disposal, got %q", outcome.Disposal)
@@ -85,7 +85,7 @@ func TestVisitReportsOversized(t *testing.T) {
 func TestVisitHonorsMetaNoIndex(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
-		fakeDocumentSource{document: refusingDocument()},
+		fakePageLinks{links: refusingLinks()},
 		fetchedPage(t),
 	)
 
@@ -98,7 +98,7 @@ func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T)
 	source := newVisitorSource(
 		fetchOf(fetchOutcomeOf(fetchedPage(t))),
 		&fakeRecrawl{due: true},
-		fakeDocumentSource{document: refusingDocument()},
+		fakePageLinks{links: refusingLinks()},
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
@@ -116,7 +116,7 @@ func TestVisitHonorsNoFollow(t *testing.T) {
 
 	outcome := absorbedOutcome(
 		t,
-		fakeDocumentSource{document: linkingDocument(t, "http://host/next")},
+		fakePageLinks{links: linkingLinks(t, "http://host/next")},
 		page,
 	)
 
@@ -128,7 +128,7 @@ func TestVisitHonorsNoFollow(t *testing.T) {
 func TestVisitReportsDiscoveredLinks(t *testing.T) {
 	outcome := absorbedOutcome(
 		t,
-		fakeDocumentSource{document: linkingDocument(t, "http://host/next")},
+		fakePageLinks{links: linkingLinks(t, "http://host/next")},
 		fetchedPage(t),
 	)
 

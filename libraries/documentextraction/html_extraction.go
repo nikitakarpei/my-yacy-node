@@ -4,21 +4,17 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"log/slog"
 	"strings"
 
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/charset"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/pagelinks"
 )
 
 const (
 	mediaHTML  = "text/html"
 	mediaXHTML = "application/xhtml+xml"
-
-	msgBaseHrefUnresolved = "base href unresolved, using page url"
-	msgPageURLUncanonical = "page url is not canonical, resolving links without it"
 )
 
 type htmlExtraction struct{}
@@ -56,68 +52,18 @@ func (e htmlExtraction) Extract(
 		return Document{}, fmt.Errorf("render html: %w", err)
 	}
 
-	links, local, external := discoveredLinks(baseURLOf(ctx, pageURL, scan.baseHref), scan.hrefs)
+	links := pagelinks.PageLinksOf(ctx, pageURL, root)
 
 	return Document{
 		Title:                scan.title,
 		Body:                 document.Bytes(),
 		Format:               e.EmittedFormat(),
 		Language:             twoLetterLanguage(scan.language),
-		DiscoveredURLs:       links,
-		LocalLinks:           local,
-		ExternalLinks:        external,
-		RefusesIndexing:      scan.noIndex,
-		RefusesLinkDiscovery: scan.noFollow,
+		LocalLinks:           links.LocalLinks,
+		ExternalLinks:        links.ExternalLinks,
+		RefusesIndexing:      links.RefusesIndexing,
+		RefusesLinkDiscovery: links.RefusesLinkDiscovery,
 	}, nil
-}
-
-func baseURLOf(ctx context.Context, pageURL, baseHref string) canonicalurl.CanonicalURL {
-	canonicalPageURL, err := canonicalurl.CanonicalURLOf(pageURL)
-	if err != nil {
-		slog.DebugContext(ctx, msgPageURLUncanonical,
-			slog.String("url", pageURL),
-			slog.Any("error", err),
-		)
-		return canonicalurl.CanonicalURL{}
-	}
-	if baseHref == "" {
-		return canonicalPageURL
-	}
-	base, err := canonicalPageURL.CanonicalURLOfLink(baseHref)
-	if err != nil {
-		slog.DebugContext(ctx, msgBaseHrefUnresolved,
-			slog.String("url", pageURL),
-			slog.String("baseHref", baseHref),
-			slog.Any("error", err),
-		)
-		return canonicalPageURL
-	}
-	return base
-}
-
-func discoveredLinks(
-	baseURL canonicalurl.CanonicalURL,
-	hrefs []string,
-) (links []canonicalurl.CanonicalURL, local, external int) {
-	baseHost := baseURL.Hostname()
-	seen := map[canonicalurl.CanonicalURL]struct{}{}
-	for _, href := range hrefs {
-		canonical, err := baseURL.CanonicalURLOfLink(href)
-		if err != nil {
-			continue
-		}
-		if _, ok := seen[canonical]; ok {
-			continue
-		}
-		seen[canonical] = struct{}{}
-		links = append(links, canonical)
-		if canonical.Hostname() == baseHost {
-			local++
-		} else {
-			external++
-		}
-	}
-	return links, local, external
 }
 
 func twoLetterLanguage(language string) string {
