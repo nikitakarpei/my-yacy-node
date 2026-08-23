@@ -30,36 +30,17 @@ func (f DerivableFormats) BodyIn(
 	document documentextraction.Document,
 	pageURL canonicalurl.CanonicalURL,
 ) ([]byte, bool, error) {
-	return f.bodyIn(
-		format,
-		pageURL,
-		map[documentextraction.Format][]byte{document.Format: document.Body},
-		map[documentextraction.Format]bool{},
-	)
-}
-
-func (f DerivableFormats) bodyIn(
-	format documentextraction.Format,
-	pageURL canonicalurl.CanonicalURL,
-	derivedBodies map[documentextraction.Format][]byte,
-	pendingFormats map[documentextraction.Format]bool,
-) ([]byte, bool, error) {
-	if body, derived := derivedBodies[format]; derived {
-		return body, true, nil
+	if format == document.Format {
+		return document.Body, true, nil
 	}
-	if pendingFormats[format] {
-		return nil, false, nil
-	}
-	pendingFormats[format] = true
-	defer delete(pendingFormats, format)
 	for _, derivation := range f.byTargetFormat[format] {
-		sourceBody, ready, err := f.bodyIn(
-			derivation.SourceFormat(), pageURL, derivedBodies, pendingFormats,
+		sourceBody, sourceDerived, err := f.BodyIn(
+			derivation.SourceFormat(), document, pageURL,
 		)
 		if err != nil {
 			return nil, false, err
 		}
-		if !ready {
+		if !sourceDerived {
 			continue
 		}
 		body, derived, err := derivation.BodyFrom(pageURL, sourceBody)
@@ -69,7 +50,6 @@ func (f DerivableFormats) bodyIn(
 		if !derived {
 			continue
 		}
-		derivedBodies[format] = body
 		return body, true, nil
 	}
 	return nil, false, nil
@@ -83,23 +63,34 @@ func (f DerivableFormats) targetFormats() []documentextraction.Format {
 	return targetFormats
 }
 
-func (f DerivableFormats) derivable(
-	sourceFormat, format documentextraction.Format,
-	pendingFormats map[documentextraction.Format]bool,
-) bool {
-	if format == sourceFormat {
-		return true
-	}
-	if pendingFormats[format] {
-		return false
-	}
-	pendingFormats[format] = true
-	for _, derivation := range f.byTargetFormat[format] {
-		if f.derivable(sourceFormat, derivation.SourceFormat(), pendingFormats) {
-			return true
+func (f DerivableFormats) ensureNoDerivationCycle() error {
+	for targetFormat := range f.byTargetFormat {
+		if err := f.ensureNoDerivationCycleFrom(
+			targetFormat, map[documentextraction.Format]bool{},
+		); err != nil {
+			return err
 		}
 	}
-	return false
+	return nil
+}
+
+func (f DerivableFormats) ensureNoDerivationCycleFrom(
+	format documentextraction.Format,
+	pendingFormats map[documentextraction.Format]bool,
+) error {
+	if pendingFormats[format] {
+		return fmt.Errorf("%s derives from itself", format)
+	}
+	pendingFormats[format] = true
+	defer delete(pendingFormats, format)
+	for _, derivation := range f.byTargetFormat[format] {
+		if err := f.ensureNoDerivationCycleFrom(
+			derivation.SourceFormat(), pendingFormats,
+		); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (f DerivableFormats) ensureNoDanglingFormat(
@@ -123,7 +114,21 @@ func (f DerivableFormats) derivableFromAny(
 	targetFormat documentextraction.Format,
 ) bool {
 	for _, sourceFormat := range sourceFormats {
-		if f.derivable(sourceFormat, targetFormat, map[documentextraction.Format]bool{}) {
+		if f.derivable(sourceFormat, targetFormat) {
+			return true
+		}
+	}
+	return false
+}
+
+func (f DerivableFormats) derivable(
+	sourceFormat, format documentextraction.Format,
+) bool {
+	if format == sourceFormat {
+		return true
+	}
+	for _, derivation := range f.byTargetFormat[format] {
+		if f.derivable(sourceFormat, derivation.SourceFormat()) {
 			return true
 		}
 	}
@@ -135,7 +140,7 @@ func (f DerivableFormats) derivesAny(
 	targetFormats []documentextraction.Format,
 ) bool {
 	for _, targetFormat := range targetFormats {
-		if f.derivable(sourceFormat, targetFormat, map[documentextraction.Format]bool{}) {
+		if f.derivable(sourceFormat, targetFormat) {
 			return true
 		}
 	}

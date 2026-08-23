@@ -11,6 +11,9 @@ import (
 
 func New() (DerivableFormats, error) {
 	derivableFormats := derivableFormatsOf(pageDerivationCatalog())
+	if err := derivableFormats.ensureNoDerivationCycle(); err != nil {
+		return DerivableFormats{}, err
+	}
 	if err := derivableFormats.ensureNoDanglingFormat(
 		documentextraction.EmittedFormats(),
 		derivableFormats.targetFormats(),
