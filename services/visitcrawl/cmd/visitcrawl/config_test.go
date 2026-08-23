@@ -80,10 +80,10 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	env["VISITCRAWL_LISTEN_ADDR"] = ":9000"
 	env["VISITCRAWL_ORDER_TIMEOUT"] = "2s"
 	env["VISITCRAWL_MAX_IN_FLIGHT"] = "8"
-	env["VISITCRAWL_CRAWL_SCOPE"] = "wide"
-	env["VISITCRAWL_CRAWL_MAX_DEPTH"] = "3"
-	env["VISITCRAWL_CRAWL_ALLOW_QUERY_URLS"] = "true"
-	env["VISITCRAWL_CRAWL_IGNORES_INDEXING_REFUSAL"] = "false"
+	env["VISITCRAWL_SCOPE"] = "wide"
+	env["VISITCRAWL_MAX_DEPTH"] = "3"
+	env["VISITCRAWL_ALLOW_QUERY_URLS"] = "true"
+	env["VISITCRAWL_IGNORES_INDEXING_REFUSAL"] = "false"
 	cfg, err := visitcrawl.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatal(err)
@@ -104,7 +104,7 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 
 func TestLoadServiceConfigRejectsUnknownScope(t *testing.T) {
 	env := baseEnv()
-	env["VISITCRAWL_CRAWL_SCOPE"] = "galaxy"
+	env["VISITCRAWL_SCOPE"] = "galaxy"
 	if _, err := visitcrawl.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("unknown scope should error")
 	}
@@ -116,10 +116,10 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"VISITCRAWL_ORDER_TIMEOUT": "nope"},
 		{"VISITCRAWL_MAX_IN_FLIGHT": "0"},
 		{"VISITCRAWL_MAX_BODY_BYTES": "-1"},
-		{"VISITCRAWL_CRAWL_MAX_DEPTH": "-1"},
-		{"VISITCRAWL_CRAWL_MAX_PAGES_PER_HOST": "0"},
-		{"VISITCRAWL_CRAWL_ALLOW_QUERY_URLS": "maybe"},
-		{"VISITCRAWL_CRAWL_IGNORES_INDEXING_REFUSAL": "maybe"},
+		{"VISITCRAWL_MAX_DEPTH": "-1"},
+		{"VISITCRAWL_MAX_PAGES_PER_HOST": "0"},
+		{"VISITCRAWL_ALLOW_QUERY_URLS": "maybe"},
+		{"VISITCRAWL_IGNORES_INDEXING_REFUSAL": "maybe"},
 	} {
 		env := baseEnv()
 		for k, v := range bad {
