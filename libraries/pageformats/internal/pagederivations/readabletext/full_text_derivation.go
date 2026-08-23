@@ -7,7 +7,7 @@ import (
 
 type FullTextDerivation struct{}
 
-func NewFullTextDerivation() FullTextDerivation {
+func FromFullText() FullTextDerivation {
 	return FullTextDerivation{}
 }
 
@@ -19,7 +19,7 @@ func (FullTextDerivation) TargetFormat() documentextraction.Format {
 	return documentextraction.FormatReadableText
 }
 
-func (FullTextDerivation) Derive(
+func (FullTextDerivation) BodyFrom(
 	_ canonicalurl.CanonicalURL,
 	body []byte,
 ) ([]byte, bool, error) {

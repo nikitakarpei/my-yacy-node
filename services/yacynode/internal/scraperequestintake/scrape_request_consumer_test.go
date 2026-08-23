@@ -171,7 +171,7 @@ func run(
 ) error {
 	t.Helper()
 
-	derivations, err := pageformats.New()
+	derivableFormats, err := pageformats.New()
 	if err != nil {
 		t.Fatalf("page formats: %v", err)
 	}
@@ -179,7 +179,7 @@ func run(
 	return scraperequestintake.NewScrapeRequestConsumer(scraperequestintake.Config{
 		Source:      fakeSource{iterator: &fakeIterator{messages: []jetstream.Msg{msg}}},
 		Fetcher:     fetcher,
-		Derivations: derivations,
+		Formats:     derivableFormats,
 		URLs:        urls,
 		Postings:    postings,
 		Concurrency: 1,

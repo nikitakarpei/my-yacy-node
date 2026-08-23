@@ -10,7 +10,7 @@ import (
 )
 
 func TestDeriveDeclaresDocumentHTMLToMarkdown(t *testing.T) {
-	derivation := markdown.NewDocumentHTMLDerivation()
+	derivation := markdown.FromDocumentHTML()
 	if source := derivation.SourceFormat(); source != documentextraction.FormatDocumentHTML {
 		t.Fatalf("source format = %q, want document-html", source)
 	}
@@ -20,7 +20,7 @@ func TestDeriveDeclaresDocumentHTMLToMarkdown(t *testing.T) {
 }
 
 func TestDeriveConvertsWholeDocumentToMarkdown(t *testing.T) {
-	body, derived, err := markdown.NewDocumentHTMLDerivation().Derive(
+	body, derived, err := markdown.FromDocumentHTML().BodyFrom(
 		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 		[]byte(
 			`<html><body><h1>Title</h1><p>A <b>bold</b> word and a `+

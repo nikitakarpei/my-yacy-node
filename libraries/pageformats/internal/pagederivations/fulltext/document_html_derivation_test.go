@@ -10,13 +10,13 @@ import (
 )
 
 func TestDeriveFlattensWholeDocumentAndStripsMarkup(t *testing.T) {
-	derivation := fulltext.NewDocumentHTMLDerivation()
+	derivation := fulltext.FromDocumentHTML()
 	body := []byte(
 		`<html><body><nav>navigation menu</nav>` +
 			`<article><p>the quick fox</p></article>` +
 			`<script>var drop = 1</script></body></html>`,
 	)
-	text, derived, err := derivation.Derive(
+	text, derived, err := derivation.BodyFrom(
 		canonicalurltest.CanonicalURLOf(t, "http://example.com/"), body,
 	)
 	if err != nil || !derived {
@@ -35,7 +35,7 @@ func TestDeriveFlattensWholeDocumentAndStripsMarkup(t *testing.T) {
 }
 
 func TestDeriveDeclaresDocumentHTMLToFullText(t *testing.T) {
-	derivation := fulltext.NewDocumentHTMLDerivation()
+	derivation := fulltext.FromDocumentHTML()
 	if derivation.SourceFormat() != documentextraction.FormatDocumentHTML {
 		t.Fatalf("source format = %q", derivation.SourceFormat())
 	}

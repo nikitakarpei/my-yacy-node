@@ -172,14 +172,14 @@ func run(
 	progress pageintake.IndexProgress,
 ) error {
 	t.Helper()
-	derivations, err := pageformats.New()
+	derivableFormats, err := pageformats.New()
 	if err != nil {
 		t.Fatalf("page formats: %v", err)
 	}
 	return pageintake.NewScrapeRequestConsumer(pageintake.Config{
 		Source:      source,
 		Fetcher:     fetcher,
-		Derivations: derivations,
+		Formats:     derivableFormats,
 		SearchIndex: searchIndex,
 		Progress:    progress,
 		Concurrency: 1,

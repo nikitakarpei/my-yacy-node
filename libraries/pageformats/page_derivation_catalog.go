@@ -9,24 +9,24 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats/internal/pagederivations/readabletext"
 )
 
-func New() (FormatDerivations, error) {
-	derivations := FormatDerivationsOf(pageDerivationCatalog())
-	if err := derivations.EnsureNoDanglingFormat(
+func New() (DerivableFormats, error) {
+	derivableFormats := DerivableFormatsOf(pageDerivationCatalog())
+	if err := derivableFormats.EnsureNoDanglingFormat(
 		documentextraction.EmittedFormats(),
-		derivations.TargetFormats(),
+		derivableFormats.TargetFormats(),
 	); err != nil {
-		return FormatDerivations{}, err
+		return DerivableFormats{}, err
 	}
-	return derivations, nil
+	return derivableFormats, nil
 }
 
-func pageDerivationCatalog() []Derivation {
-	return []Derivation{
-		fulltext.NewDocumentHTMLDerivation(),
-		readablehtml.NewDocumentHTMLDerivation(),
-		readabletext.NewReadableHTMLDerivation(),
-		readabletext.NewFullTextDerivation(),
-		markdown.NewReadableHTMLDerivation(),
-		markdown.NewDocumentHTMLDerivation(),
+func pageDerivationCatalog() []FormatDerivation {
+	return []FormatDerivation{
+		fulltext.FromDocumentHTML(),
+		readablehtml.FromDocumentHTML(),
+		readabletext.FromReadableHTML(),
+		readabletext.FromFullText(),
+		markdown.FromReadableHTML(),
+		markdown.FromDocumentHTML(),
 	}
 }

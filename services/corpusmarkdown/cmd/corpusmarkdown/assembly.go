@@ -53,7 +53,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
-	derivations, err := pageformats.New()
+	derivableFormats, err := pageformats.New()
 	if err != nil {
 		return err
 	}
@@ -70,7 +70,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	intake := markdownintake.NewScrapeRequestConsumer(markdownintake.Config{
 		Source:      consumer,
 		Fetcher:     fetcher,
-		Derivations: derivations,
+		Formats:     derivableFormats,
 		Corpus:      corpus,
 		Progress:    metrics,
 		Concurrency: cfg.Concurrency,

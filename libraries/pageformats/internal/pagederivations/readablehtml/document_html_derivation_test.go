@@ -18,7 +18,7 @@ const document = `<!DOCTYPE html><html lang="en"><head><title>Sample Article</ti
 </body></html>`
 
 func TestDeriveDeclaresDocumentHTMLToReadableHTML(t *testing.T) {
-	derivation := readablehtml.NewDocumentHTMLDerivation()
+	derivation := readablehtml.FromDocumentHTML()
 	if source := derivation.SourceFormat(); source != documentextraction.FormatDocumentHTML {
 		t.Fatalf("source format = %q, want document-html", source)
 	}
@@ -28,7 +28,7 @@ func TestDeriveDeclaresDocumentHTMLToReadableHTML(t *testing.T) {
 }
 
 func TestDeriveExtractsMainArticle(t *testing.T) {
-	body, derived, err := readablehtml.NewDocumentHTMLDerivation().Derive(
+	body, derived, err := readablehtml.FromDocumentHTML().BodyFrom(
 		canonicalurltest.CanonicalURLOf(t, "http://host.example/p"), []byte(document),
 	)
 	if err != nil || !derived {
@@ -44,7 +44,7 @@ func TestDeriveExtractsMainArticle(t *testing.T) {
 }
 
 func TestAPageWithNoArticleDerivesNothing(t *testing.T) {
-	_, derived, err := readablehtml.NewDocumentHTMLDerivation().Derive(
+	_, derived, err := readablehtml.FromDocumentHTML().BodyFrom(
 		canonicalurltest.CanonicalURLOf(t, "http://host.example/p"),
 		[]byte("<html><body></body></html>"),
 	)

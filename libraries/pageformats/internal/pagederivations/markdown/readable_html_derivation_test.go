@@ -10,7 +10,7 @@ import (
 )
 
 func TestDeriveDeclaresReadableHTMLToMarkdown(t *testing.T) {
-	derivation := markdown.NewReadableHTMLDerivation()
+	derivation := markdown.FromReadableHTML()
 	if source := derivation.SourceFormat(); source != documentextraction.FormatReadableHTML {
 		t.Fatalf("source format = %q, want readable-html", source)
 	}
@@ -20,7 +20,7 @@ func TestDeriveDeclaresReadableHTMLToMarkdown(t *testing.T) {
 }
 
 func TestDeriveConvertsStructureToMarkdown(t *testing.T) {
-	body, derived, err := markdown.NewReadableHTMLDerivation().Derive(
+	body, derived, err := markdown.FromReadableHTML().BodyFrom(
 		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 		[]byte(
 			`<h1>Title</h1><p>A <b>bold</b> word and a <a href="http://e.example/x">link</a>.</p>`,

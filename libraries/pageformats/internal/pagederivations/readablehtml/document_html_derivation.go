@@ -14,7 +14,7 @@ import (
 
 type DocumentHTMLDerivation struct{}
 
-func NewDocumentHTMLDerivation() DocumentHTMLDerivation {
+func FromDocumentHTML() DocumentHTMLDerivation {
 	return DocumentHTMLDerivation{}
 }
 
@@ -26,7 +26,7 @@ func (DocumentHTMLDerivation) TargetFormat() documentextraction.Format {
 	return documentextraction.FormatReadableHTML
 }
 
-func (DocumentHTMLDerivation) Derive(
+func (DocumentHTMLDerivation) BodyFrom(
 	pageURL canonicalurl.CanonicalURL,
 	body []byte,
 ) ([]byte, bool, error) {

@@ -8,7 +8,7 @@ import (
 
 type ReadableHTMLDerivation struct{}
 
-func NewReadableHTMLDerivation() ReadableHTMLDerivation {
+func FromReadableHTML() ReadableHTMLDerivation {
 	return ReadableHTMLDerivation{}
 }
 
@@ -20,7 +20,7 @@ func (ReadableHTMLDerivation) TargetFormat() documentextraction.Format {
 	return documentextraction.FormatReadableText
 }
 
-func (ReadableHTMLDerivation) Derive(
+func (ReadableHTMLDerivation) BodyFrom(
 	_ canonicalurl.CanonicalURL,
 	body []byte,
 ) ([]byte, bool, error) {

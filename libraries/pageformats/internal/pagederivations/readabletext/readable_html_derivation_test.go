@@ -9,7 +9,7 @@ import (
 )
 
 func TestReadableHTMLDerivationDeclaresReadableHTMLToReadableText(t *testing.T) {
-	derivation := readabletext.NewReadableHTMLDerivation()
+	derivation := readabletext.FromReadableHTML()
 	if source := derivation.SourceFormat(); source != documentextraction.FormatReadableHTML {
 		t.Fatalf("source format = %q, want readable-html", source)
 	}
@@ -19,7 +19,7 @@ func TestReadableHTMLDerivationDeclaresReadableHTMLToReadableText(t *testing.T) 
 }
 
 func TestReadableHTMLDerivationFlattensMarkup(t *testing.T) {
-	body, derived, err := readabletext.NewReadableHTMLDerivation().Derive(
+	body, derived, err := readabletext.FromReadableHTML().BodyFrom(
 		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 		[]byte(`<p>first</p><p>second</p>`),
 	)

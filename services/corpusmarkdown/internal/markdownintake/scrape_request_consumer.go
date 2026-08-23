@@ -48,7 +48,7 @@ type StoreProgress interface {
 type ScrapeRequestConsumer struct {
 	source      pullintake.MessageSource
 	fetcher     PageFetcher
-	derivations pageformats.FormatDerivations
+	formats     pageformats.DerivableFormats
 	corpus      PageMarkdownCorpus
 	progress    StoreProgress
 	concurrency int
@@ -57,7 +57,7 @@ type ScrapeRequestConsumer struct {
 type Config struct {
 	Source      pullintake.MessageSource
 	Fetcher     PageFetcher
-	Derivations pageformats.FormatDerivations
+	Formats     pageformats.DerivableFormats
 	Corpus      PageMarkdownCorpus
 	Progress    StoreProgress
 	Concurrency int
@@ -67,7 +67,7 @@ func NewScrapeRequestConsumer(config Config) *ScrapeRequestConsumer {
 	return &ScrapeRequestConsumer{
 		source:      config.Source,
 		fetcher:     config.Fetcher,
-		derivations: config.Derivations,
+		formats:     config.Formats,
 		corpus:      config.Corpus,
 		progress:    config.Progress,
 		concurrency: config.Concurrency,
@@ -148,9 +148,9 @@ func (c *ScrapeRequestConsumer) markdownOf(
 		)
 		return nil, false
 	}
-	markdown, derived, err := c.derivations.
-		ForPage(document, fetched.FinalURL).
-		Resolve(documentextraction.FormatMarkdown)
+	markdown, derived, err := c.formats.BodyIn(
+		documentextraction.FormatMarkdown, document, fetched.FinalURL,
+	)
 	if err != nil {
 		slog.WarnContext(ctx, msgNoMarkdownDerived,
 			slog.String("url", fetched.FinalURL.String()),
