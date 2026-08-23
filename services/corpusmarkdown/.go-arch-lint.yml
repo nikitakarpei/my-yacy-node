@@ -75,7 +75,6 @@ deps:
       - scraperequestcontract
       - pageformats
       - pagefetch
-      - nats
       - serviceruntime
       - documentextraction
   pagemarkdowncorporajetstream:

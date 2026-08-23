@@ -6,8 +6,6 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nats-io/nats.go/jetstream"
-
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/scrapedpagedocument"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
@@ -82,31 +80,34 @@ func (c *ScrapeRequestConsumer) Run(ctx context.Context) error {
 	return pullintake.Run(ctx, c.source, c.scrapeRequestIntakeConcurrency, c.processOne)
 }
 
-func (c *ScrapeRequestConsumer) processOne(ctx context.Context, msg jetstream.Msg) error {
+func (c *ScrapeRequestConsumer) processOne(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+) error {
 	c.progress.ScrapeRequestReceived()
-	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(msg.Data())
+	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(message.Body())
 	if err != nil {
-		return poisonhalt.Halt(ctx, msg, err)
+		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
 	scrapedAt := time.Now()
-	fetched, scrapable := c.fetch(ctx, msg, scrapeRequest.CanonicalURL)
+	fetched, scrapable := c.fetch(ctx, message, scrapeRequest.CanonicalURL)
 	if !scrapable {
 		return nil
 	}
 	document, text, derived := c.readableTextOf(ctx, fetched)
 	if !derived {
 		slog.DebugContext(ctx, msgNoTextDerived, slog.String("url", fetched.FinalURL.String()))
-		_ = msg.Ack()
+		message.Acknowledge(ctx)
 		return nil
 	}
-	return c.index(ctx, msg, scrapedpagedocument.Of(
+	return c.index(ctx, message, scrapedpagedocument.Of(
 		fetched.FinalURL, document, text, scrapedAt,
 	))
 }
 
 func (c *ScrapeRequestConsumer) fetch(
 	ctx context.Context,
-	msg jetstream.Msg,
+	message pullintake.PendingMessage,
 	pageURL canonicalurl.CanonicalURL,
 ) (pagefetch.FetchedPage, bool) {
 	outcome, err := c.fetcher.Fetch(ctx, pageURL, pagefetch.PageVersion{})
@@ -116,7 +117,7 @@ func (c *ScrapeRequestConsumer) fetch(
 			slog.Any("error", err),
 		)
 		c.progress.ScrapeFailed()
-		_ = msg.Nak()
+		message.Return(ctx)
 		return pagefetch.FetchedPage{}, false
 	}
 	switch outcome.Status {
@@ -125,16 +126,16 @@ func (c *ScrapeRequestConsumer) fetch(
 	case pagefetch.FetchFailed:
 		slog.WarnContext(ctx, msgFetchFailed, slog.String("url", pageURL.String()))
 		c.progress.ScrapeFailed()
-		_ = msg.Nak()
+		message.Return(ctx)
 	case pagefetch.FetchDeferred:
 		slog.DebugContext(ctx, msgFetchDeferred,
 			slog.String("url", pageURL.String()),
 			slog.Duration("deferFor", outcome.DeferFor),
 		)
-		_ = msg.NakWithDelay(outcome.DeferFor)
+		message.ReturnAfter(ctx, outcome.DeferFor)
 	default:
 		slog.DebugContext(ctx, msgNothingToScrape, slog.String("url", pageURL.String()))
-		_ = msg.Ack()
+		message.Acknowledge(ctx)
 	}
 	return pagefetch.FetchedPage{}, false
 }
@@ -168,7 +169,7 @@ func (c *ScrapeRequestConsumer) readableTextOf(
 
 func (c *ScrapeRequestConsumer) index(
 	ctx context.Context,
-	msg jetstream.Msg,
+	message pullintake.PendingMessage,
 	document searchdocument.Document,
 ) error {
 	started := time.Now()
@@ -180,11 +181,11 @@ func (c *ScrapeRequestConsumer) index(
 			slog.Any("error", err),
 		)
 		c.progress.IndexFailed()
-		_ = msg.Nak()
+		message.Return(ctx)
 		return nil
 	}
 	c.progress.PageIndexed()
 	slog.DebugContext(ctx, msgPageIndexed, slog.String("url", document.URL))
-	_ = msg.Ack()
+	message.Acknowledge(ctx)
 	return nil
 }

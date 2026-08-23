@@ -295,7 +295,6 @@ deps:
       - pageformats
       - pagefetch
       - pagefetchershttp
-      - nats
       - serviceruntime
       - documentextraction
   scraperequestbroker:

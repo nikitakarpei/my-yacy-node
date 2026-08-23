@@ -7,8 +7,6 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/nats-io/nats.go/jetstream"
-
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
@@ -73,29 +71,32 @@ func (c *ScrapeRequestConsumer) Run(ctx context.Context) error {
 	return pullintake.Run(ctx, c.source, c.scrapeRequestIntakeConcurrency, c.processOne)
 }
 
-func (c *ScrapeRequestConsumer) processOne(ctx context.Context, msg jetstream.Msg) error {
-	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(msg.Data())
+func (c *ScrapeRequestConsumer) processOne(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+) error {
+	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(message.Body())
 	if err != nil {
-		return poisonhalt.Halt(ctx, msg, err)
+		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
 	reachedAt := time.Now()
-	fetched, scrapable := c.fetch(ctx, msg, scrapeRequest.CanonicalURL)
+	fetched, scrapable := c.fetch(ctx, message, scrapeRequest.CanonicalURL)
 	if !scrapable {
 		return nil
 	}
 	document, text, derived := c.fullTextOf(ctx, fetched)
 	if !derived {
 		slog.DebugContext(ctx, msgNoIndexDerived, slog.String("url", fetched.FinalURL.String()))
-		_ = msg.Ack()
+		message.Acknowledge(ctx)
 		return nil
 	}
-	c.store(ctx, msg, pagerwi.Of(fetched, document, text, reachedAt))
+	c.store(ctx, message, pagerwi.Of(fetched, document, text, reachedAt))
 	return nil
 }
 
 func (c *ScrapeRequestConsumer) fetch(
 	ctx context.Context,
-	msg jetstream.Msg,
+	message pullintake.PendingMessage,
 	pageURL canonicalurl.CanonicalURL,
 ) (pagefetch.FetchedPage, bool) {
 	outcome, err := c.fetcher.Fetch(ctx, pageURL, pagefetch.PageVersion{})
@@ -104,7 +105,7 @@ func (c *ScrapeRequestConsumer) fetch(
 			slog.String("url", pageURL.String()),
 			slog.Any("error", err),
 		)
-		_ = msg.Nak()
+		message.Return(ctx)
 		return pagefetch.FetchedPage{}, false
 	}
 	switch outcome.Status {
@@ -112,16 +113,16 @@ func (c *ScrapeRequestConsumer) fetch(
 		return outcome.Page, true
 	case pagefetch.FetchFailed:
 		slog.WarnContext(ctx, msgFetchFailed, slog.String("url", pageURL.String()))
-		_ = msg.Nak()
+		message.Return(ctx)
 	case pagefetch.FetchDeferred:
 		slog.DebugContext(ctx, msgFetchDeferred,
 			slog.String("url", pageURL.String()),
 			slog.Duration("deferFor", outcome.DeferFor),
 		)
-		_ = msg.NakWithDelay(outcome.DeferFor)
+		message.ReturnAfter(ctx, outcome.DeferFor)
 	default:
 		slog.DebugContext(ctx, msgNothingToScrape, slog.String("url", pageURL.String()))
-		_ = msg.Ack()
+		message.Acknowledge(ctx)
 	}
 	return pagefetch.FetchedPage{}, false
 }
@@ -155,30 +156,35 @@ func (c *ScrapeRequestConsumer) fullTextOf(
 
 func (c *ScrapeRequestConsumer) store(
 	ctx context.Context,
-	msg jetstream.Msg,
+	message pullintake.PendingMessage,
 	index pagerwi.PageRWI,
 ) {
 	urlReceipt, err := c.urls.Receive(ctx, []yacymodel.URLMetadata{index.Metadata})
 	if err != nil || urlReceipt.Busy {
-		redeliver(ctx, msg, index.CanonicalURL.String(), err)
+		redeliver(ctx, message, index.CanonicalURL.String(), err)
 		return
 	}
 	postingReceipt, err := c.postings.Receive(ctx, index.Postings)
 	if err != nil || postingReceipt.Busy {
-		redeliver(ctx, msg, index.CanonicalURL.String(), err)
+		redeliver(ctx, message, index.CanonicalURL.String(), err)
 		return
 	}
-	_ = msg.Ack()
+	message.Acknowledge(ctx)
 	slog.DebugContext(ctx, msgPageStored,
 		slog.String("url", index.CanonicalURL.String()),
 		slog.Int("postings", len(index.Postings)),
 	)
 }
 
-func redeliver(ctx context.Context, msg jetstream.Msg, canonicalURL string, cause error) {
+func redeliver(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+	canonicalURL string,
+	cause error,
+) {
 	slog.WarnContext(ctx, msgStoreDeferred,
 		slog.String("url", canonicalURL),
 		slog.Any("error", cause),
 	)
-	_ = msg.Nak()
+	message.Return(ctx)
 }

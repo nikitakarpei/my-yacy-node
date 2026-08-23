@@ -16,7 +16,7 @@ type MessageSource interface {
 	Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesContext, error)
 }
 
-type Process func(ctx context.Context, msg jetstream.Msg) error
+type Process func(ctx context.Context, message PendingMessage) error
 
 func Run(ctx context.Context, source MessageSource, messageConcurrency int, process Process) error {
 	iter, err := source.Messages()
@@ -40,7 +40,7 @@ func Run(ctx context.Context, source MessageSource, messageConcurrency int, proc
 			}
 			return fmt.Errorf("next message: %w", err)
 		}
-		group.Go(func() error { return process(ctx, msg) })
+		group.Go(func() error { return process(ctx, pendingMessage{message: msg}) })
 	}
 }
 

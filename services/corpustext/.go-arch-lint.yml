@@ -90,7 +90,6 @@ deps:
       - pageformats
       - pagefetch
       - searchdocument
-      - nats
       - serviceruntime
       - documentextraction
       - canonicalurl
