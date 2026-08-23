@@ -1,12 +1,17 @@
 package documentextraction
 
-import "context"
+import (
+	"context"
+
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+)
 
 type documentExtractor interface {
-	Extract(
+	DocumentFrom(
 		ctx context.Context,
-		pageURL, contentType string,
 		body []byte,
+		contentType string,
+		pageURL canonicalurl.CanonicalURL,
 	) (Document, error)
 	MediaTypes() []string
 	EmittedFormat() Format

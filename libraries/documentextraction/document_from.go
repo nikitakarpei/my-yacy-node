@@ -8,6 +8,8 @@ import (
 	"log/slog"
 	"mime"
 	"strings"
+
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
 const msgMediaTypeUnparsed = "content type unparsed, falling back to its leading segment"
@@ -16,15 +18,16 @@ var ErrUnsupportedMediaType = errors.New("unsupported media type")
 
 func DocumentFrom(
 	ctx context.Context,
-	pageURL, contentType string,
 	body []byte,
+	contentType string,
+	pageURL canonicalurl.CanonicalURL,
 ) (Document, error) {
 	media := mediaType(ctx, contentType)
 	extractor, extractable := documentExtractorFor(media)
 	if !extractable {
 		return Document{}, ErrUnsupportedMediaType
 	}
-	document, err := extractor.Extract(ctx, pageURL, contentType, body)
+	document, err := extractor.DocumentFrom(ctx, body, contentType, pageURL)
 	if err != nil {
 		return Document{}, fmt.Errorf("extract %s: %w", media, err)
 	}

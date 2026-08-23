@@ -8,6 +8,8 @@ import (
 
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/charset"
+
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
 const (
@@ -29,10 +31,11 @@ func (htmlExtraction) EmittedFormat() Format {
 	return FormatDocumentHTML
 }
 
-func (e htmlExtraction) Extract(
+func (e htmlExtraction) DocumentFrom(
 	ctx context.Context,
-	pageURL, contentType string,
 	body []byte,
+	contentType string,
+	pageURL canonicalurl.CanonicalURL,
 ) (Document, error) {
 	decoded, err := charset.NewReader(bytes.NewReader(body), contentType)
 	if err != nil {

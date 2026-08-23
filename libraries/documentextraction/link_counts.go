@@ -7,10 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
-const (
-	msgBaseHrefUnresolved = "base href unresolved, using page url"
-	msgPageURLUncanonical = "page url is not canonical, counting links without it"
-)
+const msgBaseHrefUnresolved = "base href unresolved, using page url"
 
 type linkCounts struct {
 	local    int
@@ -39,26 +36,22 @@ func linkCountsOf(baseURL canonicalurl.CanonicalURL, hrefs []string) linkCounts 
 	return counts
 }
 
-func baseURLOf(ctx context.Context, pageURL, baseHref string) canonicalurl.CanonicalURL {
-	canonicalPageURL, err := canonicalurl.CanonicalURLOf(pageURL)
-	if err != nil {
-		slog.DebugContext(ctx, msgPageURLUncanonical,
-			slog.String("url", pageURL),
-			slog.Any("error", err),
-		)
-		return canonicalurl.CanonicalURL{}
-	}
+func baseURLOf(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	baseHref string,
+) canonicalurl.CanonicalURL {
 	if baseHref == "" {
-		return canonicalPageURL
+		return pageURL
 	}
-	base, err := canonicalPageURL.CanonicalURLOfLink(baseHref)
+	base, err := pageURL.CanonicalURLOfLink(baseHref)
 	if err != nil {
 		slog.DebugContext(ctx, msgBaseHrefUnresolved,
-			slog.String("url", pageURL),
+			slog.String("url", pageURL.String()),
 			slog.String("baseHref", baseHref),
 			slog.Any("error", err),
 		)
-		return canonicalPageURL
+		return pageURL
 	}
 	return base
 }

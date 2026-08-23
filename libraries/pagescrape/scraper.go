@@ -81,7 +81,7 @@ func (s *Scraper) pageFrom(
 	targetFormat documentextraction.Format,
 ) (ScrapedPage, bool) {
 	document, err := documentextraction.DocumentFrom(
-		ctx, fetched.FinalURL.String(), fetched.ContentType, fetched.Body,
+		ctx, fetched.Body, fetched.ContentType, fetched.FinalURL,
 	)
 	if err != nil {
 		slog.WarnContext(ctx, msgExtractionFailed,

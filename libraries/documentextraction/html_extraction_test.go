@@ -4,6 +4,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 )
 
@@ -21,9 +22,9 @@ const longText = "The quick brown fox jumps over the lazy dog while the industri
 func TestExtractArticle(t *testing.T) {
 	doc, err := documentextraction.DocumentFrom(
 		t.Context(),
-		"http://host.example/dir/p",
-		"text/html",
 		[]byte(article),
+		"text/html",
+		canonicalurltest.CanonicalURLOf(t, "http://host.example/dir/p"),
 	)
 	if err != nil {
 		t.Fatalf("DocumentFrom: %v", err)
@@ -51,9 +52,9 @@ func TestExtractArticle(t *testing.T) {
 func TestExtractYieldsWholeDocument(t *testing.T) {
 	doc, err := documentextraction.DocumentFrom(
 		t.Context(),
-		"http://host.example/dir/p",
-		"text/html",
 		[]byte(article),
+		"text/html",
+		canonicalurltest.CanonicalURLOf(t, "http://host.example/dir/p"),
 	)
 	if err != nil {
 		t.Fatalf("DocumentFrom: %v", err)
@@ -68,9 +69,9 @@ func TestMediaTypesDeclared(t *testing.T) {
 	for _, mediaType := range []string{"text/html", "application/xhtml+xml"} {
 		if _, err := documentextraction.DocumentFrom(
 			t.Context(),
-			"http://host.example/p",
-			mediaType,
 			[]byte(article),
+			mediaType,
+			canonicalurltest.CanonicalURLOf(t, "http://host.example/p"),
 		); err != nil {
 			t.Fatalf("DocumentFrom %s: %v", mediaType, err)
 		}
@@ -85,9 +86,9 @@ func TestExtractReportsNoLanguageWithoutATwoLetterLanguageTag(t *testing.T) {
 
 		doc, err := documentextraction.DocumentFrom(
 			t.Context(),
-			"http://host.example/p",
-			"text/html",
 			[]byte(page),
+			"text/html",
+			canonicalurltest.CanonicalURLOf(t, "http://host.example/p"),
 		)
 		if err != nil {
 			t.Fatalf("DocumentFrom %s: %v", opening, err)
@@ -106,9 +107,9 @@ func TestLinkCountsResolveAgainstTheBaseHref(t *testing.T) {
 
 	doc, err := documentextraction.DocumentFrom(
 		t.Context(),
-		"http://host.example/dir/p",
-		"text/html",
 		[]byte(page),
+		"text/html",
+		canonicalurltest.CanonicalURLOf(t, "http://host.example/dir/p"),
 	)
 	if err != nil {
 		t.Fatalf("DocumentFrom: %v", err)
@@ -125,9 +126,9 @@ func TestAnUnresolvableBaseHrefLeavesThePageURLInPlace(t *testing.T) {
 
 	doc, err := documentextraction.DocumentFrom(
 		t.Context(),
-		"http://host.example/dir/p",
-		"text/html",
 		[]byte(page),
+		"text/html",
+		canonicalurltest.CanonicalURLOf(t, "http://host.example/dir/p"),
 	)
 	if err != nil {
 		t.Fatalf("DocumentFrom: %v", err)
@@ -144,32 +145,14 @@ func TestARepeatedLinkCountsOnce(t *testing.T) {
 
 	doc, err := documentextraction.DocumentFrom(
 		t.Context(),
-		"http://host.example/dir/p",
-		"text/html",
 		[]byte(page),
+		"text/html",
+		canonicalurltest.CanonicalURLOf(t, "http://host.example/dir/p"),
 	)
 	if err != nil {
 		t.Fatalf("DocumentFrom: %v", err)
 	}
 	if doc.LocalLinks != 1 || doc.ExternalLinks != 0 {
-		t.Fatalf("local=%d external=%d", doc.LocalLinks, doc.ExternalLinks)
-	}
-}
-
-func TestAnUncanonicalPageURLCountsNoLinks(t *testing.T) {
-	page := `<!DOCTYPE html><html><head><title>t</title></head>` +
-		`<body><p>` + longText + `</p><a href="/local">l</a></body></html>`
-
-	doc, err := documentextraction.DocumentFrom(
-		t.Context(),
-		"::not a url::",
-		"text/html",
-		[]byte(page),
-	)
-	if err != nil {
-		t.Fatalf("DocumentFrom: %v", err)
-	}
-	if doc.LocalLinks != 0 || doc.ExternalLinks != 0 {
 		t.Fatalf("local=%d external=%d", doc.LocalLinks, doc.ExternalLinks)
 	}
 }
