@@ -7,17 +7,17 @@ import (
 )
 
 type IndexMetrics struct {
-	pagesReceived     prometheus.Counter
-	pagesIndexed      prometheus.Counter
-	scrapeFailures    prometheus.Counter
-	indexFailures     prometheus.Counter
-	indexDurationSecs prometheus.Histogram
+	scrapeRequestsReceived prometheus.Counter
+	pagesIndexed           prometheus.Counter
+	scrapeFailures         prometheus.Counter
+	indexFailures          prometheus.Counter
+	indexDurationSecs      prometheus.Histogram
 }
 
 func New(registry prometheus.Registerer) *IndexMetrics {
 	metrics := &IndexMetrics{
-		pagesReceived: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "corpustext_pages_received_total",
+		scrapeRequestsReceived: prometheus.NewCounter(prometheus.CounterOpts{
+			Name: "corpustext_scrape_requests_received_total",
 			Help: "Scrape requests received for scraping.",
 		}),
 		pagesIndexed: prometheus.NewCounter(prometheus.CounterOpts{
@@ -39,7 +39,7 @@ func New(registry prometheus.Registerer) *IndexMetrics {
 		}),
 	}
 	registry.MustRegister(
-		metrics.pagesReceived,
+		metrics.scrapeRequestsReceived,
 		metrics.pagesIndexed,
 		metrics.scrapeFailures,
 		metrics.indexFailures,
@@ -48,10 +48,10 @@ func New(registry prometheus.Registerer) *IndexMetrics {
 	return metrics
 }
 
-func (m *IndexMetrics) PageReceived() { m.pagesReceived.Inc() }
-func (m *IndexMetrics) PageIndexed()  { m.pagesIndexed.Inc() }
-func (m *IndexMetrics) ScrapeFailed() { m.scrapeFailures.Inc() }
-func (m *IndexMetrics) IndexFailed()  { m.indexFailures.Inc() }
+func (m *IndexMetrics) ScrapeRequestReceived() { m.scrapeRequestsReceived.Inc() }
+func (m *IndexMetrics) PageIndexed()           { m.pagesIndexed.Inc() }
+func (m *IndexMetrics) ScrapeFailed()          { m.scrapeFailures.Inc() }
+func (m *IndexMetrics) IndexFailed()           { m.indexFailures.Inc() }
 
 func (m *IndexMetrics) IndexObserved(elapsed time.Duration) {
 	m.indexDurationSecs.Observe(elapsed.Seconds())

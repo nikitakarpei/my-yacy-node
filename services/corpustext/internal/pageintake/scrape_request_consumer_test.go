@@ -117,7 +117,7 @@ type recordingProgress struct {
 	observed       int
 }
 
-func (p *recordingProgress) PageReceived()               { p.received++ }
+func (p *recordingProgress) ScrapeRequestReceived()      { p.received++ }
 func (p *recordingProgress) PageIndexed()                { p.indexed++ }
 func (p *recordingProgress) ScrapeFailed()               { p.scrapeFailures++ }
 func (p *recordingProgress) IndexFailed()                { p.indexFailures++ }

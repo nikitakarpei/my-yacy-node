@@ -42,7 +42,7 @@ type SearchIndex interface {
 }
 
 type IndexProgress interface {
-	PageReceived()
+	ScrapeRequestReceived()
 	PageIndexed()
 	ScrapeFailed()
 	IndexFailed()
@@ -83,7 +83,7 @@ func (c *ScrapeRequestConsumer) Run(ctx context.Context) error {
 }
 
 func (c *ScrapeRequestConsumer) processOne(ctx context.Context, msg jetstream.Msg) error {
-	c.progress.PageReceived()
+	c.progress.ScrapeRequestReceived()
 	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(msg.Data())
 	if err != nil {
 		return poisonhalt.Halt(ctx, msg, err)

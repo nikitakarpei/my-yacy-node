@@ -17,7 +17,7 @@ func TestIndexMetricsRecordsAndExposesCounters(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	metrics := indexmetrics.New(registry)
 
-	metrics.PageReceived()
+	metrics.ScrapeRequestReceived()
 	metrics.PageIndexed()
 	metrics.IndexFailed()
 	metrics.IndexObserved(250 * time.Millisecond)
@@ -28,7 +28,7 @@ func TestIndexMetricsRecordsAndExposesCounters(t *testing.T) {
 
 	body := rec.Body.String()
 	for _, want := range []string{
-		"corpustext_pages_received_total 1",
+		"corpustext_scrape_requests_received_total 1",
 		"corpustext_pages_indexed_total 1",
 		"corpustext_index_failures_total 1",
 		"corpustext_index_duration_seconds",
