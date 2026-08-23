@@ -69,7 +69,7 @@ func Start(
 		"YACY_DATA_DIR":                  "/tmp/data",
 		"YACY_ANNOUNCE_INTERVAL":         "10s",
 		"YACY_REACHABLE_ROSTER_CAPACITY": strconv.Itoa(MinConnectedPeers + 8),
-		"YACY_PROXY_URL":                 egressproxy.NetworkURL(),
+		"YACY_EGRESS_PROXY_URL":          egressproxy.NetworkURL(),
 		"LOG_LEVEL":                      "debug",
 	}
 	if cfg.SeedlistURL != "" {

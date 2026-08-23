@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-const EnvEgressProxyURL = "YACY_PROXY_URL"
+const EnvEgressProxyURL = "YACY_EGRESS_PROXY_URL"
 
 type EgressConfig struct {
 	ProxyURL *url.URL

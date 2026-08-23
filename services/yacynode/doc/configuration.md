@@ -21,7 +21,7 @@ The node is configured through environment variables.
 | `YACY_TRUSTED_PROXIES` | _(empty)_ | Comma-separated CIDRs or IPs of reverse proxies fronting the node. Set this when running behind a reverse proxy so peers are not told the proxy's address. |
 | `YACY_STORAGE_QUOTA` | `1GB` | Storage quota, as a human-readable size (e.g. `512MB`, `1GB`, `20GB`). |
 | `YACY_ESCROW_POSTING_CAPACITY` | `8192` | How many inbound postings wait at once for their URL metadata. The node refuses further transfers until held postings expire. |
-| `YACY_PROXY_URL` | _(required)_ | `http` or `https` URL of the proxy all outbound connections are routed through. |
+| `YACY_EGRESS_PROXY_URL` | _(required)_ | `http` or `https` URL of the proxy all outbound connections are routed through. |
 
 ## Scrape request ingest
 

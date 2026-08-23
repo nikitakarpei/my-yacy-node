@@ -19,7 +19,7 @@ services:
         http://yacy.v16.de/seed/seed.txt,
         https://frank-siebert.de/seed.txt,
         http://seedlist.wertewesten.net/seed.txt
-      YACY_PROXY_URL: http://smokescreen:4750
+      YACY_EGRESS_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
       - yacy-data:/data

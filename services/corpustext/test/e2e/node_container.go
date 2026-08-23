@@ -34,7 +34,7 @@ func startNode(t *testing.T, ctx context.Context, networkName string) {
 				"YACY_PEER_NAME":          nodeAlias,
 				"YACY_ADVERTISE_HOST":     nodeAlias,
 				"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL(),
-				"YACY_PROXY_URL":          egressproxy.NetworkURL(),
+				"YACY_EGRESS_PROXY_URL":   egressproxy.NetworkURL(),
 				"SCRAPE_PROXY_URL":        egressproxy.NetworkURL(),
 				"LOG_LEVEL":               "debug",
 			},
