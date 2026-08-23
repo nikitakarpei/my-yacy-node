@@ -32,6 +32,28 @@ func TestFlattenSeparatesBlockElements(t *testing.T) {
 	}
 }
 
+func TestFlattenSeparatesTheTitleFromTheBody(t *testing.T) {
+	text, err := htmlflattening.Flatten(
+		[]byte(`<html><head><title>Hi</title></head><body><p>alpha beta</p></body></html>`),
+	)
+	if err != nil {
+		t.Fatalf("flatten: %v", err)
+	}
+	if text != "Hi\nalpha beta" {
+		t.Fatalf("title runs into the body text: %q", text)
+	}
+}
+
+func TestFlattenKeepsInlineMarkupFromSplittingAWord(t *testing.T) {
+	text, err := htmlflattening.Flatten([]byte(`<p>hyper<em>text</em></p>`))
+	if err != nil {
+		t.Fatalf("flatten: %v", err)
+	}
+	if text != "hypertext" {
+		t.Fatalf("inline markup split the word: %q", text)
+	}
+}
+
 func TestFlattenCollapsesWhitespaceWithinBlock(t *testing.T) {
 	text, err := htmlflattening.Flatten([]byte("<p>The   quick\n  brown\nfox.</p>"))
 	if err != nil {

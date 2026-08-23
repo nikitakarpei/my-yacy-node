@@ -156,7 +156,7 @@ func fetchOf(t *testing.T, text string) *fakeFetch {
 			ContentType: "text/html",
 			Body: []byte(
 				`<html lang="en"><head><title>` + pageTitle + `</title></head>` +
-					`<body><p> ` + text + `</p></body></html>`,
+					`<body><p>` + text + `</p></body></html>`,
 			),
 		},
 	}}

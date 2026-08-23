@@ -30,7 +30,7 @@ func writeText(text *strings.Builder, node *html.Node) {
 	for child := node.FirstChild; child != nil; child = child.NextSibling {
 		writeText(text, child)
 	}
-	if node.Type == html.ElementNode && isBlock(node.DataAtom) {
+	if node.Type == html.ElementNode && !keepsTextJoined(node.DataAtom) {
 		text.WriteString("\n")
 	}
 }
@@ -43,13 +43,12 @@ func isSkipped(name atom.Atom) bool {
 	return false
 }
 
-func isBlock(name atom.Atom) bool {
+func keepsTextJoined(name atom.Atom) bool {
 	switch name {
-	case atom.P, atom.Div, atom.Section, atom.Article, atom.Header, atom.Footer,
-		atom.Aside, atom.Nav, atom.Main, atom.Blockquote, atom.Pre, atom.Figure,
-		atom.Figcaption, atom.Ul, atom.Ol, atom.Li, atom.Dl, atom.Dt, atom.Dd,
-		atom.Table, atom.Tr, atom.Td, atom.Th, atom.Br, atom.Hr,
-		atom.H1, atom.H2, atom.H3, atom.H4, atom.H5, atom.H6:
+	case atom.A, atom.Abbr, atom.B, atom.Bdi, atom.Bdo, atom.Cite, atom.Code,
+		atom.Data, atom.Dfn, atom.Em, atom.I, atom.Kbd, atom.Mark, atom.Q,
+		atom.Rp, atom.Rt, atom.Ruby, atom.S, atom.Samp, atom.Small, atom.Span,
+		atom.Strong, atom.Sub, atom.Sup, atom.Time, atom.U, atom.Var:
 		return true
 	}
 	return false
