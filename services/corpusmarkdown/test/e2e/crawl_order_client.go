@@ -10,15 +10,15 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/canonicalurltest"
 )
 
 const (
 	ordersSubject              = "yacy.crawl.orders"
-	crawledPageSubject         = "yacy.crawl.page.markdown"
 	ordersStreamAppearanceWait = 60 * time.Second
 	bucketAppearanceWait       = 60 * time.Second
 )
@@ -64,7 +64,7 @@ func publishCrawlOrder(
 			MaxDepth:        0,
 			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
 		},
-		SeedURLs: []yacycrawlcontract.CanonicalURL{canonicalurltest.CanonicalURLOf(t, originURL)},
+		SeedURLs: []canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, originURL)},
 	}
 	data, err := yacycrawlcontract.MarshalCrawlOrder(order)
 	if err != nil {

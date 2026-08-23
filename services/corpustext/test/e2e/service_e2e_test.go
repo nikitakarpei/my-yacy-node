@@ -9,14 +9,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
 )
 
-func TestCrawledPageStaysSearchableInElasticsearch(t *testing.T) {
+func TestScrapeRequestStaysSearchableInElasticsearch(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
 
 	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
+	scraperequeststream.Provision(t, ctx, crawlNATSURL)
 	originURL := startOrigin(t, ctx, network.Name)
 	elasticsearchURL := startElasticsearch(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
@@ -51,12 +53,13 @@ func TestCrawledPageStaysSearchableInElasticsearch(t *testing.T) {
 	assertIndexedPage(t, hitAfterRestart, originURL)
 }
 
-func TestCrawledPageStaysSearchableInManticore(t *testing.T) {
+func TestScrapeRequestStaysSearchableInManticore(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
 
 	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
+	scraperequeststream.Provision(t, ctx, crawlNATSURL)
 	originURL := startOrigin(t, ctx, network.Name)
 	manticoreURL := startManticore(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)

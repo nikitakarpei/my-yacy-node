@@ -6,6 +6,23 @@ services:
     volumes:
       - nats-data:/data
 
+  scrape-requests-stream:
+    image: natsio/nats-box:0.19.7
+    depends_on:
+      - nats
+    entrypoint: ["/bin/sh", "-c"]
+    command: |
+      until nats --server nats://nats:4222 stream info SCRAPE_REQUESTS >/dev/null 2>&1 ||
+            nats --server nats://nats:4222 stream add SCRAPE_REQUESTS --defaults \
+              --subjects scrape.request \
+              --retention limits \
+              --discard old \
+              --max-msgs 100000 \
+              --storage file
+      do
+        sleep 1
+      done
+
   smokescreen:
     build:
       context: ./smokescreen
@@ -16,9 +33,14 @@ services:
     image: ghcr.io/nikitakarpei/yacynode:latest
     restart: unless-stopped
     depends_on:
-      - smokescreen
-      - nats
-      - yacycrawler
+      scrape-requests-stream:
+        condition: service_completed_successfully
+      smokescreen:
+        condition: service_started
+      yacycrawler:
+        condition: service_started
+      renderproxy:
+        condition: service_started
     environment:
       YACY_INITIAL_PEER_HASH: ${YACY_INITIAL_PEER_HASH:-}
       YACY_PEER_NAME: ${YACY_PEER_NAME:-}
@@ -33,8 +55,10 @@ services:
         http://yacy.v16.de/seed/seed.txt,
         https://frank-siebert.de/seed.txt,
         http://seedlist.wertewesten.net/seed.txt
-      YACY_PROXY_URL: http://smokescreen:4750
-      CRAWL_NATS_URL: nats://nats:4222
+      EGRESS_PROXY_URL: http://smokescreen:4750
+      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
+      SCRAPE_PROXY_URL: http://renderproxy:8080
+      SCRAPE_PROXY_DIAL_MODE: absolute-url
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
       - yacy-data:/data
@@ -65,20 +89,22 @@ services:
       - smokescreen
     environment:
       RENDERPROXY_CDP_URL: ws://lightpanda:9222
-      RENDERPROXY_EGRESS_PROXY_URL: http://smokescreen:4750
+      EGRESS_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   yacycrawler:
     image: ghcr.io/nikitakarpei/yacycrawler:latest
     restart: unless-stopped
     depends_on:
-      - nats
-      - renderproxy
+      scrape-requests-stream:
+        condition: service_completed_successfully
+      renderproxy:
+        condition: service_started
     environment:
       CRAWL_NATS_URL: nats://nats:4222
-      YACYCRAWLER_PROXY_URL: http://renderproxy:8080
-      YACYCRAWLER_PROXY_DIAL_MODE: absolute-url
-      YACYCRAWLER_PUBLISH_TEXT: "true"
+      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
+      SCRAPE_PROXY_URL: http://renderproxy:8080
+      SCRAPE_PROXY_DIAL_MODE: absolute-url
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   visitcrawl:
@@ -95,11 +121,18 @@ services:
     image: ghcr.io/nikitakarpei/corpustext:latest
     restart: unless-stopped
     depends_on:
-      - nats
-      - yacycrawler
-      - manticore
+      scrape-requests-stream:
+        condition: service_completed_successfully
+      yacycrawler:
+        condition: service_started
+      renderproxy:
+        condition: service_started
+      manticore:
+        condition: service_started
     environment:
-      CRAWL_NATS_URL: nats://nats:4222
+      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
+      SCRAPE_PROXY_URL: http://renderproxy:8080
+      SCRAPE_PROXY_DIAL_MODE: absolute-url
       SEARCH_INDEX_ENGINE: manticore
       MANTICORE_URL: http://manticore:9308
       CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}

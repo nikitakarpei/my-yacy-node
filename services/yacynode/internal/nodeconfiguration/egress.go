@@ -6,27 +6,27 @@ import (
 	"strings"
 )
 
-const EnvProxyURL = "YACY_PROXY_URL"
+const EnvEgressProxyURL = "EGRESS_PROXY_URL"
 
 type EgressConfig struct {
 	ProxyURL *url.URL
 }
 
 func loadEgressConfig(getenv func(string) string) (EgressConfig, error) {
-	raw := strings.TrimSpace(getenv(EnvProxyURL))
+	raw := strings.TrimSpace(getenv(EnvEgressProxyURL))
 	if raw == "" {
-		return EgressConfig{}, fmt.Errorf("%s: must be set", EnvProxyURL)
+		return EgressConfig{}, fmt.Errorf("%s: must be set", EnvEgressProxyURL)
 	}
 
 	parsed, err := url.Parse(raw)
 	if err != nil {
-		return EgressConfig{}, fmt.Errorf("%s: %w", EnvProxyURL, err)
+		return EgressConfig{}, fmt.Errorf("%s: %w", EnvEgressProxyURL, err)
 	}
 	if parsed.Scheme != "http" && parsed.Scheme != "https" {
-		return EgressConfig{}, fmt.Errorf("%s: scheme must be http or https", EnvProxyURL)
+		return EgressConfig{}, fmt.Errorf("%s: scheme must be http or https", EnvEgressProxyURL)
 	}
 	if parsed.Host == "" {
-		return EgressConfig{}, fmt.Errorf("%s: must include a host", EnvProxyURL)
+		return EgressConfig{}, fmt.Errorf("%s: must include a host", EnvEgressProxyURL)
 	}
 
 	return EgressConfig{ProxyURL: parsed}, nil

@@ -6,12 +6,14 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"net/url"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 
+	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -48,12 +50,15 @@ func TestRunNodeReportsAnUnusableListenAddress(t *testing.T) {
 	}
 }
 
-func TestRunNodeReportsAnUnreachableCrawlBroker(t *testing.T) {
+func TestRunNodeReportsAnUnreachableScrapeRequestBroker(t *testing.T) {
 	config := nodeConfigFor(t)
-	config.Crawl = nodeconfiguration.CrawlConfig{
-		NATSURL:       "nats://127.0.0.1:1",
-		IngestSubject: nodeconfiguration.DefaultIngestSubject,
-		IngestDurable: nodeconfiguration.DefaultIngestDurable,
+	config.ScrapeRequestIntake = nodeconfiguration.ScrapeRequestIntakeConfig{
+		ScrapeRequestNATSURL:           "nats://127.0.0.1:1",
+		ScrapeRequestSubject:           nodeconfiguration.DefaultScrapeRequestSubject,
+		ScrapeRequestDurable:           nodeconfiguration.DefaultScrapeRequestDurable,
+		ProxyURL:                       &url.URL{Scheme: "http", Host: "renderproxy:8080"},
+		ProxyDialMode:                  pagefetchershttp.ProxyDialTunnel,
+		ScrapeRequestIntakeConcurrency: nodeconfiguration.DefaultScrapeRequestIntakeConcurrency,
 	}
 
 	node := startNode(t, config)
@@ -63,8 +68,8 @@ func TestRunNodeReportsAnUnreachableCrawlBroker(t *testing.T) {
 	if err == nil {
 		t.Fatal("RunNode returned nil, want the broker failure")
 	}
-	if !strings.Contains(err.Error(), "crawl broker") {
-		t.Fatalf("RunNode: %v, want a crawl broker failure", err)
+	if !strings.Contains(err.Error(), "scrape request broker") {
+		t.Fatalf("RunNode: %v, want a scrape request broker failure", err)
 	}
 }
 
@@ -168,7 +173,7 @@ func nodeConfigFor(t *testing.T) nodeconfiguration.Settings {
 		nodeconfiguration.EnvInitialPeerHash: nodeHashText,
 		nodeconfiguration.EnvPeerName:        "node",
 		nodeconfiguration.EnvNetworkName:     nodeNetwork,
-		nodeconfiguration.EnvProxyURL:        "http://127.0.0.1:1",
+		nodeconfiguration.EnvEgressProxyURL:  "http://127.0.0.1:1",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)

@@ -385,7 +385,7 @@
     },
     {
       "id": 30,
-      "title": "Page publication",
+      "title": "Scrape request publication",
       "type": "row",
       "gridPos": {
         "h": 1,
@@ -397,8 +397,8 @@
     },
     {
       "id": 31,
-      "title": "Publications by representation",
-      "description": "This panel counts a page once for each representation it reaches. The stacked total is more than the page count.",
+      "title": "Scrape requests published",
+      "description": "This panel counts each scrape request the crawler sends for a fetched page.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -406,7 +406,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
         "y": 32
       },
@@ -428,48 +428,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (representation) (rate(yacycrawler_pages_published_total[$__rate_interval]))",
-          "legendFormat": "{{representation}}"
-        }
-      ]
-    },
-    {
-      "id": 33,
-      "title": "Publication retries",
-      "description": "This panel counts each retry of a publish attempt. If the system cannot publish a page, this count keeps rising.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 32
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "ops",
-          "custom": {
-            "fillOpacity": 10
-          },
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "yellow"
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(rate(yacycrawler_publication_waits_total[$__rate_interval]))",
-          "legendFormat": "retries"
+          "expr": "sum(rate(yacycrawler_scrape_requests_published_total[$__rate_interval]))",
+          "legendFormat": "published"
         }
       ]
     },

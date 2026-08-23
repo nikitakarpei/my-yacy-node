@@ -61,7 +61,7 @@ Additional YaCy-related capabilities can be provided by separate services when n
 * The node SHALL keep memory usage bounded independently of total stored RWI size.
 * The node SHALL set explicit limits on all caches, queues, buffers, batches, and request bodies.
 * The node SHALL complete requests within bounded deadlines.
-* The node SHALL prefer availability and data integrity over ingestion throughput.
+* The node SHALL prefer availability and data integrity over intake throughput.
 * The node SHALL serve and store first and distribute only with the resources left over,
   within operator-set bounds.
 * The node SHALL support low-resource Linux-class devices, including Raspberry-Pi-class hardware.

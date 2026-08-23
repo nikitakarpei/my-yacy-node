@@ -37,7 +37,7 @@ type harness struct {
 	refusals *recordedRefusals
 }
 
-func openHarness(t *testing.T, quotaBytes int64, batchCap, escrowCapacity int) harness {
+func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	t.Helper()
 
 	v, err := memoryvault.Open(quotaBytes, nil)
@@ -73,7 +73,7 @@ func openHarness(t *testing.T, quotaBytes int64, batchCap, escrowCapacity int) h
 			urlDirectory,
 			admitter,
 			escrow,
-			rwiadmission.Config{BatchCap: batchCap, Pause: busyPause, Refusals: refusals},
+			rwiadmission.Config{Pause: busyPause, Refusals: refusals},
 		),
 		refusals: refusals,
 	}
@@ -136,7 +136,7 @@ func (h harness) storeMetadata(t *testing.T, seeds ...string) {
 }
 
 func TestKnownURLPostingJoinsIndex(t *testing.T) {
-	h := openHarness(t, 0, 100, 100)
+	h := openHarness(t, 0, 100)
 	h.storeMetadata(t, "u1")
 	entry := posting("w1", "u1")
 
@@ -156,7 +156,7 @@ func TestKnownURLPostingJoinsIndex(t *testing.T) {
 }
 
 func TestUnknownURLPostingWaitsInEscrow(t *testing.T) {
-	h := openHarness(t, 0, 100, 100)
+	h := openHarness(t, 0, 100)
 	entry := posting("w1", "u1")
 
 	receipt, err := h.receiver.Receive(context.Background(), []yacymodel.RWIPosting{entry})
@@ -175,7 +175,7 @@ func TestUnknownURLPostingWaitsInEscrow(t *testing.T) {
 }
 
 func TestPostingJoinsIndexWhenItsURLMetadataArrives(t *testing.T) {
-	h := openHarness(t, 0, 100, 100)
+	h := openHarness(t, 0, 100)
 	entry := posting("w1", "u1")
 
 	if _, err := h.receiver.Receive(
@@ -195,7 +195,7 @@ func TestPostingJoinsIndexWhenItsURLMetadataArrives(t *testing.T) {
 }
 
 func TestReceiveRoutesEachPostingByItsOwnURL(t *testing.T) {
-	h := openHarness(t, 0, 100, 100)
+	h := openHarness(t, 0, 100)
 	h.storeMetadata(t, "u1")
 	known, unknown := posting("w1", "u1"), posting("w1", "u2")
 
@@ -217,26 +217,8 @@ func TestReceiveRoutesEachPostingByItsOwnURL(t *testing.T) {
 	}
 }
 
-func TestReceiveBusyOverBatchCap(t *testing.T) {
-	h := openHarness(t, 0, 1, 100)
-
-	receipt, err := h.receiver.Receive(context.Background(), []yacymodel.RWIPosting{
-		posting("w1", "u1"),
-		posting("w1", "u2"),
-	})
-	if err != nil {
-		t.Fatalf("Receive: %v", err)
-	}
-	if !receipt.Busy || !receipt.TooLarge || receipt.Pause != busyPause {
-		t.Fatalf("receipt = %+v, want Busy and TooLarge with the configured pause", receipt)
-	}
-	if got := h.refusals.postings[rwiadmission.RefusalRequestTooLarge]; got != 2 {
-		t.Fatalf("postings refused as too large = %d, want the whole request of 2", got)
-	}
-}
-
 func TestReceiveBusyAtCapacity(t *testing.T) {
-	h := openHarness(t, 1, 100, 100)
+	h := openHarness(t, 1, 100)
 
 	if _, err := h.receiver.Receive(
 		context.Background(),
@@ -261,7 +243,7 @@ func TestReceiveBusyAtCapacity(t *testing.T) {
 }
 
 func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {
-	h := openHarness(t, 0, 100, 1)
+	h := openHarness(t, 0, 1)
 
 	if _, err := h.receiver.Receive(
 		context.Background(),
@@ -288,7 +270,7 @@ func TestReceiveBusyWhenTheEscrowIsFull(t *testing.T) {
 }
 
 func TestReceiveReportsEachUnknownURLOnce(t *testing.T) {
-	h := openHarness(t, 0, 100, 100)
+	h := openHarness(t, 0, 100)
 
 	receipt, err := h.receiver.Receive(context.Background(), []yacymodel.RWIPosting{
 		posting("w1", "u1"),

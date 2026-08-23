@@ -31,8 +31,8 @@ func RunService(
 ) error {
 	metrics := visitmetrics.New(registry)
 	broker, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
-		NATSURL:       cfg.CrawlNATSURL,
-		OrdersSubject: cfg.OrdersSubject,
+		NATSURL:            cfg.CrawlNATSURL,
+		CrawlOrdersSubject: cfg.CrawlOrdersSubject,
 	})
 	if err != nil {
 		return fmt.Errorf("open crawl order broker: %w", err)
@@ -58,7 +58,7 @@ func RunService(
 	}
 
 	slog.InfoContext(ctx, msgServiceStarted,
-		slog.String("orders", cfg.OrdersSubject),
+		slog.String("orders", cfg.CrawlOrdersSubject),
 		slog.String("listenAddr", cfg.ListenAddr),
 		slog.String("opsAddr", cfg.OpsAddr),
 	)

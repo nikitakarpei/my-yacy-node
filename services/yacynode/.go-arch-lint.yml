@@ -7,6 +7,7 @@ allow:
 
 commonVendors:
   - yacymodel
+  - canonicalurl
 
 components:
   hashcodec:
@@ -65,10 +66,12 @@ components:
     in: internal/eviction/**
   metrics:
     in: internal/metrics/**
-  crawlresults:
-    in: internal/crawlresults/**
-  crawlbroker:
-    in: internal/crawlbroker/**
+  pagerwi:
+    in: internal/pagerwi/**
+  scraperequestintake:
+    in: internal/scraperequestintake/**
+  scraperequestbroker:
+    in: internal/scraperequestbroker/**
   cmd:
     in:
       - cmd/yacy-peer-hash/**
@@ -87,6 +90,8 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  scraperequestcontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
   vault:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
   boltvault:
@@ -100,6 +105,22 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
+  documentextraction:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/documentextraction
+  pageformats:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pageformats
+  pagefetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
+  pagefetchershttp:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
   serviceruntime:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
@@ -109,6 +130,8 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
   hashcodec:
@@ -122,6 +145,10 @@ deps:
       - serviceruntime
       - yacyproto
       - yacycrawlcontract
+      - scraperequestcontract
+      - pageformats
+      - pagefetch
+      - pagefetchershttp
   nodeidentity:
     canUse:
       - yacyproto
@@ -252,17 +279,28 @@ deps:
     canUse:
       - prometheus
       - vault
-  crawlresults:
+  pagerwi:
+    canUse:
+      - canonicalurl
+      - documentextraction
+      - pagefetch
+  scraperequestintake:
     mayDependOn:
+      - pagerwi
       - urlmeta
       - rwiadmission
     canUse:
       - yacycrawlcontract
-  crawlbroker:
-    mayDependOn:
-      - crawlresults
+      - scraperequestcontract
+      - pageformats
+      - pagefetch
+      - pagefetchershttp
+      - serviceruntime
+      - documentextraction
+  scraperequestbroker:
     canUse:
       - yacycrawlcontract
+      - scraperequestcontract
       - nats
       - serviceruntime
   cmd:

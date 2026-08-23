@@ -8,7 +8,8 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
@@ -25,7 +26,7 @@ func New(bucket jetstream.KeyValue, clock clock.Clock, grace time.Duration) *Rul
 
 func (r *Rule) DecisionFor(
 	ctx context.Context,
-	canonicalURL yacycrawlcontract.CanonicalURL,
+	canonicalURL canonicalurl.CanonicalURL,
 ) (pagevisit.RecrawlDecision, error) {
 	entry, err := r.bucket.Get(ctx, key(canonicalURL))
 	if errors.Is(err, jetstream.ErrKeyNotFound) {
@@ -40,7 +41,7 @@ func (r *Rule) DecisionFor(
 	}
 	return pagevisit.RecrawlDecision{
 		Due: r.clock.Now().Sub(record.VisitedAt) >= r.grace,
-		Version: pagevisit.PageVersion{
+		Version: pagefetch.PageVersion{
 			EntityTag:  record.EntityTag,
 			ModifiedAt: record.ModifiedAt,
 		},
@@ -49,8 +50,8 @@ func (r *Rule) DecisionFor(
 
 func (r *Rule) RecordVisit(
 	ctx context.Context,
-	canonicalURL yacycrawlcontract.CanonicalURL,
-	version pagevisit.PageVersion,
+	canonicalURL canonicalurl.CanonicalURL,
+	version pagefetch.PageVersion,
 ) error {
 	payload, err := marshalPageVisit(pageVisit{
 		VisitedAt:  r.clock.Now(),

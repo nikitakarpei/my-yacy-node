@@ -41,9 +41,6 @@ deps:
   servergroup:
     canUse:
       - errgroup
-  poisonhalt:
-    canUse:
-      - nats
   pullintake:
     canUse:
       - nats

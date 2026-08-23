@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package corpusmarkdown.v1;
+
+option go_package = "github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/corpusmarkdown/v1;corpusmarkdownv1";
+
+// MarkdownCorpus yields the markdown an operator's own corpus holds for a page.
+service MarkdownCorpus {
+  // RecallPage answers NOT_FOUND for a URL the corpus does not hold.
+  rpc RecallPage(RecallPageRequest) returns (RecallPageResponse);
+}
+
+message RecallPageRequest {
+  string url = 1;
+}
+
+message RecallPageResponse {
+  string canonical_url = 1;
+  string markdown = 2;
+}

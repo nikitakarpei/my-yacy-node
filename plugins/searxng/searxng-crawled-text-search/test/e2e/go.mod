@@ -3,6 +3,7 @@ module github.com/nikitakarpei/yacy-rwi-node/searxng-crawled-text-search/test/e2
 go 1.26
 
 require (
+	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/e2eharness v0.0.0
 	github.com/testcontainers/testcontainers-go v0.40.0
 )
@@ -10,7 +11,9 @@ require (
 require (
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0 // indirect
+	go.opentelemetry.io/otel/sdk/metric v1.44.0 // indirect
+	google.golang.org/grpc v1.83.1 // indirect
+	google.golang.org/protobuf v1.36.12 // indirect
 )
 
 require (
@@ -48,7 +51,6 @@ require (
 	github.com/moby/term v0.5.0 // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/nats-io/nats.go v1.52.0
-	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -61,17 +63,17 @@ require (
 	github.com/tklauser/numcpus v0.6.1 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
-	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.49.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.61.0 // indirect
 	go.opentelemetry.io/otel v1.44.0 // indirect
 	go.opentelemetry.io/otel/metric v1.44.0 // indirect
 	go.opentelemetry.io/otel/trace v1.44.0 // indirect
 	golang.org/x/crypto v0.52.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
-	google.golang.org/grpc v1.80.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 replace (
+	github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../../../../libraries/canonicalurl
 	github.com/nikitakarpei/yacy-rwi-node/e2eharness => ../../../../../test/e2eharness
 	github.com/nikitakarpei/yacy-rwi-node/searchdocument => ../../../../../services/corpustext/contract
 )
@@ -81,3 +83,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../../../.
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../../../../libraries/yacymodel
 
 replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../../../../libraries/natstestserver
+
+require github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
+
+replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../../../../libraries/scraperequestcontract

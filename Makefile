@@ -6,7 +6,7 @@ COVERAGE_MIN ?= 80
 export GOWORK := off
 
 GO_MODULES := $(patsubst %/go.mod,%,$(wildcard libraries/*/go.mod libraries/*/*/go.mod services/*/go.mod services/*/contract/go.mod))
-GO_E2E_MODULES := $(patsubst %/go.mod,%,$(wildcard services/*/test/e2e/go.mod plugins/*/*/test/e2e/go.mod))
+GO_E2E_MODULES := $(patsubst %/go.mod,%,$(wildcard services/*/test/e2e/go.mod plugins/*/*/test/e2e/go.mod test/*/go.mod))
 PY_MODULES := plugins/searxng/searxng-result-router plugins/searxng/searxng-crawled-text-search
 
 COVER_PROFILE := coverage.out
@@ -93,15 +93,15 @@ tools: $(TOOLS_STAMP)
 PROTOC := $(TOOLS_BIN)/protoc
 PROTO_GEN_GO := $(TOOLS_BIN)/protoc-gen-go
 PROTO_GEN_GO_GRPC := $(TOOLS_BIN)/protoc-gen-go-grpc
-CORPUSRECALL_API_DIR := services/corpusrecall/contract
+CORPUSMARKDOWN_API_DIR := services/corpusmarkdown/contract
 
 proto: $(TOOLS_STAMP)
 	@echo "==> proto"
 	@PATH="$(TOOLS_BIN):$$PATH" $(PROTOC) \
-		--proto_path=$(CORPUSRECALL_API_DIR) \
-		--go_out=$(CORPUSRECALL_API_DIR) --go_opt=paths=source_relative \
-		--go-grpc_out=$(CORPUSRECALL_API_DIR) --go-grpc_opt=paths=source_relative \
-		corpusrecall/v1/recall.proto
+		--proto_path=$(CORPUSMARKDOWN_API_DIR) \
+		--go_out=$(CORPUSMARKDOWN_API_DIR) --go_opt=paths=source_relative \
+		--go-grpc_out=$(CORPUSMARKDOWN_API_DIR) --go-grpc_opt=paths=source_relative \
+		corpusmarkdown/v1/markdowncorpus.proto
 
 $(PY_VENV_STAMPS): %/.venv/.installed: %/requirements-dev.txt
 	$(PYTHON) -m venv $*/.venv
@@ -146,7 +146,7 @@ arch: $(TOOLS_STAMP)
 arch-diagram: $(TOOLS_STAMP)
 	@mkdir -p $(ARCH_DIAGRAM_DIR)
 	@$(call for_each_go,arch-diagram,$(GO_ARCH_LINT) graph \
-		--out $(ARCH_DIAGRAM_DIR)/$$(echo $$m | tr / -).svg)
+		--out $(ARCH_DIAGRAM_DIR)/$$(echo {} | tr / -).svg)
 	@echo "    written to $(ARCH_DIAGRAM_DIR)/"
 
 test-go:
@@ -215,14 +215,12 @@ E2E_DOCKER_HOST := $(or $(DOCKER_HOST),unix://$(E2E_RUNTIME_DIR)/podman/podman.s
 E2E_DOCKER_ENV := DOCKER_HOST=$(E2E_DOCKER_HOST) TESTCONTAINERS_RYUK_DISABLED=true
 
 # Modules that build a docker image for e2e testing, and the tag each produces.
-E2E_IMAGE_MODULES := yacynode yacycrawler corpustext corpusmarkdown corpusrecall firecrawlshim visitcrawl renderproxy
+E2E_IMAGE_MODULES := yacynode yacycrawler corpustext corpusmarkdown visitcrawl renderproxy
 
 E2E_PATH_yacynode        := services/yacynode
 E2E_PATH_yacycrawler     := services/yacycrawler
 E2E_PATH_corpustext      := services/corpustext
 E2E_PATH_corpusmarkdown  := services/corpusmarkdown
-E2E_PATH_corpusrecall    := services/corpusrecall
-E2E_PATH_firecrawlshim   := services/firecrawlshim
 E2E_PATH_visitcrawl      := services/visitcrawl
 E2E_PATH_renderproxy     := services/renderproxy
 
@@ -230,8 +228,6 @@ E2E_IMAGE_yacynode        := yacy-rwi-node:e2e
 E2E_IMAGE_yacycrawler     := yacy-rwi-crawler:e2e
 E2E_IMAGE_corpustext      := corpustext:e2e
 E2E_IMAGE_corpusmarkdown  := corpusmarkdown:e2e
-E2E_IMAGE_corpusrecall    := corpusrecall:e2e
-E2E_IMAGE_firecrawlshim   := firecrawlshim:e2e
 E2E_IMAGE_visitcrawl      := visitcrawl:e2e
 E2E_IMAGE_renderproxy     := renderproxy:e2e
 
@@ -243,26 +239,26 @@ $(foreach m,$(E2E_IMAGE_MODULES),$(eval $(call e2e_image_rule,$(m))))
 
 e2e-images: $(foreach m,$(E2E_IMAGE_MODULES),e2e-$(m)-image)
 
-# Modules that own a test/e2e suite, and the images each suite needs.
-E2E_SUITE_MODULES := yacynode yacycrawler corpustext corpusmarkdown corpusrecall firecrawlshim searxng-result-router searxng-crawled-text-search renderproxy
+# Every e2e suite, where it lives, and the images it needs.
+E2E_SUITE_MODULES := yacynode yacycrawler corpustext corpusmarkdown searxng-result-router searxng-crawled-text-search renderproxy scraperequestfanout
 
 E2E_PATH_searxng-result-router         := plugins/searxng/searxng-result-router
 E2E_PATH_searxng-crawled-text-search   := plugins/searxng/searxng-crawled-text-search
+E2E_SUITE_DIR_scraperequestfanout      := test/scraperequestfanout
 
 E2E_ENV_yacynode                       := YACY_NODE_IMAGE=$(E2E_IMAGE_yacynode)
 E2E_ENV_yacycrawler                    := YACYCRAWLER_IMAGE=$(E2E_IMAGE_yacycrawler)
 E2E_ENV_corpustext                     := YACY_NODE_IMAGE=$(E2E_IMAGE_yacynode) YACYCRAWLER_IMAGE=$(E2E_IMAGE_yacycrawler) CORPUSTEXT_IMAGE=$(E2E_IMAGE_corpustext)
 E2E_ENV_corpusmarkdown                 := YACY_NODE_IMAGE=$(E2E_IMAGE_yacynode) YACYCRAWLER_IMAGE=$(E2E_IMAGE_yacycrawler) CORPUSMARKDOWN_IMAGE=$(E2E_IMAGE_corpusmarkdown)
-E2E_ENV_corpusrecall                   := YACYCRAWLER_IMAGE=$(E2E_IMAGE_yacycrawler) CORPUSMARKDOWN_IMAGE=$(E2E_IMAGE_corpusmarkdown) CORPUSRECALL_IMAGE=$(E2E_IMAGE_corpusrecall)
-E2E_ENV_firecrawlshim                  := YACYCRAWLER_IMAGE=$(E2E_IMAGE_yacycrawler) CORPUSMARKDOWN_IMAGE=$(E2E_IMAGE_corpusmarkdown) CORPUSRECALL_IMAGE=$(E2E_IMAGE_corpusrecall) FIRECRAWLSHIM_IMAGE=$(E2E_IMAGE_firecrawlshim)
 E2E_ENV_searxng-result-router          := VISITCRAWL_IMAGE=$(E2E_IMAGE_visitcrawl)
 E2E_ENV_searxng-crawled-text-search    := CORPUSTEXT_IMAGE=$(E2E_IMAGE_corpustext)
 E2E_ENV_renderproxy                    := RENDERPROXY_IMAGE=$(E2E_IMAGE_renderproxy)
+E2E_ENV_scraperequestfanout            := CORPUSTEXT_IMAGE=$(E2E_IMAGE_corpustext) CORPUSMARKDOWN_IMAGE=$(E2E_IMAGE_corpusmarkdown)
 
 define e2e_suite_rule
 e2e-$(1):
 	@echo "==> e2e-$(1)"; \
-	if ! out=$$$$(cd $$(E2E_PATH_$(1))/test/e2e && GOWORK=off $$(E2E_DOCKER_ENV) $$(E2E_ENV_$(1)) \
+	if ! out=$$$$(cd $$(or $$(E2E_SUITE_DIR_$(1)),$$(E2E_PATH_$(1))/test/e2e) && GOWORK=off $$(E2E_DOCKER_ENV) $$(E2E_ENV_$(1)) \
 		$$(GO) test -tags e2e -timeout $$(E2E_TIMEOUT) -count=1 -v ./... 2>&1); then \
 		echo "==> e2e-$(1) FAILED"; echo "$$$$out"; exit 1; \
 	fi

@@ -14,8 +14,8 @@ import (
 )
 
 type Config struct {
-	NATSURL       string
-	OrdersSubject string
+	NATSURL            string
+	CrawlOrdersSubject string
 }
 
 type CrawlOrderBroker struct {
@@ -31,7 +31,7 @@ func Open(_ context.Context, cfg Config) (*CrawlOrderBroker, error) {
 
 	return &CrawlOrderBroker{
 		conn:   conn,
-		Orders: newOrderPlacement(js, cfg.OrdersSubject),
+		Orders: newOrderPlacement(js, cfg.CrawlOrdersSubject),
 	}, nil
 }
 

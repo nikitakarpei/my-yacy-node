@@ -67,15 +67,3 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-corpusmarkdown.yml
     secrets: inherit
-
-  build-corpusrecall:
-    needs: verify
-    if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/build-corpusrecall.yml
-    secrets: inherit
-
-  build-firecrawlshim:
-    needs: verify
-    if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/build-firecrawlshim.yml
-    secrets: inherit

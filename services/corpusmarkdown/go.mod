@@ -4,11 +4,25 @@ go 1.26
 
 require (
 	github.com/nats-io/nats.go v1.52.0
+	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
 	github.com/prometheus/client_golang v1.23.2
+	google.golang.org/grpc v1.83.1
+)
+
+require (
+	codeberg.org/readeck/go-readability/v2 v2.1.2 // indirect
+	github.com/JohannesKaufmann/dom v0.3.1 // indirect
+	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.2 // indirect
+	github.com/andybalholm/cascadia v1.3.4 // indirect
+	github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c // indirect
+	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
+	github.com/itlightning/dateparse v0.2.1 // indirect
+	golang.org/x/net v0.55.0 // indirect
+	golang.org/x/text v0.37.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260526163538-3dc84a4a5aaa // indirect
 )
 
 require (
@@ -23,7 +37,8 @@ require (
 	github.com/nats-io/nats-server/v2 v2.14.2 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
-	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
@@ -32,10 +47,8 @@ require (
 	golang.org/x/sync v0.21.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
-	google.golang.org/protobuf v1.36.11 // indirect
+	google.golang.org/protobuf v1.36.12 // indirect
 )
-
-replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ./contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/serviceruntime => ../../libraries/serviceruntime
 
@@ -44,3 +57,20 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../yacycrawle
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
 
 replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/natstestserver
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
+
+replace github.com/nikitakarpei/yacy-rwi-node/pageformats => ../../libraries/pageformats
+
+replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ./contract
+
+require (
+	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
+)
+
+replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract
+
+replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction
