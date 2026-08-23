@@ -31,7 +31,7 @@ func (htmlExtraction) EmittedFormat() Format {
 	return FormatDocumentHTML
 }
 
-func (e htmlExtraction) DocumentFrom(
+func (htmlExtraction) DocumentFrom(
 	ctx context.Context,
 	body []byte,
 	contentType string,
@@ -58,7 +58,7 @@ func (e htmlExtraction) DocumentFrom(
 	return Document{
 		Title:         scan.title,
 		Body:          document.Bytes(),
-		Format:        e.EmittedFormat(),
+		Format:        FormatDocumentHTML,
 		Language:      twoLetterLanguage(scan.language),
 		LocalLinks:    counts.local,
 		ExternalLinks: counts.external,
