@@ -70,8 +70,8 @@ components:
     in: internal/pagerwi/**
   scraperequestintake:
     in: internal/scraperequestintake/**
-  crawlbroker:
-    in: internal/crawlbroker/**
+  scraperequestbroker:
+    in: internal/scraperequestbroker/**
   cmd:
     in:
       - cmd/yacy-peer-hash/**
@@ -287,7 +287,7 @@ deps:
       - nats
       - serviceruntime
       - documentextraction
-  crawlbroker:
+  scraperequestbroker:
     canUse:
       - yacycrawlcontract
       - scraperequestcontract

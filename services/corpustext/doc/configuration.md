@@ -14,9 +14,9 @@ The indexer is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CORPUSTEXT_PROXY_URL` | required | Egress proxy every page fetch goes through. |
-| `CORPUSTEXT_PROXY_DIAL_MODE` | `tunnel` | How to reach the proxy: `tunnel` or `absolute-url`. |
-| `CORPUSTEXT_USER_AGENT` | `corpustext (+https://yacy.net)` | User agent each fetch sends. |
+| `SCRAPE_PROXY_URL` | required | Egress proxy every page fetch goes through. |
+| `SCRAPE_PROXY_DIAL_MODE` | `tunnel` | How to reach the proxy: `tunnel` or `absolute-url`. |
+| `SCRAPE_USER_AGENT` | `corpustext (+https://yacy.net)` | User agent each fetch sends. |
 | `CORPUSTEXT_MAX_BODY_BYTES` | `2097152` | Largest body a fetch reads. |
 | `CORPUSTEXT_FETCH_DEADLINE` | `30s` | Time limit on one fetch. |
 

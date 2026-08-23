@@ -39,7 +39,7 @@ func startCorpusText(t *testing.T, ctx context.Context, networkName string) {
 			NetworkAliases: map[string][]string{networkName: {corpusTextAlias}},
 			Env: map[string]string{
 				"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL(),
-				"CORPUSTEXT_PROXY_URL":    egressproxy.NetworkURL(),
+				"SCRAPE_PROXY_URL":        egressproxy.NetworkURL(),
 				"SEARCH_INDEX_ENGINE":     "manticore",
 				"MANTICORE_URL":           manticore.NetworkURL(manticoreAlias),
 				"MANTICORE_TABLE":         manticoreTableBase,

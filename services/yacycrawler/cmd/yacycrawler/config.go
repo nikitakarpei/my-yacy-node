@@ -16,8 +16,8 @@ const (
 	EnvOrdersSubject        = "NATS_ORDERS_SUBJECT"
 	EnvOrdersDurable        = "NATS_ORDERS_DURABLE"
 
-	EnvProxyURL         = "YACYCRAWLER_PROXY_URL"
-	EnvProxyDialMode    = "YACYCRAWLER_PROXY_DIAL_MODE"
+	EnvProxyURL         = "SCRAPE_PROXY_URL"
+	EnvProxyDialMode    = "SCRAPE_PROXY_DIAL_MODE"
 	EnvFetchConcurrency = "YACYCRAWLER_FETCH_CONCURRENCY"
 
 	EnvRunPageBudget = "YACYCRAWLER_RUN_PAGE_BUDGET"
@@ -25,7 +25,7 @@ const (
 	EnvMaxBodyBytes  = "YACYCRAWLER_MAX_BODY_BYTES"
 	EnvFetchDeadline = "YACYCRAWLER_FETCH_DEADLINE"
 	EnvOpsAddr       = "YACYCRAWLER_OPS_ADDR"
-	EnvUserAgent     = "YACYCRAWLER_USER_AGENT"
+	EnvUserAgent     = "SCRAPE_USER_AGENT"
 	EnvRecrawlGrace  = "YACYCRAWLER_RECRAWL_GRACE"
 
 	DefaultOrdersSubject    = "yacy.crawl.orders"

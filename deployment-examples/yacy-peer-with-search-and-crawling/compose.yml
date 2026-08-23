@@ -57,8 +57,8 @@ services:
         http://seedlist.wertewesten.net/seed.txt
       YACY_PROXY_URL: http://smokescreen:4750
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      YACY_CRAWL_PROXY_URL: http://renderproxy:8080
-      YACY_CRAWL_PROXY_DIAL_MODE: absolute-url
+      SCRAPE_PROXY_URL: http://renderproxy:8080
+      SCRAPE_PROXY_DIAL_MODE: absolute-url
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
       - yacy-data:/data
@@ -103,8 +103,8 @@ services:
     environment:
       CRAWL_NATS_URL: nats://nats:4222
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      YACYCRAWLER_PROXY_URL: http://renderproxy:8080
-      YACYCRAWLER_PROXY_DIAL_MODE: absolute-url
+      SCRAPE_PROXY_URL: http://renderproxy:8080
+      SCRAPE_PROXY_DIAL_MODE: absolute-url
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   visitcrawl:
@@ -131,8 +131,8 @@ services:
         condition: service_started
     environment:
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      CORPUSTEXT_PROXY_URL: http://renderproxy:8080
-      CORPUSTEXT_PROXY_DIAL_MODE: absolute-url
+      SCRAPE_PROXY_URL: http://renderproxy:8080
+      SCRAPE_PROXY_DIAL_MODE: absolute-url
       SEARCH_INDEX_ENGINE: manticore
       MANTICORE_URL: http://manticore:9308
       CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}

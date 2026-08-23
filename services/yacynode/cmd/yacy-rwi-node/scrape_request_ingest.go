@@ -6,32 +6,32 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrape"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagescrape/pagefetchers/http"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/crawlbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/scraperequestbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/scraperequestintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
 type scrapeRequestIngest struct {
-	broker   *crawlbroker.CrawlBroker
+	broker   *scraperequestbroker.ScrapeRequestBroker
 	consumer *scraperequestintake.ScrapeRequestConsumer
 }
 
 func openScrapeRequestIngest(
 	ctx context.Context,
-	config nodeconfiguration.CrawlConfig,
+	config nodeconfiguration.ScrapeRequestIngestConfig,
 	urls urlmeta.URLReceiver,
 	postings rwiadmission.PostingReceiver,
 ) (*scrapeRequestIngest, error) {
-	broker, err := crawlbroker.Open(ctx, crawlbroker.Config{
+	broker, err := scraperequestbroker.Open(ctx, scraperequestbroker.Config{
 		ScrapeRequestNATSURL: config.ScrapeRequestNATSURL,
 		ScrapeRequestSubject: config.ScrapeRequestSubject,
 		ScrapeRequestDurable: config.ScrapeRequestDurable,
 		Concurrency:          config.Concurrency,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("open crawl broker: %w", err)
+		return nil, fmt.Errorf("open scrape request broker: %w", err)
 	}
 	scraper, err := pagescrape.New(
 		pagefetchershttp.New(

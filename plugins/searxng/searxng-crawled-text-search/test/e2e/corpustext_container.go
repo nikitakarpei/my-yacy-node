@@ -29,7 +29,7 @@ func startCorpusText(
 	t.Helper()
 	env := map[string]string{
 		"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL(),
-		"CORPUSTEXT_PROXY_URL":    egressproxy.NetworkURL(),
+		"SCRAPE_PROXY_URL":        egressproxy.NetworkURL(),
 		"CORPUSTEXT_LANGUAGES":    indexedLanguages,
 		"LOG_LEVEL":               "debug",
 	}

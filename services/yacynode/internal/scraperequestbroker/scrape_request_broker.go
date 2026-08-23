@@ -1,7 +1,7 @@
-// Package crawlbroker is the node's NATS JetStream edge to the crawl fleet. It is the
+// Package scraperequestbroker is the node's NATS JetStream edge to the crawl fleet. It is the
 // only place that speaks the broker protocol: it opens the durable consumer the node
 // reads scrape requests through. Open wires the connection; Close releases it.
-package crawlbroker
+package scraperequestbroker
 
 import (
 	"context"
@@ -21,12 +21,12 @@ type Config struct {
 	Concurrency          int
 }
 
-type CrawlBroker struct {
+type ScrapeRequestBroker struct {
 	conn           io.Closer
 	ScrapeRequests jetstream.Consumer
 }
 
-func Open(ctx context.Context, cfg Config) (*CrawlBroker, error) {
+func Open(ctx context.Context, cfg Config) (*ScrapeRequestBroker, error) {
 	js, conn, err := jetstreamconnect.Open(cfg.ScrapeRequestNATSURL)
 	if err != nil {
 		return nil, err
@@ -38,7 +38,7 @@ func Open(ctx context.Context, cfg Config) (*CrawlBroker, error) {
 		return nil, err
 	}
 
-	return &CrawlBroker{conn: conn, ScrapeRequests: scrapeRequests}, nil
+	return &ScrapeRequestBroker{conn: conn, ScrapeRequests: scrapeRequests}, nil
 }
 
 func scrapeRequestConsumerFor(
@@ -63,6 +63,6 @@ func scrapeRequestConsumerFor(
 	return consumer, nil
 }
 
-func (b *CrawlBroker) Close() {
+func (b *ScrapeRequestBroker) Close() {
 	_ = b.conn.Close()
 }

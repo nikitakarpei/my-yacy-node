@@ -15,9 +15,9 @@ The service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CORPUSMARKDOWN_PROXY_URL` | required | Egress proxy every page fetch goes through. |
-| `CORPUSMARKDOWN_PROXY_DIAL_MODE` | `tunnel` | How to reach the proxy: `tunnel` or `absolute-url`. |
-| `CORPUSMARKDOWN_USER_AGENT` | `corpusmarkdown (+https://yacy.net)` | User agent each fetch sends. |
+| `SCRAPE_PROXY_URL` | required | Egress proxy every page fetch goes through. |
+| `SCRAPE_PROXY_DIAL_MODE` | `tunnel` | How to reach the proxy: `tunnel` or `absolute-url`. |
+| `SCRAPE_USER_AGENT` | `corpusmarkdown (+https://yacy.net)` | User agent each fetch sends. |
 | `CORPUSMARKDOWN_MAX_BODY_BYTES` | `2097152` | Largest body a fetch reads. |
 | `CORPUSMARKDOWN_FETCH_DEADLINE` | `30s` | Time limit on one fetch. |
 

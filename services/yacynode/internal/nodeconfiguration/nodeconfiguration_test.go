@@ -16,7 +16,7 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
 		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
 		nodeconfiguration.EnvPeerName:        "node",
-		nodeconfiguration.EnvProxyURL:        "http://proxy:4750",
+		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -54,51 +54,67 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if config.PeerExchange.SeedlistURLs != nil {
 		t.Errorf("SeedlistURLs = %v, want nil", config.PeerExchange.SeedlistURLs)
 	}
-	if config.Crawl.Enabled() {
-		t.Errorf("Crawl = %+v, want disabled without a broker", config.Crawl)
+	if config.ScrapeRequestIngest.Enabled() {
+		t.Errorf(
+			"ScrapeRequestIngest = %+v, want disabled without a broker",
+			config.ScrapeRequestIngest,
+		)
 	}
 }
 
-func TestLoadDefaultsTheCrawlIngest(t *testing.T) {
+func TestLoadDefaultsTheScrapeRequestIngest(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
 		nodeconfiguration.EnvInitialPeerHash:      "0123456789AB",
 		nodeconfiguration.EnvPeerName:             "node",
-		nodeconfiguration.EnvProxyURL:             "http://proxy:4750",
+		nodeconfiguration.EnvEgressProxyURL:       "http://proxy:4750",
 		nodeconfiguration.EnvScrapeRequestNATSURL: "nats://localhost:4222",
-		nodeconfiguration.EnvCrawlProxyURL:        "http://renderproxy:8080",
+		nodeconfiguration.EnvScrapeProxyURL:       "http://renderproxy:8080",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
 	}
 
-	if !config.Crawl.Enabled() {
-		t.Fatalf("Crawl = %+v, want enabled by the broker url", config.Crawl)
+	if !config.ScrapeRequestIngest.Enabled() {
+		t.Fatalf(
+			"ScrapeRequestIngest = %+v, want enabled by the broker url",
+			config.ScrapeRequestIngest,
+		)
 	}
-	if config.Crawl.ScrapeRequestSubject != nodeconfiguration.DefaultScrapeRequestSubject ||
-		config.Crawl.ScrapeRequestDurable != nodeconfiguration.DefaultScrapeRequestDurable {
-		t.Errorf("Crawl = %+v, want the default subject and durable", config.Crawl)
+	if config.ScrapeRequestIngest.ScrapeRequestSubject != nodeconfiguration.DefaultScrapeRequestSubject ||
+		config.ScrapeRequestIngest.ScrapeRequestDurable != nodeconfiguration.DefaultScrapeRequestDurable {
+		t.Errorf(
+			"ScrapeRequestIngest = %+v, want the default subject and durable",
+			config.ScrapeRequestIngest,
+		)
 	}
-	if config.Crawl.UserAgent != nodeconfiguration.DefaultCrawlUserAgent ||
-		config.Crawl.MaxBodyBytes != nodeconfiguration.DefaultCrawlMaxBodyBytes ||
-		config.Crawl.FetchDeadline != nodeconfiguration.DefaultCrawlFetchDeadline ||
-		config.Crawl.Concurrency != nodeconfiguration.DefaultCrawlConcurrency {
-		t.Errorf("Crawl = %+v, want the default fetch settings", config.Crawl)
+	if config.ScrapeRequestIngest.UserAgent != nodeconfiguration.DefaultScrapeUserAgent ||
+		config.ScrapeRequestIngest.MaxBodyBytes != nodeconfiguration.DefaultScrapeMaxBodyBytes ||
+		config.ScrapeRequestIngest.FetchDeadline != nodeconfiguration.DefaultScrapeFetchDeadline ||
+		config.ScrapeRequestIngest.Concurrency != nodeconfiguration.DefaultScrapeConcurrency {
+		t.Errorf(
+			"ScrapeRequestIngest = %+v, want the default fetch settings",
+			config.ScrapeRequestIngest,
+		)
 	}
-	if config.Crawl.ProxyURL == nil || config.Crawl.ProxyURL.Host != "renderproxy:8080" {
-		t.Errorf("Crawl proxy = %v, want the configured proxy", config.Crawl.ProxyURL)
+	if config.ScrapeRequestIngest.ProxyURL == nil ||
+		config.ScrapeRequestIngest.ProxyURL.Host != "renderproxy:8080" {
+		t.Errorf(
+			"scrape request ingest proxy = %v, want the configured proxy",
+			config.ScrapeRequestIngest.ProxyURL,
+		)
 	}
 }
 
-func TestLoadRequiresACrawlProxyWhenIngestIsEnabled(t *testing.T) {
+func TestLoadRequiresAScrapeProxyWhenIngestIsEnabled(t *testing.T) {
 	_, err := nodeconfiguration.Load(envFrom(map[string]string{
 		nodeconfiguration.EnvInitialPeerHash:      "0123456789AB",
 		nodeconfiguration.EnvPeerName:             "node",
-		nodeconfiguration.EnvProxyURL:             "http://proxy:4750",
+		nodeconfiguration.EnvEgressProxyURL:       "http://proxy:4750",
 		nodeconfiguration.EnvScrapeRequestNATSURL: "nats://localhost:4222",
 	}))
 
 	if err == nil {
-		t.Fatal("crawl ingest without a fetch proxy should fail")
+		t.Fatal("scrape request ingest without a fetch proxy should fail")
 	}
 }
 
@@ -106,7 +122,7 @@ func TestLoadReadsOverrides(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
 		nodeconfiguration.EnvInitialPeerHash:          "0123456789AB",
 		nodeconfiguration.EnvPeerName:                 "node",
-		nodeconfiguration.EnvProxyURL:                 "http://proxy:4750",
+		nodeconfiguration.EnvEgressProxyURL:           "http://proxy:4750",
 		nodeconfiguration.EnvNetworkName:              "testnet",
 		nodeconfiguration.EnvPeerAddr:                 ":7000",
 		nodeconfiguration.EnvOpsAddr:                  ":7001",
@@ -117,10 +133,10 @@ func TestLoadReadsOverrides(t *testing.T) {
 		nodeconfiguration.EnvSeedlistURLs:             " http://a , http://b ,",
 		nodeconfiguration.EnvAnnounceInterval:         "30s",
 		nodeconfiguration.EnvScrapeRequestNATSURL:     "nats://broker:4222",
-		nodeconfiguration.EnvCrawlProxyURL:            "http://renderproxy:8080",
+		nodeconfiguration.EnvScrapeProxyURL:           "http://renderproxy:8080",
 		nodeconfiguration.EnvNATSScrapeRequestSubject: "reached.subject",
 		nodeconfiguration.EnvNATSScrapeRequestDurable: "reached-durable",
-		nodeconfiguration.EnvCrawlConcurrency:         "9",
+		nodeconfiguration.EnvScrapeConcurrency:        "9",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -145,10 +161,13 @@ func TestLoadReadsOverrides(t *testing.T) {
 	if config.PeerExchange.AnnounceInterval != 30*time.Second {
 		t.Errorf("AnnounceInterval = %v, want 30s", config.PeerExchange.AnnounceInterval)
 	}
-	if config.Crawl.ScrapeRequestSubject != "reached.subject" ||
-		config.Crawl.ScrapeRequestDurable != "reached-durable" ||
-		config.Crawl.Concurrency != 9 {
-		t.Errorf("Crawl = %+v, want the named subject, durable, and concurrency", config.Crawl)
+	if config.ScrapeRequestIngest.ScrapeRequestSubject != "reached.subject" ||
+		config.ScrapeRequestIngest.ScrapeRequestDurable != "reached-durable" ||
+		config.ScrapeRequestIngest.Concurrency != 9 {
+		t.Errorf(
+			"ScrapeRequestIngest = %+v, want the named subject, durable, and concurrency",
+			config.ScrapeRequestIngest,
+		)
 	}
 }
 
@@ -156,7 +175,7 @@ func TestLoadReadsEveryTrustedProxyNotation(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
 		nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
 		nodeconfiguration.EnvPeerName:        "node",
-		nodeconfiguration.EnvProxyURL:        "http://proxy:4750",
+		nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
 		nodeconfiguration.EnvTrustedProxies:  "10.0.0.1, 192.168.0.0/16, , ::1",
 	}))
 	if err != nil {
@@ -173,8 +192,8 @@ func TestLoadReadsEveryTrustedProxyNotation(t *testing.T) {
 
 func TestLoadLeavesTheInitialPeerHashUnstated(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvPeerName: "node",
-		nodeconfiguration.EnvProxyURL: "http://proxy:4750",
+		nodeconfiguration.EnvPeerName:       "node",
+		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -187,7 +206,7 @@ func TestLoadLeavesTheInitialPeerHashUnstated(t *testing.T) {
 
 func TestLoadLeavesThePeerNameUnstated(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvProxyURL: "http://proxy:4750",
+		nodeconfiguration.EnvEgressProxyURL: "http://proxy:4750",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -204,7 +223,7 @@ func TestLoadRejects(t *testing.T) {
 		"bad name": {
 			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
 			nodeconfiguration.EnvPeerName:        "has space",
-			nodeconfiguration.EnvProxyURL:        "http://proxy:4750",
+			nodeconfiguration.EnvEgressProxyURL:  "http://proxy:4750",
 		},
 		"announce no host": {
 			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
@@ -248,7 +267,7 @@ func TestLoadRejects(t *testing.T) {
 		"non-http proxy url": {
 			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
 			nodeconfiguration.EnvPeerName:        "n",
-			nodeconfiguration.EnvProxyURL:        "socks5://proxy:1080",
+			nodeconfiguration.EnvEgressProxyURL:  "socks5://proxy:1080",
 		},
 	}
 	for name, env := range cases {

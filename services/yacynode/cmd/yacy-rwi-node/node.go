@@ -250,16 +250,16 @@ func assembleNode(
 		peerRoster,
 	)
 
-	var crawl *scrapeRequestIngest
+	var scrapeRequests *scrapeRequestIngest
 
-	if config.Crawl.Enabled() {
-		crawlIngest, crawlIngestErr := openScrapeRequestIngest(
-			ctx, config.Crawl, urlReceiver, postingReceiver,
+	if config.ScrapeRequestIngest.Enabled() {
+		ingest, ingestErr := openScrapeRequestIngest(
+			ctx, config.ScrapeRequestIngest, urlReceiver, postingReceiver,
 		)
-		if crawlIngestErr != nil {
-			return node{}, crawlIngestErr
+		if ingestErr != nil {
+			return node{}, ingestErr
 		}
-		crawl = crawlIngest
+		scrapeRequests = ingest
 	}
 
 	var distributionCycle *distributioncycle.Cycle
@@ -343,6 +343,6 @@ func assembleNode(
 		postingEscrowObserver: postingEscrowObserver,
 		peerAnnouncer:         peerAnnouncer,
 		distributionCycle:     distributionCycle,
-		scrapeRequestIngest:   crawl,
+		scrapeRequestIngest:   scrapeRequests,
 	}, nil
 }
