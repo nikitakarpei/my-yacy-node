@@ -134,8 +134,8 @@ func TestLoadReadsOverrides(t *testing.T) {
 		nodeconfiguration.EnvAnnounceInterval:               "30s",
 		nodeconfiguration.EnvScrapeRequestNATSURL:           "nats://broker:4222",
 		nodeconfiguration.EnvScrapeProxyURL:                 "http://renderproxy:8080",
-		nodeconfiguration.EnvNATSScrapeRequestSubject:       "reached.subject",
-		nodeconfiguration.EnvNATSScrapeRequestDurable:       "reached-durable",
+		nodeconfiguration.EnvScrapeRequestSubject:           "reached.subject",
+		nodeconfiguration.EnvScrapeRequestDurable:           "reached-durable",
 		nodeconfiguration.EnvScrapeRequestIntakeConcurrency: "9",
 	}))
 	if err != nil {

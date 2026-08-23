@@ -13,8 +13,8 @@ import (
 
 const (
 	EnvScrapeRequestNATSURL           = "SCRAPE_REQUEST_NATS_URL"
-	EnvNATSScrapeRequestSubject       = "NATS_SCRAPE_REQUEST_SUBJECT"
-	EnvNATSScrapeRequestDurable       = "NATS_SCRAPE_REQUEST_DURABLE"
+	EnvScrapeRequestSubject           = "SCRAPE_REQUEST_SUBJECT"
+	EnvScrapeRequestDurable           = "SCRAPE_REQUEST_DURABLE"
 	EnvScrapeProxyURL                 = "SCRAPE_PROXY_URL"
 	EnvScrapeProxyDialMode            = "SCRAPE_PROXY_DIAL_MODE"
 	EnvScrapeUserAgent                = "SCRAPE_USER_AGENT"
@@ -85,10 +85,10 @@ func loadScrapeRequestIngestConfig(getenv func(string) string) (ScrapeRequestIng
 	return ScrapeRequestIngestConfig{
 		ScrapeRequestNATSURL: scrapeRequestNATSURL,
 		ScrapeRequestSubject: envconfig.String(
-			getenv, EnvNATSScrapeRequestSubject, DefaultScrapeRequestSubject,
+			getenv, EnvScrapeRequestSubject, DefaultScrapeRequestSubject,
 		),
 		ScrapeRequestDurable: envconfig.String(
-			getenv, EnvNATSScrapeRequestDurable, DefaultScrapeRequestDurable,
+			getenv, EnvScrapeRequestDurable, DefaultScrapeRequestDurable,
 		),
 		ProxyURL:      proxyURL,
 		ProxyDialMode: proxyDialMode,

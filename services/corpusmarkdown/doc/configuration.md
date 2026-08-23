@@ -8,8 +8,8 @@ The service is configured entirely through environment variables.
 |---|---|---|
 | `SCRAPE_REQUEST_NATS_URL` | required | NATS server the service consumes scrape requests from. |
 | `PAGE_MARKDOWN_NATS_URL` | required | NATS server that holds the page markdown bucket. |
-| `NATS_SCRAPE_REQUEST_SUBJECT` | `scrape.request` | Subject the service consumes scrape requests from. |
-| `NATS_SCRAPE_REQUEST_DURABLE` | `corpusmarkdown` | Durable queue-consumer name shared across instances. |
+| `SCRAPE_REQUEST_SUBJECT` | `scrape.request` | Subject the service consumes scrape requests from. |
+| `SCRAPE_REQUEST_DURABLE` | `corpusmarkdown` | Durable queue-consumer name shared across instances. |
 
 ## Fetching
 

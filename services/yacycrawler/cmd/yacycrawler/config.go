@@ -13,8 +13,8 @@ import (
 const (
 	EnvCrawlNATSURL         = "CRAWL_NATS_URL"
 	EnvScrapeRequestNATSURL = "SCRAPE_REQUEST_NATS_URL"
-	EnvOrdersSubject        = "NATS_ORDERS_SUBJECT"
-	EnvOrdersDurable        = "NATS_ORDERS_DURABLE"
+	EnvCrawlOrdersSubject   = "CRAWL_ORDERS_SUBJECT"
+	EnvCrawlOrdersDurable   = "CRAWL_ORDERS_DURABLE"
 
 	EnvProxyURL         = "SCRAPE_PROXY_URL"
 	EnvProxyDialMode    = "SCRAPE_PROXY_DIAL_MODE"
@@ -28,16 +28,16 @@ const (
 	EnvUserAgent     = "SCRAPE_USER_AGENT"
 	EnvRecrawlGrace  = "YACYCRAWLER_RECRAWL_GRACE"
 
-	DefaultOrdersSubject    = "yacy.crawl.orders"
-	DefaultOrdersDurable    = "yacycrawler"
-	DefaultFetchConcurrency = 4
-	DefaultRunPageBudget    = 1000
-	DefaultFrontierCap      = 10000
-	DefaultMaxBodyBytes     = 2 << 20
-	DefaultFetchDeadline    = 30 * time.Second
-	DefaultOpsAddr          = ":9090"
-	DefaultUserAgent        = "yacycrawler (+https://yacy.net)"
-	DefaultProxyDialMode    = "tunnel"
+	DefaultCrawlOrdersSubject = "yacy.crawl.orders"
+	DefaultCrawlOrdersDurable = "yacycrawler"
+	DefaultFetchConcurrency   = 4
+	DefaultRunPageBudget      = 1000
+	DefaultFrontierCap        = 10000
+	DefaultMaxBodyBytes       = 2 << 20
+	DefaultFetchDeadline      = 30 * time.Second
+	DefaultOpsAddr            = ":9090"
+	DefaultUserAgent          = "yacycrawler (+https://yacy.net)"
+	DefaultProxyDialMode      = "tunnel"
 
 	DefaultRecrawlGrace       = time.Hour
 	DefaultPageVisitRetention = 30 * 24 * time.Hour
@@ -47,8 +47,8 @@ const (
 type ServiceConfig struct {
 	CrawlNATSURL         string
 	ScrapeRequestNATSURL string
-	OrdersSubject        string
-	OrdersDurable        string
+	CrawlOrdersSubject   string
+	CrawlOrdersDurable   string
 	ProxyURL             *url.URL
 	ProxyDialMode        http.ProxyDialMode
 	FetchConcurrency     int
@@ -140,18 +140,26 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	return ServiceConfig{
 		CrawlNATSURL:         crawlNATSURL,
 		ScrapeRequestNATSURL: scrapeRequestNATSURL,
-		OrdersSubject:        envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
-		OrdersDurable:        envconfig.String(getenv, EnvOrdersDurable, DefaultOrdersDurable),
-		ProxyURL:             proxyURL,
-		ProxyDialMode:        proxyDialMode,
-		FetchConcurrency:     limits.fetchConcurrency,
-		RunPageBudget:        limits.runPageBudget,
-		FrontierCap:          limits.frontierCap,
-		MaxBodyBytes:         limits.maxBodyBytes,
-		FetchDeadline:        limits.fetchDeadline,
-		OpsAddr:              envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
-		UserAgent:            envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
-		RecrawlGrace:         recrawlGrace,
+		CrawlOrdersSubject: envconfig.String(
+			getenv,
+			EnvCrawlOrdersSubject,
+			DefaultCrawlOrdersSubject,
+		),
+		CrawlOrdersDurable: envconfig.String(
+			getenv,
+			EnvCrawlOrdersDurable,
+			DefaultCrawlOrdersDurable,
+		),
+		ProxyURL:         proxyURL,
+		ProxyDialMode:    proxyDialMode,
+		FetchConcurrency: limits.fetchConcurrency,
+		RunPageBudget:    limits.runPageBudget,
+		FrontierCap:      limits.frontierCap,
+		MaxBodyBytes:     limits.maxBodyBytes,
+		FetchDeadline:    limits.fetchDeadline,
+		OpsAddr:          envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		UserAgent:        envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
+		RecrawlGrace:     recrawlGrace,
 	}, nil
 }
 

@@ -24,8 +24,8 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.OrdersSubject != visitcrawl.DefaultOrdersSubject {
-		t.Fatalf("orders subject = %q", cfg.OrdersSubject)
+	if cfg.CrawlOrdersSubject != visitcrawl.DefaultCrawlOrdersSubject {
+		t.Fatalf("orders subject = %q", cfg.CrawlOrdersSubject)
 	}
 	if cfg.ListenAddr != visitcrawl.DefaultListenAddr || cfg.OpsAddr != visitcrawl.DefaultOpsAddr {
 		t.Fatalf("unexpected addr defaults: %+v", cfg)

@@ -26,14 +26,14 @@ import (
 func TestRunServiceRedirectsAndPlacesOrder(t *testing.T) {
 	crawlNATSURL := natstestserver.Start(t)
 	cfg := visitcrawl.ServiceConfig{
-		CrawlNATSURL:  crawlNATSURL,
-		OrdersSubject: visitcrawl.DefaultOrdersSubject,
-		ListenAddr:    freeAddr(t),
-		OpsAddr:       freeAddr(t),
-		OrderTimeout:  visitcrawl.DefaultOrderTimeout,
-		MaxInFlight:   visitcrawl.DefaultMaxInFlight,
-		MaxBodyBytes:  visitcrawl.DefaultMaxBodyBytes,
-		LinkSecret:    "shared-secret",
+		CrawlNATSURL:       crawlNATSURL,
+		CrawlOrdersSubject: visitcrawl.DefaultCrawlOrdersSubject,
+		ListenAddr:         freeAddr(t),
+		OpsAddr:            freeAddr(t),
+		OrderTimeout:       visitcrawl.DefaultOrderTimeout,
+		MaxInFlight:        visitcrawl.DefaultMaxInFlight,
+		MaxBodyBytes:       visitcrawl.DefaultMaxBodyBytes,
+		LinkSecret:         "shared-secret",
 		CrawlProfile: yacycrawlcontract.CrawlProfile{
 			Scope:           yacycrawlcontract.ScopeDomain,
 			URLMustMatch:    yacycrawlcontract.MatchAll,
@@ -119,7 +119,7 @@ func ordersConsumer(t *testing.T, ctx context.Context, crawlNATSURL string) jets
 	js := natstestserver.ConnectJetStream(t, crawlNATSURL)
 	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
 		Name:      yacycrawlcontract.OrdersStreamName,
-		Subjects:  []string{visitcrawl.DefaultOrdersSubject},
+		Subjects:  []string{visitcrawl.DefaultCrawlOrdersSubject},
 		Retention: jetstream.WorkQueuePolicy,
 	}); err != nil {
 		t.Fatal(err)
@@ -127,7 +127,7 @@ func ordersConsumer(t *testing.T, ctx context.Context, crawlNATSURL string) jets
 	consumer, err := js.CreateOrUpdateConsumer(ctx, yacycrawlcontract.OrdersStreamName,
 		jetstream.ConsumerConfig{
 			AckPolicy:     jetstream.AckExplicitPolicy,
-			FilterSubject: visitcrawl.DefaultOrdersSubject,
+			FilterSubject: visitcrawl.DefaultCrawlOrdersSubject,
 		})
 	if err != nil {
 		t.Fatal(err)

@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	EnvCrawlNATSURL  = "CRAWL_NATS_URL"
-	EnvOrdersSubject = "NATS_ORDERS_SUBJECT"
+	EnvCrawlNATSURL       = "CRAWL_NATS_URL"
+	EnvCrawlOrdersSubject = "CRAWL_ORDERS_SUBJECT"
 
 	EnvListenAddr   = "VISITCRAWL_LISTEN_ADDR"
 	EnvLinkSecret   = "VISITCRAWL_LINK_SECRET"
@@ -28,7 +28,7 @@ const (
 	EnvCrawlAllowQueryURLs         = "VISITCRAWL_CRAWL_ALLOW_QUERY_URLS"
 	EnvCrawlIgnoresIndexingRefusal = "VISITCRAWL_CRAWL_IGNORES_INDEXING_REFUSAL"
 
-	DefaultOrdersSubject               = "yacy.crawl.orders"
+	DefaultCrawlOrdersSubject          = "yacy.crawl.orders"
 	DefaultListenAddr                  = ":8091"
 	DefaultOpsAddr                     = ":9091"
 	DefaultOrderTimeout                = 5 * time.Second
@@ -41,15 +41,15 @@ const (
 )
 
 type ServiceConfig struct {
-	CrawlNATSURL  string
-	OrdersSubject string
-	LinkSecret    string
-	ListenAddr    string
-	OpsAddr       string
-	OrderTimeout  time.Duration
-	MaxInFlight   int
-	MaxBodyBytes  int64
-	CrawlProfile  yacycrawlcontract.CrawlProfile
+	CrawlNATSURL       string
+	CrawlOrdersSubject string
+	LinkSecret         string
+	ListenAddr         string
+	OpsAddr            string
+	OrderTimeout       time.Duration
+	MaxInFlight        int
+	MaxBodyBytes       int64
+	CrawlProfile       yacycrawlcontract.CrawlProfile
 }
 
 var crawlScopeByName = map[string]yacycrawlcontract.CrawlScope{
@@ -87,15 +87,19 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		CrawlNATSURL:  crawlNATSURL,
-		OrdersSubject: envconfig.String(getenv, EnvOrdersSubject, DefaultOrdersSubject),
-		LinkSecret:    linkSecret,
-		ListenAddr:    envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
-		OpsAddr:       envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
-		OrderTimeout:  orderTimeout,
-		MaxInFlight:   maxInFlight,
-		MaxBodyBytes:  maxBodyBytes,
-		CrawlProfile:  profile,
+		CrawlNATSURL: crawlNATSURL,
+		CrawlOrdersSubject: envconfig.String(
+			getenv,
+			EnvCrawlOrdersSubject,
+			DefaultCrawlOrdersSubject,
+		),
+		LinkSecret:   linkSecret,
+		ListenAddr:   envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
+		OpsAddr:      envconfig.String(getenv, EnvOpsAddr, DefaultOpsAddr),
+		OrderTimeout: orderTimeout,
+		MaxInFlight:  maxInFlight,
+		MaxBodyBytes: maxBodyBytes,
+		CrawlProfile: profile,
 	}, nil
 }
 

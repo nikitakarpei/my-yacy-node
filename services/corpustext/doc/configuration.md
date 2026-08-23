@@ -7,8 +7,8 @@ The indexer is configured entirely through environment variables.
 | Variable | Default | Meaning |
 |---|---|---|
 | `SCRAPE_REQUEST_NATS_URL` | required | NATS server the indexer consumes scrape requests from. |
-| `NATS_SCRAPE_REQUEST_SUBJECT` | `scrape.request` | Subject the indexer consumes scrape requests from. |
-| `NATS_SCRAPE_REQUEST_DURABLE` | `corpustext` | Durable queue-consumer name shared across instances. |
+| `SCRAPE_REQUEST_SUBJECT` | `scrape.request` | Subject the indexer consumes scrape requests from. |
+| `SCRAPE_REQUEST_DURABLE` | `corpustext` | Durable queue-consumer name shared across instances. |
 
 ## Fetching
 

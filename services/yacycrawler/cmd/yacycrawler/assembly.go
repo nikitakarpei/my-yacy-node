@@ -91,7 +91,7 @@ func RunService(
 	}
 
 	slog.InfoContext(ctx, msgServiceStarted,
-		slog.String("orders", cfg.OrdersSubject),
+		slog.String("orders", cfg.CrawlOrdersSubject),
 		slog.Int("fetchConcurrency", cfg.FetchConcurrency),
 	)
 
@@ -111,7 +111,7 @@ func RunService(
 }
 
 func ensureNATSState(ctx context.Context, js jetstream.JetStream, cfg ServiceConfig) error {
-	if err := ensureOrdersStream(ctx, js, cfg.OrdersSubject); err != nil {
+	if err := ensureOrdersStream(ctx, js, cfg.CrawlOrdersSubject); err != nil {
 		return err
 	}
 	return ensurePageVisitBucket(ctx, js, cfg)
@@ -190,8 +190,8 @@ func ordersConsumer(
 ) (jetstream.Consumer, error) {
 	consumer, err := js.CreateOrUpdateConsumer(ctx, yacycrawlcontract.OrdersStreamName,
 		jetstream.ConsumerConfig{
-			Durable:       cfg.OrdersDurable,
-			FilterSubject: cfg.OrdersSubject,
+			Durable:       cfg.CrawlOrdersDurable,
+			FilterSubject: cfg.CrawlOrdersSubject,
 			AckPolicy:     jetstream.AckExplicitPolicy,
 			AckWait:       ordersAckWait,
 			MaxAckPending: 1,

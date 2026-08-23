@@ -25,8 +25,8 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.OrdersSubject != yacycrawler.DefaultOrdersSubject {
-		t.Fatalf("orders subject = %q", cfg.OrdersSubject)
+	if cfg.CrawlOrdersSubject != yacycrawler.DefaultCrawlOrdersSubject {
+		t.Fatalf("orders subject = %q", cfg.CrawlOrdersSubject)
 	}
 	if cfg.FetchConcurrency != yacycrawler.DefaultFetchConcurrency ||
 		cfg.RunPageBudget != yacycrawler.DefaultRunPageBudget {

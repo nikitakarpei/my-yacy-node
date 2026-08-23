@@ -13,8 +13,8 @@ import (
 const (
 	EnvScrapeRequestNATSURL           = "SCRAPE_REQUEST_NATS_URL"
 	EnvPageMarkdownNATSURL            = "PAGE_MARKDOWN_NATS_URL"
-	EnvNATSScrapeRequestSubject       = "NATS_SCRAPE_REQUEST_SUBJECT"
-	EnvNATSScrapeRequestDurable       = "NATS_SCRAPE_REQUEST_DURABLE"
+	EnvScrapeRequestSubject           = "SCRAPE_REQUEST_SUBJECT"
+	EnvScrapeRequestDurable           = "SCRAPE_REQUEST_DURABLE"
 	EnvProxyURL                       = "SCRAPE_PROXY_URL"
 	EnvProxyDialMode                  = "SCRAPE_PROXY_DIAL_MODE"
 	EnvUserAgent                      = "SCRAPE_USER_AGENT"
@@ -120,12 +120,12 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		PageMarkdownNATSURL:  pageMarkdownNATSURL,
 		ScrapeRequestSubject: envconfig.String(
 			getenv,
-			EnvNATSScrapeRequestSubject,
+			EnvScrapeRequestSubject,
 			DefaultScrapeRequestSubject,
 		),
 		ScrapeRequestDurable: envconfig.String(
 			getenv,
-			EnvNATSScrapeRequestDurable,
+			EnvScrapeRequestDurable,
 			DefaultScrapeRequestDurable,
 		),
 		ProxyURL:                       fetch.proxyURL,

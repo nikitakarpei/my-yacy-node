@@ -33,8 +33,8 @@ it the node behaves as a pure peer.
 | Variable | Default | Description |
 | --- | --- | --- |
 | `SCRAPE_REQUEST_NATS_URL` | _(empty)_ | NATS server scrape requests arrive from (e.g. `nats://nats:4222`). Empty disables ingest. |
-| `NATS_SCRAPE_REQUEST_SUBJECT` | `scrape.request` | Subject scrape requests arrive on. Must match the crawler. |
-| `NATS_SCRAPE_REQUEST_DURABLE` | `yacy-node` | Durable queue-consumer name shared across nodes. |
+| `SCRAPE_REQUEST_SUBJECT` | `scrape.request` | Subject scrape requests arrive on. Must match the crawler. |
+| `SCRAPE_REQUEST_DURABLE` | `yacy-node` | Durable queue-consumer name shared across nodes. |
 | `SCRAPE_PROXY_URL` | _(required with ingest)_ | Egress proxy every page fetch goes through. |
 | `SCRAPE_PROXY_DIAL_MODE` | `tunnel` | How to reach the proxy: `tunnel` or `absolute-url`. |
 | `SCRAPE_USER_AGENT` | `yacy-rwi-node (+https://yacy.net)` | User agent each fetch sends. |

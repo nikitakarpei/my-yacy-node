@@ -106,8 +106,8 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 
 func TestLoadServiceConfigOverrides(t *testing.T) {
 	env := requiredEnv()
-	env[corpustext.EnvNATSScrapeRequestSubject] = "t.subject"
-	env[corpustext.EnvNATSScrapeRequestDurable] = "dur"
+	env[corpustext.EnvScrapeRequestSubject] = "t.subject"
+	env[corpustext.EnvScrapeRequestDurable] = "dur"
 	env[corpustext.EnvProxyDialMode] = "absolute-url"
 	env[corpustext.EnvUserAgent] = "agent (+https://example.test)"
 	env[corpustext.EnvScrapeMaxBodyBytes] = "4096"
