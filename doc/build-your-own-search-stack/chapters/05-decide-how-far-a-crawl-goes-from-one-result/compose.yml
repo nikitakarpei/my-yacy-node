@@ -1,56 +1,9 @@
 services:
-  warcprox:
-    build:
-      context: ../../building-blocks/warcprox
-    restart: unless-stopped
-    command:
-      - "--address=0.0.0.0"
-      - "--port=8000"
-      - "--dir=/warcs"
-      - "--gzip"
-      - "--prefix=CRAWL"
-      - "--cacert=/ca/warcprox-ca.pem"
-      - "--certs-dir=/ca/certs"
-      - "--rollover-idle-time=300"
-      - "--dedup-db-file=/state/dedup.sqlite"
-    volumes:
-      - ./warcs:/warcs
-      - warcprox-ca:/ca
-      - warcprox-state:/state
-    networks:
-      default:
-        ipv4_address: 10.99.0.10
-
-  warcprox-trust:
-    build:
-      context: ../../building-blocks/warcprox
-    depends_on:
-      - warcprox
-    volumes:
-      - warcprox-ca:/ca
-      - warcprox-trust:/trust
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - |
-        until [ -s /ca/warcprox-ca.pem ]; do sleep 1; done
-        cat /etc/ssl/certs/ca-certificates.crt > /trust/ca-certificates.crt
-        sed -n '/BEGIN CERTIFICATE/,/END CERTIFICATE/p' /ca/warcprox-ca.pem >> /trust/ca-certificates.crt
-
   smokescreen:
     build:
       context: ../../building-blocks/smokescreen
     restart: unless-stopped
-    depends_on:
-      - warcprox
-    command:
-      - "--listen-ip"
-      - "0.0.0.0"
-      - "--upstream-http-proxy-addr"
-      - "http://warcprox:8000"
-      - "--upstream-https-proxy-addr"
-      - "http://warcprox:8000"
-      - "--allow-address"
-      - "10.99.0.10:8000"
+    command: ["--listen-ip", "0.0.0.0"]
 
   nats:
     image: nats:2.14.2
@@ -85,63 +38,18 @@ services:
       - nats
     entrypoint: ["nats", "--server", "nats://nats:4222"]
 
-  lightpanda:
-    image: lightpanda/browser:0.3.4
-    restart: unless-stopped
-    depends_on:
-      warcprox-trust:
-        condition: service_completed_successfully
-    volumes:
-      - warcprox-trust:/etc/ssl/certs:ro
-    command:
-      - "/bin/lightpanda"
-      - "serve"
-      - "--host"
-      - "0.0.0.0"
-      - "--port"
-      - "9222"
-      - "--advertise-host"
-      - "lightpanda"
-      - "--http-proxy"
-      - "http://smokescreen:4750"
-      - "--obey-robots"
-
-  renderproxy:
-    image: ghcr.io/nikitakarpei/renderproxy:latest
-    restart: unless-stopped
-    depends_on:
-      - lightpanda
-      - smokescreen
-    volumes:
-      - warcprox-trust:/trust:ro
-    environment:
-      RENDERPROXY_CDP_URL: ws://lightpanda:9222
-      EGRESS_PROXY_URL: http://smokescreen:4750
-      SSL_CERT_FILE: /trust/ca-certificates.crt
-      LOG_LEVEL: ${LOG_LEVEL:-INFO}
-
-  pagecache:
-    image: ubuntu/squid:6.6-24.04_edge
-    restart: unless-stopped
-    depends_on:
-      - renderproxy
-    volumes:
-      - ../../building-blocks/squid/squid.conf:/etc/squid/squid.conf:ro
-      - pagecache-data:/var/spool/squid
-
   yacycrawler:
     image: ghcr.io/nikitakarpei/yacycrawler:latest
     restart: unless-stopped
     depends_on:
       scrape-requests-stream:
         condition: service_completed_successfully
-      pagecache:
+      smokescreen:
         condition: service_started
     environment:
       CRAWL_NATS_URL: nats://nats:4222
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://pagecache:3128
-      SCRAPE_PROXY_DIAL_MODE: absolute-url
+      YACYCRAWLER_FETCH_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   manticore:
@@ -158,12 +66,11 @@ services:
         condition: service_completed_successfully
       manticore:
         condition: service_started
-      pagecache:
+      smokescreen:
         condition: service_started
     environment:
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://pagecache:3128
-      SCRAPE_PROXY_DIAL_MODE: absolute-url
+      SCRAPE_PROXY_URL: http://smokescreen:4750
       SEARCH_INDEX_ENGINE: manticore
       MANTICORE_URL: http://manticore:9308
       CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}
@@ -246,8 +153,6 @@ services:
         condition: service_completed_successfully
       smokescreen:
         condition: service_started
-      pagecache:
-        condition: service_started
     ports:
       - "8090:8090"
       - "127.0.0.1:9090:9090"
@@ -267,63 +172,13 @@ services:
       YACY_STORAGE_QUOTA: ${YACY_STORAGE_QUOTA:-1GB}
       EGRESS_PROXY_URL: http://smokescreen:4750
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://pagecache:3128
-      SCRAPE_PROXY_DIAL_MODE: absolute-url
+      SCRAPE_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
       - yacy-data:/data
 
-  nats-metrics:
-    image: natsio/prometheus-nats-exporter:0.16.0
-    restart: unless-stopped
-    depends_on:
-      - nats
-    command: ["-varz", "-jsz=all", "http://nats:8222"]
-
-  prometheus:
-    image: prom/prometheus:v3.1.0
-    restart: unless-stopped
-    depends_on:
-      - nats-metrics
-    ports:
-      - "127.0.0.1:9099:9090"
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-    volumes:
-      - ../../building-blocks/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - prometheus-data:/prometheus
-
-  grafana:
-    image: grafana/grafana:11.4.0
-    restart: unless-stopped
-    depends_on:
-      - prometheus
-    ports:
-      - "127.0.0.1:3000:3000"
-    environment:
-      GF_AUTH_ANONYMOUS_ENABLED: "true"
-      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
-      GF_AUTH_DISABLE_LOGIN_FORM: "true"
-    volumes:
-      - ../../building-blocks/grafana/provisioning:/etc/grafana/provisioning:ro
-      - ../../../../services/yacynode/doc/grafana-dashboard.json:/var/lib/grafana/dashboards/yacynode.json:ro
-      - ../../../../services/yacycrawler/doc/grafana-dashboard.json:/var/lib/grafana/dashboards/yacycrawler.json:ro
-      - grafana-data:/var/lib/grafana
-
-networks:
-  default:
-    ipam:
-      config:
-        - subnet: 10.99.0.0/24
-
 volumes:
-  warcprox-ca:
-  warcprox-state:
-  warcprox-trust:
   nats-data:
-  pagecache-data:
-  prometheus-data:
-  grafana-data:
   yacy-data:
   manticore-data:
   searxng-engines:

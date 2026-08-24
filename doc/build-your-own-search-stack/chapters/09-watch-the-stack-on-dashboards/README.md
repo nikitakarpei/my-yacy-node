@@ -1,4 +1,4 @@
-# 9. Seeing it
+# 9. Watch the stack on dashboards
 
 > "Can I see all of it at once instead?"
 

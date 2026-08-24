@@ -1,4 +1,4 @@
-# 1. A peer of your own
+# 1. Join the YaCy network with one peer
 
 > "I have a spare box in the corner. Can it be part of something bigger?"
 

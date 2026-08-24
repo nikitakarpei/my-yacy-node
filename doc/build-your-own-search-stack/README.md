@@ -8,13 +8,13 @@ The chapters are best read in order the first time. After that, chapters/ works 
 
 | # | Chapter |
 | --- | --- |
-| 1 | [A peer of your own](chapters/01-a-peer-of-your-own) |
-| 2 | [Pages of your own](chapters/02-pages-of-your-own) |
-| 3 | [Searching them](chapters/03-searching-them) |
-| 4 | [Pages you open](chapters/04-pages-you-open) |
-| 5 | [How far a crawl goes](chapters/05-how-far-a-crawl-goes) |
-| 6 | [Nothing comes back](chapters/06-nothing-comes-back) |
-| 7 | [Fetched once](chapters/07-fetched-once) |
-| 8 | [Knowing it is healthy](chapters/08-knowing-it-is-healthy) |
-| 9 | [Seeing it](chapters/09-seeing-it) |
-| 10 | [Keeping them](chapters/10-keeping-them) |
+| 1 | [Join the YaCy network with one peer](chapters/01-join-the-yacy-network-with-one-peer) |
+| 2 | [Give your peer a crawler](chapters/02-give-your-peer-a-crawler) |
+| 3 | [Search your index from a browser](chapters/03-search-your-index-from-a-browser) |
+| 4 | [Crawl every search result you open](chapters/04-crawl-every-search-result-you-open) |
+| 5 | [Decide how far a crawl goes from one result](chapters/05-decide-how-far-a-crawl-goes-from-one-result) |
+| 6 | [Index pages that JavaScript builds](chapters/06-index-pages-that-javascript-builds) |
+| 7 | [Share one fetch between three readers](chapters/07-share-one-fetch-between-three-readers) |
+| 8 | [Collect metrics from every service](chapters/08-collect-metrics-from-every-service) |
+| 9 | [Watch the stack on dashboards](chapters/09-watch-the-stack-on-dashboards) |
+| 10 | [Keep every page as a WARC file](chapters/10-keep-every-page-as-a-warc-file) |

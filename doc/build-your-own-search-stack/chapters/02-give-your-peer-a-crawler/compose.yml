@@ -49,64 +49,8 @@ services:
     environment:
       CRAWL_NATS_URL: nats://nats:4222
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://smokescreen:4750
+      YACYCRAWLER_FETCH_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
-
-  manticore:
-    image: manticoresearch/manticore:27.1.5
-    restart: unless-stopped
-    volumes:
-      - manticore-data:/var/lib/manticore
-
-  corpustext:
-    image: ghcr.io/nikitakarpei/corpustext:latest
-    restart: unless-stopped
-    depends_on:
-      scrape-requests-stream:
-        condition: service_completed_successfully
-      manticore:
-        condition: service_started
-      smokescreen:
-        condition: service_started
-    environment:
-      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://smokescreen:4750
-      SEARCH_INDEX_ENGINE: manticore
-      MANTICORE_URL: http://manticore:9308
-      CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}
-      LOG_LEVEL: ${LOG_LEVEL:-INFO}
-
-  searxng-engines-seed:
-    image: docker.io/searxng/searxng:2026.7.5-a6438586a
-    entrypoint: ["true"]
-    volumes:
-      - searxng-engines:/usr/local/searxng/searx/engines
-
-  searxng-crawled-text-search-init:
-    image: ghcr.io/nikitakarpei/searxng-crawled-text-search:latest
-    depends_on:
-      searxng-engines-seed:
-        condition: service_completed_successfully
-    command: ["/payload/crawled_text_search.py", "/engines/crawled_text_search.py"]
-    volumes:
-      - searxng-engines:/engines
-
-  searxng:
-    image: docker.io/searxng/searxng:2026.7.5-a6438586a
-    restart: unless-stopped
-    depends_on:
-      searxng-crawled-text-search-init:
-        condition: service_completed_successfully
-      manticore:
-        condition: service_started
-    ports:
-      - "8080:8080"
-    environment:
-      SEARXNG_SECRET: ${SEARXNG_SECRET:?set SEARXNG_SECRET in .env}
-      SEARXNG_SETTINGS_PATH: /etc/searxng/settings.yml
-    volumes:
-      - ../../building-blocks/searxng/settings-local-index.yml:/etc/searxng/settings.yml:ro
-      - searxng-engines:/usr/local/searxng/searx/engines
 
   yacy-rwi-node:
     image: ghcr.io/nikitakarpei/yacynode:latest
@@ -143,5 +87,3 @@ services:
 volumes:
   nats-data:
   yacy-data:
-  manticore-data:
-  searxng-engines:

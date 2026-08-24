@@ -1,4 +1,4 @@
-# 10. Keeping them
+# 10. Keep every page as a WARC file
 
 > "Can I save what I crawl in a format anyone can open?"
 

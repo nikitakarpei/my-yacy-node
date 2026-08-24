@@ -1,4 +1,4 @@
-# 6. Nothing comes back
+# 6. Index pages that JavaScript builds
 
 > "I search for a phrase I know is on a page I crawled last week. No result."
 
@@ -21,11 +21,19 @@ speaks CDP, so you can point it at Chrome for a site that needs one.
 
 ## The change
 
-Three services stop fetching pages directly:
+Three services stop fetching pages directly. `corpustext` and the peer fetch
+because a scrape request asked them to:
 
 ```yaml
       SCRAPE_PROXY_URL: http://renderproxy:8080
       SCRAPE_PROXY_DIAL_MODE: absolute-url
+```
+
+`yacycrawler` fetches for its own crawl, and names the same setting after itself:
+
+```yaml
+      YACYCRAWLER_FETCH_PROXY_URL: http://renderproxy:8080
+      YACYCRAWLER_FETCH_PROXY_DIAL_MODE: absolute-url
 ```
 
 `EGRESS_PROXY_URL` on the peer is unchanged: peer-to-peer traffic never renders.

@@ -67,14 +67,14 @@ services:
       EGRESS_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
-  pagecache:
+  squid:
     image: ubuntu/squid:6.6-24.04_edge
     restart: unless-stopped
     depends_on:
       - renderproxy
     volumes:
       - ../../building-blocks/squid/squid.conf:/etc/squid/squid.conf:ro
-      - pagecache-data:/var/spool/squid
+      - squid-data:/var/spool/squid
 
   yacycrawler:
     image: ghcr.io/nikitakarpei/yacycrawler:latest
@@ -82,13 +82,13 @@ services:
     depends_on:
       scrape-requests-stream:
         condition: service_completed_successfully
-      pagecache:
+      squid:
         condition: service_started
     environment:
       CRAWL_NATS_URL: nats://nats:4222
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://pagecache:3128
-      SCRAPE_PROXY_DIAL_MODE: absolute-url
+      YACYCRAWLER_FETCH_PROXY_URL: http://squid:3128
+      YACYCRAWLER_FETCH_PROXY_DIAL_MODE: absolute-url
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   manticore:
@@ -105,11 +105,11 @@ services:
         condition: service_completed_successfully
       manticore:
         condition: service_started
-      pagecache:
+      squid:
         condition: service_started
     environment:
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://pagecache:3128
+      SCRAPE_PROXY_URL: http://squid:3128
       SCRAPE_PROXY_DIAL_MODE: absolute-url
       SEARCH_INDEX_ENGINE: manticore
       MANTICORE_URL: http://manticore:9308
@@ -193,7 +193,7 @@ services:
         condition: service_completed_successfully
       smokescreen:
         condition: service_started
-      pagecache:
+      squid:
         condition: service_started
     ports:
       - "8090:8090"
@@ -214,7 +214,7 @@ services:
       YACY_STORAGE_QUOTA: ${YACY_STORAGE_QUOTA:-1GB}
       EGRESS_PROXY_URL: http://smokescreen:4750
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://pagecache:3128
+      SCRAPE_PROXY_URL: http://squid:3128
       SCRAPE_PROXY_DIAL_MODE: absolute-url
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
@@ -259,7 +259,7 @@ services:
 
 volumes:
   nats-data:
-  pagecache-data:
+  squid-data:
   prometheus-data:
   grafana-data:
   yacy-data:
