@@ -24,8 +24,5 @@ jobs:
           path: .toolchain/bin
           key: tools-${{ runner.os }}-${{ hashFiles('tools/tools.lock') }}
 
-      - name: Build e2e images
-        run: make e2e-images
-
       - name: Run e2e suites
         run: make e2e
