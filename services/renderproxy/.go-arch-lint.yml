@@ -7,10 +7,13 @@ allow:
 
 commonComponents:
   - renderedpage
+  - pagefreshness
 
 components:
   renderedpage:
     in: internal/renderedpage/**
+  pagefreshness:
+    in: internal/pagefreshness/**
   cdprender:
     in: internal/cdprender/**
   cdpdocumentbinding:
