@@ -7,10 +7,9 @@ other peers hand it, and answers their searches. `smokescreen` sits in front of
 every outbound connection and refuses the private ones, so nothing the node
 talks to can walk into your LAN.
 
-The node also has distribution turned on, which most peer setups leave off. With
-it on, a posting the node holds moves along to the peers the DHT makes
-responsible for it. Off, the postings stay on your disk and no one else ever
-sees them.
+Distribution is on, so a posting the node holds moves along to the peers the
+DHT makes responsible for it. With it off, everything the node collects stays
+on your disk.
 
 ## Setup
 
