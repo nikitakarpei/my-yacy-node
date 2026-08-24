@@ -17,3 +17,4 @@ The chapters are best read in order the first time. After that, chapters/ works 
 | 7 | [Fetched once](chapters/07-fetched-once) |
 | 8 | [Knowing it is healthy](chapters/08-knowing-it-is-healthy) |
 | 9 | [Seeing it](chapters/09-seeing-it) |
+| 10 | [Keeping them](chapters/10-keeping-them) |
