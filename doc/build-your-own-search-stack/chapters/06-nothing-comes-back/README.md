@@ -6,16 +6,17 @@ Look at what your crawler received. Many sites send an empty shell and a bundle
 of JavaScript that builds the page in the browser. The crawler reads the shell,
 finds a navigation menu and a spinner, and indexes exactly that.
 
-So this chapter puts a browser in the fetch path. `renderproxy` accepts the same
-fetch every service already makes, drives `lightpanda` to load the page, waits
-for the scripts to finish, and returns the result. `yacycrawler`, `corpustext`,
-and the peer all point their page fetches at it instead of straight at
-Smokescreen. Smokescreen still guards the egress: the browser reaches the
+So this chapter puts a browser in the fetch path, which takes two services.
+`lightpanda` is the browser itself. `renderproxy` is what your fetchers talk
+to: it takes the same fetch they already make, has the browser load the page
+and run its scripts, and returns what the browser ended up with. `yacycrawler`,
+`corpustext`, and the peer all fetch through it now, rather than straight
+through Smokescreen, which still guards the egress — the browser reaches the
 internet through it.
 
-Lightpanda is a browser built for this rather than a Chromium with the window
+Lightpanda is built for this work rather than being a Chromium with the window
 switched off, which is why the whole stack still fits on a small machine. It
-covers ordinary script-built pages; `renderproxy` drives any browser that
+covers ordinary script-built pages, and `renderproxy` drives any browser that
 speaks CDP, so you can point it at Chrome for a site that needs one.
 
 ## The change
