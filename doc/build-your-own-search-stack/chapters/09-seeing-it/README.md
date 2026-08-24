@@ -1,4 +1,4 @@
-# 8. Seeing it
+# 9. Seeing it
 
 > "Can I see all of it at once instead?"
 

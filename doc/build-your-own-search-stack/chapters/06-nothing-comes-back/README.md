@@ -45,5 +45,3 @@ its thin index until something crawls it again.
 The index holds what a reader would have seen. Two services now read every
 scrape request, each at its own pace, and a browser sits in the fetch path of
 both.
-
-> "What happens if one of them falls behind?"

@@ -14,5 +14,6 @@ The chapters are best read in order the first time. After that, chapters/ works 
 | 4 | [Pages you open](chapters/04-pages-you-open) |
 | 5 | [How far a crawl goes](chapters/05-how-far-a-crawl-goes) |
 | 6 | [Nothing comes back](chapters/06-nothing-comes-back) |
-| 7 | [Knowing it is healthy](chapters/07-knowing-it-is-healthy) |
-| 8 | [Seeing it](chapters/08-seeing-it) |
+| 7 | [Fetched once](chapters/07-fetched-once) |
+| 8 | [Knowing it is healthy](chapters/08-knowing-it-is-healthy) |
+| 9 | [Seeing it](chapters/09-seeing-it) |

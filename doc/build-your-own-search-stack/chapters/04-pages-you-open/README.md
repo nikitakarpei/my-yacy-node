@@ -38,5 +38,3 @@ Search for something from that page a minute later.
 
 Your index grows while you use it. Each visit brings in the page you opened,
 and the pages it links to.
-
-> "When I open one page, how much of the site should it crawl?"
