@@ -1,4 +1,10 @@
 services:
+  smokescreen:
+    build:
+      context: ../../building-blocks/smokescreen
+    restart: unless-stopped
+    command: ["--listen-ip", "0.0.0.0"]
+
   yacy-rwi-node:
     image: ghcr.io/nikitakarpei/yacynode:latest
     restart: unless-stopped
@@ -6,7 +12,7 @@ services:
       - smokescreen
     ports:
       - "8090:8090"
-      - "9090:9090"
+      - "127.0.0.1:9090:9090"
     environment:
       YACY_INITIAL_PEER_HASH: ${YACY_INITIAL_PEER_HASH:-}
       YACY_PEER_NAME: ${YACY_PEER_NAME:-}
@@ -19,16 +25,12 @@ services:
         http://yacy.v16.de/seed/seed.txt,
         https://frank-siebert.de/seed.txt,
         http://seedlist.wertewesten.net/seed.txt
+      YACY_DISTRIBUTION_ENABLED: "true"
+      YACY_STORAGE_QUOTA: ${YACY_STORAGE_QUOTA:-1GB}
       EGRESS_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
       - yacy-data:/data
-
-  # Egress proxy: blocks outbound connections to private/internal IPs (RFC1918, loopback, link-local) to prevent SSRF into the internal network.
-  smokescreen:
-    image: pretix/smokescreen:latest
-    restart: unless-stopped
-    command: ["--listen-ip", "0.0.0.0"]
 
 volumes:
   yacy-data:

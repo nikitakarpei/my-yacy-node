@@ -32,13 +32,13 @@ services:
     environment:
       SEARXNG_SETTINGS_PATH: /etc/searxng/settings.elasticsearch.yml
     volumes:
-      - ./extras/elasticsearch/searxng-settings.yml:/etc/searxng/settings.elasticsearch.yml:ro
+      - ../../side-roads/elasticsearch/searxng-settings.yml:/etc/searxng/settings.elasticsearch.yml:ro
 
   prometheus:
     depends_on:
       - elasticsearch-metrics
     volumes:
-      - ./extras/elasticsearch/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ../../side-roads/elasticsearch/prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
 volumes:
   elasticsearch-data:
