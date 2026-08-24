@@ -19,7 +19,10 @@ type stubRenderer struct {
 	delay time.Duration
 }
 
-func (s *stubRenderer) Render(ctx context.Context, targetURL string) (renderedpage.Page, error) {
+func (s *stubRenderer) Render(
+	ctx context.Context,
+	_ renderedpage.Target,
+) (renderedpage.Page, error) {
 	select {
 	case <-time.After(s.delay):
 	case <-ctx.Done():
@@ -34,7 +37,10 @@ type blockingRenderer struct {
 	release chan struct{}
 }
 
-func (r *blockingRenderer) Render(context.Context, string) (renderedpage.Page, error) {
+func (r *blockingRenderer) Render(
+	context.Context,
+	renderedpage.Target,
+) (renderedpage.Page, error) {
 	close(r.entered)
 	<-r.release
 
@@ -63,7 +69,10 @@ func TestRenderReportsTooLargeWhenTheRendererRefusesAnOversizedPage(t *testing.T
 	metrics := &stubMetrics{}
 	gated := rendergate.New(inner, 1, time.Second, metrics)
 
-	if _, err := gated.Render(context.Background(), "http://example.com"); err == nil {
+	if _, err := gated.Render(
+		context.Background(),
+		renderedpage.Target{URL: "http://example.com"},
+	); err == nil {
 		t.Fatal("expected error for oversized page")
 	}
 	reason := metrics.failedReason.Load()
@@ -77,7 +86,7 @@ func TestRenderAppliesDeadline(t *testing.T) {
 	metrics := &stubMetrics{}
 	gated := rendergate.New(inner, 1, 5*time.Millisecond, metrics)
 
-	_, err := gated.Render(context.Background(), "http://example.com")
+	_, err := gated.Render(context.Background(), renderedpage.Target{URL: "http://example.com"})
 	if !errors.Is(err, context.DeadlineExceeded) {
 		t.Fatalf("err = %v, want context.DeadlineExceeded", err)
 	}
@@ -88,7 +97,10 @@ func TestRenderPropagatesInnerError(t *testing.T) {
 	metrics := &stubMetrics{}
 	gated := rendergate.New(inner, 1, time.Second, metrics)
 
-	if _, err := gated.Render(context.Background(), "http://example.com"); err == nil {
+	if _, err := gated.Render(
+		context.Background(),
+		renderedpage.Target{URL: "http://example.com"},
+	); err == nil {
 		t.Fatal("expected error")
 	}
 	if metrics.succeeded.Load() != 0 {
@@ -101,7 +113,7 @@ func TestRenderWaitsForSlotWhenConcurrencyCapReached(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
-	_, _ = gated.Render(ctx, "http://example.com")
+	_, _ = gated.Render(ctx, renderedpage.Target{URL: "http://example.com"})
 
 	close(release)
 	held.Wait()
@@ -122,7 +134,7 @@ func gateWithSlotHeld(
 
 	var held sync.WaitGroup
 	held.Go(func() {
-		_, _ = gated.Render(context.Background(), "http://example.com")
+		_, _ = gated.Render(context.Background(), renderedpage.Target{URL: "http://example.com"})
 	})
 	<-inner.entered
 
@@ -134,7 +146,7 @@ func TestRenderReportsSlotWaitTimeout(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
-	if _, err := gated.Render(ctx, "http://example.com"); err == nil {
+	if _, err := gated.Render(ctx, renderedpage.Target{URL: "http://example.com"}); err == nil {
 		t.Fatal("expected error from render with an already cancelled context")
 	}
 

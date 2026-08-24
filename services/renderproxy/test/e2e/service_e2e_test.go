@@ -82,6 +82,83 @@ func TestRenderproxyReturnsNonHTMLRawBodyEndToEnd(t *testing.T) {
 	}
 }
 
+func TestRenderproxyCarriesOriginReuseTermsOntoARenderedPageEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	network := dockernetwork.New(t, ctx)
+
+	originURL := startConditionalOrigin(t, ctx, network.Name)
+	lightpanda.Start(t, ctx, network.Name)
+	renderproxyURL := startRenderproxy(t, ctx, network.Name, lightpanda.NetworkURL(), nil)
+
+	client := forwardProxyClient(t, renderproxyURL)
+	resp := renderproxyResponseFor(t, ctx, client, originURL)
+	defer func() { _ = resp.Body.Close() }()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("read proxy response body: %v", err)
+	}
+	if !strings.Contains(string(body), renderedMarker) {
+		t.Fatalf("rendered body missing marker: status=%d body=%q", resp.StatusCode, body)
+	}
+	if got := resp.Header.Get("ETag"); got != conditionalEntityTag {
+		t.Fatalf("etag = %q, want %q", got, conditionalEntityTag)
+	}
+	if got := resp.Header.Get("Cache-Control"); got != conditionalCacheControl {
+		t.Fatalf("cache-control = %q, want %q", got, conditionalCacheControl)
+	}
+}
+
+func TestRenderproxyRelaysNotModifiedForAHeldCopyEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	network := dockernetwork.New(t, ctx)
+
+	originURL := startConditionalOrigin(t, ctx, network.Name)
+	lightpanda.Start(t, ctx, network.Name)
+	renderproxyURL := startRenderproxy(t, ctx, network.Name, lightpanda.NetworkURL(), nil)
+
+	client := forwardProxyClient(t, renderproxyURL)
+	resp := renderproxyResponseForHeldCopy(t, ctx, client, originURL, conditionalEntityTag)
+	defer func() { _ = resp.Body.Close() }()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("read proxy response body: %v", err)
+	}
+	if resp.StatusCode != http.StatusNotModified {
+		t.Fatalf("status = %d, want %d", resp.StatusCode, http.StatusNotModified)
+	}
+	if len(body) != 0 {
+		t.Fatalf("body = %q, want none", body)
+	}
+	if got := resp.Header.Get("ETag"); got != conditionalEntityTag {
+		t.Fatalf("etag = %q, want %q", got, conditionalEntityTag)
+	}
+}
+
+func renderproxyResponseForHeldCopy(
+	t *testing.T,
+	ctx context.Context,
+	client *http.Client,
+	originURL string,
+	entityTag string,
+) *http.Response {
+	t.Helper()
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, originURL, nil)
+	if err != nil {
+		t.Fatalf("build proxy request: %v", err)
+	}
+	req.Header.Set("If-None-Match", entityTag)
+	resp, err := client.Do(req)
+	if err != nil {
+		t.Fatalf("proxy request: %v", err)
+	}
+
+	return resp
+}
+
 func TestRenderproxyRefusesRenderedPageBeyondTheResponseLimitEndToEnd(t *testing.T) {
 	ctx := context.Background()
 
