@@ -1,4 +1,4 @@
-# 8. Knowing it is healthy
+# 8. Collect metrics from every service
 
 > "What happens if one of them falls behind?"
 

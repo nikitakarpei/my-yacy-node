@@ -1,4 +1,4 @@
-# 5. How far a crawl goes
+# 5. Decide how far a crawl goes from one result
 
 > "When I open one page, how much of the site should it crawl?"
 

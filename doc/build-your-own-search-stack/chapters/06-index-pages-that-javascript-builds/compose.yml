@@ -17,17 +17,18 @@ services:
     depends_on:
       - nats
     entrypoint: ["/bin/sh", "-c"]
-    command: |
-      until nats --server nats://nats:4222 stream info SCRAPE_REQUESTS >/dev/null 2>&1 ||
-            nats --server nats://nats:4222 stream add SCRAPE_REQUESTS --defaults \
-              --subjects scrape.request \
-              --retention limits \
-              --discard old \
-              --max-msgs 100000 \
-              --storage file
-      do
-        sleep 1
-      done
+    command:
+      - |
+        until nats --server nats://nats:4222 stream info SCRAPE_REQUESTS >/dev/null 2>&1 ||
+              nats --server nats://nats:4222 stream add SCRAPE_REQUESTS --defaults \
+                --subjects scrape.request \
+                --retention limits \
+                --discard old \
+                --max-msgs 100000 \
+                --storage file
+        do
+          sleep 1
+        done
 
   crawl-console:
     image: natsio/nats-box:0.19.7
@@ -66,28 +67,19 @@ services:
       EGRESS_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
-  pagecache:
-    image: ubuntu/squid:6.6-24.04_edge
-    restart: unless-stopped
-    depends_on:
-      - renderproxy
-    volumes:
-      - ../../building-blocks/squid/squid.conf:/etc/squid/squid.conf:ro
-      - pagecache-data:/var/spool/squid
-
   yacycrawler:
     image: ghcr.io/nikitakarpei/yacycrawler:latest
     restart: unless-stopped
     depends_on:
       scrape-requests-stream:
         condition: service_completed_successfully
-      pagecache:
+      renderproxy:
         condition: service_started
     environment:
       CRAWL_NATS_URL: nats://nats:4222
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://pagecache:3128
-      SCRAPE_PROXY_DIAL_MODE: absolute-url
+      YACYCRAWLER_FETCH_PROXY_URL: http://renderproxy:8080
+      YACYCRAWLER_FETCH_PROXY_DIAL_MODE: absolute-url
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   manticore:
@@ -104,11 +96,11 @@ services:
         condition: service_completed_successfully
       manticore:
         condition: service_started
-      pagecache:
+      renderproxy:
         condition: service_started
     environment:
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://pagecache:3128
+      SCRAPE_PROXY_URL: http://renderproxy:8080
       SCRAPE_PROXY_DIAL_MODE: absolute-url
       SEARCH_INDEX_ENGINE: manticore
       MANTICORE_URL: http://manticore:9308
@@ -192,7 +184,7 @@ services:
         condition: service_completed_successfully
       smokescreen:
         condition: service_started
-      pagecache:
+      renderproxy:
         condition: service_started
     ports:
       - "8090:8090"
@@ -213,54 +205,14 @@ services:
       YACY_STORAGE_QUOTA: ${YACY_STORAGE_QUOTA:-1GB}
       EGRESS_PROXY_URL: http://smokescreen:4750
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://pagecache:3128
+      SCRAPE_PROXY_URL: http://renderproxy:8080
       SCRAPE_PROXY_DIAL_MODE: absolute-url
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
       - yacy-data:/data
 
-  nats-metrics:
-    image: natsio/prometheus-nats-exporter:0.16.0
-    restart: unless-stopped
-    depends_on:
-      - nats
-    command: ["-varz", "-jsz=all", "http://nats:8222"]
-
-  prometheus:
-    image: prom/prometheus:v3.1.0
-    restart: unless-stopped
-    depends_on:
-      - nats-metrics
-    ports:
-      - "127.0.0.1:9099:9090"
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-    volumes:
-      - ../../building-blocks/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - prometheus-data:/prometheus
-
-  grafana:
-    image: grafana/grafana:11.4.0
-    restart: unless-stopped
-    depends_on:
-      - prometheus
-    ports:
-      - "127.0.0.1:3000:3000"
-    environment:
-      GF_AUTH_ANONYMOUS_ENABLED: "true"
-      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
-      GF_AUTH_DISABLE_LOGIN_FORM: "true"
-    volumes:
-      - ../../building-blocks/grafana/provisioning:/etc/grafana/provisioning:ro
-      - ../../../../services/yacynode/doc/grafana-dashboard.json:/var/lib/grafana/dashboards/yacynode.json:ro
-      - ../../../../services/yacycrawler/doc/grafana-dashboard.json:/var/lib/grafana/dashboards/yacycrawler.json:ro
-      - grafana-data:/var/lib/grafana
-
 volumes:
   nats-data:
-  pagecache-data:
-  prometheus-data:
-  grafana-data:
   yacy-data:
   manticore-data:
   searxng-engines:

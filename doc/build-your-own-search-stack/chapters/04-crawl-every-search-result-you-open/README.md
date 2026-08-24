@@ -1,4 +1,4 @@
-# 4. Pages you open
+# 4. Crawl every search result you open
 
 > "What if the pages I open were crawled for me?"
 

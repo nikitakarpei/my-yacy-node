@@ -14,9 +14,9 @@ func envFrom(values map[string]string) func(string) string {
 
 func baseEnv() map[string]string {
 	return map[string]string{
-		"CRAWL_NATS_URL":          "nats://localhost:4222",
-		"SCRAPE_REQUEST_NATS_URL": "nats://localhost:4222",
-		"SCRAPE_PROXY_URL":        "http://proxy:8080",
+		"CRAWL_NATS_URL":              "nats://localhost:4222",
+		"SCRAPE_REQUEST_NATS_URL":     "nats://localhost:4222",
+		"YACYCRAWLER_FETCH_PROXY_URL": "http://proxy:8080",
 	}
 }
 
@@ -45,7 +45,7 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 
 func TestLoadServiceConfigAcceptsAbsoluteURLDialMode(t *testing.T) {
 	env := baseEnv()
-	env["SCRAPE_PROXY_DIAL_MODE"] = "absolute-url"
+	env["YACYCRAWLER_FETCH_PROXY_DIAL_MODE"] = "absolute-url"
 	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatalf("load: %v", err)
@@ -57,7 +57,7 @@ func TestLoadServiceConfigAcceptsAbsoluteURLDialMode(t *testing.T) {
 
 func TestLoadServiceConfigRejectsUnknownDialMode(t *testing.T) {
 	env := baseEnv()
-	env["SCRAPE_PROXY_DIAL_MODE"] = "nonsense"
+	env["YACYCRAWLER_FETCH_PROXY_DIAL_MODE"] = "nonsense"
 	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("unknown proxy dial mode should error")
 	}
@@ -65,7 +65,7 @@ func TestLoadServiceConfigRejectsUnknownDialMode(t *testing.T) {
 
 func TestLoadServiceConfigOverridesUserAgent(t *testing.T) {
 	env := baseEnv()
-	env["SCRAPE_USER_AGENT"] = "acme-crawler (+https://acme.test)"
+	env["YACYCRAWLER_FETCH_USER_AGENT"] = "acme-crawler (+https://acme.test)"
 	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatalf("load: %v", err)
@@ -93,7 +93,7 @@ func TestLoadServiceConfigRequiresScrapeRequestNATSURL(t *testing.T) {
 
 func TestLoadServiceConfigRequiresProxy(t *testing.T) {
 	env := baseEnv()
-	delete(env, "SCRAPE_PROXY_URL")
+	delete(env, "YACYCRAWLER_FETCH_PROXY_URL")
 	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("missing proxy should error")
 	}
@@ -101,7 +101,7 @@ func TestLoadServiceConfigRequiresProxy(t *testing.T) {
 
 func TestLoadServiceConfigRejectsNonHTTPProxy(t *testing.T) {
 	env := baseEnv()
-	env["SCRAPE_PROXY_URL"] = "ftp://proxy"
+	env["YACYCRAWLER_FETCH_PROXY_URL"] = "ftp://proxy"
 	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("non-http proxy should error")
 	}

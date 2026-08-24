@@ -1,4 +1,4 @@
-# 9. Seeing it
+# 9. Watch the stack on dashboards
 
 > "Can I see all of it at once instead?"
 
@@ -25,6 +25,5 @@ You have a search engine that crawls what you read, an index you can query,
 and a peer trading postings with the rest of the network — with enough
 instruments to see all of it working.
 
-The rest is tuning. `side-roads/` holds the alternatives worth knowing about,
-and every `configuration.md` under `services/` documents settings this journey
-left at their defaults.
+What you do not have is the pages. Everything you crawled is still only a set
+of words about it, kept on the assumption the sites will always be there.

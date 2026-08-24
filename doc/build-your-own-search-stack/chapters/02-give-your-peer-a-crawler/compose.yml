@@ -17,17 +17,18 @@ services:
     depends_on:
       - nats
     entrypoint: ["/bin/sh", "-c"]
-    command: |
-      until nats --server nats://nats:4222 stream info SCRAPE_REQUESTS >/dev/null 2>&1 ||
-            nats --server nats://nats:4222 stream add SCRAPE_REQUESTS --defaults \
-              --subjects scrape.request \
-              --retention limits \
-              --discard old \
-              --max-msgs 100000 \
-              --storage file
-      do
-        sleep 1
-      done
+    command:
+      - |
+        until nats --server nats://nats:4222 stream info SCRAPE_REQUESTS >/dev/null 2>&1 ||
+              nats --server nats://nats:4222 stream add SCRAPE_REQUESTS --defaults \
+                --subjects scrape.request \
+                --retention limits \
+                --discard old \
+                --max-msgs 100000 \
+                --storage file
+        do
+          sleep 1
+        done
 
   crawl-console:
     image: natsio/nats-box:0.19.7
@@ -48,7 +49,7 @@ services:
     environment:
       CRAWL_NATS_URL: nats://nats:4222
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://smokescreen:4750
+      YACYCRAWLER_FETCH_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   yacy-rwi-node:
