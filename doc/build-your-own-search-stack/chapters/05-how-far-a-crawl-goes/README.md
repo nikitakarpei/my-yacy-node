@@ -1,6 +1,6 @@
 # 5. How far a crawl goes
 
-> "How far past that page can I let it go?"
+> "When I open one page, how much of the site should it crawl?"
 
 No new services here. Every order `visitcrawl` places carries the same profile,
 built from environment variables, and this chapter is about three of them.

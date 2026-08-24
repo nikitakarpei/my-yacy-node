@@ -36,7 +36,7 @@ Search for something from that page a minute later.
 
 ## Where you are now
 
-Your index grows while you use it. Each visit brings the page you opened, and
-one link-step past it.
+Your index grows while you use it. Each visit brings in the page you opened,
+and the pages it links to.
 
-> "How far past that page can I let it go?"
+> "When I open one page, how much of the site should it crawl?"
