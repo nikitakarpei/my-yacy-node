@@ -45,7 +45,10 @@ func New(
 	}
 }
 
-func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.Page, error) {
+func (r *Renderer) Render(
+	ctx context.Context,
+	target renderedpage.Target,
+) (renderedpage.Page, error) {
 	if err := r.acquire(ctx); err != nil {
 		return renderedpage.Page{}, err
 	}
@@ -55,11 +58,11 @@ func (r *Renderer) Render(ctx context.Context, targetURL string) (renderedpage.P
 	defer cancel()
 
 	start := time.Now()
-	page, err := r.inner.Render(renderCtx, targetURL)
+	page, err := r.inner.Render(renderCtx, target)
 	r.metrics.RenderObserved(time.Since(start))
 	if err != nil {
 		r.metrics.RenderFailed(failureReasonOf(err))
-		return renderedpage.Page{}, fmt.Errorf("render %s: %w", targetURL, err)
+		return renderedpage.Page{}, fmt.Errorf("render %s: %w", target.URL, err)
 	}
 
 	r.metrics.RenderSucceeded()

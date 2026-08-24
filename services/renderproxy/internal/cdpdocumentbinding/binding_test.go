@@ -31,7 +31,7 @@ func responseReceived(
 }
 
 func TestBindingCarriesTheDocumentStatusAndContentType(t *testing.T) {
-	var outcome cdpdocumentbinding.Binding
+	outcome := cdpdocumentbinding.New(t.Context())
 	outcome.Observe(requestWillBeSent("1", network.ResourceTypeDocument))
 	outcome.Observe(responseReceived("1", http.StatusOK, "text/html", "http://origin/page"))
 
@@ -41,8 +41,58 @@ func TestBindingCarriesTheDocumentStatusAndContentType(t *testing.T) {
 	}
 }
 
+func TestBindingCarriesTheDocumentResponseHeader(t *testing.T) {
+	outcome := cdpdocumentbinding.New(t.Context())
+	outcome.Observe(requestWillBeSent("1", network.ResourceTypeDocument))
+	outcome.Observe(&network.EventResponseReceived{
+		RequestID: network.RequestID("1"),
+		Response: &network.Response{
+			Status:   http.StatusOK,
+			MimeType: "text/html",
+			URL:      "http://origin/page",
+			Headers: network.Headers{
+				"ETag":       `"v1"`,
+				"Set-Cookie": "first=1\nsecond=2",
+			},
+		},
+	})
+
+	got := outcome.BoundDocument()
+	if value := got.ResponseHeader.Get("ETag"); value != `"v1"` {
+		t.Fatalf("etag = %q", value)
+	}
+	if values := got.ResponseHeader.Values("Set-Cookie"); len(values) != 2 {
+		t.Fatalf("set-cookie = %q, want two fields", values)
+	}
+}
+
+func TestBindingSkipsAResponseHeaderFieldThatIsNotText(t *testing.T) {
+	outcome := cdpdocumentbinding.New(t.Context())
+	outcome.Observe(requestWillBeSent("1", network.ResourceTypeDocument))
+	outcome.Observe(&network.EventResponseReceived{
+		RequestID: network.RequestID("1"),
+		Response: &network.Response{
+			Status:   http.StatusOK,
+			MimeType: "text/html",
+			URL:      "http://origin/page",
+			Headers: network.Headers{
+				"ETag": `"v1"`,
+				"Age":  42,
+			},
+		},
+	})
+
+	got := outcome.BoundDocument()
+	if value := got.ResponseHeader.Get("ETag"); value != `"v1"` {
+		t.Fatalf("etag = %q", value)
+	}
+	if value := got.ResponseHeader.Get("Age"); value != "" {
+		t.Fatalf("age = %q, want no value", value)
+	}
+}
+
 func TestBindingKeepsTheLatestStatusForTheBoundRequest(t *testing.T) {
-	var outcome cdpdocumentbinding.Binding
+	outcome := cdpdocumentbinding.New(t.Context())
 	outcome.Observe(requestWillBeSent("1", network.ResourceTypeDocument))
 	outcome.Observe(responseReceived("1", http.StatusFound, "text/html", "http://origin/start"))
 	outcome.Observe(responseReceived("1", http.StatusOK, "text/html", "http://origin/final"))
@@ -54,7 +104,7 @@ func TestBindingKeepsTheLatestStatusForTheBoundRequest(t *testing.T) {
 }
 
 func TestBindingIgnoresLaterDocumentRequests(t *testing.T) {
-	var outcome cdpdocumentbinding.Binding
+	outcome := cdpdocumentbinding.New(t.Context())
 	outcome.Observe(requestWillBeSent("1", network.ResourceTypeDocument))
 	outcome.Observe(responseReceived("1", http.StatusOK, "text/html", "http://origin/page"))
 	outcome.Observe(requestWillBeSent("2", network.ResourceTypeDocument))
@@ -69,7 +119,7 @@ func TestBindingIgnoresLaterDocumentRequests(t *testing.T) {
 }
 
 func TestBindingIgnoresNonDocumentRequests(t *testing.T) {
-	var outcome cdpdocumentbinding.Binding
+	outcome := cdpdocumentbinding.New(t.Context())
 	outcome.Observe(requestWillBeSent("1", network.ResourceTypeXHR))
 	outcome.Observe(responseReceived("1", http.StatusOK, "application/json", "http://origin/api"))
 
@@ -79,7 +129,7 @@ func TestBindingIgnoresNonDocumentRequests(t *testing.T) {
 }
 
 func TestBindingReportsNoDocumentWithoutAResponse(t *testing.T) {
-	var outcome cdpdocumentbinding.Binding
+	outcome := cdpdocumentbinding.New(t.Context())
 	outcome.Observe(requestWillBeSent("1", network.ResourceTypeDocument))
 
 	if outcome.BoundDocument().Seen {

@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"net/http"
 
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/pagefreshness"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
 )
 
@@ -39,7 +40,10 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	page, err := h.renderer.Render(r.Context(), r.URL.String())
+	page, err := h.renderer.Render(r.Context(), renderedpage.Target{
+		URL:        r.URL.String(),
+		Conditions: pagefreshness.ConditionsOf(r.Header),
+	})
 	if err != nil {
 		h.writeFailure(w, r.Context(), err)
 		return
@@ -51,6 +55,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if page.Location != "" {
 		w.Header().Set(headerLocation, page.Location)
 	}
+	page.ReuseTerms.StateOn(w.Header())
 	w.WriteHeader(page.StatusCode)
 	if _, err := w.Write(page.Body); err != nil {
 		slog.WarnContext(r.Context(), msgWriteFailed, slog.Any("error", err))

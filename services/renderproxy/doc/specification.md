@@ -31,6 +31,11 @@ the browser reaches origins through its own configured proxy.
   page as the browser has it once loading settles.
 * The service SHALL return, for a proxied GET whose origin returns a response that is not
   hypertext, that response as the origin gives it, and SHALL not drive the browser for it.
+* The service SHALL state the freshness conditions a client sends on its own origin request.
+* The service SHALL answer a proxied GET whose origin reports the page is unchanged with that
+  status and no body, and SHALL not drive the browser for it.
+* The service SHALL return with every answer the terms the origin gives for reuse of the copy
+  it serves.
 * The service SHALL route its own origin requests through the configured egress proxy, and
   SHALL fail startup when no egress proxy is configured.
 * The service SHALL relay the origin's HTTP status and refusal responses to the client
@@ -59,5 +64,7 @@ the browser reaches origins through its own configured proxy.
   than a raw fetch.
 * Egress filtering, target-safety, and host politeness hold only as far as the service's
   egress proxy and the browser's own proxy enforce them; the service adds none.
+* The reuse terms describe the origin's own response; the body of a hypertext page is what the
+  browser has after loading, which can differ.
 * The browser's own TLS trust and version govern which origins load; the service adds no
   certificates of its own.

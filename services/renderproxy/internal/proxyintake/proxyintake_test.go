@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/pagefreshness"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/proxyintake"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
 )
@@ -16,7 +17,10 @@ type stubRenderer struct {
 	err  error
 }
 
-func (s stubRenderer) Render(context.Context, string) (renderedpage.Page, error) {
+func (s stubRenderer) Render(
+	context.Context,
+	renderedpage.Target,
+) (renderedpage.Page, error) {
 	return s.page, s.err
 }
 
@@ -164,5 +168,60 @@ func TestServeHTTPFailsOnRenderError(t *testing.T) {
 
 	if rec.Code != http.StatusBadGateway {
 		t.Fatalf("status = %d, want %d", rec.Code, http.StatusBadGateway)
+	}
+}
+
+func TestServeHTTPStatesOriginReuseTermsOnTheClientResponse(t *testing.T) {
+	originResponseHeader := http.Header{}
+	originResponseHeader.Set("ETag", `"v1"`)
+	handler := proxyintake.New(stubRenderer{page: renderedpage.Page{
+		StatusCode: http.StatusNotModified,
+		ReuseTerms: pagefreshness.ReuseTermsOf(originResponseHeader),
+	}})
+	req := httptest.NewRequestWithContext(
+		context.Background(),
+		http.MethodGet,
+		"http://example.com/",
+		nil,
+	)
+	rec := httptest.NewRecorder()
+
+	handler.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusNotModified {
+		t.Fatalf("status = %d, want %d", rec.Code, http.StatusNotModified)
+	}
+	if got := rec.Header().Get("ETag"); got != `"v1"` {
+		t.Fatalf("etag = %q", got)
+	}
+}
+
+type conditionRecordingRenderer struct {
+	statedConditions http.Header
+}
+
+func (r *conditionRecordingRenderer) Render(
+	_ context.Context,
+	target renderedpage.Target,
+) (renderedpage.Page, error) {
+	r.statedConditions = http.Header{}
+	target.Conditions.StateOn(r.statedConditions)
+	return renderedpage.Page{StatusCode: http.StatusOK}, nil
+}
+
+func TestServeHTTPPassesClientConditionsToTheRenderer(t *testing.T) {
+	renderer := &conditionRecordingRenderer{}
+	req := httptest.NewRequestWithContext(
+		context.Background(),
+		http.MethodGet,
+		"http://example.com/",
+		nil,
+	)
+	req.Header.Set("If-Modified-Since", "Mon, 02 Jan 2006 15:04:05 GMT")
+
+	proxyintake.New(renderer).ServeHTTP(httptest.NewRecorder(), req)
+
+	if got := renderer.statedConditions.Get("If-Modified-Since"); got == "" {
+		t.Fatal("if-modified-since did not reach the renderer")
 	}
 }
