@@ -1,4 +1,4 @@
-# 3. Searching them
+# 3. Search your index from a browser
 
 > "Can I search my own pages, from this machine, by word?"
 

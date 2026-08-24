@@ -1,4 +1,4 @@
-# 2. Pages of your own
+# 2. Give your peer a crawler
 
 > "How do I put pages I care about into it?"
 

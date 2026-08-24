@@ -19,12 +19,12 @@ create that stream. An operator creates it before the crawler starts.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `SCRAPE_PROXY_URL` | required | Egress proxy every outbound fetch passes through. |
-| `SCRAPE_PROXY_DIAL_MODE` | `tunnel` | How fetches reach the egress proxy: `tunnel` (HTTP CONNECT) or `absolute-url` (plain absolute-URL requests, for proxies that refuse CONNECT). |
+| `YACYCRAWLER_FETCH_PROXY_URL` | required | Egress proxy every outbound fetch passes through. |
+| `YACYCRAWLER_FETCH_PROXY_DIAL_MODE` | `tunnel` | How fetches reach the egress proxy: `tunnel` (HTTP CONNECT) or `absolute-url` (plain absolute-URL requests, for proxies that refuse CONNECT). |
 | `YACYCRAWLER_MAX_BODY_BYTES` | `2097152` | Largest response body accepted; larger is disposed. |
 | `YACYCRAWLER_FETCH_DEADLINE` | `30s` | Deadline for a single fetch. |
 | `YACYCRAWLER_FETCH_CONCURRENCY` | `4` | Concurrent fetches within a single run. |
-| `SCRAPE_USER_AGENT` | `yacycrawler (+https://yacy.net)` | User-Agent sent with every fetch. |
+| `YACYCRAWLER_FETCH_USER_AGENT` | `yacycrawler (+https://yacy.net)` | User-Agent sent with every fetch. |
 | `YACYCRAWLER_RECRAWL_GRACE` | `1h` | Minimum time between visits to the same URL. `0` disables suppression. |
 
 ## Run limits

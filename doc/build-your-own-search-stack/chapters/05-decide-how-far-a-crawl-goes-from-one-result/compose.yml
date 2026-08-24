@@ -17,17 +17,18 @@ services:
     depends_on:
       - nats
     entrypoint: ["/bin/sh", "-c"]
-    command: |
-      until nats --server nats://nats:4222 stream info SCRAPE_REQUESTS >/dev/null 2>&1 ||
-            nats --server nats://nats:4222 stream add SCRAPE_REQUESTS --defaults \
-              --subjects scrape.request \
-              --retention limits \
-              --discard old \
-              --max-msgs 100000 \
-              --storage file
-      do
-        sleep 1
-      done
+    command:
+      - |
+        until nats --server nats://nats:4222 stream info SCRAPE_REQUESTS >/dev/null 2>&1 ||
+              nats --server nats://nats:4222 stream add SCRAPE_REQUESTS --defaults \
+                --subjects scrape.request \
+                --retention limits \
+                --discard old \
+                --max-msgs 100000 \
+                --storage file
+        do
+          sleep 1
+        done
 
   crawl-console:
     image: natsio/nats-box:0.19.7
@@ -37,57 +38,18 @@ services:
       - nats
     entrypoint: ["nats", "--server", "nats://nats:4222"]
 
-  lightpanda:
-    image: lightpanda/browser:0.3.4
-    restart: unless-stopped
-    depends_on:
-      - smokescreen
-    command:
-      - "/bin/lightpanda"
-      - "serve"
-      - "--host"
-      - "0.0.0.0"
-      - "--port"
-      - "9222"
-      - "--advertise-host"
-      - "lightpanda"
-      - "--http-proxy"
-      - "http://smokescreen:4750"
-      - "--obey-robots"
-
-  renderproxy:
-    image: ghcr.io/nikitakarpei/renderproxy:latest
-    restart: unless-stopped
-    depends_on:
-      - lightpanda
-      - smokescreen
-    environment:
-      RENDERPROXY_CDP_URL: ws://lightpanda:9222
-      EGRESS_PROXY_URL: http://smokescreen:4750
-      LOG_LEVEL: ${LOG_LEVEL:-INFO}
-
-  pagecache:
-    image: ubuntu/squid:6.6-24.04_edge
-    restart: unless-stopped
-    depends_on:
-      - renderproxy
-    volumes:
-      - ../../building-blocks/squid/squid.conf:/etc/squid/squid.conf:ro
-      - pagecache-data:/var/spool/squid
-
   yacycrawler:
     image: ghcr.io/nikitakarpei/yacycrawler:latest
     restart: unless-stopped
     depends_on:
       scrape-requests-stream:
         condition: service_completed_successfully
-      pagecache:
+      smokescreen:
         condition: service_started
     environment:
       CRAWL_NATS_URL: nats://nats:4222
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://pagecache:3128
-      SCRAPE_PROXY_DIAL_MODE: absolute-url
+      YACYCRAWLER_FETCH_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   manticore:
@@ -104,12 +66,11 @@ services:
         condition: service_completed_successfully
       manticore:
         condition: service_started
-      pagecache:
+      smokescreen:
         condition: service_started
     environment:
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://pagecache:3128
-      SCRAPE_PROXY_DIAL_MODE: absolute-url
+      SCRAPE_PROXY_URL: http://smokescreen:4750
       SEARCH_INDEX_ENGINE: manticore
       MANTICORE_URL: http://manticore:9308
       CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}
@@ -192,8 +153,6 @@ services:
         condition: service_completed_successfully
       smokescreen:
         condition: service_started
-      pagecache:
-        condition: service_started
     ports:
       - "8090:8090"
       - "127.0.0.1:9090:9090"
@@ -213,36 +172,13 @@ services:
       YACY_STORAGE_QUOTA: ${YACY_STORAGE_QUOTA:-1GB}
       EGRESS_PROXY_URL: http://smokescreen:4750
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://pagecache:3128
-      SCRAPE_PROXY_DIAL_MODE: absolute-url
+      SCRAPE_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
       - yacy-data:/data
 
-  nats-metrics:
-    image: natsio/prometheus-nats-exporter:0.16.0
-    restart: unless-stopped
-    depends_on:
-      - nats
-    command: ["-varz", "-jsz=all", "http://nats:8222"]
-
-  prometheus:
-    image: prom/prometheus:v3.1.0
-    restart: unless-stopped
-    depends_on:
-      - nats-metrics
-    ports:
-      - "127.0.0.1:9099:9090"
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-    volumes:
-      - ../../building-blocks/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - prometheus-data:/prometheus
-
 volumes:
   nats-data:
-  pagecache-data:
-  prometheus-data:
   yacy-data:
   manticore-data:
   searxng-engines:
