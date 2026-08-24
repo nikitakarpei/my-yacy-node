@@ -42,5 +42,3 @@ docker compose logs -f yacycrawler yacy-rwi-node
 
 Your peer holds pages you chose and offers them to the network. You still cannot
 search them: a posting answers another peer's DHT query, not a person's.
-
-> "Can I search my own pages, from this machine, by word?"

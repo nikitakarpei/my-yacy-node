@@ -45,5 +45,3 @@ Watch your disk as well: `docker system df -v | grep yacy-data`.
 ## Where you are now
 
 You decide how much of a site a visit brings in. Some of what arrives is empty.
-
-> "Why do some pages come back with nothing in them?"

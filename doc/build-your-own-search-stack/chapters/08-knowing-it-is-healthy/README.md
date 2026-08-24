@@ -1,4 +1,4 @@
-# 7. Knowing it is healthy
+# 8. Knowing it is healthy
 
 > "What happens if one of them falls behind?"
 
@@ -27,5 +27,3 @@ again when you start it.
 ## Where you are now
 
 You can answer any question about the stack, one PromQL expression at a time.
-
-> "Can I see all of it at once instead?"
