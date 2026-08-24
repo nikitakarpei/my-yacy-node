@@ -2,11 +2,6 @@
 	handle /visit* {
 		reverse_proxy visitcrawl:8091
 	}
-	handle /yacy/* {
-		reverse_proxy yacy-rwi-node:8090 {
-			header_up X-Forwarded-For {remote_host}
-		}
-	}
 	handle {
 		reverse_proxy searxng:8080
 	}
