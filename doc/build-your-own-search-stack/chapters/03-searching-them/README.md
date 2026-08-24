@@ -42,5 +42,3 @@ hour, so give it `YACYCRAWLER_RECRAWL_GRACE=0` or wait.
 
 You have a search page over your own crawl. Growing that crawl still means
 writing JSON by hand.
-
-> "What if the pages I open were crawled for me?"

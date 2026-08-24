@@ -12,7 +12,7 @@ holds a larger corpus on the same machine.
 Layer it on any chapter that has an index, from that chapter's directory:
 
 ```sh
-cd chapters/08-seeing-it
+cd chapters/09-seeing-it
 docker compose -f compose.yml -f ../../side-roads/elasticsearch/compose.yml up -d
 ```
 

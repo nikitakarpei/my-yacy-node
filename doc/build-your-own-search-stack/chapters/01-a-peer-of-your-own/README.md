@@ -38,5 +38,3 @@ posting does; a new peer is at the far end of everyone's list for a while.
 
 You are storing other people's pages and serving other people's searches.
 Nothing in the index is yours yet.
-
-> "How do I put pages I care about into it?"
