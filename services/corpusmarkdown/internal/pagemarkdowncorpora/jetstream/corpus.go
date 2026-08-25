@@ -1,11 +1,13 @@
 // Package jetstream holds each crawled page's markdown in a JetStream object
-// store bucket and yields it back by canonical URL.
+// store bucket and yields it back by canonical URL, with the time it was written.
 package jetstream
 
 import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
+	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
 
@@ -39,7 +41,7 @@ func (c *Corpus) Put(
 	canonicalURL canonicalurl.CanonicalURL,
 	markdown []byte,
 ) error {
-	objectName := pagemarkdownstore.ObjectName(canonicalURL)
+	objectName := pagemarkdownstore.ObjectNameOf(canonicalURL)
 	if _, err := c.objects.PutBytes(ctx, objectName, markdown); err != nil {
 		return fmt.Errorf("put markdown for %q: %w", canonicalURL, err)
 	}
@@ -49,14 +51,25 @@ func (c *Corpus) Put(
 func (c *Corpus) MarkdownOf(
 	ctx context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
-) ([]byte, bool, error) {
-	objectName := pagemarkdownstore.ObjectName(canonicalURL)
-	markdown, err := c.objects.GetBytes(ctx, objectName)
+) ([]byte, time.Time, bool, error) {
+	objectName := pagemarkdownstore.ObjectNameOf(canonicalURL)
+	object, err := c.objects.Get(ctx, objectName)
 	if errors.Is(err, jetstream.ErrObjectNotFound) {
-		return nil, false, nil
+		return nil, time.Time{}, false, nil
 	}
 	if err != nil {
-		return nil, false, fmt.Errorf("get markdown for %q: %w", canonicalURL, err)
+		return nil, time.Time{}, false, fmt.Errorf("get markdown for %q: %w", canonicalURL, err)
 	}
-	return markdown, true, nil
+	defer func() { _ = object.Close() }()
+
+	markdown, err := io.ReadAll(object)
+	if err != nil {
+		return nil, time.Time{}, false, fmt.Errorf("read markdown for %q: %w", canonicalURL, err)
+	}
+	info, err := object.Info()
+	if err != nil {
+		return nil, time.Time{}, false,
+			fmt.Errorf("read markdown details for %q: %w", canonicalURL, err)
+	}
+	return markdown, info.ModTime, true, nil
 }

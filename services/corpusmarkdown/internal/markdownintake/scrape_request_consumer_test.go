@@ -115,17 +115,131 @@ func (c *recordingCorpus) Put(
 	return nil
 }
 
-type recordingProgress struct {
-	received int
-	stored   int
-	scraped  int
-	failed   int
+type recordingRedirections struct {
+	fail           bool
+	mu             sync.Mutex
+	byRequestedURL map[string]string
 }
 
-func (p *recordingProgress) ScrapeRequestReceived() { p.received++ }
-func (p *recordingProgress) PageStored()            { p.stored++ }
-func (p *recordingProgress) ScrapeFailed()          { p.scraped++ }
-func (p *recordingProgress) StoreFailed()           { p.failed++ }
+func (r *recordingRedirections) Record(
+	_ context.Context,
+	requestedURL canonicalurl.CanonicalURL,
+	markdownURL canonicalurl.CanonicalURL,
+) error {
+	if r.fail {
+		return errors.New("redirection not recorded")
+	}
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	if r.byRequestedURL == nil {
+		r.byRequestedURL = map[string]string{}
+	}
+	r.byRequestedURL[requestedURL.String()] = markdownURL.String()
+	return nil
+}
+
+type recordingProgress struct {
+	mu                       sync.Mutex
+	received                 int
+	originFetchFailures      int
+	originFetchDeferrals     int
+	extractionFailures       []string
+	corpusWriteFailures      int
+	redirectionWriteFailures int
+	stored                   map[string]string
+	nothingToScrape          []string
+	noMarkdownDerived        []string
+}
+
+func (p *recordingProgress) ScrapeRequestReceived(_ context.Context) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.received++
+}
+
+func (p *recordingProgress) OriginFetchFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ error,
+) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.originFetchFailures++
+}
+
+func (p *recordingProgress) OriginFetchDeferred(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ time.Duration,
+) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.originFetchDeferrals++
+}
+
+func (p *recordingProgress) NothingToScrape(
+	_ context.Context,
+	requestedURL canonicalurl.CanonicalURL,
+) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.nothingToScrape = append(p.nothingToScrape, requestedURL.String())
+}
+
+func (p *recordingProgress) DocumentExtractionFailed(
+	_ context.Context,
+	requestedURL canonicalurl.CanonicalURL,
+	_ canonicalurl.CanonicalURL,
+	_ error,
+) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.extractionFailures = append(p.extractionFailures, requestedURL.String())
+}
+
+func (p *recordingProgress) NoMarkdownDerived(
+	_ context.Context,
+	requestedURL canonicalurl.CanonicalURL,
+	_ canonicalurl.CanonicalURL,
+) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.noMarkdownDerived = append(p.noMarkdownDerived, requestedURL.String())
+}
+
+func (p *recordingProgress) MarkdownCorpusWriteFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ error,
+) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.corpusWriteFailures++
+}
+
+func (p *recordingProgress) RedirectionRecordWriteFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ canonicalurl.CanonicalURL,
+	_ error,
+) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.redirectionWriteFailures++
+}
+
+func (p *recordingProgress) MarkdownStored(
+	_ context.Context,
+	requestedURL canonicalurl.CanonicalURL,
+	markdownURL canonicalurl.CanonicalURL,
+) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	if p.stored == nil {
+		p.stored = map[string]string{}
+	}
+	p.stored[requestedURL.String()] = markdownURL.String()
+}
 
 const scrapeRequestURL = "https://example.com/"
 
@@ -161,8 +275,18 @@ func fetchOf(page pagefetch.FetchedPage) *fakeFetch {
 
 func fetchedPage(t *testing.T, contentType string, body string) pagefetch.FetchedPage {
 	t.Helper()
+	return fetchedPageAt(t, scrapeRequestURL, contentType, body)
+}
+
+func fetchedPageAt(
+	t *testing.T,
+	finalURL string,
+	contentType string,
+	body string,
+) pagefetch.FetchedPage {
+	t.Helper()
 	return pagefetch.FetchedPage{
-		FinalURL:    canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+		FinalURL:    canonicalurltest.CanonicalURLOf(t, finalURL),
 		ContentType: contentType,
 		Body:        []byte(body),
 	}
@@ -173,21 +297,156 @@ func run(
 	source fakeSource,
 	fetcher markdownintake.PageFetcher,
 	corpus markdownintake.PageMarkdownCorpus,
-	progress markdownintake.StoreProgress,
+	progress markdownintake.ScrapeProgress,
 ) error {
+	t.Helper()
+	return runRecording(t, intakeUnderTest{
+		source:   source,
+		fetcher:  fetcher,
+		corpus:   corpus,
+		progress: progress,
+	})
+}
+
+type intakeUnderTest struct {
+	source       fakeSource
+	fetcher      markdownintake.PageFetcher
+	corpus       markdownintake.PageMarkdownCorpus
+	progress     markdownintake.ScrapeProgress
+	redirections markdownintake.PageRedirections
+}
+
+func runRecording(t *testing.T, intake intakeUnderTest) error {
 	t.Helper()
 	formatDerivations, err := pageformats.New()
 	if err != nil {
 		t.Fatalf("page formats: %v", err)
 	}
+	if intake.redirections == nil {
+		intake.redirections = &recordingRedirections{}
+	}
+	if intake.progress == nil {
+		intake.progress = &recordingProgress{}
+	}
+	if intake.corpus == nil {
+		intake.corpus = &recordingCorpus{}
+	}
 	return markdownintake.NewScrapeRequestConsumer(markdownintake.Config{
-		Source:                         source,
-		Fetcher:                        fetcher,
+		Source:                         intake.source,
+		Fetcher:                        intake.fetcher,
 		FormatDerivations:              formatDerivations,
-		Corpus:                         corpus,
-		Progress:                       progress,
+		Corpus:                         intake.corpus,
+		Redirections:                   intake.redirections,
+		Progress:                       intake.progress,
 		ScrapeRequestIntakeConcurrency: 1,
 	}).Run(context.Background())
+}
+
+const redirectedToURL = "https://www.example.com/"
+
+func TestConsumerStoresARedirectedPageUnderTheURLTheOriginSettledOn(t *testing.T) {
+	acked := make(chan string, 1)
+	corpus := &recordingCorpus{}
+	redirections := &recordingRedirections{}
+
+	if err := runRecording(t, intakeUnderTest{
+		source:       sourceOf(scrapeRequestMessage(t, acked)),
+		fetcher:      fetchOf(fetchedPageAt(t, redirectedToURL, "text/html", article)),
+		corpus:       corpus,
+		redirections: redirections,
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := <-acked; action != "ack" {
+		t.Errorf("action = %q, want ack", action)
+	}
+	if _, stored := corpus.markdown[redirectedToURL]; !stored {
+		t.Errorf("stored under %v, want the url the origin settled on", corpus.markdown)
+	}
+	if redirections.byRequestedURL[scrapeRequestURL] != redirectedToURL {
+		t.Errorf("redirections = %v, want the requested url leading to the settled one",
+			redirections.byRequestedURL)
+	}
+}
+
+func TestConsumerRecordsNoRedirectionForAPageThatDidNotRedirect(t *testing.T) {
+	acked := make(chan string, 1)
+	redirections := &recordingRedirections{}
+
+	if err := runRecording(t, intakeUnderTest{
+		source:       sourceOf(scrapeRequestMessage(t, acked)),
+		fetcher:      fetchOf(fetchedPage(t, "text/html", article)),
+		redirections: redirections,
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	<-acked
+	if len(redirections.byRequestedURL) != 0 {
+		t.Errorf("redirections = %v, want none", redirections.byRequestedURL)
+	}
+}
+
+func TestConsumerReturnsAScrapeRequestWhoseRedirectionCannotBeRecorded(t *testing.T) {
+	acked := make(chan string, 1)
+	progress := &recordingProgress{}
+
+	if err := runRecording(t, intakeUnderTest{
+		source:       sourceOf(scrapeRequestMessage(t, acked)),
+		fetcher:      fetchOf(fetchedPageAt(t, redirectedToURL, "text/html", article)),
+		progress:     progress,
+		redirections: &recordingRedirections{fail: true},
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := <-acked; action != "nak" {
+		t.Errorf("action = %q, want nak", action)
+	}
+	if len(progress.stored) != 0 || progress.redirectionWriteFailures != 1 {
+		t.Errorf("progress = %+v, want nothing stored and one redirection write failure", progress)
+	}
+}
+
+func TestConsumerReportsTheStoredMarkdownUnderTheRequestedURL(t *testing.T) {
+	acked := make(chan string, 1)
+	progress := &recordingProgress{}
+
+	if err := runRecording(t, intakeUnderTest{
+		source:   sourceOf(scrapeRequestMessage(t, acked)),
+		fetcher:  fetchOf(fetchedPageAt(t, redirectedToURL, "text/html", article)),
+		progress: progress,
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	<-acked
+	if progress.stored[scrapeRequestURL] != redirectedToURL {
+		t.Errorf("reported %v, want the requested url carrying the settled one", progress.stored)
+	}
+	if len(progress.extractionFailures) != 0 || len(progress.nothingToScrape) != 0 {
+		t.Errorf("progress = %+v, want no give-up reported", progress)
+	}
+}
+
+func TestConsumerReportsDocumentExtractionFailedForAPageItCannotExtract(t *testing.T) {
+	acked := make(chan string, 1)
+	progress := &recordingProgress{}
+
+	if err := runRecording(t, intakeUnderTest{
+		source:   sourceOf(scrapeRequestMessage(t, acked)),
+		fetcher:  fetchOf(fetchedPage(t, "application/pdf", "%PDF-1.4")),
+		progress: progress,
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	<-acked
+	if len(progress.extractionFailures) != 1 || progress.extractionFailures[0] != scrapeRequestURL {
+		t.Errorf("reported document extraction failed for %v, want the requested url",
+			progress.extractionFailures)
+	}
 }
 
 func TestConsumerStoresTheMarkdownItDerivesFromAScrapeRequest(t *testing.T) {
@@ -210,7 +469,7 @@ func TestConsumerStoresTheMarkdownItDerivesFromAScrapeRequest(t *testing.T) {
 	if got := string(corpus.markdown[scrapeRequestURL]); !strings.Contains(got, "quick brown fox") {
 		t.Errorf("stored = %q, want the article as markdown", got)
 	}
-	if progress.received != 1 || progress.stored != 1 {
+	if progress.received != 1 || len(progress.stored) != 1 {
 		t.Errorf("progress = %+v, want one received and one stored", progress)
 	}
 }
@@ -228,7 +487,7 @@ func TestConsumerAcksAScrapeRequestHoldingNoExtractableDocument(t *testing.T) {
 	if action := <-acked; action != "ack" {
 		t.Errorf("action = %q, want ack", action)
 	}
-	if len(corpus.markdown) != 0 || progress.stored != 0 {
+	if len(corpus.markdown) != 0 || len(progress.stored) != 0 {
 		t.Errorf("stored %v, want nothing", corpus.markdown)
 	}
 }
@@ -245,8 +504,8 @@ func TestConsumerNaksWhenTheFetchBreaks(t *testing.T) {
 	if action := <-acked; action != "nak" {
 		t.Errorf("action = %q, want nak", action)
 	}
-	if progress.scraped != 1 || progress.stored != 0 {
-		t.Errorf("progress = %+v, want one scrape failure", progress)
+	if progress.originFetchFailures != 1 || len(progress.stored) != 0 {
+		t.Errorf("progress = %+v, want one origin fetch failure", progress)
 	}
 }
 
@@ -263,8 +522,8 @@ func TestConsumerNaksWhenTheFetchReportsFailure(t *testing.T) {
 	if action := <-acked; action != "nak" {
 		t.Errorf("action = %q, want nak", action)
 	}
-	if progress.scraped != 1 {
-		t.Errorf("progress = %+v, want one scrape failure", progress)
+	if progress.originFetchFailures != 1 {
+		t.Errorf("progress = %+v, want one origin fetch failure", progress)
 	}
 }
 
@@ -276,8 +535,9 @@ func TestConsumerHoldsADeferredScrapeRequestBackForAsLongAsTheOriginAsks(t *test
 		DeferFor: 30 * time.Second,
 	}}
 
-	if err := run(t, sourceOf(message),
-		fetcher, &recordingCorpus{}, &recordingProgress{}); err != nil {
+	progress := &recordingProgress{}
+
+	if err := run(t, sourceOf(message), fetcher, &recordingCorpus{}, progress); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
@@ -286,6 +546,9 @@ func TestConsumerHoldsADeferredScrapeRequestBackForAsLongAsTheOriginAsks(t *test
 	}
 	if message.nakDelay != 30*time.Second {
 		t.Errorf("nak delay = %v, want the deferral the origin asked for", message.nakDelay)
+	}
+	if progress.originFetchDeferrals != 1 || progress.originFetchFailures != 0 {
+		t.Errorf("progress = %+v, want one deferral and no failure", progress)
 	}
 }
 
@@ -302,7 +565,11 @@ func TestConsumerAcksAScrapeRequestThatFetchesNoPage(t *testing.T) {
 	if action := <-acked; action != "ack" {
 		t.Errorf("action = %q, want ack", action)
 	}
-	if progress.stored != 0 || progress.scraped != 0 {
+	if len(progress.nothingToScrape) != 1 || progress.nothingToScrape[0] != scrapeRequestURL {
+		t.Errorf("reported nothing to scrape for %v, want the requested url",
+			progress.nothingToScrape)
+	}
+	if len(progress.stored) != 0 || progress.originFetchFailures != 0 {
 		t.Errorf("progress = %+v, want nothing stored and no failure", progress)
 	}
 }
@@ -320,7 +587,7 @@ func TestConsumerNaksWhenTheStoreFails(t *testing.T) {
 	if action := <-acked; action != "nak" {
 		t.Errorf("action = %q, want nak", action)
 	}
-	if progress.failed != 1 || progress.stored != 0 {
+	if progress.corpusWriteFailures != 1 || len(progress.stored) != 0 {
 		t.Errorf("progress = %+v, want one store failure", progress)
 	}
 }

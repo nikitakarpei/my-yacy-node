@@ -7,7 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 )
 
-func TestObjectNameIsDeterministicPerURL(t *testing.T) {
+func TestObjectNameOfIsDeterministicPerURL(t *testing.T) {
 	cases := []struct {
 		name string
 		url  string
@@ -19,21 +19,25 @@ func TestObjectNameIsDeterministicPerURL(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			canonicalURL := canonicalurltest.CanonicalURLOf(t, tc.url)
-			first := pagemarkdownstore.ObjectName(canonicalURL)
-			second := pagemarkdownstore.ObjectName(canonicalURL)
+			first := pagemarkdownstore.ObjectNameOf(canonicalURL)
+			second := pagemarkdownstore.ObjectNameOf(canonicalURL)
 			if first != second {
-				t.Fatalf("ObjectName not deterministic: %q vs %q", first, second)
+				t.Fatalf("ObjectNameOf not deterministic: %q vs %q", first, second)
 			}
 			if len(first) != 64 {
-				t.Fatalf("ObjectName length = %d, want 64", len(first))
+				t.Fatalf("ObjectNameOf length = %d, want 64", len(first))
 			}
 		})
 	}
 }
 
-func TestObjectNameDistinguishesURLs(t *testing.T) {
-	if pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, "https://example.test/a")) ==
-		pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, "https://example.test/b")) {
+func TestObjectNameOfDistinguishesURLs(t *testing.T) {
+	if pagemarkdownstore.ObjectNameOf(
+		canonicalurltest.CanonicalURLOf(t, "https://example.test/a"),
+	) ==
+		pagemarkdownstore.ObjectNameOf(
+			canonicalurltest.CanonicalURLOf(t, "https://example.test/b"),
+		) {
 		t.Fatal("distinct URLs collided to one object name")
 	}
 }

@@ -42,7 +42,7 @@ func TestCrawledPageMarkdownIsStoredAndRecalledByURL(t *testing.T) {
 	publishCrawlOrder(t, ctx, js, originURL)
 
 	store := awaitPageMarkdownBucket(t, ctx, js)
-	objectName := pagemarkdownstore.ObjectName(
+	objectName := pagemarkdownstore.ObjectNameOf(
 		canonicalurltest.CanonicalURLOf(t, originCanonicalURL),
 	)
 

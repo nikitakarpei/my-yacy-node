@@ -1,6 +1,7 @@
-// Package pagemarkdownstore is the single source of truth binding a crawled
-// page's canonical URL to the bucket and object name that hold its markdown,
-// shared by the writer that fills the corpus and the readers that recall from it.
+// Package pagemarkdownstore is the single source of truth binding a crawled page's
+// canonical URL to the bucket and object name that hold its markdown, and to the subject
+// that carries the outcome of scraping it, shared by the writer that fills the corpus and
+// the readers and waiters that recall from it.
 package pagemarkdownstore
 
 import (
@@ -12,7 +13,11 @@ import (
 
 const BucketName = "YACY_PAGE_MARKDOWN"
 
-func ObjectName(canonicalURL canonicalurl.CanonicalURL) string {
+func ObjectNameOf(canonicalURL canonicalurl.CanonicalURL) string {
+	return fingerprintOf(canonicalURL)
+}
+
+func fingerprintOf(canonicalURL canonicalurl.CanonicalURL) string {
 	sum := sha256.Sum256([]byte(canonicalURL.String()))
 	return hex.EncodeToString(sum[:])
 }
