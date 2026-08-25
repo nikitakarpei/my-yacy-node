@@ -101,7 +101,7 @@ func canonicalURLOf(parsed *url.URL) (CanonicalURL, error) {
 		parsed.Host = hostname + ":" + port
 	}
 	parsed.Fragment = ""
-	parsed.Path = cleanedPathOf(parsed.Path)
+	setEscapedPath(parsed, cleanedPathOf(parsed.EscapedPath()))
 
 	return CanonicalURL{
 		value:     parsed.String(),
@@ -114,8 +114,15 @@ func canonicalURLOf(parsed *url.URL) (CanonicalURL, error) {
 func directoryOf(parsed *url.URL) string {
 	directory := *parsed
 	directory.RawQuery = ""
-	directory.Path = parsed.Path[:strings.LastIndexByte(parsed.Path, '/')+1]
+	escapedPath := parsed.EscapedPath()
+	setEscapedPath(&directory, escapedPath[:strings.LastIndexByte(escapedPath, '/')+1])
 	return directory.String()
+}
+
+func setEscapedPath(parsed *url.URL, escapedPath string) {
+	unescapedPath, _ := url.PathUnescape(escapedPath)
+	parsed.Path = unescapedPath
+	parsed.RawPath = escapedPath
 }
 
 func cleanedPathOf(rawPath string) string {
