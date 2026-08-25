@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/lightpanda"
 )
 
@@ -325,5 +326,35 @@ func forwardProxyClient(t *testing.T, renderproxyURL string) *http.Client {
 	return &http.Client{
 		Timeout:   30 * time.Second,
 		Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)},
+	}
+}
+
+func TestRenderproxyStatesEgressProxyToBrowserEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	renderNetwork := dockernetwork.New(t, ctx)
+	originNetwork := dockernetwork.New(t, ctx)
+
+	originURL := startScriptedOrigin(t, ctx, originNetwork.Name)
+	egressproxy.Start(t, ctx, renderNetwork.Name, originNetwork.Name)
+	lightpanda.Start(t, ctx, renderNetwork.Name)
+	renderproxyURL := startRenderproxyOn(
+		t,
+		ctx,
+		[]string{renderNetwork.Name},
+		lightpanda.NetworkURL(),
+		nil,
+	)
+
+	client := forwardProxyClient(t, renderproxyURL)
+	resp := renderproxyResponseFor(t, ctx, client, originURL)
+	defer func() { _ = resp.Body.Close() }()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("read proxy response body: %v", err)
+	}
+	if !strings.Contains(string(body), renderedMarker) {
+		t.Fatalf("rendered body missing marker: status=%d body=%q", resp.StatusCode, body)
 	}
 }

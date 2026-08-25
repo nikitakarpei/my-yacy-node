@@ -4,7 +4,9 @@ package cdprender
 import (
 	"context"
 	"fmt"
+	"net/url"
 
+	cdptarget "github.com/chromedp/cdproto/target"
 	"github.com/chromedp/chromedp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/cdpdocumentbinding"
@@ -13,14 +15,20 @@ import (
 )
 
 type Renderer struct {
-	allocatorCtx context.Context
-	allocatorEnd context.CancelFunc
-	maxBytes     int64
+	allocatorCtx   context.Context
+	allocatorEnd   context.CancelFunc
+	egressProxyURL string
+	maxBytes       int64
 }
 
-func New(ctx context.Context, cdpURL string, maxBytes int64) *Renderer {
+func New(ctx context.Context, cdpURL string, egressProxyURL *url.URL, maxBytes int64) *Renderer {
 	allocatorCtx, allocatorEnd := chromedp.NewRemoteAllocator(ctx, cdpURL)
-	return &Renderer{allocatorCtx: allocatorCtx, allocatorEnd: allocatorEnd, maxBytes: maxBytes}
+	return &Renderer{
+		allocatorCtx:   allocatorCtx,
+		allocatorEnd:   allocatorEnd,
+		egressProxyURL: egressProxyURL.String(),
+		maxBytes:       maxBytes,
+	}
 }
 
 func (r *Renderer) Close() {
@@ -31,7 +39,10 @@ func (r *Renderer) Render(
 	ctx context.Context,
 	target renderedpage.Target,
 ) (renderedpage.Page, error) {
-	tabCtx, tabCancel := chromedp.NewContext(r.allocatorCtx)
+	tabCtx, tabCancel := chromedp.NewContext(
+		r.allocatorCtx,
+		chromedp.WithNewBrowserContext(egressThrough(r.egressProxyURL)),
+	)
 	defer tabCancel()
 
 	stopPropagation := context.AfterFunc(ctx, tabCancel)
@@ -69,4 +80,12 @@ func (r *Renderer) Render(
 		ReuseTerms:  pagefreshness.ReuseTermsOf(document.ResponseHeader),
 		Body:        body,
 	}, nil
+}
+
+func egressThrough(proxyURL string) chromedp.CreateBrowserContextOption {
+	return func(
+		params *cdptarget.CreateBrowserContextParams,
+	) *cdptarget.CreateBrowserContextParams {
+		return params.WithProxyServer(proxyURL)
+	}
 }
