@@ -12,9 +12,12 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownintake"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecall"
 	markdownrecallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/grpc"
-	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownstoremetrics"
 	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
+	pageredirectionsjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageredirections/jetstream"
+	scrapeprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/scrapeprogressobservers/applog"
+	scrapeprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/scrapeprogressobservers/prometheus"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
@@ -53,6 +56,10 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
+	redirections, err := pageredirectionsjetstream.OpenPageRedirections(ctx, pageMarkdownJetStream)
+	if err != nil {
+		return err
+	}
 	formatDerivations, err := pageformats.New()
 	if err != nil {
 		return err
@@ -66,13 +73,17 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	)
 
 	registry := prometheus.NewRegistry()
-	metrics := markdownstoremetrics.New(registry)
+	progress := markdownintake.ScrapeProgressObservers{
+		scrapeprogressobserversapplog.ScrapeProgressLog{},
+		scrapeprogressobserversprometheus.New(registry),
+	}
 	intake := markdownintake.NewScrapeRequestConsumer(markdownintake.Config{
 		Source:                         consumer,
 		Fetcher:                        fetcher,
 		FormatDerivations:              formatDerivations,
 		Corpus:                         corpus,
-		Progress:                       metrics,
+		Redirections:                   redirections,
+		Progress:                       progress,
 		ScrapeRequestIntakeConcurrency: cfg.ScrapeRequestIntakeConcurrency,
 	})
 
@@ -82,7 +93,8 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 
-	receiver := markdownrecallreceiversgrpc.NewMarkdownRecallReceiver(corpus, cfg.ListenAddr)
+	recall := markdownrecall.NewPageMarkdownRecall(corpus, redirections)
+	receiver := markdownrecallreceiversgrpc.NewMarkdownRecallReceiver(recall, cfg.ListenAddr)
 
 	slog.InfoContext(ctx, "corpusmarkdown started",
 		slog.String("listen", cfg.ListenAddr),

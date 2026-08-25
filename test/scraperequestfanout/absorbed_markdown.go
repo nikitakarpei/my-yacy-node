@@ -23,7 +23,7 @@ func absorbedMarkdownOf(
 	pageURL string,
 ) string {
 	t.Helper()
-	objectName := pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, pageURL))
+	objectName := pagemarkdownstore.ObjectNameOf(canonicalurltest.CanonicalURLOf(t, pageURL))
 
 	var store jetstream.ObjectStore
 	opened := pollwait.For(absorptionDeadline, func() bool {

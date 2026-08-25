@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package corpusmarkdown.v1;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/corpusmarkdown/v1;corpusmarkdownv1";
 
 // MarkdownCorpus yields the markdown an operator's own corpus holds for a page.
@@ -15,6 +17,10 @@ message RecallPageRequest {
 }
 
 message RecallPageResponse {
+  // canonical_url is the URL the markdown is of, which differs from the requested URL
+  // when the origin redirected the scrape.
   string canonical_url = 1;
   string markdown = 2;
+  // stored_at is when the corpus last wrote this markdown, so a caller can judge its age.
+  google.protobuf.Timestamp stored_at = 3;
 }
