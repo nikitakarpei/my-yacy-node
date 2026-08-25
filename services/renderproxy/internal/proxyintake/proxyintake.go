@@ -56,6 +56,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set(headerLocation, page.Location)
 	}
 	page.ReuseTerms.StateOn(w.Header())
+	page.CaptureTerms.StateOn(w.Header())
 	w.WriteHeader(page.StatusCode)
 	if _, err := w.Write(page.Body); err != nil {
 		slog.WarnContext(r.Context(), msgWriteFailed, slog.Any("error", err))

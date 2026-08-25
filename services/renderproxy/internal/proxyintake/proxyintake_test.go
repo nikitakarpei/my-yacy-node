@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/pagefreshness"
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/pagereplay"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/proxyintake"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
 )
@@ -223,5 +224,38 @@ func TestServeHTTPPassesClientConditionsToTheRenderer(t *testing.T) {
 
 	if got := renderer.statedConditions.Get("If-Modified-Since"); got == "" {
 		t.Fatal("if-modified-since did not reach the renderer")
+	}
+}
+
+func TestServeHTTPStatesTheReplayCaptureTerms(t *testing.T) {
+	servedResponseHeader := http.Header{}
+	servedResponseHeader.Set("Memento-Datetime", "Mon, 24 Aug 2026 13:48:01 GMT")
+	servedResponseHeader.Set("Link", `<https://example.com/>; rel="original"`)
+	servedResponseHeader.Set("X-Archive-Orig-ETag", `"origin-tag"`)
+
+	handler := proxyintake.New(stubRenderer{page: renderedpage.Page{
+		StatusCode:   http.StatusOK,
+		ContentType:  "text/html",
+		CaptureTerms: pagereplay.CaptureTermsOf(servedResponseHeader),
+		Body:         []byte("<html>archived</html>"),
+	}})
+	req := httptest.NewRequestWithContext(
+		context.Background(),
+		http.MethodGet,
+		"http://pywb.example/capture/20260824134801mp_/https://example.com/",
+		nil,
+	)
+	rec := httptest.NewRecorder()
+
+	handler.ServeHTTP(rec, req)
+
+	if got := rec.Header().Get("Memento-Datetime"); got == "" {
+		t.Fatal("memento-datetime is missing")
+	}
+	if got := rec.Header().Get("Link"); got != `<https://example.com/>; rel="original"` {
+		t.Fatalf("link = %q", got)
+	}
+	if got := rec.Header().Get("X-Archive-Orig-ETag"); got != `"origin-tag"` {
+		t.Fatalf("x-archive-orig-etag = %q", got)
 	}
 }

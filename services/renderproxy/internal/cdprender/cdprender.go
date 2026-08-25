@@ -11,6 +11,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/cdpdocumentbinding"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/pagefreshness"
+	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/pagereplay"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
 )
 
@@ -75,10 +76,11 @@ func (r *Renderer) Render(
 	}
 
 	return renderedpage.Page{
-		StatusCode:  document.StatusCode,
-		ContentType: document.ContentType,
-		ReuseTerms:  pagefreshness.ReuseTermsOf(document.ResponseHeader),
-		Body:        body,
+		StatusCode:   document.StatusCode,
+		ContentType:  document.ContentType,
+		ReuseTerms:   pagefreshness.ReuseTermsOf(document.ResponseHeader),
+		CaptureTerms: pagereplay.CaptureTermsOf(document.ResponseHeader),
+		Body:         body,
 	}, nil
 }
 
