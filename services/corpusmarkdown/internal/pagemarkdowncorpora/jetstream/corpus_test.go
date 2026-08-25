@@ -36,7 +36,7 @@ func storedMarkdown(t *testing.T, url string, canonicalURL canonicalurl.Canonica
 	}
 	markdown, err := objects.GetBytes(
 		context.Background(),
-		pagemarkdownstore.ObjectName(canonicalURL),
+		pagemarkdownstore.ObjectNameOf(canonicalURL),
 	)
 	if err != nil {
 		t.Fatalf("get markdown for %q: %v", canonicalURL, err)
@@ -153,7 +153,7 @@ func TestMarkdownOfYieldsTheMarkdownHeldUnderTheCanonicalURL(t *testing.T) {
 		t.Fatalf("put: %v", err)
 	}
 
-	markdown, held, err := corpus.MarkdownOf(
+	markdown, storedAt, held, err := corpus.MarkdownOf(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, crawledURL),
 	)
@@ -166,12 +166,15 @@ func TestMarkdownOfYieldsTheMarkdownHeldUnderTheCanonicalURL(t *testing.T) {
 	if string(markdown) != "# Hi" {
 		t.Errorf("markdown = %q, want %q", markdown, "# Hi")
 	}
+	if storedAt.IsZero() {
+		t.Error("storedAt is zero, want the time the corpus wrote the markdown")
+	}
 }
 
 func TestMarkdownOfReportsAURLTheCorpusDoesNotHold(t *testing.T) {
 	corpus := openedCorpus(t, natstestserver.Start(t))
 
-	_, held, err := corpus.MarkdownOf(
+	_, _, held, err := corpus.MarkdownOf(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, crawledURL),
 	)
@@ -188,7 +191,7 @@ func TestMarkdownOfFailsWhenTheMarkdownCannotBeRead(t *testing.T) {
 	abandoned, abandon := context.WithCancel(context.Background())
 	abandon()
 
-	if _, _, err := corpus.MarkdownOf(
+	if _, _, _, err := corpus.MarkdownOf(
 		abandoned,
 		canonicalurltest.CanonicalURLOf(t, crawledURL),
 	); err == nil {

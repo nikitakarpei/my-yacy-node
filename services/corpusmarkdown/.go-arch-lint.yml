@@ -11,12 +11,18 @@ commonVendors:
 components:
   markdownintake:
     in: internal/markdownintake/**
-  markdownstoremetrics:
-    in: internal/markdownstoremetrics/**
+  scrapeprogressobserversprometheus:
+    in: internal/scrapeprogressobservers/prometheus/**
+  scrapeprogressobserversapplog:
+    in: internal/scrapeprogressobservers/applog/**
   pagemarkdowncorporajetstream:
     in: internal/pagemarkdowncorpora/jetstream/**
+  markdownrecall:
+    in: internal/markdownrecall/**
   markdownrecallreceiversgrpc:
     in: internal/markdownrecallreceivers/grpc/**
+  pageredirectionsjetstream:
+    in: internal/pageredirections/jetstream/**
   corpusmarkdowncmd:
     in: cmd/corpusmarkdown/**
 
@@ -51,6 +57,10 @@ vendors:
     in:
       - google.golang.org/grpc
       - google.golang.org/grpc/**
+  protobuf:
+    in:
+      - google.golang.org/protobuf
+      - google.golang.org/protobuf/**
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -83,11 +93,17 @@ deps:
       - yacycrawlcontract
       - scraperequestcontract
       - nats
+  pageredirectionsjetstream:
+    canUse:
+      - nats
   markdownrecallreceiversgrpc:
+    mayDependOn:
+      - markdownrecall
     canUse:
       - pagemarkdownstore
       - grpc
-  markdownstoremetrics:
+      - protobuf
+  scrapeprogressobserversprometheus:
     canUse:
       - prometheus
   corpusmarkdowncmd:

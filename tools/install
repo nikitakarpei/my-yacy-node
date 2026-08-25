@@ -8,6 +8,7 @@ set -eu
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 lock="$root/tools/tools.lock"
 bin="$root/.toolchain/bin"
+protoc_include="$root/.toolchain/include"
 
 case "$(uname -s)" in
 	Linux) os=linux ;;
@@ -51,19 +52,25 @@ fetch() {
 	trap - EXIT
 }
 
-fetch_zip() {
-	tool="$1"; url="$2"; want="$3"; member="$4"
+# protoc needs its bundled well-known type definitions, such as
+# google/protobuf/timestamp.proto, on the proto path; the release zip carries them
+# beside the binary and one checksum covers both.
+fetch_protoc() {
+	url="$1"; want="$2"
 	tmp=$(mktemp -d)
 	trap 'rm -rf "$tmp"' EXIT
-	echo "==> $tool $platform"
+	echo "==> protoc $platform"
 	curl -fsSL "$url" -o "$tmp/archive.zip"
 	got=$(sha256 "$tmp/archive.zip")
 	if [ "$got" != "$want" ]; then
-		echo "checksum mismatch for $tool: expected $want, got $got" >&2
+		echo "checksum mismatch for protoc: expected $want, got $got" >&2
 		exit 1
 	fi
 	unzip -q -o "$tmp/archive.zip" -d "$tmp"
-	install -m 0755 "$tmp/$member" "$bin/$tool"
+	install -m 0755 "$tmp/bin/protoc" "$bin/protoc"
+	rm -rf "$protoc_include"
+	mkdir -p "$protoc_include"
+	cp -R "$tmp/include/." "$protoc_include/"
 	rm -rf "$tmp"
 	trap - EXIT
 }
@@ -114,9 +121,9 @@ case "$platform" in
 esac
 set -- $(lookup protoc)
 ver="$1"; sum="$2"
-fetch_zip protoc \
+fetch_protoc \
 	"https://github.com/protocolbuffers/protobuf/releases/download/v$ver/protoc-$ver-$protoc_plat.zip" \
-	"$sum" "bin/protoc"
+	"$sum"
 
 set -- $(lookup protoc-gen-go)
 ver="$1"; sum="$2"

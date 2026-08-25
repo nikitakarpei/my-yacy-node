@@ -84,7 +84,7 @@ func TestRunServiceStoresTheMarkdownItScrapesFromAScrapeRequest(t *testing.T) {
 
 	publishScrapeRequest(t, ctx, scrapeRequestJetStream, originURL)
 	waitForStored(t, ctx, store,
-		pagemarkdownstore.ObjectName(canonicalurltest.CanonicalURLOf(t, originURL)), "words here")
+		pagemarkdownstore.ObjectNameOf(canonicalurltest.CanonicalURLOf(t, originURL)), "words here")
 
 	cancel()
 	select {

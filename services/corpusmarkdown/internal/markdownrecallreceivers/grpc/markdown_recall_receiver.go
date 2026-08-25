@@ -23,11 +23,11 @@ type MarkdownRecallReceiver struct {
 }
 
 func NewMarkdownRecallReceiver(
-	corpus PageMarkdownCorpus,
+	recall PageMarkdownRecall,
 	listenAddress string,
 ) *MarkdownRecallReceiver {
 	return &MarkdownRecallReceiver{
-		markdownCorpusServer: &markdownCorpusServer{corpus: corpus},
+		markdownCorpusServer: &markdownCorpusServer{recall: recall},
 		listenAddress:        listenAddress,
 	}
 }

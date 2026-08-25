@@ -12,6 +12,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecall"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/grpc"
 	corpusmarkdownv1 "github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/corpusmarkdown/v1"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/markdowncorpusclienttest"
@@ -25,23 +26,25 @@ const (
 
 var errCorpusUnreachable = errors.New("corpus unreachable")
 
-type heldMarkdown struct {
-	byCanonicalURL map[canonicalurl.CanonicalURL]string
+var storedAt = time.Date(2026, time.August, 25, 10, 30, 0, 0, time.UTC)
+
+type recalledPages struct {
+	byRequestedURL map[canonicalurl.CanonicalURL]markdownrecall.RecalledPage
 	failure        error
 }
 
-func (h heldMarkdown) MarkdownOf(
+func (r recalledPages) PageOf(
 	_ context.Context,
-	canonicalURL canonicalurl.CanonicalURL,
-) ([]byte, bool, error) {
-	if h.failure != nil {
-		return nil, false, h.failure
+	requestedURL canonicalurl.CanonicalURL,
+) (markdownrecall.RecalledPage, bool, error) {
+	if r.failure != nil {
+		return markdownrecall.RecalledPage{}, false, r.failure
 	}
-	markdown, held := h.byCanonicalURL[canonicalURL]
+	page, held := r.byRequestedURL[requestedURL]
 	if !held {
-		return nil, false, nil
+		return markdownrecall.RecalledPage{}, false, nil
 	}
-	return []byte(markdown), true, nil
+	return page, true, nil
 }
 
 type receiverUnderTest struct {
@@ -51,11 +54,11 @@ type receiverUnderTest struct {
 
 func markdownRecallReceiverUnderTest(
 	t *testing.T,
-	corpus grpc.PageMarkdownCorpus,
+	recall grpc.PageMarkdownRecall,
 ) receiverUnderTest {
 	t.Helper()
 	listenAddress := freeListenAddress(t)
-	receiver := grpc.NewMarkdownRecallReceiver(corpus, listenAddress)
+	receiver := grpc.NewMarkdownRecallReceiver(recall, listenAddress)
 	ctx, cancel := context.WithCancel(context.Background())
 	served := make(chan error, 1)
 	go func() { served <- receiver.Serve(ctx) }()
@@ -114,7 +117,7 @@ func waitUntilListening(t *testing.T, listenAddress string) {
 }
 
 func TestAReceiverRefusesToServeAListenAddressThatCannotBind(t *testing.T) {
-	receiver := grpc.NewMarkdownRecallReceiver(heldMarkdown{}, "127.0.0.1:99999")
+	receiver := grpc.NewMarkdownRecallReceiver(recalledPages{}, "127.0.0.1:99999")
 
 	if err := receiver.Serve(context.Background()); err == nil {
 		t.Fatal("expected error when listen address cannot bind")
@@ -122,9 +125,13 @@ func TestAReceiverRefusesToServeAListenAddressThatCannotBind(t *testing.T) {
 }
 
 func TestRecallPageAnswersWithTheMarkdownTheCorpusHolds(t *testing.T) {
-	receiver := markdownRecallReceiverUnderTest(t, heldMarkdown{
-		byCanonicalURL: map[canonicalurl.CanonicalURL]string{
-			canonicalurltest.CanonicalURLOf(t, recalledURL): "# Hi",
+	receiver := markdownRecallReceiverUnderTest(t, recalledPages{
+		byRequestedURL: map[canonicalurl.CanonicalURL]markdownrecall.RecalledPage{
+			canonicalurltest.CanonicalURLOf(t, recalledURL): {
+				MarkdownURL: canonicalurltest.CanonicalURLOf(t, recalledURL),
+				Markdown:    []byte("# Hi"),
+				StoredAt:    storedAt,
+			},
 		},
 	})
 
@@ -138,10 +145,34 @@ func TestRecallPageAnswersWithTheMarkdownTheCorpusHolds(t *testing.T) {
 	if response.GetMarkdown() != "# Hi" {
 		t.Errorf("markdown = %q, want %q", response.GetMarkdown(), "# Hi")
 	}
+	if !response.GetStoredAt().AsTime().Equal(storedAt) {
+		t.Errorf("storedAt = %v, want %v", response.GetStoredAt().AsTime(), storedAt)
+	}
+}
+
+func TestRecallPageAnswersWithTheURLTheMarkdownIsOf(t *testing.T) {
+	const redirectedFrom = "http://example.com/"
+	receiver := markdownRecallReceiverUnderTest(t, recalledPages{
+		byRequestedURL: map[canonicalurl.CanonicalURL]markdownrecall.RecalledPage{
+			canonicalurltest.CanonicalURLOf(t, redirectedFrom): {
+				MarkdownURL: canonicalurltest.CanonicalURLOf(t, recalledURL),
+				Markdown:    []byte("# Hi"),
+				StoredAt:    storedAt,
+			},
+		},
+	})
+
+	response, err := receiver.RecallPage(redirectedFrom)
+	if err != nil {
+		t.Fatalf("recall page: %v", err)
+	}
+	if response.GetCanonicalUrl() != recalledURL {
+		t.Errorf("canonicalUrl = %q, want %q", response.GetCanonicalUrl(), recalledURL)
+	}
 }
 
 func TestRecallPageReportsNotFoundForAURLTheCorpusDoesNotHold(t *testing.T) {
-	receiver := markdownRecallReceiverUnderTest(t, heldMarkdown{})
+	receiver := markdownRecallReceiverUnderTest(t, recalledPages{})
 
 	_, err := receiver.RecallPage(recalledURL)
 
@@ -151,7 +182,7 @@ func TestRecallPageReportsNotFoundForAURLTheCorpusDoesNotHold(t *testing.T) {
 }
 
 func TestRecallPageRefusesARequestWhoseURLIsNotCanonicalizable(t *testing.T) {
-	receiver := markdownRecallReceiverUnderTest(t, heldMarkdown{})
+	receiver := markdownRecallReceiverUnderTest(t, recalledPages{})
 
 	_, err := receiver.RecallPage("")
 
@@ -161,7 +192,7 @@ func TestRecallPageRefusesARequestWhoseURLIsNotCanonicalizable(t *testing.T) {
 }
 
 func TestRecallPageReportsACorpusFailureAsInternal(t *testing.T) {
-	receiver := markdownRecallReceiverUnderTest(t, heldMarkdown{failure: errCorpusUnreachable})
+	receiver := markdownRecallReceiverUnderTest(t, recalledPages{failure: errCorpusUnreachable})
 
 	_, err := receiver.RecallPage(recalledURL)
 

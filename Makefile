@@ -91,6 +91,7 @@ $(TOOLS_STAMP): tools/install tools/tools.lock
 tools: $(TOOLS_STAMP)
 
 PROTOC := $(TOOLS_BIN)/protoc
+PROTOC_INCLUDE := $(CURDIR)/.toolchain/include
 PROTO_GEN_GO := $(TOOLS_BIN)/protoc-gen-go
 PROTO_GEN_GO_GRPC := $(TOOLS_BIN)/protoc-gen-go-grpc
 CORPUSMARKDOWN_API_DIR := services/corpusmarkdown/contract
@@ -98,6 +99,7 @@ CORPUSMARKDOWN_API_DIR := services/corpusmarkdown/contract
 proto: $(TOOLS_STAMP)
 	@echo "==> proto"
 	@PATH="$(TOOLS_BIN):$$PATH" $(PROTOC) \
+		--proto_path=$(PROTOC_INCLUDE) \
 		--proto_path=$(CORPUSMARKDOWN_API_DIR) \
 		--go_out=$(CORPUSMARKDOWN_API_DIR) --go_opt=paths=source_relative \
 		--go-grpc_out=$(CORPUSMARKDOWN_API_DIR) --go-grpc_opt=paths=source_relative \
