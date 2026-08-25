@@ -28,6 +28,17 @@ const (
 
 func fetchReplay(t *testing.T, headers map[string]string) pagefetch.FetchOutcome {
 	t.Helper()
+	return fetchReplayThrough(t, headers, func(proxied http.RoundTripper) http.RoundTripper {
+		return httppkg.NewReplayedCaptureTransport(proxied)
+	})
+}
+
+func fetchReplayThrough(
+	t *testing.T,
+	headers map[string]string,
+	transportAround func(proxied http.RoundTripper) http.RoundTripper,
+) pagefetch.FetchOutcome {
+	t.Helper()
 	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
 		for name, value := range headers {
 			w.Header().Set(name, value)
@@ -36,7 +47,8 @@ func fetchReplay(t *testing.T, headers map[string]string) pagefetch.FetchOutcome
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+	transport := transportAround(httppkg.NewProxiedTransport(proxy, httppkg.ProxyDialTunnel))
+	outcome, err := httppkg.New(transport, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, replayURL),
@@ -54,6 +66,7 @@ func TestFetchReadsReplayedPageAsItsOriginal(t *testing.T) {
 	outcome := fetchReplay(t, map[string]string{
 		"Memento-Datetime":             capturedAt,
 		"Link":                         replayLinkHeader,
+		"ETag":                         `"replay-tag"`,
 		"X-Archive-Orig-ETag":          `"origin-tag"`,
 		"X-Archive-Orig-Last-Modified": originModifiedAt,
 		"X-Archive-Orig-Date":          capturedAt,
@@ -84,6 +97,24 @@ func TestFetchReadsReplayedPageWhenOriginalIsNamedLast(t *testing.T) {
 
 	if outcome.Page.FinalURL.String() != originalURL {
 		t.Fatalf("final url = %q, want %q", outcome.Page.FinalURL, originalURL)
+	}
+}
+
+func TestFetchKeepsReplayURLWhenNoReplayedCaptureTransportIsComposed(t *testing.T) {
+	outcome := fetchReplayThrough(t, map[string]string{
+		"Memento-Datetime":             capturedAt,
+		"Link":                         replayLinkHeader,
+		"ETag":                         `"replay-tag"`,
+		"X-Archive-Orig-ETag":          `"origin-tag"`,
+		"X-Archive-Orig-Last-Modified": originModifiedAt,
+	}, func(proxied http.RoundTripper) http.RoundTripper { return proxied })
+
+	wanted := canonicalurltest.CanonicalURLOf(t, replayURL)
+	if outcome.Page.FinalURL.String() != wanted.String() {
+		t.Fatalf("final url = %q, want %q", outcome.Page.FinalURL, wanted)
+	}
+	if outcome.Version.EntityTag != `"replay-tag"` {
+		t.Fatalf("entity tag = %q, want the replay's own", outcome.Version.EntityTag)
 	}
 }
 

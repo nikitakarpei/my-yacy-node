@@ -1,13 +1,11 @@
 package http
 
 import (
-	"context"
+	"fmt"
 	"log/slog"
 	"net/http"
+	"net/url"
 	"strings"
-
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
 const (
@@ -19,45 +17,58 @@ const (
 	relationParameter = "rel"
 	originalRelation  = "original"
 
-	msgOriginalURLMissing  = "replayed page names no original url, page treated as no page"
-	msgOriginalURLRejected = "replayed page names a rejected original url, page treated as no page"
+	msgOriginalURLMissing  = "replayed page names no original url, page read under its replay url"
+	msgOriginalURLRejected = "replayed page names a rejected original url, page read under its replay url"
 )
 
-type replayedCapture struct {
-	OriginalURL   canonicalurl.CanonicalURL
-	OriginVersion pagefetch.PageVersion
+// ReplayedCaptureTransport reads a replayed page under the url it was captured from and
+// under the validators the origin gave at capture time, so that a page an archive replays
+// is the page the origin served.
+type ReplayedCaptureTransport struct {
+	inner http.RoundTripper
 }
 
-func replayedCaptureOf(
-	ctx context.Context,
-	response *http.Response,
-) (replayedCapture, bool) {
-	if response.Header.Get(headerMementoDatetime) == "" {
-		return replayedCapture{}, false
-	}
-	target, named := originalTargetFrom(response.Header.Get(headerLink))
-	if !named {
-		slog.WarnContext(ctx, msgOriginalURLMissing,
-			slog.String("url", response.Request.URL.String()),
-		)
-		return replayedCapture{}, false
-	}
-	originalURL, err := canonicalurl.CanonicalURLOf(target)
+func NewReplayedCaptureTransport(inner http.RoundTripper) *ReplayedCaptureTransport {
+	return &ReplayedCaptureTransport{inner: inner}
+}
+
+func (t *ReplayedCaptureTransport) RoundTrip(request *http.Request) (*http.Response, error) {
+	response, err := t.inner.RoundTrip(request)
 	if err != nil {
-		slog.WarnContext(ctx, msgOriginalURLRejected,
-			slog.String("url", response.Request.URL.String()),
+		return nil, fmt.Errorf("round trip %s: %w", request.URL, err)
+	}
+	if response.Header.Get(headerMementoDatetime) == "" {
+		return response, nil
+	}
+	originalURL, named := originalURLFrom(request, response.Header.Get(headerLink))
+	if !named {
+		return response, nil
+	}
+	capturedRequest := *response.Request
+	capturedRequest.URL = originalURL
+	response.Request = &capturedRequest
+	stateCapturedValidatorsOn(response.Header)
+	return response, nil
+}
+
+func originalURLFrom(request *http.Request, linkHeader string) (*url.URL, bool) {
+	target, named := originalTargetFrom(linkHeader)
+	if !named {
+		slog.WarnContext(request.Context(), msgOriginalURLMissing,
+			slog.String("url", request.URL.String()),
+		)
+		return nil, false
+	}
+	originalURL, err := url.Parse(target)
+	if err != nil {
+		slog.WarnContext(request.Context(), msgOriginalURLRejected,
+			slog.String("url", request.URL.String()),
 			slog.String("originalUrl", target),
 			slog.Any("error", err),
 		)
-		return replayedCapture{}, false
+		return nil, false
 	}
-	return replayedCapture{
-		OriginalURL: originalURL,
-		OriginVersion: pageVersionFrom(
-			response.Header.Get(headerCapturedETag),
-			response.Header.Get(headerCapturedModified),
-		),
-	}, true
+	return originalURL, true
 }
 
 func originalTargetFrom(linkHeader string) (string, bool) {
@@ -96,4 +107,15 @@ func namesOriginalRelation(parameters string) bool {
 		}
 	}
 	return false
+}
+
+func stateCapturedValidatorsOn(responseHeader http.Header) {
+	responseHeader.Del(headerETag)
+	if capturedETag := responseHeader.Get(headerCapturedETag); capturedETag != "" {
+		responseHeader.Set(headerETag, capturedETag)
+	}
+	responseHeader.Del(headerLastModified)
+	if capturedModified := responseHeader.Get(headerCapturedModified); capturedModified != "" {
+		responseHeader.Set(headerLastModified, capturedModified)
+	}
 }

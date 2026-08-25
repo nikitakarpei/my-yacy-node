@@ -6,7 +6,6 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
-	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -40,14 +39,13 @@ type ProxiedFetch struct {
 }
 
 func New(
-	proxyURL *url.URL,
-	dialMode ProxyDialMode,
+	transport http.RoundTripper,
 	userAgent string,
 	maxBodyBytes int64,
 	deadline time.Duration,
 ) *ProxiedFetch {
 	return &ProxiedFetch{
-		client:       &http.Client{Transport: transportForDialMode(proxyURL, dialMode)},
+		client:       &http.Client{Transport: transport},
 		userAgent:    userAgent,
 		maxBodyBytes: maxBodyBytes,
 		deadline:     deadline,
@@ -131,11 +129,6 @@ func (f *ProxiedFetch) fetched(
 	if truncated {
 		body = body[:f.maxBodyBytes]
 	}
-	if capture, replayed := replayedCaptureOf(ctx, response); replayed {
-		return succeededFetchOf(
-			response, capture.OriginalURL, capture.OriginVersion, body, truncated,
-		), nil
-	}
 	finalURL, err := canonicalurl.CanonicalURLOf(response.Request.URL.String())
 	if err != nil {
 		slog.WarnContext(ctx, msgFinalURLRejected,
@@ -144,18 +137,6 @@ func (f *ProxiedFetch) fetched(
 		)
 		return pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}, nil
 	}
-	return succeededFetchOf(
-		response, finalURL, pageVersionOf(response), body, truncated,
-	), nil
-}
-
-func succeededFetchOf(
-	response *http.Response,
-	finalURL canonicalurl.CanonicalURL,
-	version pagefetch.PageVersion,
-	body []byte,
-	truncated bool,
-) pagefetch.FetchOutcome {
 	noIndex, noFollow := robotsDirectives(response.Header.Values(headerXRobotsTag))
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
@@ -167,8 +148,8 @@ func succeededFetchOf(
 			RefusesIndexing:      noIndex,
 			RefusesLinkDiscovery: noFollow,
 		},
-		Version: version,
-	}
+		Version: pageVersionOf(response),
+	}, nil
 }
 
 func setConditionalHeaders(request *http.Request, version pagefetch.PageVersion) {
@@ -184,15 +165,8 @@ func setConditionalHeaders(request *http.Request, version pagefetch.PageVersion)
 }
 
 func pageVersionOf(response *http.Response) pagefetch.PageVersion {
-	return pageVersionFrom(
-		response.Header.Get(headerETag),
-		response.Header.Get(headerLastModified),
-	)
-}
-
-func pageVersionFrom(entityTag, lastModified string) pagefetch.PageVersion {
-	version := pagefetch.PageVersion{EntityTag: entityTag}
-	if modified, err := http.ParseTime(lastModified); err == nil {
+	version := pagefetch.PageVersion{EntityTag: response.Header.Get(headerETag)}
+	if modified, err := http.ParseTime(response.Header.Get(headerLastModified)); err == nil {
 		version.ModifiedAt = modified
 	}
 	return version

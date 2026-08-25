@@ -9,7 +9,9 @@ import (
 	"net/url"
 )
 
-func transportForDialMode(proxyURL *url.URL, dialMode ProxyDialMode) http.RoundTripper {
+// NewProxiedTransport sends every request through the proxy, in the dial mode that proxy
+// accepts.
+func NewProxiedTransport(proxyURL *url.URL, dialMode ProxyDialMode) http.RoundTripper {
 	if dialMode == ProxyDialAbsoluteURL {
 		return &absoluteURLTransport{proxyAddr: proxyURL.Host}
 	}

@@ -65,8 +65,9 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		return err
 	}
 	fetcher := pagefetchershttp.New(
-		cfg.ProxyURL,
-		cfg.ProxyDialMode,
+		pagefetchershttp.NewReplayedCaptureTransport(
+			pagefetchershttp.NewProxiedTransport(cfg.ProxyURL, cfg.ProxyDialMode),
+		),
 		cfg.UserAgent,
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
