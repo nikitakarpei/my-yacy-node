@@ -13,8 +13,8 @@ web no longer has.
 ## The change
 
 `pywb` serves an archive of your own. It reads the WARC files under `imported/`
-and looks for new ones every thirty seconds, so an archive someone gives you is
-searchable soon after you copy it in, with no restart.
+and looks for new ones by itself, so an archive someone gives you is searchable
+soon after you copy it in, with no restart.
 
 The archive sits on a network of its own that has no route out. Smokescreen
 reaches it and now allows its address, so the crawl is able to fetch a replayed
@@ -22,8 +22,8 @@ page, and the archive itself is able to fetch nothing.
 
 ## Try it
 
-Copy WARC files into `imported/`, beside `compose.yml`. Name each site you want
-from them with its own `-url`.
+Copy WARC files into `imported/`, beside `compose.yml`, and wait thirty seconds
+for pywb to find them. Name each site you want from them with its own `-url`.
 
 ```sh
 docker compose up -d
