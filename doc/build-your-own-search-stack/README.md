@@ -18,3 +18,4 @@ The chapters are best read in order the first time. After that, chapters/ works 
 | 8 | [Collect metrics from every service](chapters/08-collect-metrics-from-every-service) |
 | 9 | [Watch the stack on dashboards](chapters/09-watch-the-stack-on-dashboards) |
 | 10 | [Keep every page as a WARC file](chapters/10-keep-every-page-as-a-warc-file) |
+| 11 | [Put a web archive into your index](chapters/11-put-a-web-archive-into-your-index) |

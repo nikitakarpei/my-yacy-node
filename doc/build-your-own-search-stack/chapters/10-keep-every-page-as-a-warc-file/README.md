@@ -58,8 +58,7 @@ before you crawl anything large.
 ## Where you are now
 
 You have the pages themselves, in a format that outlives this stack, rather than
-only words about them. Nothing in the stack reads them back yet.
+only words about them.
 
-The rest is tuning. `side-roads/` holds the alternatives worth knowing about,
-and every `configuration.md` under `services/` documents settings this journey
-left at their defaults.
+What you cannot do yet is search them. The files sit beside a stack that has no
+way to read them back, and so does every archive anyone hands you.
