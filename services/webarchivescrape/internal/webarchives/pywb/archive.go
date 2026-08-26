@@ -67,10 +67,10 @@ func New(client *http.Client, pywbURL *url.URL, collection string) *Archive {
 
 func (a *Archive) NewestReplayURLsFor(
 	ctx context.Context,
-	query CaptureQuery,
+	queries []CaptureQuery,
 	pageLimit int,
 ) (NewestReplayURLs, error) {
-	captureSelection, err := a.captureSelectionFor(ctx, query, pageLimit)
+	captureSelection, err := a.captureSelectionFor(ctx, queries, pageLimit)
 	if err != nil {
 		return NewestReplayURLs{}, err
 	}
@@ -79,12 +79,35 @@ func (a *Archive) NewestReplayURLsFor(
 
 func (a *Archive) captureSelectionFor(
 	ctx context.Context,
-	query CaptureQuery,
+	queries []CaptureQuery,
 	pageLimit int,
 ) (captureSelection, error) {
 	if pageLimit < 0 {
 		return captureSelection{}, fmt.Errorf("page limit must not be negative")
 	}
+	selection := joinedCaptureSelection{pageLimit: pageLimit}
+	for _, query := range queries {
+		if selection.pageLimitReached() {
+			return selection.completeWithUnreadPages(), nil
+		}
+		querySelection, err := a.captureSelectionFromIndex(
+			ctx,
+			query,
+			selection.remainingPageLimit(),
+		)
+		if err != nil {
+			return captureSelection{}, err
+		}
+		selection.join(querySelection)
+	}
+	return selection.complete(), nil
+}
+
+func (a *Archive) captureSelectionFromIndex(
+	ctx context.Context,
+	query CaptureQuery,
+	pageLimit int,
+) (captureSelection, error) {
 	queryURL := a.queryURLOf(query)
 	request, err := http.NewRequestWithContext(ctx, http.MethodGet, queryURL.String(), nil)
 	if err != nil {

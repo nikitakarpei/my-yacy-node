@@ -33,7 +33,7 @@ func RunCommand(ctx context.Context, cfg CommandConfig, requests io.Writer) erro
 	)
 	newestReplayURLs, err := archive.NewestReplayURLsFor(
 		ctx,
-		cfg.PywbCaptureQuery,
+		cfg.PywbCaptureQueries,
 		cfg.PageLimit,
 	)
 	if err != nil {

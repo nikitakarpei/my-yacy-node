@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	webarchivescrape "github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/cmd/webarchivescrape"
+	webarchivespywb "github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/internal/webarchives/pywb"
 )
 
 func TestLoadCommandConfigReadsTheStatedQuery(t *testing.T) {
@@ -28,11 +29,12 @@ func TestLoadCommandConfigReadsTheStatedQuery(t *testing.T) {
 	if cfg.PywbCollection != "archive" {
 		t.Errorf("collection = %q", cfg.PywbCollection)
 	}
-	if cfg.PywbCaptureQuery.URL != "example.com" || cfg.PywbCaptureQuery.MatchType != "host" {
-		t.Errorf("query = %+v", cfg.PywbCaptureQuery)
+	query := theOnlyQuery(t, cfg)
+	if query.URL != "example.com" || query.MatchType != "host" {
+		t.Errorf("query = %+v", query)
 	}
-	if cfg.PywbCaptureQuery.From != "2024" || cfg.PywbCaptureQuery.To != "2025" {
-		t.Errorf("query bounds = %+v", cfg.PywbCaptureQuery)
+	if query.From != "2024" || query.To != "2025" {
+		t.Errorf("query bounds = %+v", query)
 	}
 	if cfg.PageLimit != 50 {
 		t.Errorf("page limit = %d, want 50", cfg.PageLimit)
@@ -49,11 +51,12 @@ func TestLoadCommandConfigAsksOnlyForPagesACorpusCanRead(t *testing.T) {
 	cfg := loadedConfig(t, "-pywb-url", "http://pywb:8080",
 		"-pywb-collection", "archive", "-url", "example.com", "-dry-run")
 
-	if cfg.PywbCaptureQuery.MediaType != "text/html" {
-		t.Errorf("media type = %q, want text/html", cfg.PywbCaptureQuery.MediaType)
+	query := theOnlyQuery(t, cfg)
+	if query.MediaType != "text/html" {
+		t.Errorf("media type = %q, want text/html", query.MediaType)
 	}
-	if cfg.PywbCaptureQuery.StatusCode != http.StatusOK {
-		t.Errorf("status code = %d, want %d", cfg.PywbCaptureQuery.StatusCode, http.StatusOK)
+	if query.StatusCode != http.StatusOK {
+		t.Errorf("status code = %d, want %d", query.StatusCode, http.StatusOK)
 	}
 }
 
@@ -61,8 +64,8 @@ func TestLoadCommandConfigSearchesAWholeDomainUnlessToldOtherwise(t *testing.T) 
 	cfg := loadedConfig(t, "-pywb-url", "http://pywb:8080",
 		"-pywb-collection", "archive", "-url", "example.com", "-dry-run")
 
-	if cfg.PywbCaptureQuery.MatchType != "domain" {
-		t.Errorf("match type = %q, want domain", cfg.PywbCaptureQuery.MatchType)
+	if matchType := theOnlyQuery(t, cfg).MatchType; matchType != "domain" {
+		t.Errorf("match type = %q, want domain", matchType)
 	}
 }
 
@@ -160,6 +163,49 @@ func TestLoadCommandConfigRefusesAnUnknownArgument(t *testing.T) {
 	); err == nil {
 		t.Fatal("load command config: want an error")
 	}
+}
+
+func TestLoadCommandConfigAsksAboutEveryStatedURL(t *testing.T) {
+	cfg := loadedConfig(t, "-pywb-url", "http://pywb:8080", "-pywb-collection", "archive",
+		"-url", "example.com", "-url", "example.org", "-match-type", "host", "-dry-run")
+
+	if len(cfg.PywbCaptureQueries) != 2 {
+		t.Fatalf("queries = %+v, want one per url", cfg.PywbCaptureQueries)
+	}
+	if cfg.PywbCaptureQueries[0].URL != "example.com" {
+		t.Errorf("first query = %+v, want example.com", cfg.PywbCaptureQueries[0])
+	}
+	if cfg.PywbCaptureQueries[1].URL != "example.org" {
+		t.Errorf("second query = %+v, want example.org", cfg.PywbCaptureQueries[1])
+	}
+	for _, query := range cfg.PywbCaptureQueries {
+		if query.MatchType != "host" {
+			t.Errorf("query = %+v, want every url matched the same way", query)
+		}
+	}
+}
+
+func TestLoadCommandConfigRefusesAnEmptyURL(t *testing.T) {
+	_, err := webarchivescrape.LoadCommandConfig([]string{
+		"-pywb-url", "http://pywb:8080",
+		"-pywb-collection", "archive",
+		"-url", "  ",
+		"-dry-run",
+	}, environment(nil))
+	if err == nil {
+		t.Fatal("empty url should fail")
+	}
+}
+
+func theOnlyQuery(
+	t *testing.T,
+	cfg webarchivescrape.CommandConfig,
+) webarchivespywb.CaptureQuery {
+	t.Helper()
+	if len(cfg.PywbCaptureQueries) != 1 {
+		t.Fatalf("queries = %+v, want exactly one", cfg.PywbCaptureQueries)
+	}
+	return cfg.PywbCaptureQueries[0]
 }
 
 func loadedConfig(t *testing.T, arguments ...string) webarchivescrape.CommandConfig {

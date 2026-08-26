@@ -14,6 +14,38 @@ type captureSelection struct {
 	hasMorePages bool
 }
 
+type joinedCaptureSelection struct {
+	captureSelection captureSelection
+	pageLimit        int
+}
+
+func (j *joinedCaptureSelection) pageLimitReached() bool {
+	return j.pageLimit > 0 && len(j.captureSelection.captures) >= j.pageLimit
+}
+
+func (j *joinedCaptureSelection) remainingPageLimit() int {
+	if j.pageLimit == 0 {
+		return 0
+	}
+	return j.pageLimit - len(j.captureSelection.captures)
+}
+
+func (j *joinedCaptureSelection) join(querySelection captureSelection) {
+	j.captureSelection.captures = append(j.captureSelection.captures, querySelection.captures...)
+	j.captureSelection.capturesRead += querySelection.capturesRead
+	j.captureSelection.hasMorePages = j.captureSelection.hasMorePages ||
+		querySelection.hasMorePages
+}
+
+func (j *joinedCaptureSelection) complete() captureSelection {
+	return j.captureSelection
+}
+
+func (j *joinedCaptureSelection) completeWithUnreadPages() captureSelection {
+	j.captureSelection.hasMorePages = true
+	return j.captureSelection
+}
+
 type newestCaptureSelection struct {
 	captureSelection           captureSelection
 	newestCaptureOfCurrentPage capture

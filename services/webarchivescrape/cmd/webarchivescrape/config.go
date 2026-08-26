@@ -31,7 +31,7 @@ const (
 type CommandConfig struct {
 	PywbURL              *url.URL
 	PywbCollection       string
-	PywbCaptureQuery     webarchivespywb.CaptureQuery
+	PywbCaptureQueries   []webarchivespywb.CaptureQuery
 	PageLimit            int
 	ScrapeRequestNATSURL string
 	DryRun               bool
@@ -44,7 +44,8 @@ func LoadCommandConfig(
 	flags := flag.NewFlagSet("webarchivescrape", flag.ContinueOnError)
 	pywbURL := flags.String(FlagPywbURL, "", "base address of the pywb instance")
 	pywbCollection := flags.String(FlagPywbCollection, "", "collection inside pywb")
-	queried := flags.String(FlagURL, "", "url the archive is asked about")
+	queried := queriedURLs{}
+	flags.Var(&queried, FlagURL, "url the archive is asked about; state it once per url")
 	matchType := flags.String(FlagMatchType, DefaultMatchType, "exact, prefix, host, or domain")
 	from := flags.String(FlagFrom, "", "earliest capture timestamp")
 	to := flags.String(FlagTo, "", "latest capture timestamp")
@@ -65,7 +66,7 @@ func LoadCommandConfig(
 	if strings.TrimSpace(*pywbCollection) == "" {
 		return CommandConfig{}, fmt.Errorf("-%s is required", FlagPywbCollection)
 	}
-	if strings.TrimSpace(*queried) == "" {
+	if len(queried) == 0 {
 		return CommandConfig{}, fmt.Errorf("-%s is required", FlagURL)
 	}
 	if *pageLimit < 0 {
@@ -79,20 +80,47 @@ func LoadCommandConfig(
 	}
 
 	return CommandConfig{
-		PywbURL:        parsedPywbURL,
-		PywbCollection: *pywbCollection,
-		PywbCaptureQuery: webarchivespywb.CaptureQuery{
-			URL:        *queried,
-			MatchType:  *matchType,
-			MediaType:  ScrapedMediaType,
-			StatusCode: ScrapedStatusCode,
-			From:       *from,
-			To:         *to,
-		},
+		PywbURL:              parsedPywbURL,
+		PywbCollection:       *pywbCollection,
+		PywbCaptureQueries:   captureQueriesFor(queried, *matchType, *from, *to),
 		PageLimit:            *pageLimit,
 		ScrapeRequestNATSURL: natsURL,
 		DryRun:               *dryRun,
 	}, nil
+}
+
+type queriedURLs []string
+
+func (u *queriedURLs) String() string {
+	return strings.Join(*u, " ")
+}
+
+func (u *queriedURLs) Set(queried string) error {
+	if strings.TrimSpace(queried) == "" {
+		return fmt.Errorf("-%s must name a url", FlagURL)
+	}
+	*u = append(*u, queried)
+	return nil
+}
+
+func captureQueriesFor(
+	queried queriedURLs,
+	matchType string,
+	from string,
+	to string,
+) []webarchivespywb.CaptureQuery {
+	queries := make([]webarchivespywb.CaptureQuery, 0, len(queried))
+	for _, queriedURL := range queried {
+		queries = append(queries, webarchivespywb.CaptureQuery{
+			URL:        queriedURL,
+			MatchType:  matchType,
+			MediaType:  ScrapedMediaType,
+			StatusCode: ScrapedStatusCode,
+			From:       from,
+			To:         to,
+		})
+	}
+	return queries
 }
 
 func parsedFlagURL(name string, raw string) (*url.URL, error) {

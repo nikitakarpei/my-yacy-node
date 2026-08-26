@@ -46,6 +46,38 @@ func TestRunCommandWritesOneScrapeRequestPerNewestCapture(t *testing.T) {
 	}
 }
 
+func TestRunCommandWritesOneRunOfRequestsForEveryStatedURL(t *testing.T) {
+	otherHostRow := `{"urlkey": "org,example)/", "timestamp": "20240104150000", ` +
+		`"url": "https://example.org/", "mime": "text/html", "status": "200"}`
+	server := httptest.NewServer(http.HandlerFunc(
+		func(writer http.ResponseWriter, request *http.Request) {
+			rows := map[string]string{
+				"example.com": homePageRow,
+				"example.org": otherHostRow,
+			}
+			_, _ = writer.Write([]byte(rows[request.URL.Query().Get("url")]))
+		},
+	))
+	t.Cleanup(server.Close)
+	cfg := dryRunConfigFor(t, server.URL, "-url", "example.com", "-url", "example.org")
+
+	requests := &bytes.Buffer{}
+	if err := webarchivescrape.RunCommand(context.Background(), cfg, requests); err != nil {
+		t.Fatalf("run command: %v", err)
+	}
+
+	lines := strings.Split(strings.TrimSuffix(requests.String(), "\n"), "\n")
+	if len(lines) != 2 {
+		t.Fatalf("requests = %q, want one per stated url", requests.String())
+	}
+	if !strings.Contains(lines[0], "https://example.com/") {
+		t.Errorf("request = %q, want the page of the first url", lines[0])
+	}
+	if !strings.Contains(lines[1], "https://example.org/") {
+		t.Errorf("request = %q, want the page of the second url", lines[1])
+	}
+}
+
 func TestRunCommandWritesNothingWhenTheArchiveHoldsNoSuchPage(t *testing.T) {
 	requests := &bytes.Buffer{}
 	if err := webarchivescrape.RunCommand(
@@ -140,12 +172,20 @@ func TestRunCommandFailsWhenTheBrokerIsUnreachable(t *testing.T) {
 
 func dryRunConfig(t *testing.T, archiveURL string) webarchivescrape.CommandConfig {
 	t.Helper()
-	cfg, err := webarchivescrape.LoadCommandConfig([]string{
-		"-pywb-url", archiveURL,
-		"-pywb-collection", "archive",
-		"-url", "example.com",
-		"-dry-run",
-	}, func(string) string { return "" })
+	return dryRunConfigFor(t, archiveURL, "-url", "example.com")
+}
+
+func dryRunConfigFor(
+	t *testing.T,
+	archiveURL string,
+	queries ...string,
+) webarchivescrape.CommandConfig {
+	t.Helper()
+	arguments := append(
+		[]string{"-pywb-url", archiveURL, "-pywb-collection", "archive", "-dry-run"},
+		queries...,
+	)
+	cfg, err := webarchivescrape.LoadCommandConfig(arguments, func(string) string { return "" })
 	if err != nil {
 		t.Fatalf("load command config: %v", err)
 	}

@@ -23,6 +23,14 @@ const (
 		`"timestamp": "20240102130000", ` +
 		`"url": "https://example.com/about", ` +
 		`"mime": "text/html", "status": "200"}`
+	otherHostRow = `{"urlkey": "org,example)/", ` +
+		`"timestamp": "20240104150000", ` +
+		`"url": "https://example.org/", ` +
+		`"mime": "text/html", "status": "200"}`
+	otherHostSecondRow = `{"urlkey": "org,example)/about", ` +
+		`"timestamp": "20240105160000", ` +
+		`"url": "https://example.org/about", ` +
+		`"mime": "text/html", "status": "200"}`
 )
 
 func TestNewestReplayURLsForKeepsTheNewestReplayOfEveryPage(t *testing.T) {
@@ -85,6 +93,57 @@ func TestNewestReplayURLsForStopsReadingAfterThePageLimit(t *testing.T) {
 	}
 }
 
+func TestNewestReplayURLsForJoinsThePagesOfEveryQuery(t *testing.T) {
+	archive, archiveURL := archiveServingPerQueriedURL(t, map[string]string{
+		"example.com": firstRow,
+		"example.org": otherHostRow,
+	})
+
+	newestReplayURLs := newestReplayURLsForBothHosts(t, archive, 0)
+
+	assertReplayURLs(t, newestReplayURLs, []string{
+		archiveURL + "/archive/20240101120000mp_/https://example.com/",
+		archiveURL + "/archive/20240104150000mp_/https://example.org/",
+	})
+	if newestReplayURLs.CapturesRead != 2 || newestReplayURLs.HasMorePages {
+		t.Fatalf("newest replay urls = %+v, want both hosts and no more pages", newestReplayURLs)
+	}
+}
+
+func TestNewestReplayURLsForSpendsOnePageLimitAcrossEveryQuery(t *testing.T) {
+	archive, archiveURL := archiveServingPerQueriedURL(t, map[string]string{
+		"example.com": firstRow + "\n" + secondRow,
+		"example.org": otherHostRow + "\n" + otherHostSecondRow,
+	})
+
+	newestReplayURLs := newestReplayURLsForBothHosts(t, archive, 3)
+
+	assertReplayURLs(t, newestReplayURLs, []string{
+		archiveURL + "/archive/20240101120000mp_/https://example.com/",
+		archiveURL + "/archive/20240102130000mp_/https://example.com/about",
+		archiveURL + "/archive/20240104150000mp_/https://example.org/",
+	})
+	if newestReplayURLs.CapturesRead != 4 || !newestReplayURLs.HasMorePages {
+		t.Fatalf("newest replay urls = %+v, want four rows read and more pages", newestReplayURLs)
+	}
+}
+
+func TestNewestReplayURLsForLeavesAQueryUnaskedOnceThePageLimitIsSpent(t *testing.T) {
+	askedURLs := []string{}
+	archive, _ := archiveServing(t, firstRow, func(request *http.Request) {
+		askedURLs = append(askedURLs, request.URL.Query().Get("url"))
+	})
+
+	newestReplayURLs := newestReplayURLsForBothHosts(t, archive, 1)
+
+	if !slices.Equal(askedURLs, []string{"example.com"}) {
+		t.Errorf("asked urls = %v, want the second query left unasked", askedURLs)
+	}
+	if len(newestReplayURLs.ReplayURLs) != 1 || !newestReplayURLs.HasMorePages {
+		t.Fatalf("newest replay urls = %+v, want one page and more pages", newestReplayURLs)
+	}
+}
+
 func TestNewestReplayURLsForAsksTheIndexForTheStatedQuery(t *testing.T) {
 	var asked url.Values
 	archive, _ := archiveServing(t, "", func(request *http.Request) {
@@ -94,14 +153,14 @@ func TestNewestReplayURLsForAsksTheIndexForTheStatedQuery(t *testing.T) {
 		}
 	})
 
-	if _, err := archive.NewestReplayURLsFor(context.Background(), pywb.CaptureQuery{
+	if _, err := archive.NewestReplayURLsFor(context.Background(), []pywb.CaptureQuery{{
 		URL:        "example.com",
 		MatchType:  "domain",
 		MediaType:  "text/html",
 		StatusCode: 200,
 		From:       "2024",
 		To:         "2025",
-	}, 50); err != nil {
+	}}, 50); err != nil {
 		t.Fatalf("newest replay urls for query: %v", err)
 	}
 
@@ -159,7 +218,7 @@ func TestNewestReplayURLsForFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
 
 	_, err := archiveAt(t, server.URL).NewestReplayURLsFor(
 		context.Background(),
-		pywb.CaptureQuery{URL: "example.com"},
+		[]pywb.CaptureQuery{{URL: "example.com"}},
 		0,
 	)
 	if err == nil {
@@ -175,7 +234,7 @@ func TestNewestReplayURLsForFailsWhenTheIndexStatesAnUnreadableCapture(t *testin
 
 	if _, err := archive.NewestReplayURLsFor(
 		context.Background(),
-		pywb.CaptureQuery{URL: "example.com"},
+		[]pywb.CaptureQuery{{URL: "example.com"}},
 		0,
 	); err == nil {
 		t.Fatal("newest replay urls for query: want an error")
@@ -187,7 +246,7 @@ func TestNewestReplayURLsForFailsWhenURLKeysAreOutOfOrder(t *testing.T) {
 
 	if _, err := archive.NewestReplayURLsFor(
 		context.Background(),
-		pywb.CaptureQuery{URL: "example.com"},
+		[]pywb.CaptureQuery{{URL: "example.com"}},
 		0,
 	); err == nil {
 		t.Fatal("newest replay urls for query: want an error")
@@ -199,7 +258,7 @@ func TestNewestReplayURLsForRefusesANegativePageLimit(t *testing.T) {
 
 	if _, err := archive.NewestReplayURLsFor(
 		context.Background(),
-		pywb.CaptureQuery{URL: "example.com"},
+		[]pywb.CaptureQuery{{URL: "example.com"}},
 		-1,
 	); err == nil {
 		t.Fatal("newest replay urls for query: want an error")
@@ -214,7 +273,7 @@ func TestNewestReplayURLsForFailsWhenTheArchiveIsUnreachable(t *testing.T) {
 
 	if _, err := archiveAt(t, server.URL).NewestReplayURLsFor(
 		context.Background(),
-		pywb.CaptureQuery{URL: "example.com"},
+		[]pywb.CaptureQuery{{URL: "example.com"}},
 		0,
 	); err == nil {
 		t.Fatal("newest replay urls for query: want an error")
@@ -265,7 +324,7 @@ func TestNewestReplayURLsForFailsWhenACaptureHasNoReplayURL(t *testing.T) {
 
 	if _, err := archive.NewestReplayURLsFor(
 		context.Background(),
-		pywb.CaptureQuery{URL: "example.com"},
+		[]pywb.CaptureQuery{{URL: "example.com"}},
 		0,
 	); err == nil {
 		t.Fatal("newest replay urls for query: want an error")
@@ -280,7 +339,24 @@ func newestReplayURLsFor(
 	t.Helper()
 	newestReplayURLs, err := archive.NewestReplayURLsFor(
 		context.Background(),
-		pywb.CaptureQuery{URL: "example.com"},
+		[]pywb.CaptureQuery{{URL: "example.com"}},
+		pageLimit,
+	)
+	if err != nil {
+		t.Fatalf("newest replay urls for query: %v", err)
+	}
+	return newestReplayURLs
+}
+
+func newestReplayURLsForBothHosts(
+	t *testing.T,
+	archive *pywb.Archive,
+	pageLimit int,
+) pywb.NewestReplayURLs {
+	t.Helper()
+	newestReplayURLs, err := archive.NewestReplayURLsFor(
+		context.Background(),
+		[]pywb.CaptureQuery{{URL: "example.com"}, {URL: "example.org"}},
 		pageLimit,
 	)
 	if err != nil {
@@ -316,6 +392,20 @@ func archiveServing(
 				readQuery(request)
 			}
 			_, _ = writer.Write([]byte(rows))
+		},
+	))
+	t.Cleanup(server.Close)
+	return archiveAt(t, server.URL), server.URL
+}
+
+func archiveServingPerQueriedURL(
+	t *testing.T,
+	rowsByQueriedURL map[string]string,
+) (*pywb.Archive, string) {
+	t.Helper()
+	server := httptest.NewServer(http.HandlerFunc(
+		func(writer http.ResponseWriter, request *http.Request) {
+			_, _ = writer.Write([]byte(rowsByQueriedURL[request.URL.Query().Get("url")]))
 		},
 	))
 	t.Cleanup(server.Close)
