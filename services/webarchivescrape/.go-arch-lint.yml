@@ -13,8 +13,8 @@ components:
     in: internal/webarchives/pywb/**
   scraperequestsjetstream:
     in: internal/scraperequests/jetstream/**
-  scraperequeststext:
-    in: internal/scraperequests/text/**
+  scraperequestsnoop:
+    in: internal/scraperequests/noop/**
   webarchivescrapecmd:
     in: cmd/webarchivescrape/**
 
@@ -45,7 +45,7 @@ deps:
       - scraperequestcontract
       - nats
       - serviceruntime
-  scraperequeststext:
+  scraperequestsnoop:
     canUse:
       - canonicalurl
   webarchivescrapecmd:

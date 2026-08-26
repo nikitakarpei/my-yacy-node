@@ -1,6 +1,8 @@
 package main_test
 
 import (
+	"errors"
+	"flag"
 	"net/http"
 	"strings"
 	"testing"
@@ -194,6 +196,14 @@ func TestLoadCommandConfigRefusesAnEmptyURL(t *testing.T) {
 	}, environment(nil))
 	if err == nil {
 		t.Fatal("empty url should fail")
+	}
+}
+
+func TestLoadCommandConfigReportsARequestForHelpAsSuch(t *testing.T) {
+	_, err := webarchivescrape.LoadCommandConfig([]string{"-h"}, environment(nil))
+
+	if !errors.Is(err, flag.ErrHelp) {
+		t.Fatalf("err = %v, want a request for help", err)
 	}
 }
 

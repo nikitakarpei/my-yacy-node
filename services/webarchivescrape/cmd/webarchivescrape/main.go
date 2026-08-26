@@ -2,29 +2,25 @@ package main
 
 import (
 	"context"
-	"log/slog"
+	"errors"
+	"flag"
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
-
-	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
 )
 
 func main() {
 	if err := run(); err != nil {
-		slog.ErrorContext(
-			context.Background(),
-			"webarchivescrape terminated",
-			slog.Any("error", err),
-		)
+		if errors.Is(err, flag.ErrHelp) {
+			return
+		}
+		fmt.Fprintf(os.Stderr, "webarchivescrape: %v\n", err)
 		os.Exit(1)
 	}
 }
 
 func run() error {
-	if err := applog.Configure(os.Getenv); err != nil {
-		return err
-	}
 	cfg, err := LoadCommandConfig(os.Args[1:], os.Getenv)
 	if err != nil {
 		return err
@@ -32,5 +28,5 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	return RunCommand(ctx, cfg, os.Stdout)
+	return RunCommand(ctx, cfg, os.Stdout, os.Stderr)
 }

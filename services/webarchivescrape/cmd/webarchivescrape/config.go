@@ -42,19 +42,32 @@ func LoadCommandConfig(
 	getenv func(string) string,
 ) (CommandConfig, error) {
 	flags := flag.NewFlagSet("webarchivescrape", flag.ContinueOnError)
-	pywbURL := flags.String(FlagPywbURL, "", "base address of the pywb instance")
-	pywbCollection := flags.String(FlagPywbCollection, "", "collection inside pywb")
+	pywbURL := flags.String(FlagPywbURL, "", "base address of the archive, as http://pywb:8080")
+	pywbCollection := flags.String(
+		FlagPywbCollection,
+		"",
+		"collection the archive publishes, as imported",
+	)
 	queried := queriedURLs{}
-	flags.Var(&queried, FlagURL, "url the archive is asked about; state it once per url")
-	matchType := flags.String(FlagMatchType, DefaultMatchType, "exact, prefix, host, or domain")
-	from := flags.String(FlagFrom, "", "earliest capture timestamp")
-	to := flags.String(FlagTo, "", "latest capture timestamp")
+	flags.Var(&queried, FlagURL, "site or page the archive is asked about; state it once for each")
+	matchType := flags.String(
+		FlagMatchType,
+		DefaultMatchType,
+		"how far a -url reaches: exact one page, prefix one part of a site,\n"+
+			"host one host, domain a site and its subdomains",
+	)
+	from := flags.String(FlagFrom, "", "earliest capture to select, as 20240101 or 20240101120000")
+	to := flags.String(FlagTo, "", "latest capture to select, as 20240101 or 20240101120000")
 	pageLimit := flags.Int(
 		FlagPageLimit,
 		0,
-		"most distinct archived pages to publish; zero means all",
+		"most pages one run publishes over all urls together; zero means all",
 	)
-	dryRun := flags.Bool(FlagDryRun, false, "write the scrape requests instead of publishing")
+	dryRun := flags.Bool(
+		FlagDryRun,
+		false,
+		"write the pages that would be published, and publish nothing",
+	)
 	if err := flags.Parse(arguments); err != nil {
 		return CommandConfig{}, fmt.Errorf("read arguments: %w", err)
 	}
