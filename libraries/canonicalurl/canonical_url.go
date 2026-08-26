@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/url"
-	"path"
 	"strings"
 )
 
@@ -13,6 +12,9 @@ const (
 	schemeHTTPS = "https"
 	portHTTP    = "80"
 	portHTTPS   = "443"
+
+	currentDirectorySegment = "."
+	parentDirectorySegment  = ".."
 )
 
 type CanonicalURL struct {
@@ -129,13 +131,25 @@ func cleanedPathOf(rawPath string) string {
 	if rawPath == "" {
 		return "/"
 	}
-	trailingSlash := strings.HasSuffix(rawPath, "/")
-	cleaned := path.Clean(rawPath)
-	if cleaned == "." {
-		return "/"
+	segments := strings.Split(strings.TrimPrefix(rawPath, "/"), "/")
+	resolved := []string{}
+	for position, segment := range segments {
+		last := position == len(segments)-1
+		switch segment {
+		case currentDirectorySegment:
+			if last {
+				resolved = append(resolved, "")
+			}
+		case parentDirectorySegment:
+			if len(resolved) > 0 {
+				resolved = resolved[:len(resolved)-1]
+			}
+			if last {
+				resolved = append(resolved, "")
+			}
+		default:
+			resolved = append(resolved, segment)
+		}
 	}
-	if trailingSlash && !strings.HasSuffix(cleaned, "/") {
-		cleaned += "/"
-	}
-	return cleaned
+	return "/" + strings.Join(resolved, "/")
 }

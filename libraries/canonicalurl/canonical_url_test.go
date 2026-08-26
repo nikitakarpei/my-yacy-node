@@ -34,7 +34,7 @@ func TestCanonicalURLOfKeepsEncodedPathCharacters(t *testing.T) {
 		"https://example.com/a/%2E%2E/b":           "https://example.com/a/%2E%2E/b",
 		"https://example.com/a%2F%2Fb":             "https://example.com/a%2F%2Fb",
 		"https://example.com/refs%2Fheads%2Fmain":  "https://example.com/refs%2Fheads%2Fmain",
-		"https://example.com/tag/c%2B%2B//x":       "https://example.com/tag/c%2B%2B/x",
+		"https://example.com/tag/c%2B%2B//x":       "https://example.com/tag/c%2B%2B//x",
 	}
 	for input, want := range cases {
 		got, err := canonicalurl.CanonicalURLOf(input)
@@ -47,12 +47,13 @@ func TestCanonicalURLOfKeepsEncodedPathCharacters(t *testing.T) {
 	}
 }
 
-func TestCanonicalURLOfCollapsesRepeatedSeparators(t *testing.T) {
+func TestCanonicalURLOfKeepsEmptyPathSegments(t *testing.T) {
 	cases := map[string]string{
-		"https://example.com/a//b":   "https://example.com/a/b",
-		"https://example.com/a//":    "https://example.com/a/",
-		"https://example.com//":      "https://example.com/",
-		"https://example.com/a b//c": "https://example.com/a%20b/c",
+		"https://example.com/a//b":                               "https://example.com/a//b",
+		"https://example.com/a//":                                "https://example.com/a//",
+		"https://example.com//":                                  "https://example.com//",
+		"https://example.com/a b//c":                             "https://example.com/a%20b//c",
+		"http://pywb:8080/archive/2024mp_/https://example.com/a": "http://pywb:8080/archive/2024mp_/https://example.com/a",
 	}
 	for input, want := range cases {
 		got, err := canonicalurl.CanonicalURLOf(input)
