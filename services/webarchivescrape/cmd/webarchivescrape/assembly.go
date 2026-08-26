@@ -17,7 +17,6 @@ const (
 	indexQueryDeadline = 2 * time.Minute
 
 	msgCapturesSelected        = "archive selected its newest captures"
-	msgCaptureSkipped          = "capture has no readable replay url, no scrape request published"
 	msgScrapeRequestsPublished = "scrape requests published"
 )
 
@@ -32,15 +31,19 @@ func RunCommand(ctx context.Context, cfg CommandConfig, requests io.Writer) erro
 		cfg.PywbURL,
 		cfg.PywbCollection,
 	)
-	newestCaptures, err := archive.NewestCapturesFor(ctx, cfg.PywbQuery, cfg.PageLimit)
+	newestReplayURLs, err := archive.NewestReplayURLsFor(
+		ctx,
+		cfg.PywbCaptureQuery,
+		cfg.PageLimit,
+	)
 	if err != nil {
 		return err
 	}
 	slog.InfoContext(ctx, msgCapturesSelected,
-		slog.Int("capturesRead", newestCaptures.CapturesRead),
-		slog.Int("pagesSelected", len(newestCaptures.Captures)),
+		slog.Int("capturesRead", newestReplayURLs.CapturesRead),
+		slog.Int("pagesSelected", len(newestReplayURLs.ReplayURLs)),
 		slog.Int("pageLimit", cfg.PageLimit),
-		slog.Bool("morePages", newestCaptures.HasMorePages),
+		slog.Bool("morePages", newestReplayURLs.HasMorePages),
 	)
 
 	publisher, err := publisherFor(cfg, requests)
@@ -49,7 +52,7 @@ func RunCommand(ctx context.Context, cfg CommandConfig, requests io.Writer) erro
 	}
 	defer publisher.Close()
 
-	return publishScrapeRequests(ctx, archive, newestCaptures.Captures, publisher)
+	return publishScrapeRequests(ctx, newestReplayURLs.ReplayURLs, publisher)
 }
 
 func publisherFor(cfg CommandConfig, requests io.Writer) (ScrapeRequestPublisher, error) {
@@ -61,20 +64,11 @@ func publisherFor(cfg CommandConfig, requests io.Writer) (ScrapeRequestPublisher
 
 func publishScrapeRequests(
 	ctx context.Context,
-	archive *webarchivespywb.Archive,
-	captures []webarchivespywb.Capture,
+	replayURLs []canonicalurl.CanonicalURL,
 	publisher ScrapeRequestPublisher,
 ) error {
 	publishedRequests := 0
-	for _, capture := range captures {
-		replayURL, err := archive.ReplayURLOf(capture)
-		if err != nil {
-			slog.WarnContext(ctx, msgCaptureSkipped,
-				slog.String("capturedUrl", capture.OriginalURL),
-				slog.Any("error", err),
-			)
-			continue
-		}
+	for _, replayURL := range replayURLs {
 		if err := publisher.Publish(ctx, replayURL); err != nil {
 			return err
 		}

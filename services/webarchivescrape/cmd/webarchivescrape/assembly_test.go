@@ -105,6 +105,25 @@ func TestRunCommandFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
 	}
 }
 
+func TestRunCommandWritesNothingWhenACaptureHasNoReplayURL(t *testing.T) {
+	malformedPageRow := `{"urlkey":"com,example)/","timestamp":"20240101120000",` +
+		`"url":"https://example.com/%zz"}`
+	requests := &bytes.Buffer{}
+
+	err := webarchivescrape.RunCommand(
+		context.Background(),
+		dryRunConfig(t, archiveServing(t, malformedPageRow)),
+		requests,
+	)
+
+	if err == nil {
+		t.Fatal("run command: want an error")
+	}
+	if requests.String() != "" {
+		t.Fatalf("requests = %q, want none", requests.String())
+	}
+}
+
 func TestRunCommandFailsWhenTheBrokerIsUnreachable(t *testing.T) {
 	cfg := dryRunConfig(t, archiveServing(t, homePageRow))
 	cfg.DryRun = false

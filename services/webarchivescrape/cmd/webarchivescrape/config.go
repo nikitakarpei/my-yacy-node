@@ -31,7 +31,7 @@ const (
 type CommandConfig struct {
 	PywbURL              *url.URL
 	PywbCollection       string
-	PywbQuery            webarchivespywb.Query
+	PywbCaptureQuery     webarchivespywb.CaptureQuery
 	PageLimit            int
 	ScrapeRequestNATSURL string
 	DryRun               bool
@@ -81,7 +81,7 @@ func LoadCommandConfig(
 	return CommandConfig{
 		PywbURL:        parsedPywbURL,
 		PywbCollection: *pywbCollection,
-		PywbQuery: webarchivespywb.Query{
+		PywbCaptureQuery: webarchivespywb.CaptureQuery{
 			URL:        *queried,
 			MatchType:  *matchType,
 			MediaType:  ScrapedMediaType,

@@ -1,5 +1,5 @@
-// Package pywb reads what a pywb instance holds and says where it replays a capture.
-// Every rule here is pywb's own: the index path, the newline delimited answer it writes,
+// Package pywb reads the newest replay addresses that a pywb instance holds.
+// Every rule here is pywb's own: the index path, the ordered newline-delimited answer,
 // the absence of a way to keep one capture per page, and the mp_ modifier.
 //
 // The mp_ modifier asks pywb for the page itself rather than for the frame it shows a
@@ -46,42 +46,69 @@ type Archive struct {
 	collection string
 }
 
+type CaptureQuery struct {
+	URL        string
+	MatchType  string
+	MediaType  string
+	StatusCode int
+	From       string
+	To         string
+}
+
+type NewestReplayURLs struct {
+	ReplayURLs   []canonicalurl.CanonicalURL
+	CapturesRead int
+	HasMorePages bool
+}
+
 func New(client *http.Client, pywbURL *url.URL, collection string) *Archive {
 	return &Archive{client: client, pywbURL: pywbURL, collection: collection}
 }
 
-func (a *Archive) NewestCapturesFor(
+func (a *Archive) NewestReplayURLsFor(
 	ctx context.Context,
-	query Query,
+	query CaptureQuery,
 	pageLimit int,
-) (NewestCaptures, error) {
+) (NewestReplayURLs, error) {
+	captureSelection, err := a.captureSelectionFor(ctx, query, pageLimit)
+	if err != nil {
+		return NewestReplayURLs{}, err
+	}
+	return a.newestReplayURLsFrom(captureSelection)
+}
+
+func (a *Archive) captureSelectionFor(
+	ctx context.Context,
+	query CaptureQuery,
+	pageLimit int,
+) (captureSelection, error) {
 	if pageLimit < 0 {
-		return NewestCaptures{}, fmt.Errorf("page limit must not be negative")
+		return captureSelection{}, fmt.Errorf("page limit must not be negative")
 	}
 	queryURL := a.queryURLOf(query)
 	request, err := http.NewRequestWithContext(ctx, http.MethodGet, queryURL.String(), nil)
 	if err != nil {
-		return NewestCaptures{}, fmt.Errorf("build cdx query %s: %w", queryURL, err)
+		return captureSelection{}, fmt.Errorf("build cdx query %s: %w", queryURL, err)
 	}
 	answer, err := a.client.Do(request)
 	if err != nil {
-		return NewestCaptures{}, fmt.Errorf("query cdx index %s: %w", queryURL, err)
+		return captureSelection{}, fmt.Errorf("query cdx index %s: %w", queryURL, err)
 	}
 	defer func() { _ = answer.Body.Close() }()
 	if answer.StatusCode != http.StatusOK {
-		return NewestCaptures{}, fmt.Errorf("cdx index %s answered %s", queryURL, answer.Status)
+		return captureSelection{}, fmt.Errorf("cdx index %s answered %s", queryURL, answer.Status)
 	}
-	return newestCapturesFrom(answer.Body, pageLimit)
+	return captureSelectionFrom(answer.Body, pageLimit)
 }
 
-func (a *Archive) queryURLOf(query Query) *url.URL {
+func (a *Archive) queryURLOf(query CaptureQuery) *url.URL {
 	queryURL := *a.pywbURL
 	queryURL.Path = path.Join(a.pywbURL.Path, a.collection, indexPathElement)
 	queryURL.RawQuery = parametersOf(query).Encode()
 	return &queryURL
 }
 
-func parametersOf(query Query) url.Values {
+func parametersOf(query CaptureQuery) url.Values {
 	parameters := url.Values{}
 	parameters.Set(parameterURL, query.URL)
 	parameters.Set(parameterOutput, outputJSON)
@@ -103,20 +130,20 @@ func parametersOf(query Query) url.Values {
 	return parameters
 }
 
-func newestCapturesFrom(answerBody io.Reader, pageLimit int) (NewestCaptures, error) {
+func captureSelectionFrom(answerBody io.Reader, pageLimit int) (captureSelection, error) {
 	rows := json.NewDecoder(answerBody)
 	selection := newestCaptureSelection{}
 	for {
 		capture, exists, err := captureFrom(rows)
 		if err != nil {
-			return NewestCaptures{}, err
+			return captureSelection{}, err
 		}
 		if !exists {
 			return selection.complete(), nil
 		}
 		pageLimitReached, err := selection.add(capture, pageLimit)
 		if err != nil {
-			return NewestCaptures{}, err
+			return captureSelection{}, err
 		}
 		if pageLimitReached {
 			return selection.complete(), nil
@@ -124,15 +151,15 @@ func newestCapturesFrom(answerBody io.Reader, pageLimit int) (NewestCaptures, er
 	}
 }
 
-func captureFrom(rows *json.Decoder) (Capture, bool, error) {
+func captureFrom(rows *json.Decoder) (capture, bool, error) {
 	var row captureRow
 	if err := rows.Decode(&row); err != nil {
 		if errors.Is(err, io.EOF) {
-			return Capture{}, false, nil
+			return capture{}, false, nil
 		}
-		return Capture{}, false, fmt.Errorf("read cdx row: %w", err)
+		return capture{}, false, fmt.Errorf("read cdx row: %w", err)
 	}
-	return Capture(row), true, nil
+	return capture(row), true, nil
 }
 
 type captureRow struct {
@@ -141,13 +168,31 @@ type captureRow struct {
 	OriginalURL string `json:"url"`
 }
 
-func (a *Archive) ReplayURLOf(capture Capture) (canonicalurl.CanonicalURL, error) {
+func (a *Archive) newestReplayURLsFrom(
+	captureSelection captureSelection,
+) (NewestReplayURLs, error) {
+	newestReplayURLs := NewestReplayURLs{
+		ReplayURLs:   make([]canonicalurl.CanonicalURL, 0, len(captureSelection.captures)),
+		CapturesRead: captureSelection.capturesRead,
+		HasMorePages: captureSelection.hasMorePages,
+	}
+	for _, captured := range captureSelection.captures {
+		replayURL, err := a.replayURLOf(captured)
+		if err != nil {
+			return NewestReplayURLs{}, err
+		}
+		newestReplayURLs.ReplayURLs = append(newestReplayURLs.ReplayURLs, replayURL)
+	}
+	return newestReplayURLs, nil
+}
+
+func (a *Archive) replayURLOf(captured capture) (canonicalurl.CanonicalURL, error) {
 	replayURL := strings.Join(
 		[]string{
 			strings.TrimSuffix(a.pywbURL.String(), "/"),
 			a.collection,
-			capture.Timestamp + archivedPageModifier,
-			capture.OriginalURL,
+			captured.Timestamp + archivedPageModifier,
+			captured.OriginalURL,
 		},
 		"/",
 	)

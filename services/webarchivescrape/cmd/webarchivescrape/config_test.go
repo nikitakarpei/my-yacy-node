@@ -28,11 +28,11 @@ func TestLoadCommandConfigReadsTheStatedQuery(t *testing.T) {
 	if cfg.PywbCollection != "archive" {
 		t.Errorf("collection = %q", cfg.PywbCollection)
 	}
-	if cfg.PywbQuery.URL != "example.com" || cfg.PywbQuery.MatchType != "host" {
-		t.Errorf("query = %+v", cfg.PywbQuery)
+	if cfg.PywbCaptureQuery.URL != "example.com" || cfg.PywbCaptureQuery.MatchType != "host" {
+		t.Errorf("query = %+v", cfg.PywbCaptureQuery)
 	}
-	if cfg.PywbQuery.From != "2024" || cfg.PywbQuery.To != "2025" {
-		t.Errorf("query bounds = %+v", cfg.PywbQuery)
+	if cfg.PywbCaptureQuery.From != "2024" || cfg.PywbCaptureQuery.To != "2025" {
+		t.Errorf("query bounds = %+v", cfg.PywbCaptureQuery)
 	}
 	if cfg.PageLimit != 50 {
 		t.Errorf("page limit = %d, want 50", cfg.PageLimit)
@@ -49,11 +49,11 @@ func TestLoadCommandConfigAsksOnlyForPagesACorpusCanRead(t *testing.T) {
 	cfg := loadedConfig(t, "-pywb-url", "http://pywb:8080",
 		"-pywb-collection", "archive", "-url", "example.com", "-dry-run")
 
-	if cfg.PywbQuery.MediaType != "text/html" {
-		t.Errorf("media type = %q, want text/html", cfg.PywbQuery.MediaType)
+	if cfg.PywbCaptureQuery.MediaType != "text/html" {
+		t.Errorf("media type = %q, want text/html", cfg.PywbCaptureQuery.MediaType)
 	}
-	if cfg.PywbQuery.StatusCode != http.StatusOK {
-		t.Errorf("status code = %d, want %d", cfg.PywbQuery.StatusCode, http.StatusOK)
+	if cfg.PywbCaptureQuery.StatusCode != http.StatusOK {
+		t.Errorf("status code = %d, want %d", cfg.PywbCaptureQuery.StatusCode, http.StatusOK)
 	}
 }
 
@@ -61,8 +61,8 @@ func TestLoadCommandConfigSearchesAWholeDomainUnlessToldOtherwise(t *testing.T) 
 	cfg := loadedConfig(t, "-pywb-url", "http://pywb:8080",
 		"-pywb-collection", "archive", "-url", "example.com", "-dry-run")
 
-	if cfg.PywbQuery.MatchType != "domain" {
-		t.Errorf("match type = %q, want domain", cfg.PywbQuery.MatchType)
+	if cfg.PywbCaptureQuery.MatchType != "domain" {
+		t.Errorf("match type = %q, want domain", cfg.PywbCaptureQuery.MatchType)
 	}
 }
 

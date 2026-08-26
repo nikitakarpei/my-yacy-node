@@ -2,72 +2,63 @@ package pywb
 
 import "fmt"
 
-type Capture struct {
+type capture struct {
 	URLKey      string
 	Timestamp   string
 	OriginalURL string
 }
 
-type Query struct {
-	URL        string
-	MatchType  string
-	MediaType  string
-	StatusCode int
-	From       string
-	To         string
-}
-
-type NewestCaptures struct {
-	Captures     []Capture
-	CapturesRead int
-	HasMorePages bool
+type captureSelection struct {
+	captures     []capture
+	capturesRead int
+	hasMorePages bool
 }
 
 type newestCaptureSelection struct {
-	newestCaptures             NewestCaptures
-	newestCaptureOfCurrentPage Capture
+	captureSelection           captureSelection
+	newestCaptureOfCurrentPage capture
 	hasCurrentPage             bool
 }
 
-func (s *newestCaptureSelection) add(capture Capture, pageLimit int) (bool, error) {
-	s.newestCaptures.CapturesRead++
+func (s *newestCaptureSelection) add(captured capture, pageLimit int) (bool, error) {
+	s.captureSelection.capturesRead++
 	if !s.hasCurrentPage {
-		s.newestCaptureOfCurrentPage = capture
+		s.newestCaptureOfCurrentPage = captured
 		s.hasCurrentPage = true
 		return false, nil
 	}
-	if capture.URLKey < s.newestCaptureOfCurrentPage.URLKey {
+	if captured.URLKey < s.newestCaptureOfCurrentPage.URLKey {
 		return false, fmt.Errorf(
 			"read cdx row: url key %q follows %q",
-			capture.URLKey,
+			captured.URLKey,
 			s.newestCaptureOfCurrentPage.URLKey,
 		)
 	}
-	if capture.URLKey == s.newestCaptureOfCurrentPage.URLKey {
-		if capture.Timestamp > s.newestCaptureOfCurrentPage.Timestamp {
-			s.newestCaptureOfCurrentPage = capture
+	if captured.URLKey == s.newestCaptureOfCurrentPage.URLKey {
+		if captured.Timestamp > s.newestCaptureOfCurrentPage.Timestamp {
+			s.newestCaptureOfCurrentPage = captured
 		}
 		return false, nil
 	}
 	s.selectCurrentPage()
-	if pageLimit > 0 && len(s.newestCaptures.Captures) == pageLimit {
-		s.newestCaptures.HasMorePages = true
+	if pageLimit > 0 && len(s.captureSelection.captures) == pageLimit {
+		s.captureSelection.hasMorePages = true
 		return true, nil
 	}
-	s.newestCaptureOfCurrentPage = capture
+	s.newestCaptureOfCurrentPage = captured
 	s.hasCurrentPage = true
 	return false, nil
 }
 
-func (s *newestCaptureSelection) complete() NewestCaptures {
+func (s *newestCaptureSelection) complete() captureSelection {
 	s.selectCurrentPage()
-	return s.newestCaptures
+	return s.captureSelection
 }
 
 func (s *newestCaptureSelection) selectCurrentPage() {
 	if s.hasCurrentPage {
-		s.newestCaptures.Captures = append(
-			s.newestCaptures.Captures,
+		s.captureSelection.captures = append(
+			s.captureSelection.captures,
 			s.newestCaptureOfCurrentPage,
 		)
 		s.hasCurrentPage = false
