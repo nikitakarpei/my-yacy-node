@@ -33,7 +33,6 @@ const (
 	parameterFilter    = "filter"
 	parameterFrom      = "from"
 	parameterTo        = "to"
-	parameterLimit     = "limit"
 
 	outputJSON = "json"
 
@@ -51,21 +50,28 @@ func New(client *http.Client, pywbURL *url.URL, collection string) *Archive {
 	return &Archive{client: client, pywbURL: pywbURL, collection: collection}
 }
 
-func (a *Archive) CapturesFor(ctx context.Context, query Query) ([]Capture, error) {
+func (a *Archive) NewestCapturesFor(
+	ctx context.Context,
+	query Query,
+	pageLimit int,
+) (NewestCaptures, error) {
+	if pageLimit < 0 {
+		return NewestCaptures{}, fmt.Errorf("page limit must not be negative")
+	}
 	queryURL := a.queryURLOf(query)
 	request, err := http.NewRequestWithContext(ctx, http.MethodGet, queryURL.String(), nil)
 	if err != nil {
-		return nil, fmt.Errorf("build cdx query %s: %w", queryURL, err)
+		return NewestCaptures{}, fmt.Errorf("build cdx query %s: %w", queryURL, err)
 	}
 	answer, err := a.client.Do(request)
 	if err != nil {
-		return nil, fmt.Errorf("query cdx index %s: %w", queryURL, err)
+		return NewestCaptures{}, fmt.Errorf("query cdx index %s: %w", queryURL, err)
 	}
 	defer func() { _ = answer.Body.Close() }()
 	if answer.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("cdx index %s answered %s", queryURL, answer.Status)
+		return NewestCaptures{}, fmt.Errorf("cdx index %s answered %s", queryURL, answer.Status)
 	}
-	return capturesFrom(answer.Body)
+	return newestCapturesFrom(answer.Body, pageLimit)
 }
 
 func (a *Archive) queryURLOf(query Query) *url.URL {
@@ -94,25 +100,39 @@ func parametersOf(query Query) url.Values {
 	if query.To != "" {
 		parameters.Set(parameterTo, query.To)
 	}
-	if query.Limit != 0 {
-		parameters.Set(parameterLimit, strconv.Itoa(query.Limit))
-	}
 	return parameters
 }
 
-func capturesFrom(answerBody io.Reader) ([]Capture, error) {
-	captures := []Capture{}
+func newestCapturesFrom(answerBody io.Reader, pageLimit int) (NewestCaptures, error) {
 	rows := json.NewDecoder(answerBody)
+	selection := newestCaptureSelection{}
 	for {
-		var row captureRow
-		if err := rows.Decode(&row); err != nil {
-			if errors.Is(err, io.EOF) {
-				return captures, nil
-			}
-			return nil, fmt.Errorf("read cdx row: %w", err)
+		capture, exists, err := captureFrom(rows)
+		if err != nil {
+			return NewestCaptures{}, err
 		}
-		captures = append(captures, Capture(row))
+		if !exists {
+			return selection.complete(), nil
+		}
+		pageLimitReached, err := selection.add(capture, pageLimit)
+		if err != nil {
+			return NewestCaptures{}, err
+		}
+		if pageLimitReached {
+			return selection.complete(), nil
+		}
 	}
+}
+
+func captureFrom(rows *json.Decoder) (Capture, bool, error) {
+	var row captureRow
+	if err := rows.Decode(&row); err != nil {
+		if errors.Is(err, io.EOF) {
+			return Capture{}, false, nil
+		}
+		return Capture{}, false, fmt.Errorf("read cdx row: %w", err)
+	}
+	return Capture(row), true, nil
 }
 
 type captureRow struct {

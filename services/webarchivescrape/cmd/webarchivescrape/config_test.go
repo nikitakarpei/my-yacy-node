@@ -16,7 +16,7 @@ func TestLoadCommandConfigReadsTheStatedQuery(t *testing.T) {
 		"-match-type", "host",
 		"-from", "2024",
 		"-to", "2025",
-		"-limit", "50",
+		"-page-limit", "50",
 	}, environment(map[string]string{"SCRAPE_REQUEST_NATS_URL": "nats://nats:4222"}))
 	if err != nil {
 		t.Fatalf("load command config: %v", err)
@@ -31,8 +31,11 @@ func TestLoadCommandConfigReadsTheStatedQuery(t *testing.T) {
 	if cfg.PywbQuery.URL != "example.com" || cfg.PywbQuery.MatchType != "host" {
 		t.Errorf("query = %+v", cfg.PywbQuery)
 	}
-	if cfg.PywbQuery.From != "2024" || cfg.PywbQuery.To != "2025" || cfg.PywbQuery.Limit != 50 {
+	if cfg.PywbQuery.From != "2024" || cfg.PywbQuery.To != "2025" {
 		t.Errorf("query bounds = %+v", cfg.PywbQuery)
+	}
+	if cfg.PageLimit != 50 {
+		t.Errorf("page limit = %d, want 50", cfg.PageLimit)
 	}
 	if cfg.ScrapeRequestNATSURL != "nats://nats:4222" {
 		t.Errorf("nats url = %q", cfg.ScrapeRequestNATSURL)
@@ -69,6 +72,44 @@ func TestLoadCommandConfigNeedsNoBrokerForADryRun(t *testing.T) {
 
 	if !cfg.DryRun {
 		t.Error("dry run = false, want true")
+	}
+}
+
+func TestLoadCommandConfigUsesNoPageLimitUnlessOneIsStated(t *testing.T) {
+	cfg := loadedConfig(t, "-pywb-url", "http://pywb:8080",
+		"-pywb-collection", "archive", "-url", "example.com", "-dry-run")
+
+	if cfg.PageLimit != 0 {
+		t.Errorf("page limit = %d, want all pages", cfg.PageLimit)
+	}
+}
+
+func TestLoadCommandConfigRefusesANegativePageLimit(t *testing.T) {
+	_, err := webarchivescrape.LoadCommandConfig([]string{
+		"-pywb-url", "http://pywb:8080",
+		"-pywb-collection", "archive",
+		"-url", "example.com",
+		"-page-limit", "-1",
+		"-dry-run",
+	}, environment(nil))
+	if err == nil {
+		t.Fatal("negative page limit should fail")
+	}
+	if !strings.Contains(err.Error(), "page-limit") {
+		t.Fatalf("error = %v, want it to name page-limit", err)
+	}
+}
+
+func TestLoadCommandConfigRefusesTheFormerCaptureLimit(t *testing.T) {
+	_, err := webarchivescrape.LoadCommandConfig([]string{
+		"-pywb-url", "http://pywb:8080",
+		"-pywb-collection", "archive",
+		"-url", "example.com",
+		"-limit", "1",
+		"-dry-run",
+	}, environment(nil))
+	if err == nil {
+		t.Fatal("former capture limit should fail")
 	}
 }
 

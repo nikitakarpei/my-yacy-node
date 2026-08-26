@@ -19,7 +19,7 @@ const (
 	FlagMatchType      = "match-type"
 	FlagFrom           = "from"
 	FlagTo             = "to"
-	FlagLimit          = "limit"
+	FlagPageLimit      = "page-limit"
 	FlagDryRun         = "dry-run"
 
 	DefaultMatchType = "domain"
@@ -32,6 +32,7 @@ type CommandConfig struct {
 	PywbURL              *url.URL
 	PywbCollection       string
 	PywbQuery            webarchivespywb.Query
+	PageLimit            int
 	ScrapeRequestNATSURL string
 	DryRun               bool
 }
@@ -47,7 +48,11 @@ func LoadCommandConfig(
 	matchType := flags.String(FlagMatchType, DefaultMatchType, "exact, prefix, host, or domain")
 	from := flags.String(FlagFrom, "", "earliest capture timestamp")
 	to := flags.String(FlagTo, "", "latest capture timestamp")
-	limit := flags.Int(FlagLimit, 0, "most captures to read")
+	pageLimit := flags.Int(
+		FlagPageLimit,
+		0,
+		"most distinct archived pages to publish; zero means all",
+	)
 	dryRun := flags.Bool(FlagDryRun, false, "write the scrape requests instead of publishing")
 	if err := flags.Parse(arguments); err != nil {
 		return CommandConfig{}, fmt.Errorf("read arguments: %w", err)
@@ -62,6 +67,9 @@ func LoadCommandConfig(
 	}
 	if strings.TrimSpace(*queried) == "" {
 		return CommandConfig{}, fmt.Errorf("-%s is required", FlagURL)
+	}
+	if *pageLimit < 0 {
+		return CommandConfig{}, fmt.Errorf("-%s must not be negative", FlagPageLimit)
 	}
 	natsURL := getenv(EnvScrapeRequestNATSURL)
 	if !*dryRun && strings.TrimSpace(natsURL) == "" {
@@ -80,8 +88,8 @@ func LoadCommandConfig(
 			StatusCode: ScrapedStatusCode,
 			From:       *from,
 			To:         *to,
-			Limit:      *limit,
 		},
+		PageLimit:            *pageLimit,
 		ScrapeRequestNATSURL: natsURL,
 		DryRun:               *dryRun,
 	}, nil

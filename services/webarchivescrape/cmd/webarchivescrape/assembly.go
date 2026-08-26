@@ -16,7 +16,7 @@ import (
 const (
 	indexQueryDeadline = 2 * time.Minute
 
-	msgCapturesRead            = "archive listed its captures"
+	msgCapturesSelected        = "archive selected its newest captures"
 	msgCaptureSkipped          = "capture has no readable replay url, no scrape request published"
 	msgScrapeRequestsPublished = "scrape requests published"
 )
@@ -32,14 +32,15 @@ func RunCommand(ctx context.Context, cfg CommandConfig, requests io.Writer) erro
 		cfg.PywbURL,
 		cfg.PywbCollection,
 	)
-	captures, err := archive.CapturesFor(ctx, cfg.PywbQuery)
+	newestCaptures, err := archive.NewestCapturesFor(ctx, cfg.PywbQuery, cfg.PageLimit)
 	if err != nil {
 		return err
 	}
-	newestCaptures := webarchivespywb.NewestCapturesOf(captures)
-	slog.InfoContext(ctx, msgCapturesRead,
-		slog.Int("captures", len(captures)),
-		slog.Int("newestCaptures", len(newestCaptures)),
+	slog.InfoContext(ctx, msgCapturesSelected,
+		slog.Int("capturesRead", newestCaptures.CapturesRead),
+		slog.Int("pagesSelected", len(newestCaptures.Captures)),
+		slog.Int("pageLimit", cfg.PageLimit),
+		slog.Bool("morePages", newestCaptures.HasMorePages),
 	)
 
 	publisher, err := publisherFor(cfg, requests)
@@ -48,7 +49,7 @@ func RunCommand(ctx context.Context, cfg CommandConfig, requests io.Writer) erro
 	}
 	defer publisher.Close()
 
-	return publishScrapeRequests(ctx, archive, newestCaptures, publisher)
+	return publishScrapeRequests(ctx, archive, newestCaptures.Captures, publisher)
 }
 
 func publisherFor(cfg CommandConfig, requests io.Writer) (ScrapeRequestPublisher, error) {

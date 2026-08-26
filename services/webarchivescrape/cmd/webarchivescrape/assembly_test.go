@@ -61,6 +61,33 @@ func TestRunCommandWritesNothingWhenTheArchiveHoldsNoSuchPage(t *testing.T) {
 	}
 }
 
+func TestRunCommandLimitsDistinctPagesAfterChoosingNewestCaptures(t *testing.T) {
+	contactPageRow := `{"urlkey": "com,example)/contact", ` +
+		`"timestamp": "20240101120000", ` +
+		`"url": "https://example.com/contact", "mime": "text/html", "status": "200"}`
+	archiveURL := archiveServing(t, strings.Join(
+		[]string{homePageRow, newerHomePageRow, aboutPageRow, contactPageRow}, "\n",
+	))
+	cfg := dryRunConfig(t, archiveURL)
+	cfg.PageLimit = 2
+
+	requests := &bytes.Buffer{}
+	if err := webarchivescrape.RunCommand(context.Background(), cfg, requests); err != nil {
+		t.Fatalf("run command: %v", err)
+	}
+
+	lines := strings.Split(strings.TrimSuffix(requests.String(), "\n"), "\n")
+	if len(lines) != 2 {
+		t.Fatalf("requests = %q, want two distinct pages", requests.String())
+	}
+	if !strings.Contains(lines[0], "20240501120000mp_") {
+		t.Errorf("request = %q, want the newest capture of the home page", lines[0])
+	}
+	if !strings.Contains(lines[1], "https://example.com/about") {
+		t.Errorf("request = %q, want the about page", lines[1])
+	}
+}
+
 func TestRunCommandFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(
 		func(writer http.ResponseWriter, _ *http.Request) {

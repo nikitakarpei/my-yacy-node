@@ -24,33 +24,101 @@ const (
 		`"mime": "text/html", "status": "200"}`
 )
 
-func TestCapturesForReadsEveryCaptureTheIndexLists(t *testing.T) {
-	archive := archiveServing(t, firstRow+"\n"+secondRow+"\n", nil)
+func TestNewestCapturesForKeepsTheNewestCaptureOfEveryPage(t *testing.T) {
+	newerFirstRow := `{"urlkey": "com,example)/", ` +
+		`"timestamp": "20240501120000", ` +
+		`"url": "https://example.com/", ` +
+		`"mime": "text/html", "status": "200"}`
+	archive := archiveServing(
+		t,
+		strings.Join([]string{firstRow, newerFirstRow, secondRow}, "\n"),
+		nil,
+	)
 
-	captures, err := archive.CapturesFor(context.Background(), pywb.Query{URL: "example.com"})
+	newestCaptures, err := archive.NewestCapturesFor(
+		context.Background(),
+		pywb.Query{URL: "example.com"},
+		0,
+	)
 	if err != nil {
-		t.Fatalf("captures for query: %v", err)
+		t.Fatalf("newest captures for query: %v", err)
 	}
 
 	wanted := []pywb.Capture{
-		{URLKey: "com,example)/", Timestamp: "20240101120000", OriginalURL: "https://example.com/"},
+		{URLKey: "com,example)/", Timestamp: "20240501120000", OriginalURL: "https://example.com/"},
 		{
 			URLKey:      "com,example)/about",
 			Timestamp:   "20240102130000",
 			OriginalURL: "https://example.com/about",
 		},
 	}
-	if len(captures) != len(wanted) {
-		t.Fatalf("captures = %v, want %v", captures, wanted)
+	if len(newestCaptures.Captures) != len(wanted) {
+		t.Fatalf("captures = %v, want %v", newestCaptures.Captures, wanted)
 	}
-	for at, capture := range captures {
+	for at, capture := range newestCaptures.Captures {
 		if capture != wanted[at] {
 			t.Fatalf("capture %d = %v, want %v", at, capture, wanted[at])
 		}
 	}
+	if newestCaptures.CapturesRead != 3 || newestCaptures.HasMorePages {
+		t.Fatalf("newest captures = %+v, want all three rows and no more pages", newestCaptures)
+	}
 }
 
-func TestCapturesForAsksTheIndexForTheStatedQuery(t *testing.T) {
+func TestNewestCapturesForLimitsDistinctPages(t *testing.T) {
+	newerFirstRow := `{"urlkey": "com,example)/", ` +
+		`"timestamp": "20240501120000", "url": "https://example.com/"}`
+	thirdRow := `{"urlkey": "com,example)/contact", ` +
+		`"timestamp": "20240103140000", "url": "https://example.com/contact"}`
+	archive := archiveServing(
+		t,
+		strings.Join([]string{firstRow, newerFirstRow, secondRow, thirdRow}, "\n"),
+		nil,
+	)
+
+	newestCaptures, err := archive.NewestCapturesFor(
+		context.Background(),
+		pywb.Query{URL: "example.com"},
+		2,
+	)
+	if err != nil {
+		t.Fatalf("newest captures for query: %v", err)
+	}
+
+	if len(newestCaptures.Captures) != 2 {
+		t.Fatalf("captures = %v, want two distinct pages", newestCaptures.Captures)
+	}
+	if newestCaptures.Captures[0].Timestamp != "20240501120000" {
+		t.Fatalf("first capture = %v, want the newest home page", newestCaptures.Captures[0])
+	}
+	if newestCaptures.Captures[1].URLKey != "com,example)/about" {
+		t.Fatalf("second capture = %v, want the about page", newestCaptures.Captures[1])
+	}
+	if newestCaptures.CapturesRead != 4 || !newestCaptures.HasMorePages {
+		t.Fatalf("newest captures = %+v, want four rows read and more pages", newestCaptures)
+	}
+}
+
+func TestNewestCapturesForStopsReadingAfterThePageLimit(t *testing.T) {
+	archive := archiveServing(t, firstRow+"\n"+secondRow+"\nnot a capture\n", nil)
+
+	newestCaptures, err := archive.NewestCapturesFor(
+		context.Background(),
+		pywb.Query{URL: "example.com"},
+		1,
+	)
+	if err != nil {
+		t.Fatalf("newest captures for query: %v", err)
+	}
+	if len(newestCaptures.Captures) != 1 || newestCaptures.CapturesRead != 2 {
+		t.Fatalf("newest captures = %+v, want one page from two rows", newestCaptures)
+	}
+	if !newestCaptures.HasMorePages {
+		t.Fatal("newest captures report no more pages")
+	}
+}
+
+func TestNewestCapturesForAsksTheIndexForTheStatedQuery(t *testing.T) {
 	var asked url.Values
 	archive := archiveServing(t, "", func(request *http.Request) {
 		asked = request.URL.Query()
@@ -59,16 +127,15 @@ func TestCapturesForAsksTheIndexForTheStatedQuery(t *testing.T) {
 		}
 	})
 
-	if _, err := archive.CapturesFor(context.Background(), pywb.Query{
+	if _, err := archive.NewestCapturesFor(context.Background(), pywb.Query{
 		URL:        "example.com",
 		MatchType:  "domain",
 		MediaType:  "text/html",
 		StatusCode: 200,
 		From:       "2024",
 		To:         "2025",
-		Limit:      50,
-	}); err != nil {
-		t.Fatalf("captures for query: %v", err)
+	}, 50); err != nil {
+		t.Fatalf("newest captures for query: %v", err)
 	}
 
 	for parameter, wanted := range map[string]string{
@@ -77,7 +144,6 @@ func TestCapturesForAsksTheIndexForTheStatedQuery(t *testing.T) {
 		"matchType": "domain",
 		"from":      "2024",
 		"to":        "2025",
-		"limit":     "50",
 	} {
 		if asked.Get(parameter) != wanted {
 			t.Errorf("%s = %q, want %q", parameter, asked.Get(parameter), wanted)
@@ -86,17 +152,21 @@ func TestCapturesForAsksTheIndexForTheStatedQuery(t *testing.T) {
 	if filters := strings.Join(asked["filter"], " "); filters != "mime:text/html =status:200" {
 		t.Errorf("filter = %q, want the media type and the status code", filters)
 	}
+	if _, stated := asked["limit"]; stated {
+		t.Errorf("limit = %q, want page limit kept out of the cdx query", asked["limit"])
+	}
 }
 
-func TestCapturesForLeavesUnstatedBoundsToTheArchive(t *testing.T) {
+func TestNewestCapturesForLeavesUnstatedBoundsToTheArchive(t *testing.T) {
 	var asked url.Values
 	archive := archiveServing(t, "", func(request *http.Request) { asked = request.URL.Query() })
 
-	if _, err := archive.CapturesFor(
+	if _, err := archive.NewestCapturesFor(
 		context.Background(),
 		pywb.Query{URL: "example.com"},
+		0,
 	); err != nil {
-		t.Fatalf("captures for query: %v", err)
+		t.Fatalf("newest captures for query: %v", err)
 	}
 
 	for _, parameter := range []string{"matchType", "filter", "from", "to", "limit"} {
@@ -106,19 +176,23 @@ func TestCapturesForLeavesUnstatedBoundsToTheArchive(t *testing.T) {
 	}
 }
 
-func TestCapturesForReadsNoCaptureFromAnEmptyIndex(t *testing.T) {
+func TestNewestCapturesForReadsNoCaptureFromAnEmptyIndex(t *testing.T) {
 	archive := archiveServing(t, "", nil)
 
-	captures, err := archive.CapturesFor(context.Background(), pywb.Query{URL: "example.com"})
+	newestCaptures, err := archive.NewestCapturesFor(
+		context.Background(),
+		pywb.Query{URL: "example.com"},
+		0,
+	)
 	if err != nil {
-		t.Fatalf("captures for query: %v", err)
+		t.Fatalf("newest captures for query: %v", err)
 	}
-	if len(captures) != 0 {
-		t.Fatalf("captures = %v, want none", captures)
+	if len(newestCaptures.Captures) != 0 || newestCaptures.CapturesRead != 0 {
+		t.Fatalf("newest captures = %+v, want none", newestCaptures)
 	}
 }
 
-func TestCapturesForFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
+func TestNewestCapturesForFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(
 		func(writer http.ResponseWriter, _ *http.Request) {
 			writer.WriteHeader(http.StatusNotFound)
@@ -126,9 +200,10 @@ func TestCapturesForFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
 	))
 	t.Cleanup(server.Close)
 
-	_, err := archiveAt(t, server.URL).CapturesFor(
+	_, err := archiveAt(t, server.URL).NewestCapturesFor(
 		context.Background(),
 		pywb.Query{URL: "example.com"},
+		0,
 	)
 	if err == nil {
 		t.Fatal("captures for query: want an error naming the answer")
@@ -138,28 +213,54 @@ func TestCapturesForFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
 	}
 }
 
-func TestCapturesForFailsWhenTheIndexStatesAnUnreadableCapture(t *testing.T) {
+func TestNewestCapturesForFailsWhenTheIndexStatesAnUnreadableCapture(t *testing.T) {
 	archive := archiveServing(t, firstRow+"\nnot a capture\n", nil)
 
-	if _, err := archive.CapturesFor(
+	if _, err := archive.NewestCapturesFor(
 		context.Background(),
 		pywb.Query{URL: "example.com"},
+		0,
 	); err == nil {
-		t.Fatal("captures for query: want an error")
+		t.Fatal("newest captures for query: want an error")
 	}
 }
 
-func TestCapturesForFailsWhenTheArchiveIsUnreachable(t *testing.T) {
+func TestNewestCapturesForFailsWhenURLKeysAreOutOfOrder(t *testing.T) {
+	archive := archiveServing(t, secondRow+"\n"+firstRow+"\n", nil)
+
+	if _, err := archive.NewestCapturesFor(
+		context.Background(),
+		pywb.Query{URL: "example.com"},
+		0,
+	); err == nil {
+		t.Fatal("newest captures for query: want an error")
+	}
+}
+
+func TestNewestCapturesForRefusesANegativePageLimit(t *testing.T) {
+	archive := archiveServing(t, firstRow+"\n", nil)
+
+	if _, err := archive.NewestCapturesFor(
+		context.Background(),
+		pywb.Query{URL: "example.com"},
+		-1,
+	); err == nil {
+		t.Fatal("newest captures for query: want an error")
+	}
+}
+
+func TestNewestCapturesForFailsWhenTheArchiveIsUnreachable(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(
 		func(http.ResponseWriter, *http.Request) {},
 	))
 	server.Close()
 
-	if _, err := archiveAt(t, server.URL).CapturesFor(
+	if _, err := archiveAt(t, server.URL).NewestCapturesFor(
 		context.Background(),
 		pywb.Query{URL: "example.com"},
+		0,
 	); err == nil {
-		t.Fatal("captures for query: want an error")
+		t.Fatal("newest captures for query: want an error")
 	}
 }
 
