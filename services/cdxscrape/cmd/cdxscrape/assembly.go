@@ -31,8 +31,8 @@ type ScrapeRequestPublisher interface {
 func RunCommand(ctx context.Context, cfg CommandConfig, requests io.Writer) error {
 	index := cdxindex.New(
 		&http.Client{Timeout: indexQueryDeadline},
-		cfg.ArchiveURL,
-		cfg.ArchiveCollection,
+		cfg.CDXURL,
+		cfg.Collection,
 	)
 	captures, err := index.CapturesFor(ctx, cfg.Query)
 	if err != nil {
@@ -50,7 +50,7 @@ func RunCommand(ctx context.Context, cfg CommandConfig, requests io.Writer) erro
 	}
 	defer publisher.Close()
 
-	archive := capturereplay.New(cfg.ArchiveURL, cfg.ArchiveCollection)
+	archive := capturereplay.New(cfg.ReplayURL, cfg.Collection)
 	return publishScrapeRequests(ctx, archive, newestCaptures, publisher)
 }
 

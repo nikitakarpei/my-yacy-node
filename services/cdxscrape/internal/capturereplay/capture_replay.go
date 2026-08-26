@@ -24,9 +24,9 @@ type Archive struct {
 	collection string
 }
 
-func New(archiveURL *url.URL, collection string) *Archive {
+func New(replayURL *url.URL, collection string) *Archive {
 	return &Archive{
-		archiveURL: strings.TrimSuffix(archiveURL.String(), "/"),
+		archiveURL: strings.TrimSuffix(replayURL.String(), "/"),
 		collection: collection,
 	}
 }

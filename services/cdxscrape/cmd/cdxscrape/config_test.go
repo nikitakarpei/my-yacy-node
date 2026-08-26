@@ -10,8 +10,8 @@ import (
 
 func TestLoadCommandConfigReadsTheStatedQuery(t *testing.T) {
 	cfg, err := cdxscrape.LoadCommandConfig([]string{
-		"-archive-url", "http://pywb:8080",
-		"-archive-collection", "archive",
+		"-cdx-url", "http://pywb:8080",
+		"-collection", "archive",
 		"-url", "example.com",
 		"-match-type", "host",
 		"-from", "2024",
@@ -22,11 +22,11 @@ func TestLoadCommandConfigReadsTheStatedQuery(t *testing.T) {
 		t.Fatalf("load command config: %v", err)
 	}
 
-	if cfg.ArchiveURL.String() != "http://pywb:8080" {
-		t.Errorf("archive url = %q", cfg.ArchiveURL)
+	if cfg.CDXURL.String() != "http://pywb:8080" {
+		t.Errorf("cdx url = %q", cfg.CDXURL)
 	}
-	if cfg.ArchiveCollection != "archive" {
-		t.Errorf("archive collection = %q", cfg.ArchiveCollection)
+	if cfg.Collection != "archive" {
+		t.Errorf("collection = %q", cfg.Collection)
 	}
 	if cfg.Query.URL != "example.com" || cfg.Query.MatchType != "host" {
 		t.Errorf("query = %+v", cfg.Query)
@@ -42,9 +42,31 @@ func TestLoadCommandConfigReadsTheStatedQuery(t *testing.T) {
 	}
 }
 
+func TestLoadCommandConfigReadsReplaysWhereItReadsTheIndexUnlessToldOtherwise(t *testing.T) {
+	cfg := loadedConfig(t, "-cdx-url", "http://pywb:8080",
+		"-collection", "archive", "-url", "example.com", "-dry-run")
+
+	if cfg.ReplayURL.String() != "http://pywb:8080" {
+		t.Errorf("replay url = %q, want the cdx url", cfg.ReplayURL)
+	}
+}
+
+func TestLoadCommandConfigReadsReplaysWhereTheScraperReachesTheArchive(t *testing.T) {
+	cfg := loadedConfig(t, "-cdx-url", "http://localhost:8080",
+		"-replay-url", "http://pywb:8080",
+		"-collection", "archive", "-url", "example.com", "-dry-run")
+
+	if cfg.CDXURL.String() != "http://localhost:8080" {
+		t.Errorf("cdx url = %q", cfg.CDXURL)
+	}
+	if cfg.ReplayURL.String() != "http://pywb:8080" {
+		t.Errorf("replay url = %q", cfg.ReplayURL)
+	}
+}
+
 func TestLoadCommandConfigAsksOnlyForPagesACorpusCanRead(t *testing.T) {
-	cfg := loadedConfig(t, "-archive-url", "http://pywb:8080",
-		"-archive-collection", "archive", "-url", "example.com", "-dry-run")
+	cfg := loadedConfig(t, "-cdx-url", "http://pywb:8080",
+		"-collection", "archive", "-url", "example.com", "-dry-run")
 
 	if cfg.Query.MediaType != "text/html" {
 		t.Errorf("media type = %q, want text/html", cfg.Query.MediaType)
@@ -55,8 +77,8 @@ func TestLoadCommandConfigAsksOnlyForPagesACorpusCanRead(t *testing.T) {
 }
 
 func TestLoadCommandConfigSearchesAWholeDomainUnlessToldOtherwise(t *testing.T) {
-	cfg := loadedConfig(t, "-archive-url", "http://pywb:8080",
-		"-archive-collection", "archive", "-url", "example.com", "-dry-run")
+	cfg := loadedConfig(t, "-cdx-url", "http://pywb:8080",
+		"-collection", "archive", "-url", "example.com", "-dry-run")
 
 	if cfg.Query.MatchType != "domain" {
 		t.Errorf("match type = %q, want domain", cfg.Query.MatchType)
@@ -64,8 +86,8 @@ func TestLoadCommandConfigSearchesAWholeDomainUnlessToldOtherwise(t *testing.T) 
 }
 
 func TestLoadCommandConfigNeedsNoBrokerForADryRun(t *testing.T) {
-	cfg := loadedConfig(t, "-archive-url", "http://pywb:8080",
-		"-archive-collection", "archive", "-url", "example.com", "-dry-run")
+	cfg := loadedConfig(t, "-cdx-url", "http://pywb:8080",
+		"-collection", "archive", "-url", "example.com", "-dry-run")
 
 	if !cfg.DryRun {
 		t.Error("dry run = false, want true")
@@ -74,17 +96,21 @@ func TestLoadCommandConfigNeedsNoBrokerForADryRun(t *testing.T) {
 
 func TestLoadCommandConfigRefusesAnIncompleteCommand(t *testing.T) {
 	for name, arguments := range map[string][]string{
-		"no archive url": {"-archive-collection", "archive", "-url", "example.com"},
-		"no collection":  {"-archive-url", "http://pywb:8080", "-url", "example.com"},
-		"no url":         {"-archive-url", "http://pywb:8080", "-archive-collection", "archive"},
-		"archive url without a scheme": {
-			"-archive-url", "pywb:8080", "-archive-collection", "archive", "-url", "example.com",
+		"no cdx url":    {"-collection", "archive", "-url", "example.com"},
+		"no collection": {"-cdx-url", "http://pywb:8080", "-url", "example.com"},
+		"no url":        {"-cdx-url", "http://pywb:8080", "-collection", "archive"},
+		"cdx url without a scheme": {
+			"-cdx-url", "pywb:8080", "-collection", "archive", "-url", "example.com",
 		},
-		"archive url without a host": {
-			"-archive-url", "http://", "-archive-collection", "archive", "-url", "example.com",
+		"cdx url without a host": {
+			"-cdx-url", "http://", "-collection", "archive", "-url", "example.com",
 		},
-		"unreadable archive url": {
-			"-archive-url", "http://%zz", "-archive-collection", "archive", "-url", "example.com",
+		"unreadable cdx url": {
+			"-cdx-url", "http://%zz", "-collection", "archive", "-url", "example.com",
+		},
+		"replay url without a host": {
+			"-cdx-url", "http://pywb:8080", "-replay-url", "http://",
+			"-collection", "archive", "-url", "example.com",
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
@@ -100,8 +126,8 @@ func TestLoadCommandConfigRefusesAnIncompleteCommand(t *testing.T) {
 
 func TestLoadCommandConfigRefusesToPublishWithoutABroker(t *testing.T) {
 	_, err := cdxscrape.LoadCommandConfig([]string{
-		"-archive-url", "http://pywb:8080",
-		"-archive-collection", "archive",
+		"-cdx-url", "http://pywb:8080",
+		"-collection", "archive",
 		"-url", "example.com",
 	}, environment(nil))
 	if err == nil {
@@ -114,7 +140,7 @@ func TestLoadCommandConfigRefusesToPublishWithoutABroker(t *testing.T) {
 
 func TestLoadCommandConfigRefusesAnUnknownArgument(t *testing.T) {
 	if _, err := cdxscrape.LoadCommandConfig(
-		[]string{"-collection", "archive"},
+		[]string{"-coll", "archive"},
 		environment(nil),
 	); err == nil {
 		t.Fatal("load command config: want an error")

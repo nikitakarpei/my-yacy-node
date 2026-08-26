@@ -50,16 +50,16 @@ type Query struct {
 
 type CDXIndex struct {
 	client     *http.Client
-	archiveURL *url.URL
+	cdxURL     *url.URL
 	collection string
 }
 
-func New(client *http.Client, archiveURL *url.URL, collection string) *CDXIndex {
-	return &CDXIndex{client: client, archiveURL: archiveURL, collection: collection}
+func New(client *http.Client, cdxURL *url.URL, collection string) *CDXIndex {
+	return &CDXIndex{client: client, cdxURL: cdxURL, collection: collection}
 }
 
 func (i *CDXIndex) CapturesFor(ctx context.Context, query Query) ([]Capture, error) {
-	queryURL := queryURLOf(i.archiveURL, i.collection, query)
+	queryURL := queryURLOf(i.cdxURL, i.collection, query)
 	request, err := http.NewRequestWithContext(ctx, http.MethodGet, queryURL.String(), nil)
 	if err != nil {
 		return nil, fmt.Errorf("build cdx query %s: %w", queryURL, err)
@@ -75,9 +75,9 @@ func (i *CDXIndex) CapturesFor(ctx context.Context, query Query) ([]Capture, err
 	return capturesFrom(answer.Body)
 }
 
-func queryURLOf(archiveURL *url.URL, collection string, query Query) *url.URL {
-	queryURL := *archiveURL
-	queryURL.Path = path.Join(archiveURL.Path, collection, indexPathElement)
+func queryURLOf(cdxURL *url.URL, collection string, query Query) *url.URL {
+	queryURL := *cdxURL
+	queryURL.Path = path.Join(cdxURL.Path, collection, indexPathElement)
 	queryURL.RawQuery = parametersOf(query).Encode()
 	return &queryURL
 }

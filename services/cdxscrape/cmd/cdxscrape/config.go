@@ -13,14 +13,15 @@ import (
 const (
 	EnvScrapeRequestNATSURL = "SCRAPE_REQUEST_NATS_URL"
 
-	FlagArchiveURL        = "archive-url"
-	FlagArchiveCollection = "archive-collection"
-	FlagURL               = "url"
-	FlagMatchType         = "match-type"
-	FlagFrom              = "from"
-	FlagTo                = "to"
-	FlagLimit             = "limit"
-	FlagDryRun            = "dry-run"
+	FlagCDXURL     = "cdx-url"
+	FlagReplayURL  = "replay-url"
+	FlagCollection = "collection"
+	FlagURL        = "url"
+	FlagMatchType  = "match-type"
+	FlagFrom       = "from"
+	FlagTo         = "to"
+	FlagLimit      = "limit"
+	FlagDryRun     = "dry-run"
 
 	DefaultMatchType = "domain"
 
@@ -29,8 +30,9 @@ const (
 )
 
 type CommandConfig struct {
-	ArchiveURL           *url.URL
-	ArchiveCollection    string
+	CDXURL               *url.URL
+	ReplayURL            *url.URL
+	Collection           string
 	Query                cdxindex.Query
 	ScrapeRequestNATSURL string
 	DryRun               bool
@@ -41,8 +43,13 @@ func LoadCommandConfig(
 	getenv func(string) string,
 ) (CommandConfig, error) {
 	flags := flag.NewFlagSet("cdxscrape", flag.ContinueOnError)
-	archiveURL := flags.String(FlagArchiveURL, "", "base address of the web archive")
-	archiveCollection := flags.String(FlagArchiveCollection, "", "collection inside the archive")
+	cdxURL := flags.String(FlagCDXURL, "", "address this command asks for the index")
+	replayURL := flags.String(
+		FlagReplayURL,
+		"",
+		"address the scraper reads replays at, when it differs from -"+FlagCDXURL,
+	)
+	collection := flags.String(FlagCollection, "", "collection inside the archive")
 	queried := flags.String(FlagURL, "", "url the archive is asked about")
 	matchType := flags.String(FlagMatchType, DefaultMatchType, "exact, prefix, host, or domain")
 	from := flags.String(FlagFrom, "", "earliest capture timestamp")
@@ -53,12 +60,19 @@ func LoadCommandConfig(
 		return CommandConfig{}, fmt.Errorf("read arguments: %w", err)
 	}
 
-	parsedArchiveURL, err := parsedFlagURL(FlagArchiveURL, *archiveURL)
+	parsedCDXURL, err := parsedFlagURL(FlagCDXURL, *cdxURL)
 	if err != nil {
 		return CommandConfig{}, err
 	}
-	if strings.TrimSpace(*archiveCollection) == "" {
-		return CommandConfig{}, fmt.Errorf("-%s is required", FlagArchiveCollection)
+	parsedReplayURL := parsedCDXURL
+	if strings.TrimSpace(*replayURL) != "" {
+		parsedReplayURL, err = parsedFlagURL(FlagReplayURL, *replayURL)
+		if err != nil {
+			return CommandConfig{}, err
+		}
+	}
+	if strings.TrimSpace(*collection) == "" {
+		return CommandConfig{}, fmt.Errorf("-%s is required", FlagCollection)
 	}
 	if strings.TrimSpace(*queried) == "" {
 		return CommandConfig{}, fmt.Errorf("-%s is required", FlagURL)
@@ -71,8 +85,9 @@ func LoadCommandConfig(
 	}
 
 	return CommandConfig{
-		ArchiveURL:        parsedArchiveURL,
-		ArchiveCollection: *archiveCollection,
+		CDXURL:     parsedCDXURL,
+		ReplayURL:  parsedReplayURL,
+		Collection: *collection,
 		Query: cdxindex.Query{
 			URL:        *queried,
 			MatchType:  *matchType,
