@@ -1,56 +1,42 @@
 services:
-  warcprox:
-    build:
-      context: ../../building-blocks/warcprox
-    restart: unless-stopped
-    command:
-      - "--address=0.0.0.0"
-      - "--port=8000"
-      - "--dir=/warcs"
-      - "--gzip"
-      - "--prefix=CRAWL"
-      - "--cacert=/ca/warcprox-ca.pem"
-      - "--certs-dir=/ca/certs"
-      - "--rollover-idle-time=300"
-      - "--dedup-db-file=/state/dedup.sqlite"
-    volumes:
-      - ./warcs:/warcs
-      - warcprox-ca:/ca
-      - warcprox-state:/state
-    networks:
-      default:
-        ipv4_address: 10.99.0.10
-
-  warcprox-trust:
-    build:
-      context: ../../building-blocks/warcprox
-    depends_on:
-      - warcprox
-    volumes:
-      - warcprox-ca:/ca
-      - warcprox-trust:/trust
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - |
-        until [ -s /ca/warcprox-ca.pem ]; do sleep 1; done
-        cat /etc/ssl/certs/ca-certificates.crt > /trust/ca-certificates.crt
-        sed -n '/BEGIN CERTIFICATE/,/END CERTIFICATE/p' /ca/warcprox-ca.pem >> /trust/ca-certificates.crt
-
   smokescreen:
     build:
       context: ../../building-blocks/smokescreen
     restart: unless-stopped
-    depends_on:
-      - warcprox
     command:
       - "--listen-ip"
       - "0.0.0.0"
-      - "--upstream-http-proxy-addr"
-      - "http://warcprox:8000"
-      - "--upstream-https-proxy-addr"
-      - "http://warcprox:8000"
       - "--allow-address"
-      - "10.99.0.10:8000"
+      - "10.99.0.11:8080"
+
+  pywb:
+    image: docker.io/webrecorder/pywb:2.9.1
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        mkdir -p /webarchive/collections/imported/indexes
+        exec wayback -a --auto-interval 30 -b 0.0.0.0 -p 8080
+    ports:
+      - "127.0.0.1:8081:8080"
+    volumes:
+      - ./imported:/webarchive/collections/imported/archive:ro
+      - pywb-indexes:/webarchive/collections/imported/indexes
+    networks:
+      default:
+        ipv4_address: 10.99.0.11
+
+  webarchivescrape:
+    image: ghcr.io/nikitakarpei/webarchivescrape:latest
+    profiles:
+      - console
+    depends_on:
+      scrape-requests-stream:
+        condition: service_completed_successfully
+      pywb:
+        condition: service_started
+    environment:
+      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
 
   nats:
     image: nats:2.14.2
@@ -89,10 +75,7 @@ services:
     image: lightpanda/browser:0.3.4
     restart: unless-stopped
     depends_on:
-      warcprox-trust:
-        condition: service_completed_successfully
-    volumes:
-      - warcprox-trust:/etc/ssl/certs:ro
+      - smokescreen
     command:
       - "/bin/lightpanda"
       - "serve"
@@ -112,12 +95,9 @@ services:
     depends_on:
       - lightpanda
       - smokescreen
-    volumes:
-      - warcprox-trust:/trust:ro
     environment:
       RENDERPROXY_CDP_URL: ws://lightpanda:9222
       EGRESS_PROXY_URL: http://smokescreen:4750
-      SSL_CERT_FILE: /trust/ca-certificates.crt
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   squid:
@@ -317,9 +297,7 @@ networks:
         - subnet: 10.99.0.0/24
 
 volumes:
-  warcprox-ca:
-  warcprox-state:
-  warcprox-trust:
+  pywb-indexes:
   nats-data:
   squid-data:
   prometheus-data:

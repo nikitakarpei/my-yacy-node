@@ -65,7 +65,7 @@ services:
     ports:
       - "127.0.0.1:8081:8080"
     volumes:
-      - ./warcs:/webarchive/collections/imported/archive:ro
+      - ./imported:/webarchive/collections/imported/archive:ro
       - pywb-indexes:/webarchive/collections/imported/indexes
     networks:
       default:
@@ -350,8 +350,8 @@ networks:
 volumes:
   warcprox-ca:
   warcprox-state:
-  pywb-indexes:
   warcprox-trust:
+  pywb-indexes:
   nats-data:
   squid-data:
   prometheus-data:

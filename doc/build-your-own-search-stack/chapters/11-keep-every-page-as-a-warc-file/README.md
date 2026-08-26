@@ -1,4 +1,4 @@
-# 10. Keep every page as a WARC file
+# 11. Keep every page as a WARC file
 
 > "Can I save what I crawl in a format anyone can open?"
 
@@ -13,7 +13,8 @@ still open long after this stack is gone.
 
 The recorder sits below the browser, which means what it keeps is what the
 origin sent rather than what the browser made of it. Smokescreen still guards
-the egress, and it still refuses every private address except the recorder.
+the egress, and it still refuses every private address except the recorder and
+the archive.
 
 ## The change
 
@@ -47,6 +48,8 @@ was on the day you crawled it, with nothing to install.
   replayweb.page.
 * Keep what a page said, long after the site has changed it or taken it down.
 * Add them to a web archive that is already running, or take a copy of one.
+* Copy a closed file into `imported/`, and the command from chapter 10 builds
+  your index again from your own disk, with no request to the live web.
 
 ## Disk
 
@@ -57,8 +60,9 @@ before you crawl anything large.
 
 ## Where you are now
 
-You have the pages themselves, in a format that outlives this stack, rather than
-only words about them.
+You have a search stack that indexes the live web, any archive you are given or
+allowed to ask, and the pages themselves, in a format that outlives this stack.
 
-What you cannot do yet is search them. The files sit beside a stack that has no
-way to read them back, and so does every archive anyone hands you.
+The rest is tuning. `side-roads/` holds the alternatives worth knowing about,
+and every `configuration.md` under `services/` documents settings this journey
+left at their defaults.
