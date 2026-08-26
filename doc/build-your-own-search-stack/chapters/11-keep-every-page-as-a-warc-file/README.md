@@ -12,9 +12,10 @@ WARC is ISO 28500, so those files open in other people's tools, and they will
 still open long after this stack is gone.
 
 The recorder sits below the browser, which means what it keeps is what the
-origin sent rather than what the browser made of it. Smokescreen still guards
-the egress, and it still refuses every private address except the recorder and
-the archive.
+origin sent rather than what the browser made of it. A page that JavaScript
+fills is recorded before the browser fills it: your index gets its full text,
+but the file replays it almost empty. Smokescreen still guards the egress, and
+it still refuses every private address except the recorder and the archive.
 
 ## The change
 
@@ -44,10 +45,8 @@ was on the day you crawled it, with nothing to install.
 
 ## What the files give you
 
-* Hand them to someone else, and they load in pywb, OpenWayback or
-  replayweb.page.
-* Keep what a page said, long after the site has changed it or taken it down.
-* Add them to a web archive that is already running, or take a copy of one.
+* Hand them to someone else, add them to a web archive that is already running,
+  or take a copy of one. They load in pywb, OpenWayback and replayweb.page.
 * Copy a closed file into `imported/`, and the command from chapter 10 builds
   your index again from your own disk, with no request to the live web.
 
@@ -57,6 +56,9 @@ was on the day you crawled it, with nothing to install.
 set of bytes once and writes a short `revisit` record when it meets the same
 bytes again, but that only slows the growth down. Keep an eye on the directory
 before you crawl anything large.
+
+Every search result you open is a crawl, so the stack now keeps a copy of what
+you read on your disk, until you remove the files yourself.
 
 ## Where you are now
 
