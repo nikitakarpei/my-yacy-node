@@ -1,14 +1,13 @@
-package captureselection_test
+package pywb_test
 
 import (
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/cdxscrape/internal/captureselection"
-	"github.com/nikitakarpei/yacy-rwi-node/cdxscrape/internal/cdxindex"
+	"github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/internal/webarchives/pywb"
 )
 
 func TestNewestCapturesOfKeepsOneCapturePerPage(t *testing.T) {
-	newestCaptures := captureselection.NewestCapturesOf([]cdxindex.Capture{
+	newestCaptures := pywb.NewestCapturesOf([]pywb.Capture{
 		{URLKey: "com,example)/", Timestamp: "20240101120000", OriginalURL: "https://example.com/"},
 		{URLKey: "com,example)/", Timestamp: "20240501120000", OriginalURL: "https://example.com/"},
 		{URLKey: "com,example)/", Timestamp: "20240301120000", OriginalURL: "https://example.com/"},
@@ -23,7 +22,7 @@ func TestNewestCapturesOfKeepsOneCapturePerPage(t *testing.T) {
 }
 
 func TestNewestCapturesOfKeepsEveryPageInTheOrderTheArchiveListedThem(t *testing.T) {
-	newestCaptures := captureselection.NewestCapturesOf([]cdxindex.Capture{
+	newestCaptures := pywb.NewestCapturesOf([]pywb.Capture{
 		{URLKey: "com,example)/", Timestamp: "20240101120000"},
 		{URLKey: "com,example)/about", Timestamp: "20240101120000"},
 		{URLKey: "com,example)/", Timestamp: "20240501120000"},
@@ -42,7 +41,7 @@ func TestNewestCapturesOfKeepsEveryPageInTheOrderTheArchiveListedThem(t *testing
 }
 
 func TestNewestCapturesOfKeepsNothingFromAnEmptyArchiveAnswer(t *testing.T) {
-	if newestCaptures := captureselection.NewestCapturesOf(nil); len(newestCaptures) != 0 {
+	if newestCaptures := pywb.NewestCapturesOf(nil); len(newestCaptures) != 0 {
 		t.Fatalf("captures = %v, want none", newestCaptures)
 	}
 }

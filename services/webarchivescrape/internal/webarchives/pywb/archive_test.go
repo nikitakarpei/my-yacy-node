@@ -1,4 +1,4 @@
-package cdxindex_test
+package pywb_test
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/cdxscrape/internal/cdxindex"
+	"github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/internal/webarchives/pywb"
 )
 
 const (
@@ -25,14 +25,14 @@ const (
 )
 
 func TestCapturesForReadsEveryCaptureTheIndexLists(t *testing.T) {
-	index := indexServing(t, firstRow+"\n"+secondRow+"\n", nil)
+	archive := archiveServing(t, firstRow+"\n"+secondRow+"\n", nil)
 
-	captures, err := index.CapturesFor(context.Background(), cdxindex.Query{URL: "example.com"})
+	captures, err := archive.CapturesFor(context.Background(), pywb.Query{URL: "example.com"})
 	if err != nil {
 		t.Fatalf("captures for query: %v", err)
 	}
 
-	wanted := []cdxindex.Capture{
+	wanted := []pywb.Capture{
 		{URLKey: "com,example)/", Timestamp: "20240101120000", OriginalURL: "https://example.com/"},
 		{
 			URLKey:      "com,example)/about",
@@ -52,14 +52,14 @@ func TestCapturesForReadsEveryCaptureTheIndexLists(t *testing.T) {
 
 func TestCapturesForAsksTheIndexForTheStatedQuery(t *testing.T) {
 	var asked url.Values
-	index := indexServing(t, "", func(request *http.Request) {
+	archive := archiveServing(t, "", func(request *http.Request) {
 		asked = request.URL.Query()
 		if wanted := "/" + collection + "/cdx"; request.URL.Path != wanted {
 			t.Errorf("index path = %q, want %q", request.URL.Path, wanted)
 		}
 	})
 
-	if _, err := index.CapturesFor(context.Background(), cdxindex.Query{
+	if _, err := archive.CapturesFor(context.Background(), pywb.Query{
 		URL:        "example.com",
 		MatchType:  "domain",
 		MediaType:  "text/html",
@@ -90,11 +90,11 @@ func TestCapturesForAsksTheIndexForTheStatedQuery(t *testing.T) {
 
 func TestCapturesForLeavesUnstatedBoundsToTheArchive(t *testing.T) {
 	var asked url.Values
-	index := indexServing(t, "", func(request *http.Request) { asked = request.URL.Query() })
+	archive := archiveServing(t, "", func(request *http.Request) { asked = request.URL.Query() })
 
-	if _, err := index.CapturesFor(
+	if _, err := archive.CapturesFor(
 		context.Background(),
-		cdxindex.Query{URL: "example.com"},
+		pywb.Query{URL: "example.com"},
 	); err != nil {
 		t.Fatalf("captures for query: %v", err)
 	}
@@ -107,9 +107,9 @@ func TestCapturesForLeavesUnstatedBoundsToTheArchive(t *testing.T) {
 }
 
 func TestCapturesForReadsNoCaptureFromAnEmptyIndex(t *testing.T) {
-	index := indexServing(t, "", nil)
+	archive := archiveServing(t, "", nil)
 
-	captures, err := index.CapturesFor(context.Background(), cdxindex.Query{URL: "example.com"})
+	captures, err := archive.CapturesFor(context.Background(), pywb.Query{URL: "example.com"})
 	if err != nil {
 		t.Fatalf("captures for query: %v", err)
 	}
@@ -126,9 +126,9 @@ func TestCapturesForFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
 	))
 	t.Cleanup(server.Close)
 
-	_, err := indexAt(t, server.URL).CapturesFor(
+	_, err := archiveAt(t, server.URL).CapturesFor(
 		context.Background(),
-		cdxindex.Query{URL: "example.com"},
+		pywb.Query{URL: "example.com"},
 	)
 	if err == nil {
 		t.Fatal("captures for query: want an error naming the answer")
@@ -139,11 +139,11 @@ func TestCapturesForFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
 }
 
 func TestCapturesForFailsWhenTheIndexStatesAnUnreadableCapture(t *testing.T) {
-	index := indexServing(t, firstRow+"\nnot a capture\n", nil)
+	archive := archiveServing(t, firstRow+"\nnot a capture\n", nil)
 
-	if _, err := index.CapturesFor(
+	if _, err := archive.CapturesFor(
 		context.Background(),
-		cdxindex.Query{URL: "example.com"},
+		pywb.Query{URL: "example.com"},
 	); err == nil {
 		t.Fatal("captures for query: want an error")
 	}
@@ -155,19 +155,19 @@ func TestCapturesForFailsWhenTheArchiveIsUnreachable(t *testing.T) {
 	))
 	server.Close()
 
-	if _, err := indexAt(t, server.URL).CapturesFor(
+	if _, err := archiveAt(t, server.URL).CapturesFor(
 		context.Background(),
-		cdxindex.Query{URL: "example.com"},
+		pywb.Query{URL: "example.com"},
 	); err == nil {
 		t.Fatal("captures for query: want an error")
 	}
 }
 
-func indexServing(
+func archiveServing(
 	t *testing.T,
 	rows string,
 	readQuery func(request *http.Request),
-) *cdxindex.CDXIndex {
+) *pywb.Archive {
 	t.Helper()
 	server := httptest.NewServer(http.HandlerFunc(
 		func(writer http.ResponseWriter, request *http.Request) {
@@ -178,14 +178,88 @@ func indexServing(
 		},
 	))
 	t.Cleanup(server.Close)
-	return indexAt(t, server.URL)
+	return archiveAt(t, server.URL)
 }
 
-func indexAt(t *testing.T, archiveURL string) *cdxindex.CDXIndex {
+func TestReplayURLOfCarriesTheCollectionTheMomentAndTheCapturedURL(t *testing.T) {
+	archive := archiveAt(t, "http://pywb:8080")
+
+	replayURL := replayURLOf(t, archive, pywb.Capture{
+		Timestamp:   "20240101120000",
+		OriginalURL: "https://example.com/a/page",
+	})
+
+	wanted := "http://pywb:8080/archive/20240101120000mp_/" +
+		"https://example.com/a/page"
+	if replayURL != wanted {
+		t.Fatalf("replay url = %q, want %q", replayURL, wanted)
+	}
+}
+
+func TestReplayURLOfKeepsTheCapturedURLWholeThroughCanonicalForm(t *testing.T) {
+	archive := archiveAt(t, "http://pywb:8080")
+
+	for _, capturedURL := range []string{
+		"https://example.com/a/page",
+		"https://example.com/a/%2E%2E/page",
+		"https://example.com/a/page?query=1&other=2",
+		"https://example.com/",
+	} {
+		replayURL := replayURLOf(t, archive, pywb.Capture{
+			Timestamp:   "20240101120000",
+			OriginalURL: capturedURL,
+		})
+
+		readBack := replayURL[len("http://pywb:8080/archive/20240101120000mp_/"):]
+		if readBack != capturedURL {
+			t.Errorf("replay url carries %q, want %q", readBack, capturedURL)
+		}
+	}
+}
+
+func TestReplayURLOfKeepsATrailingArchivePathElement(t *testing.T) {
+	archive := archiveAt(t, "http://pywb:8080/wayback/")
+
+	replayURL := replayURLOf(t, archive, pywb.Capture{
+		Timestamp:   "20240101120000",
+		OriginalURL: "https://example.com/",
+	})
+
+	wanted := "http://pywb:8080/wayback/archive/20240101120000mp_/https://example.com/"
+	if replayURL != wanted {
+		t.Fatalf("replay url = %q, want %q", replayURL, wanted)
+	}
+}
+
+func TestReplayURLOfFailsWhenTheArchiveAddressHasNoHost(t *testing.T) {
+	archive := archiveAt(t, "http:///")
+
+	if _, err := archive.ReplayURLOf(pywb.Capture{
+		Timestamp:   "20240101120000",
+		OriginalURL: "https://example.com/",
+	}); err == nil {
+		t.Fatal("replay url of capture: want an error")
+	}
+}
+
+func replayURLOf(
+	t *testing.T,
+	archive *pywb.Archive,
+	capture pywb.Capture,
+) string {
+	t.Helper()
+	replayURL, err := archive.ReplayURLOf(capture)
+	if err != nil {
+		t.Fatalf("replay url of capture %v: %v", capture, err)
+	}
+	return replayURL.String()
+}
+
+func archiveAt(t *testing.T, archiveURL string) *pywb.Archive {
 	t.Helper()
 	parsed, err := url.Parse(archiveURL)
 	if err != nil {
 		t.Fatalf("parse archive url %q: %v", archiveURL, err)
 	}
-	return cdxindex.New(http.DefaultClient, parsed, collection)
+	return pywb.New(http.DefaultClient, parsed, collection)
 }

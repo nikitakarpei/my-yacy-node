@@ -8,9 +8,9 @@ import (
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/cdxscrape/internal/scraperequests/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/internal/scraperequests/jetstream"
 )
 
 func TestPublishWritesTheContractMessageForAReplayURL(t *testing.T) {
@@ -31,7 +31,7 @@ func TestPublishWritesTheContractMessageForAReplayURL(t *testing.T) {
 	}
 	defer publisher.Close()
 
-	const replayURL = "http://pywb:8080/archive/20240101120000mp_/https:%2F%2Fexample.com%2F"
+	const replayURL = "http://pywb:8080/archive/20240101120000mp_/https://example.com/"
 	if err := publisher.Publish(ctx, canonicalurltest.CanonicalURLOf(t, replayURL)); err != nil {
 		t.Fatalf("publish %s: %v", replayURL, err)
 	}
@@ -70,7 +70,7 @@ func TestPublishFailsWhenTheScrapeRequestsStreamIsMissing(t *testing.T) {
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(
 			t,
-			"http://pywb:8080/archive/1mp_/https:%2F%2Fexample.com%2F",
+			"http://pywb:8080/archive/1mp_/https://example.com/",
 		),
 	); err == nil {
 		t.Fatal("publish: want an error naming the missing stream")

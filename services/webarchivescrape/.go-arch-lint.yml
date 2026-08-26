@@ -9,18 +9,14 @@ commonVendors:
   - canonicalurl
 
 components:
-  cdxindex:
-    in: internal/cdxindex/**
-  capturereplay:
-    in: internal/capturereplay/**
-  captureselection:
-    in: internal/captureselection/**
+  webarchivespywb:
+    in: internal/webarchives/pywb/**
   scraperequestsjetstream:
     in: internal/scraperequests/jetstream/**
   scraperequeststext:
     in: internal/scraperequests/text/**
-  cdxscrapecmd:
-    in: cmd/cdxscrape/**
+  webarchivescrapecmd:
+    in: cmd/webarchivescrape/**
 
 vendors:
   canonicalurl:
@@ -41,12 +37,9 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
 
 deps:
-  capturereplay:
-    mayDependOn:
-      - cdxindex
-  captureselection:
-    mayDependOn:
-      - cdxindex
+  webarchivespywb:
+    canUse:
+      - canonicalurl
   scraperequestsjetstream:
     canUse:
       - scraperequestcontract
@@ -55,7 +48,7 @@ deps:
   scraperequeststext:
     canUse:
       - canonicalurl
-  cdxscrapecmd:
+  webarchivescrapecmd:
     anyProjectDeps: true
     anyVendorDeps: true
 

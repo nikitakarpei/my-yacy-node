@@ -1,7 +1,12 @@
-// Package cdxindex reads what a web archive holds. It is the only place that speaks the
-// CDX server api, the index protocol that pywb, OpenWayback, and the Internet Archive
-// answer alike. Capture is the vocabulary it yields.
-package cdxindex
+// Package pywb reads what a pywb instance holds and says where it replays a capture.
+// Every rule here is pywb's own: the index path, the newline delimited answer it writes,
+// the absence of a way to keep one capture per page, and the mp_ modifier.
+//
+// The mp_ modifier asks pywb for the page itself rather than for the frame it shows a
+// reader, and for links and subresources that point back into the archive rather than at
+// the origin. The url a capture was taken from ends the replay address, written as it was
+// captured.
+package pywb
 
 import (
 	"context"
@@ -13,10 +18,14 @@ import (
 	"net/url"
 	"path"
 	"strconv"
+	"strings"
+
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
 const (
-	indexPathElement = "cdx"
+	indexPathElement     = "cdx"
+	archivedPageModifier = "mp_"
 
 	parameterURL       = "url"
 	parameterOutput    = "output"
@@ -32,39 +41,23 @@ const (
 	statusCodeEqualsFilter  = "=status:"
 )
 
-type Capture struct {
-	URLKey      string
-	Timestamp   string
-	OriginalURL string
-}
-
-type Query struct {
-	URL        string
-	MatchType  string
-	MediaType  string
-	StatusCode int
-	From       string
-	To         string
-	Limit      int
-}
-
-type CDXIndex struct {
+type Archive struct {
 	client     *http.Client
-	cdxURL     *url.URL
+	pywbURL    *url.URL
 	collection string
 }
 
-func New(client *http.Client, cdxURL *url.URL, collection string) *CDXIndex {
-	return &CDXIndex{client: client, cdxURL: cdxURL, collection: collection}
+func New(client *http.Client, pywbURL *url.URL, collection string) *Archive {
+	return &Archive{client: client, pywbURL: pywbURL, collection: collection}
 }
 
-func (i *CDXIndex) CapturesFor(ctx context.Context, query Query) ([]Capture, error) {
-	queryURL := queryURLOf(i.cdxURL, i.collection, query)
+func (a *Archive) CapturesFor(ctx context.Context, query Query) ([]Capture, error) {
+	queryURL := a.queryURLOf(query)
 	request, err := http.NewRequestWithContext(ctx, http.MethodGet, queryURL.String(), nil)
 	if err != nil {
 		return nil, fmt.Errorf("build cdx query %s: %w", queryURL, err)
 	}
-	answer, err := i.client.Do(request)
+	answer, err := a.client.Do(request)
 	if err != nil {
 		return nil, fmt.Errorf("query cdx index %s: %w", queryURL, err)
 	}
@@ -75,9 +68,9 @@ func (i *CDXIndex) CapturesFor(ctx context.Context, query Query) ([]Capture, err
 	return capturesFrom(answer.Body)
 }
 
-func queryURLOf(cdxURL *url.URL, collection string, query Query) *url.URL {
-	queryURL := *cdxURL
-	queryURL.Path = path.Join(cdxURL.Path, collection, indexPathElement)
+func (a *Archive) queryURLOf(query Query) *url.URL {
+	queryURL := *a.pywbURL
+	queryURL.Path = path.Join(a.pywbURL.Path, a.collection, indexPathElement)
 	queryURL.RawQuery = parametersOf(query).Encode()
 	return &queryURL
 }
@@ -126,4 +119,21 @@ type captureRow struct {
 	URLKey      string `json:"urlkey"`
 	Timestamp   string `json:"timestamp"`
 	OriginalURL string `json:"url"`
+}
+
+func (a *Archive) ReplayURLOf(capture Capture) (canonicalurl.CanonicalURL, error) {
+	replayURL := strings.Join(
+		[]string{
+			strings.TrimSuffix(a.pywbURL.String(), "/"),
+			a.collection,
+			capture.Timestamp + archivedPageModifier,
+			capture.OriginalURL,
+		},
+		"/",
+	)
+	canonicalReplayURL, err := canonicalurl.CanonicalURLOf(replayURL)
+	if err != nil {
+		return canonicalurl.CanonicalURL{}, fmt.Errorf("read replay url %s: %w", replayURL, err)
+	}
+	return canonicalReplayURL, nil
 }

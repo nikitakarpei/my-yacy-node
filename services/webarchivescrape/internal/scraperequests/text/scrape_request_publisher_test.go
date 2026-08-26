@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/cdxscrape/internal/scraperequests/text"
+	"github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/internal/scraperequests/text"
 )
 
 func TestPublishWritesOneScrapeRequestPerLine(t *testing.T) {

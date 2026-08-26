@@ -12,7 +12,7 @@ WORKDIR /src
 
 COPY --parents libraries/*/go.mod libraries/*/go.sum libraries/*/*/go.mod libraries/*/*/go.sum services/*/go.mod services/*/go.sum services/*/contract/go.mod services/*/contract/go.sum ./
 
-WORKDIR /src/services/cdxscrape
+WORKDIR /src/services/webarchivescrape
 
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
@@ -25,11 +25,11 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     GOOS=$TARGETOS GOARCH=$TARGETARCH \
     go build \
         -ldflags="-s -w -X main.version=${VERSION}" \
-        -o /out/cdxscrape \
-        ./cmd/cdxscrape
+        -o /out/webarchivescrape \
+        ./cmd/webarchivescrape
 
 FROM gcr.io/distroless/static-debian12:nonroot
 
-COPY --from=build /out/cdxscrape /usr/local/bin/cdxscrape
+COPY --from=build /out/webarchivescrape /usr/local/bin/webarchivescrape
 
-ENTRYPOINT ["/usr/local/bin/cdxscrape"]
+ENTRYPOINT ["/usr/local/bin/webarchivescrape"]

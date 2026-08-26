@@ -5,11 +5,10 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
 	"strings"
 	"testing"
 
-	cdxscrape "github.com/nikitakarpei/yacy-rwi-node/cdxscrape/cmd/cdxscrape"
+	webarchivescrape "github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/cmd/webarchivescrape"
 )
 
 const (
@@ -27,7 +26,7 @@ func TestRunCommandWritesOneScrapeRequestPerNewestCapture(t *testing.T) {
 	))
 
 	requests := &bytes.Buffer{}
-	if err := cdxscrape.RunCommand(
+	if err := webarchivescrape.RunCommand(
 		context.Background(),
 		dryRunConfig(t, archiveURL),
 		requests,
@@ -42,28 +41,14 @@ func TestRunCommandWritesOneScrapeRequestPerNewestCapture(t *testing.T) {
 	if !strings.Contains(lines[0], "20240501120000mp_") {
 		t.Errorf("request = %q, want the newest capture of the home page", lines[0])
 	}
-	if !strings.Contains(lines[1], "%2Fabout") {
+	if !strings.Contains(lines[1], "https://example.com/about") {
 		t.Errorf("request = %q, want the about page", lines[1])
-	}
-}
-
-func TestRunCommandAsksForReplaysWhereTheScraperReachesTheArchive(t *testing.T) {
-	cfg := dryRunConfig(t, archiveServing(t, homePageRow))
-	cfg.ReplayURL = parsedURL(t, "http://pywb:8080")
-
-	requests := &bytes.Buffer{}
-	if err := cdxscrape.RunCommand(context.Background(), cfg, requests); err != nil {
-		t.Fatalf("run command: %v", err)
-	}
-
-	if !strings.HasPrefix(requests.String(), "http://pywb:8080/archive/") {
-		t.Fatalf("request = %q, want the replay address", requests.String())
 	}
 }
 
 func TestRunCommandWritesNothingWhenTheArchiveHoldsNoSuchPage(t *testing.T) {
 	requests := &bytes.Buffer{}
-	if err := cdxscrape.RunCommand(
+	if err := webarchivescrape.RunCommand(
 		context.Background(),
 		dryRunConfig(t, archiveServing(t, "")),
 		requests,
@@ -84,7 +69,7 @@ func TestRunCommandFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
 	))
 	t.Cleanup(server.Close)
 
-	if err := cdxscrape.RunCommand(
+	if err := webarchivescrape.RunCommand(
 		context.Background(),
 		dryRunConfig(t, server.URL),
 		&bytes.Buffer{},
@@ -98,7 +83,7 @@ func TestRunCommandFailsWhenTheBrokerIsUnreachable(t *testing.T) {
 	cfg.DryRun = false
 	cfg.ScrapeRequestNATSURL = "nats://127.0.0.1:1"
 
-	if err := cdxscrape.RunCommand(
+	if err := webarchivescrape.RunCommand(
 		context.Background(),
 		cfg,
 		&bytes.Buffer{},
@@ -107,11 +92,11 @@ func TestRunCommandFailsWhenTheBrokerIsUnreachable(t *testing.T) {
 	}
 }
 
-func dryRunConfig(t *testing.T, archiveURL string) cdxscrape.CommandConfig {
+func dryRunConfig(t *testing.T, archiveURL string) webarchivescrape.CommandConfig {
 	t.Helper()
-	cfg, err := cdxscrape.LoadCommandConfig([]string{
-		"-cdx-url", archiveURL,
-		"-collection", "archive",
+	cfg, err := webarchivescrape.LoadCommandConfig([]string{
+		"-pywb-url", archiveURL,
+		"-pywb-collection", "archive",
 		"-url", "example.com",
 		"-dry-run",
 	}, func(string) string { return "" })
@@ -119,15 +104,6 @@ func dryRunConfig(t *testing.T, archiveURL string) cdxscrape.CommandConfig {
 		t.Fatalf("load command config: %v", err)
 	}
 	return cfg
-}
-
-func parsedURL(t *testing.T, raw string) *url.URL {
-	t.Helper()
-	parsed, err := url.Parse(raw)
-	if err != nil {
-		t.Fatalf("parse url %q: %v", raw, err)
-	}
-	return parsed
 }
 
 func archiveServing(t *testing.T, rows string) string {

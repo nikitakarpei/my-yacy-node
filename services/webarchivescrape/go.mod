@@ -1,4 +1,4 @@
-module github.com/nikitakarpei/yacy-rwi-node/cdxscrape
+module github.com/nikitakarpei/yacy-rwi-node/webarchivescrape
 
 go 1.26
 

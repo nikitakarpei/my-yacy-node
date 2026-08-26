@@ -12,7 +12,11 @@ import (
 
 func main() {
 	if err := run(); err != nil {
-		slog.ErrorContext(context.Background(), "cdxscrape terminated", slog.Any("error", err))
+		slog.ErrorContext(
+			context.Background(),
+			"webarchivescrape terminated",
+			slog.Any("error", err),
+		)
 		os.Exit(1)
 	}
 }

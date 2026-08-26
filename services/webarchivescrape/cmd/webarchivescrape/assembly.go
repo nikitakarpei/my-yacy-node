@@ -8,11 +8,9 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/cdxscrape/internal/capturereplay"
-	"github.com/nikitakarpei/yacy-rwi-node/cdxscrape/internal/captureselection"
-	"github.com/nikitakarpei/yacy-rwi-node/cdxscrape/internal/cdxindex"
-	scraperequestsjetstream "github.com/nikitakarpei/yacy-rwi-node/cdxscrape/internal/scraperequests/jetstream"
-	scraperequeststext "github.com/nikitakarpei/yacy-rwi-node/cdxscrape/internal/scraperequests/text"
+	scraperequestsjetstream "github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/internal/scraperequests/jetstream"
+	scraperequeststext "github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/internal/scraperequests/text"
+	webarchivespywb "github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/internal/webarchives/pywb"
 )
 
 const (
@@ -29,16 +27,16 @@ type ScrapeRequestPublisher interface {
 }
 
 func RunCommand(ctx context.Context, cfg CommandConfig, requests io.Writer) error {
-	index := cdxindex.New(
+	archive := webarchivespywb.New(
 		&http.Client{Timeout: indexQueryDeadline},
-		cfg.CDXURL,
-		cfg.Collection,
+		cfg.PywbURL,
+		cfg.PywbCollection,
 	)
-	captures, err := index.CapturesFor(ctx, cfg.Query)
+	captures, err := archive.CapturesFor(ctx, cfg.PywbQuery)
 	if err != nil {
 		return err
 	}
-	newestCaptures := captureselection.NewestCapturesOf(captures)
+	newestCaptures := webarchivespywb.NewestCapturesOf(captures)
 	slog.InfoContext(ctx, msgCapturesRead,
 		slog.Int("captures", len(captures)),
 		slog.Int("newestCaptures", len(newestCaptures)),
@@ -50,7 +48,6 @@ func RunCommand(ctx context.Context, cfg CommandConfig, requests io.Writer) erro
 	}
 	defer publisher.Close()
 
-	archive := capturereplay.New(cfg.ReplayURL, cfg.Collection)
 	return publishScrapeRequests(ctx, archive, newestCaptures, publisher)
 }
 
@@ -63,8 +60,8 @@ func publisherFor(cfg CommandConfig, requests io.Writer) (ScrapeRequestPublisher
 
 func publishScrapeRequests(
 	ctx context.Context,
-	archive *capturereplay.Archive,
-	captures []cdxindex.Capture,
+	archive *webarchivespywb.Archive,
+	captures []webarchivespywb.Capture,
 	publisher ScrapeRequestPublisher,
 ) error {
 	publishedRequests := 0
