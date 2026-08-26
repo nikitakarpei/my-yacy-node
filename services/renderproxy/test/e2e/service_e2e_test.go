@@ -17,6 +17,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/lightpanda"
 )
 
+// deadProxyURL names a port inside the browser's own container where nothing listens.
+const deadProxyURL = "http://127.0.0.1:1"
+
 func TestRenderproxyRendersScriptedPageEndToEnd(t *testing.T) {
 	ctx := context.Background()
 
@@ -329,7 +332,7 @@ func forwardProxyClient(t *testing.T, renderproxyURL string) *http.Client {
 	}
 }
 
-func TestRenderproxyStatesEgressProxyToBrowserEndToEnd(t *testing.T) {
+func TestRenderproxyStatedEgressProxyOverridesTheBrowsersOwnEndToEnd(t *testing.T) {
 	ctx := context.Background()
 
 	renderNetwork := dockernetwork.New(t, ctx)
@@ -337,7 +340,7 @@ func TestRenderproxyStatesEgressProxyToBrowserEndToEnd(t *testing.T) {
 
 	originURL := startScriptedOrigin(t, ctx, originNetwork.Name)
 	egressproxy.Start(t, ctx, renderNetwork.Name, originNetwork.Name)
-	lightpanda.Start(t, ctx, renderNetwork.Name)
+	lightpanda.StartWithDefaultProxy(t, ctx, renderNetwork.Name, deadProxyURL)
 	renderproxyURL := startRenderproxyOn(
 		t,
 		ctx,

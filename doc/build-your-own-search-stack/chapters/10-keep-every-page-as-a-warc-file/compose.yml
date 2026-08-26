@@ -103,7 +103,7 @@ services:
       - "--advertise-host"
       - "lightpanda"
       - "--http-proxy"
-      - "http://smokescreen:4750"
+      - "http://127.0.0.1:1"
       - "--obey-robots"
 
   renderproxy:
