@@ -1,0 +1,64 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonVendors:
+  - canonicalurl
+
+components:
+  cdxindex:
+    in: internal/cdxindex/**
+  capturereplay:
+    in: internal/capturereplay/**
+  captureselection:
+    in: internal/captureselection/**
+  scraperequestsjetstream:
+    in: internal/scraperequests/jetstream/**
+  scraperequeststext:
+    in: internal/scraperequests/text/**
+  cdxscrapecmd:
+    in: cmd/cdxscrape/**
+
+vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  scraperequestcontract:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  nats:
+    in:
+      - github.com/nats-io/nats.go
+      - github.com/nats-io/nats.go/**
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
+
+deps:
+  capturereplay:
+    mayDependOn:
+      - cdxindex
+  captureselection:
+    mayDependOn:
+      - cdxindex
+  scraperequestsjetstream:
+    canUse:
+      - scraperequestcontract
+      - nats
+      - serviceruntime
+  scraperequeststext:
+    canUse:
+      - canonicalurl
+  cdxscrapecmd:
+    anyProjectDeps: true
+    anyVendorDeps: true
+
+excludeFiles:
+  - "_test\\.go"
+  - "test/e2e"
