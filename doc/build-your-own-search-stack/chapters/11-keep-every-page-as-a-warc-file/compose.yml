@@ -20,6 +20,7 @@ services:
     networks:
       default:
         ipv4_address: 10.99.0.10
+      archive:
 
   warcprox-trust:
     build:
@@ -52,7 +53,10 @@ services:
       - "--allow-address"
       - "10.99.0.10:8000"
       - "--allow-address"
-      - "10.99.0.11:8080"
+      - "10.99.1.11:8080"
+    networks:
+      - default
+      - archive
 
   pywb:
     image: docker.io/webrecorder/pywb:2.9.1
@@ -68,8 +72,8 @@ services:
       - ./imported:/webarchive/collections/imported/archive:ro
       - pywb-indexes:/webarchive/collections/imported/indexes
     networks:
-      default:
-        ipv4_address: 10.99.0.11
+      archive:
+        ipv4_address: 10.99.1.11
 
   webarchivescrape:
     image: ghcr.io/nikitakarpei/webarchivescrape:latest
@@ -82,6 +86,9 @@ services:
         condition: service_started
     environment:
       SCRAPE_REQUEST_NATS_URL: nats://nats:4222
+    networks:
+      - default
+      - archive
 
   nats:
     image: nats:2.14.2
@@ -346,6 +353,11 @@ networks:
     ipam:
       config:
         - subnet: 10.99.0.0/24
+  archive:
+    internal: true
+    ipam:
+      config:
+        - subnet: 10.99.1.0/24
 
 volumes:
   warcprox-ca:

@@ -14,8 +14,11 @@ web no longer has.
 
 `pywb` serves an archive of your own. It reads the WARC files under `imported/`
 and looks for new ones every thirty seconds, so an archive someone gives you is
-searchable soon after you copy it in, with no restart. Smokescreen now allows
-the address of the archive, so the crawl is able to fetch a replayed page.
+searchable soon after you copy it in, with no restart.
+
+The archive sits on a network of its own that has no route out. Smokescreen
+reaches it and now allows its address, so the crawl is able to fetch a replayed
+page, and the archive itself is able to fetch nothing.
 
 ## Try it
 
