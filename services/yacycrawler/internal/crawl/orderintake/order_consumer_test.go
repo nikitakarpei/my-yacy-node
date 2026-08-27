@@ -108,14 +108,14 @@ func (v *fakePendingVisits) Publish(_ context.Context, visit pendingvisit.Pendin
 }
 
 type recordingObserver struct {
-	received    int
-	completed   int
-	redelivered int
+	received int
+	accepted int
+	returned int
 }
 
-func (o *recordingObserver) OrderReceived()    { o.received++ }
-func (o *recordingObserver) OrderCompleted()   { o.completed++ }
-func (o *recordingObserver) OrderRedelivered() { o.redelivered++ }
+func (o *recordingObserver) OrderReceived() { o.received++ }
+func (o *recordingObserver) OrderAccepted() { o.accepted++ }
+func (o *recordingObserver) OrderReturned() { o.returned++ }
 
 func seeds(t *testing.T) []canonicalurl.CanonicalURL {
 	t.Helper()
@@ -183,8 +183,8 @@ func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
 	if got := message.settled(); len(got) != 1 || got[0] != "ack" {
 		t.Fatalf("message settled %v, want one ack", got)
 	}
-	if observer.received != 1 || observer.completed != 1 {
-		t.Fatalf("observer %+v, want one received and one completed", observer)
+	if observer.received != 1 || observer.accepted != 1 {
+		t.Fatalf("observer %+v, want one received and one accepted", observer)
 	}
 }
 
@@ -203,7 +203,7 @@ func TestAnOrderTheCrawlerCannotAcceptReturnsForRedelivery(t *testing.T) {
 	if len(visits.published) != 0 {
 		t.Fatal("an order that was not accepted should seed nothing")
 	}
-	if observer.redelivered != 1 || observer.completed != 0 {
+	if observer.returned != 1 || observer.accepted != 0 {
 		t.Fatalf("observer %+v, want one redelivery", observer)
 	}
 }
@@ -220,7 +220,7 @@ func TestAnOrderWhoseSeedsDoNotPublishReturnsForRedelivery(t *testing.T) {
 	if got := message.settled(); len(got) != 1 || got[0] != "nak" {
 		t.Fatalf("message settled %v, want one nak", got)
 	}
-	if observer.redelivered != 1 {
+	if observer.returned != 1 {
 		t.Fatalf("observer %+v, want one redelivery", observer)
 	}
 }

@@ -195,7 +195,7 @@ func visitHost(t *testing.T, visitor pagevisit.Visitor) pagevisit.VisitOutcome {
 	return outcome
 }
 
-func TestVisitAbsorbsFetchedPage(t *testing.T) {
+func TestVisitReadsTheFetchedPage(t *testing.T) {
 	observer := newObserver()
 	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
@@ -414,7 +414,7 @@ func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
 	}
 }
 
-func TestVisitRecordsVersionAfterAbsorbingThePage(t *testing.T) {
+func TestVisitRecordsVersionAfterReadingThePage(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome(t)),
@@ -451,7 +451,7 @@ func TestVisitReportsTheDisposalAbsorptionReached(t *testing.T) {
 	outcome := visitHost(t, visitor)
 
 	if outcome.Disposal != disposal.UnsupportedMediaType {
-		t.Fatalf("want the absorbed reason reported, got %q", outcome.Disposal)
+		t.Fatalf("want the page content reason reported, got %q", outcome.Disposal)
 	}
 	if len(recrawl.calls()) != 1 {
 		t.Fatalf("want the visit recorded regardless of publication, got %v", recrawl.calls())
@@ -461,7 +461,7 @@ func TestVisitReportsTheDisposalAbsorptionReached(t *testing.T) {
 	}
 }
 
-func TestVisitNotModifiedRecordsVersionWithoutAbsorbing(t *testing.T) {
+func TestVisitNotModifiedRecordsVersionWithoutReadingThePage(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(

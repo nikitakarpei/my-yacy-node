@@ -13,8 +13,8 @@ import (
 )
 
 const (
-	msgOrderAccepted    = "crawl order accepted"
-	msgOrderRedelivered = "crawl order returned for redelivery"
+	msgOrderAccepted = "crawl order accepted"
+	msgOrderReturned = "crawl order returned for redelivery"
 )
 
 type AcceptedOrders interface {
@@ -27,8 +27,8 @@ type PendingVisits interface {
 
 type OrderProgress interface {
 	OrderReceived()
-	OrderRedelivered()
-	OrderCompleted()
+	OrderReturned()
+	OrderAccepted()
 }
 
 type Config struct {
@@ -71,15 +71,15 @@ func (c *OrderConsumer) processOne(
 	}
 	c.observer.OrderReceived()
 	if err := c.orders.Accept(ctx, order); err != nil {
-		c.redeliver(ctx, message, order.OrderID, err)
+		c.returnOrder(ctx, message, order.OrderID, err)
 		return nil
 	}
 	if err := c.seed(ctx, order); err != nil {
-		c.redeliver(ctx, message, order.OrderID, err)
+		c.returnOrder(ctx, message, order.OrderID, err)
 		return nil
 	}
 	message.Acknowledge(ctx)
-	c.observer.OrderCompleted()
+	c.observer.OrderAccepted()
 	slog.DebugContext(ctx, msgOrderAccepted,
 		slog.String("order", order.OrderID),
 		slog.Int("seeds", len(order.SeedURLs)),
@@ -100,14 +100,14 @@ func (c *OrderConsumer) seed(ctx context.Context, order yacycrawlcontract.CrawlO
 	return nil
 }
 
-func (c *OrderConsumer) redeliver(
+func (c *OrderConsumer) returnOrder(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	orderID string,
 	cause error,
 ) {
-	c.observer.OrderRedelivered()
-	slog.WarnContext(ctx, msgOrderRedelivered,
+	c.observer.OrderReturned()
+	slog.WarnContext(ctx, msgOrderReturned,
 		slog.String("order", orderID),
 		slog.Any("error", cause),
 	)

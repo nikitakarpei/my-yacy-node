@@ -21,3 +21,22 @@ type VisitOutcome struct {
 	DiscoveredURLs []canonicalurl.CanonicalURL
 	Disposal       disposal.Reason
 }
+
+func completedVisit(
+	reason disposal.Reason,
+	discoveredURLs []canonicalurl.CanonicalURL,
+) VisitOutcome {
+	return VisitOutcome{
+		Conclusion:     VisitCompleted,
+		DiscoveredURLs: discoveredURLs,
+		Disposal:       reason,
+	}
+}
+
+func deferredVisit(deferFor time.Duration) VisitOutcome {
+	return VisitOutcome{Conclusion: VisitDeferred, DeferFor: deferFor}
+}
+
+func retryableVisit() VisitOutcome {
+	return VisitOutcome{Conclusion: VisitRetryable}
+}

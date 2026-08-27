@@ -25,8 +25,8 @@ const (
 
 type CrawlMetrics struct {
 	ordersReceived          prometheus.Counter
-	ordersCompleted         prometheus.Counter
-	ordersRedelivered       prometheus.Counter
+	ordersAccepted          prometheus.Counter
+	ordersReturned          prometheus.Counter
 	pagesFetched            prometheus.Counter
 	scrapeRequestsPublished prometheus.Counter
 	pagesDisposed           *prometheus.CounterVec
@@ -40,12 +40,12 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 			Name: "yacycrawler_orders_received_total",
 			Help: "Crawl orders received.",
 		}),
-		ordersCompleted: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "yacycrawler_orders_completed_total",
+		ordersAccepted: prometheus.NewCounter(prometheus.CounterOpts{
+			Name: "yacycrawler_orders_accepted_total",
 			Help: "Crawl orders acknowledged once the order and its seeds are durable.",
 		}),
-		ordersRedelivered: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "yacycrawler_orders_redelivered_total",
+		ordersReturned: prometheus.NewCounter(prometheus.CounterOpts{
+			Name: "yacycrawler_orders_returned_total",
 			Help: "Crawl orders returned for redelivery.",
 		}),
 		pagesFetched: prometheus.NewCounter(prometheus.CounterOpts{
@@ -72,8 +72,8 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 	}
 	registry.MustRegister(
 		metrics.ordersReceived,
-		metrics.ordersCompleted,
-		metrics.ordersRedelivered,
+		metrics.ordersAccepted,
+		metrics.ordersReturned,
 		metrics.pagesFetched,
 		metrics.scrapeRequestsPublished,
 		metrics.pagesDisposed,
@@ -84,8 +84,8 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 }
 
 func (m *CrawlMetrics) OrderReceived()          { m.ordersReceived.Inc() }
-func (m *CrawlMetrics) OrderCompleted()         { m.ordersCompleted.Inc() }
-func (m *CrawlMetrics) OrderRedelivered()       { m.ordersRedelivered.Inc() }
+func (m *CrawlMetrics) OrderAccepted()          { m.ordersAccepted.Inc() }
+func (m *CrawlMetrics) OrderReturned()          { m.ordersReturned.Inc() }
 func (m *CrawlMetrics) PageFetched()            { m.pagesFetched.Inc() }
 func (m *CrawlMetrics) ScrapeRequestPublished() { m.scrapeRequestsPublished.Inc() }
 
