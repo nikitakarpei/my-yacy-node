@@ -28,19 +28,23 @@ func Open(natsURL string) (*Publisher, error) {
 	return &Publisher{stream: stream, conn: conn}, nil
 }
 
-func (p *Publisher) Publish(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) error {
+func (p *Publisher) Publish(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	replayURL canonicalurl.CanonicalURL,
+) error {
 	data, err := scraperequestcontract.MarshalScrapeRequest(
-		scraperequestcontract.ScrapeRequest{CanonicalURL: canonicalURL},
+		scraperequestcontract.ScrapeRequest{PageURL: pageURL, FetchURL: replayURL},
 	)
 	if err != nil {
-		return fmt.Errorf("marshal scrape request %s: %w", canonicalURL, err)
+		return fmt.Errorf("marshal scrape request %s: %w", pageURL, err)
 	}
 	if _, err := p.stream.Publish(
 		ctx,
 		scraperequestcontract.ScrapeRequestSubject,
 		data,
 	); err != nil {
-		return fmt.Errorf("publish scrape request %s: %w", canonicalURL, err)
+		return fmt.Errorf("publish scrape request %s: %w", pageURL, err)
 	}
 	return nil
 }

@@ -13,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/internal/scraperequests/jetstream"
 )
 
-func TestPublishWritesTheContractMessageForAReplayURL(t *testing.T) {
+func TestPublishWritesTheContractMessageForACapturedPage(t *testing.T) {
 	serverURL := natstestserver.Start(t)
 	js := natstestserver.ConnectJetStream(t, serverURL)
 	ctx := context.Background()
@@ -31,9 +31,14 @@ func TestPublishWritesTheContractMessageForAReplayURL(t *testing.T) {
 	}
 	defer publisher.Close()
 
+	const pageURL = "https://example.com/"
 	const replayURL = "http://pywb:8080/archive/20240101120000mp_/https://example.com/"
-	if err := publisher.Publish(ctx, canonicalurltest.CanonicalURLOf(t, replayURL)); err != nil {
-		t.Fatalf("publish %s: %v", replayURL, err)
+	if err := publisher.Publish(
+		ctx,
+		canonicalurltest.CanonicalURLOf(t, pageURL),
+		canonicalurltest.CanonicalURLOf(t, replayURL),
+	); err != nil {
+		t.Fatalf("publish %s: %v", pageURL, err)
 	}
 
 	consumer, err := js.CreateOrUpdateConsumer(
@@ -52,8 +57,11 @@ func TestPublishWritesTheContractMessageForAReplayURL(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unmarshal scrape request: %v", err)
 	}
-	if request.CanonicalURL.String() != replayURL {
-		t.Fatalf("scrape request = %q, want %q", request.CanonicalURL, replayURL)
+	if request.PageURL.String() != pageURL {
+		t.Fatalf("scrape request page url = %q, want %q", request.PageURL, pageURL)
+	}
+	if request.FetchURL.String() != replayURL {
+		t.Fatalf("scrape request fetch url = %q, want %q", request.FetchURL, replayURL)
 	}
 }
 
@@ -68,6 +76,7 @@ func TestPublishFailsWhenTheScrapeRequestsStreamIsMissing(t *testing.T) {
 
 	if err := publisher.Publish(
 		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "https://example.com/"),
 		canonicalurltest.CanonicalURLOf(
 			t,
 			"http://pywb:8080/archive/1mp_/https://example.com/",

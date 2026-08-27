@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
@@ -39,21 +40,45 @@ func extractedDocument() documentextraction.Document {
 	}
 }
 
+func pageURLOf(t *testing.T) canonicalurl.CanonicalURL {
+	t.Helper()
+	return canonicalurltest.CanonicalURLOf(t, pageAddress)
+}
+
 func indexOf(t *testing.T, text string) pagerwi.PageRWI {
 	t.Helper()
-	return pagerwi.Of(fetchedPage(t, text), extractedDocument(), []byte(text), reachedAt)
+	return pagerwi.Of(
+		pageURLOf(t), fetchedPage(t, text), extractedDocument(), []byte(text), reachedAt,
+	)
+}
+
+func TestOfIndexesUnderThePageURLRatherThanTheURLTheFetchLandedOn(t *testing.T) {
+	const replayAddress = "http://archive.example/replay/http://example.com/"
+	fetched := fetchedPage(t, sampleText)
+	fetched.FinalURL = canonicalurltest.CanonicalURLOf(t, replayAddress)
+
+	index := pagerwi.Of(
+		pageURLOf(t), fetched, extractedDocument(), []byte(sampleText), reachedAt,
+	)
+
+	if index.PageURL.String() != pageAddress {
+		t.Fatalf("page url = %q, want %q", index.PageURL, pageAddress)
+	}
+	if index.Metadata.Address != pageAddress {
+		t.Fatalf("metadata address = %q, want %q", index.Metadata.Address, pageAddress)
+	}
 }
 
 func TestOfProducesPostingsCarryingTheURLHash(t *testing.T) {
 	index := indexOf(t, sampleText)
 
-	if index.CanonicalURL.String() != pageAddress {
-		t.Fatalf("canonical url: %q", index.CanonicalURL)
+	if index.PageURL.String() != pageAddress {
+		t.Fatalf("page url: %q", index.PageURL)
 	}
 	if len(index.Postings) == 0 {
 		t.Fatal("no postings")
 	}
-	urlHash := hashOfCanonicalURL(t)
+	urlHash := hashOfPageAddress(t)
 	for _, posting := range index.Postings {
 		if posting.URLHash != urlHash {
 			t.Fatalf("posting url hash = %q, want %q", posting.URLHash, urlHash)
@@ -109,7 +134,7 @@ func TestOfMetadataCarriesURLHash(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Hash: %v", err)
 	}
-	if want := hashOfCanonicalURL(t); got != want {
+	if want := hashOfPageAddress(t); got != want {
 		t.Fatalf("metadata url hash = %q, want %q", got, want)
 	}
 }
@@ -119,7 +144,7 @@ func TestOfOmitsLanguageWhenAbsent(t *testing.T) {
 	document.Language = ""
 
 	index := pagerwi.Of(
-		fetchedPage(t, sampleText), document, []byte(sampleText), reachedAt,
+		pageURLOf(t), fetchedPage(t, sampleText), document, []byte(sampleText), reachedAt,
 	)
 
 	for _, posting := range index.Postings {
@@ -158,7 +183,9 @@ func TestOfIndexesEveryWordOfThePageText(t *testing.T) {
 func TestOfMetadataByteSizeReflectsTheFetchedDocument(t *testing.T) {
 	page := fetchedPage(t, "the quick fox")
 
-	index := pagerwi.Of(page, extractedDocument(), []byte("the quick fox"), reachedAt)
+	index := pagerwi.Of(
+		pageURLOf(t), page, extractedDocument(), []byte("the quick fox"), reachedAt,
+	)
 
 	if index.Metadata.ByteSize != len(page.Body) {
 		t.Fatalf(
@@ -169,7 +196,7 @@ func TestOfMetadataByteSizeReflectsTheFetchedDocument(t *testing.T) {
 	}
 }
 
-func TestOfPostingsMeasureTheCanonicalURL(t *testing.T) {
+func TestOfPostingsMeasureThePageURL(t *testing.T) {
 	index := indexOf(t, sampleText)
 
 	for _, posting := range index.Postings {
@@ -223,12 +250,12 @@ func assertWordIndexed(t *testing.T, text string, word string) {
 	t.Fatalf("word %q should be indexed", word)
 }
 
-func hashOfCanonicalURL(t *testing.T) yacymodel.URLHash {
+func hashOfPageAddress(t *testing.T) yacymodel.URLHash {
 	t.Helper()
 
 	address, err := url.Parse(pageAddress)
 	if err != nil {
-		t.Fatalf("parse canonical url: %v", err)
+		t.Fatalf("parse page address: %v", err)
 	}
 
 	return yacymodel.URLNormalformOf(address).Hash()

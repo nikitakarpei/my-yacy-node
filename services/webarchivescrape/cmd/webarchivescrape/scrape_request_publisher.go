@@ -9,7 +9,11 @@ import (
 )
 
 type scrapeRequestPublisher interface {
-	Publish(ctx context.Context, replayURL canonicalurl.CanonicalURL) error
+	Publish(
+		ctx context.Context,
+		pageURL canonicalurl.CanonicalURL,
+		replayURL canonicalurl.CanonicalURL,
+	) error
 	Close()
 }
 

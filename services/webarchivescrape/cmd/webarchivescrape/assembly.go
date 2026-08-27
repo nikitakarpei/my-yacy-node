@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	webarchivespywb "github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/internal/webarchives/pywb"
 )
 
@@ -24,7 +23,7 @@ func RunCommand(
 		cfg.PywbURL,
 		cfg.PywbCollection,
 	)
-	newestReplayURLs, err := archive.NewestReplayURLsFor(
+	newestArchivedPages, err := archive.NewestArchivedPagesFor(
 		ctx,
 		cfg.PywbCaptureQueries,
 		cfg.PageLimit,
@@ -32,7 +31,7 @@ func RunCommand(
 	if err != nil {
 		return err
 	}
-	reportSelectedPages(report, newestReplayURLs)
+	reportSelectedPages(report, newestArchivedPages)
 
 	publisher, err := openScrapeRequestPublisher(cfg)
 	if err != nil {
@@ -40,20 +39,20 @@ func RunCommand(
 	}
 	defer publisher.Close()
 
-	return publishScrapeRequests(ctx, newestReplayURLs.ReplayURLs, publisher, published)
+	return publishScrapeRequests(ctx, newestArchivedPages.ArchivedPages, publisher, published)
 }
 
 func publishScrapeRequests(
 	ctx context.Context,
-	replayURLs []canonicalurl.CanonicalURL,
+	archivedPages []webarchivespywb.ArchivedPage,
 	publisher scrapeRequestPublisher,
 	published io.Writer,
 ) error {
-	for _, replayURL := range replayURLs {
-		if err := publisher.Publish(ctx, replayURL); err != nil {
-			return fmt.Errorf("publish scrape request for %s: %w", replayURL, err)
+	for _, archivedPage := range archivedPages {
+		if err := publisher.Publish(ctx, archivedPage.PageURL, archivedPage.ReplayURL); err != nil {
+			return fmt.Errorf("publish scrape request for %s: %w", archivedPage.PageURL, err)
 		}
-		if err := writePublishedPage(published, replayURL); err != nil {
+		if err := writePublishedPage(published, archivedPage); err != nil {
 			return err
 		}
 	}

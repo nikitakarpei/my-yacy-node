@@ -14,7 +14,11 @@ func Open() Publisher {
 	return Publisher{}
 }
 
-func (Publisher) Publish(context.Context, canonicalurl.CanonicalURL) error {
+func (Publisher) Publish(
+	context.Context,
+	canonicalurl.CanonicalURL,
+	canonicalurl.CanonicalURL,
+) error {
 	return nil
 }
 

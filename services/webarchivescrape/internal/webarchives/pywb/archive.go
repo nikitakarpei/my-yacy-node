@@ -54,26 +54,31 @@ type CaptureQuery struct {
 	To         string
 }
 
-type NewestReplayURLs struct {
-	ReplayURLs   []canonicalurl.CanonicalURL
-	CapturesRead int
-	HasMorePages bool
+type ArchivedPage struct {
+	PageURL   canonicalurl.CanonicalURL
+	ReplayURL canonicalurl.CanonicalURL
+}
+
+type NewestArchivedPages struct {
+	ArchivedPages []ArchivedPage
+	CapturesRead  int
+	HasMorePages  bool
 }
 
 func New(client *http.Client, pywbURL *url.URL, collection string) *Archive {
 	return &Archive{client: client, pywbURL: pywbURL, collection: collection}
 }
 
-func (a *Archive) NewestReplayURLsFor(
+func (a *Archive) NewestArchivedPagesFor(
 	ctx context.Context,
 	queries []CaptureQuery,
 	pageLimit int,
-) (NewestReplayURLs, error) {
+) (NewestArchivedPages, error) {
 	captureSelection, err := a.captureSelectionFor(ctx, queries, pageLimit)
 	if err != nil {
-		return NewestReplayURLs{}, err
+		return NewestArchivedPages{}, err
 	}
-	return a.newestReplayURLsFrom(captureSelection)
+	return a.newestArchivedPagesFrom(captureSelection)
 }
 
 func (a *Archive) captureSelectionFor(
@@ -190,22 +195,34 @@ type captureRow struct {
 	OriginalURL string `json:"url"`
 }
 
-func (a *Archive) newestReplayURLsFrom(
+func (a *Archive) newestArchivedPagesFrom(
 	captureSelection captureSelection,
-) (NewestReplayURLs, error) {
-	newestReplayURLs := NewestReplayURLs{
-		ReplayURLs:   make([]canonicalurl.CanonicalURL, 0, len(captureSelection.captures)),
-		CapturesRead: captureSelection.capturesRead,
-		HasMorePages: captureSelection.hasMorePages,
+) (NewestArchivedPages, error) {
+	newestArchivedPages := NewestArchivedPages{
+		ArchivedPages: make([]ArchivedPage, 0, len(captureSelection.captures)),
+		CapturesRead:  captureSelection.capturesRead,
+		HasMorePages:  captureSelection.hasMorePages,
 	}
 	for _, captured := range captureSelection.captures {
-		replayURL, err := a.replayURLOf(captured)
+		archivedPage, err := a.archivedPageOf(captured)
 		if err != nil {
-			return NewestReplayURLs{}, err
+			return NewestArchivedPages{}, err
 		}
-		newestReplayURLs.ReplayURLs = append(newestReplayURLs.ReplayURLs, replayURL)
+		newestArchivedPages.ArchivedPages = append(newestArchivedPages.ArchivedPages, archivedPage)
 	}
-	return newestReplayURLs, nil
+	return newestArchivedPages, nil
+}
+
+func (a *Archive) archivedPageOf(captured capture) (ArchivedPage, error) {
+	pageURL, err := canonicalurl.CanonicalURLOf(captured.OriginalURL)
+	if err != nil {
+		return ArchivedPage{}, fmt.Errorf("read captured url %s: %w", captured.OriginalURL, err)
+	}
+	replayURL, err := a.replayURLOf(captured)
+	if err != nil {
+		return ArchivedPage{}, err
+	}
+	return ArchivedPage{PageURL: pageURL, ReplayURL: replayURL}, nil
 }
 
 func (a *Archive) replayURLOf(captured capture) (canonicalurl.CanonicalURL, error) {

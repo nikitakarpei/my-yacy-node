@@ -83,8 +83,8 @@ func (c *ScrapeRequestConsumer) processOne(
 	if err != nil {
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	requestedURL := scrapeRequest.CanonicalURL
-	fetched, scrapable := c.fetch(ctx, message, requestedURL)
+	requestedURL := scrapeRequest.PageURL
+	fetched, scrapable := c.fetch(ctx, message, scrapeRequest.FetchURL)
 	if !scrapable {
 		return nil
 	}
@@ -93,17 +93,23 @@ func (c *ScrapeRequestConsumer) processOne(
 		message.Acknowledge(ctx)
 		return nil
 	}
-	return c.store(ctx, message, requestedURL, fetched.FinalURL, markdown)
+	return c.store(
+		ctx,
+		message,
+		requestedURL,
+		scrapeRequest.PageURLFrom(fetched.FinalURL),
+		markdown,
+	)
 }
 
 func (c *ScrapeRequestConsumer) fetch(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	requestedURL canonicalurl.CanonicalURL,
+	fetchURL canonicalurl.CanonicalURL,
 ) (pagefetch.FetchedPage, bool) {
-	outcome, err := c.fetcher.Fetch(ctx, requestedURL, pagefetch.PageVersion{})
+	outcome, err := c.fetcher.Fetch(ctx, fetchURL, pagefetch.PageVersion{})
 	if err != nil {
-		c.progress.OriginFetchFailed(ctx, requestedURL, err)
+		c.progress.OriginFetchFailed(ctx, fetchURL, err)
 		message.Return(ctx)
 		return pagefetch.FetchedPage{}, false
 	}
@@ -111,13 +117,13 @@ func (c *ScrapeRequestConsumer) fetch(
 	case pagefetch.FetchSucceeded:
 		return outcome.Page, true
 	case pagefetch.FetchFailed:
-		c.progress.OriginFetchFailed(ctx, requestedURL, errOriginReportedFetchFailure)
+		c.progress.OriginFetchFailed(ctx, fetchURL, errOriginReportedFetchFailure)
 		message.Return(ctx)
 	case pagefetch.FetchDeferred:
-		c.progress.OriginFetchDeferred(ctx, requestedURL, outcome.DeferFor)
+		c.progress.OriginFetchDeferred(ctx, fetchURL, outcome.DeferFor)
 		message.ReturnAfter(ctx, outcome.DeferFor)
 	default:
-		c.progress.NothingToScrape(ctx, requestedURL)
+		c.progress.NothingToScrape(ctx, fetchURL)
 		message.Acknowledge(ctx)
 	}
 	return pagefetch.FetchedPage{}, false

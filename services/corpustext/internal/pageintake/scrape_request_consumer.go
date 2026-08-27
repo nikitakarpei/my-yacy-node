@@ -90,7 +90,7 @@ func (c *ScrapeRequestConsumer) processOne(
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
 	scrapedAt := time.Now()
-	fetched, scrapable := c.fetch(ctx, message, scrapeRequest.CanonicalURL)
+	fetched, scrapable := c.fetch(ctx, message, scrapeRequest.FetchURL)
 	if !scrapable {
 		return nil
 	}
@@ -101,19 +101,19 @@ func (c *ScrapeRequestConsumer) processOne(
 		return nil
 	}
 	return c.index(ctx, message, scrapedpagedocument.Of(
-		fetched.FinalURL, document, text, scrapedAt,
+		scrapeRequest.PageURLFrom(fetched.FinalURL), document, text, scrapedAt,
 	))
 }
 
 func (c *ScrapeRequestConsumer) fetch(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	pageURL canonicalurl.CanonicalURL,
+	fetchURL canonicalurl.CanonicalURL,
 ) (pagefetch.FetchedPage, bool) {
-	outcome, err := c.fetcher.Fetch(ctx, pageURL, pagefetch.PageVersion{})
+	outcome, err := c.fetcher.Fetch(ctx, fetchURL, pagefetch.PageVersion{})
 	if err != nil {
 		slog.WarnContext(ctx, msgFetchFailed,
-			slog.String("url", pageURL.String()),
+			slog.String("url", fetchURL.String()),
 			slog.Any("error", err),
 		)
 		c.progress.ScrapeFailed()
@@ -124,17 +124,17 @@ func (c *ScrapeRequestConsumer) fetch(
 	case pagefetch.FetchSucceeded:
 		return outcome.Page, true
 	case pagefetch.FetchFailed:
-		slog.WarnContext(ctx, msgFetchFailed, slog.String("url", pageURL.String()))
+		slog.WarnContext(ctx, msgFetchFailed, slog.String("url", fetchURL.String()))
 		c.progress.ScrapeFailed()
 		message.Return(ctx)
 	case pagefetch.FetchDeferred:
 		slog.DebugContext(ctx, msgFetchDeferred,
-			slog.String("url", pageURL.String()),
+			slog.String("url", fetchURL.String()),
 			slog.Duration("deferFor", outcome.DeferFor),
 		)
 		message.ReturnAfter(ctx, outcome.DeferFor)
 	default:
-		slog.DebugContext(ctx, msgNothingToScrape, slog.String("url", pageURL.String()))
+		slog.DebugContext(ctx, msgNothingToScrape, slog.String("url", fetchURL.String()))
 		message.Acknowledge(ctx)
 	}
 	return pagefetch.FetchedPage{}, false

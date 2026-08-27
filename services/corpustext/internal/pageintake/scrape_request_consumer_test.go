@@ -136,7 +136,21 @@ func scrapeRequestMessage(t *testing.T, acked chan string) *fakeMsg {
 	t.Helper()
 	data, err := scraperequestcontract.MarshalScrapeRequest(
 		scraperequestcontract.ScrapeRequest{
-			CanonicalURL: canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			PageURL: canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+		},
+	)
+	if err != nil {
+		t.Fatalf("marshal: %v", err)
+	}
+	return &fakeMsg{data: data, acked: acked}
+}
+
+func archivedScrapeRequestMessage(t *testing.T, acked chan string, fetchURL string) *fakeMsg {
+	t.Helper()
+	data, err := scraperequestcontract.MarshalScrapeRequest(
+		scraperequestcontract.ScrapeRequest{
+			PageURL:  canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			FetchURL: canonicalurltest.CanonicalURLOf(t, fetchURL),
 		},
 	)
 	if err != nil {
@@ -213,6 +227,30 @@ func TestConsumerIndexesTheTextItDerivesFromAScrapeRequest(t *testing.T) {
 	}
 	if progress.received != 1 || progress.indexed != 1 || progress.observed != 1 {
 		t.Errorf("progress = %+v, want one received/indexed/observed", progress)
+	}
+}
+
+func TestConsumerReadsAPageFromTheFetchURLAndIndexesItUnderThePageURL(t *testing.T) {
+	const replayURL = "http://archive.example/replay/https://example.com/"
+	acked := make(chan string, 1)
+	page := fetchedPage(t, "text/html", article)
+	page.FinalURL = canonicalurltest.CanonicalURLOf(t, replayURL)
+	fetcher := fetchOf(page)
+	searchIndex := &recordingIndex{}
+
+	if err := run(t, sourceOf(archivedScrapeRequestMessage(t, acked, replayURL)),
+		fetcher, searchIndex, &recordingProgress{}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := <-acked; action != "ack" {
+		t.Errorf("action = %q, want ack", action)
+	}
+	if len(fetcher.urls) != 1 || fetcher.urls[0] != replayURL {
+		t.Errorf("fetched %v, want the fetch url", fetcher.urls)
+	}
+	if len(searchIndex.documents) != 1 || searchIndex.documents[0].URL != scrapeRequestURL {
+		t.Fatalf("indexed %v, want one document under the page url", searchIndex.documents)
 	}
 }
 

@@ -62,7 +62,7 @@ func TestDryRunSelectsNewestHTMLCapturesFromPywb(t *testing.T) {
 	}
 }
 
-func TestPublishesReplayAddressFromPywb(t *testing.T) {
+func TestPublishesTheCapturedAddressAndTheReplayAddressFromPywb(t *testing.T) {
 	ctx := context.Background()
 	network := dockernetwork.New(t, ctx)
 	archive := startPywbArchive(
@@ -84,9 +84,17 @@ func TestPublishesReplayAddressFromPywb(t *testing.T) {
 		commandArguments(archive.NetworkURL(), originURL, false),
 		map[string]string{"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL()},
 	)
-	want := archive.NetworkURL() + "/captures/20240101000000mp_/" + originURL
-	if got := subscription.next(t).CanonicalURL.String(); got != want {
-		t.Fatalf("published address = %q, want %q", got, want)
+	wantReplayAddress := archive.NetworkURL() + "/captures/20240101000000mp_/" + originURL
+	published := subscription.next(t)
+	if got := published.PageURL.String(); got != originURL {
+		t.Fatalf("published page address = %q, want the captured address %q", got, originURL)
+	}
+	if got := published.FetchURL.String(); got != wantReplayAddress {
+		t.Fatalf(
+			"published fetch address = %q, want the replay address %q",
+			got,
+			wantReplayAddress,
+		)
 	}
 }
 

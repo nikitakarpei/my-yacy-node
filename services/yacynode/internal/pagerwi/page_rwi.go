@@ -13,24 +13,25 @@ import (
 )
 
 type PageRWI struct {
-	CanonicalURL canonicalurl.CanonicalURL
-	Metadata     yacymodel.URLMetadata
-	Postings     []yacymodel.RWIPosting
+	PageURL  canonicalurl.CanonicalURL
+	Metadata yacymodel.URLMetadata
+	Postings []yacymodel.RWIPosting
 }
 
 func Of(
+	pageURL canonicalurl.CanonicalURL,
 	fetched pagefetch.FetchedPage,
 	document documentextraction.Document,
 	text []byte,
 	reachedAt time.Time,
 ) PageRWI {
-	canonicalAddress := fetched.FinalURL.WebAddress()
-	urlHash := yacymodel.URLNormalformOf(canonicalAddress).Hash()
+	pageAddress := pageURL.WebAddress()
+	urlHash := yacymodel.URLNormalformOf(pageAddress).Hash()
 
 	order, occurrences, textStats := tokenize(string(text))
 	_, _, titleStats := tokenize(document.Title)
 
-	shared := sharedPosting(fetched.FinalURL, document, reachedAt, urlHash)
+	shared := sharedPosting(pageURL, document, reachedAt, urlHash)
 	shared.TitleWords = titleStats.Words
 	shared.TextWords = textStats.Words
 	shared.Phrases = textStats.Phrases
@@ -48,9 +49,9 @@ func Of(
 	}
 
 	return PageRWI{
-		CanonicalURL: fetched.FinalURL,
+		PageURL: pageURL,
 		Metadata: metadataOf(
-			fetched.FinalURL, document, len(fetched.Body), reachedAt, textStats.Words,
+			pageURL, document, len(fetched.Body), reachedAt, textStats.Words,
 		),
 		Postings: postings,
 	}

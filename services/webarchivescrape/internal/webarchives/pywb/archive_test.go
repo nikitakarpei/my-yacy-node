@@ -33,7 +33,22 @@ const (
 		`"mime": "text/html", "status": "200"}`
 )
 
-func TestNewestReplayURLsForKeepsTheNewestReplayOfEveryPage(t *testing.T) {
+func TestNewestArchivedPagesForNamesTheURLEveryCaptureWasTakenFrom(t *testing.T) {
+	archive, _ := archiveServing(t, strings.Join([]string{firstRow, secondRow}, "\n"), nil)
+
+	newestArchivedPages := newestArchivedPagesFor(t, archive, 0)
+
+	got := make([]string, 0, len(newestArchivedPages.ArchivedPages))
+	for _, archivedPage := range newestArchivedPages.ArchivedPages {
+		got = append(got, archivedPage.PageURL.String())
+	}
+	want := []string{"https://example.com/", "https://example.com/about"}
+	if !slices.Equal(got, want) {
+		t.Errorf("page urls = %v, want %v", got, want)
+	}
+}
+
+func TestNewestArchivedPagesForKeepsTheNewestReplayOfEveryPage(t *testing.T) {
 	newerFirstRow := `{"urlkey": "com,example)/", ` +
 		`"timestamp": "20240501120000", ` +
 		`"url": "https://example.com/", ` +
@@ -44,21 +59,21 @@ func TestNewestReplayURLsForKeepsTheNewestReplayOfEveryPage(t *testing.T) {
 		nil,
 	)
 
-	newestReplayURLs := newestReplayURLsFor(t, archive, 0)
+	newestArchivedPages := newestArchivedPagesFor(t, archive, 0)
 
-	assertReplayURLs(t, newestReplayURLs, []string{
+	assertReplayURLs(t, newestArchivedPages, []string{
 		archiveURL + "/archive/20240501120000mp_/https://example.com/",
 		archiveURL + "/archive/20240102130000mp_/https://example.com/about",
 	})
-	if newestReplayURLs.CapturesRead != 3 || newestReplayURLs.HasMorePages {
+	if newestArchivedPages.CapturesRead != 3 || newestArchivedPages.HasMorePages {
 		t.Fatalf(
-			"newest replay urls = %+v, want all three rows and no more pages",
-			newestReplayURLs,
+			"newest archived pages = %+v, want all three rows and no more pages",
+			newestArchivedPages,
 		)
 	}
 }
 
-func TestNewestReplayURLsForLimitsDistinctPages(t *testing.T) {
+func TestNewestArchivedPagesForLimitsDistinctPages(t *testing.T) {
 	newerFirstRow := `{"urlkey": "com,example)/", ` +
 		`"timestamp": "20240501120000", "url": "https://example.com/"}`
 	thirdRow := `{"urlkey": "com,example)/contact", ` +
@@ -69,82 +84,91 @@ func TestNewestReplayURLsForLimitsDistinctPages(t *testing.T) {
 		nil,
 	)
 
-	newestReplayURLs := newestReplayURLsFor(t, archive, 2)
+	newestArchivedPages := newestArchivedPagesFor(t, archive, 2)
 
-	assertReplayURLs(t, newestReplayURLs, []string{
+	assertReplayURLs(t, newestArchivedPages, []string{
 		archiveURL + "/archive/20240501120000mp_/https://example.com/",
 		archiveURL + "/archive/20240102130000mp_/https://example.com/about",
 	})
-	if newestReplayURLs.CapturesRead != 4 || !newestReplayURLs.HasMorePages {
-		t.Fatalf("newest replay urls = %+v, want four rows read and more pages", newestReplayURLs)
+	if newestArchivedPages.CapturesRead != 4 || !newestArchivedPages.HasMorePages {
+		t.Fatalf(
+			"newest archived pages = %+v, want four rows read and more pages",
+			newestArchivedPages,
+		)
 	}
 }
 
-func TestNewestReplayURLsForStopsReadingAfterThePageLimit(t *testing.T) {
+func TestNewestArchivedPagesForStopsReadingAfterThePageLimit(t *testing.T) {
 	archive, _ := archiveServing(t, firstRow+"\n"+secondRow+"\nnot a capture\n", nil)
 
-	newestReplayURLs := newestReplayURLsFor(t, archive, 1)
+	newestArchivedPages := newestArchivedPagesFor(t, archive, 1)
 
-	if len(newestReplayURLs.ReplayURLs) != 1 || newestReplayURLs.CapturesRead != 2 {
-		t.Fatalf("newest replay urls = %+v, want one page from two rows", newestReplayURLs)
+	if len(newestArchivedPages.ArchivedPages) != 1 || newestArchivedPages.CapturesRead != 2 {
+		t.Fatalf("newest archived pages = %+v, want one page from two rows", newestArchivedPages)
 	}
-	if !newestReplayURLs.HasMorePages {
+	if !newestArchivedPages.HasMorePages {
 		t.Fatal("newest replay urls report no more pages")
 	}
 }
 
-func TestNewestReplayURLsForJoinsThePagesOfEveryQuery(t *testing.T) {
+func TestNewestArchivedPagesForJoinsThePagesOfEveryQuery(t *testing.T) {
 	archive, archiveURL := archiveServingPerQueriedURL(t, map[string]string{
 		"example.com": firstRow,
 		"example.org": otherHostRow,
 	})
 
-	newestReplayURLs := newestReplayURLsForBothHosts(t, archive, 0)
+	newestArchivedPages := newestArchivedPagesForBothHosts(t, archive, 0)
 
-	assertReplayURLs(t, newestReplayURLs, []string{
+	assertReplayURLs(t, newestArchivedPages, []string{
 		archiveURL + "/archive/20240101120000mp_/https://example.com/",
 		archiveURL + "/archive/20240104150000mp_/https://example.org/",
 	})
-	if newestReplayURLs.CapturesRead != 2 || newestReplayURLs.HasMorePages {
-		t.Fatalf("newest replay urls = %+v, want both hosts and no more pages", newestReplayURLs)
+	if newestArchivedPages.CapturesRead != 2 || newestArchivedPages.HasMorePages {
+		t.Fatalf(
+			"newest archived pages = %+v, want both hosts and no more pages",
+			newestArchivedPages,
+		)
 	}
 }
 
-func TestNewestReplayURLsForSpendsOnePageLimitAcrossEveryQuery(t *testing.T) {
+func TestNewestArchivedPagesForSpendsOnePageLimitAcrossEveryQuery(t *testing.T) {
 	archive, archiveURL := archiveServingPerQueriedURL(t, map[string]string{
 		"example.com": firstRow + "\n" + secondRow,
 		"example.org": otherHostRow + "\n" + otherHostSecondRow,
 	})
 
-	newestReplayURLs := newestReplayURLsForBothHosts(t, archive, 3)
+	newestArchivedPages := newestArchivedPagesForBothHosts(t, archive, 3)
 
-	assertReplayURLs(t, newestReplayURLs, []string{
+	assertReplayURLs(t, newestArchivedPages, []string{
 		archiveURL + "/archive/20240101120000mp_/https://example.com/",
 		archiveURL + "/archive/20240102130000mp_/https://example.com/about",
 		archiveURL + "/archive/20240104150000mp_/https://example.org/",
 	})
-	if newestReplayURLs.CapturesRead != 4 || !newestReplayURLs.HasMorePages {
-		t.Fatalf("newest replay urls = %+v, want four rows read and more pages", newestReplayURLs)
+	if newestArchivedPages.CapturesRead != 4 || !newestArchivedPages.HasMorePages {
+		t.Fatalf(
+			"newest archived pages = %+v, want four rows read and more pages",
+			newestArchivedPages,
+		)
 	}
 }
 
-func TestNewestReplayURLsForLeavesAQueryUnaskedOnceThePageLimitIsSpent(t *testing.T) {
+func TestNewestArchivedPagesForLeavesAQueryUnaskedOnceThePageLimitIsSpent(t *testing.T) {
 	askedURLs := []string{}
 	archive, _ := archiveServing(t, firstRow, func(request *http.Request) {
 		askedURLs = append(askedURLs, request.URL.Query().Get("url"))
 	})
 
-	newestReplayURLs := newestReplayURLsForBothHosts(t, archive, 1)
+	newestArchivedPages := newestArchivedPagesForBothHosts(t, archive, 1)
 
 	if !slices.Equal(askedURLs, []string{"example.com"}) {
 		t.Errorf("asked urls = %v, want the second query left unasked", askedURLs)
 	}
-	if len(newestReplayURLs.ReplayURLs) != 1 || !newestReplayURLs.HasMorePages {
-		t.Fatalf("newest replay urls = %+v, want one page and more pages", newestReplayURLs)
+	if len(newestArchivedPages.ArchivedPages) != 1 || !newestArchivedPages.HasMorePages {
+		t.Fatalf("newest archived pages = %+v, want one page and more pages", newestArchivedPages)
 	}
 }
 
-func TestNewestReplayURLsForAsksTheIndexForTheStatedQuery(t *testing.T) {
+func TestNewestArchivedPagesForAsksTheIndexForTheStatedQuery(t *testing.T) {
 	var asked url.Values
 	archive, _ := archiveServing(t, "", func(request *http.Request) {
 		asked = request.URL.Query()
@@ -153,7 +177,7 @@ func TestNewestReplayURLsForAsksTheIndexForTheStatedQuery(t *testing.T) {
 		}
 	})
 
-	if _, err := archive.NewestReplayURLsFor(context.Background(), []pywb.CaptureQuery{{
+	if _, err := archive.NewestArchivedPagesFor(context.Background(), []pywb.CaptureQuery{{
 		URL:        "example.com",
 		MatchType:  "domain",
 		MediaType:  "text/html",
@@ -161,7 +185,7 @@ func TestNewestReplayURLsForAsksTheIndexForTheStatedQuery(t *testing.T) {
 		From:       "2024",
 		To:         "2025",
 	}}, 50); err != nil {
-		t.Fatalf("newest replay urls for query: %v", err)
+		t.Fatalf("newest archived pages for query: %v", err)
 	}
 
 	for parameter, wanted := range map[string]string{
@@ -183,13 +207,13 @@ func TestNewestReplayURLsForAsksTheIndexForTheStatedQuery(t *testing.T) {
 	}
 }
 
-func TestNewestReplayURLsForLeavesUnstatedBoundsToTheArchive(t *testing.T) {
+func TestNewestArchivedPagesForLeavesUnstatedBoundsToTheArchive(t *testing.T) {
 	var asked url.Values
 	archive, _ := archiveServing(t, "", func(request *http.Request) {
 		asked = request.URL.Query()
 	})
 
-	newestReplayURLsFor(t, archive, 0)
+	newestArchivedPagesFor(t, archive, 0)
 
 	for _, parameter := range []string{"matchType", "filter", "from", "to", "limit"} {
 		if _, stated := asked[parameter]; stated {
@@ -198,17 +222,17 @@ func TestNewestReplayURLsForLeavesUnstatedBoundsToTheArchive(t *testing.T) {
 	}
 }
 
-func TestNewestReplayURLsForReadsNoReplayURLFromAnEmptyIndex(t *testing.T) {
+func TestNewestArchivedPagesForReadsNoPageFromAnEmptyIndex(t *testing.T) {
 	archive, _ := archiveServing(t, "", nil)
 
-	newestReplayURLs := newestReplayURLsFor(t, archive, 0)
+	newestArchivedPages := newestArchivedPagesFor(t, archive, 0)
 
-	if len(newestReplayURLs.ReplayURLs) != 0 || newestReplayURLs.CapturesRead != 0 {
-		t.Fatalf("newest replay urls = %+v, want none", newestReplayURLs)
+	if len(newestArchivedPages.ArchivedPages) != 0 || newestArchivedPages.CapturesRead != 0 {
+		t.Fatalf("newest archived pages = %+v, want none", newestArchivedPages)
 	}
 }
 
-func TestNewestReplayURLsForFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
+func TestNewestArchivedPagesForFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(
 		func(writer http.ResponseWriter, _ *http.Request) {
 			writer.WriteHeader(http.StatusNotFound)
@@ -216,71 +240,71 @@ func TestNewestReplayURLsForFailsWhenTheArchiveRefusesTheQuery(t *testing.T) {
 	))
 	t.Cleanup(server.Close)
 
-	_, err := archiveAt(t, server.URL).NewestReplayURLsFor(
+	_, err := archiveAt(t, server.URL).NewestArchivedPagesFor(
 		context.Background(),
 		[]pywb.CaptureQuery{{URL: "example.com"}},
 		0,
 	)
 	if err == nil {
-		t.Fatal("newest replay urls for query: want an error naming the answer")
+		t.Fatal("newest archived pages for query: want an error naming the answer")
 	}
 	if !strings.Contains(err.Error(), "404") {
 		t.Fatalf("error = %v, want it to name the answer", err)
 	}
 }
 
-func TestNewestReplayURLsForFailsWhenTheIndexStatesAnUnreadableCapture(t *testing.T) {
+func TestNewestArchivedPagesForFailsWhenTheIndexStatesAnUnreadableCapture(t *testing.T) {
 	archive, _ := archiveServing(t, firstRow+"\nnot a capture\n", nil)
 
-	if _, err := archive.NewestReplayURLsFor(
+	if _, err := archive.NewestArchivedPagesFor(
 		context.Background(),
 		[]pywb.CaptureQuery{{URL: "example.com"}},
 		0,
 	); err == nil {
-		t.Fatal("newest replay urls for query: want an error")
+		t.Fatal("newest archived pages for query: want an error")
 	}
 }
 
-func TestNewestReplayURLsForFailsWhenURLKeysAreOutOfOrder(t *testing.T) {
+func TestNewestArchivedPagesForFailsWhenURLKeysAreOutOfOrder(t *testing.T) {
 	archive, _ := archiveServing(t, secondRow+"\n"+firstRow+"\n", nil)
 
-	if _, err := archive.NewestReplayURLsFor(
+	if _, err := archive.NewestArchivedPagesFor(
 		context.Background(),
 		[]pywb.CaptureQuery{{URL: "example.com"}},
 		0,
 	); err == nil {
-		t.Fatal("newest replay urls for query: want an error")
+		t.Fatal("newest archived pages for query: want an error")
 	}
 }
 
-func TestNewestReplayURLsForRefusesANegativePageLimit(t *testing.T) {
+func TestNewestArchivedPagesForRefusesANegativePageLimit(t *testing.T) {
 	archive, _ := archiveServing(t, firstRow+"\n", nil)
 
-	if _, err := archive.NewestReplayURLsFor(
+	if _, err := archive.NewestArchivedPagesFor(
 		context.Background(),
 		[]pywb.CaptureQuery{{URL: "example.com"}},
 		-1,
 	); err == nil {
-		t.Fatal("newest replay urls for query: want an error")
+		t.Fatal("newest archived pages for query: want an error")
 	}
 }
 
-func TestNewestReplayURLsForFailsWhenTheArchiveIsUnreachable(t *testing.T) {
+func TestNewestArchivedPagesForFailsWhenTheArchiveIsUnreachable(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(
 		func(http.ResponseWriter, *http.Request) {},
 	))
 	server.Close()
 
-	if _, err := archiveAt(t, server.URL).NewestReplayURLsFor(
+	if _, err := archiveAt(t, server.URL).NewestArchivedPagesFor(
 		context.Background(),
 		[]pywb.CaptureQuery{{URL: "example.com"}},
 		0,
 	); err == nil {
-		t.Fatal("newest replay urls for query: want an error")
+		t.Fatal("newest archived pages for query: want an error")
 	}
 }
 
-func TestNewestReplayURLsForKeepsTheCapturedURLWhole(t *testing.T) {
+func TestNewestArchivedPagesForKeepsTheCapturedURLWhole(t *testing.T) {
 	for _, capturedURL := range []string{
 		"https://example.com/a/page",
 		"https://example.com/a/%2E%2E/page",
@@ -291,9 +315,9 @@ func TestNewestReplayURLsForKeepsTheCapturedURLWhole(t *testing.T) {
 			capturedURL + `"}`
 		archive, _ := archiveServing(t, row, nil)
 
-		newestReplayURLs := newestReplayURLsFor(t, archive, 0)
+		newestArchivedPages := newestArchivedPagesFor(t, archive, 0)
 
-		replayURL := newestReplayURLs.ReplayURLs[0].String()
+		replayURL := newestArchivedPages.ArchivedPages[0].ReplayURL.String()
 		_, readBack, exists := strings.Cut(replayURL, "mp_/")
 		if !exists || readBack != capturedURL {
 			t.Errorf("replay url carries %q, want %q", readBack, capturedURL)
@@ -301,7 +325,7 @@ func TestNewestReplayURLsForKeepsTheCapturedURLWhole(t *testing.T) {
 	}
 }
 
-func TestNewestReplayURLsForKeepsATrailingArchivePathElement(t *testing.T) {
+func TestNewestArchivedPagesForKeepsATrailingArchivePathElement(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(
 		func(writer http.ResponseWriter, _ *http.Request) {
 			_, _ = writer.Write([]byte(firstRow))
@@ -310,70 +334,70 @@ func TestNewestReplayURLsForKeepsATrailingArchivePathElement(t *testing.T) {
 	t.Cleanup(server.Close)
 	archive := archiveAt(t, server.URL+"/wayback/")
 
-	newestReplayURLs := newestReplayURLsFor(t, archive, 0)
+	newestArchivedPages := newestArchivedPagesFor(t, archive, 0)
 
 	wanted := server.URL +
 		"/wayback/archive/20240101120000mp_/https://example.com/"
-	assertReplayURLs(t, newestReplayURLs, []string{wanted})
+	assertReplayURLs(t, newestArchivedPages, []string{wanted})
 }
 
-func TestNewestReplayURLsForFailsWhenACaptureHasNoReplayURL(t *testing.T) {
+func TestNewestArchivedPagesForFailsWhenACaptureHasNoReplayURL(t *testing.T) {
 	row := `{"urlkey":"com,example)/","timestamp":"20240101120000",` +
 		`"url":"https://example.com/%zz"}`
 	archive, _ := archiveServing(t, row, nil)
 
-	if _, err := archive.NewestReplayURLsFor(
+	if _, err := archive.NewestArchivedPagesFor(
 		context.Background(),
 		[]pywb.CaptureQuery{{URL: "example.com"}},
 		0,
 	); err == nil {
-		t.Fatal("newest replay urls for query: want an error")
+		t.Fatal("newest archived pages for query: want an error")
 	}
 }
 
-func newestReplayURLsFor(
+func newestArchivedPagesFor(
 	t *testing.T,
 	archive *pywb.Archive,
 	pageLimit int,
-) pywb.NewestReplayURLs {
+) pywb.NewestArchivedPages {
 	t.Helper()
-	newestReplayURLs, err := archive.NewestReplayURLsFor(
+	newestArchivedPages, err := archive.NewestArchivedPagesFor(
 		context.Background(),
 		[]pywb.CaptureQuery{{URL: "example.com"}},
 		pageLimit,
 	)
 	if err != nil {
-		t.Fatalf("newest replay urls for query: %v", err)
+		t.Fatalf("newest archived pages for query: %v", err)
 	}
-	return newestReplayURLs
+	return newestArchivedPages
 }
 
-func newestReplayURLsForBothHosts(
+func newestArchivedPagesForBothHosts(
 	t *testing.T,
 	archive *pywb.Archive,
 	pageLimit int,
-) pywb.NewestReplayURLs {
+) pywb.NewestArchivedPages {
 	t.Helper()
-	newestReplayURLs, err := archive.NewestReplayURLsFor(
+	newestArchivedPages, err := archive.NewestArchivedPagesFor(
 		context.Background(),
 		[]pywb.CaptureQuery{{URL: "example.com"}, {URL: "example.org"}},
 		pageLimit,
 	)
 	if err != nil {
-		t.Fatalf("newest replay urls for query: %v", err)
+		t.Fatalf("newest archived pages for query: %v", err)
 	}
-	return newestReplayURLs
+	return newestArchivedPages
 }
 
 func assertReplayURLs(
 	t *testing.T,
-	newestReplayURLs pywb.NewestReplayURLs,
+	newestArchivedPages pywb.NewestArchivedPages,
 	wanted []string,
 ) {
 	t.Helper()
-	got := make([]string, 0, len(newestReplayURLs.ReplayURLs))
-	for _, replayURL := range newestReplayURLs.ReplayURLs {
-		got = append(got, replayURL.String())
+	got := make([]string, 0, len(newestArchivedPages.ArchivedPages))
+	for _, archivedPage := range newestArchivedPages.ArchivedPages {
+		got = append(got, archivedPage.ReplayURL.String())
 	}
 	if !slices.Equal(got, wanted) {
 		t.Errorf("replay urls = %v, want %v", got, wanted)

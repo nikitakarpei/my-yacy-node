@@ -254,7 +254,21 @@ func scrapeRequestMessage(t *testing.T, acked chan string) *fakeMsg {
 	t.Helper()
 	data, err := scraperequestcontract.MarshalScrapeRequest(
 		scraperequestcontract.ScrapeRequest{
-			CanonicalURL: canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			PageURL: canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+		},
+	)
+	if err != nil {
+		t.Fatalf("marshal: %v", err)
+	}
+	return &fakeMsg{data: data, acked: acked}
+}
+
+func archivedScrapeRequestMessage(t *testing.T, acked chan string, fetchURL string) *fakeMsg {
+	t.Helper()
+	data, err := scraperequestcontract.MarshalScrapeRequest(
+		scraperequestcontract.ScrapeRequest{
+			PageURL:  canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			FetchURL: canonicalurltest.CanonicalURLOf(t, fetchURL),
 		},
 	)
 	if err != nil {
@@ -367,6 +381,36 @@ func TestConsumerStoresARedirectedPageUnderTheURLTheOriginSettledOn(t *testing.T
 	if redirections.byRequestedURL[scrapeRequestURL] != redirectedToURL {
 		t.Errorf("redirections = %v, want the requested url leading to the settled one",
 			redirections.byRequestedURL)
+	}
+}
+
+func TestConsumerReadsAPageFromTheFetchURLAndStoresItUnderThePageURL(t *testing.T) {
+	const replayURL = "http://archive.example/replay/https://example.com/"
+	acked := make(chan string, 1)
+	corpus := &recordingCorpus{}
+	redirections := &recordingRedirections{}
+	fetcher := fetchOf(fetchedPageAt(t, replayURL, "text/html", article))
+
+	if err := runRecording(t, intakeUnderTest{
+		source:       sourceOf(archivedScrapeRequestMessage(t, acked, replayURL)),
+		fetcher:      fetcher,
+		corpus:       corpus,
+		redirections: redirections,
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := <-acked; action != "ack" {
+		t.Errorf("action = %q, want ack", action)
+	}
+	if len(fetcher.urls) != 1 || fetcher.urls[0] != replayURL {
+		t.Errorf("fetched %v, want the fetch url", fetcher.urls)
+	}
+	if _, stored := corpus.markdown[scrapeRequestURL]; !stored {
+		t.Errorf("stored under %v, want the page url", corpus.markdown)
+	}
+	if len(redirections.byRequestedURL) != 0 {
+		t.Errorf("redirections = %v, want none", redirections.byRequestedURL)
 	}
 }
 

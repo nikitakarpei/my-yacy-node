@@ -8,7 +8,17 @@ import (
 )
 
 type ScrapeRequest struct {
-	CanonicalURL canonicalurl.CanonicalURL `json:"CanonicalURL"`
+	PageURL  canonicalurl.CanonicalURL `json:"PageURL"`
+	FetchURL canonicalurl.CanonicalURL `json:"FetchURL,omitzero"`
+}
+
+func (r ScrapeRequest) PageURLFrom(
+	landedURL canonicalurl.CanonicalURL,
+) canonicalurl.CanonicalURL {
+	if r.FetchURL == r.PageURL {
+		return landedURL
+	}
+	return r.PageURL
 }
 
 func MarshalScrapeRequest(request ScrapeRequest) ([]byte, error) {
@@ -23,6 +33,9 @@ func UnmarshalScrapeRequest(data []byte) (ScrapeRequest, error) {
 	var request ScrapeRequest
 	if err := json.Unmarshal(data, &request); err != nil {
 		return ScrapeRequest{}, fmt.Errorf("unmarshal scrape request: %w", err)
+	}
+	if request.FetchURL == (canonicalurl.CanonicalURL{}) {
+		request.FetchURL = request.PageURL
 	}
 	return request, nil
 }
