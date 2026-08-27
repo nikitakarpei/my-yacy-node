@@ -122,6 +122,19 @@ func TestLoadServiceConfigOverrides(t *testing.T) {
 	}
 }
 
+func TestPendingVisitAckWaitOutlastsTheFetchDeadline(t *testing.T) {
+	env := baseEnv()
+	env["YACYCRAWLER_FETCH_DEADLINE"] = "5s"
+	cfg, err := yacycrawler.LoadServiceConfig(envFrom(env))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cfg.PendingVisitAckWait() <= 5*time.Second {
+		t.Fatalf("pending visit ack wait = %v, want longer than the fetch deadline",
+			cfg.PendingVisitAckWait())
+	}
+}
+
 func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 	for _, bad := range []map[string]string{
 		{"YACYCRAWLER_FETCH_CONCURRENCY": "0"},

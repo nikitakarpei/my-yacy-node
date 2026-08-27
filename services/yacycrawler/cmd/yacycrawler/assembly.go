@@ -22,7 +22,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitintake"
 	pendingvisitsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingvisits/jetstream"
 	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
@@ -33,18 +32,10 @@ import (
 )
 
 const (
-	fetchRetryLimit        = 3
-	fetchRetryFloor        = 500 * time.Millisecond
-	fetchRetryCeiling      = 30 * time.Second
-	maxDeferPerURL         = 3
-	opsReadHeaderLimit     = 10 * time.Second
-	opsShutdownLimit       = 15 * time.Second
-	ordersAckWait          = 30 * time.Second
-	orderIntakeConcurrency = 4
-	visitAckWaitOfDeadline = 3
-	pendingVisitDuplicates = 2 * time.Minute
-	msgServiceStarted      = "crawler started"
-	msgServiceStopped      = "crawler stopped"
+	opsReadHeaderLimit = 10 * time.Second
+	opsShutdownLimit   = 15 * time.Second
+	msgServiceStarted  = "crawler started"
+	msgServiceStopped  = "crawler stopped"
 )
 
 func RunService(
@@ -102,7 +93,7 @@ func ensureNATSState(ctx context.Context, js jetstream.JetStream, cfg ServiceCon
 	if err := ensureOrdersStream(ctx, js, cfg.CrawlOrdersSubject); err != nil {
 		return err
 	}
-	if err := ensureFrontierStream(ctx, js); err != nil {
+	if err := ensureFrontierStream(ctx, js, cfg); err != nil {
 		return err
 	}
 	if err := visitclaimsjetstream.Ensure(ctx, js, cfg.VisitClaimBucketSpec()); err != nil {
@@ -125,12 +116,12 @@ func ensureOrdersStream(ctx context.Context, js jetstream.JetStream, subject str
 	return nil
 }
 
-func ensureFrontierStream(ctx context.Context, js jetstream.JetStream) error {
+func ensureFrontierStream(ctx context.Context, js jetstream.JetStream, cfg ServiceConfig) error {
 	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
 		Name:       pendingvisit.StreamName,
 		Subjects:   []string{pendingvisit.Subject},
 		Retention:  jetstream.WorkQueuePolicy,
-		Duplicates: pendingVisitDuplicates,
+		Duplicates: cfg.PendingVisitDuplicateWindow(),
 	}); err != nil {
 		return fmt.Errorf("ensure frontier stream: %w", err)
 	}
@@ -170,7 +161,7 @@ func buildOrderConsumer(
 		orders,
 		pendingvisitsjetstream.New(js),
 		metrics,
-		orderIntakeConcurrency,
+		cfg.OrderIntakeConcurrency(),
 	), nil
 }
 
@@ -185,7 +176,7 @@ func buildVisitConsumer(
 	if err != nil {
 		return nil, err
 	}
-	claims, err := visitClaims(ctx, js)
+	claims, err := visitClaims(ctx, js, cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -204,7 +195,7 @@ func buildVisitConsumer(
 		pendingvisitsjetstream.New(js),
 		visitorFor,
 		metrics,
-		retrydelay.Bounds{Floor: fetchRetryFloor, Ceiling: fetchRetryCeiling},
+		cfg.FetchRetryBounds(),
 		cfg.FetchConcurrency,
 	), nil
 }
@@ -212,15 +203,13 @@ func buildVisitConsumer(
 func visitClaims(
 	ctx context.Context,
 	js jetstream.JetStream,
+	cfg ServiceConfig,
 ) (*visitclaimsjetstream.Claims, error) {
 	bucket, err := js.KeyValue(ctx, visitclaimsjetstream.BucketName)
 	if err != nil {
 		return nil, fmt.Errorf("open visit claim bucket: %w", err)
 	}
-	return visitclaimsjetstream.New(bucket, visitclaimsjetstream.Config{
-		MaxDeferralsPerURL: maxDeferPerURL,
-		MaxAttemptsPerURL:  fetchRetryLimit,
-	}), nil
+	return visitclaimsjetstream.New(bucket, cfg.VisitClaimAllowances()), nil
 }
 
 func acceptedOrders(
@@ -285,7 +274,7 @@ func ordersConsumer(
 			Durable:       cfg.CrawlOrdersDurable,
 			FilterSubject: cfg.CrawlOrdersSubject,
 			AckPolicy:     jetstream.AckExplicitPolicy,
-			AckWait:       ordersAckWait,
+			AckWait:       cfg.CrawlOrdersAckWait(),
 		})
 	if err != nil {
 		return nil, fmt.Errorf("create orders consumer: %w", err)
@@ -303,7 +292,7 @@ func visitsConsumer(
 			Durable:       cfg.PendingVisitDurable,
 			FilterSubject: pendingvisit.Subject,
 			AckPolicy:     jetstream.AckExplicitPolicy,
-			AckWait:       cfg.FetchDeadline * visitAckWaitOfDeadline,
+			AckWait:       cfg.PendingVisitAckWait(),
 		})
 	if err != nil {
 		return nil, fmt.Errorf("create pending visit consumer: %w", err)

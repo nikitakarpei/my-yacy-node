@@ -8,6 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 	acceptedordersjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/acceptedorders/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	visitclaimsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/visitclaims/jetstream"
 )
@@ -49,6 +50,8 @@ const (
 	DefaultAcceptedOrderMaxBytes  = 64 << 20
 )
 
+const pendingVisitAckWaitsPerFetchDeadline = 3
+
 type ServiceConfig struct {
 	CrawlNATSURL         string
 	ScrapeRequestNATSURL string
@@ -84,6 +87,36 @@ func (ServiceConfig) AcceptedOrderBucketSpec() acceptedordersjetstream.BucketSpe
 		MaxBytes:  DefaultAcceptedOrderMaxBytes,
 		Retention: DefaultAcceptedOrderRetention,
 	}
+}
+
+func (ServiceConfig) FetchRetryBounds() retrydelay.Bounds {
+	return retrydelay.Bounds{
+		Floor:   500 * time.Millisecond,
+		Ceiling: 30 * time.Second,
+	}
+}
+
+func (ServiceConfig) VisitClaimAllowances() visitclaimsjetstream.Config {
+	return visitclaimsjetstream.Config{
+		MaxDeferralsPerURL: 3,
+		MaxAttemptsPerURL:  3,
+	}
+}
+
+func (ServiceConfig) CrawlOrdersAckWait() time.Duration {
+	return 30 * time.Second
+}
+
+func (ServiceConfig) OrderIntakeConcurrency() int {
+	return 4
+}
+
+func (cfg ServiceConfig) PendingVisitAckWait() time.Duration {
+	return cfg.FetchDeadline * pendingVisitAckWaitsPerFetchDeadline
+}
+
+func (ServiceConfig) PendingVisitDuplicateWindow() time.Duration {
+	return 2 * time.Minute
 }
 
 type serviceLimits struct {
