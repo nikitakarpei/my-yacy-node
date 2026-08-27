@@ -13,9 +13,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitallowance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitclaim"
 )
 
@@ -32,15 +33,23 @@ type VisitClaims interface {
 		url canonicalurl.CanonicalURL,
 		holder string,
 	) (visitclaim.Claim, error)
-	SpendHostPage(
+}
+
+type VisitAllowance interface {
+	HostPageFor(
 		ctx context.Context,
-		orderID string,
-		url canonicalurl.CanonicalURL,
-		host string,
+		visit pendingvisit.PendingVisit,
 		maxPages int,
-	) (bool, error)
-	Defer(ctx context.Context, orderID string, url canonicalurl.CanonicalURL) (bool, error)
-	Retry(ctx context.Context, orderID string, url canonicalurl.CanonicalURL) (int, bool, error)
+	) (visitallowance.Allowance, error)
+	DeferralFor(
+		ctx context.Context,
+		visit pendingvisit.PendingVisit,
+		deferFor time.Duration,
+	) (visitallowance.Allowance, error)
+	AttemptFor(
+		ctx context.Context,
+		visit pendingvisit.PendingVisit,
+	) (visitallowance.Allowance, error)
 }
 
 type AcceptedOrders interface {
@@ -59,11 +68,11 @@ type PendingVisitProgress interface {
 type VisitConsumer struct {
 	source           pullintake.MessageSource
 	claims           VisitClaims
+	allowance        VisitAllowance
 	orders           AcceptedOrders
 	frontier         PendingVisits
 	visitorFor       pagevisit.VisitorFor
 	observer         PendingVisitProgress
-	retryDelay       retrydelay.Bounds
 	fetchConcurrency int
 }
 
@@ -71,21 +80,21 @@ type VisitConsumer struct {
 func NewVisitConsumer(
 	source pullintake.MessageSource,
 	claims VisitClaims,
+	allowance VisitAllowance,
 	orders AcceptedOrders,
 	frontier PendingVisits,
 	visitorFor pagevisit.VisitorFor,
 	observer PendingVisitProgress,
-	retryDelay retrydelay.Bounds,
 	fetchConcurrency int,
 ) *VisitConsumer {
 	return &VisitConsumer{
 		source:           source,
 		claims:           claims,
+		allowance:        allowance,
 		orders:           orders,
 		frontier:         frontier,
 		visitorFor:       visitorFor,
 		observer:         observer,
-		retryDelay:       retryDelay,
 		fetchConcurrency: fetchConcurrency,
 	}
 }
@@ -172,19 +181,23 @@ func (c *VisitConsumer) spendHostPage(
 	order acceptedorder.AcceptedOrder,
 	pendingVisit pendingvisit.PendingVisit,
 ) bool {
-	spent, err := c.claims.SpendHostPage(
-		ctx,
-		pendingVisit.OrderID,
-		pendingVisit.URL,
-		pendingVisit.URL.Hostname(),
-		order.MaxPagesPerHost(),
-	)
-	if err != nil {
-		c.returnVisit(ctx, message, pendingVisit, err)
+	allowance, err := c.allowance.HostPageFor(ctx, pendingVisit, order.MaxPagesPerHost())
+	return c.carryOutAllowance(ctx, message, pendingVisit, allowance, err)
+}
+
+func (c *VisitConsumer) carryOutAllowance(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+	pendingVisit pendingvisit.PendingVisit,
+	allowance visitallowance.Allowance,
+	cause error,
+) bool {
+	if cause != nil {
+		c.returnVisit(ctx, message, pendingVisit, cause)
 		return false
 	}
-	if !spent {
-		c.dropExhaustedVisit(ctx, message, pendingVisit, disposal.HostPagesExhausted)
+	if !allowance.Granted {
+		c.dropExhaustedVisit(ctx, message, pendingVisit, allowance.Exhausted)
 		return false
 	}
 	return true
@@ -194,19 +207,19 @@ func (c *VisitConsumer) dropExhaustedVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	pendingVisit pendingvisit.PendingVisit,
-	allowance disposal.Reason,
+	exhausted disposal.Reason,
 ) {
 	slog.WarnContext(ctx, msgAllowanceExhausted,
 		slog.String("order", pendingVisit.OrderID),
 		slog.String("url", pendingVisit.URL.String()),
-		slog.String("allowance", string(allowance)),
+		slog.String("allowance", string(exhausted)),
 	)
-	c.observer.PageDisposed(allowance)
+	c.observer.PageDisposed(exhausted)
 	message.Acknowledge(ctx)
 }
 
-func ignoredRefusalsOf(order acceptedorder.AcceptedOrder) pagevisit.IgnoredRefusals {
-	return pagevisit.IgnoredRefusals{IndexingRefusal: order.IgnoresIndexingRefusal()}
+func ignoredRefusalsOf(order acceptedorder.AcceptedOrder) pagerefusals.IgnoredRefusals {
+	return pagerefusals.IgnoredRefusals{IndexingRefusal: order.IgnoresIndexingRefusal()}
 }
 
 func (c *VisitConsumer) carryOutConclusion(
@@ -232,17 +245,12 @@ func (c *VisitConsumer) deferVisit(
 	pendingVisit pendingvisit.PendingVisit,
 	deferFor time.Duration,
 ) {
-	deferred, err := c.claims.Defer(ctx, pendingVisit.OrderID, pendingVisit.URL)
-	if err != nil {
-		c.returnVisit(ctx, message, pendingVisit, err)
-		return
-	}
-	if !deferred {
-		c.dropExhaustedVisit(ctx, message, pendingVisit, disposal.DeferralsExhausted)
+	allowance, err := c.allowance.DeferralFor(ctx, pendingVisit, deferFor)
+	if !c.carryOutAllowance(ctx, message, pendingVisit, allowance, err) {
 		return
 	}
 	c.observer.DeferralHonored()
-	message.ReturnAfter(ctx, deferFor)
+	message.ReturnAfter(ctx, allowance.PauseFor)
 }
 
 func (c *VisitConsumer) retryVisit(
@@ -250,16 +258,11 @@ func (c *VisitConsumer) retryVisit(
 	message pullintake.PendingMessage,
 	pendingVisit pendingvisit.PendingVisit,
 ) {
-	attempt, retried, err := c.claims.Retry(ctx, pendingVisit.OrderID, pendingVisit.URL)
-	if err != nil {
-		c.returnVisit(ctx, message, pendingVisit, err)
+	allowance, err := c.allowance.AttemptFor(ctx, pendingVisit)
+	if !c.carryOutAllowance(ctx, message, pendingVisit, allowance, err) {
 		return
 	}
-	if !retried {
-		c.dropExhaustedVisit(ctx, message, pendingVisit, disposal.RetriesExhausted)
-		return
-	}
-	message.ReturnAfter(ctx, c.retryDelay.Delay(attempt))
+	message.ReturnAfter(ctx, allowance.PauseFor)
 }
 
 func (c *VisitConsumer) completeVisit(
@@ -269,7 +272,7 @@ func (c *VisitConsumer) completeVisit(
 	pendingVisit pendingvisit.PendingVisit,
 	outcome pagevisit.VisitOutcome,
 ) {
-	if outcome.Disposed() {
+	if outcome.Disposal.Disposes() {
 		c.observer.PageDisposed(outcome.Disposal)
 	}
 	if err := c.putDiscoveredURLsOnFrontier(

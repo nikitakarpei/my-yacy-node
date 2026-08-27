@@ -10,12 +10,7 @@ commonVendors:
   - scraperequestcontract
   - canonicalurl
 
-commonComponents:
-  - clock
-
 components:
-  clock:
-    in: internal/crawl/clock/**
   disposal:
     in: internal/crawl/disposal/**
   retrydelay:
@@ -42,6 +37,10 @@ components:
     in: internal/crawl/pagerefusals/**
   linkdiscovery:
     in: internal/crawl/linkdiscovery/**
+  pagehtmlreading:
+    in: internal/crawl/pagehtmlreading/**
+  visitallowance:
+    in: internal/crawl/visitallowance/**
   recrawlrulesalwaysdue:
     in: internal/recrawlrules/alwaysdue/**
   recrawlrulesdueaftergrace:
@@ -54,6 +53,8 @@ components:
     in: internal/jetstreamrecord/**
   visitclaimsjetstream:
     in: internal/visitclaims/jetstream/**
+  hostpageallowancesjetstream:
+    in: internal/hostpageallowances/jetstream/**
   progressobserversprometheus:
     in: internal/progressobservers/prometheus/**
   scraperequestsjetstream:
@@ -120,10 +121,11 @@ deps:
     mayDependOn:
       - disposal
       - visitclaim
-      - retrydelay
+      - visitallowance
       - pendingvisit
       - acceptedorder
       - pagevisit
+      - pagerefusals
     canUse:
       - canonicalurl
       - yacycrawlcontract
@@ -137,23 +139,34 @@ deps:
   pagerefusals:
     mayDependOn:
       - pagehtml
-    canUse:
-      - nethtml
   linkdiscovery:
     mayDependOn:
       - pagehtml
     canUse:
       - canonicalurl
-      - nethtml
   pagevisit:
     mayDependOn:
       - disposal
+      - pagehtmlreading
+      - pagerefusals
+    canUse:
+      - canonicalurl
+      - pagefetch
+  pagehtmlreading:
+    mayDependOn:
       - pagehtml
       - pagerefusals
       - linkdiscovery
     canUse:
       - canonicalurl
       - pagefetch
+  visitallowance:
+    mayDependOn:
+      - disposal
+      - pendingvisit
+      - retrydelay
+    canUse:
+      - canonicalurl
   recrawlrulesalwaysdue:
     mayDependOn:
       - pagevisit
@@ -162,12 +175,14 @@ deps:
   recrawlrulesdueaftergrace:
     mayDependOn:
       - pagevisit
+      - jetstreamrecord
     canUse:
       - nats
       - pagefetch
   acceptedordersjetstream:
     mayDependOn:
       - acceptedorder
+      - jetstreamrecord
     canUse:
       - nats
       - yacycrawlcontract
@@ -187,6 +202,12 @@ deps:
       - nats
       - canonicalurl
       - yacycrawlcontract
+  hostpageallowancesjetstream:
+    mayDependOn:
+      - jetstreamrecord
+    canUse:
+      - nats
+      - canonicalurl
   scraperequestsjetstream:
     canUse:
       - nats

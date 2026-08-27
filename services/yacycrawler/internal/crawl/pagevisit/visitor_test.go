@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
@@ -173,7 +174,7 @@ func newVisitor(
 	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.Visitor {
 	return newVisitorFor(fetcher, recrawl, observer, scrapeRequests)(
-		pagevisit.IgnoredRefusals{})
+		pagerefusals.IgnoredRefusals{})
 }
 
 func newVisitorFor(

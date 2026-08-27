@@ -4,12 +4,10 @@ import (
 	"errors"
 	"testing"
 
-	"golang.org/x/net/html/atom"
-
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 )
 
-const page = `<html><head><title>t</title></head><body><a href="/next">next</a></body></html>`
+const page = `<html><head><title>t</title></head><body><a href="/first">first</a><a href="/second">second</a></body></html>`
 
 func TestElementTreeFromRejectsABodyThatIsNotHTML(t *testing.T) {
 	if _, err := pagehtml.ElementTreeFrom(t.Context(), "application/pdf", []byte(page)); !errors.Is(
@@ -32,36 +30,53 @@ func TestElementTreeFromAcceptsTheHTMLMediaTypes(t *testing.T) {
 	}
 }
 
-func TestElementsYieldsEveryElementInDocumentOrder(t *testing.T) {
+func TestElementsNamedYieldsEveryElementOfThatNameInDocumentOrder(t *testing.T) {
 	tree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(page))
 	if err != nil {
 		t.Fatalf("ElementTreeFrom: %v", err)
 	}
 
-	var seen []atom.Atom
-	for node := range tree.Elements() {
-		seen = append(seen, node.DataAtom)
+	var hrefs []string
+	for element := range tree.ElementsNamed("a") {
+		href, _ := element.AttributeOf("href")
+		hrefs = append(hrefs, href)
 	}
 
-	want := []atom.Atom{atom.Html, atom.Head, atom.Title, atom.Body, atom.A}
-	if len(seen) != len(want) {
-		t.Fatalf("elements = %v, want %v", seen, want)
+	want := []string{"/first", "/second"}
+	if len(hrefs) != len(want) {
+		t.Fatalf("hrefs = %v, want %v", hrefs, want)
 	}
-	for i, atomWanted := range want {
-		if seen[i] != atomWanted {
-			t.Fatalf("elements = %v, want %v", seen, want)
+	for i, hrefWanted := range want {
+		if hrefs[i] != hrefWanted {
+			t.Fatalf("hrefs = %v, want %v", hrefs, want)
 		}
 	}
 }
 
-func TestElementsStopsWhenTheReaderStops(t *testing.T) {
+func TestElementsNamedSkipsEveryOtherElement(t *testing.T) {
+	tree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(page))
+	if err != nil {
+		t.Fatalf("ElementTreeFrom: %v", err)
+	}
+
+	titles := 0
+	for range tree.ElementsNamed("title") {
+		titles++
+	}
+
+	if titles != 1 {
+		t.Fatalf("title elements = %d, want 1", titles)
+	}
+}
+
+func TestElementsNamedStopsWhenTheReaderStops(t *testing.T) {
 	tree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(page))
 	if err != nil {
 		t.Fatalf("ElementTreeFrom: %v", err)
 	}
 
 	visited := 0
-	for range tree.Elements() {
+	for range tree.ElementsNamed("a") {
 		visited++
 		break
 	}
@@ -79,15 +94,12 @@ func TestAttributeOfReadsAKeyWhateverItsCase(t *testing.T) {
 		t.Fatalf("ElementTreeFrom: %v", err)
 	}
 
-	for node := range tree.Elements() {
-		if node.DataAtom != atom.A {
-			continue
-		}
-		href, ok := pagehtml.AttributeOf(node, "href")
+	for element := range tree.ElementsNamed("a") {
+		href, ok := element.AttributeOf("href")
 		if !ok || href != "/next" {
 			t.Fatalf("href = %q, present = %v", href, ok)
 		}
-		if _, ok := pagehtml.AttributeOf(node, "rel"); ok {
+		if _, ok := element.AttributeOf("rel"); ok {
 			t.Fatal("an absent attribute reports itself absent")
 		}
 	}

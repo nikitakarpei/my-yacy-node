@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"golang.org/x/net/html"
+	"golang.org/x/net/html/atom"
 	"golang.org/x/net/html/charset"
 )
 
@@ -46,7 +47,7 @@ func ElementTreeFrom(ctx context.Context, contentType string, body []byte) (Elem
 func isHTML(ctx context.Context, contentType string) bool {
 	media, _, err := mime.ParseMediaType(contentType)
 	if err != nil {
-		slog.DebugContext(ctx, msgMediaTypeUnparsed,
+		slog.WarnContext(ctx, msgMediaTypeUnparsed,
 			slog.String("contentType", contentType),
 			slog.Any("error", err),
 		)
@@ -55,14 +56,15 @@ func isHTML(ctx context.Context, contentType string) bool {
 	return media == mediaHTML || media == mediaXHTML
 }
 
-func (t ElementTree) Elements() iter.Seq[*html.Node] {
-	return func(yield func(*html.Node) bool) {
+func (t ElementTree) ElementsNamed(name string) iter.Seq[Element] {
+	return func(yield func(Element) bool) {
 		if t.root == nil {
 			return
 		}
+		wanted := atom.Lookup([]byte(strings.ToLower(name)))
 		var walk func(*html.Node) bool
 		walk = func(node *html.Node) bool {
-			if node.Type == html.ElementNode && !yield(node) {
+			if isNamed(node, name, wanted) && !yield(Element{node: node}) {
 				return false
 			}
 			for child := node.FirstChild; child != nil; child = child.NextSibling {
@@ -76,8 +78,22 @@ func (t ElementTree) Elements() iter.Seq[*html.Node] {
 	}
 }
 
-func AttributeOf(node *html.Node, key string) (string, bool) {
-	for _, attr := range node.Attr {
+func isNamed(node *html.Node, name string, wanted atom.Atom) bool {
+	if node.Type != html.ElementNode {
+		return false
+	}
+	if wanted != 0 {
+		return node.DataAtom == wanted
+	}
+	return strings.EqualFold(node.Data, name)
+}
+
+type Element struct {
+	node *html.Node
+}
+
+func (e Element) AttributeOf(key string) (string, bool) {
+	for _, attr := range e.node.Attr {
 		if strings.EqualFold(attr.Key, key) {
 			return attr.Val, true
 		}

@@ -3,14 +3,14 @@ package pagevisit
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 )
 
@@ -26,7 +26,7 @@ type Visitor interface {
 type visitor struct {
 	fetcher         pagefetch.Fetcher
 	recrawl         RecrawlRule
-	ignoredRefusals IgnoredRefusals
+	ignoredRefusals pagerefusals.IgnoredRefusals
 	progress        VisitProgress
 	scrapeRequests  ScrapeRequests
 }
@@ -94,48 +94,25 @@ func (v *visitor) visitFetchedPage(
 	if page.Truncated {
 		return completedOutcome(disposal.Oversized, noDiscoveredURLs), nil
 	}
-	elementTree, readable := elementTreeOfPage(ctx, page)
-	if !readable {
-		return completedOutcome(disposal.UnsupportedMediaType, noDiscoveredURLs), nil
-	}
-	refusals := refusalsHonoredBy(
-		pagerefusals.RefusalsOfPage(page.RobotsDirectives, elementTree),
-		v.ignoredRefusals,
-	)
-	v.reportRefusalsHonored(refusals)
-	discoveredURLs := discoveredURLsFrom(ctx, elementTree, page.LandedURL, refusals)
-	if refusals.RefusesIndexing {
-		return completedOutcome(disposal.IndexingRefused, discoveredURLs), nil
-	}
-	if err := v.requestScrape(ctx, page.LandedURL); err != nil {
-		return VisitOutcome{}, err
-	}
-	return completedOutcome(disposal.NotDisposed, discoveredURLs), nil
-}
-
-func elementTreeOfPage(
-	ctx context.Context,
-	page pagefetch.FetchedPage,
-) (pagehtml.ElementTree, bool) {
-	elementTree, err := pagehtml.ElementTreeFrom(ctx, page.ContentType, page.Body)
-	if err != nil {
+	reading, err := pagehtmlreading.ReadingOfPage(ctx, page, v.ignoredRefusals)
+	if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
 		slog.WarnContext(ctx, msgPageHTMLUnreadable,
 			slog.String("url", page.LandedURL.String()),
 			slog.Any("error", err),
 		)
-		return pagehtml.ElementTree{}, false
+		return completedOutcome(disposal.UnsupportedMediaType, noDiscoveredURLs), nil
 	}
-	return elementTree, true
-}
-
-func refusalsHonoredBy(
-	stated pagerefusals.Refusals,
-	ignored IgnoredRefusals,
-) pagerefusals.Refusals {
-	return pagerefusals.Refusals{
-		RefusesIndexing:      stated.RefusesIndexing && !ignored.IndexingRefusal,
-		RefusesLinkDiscovery: stated.RefusesLinkDiscovery,
+	if err != nil {
+		return VisitOutcome{}, err
 	}
+	v.reportRefusalsHonored(reading.Refusals)
+	if reading.Refusals.RefusesIndexing {
+		return completedOutcome(disposal.IndexingRefused, reading.DiscoveredURLs), nil
+	}
+	if err := v.requestScrape(ctx, page.LandedURL); err != nil {
+		return VisitOutcome{}, err
+	}
+	return completedOutcome(disposal.NotDisposed, reading.DiscoveredURLs), nil
 }
 
 func (v *visitor) reportRefusalsHonored(refusals pagerefusals.Refusals) {
@@ -145,18 +122,6 @@ func (v *visitor) reportRefusalsHonored(refusals pagerefusals.Refusals) {
 	if refusals.RefusesLinkDiscovery {
 		v.progress.LinkDiscoveryRefusalHonored()
 	}
-}
-
-func discoveredURLsFrom(
-	ctx context.Context,
-	elementTree pagehtml.ElementTree,
-	landedURL canonicalurl.CanonicalURL,
-	refusals pagerefusals.Refusals,
-) []canonicalurl.CanonicalURL {
-	if refusals.RefusesLinkDiscovery {
-		return nil
-	}
-	return linkdiscovery.LinkedURLsFrom(ctx, elementTree, landedURL)
 }
 
 func (v *visitor) requestScrape(

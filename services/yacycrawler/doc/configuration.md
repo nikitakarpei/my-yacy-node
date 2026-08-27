@@ -16,10 +16,6 @@ The crawler publishes a scrape request for every page it admits on the `scrape.r
 subject of the `SCRAPE_REQUESTS` stream. Neither is configurable. The crawler does not
 create that stream. An operator creates it before the crawler starts.
 
-The crawler creates the `YACY_CRAWL_FRONTIER` stream, which holds one message per URL an
-order still owes a visit, and the `YACY_VISIT_CLAIMS` and `YACY_ACCEPTED_ORDERS` buckets.
-Every instance reads and writes all three, so a run continues on any instance that is up.
-
 ## Fetching
 
 | Variable | Default | Meaning |

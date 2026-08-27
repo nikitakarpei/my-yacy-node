@@ -4,9 +4,6 @@ package pagerefusals
 import (
 	"strings"
 
-	"golang.org/x/net/html"
-	"golang.org/x/net/html/atom"
-
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 )
 
@@ -14,6 +11,8 @@ const (
 	directiveNoIndex  = "noindex"
 	directiveNoFollow = "nofollow"
 	directiveNone     = "none"
+
+	elementMeta = "meta"
 )
 
 type Refusals struct {
@@ -21,15 +20,24 @@ type Refusals struct {
 	RefusesLinkDiscovery bool
 }
 
+type IgnoredRefusals struct {
+	IndexingRefusal bool
+}
+
+func (refusals Refusals) HonoredBy(ignored IgnoredRefusals) Refusals {
+	return Refusals{
+		RefusesIndexing:      refusals.RefusesIndexing && !ignored.IndexingRefusal,
+		RefusesLinkDiscovery: refusals.RefusesLinkDiscovery,
+	}
+}
+
 func RefusalsOfPage(robotsDirectives []string, elementTree pagehtml.ElementTree) Refusals {
 	var refusals Refusals
 	for _, stated := range robotsDirectives {
 		refusals.readDirectives(stated)
 	}
-	for node := range elementTree.Elements() {
-		if node.DataAtom == atom.Meta {
-			refusals.readMetaRobots(node)
-		}
+	for element := range elementTree.ElementsNamed(elementMeta) {
+		refusals.readMetaRobots(element)
 	}
 	return refusals
 }
@@ -48,12 +56,12 @@ func (refusals *Refusals) readDirectives(stated string) {
 	}
 }
 
-func (refusals *Refusals) readMetaRobots(node *html.Node) {
-	name, ok := pagehtml.AttributeOf(node, "name")
+func (refusals *Refusals) readMetaRobots(element pagehtml.Element) {
+	name, ok := element.AttributeOf("name")
 	if !ok || !strings.EqualFold(strings.TrimSpace(name), "robots") {
 		return
 	}
-	content, ok := pagehtml.AttributeOf(node, "content")
+	content, ok := element.AttributeOf("content")
 	if !ok {
 		return
 	}

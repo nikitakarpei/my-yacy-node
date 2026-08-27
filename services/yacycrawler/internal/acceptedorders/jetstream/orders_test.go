@@ -10,13 +10,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/acceptedorders/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	jetstreamrecord "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
 )
 
 func acceptedOrders(t *testing.T) *jetstream.Orders {
 	t.Helper()
 	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 	ctx := context.Background()
-	if err := jetstream.Ensure(ctx, js, jetstream.BucketSpec{}); err != nil {
+	if err := jetstream.Ensure(ctx, js, jetstreamrecord.BucketSpec{}); err != nil {
 		t.Fatalf("ensure bucket: %v", err)
 	}
 	bucket, err := js.KeyValue(ctx, jetstream.BucketName)

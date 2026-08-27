@@ -24,10 +24,6 @@ type VisitOutcome struct {
 	Disposal       disposal.Reason
 }
 
-func (outcome VisitOutcome) Disposed() bool {
-	return outcome.Disposal.Disposes()
-}
-
 func completedOutcome(
 	reason disposal.Reason,
 	discoveredURLs []canonicalurl.CanonicalURL,

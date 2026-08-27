@@ -7,20 +7,23 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/clock"
 )
 
 type FetchProgress interface {
 	FetchCompleted(elapsed time.Duration)
 }
 
+type Clock interface {
+	Now() time.Time
+}
+
 type Fetch struct {
 	observer FetchProgress
-	clock    clock.Clock
+	clock    Clock
 	fetcher  pagefetch.Fetcher
 }
 
-func New(observer FetchProgress, clock clock.Clock, fetcher pagefetch.Fetcher) *Fetch {
+func New(observer FetchProgress, clock Clock, fetcher pagefetch.Fetcher) *Fetch {
 	return &Fetch{observer: observer, clock: clock, fetcher: fetcher}
 }
 

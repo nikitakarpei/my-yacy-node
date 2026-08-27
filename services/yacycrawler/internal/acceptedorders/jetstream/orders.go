@@ -4,33 +4,23 @@ package jetstream
 
 import (
 	"context"
-	"crypto/sha256"
-	"encoding/hex"
 	"fmt"
-	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
 )
 
 const BucketName = "YACY_ACCEPTED_ORDERS"
 
-type BucketSpec struct {
-	MaxBytes  int64
-	Retention time.Duration
-}
-
-func Ensure(ctx context.Context, js jetstream.JetStream, spec BucketSpec) error {
-	if _, err := js.CreateOrUpdateKeyValue(ctx, jetstream.KeyValueConfig{
-		Bucket:   BucketName,
-		MaxBytes: spec.MaxBytes,
-		TTL:      spec.Retention,
-	}); err != nil {
-		return fmt.Errorf("ensure accepted order bucket: %w", err)
-	}
-	return nil
+func Ensure(
+	ctx context.Context,
+	js jetstream.JetStream,
+	spec jetstreamrecord.BucketSpec,
+) error {
+	return jetstreamrecord.EnsureBucket(ctx, js, BucketName, spec)
 }
 
 type Orders struct {
@@ -68,6 +58,5 @@ func (o *Orders) OrderOf(
 }
 
 func orderKeyOf(orderID string) string {
-	sum := sha256.Sum256([]byte(orderID))
-	return hex.EncodeToString(sum[:])
+	return jetstreamrecord.KeyOf(orderID)
 }

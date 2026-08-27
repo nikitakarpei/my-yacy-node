@@ -57,10 +57,10 @@ func NewOrderConsumer(
 }
 
 func (c *OrderConsumer) Run(ctx context.Context) error {
-	return pullintake.Run(ctx, c.source, c.orderIntakeConcurrency, c.processOne)
+	return pullintake.Run(ctx, c.source, c.orderIntakeConcurrency, c.acceptOrder)
 }
 
-func (c *OrderConsumer) processOne(
+func (c *OrderConsumer) acceptOrder(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 ) error {
@@ -78,7 +78,7 @@ func (c *OrderConsumer) processOne(
 		c.returnOrder(ctx, message, order.OrderID(), err)
 		return nil
 	}
-	if err := c.seed(ctx, order); err != nil {
+	if err := c.putSeedURLsOnFrontier(ctx, order); err != nil {
 		c.returnOrder(ctx, message, order.OrderID(), err)
 		return nil
 	}
@@ -91,7 +91,10 @@ func (c *OrderConsumer) processOne(
 	return nil
 }
 
-func (c *OrderConsumer) seed(ctx context.Context, order acceptedorder.AcceptedOrder) error {
+func (c *OrderConsumer) putSeedURLsOnFrontier(
+	ctx context.Context,
+	order acceptedorder.AcceptedOrder,
+) error {
 	for _, seed := range order.SeedURLs() {
 		if err := c.frontier.Publish(ctx, pendingvisit.PendingVisit{
 			OrderID: order.OrderID(),

@@ -31,10 +31,6 @@ func (c *steppingClock) Now() time.Time {
 	return current
 }
 
-func (c *steppingClock) Sleep(context.Context, time.Duration) error {
-	return nil
-}
-
 type steppingFetch struct {
 	outcome pagefetch.FetchOutcome
 	err     error

@@ -6,6 +6,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
@@ -112,18 +113,10 @@ func TestVisitReportsNoHonoredIndexingRefusalWhenTheOrderIgnoresIt(t *testing.T)
 		&fakeScrapeRequests{},
 	)
 
-	visitHost(t, visitorFor(pagevisit.IgnoredRefusals{IndexingRefusal: true}))
+	visitHost(t, visitorFor(pagerefusals.IgnoredRefusals{IndexingRefusal: true}))
 
 	if observer.refusals["indexing"] != 0 {
 		t.Fatalf("honored refusals %v, want none", observer.refusals)
-	}
-}
-
-func TestVisitStillFollowsAPageThatRefusesIndexing(t *testing.T) {
-	outcome := pageContentOutcome(t, pageHolding(t, pageRefusingIndexing))
-
-	if len(outcome.DiscoveredURLs) != 1 {
-		t.Fatalf("noindex should leave links followable, got %v", outcome.DiscoveredURLs)
 	}
 }
 
@@ -135,18 +128,10 @@ func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T)
 		&fakeScrapeRequests{},
 	)
 
-	outcome := visitHost(t, visitorFor(pagevisit.IgnoredRefusals{IndexingRefusal: true}))
+	outcome := visitHost(t, visitorFor(pagerefusals.IgnoredRefusals{IndexingRefusal: true}))
 
 	if outcome.Disposal != disposal.NotDisposed {
 		t.Fatalf("noindex not ignored, disposal = %q", outcome.Disposal)
-	}
-}
-
-func TestVisitHonorsMetaNoFollow(t *testing.T) {
-	outcome := pageContentOutcome(t, pageHolding(t, pageRefusingLinkDiscovery))
-
-	if len(outcome.DiscoveredURLs) != 0 {
-		t.Fatalf("nofollow should suppress discovered links, got %v", outcome.DiscoveredURLs)
 	}
 }
 
@@ -155,17 +140,6 @@ func TestVisitReportsAnHonoredLinkDiscoveryRefusal(t *testing.T) {
 
 	if honored["link-discovery"] != 1 {
 		t.Fatalf("honored refusals %v, want one link-discovery refusal", honored)
-	}
-}
-
-func TestVisitHonorsARefusalStatedOutsideTheHTML(t *testing.T) {
-	page := fetchedPage(t)
-	page.RobotsDirectives = []string{"nofollow"}
-
-	outcome := pageContentOutcome(t, page)
-
-	if len(outcome.DiscoveredURLs) != 0 {
-		t.Fatalf("nofollow should suppress discovered links, got %v", outcome.DiscoveredURLs)
 	}
 }
 

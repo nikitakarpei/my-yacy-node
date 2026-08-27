@@ -1,8 +1,11 @@
 package pagevisit
 
-import "github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+import (
+	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
+)
 
-type VisitorFor func(ignoredRefusals IgnoredRefusals) Visitor
+type VisitorFor func(ignoredRefusals pagerefusals.IgnoredRefusals) Visitor
 
 func New(
 	fetcher pagefetch.Fetcher,
@@ -10,7 +13,7 @@ func New(
 	progress VisitProgress,
 	scrapeRequests ScrapeRequests,
 ) VisitorFor {
-	return func(ignoredRefusals IgnoredRefusals) Visitor {
+	return func(ignoredRefusals pagerefusals.IgnoredRefusals) Visitor {
 		return &visitor{
 			fetcher:         fetcher,
 			recrawl:         recrawl,
