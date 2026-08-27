@@ -1,6 +1,6 @@
-// Package visitallowance spends what a pending visit is allowed — a page of its
-// host before the visit, a deferral or an attempt after it — and names the
-// allowance that ran out when there is nothing left to spend.
+// Package visitallowance tells a pending visit what it is allowed — the one page
+// of its host it holds however often it is redelivered, a deferral or an attempt
+// spent after it — and names the allowance that ran out when nothing is left.
 package visitallowance
 
 import (
@@ -20,7 +20,7 @@ type VisitClaims interface {
 }
 
 type HostPageAllowances interface {
-	SpendPage(
+	HoldsHostPage(
 		ctx context.Context,
 		orderID string,
 		url canonicalurl.CanonicalURL,
@@ -54,13 +54,13 @@ func (l *Ledger) HostPageFor(
 	visit pendingvisit.PendingVisit,
 	maxPages int,
 ) (Allowance, error) {
-	spent, err := l.hostPages.SpendPage(
+	holdsPage, err := l.hostPages.HoldsHostPage(
 		ctx, visit.OrderID, visit.URL, visit.URL.Hostname(), maxPages,
 	)
 	if err != nil {
-		return Allowance{}, fmt.Errorf("spend a host page for %s: %w", visit.URL, err)
+		return Allowance{}, fmt.Errorf("hold a host page for %s: %w", visit.URL, err)
 	}
-	if !spent {
+	if !holdsPage {
 		return exhausted(disposal.HostPagesExhausted), nil
 	}
 	return Allowance{Granted: true}, nil

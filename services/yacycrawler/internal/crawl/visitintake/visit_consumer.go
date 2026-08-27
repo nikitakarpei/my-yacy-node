@@ -157,7 +157,7 @@ func (c *VisitConsumer) claimVisit(
 	}
 	switch claim {
 	case visitclaim.Taken, visitclaim.Resumed:
-		return c.spendHostPage(ctx, message, order, pendingVisit)
+		return c.holdsHostPage(ctx, message, order, pendingVisit)
 	}
 	c.dropClaimHeldElsewhere(ctx, message, pendingVisit)
 	return false
@@ -175,7 +175,7 @@ func (c *VisitConsumer) dropClaimHeldElsewhere(
 	message.Acknowledge(ctx)
 }
 
-func (c *VisitConsumer) spendHostPage(
+func (c *VisitConsumer) holdsHostPage(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	order acceptedorder.AcceptedOrder,

@@ -33,7 +33,7 @@ func New(bucket jetstream.KeyValue) *Allowances {
 	}
 }
 
-func (a *Allowances) SpendPage(
+func (a *Allowances) HoldsHostPage(
 	ctx context.Context,
 	orderID string,
 	url canonicalurl.CanonicalURL,

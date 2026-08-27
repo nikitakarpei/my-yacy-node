@@ -37,7 +37,7 @@ type fakeHostPageAllowances struct {
 	err   error
 }
 
-func (a *fakeHostPageAllowances) SpendPage(
+func (a *fakeHostPageAllowances) HoldsHostPage(
 	_ context.Context, _ string, _ canonicalurl.CanonicalURL, host string, _ int,
 ) (bool, error) {
 	a.host = host
