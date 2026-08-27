@@ -1,9 +1,9 @@
 // Package scrapedpage holds the page a scrape request read, under the URL that identifies the
 // page.
 //
-// A read that lands at another URL moves the identity of the page only when the request reads
-// the page at its own URL. The URL the read landed at stays available for the relative links
-// of the page.
+// A read can land at another URL. That landing is the page only when the request names the same
+// URL for the identity of the page and for the bytes. The URL the read landed at stays
+// available for the relative links of the page.
 package scrapedpage
 
 import (
@@ -24,7 +24,7 @@ func Of(
 	fetchedPage pagefetch.FetchedPage,
 ) ScrapedPage {
 	pageURL := request.PageURL
-	if readsThePageAtItsOwnURL(request) {
+	if fetchURLIdentifiesThePage(request) {
 		pageURL = fetchedPage.LandedURL
 	}
 	return ScrapedPage{
@@ -35,6 +35,6 @@ func Of(
 	}
 }
 
-func readsThePageAtItsOwnURL(request scraperequestcontract.ScrapeRequest) bool {
+func fetchURLIdentifiesThePage(request scraperequestcontract.ScrapeRequest) bool {
 	return request.FetchURL == request.PageURL
 }

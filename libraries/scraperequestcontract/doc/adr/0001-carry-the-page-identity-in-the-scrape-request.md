@@ -16,17 +16,11 @@ The two are one fact for a page on the live web. They are two facts for other
 sources. A web archive serves a capture of a page at an address of its own. The
 bytes belong to the page. The address belongs to the archive.
 
-Identity is what the index promises. A search result must name the page as the
-world knows it, not as one deployment holds a copy. An address that only one
-archive resolves has no value to the person who reads the result.
+A search result must name the page as the world knows it, not the copy one
+deployment holds.
 
-The producer of the request knows both facts together. An archive index gives
-the address of a capture and the URL of the page in one record. A request that
-carries one of them discards the other.
-
-A consumer that must find the identity again can only ask the copy what page it
-is. This makes the index trust an answer that no party authenticates, and the
-answer can be absent.
+The producer knows both facts. An archive index gives the capture address and
+the page URL in one record. A request with one URL discards the other.
 
 ## Decision
 
@@ -39,17 +33,15 @@ The second fact is optional. When the request does not give it, the corpus reads
 the page from its own URL. A live-web request stays as it is.
 
 The producer states both facts. The consumer reads from one address and indexes
-under the other. No consumer takes the identity from the response.
+under the other. It takes the identity from the response only when the two
+addresses are the same.
 
-The corpus reads the bytes in one step. It does not follow a redirect to a
-different page. The producer names each page of a run, so the run does not
-discover pages while it reads them.
+The corpus follows a redirect at the read address.
 
 ## Considered alternatives
 
-To let the consumer recover the identity from the response is rejected. The
-producer holds the fact and gives it away, and only the source can give it back.
-Recovery can fail, and the page then enters the index under an address that
+To let the consumer ask the copy which page it holds is rejected. The answer can
+be absent or wrong, and the page then enters the index under an address that
 identifies nothing.
 
 To translate the identity into a read address inside the read path is rejected.
@@ -64,13 +56,16 @@ result leads to that page.
 Any source that serves a page from an address of its own can now feed the index.
 A mirror and a cached copy need no new vocabulary.
 
-The producer owns redirect resolution. A producer that wants the target of a
-capture-time redirect resolves it in its own index and names the page it found.
+The producer resolves a redirect that an archive captured, and names the page it
+found.
 
 Nothing in the read path knows what an archive is.
 
 Nothing verifies that the bytes at the read address are the named page. The
 producer is the only guard of that promise.
+
+A redirect on the live web can put a page in the index that no producer named.
+The read lands at another address, and that address becomes the identity.
 
 An older producer stays correct, because a request without the second fact keeps
 its meaning.

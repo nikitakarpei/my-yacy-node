@@ -26,7 +26,7 @@ func TestOfCarriesTheBytesTheReadReturned(t *testing.T) {
 	}
 }
 
-func TestOfTakesALandingAsThePageWhenTheRequestReadsThePageAtItsOwnURL(t *testing.T) {
+func TestOfTakesALandingAsThePageWhenTheFetchURLIdentifiesThePage(t *testing.T) {
 	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/a")
 	landedURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/b")
 
@@ -43,7 +43,7 @@ func TestOfTakesALandingAsThePageWhenTheRequestReadsThePageAtItsOwnURL(t *testin
 	}
 }
 
-func TestOfKeepsThePageURLWhenTheRequestReadsThePageAtAnotherURL(t *testing.T) {
+func TestOfKeepsThePageURLWhenTheFetchURLNamesAnotherAddress(t *testing.T) {
 	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/a")
 	landedURL := canonicalurltest.CanonicalURLOf(t, "https://archive.example/b")
 
