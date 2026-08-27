@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
+	"github.com/nikitakarpei/yacy-rwi-node/scrapedpage"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
@@ -90,74 +91,89 @@ func (c *ScrapeRequestConsumer) processOne(
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
 	scrapedAt := time.Now()
-	fetched, scrapable := c.fetch(ctx, message, scrapeRequest.CanonicalURL)
+	scrapedPage, scrapable := c.fetch(ctx, message, scrapeRequest)
 	if !scrapable {
 		return nil
 	}
-	document, text, derived := c.readableTextOf(ctx, fetched)
-	if !derived {
-		slog.DebugContext(ctx, msgNoTextDerived, slog.String("url", fetched.FinalURL.String()))
+	document, extracted := c.documentOf(ctx, scrapedPage)
+	if !extracted {
 		message.Acknowledge(ctx)
 		return nil
 	}
-	return c.index(ctx, message, scrapedpagedocument.Of(
-		fetched.FinalURL, document, text, scrapedAt,
-	))
+	text, derived := c.readableTextOf(ctx, document, scrapedPage.LandedURL)
+	if !derived {
+		slog.DebugContext(ctx, msgNoTextDerived, slog.String("url", scrapedPage.PageURL.String()))
+		message.Acknowledge(ctx)
+		return nil
+	}
+	return c.index(
+		ctx,
+		message,
+		scrapedpagedocument.Of(scrapedPage.PageURL, document, text, scrapedAt),
+	)
 }
 
 func (c *ScrapeRequestConsumer) fetch(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	pageURL canonicalurl.CanonicalURL,
-) (pagefetch.FetchedPage, bool) {
-	outcome, err := c.fetcher.Fetch(ctx, pageURL, pagefetch.PageVersion{})
+	request scraperequestcontract.ScrapeRequest,
+) (scrapedpage.ScrapedPage, bool) {
+	fetchURL := request.FetchURL
+	outcome, err := c.fetcher.Fetch(ctx, fetchURL, pagefetch.PageVersion{})
 	if err != nil {
 		slog.WarnContext(ctx, msgFetchFailed,
-			slog.String("url", pageURL.String()),
+			slog.String("url", fetchURL.String()),
 			slog.Any("error", err),
 		)
 		c.progress.ScrapeFailed()
 		message.Return(ctx)
-		return pagefetch.FetchedPage{}, false
+		return scrapedpage.ScrapedPage{}, false
 	}
 	switch outcome.Status {
 	case pagefetch.FetchSucceeded:
-		return outcome.Page, true
+		return scrapedpage.Of(request, outcome.Page), true
 	case pagefetch.FetchFailed:
-		slog.WarnContext(ctx, msgFetchFailed, slog.String("url", pageURL.String()))
+		slog.WarnContext(ctx, msgFetchFailed, slog.String("url", fetchURL.String()))
 		c.progress.ScrapeFailed()
 		message.Return(ctx)
 	case pagefetch.FetchDeferred:
 		slog.DebugContext(ctx, msgFetchDeferred,
-			slog.String("url", pageURL.String()),
+			slog.String("url", fetchURL.String()),
 			slog.Duration("deferFor", outcome.DeferFor),
 		)
 		message.ReturnAfter(ctx, outcome.DeferFor)
 	default:
-		slog.DebugContext(ctx, msgNothingToScrape, slog.String("url", pageURL.String()))
+		slog.DebugContext(ctx, msgNothingToScrape, slog.String("url", fetchURL.String()))
 		message.Acknowledge(ctx)
 	}
-	return pagefetch.FetchedPage{}, false
+	return scrapedpage.ScrapedPage{}, false
+}
+
+func (c *ScrapeRequestConsumer) documentOf(
+	ctx context.Context,
+	scrapedPage scrapedpage.ScrapedPage,
+) (documentextraction.Document, bool) {
+	document, err := documentextraction.DocumentFrom(
+		ctx, scrapedPage.Body, scrapedPage.ContentType, scrapedPage.LandedURL,
+	)
+	if err != nil {
+		slog.WarnContext(ctx, msgExtractionFailed,
+			slog.String("url", scrapedPage.LandedURL.String()),
+			slog.Any("error", err),
+		)
+		return documentextraction.Document{}, false
+	}
+	return document, true
 }
 
 func (c *ScrapeRequestConsumer) readableTextOf(
 	ctx context.Context,
-	fetched pagefetch.FetchedPage,
-) (documentextraction.Document, []byte, bool) {
-	document, err := documentextraction.DocumentFrom(
-		ctx, fetched.Body, fetched.ContentType, fetched.FinalURL,
+	document documentextraction.Document,
+	landedURL canonicalurl.CanonicalURL,
+) ([]byte, bool) {
+	return c.formatDerivations.BodyIn(
+		ctx, documentextraction.FormatReadableText, document, landedURL,
 	)
-	if err != nil {
-		slog.WarnContext(ctx, msgExtractionFailed,
-			slog.String("url", fetched.FinalURL.String()),
-			slog.Any("error", err),
-		)
-		return documentextraction.Document{}, nil, false
-	}
-	text, derived := c.formatDerivations.BodyIn(
-		ctx, documentextraction.FormatReadableText, document, fetched.FinalURL,
-	)
-	return document, text, derived
 }
 
 func (c *ScrapeRequestConsumer) index(

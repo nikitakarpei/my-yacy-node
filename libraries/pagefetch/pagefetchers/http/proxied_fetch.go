@@ -27,9 +27,9 @@ const (
 
 	defaultDeferFor = time.Minute
 
-	msgFetchTransient   = "fetch failed, treating as transient"
-	msgBodyReadFailed   = "response body read failed, treating as transient"
-	msgFinalURLRejected = "fetched page url rejected, page treated as no page"
+	msgFetchTransient    = "fetch failed, treating as transient"
+	msgBodyReadFailed    = "response body read failed, treating as transient"
+	msgLandedURLRejected = "landed page url rejected, page treated as no page"
 )
 
 type ProxiedFetch struct {
@@ -131,9 +131,9 @@ func (f *ProxiedFetch) fetched(
 	if truncated {
 		body = body[:f.maxBodyBytes]
 	}
-	finalURL, err := canonicalurl.CanonicalURLOf(response.Request.URL.String())
+	landedURL, err := canonicalurl.CanonicalURLOf(response.Request.URL.String())
 	if err != nil {
-		slog.WarnContext(ctx, msgFinalURLRejected,
+		slog.WarnContext(ctx, msgLandedURLRejected,
 			slog.String("url", response.Request.URL.String()),
 			slog.Any("error", err),
 		)
@@ -143,7 +143,7 @@ func (f *ProxiedFetch) fetched(
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			FinalURL:             finalURL,
+			LandedURL:            landedURL,
 			ContentType:          response.Header.Get(headerContentType),
 			Body:                 body,
 			Truncated:            truncated,

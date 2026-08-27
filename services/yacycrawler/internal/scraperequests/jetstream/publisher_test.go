@@ -26,8 +26,8 @@ func TestPublishWritesContractMessage(t *testing.T) {
 	publisher := jetstream.New(js)
 
 	const url = "http://example.com/a"
-	canonicalURL := canonicalurltest.CanonicalURLOf(t, url)
-	if err := publisher.Publish(ctx, canonicalURL); err != nil {
+	pageURL := canonicalurltest.CanonicalURLOf(t, url)
+	if err := publisher.Publish(ctx, pageURL); err != nil {
 		t.Fatalf("publish: %v", err)
 	}
 
@@ -46,7 +46,10 @@ func TestPublishWritesContractMessage(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
-	if page.CanonicalURL != canonicalURL {
-		t.Fatalf("canonical url = %q, want %q", page.CanonicalURL, url)
+	if page.PageURL != pageURL {
+		t.Fatalf("page url = %q, want %q", page.PageURL, url)
+	}
+	if page.FetchURL != pageURL {
+		t.Fatalf("fetch url = %q, want the page url %q", page.FetchURL, url)
 	}
 }

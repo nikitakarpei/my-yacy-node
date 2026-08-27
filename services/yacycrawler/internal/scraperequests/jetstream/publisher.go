@@ -21,20 +21,20 @@ func New(stream jetstream.JetStream) *Publisher {
 
 func (p *Publisher) Publish(
 	ctx context.Context,
-	canonicalURL canonicalurl.CanonicalURL,
+	pageURL canonicalurl.CanonicalURL,
 ) error {
 	data, err := scraperequestcontract.MarshalScrapeRequest(
-		scraperequestcontract.ScrapeRequest{CanonicalURL: canonicalURL},
+		scraperequestcontract.ScrapeRequest{PageURL: pageURL},
 	)
 	if err != nil {
-		return fmt.Errorf("marshal scrape request %s: %w", canonicalURL, err)
+		return fmt.Errorf("marshal scrape request %s: %w", pageURL, err)
 	}
 	if _, err := p.stream.Publish(
 		ctx,
 		scraperequestcontract.ScrapeRequestSubject,
 		data,
 	); err != nil {
-		return fmt.Errorf("publish scrape request %s: %w", canonicalURL, err)
+		return fmt.Errorf("publish scrape request %s: %w", pageURL, err)
 	}
 	return nil
 }

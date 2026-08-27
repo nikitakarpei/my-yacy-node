@@ -1,4 +1,4 @@
-// Package pagerwi turns a fetched page and the document it holds into the reverse word index
+// Package pagerwi turns a scraped page and the document it holds into the reverse word index
 // the node stores: one URL metadata row and one posting per distinct word of the page's text.
 package pagerwi
 
@@ -8,29 +8,29 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/scrapedpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PageRWI struct {
-	CanonicalURL canonicalurl.CanonicalURL
-	Metadata     yacymodel.URLMetadata
-	Postings     []yacymodel.RWIPosting
+	PageURL  canonicalurl.CanonicalURL
+	Metadata yacymodel.URLMetadata
+	Postings []yacymodel.RWIPosting
 }
 
 func Of(
-	fetched pagefetch.FetchedPage,
+	scrapedPage scrapedpage.ScrapedPage,
 	document documentextraction.Document,
 	text []byte,
 	reachedAt time.Time,
 ) PageRWI {
-	canonicalAddress := fetched.FinalURL.WebAddress()
-	urlHash := yacymodel.URLNormalformOf(canonicalAddress).Hash()
+	pageURL := scrapedPage.PageURL
+	urlHash := yacymodel.URLNormalformOf(pageURL.WebAddress()).Hash()
 
 	order, occurrences, textStats := tokenize(string(text))
 	_, _, titleStats := tokenize(document.Title)
 
-	shared := sharedPosting(fetched.FinalURL, document, reachedAt, urlHash)
+	shared := sharedPosting(pageURL, document, reachedAt, urlHash)
 	shared.TitleWords = titleStats.Words
 	shared.TextWords = textStats.Words
 	shared.Phrases = textStats.Phrases
@@ -48,9 +48,9 @@ func Of(
 	}
 
 	return PageRWI{
-		CanonicalURL: fetched.FinalURL,
+		PageURL: pageURL,
 		Metadata: metadataOf(
-			fetched.FinalURL, document, len(fetched.Body), reachedAt, textStats.Words,
+			pageURL, document, len(scrapedPage.Body), reachedAt, textStats.Words,
 		),
 		Postings: postings,
 	}

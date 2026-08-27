@@ -36,7 +36,7 @@ func publishScrapeRequest(
 	t.Helper()
 	data, err := scraperequestcontract.MarshalScrapeRequest(
 		scraperequestcontract.ScrapeRequest{
-			CanonicalURL: canonicalurltest.CanonicalURLOf(t, pageURL),
+			PageURL: canonicalurltest.CanonicalURLOf(t, pageURL),
 		},
 	)
 	if err != nil {

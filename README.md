@@ -17,7 +17,7 @@ A standard YaCy node can exceed the memory available on small machines such as a
 
 The core idea is runtime composability: independent pieces can be combined into different deployments.
 
-`doc/build-your-own-search-stack/` explores this through a series of working deployments, starting with a single peer on a spare machine and gradually building toward a complete self-hosted search engine.
+[`doc/build-your-own-search-stack/`](doc/build-your-own-search-stack) explores this through a series of working deployments, starting with a single peer on a spare machine and gradually building toward a complete self-hosted search engine.
 
 ## Documentation
 

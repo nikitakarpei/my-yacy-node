@@ -10,16 +10,16 @@ obtain script-loaded pages.
 It accepts proxy requests in absolute-URL form only. It contacts the requested origin
 itself: a redirect response is relayed to the client unchanged; a hypertext response is
 rendered by driving the browser and returned; any other response is returned as the
-origin gives it. The service's own origin requests leave through a required egress proxy;
-the browser reaches origins through its own configured proxy.
+origin gives it. Its own origin requests and the page loads it drives the browser to make
+leave through one required egress proxy, which it states to the browser for each render.
 
 ## Non-Goals
 
 * Terminating origin TLS or serving HTTP CONNECT tunnels.
 * Producing, storing, or forwarding pages to any consumer of its own.
 * Deciding what to fetch, recrawl, rank, or index.
-* Enforcing target-safety, host politeness, or robots policy; those stay with the egress and
-  browser proxies.
+* Enforcing target-safety, host politeness, or robots policy; those stay with the egress
+  proxy.
 * Running or supervising the browser process itself.
 * Defeating anti-bot walls; a wall is a refusal to relay, not an obstacle to evade.
 
@@ -38,6 +38,8 @@ the browser reaches origins through its own configured proxy.
   it serves.
 * The service SHALL route its own origin requests through the configured egress proxy, and
   SHALL fail startup when no egress proxy is configured.
+* The service SHALL state the configured egress proxy to the browser for every render, so
+  that the page and the subresources it loads leave through that proxy.
 * The service SHALL relay the origin's HTTP status and refusal responses to the client
   unchanged.
 * The service SHALL answer an HTTP CONNECT request with a refusal status, contacting no
@@ -62,8 +64,8 @@ the browser reaches origins through its own configured proxy.
   a client that can only tunnel cannot use it.
 * Latency, memory, and fidelity follow the attached browser; a heavy page costs far more
   than a raw fetch.
-* Egress filtering, target-safety, and host politeness hold only as far as the service's
-  egress proxy and the browser's own proxy enforce them; the service adds none.
+* Egress filtering, target-safety, and host politeness hold only as far as the configured
+  egress proxy enforces them; the service adds none.
 * The reuse terms describe the origin's own response; the body of a hypertext page is what the
   browser has after loading, which can differ.
 * The browser's own TLS trust and version govern which origins load; the service adds no

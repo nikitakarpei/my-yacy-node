@@ -325,7 +325,7 @@ func TestFetchCancelledContext(t *testing.T) {
 	}
 }
 
-func TestFetchReportsTheFinalURLOfTheRedirectChain(t *testing.T) {
+func TestFetchReportsTheLandedURLOfTheRedirectChain(t *testing.T) {
 	for _, dialMode := range []httppkg.ProxyDialMode{
 		httppkg.ProxyDialTunnel,
 		httppkg.ProxyDialAbsoluteURL,
@@ -351,8 +351,8 @@ func TestFetchReportsTheFinalURLOfTheRedirectChain(t *testing.T) {
 		if err != nil {
 			t.Fatalf("dial %v: Fetch: %v", dialMode, err)
 		}
-		if outcome.Page.FinalURL != canonicalurltest.CanonicalURLOf(t, "http://target.example/c") {
-			t.Fatalf("dial %v: FinalURL = %q", dialMode, outcome.Page.FinalURL)
+		if outcome.Page.LandedURL != canonicalurltest.CanonicalURLOf(t, "http://target.example/c") {
+			t.Fatalf("dial %v: LandedURL = %q", dialMode, outcome.Page.LandedURL)
 		}
 	}
 }

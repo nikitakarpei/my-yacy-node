@@ -136,7 +136,23 @@ func scrapeRequestMessage(t *testing.T, acked chan string) *fakeMsg {
 
 	data, err := scraperequestcontract.MarshalScrapeRequest(
 		scraperequestcontract.ScrapeRequest{
-			CanonicalURL: canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			PageURL: canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+		},
+	)
+	if err != nil {
+		t.Fatalf("marshal: %v", err)
+	}
+
+	return &fakeMsg{data: data, acked: acked}
+}
+
+func archivedScrapeRequestMessage(t *testing.T, acked chan string, fetchURL string) *fakeMsg {
+	t.Helper()
+
+	data, err := scraperequestcontract.MarshalScrapeRequest(
+		scraperequestcontract.ScrapeRequest{
+			PageURL:  canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			FetchURL: canonicalurltest.CanonicalURLOf(t, fetchURL),
 		},
 	)
 	if err != nil {
@@ -152,7 +168,7 @@ func fetchOf(t *testing.T, text string) *fakeFetch {
 	return &fakeFetch{outcome: pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			FinalURL:    canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			LandedURL:   canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
 			ContentType: "text/html",
 			Body: []byte(
 				`<html lang="en"><head><title>` + pageTitle + `</title></head>` +
@@ -213,6 +229,30 @@ func TestConsumerStoresTheIndexItDerivesFromAScrapeRequest(t *testing.T) {
 	assertWordsAdmitted(t, postings, "alpha", "beta")
 }
 
+func TestConsumerReadsAPageFromTheFetchURLAndStoresItUnderThePageURL(t *testing.T) {
+	const replayURL = "http://archive.example/replay/https://example.com/"
+	acked := make(chan string, 1)
+	fetcher := fetchOf(t, "alpha beta")
+	fetcher.outcome.Page.LandedURL = canonicalurltest.CanonicalURLOf(t, replayURL)
+	urls := &recordingURLs{}
+	postings := &recordingPostings{}
+
+	message := archivedScrapeRequestMessage(t, acked, replayURL)
+	if err := run(t, message, fetcher, urls, postings); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := <-acked; action != "ack" {
+		t.Errorf("action = %q, want ack", action)
+	}
+	if len(fetcher.urls) != 1 || fetcher.urls[0] != replayURL {
+		t.Errorf("fetched %v, want the fetch url", fetcher.urls)
+	}
+	if len(urls.received) != 1 || urls.received[0].Address != scrapeRequestURL {
+		t.Fatalf("stored metadata %+v, want one row under the page url", urls.received)
+	}
+}
+
 func TestConsumerAdmitsEveryPostingOfAPageInOneCall(t *testing.T) {
 	acked := make(chan string, 1)
 	postings := &recordingPostings{}
@@ -233,7 +273,7 @@ func TestConsumerAcksAScrapeRequestHoldingNoExtractableDocument(t *testing.T) {
 	fetcher := &fakeFetch{outcome: pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			FinalURL:    canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			LandedURL:   canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
 			ContentType: "application/pdf",
 			Body:        []byte("%PDF-1.4"),
 		},

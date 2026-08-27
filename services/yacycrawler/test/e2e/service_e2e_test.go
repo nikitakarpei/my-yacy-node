@@ -25,10 +25,10 @@ func TestCrawlerPublishesEveryPageAnOrderReachesEndToEnd(t *testing.T) {
 	js, originURL := startCrawlOfOriginSite(t, ctx)
 
 	scrapeRequest := fetchOneScrapeRequest(t, ctx, js)
-	if scrapeRequest.CanonicalURL.String() != originURL {
+	if scrapeRequest.PageURL.String() != originURL {
 		t.Errorf(
-			"scrape request canonical url = %q, want %q",
-			scrapeRequest.CanonicalURL,
+			"scrape request page url = %q, want %q",
+			scrapeRequest.PageURL,
 			originURL,
 		)
 	}
@@ -42,9 +42,9 @@ func TestEveryCorpusConsumesTheSameScrapeRequestEndToEnd(t *testing.T) {
 	first := fetchScrapeRequestForDurable(t, ctx, js, "corpusmarkdown")
 	second := fetchScrapeRequestForDurable(t, ctx, js, "corpustext")
 
-	if first.CanonicalURL.String() != originURL || second.CanonicalURL.String() != originURL {
+	if first.PageURL.String() != originURL || second.PageURL.String() != originURL {
 		t.Errorf("corpora read %q and %q, want both %q",
-			first.CanonicalURL, second.CanonicalURL, originURL)
+			first.PageURL, second.PageURL, originURL)
 	}
 }
 

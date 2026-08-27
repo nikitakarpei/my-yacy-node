@@ -19,7 +19,7 @@ const (
 	port  = "4750"
 )
 
-func Start(t *testing.T, ctx context.Context, networkName string) {
+func Start(t *testing.T, ctx context.Context, networkNames ...string) {
 	t.Helper()
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
@@ -32,8 +32,8 @@ func Start(t *testing.T, ctx context.Context, networkName string) {
 				"--allow-range", "192.168.0.0/16",
 			},
 			ExposedPorts:   []string{port + "/tcp"},
-			Networks:       []string{networkName},
-			NetworkAliases: map[string][]string{networkName: {alias}},
+			Networks:       networkNames,
+			NetworkAliases: aliasPerNetwork(networkNames),
 			WaitingFor: wait.ForListeningPort(port + "/tcp").
 				WithStartupTimeout(time.Minute),
 		},
@@ -47,4 +47,12 @@ func Start(t *testing.T, ctx context.Context, networkName string) {
 
 func NetworkURL() string {
 	return "http://" + alias + ":" + port
+}
+
+func aliasPerNetwork(networkNames []string) map[string][]string {
+	aliases := map[string][]string{}
+	for _, networkName := range networkNames {
+		aliases[networkName] = []string{alias}
+	}
+	return aliases
 }

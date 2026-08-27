@@ -25,5 +25,6 @@ You have a search engine that crawls what you read, an index you can query,
 and a peer trading postings with the rest of the network — with enough
 instruments to see all of it working.
 
-What you do not have is the pages. Everything you crawled is still only a set
-of words about it, kept on the assumption the sites will always be there.
+What you do not have is the past. Your index holds what the live web served you,
+so a page that is gone is out of your reach, even when someone kept a copy of
+it.

@@ -84,9 +84,9 @@ func (v *visitor) absorb(
 	absorption := v.absorptionOf(ctx, outcome.Page)
 	v.recordVisit(ctx, url, outcome.Version)
 	if absorption.Disposal == disposal.NotDisposed {
-		if err := v.scrapeRequests.Publish(ctx, outcome.Page.FinalURL); err != nil {
+		if err := v.scrapeRequests.Publish(ctx, outcome.Page.LandedURL); err != nil {
 			return VisitOutcome{}, fmt.Errorf(
-				"publish scrape request %s: %w", outcome.Page.FinalURL, err,
+				"publish scrape request %s: %w", outcome.Page.LandedURL, err,
 			)
 		}
 		v.observer.ScrapeRequestPublished()
@@ -104,7 +104,7 @@ func (v *visitor) absorptionOf(
 	markup, err := pagemarkup.MarkupFrom(ctx, page.ContentType, page.Body)
 	if err != nil {
 		slog.WarnContext(ctx, msgMarkupUnreadable,
-			slog.String("url", page.FinalURL.String()),
+			slog.String("url", page.LandedURL.String()),
 			slog.Any("error", err),
 		)
 		return absorbedPage(disposal.UnsupportedMediaType, nil)
@@ -136,7 +136,7 @@ func discoveredURLsFrom(
 	if page.RefusesLinkDiscovery || refusals.RefusesLinkDiscovery {
 		return nil
 	}
-	return linkdiscovery.LinkedURLsFrom(ctx, markup, page.FinalURL)
+	return linkdiscovery.LinkedURLsFrom(ctx, markup, page.LandedURL)
 }
 
 func refusesIndexing(page pagefetch.FetchedPage, refusals pagerobots.Refusals) bool {
