@@ -96,12 +96,12 @@ func (c *ScrapeRequestConsumer) processOne(
 	}
 	document, text, derived := c.readableTextOf(ctx, fetched)
 	if !derived {
-		slog.DebugContext(ctx, msgNoTextDerived, slog.String("url", fetched.FinalURL.String()))
+		slog.DebugContext(ctx, msgNoTextDerived, slog.String("url", fetched.LandedURL.String()))
 		message.Acknowledge(ctx)
 		return nil
 	}
 	return c.index(ctx, message, scrapedpagedocument.Of(
-		scrapeRequest.PageURLFrom(fetched.FinalURL), document, text, scrapedAt,
+		scrapeRequest.PageURLFrom(fetched.LandedURL), document, text, scrapedAt,
 	))
 }
 
@@ -145,17 +145,17 @@ func (c *ScrapeRequestConsumer) readableTextOf(
 	fetched pagefetch.FetchedPage,
 ) (documentextraction.Document, []byte, bool) {
 	document, err := documentextraction.DocumentFrom(
-		ctx, fetched.Body, fetched.ContentType, fetched.FinalURL,
+		ctx, fetched.Body, fetched.ContentType, fetched.LandedURL,
 	)
 	if err != nil {
 		slog.WarnContext(ctx, msgExtractionFailed,
-			slog.String("url", fetched.FinalURL.String()),
+			slog.String("url", fetched.LandedURL.String()),
 			slog.Any("error", err),
 		)
 		return documentextraction.Document{}, nil, false
 	}
 	text, derived := c.formatDerivations.BodyIn(
-		ctx, documentextraction.FormatReadableText, document, fetched.FinalURL,
+		ctx, documentextraction.FormatReadableText, document, fetched.LandedURL,
 	)
 	return document, text, derived
 }

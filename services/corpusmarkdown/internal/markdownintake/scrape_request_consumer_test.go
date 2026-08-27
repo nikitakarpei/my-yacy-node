@@ -294,13 +294,13 @@ func fetchedPage(t *testing.T, contentType string, body string) pagefetch.Fetche
 
 func fetchedPageAt(
 	t *testing.T,
-	finalURL string,
+	landedURL string,
 	contentType string,
 	body string,
 ) pagefetch.FetchedPage {
 	t.Helper()
 	return pagefetch.FetchedPage{
-		FinalURL:    canonicalurltest.CanonicalURLOf(t, finalURL),
+		LandedURL:   canonicalurltest.CanonicalURLOf(t, landedURL),
 		ContentType: contentType,
 		Body:        []byte(body),
 	}

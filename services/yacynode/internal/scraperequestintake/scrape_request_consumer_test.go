@@ -168,7 +168,7 @@ func fetchOf(t *testing.T, text string) *fakeFetch {
 	return &fakeFetch{outcome: pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			FinalURL:    canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			LandedURL:   canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
 			ContentType: "text/html",
 			Body: []byte(
 				`<html lang="en"><head><title>` + pageTitle + `</title></head>` +
@@ -233,7 +233,7 @@ func TestConsumerReadsAPageFromTheFetchURLAndStoresItUnderThePageURL(t *testing.
 	const replayURL = "http://archive.example/replay/https://example.com/"
 	acked := make(chan string, 1)
 	fetcher := fetchOf(t, "alpha beta")
-	fetcher.outcome.Page.FinalURL = canonicalurltest.CanonicalURLOf(t, replayURL)
+	fetcher.outcome.Page.LandedURL = canonicalurltest.CanonicalURLOf(t, replayURL)
 	urls := &recordingURLs{}
 	postings := &recordingPostings{}
 
@@ -273,7 +273,7 @@ func TestConsumerAcksAScrapeRequestHoldingNoExtractableDocument(t *testing.T) {
 	fetcher := &fakeFetch{outcome: pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			FinalURL:    canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+			LandedURL:   canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
 			ContentType: "application/pdf",
 			Body:        []byte("%PDF-1.4"),
 		},

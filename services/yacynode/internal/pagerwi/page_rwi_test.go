@@ -24,7 +24,7 @@ var reachedAt = time.Unix(1_700_000_000, 0)
 func fetchedPage(t *testing.T, text string) pagefetch.FetchedPage {
 	t.Helper()
 	return pagefetch.FetchedPage{
-		FinalURL:    canonicalurltest.CanonicalURLOf(t, pageAddress),
+		LandedURL:   canonicalurltest.CanonicalURLOf(t, pageAddress),
 		ContentType: "text/html",
 		Body:        []byte("<html><body>" + text + "</body></html>"),
 	}
@@ -55,7 +55,7 @@ func indexOf(t *testing.T, text string) pagerwi.PageRWI {
 func TestOfIndexesUnderThePageURLRatherThanTheURLTheFetchLandedOn(t *testing.T) {
 	const replayAddress = "http://archive.example/replay/http://example.com/"
 	fetched := fetchedPage(t, sampleText)
-	fetched.FinalURL = canonicalurltest.CanonicalURLOf(t, replayAddress)
+	fetched.LandedURL = canonicalurltest.CanonicalURLOf(t, replayAddress)
 
 	index := pagerwi.Of(
 		pageURLOf(t), fetched, extractedDocument(), []byte(sampleText), reachedAt,

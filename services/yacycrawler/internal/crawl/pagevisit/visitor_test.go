@@ -142,7 +142,7 @@ func fetchedOutcome(t *testing.T) pagefetch.FetchOutcome {
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			FinalURL:    canonicalurltest.CanonicalURLOf(t, "http://host/"),
+			LandedURL:   canonicalurltest.CanonicalURLOf(t, "http://host/"),
 			ContentType: "text/html",
 			Body:        []byte(pageLinkingNext),
 		},

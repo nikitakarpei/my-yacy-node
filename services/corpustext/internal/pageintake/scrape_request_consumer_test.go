@@ -172,7 +172,7 @@ func fetchOf(page pagefetch.FetchedPage) *fakeFetch {
 func fetchedPage(t *testing.T, contentType string, body string) pagefetch.FetchedPage {
 	t.Helper()
 	return pagefetch.FetchedPage{
-		FinalURL:    canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
+		LandedURL:   canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
 		ContentType: contentType,
 		Body:        []byte(body),
 	}
@@ -234,7 +234,7 @@ func TestConsumerReadsAPageFromTheFetchURLAndIndexesItUnderThePageURL(t *testing
 	const replayURL = "http://archive.example/replay/https://example.com/"
 	acked := make(chan string, 1)
 	page := fetchedPage(t, "text/html", article)
-	page.FinalURL = canonicalurltest.CanonicalURLOf(t, replayURL)
+	page.LandedURL = canonicalurltest.CanonicalURLOf(t, replayURL)
 	fetcher := fetchOf(page)
 	searchIndex := &recordingIndex{}
 

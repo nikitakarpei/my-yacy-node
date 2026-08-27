@@ -97,7 +97,7 @@ func (c *ScrapeRequestConsumer) processOne(
 		ctx,
 		message,
 		requestedURL,
-		scrapeRequest.PageURLFrom(fetched.FinalURL),
+		scrapeRequest.PageURLFrom(fetched.LandedURL),
 		markdown,
 	)
 }
@@ -135,17 +135,17 @@ func (c *ScrapeRequestConsumer) markdownOf(
 	fetched pagefetch.FetchedPage,
 ) ([]byte, bool) {
 	document, err := documentextraction.DocumentFrom(
-		ctx, fetched.Body, fetched.ContentType, fetched.FinalURL,
+		ctx, fetched.Body, fetched.ContentType, fetched.LandedURL,
 	)
 	if err != nil {
-		c.progress.DocumentExtractionFailed(ctx, requestedURL, fetched.FinalURL, err)
+		c.progress.DocumentExtractionFailed(ctx, requestedURL, fetched.LandedURL, err)
 		return nil, false
 	}
 	markdown, derived := c.formatDerivations.BodyIn(
-		ctx, documentextraction.FormatMarkdown, document, fetched.FinalURL,
+		ctx, documentextraction.FormatMarkdown, document, fetched.LandedURL,
 	)
 	if !derived {
-		c.progress.NoMarkdownDerived(ctx, requestedURL, fetched.FinalURL)
+		c.progress.NoMarkdownDerived(ctx, requestedURL, fetched.LandedURL)
 	}
 	return markdown, derived
 }
