@@ -33,7 +33,13 @@ type VisitClaims interface {
 		url canonicalurl.CanonicalURL,
 		holder string,
 	) (visitclaim.Claim, error)
-	SpendHostPage(ctx context.Context, orderID string, host string, maxPages int) (bool, error)
+	SpendHostPage(
+		ctx context.Context,
+		orderID string,
+		url canonicalurl.CanonicalURL,
+		host string,
+		maxPages int,
+	) (bool, error)
 	Defer(ctx context.Context, orderID string, url canonicalurl.CanonicalURL) (bool, error)
 	Retry(ctx context.Context, orderID string, url canonicalurl.CanonicalURL) (int, bool, error)
 }
@@ -142,10 +148,8 @@ func (c *VisitConsumer) claimVisit(
 		return false
 	}
 	switch claim {
-	case visitclaim.Taken:
+	case visitclaim.Taken, visitclaim.Resumed:
 		return c.spendHostPage(ctx, message, order, pendingVisit)
-	case visitclaim.Resumed:
-		return true
 	}
 	c.dropClaimHeldElsewhere(ctx, message, pendingVisit)
 	return false
@@ -170,7 +174,11 @@ func (c *VisitConsumer) spendHostPage(
 	pendingVisit pendingvisit.PendingVisit,
 ) bool {
 	spent, err := c.claims.SpendHostPage(
-		ctx, pendingVisit.OrderID, pendingVisit.URL.Hostname(), order.MaxPagesPerHost(),
+		ctx,
+		pendingVisit.OrderID,
+		pendingVisit.URL,
+		pendingVisit.URL.Hostname(),
+		order.MaxPagesPerHost(),
 	)
 	if err != nil {
 		c.returnVisit(ctx, message, pendingVisit, err)

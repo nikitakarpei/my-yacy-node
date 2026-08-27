@@ -2,6 +2,8 @@ package jetstream_test
 
 import (
 	"context"
+	"fmt"
+	"sync"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -158,7 +160,9 @@ func TestAHostSpendsNoMorePagesThanItsProfileAllows(t *testing.T) {
 	ctx := context.Background()
 
 	for page := range 2 {
-		spent, err := claims.SpendHostPage(ctx, orderID, "host", 2)
+		url := canonicalurltest.CanonicalURLOf(t, fmt.Sprintf("http://host/page%d", page))
+		claim(t, claims, url, holder)
+		spent, err := claims.SpendHostPage(ctx, orderID, url, "host", 2)
 		if err != nil {
 			t.Fatalf("spend host page: %v", err)
 		}
@@ -166,12 +170,89 @@ func TestAHostSpendsNoMorePagesThanItsProfileAllows(t *testing.T) {
 			t.Fatalf("page %d should be within the host allowance", page+1)
 		}
 	}
-	spent, err := claims.SpendHostPage(ctx, orderID, "host", 2)
+	beyond := canonicalurltest.CanonicalURLOf(t, "http://host/page2")
+	claim(t, claims, beyond, holder)
+	spent, err := claims.SpendHostPage(ctx, orderID, beyond, "host", 2)
 	if err != nil {
 		t.Fatalf("spend host page: %v", err)
 	}
 	if spent {
 		t.Fatal("a page beyond the host allowance should be refused")
+	}
+}
+
+func TestAVisitSpendsOneHostPageHoweverOftenItIsResumed(t *testing.T) {
+	claims := visitClaims(t)
+	ctx := context.Background()
+	url := pageURL(t)
+	claim(t, claims, url, holder)
+
+	for resumption := range 3 {
+		spent, err := claims.SpendHostPage(ctx, orderID, url, "host", 1)
+		if err != nil {
+			t.Fatalf("spend host page: %v", err)
+		}
+		if !spent {
+			t.Fatalf("resumption %d should spend the page the visit already holds", resumption)
+		}
+	}
+
+	other := canonicalurltest.CanonicalURLOf(t, "http://host/other")
+	claim(t, claims, other, holder)
+	spent, err := claims.SpendHostPage(ctx, orderID, other, "host", 1)
+	if err != nil {
+		t.Fatalf("spend host page: %v", err)
+	}
+	if spent {
+		t.Fatal("the resumed visit should have spent the whole allowance of the host")
+	}
+}
+
+func TestAHostThatAllowsNoPagesSpendsNone(t *testing.T) {
+	claims := visitClaims(t)
+	url := pageURL(t)
+	claim(t, claims, url, holder)
+
+	spent, err := claims.SpendHostPage(context.Background(), orderID, url, "host", 0)
+	if err != nil {
+		t.Fatalf("spend host page: %v", err)
+	}
+	if spent {
+		t.Fatal("a host that allows no pages should refuse the first page")
+	}
+}
+
+func TestOnlyOneOfTwoConcurrentVisitsSpendsTheLastPageOfAHost(t *testing.T) {
+	claims := visitClaims(t)
+	ctx := context.Background()
+	spends := make(chan bool, 2)
+
+	var spending sync.WaitGroup
+	for page := range 2 {
+		url := canonicalurltest.CanonicalURLOf(t, fmt.Sprintf("http://host/race%d", page))
+		claim(t, claims, url, holder)
+		spending.Add(1)
+		go func() {
+			defer spending.Done()
+			spent, err := claims.SpendHostPage(ctx, orderID, url, "host", 1)
+			if err != nil {
+				t.Errorf("spend host page: %v", err)
+				return
+			}
+			spends <- spent
+		}()
+	}
+	spending.Wait()
+	close(spends)
+
+	granted := 0
+	for spent := range spends {
+		if spent {
+			granted++
+		}
+	}
+	if granted != 1 {
+		t.Fatalf("%d of two concurrent visits spent a host allowance of one, want 1", granted)
 	}
 }
 
@@ -181,7 +262,7 @@ func TestAnUnlimitedHostAllowanceSpendsNothing(t *testing.T) {
 
 	for range 3 {
 		spent, err := claims.SpendHostPage(
-			ctx, orderID, "host", yacycrawlcontract.UnlimitedPagesPerHost,
+			ctx, orderID, pageURL(t), "host", yacycrawlcontract.UnlimitedPagesPerHost,
 		)
 		if err != nil {
 			t.Fatalf("spend host page: %v", err)

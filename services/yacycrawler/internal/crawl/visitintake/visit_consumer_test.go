@@ -66,7 +66,7 @@ func (c *fakeClaims) Claim(
 }
 
 func (c *fakeClaims) SpendHostPage(
-	_ context.Context, _ string, _ string, maxPages int,
+	_ context.Context, _ string, _ canonicalurl.CanonicalURL, _ string, maxPages int,
 ) (bool, error) {
 	c.hostPageLimits = append(c.hostPageLimits, maxPages)
 	return c.hostSpent, nil
@@ -433,7 +433,7 @@ func TestTheProfilesHostPageLimitReachesTheLedger(t *testing.T) {
 	}
 }
 
-func TestARedeliveredMessageSpendsNoFurtherHostPage(t *testing.T) {
+func TestARedeliveredMessageAsksTheLedgerForItsHostPageAgain(t *testing.T) {
 	worker := newWorker()
 	message := visitMessage(t, 1)
 
@@ -441,9 +441,9 @@ func TestARedeliveredMessageSpendsNoFurtherHostPage(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if len(worker.claims.hostPageLimits) != 1 {
+	if len(worker.claims.hostPageLimits) != 2 {
 		t.Fatalf(
-			"the ledger spent %d host pages, want the one the first delivery took",
+			"the ledger was asked for %d host pages, want one for each delivery",
 			len(worker.claims.hostPageLimits),
 		)
 	}

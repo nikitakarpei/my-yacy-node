@@ -52,6 +52,8 @@ components:
     in: internal/acceptedorders/jetstream/**
   pendingvisitsjetstream:
     in: internal/pendingvisits/jetstream/**
+  jetstreamrecord:
+    in: internal/jetstreamrecord/**
   visitclaimsjetstream:
     in: internal/visitclaims/jetstream/**
   progressobserversprometheus:
@@ -178,9 +180,13 @@ deps:
       - pendingvisit
     canUse:
       - nats
+  jetstreamrecord:
+    canUse:
+      - nats
   visitclaimsjetstream:
     mayDependOn:
       - visitclaim
+      - jetstreamrecord
     canUse:
       - nats
       - canonicalurl
