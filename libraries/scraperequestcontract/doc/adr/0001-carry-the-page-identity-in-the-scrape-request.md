@@ -56,8 +56,8 @@ result leads to that page.
 Any source that serves a page from an address of its own can now feed the index.
 A mirror and a cached copy need no new vocabulary.
 
-The producer resolves a redirect that an archive captured, and names the page it
-found.
+The producer decides what an archived redirect means. It can resolve the target,
+or leave the capture out.
 
 Nothing in the read path knows what an archive is.
 
