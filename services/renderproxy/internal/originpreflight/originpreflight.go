@@ -12,7 +12,6 @@ import (
 	"strings"
 
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/pagefreshness"
-	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/pagereplay"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderedpage"
 )
 
@@ -85,9 +84,8 @@ func (r *Renderer) originResponseFor(
 
 func unchangedPageFrom(response *http.Response) renderedpage.Page {
 	return renderedpage.Page{
-		StatusCode:   response.StatusCode,
-		ReuseTerms:   pagefreshness.ReuseTermsOf(response.Header),
-		CaptureTerms: pagereplay.CaptureTermsOf(response.Header),
+		StatusCode: response.StatusCode,
+		ReuseTerms: pagefreshness.ReuseTermsOf(response.Header),
 	}
 }
 
@@ -97,11 +95,10 @@ func isRedirect(statusCode int) bool {
 
 func redirectPageFrom(response *http.Response) renderedpage.Page {
 	return renderedpage.Page{
-		StatusCode:   response.StatusCode,
-		ContentType:  response.Header.Get(headerContentType),
-		Location:     response.Header.Get(headerLocation),
-		ReuseTerms:   pagefreshness.ReuseTermsOf(response.Header),
-		CaptureTerms: pagereplay.CaptureTermsOf(response.Header),
+		StatusCode:  response.StatusCode,
+		ContentType: response.Header.Get(headerContentType),
+		Location:    response.Header.Get(headerLocation),
+		ReuseTerms:  pagefreshness.ReuseTermsOf(response.Header),
 	}
 }
 
@@ -129,10 +126,9 @@ func (r *Renderer) cappedPageFrom(response *http.Response) (renderedpage.Page, e
 		)
 	}
 	return renderedpage.Page{
-		StatusCode:   response.StatusCode,
-		ContentType:  response.Header.Get(headerContentType),
-		ReuseTerms:   pagefreshness.ReuseTermsOf(response.Header),
-		CaptureTerms: pagereplay.CaptureTermsOf(response.Header),
-		Body:         body,
+		StatusCode:  response.StatusCode,
+		ContentType: response.Header.Get(headerContentType),
+		ReuseTerms:  pagefreshness.ReuseTermsOf(response.Header),
+		Body:        body,
 	}, nil
 }

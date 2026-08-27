@@ -6,7 +6,6 @@ import (
 	"errors"
 
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/pagefreshness"
-	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/pagereplay"
 )
 
 var ErrTooLarge = errors.New("page exceeds the response byte limit")
@@ -17,12 +16,11 @@ type Target struct {
 }
 
 type Page struct {
-	StatusCode   int
-	ContentType  string
-	Location     string
-	ReuseTerms   pagefreshness.ReuseTerms
-	CaptureTerms pagereplay.CaptureTerms
-	Body         []byte
+	StatusCode  int
+	ContentType string
+	Location    string
+	ReuseTerms  pagefreshness.ReuseTerms
+	Body        []byte
 }
 
 type Renderer interface {

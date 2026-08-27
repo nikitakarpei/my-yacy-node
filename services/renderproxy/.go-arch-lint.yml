@@ -8,15 +8,12 @@ allow:
 commonComponents:
   - renderedpage
   - pagefreshness
-  - pagereplay
 
 components:
   renderedpage:
     in: internal/renderedpage/**
   pagefreshness:
     in: internal/pagefreshness/**
-  pagereplay:
-    in: internal/pagereplay/**
   cdprender:
     in: internal/cdprender/**
   cdpdocumentbinding:

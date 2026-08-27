@@ -36,8 +36,6 @@ leave through one required egress proxy, which it states to the browser for each
   status and no body, and SHALL not drive the browser for it.
 * The service SHALL return with every answer the terms the origin gives for reuse of the copy
   it serves.
-* The service SHALL return with every answer the terms a replay states about the capture it
-  serves, so that a client reads a replayed page as the capture rather than as the replay.
 * The service SHALL route its own origin requests through the configured egress proxy, and
   SHALL fail startup when no egress proxy is configured.
 * The service SHALL state the configured egress proxy to the browser for every render, so
@@ -70,7 +68,5 @@ leave through one required egress proxy, which it states to the browser for each
   egress proxy enforces them; the service adds none.
 * The reuse terms describe the origin's own response; the body of a hypertext page is what the
   browser has after loading, which can differ.
-* The capture terms are relayed as the replay states them; the service neither reads them nor
-  checks that they agree with the body it returns.
 * The browser's own TLS trust and version govern which origins load; the service adds no
   certificates of its own.
