@@ -1,4 +1,4 @@
-// Package pagerwi turns a fetched page and the document it holds into the reverse word index
+// Package pagerwi turns a scraped page and the document it holds into the reverse word index
 // the node stores: one URL metadata row and one posting per distinct word of the page's text.
 package pagerwi
 
@@ -8,7 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/scrapedpage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -19,14 +19,13 @@ type PageRWI struct {
 }
 
 func Of(
-	pageURL canonicalurl.CanonicalURL,
-	fetched pagefetch.FetchedPage,
+	scraped scrapedpage.ScrapedPage,
 	document documentextraction.Document,
 	text []byte,
 	reachedAt time.Time,
 ) PageRWI {
-	pageAddress := pageURL.WebAddress()
-	urlHash := yacymodel.URLNormalformOf(pageAddress).Hash()
+	pageURL := scraped.PageURL
+	urlHash := yacymodel.URLNormalformOf(pageURL.WebAddress()).Hash()
 
 	order, occurrences, textStats := tokenize(string(text))
 	_, _, titleStats := tokenize(document.Title)
@@ -51,7 +50,7 @@ func Of(
 	return PageRWI{
 		PageURL: pageURL,
 		Metadata: metadataOf(
-			pageURL, document, len(fetched.Body), reachedAt, textStats.Words,
+			pageURL, document, len(scraped.Body), reachedAt, textStats.Words,
 		),
 		Postings: postings,
 	}

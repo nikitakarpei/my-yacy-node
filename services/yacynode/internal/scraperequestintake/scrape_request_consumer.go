@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
+	"github.com/nikitakarpei/yacy-rwi-node/scrapedpage"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
@@ -80,27 +81,26 @@ func (c *ScrapeRequestConsumer) processOne(
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
 	reachedAt := time.Now()
-	fetched, scrapable := c.fetch(ctx, message, scrapeRequest.FetchURL)
+	scraped, scrapable := c.fetch(ctx, message, scrapeRequest)
 	if !scrapable {
 		return nil
 	}
-	document, text, derived := c.fullTextOf(ctx, fetched)
+	document, text, derived := c.fullTextOf(ctx, scraped)
 	if !derived {
-		slog.DebugContext(ctx, msgNoIndexDerived, slog.String("url", fetched.LandedURL.String()))
+		slog.DebugContext(ctx, msgNoIndexDerived, slog.String("url", scraped.PageURL.String()))
 		message.Acknowledge(ctx)
 		return nil
 	}
-	c.store(ctx, message, pagerwi.Of(
-		scrapeRequest.PageURLFrom(fetched.LandedURL), fetched, document, text, reachedAt,
-	))
+	c.store(ctx, message, pagerwi.Of(scraped, document, text, reachedAt))
 	return nil
 }
 
 func (c *ScrapeRequestConsumer) fetch(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	fetchURL canonicalurl.CanonicalURL,
-) (pagefetch.FetchedPage, bool) {
+	request scraperequestcontract.ScrapeRequest,
+) (scrapedpage.ScrapedPage, bool) {
+	fetchURL := request.FetchURL
 	outcome, err := c.fetcher.Fetch(ctx, fetchURL, pagefetch.PageVersion{})
 	if err != nil {
 		slog.WarnContext(ctx, msgFetchFailed,
@@ -108,11 +108,11 @@ func (c *ScrapeRequestConsumer) fetch(
 			slog.Any("error", err),
 		)
 		message.Return(ctx)
-		return pagefetch.FetchedPage{}, false
+		return scrapedpage.ScrapedPage{}, false
 	}
 	switch outcome.Status {
 	case pagefetch.FetchSucceeded:
-		return outcome.Page, true
+		return scrapedpage.Of(request, outcome.Page), true
 	case pagefetch.FetchFailed:
 		slog.WarnContext(ctx, msgFetchFailed, slog.String("url", fetchURL.String()))
 		message.Return(ctx)
@@ -126,25 +126,25 @@ func (c *ScrapeRequestConsumer) fetch(
 		slog.DebugContext(ctx, msgNothingToScrape, slog.String("url", fetchURL.String()))
 		message.Acknowledge(ctx)
 	}
-	return pagefetch.FetchedPage{}, false
+	return scrapedpage.ScrapedPage{}, false
 }
 
 func (c *ScrapeRequestConsumer) fullTextOf(
 	ctx context.Context,
-	fetched pagefetch.FetchedPage,
+	scraped scrapedpage.ScrapedPage,
 ) (documentextraction.Document, []byte, bool) {
 	document, err := documentextraction.DocumentFrom(
-		ctx, fetched.Body, fetched.ContentType, fetched.LandedURL,
+		ctx, scraped.Body, scraped.ContentType, scraped.LandedURL,
 	)
 	if err != nil {
 		slog.WarnContext(ctx, msgExtractionFailed,
-			slog.String("url", fetched.LandedURL.String()),
+			slog.String("url", scraped.LandedURL.String()),
 			slog.Any("error", err),
 		)
 		return documentextraction.Document{}, nil, false
 	}
 	text, derived := c.formatDerivations.BodyIn(
-		ctx, documentextraction.FormatFullText, document, fetched.LandedURL,
+		ctx, documentextraction.FormatFullText, document, scraped.LandedURL,
 	)
 	return document, text, derived
 }

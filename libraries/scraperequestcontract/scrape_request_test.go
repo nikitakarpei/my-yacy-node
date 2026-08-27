@@ -44,30 +44,6 @@ func TestScrapeRequestWithoutAFetchURLIsReadFromThePageURL(t *testing.T) {
 	}
 }
 
-func TestPageURLFromALandingOfARequestThatNamesNoFetchURL(t *testing.T) {
-	request := scraperequestcontract.ScrapeRequest{
-		PageURL: canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
-	}
-	request.FetchURL = request.PageURL
-	landedURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/b")
-
-	if got := request.PageURLFrom(landedURL); got != landedURL {
-		t.Errorf("page url = %q, want the landing %q", got, landedURL)
-	}
-}
-
-func TestPageURLFromALandingOfARequestThatNamesAFetchURL(t *testing.T) {
-	request := scraperequestcontract.ScrapeRequest{
-		PageURL:  canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),
-		FetchURL: canonicalurltest.CanonicalURLOf(t, "https://archive.example/a"),
-	}
-	landedURL := canonicalurltest.CanonicalURLOf(t, "https://archive.example/b")
-
-	if got := request.PageURLFrom(landedURL); got != request.PageURL {
-		t.Errorf("page url = %q, want the named page url %q", got, request.PageURL)
-	}
-}
-
 func TestUnmarshalScrapeRequestInvalidJSON(t *testing.T) {
 	if _, err := scraperequestcontract.UnmarshalScrapeRequest([]byte("not json")); err == nil {
 		t.Fatal("want an error for invalid JSON")

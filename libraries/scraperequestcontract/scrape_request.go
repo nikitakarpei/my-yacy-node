@@ -12,15 +12,6 @@ type ScrapeRequest struct {
 	FetchURL canonicalurl.CanonicalURL `json:"FetchURL,omitzero"`
 }
 
-func (r ScrapeRequest) PageURLFrom(
-	landedURL canonicalurl.CanonicalURL,
-) canonicalurl.CanonicalURL {
-	if r.FetchURL == r.PageURL {
-		return landedURL
-	}
-	return r.PageURL
-}
-
 func MarshalScrapeRequest(request ScrapeRequest) ([]byte, error) {
 	data, err := json.Marshal(request)
 	if err != nil {

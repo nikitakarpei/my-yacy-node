@@ -90,6 +90,8 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
+  scrapedpage:
+    in: github.com/nikitakarpei/yacy-rwi-node/scrapedpage
   scraperequestcontract:
     in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
   vault:
@@ -283,7 +285,7 @@ deps:
     canUse:
       - canonicalurl
       - documentextraction
-      - pagefetch
+      - scrapedpage
   scraperequestintake:
     mayDependOn:
       - pagerwi
@@ -292,6 +294,7 @@ deps:
     canUse:
       - yacycrawlcontract
       - scraperequestcontract
+      - scrapedpage
       - pageformats
       - pagefetch
       - pagefetchershttp
