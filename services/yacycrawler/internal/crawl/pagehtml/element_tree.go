@@ -1,5 +1,5 @@
-// Package pagemarkup parses a fetched body into the elements the crawler reads.
-package pagemarkup
+// Package pagehtml parses a fetched body into the HTML elements the crawler reads.
+package pagehtml
 
 import (
 	"bytes"
@@ -24,23 +24,23 @@ const (
 
 var ErrNotHTML = errors.New("not an html page")
 
-type Markup struct {
+type ElementTree struct {
 	root *html.Node
 }
 
-func MarkupFrom(ctx context.Context, contentType string, body []byte) (Markup, error) {
+func ElementTreeFrom(ctx context.Context, contentType string, body []byte) (ElementTree, error) {
 	if !isHTML(ctx, contentType) {
-		return Markup{}, ErrNotHTML
+		return ElementTree{}, ErrNotHTML
 	}
 	decoded, err := charset.NewReader(bytes.NewReader(body), contentType)
 	if err != nil {
-		return Markup{}, fmt.Errorf("decode charset: %w", err)
+		return ElementTree{}, fmt.Errorf("decode charset: %w", err)
 	}
 	root, err := html.Parse(decoded)
 	if err != nil {
-		return Markup{}, fmt.Errorf("parse html: %w", err)
+		return ElementTree{}, fmt.Errorf("parse html: %w", err)
 	}
-	return Markup{root: root}, nil
+	return ElementTree{root: root}, nil
 }
 
 func isHTML(ctx context.Context, contentType string) bool {
@@ -55,9 +55,9 @@ func isHTML(ctx context.Context, contentType string) bool {
 	return media == mediaHTML || media == mediaXHTML
 }
 
-func (m Markup) Elements() iter.Seq[*html.Node] {
+func (t ElementTree) Elements() iter.Seq[*html.Node] {
 	return func(yield func(*html.Node) bool) {
-		if m.root == nil {
+		if t.root == nil {
 			return
 		}
 		var walk func(*html.Node) bool
@@ -72,7 +72,7 @@ func (m Markup) Elements() iter.Seq[*html.Node] {
 			}
 			return true
 		}
-		walk(m.root)
+		walk(t.root)
 	}
 }
 

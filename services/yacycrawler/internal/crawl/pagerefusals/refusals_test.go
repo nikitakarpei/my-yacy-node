@@ -1,32 +1,32 @@
-package pagerobots_test
+package pagerefusals_test
 
 import (
 	"testing"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagemarkup"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerobots"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 )
 
-func refusalsOfMarkup(t *testing.T, markup string) pagerobots.Refusals {
+func refusalsOfHTML(t *testing.T, pageHTML string) pagerefusals.Refusals {
 	t.Helper()
-	return refusalsOfPage(t, nil, markup)
+	return refusalsOfPage(t, nil, pageHTML)
 }
 
 func refusalsOfPage(
 	t *testing.T,
-	statedDirectives []string,
-	markup string,
-) pagerobots.Refusals {
+	robotsDirectives []string,
+	pageHTML string,
+) pagerefusals.Refusals {
 	t.Helper()
-	parsed, err := pagemarkup.MarkupFrom(t.Context(), "text/html", []byte(markup))
+	elementTree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(pageHTML))
 	if err != nil {
-		t.Fatalf("MarkupFrom: %v", err)
+		t.Fatalf("ElementTreeFrom: %v", err)
 	}
-	return pagerobots.RefusalsOfPage(statedDirectives, parsed)
+	return pagerefusals.RefusalsOfPage(robotsDirectives, elementTree)
 }
 
 func TestAPageWithoutMetaRobotsRefusesNothing(t *testing.T) {
-	refusals := refusalsOfMarkup(t, `<html><body><a href="/next">next</a></body></html>`)
+	refusals := refusalsOfHTML(t, `<html><body><a href="/next">next</a></body></html>`)
 
 	if refusals.RefusesIndexing || refusals.RefusesLinkDiscovery {
 		t.Fatalf("refusals = %+v, want none", refusals)
@@ -45,7 +45,7 @@ func TestMetaRobotsStatesEachRefusal(t *testing.T) {
 		{content: "NoIndex, NoFollow", wantNoIndex: true, wantNoDiscover: true},
 		{content: "index, follow"},
 	} {
-		refusals := refusalsOfMarkup(t,
+		refusals := refusalsOfHTML(t,
 			`<html><head><meta name="ROBOTS" content="`+testCase.content+`"></head></html>`,
 		)
 
@@ -57,7 +57,7 @@ func TestMetaRobotsStatesEachRefusal(t *testing.T) {
 }
 
 func TestAMetaTagForSomeoneElseStatesNoRefusal(t *testing.T) {
-	refusals := refusalsOfMarkup(t,
+	refusals := refusalsOfHTML(t,
 		`<html><head><meta name="googlebot" content="noindex">`+
 			`<meta content="noindex"><meta name="robots"></head></html>`,
 	)
@@ -67,7 +67,7 @@ func TestAMetaTagForSomeoneElseStatesNoRefusal(t *testing.T) {
 	}
 }
 
-func TestDirectivesStatedOutsideTheMarkupRefuseToo(t *testing.T) {
+func TestDirectivesStatedOutsideTheHTMLRefuseToo(t *testing.T) {
 	refusals := refusalsOfPage(t,
 		[]string{"noindex", "nofollow"},
 		`<html><body><a href="/next">next</a></body></html>`,
@@ -78,7 +78,7 @@ func TestDirectivesStatedOutsideTheMarkupRefuseToo(t *testing.T) {
 	}
 }
 
-func TestAPageRefusesWhateverEitherItsDirectivesOrItsMarkupRefuse(t *testing.T) {
+func TestAPageRefusesWhateverEitherItsDirectivesOrItsHTMLRefuse(t *testing.T) {
 	refusals := refusalsOfPage(t,
 		[]string{"noindex"},
 		`<html><head><meta name="robots" content="nofollow"></head></html>`,

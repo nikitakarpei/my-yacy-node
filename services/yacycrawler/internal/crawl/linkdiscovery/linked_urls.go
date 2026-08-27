@@ -1,4 +1,4 @@
-// Package linkdiscovery reads the URLs a page's markup points to.
+// Package linkdiscovery reads the URLs a page's HTML points to.
 package linkdiscovery
 
 import (
@@ -8,41 +8,41 @@ import (
 	"golang.org/x/net/html/atom"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagemarkup"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 )
 
 const msgBaseHrefUnresolved = "base href unresolved, using page url"
 
 func LinkedURLsFrom(
 	ctx context.Context,
-	markup pagemarkup.Markup,
+	elementTree pagehtml.ElementTree,
 	pageURL canonicalurl.CanonicalURL,
 ) []canonicalurl.CanonicalURL {
 	return distinctURLsFrom(
-		linkHrefsOf(markup),
-		baseURLOf(ctx, pageURL, baseHrefOf(markup)),
+		linkHrefsOf(elementTree),
+		baseURLOf(ctx, pageURL, baseHrefOf(elementTree)),
 	)
 }
 
-func linkHrefsOf(markup pagemarkup.Markup) []string {
+func linkHrefsOf(elementTree pagehtml.ElementTree) []string {
 	var hrefs []string
-	for node := range markup.Elements() {
+	for node := range elementTree.Elements() {
 		if node.DataAtom != atom.A {
 			continue
 		}
-		if href, ok := pagemarkup.AttributeOf(node, "href"); ok {
+		if href, ok := pagehtml.AttributeOf(node, "href"); ok {
 			hrefs = append(hrefs, href)
 		}
 	}
 	return hrefs
 }
 
-func baseHrefOf(markup pagemarkup.Markup) string {
-	for node := range markup.Elements() {
+func baseHrefOf(elementTree pagehtml.ElementTree) string {
+	for node := range elementTree.Elements() {
 		if node.DataAtom != atom.Base {
 			continue
 		}
-		if href, ok := pagemarkup.AttributeOf(node, "href"); ok {
+		if href, ok := pagehtml.AttributeOf(node, "href"); ok {
 			return href
 		}
 	}

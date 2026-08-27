@@ -114,7 +114,7 @@ func TestVisitHonorsMetaNoFollow(t *testing.T) {
 	}
 }
 
-func TestVisitHonorsARefusalStatedOutsideTheMarkup(t *testing.T) {
+func TestVisitHonorsARefusalStatedOutsideTheHTML(t *testing.T) {
 	page := fetchedPage(t)
 	page.RobotsDirectives = []string{"nofollow"}
 

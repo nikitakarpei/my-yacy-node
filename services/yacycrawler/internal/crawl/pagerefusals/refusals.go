@@ -1,5 +1,5 @@
-// Package pagerobots reads what a page refuses to let a crawler do.
-package pagerobots
+// Package pagerefusals reads what a page refuses to let a crawler do.
+package pagerefusals
 
 import (
 	"strings"
@@ -7,7 +7,7 @@ import (
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagemarkup"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 )
 
 const (
@@ -21,12 +21,12 @@ type Refusals struct {
 	RefusesLinkDiscovery bool
 }
 
-func RefusalsOfPage(statedDirectives []string, markup pagemarkup.Markup) Refusals {
+func RefusalsOfPage(robotsDirectives []string, elementTree pagehtml.ElementTree) Refusals {
 	var refusals Refusals
-	for _, stated := range statedDirectives {
+	for _, stated := range robotsDirectives {
 		refusals.readDirectives(stated)
 	}
-	for node := range markup.Elements() {
+	for node := range elementTree.Elements() {
 		if node.DataAtom == atom.Meta {
 			refusals.readMetaRobots(node)
 		}
@@ -49,11 +49,11 @@ func (refusals *Refusals) readDirectives(stated string) {
 }
 
 func (refusals *Refusals) readMetaRobots(node *html.Node) {
-	name, ok := pagemarkup.AttributeOf(node, "name")
+	name, ok := pagehtml.AttributeOf(node, "name")
 	if !ok || !strings.EqualFold(strings.TrimSpace(name), "robots") {
 		return
 	}
-	content, ok := pagemarkup.AttributeOf(node, "content")
+	content, ok := pagehtml.AttributeOf(node, "content")
 	if !ok {
 		return
 	}

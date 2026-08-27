@@ -1,4 +1,4 @@
-package pagemarkup_test
+package pagehtml_test
 
 import (
 	"errors"
@@ -6,40 +6,40 @@ import (
 
 	"golang.org/x/net/html/atom"
 
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagemarkup"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 )
 
 const page = `<html><head><title>t</title></head><body><a href="/next">next</a></body></html>`
 
-func TestMarkupFromRejectsABodyThatIsNotHTML(t *testing.T) {
-	if _, err := pagemarkup.MarkupFrom(t.Context(), "application/pdf", []byte(page)); !errors.Is(
-		err, pagemarkup.ErrNotHTML,
+func TestElementTreeFromRejectsABodyThatIsNotHTML(t *testing.T) {
+	if _, err := pagehtml.ElementTreeFrom(t.Context(), "application/pdf", []byte(page)); !errors.Is(
+		err, pagehtml.ErrNotHTML,
 	) {
 		t.Fatalf("want ErrNotHTML, got %v", err)
 	}
 }
 
-func TestMarkupFromAcceptsTheHTMLMediaTypes(t *testing.T) {
+func TestElementTreeFromAcceptsTheHTMLMediaTypes(t *testing.T) {
 	for _, contentType := range []string{
 		"text/html",
 		"text/html; charset=utf-8",
 		"application/xhtml+xml",
 		"text/html;",
 	} {
-		if _, err := pagemarkup.MarkupFrom(t.Context(), contentType, []byte(page)); err != nil {
-			t.Errorf("MarkupFrom %q: %v", contentType, err)
+		if _, err := pagehtml.ElementTreeFrom(t.Context(), contentType, []byte(page)); err != nil {
+			t.Errorf("ElementTreeFrom %q: %v", contentType, err)
 		}
 	}
 }
 
 func TestElementsYieldsEveryElementInDocumentOrder(t *testing.T) {
-	markup, err := pagemarkup.MarkupFrom(t.Context(), "text/html", []byte(page))
+	tree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(page))
 	if err != nil {
-		t.Fatalf("MarkupFrom: %v", err)
+		t.Fatalf("ElementTreeFrom: %v", err)
 	}
 
 	var seen []atom.Atom
-	for node := range markup.Elements() {
+	for node := range tree.Elements() {
 		seen = append(seen, node.DataAtom)
 	}
 
@@ -55,13 +55,13 @@ func TestElementsYieldsEveryElementInDocumentOrder(t *testing.T) {
 }
 
 func TestElementsStopsWhenTheReaderStops(t *testing.T) {
-	markup, err := pagemarkup.MarkupFrom(t.Context(), "text/html", []byte(page))
+	tree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(page))
 	if err != nil {
-		t.Fatalf("MarkupFrom: %v", err)
+		t.Fatalf("ElementTreeFrom: %v", err)
 	}
 
 	visited := 0
-	for range markup.Elements() {
+	for range tree.Elements() {
 		visited++
 		break
 	}
@@ -72,22 +72,22 @@ func TestElementsStopsWhenTheReaderStops(t *testing.T) {
 }
 
 func TestAttributeOfReadsAKeyWhateverItsCase(t *testing.T) {
-	markup, err := pagemarkup.MarkupFrom(t.Context(), "text/html", []byte(
+	tree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(
 		`<html><body><a HREF="/next">next</a></body></html>`,
 	))
 	if err != nil {
-		t.Fatalf("MarkupFrom: %v", err)
+		t.Fatalf("ElementTreeFrom: %v", err)
 	}
 
-	for node := range markup.Elements() {
+	for node := range tree.Elements() {
 		if node.DataAtom != atom.A {
 			continue
 		}
-		href, ok := pagemarkup.AttributeOf(node, "href")
+		href, ok := pagehtml.AttributeOf(node, "href")
 		if !ok || href != "/next" {
 			t.Fatalf("href = %q, present = %v", href, ok)
 		}
-		if _, ok := pagemarkup.AttributeOf(node, "rel"); ok {
+		if _, ok := pagehtml.AttributeOf(node, "rel"); ok {
 			t.Fatal("an absent attribute reports itself absent")
 		}
 	}

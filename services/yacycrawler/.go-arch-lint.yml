@@ -38,10 +38,10 @@ components:
     in: internal/crawl/fetchtiming/**
   pagevisit:
     in: internal/crawl/pagevisit/**
-  pagemarkup:
-    in: internal/crawl/pagemarkup/**
-  pagerobots:
-    in: internal/crawl/pagerobots/**
+  pagehtml:
+    in: internal/crawl/pagehtml/**
+  pagerefusals:
+    in: internal/crawl/pagerefusals/**
   linkdiscovery:
     in: internal/crawl/linkdiscovery/**
   recrawlrulesalwaysdue:
@@ -134,17 +134,17 @@ deps:
   fetchtiming:
     canUse:
       - pagefetch
-  pagemarkup:
+  pagehtml:
     canUse:
       - nethtml
-  pagerobots:
+  pagerefusals:
     mayDependOn:
-      - pagemarkup
+      - pagehtml
     canUse:
       - nethtml
   linkdiscovery:
     mayDependOn:
-      - pagemarkup
+      - pagehtml
     canUse:
       - canonicalurl
       - nethtml
@@ -152,8 +152,8 @@ deps:
     mayDependOn:
       - disposal
       - refusal
-      - pagemarkup
-      - pagerobots
+      - pagehtml
+      - pagerefusals
       - linkdiscovery
     canUse:
       - canonicalurl
