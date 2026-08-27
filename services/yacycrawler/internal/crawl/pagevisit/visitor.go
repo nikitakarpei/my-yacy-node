@@ -12,7 +12,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 )
 
 const (
@@ -61,10 +60,10 @@ func (v *visitor) concludeVisit(
 	case pagefetch.FetchNotModified:
 		v.recordVisit(ctx, url, fetchOutcome.Version)
 		return completedOutcome(disposal.NotModified, noDiscoveredURLs), nil
-	case pagefetch.FetchCeased:
+	case pagefetch.FetchAccessRefused:
 		v.recordVisit(ctx, url, fetchOutcome.Version)
-		v.progress.RefusalHonored(refusal.Cease)
-		return completedOutcome(disposal.CrawlCeased, noDiscoveredURLs), nil
+		v.progress.AccessRefusalHonored()
+		return completedOutcome(disposal.AccessRefused, noDiscoveredURLs), nil
 	case pagefetch.FetchRejected:
 		v.progress.PageFetched()
 		return completedOutcome(disposal.FetchRejected, noDiscoveredURLs), nil
@@ -103,6 +102,7 @@ func (v *visitor) visitFetchedPage(
 		pagerefusals.RefusalsOfPage(page.RobotsDirectives, elementTree),
 		v.ignoredRefusals,
 	)
+	v.reportRefusalsHonored(refusals)
 	discoveredURLs := discoveredURLsFrom(ctx, elementTree, page.LandedURL, refusals)
 	if refusals.RefusesIndexing {
 		return completedOutcome(disposal.IndexingRefused, discoveredURLs), nil
@@ -135,6 +135,15 @@ func refusalsHonoredBy(
 	return pagerefusals.Refusals{
 		RefusesIndexing:      stated.RefusesIndexing && !ignored.IndexingRefusal,
 		RefusesLinkDiscovery: stated.RefusesLinkDiscovery,
+	}
+}
+
+func (v *visitor) reportRefusalsHonored(refusals pagerefusals.Refusals) {
+	if refusals.RefusesIndexing {
+		v.progress.IndexingRefusalHonored()
+	}
+	if refusals.RefusesLinkDiscovery {
+		v.progress.LinkDiscoveryRefusalHonored()
 	}
 }
 

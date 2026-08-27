@@ -17,7 +17,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitclaim"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitintake"
@@ -168,15 +167,14 @@ func (f *fakeVisitor) visitCount() int {
 }
 
 type recordingObserver struct {
-	mu       sync.Mutex
-	disposed map[disposal.Reason]int
-	refusals map[refusal.Demand]int
+	mu        sync.Mutex
+	disposed  map[disposal.Reason]int
+	deferrals int
 }
 
 func newObserver() *recordingObserver {
 	return &recordingObserver{
 		disposed: map[disposal.Reason]int{},
-		refusals: map[refusal.Demand]int{},
 	}
 }
 
@@ -186,10 +184,10 @@ func (o *recordingObserver) PageDisposed(reason disposal.Reason) {
 	o.disposed[reason]++
 }
 
-func (o *recordingObserver) RefusalHonored(demand refusal.Demand) {
+func (o *recordingObserver) DeferralHonored() {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	o.refusals[demand]++
+	o.deferrals++
 }
 
 func wideProfile() yacycrawlcontract.CrawlProfile {
@@ -349,8 +347,8 @@ func TestADeferredVisitReturnsAfterTheDelayTheSiteAsked(t *testing.T) {
 	if message.HeldBackFor() != 7*time.Second {
 		t.Fatalf("held back for %v, want the delay the site asked", message.HeldBackFor())
 	}
-	if worker.observer.refusals[refusal.Defer] != 1 {
-		t.Fatalf("observer refusals %v, want one defer", worker.observer.refusals)
+	if worker.observer.deferrals != 1 {
+		t.Fatalf("observer honored %d deferrals, want one", worker.observer.deferrals)
 	}
 }
 

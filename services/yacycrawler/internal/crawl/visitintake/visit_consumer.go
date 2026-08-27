@@ -15,7 +15,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitclaim"
 )
@@ -53,7 +52,7 @@ type PendingVisits interface {
 }
 
 type PendingVisitProgress interface {
-	RefusalHonored(demand refusal.Demand)
+	DeferralHonored()
 	PageDisposed(reason disposal.Reason)
 }
 
@@ -242,7 +241,7 @@ func (c *VisitConsumer) deferVisit(
 		c.dropExhaustedVisit(ctx, message, pendingVisit, disposal.DeferralsExhausted)
 		return
 	}
-	c.observer.RefusalHonored(refusal.Defer)
+	c.observer.DeferralHonored()
 	message.ReturnAfter(ctx, deferFor)
 }
 

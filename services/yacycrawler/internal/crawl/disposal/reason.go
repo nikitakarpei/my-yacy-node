@@ -8,7 +8,7 @@ const NotDisposed Reason = ""
 const (
 	NotDue               Reason = "not-due"
 	NotModified          Reason = "not-modified"
-	CrawlCeased          Reason = "crawl-ceased"
+	AccessRefused        Reason = "access-refused"
 	FetchRejected        Reason = "fetch-rejected"
 	LandedURLInvalid     Reason = "landed-url-invalid"
 	Oversized            Reason = "oversized"

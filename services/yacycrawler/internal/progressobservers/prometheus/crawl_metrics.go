@@ -8,7 +8,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitintake"
 )
 
@@ -21,6 +20,13 @@ var (
 const (
 	labelReason = "reason"
 	labelDemand = "demand"
+)
+
+const (
+	demandAccessRefusal        = "access-refusal"
+	demandDeferral             = "deferral"
+	demandIndexingRefusal      = "indexing-refusal"
+	demandLinkDiscoveryRefusal = "link-discovery-refusal"
 )
 
 type CrawlMetrics struct {
@@ -93,8 +99,20 @@ func (m *CrawlMetrics) PageDisposed(reason disposal.Reason) {
 	m.pagesDisposed.WithLabelValues(string(reason)).Inc()
 }
 
-func (m *CrawlMetrics) RefusalHonored(demand refusal.Demand) {
-	m.refusalsHonored.WithLabelValues(string(demand)).Inc()
+func (m *CrawlMetrics) AccessRefusalHonored() {
+	m.refusalsHonored.WithLabelValues(demandAccessRefusal).Inc()
+}
+
+func (m *CrawlMetrics) DeferralHonored() {
+	m.refusalsHonored.WithLabelValues(demandDeferral).Inc()
+}
+
+func (m *CrawlMetrics) IndexingRefusalHonored() {
+	m.refusalsHonored.WithLabelValues(demandIndexingRefusal).Inc()
+}
+
+func (m *CrawlMetrics) LinkDiscoveryRefusalHonored() {
+	m.refusalsHonored.WithLabelValues(demandLinkDiscoveryRefusal).Inc()
 }
 
 func (m *CrawlMetrics) FetchCompleted(elapsed time.Duration) {

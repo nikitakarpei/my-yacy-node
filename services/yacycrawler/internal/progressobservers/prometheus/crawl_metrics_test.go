@@ -23,7 +23,10 @@ func TestMetricsRecordAndExpose(t *testing.T) {
 	metrics.PageFetched()
 	metrics.ScrapeRequestPublished()
 	metrics.PageDisposed("unsupported-media-type")
-	metrics.RefusalHonored("ceased")
+	metrics.AccessRefusalHonored()
+	metrics.DeferralHonored()
+	metrics.IndexingRefusalHonored()
+	metrics.LinkDiscoveryRefusalHonored()
 	metrics.FetchCompleted(250 * time.Millisecond)
 
 	recorder := httptest.NewRecorder()
@@ -35,6 +38,10 @@ func TestMetricsRecordAndExpose(t *testing.T) {
 		"yacycrawler_orders_received_total 1",
 		"yacycrawler_scrape_requests_published_total 1",
 		"yacycrawler_pages_disposed_total",
+		`yacycrawler_refusals_honored_total{demand="access-refusal"} 1`,
+		`yacycrawler_refusals_honored_total{demand="deferral"} 1`,
+		`yacycrawler_refusals_honored_total{demand="indexing-refusal"} 1`,
+		`yacycrawler_refusals_honored_total{demand="link-discovery-refusal"} 1`,
 		"yacycrawler_fetch_duration_seconds",
 	} {
 		if !strings.Contains(body, want) {

@@ -27,6 +27,18 @@ func pageContentOutcome(t *testing.T, page pagefetch.FetchedPage) pagevisit.Visi
 	))
 }
 
+func refusalsHonoredFor(t *testing.T, markup string) map[string]int {
+	t.Helper()
+	observer := newObserver()
+	visitHost(t, newVisitor(
+		fetchOf(fetchOutcomeOf(pageHolding(t, markup))),
+		&fakeRecrawl{due: true},
+		observer,
+		&fakeScrapeRequests{},
+	))
+	return observer.refusals
+}
+
 func fetchOutcomeOf(page pagefetch.FetchedPage) pagefetch.FetchOutcome {
 	return pagefetch.FetchOutcome{Status: pagefetch.FetchSucceeded, Page: page}
 }
@@ -83,6 +95,30 @@ func TestVisitHonorsMetaNoIndex(t *testing.T) {
 	}
 }
 
+func TestVisitReportsAnHonoredIndexingRefusal(t *testing.T) {
+	honored := refusalsHonoredFor(t, pageRefusingIndexing)
+
+	if honored["indexing"] != 1 {
+		t.Fatalf("honored refusals %v, want one indexing refusal", honored)
+	}
+}
+
+func TestVisitReportsNoHonoredIndexingRefusalWhenTheOrderIgnoresIt(t *testing.T) {
+	observer := newObserver()
+	visitorFor := newVisitorFor(
+		fetchOf(fetchOutcomeOf(pageHolding(t, pageRefusingIndexing))),
+		&fakeRecrawl{due: true},
+		observer,
+		&fakeScrapeRequests{},
+	)
+
+	visitHost(t, visitorFor(pagevisit.IgnoredRefusals{IndexingRefusal: true}))
+
+	if observer.refusals["indexing"] != 0 {
+		t.Fatalf("honored refusals %v, want none", observer.refusals)
+	}
+}
+
 func TestVisitStillFollowsAPageThatRefusesIndexing(t *testing.T) {
 	outcome := pageContentOutcome(t, pageHolding(t, pageRefusingIndexing))
 
@@ -111,6 +147,14 @@ func TestVisitHonorsMetaNoFollow(t *testing.T) {
 
 	if len(outcome.DiscoveredURLs) != 0 {
 		t.Fatalf("nofollow should suppress discovered links, got %v", outcome.DiscoveredURLs)
+	}
+}
+
+func TestVisitReportsAnHonoredLinkDiscoveryRefusal(t *testing.T) {
+	honored := refusalsHonoredFor(t, pageRefusingLinkDiscovery)
+
+	if honored["link-discovery"] != 1 {
+		t.Fatalf("honored refusals %v, want one link-discovery refusal", honored)
 	}
 }
 

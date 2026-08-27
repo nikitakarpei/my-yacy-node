@@ -187,9 +187,9 @@ func TestFetchStatusMapping(t *testing.T) {
 		http.StatusNotModified:                pagefetch.FetchNotModified,
 		http.StatusTooManyRequests:            pagefetch.FetchDeferred,
 		http.StatusServiceUnavailable:         pagefetch.FetchDeferred,
-		http.StatusForbidden:                  pagefetch.FetchCeased,
-		http.StatusUnauthorized:               pagefetch.FetchCeased,
-		http.StatusUnavailableForLegalReasons: pagefetch.FetchCeased,
+		http.StatusForbidden:                  pagefetch.FetchAccessRefused,
+		http.StatusUnauthorized:               pagefetch.FetchAccessRefused,
+		http.StatusUnavailableForLegalReasons: pagefetch.FetchAccessRefused,
 		http.StatusNotFound:                   pagefetch.FetchRejected,
 		http.StatusInternalServerError:        pagefetch.FetchFailed,
 	}

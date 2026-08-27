@@ -304,7 +304,7 @@
     {
       "id": 23,
       "title": "Refusals honored by target demand",
-      "description": "A refusal is a demand from the target. The target asks the crawler to cease or defer a page. Cease abandons the page, and the crawl continues with the rest of the frontier. Defer puts the page back in the frontier for the wait time the target asks for.",
+      "description": "A refusal is a demand from the target. Access refusal and indexing refusal abandon the page, and the crawl continues with the rest of the frontier. Link discovery refusal keeps the page but adds no new URL to the frontier. Deferral puts the page back in the frontier for the wait time the target asks for.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",

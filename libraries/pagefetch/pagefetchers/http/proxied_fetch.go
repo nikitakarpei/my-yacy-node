@@ -107,7 +107,7 @@ func (f *ProxiedFetch) classify(
 	case response.StatusCode == http.StatusUnauthorized,
 		response.StatusCode == http.StatusForbidden,
 		response.StatusCode == http.StatusUnavailableForLegalReasons:
-		return pagefetch.FetchOutcome{Status: pagefetch.FetchCeased}, nil
+		return pagefetch.FetchOutcome{Status: pagefetch.FetchAccessRefused}, nil
 	case response.StatusCode >= 400 && response.StatusCode < 500:
 		return pagefetch.FetchOutcome{Status: pagefetch.FetchRejected}, nil
 	default:

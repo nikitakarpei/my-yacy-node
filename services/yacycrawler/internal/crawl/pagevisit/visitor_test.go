@@ -12,7 +12,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 )
 
 type fakeFetch struct {
@@ -85,13 +84,13 @@ func (f *fakeRecrawl) calls() []visitedCall {
 
 type recordingObserver struct {
 	mu                      sync.Mutex
-	refusals                map[refusal.Demand]int
+	refusals                map[string]int
 	fetched                 int
 	scrapeRequestsPublished int
 }
 
 func newObserver() *recordingObserver {
-	return &recordingObserver{refusals: map[refusal.Demand]int{}}
+	return &recordingObserver{refusals: map[string]int{}}
 }
 
 func (o *recordingObserver) PageFetched() {
@@ -100,10 +99,16 @@ func (o *recordingObserver) PageFetched() {
 	o.fetched++
 }
 
-func (o *recordingObserver) RefusalHonored(kind refusal.Demand) {
+func (o *recordingObserver) AccessRefusalHonored() { o.honor("access") }
+
+func (o *recordingObserver) IndexingRefusalHonored() { o.honor("indexing") }
+
+func (o *recordingObserver) LinkDiscoveryRefusalHonored() { o.honor("link-discovery") }
+
+func (o *recordingObserver) honor(refusal string) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	o.refusals[kind]++
+	o.refusals[refusal]++
 }
 
 func (o *recordingObserver) ScrapeRequestPublished() {
@@ -271,12 +276,12 @@ func TestVisitReportsLandedURLInvalidDisposal(t *testing.T) {
 	}
 }
 
-func TestVisitCeasesOnHTTPCease(t *testing.T) {
+func TestVisitStopsWhenTheTargetRefusesAccess(t *testing.T) {
 	observer := newObserver()
 	recrawl := &fakeRecrawl{due: true}
 	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
-		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchCeased}),
+		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchAccessRefused}),
 		recrawl,
 		observer,
 		scrapeRequests,
@@ -284,17 +289,20 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 
 	outcome := visitHost(t, visitor)
 
-	if observer.refusals[refusal.Cease] != 1 {
-		t.Fatalf("cease not honored: %v", observer.refusals)
+	if observer.refusals["access"] != 1 {
+		t.Fatalf("access refusal not honored: %v", observer.refusals)
 	}
-	if outcome.Disposal != disposal.CrawlCeased {
-		t.Fatalf("want crawl-ceased disposal, got %q", outcome.Disposal)
+	if outcome.Disposal != disposal.AccessRefused {
+		t.Fatalf("want access-refused disposal, got %q", outcome.Disposal)
 	}
 	if len(recrawl.calls()) != 1 {
-		t.Fatalf("visited should be recorded on a cease so grace applies, got %v", recrawl.calls())
+		t.Fatalf(
+			"visited should be recorded on a refusal so grace applies, got %v",
+			recrawl.calls(),
+		)
 	}
 	if calls := scrapeRequests.calls(); len(calls) != 0 {
-		t.Fatalf("a ceased fetch should publish no scrape request, got %v", calls)
+		t.Fatalf("a refused fetch should publish no scrape request, got %v", calls)
 	}
 }
 
