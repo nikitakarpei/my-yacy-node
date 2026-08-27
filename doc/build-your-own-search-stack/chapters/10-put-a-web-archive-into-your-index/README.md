@@ -3,8 +3,7 @@
 > "Can I supply my index from web archives?"
 
 A web archive holds pages as they were on the day someone saved them. One
-reaches you as an export from a colleague, as a collection you download, or as
-an archive an institution keeps on the web.
+reaches you as an export from a colleague or as a collection you download.
 
 `webarchivescrape` asks an archive which pages it holds and sends each one to
 the crawl, so archived words reach your index, including words of pages the live
@@ -15,6 +14,9 @@ web no longer has.
 `pywb` serves an archive of your own. It reads the WARC files under `imported/`
 and looks for new ones by itself, so an archive someone gives you is searchable
 soon after you copy it in, with no restart.
+
+`pywb.yaml` turns off frame replay. Keep it: without it the crawl indexes
+pywb's frame and not the archived page.
 
 The archive sits on a network of its own that has no route out. Smokescreen
 reaches it and now allows its address, so the crawl is able to fetch a replayed
@@ -57,13 +59,6 @@ docker compose exec pywb sh -c \
 
 Run this after you copy an archive in, and every site in it reaches your index,
 whether or not you know which sites the files hold.
-
-## An archive you do not host
-
-`-pywb-url` can name an archive that is already on the web, with the collection
-that archive publishes. Nothing is copied to your disk, and the crawl reads the
-pages from there. Keep `-page-limit` low: the archive belongs to someone else,
-and every page you select is a request they serve.
 
 ## Where you are now
 

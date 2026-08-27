@@ -13,6 +13,7 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pywbarchive"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 )
 
@@ -88,7 +89,11 @@ func (o *commandOutput) stderrText() string {
 }
 
 func commandArguments(pywbURL, queriedURL string, dryRun bool) []string {
-	arguments := []string{"-pywb-url", pywbURL, "-pywb-collection", "captures", "-url", queriedURL}
+	arguments := []string{
+		"-pywb-url", pywbURL,
+		"-pywb-collection", pywbarchive.Collection,
+		"-url", queriedURL,
+	}
 	if dryRun {
 		arguments = append(arguments, "-dry-run")
 	}

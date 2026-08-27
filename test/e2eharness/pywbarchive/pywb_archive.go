@@ -1,6 +1,6 @@
 //go:build e2e
 
-// Package pywbarchive starts a seeded pywb archive for end-to-end tests.
+// Package pywbarchive starts a seeded frameless pywb archive for end-to-end tests.
 package pywbarchive
 
 import (
@@ -40,6 +40,7 @@ func Start(t *testing.T, ctx context.Context, networkName string, warc []byte) A
 				"-c",
 				"wb-manager init " + Collection + " && wb-manager add " + Collection + " /fixtures/archive.warc && exec wayback -b 0.0.0.0 -p 8080",
 			},
+			Env:            map[string]string{"PYWB_CONFIG_FILE": "/fixtures/config.yaml"},
 			ExposedPorts:   []string{port},
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {alias}},
@@ -51,9 +52,11 @@ func Start(t *testing.T, ctx context.Context, networkName string, warc []byte) A
 				},
 				{
 					Reader: bytes.NewReader(
-						[]byte("collections:\n  " + Collection + ": " + Collection + "\n"),
+						[]byte(
+							"framed_replay: false\ncollections:\n  " + Collection + ": " + Collection + "\n",
+						),
 					),
-					ContainerFilePath: "/webarchive/config.yaml",
+					ContainerFilePath: "/fixtures/config.yaml",
 					FileMode:          0o644,
 				},
 			},

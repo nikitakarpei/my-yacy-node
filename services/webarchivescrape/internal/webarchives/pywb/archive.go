@@ -3,9 +3,8 @@
 // the absence of a way to keep one capture per page, and the mp_ modifier.
 //
 // The mp_ modifier asks pywb for the page itself rather than for the frame it shows a
-// reader, and for links and subresources that point back into the archive rather than at
-// the origin. The url a capture was taken from ends the replay address, written as it was
-// captured.
+// reader, and for subresources that the archive serves rather than the origin. The url a
+// capture was taken from ends the replay address, written as it was captured.
 package pywb
 
 import (
