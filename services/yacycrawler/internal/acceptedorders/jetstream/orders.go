@@ -41,13 +41,13 @@ func New(bucket jetstream.KeyValue) *Orders {
 	return &Orders{bucket: bucket}
 }
 
-func (o *Orders) Accept(ctx context.Context, order acceptedorder.AcceptedOrder) error {
+func (o *Orders) Keep(ctx context.Context, order acceptedorder.AcceptedOrder) error {
 	data, err := yacycrawlcontract.MarshalCrawlOrder(order.CrawlOrder())
 	if err != nil {
-		return fmt.Errorf("accept order %s: %w", order.OrderID(), err)
+		return fmt.Errorf("keep order %s: %w", order.OrderID(), err)
 	}
 	if _, err := o.bucket.Put(ctx, orderKeyOf(order.OrderID()), data); err != nil {
-		return fmt.Errorf("accept order %s: %w", order.OrderID(), err)
+		return fmt.Errorf("keep order %s: %w", order.OrderID(), err)
 	}
 	return nil
 }

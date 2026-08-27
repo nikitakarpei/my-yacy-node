@@ -30,6 +30,8 @@ components:
     in: internal/crawl/acceptedorder/**
   orderintake:
     in: internal/crawl/orderintake/**
+  visitclaim:
+    in: internal/crawl/visitclaim/**
   visitintake:
     in: internal/crawl/visitintake/**
   fetchtiming:
@@ -117,6 +119,7 @@ deps:
   visitintake:
     mayDependOn:
       - disposal
+      - visitclaim
       - refusal
       - retrydelay
       - pendingvisit
@@ -176,6 +179,8 @@ deps:
     canUse:
       - nats
   visitclaimsjetstream:
+    mayDependOn:
+      - visitclaim
     canUse:
       - nats
       - canonicalurl

@@ -83,15 +83,15 @@ func (s fakeSource) Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesCo
 }
 
 type fakeAcceptedOrders struct {
-	accepted []acceptedorder.AcceptedOrder
-	err      error
+	kept []acceptedorder.AcceptedOrder
+	err  error
 }
 
-func (o *fakeAcceptedOrders) Accept(_ context.Context, order acceptedorder.AcceptedOrder) error {
+func (o *fakeAcceptedOrders) Keep(_ context.Context, order acceptedorder.AcceptedOrder) error {
 	if o.err != nil {
 		return o.err
 	}
-	o.accepted = append(o.accepted, order)
+	o.kept = append(o.kept, order)
 	return nil
 }
 
@@ -174,8 +174,8 @@ func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if len(orders.accepted) != 1 {
-		t.Fatalf("accepted %d orders, want 1", len(orders.accepted))
+	if len(orders.kept) != 1 {
+		t.Fatalf("kept %d orders, want 1", len(orders.kept))
 	}
 	if len(visits.published) != 2 {
 		t.Fatalf("published %d seeds, want 2", len(visits.published))
@@ -243,7 +243,7 @@ func TestAnOrderWhoseProfileTheCrawlerCannotReadSeedsNothing(t *testing.T) {
 	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
 		t.Fatalf("message settled %v, want one delayed return", got)
 	}
-	if len(orders.accepted) != 0 || len(visits.published) != 0 {
+	if len(orders.kept) != 0 || len(visits.published) != 0 {
 		t.Fatal("an order the crawler cannot read should neither be accepted nor seed the frontier")
 	}
 	if observer.returned != 1 {

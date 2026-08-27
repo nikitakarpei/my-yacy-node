@@ -230,42 +230,6 @@ func TestPendingMessageIdentityNamesWhereTheMessageSits(t *testing.T) {
 	}
 }
 
-func TestPendingMessageKnowsItComesBackAgain(t *testing.T) {
-	var redelivered bool
-	deliver(t, &fakeMsg{metadata: &jetstream.MsgMetadata{NumDelivered: 3}},
-		func(_ context.Context, message pullintake.PendingMessage) {
-			redelivered = message.Redelivered()
-		})
-
-	if !redelivered {
-		t.Error("a message the broker delivered three times is a redelivery")
-	}
-}
-
-func TestAFirstDeliveryIsNoRedelivery(t *testing.T) {
-	var redelivered bool
-	deliver(t, &fakeMsg{metadata: &jetstream.MsgMetadata{NumDelivered: 1}},
-		func(_ context.Context, message pullintake.PendingMessage) {
-			redelivered = message.Redelivered()
-		})
-
-	if redelivered {
-		t.Error("a first delivery is no redelivery")
-	}
-}
-
-func TestAMessageWithoutMetadataIsNoRedelivery(t *testing.T) {
-	var redelivered bool
-	deliver(t, &fakeMsg{metaErr: errors.New("no metadata")},
-		func(_ context.Context, message pullintake.PendingMessage) {
-			redelivered = message.Redelivered()
-		})
-
-	if redelivered {
-		t.Error("a message without metadata is no redelivery")
-	}
-}
-
 func TestPendingMessageIdentityFallsBackToTheSubjectAlone(t *testing.T) {
 	var identity string
 	deliver(t, &fakeMsg{metaErr: errors.New("no metadata")},

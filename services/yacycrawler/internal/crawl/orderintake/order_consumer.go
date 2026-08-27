@@ -19,7 +19,7 @@ const (
 )
 
 type AcceptedOrders interface {
-	Accept(ctx context.Context, order acceptedorder.AcceptedOrder) error
+	Keep(ctx context.Context, order acceptedorder.AcceptedOrder) error
 }
 
 type PendingVisits interface {
@@ -76,7 +76,7 @@ func (c *OrderConsumer) processOne(
 		c.returnOrder(ctx, message, sentOrder.OrderID, err)
 		return nil
 	}
-	if err := c.orders.Accept(ctx, order); err != nil {
+	if err := c.orders.Keep(ctx, order); err != nil {
 		c.returnOrder(ctx, message, order.OrderID(), err)
 		return nil
 	}

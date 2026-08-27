@@ -1,5 +1,5 @@
 // Package visitintake pays one pending visit per delivered message: it claims
-// the URL for this worker, visits it, and puts the URLs it discovers back on
+// the URL for that message, visits it, and puts the URLs it discovers back on
 // the frontier.
 package visitintake
 
@@ -17,21 +17,22 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitclaim"
 )
 
 const (
-	msgOrderUnreadable    = "pending visit names an order the crawler cannot read"
-	msgClaimUnreadable    = "visit claim unreadable, the url returns for redelivery"
-	msgVisitFailed        = "visit failed, the url returns for redelivery"
-	msgDeferralsExhausted = "url dropped after exhausting deferrals"
-	msgRetriesExhausted   = "url dropped after exhausting retries"
-	msgHostPagesExhausted = "url dropped after exhausting its host page allowance"
-	msgDiscoveryFailed    = "discovered urls not published, the url returns for redelivery"
-	msgVisitClaimedTwice  = "pending visit already claimed elsewhere, dropped"
+	msgVisitReturned      = "pending visit returned for redelivery"
+	msgAllowanceExhausted = "pending visit dropped after exhausting its allowance"
+	msgClaimHeldElsewhere = "pending visit already claimed elsewhere, dropped"
 )
 
 type VisitClaims interface {
-	Claim(ctx context.Context, orderID string, url canonicalurl.CanonicalURL) (bool, error)
+	Claim(
+		ctx context.Context,
+		orderID string,
+		url canonicalurl.CanonicalURL,
+		holder string,
+	) (visitclaim.Claim, error)
 	SpendHostPage(ctx context.Context, orderID string, host string, maxPages int) (bool, error)
 	Defer(ctx context.Context, orderID string, url canonicalurl.CanonicalURL) (bool, error)
 	Retry(ctx context.Context, orderID string, url canonicalurl.CanonicalURL) (int, bool, error)
@@ -45,7 +46,7 @@ type PendingVisits interface {
 	Publish(ctx context.Context, visit pendingvisit.PendingVisit) error
 }
 
-type SettlementProgress interface {
+type FrontierProgress interface {
 	RefusalHonored(demand refusal.Demand)
 	PageDisposed(reason disposal.Reason)
 }
@@ -56,7 +57,7 @@ type Config struct {
 	Orders           AcceptedOrders
 	Visits           PendingVisits
 	VisitorFor       pagevisit.VisitorFor
-	Observer         SettlementProgress
+	Observer         FrontierProgress
 	RetryDelay       retrydelay.Bounds
 	FetchConcurrency int
 }
@@ -67,7 +68,7 @@ type VisitConsumer struct {
 	orders           AcceptedOrders
 	visits           PendingVisits
 	visitorFor       pagevisit.VisitorFor
-	observer         SettlementProgress
+	observer         FrontierProgress
 	retryDelay       retrydelay.Bounds
 	fetchConcurrency int
 }
@@ -86,232 +87,210 @@ func NewVisitConsumer(config Config) *VisitConsumer {
 }
 
 func (c *VisitConsumer) Run(ctx context.Context) error {
-	return pullintake.Run(ctx, c.source, c.fetchConcurrency, c.processOne)
+	return pullintake.Run(ctx, c.source, c.fetchConcurrency, c.payVisit)
 }
 
-func (c *VisitConsumer) processOne(
+func (c *VisitConsumer) payVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 ) error {
-	visit, err := pendingvisit.UnmarshalPendingVisit(message.Body())
+	pendingVisit, err := pendingvisit.UnmarshalPendingVisit(message.Body())
 	if err != nil {
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	order, ordered := c.orderOf(ctx, message, visit)
-	if !ordered {
+	order, err := c.orders.OrderOf(ctx, pendingVisit.OrderID)
+	if err != nil {
+		c.returnVisit(ctx, message, pendingVisit, err)
 		return nil
 	}
-	if !c.claim(ctx, message, order, visit) {
+	if !c.claimVisit(ctx, message, order, pendingVisit) {
 		return nil
 	}
-	outcome, visited := c.visit(ctx, message, order, visit)
-	if !visited {
+	outcome, err := c.visitorFor(ignoredRefusalsOf(order)).Visit(ctx, pendingVisit.URL)
+	if err != nil {
+		c.returnVisit(ctx, message, pendingVisit, err)
 		return nil
 	}
-	c.settle(ctx, message, order, visit, outcome)
+	c.carryOutConclusion(ctx, message, order, pendingVisit, outcome)
 	return nil
 }
 
-func (c *VisitConsumer) orderOf(
+func (c *VisitConsumer) returnVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	visit pendingvisit.PendingVisit,
-) (acceptedorder.AcceptedOrder, bool) {
-	order, err := c.orders.OrderOf(ctx, visit.OrderID)
-	if err != nil {
-		slog.WarnContext(ctx, msgOrderUnreadable,
-			slog.String("order", visit.OrderID),
-			slog.String("url", visit.URL.String()),
-			slog.Any("error", err),
-		)
-		message.Return(ctx)
-		return acceptedorder.AcceptedOrder{}, false
-	}
-	return order, true
+	pendingVisit pendingvisit.PendingVisit,
+	cause error,
+) {
+	slog.WarnContext(ctx, msgVisitReturned,
+		slog.String("order", pendingVisit.OrderID),
+		slog.String("url", pendingVisit.URL.String()),
+		slog.Any("error", cause),
+	)
+	message.Return(ctx)
 }
 
-func (c *VisitConsumer) claim(
+func (c *VisitConsumer) claimVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	order acceptedorder.AcceptedOrder,
-	visit pendingvisit.PendingVisit,
+	pendingVisit pendingvisit.PendingVisit,
 ) bool {
-	claimed, err := c.claims.Claim(ctx, visit.OrderID, visit.URL)
+	claim, err := c.claims.Claim(
+		ctx, pendingVisit.OrderID, pendingVisit.URL, message.Identity(),
+	)
 	if err != nil {
-		c.returnAfterClaimError(ctx, message, visit, err)
+		c.returnVisit(ctx, message, pendingVisit, err)
 		return false
 	}
-	if !claimed {
-		return c.redelivered(ctx, message, visit)
-	}
-	return c.spendHostPage(ctx, message, order, visit)
-}
-
-func (c *VisitConsumer) redelivered(
-	ctx context.Context,
-	message pullintake.PendingMessage,
-	visit pendingvisit.PendingVisit,
-) bool {
-	if message.Redelivered() {
+	switch claim {
+	case visitclaim.Taken:
+		return c.spendHostPage(ctx, message, order, pendingVisit)
+	case visitclaim.Resumed:
 		return true
 	}
-	slog.DebugContext(ctx, msgVisitClaimedTwice, slog.String("url", visit.URL.String()))
-	message.Acknowledge(ctx)
+	c.dropClaimHeldElsewhere(ctx, message, pendingVisit)
 	return false
+}
+
+func (c *VisitConsumer) dropClaimHeldElsewhere(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+	pendingVisit pendingvisit.PendingVisit,
+) {
+	slog.DebugContext(ctx, msgClaimHeldElsewhere,
+		slog.String("order", pendingVisit.OrderID),
+		slog.String("url", pendingVisit.URL.String()),
+	)
+	message.Acknowledge(ctx)
 }
 
 func (c *VisitConsumer) spendHostPage(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	order acceptedorder.AcceptedOrder,
-	visit pendingvisit.PendingVisit,
+	pendingVisit pendingvisit.PendingVisit,
 ) bool {
 	spent, err := c.claims.SpendHostPage(
-		ctx, visit.OrderID, visit.URL.Hostname(), order.MaxPagesPerHost(),
+		ctx, pendingVisit.OrderID, pendingVisit.URL.Hostname(), order.MaxPagesPerHost(),
 	)
 	if err != nil {
-		c.returnAfterClaimError(ctx, message, visit, err)
+		c.returnVisit(ctx, message, pendingVisit, err)
 		return false
 	}
 	if !spent {
-		slog.WarnContext(ctx, msgHostPagesExhausted,
-			slog.String("url", visit.URL.String()),
-			slog.Int("maxPagesPerHost", order.MaxPagesPerHost()),
-		)
-		c.observer.PageDisposed(disposal.HostPagesExhausted)
-		message.Acknowledge(ctx)
+		c.dropExhaustedVisit(ctx, message, pendingVisit, disposal.HostPagesExhausted)
 		return false
 	}
 	return true
 }
 
-func (c *VisitConsumer) returnAfterClaimError(
+func (c *VisitConsumer) dropExhaustedVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	visit pendingvisit.PendingVisit,
-	cause error,
+	pendingVisit pendingvisit.PendingVisit,
+	allowance disposal.Reason,
 ) {
-	slog.WarnContext(ctx, msgClaimUnreadable,
-		slog.String("url", visit.URL.String()),
-		slog.Any("error", cause),
+	slog.WarnContext(ctx, msgAllowanceExhausted,
+		slog.String("order", pendingVisit.OrderID),
+		slog.String("url", pendingVisit.URL.String()),
+		slog.String("allowance", string(allowance)),
 	)
-	message.Return(ctx)
-}
-
-func (c *VisitConsumer) visit(
-	ctx context.Context,
-	message pullintake.PendingMessage,
-	order acceptedorder.AcceptedOrder,
-	visit pendingvisit.PendingVisit,
-) (pagevisit.VisitOutcome, bool) {
-	visitor := c.visitorFor(ignoredRefusalsOf(order))
-	outcome, err := visitor.Visit(ctx, visit.URL)
-	if err != nil {
-		slog.WarnContext(ctx, msgVisitFailed,
-			slog.String("url", visit.URL.String()),
-			slog.Any("error", err),
-		)
-		message.Return(ctx)
-		return pagevisit.VisitOutcome{}, false
-	}
-	return outcome, true
+	c.observer.PageDisposed(allowance)
+	message.Acknowledge(ctx)
 }
 
 func ignoredRefusalsOf(order acceptedorder.AcceptedOrder) pagevisit.IgnoredRefusals {
 	return pagevisit.IgnoredRefusals{IndexingRefusal: order.IgnoresIndexingRefusal()}
 }
 
-func (c *VisitConsumer) settle(
+func (c *VisitConsumer) carryOutConclusion(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	order acceptedorder.AcceptedOrder,
-	visit pendingvisit.PendingVisit,
+	pendingVisit pendingvisit.PendingVisit,
 	outcome pagevisit.VisitOutcome,
 ) {
 	switch outcome.Conclusion {
 	case pagevisit.VisitDeferred:
-		c.settleDeferred(ctx, message, visit, outcome.DeferFor)
+		c.deferVisit(ctx, message, pendingVisit, outcome.DeferFor)
 	case pagevisit.VisitRetryable:
-		c.settleRetryable(ctx, message, visit)
+		c.retryVisit(ctx, message, pendingVisit)
 	case pagevisit.VisitCompleted:
-		c.settleCompleted(ctx, message, order, visit, outcome)
+		c.completeVisit(ctx, message, order, pendingVisit, outcome)
 	}
 }
 
-func (c *VisitConsumer) settleDeferred(
+func (c *VisitConsumer) deferVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	visit pendingvisit.PendingVisit,
+	pendingVisit pendingvisit.PendingVisit,
 	deferFor time.Duration,
 ) {
-	deferred, err := c.claims.Defer(ctx, visit.OrderID, visit.URL)
+	deferred, err := c.claims.Defer(ctx, pendingVisit.OrderID, pendingVisit.URL)
 	if err != nil {
-		c.returnAfterClaimError(ctx, message, visit, err)
+		c.returnVisit(ctx, message, pendingVisit, err)
 		return
 	}
 	if !deferred {
-		slog.WarnContext(ctx, msgDeferralsExhausted, slog.String("url", visit.URL.String()))
-		c.observer.PageDisposed(disposal.DeferralsExhausted)
-		message.Acknowledge(ctx)
+		c.dropExhaustedVisit(ctx, message, pendingVisit, disposal.DeferralsExhausted)
 		return
 	}
 	c.observer.RefusalHonored(refusal.Defer)
 	message.ReturnAfter(ctx, deferFor)
 }
 
-func (c *VisitConsumer) settleRetryable(
+func (c *VisitConsumer) retryVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	visit pendingvisit.PendingVisit,
+	pendingVisit pendingvisit.PendingVisit,
 ) {
-	attempt, retried, err := c.claims.Retry(ctx, visit.OrderID, visit.URL)
+	attempt, retried, err := c.claims.Retry(ctx, pendingVisit.OrderID, pendingVisit.URL)
 	if err != nil {
-		c.returnAfterClaimError(ctx, message, visit, err)
+		c.returnVisit(ctx, message, pendingVisit, err)
 		return
 	}
 	if !retried {
-		slog.WarnContext(ctx, msgRetriesExhausted, slog.String("url", visit.URL.String()))
-		c.observer.PageDisposed(disposal.RetriesExhausted)
-		message.Acknowledge(ctx)
+		c.dropExhaustedVisit(ctx, message, pendingVisit, disposal.RetriesExhausted)
 		return
 	}
 	message.ReturnAfter(ctx, c.retryDelay.Delay(attempt))
 }
 
-func (c *VisitConsumer) settleCompleted(
+func (c *VisitConsumer) completeVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	order acceptedorder.AcceptedOrder,
-	visit pendingvisit.PendingVisit,
+	pendingVisit pendingvisit.PendingVisit,
 	outcome pagevisit.VisitOutcome,
 ) {
 	if outcome.Disposed() {
 		c.observer.PageDisposed(outcome.Disposal)
 	}
-	if err := c.discover(ctx, order, visit, outcome.DiscoveredURLs); err != nil {
-		slog.WarnContext(ctx, msgDiscoveryFailed,
-			slog.String("url", visit.URL.String()),
-			slog.Any("error", err),
-		)
-		message.Return(ctx)
+	if err := c.putDiscoveredURLsOnFrontier(
+		ctx,
+		order,
+		pendingVisit,
+		outcome.DiscoveredURLs,
+	); err != nil {
+		c.returnVisit(ctx, message, pendingVisit, err)
 		return
 	}
 	message.Acknowledge(ctx)
 }
 
-func (c *VisitConsumer) discover(
+func (c *VisitConsumer) putDiscoveredURLsOnFrontier(
 	ctx context.Context,
 	order acceptedorder.AcceptedOrder,
-	visit pendingvisit.PendingVisit,
+	pendingVisit pendingvisit.PendingVisit,
 	discoveredURLs []canonicalurl.CanonicalURL,
 ) error {
-	depth := visit.Depth + 1
+	depth := pendingVisit.Depth + 1
 	for _, url := range discoveredURLs {
 		if !order.Admits(url, depth) {
 			continue
 		}
 		if err := c.visits.Publish(ctx, pendingvisit.PendingVisit{
-			OrderID: visit.OrderID,
+			OrderID: pendingVisit.OrderID,
 			URL:     url,
 			Depth:   depth,
 		}); err != nil {

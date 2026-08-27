@@ -19,6 +19,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitclaim"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitintake"
 )
 
@@ -29,7 +30,7 @@ const (
 
 type fakeMsg struct {
 	data      []byte
-	delivered uint64
+	sequence  uint64
 	mu        sync.Mutex
 	settlings []string
 	nakDelay  time.Duration
@@ -54,7 +55,10 @@ func (m *fakeMsg) NakWithDelay(delay time.Duration) error {
 }
 
 func (m *fakeMsg) Metadata() (*jetstream.MsgMetadata, error) {
-	return &jetstream.MsgMetadata{NumDelivered: m.delivered}, nil
+	return &jetstream.MsgMetadata{
+		Stream:   "YACY_CRAWL_FRONTIER",
+		Sequence: jetstream.SequencePair{Stream: m.sequence},
+	}, nil
 }
 
 func (m *fakeMsg) settle(action string) error {
@@ -102,38 +106,46 @@ func (s fakeSource) Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesCo
 }
 
 type fakeClaims struct {
-	claimed      map[string]bool
-	claimErr     error
-	hostSpent    bool
-	deferrals    int
-	maxDeferrals int
-	attempts     int
-	maxAttempts  int
+	holders        map[string]string
+	claimErr       error
+	hostSpent      bool
+	hostPageLimits []int
+	deferrals      int
+	maxDeferrals   int
+	retries        int
+	maxRetries     int
 }
 
 func newClaims() *fakeClaims {
 	return &fakeClaims{
-		claimed:      map[string]bool{},
+		holders:      map[string]string{},
 		hostSpent:    true,
 		maxDeferrals: 2,
-		maxAttempts:  2,
+		maxRetries:   2,
 	}
 }
 
 func (c *fakeClaims) Claim(
-	_ context.Context, _ string, url canonicalurl.CanonicalURL,
-) (bool, error) {
+	_ context.Context, _ string, url canonicalurl.CanonicalURL, holder string,
+) (visitclaim.Claim, error) {
 	if c.claimErr != nil {
-		return false, c.claimErr
+		return visitclaim.Unanswered, c.claimErr
 	}
-	if c.claimed[url.String()] {
-		return false, nil
+	standing, held := c.holders[url.String()]
+	if !held {
+		c.holders[url.String()] = holder
+		return visitclaim.Taken, nil
 	}
-	c.claimed[url.String()] = true
-	return true, nil
+	if standing != holder {
+		return visitclaim.HeldElsewhere, nil
+	}
+	return visitclaim.Resumed, nil
 }
 
-func (c *fakeClaims) SpendHostPage(_ context.Context, _ string, _ string, _ int) (bool, error) {
+func (c *fakeClaims) SpendHostPage(
+	_ context.Context, _ string, _ string, maxPages int,
+) (bool, error) {
+	c.hostPageLimits = append(c.hostPageLimits, maxPages)
 	return c.hostSpent, nil
 }
 
@@ -148,11 +160,11 @@ func (c *fakeClaims) Defer(_ context.Context, _ string, _ canonicalurl.Canonical
 func (c *fakeClaims) Retry(
 	_ context.Context, _ string, _ canonicalurl.CanonicalURL,
 ) (int, bool, error) {
-	if c.attempts >= c.maxAttempts {
+	if c.retries >= c.maxRetries {
 		return 0, false, nil
 	}
-	c.attempts++
-	return c.attempts, true, nil
+	c.retries++
+	return c.retries, true, nil
 }
 
 type fakeAcceptedOrders struct {
@@ -222,9 +234,7 @@ func (f *fakeVisitor) Visit(
 		return pagevisit.VisitOutcome{Conclusion: pagevisit.VisitCompleted}, nil
 	}
 	outcome := f.outcomes[0]
-	if len(f.outcomes) > 1 {
-		f.outcomes = f.outcomes[1:]
-	}
+	f.outcomes = f.outcomes[1:]
 	return outcome, nil
 }
 
@@ -268,7 +278,7 @@ func wideProfile() yacycrawlcontract.CrawlProfile {
 	}
 }
 
-func visitMessage(t *testing.T, delivered uint64) *fakeMsg {
+func visitMessage(t *testing.T, sequence uint64) *fakeMsg {
 	t.Helper()
 	data, err := pendingvisit.MarshalPendingVisit(pendingvisit.PendingVisit{
 		OrderID: orderID,
@@ -278,7 +288,7 @@ func visitMessage(t *testing.T, delivered uint64) *fakeMsg {
 	if err != nil {
 		t.Fatal(err)
 	}
-	return &fakeMsg{data: data, delivered: delivered}
+	return &fakeMsg{data: data, sequence: sequence}
 }
 
 type crawlWorker struct {
@@ -329,33 +339,31 @@ func TestAClaimedURLIsVisitedThenAcknowledged(t *testing.T) {
 	}
 }
 
-func TestAURLAnotherWorkerClaimedIsDroppedOnItsFirstDelivery(t *testing.T) {
+func TestASecondFrontierMessageForAClaimedURLIsDropped(t *testing.T) {
 	worker := newWorker()
-	worker.claims.claimed[visitURL] = true
-	message := visitMessage(t, 1)
+	duplicate := visitMessage(t, 2)
 
-	if err := worker.consume(t, message); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if worker.visitor.visitCount() != 0 {
-		t.Fatal("a url another worker claimed should not be visited")
-	}
-	if got := message.settled(); len(got) != 1 || got[0] != "ack" {
-		t.Fatalf("message settled %v, want one ack", got)
-	}
-}
-
-func TestARedeliveredMessageVisitsItsOwnClaim(t *testing.T) {
-	worker := newWorker()
-	worker.claims.claimed[visitURL] = true
-	message := visitMessage(t, 2)
-
-	if err := worker.consume(t, message); err != nil {
+	if err := worker.consume(t, visitMessage(t, 1), duplicate); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
 	if worker.visitor.visitCount() != 1 {
+		t.Fatalf("visited %d times, want the url fetched once", worker.visitor.visitCount())
+	}
+	if got := duplicate.settled(); len(got) != 1 || got[0] != "ack" {
+		t.Fatalf("duplicate settled %v, want one ack", got)
+	}
+}
+
+func TestARedeliveredMessageResumesItsOwnClaim(t *testing.T) {
+	worker := newWorker()
+	message := visitMessage(t, 1)
+
+	if err := worker.consume(t, message, message); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if worker.visitor.visitCount() != 2 {
 		t.Fatal("a redelivery should visit the claim it left behind")
 	}
 }
@@ -423,7 +431,7 @@ func TestADeferredVisitReturnsAfterTheDelayTheSiteAsked(t *testing.T) {
 	}
 }
 
-func TestAURLThatSpentItsDeferralsIsDisposed(t *testing.T) {
+func TestAURLThatExhaustedItsDeferralsIsDropped(t *testing.T) {
 	worker := newWorker()
 	worker.claims.deferrals = 2
 	worker.visitor.outcomes = []pagevisit.VisitOutcome{{Conclusion: pagevisit.VisitDeferred}}
@@ -455,9 +463,9 @@ func TestARetryableVisitReturnsAfterItsBackoff(t *testing.T) {
 	}
 }
 
-func TestAURLThatSpentItsAttemptsIsDisposed(t *testing.T) {
+func TestAURLThatExhaustedItsRetriesIsDropped(t *testing.T) {
 	worker := newWorker()
-	worker.claims.attempts = 2
+	worker.claims.retries = 2
 	worker.visitor.outcomes = []pagevisit.VisitOutcome{{Conclusion: pagevisit.VisitRetryable}}
 
 	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
@@ -469,7 +477,7 @@ func TestAURLThatSpentItsAttemptsIsDisposed(t *testing.T) {
 	}
 }
 
-func TestAURLWhoseHostSpentItsPagesIsDisposedBeforeTheFetch(t *testing.T) {
+func TestAURLWhoseHostExhaustedItsPagesIsDroppedBeforeTheFetch(t *testing.T) {
 	worker := newWorker()
 	worker.claims.hostSpent = false
 	message := visitMessage(t, 1)
@@ -483,6 +491,38 @@ func TestAURLWhoseHostSpentItsPagesIsDisposedBeforeTheFetch(t *testing.T) {
 	}
 	if worker.observer.disposed[disposal.HostPagesExhausted] != 1 {
 		t.Fatalf("observer disposed %v, want host pages exhausted", worker.observer.disposed)
+	}
+}
+
+func TestTheProfilesHostPageLimitReachesTheLedger(t *testing.T) {
+	worker := newWorker()
+	worker.orders.profile.MaxPagesPerHost = 7
+
+	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if len(worker.claims.hostPageLimits) != 1 || worker.claims.hostPageLimits[0] != 7 {
+		t.Fatalf(
+			"ledger spent against %v, want the profile limit of 7",
+			worker.claims.hostPageLimits,
+		)
+	}
+}
+
+func TestARedeliveredMessageSpendsNoFurtherHostPage(t *testing.T) {
+	worker := newWorker()
+	message := visitMessage(t, 1)
+
+	if err := worker.consume(t, message, message); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if len(worker.claims.hostPageLimits) != 1 {
+		t.Fatalf(
+			"the ledger spent %d host pages, want the one the first delivery took",
+			len(worker.claims.hostPageLimits),
+		)
 	}
 }
 
@@ -509,6 +549,23 @@ func TestAVisitThatFailsReturnsForRedelivery(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
+	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+		t.Fatalf("message settled %v, want one delayed return", got)
+	}
+}
+
+func TestAVisitWhoseClaimTheLedgerCannotAnswerReturnsForRedelivery(t *testing.T) {
+	worker := newWorker()
+	worker.claims.claimErr = errors.New("bucket down")
+	message := visitMessage(t, 1)
+
+	if err := worker.consume(t, message); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if worker.visitor.visitCount() != 0 {
+		t.Fatal("a url with no answered claim should not be visited")
+	}
 	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
 		t.Fatalf("message settled %v, want one delayed return", got)
 	}
@@ -546,7 +603,7 @@ func TestAVisitWhoseOrderProfileIsUnreadableReturnsForRedelivery(t *testing.T) {
 }
 
 func TestAnUndecodablePendingVisitHaltsIntake(t *testing.T) {
-	if err := newWorker().consume(t, &fakeMsg{data: []byte("{"), delivered: 1}); err == nil {
+	if err := newWorker().consume(t, &fakeMsg{data: []byte("{"), sequence: 1}); err == nil {
 		t.Fatal("an undecodable pending visit should halt intake")
 	}
 }
@@ -562,7 +619,7 @@ func TestTheDisposalTheVisitReportsIsObserved(t *testing.T) {
 	}
 
 	if worker.observer.disposed[disposal.FetchRejected] != 1 {
-		t.Fatalf("observer disposed %v, want not-a-page", worker.observer.disposed)
+		t.Fatalf("observer disposed %v, want fetch rejected", worker.observer.disposed)
 	}
 }
 

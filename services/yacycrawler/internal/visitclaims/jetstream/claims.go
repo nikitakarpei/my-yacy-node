@@ -1,6 +1,6 @@
-// Package jetstream claims each URL of a crawl order for exactly one worker,
-// and holds what that URL has spent of its deferrals, its attempts, and its
-// host's page allowance.
+// Package jetstream claims each URL of a crawl order for the one holder that
+// took it first, and holds what that URL has spent of its deferrals, its
+// attempts, and its host's page allowance.
 package jetstream
 
 import (
@@ -16,6 +16,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitclaim"
 )
 
 const (
@@ -59,19 +60,40 @@ func (c *Claims) Claim(
 	ctx context.Context,
 	orderID string,
 	url canonicalurl.CanonicalURL,
-) (bool, error) {
-	data, err := marshalVisitClaim(visitClaim{})
+	holder string,
+) (visitclaim.Claim, error) {
+	data, err := marshalVisitClaim(visitClaim{Holder: holder})
 	if err != nil {
-		return false, err
+		return visitclaim.Unanswered, err
 	}
 	_, err = c.bucket.Create(ctx, visitKeyOf(orderID, url), data)
 	if errors.Is(err, jetstream.ErrKeyExists) {
-		return false, nil
+		return c.standingClaimFor(ctx, orderID, url, holder)
 	}
 	if err != nil {
-		return false, fmt.Errorf("claim visit %s: %w", url, err)
+		return visitclaim.Unanswered, fmt.Errorf("claim visit %s: %w", url, err)
 	}
-	return true, nil
+	return visitclaim.Taken, nil
+}
+
+func (c *Claims) standingClaimFor(
+	ctx context.Context,
+	orderID string,
+	url canonicalurl.CanonicalURL,
+	holder string,
+) (visitclaim.Claim, error) {
+	entry, err := c.bucket.Get(ctx, visitKeyOf(orderID, url))
+	if err != nil {
+		return visitclaim.Unanswered, fmt.Errorf("read the claim on visit %s: %w", url, err)
+	}
+	standing, err := unmarshalVisitClaim(entry.Value())
+	if err != nil {
+		return visitclaim.Unanswered, err
+	}
+	if standing.Holder != holder {
+		return visitclaim.HeldElsewhere, nil
+	}
+	return visitclaim.Resumed, nil
 }
 
 func (c *Claims) Defer(
@@ -216,8 +238,9 @@ func (c *Claims) takeOnce(
 }
 
 type visitClaim struct {
-	Deferrals int `json:"Deferrals"`
-	Attempts  int `json:"Attempts"`
+	Holder    string `json:"Holder"`
+	Deferrals int    `json:"Deferrals"`
+	Attempts  int    `json:"Attempts"`
 }
 
 func marshalVisitClaim(claim visitClaim) ([]byte, error) {

@@ -13,15 +13,12 @@ const (
 	msgAcknowledgeFailed = "message acknowledgement failed"
 	msgReturnFailed      = "message not returned for redelivery"
 
-	firstDelivery = 1
-
 	redeliveryPause = 30 * time.Second
 )
 
 type PendingMessage interface {
 	Body() []byte
 	Identity() string
-	Redelivered() bool
 	Acknowledge(ctx context.Context)
 	Return(ctx context.Context)
 	ReturnAfter(ctx context.Context, delay time.Duration)
@@ -43,18 +40,6 @@ func (m pendingMessage) Identity() string {
 	return fmt.Sprintf("%s %s/%d",
 		m.message.Subject(), metadata.Stream, metadata.Sequence.Stream,
 	)
-}
-
-func (m pendingMessage) Redelivered() bool {
-	return m.deliveries() > firstDelivery
-}
-
-func (m pendingMessage) deliveries() uint64 {
-	metadata, err := m.message.Metadata()
-	if err != nil {
-		return firstDelivery
-	}
-	return metadata.NumDelivered
 }
 
 func (m pendingMessage) Acknowledge(ctx context.Context) {

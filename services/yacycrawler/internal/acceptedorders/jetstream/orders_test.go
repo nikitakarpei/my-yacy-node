@@ -56,8 +56,8 @@ func TestOrderOfReadsBackTheAcceptedOrder(t *testing.T) {
 	ctx := context.Background()
 	accepted := acceptedOrderOf(t, order(t))
 
-	if err := orders.Accept(ctx, accepted); err != nil {
-		t.Fatalf("accept: %v", err)
+	if err := orders.Keep(ctx, accepted); err != nil {
+		t.Fatalf("keep: %v", err)
 	}
 	read, err := orders.OrderOf(ctx, accepted.OrderID())
 	if err != nil {
@@ -70,16 +70,16 @@ func TestOrderOfReadsBackTheAcceptedOrder(t *testing.T) {
 	}
 }
 
-func TestAcceptTheSameOrderTwiceKeepsIt(t *testing.T) {
+func TestKeepingTheSameOrderTwiceKeepsIt(t *testing.T) {
 	orders := acceptedOrders(t)
 	ctx := context.Background()
 	accepted := acceptedOrderOf(t, order(t))
 
-	if err := orders.Accept(ctx, accepted); err != nil {
-		t.Fatalf("first accept: %v", err)
+	if err := orders.Keep(ctx, accepted); err != nil {
+		t.Fatalf("first keep: %v", err)
 	}
-	if err := orders.Accept(ctx, accepted); err != nil {
-		t.Fatalf("second accept: %v", err)
+	if err := orders.Keep(ctx, accepted); err != nil {
+		t.Fatalf("second keep: %v", err)
 	}
 	if _, err := orders.OrderOf(ctx, accepted.OrderID()); err != nil {
 		t.Fatalf("order of: %v", err)

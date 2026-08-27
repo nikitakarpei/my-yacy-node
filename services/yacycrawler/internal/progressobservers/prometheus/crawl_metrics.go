@@ -13,9 +13,9 @@ import (
 )
 
 var (
-	_ pagevisit.VisitProgress        = (*CrawlMetrics)(nil)
-	_ visitintake.SettlementProgress = (*CrawlMetrics)(nil)
-	_ orderintake.OrderProgress      = (*CrawlMetrics)(nil)
+	_ pagevisit.VisitProgress      = (*CrawlMetrics)(nil)
+	_ visitintake.FrontierProgress = (*CrawlMetrics)(nil)
+	_ orderintake.OrderProgress    = (*CrawlMetrics)(nil)
 )
 
 const (
