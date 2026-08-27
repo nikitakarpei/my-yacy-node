@@ -88,17 +88,17 @@ func consume(
 	t *testing.T,
 	message jetstream.Msg,
 	orders *fakeAcceptedOrders,
-	visits *fakePendingVisits,
+	frontier *fakePendingVisits,
 	observer *recordingObserver,
 ) error {
 	t.Helper()
-	return orderintake.NewOrderConsumer(orderintake.Config{
-		Source:                 pullintaketest.MessageSourceOf(message),
-		Orders:                 orders,
-		Visits:                 visits,
-		Observer:               observer,
-		OrderIntakeConcurrency: 1,
-	}).Run(context.Background())
+	return orderintake.NewOrderConsumer(
+		pullintaketest.MessageSourceOf(message),
+		orders,
+		frontier,
+		observer,
+		1,
+	).Run(context.Background())
 }
 
 func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {

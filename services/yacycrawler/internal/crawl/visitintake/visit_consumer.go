@@ -46,43 +46,42 @@ type PendingVisits interface {
 	Publish(ctx context.Context, visit pendingvisit.PendingVisit) error
 }
 
-type FrontierProgress interface {
+type PendingVisitProgress interface {
 	RefusalHonored(demand refusal.Demand)
 	PageDisposed(reason disposal.Reason)
-}
-
-type Config struct {
-	Source           pullintake.MessageSource
-	Claims           VisitClaims
-	Orders           AcceptedOrders
-	Visits           PendingVisits
-	VisitorFor       pagevisit.VisitorFor
-	Observer         FrontierProgress
-	RetryDelay       retrydelay.Bounds
-	FetchConcurrency int
 }
 
 type VisitConsumer struct {
 	source           pullintake.MessageSource
 	claims           VisitClaims
 	orders           AcceptedOrders
-	visits           PendingVisits
+	frontier         PendingVisits
 	visitorFor       pagevisit.VisitorFor
-	observer         FrontierProgress
+	observer         PendingVisitProgress
 	retryDelay       retrydelay.Bounds
 	fetchConcurrency int
 }
 
-func NewVisitConsumer(config Config) *VisitConsumer {
+//nolint:revive // a consumer names every collaborator it pays a visit with
+func NewVisitConsumer(
+	source pullintake.MessageSource,
+	claims VisitClaims,
+	orders AcceptedOrders,
+	frontier PendingVisits,
+	visitorFor pagevisit.VisitorFor,
+	observer PendingVisitProgress,
+	retryDelay retrydelay.Bounds,
+	fetchConcurrency int,
+) *VisitConsumer {
 	return &VisitConsumer{
-		source:           config.Source,
-		claims:           config.Claims,
-		orders:           config.Orders,
-		visits:           config.Visits,
-		visitorFor:       config.VisitorFor,
-		observer:         config.Observer,
-		retryDelay:       config.RetryDelay,
-		fetchConcurrency: config.FetchConcurrency,
+		source:           source,
+		claims:           claims,
+		orders:           orders,
+		frontier:         frontier,
+		visitorFor:       visitorFor,
+		observer:         observer,
+		retryDelay:       retryDelay,
+		fetchConcurrency: fetchConcurrency,
 	}
 }
 
@@ -289,7 +288,7 @@ func (c *VisitConsumer) putDiscoveredURLsOnFrontier(
 		if !order.Admits(url, depth) {
 			continue
 		}
-		if err := c.visits.Publish(ctx, pendingvisit.PendingVisit{
+		if err := c.frontier.Publish(ctx, pendingvisit.PendingVisit{
 			OrderID: pendingVisit.OrderID,
 			URL:     url,
 			Depth:   depth,

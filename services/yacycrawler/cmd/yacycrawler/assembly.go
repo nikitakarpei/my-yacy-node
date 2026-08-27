@@ -165,13 +165,13 @@ func buildOrderConsumer(
 	if err != nil {
 		return nil, err
 	}
-	return orderintake.NewOrderConsumer(orderintake.Config{
-		Source:                 consumer,
-		Orders:                 orders,
-		Visits:                 pendingvisitsjetstream.New(js),
-		Observer:               metrics,
-		OrderIntakeConcurrency: orderIntakeConcurrency,
-	}), nil
+	return orderintake.NewOrderConsumer(
+		consumer,
+		orders,
+		pendingvisitsjetstream.New(js),
+		metrics,
+		orderIntakeConcurrency,
+	), nil
 }
 
 func buildVisitConsumer(
@@ -197,19 +197,16 @@ func buildVisitConsumer(
 	if err != nil {
 		return nil, err
 	}
-	return visitintake.NewVisitConsumer(visitintake.Config{
-		Source:     consumer,
-		Claims:     claims,
-		Orders:     orders,
-		Visits:     pendingvisitsjetstream.New(js),
-		VisitorFor: visitorFor,
-		Observer:   metrics,
-		RetryDelay: retrydelay.Bounds{
-			Floor:   fetchRetryFloor,
-			Ceiling: fetchRetryCeiling,
-		},
-		FetchConcurrency: cfg.FetchConcurrency,
-	}), nil
+	return visitintake.NewVisitConsumer(
+		consumer,
+		claims,
+		orders,
+		pendingvisitsjetstream.New(js),
+		visitorFor,
+		metrics,
+		retrydelay.Bounds{Floor: fetchRetryFloor, Ceiling: fetchRetryCeiling},
+		cfg.FetchConcurrency,
+	), nil
 }
 
 func visitClaims(

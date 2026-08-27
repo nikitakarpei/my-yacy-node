@@ -32,29 +32,27 @@ type OrderProgress interface {
 	OrderAccepted()
 }
 
-type Config struct {
-	Source                 pullintake.MessageSource
-	Orders                 AcceptedOrders
-	Visits                 PendingVisits
-	Observer               OrderProgress
-	OrderIntakeConcurrency int
-}
-
 type OrderConsumer struct {
 	source                 pullintake.MessageSource
 	orders                 AcceptedOrders
-	visits                 PendingVisits
+	frontier               PendingVisits
 	observer               OrderProgress
 	orderIntakeConcurrency int
 }
 
-func NewOrderConsumer(config Config) *OrderConsumer {
+func NewOrderConsumer(
+	source pullintake.MessageSource,
+	orders AcceptedOrders,
+	frontier PendingVisits,
+	observer OrderProgress,
+	orderIntakeConcurrency int,
+) *OrderConsumer {
 	return &OrderConsumer{
-		source:                 config.Source,
-		orders:                 config.Orders,
-		visits:                 config.Visits,
-		observer:               config.Observer,
-		orderIntakeConcurrency: config.OrderIntakeConcurrency,
+		source:                 source,
+		orders:                 orders,
+		frontier:               frontier,
+		observer:               observer,
+		orderIntakeConcurrency: orderIntakeConcurrency,
 	}
 }
 
@@ -95,7 +93,7 @@ func (c *OrderConsumer) processOne(
 
 func (c *OrderConsumer) seed(ctx context.Context, order acceptedorder.AcceptedOrder) error {
 	for _, seed := range order.SeedURLs() {
-		if err := c.visits.Publish(ctx, pendingvisit.PendingVisit{
+		if err := c.frontier.Publish(ctx, pendingvisit.PendingVisit{
 			OrderID: order.OrderID(),
 			URL:     seed,
 			Depth:   0,

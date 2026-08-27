@@ -217,7 +217,7 @@ func visitMessage(t *testing.T, sequence uint64) *pullintaketest.Message {
 type crawlWorker struct {
 	claims   *fakeClaims
 	orders   *fakeAcceptedOrders
-	visits   *fakePendingVisits
+	frontier *fakePendingVisits
 	visitor  *fakeVisitor
 	observer *recordingObserver
 }
@@ -226,7 +226,7 @@ func newWorker() *crawlWorker {
 	return &crawlWorker{
 		claims:   newClaims(),
 		orders:   &fakeAcceptedOrders{profile: wideProfile()},
-		visits:   &fakePendingVisits{},
+		frontier: &fakePendingVisits{},
 		visitor:  &fakeVisitor{},
 		observer: newObserver(),
 	}
@@ -234,16 +234,16 @@ func newWorker() *crawlWorker {
 
 func (w *crawlWorker) consume(t *testing.T, messages ...jetstream.Msg) error {
 	t.Helper()
-	return visitintake.NewVisitConsumer(visitintake.Config{
-		Source:           pullintaketest.MessageSourceOf(messages...),
-		Claims:           w.claims,
-		Orders:           w.orders,
-		Visits:           w.visits,
-		VisitorFor:       w.visitor.visitorFor,
-		Observer:         w.observer,
-		RetryDelay:       retrydelay.Bounds{Floor: time.Second, Ceiling: time.Minute},
-		FetchConcurrency: 1,
-	}).Run(context.Background())
+	return visitintake.NewVisitConsumer(
+		pullintaketest.MessageSourceOf(messages...),
+		w.claims,
+		w.orders,
+		w.frontier,
+		w.visitor.visitorFor,
+		w.observer,
+		retrydelay.Bounds{Floor: time.Second, Ceiling: time.Minute},
+		1,
+	).Run(context.Background())
 }
 
 func TestAClaimedURLIsVisitedThenAcknowledged(t *testing.T) {
@@ -304,7 +304,7 @@ func TestDiscoveredURLsTheProfileAdmitsGoBackOnTheFrontier(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	published := worker.visits.visits()
+	published := worker.frontier.visits()
 	if len(published) != 1 {
 		t.Fatalf("published %d urls, want 1", len(published))
 	}
@@ -327,7 +327,7 @@ func TestDiscoveredURLsBeyondTheProfileStayOff(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if len(worker.visits.visits()) != 0 {
+	if len(worker.frontier.visits()) != 0 {
 		t.Fatal("a url beyond the profile depth should not be published")
 	}
 }
@@ -548,7 +548,7 @@ func TestTheDisposalTheVisitReportsIsObserved(t *testing.T) {
 
 func TestDiscoveredURLsThatDoNotPublishReturnTheMessage(t *testing.T) {
 	worker := newWorker()
-	worker.visits.err = errors.New("stream down")
+	worker.frontier.err = errors.New("stream down")
 	worker.visitor.outcomes = []pagevisit.VisitOutcome{{
 		Conclusion: pagevisit.VisitCompleted,
 		DiscoveredURLs: []canonicalurl.CanonicalURL{
