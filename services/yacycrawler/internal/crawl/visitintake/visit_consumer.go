@@ -21,9 +21,9 @@ import (
 )
 
 const (
-	msgVisitReturned      = "pending visit returned for redelivery"
-	msgAllowanceExhausted = "pending visit dropped after exhausting its allowance"
-	msgClaimHeldElsewhere = "pending visit already claimed elsewhere, dropped"
+	msgVisitReturned         = "pending visit returned for redelivery"
+	msgAllowanceExhausted    = "pending visit dropped after exhausting its allowance"
+	msgVisitClaimedElsewhere = "pending visit dropped, another message holds its claim"
 )
 
 type VisitClaims interface {
@@ -159,16 +159,16 @@ func (c *VisitConsumer) claimVisit(
 	case visitclaim.Taken, visitclaim.Resumed:
 		return c.holdsHostPage(ctx, message, order, pendingVisit)
 	}
-	c.dropClaimHeldElsewhere(ctx, message, pendingVisit)
+	c.dropVisitClaimedElsewhere(ctx, message, pendingVisit)
 	return false
 }
 
-func (c *VisitConsumer) dropClaimHeldElsewhere(
+func (c *VisitConsumer) dropVisitClaimedElsewhere(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	pendingVisit pendingvisit.PendingVisit,
 ) {
-	slog.DebugContext(ctx, msgClaimHeldElsewhere,
+	slog.DebugContext(ctx, msgVisitClaimedElsewhere,
 		slog.String("order", pendingVisit.OrderID),
 		slog.String("url", pendingVisit.URL.String()),
 	)
