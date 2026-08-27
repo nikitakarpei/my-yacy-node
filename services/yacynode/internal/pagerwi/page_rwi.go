@@ -19,12 +19,12 @@ type PageRWI struct {
 }
 
 func Of(
-	scraped scrapedpage.ScrapedPage,
+	scrapedPage scrapedpage.ScrapedPage,
 	document documentextraction.Document,
 	text []byte,
 	reachedAt time.Time,
 ) PageRWI {
-	pageURL := scraped.PageURL
+	pageURL := scrapedPage.PageURL
 	urlHash := yacymodel.URLNormalformOf(pageURL.WebAddress()).Hash()
 
 	order, occurrences, textStats := tokenize(string(text))
@@ -50,7 +50,7 @@ func Of(
 	return PageRWI{
 		PageURL: pageURL,
 		Metadata: metadataOf(
-			pageURL, document, len(scraped.Body), reachedAt, textStats.Words,
+			pageURL, document, len(scrapedPage.Body), reachedAt, textStats.Words,
 		),
 		Postings: postings,
 	}

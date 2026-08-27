@@ -81,17 +81,22 @@ func (c *ScrapeRequestConsumer) processOne(
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
 	reachedAt := time.Now()
-	scraped, scrapable := c.fetch(ctx, message, scrapeRequest)
+	scrapedPage, scrapable := c.fetch(ctx, message, scrapeRequest)
 	if !scrapable {
 		return nil
 	}
-	document, text, derived := c.fullTextOf(ctx, scraped)
-	if !derived {
-		slog.DebugContext(ctx, msgNoIndexDerived, slog.String("url", scraped.PageURL.String()))
+	document, extracted := c.documentOf(ctx, scrapedPage)
+	if !extracted {
 		message.Acknowledge(ctx)
 		return nil
 	}
-	c.store(ctx, message, pagerwi.Of(scraped, document, text, reachedAt))
+	text, derived := c.fullTextOf(ctx, document, scrapedPage.LandedURL)
+	if !derived {
+		slog.DebugContext(ctx, msgNoIndexDerived, slog.String("url", scrapedPage.PageURL.String()))
+		message.Acknowledge(ctx)
+		return nil
+	}
+	c.store(ctx, message, pagerwi.Of(scrapedPage, document, text, reachedAt))
 	return nil
 }
 
@@ -129,24 +134,31 @@ func (c *ScrapeRequestConsumer) fetch(
 	return scrapedpage.ScrapedPage{}, false
 }
 
-func (c *ScrapeRequestConsumer) fullTextOf(
+func (c *ScrapeRequestConsumer) documentOf(
 	ctx context.Context,
-	scraped scrapedpage.ScrapedPage,
-) (documentextraction.Document, []byte, bool) {
+	scrapedPage scrapedpage.ScrapedPage,
+) (documentextraction.Document, bool) {
 	document, err := documentextraction.DocumentFrom(
-		ctx, scraped.Body, scraped.ContentType, scraped.LandedURL,
+		ctx, scrapedPage.Body, scrapedPage.ContentType, scrapedPage.LandedURL,
 	)
 	if err != nil {
 		slog.WarnContext(ctx, msgExtractionFailed,
-			slog.String("url", scraped.LandedURL.String()),
+			slog.String("url", scrapedPage.LandedURL.String()),
 			slog.Any("error", err),
 		)
-		return documentextraction.Document{}, nil, false
+		return documentextraction.Document{}, false
 	}
-	text, derived := c.formatDerivations.BodyIn(
-		ctx, documentextraction.FormatFullText, document, scraped.LandedURL,
+	return document, true
+}
+
+func (c *ScrapeRequestConsumer) fullTextOf(
+	ctx context.Context,
+	document documentextraction.Document,
+	landedURL canonicalurl.CanonicalURL,
+) ([]byte, bool) {
+	return c.formatDerivations.BodyIn(
+		ctx, documentextraction.FormatFullText, document, landedURL,
 	)
-	return document, text, derived
 }
 
 func (c *ScrapeRequestConsumer) store(

@@ -21,17 +21,17 @@ type ScrapedPage struct {
 
 func Of(
 	request scraperequestcontract.ScrapeRequest,
-	fetched pagefetch.FetchedPage,
+	fetchedPage pagefetch.FetchedPage,
 ) ScrapedPage {
 	pageURL := request.PageURL
 	if readsThePageAtItsOwnURL(request) {
-		pageURL = fetched.LandedURL
+		pageURL = fetchedPage.LandedURL
 	}
 	return ScrapedPage{
 		PageURL:     pageURL,
-		LandedURL:   fetched.LandedURL,
-		ContentType: fetched.ContentType,
-		Body:        fetched.Body,
+		LandedURL:   fetchedPage.LandedURL,
+		ContentType: fetchedPage.ContentType,
+		Body:        fetchedPage.Body,
 	}
 }
 

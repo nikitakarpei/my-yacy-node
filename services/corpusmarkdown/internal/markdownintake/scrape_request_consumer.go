@@ -85,16 +85,22 @@ func (c *ScrapeRequestConsumer) processOne(
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
 	requestedURL := scrapeRequest.PageURL
-	scraped, scrapable := c.fetch(ctx, message, scrapeRequest)
+	scrapedPage, scrapable := c.fetch(ctx, message, scrapeRequest)
 	if !scrapable {
 		return nil
 	}
-	markdown, derived := c.markdownOf(ctx, requestedURL, scraped)
-	if !derived {
+	document, extracted := c.documentOf(ctx, scrapedPage, requestedURL)
+	if !extracted {
 		message.Acknowledge(ctx)
 		return nil
 	}
-	return c.store(ctx, message, requestedURL, scraped.PageURL, markdown)
+	markdown, derived := c.markdownOf(ctx, document, scrapedPage.LandedURL)
+	if !derived {
+		c.progress.NoMarkdownDerived(ctx, requestedURL, scrapedPage.LandedURL)
+		message.Acknowledge(ctx)
+		return nil
+	}
+	return c.store(ctx, message, requestedURL, scrapedPage.PageURL, markdown)
 }
 
 func (c *ScrapeRequestConsumer) fetch(
@@ -125,25 +131,29 @@ func (c *ScrapeRequestConsumer) fetch(
 	return scrapedpage.ScrapedPage{}, false
 }
 
-func (c *ScrapeRequestConsumer) markdownOf(
+func (c *ScrapeRequestConsumer) documentOf(
 	ctx context.Context,
+	scrapedPage scrapedpage.ScrapedPage,
 	requestedURL canonicalurl.CanonicalURL,
-	scraped scrapedpage.ScrapedPage,
-) ([]byte, bool) {
+) (documentextraction.Document, bool) {
 	document, err := documentextraction.DocumentFrom(
-		ctx, scraped.Body, scraped.ContentType, scraped.LandedURL,
+		ctx, scrapedPage.Body, scrapedPage.ContentType, scrapedPage.LandedURL,
 	)
 	if err != nil {
-		c.progress.DocumentExtractionFailed(ctx, requestedURL, scraped.LandedURL, err)
-		return nil, false
+		c.progress.DocumentExtractionFailed(ctx, requestedURL, scrapedPage.LandedURL, err)
+		return documentextraction.Document{}, false
 	}
-	markdown, derived := c.formatDerivations.BodyIn(
-		ctx, documentextraction.FormatMarkdown, document, scraped.LandedURL,
+	return document, true
+}
+
+func (c *ScrapeRequestConsumer) markdownOf(
+	ctx context.Context,
+	document documentextraction.Document,
+	landedURL canonicalurl.CanonicalURL,
+) ([]byte, bool) {
+	return c.formatDerivations.BodyIn(
+		ctx, documentextraction.FormatMarkdown, document, landedURL,
 	)
-	if !derived {
-		c.progress.NoMarkdownDerived(ctx, requestedURL, scraped.LandedURL)
-	}
-	return markdown, derived
 }
 
 func (c *ScrapeRequestConsumer) store(
