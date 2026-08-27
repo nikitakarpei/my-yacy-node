@@ -64,10 +64,13 @@ func (v *visitor) concludeVisit(
 	case pagefetch.FetchCeased:
 		v.recordVisit(ctx, url, fetchOutcome.Version)
 		v.progress.RefusalHonored(refusal.Cease)
-		return completedOutcome(disposal.Refused, noDiscoveredURLs), nil
-	case pagefetch.FetchNotAPage:
+		return completedOutcome(disposal.CrawlCeased, noDiscoveredURLs), nil
+	case pagefetch.FetchRejected:
 		v.progress.PageFetched()
-		return completedOutcome(disposal.NotAPage, noDiscoveredURLs), nil
+		return completedOutcome(disposal.FetchRejected, noDiscoveredURLs), nil
+	case pagefetch.FetchLandedURLInvalid:
+		v.progress.PageFetched()
+		return completedOutcome(disposal.LandedURLInvalid, noDiscoveredURLs), nil
 	case pagefetch.FetchDeferred:
 		return deferredOutcome(fetchOutcome.DeferFor), nil
 	case pagefetch.FetchFailed:

@@ -229,11 +229,11 @@ func TestVisitReadsTheFetchedPage(t *testing.T) {
 	}
 }
 
-func TestVisitReportsNotAPageDisposal(t *testing.T) {
+func TestVisitReportsFetchRejectedDisposal(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
-		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}),
+		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchRejected}),
 		recrawl,
 		newObserver(),
 		scrapeRequests,
@@ -241,14 +241,33 @@ func TestVisitReportsNotAPageDisposal(t *testing.T) {
 
 	outcome := visitHost(t, visitor)
 
-	if outcome.Disposal != disposal.NotAPage {
-		t.Fatalf("want not-a-page disposal, got %q", outcome.Disposal)
+	if outcome.Disposal != disposal.FetchRejected {
+		t.Fatalf("want fetch-rejected disposal, got %q", outcome.Disposal)
 	}
 	if len(recrawl.calls()) != 0 {
-		t.Fatalf("visited should not be recorded for not-a-page, got %v", recrawl.calls())
+		t.Fatalf("visited should not be recorded for a rejected fetch, got %v", recrawl.calls())
 	}
 	if calls := scrapeRequests.calls(); len(calls) != 0 {
-		t.Fatalf("a not-a-page fetch should publish no scrape request, got %v", calls)
+		t.Fatalf("a rejected fetch should publish no scrape request, got %v", calls)
+	}
+}
+
+func TestVisitReportsLandedURLInvalidDisposal(t *testing.T) {
+	scrapeRequests := &fakeScrapeRequests{}
+	visitor := newVisitor(
+		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchLandedURLInvalid}),
+		&fakeRecrawl{due: true},
+		newObserver(),
+		scrapeRequests,
+	)
+
+	outcome := visitHost(t, visitor)
+
+	if outcome.Disposal != disposal.LandedURLInvalid {
+		t.Fatalf("want landed-url-invalid disposal, got %q", outcome.Disposal)
+	}
+	if calls := scrapeRequests.calls(); len(calls) != 0 {
+		t.Fatalf("an invalid landing should publish no scrape request, got %v", calls)
 	}
 }
 
@@ -268,11 +287,11 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 	if observer.refusals[refusal.Cease] != 1 {
 		t.Fatalf("cease not honored: %v", observer.refusals)
 	}
-	if outcome.Disposal != disposal.Refused {
-		t.Fatalf("want refused disposal, got %q", outcome.Disposal)
+	if outcome.Disposal != disposal.CrawlCeased {
+		t.Fatalf("want crawl-ceased disposal, got %q", outcome.Disposal)
 	}
 	if len(recrawl.calls()) != 1 {
-		t.Fatalf("visited should be recorded on refusal so grace applies, got %v", recrawl.calls())
+		t.Fatalf("visited should be recorded on a cease so grace applies, got %v", recrawl.calls())
 	}
 	if calls := scrapeRequests.calls(); len(calls) != 0 {
 		t.Fatalf("a ceased fetch should publish no scrape request, got %v", calls)

@@ -7,6 +7,7 @@ const (
 	FetchNotModified
 	FetchCeased
 	FetchDeferred
-	FetchNotAPage
+	FetchRejected
+	FetchLandedURLInvalid
 	FetchFailed
 )

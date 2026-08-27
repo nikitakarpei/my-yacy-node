@@ -463,8 +463,8 @@ func TestAURLThatSpentItsAttemptsIsDisposed(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if worker.observer.disposed[disposal.FetchAbandoned] != 1 {
-		t.Fatalf("observer disposed %v, want fetch abandoned", worker.observer.disposed)
+	if worker.observer.disposed[disposal.RetriesExhausted] != 1 {
+		t.Fatalf("observer disposed %v, want retries exhausted", worker.observer.disposed)
 	}
 }
 
@@ -480,8 +480,8 @@ func TestAURLWhoseHostSpentItsPagesIsDisposedBeforeTheFetch(t *testing.T) {
 	if worker.visitor.visitCount() != 0 {
 		t.Fatal("a host that spent its pages should not be fetched again")
 	}
-	if worker.observer.disposed[disposal.HostPagesSpent] != 1 {
-		t.Fatalf("observer disposed %v, want host pages spent", worker.observer.disposed)
+	if worker.observer.disposed[disposal.HostPagesExhausted] != 1 {
+		t.Fatalf("observer disposed %v, want host pages exhausted", worker.observer.disposed)
 	}
 }
 
@@ -536,14 +536,14 @@ func TestAnUndecodablePendingVisitHaltsIntake(t *testing.T) {
 func TestTheDisposalTheVisitReportsIsObserved(t *testing.T) {
 	worker := newWorker()
 	worker.visitor.outcomes = []pagevisit.VisitOutcome{{
-		Conclusion: pagevisit.VisitCompleted, Disposal: disposal.NotAPage,
+		Conclusion: pagevisit.VisitCompleted, Disposal: disposal.FetchRejected,
 	}}
 
 	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
 		t.Fatalf("run: %v", err)
 	}
 
-	if worker.observer.disposed[disposal.NotAPage] != 1 {
+	if worker.observer.disposed[disposal.FetchRejected] != 1 {
 		t.Fatalf("observer disposed %v, want not-a-page", worker.observer.disposed)
 	}
 }

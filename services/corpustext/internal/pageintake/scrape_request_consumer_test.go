@@ -332,7 +332,7 @@ func TestConsumerHoldsADeferredScrapeRequestBackForAsLongAsTheOriginAsks(t *test
 func TestConsumerAcksAScrapeRequestThatFetchesNoPage(t *testing.T) {
 	acked := make(chan string, 1)
 	progress := &recordingProgress{}
-	fetcher := &fakeFetch{outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}}
+	fetcher := &fakeFetch{outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchRejected}}
 
 	if err := run(t, sourceOf(scrapeRequestMessage(t, acked)),
 		fetcher, &recordingIndex{}, progress); err != nil {

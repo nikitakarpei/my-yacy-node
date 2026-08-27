@@ -27,9 +27,9 @@ const (
 
 	defaultDeferFor = time.Minute
 
-	msgFetchTransient    = "fetch failed, treating as transient"
-	msgBodyReadFailed    = "response body read failed, treating as transient"
-	msgLandedURLRejected = "landed page url rejected, page treated as no page"
+	msgFetchTransient   = "fetch failed, treating as transient"
+	msgBodyReadFailed   = "response body read failed, treating as transient"
+	msgLandedURLInvalid = "landed page url is not canonical, page dropped"
 )
 
 type ProxiedFetch struct {
@@ -109,7 +109,7 @@ func (f *ProxiedFetch) classify(
 		response.StatusCode == http.StatusUnavailableForLegalReasons:
 		return pagefetch.FetchOutcome{Status: pagefetch.FetchCeased}, nil
 	case response.StatusCode >= 400 && response.StatusCode < 500:
-		return pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}, nil
+		return pagefetch.FetchOutcome{Status: pagefetch.FetchRejected}, nil
 	default:
 		return pagefetch.FetchOutcome{Status: pagefetch.FetchFailed}, nil
 	}
@@ -133,11 +133,11 @@ func (f *ProxiedFetch) fetched(
 	}
 	landedURL, err := canonicalurl.CanonicalURLOf(response.Request.URL.String())
 	if err != nil {
-		slog.WarnContext(ctx, msgLandedURLRejected,
+		slog.WarnContext(ctx, msgLandedURLInvalid,
 			slog.String("url", response.Request.URL.String()),
 			slog.Any("error", err),
 		)
-		return pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}, nil
+		return pagefetch.FetchOutcome{Status: pagefetch.FetchLandedURLInvalid}, nil
 	}
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,

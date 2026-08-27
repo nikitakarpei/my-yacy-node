@@ -25,7 +25,7 @@ type VisitOutcome struct {
 }
 
 func (outcome VisitOutcome) Disposed() bool {
-	return outcome.Disposal != disposal.NotDisposed
+	return outcome.Disposal.Disposes()
 }
 
 func completedOutcome(

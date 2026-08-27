@@ -25,8 +25,8 @@ const (
 	msgClaimUnreadable    = "visit claim unreadable, the url returns for redelivery"
 	msgVisitFailed        = "visit failed, the url returns for redelivery"
 	msgDeferralsExhausted = "url dropped after exhausting deferrals"
-	msgFetchAbandoned     = "fetch abandoned after retries"
-	msgHostPagesSpent     = "url dropped after its host spent its page allowance"
+	msgRetriesExhausted   = "url dropped after exhausting retries"
+	msgHostPagesExhausted = "url dropped after exhausting its host page allowance"
 	msgDiscoveryFailed    = "discovered urls not published, the url returns for redelivery"
 	msgVisitClaimedTwice  = "pending visit already claimed elsewhere, dropped"
 
@@ -181,11 +181,11 @@ func (c *VisitConsumer) spendHostPage(
 		return false
 	}
 	if !spent {
-		slog.WarnContext(ctx, msgHostPagesSpent,
+		slog.WarnContext(ctx, msgHostPagesExhausted,
 			slog.String("url", visit.URL.String()),
 			slog.Int("maxPagesPerHost", profile.MaxPagesPerHost),
 		)
-		c.observer.PageDisposed(disposal.HostPagesSpent)
+		c.observer.PageDisposed(disposal.HostPagesExhausted)
 		message.Acknowledge(ctx)
 		return false
 	}
@@ -277,8 +277,8 @@ func (c *VisitConsumer) settleRetryable(
 		return
 	}
 	if !retried {
-		slog.WarnContext(ctx, msgFetchAbandoned, slog.String("url", visit.URL.String()))
-		c.observer.PageDisposed(disposal.FetchAbandoned)
+		slog.WarnContext(ctx, msgRetriesExhausted, slog.String("url", visit.URL.String()))
+		c.observer.PageDisposed(disposal.RetriesExhausted)
 		message.Acknowledge(ctx)
 		return
 	}
