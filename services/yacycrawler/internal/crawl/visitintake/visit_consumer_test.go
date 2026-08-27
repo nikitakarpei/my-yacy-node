@@ -54,7 +54,7 @@ func (c *fakeClaims) Claim(
 	return visitclaim.Resumed, nil
 }
 
-type fakeAllowance struct {
+type fakeLedger struct {
 	hostSpent      bool
 	hostPageLimits []int
 	deferrals      int
@@ -63,11 +63,11 @@ type fakeAllowance struct {
 	maxRetries     int
 }
 
-func newAllowance() *fakeAllowance {
-	return &fakeAllowance{hostSpent: true, maxDeferrals: 2, maxRetries: 2}
+func newLedger() *fakeLedger {
+	return &fakeLedger{hostSpent: true, maxDeferrals: 2, maxRetries: 2}
 }
 
-func (a *fakeAllowance) HostPageFor(
+func (a *fakeLedger) HostPageFor(
 	_ context.Context, _ pendingvisit.PendingVisit, maxPages int,
 ) (visitallowance.Allowance, error) {
 	a.hostPageLimits = append(a.hostPageLimits, maxPages)
@@ -77,7 +77,7 @@ func (a *fakeAllowance) HostPageFor(
 	return visitallowance.Allowance{Granted: true}, nil
 }
 
-func (a *fakeAllowance) DeferralFor(
+func (a *fakeLedger) DeferralFor(
 	_ context.Context, _ pendingvisit.PendingVisit, deferFor time.Duration,
 ) (visitallowance.Allowance, error) {
 	if a.deferrals >= a.maxDeferrals {
@@ -87,7 +87,7 @@ func (a *fakeAllowance) DeferralFor(
 	return visitallowance.Allowance{Granted: true, PauseFor: deferFor}, nil
 }
 
-func (a *fakeAllowance) AttemptFor(
+func (a *fakeLedger) AttemptFor(
 	_ context.Context, _ pendingvisit.PendingVisit,
 ) (visitallowance.Allowance, error) {
 	if a.retries >= a.maxRetries {
@@ -221,22 +221,22 @@ func visitMessage(t *testing.T, sequence uint64) *pullintaketest.Message {
 }
 
 type crawlWorker struct {
-	claims    *fakeClaims
-	allowance *fakeAllowance
-	orders    *fakeAcceptedOrders
-	frontier  *fakePendingVisits
-	visitor   *fakeVisitor
-	observer  *recordingObserver
+	claims   *fakeClaims
+	ledger   *fakeLedger
+	orders   *fakeAcceptedOrders
+	frontier *fakePendingVisits
+	visitor  *fakeVisitor
+	observer *recordingObserver
 }
 
 func newWorker() *crawlWorker {
 	return &crawlWorker{
-		claims:    newClaims(),
-		allowance: newAllowance(),
-		orders:    &fakeAcceptedOrders{profile: wideProfile()},
-		frontier:  &fakePendingVisits{},
-		visitor:   &fakeVisitor{},
-		observer:  newObserver(),
+		claims:   newClaims(),
+		ledger:   newLedger(),
+		orders:   &fakeAcceptedOrders{profile: wideProfile()},
+		frontier: &fakePendingVisits{},
+		visitor:  &fakeVisitor{},
+		observer: newObserver(),
 	}
 }
 
@@ -245,7 +245,7 @@ func (w *crawlWorker) consume(t *testing.T, messages ...jetstream.Msg) error {
 	return visitintake.NewVisitConsumer(
 		pullintaketest.MessageSourceOf(messages...),
 		w.claims,
-		w.allowance,
+		w.ledger,
 		w.orders,
 		w.frontier,
 		w.visitor.visitorFor,
@@ -364,7 +364,7 @@ func TestADeferredVisitReturnsAfterTheDelayTheSiteAsked(t *testing.T) {
 
 func TestAURLThatExhaustedItsDeferralsIsDropped(t *testing.T) {
 	worker := newWorker()
-	worker.allowance.deferrals = 2
+	worker.ledger.deferrals = 2
 	worker.visitor.outcomes = []pagevisit.VisitOutcome{{Conclusion: pagevisit.VisitDeferred}}
 	message := visitMessage(t, 1)
 
@@ -396,7 +396,7 @@ func TestARetryableVisitReturnsAfterItsBackoff(t *testing.T) {
 
 func TestAURLThatExhaustedItsRetriesIsDropped(t *testing.T) {
 	worker := newWorker()
-	worker.allowance.retries = 2
+	worker.ledger.retries = 2
 	worker.visitor.outcomes = []pagevisit.VisitOutcome{{Conclusion: pagevisit.VisitRetryable}}
 
 	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
@@ -410,7 +410,7 @@ func TestAURLThatExhaustedItsRetriesIsDropped(t *testing.T) {
 
 func TestAURLWhoseHostExhaustedItsPagesIsDroppedBeforeTheFetch(t *testing.T) {
 	worker := newWorker()
-	worker.allowance.hostSpent = false
+	worker.ledger.hostSpent = false
 	message := visitMessage(t, 1)
 
 	if err := worker.consume(t, message); err != nil {
@@ -433,10 +433,10 @@ func TestTheProfilesHostPageLimitReachesTheLedger(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if len(worker.allowance.hostPageLimits) != 1 || worker.allowance.hostPageLimits[0] != 7 {
+	if len(worker.ledger.hostPageLimits) != 1 || worker.ledger.hostPageLimits[0] != 7 {
 		t.Fatalf(
 			"ledger spent against %v, want the profile limit of 7",
-			worker.allowance.hostPageLimits,
+			worker.ledger.hostPageLimits,
 		)
 	}
 }
@@ -449,10 +449,10 @@ func TestARedeliveredMessageAsksTheLedgerForItsHostPageAgain(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if len(worker.allowance.hostPageLimits) != 2 {
+	if len(worker.ledger.hostPageLimits) != 2 {
 		t.Fatalf(
 			"the ledger was asked for %d host pages, want one for each delivery",
-			len(worker.allowance.hostPageLimits),
+			len(worker.ledger.hostPageLimits),
 		)
 	}
 }

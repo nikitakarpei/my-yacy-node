@@ -35,7 +35,7 @@ type VisitClaims interface {
 	) (visitclaim.Claim, error)
 }
 
-type VisitAllowance interface {
+type VisitLedger interface {
 	HostPageFor(
 		ctx context.Context,
 		visit pendingvisit.PendingVisit,
@@ -68,7 +68,7 @@ type PendingVisitProgress interface {
 type VisitConsumer struct {
 	source           pullintake.MessageSource
 	claims           VisitClaims
-	allowance        VisitAllowance
+	ledger           VisitLedger
 	orders           AcceptedOrders
 	frontier         PendingVisits
 	visitorFor       pagevisit.VisitorFor
@@ -80,7 +80,7 @@ type VisitConsumer struct {
 func NewVisitConsumer(
 	source pullintake.MessageSource,
 	claims VisitClaims,
-	allowance VisitAllowance,
+	ledger VisitLedger,
 	orders AcceptedOrders,
 	frontier PendingVisits,
 	visitorFor pagevisit.VisitorFor,
@@ -90,7 +90,7 @@ func NewVisitConsumer(
 	return &VisitConsumer{
 		source:           source,
 		claims:           claims,
-		allowance:        allowance,
+		ledger:           ledger,
 		orders:           orders,
 		frontier:         frontier,
 		visitorFor:       visitorFor,
@@ -181,7 +181,7 @@ func (c *VisitConsumer) spendHostPage(
 	order acceptedorder.AcceptedOrder,
 	pendingVisit pendingvisit.PendingVisit,
 ) bool {
-	allowance, err := c.allowance.HostPageFor(ctx, pendingVisit, order.MaxPagesPerHost())
+	allowance, err := c.ledger.HostPageFor(ctx, pendingVisit, order.MaxPagesPerHost())
 	return c.carryOutAllowance(ctx, message, pendingVisit, allowance, err)
 }
 
@@ -245,7 +245,7 @@ func (c *VisitConsumer) deferVisit(
 	pendingVisit pendingvisit.PendingVisit,
 	deferFor time.Duration,
 ) {
-	allowance, err := c.allowance.DeferralFor(ctx, pendingVisit, deferFor)
+	allowance, err := c.ledger.DeferralFor(ctx, pendingVisit, deferFor)
 	if !c.carryOutAllowance(ctx, message, pendingVisit, allowance, err) {
 		return
 	}
@@ -258,7 +258,7 @@ func (c *VisitConsumer) retryVisit(
 	message pullintake.PendingMessage,
 	pendingVisit pendingvisit.PendingVisit,
 ) {
-	allowance, err := c.allowance.AttemptFor(ctx, pendingVisit)
+	allowance, err := c.ledger.AttemptFor(ctx, pendingVisit)
 	if !c.carryOutAllowance(ctx, message, pendingVisit, allowance, err) {
 		return
 	}

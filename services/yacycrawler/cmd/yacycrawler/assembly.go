@@ -237,7 +237,7 @@ func buildVisitConsumer(
 	if err != nil {
 		return nil, err
 	}
-	allowance, err := visitAllowance(ctx, brokers.crawl, cfg, claims)
+	ledger, err := visitLedger(ctx, brokers.crawl, cfg, claims)
 	if err != nil {
 		return nil, err
 	}
@@ -252,7 +252,7 @@ func buildVisitConsumer(
 	return visitintake.NewVisitConsumer(
 		consumer,
 		claims,
-		allowance,
+		ledger,
 		orders,
 		pendingvisitsjetstream.New(brokers.crawl),
 		visitorFor,
@@ -291,7 +291,7 @@ func visitClaims(
 	return visitclaimsjetstream.New(bucket, cfg.VisitClaimLimits()), nil
 }
 
-func visitAllowance(
+func visitLedger(
 	ctx context.Context,
 	js jetstream.JetStream,
 	cfg ServiceConfig,
