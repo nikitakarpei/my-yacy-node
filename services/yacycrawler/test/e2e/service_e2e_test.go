@@ -95,7 +95,6 @@ func startCrawlOfOriginSiteAcross(
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID: orderID,
 		Profile: yacycrawlcontract.CrawlProfile{
-			Name:            "default",
 			Scope:           yacycrawlcontract.ScopeDomain,
 			URLMustMatch:    yacycrawlcontract.MatchAll,
 			MaxDepth:        0,

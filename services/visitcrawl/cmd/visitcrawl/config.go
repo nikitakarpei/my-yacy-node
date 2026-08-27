@@ -21,7 +21,6 @@ const (
 	EnvMaxBodyBytes = "VISITCRAWL_MAX_BODY_BYTES"
 
 	EnvCrawlScope                  = "VISITCRAWL_SCOPE"
-	EnvCrawlProfileName            = "VISITCRAWL_PROFILE_NAME"
 	EnvCrawlMaxDepth               = "VISITCRAWL_MAX_DEPTH"
 	EnvCrawlURLMustMatch           = "VISITCRAWL_URL_MUST_MATCH"
 	EnvCrawlURLMustNotMatch        = "VISITCRAWL_URL_MUST_NOT_MATCH"
@@ -160,7 +159,6 @@ func crawlProfile(getenv func(string) string) (yacycrawlcontract.CrawlProfile, e
 	}
 
 	return yacycrawlcontract.CrawlProfile{
-		Name:                   envconfig.String(getenv, EnvCrawlProfileName, ""),
 		Scope:                  scope,
 		URLMustMatch:           urlMustMatch,
 		URLMustNotMatch:        urlMustNotMatch,

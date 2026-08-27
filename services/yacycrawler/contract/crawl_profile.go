@@ -13,7 +13,6 @@ const MatchAll = ".*"
 const UnlimitedPagesPerHost = -1
 
 type CrawlProfile struct {
-	Name                   string     `json:"Name"`
 	Scope                  CrawlScope `json:"Scope"`
 	URLMustMatch           string     `json:"URLMustMatch"`
 	URLMustNotMatch        string     `json:"URLMustNotMatch"`
