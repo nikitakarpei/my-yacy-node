@@ -6,6 +6,7 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -39,13 +40,14 @@ type ProxiedFetch struct {
 }
 
 func New(
-	transport http.RoundTripper,
+	proxyURL *url.URL,
+	dialMode ProxyDialMode,
 	userAgent string,
 	maxBodyBytes int64,
 	deadline time.Duration,
 ) *ProxiedFetch {
 	return &ProxiedFetch{
-		client:       &http.Client{Transport: transport},
+		client:       &http.Client{Transport: transportForDialMode(proxyURL, dialMode)},
 		userAgent:    userAgent,
 		maxBodyBytes: maxBodyBytes,
 		deadline:     deadline,

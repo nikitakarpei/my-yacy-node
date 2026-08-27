@@ -45,9 +45,8 @@ func openScrapeRequestIntake(
 		consumer: scraperequestintake.NewScrapeRequestConsumer(scraperequestintake.Config{
 			Source: broker.ScrapeRequests,
 			Fetcher: pagefetchershttp.New(
-				pagefetchershttp.NewReplayedCaptureTransport(
-					pagefetchershttp.NewProxiedTransport(config.ProxyURL, config.ProxyDialMode),
-				),
+				config.ProxyURL,
+				config.ProxyDialMode,
 				config.UserAgent,
 				config.MaxBodyBytes,
 				config.FetchDeadline,

@@ -22,7 +22,7 @@ func TestFetchAbsoluteURLModeSendsNoConnect(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(httppkg.NewProxiedTransport(proxy, httppkg.ProxyDialAbsoluteURL), testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "https://target.example/page"),
@@ -43,7 +43,7 @@ func TestFetchAbsoluteURLModeSendsNoConnect(t *testing.T) {
 
 func TestFetchAbsoluteURLModeTransientOnDialFailure(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
-	outcome, err := httppkg.New(httppkg.NewProxiedTransport(proxy, httppkg.ProxyDialAbsoluteURL), testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "https://target.example/x"),
@@ -62,7 +62,7 @@ func TestFetchAbsoluteURLModeHandlesHTTPTarget(t *testing.T) {
 	})
 	defer closeFn()
 
-	outcome, err := httppkg.New(httppkg.NewProxiedTransport(proxy, httppkg.ProxyDialAbsoluteURL), testUserAgent, 1<<20, time.Second).
+	outcome, err := httppkg.New(proxy, httppkg.ProxyDialAbsoluteURL, testUserAgent, 1<<20, time.Second).
 		Fetch(
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/page"),

@@ -150,7 +150,8 @@ func buildVisitorSource(
 	metrics *progressobserversprometheus.CrawlMetrics,
 ) (pagevisit.VisitorSource, error) {
 	fetch := pagefetchershttp.New(
-		pagefetchershttp.NewProxiedTransport(cfg.ProxyURL, cfg.ProxyDialMode),
+		cfg.ProxyURL,
+		cfg.ProxyDialMode,
 		cfg.UserAgent,
 		cfg.MaxBodyBytes,
 		cfg.FetchDeadline,
