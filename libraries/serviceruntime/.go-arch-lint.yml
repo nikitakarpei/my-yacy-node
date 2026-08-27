@@ -21,7 +21,9 @@ components:
   poisonhalt:
     in: poisonhalt/**
   pullintake:
-    in: pullintake/**
+    in: pullintake
+  pullintaketest:
+    in: pullintake/pullintaketest/**
   jetstreamconnect:
     in: jetstreamconnect/**
 
@@ -45,6 +47,9 @@ deps:
     canUse:
       - nats
       - errgroup
+  pullintaketest:
+    canUse:
+      - nats
   jetstreamconnect:
     canUse:
       - nats

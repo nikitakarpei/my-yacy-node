@@ -7,104 +7,22 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 )
-
-type fakeMsg struct {
-	data       []byte
-	metadata   *jetstream.MsgMetadata
-	metaErr    error
-	settlement chan string
-	nakDelay   time.Duration
-}
-
-func (m *fakeMsg) Subject() string                 { return "subj" }
-func (m *fakeMsg) Reply() string                   { return "" }
-func (m *fakeMsg) Data() []byte                    { return m.data }
-func (m *fakeMsg) Headers() nats.Header            { return nil }
-func (m *fakeMsg) Ack() error                      { m.settle("ack"); return nil }
-func (m *fakeMsg) DoubleAck(context.Context) error { return nil }
-func (m *fakeMsg) Nak() error                      { m.settle("nak"); return nil }
-
-func (m *fakeMsg) InProgress() error           { return nil }
-func (m *fakeMsg) Term() error                 { return nil }
-func (m *fakeMsg) TermWithReason(string) error { return nil }
-
-func (m *fakeMsg) NakWithDelay(delay time.Duration) error {
-	m.nakDelay = delay
-	m.settle("nak-with-delay")
-	return nil
-}
-
-func (m *fakeMsg) Metadata() (*jetstream.MsgMetadata, error) {
-	if m.metaErr != nil {
-		return nil, m.metaErr
-	}
-	if m.metadata != nil {
-		return m.metadata, nil
-	}
-	return &jetstream.MsgMetadata{}, nil
-}
-
-func (m *fakeMsg) settle(action string) {
-	if m.settlement != nil {
-		m.settlement <- action
-	}
-}
-
-type fakeIterator struct {
-	mu       sync.Mutex
-	messages []jetstream.Msg
-	blockOn  int
-	release  chan struct{}
-}
-
-func (it *fakeIterator) Next(...jetstream.NextOpt) (jetstream.Msg, error) {
-	it.mu.Lock()
-	if len(it.messages) == 0 {
-		it.mu.Unlock()
-		return nil, jetstream.ErrMsgIteratorClosed
-	}
-	msg := it.messages[0]
-	it.messages = it.messages[1:]
-	release := it.release
-	block := it.blockOn > 0
-	it.blockOn--
-	it.mu.Unlock()
-	if block && release != nil {
-		<-release
-	}
-	return msg, nil
-}
-
-func (it *fakeIterator) Stop()  {}
-func (it *fakeIterator) Drain() {}
-
-type fakeSource struct {
-	iterator *fakeIterator
-	openErr  error
-}
-
-func (s fakeSource) Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesContext, error) {
-	if s.openErr != nil {
-		return nil, s.openErr
-	}
-	return s.iterator, nil
-}
 
 func messages(count int) []jetstream.Msg {
 	msgs := make([]jetstream.Msg, count)
 	for i := range msgs {
-		msgs[i] = &fakeMsg{data: []byte("payload")}
+		msgs[i] = &pullintaketest.Message{Body: []byte("payload")}
 	}
 	return msgs
 }
 
 func TestRunProcessesEveryMessageThenExitsOnClose(t *testing.T) {
-	source := fakeSource{iterator: &fakeIterator{messages: messages(3)}}
+	source := pullintaketest.MessageSourceOf(messages(3)...)
 	var mu sync.Mutex
 	seen := 0
 	err := pullintake.Run(
@@ -127,7 +45,7 @@ func TestRunProcessesEveryMessageThenExitsOnClose(t *testing.T) {
 }
 
 func TestRunHaltsOnFirstFatalError(t *testing.T) {
-	source := fakeSource{iterator: &fakeIterator{messages: messages(3)}}
+	source := pullintaketest.MessageSourceOf(messages(3)...)
 	want := errors.New("poison")
 	err := pullintake.Run(
 		context.Background(),
@@ -144,11 +62,7 @@ func TestRunHaltsOnFirstFatalError(t *testing.T) {
 
 func TestRunReturnsNilOnContextCancel(t *testing.T) {
 	release := make(chan struct{})
-	source := fakeSource{iterator: &fakeIterator{
-		messages: messages(2),
-		blockOn:  1,
-		release:  release,
-	}}
+	source := pullintaketest.MessageSourceHeldOnItsFirstMessage(release, messages(2)...)
 	ctx, cancel := context.WithCancel(context.Background())
 	done := make(chan error, 1)
 	go func() {
@@ -169,7 +83,7 @@ func TestRunReturnsNilOnContextCancel(t *testing.T) {
 }
 
 func TestRunFailsWhenSourceCannotOpen(t *testing.T) {
-	source := fakeSource{openErr: errors.New("no iterator")}
+	source := pullintaketest.MessageSourceThatCannotOpen(errors.New("no iterator"))
 	err := pullintake.Run(
 		context.Background(),
 		source,
@@ -189,7 +103,7 @@ func deliver(
 	act func(ctx context.Context, message pullintake.PendingMessage),
 ) {
 	t.Helper()
-	source := fakeSource{iterator: &fakeIterator{messages: []jetstream.Msg{msg}}}
+	source := pullintaketest.MessageSourceOf(msg)
 	err := pullintake.Run(
 		context.Background(),
 		source,
@@ -206,7 +120,7 @@ func deliver(
 
 func TestPendingMessageCarriesTheMessageBody(t *testing.T) {
 	var body []byte
-	deliver(t, &fakeMsg{data: []byte("payload")},
+	deliver(t, &pullintaketest.Message{Body: []byte("payload")},
 		func(_ context.Context, message pullintake.PendingMessage) {
 			body = message.Body()
 		})
@@ -218,68 +132,64 @@ func TestPendingMessageCarriesTheMessageBody(t *testing.T) {
 
 func TestPendingMessageIdentityNamesWhereTheMessageSits(t *testing.T) {
 	var identity string
-	deliver(t, &fakeMsg{metadata: &jetstream.MsgMetadata{
-		Stream:   "YACY_SCRAPE_REQUEST",
-		Sequence: jetstream.SequencePair{Stream: 7},
-	}}, func(_ context.Context, message pullintake.PendingMessage) {
-		identity = message.Identity()
-	})
+	deliver(t, &pullintaketest.Message{Stream: "YACY_SCRAPE_REQUEST", Sequence: 7},
+		func(_ context.Context, message pullintake.PendingMessage) {
+			identity = message.Identity()
+		})
 
-	if identity != "subj YACY_SCRAPE_REQUEST/7" {
+	if identity != pullintaketest.Subject+" YACY_SCRAPE_REQUEST/7" {
 		t.Errorf("identity = %q, want the subject, stream and position", identity)
 	}
 }
 
 func TestPendingMessageIdentityFallsBackToTheSubjectAlone(t *testing.T) {
 	var identity string
-	deliver(t, &fakeMsg{metaErr: errors.New("no metadata")},
+	deliver(t, &pullintaketest.Message{MetadataError: errors.New("no metadata")},
 		func(_ context.Context, message pullintake.PendingMessage) {
 			identity = message.Identity()
 		})
 
-	if identity != "subj" {
+	if identity != pullintaketest.Subject {
 		t.Errorf("identity = %q, want the subject alone", identity)
 	}
 }
 
 func TestPendingMessageAcknowledgesTheMessage(t *testing.T) {
-	msg := &fakeMsg{settlement: make(chan string, 1)}
+	msg := &pullintaketest.Message{}
 
 	deliver(t, msg, func(ctx context.Context, message pullintake.PendingMessage) {
 		message.Acknowledge(ctx)
 	})
 
-	if action := <-msg.settlement; action != "ack" {
-		t.Errorf("action = %q, want ack", action)
+	if settled := msg.Settlements(); len(settled) != 1 ||
+		settled[0] != pullintaketest.Acknowledged {
+		t.Errorf("message settled %v, want one ack", settled)
 	}
 }
 
 func TestPendingMessageHoldsAReturnedMessageBackBeforeItComesAgain(t *testing.T) {
-	msg := &fakeMsg{settlement: make(chan string, 1)}
+	msg := &pullintaketest.Message{}
 
 	deliver(t, msg, func(ctx context.Context, message pullintake.PendingMessage) {
 		message.Return(ctx)
 	})
 
-	if action := <-msg.settlement; action != "nak-with-delay" {
-		t.Errorf("action = %q, want nak-with-delay", action)
+	if settled := msg.Settlements(); len(settled) != 1 || settled[0] != pullintaketest.HeldBack {
+		t.Errorf("message settled %v, want one delayed return", settled)
 	}
-	if msg.nakDelay <= 0 {
-		t.Errorf("delay = %v, want a pause before the message comes again", msg.nakDelay)
+	if msg.HeldBackFor() <= 0 {
+		t.Errorf("delay = %v, want a pause before the message comes again", msg.HeldBackFor())
 	}
 }
 
 func TestPendingMessageHoldsTheMessageBackForTheGivenDelay(t *testing.T) {
-	msg := &fakeMsg{settlement: make(chan string, 1)}
+	msg := &pullintaketest.Message{}
 
 	deliver(t, msg, func(ctx context.Context, message pullintake.PendingMessage) {
 		message.ReturnAfter(ctx, 30*time.Second)
 	})
 
-	if action := <-msg.settlement; action != "nak-with-delay" {
-		t.Errorf("action = %q, want nak-with-delay", action)
-	}
-	if msg.nakDelay != 30*time.Second {
-		t.Errorf("delay = %v, want the delay asked for", msg.nakDelay)
+	if msg.HeldBackFor() != 30*time.Second {
+		t.Errorf("delay = %v, want the delay asked for", msg.HeldBackFor())
 	}
 }

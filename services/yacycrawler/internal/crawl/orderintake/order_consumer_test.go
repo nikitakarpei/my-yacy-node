@@ -3,84 +3,18 @@ package orderintake_test
 import (
 	"context"
 	"errors"
-	"sync"
 	"testing"
-	"time"
 
-	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
 )
-
-type fakeMsg struct {
-	data      []byte
-	mu        sync.Mutex
-	settlings []string
-}
-
-func (m *fakeMsg) Subject() string                 { return "yacy.crawl.orders" }
-func (m *fakeMsg) Reply() string                   { return "" }
-func (m *fakeMsg) Data() []byte                    { return m.data }
-func (m *fakeMsg) Headers() nats.Header            { return nil }
-func (m *fakeMsg) Ack() error                      { return m.settle("ack") }
-func (m *fakeMsg) DoubleAck(context.Context) error { return m.settle("ack") }
-func (m *fakeMsg) Nak() error                      { return m.settle("nak") }
-func (m *fakeMsg) NakWithDelay(time.Duration) error {
-	return m.settle("nak-with-delay")
-}
-func (m *fakeMsg) InProgress() error           { return nil }
-func (m *fakeMsg) Term() error                 { return m.settle("term") }
-func (m *fakeMsg) TermWithReason(string) error { return m.settle("term") }
-
-func (m *fakeMsg) Metadata() (*jetstream.MsgMetadata, error) {
-	return &jetstream.MsgMetadata{NumDelivered: 1}, nil
-}
-
-func (m *fakeMsg) settle(action string) error {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	m.settlings = append(m.settlings, action)
-	return nil
-}
-
-func (m *fakeMsg) settled() []string {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	return append([]string(nil), m.settlings...)
-}
-
-type fakeIterator struct {
-	mu       sync.Mutex
-	messages []jetstream.Msg
-}
-
-func (it *fakeIterator) Next(...jetstream.NextOpt) (jetstream.Msg, error) {
-	it.mu.Lock()
-	defer it.mu.Unlock()
-	if len(it.messages) == 0 {
-		return nil, jetstream.ErrMsgIteratorClosed
-	}
-	msg := it.messages[0]
-	it.messages = it.messages[1:]
-	return msg, nil
-}
-
-func (it *fakeIterator) Stop()  {}
-func (it *fakeIterator) Drain() {}
-
-type fakeSource struct {
-	iterator *fakeIterator
-}
-
-func (s fakeSource) Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesContext, error) {
-	return s.iterator, nil
-}
 
 type fakeAcceptedOrders struct {
 	kept []acceptedorder.AcceptedOrder
@@ -134,7 +68,10 @@ func domainProfile() yacycrawlcontract.CrawlProfile {
 	}
 }
 
-func orderMessage(t *testing.T, profile yacycrawlcontract.CrawlProfile) *fakeMsg {
+func orderMessage(
+	t *testing.T,
+	profile yacycrawlcontract.CrawlProfile,
+) *pullintaketest.Message {
 	t.Helper()
 	data, err := yacycrawlcontract.MarshalCrawlOrder(yacycrawlcontract.CrawlOrder{
 		OrderID:  "o1",
@@ -144,7 +81,7 @@ func orderMessage(t *testing.T, profile yacycrawlcontract.CrawlProfile) *fakeMsg
 	if err != nil {
 		t.Fatal(err)
 	}
-	return &fakeMsg{data: data}
+	return &pullintaketest.Message{Body: data}
 }
 
 func consume(
@@ -156,9 +93,7 @@ func consume(
 ) error {
 	t.Helper()
 	return orderintake.NewOrderConsumer(orderintake.Config{
-		Source: fakeSource{
-			iterator: &fakeIterator{messages: []jetstream.Msg{message}},
-		},
+		Source:                 pullintaketest.MessageSourceOf(message),
 		Orders:                 orders,
 		Visits:                 visits,
 		Observer:               observer,
@@ -185,7 +120,7 @@ func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
 			t.Fatalf("seed %+v should carry its order at depth zero", visit)
 		}
 	}
-	if got := message.settled(); len(got) != 1 || got[0] != "ack" {
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
 		t.Fatalf("message settled %v, want one ack", got)
 	}
 	if observer.received != 1 || observer.accepted != 1 {
@@ -202,7 +137,7 @@ func TestAnOrderTheCrawlerCannotAcceptReturnsForRedelivery(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
 		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 	if len(visits.published) != 0 {
@@ -222,7 +157,7 @@ func TestAnOrderWhoseSeedsDoNotPublishReturnsForRedelivery(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
 		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 	if observer.returned != 1 {
@@ -240,7 +175,7 @@ func TestAnOrderWhoseProfileTheCrawlerCannotReadSeedsNothing(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
 		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 	if len(orders.kept) != 0 || len(visits.published) != 0 {
@@ -253,7 +188,7 @@ func TestAnOrderWhoseProfileTheCrawlerCannotReadSeedsNothing(t *testing.T) {
 
 func TestAnUndecodableOrderHaltsIntake(t *testing.T) {
 	err := consume(
-		t, &fakeMsg{data: []byte("{")}, &fakeAcceptedOrders{},
+		t, &pullintaketest.Message{Body: []byte("{")}, &fakeAcceptedOrders{},
 		&fakePendingVisits{}, &recordingObserver{},
 	)
 

@@ -7,11 +7,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
@@ -27,83 +27,6 @@ const (
 	orderID  = "o1"
 	visitURL = "http://host/"
 )
-
-type fakeMsg struct {
-	data      []byte
-	sequence  uint64
-	mu        sync.Mutex
-	settlings []string
-	nakDelay  time.Duration
-}
-
-func (m *fakeMsg) Subject() string                 { return "yacy.crawl.frontier" }
-func (m *fakeMsg) Reply() string                   { return "" }
-func (m *fakeMsg) Data() []byte                    { return m.data }
-func (m *fakeMsg) Headers() nats.Header            { return nil }
-func (m *fakeMsg) Ack() error                      { return m.settle("ack") }
-func (m *fakeMsg) DoubleAck(context.Context) error { return m.settle("ack") }
-func (m *fakeMsg) Nak() error                      { return m.settle("nak") }
-func (m *fakeMsg) InProgress() error               { return nil }
-func (m *fakeMsg) Term() error                     { return m.settle("term") }
-func (m *fakeMsg) TermWithReason(string) error     { return m.settle("term") }
-
-func (m *fakeMsg) NakWithDelay(delay time.Duration) error {
-	m.mu.Lock()
-	m.nakDelay = delay
-	m.mu.Unlock()
-	return m.settle("nak-with-delay")
-}
-
-func (m *fakeMsg) Metadata() (*jetstream.MsgMetadata, error) {
-	return &jetstream.MsgMetadata{
-		Stream:   "YACY_CRAWL_FRONTIER",
-		Sequence: jetstream.SequencePair{Stream: m.sequence},
-	}, nil
-}
-
-func (m *fakeMsg) settle(action string) error {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	m.settlings = append(m.settlings, action)
-	return nil
-}
-
-func (m *fakeMsg) settled() []string {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	return append([]string(nil), m.settlings...)
-}
-
-func (m *fakeMsg) heldBackFor() time.Duration {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	return m.nakDelay
-}
-
-type fakeIterator struct {
-	mu       sync.Mutex
-	messages []jetstream.Msg
-}
-
-func (it *fakeIterator) Next(...jetstream.NextOpt) (jetstream.Msg, error) {
-	it.mu.Lock()
-	defer it.mu.Unlock()
-	if len(it.messages) == 0 {
-		return nil, jetstream.ErrMsgIteratorClosed
-	}
-	msg := it.messages[0]
-	it.messages = it.messages[1:]
-	return msg, nil
-}
-
-func (it *fakeIterator) Stop()  {}
-func (it *fakeIterator) Drain() {}
-
-type fakeSource struct{ iterator *fakeIterator }
-
-func (s fakeSource) Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesContext, error) {
-	return s.iterator, nil
-}
 
 type fakeClaims struct {
 	holders        map[string]string
@@ -278,7 +201,7 @@ func wideProfile() yacycrawlcontract.CrawlProfile {
 	}
 }
 
-func visitMessage(t *testing.T, sequence uint64) *fakeMsg {
+func visitMessage(t *testing.T, sequence uint64) *pullintaketest.Message {
 	t.Helper()
 	data, err := pendingvisit.MarshalPendingVisit(pendingvisit.PendingVisit{
 		OrderID: orderID,
@@ -288,7 +211,7 @@ func visitMessage(t *testing.T, sequence uint64) *fakeMsg {
 	if err != nil {
 		t.Fatal(err)
 	}
-	return &fakeMsg{data: data, sequence: sequence}
+	return &pullintaketest.Message{Body: data, Sequence: sequence}
 }
 
 type crawlWorker struct {
@@ -312,7 +235,7 @@ func newWorker() *crawlWorker {
 func (w *crawlWorker) consume(t *testing.T, messages ...jetstream.Msg) error {
 	t.Helper()
 	return visitintake.NewVisitConsumer(visitintake.Config{
-		Source:           fakeSource{iterator: &fakeIterator{messages: messages}},
+		Source:           pullintaketest.MessageSourceOf(messages...),
 		Claims:           w.claims,
 		Orders:           w.orders,
 		Visits:           w.visits,
@@ -334,7 +257,7 @@ func TestAClaimedURLIsVisitedThenAcknowledged(t *testing.T) {
 	if worker.visitor.visitCount() != 1 {
 		t.Fatalf("visited %d urls, want 1", worker.visitor.visitCount())
 	}
-	if got := message.settled(); len(got) != 1 || got[0] != "ack" {
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
 		t.Fatalf("message settled %v, want one ack", got)
 	}
 }
@@ -350,7 +273,7 @@ func TestASecondFrontierMessageForAClaimedURLIsDropped(t *testing.T) {
 	if worker.visitor.visitCount() != 1 {
 		t.Fatalf("visited %d times, want the url fetched once", worker.visitor.visitCount())
 	}
-	if got := duplicate.settled(); len(got) != 1 || got[0] != "ack" {
+	if got := duplicate.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
 		t.Fatalf("duplicate settled %v, want one ack", got)
 	}
 }
@@ -420,11 +343,11 @@ func TestADeferredVisitReturnsAfterTheDelayTheSiteAsked(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
 		t.Fatalf("message settled %v, want one delayed return", got)
 	}
-	if message.heldBackFor() != 7*time.Second {
-		t.Fatalf("held back for %v, want the delay the site asked", message.heldBackFor())
+	if message.HeldBackFor() != 7*time.Second {
+		t.Fatalf("held back for %v, want the delay the site asked", message.HeldBackFor())
 	}
 	if worker.observer.refusals[refusal.Defer] != 1 {
 		t.Fatalf("observer refusals %v, want one defer", worker.observer.refusals)
@@ -444,7 +367,7 @@ func TestAURLThatExhaustedItsDeferralsIsDropped(t *testing.T) {
 	if worker.observer.disposed[disposal.DeferralsExhausted] != 1 {
 		t.Fatalf("observer disposed %v, want deferrals exhausted", worker.observer.disposed)
 	}
-	if got := message.settled(); len(got) != 1 || got[0] != "ack" {
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
 		t.Fatalf("message settled %v, want one ack", got)
 	}
 }
@@ -458,8 +381,8 @@ func TestARetryableVisitReturnsAfterItsBackoff(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if message.heldBackFor() != time.Second {
-		t.Fatalf("held back for %v, want the first backoff", message.heldBackFor())
+	if message.HeldBackFor() != time.Second {
+		t.Fatalf("held back for %v, want the first backoff", message.HeldBackFor())
 	}
 }
 
@@ -549,7 +472,7 @@ func TestAVisitThatFailsReturnsForRedelivery(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
 		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 }
@@ -566,7 +489,7 @@ func TestAVisitWhoseClaimTheLedgerCannotAnswerReturnsForRedelivery(t *testing.T)
 	if worker.visitor.visitCount() != 0 {
 		t.Fatal("a url with no answered claim should not be visited")
 	}
-	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
 		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 }
@@ -580,7 +503,7 @@ func TestAVisitOfAnUnreadableOrderReturnsForRedelivery(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
 		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 }
@@ -594,7 +517,7 @@ func TestAVisitWhoseOrderProfileIsUnreadableReturnsForRedelivery(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
 		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 	if worker.visitor.visitCount() != 0 {
@@ -603,7 +526,7 @@ func TestAVisitWhoseOrderProfileIsUnreadableReturnsForRedelivery(t *testing.T) {
 }
 
 func TestAnUndecodablePendingVisitHaltsIntake(t *testing.T) {
-	if err := newWorker().consume(t, &fakeMsg{data: []byte("{"), sequence: 1}); err == nil {
+	if err := newWorker().consume(t, &pullintaketest.Message{Body: []byte("{"), Sequence: 1}); err == nil {
 		t.Fatal("an undecodable pending visit should halt intake")
 	}
 }
@@ -638,7 +561,7 @@ func TestDiscoveredURLsThatDoNotPublishReturnTheMessage(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
 		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 }
