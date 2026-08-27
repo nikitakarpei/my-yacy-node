@@ -139,16 +139,14 @@ func (f *ProxiedFetch) fetched(
 		)
 		return pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}, nil
 	}
-	noIndex, noFollow := robotsDirectives(response.Header.Values(headerXRobotsTag))
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			LandedURL:            landedURL,
-			ContentType:          response.Header.Get(headerContentType),
-			Body:                 body,
-			Truncated:            truncated,
-			RefusesIndexing:      noIndex,
-			RefusesLinkDiscovery: noFollow,
+			LandedURL:        landedURL,
+			ContentType:      response.Header.Get(headerContentType),
+			Body:             body,
+			Truncated:        truncated,
+			RobotsDirectives: response.Header.Values(headerXRobotsTag),
 		},
 		Version: pageVersionOf(response),
 	}, nil
@@ -180,23 +178,6 @@ func readBody(source io.Reader, limit int64) ([]byte, error) {
 		return nil, fmt.Errorf("read body: %w", err)
 	}
 	return body, nil
-}
-
-func robotsDirectives(values []string) (noIndex, noFollow bool) {
-	for _, value := range values {
-		for _, directive := range strings.Split(value, ",") {
-			switch strings.ToLower(strings.TrimSpace(directive)) {
-			case "noindex":
-				noIndex = true
-			case "nofollow":
-				noFollow = true
-			case "none":
-				noIndex = true
-				noFollow = true
-			}
-		}
-	}
-	return noIndex, noFollow
 }
 
 func retryAfter(header string) time.Duration {

@@ -198,13 +198,13 @@ type fakeVisitor struct {
 	outcomes []pagevisit.VisitOutcome
 	err      error
 	visited  []string
-	refusals []pagevisit.IndexingRefusal
+	refusals []pagevisit.IgnoredRefusals
 }
 
-func (f *fakeVisitor) VisitorFor(indexingRefusal pagevisit.IndexingRefusal) pagevisit.Visitor {
+func (f *fakeVisitor) visitorFor(ignoredRefusals pagevisit.IgnoredRefusals) pagevisit.Visitor {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	f.refusals = append(f.refusals, indexingRefusal)
+	f.refusals = append(f.refusals, ignoredRefusals)
 	return f
 }
 
@@ -305,7 +305,7 @@ func (w *crawlWorker) consume(t *testing.T, messages ...jetstream.Msg) error {
 		Claims:           w.claims,
 		Orders:           w.orders,
 		Visits:           w.visits,
-		VisitorSource:    w.visitor,
+		VisitorFor:       w.visitor.visitorFor,
 		Observer:         w.observer,
 		RetryDelay:       retrydelay.Bounds{Floor: time.Second, Ceiling: time.Minute},
 		FetchConcurrency: 1,
@@ -493,7 +493,8 @@ func TestTheVisitorHonorsTheOrdersIndexingRefusal(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if len(worker.visitor.refusals) != 1 || worker.visitor.refusals[0] != pagevisit.Ignored {
+	if len(worker.visitor.refusals) != 1 ||
+		!worker.visitor.refusals[0].IndexingRefusal {
 		t.Fatalf("visitor built for %v, want ignored", worker.visitor.refusals)
 	}
 }

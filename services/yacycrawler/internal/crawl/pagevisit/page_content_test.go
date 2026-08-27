@@ -92,14 +92,14 @@ func TestVisitStillFollowsAPageThatRefusesIndexing(t *testing.T) {
 }
 
 func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T) {
-	source := newVisitorSource(
+	visitorFor := newVisitorFor(
 		fetchOf(fetchOutcomeOf(pageHolding(t, pageRefusingIndexing))),
 		&fakeRecrawl{due: true},
 		newObserver(),
 		&fakeScrapeRequests{},
 	)
 
-	outcome := visitHost(t, source.VisitorFor(pagevisit.Ignored))
+	outcome := visitHost(t, visitorFor(pagevisit.IgnoredRefusals{IndexingRefusal: true}))
 
 	if outcome.Disposal != disposal.NotDisposed {
 		t.Fatalf("noindex not ignored, disposal = %q", outcome.Disposal)
@@ -114,9 +114,9 @@ func TestVisitHonorsMetaNoFollow(t *testing.T) {
 	}
 }
 
-func TestVisitHonorsARefusalTheHeadersState(t *testing.T) {
+func TestVisitHonorsARefusalStatedOutsideTheMarkup(t *testing.T) {
 	page := fetchedPage(t)
-	page.RefusesLinkDiscovery = true
+	page.RobotsDirectives = []string{"nofollow"}
 
 	outcome := pageContentOutcome(t, page)
 

@@ -58,7 +58,7 @@ type Config struct {
 	Claims           VisitClaims
 	Orders           AcceptedOrders
 	Visits           PendingVisits
-	VisitorSource    pagevisit.VisitorSource
+	VisitorFor       pagevisit.VisitorFor
 	Observer         SettlementProgress
 	RetryDelay       retrydelay.Bounds
 	FetchConcurrency int
@@ -69,7 +69,7 @@ type VisitConsumer struct {
 	claims           VisitClaims
 	orders           AcceptedOrders
 	visits           PendingVisits
-	visitorSource    pagevisit.VisitorSource
+	visitorFor       pagevisit.VisitorFor
 	observer         SettlementProgress
 	retryDelay       retrydelay.Bounds
 	fetchConcurrency int
@@ -81,7 +81,7 @@ func NewVisitConsumer(config Config) *VisitConsumer {
 		claims:           config.Claims,
 		orders:           config.Orders,
 		visits:           config.Visits,
-		visitorSource:    config.VisitorSource,
+		visitorFor:       config.VisitorFor,
 		observer:         config.Observer,
 		retryDelay:       config.RetryDelay,
 		fetchConcurrency: config.FetchConcurrency,
@@ -211,7 +211,7 @@ func (c *VisitConsumer) visit(
 	profile yacycrawlcontract.CrawlProfile,
 	visit pendingvisit.PendingVisit,
 ) (pagevisit.VisitOutcome, bool) {
-	visitor := c.visitorSource.VisitorFor(indexingRefusalOf(profile))
+	visitor := c.visitorFor(ignoredRefusalsOf(profile))
 	outcome, err := visitor.Visit(ctx, visit.URL)
 	if err != nil {
 		slog.WarnContext(ctx, msgVisitFailed,
@@ -224,11 +224,8 @@ func (c *VisitConsumer) visit(
 	return outcome, true
 }
 
-func indexingRefusalOf(profile yacycrawlcontract.CrawlProfile) pagevisit.IndexingRefusal {
-	if profile.IgnoresIndexingRefusal {
-		return pagevisit.Ignored
-	}
-	return pagevisit.Honored
+func ignoredRefusalsOf(profile yacycrawlcontract.CrawlProfile) pagevisit.IgnoredRefusals {
+	return pagevisit.IgnoredRefusals{IndexingRefusal: profile.IgnoresIndexingRefusal}
 }
 
 func (c *VisitConsumer) settle(
@@ -295,7 +292,7 @@ func (c *VisitConsumer) settleCompleted(
 	visit pendingvisit.PendingVisit,
 	outcome pagevisit.VisitOutcome,
 ) {
-	if outcome.Disposal != disposal.NotDisposed {
+	if outcome.Disposed() {
 		c.observer.PageDisposed(outcome.Disposal)
 	}
 	if err := c.discover(ctx, admission, visit, outcome.DiscoveredURLs); err != nil {

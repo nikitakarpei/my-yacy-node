@@ -193,17 +193,17 @@ func buildVisitConsumer(
 	if err != nil {
 		return nil, err
 	}
-	visitorSource, err := buildVisitorSource(ctx, js, scrapeRequestJetStream, cfg, metrics)
+	visitorFor, err := buildVisitorFor(ctx, js, scrapeRequestJetStream, cfg, metrics)
 	if err != nil {
 		return nil, err
 	}
 	return visitintake.NewVisitConsumer(visitintake.Config{
-		Source:        consumer,
-		Claims:        claims,
-		Orders:        orders,
-		Visits:        pendingvisitsjetstream.New(js),
-		VisitorSource: visitorSource,
-		Observer:      metrics,
+		Source:     consumer,
+		Claims:     claims,
+		Orders:     orders,
+		Visits:     pendingvisitsjetstream.New(js),
+		VisitorFor: visitorFor,
+		Observer:   metrics,
 		RetryDelay: retrydelay.Bounds{
 			Floor:   fetchRetryFloor,
 			Ceiling: fetchRetryCeiling,
@@ -237,13 +237,13 @@ func acceptedOrders(
 	return acceptedordersjetstream.New(bucket), nil
 }
 
-func buildVisitorSource(
+func buildVisitorFor(
 	ctx context.Context,
 	js jetstream.JetStream,
 	scrapeRequestJetStream jetstream.JetStream,
 	cfg ServiceConfig,
 	metrics *progressobserversprometheus.CrawlMetrics,
-) (pagevisit.VisitorSource, error) {
+) (pagevisit.VisitorFor, error) {
 	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
 		cfg.ProxyDialMode,

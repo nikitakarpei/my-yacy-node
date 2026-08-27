@@ -167,16 +167,16 @@ func newVisitor(
 	observer *recordingObserver,
 	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.Visitor {
-	return newVisitorSource(fetcher, recrawl, observer, scrapeRequests).
-		VisitorFor(pagevisit.Honored)
+	return newVisitorFor(fetcher, recrawl, observer, scrapeRequests)(
+		pagevisit.IgnoredRefusals{})
 }
 
-func newVisitorSource(
+func newVisitorFor(
 	fetcher pagefetch.Fetcher,
 	recrawl pagevisit.RecrawlRule,
 	observer *recordingObserver,
 	scrapeRequests pagevisit.ScrapeRequests,
-) pagevisit.VisitorSource {
+) pagevisit.VisitorFor {
 	return pagevisit.New(fetcher, recrawl, observer, scrapeRequests)
 }
 
