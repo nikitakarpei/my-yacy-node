@@ -230,27 +230,39 @@ func TestPendingMessageIdentityNamesWhereTheMessageSits(t *testing.T) {
 	}
 }
 
-func TestPendingMessageCountsItsDeliveries(t *testing.T) {
-	var deliveries uint64
+func TestPendingMessageKnowsItComesBackAgain(t *testing.T) {
+	var redelivered bool
 	deliver(t, &fakeMsg{metadata: &jetstream.MsgMetadata{NumDelivered: 3}},
 		func(_ context.Context, message pullintake.PendingMessage) {
-			deliveries = message.Deliveries()
+			redelivered = message.Redelivered()
 		})
 
-	if deliveries != 3 {
-		t.Errorf("deliveries = %d, want the count the broker keeps", deliveries)
+	if !redelivered {
+		t.Error("a message the broker delivered three times is a redelivery")
 	}
 }
 
-func TestPendingMessageWithoutMetadataCountsOneDelivery(t *testing.T) {
-	var deliveries uint64
-	deliver(t, &fakeMsg{metaErr: errors.New("no metadata")},
+func TestAFirstDeliveryIsNoRedelivery(t *testing.T) {
+	var redelivered bool
+	deliver(t, &fakeMsg{metadata: &jetstream.MsgMetadata{NumDelivered: 1}},
 		func(_ context.Context, message pullintake.PendingMessage) {
-			deliveries = message.Deliveries()
+			redelivered = message.Redelivered()
 		})
 
-	if deliveries != 1 {
-		t.Errorf("deliveries = %d, want one", deliveries)
+	if redelivered {
+		t.Error("a first delivery is no redelivery")
+	}
+}
+
+func TestAMessageWithoutMetadataIsNoRedelivery(t *testing.T) {
+	var redelivered bool
+	deliver(t, &fakeMsg{metaErr: errors.New("no metadata")},
+		func(_ context.Context, message pullintake.PendingMessage) {
+			redelivered = message.Redelivered()
+		})
+
+	if redelivered {
+		t.Error("a message without metadata is no redelivery")
 	}
 }
 
@@ -278,15 +290,18 @@ func TestPendingMessageAcknowledgesTheMessage(t *testing.T) {
 	}
 }
 
-func TestPendingMessageReturnsTheMessageForRedelivery(t *testing.T) {
+func TestPendingMessageHoldsAReturnedMessageBackBeforeItComesAgain(t *testing.T) {
 	msg := &fakeMsg{settlement: make(chan string, 1)}
 
 	deliver(t, msg, func(ctx context.Context, message pullintake.PendingMessage) {
 		message.Return(ctx)
 	})
 
-	if action := <-msg.settlement; action != "nak" {
-		t.Errorf("action = %q, want nak", action)
+	if action := <-msg.settlement; action != "nak-with-delay" {
+		t.Errorf("action = %q, want nak-with-delay", action)
+	}
+	if msg.nakDelay <= 0 {
+		t.Errorf("delay = %v, want a pause before the message comes again", msg.nakDelay)
 	}
 }
 

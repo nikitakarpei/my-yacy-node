@@ -301,7 +301,7 @@ func TestConsumerNaksWhenTheFetchBreaks(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if action := <-acked; action != "nak" {
+	if action := <-acked; action != "nak-with-delay" {
 		t.Errorf("action = %q, want nak", action)
 	}
 }
@@ -315,7 +315,7 @@ func TestConsumerNaksWhenTheFetchReportsFailure(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if action := <-acked; action != "nak" {
+	if action := <-acked; action != "nak-with-delay" {
 		t.Errorf("action = %q, want nak", action)
 	}
 }
@@ -367,7 +367,7 @@ func TestConsumerNaksAndWithholdsPostingsWhenURLStorageIsBusy(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if action := <-acked; action != "nak" {
+	if action := <-acked; action != "nak-with-delay" {
 		t.Errorf("action = %q, want nak", action)
 	}
 	if len(postings.calls) != 0 {
@@ -388,7 +388,7 @@ func TestConsumerNaksWhenPostingAdmissionRefuses(t *testing.T) {
 				t.Fatalf("run: %v", err)
 			}
 
-			if action := <-acked; action != "nak" {
+			if action := <-acked; action != "nak-with-delay" {
 				t.Errorf("action = %q, want nak", action)
 			}
 		})

@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
@@ -162,13 +163,13 @@ type fakeAcceptedOrders struct {
 
 func (o *fakeAcceptedOrders) OrderOf(
 	_ context.Context, orderID string,
-) (yacycrawlcontract.CrawlOrder, error) {
+) (acceptedorder.AcceptedOrder, error) {
 	if o.err != nil {
-		return yacycrawlcontract.CrawlOrder{}, o.err
+		return acceptedorder.AcceptedOrder{}, o.err
 	}
-	return yacycrawlcontract.CrawlOrder{
+	return acceptedorder.AcceptedOrderFrom(yacycrawlcontract.CrawlOrder{
 		OrderID: orderID, Profile: o.profile, SeedURLs: o.seeds,
-	}, nil
+	})
 }
 
 type fakePendingVisits struct {
@@ -508,8 +509,8 @@ func TestAVisitThatFailsReturnsForRedelivery(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak" {
-		t.Fatalf("message settled %v, want one nak", got)
+	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 }
 
@@ -522,8 +523,25 @@ func TestAVisitOfAnUnreadableOrderReturnsForRedelivery(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak" {
-		t.Fatalf("message settled %v, want one nak", got)
+	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+		t.Fatalf("message settled %v, want one delayed return", got)
+	}
+}
+
+func TestAVisitWhoseOrderProfileIsUnreadableReturnsForRedelivery(t *testing.T) {
+	worker := newWorker()
+	worker.orders.profile.URLMustNotMatch = "([unclosed"
+	message := visitMessage(t, 1)
+
+	if err := worker.consume(t, message); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+		t.Fatalf("message settled %v, want one delayed return", got)
+	}
+	if worker.visitor.visitCount() != 0 {
+		t.Fatal("a url under an unreadable profile should not be visited")
 	}
 }
 
@@ -563,7 +581,7 @@ func TestDiscoveredURLsThatDoNotPublishReturnTheMessage(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak" {
-		t.Fatalf("message settled %v, want one nak", got)
+	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 }

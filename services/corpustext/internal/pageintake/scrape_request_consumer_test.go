@@ -282,7 +282,7 @@ func TestConsumerNaksWhenTheFetchBreaks(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if action := <-acked; action != "nak" {
+	if action := <-acked; action != "nak-with-delay" {
 		t.Errorf("action = %q, want nak", action)
 	}
 	if progress.scrapeFailures != 1 || progress.observed != 0 {
@@ -300,7 +300,7 @@ func TestConsumerNaksWhenTheFetchReportsFailure(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if action := <-acked; action != "nak" {
+	if action := <-acked; action != "nak-with-delay" {
 		t.Errorf("action = %q, want nak", action)
 	}
 	if progress.scrapeFailures != 1 {
@@ -357,7 +357,7 @@ func TestConsumerNaksWhenTheIndexFails(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if action := <-acked; action != "nak" {
+	if action := <-acked; action != "nak-with-delay" {
 		t.Errorf("action = %q, want nak", action)
 	}
 	if progress.indexFailures != 1 || progress.indexed != 0 || progress.observed != 1 {

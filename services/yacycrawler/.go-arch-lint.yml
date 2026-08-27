@@ -26,6 +26,8 @@ components:
     in: internal/crawl/pendingvisit/**
   profileadmission:
     in: internal/crawl/profileadmission/**
+  acceptedorder:
+    in: internal/crawl/acceptedorder/**
   orderintake:
     in: internal/crawl/orderintake/**
   visitintake:
@@ -99,9 +101,16 @@ deps:
   pendingvisit:
     canUse:
       - canonicalurl
+  acceptedorder:
+    mayDependOn:
+      - profileadmission
+    canUse:
+      - canonicalurl
+      - yacycrawlcontract
   orderintake:
     mayDependOn:
       - pendingvisit
+      - acceptedorder
     canUse:
       - yacycrawlcontract
       - serviceruntime
@@ -111,7 +120,7 @@ deps:
       - refusal
       - retrydelay
       - pendingvisit
-      - profileadmission
+      - acceptedorder
       - pagevisit
     canUse:
       - canonicalurl
@@ -156,6 +165,8 @@ deps:
       - nats
       - pagefetch
   acceptedordersjetstream:
+    mayDependOn:
+      - acceptedorder
     canUse:
       - nats
       - yacycrawlcontract

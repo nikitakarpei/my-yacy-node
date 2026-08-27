@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
 )
@@ -82,11 +83,11 @@ func (s fakeSource) Messages(...jetstream.PullMessagesOpt) (jetstream.MessagesCo
 }
 
 type fakeAcceptedOrders struct {
-	accepted []yacycrawlcontract.CrawlOrder
+	accepted []acceptedorder.AcceptedOrder
 	err      error
 }
 
-func (o *fakeAcceptedOrders) Accept(_ context.Context, order yacycrawlcontract.CrawlOrder) error {
+func (o *fakeAcceptedOrders) Accept(_ context.Context, order acceptedorder.AcceptedOrder) error {
 	if o.err != nil {
 		return o.err
 	}
@@ -125,15 +126,19 @@ func seeds(t *testing.T) []canonicalurl.CanonicalURL {
 	}
 }
 
-func orderMessage(t *testing.T) *fakeMsg {
+func domainProfile() yacycrawlcontract.CrawlProfile {
+	return yacycrawlcontract.CrawlProfile{
+		Scope:           yacycrawlcontract.ScopeDomain,
+		URLMustMatch:    yacycrawlcontract.MatchAll,
+		MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
+	}
+}
+
+func orderMessage(t *testing.T, profile yacycrawlcontract.CrawlProfile) *fakeMsg {
 	t.Helper()
 	data, err := yacycrawlcontract.MarshalCrawlOrder(yacycrawlcontract.CrawlOrder{
-		OrderID: "o1",
-		Profile: yacycrawlcontract.CrawlProfile{
-			Scope:           yacycrawlcontract.ScopeDomain,
-			URLMustMatch:    yacycrawlcontract.MatchAll,
-			MaxPagesPerHost: yacycrawlcontract.UnlimitedPagesPerHost,
-		},
+		OrderID:  "o1",
+		Profile:  profile,
 		SeedURLs: seeds(t),
 	})
 	if err != nil {
@@ -162,7 +167,7 @@ func consume(
 }
 
 func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
-	message := orderMessage(t)
+	message := orderMessage(t, domainProfile())
 	orders, visits, observer := &fakeAcceptedOrders{}, &fakePendingVisits{}, &recordingObserver{}
 
 	if err := consume(t, message, orders, visits, observer); err != nil {
@@ -189,7 +194,7 @@ func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
 }
 
 func TestAnOrderTheCrawlerCannotAcceptReturnsForRedelivery(t *testing.T) {
-	message := orderMessage(t)
+	message := orderMessage(t, domainProfile())
 	orders := &fakeAcceptedOrders{err: errors.New("bucket down")}
 	visits, observer := &fakePendingVisits{}, &recordingObserver{}
 
@@ -197,8 +202,8 @@ func TestAnOrderTheCrawlerCannotAcceptReturnsForRedelivery(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak" {
-		t.Fatalf("message settled %v, want one nak", got)
+	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 	if len(visits.published) != 0 {
 		t.Fatal("an order that was not accepted should seed nothing")
@@ -209,7 +214,7 @@ func TestAnOrderTheCrawlerCannotAcceptReturnsForRedelivery(t *testing.T) {
 }
 
 func TestAnOrderWhoseSeedsDoNotPublishReturnsForRedelivery(t *testing.T) {
-	message := orderMessage(t)
+	message := orderMessage(t, domainProfile())
 	visits := &fakePendingVisits{err: errors.New("stream down")}
 	observer := &recordingObserver{}
 
@@ -217,8 +222,29 @@ func TestAnOrderWhoseSeedsDoNotPublishReturnsForRedelivery(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if got := message.settled(); len(got) != 1 || got[0] != "nak" {
-		t.Fatalf("message settled %v, want one nak", got)
+	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+		t.Fatalf("message settled %v, want one delayed return", got)
+	}
+	if observer.returned != 1 {
+		t.Fatalf("observer %+v, want one redelivery", observer)
+	}
+}
+
+func TestAnOrderWhoseProfileTheCrawlerCannotReadSeedsNothing(t *testing.T) {
+	profile := domainProfile()
+	profile.URLMustNotMatch = "([unclosed"
+	message := orderMessage(t, profile)
+	orders, visits, observer := &fakeAcceptedOrders{}, &fakePendingVisits{}, &recordingObserver{}
+
+	if err := consume(t, message, orders, visits, observer); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if got := message.settled(); len(got) != 1 || got[0] != "nak-with-delay" {
+		t.Fatalf("message settled %v, want one delayed return", got)
+	}
+	if len(orders.accepted) != 0 || len(visits.published) != 0 {
+		t.Fatal("an order the crawler cannot read should neither be accepted nor seed the frontier")
 	}
 	if observer.returned != 1 {
 		t.Fatalf("observer %+v, want one redelivery", observer)

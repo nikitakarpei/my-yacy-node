@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/acceptedorders/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 )
 
 func acceptedOrders(t *testing.T) *jetstream.Orders {
@@ -41,28 +42,38 @@ func order(t *testing.T) yacycrawlcontract.CrawlOrder {
 	}
 }
 
+func acceptedOrderOf(t *testing.T, sent yacycrawlcontract.CrawlOrder) acceptedorder.AcceptedOrder {
+	t.Helper()
+	accepted, err := acceptedorder.AcceptedOrderFrom(sent)
+	if err != nil {
+		t.Fatalf("accept order: %v", err)
+	}
+	return accepted
+}
+
 func TestOrderOfReadsBackTheAcceptedOrder(t *testing.T) {
 	orders := acceptedOrders(t)
 	ctx := context.Background()
-	accepted := order(t)
+	accepted := acceptedOrderOf(t, order(t))
 
 	if err := orders.Accept(ctx, accepted); err != nil {
 		t.Fatalf("accept: %v", err)
 	}
-	read, err := orders.OrderOf(ctx, accepted.OrderID)
+	read, err := orders.OrderOf(ctx, accepted.OrderID())
 	if err != nil {
 		t.Fatalf("order of: %v", err)
 	}
 
-	if read.OrderID != accepted.OrderID || read.Profile != accepted.Profile {
-		t.Fatalf("read %+v, want %+v", read, accepted)
+	if read.CrawlOrder().OrderID != accepted.CrawlOrder().OrderID ||
+		read.CrawlOrder().Profile != accepted.CrawlOrder().Profile {
+		t.Fatalf("read %+v, want %+v", read.CrawlOrder(), accepted.CrawlOrder())
 	}
 }
 
 func TestAcceptTheSameOrderTwiceKeepsIt(t *testing.T) {
 	orders := acceptedOrders(t)
 	ctx := context.Background()
-	accepted := order(t)
+	accepted := acceptedOrderOf(t, order(t))
 
 	if err := orders.Accept(ctx, accepted); err != nil {
 		t.Fatalf("first accept: %v", err)
@@ -70,7 +81,7 @@ func TestAcceptTheSameOrderTwiceKeepsIt(t *testing.T) {
 	if err := orders.Accept(ctx, accepted); err != nil {
 		t.Fatalf("second accept: %v", err)
 	}
-	if _, err := orders.OrderOf(ctx, accepted.OrderID); err != nil {
+	if _, err := orders.OrderOf(ctx, accepted.OrderID()); err != nil {
 		t.Fatalf("order of: %v", err)
 	}
 }

@@ -11,11 +11,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/profileadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 )
@@ -29,8 +28,6 @@ const (
 	msgHostPagesExhausted = "url dropped after exhausting its host page allowance"
 	msgDiscoveryFailed    = "discovered urls not published, the url returns for redelivery"
 	msgVisitClaimedTwice  = "pending visit already claimed elsewhere, dropped"
-
-	firstDelivery uint64 = 1
 )
 
 type VisitClaims interface {
@@ -41,7 +38,7 @@ type VisitClaims interface {
 }
 
 type AcceptedOrders interface {
-	OrderOf(ctx context.Context, orderID string) (yacycrawlcontract.CrawlOrder, error)
+	OrderOf(ctx context.Context, orderID string) (acceptedorder.AcceptedOrder, error)
 }
 
 type PendingVisits interface {
@@ -104,18 +101,14 @@ func (c *VisitConsumer) processOne(
 	if !ordered {
 		return nil
 	}
-	admission, err := profileadmission.New(order.Profile, order.SeedURLs)
-	if err != nil {
-		return poisonhalt.Halt(ctx, message.Identity(), err)
-	}
-	if !c.claim(ctx, message, order.Profile, visit) {
+	if !c.claim(ctx, message, order, visit) {
 		return nil
 	}
-	outcome, visited := c.visit(ctx, message, order.Profile, visit)
+	outcome, visited := c.visit(ctx, message, order, visit)
 	if !visited {
 		return nil
 	}
-	c.settle(ctx, message, admission, visit, outcome)
+	c.settle(ctx, message, order, visit, outcome)
 	return nil
 }
 
@@ -123,7 +116,7 @@ func (c *VisitConsumer) orderOf(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	visit pendingvisit.PendingVisit,
-) (yacycrawlcontract.CrawlOrder, bool) {
+) (acceptedorder.AcceptedOrder, bool) {
 	order, err := c.orders.OrderOf(ctx, visit.OrderID)
 	if err != nil {
 		slog.WarnContext(ctx, msgOrderUnreadable,
@@ -132,7 +125,7 @@ func (c *VisitConsumer) orderOf(
 			slog.Any("error", err),
 		)
 		message.Return(ctx)
-		return yacycrawlcontract.CrawlOrder{}, false
+		return acceptedorder.AcceptedOrder{}, false
 	}
 	return order, true
 }
@@ -140,7 +133,7 @@ func (c *VisitConsumer) orderOf(
 func (c *VisitConsumer) claim(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	profile yacycrawlcontract.CrawlProfile,
+	order acceptedorder.AcceptedOrder,
 	visit pendingvisit.PendingVisit,
 ) bool {
 	claimed, err := c.claims.Claim(ctx, visit.OrderID, visit.URL)
@@ -151,7 +144,7 @@ func (c *VisitConsumer) claim(
 	if !claimed {
 		return c.redelivered(ctx, message, visit)
 	}
-	return c.spendHostPage(ctx, message, profile, visit)
+	return c.spendHostPage(ctx, message, order, visit)
 }
 
 func (c *VisitConsumer) redelivered(
@@ -159,7 +152,7 @@ func (c *VisitConsumer) redelivered(
 	message pullintake.PendingMessage,
 	visit pendingvisit.PendingVisit,
 ) bool {
-	if message.Deliveries() > firstDelivery {
+	if message.Redelivered() {
 		return true
 	}
 	slog.DebugContext(ctx, msgVisitClaimedTwice, slog.String("url", visit.URL.String()))
@@ -170,11 +163,11 @@ func (c *VisitConsumer) redelivered(
 func (c *VisitConsumer) spendHostPage(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	profile yacycrawlcontract.CrawlProfile,
+	order acceptedorder.AcceptedOrder,
 	visit pendingvisit.PendingVisit,
 ) bool {
 	spent, err := c.claims.SpendHostPage(
-		ctx, visit.OrderID, visit.URL.Hostname(), profile.MaxPagesPerHost,
+		ctx, visit.OrderID, visit.URL.Hostname(), order.MaxPagesPerHost(),
 	)
 	if err != nil {
 		c.returnAfterClaimError(ctx, message, visit, err)
@@ -183,7 +176,7 @@ func (c *VisitConsumer) spendHostPage(
 	if !spent {
 		slog.WarnContext(ctx, msgHostPagesExhausted,
 			slog.String("url", visit.URL.String()),
-			slog.Int("maxPagesPerHost", profile.MaxPagesPerHost),
+			slog.Int("maxPagesPerHost", order.MaxPagesPerHost()),
 		)
 		c.observer.PageDisposed(disposal.HostPagesExhausted)
 		message.Acknowledge(ctx)
@@ -208,10 +201,10 @@ func (c *VisitConsumer) returnAfterClaimError(
 func (c *VisitConsumer) visit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	profile yacycrawlcontract.CrawlProfile,
+	order acceptedorder.AcceptedOrder,
 	visit pendingvisit.PendingVisit,
 ) (pagevisit.VisitOutcome, bool) {
-	visitor := c.visitorFor(ignoredRefusalsOf(profile))
+	visitor := c.visitorFor(ignoredRefusalsOf(order))
 	outcome, err := visitor.Visit(ctx, visit.URL)
 	if err != nil {
 		slog.WarnContext(ctx, msgVisitFailed,
@@ -224,14 +217,14 @@ func (c *VisitConsumer) visit(
 	return outcome, true
 }
 
-func ignoredRefusalsOf(profile yacycrawlcontract.CrawlProfile) pagevisit.IgnoredRefusals {
-	return pagevisit.IgnoredRefusals{IndexingRefusal: profile.IgnoresIndexingRefusal}
+func ignoredRefusalsOf(order acceptedorder.AcceptedOrder) pagevisit.IgnoredRefusals {
+	return pagevisit.IgnoredRefusals{IndexingRefusal: order.IgnoresIndexingRefusal()}
 }
 
 func (c *VisitConsumer) settle(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	admission *profileadmission.Admission,
+	order acceptedorder.AcceptedOrder,
 	visit pendingvisit.PendingVisit,
 	outcome pagevisit.VisitOutcome,
 ) {
@@ -241,7 +234,7 @@ func (c *VisitConsumer) settle(
 	case pagevisit.VisitRetryable:
 		c.settleRetryable(ctx, message, visit)
 	case pagevisit.VisitCompleted:
-		c.settleCompleted(ctx, message, admission, visit, outcome)
+		c.settleCompleted(ctx, message, order, visit, outcome)
 	}
 }
 
@@ -288,14 +281,14 @@ func (c *VisitConsumer) settleRetryable(
 func (c *VisitConsumer) settleCompleted(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	admission *profileadmission.Admission,
+	order acceptedorder.AcceptedOrder,
 	visit pendingvisit.PendingVisit,
 	outcome pagevisit.VisitOutcome,
 ) {
 	if outcome.Disposed() {
 		c.observer.PageDisposed(outcome.Disposal)
 	}
-	if err := c.discover(ctx, admission, visit, outcome.DiscoveredURLs); err != nil {
+	if err := c.discover(ctx, order, visit, outcome.DiscoveredURLs); err != nil {
 		slog.WarnContext(ctx, msgDiscoveryFailed,
 			slog.String("url", visit.URL.String()),
 			slog.Any("error", err),
@@ -308,13 +301,13 @@ func (c *VisitConsumer) settleCompleted(
 
 func (c *VisitConsumer) discover(
 	ctx context.Context,
-	admission *profileadmission.Admission,
+	order acceptedorder.AcceptedOrder,
 	visit pendingvisit.PendingVisit,
 	discoveredURLs []canonicalurl.CanonicalURL,
 ) error {
 	depth := visit.Depth + 1
 	for _, url := range discoveredURLs {
-		if !admission.Admits(url, depth) {
+		if !order.Admits(url, depth) {
 			continue
 		}
 		if err := c.visits.Publish(ctx, pendingvisit.PendingVisit{

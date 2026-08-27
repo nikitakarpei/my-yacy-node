@@ -9,6 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
 )
 
@@ -18,7 +19,7 @@ const (
 )
 
 type AcceptedOrders interface {
-	Accept(ctx context.Context, order yacycrawlcontract.CrawlOrder) error
+	Accept(ctx context.Context, order acceptedorder.AcceptedOrder) error
 }
 
 type PendingVisits interface {
@@ -65,32 +66,37 @@ func (c *OrderConsumer) processOne(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 ) error {
-	order, err := yacycrawlcontract.UnmarshalCrawlOrder(message.Body())
+	sentOrder, err := yacycrawlcontract.UnmarshalCrawlOrder(message.Body())
 	if err != nil {
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
 	c.observer.OrderReceived()
+	order, err := acceptedorder.AcceptedOrderFrom(sentOrder)
+	if err != nil {
+		c.returnOrder(ctx, message, sentOrder.OrderID, err)
+		return nil
+	}
 	if err := c.orders.Accept(ctx, order); err != nil {
-		c.returnOrder(ctx, message, order.OrderID, err)
+		c.returnOrder(ctx, message, order.OrderID(), err)
 		return nil
 	}
 	if err := c.seed(ctx, order); err != nil {
-		c.returnOrder(ctx, message, order.OrderID, err)
+		c.returnOrder(ctx, message, order.OrderID(), err)
 		return nil
 	}
 	message.Acknowledge(ctx)
 	c.observer.OrderAccepted()
 	slog.DebugContext(ctx, msgOrderAccepted,
-		slog.String("order", order.OrderID),
-		slog.Int("seeds", len(order.SeedURLs)),
+		slog.String("order", order.OrderID()),
+		slog.Int("seeds", len(order.SeedURLs())),
 	)
 	return nil
 }
 
-func (c *OrderConsumer) seed(ctx context.Context, order yacycrawlcontract.CrawlOrder) error {
-	for _, seed := range order.SeedURLs {
+func (c *OrderConsumer) seed(ctx context.Context, order acceptedorder.AcceptedOrder) error {
+	for _, seed := range order.SeedURLs() {
 		if err := c.visits.Publish(ctx, pendingvisit.PendingVisit{
-			OrderID: order.OrderID,
+			OrderID: order.OrderID(),
 			URL:     seed,
 			Depth:   0,
 		}); err != nil {

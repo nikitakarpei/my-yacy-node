@@ -445,7 +445,7 @@ func TestConsumerReturnsAScrapeRequestWhoseRedirectionCannotBeRecorded(t *testin
 		t.Fatalf("run: %v", err)
 	}
 
-	if action := <-acked; action != "nak" {
+	if action := <-acked; action != "nak-with-delay" {
 		t.Errorf("action = %q, want nak", action)
 	}
 	if len(progress.stored) != 0 || progress.redirectionWriteFailures != 1 {
@@ -545,7 +545,7 @@ func TestConsumerNaksWhenTheFetchBreaks(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if action := <-acked; action != "nak" {
+	if action := <-acked; action != "nak-with-delay" {
 		t.Errorf("action = %q, want nak", action)
 	}
 	if progress.originFetchFailures != 1 || len(progress.stored) != 0 {
@@ -563,7 +563,7 @@ func TestConsumerNaksWhenTheFetchReportsFailure(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if action := <-acked; action != "nak" {
+	if action := <-acked; action != "nak-with-delay" {
 		t.Errorf("action = %q, want nak", action)
 	}
 	if progress.originFetchFailures != 1 {
@@ -628,7 +628,7 @@ func TestConsumerNaksWhenTheStoreFails(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if action := <-acked; action != "nak" {
+	if action := <-acked; action != "nak-with-delay" {
 		t.Errorf("action = %q, want nak", action)
 	}
 	if progress.corpusWriteFailures != 1 || len(progress.stored) != 0 {

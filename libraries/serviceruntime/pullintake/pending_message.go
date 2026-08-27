@@ -14,12 +14,14 @@ const (
 	msgReturnFailed      = "message not returned for redelivery"
 
 	firstDelivery = 1
+
+	redeliveryPause = 30 * time.Second
 )
 
 type PendingMessage interface {
 	Body() []byte
 	Identity() string
-	Deliveries() uint64
+	Redelivered() bool
 	Acknowledge(ctx context.Context)
 	Return(ctx context.Context)
 	ReturnAfter(ctx context.Context, delay time.Duration)
@@ -43,7 +45,11 @@ func (m pendingMessage) Identity() string {
 	)
 }
 
-func (m pendingMessage) Deliveries() uint64 {
+func (m pendingMessage) Redelivered() bool {
+	return m.deliveries() > firstDelivery
+}
+
+func (m pendingMessage) deliveries() uint64 {
 	metadata, err := m.message.Metadata()
 	if err != nil {
 		return firstDelivery
@@ -61,12 +67,7 @@ func (m pendingMessage) Acknowledge(ctx context.Context) {
 }
 
 func (m pendingMessage) Return(ctx context.Context) {
-	if err := m.message.Nak(); err != nil {
-		slog.WarnContext(ctx, msgReturnFailed,
-			slog.String("message", m.Identity()),
-			slog.Any("error", err),
-		)
-	}
+	m.ReturnAfter(ctx, redeliveryPause)
 }
 
 func (m pendingMessage) ReturnAfter(ctx context.Context, delay time.Duration) {

@@ -12,6 +12,7 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 )
 
 const BucketName = "YACY_ACCEPTED_ORDERS"
@@ -40,13 +41,13 @@ func New(bucket jetstream.KeyValue) *Orders {
 	return &Orders{bucket: bucket}
 }
 
-func (o *Orders) Accept(ctx context.Context, order yacycrawlcontract.CrawlOrder) error {
-	data, err := yacycrawlcontract.MarshalCrawlOrder(order)
+func (o *Orders) Accept(ctx context.Context, order acceptedorder.AcceptedOrder) error {
+	data, err := yacycrawlcontract.MarshalCrawlOrder(order.CrawlOrder())
 	if err != nil {
-		return fmt.Errorf("accept order %s: %w", order.OrderID, err)
+		return fmt.Errorf("accept order %s: %w", order.OrderID(), err)
 	}
-	if _, err := o.bucket.Put(ctx, orderKeyOf(order.OrderID), data); err != nil {
-		return fmt.Errorf("accept order %s: %w", order.OrderID, err)
+	if _, err := o.bucket.Put(ctx, orderKeyOf(order.OrderID()), data); err != nil {
+		return fmt.Errorf("accept order %s: %w", order.OrderID(), err)
 	}
 	return nil
 }
@@ -54,12 +55,16 @@ func (o *Orders) Accept(ctx context.Context, order yacycrawlcontract.CrawlOrder)
 func (o *Orders) OrderOf(
 	ctx context.Context,
 	orderID string,
-) (yacycrawlcontract.CrawlOrder, error) {
+) (acceptedorder.AcceptedOrder, error) {
 	entry, err := o.bucket.Get(ctx, orderKeyOf(orderID))
 	if err != nil {
-		return yacycrawlcontract.CrawlOrder{}, fmt.Errorf("read order %s: %w", orderID, err)
+		return acceptedorder.AcceptedOrder{}, fmt.Errorf("read order %s: %w", orderID, err)
 	}
-	return yacycrawlcontract.UnmarshalCrawlOrder(entry.Value())
+	storedOrder, err := yacycrawlcontract.UnmarshalCrawlOrder(entry.Value())
+	if err != nil {
+		return acceptedorder.AcceptedOrder{}, err
+	}
+	return acceptedorder.AcceptedOrderFrom(storedOrder)
 }
 
 func orderKeyOf(orderID string) string {
