@@ -12,7 +12,7 @@ const (
 	DeferralsExhausted   Reason = "deferrals-exhausted"
 	NotAPage             Reason = "not-a-page"
 	FetchAbandoned       Reason = "fetch-abandoned"
-	BudgetTruncated      Reason = "budget-truncated"
+	HostPagesSpent       Reason = "host-pages-spent"
 	Oversized            Reason = "oversized"
 	UnsupportedMediaType Reason = "unsupported-media-type"
 	IndexingRefused      Reason = "indexing-refused"

@@ -4,6 +4,7 @@ package e2e
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/testcontainers/testcontainers-go"
@@ -19,14 +20,21 @@ const (
 	envCrawlerImage = "YACYCRAWLER_IMAGE"
 )
 
-func startCrawler(t *testing.T, ctx context.Context, networkName string) {
+func startCrawlers(t *testing.T, ctx context.Context, networkName string, count int) {
+	t.Helper()
+	for instance := range count {
+		startCrawlerNamed(t, ctx, networkName, fmt.Sprintf("%s-%d", crawlerAlias, instance))
+	}
+}
+
+func startCrawlerNamed(t *testing.T, ctx context.Context, networkName string, alias string) {
 	t.Helper()
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image:          crawlerImage(t),
 			Networks:       []string{networkName},
-			NetworkAliases: map[string][]string{networkName: {crawlerAlias}},
+			NetworkAliases: map[string][]string{networkName: {alias}},
 			Env: map[string]string{
 				"CRAWL_NATS_URL":                natsjetstream.NetworkURL(),
 				"SCRAPE_REQUEST_NATS_URL":       natsjetstream.NetworkURL(),
@@ -40,7 +48,7 @@ func startCrawler(t *testing.T, ctx context.Context, networkName string) {
 		t.Fatalf("start crawler container: %v", err)
 	}
 	t.Cleanup(func() { _ = container.Terminate(context.Background()) })
-	containerlog.DumpOnFailure(t, "crawler", container)
+	containerlog.DumpOnFailure(t, alias, container)
 }
 
 func crawlerImage(t *testing.T) string {

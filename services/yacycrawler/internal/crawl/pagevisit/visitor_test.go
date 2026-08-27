@@ -215,9 +215,6 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 		outcome.DiscoveredURLs[0] != canonicalurltest.CanonicalURLOf(t, "http://host/next") {
 		t.Fatalf("want discovered link, got %v", outcome.DiscoveredURLs)
 	}
-	if !outcome.Fetched {
-		t.Fatal("an absorbed page counts as fetched")
-	}
 	if outcome.Disposal != disposal.NotDisposed {
 		t.Fatalf("published page should report no disposal, got %q", outcome.Disposal)
 	}
@@ -247,9 +244,6 @@ func TestVisitReportsNotAPageDisposal(t *testing.T) {
 	if outcome.Disposal != disposal.NotAPage {
 		t.Fatalf("want not-a-page disposal, got %q", outcome.Disposal)
 	}
-	if !outcome.Fetched {
-		t.Fatal("a fetched body that is not a page still consumes the budget")
-	}
 	if len(recrawl.calls()) != 0 {
 		t.Fatalf("visited should not be recorded for not-a-page, got %v", recrawl.calls())
 	}
@@ -276,9 +270,6 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 	}
 	if outcome.Disposal != disposal.Refused {
 		t.Fatalf("want refused disposal, got %q", outcome.Disposal)
-	}
-	if outcome.Fetched {
-		t.Fatal("a refused fetch returns no body and must not consume the budget")
 	}
 	if len(recrawl.calls()) != 1 {
 		t.Fatalf("visited should be recorded on refusal so grace applies, got %v", recrawl.calls())
@@ -399,9 +390,6 @@ func TestVisitReportsNotDueWithoutFetching(t *testing.T) {
 	}
 	if fetch.sawFetch {
 		t.Fatal("fetch should not be attempted when not due")
-	}
-	if outcome.Fetched {
-		t.Fatal("a skipped fetch must not consume the budget")
 	}
 }
 

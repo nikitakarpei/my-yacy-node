@@ -133,52 +133,6 @@
       ]
     },
     {
-      "id": 5,
-      "title": "Budget exhaustion rate (5m)",
-      "description": "This panel shows the rate of runs that stop at the page budget with pages still in the frontier.",
-      "type": "stat",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 1
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "ops",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(rate(yacycrawler_budget_exhaustions_total[5m]))"
-        }
-      ]
-    },
-    {
       "id": 10,
       "title": "Order flow",
       "type": "row",
@@ -448,7 +402,7 @@
     {
       "id": 32,
       "title": "Pages disposed by reason",
-      "description": "Disposal is the final outcome for a page that the crawler does not publish. The reasons not-due and budget-truncated occur before the crawler fetches the page.",
+      "description": "Disposal is the final outcome for a page that the crawler does not publish. The reasons not-due and host-pages-spent occur before the crawler fetches the page.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",

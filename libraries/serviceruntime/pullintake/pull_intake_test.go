@@ -230,6 +230,30 @@ func TestPendingMessageIdentityNamesWhereTheMessageSits(t *testing.T) {
 	}
 }
 
+func TestPendingMessageCountsItsDeliveries(t *testing.T) {
+	var deliveries uint64
+	deliver(t, &fakeMsg{metadata: &jetstream.MsgMetadata{NumDelivered: 3}},
+		func(_ context.Context, message pullintake.PendingMessage) {
+			deliveries = message.Deliveries()
+		})
+
+	if deliveries != 3 {
+		t.Errorf("deliveries = %d, want the count the broker keeps", deliveries)
+	}
+}
+
+func TestPendingMessageWithoutMetadataCountsOneDelivery(t *testing.T) {
+	var deliveries uint64
+	deliver(t, &fakeMsg{metaErr: errors.New("no metadata")},
+		func(_ context.Context, message pullintake.PendingMessage) {
+			deliveries = message.Deliveries()
+		})
+
+	if deliveries != 1 {
+		t.Errorf("deliveries = %d, want one", deliveries)
+	}
+}
+
 func TestPendingMessageIdentityFallsBackToTheSubjectAlone(t *testing.T) {
 	var identity string
 	deliver(t, &fakeMsg{metaErr: errors.New("no metadata")},

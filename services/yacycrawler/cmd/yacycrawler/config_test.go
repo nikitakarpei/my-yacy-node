@@ -28,9 +28,11 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.CrawlOrdersSubject != yacycrawler.DefaultCrawlOrdersSubject {
 		t.Fatalf("orders subject = %q", cfg.CrawlOrdersSubject)
 	}
-	if cfg.FetchConcurrency != yacycrawler.DefaultFetchConcurrency ||
-		cfg.RunPageBudget != yacycrawler.DefaultRunPageBudget {
+	if cfg.FetchConcurrency != yacycrawler.DefaultFetchConcurrency {
 		t.Fatalf("unexpected defaults: %+v", cfg)
+	}
+	if cfg.PendingVisitDurable != yacycrawler.DefaultPendingVisitDurable {
+		t.Fatalf("pending visit durable = %q", cfg.PendingVisitDurable)
 	}
 	if cfg.FetchDeadline != yacycrawler.DefaultFetchDeadline {
 		t.Fatalf("fetch deadline = %v", cfg.FetchDeadline)

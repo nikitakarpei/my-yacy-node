@@ -18,7 +18,6 @@ const (
 type VisitOutcome struct {
 	Conclusion     VisitConclusion
 	DeferFor       time.Duration
-	Fetched        bool
 	DiscoveredURLs []canonicalurl.CanonicalURL
 	Disposal       disposal.Reason
 }

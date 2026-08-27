@@ -6,16 +6,16 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitintake"
 )
 
 var (
-	_ pagevisit.VisitProgress          = (*CrawlMetrics)(nil)
-	_ ordertraversal.TraversalProgress = (*CrawlMetrics)(nil)
-	_ ordersettlement.OrderProgress    = (*CrawlMetrics)(nil)
+	_ pagevisit.VisitProgress        = (*CrawlMetrics)(nil)
+	_ visitintake.SettlementProgress = (*CrawlMetrics)(nil)
+	_ orderintake.OrderProgress      = (*CrawlMetrics)(nil)
 )
 
 const (
@@ -31,7 +31,6 @@ type CrawlMetrics struct {
 	scrapeRequestsPublished prometheus.Counter
 	pagesDisposed           *prometheus.CounterVec
 	refusalsHonored         *prometheus.CounterVec
-	budgetExhaustions       prometheus.Counter
 	fetchDurationSecs       prometheus.Histogram
 }
 
@@ -43,7 +42,7 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 		}),
 		ordersCompleted: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "yacycrawler_orders_completed_total",
-			Help: "Crawl orders acknowledged after every page reached a terminal outcome.",
+			Help: "Crawl orders acknowledged once the order and its seeds are durable.",
 		}),
 		ordersRedelivered: prometheus.NewCounter(prometheus.CounterOpts{
 			Name: "yacycrawler_orders_redelivered_total",
@@ -65,10 +64,6 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 			Name: "yacycrawler_refusals_honored_total",
 			Help: "Target refusals honored, by demand.",
 		}, []string{labelDemand}),
-		budgetExhaustions: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "yacycrawler_budget_exhaustions_total",
-			Help: "Runs that reached the page budget with frontier remaining.",
-		}),
 		fetchDurationSecs: prometheus.NewHistogram(prometheus.HistogramOpts{
 			Name:    "yacycrawler_fetch_duration_seconds",
 			Help:    "Page fetch duration in seconds.",
@@ -83,7 +78,6 @@ func New(registry prometheus.Registerer) *CrawlMetrics {
 		metrics.scrapeRequestsPublished,
 		metrics.pagesDisposed,
 		metrics.refusalsHonored,
-		metrics.budgetExhaustions,
 		metrics.fetchDurationSecs,
 	)
 	return metrics
@@ -102,8 +96,6 @@ func (m *CrawlMetrics) PageDisposed(reason disposal.Reason) {
 func (m *CrawlMetrics) RefusalHonored(demand refusal.Demand) {
 	m.refusalsHonored.WithLabelValues(string(demand)).Inc()
 }
-
-func (m *CrawlMetrics) BudgetExhausted() { m.budgetExhaustions.Inc() }
 
 func (m *CrawlMetrics) FetchCompleted(elapsed time.Duration) {
 	m.fetchDurationSecs.Observe(elapsed.Seconds())

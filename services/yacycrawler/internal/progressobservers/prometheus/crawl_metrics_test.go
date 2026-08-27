@@ -24,7 +24,6 @@ func TestMetricsRecordAndExpose(t *testing.T) {
 	metrics.ScrapeRequestPublished()
 	metrics.PageDisposed("unsupported-media-type")
 	metrics.RefusalHonored("ceased")
-	metrics.BudgetExhausted()
 	metrics.FetchCompleted(250 * time.Millisecond)
 
 	recorder := httptest.NewRecorder()

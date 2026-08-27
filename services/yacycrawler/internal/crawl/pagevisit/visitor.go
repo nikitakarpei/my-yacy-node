@@ -64,11 +64,7 @@ func (v *visitor) Visit(
 		return VisitOutcome{Conclusion: VisitDeferred, DeferFor: outcome.DeferFor}, nil
 	case pagefetch.FetchNotAPage:
 		v.observer.PageFetched()
-		return VisitOutcome{
-			Conclusion: VisitCompleted,
-			Fetched:    true,
-			Disposal:   disposal.NotAPage,
-		}, nil
+		return VisitOutcome{Conclusion: VisitCompleted, Disposal: disposal.NotAPage}, nil
 	case pagefetch.FetchFailed:
 		return VisitOutcome{Conclusion: VisitRetryable}, nil
 	default:
@@ -121,7 +117,6 @@ func (v *visitor) absorptionOf(
 func absorbedPage(reason disposal.Reason, discoveredURLs []canonicalurl.CanonicalURL) VisitOutcome {
 	return VisitOutcome{
 		Conclusion:     VisitCompleted,
-		Fetched:        true,
 		DiscoveredURLs: discoveredURLs,
 		Disposal:       reason,
 	}

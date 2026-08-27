@@ -14,20 +14,15 @@ type Admission struct {
 	scope           yacycrawlcontract.CrawlScope
 	maxDepth        int
 	allowQueryURLs  bool
-	maxPagesPerHost int
-	maxAdmittedURLs int
 	urlMustMatch    *regexp.Regexp
 	urlMustNotMatch *regexp.Regexp
 	seedHosts       map[string]struct{}
 	seedDirectories []canonicalurl.CanonicalURL
-	admittedURLs    map[canonicalurl.CanonicalURL]struct{}
-	pagesPerHost    map[string]int
 }
 
 func New(
 	profile yacycrawlcontract.CrawlProfile,
 	canonicalSeeds []canonicalurl.CanonicalURL,
-	maxAdmittedURLs int,
 ) (*Admission, error) {
 	mustMatch, err := regexp.Compile(matchOrAll(profile.URLMustMatch))
 	if err != nil {
@@ -45,13 +40,9 @@ func New(
 		scope:           profile.Scope,
 		maxDepth:        profile.MaxDepth,
 		allowQueryURLs:  profile.AllowQueryURLs,
-		maxPagesPerHost: profile.MaxPagesPerHost,
-		maxAdmittedURLs: maxAdmittedURLs,
 		urlMustMatch:    mustMatch,
 		urlMustNotMatch: mustNotMatch,
 		seedHosts:       map[string]struct{}{},
-		admittedURLs:    map[canonicalurl.CanonicalURL]struct{}{},
-		pagesPerHost:    map[string]int{},
 	}
 	for _, seed := range canonicalSeeds {
 		admission.seedHosts[seed.Hostname()] = struct{}{}
@@ -60,14 +51,8 @@ func New(
 	return admission, nil
 }
 
-func (a *Admission) Admit(canonicalURL canonicalurl.CanonicalURL, depth int) bool {
+func (a *Admission) Admits(canonicalURL canonicalurl.CanonicalURL, depth int) bool {
 	if depth > a.maxDepth {
-		return false
-	}
-	if _, already := a.admittedURLs[canonicalURL]; already {
-		return false
-	}
-	if len(a.admittedURLs) >= a.maxAdmittedURLs {
 		return false
 	}
 	if canonicalURL.HasQuery() && !a.allowQueryURLs {
@@ -79,18 +64,7 @@ func (a *Admission) Admit(canonicalURL canonicalurl.CanonicalURL, depth int) boo
 	if a.urlMustNotMatch != nil && a.urlMustNotMatch.MatchString(canonicalURL.String()) {
 		return false
 	}
-	host := canonicalURL.Hostname()
-	if !a.withinScope(host, canonicalURL) {
-		return false
-	}
-	if a.maxPagesPerHost != yacycrawlcontract.UnlimitedPagesPerHost &&
-		a.pagesPerHost[host] >= a.maxPagesPerHost {
-		return false
-	}
-
-	a.admittedURLs[canonicalURL] = struct{}{}
-	a.pagesPerHost[host]++
-	return true
+	return a.withinScope(canonicalURL.Hostname(), canonicalURL)
 }
 
 func (a *Admission) withinScope(host string, canonicalURL canonicalurl.CanonicalURL) bool {

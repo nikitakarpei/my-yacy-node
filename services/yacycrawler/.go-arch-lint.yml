@@ -22,16 +22,14 @@ components:
     in: internal/crawl/refusal/**
   retrydelay:
     in: internal/crawl/retrydelay/**
-  frontier:
-    in: internal/crawl/frontier/**
+  pendingvisit:
+    in: internal/crawl/pendingvisit/**
   profileadmission:
     in: internal/crawl/profileadmission/**
-  ordersettlement:
-    in: internal/crawl/ordersettlement/**
-  ordertraversal:
-    in: internal/crawl/ordertraversal/**
-  visitdispatch:
-    in: internal/crawl/visitdispatch/**
+  orderintake:
+    in: internal/crawl/orderintake/**
+  visitintake:
+    in: internal/crawl/visitintake/**
   fetchtiming:
     in: internal/crawl/fetchtiming/**
   pagevisit:
@@ -46,12 +44,14 @@ components:
     in: internal/recrawlrules/alwaysdue/**
   recrawlrulesdueaftergrace:
     in: internal/recrawlrules/dueaftergrace/**
-  orderreceiversjetstream:
-    in: internal/orderreceivers/jetstream/**
+  acceptedordersjetstream:
+    in: internal/acceptedorders/jetstream/**
+  pendingvisitsjetstream:
+    in: internal/pendingvisits/jetstream/**
+  visitclaimsjetstream:
+    in: internal/visitclaims/jetstream/**
   progressobserversprometheus:
     in: internal/progressobservers/prometheus/**
-  contextcancellation:
-    in: internal/contextcancellation/**
   scraperequestsjetstream:
     in: internal/scraperequests/jetstream/**
   crawlercmd:
@@ -92,30 +92,31 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
-  frontier:
+  pendingvisit:
+    canUse:
+      - canonicalurl
+  orderintake:
     mayDependOn:
-      - retrydelay
-  ordersettlement:
-    mayDependOn:
-      - contextcancellation
-  ordertraversal:
-    mayDependOn:
-      - visitdispatch
-      - disposal
-      - refusal
-      - frontier
-      - profileadmission
-      - pagevisit
-      - contextcancellation
+      - pendingvisit
     canUse:
       - yacycrawlcontract
-      - scraperequestcontract
-  visitdispatch:
+      - serviceruntime
+  visitintake:
     mayDependOn:
-      - frontier
+      - disposal
+      - refusal
+      - retrydelay
+      - pendingvisit
+      - profileadmission
       - pagevisit
+    canUse:
+      - canonicalurl
+      - yacycrawlcontract
+      - serviceruntime
   fetchtiming:
     canUse:
       - pagefetch
@@ -154,18 +155,27 @@ deps:
     canUse:
       - nats
       - pagefetch
-  orderreceiversjetstream:
-    mayDependOn:
-      - ordersettlement
+  acceptedordersjetstream:
     canUse:
       - nats
+      - yacycrawlcontract
+  pendingvisitsjetstream:
+    mayDependOn:
+      - pendingvisit
+    canUse:
+      - nats
+  visitclaimsjetstream:
+    canUse:
+      - nats
+      - canonicalurl
+      - yacycrawlcontract
   scraperequestsjetstream:
     canUse:
       - nats
   progressobserversprometheus:
     mayDependOn:
-      - ordersettlement
-      - ordertraversal
+      - orderintake
+      - visitintake
       - pagevisit
       - fetchtiming
       - disposal

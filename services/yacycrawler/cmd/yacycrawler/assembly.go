@@ -17,29 +17,34 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
+	acceptedordersjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/acceptedorders/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchtiming"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/frontier"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordersettlement"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/ordertraversal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
-	orderreceiversjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/orderreceivers/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitintake"
+	pendingvisitsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingvisits/jetstream"
 	progressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/progressobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/alwaysdue"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	scraperequestsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/scraperequests/jetstream"
+	visitclaimsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/visitclaims/jetstream"
 )
 
 const (
-	fetchRetryLimit    = 3
-	fetchRetryFloor    = 500 * time.Millisecond
-	fetchRetryCeiling  = 30 * time.Second
-	maxDeferPerURL     = 3
-	opsReadHeaderLimit = 10 * time.Second
-	opsShutdownLimit   = 15 * time.Second
-	ordersAckWait      = 30 * time.Second
-	msgServiceStarted  = "crawler started"
-	msgServiceStopped  = "crawler stopped"
+	fetchRetryLimit        = 3
+	fetchRetryFloor        = 500 * time.Millisecond
+	fetchRetryCeiling      = 30 * time.Second
+	maxDeferPerURL         = 3
+	opsReadHeaderLimit     = 10 * time.Second
+	opsShutdownLimit       = 15 * time.Second
+	ordersAckWait          = 30 * time.Second
+	orderIntakeConcurrency = 4
+	visitAckWaitOfDeadline = 3
+	pendingVisitDuplicates = 2 * time.Minute
+	msgServiceStarted      = "crawler started"
+	msgServiceStopped      = "crawler stopped"
 )
 
 func RunService(
@@ -64,25 +69,14 @@ func RunService(
 		return err
 	}
 
-	consumer, err := ordersConsumer(ctx, js, cfg)
+	orders, err := buildOrderConsumer(ctx, js, cfg, metrics)
 	if err != nil {
 		return err
 	}
-	orderReceiver, err := orderreceiversjetstream.NewOrderReceiver(ctx, consumer)
-	if err != nil {
-		return fmt.Errorf("start order receiver: %w", err)
-	}
-
-	visitorSource, err := buildVisitorSource(ctx, js, scrapeRequestJetStream, cfg, metrics)
+	visits, err := buildVisitConsumer(ctx, js, scrapeRequestJetStream, cfg, metrics)
 	if err != nil {
 		return err
 	}
-	traverser := ordertraversal.New(
-		traversalConfig(cfg),
-		visitorSource,
-		metrics,
-		wallclock.Clock{},
-	)
 
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
@@ -97,14 +91,8 @@ func RunService(
 
 	err = servergroup.Run(ctx, opsShutdownLimit,
 		[]servergroup.NamedServer{{Name: "ops", Server: opsServer}},
-		func(runCtx context.Context) error {
-			return ordersettlement.New(
-				traverser,
-				metrics,
-				wallclock.Clock{},
-				ordersAckWait/2,
-			).Settle(runCtx, orderReceiver.Deliveries())
-		},
+		orders.Run,
+		visits.Run,
 	)
 	slog.InfoContext(ctx, msgServiceStopped)
 	return err
@@ -112,6 +100,15 @@ func RunService(
 
 func ensureNATSState(ctx context.Context, js jetstream.JetStream, cfg ServiceConfig) error {
 	if err := ensureOrdersStream(ctx, js, cfg.CrawlOrdersSubject); err != nil {
+		return err
+	}
+	if err := ensureFrontierStream(ctx, js); err != nil {
+		return err
+	}
+	if err := visitclaimsjetstream.Ensure(ctx, js, cfg.VisitClaimBucketSpec()); err != nil {
+		return err
+	}
+	if err := acceptedordersjetstream.Ensure(ctx, js, cfg.AcceptedOrderBucketSpec()); err != nil {
 		return err
 	}
 	return ensurePageVisitBucket(ctx, js, cfg)
@@ -128,6 +125,18 @@ func ensureOrdersStream(ctx context.Context, js jetstream.JetStream, subject str
 	return nil
 }
 
+func ensureFrontierStream(ctx context.Context, js jetstream.JetStream) error {
+	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
+		Name:       pendingvisit.StreamName,
+		Subjects:   []string{pendingvisit.Subject},
+		Retention:  jetstream.WorkQueuePolicy,
+		Duplicates: pendingVisitDuplicates,
+	}); err != nil {
+		return fmt.Errorf("ensure frontier stream: %w", err)
+	}
+	return nil
+}
+
 func ensurePageVisitBucket(
 	ctx context.Context,
 	js jetstream.JetStream,
@@ -140,6 +149,92 @@ func ensurePageVisitBucket(
 		return fmt.Errorf("ensure page visit bucket: %w", err)
 	}
 	return nil
+}
+
+func buildOrderConsumer(
+	ctx context.Context,
+	js jetstream.JetStream,
+	cfg ServiceConfig,
+	metrics *progressobserversprometheus.CrawlMetrics,
+) (*orderintake.OrderConsumer, error) {
+	consumer, err := ordersConsumer(ctx, js, cfg)
+	if err != nil {
+		return nil, err
+	}
+	orders, err := acceptedOrders(ctx, js)
+	if err != nil {
+		return nil, err
+	}
+	return orderintake.NewOrderConsumer(orderintake.Config{
+		Source:                 consumer,
+		Orders:                 orders,
+		Visits:                 pendingvisitsjetstream.New(js),
+		Observer:               metrics,
+		OrderIntakeConcurrency: orderIntakeConcurrency,
+	}), nil
+}
+
+func buildVisitConsumer(
+	ctx context.Context,
+	js jetstream.JetStream,
+	scrapeRequestJetStream jetstream.JetStream,
+	cfg ServiceConfig,
+	metrics *progressobserversprometheus.CrawlMetrics,
+) (*visitintake.VisitConsumer, error) {
+	consumer, err := visitsConsumer(ctx, js, cfg)
+	if err != nil {
+		return nil, err
+	}
+	claims, err := visitClaims(ctx, js)
+	if err != nil {
+		return nil, err
+	}
+	orders, err := acceptedOrders(ctx, js)
+	if err != nil {
+		return nil, err
+	}
+	visitorSource, err := buildVisitorSource(ctx, js, scrapeRequestJetStream, cfg, metrics)
+	if err != nil {
+		return nil, err
+	}
+	return visitintake.NewVisitConsumer(visitintake.Config{
+		Source:        consumer,
+		Claims:        claims,
+		Orders:        orders,
+		Visits:        pendingvisitsjetstream.New(js),
+		VisitorSource: visitorSource,
+		Observer:      metrics,
+		RetryDelay: retrydelay.Bounds{
+			Floor:   fetchRetryFloor,
+			Ceiling: fetchRetryCeiling,
+		},
+		FetchConcurrency: cfg.FetchConcurrency,
+	}), nil
+}
+
+func visitClaims(
+	ctx context.Context,
+	js jetstream.JetStream,
+) (*visitclaimsjetstream.Claims, error) {
+	bucket, err := js.KeyValue(ctx, visitclaimsjetstream.BucketName)
+	if err != nil {
+		return nil, fmt.Errorf("open visit claim bucket: %w", err)
+	}
+	return visitclaimsjetstream.New(bucket, visitclaimsjetstream.Config{
+		MaxDeferralsPerURL: maxDeferPerURL,
+		MaxAttemptsPerURL:  fetchRetryLimit,
+	}), nil
+}
+
+func acceptedOrders(
+	ctx context.Context,
+	js jetstream.JetStream,
+) (*acceptedordersjetstream.Orders, error) {
+	bucket, err := js.KeyValue(ctx, acceptedordersjetstream.BucketName)
+	if err != nil {
+		return nil, fmt.Errorf("open accepted order bucket: %w", err)
+	}
+	return acceptedordersjetstream.New(bucket), nil
 }
 
 func buildVisitorSource(
@@ -194,7 +289,6 @@ func ordersConsumer(
 			FilterSubject: cfg.CrawlOrdersSubject,
 			AckPolicy:     jetstream.AckExplicitPolicy,
 			AckWait:       ordersAckWait,
-			MaxAckPending: 1,
 		})
 	if err != nil {
 		return nil, fmt.Errorf("create orders consumer: %w", err)
@@ -202,18 +296,20 @@ func ordersConsumer(
 	return consumer, nil
 }
 
-func traversalConfig(cfg ServiceConfig) ordertraversal.Config {
-	return ordertraversal.Config{
-		RunPageBudget:    cfg.RunPageBudget,
-		VisitConcurrency: cfg.FetchConcurrency,
-		MaxAdmittedURLs:  cfg.FrontierCap,
-		Frontier: frontier.Config{
-			MaxDeferralsPerURL: maxDeferPerURL,
-			MaxAttemptsPerURL:  fetchRetryLimit,
-			RetryDelay: retrydelay.Bounds{
-				Floor:   fetchRetryFloor,
-				Ceiling: fetchRetryCeiling,
-			},
-		},
+func visitsConsumer(
+	ctx context.Context,
+	js jetstream.JetStream,
+	cfg ServiceConfig,
+) (jetstream.Consumer, error) {
+	consumer, err := js.CreateOrUpdateConsumer(ctx, pendingvisit.StreamName,
+		jetstream.ConsumerConfig{
+			Durable:       cfg.PendingVisitDurable,
+			FilterSubject: pendingvisit.Subject,
+			AckPolicy:     jetstream.AckExplicitPolicy,
+			AckWait:       cfg.FetchDeadline * visitAckWaitOfDeadline,
+		})
+	if err != nil {
+		return nil, fmt.Errorf("create pending visit consumer: %w", err)
 	}
+	return consumer, nil
 }
