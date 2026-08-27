@@ -38,12 +38,12 @@ func publishScrapeRequest(
 	t *testing.T,
 	ctx context.Context,
 	js jetstream.JetStream,
-	canonicalURL string,
+	pageURL string,
 ) {
 	t.Helper()
 	data, err := scraperequestcontract.MarshalScrapeRequest(
 		scraperequestcontract.ScrapeRequest{
-			CanonicalURL: canonicalurltest.CanonicalURLOf(t, canonicalURL),
+			PageURL: canonicalurltest.CanonicalURLOf(t, pageURL),
 		},
 	)
 	if err != nil {

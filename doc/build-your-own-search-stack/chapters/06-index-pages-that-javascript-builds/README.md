@@ -14,6 +14,11 @@ and run its scripts, and returns what the browser ended up with. `yacycrawler`,
 through Smokescreen, which still guards the egress — the browser reaches the
 internet through it.
 
+`renderproxy` gives the browser the address of Smokescreen with each page it
+sends it to load. The browser's own proxy setting points at a port where
+nothing listens, so a page that `renderproxy` did not send fails instead of
+going out unguarded.
+
 Lightpanda is built for this work rather than being a Chromium with the window
 switched off, which is why the whole stack still fits on a small machine. It
 covers ordinary script-built pages, and `renderproxy` drives any browser that

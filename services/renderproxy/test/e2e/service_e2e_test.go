@@ -13,8 +13,14 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/lightpanda"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pywbarchive"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/warcarchive"
 )
+
+// deadProxyURL names a port inside the browser's own container where nothing listens.
+const deadProxyURL = "http://127.0.0.1:1"
 
 func TestRenderproxyRendersScriptedPageEndToEnd(t *testing.T) {
 	ctx := context.Background()
@@ -55,6 +61,68 @@ func renderproxyResponseFor(
 	}
 
 	return resp
+}
+
+func TestRenderproxyRendersScriptedArchivePageWithoutReplayLinksEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	network := dockernetwork.New(t, ctx)
+
+	const capturedURL = "http://origin.test/"
+	const replayTimestampLayout = "20060102150405"
+	const archivedScriptMarker = "archived script ran"
+	capturedAt := time.Date(2026, time.August, 27, 12, 0, 0, 0, time.UTC)
+	warc := warcarchive.Write(t, []warcarchive.Capture{
+		{
+			URL:        capturedURL,
+			CapturedAt: capturedAt,
+			Body: `<!doctype html><html><body>` +
+				`<a id="static" href="/static">static</a>` +
+				`<script src="/application.js"></script>` +
+				`</body></html>`,
+		},
+		{
+			URL:         capturedURL + "application.js",
+			CapturedAt:  capturedAt,
+			ContentType: "application/javascript",
+			Body: `const link = document.createElement("a");` +
+				`link.id = "dynamic";` +
+				`link.href = "/dynamic";` +
+				`link.textContent = "` + archivedScriptMarker + `";` +
+				`document.body.appendChild(link);`,
+		},
+	})
+	archive := pywbarchive.Start(t, ctx, network.Name, warc.Content())
+	lightpanda.Start(t, ctx, network.Name)
+	renderproxyURL := startRenderproxy(t, ctx, network.Name, lightpanda.NetworkURL(), nil)
+
+	replayPrefix := "/" + pywbarchive.Collection + "/" +
+		capturedAt.Format(replayTimestampLayout) + "mp_/"
+	client := forwardProxyClient(t, renderproxyURL)
+	resp := renderproxyResponseFor(t, ctx, client, archive.NetworkURL()+replayPrefix+capturedURL)
+	defer func() { _ = resp.Body.Close() }()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("read proxy response body: %v", err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("status = %d, want %d: body=%q", resp.StatusCode, http.StatusOK, body)
+	}
+	renderedHTML := string(body)
+	if !strings.Contains(renderedHTML, archivedScriptMarker) {
+		t.Fatalf("rendered body missing archived script result: %q", body)
+	}
+	for _, capturedPath := range []string{"static", "dynamic"} {
+		originalLink := `href="` + capturedURL + capturedPath + `"`
+		if !strings.Contains(renderedHTML, originalLink) {
+			t.Errorf("rendered body does not contain %s: %q", originalLink, body)
+		}
+		replayLink := replayPrefix + capturedURL + capturedPath
+		if strings.Contains(renderedHTML, replayLink) {
+			t.Errorf("rendered body contains replay link %q: %q", replayLink, body)
+		}
+	}
 }
 
 func TestRenderproxyReturnsNonHTMLRawBodyEndToEnd(t *testing.T) {
@@ -325,5 +393,35 @@ func forwardProxyClient(t *testing.T, renderproxyURL string) *http.Client {
 	return &http.Client{
 		Timeout:   30 * time.Second,
 		Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)},
+	}
+}
+
+func TestRenderproxyStatedEgressProxyOverridesTheBrowsersOwnEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	renderNetwork := dockernetwork.New(t, ctx)
+	originNetwork := dockernetwork.New(t, ctx)
+
+	originURL := startScriptedOrigin(t, ctx, originNetwork.Name)
+	egressproxy.Start(t, ctx, renderNetwork.Name, originNetwork.Name)
+	lightpanda.StartWithDefaultProxy(t, ctx, renderNetwork.Name, deadProxyURL)
+	renderproxyURL := startRenderproxyOn(
+		t,
+		ctx,
+		[]string{renderNetwork.Name},
+		lightpanda.NetworkURL(),
+		nil,
+	)
+
+	client := forwardProxyClient(t, renderproxyURL)
+	resp := renderproxyResponseFor(t, ctx, client, originURL)
+	defer func() { _ = resp.Body.Close() }()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatalf("read proxy response body: %v", err)
+	}
+	if !strings.Contains(string(body), renderedMarker) {
+		t.Fatalf("rendered body missing marker: status=%d body=%q", resp.StatusCode, body)
 	}
 }

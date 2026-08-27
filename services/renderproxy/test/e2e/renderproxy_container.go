@@ -30,6 +30,17 @@ func startRenderproxy(
 ) string {
 	t.Helper()
 	egressproxy.Start(t, ctx, networkName)
+	return startRenderproxyOn(t, ctx, []string{networkName}, cdpURL, extraEnv)
+}
+
+func startRenderproxyOn(
+	t *testing.T,
+	ctx context.Context,
+	networkNames []string,
+	cdpURL string,
+	extraEnv map[string]string,
+) string {
+	t.Helper()
 	env := map[string]string{
 		"RENDERPROXY_CDP_URL": cdpURL,
 		"EGRESS_PROXY_URL":    egressproxy.NetworkURL(),
@@ -43,8 +54,8 @@ func startRenderproxy(
 		ContainerRequest: testcontainers.ContainerRequest{
 			Image:          renderproxyImage(t),
 			ExposedPorts:   []string{renderproxyPort + "/tcp"},
-			Networks:       []string{networkName},
-			NetworkAliases: map[string][]string{networkName: {renderproxyAlias}},
+			Networks:       networkNames,
+			NetworkAliases: renderproxyAliasPerNetwork(networkNames),
 			Env:            env,
 			WaitingFor:     wait.ForListeningPort(renderproxyPort + "/tcp"),
 		},
@@ -61,4 +72,12 @@ func startRenderproxy(
 func renderproxyImage(t *testing.T) string {
 	t.Helper()
 	return requiredimage.FromEnv(t, envRenderproxyImage, "renderproxy", "e2e")
+}
+
+func renderproxyAliasPerNetwork(networkNames []string) map[string][]string {
+	aliases := map[string][]string{}
+	for _, networkName := range networkNames {
+		aliases[networkName] = []string{renderproxyAlias}
+	}
+	return aliases
 }

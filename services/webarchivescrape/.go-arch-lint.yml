@@ -1,0 +1,57 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonVendors:
+  - canonicalurl
+
+components:
+  webarchivespywb:
+    in: internal/webarchives/pywb/**
+  scraperequestsjetstream:
+    in: internal/scraperequests/jetstream/**
+  scraperequestsnoop:
+    in: internal/scraperequests/noop/**
+  webarchivescrapecmd:
+    in: cmd/webarchivescrape/**
+
+vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  scraperequestcontract:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  nats:
+    in:
+      - github.com/nats-io/nats.go
+      - github.com/nats-io/nats.go/**
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
+
+deps:
+  webarchivespywb:
+    canUse:
+      - canonicalurl
+  scraperequestsjetstream:
+    canUse:
+      - scraperequestcontract
+      - nats
+      - serviceruntime
+  scraperequestsnoop:
+    canUse:
+      - canonicalurl
+  webarchivescrapecmd:
+    anyProjectDeps: true
+    anyVendorDeps: true
+
+excludeFiles:
+  - "_test\\.go"
+  - "test/e2e"

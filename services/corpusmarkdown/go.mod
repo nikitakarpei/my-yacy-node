@@ -68,8 +68,11 @@ replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ./contract
 
 require (
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/scrapedpage v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
 )
+
+replace github.com/nikitakarpei/yacy-rwi-node/scrapedpage => ../../libraries/scrapedpage
 
 replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract
 

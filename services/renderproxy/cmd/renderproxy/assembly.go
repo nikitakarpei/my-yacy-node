@@ -31,7 +31,7 @@ func RunService(
 	registry *prometheus.Registry,
 ) error {
 	metrics := rendermetrics.New(registry)
-	browser := cdprender.New(ctx, cfg.CDPURL, cfg.MaxResponseBytes)
+	browser := cdprender.New(ctx, cfg.CDPURL, cfg.EgressProxyURL, cfg.MaxResponseBytes)
 	defer browser.Close()
 
 	gated := rendergate.New(

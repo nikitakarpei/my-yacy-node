@@ -67,3 +67,9 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-corpusmarkdown.yml
     secrets: inherit
+
+  build-webarchivescrape:
+    needs: verify
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/build-webarchivescrape.yml
+    secrets: inherit

@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
+	"github.com/nikitakarpei/yacy-rwi-node/scrapedpage"
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
@@ -83,65 +84,76 @@ func (c *ScrapeRequestConsumer) processOne(
 	if err != nil {
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	requestedURL := scrapeRequest.CanonicalURL
-	fetched, scrapable := c.fetch(ctx, message, requestedURL)
+	requestedURL := scrapeRequest.PageURL
+	scrapedPage, scrapable := c.fetch(ctx, message, scrapeRequest)
 	if !scrapable {
 		return nil
 	}
-	markdown, derived := c.markdownOf(ctx, requestedURL, fetched)
-	if !derived {
+	document, extracted := c.documentOf(ctx, scrapedPage, requestedURL)
+	if !extracted {
 		message.Acknowledge(ctx)
 		return nil
 	}
-	return c.store(ctx, message, requestedURL, fetched.FinalURL, markdown)
+	markdown, derived := c.markdownOf(ctx, document, scrapedPage.LandedURL)
+	if !derived {
+		c.progress.NoMarkdownDerived(ctx, requestedURL, scrapedPage.LandedURL)
+		message.Acknowledge(ctx)
+		return nil
+	}
+	return c.store(ctx, message, requestedURL, scrapedPage.PageURL, markdown)
 }
 
 func (c *ScrapeRequestConsumer) fetch(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	requestedURL canonicalurl.CanonicalURL,
-) (pagefetch.FetchedPage, bool) {
-	outcome, err := c.fetcher.Fetch(ctx, requestedURL, pagefetch.PageVersion{})
+	request scraperequestcontract.ScrapeRequest,
+) (scrapedpage.ScrapedPage, bool) {
+	fetchURL := request.FetchURL
+	outcome, err := c.fetcher.Fetch(ctx, fetchURL, pagefetch.PageVersion{})
 	if err != nil {
-		c.progress.OriginFetchFailed(ctx, requestedURL, err)
+		c.progress.OriginFetchFailed(ctx, fetchURL, err)
 		message.Return(ctx)
-		return pagefetch.FetchedPage{}, false
+		return scrapedpage.ScrapedPage{}, false
 	}
 	switch outcome.Status {
 	case pagefetch.FetchSucceeded:
-		return outcome.Page, true
+		return scrapedpage.Of(request, outcome.Page), true
 	case pagefetch.FetchFailed:
-		c.progress.OriginFetchFailed(ctx, requestedURL, errOriginReportedFetchFailure)
+		c.progress.OriginFetchFailed(ctx, fetchURL, errOriginReportedFetchFailure)
 		message.Return(ctx)
 	case pagefetch.FetchDeferred:
-		c.progress.OriginFetchDeferred(ctx, requestedURL, outcome.DeferFor)
+		c.progress.OriginFetchDeferred(ctx, fetchURL, outcome.DeferFor)
 		message.ReturnAfter(ctx, outcome.DeferFor)
 	default:
-		c.progress.NothingToScrape(ctx, requestedURL)
+		c.progress.NothingToScrape(ctx, fetchURL)
 		message.Acknowledge(ctx)
 	}
-	return pagefetch.FetchedPage{}, false
+	return scrapedpage.ScrapedPage{}, false
+}
+
+func (c *ScrapeRequestConsumer) documentOf(
+	ctx context.Context,
+	scrapedPage scrapedpage.ScrapedPage,
+	requestedURL canonicalurl.CanonicalURL,
+) (documentextraction.Document, bool) {
+	document, err := documentextraction.DocumentFrom(
+		ctx, scrapedPage.Body, scrapedPage.ContentType, scrapedPage.LandedURL,
+	)
+	if err != nil {
+		c.progress.DocumentExtractionFailed(ctx, requestedURL, scrapedPage.LandedURL, err)
+		return documentextraction.Document{}, false
+	}
+	return document, true
 }
 
 func (c *ScrapeRequestConsumer) markdownOf(
 	ctx context.Context,
-	requestedURL canonicalurl.CanonicalURL,
-	fetched pagefetch.FetchedPage,
+	document documentextraction.Document,
+	landedURL canonicalurl.CanonicalURL,
 ) ([]byte, bool) {
-	document, err := documentextraction.DocumentFrom(
-		ctx, fetched.Body, fetched.ContentType, fetched.FinalURL,
+	return c.formatDerivations.BodyIn(
+		ctx, documentextraction.FormatMarkdown, document, landedURL,
 	)
-	if err != nil {
-		c.progress.DocumentExtractionFailed(ctx, requestedURL, fetched.FinalURL, err)
-		return nil, false
-	}
-	markdown, derived := c.formatDerivations.BodyIn(
-		ctx, documentextraction.FormatMarkdown, document, fetched.FinalURL,
-	)
-	if !derived {
-		c.progress.NoMarkdownDerived(ctx, requestedURL, fetched.FinalURL)
-	}
-	return markdown, derived
 }
 
 func (c *ScrapeRequestConsumer) store(

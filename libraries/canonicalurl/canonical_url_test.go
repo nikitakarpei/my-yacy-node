@@ -28,6 +28,55 @@ func TestCanonicalURLOf(t *testing.T) {
 	}
 }
 
+func TestCanonicalURLOfKeepsEncodedPathCharacters(t *testing.T) {
+	cases := map[string]string{
+		"https://example.com/files/%2E%2E%2Fnotes": "https://example.com/files/%2E%2E%2Fnotes",
+		"https://example.com/a/%2E%2E/b":           "https://example.com/a/%2E%2E/b",
+		"https://example.com/a%2F%2Fb":             "https://example.com/a%2F%2Fb",
+		"https://example.com/refs%2Fheads%2Fmain":  "https://example.com/refs%2Fheads%2Fmain",
+		"https://example.com/tag/c%2B%2B//x":       "https://example.com/tag/c%2B%2B//x",
+	}
+	for input, want := range cases {
+		got, err := canonicalurl.CanonicalURLOf(input)
+		if err != nil {
+			t.Fatalf("CanonicalURLOf(%q): %v", input, err)
+		}
+		if got.String() != want {
+			t.Errorf("CanonicalURLOf(%q) = %q, want %q", input, got.String(), want)
+		}
+	}
+}
+
+func TestCanonicalURLOfKeepsEmptyPathSegments(t *testing.T) {
+	cases := map[string]string{
+		"https://example.com/a//b":                               "https://example.com/a//b",
+		"https://example.com/a//":                                "https://example.com/a//",
+		"https://example.com//":                                  "https://example.com//",
+		"https://example.com/a b//c":                             "https://example.com/a%20b//c",
+		"http://pywb:8080/archive/2024mp_/https://example.com/a": "http://pywb:8080/archive/2024mp_/https://example.com/a",
+	}
+	for input, want := range cases {
+		got, err := canonicalurl.CanonicalURLOf(input)
+		if err != nil {
+			t.Fatalf("CanonicalURLOf(%q): %v", input, err)
+		}
+		if got.String() != want {
+			t.Errorf("CanonicalURLOf(%q) = %q, want %q", input, got.String(), want)
+		}
+	}
+}
+
+func TestDirectoryOfKeepsEncodedPathCharacters(t *testing.T) {
+	canonical, err := canonicalurl.CanonicalURLOf("https://example.com/refs%2Fheads/page")
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := "https://example.com/refs%2Fheads/"
+	if got := canonical.Directory().String(); got != want {
+		t.Errorf("Directory() = %q, want %q", got, want)
+	}
+}
+
 func TestCanonicalURLOfRejectsBadInput(t *testing.T) {
 	for _, input := range []string{"::bad", "ftp://example.com/x", "http:///path"} {
 		if _, err := canonicalurl.CanonicalURLOf(input); err == nil {

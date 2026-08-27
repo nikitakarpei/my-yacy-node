@@ -21,6 +21,23 @@ const (
 
 func Start(t *testing.T, ctx context.Context, networkName string) {
 	t.Helper()
+	start(t, ctx, networkName, nil)
+}
+
+// StartWithDefaultProxy starts the browser with a proxy of its own, which it uses for a
+// page whose caller states no proxy.
+func StartWithDefaultProxy(
+	t *testing.T,
+	ctx context.Context,
+	networkName string,
+	defaultProxyURL string,
+) {
+	t.Helper()
+	start(t, ctx, networkName, []string{"--http-proxy", defaultProxyURL})
+}
+
+func start(t *testing.T, ctx context.Context, networkName string, extraArgs []string) {
+	t.Helper()
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
 		ContainerRequest: testcontainers.ContainerRequest{
@@ -28,12 +45,12 @@ func Start(t *testing.T, ctx context.Context, networkName string) {
 			ExposedPorts:   []string{port + "/tcp"},
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {alias}},
-			Cmd: []string{
+			Cmd: append([]string{
 				"/bin/lightpanda", "serve",
 				"--host", "0.0.0.0",
 				"--port", port,
 				"--advertise-host", alias,
-			},
+			}, extraArgs...),
 			WaitingFor: wait.ForListeningPort(port + "/tcp").
 				WithStartupTimeout(time.Minute),
 		},
