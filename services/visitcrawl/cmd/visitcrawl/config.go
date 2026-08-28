@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"regexp"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
@@ -20,7 +21,6 @@ const (
 	EnvMaxBodyBytes = "VISITCRAWL_MAX_BODY_BYTES"
 
 	EnvCrawlScope                  = "VISITCRAWL_SCOPE"
-	EnvCrawlProfileName            = "VISITCRAWL_PROFILE_NAME"
 	EnvCrawlMaxDepth               = "VISITCRAWL_MAX_DEPTH"
 	EnvCrawlURLMustMatch           = "VISITCRAWL_URL_MUST_MATCH"
 	EnvCrawlURLMustNotMatch        = "VISITCRAWL_URL_MUST_NOT_MATCH"
@@ -143,16 +143,37 @@ func crawlProfile(getenv func(string) string) (yacycrawlcontract.CrawlProfile, e
 		return yacycrawlcontract.CrawlProfile{}, err
 	}
 
+	urlMustMatch, err := readablePattern(
+		matchOrAll(envconfig.String(getenv, EnvCrawlURLMustMatch, "")),
+		EnvCrawlURLMustMatch,
+	)
+	if err != nil {
+		return yacycrawlcontract.CrawlProfile{}, err
+	}
+	urlMustNotMatch, err := readablePattern(
+		envconfig.String(getenv, EnvCrawlURLMustNotMatch, ""),
+		EnvCrawlURLMustNotMatch,
+	)
+	if err != nil {
+		return yacycrawlcontract.CrawlProfile{}, err
+	}
+
 	return yacycrawlcontract.CrawlProfile{
-		Name:                   envconfig.String(getenv, EnvCrawlProfileName, ""),
 		Scope:                  scope,
-		URLMustMatch:           matchOrAll(envconfig.String(getenv, EnvCrawlURLMustMatch, "")),
-		URLMustNotMatch:        envconfig.String(getenv, EnvCrawlURLMustNotMatch, ""),
+		URLMustMatch:           urlMustMatch,
+		URLMustNotMatch:        urlMustNotMatch,
 		MaxDepth:               maxDepth,
 		AllowQueryURLs:         allowQueryURLs,
 		MaxPagesPerHost:        maxPagesPerHost,
 		IgnoresIndexingRefusal: ignoresIndexingRefusal,
 	}, nil
+}
+
+func readablePattern(pattern string, name string) (string, error) {
+	if _, err := regexp.Compile(pattern); err != nil {
+		return "", fmt.Errorf("%s: %w", name, err)
+	}
+	return pattern, nil
 }
 
 func matchOrAll(pattern string) string {

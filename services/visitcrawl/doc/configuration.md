@@ -30,7 +30,6 @@ Every placed order carries the same crawl profile, built once from these variabl
 | Variable | Default | Meaning |
 |---|---|---|
 | `VISITCRAWL_SCOPE` | `domain` | One of `domain`, `wide`, `subpath`. |
-| `VISITCRAWL_PROFILE_NAME` | empty | Human-readable profile name. |
 | `VISITCRAWL_MAX_DEPTH` | `1` | Link depth the crawl follows from the visited page. |
 | `VISITCRAWL_URL_MUST_MATCH` | match all | Regular expression a URL must match to be crawled. |
 | `VISITCRAWL_URL_MUST_NOT_MATCH` | none | Regular expression that excludes a URL from the crawl. |

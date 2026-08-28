@@ -19,136 +19,94 @@ func profile(p yacycrawlcontract.CrawlProfile) yacycrawlcontract.CrawlProfile {
 	return p
 }
 
-func TestAdmitWideScope(t *testing.T) {
+func TestAdmitsWideScope(t *testing.T) {
 	admission, err := profileadmission.New(
 		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeWide, MaxDepth: 2}),
-		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")}, 100,
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")},
 	)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://other.com/x"), 1) {
+	if !admission.Admits(canonicalurltest.CanonicalURLOf(t, "http://other.com/x"), 1) {
 		t.Fatal("wide scope should admit any host")
 	}
 }
 
-func TestAdmitDomainScope(t *testing.T) {
+func TestAdmitsDomainScope(t *testing.T) {
 	admission, _ := profileadmission.New(
 		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeDomain, MaxDepth: 2}),
-		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")}, 100,
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")},
 	)
-	if !admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/x"), 1) {
+	if !admission.Admits(canonicalurltest.CanonicalURLOf(t, "http://a.com/x"), 1) {
 		t.Fatal("same host should be admitted")
 	}
-	if admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://b.com/x"), 1) {
+	if admission.Admits(canonicalurltest.CanonicalURLOf(t, "http://b.com/x"), 1) {
 		t.Fatal("other host should be rejected in domain scope")
 	}
 }
 
-func TestAdmitSubpathScope(t *testing.T) {
+func TestAdmitsSubpathScope(t *testing.T) {
 	admission, _ := profileadmission.New(
 		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeSubpath, MaxDepth: 3}),
 		[]canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, "http://a.com/dir/"),
 		},
-		100,
 	)
-	if !admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/dir/page"), 1) {
+	if !admission.Admits(canonicalurltest.CanonicalURLOf(t, "http://a.com/dir/page"), 1) {
 		t.Fatal("subpath child should be admitted")
 	}
-	if admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/other/page"), 1) {
+	if admission.Admits(canonicalurltest.CanonicalURLOf(t, "http://a.com/other/page"), 1) {
 		t.Fatal("outside subpath should be rejected")
 	}
 }
 
-func TestAdmitDepthLimit(t *testing.T) {
+func TestAdmitsDepthLimit(t *testing.T) {
 	admission, _ := profileadmission.New(
 		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeWide, MaxDepth: 1}),
-		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")}, 100,
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")},
 	)
-	if admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/deep"), 2) {
+	if admission.Admits(canonicalurltest.CanonicalURLOf(t, "http://a.com/deep"), 2) {
 		t.Fatal("beyond max depth should be rejected")
 	}
 }
 
-func TestAdmitDuplicateRejected(t *testing.T) {
+func TestAdmitsQueryRejectedWhenDisallowed(t *testing.T) {
 	admission, _ := profileadmission.New(
 		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeWide, MaxDepth: 2}),
-		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")}, 100,
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")},
 	)
-	if !admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/x"), 1) {
-		t.Fatal("first admit should succeed")
-	}
-	if admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/x"), 1) {
-		t.Fatal("duplicate should be rejected")
-	}
-}
-
-func TestAdmitFrontierCap(t *testing.T) {
-	admission, _ := profileadmission.New(
-		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeWide, MaxDepth: 5}),
-		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")}, 1,
-	)
-	if !admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/1"), 1) {
-		t.Fatal("first within cap")
-	}
-	if admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/2"), 1) {
-		t.Fatal("beyond frontier cap should be rejected")
-	}
-}
-
-func TestAdmitPerHostCap(t *testing.T) {
-	admission, _ := profileadmission.New(
-		profile(yacycrawlcontract.CrawlProfile{
-			Scope: yacycrawlcontract.ScopeWide, MaxDepth: 5, MaxPagesPerHost: 1,
-		}),
-		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")}, 100,
-	)
-	if !admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/1"), 1) {
-		t.Fatal("first for host")
-	}
-	if admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/2"), 1) {
-		t.Fatal("beyond per-host cap should be rejected")
-	}
-}
-
-func TestAdmitQueryRejectedWhenDisallowed(t *testing.T) {
-	admission, _ := profileadmission.New(
-		profile(yacycrawlcontract.CrawlProfile{Scope: yacycrawlcontract.ScopeWide, MaxDepth: 2}),
-		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")}, 100,
-	)
-	if admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/x?q=1"), 1) {
+	if admission.Admits(canonicalurltest.CanonicalURLOf(t, "http://a.com/x?q=1"), 1) {
 		t.Fatal("query URL should be rejected by default")
 	}
 }
 
-func TestAdmitMustMatchAndMustNotMatch(t *testing.T) {
+func TestAdmitsMustMatchAndMustNotMatch(t *testing.T) {
 	admission, _ := profileadmission.New(
 		profile(yacycrawlcontract.CrawlProfile{
 			Scope: yacycrawlcontract.ScopeWide, MaxDepth: 2,
 			URLMustMatch: `\.html$`, URLMustNotMatch: `/private/`,
 		}),
-		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")}, 100,
+		[]canonicalurl.CanonicalURL{canonicalurltest.CanonicalURLOf(t, "http://a.com/")},
 	)
-	if !admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/page.html"), 1) {
+	if !admission.Admits(canonicalurltest.CanonicalURLOf(t, "http://a.com/page.html"), 1) {
 		t.Fatal("matching URL should admit")
 	}
-	if admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/page.pdf"), 1) {
+	if admission.Admits(canonicalurltest.CanonicalURLOf(t, "http://a.com/page.pdf"), 1) {
 		t.Fatal("non-matching should reject")
 	}
-	if admission.Admit(canonicalurltest.CanonicalURLOf(t, "http://a.com/private/x.html"), 1) {
+	if admission.Admits(canonicalurltest.CanonicalURLOf(t, "http://a.com/private/x.html"), 1) {
 		t.Fatal("must-not-match should reject")
 	}
 }
 
 func TestNewRejectsBadRegex(t *testing.T) {
 	if _, err := profileadmission.New(
-		yacycrawlcontract.CrawlProfile{URLMustMatch: "("}, nil, 10,
+		yacycrawlcontract.CrawlProfile{URLMustMatch: "("}, nil,
 	); err == nil {
 		t.Fatal("bad must-match regex should error")
 	}
 	if _, err := profileadmission.New(
-		yacycrawlcontract.CrawlProfile{URLMustMatch: ".*", URLMustNotMatch: "("}, nil, 10,
+		yacycrawlcontract.CrawlProfile{URLMustMatch: ".*", URLMustNotMatch: "("}, nil,
 	); err == nil {
 		t.Fatal("bad must-not-match regex should error")
 	}

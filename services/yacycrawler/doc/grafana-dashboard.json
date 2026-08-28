@@ -83,7 +83,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacycrawler_orders_redelivered_total[5m])) / sum(rate(yacycrawler_orders_received_total[5m]))"
+          "expr": "sum(rate(yacycrawler_orders_returned_total[5m])) / sum(rate(yacycrawler_orders_received_total[5m]))"
         }
       ]
     },
@@ -133,52 +133,6 @@
       ]
     },
     {
-      "id": 5,
-      "title": "Budget exhaustion rate (5m)",
-      "description": "This panel shows the rate of runs that stop at the page budget with pages still in the frontier.",
-      "type": "stat",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 1
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "ops",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(rate(yacycrawler_budget_exhaustions_total[5m]))"
-        }
-      ]
-    },
-    {
       "id": 10,
       "title": "Order flow",
       "type": "row",
@@ -193,7 +147,7 @@
     {
       "id": 11,
       "title": "Order throughput",
-      "description": "This panel counts receipts, completions, and redeliveries as separate events.",
+      "description": "This panel counts receipts, acceptances, and returns as separate events.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -216,7 +170,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "redelivered"
+              "options": "returned"
             },
             "properties": [
               {
@@ -243,13 +197,13 @@
         },
         {
           "refId": "B",
-          "expr": "sum(rate(yacycrawler_orders_completed_total[$__rate_interval]))",
-          "legendFormat": "completed"
+          "expr": "sum(rate(yacycrawler_orders_accepted_total[$__rate_interval]))",
+          "legendFormat": "accepted"
         },
         {
           "refId": "C",
-          "expr": "sum(rate(yacycrawler_orders_redelivered_total[$__rate_interval]))",
-          "legendFormat": "redelivered"
+          "expr": "sum(rate(yacycrawler_orders_returned_total[$__rate_interval]))",
+          "legendFormat": "returned"
         }
       ]
     },
@@ -350,7 +304,7 @@
     {
       "id": 23,
       "title": "Refusals honored by target demand",
-      "description": "A refusal is a demand from the target. The target asks the crawler to cease or defer a page. Cease abandons the page, and the crawl continues with the rest of the frontier. Defer puts the page back in the frontier for the wait time the target asks for.",
+      "description": "A refusal is a demand from the target. Access refusal and indexing refusal abandon the page, and the crawl continues with the rest of the frontier. Link discovery refusal keeps the page but adds no new URL to the frontier. Deferral puts the page back in the frontier for the wait time the target asks for.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -448,7 +402,7 @@
     {
       "id": 32,
       "title": "Pages disposed by reason",
-      "description": "Disposal is the final outcome for a page that the crawler does not publish. The reasons not-due and budget-truncated occur before the crawler fetches the page.",
+      "description": "Disposal is the final outcome for a page that the crawler does not publish. The reasons not-due and host-pages-spent occur before the crawler fetches the page.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",

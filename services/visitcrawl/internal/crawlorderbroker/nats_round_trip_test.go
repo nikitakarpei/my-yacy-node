@@ -47,7 +47,7 @@ func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID: "order-1",
-		Profile: yacycrawlcontract.CrawlProfile{Name: "docs"},
+		Profile: yacycrawlcontract.CrawlProfile{MaxDepth: 2},
 		SeedURLs: []canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, "https://example.org"),
 		},
@@ -76,7 +76,7 @@ func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 	if err != nil {
 		t.Fatalf("decode order: %v", err)
 	}
-	if got.OrderID != order.OrderID || got.Profile.Name != order.Profile.Name {
+	if got.OrderID != order.OrderID || got.Profile.MaxDepth != order.Profile.MaxDepth {
 		t.Fatalf("round-tripped order mismatch: %+v", got)
 	}
 }

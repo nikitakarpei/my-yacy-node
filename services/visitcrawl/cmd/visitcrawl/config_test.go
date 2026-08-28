@@ -120,6 +120,8 @@ func TestLoadServiceConfigRejectsBadValues(t *testing.T) {
 		{"VISITCRAWL_MAX_PAGES_PER_HOST": "0"},
 		{"VISITCRAWL_ALLOW_QUERY_URLS": "maybe"},
 		{"VISITCRAWL_IGNORES_INDEXING_REFUSAL": "maybe"},
+		{"VISITCRAWL_URL_MUST_MATCH": "([unclosed"},
+		{"VISITCRAWL_URL_MUST_NOT_MATCH": "([unclosed"},
 	} {
 		env := baseEnv()
 		for k, v := range bad {

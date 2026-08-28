@@ -18,6 +18,9 @@ const (
 	ordersSubject        = "yacy.crawl.orders"
 	streamAppearanceWait = 60 * time.Second
 	messageArrivalWait   = 60 * time.Second
+
+	duplicateSettlingWait       = 10 * time.Second
+	duplicateScrapeRequestLimit = 10
 )
 
 func connectJetStream(t *testing.T, url string) jetstream.JetStream {
@@ -109,6 +112,47 @@ func fetchScrapeRequestForDurable(
 	}
 	if err := msg.Ack(); err != nil {
 		t.Fatalf("ack scrape request for %s: %v", durable, err)
+	}
+	return scrapeRequest
+}
+
+func fetchEveryScrapeRequest(
+	t *testing.T,
+	ctx context.Context,
+	js jetstream.JetStream,
+) []scraperequestcontract.ScrapeRequest {
+	t.Helper()
+	stream := awaitStream(t, ctx, js, scraperequestcontract.ScrapeRequestsStreamName)
+	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
+		AckPolicy: jetstream.AckExplicitPolicy,
+	})
+	if err != nil {
+		t.Fatalf("create scrape request consumer: %v", err)
+	}
+	first, err := consumer.Next(jetstream.FetchMaxWait(messageArrivalWait))
+	if err != nil {
+		t.Fatalf("fetch scrape request: %v", err)
+	}
+	requests := []scraperequestcontract.ScrapeRequest{decodeScrapeRequest(t, first)}
+	batch, err := consumer.Fetch(duplicateScrapeRequestLimit,
+		jetstream.FetchMaxWait(duplicateSettlingWait))
+	if err != nil {
+		t.Fatalf("fetch scrape requests: %v", err)
+	}
+	for msg := range batch.Messages() {
+		requests = append(requests, decodeScrapeRequest(t, msg))
+	}
+	return requests
+}
+
+func decodeScrapeRequest(t *testing.T, msg jetstream.Msg) scraperequestcontract.ScrapeRequest {
+	t.Helper()
+	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(msg.Data())
+	if err != nil {
+		t.Fatalf("decode scrape request: %v", err)
+	}
+	if err := msg.Ack(); err != nil {
+		t.Fatalf("ack scrape request: %v", err)
 	}
 	return scrapeRequest
 }

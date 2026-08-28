@@ -7,8 +7,9 @@ orders. For each order, it fetches the pages the order admits and publishes a sc
 request for each page. A YaCy node is the typical order source and consumer, but the
 service depends on no consumer's internals.
 
-Several instances can share one order stream, each order running on one instance. The
-service is meant for a more capable host than an always-on node.
+Several instances share one order stream and one frontier. Every instance takes any URL
+of any order, so a run spreads across the instances that are up. The service is meant for
+a more capable host than an always-on node.
 
 ## Non-Goals
 
@@ -22,10 +23,10 @@ service is meant for a more capable host than an always-on node.
 
 ## Functional Requirements
 
-* The service SHALL idle until a crawl order arrives, then process it.
+* The service SHALL idle until a crawl order arrives, then accept it.
 * The service SHALL crawl only what an order's profile admits, from its seeds and
   discovered links.
-* Every crawl run SHALL terminate within a run-wide fetch budget, never by elapsed time.
+* A crawl run SHALL end when its profile admits no more URLs, never by elapsed time.
 * Before fetching a page, the service SHALL ask the recrawl rule whether the page is due,
   and skip the fetch if not.
 * Every outbound fetch SHALL egress through the operator's configured proxy.
@@ -35,27 +36,25 @@ service is meant for a more capable host than an always-on node.
   it.
 * The service SHALL publish a scrape request naming the canonical URL of each page it
   reached, and never the page's content.
-* Every URL a run admits SHALL reach one terminal outcome: published as a scrape request,
-  or disposed, counted against the reason for it.
+* Every URL a run admits SHALL be visited by exactly one instance, and SHALL reach one
+  terminal outcome: published as a scrape request, or disposed, counted against the
+  reason for it.
 * A publication SHALL fail only on a hard, non-retryable broker error; transient
-  backpressure waits for as long as the run holds its order.
+  backpressure returns the URL for redelivery.
 * A publication failure SHALL NOT be terminal; the page stays unpublished.
-* The service SHALL acknowledge an order only after every page it produced reached a
-  terminal outcome.
+* The service SHALL acknowledge an order once the order and its seed URLs are durable.
 
 ## Non-Functional Requirements
 
 * The service SHALL process each order idempotently per its identity under at-least-once
   delivery.
-* The service SHOULD assert continued ownership of an in-progress order to reduce
-  redundant concurrent runs; correctness never depends on it holding.
 * Each published page SHALL be addressed by its canonical URL, so a re-run of that URL
   replaces its prior publication downstream rather than duplicating it.
-* The service SHALL cap every resource an order can inflate — its frontier, buffers, and
-  fetched-body sizes — keeping memory bounded regardless of run size.
+* The service SHALL keep its frontier in the broker, not in memory, so run size never
+  inflates an instance; it SHALL cap the buffers and fetched-body sizes it does hold.
 * The service SHALL bound every outbound fetch with an explicit deadline.
-* The core SHALL keep no state of its own; anything remembered between runs lives behind an
-  interface it consults. A run survives a restart only if the order source resends the order.
+* The core SHALL keep no state of its own; anything remembered lives behind an interface
+  it consults. A run survives the restart of any instance, and of all of them.
 * The message broker SHALL be replaceable behind a narrow interface assuming at-least-once
   delivery with acknowledgment and redelivery, with no change to crawl logic.
 * The page-fetch mechanism SHALL be replaceable behind a narrow interface, with no

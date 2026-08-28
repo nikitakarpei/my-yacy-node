@@ -13,9 +13,8 @@ it matters most with `wide`, where a single visit can otherwise reach a large
 part of the web.
 
 Depth is multiplicative, so raise it slowly. Depth 2 on a well-linked site is
-thousands of pages, each one fetched, indexed, and stored on your disk. The
-crawler stops a run at `YACYCRAWLER_RUN_PAGE_BUDGET` pages, 1000 by default,
-which is a backstop rather than a plan.
+thousands of pages, each one fetched, indexed, and stored on your disk. Depth
+and the per-host stop are the only limits on a run, so set them with care.
 
 ## The change
 

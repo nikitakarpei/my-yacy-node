@@ -11,8 +11,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
 )
 
 type fakeFetch struct {
@@ -83,15 +83,33 @@ func (f *fakeRecrawl) calls() []visitedCall {
 	return append([]visitedCall(nil), f.visitedCalls...)
 }
 
+type steppingClock struct {
+	now  time.Time
+	step time.Duration
+}
+
+func (c *steppingClock) Now() time.Time {
+	current := c.now
+	c.now = c.now.Add(c.step)
+	return current
+}
+
 type recordingObserver struct {
 	mu                      sync.Mutex
-	refusals                map[refusal.Demand]int
+	refusals                map[string]int
+	fetchDurations          []time.Duration
 	fetched                 int
 	scrapeRequestsPublished int
 }
 
 func newObserver() *recordingObserver {
-	return &recordingObserver{refusals: map[refusal.Demand]int{}}
+	return &recordingObserver{refusals: map[string]int{}}
+}
+
+func (o *recordingObserver) FetchTook(duration time.Duration) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.fetchDurations = append(o.fetchDurations, duration)
 }
 
 func (o *recordingObserver) PageFetched() {
@@ -100,10 +118,16 @@ func (o *recordingObserver) PageFetched() {
 	o.fetched++
 }
 
-func (o *recordingObserver) RefusalHonored(kind refusal.Demand) {
+func (o *recordingObserver) AccessRefusalHonored() { o.honor("access") }
+
+func (o *recordingObserver) IndexingRefusalHonored() { o.honor("indexing") }
+
+func (o *recordingObserver) LinkDiscoveryRefusalHonored() { o.honor("link-discovery") }
+
+func (o *recordingObserver) honor(refusal string) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	o.refusals[kind]++
+	o.refusals[refusal]++
 }
 
 func (o *recordingObserver) ScrapeRequestPublished() {
@@ -157,6 +181,8 @@ func unreadableOutcome(t *testing.T) pagefetch.FetchOutcome {
 	return outcome
 }
 
+const fetchStep = 250 * time.Millisecond
+
 func fetchOf(outcome pagefetch.FetchOutcome) *fakeFetch {
 	return &fakeFetch{outcome: outcome}
 }
@@ -167,17 +193,23 @@ func newVisitor(
 	observer *recordingObserver,
 	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.Visitor {
-	return newVisitorSource(fetcher, recrawl, observer, scrapeRequests).
-		VisitorFor(pagevisit.Honored)
+	return newVisitorFor(fetcher, recrawl, observer, scrapeRequests)(
+		pagerefusals.IgnoredRefusals{})
 }
 
-func newVisitorSource(
+func newVisitorFor(
 	fetcher pagefetch.Fetcher,
 	recrawl pagevisit.RecrawlRule,
 	observer *recordingObserver,
 	scrapeRequests pagevisit.ScrapeRequests,
-) pagevisit.VisitorSource {
-	return pagevisit.New(fetcher, recrawl, observer, scrapeRequests)
+) pagevisit.VisitorFor {
+	return pagevisit.New(
+		fetcher,
+		&steppingClock{now: time.Unix(0, 0), step: fetchStep},
+		recrawl,
+		observer,
+		scrapeRequests,
+	)
 }
 
 func visitHost(t *testing.T, visitor pagevisit.Visitor) pagevisit.VisitOutcome {
@@ -195,7 +227,7 @@ func visitHost(t *testing.T, visitor pagevisit.Visitor) pagevisit.VisitOutcome {
 	return outcome
 }
 
-func TestVisitAbsorbsFetchedPage(t *testing.T) {
+func TestVisitReadsTheFetchedPage(t *testing.T) {
 	observer := newObserver()
 	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
@@ -215,9 +247,6 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 		outcome.DiscoveredURLs[0] != canonicalurltest.CanonicalURLOf(t, "http://host/next") {
 		t.Fatalf("want discovered link, got %v", outcome.DiscoveredURLs)
 	}
-	if !outcome.Fetched {
-		t.Fatal("an absorbed page counts as fetched")
-	}
 	if outcome.Disposal != disposal.NotDisposed {
 		t.Fatalf("published page should report no disposal, got %q", outcome.Disposal)
 	}
@@ -232,11 +261,11 @@ func TestVisitAbsorbsFetchedPage(t *testing.T) {
 	}
 }
 
-func TestVisitReportsNotAPageDisposal(t *testing.T) {
+func TestVisitReportsFetchRejectedDisposal(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
-		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchNotAPage}),
+		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchRejected}),
 		recrawl,
 		newObserver(),
 		scrapeRequests,
@@ -244,26 +273,61 @@ func TestVisitReportsNotAPageDisposal(t *testing.T) {
 
 	outcome := visitHost(t, visitor)
 
-	if outcome.Disposal != disposal.NotAPage {
-		t.Fatalf("want not-a-page disposal, got %q", outcome.Disposal)
-	}
-	if !outcome.Fetched {
-		t.Fatal("a fetched body that is not a page still consumes the budget")
+	if outcome.Disposal != disposal.FetchRejected {
+		t.Fatalf("want fetch-rejected disposal, got %q", outcome.Disposal)
 	}
 	if len(recrawl.calls()) != 0 {
-		t.Fatalf("visited should not be recorded for not-a-page, got %v", recrawl.calls())
+		t.Fatalf("visited should not be recorded for a rejected fetch, got %v", recrawl.calls())
 	}
 	if calls := scrapeRequests.calls(); len(calls) != 0 {
-		t.Fatalf("a not-a-page fetch should publish no scrape request, got %v", calls)
+		t.Fatalf("a rejected fetch should publish no scrape request, got %v", calls)
 	}
 }
 
-func TestVisitCeasesOnHTTPCease(t *testing.T) {
+func TestVisitReportsOversizedDisposal(t *testing.T) {
+	scrapeRequests := &fakeScrapeRequests{}
+	visitor := newVisitor(
+		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchOversized}),
+		&fakeRecrawl{due: true},
+		newObserver(),
+		scrapeRequests,
+	)
+
+	outcome := visitHost(t, visitor)
+
+	if outcome.Disposal != disposal.Oversized {
+		t.Fatalf("want oversized disposal, got %q", outcome.Disposal)
+	}
+	if calls := scrapeRequests.calls(); len(calls) != 0 {
+		t.Fatalf("an oversized page should publish no scrape request, got %v", calls)
+	}
+}
+
+func TestVisitReportsLandedURLInvalidDisposal(t *testing.T) {
+	scrapeRequests := &fakeScrapeRequests{}
+	visitor := newVisitor(
+		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchLandedURLInvalid}),
+		&fakeRecrawl{due: true},
+		newObserver(),
+		scrapeRequests,
+	)
+
+	outcome := visitHost(t, visitor)
+
+	if outcome.Disposal != disposal.LandedURLInvalid {
+		t.Fatalf("want landed-url-invalid disposal, got %q", outcome.Disposal)
+	}
+	if calls := scrapeRequests.calls(); len(calls) != 0 {
+		t.Fatalf("an invalid landing should publish no scrape request, got %v", calls)
+	}
+}
+
+func TestVisitStopsWhenTheTargetRefusesAccess(t *testing.T) {
 	observer := newObserver()
 	recrawl := &fakeRecrawl{due: true}
 	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(
-		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchCeased}),
+		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchAccessRefused}),
 		recrawl,
 		observer,
 		scrapeRequests,
@@ -271,20 +335,20 @@ func TestVisitCeasesOnHTTPCease(t *testing.T) {
 
 	outcome := visitHost(t, visitor)
 
-	if observer.refusals[refusal.Cease] != 1 {
-		t.Fatalf("cease not honored: %v", observer.refusals)
+	if observer.refusals["access"] != 1 {
+		t.Fatalf("access refusal not honored: %v", observer.refusals)
 	}
-	if outcome.Disposal != disposal.Refused {
-		t.Fatalf("want refused disposal, got %q", outcome.Disposal)
-	}
-	if outcome.Fetched {
-		t.Fatal("a refused fetch returns no body and must not consume the budget")
+	if outcome.Disposal != disposal.AccessRefused {
+		t.Fatalf("want access-refused disposal, got %q", outcome.Disposal)
 	}
 	if len(recrawl.calls()) != 1 {
-		t.Fatalf("visited should be recorded on refusal so grace applies, got %v", recrawl.calls())
+		t.Fatalf(
+			"visited should be recorded on a refusal so grace applies, got %v",
+			recrawl.calls(),
+		)
 	}
 	if calls := scrapeRequests.calls(); len(calls) != 0 {
-		t.Fatalf("a ceased fetch should publish no scrape request, got %v", calls)
+		t.Fatalf("a refused fetch should publish no scrape request, got %v", calls)
 	}
 }
 
@@ -367,6 +431,55 @@ func TestVisitFetchErrorFails(t *testing.T) {
 	}
 }
 
+func TestVisitReportsHowLongTheFetchTook(t *testing.T) {
+	observer := newObserver()
+
+	visitHost(t, newVisitor(
+		fetchOf(fetchedOutcome(t)),
+		&fakeRecrawl{due: true},
+		observer,
+		&fakeScrapeRequests{},
+	))
+
+	if len(observer.fetchDurations) != 1 || observer.fetchDurations[0] != fetchStep {
+		t.Fatalf("want one %v fetch observed, got %v", fetchStep, observer.fetchDurations)
+	}
+}
+
+func TestVisitReportsHowLongAFailedFetchTook(t *testing.T) {
+	observer := newObserver()
+	visitor := newVisitor(
+		&fakeFetch{err: errors.New("boom")},
+		&fakeRecrawl{due: true},
+		observer,
+		&fakeScrapeRequests{},
+	)
+
+	_, _ = visitor.Visit(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	)
+
+	if len(observer.fetchDurations) != 1 || observer.fetchDurations[0] != fetchStep {
+		t.Fatalf("want one %v fetch observed, got %v", fetchStep, observer.fetchDurations)
+	}
+}
+
+func TestVisitReportsNoFetchDurationWhenNotDue(t *testing.T) {
+	observer := newObserver()
+
+	visitHost(t, newVisitor(
+		fetchOf(fetchedOutcome(t)),
+		&fakeRecrawl{due: false},
+		observer,
+		&fakeScrapeRequests{},
+	))
+
+	if len(observer.fetchDurations) != 0 {
+		t.Fatalf("want no fetch observed, got %v", observer.fetchDurations)
+	}
+}
+
 func TestVisitRecrawlDecisionErrorFails(t *testing.T) {
 	visitor := newVisitor(
 		&fakeFetch{},
@@ -400,9 +513,6 @@ func TestVisitReportsNotDueWithoutFetching(t *testing.T) {
 	if fetch.sawFetch {
 		t.Fatal("fetch should not be attempted when not due")
 	}
-	if outcome.Fetched {
-		t.Fatal("a skipped fetch must not consume the budget")
-	}
 }
 
 func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
@@ -426,7 +536,7 @@ func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
 	}
 }
 
-func TestVisitRecordsVersionAfterAbsorbingThePage(t *testing.T) {
+func TestVisitRecordsVersionAfterReadingThePage(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	visitor := newVisitor(
 		fetchOf(fetchedOutcome(t)),
@@ -463,7 +573,7 @@ func TestVisitReportsTheDisposalAbsorptionReached(t *testing.T) {
 	outcome := visitHost(t, visitor)
 
 	if outcome.Disposal != disposal.UnsupportedMediaType {
-		t.Fatalf("want the absorbed reason reported, got %q", outcome.Disposal)
+		t.Fatalf("want the page content reason reported, got %q", outcome.Disposal)
 	}
 	if len(recrawl.calls()) != 1 {
 		t.Fatalf("want the visit recorded regardless of publication, got %v", recrawl.calls())
@@ -473,7 +583,7 @@ func TestVisitReportsTheDisposalAbsorptionReached(t *testing.T) {
 	}
 }
 
-func TestVisitNotModifiedRecordsVersionWithoutAbsorbing(t *testing.T) {
+func TestVisitNotModifiedRecordsVersionWithoutReadingThePage(t *testing.T) {
 	recrawl := &fakeRecrawl{due: true}
 	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(

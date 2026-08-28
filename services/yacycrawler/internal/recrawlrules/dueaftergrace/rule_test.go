@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	jetstreamrecord "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 )
 
@@ -18,13 +19,13 @@ type manualClock struct{ now time.Time }
 
 func (c *manualClock) Now() time.Time { return c.now }
 
-func (c *manualClock) Sleep(context.Context, time.Duration) error { return nil }
-
 func newBucket(t *testing.T) natsjetstream.KeyValue {
 	t.Helper()
 	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 	if err := dueaftergrace.Ensure(
-		context.Background(), js, dueaftergrace.BucketSpec{MaxBytes: 1 << 20, Retention: time.Hour},
+		context.Background(),
+		js,
+		jetstreamrecord.BucketSpec{MaxBytes: 1 << 20, Retention: time.Hour},
 	); err != nil {
 		t.Fatal(err)
 	}
