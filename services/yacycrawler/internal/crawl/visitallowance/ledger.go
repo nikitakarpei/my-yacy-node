@@ -81,7 +81,7 @@ func (l *Ledger) DeferralFor(
 	return Allowance{Granted: true, PauseFor: deferFor}, nil
 }
 
-func (l *Ledger) AttemptFor(
+func (l *Ledger) AnotherAttemptFor(
 	ctx context.Context,
 	visit pendingvisit.PendingVisit,
 ) (Allowance, error) {

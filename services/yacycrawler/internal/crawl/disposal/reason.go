@@ -19,6 +19,6 @@ const (
 	HostPagesExhausted   Reason = "host-pages-exhausted"
 )
 
-func (reason Reason) Disposes() bool {
+func (reason Reason) DisposedThePage() bool {
 	return reason != NotDisposed
 }

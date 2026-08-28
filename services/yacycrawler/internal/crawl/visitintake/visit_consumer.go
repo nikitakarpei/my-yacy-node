@@ -46,7 +46,7 @@ type VisitLedger interface {
 		visit pendingvisit.PendingVisit,
 		deferFor time.Duration,
 	) (visitallowance.Allowance, error)
-	AttemptFor(
+	AnotherAttemptFor(
 		ctx context.Context,
 		visit pendingvisit.PendingVisit,
 	) (visitallowance.Allowance, error)
@@ -258,7 +258,7 @@ func (c *VisitConsumer) retryVisit(
 	message pullintake.PendingMessage,
 	pendingVisit pendingvisit.PendingVisit,
 ) {
-	allowance, err := c.ledger.AttemptFor(ctx, pendingVisit)
+	allowance, err := c.ledger.AnotherAttemptFor(ctx, pendingVisit)
 	if !c.carryOutAllowance(ctx, message, pendingVisit, allowance, err) {
 		return
 	}
@@ -272,7 +272,7 @@ func (c *VisitConsumer) completeVisit(
 	pendingVisit pendingvisit.PendingVisit,
 	outcome pagevisit.VisitOutcome,
 ) {
-	if outcome.Disposal.Disposes() {
+	if outcome.Disposal.DisposedThePage() {
 		c.observer.PageDisposed(outcome.Disposal)
 	}
 	if err := c.putDiscoveredURLsOnFrontier(

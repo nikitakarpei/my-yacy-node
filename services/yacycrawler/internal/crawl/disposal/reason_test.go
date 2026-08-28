@@ -7,13 +7,13 @@ import (
 )
 
 func TestNotDisposedDisposesOfNothing(t *testing.T) {
-	if disposal.NotDisposed.Disposes() {
+	if disposal.NotDisposed.DisposedThePage() {
 		t.Fatal("a published page carries no disposal")
 	}
 }
 
 func TestANamedReasonDisposes(t *testing.T) {
-	if !disposal.IndexingRefused.Disposes() {
+	if !disposal.IndexingRefused.DisposedThePage() {
 		t.Fatalf("%q should count as a disposal", disposal.IndexingRefused)
 	}
 }

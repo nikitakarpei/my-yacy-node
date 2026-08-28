@@ -114,9 +114,9 @@ func TestADeferralNamesTheAllowanceThatRanOut(t *testing.T) {
 
 func TestAnAttemptPausesForTheDelayOfItsAttemptNumber(t *testing.T) {
 	allowance, err := ledgerOf(&fakeClaims{attempt: 2, retried: true}, &fakeHostPageAllowances{}).
-		AttemptFor(t.Context(), visitOf(t))
+		AnotherAttemptFor(t.Context(), visitOf(t))
 	if err != nil {
-		t.Fatalf("AttemptFor: %v", err)
+		t.Fatalf("AnotherAttemptFor: %v", err)
 	}
 
 	want := retrydelay.Bounds{Floor: time.Second, Ceiling: time.Minute}.Delay(2)
@@ -127,9 +127,9 @@ func TestAnAttemptPausesForTheDelayOfItsAttemptNumber(t *testing.T) {
 
 func TestAnAttemptNamesTheAllowanceThatRanOut(t *testing.T) {
 	allowance, err := ledgerOf(&fakeClaims{}, &fakeHostPageAllowances{}).
-		AttemptFor(t.Context(), visitOf(t))
+		AnotherAttemptFor(t.Context(), visitOf(t))
 	if err != nil {
-		t.Fatalf("AttemptFor: %v", err)
+		t.Fatalf("AnotherAttemptFor: %v", err)
 	}
 
 	if allowance.Granted || allowance.Exhausted != disposal.RetriesExhausted {
@@ -149,7 +149,7 @@ func TestAFailedSpendCarriesItsCauseBack(t *testing.T) {
 		t.Fatalf("DeferralFor swallowed %v, got %v", down, err)
 	}
 	if _, err := ledgerOf(&fakeClaims{err: down}, &fakeHostPageAllowances{}).
-		AttemptFor(t.Context(), visitOf(t)); !errors.Is(err, down) {
-		t.Fatalf("AttemptFor swallowed %v, got %v", down, err)
+		AnotherAttemptFor(t.Context(), visitOf(t)); !errors.Is(err, down) {
+		t.Fatalf("AnotherAttemptFor swallowed %v, got %v", down, err)
 	}
 }

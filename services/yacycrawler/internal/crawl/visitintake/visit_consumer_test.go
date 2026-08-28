@@ -87,7 +87,7 @@ func (a *fakeLedger) DeferralFor(
 	return visitallowance.Allowance{Granted: true, PauseFor: deferFor}, nil
 }
 
-func (a *fakeLedger) AttemptFor(
+func (a *fakeLedger) AnotherAttemptFor(
 	_ context.Context, _ pendingvisit.PendingVisit,
 ) (visitallowance.Allowance, error) {
 	if a.retries >= a.maxRetries {
