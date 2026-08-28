@@ -48,9 +48,36 @@ func TestEveryCorpusConsumesTheSameScrapeRequestEndToEnd(t *testing.T) {
 	}
 }
 
+func TestTwoCrawlersVisitEachURLOnceEndToEnd(t *testing.T) {
+	ctx := context.Background()
+
+	js, originURL := startCrawlOfOriginSiteAcross(t, ctx, 2)
+
+	scrapeRequests := fetchEveryScrapeRequest(t, ctx, js)
+
+	if len(scrapeRequests) != 1 {
+		t.Fatalf(
+			"two crawlers published %d scrape requests for one url, want 1",
+			len(scrapeRequests),
+		)
+	}
+	if scrapeRequests[0].PageURL.String() != originURL {
+		t.Errorf("scrape request page url = %q, want %q", scrapeRequests[0].PageURL, originURL)
+	}
+}
+
 func startCrawlOfOriginSite(
 	t *testing.T,
 	ctx context.Context,
+) (jetstream.JetStream, string) {
+	t.Helper()
+	return startCrawlOfOriginSiteAcross(t, ctx, 1)
+}
+
+func startCrawlOfOriginSiteAcross(
+	t *testing.T,
+	ctx context.Context,
+	crawlers int,
 ) (jetstream.JetStream, string) {
 	t.Helper()
 
@@ -60,7 +87,7 @@ func startCrawlOfOriginSite(
 	scraperequeststream.Provision(t, ctx, crawlNATSURL)
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
-	startCrawler(t, ctx, network.Name)
+	startCrawlers(t, ctx, network.Name, crawlers)
 
 	js := connectJetStream(t, crawlNATSURL)
 	awaitStream(t, ctx, js, yacycrawlcontract.OrdersStreamName)
@@ -68,7 +95,6 @@ func startCrawlOfOriginSite(
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID: orderID,
 		Profile: yacycrawlcontract.CrawlProfile{
-			Name:            "default",
 			Scope:           yacycrawlcontract.ScopeDomain,
 			URLMustMatch:    yacycrawlcontract.MatchAll,
 			MaxDepth:        0,

@@ -6,17 +6,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagemarkup"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 )
 
-func linkedURLsFrom(t *testing.T, pageURL, markup string) []canonicalurl.CanonicalURL {
+func linkedURLsFrom(t *testing.T, pageURL, pageHTML string) []canonicalurl.CanonicalURL {
 	t.Helper()
-	parsed, err := pagemarkup.MarkupFrom(t.Context(), "text/html", []byte(markup))
+	elementTree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(pageHTML))
 	if err != nil {
-		t.Fatalf("MarkupFrom: %v", err)
+		t.Fatalf("ElementTreeFrom: %v", err)
 	}
 	return linkdiscovery.LinkedURLsFrom(
-		t.Context(), parsed, canonicalurltest.CanonicalURLOf(t, pageURL),
+		t.Context(), elementTree, canonicalurltest.CanonicalURLOf(t, pageURL),
 	)
 }
 

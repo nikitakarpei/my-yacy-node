@@ -1,4 +1,4 @@
-// Package disposal names why a page reached a terminal outcome without publication.
+// Package disposal names how a pending visit ended, publication included.
 package disposal
 
 type Reason string
@@ -8,12 +8,17 @@ const NotDisposed Reason = ""
 const (
 	NotDue               Reason = "not-due"
 	NotModified          Reason = "not-modified"
-	Refused              Reason = "refused"
-	DeferralsExhausted   Reason = "deferrals-exhausted"
-	NotAPage             Reason = "not-a-page"
-	FetchAbandoned       Reason = "fetch-abandoned"
-	BudgetTruncated      Reason = "budget-truncated"
+	AccessRefused        Reason = "access-refused"
+	FetchRejected        Reason = "fetch-rejected"
+	LandedURLInvalid     Reason = "landed-url-invalid"
 	Oversized            Reason = "oversized"
 	UnsupportedMediaType Reason = "unsupported-media-type"
 	IndexingRefused      Reason = "indexing-refused"
+	DeferralsExhausted   Reason = "deferrals-exhausted"
+	RetriesExhausted     Reason = "retries-exhausted"
+	HostPagesExhausted   Reason = "host-pages-exhausted"
 )
+
+func (reason Reason) DisposedThePage() bool {
+	return reason != NotDisposed
+}

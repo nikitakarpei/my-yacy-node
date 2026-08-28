@@ -3,21 +3,20 @@ package pagevisit
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagemarkup"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerobots"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/refusal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 )
 
 const (
 	msgRecrawlRecordFailed = "recrawl record failed, next visit may be redundant"
-	msgMarkupUnreadable    = "page markup unreadable"
+	msgPageHTMLUnreadable  = "page html unreadable"
 )
 
 type Visitor interface {
@@ -26,9 +25,10 @@ type Visitor interface {
 
 type visitor struct {
 	fetcher         pagefetch.Fetcher
+	clock           Clock
 	recrawl         RecrawlRule
-	indexingRefusal IndexingRefusal
-	observer        VisitProgress
+	ignoredRefusals pagerefusals.IgnoredRefusals
+	progress        VisitProgress
 	scrapeRequests  ScrapeRequests
 }
 
@@ -41,106 +41,110 @@ func (v *visitor) Visit(
 		return VisitOutcome{}, fmt.Errorf("recrawl decision: %w", err)
 	}
 	if !decision.Due {
-		return VisitOutcome{Conclusion: VisitCompleted, Disposal: disposal.NotDue}, nil
+		return completedOutcome(disposal.NotDue, noDiscoveredURLs), nil
 	}
-
-	outcome, err := v.fetcher.Fetch(ctx, url, decision.Version)
+	fetchOutcome, err := v.fetchPage(ctx, url, decision.Version)
 	if err != nil {
 		return VisitOutcome{}, fmt.Errorf("fetch %s: %w", url, err)
 	}
-
-	switch outcome.Status {
-	case pagefetch.FetchSucceeded:
-		v.observer.PageFetched()
-		return v.absorb(ctx, url, outcome)
-	case pagefetch.FetchNotModified:
-		v.recordVisit(ctx, url, outcome.Version)
-		return VisitOutcome{Conclusion: VisitCompleted, Disposal: disposal.NotModified}, nil
-	case pagefetch.FetchCeased:
-		v.recordVisit(ctx, url, outcome.Version)
-		v.observer.RefusalHonored(refusal.Cease)
-		return VisitOutcome{Conclusion: VisitCompleted, Disposal: disposal.Refused}, nil
-	case pagefetch.FetchDeferred:
-		return VisitOutcome{Conclusion: VisitDeferred, DeferFor: outcome.DeferFor}, nil
-	case pagefetch.FetchNotAPage:
-		v.observer.PageFetched()
-		return VisitOutcome{
-			Conclusion: VisitCompleted,
-			Fetched:    true,
-			Disposal:   disposal.NotAPage,
-		}, nil
-	case pagefetch.FetchFailed:
-		return VisitOutcome{Conclusion: VisitRetryable}, nil
-	default:
-		return VisitOutcome{}, fmt.Errorf("unknown fetch status %d for %s", outcome.Status, url)
-	}
+	return v.concludeVisit(ctx, url, fetchOutcome)
 }
 
-func (v *visitor) absorb(
+func (v *visitor) fetchPage(
 	ctx context.Context,
 	url canonicalurl.CanonicalURL,
-	outcome pagefetch.FetchOutcome,
-) (VisitOutcome, error) {
-	absorption := v.absorptionOf(ctx, outcome.Page)
-	v.recordVisit(ctx, url, outcome.Version)
-	if absorption.Disposal == disposal.NotDisposed {
-		if err := v.scrapeRequests.Publish(ctx, outcome.Page.LandedURL); err != nil {
-			return VisitOutcome{}, fmt.Errorf(
-				"publish scrape request %s: %w", outcome.Page.LandedURL, err,
-			)
-		}
-		v.observer.ScrapeRequestPublished()
-	}
-	return absorption, nil
+	knownVersion pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
+	start := v.clock.Now()
+	outcome, err := v.fetcher.Fetch(ctx, url, knownVersion)
+	v.progress.FetchTook(v.clock.Now().Sub(start))
+	return outcome, err
 }
 
-func (v *visitor) absorptionOf(
+func (v *visitor) concludeVisit(
 	ctx context.Context,
-	page pagefetch.FetchedPage,
-) VisitOutcome {
-	if page.Truncated {
-		return absorbedPage(disposal.Oversized, nil)
+	url canonicalurl.CanonicalURL,
+	fetchOutcome pagefetch.FetchOutcome,
+) (VisitOutcome, error) {
+	switch fetchOutcome.Status {
+	case pagefetch.FetchSucceeded:
+		return v.visitFetchedPage(ctx, url, fetchOutcome)
+	case pagefetch.FetchNotModified:
+		v.recordVisit(ctx, url, fetchOutcome.Version)
+		return completedOutcome(disposal.NotModified, noDiscoveredURLs), nil
+	case pagefetch.FetchAccessRefused:
+		v.recordVisit(ctx, url, fetchOutcome.Version)
+		v.progress.AccessRefusalHonored()
+		return completedOutcome(disposal.AccessRefused, noDiscoveredURLs), nil
+	case pagefetch.FetchRejected:
+		v.progress.PageFetched()
+		return completedOutcome(disposal.FetchRejected, noDiscoveredURLs), nil
+	case pagefetch.FetchLandedURLInvalid:
+		v.progress.PageFetched()
+		return completedOutcome(disposal.LandedURLInvalid, noDiscoveredURLs), nil
+	case pagefetch.FetchOversized:
+		v.progress.PageFetched()
+		return completedOutcome(disposal.Oversized, noDiscoveredURLs), nil
+	case pagefetch.FetchDeferred:
+		return deferredOutcome(fetchOutcome.DeferFor), nil
+	case pagefetch.FetchFailed:
+		return retryableOutcome(), nil
+	default:
+		return VisitOutcome{}, fmt.Errorf(
+			"unknown fetch status %d for %s",
+			fetchOutcome.Status,
+			url,
+		)
 	}
-	markup, err := pagemarkup.MarkupFrom(ctx, page.ContentType, page.Body)
-	if err != nil {
-		slog.WarnContext(ctx, msgMarkupUnreadable,
+}
+
+func (v *visitor) visitFetchedPage(
+	ctx context.Context,
+	url canonicalurl.CanonicalURL,
+	fetchOutcome pagefetch.FetchOutcome,
+) (VisitOutcome, error) {
+	page := fetchOutcome.Page
+	v.progress.PageFetched()
+	v.recordVisit(ctx, url, fetchOutcome.Version)
+	reading, err := pagehtmlreading.ReadingOfPage(ctx, page, v.ignoredRefusals)
+	if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
+		slog.WarnContext(ctx, msgPageHTMLUnreadable,
 			slog.String("url", page.LandedURL.String()),
 			slog.Any("error", err),
 		)
-		return absorbedPage(disposal.UnsupportedMediaType, nil)
+		return completedOutcome(disposal.UnsupportedMediaType, noDiscoveredURLs), nil
 	}
-
-	refusals := pagerobots.RefusalsFrom(markup)
-	discoveredURLs := discoveredURLsFrom(ctx, page, markup, refusals)
-	if v.indexingRefusal == Honored && refusesIndexing(page, refusals) {
-		return absorbedPage(disposal.IndexingRefused, discoveredURLs)
+	if err != nil {
+		return VisitOutcome{}, err
 	}
-	return absorbedPage(disposal.NotDisposed, discoveredURLs)
+	v.reportRefusalsHonored(reading.Refusals)
+	if reading.Refusals.RefusesIndexing {
+		return completedOutcome(disposal.IndexingRefused, reading.DiscoveredURLs), nil
+	}
+	if err := v.requestScrape(ctx, page.LandedURL); err != nil {
+		return VisitOutcome{}, err
+	}
+	return completedOutcome(disposal.NotDisposed, reading.DiscoveredURLs), nil
 }
 
-func absorbedPage(reason disposal.Reason, discoveredURLs []canonicalurl.CanonicalURL) VisitOutcome {
-	return VisitOutcome{
-		Conclusion:     VisitCompleted,
-		Fetched:        true,
-		DiscoveredURLs: discoveredURLs,
-		Disposal:       reason,
+func (v *visitor) reportRefusalsHonored(refusals pagerefusals.Refusals) {
+	if refusals.RefusesIndexing {
+		v.progress.IndexingRefusalHonored()
+	}
+	if refusals.RefusesLinkDiscovery {
+		v.progress.LinkDiscoveryRefusalHonored()
 	}
 }
 
-func discoveredURLsFrom(
+func (v *visitor) requestScrape(
 	ctx context.Context,
-	page pagefetch.FetchedPage,
-	markup pagemarkup.Markup,
-	refusals pagerobots.Refusals,
-) []canonicalurl.CanonicalURL {
-	if page.RefusesLinkDiscovery || refusals.RefusesLinkDiscovery {
-		return nil
+	landedURL canonicalurl.CanonicalURL,
+) error {
+	if err := v.scrapeRequests.Publish(ctx, landedURL); err != nil {
+		return fmt.Errorf("publish scrape request %s: %w", landedURL, err)
 	}
-	return linkdiscovery.LinkedURLsFrom(ctx, markup, page.LandedURL)
-}
-
-func refusesIndexing(page pagefetch.FetchedPage, refusals pagerobots.Refusals) bool {
-	return page.RefusesIndexing || refusals.RefusesIndexing
+	v.progress.ScrapeRequestPublished()
+	return nil
 }
 
 func (v *visitor) recordVisit(

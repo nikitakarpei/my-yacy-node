@@ -10,48 +10,51 @@ commonVendors:
   - scraperequestcontract
   - canonicalurl
 
-commonComponents:
-  - clock
-
 components:
-  clock:
-    in: internal/crawl/clock/**
   disposal:
     in: internal/crawl/disposal/**
-  refusal:
-    in: internal/crawl/refusal/**
   retrydelay:
     in: internal/crawl/retrydelay/**
-  frontier:
-    in: internal/crawl/frontier/**
+  pendingvisit:
+    in: internal/crawl/pendingvisit/**
   profileadmission:
     in: internal/crawl/profileadmission/**
-  ordersettlement:
-    in: internal/crawl/ordersettlement/**
-  ordertraversal:
-    in: internal/crawl/ordertraversal/**
-  visitdispatch:
-    in: internal/crawl/visitdispatch/**
-  fetchtiming:
-    in: internal/crawl/fetchtiming/**
+  acceptedorder:
+    in: internal/crawl/acceptedorder/**
+  orderintake:
+    in: internal/crawl/orderintake/**
+  visitclaim:
+    in: internal/crawl/visitclaim/**
+  visitintake:
+    in: internal/crawl/visitintake/**
   pagevisit:
     in: internal/crawl/pagevisit/**
-  pagemarkup:
-    in: internal/crawl/pagemarkup/**
-  pagerobots:
-    in: internal/crawl/pagerobots/**
+  pagehtml:
+    in: internal/crawl/pagehtml/**
+  pagerefusals:
+    in: internal/crawl/pagerefusals/**
   linkdiscovery:
     in: internal/crawl/linkdiscovery/**
+  pagehtmlreading:
+    in: internal/crawl/pagehtmlreading/**
+  visitallowance:
+    in: internal/crawl/visitallowance/**
   recrawlrulesalwaysdue:
     in: internal/recrawlrules/alwaysdue/**
   recrawlrulesdueaftergrace:
     in: internal/recrawlrules/dueaftergrace/**
-  orderreceiversjetstream:
-    in: internal/orderreceivers/jetstream/**
+  acceptedordersjetstream:
+    in: internal/acceptedorders/jetstream/**
+  pendingvisitsjetstream:
+    in: internal/pendingvisits/jetstream/**
+  jetstreamrecord:
+    in: internal/jetstreamrecord/**
+  visitclaimsjetstream:
+    in: internal/visitclaims/jetstream/**
+  hostpageallowancesjetstream:
+    in: internal/hostpageallowances/jetstream/**
   progressobserversprometheus:
     in: internal/progressobservers/prometheus/**
-  contextcancellation:
-    in: internal/contextcancellation/**
   scraperequestsjetstream:
     in: internal/scraperequests/jetstream/**
   crawlercmd:
@@ -92,57 +95,73 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
-  frontier:
-    mayDependOn:
-      - retrydelay
-  ordersettlement:
-    mayDependOn:
-      - contextcancellation
-  ordertraversal:
-    mayDependOn:
-      - visitdispatch
-      - disposal
-      - refusal
-      - frontier
-      - profileadmission
-      - pagevisit
-      - contextcancellation
-    canUse:
-      - yacycrawlcontract
-      - scraperequestcontract
-  visitdispatch:
-    mayDependOn:
-      - frontier
-      - pagevisit
-  fetchtiming:
-    canUse:
-      - pagefetch
-  pagemarkup:
-    canUse:
-      - nethtml
-  pagerobots:
-    mayDependOn:
-      - pagemarkup
-    canUse:
-      - nethtml
-  linkdiscovery:
-    mayDependOn:
-      - pagemarkup
+  pendingvisit:
     canUse:
       - canonicalurl
+  acceptedorder:
+    mayDependOn:
+      - profileadmission
+    canUse:
+      - canonicalurl
+      - yacycrawlcontract
+  orderintake:
+    mayDependOn:
+      - pendingvisit
+      - acceptedorder
+    canUse:
+      - yacycrawlcontract
+      - serviceruntime
+  visitintake:
+    mayDependOn:
+      - disposal
+      - visitclaim
+      - visitallowance
+      - pendingvisit
+      - acceptedorder
+      - pagevisit
+      - pagerefusals
+    canUse:
+      - canonicalurl
+      - yacycrawlcontract
+      - serviceruntime
+  pagehtml:
+    canUse:
       - nethtml
+  pagerefusals:
+    mayDependOn:
+      - pagehtml
+  linkdiscovery:
+    mayDependOn:
+      - pagehtml
+    canUse:
+      - canonicalurl
   pagevisit:
     mayDependOn:
       - disposal
-      - refusal
-      - pagemarkup
-      - pagerobots
+      - pagehtmlreading
+      - pagerefusals
+    canUse:
+      - canonicalurl
+      - pagefetch
+  pagehtmlreading:
+    mayDependOn:
+      - pagehtml
+      - pagerefusals
       - linkdiscovery
     canUse:
       - canonicalurl
       - pagefetch
+  visitallowance:
+    mayDependOn:
+      - disposal
+      - pendingvisit
+      - retrydelay
+    canUse:
+      - canonicalurl
   recrawlrulesalwaysdue:
     mayDependOn:
       - pagevisit
@@ -151,25 +170,48 @@ deps:
   recrawlrulesdueaftergrace:
     mayDependOn:
       - pagevisit
+      - jetstreamrecord
     canUse:
       - nats
       - pagefetch
-  orderreceiversjetstream:
+  acceptedordersjetstream:
     mayDependOn:
-      - ordersettlement
+      - acceptedorder
+      - jetstreamrecord
     canUse:
       - nats
+      - yacycrawlcontract
+  pendingvisitsjetstream:
+    mayDependOn:
+      - pendingvisit
+    canUse:
+      - nats
+  jetstreamrecord:
+    canUse:
+      - nats
+  visitclaimsjetstream:
+    mayDependOn:
+      - visitclaim
+      - jetstreamrecord
+    canUse:
+      - nats
+      - canonicalurl
+      - yacycrawlcontract
+  hostpageallowancesjetstream:
+    mayDependOn:
+      - jetstreamrecord
+    canUse:
+      - nats
+      - canonicalurl
   scraperequestsjetstream:
     canUse:
       - nats
   progressobserversprometheus:
     mayDependOn:
-      - ordersettlement
-      - ordertraversal
+      - orderintake
+      - visitintake
       - pagevisit
-      - fetchtiming
       - disposal
-      - refusal
     canUse:
       - prometheus
   crawlercmd:

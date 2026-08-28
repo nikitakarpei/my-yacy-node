@@ -5,8 +5,10 @@ type FetchStatus int
 const (
 	FetchSucceeded FetchStatus = iota
 	FetchNotModified
-	FetchCeased
+	FetchAccessRefused
 	FetchDeferred
-	FetchNotAPage
+	FetchRejected
+	FetchLandedURLInvalid
+	FetchOversized
 	FetchFailed
 )

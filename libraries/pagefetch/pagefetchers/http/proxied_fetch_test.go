@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"slices"
 	"testing"
 	"time"
 
@@ -161,7 +162,7 @@ func TestFetchNotModifiedKeepsTheSentPageVersion(t *testing.T) {
 	}
 }
 
-func TestFetchTruncatesOversizedBody(t *testing.T) {
+func TestFetchReportsAnOversizedBody(t *testing.T) {
 	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = w.Write([]byte("0123456789"))
 	})
@@ -175,9 +176,11 @@ func TestFetchTruncatesOversizedBody(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !outcome.Page.Truncated || len(outcome.Page.Body) != 4 {
-		t.Fatalf("expected truncation to 4 bytes, got %d truncated=%v",
-			len(outcome.Page.Body), outcome.Page.Truncated)
+	if outcome.Status != pagefetch.FetchOversized {
+		t.Fatalf("status = %v, want oversized", outcome.Status)
+	}
+	if len(outcome.Page.Body) != 0 {
+		t.Fatalf("an oversized page should carry no body, got %d bytes", len(outcome.Page.Body))
 	}
 }
 
@@ -186,10 +189,10 @@ func TestFetchStatusMapping(t *testing.T) {
 		http.StatusNotModified:                pagefetch.FetchNotModified,
 		http.StatusTooManyRequests:            pagefetch.FetchDeferred,
 		http.StatusServiceUnavailable:         pagefetch.FetchDeferred,
-		http.StatusForbidden:                  pagefetch.FetchCeased,
-		http.StatusUnauthorized:               pagefetch.FetchCeased,
-		http.StatusUnavailableForLegalReasons: pagefetch.FetchCeased,
-		http.StatusNotFound:                   pagefetch.FetchNotAPage,
+		http.StatusForbidden:                  pagefetch.FetchAccessRefused,
+		http.StatusUnauthorized:               pagefetch.FetchAccessRefused,
+		http.StatusUnavailableForLegalReasons: pagefetch.FetchAccessRefused,
+		http.StatusNotFound:                   pagefetch.FetchRejected,
 		http.StatusInternalServerError:        pagefetch.FetchFailed,
 	}
 	for status, wantKind := range cases {
@@ -262,9 +265,10 @@ func TestFetchDeferFallsBackWhenRetryAfterIsPast(t *testing.T) {
 	}
 }
 
-func TestFetchReadsXRobotsTagNone(t *testing.T) {
+func TestFetchForwardsXRobotsTag(t *testing.T) {
 	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
-		w.Header().Set("X-Robots-Tag", "none")
+		w.Header().Add("X-Robots-Tag", "noindex")
+		w.Header().Add("X-Robots-Tag", "nofollow")
 		_, _ = w.Write([]byte("hi"))
 	})
 	defer closeFn()
@@ -274,25 +278,8 @@ func TestFetchReadsXRobotsTagNone(t *testing.T) {
 			context.Background(),
 			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
 			pagefetch.PageVersion{})
-	if !outcome.Page.RefusesIndexing || !outcome.Page.RefusesLinkDiscovery {
-		t.Fatalf("none not parsed: %+v", outcome)
-	}
-}
-
-func TestFetchReadsXRobotsTag(t *testing.T) {
-	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
-		w.Header().Set("X-Robots-Tag", "noindex, nofollow")
-		_, _ = w.Write([]byte("hi"))
-	})
-	defer closeFn()
-
-	outcome, _ := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
-		Fetch(
-			context.Background(),
-			canonicalurltest.CanonicalURLOf(t, "http://target.example/x"),
-			pagefetch.PageVersion{})
-	if !outcome.Page.RefusesIndexing || !outcome.Page.RefusesLinkDiscovery {
-		t.Fatalf("x-robots-tag not parsed: %+v", outcome)
+	if !slices.Equal(outcome.Page.RobotsDirectives, []string{"noindex", "nofollow"}) {
+		t.Fatalf("x-robots-tag not forwarded: %+v", outcome)
 	}
 }
 

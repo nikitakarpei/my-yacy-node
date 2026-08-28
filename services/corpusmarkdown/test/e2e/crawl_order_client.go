@@ -58,7 +58,6 @@ func publishCrawlOrder(
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID: "b3f2a1c0-4d5e-4f6a-8b9c-0d1e2f3a4b5c",
 		Profile: yacycrawlcontract.CrawlProfile{
-			Name:            "default",
 			Scope:           yacycrawlcontract.ScopeDomain,
 			URLMustMatch:    yacycrawlcontract.MatchAll,
 			MaxDepth:        0,

@@ -15,10 +15,30 @@ const (
 	VisitDeferred
 )
 
+var noDiscoveredURLs []canonicalurl.CanonicalURL
+
 type VisitOutcome struct {
 	Conclusion     VisitConclusion
 	DeferFor       time.Duration
-	Fetched        bool
 	DiscoveredURLs []canonicalurl.CanonicalURL
 	Disposal       disposal.Reason
+}
+
+func completedOutcome(
+	reason disposal.Reason,
+	discoveredURLs []canonicalurl.CanonicalURL,
+) VisitOutcome {
+	return VisitOutcome{
+		Conclusion:     VisitCompleted,
+		DiscoveredURLs: discoveredURLs,
+		Disposal:       reason,
+	}
+}
+
+func deferredOutcome(deferFor time.Duration) VisitOutcome {
+	return VisitOutcome{Conclusion: VisitDeferred, DeferFor: deferFor}
+}
+
+func retryableOutcome() VisitOutcome {
+	return VisitOutcome{Conclusion: VisitRetryable}
 }
