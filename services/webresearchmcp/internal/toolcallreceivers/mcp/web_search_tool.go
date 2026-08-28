@@ -38,16 +38,16 @@ func (t *webSearchTool) searchWeb(
 	}
 	defer t.admission.release()
 
-	carriedResults, err := t.search.SearchResultsFor(ctx, arguments.Query, arguments.ResultLimit)
+	searchResults, err := t.search.SearchResultsFor(ctx, arguments.Query, arguments.ResultLimit)
 	if err != nil {
 		return nil, searchAnswer{}, err
 	}
-	return nil, searchAnswerFrom(carriedResults), nil
+	return nil, searchAnswerFrom(searchResults), nil
 }
 
-func searchAnswerFrom(carriedResults []websearch.SearchResult) searchAnswer {
-	results := make([]searchResult, 0, len(carriedResults))
-	for _, result := range carriedResults {
+func searchAnswerFrom(searchResults []websearch.SearchResult) searchAnswer {
+	results := make([]searchResult, 0, len(searchResults))
+	for _, result := range searchResults {
 		results = append(results, searchResult{
 			URL:     result.URL,
 			Title:   result.Title,

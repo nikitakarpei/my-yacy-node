@@ -41,28 +41,31 @@ func NewWebSearch(cfg Config) *WebSearch {
 func (s *WebSearch) SearchResultsFor(
 	ctx context.Context,
 	query string,
-	searchResultLimit int,
+	requestedSearchResultLimit int,
 ) ([]SearchResult, error) {
-	everyResult, err := s.engine.SearchResultsFor(ctx, query)
+	engineSearchResults, err := s.engine.SearchResultsFor(ctx, query)
 	if err != nil {
 		s.progress.SearchFailed(ctx, query, err)
 		return nil, fmt.Errorf("search for %q: %w", query, err)
 	}
-	carriedResults := s.carriedResultsFrom(everyResult, searchResultLimit)
-	s.progress.SearchServed(ctx, query, len(carriedResults))
-	return carriedResults, nil
+	searchResults := s.searchResultsWithinLimitFrom(
+		engineSearchResults,
+		requestedSearchResultLimit,
+	)
+	s.progress.SearchServed(ctx, query, len(searchResults))
+	return searchResults, nil
 }
 
-func (s *WebSearch) carriedResultsFrom(
-	everyResult []SearchResult,
-	searchResultLimit int,
+func (s *WebSearch) searchResultsWithinLimitFrom(
+	engineSearchResults []SearchResult,
+	requestedSearchResultLimit int,
 ) []SearchResult {
-	carriedResultLimit := searchResultLimit
-	if carriedResultLimit <= 0 {
-		carriedResultLimit = s.searchResultLimit
+	searchResultLimit := requestedSearchResultLimit
+	if searchResultLimit <= 0 {
+		searchResultLimit = s.searchResultLimit
 	}
-	if len(everyResult) <= carriedResultLimit {
-		return everyResult
+	if len(engineSearchResults) <= searchResultLimit {
+		return engineSearchResults
 	}
-	return everyResult[:carriedResultLimit]
+	return engineSearchResults[:searchResultLimit]
 }
