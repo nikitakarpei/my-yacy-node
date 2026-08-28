@@ -91,6 +91,8 @@ deps:
       - serviceruntime
       - documentextraction
   pagemarkdowncorporajetstream:
+    mayDependOn:
+      - markdownrecall
     canUse:
       - pagemarkdownstore
       - yacycrawlcontract

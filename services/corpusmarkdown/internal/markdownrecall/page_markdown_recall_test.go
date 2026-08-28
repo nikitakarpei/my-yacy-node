@@ -30,15 +30,23 @@ type heldMarkdown struct {
 func (h heldMarkdown) MarkdownOf(
 	_ context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
-) ([]byte, time.Time, bool, error) {
+) (markdownrecall.StoredMarkdown, bool, error) {
 	if h.failure != nil {
-		return nil, time.Time{}, false, h.failure
+		return markdownrecall.StoredMarkdown{}, false, h.failure
 	}
 	markdown, held := h.byCanonicalURL[canonicalURL.String()]
 	if !held {
-		return nil, time.Time{}, false, nil
+		return markdownrecall.StoredMarkdown{}, false, nil
 	}
-	return []byte(markdown), storedAt, true, nil
+	return markdownrecall.StoredMarkdown{
+		Markdown: []byte(markdown),
+		StoredAt: storedAt,
+		Version:  versionOf(markdown),
+	}, true, nil
+}
+
+func versionOf(markdown string) string {
+	return "version-of-" + markdown
 }
 
 type recordedRedirections struct {
@@ -96,6 +104,9 @@ func TestPageOfYieldsTheMarkdownHeldUnderTheRequestedURL(t *testing.T) {
 	}
 	if page.StoredAt != storedAt {
 		t.Errorf("storedAt = %v, want %v", page.StoredAt, storedAt)
+	}
+	if page.Version != versionOf("# Hi") {
+		t.Errorf("version = %q, want %q", page.Version, versionOf("# Hi"))
 	}
 }
 

@@ -73,7 +73,9 @@ type RecallPageResponse struct {
 	CanonicalUrl string `protobuf:"bytes,1,opt,name=canonical_url,json=canonicalUrl,proto3" json:"canonical_url,omitempty"`
 	Markdown     string `protobuf:"bytes,2,opt,name=markdown,proto3" json:"markdown,omitempty"`
 	// stored_at is when the corpus last wrote this markdown, so a caller can judge its age.
-	StoredAt      *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=stored_at,json=storedAt,proto3" json:"stored_at,omitempty"`
+	StoredAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=stored_at,json=storedAt,proto3" json:"stored_at,omitempty"`
+	// version is opaque and changes only when the markdown changes.
+	Version       string `protobuf:"bytes,4,opt,name=version,proto3" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -129,17 +131,25 @@ func (x *RecallPageResponse) GetStoredAt() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *RecallPageResponse) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
 var File_corpusmarkdown_v1_markdowncorpus_proto protoreflect.FileDescriptor
 
 const file_corpusmarkdown_v1_markdowncorpus_proto_rawDesc = "" +
 	"\n" +
 	"&corpusmarkdown/v1/markdowncorpus.proto\x12\x11corpusmarkdown.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"%\n" +
 	"\x11RecallPageRequest\x12\x10\n" +
-	"\x03url\x18\x01 \x01(\tR\x03url\"\x8e\x01\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\"\xa8\x01\n" +
 	"\x12RecallPageResponse\x12#\n" +
 	"\rcanonical_url\x18\x01 \x01(\tR\fcanonicalUrl\x12\x1a\n" +
 	"\bmarkdown\x18\x02 \x01(\tR\bmarkdown\x127\n" +
-	"\tstored_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\bstoredAt2k\n" +
+	"\tstored_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\bstoredAt\x12\x18\n" +
+	"\aversion\x18\x04 \x01(\tR\aversion2k\n" +
 	"\x0eMarkdownCorpus\x12Y\n" +
 	"\n" +
 	"RecallPage\x12$.corpusmarkdown.v1.RecallPageRequest\x1a%.corpusmarkdown.v1.RecallPageResponseB\\ZZgithub.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/corpusmarkdown/v1;corpusmarkdownv1b\x06proto3"

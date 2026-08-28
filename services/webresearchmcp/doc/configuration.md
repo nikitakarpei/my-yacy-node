@@ -30,6 +30,7 @@ The service is configured entirely through environment variables.
 | Variable | Default | Meaning |
 |---|---|---|
 | `PAGE_FETCH_CHARACTER_LIMIT` | `5000` | Characters of markdown a page answer carries. |
+| `SEARCH_RESULT_LIMIT` | `10` | Results a search answer carries. |
 | `TOOL_CALL_CONCURRENCY` | `8` | Tool calls the service works on at once. |
 
 A call that names its own limit is answered with that limit in place of this one.

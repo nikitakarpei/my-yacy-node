@@ -11,11 +11,17 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
+type StoredMarkdown struct {
+	Markdown []byte
+	StoredAt time.Time
+	Version  string
+}
+
 type PageMarkdownCorpus interface {
 	MarkdownOf(
 		ctx context.Context,
 		canonicalURL canonicalurl.CanonicalURL,
-	) ([]byte, time.Time, bool, error)
+	) (StoredMarkdown, bool, error)
 }
 
 type PageRedirections interface {
@@ -27,8 +33,7 @@ type PageRedirections interface {
 
 type RecalledPage struct {
 	MarkdownURL canonicalurl.CanonicalURL
-	Markdown    []byte
-	StoredAt    time.Time
+	StoredMarkdown
 }
 
 type PageMarkdownRecall struct {
@@ -62,13 +67,9 @@ func (r *PageMarkdownRecall) pageUnder(
 	ctx context.Context,
 	markdownURL canonicalurl.CanonicalURL,
 ) (RecalledPage, bool, error) {
-	markdown, storedAt, held, err := r.corpus.MarkdownOf(ctx, markdownURL)
+	stored, held, err := r.corpus.MarkdownOf(ctx, markdownURL)
 	if err != nil || !held {
 		return RecalledPage{}, false, err
 	}
-	return RecalledPage{
-		MarkdownURL: markdownURL,
-		Markdown:    markdown,
-		StoredAt:    storedAt,
-	}, true, nil
+	return RecalledPage{MarkdownURL: markdownURL, StoredMarkdown: stored}, true, nil
 }
