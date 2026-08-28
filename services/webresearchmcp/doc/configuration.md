@@ -8,10 +8,6 @@ The service is configured entirely through environment variables.
 |---|---|---|
 | `SEARXNG_URL` | required | SearXNG instance every search goes to. |
 | `SEARXNG_SEARCH_DEADLINE` | `10s` | Time limit on one search. |
-| `SEARXNG_RESULT_LINK_DISABLE_HEADER` | `X-Result-Link-Router-Disable` | Header each search sends to keep the result links as they are. |
-
-Set the header to the name the `searxng-result-router` plugin is configured with. A
-different name leaves the plugin rewriting the result links.
 
 ## Scraping
 

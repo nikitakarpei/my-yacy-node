@@ -23,6 +23,8 @@ asks the stack to scrape that page first.
   answers with the markdown of one page.
 * A search SHALL answer with the results the configured SearXNG returns, in the order
   SearXNG returns them.
+* A search SHALL ask the configured SearXNG to leave the result links as they are.
+* A search answer SHALL carry the destination link of each result.
 * A page call SHALL ask for a scrape of that page, unless it names a version.
 * A page call SHALL wait for the scrape it asked for, and SHALL stop waiting when that
   scrape ends or when the wait ends, whichever comes first.
