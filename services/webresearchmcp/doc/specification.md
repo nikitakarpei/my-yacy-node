@@ -23,53 +23,47 @@ asks the stack to scrape that page first.
   answers with the markdown of one page.
 * A search SHALL answer with the results the configured SearXNG returns, in the order
   SearXNG returns them.
-* A search SHALL ask the configured SearXNG to leave the result links as they are.
-* A search answer SHALL carry the destination link of each result.
+* A search answer SHALL carry the link each result points at, and not a link that routes
+  the caller through the operator's stack.
 * A search answer SHALL carry at most the configured number of results, taken from the
   start of what SearXNG returns.
 * A search MAY name its own number of results, which SHALL replace the configured one.
-* A page call SHALL ask for a scrape of that page, unless it names a version.
-* A page call SHALL wait for the scrape it asked for, and SHALL stop waiting when that
-  scrape ends or when the wait ends, whichever comes first.
-* A page call SHALL answer with the markdown the corpus holds for the page when it stops
-  waiting.
+* A page call SHALL ask for a scrape only when the corpus holds no markdown for the page,
+  or holds markdown older than the age the call tolerates.
+* A page call that names a version SHALL ask for no scrape.
+* A page call SHALL wait for the scrape it asked for, until it ends or the wait runs out.
+* A page call SHALL answer with the markdown the corpus holds when it stops waiting.
 * A page call SHALL answer that no markdown is available if the corpus holds none.
+* A page call MAY name its own character limit or tolerated age, which SHALL replace the
+  configured one.
+* A tolerated age smaller than the configured one SHALL NOT replace it.
+* A page call MAY name the version it read before, to read more of that same version.
 * A page answer SHALL carry the URL of the page, the version the corpus holds for it, and
   the time the corpus stored that version.
-* A page answer SHALL say whether the page was read from the web for this call.
-* A page answer SHALL carry the first characters of the markdown, up to the limit for that
-  call.
-* A page answer that carries less than the whole markdown SHALL say so, and SHALL carry how
-  many characters the whole markdown has.
-* A page call MAY name its own limit, which SHALL replace the configured one.
-* A page call MAY name the version it read before, to read more of that same version.
-* A page answer to a call that names a version SHALL say whether it carries that version.
-* The service SHALL let operators configure the SearXNG it searches, the broker it asks for
-  scrapes, and the corpus it reads markdown from.
-* The service SHALL let operators configure how long it waits for a scrape, the limit a
-  page answer carries, and the number of results a search answer carries.
+* A page answer SHALL say whether the call fetched the page, could not read it, ran out of
+  wait, or needed no fetch.
+* A page answer SHALL carry the first characters of the markdown, up to the call's limit.
+* An answer that carries less than the whole markdown SHALL say so, and SHALL carry how many
+  characters the whole markdown has.
+* The service SHALL let operators configure every dependency it reaches, every deadline it
+  applies, and every limit an answer carries.
 
 ## Non-Functional Requirements
 
 * The service SHALL bound every search and every page call by a deadline, whatever the state
   of SearXNG, of the broker, and of the corpus.
 * The service SHALL persist no state of its own between calls.
-* The service SHALL keep memory usage bounded independently of call volume, with an explicit
-  limit on calls in flight.
-* SearXNG and the markdown corpus SHALL each sit behind a narrow interface, so either can be
-  replaced without a change to the tools.
+* The service SHALL keep memory usage bounded independently of call volume.
 * The service SHALL expose its behavior as machine-readable metrics, including searches
-  served, pages answered, and pages answered without a read from the web.
+  served and pages answered by what became of their fetch.
 
 ## Known Limitations
 
-* The wait can end before the corpus stores the page, because the scrape is slow or because
-  the service does not learn that it ended. The caller then gets the version the corpus held
-  before, although the page can be stored soon after.
+* The wait can end before the corpus stores the page. The caller then gets the version the
+  corpus held before, although the page can be stored soon after.
 * A page answer carries only the start of a page. A caller that wants more must ask again
   with a larger limit.
-* Each call that names no version asks for a scrape again, so repeated calls make the
-  origin serve that page more than once.
+* A page call cannot read a page fresher than the age an operator configures.
 * A search asks SearXNG for its whole answer whatever number of results the caller wants,
   so a small number saves the caller reading, not SearXNG searching.
 * The corpus holds only the newest markdown of a page. A caller that asks for a version the

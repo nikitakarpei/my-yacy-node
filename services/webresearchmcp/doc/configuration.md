@@ -17,6 +17,7 @@ The service is configured entirely through environment variables.
 | `SCRAPE_REQUEST_SUBJECT` | `scrape.request` | Subject the service asks for scrapes on. |
 | `PAGE_MARKDOWN_NATS_URL` | required | NATS server that carries the outcome of each scrape. |
 | `PAGE_FETCH_WAIT` | `10s` | Time a page call waits for the scrape it asked for. |
+| `PAGE_SCRAPE_TOLERANCE` | `1h` | Age of stored markdown a page call accepts without asking for a scrape. |
 
 ## Corpus
 
@@ -33,7 +34,9 @@ The service is configured entirely through environment variables.
 | `SEARCH_RESULT_LIMIT` | `10` | Results a search answer carries. |
 | `TOOL_CALL_CONCURRENCY` | `8` | Tool calls the service works on at once. |
 
-A call that names its own limit is answered with that limit in place of this one.
+A search that names its own number of results, and a page call that names its own character
+limit or age, are answered with that value in place of the configured one. A page call may
+name an age larger than `PAGE_SCRAPE_TOLERANCE`, never a smaller one.
 
 ## Serving
 

@@ -77,7 +77,7 @@ func TestSearchCarriesAtMostTheNumberOfResultsItAsksFor(t *testing.T) {
 	}
 }
 
-func TestPageCallReadsThePageFromTheWebAndAnswersWithItsMarkdown(t *testing.T) {
+func TestPageCallFetchesThePageAndAnswersWithItsMarkdown(t *testing.T) {
 	ctx := context.Background()
 
 	session := openToolSession(t, ctx, startWebResearchStack(t, ctx))
@@ -86,8 +86,8 @@ func TestPageCallReadsThePageFromTheWebAndAnswersWithItsMarkdown(t *testing.T) {
 	if answer.URL != originCanonicalURL {
 		t.Errorf("page url = %q, want %q", answer.URL, originCanonicalURL)
 	}
-	if !answer.ReadFromWeb {
-		t.Error("page answer says the page was not read from the web, want it read for this call")
+	if answer.FetchOutcome != pageFetched {
+		t.Errorf("fetch outcome = %q, want %q", answer.FetchOutcome, pageFetched)
 	}
 	if !strings.Contains(answer.Markdown, markdownFragment) {
 		t.Errorf("page markdown = %q, want it to contain %q", answer.Markdown, markdownFragment)
@@ -109,7 +109,7 @@ func TestPageCallReadsThePageFromTheWebAndAnswersWithItsMarkdown(t *testing.T) {
 	}
 }
 
-func TestPageCallNamingAVersionAnswersThatVersionWithoutReadingAgain(t *testing.T) {
+func TestPageCallNamingAVersionAnswersThatVersionWithoutFetchingAgain(t *testing.T) {
 	ctx := context.Background()
 
 	session := openToolSession(t, ctx, startWebResearchStack(t, ctx))
@@ -139,22 +139,44 @@ func TestPageCallNamingAVersionAnswersThatVersionWithoutReadingAgain(t *testing.
 		CharacterLimit: secondReadLimit,
 		Version:        firstAnswer.Version,
 	})
-	if !secondAnswer.CarriesRequestedVersion {
-		t.Errorf(
-			"page answer says it does not carry version %q, want that version",
-			firstAnswer.Version,
-		)
-	}
 	if secondAnswer.Version != firstAnswer.Version {
 		t.Errorf("page version = %q, want %q", secondAnswer.Version, firstAnswer.Version)
 	}
-	if secondAnswer.ReadFromWeb {
-		t.Error("page answer says the page was read from the web, want the version already stored")
+	if secondAnswer.FetchOutcome != fetchNotNeeded {
+		t.Errorf("fetch outcome = %q, want %q", secondAnswer.FetchOutcome, fetchNotNeeded)
 	}
 	if !strings.HasPrefix(secondAnswer.Markdown, firstAnswer.Markdown) {
 		t.Errorf(
 			"page markdown = %q, want it to continue %q",
 			secondAnswer.Markdown, firstAnswer.Markdown,
 		)
+	}
+}
+
+func TestPageCallWithinTheToleratedAgeAnswersWithoutFetchingAgain(t *testing.T) {
+	ctx := context.Background()
+
+	session := openToolSession(t, ctx, startWebResearchStack(t, ctx))
+
+	firstAnswer := pageAnswerFor(t, ctx, session, pageCall{URL: originCanonicalURL})
+	if firstAnswer.FetchOutcome != pageFetched {
+		t.Fatalf(
+			"fetch outcome = %q, want %q",
+			firstAnswer.FetchOutcome, pageFetched,
+		)
+	}
+
+	secondAnswer := pageAnswerFor(t, ctx, session, pageCall{URL: originCanonicalURL})
+	if secondAnswer.FetchOutcome != fetchNotNeeded {
+		t.Errorf(
+			"fetch outcome = %q, want %q for markdown the corpus stored moments ago",
+			secondAnswer.FetchOutcome, fetchNotNeeded,
+		)
+	}
+	if secondAnswer.Version != firstAnswer.Version {
+		t.Errorf("page version = %q, want %q", secondAnswer.Version, firstAnswer.Version)
+	}
+	if !secondAnswer.StoredAt.Equal(firstAnswer.StoredAt) {
+		t.Errorf("stored at = %v, want %v", secondAnswer.StoredAt, firstAnswer.StoredAt)
 	}
 }

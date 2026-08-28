@@ -14,6 +14,9 @@ import (
 const (
 	searchWebToolName = "search_web"
 	readPageToolName  = "read_page"
+
+	pageFetched    = "page-fetched"
+	fetchNotNeeded = "fetch-not-needed"
 )
 
 type searchResult struct {
@@ -38,14 +41,13 @@ type pageCall struct {
 }
 
 type pageAnswer struct {
-	URL                     string    `json:"url"`
-	Version                 string    `json:"version"`
-	StoredAt                time.Time `json:"storedAt"`
-	ReadFromWeb             bool      `json:"readFromWeb"`
-	Markdown                string    `json:"markdown"`
-	MarkdownCharacterCount  int       `json:"markdownCharacterCount"`
-	Truncated               bool      `json:"truncated"`
-	CarriesRequestedVersion bool      `json:"carriesRequestedVersion"`
+	URL                    string    `json:"url"`
+	Version                string    `json:"version"`
+	StoredAt               time.Time `json:"storedAt"`
+	FetchOutcome           string    `json:"fetchOutcome"`
+	Markdown               string    `json:"markdown"`
+	MarkdownCharacterCount int       `json:"markdownCharacterCount"`
+	Truncated              bool      `json:"truncated"`
 }
 
 func openToolSession(t *testing.T, ctx context.Context, endpointURL string) *mcp.ClientSession {
