@@ -23,6 +23,8 @@ components:
     in: internal/markdownrecallreceivers/grpc/**
   pageredirectionsjetstream:
     in: internal/pageredirections/jetstream/**
+  scrapeoutcomeannouncementsnats:
+    in: internal/scrapeoutcomeannouncements/nats/**
   corpusmarkdowncmd:
     in: cmd/corpusmarkdown/**
 
@@ -100,6 +102,10 @@ deps:
       - nats
   pageredirectionsjetstream:
     canUse:
+      - nats
+  scrapeoutcomeannouncementsnats:
+    canUse:
+      - pagemarkdownstore
       - nats
   markdownrecallreceiversgrpc:
     mayDependOn:
