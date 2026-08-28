@@ -258,6 +258,25 @@ func TestVisitReportsFetchRejectedDisposal(t *testing.T) {
 	}
 }
 
+func TestVisitReportsOversizedDisposal(t *testing.T) {
+	scrapeRequests := &fakeScrapeRequests{}
+	visitor := newVisitor(
+		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchOversized}),
+		&fakeRecrawl{due: true},
+		newObserver(),
+		scrapeRequests,
+	)
+
+	outcome := visitHost(t, visitor)
+
+	if outcome.Disposal != disposal.Oversized {
+		t.Fatalf("want oversized disposal, got %q", outcome.Disposal)
+	}
+	if calls := scrapeRequests.calls(); len(calls) != 0 {
+		t.Fatalf("an oversized page should publish no scrape request, got %v", calls)
+	}
+}
+
 func TestVisitReportsLandedURLInvalidDisposal(t *testing.T) {
 	scrapeRequests := &fakeScrapeRequests{}
 	visitor := newVisitor(

@@ -9,5 +9,6 @@ const (
 	FetchDeferred
 	FetchRejected
 	FetchLandedURLInvalid
+	FetchOversized
 	FetchFailed
 )

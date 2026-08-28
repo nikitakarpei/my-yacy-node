@@ -162,7 +162,7 @@ func TestFetchNotModifiedKeepsTheSentPageVersion(t *testing.T) {
 	}
 }
 
-func TestFetchTruncatesOversizedBody(t *testing.T) {
+func TestFetchReportsAnOversizedBody(t *testing.T) {
 	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
 		_, _ = w.Write([]byte("0123456789"))
 	})
@@ -176,9 +176,11 @@ func TestFetchTruncatesOversizedBody(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !outcome.Page.Truncated || len(outcome.Page.Body) != 4 {
-		t.Fatalf("expected truncation to 4 bytes, got %d truncated=%v",
-			len(outcome.Page.Body), outcome.Page.Truncated)
+	if outcome.Status != pagefetch.FetchOversized {
+		t.Fatalf("status = %v, want oversized", outcome.Status)
+	}
+	if len(outcome.Page.Body) != 0 {
+		t.Fatalf("an oversized page should carry no body, got %d bytes", len(outcome.Page.Body))
 	}
 }
 

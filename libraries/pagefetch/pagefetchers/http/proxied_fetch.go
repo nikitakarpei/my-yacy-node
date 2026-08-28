@@ -127,9 +127,8 @@ func (f *ProxiedFetch) fetched(
 		)
 		return pagefetch.FetchOutcome{Status: pagefetch.FetchFailed}, nil
 	}
-	truncated := int64(len(body)) > f.maxBodyBytes
-	if truncated {
-		body = body[:f.maxBodyBytes]
+	if int64(len(body)) > f.maxBodyBytes {
+		return pagefetch.FetchOutcome{Status: pagefetch.FetchOversized}, nil
 	}
 	landedURL, err := canonicalurl.CanonicalURLOf(response.Request.URL.String())
 	if err != nil {
@@ -145,7 +144,6 @@ func (f *ProxiedFetch) fetched(
 			LandedURL:        landedURL,
 			ContentType:      response.Header.Get(headerContentType),
 			Body:             body,
-			Truncated:        truncated,
 			RobotsDirectives: response.Header.Values(headerXRobotsTag),
 		},
 		Version: pageVersionOf(response),

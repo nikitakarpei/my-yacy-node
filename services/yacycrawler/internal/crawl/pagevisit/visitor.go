@@ -70,6 +70,9 @@ func (v *visitor) concludeVisit(
 	case pagefetch.FetchLandedURLInvalid:
 		v.progress.PageFetched()
 		return completedOutcome(disposal.LandedURLInvalid, noDiscoveredURLs), nil
+	case pagefetch.FetchOversized:
+		v.progress.PageFetched()
+		return completedOutcome(disposal.Oversized, noDiscoveredURLs), nil
 	case pagefetch.FetchDeferred:
 		return deferredOutcome(fetchOutcome.DeferFor), nil
 	case pagefetch.FetchFailed:
@@ -91,9 +94,6 @@ func (v *visitor) visitFetchedPage(
 	page := fetchOutcome.Page
 	v.progress.PageFetched()
 	v.recordVisit(ctx, url, fetchOutcome.Version)
-	if page.Truncated {
-		return completedOutcome(disposal.Oversized, noDiscoveredURLs), nil
-	}
 	reading, err := pagehtmlreading.ReadingOfPage(ctx, page, v.ignoredRefusals)
 	if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
 		slog.WarnContext(ctx, msgPageHTMLUnreadable,

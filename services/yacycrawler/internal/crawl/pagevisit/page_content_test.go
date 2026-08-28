@@ -77,17 +77,6 @@ func TestVisitReportsUnsupportedMediaType(t *testing.T) {
 	}
 }
 
-func TestVisitReportsOversized(t *testing.T) {
-	page := fetchedPage(t)
-	page.Truncated = true
-
-	outcome := pageContentOutcome(t, page)
-
-	if outcome.Disposal != disposal.Oversized {
-		t.Fatalf("want oversized disposal, got %q", outcome.Disposal)
-	}
-}
-
 func TestVisitHonorsMetaNoIndex(t *testing.T) {
 	outcome := pageContentOutcome(t, pageHolding(t, pageRefusingIndexing))
 
