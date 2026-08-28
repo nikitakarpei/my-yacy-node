@@ -25,6 +25,7 @@ type Visitor interface {
 
 type visitor struct {
 	fetcher         pagefetch.Fetcher
+	clock           Clock
 	recrawl         RecrawlRule
 	ignoredRefusals pagerefusals.IgnoredRefusals
 	progress        VisitProgress
@@ -42,11 +43,22 @@ func (v *visitor) Visit(
 	if !decision.Due {
 		return completedOutcome(disposal.NotDue, noDiscoveredURLs), nil
 	}
-	fetchOutcome, err := v.fetcher.Fetch(ctx, url, decision.Version)
+	fetchOutcome, err := v.fetchPage(ctx, url, decision.Version)
 	if err != nil {
 		return VisitOutcome{}, fmt.Errorf("fetch %s: %w", url, err)
 	}
 	return v.concludeVisit(ctx, url, fetchOutcome)
+}
+
+func (v *visitor) fetchPage(
+	ctx context.Context,
+	url canonicalurl.CanonicalURL,
+	knownVersion pagefetch.PageVersion,
+) (pagefetch.FetchOutcome, error) {
+	start := v.clock.Now()
+	outcome, err := v.fetcher.Fetch(ctx, url, knownVersion)
+	v.progress.FetchTook(v.clock.Now().Sub(start))
+	return outcome, err
 }
 
 func (v *visitor) concludeVisit(

@@ -27,8 +27,6 @@ components:
     in: internal/crawl/visitclaim/**
   visitintake:
     in: internal/crawl/visitintake/**
-  fetchtiming:
-    in: internal/crawl/fetchtiming/**
   pagevisit:
     in: internal/crawl/pagevisit/**
   pagehtml:
@@ -130,9 +128,6 @@ deps:
       - canonicalurl
       - yacycrawlcontract
       - serviceruntime
-  fetchtiming:
-    canUse:
-      - pagefetch
   pagehtml:
     canUse:
       - nethtml
@@ -216,7 +211,6 @@ deps:
       - orderintake
       - visitintake
       - pagevisit
-      - fetchtiming
       - disposal
     canUse:
       - prometheus

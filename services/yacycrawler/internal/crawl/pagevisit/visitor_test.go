@@ -83,15 +83,33 @@ func (f *fakeRecrawl) calls() []visitedCall {
 	return append([]visitedCall(nil), f.visitedCalls...)
 }
 
+type steppingClock struct {
+	now  time.Time
+	step time.Duration
+}
+
+func (c *steppingClock) Now() time.Time {
+	current := c.now
+	c.now = c.now.Add(c.step)
+	return current
+}
+
 type recordingObserver struct {
 	mu                      sync.Mutex
 	refusals                map[string]int
+	fetchDurations          []time.Duration
 	fetched                 int
 	scrapeRequestsPublished int
 }
 
 func newObserver() *recordingObserver {
 	return &recordingObserver{refusals: map[string]int{}}
+}
+
+func (o *recordingObserver) FetchTook(duration time.Duration) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.fetchDurations = append(o.fetchDurations, duration)
 }
 
 func (o *recordingObserver) PageFetched() {
@@ -163,6 +181,8 @@ func unreadableOutcome(t *testing.T) pagefetch.FetchOutcome {
 	return outcome
 }
 
+const fetchStep = 250 * time.Millisecond
+
 func fetchOf(outcome pagefetch.FetchOutcome) *fakeFetch {
 	return &fakeFetch{outcome: outcome}
 }
@@ -183,7 +203,13 @@ func newVisitorFor(
 	observer *recordingObserver,
 	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.VisitorFor {
-	return pagevisit.New(fetcher, recrawl, observer, scrapeRequests)
+	return pagevisit.New(
+		fetcher,
+		&steppingClock{now: time.Unix(0, 0), step: fetchStep},
+		recrawl,
+		observer,
+		scrapeRequests,
+	)
 }
 
 func visitHost(t *testing.T, visitor pagevisit.Visitor) pagevisit.VisitOutcome {
@@ -402,6 +428,55 @@ func TestVisitFetchErrorFails(t *testing.T) {
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
 	); err == nil {
 		t.Fatal("fetch error should fail the visit")
+	}
+}
+
+func TestVisitReportsHowLongTheFetchTook(t *testing.T) {
+	observer := newObserver()
+
+	visitHost(t, newVisitor(
+		fetchOf(fetchedOutcome(t)),
+		&fakeRecrawl{due: true},
+		observer,
+		&fakeScrapeRequests{},
+	))
+
+	if len(observer.fetchDurations) != 1 || observer.fetchDurations[0] != fetchStep {
+		t.Fatalf("want one %v fetch observed, got %v", fetchStep, observer.fetchDurations)
+	}
+}
+
+func TestVisitReportsHowLongAFailedFetchTook(t *testing.T) {
+	observer := newObserver()
+	visitor := newVisitor(
+		&fakeFetch{err: errors.New("boom")},
+		&fakeRecrawl{due: true},
+		observer,
+		&fakeScrapeRequests{},
+	)
+
+	_, _ = visitor.Visit(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	)
+
+	if len(observer.fetchDurations) != 1 || observer.fetchDurations[0] != fetchStep {
+		t.Fatalf("want one %v fetch observed, got %v", fetchStep, observer.fetchDurations)
+	}
+}
+
+func TestVisitReportsNoFetchDurationWhenNotDue(t *testing.T) {
+	observer := newObserver()
+
+	visitHost(t, newVisitor(
+		fetchOf(fetchedOutcome(t)),
+		&fakeRecrawl{due: false},
+		observer,
+		&fakeScrapeRequests{},
+	))
+
+	if len(observer.fetchDurations) != 0 {
+		t.Fatalf("want no fetch observed, got %v", observer.fetchDurations)
 	}
 }
 

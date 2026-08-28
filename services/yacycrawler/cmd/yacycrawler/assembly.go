@@ -19,7 +19,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	acceptedordersjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/acceptedorders/jetstream"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/fetchtiming"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
@@ -326,7 +325,8 @@ func buildVisitorFor(
 		return nil, err
 	}
 	return pagevisit.New(
-		fetchtiming.New(metrics, wallclock.Clock{}, fetch),
+		fetch,
+		wallclock.Clock{},
 		recrawl,
 		metrics,
 		scraperequestsjetstream.New(brokers.scrapeRequests),

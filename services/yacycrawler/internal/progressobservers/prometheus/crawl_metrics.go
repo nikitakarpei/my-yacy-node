@@ -115,6 +115,6 @@ func (m *CrawlMetrics) LinkDiscoveryRefusalHonored() {
 	m.refusalsHonored.WithLabelValues(demandLinkDiscoveryRefusal).Inc()
 }
 
-func (m *CrawlMetrics) FetchCompleted(elapsed time.Duration) {
-	m.fetchDurationSecs.Observe(elapsed.Seconds())
+func (m *CrawlMetrics) FetchTook(duration time.Duration) {
+	m.fetchDurationSecs.Observe(duration.Seconds())
 }

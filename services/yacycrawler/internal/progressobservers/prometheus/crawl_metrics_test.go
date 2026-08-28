@@ -27,7 +27,7 @@ func TestMetricsRecordAndExpose(t *testing.T) {
 	metrics.DeferralHonored()
 	metrics.IndexingRefusalHonored()
 	metrics.LinkDiscoveryRefusalHonored()
-	metrics.FetchCompleted(250 * time.Millisecond)
+	metrics.FetchTook(250 * time.Millisecond)
 
 	recorder := httptest.NewRecorder()
 	promhttp.HandlerFor(registry, promhttp.HandlerOpts{}).
