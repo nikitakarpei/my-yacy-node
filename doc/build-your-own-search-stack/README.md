@@ -15,7 +15,8 @@ The chapters are best read in order the first time. After that, chapters/ works 
 | 5 | [Decide how far a crawl goes from one result](chapters/05-decide-how-far-a-crawl-goes-from-one-result) |
 | 6 | [Index pages that JavaScript builds](chapters/06-index-pages-that-javascript-builds) |
 | 7 | [Share one fetch between three readers](chapters/07-share-one-fetch-between-three-readers) |
-| 8 | [Collect metrics from every service](chapters/08-collect-metrics-from-every-service) |
-| 9 | [Watch the stack on dashboards](chapters/09-watch-the-stack-on-dashboards) |
-| 10 | [Put a web archive into your index](chapters/10-put-a-web-archive-into-your-index) |
-| 11 | [Keep every page as a WARC file](chapters/11-keep-every-page-as-a-warc-file) |
+| 8 | [Put a web archive into your index](chapters/08-put-a-web-archive-into-your-index) |
+| 9 | [Keep every page as a WARC file](chapters/09-keep-every-page-as-a-warc-file) |
+| 10 | [Let an AI assistant search and read your web](chapters/10-let-an-ai-assistant-search-and-read-your-web) |
+| 11 | [Collect metrics from every service](chapters/11-collect-metrics-from-every-service) |
+| 12 | [Watch the stack on dashboards](chapters/12-watch-the-stack-on-dashboards) |

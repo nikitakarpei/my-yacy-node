@@ -1,4 +1,4 @@
-# 10. Put a web archive into your index
+# 8. Put a web archive into your index
 
 > "Can I supply my index from web archives?"
 

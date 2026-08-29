@@ -53,3 +53,6 @@ waited for another service's fetch instead of starting its own.
 ## Where you are now
 
 One page, one visit to the origin, however many services want it.
+
+Every page in your index is one the live web served you, so a page that is gone
+is out of your reach, even when somebody kept a copy of it.

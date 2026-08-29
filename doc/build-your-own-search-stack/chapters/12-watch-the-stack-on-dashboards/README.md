@@ -1,4 +1,4 @@
-# 9. Watch the stack on dashboards
+# 12. Watch the stack on dashboards
 
 > "Can I see all of it at once instead?"
 
@@ -21,10 +21,10 @@ Open `http://localhost:3000`. No login.
 
 ## Where you are now
 
-You have a search engine that crawls what you read, an index you can query,
-and a peer trading postings with the rest of the network — with enough
-instruments to see all of it working.
+You have a search engine that crawls what you read, an index you can query, a
+peer trading postings with the rest of the network, an AI assistant working
+through all of it, and enough instruments to see it working.
 
-What you do not have is the past. Your index holds what the live web served you,
-so a page that is gone is out of your reach, even when someone kept a copy of
-it.
+The rest is tuning. `side-roads/` holds the alternatives worth knowing about,
+and every `configuration.md` under `services/` documents settings this journey
+left at their defaults.

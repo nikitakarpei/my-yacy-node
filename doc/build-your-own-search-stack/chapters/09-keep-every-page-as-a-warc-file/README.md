@@ -1,4 +1,4 @@
-# 11. Keep every page as a WARC file
+# 9. Keep every page as a WARC file
 
 > "Can I save what I crawl in a format anyone can open?"
 
@@ -47,7 +47,7 @@ was on the day you crawled it, with nothing to install.
 
 * Hand them to someone else, add them to a web archive that is already running,
   or take a copy of one. They load in pywb, OpenWayback and replayweb.page.
-* Copy a closed file into `imported/`, and the command from chapter 10 builds
+* Copy a closed file into `imported/`, and the command from chapter 8 builds
   your index again from your own disk, with no request to the live web.
 
 ## Disk
@@ -65,6 +65,6 @@ you read on your disk, until you remove the files yourself.
 You have a search stack that indexes the live web, any archive you are given or
 allowed to ask, and the pages themselves, in a format that outlives this stack.
 
-The rest is tuning. `side-roads/` holds the alternatives worth knowing about,
-and every `configuration.md` under `services/` documents settings this journey
-left at their defaults.
+Everything you have built so far answers a person at a browser. The AI
+assistant you ask questions of still searches and fetches through somebody
+else's service.

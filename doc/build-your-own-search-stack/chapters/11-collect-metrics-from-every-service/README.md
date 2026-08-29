@@ -1,9 +1,8 @@
-# 8. Collect metrics from every service
+# 11. Collect metrics from every service
 
 > "What happens if one of them falls behind?"
 
-By now a dozen containers fetch, index, and trade pages without telling you
-much. Each one already publishes metrics — pages fetched, pages refused,
+Each service already publishes metrics — pages fetched, pages refused,
 failures, and how far behind a reader is — and nothing has been reading them.
 Prometheus reads all of it on a timer, and `nats-metrics` adds what the broker
 knows about its own streams.

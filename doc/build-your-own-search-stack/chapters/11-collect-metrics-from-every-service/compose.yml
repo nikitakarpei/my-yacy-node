@@ -1,9 +1,94 @@
 services:
+  warcprox:
+    build:
+      context: ../../building-blocks/warcprox
+    restart: unless-stopped
+    command:
+      - "--address=0.0.0.0"
+      - "--port=8000"
+      - "--dir=/warcs"
+      - "--gzip"
+      - "--prefix=CRAWL"
+      - "--cacert=/ca/warcprox-ca.pem"
+      - "--certs-dir=/ca/certs"
+      - "--rollover-idle-time=300"
+      - "--dedup-db-file=/state/dedup.sqlite"
+    volumes:
+      - ./warcs:/warcs
+      - warcprox-ca:/ca
+      - warcprox-state:/state
+    networks:
+      default:
+        ipv4_address: 10.99.0.10
+      archive:
+
+  warcprox-trust:
+    build:
+      context: ../../building-blocks/warcprox
+    depends_on:
+      - warcprox
+    volumes:
+      - warcprox-ca:/ca
+      - warcprox-trust:/trust
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        until [ -s /ca/warcprox-ca.pem ]; do sleep 1; done
+        cat /etc/ssl/certs/ca-certificates.crt > /trust/ca-certificates.crt
+        sed -n '/BEGIN CERTIFICATE/,/END CERTIFICATE/p' /ca/warcprox-ca.pem >> /trust/ca-certificates.crt
+
   smokescreen:
     build:
       context: ../../building-blocks/smokescreen
     restart: unless-stopped
-    command: ["--listen-ip", "0.0.0.0"]
+    depends_on:
+      - warcprox
+    command:
+      - "--listen-ip"
+      - "0.0.0.0"
+      - "--upstream-http-proxy-addr"
+      - "http://warcprox:8000"
+      - "--upstream-https-proxy-addr"
+      - "http://warcprox:8000"
+      - "--allow-address"
+      - "10.99.0.10:8000"
+      - "--allow-address"
+      - "10.99.1.11:8080"
+    networks:
+      - default
+      - archive
+
+  pywb:
+    image: docker.io/webrecorder/pywb:2.9.1
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        mkdir -p /webarchive/collections/imported/indexes
+        exec wayback -a --auto-interval 30 -b 0.0.0.0 -p 8080
+    ports:
+      - "127.0.0.1:8081:8080"
+    volumes:
+      - ./imported:/webarchive/collections/imported/archive:ro
+      - pywb-indexes:/webarchive/collections/imported/indexes
+    networks:
+      archive:
+        ipv4_address: 10.99.1.11
+
+  webarchivescrape:
+    image: ghcr.io/nikitakarpei/webarchivescrape:latest
+    profiles:
+      - console
+    depends_on:
+      scrape-requests-stream:
+        condition: service_completed_successfully
+      pywb:
+        condition: service_started
+    environment:
+      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
+    networks:
+      - default
+      - archive
 
   nats:
     image: nats:2.14.2
@@ -42,7 +127,10 @@ services:
     image: lightpanda/browser:0.3.4
     restart: unless-stopped
     depends_on:
-      - smokescreen
+      warcprox-trust:
+        condition: service_completed_successfully
+    volumes:
+      - warcprox-trust:/etc/ssl/certs:ro
     command:
       - "/bin/lightpanda"
       - "serve"
@@ -62,9 +150,12 @@ services:
     depends_on:
       - lightpanda
       - smokescreen
+    volumes:
+      - warcprox-trust:/trust:ro
     environment:
       RENDERPROXY_CDP_URL: ws://lightpanda:9222
       EGRESS_PROXY_URL: http://smokescreen:4750
+      SSL_CERT_FILE: /trust/ca-certificates.crt
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   squid:
@@ -114,6 +205,21 @@ services:
       SEARCH_INDEX_ENGINE: manticore
       MANTICORE_URL: http://manticore:9308
       CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  corpusmarkdown:
+    image: ghcr.io/nikitakarpei/corpusmarkdown:latest
+    restart: unless-stopped
+    depends_on:
+      scrape-requests-stream:
+        condition: service_completed_successfully
+      squid:
+        condition: service_started
+    environment:
+      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
+      PAGE_MARKDOWN_NATS_URL: nats://nats:4222
+      SCRAPE_PROXY_URL: http://squid:3128
+      SCRAPE_PROXY_DIAL_MODE: absolute-url
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   searxng-engines-seed:
@@ -171,6 +277,21 @@ services:
       - ../../building-blocks/searxng/settings-visit-links.yml:/etc/searxng/settings.yml:ro
       - searxng-engines:/usr/local/searxng/searx/engines
       - searxng-plugins:/opt/searxng-plugins:ro
+
+  webresearchmcp:
+    image: ghcr.io/nikitakarpei/webresearchmcp:latest
+    restart: unless-stopped
+    depends_on:
+      - corpusmarkdown
+      - searxng
+    ports:
+      - "127.0.0.1:8095:8095"
+    environment:
+      SEARXNG_URL: http://searxng:8080
+      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
+      PAGE_MARKDOWN_NATS_URL: nats://nats:4222
+      CORPUSMARKDOWN_ADDR: corpusmarkdown:8094
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   caddy:
     image: docker.io/library/caddy:2.11.4-alpine
@@ -240,31 +361,28 @@ services:
       - ../../building-blocks/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
 
-  grafana:
-    image: grafana/grafana:11.4.0
-    restart: unless-stopped
-    depends_on:
-      - prometheus
-    ports:
-      - "127.0.0.1:3000:3000"
-    environment:
-      GF_AUTH_ANONYMOUS_ENABLED: "true"
-      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
-      GF_AUTH_DISABLE_LOGIN_FORM: "true"
-    volumes:
-      - ../../building-blocks/grafana/provisioning:/etc/grafana/provisioning:ro
-      - ../../../../services/yacynode/doc/grafana-dashboard.json:/var/lib/grafana/dashboards/yacynode.json:ro
-      - ../../../../services/yacycrawler/doc/grafana-dashboard.json:/var/lib/grafana/dashboards/yacycrawler.json:ro
-      - grafana-data:/var/lib/grafana
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 10.99.0.0/24
+  archive:
+    internal: true
+    ipam:
+      config:
+        - subnet: 10.99.1.0/24
 
 volumes:
+  warcprox-ca:
+  warcprox-state:
+  warcprox-trust:
+  pywb-indexes:
   nats-data:
   squid-data:
-  prometheus-data:
-  grafana-data:
   yacy-data:
   manticore-data:
   searxng-engines:
   searxng-plugins:
   caddy-data:
   caddy-config:
+  prometheus-data:
