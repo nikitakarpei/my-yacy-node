@@ -73,3 +73,9 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-webarchivescrape.yml
     secrets: inherit
+
+  build-webresearchmcp:
+    needs: verify
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/build-webresearchmcp.yml
+    secrets: inherit
