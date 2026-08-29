@@ -48,7 +48,7 @@ func OpenEngine(path string, quotaBytes int64) (vault.Engine, error) {
 		return nil, fmt.Errorf("create storage directory: %w", err)
 	}
 
-	db, err := bolt.Open(path, 0o600, nil)
+	db, err := bolt.Open(path, 0o600, &bolt.Options{FreelistType: bolt.FreelistMapType})
 	if err != nil {
 		return nil, fmt.Errorf("open storage: %w", err)
 	}
