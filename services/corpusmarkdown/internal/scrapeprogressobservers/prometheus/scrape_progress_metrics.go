@@ -13,15 +13,16 @@ import (
 )
 
 type ScrapeProgressMetrics struct {
-	scrapeRequestsReceived         prometheus.Counter
-	originFetchFailures            prometheus.Counter
-	originFetchDeferrals           prometheus.Counter
-	documentExtractionFailures     prometheus.Counter
-	markdownCorpusWriteFailures    prometheus.Counter
-	redirectionRecordWriteFailures prometheus.Counter
-	nothingToScrape                prometheus.Counter
-	noMarkdownDerived              prometheus.Counter
-	pagesStored                    prometheus.Counter
+	scrapeRequestsReceived            prometheus.Counter
+	originFetchFailures               prometheus.Counter
+	originFetchDeferrals              prometheus.Counter
+	documentExtractionFailures        prometheus.Counter
+	markdownCorpusWriteFailures       prometheus.Counter
+	redirectionRecordWriteFailures    prometheus.Counter
+	nothingToScrape                   prometheus.Counter
+	noMarkdownDerived                 prometheus.Counter
+	pagesStored                       prometheus.Counter
+	scrapeOutcomeAnnouncementFailures prometheus.Counter
 }
 
 func New(registry prometheus.Registerer) *ScrapeProgressMetrics {
@@ -62,6 +63,10 @@ func New(registry prometheus.Registerer) *ScrapeProgressMetrics {
 			Name: "corpusmarkdown_pages_stored_total",
 			Help: "Pages written to the object store.",
 		}),
+		scrapeOutcomeAnnouncementFailures: prometheus.NewCounter(prometheus.CounterOpts{
+			Name: "corpusmarkdown_scrape_outcome_announcement_failures_total",
+			Help: "Settled scrape requests whose outcome could not be announced to waiting callers.",
+		}),
 	}
 	registry.MustRegister(
 		metrics.scrapeRequestsReceived,
@@ -73,6 +78,7 @@ func New(registry prometheus.Registerer) *ScrapeProgressMetrics {
 		metrics.nothingToScrape,
 		metrics.noMarkdownDerived,
 		metrics.pagesStored,
+		metrics.scrapeOutcomeAnnouncementFailures,
 	)
 	return metrics
 }
@@ -137,4 +143,12 @@ func (m *ScrapeProgressMetrics) RedirectionRecordWriteFailed(
 
 func (m *ScrapeProgressMetrics) MarkdownStored(_ context.Context, _, _ canonicalurl.CanonicalURL) {
 	m.pagesStored.Inc()
+}
+
+func (m *ScrapeProgressMetrics) ScrapeOutcomeAnnouncementFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ error,
+) {
+	m.scrapeOutcomeAnnouncementFailures.Inc()
 }

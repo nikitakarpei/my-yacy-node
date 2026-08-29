@@ -30,14 +30,19 @@ func Start(t *testing.T) string {
 
 func ConnectJetStream(t *testing.T, url string) jetstream.JetStream {
 	t.Helper()
-	nc, err := nats.Connect(url)
-	if err != nil {
-		t.Fatalf("connect nats: %v", err)
-	}
-	t.Cleanup(nc.Close)
-	js, err := jetstream.New(nc)
+	js, err := jetstream.New(Connect(t, url))
 	if err != nil {
 		t.Fatalf("init jetstream: %v", err)
 	}
 	return js
+}
+
+func Connect(t *testing.T, url string) *nats.Conn {
+	t.Helper()
+	connection, err := nats.Connect(url)
+	if err != nil {
+		t.Fatalf("connect nats: %v", err)
+	}
+	t.Cleanup(connection.Close)
+	return connection
 }

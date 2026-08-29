@@ -1,44 +1,33 @@
 # 3. Search your index from a browser
 
-> "Can I search my own pages, from this machine, by word?"
+> "Can I search my own crawl from a browser?"
 
-Postings are built for the DHT: they answer "which peer knows this word" rather
-than "show me the page". For your own searching you want a full-text index, so
-this chapter adds a second reader of the same scrape requests.
+The peer serves the shared reverse word index to other YaCy peers. A full-text
+index and search page make your crawl searchable on your machine.
 
-`corpustext` reads every scrape request, fetches the page, and writes its text
-into `manticore`. `searxng` gives you the page to type into. It queries
-Manticore through the `crawled_text_search` engine, alongside the web engines it
-ships with, and merges both into one list. Your crawled pages and the live web
-sit in the same results.
+## What this chapter adds
 
-Manticore is here because it indexes a few hundred thousand pages inside a few
-hundred megabytes. Elasticsearch does the same job with more memory; see
-`side-roads/elasticsearch` if you already run one.
+- `corpustext` puts text from crawled pages into your local search index.
+- `manticore` keeps the local full-text index.
+- `searxng` shows local and live web results on one search page.
+- The `searxng-crawled-text-search` plugin lets SearXNG search that index.
 
-## The change
+## Start
 
-```sh
-printf 'SEARXNG_SECRET=%s\n' "$(openssl rand -hex 32)" >> .env
-```
-
-`CORPUSTEXT_LANGUAGES` decides which per-language indices exist. `en` is the
-default; add more as a comma-separated list.
-
-## Try it
+Start the stack before you submit a crawl:
 
 ```sh
 docker compose up -d
 ```
 
-Open `http://localhost:8080` and search for a phrase from a page you crawled in
-the previous chapter. Prefix a query with `!ct` to see the local index alone.
+## Use
 
-Nothing came back? `corpustext` only indexes pages requested after it started.
-Order that crawl again — the crawler skips a URL it fetched within the last
-hour, so give it `YACYCRAWLER_RECRAWL_GRACE=0` or wait.
+Submit a crawl with the [chapter 2 command](../02-give-your-peer-a-crawler#use).
+Open `http://localhost:8080` and search for text from a crawled page. Prefix the
+query with `!ct` to show only the local index.
 
-## Where you are now
+## More information
 
-You have a search page over your own crawl. Growing that crawl still means
-writing JSON by hand.
+- [Full-text indexer configuration](../../../../services/corpustext/doc/configuration.md)
+- [SearXNG local search configuration](../../../../plugins/searxng/searxng-crawled-text-search/doc/configuration.md)
+- [Elasticsearch alternative](../../side-roads/elasticsearch)

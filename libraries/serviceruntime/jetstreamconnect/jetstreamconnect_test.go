@@ -9,16 +9,14 @@ import (
 
 func TestOpenConnectsAndCloses(t *testing.T) {
 	url := natstestserver.Start(t)
-	js, closer, err := jetstreamconnect.Open(url)
+	js, connection, err := jetstreamconnect.Open(url)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
 	if js == nil {
 		t.Fatal("Open returned nil jetstream")
 	}
-	if err := closer.Close(); err != nil {
-		t.Fatalf("Close: %v", err)
-	}
+	connection.Close()
 }
 
 func TestOpenRejectsUnreachable(t *testing.T) {

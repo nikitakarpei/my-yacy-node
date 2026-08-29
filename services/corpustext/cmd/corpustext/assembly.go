@@ -31,7 +31,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
-	defer func() { _ = conn.Close() }()
+	defer conn.Close()
 	consumer, err := scrapeRequestConsumerFor(ctx, js, cfg)
 	if err != nil {
 		return err

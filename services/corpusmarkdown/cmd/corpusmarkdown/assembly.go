@@ -16,6 +16,7 @@ import (
 	markdownrecallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/grpc"
 	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
 	pageredirectionsjetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageredirections/jetstream"
+	scrapeoutcomeannouncementsnats "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/scrapeoutcomeannouncements/nats"
 	scrapeprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/scrapeprogressobservers/applog"
 	scrapeprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/scrapeprogressobservers/prometheus"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
@@ -39,14 +40,14 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
-	defer func() { _ = scrapeRequestConnection.Close() }()
+	defer scrapeRequestConnection.Close()
 	pageMarkdownJetStream, pageMarkdownConnection, err := jetstreamconnect.Open(
 		cfg.PageMarkdownNATSURL,
 	)
 	if err != nil {
 		return err
 	}
-	defer func() { _ = pageMarkdownConnection.Close() }()
+	defer pageMarkdownConnection.Close()
 
 	consumer, err := scrapeRequestConsumerFor(ctx, scrapeRequestJetStream, cfg)
 	if err != nil {
@@ -60,6 +61,9 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	if err != nil {
 		return err
 	}
+	announcements := scrapeoutcomeannouncementsnats.NewScrapeOutcomeAnnouncements(
+		pageMarkdownConnection,
+	)
 	formatDerivations, err := pageformats.New()
 	if err != nil {
 		return err
@@ -83,6 +87,7 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		FormatDerivations:              formatDerivations,
 		Corpus:                         corpus,
 		Redirections:                   redirections,
+		Announcements:                  announcements,
 		Progress:                       progress,
 		ScrapeRequestIntakeConcurrency: cfg.ScrapeRequestIntakeConcurrency,
 	})

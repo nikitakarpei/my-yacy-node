@@ -30,7 +30,11 @@ store, and serves that markdown back to callers that ask for one URL.
   leave the store unchanged and SHALL NOT be fetched again for that message.
 * While the fetch or the object store is unavailable, the service SHALL drop no page,
   resuming once it returns.
+* The service SHALL announce the outcome of every scrape request it settles, whether it
+  stored markdown for the page or gave that page up.
 * The service SHALL serve the markdown it holds for a requested URL over gRPC.
+* The service SHALL answer with an opaque version of the markdown it serves, which changes
+  only when that markdown changes.
 * For a URL the service holds no markdown for, it SHALL answer that the corpus holds none,
   and SHALL neither fetch the page nor order a crawl.
 * On an undecodable message the service SHALL halt intake and leave the message pending for
@@ -63,5 +67,7 @@ store, and serves that markdown back to callers that ask for one URL.
 * While the object store is down, unstored markdown waits on the broker. If the outage lasts
   longer than the broker keeps the message, the broker drops it and the page's markdown is lost
   until the next recrawl.
+* An announced outcome is not kept. A listener that is away when the service announces an
+  outcome never learns it.
 * If canonicalization changes, a page's canonical URL changes with it; with no migration here,
   its old and new objects both persist until an operator intervenes.
