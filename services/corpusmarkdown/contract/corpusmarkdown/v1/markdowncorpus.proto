@@ -23,4 +23,6 @@ message RecallPageResponse {
   string markdown = 2;
   // stored_at is when the corpus last wrote this markdown, so a caller can judge its age.
   google.protobuf.Timestamp stored_at = 3;
+  // version is opaque and changes only when the markdown changes.
+  string version = 4;
 }

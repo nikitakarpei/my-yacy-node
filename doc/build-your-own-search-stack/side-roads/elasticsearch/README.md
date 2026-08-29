@@ -1,22 +1,35 @@
-# Elasticsearch instead of Manticore
+# Use Elasticsearch instead of Manticore
 
-Replaces Manticore with Elasticsearch as the full-text index. Elasticsearch
-wants several times the memory for the same corpus, and gives you its query
-language, existing tooling, and whatever cluster you already run.
+Use Elasticsearch when you already operate it or need its tools. Keep Manticore
+when lower resource use is more important.
 
-Take this side road if you already operate Elasticsearch. Otherwise Manticore
-holds a larger corpus on the same machine.
+## What this alternative changes
+
+- `elasticsearch` stores and searches the full-text index.
+- `elasticsearch-metrics` exposes Elasticsearch metrics to Prometheus.
+- `manticore` is disabled by this Compose overlay.
+
+## Start
+
+Use chapter 10 or 11 because these chapters include Prometheus. Complete the
+[common preparation](../../README.md#prepare-a-chapter) for that chapter.
+
+This overlay does not move existing Manticore documents. Plan a recrawl after
+the switch.
+
+From the selected chapter directory:
+
+```sh
+docker compose -f compose.yml \
+  -f ../../side-roads/elasticsearch/compose.yml up -d
+```
 
 ## Use
 
-Layer it on any chapter that has an index, from that chapter's directory:
+Submit a crawl and search for its pages at `http://localhost:8080`. Open
+Prometheus at `http://localhost:9099` and query `up{job="elasticsearch"}`.
 
-```sh
-cd chapters/09-watch-the-stack-on-dashboards
-docker compose -f compose.yml -f ../../side-roads/elasticsearch/compose.yml up -d
-```
+## More information
 
-It starts `elasticsearch` and `elasticsearch-metrics`, points `corpustext` and
-`searxng` at Elasticsearch, adds the Elasticsearch scrape job to Prometheus, and
-scales `manticore` to zero. Documents already in Manticore do not move; the new
-index fills from the crawls that follow.
+- [Elasticsearch index operation](../../../../services/corpustext/doc/elasticsearch.md)
+- [Full-text indexer configuration](../../../../services/corpustext/doc/configuration.md)

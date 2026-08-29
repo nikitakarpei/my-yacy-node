@@ -17,7 +17,6 @@ if t.TYPE_CHECKING:
     from searx.search import SearchWithPlugins
 
 
-DISABLE_HEADER_DEFAULT = "X-Result-Link-Router-Disable"
 LINK_LIFETIME_DEFAULT = 86400
 
 
@@ -39,15 +38,10 @@ class SXNGPlugin(Plugin):
         self.link_lifetime = link_lifetime_from(
             os.environ.get("RESULT_LINK_ROUTER_LINK_LIFETIME")
         )
-        self.disable_header = os.environ.get(
-            "RESULT_LINK_ROUTER_DISABLE_HEADER", DISABLE_HEADER_DEFAULT
-        )
 
     def on_result(
         self, request: "SXNG_Request", search: "SearchWithPlugins", result: "Result"
     ) -> bool:
-        if request.headers.get(self.disable_header) is not None:
-            return True
         visited_page_url = getattr(result, "url", None)
         result.filter_urls(
             partial(self.route_through_visitcrawl, results_origin_of(request))

@@ -6,8 +6,8 @@ package scraperequestbroker
 import (
 	"context"
 	"fmt"
-	"io"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
@@ -22,7 +22,7 @@ type Config struct {
 }
 
 type ScrapeRequestBroker struct {
-	conn           io.Closer
+	conn           *nats.Conn
 	ScrapeRequests jetstream.Consumer
 }
 
@@ -34,7 +34,7 @@ func Open(ctx context.Context, cfg Config) (*ScrapeRequestBroker, error) {
 
 	scrapeRequests, err := scrapeRequestConsumerFor(ctx, js, cfg)
 	if err != nil {
-		_ = conn.Close()
+		conn.Close()
 		return nil, err
 	}
 
@@ -64,5 +64,5 @@ func scrapeRequestConsumerFor(
 }
 
 func (b *ScrapeRequestBroker) Close() {
-	_ = b.conn.Close()
+	b.conn.Close()
 }

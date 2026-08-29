@@ -47,6 +47,11 @@ type ScrapeProgress interface {
 		requestedURL canonicalurl.CanonicalURL,
 		markdownURL canonicalurl.CanonicalURL,
 	)
+	ScrapeOutcomeAnnouncementFailed(
+		ctx context.Context,
+		requestedURL canonicalurl.CanonicalURL,
+		cause error,
+	)
 }
 
 type ScrapeProgressObservers []ScrapeProgress
@@ -135,5 +140,15 @@ func (observers ScrapeProgressObservers) MarkdownStored(
 ) {
 	for _, observer := range observers {
 		observer.MarkdownStored(ctx, requestedURL, markdownURL)
+	}
+}
+
+func (observers ScrapeProgressObservers) ScrapeOutcomeAnnouncementFailed(
+	ctx context.Context,
+	requestedURL canonicalurl.CanonicalURL,
+	cause error,
+) {
+	for _, observer := range observers {
+		observer.ScrapeOutcomeAnnouncementFailed(ctx, requestedURL, cause)
 	}
 }

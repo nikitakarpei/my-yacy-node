@@ -6,8 +6,8 @@ package jetstream
 import (
 	"context"
 	"fmt"
-	"io"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -17,7 +17,7 @@ import (
 
 type Publisher struct {
 	stream jetstream.JetStream
-	conn   io.Closer
+	conn   *nats.Conn
 }
 
 func Open(natsURL string) (*Publisher, error) {
@@ -50,5 +50,5 @@ func (p *Publisher) Publish(
 }
 
 func (p *Publisher) Close() {
-	_ = p.conn.Close()
+	p.conn.Close()
 }

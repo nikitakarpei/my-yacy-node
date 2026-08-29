@@ -3,11 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
-	"io"
 	"log/slog"
 	"net/http"
 	"time"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -79,7 +79,7 @@ func RunService(
 type crawlBrokers struct {
 	crawl          jetstream.JetStream
 	scrapeRequests jetstream.JetStream
-	connections    []io.Closer
+	connections    []*nats.Conn
 }
 
 func openCrawlBrokers(cfg ServiceConfig) (crawlBrokers, error) {
@@ -91,19 +91,19 @@ func openCrawlBrokers(cfg ServiceConfig) (crawlBrokers, error) {
 		cfg.ScrapeRequestNATSURL,
 	)
 	if err != nil {
-		_ = crawlConnection.Close()
+		crawlConnection.Close()
 		return crawlBrokers{}, err
 	}
 	return crawlBrokers{
 		crawl:          crawl,
 		scrapeRequests: scrapeRequests,
-		connections:    []io.Closer{crawlConnection, scrapeRequestConnection},
+		connections:    []*nats.Conn{crawlConnection, scrapeRequestConnection},
 	}, nil
 }
 
 func (b crawlBrokers) Close() {
 	for _, connection := range b.connections {
-		_ = connection.Close()
+		connection.Close()
 	}
 }
 

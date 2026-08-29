@@ -25,3 +25,11 @@ scrape_configs:
   - job_name: nats
     static_configs:
       - targets: ["nats-metrics:7777"]
+
+  - job_name: corpusmarkdown
+    static_configs:
+      - targets: ["corpusmarkdown:9090"]
+
+  - job_name: webresearchmcp
+    static_configs:
+      - targets: ["webresearchmcp:9090"]

@@ -8,7 +8,8 @@ package crawlorderbroker
 
 import (
 	"context"
-	"io"
+
+	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 )
@@ -19,7 +20,7 @@ type Config struct {
 }
 
 type CrawlOrderBroker struct {
-	conn   io.Closer
+	conn   *nats.Conn
 	Orders *OrderPlacement
 }
 
@@ -36,5 +37,5 @@ func Open(_ context.Context, cfg Config) (*CrawlOrderBroker, error) {
 }
 
 func (b *CrawlOrderBroker) Close() {
-	_ = b.conn.Close()
+	b.conn.Close()
 }

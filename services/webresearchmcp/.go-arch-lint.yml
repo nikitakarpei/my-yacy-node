@@ -1,0 +1,124 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonVendors:
+  - canonicalurl
+
+components:
+  websearch:
+    in: internal/websearch/**
+  searchenginessearxng:
+    in: internal/searchengines/searxng/**
+  searchprogressobserversapplog:
+    in: internal/searchprogressobservers/applog/**
+  searchprogressobserversprometheus:
+    in: internal/searchprogressobservers/prometheus/**
+  pageread:
+    in: internal/pageread/**
+  markdownexcerpt:
+    in: internal/markdownexcerpt/**
+  markdowncorporagrpc:
+    in: internal/markdowncorpora/grpc/**
+  scraperequestsjetstream:
+    in: internal/scraperequests/jetstream/**
+  scrapeoutcomesnats:
+    in: internal/scrapeoutcomes/nats/**
+  pagereadprogressobserversapplog:
+    in: internal/pagereadprogressobservers/applog/**
+  pagereadprogressobserversprometheus:
+    in: internal/pagereadprogressobservers/prometheus/**
+  toolcallreceiversmcp:
+    in: internal/toolcallreceivers/mcp/**
+  webresearchmcpcmd:
+    in: cmd/webresearchmcp/**
+
+vendors:
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  pagemarkdownstore:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore
+      - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/**
+  scraperequestcontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  mcpsdk:
+    in:
+      - github.com/modelcontextprotocol/go-sdk/mcp
+  grpc:
+    in:
+      - google.golang.org/grpc
+      - google.golang.org/grpc/**
+  nats:
+    in:
+      - github.com/nats-io/nats.go
+      - github.com/nats-io/nats.go/**
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+
+deps:
+  pageread:
+    mayDependOn:
+      - markdownexcerpt
+  searchenginessearxng:
+    mayDependOn:
+      - websearch
+  searchprogressobserversapplog:
+    mayDependOn:
+      - websearch
+  searchprogressobserversprometheus:
+    mayDependOn:
+      - websearch
+    canUse:
+      - prometheus
+  markdowncorporagrpc:
+    mayDependOn:
+      - pageread
+    canUse:
+      - pagemarkdownstore
+      - grpc
+  scraperequestsjetstream:
+    canUse:
+      - scraperequestcontract
+      - serviceruntime
+      - nats
+  scrapeoutcomesnats:
+    mayDependOn:
+      - pageread
+    canUse:
+      - pagemarkdownstore
+      - nats
+  pagereadprogressobserversapplog:
+    mayDependOn:
+      - pageread
+  pagereadprogressobserversprometheus:
+    mayDependOn:
+      - pageread
+    canUse:
+      - prometheus
+  toolcallreceiversmcp:
+    mayDependOn:
+      - websearch
+      - pageread
+    canUse:
+      - mcpsdk
+  webresearchmcpcmd:
+    anyProjectDeps: true
+    anyVendorDeps: true
+
+excludeFiles:
+  - "_test\\.go"
+  - "test/e2e"

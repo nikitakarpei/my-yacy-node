@@ -7,11 +7,11 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"time"
 
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecall"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 )
 
@@ -51,25 +51,31 @@ func (c *Corpus) Put(
 func (c *Corpus) MarkdownOf(
 	ctx context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
-) ([]byte, time.Time, bool, error) {
+) (markdownrecall.StoredMarkdown, bool, error) {
 	objectName := pagemarkdownstore.ObjectNameOf(canonicalURL)
 	object, err := c.objects.Get(ctx, objectName)
 	if errors.Is(err, jetstream.ErrObjectNotFound) {
-		return nil, time.Time{}, false, nil
+		return markdownrecall.StoredMarkdown{}, false, nil
 	}
 	if err != nil {
-		return nil, time.Time{}, false, fmt.Errorf("get markdown for %q: %w", canonicalURL, err)
+		return markdownrecall.StoredMarkdown{}, false,
+			fmt.Errorf("get markdown for %q: %w", canonicalURL, err)
 	}
 	defer func() { _ = object.Close() }()
 
 	markdown, err := io.ReadAll(object)
 	if err != nil {
-		return nil, time.Time{}, false, fmt.Errorf("read markdown for %q: %w", canonicalURL, err)
+		return markdownrecall.StoredMarkdown{}, false,
+			fmt.Errorf("read markdown for %q: %w", canonicalURL, err)
 	}
 	info, err := object.Info()
 	if err != nil {
-		return nil, time.Time{}, false,
+		return markdownrecall.StoredMarkdown{}, false,
 			fmt.Errorf("read markdown details for %q: %w", canonicalURL, err)
 	}
-	return markdown, info.ModTime, true, nil
+	return markdownrecall.StoredMarkdown{
+		Markdown: markdown,
+		StoredAt: info.ModTime,
+		Version:  info.Digest,
+	}, true, nil
 }

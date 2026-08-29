@@ -45,5 +45,6 @@ func (s *markdownCorpusServer) RecallPage(
 		CanonicalUrl: page.MarkdownURL.String(),
 		Markdown:     string(page.Markdown),
 		StoredAt:     timestamppb.New(page.StoredAt),
+		Version:      page.Version,
 	}, nil
 }

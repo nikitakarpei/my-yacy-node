@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
+	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecall"
 	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
@@ -116,6 +117,54 @@ func TestPutReplacesTheMarkdownOfARecrawledURL(t *testing.T) {
 	}
 }
 
+func TestMarkdownOfVersionsTheMarkdownItYields(t *testing.T) {
+	corpus := openedCorpus(t, natstestserver.Start(t))
+	put(t, corpus, "# Hi")
+	first := heldMarkdown(t, corpus)
+
+	put(t, corpus, "# Hi")
+	if unchanged := heldMarkdown(t, corpus); unchanged.Version != first.Version {
+		t.Errorf(
+			"version = %q after storing the same markdown, want the earlier %q",
+			unchanged.Version, first.Version,
+		)
+	}
+
+	put(t, corpus, "# Hi again")
+	if changed := heldMarkdown(t, corpus); changed.Version == first.Version {
+		t.Errorf("version = %q after storing other markdown, want a different one", changed.Version)
+	}
+}
+
+func put(t *testing.T, corpus *pagemarkdowncorporajetstream.Corpus, markdown string) {
+	t.Helper()
+	if err := corpus.Put(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, crawledURL),
+		[]byte(markdown),
+	); err != nil {
+		t.Fatalf("put %q: %v", markdown, err)
+	}
+}
+
+func heldMarkdown(
+	t *testing.T,
+	corpus *pagemarkdowncorporajetstream.Corpus,
+) markdownrecall.StoredMarkdown {
+	t.Helper()
+	stored, held, err := corpus.MarkdownOf(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, crawledURL),
+	)
+	if err != nil {
+		t.Fatalf("markdown of %q: %v", crawledURL, err)
+	}
+	if !held {
+		t.Fatalf("corpus holds no markdown for %q", crawledURL)
+	}
+	return stored
+}
+
 func TestPutFailsWhenTheMarkdownCannotBeWritten(t *testing.T) {
 	corpus := openedCorpus(t, natstestserver.Start(t))
 	abandoned, abandon := context.WithCancel(context.Background())
@@ -153,7 +202,7 @@ func TestMarkdownOfYieldsTheMarkdownHeldUnderTheCanonicalURL(t *testing.T) {
 		t.Fatalf("put: %v", err)
 	}
 
-	markdown, storedAt, held, err := corpus.MarkdownOf(
+	stored, held, err := corpus.MarkdownOf(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, crawledURL),
 	)
@@ -163,18 +212,21 @@ func TestMarkdownOfYieldsTheMarkdownHeldUnderTheCanonicalURL(t *testing.T) {
 	if !held {
 		t.Fatalf("corpus holds no markdown for %q", crawledURL)
 	}
-	if string(markdown) != "# Hi" {
-		t.Errorf("markdown = %q, want %q", markdown, "# Hi")
+	if string(stored.Markdown) != "# Hi" {
+		t.Errorf("markdown = %q, want %q", stored.Markdown, "# Hi")
 	}
-	if storedAt.IsZero() {
+	if stored.StoredAt.IsZero() {
 		t.Error("storedAt is zero, want the time the corpus wrote the markdown")
+	}
+	if stored.Version == "" {
+		t.Error("version is empty, want a version naming the markdown held")
 	}
 }
 
 func TestMarkdownOfReportsAURLTheCorpusDoesNotHold(t *testing.T) {
 	corpus := openedCorpus(t, natstestserver.Start(t))
 
-	_, _, held, err := corpus.MarkdownOf(
+	_, held, err := corpus.MarkdownOf(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, crawledURL),
 	)
@@ -191,7 +243,7 @@ func TestMarkdownOfFailsWhenTheMarkdownCannotBeRead(t *testing.T) {
 	abandoned, abandon := context.WithCancel(context.Background())
 	abandon()
 
-	if _, _, _, err := corpus.MarkdownOf(
+	if _, _, err := corpus.MarkdownOf(
 		abandoned,
 		canonicalurltest.CanonicalURLOf(t, crawledURL),
 	); err == nil {

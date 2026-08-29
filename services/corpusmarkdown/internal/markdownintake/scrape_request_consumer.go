@@ -39,12 +39,24 @@ type PageRedirections interface {
 	) error
 }
 
+type ScrapeOutcomeAnnouncements interface {
+	AnnounceMarkdownStored(
+		ctx context.Context,
+		requestedURL canonicalurl.CanonicalURL,
+	) error
+	AnnouncePageGivenUp(
+		ctx context.Context,
+		requestedURL canonicalurl.CanonicalURL,
+	) error
+}
+
 type ScrapeRequestConsumer struct {
 	source                         pullintake.MessageSource
 	fetcher                        PageFetcher
 	formatDerivations              pageformats.FormatDerivationCatalog
 	corpus                         PageMarkdownCorpus
 	redirections                   PageRedirections
+	announcements                  ScrapeOutcomeAnnouncements
 	progress                       ScrapeProgress
 	scrapeRequestIntakeConcurrency int
 }
@@ -55,6 +67,7 @@ type Config struct {
 	FormatDerivations              pageformats.FormatDerivationCatalog
 	Corpus                         PageMarkdownCorpus
 	Redirections                   PageRedirections
+	Announcements                  ScrapeOutcomeAnnouncements
 	Progress                       ScrapeProgress
 	ScrapeRequestIntakeConcurrency int
 }
@@ -66,6 +79,7 @@ func NewScrapeRequestConsumer(config Config) *ScrapeRequestConsumer {
 		formatDerivations:              config.FormatDerivations,
 		corpus:                         config.Corpus,
 		redirections:                   config.Redirections,
+		announcements:                  config.Announcements,
 		progress:                       config.Progress,
 		scrapeRequestIntakeConcurrency: config.ScrapeRequestIntakeConcurrency,
 	}
@@ -91,13 +105,13 @@ func (c *ScrapeRequestConsumer) processOne(
 	}
 	document, extracted := c.documentOf(ctx, scrapedPage, requestedURL)
 	if !extracted {
-		message.Acknowledge(ctx)
+		c.giveUp(ctx, message, requestedURL)
 		return nil
 	}
 	markdown, derived := c.markdownOf(ctx, document, scrapedPage.LandedURL)
 	if !derived {
 		c.progress.NoMarkdownDerived(ctx, requestedURL, scrapedPage.LandedURL)
-		message.Acknowledge(ctx)
+		c.giveUp(ctx, message, requestedURL)
 		return nil
 	}
 	return c.store(ctx, message, requestedURL, scrapedPage.PageURL, markdown)
@@ -108,6 +122,7 @@ func (c *ScrapeRequestConsumer) fetch(
 	message pullintake.PendingMessage,
 	request scraperequestcontract.ScrapeRequest,
 ) (scrapedpage.ScrapedPage, bool) {
+	requestedURL := request.PageURL
 	fetchURL := request.FetchURL
 	outcome, err := c.fetcher.Fetch(ctx, fetchURL, pagefetch.PageVersion{})
 	if err != nil {
@@ -126,7 +141,7 @@ func (c *ScrapeRequestConsumer) fetch(
 		message.ReturnAfter(ctx, outcome.DeferFor)
 	default:
 		c.progress.NothingToScrape(ctx, fetchURL)
-		message.Acknowledge(ctx)
+		c.giveUp(ctx, message, requestedURL)
 	}
 	return scrapedpage.ScrapedPage{}, false
 }
@@ -144,6 +159,17 @@ func (c *ScrapeRequestConsumer) documentOf(
 		return documentextraction.Document{}, false
 	}
 	return document, true
+}
+
+func (c *ScrapeRequestConsumer) giveUp(
+	ctx context.Context,
+	message pullintake.PendingMessage,
+	requestedURL canonicalurl.CanonicalURL,
+) {
+	if err := c.announcements.AnnouncePageGivenUp(ctx, requestedURL); err != nil {
+		c.progress.ScrapeOutcomeAnnouncementFailed(ctx, requestedURL, err)
+	}
+	message.Acknowledge(ctx)
 }
 
 func (c *ScrapeRequestConsumer) markdownOf(
@@ -176,6 +202,9 @@ func (c *ScrapeRequestConsumer) store(
 		}
 	}
 	c.progress.MarkdownStored(ctx, requestedURL, markdownURL)
+	if err := c.announcements.AnnounceMarkdownStored(ctx, requestedURL); err != nil {
+		c.progress.ScrapeOutcomeAnnouncementFailed(ctx, requestedURL, err)
+	}
 	message.Acknowledge(ctx)
 	return nil
 }

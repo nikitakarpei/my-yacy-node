@@ -1,40 +1,45 @@
 # 4. Crawl every search result you open
 
-> "What if the pages I open were crawled for me?"
+> "Can the pages I open enter the crawl automatically?"
 
-Searching is already a statement about what interests you, and until now the
-stack threw it away. This chapter puts one service in the middle of it.
-`visitcrawl` sits between the results and the pages they point at: every result
-link now goes to it first, and it places a crawl order for that page before
-sending your browser on. The page you read today is in your index tomorrow.
+Manual crawl orders interrupt normal searching. This chapter starts a crawl
+each time you open a search result, so the local index grows while you use it.
 
-It answers at `/visit`, and such a link works only from the address the results
-came from, so `caddy` goes in front: the search page and `/visit` now share one
-port, the `http://localhost:8080` you have been searching at all along.
+## What this chapter adds
 
-## The change
+- `visitcrawl` is a service that starts a crawl when you open a search result.
+  It then sends your browser to the result page.
+- The `searxng-result-router` plugin points each SearXNG result at `visitcrawl`.
+- `caddy` gives your browser one address for both searching and starting crawls
+  from result links.
 
-```sh
-printf 'VISITCRAWL_LINK_SECRET=%s\n' "$(openssl rand -hex 32)" >> .env
+`visitcrawl` settings limit how far links can lead and how many pages one search
+result can add.
+
+## Start
+
+Add crawl limits to `.env`. This example stays under the opened path and stops
+at 25 pages per host:
+
+```dotenv
+VISITCRAWL_SCOPE=subpath
+VISITCRAWL_MAX_DEPTH=1
+VISITCRAWL_MAX_PAGES_PER_HOST=25
 ```
 
-`searxng` gives up its published port to `caddy`.
-
-## Try it
+Start the stack:
 
 ```sh
 docker compose up -d
 ```
 
-Search, open any result, then watch the order arrive:
+## Use
 
-```sh
-docker compose logs -f visitcrawl yacycrawler
-```
+Search at `http://localhost:8080` and open a result. After the crawl completes,
+search for text from that page. If the page does not enter the index, inspect
+`visitcrawl` and `yacycrawler` logs.
 
-Search for something from that page a minute later.
+## More information
 
-## Where you are now
-
-Your index grows while you use it. Each visit brings in the page you opened,
-and the pages it links to.
+- [Visit crawl configuration](../../../../services/visitcrawl/doc/configuration.md)
+- [Result router configuration](../../../../plugins/searxng/searxng-result-router/doc/configuration.md)

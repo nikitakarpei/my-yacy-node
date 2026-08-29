@@ -12,13 +12,6 @@ proxy in front of SearXNG must send `/visit` to `visitcrawl`.
 |---|---|---|
 | `VISITCRAWL_LINK_SECRET` | required | Secret the plugin signs rewritten links with. Set it to the same value as the `visitcrawl` that serves `/visit`. |
 | `RESULT_LINK_ROUTER_LINK_LIFETIME` | `86400` | Seconds a rewritten link stays valid after the plugin issues it. |
-| `RESULT_LINK_ROUTER_DISABLE_HEADER` | `X-Result-Link-Router-Disable` | Name of the request header that turns off link rewriting for a single request. |
-
-## Disabling rewriting for a request
-
-A request carrying the header named by `RESULT_LINK_ROUTER_DISABLE_HEADER` (any value) skips
-rewriting; its results link straight to their destinations, same as when the plugin can't
-rewrite a link.
 
 ## Enabling the plugin
 

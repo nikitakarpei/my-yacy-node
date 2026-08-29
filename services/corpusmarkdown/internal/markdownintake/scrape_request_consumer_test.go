@@ -82,6 +82,39 @@ func (r *recordingRedirections) Record(
 	return nil
 }
 
+type recordingAnnouncements struct {
+	fail    bool
+	mu      sync.Mutex
+	stored  []string
+	givenUp []string
+}
+
+func (a *recordingAnnouncements) AnnounceMarkdownStored(
+	_ context.Context,
+	requestedURL canonicalurl.CanonicalURL,
+) error {
+	if a.fail {
+		return errors.New("announcement not published")
+	}
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	a.stored = append(a.stored, requestedURL.String())
+	return nil
+}
+
+func (a *recordingAnnouncements) AnnouncePageGivenUp(
+	_ context.Context,
+	requestedURL canonicalurl.CanonicalURL,
+) error {
+	if a.fail {
+		return errors.New("announcement not published")
+	}
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	a.givenUp = append(a.givenUp, requestedURL.String())
+	return nil
+}
+
 type recordingProgress struct {
 	mu                       sync.Mutex
 	received                 int
@@ -93,6 +126,7 @@ type recordingProgress struct {
 	stored                   map[string]string
 	nothingToScrape          []string
 	noMarkdownDerived        []string
+	announcementFailures     int
 }
 
 func (p *recordingProgress) ScrapeRequestReceived(_ context.Context) {
@@ -185,6 +219,16 @@ func (p *recordingProgress) MarkdownStored(
 	p.stored[requestedURL.String()] = markdownURL.String()
 }
 
+func (p *recordingProgress) ScrapeOutcomeAnnouncementFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ error,
+) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	p.announcementFailures++
+}
+
 const scrapeRequestURL = "https://example.com/"
 
 const article = `<!DOCTYPE html><html lang="en"><head><title>Sample Article</title></head>` +
@@ -266,11 +310,12 @@ func run(
 }
 
 type intakeUnderTest struct {
-	source       pullintaketest.MessageSource
-	fetcher      markdownintake.PageFetcher
-	corpus       markdownintake.PageMarkdownCorpus
-	progress     markdownintake.ScrapeProgress
-	redirections markdownintake.PageRedirections
+	source        pullintaketest.MessageSource
+	fetcher       markdownintake.PageFetcher
+	corpus        markdownintake.PageMarkdownCorpus
+	progress      markdownintake.ScrapeProgress
+	redirections  markdownintake.PageRedirections
+	announcements markdownintake.ScrapeOutcomeAnnouncements
 }
 
 func runRecording(t *testing.T, intake intakeUnderTest) error {
@@ -288,12 +333,16 @@ func runRecording(t *testing.T, intake intakeUnderTest) error {
 	if intake.corpus == nil {
 		intake.corpus = &recordingCorpus{}
 	}
+	if intake.announcements == nil {
+		intake.announcements = &recordingAnnouncements{}
+	}
 	return markdownintake.NewScrapeRequestConsumer(markdownintake.Config{
 		Source:                         intake.source,
 		Fetcher:                        intake.fetcher,
 		FormatDerivations:              formatDerivations,
 		Corpus:                         intake.corpus,
 		Redirections:                   intake.redirections,
+		Announcements:                  intake.announcements,
 		Progress:                       intake.progress,
 		ScrapeRequestIntakeConcurrency: 1,
 	}).Run(context.Background())
@@ -596,5 +645,110 @@ func TestConsumerHaltsOnAnUndecodableMessage(t *testing.T) {
 	}
 	if progress.received != 1 {
 		t.Errorf("progress = %+v, want one received", progress)
+	}
+}
+
+func TestConsumerAnnouncesTheStoredMarkdownOfARequestItSettles(t *testing.T) {
+	message := scrapeRequestMessage(t)
+	announcements := &recordingAnnouncements{}
+
+	if err := runRecording(t, intakeUnderTest{
+		source:        pullintaketest.MessageSourceOf(message),
+		fetcher:       fetchOf(fetchedPage(t, "text/html", article)),
+		announcements: announcements,
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if len(announcements.stored) != 1 || announcements.stored[0] != scrapeRequestURL {
+		t.Errorf("announced stored for %v, want the requested url", announcements.stored)
+	}
+	if len(announcements.givenUp) != 0 {
+		t.Errorf("announced given up for %v, want none", announcements.givenUp)
+	}
+}
+
+func TestConsumerAnnouncesAPageItGivesUpOn(t *testing.T) {
+	message := scrapeRequestMessage(t)
+	announcements := &recordingAnnouncements{}
+
+	if err := runRecording(t, intakeUnderTest{
+		source:        pullintaketest.MessageSourceOf(message),
+		fetcher:       fetchOf(fetchedPage(t, "application/pdf", "%PDF-1.4")),
+		announcements: announcements,
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if len(announcements.givenUp) != 1 || announcements.givenUp[0] != scrapeRequestURL {
+		t.Errorf("announced given up for %v, want the requested url", announcements.givenUp)
+	}
+	if len(announcements.stored) != 0 {
+		t.Errorf("announced stored for %v, want none", announcements.stored)
+	}
+}
+
+func TestConsumerAnnouncesTheRequestedURLOfAnArchivedPageItGivesUpOn(t *testing.T) {
+	const replayURL = "http://archive.example/replay/https://example.com/"
+	message := archivedScrapeRequestMessage(t, replayURL)
+	announcements := &recordingAnnouncements{}
+
+	if err := runRecording(t, intakeUnderTest{
+		source:        pullintaketest.MessageSourceOf(message),
+		fetcher:       &fakeFetch{outcome: pagefetch.FetchOutcome{Status: pagefetch.FetchRejected}},
+		announcements: announcements,
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if len(announcements.givenUp) != 1 || announcements.givenUp[0] != scrapeRequestURL {
+		t.Errorf("announced given up for %v, want the requested url", announcements.givenUp)
+	}
+}
+
+func TestConsumerAnnouncesNothingForAScrapeRequestItReturns(t *testing.T) {
+	message := scrapeRequestMessage(t)
+	announcements := &recordingAnnouncements{}
+
+	if err := runRecording(t, intakeUnderTest{
+		source:        pullintaketest.MessageSourceOf(message),
+		fetcher:       &fakeFetch{err: errors.New("fetch broke")},
+		announcements: announcements,
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if len(announcements.stored) != 0 || len(announcements.givenUp) != 0 {
+		t.Errorf("announced %v and %v, want nothing for a request that runs again",
+			announcements.stored, announcements.givenUp)
+	}
+}
+
+func TestConsumerAcksAStoredPageWhoseOutcomeItCannotAnnounce(t *testing.T) {
+	message := scrapeRequestMessage(t)
+	corpus := &recordingCorpus{}
+	progress := &recordingProgress{}
+
+	if err := runRecording(t, intakeUnderTest{
+		source:        pullintaketest.MessageSourceOf(message),
+		fetcher:       fetchOf(fetchedPage(t, "text/html", article)),
+		corpus:        corpus,
+		progress:      progress,
+		announcements: &recordingAnnouncements{fail: true},
+	}); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if action := message.Settlement(t); action != pullintaketest.Acknowledged {
+		t.Errorf("action = %q, want ack", action)
+	}
+	if _, stored := corpus.markdown[scrapeRequestURL]; !stored {
+		t.Errorf(
+			"stored %v, want the markdown kept whatever the announcement does",
+			corpus.markdown,
+		)
+	}
+	if progress.announcementFailures != 1 {
+		t.Errorf("progress = %+v, want one announcement failure", progress)
 	}
 }

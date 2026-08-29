@@ -17,12 +17,7 @@ RESULTS_ORIGIN = "http://search.example"
 
 
 class FakeRequest:
-    def __init__(
-        self,
-        headers: dict[str, str] | None = None,
-        host_url: str = RESULTS_ORIGIN + "/",
-    ) -> None:
-        self.headers = headers or {}
+    def __init__(self, host_url: str = RESULTS_ORIGIN + "/") -> None:
         self.host_url = host_url
 
 
@@ -55,7 +50,6 @@ def frozen_now(monkeypatch):
 def configured_environment(monkeypatch):
     monkeypatch.setenv("VISITCRAWL_LINK_SECRET", LINK_SECRET)
     monkeypatch.delenv("RESULT_LINK_ROUTER_LINK_LIFETIME", raising=False)
-    monkeypatch.delenv("RESULT_LINK_ROUTER_DISABLE_HEADER", raising=False)
 
 
 @pytest.fixture
@@ -175,36 +169,3 @@ def test_on_result_routes_through_the_host_the_search_came_to(plugin):
     )
 
     assert result["url"].startswith("http://other.example:8080/visit?")
-
-
-def test_on_result_skips_rewrite_when_disable_header_present(plugin):
-    result = FakeResult(url="https://example.com/a")
-    request = FakeRequest({"X-Result-Link-Router-Disable": "1"})
-
-    kept = plugin.on_result(request=request, search=None, result=result)
-
-    assert kept is True
-    assert result.filter_urls_calls == 0
-    assert result["url"] == "https://example.com/a"
-
-
-def test_on_result_rewrites_when_disable_header_absent(plugin):
-    result = FakeResult(url="https://example.com/a")
-    request = FakeRequest({})
-
-    plugin.on_result(request=request, search=None, result=result)
-
-    assert result.filter_urls_calls == 1
-    assert result["url"] == signed_visit_link_for("https://example.com/a")
-
-
-def test_disable_header_name_is_configurable(monkeypatch):
-    monkeypatch.setenv("RESULT_LINK_ROUTER_DISABLE_HEADER", "X-Custom-Disable")
-    configured = result_link_router.SXNGPlugin(PluginCfg(active=True))
-    result = FakeResult(url="https://example.com/a")
-    request = FakeRequest({"X-Custom-Disable": "1"})
-
-    configured.on_result(request=request, search=None, result=result)
-
-    assert result.filter_urls_calls == 0
-    assert result["url"] == "https://example.com/a"

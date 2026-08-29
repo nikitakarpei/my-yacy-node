@@ -1,16 +1,16 @@
-// Package jetstreamconnect opens a NATS connection and its JetStream context,
-// returning the JetStream handle alongside a closer for the connection.
+// Package jetstreamconnect opens a NATS connection and derives its JetStream context,
+// returning both, so a caller that also publishes on a core subject holds the one
+// connection they share.
 package jetstreamconnect
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 )
 
-func Open(url string) (jetstream.JetStream, io.Closer, error) {
+func Open(url string) (jetstream.JetStream, *nats.Conn, error) {
 	conn, err := nats.Connect(url)
 	if err != nil {
 		return nil, nil, fmt.Errorf("connect nats: %w", err)
@@ -20,14 +20,5 @@ func Open(url string) (jetstream.JetStream, io.Closer, error) {
 		conn.Close()
 		return nil, nil, fmt.Errorf("init jetstream: %w", err)
 	}
-	return js, connectionCloser{conn}, nil
-}
-
-type connectionCloser struct {
-	conn *nats.Conn
-}
-
-func (c connectionCloser) Close() error {
-	c.conn.Close()
-	return nil
+	return js, conn, nil
 }

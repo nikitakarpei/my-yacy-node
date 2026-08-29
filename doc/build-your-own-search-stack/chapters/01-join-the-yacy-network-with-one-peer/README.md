@@ -1,40 +1,40 @@
 # 1. Join the YaCy network with one peer
 
-> "I have a spare box in the corner. Can it be part of something bigger?"
+> "Can a spare box support the YaCy network?"
 
-Two containers. `yacy-rwi-node` joins the YaCy network, stores the postings
-other peers hand it, and answers their searches. `smokescreen` sits in front of
-every outbound connection and refuses the private ones, so nothing the node
-talks to can walk into your LAN.
+A peer uses spare storage and bandwidth to keep YaCy's shared reverse word
+index available. Other peers can store postings on it and query them. You can
+support the network without running a crawler.
 
-Distribution is on, so a posting the node holds moves along to the peers the
-DHT makes responsible for it. With it off, everything the node collects stays
-on your disk.
+## What this chapter adds
 
-## Setup
+- `yacy-rwi-node` stores part of YaCy's shared index and answers searches from
+  other peers.
+- `smokescreen` is the egress proxy for every outbound connection the node
+  opens. It rejects private destinations, so addresses supplied by the network
+  cannot reach private services through the node.
 
-```sh
-cp .env.example .env
-```
+## Start
 
-Set `YACY_ADVERTISE_HOST` to the address other peers reach you at, and open port
-8090 to it. A peer nobody can reach still runs, but it collects nothing.
+Allow inbound connections to port 8090, then start the stack:
 
 ```sh
 docker compose up -d
 ```
 
-## Try it
+## Use
+
+Check the peer roster metrics after the first network announcement:
 
 ```sh
+curl -fsS localhost:9090/metrics | grep '^peerroster_.*_peers '
 docker compose logs -f yacy-rwi-node
-curl -s localhost:9090/metrics
 ```
 
-The first announce takes a few minutes. Peers arrive in the roster before any
-posting does; a new peer is at the far end of everyone's list for a while.
+A nonzero reachable peer count confirms that the node discovered and contacted
+other peers.
 
-## Where you are now
+## More information
 
-You are storing other people's pages and serving other people's searches.
-Nothing in the index is yours yet.
+- [Node configuration](../../../../services/yacynode/doc/configuration.md)
+- [Node behavior](../../../../services/yacynode/doc/specification.md)

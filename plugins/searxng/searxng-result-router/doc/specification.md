@@ -28,9 +28,6 @@ destination. It runs inside the operator's own SearXNG instance and depends on n
   results page.
 * The plugin SHALL let operators configure the secret that signs the links and how long a
   link stays valid.
-* The plugin SHALL leave every result on a request unchanged if that request carries the
-  configured disable header.
-* The plugin SHALL let operators configure the name of the disable header.
 
 ## Non-Functional Requirements
 
@@ -49,5 +46,7 @@ destination. It runs inside the operator's own SearXNG instance and depends on n
   rewritten result until an operator notices.
 * `visitcrawl` refuses a rewritten link after it expires, and refuses every rewritten link
   when its secret and the plugin's secret differ.
+* A caller that wants the original links must turn the plugin off for its own request
+  through SearXNG's preferences; a caller that cannot do so gets rewritten links.
 * Rewritten links are specific to `visitcrawl`'s link format and path; a differently shaped
   target requires changing the plugin.

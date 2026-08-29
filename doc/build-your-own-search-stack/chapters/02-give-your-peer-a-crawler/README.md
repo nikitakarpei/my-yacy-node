@@ -1,31 +1,29 @@
 # 2. Give your peer a crawler
 
-> "How do I put pages I care about into it?"
+> "How do I put pages I care about into the network?"
 
-The node does not crawl, on purpose: crawling is bursty and memory-hungry, and
-the peer is meant to survive on small hardware. So you add a crawler and a queue
-between the two. You give `yacycrawler` a starting URL and a profile. It fetches
-what the profile admits and publishes a scrape request naming every page it
-reached. The node reads those requests, fetches each page itself, and stores the
-words as postings — the same postings it already trades with the network.
+The peer stores postings that reach it from the network. A crawler lets you
+choose pages and contribute their words to the shared index.
 
-Orders arrive as JSON on a NATS subject. There is no interface for writing one
-yet, so this chapter uses `crawl-console`, a NATS shell you start on demand, to
-publish one by hand. That is a gap in the stack, not a workflow, and a later
-chapter replaces it with a link you click.
+## What this chapter adds
 
-## The change
+- `yacycrawler` visits the pages you name and follows links within the limits
+  you set.
+- `nats` keeps unfinished crawl and indexing work on disk, so services can
+  continue after a restart.
+- `crawl-console` lets you submit a crawl from the command line.
 
-`yacy-rwi-node` gains two settings. Without them it ignores the scrape requests:
+## Start
 
-```yaml
-      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://smokescreen:4750
+Start the stack:
+
+```sh
+docker compose up -d
 ```
 
-## Try it
+## Use
 
-Seed URLs must already be canonical — a bare domain needs its trailing slash:
+Submit a crawl for `example.org`:
 
 ```sh
 docker compose run --rm crawl-console pub yacy.crawl.orders \
@@ -33,12 +31,15 @@ docker compose run --rm crawl-console pub yacy.crawl.orders \
     "Profile":{"Name":"first","Scope":1,"MaxDepth":1,
     "URLMustMatch":".*","MaxPagesPerHost":50}}'
 
-docker compose logs -f yacycrawler yacy-rwi-node
+curl -fsS localhost:9090/metrics \
+  | grep 'vault_collection_entries{collection="rwi"}'
 ```
 
-`Scope` is `0` wide, `1` domain, `2` subpath.
+A nonzero value confirms that the node stored reverse word index postings from
+the crawl.
 
-## Where you are now
+## More information
 
-Your peer holds pages you chose and offers them to the network. You still cannot
-search them: a posting answers another peer's DHT query, not a person's.
+- [Crawler configuration](../../../../services/yacycrawler/doc/configuration.md)
+- [Crawl behavior](../../../../services/yacycrawler/doc/specification.md)
+- [Node configuration](../../../../services/yacynode/doc/configuration.md)

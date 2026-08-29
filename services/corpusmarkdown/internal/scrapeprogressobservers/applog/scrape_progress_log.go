@@ -21,7 +21,9 @@ const (
 	msgMarkdownCorpusWriteFailed    = "page markdown store failed"
 	msgRedirectionRecordWriteFailed = "page redirection not recorded, " +
 		"recall by the requested url would miss"
-	msgMarkdownStored = "page markdown stored"
+	msgMarkdownStored                  = "page markdown stored"
+	msgScrapeOutcomeAnnouncementFailed = "scrape outcome not announced, " +
+		"a caller waiting for this page learns nothing until it stops waiting"
 )
 
 type ScrapeProgressLog struct{}
@@ -117,5 +119,16 @@ func (ScrapeProgressLog) MarkdownStored(
 	slog.DebugContext(ctx, msgMarkdownStored,
 		slog.String("requestedUrl", requestedURL.String()),
 		slog.String("markdownUrl", markdownURL.String()),
+	)
+}
+
+func (ScrapeProgressLog) ScrapeOutcomeAnnouncementFailed(
+	ctx context.Context,
+	requestedURL canonicalurl.CanonicalURL,
+	cause error,
+) {
+	slog.WarnContext(ctx, msgScrapeOutcomeAnnouncementFailed,
+		slog.String("requestedUrl", requestedURL.String()),
+		slog.Any("error", cause),
 	)
 }
