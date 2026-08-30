@@ -7,6 +7,7 @@ package boltvault
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -53,10 +54,33 @@ func OpenEngine(path string, quotaBytes int64) (vault.Engine, error) {
 		return nil, fmt.Errorf("open storage: %w", err)
 	}
 
-	return &engine{db: db, quotaBytes: quotaBytes}, nil
+	opened := &engine{db: db, quotaBytes: quotaBytes}
+	if err := opened.createBucket(lengthBucket); err != nil {
+		return nil, closedAfter(db, err)
+	}
+
+	return opened, nil
 }
 
+func closedAfter(db *bolt.DB, err error) error {
+	if closeErr := db.Close(); closeErr != nil {
+		return fmt.Errorf("%w: %w", err, closeErr)
+	}
+
+	return err
+}
+
+var errReservedBucket = errors.New("bucket name reserved for storage internals")
+
 func (e *engine) Provision(name vault.Name) error {
+	if name == lengthBucket {
+		return fmt.Errorf("provision bucket %s: %w", name, errReservedBucket)
+	}
+
+	return e.createBucket(name)
+}
+
+func (e *engine) createBucket(name vault.Name) error {
 	if err := e.db.Update(func(tx *bolt.Tx) error {
 		if _, createErr := tx.CreateBucketIfNotExists([]byte(name)); createErr != nil {
 			return fmt.Errorf("create bucket: %w", createErr)
@@ -111,37 +135,57 @@ type boltTxn struct {
 func (t boltTxn) Writable() bool { return t.writable }
 
 func (t boltTxn) Bucket(name vault.Name) vault.EngineBucket {
-	return boltBucket{bucket: t.tx.Bucket([]byte(name))}
+	return boltBucket{
+		name:    name,
+		entries: t.tx.Bucket([]byte(name)),
+		lengths: t.tx.Bucket([]byte(lengthBucket)),
+	}
 }
 
 type boltBucket struct {
-	bucket *bolt.Bucket
+	name    vault.Name
+	entries *bolt.Bucket
+	lengths *bolt.Bucket
 }
 
 func (b boltBucket) Get(key []byte) []byte {
-	return b.bucket.Get(key)
+	return b.entries.Get(key)
 }
 
 func (b boltBucket) Put(key []byte, val []byte) error {
-	if err := b.bucket.Put(key, val); err != nil {
+	inserted := b.entries.Get(key) == nil
+	if err := b.entries.Put(key, val); err != nil {
 		return fmt.Errorf("store: %w", err)
 	}
-
-	return nil
-}
-
-func (b boltBucket) Delete(key []byte) error {
-	if err := b.bucket.Delete(key); err != nil {
-		return fmt.Errorf("delete: %w", err)
+	if !inserted {
+		return nil
 	}
 
-	return nil
+	return adjustLength(b.lengths, b.name, 1)
+}
+
+func (b boltBucket) Delete(key []byte) (bool, error) {
+	if b.entries.Get(key) == nil {
+		return false, nil
+	}
+	if err := b.entries.Delete(key); err != nil {
+		return false, fmt.Errorf("delete: %w", err)
+	}
+	if err := adjustLength(b.lengths, b.name, -1); err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
+func (b boltBucket) Len() (int, error) {
+	return lengthOf(b.lengths, b.name)
 }
 
 func (b boltBucket) Scan(keys vault.KeyRange, fn func(key, value []byte) (bool, error)) error {
 	firstIncluded, firstExcluded := keys.Bounds()
 
-	cursor := b.bucket.Cursor()
+	cursor := b.entries.Cursor()
 	key, value := firstEntryFrom(cursor, firstIncluded)
 	for key != nil && isBeforeFirstExcluded(key, firstExcluded) {
 		keep, err := fn(key, value)

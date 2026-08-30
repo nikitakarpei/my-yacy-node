@@ -69,17 +69,14 @@ func (c *Collection[K, V]) Put(tx *Txn, key K, val V) error {
 		return fmt.Errorf("encode %s: %w", c.name, err)
 	}
 
-	encodedKey := c.keys.Encode(key).Bytes()
-	bucket := tx.etx.Bucket(c.name)
-	existed := bucket.Get(encodedKey) != nil
-	if err := bucket.Put(encodedKey, recordFrom(payload)); err != nil {
+	if err := tx.etx.Bucket(c.name).Put(
+		c.keys.Encode(key).Bytes(),
+		recordFrom(payload),
+	); err != nil {
 		return fmt.Errorf("store %s: %w", c.name, err)
 	}
-	if existed {
-		return nil
-	}
 
-	return adjustLength(tx, c.name, 1)
+	return nil
 }
 
 func (c *Collection[K, V]) Delete(tx *Txn, key K) (bool, error) {
@@ -88,19 +85,12 @@ func (c *Collection[K, V]) Delete(tx *Txn, key K) (bool, error) {
 	}
 	tx.calledWriteOperation = true
 
-	encodedKey := c.keys.Encode(key).Bytes()
-	bucket := tx.etx.Bucket(c.name)
-	if bucket.Get(encodedKey) == nil {
-		return false, nil
-	}
-	if err := bucket.Delete(encodedKey); err != nil {
+	deleted, err := tx.etx.Bucket(c.name).Delete(c.keys.Encode(key).Bytes())
+	if err != nil {
 		return false, fmt.Errorf("delete %s: %w", c.name, err)
 	}
-	if err := adjustLength(tx, c.name, -1); err != nil {
-		return false, err
-	}
 
-	return true, nil
+	return deleted, nil
 }
 
 func (c *Collection[K, V]) Scan(
@@ -127,5 +117,14 @@ func (c *Collection[K, V]) Scan(
 }
 
 func (c *Collection[K, V]) Len(tx *Txn) (int, error) {
-	return readLength(tx, c.name)
+	return lengthOf(tx, c.name)
+}
+
+func lengthOf(tx *Txn, bucket Name) (int, error) {
+	length, err := tx.etx.Bucket(bucket).Len()
+	if err != nil {
+		return 0, fmt.Errorf("length of %s: %w", bucket, err)
+	}
+
+	return length, nil
 }

@@ -36,10 +36,17 @@ func (b memBucket) Put(key []byte, value []byte) error {
 	return nil
 }
 
-func (b memBucket) Delete(key []byte) error {
+func (b memBucket) Delete(key []byte) (bool, error) {
+	if _, present := b.entries[string(key)]; !present {
+		return false, nil
+	}
 	delete(b.entries, string(key))
 
-	return nil
+	return true, nil
+}
+
+func (b memBucket) Len() (int, error) {
+	return len(b.entries), nil
 }
 
 func (b memBucket) Scan(keys vault.KeyRange, fn func(key, value []byte) (bool, error)) error {
