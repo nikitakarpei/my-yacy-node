@@ -1,11 +1,16 @@
-# Pinned third-party tool binaries fetched from official releases.
+# Pinned third-party tools fetched from official releases.
 # Format: <tool> <version> <os>-<arch> <sha256>
 # Edit a version here, refresh its checksums, then run `make tools`.
 
-golangci-lint 2.12.2 linux-amd64  8df580d2670fed8fa984aac0507099af8df275e665215f5c7a2ae3943893a553
-golangci-lint 2.12.2 linux-arm64  44cd40a8c76c86755375adfeea52cfd3533cb43d7bd647771e0ae065e166df3a
-golangci-lint 2.12.2 darwin-amd64 f6f06d94b6241521c53d15450c5209b028270bf966f842afb11c030c79f5bc16
-golangci-lint 2.12.2 darwin-arm64 a9c54498731b3128f79e090be6110f3e5fffccc617b08142ed244d4126c73f29
+go 1.27.0 linux-amd64  675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685
+go 1.27.0 linux-arm64  51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda
+go 1.27.0 darwin-amd64 d3314e25496e4381d71a5c51d2907e7af655d199f6780b549f015bd85fef4986
+go 1.27.0 darwin-arm64 90493b3bbd5e10f91d12153198bf1994fd756399b4fec93b49b0c6e2acdeeb3e
+
+golangci-lint 2.13.2 linux-amd64  2277d43b98ec0054280f2ac26b53268bae97682444678a59a657dd565da021d6
+golangci-lint 2.13.2 linux-arm64  a2a4e0065aa41be71f7c5ac90f271b61751331e5d04314e62afe4027855f0893
+golangci-lint 2.13.2 darwin-amd64 8a13aaf9cbbb1dee52824e862cf0d0720e5bb97c1f4260d1e51623a09492b57b
+golangci-lint 2.13.2 darwin-arm64 f4bf83f0b64f055c42b28fc9a38861839f69c096e61c788e72dfaae412011789
 
 go-arch-lint 1.15.0 linux-amd64  b694a40d4b880b7665b164da6023775ba7461ac2110de09f0b2dddd1c58d4176
 go-arch-lint 1.15.0 linux-arm64  b806132ca67f98e932f84228e2bed14ee1a99abe0226dab352c63e63c2ded976

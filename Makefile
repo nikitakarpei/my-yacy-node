@@ -1,4 +1,4 @@
-GO ?= go
+GO ?= $(CURDIR)/.toolchain/go/bin/go
 PYTHON ?= python3
 COVERAGE_MIN ?= 80
 
@@ -124,16 +124,16 @@ fmt-go-e2e: $(TOOLS_STAMP)
 fmt-check-go-e2e: $(TOOLS_STAMP)
 	@$(call for_each_go_e2e,fmt-check-go-e2e,$(GOLANGCI_LINT) fmt --diff)
 
-tidy-go:
+tidy-go: $(TOOLS_STAMP)
 	@$(call for_each_go,tidy-go,$(GO) mod tidy)
 
-tidy-go-e2e:
+tidy-go-e2e: $(TOOLS_STAMP)
 	@$(call for_each_go_e2e,tidy-go-e2e,$(GO) mod tidy)
 
-tidy-check-go:
+tidy-check-go: $(TOOLS_STAMP)
 	@$(call for_each_go,tidy-check-go,$(GO) mod tidy -diff)
 
-tidy-check-go-e2e:
+tidy-check-go-e2e: $(TOOLS_STAMP)
 	@$(call for_each_go_e2e,tidy-check-go-e2e,$(GO) mod tidy -diff)
 
 lint-go: $(TOOLS_STAMP)
@@ -151,13 +151,13 @@ arch-diagram: $(TOOLS_STAMP)
 		--out $(ARCH_DIAGRAM_DIR)/$$(echo {} | tr / -).svg)
 	@echo "    written to $(ARCH_DIAGRAM_DIR)/"
 
-test-go:
+test-go: $(TOOLS_STAMP)
 	@$(call for_each_go,test-go,$(GO) test -race ./...)
 
-build-go:
+build-go: $(TOOLS_STAMP)
 	@$(call for_each_go,build-go,$(GO) build ./...)
 
-cover-go:
+cover-go: $(TOOLS_STAMP)
 	@set -e; for m in $(GO_MODULES); do \
 		echo "==> cover $$m"; \
 		( cd $$m && $(GO) test -coverpkg=$$($(COVER_PACKAGES)) $(COVER_FLAGS) -coverprofile=$(COVER_PROFILE) ./... && \
@@ -165,7 +165,7 @@ cover-go:
 			$(GO) tool cover -func=$(COVER_PROFILE).gated ); \
 	done
 
-cover-check-go:
+cover-check-go: $(TOOLS_STAMP)
 	@$(call for_each_go,cover-check-go,$(COVER_GATE))
 
 # ---- Python stack ----
@@ -198,12 +198,12 @@ lint-md: $(TOOLS_STAMP)
 
 # ---- misc ----
 
-workspace:
+workspace: $(TOOLS_STAMP)
 	@echo "==> workspace"
 	@rm -f go.work go.work.sum
 	@GOWORK= $(GO) work init $(GO_MODULES)
 
-peer-hash:
+peer-hash: $(TOOLS_STAMP)
 	cd services/yacynode && $(GO) run ./cmd/yacy-peer-hash
 
 # ---- e2e ----
@@ -279,7 +279,7 @@ e2e_suite_image_targets = $(foreach i,$(E2E_SUITE_IMAGES_$(1)),e2e-$(i)-image)
 
 define e2e_suite_rule
 .PHONY: e2e-$(1)
-e2e-$(1): $$(call e2e_suite_image_targets,$(1))
+e2e-$(1): $$(TOOLS_STAMP) $$(call e2e_suite_image_targets,$(1))
 	@echo "==> e2e-$(1)"; \
 	if ! out=$$$$(cd $$(or $$(E2E_SUITE_DIR_$(1)),$$(E2E_PATH_$(1))/test/e2e) && GOWORK=off $$(E2E_DOCKER_ENV) $$(call e2e_suite_image_env,$(1)) \
 		$$(GO) test -tags e2e -timeout $$(E2E_TIMEOUT) -count=1 -v ./... 2>&1); then \

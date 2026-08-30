@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/renderproxy/test/e2e
 
-go 1.26
+go 1.27
 
 replace github.com/nikitakarpei/yacy-rwi-node/e2eharness => ../../../../test/e2eharness
 

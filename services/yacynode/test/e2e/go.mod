@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e
 
-go 1.26
+go 1.27
 
 require (
 	github.com/docker/docker v28.5.1+incompatible
