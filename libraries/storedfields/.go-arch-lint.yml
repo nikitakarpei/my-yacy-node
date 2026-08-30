@@ -1,0 +1,17 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  storedfields:
+    in:
+      - .
+      - "**"
+
+deps: {}
+
+excludeFiles:
+  - "_test\\.go"

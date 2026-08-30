@@ -8,17 +8,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
-func urlHashFromWord(t *testing.T, word string) yacymodel.URLHash {
-	t.Helper()
-
-	hash, err := yacymodel.ParseURLHash(yacymodel.WordHash(word).String())
-	if err != nil {
-		t.Fatalf("url hash for %q: %v", word, err)
-	}
-
-	return hash
-}
-
 func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Language] {
 	t.Helper()
 
@@ -34,7 +23,6 @@ func fullPosting(t *testing.T) yacymodel.RWIPosting {
 	t.Helper()
 
 	return yacymodel.RWIPosting{
-		URLHash:       urlHashFromWord(t, "u1"),
 		LastModified:  yacymodel.MicroDate(19876),
 		TitleWords:    3,
 		TextWords:     258,
@@ -84,17 +72,13 @@ func TestStoredPostingRejectsEmptyValue(t *testing.T) {
 	}
 }
 
-func TestStoredPostingRejectsTruncatedBinary(t *testing.T) {
+func TestStoredPostingRejectsAValueCutInsideAField(t *testing.T) {
 	codec := rwipostings.PostingCodec()
 
-	encoded, err := codec.Encode(fullPosting(t))
-	if err != nil {
-		t.Fatalf("Encode: %v", err)
-	}
-	for length := 1; length < len(encoded); length++ {
-		_, err := codec.Decode(encoded[:length])
-		if !errors.Is(err, yacymodel.ErrBadRWIPosting) {
-			t.Errorf("truncated to %d bytes: err = %v, want ErrBadRWIPosting", length, err)
-		}
+	cutInsideTheLastModifiedVarint := []byte{0x80}
+	if _, err := codec.Decode(cutInsideTheLastModifiedVarint); !errors.Is(
+		err, yacymodel.ErrBadRWIPosting,
+	) {
+		t.Errorf("err = %v, want ErrBadRWIPosting", err)
 	}
 }

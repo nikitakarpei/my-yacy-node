@@ -4,41 +4,42 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type urlMetadataValueCodec struct{}
 
 func (urlMetadataValueCodec) Encode(metadata yacymodel.URLMetadata) ([]byte, error) {
-	var w urlMetadataWriter
-	w.text(metadata.Address)
-	w.referrer(metadata.Referrer)
-	w.text(metadata.Title)
-	w.text(metadata.Author)
-	w.count(len(metadata.Tags))
+	var stored storedfields.Writer
+	stored.Text(metadata.Address)
+	writeReferrer(&stored, metadata.Referrer)
+	stored.Text(metadata.Title)
+	stored.Text(metadata.Author)
+	stored.Count(len(metadata.Tags))
 	for _, tag := range metadata.Tags {
-		w.text(tag)
+		stored.Text(tag)
 	}
-	w.text(metadata.Publisher)
-	w.location(metadata.Location)
-	w.day(metadata.Modified)
-	w.day(metadata.Loaded)
-	w.day(metadata.FreshUntil)
-	w.uint8(byte(metadata.DocumentType))
-	w.text(metadata.MediaType)
-	w.language(metadata.Language)
-	w.count(metadata.ByteSize)
-	w.count(metadata.WordCount)
-	w.count(metadata.LocalLinks)
-	w.count(metadata.ExternalLinks)
-	w.count(metadata.ImageLinks)
-	w.count(metadata.AudioLinks)
-	w.count(metadata.VideoLinks)
-	w.count(metadata.ApplicationLinks)
-	w.text(metadata.Snippet)
-	w.text(metadata.FaviconAddress)
+	stored.Text(metadata.Publisher)
+	writeLocation(&stored, metadata.Location)
+	writeDay(&stored, metadata.Modified)
+	writeDay(&stored, metadata.Loaded)
+	writeDay(&stored, metadata.FreshUntil)
+	stored.Byte(byte(metadata.DocumentType))
+	stored.Text(metadata.MediaType)
+	writeLanguage(&stored, metadata.Language)
+	stored.Count(metadata.ByteSize)
+	stored.Count(metadata.WordCount)
+	stored.Count(metadata.LocalLinks)
+	stored.Count(metadata.ExternalLinks)
+	stored.Count(metadata.ImageLinks)
+	stored.Count(metadata.AudioLinks)
+	stored.Count(metadata.VideoLinks)
+	stored.Count(metadata.ApplicationLinks)
+	stored.Text(metadata.Snippet)
+	stored.Text(metadata.FaviconAddress)
 
-	return w.bytes(), nil
+	return stored.Record(), nil
 }
 
 func (urlMetadataValueCodec) Decode(data []byte) (yacymodel.URLMetadata, error) {
@@ -48,141 +49,157 @@ func (urlMetadataValueCodec) Decode(data []byte) (yacymodel.URLMetadata, error) 
 			yacymodel.ErrBadURLMetadata,
 		)
 	}
-	r := newURLMetadataReader(data)
-	metadata := yacymodel.URLMetadata{Address: r.text("address")}
-	referrer, referrerErr := r.referrer()
-	metadata.Referrer = referrer
-	metadata.Title = r.text("title")
-	metadata.Author = r.text("author")
-	metadata.Tags = r.tags()
-	metadata.Publisher = r.text("publisher")
-	location, locationErr := r.location()
-	metadata.Location = location
-	metadata.Modified = r.day("modified")
-	metadata.Loaded = r.day("loaded")
-	metadata.FreshUntil = r.day("fresh until")
-	metadata.DocumentType = yacymodel.DocumentType(r.uint8("content type"))
-	metadata.MediaType = r.text("media type")
-	language, languageErr := r.language()
-	metadata.Language = language
-	metadata.ByteSize = r.count("byte size")
-	metadata.WordCount = r.count("word count")
-	metadata.LocalLinks = r.count("local links")
-	metadata.ExternalLinks = r.count("external links")
-	metadata.ImageLinks = r.count("image links")
-	metadata.AudioLinks = r.count("audio links")
-	metadata.VideoLinks = r.count("video links")
-	metadata.ApplicationLinks = r.count("application links")
-	metadata.Snippet = r.text("snippet")
-	metadata.FaviconAddress = r.text("favicon address")
-
-	if r.err != nil {
-		return yacymodel.URLMetadata{}, r.err
+	stored := storedfields.ReaderOf(data, yacymodel.ErrBadURLMetadata)
+	metadata := yacymodel.URLMetadata{
+		Address:          stored.Text("address"),
+		Referrer:         referrerFrom(stored),
+		Title:            stored.Text("title"),
+		Author:           stored.Text("author"),
+		Tags:             tagsFrom(stored),
+		Publisher:        stored.Text("publisher"),
+		Location:         locationFrom(stored),
+		Modified:         dayFrom(stored, "modified"),
+		Loaded:           dayFrom(stored, "loaded"),
+		FreshUntil:       dayFrom(stored, "fresh until"),
+		DocumentType:     yacymodel.DocumentType(stored.Byte("content type")),
+		MediaType:        stored.Text("media type"),
+		Language:         languageFrom(stored),
+		ByteSize:         stored.Count("byte size"),
+		WordCount:        stored.Count("word count"),
+		LocalLinks:       stored.Count("local links"),
+		ExternalLinks:    stored.Count("external links"),
+		ImageLinks:       stored.Count("image links"),
+		AudioLinks:       stored.Count("audio links"),
+		VideoLinks:       stored.Count("video links"),
+		ApplicationLinks: stored.Count("application links"),
+		Snippet:          stored.Text("snippet"),
+		FaviconAddress:   stored.Text("favicon address"),
 	}
-	for _, err := range []error{referrerErr, locationErr, languageErr} {
-		if err != nil {
-			return yacymodel.URLMetadata{}, fmt.Errorf(
-				"%w: %w", yacymodel.ErrBadURLMetadata, err,
-			)
-		}
+	if err := stored.Err(); err != nil {
+		return yacymodel.URLMetadata{}, err
 	}
 
 	return metadata, nil
 }
 
-func (w *urlMetadataWriter) referrer(referrer yacymodel.Optional[yacymodel.URLHash]) {
-	if value, ok := referrer.Get(); ok {
-		w.text(value.String())
+func writeReferrer(stored *storedfields.Writer, referrer yacymodel.Optional[yacymodel.URLHash]) {
+	hash, known := referrer.Get()
+	if !known {
+		stored.Text("")
 
 		return
 	}
-	w.text("")
+	stored.Text(hash.String())
 }
 
-func (r *urlMetadataReader) referrer() (yacymodel.Optional[yacymodel.URLHash], error) {
-	raw := r.text("referrer")
+func referrerFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.URLHash] {
+	raw := stored.Text("referrer")
 	if raw == "" {
-		return yacymodel.None[yacymodel.URLHash](), nil
+		return yacymodel.None[yacymodel.URLHash]()
 	}
 	referrer, err := yacymodel.ParseURLHash(raw)
 	if err != nil {
-		return yacymodel.None[yacymodel.URLHash](), err
+		stored.Reject("referrer", err)
+
+		return yacymodel.None[yacymodel.URLHash]()
 	}
 
-	return yacymodel.Some(referrer), nil
+	return yacymodel.Some(referrer)
 }
 
-func (w *urlMetadataWriter) language(language yacymodel.Optional[yacymodel.Language]) {
-	if code, ok := language.Get(); ok {
-		w.text(code.String())
+func writeLanguage(stored *storedfields.Writer, language yacymodel.Optional[yacymodel.Language]) {
+	code, spoken := language.Get()
+	if !spoken {
+		stored.Text("")
 
 		return
 	}
-	w.text("")
+	stored.Text(code.String())
 }
 
-func (r *urlMetadataReader) language() (yacymodel.Optional[yacymodel.Language], error) {
-	raw := r.text("language")
+func languageFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.Language] {
+	raw := stored.Text("language")
 	if raw == "" {
-		return yacymodel.None[yacymodel.Language](), nil
+		return yacymodel.None[yacymodel.Language]()
 	}
-	code, err := yacymodel.ParseLanguage(raw)
+	language, err := yacymodel.ParseLanguage(raw)
 	if err != nil {
-		return yacymodel.None[yacymodel.Language](), err
+		stored.Reject("language", err)
+
+		return yacymodel.None[yacymodel.Language]()
 	}
 
-	return yacymodel.Some(code), nil
+	return yacymodel.Some(language)
 }
 
-func (w *urlMetadataWriter) location(location yacymodel.Optional[yacymodel.Coordinates]) {
-	coordinates, _ := location.Get()
-	w.degrees(coordinates.Latitude)
-	w.degrees(coordinates.Longitude)
-}
-
-func (r *urlMetadataReader) location() (yacymodel.Optional[yacymodel.Coordinates], error) {
-	latitude := r.degrees("latitude")
-	longitude := r.degrees("longitude")
-	if latitude == 0 && longitude == 0 {
-		return yacymodel.None[yacymodel.Coordinates](), nil
+func writeLocation(
+	stored *storedfields.Writer,
+	location yacymodel.Optional[yacymodel.Coordinates],
+) {
+	coordinates, placed := location.Get()
+	stored.Presence(placed)
+	if !placed {
+		return
 	}
-	coordinates, err := yacymodel.NewCoordinates(latitude, longitude)
+	stored.Float(coordinates.Latitude)
+	stored.Float(coordinates.Longitude)
+}
+
+func locationFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.Coordinates] {
+	if !stored.Presence("location") {
+		return yacymodel.None[yacymodel.Coordinates]()
+	}
+	coordinates, err := yacymodel.NewCoordinates(
+		stored.Float("latitude"),
+		stored.Float("longitude"),
+	)
 	if err != nil {
-		return yacymodel.None[yacymodel.Coordinates](), err
+		stored.Reject("location", err)
+
+		return yacymodel.None[yacymodel.Coordinates]()
 	}
 
-	return yacymodel.Some(coordinates), nil
+	return yacymodel.Some(coordinates)
 }
 
-func (w *urlMetadataWriter) day(day yacymodel.Optional[yacymodel.CalendarDay]) {
-	value, _ := day.Get()
-	w.count(value.Year)
-	w.count(int(value.Month))
-	w.count(value.Day)
+func writeDay(stored *storedfields.Writer, day yacymodel.Optional[yacymodel.CalendarDay]) {
+	calendarDay, dated := day.Get()
+	stored.Presence(dated)
+	if !dated {
+		return
+	}
+	stored.Count(calendarDay.Year)
+	stored.Count(int(calendarDay.Month))
+	stored.Count(calendarDay.Day)
 }
 
-func (r *urlMetadataReader) day(field string) yacymodel.Optional[yacymodel.CalendarDay] {
-	year := r.count(field + " year")
-	month := r.count(field + " month")
-	dayOfMonth := r.count(field + " day")
-	if year == 0 {
+func dayFrom(stored *storedfields.Reader, field string) yacymodel.Optional[yacymodel.CalendarDay] {
+	if !stored.Presence(field) {
 		return yacymodel.None[yacymodel.CalendarDay]()
 	}
+	year := stored.Count(field + " year")
+	month := stored.Count(field + " month")
+	dayOfMonth := stored.Count(field + " day")
 
 	return yacymodel.Some(yacymodel.NewCalendarDay(year, time.Month(month), dayOfMonth))
 }
 
-func (r *urlMetadataReader) tags() []string {
-	count := r.count("tag count")
-	if r.err != nil || count <= 0 {
+func tagsFrom(stored *storedfields.Reader) []string {
+	count := stored.Count("tag count")
+	if count <= 0 {
+		return nil
+	}
+	if count > stored.BytesLeft() {
+		stored.Reject("tag count", fmt.Errorf("%d tags exceed the bytes left", count))
+
 		return nil
 	}
 	tags := make([]string, 0, count)
 	for range count {
-		tags = append(tags, r.text("tag"))
-		if r.err != nil {
-			return nil
-		}
+		tags = append(tags, stored.Text("tag"))
+	}
+	if stored.Err() != nil {
+		return nil
 	}
 
 	return tags

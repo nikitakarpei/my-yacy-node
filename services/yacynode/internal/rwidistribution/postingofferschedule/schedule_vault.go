@@ -1,10 +1,11 @@
 package postingofferschedule
 
 import (
-	"encoding/binary"
+	"errors"
 	"fmt"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
@@ -62,41 +63,39 @@ func everyOfferDueBy(dueAt time.Time) vault.KeyRange {
 	return orderKeyParts.KeysThroughFirst(dueAt)
 }
 
+var (
+	errBadDueTime       = errors.New("bad offer due time")
+	errBadOfferInterval = errors.New("bad offer interval")
+)
+
 type dueAtValueCodec struct{}
 
 func (dueAtValueCodec) Encode(at time.Time) ([]byte, error) {
-	raw, err := binary.Append(nil, binary.BigEndian, []int64{
-		at.Unix(),
-		int64(at.Nanosecond()),
-	})
-	if err != nil {
-		return nil, fmt.Errorf("encode due at: %w", err)
-	}
+	var stored storedfields.Writer
+	stored.Time(at)
 
-	return raw, nil
+	return stored.Record(), nil
 }
 
 func (dueAtValueCodec) Decode(raw []byte) (time.Time, error) {
-	dueAt := make([]int64, 2)
-	if _, err := binary.Decode(raw, binary.BigEndian, dueAt); err != nil {
-		return time.Time{}, fmt.Errorf("due at: %w", err)
-	}
-	seconds, nanoseconds := dueAt[0], dueAt[1]
+	stored := storedfields.ReaderOf(raw, errBadDueTime)
+	dueAt := stored.Time("due at")
 
-	return time.Unix(seconds, nanoseconds).UTC(), nil
+	return dueAt, stored.Err()
 }
 
 type offerIntervalValueCodec struct{}
 
 func (offerIntervalValueCodec) Encode(interval time.Duration) ([]byte, error) {
-	return fmt.Appendf(nil, "%d", interval.Nanoseconds()), nil
+	var stored storedfields.Writer
+	stored.Varint(interval.Nanoseconds())
+
+	return stored.Record(), nil
 }
 
 func (offerIntervalValueCodec) Decode(raw []byte) (time.Duration, error) {
-	var nanos int64
-	if _, err := fmt.Sscanf(string(raw), "%d", &nanos); err != nil {
-		return 0, fmt.Errorf("offer interval: %w", err)
-	}
+	stored := storedfields.ReaderOf(raw, errBadOfferInterval)
+	interval := stored.Varint("offer interval")
 
-	return time.Duration(nanos), nil
+	return time.Duration(interval), stored.Err()
 }

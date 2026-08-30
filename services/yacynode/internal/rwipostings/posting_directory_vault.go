@@ -3,6 +3,7 @@ package rwipostings
 import (
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
@@ -43,29 +44,24 @@ func everyPostingOf(word yacymodel.Hash) vault.KeyRange {
 type postingValueCodec struct{}
 
 func (postingValueCodec) Encode(posting yacymodel.RWIPosting) ([]byte, error) {
-	var w postingWriter
-	w.fixed([]byte(posting.URLHash.String()))
-	w.varint(int64(posting.LastModified))
-	w.count(posting.TitleWords)
-	w.count(posting.TextWords)
-	w.count(posting.Phrases)
-	w.uint8(byte(posting.DocumentType))
-	var languageCode []byte
-	if language, ok := posting.Language.Get(); ok {
-		languageCode = []byte(language.String())
-	}
-	w.lengthPrefixed(languageCode)
-	w.count(posting.LocalLinks)
-	w.count(posting.ExternalLinks)
-	w.count(posting.URLLength)
-	w.count(posting.URLComponents)
-	w.uint16(packAppearance(posting.Appearance))
-	w.count(posting.Hits)
-	w.count(posting.TextPosition)
-	w.count(posting.PhraseRelativePosition)
-	w.count(posting.PhrasePosition)
+	var stored storedfields.Writer
+	stored.Varint(int64(posting.LastModified))
+	stored.Count(posting.TitleWords)
+	stored.Count(posting.TextWords)
+	stored.Count(posting.Phrases)
+	stored.Byte(byte(posting.DocumentType))
+	writeLanguage(&stored, posting.Language)
+	stored.Count(posting.LocalLinks)
+	stored.Count(posting.ExternalLinks)
+	stored.Count(posting.URLLength)
+	stored.Count(posting.URLComponents)
+	stored.Uint16(packAppearance(posting.Appearance))
+	stored.Count(posting.Hits)
+	stored.Count(posting.TextPosition)
+	stored.Count(posting.PhraseRelativePosition)
+	stored.Count(posting.PhrasePosition)
 
-	return w.bytes(), nil
+	return stored.Record(), nil
 }
 
 func (postingValueCodec) Decode(data []byte) (yacymodel.RWIPosting, error) {
@@ -75,36 +71,57 @@ func (postingValueCodec) Decode(data []byte) (yacymodel.RWIPosting, error) {
 			yacymodel.ErrBadRWIPosting,
 		)
 	}
-	r := newPostingReader(data)
-	rawURLHash := r.fixed("url hash", yacymodel.HashLength)
+	stored := storedfields.ReaderOf(data, yacymodel.ErrBadRWIPosting)
 	posting := yacymodel.RWIPosting{
-		LastModified:           yacymodel.MicroDate(r.varint("last modified")),
-		TitleWords:             r.count("title words"),
-		TextWords:              r.count("text words"),
-		Phrases:                r.count("phrases"),
-		DocumentType:           yacymodel.DocumentType(r.uint8("document type")),
-		Language:               r.language("language"),
-		LocalLinks:             r.count("local links"),
-		ExternalLinks:          r.count("external links"),
-		URLLength:              r.count("url length"),
-		URLComponents:          r.count("url components"),
-		Appearance:             unpackAppearance(r.uint16("appearance")),
-		Hits:                   r.count("hits"),
-		TextPosition:           r.count("text position"),
-		PhraseRelativePosition: r.count("phrase relative position"),
-		PhrasePosition:         r.count("phrase position"),
+		LastModified:           yacymodel.MicroDate(stored.Varint("last modified")),
+		TitleWords:             stored.Count("title words"),
+		TextWords:              stored.Count("text words"),
+		Phrases:                stored.Count("phrases"),
+		DocumentType:           yacymodel.DocumentType(stored.Byte("document type")),
+		Language:               languageFrom(stored),
+		LocalLinks:             stored.Count("local links"),
+		ExternalLinks:          stored.Count("external links"),
+		URLLength:              stored.Count("url length"),
+		URLComponents:          stored.Count("url components"),
+		Appearance:             unpackAppearance(stored.Uint16("appearance")),
+		Hits:                   stored.Count("hits"),
+		TextPosition:           stored.Count("text position"),
+		PhraseRelativePosition: stored.Count("phrase relative position"),
+		PhrasePosition:         stored.Count("phrase position"),
 	}
-	if r.err != nil {
-		return yacymodel.RWIPosting{}, r.err
+	if err := stored.Err(); err != nil {
+		return yacymodel.RWIPosting{}, err
 	}
-
-	urlHash, err := yacymodel.ParseURLHash(string(rawURLHash))
-	if err != nil {
-		return yacymodel.RWIPosting{}, fmt.Errorf("%w: %w", yacymodel.ErrBadRWIPosting, err)
-	}
-	posting.URLHash = urlHash
 
 	return posting, nil
+}
+
+func writeLanguage(
+	stored *storedfields.Writer,
+	language yacymodel.Optional[yacymodel.Language],
+) {
+	code, spoken := language.Get()
+	if !spoken {
+		stored.Text("")
+
+		return
+	}
+	stored.Text(code.String())
+}
+
+func languageFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.Language] {
+	raw := stored.Text("language")
+	if raw == "" {
+		return yacymodel.None[yacymodel.Language]()
+	}
+	language, err := yacymodel.ParseLanguage(raw)
+	if err != nil {
+		stored.Reject("language", err)
+
+		return yacymodel.None[yacymodel.Language]()
+	}
+
+	return yacymodel.Some(language)
 }
 
 func appearanceFields(a *yacymodel.Appearance) []*bool {

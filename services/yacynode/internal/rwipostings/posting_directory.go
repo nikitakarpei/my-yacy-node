@@ -41,6 +41,7 @@ func (d postingDirectory) PostingOf(
 			return nil
 		}
 		stored.WordHash = word
+		stored.URLHash = url
 		entry, found = stored, true
 
 		return nil
@@ -89,11 +90,12 @@ func (d postingDirectory) ScanWord(
 		return d.postings.Scan(
 			tx,
 			everyPostingOf(word),
-			func(_ postingIdentity, entry yacymodel.RWIPosting) (bool, error) {
+			func(identity postingIdentity, entry yacymodel.RWIPosting) (bool, error) {
 				if err := ctx.Err(); err != nil {
 					return false, fmt.Errorf("context: %w", err)
 				}
 				entry.WordHash = word
+				entry.URLHash = identity.url
 
 				return visit(entry)
 			},
