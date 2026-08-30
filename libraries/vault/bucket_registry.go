@@ -50,6 +50,19 @@ func (v *Vault) EntriesByCollection(ctx context.Context) (map[Name]int, error) {
 	return entries, nil
 }
 
+func lengthsOf(tx *Txn, collections []Name) (map[Name]int, error) {
+	lengths := make(map[Name]int, len(collections))
+	for _, bucket := range collections {
+		length, err := lengthOf(tx, bucket)
+		if err != nil {
+			return nil, err
+		}
+		lengths[bucket] = length
+	}
+
+	return lengths, nil
+}
+
 func (v *Vault) registeredCollections() []Name {
 	v.mu.Lock()
 	defer v.mu.Unlock()

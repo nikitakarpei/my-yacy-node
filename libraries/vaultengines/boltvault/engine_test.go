@@ -143,6 +143,12 @@ func TestProvisionRefusesACollectionWithNoName(t *testing.T) {
 	}
 }
 
+func TestProvisionRefusesTheReservedLengthCollection(t *testing.T) {
+	if err := openEngine(t).Provision("__lengths__"); err == nil {
+		t.Fatal("Provision of the reserved collection succeeded, want error")
+	}
+}
+
 func TestWritesAreNotGatedByQuota(t *testing.T) {
 	ctx := context.Background()
 	store, err := boltvault.Open(filepath.Join(t.TempDir(), "node.db"), 1, nil)
