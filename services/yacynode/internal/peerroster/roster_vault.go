@@ -8,14 +8,14 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const peersBucket vault.Name = "peerroster"
 
 func registerRoster(v *vault.Vault) (*vault.Collection[yacymodel.Hash, rosterEntry], error) {
-	peers, err := v.RegisterCollection(peersBucket, peerKeyCodec, rosterEntryValueCodec{})
+	peers, err := v.RegisterCollection(peersBucket, peerKeyLayout, rosterEntryValueCodec{})
 	if err != nil {
 		return nil, fmt.Errorf("register peer roster: %w", err)
 	}
@@ -23,7 +23,7 @@ func registerRoster(v *vault.Vault) (*vault.Collection[yacymodel.Hash, rosterEnt
 	return peers, nil
 }
 
-var peerKeyCodec = vault.SingleKey(hashcodec.Hash).KeyCodec()
+var peerKeyLayout = vault.SingleKey(hashkeypart.Hash).KeyLayout()
 
 type rosterEntryValueCodec struct{}
 

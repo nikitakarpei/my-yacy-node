@@ -195,7 +195,7 @@ func openObservedWords(
 
 	words, err := v.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec,
+		stringKeyLayout,
 		stringValueCodec{},
 	)
 	if err != nil {

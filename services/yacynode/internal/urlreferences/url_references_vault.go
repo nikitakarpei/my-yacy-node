@@ -5,7 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
 )
 
 const (
@@ -16,11 +16,11 @@ const (
 func registerURLReferences(
 	v *vault.Vault,
 ) (*vault.Set[wordByURL], *vault.Set[yacymodel.URLHash], error) {
-	words, err := v.RegisterSet(wordsByURLBucket, wordByURLKeyCodec)
+	words, err := v.RegisterSet(wordsByURLBucket, wordByURLKeyLayout)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register words by url: %w", err)
 	}
-	referenced, err := v.RegisterSet(referencedURLBucket, referencedURLKeyCodec)
+	referenced, err := v.RegisterSet(referencedURLBucket, referencedURLKeyLayout)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register referenced urls: %w", err)
 	}
@@ -28,9 +28,9 @@ func registerURLReferences(
 	return words, referenced, nil
 }
 
-var wordByURLKeyLayout = vault.PairKey(hashcodec.URLHash, hashcodec.Hash)
+var wordByURLKeyParts = vault.PairKey(hashkeypart.URLHash, hashkeypart.Hash)
 
-var wordByURLKeyCodec = wordByURLKeyLayout.KeyCodecFor(
+var wordByURLKeyLayout = wordByURLKeyParts.KeyLayoutFor(
 	func(reference wordByURL) (yacymodel.URLHash, yacymodel.Hash) {
 		return reference.url, reference.word
 	},
@@ -40,7 +40,7 @@ var wordByURLKeyCodec = wordByURLKeyLayout.KeyCodecFor(
 )
 
 func everyWordReferencing(url yacymodel.URLHash) vault.KeyRange {
-	return wordByURLKeyLayout.KeysWithFirst(url)
+	return wordByURLKeyParts.KeysWithFirst(url)
 }
 
-var referencedURLKeyCodec = vault.SingleKey(hashcodec.URLHash).KeyCodec()
+var referencedURLKeyLayout = vault.SingleKey(hashkeypart.URLHash).KeyLayout()

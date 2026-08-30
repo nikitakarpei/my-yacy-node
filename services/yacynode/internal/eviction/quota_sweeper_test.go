@@ -13,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
-var seedKeyCodec = vault.SingleKey(vault.TextKeyPart).KeyCodec()
+var seedKeyLayout = vault.SingleKey(vault.TextKeyPart).KeyLayout()
 
 type seedValueCodec struct{}
 
@@ -42,7 +42,7 @@ func seedUsage(t *testing.T, v *vault.Vault) {
 
 	collection, err := v.RegisterCollection(
 		vault.Name("seed"),
-		seedKeyCodec,
+		seedKeyLayout,
 		seedValueCodec{},
 	)
 	if err != nil {

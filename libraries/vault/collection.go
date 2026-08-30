@@ -9,13 +9,13 @@ var errReadOnly = errors.New("write inside read-only transaction")
 
 type Collection[K, V any] struct {
 	name   Name
-	keys   KeyCodec[K]
+	keys   KeyLayout[K]
 	values ValueCodec[V]
 }
 
 func (v *Vault) RegisterCollection[K, V any](
 	bucket Name,
-	keys KeyCodec[K],
+	keys KeyLayout[K],
 	values ValueCodec[V],
 ) (*Collection[K, V], error) {
 	if err := v.provision(bucket); err != nil {

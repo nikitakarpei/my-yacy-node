@@ -31,13 +31,13 @@ func TestARecordNoWriterOfThisVersionWroteRefusesTheRead(t *testing.T) {
 
 			words, err := v.RegisterCollection(
 				vault.Name("words"),
-				stringKeyCodec,
+				stringKeyLayout,
 				stringValueCodec{},
 			)
 			if err != nil {
 				t.Fatalf("RegisterCollection: %v", err)
 			}
-			engine.plant("words", stringKeyLayout.Key("a").Bytes(), testCase.record)
+			engine.plant("words", stringKeyParts.Key("a").Bytes(), testCase.record)
 
 			if err := v.View(ctx, func(tx *vault.Txn) error {
 				_, _, err := words.Get(tx, "a")

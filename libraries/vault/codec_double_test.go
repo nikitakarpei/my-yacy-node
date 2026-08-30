@@ -23,7 +23,7 @@ func openWords(t *testing.T) (*vault.Vault, *vault.Collection[string, string]) {
 
 	words, err := v.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec,
+		stringKeyLayout,
 		stringValueCodec{},
 	)
 	if err != nil {
@@ -35,9 +35,9 @@ func openWords(t *testing.T) (*vault.Vault, *vault.Collection[string, string]) {
 
 func wrap(err error) error { return fmt.Errorf("vault op: %w", err) }
 
-var stringKeyLayout = vault.SingleKey(vault.TextKeyPart)
+var stringKeyParts = vault.SingleKey(vault.TextKeyPart)
 
-var stringKeyCodec = stringKeyLayout.KeyCodec()
+var stringKeyLayout = stringKeyParts.KeyLayout()
 
 type stringValueCodec struct{}
 

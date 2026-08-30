@@ -4,9 +4,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
-var stringKeyLayout = vault.SingleKey(vault.TextKeyPart)
+var stringKeyParts = vault.SingleKey(vault.TextKeyPart)
 
-var stringKeyCodec = stringKeyLayout.KeyCodec()
+var stringKeyLayout = stringKeyParts.KeyLayout()
 
 type stringValueCodec struct{}
 

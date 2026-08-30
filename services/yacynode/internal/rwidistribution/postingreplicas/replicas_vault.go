@@ -15,7 +15,7 @@ func registerReplicaLedger(
 ) (*vault.Collection[postingidentity.Identity, []yacymodel.Hash], error) {
 	holders, err := v.RegisterCollection(
 		bucket,
-		postingidentity.KeyCodec,
+		postingidentity.KeyLayout,
 		holdersValueCodec{},
 	)
 	if err != nil {

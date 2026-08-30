@@ -4,7 +4,7 @@ type Set[K any] struct {
 	entries *Collection[K, struct{}]
 }
 
-func (v *Vault) RegisterSet[K any](bucket Name, keys KeyCodec[K]) (*Set[K], error) {
+func (v *Vault) RegisterSet[K any](bucket Name, keys KeyLayout[K]) (*Set[K], error) {
 	entries, err := v.RegisterCollection(bucket, keys, presenceValueCodec{})
 	if err != nil {
 		return nil, err

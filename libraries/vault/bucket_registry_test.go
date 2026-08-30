@@ -13,7 +13,7 @@ func TestRejectsDuplicateRegistration(t *testing.T) {
 
 	if _, err := v.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec,
+		stringKeyLayout,
 		stringValueCodec{},
 	); err == nil {
 		t.Fatal("duplicate RegisterCollection succeeded, want error")
@@ -31,7 +31,7 @@ func TestRegisterRejectsClosedVault(t *testing.T) {
 
 	if _, err := v.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec,
+		stringKeyLayout,
 		stringValueCodec{},
 	); err == nil {
 		t.Fatal("RegisterCollection on closed vault succeeded, want error")
@@ -50,13 +50,13 @@ func TestEntriesByCollectionReportsRegisteredLengths(t *testing.T) {
 	})
 	ctx := context.Background()
 
-	words, err := v.RegisterCollection("words", stringKeyCodec, stringValueCodec{})
+	words, err := v.RegisterCollection("words", stringKeyLayout, stringValueCodec{})
 	if err != nil {
 		t.Fatalf("Register words: %v", err)
 	}
 	if _, err := v.RegisterCollection(
 		"urls",
-		stringKeyCodec,
+		stringKeyLayout,
 		stringValueCodec{},
 	); err != nil {
 		t.Fatalf("Register urls: %v", err)

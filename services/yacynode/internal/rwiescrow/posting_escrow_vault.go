@@ -7,7 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
@@ -21,13 +21,13 @@ func registerPostingEscrow(
 ) (*vault.Collection[postingIdentity, escrowedPosting], *vault.Set[postingHold], error) {
 	escrowed, err := v.RegisterCollection(
 		escrowedPostingBucket,
-		escrowedPostingKeyCodec,
+		escrowedPostingKeyLayout,
 		escrowedPostingValueCodec{},
 	)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register escrowed postings: %w", err)
 	}
-	holds, err := v.RegisterSet(postingHoldBucket, postingHoldKeyCodec)
+	holds, err := v.RegisterSet(postingHoldBucket, postingHoldKeyLayout)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register posting holds: %w", err)
 	}
@@ -35,9 +35,9 @@ func registerPostingEscrow(
 	return escrowed, holds, nil
 }
 
-var escrowedPostingKeyLayout = vault.PairKey(hashcodec.URLHash, hashcodec.Hash)
+var escrowedPostingKeyParts = vault.PairKey(hashkeypart.URLHash, hashkeypart.Hash)
 
-var escrowedPostingKeyCodec = escrowedPostingKeyLayout.KeyCodecFor(
+var escrowedPostingKeyLayout = escrowedPostingKeyParts.KeyLayoutFor(
 	func(posting postingIdentity) (yacymodel.URLHash, yacymodel.Hash) {
 		return posting.URL, posting.Word
 	},
@@ -47,7 +47,7 @@ var escrowedPostingKeyCodec = escrowedPostingKeyLayout.KeyCodecFor(
 )
 
 func everyPostingWaitingFor(url yacymodel.URLHash) vault.KeyRange {
-	return escrowedPostingKeyLayout.KeysWithFirst(url)
+	return escrowedPostingKeyParts.KeysWithFirst(url)
 }
 
 type escrowedPostingValueCodec struct{}
@@ -88,9 +88,9 @@ func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
 	}, nil
 }
 
-var postingHoldKeyLayout = vault.TripleKey(vault.TimeKeyPart, hashcodec.Hash, hashcodec.URLHash)
+var postingHoldKeyParts = vault.TripleKey(vault.TimeKeyPart, hashkeypart.Hash, hashkeypart.URLHash)
 
-var postingHoldKeyCodec = postingHoldKeyLayout.KeyCodecFor(
+var postingHoldKeyLayout = postingHoldKeyParts.KeyLayoutFor(
 	func(hold postingHold) (time.Time, yacymodel.Hash, yacymodel.URLHash) {
 		return hold.HeldAt, hold.Posting.Word, hold.Posting.URL
 	},
@@ -100,5 +100,5 @@ var postingHoldKeyCodec = postingHoldKeyLayout.KeyCodecFor(
 )
 
 func everyHoldPlacedBefore(cutoff time.Time) vault.KeyRange {
-	return postingHoldKeyLayout.KeysBeforeFirst(cutoff)
+	return postingHoldKeyParts.KeysBeforeFirst(cutoff)
 }

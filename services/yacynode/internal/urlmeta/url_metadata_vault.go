@@ -5,7 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
 )
 
 const bucketName vault.Name = "urlmeta"
@@ -15,7 +15,7 @@ func registerCollection(
 ) (*vault.Collection[yacymodel.URLHash, yacymodel.URLMetadata], error) {
 	collection, err := v.RegisterCollection(
 		bucketName,
-		urlMetadataKeyCodec,
+		urlMetadataKeyLayout,
 		urlMetadataValueCodec{},
 	)
 	if err != nil {
@@ -25,4 +25,4 @@ func registerCollection(
 	return collection, nil
 }
 
-var urlMetadataKeyCodec = vault.SingleKey(hashcodec.URLHash).KeyCodec()
+var urlMetadataKeyLayout = vault.SingleKey(hashkeypart.URLHash).KeyLayout()

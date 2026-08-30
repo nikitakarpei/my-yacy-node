@@ -5,7 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
 )
 
 const (
@@ -16,13 +16,13 @@ const (
 func registerStalenessRanking(
 	v *vault.Vault,
 ) (*vault.Set[rankedURL], *vault.Collection[yacymodel.URLHash, freshnessRank], error) {
-	order, err := v.RegisterSet(orderBucket, orderKeyCodec)
+	order, err := v.RegisterSet(orderBucket, orderKeyLayout)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register staleness order: %w", err)
 	}
 	freshness, err := v.RegisterCollection(
 		freshnessBucket,
-		freshnessKeyCodec,
+		freshnessKeyLayout,
 		freshnessRankValueCodec{},
 	)
 	if err != nil {
@@ -32,14 +32,14 @@ func registerStalenessRanking(
 	return order, freshness, nil
 }
 
-var freshnessRankCodec = vault.TextKeyPartFrom(
+var freshnessRankKeyPart = vault.TextKeyPartFrom(
 	func(rank freshnessRank) string { return string(rank) },
 	func(text string) (freshnessRank, error) { return freshnessRank(text), nil },
 )
 
-var orderKeyLayout = vault.PairKey(freshnessRankCodec, hashcodec.URLHash)
+var orderKeyParts = vault.PairKey(freshnessRankKeyPart, hashkeypart.URLHash)
 
-var orderKeyCodec = orderKeyLayout.KeyCodecFor(
+var orderKeyLayout = orderKeyParts.KeyLayoutFor(
 	func(ranked rankedURL) (freshnessRank, yacymodel.URLHash) {
 		return ranked.rank, ranked.hash
 	},
@@ -48,7 +48,7 @@ var orderKeyCodec = orderKeyLayout.KeyCodecFor(
 	},
 )
 
-var freshnessKeyCodec = vault.SingleKey(hashcodec.URLHash).KeyCodec()
+var freshnessKeyLayout = vault.SingleKey(hashkeypart.URLHash).KeyLayout()
 
 // freshnessRankValueCodec stores a rank as the plain text it already is, so the
 // vault's byte order stays stalest-first.

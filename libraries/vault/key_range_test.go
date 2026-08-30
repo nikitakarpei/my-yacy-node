@@ -24,7 +24,7 @@ var firstValuesSpanningTheEncodings = []int64{math.MinInt64, 1, 2, 3, 1 << 62, m
 func TestRangesOfTheFirstPositionReadInDomainOrderInBothDirections(t *testing.T) {
 	for _, directed := range []struct {
 		direction string
-		layout    vault.PairKeyLayout[int64, string]
+		parts     vault.PairKeyParts[int64, string]
 	}{
 		{"Ascending", vault.PairKey(vault.IntegerKeyPart, vault.TextKeyPart)},
 		{"Descending", vault.PairKey(vault.IntegerKeyPartDescending, vault.TextKeyPart)},
@@ -33,16 +33,16 @@ func TestRangesOfTheFirstPositionReadInDomainOrderInBothDirections(t *testing.T)
 			for _, bound := range firstValuesSpanningTheEncodings {
 				for _, first := range firstValuesSpanningTheEncodings {
 					for _, second := range []string{"", "\xff\xff"} {
-						key := directed.layout.Key(first, second).Bytes()
+						key := directed.parts.Key(first, second).Bytes()
 
 						assertRangeAnswers(
-							t, directed.layout.KeysWithFirst(bound), key, first == bound)
+							t, directed.parts.KeysWithFirst(bound), key, first == bound)
 						assertRangeAnswers(
-							t, directed.layout.KeysFromFirst(bound), key, first >= bound)
+							t, directed.parts.KeysFromFirst(bound), key, first >= bound)
 						assertRangeAnswers(
-							t, directed.layout.KeysThroughFirst(bound), key, first <= bound)
+							t, directed.parts.KeysThroughFirst(bound), key, first <= bound)
 						assertRangeAnswers(
-							t, directed.layout.KeysBeforeFirst(bound), key, first < bound)
+							t, directed.parts.KeysBeforeFirst(bound), key, first < bound)
 					}
 				}
 			}
@@ -51,11 +51,11 @@ func TestRangesOfTheFirstPositionReadInDomainOrderInBothDirections(t *testing.T)
 }
 
 func TestKeysBeforeTheSmallestFirstValueHoldNoKey(t *testing.T) {
-	layout := vault.PairKey(vault.IntegerKeyPart, vault.TextKeyPart)
-	keys := layout.KeysBeforeFirst(math.MinInt64)
+	parts := vault.PairKey(vault.IntegerKeyPart, vault.TextKeyPart)
+	keys := parts.KeysBeforeFirst(math.MinInt64)
 
 	for _, first := range []int64{math.MinInt64, 0, math.MaxInt64} {
-		assertRangeAnswers(t, keys, layout.Key(first, "").Bytes(), false)
+		assertRangeAnswers(t, keys, parts.Key(first, "").Bytes(), false)
 	}
 }
 

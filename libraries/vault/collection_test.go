@@ -59,7 +59,7 @@ func TestEncodeErrorSurfaces(t *testing.T) {
 	})
 	collection, err := v.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec,
+		stringKeyLayout,
 		failingEncodeCodec{},
 	)
 	if err != nil {
@@ -86,7 +86,7 @@ func TestDecodeErrorSurfaces(t *testing.T) {
 	})
 	collection, err := v.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec,
+		stringKeyLayout,
 		failingDecodeCodec{},
 	)
 	if err != nil {

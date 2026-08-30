@@ -13,9 +13,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault"
 )
 
-var stringKeyLayout = vault.SingleKey(vault.TextKeyPart)
+var stringKeyParts = vault.SingleKey(vault.TextKeyPart)
 
-var stringKeyCodec = stringKeyLayout.KeyCodec()
+var stringKeyLayout = stringKeyParts.KeyLayout()
 
 type stringValueCodec struct{}
 
@@ -59,7 +59,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 	}
 	words, err := first.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec,
+		stringKeyLayout,
 		stringValueCodec{},
 	)
 	if err != nil {
@@ -85,7 +85,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 	})
 	words, err = reopened.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec,
+		stringKeyLayout,
 		stringValueCodec{},
 	)
 	if err != nil {
@@ -149,7 +149,7 @@ func TestWritesAreNotGatedByQuota(t *testing.T) {
 	})
 	words, err := store.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec,
+		stringKeyLayout,
 		stringValueCodec{},
 	)
 	if err != nil {
