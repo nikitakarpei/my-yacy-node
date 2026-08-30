@@ -1,3 +1,3 @@
 module github.com/nikitakarpei/yacy-rwi-node/searchdocument
 
-go 1.26
+go 1.27

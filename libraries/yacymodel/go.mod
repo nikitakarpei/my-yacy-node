@@ -1,3 +1,3 @@
 module github.com/nikitakarpei/yacy-rwi-node/yacymodel
 
-go 1.26
+go 1.27

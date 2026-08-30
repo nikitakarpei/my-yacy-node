@@ -1,14 +1,16 @@
 #!/bin/sh
-# Download the pinned tool binaries from their official releases into
-# .toolchain/bin, verifying each archive against tools/tools.lock.
+# Download the pinned tools from their official releases into .toolchain,
+# verifying each archive against tools/tools.lock.
 # No `go install` / `go tool`: nothing is compiled and the project module
 # graph is untouched.
 set -eu
 
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 lock="$root/tools/tools.lock"
-bin="$root/.toolchain/bin"
-protoc_include="$root/.toolchain/include"
+toolchain="$root/.toolchain"
+bin="$toolchain/bin"
+goroot="$toolchain/go"
+protoc_include="$toolchain/include"
 
 case "$(uname -s)" in
 	Linux) os=linux ;;
@@ -52,6 +54,26 @@ fetch() {
 	trap - EXIT
 }
 
+# The Go toolchain is a tree, not one binary; the archive carries it under go/
+# and GOROOT is that tree at .toolchain/go.
+fetch_go() {
+	url="$1"; want="$2"
+	tmp=$(mktemp -d)
+	trap 'rm -rf "$tmp"' EXIT
+	echo "==> go $platform"
+	curl -fsSL "$url" -o "$tmp/archive.tar.gz"
+	got=$(sha256 "$tmp/archive.tar.gz")
+	if [ "$got" != "$want" ]; then
+		echo "checksum mismatch for go: expected $want, got $got" >&2
+		exit 1
+	fi
+	rm -rf "$goroot"
+	mkdir -p "$goroot"
+	tar -xzf "$tmp/archive.tar.gz" -C "$goroot" --strip-components=1
+	rm -rf "$tmp"
+	trap - EXIT
+}
+
 # protoc needs its bundled well-known type definitions, such as
 # google/protobuf/timestamp.proto, on the proto path; the release zip carries them
 # beside the binary and one checksum covers both.
@@ -75,7 +97,29 @@ fetch_protoc() {
 	trap - EXIT
 }
 
-mkdir -p "$bin"
+# Shells reach the toolchain through `. .toolchain/activate`, which points GOROOT
+# at the pinned tree and keeps every cache inside .toolchain.
+write_activate() {
+	cat > "$toolchain/activate" <<'EOF'
+# Source this: . .toolchain/activate
+TOOLCHAIN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+export GOROOT="$TOOLCHAIN_DIR/go"
+export GOPATH="$TOOLCHAIN_DIR/gopath"
+export GOCACHE="$TOOLCHAIN_DIR/gocache"
+export GOMODCACHE="$TOOLCHAIN_DIR/gomodcache"
+export GOTMPDIR="$TOOLCHAIN_DIR/gotmp"
+export GOLANGCI_LINT_CACHE="$TOOLCHAIN_DIR/golangci-lint-cache"
+export GOTOOLCHAIN=local
+export PATH="$TOOLCHAIN_DIR/bin:$GOROOT/bin:$GOPATH/bin:$PATH"
+EOF
+}
+
+mkdir -p "$bin" "$toolchain/gotmp"
+write_activate
+
+set -- $(lookup go)
+ver="$1"; sum="$2"
+fetch_go "https://go.dev/dl/go$ver.$os-$arch.tar.gz" "$sum"
 
 set -- $(lookup golangci-lint)
 ver="$1"; sum="$2"

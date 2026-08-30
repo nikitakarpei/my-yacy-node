@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault
 
-go 1.26
+go 1.27
 
 require (
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0

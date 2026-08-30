@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore
 
-go 1.26
+go 1.27
 
 replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../../libraries/natstestserver
 

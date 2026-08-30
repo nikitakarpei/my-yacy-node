@@ -72,6 +72,7 @@ func (e helloEndpoint) classifyCaller(
 func (e helloEndpoint) knownPeers(ctx context.Context, count int) []yacymodel.Seed {
 	known := slices.Clone(e.reachability.ReachablePeers(ctx))
 
+	//nolint:gosec // G404: the order only spreads load across peers; it needs no unpredictability.
 	rand.Shuffle(len(known), func(i, j int) {
 		known[i], known[j] = known[j], known[i]
 	})

@@ -1,17 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/corpustext
 
-go 1.26
-
-require (
-	github.com/nats-io/nats.go v1.52.0
-	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
-	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0-00010101000000-000000000000
-	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
-	github.com/prometheus/client_golang v1.23.2
-)
+go 1.27
 
 require (
 	codeberg.org/readeck/go-readability/v2 v2.1.2 // indirect
@@ -62,9 +51,17 @@ replace github.com/nikitakarpei/yacy-rwi-node/pageformats => ../../libraries/pag
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 
 require (
+	github.com/nats-io/nats.go v1.52.0
+	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/natstestserver v0.0.0-00010101000000-000000000000
+	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0-00010101000000-000000000000
 	github.com/nikitakarpei/yacy-rwi-node/scrapedpage v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/searchdocument v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/prometheus/client_golang v1.23.2
 )
 
 replace github.com/nikitakarpei/yacy-rwi-node/scrapedpage => ../../libraries/scrapedpage

@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/yacyproto
 
-go 1.26
+go 1.27
 
 require github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
 

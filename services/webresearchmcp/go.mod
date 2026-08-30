@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/webresearchmcp
 
-go 1.26
+go 1.27
 
 require (
 	github.com/modelcontextprotocol/go-sdk v1.7.0

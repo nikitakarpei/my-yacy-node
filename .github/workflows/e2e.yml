@@ -12,17 +12,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Set up Go
-        uses: actions/setup-go@v7
-        with:
-          go-version-file: services/yacynode/go.mod
-          cache-dependency-path: "**/go.sum"
-
-      - name: Cache tool binaries
+      - name: Cache pinned toolchain
         uses: actions/cache@v6
         with:
-          path: .toolchain/bin
-          key: tools-${{ runner.os }}-${{ hashFiles('tools/tools.lock') }}
+          path: |
+            .toolchain/bin
+            .toolchain/go
+          key: toolchain-${{ runner.os }}-${{ hashFiles('tools/install', 'tools/tools.lock') }}
+
+      - name: Cache Go modules and build output
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}
+          restore-keys: go-${{ runner.os }}-
 
       - name: Run e2e suites
         run: make e2e
