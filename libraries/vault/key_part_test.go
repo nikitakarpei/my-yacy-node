@@ -10,6 +10,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
+type countedWord struct {
+	seenAt time.Time
+	text   string
+	count  int64
+}
+
 func orderedTexts() []string {
 	return []string{
 		"", "\x00", "\x00\x01", "\x00\xff", "\x01", "a", "ab", "b", "\xff", "\xff\x00", "\xff\xff",
@@ -102,16 +108,16 @@ func TestTimeKeysSortInChronologicalOrder(t *testing.T) {
 
 func TestTextRoundTripsThroughBothDirections(t *testing.T) {
 	for _, text := range orderedTexts() {
-		for _, layout := range []vault.SingleKeyLayout[string]{
+		for _, parts := range []vault.SingleKeyParts[string]{
 			vault.SingleKey(vault.TextKeyPart),
 			vault.SingleKey(vault.TextKeyPartDescending),
 		} {
-			decoded, err := layout.Parts(layout.Key(text).Bytes())
+			decoded, err := parts.PartsOf(parts.Key(text).Bytes())
 			if err != nil {
-				t.Fatalf("Parts(%q) failed: %v", text, err)
+				t.Fatalf("PartsOf(%q) failed: %v", text, err)
 			}
 			if decoded != text {
-				t.Fatalf("Parts = %q, want %q", decoded, text)
+				t.Fatalf("PartsOf = %q, want %q", decoded, text)
 			}
 		}
 	}
@@ -119,16 +125,16 @@ func TestTextRoundTripsThroughBothDirections(t *testing.T) {
 
 func TestIntegerRoundTripsThroughBothDirections(t *testing.T) {
 	for _, number := range orderedIntegers() {
-		for _, layout := range []vault.SingleKeyLayout[int64]{
+		for _, parts := range []vault.SingleKeyParts[int64]{
 			vault.SingleKey(vault.IntegerKeyPart),
 			vault.SingleKey(vault.IntegerKeyPartDescending),
 		} {
-			decoded, err := layout.Parts(layout.Key(number).Bytes())
+			decoded, err := parts.PartsOf(parts.Key(number).Bytes())
 			if err != nil {
-				t.Fatalf("Parts(%d) failed: %v", number, err)
+				t.Fatalf("PartsOf(%d) failed: %v", number, err)
 			}
 			if decoded != number {
-				t.Fatalf("Parts = %d, want %d", decoded, number)
+				t.Fatalf("PartsOf = %d, want %d", decoded, number)
 			}
 		}
 	}
@@ -136,42 +142,42 @@ func TestIntegerRoundTripsThroughBothDirections(t *testing.T) {
 
 func TestTimeRoundTripsToTheSameNanosecondInUTC(t *testing.T) {
 	for _, instant := range orderedInstants() {
-		for _, layout := range []vault.SingleKeyLayout[time.Time]{
+		for _, parts := range []vault.SingleKeyParts[time.Time]{
 			vault.SingleKey(vault.TimeKeyPart),
 			vault.SingleKey(vault.TimeKeyPartDescending),
 		} {
-			decoded, err := layout.Parts(layout.Key(instant).Bytes())
+			decoded, err := parts.PartsOf(parts.Key(instant).Bytes())
 			if err != nil {
-				t.Fatalf("Parts(%s) failed: %v", instant, err)
+				t.Fatalf("PartsOf(%s) failed: %v", instant, err)
 			}
 			if !decoded.Equal(instant) {
-				t.Fatalf("Parts = %s, want %s", decoded, instant)
+				t.Fatalf("PartsOf = %s, want %s", decoded, instant)
 			}
 			if decoded.Location() != time.UTC {
-				t.Fatalf("Parts location = %s, want UTC", decoded.Location())
+				t.Fatalf("PartsOf location = %s, want UTC", decoded.Location())
 			}
 		}
 	}
 }
 
 func TestTimeDropsTheMonotonicReadingAndTheLocation(t *testing.T) {
-	layout := vault.SingleKey(vault.TimeKeyPart)
+	parts := vault.SingleKey(vault.TimeKeyPart)
 	zone := time.FixedZone("somewhere", 3600)
 	instant := time.Now().In(zone)
 
-	decoded, err := layout.Parts(layout.Key(instant).Bytes())
+	decoded, err := parts.PartsOf(parts.Key(instant).Bytes())
 	if err != nil {
-		t.Fatalf("Parts failed: %v", err)
+		t.Fatalf("PartsOf failed: %v", err)
 	}
 
 	if !decoded.Equal(instant) {
-		t.Fatalf("Parts = %s, want %s", decoded, instant)
+		t.Fatalf("PartsOf = %s, want %s", decoded, instant)
 	}
 	if decoded.Location() != time.UTC {
-		t.Fatalf("Parts location = %s, want UTC", decoded.Location())
+		t.Fatalf("PartsOf location = %s, want UTC", decoded.Location())
 	}
 	if decoded != decoded.Round(0) {
-		t.Fatalf("Parts kept a monotonic reading: %s", decoded)
+		t.Fatalf("PartsOf kept a monotonic reading: %s", decoded)
 	}
 }
 
@@ -191,15 +197,15 @@ func TestTextKeyPartFromKeysSortInTextOrder(t *testing.T) {
 }
 
 func TestTextKeyPartFromRoundTripsThroughTheDomainValue(t *testing.T) {
-	layout := vault.SingleKey(vault.TextKeyPartFrom(documentLanguageTagOf, documentLanguageFrom))
+	parts := vault.SingleKey(vault.TextKeyPartFrom(documentLanguageTagOf, documentLanguageFrom))
 
 	for _, language := range orderedDocumentLanguages() {
-		decoded, err := layout.Parts(layout.Key(language).Bytes())
+		decoded, err := parts.PartsOf(parts.Key(language).Bytes())
 		if err != nil {
-			t.Fatalf("Parts(%v) failed: %v", language, err)
+			t.Fatalf("PartsOf(%v) failed: %v", language, err)
 		}
 		if decoded != language {
-			t.Fatalf("Parts = %v, want %v", decoded, language)
+			t.Fatalf("PartsOf = %v, want %v", decoded, language)
 		}
 	}
 }
@@ -212,37 +218,37 @@ func TestTextKeyPartFromFailsWhenTheTextIsNoDomainValue(t *testing.T) {
 	partsFailures := map[string]func() error{
 		"single": func() error {
 			_, err := vault.SingleKey(language).
-				Parts(vault.SingleKey(vault.TextKeyPart).Key("").Bytes())
+				PartsOf(vault.SingleKey(vault.TextKeyPart).Key("").Bytes())
 
 			return err
 		},
 		"pair first": func() error {
 			_, _, err := vault.PairKey(language, vault.TextKeyPart).
-				Parts(pairOfTexts.Key("", "en").Bytes())
+				PartsOf(pairOfTexts.Key("", "en").Bytes())
 
 			return err
 		},
 		"pair second": func() error {
 			_, _, err := vault.PairKey(vault.TextKeyPart, language).
-				Parts(pairOfTexts.Key("en", "").Bytes())
+				PartsOf(pairOfTexts.Key("en", "").Bytes())
 
 			return err
 		},
 		"triple first": func() error {
-			layout := vault.TripleKey(language, vault.TextKeyPart, vault.TextKeyPart)
-			_, _, _, err := layout.Parts(tripleOfTexts.Key("", "en", "en").Bytes())
+			parts := vault.TripleKey(language, vault.TextKeyPart, vault.TextKeyPart)
+			_, _, _, err := parts.PartsOf(tripleOfTexts.Key("", "en", "en").Bytes())
 
 			return err
 		},
 		"triple second": func() error {
-			layout := vault.TripleKey(vault.TextKeyPart, language, vault.TextKeyPart)
-			_, _, _, err := layout.Parts(tripleOfTexts.Key("en", "", "en").Bytes())
+			parts := vault.TripleKey(vault.TextKeyPart, language, vault.TextKeyPart)
+			_, _, _, err := parts.PartsOf(tripleOfTexts.Key("en", "", "en").Bytes())
 
 			return err
 		},
 		"triple third": func() error {
-			layout := vault.TripleKey(vault.TextKeyPart, vault.TextKeyPart, language)
-			_, _, _, err := layout.Parts(tripleOfTexts.Key("en", "en", "").Bytes())
+			parts := vault.TripleKey(vault.TextKeyPart, vault.TextKeyPart, language)
+			_, _, _, err := parts.PartsOf(tripleOfTexts.Key("en", "en", "").Bytes())
 
 			return err
 		},
@@ -251,7 +257,7 @@ func TestTextKeyPartFromFailsWhenTheTextIsNoDomainValue(t *testing.T) {
 	for position, partsFailure := range partsFailures {
 		t.Run(position, func(t *testing.T) {
 			if err := partsFailure(); !errors.Is(err, errBlankLanguageTag) {
-				t.Fatalf("Parts error = %v, want %v", err, errBlankLanguageTag)
+				t.Fatalf("PartsOf error = %v, want %v", err, errBlankLanguageTag)
 			}
 		})
 	}

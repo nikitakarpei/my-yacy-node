@@ -13,20 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
-var seedKeyLayout = vault.SingleKey(vault.TextKeyPart)
-
-type seedKeyCodec struct{}
-
-func (seedKeyCodec) Encode(key string) vault.Key { return seedKeyLayout.Key(key) }
-
-func (seedKeyCodec) Decode(storedKey []byte) (string, error) {
-	decoded, err := seedKeyLayout.Parts(storedKey)
-	if err != nil {
-		return "", fmt.Errorf("seed key: %w", err)
-	}
-
-	return decoded, nil
-}
+var seedKeyLayout = vault.SingleKey(vault.TextKeyPart).KeyLayout()
 
 type seedValueCodec struct{}
 
@@ -53,10 +40,9 @@ func openVault(t *testing.T, quotaBytes int64) *vault.Vault {
 func seedUsage(t *testing.T, v *vault.Vault) {
 	t.Helper()
 
-	collection, err := vault.RegisterCollection(
-		v,
+	collection, err := v.RegisterCollection(
 		vault.Name("seed"),
-		seedKeyCodec{},
+		seedKeyLayout,
 		seedValueCodec{},
 	)
 	if err != nil {

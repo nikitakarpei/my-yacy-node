@@ -1,6 +1,6 @@
-// Package hashcodec carries the vault key codecs for the yacymodel hashes, so
+// Package hashkeypart carries the vault key parts for the yacymodel hashes, so
 // every vault that keys on a hash shares one text form and one parser.
-package hashcodec
+package hashkeypart
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"

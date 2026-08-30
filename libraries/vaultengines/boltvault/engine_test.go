@@ -13,20 +13,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault"
 )
 
-var stringKeyLayout = vault.SingleKey(vault.TextKeyPart)
+var stringKeyParts = vault.SingleKey(vault.TextKeyPart)
 
-type stringKeyCodec struct{}
-
-func (stringKeyCodec) Encode(key string) vault.Key { return stringKeyLayout.Key(key) }
-
-func (stringKeyCodec) Decode(storedKey []byte) (string, error) {
-	decoded, err := stringKeyLayout.Parts(storedKey)
-	if err != nil {
-		return "", fmt.Errorf("word key: %w", err)
-	}
-
-	return decoded, nil
-}
+var stringKeyLayout = stringKeyParts.KeyLayout()
 
 type stringValueCodec struct{}
 
@@ -68,10 +57,9 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
-	words, err := vault.RegisterCollection(
-		first,
+	words, err := first.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec{},
+		stringKeyLayout,
 		stringValueCodec{},
 	)
 	if err != nil {
@@ -95,10 +83,9 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 			t.Fatalf("Close: %v", err)
 		}
 	})
-	words, err = vault.RegisterCollection(
-		reopened,
+	words, err = reopened.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec{},
+		stringKeyLayout,
 		stringValueCodec{},
 	)
 	if err != nil {
@@ -160,10 +147,9 @@ func TestWritesAreNotGatedByQuota(t *testing.T) {
 			t.Fatalf("Close: %v", err)
 		}
 	})
-	words, err := vault.RegisterCollection(
-		store,
+	words, err := store.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec{},
+		stringKeyLayout,
 		stringValueCodec{},
 	)
 	if err != nil {

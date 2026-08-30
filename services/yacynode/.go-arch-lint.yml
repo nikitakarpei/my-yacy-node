@@ -10,8 +10,8 @@ commonVendors:
   - canonicalurl
 
 components:
-  hashcodec:
-    in: internal/hashcodec/**
+  hashkeypart:
+    in: internal/hashkeypart/**
   httpguard:
     in: internal/httpguard/**
   nodeconfiguration:
@@ -136,7 +136,7 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
-  hashcodec:
+  hashkeypart:
     canUse:
       - vault
   httpguard:
@@ -162,7 +162,7 @@ deps:
       - yacyproto
   peerroster:
     mayDependOn:
-      - hashcodec
+      - hashkeypart
     canUse:
       - yacyproto
       - vault
@@ -183,7 +183,7 @@ deps:
       - yacyproto
   urlmeta:
     mayDependOn:
-      - hashcodec
+      - hashkeypart
       - httpguard
       - nodeidentity
     canUse:
@@ -192,25 +192,25 @@ deps:
   urlmetastaleness:
     mayDependOn:
       - urlmeta
-      - hashcodec
+      - hashkeypart
     canUse:
       - vault
   urlreferences:
     mayDependOn:
       - rwipostings
-      - hashcodec
+      - hashkeypart
     canUse:
       - vault
   rwipostings:
     mayDependOn:
-      - hashcodec
+      - hashkeypart
     canUse:
       - vault
   rwiescrow:
     mayDependOn:
       - rwipostings
       - urlmeta
-      - hashcodec
+      - hashkeypart
     canUse:
       - vault
   rwiadmission:
@@ -231,7 +231,7 @@ deps:
     mayDependOn:
       - rwidistribution
       - rwipostings
-      - hashcodec
+      - hashkeypart
       - urlmeta
       - postingcourier
       - urlmetadatacourier

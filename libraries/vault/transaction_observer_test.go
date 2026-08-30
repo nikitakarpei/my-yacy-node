@@ -193,10 +193,9 @@ func openObservedWords(
 
 	v, observer := openObserved(t, newDoubleEngine())
 
-	words, err := vault.RegisterCollection(
-		v,
+	words, err := v.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec{},
+		stringKeyLayout,
 		stringValueCodec{},
 	)
 	if err != nil {

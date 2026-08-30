@@ -20,7 +20,7 @@ func urlHash(raw string) yacymodel.URLHash {
 func TestKeyIsStableAndDistinctPerPosting(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	posting := postingidentity.IdentityOf(word, url)
-	keyOf := postingidentity.KeyCodec{}.Encode
+	keyOf := postingidentity.KeyLayout.Encode
 
 	if !bytes.Equal(keyOf(posting).Bytes(), keyOf(postingidentity.IdentityOf(word, url)).Bytes()) {
 		t.Fatal("one posting addresses two rows")
@@ -40,8 +40,8 @@ func TestKeyIsStableAndDistinctPerPosting(t *testing.T) {
 func TestKeyRoundTripsToTheSamePosting(t *testing.T) {
 	posting := postingidentity.IdentityOf(yacymodel.WordHash("w1"), urlHash("u1"))
 
-	encoded := postingidentity.KeyCodec{}.Encode(posting).Bytes()
-	decoded, err := postingidentity.KeyCodec{}.Decode(encoded)
+	encoded := postingidentity.KeyLayout.Encode(posting).Bytes()
+	decoded, err := postingidentity.KeyLayout.Decode(encoded)
 	if err != nil {
 		t.Fatalf("Decode: %v", err)
 	}
