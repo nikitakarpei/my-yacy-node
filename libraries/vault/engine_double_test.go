@@ -94,13 +94,13 @@ type doubleBucket struct {
 	entries map[string][]byte
 }
 
-func (b doubleBucket) Get(key []byte) []byte {
+func (b doubleBucket) Get(key []byte) ([]byte, error) {
 	value, ok := b.entries[string(key)]
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
-	return copyBytes(value)
+	return copyBytes(value), nil
 }
 
 func (b doubleBucket) Put(key []byte, value []byte) error {

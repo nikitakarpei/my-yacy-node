@@ -148,8 +148,8 @@ type boltBucket struct {
 	lengths *bolt.Bucket
 }
 
-func (b boltBucket) Get(key []byte) []byte {
-	return b.entries.Get(key)
+func (b boltBucket) Get(key []byte) ([]byte, error) {
+	return b.entries.Get(key), nil
 }
 
 func (b boltBucket) Put(key []byte, val []byte) error {

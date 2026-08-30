@@ -22,7 +22,7 @@ type EngineTxn interface {
 }
 
 type EngineBucket interface {
-	Get([]byte) []byte
+	Get([]byte) ([]byte, error)
 	Put([]byte, []byte) error
 	Delete([]byte) (bool, error)
 	Len() (int, error)

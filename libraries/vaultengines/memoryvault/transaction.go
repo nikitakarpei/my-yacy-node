@@ -21,13 +21,13 @@ type memBucket struct {
 	entries map[string][]byte
 }
 
-func (b memBucket) Get(key []byte) []byte {
+func (b memBucket) Get(key []byte) ([]byte, error) {
 	value, ok := b.entries[string(key)]
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
-	return value
+	return value, nil
 }
 
 func (b memBucket) Put(key []byte, value []byte) error {

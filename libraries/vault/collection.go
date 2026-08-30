@@ -29,7 +29,10 @@ func RegisterCollection[K, V any](
 func (c *Collection[K, V]) Get(tx *Txn, key K) (V, bool, error) {
 	var zero V
 
-	record := tx.etx.Bucket(c.name).Get(c.keys.Encode(key).Bytes())
+	record, err := tx.etx.Bucket(c.name).Get(c.keys.Encode(key).Bytes())
+	if err != nil {
+		return zero, false, fmt.Errorf("read %s: %w", c.name, err)
+	}
 	if record == nil {
 		return zero, false, nil
 	}
@@ -47,7 +50,7 @@ func (c *Collection[K, V]) valueFrom(record []byte) (V, error) {
 
 	payload, err := payloadOf(record)
 	if err != nil {
-		return zero, fmt.Errorf("read %s: %w", c.name, err)
+		return zero, fmt.Errorf("record in %s: %w", c.name, err)
 	}
 
 	val, err := c.values.Decode(payload)
