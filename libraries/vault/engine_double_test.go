@@ -94,13 +94,13 @@ type doubleBucket struct {
 	entries map[string][]byte
 }
 
-func (b doubleBucket) Get(key []byte) []byte {
+func (b doubleBucket) Get(key []byte) ([]byte, error) {
 	value, ok := b.entries[string(key)]
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
-	return copyBytes(value)
+	return copyBytes(value), nil
 }
 
 func (b doubleBucket) Put(key []byte, value []byte) error {
@@ -109,10 +109,17 @@ func (b doubleBucket) Put(key []byte, value []byte) error {
 	return nil
 }
 
-func (b doubleBucket) Delete(key []byte) error {
+func (b doubleBucket) Delete(key []byte) (bool, error) {
+	if _, present := b.entries[string(key)]; !present {
+		return false, nil
+	}
 	delete(b.entries, string(key))
 
-	return nil
+	return true, nil
+}
+
+func (b doubleBucket) Len() (int, error) {
+	return len(b.entries), nil
 }
 
 func (b doubleBucket) Scan(

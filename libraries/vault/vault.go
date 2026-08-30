@@ -34,10 +34,6 @@ func New(engine Engine, observer TransactionObserver) (*Vault, error) {
 	if observer == nil {
 		observer = silentObserver{}
 	}
-	if err := engine.Provision(lengthBucket); err != nil {
-		return nil, fmt.Errorf("provision length bucket: %w", err)
-	}
-
 	return &Vault{
 		engine:     engine,
 		observer:   observer,
