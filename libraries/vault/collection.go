@@ -13,8 +13,7 @@ type Collection[K, V any] struct {
 	values ValueCodec[V]
 }
 
-func RegisterCollection[K, V any](
-	v *Vault,
+func (v *Vault) RegisterCollection[K, V any](
 	bucket Name,
 	keys KeyCodec[K],
 	values ValueCodec[V],

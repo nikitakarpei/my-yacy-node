@@ -60,3 +60,26 @@ func TestPairKeyPartsRejectsAKeyOfAnotherLayout(t *testing.T) {
 		t.Fatal("Parts accepted a single-part key")
 	}
 }
+
+func TestPairKeyCodecForRoundTripsTheDomainValue(t *testing.T) {
+	codec := vault.PairKey(vault.TextKeyPart, vault.IntegerKeyPart).KeyCodecFor(
+		func(word countedWord) (string, int64) { return word.text, word.count },
+		func(text string, count int64) countedWord {
+			return countedWord{text: text, count: count}
+		},
+	)
+
+	for _, text := range orderedTexts() {
+		for _, count := range orderedIntegers() {
+			word := countedWord{text: text, count: count}
+
+			decoded, err := codec.Decode(codec.Encode(word).Bytes())
+			if err != nil {
+				t.Fatalf("Decode(%q, %d) failed: %v", text, count, err)
+			}
+			if decoded != word {
+				t.Fatalf("Decode = %+v, want %+v", decoded, word)
+			}
+		}
+	}
+}

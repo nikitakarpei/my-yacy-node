@@ -39,3 +39,31 @@ func (layout SingleKeyLayout[A]) Parts(storedKey []byte) (A, error) {
 
 	return firstValue()
 }
+
+func (layout SingleKeyLayout[A]) KeyCodec() KeyCodec[A] {
+	return layout.KeyCodecFor(
+		func(first A) A { return first },
+		func(first A) A { return first },
+	)
+}
+
+func (layout SingleKeyLayout[A]) KeyCodecFor[K any](
+	partsOf func(K) A,
+	keyFrom func(A) K,
+) KeyCodec[K] {
+	return keyCodec[K]{
+		encode: func(key K) Key {
+			return layout.Key(partsOf(key))
+		},
+		decode: func(storedKey []byte) (K, error) {
+			first, err := layout.Parts(storedKey)
+			if err != nil {
+				var undecoded K
+
+				return undecoded, err
+			}
+
+			return keyFrom(first), nil
+		},
+	}
+}

@@ -57,3 +57,24 @@ func (layout PairKeyLayout[A, B]) Parts(storedKey []byte) (A, B, error) {
 
 	return first, second, nil
 }
+
+func (layout PairKeyLayout[A, B]) KeyCodecFor[K any](
+	partsOf func(K) (A, B),
+	keyFrom func(A, B) K,
+) KeyCodec[K] {
+	return keyCodec[K]{
+		encode: func(key K) Key {
+			return layout.Key(partsOf(key))
+		},
+		decode: func(storedKey []byte) (K, error) {
+			first, second, err := layout.Parts(storedKey)
+			if err != nil {
+				var undecoded K
+
+				return undecoded, err
+			}
+
+			return keyFrom(first, second), nil
+		},
+	}
+}

@@ -2,6 +2,7 @@ package vault_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
@@ -53,5 +54,33 @@ func TestTripleKeyPartsRejectsAKeyOfAnotherLayout(t *testing.T) {
 
 	if _, _, _, err := layout.Parts(foreign.Bytes()); err == nil {
 		t.Fatal("Parts accepted a two-part key")
+	}
+}
+
+func TestTripleKeyCodecForRoundTripsTheDomainValue(t *testing.T) {
+	codec := vault.TripleKey(
+		vault.TimeKeyPart,
+		vault.TextKeyPart,
+		vault.IntegerKeyPart,
+	).KeyCodecFor(
+		func(word countedWord) (time.Time, string, int64) {
+			return word.seenAt, word.text, word.count
+		},
+		func(seenAt time.Time, text string, count int64) countedWord {
+			return countedWord{seenAt: seenAt, text: text, count: count}
+		},
+	)
+
+	for _, instant := range orderedInstants() {
+		word := countedWord{seenAt: instant, text: "word", count: 7}
+
+		decoded, err := codec.Decode(codec.Encode(word).Bytes())
+		if err != nil {
+			t.Fatalf("Decode(%s) failed: %v", instant, err)
+		}
+		if !decoded.seenAt.Equal(instant) || decoded.text != word.text ||
+			decoded.count != word.count {
+			t.Fatalf("Decode = %+v, want %+v", decoded, word)
+		}
 	}
 }

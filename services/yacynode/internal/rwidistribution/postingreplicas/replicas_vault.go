@@ -13,10 +13,9 @@ const bucket vault.Name = "rwidistribution_replica_ledger"
 func registerReplicaLedger(
 	v *vault.Vault,
 ) (*vault.Collection[postingidentity.Identity, []yacymodel.Hash], error) {
-	holders, err := vault.RegisterCollection(
-		v,
+	holders, err := v.RegisterCollection(
 		bucket,
-		postingidentity.KeyCodec{},
+		postingidentity.KeyCodec,
 		holdersValueCodec{},
 	)
 	if err != nil {

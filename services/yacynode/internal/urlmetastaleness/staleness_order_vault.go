@@ -16,14 +16,13 @@ const (
 func registerStalenessRanking(
 	v *vault.Vault,
 ) (*vault.Set[rankedURL], *vault.Collection[yacymodel.URLHash, freshnessRank], error) {
-	order, err := vault.RegisterSet(v, orderBucket, orderKeyCodec{})
+	order, err := v.RegisterSet(orderBucket, orderKeyCodec)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register staleness order: %w", err)
 	}
-	freshness, err := vault.RegisterCollection(
-		v,
+	freshness, err := v.RegisterCollection(
 		freshnessBucket,
-		freshnessKeyCodec{},
+		freshnessKeyCodec,
 		freshnessRankValueCodec{},
 	)
 	if err != nil {
@@ -40,37 +39,16 @@ var freshnessRankCodec = vault.TextKeyPartFrom(
 
 var orderKeyLayout = vault.PairKey(freshnessRankCodec, hashcodec.URLHash)
 
-type orderKeyCodec struct{}
+var orderKeyCodec = orderKeyLayout.KeyCodecFor(
+	func(ranked rankedURL) (freshnessRank, yacymodel.URLHash) {
+		return ranked.rank, ranked.hash
+	},
+	func(rank freshnessRank, hash yacymodel.URLHash) rankedURL {
+		return rankedURL{rank: rank, hash: hash}
+	},
+)
 
-func (orderKeyCodec) Encode(ranked rankedURL) vault.Key {
-	return orderKeyLayout.Key(ranked.rank, ranked.hash)
-}
-
-func (orderKeyCodec) Decode(storedKey []byte) (rankedURL, error) {
-	rank, hash, err := orderKeyLayout.Parts(storedKey)
-	if err != nil {
-		return rankedURL{}, fmt.Errorf("staleness order key: %w", err)
-	}
-
-	return rankedURL{rank: rank, hash: hash}, nil
-}
-
-var freshnessKeyLayout = vault.SingleKey(hashcodec.URLHash)
-
-type freshnessKeyCodec struct{}
-
-func (freshnessKeyCodec) Encode(hash yacymodel.URLHash) vault.Key {
-	return freshnessKeyLayout.Key(hash)
-}
-
-func (freshnessKeyCodec) Decode(storedKey []byte) (yacymodel.URLHash, error) {
-	hash, err := freshnessKeyLayout.Parts(storedKey)
-	if err != nil {
-		return yacymodel.URLHash{}, fmt.Errorf("staleness freshness key: %w", err)
-	}
-
-	return hash, nil
-}
+var freshnessKeyCodec = vault.SingleKey(hashcodec.URLHash).KeyCodec()
 
 // freshnessRankValueCodec stores a rank as the plain text it already is, so the
 // vault's byte order stays stalest-first.

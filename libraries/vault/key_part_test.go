@@ -10,6 +10,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
+type countedWord struct {
+	seenAt time.Time
+	text   string
+	count  int64
+}
+
 func orderedTexts() []string {
 	return []string{
 		"", "\x00", "\x00\x01", "\x00\xff", "\x01", "a", "ab", "b", "\xff", "\xff\x00", "\xff\xff",

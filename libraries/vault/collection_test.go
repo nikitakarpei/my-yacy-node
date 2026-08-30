@@ -57,10 +57,9 @@ func TestEncodeErrorSurfaces(t *testing.T) {
 			t.Fatalf("Close: %v", err)
 		}
 	})
-	collection, err := vault.RegisterCollection(
-		v,
+	collection, err := v.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec{},
+		stringKeyCodec,
 		failingEncodeCodec{},
 	)
 	if err != nil {
@@ -85,10 +84,9 @@ func TestDecodeErrorSurfaces(t *testing.T) {
 			t.Fatalf("Close: %v", err)
 		}
 	})
-	collection, err := vault.RegisterCollection(
-		v,
+	collection, err := v.RegisterCollection(
 		vault.Name("words"),
-		stringKeyCodec{},
+		stringKeyCodec,
 		failingDecodeCodec{},
 	)
 	if err != nil {

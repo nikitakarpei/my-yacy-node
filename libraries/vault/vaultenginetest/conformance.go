@@ -79,10 +79,9 @@ func openEngine(
 func register(t *testing.T, v *vault.Vault, name string) *vault.Collection[string, string] {
 	t.Helper()
 
-	collection, err := vault.RegisterCollection(
-		v,
+	collection, err := v.RegisterCollection(
 		vault.Name(name),
-		stringKeyCodec{},
+		stringKeyCodec,
 		stringValueCodec{},
 	)
 	if err != nil {
@@ -317,7 +316,7 @@ func scannedKeys(
 	var visited []string
 	if err := engine.View(context.Background(), func(etx vault.EngineTxn) error {
 		return etx.Bucket(boundedScanBucket).Scan(keys, func(key, _ []byte) (bool, error) {
-			decoded, err := stringKeyCodec{}.Decode(key)
+			decoded, err := stringKeyCodec.Decode(key)
 			if err != nil {
 				return false, err
 			}
@@ -361,7 +360,7 @@ func boundedScanStopsWhenAsked(t *testing.T, open func(int64) (vault.Engine, err
 		return etx.Bucket(boundedScanBucket).Scan(
 			vault.EveryKey(),
 			func(key, _ []byte) (bool, error) {
-				decoded, err := stringKeyCodec{}.Decode(key)
+				decoded, err := stringKeyCodec.Decode(key)
 				if err != nil {
 					return false, err
 				}

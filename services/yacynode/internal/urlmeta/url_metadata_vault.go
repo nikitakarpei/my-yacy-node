@@ -13,10 +13,9 @@ const bucketName vault.Name = "urlmeta"
 func registerCollection(
 	v *vault.Vault,
 ) (*vault.Collection[yacymodel.URLHash, yacymodel.URLMetadata], error) {
-	collection, err := vault.RegisterCollection(
-		v,
+	collection, err := v.RegisterCollection(
 		bucketName,
-		urlMetadataKeyCodec{},
+		urlMetadataKeyCodec,
 		urlMetadataValueCodec{},
 	)
 	if err != nil {
@@ -26,19 +25,4 @@ func registerCollection(
 	return collection, nil
 }
 
-var urlMetadataKeyLayout = vault.SingleKey(hashcodec.URLHash)
-
-type urlMetadataKeyCodec struct{}
-
-func (urlMetadataKeyCodec) Encode(hash yacymodel.URLHash) vault.Key {
-	return urlMetadataKeyLayout.Key(hash)
-}
-
-func (urlMetadataKeyCodec) Decode(storedKey []byte) (yacymodel.URLHash, error) {
-	hash, err := urlMetadataKeyLayout.Parts(storedKey)
-	if err != nil {
-		return yacymodel.URLHash{}, fmt.Errorf("url metadata key: %w", err)
-	}
-
-	return hash, nil
-}
+var urlMetadataKeyCodec = vault.SingleKey(hashcodec.URLHash).KeyCodec()

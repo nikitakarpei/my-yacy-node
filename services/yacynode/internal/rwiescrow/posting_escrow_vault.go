@@ -19,16 +19,15 @@ const (
 func registerPostingEscrow(
 	v *vault.Vault,
 ) (*vault.Collection[postingIdentity, escrowedPosting], *vault.Set[postingHold], error) {
-	escrowed, err := vault.RegisterCollection(
-		v,
+	escrowed, err := v.RegisterCollection(
 		escrowedPostingBucket,
-		escrowedPostingKeyCodec{},
+		escrowedPostingKeyCodec,
 		escrowedPostingValueCodec{},
 	)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register escrowed postings: %w", err)
 	}
-	holds, err := vault.RegisterSet(v, postingHoldBucket, postingHoldKeyCodec{})
+	holds, err := v.RegisterSet(postingHoldBucket, postingHoldKeyCodec)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register posting holds: %w", err)
 	}
@@ -38,20 +37,14 @@ func registerPostingEscrow(
 
 var escrowedPostingKeyLayout = vault.PairKey(hashcodec.URLHash, hashcodec.Hash)
 
-type escrowedPostingKeyCodec struct{}
-
-func (escrowedPostingKeyCodec) Encode(posting postingIdentity) vault.Key {
-	return escrowedPostingKeyLayout.Key(posting.URL, posting.Word)
-}
-
-func (escrowedPostingKeyCodec) Decode(storedKey []byte) (postingIdentity, error) {
-	url, word, err := escrowedPostingKeyLayout.Parts(storedKey)
-	if err != nil {
-		return postingIdentity{}, fmt.Errorf("escrowed posting key: %w", err)
-	}
-
-	return postingIdentity{Word: word, URL: url}, nil
-}
+var escrowedPostingKeyCodec = escrowedPostingKeyLayout.KeyCodecFor(
+	func(posting postingIdentity) (yacymodel.URLHash, yacymodel.Hash) {
+		return posting.URL, posting.Word
+	},
+	func(url yacymodel.URLHash, word yacymodel.Hash) postingIdentity {
+		return postingIdentity{Word: word, URL: url}
+	},
+)
 
 func everyPostingWaitingFor(url yacymodel.URLHash) vault.KeyRange {
 	return escrowedPostingKeyLayout.KeysWithFirst(url)
@@ -97,20 +90,14 @@ func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
 
 var postingHoldKeyLayout = vault.TripleKey(vault.TimeKeyPart, hashcodec.Hash, hashcodec.URLHash)
 
-type postingHoldKeyCodec struct{}
-
-func (postingHoldKeyCodec) Encode(hold postingHold) vault.Key {
-	return postingHoldKeyLayout.Key(hold.HeldAt, hold.Posting.Word, hold.Posting.URL)
-}
-
-func (postingHoldKeyCodec) Decode(storedKey []byte) (postingHold, error) {
-	heldAt, word, url, err := postingHoldKeyLayout.Parts(storedKey)
-	if err != nil {
-		return postingHold{}, fmt.Errorf("posting hold key: %w", err)
-	}
-
-	return postingHold{HeldAt: heldAt, Posting: postingIdentity{Word: word, URL: url}}, nil
-}
+var postingHoldKeyCodec = postingHoldKeyLayout.KeyCodecFor(
+	func(hold postingHold) (time.Time, yacymodel.Hash, yacymodel.URLHash) {
+		return hold.HeldAt, hold.Posting.Word, hold.Posting.URL
+	},
+	func(heldAt time.Time, word yacymodel.Hash, url yacymodel.URLHash) postingHold {
+		return postingHold{HeldAt: heldAt, Posting: postingIdentity{Word: word, URL: url}}
+	},
+)
 
 func everyHoldPlacedBefore(cutoff time.Time) vault.KeyRange {
 	return postingHoldKeyLayout.KeysBeforeFirst(cutoff)

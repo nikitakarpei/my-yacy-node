@@ -20,7 +20,7 @@ func openMembers(t *testing.T) (*vault.Vault, *vault.Set[string]) {
 		}
 	})
 
-	members, err := vault.RegisterSet(v, vault.Name("members"), stringKeyCodec{})
+	members, err := v.RegisterSet(vault.Name("members"), stringKeyCodec)
 	if err != nil {
 		t.Fatalf("RegisterSet: %v", err)
 	}
@@ -106,7 +106,7 @@ func TestRemovedKeyLeavesSetEmpty(t *testing.T) {
 func TestRegisterSetRejectsDuplicateBucket(t *testing.T) {
 	v, _ := openMembers(t)
 
-	if _, err := vault.RegisterSet(v, vault.Name("members"), stringKeyCodec{}); err == nil {
+	if _, err := v.RegisterSet(vault.Name("members"), stringKeyCodec); err == nil {
 		t.Fatal("duplicate RegisterSet succeeded, want error")
 	}
 }

@@ -16,11 +16,11 @@ const (
 func registerURLReferences(
 	v *vault.Vault,
 ) (*vault.Set[wordByURL], *vault.Set[yacymodel.URLHash], error) {
-	words, err := vault.RegisterSet(v, wordsByURLBucket, wordByURLKeyCodec{})
+	words, err := v.RegisterSet(wordsByURLBucket, wordByURLKeyCodec)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register words by url: %w", err)
 	}
-	referenced, err := vault.RegisterSet(v, referencedURLBucket, referencedURLKeyCodec{})
+	referenced, err := v.RegisterSet(referencedURLBucket, referencedURLKeyCodec)
 	if err != nil {
 		return nil, nil, fmt.Errorf("register referenced urls: %w", err)
 	}
@@ -30,38 +30,17 @@ func registerURLReferences(
 
 var wordByURLKeyLayout = vault.PairKey(hashcodec.URLHash, hashcodec.Hash)
 
-type wordByURLKeyCodec struct{}
-
-func (wordByURLKeyCodec) Encode(reference wordByURL) vault.Key {
-	return wordByURLKeyLayout.Key(reference.url, reference.word)
-}
-
-func (wordByURLKeyCodec) Decode(storedKey []byte) (wordByURL, error) {
-	url, word, err := wordByURLKeyLayout.Parts(storedKey)
-	if err != nil {
-		return wordByURL{}, fmt.Errorf("word by url key: %w", err)
-	}
-
-	return wordByURL{url: url, word: word}, nil
-}
+var wordByURLKeyCodec = wordByURLKeyLayout.KeyCodecFor(
+	func(reference wordByURL) (yacymodel.URLHash, yacymodel.Hash) {
+		return reference.url, reference.word
+	},
+	func(url yacymodel.URLHash, word yacymodel.Hash) wordByURL {
+		return wordByURL{url: url, word: word}
+	},
+)
 
 func everyWordReferencing(url yacymodel.URLHash) vault.KeyRange {
 	return wordByURLKeyLayout.KeysWithFirst(url)
 }
 
-var referencedURLKeyLayout = vault.SingleKey(hashcodec.URLHash)
-
-type referencedURLKeyCodec struct{}
-
-func (referencedURLKeyCodec) Encode(url yacymodel.URLHash) vault.Key {
-	return referencedURLKeyLayout.Key(url)
-}
-
-func (referencedURLKeyCodec) Decode(storedKey []byte) (yacymodel.URLHash, error) {
-	url, err := referencedURLKeyLayout.Parts(storedKey)
-	if err != nil {
-		return yacymodel.URLHash{}, fmt.Errorf("referenced url key: %w", err)
-	}
-
-	return url, nil
-}
+var referencedURLKeyCodec = vault.SingleKey(hashcodec.URLHash).KeyCodec()

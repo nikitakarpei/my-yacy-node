@@ -29,10 +29,9 @@ func TestARecordNoWriterOfThisVersionWroteRefusesTheRead(t *testing.T) {
 				}
 			})
 
-			words, err := vault.RegisterCollection(
-				v,
+			words, err := v.RegisterCollection(
 				vault.Name("words"),
-				stringKeyCodec{},
+				stringKeyCodec,
 				stringValueCodec{},
 			)
 			if err != nil {

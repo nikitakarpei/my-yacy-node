@@ -1,25 +1,12 @@
 package vaultenginetest
 
 import (
-	"fmt"
-
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
 var stringKeyLayout = vault.SingleKey(vault.TextKeyPart)
 
-type stringKeyCodec struct{}
-
-func (stringKeyCodec) Encode(key string) vault.Key { return stringKeyLayout.Key(key) }
-
-func (stringKeyCodec) Decode(storedKey []byte) (string, error) {
-	decoded, err := stringKeyLayout.Parts(storedKey)
-	if err != nil {
-		return "", fmt.Errorf("conformance key: %w", err)
-	}
-
-	return decoded, nil
-}
+var stringKeyCodec = stringKeyLayout.KeyCodec()
 
 type stringValueCodec struct{}
 
