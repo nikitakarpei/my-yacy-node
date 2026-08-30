@@ -1,6 +1,6 @@
 module github.com/nikitakarpei/yacy-rwi-node/webarchivescrape
 
-go 1.26
+go 1.27
 
 require (
 	github.com/nats-io/nats.go v1.52.0
