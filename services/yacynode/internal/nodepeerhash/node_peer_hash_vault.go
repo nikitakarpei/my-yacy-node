@@ -14,10 +14,9 @@ const selfPeer = "self"
 type peerHashByPeer = vault.Collection[string, yacymodel.Hash]
 
 func registerPeerHashByPeer(storage *vault.Vault) (*peerHashByPeer, error) {
-	peerHashByPeer, err := vault.RegisterCollection(
-		storage,
+	peerHashByPeer, err := storage.RegisterCollection(
 		peerHashBucket,
-		peerKeyCodec{},
+		peerKeyLayout,
 		peerHashValueCodec{},
 	)
 	if err != nil {
@@ -27,22 +26,7 @@ func registerPeerHashByPeer(storage *vault.Vault) (*peerHashByPeer, error) {
 	return peerHashByPeer, nil
 }
 
-var peerKeyLayout = vault.SingleKey(vault.TextKeyPart)
-
-type peerKeyCodec struct{}
-
-func (peerKeyCodec) Encode(peer string) vault.Key {
-	return peerKeyLayout.Key(peer)
-}
-
-func (peerKeyCodec) Decode(storedKey []byte) (string, error) {
-	peer, err := peerKeyLayout.Parts(storedKey)
-	if err != nil {
-		return "", fmt.Errorf("peer key: %w", err)
-	}
-
-	return peer, nil
-}
+var peerKeyLayout = vault.SingleKey(vault.TextKeyPart).KeyLayout()
 
 type peerHashValueCodec struct{}
 

@@ -7,27 +7,27 @@ import (
 )
 
 func TestAKeyDoesNotShareItsBytesWithTheCaller(t *testing.T) {
-	layout := vault.SingleKey(vault.TextKeyPart)
-	key := layout.Key("word")
+	parts := vault.SingleKey(vault.TextKeyPart)
+	key := parts.Key("word")
 
 	handedOut := key.Bytes()
 	for position := range handedOut {
 		handedOut[position] = 0
 	}
 
-	decoded, err := layout.Parts(key.Bytes())
+	decoded, err := parts.PartsOf(key.Bytes())
 	if err != nil {
-		t.Fatalf("Parts failed: %v", err)
+		t.Fatalf("PartsOf failed: %v", err)
 	}
 	if decoded != "word" {
-		t.Fatalf("Parts = %q, want %q", decoded, "word")
+		t.Fatalf("PartsOf = %q, want %q", decoded, "word")
 	}
 }
 
-func TestPartsRejectsBytesNoLayoutProduced(t *testing.T) {
-	layout := vault.SingleKey(vault.TextKeyPart)
+func TestPartsOfRejectsBytesNoPartListProduced(t *testing.T) {
+	parts := vault.SingleKey(vault.TextKeyPart)
 
-	if _, err := layout.Parts([]byte{0xFF, 0xFE}); err == nil {
-		t.Fatal("Parts accepted bytes no layout produced")
+	if _, err := parts.PartsOf([]byte{0xFF, 0xFE}); err == nil {
+		t.Fatal("PartsOf accepted bytes no part list produced")
 	}
 }

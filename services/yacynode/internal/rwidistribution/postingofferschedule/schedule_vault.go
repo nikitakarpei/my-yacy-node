@@ -6,7 +6,8 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashcodec"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
 )
 
@@ -22,23 +23,21 @@ func registerSchedule(v *vault.Vault) (
 	*vault.Collection[postingidentity.Identity, time.Duration],
 	error,
 ) {
-	order, err := vault.RegisterSet(v, orderBucket, orderKeyCodec{})
+	order, err := v.RegisterSet(orderBucket, orderKeyLayout)
 	if err != nil {
 		return nil, nil, nil, fmt.Errorf("register offer order: %w", err)
 	}
-	dueTimes, err := vault.RegisterCollection(
-		v,
+	dueTimes, err := v.RegisterCollection(
 		dueBucket,
-		postingidentity.KeyCodec{},
+		postingidentity.KeyLayout,
 		dueAtValueCodec{},
 	)
 	if err != nil {
 		return nil, nil, nil, fmt.Errorf("register offer due: %w", err)
 	}
-	offerIntervals, err := vault.RegisterCollection(
-		v,
+	offerIntervals, err := v.RegisterCollection(
 		offerIntervalBucket,
-		postingidentity.KeyCodec{},
+		postingidentity.KeyLayout,
 		offerIntervalValueCodec{},
 	)
 	if err != nil {
@@ -48,25 +47,19 @@ func registerSchedule(v *vault.Vault) (
 	return order, dueTimes, offerIntervals, nil
 }
 
-var orderKeyLayout = vault.TripleKey(vault.TimeKeyPart, hashcodec.Hash, hashcodec.URLHash)
+var orderKeyParts = vault.TripleKey(vault.TimeKeyPart, hashkeypart.Hash, hashkeypart.URLHash)
 
-type orderKeyCodec struct{}
-
-func (orderKeyCodec) Encode(offer scheduledPostingOffer) vault.Key {
-	return orderKeyLayout.Key(offer.At, offer.Posting.Word, offer.Posting.URL)
-}
-
-func (orderKeyCodec) Decode(storedKey []byte) (scheduledPostingOffer, error) {
-	dueAt, word, url, err := orderKeyLayout.Parts(storedKey)
-	if err != nil {
-		return scheduledPostingOffer{}, fmt.Errorf("offer schedule order key: %w", err)
-	}
-
-	return scheduledPostingOffer{At: dueAt, Posting: postingidentity.IdentityOf(word, url)}, nil
-}
+var orderKeyLayout = orderKeyParts.KeyLayoutFor(
+	func(offer scheduledPostingOffer) (time.Time, yacymodel.Hash, yacymodel.URLHash) {
+		return offer.At, offer.Posting.Word, offer.Posting.URL
+	},
+	func(dueAt time.Time, word yacymodel.Hash, url yacymodel.URLHash) scheduledPostingOffer {
+		return scheduledPostingOffer{At: dueAt, Posting: postingidentity.IdentityOf(word, url)}
+	},
+)
 
 func everyOfferDueBy(dueAt time.Time) vault.KeyRange {
-	return orderKeyLayout.KeysThroughFirst(dueAt)
+	return orderKeyParts.KeysThroughFirst(dueAt)
 }
 
 type dueAtValueCodec struct{}
