@@ -88,14 +88,14 @@ type offerIntervalValueCodec struct{}
 
 func (offerIntervalValueCodec) Encode(interval time.Duration) ([]byte, error) {
 	var stored storedfields.Writer
-	stored.Varint(interval.Nanoseconds())
+	stored.Varint(int64(interval.Seconds()))
 
 	return stored.Record(), nil
 }
 
 func (offerIntervalValueCodec) Decode(raw []byte) (time.Duration, error) {
 	stored := storedfields.ReaderOf(raw, errBadOfferInterval)
-	interval := stored.Varint("offer interval")
+	seconds := stored.Varint("offer interval")
 
-	return time.Duration(interval), stored.Err()
+	return time.Duration(seconds) * time.Second, stored.Err()
 }

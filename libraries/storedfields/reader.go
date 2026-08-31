@@ -103,13 +103,11 @@ func (r *Reader) Time(field string) time.Time {
 	if r.noFieldRemains() {
 		return time.Time{}
 	}
-	seconds := r.Varint(field + " seconds")
-	nanoseconds := r.Varint(field + " nanoseconds")
-	if r.err != nil {
-		return time.Time{}
+	if seconds := r.Varint(field); r.err == nil {
+		return time.Unix(seconds, 0).UTC()
 	}
 
-	return time.Unix(seconds, nanoseconds).UTC()
+	return time.Time{}
 }
 
 func (r *Reader) Fixed(field string, length int) []byte {

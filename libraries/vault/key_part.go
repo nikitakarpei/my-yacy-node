@@ -110,13 +110,13 @@ func BytesKeyPartFrom[A any](
 
 var TimeKeyPart = KeyPart[time.Time]{
 	items: func(instant time.Time) []any {
-		return []any{instant.Unix(), int64(instant.Nanosecond())}
+		return []any{instant.Unix()}
 	},
 	holder: func() ([]any, func() (time.Time, error)) {
-		var seconds, nanoseconds int64
+		var seconds int64
 
-		return []any{&seconds, &nanoseconds}, func() (time.Time, error) {
-			return time.Unix(seconds, nanoseconds).UTC(), nil
+		return []any{&seconds}, func() (time.Time, error) {
+			return time.Unix(seconds, 0).UTC(), nil
 		}
 	},
 }

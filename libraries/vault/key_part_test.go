@@ -31,12 +31,11 @@ func orderedInstants() []time.Time {
 		{},
 		time.Date(1500, time.January, 1, 0, 0, 0, 0, time.UTC),
 		time.Unix(-(1 << 31), 0),
-		time.Unix(-1, 999999999),
+		time.Unix(-1, 0),
 		time.Unix(0, 0),
-		time.Unix(0, 1),
 		time.Unix(1, 0),
 		time.Date(2026, time.August, 9, 12, 0, 0, 0, time.UTC),
-		time.Unix(0, math.MaxInt64),
+		time.Unix(1<<31, 0),
 		time.Date(3000, time.January, 1, 0, 0, 0, 0, time.UTC),
 	}
 }
@@ -106,6 +105,16 @@ func TestTimeKeysSortInChronologicalOrder(t *testing.T) {
 	assertKeysSortDescending(t, vault.SingleKey(vault.TimeKeyPartDescending).Key, orderedInstants())
 }
 
+func TestTimeKeysOfOneSecondAreOneKey(t *testing.T) {
+	parts := vault.SingleKey(vault.TimeKeyPart)
+	early := time.Date(2026, time.August, 9, 12, 0, 0, 1, time.UTC)
+	late := time.Date(2026, time.August, 9, 12, 0, 0, 999999999, time.UTC)
+
+	if !bytes.Equal(parts.Key(early).Bytes(), parts.Key(late).Bytes()) {
+		t.Fatalf("two instants of one second address two rows")
+	}
+}
+
 func TestTextRoundTripsThroughBothDirections(t *testing.T) {
 	for _, text := range orderedTexts() {
 		for _, parts := range []vault.SingleKeyParts[string]{
@@ -140,7 +149,7 @@ func TestIntegerRoundTripsThroughBothDirections(t *testing.T) {
 	}
 }
 
-func TestTimeRoundTripsToTheSameNanosecondInUTC(t *testing.T) {
+func TestTimeRoundTripsToTheSameSecondInUTC(t *testing.T) {
 	for _, instant := range orderedInstants() {
 		for _, parts := range []vault.SingleKeyParts[time.Time]{
 			vault.SingleKey(vault.TimeKeyPart),
@@ -170,8 +179,8 @@ func TestTimeDropsTheMonotonicReadingAndTheLocation(t *testing.T) {
 		t.Fatalf("PartsOf failed: %v", err)
 	}
 
-	if !decoded.Equal(instant) {
-		t.Fatalf("PartsOf = %s, want %s", decoded, instant)
+	if !decoded.Equal(instant.Truncate(time.Second)) {
+		t.Fatalf("PartsOf = %s, want %s", decoded, instant.Truncate(time.Second))
 	}
 	if decoded.Location() != time.UTC {
 		t.Fatalf("PartsOf location = %s, want UTC", decoded.Location())

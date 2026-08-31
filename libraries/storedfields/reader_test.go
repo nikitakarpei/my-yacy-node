@@ -107,11 +107,6 @@ func TestAFieldThatRunsOffTheEndOfTheRecordIsMalformed(t *testing.T) {
 			read:   func(r *storedfields.Reader) { r.Count("word count") },
 		},
 		{
-			name:   "Time",
-			record: []byte{0x02, 0x80},
-			read:   func(r *storedfields.Reader) { r.Time("held at") },
-		},
-		{
 			name:   "Text",
 			record: []byte{0x80},
 			read:   func(r *storedfields.Reader) { r.Text("title") },

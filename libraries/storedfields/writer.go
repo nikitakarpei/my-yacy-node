@@ -51,7 +51,6 @@ func (w *Writer) Float(number float64) {
 
 func (w *Writer) Time(instant time.Time) {
 	w.Varint(instant.Unix())
-	w.Varint(int64(instant.Nanosecond()))
 }
 
 func (w *Writer) Fixed(data []byte) {

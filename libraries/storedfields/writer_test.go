@@ -12,7 +12,7 @@ import (
 var errMalformed = errors.New("malformed record")
 
 func TestEveryFieldReadsBackTheValueWritten(t *testing.T) {
-	written := time.Date(2026, time.March, 4, 5, 6, 7, 8, time.UTC)
+	written := time.Date(2026, time.March, 4, 5, 6, 7, 0, time.UTC)
 
 	var writer storedfields.Writer
 	writer.Byte(0x7F)
@@ -56,6 +56,21 @@ func TestEveryFieldReadsBackTheValueWritten(t *testing.T) {
 	}
 	if value := reader.Text("text"); value != "a text, with a comma" {
 		t.Errorf("text = %q, want \"a text, with a comma\"", value)
+	}
+	if err := reader.Err(); err != nil {
+		t.Errorf("Err = %v, want no error", err)
+	}
+}
+
+func TestAnInstantIsStoredToTheSecond(t *testing.T) {
+	withNanoseconds := time.Date(2026, time.March, 4, 5, 6, 7, 890123456, time.UTC)
+
+	var writer storedfields.Writer
+	writer.Time(withNanoseconds)
+
+	reader := storedfields.ReaderOf(writer.Record(), errMalformed)
+	if instant := reader.Time("time"); !instant.Equal(withNanoseconds.Truncate(time.Second)) {
+		t.Errorf("time = %v, want %v", instant, withNanoseconds.Truncate(time.Second))
 	}
 	if err := reader.Err(); err != nil {
 		t.Errorf("Err = %v, want no error", err)
