@@ -3,7 +3,6 @@ package yacymodel
 import (
 	"errors"
 	"fmt"
-	"net"
 	"net/url"
 	"time"
 )
@@ -65,16 +64,21 @@ func (s Seed) IsAddressable() bool {
 	return false
 }
 
-func (s Seed) NetworkAddress() (string, bool) {
+func (s Seed) NetworkAddress() (NetworkAddress, bool) {
 	host, ok := s.PrimaryAddress.Get()
 	if !ok {
-		return "", false
+		return NetworkAddress{}, false
 	}
 	port, ok := s.Port.Get()
 	if !ok {
-		return "", false
+		return NetworkAddress{}, false
 	}
-	return net.JoinHostPort(host.String(), port.String()), true
+	address, err := NetworkAddressOf(host, port)
+	if err != nil {
+		return NetworkAddress{}, false
+	}
+
+	return address, true
 }
 
 func (s Seed) HTTPEndpoint(path string) (*url.URL, error) {
@@ -85,7 +89,7 @@ func (s Seed) HTTPEndpoint(path string) (*url.URL, error) {
 
 	return &url.URL{
 		Scheme: "http",
-		Host:   address,
+		Host:   address.String(),
 		Path:   path,
 	}, nil
 }

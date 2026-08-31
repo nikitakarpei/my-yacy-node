@@ -75,7 +75,7 @@ func courierEndpoint(t testing.TB, server *httptest.Server) string {
 		t.Fatalf("courier seed has no network address")
 	}
 
-	return endpoint
+	return endpoint.String()
 }
 
 func openCourierHarness(t *testing.T, server *httptest.Server) postingcourier.Courier {

@@ -64,7 +64,7 @@ func courierEndpoint(t testing.TB, server *httptest.Server) string {
 		t.Fatalf("courier seed has no network address")
 	}
 
-	return endpoint
+	return endpoint.String()
 }
 
 func urlResponder(resp yacyproto.TransferURLResponse) *httptest.Server {

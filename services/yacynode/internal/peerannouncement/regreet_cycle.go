@@ -13,10 +13,14 @@ const announceHelloPeerCount = 30
 
 type peerRoster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
-	ConfirmReachable(ctx context.Context, peer yacymodel.Hash)
+	ConfirmReachable(ctx context.Context, seed yacymodel.Seed)
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
-	UnreachablePeers(ctx context.Context, limit int) []yacymodel.Seed
+	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
+	NetworkAddressOf(
+		ctx context.Context,
+		peer yacymodel.Hash,
+	) (yacymodel.NetworkAddress, bool)
 }
 
 // TECHDEBT: vocabulary — one fact spelled four ways here: regreet, announce, contact, greet
@@ -50,43 +54,45 @@ func (a *announcer) Run(ctx context.Context) {
 func (a *announcer) announce(ctx context.Context) {
 	self := a.self.SelfSeed(ctx)
 
-	targets := a.roster.ReachablePeers(ctx)
-	if deficit := a.reachableCap - len(targets); deficit > 0 {
-		targets = append(targets, a.roster.UnreachablePeers(ctx, deficit)...)
+	reachablePeers := a.roster.ReachablePeers(ctx)
+	peerHashes := yacymodel.PeerHashesOf(reachablePeers)
+	if deficit := a.reachableCap - len(reachablePeers); deficit > 0 {
+		peerHashes = append(
+			peerHashes,
+			a.roster.UnreachablePeerHashes(ctx, deficit)...,
+		)
 	}
 
-	a.contactAll(ctx, self, targets)
+	a.contactAll(ctx, self, peerHashes)
 }
 
-// TECHDEBT: abstraction — contactAll picks targets and also runs the fan-out concurrency
-func (a *announcer) contactAll(ctx context.Context, self yacymodel.Seed, targets []yacymodel.Seed) {
+func (a *announcer) contactAll(
+	ctx context.Context,
+	self yacymodel.Seed,
+	peerHashes []yacymodel.Hash,
+) {
 	concurrency := max(a.contactConcurrency, 1)
 	slots := make(chan struct{}, concurrency)
-	done := make(chan struct{}, len(targets))
+	done := make(chan struct{}, len(peerHashes))
 
 	pending := 0
-	for _, target := range targets {
-		if target.Hash == self.Hash {
+	for _, peerHash := range peerHashes {
+		if peerHash == self.Hash {
 			slog.DebugContext(
 				ctx,
 				"skipped self in contact targets",
-				slog.String("peer", target.Hash.String()),
+				slog.String("peer", peerHash.String()),
 			)
 
 			continue
 		}
 
-		endpoint, ok := target.NetworkAddress()
-		if !ok {
-			continue
-		}
-
 		pending++
 		slots <- struct{}{}
-		go func(target yacymodel.Seed, endpoint string) {
+		go func(peerHash yacymodel.Hash) {
 			defer func() { <-slots; done <- struct{}{} }()
-			a.contactOne(ctx, self, target, endpoint)
-		}(target, endpoint)
+			a.contactOne(ctx, self, peerHash)
+		}(peerHash)
 	}
 
 	for range pending {
@@ -96,44 +102,68 @@ func (a *announcer) contactAll(ctx context.Context, self yacymodel.Seed, targets
 
 func (a *announcer) contactOne(
 	ctx context.Context,
-	self, target yacymodel.Seed,
-	endpoint string,
+	self yacymodel.Seed,
+	peerHash yacymodel.Hash,
 ) {
-	result, err := a.greeter.Greet(ctx, endpoint, self, announceHelloPeerCount)
+	networkAddress, found := a.roster.NetworkAddressOf(ctx, peerHash)
+	if !found {
+		return
+	}
+
+	result, err := a.greeter.Greet(ctx, networkAddress, self, announceHelloPeerCount)
 	if err != nil {
-		a.roster.ConfirmUnreachable(ctx, target.Hash)
+		a.roster.ConfirmUnreachable(ctx, peerHash)
 		slog.WarnContext(
 			ctx,
 			"peer greet failed",
-			slog.String("peer", target.Hash.String()),
-			slog.String("endpoint", endpoint),
+			slog.String("peer", peerHash.String()),
+			slog.String("endpoint", networkAddress.String()),
 			slog.Any("error", err),
 		)
 
 		return
 	}
-	yourType, confirmed := result.YourType.Get()
-	if !confirmed {
-		a.roster.ConfirmUnreachable(ctx, target.Hash)
+	if result.RespondingSeed.Hash != peerHash {
+		a.roster.ConfirmUnreachable(ctx, peerHash)
 		slog.WarnContext(
 			ctx,
-			"peer did not confirm our network",
-			slog.String("peer", target.Hash.String()),
-			slog.String("endpoint", endpoint),
+			"peer greet identified a different peer",
+			slog.String("peer", peerHash.String()),
+			slog.String("respondingPeer", result.RespondingSeed.Hash.String()),
+		)
+	}
+	if _, addressable := result.RespondingSeed.NetworkAddress(); !addressable {
+		a.roster.ConfirmUnreachable(ctx, peerHash)
+		slog.WarnContext(
+			ctx,
+			"peer greet returned an unaddressable seed",
+			slog.String("peer", peerHash.String()),
 		)
 
 		return
 	}
-	if yourType == yacymodel.PeerJunior {
+	reportedPeerType, confirmed := result.ObservedPeerType.Get()
+	if !confirmed {
+		a.roster.ConfirmUnreachable(ctx, peerHash)
+		slog.WarnContext(
+			ctx,
+			"peer did not confirm our network",
+			slog.String("peer", peerHash.String()),
+			slog.String("endpoint", networkAddress.String()),
+		)
+
+		return
+	}
+	if reportedPeerType == yacymodel.PeerJunior {
 		slog.WarnContext(
 			ctx,
 			"peer reported us as junior",
-			slog.String("peer", target.Hash.String()),
-			slog.String("endpoint", endpoint),
-			slog.String("reportedAddress", result.YourIP),
+			slog.String("peer", peerHash.String()),
+			slog.String("endpoint", networkAddress.String()),
+			slog.String("reportedAddress", result.ObservedAddress),
 		)
 	}
 
-	a.roster.ConfirmReachable(ctx, target.Hash)
-	a.roster.Discover(ctx, result.Known...)
+	a.roster.ConfirmReachable(ctx, result.RespondingSeed)
+	a.roster.Discover(ctx, result.KnownSeeds...)
 }

@@ -18,7 +18,7 @@ func TestRecentlyReachableOutsideTheNanosecondEpochRange(t *testing.T) {
 
 		peer := seniorSeed(t, "peer", "203.0.113.1", 8090)
 		roster.Discover(ctx, peer)
-		roster.ConfirmReachable(ctx, peer.Hash)
+		roster.ConfirmReachable(ctx, peer)
 
 		if !roster.IsRecentlyReachable(ctx, peer.Hash) {
 			t.Errorf("peer confirmed reachable at %s is not recently reachable", clockStart)

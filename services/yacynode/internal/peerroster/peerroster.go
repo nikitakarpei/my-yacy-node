@@ -18,12 +18,16 @@ import (
 
 type Roster interface {
 	Discover(ctx context.Context, seeds ...yacymodel.Seed)
-	ConfirmReachable(ctx context.Context, peer yacymodel.Hash)
+	ConfirmReachable(ctx context.Context, seed yacymodel.Seed)
 	ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash)
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
 	IsReachable(ctx context.Context, peer yacymodel.Hash) bool
 	IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) bool
-	UnreachablePeers(ctx context.Context, limit int) []yacymodel.Seed
+	UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash
+	NetworkAddressOf(
+		ctx context.Context,
+		peer yacymodel.Hash,
+	) (yacymodel.NetworkAddress, bool)
 }
 
 var _ Roster = (*roster)(nil)
