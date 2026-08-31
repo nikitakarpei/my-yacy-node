@@ -95,7 +95,7 @@ type fakeURLs struct {
 	purgeErr  error
 }
 
-func (f *fakeURLs) StalestURLs(_ context.Context, limit int) ([]yacymodel.URLHash, error) {
+func (f *fakeURLs) StalestURLs(_ *vault.Txn, limit int) ([]yacymodel.URLHash, error) {
 	if limit > len(f.remaining) {
 		limit = len(f.remaining)
 	}

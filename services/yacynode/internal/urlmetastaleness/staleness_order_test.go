@@ -48,47 +48,59 @@ func store(
 	}
 }
 
+func stalestURLs(
+	t *testing.T,
+	v *vault.Vault,
+	order urlmetastaleness.StalenessRanking,
+	limit int,
+) []yacymodel.URLHash {
+	t.Helper()
+
+	var stalest []yacymodel.URLHash
+	if err := v.View(context.Background(), func(tx *vault.Txn) error {
+		selected, err := order.StalestURLs(tx, limit)
+		stalest = selected
+
+		return err
+	}); err != nil {
+		t.Fatalf("StalestURLs: %v", err)
+	}
+
+	return stalest
+}
+
 func TestStalestURLsReturnsStalestFirst(t *testing.T) {
-	vault, order := openOrder(t)
+	v, order := openOrder(t)
 	fresh := urlHash("fresh")
 	stale := urlHash("stale")
 	middle := urlHash("middle")
-	store(t, vault, order, fresh, yacymodel.Some(yacymodel.NewCalendarDay(2026, time.January, 1)))
-	store(t, vault, order, stale, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
-	store(t, vault, order, middle, yacymodel.Some(yacymodel.NewCalendarDay(2023, time.January, 1)))
+	store(t, v, order, fresh, yacymodel.Some(yacymodel.NewCalendarDay(2026, time.January, 1)))
+	store(t, v, order, stale, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
+	store(t, v, order, middle, yacymodel.Some(yacymodel.NewCalendarDay(2023, time.January, 1)))
 
-	candidates, err := order.StalestURLs(context.Background(), 2)
-	if err != nil {
-		t.Fatalf("StalestURLs: %v", err)
-	}
+	candidates := stalestURLs(t, v, order, 2)
 	if len(candidates) != 2 || candidates[0] != stale || candidates[1] != middle {
 		t.Fatalf("candidates = %v, want [stale middle]", candidates)
 	}
 }
 
 func TestStalestURLsTreatsMissingFreshnessAsStalest(t *testing.T) {
-	vault, order := openOrder(t)
+	v, order := openOrder(t)
 	dated := urlHash("dated")
 	undated := urlHash("undated")
-	store(t, vault, order, dated, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
-	store(t, vault, order, undated, yacymodel.None[yacymodel.CalendarDay]())
+	store(t, v, order, dated, yacymodel.Some(yacymodel.NewCalendarDay(2020, time.January, 1)))
+	store(t, v, order, undated, yacymodel.None[yacymodel.CalendarDay]())
 
-	candidates, err := order.StalestURLs(context.Background(), 1)
-	if err != nil {
-		t.Fatalf("StalestURLs: %v", err)
-	}
+	candidates := stalestURLs(t, v, order, 1)
 	if len(candidates) != 1 || candidates[0] != undated {
 		t.Fatalf("candidates = %v, want [undated]", candidates)
 	}
 }
 
 func TestStalestURLsZeroLimit(t *testing.T) {
-	_, order := openOrder(t)
+	v, order := openOrder(t)
 
-	candidates, err := order.StalestURLs(context.Background(), 0)
-	if err != nil {
-		t.Fatalf("StalestURLs: %v", err)
-	}
+	candidates := stalestURLs(t, v, order, 0)
 	if candidates != nil {
 		t.Fatalf("candidates = %v, want nil", candidates)
 	}
@@ -107,10 +119,7 @@ func TestPurgedURLLeavesOrder(t *testing.T) {
 		t.Fatalf("URLPurged: %v", err)
 	}
 
-	candidates, err := order.StalestURLs(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("StalestURLs: %v", err)
-	}
+	candidates := stalestURLs(t, v, order, 10)
 	if len(candidates) != 1 || candidates[0] != kept {
 		t.Fatalf("candidates = %v, want [kept]", candidates)
 	}
