@@ -48,7 +48,7 @@ func seedlistLine(t *testing.T, hash, ip string) string {
 		Port:           yacymodel.Some(yacymodel.Port(8090)),
 	}
 
-	return yacyproto.EncodeSeed(seed)
+	return yacyproto.HelloRequest{Seed: seed}.Form().Get(yacyproto.FieldSeed)
 }
 
 func TestSeedlistFetcherDecodesLines(t *testing.T) {

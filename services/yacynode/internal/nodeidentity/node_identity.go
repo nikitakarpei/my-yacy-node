@@ -17,7 +17,7 @@ type Identity struct {
 	Host        string
 	Port        int
 	Flags       yacymodel.PeerCapabilities
-	Version     string
+	Version     yacymodel.SoftwareVersion
 	Start       time.Time
 }
 

@@ -83,9 +83,9 @@ func TestParseHelloResponseDropsMalformedKnownSeed(t *testing.T) {
 	own := sampleSeed(t, "alpha", "peer-self")
 	known := sampleSeed(t, "gamma", "peer-c")
 	msg := yacyproto.Message{
-		"seed0": yacyproto.EncodeSeed(own),
+		"seed0": seedWireForm(own),
 		"seed1": "not-a-valid-seed",
-		"seed2": yacyproto.EncodeSeed(known),
+		"seed2": seedWireForm(known),
 	}
 
 	got, err := yacyproto.ParseHelloResponse(t.Context(), msg)
