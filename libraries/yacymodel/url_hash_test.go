@@ -1,6 +1,7 @@
 package yacymodel_test
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -13,6 +14,26 @@ func TestURLHashIsAParseableTwelveSymbolHash(t *testing.T) {
 	}
 	if _, err := yacymodel.ParseURLHash(hash.String()); err != nil {
 		t.Errorf("url hash %q does not parse: %v", hash, err)
+	}
+}
+
+func TestURLHashBytesRoundTripThroughParseURLHashBytes(t *testing.T) {
+	hash := hashOfAddress(t, "http://example.com/path?q=1")
+
+	parsed, err := yacymodel.ParseURLHashBytes(hash.Bytes())
+	if err != nil {
+		t.Fatalf("ParseURLHashBytes(%x): %v", hash.Bytes(), err)
+	}
+	if parsed != hash {
+		t.Errorf("ParseURLHashBytes = %q, want %q", parsed, hash)
+	}
+}
+
+func TestParseURLHashBytesRejectsAnotherLength(t *testing.T) {
+	tooFew := make([]byte, yacymodel.HashByteLength-1)
+
+	if _, err := yacymodel.ParseURLHashBytes(tooFew); !errors.Is(err, yacymodel.ErrInvalidHash) {
+		t.Errorf("ParseURLHashBytes = %v, want ErrInvalidHash", err)
 	}
 }
 

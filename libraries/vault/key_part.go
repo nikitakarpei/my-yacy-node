@@ -84,15 +84,39 @@ func TextKeyPartFrom[A any](text func(A) string, valueOf func(string) (A, error)
 	}
 }
 
+func BytesKeyPartFrom[A any](
+	byteForm func(A) []byte,
+	valueOf func([]byte) (A, error),
+) KeyPart[A] {
+	return KeyPart[A]{
+		items: func(value A) []any { return TextKeyPart.items(string(byteForm(value))) },
+		holder: func() ([]any, func() (A, error)) {
+			targets, textInKey := TextKeyPart.holder()
+
+			return targets, func() (A, error) {
+				storedBytes, err := textInKey()
+				if err != nil {
+					var unparsed A
+
+					return unparsed, err
+				}
+
+				return valueOf([]byte(storedBytes))
+			}
+		},
+		descending: TextKeyPart.descending,
+	}
+}
+
 var TimeKeyPart = KeyPart[time.Time]{
 	items: func(instant time.Time) []any {
-		return []any{instant.Unix(), int64(instant.Nanosecond())}
+		return []any{instant.Unix()}
 	},
 	holder: func() ([]any, func() (time.Time, error)) {
-		var seconds, nanoseconds int64
+		var seconds int64
 
-		return []any{&seconds, &nanoseconds}, func() (time.Time, error) {
-			return time.Unix(seconds, nanoseconds).UTC(), nil
+		return []any{&seconds}, func() (time.Time, error) {
+			return time.Unix(seconds, 0).UTC(), nil
 		}
 	},
 }

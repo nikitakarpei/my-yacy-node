@@ -1,10 +1,11 @@
 package rwiescrow
 
 import (
-	"encoding/binary"
+	"errors"
 	"fmt"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
@@ -50,42 +51,37 @@ func everyPostingWaitingFor(url yacymodel.URLHash) vault.KeyRange {
 	return escrowedPostingKeyParts.KeysWithFirst(url)
 }
 
+var errBadEscrowedPosting = errors.New("bad escrowed posting")
+
 type escrowedPostingValueCodec struct{}
 
 func (escrowedPostingValueCodec) Encode(escrowed escrowedPosting) ([]byte, error) {
-	raw, err := rwipostings.PostingCodec().Encode(escrowed.Posting)
+	posting, err := rwipostings.PostingCodec().Encode(escrowed.Posting)
 	if err != nil {
 		return nil, fmt.Errorf("encode escrowed posting: %w", err)
 	}
 
-	heldAt, err := binary.Append(nil, binary.BigEndian, []int64{
-		escrowed.HeldAt.Unix(),
-		int64(escrowed.HeldAt.Nanosecond()),
-	})
-	if err != nil {
-		return nil, fmt.Errorf("encode escrowed posting hold time: %w", err)
-	}
+	var stored storedfields.Writer
+	stored.Time(escrowed.HeldAt)
+	stored.Bytes(posting)
 
-	return append(heldAt, raw...), nil
+	return stored.Record(), nil
 }
 
 func (escrowedPostingValueCodec) Decode(raw []byte) (escrowedPosting, error) {
-	heldAt := make([]int64, 2)
-	heldAtLength, err := binary.Decode(raw, binary.BigEndian, heldAt)
-	if err != nil {
-		return escrowedPosting{}, fmt.Errorf("escrowed posting hold time: %w", err)
+	stored := storedfields.ReaderOf(raw, errBadEscrowedPosting)
+	heldAt := stored.Time("held at")
+	encodedPosting := stored.Bytes("posting")
+	if err := stored.Err(); err != nil {
+		return escrowedPosting{}, err
 	}
-	seconds, nanoseconds := heldAt[0], heldAt[1]
 
-	posting, err := rwipostings.PostingCodec().Decode(raw[heldAtLength:])
+	posting, err := rwipostings.PostingCodec().Decode(encodedPosting)
 	if err != nil {
 		return escrowedPosting{}, fmt.Errorf("decode escrowed posting: %w", err)
 	}
 
-	return escrowedPosting{
-		HeldAt:  time.Unix(seconds, nanoseconds).UTC(),
-		Posting: posting,
-	}, nil
+	return escrowedPosting{HeldAt: heldAt, Posting: posting}, nil
 }
 
 var postingHoldKeyParts = vault.TripleKey(vault.TimeKeyPart, hashkeypart.Hash, hashkeypart.URLHash)

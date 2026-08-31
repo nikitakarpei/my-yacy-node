@@ -9,6 +9,8 @@ import (
 
 const HashLength = 12
 
+const HashByteLength = HashLength * 6 / 8
+
 const ReservedPrefix = "_____"
 
 var ErrInvalidHash = errors.New("invalid hash")
@@ -27,6 +29,19 @@ func ParseHash(s string) (Hash, error) {
 	return Hash{value: s}, nil
 }
 
+func ParseHashBytes(raw []byte) (Hash, error) {
+	if len(raw) != HashByteLength {
+		return Hash{}, fmt.Errorf(
+			"%w: %d bytes, want %d",
+			ErrInvalidHash,
+			len(raw),
+			HashByteLength,
+		)
+	}
+
+	return Hash{value: Encode(raw)}, nil
+}
+
 func (h Hash) Reserved() bool {
 	return strings.HasPrefix(h.value, ReservedPrefix)
 }
@@ -34,6 +49,15 @@ func (h Hash) Reserved() bool {
 func (h Hash) IsZero() bool { return h.value == "" }
 
 func (h Hash) String() string { return h.value }
+
+func (h Hash) Bytes() []byte {
+	raw, err := Decode(h.value)
+	if err != nil {
+		panic(fmt.Errorf("%w: hash %q", err, h.value))
+	}
+
+	return raw
+}
 
 func (h Hash) MarshalText() ([]byte, error) {
 	return []byte(h.value), nil
