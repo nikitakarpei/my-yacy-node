@@ -84,20 +84,19 @@ func (urlMetadataValueCodec) Decode(data []byte) (yacymodel.URLMetadata, error) 
 
 func writeReferrer(stored *storedfields.Writer, referrer yacymodel.Optional[yacymodel.URLHash]) {
 	hash, known := referrer.Get()
+	stored.Presence(known)
 	if !known {
-		stored.Text("")
-
 		return
 	}
-	stored.Text(hash.String())
+	stored.Fixed(hash.Bytes())
 }
 
 func referrerFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.URLHash] {
-	raw := stored.Text("referrer")
-	if raw == "" {
+	if !stored.Presence("referrer") {
 		return yacymodel.None[yacymodel.URLHash]()
 	}
-	referrer, err := yacymodel.ParseURLHash(raw)
+	raw := stored.Fixed("referrer", yacymodel.HashByteLength)
+	referrer, err := yacymodel.ParseURLHashBytes(raw)
 	if err != nil {
 		stored.Reject("referrer", err)
 

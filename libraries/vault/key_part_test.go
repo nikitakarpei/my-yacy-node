@@ -262,3 +262,61 @@ func TestTextKeyPartFromFailsWhenTheTextIsNoDomainValue(t *testing.T) {
 		})
 	}
 }
+
+type documentFingerprint [4]byte
+
+func documentFingerprintBytesOf(fingerprint documentFingerprint) []byte {
+	return fingerprint[:]
+}
+
+var errShortFingerprint = errors.New("fingerprint is short")
+
+func documentFingerprintFrom(raw []byte) (documentFingerprint, error) {
+	if len(raw) != len(documentFingerprint{}) {
+		return documentFingerprint{}, errShortFingerprint
+	}
+
+	return documentFingerprint(raw), nil
+}
+
+func orderedDocumentFingerprints() []documentFingerprint {
+	return []documentFingerprint{
+		{0x00, 0x00, 0x00, 0x01},
+		{0x00, 0xff, 0x01, 0x00},
+		{0x7f, 0x10, 0x20, 0x30},
+		{0xff, 0xff, 0xff, 0xff},
+	}
+}
+
+func TestBytesKeyPartFromRoundTripsBytesThatNeedEscaping(t *testing.T) {
+	parts := vault.SingleKey(
+		vault.BytesKeyPartFrom(documentFingerprintBytesOf, documentFingerprintFrom),
+	)
+
+	for _, fingerprint := range orderedDocumentFingerprints() {
+		decoded, err := parts.PartsOf(parts.Key(fingerprint).Bytes())
+		if err != nil {
+			t.Fatalf("PartsOf(%x) failed: %v", fingerprint, err)
+		}
+		if decoded != fingerprint {
+			t.Fatalf("PartsOf = %x, want %x", decoded, fingerprint)
+		}
+	}
+}
+
+func TestBytesKeyPartFromKeysSortInByteOrder(t *testing.T) {
+	fingerprint := vault.BytesKeyPartFrom(documentFingerprintBytesOf, documentFingerprintFrom)
+
+	assertKeysSortAscending(t, vault.SingleKey(fingerprint).Key, orderedDocumentFingerprints())
+}
+
+func TestBytesKeyPartFromFailsWhenTheBytesAreNoDomainValue(t *testing.T) {
+	fingerprint := vault.BytesKeyPartFrom(documentFingerprintBytesOf, documentFingerprintFrom)
+	shortKey := vault.SingleKey(vault.TextKeyPart).Key("one")
+
+	if _, err := vault.SingleKey(fingerprint).PartsOf(shortKey.Bytes()); !errors.Is(
+		err, errShortFingerprint,
+	) {
+		t.Fatalf("PartsOf error = %v, want %v", err, errShortFingerprint)
+	}
+}
