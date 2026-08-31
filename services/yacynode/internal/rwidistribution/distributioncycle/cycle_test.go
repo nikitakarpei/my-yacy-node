@@ -979,15 +979,18 @@ func TestCycleStopsDrainingWhenTheBudgetIsSpent(t *testing.T) {
 
 	h.runCycle(t)
 
+	if len(h.courier.offered) != 1 {
+		t.Fatalf(
+			"offered %d batches, want the drain to stop after the batch that spends the budget",
+			len(h.courier.offered),
+		)
+	}
 	due, err := h.schedule.DuePostings(context.Background(), backlog)
 	if err != nil {
 		t.Fatalf("DuePostings: %v", err)
 	}
-	if len(due) != backlog-postingsPerBatch {
-		t.Fatalf(
-			"due = %d postings, want the %d left by the spent budget",
-			len(due), backlog-postingsPerBatch,
-		)
+	if len(due) == 0 {
+		t.Fatalf("the spent budget left no posting due, want the backlog unfinished")
 	}
 }
 

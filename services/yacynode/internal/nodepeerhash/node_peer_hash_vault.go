@@ -31,11 +31,11 @@ var peerKeyLayout = vault.SingleKey(vault.TextKeyPart).KeyLayout()
 type peerHashValueCodec struct{}
 
 func (peerHashValueCodec) Encode(hash yacymodel.Hash) ([]byte, error) {
-	return []byte(hash.String()), nil
+	return hash.Bytes(), nil
 }
 
 func (peerHashValueCodec) Decode(payload []byte) (yacymodel.Hash, error) {
-	hash, err := yacymodel.ParseHash(string(payload))
+	hash, err := yacymodel.ParseHashBytes(payload)
 	if err != nil {
 		return yacymodel.Hash{}, fmt.Errorf("stored peer hash: %w", err)
 	}

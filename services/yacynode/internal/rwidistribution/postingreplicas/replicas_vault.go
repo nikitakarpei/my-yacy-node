@@ -1,8 +1,10 @@
 package postingreplicas
 
 import (
+	"errors"
 	"fmt"
 
+	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingidentity"
@@ -25,34 +27,43 @@ func registerReplicaLedger(
 	return holders, nil
 }
 
+var errBadReplicaLedger = errors.New("bad replica ledger")
+
 type holdersValueCodec struct{}
 
 func (holdersValueCodec) Encode(holders []yacymodel.Hash) ([]byte, error) {
-	raw := make([]byte, 0, len(holders)*yacymodel.HashLength)
+	var stored storedfields.Writer
+	stored.Count(len(holders))
 	for _, peer := range holders {
-		raw = append(raw, peer.String()...)
+		stored.Fixed(peer.Bytes())
 	}
 
-	return raw, nil
+	return stored.Record(), nil
 }
 
 func (holdersValueCodec) Decode(raw []byte) ([]yacymodel.Hash, error) {
-	if len(raw)%yacymodel.HashLength != 0 {
-		return nil, fmt.Errorf(
-			"replica holders: length %d not a multiple of %d",
-			len(raw),
-			yacymodel.HashLength,
-		)
-	}
-
-	holders := make([]yacymodel.Hash, 0, len(raw)/yacymodel.HashLength)
-	for offset := 0; offset < len(raw); offset += yacymodel.HashLength {
-		hash, err := yacymodel.ParseHash(string(raw[offset : offset+yacymodel.HashLength]))
-		if err != nil {
-			return nil, fmt.Errorf("replica holders: %w", err)
-		}
-		holders = append(holders, hash)
+	stored := storedfields.ReaderOf(raw, errBadReplicaLedger)
+	holders := holdersFrom(stored)
+	if err := stored.Err(); err != nil {
+		return nil, err
 	}
 
 	return holders, nil
+}
+
+func holdersFrom(stored *storedfields.Reader) []yacymodel.Hash {
+	count := stored.Count("holder count")
+	holdersThatFit := stored.BytesLeft() / yacymodel.HashByteLength
+	holders := make([]yacymodel.Hash, 0, min(count, holdersThatFit))
+	for range count {
+		holder, err := yacymodel.ParseHashBytes(stored.Fixed("holder", yacymodel.HashByteLength))
+		if err != nil {
+			stored.Reject("holder", err)
+
+			return nil
+		}
+		holders = append(holders, holder)
+	}
+
+	return holders
 }

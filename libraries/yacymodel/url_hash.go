@@ -17,6 +17,19 @@ func ParseURLHash(raw string) (URLHash, error) {
 	return URLHash{hash: hash}, nil
 }
 
+func ParseURLHashBytes(raw []byte) (URLHash, error) {
+	hash, err := ParseHashBytes(raw)
+	if err != nil {
+		return URLHash{}, fmt.Errorf("parse url hash: %w", err)
+	}
+
+	return URLHash{hash: hash}, nil
+}
+
+func (h URLHash) Bytes() []byte {
+	return h.hash.Bytes()
+}
+
 func (h URLHash) MarshalText() ([]byte, error) {
 	return h.hash.MarshalText()
 }

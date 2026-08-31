@@ -44,6 +44,8 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacyproto => ../../libraries/yacyp
 
 replace github.com/nikitakarpei/yacy-rwi-node/natstestserver => ../../libraries/natstestserver
 
+replace github.com/nikitakarpei/yacy-rwi-node/storedfields => ../../libraries/storedfields
+
 replace github.com/nikitakarpei/yacy-rwi-node/vault => ../../libraries/vault
 
 replace github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault => ../../libraries/vaultengines/boltvault
@@ -65,6 +67,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/scrapedpage v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault v0.0.0

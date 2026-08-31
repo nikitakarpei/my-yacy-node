@@ -29,6 +29,31 @@ func TestParseHash(t *testing.T) {
 	}
 }
 
+func TestHashBytesRoundTripThroughParseHashBytes(t *testing.T) {
+	hash := yacymodel.WordHash("keyword")
+
+	raw := hash.Bytes()
+	if len(raw) != yacymodel.HashByteLength {
+		t.Fatalf("Bytes length = %d, want %d", len(raw), yacymodel.HashByteLength)
+	}
+
+	parsed, err := yacymodel.ParseHashBytes(raw)
+	if err != nil {
+		t.Fatalf("ParseHashBytes(%x): %v", raw, err)
+	}
+	if parsed != hash {
+		t.Errorf("ParseHashBytes = %q, want %q", parsed, hash)
+	}
+}
+
+func TestParseHashBytesRejectsAnotherLength(t *testing.T) {
+	tooFew := make([]byte, yacymodel.HashByteLength-1)
+
+	if _, err := yacymodel.ParseHashBytes(tooFew); !errors.Is(err, yacymodel.ErrInvalidHash) {
+		t.Errorf("ParseHashBytes = %v, want ErrInvalidHash", err)
+	}
+}
+
 func mustParseHash(t *testing.T, s string) yacymodel.Hash {
 	t.Helper()
 	h, err := yacymodel.ParseHash(s)

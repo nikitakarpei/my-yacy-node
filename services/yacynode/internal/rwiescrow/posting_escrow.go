@@ -176,6 +176,7 @@ func (e *PostingEscrow) postingsWaitingFor(
 		everyPostingWaitingFor(hash),
 		func(identity postingIdentity, escrowed escrowedPosting) (bool, error) {
 			escrowed.Posting.WordHash = identity.Word
+			escrowed.Posting.URLHash = identity.URL
 			waiting = append(waiting, escrowed)
 
 			return true, nil
