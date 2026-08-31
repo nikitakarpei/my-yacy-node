@@ -264,9 +264,13 @@ deps:
       - nodeidentity
     canUse:
       - yacyproto
+      - vault
   searchmetrics:
     canUse:
       - prometheus
+  searchtest:
+    canUse:
+      - vault
   nodestatus:
     mayDependOn:
       - httpguard

@@ -1,6 +1,7 @@
 package urlmeta_test
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
@@ -60,4 +61,25 @@ func openObservedModule(
 	}
 
 	return v, urlPorts{Directory: directory, Evictor: evictor, Receiver: receiver}
+}
+
+func metadataByHash(
+	t *testing.T,
+	v *vault.Vault,
+	directory urlmeta.URLDirectory,
+	hashes []yacymodel.URLHash,
+) []yacymodel.URLMetadata {
+	t.Helper()
+
+	var rows []yacymodel.URLMetadata
+	if err := v.View(context.Background(), func(tx *vault.Txn) error {
+		stored, err := directory.MetadataByHash(tx, hashes)
+		rows = stored
+
+		return err
+	}); err != nil {
+		t.Fatalf("MetadataByHash: %v", err)
+	}
+
+	return rows
 }

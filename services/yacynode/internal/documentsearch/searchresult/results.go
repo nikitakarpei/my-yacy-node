@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/matchreport"
@@ -17,21 +18,30 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/titletopics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
+type DocumentDirectory interface {
+	MetadataByHash(
+		tx *vault.Txn,
+		hashes []yacymodel.URLHash,
+	) ([]yacymodel.URLMetadata, error)
+}
+
 type Results struct {
+	vault              *vault.Vault
 	index              rwipostings.PostingIndex
-	documentDirectory  urlmeta.URLDirectory
+	documentDirectory  DocumentDirectory
 	maxPostingsPerTerm int
 }
 
 func New(
+	v *vault.Vault,
 	index rwipostings.PostingIndex,
-	documents urlmeta.URLDirectory,
+	documents DocumentDirectory,
 	maxPostingsPerTerm int,
 ) Results {
 	return Results{
+		vault:              v,
 		index:              index,
 		documentDirectory:  documents,
 		maxPostingsPerTerm: maxPostingsPerTerm,
@@ -86,7 +96,7 @@ func (r Results) ResultFor(
 		len(criteria.Terms),
 		criteria.MaxResults,
 	)
-	documentMetadata, err := r.documentDirectory.MetadataByHash(ctx, documentHashes)
+	documentMetadata, err := r.metadataOfDocuments(ctx, documentHashes)
 	if err != nil {
 		return Result{}, fmt.Errorf("%w: %w", ErrDocumentDirectory, err)
 	}
@@ -123,4 +133,19 @@ func postingsHeldPerTermFrom(matches map[yacymodel.Hash]termmatch.Match) map[yac
 	}
 
 	return held
+}
+
+func (r Results) metadataOfDocuments(
+	ctx context.Context,
+	hashes []yacymodel.URLHash,
+) ([]yacymodel.URLMetadata, error) {
+	var metadata []yacymodel.URLMetadata
+	err := r.vault.View(ctx, func(tx *vault.Txn) error {
+		stored, err := r.documentDirectory.MetadataByHash(tx, hashes)
+		metadata = stored
+
+		return err
+	})
+
+	return metadata, err
 }

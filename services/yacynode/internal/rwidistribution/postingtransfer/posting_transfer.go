@@ -6,9 +6,11 @@ package postingtransfer
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/urlmetadatacourier"
@@ -28,6 +30,7 @@ type OfferAnswer struct {
 }
 
 type PostingTransfers struct {
+	vault    *vault.Vault
 	postings postingcourier.Courier
 	metadata urlmetadatacourier.Courier
 	urls     urlmeta.URLDirectory
@@ -35,12 +38,14 @@ type PostingTransfers struct {
 }
 
 func New(
+	v *vault.Vault,
 	postings postingcourier.Courier,
 	metadata urlmetadatacourier.Courier,
 	urls urlmeta.URLDirectory,
 	observer Observer,
 ) *PostingTransfers {
 	return &PostingTransfers{
+		vault:    v,
 		postings: postings,
 		metadata: metadata,
 		urls:     urls,
@@ -91,23 +96,11 @@ func (t *PostingTransfers) deliverURLMetadata(
 		return nil
 	}
 
-	metadata, err := t.urls.MetadataByHash(ctx, urlsUnknownToPeer)
+	metadata, urlsUnknownToUs, err := t.metadataOfUnknownURLs(ctx, urlsUnknownToPeer)
 	if err != nil {
 		slog.WarnContext(
 			ctx,
 			"unknown url metadata not read",
-			slog.String("peer", peer.Hash.String()),
-			slog.Any("error", err),
-		)
-
-		return urlsUnknownToPeer
-	}
-
-	urlsUnknownToUs, err := t.urls.MissingURLs(ctx, urlsUnknownToPeer)
-	if err != nil {
-		slog.WarnContext(
-			ctx,
-			"unknown url metadata presence not read",
 			slog.String("peer", peer.Hash.String()),
 			slog.Any("error", err),
 		)
@@ -136,6 +129,33 @@ func (t *PostingTransfers) deliverURLMetadata(
 	}
 
 	return append(urlsUnknownToUs, delivery.URLsRejected...)
+}
+
+func (t *PostingTransfers) metadataOfUnknownURLs(
+	ctx context.Context,
+	hashes []yacymodel.URLHash,
+) ([]yacymodel.URLMetadata, []yacymodel.URLHash, error) {
+	var metadata []yacymodel.URLMetadata
+
+	var missing []yacymodel.URLHash
+
+	if err := t.vault.View(ctx, func(tx *vault.Txn) error {
+		stored, err := t.urls.MetadataByHash(tx, hashes)
+		if err != nil {
+			return err
+		}
+		absent, err := t.urls.MissingURLs(tx, hashes)
+		if err != nil {
+			return err
+		}
+		metadata, missing = stored, absent
+
+		return nil
+	}); err != nil {
+		return nil, nil, fmt.Errorf("read metadata of urls unknown to the peer: %w", err)
+	}
+
+	return metadata, missing, nil
 }
 
 func postingsWithMetadataDelivered(

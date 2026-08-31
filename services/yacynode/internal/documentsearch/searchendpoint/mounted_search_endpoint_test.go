@@ -42,7 +42,10 @@ func mountedSearch(
 ) *http.ServeMux {
 	t.Helper()
 
-	mux, _ := mountedSearchResults(t, searchresult.New(index, documents, maxPostingsPerTerm))
+	mux, _ := mountedSearchResults(
+		t,
+		searchresult.New(openVault(t), index, documents, maxPostingsPerTerm),
+	)
 
 	return mux
 }

@@ -3,6 +3,7 @@ package searchtest
 import (
 	"context"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -11,7 +12,7 @@ type URLDirectory struct {
 }
 
 func (d URLDirectory) MetadataByHash(
-	_ context.Context,
+	_ *vault.Txn,
 	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLMetadata, error) {
 	out := make([]yacymodel.URLMetadata, 0, len(hashes))
@@ -24,13 +25,6 @@ func (d URLDirectory) MetadataByHash(
 	return out, nil
 }
 
-func (d URLDirectory) MissingURLs(
-	context.Context,
-	[]yacymodel.URLHash,
-) ([]yacymodel.URLHash, error) {
-	return nil, nil
-}
-
 func (d URLDirectory) Count(context.Context) (int, error) {
 	return len(d.Documents), nil
 }
@@ -40,16 +34,9 @@ type FailingURLDirectory struct {
 }
 
 func (d FailingURLDirectory) MetadataByHash(
-	context.Context,
+	*vault.Txn,
 	[]yacymodel.URLHash,
 ) ([]yacymodel.URLMetadata, error) {
-	return nil, d.Err
-}
-
-func (d FailingURLDirectory) MissingURLs(
-	context.Context,
-	[]yacymodel.URLHash,
-) ([]yacymodel.URLHash, error) {
 	return nil, d.Err
 }
 

@@ -214,6 +214,7 @@ func assembleNode(
 	})
 	nodestatus.MountQuery(router, identity, postings, urlReferences, urlDirectory)
 	documentsearch.MountSearch(
+		vault,
 		router,
 		identity,
 		postings,
@@ -293,6 +294,7 @@ func assembleNode(
 				config.Distribution.Redundancy,
 			),
 			postingtransfer.New(
+				vault,
 				postingcourier.New(peerMessageExchange, identity.NetworkName, identity.Hash),
 				urlmetadatacourier.NewBounded(
 					urlmetadatacourier.New(

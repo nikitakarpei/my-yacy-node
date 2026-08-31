@@ -36,29 +36,19 @@ func (a postingAdmission) Receive(
 		return Receipt{Busy: true, Pause: a.pause}, nil
 	}
 
-	referenced := make([]yacymodel.URLHash, 0, len(entries))
-	for _, entry := range entries {
-		referenced = append(referenced, entry.URLHash)
-	}
-	unknown, err := a.urls.MissingURLs(ctx, referenced)
-	if err != nil {
-		return Receipt{}, fmt.Errorf("missing urls: %w", err)
-	}
+	referenced := urlHashesOf(entries)
 
-	awaited := make(map[yacymodel.URLHash]struct{}, len(unknown))
-	for _, hash := range unknown {
-		awaited[hash] = struct{}{}
-	}
+	var unknown []yacymodel.URLHash
 
 	err = a.vault.Update(ctx, func(tx *vault.Txn) error {
-		for _, entry := range entries {
-			if err := ctx.Err(); err != nil {
-				return fmt.Errorf("context: %w", err)
-			}
-			if err := a.route(tx, entry, awaited); err != nil {
-				return err
-			}
+		missing, err := a.urls.MissingURLs(tx, referenced)
+		if err != nil {
+			return fmt.Errorf("missing urls: %w", err)
 		}
+		if err := a.routeEach(ctx, tx, entries, awaitedURLsOf(missing)); err != nil {
+			return err
+		}
+		unknown = missing
 
 		return nil
 	})
@@ -77,6 +67,42 @@ func (a postingAdmission) Receive(
 	}
 
 	return Receipt{UnknownURL: unknown}, nil
+}
+
+func urlHashesOf(entries []yacymodel.RWIPosting) []yacymodel.URLHash {
+	hashes := make([]yacymodel.URLHash, 0, len(entries))
+	for _, entry := range entries {
+		hashes = append(hashes, entry.URLHash)
+	}
+
+	return hashes
+}
+
+func awaitedURLsOf(missing []yacymodel.URLHash) map[yacymodel.URLHash]struct{} {
+	awaited := make(map[yacymodel.URLHash]struct{}, len(missing))
+	for _, hash := range missing {
+		awaited[hash] = struct{}{}
+	}
+
+	return awaited
+}
+
+func (a postingAdmission) routeEach(
+	ctx context.Context,
+	tx *vault.Txn,
+	entries []yacymodel.RWIPosting,
+	awaited map[yacymodel.URLHash]struct{},
+) error {
+	for _, entry := range entries {
+		if err := ctx.Err(); err != nil {
+			return fmt.Errorf("context: %w", err)
+		}
+		if err := a.route(tx, entry, awaited); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (a postingAdmission) route(

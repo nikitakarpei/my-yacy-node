@@ -335,7 +335,7 @@ func remainingSearchTimeFor(t *testing.T, options yacyproto.SearchRequest) time.
 	recording := &deadlineRecordingPostingIndex{postings: index}
 	mux, _ := mountedSearchResults(
 		t,
-		searchresult.New(recording, directory, maxPostingsPerTerm),
+		searchresult.New(openVault(t), recording, directory, maxPostingsPerTerm),
 	)
 
 	search(t, mux, searchRequestFor(searchWord, options))
