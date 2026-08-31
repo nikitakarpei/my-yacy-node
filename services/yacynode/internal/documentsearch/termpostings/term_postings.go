@@ -17,8 +17,16 @@ import (
 
 type Match struct {
 	PostingPerDocument map[yacymodel.URLHash]Posting
-	TotalMatches       int
 	PostingsHeld       int
+}
+
+func PostingsHeldPerTermOf(matches map[yacymodel.Hash]Match) map[yacymodel.Hash]int {
+	held := make(map[yacymodel.Hash]int, len(matches))
+	for term, match := range matches {
+		held[term] = match.PostingsHeld
+	}
+
+	return held
 }
 
 type TermPostings interface {
@@ -71,13 +79,12 @@ func (t termPostings) matchOf(
 	// The per-term cap keeps the most frequent postings rather than the first
 	// scanned; an exact join under a memory bound would instead pivot on the rarest term.
 	frequentPostings := mostFrequentPostings{maxPostings: t.maxPostingsPerTerm}
-	var held, total int
+	var held int
 	err := t.index.ScanWord(ctx, tx, term, func(posting yacymodel.RWIPosting) (bool, error) {
 		held++
 		if !filter.Accepts(posting) {
 			return true, nil
 		}
-		total++
 		frequentPostings.consider(Posting{
 			DocumentHash: posting.URLHash,
 			Occurrences:  posting.Hits,
@@ -92,7 +99,6 @@ func (t termPostings) matchOf(
 
 	return Match{
 		PostingPerDocument: postingPerDocument(frequentPostings.postings),
-		TotalMatches:       total,
 		PostingsHeld:       held,
 	}, nil
 }

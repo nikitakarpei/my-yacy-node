@@ -72,7 +72,7 @@ func TestMatchesForHoldsOnePostingPerDocument(t *testing.T) {
 		t.Fatalf("MatchesFor: %v", err)
 	}
 	match := matches[word]
-	if match.TotalMatches != 2 || len(match.PostingPerDocument) != 2 {
+	if match.PostingsHeld != 2 || len(match.PostingPerDocument) != 2 {
 		t.Fatalf("match = %+v, want two postings", match)
 	}
 	if match.PostingPerDocument[searchtest.URLHashFor("u2")].Occurrences != 3 {
@@ -91,8 +91,8 @@ func TestMatchesForKeepsMostFrequentPostingsUnderCap(t *testing.T) {
 		t.Fatalf("MatchesFor: %v", err)
 	}
 	match := matches[word]
-	if match.TotalMatches != 3 {
-		t.Errorf("TotalMatches = %d, want 3", match.TotalMatches)
+	if match.PostingsHeld != 3 {
+		t.Errorf("PostingsHeld = %d, want 3", match.PostingsHeld)
 	}
 	if len(match.PostingPerDocument) != 1 {
 		t.Fatalf("kept = %d postings, want 1", len(match.PostingPerDocument))
@@ -118,8 +118,8 @@ func TestMatchesForKeepsTwoMostFrequentPostingsUnderCap(t *testing.T) {
 		t.Fatalf("MatchesFor: %v", err)
 	}
 	match := matches[word]
-	if match.TotalMatches != 4 {
-		t.Errorf("TotalMatches = %d, want 4", match.TotalMatches)
+	if match.PostingsHeld != 4 {
+		t.Errorf("PostingsHeld = %d, want 4", match.PostingsHeld)
 	}
 	if len(match.PostingPerDocument) != 2 {
 		t.Fatalf("kept = %d postings, want 2", len(match.PostingPerDocument))
@@ -155,8 +155,8 @@ func TestMatchesForSkipsPostingsTheFilterRejects(t *testing.T) {
 	if err != nil {
 		t.Fatalf("MatchesFor: %v", err)
 	}
-	if matches[word].TotalMatches != 0 {
-		t.Errorf("TotalMatches = %d, want 0", matches[word].TotalMatches)
+	if len(matches[word].PostingPerDocument) != 0 {
+		t.Errorf("kept %d postings, want none", len(matches[word].PostingPerDocument))
 	}
 }
 

@@ -60,7 +60,7 @@ func (e endpoint) Serve(
 
 			return yacyproto.SearchResponse{}, fmt.Errorf("search criteria: %w", err)
 		}
-		requestedReport := requestedReportFromRequest(req)
+		requestedIndexAbstracts := requestedIndexAbstractsFromRequest(req)
 		if ignoredOptions := ignoredOptionNames(req); len(ignoredOptions) != 0 {
 			slog.DebugContext(ctx, "ignoring accepted search options",
 				slog.Any("options", ignoredOptions),
@@ -74,7 +74,7 @@ func (e endpoint) Serve(
 			defer cancel()
 		}
 
-		result, err := e.results.ResultFor(searchCtx, criteria, requestedReport)
+		result, err := e.results.ResultFor(searchCtx, criteria, requestedIndexAbstracts)
 		if err != nil {
 			e.observation.observeSearchFailure(err)
 
@@ -87,8 +87,8 @@ func (e endpoint) Serve(
 		resp.JoinCount = result.TotalDocumentsMatchingEveryTerm
 		resp.Count = len(result.DocumentMetadata)
 		resp.Resources = result.DocumentMetadata
-		resp.IndexCount = result.TotalMatchesPerTerm
-		resp.IndexAbstract = indexAbstractFrom(result.DocumentsMatchingEachReportedTerm)
+		resp.IndexCount = result.PostingsHeldPerTerm
+		resp.IndexAbstract = encodedIndexAbstractsFrom(result.IndexAbstracts)
 	} else {
 		e.observation.observeNetworkMismatch()
 	}
@@ -101,11 +101,11 @@ func (e endpoint) Serve(
 	return resp, nil
 }
 
-func indexAbstractFrom(
-	documentsMatchingEachReportedTerm map[yacymodel.Hash][]yacymodel.URLHash,
+func encodedIndexAbstractsFrom(
+	documentsPerTerm map[yacymodel.Hash][]yacymodel.URLHash,
 ) map[yacymodel.Hash]string {
-	abstracts := make(map[yacymodel.Hash]string, len(documentsMatchingEachReportedTerm))
-	for term, documentHashes := range documentsMatchingEachReportedTerm {
+	abstracts := make(map[yacymodel.Hash]string, len(documentsPerTerm))
+	for term, documentHashes := range documentsPerTerm {
 		abstracts[term] = yacyproto.EncodeSearchIndexAbstract(documentHashes)
 	}
 
