@@ -1,8 +1,6 @@
 package postingfilter_test
 
 import (
-	"context"
-	"errors"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -179,19 +177,11 @@ func TestFilterForReportRequiresSharedAppearance(t *testing.T) {
 }
 
 func TestFilterForSearchRejectsDocumentsHoldingAnExcludedTerm(t *testing.T) {
-	banned := searchtest.HashFor("ban")
-	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
-		banned: {{URLHash: searchtest.URLHashFor("url-b")}},
-	}}
-
-	filter, err := postingfilter.FilterForSearch(
-		context.Background(),
-		index,
-		searchcriteria.Criteria{ExcludedTerms: []yacymodel.Hash{banned}},
-	)
-	if err != nil {
-		t.Fatalf("FilterForSearch: %v", err)
+	excludedDocuments := map[yacymodel.URLHash]struct{}{
+		searchtest.URLHashFor("url-b"): {},
 	}
+
+	filter := postingfilter.FilterForSearch(searchcriteria.Criteria{}, excludedDocuments)
 	if !filter.Accepts(yacymodel.RWIPosting{URLHash: searchtest.URLHashFor("url-a")}) {
 		t.Error("document without the excluded term should be accepted")
 	}
@@ -199,19 +189,6 @@ func TestFilterForSearchRejectsDocumentsHoldingAnExcludedTerm(t *testing.T) {
 		t.Error("document holding the excluded term should be rejected")
 	}
 }
-
-func TestFilterForSearchSurfacesScanFailures(t *testing.T) {
-	_, err := postingfilter.FilterForSearch(
-		context.Background(),
-		searchtest.FailingPostingIndex{Err: errScanBroken},
-		searchcriteria.Criteria{ExcludedTerms: []yacymodel.Hash{searchtest.HashFor("ban")}},
-	)
-	if !errors.Is(err, errScanBroken) {
-		t.Fatalf("FilterForSearch error = %v, want %v", err, errScanBroken)
-	}
-}
-
-var errScanBroken = errors.New("scan broken")
 
 func TestFilterForReportRejectsUnrequiredDocuments(t *testing.T) {
 	filter := postingfilter.FilterForReport(searchcriteria.Criteria{

@@ -6,12 +6,21 @@ import (
 	"cmp"
 	"context"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/postingfilter"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 )
+
+type TermMatches interface {
+	MatchesFor(
+		ctx context.Context,
+		tx *vault.Txn,
+		terms []yacymodel.Hash,
+		filter postingfilter.Filter,
+	) (map[yacymodel.Hash]termpostings.Match, error)
+}
 
 type Mode int
 
@@ -33,10 +42,10 @@ type Report struct {
 
 func (r RequestedReport) ReportFor(
 	ctx context.Context,
-	index rwipostings.PostingIndex,
-	maxPostingsPerTerm int,
+	tx *vault.Txn,
+	termMatches TermMatches,
 	criteria searchcriteria.Criteria,
-	matchesForQueryTerms map[yacymodel.Hash]termmatch.Match,
+	matchesForQueryTerms map[yacymodel.Hash]termpostings.Match,
 ) (Report, error) {
 	switch r.Mode {
 	case NoMatches:
@@ -46,8 +55,8 @@ func (r RequestedReport) ReportFor(
 	case RequestedTerms:
 		return r.reportForRequestedTerms(
 			ctx,
-			index,
-			maxPostingsPerTerm,
+			tx,
+			termMatches,
 			criteria,
 			matchesForQueryTerms,
 		)
@@ -58,7 +67,7 @@ func (r RequestedReport) ReportFor(
 
 func reportForTermWithMostMatches(
 	criteria searchcriteria.Criteria,
-	matchesForQueryTerms map[yacymodel.Hash]termmatch.Match,
+	matchesForQueryTerms map[yacymodel.Hash]termpostings.Match,
 ) Report {
 	report := Report{TotalMatchesPerTerm: totalMatchesOf(matchesForQueryTerms)}
 	if len(criteria.Terms) <= 1 || len(criteria.RequiredDocuments) != 0 {
@@ -75,7 +84,7 @@ func reportForTermWithMostMatches(
 	return report
 }
 
-func totalMatchesOf(matches map[yacymodel.Hash]termmatch.Match) map[yacymodel.Hash]int {
+func totalMatchesOf(matches map[yacymodel.Hash]termpostings.Match) map[yacymodel.Hash]int {
 	totals := make(map[yacymodel.Hash]int, len(matches))
 	for term, match := range matches {
 		totals[term] = match.TotalMatches
@@ -84,7 +93,7 @@ func totalMatchesOf(matches map[yacymodel.Hash]termmatch.Match) map[yacymodel.Ha
 	return totals
 }
 
-func termWithMostMatches(matches map[yacymodel.Hash]termmatch.Match) (yacymodel.Hash, bool) {
+func termWithMostMatches(matches map[yacymodel.Hash]termpostings.Match) (yacymodel.Hash, bool) {
 	var (
 		mostMatchedTerm yacymodel.Hash
 		mostMatches     int
@@ -105,7 +114,7 @@ func termWithMostMatches(matches map[yacymodel.Hash]termmatch.Match) (yacymodel.
 }
 
 func documentHashes(
-	postingPerDocument map[yacymodel.URLHash]termmatch.Posting,
+	postingPerDocument map[yacymodel.URLHash]termpostings.Posting,
 ) []yacymodel.URLHash {
 	hashes := make([]yacymodel.URLHash, 0, len(postingPerDocument))
 	for documentHash := range postingPerDocument {
@@ -117,17 +126,16 @@ func documentHashes(
 
 func (r RequestedReport) reportForRequestedTerms(
 	ctx context.Context,
-	index rwipostings.PostingIndex,
-	maxPostingsPerTerm int,
+	tx *vault.Txn,
+	termMatches TermMatches,
 	criteria searchcriteria.Criteria,
-	matchesForQueryTerms map[yacymodel.Hash]termmatch.Match,
+	matchesForQueryTerms map[yacymodel.Hash]termpostings.Match,
 ) (Report, error) {
-	matchesForReportedTerms, err := termmatch.MatchesFor(
+	matchesForReportedTerms, err := termMatches.MatchesFor(
 		ctx,
+		tx,
 		r.Terms,
-		index,
 		postingfilter.FilterForReport(criteria),
-		maxPostingsPerTerm,
 	)
 	if err != nil {
 		return Report{}, err

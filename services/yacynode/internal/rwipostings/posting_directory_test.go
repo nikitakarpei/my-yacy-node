@@ -1,14 +1,12 @@
 package rwipostings_test
 
 import (
-	"context"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 func TestScanWordVisitsMatchingPostings(t *testing.T) {
-	ctx := context.Background()
 	h := openHarness(t)
 
 	h.admit(t,
@@ -19,14 +17,11 @@ func TestScanWordVisitsMatchingPostings(t *testing.T) {
 
 	word := yacymodel.WordHash("w1")
 	var visited []yacymodel.RWIPosting
-	err := h.index.ScanWord(ctx, word, func(entry yacymodel.RWIPosting) (bool, error) {
+	h.scanWord(t, word, func(entry yacymodel.RWIPosting) (bool, error) {
 		visited = append(visited, entry)
 
 		return true, nil
 	})
-	if err != nil {
-		t.Fatalf("ScanWord: %v", err)
-	}
 	if len(visited) != 2 {
 		t.Fatalf("visited %d postings, want 2", len(visited))
 	}
@@ -38,7 +33,6 @@ func TestScanWordVisitsMatchingPostings(t *testing.T) {
 }
 
 func TestPostingReadsBackStoredEntry(t *testing.T) {
-	ctx := context.Background()
 	h := openHarness(t)
 
 	h.admit(t,
@@ -48,10 +42,7 @@ func TestPostingReadsBackStoredEntry(t *testing.T) {
 	word := yacymodel.WordHash("w1")
 	url := urlHash("u1")
 
-	entry, found, err := h.index.PostingOf(ctx, word, url)
-	if err != nil {
-		t.Fatalf("Posting: %v", err)
-	}
+	entry, found := h.postingOf(t, word, url)
 	if !found {
 		t.Fatal("Posting not found")
 	}
@@ -64,20 +55,14 @@ func TestPostingReadsBackStoredEntry(t *testing.T) {
 }
 
 func TestPostingMissingIsNotFound(t *testing.T) {
-	ctx := context.Background()
 	h := openHarness(t)
 
-	_, found, err := h.index.PostingOf(ctx, yacymodel.WordHash("w1"), urlHash("u1"))
-	if err != nil {
-		t.Fatalf("Posting: %v", err)
-	}
-	if found {
+	if _, found := h.postingOf(t, yacymodel.WordHash("w1"), urlHash("u1")); found {
 		t.Fatal("Posting should not be found")
 	}
 }
 
 func TestScanWordStopsWhenVisitorStops(t *testing.T) {
-	ctx := context.Background()
 	h := openHarness(t)
 
 	h.admit(t,
@@ -86,18 +71,11 @@ func TestScanWordStopsWhenVisitorStops(t *testing.T) {
 	)
 
 	visited := 0
-	err := h.index.ScanWord(
-		ctx,
-		yacymodel.WordHash("w1"),
-		func(yacymodel.RWIPosting) (bool, error) {
-			visited++
+	h.scanWord(t, yacymodel.WordHash("w1"), func(yacymodel.RWIPosting) (bool, error) {
+		visited++
 
-			return false, nil
-		},
-	)
-	if err != nil {
-		t.Fatalf("ScanWord: %v", err)
-	}
+		return false, nil
+	})
 	if visited != 1 {
 		t.Fatalf("visited %d postings, want 1 before stop", visited)
 	}

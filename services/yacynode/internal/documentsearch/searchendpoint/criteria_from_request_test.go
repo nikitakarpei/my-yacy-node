@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -336,7 +337,11 @@ func remainingSearchTimeFor(t *testing.T, options yacyproto.SearchRequest) time.
 	recording := &deadlineRecordingPostingIndex{postings: index}
 	mux, _ := mountedSearchResults(
 		t,
-		searchresult.New(openVault(t), recording, directory, maxPostingsPerTerm),
+		searchresult.New(
+			openVault(t),
+			termpostings.New(recording, maxPostingsPerTerm),
+			directory,
+		),
 	)
 
 	search(t, mux, searchRequestFor(searchWord, options))
@@ -355,6 +360,7 @@ type deadlineRecordingPostingIndex struct {
 
 func (index *deadlineRecordingPostingIndex) ScanWord(
 	ctx context.Context,
+	tx *vault.Txn,
 	word yacymodel.Hash,
 	visit func(yacymodel.RWIPosting) (bool, error),
 ) error {
@@ -362,7 +368,7 @@ func (index *deadlineRecordingPostingIndex) ScanWord(
 		index.remainingSearchTime = time.Until(deadline)
 	}
 
-	return index.postings.ScanWord(ctx, word, visit)
+	return index.postings.ScanWord(ctx, tx, word, visit)
 }
 
 func (index *deadlineRecordingPostingIndex) RWICount(tx *vault.Txn) (int, error) {
@@ -370,11 +376,11 @@ func (index *deadlineRecordingPostingIndex) RWICount(tx *vault.Txn) (int, error)
 }
 
 func (index *deadlineRecordingPostingIndex) PostingOf(
-	ctx context.Context,
+	tx *vault.Txn,
 	word yacymodel.Hash,
 	document yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
-	return index.postings.PostingOf(ctx, word, document)
+	return index.postings.PostingOf(tx, word, document)
 }
 
 func assertRemainingSearchTime(t *testing.T, remaining, want time.Duration) {
