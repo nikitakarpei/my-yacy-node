@@ -134,8 +134,7 @@ func newSweeper(
 	vault *vault.Vault,
 	postings *fakePostings,
 	urls *fakeURLs,
-	target float64,
-	batch int,
+	config eviction.Config,
 ) eviction.Sweeper {
 	return eviction.NewSweeper(
 		vault,
@@ -143,8 +142,16 @@ func newSweeper(
 		fakeReferences{word: yacymodel.WordHash("w")},
 		urls,
 		urls,
-		eviction.Config{TargetFraction: target, BatchSize: batch},
+		config,
 	)
+}
+
+func sweepConfig(target float64, urlsPerBatch, batchesPerSweep int) eviction.Config {
+	return eviction.Config{
+		TargetFraction:  target,
+		URLsPerBatch:    urlsPerBatch,
+		BatchesPerSweep: batchesPerSweep,
+	}
 }
 
 func TestSweepDrainsCandidatesAboveTarget(t *testing.T) {
@@ -152,7 +159,12 @@ func TestSweepDrainsCandidatesAboveTarget(t *testing.T) {
 	postings := &fakePostings{}
 	urls := &fakeURLs{remaining: hashes(5)}
 
-	result, err := newSweeper(vault, postings, urls, 1, 2).Sweep(context.Background())
+	result, err := newSweeper(
+		vault,
+		postings,
+		urls,
+		sweepConfig(1, 2, 8),
+	).Sweep(context.Background())
 	if err != nil {
 		t.Fatalf("Sweep: %v", err)
 	}
@@ -171,7 +183,12 @@ func TestSweepStopsOnNoProgress(t *testing.T) {
 	vault := openVault(t, 1)
 	urls := &fakeURLs{remaining: hashes(4), noDelete: true}
 
-	result, err := newSweeper(vault, &fakePostings{}, urls, 1, 2).Sweep(context.Background())
+	result, err := newSweeper(
+		vault,
+		&fakePostings{},
+		urls,
+		sweepConfig(1, 2, 8),
+	).Sweep(context.Background())
 	if err != nil {
 		t.Fatalf("Sweep: %v", err)
 	}
@@ -183,11 +200,40 @@ func TestSweepStopsOnNoProgress(t *testing.T) {
 	}
 }
 
+func TestSweepStopsAtItsBatchBound(t *testing.T) {
+	vault := openVault(t, 1)
+	urls := &fakeURLs{remaining: hashes(10)}
+
+	result, err := newSweeper(
+		vault,
+		&fakePostings{},
+		urls,
+		sweepConfig(1, 2, 3),
+	).Sweep(context.Background())
+	if err != nil {
+		t.Fatalf("Sweep: %v", err)
+	}
+	if result.URLsDeleted != 6 {
+		t.Fatalf("URLsDeleted = %d, want 6 (2 per batch, 3 batches)", result.URLsDeleted)
+	}
+	if len(urls.selected) != 3 {
+		t.Fatalf("select calls = %d, want 3", len(urls.selected))
+	}
+	if len(urls.remaining) != 4 {
+		t.Fatalf("remaining = %d, want 4 left for the next sweep", len(urls.remaining))
+	}
+}
+
 func TestSweepNoopUnderTarget(t *testing.T) {
 	vault := openVault(t, 1<<30)
 	urls := &fakeURLs{remaining: hashes(4)}
 
-	result, err := newSweeper(vault, &fakePostings{}, urls, 0.9, 2).Sweep(context.Background())
+	result, err := newSweeper(
+		vault,
+		&fakePostings{},
+		urls,
+		sweepConfig(0.9, 2, 8),
+	).Sweep(context.Background())
 	if err != nil {
 		t.Fatalf("Sweep: %v", err)
 	}
@@ -204,8 +250,7 @@ func TestSweepNoopWithoutQuota(t *testing.T) {
 		openVault(t, 0),
 		&fakePostings{},
 		&fakeURLs{remaining: hashes(4)},
-		0.5,
-		2,
+		sweepConfig(0.5, 2, 8),
 	).
 		Sweep(context.Background())
 	if err != nil {
@@ -220,7 +265,12 @@ func TestSweepReportsPurgeError(t *testing.T) {
 	wantErr := errors.New("boom")
 	urls := &fakeURLs{remaining: hashes(4), purgeErr: wantErr}
 
-	_, err := newSweeper(openVault(t, 1), &fakePostings{}, urls, 1, 1).Sweep(context.Background())
+	_, err := newSweeper(
+		openVault(t, 1),
+		&fakePostings{},
+		urls,
+		sweepConfig(1, 1, 8),
+	).Sweep(context.Background())
 	if !errors.Is(err, wantErr) {
 		t.Fatalf("err = %v, want %v", err, wantErr)
 	}
