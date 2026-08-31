@@ -244,7 +244,7 @@ type fakePostingIndex struct {
 	purged   func(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error
 }
 
-func (f *fakePostingIndex) RWICount(context.Context) (int, error) { return len(f.postings), nil }
+func (f *fakePostingIndex) RWICount(*vault.Txn) (int, error) { return len(f.postings), nil }
 
 func (f *fakePostingIndex) PurgePosting(
 	tx *vault.Txn,
@@ -384,7 +384,7 @@ func (f fakeURLDirectory) MissingURLs(
 	return missing, nil
 }
 
-func (fakeURLDirectory) Count(context.Context) (int, error) { return 0, nil }
+func (fakeURLDirectory) Count(*vault.Txn) (int, error) { return 0, nil }
 
 func store(
 	t *testing.T,

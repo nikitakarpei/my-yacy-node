@@ -73,7 +73,7 @@ func transferURL(
 }
 
 func TestTransferURLStoresAndAnswers(t *testing.T) {
-	module := openModule(t, 0)
+	v, module := openModule(t, 0)
 	mux := muxWith(t, module.Receiver)
 
 	resp := transferURL(t, mux, yacyproto.TransferURLRequest{
@@ -87,17 +87,13 @@ func TestTransferURLStoresAndAnswers(t *testing.T) {
 		t.Fatalf("Result = %q, want ok", resp.Result)
 	}
 
-	count, err := module.Directory.Count(context.Background())
-	if err != nil {
-		t.Fatalf("Count: %v", err)
-	}
-	if count != 1 {
+	if count := storedURLCount(t, v, module.Directory); count != 1 {
 		t.Fatalf("Count = %d, want the transferred url stored", count)
 	}
 }
 
 func TestTransferURLRejectsWrongNetwork(t *testing.T) {
-	module := openModule(t, 0)
+	_, module := openModule(t, 0)
 	mux := muxWith(t, module.Receiver)
 
 	resp := transferURL(t, mux, yacyproto.TransferURLRequest{

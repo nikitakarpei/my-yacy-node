@@ -21,7 +21,7 @@ type urlPorts struct {
 	Receiver  urlmeta.URLReceiver
 }
 
-func openModule(t *testing.T, quotaBytes int64) urlPorts {
+func openModule(t *testing.T, quotaBytes int64) (*vault.Vault, urlPorts) {
 	t.Helper()
 
 	v, err := memoryvault.Open(quotaBytes, nil)
@@ -39,7 +39,7 @@ func openModule(t *testing.T, quotaBytes int64) urlPorts {
 		t.Fatalf("Open: %v", err)
 	}
 
-	return urlPorts{Directory: directory, Evictor: evictor, Receiver: receiver}
+	return v, urlPorts{Directory: directory, Evictor: evictor, Receiver: receiver}
 }
 
 func urlMetadata(seed string) yacymodel.URLMetadata {
@@ -59,7 +59,7 @@ func metadataHash(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.URLHas
 
 func TestIntakePersistsAndReportsExisting(t *testing.T) {
 	ctx := context.Background()
-	module := openModule(t, 0)
+	v, module := openModule(t, 0)
 	first := urlMetadata("a")
 	second := urlMetadata("b")
 
@@ -79,11 +79,7 @@ func TestIntakePersistsAndReportsExisting(t *testing.T) {
 		t.Fatalf("duplicate Double = %d, want 1", receipt.Double)
 	}
 
-	count, err := module.Directory.Count(ctx)
-	if err != nil {
-		t.Fatalf("Count: %v", err)
-	}
-	if count != 2 {
+	if count := storedURLCount(t, v, module.Directory); count != 2 {
 		t.Fatalf("Count = %d, want 2", count)
 	}
 }
@@ -123,7 +119,7 @@ func TestIntakeDurabilityAndLookup(t *testing.T) {
 
 func TestIntakeBusyAtCapacity(t *testing.T) {
 	ctx := context.Background()
-	module := openModule(t, 1)
+	_, module := openModule(t, 1)
 
 	receipt, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{urlMetadata("a")})
 	if err != nil {
@@ -184,7 +180,7 @@ func TestIntakeUpdatesAndNotifiesOnDuplicateURLs(t *testing.T) {
 func TestIntakeSurvivesObserverFailure(t *testing.T) {
 	ctx := context.Background()
 	observer := &recordingObserver{fail: true}
-	_, module := openObservedModule(t, observer)
+	v, module := openObservedModule(t, observer)
 
 	if _, err := module.Receiver.Receive(
 		ctx,
@@ -192,11 +188,7 @@ func TestIntakeSurvivesObserverFailure(t *testing.T) {
 	); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
-	count, err := module.Directory.Count(ctx)
-	if err != nil {
-		t.Fatalf("Count: %v", err)
-	}
-	if count != 1 {
+	if count := storedURLCount(t, v, module.Directory); count != 1 {
 		t.Fatalf("Count = %d, want 1 despite observer failure", count)
 	}
 }

@@ -63,6 +63,22 @@ func openObservedModule(
 	return v, urlPorts{Directory: directory, Evictor: evictor, Receiver: receiver}
 }
 
+func storedURLCount(t *testing.T, v *vault.Vault, directory urlmeta.URLDirectory) int {
+	t.Helper()
+
+	var count int
+	if err := v.View(context.Background(), func(tx *vault.Txn) error {
+		stored, err := directory.Count(tx)
+		count = stored
+
+		return err
+	}); err != nil {
+		t.Fatalf("Count: %v", err)
+	}
+
+	return count
+}
+
 func metadataByHash(
 	t *testing.T,
 	v *vault.Vault,

@@ -21,7 +21,7 @@ type URLDirectory interface {
 		hashes []yacymodel.URLHash,
 	) ([]yacymodel.URLMetadata, error)
 	MissingURLs(tx *vault.Txn, hashes []yacymodel.URLHash) ([]yacymodel.URLHash, error)
-	Count(ctx context.Context) (int, error)
+	Count(tx *vault.Txn) (int, error)
 }
 
 type URLReceiver interface {
@@ -61,7 +61,7 @@ func Open(
 	}
 
 	watched := observers(watchers)
-	directory := urlDirectory{vault: vault, collection: collection, observers: watched}
+	directory := urlDirectory{collection: collection, observers: watched}
 
 	return directory,
 		directory,

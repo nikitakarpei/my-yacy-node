@@ -9,7 +9,6 @@ import (
 )
 
 type urlDirectory struct {
-	vault      *vault.Vault
 	collection *vault.Collection[yacymodel.URLHash, yacymodel.URLMetadata]
 	observers  observers
 }
@@ -57,19 +56,10 @@ func (d urlDirectory) MissingURLs(
 	return missing, nil
 }
 
-func (d urlDirectory) Count(ctx context.Context) (int, error) {
-	var count int
-	err := d.vault.View(ctx, func(tx *vault.Txn) error {
-		length, err := d.collection.Len(tx)
-		if err != nil {
-			return fmt.Errorf("read url metadata length: %w", err)
-		}
-		count = length
-
-		return nil
-	})
+func (d urlDirectory) Count(tx *vault.Txn) (int, error) {
+	count, err := d.collection.Len(tx)
 	if err != nil {
-		return 0, fmt.Errorf("url count: %w", err)
+		return 0, fmt.Errorf("read url metadata length: %w", err)
 	}
 
 	return count, nil

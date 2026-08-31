@@ -1,8 +1,6 @@
 package searchtest
 
 import (
-	"context"
-
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -25,7 +23,7 @@ func (d URLDirectory) MetadataByHash(
 	return out, nil
 }
 
-func (d URLDirectory) Count(context.Context) (int, error) {
+func (d URLDirectory) Count(*vault.Txn) (int, error) {
 	return len(d.Documents), nil
 }
 
@@ -40,6 +38,6 @@ func (d FailingURLDirectory) MetadataByHash(
 	return nil, d.Err
 }
 
-func (d FailingURLDirectory) Count(context.Context) (int, error) {
+func (d FailingURLDirectory) Count(*vault.Txn) (int, error) {
 	return 0, d.Err
 }

@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
@@ -364,8 +365,8 @@ func (index *deadlineRecordingPostingIndex) ScanWord(
 	return index.postings.ScanWord(ctx, word, visit)
 }
 
-func (index *deadlineRecordingPostingIndex) RWICount(ctx context.Context) (int, error) {
-	return index.postings.RWICount(ctx)
+func (index *deadlineRecordingPostingIndex) RWICount(tx *vault.Txn) (int, error) {
+	return index.postings.RWICount(tx)
 }
 
 func (index *deadlineRecordingPostingIndex) PostingOf(

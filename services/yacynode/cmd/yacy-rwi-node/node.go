@@ -170,7 +170,7 @@ func assembleNode(
 	if err != nil {
 		return node{}, fmt.Errorf("rwi escrow: %w", err)
 	}
-	metrics.NewRWIEscrowCapacityMetrics(registry, postingEscrow)
+	metrics.NewRWIEscrowCapacityMetrics(registry, vault, postingEscrow)
 
 	urlDirectory, urlEvictor, urlReceiver, err := urlmeta.Open(
 		vault,
@@ -193,7 +193,7 @@ func assembleNode(
 		},
 	)
 
-	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, postings, urlDirectory)
+	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, vault, postings, urlDirectory)
 
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
@@ -212,7 +212,7 @@ func assembleNode(
 		Pause:      postingAdmissionBusyPause,
 		Refusals:   admissionRefusals,
 	})
-	nodestatus.MountQuery(router, identity, postings, urlReferences, urlDirectory)
+	nodestatus.MountQuery(router, identity, vault, postings, urlReferences, urlDirectory)
 	documentsearch.MountSearch(
 		vault,
 		router,

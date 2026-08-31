@@ -6,8 +6,6 @@
 package urlreferences
 
 import (
-	"context"
-
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
@@ -15,7 +13,7 @@ import (
 
 type ReferenceQuery interface {
 	WordsReferencing(tx *vault.Txn, url yacymodel.URLHash) ([]yacymodel.Hash, error)
-	ReferencedURLCount(ctx context.Context) (int, error)
+	ReferencedURLCount(tx *vault.Txn) (int, error)
 }
 
 type ReferenceProjection interface {

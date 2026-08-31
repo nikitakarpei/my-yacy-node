@@ -70,7 +70,7 @@ func (f fakeReferences) WordsReferencing(
 	return []yacymodel.Hash{f.word}, nil
 }
 
-func (f fakeReferences) ReferencedURLCount(context.Context) (int, error) {
+func (f fakeReferences) ReferencedURLCount(*vault.Txn) (int, error) {
 	return 0, nil
 }
 

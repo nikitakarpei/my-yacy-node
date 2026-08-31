@@ -87,7 +87,7 @@ func (f fakeURLDirectory) MissingURLs(
 	return missing, nil
 }
 
-func (fakeURLDirectory) Count(context.Context) (int, error) { return 0, nil }
+func (fakeURLDirectory) Count(*vault.Txn) (int, error) { return 0, nil }
 
 type fakeObserver struct {
 	offers                map[string]int
