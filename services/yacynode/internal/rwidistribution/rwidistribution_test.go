@@ -61,8 +61,13 @@ func (h postingRecordsHarness) update(t *testing.T, write func(tx *vault.Txn) er
 func (h postingRecordsHarness) duePostings(t *testing.T) []postingidentity.Identity {
 	t.Helper()
 
-	due, err := h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
+	var due []postingidentity.Identity
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		var err error
+		due, err = h.schedule.DuePostings(tx, 10)
+
+		return err
+	}); err != nil {
 		t.Fatalf("DuePostings: %v", err)
 	}
 

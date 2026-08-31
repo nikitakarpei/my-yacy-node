@@ -156,6 +156,22 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	}
 }
 
+func (h *cycleHarness) duePostings(t *testing.T, limit int) []postingidentity.Identity {
+	t.Helper()
+
+	var due []postingidentity.Identity
+	if err := h.v.View(context.Background(), func(tx *vault.Txn) error {
+		var err error
+		due, err = h.schedule.DuePostings(tx, limit)
+
+		return err
+	}); err != nil {
+		t.Fatalf("DuePostings: %v", err)
+	}
+
+	return due
+}
+
 func (h *cycleHarness) runCycle(t *testing.T) {
 	t.Helper()
 
