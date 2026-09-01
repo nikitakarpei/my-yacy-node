@@ -10,7 +10,7 @@ import (
 
 func TestDiscoverKeepsSeniorsAndDropsJuniors(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 
 	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
 	junior := seniorSeed(t, "junior", "", 0)
@@ -27,7 +27,7 @@ func TestDiscoverKeepsSeniorsAndDropsJuniors(t *testing.T) {
 
 func TestDiscoverDropsThisNode(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 
 	self := seniorSeed(t, "self", "203.0.113.1", 8090)
 	roster.Discover(ctx, self)
@@ -43,7 +43,7 @@ func TestDiscoverDropsThisNode(t *testing.T) {
 
 func TestReachablePromotesAndIsServed(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 
 	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
 	roster.Discover(ctx, senior)
@@ -61,7 +61,7 @@ func TestReachablePromotesAndIsServed(t *testing.T) {
 
 func TestReachableConfirmationReplacesDiscoveredSeedAndNetworkAddress(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 
 	discovered := seniorSeed(t, "peer", "203.0.113.1", 8090)
 	roster.Discover(ctx, discovered)
@@ -89,7 +89,7 @@ func TestReachableConfirmationReplacesDiscoveredSeedAndNetworkAddress(t *testing
 
 func TestReachableUnknownPeerIsAdmitted(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 	peer := seniorSeed(t, "ghost", "203.0.113.8", 8090)
 
 	roster.ConfirmReachable(ctx, peer)
@@ -101,7 +101,7 @@ func TestReachableUnknownPeerIsAdmitted(t *testing.T) {
 
 func TestUnreachableDropsFromReachableButStaysKnown(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 
 	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
 	roster.Discover(ctx, senior)
@@ -119,7 +119,7 @@ func TestUnreachableDropsFromReachableButStaysKnown(t *testing.T) {
 
 func TestUnreachablePeerEvictedBeforeFresherPeers(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 2, 4, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 2, reachableCap: 4})
 
 	senior := seniorSeed(t, "senior", "203.0.113.1", 8090)
 	other := seniorSeed(t, "other", "203.0.113.2", 8090)
@@ -141,7 +141,7 @@ func TestUnreachablePeerEvictedBeforeFresherPeers(t *testing.T) {
 
 func TestDiscoverEvictsStalestBeyondCapacity(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 2, 4, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 2, reachableCap: 4})
 
 	oldest := seniorSeed(t, "oldest", "203.0.113.1", 8090)
 	middle := seniorSeed(t, "middle", "203.0.113.2", 8090)
@@ -162,7 +162,7 @@ func TestDiscoverEvictsStalestBeyondCapacity(t *testing.T) {
 
 func TestUnreachablePeerHashesCappedToLimit(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 2, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 2})
 
 	for _, name := range []string{"a", "b", "c", "d"} {
 		roster.Discover(ctx, seniorSeed(t, name, "203.0.113.9", 8090))
@@ -175,7 +175,7 @@ func TestUnreachablePeerHashesCappedToLimit(t *testing.T) {
 
 func TestUnreachablePeerHashesRotateByLeastRecentlyContacted(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 4, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4})
 
 	first := seniorSeed(t, "first", "203.0.113.1", 8090)
 	second := seniorSeed(t, "second", "203.0.113.2", 8090)
@@ -197,7 +197,7 @@ func TestUnreachablePeerHashesRotateByLeastRecentlyContacted(t *testing.T) {
 
 func TestUnreachablePeerHashesPrioritizeReachableHistoryOverNeverConfirmed(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 1, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 1})
 
 	filler := seniorSeed(t, "filler", "203.0.113.1", 8090)
 	roster.Discover(ctx, filler)
@@ -221,7 +221,10 @@ func TestUnreachablePeerHashesPrioritizeReachableHistoryOverNeverConfirmed(t *te
 
 func TestRecentlyReachableAfterConfirmation(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 8, time.Minute)
+	roster := openRoster(
+		t,
+		rosterFixture{reservoirCap: 8, reachableCap: 8, announceInterval: time.Minute},
+	)
 
 	peer := seniorSeed(t, "peer", "203.0.113.1", 8090)
 	roster.Discover(ctx, peer)
@@ -234,7 +237,10 @@ func TestRecentlyReachableAfterConfirmation(t *testing.T) {
 
 func TestRecentlyReachableClearedByFailedContact(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 8, time.Minute)
+	roster := openRoster(
+		t,
+		rosterFixture{reservoirCap: 8, reachableCap: 8, announceInterval: time.Minute},
+	)
 
 	peer := seniorSeed(t, "peer", "203.0.113.1", 8090)
 	roster.Discover(ctx, peer)
@@ -248,7 +254,10 @@ func TestRecentlyReachableClearedByFailedContact(t *testing.T) {
 
 func TestRecentlyReachableExcludesUnknownPeer(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 8, time.Minute)
+	roster := openRoster(
+		t,
+		rosterFixture{reservoirCap: 8, reachableCap: 8, announceInterval: time.Minute},
+	)
 
 	if roster.IsRecentlyReachable(ctx, hashFor("ghost")) {
 		t.Fatalf("unknown peer should not be recently reachable")
@@ -257,7 +266,10 @@ func TestRecentlyReachableExcludesUnknownPeer(t *testing.T) {
 
 func TestRecentlyReachableExcludesConfirmationPastWindow(t *testing.T) {
 	ctx := context.Background()
-	roster := openRoster(t, 8, 8, time.Nanosecond)
+	roster := openRoster(
+		t,
+		rosterFixture{reservoirCap: 8, reachableCap: 8, announceInterval: time.Nanosecond},
+	)
 
 	peer := seniorSeed(t, "peer", "203.0.113.1", 8090)
 	roster.Discover(ctx, peer)
