@@ -5,9 +5,7 @@
 package postingofferschedule
 
 import (
-	"context"
 	"fmt"
-	"log/slog"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -28,7 +26,6 @@ type scheduledPostingOffer struct {
 }
 
 type Schedule struct {
-	vault          *vault.Vault
 	order          *vault.Set[scheduledPostingOffer]
 	dueTimes       *vault.Collection[postingidentity.Identity, time.Time]
 	offerIntervals *vault.Collection[postingidentity.Identity, time.Duration]
@@ -43,7 +40,6 @@ func Open(v *vault.Vault, now func() time.Time, observer Observer) (*Schedule, e
 	}
 
 	return &Schedule{
-		vault:          v,
 		order:          order,
 		dueTimes:       dueTimes,
 		offerIntervals: offerIntervals,
@@ -214,89 +210,72 @@ func (s *Schedule) IsScheduled(
 }
 
 func (s *Schedule) DuePostings(
-	ctx context.Context,
+	tx *vault.Txn,
 	limit int,
 ) ([]postingidentity.Identity, error) {
 	if limit <= 0 {
 		return nil, nil
 	}
 
-	now := s.now()
 	duePostings := make([]postingidentity.Identity, 0, limit)
-	err := s.vault.View(ctx, func(tx *vault.Txn) error {
-		return s.order.Scan(
-			tx,
-			everyOfferDueBy(now),
-			func(scheduledOffer scheduledPostingOffer) (bool, error) {
-				duePostings = append(duePostings, scheduledOffer.Posting)
+	if err := s.order.Scan(
+		tx,
+		everyOfferDueBy(s.now()),
+		func(scheduledOffer scheduledPostingOffer) (bool, error) {
+			duePostings = append(duePostings, scheduledOffer.Posting)
 
-				return len(duePostings) < limit, nil
-			},
-		)
-	})
-	if err != nil {
+			return len(duePostings) < limit, nil
+		},
+	); err != nil {
 		return nil, fmt.Errorf("select due postings: %w", err)
 	}
 
 	return duePostings, nil
 }
 
-func (s *Schedule) ObserveBacklog(ctx context.Context) {
-	s.observeScheduledPostings(ctx)
-	s.observeLongestOfferLateness(ctx)
-}
-
-func (s *Schedule) observeScheduledPostings(ctx context.Context) {
-	var scheduledPostings int
-	err := s.vault.View(ctx, func(tx *vault.Txn) error {
-		var err error
-		scheduledPostings, err = s.order.Len(tx)
-
-		return err
-	})
+func (s *Schedule) ObserveBacklog(tx *vault.Txn) error {
+	scheduledPostings, err := s.order.Len(tx)
 	if err != nil {
-		slog.WarnContext(ctx, "scheduled postings not read", slog.Any("error", err))
-
-		return
+		return fmt.Errorf("count scheduled postings: %w", err)
+	}
+	longestLateness, err := s.longestOfferLateness(tx)
+	if err != nil {
+		return err
 	}
 
 	s.observer.ObserveScheduledPostings(scheduledPostings)
+	s.observer.ObserveLongestOfferLateness(longestLateness)
+
+	return nil
 }
 
-func (s *Schedule) observeLongestOfferLateness(ctx context.Context) {
-	earliestDueAt, found, err := s.earliestOfferDueAt(ctx)
+func (s *Schedule) longestOfferLateness(tx *vault.Txn) (time.Duration, error) {
+	earliestDueAt, found, err := s.earliestOfferDueAt(tx)
 	if err != nil {
-		slog.WarnContext(ctx, "earliest offer due time not read", slog.Any("error", err))
-
-		return
+		return 0, err
 	}
 	if !found {
-		s.observer.ObserveLongestOfferLateness(0)
-
-		return
+		return 0, nil
 	}
 
-	s.observer.ObserveLongestOfferLateness(max(s.now().Sub(earliestDueAt), 0))
+	return max(s.now().Sub(earliestDueAt), 0), nil
 }
 
-func (s *Schedule) earliestOfferDueAt(ctx context.Context) (time.Time, bool, error) {
+func (s *Schedule) earliestOfferDueAt(tx *vault.Txn) (time.Time, bool, error) {
 	var (
 		earliestDueAt time.Time
 		found         bool
 	)
-	err := s.vault.View(ctx, func(tx *vault.Txn) error {
-		return s.order.Scan(
-			tx,
-			vault.EveryKey(),
-			func(scheduledOffer scheduledPostingOffer) (bool, error) {
-				earliestDueAt = scheduledOffer.At
-				found = true
+	if err := s.order.Scan(
+		tx,
+		vault.EveryKey(),
+		func(scheduledOffer scheduledPostingOffer) (bool, error) {
+			earliestDueAt = scheduledOffer.At
+			found = true
 
-				return false, nil
-			},
-		)
-	})
-	if err != nil {
+			return false, nil
+		},
+	); err != nil {
 		return time.Time{}, false, fmt.Errorf("select earliest offer due: %w", err)
 	}
 
