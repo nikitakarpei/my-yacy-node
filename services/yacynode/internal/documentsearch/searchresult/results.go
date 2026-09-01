@@ -1,6 +1,6 @@
 // Package searchresult runs one search pass: it joins the query terms over the
 // posting index, reads the metadata of the most relevant documents, and adds the
-// match report the request asked for. The pass reads one snapshot, so the
+// index abstract the request asked for. The pass reads one snapshot, so the
 // documents it returns are the documents the postings chose.
 package searchresult
 
@@ -13,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/matchreport"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/indexabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/postingfilter"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
@@ -42,13 +42,12 @@ func New(
 }
 
 type Result struct {
-	DocumentMetadata                  []yacymodel.URLMetadata
-	Topics                            []string
-	TotalDocumentsMatchingEveryTerm   int
-	Duration                          time.Duration
-	TotalMatchesPerTerm               map[yacymodel.Hash]int
-	PostingsHeldPerTerm               map[yacymodel.Hash]int
-	DocumentsMatchingEachReportedTerm map[yacymodel.Hash][]yacymodel.URLHash
+	DocumentMetadata                []yacymodel.URLMetadata
+	Topics                          []string
+	TotalDocumentsMatchingEveryTerm int
+	Duration                        time.Duration
+	IndexAbstracts                  indexabstract.IndexAbstracts
+	PostingsHeldPerTerm             map[yacymodel.Hash]int
 }
 
 var ErrDocumentDirectory = errors.New("document metadata")
@@ -56,7 +55,7 @@ var ErrDocumentDirectory = errors.New("document metadata")
 func (r Results) ResultFor(
 	ctx context.Context,
 	criteria searchcriteria.Criteria,
-	requestedReport matchreport.RequestedReport,
+	requestedIndexAbstracts indexabstract.RequestedIndexAbstracts,
 ) (Result, error) {
 	start := time.Now()
 
@@ -72,16 +71,22 @@ func (r Results) ResultFor(
 			return fmt.Errorf("%w: %w", ErrDocumentDirectory, err)
 		}
 
-		report, err := requestedReport.ReportFor(
+		matchesForIndexAbstractTerms, err := r.termPostings.MatchesFor(
 			ctx,
 			tx,
-			r.termPostings,
-			criteria,
-			joined.matchesForQueryTerms,
+			indexabstract.IndexAbstractTermsOf(requestedIndexAbstracts),
+			postingfilter.FilterForReport(criteria),
 		)
 		if err != nil {
 			return err
 		}
+
+		abstracts := indexabstract.IndexAbstractsFor(
+			requestedIndexAbstracts,
+			criteria,
+			joined.matchesForQueryTerms,
+			matchesForIndexAbstractTerms,
+		)
 
 		result = Result{
 			DocumentMetadata: documentMetadata,
@@ -89,10 +94,11 @@ func (r Results) ResultFor(
 				documentMetadata,
 				criteria.Terms,
 			),
-			TotalDocumentsMatchingEveryTerm:   joined.documentsMatchingEveryTerm,
-			TotalMatchesPerTerm:               report.TotalMatchesPerTerm,
-			PostingsHeldPerTerm:               postingsHeldPerTermFrom(joined.matchesForQueryTerms),
-			DocumentsMatchingEachReportedTerm: report.DocumentsMatchingEachReportedTerm,
+			TotalDocumentsMatchingEveryTerm: joined.documentsMatchingEveryTerm,
+			IndexAbstracts:                  abstracts,
+			PostingsHeldPerTerm: termpostings.PostingsHeldPerTermOf(
+				joined.matchesForQueryTerms,
+			),
 		}
 
 		return nil
@@ -150,13 +156,4 @@ func (r Results) joinedTerms(
 		),
 		documentsMatchingEveryTerm: len(matchesWithinTermSpread),
 	}, nil
-}
-
-func postingsHeldPerTermFrom(matches map[yacymodel.Hash]termpostings.Match) map[yacymodel.Hash]int {
-	held := make(map[yacymodel.Hash]int, len(matches))
-	for term, match := range matches {
-		held[term] = match.PostingsHeld
-	}
-
-	return held
 }
