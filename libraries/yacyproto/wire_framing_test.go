@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const wireFormMaxPlainBytes = 1 << 20
@@ -35,9 +34,9 @@ func gzipFramed(t *testing.T, plain string) string {
 func seedRow(t *testing.T, seed yacymodel.Seed) string {
 	t.Helper()
 
-	encoded := yacyproto.EncodeSeed(seed)
+	encoded := seedWireForm(seed)
 	if !strings.HasPrefix(encoded, "b|") {
-		t.Fatalf("EncodeSeed does not write a base64 frame: %q", encoded)
+		t.Fatalf("seed wire form does not use a base64 frame: %q", encoded)
 	}
 	plain, err := yacymodel.Decode(encoded[2:])
 	if err != nil {
@@ -47,7 +46,7 @@ func seedRow(t *testing.T, seed yacymodel.Seed) string {
 	return string(plain)
 }
 
-func TestParseSeedReadsEveryFrameTag(t *testing.T) {
+func TestWireFrameReadsEveryTag(t *testing.T) {
 	t.Parallel()
 
 	want := sampleSeed(t, "alpha", "example-peer")
@@ -59,9 +58,9 @@ func TestParseSeedReadsEveryFrameTag(t *testing.T) {
 		"gzip":   gzipFramed(t, row),
 	}
 	for tag, frame := range frames {
-		got, err := yacyproto.ParseSeed(t.Context(), frame)
+		got, err := seedFromWire(t, frame)
 		if err != nil {
-			t.Errorf("ParseSeed(%s frame): %v", tag, err)
+			t.Errorf("parse %s seed frame: %v", tag, err)
 
 			continue
 		}
@@ -71,24 +70,24 @@ func TestParseSeedReadsEveryFrameTag(t *testing.T) {
 	}
 }
 
-func TestParseSeedRejectsAnUnknownFrameTag(t *testing.T) {
+func TestWireFrameRejectsAnUnknownTag(t *testing.T) {
 	t.Parallel()
 
 	frame := framed('q', yacymodel.Encode([]byte(seedRow(t, sampleSeed(t, "alpha", "peer")))))
 
-	_, err := yacyproto.ParseSeed(t.Context(), frame)
+	_, err := seedFromWire(t, frame)
 	if !errors.Is(err, yacymodel.ErrBadSeed) {
-		t.Fatalf("ParseSeed error = %v, want ErrBadSeed", err)
+		t.Fatalf("seed wire form error = %v, want ErrBadSeed", err)
 	}
 }
 
-func TestParseSeedRejectsAGzipFrameThatInflatesPastTheBound(t *testing.T) {
+func TestWireFrameRejectsAGzipPayloadThatInflatesPastTheBound(t *testing.T) {
 	t.Parallel()
 
 	frame := gzipFramed(t, strings.Repeat("x", wireFormMaxPlainBytes+1))
 
-	_, err := yacyproto.ParseSeed(t.Context(), frame)
+	_, err := seedFromWire(t, frame)
 	if !errors.Is(err, yacymodel.ErrBadSeed) {
-		t.Fatalf("ParseSeed error = %v, want ErrBadSeed", err)
+		t.Fatalf("seed wire form error = %v, want ErrBadSeed", err)
 	}
 }

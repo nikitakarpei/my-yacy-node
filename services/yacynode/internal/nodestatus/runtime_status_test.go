@@ -57,7 +57,7 @@ func testIdentity() nodeidentity.Identity {
 		Host:        "192.0.2.1",
 		Port:        8090,
 		Flags:       yacymodel.PeerCapabilities{},
-		Version:     "1.2",
+		Version:     yacymodel.SoftwareVersion{Release: 1.2},
 	}
 }
 
@@ -119,6 +119,9 @@ func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 	}
 	if seed.PeerType != yacymodel.PeerSenior {
 		t.Fatalf("PeerType = %q, want senior", seed.PeerType)
+	}
+	if version, found := seed.Version.Get(); !found || version != testIdentity().Version {
+		t.Fatalf("Version = %+v (set %v), want %+v", version, found, testIdentity().Version)
 	}
 	host, ok := seed.PrimaryAddress.Get()
 	if !ok || host.String() != "192.0.2.1" {

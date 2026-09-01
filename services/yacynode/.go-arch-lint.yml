@@ -166,7 +166,6 @@ deps:
     mayDependOn:
       - hashkeypart
     canUse:
-      - yacyproto
       - vault
       - storedfields
   peerannouncement:

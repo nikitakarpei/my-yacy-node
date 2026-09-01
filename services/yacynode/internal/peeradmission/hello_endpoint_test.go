@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"slices"
 	"strings"
 	"testing"
@@ -23,15 +24,15 @@ func (helloRuntimeStatus) Uptime(context.Context) int { return 0 }
 
 type stubReachability struct {
 	seeds     []yacymodel.Seed
-	refreshed []yacymodel.Hash
+	refreshed []yacymodel.Seed
 }
 
 func (s *stubReachability) ReachablePeers(context.Context) []yacymodel.Seed {
 	return s.seeds
 }
 
-func (s *stubReachability) ConfirmReachable(_ context.Context, peer yacymodel.Hash) {
-	s.refreshed = append(s.refreshed, peer)
+func (s *stubReachability) ConfirmReachable(_ context.Context, seed yacymodel.Seed) {
+	s.refreshed = append(s.refreshed, seed)
 }
 
 func muxWithHello(
@@ -134,7 +135,7 @@ func TestHelloClassifiesReachableAddressedCallerAsSenior(t *testing.T) {
 	if resp.Seeds[0].Hash != hashFor("self") {
 		t.Fatalf("first seed = %q, want self", resp.Seeds[0].Hash)
 	}
-	if !slices.Equal(reachability.refreshed, []yacymodel.Hash{caller.Hash}) {
+	if !reflect.DeepEqual(reachability.refreshed, []yacymodel.Seed{caller}) {
 		t.Fatalf("refreshed = %v, want senior caller refreshed", reachability.refreshed)
 	}
 }

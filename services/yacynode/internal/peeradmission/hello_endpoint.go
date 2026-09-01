@@ -23,7 +23,7 @@ type callerReachabilityProbe interface {
 
 type reachableRoster interface {
 	ReachablePeers(ctx context.Context) []yacymodel.Seed
-	ConfirmReachable(ctx context.Context, peer yacymodel.Hash)
+	ConfirmReachable(ctx context.Context, seed yacymodel.Seed)
 }
 
 type helloEndpoint struct {
@@ -64,7 +64,7 @@ func (e helloEndpoint) classifyCaller(
 		return yacymodel.PeerJunior
 	}
 
-	e.reachability.ConfirmReachable(ctx, caller.Hash)
+	e.reachability.ConfirmReachable(ctx, caller)
 
 	return yacymodel.PeerSenior
 }

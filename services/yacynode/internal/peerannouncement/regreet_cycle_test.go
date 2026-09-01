@@ -3,6 +3,7 @@ package peerannouncement_test
 import (
 	"context"
 	"net/http"
+	"reflect"
 	"sync"
 	"testing"
 	"time"
@@ -14,20 +15,35 @@ import (
 const confirmationWait = 10 * time.Second
 
 type stubRoster struct {
-	mu               sync.Mutex
-	reachablePeers   []yacymodel.Seed
-	unreachablePeers []yacymodel.Seed
-	discovered       []yacymodel.Seed
-	reachable        []yacymodel.Hash
-	unreachable      []yacymodel.Hash
-	confirmations    chan struct{}
+	mu                     sync.Mutex
+	reachablePeers         []yacymodel.Seed
+	unreachablePeerHashes  []yacymodel.Hash
+	networkAddresses       map[yacymodel.Hash]yacymodel.NetworkAddress
+	discovered             []yacymodel.Seed
+	reachable              []yacymodel.Hash
+	unreachable            []yacymodel.Hash
+	reachableConfirmations []yacymodel.Seed
+	confirmations          chan struct{}
 }
 
 func newStubRoster(reachable, unreachable []yacymodel.Seed) *stubRoster {
+	networkAddresses := make(map[yacymodel.Hash]yacymodel.NetworkAddress)
+	for _, seed := range append(append([]yacymodel.Seed{}, reachable...), unreachable...) {
+		networkAddress, addressable := seed.NetworkAddress()
+		if addressable {
+			networkAddresses[seed.Hash] = networkAddress
+		}
+	}
+	unreachablePeerHashes := make([]yacymodel.Hash, len(unreachable))
+	for index, seed := range unreachable {
+		unreachablePeerHashes[index] = seed.Hash
+	}
+
 	return &stubRoster{
-		reachablePeers:   reachable,
-		unreachablePeers: unreachable,
-		confirmations:    make(chan struct{}, 16),
+		reachablePeers:        reachable,
+		unreachablePeerHashes: unreachablePeerHashes,
+		networkAddresses:      networkAddresses,
+		confirmations:         make(chan struct{}, 16),
 	}
 }
 
@@ -38,15 +54,27 @@ func (s *stubRoster) ReachablePeers(context.Context) []yacymodel.Seed {
 	return append([]yacymodel.Seed(nil), s.reachablePeers...)
 }
 
-func (s *stubRoster) UnreachablePeers(_ context.Context, limit int) []yacymodel.Seed {
+func (s *stubRoster) UnreachablePeerHashes(_ context.Context, limit int) []yacymodel.Hash {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	if limit > len(s.unreachablePeers) {
-		limit = len(s.unreachablePeers)
+	if limit > len(s.unreachablePeerHashes) {
+		limit = len(s.unreachablePeerHashes)
 	}
 
-	return append([]yacymodel.Seed(nil), s.unreachablePeers[:limit]...)
+	return append([]yacymodel.Hash(nil), s.unreachablePeerHashes[:limit]...)
+}
+
+func (s *stubRoster) NetworkAddressOf(
+	_ context.Context,
+	peer yacymodel.Hash,
+) (yacymodel.NetworkAddress, bool) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	networkAddress, found := s.networkAddresses[peer]
+
+	return networkAddress, found
 }
 
 func (s *stubRoster) Discover(_ context.Context, seeds ...yacymodel.Seed) {
@@ -56,9 +84,10 @@ func (s *stubRoster) Discover(_ context.Context, seeds ...yacymodel.Seed) {
 	s.discovered = append(s.discovered, seeds...)
 }
 
-func (s *stubRoster) ConfirmReachable(_ context.Context, peer yacymodel.Hash) {
+func (s *stubRoster) ConfirmReachable(_ context.Context, seed yacymodel.Seed) {
 	s.mu.Lock()
-	s.reachable = append(s.reachable, peer)
+	s.reachable = append(s.reachable, seed.Hash)
+	s.reachableConfirmations = append(s.reachableConfirmations, seed)
 	s.mu.Unlock()
 
 	s.confirmations <- struct{}{}
@@ -77,6 +106,13 @@ func (s *stubRoster) reachableHashes() []yacymodel.Hash {
 	defer s.mu.Unlock()
 
 	return append([]yacymodel.Hash(nil), s.reachable...)
+}
+
+func (s *stubRoster) confirmedSeeds() []yacymodel.Seed {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	return append([]yacymodel.Seed(nil), s.reachableConfirmations...)
 }
 
 func (s *stubRoster) unreachableHashes() []yacymodel.Hash {
@@ -166,10 +202,36 @@ func TestAnnounceRecordsReachableAndGossip(t *testing.T) {
 	if len(reachable) != 1 || reachable[0] != peer.seed.Hash {
 		t.Fatalf("reachable = %v, want [%v]", reachable, peer.seed.Hash)
 	}
+	confirmedSeeds := roster.confirmedSeeds()
+	if len(confirmedSeeds) != 1 || confirmedSeeds[0].Hash != peer.seed.Hash {
+		t.Fatalf("confirmed seeds = %v, want responding peer seed", confirmedSeeds)
+	}
 
 	discovered := roster.discoveredSeeds()
 	if len(discovered) != 1 || discovered[0].Hash != known.seed.Hash {
 		t.Fatalf("discovered = %v, want gossiped known seed", discovered)
+	}
+}
+
+func TestAnnounceReplacesPeerIdentityAtKnownAddress(t *testing.T) {
+	self := newStubPeer(t, "self", seniorAnswer(t))
+	peer := newStubPeer(t, "peer", answerFromReplacementPeer(t))
+	respondingPeer := answeringPeerSeed(t)
+
+	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
+	runUntilPeerConfirmed(t, announcerFor(self.seed, nil, roster, 4), roster)
+
+	unreachable := roster.unreachableHashes()
+	if len(unreachable) != 1 || unreachable[0] != peer.seed.Hash {
+		t.Fatalf("unreachable = %v, want [%v]", unreachable, peer.seed.Hash)
+	}
+	reachable := roster.reachableHashes()
+	if len(reachable) != 1 || reachable[0] != respondingPeer.Hash {
+		t.Fatalf("reachable = %v, want new peer %v", reachable, respondingPeer.Hash)
+	}
+	confirmedSeeds := roster.confirmedSeeds()
+	if len(confirmedSeeds) != 1 || !reflect.DeepEqual(confirmedSeeds[0], respondingPeer) {
+		t.Fatalf("confirmed seeds = %v, want responding peer seed", confirmedSeeds)
 	}
 }
 

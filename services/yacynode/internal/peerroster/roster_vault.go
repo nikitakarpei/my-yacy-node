@@ -1,15 +1,14 @@
 package peerroster
 
 import (
-	"context"
 	"errors"
 	"fmt"
+	"strconv"
 
 	"github.com/nikitakarpei/yacy-rwi-node/storedfields"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/hashkeypart"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const peersBucket vault.Name = "peerroster"
@@ -33,7 +32,8 @@ func (rosterEntryValueCodec) Encode(entry rosterEntry) ([]byte, error) {
 	var stored storedfields.Writer
 	stored.Time(entry.lastReachable)
 	stored.Time(entry.lastContacted)
-	stored.Text(yacyproto.EncodeSeed(entry.seed))
+	stored.Text(entry.primaryAddress.String())
+	stored.Varint(int64(entry.port))
 
 	return stored.Record(), nil
 }
@@ -41,19 +41,32 @@ func (rosterEntryValueCodec) Encode(entry rosterEntry) ([]byte, error) {
 func (rosterEntryValueCodec) Decode(raw []byte) (rosterEntry, error) {
 	stored := storedfields.ReaderOf(raw, errBadRosterEntry)
 	entry := rosterEntry{
-		lastReachable: stored.Time("last reachable"),
-		lastContacted: stored.Time("last contacted"),
+		lastReachable:  stored.Time("last reachable"),
+		lastContacted:  stored.Time("last contacted"),
+		primaryAddress: primaryAddressFrom(stored),
+		port:           portFrom(stored),
 	}
-	encodedSeed := stored.Text("seed")
 	if err := stored.Err(); err != nil {
 		return rosterEntry{}, err
 	}
 
-	seed, err := yacyproto.ParseSeed(context.Background(), encodedSeed)
-	if err != nil {
-		return rosterEntry{}, fmt.Errorf("%w: %w", errBadRosterEntry, err)
-	}
-	entry.seed = seed
-
 	return entry, nil
+}
+
+func primaryAddressFrom(stored *storedfields.Reader) yacymodel.Host {
+	address, err := yacymodel.ParseHost(stored.Text("primary address"))
+	if err != nil {
+		stored.Reject("primary address", err)
+	}
+
+	return address
+}
+
+func portFrom(stored *storedfields.Reader) yacymodel.Port {
+	port, err := yacymodel.ParsePort(strconv.FormatInt(stored.Varint("port"), 10))
+	if err != nil {
+		stored.Reject("port", err)
+	}
+
+	return port
 }

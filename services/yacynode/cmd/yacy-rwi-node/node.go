@@ -57,7 +57,7 @@ type node struct {
 	scrapeRequestIntake   *scrapeRequestIntake
 }
 
-const advertisedYaCyVersion = "1.83"
+const advertisedYaCyRelease = 1.83
 
 const egressRequestTimeout = 30 * time.Second
 
@@ -104,7 +104,7 @@ func assembleNode(
 		Host:        config.Identity.AdvertiseHost,
 		Port:        config.Identity.AdvertisePort,
 		Flags:       config.Identity.Flags,
-		Version:     advertisedYaCyVersion,
+		Version:     yacymodel.SoftwareVersion{Release: advertisedYaCyRelease},
 		Start:       now(),
 	}
 

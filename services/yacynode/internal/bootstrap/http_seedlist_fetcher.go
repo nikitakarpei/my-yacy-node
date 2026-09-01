@@ -1,22 +1,17 @@
 package bootstrap
 
 import (
-	"bufio"
 	"context"
 	"errors"
 	"fmt"
 	"io"
-	"log/slog"
 	"net/http"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
-const (
-	seedlistMaxBodyBytes int64 = 8 << 20
-	seedlistMaxLineBytes       = 1 << 20
-)
+const seedlistMaxBodyBytes int64 = 8 << 20
 
 var errSeedlistFetchFailed = errors.New("seedlist fetch failed")
 
@@ -44,36 +39,13 @@ func (f httpSeedlistFetcher) Fetch(ctx context.Context, url string) ([]yacymodel
 		return nil, fmt.Errorf("%w: status %d", errSeedlistFetchFailed, resp.StatusCode)
 	}
 
-	return decodeSeedlist(ctx, io.LimitReader(resp.Body, seedlistMaxBodyBytes), url)
-}
-
-func decodeSeedlist(ctx context.Context, body io.Reader, url string) ([]yacymodel.Seed, error) {
-	var seeds []yacymodel.Seed
-	scanner := bufio.NewScanner(body)
-	scanner.Buffer(make([]byte, 0, bufio.MaxScanTokenSize), seedlistMaxLineBytes)
-	for scanner.Scan() {
-		line := scanner.Text()
-		if line == "" {
-			continue
-		}
-
-		seed, err := yacyproto.ParseRemoteSeed(ctx, line)
-		if err != nil {
-			slog.WarnContext(
-				ctx,
-				"seedlist line discarded",
-				slog.String("url", url),
-				slog.Any("error", err),
-			)
-
-			continue
-		}
-
-		seeds = append(seeds, seed)
-	}
-	if err := scanner.Err(); err != nil {
+	seedListResponse, err := yacyproto.ParseSeedListResponse(
+		ctx,
+		io.LimitReader(resp.Body, seedlistMaxBodyBytes),
+	)
+	if err != nil {
 		return nil, fmt.Errorf("%w: %w", errSeedlistFetchFailed, err)
 	}
 
-	return seeds, nil
+	return seedListResponse.Seeds, nil
 }

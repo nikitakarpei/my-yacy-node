@@ -1,6 +1,7 @@
 package yacyproto_test
 
 import (
+	"net/url"
 	"testing"
 	"time"
 
@@ -53,6 +54,23 @@ func sampleSeed(tb testing.TB, word, name string) yacymodel.Seed {
 		PeerType: yacymodel.PeerSenior,
 		Tags:     yacymodel.MatchAllTags(),
 	}
+}
+
+func seedWireForm(seed yacymodel.Seed) string {
+	return yacyproto.HelloRequest{Seed: seed}.Form().Get(yacyproto.FieldSeed)
+}
+
+func seedFromWire(t *testing.T, wireForm string) (yacymodel.Seed, error) {
+	t.Helper()
+
+	request, err := yacyproto.ParseHelloRequest(t.Context(), url.Values{
+		yacyproto.FieldSeed: {wireForm},
+	})
+	if err != nil {
+		return yacymodel.Seed{}, err
+	}
+
+	return request.Seed, nil
 }
 
 func sampleURLHash(tb testing.TB, word string) yacymodel.URLHash {
