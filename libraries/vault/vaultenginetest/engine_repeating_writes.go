@@ -9,8 +9,8 @@ import (
 
 var errDiscardedAttempt = errors.New("discarded repeat attempt")
 
-// EngineRepeatingWrites runs each write closure twice from the same stored state
-// and rolls the first run back, so a closure that is not repeatable reports it.
+// EngineRepeatingWrites runs each write closure two times and rolls the first
+// run back, so a closure that leaves an effect outside its transaction reports it.
 func EngineRepeatingWrites(engine vault.Engine) vault.Engine {
 	return repeatingEngine{Engine: engine}
 }
