@@ -14,6 +14,11 @@ var errTransactionNeverOpened = errors.New(
 type Txn struct {
 	etx                  EngineTxn
 	calledWriteOperation bool
+	afterCommit          []func()
+}
+
+func (t *Txn) RunAfterCommit(run func()) {
+	t.afterCommit = append(t.afterCommit, run)
 }
 
 func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
@@ -32,6 +37,8 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 
 	var calledWriteOperation bool
 
+	var afterCommit []func()
+
 	engineFailure := v.engine.Update(ctx, func(etx EngineTxn) error {
 		timeline = newWriteTimeline()
 		v.observer.ObserveWriteBegan(timeline.openedAt.Sub(beganAt))
@@ -39,6 +46,7 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 		tx := &Txn{etx: etx}
 		closureFailure = fn(tx)
 		calledWriteOperation = tx.calledWriteOperation
+		afterCommit = tx.afterCommit
 		timeline.markExecuted()
 
 		return closureFailure
@@ -68,6 +76,7 @@ func (v *Vault) Update(ctx context.Context, fn func(*Txn) error) error {
 		return wrapTxnError("write storage", engineFailure)
 	default:
 		reportWriteCommitted(ctx, v.observer, timeline, calledWriteOperation)
+		runEach(afterCommit)
 
 		return nil
 	}
@@ -96,6 +105,12 @@ func (v *Vault) view(ctx context.Context, fn func(*Txn) error) error {
 	}
 
 	return nil
+}
+
+func runEach(callbacks []func()) {
+	for _, run := range callbacks {
+		run()
+	}
 }
 
 func wrapTxnError(operation string, err error) error {

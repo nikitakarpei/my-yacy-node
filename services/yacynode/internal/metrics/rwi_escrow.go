@@ -49,12 +49,12 @@ func NewRWIEscrowMetrics(registry prometheus.Registerer) *RWIEscrowMetrics {
 	return metrics
 }
 
-func (m *RWIEscrowMetrics) ObserveHeld(postings int) {
-	m.held.Add(float64(postings))
+func (m *RWIEscrowMetrics) ObserveHeld(tx *vault.Txn, postings int) {
+	tx.RunAfterCommit(func() { m.held.Add(float64(postings)) })
 }
 
-func (m *RWIEscrowMetrics) ObserveReleased(postings int) {
-	m.released.Add(float64(postings))
+func (m *RWIEscrowMetrics) ObserveReleased(tx *vault.Txn, postings int) {
+	tx.RunAfterCommit(func() { m.released.Add(float64(postings)) })
 }
 
 func (m *RWIEscrowMetrics) ObserveExpired(postings int) {

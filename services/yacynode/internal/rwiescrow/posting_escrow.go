@@ -70,7 +70,7 @@ func (e *PostingEscrow) Hold(tx *vault.Txn, posting yacymodel.RWIPosting) error 
 		return fmt.Errorf("record posting hold: %w", err)
 	}
 	if !found {
-		e.observer.ObserveHeld(1)
+		e.observer.ObserveHeld(tx, 1)
 	}
 
 	return nil
@@ -103,7 +103,7 @@ func (e *PostingEscrow) URLStored(
 			return err
 		}
 	}
-	e.observer.ObserveReleased(len(waiting))
+	e.observer.ObserveReleased(tx, len(waiting))
 
 	return nil
 }
