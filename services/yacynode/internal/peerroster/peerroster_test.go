@@ -68,6 +68,7 @@ const defaultAnnounceInterval = 10 * time.Minute
 const defaultClockStart = 1_000
 
 type rosterFixture struct {
+	storage          *vault.Vault
 	reservoirCap     int
 	reachableCap     int
 	announceInterval time.Duration
@@ -77,6 +78,29 @@ type rosterFixture struct {
 
 func openRoster(t *testing.T, fixture rosterFixture) peerroster.Roster {
 	t.Helper()
+
+	roster, err := peerroster.Open(
+		fixture.openStorage(t),
+		fixture.clock(),
+		fixture.reservoirCap,
+		fixture.reachableCap,
+		fixture.announcementInterval(),
+		selfHash(),
+		fixture.rosterObserver(),
+	)
+	if err != nil {
+		t.Fatalf("peerroster.Open: %v", err)
+	}
+
+	return roster
+}
+
+func (f rosterFixture) openStorage(t *testing.T) *vault.Vault {
+	t.Helper()
+
+	if f.storage != nil {
+		return f.storage
+	}
 
 	storage, err := vault.New(
 		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
@@ -91,20 +115,7 @@ func openRoster(t *testing.T, fixture rosterFixture) peerroster.Roster {
 		}
 	})
 
-	roster, err := peerroster.Open(
-		storage,
-		fixture.clock(),
-		fixture.reservoirCap,
-		fixture.reachableCap,
-		fixture.announcementInterval(),
-		selfHash(),
-		fixture.rosterObserver(),
-	)
-	if err != nil {
-		t.Fatalf("peerroster.Open: %v", err)
-	}
-
-	return roster
+	return storage
 }
 
 func (f rosterFixture) clock() func() time.Time {
