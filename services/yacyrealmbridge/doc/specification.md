@@ -1,4 +1,4 @@
-# YaCy Peer Realm Bridge — Draft Specification
+# YaCy Realm Bridge — Draft Specification
 
 ## Context
 
