@@ -185,7 +185,7 @@ func TestSeedRoundTripsEveryColumn(t *testing.T) {
 	}
 }
 
-func TestHelloRequestIgnoresAnUnknownSeedColumn(t *testing.T) {
+func TestSeedIgnoresAnUnknownColumn(t *testing.T) {
 	t.Parallel()
 
 	seed := sampleSeed(t, "alpha", "example-peer")
@@ -200,7 +200,7 @@ func TestHelloRequestIgnoresAnUnknownSeedColumn(t *testing.T) {
 	}
 }
 
-func TestHelloRequestRejectsAnOversizedSeedRow(t *testing.T) {
+func TestSeedRejectsAnOversizedRow(t *testing.T) {
 	t.Parallel()
 
 	seed := sampleSeed(t, "alpha", "example-peer")
@@ -255,7 +255,7 @@ func TestSeedRoundTripsTheUTCOffset(t *testing.T) {
 	}
 }
 
-func TestHelloRequestLeavesAMalformedSeedUTCOffsetAbsent(t *testing.T) {
+func TestSeedLeavesAMalformedUTCOffsetAbsent(t *testing.T) {
 	t.Parallel()
 
 	seed := sampleSeed(t, "alpha", "example-peer")
@@ -271,20 +271,7 @@ func TestHelloRequestLeavesAMalformedSeedUTCOffsetAbsent(t *testing.T) {
 	}
 }
 
-func TestSeedRoundTripsTheSoftwareVersion(t *testing.T) {
-	t.Parallel()
-
-	want := yacymodel.SoftwareVersion{Release: 1.83, Revision: 9000}
-	seed := fullSeed(t)
-	seed.Version = yacymodel.Some(want)
-
-	got, ok := seedThroughWire(t, seed).Version.Get()
-	if !ok || got != want {
-		t.Fatalf("version round trip = %+v, %v, want %+v", got, ok, want)
-	}
-}
-
-func TestHelloRequestLeavesAMalformedSeedSoftwareVersionAbsent(t *testing.T) {
+func TestSeedLeavesAMalformedSoftwareVersionAbsent(t *testing.T) {
 	t.Parallel()
 
 	seed := sampleSeed(t, "alpha", "example-peer")
@@ -311,7 +298,7 @@ func TestSeedRoundTripsTheSeedTimestamps(t *testing.T) {
 	}
 }
 
-func TestHelloRequestLeavesAMalformedSeedTimestampAbsent(t *testing.T) {
+func TestSeedLeavesAMalformedTimestampAbsent(t *testing.T) {
 	t.Parallel()
 
 	seed := sampleSeed(t, "alpha", "example-peer")
@@ -363,7 +350,7 @@ func TestSeedRoundTripsPeerNews(t *testing.T) {
 	}
 }
 
-func TestHelloRequestRejectsAnOversizedSeedNewsRecord(t *testing.T) {
+func TestSeedRejectsAnOversizedNewsRecord(t *testing.T) {
 	t.Parallel()
 
 	seed := fullSeed(t)
@@ -383,7 +370,7 @@ func TestHelloRequestRejectsAnOversizedSeedNewsRecord(t *testing.T) {
 	}
 }
 
-func TestHelloRequestRejectsAnUnknownSeedNewsCategory(t *testing.T) {
+func TestSeedRejectsAnUnknownNewsCategory(t *testing.T) {
 	t.Parallel()
 
 	record := framed('b', yacymodel.Encode(

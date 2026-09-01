@@ -46,7 +46,7 @@ func seedRow(t *testing.T, seed yacymodel.Seed) string {
 	return string(plain)
 }
 
-func TestHelloRequestReadsEverySeedFrameTag(t *testing.T) {
+func TestWireFrameReadsEveryTag(t *testing.T) {
 	t.Parallel()
 
 	want := sampleSeed(t, "alpha", "example-peer")
@@ -70,7 +70,7 @@ func TestHelloRequestReadsEverySeedFrameTag(t *testing.T) {
 	}
 }
 
-func TestHelloRequestRejectsAnUnknownSeedFrameTag(t *testing.T) {
+func TestWireFrameRejectsAnUnknownTag(t *testing.T) {
 	t.Parallel()
 
 	frame := framed('q', yacymodel.Encode([]byte(seedRow(t, sampleSeed(t, "alpha", "peer")))))
@@ -81,7 +81,7 @@ func TestHelloRequestRejectsAnUnknownSeedFrameTag(t *testing.T) {
 	}
 }
 
-func TestHelloRequestRejectsASeedFrameThatInflatesPastTheBound(t *testing.T) {
+func TestWireFrameRejectsAGzipPayloadThatInflatesPastTheBound(t *testing.T) {
 	t.Parallel()
 
 	frame := gzipFramed(t, strings.Repeat("x", wireFormMaxPlainBytes+1))
