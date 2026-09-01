@@ -7,7 +7,7 @@ import (
 	"slices"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 )
 
 type Match struct {
@@ -27,7 +27,7 @@ func (d Match) termSpread(termCount int) int {
 
 func MatchesAcrossEveryTerm(
 	terms []yacymodel.Hash,
-	matches map[yacymodel.Hash]termmatch.Match,
+	matches map[yacymodel.Hash]termpostings.Match,
 ) map[yacymodel.URLHash]Match {
 	if len(terms) == 0 {
 		return nil

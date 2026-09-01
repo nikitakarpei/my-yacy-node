@@ -20,6 +20,7 @@ func (s PostingIndex) RWICount(*vault.Txn) (int, error) {
 
 func (s PostingIndex) ScanWord(
 	_ context.Context,
+	_ *vault.Txn,
 	word yacymodel.Hash,
 	visit func(yacymodel.RWIPosting) (bool, error),
 ) error {
@@ -38,7 +39,7 @@ func (s PostingIndex) ScanWord(
 }
 
 func (s PostingIndex) PostingOf(
-	_ context.Context,
+	_ *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
@@ -63,6 +64,7 @@ func (s FailingPostingIndex) RWICount(*vault.Txn) (int, error) {
 
 func (s FailingPostingIndex) ScanWord(
 	context.Context,
+	*vault.Txn,
 	yacymodel.Hash,
 	func(yacymodel.RWIPosting) (bool, error),
 ) error {
@@ -70,7 +72,7 @@ func (s FailingPostingIndex) ScanWord(
 }
 
 func (s FailingPostingIndex) PostingOf(
-	context.Context,
+	*vault.Txn,
 	yacymodel.Hash,
 	yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {

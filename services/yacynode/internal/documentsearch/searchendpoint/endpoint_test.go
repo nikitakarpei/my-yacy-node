@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -111,10 +112,10 @@ func TestEndpointRejectsMalformedCriteria(t *testing.T) {
 }
 
 func TestEndpointSurfacesSearchFailures(t *testing.T) {
-	mux, registry := mountedSearchResults(t, searchresult.New(openVault(t),
-		searchtest.FailingPostingIndex{Err: errScanBroken},
+	mux, registry := mountedSearchResults(t, searchresult.New(
+		openVault(t),
+		termpostings.New(searchtest.FailingPostingIndex{Err: errScanBroken}, 100),
 		searchtest.URLDirectory{},
-		100,
 	))
 
 	rec := postSearch(t, mux, yacyproto.SearchRequest{
@@ -146,10 +147,10 @@ func TestEndpointObservesServedOutcomesAndTermPresence(t *testing.T) {
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1")},
 	}}
-	mux, registry := mountedSearchResults(t, searchresult.New(openVault(t),
-		index,
+	mux, registry := mountedSearchResults(t, searchresult.New(
+		openVault(t),
+		termpostings.New(index, 100),
 		searchtest.URLDirectory{Documents: urlMetadata("u1")},
-		100,
 	))
 
 	search(t, mux, yacyproto.SearchRequest{
@@ -180,7 +181,11 @@ func TestEndpointObservesServedOutcomesAndTermPresence(t *testing.T) {
 func TestEndpointObservesNetworkMismatch(t *testing.T) {
 	mux, registry := mountedSearchResults(
 		t,
-		searchresult.New(openVault(t), searchtest.PostingIndex{}, searchtest.URLDirectory{}, 100),
+		searchresult.New(
+			openVault(t),
+			termpostings.New(searchtest.PostingIndex{}, 100),
+			searchtest.URLDirectory{},
+		),
 	)
 
 	search(t, mux, yacyproto.SearchRequest{NetworkName: "othernet"})
@@ -193,7 +198,11 @@ func TestEndpointObservesNetworkMismatch(t *testing.T) {
 func TestEndpointObservesInvalidCriteria(t *testing.T) {
 	mux, registry := mountedSearchResults(
 		t,
-		searchresult.New(openVault(t), searchtest.PostingIndex{}, searchtest.URLDirectory{}, 100),
+		searchresult.New(
+			openVault(t),
+			termpostings.New(searchtest.PostingIndex{}, 100),
+			searchtest.URLDirectory{},
+		),
 	)
 
 	rec := postSearch(t, mux, yacyproto.SearchRequest{
@@ -209,10 +218,10 @@ func TestEndpointObservesInvalidCriteria(t *testing.T) {
 }
 
 func TestEndpointObservesDeadlineAndMetadataFailures(t *testing.T) {
-	deadlineMux, deadlineRegistry := mountedSearchResults(t, searchresult.New(openVault(t),
-		searchtest.FailingPostingIndex{Err: context.DeadlineExceeded},
+	deadlineMux, deadlineRegistry := mountedSearchResults(t, searchresult.New(
+		openVault(t),
+		termpostings.New(searchtest.FailingPostingIndex{Err: context.DeadlineExceeded}, 100),
 		searchtest.URLDirectory{},
-		100,
 	))
 	if rec := postSearch(t, deadlineMux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
@@ -224,10 +233,10 @@ func TestEndpointObservesDeadlineAndMetadataFailures(t *testing.T) {
 		t.Errorf("deadline_exceeded searches = %v, want 1", got)
 	}
 
-	metadataMux, metadataRegistry := mountedSearchResults(t, searchresult.New(openVault(t),
-		searchtest.PostingIndex{},
+	metadataMux, metadataRegistry := mountedSearchResults(t, searchresult.New(
+		openVault(t),
+		termpostings.New(searchtest.PostingIndex{}, 100),
 		searchtest.FailingURLDirectory{Err: errScanBroken},
-		100,
 	))
 	if rec := postSearch(t, metadataMux, yacyproto.SearchRequest{
 		NetworkName: "freeworld",
@@ -243,7 +252,11 @@ func TestEndpointObservesDeadlineAndMetadataFailures(t *testing.T) {
 func TestEndpointObservesUnsupportedOptions(t *testing.T) {
 	mux, registry := mountedSearchResults(
 		t,
-		searchresult.New(openVault(t), searchtest.PostingIndex{}, searchtest.URLDirectory{}, 100),
+		searchresult.New(
+			openVault(t),
+			termpostings.New(searchtest.PostingIndex{}, 100),
+			searchtest.URLDirectory{},
+		),
 	)
 
 	search(t, mux, yacyproto.SearchRequest{

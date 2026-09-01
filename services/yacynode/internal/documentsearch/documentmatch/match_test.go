@@ -5,7 +5,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/documentmatch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 )
 
 func hashFor(base string) yacymodel.Hash {
@@ -27,17 +27,17 @@ func urlHashFor(url string) yacymodel.URLHash {
 	return hash
 }
 
-func matchOf(postings ...termmatch.Posting) termmatch.Match {
-	byDocument := make(map[yacymodel.URLHash]termmatch.Posting, len(postings))
+func matchOf(postings ...termpostings.Posting) termpostings.Match {
+	byDocument := make(map[yacymodel.URLHash]termpostings.Posting, len(postings))
 	for _, posting := range postings {
 		byDocument[posting.DocumentHash] = posting
 	}
 
-	return termmatch.Match{PostingPerDocument: byDocument, TotalMatches: len(postings)}
+	return termpostings.Match{PostingPerDocument: byDocument, TotalMatches: len(postings)}
 }
 
-func postingIn(url string, occurrences, textPosition int) termmatch.Posting {
-	return termmatch.Posting{
+func postingIn(url string, occurrences, textPosition int) termpostings.Posting {
+	return termpostings.Posting{
 		DocumentHash: urlHashFor(url),
 		Occurrences:  occurrences,
 		TextPosition: textPosition,
@@ -45,13 +45,13 @@ func postingIn(url string, occurrences, textPosition int) termmatch.Posting {
 }
 
 func matchesOfTwoTerms(
-	first, second termmatch.Match,
+	first, second termpostings.Match,
 ) map[yacymodel.URLHash]documentmatch.Match {
 	firstTerm, secondTerm := hashFor("w1"), hashFor("w2")
 
 	return documentmatch.MatchesAcrossEveryTerm(
 		[]yacymodel.Hash{firstTerm, secondTerm},
-		map[yacymodel.Hash]termmatch.Match{firstTerm: first, secondTerm: second},
+		map[yacymodel.Hash]termpostings.Match{firstTerm: first, secondTerm: second},
 	)
 }
 

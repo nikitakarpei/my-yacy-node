@@ -1,14 +1,11 @@
 // Package postingfilter decides which postings of a term the search criteria
-// admit.
+// admit. It reads no storage: the caller supplies the documents that hold an
+// excluded term.
 package postingfilter
 
 import (
-	"context"
-	"fmt"
-
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 type Filter struct {
@@ -22,14 +19,9 @@ type Filter struct {
 }
 
 func FilterForSearch(
-	ctx context.Context,
-	index rwipostings.PostingIndex,
 	criteria searchcriteria.Criteria,
-) (Filter, error) {
-	excludedDocuments, err := documentsContaining(ctx, index, criteria.ExcludedTerms)
-	if err != nil {
-		return Filter{}, err
-	}
+	excludedDocuments map[yacymodel.URLHash]struct{},
+) Filter {
 	return Filter{
 		language:           criteria.Language,
 		requiredDocuments:  documentSet(criteria.RequiredDocuments),
@@ -38,31 +30,7 @@ func FilterForSearch(
 		contentKind:        criteria.ContentKind,
 		strictContentKind:  criteria.StrictContentKind,
 		requiredAppearance: criteria.RequiredAppearance,
-	}, nil
-}
-
-func documentsContaining(
-	ctx context.Context,
-	index rwipostings.PostingIndex,
-	terms []yacymodel.Hash,
-) (map[yacymodel.URLHash]struct{}, error) {
-	documents := make(map[yacymodel.URLHash]struct{})
-	for _, term := range terms {
-		err := index.ScanWord(
-			ctx,
-			term,
-			func(posting yacymodel.RWIPosting) (bool, error) {
-				documents[posting.URLHash] = struct{}{}
-
-				return true, nil
-			},
-		)
-		if err != nil {
-			return nil, fmt.Errorf("scan term: %w", err)
-		}
 	}
-
-	return documents, nil
 }
 
 func FilterForReport(criteria searchcriteria.Criteria) Filter {

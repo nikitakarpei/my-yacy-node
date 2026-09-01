@@ -1,4 +1,4 @@
-package termmatch
+package termpostings
 
 import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 

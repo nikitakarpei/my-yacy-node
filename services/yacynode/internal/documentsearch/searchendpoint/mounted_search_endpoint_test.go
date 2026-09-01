@@ -15,6 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -44,7 +45,11 @@ func mountedSearch(
 
 	mux, _ := mountedSearchResults(
 		t,
-		searchresult.New(openVault(t), index, documents, maxPostingsPerTerm),
+		searchresult.New(
+			openVault(t),
+			termpostings.New(index, maxPostingsPerTerm),
+			documents,
+		),
 	)
 
 	return mux

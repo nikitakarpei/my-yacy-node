@@ -1,4 +1,4 @@
-package termmatch
+package termpostings
 
 import "container/heap"
 

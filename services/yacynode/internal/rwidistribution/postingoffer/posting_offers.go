@@ -89,25 +89,30 @@ func (o *PostingOffers) DueNow(
 		return nil, nil, fmt.Errorf("read due postings: %w", err)
 	}
 
-	postings, gonePostings, err := o.storedPostings(ctx, duePostings)
-	if err != nil {
-		return nil, nil, err
-	}
-
 	acceptingPeers := peersAcceptingRemoteIndex(reachablePeers)
 	o.observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
 		yacymodel.SeedsPerDHTRingSector(acceptingPeers),
 	)
 
-	var offers []PostingOffer
+	var (
+		offers       []PostingOffer
+		gonePostings []postingidentity.Identity
+	)
 	err = o.vault.View(ctx, func(tx *vault.Txn) error {
+		postings, gone, err := o.storedPostings(tx, duePostings)
+		if err != nil {
+			return err
+		}
+
+		dueOffers := make([]PostingOffer, 0, len(postings))
 		for _, posting := range postings {
 			offer, err := o.offerFor(ctx, tx, posting, acceptingPeers)
 			if err != nil {
 				return err
 			}
-			offers = append(offers, offer)
+			dueOffers = append(dueOffers, offer)
 		}
+		offers, gonePostings = dueOffers, gone
 
 		return nil
 	})
@@ -119,7 +124,7 @@ func (o *PostingOffers) DueNow(
 }
 
 func (o *PostingOffers) storedPostings(
-	ctx context.Context,
+	tx *vault.Txn,
 	duePostings []postingidentity.Identity,
 ) ([]yacymodel.RWIPosting, []postingidentity.Identity, error) {
 	var (
@@ -127,7 +132,7 @@ func (o *PostingOffers) storedPostings(
 		gonePostings []postingidentity.Identity
 	)
 	for _, identity := range duePostings {
-		posting, found, err := o.postings.PostingOf(ctx, identity.Word, identity.URL)
+		posting, found, err := o.postings.PostingOf(tx, identity.Word, identity.URL)
 		if err != nil {
 			return nil, nil, fmt.Errorf("read posting: %w", err)
 		}
