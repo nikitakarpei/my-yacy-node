@@ -67,64 +67,18 @@ const defaultAnnounceInterval = 10 * time.Minute
 
 const defaultClockStart = 1_000
 
-func openRoster(
-	t *testing.T,
-	reservoirCap, reachableCap int,
-	announceInterval time.Duration,
-) peerroster.Roster {
-	t.Helper()
-
-	return openRosterClockedFrom(
-		t, time.Unix(defaultClockStart, 0), reservoirCap, reachableCap, announceInterval,
-	)
-}
-
-func openRosterClockedFrom(
-	t *testing.T,
-	clockStart time.Time,
-	reservoirCap, reachableCap int,
-	announceInterval time.Duration,
-) peerroster.Roster {
-	t.Helper()
-
-	return rosterFixture{
-		clockStart:       clockStart,
-		reservoirCap:     reservoirCap,
-		reachableCap:     reachableCap,
-		announceInterval: announceInterval,
-		observer:         peerroster.DiscardObserver,
-	}.open(t)
-}
-
-func openRosterObservedBy(
-	t *testing.T,
-	observer peerroster.RosterObserver,
-	reservoirCap, reachableCap int,
-	announceInterval time.Duration,
-) peerroster.Roster {
-	t.Helper()
-
-	return rosterFixture{
-		clockStart:       time.Unix(defaultClockStart, 0),
-		reservoirCap:     reservoirCap,
-		reachableCap:     reachableCap,
-		announceInterval: announceInterval,
-		observer:         observer,
-	}.open(t)
-}
-
 type rosterFixture struct {
-	clockStart       time.Time
 	reservoirCap     int
 	reachableCap     int
 	announceInterval time.Duration
+	clockStart       time.Time
 	observer         peerroster.RosterObserver
 }
 
-func (f rosterFixture) open(t *testing.T) peerroster.Roster {
+func openRoster(t *testing.T, fixture rosterFixture) peerroster.Roster {
 	t.Helper()
 
-	v, err := vault.New(
+	storage, err := vault.New(
 		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
 		nil,
 	)
@@ -132,21 +86,51 @@ func (f rosterFixture) open(t *testing.T) peerroster.Roster {
 		t.Fatalf("vault.New: %v", err)
 	}
 	t.Cleanup(func() {
-		if err := v.Close(); err != nil {
+		if err := storage.Close(); err != nil {
 			t.Fatalf("Close: %v", err)
 		}
 	})
 
-	clock := &tickingClock{now: f.clockStart}
 	roster, err := peerroster.Open(
-		v, clock.Now, f.reservoirCap, f.reachableCap, f.announceInterval, selfHash(),
-		f.observer,
+		storage,
+		fixture.clock(),
+		fixture.reservoirCap,
+		fixture.reachableCap,
+		fixture.announcementInterval(),
+		selfHash(),
+		fixture.rosterObserver(),
 	)
 	if err != nil {
 		t.Fatalf("peerroster.Open: %v", err)
 	}
 
 	return roster
+}
+
+func (f rosterFixture) clock() func() time.Time {
+	start := f.clockStart
+	if start.IsZero() {
+		start = time.Unix(defaultClockStart, 0)
+	}
+	clock := &tickingClock{now: start}
+
+	return clock.Now
+}
+
+func (f rosterFixture) announcementInterval() time.Duration {
+	if f.announceInterval == 0 {
+		return defaultAnnounceInterval
+	}
+
+	return f.announceInterval
+}
+
+func (f rosterFixture) rosterObserver() peerroster.RosterObserver {
+	if f.observer == nil {
+		return peerroster.DiscardObserver
+	}
+
+	return f.observer
 }
 
 func hashes(seeds []yacymodel.Seed) map[yacymodel.Hash]struct{} {

@@ -36,7 +36,7 @@ func (o *countingObserver) counts() (knownPeers, reachablePeers int) {
 func TestObservedCountsFollowReachabilityConfirmations(t *testing.T) {
 	ctx := context.Background()
 	observer := &countingObserver{}
-	roster := openRosterObservedBy(t, observer, 8, 4, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 4, observer: observer})
 
 	first := seniorSeed(t, "first", "203.0.113.1", 8090)
 	second := seniorSeed(t, "second", "203.0.113.2", 8090)
@@ -63,7 +63,7 @@ func TestObservedCountsFollowReachabilityConfirmations(t *testing.T) {
 func TestObservedReachableCountStopsAtReachableCapacity(t *testing.T) {
 	ctx := context.Background()
 	observer := &countingObserver{}
-	roster := openRosterObservedBy(t, observer, 8, 1, defaultAnnounceInterval)
+	roster := openRoster(t, rosterFixture{reservoirCap: 8, reachableCap: 1, observer: observer})
 
 	admitted := seniorSeed(t, "admitted", "203.0.113.1", 8090)
 	refused := seniorSeed(t, "refused", "203.0.113.2", 8090)
