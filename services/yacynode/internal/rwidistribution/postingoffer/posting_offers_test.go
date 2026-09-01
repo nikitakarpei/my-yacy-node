@@ -192,7 +192,7 @@ type fakePostingIndex struct {
 	postings map[yacymodel.Hash]yacymodel.RWIPosting
 }
 
-func (f fakePostingIndex) RWICount(context.Context) (int, error) { return len(f.postings), nil }
+func (f fakePostingIndex) RWICount(*vault.Txn) (int, error) { return len(f.postings), nil }
 
 func (f fakePostingIndex) PostingOf(
 	_ context.Context,

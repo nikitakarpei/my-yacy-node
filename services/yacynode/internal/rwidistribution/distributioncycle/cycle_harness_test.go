@@ -115,7 +115,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		opts.redundancy,
 	)
 
-	courier, metadataCourier, transfers := openTransfers(opts, observer)
+	courier, metadataCourier, transfers := openTransfers(v, opts, observer)
 	offerInterval := postingofferinterval.Bounds{Shortest: time.Minute, Longest: time.Hour}
 	cycle := distributioncycle.New(
 		v,
@@ -178,6 +178,7 @@ func (h *cycleHarness) runCycle(t *testing.T) {
 }
 
 func openTransfers(
+	v *vault.Vault,
 	opts cycleOptions,
 	observer *fakeObserver,
 ) (*fakeCourier, *fakeURLMetadataCourier, *postingtransfer.PostingTransfers) {
@@ -187,7 +188,7 @@ func openTransfers(
 	}
 
 	return courier, metadataCourier, postingtransfer.New(
-		courier, metadataCourier, opts.urls, observer,
+		v, courier, metadataCourier, opts.urls, observer,
 	)
 }
 
@@ -243,7 +244,7 @@ type fakePostingIndex struct {
 	purged   func(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error
 }
 
-func (f *fakePostingIndex) RWICount(context.Context) (int, error) { return len(f.postings), nil }
+func (f *fakePostingIndex) RWICount(*vault.Txn) (int, error) { return len(f.postings), nil }
 
 func (f *fakePostingIndex) PurgePosting(
 	tx *vault.Txn,
@@ -356,7 +357,7 @@ type fakeURLDirectory struct {
 }
 
 func (f fakeURLDirectory) MetadataByHash(
-	_ context.Context,
+	_ *vault.Txn,
 	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLMetadata, error) {
 	found := make([]yacymodel.URLMetadata, 0, len(hashes))
@@ -370,7 +371,7 @@ func (f fakeURLDirectory) MetadataByHash(
 }
 
 func (f fakeURLDirectory) MissingURLs(
-	_ context.Context,
+	_ *vault.Txn,
 	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLHash, error) {
 	missing := make([]yacymodel.URLHash, 0, len(hashes))
@@ -383,7 +384,7 @@ func (f fakeURLDirectory) MissingURLs(
 	return missing, nil
 }
 
-func (fakeURLDirectory) Count(context.Context) (int, error) { return 0, nil }
+func (fakeURLDirectory) Count(*vault.Txn) (int, error) { return 0, nil }
 
 func store(
 	t *testing.T,

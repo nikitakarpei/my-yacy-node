@@ -1,6 +1,8 @@
 // Package urlmeta owns the transferURL endpoint, URL intake, and URL metadata
-// storage and lookup. Its published port, URLDirectory, is the only surface other
-// modules import; it speaks the yacymodel vocabulary and never leaks the schema.
+// storage and lookup. Its published ports speak the yacymodel vocabulary and
+// never leak the schema. A port that reads or writes stored metadata takes the
+// transaction its caller opened, so the caller decides and writes in one
+// transaction.
 package urlmeta
 
 import (
@@ -15,11 +17,11 @@ import (
 
 type URLDirectory interface {
 	MetadataByHash(
-		ctx context.Context,
+		tx *vault.Txn,
 		hashes []yacymodel.URLHash,
 	) ([]yacymodel.URLMetadata, error)
-	MissingURLs(ctx context.Context, hashes []yacymodel.URLHash) ([]yacymodel.URLHash, error)
-	Count(ctx context.Context) (int, error)
+	MissingURLs(tx *vault.Txn, hashes []yacymodel.URLHash) ([]yacymodel.URLHash, error)
+	Count(tx *vault.Txn) (int, error)
 }
 
 type URLReceiver interface {
@@ -59,7 +61,7 @@ func Open(
 	}
 
 	watched := observers(watchers)
-	directory := urlDirectory{vault: vault, collection: collection, observers: watched}
+	directory := urlDirectory{collection: collection, observers: watched}
 
 	return directory,
 		directory,

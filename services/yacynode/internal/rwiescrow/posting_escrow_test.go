@@ -125,8 +125,13 @@ func (h *harness) indexed(t *testing.T, entry yacymodel.RWIPosting) bool {
 func (h *harness) escrowedCount(t *testing.T) int {
 	t.Helper()
 
-	count, err := h.escrow.Count(context.Background())
-	if err != nil {
+	var count int
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		measured, err := h.escrow.Count(tx)
+		count = measured
+
+		return err
+	}); err != nil {
 		t.Fatalf("Count: %v", err)
 	}
 
