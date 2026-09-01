@@ -256,7 +256,7 @@ func assembleNode(
 
 	if config.ScrapeRequestIntake.Enabled() {
 		intake, intakeErr := openScrapeRequestIntake(
-			ctx, config.ScrapeRequestIntake, urlReceiver, postingReceiver,
+			ctx, config.ScrapeRequestIntake, urlReceiver, postingReceiver, registry,
 		)
 		if intakeErr != nil {
 			return node{}, intakeErr

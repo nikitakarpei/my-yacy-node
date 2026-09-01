@@ -4,10 +4,14 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/prometheus/client_golang/prometheus"
+
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
+	scrapeprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/scrapeprogressobservers/applog"
+	scrapeprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/scrapeprogressobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/scraperequestbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/scraperequestintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -23,6 +27,7 @@ func openScrapeRequestIntake(
 	config nodeconfiguration.ScrapeRequestIntakeConfig,
 	urls urlmeta.URLReceiver,
 	postings rwiadmission.PostingReceiver,
+	registry prometheus.Registerer,
 ) (*scrapeRequestIntake, error) {
 	broker, err := scraperequestbroker.Open(ctx, scraperequestbroker.Config{
 		ScrapeRequestNATSURL:           config.ScrapeRequestNATSURL,
@@ -42,20 +47,25 @@ func openScrapeRequestIntake(
 
 	return &scrapeRequestIntake{
 		broker: broker,
-		consumer: scraperequestintake.NewScrapeRequestConsumer(scraperequestintake.Config{
-			Source: broker.ScrapeRequests,
-			Fetcher: pagefetchershttp.New(
-				config.ProxyURL,
-				config.ProxyDialMode,
-				config.UserAgent,
-				config.MaxBodyBytes,
-				config.FetchDeadline,
-			),
-			FormatDerivations:              formatDerivations,
-			URLs:                           urls,
-			Postings:                       postings,
-			ScrapeRequestIntakeConcurrency: config.ScrapeRequestIntakeConcurrency,
-		}),
+		consumer: scraperequestintake.NewScrapeRequestConsumer(
+			scraperequestintake.ScrapeRequestConsumerConfig{
+				ScrapeRequestSource: broker.ScrapeRequests,
+				PageFetcher: pagefetchershttp.New(
+					config.ProxyURL,
+					config.ProxyDialMode,
+					config.UserAgent,
+					config.MaxBodyBytes,
+					config.FetchDeadline,
+				),
+				FormatDerivations: formatDerivations,
+				URLReceiver:       urls,
+				PostingReceiver:   postings,
+				ScrapeProgress: scraperequestintake.ScrapeProgressObservers{
+					scrapeprogressobserversapplog.ScrapeProgressLog{},
+					scrapeprogressobserversprometheus.New(registry),
+				},
+				ScrapeRequestIntakeConcurrency: config.ScrapeRequestIntakeConcurrency,
+			}),
 	}, nil
 }
 
