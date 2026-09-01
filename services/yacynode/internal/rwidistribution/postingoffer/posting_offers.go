@@ -84,11 +84,6 @@ func (o *PostingOffers) DueNow(
 	limit int,
 	reachablePeers []yacymodel.Seed,
 ) ([]PostingOffer, []postingidentity.Identity, error) {
-	duePostings, err := o.schedule.DuePostings(ctx, limit)
-	if err != nil {
-		return nil, nil, fmt.Errorf("read due postings: %w", err)
-	}
-
 	acceptingPeers := peersAcceptingRemoteIndex(reachablePeers)
 	o.observer.ObservePeersAcceptingRemoteIndexPerDHTRingSector(
 		yacymodel.SeedsPerDHTRingSector(acceptingPeers),
@@ -98,7 +93,11 @@ func (o *PostingOffers) DueNow(
 		offers       []PostingOffer
 		gonePostings []postingidentity.Identity
 	)
-	err = o.vault.View(ctx, func(tx *vault.Txn) error {
+	err := o.vault.View(ctx, func(tx *vault.Txn) error {
+		duePostings, err := o.schedule.DuePostings(tx, limit)
+		if err != nil {
+			return err
+		}
 		postings, gone, err := o.storedPostings(tx, duePostings)
 		if err != nil {
 			return err

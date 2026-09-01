@@ -151,11 +151,26 @@ func (o *postingOffers) isScheduled(
 	return postingScheduled
 }
 
+func (o *postingOffers) observeBacklog(t *testing.T) {
+	t.Helper()
+
+	if err := o.vault.View(context.Background(), func(tx *vault.Txn) error {
+		return o.schedule.ObserveBacklog(tx)
+	}); err != nil {
+		t.Fatalf("ObserveBacklog: %v", err)
+	}
+}
+
 func (o *postingOffers) duePostings(t *testing.T, limit int) []postingidentity.Identity {
 	t.Helper()
 
-	due, err := o.schedule.DuePostings(context.Background(), limit)
-	if err != nil {
+	var due []postingidentity.Identity
+	if err := o.vault.View(context.Background(), func(tx *vault.Txn) error {
+		var err error
+		due, err = o.schedule.DuePostings(tx, limit)
+
+		return err
+	}); err != nil {
 		t.Fatalf("DuePostings: %v", err)
 	}
 

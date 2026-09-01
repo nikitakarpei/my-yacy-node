@@ -114,7 +114,7 @@ func nextOfferIn(t *testing.T, offers *postingOffers) time.Duration {
 
 	wellAfterAnyOffer := 24 * time.Hour
 	offers.clock = testStart.Add(wellAfterAnyOffer)
-	offers.schedule.ObserveBacklog(t.Context())
+	offers.observeBacklog(t)
 
 	return wellAfterAnyOffer - offers.observed.lateness
 }
@@ -148,14 +148,14 @@ func TestAMissDoesNotScheduleAnUnscheduledPosting(t *testing.T) {
 func TestObserveCountsScheduledPostings(t *testing.T) {
 	offers := openOffers(t, testStart)
 
-	offers.schedule.ObserveBacklog(t.Context())
+	offers.observeBacklog(t)
 	if offers.observed.scheduled != 0 {
 		t.Fatalf("scheduled = %d, want 0 for an empty schedule", offers.observed.scheduled)
 	}
 
 	offers.store(t, testWord, urlHash("u1"))
 
-	offers.schedule.ObserveBacklog(t.Context())
+	offers.observeBacklog(t)
 	if offers.observed.scheduled != 1 {
 		t.Fatalf("scheduled = %d, want 1 after a posting is stored", offers.observed.scheduled)
 	}
@@ -164,7 +164,7 @@ func TestObserveCountsScheduledPostings(t *testing.T) {
 func TestObserveReportsNoLatenessForEmptySchedule(t *testing.T) {
 	offers := openOffers(t, testStart)
 
-	offers.schedule.ObserveBacklog(t.Context())
+	offers.observeBacklog(t)
 
 	if offers.observed.lateness != 0 {
 		t.Fatalf("lateness = %v, want 0 for an empty schedule", offers.observed.lateness)
@@ -179,7 +179,7 @@ func TestObserveReportsLatenessOfEarliestEntry(t *testing.T) {
 	offers.clock = testStart.Add(time.Hour)
 	offers.store(t, yacymodel.WordHash("later"), url)
 
-	offers.schedule.ObserveBacklog(t.Context())
+	offers.observeBacklog(t)
 
 	if offers.observed.lateness != time.Hour {
 		t.Fatalf("lateness = %v, want %v", offers.observed.lateness, time.Hour)
