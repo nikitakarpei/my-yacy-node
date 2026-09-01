@@ -70,14 +70,19 @@ func (t *PostingTransfers) Send(
 		return OfferAnswer{}
 	}
 
-	receipt := t.postings.Offer(ctx, endpoint, peer, offeredPostings)
+	receipt := t.postings.Offer(ctx, endpoint.String(), peer, offeredPostings)
 	t.observer.ObservePostingOffer(string(receipt.Outcome), len(offeredPostings))
 
 	if receipt.Outcome != postingcourier.Accepted {
 		return OfferAnswer{RequestedPause: receipt.RequestedPause}
 	}
 
-	undeliveredURLs := t.deliverURLMetadata(ctx, endpoint, peer, receipt.URLsUnknownToPeer)
+	undeliveredURLs := t.deliverURLMetadata(
+		ctx,
+		endpoint.String(),
+		peer,
+		receipt.URLsUnknownToPeer,
+	)
 
 	return OfferAnswer{
 		Accepted:         true,

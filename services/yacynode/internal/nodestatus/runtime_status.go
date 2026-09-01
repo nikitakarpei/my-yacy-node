@@ -3,12 +3,12 @@ package nodestatus
 import (
 	"context"
 	"log/slog"
+	"strconv"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const msgCountUnavailable = "count unavailable for self seed"
@@ -23,7 +23,7 @@ type runtimeStatus struct {
 }
 
 func (r runtimeStatus) Version(context.Context) string {
-	return r.id.Version
+	return strconv.FormatFloat(r.id.Version.Release, 'f', -1, 64)
 }
 
 func (r runtimeStatus) NetworkName(context.Context) string {
@@ -54,9 +54,7 @@ func baseSeed(id nodeidentity.Identity) yacymodel.Seed {
 		Capabilities: yacymodel.Some(id.Flags),
 		PeerType:     yacymodel.PeerSenior,
 		Tags:         yacymodel.MatchAllTags(),
-	}
-	if version, err := yacyproto.ParseSoftwareVersion(id.Version); err == nil {
-		seed.Version = yacymodel.Some(version)
+		Version:      yacymodel.Some(id.Version),
 	}
 	if host, err := yacymodel.ParseHost(id.Host); err == nil {
 		seed.PrimaryAddress = yacymodel.Some(host)

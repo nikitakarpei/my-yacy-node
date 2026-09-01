@@ -11,9 +11,10 @@ import (
 )
 
 type greetResult struct {
-	YourIP   string
-	YourType yacymodel.Optional[yacymodel.PeerType]
-	Known    []yacymodel.Seed
+	ObservedAddress  string
+	ObservedPeerType yacymodel.Optional[yacymodel.PeerType]
+	RespondingSeed   yacymodel.Seed
+	KnownSeeds       []yacymodel.Seed
 }
 
 type httpPeerGreeter struct {
@@ -30,7 +31,7 @@ func newHTTPPeerGreeter(client *http.Client, networkName string) httpPeerGreeter
 
 func (g httpPeerGreeter) Greet(
 	ctx context.Context,
-	endpoint string,
+	networkAddress yacymodel.NetworkAddress,
 	self yacymodel.Seed,
 	count int,
 ) (greetResult, error) {
@@ -41,7 +42,12 @@ func (g httpPeerGreeter) Greet(
 		Iam:         self.Hash,
 	}
 
-	msg, err := g.exchange.Exchange(ctx, endpoint, yacyproto.PathHello, request.Form())
+	msg, err := g.exchange.Exchange(
+		ctx,
+		networkAddress.String(),
+		yacyproto.PathHello,
+		request.Form(),
+	)
 	if err != nil {
 		return greetResult{}, err
 	}
@@ -50,10 +56,15 @@ func (g httpPeerGreeter) Greet(
 	if err != nil {
 		return greetResult{}, fmt.Errorf("parse hello response: %w", err)
 	}
+	respondingSeed, found := parsed.OwnSeed().Get()
+	if !found {
+		return greetResult{}, fmt.Errorf("parse hello response: responding seed absent")
+	}
 
 	return greetResult{
-		YourIP:   parsed.YourIP,
-		YourType: parsed.YourType,
-		Known:    parsed.KnownSeeds(),
+		ObservedAddress:  parsed.YourIP,
+		ObservedPeerType: parsed.YourType,
+		RespondingSeed:   respondingSeed,
+		KnownSeeds:       parsed.KnownSeeds(),
 	}, nil
 }

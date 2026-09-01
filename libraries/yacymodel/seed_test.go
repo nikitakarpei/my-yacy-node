@@ -22,7 +22,7 @@ func addressableSeed(t *testing.T) yacymodel.Seed {
 func TestSeedNetworkAddress(t *testing.T) {
 	seed := addressableSeed(t)
 	address, ok := seed.NetworkAddress()
-	if !ok || address != "192.0.2.1:8090" {
+	if !ok || address.String() != "192.0.2.1:8090" {
 		t.Fatalf("NetworkAddress = %q, %v", address, ok)
 	}
 }

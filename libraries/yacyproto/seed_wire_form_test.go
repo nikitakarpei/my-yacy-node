@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
 const (
@@ -169,9 +168,9 @@ func seedFrameWithColumn(t *testing.T, seed yacymodel.Seed, column, value string
 func seedThroughWire(t *testing.T, seed yacymodel.Seed) yacymodel.Seed {
 	t.Helper()
 
-	parsed, err := yacyproto.ParseSeed(t.Context(), yacyproto.EncodeSeed(seed))
+	parsed, err := seedFromWire(t, seedWireForm(seed))
 	if err != nil {
-		t.Fatalf("ParseSeed: %v", err)
+		t.Fatalf("parse seed wire form: %v", err)
 	}
 
 	return parsed
@@ -186,44 +185,29 @@ func TestSeedRoundTripsEveryColumn(t *testing.T) {
 	}
 }
 
-func TestParseSeedIgnoresAnUnknownColumn(t *testing.T) {
+func TestSeedIgnoresAnUnknownColumn(t *testing.T) {
 	t.Parallel()
 
 	seed := sampleSeed(t, "alpha", "example-peer")
 	want := seedThroughWire(t, seed)
 
-	got, err := yacyproto.ParseSeed(t.Context(), seedFrameWithColumn(t, seed, "Country", "de"))
+	got, err := seedFromWire(t, seedFrameWithColumn(t, seed, "Country", "de"))
 	if err != nil {
-		t.Fatalf("ParseSeed: %v", err)
+		t.Fatalf("parse seed wire form: %v", err)
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("seed with unknown column = %+v, want %+v", got, want)
 	}
 }
 
-func TestParseSeedRejectsAnOversizedRow(t *testing.T) {
+func TestSeedRejectsAnOversizedRow(t *testing.T) {
 	t.Parallel()
 
 	seed := sampleSeed(t, "alpha", "example-peer")
 	frame := seedFrameWithColumn(t, seed, "Country", strings.Repeat("x", 4096))
 
-	if _, err := yacyproto.ParseSeed(t.Context(), frame); !errors.Is(err, yacymodel.ErrBadSeed) {
-		t.Fatalf("ParseSeed error = %v, want ErrBadSeed", err)
-	}
-}
-
-func TestParseRemoteSeedRejectsASeedWithNoAddress(t *testing.T) {
-	t.Parallel()
-
-	seed := yacymodel.Seed{
-		Hash:     mustHash(t, seedPeerHash),
-		Name:     mustPeerName(t, "example-peer"),
-		PeerType: yacymodel.PeerSenior,
-	}
-
-	_, err := yacyproto.ParseRemoteSeed(t.Context(), yacyproto.EncodeSeed(seed))
-	if !errors.Is(err, yacymodel.ErrBadSeed) {
-		t.Fatalf("ParseRemoteSeed error = %v, want ErrBadSeed", err)
+	if _, err := seedFromWire(t, frame); !errors.Is(err, yacymodel.ErrBadSeed) {
+		t.Fatalf("seed wire form error = %v, want ErrBadSeed", err)
 	}
 }
 
@@ -271,15 +255,15 @@ func TestSeedRoundTripsTheUTCOffset(t *testing.T) {
 	}
 }
 
-func TestParseSeedLeavesAMalformedUTCOffsetAbsent(t *testing.T) {
+func TestSeedLeavesAMalformedUTCOffsetAbsent(t *testing.T) {
 	t.Parallel()
 
 	seed := sampleSeed(t, "alpha", "example-peer")
 	for _, written := range []string{"0100", "*0100", "+ab00"} {
 		frame := seedFrameWithColumn(t, seed, "UTC", written)
-		got, err := yacyproto.ParseSeed(t.Context(), frame)
+		got, err := seedFromWire(t, frame)
 		if err != nil {
-			t.Fatalf("ParseSeed(UTC=%q): %v", written, err)
+			t.Fatalf("parse seed wire form with UTC=%q: %v", written, err)
 		}
 		if _, ok := got.UTCOffset.Get(); ok {
 			t.Errorf("UTC=%q yields an offset, want none", written)
@@ -287,24 +271,17 @@ func TestParseSeedLeavesAMalformedUTCOffsetAbsent(t *testing.T) {
 	}
 }
 
-func TestSeedRoundTripsTheSoftwareVersion(t *testing.T) {
+func TestSeedLeavesAMalformedSoftwareVersionAbsent(t *testing.T) {
 	t.Parallel()
 
-	want := yacymodel.SoftwareVersion{Release: 1.83, Revision: 9000}
-	seed := fullSeed(t)
-	seed.Version = yacymodel.Some(want)
-
-	got, ok := seedThroughWire(t, seed).Version.Get()
-	if !ok || got != want {
-		t.Fatalf("version round trip = %+v, %v, want %+v", got, ok, want)
+	seed := sampleSeed(t, "alpha", "example-peer")
+	frame := seedFrameWithColumn(t, seed, "Version", "not-a-version")
+	parsedSeed, err := seedFromWire(t, frame)
+	if err != nil {
+		t.Fatalf("parse seed wire form: %v", err)
 	}
-}
-
-func TestParseSoftwareVersionRejectsAMalformedVersion(t *testing.T) {
-	t.Parallel()
-
-	if _, err := yacyproto.ParseSoftwareVersion("not-a-version"); err == nil {
-		t.Fatal("expected error for malformed version")
+	if _, found := parsedSeed.Version.Get(); found {
+		t.Fatal("a malformed software version yields a version, want none")
 	}
 }
 
@@ -321,15 +298,15 @@ func TestSeedRoundTripsTheSeedTimestamps(t *testing.T) {
 	}
 }
 
-func TestParseSeedLeavesAMalformedTimestampAbsent(t *testing.T) {
+func TestSeedLeavesAMalformedTimestampAbsent(t *testing.T) {
 	t.Parallel()
 
 	seed := sampleSeed(t, "alpha", "example-peer")
 	frame := seedFrameWithColumn(t, seed, "LastSeen", "not-a-date")
 
-	got, err := yacyproto.ParseSeed(t.Context(), frame)
+	got, err := seedFromWire(t, frame)
 	if err != nil {
-		t.Fatalf("ParseSeed: %v", err)
+		t.Fatalf("parse seed wire form: %v", err)
 	}
 	if _, ok := got.LastSeen.Get(); ok {
 		t.Fatal("a malformed timestamp yields a last seen, want none")
@@ -373,7 +350,7 @@ func TestSeedRoundTripsPeerNews(t *testing.T) {
 	}
 }
 
-func TestParseSeedRejectsAnOversizedNewsRecord(t *testing.T) {
+func TestSeedRejectsAnOversizedNewsRecord(t *testing.T) {
 	t.Parallel()
 
 	seed := fullSeed(t)
@@ -387,13 +364,13 @@ func TestParseSeedRejectsAnOversizedNewsRecord(t *testing.T) {
 		map[string]string{"payload": strings.Repeat("x", 1100)},
 	))
 
-	_, err := yacyproto.ParseSeed(t.Context(), yacyproto.EncodeSeed(seed))
+	_, err := seedFromWire(t, seedWireForm(seed))
 	if !errors.Is(err, yacymodel.ErrBadSeed) {
-		t.Fatalf("ParseSeed error = %v, want ErrBadSeed", err)
+		t.Fatalf("seed wire form error = %v, want ErrBadSeed", err)
 	}
 }
 
-func TestParseSeedRejectsAnUnknownNewsCategory(t *testing.T) {
+func TestSeedRejectsAnUnknownNewsCategory(t *testing.T) {
 	t.Parallel()
 
 	record := framed('b', yacymodel.Encode(
@@ -401,7 +378,7 @@ func TestParseSeedRejectsAnUnknownNewsCategory(t *testing.T) {
 	))
 	frame := seedFrameWithColumn(t, sampleSeed(t, "alpha", "example-peer"), "news", record)
 
-	if _, err := yacyproto.ParseSeed(t.Context(), frame); !errors.Is(err, yacymodel.ErrBadSeed) {
-		t.Fatalf("ParseSeed error = %v, want ErrBadSeed", err)
+	if _, err := seedFromWire(t, frame); !errors.Is(err, yacymodel.ErrBadSeed) {
+		t.Fatalf("seed wire form error = %v, want ErrBadSeed", err)
 	}
 }

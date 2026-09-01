@@ -118,3 +118,12 @@ func hashes(seeds []yacymodel.Seed) map[yacymodel.Hash]struct{} {
 
 	return out
 }
+
+func hashSet(peerHashes []yacymodel.Hash) map[yacymodel.Hash]struct{} {
+	set := make(map[yacymodel.Hash]struct{}, len(peerHashes))
+	for _, peerHash := range peerHashes {
+		set[peerHash] = struct{}{}
+	}
+
+	return set
+}

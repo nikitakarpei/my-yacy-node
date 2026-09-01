@@ -74,12 +74,15 @@ func answeringPeerSeed(t testing.TB) yacymodel.Seed {
 	return peerSeedAt(t, "answering", "203.0.113.5", 8090)
 }
 
+type peerAnswer func(yacymodel.Seed) http.HandlerFunc
+
 type stubPeer struct {
 	seed   yacymodel.Seed
+	answer http.HandlerFunc
 	greets atomic.Int64
 }
 
-func newStubPeer(t testing.TB, hash string, answer http.HandlerFunc) *stubPeer {
+func newStubPeer(t testing.TB, hash string, answer peerAnswer) *stubPeer {
 	t.Helper()
 
 	peer := &stubPeer{}
@@ -88,11 +91,12 @@ func newStubPeer(t testing.TB, hash string, answer http.HandlerFunc) *stubPeer {
 		if r.URL.Path != yacyproto.PathHello {
 			t.Errorf("path = %q, want %q", r.URL.Path, yacyproto.PathHello)
 		}
-		answer(w, r)
+		peer.answer(w, r)
 	}))
 	t.Cleanup(server.Close)
 	host, port := hostPortOf(t, server.URL)
 	peer.seed = peerSeedAt(t, hash, host, port)
+	peer.answer = answer(peer.seed)
 
 	return peer
 }
@@ -107,27 +111,45 @@ func helloAnswer(response yacyproto.HelloResponse) http.HandlerFunc {
 	}
 }
 
-func seniorAnswer(t testing.TB, gossiped ...yacymodel.Seed) http.HandlerFunc {
+func seniorAnswer(t testing.TB, gossiped ...yacymodel.Seed) peerAnswer {
 	t.Helper()
 
-	return helloAnswer(yacyproto.HelloResponse{
-		YourIP:   "203.0.113.9",
-		YourType: yacymodel.Some(yacymodel.PeerSenior),
-		Seeds:    append([]yacymodel.Seed{answeringPeerSeed(t)}, gossiped...),
-	})
+	return func(respondingSeed yacymodel.Seed) http.HandlerFunc {
+		return helloAnswer(yacyproto.HelloResponse{
+			YourIP:   "203.0.113.9",
+			YourType: yacymodel.Some(yacymodel.PeerSenior),
+			Seeds:    append([]yacymodel.Seed{respondingSeed}, gossiped...),
+		})
+	}
 }
 
-func unconfirmedAnswer(t testing.TB, gossiped ...yacymodel.Seed) http.HandlerFunc {
+func unconfirmedAnswer(t testing.TB, gossiped ...yacymodel.Seed) peerAnswer {
 	t.Helper()
 
-	return helloAnswer(yacyproto.HelloResponse{
-		YourIP: "203.0.113.9",
-		Seeds:  append([]yacymodel.Seed{answeringPeerSeed(t)}, gossiped...),
-	})
+	return func(respondingSeed yacymodel.Seed) http.HandlerFunc {
+		return helloAnswer(yacyproto.HelloResponse{
+			YourIP: "203.0.113.9",
+			Seeds:  append([]yacymodel.Seed{respondingSeed}, gossiped...),
+		})
+	}
 }
 
-func unavailableAnswer() http.HandlerFunc {
-	return func(w http.ResponseWriter, _ *http.Request) {
-		http.Error(w, "nope", http.StatusServiceUnavailable)
+func answerFromReplacementPeer(t testing.TB) peerAnswer {
+	t.Helper()
+
+	return func(yacymodel.Seed) http.HandlerFunc {
+		return helloAnswer(yacyproto.HelloResponse{
+			YourIP:   "203.0.113.9",
+			YourType: yacymodel.Some(yacymodel.PeerSenior),
+			Seeds:    []yacymodel.Seed{answeringPeerSeed(t)},
+		})
+	}
+}
+
+func unavailableAnswer() peerAnswer {
+	return func(yacymodel.Seed) http.HandlerFunc {
+		return func(w http.ResponseWriter, _ *http.Request) {
+			http.Error(w, "nope", http.StatusServiceUnavailable)
+		}
 	}
 }
