@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
@@ -115,7 +116,7 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 		opts.redundancy,
 	)
 
-	courier, metadataCourier, transfers := openTransfers(opts, observer)
+	courier, metadataCourier, transfers := openTransfers(v, opts, observer)
 	offerInterval := postingofferinterval.Bounds{Shortest: time.Minute, Longest: time.Hour}
 	cycle := distributioncycle.New(
 		v,
@@ -156,6 +157,22 @@ func openCycle(t *testing.T, clk *clock, opts cycleOptions) *cycleHarness {
 	}
 }
 
+func (h *cycleHarness) duePostings(t *testing.T, limit int) []postingidentity.Identity {
+	t.Helper()
+
+	var due []postingidentity.Identity
+	if err := h.v.View(context.Background(), func(tx *vault.Txn) error {
+		var err error
+		due, err = h.schedule.DuePostings(tx, limit)
+
+		return err
+	}); err != nil {
+		t.Fatalf("DuePostings: %v", err)
+	}
+
+	return due
+}
+
 func (h *cycleHarness) runCycle(t *testing.T) {
 	t.Helper()
 
@@ -178,6 +195,7 @@ func (h *cycleHarness) runCycle(t *testing.T) {
 }
 
 func openTransfers(
+	v *vault.Vault,
 	opts cycleOptions,
 	observer *fakeObserver,
 ) (*fakeCourier, *fakeURLMetadataCourier, *postingtransfer.PostingTransfers) {
@@ -187,7 +205,7 @@ func openTransfers(
 	}
 
 	return courier, metadataCourier, postingtransfer.New(
-		courier, metadataCourier, opts.urls, observer,
+		v, courier, metadataCourier, opts.urls, observer,
 	)
 }
 
@@ -215,9 +233,12 @@ func openCycleVault(
 ) {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
+	v, err := vault.New(
+		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
+		nil,
+	)
 	if err != nil {
-		t.Fatalf("memoryvault.Open: %v", err)
+		t.Fatalf("vault.New: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {
@@ -243,7 +264,7 @@ type fakePostingIndex struct {
 	purged   func(tx *vault.Txn, word yacymodel.Hash, url yacymodel.URLHash) error
 }
 
-func (f *fakePostingIndex) RWICount(context.Context) (int, error) { return len(f.postings), nil }
+func (f *fakePostingIndex) RWICount(*vault.Txn) (int, error) { return len(f.postings), nil }
 
 func (f *fakePostingIndex) PurgePosting(
 	tx *vault.Txn,
@@ -254,13 +275,13 @@ func (f *fakePostingIndex) PurgePosting(
 	if _, found := f.postings[key]; !found {
 		return false, nil
 	}
-	delete(f.postings, key)
+	tx.RunAfterCommit(func() { delete(f.postings, key) })
 
 	return true, f.purged(tx, word, url)
 }
 
 func (f *fakePostingIndex) PostingOf(
-	_ context.Context,
+	_ *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
@@ -274,6 +295,7 @@ func (f *fakePostingIndex) PostingOf(
 
 func (f *fakePostingIndex) ScanWord(
 	context.Context,
+	*vault.Txn,
 	yacymodel.Hash,
 	func(yacymodel.RWIPosting) (bool, error),
 ) error {
@@ -351,7 +373,7 @@ type fakeURLDirectory struct {
 }
 
 func (f fakeURLDirectory) MetadataByHash(
-	_ context.Context,
+	_ *vault.Txn,
 	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLMetadata, error) {
 	found := make([]yacymodel.URLMetadata, 0, len(hashes))
@@ -365,7 +387,7 @@ func (f fakeURLDirectory) MetadataByHash(
 }
 
 func (f fakeURLDirectory) MissingURLs(
-	_ context.Context,
+	_ *vault.Txn,
 	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLHash, error) {
 	missing := make([]yacymodel.URLHash, 0, len(hashes))
@@ -378,7 +400,7 @@ func (f fakeURLDirectory) MissingURLs(
 	return missing, nil
 }
 
-func (fakeURLDirectory) Count(context.Context) (int, error) { return 0, nil }
+func (fakeURLDirectory) Count(*vault.Txn) (int, error) { return 0, nil }
 
 func store(
 	t *testing.T,

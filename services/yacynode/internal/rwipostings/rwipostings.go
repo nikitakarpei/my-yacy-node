@@ -24,14 +24,15 @@ type PostingPurger interface {
 }
 
 type PostingIndex interface {
-	RWICount(ctx context.Context) (int, error)
+	RWICount(tx *vault.Txn) (int, error)
 	PostingOf(
-		ctx context.Context,
+		tx *vault.Txn,
 		word yacymodel.Hash,
 		url yacymodel.URLHash,
 	) (yacymodel.RWIPosting, bool, error)
 	ScanWord(
 		ctx context.Context,
+		tx *vault.Txn,
 		word yacymodel.Hash,
 		visit func(yacymodel.RWIPosting) (bool, error),
 	) error
@@ -51,7 +52,6 @@ func Open(
 	}
 
 	directory := postingDirectory{
-		vault:     vault,
 		postings:  postings,
 		observers: postingObservers(observers),
 	}

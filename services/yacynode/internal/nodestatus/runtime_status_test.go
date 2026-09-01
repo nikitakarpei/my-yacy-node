@@ -6,6 +6,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodestatus"
@@ -18,9 +20,25 @@ type stubCounter struct {
 	err  error
 }
 
-func (c stubCounter) RWICount(context.Context) (int, error)           { return c.rwi, c.err }
-func (c stubCounter) ReferencedURLCount(context.Context) (int, error) { return c.refs, c.err }
-func (c stubCounter) Count(context.Context) (int, error)              { return c.urls, c.err }
+func (c stubCounter) RWICount(*vault.Txn) (int, error)           { return c.rwi, c.err }
+func (c stubCounter) ReferencedURLCount(*vault.Txn) (int, error) { return c.refs, c.err }
+func (c stubCounter) Count(*vault.Txn) (int, error)              { return c.urls, c.err }
+
+func openVault(t *testing.T) *vault.Vault {
+	t.Helper()
+
+	v, err := memoryvault.Open(0, nil)
+	if err != nil {
+		t.Fatalf("memoryvault.Open: %v", err)
+	}
+	t.Cleanup(func() {
+		if err := v.Close(); err != nil {
+			t.Fatalf("Close: %v", err)
+		}
+	})
+
+	return v
+}
 
 func mustPeerName(name string) yacymodel.PeerName {
 	peerName, err := yacymodel.ParsePeerName(name)
@@ -47,17 +65,23 @@ func clockAt(instant time.Time) func() time.Time {
 	return func() time.Time { return instant }
 }
 
-func statusAfter(elapsed time.Duration, rwi, urls stubCounter) nodestatus.RuntimeStatus {
+func statusAfter(
+	t *testing.T,
+	elapsed time.Duration,
+	rwi, urls stubCounter,
+) nodestatus.RuntimeStatus {
+	t.Helper()
+
 	start := time.Date(2026, time.June, 22, 10, 0, 0, 0, time.UTC)
 	id := testIdentity()
 	id.Start = start
 
-	return nodestatus.NewRuntimeStatus(id, clockAt(start.Add(elapsed)), rwi, urls)
+	return nodestatus.NewRuntimeStatus(id, clockAt(start.Add(elapsed)), openVault(t), rwi, urls)
 }
 
 func TestSelfSeedRefreshesDynamicFields(t *testing.T) {
 	counts := stubCounter{rwi: 7, urls: 3}
-	status := statusAfter(90*time.Minute, counts, counts)
+	status := statusAfter(t, 90*time.Minute, counts, counts)
 
 	seed := status.SelfSeed(context.Background())
 
@@ -80,7 +104,7 @@ func TestSelfSeedRefreshesDynamicFields(t *testing.T) {
 
 func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 	counts := stubCounter{}
-	status := statusAfter(0, counts, counts)
+	status := statusAfter(t, 0, counts, counts)
 
 	seed := status.SelfSeed(context.Background())
 
@@ -107,7 +131,7 @@ func TestSelfSeedKeepsIdentityFields(t *testing.T) {
 
 func TestSelfSeedCountErrorsReportZero(t *testing.T) {
 	counts := stubCounter{rwi: 5, urls: 9, err: errors.New("boom")}
-	status := statusAfter(time.Hour, counts, counts)
+	status := statusAfter(t, time.Hour, counts, counts)
 
 	seed := status.SelfSeed(context.Background())
 
@@ -120,7 +144,7 @@ func TestSelfSeedCountErrorsReportZero(t *testing.T) {
 }
 
 func TestHeaderReportsVersionAndUptime(t *testing.T) {
-	status := statusAfter(45*time.Minute, stubCounter{}, stubCounter{})
+	status := statusAfter(t, 45*time.Minute, stubCounter{}, stubCounter{})
 
 	ctx := context.Background()
 

@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiescrow"
@@ -25,8 +26,13 @@ type countingHolds struct {
 	released int
 }
 
-func (c *countingHolds) ObserveHeld(postings int)     { c.held += postings }
-func (c *countingHolds) ObserveReleased(postings int) { c.released += postings }
+func (c *countingHolds) ObserveHeld(tx *vault.Txn, postings int) {
+	tx.RunAfterCommit(func() { c.held += postings })
+}
+
+func (c *countingHolds) ObserveReleased(tx *vault.Txn, postings int) {
+	tx.RunAfterCommit(func() { c.released += postings })
+}
 
 type harness struct {
 	vault    *vault.Vault
@@ -45,9 +51,12 @@ func openHarness(t *testing.T) *harness {
 func openCappedHarness(t *testing.T, capacity int) *harness {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
+	v, err := vault.New(
+		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
+		nil,
+	)
 	if err != nil {
-		t.Fatalf("memoryvault.Open: %v", err)
+		t.Fatalf("vault.New: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {
@@ -114,9 +123,14 @@ func (h *harness) storeURL(t *testing.T, hash yacymodel.URLHash) {
 func (h *harness) indexed(t *testing.T, entry yacymodel.RWIPosting) bool {
 	t.Helper()
 
-	_, found, err := h.index.PostingOf(context.Background(), entry.WordHash, entry.URLHash)
-	if err != nil {
-		t.Fatalf("Posting: %v", err)
+	var found bool
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		_, stored, err := h.index.PostingOf(tx, entry.WordHash, entry.URLHash)
+		found = stored
+
+		return err
+	}); err != nil {
+		t.Fatalf("PostingOf: %v", err)
 	}
 
 	return found
@@ -125,8 +139,13 @@ func (h *harness) indexed(t *testing.T, entry yacymodel.RWIPosting) bool {
 func (h *harness) escrowedCount(t *testing.T) int {
 	t.Helper()
 
-	count, err := h.escrow.Count(context.Background())
-	if err != nil {
+	var count int
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		measured, err := h.escrow.Count(tx)
+		count = measured
+
+		return err
+	}); err != nil {
 		t.Fatalf("Count: %v", err)
 	}
 

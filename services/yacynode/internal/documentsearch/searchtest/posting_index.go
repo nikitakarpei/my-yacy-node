@@ -6,6 +6,7 @@ package searchtest
 import (
 	"context"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -13,12 +14,13 @@ type PostingIndex struct {
 	Postings map[yacymodel.Hash][]yacymodel.RWIPosting
 }
 
-func (s PostingIndex) RWICount(context.Context) (int, error) {
+func (s PostingIndex) RWICount(*vault.Txn) (int, error) {
 	return len(s.Postings), nil
 }
 
 func (s PostingIndex) ScanWord(
 	_ context.Context,
+	_ *vault.Txn,
 	word yacymodel.Hash,
 	visit func(yacymodel.RWIPosting) (bool, error),
 ) error {
@@ -37,7 +39,7 @@ func (s PostingIndex) ScanWord(
 }
 
 func (s PostingIndex) PostingOf(
-	_ context.Context,
+	_ *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
@@ -56,12 +58,13 @@ type FailingPostingIndex struct {
 	Err error
 }
 
-func (s FailingPostingIndex) RWICount(context.Context) (int, error) {
+func (s FailingPostingIndex) RWICount(*vault.Txn) (int, error) {
 	return 0, s.Err
 }
 
 func (s FailingPostingIndex) ScanWord(
 	context.Context,
+	*vault.Txn,
 	yacymodel.Hash,
 	func(yacymodel.RWIPosting) (bool, error),
 ) error {
@@ -69,7 +72,7 @@ func (s FailingPostingIndex) ScanWord(
 }
 
 func (s FailingPostingIndex) PostingOf(
-	context.Context,
+	*vault.Txn,
 	yacymodel.Hash,
 	yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {

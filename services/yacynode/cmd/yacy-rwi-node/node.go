@@ -67,8 +67,9 @@ const (
 )
 
 const (
-	evictionTargetFraction = 0.9
-	evictionBatchSize      = 256
+	evictionTargetFraction  = 0.9
+	evictionURLsPerBatch    = 256
+	evictionBatchesPerSweep = 64
 )
 
 const searchPostingsPerWord = 1000
@@ -169,7 +170,7 @@ func assembleNode(
 	if err != nil {
 		return node{}, fmt.Errorf("rwi escrow: %w", err)
 	}
-	metrics.NewRWIEscrowCapacityMetrics(registry, postingEscrow)
+	metrics.NewRWIEscrowCapacityMetrics(registry, vault, postingEscrow)
 
 	urlDirectory, urlEvictor, urlReceiver, err := urlmeta.Open(
 		vault,
@@ -192,7 +193,7 @@ func assembleNode(
 		},
 	)
 
-	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, postings, urlDirectory)
+	runtimeStatus := nodestatus.NewRuntimeStatus(identity, now, vault, postings, urlDirectory)
 
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
@@ -211,8 +212,9 @@ func assembleNode(
 		Pause:      postingAdmissionBusyPause,
 		Refusals:   admissionRefusals,
 	})
-	nodestatus.MountQuery(router, identity, postings, urlReferences, urlDirectory)
+	nodestatus.MountQuery(router, identity, vault, postings, urlReferences, urlDirectory)
 	documentsearch.MountSearch(
+		vault,
 		router,
 		identity,
 		postings,
@@ -292,6 +294,7 @@ func assembleNode(
 				config.Distribution.Redundancy,
 			),
 			postingtransfer.New(
+				vault,
 				postingcourier.New(peerMessageExchange, identity.NetworkName, identity.Hash),
 				urlmetadatacourier.NewBounded(
 					urlmetadatacourier.New(
@@ -336,7 +339,11 @@ func assembleNode(
 			urlReferences,
 			urlEvictor,
 			urlMetadataStaleness,
-			eviction.Config{TargetFraction: evictionTargetFraction, BatchSize: evictionBatchSize},
+			eviction.Config{
+				TargetFraction:  evictionTargetFraction,
+				URLsPerBatch:    evictionURLsPerBatch,
+				BatchesPerSweep: evictionBatchesPerSweep,
+			},
 		),
 		postingEscrow:         postingEscrow,
 		evictionObserver:      metrics.NewEvictionMetrics(registry),

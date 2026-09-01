@@ -14,43 +14,30 @@ type postingIdentity struct {
 }
 
 type postingDirectory struct {
-	vault     *vault.Vault
 	postings  *vault.Collection[postingIdentity, yacymodel.RWIPosting]
 	observers postingObservers
 }
 
-func (d postingDirectory) RWICount(ctx context.Context) (int, error) {
-	return collectionLength(ctx, d.vault, d.postings)
+func (d postingDirectory) RWICount(tx *vault.Txn) (int, error) {
+	return collectionLength(tx, d.postings)
 }
 
 func (d postingDirectory) PostingOf(
-	ctx context.Context,
+	tx *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
-	var (
-		entry yacymodel.RWIPosting
-		found bool
-	)
-	err := d.vault.View(ctx, func(tx *vault.Txn) error {
-		stored, ok, err := d.postings.Get(tx, postingIdentity{word: word, url: url})
-		if err != nil {
-			return fmt.Errorf("read rwi posting: %w", err)
-		}
-		if !ok {
-			return nil
-		}
-		stored.WordHash = word
-		stored.URLHash = url
-		entry, found = stored, true
-
-		return nil
-	})
+	stored, found, err := d.postings.Get(tx, postingIdentity{word: word, url: url})
 	if err != nil {
-		return yacymodel.RWIPosting{}, false, fmt.Errorf("posting: %w", err)
+		return yacymodel.RWIPosting{}, false, fmt.Errorf("read rwi posting: %w", err)
 	}
+	if !found {
+		return yacymodel.RWIPosting{}, false, nil
+	}
+	stored.WordHash = word
+	stored.URLHash = url
 
-	return entry, found, nil
+	return stored, true, nil
 }
 
 func (d postingDirectory) Admit(tx *vault.Txn, posting yacymodel.RWIPosting) error {
@@ -83,24 +70,23 @@ func (d postingDirectory) PurgePosting(
 
 func (d postingDirectory) ScanWord(
 	ctx context.Context,
+	tx *vault.Txn,
 	word yacymodel.Hash,
 	visit func(yacymodel.RWIPosting) (bool, error),
 ) error {
-	err := d.vault.View(ctx, func(tx *vault.Txn) error {
-		return d.postings.Scan(
-			tx,
-			everyPostingOf(word),
-			func(identity postingIdentity, entry yacymodel.RWIPosting) (bool, error) {
-				if err := ctx.Err(); err != nil {
-					return false, fmt.Errorf("context: %w", err)
-				}
-				entry.WordHash = word
-				entry.URLHash = identity.url
+	err := d.postings.Scan(
+		tx,
+		everyPostingOf(word),
+		func(identity postingIdentity, entry yacymodel.RWIPosting) (bool, error) {
+			if err := ctx.Err(); err != nil {
+				return false, fmt.Errorf("context: %w", err)
+			}
+			entry.WordHash = word
+			entry.URLHash = identity.url
 
-				return visit(entry)
-			},
-		)
-	})
+			return visit(entry)
+		},
+	)
 	if err != nil {
 		return fmt.Errorf("scan word postings: %w", err)
 	}
@@ -109,22 +95,12 @@ func (d postingDirectory) ScanWord(
 }
 
 func collectionLength[K, V any](
-	ctx context.Context,
-	v *vault.Vault,
+	tx *vault.Txn,
 	collection *vault.Collection[K, V],
 ) (int, error) {
-	var length int
-	err := v.View(ctx, func(tx *vault.Txn) error {
-		measured, err := collection.Len(tx)
-		if err != nil {
-			return fmt.Errorf("read length: %w", err)
-		}
-		length = measured
-
-		return nil
-	})
+	length, err := collection.Len(tx)
 	if err != nil {
-		return 0, fmt.Errorf("collection length: %w", err)
+		return 0, fmt.Errorf("read length: %w", err)
 	}
 
 	return length, nil

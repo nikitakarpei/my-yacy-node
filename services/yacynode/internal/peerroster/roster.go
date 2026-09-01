@@ -13,6 +13,8 @@ import (
 
 const announceRoundsBeforeConfirmationStale = 2
 
+const msgContactNotRecorded = "peer contact not recorded"
+
 var neverReachable time.Time
 
 type rosterEntry struct {
@@ -42,6 +44,28 @@ type roster struct {
 }
 
 func (r *roster) Discover(ctx context.Context, seeds ...yacymodel.Seed) {
+	known := 0
+	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
+		if err := r.discoverEach(tx, seeds); err != nil {
+			return err
+		}
+		if err := r.evictOverflow(tx); err != nil {
+			return err
+		}
+		count, err := r.peerCount(tx)
+		known = count
+
+		return err
+	}); err != nil {
+		slog.WarnContext(ctx, "peer discovery discarded", slog.Any("error", err))
+
+		return
+	}
+
+	r.observer.ObserveKnownPeers(known)
+}
+
+func (r *roster) discoverEach(tx *vault.Txn, seeds []yacymodel.Seed) error {
 	for _, seed := range seeds {
 		if seed.Hash == r.self {
 			continue
@@ -50,45 +74,141 @@ func (r *roster) Discover(ctx context.Context, seeds ...yacymodel.Seed) {
 		if !addressable {
 			continue
 		}
-		if err := r.discoverOne(ctx, seed.Hash, networkAddress); err != nil {
-			slog.WarnContext(
-				ctx,
-				"peer discovery discarded",
-				slog.String("peer", seed.Hash.String()),
-				slog.Any("error", err),
-			)
+		if err := r.discoverOne(tx, seed.Hash, networkAddress); err != nil {
+			return err
 		}
-	}
-
-	r.evictOverflow(ctx)
-	r.observer.ObserveKnownPeers(r.peerCount(ctx))
-}
-
-func (r *roster) discoverOne(
-	ctx context.Context,
-	peerHash yacymodel.Hash,
-	networkAddress yacymodel.NetworkAddress,
-) error {
-	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		entry, known, err := r.peers.Get(tx, peerHash)
-		if err != nil {
-			return fmt.Errorf("read peer: %w", err)
-		}
-		if !known {
-			entry = rosterEntry{lastContacted: r.now()}
-		}
-		entry.primaryAddress = networkAddress.Host()
-		entry.port = networkAddress.Port()
-		if err := r.peers.Put(tx, peerHash, entry); err != nil {
-			return fmt.Errorf("store peer: %w", err)
-		}
-
-		return nil
-	}); err != nil {
-		return fmt.Errorf("discover peer: %w", err)
 	}
 
 	return nil
+}
+
+func (r *roster) discoverOne(
+	tx *vault.Txn,
+	peerHash yacymodel.Hash,
+	networkAddress yacymodel.NetworkAddress,
+) error {
+	entry, known, err := r.peers.Get(tx, peerHash)
+	if err != nil {
+		return fmt.Errorf("read peer %s: %w", peerHash, err)
+	}
+	if !known {
+		entry = rosterEntry{lastContacted: r.now()}
+	}
+	entry.primaryAddress = networkAddress.Host()
+	entry.port = networkAddress.Port()
+	if err := r.peers.Put(tx, peerHash, entry); err != nil {
+		return fmt.Errorf("store peer %s: %w", peerHash, err)
+	}
+
+	return nil
+}
+
+func (r *roster) evictOverflow(tx *vault.Txn) error {
+	victims, err := r.stalestBeyondCapacity(tx)
+	if err != nil {
+		return err
+	}
+	for _, hash := range victims {
+		if _, err := r.peers.Delete(tx, hash); err != nil {
+			return fmt.Errorf("delete peer %s: %w", hash, err)
+		}
+	}
+
+	return nil
+}
+
+func (r *roster) stalestBeyondCapacity(tx *vault.Txn) ([]yacymodel.Hash, error) {
+	known, err := r.peerCount(tx)
+	if err != nil {
+		return nil, err
+	}
+	excess := known - r.reservoirCap
+	if excess <= 0 {
+		return nil, nil
+	}
+
+	stalePeers, err := r.stalestUnreachable(tx, r.reachableKeys(), excess)
+	if err != nil {
+		return nil, err
+	}
+	victims := make([]yacymodel.Hash, 0, len(stalePeers))
+	for _, stalePeer := range stalePeers {
+		victims = append(victims, stalePeer.peerHash)
+	}
+
+	return victims, nil
+}
+
+func (r *roster) peerCount(tx *vault.Txn) (int, error) {
+	count, err := r.peers.Len(tx)
+	if err != nil {
+		return 0, fmt.Errorf("count peers: %w", err)
+	}
+
+	return count, nil
+}
+
+func (r *roster) reachableKeys() map[yacymodel.Hash]struct{} {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	keys := make(map[yacymodel.Hash]struct{}, len(r.reachable))
+	for hash := range r.reachable {
+		keys[hash] = struct{}{}
+	}
+
+	return keys
+}
+
+func (r *roster) stalestUnreachable(
+	tx *vault.Txn,
+	reachable map[yacymodel.Hash]struct{},
+	limit int,
+) ([]knownPeer, error) {
+	return r.selectUnreachable(tx, reachable, limit, func(a, b rosterEntry) bool {
+		return a.lastContacted.Before(b.lastContacted)
+	})
+}
+
+func (r *roster) selectUnreachable(
+	tx *vault.Txn,
+	reachable map[yacymodel.Hash]struct{},
+	limit int,
+	precedes func(a, b rosterEntry) bool,
+) ([]knownPeer, error) {
+	if limit <= 0 {
+		return nil, nil
+	}
+
+	keptPeers := make([]knownPeer, 0, limit)
+	if err := r.peers.Scan(
+		tx,
+		vault.EveryKey(),
+		func(peerHash yacymodel.Hash, entry rosterEntry) (bool, error) {
+			if _, ok := reachable[peerHash]; ok {
+				return true, nil
+			}
+
+			pos := 0
+			for pos < len(keptPeers) && !precedes(entry, keptPeers[pos].rosterEntry) {
+				pos++
+			}
+			if pos >= limit {
+				return true, nil
+			}
+			if len(keptPeers) < limit {
+				keptPeers = append(keptPeers, knownPeer{})
+			}
+			copy(keptPeers[pos+1:], keptPeers[pos:])
+			keptPeers[pos] = knownPeer{peerHash: peerHash, rosterEntry: entry}
+
+			return true, nil
+		},
+	); err != nil {
+		return nil, fmt.Errorf("scan peer roster: %w", err)
+	}
+
+	return keptPeers, nil
 }
 
 func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
@@ -102,9 +222,29 @@ func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
 			"reachable peer seed discarded",
 			slog.String("peer", seed.Hash.String()),
 		)
+
 		return
 	}
-	if !r.recordReachable(ctx, seed.Hash, networkAddress) {
+	known := 0
+	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
+		if err := r.recordReachable(tx, seed.Hash, networkAddress); err != nil {
+			return err
+		}
+		if err := r.evictOverflow(tx); err != nil {
+			return err
+		}
+		count, err := r.peerCount(tx)
+		known = count
+
+		return err
+	}); err != nil {
+		slog.WarnContext(
+			ctx,
+			msgContactNotRecorded,
+			slog.String("peer", seed.Hash.String()),
+			slog.Any("error", err),
+		)
+
 		return
 	}
 
@@ -119,8 +259,29 @@ func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
 			slog.String("peer", seed.Hash.String()),
 		)
 	}
-	r.evictOverflow(ctx)
-	r.observer.ObserveKnownPeers(r.peerCount(ctx))
+
+	r.observer.ObserveKnownPeers(known)
+}
+
+func (r *roster) recordReachable(
+	tx *vault.Txn,
+	peerHash yacymodel.Hash,
+	networkAddress yacymodel.NetworkAddress,
+) error {
+	entry, _, err := r.peers.Get(tx, peerHash)
+	if err != nil {
+		return fmt.Errorf("read peer %s: %w", peerHash, err)
+	}
+
+	entry.primaryAddress = networkAddress.Host()
+	entry.port = networkAddress.Port()
+	entry.lastContacted = r.now()
+	entry.lastReachable = r.now()
+	if err := r.peers.Put(tx, peerHash, entry); err != nil {
+		return fmt.Errorf("store peer %s: %w", peerHash, err)
+	}
+
+	return nil
 }
 
 func (r *roster) admitReachable(
@@ -135,54 +296,8 @@ func (r *roster) admitReachable(
 	if admitted {
 		r.reachable[peer] = seed
 	}
-	r.observer.ObserveReachablePeers(len(r.reachable))
 
 	return admitted, wasReachable
-}
-
-func (r *roster) recordReachable(
-	ctx context.Context,
-	peerHash yacymodel.Hash,
-	networkAddress yacymodel.NetworkAddress,
-) bool {
-	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		entry, _, err := r.peers.Get(tx, peerHash)
-		if err != nil {
-			return fmt.Errorf("read peer: %w", err)
-		}
-
-		entry.primaryAddress = networkAddress.Host()
-		entry.port = networkAddress.Port()
-		entry.lastContacted = r.now()
-		entry.lastReachable = r.now()
-		if err := r.peers.Put(tx, peerHash, entry); err != nil {
-			return fmt.Errorf("store peer: %w", err)
-		}
-
-		return nil
-	}); err != nil {
-		slog.WarnContext(
-			ctx,
-			"peer contact not recorded",
-			slog.String("peer", peerHash.String()),
-			slog.Any("error", err),
-		)
-
-		return false
-	}
-
-	return true
-}
-
-func (r *roster) evictReachable(peer yacymodel.Hash) (wasReachable bool) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-
-	_, wasReachable = r.reachable[peer]
-	delete(r.reachable, peer)
-	r.observer.ObserveReachablePeers(len(r.reachable))
-
-	return wasReachable
 }
 
 func (r *roster) ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash) {
@@ -190,34 +305,46 @@ func (r *roster) ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash) {
 		slog.DebugContext(ctx, "peer became unreachable", slog.String("peer", peer.String()))
 	}
 
-	r.recordUnreachable(ctx, peer)
-}
-
-func (r *roster) recordUnreachable(ctx context.Context, peer yacymodel.Hash) {
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		entry, known, err := r.peers.Get(tx, peer)
-		if err != nil {
-			return fmt.Errorf("read peer: %w", err)
-		}
-		if !known {
-			return nil
-		}
-
-		entry.lastContacted = r.now()
-		entry.lastReachable = neverReachable
-		if err := r.peers.Put(tx, peer, entry); err != nil {
-			return fmt.Errorf("store peer: %w", err)
-		}
-
-		return nil
+		return r.recordUnreachable(tx, peer)
 	}); err != nil {
 		slog.WarnContext(
 			ctx,
-			"peer contact not recorded",
+			msgContactNotRecorded,
 			slog.String("peer", peer.String()),
 			slog.Any("error", err),
 		)
 	}
+}
+
+func (r *roster) recordUnreachable(tx *vault.Txn, peer yacymodel.Hash) error {
+	entry, known, err := r.peers.Get(tx, peer)
+	if err != nil {
+		return fmt.Errorf("read peer %s: %w", peer, err)
+	}
+	if !known {
+		return nil
+	}
+
+	entry.lastContacted = r.now()
+	entry.lastReachable = neverReachable
+	if err := r.peers.Put(tx, peer, entry); err != nil {
+		return fmt.Errorf("store peer %s: %w", peer, err)
+	}
+
+	return nil
+}
+
+func (r *roster) evictReachable(peer yacymodel.Hash) (wasReachable bool) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	_, wasReachable = r.reachable[peer]
+	if wasReachable {
+		delete(r.reachable, peer)
+	}
+
+	return wasReachable
 }
 
 func (r *roster) ReachablePeers(_ context.Context) []yacymodel.Seed {
@@ -248,7 +375,7 @@ func (r *roster) IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) b
 	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
 		entry, known, err := r.peers.Get(tx, peer)
 		if err != nil {
-			return fmt.Errorf("read peer: %w", err)
+			return fmt.Errorf("read peer %s: %w", peer, err)
 		}
 		recent = known && entry.lastReachable.After(cutoff)
 
@@ -268,17 +395,32 @@ func (r *roster) IsRecentlyReachable(ctx context.Context, peer yacymodel.Hash) b
 }
 
 func (r *roster) UnreachablePeerHashes(ctx context.Context, limit int) []yacymodel.Hash {
-	knownPeers := r.selectUnreachable(ctx, r.reachableKeys(), limit, func(a, b rosterEntry) bool {
-		if !a.lastReachable.Equal(b.lastReachable) {
-			return a.lastReachable.After(b.lastReachable)
-		}
+	var stalePeers []knownPeer
+	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
+		peers, err := r.selectUnreachable(
+			tx,
+			r.reachableKeys(),
+			limit,
+			func(a, b rosterEntry) bool {
+				if !a.lastReachable.Equal(b.lastReachable) {
+					return a.lastReachable.After(b.lastReachable)
+				}
 
-		return a.lastContacted.Before(b.lastContacted)
-	})
+				return a.lastContacted.Before(b.lastContacted)
+			},
+		)
+		stalePeers = peers
 
-	peerHashes := make([]yacymodel.Hash, len(knownPeers))
-	for index, knownPeer := range knownPeers {
-		peerHashes[index] = knownPeer.peerHash
+		return err
+	}); err != nil {
+		slog.WarnContext(ctx, "peer roster scan failed", slog.Any("error", err))
+
+		return nil
+	}
+
+	peerHashes := make([]yacymodel.Hash, len(stalePeers))
+	for index, stalePeer := range stalePeers {
+		peerHashes[index] = stalePeer.peerHash
 	}
 
 	return peerHashes
@@ -293,7 +435,7 @@ func (r *roster) NetworkAddressOf(
 	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
 		entry, known, err := r.peers.Get(tx, peer)
 		if err != nil {
-			return fmt.Errorf("read peer: %w", err)
+			return fmt.Errorf("read peer %s: %w", peer, err)
 		}
 		if !known {
 			return nil
@@ -301,7 +443,7 @@ func (r *roster) NetworkAddressOf(
 
 		networkAddress, err = yacymodel.NetworkAddressOf(entry.primaryAddress, entry.port)
 		if err != nil {
-			return fmt.Errorf("network address of peer: %w", err)
+			return fmt.Errorf("network address of peer %s: %w", peer, err)
 		}
 		found = true
 
@@ -318,124 +460,4 @@ func (r *roster) NetworkAddressOf(
 	}
 
 	return networkAddress, found
-}
-
-func (r *roster) reachableKeys() map[yacymodel.Hash]struct{} {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-
-	keys := make(map[yacymodel.Hash]struct{}, len(r.reachable))
-	for hash := range r.reachable {
-		keys[hash] = struct{}{}
-	}
-
-	return keys
-}
-
-func (r *roster) evictOverflow(ctx context.Context) {
-	for _, hash := range r.stalestBeyondCapacity(ctx) {
-		if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-			if _, err := r.peers.Delete(tx, hash); err != nil {
-				return fmt.Errorf("delete peer: %w", err)
-			}
-
-			return nil
-		}); err != nil {
-			slog.WarnContext(
-				ctx,
-				"peer eviction failed",
-				slog.String("peer", hash.String()),
-				slog.Any("error", err),
-			)
-		}
-	}
-}
-
-func (r *roster) stalestBeyondCapacity(ctx context.Context) []yacymodel.Hash {
-	excess := r.peerCount(ctx) - r.reservoirCap
-	if excess <= 0 {
-		return nil
-	}
-
-	stalePeers := r.stalestUnreachable(ctx, r.reachableKeys(), excess)
-	victims := make([]yacymodel.Hash, 0, len(stalePeers))
-	for _, stalePeer := range stalePeers {
-		victims = append(victims, stalePeer.peerHash)
-	}
-
-	return victims
-}
-
-func (r *roster) stalestUnreachable(
-	ctx context.Context,
-	reachable map[yacymodel.Hash]struct{},
-	limit int,
-) []knownPeer {
-	return r.selectUnreachable(ctx, reachable, limit, func(a, b rosterEntry) bool {
-		return a.lastContacted.Before(b.lastContacted)
-	})
-}
-
-func (r *roster) selectUnreachable(
-	ctx context.Context,
-	reachable map[yacymodel.Hash]struct{},
-	limit int,
-	precedes func(a, b rosterEntry) bool,
-) []knownPeer {
-	if limit <= 0 {
-		return nil
-	}
-
-	keptPeers := make([]knownPeer, 0, limit)
-	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
-		return r.peers.Scan(
-			tx,
-			vault.EveryKey(),
-			func(peerHash yacymodel.Hash, entry rosterEntry) (bool, error) {
-				if _, ok := reachable[peerHash]; ok {
-					return true, nil
-				}
-
-				pos := 0
-				for pos < len(keptPeers) && !precedes(entry, keptPeers[pos].rosterEntry) {
-					pos++
-				}
-				if pos >= limit {
-					return true, nil
-				}
-				if len(keptPeers) < limit {
-					keptPeers = append(keptPeers, knownPeer{})
-				}
-				copy(keptPeers[pos+1:], keptPeers[pos:])
-				keptPeers[pos] = knownPeer{peerHash: peerHash, rosterEntry: entry}
-
-				return true, nil
-			},
-		)
-	}); err != nil {
-		slog.WarnContext(ctx, "peer roster scan failed", slog.Any("error", err))
-
-		return nil
-	}
-
-	return keptPeers
-}
-
-func (r *roster) peerCount(ctx context.Context) int {
-	total := 0
-	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
-		count, err := r.peers.Len(tx)
-		if err != nil {
-			return fmt.Errorf("count peers: %w", err)
-		}
-		total = count
-
-		return nil
-	}); err != nil {
-		slog.WarnContext(ctx, "peer roster count failed", slog.Any("error", err))
-
-		return 0
-	}
-
-	return total
 }

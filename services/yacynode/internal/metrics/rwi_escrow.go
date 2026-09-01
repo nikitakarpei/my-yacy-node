@@ -4,11 +4,13 @@ import (
 	"context"
 
 	"github.com/prometheus/client_golang/prometheus"
+
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
 type EscrowCapacity interface {
 	Capacity() int
-	Count(context.Context) (int, error)
+	Count(tx *vault.Txn) (int, error)
 }
 
 type RWIEscrowMetrics struct {
@@ -47,12 +49,12 @@ func NewRWIEscrowMetrics(registry prometheus.Registerer) *RWIEscrowMetrics {
 	return metrics
 }
 
-func (m *RWIEscrowMetrics) ObserveHeld(postings int) {
-	m.held.Add(float64(postings))
+func (m *RWIEscrowMetrics) ObserveHeld(tx *vault.Txn, postings int) {
+	tx.RunAfterCommit(func() { m.held.Add(float64(postings)) })
 }
 
-func (m *RWIEscrowMetrics) ObserveReleased(postings int) {
-	m.released.Add(float64(postings))
+func (m *RWIEscrowMetrics) ObserveReleased(tx *vault.Txn, postings int) {
+	tx.RunAfterCommit(func() { m.released.Add(float64(postings)) })
 }
 
 func (m *RWIEscrowMetrics) ObserveExpired(postings int) {
@@ -70,6 +72,7 @@ type RWIEscrowCapacityMetrics struct {
 
 func NewRWIEscrowCapacityMetrics(
 	registry prometheus.Registerer,
+	v *vault.Vault,
 	escrow EscrowCapacity,
 ) *RWIEscrowCapacityMetrics {
 	capacity := prometheus.NewGaugeFunc(
@@ -85,8 +88,13 @@ func NewRWIEscrowCapacityMetrics(
 			Help: "Postings currently held while their URL metadata is awaited.",
 		},
 		func() float64 {
-			postings, err := escrow.Count(context.Background())
-			if err != nil {
+			var postings int
+			if err := v.View(context.Background(), func(tx *vault.Txn) error {
+				held, err := escrow.Count(tx)
+				postings = held
+
+				return err
+			}); err != nil {
 				return 0
 			}
 

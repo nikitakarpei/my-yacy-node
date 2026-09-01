@@ -65,10 +65,7 @@ func TestCycleSkipsWhenTooFewPeersReachable(t *testing.T) {
 			h.observer.cyclesSkipped)
 	}
 
-	due, err := h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings: %v", err)
-	}
+	due := h.duePostings(t, 10)
 	if len(due) != 1 || due[0].Word != word {
 		t.Fatalf("due = %v, want [word] left untouched by a skipped cycle", due)
 	}
@@ -185,10 +182,7 @@ func TestCycleReschedulesAcceptedPostingAtTheLongestOfferInterval(t *testing.T) 
 
 	h.runCycle(t)
 
-	due, err := h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings: %v", err)
-	}
+	due := h.duePostings(t, 10)
 	if len(due) != 0 {
 		t.Fatalf("due = %v, want none due right after redundancy is met", due)
 	}
@@ -212,19 +206,13 @@ func TestCycleRetriesRejectedPostingAtBackoffInterval(t *testing.T) {
 
 	h.runCycle(t)
 
-	due, err := h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings: %v", err)
-	}
+	due := h.duePostings(t, 10)
 	if len(due) != 0 {
 		t.Fatalf("due = %v, want none due immediately after a rejected offer", due)
 	}
 
 	clk.at = now.Add(h.offerInterval.Shortest + time.Second)
-	due, err = h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings after the shortest offer interval: %v", err)
-	}
+	due = h.duePostings(t, 10)
 	if len(due) != 1 || due[0].Word != word {
 		t.Fatalf("due = %v, want [word] once the shortest offer interval has elapsed", due)
 	}
@@ -252,19 +240,13 @@ func TestCycleHonoursCourierRetryAfter(t *testing.T) {
 	h.runCycle(t)
 
 	clk.at = now.Add(h.offerInterval.Shortest + time.Second)
-	due, err := h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings: %v", err)
-	}
+	due := h.duePostings(t, 10)
 	if len(due) != 0 {
 		t.Fatalf("due = %v, want none due before the peer's pause elapses", due)
 	}
 
 	clk.at = now.Add(5*time.Minute + time.Second)
-	due, err = h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings after pause: %v", err)
-	}
+	due = h.duePostings(t, 10)
 	if len(due) != 1 || due[0].Word != word {
 		t.Fatalf("due = %v, want [word] once the peer's pause has elapsed", due)
 	}
@@ -287,19 +269,13 @@ func TestCycleReschedulesUnofferedPostingAtBackoffInterval(t *testing.T) {
 		t.Fatalf("offered = %v, want no offers for an unoffered posting", h.courier.offered)
 	}
 
-	due, err := h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings: %v", err)
-	}
+	due := h.duePostings(t, 10)
 	if len(due) != 0 {
 		t.Fatalf("due = %v, want none due immediately after stalling", due)
 	}
 
 	clk.at = now.Add(h.offerInterval.Shortest + time.Second)
-	due, err = h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings after the shortest offer interval: %v", err)
-	}
+	due = h.duePostings(t, 10)
 	if len(due) != 1 || due[0].Word != word {
 		t.Fatalf("due = %v, want [word] once the shortest offer interval has elapsed", due)
 	}
@@ -333,10 +309,7 @@ func TestCycleReschedulesAlreadySatisfiedPostingAtTheLongestOfferInterval(t *tes
 	}
 
 	clk.at = now.Add(h.offerInterval.Longest - time.Second)
-	due, err := h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings: %v", err)
-	}
+	due := h.duePostings(t, 10)
 	if len(due) != 0 {
 		t.Fatalf("due = %v, want none due before the longest offer interval elapses", due)
 	}
@@ -400,19 +373,13 @@ func TestCycleReschedulesAtLongestBackoffAcrossPeers(t *testing.T) {
 	h.runCycle(t)
 
 	clk.at = now.Add(time.Minute + time.Second)
-	due, err := h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings: %v", err)
-	}
+	due := h.duePostings(t, 10)
 	if len(due) != 0 {
 		t.Fatalf("due = %v, want none due before the longer pause elapses", due)
 	}
 
 	clk.at = now.Add(5*time.Minute + time.Second)
-	due, err = h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings after longer pause: %v", err)
-	}
+	due = h.duePostings(t, 10)
 	if len(due) != 1 || due[0].Word != word {
 		t.Fatalf("due = %v, want [word] once the longer pause has elapsed", due)
 	}
@@ -641,10 +608,7 @@ func TestCycleExcludesPostingWhenURLMetadataDeliveryFails(t *testing.T) {
 	}
 
 	clk.at = now.Add(h.offerInterval.Shortest + time.Second)
-	due, err := h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings: %v", err)
-	}
+	due := h.duePostings(t, 10)
 	if len(due) != 1 || due[0].Word != word {
 		t.Fatalf(
 			"due = %v, want [word] retried after a failed url metadata delivery",
@@ -762,19 +726,13 @@ func TestCycleDoublesTheWaitOfAPostingThatKeepsMissingRedundancy(t *testing.T) {
 	h.runCycle(t)
 
 	clk.at = now.Add(2*h.offerInterval.Shortest + time.Second)
-	due, err := h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings: %v", err)
-	}
+	due := h.duePostings(t, 10)
 	if len(due) != 0 {
 		t.Fatalf("due = %v, want none: the second miss doubles the wait", due)
 	}
 
 	clk.at = now.Add(3*h.offerInterval.Shortest + time.Second)
-	due, err = h.schedule.DuePostings(context.Background(), 10)
-	if err != nil {
-		t.Fatalf("DuePostings after the doubled wait: %v", err)
-	}
+	due = h.duePostings(t, 10)
 	if len(due) != 1 || due[0].Word != word {
 		t.Fatalf("due = %v, want [word] once the doubled wait has elapsed", due)
 	}
@@ -953,10 +911,7 @@ func TestCycleDrainsABacklogLargerThanOneBatch(t *testing.T) {
 
 	h.runCycle(t)
 
-	due, err := h.schedule.DuePostings(context.Background(), backlog)
-	if err != nil {
-		t.Fatalf("DuePostings: %v", err)
-	}
+	due := h.duePostings(t, backlog)
 	if len(due) != 0 {
 		t.Fatalf("due = %d postings, want none left after one cycle", len(due))
 	}
@@ -985,10 +940,7 @@ func TestCycleStopsDrainingWhenTheBudgetIsSpent(t *testing.T) {
 			len(h.courier.offered),
 		)
 	}
-	due, err := h.schedule.DuePostings(context.Background(), backlog)
-	if err != nil {
-		t.Fatalf("DuePostings: %v", err)
-	}
+	due := h.duePostings(t, backlog)
 	if len(due) == 0 {
 		t.Fatalf("the spent budget left no posting due, want the backlog unfinished")
 	}

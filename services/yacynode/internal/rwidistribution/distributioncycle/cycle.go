@@ -105,7 +105,7 @@ func (c *Cycle) Run(ctx context.Context) {
 }
 
 func (c *Cycle) runCycle(ctx context.Context) {
-	c.schedule.ObserveBacklog(ctx)
+	c.observeBacklog(ctx)
 
 	peers := c.roster.ReachablePeers(ctx)
 	if len(peers) < c.config.MinReachablePeers {
@@ -116,6 +116,14 @@ func (c *Cycle) runCycle(ctx context.Context) {
 
 	c.drainDuePostings(ctx, peers)
 	c.cycleObserver.ObserveCycleCompleted()
+}
+
+func (c *Cycle) observeBacklog(ctx context.Context) {
+	if err := c.vault.View(ctx, func(tx *vault.Txn) error {
+		return c.schedule.ObserveBacklog(tx)
+	}); err != nil {
+		slog.WarnContext(ctx, "offer backlog not observed", slog.Any("error", err))
+	}
 }
 
 func (c *Cycle) skipTooFewReachablePeers(ctx context.Context, reachablePeers int) {

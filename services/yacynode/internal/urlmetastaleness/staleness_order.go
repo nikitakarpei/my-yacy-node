@@ -1,7 +1,6 @@
 package urlmetastaleness
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -24,7 +23,6 @@ type rankedURL struct {
 }
 
 type stalenessRanking struct {
-	vault     *vault.Vault
 	order     *vault.Set[rankedURL]
 	freshness *vault.Collection[yacymodel.URLHash, freshnessRank]
 }
@@ -35,30 +33,24 @@ func openStalenessRanking(v *vault.Vault) (*stalenessRanking, error) {
 		return nil, err
 	}
 
-	return &stalenessRanking{vault: v, order: order, freshness: freshness}, nil
+	return &stalenessRanking{order: order, freshness: freshness}, nil
 }
 
-func (o *stalenessRanking) StalestURLs(
-	ctx context.Context,
-	limit int,
-) ([]yacymodel.URLHash, error) {
+func (o *stalenessRanking) StalestURLs(tx *vault.Txn, limit int) ([]yacymodel.URLHash, error) {
 	if limit <= 0 {
 		return nil, nil
 	}
 
 	stalest := make([]yacymodel.URLHash, 0, limit)
-	err := o.vault.View(ctx, func(tx *vault.Txn) error {
-		return o.order.Scan(
-			tx,
-			vault.EveryKey(),
-			func(ranked rankedURL) (bool, error) {
-				stalest = append(stalest, ranked.hash)
+	if err := o.order.Scan(
+		tx,
+		vault.EveryKey(),
+		func(ranked rankedURL) (bool, error) {
+			stalest = append(stalest, ranked.hash)
 
-				return len(stalest) < limit, nil
-			},
-		)
-	})
-	if err != nil {
+			return len(stalest) < limit, nil
+		},
+	); err != nil {
 		return nil, fmt.Errorf("select stalest urls: %w", err)
 	}
 

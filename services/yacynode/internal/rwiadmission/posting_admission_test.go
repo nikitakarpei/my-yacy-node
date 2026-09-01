@@ -6,6 +6,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
@@ -18,8 +20,8 @@ const busyPause = 5 * time.Second
 
 type discardedHolds struct{}
 
-func (discardedHolds) ObserveHeld(int)     {}
-func (discardedHolds) ObserveReleased(int) {}
+func (discardedHolds) ObserveHeld(*vault.Txn, int)     {}
+func (discardedHolds) ObserveReleased(*vault.Txn, int) {}
 
 type recordedRefusals struct {
 	postings map[rwiadmission.RefusalReason]int
@@ -30,6 +32,7 @@ func (r *recordedRefusals) ObserveRefused(reason rwiadmission.RefusalReason, pos
 }
 
 type harness struct {
+	vault    *vault.Vault
 	index    rwipostings.PostingIndex
 	escrow   *rwiescrow.PostingEscrow
 	urls     urlmeta.URLReceiver
@@ -40,9 +43,12 @@ type harness struct {
 func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	t.Helper()
 
-	v, err := memoryvault.Open(quotaBytes, nil)
+	v, err := vault.New(
+		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(quotaBytes)),
+		nil,
+	)
 	if err != nil {
-		t.Fatalf("memoryvault.Open: %v", err)
+		t.Fatalf("vault.New: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {
@@ -65,6 +71,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	refusals := &recordedRefusals{postings: map[rwiadmission.RefusalReason]int{}}
 
 	return harness{
+		vault:  v,
 		index:  index,
 		escrow: escrow,
 		urls:   urlReceiver,
@@ -104,9 +111,14 @@ func posting(word, urlSeed string) yacymodel.RWIPosting {
 func (h harness) indexed(t *testing.T, entry yacymodel.RWIPosting) bool {
 	t.Helper()
 
-	_, found, err := h.index.PostingOf(context.Background(), entry.WordHash, entry.URLHash)
-	if err != nil {
-		t.Fatalf("Posting: %v", err)
+	var found bool
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		_, stored, err := h.index.PostingOf(tx, entry.WordHash, entry.URLHash)
+		found = stored
+
+		return err
+	}); err != nil {
+		t.Fatalf("PostingOf: %v", err)
 	}
 
 	return found
@@ -115,8 +127,13 @@ func (h harness) indexed(t *testing.T, entry yacymodel.RWIPosting) bool {
 func (h harness) heldCount(t *testing.T) int {
 	t.Helper()
 
-	count, err := h.escrow.Count(context.Background())
-	if err != nil {
+	var count int
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		measured, err := h.escrow.Count(tx)
+		count = measured
+
+		return err
+	}); err != nil {
 		t.Fatalf("Count: %v", err)
 	}
 

@@ -3,6 +3,7 @@ package eviction
 import (
 	"context"
 	"fmt"
+	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -12,25 +13,28 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 )
 
+const boundReachedMessage = "storage eviction stopped at its sweep bound"
+
 type quotaSweeper struct {
-	vault      *vault.Vault
-	postings   rwipostings.PostingPurger
-	references urlreferences.ReferenceQuery
-	urls       urlmeta.URLEvictor
-	stale      urlmetastaleness.StaleURLSource
-	target     float64
-	batch      int
+	vault           *vault.Vault
+	postings        rwipostings.PostingPurger
+	references      urlreferences.ReferenceQuery
+	urls            urlmeta.URLEvictor
+	stale           urlmetastaleness.StaleURLSource
+	target          float64
+	urlsPerBatch    int
+	batchesPerSweep int
 }
 
 func (s quotaSweeper) Sweep(ctx context.Context) (Result, error) {
 	quota := s.vault.QuotaBytes()
-	if quota <= 0 || s.batch <= 0 {
+	if quota <= 0 || s.urlsPerBatch <= 0 || s.batchesPerSweep <= 0 {
 		return Result{}, nil
 	}
 	highWater := int64(float64(quota) * s.target)
 
 	var total Result
-	for {
+	for range s.batchesPerSweep {
 		used, err := s.vault.UsedBytes(ctx)
 		if err != nil {
 			return total, fmt.Errorf("measure usage: %w", err)
@@ -39,15 +43,7 @@ func (s quotaSweeper) Sweep(ctx context.Context) (Result, error) {
 			return total, nil
 		}
 
-		candidates, err := s.stale.StalestURLs(ctx, s.batch)
-		if err != nil {
-			return total, fmt.Errorf("select stale urls: %w", err)
-		}
-		if len(candidates) == 0 {
-			return total, nil
-		}
-
-		batch, err := s.purge(ctx, candidates)
+		batch, err := s.purgeStalest(ctx)
 		if err != nil {
 			return total, err
 		}
@@ -57,32 +53,33 @@ func (s quotaSweeper) Sweep(ctx context.Context) (Result, error) {
 			return total, nil
 		}
 	}
+
+	slog.WarnContext(ctx, boundReachedMessage,
+		slog.Int("urls", total.URLsDeleted),
+		slog.Int("postings", total.PostingsDeleted),
+	)
+
+	return total, nil
 }
 
-func (s quotaSweeper) purge(ctx context.Context, urls []yacymodel.URLHash) (Result, error) {
+func (s quotaSweeper) purgeStalest(ctx context.Context) (Result, error) {
 	var result Result
 	err := s.vault.Update(ctx, func(tx *vault.Txn) error {
-		for _, url := range urls {
-			words, err := s.references.WordsReferencing(tx, url)
-			if err != nil {
-				return fmt.Errorf("words referencing url: %w", err)
-			}
-			for _, word := range words {
-				deleted, err := s.postings.PurgePosting(tx, word, url)
-				if err != nil {
-					return fmt.Errorf("purge posting: %w", err)
-				}
-				if deleted {
-					result.PostingsDeleted++
-				}
-			}
+		stalest, err := s.stale.StalestURLs(tx, s.urlsPerBatch)
+		if err != nil {
+			return fmt.Errorf("select stale urls: %w", err)
 		}
 
-		urlResult, err := s.urls.Purge(ctx, tx, urls)
+		purgedPostings, err := s.purgePostings(tx, stalest)
+		if err != nil {
+			return err
+		}
+
+		urlResult, err := s.urls.Purge(ctx, tx, stalest)
 		if err != nil {
 			return fmt.Errorf("purge urls: %w", err)
 		}
-		result.URLsDeleted = urlResult.URLsDeleted
+		result = Result{URLsDeleted: urlResult.URLsDeleted, PostingsDeleted: purgedPostings}
 
 		return nil
 	})
@@ -91,4 +88,25 @@ func (s quotaSweeper) purge(ctx context.Context, urls []yacymodel.URLHash) (Resu
 	}
 
 	return result, nil
+}
+
+func (s quotaSweeper) purgePostings(tx *vault.Txn, urls []yacymodel.URLHash) (int, error) {
+	purged := 0
+	for _, url := range urls {
+		words, err := s.references.WordsReferencing(tx, url)
+		if err != nil {
+			return 0, fmt.Errorf("words referencing url: %w", err)
+		}
+		for _, word := range words {
+			deleted, err := s.postings.PurgePosting(tx, word, url)
+			if err != nil {
+				return 0, fmt.Errorf("purge posting: %w", err)
+			}
+			if deleted {
+				purged++
+			}
+		}
+	}
+
+	return purged, nil
 }

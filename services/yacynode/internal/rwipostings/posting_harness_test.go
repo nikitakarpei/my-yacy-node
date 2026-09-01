@@ -20,6 +20,60 @@ type harness struct {
 	observer *recordingObserver
 }
 
+func (h harness) rwiCount(t *testing.T) int {
+	t.Helper()
+
+	var count int
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		measured, err := h.index.RWICount(tx)
+		count = measured
+
+		return err
+	}); err != nil {
+		t.Fatalf("RWICount: %v", err)
+	}
+
+	return count
+}
+
+func (h harness) scanWord(
+	t *testing.T,
+	word yacymodel.Hash,
+	visit func(yacymodel.RWIPosting) (bool, error),
+) {
+	t.Helper()
+
+	ctx := context.Background()
+	if err := h.vault.View(ctx, func(tx *vault.Txn) error {
+		return h.index.ScanWord(ctx, tx, word, visit)
+	}); err != nil {
+		t.Fatalf("ScanWord: %v", err)
+	}
+}
+
+func (h harness) postingOf(
+	t *testing.T,
+	word yacymodel.Hash,
+	url yacymodel.URLHash,
+) (yacymodel.RWIPosting, bool) {
+	t.Helper()
+
+	var (
+		entry yacymodel.RWIPosting
+		found bool
+	)
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		stored, ok, err := h.index.PostingOf(tx, word, url)
+		entry, found = stored, ok
+
+		return err
+	}); err != nil {
+		t.Fatalf("PostingOf: %v", err)
+	}
+
+	return entry, found
+}
+
 func openHarness(t *testing.T) harness {
 	t.Helper()
 
