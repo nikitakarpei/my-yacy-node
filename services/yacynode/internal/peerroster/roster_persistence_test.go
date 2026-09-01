@@ -48,7 +48,7 @@ func TestRosterRestoresPeerNetworkAddressWithoutRestoringReachability(t *testing
 func openBoltRosterVault(t testing.TB, databasePath string) *vault.Vault {
 	t.Helper()
 
-	storage, err := boltvault.Open(databasePath, 0, nil)
+	storage, err := boltvault.Open(databasePath, 0, boltvault.WriteBatch{}, nil)
 	if err != nil {
 		t.Fatalf("boltvault.Open: %v", err)
 	}
