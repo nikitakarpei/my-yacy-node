@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -18,11 +19,11 @@ type recordingObserver struct {
 }
 
 func (r *recordingObserver) URLStored(
-	_ *vault.Txn,
+	tx *vault.Txn,
 	hash yacymodel.URLHash,
 	_ yacymodel.Optional[yacymodel.CalendarDay],
 ) error {
-	r.stored = append(r.stored, hash)
+	tx.RunAfterCommit(func() { r.stored = append(r.stored, hash) })
 	if r.fail {
 		return fmt.Errorf("observer refused store")
 	}
@@ -30,8 +31,8 @@ func (r *recordingObserver) URLStored(
 	return nil
 }
 
-func (r *recordingObserver) URLPurged(_ *vault.Txn, hash yacymodel.URLHash) error {
-	r.purged = append(r.purged, hash)
+func (r *recordingObserver) URLPurged(tx *vault.Txn, hash yacymodel.URLHash) error {
+	tx.RunAfterCommit(func() { r.purged = append(r.purged, hash) })
 	if r.fail {
 		return fmt.Errorf("observer refused purge")
 	}
@@ -45,9 +46,12 @@ func openObservedModule(
 ) (*vault.Vault, urlPorts) {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
+	v, err := vault.New(
+		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
+		nil,
+	)
 	if err != nil {
-		t.Fatalf("Open: %v", err)
+		t.Fatalf("vault.New: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {
