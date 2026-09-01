@@ -65,18 +65,12 @@ func receivedThenRead(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.UR
 	t.Helper()
 
 	ctx := context.Background()
-	module := openModule(t, 0)
+	v, module := openObservedModule(t)
 	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{metadata}); err != nil {
 		t.Fatalf("Receive: %v", err)
 	}
 
-	rows, err := module.Directory.MetadataByHash(
-		ctx,
-		[]yacymodel.URLHash{metadataHash(t, metadata)},
-	)
-	if err != nil {
-		t.Fatalf("MetadataByHash: %v", err)
-	}
+	rows := metadataByHash(t, v, module.Directory, []yacymodel.URLHash{metadataHash(t, metadata)})
 	if len(rows) != 1 {
 		t.Fatalf("rows = %v, want the one received row", rows)
 	}

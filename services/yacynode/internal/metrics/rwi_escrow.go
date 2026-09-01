@@ -4,11 +4,13 @@ import (
 	"context"
 
 	"github.com/prometheus/client_golang/prometheus"
+
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
 type EscrowCapacity interface {
 	Capacity() int
-	Count(context.Context) (int, error)
+	Count(tx *vault.Txn) (int, error)
 }
 
 type RWIEscrowMetrics struct {
@@ -70,6 +72,7 @@ type RWIEscrowCapacityMetrics struct {
 
 func NewRWIEscrowCapacityMetrics(
 	registry prometheus.Registerer,
+	v *vault.Vault,
 	escrow EscrowCapacity,
 ) *RWIEscrowCapacityMetrics {
 	capacity := prometheus.NewGaugeFunc(
@@ -85,8 +88,13 @@ func NewRWIEscrowCapacityMetrics(
 			Help: "Postings currently held while their URL metadata is awaited.",
 		},
 		func() float64 {
-			postings, err := escrow.Count(context.Background())
-			if err != nil {
+			var postings int
+			if err := v.View(context.Background(), func(tx *vault.Txn) error {
+				held, err := escrow.Count(tx)
+				postings = held
+
+				return err
+			}); err != nil {
 				return 0
 			}
 

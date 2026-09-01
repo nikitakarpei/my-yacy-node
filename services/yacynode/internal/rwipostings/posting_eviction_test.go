@@ -59,11 +59,7 @@ func TestPurgePostingDropsPostingAndNotifies(t *testing.T) {
 		t.Fatal("PurgePosting reported nothing deleted, want the posting dropped")
 	}
 
-	rwiCount, err := h.index.RWICount(ctx)
-	if err != nil {
-		t.Fatalf("RWICount: %v", err)
-	}
-	if rwiCount != 2 {
+	if rwiCount := h.rwiCount(t); rwiCount != 2 {
 		t.Fatalf("RWICount = %d, want 2", rwiCount)
 	}
 	if len(h.observer.purged) != 1 || h.observer.purged[0] != word {

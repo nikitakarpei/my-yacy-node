@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -13,11 +14,12 @@ import (
 const msgCountUnavailable = "count unavailable for self seed"
 
 type runtimeStatus struct {
-	id   nodeidentity.Identity
-	base yacymodel.Seed
-	now  func() time.Time
-	rwi  RWICounter
-	urls URLCounter
+	id    nodeidentity.Identity
+	base  yacymodel.Seed
+	now   func() time.Time
+	vault *vault.Vault
+	rwi   RWICounter
+	urls  URLCounter
 }
 
 func (r runtimeStatus) Version(context.Context) string {
@@ -38,8 +40,8 @@ func (r runtimeStatus) SelfSeed(ctx context.Context) yacymodel.Seed {
 	seed.Uptime = time.Duration(r.id.Uptime(now)) * time.Minute
 	seed.UTCOffset = yacymodel.Some(yacymodel.UTCOffsetOf(now))
 	seed.LastSeen = yacymodel.Some(now.UTC())
-	seed.IndexedWords = countOrZero(ctx, r.rwi.RWICount)
-	seed.StoredURLs = countOrZero(ctx, r.urls.Count)
+	seed.IndexedWords = r.countOrZero(ctx, r.rwi.RWICount)
+	seed.StoredURLs = r.countOrZero(ctx, r.urls.Count)
 
 	return seed
 }
@@ -63,13 +65,18 @@ func baseSeed(id nodeidentity.Identity) yacymodel.Seed {
 	return seed
 }
 
-func countOrZero(ctx context.Context, fn func(context.Context) (int, error)) int {
-	n, err := fn(ctx)
-	if err != nil {
+func (r runtimeStatus) countOrZero(ctx context.Context, count func(*vault.Txn) (int, error)) int {
+	var stored int
+	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
+		measured, err := count(tx)
+		stored = measured
+
+		return err
+	}); err != nil {
 		slog.WarnContext(ctx, msgCountUnavailable, slog.Any("error", err))
 
 		return 0
 	}
 
-	return n
+	return stored
 }

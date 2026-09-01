@@ -9,6 +9,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	dto "github.com/prometheus/client_model/go"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
@@ -109,7 +111,7 @@ func TestEndpointRejectsMalformedCriteria(t *testing.T) {
 }
 
 func TestEndpointSurfacesSearchFailures(t *testing.T) {
-	mux, registry := mountedSearchResults(t, searchresult.New(
+	mux, registry := mountedSearchResults(t, searchresult.New(openVault(t),
 		searchtest.FailingPostingIndex{Err: errScanBroken},
 		searchtest.URLDirectory{},
 		100,
@@ -144,7 +146,7 @@ func TestEndpointObservesServedOutcomesAndTermPresence(t *testing.T) {
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1")},
 	}}
-	mux, registry := mountedSearchResults(t, searchresult.New(
+	mux, registry := mountedSearchResults(t, searchresult.New(openVault(t),
 		index,
 		searchtest.URLDirectory{Documents: urlMetadata("u1")},
 		100,
@@ -178,7 +180,7 @@ func TestEndpointObservesServedOutcomesAndTermPresence(t *testing.T) {
 func TestEndpointObservesNetworkMismatch(t *testing.T) {
 	mux, registry := mountedSearchResults(
 		t,
-		searchresult.New(searchtest.PostingIndex{}, searchtest.URLDirectory{}, 100),
+		searchresult.New(openVault(t), searchtest.PostingIndex{}, searchtest.URLDirectory{}, 100),
 	)
 
 	search(t, mux, yacyproto.SearchRequest{NetworkName: "othernet"})
@@ -191,7 +193,7 @@ func TestEndpointObservesNetworkMismatch(t *testing.T) {
 func TestEndpointObservesInvalidCriteria(t *testing.T) {
 	mux, registry := mountedSearchResults(
 		t,
-		searchresult.New(searchtest.PostingIndex{}, searchtest.URLDirectory{}, 100),
+		searchresult.New(openVault(t), searchtest.PostingIndex{}, searchtest.URLDirectory{}, 100),
 	)
 
 	rec := postSearch(t, mux, yacyproto.SearchRequest{
@@ -207,7 +209,7 @@ func TestEndpointObservesInvalidCriteria(t *testing.T) {
 }
 
 func TestEndpointObservesDeadlineAndMetadataFailures(t *testing.T) {
-	deadlineMux, deadlineRegistry := mountedSearchResults(t, searchresult.New(
+	deadlineMux, deadlineRegistry := mountedSearchResults(t, searchresult.New(openVault(t),
 		searchtest.FailingPostingIndex{Err: context.DeadlineExceeded},
 		searchtest.URLDirectory{},
 		100,
@@ -222,7 +224,7 @@ func TestEndpointObservesDeadlineAndMetadataFailures(t *testing.T) {
 		t.Errorf("deadline_exceeded searches = %v, want 1", got)
 	}
 
-	metadataMux, metadataRegistry := mountedSearchResults(t, searchresult.New(
+	metadataMux, metadataRegistry := mountedSearchResults(t, searchresult.New(openVault(t),
 		searchtest.PostingIndex{},
 		searchtest.FailingURLDirectory{Err: errScanBroken},
 		100,
@@ -241,7 +243,7 @@ func TestEndpointObservesDeadlineAndMetadataFailures(t *testing.T) {
 func TestEndpointObservesUnsupportedOptions(t *testing.T) {
 	mux, registry := mountedSearchResults(
 		t,
-		searchresult.New(searchtest.PostingIndex{}, searchtest.URLDirectory{}, 100),
+		searchresult.New(openVault(t), searchtest.PostingIndex{}, searchtest.URLDirectory{}, 100),
 	)
 
 	search(t, mux, yacyproto.SearchRequest{
@@ -329,4 +331,16 @@ func labelValueOf(metric *dto.Metric) string {
 	}
 
 	return metric.GetLabel()[0].GetValue()
+}
+
+func openVault(t *testing.T) *vault.Vault {
+	t.Helper()
+
+	v, err := memoryvault.Open(0, nil)
+	if err != nil {
+		t.Fatalf("Open: %v", err)
+	}
+	t.Cleanup(func() { _ = v.Close() })
+
+	return v
 }

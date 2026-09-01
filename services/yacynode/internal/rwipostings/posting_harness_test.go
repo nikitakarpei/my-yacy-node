@@ -20,6 +20,22 @@ type harness struct {
 	observer *recordingObserver
 }
 
+func (h harness) rwiCount(t *testing.T) int {
+	t.Helper()
+
+	var count int
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		measured, err := h.index.RWICount(tx)
+		count = measured
+
+		return err
+	}); err != nil {
+		t.Fatalf("RWICount: %v", err)
+	}
+
+	return count
+}
+
 func openHarness(t *testing.T) harness {
 	t.Helper()
 

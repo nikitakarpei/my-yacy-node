@@ -90,11 +90,7 @@ func TestPurgeDeletesRows(t *testing.T) {
 		t.Fatalf("URLsDeleted = %d, want 1", result.URLsDeleted)
 	}
 
-	count, err := module.Directory.Count(ctx)
-	if err != nil {
-		t.Fatalf("Count: %v", err)
-	}
-	if count != 1 {
+	if count := storedURLCount(t, v, module.Directory); count != 1 {
 		t.Fatalf("Count = %d, want 1", count)
 	}
 }

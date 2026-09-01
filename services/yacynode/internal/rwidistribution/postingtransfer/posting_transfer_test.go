@@ -4,6 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingcourier"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/postingtransfer"
@@ -54,7 +56,7 @@ type fakeURLDirectory struct {
 }
 
 func (f fakeURLDirectory) MetadataByHash(
-	_ context.Context,
+	_ *vault.Txn,
 	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLMetadata, error) {
 	if f.unread != nil {
@@ -72,7 +74,7 @@ func (f fakeURLDirectory) MetadataByHash(
 }
 
 func (f fakeURLDirectory) MissingURLs(
-	_ context.Context,
+	_ *vault.Txn,
 	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLHash, error) {
 	missing := make([]yacymodel.URLHash, 0, len(hashes))
@@ -85,7 +87,7 @@ func (f fakeURLDirectory) MissingURLs(
 	return missing, nil
 }
 
-func (fakeURLDirectory) Count(context.Context) (int, error) { return 0, nil }
+func (fakeURLDirectory) Count(*vault.Txn) (int, error) { return 0, nil }
 
 type fakeObserver struct {
 	offers                map[string]int
@@ -161,7 +163,7 @@ func TestSendReportsUnaddressablePeer(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	observer := newFakeObserver()
 	postingTransfers := postingtransfer.New(
-		fakePostingCourier{}, &fakeURLMetadataCourier{}, fakeURLDirectory{}, observer,
+		openVault(t), fakePostingCourier{}, &fakeURLMetadataCourier{}, fakeURLDirectory{}, observer,
 	)
 
 	answer := postingTransfers.Send(
@@ -187,7 +189,7 @@ func TestSendAcceptsPostingsWithNoUnknownURLs(t *testing.T) {
 	posting := fakePosting(word, url)
 	observer := newFakeObserver()
 	postingTransfers := postingtransfer.New(
-		fakePostingCourier{
+		openVault(t), fakePostingCourier{
 			receipt: postingcourier.Receipt{Outcome: postingcourier.Accepted},
 		},
 		&fakeURLMetadataCourier{},
@@ -209,7 +211,7 @@ func TestSendExcludesPostingWhenURLMetadataDeliveryFails(t *testing.T) {
 	word, url := yacymodel.WordHash("w1"), urlHash("u1")
 	observer := newFakeObserver()
 	postingTransfers := postingtransfer.New(
-		fakePostingCourier{receipt: postingcourier.Receipt{
+		openVault(t), fakePostingCourier{receipt: postingcourier.Receipt{
 			Outcome:           postingcourier.Accepted,
 			URLsUnknownToPeer: []yacymodel.URLHash{url},
 		}},
@@ -251,7 +253,7 @@ func TestSendDeliversMetadataItHasWhenOneURLIsAbsent(t *testing.T) {
 	}
 	observer := newFakeObserver()
 	postingTransfers := postingtransfer.New(
-		fakePostingCourier{receipt: postingcourier.Receipt{
+		openVault(t), fakePostingCourier{receipt: postingcourier.Receipt{
 			Outcome:           postingcourier.Accepted,
 			URLsUnknownToPeer: []yacymodel.URLHash{present, absent},
 		}},
@@ -288,4 +290,16 @@ func TestSendDeliversMetadataItHasWhenOneURLIsAbsent(t *testing.T) {
 			answer.AcceptedPostings,
 		)
 	}
+}
+
+func openVault(t *testing.T) *vault.Vault {
+	t.Helper()
+
+	v, err := memoryvault.Open(0, nil)
+	if err != nil {
+		t.Fatalf("Open: %v", err)
+	}
+	t.Cleanup(func() { _ = v.Close() })
+
+	return v
 }

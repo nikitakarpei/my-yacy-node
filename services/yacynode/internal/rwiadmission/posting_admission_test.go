@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
@@ -30,6 +31,7 @@ func (r *recordedRefusals) ObserveRefused(reason rwiadmission.RefusalReason, pos
 }
 
 type harness struct {
+	vault    *vault.Vault
 	index    rwipostings.PostingIndex
 	escrow   *rwiescrow.PostingEscrow
 	urls     urlmeta.URLReceiver
@@ -65,6 +67,7 @@ func openHarness(t *testing.T, quotaBytes int64, escrowCapacity int) harness {
 	refusals := &recordedRefusals{postings: map[rwiadmission.RefusalReason]int{}}
 
 	return harness{
+		vault:  v,
 		index:  index,
 		escrow: escrow,
 		urls:   urlReceiver,
@@ -115,8 +118,13 @@ func (h harness) indexed(t *testing.T, entry yacymodel.RWIPosting) bool {
 func (h harness) heldCount(t *testing.T) int {
 	t.Helper()
 
-	count, err := h.escrow.Count(context.Background())
-	if err != nil {
+	var count int
+	if err := h.vault.View(context.Background(), func(tx *vault.Txn) error {
+		measured, err := h.escrow.Count(tx)
+		count = measured
+
+		return err
+	}); err != nil {
 		t.Fatalf("Count: %v", err)
 	}
 

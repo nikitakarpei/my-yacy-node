@@ -144,19 +144,10 @@ func (e *PostingEscrow) Expire(
 	return expired, nil
 }
 
-func (e *PostingEscrow) Count(ctx context.Context) (int, error) {
-	var count int
-	err := e.vault.View(ctx, func(tx *vault.Txn) error {
-		length, err := e.escrowed.Len(tx)
-		if err != nil {
-			return fmt.Errorf("read escrowed posting length: %w", err)
-		}
-		count = length
-
-		return nil
-	})
+func (e *PostingEscrow) Count(tx *vault.Txn) (int, error) {
+	count, err := e.escrowed.Len(tx)
 	if err != nil {
-		return 0, fmt.Errorf("escrowed posting count: %w", err)
+		return 0, fmt.Errorf("read escrowed posting length: %w", err)
 	}
 
 	return count, nil

@@ -29,7 +29,9 @@ func queryIdentity() nodeidentity.Identity {
 	}
 }
 
-func muxWithQuery(counts stubCounter) *http.ServeMux {
+func muxWithQuery(t *testing.T, counts stubCounter) *http.ServeMux {
+	t.Helper()
+
 	mux := http.NewServeMux()
 	router := httpguard.NewWireRouter(mux, httpguard.WireGate{
 		Guard: httpguard.NewRequestGuard(
@@ -39,7 +41,7 @@ func muxWithQuery(counts stubCounter) *http.ServeMux {
 		Respond: httpguard.NewWireResponder(queryRuntimeStatus{}),
 		Address: httpguard.NewClientAddressResolver(nil),
 	})
-	nodestatus.MountQuery(router, queryIdentity(), counts, counts, counts)
+	nodestatus.MountQuery(router, queryIdentity(), openVault(t), counts, counts, counts)
 
 	return mux
 }
@@ -89,7 +91,7 @@ func queryRequest(object yacyproto.QueryObject) yacyproto.QueryRequest {
 }
 
 func TestQueryAnswersSupportedObjects(t *testing.T) {
-	mux := muxWithQuery(stubCounter{rwi: 11, refs: 4, urls: 6})
+	mux := muxWithQuery(t, stubCounter{rwi: 11, refs: 4, urls: 6})
 
 	cases := []struct {
 		object yacyproto.QueryObject
@@ -108,7 +110,7 @@ func TestQueryAnswersSupportedObjects(t *testing.T) {
 }
 
 func TestQueryRejectsUnsupportedObject(t *testing.T) {
-	mux := muxWithQuery(stubCounter{rwi: 11})
+	mux := muxWithQuery(t, stubCounter{rwi: 11})
 
 	resp := serveQuery(t, mux, queryRequest(yacyproto.ObjectWantedSeeds))
 	if resp.Response != yacyproto.QueryResponseRejected {
@@ -117,7 +119,7 @@ func TestQueryRejectsUnsupportedObject(t *testing.T) {
 }
 
 func TestQueryRejectsWrongTarget(t *testing.T) {
-	mux := muxWithQuery(stubCounter{rwi: 11})
+	mux := muxWithQuery(t, stubCounter{rwi: 11})
 
 	req := queryRequest(yacyproto.ObjectRWICount)
 	req.YouAre = yacymodel.WordHash("other")
@@ -129,7 +131,7 @@ func TestQueryRejectsWrongTarget(t *testing.T) {
 }
 
 func TestQueryFailsOnCountError(t *testing.T) {
-	mux := muxWithQuery(stubCounter{err: errors.New("boom")})
+	mux := muxWithQuery(t, stubCounter{err: errors.New("boom")})
 
 	rec := httptest.NewRecorder()
 	httpReq := httptest.NewRequestWithContext(

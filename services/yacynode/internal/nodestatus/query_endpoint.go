@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -23,6 +24,7 @@ var (
 
 type queryEndpoint struct {
 	identity   nodeidentity.Identity
+	vault      *vault.Vault
 	rwi        RWICounter
 	references ReferencedURLCounter
 	urls       URLCounter
@@ -53,17 +55,32 @@ func (e queryEndpoint) Serve(
 }
 
 func (e queryEndpoint) count(ctx context.Context, object yacyproto.QueryObject) (int, bool, error) {
+	var (
+		count     int
+		supported bool
+	)
+	err := e.vault.View(ctx, func(tx *vault.Txn) error {
+		measured, known, err := e.countOf(tx, object)
+		count, supported = measured, known
+
+		return err
+	})
+
+	return count, supported, err
+}
+
+func (e queryEndpoint) countOf(tx *vault.Txn, object yacyproto.QueryObject) (int, bool, error) {
 	switch object {
 	case yacyproto.ObjectRWICount:
-		n, err := e.rwi.RWICount(ctx)
+		n, err := e.rwi.RWICount(tx)
 
 		return n, true, wrapCount(errRWICount, err)
 	case yacyproto.ObjectRWIURLCount:
-		n, err := e.references.ReferencedURLCount(ctx)
+		n, err := e.references.ReferencedURLCount(tx)
 
 		return n, true, wrapCount(errRWIURLCount, err)
 	case yacyproto.ObjectLURLCount:
-		n, err := e.urls.Count(ctx)
+		n, err := e.urls.Count(tx)
 
 		return n, true, wrapCount(errLURLCount, err)
 	default:

@@ -19,8 +19,8 @@ type postingDirectory struct {
 	observers postingObservers
 }
 
-func (d postingDirectory) RWICount(ctx context.Context) (int, error) {
-	return collectionLength(ctx, d.vault, d.postings)
+func (d postingDirectory) RWICount(tx *vault.Txn) (int, error) {
+	return collectionLength(tx, d.postings)
 }
 
 func (d postingDirectory) PostingOf(
@@ -109,22 +109,12 @@ func (d postingDirectory) ScanWord(
 }
 
 func collectionLength[K, V any](
-	ctx context.Context,
-	v *vault.Vault,
+	tx *vault.Txn,
 	collection *vault.Collection[K, V],
 ) (int, error) {
-	var length int
-	err := v.View(ctx, func(tx *vault.Txn) error {
-		measured, err := collection.Len(tx)
-		if err != nil {
-			return fmt.Errorf("read length: %w", err)
-		}
-		length = measured
-
-		return nil
-	})
+	length, err := collection.Len(tx)
 	if err != nil {
-		return 0, fmt.Errorf("collection length: %w", err)
+		return 0, fmt.Errorf("read length: %w", err)
 	}
 
 	return length, nil

@@ -5,6 +5,8 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/matchreport"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
@@ -68,7 +70,7 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 		word1: {postingEntry(word1, "u1", 0), postingEntry(word1, "u2", 0)},
 		word2: {postingEntry(word2, "u2", 0), postingEntry(word2, "u3", 0)},
 	}}
-	results := searchresult.New(
+	results := searchresult.New(openVault(t),
 		index,
 		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2", "u3")},
 		100,
@@ -115,7 +117,7 @@ func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
 			postingEntry(word, "u3", 0),
 		},
 	}}
-	results := searchresult.New(
+	results := searchresult.New(openVault(t),
 		index,
 		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2", "u3")},
 		100,
@@ -153,7 +155,7 @@ func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 		word2: {postingEntry(word2, "uA", 5), postingEntry(word2, "uB", 10)},
 		word3: {postingEntry(word3, "uA", 9), postingEntry(word3, "uB", 20)},
 	}}
-	results := searchresult.New(
+	results := searchresult.New(openVault(t),
 		index,
 		searchtest.URLDirectory{Documents: urlMetadata("uA", "uB")},
 		100,
@@ -173,7 +175,7 @@ func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 }
 
 func TestSearchSurfacesExcludedTermScanFailures(t *testing.T) {
-	results := searchresult.New(
+	results := searchresult.New(openVault(t),
 		searchtest.FailingPostingIndex{Err: errScanBroken},
 		searchtest.URLDirectory{},
 		100,
@@ -190,7 +192,7 @@ func TestSearchSurfacesExcludedTermScanFailures(t *testing.T) {
 }
 
 func TestSearchSurfacesQueryTermScanFailures(t *testing.T) {
-	results := searchresult.New(
+	results := searchresult.New(openVault(t),
 		searchtest.FailingPostingIndex{Err: errScanBroken},
 		searchtest.URLDirectory{},
 		100,
@@ -211,7 +213,12 @@ func TestSearchSurfacesMetadataFailures(t *testing.T) {
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1", 0)},
 	}}
-	results := searchresult.New(index, searchtest.FailingURLDirectory{Err: errDirectoryBroken}, 100)
+	results := searchresult.New(
+		openVault(t),
+		index,
+		searchtest.FailingURLDirectory{Err: errDirectoryBroken},
+		100,
+	)
 
 	_, err := results.ResultFor(
 		context.Background(),
@@ -224,7 +231,7 @@ func TestSearchSurfacesMetadataFailures(t *testing.T) {
 }
 
 func TestSearchSurfacesReportedTermScanFailures(t *testing.T) {
-	results := searchresult.New(
+	results := searchresult.New(openVault(t),
 		searchtest.FailingPostingIndex{Err: errScanBroken},
 		searchtest.URLDirectory{},
 		100,
@@ -253,7 +260,7 @@ func TestSearchReportsRequestedTermsWithoutWantedTerms(t *testing.T) {
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1", 1), postingEntry(word, "u2", 1)},
 	}}
-	results := searchresult.New(index, searchtest.URLDirectory{}, 100)
+	results := searchresult.New(openVault(t), index, searchtest.URLDirectory{}, 100)
 
 	result, err := results.ResultFor(
 		context.Background(),
@@ -287,7 +294,7 @@ func TestSearchReportsRequestedTermsAlongsideWantedTerms(t *testing.T) {
 		word:    {postingEntry(word, "u1", 0), postingEntry(word, "u2", 0)},
 		related: {postingEntry(related, "u2", 0), postingEntry(related, "u3", 0)},
 	}}
-	results := searchresult.New(
+	results := searchresult.New(openVault(t),
 		index,
 		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2")},
 		100,
@@ -339,7 +346,7 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 		word1: {near, german, far},
 		word2: {nearOther, germanOther, farOther},
 	}}
-	results := searchresult.New(
+	results := searchresult.New(openVault(t),
 		index,
 		searchtest.URLDirectory{Documents: urlMetadata("u1", "u2", "u3")},
 		100,
@@ -357,4 +364,16 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 		result.DocumentMetadata[0].Address != addressFor("u1") {
 		t.Fatalf("resources = %v, want only u1", result.DocumentMetadata)
 	}
+}
+
+func openVault(t *testing.T) *vault.Vault {
+	t.Helper()
+
+	v, err := memoryvault.Open(0, nil)
+	if err != nil {
+		t.Fatalf("Open: %v", err)
+	}
+	t.Cleanup(func() { _ = v.Close() })
+
+	return v
 }
