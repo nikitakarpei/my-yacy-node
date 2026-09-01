@@ -25,8 +25,13 @@ type countingHolds struct {
 	released int
 }
 
-func (c *countingHolds) ObserveHeld(postings int)     { c.held += postings }
-func (c *countingHolds) ObserveReleased(postings int) { c.released += postings }
+func (c *countingHolds) ObserveHeld(tx *vault.Txn, postings int) {
+	tx.RunAfterCommit(func() { c.held += postings })
+}
+
+func (c *countingHolds) ObserveReleased(tx *vault.Txn, postings int) {
+	tx.RunAfterCommit(func() { c.released += postings })
+}
 
 type harness struct {
 	vault    *vault.Vault

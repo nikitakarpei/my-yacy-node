@@ -19,8 +19,8 @@ const busyPause = 5 * time.Second
 
 type discardedHolds struct{}
 
-func (discardedHolds) ObserveHeld(int)     {}
-func (discardedHolds) ObserveReleased(int) {}
+func (discardedHolds) ObserveHeld(*vault.Txn, int)     {}
+func (discardedHolds) ObserveReleased(*vault.Txn, int) {}
 
 type recordedRefusals struct {
 	postings map[rwiadmission.RefusalReason]int
