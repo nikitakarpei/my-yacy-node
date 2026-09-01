@@ -1,6 +1,7 @@
 // Package searchresult runs one search pass: it joins the query terms over the
 // posting index, reads the metadata of the most relevant documents, and adds the
-// match report the request asked for.
+// match report the request asked for. The pass reads one snapshot, so the
+// documents it returns are the documents the postings chose.
 package searchresult
 
 import (
@@ -15,9 +16,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/matchreport"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/postingfilter"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/titletopics"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwipostings"
 )
 
 type DocumentDirectory interface {
@@ -28,24 +28,17 @@ type DocumentDirectory interface {
 }
 
 type Results struct {
-	vault              *vault.Vault
-	index              rwipostings.PostingIndex
-	documentDirectory  DocumentDirectory
-	maxPostingsPerTerm int
+	vault             *vault.Vault
+	termPostings      termpostings.TermPostings
+	documentDirectory DocumentDirectory
 }
 
 func New(
 	v *vault.Vault,
-	index rwipostings.PostingIndex,
+	postings termpostings.TermPostings,
 	documents DocumentDirectory,
-	maxPostingsPerTerm int,
 ) Results {
-	return Results{
-		vault:              v,
-		index:              index,
-		documentDirectory:  documents,
-		maxPostingsPerTerm: maxPostingsPerTerm,
-	}
+	return Results{vault: v, termPostings: postings, documentDirectory: documents}
 }
 
 type Result struct {
@@ -67,19 +60,75 @@ func (r Results) ResultFor(
 ) (Result, error) {
 	start := time.Now()
 
-	filter, err := postingfilter.FilterForSearch(ctx, r.index, criteria)
-	if err != nil {
+	var result Result
+	if err := r.vault.View(ctx, func(tx *vault.Txn) error {
+		joined, err := r.joinedTerms(ctx, tx, criteria)
+		if err != nil {
+			return err
+		}
+
+		documentMetadata, err := r.documentDirectory.MetadataByHash(tx, joined.documentHashes)
+		if err != nil {
+			return fmt.Errorf("%w: %w", ErrDocumentDirectory, err)
+		}
+
+		report, err := requestedReport.ReportFor(
+			ctx,
+			tx,
+			r.termPostings,
+			criteria,
+			joined.matchesForQueryTerms,
+		)
+		if err != nil {
+			return err
+		}
+
+		result = Result{
+			DocumentMetadata: documentMetadata,
+			Topics: titletopics.TopicsFromTitles(
+				documentMetadata,
+				criteria.Terms,
+			),
+			TotalDocumentsMatchingEveryTerm:   joined.documentsMatchingEveryTerm,
+			TotalMatchesPerTerm:               report.TotalMatchesPerTerm,
+			PostingsHeldPerTerm:               postingsHeldPerTermFrom(joined.matchesForQueryTerms),
+			DocumentsMatchingEachReportedTerm: report.DocumentsMatchingEachReportedTerm,
+		}
+
+		return nil
+	}); err != nil {
 		return Result{}, err
 	}
-	matchesForQueryTerms, err := termmatch.MatchesFor(
+
+	result.Duration = time.Since(start)
+
+	return result, nil
+}
+
+type joinedTerms struct {
+	matchesForQueryTerms       map[yacymodel.Hash]termpostings.Match
+	documentHashes             []yacymodel.URLHash
+	documentsMatchingEveryTerm int
+}
+
+func (r Results) joinedTerms(
+	ctx context.Context,
+	tx *vault.Txn,
+	criteria searchcriteria.Criteria,
+) (joinedTerms, error) {
+	excludedDocuments, err := r.termPostings.DocumentsContaining(ctx, tx, criteria.ExcludedTerms)
+	if err != nil {
+		return joinedTerms{}, err
+	}
+
+	matchesForQueryTerms, err := r.termPostings.MatchesFor(
 		ctx,
+		tx,
 		criteria.Terms,
-		r.index,
-		filter,
-		r.maxPostingsPerTerm,
+		postingfilter.FilterForSearch(criteria, excludedDocuments),
 	)
 	if err != nil {
-		return Result{}, err
+		return joinedTerms{}, err
 	}
 
 	matchesAcrossEveryTerm := documentmatch.MatchesAcrossEveryTerm(
@@ -91,61 +140,23 @@ func (r Results) ResultFor(
 		criteria.MaxTermSpread,
 		len(criteria.Terms),
 	)
-	documentHashes := documentmatch.HashesOfMostRelevantDocuments(
-		matchesWithinTermSpread,
-		len(criteria.Terms),
-		criteria.MaxResults,
-	)
-	documentMetadata, err := r.metadataOfDocuments(ctx, documentHashes)
-	if err != nil {
-		return Result{}, fmt.Errorf("%w: %w", ErrDocumentDirectory, err)
-	}
 
-	report, err := requestedReport.ReportFor(
-		ctx,
-		r.index,
-		r.maxPostingsPerTerm,
-		criteria,
-		matchesForQueryTerms,
-	)
-	if err != nil {
-		return Result{}, err
-	}
-
-	return Result{
-		DocumentMetadata: documentMetadata,
-		Topics: titletopics.TopicsFromTitles(
-			documentMetadata,
-			criteria.Terms,
+	return joinedTerms{
+		matchesForQueryTerms: matchesForQueryTerms,
+		documentHashes: documentmatch.HashesOfMostRelevantDocuments(
+			matchesWithinTermSpread,
+			len(criteria.Terms),
+			criteria.MaxResults,
 		),
-		TotalDocumentsMatchingEveryTerm:   len(matchesWithinTermSpread),
-		Duration:                          time.Since(start),
-		TotalMatchesPerTerm:               report.TotalMatchesPerTerm,
-		PostingsHeldPerTerm:               postingsHeldPerTermFrom(matchesForQueryTerms),
-		DocumentsMatchingEachReportedTerm: report.DocumentsMatchingEachReportedTerm,
+		documentsMatchingEveryTerm: len(matchesWithinTermSpread),
 	}, nil
 }
 
-func postingsHeldPerTermFrom(matches map[yacymodel.Hash]termmatch.Match) map[yacymodel.Hash]int {
+func postingsHeldPerTermFrom(matches map[yacymodel.Hash]termpostings.Match) map[yacymodel.Hash]int {
 	held := make(map[yacymodel.Hash]int, len(matches))
 	for term, match := range matches {
 		held[term] = match.PostingsHeld
 	}
 
 	return held
-}
-
-func (r Results) metadataOfDocuments(
-	ctx context.Context,
-	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLMetadata, error) {
-	var metadata []yacymodel.URLMetadata
-	err := r.vault.View(ctx, func(tx *vault.Txn) error {
-		stored, err := r.documentDirectory.MetadataByHash(tx, hashes)
-		metadata = stored
-
-		return err
-	})
-
-	return metadata, err
 }

@@ -261,7 +261,7 @@ func (f *fakePostingIndex) PurgePosting(
 }
 
 func (f *fakePostingIndex) PostingOf(
-	_ context.Context,
+	_ *vault.Txn,
 	word yacymodel.Hash,
 	url yacymodel.URLHash,
 ) (yacymodel.RWIPosting, bool, error) {
@@ -275,6 +275,7 @@ func (f *fakePostingIndex) PostingOf(
 
 func (f *fakePostingIndex) ScanWord(
 	context.Context,
+	*vault.Txn,
 	yacymodel.Hash,
 	func(yacymodel.RWIPosting) (bool, error),
 ) error {

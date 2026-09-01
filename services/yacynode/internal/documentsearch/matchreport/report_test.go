@@ -5,29 +5,31 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/matchreport"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/postingfilter"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termmatch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 )
 
-func matchOf(urls ...string) termmatch.Match {
-	byDocument := make(map[yacymodel.URLHash]termmatch.Posting, len(urls))
+func matchOf(urls ...string) termpostings.Match {
+	byDocument := make(map[yacymodel.URLHash]termpostings.Posting, len(urls))
 	for _, url := range urls {
-		byDocument[searchtest.URLHashFor(url)] = termmatch.Posting{
+		byDocument[searchtest.URLHashFor(url)] = termpostings.Posting{
 			DocumentHash: searchtest.URLHashFor(url),
 		}
 	}
 
-	return termmatch.Match{PostingPerDocument: byDocument, TotalMatches: len(urls)}
+	return termpostings.Match{PostingPerDocument: byDocument, TotalMatches: len(urls)}
 }
 
 func TestReportForNoMatchesStaysEmpty(t *testing.T) {
 	report, err := matchreport.RequestedReport{Mode: matchreport.NoMatches}.ReportFor(
 		context.Background(),
-		searchtest.PostingIndex{},
-		100,
+		nil,
+		stubTermMatches{},
 		searchcriteria.Criteria{},
 		nil,
 	)
@@ -41,15 +43,15 @@ func TestReportForNoMatchesStaysEmpty(t *testing.T) {
 
 func TestReportForTermWithMostMatchesNamesTheWidestTerm(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
-	matches := map[yacymodel.Hash]termmatch.Match{
+	matches := map[yacymodel.Hash]termpostings.Match{
 		word1: matchOf("u1", "u2"),
 		word2: matchOf("u2"),
 	}
 
 	report, err := matchreport.RequestedReport{Mode: matchreport.TermWithMostMatches}.ReportFor(
 		context.Background(),
-		searchtest.PostingIndex{},
-		100,
+		nil,
+		stubTermMatches{},
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{word1, word2}},
 		matches,
 	)
@@ -72,10 +74,10 @@ func TestReportForTermWithMostMatchesCountsOnlyOnSingleTerm(t *testing.T) {
 
 	report, err := matchreport.RequestedReport{Mode: matchreport.TermWithMostMatches}.ReportFor(
 		context.Background(),
-		searchtest.PostingIndex{},
-		100,
+		nil,
+		stubTermMatches{},
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{word}},
-		map[yacymodel.Hash]termmatch.Match{word: matchOf("u1")},
+		map[yacymodel.Hash]termpostings.Match{word: matchOf("u1")},
 	)
 	if err != nil {
 		t.Fatalf("ReportFor: %v", err)
@@ -90,13 +92,13 @@ func TestReportForTermWithMostMatchesCountsOnlyWithRequiredDocuments(t *testing.
 
 	report, err := matchreport.RequestedReport{Mode: matchreport.TermWithMostMatches}.ReportFor(
 		context.Background(),
-		searchtest.PostingIndex{},
-		100,
+		nil,
+		stubTermMatches{},
 		searchcriteria.Criteria{
 			Terms:             []yacymodel.Hash{word1, word2},
 			RequiredDocuments: []yacymodel.URLHash{searchtest.URLHashFor("u1")},
 		},
-		map[yacymodel.Hash]termmatch.Match{
+		map[yacymodel.Hash]termpostings.Match{
 			word1: matchOf("u1", "u2"),
 			word2: matchOf("u2"),
 		},
@@ -117,10 +119,10 @@ func TestReportForTermWithMostMatchesBreaksTiesBySmallerTerm(t *testing.T) {
 
 	report, err := matchreport.RequestedReport{Mode: matchreport.TermWithMostMatches}.ReportFor(
 		context.Background(),
-		searchtest.PostingIndex{},
-		100,
+		nil,
+		stubTermMatches{},
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{word1, word2}},
-		map[yacymodel.Hash]termmatch.Match{
+		map[yacymodel.Hash]termpostings.Match{
 			word1: matchOf("u1"),
 			word2: matchOf("u2"),
 		},
@@ -147,8 +149,8 @@ func TestReportForTermWithMostMatchesCountsOnlyWithoutMatches(t *testing.T) {
 
 	report, err := matchreport.RequestedReport{Mode: matchreport.TermWithMostMatches}.ReportFor(
 		context.Background(),
-		searchtest.PostingIndex{},
-		100,
+		nil,
+		stubTermMatches{},
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{word1, word2}},
 		nil,
 	)
@@ -165,11 +167,8 @@ func TestReportForTermWithMostMatchesCountsOnlyWithoutMatches(t *testing.T) {
 
 func TestReportForRequestedTermsScansThoseTerms(t *testing.T) {
 	word, related := searchtest.HashFor("w1"), searchtest.HashFor("w2")
-	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
-		related: {
-			{URLHash: searchtest.URLHashFor("u2"), Hits: 1},
-			{URLHash: searchtest.URLHashFor("u3"), Hits: 1},
-		},
+	reportedMatches := stubTermMatches{matchPerTerm: map[yacymodel.Hash]termpostings.Match{
+		related: matchOf("u2", "u3"),
 	}}
 
 	report, err := matchreport.RequestedReport{
@@ -177,10 +176,10 @@ func TestReportForRequestedTermsScansThoseTerms(t *testing.T) {
 		Terms: []yacymodel.Hash{related},
 	}.ReportFor(
 		context.Background(),
-		index,
-		100,
+		nil,
+		reportedMatches,
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{word}},
-		map[yacymodel.Hash]termmatch.Match{word: matchOf("u1")},
+		map[yacymodel.Hash]termpostings.Match{word: matchOf("u1")},
 	)
 	if err != nil {
 		t.Fatalf("ReportFor: %v", err)
@@ -202,8 +201,8 @@ func TestReportForRequestedTermsSurfacesScanFailures(t *testing.T) {
 		Terms: []yacymodel.Hash{searchtest.HashFor("w2")},
 	}.ReportFor(
 		context.Background(),
-		searchtest.FailingPostingIndex{Err: errScanBroken},
-		100,
+		nil,
+		stubTermMatches{err: errScanBroken},
 		searchcriteria.Criteria{},
 		nil,
 	)
@@ -216,8 +215,8 @@ var errScanBroken = errors.New("scan broken")
 
 func TestReportForRequestedTermsCountsThemWithoutQueryTerms(t *testing.T) {
 	related := searchtest.HashFor("w2")
-	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
-		related: {{URLHash: searchtest.URLHashFor("u2"), Hits: 1}},
+	reportedMatches := stubTermMatches{matchPerTerm: map[yacymodel.Hash]termpostings.Match{
+		related: matchOf("u2"),
 	}}
 
 	report, err := matchreport.RequestedReport{
@@ -225,8 +224,8 @@ func TestReportForRequestedTermsCountsThemWithoutQueryTerms(t *testing.T) {
 		Terms: []yacymodel.Hash{related},
 	}.ReportFor(
 		context.Background(),
-		index,
-		100,
+		nil,
+		reportedMatches,
 		searchcriteria.Criteria{},
 		nil,
 	)
@@ -236,4 +235,27 @@ func TestReportForRequestedTermsCountsThemWithoutQueryTerms(t *testing.T) {
 	if report.TotalMatchesPerTerm[related] != 1 {
 		t.Errorf("TotalMatchesPerTerm[w2] = %d, want 1", report.TotalMatchesPerTerm[related])
 	}
+}
+
+type stubTermMatches struct {
+	matchPerTerm map[yacymodel.Hash]termpostings.Match
+	err          error
+}
+
+func (s stubTermMatches) MatchesFor(
+	_ context.Context,
+	_ *vault.Txn,
+	terms []yacymodel.Hash,
+	_ postingfilter.Filter,
+) (map[yacymodel.Hash]termpostings.Match, error) {
+	if s.err != nil {
+		return nil, s.err
+	}
+
+	matches := make(map[yacymodel.Hash]termpostings.Match, len(terms))
+	for _, term := range terms {
+		matches[term] = s.matchPerTerm[term]
+	}
+
+	return matches, nil
 }
