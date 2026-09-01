@@ -35,7 +35,7 @@
     {
       "id": 2,
       "title": "Known peers",
-      "description": "This panel shows the peers the node currently has in its roster, reachable or not.",
+      "description": "Peers in the roster, reachable or not.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -81,7 +81,7 @@
     {
       "id": 3,
       "title": "Reachable peers",
-      "description": "This panel shows the known peers that the node can reach. The node has confirmed each one.",
+      "description": "Known peers the node can reach.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -130,8 +130,7 @@
     },
     {
       "id": 4,
-      "title": "Vault used",
-      "description": "This panel shows the vault space used as a fraction of the quota.",
+      "title": "Share of vault quota used",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -186,8 +185,7 @@
     },
     {
       "id": 5,
-      "title": "Failed request share (5m)",
-      "description": "This panel shows the percent of HTTP responses with a 5xx status. It covers the last 5 minutes.",
+      "title": "Share of requests answered 5xx (5m)",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -255,7 +253,6 @@
     {
       "id": 11,
       "title": "Request rate by endpoint",
-      "description": "This panel shows the requests per second for each endpoint.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -290,8 +287,7 @@
     },
     {
       "id": 12,
-      "title": "Failed request rate by endpoint",
-      "description": "This panel shows the 5xx responses per second for each endpoint.",
+      "title": "5xx response rate by endpoint",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -330,8 +326,7 @@
     },
     {
       "id": 13,
-      "title": "Request latency across endpoints",
-      "description": "This panel shows the p50, p95, and p99 request duration for all endpoints together.",
+      "title": "Request latency across endpoints (p50/p95/p99)",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -460,12 +455,12 @@
           "legendFormat": "quota"
         }
       ],
-      "description": "This panel shows the vault space used against the configured quota. A gap in the used series means the reading was unavailable, not that the vault was empty."
+      "description": "A gap in the used series means the reading was unavailable."
     },
     {
       "id": 22,
       "title": "Discarded writes",
-      "description": "This panel shows the writes the node discarded, and who is answerable for each. Any band means the node lost a write.",
+      "description": "Any band means the node lost a write.",
       "type": "state-timeline",
       "datasource": {
         "type": "prometheus",
@@ -533,7 +528,7 @@
     {
       "id": 23,
       "title": "Write transaction rate",
-      "description": "This panel shows the write transactions that open per second. A write refused before the transaction opened is absent here. Discarded writes reports it.",
+      "description": "Counts only transactions that opened.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -568,8 +563,7 @@
     },
     {
       "id": 29,
-      "title": "Write transactions that wrote nothing",
-      "description": "This panel shows the share of committed write transactions in which the caller called no store or delete operation.",
+      "title": "Share of committed writes that wrote nothing",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -607,7 +601,6 @@
     {
       "id": 26,
       "title": "Reads in flight",
-      "description": "This panel shows the reads open through the vault.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -644,7 +637,7 @@
     {
       "id": 24,
       "title": "Write begin latency (p50/p95/p99)",
-      "description": "This panel shows the time to begin a write transaction. A rising p50 is sustained contention. A flat p50 under a rising p99 is an occasional pile-up.",
+      "description": "A rising p50 is sustained contention. A flat p50 under a rising p99 is an occasional pile-up.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -691,7 +684,7 @@
     {
       "id": 27,
       "title": "Write execute latency (p50/p95/p99)",
-      "description": "This panel shows the time a module spends reading and writing inside the transaction.",
+      "description": "Time spent inside the transaction.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -738,7 +731,7 @@
     {
       "id": 28,
       "title": "Write commit latency (p50/p95/p99)",
-      "description": "This panel shows the time to commit a write transaction. A rolled-back transaction is absent here.",
+      "description": "A rolled-back transaction is absent here.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -785,7 +778,6 @@
     {
       "id": 25,
       "title": "Entries, by collection",
-      "description": "This panel shows the entries each collection holds.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -833,7 +825,6 @@
     {
       "id": 31,
       "title": "Eviction throughput",
-      "description": "This panel shows the URLs and postings that storage eviction purges per second.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -874,7 +865,6 @@
     {
       "id": 32,
       "title": "Eviction failures",
-      "description": "This panel shows when eviction sweeps end in error.",
       "type": "state-timeline",
       "datasource": {
         "type": "prometheus",
@@ -997,7 +987,6 @@
     {
       "id": 74,
       "title": "Ring fraction from a posting to the peer that accepted its replica (p50/p95)",
-      "description": "This panel shows how far around the ring accepted replicas land from the DHT position of the posting.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1093,7 +1082,7 @@
     {
       "id": 71,
       "title": "Peers accepting remote index, by ring sector",
-      "description": "This panel shows the DHT ring unrolled: each row is one sector of the keyspace, and a red cell means the sector has no peer to offer postings to.",
+      "description": "The DHT ring unrolled: each row is one sector of the keyspace.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -1165,8 +1154,7 @@
     },
     {
       "id": 59,
-      "title": "Distribution cycles skipped",
-      "description": "This panel shows the distribution cycles that ran no batch, by reason.",
+      "title": "Distribution cycles skipped, by reason",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1202,8 +1190,7 @@
     },
     {
       "id": 85,
-      "title": "Distribution batches aborted",
-      "description": "This panel shows the distribution batches aborted before their postings were rescheduled, by reason.",
+      "title": "Distribution batches aborted, by reason",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1239,8 +1226,7 @@
     },
     {
       "id": 52,
-      "title": "Posting offer acceptance rate",
-      "description": "This panel shows the share of posting offers that peers accept.",
+      "title": "Share of posting offers peers accepted",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1277,8 +1263,7 @@
     },
     {
       "id": 56,
-      "title": "Longest offer lateness",
-      "description": "This panel shows how far past its scheduled time the most overdue posting offer is.",
+      "title": "Lateness of the most overdue posting offer",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1314,7 +1299,6 @@
     {
       "id": 51,
       "title": "Posting offers sent, by outcome",
-      "description": "This panel shows posting offers sent to peers, grouped by outcome.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1444,7 +1428,6 @@
     {
       "id": 53,
       "title": "Postings offered, by outcome",
-      "description": "This panel shows postings sent to peers per second, grouped by the outcome of the offer that carried them.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1574,7 +1557,6 @@
     {
       "id": 54,
       "title": "URL metadata deliveries sent, by outcome",
-      "description": "This panel shows URL metadata delivery requests sent to peers, grouped by outcome.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1674,7 +1656,6 @@
     {
       "id": 55,
       "title": "URLs delivered as metadata, by outcome",
-      "description": "This panel shows URLs delivered to peers as metadata per second, grouped by the outcome of the delivery that carried them.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1774,7 +1755,7 @@
     {
       "id": 58,
       "title": "Replicas dropped from peers",
-      "description": "This panel shows replicas dropped because closer peers displaced the holder, or the holder stayed uncontacted past the credibility window.",
+      "description": "A replica the node no longer counts as held by that peer.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1810,8 +1791,7 @@
     },
     {
       "id": 69,
-      "title": "Postings handed off to closer peers",
-      "description": "This panel shows postings deleted after peers closer to their DHT position accepted them.",
+      "title": "Postings deleted after closer peers accepted them",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1847,8 +1827,7 @@
     },
     {
       "id": 57,
-      "title": "Postings evicted mid-cycle",
-      "description": "This panel shows due postings that left the index before the cycle could read them for offering.",
+      "title": "Due postings that left the index mid-cycle",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1885,7 +1864,6 @@
     {
       "id": 86,
       "title": "URLs a peer asked for that this node does not hold",
-      "description": "This panel shows URLs a peer asked for after a posting offer whose metadata this node does not hold, so no delivery carried them.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1935,7 +1913,6 @@
     {
       "id": 65,
       "title": "Inbound postings refused, by reason",
-      "description": "This panel shows the inbound postings the node refused, grouped by the reason it refused them. The node refuses a whole transfer and reports that it is busy.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1949,7 +1926,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "cps",
+          "unit": "short",
           "custom": {
             "drawStyle": "line",
             "fillOpacity": 10,
@@ -1965,15 +1942,14 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(rwiadmission_postings_refused_total[$__rate_interval])",
+          "expr": "sum by (reason) (increase(rwiadmission_postings_refused_total[$__rate_interval]))",
           "legendFormat": "{{reason}}"
         }
       ]
     },
     {
       "id": 64,
-      "title": "Posting escrow occupancy",
-      "description": "This panel shows the held postings as a fraction of the configured escrow capacity. At 100 percent the node refuses inbound transfers until held postings expire.",
+      "title": "Share of escrow capacity held",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2033,8 +2009,7 @@
     },
     {
       "id": 63,
-      "title": "Held postings never claimed",
-      "description": "This panel shows the share of held postings dropped because their URL metadata never arrived.",
+      "title": "Share of held postings never claimed",
       "type": "state-timeline",
       "datasource": {
         "type": "prometheus",
@@ -2098,7 +2073,6 @@
     {
       "id": 61,
       "title": "Posting escrow throughput",
-      "description": "This panel shows the inbound postings held for their URL metadata, released into the index when it arrives, and dropped when it never does.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2146,7 +2120,6 @@
     {
       "id": 62,
       "title": "Posting escrow expiry failures",
-      "description": "This panel shows when held posting expiry runs end in error.",
       "type": "state-timeline",
       "datasource": {
         "type": "prometheus",
@@ -2215,8 +2188,7 @@
     },
     {
       "id": 81,
-      "title": "Searches answered, by outcome",
-      "description": "This panel shows remote peer searches answered, grouped by outcome.",
+      "title": "Searches answered for peers, by outcome",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2361,7 +2333,6 @@
     {
       "id": 82,
       "title": "Ring fraction from this node to requested terms (p50/p95)",
-      "description": "This panel shows how far around the ring requested terms sit from this node, split by whether the index holds them.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2414,7 +2385,6 @@
     {
       "id": 84,
       "title": "Unsupported options requested",
-      "description": "This panel shows search options peers requested that the node does not implement.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
