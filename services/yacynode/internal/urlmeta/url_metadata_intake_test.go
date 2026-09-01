@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
@@ -24,9 +25,12 @@ type urlPorts struct {
 func openModule(t *testing.T, quotaBytes int64) (*vault.Vault, urlPorts) {
 	t.Helper()
 
-	v, err := memoryvault.Open(quotaBytes, nil)
+	v, err := vault.New(
+		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(quotaBytes)),
+		nil,
+	)
 	if err != nil {
-		t.Fatalf("Open: %v", err)
+		t.Fatalf("vault.New: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {

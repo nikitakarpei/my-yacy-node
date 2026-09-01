@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
+	"github.com/nikitakarpei/yacy-rwi-node/vault/vaultenginetest"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwidistribution/distributioncycle"
@@ -232,9 +233,12 @@ func openCycleVault(
 ) {
 	t.Helper()
 
-	v, err := memoryvault.Open(0, nil)
+	v, err := vault.New(
+		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
+		nil,
+	)
 	if err != nil {
-		t.Fatalf("memoryvault.Open: %v", err)
+		t.Fatalf("vault.New: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := v.Close(); err != nil {
@@ -271,7 +275,7 @@ func (f *fakePostingIndex) PurgePosting(
 	if _, found := f.postings[key]; !found {
 		return false, nil
 	}
-	delete(f.postings, key)
+	tx.RunAfterCommit(func() { delete(f.postings, key) })
 
 	return true, f.purged(tx, word, url)
 }
