@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 
 	bolt "go.etcd.io/bbolt"
 
@@ -22,12 +23,20 @@ type engine struct {
 	quotaBytes int64
 }
 
+// WriteBatch is how many write transactions the database merges into one commit
+// and how long it waits to fill a merge. A zero field keeps the bbolt default.
+type WriteBatch struct {
+	MaximumWrites int
+	MaximumDelay  time.Duration
+}
+
 func Open(
 	path string,
 	quotaBytes int64,
+	writeBatch WriteBatch,
 	observer vault.TransactionObserver,
 ) (*vault.Vault, error) {
-	opened, err := OpenEngine(path, quotaBytes)
+	opened, err := OpenEngine(path, quotaBytes, writeBatch)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +53,7 @@ func Open(
 	return vaulted, nil
 }
 
-func OpenEngine(path string, quotaBytes int64) (vault.Engine, error) {
+func OpenEngine(path string, quotaBytes int64, writeBatch WriteBatch) (vault.Engine, error) {
 	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
 		return nil, fmt.Errorf("create storage directory: %w", err)
 	}
@@ -53,6 +62,7 @@ func OpenEngine(path string, quotaBytes int64) (vault.Engine, error) {
 	if err != nil {
 		return nil, fmt.Errorf("open storage: %w", err)
 	}
+	applyWriteBatch(db, writeBatch)
 
 	opened := &engine{db: db, quotaBytes: quotaBytes}
 	if err := opened.createBucket(lengthBucket); err != nil {
@@ -60,6 +70,15 @@ func OpenEngine(path string, quotaBytes int64) (vault.Engine, error) {
 	}
 
 	return opened, nil
+}
+
+func applyWriteBatch(db *bolt.DB, writeBatch WriteBatch) {
+	if writeBatch.MaximumWrites > 0 {
+		db.MaxBatchSize = writeBatch.MaximumWrites
+	}
+	if writeBatch.MaximumDelay > 0 {
+		db.MaxBatchDelay = writeBatch.MaximumDelay
+	}
 }
 
 func closedAfter(db *bolt.DB, err error) error {
@@ -95,7 +114,7 @@ func (e *engine) createBucket(name vault.Name) error {
 }
 
 func (e *engine) Update(_ context.Context, fn func(vault.EngineTxn) error) error {
-	if err := e.db.Update(func(tx *bolt.Tx) error {
+	if err := e.db.Batch(func(tx *bolt.Tx) error {
 		return fn(boltTxn{tx: tx, writable: true})
 	}); err != nil {
 		if cause, atCapacity := capacityCauseOf(err); atCapacity {
