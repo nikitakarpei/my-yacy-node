@@ -65,27 +65,44 @@ func (c *tickingClock) Now() time.Time {
 
 const defaultAnnounceInterval = 10 * time.Minute
 
-func openRoster(
-	t *testing.T,
-	reservoirCap, reachableCap int,
-	announceInterval time.Duration,
-) peerroster.Roster {
-	t.Helper()
+const defaultClockStart = 1_000
 
-	clockStart := time.Unix(1_000, 0)
-
-	return openRosterClockedFrom(t, clockStart, reservoirCap, reachableCap, announceInterval)
+type rosterFixture struct {
+	storage          *vault.Vault
+	reservoirCap     int
+	reachableCap     int
+	announceInterval time.Duration
+	clockStart       time.Time
+	observer         peerroster.RosterObserver
 }
 
-func openRosterClockedFrom(
-	t *testing.T,
-	clockStart time.Time,
-	reservoirCap, reachableCap int,
-	announceInterval time.Duration,
-) peerroster.Roster {
+func openRoster(t *testing.T, fixture rosterFixture) peerroster.Roster {
 	t.Helper()
 
-	v, err := vault.New(
+	roster, err := peerroster.Open(
+		fixture.openStorage(t),
+		fixture.clock(),
+		fixture.reservoirCap,
+		fixture.reachableCap,
+		fixture.announcementInterval(),
+		selfHash(),
+		fixture.rosterObserver(),
+	)
+	if err != nil {
+		t.Fatalf("peerroster.Open: %v", err)
+	}
+
+	return roster
+}
+
+func (f rosterFixture) openStorage(t *testing.T) *vault.Vault {
+	t.Helper()
+
+	if f.storage != nil {
+		return f.storage
+	}
+
+	storage, err := vault.New(
 		vaultenginetest.EngineRepeatingWrites(memoryvault.OpenEngine(0)),
 		nil,
 	)
@@ -93,21 +110,38 @@ func openRosterClockedFrom(
 		t.Fatalf("vault.New: %v", err)
 	}
 	t.Cleanup(func() {
-		if err := v.Close(); err != nil {
+		if err := storage.Close(); err != nil {
 			t.Fatalf("Close: %v", err)
 		}
 	})
 
-	clock := &tickingClock{now: clockStart}
-	roster, err := peerroster.Open(
-		v, clock.Now, reservoirCap, reachableCap, announceInterval, selfHash(),
-		peerroster.DiscardObserver,
-	)
-	if err != nil {
-		t.Fatalf("peerroster.Open: %v", err)
+	return storage
+}
+
+func (f rosterFixture) clock() func() time.Time {
+	start := f.clockStart
+	if start.IsZero() {
+		start = time.Unix(defaultClockStart, 0)
+	}
+	clock := &tickingClock{now: start}
+
+	return clock.Now
+}
+
+func (f rosterFixture) announcementInterval() time.Duration {
+	if f.announceInterval == 0 {
+		return defaultAnnounceInterval
 	}
 
-	return roster
+	return f.announceInterval
+}
+
+func (f rosterFixture) rosterObserver() peerroster.RosterObserver {
+	if f.observer == nil {
+		return peerroster.DiscardObserver
+	}
+
+	return f.observer
 }
 
 func hashes(seeds []yacymodel.Seed) map[yacymodel.Hash]struct{} {

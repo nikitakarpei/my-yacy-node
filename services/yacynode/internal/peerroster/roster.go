@@ -148,6 +148,13 @@ func (r *roster) peerCount(tx *vault.Txn) (int, error) {
 	return count, nil
 }
 
+func (r *roster) reachablePeerCount() int {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	return len(r.reachable)
+}
+
 func (r *roster) reachableKeys() map[yacymodel.Hash]struct{} {
 	r.mu.Lock()
 	defer r.mu.Unlock()
@@ -261,6 +268,7 @@ func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
 	}
 
 	r.observer.ObserveKnownPeers(known)
+	r.observer.ObserveReachablePeers(r.reachablePeerCount())
 }
 
 func (r *roster) recordReachable(
@@ -315,6 +323,8 @@ func (r *roster) ConfirmUnreachable(ctx context.Context, peer yacymodel.Hash) {
 			slog.Any("error", err),
 		)
 	}
+
+	r.observer.ObserveReachablePeers(r.reachablePeerCount())
 }
 
 func (r *roster) recordUnreachable(tx *vault.Txn, peer yacymodel.Hash) error {
