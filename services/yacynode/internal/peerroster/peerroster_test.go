@@ -65,6 +65,8 @@ func (c *tickingClock) Now() time.Time {
 
 const defaultAnnounceInterval = 10 * time.Minute
 
+const defaultClockStart = 1_000
+
 func openRoster(
 	t *testing.T,
 	reservoirCap, reachableCap int,
@@ -72,9 +74,9 @@ func openRoster(
 ) peerroster.Roster {
 	t.Helper()
 
-	clockStart := time.Unix(1_000, 0)
-
-	return openRosterClockedFrom(t, clockStart, reservoirCap, reachableCap, announceInterval)
+	return openRosterClockedFrom(
+		t, time.Unix(defaultClockStart, 0), reservoirCap, reachableCap, announceInterval,
+	)
 }
 
 func openRosterClockedFrom(
@@ -83,6 +85,43 @@ func openRosterClockedFrom(
 	reservoirCap, reachableCap int,
 	announceInterval time.Duration,
 ) peerroster.Roster {
+	t.Helper()
+
+	return rosterFixture{
+		clockStart:       clockStart,
+		reservoirCap:     reservoirCap,
+		reachableCap:     reachableCap,
+		announceInterval: announceInterval,
+		observer:         peerroster.DiscardObserver,
+	}.open(t)
+}
+
+func openRosterObservedBy(
+	t *testing.T,
+	observer peerroster.RosterObserver,
+	reservoirCap, reachableCap int,
+	announceInterval time.Duration,
+) peerroster.Roster {
+	t.Helper()
+
+	return rosterFixture{
+		clockStart:       time.Unix(defaultClockStart, 0),
+		reservoirCap:     reservoirCap,
+		reachableCap:     reachableCap,
+		announceInterval: announceInterval,
+		observer:         observer,
+	}.open(t)
+}
+
+type rosterFixture struct {
+	clockStart       time.Time
+	reservoirCap     int
+	reachableCap     int
+	announceInterval time.Duration
+	observer         peerroster.RosterObserver
+}
+
+func (f rosterFixture) open(t *testing.T) peerroster.Roster {
 	t.Helper()
 
 	v, err := vault.New(
@@ -98,10 +137,10 @@ func openRosterClockedFrom(
 		}
 	})
 
-	clock := &tickingClock{now: clockStart}
+	clock := &tickingClock{now: f.clockStart}
 	roster, err := peerroster.Open(
-		v, clock.Now, reservoirCap, reachableCap, announceInterval, selfHash(),
-		peerroster.DiscardObserver,
+		v, clock.Now, f.reservoirCap, f.reachableCap, f.announceInterval, selfHash(),
+		f.observer,
 	)
 	if err != nil {
 		t.Fatalf("peerroster.Open: %v", err)
