@@ -18,7 +18,7 @@ const (
 	DefaultBBoltWriteBatchMaximumWrites = 1000
 	DefaultBBoltWriteBatchMaximumDelay  = 10 * time.Millisecond
 
-	StorageFileName = "yacy-rwipostings.db"
+	StorageFileName = "node.db"
 )
 
 type StorageConfig struct {
