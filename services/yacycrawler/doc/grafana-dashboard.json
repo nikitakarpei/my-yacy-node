@@ -34,8 +34,7 @@
     },
     {
       "id": 3,
-      "title": "Order failure share (5m)",
-      "description": "This panel shows the percent of received orders that failed in the same time window.",
+      "title": "Share of received orders returned",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -83,7 +82,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacycrawler_orders_returned_total[5m])) / sum(rate(yacycrawler_orders_received_total[5m]))"
+          "expr": "sum(increase(yacycrawler_orders_returned_total[$__range])) / sum(increase(yacycrawler_orders_received_total[$__range]))"
         }
       ]
     },
@@ -146,8 +145,7 @@
     },
     {
       "id": 11,
-      "title": "Order throughput",
-      "description": "This panel counts receipts, acceptances, and returns as separate events.",
+      "title": "Orders received, accepted, and returned",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -161,9 +159,11 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "ops",
+          "unit": "short",
           "custom": {
-            "fillOpacity": 10
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
           }
         },
         "overrides": [
@@ -192,17 +192,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacycrawler_orders_received_total[$__rate_interval]))",
+          "expr": "sum(increase(yacycrawler_orders_received_total[$__rate_interval]))",
           "legendFormat": "received"
         },
         {
           "refId": "B",
-          "expr": "sum(rate(yacycrawler_orders_accepted_total[$__rate_interval]))",
+          "expr": "sum(increase(yacycrawler_orders_accepted_total[$__rate_interval]))",
           "legendFormat": "accepted"
         },
         {
           "refId": "C",
-          "expr": "sum(rate(yacycrawler_orders_returned_total[$__rate_interval]))",
+          "expr": "sum(increase(yacycrawler_orders_returned_total[$__rate_interval]))",
           "legendFormat": "returned"
         }
       ]
@@ -222,7 +222,6 @@
     {
       "id": 21,
       "title": "Pages fetched",
-      "description": "This panel counts fetches that return a page body.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -238,7 +237,9 @@
         "defaults": {
           "unit": "cps",
           "custom": {
-            "fillOpacity": 10
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
           }
         }
       },
@@ -257,8 +258,7 @@
     },
     {
       "id": 22,
-      "title": "Fetch latency",
-      "description": "This panel shows the p50, p95, and p99 duration of each fetch attempt. It includes unchanged, refused, and failed responses.",
+      "title": "Fetch attempt latency (p50/p95/p99)",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -274,7 +274,9 @@
         "defaults": {
           "unit": "s",
           "custom": {
-            "fillOpacity": 0
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
           }
         }
       },
@@ -303,8 +305,7 @@
     },
     {
       "id": 23,
-      "title": "Refusals honored by target demand",
-      "description": "A refusal is a demand from the target. Access refusal and indexing refusal abandon the page, and the crawl continues with the rest of the frontier. Link discovery refusal keeps the page but adds no new URL to the frontier. Deferral puts the page back in the frontier for the wait time the target asks for.",
+      "title": "Refusals honored, by target demand",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -318,9 +319,11 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "ops",
+          "unit": "short",
           "custom": {
-            "fillOpacity": 10
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
           }
         }
       },
@@ -332,7 +335,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (demand) (rate(yacycrawler_refusals_honored_total[$__rate_interval]))",
+          "expr": "sum by (demand) (increase(yacycrawler_refusals_honored_total[$__rate_interval]))",
           "legendFormat": "{{demand}}"
         }
       ]
@@ -352,7 +355,6 @@
     {
       "id": 31,
       "title": "Scrape requests published",
-      "description": "This panel counts each scrape request the crawler sends for a fetched page.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -401,8 +403,8 @@
     },
     {
       "id": 32,
-      "title": "Pages disposed by reason",
-      "description": "Disposal is the final outcome for a page that the crawler does not publish. The reasons not-due and host-pages-spent occur before the crawler fetches the page.",
+      "title": "Pages disposed, by reason",
+      "description": "A disposed page is one the crawler ended without publishing.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -416,7 +418,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "cps",
+          "unit": "short",
           "custom": {
             "fillOpacity": 10,
             "drawStyle": "line",
@@ -432,7 +434,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (rate(yacycrawler_pages_disposed_total[$__rate_interval]))",
+          "expr": "sum by (reason) (increase(yacycrawler_pages_disposed_total[$__rate_interval]))",
           "legendFormat": "{{reason}}"
         }
       ]
