@@ -14,7 +14,12 @@ func TestRecentlyReachableOutsideTheNanosecondEpochRange(t *testing.T) {
 		time.Date(2026, time.August, 9, 12, 0, 0, 1, time.UTC),
 		time.Date(3000, time.January, 1, 0, 0, 0, 0, time.UTC),
 	} {
-		roster := openRosterClockedFrom(t, clockStart, 8, 8, time.Minute)
+		roster := openRoster(t, rosterFixture{
+			reservoirCap:     8,
+			reachableCap:     8,
+			announceInterval: time.Minute,
+			clockStart:       clockStart,
+		})
 
 		peer := seniorSeed(t, "peer", "203.0.113.1", 8090)
 		roster.Discover(ctx, peer)

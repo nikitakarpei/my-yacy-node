@@ -3,11 +3,9 @@ package peerroster_test
 import (
 	"path/filepath"
 	"testing"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/peerroster"
 )
 
 func TestRosterRestoresPeerNetworkAddressWithoutRestoringReachability(t *testing.T) {
@@ -15,7 +13,10 @@ func TestRosterRestoresPeerNetworkAddressWithoutRestoringReachability(t *testing
 	peerSeed := seniorSeed(t, "peer", "203.0.113.10", 8090)
 
 	storedVault := openBoltRosterVault(t, databasePath)
-	storedRoster := openRosterOver(t, storedVault)
+	storedRoster := openRoster(
+		t,
+		rosterFixture{storage: storedVault, reservoirCap: 8, reachableCap: 4},
+	)
 	storedRoster.Discover(t.Context(), peerSeed)
 	if err := storedVault.Close(); err != nil {
 		t.Fatalf("Close stored roster: %v", err)
@@ -27,7 +28,10 @@ func TestRosterRestoresPeerNetworkAddressWithoutRestoringReachability(t *testing
 			t.Errorf("Close restored roster: %v", err)
 		}
 	})
-	restoredRoster := openRosterOver(t, restoredVault)
+	restoredRoster := openRoster(
+		t,
+		rosterFixture{storage: restoredVault, reservoirCap: 8, reachableCap: 4},
+	)
 	if got := restoredRoster.ReachablePeers(t.Context()); len(got) != 0 {
 		t.Fatalf("reachable peers after restart = %d, want 0", len(got))
 	}
@@ -54,23 +58,4 @@ func openBoltRosterVault(t testing.TB, databasePath string) *vault.Vault {
 	}
 
 	return storage
-}
-
-func openRosterOver(t testing.TB, storage *vault.Vault) peerroster.Roster {
-	t.Helper()
-
-	roster, err := peerroster.Open(
-		storage,
-		func() time.Time { return time.Unix(2_000, 0).UTC() },
-		8,
-		4,
-		defaultAnnounceInterval,
-		selfHash(),
-		peerroster.DiscardObserver,
-	)
-	if err != nil {
-		t.Fatalf("peerroster.Open: %v", err)
-	}
-
-	return roster
 }
