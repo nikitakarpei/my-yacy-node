@@ -22,8 +22,8 @@ var (
 var ErrEscrowFull = errors.New("escrow holds as many postings as it can")
 
 type HoldObserver interface {
-	ObserveHeld(postings int)
-	ObserveReleased(postings int)
+	ObserveHeld(tx *vault.Txn, postings int)
+	ObserveReleased(tx *vault.Txn, postings int)
 }
 
 type ExpiryObserver interface {
