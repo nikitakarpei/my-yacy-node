@@ -662,10 +662,12 @@ func repeatedWriteSeesTheSameStoredState(t *testing.T, open func(int64) (vault.E
 		t.Fatalf("Update: %v", err)
 	}
 
-	if len(found) != 2 {
-		t.Fatalf("closure runs = %d, want 2", len(found))
+	if len(found) < 2 {
+		t.Fatalf("closure runs = %d, want the repeated write to run it more than once", len(found))
 	}
-	if found[0] || found[1] {
-		t.Fatalf("found = %v, want each run to start from the stored state", found)
+	for run, stored := range found {
+		if stored {
+			t.Fatalf("run %d found a value, want each run to start from the stored state", run)
+		}
 	}
 }

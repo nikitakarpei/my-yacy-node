@@ -39,6 +39,10 @@ func run() error {
 	storage, err := boltvault.Open(
 		config.Storage.Path,
 		config.Storage.QuotaByte,
+		boltvault.WriteBatch{
+			MaximumWrites: config.Storage.BBoltWriteBatchMaximumWrites,
+			MaximumDelay:  config.Storage.BBoltWriteBatchMaximumDelay,
+		},
 		metrics.NewVaultTransactionMetrics(registry),
 	)
 	if err != nil {

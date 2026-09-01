@@ -25,7 +25,11 @@ func (stringValueCodec) Decode(raw []byte) (string, error)   { return string(raw
 func openEngine(t *testing.T) vault.Engine {
 	t.Helper()
 
-	engine, err := boltvault.OpenEngine(filepath.Join(t.TempDir(), "node.db"), 0)
+	engine, err := boltvault.OpenEngine(
+		filepath.Join(t.TempDir(), "node.db"),
+		0,
+		boltvault.WriteBatch{},
+	)
 	if err != nil {
 		t.Fatalf("OpenEngine: %v", err)
 	}
@@ -45,7 +49,7 @@ func TestConformance(t *testing.T) {
 	vaultenginetest.RunConformance(t, func(quotaBytes int64) (vault.Engine, error) {
 		path := filepath.Join(dir, fmt.Sprintf("node-%d.db", seq.Add(1)))
 
-		return boltvault.OpenEngine(path, quotaBytes)
+		return boltvault.OpenEngine(path, quotaBytes, boltvault.WriteBatch{})
 	})
 }
 
@@ -53,7 +57,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 	ctx := context.Background()
 	path := filepath.Join(t.TempDir(), "node.db")
 
-	first, err := boltvault.Open(path, 0, nil)
+	first, err := boltvault.Open(path, 0, boltvault.WriteBatch{}, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -74,7 +78,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 		t.Fatalf("Close: %v", err)
 	}
 
-	reopened, err := boltvault.Open(path, 0, nil)
+	reopened, err := boltvault.Open(path, 0, boltvault.WriteBatch{}, nil)
 	if err != nil {
 		t.Fatalf("reopen: %v", err)
 	}
@@ -113,13 +117,18 @@ func TestOpenRefusesAStoragePathUnderAFile(t *testing.T) {
 		t.Fatalf("WriteFile: %v", err)
 	}
 
-	if _, err := boltvault.Open(filepath.Join(occupied, "node.db"), 0, nil); err == nil {
+	if _, err := boltvault.Open(
+		filepath.Join(occupied, "node.db"),
+		0,
+		boltvault.WriteBatch{},
+		nil,
+	); err == nil {
 		t.Fatal("Open under a file succeeded, want error")
 	}
 }
 
 func TestOpenRefusesAStoragePathThatIsADirectory(t *testing.T) {
-	if _, err := boltvault.OpenEngine(t.TempDir(), 0); err == nil {
+	if _, err := boltvault.OpenEngine(t.TempDir(), 0, boltvault.WriteBatch{}); err == nil {
 		t.Fatal("OpenEngine on a directory succeeded, want error")
 	}
 }
@@ -138,7 +147,12 @@ func TestProvisionRefusesTheReservedLengthCollection(t *testing.T) {
 
 func TestWritesAreNotGatedByQuota(t *testing.T) {
 	ctx := context.Background()
-	store, err := boltvault.Open(filepath.Join(t.TempDir(), "node.db"), 1, nil)
+	store, err := boltvault.Open(
+		filepath.Join(t.TempDir(), "node.db"),
+		1,
+		boltvault.WriteBatch{},
+		nil,
+	)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
