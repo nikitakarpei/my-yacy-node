@@ -67,8 +67,9 @@ const (
 )
 
 const (
-	evictionTargetFraction = 0.9
-	evictionBatchSize      = 256
+	evictionTargetFraction  = 0.9
+	evictionURLsPerBatch    = 256
+	evictionBatchesPerSweep = 64
 )
 
 const searchPostingsPerWord = 1000
@@ -336,7 +337,11 @@ func assembleNode(
 			urlReferences,
 			urlEvictor,
 			urlMetadataStaleness,
-			eviction.Config{TargetFraction: evictionTargetFraction, BatchSize: evictionBatchSize},
+			eviction.Config{
+				TargetFraction:  evictionTargetFraction,
+				URLsPerBatch:    evictionURLsPerBatch,
+				BatchesPerSweep: evictionBatchesPerSweep,
+			},
 		),
 		postingEscrow:         postingEscrow,
 		evictionObserver:      metrics.NewEvictionMetrics(registry),

@@ -3,6 +3,7 @@ package eviction
 import (
 	"context"
 	"fmt"
+	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -12,25 +13,28 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlreferences"
 )
 
+const boundReachedMessage = "storage eviction stopped at its sweep bound"
+
 type quotaSweeper struct {
-	vault      *vault.Vault
-	postings   rwipostings.PostingPurger
-	references urlreferences.ReferenceQuery
-	urls       urlmeta.URLEvictor
-	stale      urlmetastaleness.StaleURLSource
-	target     float64
-	batch      int
+	vault           *vault.Vault
+	postings        rwipostings.PostingPurger
+	references      urlreferences.ReferenceQuery
+	urls            urlmeta.URLEvictor
+	stale           urlmetastaleness.StaleURLSource
+	target          float64
+	urlsPerBatch    int
+	batchesPerSweep int
 }
 
 func (s quotaSweeper) Sweep(ctx context.Context) (Result, error) {
 	quota := s.vault.QuotaBytes()
-	if quota <= 0 || s.batch <= 0 {
+	if quota <= 0 || s.urlsPerBatch <= 0 || s.batchesPerSweep <= 0 {
 		return Result{}, nil
 	}
 	highWater := int64(float64(quota) * s.target)
 
 	var total Result
-	for {
+	for range s.batchesPerSweep {
 		used, err := s.vault.UsedBytes(ctx)
 		if err != nil {
 			return total, fmt.Errorf("measure usage: %w", err)
@@ -39,7 +43,7 @@ func (s quotaSweeper) Sweep(ctx context.Context) (Result, error) {
 			return total, nil
 		}
 
-		candidates, err := s.stale.StalestURLs(ctx, s.batch)
+		candidates, err := s.stale.StalestURLs(ctx, s.urlsPerBatch)
 		if err != nil {
 			return total, fmt.Errorf("select stale urls: %w", err)
 		}
@@ -57,6 +61,13 @@ func (s quotaSweeper) Sweep(ctx context.Context) (Result, error) {
 			return total, nil
 		}
 	}
+
+	slog.WarnContext(ctx, boundReachedMessage,
+		slog.Int("urls", total.URLsDeleted),
+		slog.Int("postings", total.PostingsDeleted),
+	)
+
+	return total, nil
 }
 
 func (s quotaSweeper) purge(ctx context.Context, urls []yacymodel.URLHash) (Result, error) {

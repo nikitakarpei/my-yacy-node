@@ -16,8 +16,9 @@ import (
 )
 
 type Config struct {
-	TargetFraction float64
-	BatchSize      int
+	TargetFraction  float64
+	URLsPerBatch    int
+	BatchesPerSweep int
 }
 
 type Result struct {
@@ -39,12 +40,13 @@ func NewSweeper(
 	cfg Config,
 ) Sweeper {
 	return quotaSweeper{
-		vault:      vault,
-		postings:   postings,
-		references: references,
-		urls:       urls,
-		stale:      stale,
-		target:     cfg.TargetFraction,
-		batch:      cfg.BatchSize,
+		vault:           vault,
+		postings:        postings,
+		references:      references,
+		urls:            urls,
+		stale:           stale,
+		target:          cfg.TargetFraction,
+		urlsPerBatch:    cfg.URLsPerBatch,
+		batchesPerSweep: cfg.BatchesPerSweep,
 	}
 }
