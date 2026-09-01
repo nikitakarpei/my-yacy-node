@@ -62,6 +62,7 @@ func (s quotaSweeper) Sweep(ctx context.Context) (Result, error) {
 func (s quotaSweeper) purge(ctx context.Context, urls []yacymodel.URLHash) (Result, error) {
 	var result Result
 	err := s.vault.Update(ctx, func(tx *vault.Txn) error {
+		var purgedPostings int
 		for _, url := range urls {
 			words, err := s.references.WordsReferencing(tx, url)
 			if err != nil {
@@ -73,7 +74,7 @@ func (s quotaSweeper) purge(ctx context.Context, urls []yacymodel.URLHash) (Resu
 					return fmt.Errorf("purge posting: %w", err)
 				}
 				if deleted {
-					result.PostingsDeleted++
+					purgedPostings++
 				}
 			}
 		}
@@ -82,7 +83,7 @@ func (s quotaSweeper) purge(ctx context.Context, urls []yacymodel.URLHash) (Resu
 		if err != nil {
 			return fmt.Errorf("purge urls: %w", err)
 		}
-		result.URLsDeleted = urlResult.URLsDeleted
+		result = Result{URLsDeleted: urlResult.URLsDeleted, PostingsDeleted: purgedPostings}
 
 		return nil
 	})

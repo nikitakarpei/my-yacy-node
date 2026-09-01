@@ -11,6 +11,8 @@ import (
 	"errors"
 	"fmt"
 	"slices"
+	"strconv"
+	"sync"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
@@ -39,6 +41,18 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, err
 	t.Run("BucketOwnershipIsolation", func(t *testing.T) { bucketOwnershipIsolation(t, open) })
 	t.Run("AtCapacityTracksQuota", func(t *testing.T) { atCapacityTracksQuota(t, open) })
 	t.Run("UsedBytesGrowsWithData", func(t *testing.T) { usedBytesGrowsWithData(t, open) })
+	t.Run(
+		"ConcurrentUpdatesKeepEveryIncrement",
+		func(t *testing.T) { concurrentUpdatesKeepEveryIncrement(t, open) },
+	)
+	t.Run(
+		"RepeatedWriteCommitsOneValue",
+		func(t *testing.T) { repeatedWriteCommitsOneValue(t, open) },
+	)
+	t.Run(
+		"RepeatedWriteSeesTheSameStoredState",
+		func(t *testing.T) { repeatedWriteSeesTheSameStoredState(t, open) },
+	)
 }
 
 func openVault(
@@ -498,5 +512,160 @@ func usedBytesGrowsWithData(t *testing.T, open func(int64) (vault.Engine, error)
 	}
 	if v.QuotaBytes() != 4096 {
 		t.Fatalf("QuotaBytes = %d, want 4096", v.QuotaBytes())
+	}
+}
+
+const (
+	concurrentWriters   = 8
+	incrementsPerWriter = 64
+	counterKey          = "counter"
+)
+
+func concurrentUpdatesKeepEveryIncrement(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) {
+	ctx := context.Background()
+	v := openVault(t, open, 0)
+	counters := register(t, v, "counters")
+
+	for err := range incrementedConcurrently(ctx, v, counters) {
+		if err != nil {
+			t.Fatalf("Update: %v", err)
+		}
+	}
+
+	wanted := strconv.Itoa(concurrentWriters * incrementsPerWriter)
+	if err := v.View(ctx, func(tx *vault.Txn) error {
+		counted, _, err := counters.Get(tx, counterKey)
+		if err != nil {
+			return wrapTest(err)
+		}
+		if counted != wanted {
+			t.Fatalf("counter = %q, want %s", counted, wanted)
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("View: %v", err)
+	}
+}
+
+func incrementedConcurrently(
+	ctx context.Context,
+	v *vault.Vault,
+	counters *vault.Collection[string, string],
+) <-chan error {
+	failures := make(chan error, concurrentWriters)
+	release := make(chan struct{})
+
+	var writing sync.WaitGroup
+	writing.Add(concurrentWriters)
+	for range concurrentWriters {
+		go func() {
+			defer writing.Done()
+			<-release
+			for range incrementsPerWriter {
+				if err := v.Update(ctx, func(tx *vault.Txn) error {
+					return incrementCounter(tx, counters)
+				}); err != nil {
+					failures <- err
+
+					return
+				}
+			}
+		}()
+	}
+	close(release)
+	writing.Wait()
+	close(failures)
+
+	return failures
+}
+
+func incrementCounter(tx *vault.Txn, counters *vault.Collection[string, string]) error {
+	counted, found, err := counters.Get(tx, counterKey)
+	if err != nil {
+		return wrapTest(err)
+	}
+
+	current := 0
+	if found {
+		current, err = strconv.Atoi(counted)
+		if err != nil {
+			return fmt.Errorf("counter value %q: %w", counted, err)
+		}
+	}
+
+	if err := counters.Put(tx, counterKey, strconv.Itoa(current+1)); err != nil {
+		return wrapTest(err)
+	}
+
+	return nil
+}
+
+func openRepeatingVault(
+	t *testing.T,
+	open func(int64) (vault.Engine, error),
+) *vault.Vault {
+	t.Helper()
+
+	v, err := vault.New(EngineRepeatingWrites(openEngine(t, open, 0)), nil)
+	if err != nil {
+		t.Fatalf("New: %v", err)
+	}
+
+	return v
+}
+
+func repeatedWriteCommitsOneValue(t *testing.T, open func(int64) (vault.Engine, error)) {
+	ctx := context.Background()
+	v := openRepeatingVault(t, open)
+	words := register(t, v, "words")
+
+	if err := v.Update(ctx, func(tx *vault.Txn) error {
+		return words.Put(tx, "alpha", "first")
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+
+	if err := v.View(ctx, func(tx *vault.Txn) error {
+		length, err := words.Len(tx)
+		if err != nil {
+			return wrapTest(err)
+		}
+		if length != 1 {
+			t.Fatalf("length = %d, want 1", length)
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("View: %v", err)
+	}
+}
+
+func repeatedWriteSeesTheSameStoredState(t *testing.T, open func(int64) (vault.Engine, error)) {
+	ctx := context.Background()
+	v := openRepeatingVault(t, open)
+	words := register(t, v, "words")
+
+	var found []bool
+	if err := v.Update(ctx, func(tx *vault.Txn) error {
+		_, stored, err := words.Get(tx, "alpha")
+		if err != nil {
+			return wrapTest(err)
+		}
+		found = append(found, stored)
+
+		return words.Put(tx, "alpha", "first")
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+
+	if len(found) != 2 {
+		t.Fatalf("closure runs = %d, want 2", len(found))
+	}
+	if found[0] || found[1] {
+		t.Fatalf("found = %v, want each run to start from the stored state", found)
 	}
 }

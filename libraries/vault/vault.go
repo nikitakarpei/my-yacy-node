@@ -4,6 +4,10 @@
 // Collection/Txn surface a caller speaks. It encodes each key so that the byte
 // order of the key equals the domain order of its parts. No storage-medium type
 // appears on its exported surface.
+//
+// An Engine keeps a write transaction whole against concurrent writers and can
+// report UsedBytes late after a delete. Because an Engine can call a closure more
+// than one time, a closure reads what it decides on inside its own transaction.
 package vault
 
 import (
