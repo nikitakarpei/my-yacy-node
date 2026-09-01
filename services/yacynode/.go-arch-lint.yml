@@ -70,6 +70,10 @@ components:
     in: internal/pagerwi/**
   scraperequestintake:
     in: internal/scraperequestintake/**
+  scrapeprogressobserversapplog:
+    in: internal/scrapeprogressobservers/applog/**
+  scrapeprogressobserversprometheus:
+    in: internal/scrapeprogressobservers/prometheus/**
   scraperequestbroker:
     in: internal/scraperequestbroker/**
   cmd:
@@ -317,6 +321,9 @@ deps:
       - scraperequestcontract
       - nats
       - serviceruntime
+  scrapeprogressobserversprometheus:
+    canUse:
+      - prometheus
   cmd:
     anyProjectDeps: true
     anyVendorDeps: true
