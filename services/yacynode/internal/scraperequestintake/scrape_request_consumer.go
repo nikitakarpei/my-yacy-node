@@ -1,10 +1,10 @@
-// Package scraperequestintake scrapes each page the crawl fleet scrapeRequest and stores its
+// Package scraperequestintake scrapes each page the crawl fleet requests and stores its
 // reverse word index: the page's URL metadata, then its postings.
 package scraperequestintake
 
 import (
 	"context"
-	"log/slog"
+	"errors"
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
@@ -21,15 +21,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
 )
 
-const (
-	msgFetchFailed      = "scrape request fetch failed"
-	msgFetchDeferred    = "scrape request fetch deferred by the origin"
-	msgNothingToScrape  = "scrape request fetch holds no content to scrape"
-	msgExtractionFailed = "scrape request document extraction failed, nothing stored"
-	msgNoIndexDerived   = "scrape request derives no index, nothing stored"
-	msgPageStored       = "scrape request stored"
-	msgStoreDeferred    = "scrape request store deferred"
-)
+var errURLMetadataAdmissionRejected = errors.New("url metadata admission rejected")
 
 type PageFetcher interface {
 	Fetch(
@@ -40,36 +32,44 @@ type PageFetcher interface {
 }
 
 type ScrapeRequestConsumer struct {
-	source                         pullintake.MessageSource
-	fetcher                        PageFetcher
+	scrapeRequestSource            pullintake.MessageSource
+	pageFetcher                    PageFetcher
 	formatDerivations              pageformats.FormatDerivationCatalog
-	urls                           urlmeta.URLReceiver
-	postings                       rwiadmission.PostingReceiver
+	urlReceiver                    urlmeta.URLReceiver
+	postingReceiver                rwiadmission.PostingReceiver
+	scrapeProgress                 ScrapeProgress
 	scrapeRequestIntakeConcurrency int
 }
 
-type Config struct {
-	Source                         pullintake.MessageSource
-	Fetcher                        PageFetcher
+type ScrapeRequestConsumerConfig struct {
+	ScrapeRequestSource            pullintake.MessageSource
+	PageFetcher                    PageFetcher
 	FormatDerivations              pageformats.FormatDerivationCatalog
-	URLs                           urlmeta.URLReceiver
-	Postings                       rwiadmission.PostingReceiver
+	URLReceiver                    urlmeta.URLReceiver
+	PostingReceiver                rwiadmission.PostingReceiver
+	ScrapeProgress                 ScrapeProgress
 	ScrapeRequestIntakeConcurrency int
 }
 
-func NewScrapeRequestConsumer(config Config) *ScrapeRequestConsumer {
+func NewScrapeRequestConsumer(config ScrapeRequestConsumerConfig) *ScrapeRequestConsumer {
 	return &ScrapeRequestConsumer{
-		source:                         config.Source,
-		fetcher:                        config.Fetcher,
+		scrapeRequestSource:            config.ScrapeRequestSource,
+		pageFetcher:                    config.PageFetcher,
 		formatDerivations:              config.FormatDerivations,
-		urls:                           config.URLs,
-		postings:                       config.Postings,
+		urlReceiver:                    config.URLReceiver,
+		postingReceiver:                config.PostingReceiver,
+		scrapeProgress:                 config.ScrapeProgress,
 		scrapeRequestIntakeConcurrency: config.ScrapeRequestIntakeConcurrency,
 	}
 }
 
 func (c *ScrapeRequestConsumer) Run(ctx context.Context) error {
-	return pullintake.Run(ctx, c.source, c.scrapeRequestIntakeConcurrency, c.processOne)
+	return pullintake.Run(
+		ctx,
+		c.scrapeRequestSource,
+		c.scrapeRequestIntakeConcurrency,
+		c.processOne,
+	)
 }
 
 func (c *ScrapeRequestConsumer) processOne(
@@ -78,6 +78,8 @@ func (c *ScrapeRequestConsumer) processOne(
 ) error {
 	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(message.Body())
 	if err != nil {
+		c.scrapeProgress.ScrapeRequestInvalid(ctx)
+
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
 	reachedAt := time.Now()
@@ -85,14 +87,14 @@ func (c *ScrapeRequestConsumer) processOne(
 	if !scrapable {
 		return nil
 	}
-	document, extracted := c.documentOf(ctx, scrapedPage)
+	document, extracted := c.documentOf(ctx, message, scrapedPage)
 	if !extracted {
 		message.Acknowledge(ctx)
 		return nil
 	}
 	text, derived := c.fullTextOf(ctx, document, scrapedPage.LandedURL)
 	if !derived {
-		slog.DebugContext(ctx, msgNoIndexDerived, slog.String("url", scrapedPage.PageURL.String()))
+		c.scrapeProgress.NoIndexDerived(ctx, message.Identity(), scrapedPage.PageURL)
 		message.Acknowledge(ctx)
 		return nil
 	}
@@ -106,12 +108,9 @@ func (c *ScrapeRequestConsumer) fetch(
 	request scraperequestcontract.ScrapeRequest,
 ) (scrapedpage.ScrapedPage, bool) {
 	fetchURL := request.FetchURL
-	outcome, err := c.fetcher.Fetch(ctx, fetchURL, pagefetch.PageVersion{})
+	outcome, err := c.pageFetcher.Fetch(ctx, fetchURL, pagefetch.PageVersion{})
 	if err != nil {
-		slog.WarnContext(ctx, msgFetchFailed,
-			slog.String("url", fetchURL.String()),
-			slog.Any("error", err),
-		)
+		c.scrapeProgress.OriginFetchFailed(ctx, message.Identity(), fetchURL, err)
 		message.Return(ctx)
 		return scrapedpage.ScrapedPage{}, false
 	}
@@ -119,16 +118,18 @@ func (c *ScrapeRequestConsumer) fetch(
 	case pagefetch.FetchSucceeded:
 		return scrapedpage.Of(request, outcome.Page), true
 	case pagefetch.FetchFailed:
-		slog.WarnContext(ctx, msgFetchFailed, slog.String("url", fetchURL.String()))
+		c.scrapeProgress.OriginFetchFailed(ctx, message.Identity(), fetchURL, nil)
 		message.Return(ctx)
 	case pagefetch.FetchDeferred:
-		slog.DebugContext(ctx, msgFetchDeferred,
-			slog.String("url", fetchURL.String()),
-			slog.Duration("deferFor", outcome.DeferFor),
+		c.scrapeProgress.OriginFetchDeferred(
+			ctx,
+			message.Identity(),
+			fetchURL,
+			outcome.DeferFor,
 		)
 		message.ReturnAfter(ctx, outcome.DeferFor)
 	default:
-		slog.DebugContext(ctx, msgNothingToScrape, slog.String("url", fetchURL.String()))
+		c.scrapeProgress.NothingToScrape(ctx, message.Identity(), fetchURL)
 		message.Acknowledge(ctx)
 	}
 	return scrapedpage.ScrapedPage{}, false
@@ -136,15 +137,18 @@ func (c *ScrapeRequestConsumer) fetch(
 
 func (c *ScrapeRequestConsumer) documentOf(
 	ctx context.Context,
+	message pullintake.PendingMessage,
 	scrapedPage scrapedpage.ScrapedPage,
 ) (documentextraction.Document, bool) {
 	document, err := documentextraction.DocumentFrom(
 		ctx, scrapedPage.Body, scrapedPage.ContentType, scrapedPage.LandedURL,
 	)
 	if err != nil {
-		slog.WarnContext(ctx, msgExtractionFailed,
-			slog.String("url", scrapedPage.LandedURL.String()),
-			slog.Any("error", err),
+		c.scrapeProgress.DocumentExtractionFailed(
+			ctx,
+			message.Identity(),
+			scrapedPage.LandedURL,
+			err,
 		)
 		return documentextraction.Document{}, false
 	}
@@ -166,32 +170,56 @@ func (c *ScrapeRequestConsumer) store(
 	message pullintake.PendingMessage,
 	index pagerwi.PageRWI,
 ) {
-	urlReceipt, err := c.urls.Receive(ctx, []yacymodel.URLMetadata{index.Metadata})
-	if err != nil || urlReceipt.Busy {
-		redeliver(ctx, message, index.PageURL.String(), err)
+	urlReceipt, err := c.urlReceiver.Receive(ctx, []yacymodel.URLMetadata{index.Metadata})
+	if err != nil {
+		c.scrapeProgress.URLMetadataAdmissionFailed(ctx, message.Identity(), index.PageURL, err)
+		message.Return(ctx)
 		return
 	}
-	postingReceipt, err := c.postings.Receive(ctx, index.Postings)
-	if err != nil || postingReceipt.Busy {
-		redeliver(ctx, message, index.PageURL.String(), err)
+	if urlReceipt.Busy {
+		c.scrapeProgress.URLMetadataAdmissionBusy(ctx, message.Identity(), index.PageURL)
+		message.Return(ctx)
 		return
 	}
+	if len(urlReceipt.ErrorURL) != 0 {
+		c.scrapeProgress.URLMetadataAdmissionFailed(
+			ctx,
+			message.Identity(),
+			index.PageURL,
+			errURLMetadataAdmissionRejected,
+		)
+		message.Return(ctx)
+		return
+	}
+	c.scrapeProgress.URLMetadataAdmitted(ctx, message.Identity(), index.PageURL)
+	postingReceipt, err := c.postingReceiver.Receive(ctx, index.Postings)
+	if err != nil {
+		c.scrapeProgress.PostingsAdmissionFailed(
+			ctx,
+			message.Identity(),
+			index.PageURL,
+			len(index.Postings),
+			err,
+		)
+		message.Return(ctx)
+		return
+	}
+	if postingReceipt.Busy {
+		c.scrapeProgress.PostingsAdmissionBusy(
+			ctx,
+			message.Identity(),
+			index.PageURL,
+			len(index.Postings),
+		)
+		message.Return(ctx)
+		return
+	}
+	c.scrapeProgress.PostingsAdmitted(
+		ctx,
+		message.Identity(),
+		index.PageURL,
+		len(index.Postings),
+	)
 	message.Acknowledge(ctx)
-	slog.DebugContext(ctx, msgPageStored,
-		slog.String("url", index.PageURL.String()),
-		slog.Int("postings", len(index.Postings)),
-	)
-}
-
-func redeliver(
-	ctx context.Context,
-	message pullintake.PendingMessage,
-	pageURL string,
-	cause error,
-) {
-	slog.WarnContext(ctx, msgStoreDeferred,
-		slog.String("url", pageURL),
-		slog.Any("error", cause),
-	)
-	message.Return(ctx)
+	c.scrapeProgress.ScrapeRequestCompleted(ctx, message.Identity(), index.PageURL)
 }
