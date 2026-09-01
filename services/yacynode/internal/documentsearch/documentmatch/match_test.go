@@ -33,7 +33,7 @@ func matchOf(postings ...termpostings.Posting) termpostings.Match {
 		byDocument[posting.DocumentHash] = posting
 	}
 
-	return termpostings.Match{PostingPerDocument: byDocument, TotalMatches: len(postings)}
+	return termpostings.Match{PostingPerDocument: byDocument, PostingsHeld: len(postings)}
 }
 
 func postingIn(url string, occurrences, textPosition int) termpostings.Posting {

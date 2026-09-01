@@ -8,7 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/memoryvault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/matchreport"
+	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/indexabstract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchcriteria"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/searchtest"
@@ -80,7 +80,7 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 	result, err := results.ResultFor(
 		context.Background(),
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{word1, word2}},
-		matchreport.RequestedReport{Mode: matchreport.TermWithMostMatches},
+		indexabstract.IndexAbstractOfTermWithMostPostings{},
 	)
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)
@@ -97,15 +97,18 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 	if result.DocumentMetadata[0].Address != addressFor("u2") {
 		t.Errorf("resource = %v, want u2", result.DocumentMetadata[0])
 	}
-	if result.TotalMatchesPerTerm[word1] != 2 {
-		t.Errorf("TotalMatchesPerTerm[w1] = %d, want 2", result.TotalMatchesPerTerm[word1])
+	if result.PostingsHeldPerTerm[word1] != 2 {
+		t.Errorf(
+			"PostingsHeldPerTerm[w1] = %d, want 2",
+			result.PostingsHeldPerTerm[word1],
+		)
 	}
-	if got := result.DocumentsMatchingEachReportedTerm[word1]; !hasExactlyDocuments(
+	if got := result.IndexAbstracts[word1]; !hasExactlyDocuments(
 		got,
 		"u1",
 		"u2",
 	) {
-		t.Errorf("DocumentsMatchingEachReportedTerm[w1] = %v, want u1, u2", got)
+		t.Errorf("IndexAbstracts[w1] = %v, want u1, u2", got)
 	}
 }
 
@@ -127,7 +130,7 @@ func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
 	result, err := results.ResultFor(
 		context.Background(),
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{word}, MaxResults: 2},
-		matchreport.RequestedReport{},
+		indexabstract.NoIndexAbstracts{},
 	)
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)
@@ -165,7 +168,7 @@ func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 	result, err := results.ResultFor(context.Background(), searchcriteria.Criteria{
 		Terms:         []yacymodel.Hash{word1, word2, word3},
 		MaxTermSpread: 5,
-	}, matchreport.RequestedReport{})
+	}, indexabstract.NoIndexAbstracts{})
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)
 	}
@@ -185,7 +188,7 @@ func TestSearchSurfacesExcludedTermScanFailures(t *testing.T) {
 	_, err := results.ResultFor(
 		context.Background(),
 		searchcriteria.Criteria{ExcludedTerms: []yacymodel.Hash{searchtest.HashFor("ban")}},
-		matchreport.RequestedReport{},
+		indexabstract.NoIndexAbstracts{},
 	)
 	if !errors.Is(err, errScanBroken) {
 		t.Fatalf("ResultFor error = %v, want %v", err, errScanBroken)
@@ -202,7 +205,7 @@ func TestSearchSurfacesQueryTermScanFailures(t *testing.T) {
 	_, err := results.ResultFor(
 		context.Background(),
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{searchtest.HashFor("w1")}},
-		matchreport.RequestedReport{},
+		indexabstract.NoIndexAbstracts{},
 	)
 	if !errors.Is(err, errScanBroken) {
 		t.Fatalf("ResultFor error = %v, want %v", err, errScanBroken)
@@ -223,14 +226,14 @@ func TestSearchSurfacesMetadataFailures(t *testing.T) {
 	_, err := results.ResultFor(
 		context.Background(),
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{word}},
-		matchreport.RequestedReport{},
+		indexabstract.NoIndexAbstracts{},
 	)
 	if !errors.Is(err, errDirectoryBroken) {
 		t.Fatalf("ResultFor error = %v, want %v", err, errDirectoryBroken)
 	}
 }
 
-func TestSearchSurfacesReportedTermScanFailures(t *testing.T) {
+func TestSearchSurfacesIndexAbstractTermScanFailures(t *testing.T) {
 	results := searchresult.New(
 		openVault(t),
 		termpostings.New(searchtest.FailingPostingIndex{Err: errScanBroken}, 100),
@@ -240,10 +243,7 @@ func TestSearchSurfacesReportedTermScanFailures(t *testing.T) {
 	_, err := results.ResultFor(
 		context.Background(),
 		searchcriteria.Criteria{},
-		matchreport.RequestedReport{
-			Mode:  matchreport.RequestedTerms,
-			Terms: []yacymodel.Hash{searchtest.HashFor("w2")},
-		},
+		indexabstract.IndexAbstractsOfTerms{Terms: []yacymodel.Hash{searchtest.HashFor("w2")}},
 	)
 	if !errors.Is(err, errScanBroken) {
 		t.Fatalf("ResultFor error = %v, want %v", err, errScanBroken)
@@ -255,7 +255,7 @@ var (
 	errDirectoryBroken = errors.New("directory broken")
 )
 
-func TestSearchReportsRequestedTermsWithoutWantedTerms(t *testing.T) {
+func TestSearchAbstractsRequestedTermsWithoutQueryTerms(t *testing.T) {
 	word := searchtest.HashFor("w1")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word: {postingEntry(word, "u1", 1), postingEntry(word, "u2", 1)},
@@ -269,10 +269,7 @@ func TestSearchReportsRequestedTermsWithoutWantedTerms(t *testing.T) {
 	result, err := results.ResultFor(
 		context.Background(),
 		searchcriteria.Criteria{},
-		matchreport.RequestedReport{
-			Mode:  matchreport.RequestedTerms,
-			Terms: []yacymodel.Hash{word},
-		},
+		indexabstract.IndexAbstractsOfTerms{Terms: []yacymodel.Hash{word}},
 	)
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)
@@ -280,19 +277,20 @@ func TestSearchReportsRequestedTermsWithoutWantedTerms(t *testing.T) {
 	if result.TotalDocumentsMatchingEveryTerm != 0 || len(result.DocumentMetadata) != 0 {
 		t.Fatalf("result = %+v, want report only", result)
 	}
-	if result.TotalMatchesPerTerm[word] != 2 {
-		t.Errorf("TotalMatchesPerTerm = %d, want 2", result.TotalMatchesPerTerm[word])
+	if len(result.PostingsHeldPerTerm) != 0 {
+		t.Errorf("PostingsHeldPerTerm = %v, want none without query terms",
+			result.PostingsHeldPerTerm)
 	}
-	if got := result.DocumentsMatchingEachReportedTerm[word]; !hasExactlyDocuments(
+	if got := result.IndexAbstracts[word]; !hasExactlyDocuments(
 		got,
 		"u1",
 		"u2",
 	) {
-		t.Errorf("DocumentsMatchingEachReportedTerm = %v, want u1, u2", got)
+		t.Errorf("IndexAbstracts = %v, want u1, u2", got)
 	}
 }
 
-func TestSearchReportsRequestedTermsAlongsideWantedTerms(t *testing.T) {
+func TestSearchAbstractsRequestedTermsAlongsideQueryTerms(t *testing.T) {
 	word, related := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
 		word:    {postingEntry(word, "u1", 0), postingEntry(word, "u2", 0)},
@@ -307,20 +305,17 @@ func TestSearchReportsRequestedTermsAlongsideWantedTerms(t *testing.T) {
 	result, err := results.ResultFor(
 		context.Background(),
 		searchcriteria.Criteria{Terms: []yacymodel.Hash{word}},
-		matchreport.RequestedReport{
-			Mode:  matchreport.RequestedTerms,
-			Terms: []yacymodel.Hash{related},
-		},
+		indexabstract.IndexAbstractsOfTerms{Terms: []yacymodel.Hash{related}},
 	)
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)
 	}
-	if got := result.DocumentsMatchingEachReportedTerm[related]; !hasExactlyDocuments(
+	if got := result.IndexAbstracts[related]; !hasExactlyDocuments(
 		got,
 		"u2",
 		"u3",
 	) {
-		t.Fatalf("DocumentsMatchingEachReportedTerm[related] = %v, want u2, u3", got)
+		t.Fatalf("IndexAbstracts[related] = %v, want u2, u3", got)
 	}
 }
 
@@ -360,7 +355,7 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 		Terms:         []yacymodel.Hash{word1, word2},
 		MaxTermSpread: 5,
 		Language:      mustLanguage(t, "en"),
-	}, matchreport.RequestedReport{})
+	}, indexabstract.NoIndexAbstracts{})
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)
 	}

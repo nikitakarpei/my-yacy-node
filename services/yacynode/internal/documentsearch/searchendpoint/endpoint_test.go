@@ -71,8 +71,11 @@ func TestEndpointReportsRequestedTerms(t *testing.T) {
 		Abstracts:   yacyproto.SearchAbstracts(word.String()),
 	})
 
-	if resp.IndexCount[word] != 2 {
-		t.Errorf("IndexCount = %v, want 2 for term", resp.IndexCount)
+	if len(resp.IndexAbstract[word]) == 0 {
+		t.Errorf("IndexAbstract = %v, want the requested term", resp.IndexAbstract)
+	}
+	if len(resp.IndexCount) != 0 {
+		t.Errorf("IndexCount = %v, want none without a query", resp.IndexCount)
 	}
 }
 
