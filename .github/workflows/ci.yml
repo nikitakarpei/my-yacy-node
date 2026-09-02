@@ -62,6 +62,12 @@ jobs:
     uses: ./.github/workflows/build-renderproxy.yml
     secrets: inherit
 
+  build-pagescrape:
+    needs: verify
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/build-pagescrape.yml
+    secrets: inherit
+
   build-corpusmarkdown:
     needs: verify
     if: github.ref == 'refs/heads/main'

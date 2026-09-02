@@ -2,10 +2,10 @@
 
 > "Why does the stack fetch one page several times?"
 
-`yacycrawler` fetches a page to discover links. `corpustext` and
-`yacy-rwi-node` fetch the page to build their different indexes. Each service
-owns one job and works independently, so the same page is fetched three times.
-A shared cache lets them reuse one fetch.
+`yacycrawler` fetches a page to discover links. `pagescrape` reads each
+requested page once and offers the same content to `corpustext` and
+`yacy-rwi-node`. A shared cache lets link discovery and the scrape reuse one
+fetch from the origin.
 
 ## What this chapter adds
 

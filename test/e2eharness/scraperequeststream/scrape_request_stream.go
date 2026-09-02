@@ -1,8 +1,7 @@
 //go:build e2e
 
-// Package scraperequeststream provisions the scrape-request stream an e2e stack needs.
-// No service creates it: the crawler and the shim publish to it, every corpus reads it,
-// and an operator decides its retention. A suite stands in for that operator.
+// Package scraperequeststream provisions the scrape-request stream for a publish-only
+// e2e stack that does not start the pagescrape service which owns the stream.
 package scraperequeststream
 
 import (
@@ -12,7 +11,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
 const maxMsgs = 1024
@@ -29,12 +28,12 @@ func Provision(t *testing.T, ctx context.Context, natsURL string) {
 		t.Fatalf("init jetstream: %v", err)
 	}
 	if _, err := js.CreateOrUpdateStream(ctx, jetstream.StreamConfig{
-		Name:      scraperequestcontract.ScrapeRequestsStreamName,
-		Subjects:  []string{scraperequestcontract.ScrapeRequestSubject},
+		Name:      pagescrapecontract.ScrapeRequestsStreamName,
+		Subjects:  []string{pagescrapecontract.ScrapeRequestSubject},
 		Retention: jetstream.LimitsPolicy,
 		MaxMsgs:   maxMsgs,
 		Discard:   jetstream.DiscardOld,
 	}); err != nil {
-		t.Fatalf("provision the %s stream: %v", scraperequestcontract.ScrapeRequestsStreamName, err)
+		t.Fatalf("provision the %s stream: %v", pagescrapecontract.ScrapeRequestsStreamName, err)
 	}
 }

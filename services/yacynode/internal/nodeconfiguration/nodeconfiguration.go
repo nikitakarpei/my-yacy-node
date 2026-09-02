@@ -4,14 +4,14 @@
 package nodeconfiguration
 
 type Settings struct {
-	Identity            IdentityConfig
-	Serving             ServingConfig
-	Storage             StorageConfig
-	Escrow              EscrowConfig
-	PeerExchange        PeerExchangeConfig
-	Distribution        DistributionConfig
-	ScrapeRequestIntake ScrapeRequestIntakeConfig
-	Egress              EgressConfig
+	Identity        IdentityConfig
+	Serving         ServingConfig
+	Storage         StorageConfig
+	Escrow          EscrowConfig
+	PeerExchange    PeerExchangeConfig
+	Distribution    DistributionConfig
+	PageOfferIntake PageOfferIntakeConfig
+	Egress          EgressConfig
 }
 
 func Load(getenv func(string) string) (Settings, error) {
@@ -50,19 +50,19 @@ func Load(getenv func(string) string) (Settings, error) {
 		return Settings{}, err
 	}
 
-	scrapeRequestIntake, err := loadScrapeRequestIntakeConfig(getenv)
+	pageOfferIntake, err := loadPageOfferIntakeConfig(getenv)
 	if err != nil {
 		return Settings{}, err
 	}
 
 	return Settings{
-		Identity:            identity,
-		Serving:             serving,
-		Storage:             storage,
-		Escrow:              escrow,
-		PeerExchange:        peerExchange,
-		Distribution:        distribution,
-		ScrapeRequestIntake: scrapeRequestIntake,
-		Egress:              egress,
+		Identity:        identity,
+		Serving:         serving,
+		Storage:         storage,
+		Escrow:          escrow,
+		PeerExchange:    peerExchange,
+		Distribution:    distribution,
+		PageOfferIntake: pageOfferIntake,
+		Egress:          egress,
 	}, nil
 }

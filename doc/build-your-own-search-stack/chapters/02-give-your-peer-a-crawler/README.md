@@ -9,6 +9,7 @@ choose pages and contribute their words to the shared index.
 
 - `yacycrawler` visits the pages you name and follows links within the limits
   you set.
+- `pagescrape` reads each requested page once and offers it to the indexes.
 - `nats` keeps unfinished crawl and indexing work on disk, so services can
   continue after a restart.
 - `crawl-console` lets you submit a crawl from the command line.

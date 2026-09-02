@@ -8,7 +8,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/scrapedpage"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -19,7 +19,7 @@ type PageRWI struct {
 }
 
 func Of(
-	scrapedPage scrapedpage.ScrapedPage,
+	scrapedPage pagescrapecontract.OfferedPage,
 	document documentextraction.Document,
 	text []byte,
 	reachedAt time.Time,

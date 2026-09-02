@@ -9,7 +9,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pagescrapeservice"
 )
 
 func TestScrapeRequestStaysSearchableInElasticsearch(t *testing.T) {
@@ -18,10 +18,10 @@ func TestScrapeRequestStaysSearchableInElasticsearch(t *testing.T) {
 	network := dockernetwork.New(t, ctx)
 
 	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
-	scraperequeststream.Provision(t, ctx, crawlNATSURL)
 	originURL := startOrigin(t, ctx, network.Name)
 	elasticsearchURL := startElasticsearch(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
+	pagescrapeservice.Start(t, ctx, network.Name)
 	startNode(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
 	corpusText := startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
@@ -59,10 +59,10 @@ func TestScrapeRequestStaysSearchableInManticore(t *testing.T) {
 	network := dockernetwork.New(t, ctx)
 
 	crawlNATSURL := natsjetstream.Start(t, ctx, network.Name)
-	scraperequeststream.Provision(t, ctx, crawlNATSURL)
 	originURL := startOrigin(t, ctx, network.Name)
 	manticoreURL := startManticore(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
+	pagescrapeservice.Start(t, ctx, network.Name)
 	startNode(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
 	corpusText := startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())

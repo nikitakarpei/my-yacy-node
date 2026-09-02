@@ -54,89 +54,58 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if config.PeerExchange.SeedlistURLs != nil {
 		t.Errorf("SeedlistURLs = %v, want nil", config.PeerExchange.SeedlistURLs)
 	}
-	if config.ScrapeRequestIntake.Enabled() {
+	if config.PageOfferIntake.Enabled() {
 		t.Errorf(
-			"ScrapeRequestIntake = %+v, want disabled without a broker",
-			config.ScrapeRequestIntake,
+			"PageOfferIntake = %+v, want disabled without a broker",
+			config.PageOfferIntake,
 		)
 	}
 }
 
-func TestLoadDefaultsTheScrapeRequestIntake(t *testing.T) {
+func TestLoadDefaultsThePageOfferIntake(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:      "0123456789AB",
-		nodeconfiguration.EnvPeerName:             "node",
-		nodeconfiguration.EnvEgressProxyURL:       "http://proxy:4750",
-		nodeconfiguration.EnvScrapeRequestNATSURL: "nats://localhost:4222",
-		nodeconfiguration.EnvScrapeProxyURL:       "http://renderproxy:8080",
+		nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
+		nodeconfiguration.EnvPeerName:         "node",
+		nodeconfiguration.EnvEgressProxyURL:   "http://proxy:4750",
+		nodeconfiguration.EnvPageOfferNATSURL: "nats://localhost:4222",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
 	}
 
-	if !config.ScrapeRequestIntake.Enabled() {
+	if !config.PageOfferIntake.Enabled() {
 		t.Fatalf(
-			"ScrapeRequestIntake = %+v, want enabled by the broker url",
-			config.ScrapeRequestIntake,
+			"PageOfferIntake = %+v, want enabled by the broker url",
+			config.PageOfferIntake,
 		)
 	}
-	if config.ScrapeRequestIntake.ScrapeRequestSubject != nodeconfiguration.DefaultScrapeRequestSubject ||
-		config.ScrapeRequestIntake.ScrapeRequestDurable != nodeconfiguration.DefaultScrapeRequestDurable {
+	if config.PageOfferIntake.PageOfferDurable != nodeconfiguration.DefaultPageOfferDurable ||
+		config.PageOfferIntake.PageOfferIntakeConcurrency !=
+			nodeconfiguration.DefaultPageOfferIntakeConcurrency {
 		t.Errorf(
-			"ScrapeRequestIntake = %+v, want the default subject and durable",
-			config.ScrapeRequestIntake,
+			"PageOfferIntake = %+v, want the default durable and intake concurrency",
+			config.PageOfferIntake,
 		)
-	}
-	if config.ScrapeRequestIntake.UserAgent != nodeconfiguration.DefaultScrapeUserAgent ||
-		config.ScrapeRequestIntake.MaxBodyBytes != nodeconfiguration.DefaultScrapeMaxBodyBytes ||
-		config.ScrapeRequestIntake.FetchDeadline != nodeconfiguration.DefaultScrapeFetchDeadline ||
-		config.ScrapeRequestIntake.ScrapeRequestIntakeConcurrency != nodeconfiguration.DefaultScrapeRequestIntakeConcurrency {
-		t.Errorf(
-			"ScrapeRequestIntake = %+v, want the default fetch settings",
-			config.ScrapeRequestIntake,
-		)
-	}
-	if config.ScrapeRequestIntake.ProxyURL == nil ||
-		config.ScrapeRequestIntake.ProxyURL.Host != "renderproxy:8080" {
-		t.Errorf(
-			"scrape request intake proxy = %v, want the configured proxy",
-			config.ScrapeRequestIntake.ProxyURL,
-		)
-	}
-}
-
-func TestLoadRequiresAScrapeProxyWhenIngestIsEnabled(t *testing.T) {
-	_, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:      "0123456789AB",
-		nodeconfiguration.EnvPeerName:             "node",
-		nodeconfiguration.EnvEgressProxyURL:       "http://proxy:4750",
-		nodeconfiguration.EnvScrapeRequestNATSURL: "nats://localhost:4222",
-	}))
-
-	if err == nil {
-		t.Fatal("scrape request intake without a fetch proxy should fail")
 	}
 }
 
 func TestLoadReadsOverrides(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:                "0123456789AB",
-		nodeconfiguration.EnvPeerName:                       "node",
-		nodeconfiguration.EnvEgressProxyURL:                 "http://proxy:4750",
-		nodeconfiguration.EnvNetworkName:                    "testnet",
-		nodeconfiguration.EnvPeerAddr:                       ":7000",
-		nodeconfiguration.EnvOpsAddr:                        ":7001",
-		nodeconfiguration.EnvAdvertiseHost:                  "203.0.113.1",
-		nodeconfiguration.EnvAdvertisePort:                  "9999",
-		nodeconfiguration.EnvStorageQuota:                   "2MB",
-		nodeconfiguration.EnvTrustedProxies:                 "10.0.0.0/8",
-		nodeconfiguration.EnvSeedlistURLs:                   " http://a , http://b ,",
-		nodeconfiguration.EnvAnnounceInterval:               "30s",
-		nodeconfiguration.EnvScrapeRequestNATSURL:           "nats://broker:4222",
-		nodeconfiguration.EnvScrapeProxyURL:                 "http://renderproxy:8080",
-		nodeconfiguration.EnvScrapeRequestSubject:           "reached.subject",
-		nodeconfiguration.EnvScrapeRequestDurable:           "reached-durable",
-		nodeconfiguration.EnvScrapeRequestIntakeConcurrency: "9",
+		nodeconfiguration.EnvInitialPeerHash:            "0123456789AB",
+		nodeconfiguration.EnvPeerName:                   "node",
+		nodeconfiguration.EnvEgressProxyURL:             "http://proxy:4750",
+		nodeconfiguration.EnvNetworkName:                "testnet",
+		nodeconfiguration.EnvPeerAddr:                   ":7000",
+		nodeconfiguration.EnvOpsAddr:                    ":7001",
+		nodeconfiguration.EnvAdvertiseHost:              "203.0.113.1",
+		nodeconfiguration.EnvAdvertisePort:              "9999",
+		nodeconfiguration.EnvStorageQuota:               "2MB",
+		nodeconfiguration.EnvTrustedProxies:             "10.0.0.0/8",
+		nodeconfiguration.EnvSeedlistURLs:               " http://a , http://b ,",
+		nodeconfiguration.EnvAnnounceInterval:           "30s",
+		nodeconfiguration.EnvPageOfferNATSURL:           "nats://broker:4222",
+		nodeconfiguration.EnvPageOfferDurable:           "reached-durable",
+		nodeconfiguration.EnvPageOfferIntakeConcurrency: "9",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -161,12 +130,11 @@ func TestLoadReadsOverrides(t *testing.T) {
 	if config.PeerExchange.AnnounceInterval != 30*time.Second {
 		t.Errorf("AnnounceInterval = %v, want 30s", config.PeerExchange.AnnounceInterval)
 	}
-	if config.ScrapeRequestIntake.ScrapeRequestSubject != "reached.subject" ||
-		config.ScrapeRequestIntake.ScrapeRequestDurable != "reached-durable" ||
-		config.ScrapeRequestIntake.ScrapeRequestIntakeConcurrency != 9 {
+	if config.PageOfferIntake.PageOfferDurable != "reached-durable" ||
+		config.PageOfferIntake.PageOfferIntakeConcurrency != 9 {
 		t.Errorf(
-			"ScrapeRequestIntake = %+v, want the named subject, durable, and scrapeRequestIntakeConcurrency",
-			config.ScrapeRequestIntake,
+			"PageOfferIntake = %+v, want the named durable and intake concurrency",
+			config.PageOfferIntake,
 		)
 	}
 }

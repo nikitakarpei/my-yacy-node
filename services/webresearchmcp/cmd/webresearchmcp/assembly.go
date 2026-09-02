@@ -38,15 +38,12 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		return err
 	}
 	defer func() { _ = corpus.Close() }()
-	scrapeRequests, err := scraperequestsjetstream.OpenScrapeRequests(
-		cfg.ScrapeRequestNATSURL,
-		cfg.ScrapeRequestSubject,
-	)
+	scrapeRequests, err := scraperequestsjetstream.OpenScrapeRequests(cfg.ScrapeRequestNATSURL)
 	if err != nil {
 		return err
 	}
 	defer scrapeRequests.Close()
-	scrapeOutcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(cfg.PageMarkdownNATSURL)
+	scrapeOutcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(cfg.ScrapeRequestNATSURL)
 	if err != nil {
 		return err
 	}

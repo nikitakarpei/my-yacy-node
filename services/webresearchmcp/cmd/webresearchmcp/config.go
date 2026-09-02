@@ -3,7 +3,6 @@ package main
 import (
 	"time"
 
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 )
 
@@ -11,8 +10,6 @@ const (
 	EnvSearXNGURL                   = "SEARXNG_URL"
 	EnvSearXNGSearchDeadline        = "SEARXNG_SEARCH_DEADLINE"
 	EnvScrapeRequestNATSURL         = "SCRAPE_REQUEST_NATS_URL"
-	EnvScrapeRequestSubject         = "SCRAPE_REQUEST_SUBJECT"
-	EnvPageMarkdownNATSURL          = "PAGE_MARKDOWN_NATS_URL"
 	EnvPageFetchWait                = "PAGE_FETCH_WAIT"
 	EnvPageScrapeTolerance          = "PAGE_SCRAPE_TOLERANCE"
 	EnvCorpusMarkdownAddr           = "CORPUSMARKDOWN_ADDR"
@@ -34,14 +31,10 @@ const (
 	DefaultOpsAddr                      = ":9090"
 )
 
-var DefaultScrapeRequestSubject = scraperequestcontract.ScrapeRequestSubject
-
 type ServiceConfig struct {
 	SearXNGURL                   string
 	SearXNGSearchDeadline        time.Duration
 	ScrapeRequestNATSURL         string
-	ScrapeRequestSubject         string
-	PageMarkdownNATSURL          string
 	PageFetchWait                time.Duration
 	PageScrapeTolerance          time.Duration
 	CorpusMarkdownAddr           string
@@ -144,10 +137,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	pageMarkdownNATSURL, err := envconfig.Required(getenv, EnvPageMarkdownNATSURL)
-	if err != nil {
-		return ServiceConfig{}, err
-	}
 	corpusMarkdownAddr, err := envconfig.Required(getenv, EnvCorpusMarkdownAddr)
 	if err != nil {
 		return ServiceConfig{}, err
@@ -162,15 +151,9 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		SearXNGURL:            searxngURL.String(),
-		SearXNGSearchDeadline: deadlines.searxngSearchDeadline,
-		ScrapeRequestNATSURL:  scrapeRequestNATSURL,
-		ScrapeRequestSubject: envconfig.String(
-			getenv,
-			EnvScrapeRequestSubject,
-			DefaultScrapeRequestSubject,
-		),
-		PageMarkdownNATSURL:          pageMarkdownNATSURL,
+		SearXNGURL:                   searxngURL.String(),
+		SearXNGSearchDeadline:        deadlines.searxngSearchDeadline,
+		ScrapeRequestNATSURL:         scrapeRequestNATSURL,
 		PageFetchWait:                deadlines.pageFetchWait,
 		PageScrapeTolerance:          deadlines.pageScrapeTolerance,
 		CorpusMarkdownAddr:           corpusMarkdownAddr,
