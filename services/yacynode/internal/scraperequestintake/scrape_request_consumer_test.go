@@ -13,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -199,8 +199,8 @@ func (r *recordingPostings) Receive(
 func scrapeRequestMessage(t *testing.T) *pullintaketest.Message {
 	t.Helper()
 
-	data, err := scraperequestcontract.MarshalScrapeRequest(
-		scraperequestcontract.ScrapeRequest{
+	data, err := pagescrapecontract.MarshalScrapeRequest(
+		pagescrapecontract.ScrapeRequest{
 			PageURL: canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
 		},
 	)
@@ -217,8 +217,8 @@ func archivedScrapeRequestMessage(
 ) *pullintaketest.Message {
 	t.Helper()
 
-	data, err := scraperequestcontract.MarshalScrapeRequest(
-		scraperequestcontract.ScrapeRequest{
+	data, err := pagescrapecontract.MarshalScrapeRequest(
+		pagescrapecontract.ScrapeRequest{
 			PageURL:  canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
 			FetchURL: canonicalurltest.CanonicalURLOf(t, fetchURL),
 		},

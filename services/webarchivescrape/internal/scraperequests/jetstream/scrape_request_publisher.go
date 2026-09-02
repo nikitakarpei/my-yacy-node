@@ -11,7 +11,7 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 )
 
@@ -33,15 +33,15 @@ func (p *Publisher) Publish(
 	pageURL canonicalurl.CanonicalURL,
 	replayURL canonicalurl.CanonicalURL,
 ) error {
-	data, err := scraperequestcontract.MarshalScrapeRequest(
-		scraperequestcontract.ScrapeRequest{PageURL: pageURL, FetchURL: replayURL},
+	data, err := pagescrapecontract.MarshalScrapeRequest(
+		pagescrapecontract.ScrapeRequest{PageURL: pageURL, FetchURL: replayURL},
 	)
 	if err != nil {
 		return fmt.Errorf("marshal scrape request %s: %w", pageURL, err)
 	}
 	if _, err := p.stream.Publish(
 		ctx,
-		scraperequestcontract.ScrapeRequestSubject,
+		pagescrapecontract.ScrapeRequestSubject,
 		data,
 	); err != nil {
 		return fmt.Errorf("publish scrape request %s: %w", pageURL, err)

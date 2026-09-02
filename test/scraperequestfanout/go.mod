@@ -7,7 +7,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/canonicalurl v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/e2eharness v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/testcontainers/testcontainers-go v0.40.0
 )
 
@@ -47,6 +47,7 @@ require (
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/nats-io/nkeys v0.4.15 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -70,10 +71,12 @@ require (
 
 replace github.com/nikitakarpei/yacy-rwi-node/e2eharness => ../e2eharness
 
-replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract
+replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../services/pagescrape/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore => ../../services/corpusmarkdown/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 
 replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
+
+replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch

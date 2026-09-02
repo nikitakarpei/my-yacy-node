@@ -11,8 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
-	"github.com/nikitakarpei/yacy-rwi-node/scrapedpage"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 )
@@ -94,7 +93,7 @@ func (c *ScrapeRequestConsumer) processOne(
 	message pullintake.PendingMessage,
 ) error {
 	c.progress.ScrapeRequestReceived(ctx)
-	scrapeRequest, err := scraperequestcontract.UnmarshalScrapeRequest(message.Body())
+	scrapeRequest, err := pagescrapecontract.UnmarshalScrapeRequest(message.Body())
 	if err != nil {
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
@@ -120,19 +119,19 @@ func (c *ScrapeRequestConsumer) processOne(
 func (c *ScrapeRequestConsumer) fetch(
 	ctx context.Context,
 	message pullintake.PendingMessage,
-	request scraperequestcontract.ScrapeRequest,
-) (scrapedpage.ScrapedPage, bool) {
+	request pagescrapecontract.ScrapeRequest,
+) (pagescrapecontract.OfferedPage, bool) {
 	requestedURL := request.PageURL
 	fetchURL := request.FetchURL
 	outcome, err := c.fetcher.Fetch(ctx, fetchURL, pagefetch.PageVersion{})
 	if err != nil {
 		c.progress.OriginFetchFailed(ctx, fetchURL, err)
 		message.Return(ctx)
-		return scrapedpage.ScrapedPage{}, false
+		return pagescrapecontract.OfferedPage{}, false
 	}
 	switch outcome.Status {
 	case pagefetch.FetchSucceeded:
-		return scrapedpage.Of(request, outcome.Page), true
+		return pagescrapecontract.OfferedPageFrom(request, outcome.Page), true
 	case pagefetch.FetchFailed:
 		c.progress.OriginFetchFailed(ctx, fetchURL, errOriginReportedFetchFailure)
 		message.Return(ctx)
@@ -143,12 +142,12 @@ func (c *ScrapeRequestConsumer) fetch(
 		c.progress.NothingToScrape(ctx, fetchURL)
 		c.giveUp(ctx, message, requestedURL)
 	}
-	return scrapedpage.ScrapedPage{}, false
+	return pagescrapecontract.OfferedPage{}, false
 }
 
 func (c *ScrapeRequestConsumer) documentOf(
 	ctx context.Context,
-	scrapedPage scrapedpage.ScrapedPage,
+	scrapedPage pagescrapecontract.OfferedPage,
 	requestedURL canonicalurl.CanonicalURL,
 ) (documentextraction.Document, bool) {
 	document, err := documentextraction.DocumentFrom(

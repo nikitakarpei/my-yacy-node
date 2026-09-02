@@ -58,16 +58,13 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/scrapedpage v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/prometheus/client_golang v1.23.2
 	google.golang.org/grpc v1.83.1
 	google.golang.org/protobuf v1.36.12
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/scrapedpage => ../../libraries/scrapedpage
-
-replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract
+replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../services/pagescrape/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction

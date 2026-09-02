@@ -26,10 +26,8 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  scrapedpage:
-    in: github.com/nikitakarpei/yacy-rwi-node/scrapedpage
-  scraperequestcontract:
-    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  pagescrapecontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   pageformats:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pageformats
@@ -88,8 +86,7 @@ deps:
       - scrapedpagedocument
     canUse:
       - yacycrawlcontract
-      - scraperequestcontract
-      - scrapedpage
+      - pagescrapecontract
       - pageformats
       - pagefetch
       - searchdocument

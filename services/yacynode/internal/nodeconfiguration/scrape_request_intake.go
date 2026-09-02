@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 )
 
@@ -30,7 +30,7 @@ const (
 	DefaultScrapeRequestIntakeConcurrency = 4
 )
 
-var DefaultScrapeRequestSubject = scraperequestcontract.ScrapeRequestSubject
+var DefaultScrapeRequestSubject = pagescrapecontract.ScrapeRequestSubject
 
 type ScrapeRequestIntakeConfig struct {
 	ScrapeRequestNATSURL           string

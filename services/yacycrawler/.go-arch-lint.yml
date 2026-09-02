@@ -7,7 +7,7 @@ allow:
 
 commonVendors:
   - yacycrawlcontract
-  - scraperequestcontract
+  - pagescrapecontract
   - canonicalurl
 
 components:
@@ -69,8 +69,8 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  scraperequestcontract:
-    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  pagescrapecontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   nats:
     in:
       - github.com/nats-io/nats.go

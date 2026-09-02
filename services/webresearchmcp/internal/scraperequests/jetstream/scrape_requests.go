@@ -11,7 +11,7 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 )
 
@@ -37,8 +37,8 @@ func (r *ScrapeRequests) AskToScrape(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 ) error {
-	request, err := scraperequestcontract.MarshalScrapeRequest(
-		scraperequestcontract.ScrapeRequest{PageURL: pageURL},
+	request, err := pagescrapecontract.MarshalScrapeRequest(
+		pagescrapecontract.ScrapeRequest{PageURL: pageURL},
 	)
 	if err != nil {
 		return fmt.Errorf("marshal the scrape request for %q: %w", pageURL, err)

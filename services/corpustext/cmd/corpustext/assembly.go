@@ -15,7 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
@@ -98,7 +98,7 @@ func scrapeRequestConsumerFor(
 ) (jetstream.Consumer, error) {
 	stream, err := scrapeRequestJetStream.Stream(
 		ctx,
-		scraperequestcontract.ScrapeRequestsStreamName,
+		pagescrapecontract.ScrapeRequestsStreamName,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("lookup scrape requests stream: %w", err)

@@ -64,8 +64,7 @@ require (
 	github.com/nikitakarpei/yacy-rwi-node/documentextraction v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pagefetch v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/pageformats v0.0.0-00010101000000-000000000000
-	github.com/nikitakarpei/yacy-rwi-node/scrapedpage v0.0.0
-	github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/serviceruntime v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/storedfields v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/vault v0.0.0
@@ -77,8 +76,6 @@ require (
 	github.com/prometheus/client_model v0.6.2
 )
 
-replace github.com/nikitakarpei/yacy-rwi-node/scrapedpage => ../../libraries/scrapedpage
-
-replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract
+replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../services/pagescrape/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction

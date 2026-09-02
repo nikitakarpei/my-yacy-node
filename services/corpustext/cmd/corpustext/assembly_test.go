@@ -15,7 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	corpustext "github.com/nikitakarpei/yacy-rwi-node/corpustext/cmd/corpustext"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
 const (
@@ -135,8 +135,8 @@ func publishScrapeRequest(
 	pageURL string,
 ) {
 	t.Helper()
-	data, err := scraperequestcontract.MarshalScrapeRequest(
-		scraperequestcontract.ScrapeRequest{
+	data, err := pagescrapecontract.MarshalScrapeRequest(
+		pagescrapecontract.ScrapeRequest{
 			PageURL: canonicalurltest.CanonicalURLOf(t, pageURL),
 		},
 	)
@@ -187,7 +187,7 @@ func TestRunServiceFailsWhenCrawlNATSUnreachable(t *testing.T) {
 func createScrapeRequestsStream(t *testing.T, js jetstream.JetStream, subject string) {
 	t.Helper()
 	if _, err := js.CreateOrUpdateStream(context.Background(), jetstream.StreamConfig{
-		Name:      scraperequestcontract.ScrapeRequestsStreamName,
+		Name:      pagescrapecontract.ScrapeRequestsStreamName,
 		Subjects:  []string{subject},
 		Retention: jetstream.WorkQueuePolicy,
 		MaxMsgs:   64,

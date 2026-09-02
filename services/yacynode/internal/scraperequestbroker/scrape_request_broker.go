@@ -10,7 +10,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 )
 
@@ -46,7 +46,7 @@ func scrapeRequestConsumerFor(
 	js jetstream.JetStream,
 	cfg Config,
 ) (jetstream.Consumer, error) {
-	stream, err := js.Stream(ctx, scraperequestcontract.ScrapeRequestsStreamName)
+	stream, err := js.Stream(ctx, pagescrapecontract.ScrapeRequestsStreamName)
 	if err != nil {
 		return nil, fmt.Errorf("open scrape requests stream: %w", err)
 	}

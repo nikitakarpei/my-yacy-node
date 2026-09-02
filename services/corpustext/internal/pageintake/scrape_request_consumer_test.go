@@ -13,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintake"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/searchdocument"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake/pullintaketest"
@@ -78,8 +78,8 @@ const longText = "The quick brown fox jumps over the lazy dog while the industri
 
 func scrapeRequestMessage(t *testing.T) *pullintaketest.Message {
 	t.Helper()
-	data, err := scraperequestcontract.MarshalScrapeRequest(
-		scraperequestcontract.ScrapeRequest{
+	data, err := pagescrapecontract.MarshalScrapeRequest(
+		pagescrapecontract.ScrapeRequest{
 			PageURL: canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
 		},
 	)
@@ -94,8 +94,8 @@ func archivedScrapeRequestMessage(
 	fetchURL string,
 ) *pullintaketest.Message {
 	t.Helper()
-	data, err := scraperequestcontract.MarshalScrapeRequest(
-		scraperequestcontract.ScrapeRequest{
+	data, err := pagescrapecontract.MarshalScrapeRequest(
+		pagescrapecontract.ScrapeRequest{
 			PageURL:  canonicalurltest.CanonicalURLOf(t, scrapeRequestURL),
 			FetchURL: canonicalurltest.CanonicalURLOf(t, fetchURL),
 		},

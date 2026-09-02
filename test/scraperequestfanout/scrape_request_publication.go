@@ -10,7 +10,7 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
 func connectJetStream(t *testing.T, natsURL string) jetstream.JetStream {
@@ -34,15 +34,15 @@ func publishScrapeRequest(
 	pageURL string,
 ) {
 	t.Helper()
-	data, err := scraperequestcontract.MarshalScrapeRequest(
-		scraperequestcontract.ScrapeRequest{
+	data, err := pagescrapecontract.MarshalScrapeRequest(
+		pagescrapecontract.ScrapeRequest{
 			PageURL: canonicalurltest.CanonicalURLOf(t, pageURL),
 		},
 	)
 	if err != nil {
 		t.Fatalf("marshal scrape request: %v", err)
 	}
-	if _, err := js.Publish(ctx, scraperequestcontract.ScrapeRequestSubject, data); err != nil {
+	if _, err := js.Publish(ctx, pagescrapecontract.ScrapeRequestSubject, data); err != nil {
 		t.Fatalf("publish scrape request: %v", err)
 	}
 }

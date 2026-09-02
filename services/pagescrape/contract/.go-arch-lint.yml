@@ -6,23 +6,20 @@ allow:
   deepScan: false
 
 components:
-  scrapedpage:
+  pagescrapecontract:
     in: .
 
 deps:
-  scrapedpage:
+  pagescrapecontract:
     canUse:
       - canonicalurl
       - pagefetch
-      - scraperequestcontract
 
 vendors:
   canonicalurl:
     in: github.com/nikitakarpei/yacy-rwi-node/canonicalurl
   pagefetch:
     in: github.com/nikitakarpei/yacy-rwi-node/pagefetch
-  scraperequestcontract:
-    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
 
 excludeFiles:
   - "_test\\.go"
