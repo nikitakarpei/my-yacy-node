@@ -13,9 +13,7 @@ The service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `SCRAPE_REQUEST_NATS_URL` | required | NATS server the service asks for scrapes through. |
-| `SCRAPE_REQUEST_SUBJECT` | `scrape.request` | Subject the service asks for scrapes on. |
-| `PAGE_MARKDOWN_NATS_URL` | required | NATS server that carries the outcome of each scrape. |
+| `SCRAPE_REQUEST_NATS_URL` | required | NATS server the service asks for scrapes through, and hears the outcome of each scrape on. |
 | `PAGE_FETCH_WAIT` | `10s` | Time a page call waits for the scrape it asked for. |
 | `PAGE_SCRAPE_TOLERANCE` | `1h` | Age of stored markdown a page call accepts without asking for a scrape. |
 

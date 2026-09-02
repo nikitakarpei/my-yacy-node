@@ -26,7 +26,7 @@ func TestOfferedPageFromCarriesTheBytesTheReadReturned(t *testing.T) {
 	}
 }
 
-func TestOfferedPageFromTakesALandingAsThePageWhenTheFetchURLIdentifiesThePage(t *testing.T) {
+func TestOfferedPageFromKeepsThePageURLTheRequestNamed(t *testing.T) {
 	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/a")
 	landedURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/b")
 
@@ -35,8 +35,8 @@ func TestOfferedPageFromTakesALandingAsThePageWhenTheFetchURLIdentifiesThePage(t
 		pagefetch.FetchedPage{LandedURL: landedURL},
 	)
 
-	if offered.PageURL != landedURL {
-		t.Errorf("page url = %q, want the landing %q", offered.PageURL, landedURL)
+	if offered.PageURL != pageURL {
+		t.Errorf("page url = %q, want the named page url %q", offered.PageURL, pageURL)
 	}
 	if offered.LandedURL != landedURL {
 		t.Errorf("landed url = %q, want %q", offered.LandedURL, landedURL)

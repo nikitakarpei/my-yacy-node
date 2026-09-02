@@ -33,12 +33,6 @@ type ScrapeProgress interface {
 		pageURL canonicalurl.CanonicalURL,
 		cause error,
 	)
-	RedirectionNotRecorded(
-		ctx context.Context,
-		requestedURL canonicalurl.CanonicalURL,
-		pageURL canonicalurl.CanonicalURL,
-		cause error,
-	)
 	ScrapeDeferred(
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
@@ -109,17 +103,6 @@ func (observers ScrapeProgressObservers) PageNotOffered(
 ) {
 	for _, observer := range observers {
 		observer.PageNotOffered(ctx, pageURL, cause)
-	}
-}
-
-func (observers ScrapeProgressObservers) RedirectionNotRecorded(
-	ctx context.Context,
-	requestedURL canonicalurl.CanonicalURL,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	for _, observer := range observers {
-		observer.RedirectionNotRecorded(ctx, requestedURL, pageURL, cause)
 	}
 }
 

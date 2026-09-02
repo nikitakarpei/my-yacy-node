@@ -4,7 +4,8 @@ Date: 2026-08-27
 
 ## Status
 
-Accepted
+Accepted. Superseded in part by ADR 2, which drops the rule that a landing
+becomes the identity when the read address and the identity are the same.
 
 ## Context
 

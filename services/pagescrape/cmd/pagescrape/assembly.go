@@ -13,7 +13,6 @@ import (
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	pageofferpublishersjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/pageofferpublishers/jetstream"
-	pageredirectionsjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/pageredirections/jetstream"
 	scrapeintakepkg "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintake"
 	scrapeoutcomefeedsnats "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeoutcomefeeds/nats"
 	scrapeprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeprogressobservers/applog"
@@ -54,10 +53,6 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	); err != nil {
 		return err
 	}
-	pageRedirections, err := pageredirectionsjetstream.CreatePageRedirections(ctx, broker)
-	if err != nil {
-		return err
-	}
 	consumer, err := scrapeRequestConsumerFor(ctx, scrapeRequests, cfg)
 	if err != nil {
 		return err
@@ -75,7 +70,6 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 			cfg.FetchDeadline,
 		),
 		PageOffers:        pageofferpublishersjetstream.NewPageOfferPublisher(broker),
-		PageRedirections:  pageRedirections,
 		ScrapeSchedules:   scrapeschedulesjetstream.NewScrapeSchedules(broker, time.Now),
 		ScrapeOutcomeFeed: outcomeFeed,
 		ScrapeProgress: scrapeintakepkg.ScrapeProgressObservers{

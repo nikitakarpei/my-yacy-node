@@ -15,8 +15,6 @@ components:
     in: internal/scrapestreams/jetstream/**
   pageofferpublishersjetstream:
     in: internal/pageofferpublishers/jetstream/**
-  pageredirectionsjetstream:
-    in: internal/pageredirections/jetstream/**
   scrapeschedulesjetstream:
     in: internal/scrapeschedules/jetstream/**
   scrapeoutcomefeedsnats:
@@ -62,10 +60,6 @@ deps:
       - pagescrapecontract
       - nats
   pageofferpublishersjetstream:
-    canUse:
-      - pagescrapecontract
-      - nats
-  pageredirectionsjetstream:
     canUse:
       - pagescrapecontract
       - nats

@@ -19,24 +19,21 @@ const (
 )
 
 type scrapeIntake struct {
-	message      *pullintaketest.Message
-	offers       *pageOffers
-	redirections *pageRedirections
-	schedules    *scrapeSchedules
-	feed         *scrapeOutcomeFeed
+	message   *pullintaketest.Message
+	offers    *pageOffers
+	schedules *scrapeSchedules
+	feed      *scrapeOutcomeFeed
 }
 
 type scrapeBroker struct {
-	offers       *pageOffers
-	redirections *pageRedirections
-	schedules    *scrapeSchedules
+	offers    *pageOffers
+	schedules *scrapeSchedules
 }
 
 func acceptingScrapeBroker() scrapeBroker {
 	return scrapeBroker{
-		offers:       &pageOffers{},
-		redirections: &pageRedirections{},
-		schedules:    &scrapeSchedules{},
+		offers:    &pageOffers{},
+		schedules: &scrapeSchedules{},
 	}
 }
 
@@ -68,7 +65,6 @@ func runScrapeIntakeAgainst(
 		ScrapeRequests:    pullintaketest.MessageSourceOf(message),
 		PageFetcher:       reads,
 		PageOffers:        broker.offers,
-		PageRedirections:  broker.redirections,
 		ScrapeSchedules:   broker.schedules,
 		ScrapeOutcomeFeed: feed,
 		ScrapeProgress:    scrapeintake.ScrapeProgressObservers{silentScrapeProgress{}},
@@ -80,11 +76,10 @@ func runScrapeIntakeAgainst(
 		t.Fatalf("run intake: %v", err)
 	}
 	return scrapeIntake{
-		message:      message,
-		offers:       broker.offers,
-		redirections: broker.redirections,
-		schedules:    broker.schedules,
-		feed:         feed,
+		message:   message,
+		offers:    broker.offers,
+		schedules: broker.schedules,
+		feed:      feed,
 	}
 }
 
@@ -118,7 +113,7 @@ func TestPageReadFromTheOriginIsOfferedToTheCorpora(t *testing.T) {
 	}
 }
 
-func TestPageThatRedirectsIsRememberedUnderTheRequestedURL(t *testing.T) {
+func TestPageThatRedirectsIsOfferedUnderTheURLTheRequestNamed(t *testing.T) {
 	request := scrapeRequestForThePage(t)
 	landedURL := canonicalurltest.CanonicalURLOf(t, landedPageURL)
 	read := pageReads{outcome: pagefetch.FetchOutcome{
@@ -128,49 +123,18 @@ func TestPageThatRedirectsIsRememberedUnderTheRequestedURL(t *testing.T) {
 
 	intake := runScrapeIntake(t, request, read, time.Now())
 
-	if got := intake.redirections.recorded[request.PageURL]; got != landedURL {
-		t.Errorf("%s redirects to %s, want %s", request.PageURL, got, landedURL)
+	if len(intake.offers.offered) != 1 {
+		t.Fatalf("offered %d pages, want exactly one", len(intake.offers.offered))
+	}
+	offered := intake.offers.offered[0]
+	if offered.PageURL != request.PageURL {
+		t.Errorf("offered the page %s, want %s", offered.PageURL, request.PageURL)
+	}
+	if offered.LandedURL != landedURL {
+		t.Errorf("the page landed on %s, want %s", offered.LandedURL, landedURL)
 	}
 	if settlement := intake.message.Settlement(t); settlement != pullintaketest.Acknowledged {
 		t.Errorf("the request was %s, want it %s", settlement, pullintaketest.Acknowledged)
-	}
-}
-
-func TestPageThatLandsWhereItWasAskedForRemembersNoRedirection(t *testing.T) {
-	request := scrapeRequestForThePage(t)
-	read := pageReads{outcome: pagefetch.FetchOutcome{
-		Status: pagefetch.FetchSucceeded,
-		Page: pagefetch.FetchedPage{
-			LandedURL:   canonicalurltest.CanonicalURLOf(t, pageURL),
-			ContentType: "text/html",
-		},
-	}}
-
-	intake := runScrapeIntake(t, request, read, time.Now())
-
-	if len(intake.redirections.recorded) != 0 {
-		t.Errorf("remembered %d redirections, want none", len(intake.redirections.recorded))
-	}
-}
-
-func TestRequestComesBackWhenTheRedirectionIsNotRemembered(t *testing.T) {
-	read := pageReads{outcome: pagefetch.FetchOutcome{
-		Status: pagefetch.FetchSucceeded,
-		Page: pagefetch.FetchedPage{
-			LandedURL:   canonicalurltest.CanonicalURLOf(t, landedPageURL),
-			ContentType: "text/html",
-		},
-	}}
-	broker := acceptingScrapeBroker()
-	broker.redirections = &pageRedirections{err: errBrokerRefused}
-
-	intake := runScrapeIntakeAgainst(t, scrapeRequestForThePage(t), read, time.Now(), broker)
-
-	if len(intake.offers.offered) != 0 {
-		t.Errorf("offered %d pages, want none", len(intake.offers.offered))
-	}
-	if settlement := intake.message.Settlement(t); settlement != pullintaketest.HeldBack {
-		t.Errorf("the request was %s, want it %s", settlement, pullintaketest.HeldBack)
 	}
 }
 
@@ -312,7 +276,6 @@ func TestUnreadableScrapeRequestHaltsIntake(t *testing.T) {
 		ScrapeRequests:    pullintaketest.MessageSourceOf(message),
 		PageFetcher:       pageReads{},
 		PageOffers:        &pageOffers{},
-		PageRedirections:  &pageRedirections{},
 		ScrapeSchedules:   &scrapeSchedules{},
 		ScrapeOutcomeFeed: &scrapeOutcomeFeed{},
 		ScrapeProgress:    scrapeintake.ScrapeProgressObservers{silentScrapeProgress{}},

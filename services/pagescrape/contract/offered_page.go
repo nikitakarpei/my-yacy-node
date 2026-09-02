@@ -20,21 +20,13 @@ func OfferedPageFrom(
 	request ScrapeRequest,
 	fetchedPage pagefetch.FetchedPage,
 ) OfferedPage {
-	pageURL := request.PageURL
-	if fetchURLIdentifiesThePage(request) {
-		pageURL = fetchedPage.LandedURL
-	}
 	return OfferedPage{
-		PageURL:          pageURL,
+		PageURL:          request.PageURL,
 		LandedURL:        fetchedPage.LandedURL,
 		ContentType:      fetchedPage.ContentType,
 		Body:             fetchedPage.Body,
 		RobotsDirectives: fetchedPage.RobotsDirectives,
 	}
-}
-
-func fetchURLIdentifiesThePage(request ScrapeRequest) bool {
-	return request.FetchURL == request.PageURL
 }
 
 func MarshalOfferedPage(page OfferedPage) ([]byte, error) {

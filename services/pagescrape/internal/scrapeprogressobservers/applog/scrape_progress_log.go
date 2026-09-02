@@ -10,16 +10,15 @@ import (
 )
 
 const (
-	msgScrapeRequestInvalid   = "scrape request unreadable, intake halted"
-	msgScrapeRequestReceived  = "scrape request received"
-	msgOriginReadFailed       = "page read from the origin failed"
-	msgPageOffered            = "page offered to the corpora"
-	msgPageNotOffered         = "nothing offered to the corpora for this page, the request comes back"
-	msgRedirectionNotRecorded = "redirection not recorded, the request comes back"
-	msgScrapeDeferred         = "scrape deferred by the origin, scheduled for a later read"
-	msgScrapeScheduleFailed   = "scrape not scheduled, the request comes back"
-	msgScrapeFailed           = "scrape failed, the page is given up"
-	msgScrapeOutcomeAnnounce  = "scrape failure not announced, " +
+	msgScrapeRequestInvalid  = "scrape request unreadable, intake halted"
+	msgScrapeRequestReceived = "scrape request received"
+	msgOriginReadFailed      = "page read from the origin failed"
+	msgPageOffered           = "page offered to the corpora"
+	msgPageNotOffered        = "nothing offered to the corpora for this page, the request comes back"
+	msgScrapeDeferred        = "scrape deferred by the origin, scheduled for a later read"
+	msgScrapeScheduleFailed  = "scrape not scheduled, the request comes back"
+	msgScrapeFailed          = "scrape failed, the page is given up"
+	msgScrapeOutcomeAnnounce = "scrape failure not announced, " +
 		"a caller waiting for this page learns nothing until it stops waiting"
 )
 
@@ -67,19 +66,6 @@ func (ScrapeProgressLog) PageNotOffered(
 	cause error,
 ) {
 	slog.ErrorContext(ctx, msgPageNotOffered,
-		slog.String("pageUrl", pageURL.String()),
-		slog.Any("error", cause),
-	)
-}
-
-func (ScrapeProgressLog) RedirectionNotRecorded(
-	ctx context.Context,
-	requestedURL canonicalurl.CanonicalURL,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	slog.ErrorContext(ctx, msgRedirectionNotRecorded,
-		slog.String("requestedUrl", requestedURL.String()),
 		slog.String("pageUrl", pageURL.String()),
 		slog.Any("error", cause),
 	)

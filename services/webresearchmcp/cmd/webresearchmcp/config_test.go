@@ -15,7 +15,6 @@ func requiredEnv() map[string]string {
 	return map[string]string{
 		webresearchmcp.EnvSearXNGURL:           "http://searxng:8080",
 		webresearchmcp.EnvScrapeRequestNATSURL: "nats://crawl:4222",
-		webresearchmcp.EnvPageMarkdownNATSURL:  "nats://corpus:4222",
 		webresearchmcp.EnvCorpusMarkdownAddr:   "corpusmarkdown:8094",
 	}
 }
@@ -24,7 +23,6 @@ func TestLoadServiceConfigRequiresEveryDependency(t *testing.T) {
 	for _, missing := range []string{
 		webresearchmcp.EnvSearXNGURL,
 		webresearchmcp.EnvScrapeRequestNATSURL,
-		webresearchmcp.EnvPageMarkdownNATSURL,
 		webresearchmcp.EnvCorpusMarkdownAddr,
 	} {
 		env := requiredEnv()
@@ -42,9 +40,6 @@ func TestLoadServiceConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
 	}
 	if cfg.SearXNGSearchDeadline != webresearchmcp.DefaultSearXNGSearchDeadline {
 		t.Errorf("searxng search deadline = %s", cfg.SearXNGSearchDeadline)
-	}
-	if cfg.ScrapeRequestSubject != webresearchmcp.DefaultScrapeRequestSubject {
-		t.Errorf("scrape request subject = %q", cfg.ScrapeRequestSubject)
 	}
 	if cfg.PageFetchWait != webresearchmcp.DefaultPageFetchWait {
 		t.Errorf("page fetch wait = %s", cfg.PageFetchWait)
@@ -75,7 +70,6 @@ func TestLoadServiceConfigFallsBackToTheDefaultOfEverySetting(t *testing.T) {
 func TestLoadServiceConfigTakesEverySettingAnOperatorNames(t *testing.T) {
 	env := requiredEnv()
 	env[webresearchmcp.EnvSearXNGSearchDeadline] = "3s"
-	env[webresearchmcp.EnvScrapeRequestSubject] = "scrape.request.research"
 	env[webresearchmcp.EnvPageFetchWait] = "45s"
 	env[webresearchmcp.EnvPageScrapeTolerance] = "15m"
 	env[webresearchmcp.EnvCorpusMarkdownRecallDeadline] = "2s"
@@ -91,9 +85,6 @@ func TestLoadServiceConfigTakesEverySettingAnOperatorNames(t *testing.T) {
 	}
 	if cfg.SearXNGSearchDeadline != 3*time.Second {
 		t.Errorf("searxng search deadline = %s, want 3s", cfg.SearXNGSearchDeadline)
-	}
-	if cfg.ScrapeRequestSubject != "scrape.request.research" {
-		t.Errorf("scrape request subject = %q", cfg.ScrapeRequestSubject)
 	}
 	if cfg.PageFetchWait != 45*time.Second {
 		t.Errorf("page fetch wait = %s, want 45s", cfg.PageFetchWait)

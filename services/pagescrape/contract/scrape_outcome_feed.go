@@ -9,20 +9,50 @@ import (
 
 const ScrapeOutcomeSubjectPrefix = "scrape.outcome"
 
+type ScrapeOutcome string
+
+const (
+	PageKept     ScrapeOutcome = "kept"
+	PageRejected ScrapeOutcome = "rejected"
+	ScrapeFailed ScrapeOutcome = "failed"
+)
+
 func ScrapeOutcomeSubjectsOf(pageURL canonicalurl.CanonicalURL) string {
 	return scrapeOutcomeSubjectPrefixOf(pageURL) + ".*"
 }
 
 func KeptPageOutcomeSubjectOf(pageURL canonicalurl.CanonicalURL) string {
-	return scrapeOutcomeSubjectPrefixOf(pageURL) + ".kept"
+	return scrapeOutcomeSubjectOf(pageURL, PageKept)
 }
 
 func RejectedPageOutcomeSubjectOf(pageURL canonicalurl.CanonicalURL) string {
-	return scrapeOutcomeSubjectPrefixOf(pageURL) + ".rejected"
+	return scrapeOutcomeSubjectOf(pageURL, PageRejected)
 }
 
 func ScrapeFailureOutcomeSubjectOf(pageURL canonicalurl.CanonicalURL) string {
-	return scrapeOutcomeSubjectPrefixOf(pageURL) + ".failed"
+	return scrapeOutcomeSubjectOf(pageURL, ScrapeFailed)
+}
+
+func scrapeOutcomeSubjectOf(
+	pageURL canonicalurl.CanonicalURL,
+	outcome ScrapeOutcome,
+) string {
+	return scrapeOutcomeSubjectPrefixOf(pageURL) + "." + string(outcome)
+}
+
+func ScrapeOutcomeOn(feedSubject string) (ScrapeOutcome, error) {
+	const feedTokenCount = 4
+	tokens := strings.Split(feedSubject, ".")
+	if len(tokens) != feedTokenCount ||
+		tokens[0]+"."+tokens[1] != ScrapeOutcomeSubjectPrefix {
+		return "", fmt.Errorf("%q is no scrape outcome subject", feedSubject)
+	}
+	switch outcome := ScrapeOutcome(tokens[3]); outcome {
+	case PageKept, PageRejected, ScrapeFailed:
+		return outcome, nil
+	default:
+		return "", fmt.Errorf("%q carries no known scrape outcome", feedSubject)
+	}
 }
 
 func scrapeOutcomeSubjectPrefixOf(pageURL canonicalurl.CanonicalURL) string {

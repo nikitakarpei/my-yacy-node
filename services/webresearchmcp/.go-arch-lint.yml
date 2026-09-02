@@ -99,7 +99,7 @@ deps:
     mayDependOn:
       - pageread
     canUse:
-      - pagemarkdownstore
+      - pagescrapecontract
       - nats
   pagereadprogressobserversapplog:
     mayDependOn:

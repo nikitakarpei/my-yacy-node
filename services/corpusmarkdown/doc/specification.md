@@ -16,7 +16,6 @@ ask for one URL.
 * Deciding which pages to store: the crawler decides which pages it reaches.
 * Judging a page again: an offered page is already admitted, so this service applies no
   scope, robots, or indexing rule of its own.
-* Resolving the URL a request redirected to: the caller asks with the URL the corpus holds.
 * Storing markdown anywhere other than the operator's own object store.
 
 ## Functional Requirements
@@ -64,7 +63,5 @@ ask for one URL.
   longer than the broker keeps the message, the broker drops it and the page's markdown is lost
   until the next recrawl.
 * A receipt is not kept. A listener that is away when the service sends one never learns it.
-* A page that redirected is stored under the URL the origin settled on, so a recall of the
-  URL somebody asked for finds none until the caller resolves that redirection itself.
 * If canonicalization changes, a page's canonical URL changes with it; with no migration here,
   its old and new objects both persist until an operator intervenes.
