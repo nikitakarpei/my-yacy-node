@@ -8,27 +8,22 @@ services:
   nats:
     image: nats:2.14.2
     restart: unless-stopped
-    command: ["-js", "--store_dir=/data", "-m", "8222"]
+    command: ["-js", "--store_dir=/data", "--max_payload=8MB", "-m", "8222"]
     volumes:
       - nats-data:/data
 
-  scrape-requests-stream:
-    image: natsio/nats-box:0.19.7
+  pagescrape:
+    image: ghcr.io/nikitakarpei/pagescrape:latest
+    restart: unless-stopped
     depends_on:
-      - nats
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - |
-        until nats --server nats://nats:4222 stream info SCRAPE_REQUESTS >/dev/null 2>&1 ||
-              nats --server nats://nats:4222 stream add SCRAPE_REQUESTS --defaults \
-                --subjects scrape.request \
-                --retention limits \
-                --discard old \
-                --max-msgs 100000 \
-                --storage file
-        do
-          sleep 1
-        done
+      nats:
+        condition: service_started
+      smokescreen:
+        condition: service_started
+    environment:
+      SCRAPE_NATS_URL: nats://nats:4222
+      SCRAPE_PROXY_URL: http://smokescreen:4750
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
 
   crawl-console:
     image: natsio/nats-box:0.19.7
@@ -42,8 +37,8 @@ services:
     image: ghcr.io/nikitakarpei/yacycrawler:latest
     restart: unless-stopped
     depends_on:
-      scrape-requests-stream:
-        condition: service_completed_successfully
+      pagescrape:
+        condition: service_started
       smokescreen:
         condition: service_started
     environment:
@@ -62,15 +57,12 @@ services:
     image: ghcr.io/nikitakarpei/corpustext:latest
     restart: unless-stopped
     depends_on:
-      scrape-requests-stream:
-        condition: service_completed_successfully
+      pagescrape:
+        condition: service_started
       manticore:
         condition: service_started
-      smokescreen:
-        condition: service_started
     environment:
-      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://smokescreen:4750
+      SCRAPE_PAGE_OFFER_NATS_URL: nats://nats:4222
       SEARCH_INDEX_ENGINE: manticore
       MANTICORE_URL: http://manticore:9308
       CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}
@@ -112,8 +104,8 @@ services:
     image: ghcr.io/nikitakarpei/yacynode:latest
     restart: unless-stopped
     depends_on:
-      scrape-requests-stream:
-        condition: service_completed_successfully
+      pagescrape:
+        condition: service_started
       smokescreen:
         condition: service_started
     ports:
@@ -132,8 +124,7 @@ services:
       YACY_DISTRIBUTION_ENABLED: "true"
       YACY_STORAGE_QUOTA: ${YACY_STORAGE_QUOTA:-1GB}
       EGRESS_PROXY_URL: http://smokescreen:4750
-      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
-      SCRAPE_PROXY_URL: http://smokescreen:4750
+      SCRAPE_PAGE_OFFER_NATS_URL: nats://nats:4222
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
     volumes:
       - yacy-data:/data

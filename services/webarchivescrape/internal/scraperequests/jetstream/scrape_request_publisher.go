@@ -1,6 +1,6 @@
 // Package jetstream publishes a scrape request for every capture the command selects. The
-// scrape requests stream belongs to the stack that reads it; until that stream exists,
-// publishing fails.
+// pagescrape service owns the scrape requests stream. Publishing fails until that service
+// creates the stream.
 package jetstream
 
 import (

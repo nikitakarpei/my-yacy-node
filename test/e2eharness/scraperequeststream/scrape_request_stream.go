@@ -1,8 +1,7 @@
 //go:build e2e
 
-// Package scraperequeststream provisions the scrape-request stream an e2e stack needs.
-// No service creates it: the crawler and the shim publish to it, every corpus reads it,
-// and an operator decides its retention. A suite stands in for that operator.
+// Package scraperequeststream provisions the scrape-request stream for a publish-only
+// e2e stack that does not start the pagescrape service which owns the stream.
 package scraperequeststream
 
 import (
