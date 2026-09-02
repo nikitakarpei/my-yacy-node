@@ -8,8 +8,9 @@ services:
   nats:
     image: nats:2.14.2
     restart: unless-stopped
-    command: ["-js", "--store_dir=/data", "--max_payload=8MB", "-m", "8222"]
+    command: ["-c", "/etc/nats/nats.conf"]
     volumes:
+      - ../../building-blocks/nats/nats.conf:/etc/nats/nats.conf:ro
       - nats-data:/data
 
   pagescrape:
