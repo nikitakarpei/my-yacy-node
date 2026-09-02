@@ -9,7 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/webarchivescrape/internal/scraperequests/jetstream"
 )
 
@@ -18,8 +18,8 @@ func TestPublishWritesTheContractMessageForACapturedPage(t *testing.T) {
 	js := natstestserver.ConnectJetStream(t, serverURL)
 	ctx := context.Background()
 	if _, err := js.CreateOrUpdateStream(ctx, natsjetstream.StreamConfig{
-		Name:      scraperequestcontract.ScrapeRequestsStreamName,
-		Subjects:  []string{scraperequestcontract.ScrapeRequestSubject},
+		Name:      pagescrapecontract.ScrapeRequestsStreamName,
+		Subjects:  []string{pagescrapecontract.ScrapeRequestSubject},
 		Retention: natsjetstream.WorkQueuePolicy,
 	}); err != nil {
 		t.Fatalf("create scrape requests stream: %v", err)
@@ -43,7 +43,7 @@ func TestPublishWritesTheContractMessageForACapturedPage(t *testing.T) {
 
 	consumer, err := js.CreateOrUpdateConsumer(
 		ctx,
-		scraperequestcontract.ScrapeRequestsStreamName,
+		pagescrapecontract.ScrapeRequestsStreamName,
 		natsjetstream.ConsumerConfig{AckPolicy: natsjetstream.AckExplicitPolicy},
 	)
 	if err != nil {
@@ -53,7 +53,7 @@ func TestPublishWritesTheContractMessageForACapturedPage(t *testing.T) {
 	if err != nil {
 		t.Fatalf("read scrape request: %v", err)
 	}
-	request, err := scraperequestcontract.UnmarshalScrapeRequest(message.Data())
+	request, err := pagescrapecontract.UnmarshalScrapeRequest(message.Data())
 	if err != nil {
 		t.Fatalf("unmarshal scrape request: %v", err)
 	}

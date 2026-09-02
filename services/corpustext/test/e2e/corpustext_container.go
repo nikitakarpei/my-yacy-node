@@ -8,18 +8,19 @@ import (
 	"time"
 
 	"github.com/testcontainers/testcontainers-go"
+	"github.com/testcontainers/testcontainers-go/wait"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 )
 
 const (
-	corpusTextAlias       = "corpustext"
-	envCorpusTextImage    = "CORPUSTEXT_IMAGE"
-	indexedLanguage       = "en"
-	corpusTextStopTimeout = 30 * time.Second
+	corpusTextAlias          = "corpustext"
+	corpusTextOperationsPort = "9090/tcp"
+	envCorpusTextImage       = "CORPUSTEXT_IMAGE"
+	indexedLanguage          = "en"
+	corpusTextStopTimeout    = 30 * time.Second
 )
 
 func startCorpusText(
@@ -30,9 +31,8 @@ func startCorpusText(
 ) testcontainers.Container {
 	t.Helper()
 	env := map[string]string{
-		"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL(),
-		"SCRAPE_PROXY_URL":        egressproxy.NetworkURL(),
-		"LOG_LEVEL":               "debug",
+		"SCRAPE_PAGE_OFFER_NATS_URL": natsjetstream.NetworkURL(),
+		"LOG_LEVEL":                  "debug",
 	}
 	for key, value := range searchIndexEnv {
 		env[key] = value
@@ -43,6 +43,8 @@ func startCorpusText(
 			Image:          corpusTextImage(t),
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {corpusTextAlias}},
+			ExposedPorts:   []string{corpusTextOperationsPort},
+			WaitingFor:     wait.ForListeningPort(corpusTextOperationsPort),
 			Env:            env,
 		},
 	})

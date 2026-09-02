@@ -16,26 +16,21 @@ components:
     in: internal/searchindexes/manticore/**
   pageintake:
     in: internal/pageintake/**
-  indexmetrics:
-    in: internal/indexmetrics/**
+  intakereceiptsnats:
+    in: internal/intakereceipts/nats/**
+  intakeprogressobserversapplog:
+    in: internal/intakeprogressobservers/applog/**
+  intakeprogressobserversprometheus:
+    in: internal/intakeprogressobservers/prometheus/**
   corpustextcmd:
     in: cmd/corpustext/**
 
 vendors:
-  yacycrawlcontract:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
-      - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  scrapedpage:
-    in: github.com/nikitakarpei/yacy-rwi-node/scrapedpage
-  scraperequestcontract:
-    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  pagescrapecontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   pageformats:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pageformats
-  pagefetch:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -43,9 +38,6 @@ vendors:
   documentextraction:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/documentextraction
-  pagefetchershttp:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http
   searchdocument:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/searchdocument
@@ -87,17 +79,23 @@ deps:
     mayDependOn:
       - scrapedpagedocument
     canUse:
-      - yacycrawlcontract
-      - scraperequestcontract
-      - scrapedpage
+      - pagescrapecontract
       - pageformats
-      - pagefetch
       - searchdocument
       - serviceruntime
       - documentextraction
       - canonicalurl
-  indexmetrics:
+  intakereceiptsnats:
     canUse:
+      - pagescrapecontract
+      - canonicalurl
+      - nats
+  intakeprogressobserversapplog:
+    canUse:
+      - canonicalurl
+  intakeprogressobserversprometheus:
+    canUse:
+      - canonicalurl
       - prometheus
   corpustextcmd:
     anyProjectDeps: true

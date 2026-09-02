@@ -1,0 +1,89 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonVendors:
+  - canonicalurl
+
+components:
+  scrapeintake:
+    in: internal/scrapeintake/**
+  scrapestreamsjetstream:
+    in: internal/scrapestreams/jetstream/**
+  pageofferpublishersjetstream:
+    in: internal/pageofferpublishers/jetstream/**
+  scrapeschedulesjetstream:
+    in: internal/scrapeschedules/jetstream/**
+  scrapeoutcomefeedsnats:
+    in: internal/scrapeoutcomefeeds/nats/**
+  scrapeprogressobserversapplog:
+    in: internal/scrapeprogressobservers/applog/**
+  scrapeprogressobserversprometheus:
+    in: internal/scrapeprogressobservers/prometheus/**
+  pagescrapecmd:
+    in: cmd/pagescrape/**
+
+vendors:
+  pagescrapecontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl/**
+  pagefetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
+  nats:
+    in:
+      - github.com/nats-io/nats.go
+      - github.com/nats-io/nats.go/**
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
+
+deps:
+  scrapeintake:
+    canUse:
+      - pagescrapecontract
+      - pagefetch
+      - serviceruntime
+  scrapestreamsjetstream:
+    canUse:
+      - pagescrapecontract
+      - nats
+  pageofferpublishersjetstream:
+    canUse:
+      - pagescrapecontract
+      - nats
+  scrapeschedulesjetstream:
+    canUse:
+      - pagescrapecontract
+      - nats
+  scrapeoutcomefeedsnats:
+    canUse:
+      - pagescrapecontract
+      - nats
+  scrapeprogressobserversapplog:
+    canUse:
+      - pagescrapecontract
+      - serviceruntime
+  scrapeprogressobserversprometheus:
+    canUse:
+      - pagescrapecontract
+      - prometheus
+  pagescrapecmd:
+    anyProjectDeps: true
+    anyVendorDeps: true
+
+excludeFiles:
+  - "_test\\.go"
+  - "test/e2e"
+  - "contract"

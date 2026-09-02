@@ -2,10 +2,8 @@ package main_test
 
 import (
 	"testing"
-	"time"
 
 	corpusmarkdown "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/cmd/corpusmarkdown"
-	httppkg "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 )
 
 func envFrom(values map[string]string) func(string) string {
@@ -14,17 +12,15 @@ func envFrom(values map[string]string) func(string) string {
 
 func requiredEnv() map[string]string {
 	return map[string]string{
-		corpusmarkdown.EnvScrapeRequestNATSURL: "nats://crawl:4222",
-		corpusmarkdown.EnvPageMarkdownNATSURL:  "nats://corpus:4222",
-		corpusmarkdown.EnvProxyURL:             "http://egress:3128",
+		corpusmarkdown.EnvPageOfferNATSURL:    "nats://crawl:4222",
+		corpusmarkdown.EnvPageMarkdownNATSURL: "nats://corpus:4222",
 	}
 }
 
 func TestLoadServiceConfigRequiresEveryAddress(t *testing.T) {
 	for _, missing := range []string{
-		corpusmarkdown.EnvScrapeRequestNATSURL,
+		corpusmarkdown.EnvPageOfferNATSURL,
 		corpusmarkdown.EnvPageMarkdownNATSURL,
-		corpusmarkdown.EnvProxyURL,
 	} {
 		env := requiredEnv()
 		delete(env, missing)
@@ -39,84 +35,52 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.ScrapeRequestSubject != corpusmarkdown.DefaultScrapeRequestSubject {
-		t.Errorf("subject = %q", cfg.ScrapeRequestSubject)
+	if cfg.PageOfferNATSURL != "nats://crawl:4222" {
+		t.Errorf("page offer nats url = %q", cfg.PageOfferNATSURL)
 	}
-	if cfg.ScrapeRequestDurable != corpusmarkdown.DefaultScrapeRequestDurable {
-		t.Errorf("durable = %q", cfg.ScrapeRequestDurable)
+	if cfg.PageMarkdownNATSURL != "nats://corpus:4222" {
+		t.Errorf("page markdown nats url = %q", cfg.PageMarkdownNATSURL)
 	}
-	if cfg.ScrapeRequestIntakeConcurrency != corpusmarkdown.DefaultScrapeRequestIntakeConcurrency {
-		t.Errorf("scrapeRequestIntakeConcurrency = %d", cfg.ScrapeRequestIntakeConcurrency)
+	if cfg.PageOfferDurable != corpusmarkdown.DefaultPageOfferDurable {
+		t.Errorf("durable = %q", cfg.PageOfferDurable)
+	}
+	if cfg.PageOfferIntakeConcurrency != corpusmarkdown.DefaultPageOfferIntakeConcurrency {
+		t.Errorf("pageOfferIntakeConcurrency = %d", cfg.PageOfferIntakeConcurrency)
+	}
+	if cfg.ListenAddr != corpusmarkdown.DefaultListenAddr {
+		t.Errorf("listen addr = %q", cfg.ListenAddr)
 	}
 	if cfg.OpsAddr != corpusmarkdown.DefaultOpsAddr {
 		t.Errorf("ops addr = %q", cfg.OpsAddr)
-	}
-	if cfg.ProxyDialMode != httppkg.ProxyDialTunnel {
-		t.Errorf("proxy dial mode = %d", cfg.ProxyDialMode)
-	}
-	if cfg.MaxBodyBytes != corpusmarkdown.DefaultScrapeMaxBodyBytes ||
-		cfg.FetchDeadline != corpusmarkdown.DefaultScrapeFetchDeadline {
-		t.Errorf("fetch limits = %d bytes, %s", cfg.MaxBodyBytes, cfg.FetchDeadline)
-	}
-	if cfg.UserAgent != corpusmarkdown.DefaultUserAgent {
-		t.Errorf("user agent = %q", cfg.UserAgent)
-	}
-	if cfg.ProxyURL.Host != "egress:3128" {
-		t.Errorf("proxy url = %q", cfg.ProxyURL)
 	}
 }
 
 func TestLoadServiceConfigOverrides(t *testing.T) {
 	env := requiredEnv()
-	env[corpusmarkdown.EnvScrapeRequestSubject] = "t.subject"
-	env[corpusmarkdown.EnvScrapeRequestDurable] = "dur"
-	env[corpusmarkdown.EnvProxyDialMode] = "absolute-url"
-	env[corpusmarkdown.EnvUserAgent] = "agent (+https://example.test)"
-	env[corpusmarkdown.EnvScrapeMaxBodyBytes] = "4096"
-	env[corpusmarkdown.EnvScrapeFetchDeadline] = "5s"
-	env[corpusmarkdown.EnvScrapeRequestIntakeConcurrency] = "3"
+	env[corpusmarkdown.EnvPageOfferDurable] = "dur"
+	env[corpusmarkdown.EnvPageOfferIntakeConcurrency] = "3"
+	env[corpusmarkdown.EnvListenAddr] = "127.0.0.1:8099"
 	env[corpusmarkdown.EnvOpsAddr] = "127.0.0.1:9099"
 
 	cfg, err := corpusmarkdown.LoadServiceConfig(envFrom(env))
 	if err != nil {
 		t.Fatalf("load: %v", err)
 	}
-	if cfg.ScrapeRequestSubject != "t.subject" || cfg.ScrapeRequestDurable != "dur" {
-		t.Errorf("subject/durable = %q %q", cfg.ScrapeRequestSubject, cfg.ScrapeRequestDurable)
+	if cfg.PageOfferDurable != "dur" {
+		t.Errorf("durable = %q", cfg.PageOfferDurable)
 	}
-	if cfg.ProxyDialMode != httppkg.ProxyDialAbsoluteURL {
-		t.Errorf("proxy dial mode = %d", cfg.ProxyDialMode)
+	if cfg.PageOfferIntakeConcurrency != 3 {
+		t.Errorf("pageOfferIntakeConcurrency = %d", cfg.PageOfferIntakeConcurrency)
 	}
-	if cfg.UserAgent != "agent (+https://example.test)" {
-		t.Errorf("user agent = %q", cfg.UserAgent)
-	}
-	if cfg.MaxBodyBytes != 4096 || cfg.FetchDeadline != 5*time.Second {
-		t.Errorf("fetch limits = %d bytes, %s", cfg.MaxBodyBytes, cfg.FetchDeadline)
-	}
-	if cfg.ScrapeRequestIntakeConcurrency != 3 || cfg.OpsAddr != "127.0.0.1:9099" {
-		t.Errorf(
-			"scrapeRequestIntakeConcurrency/ops addr = %d %q",
-			cfg.ScrapeRequestIntakeConcurrency,
-			cfg.OpsAddr,
-		)
+	if cfg.ListenAddr != "127.0.0.1:8099" || cfg.OpsAddr != "127.0.0.1:9099" {
+		t.Errorf("listen/ops addr = %q %q", cfg.ListenAddr, cfg.OpsAddr)
 	}
 }
 
 func TestLoadServiceConfigRejectsWhatItCannotRead(t *testing.T) {
-	rejected := map[string]map[string]string{
-		"scrapeRequestIntakeConcurrency": {corpusmarkdown.EnvScrapeRequestIntakeConcurrency: "abc"},
-		"max body bytes":                 {corpusmarkdown.EnvScrapeMaxBodyBytes: "-1"},
-		"fetch deadline":                 {corpusmarkdown.EnvScrapeFetchDeadline: "soon"},
-		"proxy dial mode":                {corpusmarkdown.EnvProxyDialMode: "carrier-pigeon"},
-		"proxy url":                      {corpusmarkdown.EnvProxyURL: "ftp://egress:3128"},
-	}
-	for name, overrides := range rejected {
-		env := requiredEnv()
-		for key, value := range overrides {
-			env[key] = value
-		}
-		if _, err := corpusmarkdown.LoadServiceConfig(envFrom(env)); err == nil {
-			t.Errorf("%s should be rejected", name)
-		}
+	env := requiredEnv()
+	env[corpusmarkdown.EnvPageOfferIntakeConcurrency] = "abc"
+	if _, err := corpusmarkdown.LoadServiceConfig(envFrom(env)); err == nil {
+		t.Error("a non-numeric intake concurrency should be rejected")
 	}
 }

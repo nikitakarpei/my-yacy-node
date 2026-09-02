@@ -5,6 +5,7 @@ package natsjetstream
 import (
 	"context"
 	"net"
+	"strings"
 	"testing"
 	"time"
 
@@ -15,9 +16,12 @@ import (
 )
 
 const (
-	image = "docker.io/library/nats:2.10-alpine"
+	image = "docker.io/library/nats:2.14.2"
 	alias = "nats"
 	port  = "4222/tcp"
+
+	configPath = "/etc/nats/nats-server.conf"
+	config     = "jetstream: enabled\nmax_payload: 8MB\n"
 )
 
 func Start(t *testing.T, ctx context.Context, networkName string) string {
@@ -25,8 +29,13 @@ func Start(t *testing.T, ctx context.Context, networkName string) string {
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
 		ContainerRequest: testcontainers.ContainerRequest{
-			Image:          image,
-			Cmd:            []string{"--jetstream"},
+			Image: image,
+			Cmd:   []string{"--config", configPath},
+			Files: []testcontainers.ContainerFile{{
+				Reader:            strings.NewReader(config),
+				ContainerFilePath: configPath,
+				FileMode:          0o644,
+			}},
 			ExposedPorts:   []string{port},
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {alias}},

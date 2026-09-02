@@ -4,42 +4,28 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
 	"strings"
 	"sync"
 	"testing"
 	"time"
 
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nats.go/jetstream"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	corpustext "github.com/nikitakarpei/yacy-rwi-node/corpustext/cmd/corpustext"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
 const (
 	indexedDocumentPathPrefix = "/yacy_text_v1_en/_doc/"
-	originURL                 = "http://origin.example/"
-	originHTML                = `<html lang="en"><title>Hi</title><body>words here</body></html>`
+	offeredPageURL            = "http://origin.example/"
+	offeredPageHTML           = `<html lang="en"><title>Hi</title><body>words here</body></html>`
 
 	indexedDeadline  = 5 * time.Second
 	indexedPollPause = 50 * time.Millisecond
 )
-
-func origin(t *testing.T) *url.URL {
-	t.Helper()
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		w.Header().Set("Content-Type", "text/html")
-		_, _ = w.Write([]byte(originHTML))
-	}))
-	t.Cleanup(server.Close)
-	parsed, err := url.Parse(server.URL)
-	if err != nil {
-		t.Fatalf("parse origin url: %v", err)
-	}
-	return parsed
-}
 
 type recordingElasticsearch struct {
 	mu       sync.Mutex
@@ -64,43 +50,38 @@ func (e *recordingElasticsearch) path() string {
 	return e.lastPath
 }
 
-func serviceConfig(
-	scrapeRequestNATSURL, elasticsearchURL string,
-	proxy *url.URL,
-) corpustext.ServiceConfig {
+func serviceConfig(pageOfferNATSURL, elasticsearchURL string) corpustext.ServiceConfig {
 	return corpustext.ServiceConfig{
-		ScrapeRequestNATSURL:           scrapeRequestNATSURL,
-		ScrapeRequestSubject:           corpustext.DefaultScrapeRequestSubject,
-		ScrapeRequestDurable:           corpustext.DefaultScrapeRequestDurable,
-		ProxyURL:                       proxy,
-		UserAgent:                      corpustext.DefaultUserAgent,
-		MaxBodyBytes:                   corpustext.DefaultScrapeMaxBodyBytes,
-		FetchDeadline:                  time.Second,
-		ScrapeRequestIntakeConcurrency: corpustext.DefaultScrapeRequestIntakeConcurrency,
-		SearchIndexEngine:              corpustext.SearchIndexEngineElasticsearch,
-		ElasticsearchURL:               elasticsearchURL,
-		ElasticsearchIndex:             corpustext.DefaultIndexBaseName,
-		Languages:                      []string{"en"},
-		OpsAddr:                        "127.0.0.1:0",
+		PageOfferNATSURL:           pageOfferNATSURL,
+		PageOfferDurable:           corpustext.DefaultPageOfferDurable,
+		PageOfferIntakeConcurrency: corpustext.DefaultPageOfferIntakeConcurrency,
+		SearchIndexEngine:          corpustext.SearchIndexEngineElasticsearch,
+		ElasticsearchURL:           elasticsearchURL,
+		ElasticsearchIndex:         corpustext.DefaultIndexBaseName,
+		Languages:                  []string{"en"},
+		OpsAddr:                    "127.0.0.1:0",
 	}
 }
 
-func TestRunServiceIndexesTheTextItScrapesFromAScrapeRequest(t *testing.T) {
+func TestRunServiceIndexesTheTextOfAnOfferedPage(t *testing.T) {
 	elasticsearch := &recordingElasticsearch{}
-	scrapeRequestNATSURL := natstestserver.Start(t)
-	cfg := serviceConfig(scrapeRequestNATSURL, elasticsearch.serve(t), origin(t))
+	pageOfferNATSURL := natstestserver.Start(t)
+	cfg := serviceConfig(pageOfferNATSURL, elasticsearch.serve(t))
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	scrapeRequestJetStream := natstestserver.ConnectJetStream(t, scrapeRequestNATSURL)
-	createScrapeRequestsStream(t, scrapeRequestJetStream, cfg.ScrapeRequestSubject)
+	pageOfferJetStream := natstestserver.ConnectJetStream(t, pageOfferNATSURL)
+	createScrapePageOffersStream(t, pageOfferJetStream)
+	keptPages := subscribeToKeptPages(t, pageOfferNATSURL)
 
 	runDone := make(chan error, 1)
 	go func() { runDone <- corpustext.RunService(ctx, cfg) }()
 
-	publishScrapeRequest(t, ctx, scrapeRequestJetStream, originURL)
+	waitForPageOfferDurable(ctx, t, pageOfferJetStream, cfg.PageOfferDurable)
+	publishOfferedPage(ctx, t, pageOfferJetStream)
 	waitForIndexed(t, elasticsearch)
+	waitForKeptPageReceipt(t, keptPages)
 
 	cancel()
 	select {
@@ -111,6 +92,26 @@ func TestRunServiceIndexesTheTextItScrapesFromAScrapeRequest(t *testing.T) {
 	case <-time.After(10 * time.Second):
 		t.Fatal("service did not shut down after cancel")
 	}
+}
+
+func waitForPageOfferDurable(
+	ctx context.Context,
+	t *testing.T,
+	js jetstream.JetStream,
+	durable string,
+) {
+	t.Helper()
+	deadline := time.Now().Add(indexedDeadline)
+	for time.Now().Before(deadline) {
+		stream, err := js.Stream(ctx, pagescrapecontract.ScrapePageOffersStreamName)
+		if err == nil {
+			if _, err := stream.Consumer(ctx, durable); err == nil {
+				return
+			}
+		}
+		time.Sleep(indexedPollPause)
+	}
+	t.Fatalf("the service never created the %q durable", durable)
 }
 
 func waitForIndexed(t *testing.T, elasticsearch *recordingElasticsearch) {
@@ -128,71 +129,96 @@ func waitForIndexed(t *testing.T, elasticsearch *recordingElasticsearch) {
 	)
 }
 
-func publishScrapeRequest(
-	t *testing.T,
-	ctx context.Context,
-	js jetstream.JetStream,
-	pageURL string,
-) {
+func subscribeToKeptPages(t *testing.T, natsURL string) chan *nats.Msg {
 	t.Helper()
-	data, err := scraperequestcontract.MarshalScrapeRequest(
-		scraperequestcontract.ScrapeRequest{
-			PageURL: canonicalurltest.CanonicalURLOf(t, pageURL),
-		},
+	conn := natstestserver.Connect(t, natsURL)
+	received := make(chan *nats.Msg, 1)
+	subject := pagescrapecontract.KeptPageSubjectOf(
+		canonicalurltest.CanonicalURLOf(t, offeredPageURL),
 	)
+	subscription, err := conn.ChanSubscribe(subject, received)
 	if err != nil {
-		t.Fatalf("marshal scrape request: %v", err)
+		t.Fatalf("subscribe to kept pages: %v", err)
 	}
-	if _, err := js.Publish(ctx, corpustext.DefaultScrapeRequestSubject, data); err != nil {
-		t.Fatalf("publish scrape request: %v", err)
+	t.Cleanup(func() { _ = subscription.Unsubscribe() })
+	return received
+}
+
+func waitForKeptPageReceipt(t *testing.T, keptPages chan *nats.Msg) {
+	t.Helper()
+	select {
+	case message := <-keptPages:
+		kept, err := pagescrapecontract.UnmarshalKeptPage(message.Data)
+		if err != nil {
+			t.Fatalf("unmarshal kept page: %v", err)
+		}
+		if kept.PageURL != canonicalurltest.CanonicalURLOf(t, offeredPageURL) {
+			t.Errorf("kept page url = %q", kept.PageURL)
+		}
+	case <-time.After(indexedDeadline):
+		t.Fatal("no kept page receipt arrived")
+	}
+}
+
+func publishOfferedPage(ctx context.Context, t *testing.T, js jetstream.JetStream) {
+	t.Helper()
+	pageURL := canonicalurltest.CanonicalURLOf(t, offeredPageURL)
+	data, err := pagescrapecontract.MarshalOfferedPage(pagescrapecontract.OfferedPage{
+		PageURL:     pageURL,
+		LandedURL:   pageURL,
+		ContentType: "text/html",
+		Body:        []byte(offeredPageHTML),
+	})
+	if err != nil {
+		t.Fatalf("marshal offered page: %v", err)
+	}
+	if _, err := js.Publish(ctx, pagescrapecontract.OfferedPageSubject, data); err != nil {
+		t.Fatalf("publish offered page: %v", err)
 	}
 }
 
 func TestRunServiceReturnsWhenOpsAddrCannotBind(t *testing.T) {
 	elasticsearch := &recordingElasticsearch{}
-	scrapeRequestNATSURL := natstestserver.Start(t)
-	cfg := serviceConfig(scrapeRequestNATSURL, elasticsearch.serve(t), origin(t))
+	pageOfferNATSURL := natstestserver.Start(t)
+	cfg := serviceConfig(pageOfferNATSURL, elasticsearch.serve(t))
 	cfg.OpsAddr = "127.0.0.1:99999"
-	createScrapeRequestsStream(
-		t, natstestserver.ConnectJetStream(t, scrapeRequestNATSURL), cfg.ScrapeRequestSubject,
-	)
+	createScrapePageOffersStream(t, natstestserver.ConnectJetStream(t, pageOfferNATSURL))
 
 	if err := corpustext.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("expected error when ops address cannot bind")
 	}
 }
 
-func TestRunServiceFailsWhenStreamMissing(t *testing.T) {
+func TestRunServiceFailsWhenPageOffersStreamMissing(t *testing.T) {
 	elasticsearch := &recordingElasticsearch{}
-	cfg := serviceConfig(
-		natstestserver.Start(t), elasticsearch.serve(t), origin(t),
-	)
+	cfg := serviceConfig(natstestserver.Start(t), elasticsearch.serve(t))
 
 	if err := corpustext.RunService(context.Background(), cfg); err == nil {
-		t.Fatal("expected error when the scrape requests stream is not provisioned")
+		t.Fatal("expected error when the page offers stream is not provisioned")
 	}
 }
 
-func TestRunServiceFailsWhenCrawlNATSUnreachable(t *testing.T) {
+func TestRunServiceFailsWhenPageOfferNATSUnreachable(t *testing.T) {
 	elasticsearch := &recordingElasticsearch{}
-	cfg := serviceConfig(
-		"nats://127.0.0.1:1", elasticsearch.serve(t), origin(t),
-	)
+	cfg := serviceConfig("nats://127.0.0.1:1", elasticsearch.serve(t))
 
 	if err := corpustext.RunService(context.Background(), cfg); err == nil {
-		t.Fatal("expected error when the crawl nats is unreachable")
+		t.Fatal("expected error when the page offer nats is unreachable")
 	}
 }
 
-func createScrapeRequestsStream(t *testing.T, js jetstream.JetStream, subject string) {
+func createScrapePageOffersStream(t *testing.T, js jetstream.JetStream) {
 	t.Helper()
 	if _, err := js.CreateOrUpdateStream(context.Background(), jetstream.StreamConfig{
-		Name:      scraperequestcontract.ScrapeRequestsStreamName,
-		Subjects:  []string{subject},
-		Retention: jetstream.WorkQueuePolicy,
+		Name: pagescrapecontract.ScrapePageOffersStreamName,
+		Subjects: []string{
+			pagescrapecontract.OfferedPageSubject,
+			pagescrapecontract.ScrapeFailureSubject,
+		},
+		Retention: jetstream.InterestPolicy,
 		MaxMsgs:   64,
 		Discard:   jetstream.DiscardNew,
 	}); err != nil {
-		t.Fatalf("create scrape requests stream: %v", err)
+		t.Fatalf("create scrape page offers stream: %v", err)
 	}
 }

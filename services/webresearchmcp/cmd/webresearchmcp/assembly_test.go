@@ -18,17 +18,12 @@ const (
 	shutdownDeadline = 10 * time.Second
 )
 
-func serviceConfig(
-	t *testing.T,
-	scrapeRequestNATSURL, pageMarkdownNATSURL string,
-) webresearchmcp.ServiceConfig {
+func serviceConfig(t *testing.T, scrapeRequestNATSURL string) webresearchmcp.ServiceConfig {
 	t.Helper()
 	return webresearchmcp.ServiceConfig{
 		SearXNGURL:                   "http://127.0.0.1:1",
 		SearXNGSearchDeadline:        time.Second,
 		ScrapeRequestNATSURL:         scrapeRequestNATSURL,
-		ScrapeRequestSubject:         webresearchmcp.DefaultScrapeRequestSubject,
-		PageMarkdownNATSURL:          pageMarkdownNATSURL,
 		PageFetchWait:                time.Second,
 		PageScrapeTolerance:          webresearchmcp.DefaultPageScrapeTolerance,
 		CorpusMarkdownAddr:           "127.0.0.1:1",
@@ -56,7 +51,7 @@ func freeAddr(t *testing.T) string {
 
 func TestRunServiceServesTheToolsAndTheMetricsUntilItIsStopped(t *testing.T) {
 	natsURL := natstestserver.Start(t)
-	cfg := serviceConfig(t, natsURL, natsURL)
+	cfg := serviceConfig(t, natsURL)
 
 	ctx, stopService := context.WithCancel(context.Background())
 	defer stopService()
@@ -106,7 +101,7 @@ func answered(t *testing.T, address string) bool {
 
 func TestRunServiceFailsWhenTheOpsAddressCannotBind(t *testing.T) {
 	natsURL := natstestserver.Start(t)
-	cfg := serviceConfig(t, natsURL, natsURL)
+	cfg := serviceConfig(t, natsURL)
 	cfg.OpsAddr = "127.0.0.1:99999"
 
 	if err := webresearchmcp.RunService(context.Background(), cfg); err == nil {
@@ -115,18 +110,9 @@ func TestRunServiceFailsWhenTheOpsAddressCannotBind(t *testing.T) {
 }
 
 func TestRunServiceFailsWhenTheScrapeRequestNATSIsAway(t *testing.T) {
-	cfg := serviceConfig(t, "nats://127.0.0.1:1", natstestserver.Start(t))
+	cfg := serviceConfig(t, "nats://127.0.0.1:1")
 
 	if err := webresearchmcp.RunService(context.Background(), cfg); err == nil {
 		t.Fatal("service ran while the scrape request nats is away, want an error")
-	}
-}
-
-func TestRunServiceFailsWhenThePageMarkdownNATSIsAway(t *testing.T) {
-	natsURL := natstestserver.Start(t)
-	cfg := serviceConfig(t, natsURL, "nats://127.0.0.1:1")
-
-	if err := webresearchmcp.RunService(context.Background(), cfg); err == nil {
-		t.Fatal("service ran while the page markdown nats is away, want an error")
 	}
 }

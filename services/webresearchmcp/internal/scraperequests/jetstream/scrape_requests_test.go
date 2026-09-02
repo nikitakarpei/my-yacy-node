@@ -9,7 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
-	"github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scraperequests/jetstream"
 )
 
@@ -25,17 +25,14 @@ func TestAskingToScrapeWritesTheContractRequestOnTheStream(t *testing.T) {
 	stream := natstestserver.ConnectJetStream(t, serverURL)
 	ctx := context.Background()
 	if _, err := stream.CreateOrUpdateStream(ctx, natsjetstream.StreamConfig{
-		Name:      scraperequestcontract.ScrapeRequestsStreamName,
-		Subjects:  []string{scraperequestcontract.ScrapeRequestSubject},
+		Name:      pagescrapecontract.ScrapeRequestsStreamName,
+		Subjects:  []string{pagescrapecontract.ScrapeRequestSubject},
 		Retention: natsjetstream.WorkQueuePolicy,
 	}); err != nil {
 		t.Fatalf("create the scrape requests stream: %v", err)
 	}
 
-	requests, err := jetstream.OpenScrapeRequests(
-		serverURL,
-		scraperequestcontract.ScrapeRequestSubject,
-	)
+	requests, err := jetstream.OpenScrapeRequests(serverURL)
 	if err != nil {
 		t.Fatalf("open the scrape requests: %v", err)
 	}
@@ -50,7 +47,7 @@ func TestAskingToScrapeWritesTheContractRequestOnTheStream(t *testing.T) {
 
 	consumer, err := stream.CreateOrUpdateConsumer(
 		ctx,
-		scraperequestcontract.ScrapeRequestsStreamName,
+		pagescrapecontract.ScrapeRequestsStreamName,
 		natsjetstream.ConsumerConfig{
 			Durable:   testDurable,
 			AckPolicy: natsjetstream.AckExplicitPolicy,
@@ -63,22 +60,22 @@ func TestAskingToScrapeWritesTheContractRequestOnTheStream(t *testing.T) {
 	if err != nil {
 		t.Fatalf("read the scrape request: %v", err)
 	}
-	request, err := scraperequestcontract.UnmarshalScrapeRequest(message.Data())
+	request, err := pagescrapecontract.UnmarshalScrapeRequest(message.Data())
 	if err != nil {
 		t.Fatalf("read the contract request: %v", err)
 	}
 	if request.PageURL.String() != pageAddress {
 		t.Errorf("scrape request page url = %q, want %q", request.PageURL, pageAddress)
 	}
+	if !request.GivesUpOnDeferral {
+		t.Error("the scrape request waits for a deferred origin, want it to give up")
+	}
 }
 
 func TestAskingToScrapeFailsWhileTheStreamIsMissing(t *testing.T) {
 	serverURL := natstestserver.Start(t)
 
-	requests, err := jetstream.OpenScrapeRequests(
-		serverURL,
-		scraperequestcontract.ScrapeRequestSubject,
-	)
+	requests, err := jetstream.OpenScrapeRequests(serverURL)
 	if err != nil {
 		t.Fatalf("open the scrape requests: %v", err)
 	}
@@ -93,10 +90,7 @@ func TestAskingToScrapeFailsWhileTheStreamIsMissing(t *testing.T) {
 }
 
 func TestScrapeRequestsCannotOpenOnAServerThatIsAway(t *testing.T) {
-	if _, err := jetstream.OpenScrapeRequests(
-		"nats://127.0.0.1:1",
-		scraperequestcontract.ScrapeRequestSubject,
-	); err == nil {
+	if _, err := jetstream.OpenScrapeRequests("nats://127.0.0.1:1"); err == nil {
 		t.Fatal("the scrape requests opened, want the server that is away to fail")
 	}
 }

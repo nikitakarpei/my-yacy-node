@@ -1,7 +1,7 @@
-// Package nats listens on the core NATS subject the corpus announces scrape outcomes on, so
-// a caller waiting for one page learns what became of it without polling the corpus. Nothing
-// keeps an announcement, so a listener must be open before the scrape is asked for: opening
-// one is the only way to reach the wait.
+// Package nats listens on the feed the scrape service carries the end of one scrape on, so a
+// caller waiting for one page learns what became of it without polling a corpus. Nothing keeps
+// a message, so a listener must be open before the scrape is asked for: opening one is the only
+// way to reach the wait.
 package nats
 
 import (
@@ -11,7 +11,7 @@ import (
 	"github.com/nats-io/nats.go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pageread"
 )
 
@@ -31,7 +31,7 @@ func (o *ScrapeOutcomes) ListenerFor(
 	_ context.Context,
 	pageURL canonicalurl.CanonicalURL,
 ) (pageread.ScrapeOutcomeListener, error) {
-	subject := pagemarkdownstore.ScrapeOutcomeSubjectOf(pageURL)
+	subject := pagescrapecontract.ScrapeOutcomeSubjectsOf(pageURL)
 	subscription, err := o.connection.SubscribeSync(subject)
 	if err != nil {
 		return nil, fmt.Errorf("listen for the scrape outcome of %q: %w", pageURL, err)
@@ -55,19 +55,48 @@ type scrapeOutcomeListener struct {
 func (l *scrapeOutcomeListener) AwaitedFetchOutcome(
 	ctx context.Context,
 ) (pageread.FetchOutcome, error) {
-	message, err := l.subscription.NextMsgWithContext(ctx)
-	if err != nil {
-		return "", fmt.Errorf("wait for the scrape outcome of %q: %w", l.pageURL, err)
+	for {
+		message, err := l.subscription.NextMsgWithContext(ctx)
+		if err != nil {
+			return "", fmt.Errorf("wait for the scrape outcome of %q: %w", l.pageURL, err)
+		}
+		outcome, err := pagescrapecontract.ScrapeOutcomeOn(message.Subject)
+		if err != nil {
+			return "", err
+		}
+		if outcome == pagescrapecontract.ScrapeFailed {
+			return pageread.PageNotReadable, nil
+		}
+		receiptCorpus, err := intakeReceiptCorpusFrom(message.Data, outcome)
+		if err != nil {
+			return "", err
+		}
+		if receiptCorpus == pagescrapecontract.CorpusMarkdown {
+			return fetchOutcomeOf(outcome), nil
+		}
 	}
-	notice, err := pagemarkdownstore.UnmarshalScrapeOutcomeNotice(message.Data)
+}
+
+func intakeReceiptCorpusFrom(
+	data []byte,
+	outcome pagescrapecontract.ScrapeOutcome,
+) (pagescrapecontract.CorpusName, error) {
+	if outcome == pagescrapecontract.PageKept {
+		keptPage, err := pagescrapecontract.UnmarshalKeptPage(data)
+		if err != nil {
+			return "", err
+		}
+		return keptPage.Corpus, nil
+	}
+	rejectedPage, err := pagescrapecontract.UnmarshalRejectedPage(data)
 	if err != nil {
 		return "", err
 	}
-	return fetchOutcomeOf(notice.Outcome), nil
+	return rejectedPage.Corpus, nil
 }
 
-func fetchOutcomeOf(outcome pagemarkdownstore.ScrapeOutcome) pageread.FetchOutcome {
-	if outcome == pagemarkdownstore.MarkdownStored {
+func fetchOutcomeOf(outcome pagescrapecontract.ScrapeOutcome) pageread.FetchOutcome {
+	if outcome == pagescrapecontract.PageKept {
 		return pageread.PageFetched
 	}
 	return pageread.PageNotReadable

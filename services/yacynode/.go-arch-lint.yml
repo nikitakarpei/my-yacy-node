@@ -68,14 +68,16 @@ components:
     in: internal/metrics/**
   pagerwi:
     in: internal/pagerwi/**
-  scraperequestintake:
-    in: internal/scraperequestintake/**
-  scrapeprogressobserversapplog:
-    in: internal/scrapeprogressobservers/applog/**
-  scrapeprogressobserversprometheus:
-    in: internal/scrapeprogressobservers/prometheus/**
-  scraperequestbroker:
-    in: internal/scraperequestbroker/**
+  pageintake:
+    in: internal/pageintake/**
+  intakeprogressobserversapplog:
+    in: internal/intakeprogressobservers/applog/**
+  intakeprogressobserversprometheus:
+    in: internal/intakeprogressobservers/prometheus/**
+  pageofferbroker:
+    in: internal/pageofferbroker/**
+  intakereceiptsnats:
+    in: internal/intakereceipts/nats/**
   cmd:
     in:
       - cmd/yacy-peer-hash/**
@@ -94,10 +96,8 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  scrapedpage:
-    in: github.com/nikitakarpei/yacy-rwi-node/scrapedpage
-  scraperequestcontract:
-    in: github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract
+  pagescrapecontract:
+    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   storedfields:
     in: github.com/nikitakarpei/yacy-rwi-node/storedfields
   vault:
@@ -119,12 +119,6 @@ vendors:
   pageformats:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pageformats
-  pagefetch:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
-  pagefetchershttp:
-    in:
-      - github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http
   canonicalurl:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
@@ -153,10 +147,8 @@ deps:
       - serviceruntime
       - yacyproto
       - yacycrawlcontract
-      - scraperequestcontract
+      - pagescrapecontract
       - pageformats
-      - pagefetch
-      - pagefetchershttp
   nodeidentity:
     canUse:
       - yacyproto
@@ -300,28 +292,27 @@ deps:
     canUse:
       - canonicalurl
       - documentextraction
-      - scrapedpage
-  scraperequestintake:
+      - pagescrapecontract
+  pageintake:
     mayDependOn:
       - pagerwi
       - urlmeta
       - rwiadmission
     canUse:
-      - yacycrawlcontract
-      - scraperequestcontract
-      - scrapedpage
+      - pagescrapecontract
       - pageformats
-      - pagefetch
-      - pagefetchershttp
       - serviceruntime
       - documentextraction
-  scraperequestbroker:
+  pageofferbroker:
     canUse:
-      - yacycrawlcontract
-      - scraperequestcontract
+      - pagescrapecontract
       - nats
       - serviceruntime
-  scrapeprogressobserversprometheus:
+  intakereceiptsnats:
+    canUse:
+      - pagescrapecontract
+      - nats
+  intakeprogressobserversprometheus:
     canUse:
       - prometheus
   cmd:
