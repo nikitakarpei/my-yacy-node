@@ -283,7 +283,7 @@ services:
       - "8090:8090"
       - "127.0.0.1:9090:9090"
     environment:
-      YACY_ADVERTISE_HOST: ${YACY_ADVERTISE_HOST:?set YACY_ADVERTISE_HOST in .env}
+      YACY_ADVERTISE_HOST: ${YACY_ADVERTISE_HOST-}
       YACY_NETWORK_NAME: ${YACY_NETWORK_NAME:-freeworld}
       YACY_SEEDLIST_URLS: >-
         http://sixcooler.de/yacy/seed.txt,

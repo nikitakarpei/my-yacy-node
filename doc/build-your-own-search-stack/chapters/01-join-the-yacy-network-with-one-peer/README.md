@@ -16,7 +16,9 @@ support the network without running a crawler.
 
 ## Start
 
-Allow inbound connections to port 8090, then start the stack:
+Allow inbound connections to port 8090, then start the stack. Use
+[chapter 1.1](../01.1-join-the-network-from-behind-nat) if you have no public
+address for that port:
 
 ```sh
 docker compose up -d
@@ -36,5 +38,6 @@ other peers.
 
 ## More information
 
+- [Join the network from behind NAT](../01.1-join-the-network-from-behind-nat)
 - [Node configuration](../../../../services/yacynode/doc/configuration.md)
 - [Node behavior](../../../../services/yacynode/doc/specification.md)
