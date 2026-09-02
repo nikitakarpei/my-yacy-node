@@ -1,8 +1,8 @@
 // Package proxyprotocolingress owns the private HTTP listener that stands
 // between the tunnel and the node. Every connection must start with a PROXY
-// protocol version 1 header. The ingress replaces all forwarding headers of the
-// request with the one address that header authenticates, and it sends the
-// request to the node origin from one bound container address.
+// protocol header. The ingress replaces all forwarding headers of the request
+// with the one address that header authenticates, and it sends the request to
+// the node origin from one bound local address.
 package proxyprotocolingress
 
 import (

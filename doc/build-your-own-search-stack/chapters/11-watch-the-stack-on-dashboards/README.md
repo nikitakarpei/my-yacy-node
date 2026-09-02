@@ -29,3 +29,4 @@ Open `http://localhost:3000`. Select the YaCy node or crawler dashboard.
 - [YaCy node dashboard source](../../../../services/yacynode/doc/grafana-dashboard.json)
 - [Crawler dashboard source](../../../../services/yacycrawler/doc/grafana-dashboard.json)
 - [Collected metric endpoints](../../building-blocks/prometheus/prometheus.yml)
+- [Use Elasticsearch instead of Manticore](../../side-roads/elasticsearch)
