@@ -46,3 +46,33 @@ func TestScrapeOutcomeSubjectsAreUniquePerPage(t *testing.T) {
 		t.Errorf("two pages share the outcome subjects %q", subjects)
 	}
 }
+
+func TestScrapeOutcomeSubjectFromAnIntakeReceiptSubjectKeepsThePageAndTheOutcome(t *testing.T) {
+	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/a")
+
+	receipts := map[string]string{
+		pagescrapecontract.KeptPageSubjectOf(pageURL): pagescrapecontract.KeptPageOutcomeSubjectOf(
+			pageURL,
+		),
+		pagescrapecontract.RejectedPageSubjectOf(
+			pageURL,
+		): pagescrapecontract.RejectedPageOutcomeSubjectOf(pageURL),
+	}
+	for receiptSubject, want := range receipts {
+		got, err := pagescrapecontract.ScrapeOutcomeSubjectFrom(receiptSubject)
+		if err != nil {
+			t.Fatalf("outcome subject from %q: %v", receiptSubject, err)
+		}
+		if got != want {
+			t.Errorf("outcome subject from %q = %q, want %q", receiptSubject, got, want)
+		}
+	}
+}
+
+func TestScrapeOutcomeSubjectFromASubjectThatIsNoReceipt(t *testing.T) {
+	for _, subject := range []string{"", "page.intake.fingerprint", "scrape.request", "a.b.c.d"} {
+		if _, err := pagescrapecontract.ScrapeOutcomeSubjectFrom(subject); err == nil {
+			t.Errorf("want an error for the subject %q", subject)
+		}
+	}
+}
