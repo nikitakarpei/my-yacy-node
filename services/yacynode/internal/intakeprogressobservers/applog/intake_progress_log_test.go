@@ -5,10 +5,9 @@ import (
 	"errors"
 	"log/slog"
 	"testing"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	scrapeprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/scrapeprogressobservers/applog"
+	intakeprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/intakeprogressobservers/applog"
 )
 
 type recordedLogLine struct {
@@ -40,7 +39,7 @@ func (r *recordedLogLines) Handle(_ context.Context, record slog.Record) error {
 	return nil
 }
 
-func TestScrapeProgressLogWritesEveryScrapeFactAtItsOperationalLevel(t *testing.T) {
+func TestIntakeProgressLogWritesEveryIntakeFactAtItsOperationalLevel(t *testing.T) {
 	lines := &recordedLogLines{Handler: slog.Default().Handler()}
 	previousLogger := slog.Default()
 	slog.SetDefault(slog.New(lines))
@@ -48,13 +47,11 @@ func TestScrapeProgressLogWritesEveryScrapeFactAtItsOperationalLevel(t *testing.
 
 	ctx := context.Background()
 	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.test/page")
-	cause := errors.New("scrape failed")
-	progress := scrapeprogressobserversapplog.ScrapeProgressLog{}
+	cause := errors.New("intake failed")
+	progress := intakeprogressobserversapplog.IntakeProgressLog{}
 
-	progress.ScrapeRequestInvalid(ctx)
-	progress.OriginFetchFailed(ctx, "message", pageURL, cause)
-	progress.OriginFetchDeferred(ctx, "message", pageURL, time.Second)
-	progress.NothingToScrape(ctx, "message", pageURL)
+	progress.OfferedPageInvalid(ctx)
+	progress.PageOffered(ctx, "message", pageURL)
 	progress.DocumentExtractionFailed(ctx, "message", pageURL, cause)
 	progress.NoIndexDerived(ctx, "message", pageURL)
 	progress.URLMetadataAdmitted(ctx, "message", pageURL)
@@ -63,11 +60,10 @@ func TestScrapeProgressLogWritesEveryScrapeFactAtItsOperationalLevel(t *testing.
 	progress.PostingsAdmitted(ctx, "message", pageURL, 17)
 	progress.PostingsAdmissionBusy(ctx, "message", pageURL, 11)
 	progress.PostingsAdmissionFailed(ctx, "message", pageURL, 13, cause)
-	progress.ScrapeRequestCompleted(ctx, "message", pageURL)
+	progress.IntakeReceiptNotSent(ctx, "message", pageURL, cause)
+	progress.PageIndexed(ctx, "message", pageURL)
 
 	wantLevels := []slog.Level{
-		slog.LevelWarn,
-		slog.LevelDebug,
 		slog.LevelDebug,
 		slog.LevelWarn,
 		slog.LevelDebug,
@@ -75,6 +71,7 @@ func TestScrapeProgressLogWritesEveryScrapeFactAtItsOperationalLevel(t *testing.
 		slog.LevelWarn,
 		slog.LevelWarn,
 		slog.LevelDebug,
+		slog.LevelWarn,
 		slog.LevelWarn,
 		slog.LevelWarn,
 		slog.LevelDebug,
@@ -91,12 +88,11 @@ func TestScrapeProgressLogWritesEveryScrapeFactAtItsOperationalLevel(t *testing.
 			t.Errorf("line %q message identity = %v, want message", line.message,
 				line.attributes["message"])
 		}
-		if line.attributes["fetchUrl"] != pageURL.String() &&
-			line.attributes["pageUrl"] != pageURL.String() {
+		if line.attributes["pageUrl"] != pageURL.String() {
 			t.Errorf("line %q has no page identity: %v", line.message, line.attributes)
 		}
 	}
-	for lineIndex, wantPostings := range map[int]int64{8: 17, 9: 11, 10: 13} {
+	for lineIndex, wantPostings := range map[int]int64{6: 17, 7: 11, 8: 13} {
 		if gotPostings := lines.lines[lineIndex].attributes["postings"]; gotPostings != wantPostings {
 			t.Errorf("line %q postings = %v, want %d",
 				lines.lines[lineIndex].message, gotPostings, wantPostings)

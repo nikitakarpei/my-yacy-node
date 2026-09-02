@@ -1,31 +1,18 @@
-package scraperequestintake
+package pageintake
 
 import (
 	"context"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
-//nolint:interfacebloat // One scrape attempt has these distinct observable domain facts.
-type ScrapeProgress interface {
-	ScrapeRequestInvalid(ctx context.Context)
-	OriginFetchFailed(
+//nolint:interfacebloat // One page intake has these distinct observable domain facts.
+type IntakeProgress interface {
+	OfferedPageInvalid(ctx context.Context)
+	PageOffered(
 		ctx context.Context,
 		messageIdentity string,
-		fetchURL canonicalurl.CanonicalURL,
-		cause error,
-	)
-	OriginFetchDeferred(
-		ctx context.Context,
-		messageIdentity string,
-		fetchURL canonicalurl.CanonicalURL,
-		deferFor time.Duration,
-	)
-	NothingToScrape(
-		ctx context.Context,
-		messageIdentity string,
-		fetchURL canonicalurl.CanonicalURL,
+		pageURL canonicalurl.CanonicalURL,
 	)
 	DocumentExtractionFailed(
 		ctx context.Context,
@@ -73,54 +60,38 @@ type ScrapeProgress interface {
 		postings int,
 		cause error,
 	)
-	ScrapeRequestCompleted(
+	IntakeReceiptNotSent(
+		ctx context.Context,
+		messageIdentity string,
+		pageURL canonicalurl.CanonicalURL,
+		cause error,
+	)
+	PageIndexed(
 		ctx context.Context,
 		messageIdentity string,
 		pageURL canonicalurl.CanonicalURL,
 	)
 }
 
-type ScrapeProgressObservers []ScrapeProgress
+type IntakeProgressObservers []IntakeProgress
 
-func (observers ScrapeProgressObservers) ScrapeRequestInvalid(ctx context.Context) {
+func (observers IntakeProgressObservers) OfferedPageInvalid(ctx context.Context) {
 	for _, observer := range observers {
-		observer.ScrapeRequestInvalid(ctx)
+		observer.OfferedPageInvalid(ctx)
 	}
 }
 
-func (observers ScrapeProgressObservers) OriginFetchFailed(
+func (observers IntakeProgressObservers) PageOffered(
 	ctx context.Context,
 	messageIdentity string,
-	fetchURL canonicalurl.CanonicalURL,
-	cause error,
+	pageURL canonicalurl.CanonicalURL,
 ) {
 	for _, observer := range observers {
-		observer.OriginFetchFailed(ctx, messageIdentity, fetchURL, cause)
+		observer.PageOffered(ctx, messageIdentity, pageURL)
 	}
 }
 
-func (observers ScrapeProgressObservers) OriginFetchDeferred(
-	ctx context.Context,
-	messageIdentity string,
-	fetchURL canonicalurl.CanonicalURL,
-	deferFor time.Duration,
-) {
-	for _, observer := range observers {
-		observer.OriginFetchDeferred(ctx, messageIdentity, fetchURL, deferFor)
-	}
-}
-
-func (observers ScrapeProgressObservers) NothingToScrape(
-	ctx context.Context,
-	messageIdentity string,
-	fetchURL canonicalurl.CanonicalURL,
-) {
-	for _, observer := range observers {
-		observer.NothingToScrape(ctx, messageIdentity, fetchURL)
-	}
-}
-
-func (observers ScrapeProgressObservers) DocumentExtractionFailed(
+func (observers IntakeProgressObservers) DocumentExtractionFailed(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -131,7 +102,7 @@ func (observers ScrapeProgressObservers) DocumentExtractionFailed(
 	}
 }
 
-func (observers ScrapeProgressObservers) NoIndexDerived(
+func (observers IntakeProgressObservers) NoIndexDerived(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -141,7 +112,7 @@ func (observers ScrapeProgressObservers) NoIndexDerived(
 	}
 }
 
-func (observers ScrapeProgressObservers) URLMetadataAdmitted(
+func (observers IntakeProgressObservers) URLMetadataAdmitted(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -151,7 +122,7 @@ func (observers ScrapeProgressObservers) URLMetadataAdmitted(
 	}
 }
 
-func (observers ScrapeProgressObservers) URLMetadataAdmissionBusy(
+func (observers IntakeProgressObservers) URLMetadataAdmissionBusy(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -161,7 +132,7 @@ func (observers ScrapeProgressObservers) URLMetadataAdmissionBusy(
 	}
 }
 
-func (observers ScrapeProgressObservers) URLMetadataAdmissionFailed(
+func (observers IntakeProgressObservers) URLMetadataAdmissionFailed(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -172,7 +143,7 @@ func (observers ScrapeProgressObservers) URLMetadataAdmissionFailed(
 	}
 }
 
-func (observers ScrapeProgressObservers) PostingsAdmitted(
+func (observers IntakeProgressObservers) PostingsAdmitted(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -183,7 +154,7 @@ func (observers ScrapeProgressObservers) PostingsAdmitted(
 	}
 }
 
-func (observers ScrapeProgressObservers) PostingsAdmissionBusy(
+func (observers IntakeProgressObservers) PostingsAdmissionBusy(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -194,7 +165,7 @@ func (observers ScrapeProgressObservers) PostingsAdmissionBusy(
 	}
 }
 
-func (observers ScrapeProgressObservers) PostingsAdmissionFailed(
+func (observers IntakeProgressObservers) PostingsAdmissionFailed(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -206,12 +177,23 @@ func (observers ScrapeProgressObservers) PostingsAdmissionFailed(
 	}
 }
 
-func (observers ScrapeProgressObservers) ScrapeRequestCompleted(
+func (observers IntakeProgressObservers) IntakeReceiptNotSent(
+	ctx context.Context,
+	messageIdentity string,
+	pageURL canonicalurl.CanonicalURL,
+	cause error,
+) {
+	for _, observer := range observers {
+		observer.IntakeReceiptNotSent(ctx, messageIdentity, pageURL, cause)
+	}
+}
+
+func (observers IntakeProgressObservers) PageIndexed(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
 ) {
 	for _, observer := range observers {
-		observer.ScrapeRequestCompleted(ctx, messageIdentity, pageURL)
+		observer.PageIndexed(ctx, messageIdentity, pageURL)
 	}
 }

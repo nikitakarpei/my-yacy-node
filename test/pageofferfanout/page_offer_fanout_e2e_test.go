@@ -10,18 +10,18 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pagescrapeservice"
 )
 
-func TestEveryCorpusAbsorbsTheSameScrapeRequestEndToEnd(t *testing.T) {
+func TestEveryCorpusAbsorbsTheSameOfferedPageEndToEnd(t *testing.T) {
 	ctx := context.Background()
 
 	network := dockernetwork.New(t, ctx)
 
 	natsURL := natsjetstream.Start(t, ctx, network.Name)
-	scraperequeststream.Provision(t, ctx, natsURL)
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
+	pagescrapeservice.Start(t, ctx, network.Name)
 	manticoreURL := startManticore(t, ctx, network.Name)
 	startCorpusMarkdown(t, ctx, network.Name)
 	startCorpusText(t, ctx, network.Name)

@@ -259,11 +259,11 @@ $(foreach m,$(E2E_IMAGE_MODULES),$(eval $(call e2e_image_rule,$(m))))
 e2e-images: $(foreach m,$(E2E_IMAGE_MODULES),e2e-$(m)-image)
 
 # Every e2e suite, where it lives, and the images it needs.
-E2E_SUITE_MODULES := yacynode yacycrawler corpustext corpusmarkdown searxng-result-router searxng-crawled-text-search renderproxy webarchivescrape webresearchmcp scraperequestfanout pagescrape
+E2E_SUITE_MODULES := yacynode yacycrawler corpustext corpusmarkdown searxng-result-router searxng-crawled-text-search renderproxy webarchivescrape webresearchmcp pageofferfanout pagescrape
 
 E2E_PATH_searxng-result-router         := plugins/searxng/searxng-result-router
 E2E_PATH_searxng-crawled-text-search   := plugins/searxng/searxng-crawled-text-search
-E2E_SUITE_DIR_scraperequestfanout      := test/scraperequestfanout
+E2E_SUITE_DIR_pageofferfanout          := test/pageofferfanout
 
 E2E_SUITE_IMAGES_yacynode                    := yacynode
 E2E_SUITE_IMAGES_yacycrawler                 := yacycrawler
@@ -274,7 +274,7 @@ E2E_SUITE_IMAGES_searxng-crawled-text-search := corpustext pagescrape
 E2E_SUITE_IMAGES_renderproxy                 := renderproxy
 E2E_SUITE_IMAGES_webarchivescrape             := webarchivescrape corpustext pagescrape
 E2E_SUITE_IMAGES_webresearchmcp              := corpusmarkdown webresearchmcp pagescrape
-E2E_SUITE_IMAGES_scraperequestfanout         := corpustext corpusmarkdown pagescrape
+E2E_SUITE_IMAGES_pageofferfanout             := corpustext corpusmarkdown pagescrape
 E2E_SUITE_IMAGES_pagescrape                  := pagescrape
 
 # A suite reads the tag of each image it needs from that image's env var.

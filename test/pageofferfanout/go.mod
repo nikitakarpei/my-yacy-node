@@ -1,4 +1,4 @@
-module github.com/nikitakarpei/yacy-rwi-node/test/scraperequestfanout
+module github.com/nikitakarpei/yacy-rwi-node/test/pageofferfanout
 
 go 1.27
 

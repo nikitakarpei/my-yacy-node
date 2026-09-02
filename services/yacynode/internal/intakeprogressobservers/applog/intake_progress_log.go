@@ -1,74 +1,44 @@
-// Package applog writes scrape request progress to the application log.
+// Package applog writes page intake progress to the application log.
 package applog
 
 import (
 	"context"
 	"log/slog"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
 const (
-	msgOriginFetchFailed          = "scrape request fetch failed"
-	msgOriginFetchDeferred        = "scrape request fetch deferred by the origin"
-	msgNothingToScrape            = "scrape request fetch holds no content to scrape"
-	msgDocumentExtractionFailed   = "scrape request document extraction failed, nothing stored"
-	msgNoIndexDerived             = "scrape request derives no index, nothing stored"
-	msgURLMetadataAdmitted        = "scrape request url metadata admitted"
-	msgURLMetadataAdmissionBusy   = "scrape request url metadata admission deferred because storage is busy"
-	msgURLMetadataAdmissionFailed = "scrape request url metadata admission failed"
-	msgPostingsAdmitted           = "scrape request postings admitted"
-	msgPostingsAdmissionBusy      = "scrape request postings admission deferred because storage is busy"
-	msgPostingsAdmissionFailed    = "scrape request postings admission failed"
-	msgScrapeRequestCompleted     = "scrape request completed"
+	msgPageOffered                = "offered page received"
+	msgDocumentExtractionFailed   = "offered page document extraction failed, nothing stored"
+	msgNoIndexDerived             = "offered page derives no index, nothing stored"
+	msgURLMetadataAdmitted        = "offered page url metadata admitted"
+	msgURLMetadataAdmissionBusy   = "offered page url metadata admission deferred because storage is busy"
+	msgURLMetadataAdmissionFailed = "offered page url metadata admission failed"
+	msgPostingsAdmitted           = "offered page postings admitted"
+	msgPostingsAdmissionBusy      = "offered page postings admission deferred because storage is busy"
+	msgPostingsAdmissionFailed    = "offered page postings admission failed"
+	msgReceiptNotSent             = "intake receipt not sent, " +
+		"a caller waiting for this page learns nothing until it stops waiting"
+	msgPageIndexed = "offered page indexed"
 )
 
-type ScrapeProgressLog struct{}
+type IntakeProgressLog struct{}
 
-func (ScrapeProgressLog) ScrapeRequestInvalid(context.Context) {}
+func (IntakeProgressLog) OfferedPageInvalid(context.Context) {}
 
-func (ScrapeProgressLog) OriginFetchFailed(
+func (IntakeProgressLog) PageOffered(
 	ctx context.Context,
 	messageIdentity string,
-	fetchURL canonicalurl.CanonicalURL,
-	cause error,
+	pageURL canonicalurl.CanonicalURL,
 ) {
-	attributes := []any{
+	slog.DebugContext(ctx, msgPageOffered,
 		slog.String("message", messageIdentity),
-		slog.String("fetchUrl", fetchURL.String()),
-	}
-	if cause != nil {
-		attributes = append(attributes, slog.Any("error", cause))
-	}
-	slog.WarnContext(ctx, msgOriginFetchFailed, attributes...)
-}
-
-func (ScrapeProgressLog) OriginFetchDeferred(
-	ctx context.Context,
-	messageIdentity string,
-	fetchURL canonicalurl.CanonicalURL,
-	deferFor time.Duration,
-) {
-	slog.DebugContext(ctx, msgOriginFetchDeferred,
-		slog.String("message", messageIdentity),
-		slog.String("fetchUrl", fetchURL.String()),
-		slog.Duration("deferFor", deferFor),
+		slog.String("pageUrl", pageURL.String()),
 	)
 }
 
-func (ScrapeProgressLog) NothingToScrape(
-	ctx context.Context,
-	messageIdentity string,
-	fetchURL canonicalurl.CanonicalURL,
-) {
-	slog.DebugContext(ctx, msgNothingToScrape,
-		slog.String("message", messageIdentity),
-		slog.String("fetchUrl", fetchURL.String()),
-	)
-}
-
-func (ScrapeProgressLog) DocumentExtractionFailed(
+func (IntakeProgressLog) DocumentExtractionFailed(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -81,7 +51,7 @@ func (ScrapeProgressLog) DocumentExtractionFailed(
 	)
 }
 
-func (ScrapeProgressLog) NoIndexDerived(
+func (IntakeProgressLog) NoIndexDerived(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -92,7 +62,7 @@ func (ScrapeProgressLog) NoIndexDerived(
 	)
 }
 
-func (ScrapeProgressLog) URLMetadataAdmitted(
+func (IntakeProgressLog) URLMetadataAdmitted(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -103,7 +73,7 @@ func (ScrapeProgressLog) URLMetadataAdmitted(
 	)
 }
 
-func (ScrapeProgressLog) URLMetadataAdmissionBusy(
+func (IntakeProgressLog) URLMetadataAdmissionBusy(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -114,7 +84,7 @@ func (ScrapeProgressLog) URLMetadataAdmissionBusy(
 	)
 }
 
-func (ScrapeProgressLog) URLMetadataAdmissionFailed(
+func (IntakeProgressLog) URLMetadataAdmissionFailed(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -130,7 +100,7 @@ func (ScrapeProgressLog) URLMetadataAdmissionFailed(
 	slog.WarnContext(ctx, msgURLMetadataAdmissionFailed, attributes...)
 }
 
-func (ScrapeProgressLog) PostingsAdmitted(
+func (IntakeProgressLog) PostingsAdmitted(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -143,7 +113,7 @@ func (ScrapeProgressLog) PostingsAdmitted(
 	)
 }
 
-func (ScrapeProgressLog) PostingsAdmissionBusy(
+func (IntakeProgressLog) PostingsAdmissionBusy(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -156,7 +126,7 @@ func (ScrapeProgressLog) PostingsAdmissionBusy(
 	)
 }
 
-func (ScrapeProgressLog) PostingsAdmissionFailed(
+func (IntakeProgressLog) PostingsAdmissionFailed(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
@@ -171,12 +141,25 @@ func (ScrapeProgressLog) PostingsAdmissionFailed(
 	)
 }
 
-func (ScrapeProgressLog) ScrapeRequestCompleted(
+func (IntakeProgressLog) IntakeReceiptNotSent(
+	ctx context.Context,
+	messageIdentity string,
+	pageURL canonicalurl.CanonicalURL,
+	cause error,
+) {
+	slog.WarnContext(ctx, msgReceiptNotSent,
+		slog.String("message", messageIdentity),
+		slog.String("pageUrl", pageURL.String()),
+		slog.Any("error", cause),
+	)
+}
+
+func (IntakeProgressLog) PageIndexed(
 	ctx context.Context,
 	messageIdentity string,
 	pageURL canonicalurl.CanonicalURL,
 ) {
-	slog.DebugContext(ctx, msgScrapeRequestCompleted,
+	slog.DebugContext(ctx, msgPageIndexed,
 		slog.String("message", messageIdentity),
 		slog.String("pageUrl", pageURL.String()),
 	)

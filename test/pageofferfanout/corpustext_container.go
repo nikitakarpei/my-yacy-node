@@ -9,7 +9,6 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/manticore"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
@@ -38,13 +37,12 @@ func startCorpusText(t *testing.T, ctx context.Context, networkName string) {
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {corpusTextAlias}},
 			Env: map[string]string{
-				"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL(),
-				"SCRAPE_PROXY_URL":        egressproxy.NetworkURL(),
-				"SEARCH_INDEX_ENGINE":     "manticore",
-				"MANTICORE_URL":           manticore.NetworkURL(manticoreAlias),
-				"MANTICORE_TABLE":         manticoreTableBase,
-				"CORPUSTEXT_LANGUAGES":    indexedLanguage,
-				"LOG_LEVEL":               "debug",
+				"SCRAPE_PAGE_OFFER_NATS_URL": natsjetstream.NetworkURL(),
+				"SEARCH_INDEX_ENGINE":        "manticore",
+				"MANTICORE_URL":              manticore.NetworkURL(manticoreAlias),
+				"MANTICORE_TABLE":            manticoreTableBase,
+				"CORPUSTEXT_LANGUAGES":       indexedLanguage,
+				"LOG_LEVEL":                  "debug",
 			},
 		},
 	})
