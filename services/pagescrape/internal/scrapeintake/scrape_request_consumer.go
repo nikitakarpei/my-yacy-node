@@ -24,6 +24,14 @@ type PageOffers interface {
 	ReportScrapeFailure(ctx context.Context, failure pagescrapecontract.ScrapeFailure) error
 }
 
+type PageRedirections interface {
+	Record(
+		ctx context.Context,
+		requestedURL canonicalurl.CanonicalURL,
+		pageURL canonicalurl.CanonicalURL,
+	) error
+}
+
 type ScrapeSchedules interface {
 	ScheduleScrape(
 		ctx context.Context,
@@ -40,6 +48,7 @@ type ScrapeRequestConsumer struct {
 	scrapeRequests    pullintake.MessageSource
 	pageFetcher       PageFetcher
 	pageOffers        PageOffers
+	pageRedirections  PageRedirections
 	scrapeSchedules   ScrapeSchedules
 	scrapeOutcomeFeed ScrapeOutcomeFeed
 	scrapeProgress    ScrapeProgress
@@ -52,6 +61,7 @@ type Config struct {
 	ScrapeRequests    pullintake.MessageSource
 	PageFetcher       PageFetcher
 	PageOffers        PageOffers
+	PageRedirections  PageRedirections
 	ScrapeSchedules   ScrapeSchedules
 	ScrapeOutcomeFeed ScrapeOutcomeFeed
 	ScrapeProgress    ScrapeProgress
@@ -69,6 +79,7 @@ func NewScrapeRequestConsumer(config Config) *ScrapeRequestConsumer {
 		scrapeRequests:    config.ScrapeRequests,
 		pageFetcher:       config.PageFetcher,
 		pageOffers:        config.PageOffers,
+		pageRedirections:  config.PageRedirections,
 		scrapeSchedules:   config.ScrapeSchedules,
 		scrapeOutcomeFeed: config.ScrapeOutcomeFeed,
 		scrapeProgress:    config.ScrapeProgress,
@@ -100,7 +111,11 @@ func (c *ScrapeRequestConsumer) processOne(
 	}
 	switch outcome.Status {
 	case pagefetch.FetchSucceeded:
-		c.offerPage(ctx, message, pagescrapecontract.OfferedPageFrom(request, outcome.Page))
+		c.offerPage(
+			ctx, message,
+			request.PageURL,
+			pagescrapecontract.OfferedPageFrom(request, outcome.Page),
+		)
 	case pagefetch.FetchDeferred:
 		c.deferScrape(ctx, message, request, outcome.DeferFor)
 	default:
@@ -112,8 +127,16 @@ func (c *ScrapeRequestConsumer) processOne(
 func (c *ScrapeRequestConsumer) offerPage(
 	ctx context.Context,
 	message pullintake.PendingMessage,
+	requestedURL canonicalurl.CanonicalURL,
 	page pagescrapecontract.OfferedPage,
 ) {
+	if requestedURL != page.PageURL {
+		if err := c.pageRedirections.Record(ctx, requestedURL, page.PageURL); err != nil {
+			c.scrapeProgress.RedirectionNotRecorded(ctx, requestedURL, page.PageURL, err)
+			message.Return(ctx)
+			return
+		}
+	}
 	if err := c.pageOffers.OfferPage(ctx, page); err != nil {
 		c.scrapeProgress.PageNotOffered(ctx, page.PageURL, err)
 		message.Return(ctx)

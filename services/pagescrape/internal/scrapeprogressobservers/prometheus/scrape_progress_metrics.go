@@ -13,11 +13,12 @@ import (
 const (
 	labelScrapeRequestDisposal = "disposal"
 
-	disposalOffered         = "offered"
-	disposalScheduled       = "scheduled"
-	disposalOfferRefused    = "offer-refused"
-	disposalScheduleRefused = "schedule-refused"
-	disposalUnreadable      = "unreadable"
+	disposalOffered            = "offered"
+	disposalScheduled          = "scheduled"
+	disposalOfferRefused       = "offer-refused"
+	disposalScheduleRefused    = "schedule-refused"
+	disposalRedirectionRefused = "redirection-refused"
+	disposalUnreadable         = "unreadable"
 )
 
 var scrapeRequestDisposals = []string{
@@ -25,6 +26,7 @@ var scrapeRequestDisposals = []string{
 	disposalScheduled,
 	disposalOfferRefused,
 	disposalScheduleRefused,
+	disposalRedirectionRefused,
 	disposalUnreadable,
 	string(pagescrapecontract.NotModified),
 	string(pagescrapecontract.AccessRefused),
@@ -101,6 +103,15 @@ func (m *ScrapeProgressMetrics) PageNotOffered(
 	_ error,
 ) {
 	m.dispose(disposalOfferRefused)
+}
+
+func (m *ScrapeProgressMetrics) RedirectionNotRecorded(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ canonicalurl.CanonicalURL,
+	_ error,
+) {
+	m.dispose(disposalRedirectionRefused)
 }
 
 func (m *ScrapeProgressMetrics) ScrapeDeferred(

@@ -50,6 +50,26 @@ func (o *pageOffers) ReportScrapeFailure(
 	return nil
 }
 
+type pageRedirections struct {
+	recorded map[canonicalurl.CanonicalURL]canonicalurl.CanonicalURL
+	err      error
+}
+
+func (r *pageRedirections) Record(
+	_ context.Context,
+	requestedURL canonicalurl.CanonicalURL,
+	pageURL canonicalurl.CanonicalURL,
+) error {
+	if r.err != nil {
+		return r.err
+	}
+	if r.recorded == nil {
+		r.recorded = map[canonicalurl.CanonicalURL]canonicalurl.CanonicalURL{}
+	}
+	r.recorded[requestedURL] = pageURL
+	return nil
+}
+
 type scrapeSchedule struct {
 	request pagescrapecontract.ScrapeRequest
 	after   time.Duration
@@ -106,6 +126,14 @@ func (silentScrapeProgress) PageOffered(
 
 func (silentScrapeProgress) PageNotOffered(
 	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ error,
+) {
+}
+
+func (silentScrapeProgress) RedirectionNotRecorded(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
 	_ canonicalurl.CanonicalURL,
 	_ error,
 ) {

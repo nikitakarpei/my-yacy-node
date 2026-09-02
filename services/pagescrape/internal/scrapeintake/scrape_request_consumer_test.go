@@ -14,23 +14,30 @@ import (
 
 const (
 	pageURL        = "https://example.org/a"
+	landedPageURL  = "https://example.org/b"
 	deferralWindow = time.Hour
 )
 
 type scrapeIntake struct {
-	message   *pullintaketest.Message
-	offers    *pageOffers
-	schedules *scrapeSchedules
-	feed      *scrapeOutcomeFeed
+	message      *pullintaketest.Message
+	offers       *pageOffers
+	redirections *pageRedirections
+	schedules    *scrapeSchedules
+	feed         *scrapeOutcomeFeed
 }
 
 type scrapeBroker struct {
-	offers    *pageOffers
-	schedules *scrapeSchedules
+	offers       *pageOffers
+	redirections *pageRedirections
+	schedules    *scrapeSchedules
 }
 
 func acceptingScrapeBroker() scrapeBroker {
-	return scrapeBroker{offers: &pageOffers{}, schedules: &scrapeSchedules{}}
+	return scrapeBroker{
+		offers:       &pageOffers{},
+		redirections: &pageRedirections{},
+		schedules:    &scrapeSchedules{},
+	}
 }
 
 func runScrapeIntake(
@@ -55,14 +62,14 @@ func runScrapeIntakeAgainst(
 	if err != nil {
 		t.Fatalf("marshal scrape request: %v", err)
 	}
-	offers, schedules := broker.offers, broker.schedules
 	message := &pullintaketest.Message{Body: body}
 	feed := &scrapeOutcomeFeed{}
 	consumer := scrapeintake.NewScrapeRequestConsumer(scrapeintake.Config{
 		ScrapeRequests:    pullintaketest.MessageSourceOf(message),
 		PageFetcher:       reads,
-		PageOffers:        offers,
-		ScrapeSchedules:   schedules,
+		PageOffers:        broker.offers,
+		PageRedirections:  broker.redirections,
+		ScrapeSchedules:   broker.schedules,
 		ScrapeOutcomeFeed: feed,
 		ScrapeProgress:    scrapeintake.ScrapeProgressObservers{silentScrapeProgress{}},
 		DeferralWindow:    deferralWindow,
@@ -72,7 +79,13 @@ func runScrapeIntakeAgainst(
 	if err := consumer.Run(context.Background()); err != nil {
 		t.Fatalf("run intake: %v", err)
 	}
-	return scrapeIntake{message: message, offers: offers, schedules: schedules, feed: feed}
+	return scrapeIntake{
+		message:      message,
+		offers:       broker.offers,
+		redirections: broker.redirections,
+		schedules:    broker.schedules,
+		feed:         feed,
+	}
 }
 
 func scrapeRequestForThePage(t *testing.T) pagescrapecontract.ScrapeRequest {
@@ -102,6 +115,62 @@ func TestPageReadFromTheOriginIsOfferedToTheCorpora(t *testing.T) {
 	}
 	if settlement := intake.message.Settlement(t); settlement != pullintaketest.Acknowledged {
 		t.Errorf("the request was %s, want it %s", settlement, pullintaketest.Acknowledged)
+	}
+}
+
+func TestPageThatRedirectsIsRememberedUnderTheRequestedURL(t *testing.T) {
+	request := scrapeRequestForThePage(t)
+	landedURL := canonicalurltest.CanonicalURLOf(t, landedPageURL)
+	read := pageReads{outcome: pagefetch.FetchOutcome{
+		Status: pagefetch.FetchSucceeded,
+		Page:   pagefetch.FetchedPage{LandedURL: landedURL, ContentType: "text/html"},
+	}}
+
+	intake := runScrapeIntake(t, request, read, time.Now())
+
+	if got := intake.redirections.recorded[request.PageURL]; got != landedURL {
+		t.Errorf("%s redirects to %s, want %s", request.PageURL, got, landedURL)
+	}
+	if settlement := intake.message.Settlement(t); settlement != pullintaketest.Acknowledged {
+		t.Errorf("the request was %s, want it %s", settlement, pullintaketest.Acknowledged)
+	}
+}
+
+func TestPageThatLandsWhereItWasAskedForRemembersNoRedirection(t *testing.T) {
+	request := scrapeRequestForThePage(t)
+	read := pageReads{outcome: pagefetch.FetchOutcome{
+		Status: pagefetch.FetchSucceeded,
+		Page: pagefetch.FetchedPage{
+			LandedURL:   canonicalurltest.CanonicalURLOf(t, pageURL),
+			ContentType: "text/html",
+		},
+	}}
+
+	intake := runScrapeIntake(t, request, read, time.Now())
+
+	if len(intake.redirections.recorded) != 0 {
+		t.Errorf("remembered %d redirections, want none", len(intake.redirections.recorded))
+	}
+}
+
+func TestRequestComesBackWhenTheRedirectionIsNotRemembered(t *testing.T) {
+	read := pageReads{outcome: pagefetch.FetchOutcome{
+		Status: pagefetch.FetchSucceeded,
+		Page: pagefetch.FetchedPage{
+			LandedURL:   canonicalurltest.CanonicalURLOf(t, landedPageURL),
+			ContentType: "text/html",
+		},
+	}}
+	broker := acceptingScrapeBroker()
+	broker.redirections = &pageRedirections{err: errBrokerRefused}
+
+	intake := runScrapeIntakeAgainst(t, scrapeRequestForThePage(t), read, time.Now(), broker)
+
+	if len(intake.offers.offered) != 0 {
+		t.Errorf("offered %d pages, want none", len(intake.offers.offered))
+	}
+	if settlement := intake.message.Settlement(t); settlement != pullintaketest.HeldBack {
+		t.Errorf("the request was %s, want it %s", settlement, pullintaketest.HeldBack)
 	}
 }
 
@@ -243,6 +312,7 @@ func TestUnreadableScrapeRequestHaltsIntake(t *testing.T) {
 		ScrapeRequests:    pullintaketest.MessageSourceOf(message),
 		PageFetcher:       pageReads{},
 		PageOffers:        &pageOffers{},
+		PageRedirections:  &pageRedirections{},
 		ScrapeSchedules:   &scrapeSchedules{},
 		ScrapeOutcomeFeed: &scrapeOutcomeFeed{},
 		ScrapeProgress:    scrapeintake.ScrapeProgressObservers{silentScrapeProgress{}},
