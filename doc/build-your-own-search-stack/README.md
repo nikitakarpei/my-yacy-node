@@ -1,8 +1,13 @@
 # Build your own search stack
 
-Each chapter directory contains a complete, independent Docker Compose stack.
-Use the chapters in order to learn the stack, or start with the capability you
-need.
+This guide builds a self-hosted web search stack in small steps. The stack
+joins the YaCy peer-to-peer search network, crawls web pages, keeps a local
+full-text index, and provides a search page. Later chapters add browser
+rendering, web archives, AI access, metrics, and dashboards.
+
+Start with chapter 1 and continue in order. Each chapter provides a complete,
+independent Docker Compose stack with its own volumes and data. A decimal
+chapter, such as 1.1, is an optional alternative to the chapter before it.
 
 ## Prepare a chapter
 
@@ -15,20 +20,17 @@ From the chapter directory:
 cp .env.example .env
 ```
 
-Complete every empty value in `.env`. Set `YACY_ADVERTISE_HOST` to the address
-that YaCy peers use to reach port 8090. Generate each secret with
-`openssl rand -hex 32`.
-
-Docker Compose creates separate volumes for each chapter. Data does not move
-between chapters.
+Complete every empty value in `.env`.
 
 ## Chapters
 
 | # | Capability |
 | --- | --- |
 | 1 | [Join the YaCy network with one peer](chapters/01-join-the-yacy-network-with-one-peer) |
+| 1.1 | [Join the network from behind NAT](chapters/01.1-join-the-network-from-behind-nat) |
 | 2 | [Give your peer a crawler](chapters/02-give-your-peer-a-crawler) |
 | 3 | [Search your index from a browser](chapters/03-search-your-index-from-a-browser) |
+| 3.1 | [Use Elasticsearch instead of Manticore](chapters/03.1-use-elasticsearch-instead-of-manticore) |
 | 4 | [Crawl every search result you open](chapters/04-crawl-every-search-result-you-open) |
 | 5 | [Index pages that JavaScript builds](chapters/05-index-pages-that-javascript-builds) |
 | 6 | [Share one fetch between three readers](chapters/06-share-one-fetch-between-three-readers) |
@@ -37,8 +39,3 @@ between chapters.
 | 9 | [Let an AI assistant use your web](chapters/09-let-an-ai-assistant-search-and-read-your-web) |
 | 10 | [Collect search service metrics](chapters/10-collect-metrics-from-every-service) |
 | 11 | [Watch the peer and crawler on dashboards](chapters/11-watch-the-stack-on-dashboards) |
-
-## Alternatives
-
-[Use Elasticsearch instead of Manticore](side-roads/elasticsearch) with chapter
-10 or 11.

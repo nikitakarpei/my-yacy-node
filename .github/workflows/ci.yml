@@ -26,6 +26,12 @@ jobs:
     uses: ./.github/workflows/build-yacynode.yml
     secrets: inherit
 
+  build-localhostrunagent:
+    needs: verify
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/build-localhostrunagent.yml
+    secrets: inherit
+
   build-yacycrawler:
     needs: verify
     if: github.ref == 'refs/heads/main'

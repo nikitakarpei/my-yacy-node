@@ -80,6 +80,7 @@ components:
     in: internal/intakereceipts/nats/**
   cmd:
     in:
+      - cmd/yacy-entrypoint/**
       - cmd/yacy-peer-hash/**
       - cmd/yacy-rwi-node/**
 

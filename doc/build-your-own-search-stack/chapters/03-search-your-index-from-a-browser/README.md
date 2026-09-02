@@ -30,4 +30,4 @@ query with `!ct` to show only the local index.
 
 - [Full-text indexer configuration](../../../../services/corpustext/doc/configuration.md)
 - [SearXNG local search configuration](../../../../plugins/searxng/searxng-crawled-text-search/doc/configuration.md)
-- [Elasticsearch alternative](../../side-roads/elasticsearch)
+- [Chapter 3.1: Use Elasticsearch instead of Manticore](../03.1-use-elasticsearch-instead-of-manticore)

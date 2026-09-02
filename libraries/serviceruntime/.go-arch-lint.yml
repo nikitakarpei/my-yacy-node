@@ -26,6 +26,14 @@ components:
     in: pullintake/pullintaketest/**
   jetstreamconnect:
     in: jetstreamconnect/**
+  foregroundprocess:
+    in: foregroundprocess/**
+  processenvironmentleaseclient:
+    in: processenvironmentleaseclient/**
+  processenvironmentleaseserver:
+    in: processenvironmentleaseserver/**
+  processentrypoint:
+    in: processentrypoint/**
 
 vendors:
   errgroup:
@@ -35,6 +43,9 @@ vendors:
     in:
       - github.com/nats-io/nats.go
       - github.com/nats-io/nats.go/**
+  processenvironmentlease:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease
 
 deps:
   httpaccesslog:
@@ -53,6 +64,16 @@ deps:
   jetstreamconnect:
     canUse:
       - nats
+  processenvironmentleaseclient:
+    canUse:
+      - processenvironmentlease
+  processenvironmentleaseserver:
+    canUse:
+      - processenvironmentlease
+  processentrypoint:
+    mayDependOn:
+      - foregroundprocess
+      - processenvironmentleaseclient
 
 excludeFiles:
   - "_test\\.go"
