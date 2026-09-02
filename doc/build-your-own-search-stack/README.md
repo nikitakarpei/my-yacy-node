@@ -1,7 +1,13 @@
 # Build your own search stack
 
-Each chapter directory contains a complete, independent Docker Compose stack
-with its own volumes and data.
+This guide builds a self-hosted web search stack in small steps. The stack
+joins the YaCy peer-to-peer search network, crawls web pages, keeps a local
+full-text index, and provides a search page. Later chapters add browser
+rendering, web archives, AI access, metrics, and dashboards.
+
+Start with chapter 1 and continue in order. Each chapter provides a complete,
+independent Docker Compose stack with its own volumes and data. A decimal
+chapter, such as 1.1, is an optional alternative to the chapter before it.
 
 ## Prepare a chapter
 
