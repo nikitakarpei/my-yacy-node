@@ -6,20 +6,36 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/localhostrunagent/internal/processrestartinterval"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
 )
 
+const shortestRestartInterval = 10 * time.Second
+
 func main() {
-	if err := run(); err != nil {
-		slog.ErrorContext(context.Background(), "localhostrunagent terminated",
-			slog.Any("error", err),
-		)
-		os.Exit(1)
-	}
+	os.Exit(agentProcessExitStatus())
 }
 
-func run() error {
+func agentProcessExitStatus() int {
+	processStart := time.Now()
+
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+
+	err := run(ctx)
+	if err == nil {
+		return 0
+	}
+
+	slog.ErrorContext(ctx, "localhostrunagent terminated", slog.Any("error", err))
+	processrestartinterval.HoldTheExit(ctx, processStart, shortestRestartInterval)
+
+	return 1
+}
+
+func run(ctx context.Context) error {
 	if err := applog.Configure(os.Getenv); err != nil {
 		return err
 	}
@@ -28,9 +44,6 @@ func run() error {
 	if err != nil {
 		return err
 	}
-
-	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
-	defer stop()
 
 	return RunAgent(ctx, configuration)
 }

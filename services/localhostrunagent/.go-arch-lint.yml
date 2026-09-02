@@ -10,6 +10,8 @@ components:
     in: internal/localhostruntunnel/**
   proxyprotocolingress:
     in: internal/proxyprotocolingress/**
+  processrestartinterval:
+    in: internal/processrestartinterval/**
   localhostrunagentcmd:
     in: cmd/localhostrunagent/**
 

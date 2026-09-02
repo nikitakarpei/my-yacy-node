@@ -44,3 +44,10 @@ grant before it starts the node.
 
 The agent stops when the tunnel, the ingress, or the lease consumer stops. Use a
 restart policy on both containers to get a new tunnel.
+
+## Restart pace
+
+An agent that stops in its first 10 seconds holds its exit until the 10 seconds
+have passed. The provider refuses a tunnel that comes too soon after the last
+one, so a container that restarts many times each second makes its own failure
+worse. An agent that ran longer stops at once. A signal also stops it at once.
