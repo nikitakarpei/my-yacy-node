@@ -128,6 +128,9 @@ func subscribeToKeptPages(t *testing.T, natsURL string) chan *nats.Msg {
 		t.Fatalf("subscribe to kept pages: %v", err)
 	}
 	t.Cleanup(func() { _ = subscription.Unsubscribe() })
+	if err := conn.Flush(); err != nil {
+		t.Fatalf("flush the kept page subscription: %v", err)
+	}
 	return received
 }
 
