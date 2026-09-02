@@ -14,6 +14,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pagescrapeservice"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
@@ -30,7 +31,7 @@ func startScrapeStack(t *testing.T, ctx context.Context) (jetstream.JetStream, j
 	natsURL := natsjetstream.Start(t, ctx, network.Name)
 	startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
-	startPageScrape(t, ctx, network.Name)
+	pagescrapeservice.Start(t, ctx, network.Name)
 
 	js := connectJetStream(t, natsURL)
 	awaitStream(t, ctx, js, pagescrapecontract.ScrapeRequestsStreamName)

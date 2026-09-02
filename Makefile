@@ -267,7 +267,7 @@ E2E_SUITE_DIR_scraperequestfanout      := test/scraperequestfanout
 
 E2E_SUITE_IMAGES_yacynode                    := yacynode
 E2E_SUITE_IMAGES_yacycrawler                 := yacycrawler
-E2E_SUITE_IMAGES_corpustext                  := yacynode yacycrawler corpustext
+E2E_SUITE_IMAGES_corpustext                  := yacynode yacycrawler corpustext pagescrape
 E2E_SUITE_IMAGES_corpusmarkdown              := yacynode yacycrawler corpusmarkdown
 E2E_SUITE_IMAGES_searxng-result-router       := visitcrawl
 E2E_SUITE_IMAGES_searxng-crawled-text-search := corpustext

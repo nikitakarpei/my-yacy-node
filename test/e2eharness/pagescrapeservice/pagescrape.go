@@ -1,6 +1,9 @@
 //go:build e2e
 
-package e2e
+// Package pagescrapeservice starts the service that reads each requested page once and
+// offers it to the corpora. It owns the scrape streams, so a suite that starts it
+// provisions nothing itself.
+package pagescrapeservice
 
 import (
 	"context"
@@ -16,21 +19,21 @@ import (
 )
 
 const (
-	pageScrapeAlias    = "pagescrape"
-	pageScrapeOpsPort  = "9090/tcp"
-	envPageScrapeImage = "PAGESCRAPE_IMAGE"
+	alias    = "pagescrape"
+	opsPort  = "9090/tcp"
+	envImage = "PAGESCRAPE_IMAGE"
 )
 
-func startPageScrape(t *testing.T, ctx context.Context, networkName string) {
+func Start(t *testing.T, ctx context.Context, networkName string) {
 	t.Helper()
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
 		ContainerRequest: testcontainers.ContainerRequest{
-			Image:          requiredimage.FromEnv(t, envPageScrapeImage, "pagescrape", "e2e"),
+			Image:          requiredimage.FromEnv(t, envImage, "pagescrape", "e2e"),
 			Networks:       []string{networkName},
-			NetworkAliases: map[string][]string{networkName: {pageScrapeAlias}},
-			ExposedPorts:   []string{pageScrapeOpsPort},
-			WaitingFor:     wait.ForListeningPort(pageScrapeOpsPort),
+			NetworkAliases: map[string][]string{networkName: {alias}},
+			ExposedPorts:   []string{opsPort},
+			WaitingFor:     wait.ForListeningPort(opsPort),
 			Env: map[string]string{
 				"SCRAPE_NATS_URL":  natsjetstream.NetworkURL(),
 				"SCRAPE_PROXY_URL": egressproxy.NetworkURL(),
