@@ -19,6 +19,7 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/nats-io/nkeys v0.4.16 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease v0.0.0 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
@@ -82,3 +83,5 @@ replace github.com/nikitakarpei/yacy-rwi-node/scrapedpage => ../../libraries/scr
 replace github.com/nikitakarpei/yacy-rwi-node/scraperequestcontract => ../../libraries/scraperequestcontract
 
 replace github.com/nikitakarpei/yacy-rwi-node/documentextraction => ../../libraries/documentextraction
+
+replace github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease => ../../libraries/processenvironmentlease

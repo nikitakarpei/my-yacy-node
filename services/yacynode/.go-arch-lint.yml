@@ -78,6 +78,7 @@ components:
     in: internal/scraperequestbroker/**
   cmd:
     in:
+      - cmd/yacy-entrypoint/**
       - cmd/yacy-peer-hash/**
       - cmd/yacy-rwi-node/**
 
