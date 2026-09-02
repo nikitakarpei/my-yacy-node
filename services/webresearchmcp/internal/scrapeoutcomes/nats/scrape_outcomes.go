@@ -55,15 +55,44 @@ type scrapeOutcomeListener struct {
 func (l *scrapeOutcomeListener) AwaitedFetchOutcome(
 	ctx context.Context,
 ) (pageread.FetchOutcome, error) {
-	message, err := l.subscription.NextMsgWithContext(ctx)
-	if err != nil {
-		return "", fmt.Errorf("wait for the scrape outcome of %q: %w", l.pageURL, err)
+	for {
+		message, err := l.subscription.NextMsgWithContext(ctx)
+		if err != nil {
+			return "", fmt.Errorf("wait for the scrape outcome of %q: %w", l.pageURL, err)
+		}
+		outcome, err := pagescrapecontract.ScrapeOutcomeOn(message.Subject)
+		if err != nil {
+			return "", err
+		}
+		if outcome == pagescrapecontract.ScrapeFailed {
+			return pageread.PageNotReadable, nil
+		}
+		receiptCorpus, err := intakeReceiptCorpusFrom(message.Data, outcome)
+		if err != nil {
+			return "", err
+		}
+		if receiptCorpus == pagescrapecontract.CorpusMarkdown {
+			return fetchOutcomeOf(outcome), nil
+		}
 	}
-	outcome, err := pagescrapecontract.ScrapeOutcomeOn(message.Subject)
+}
+
+func intakeReceiptCorpusFrom(
+	data []byte,
+	outcome pagescrapecontract.ScrapeOutcome,
+) (pagescrapecontract.CorpusName, error) {
+	if outcome == pagescrapecontract.PageKept {
+		keptPage, err := pagescrapecontract.UnmarshalKeptPage(data)
+		if err != nil {
+			return "", err
+		}
+		return keptPage.Corpus, nil
+	}
+	rejectedPage, err := pagescrapecontract.UnmarshalRejectedPage(data)
 	if err != nil {
 		return "", err
 	}
-	return fetchOutcomeOf(outcome), nil
+	return rejectedPage.Corpus, nil
 }
 
 func fetchOutcomeOf(outcome pagescrapecontract.ScrapeOutcome) pageread.FetchOutcome {

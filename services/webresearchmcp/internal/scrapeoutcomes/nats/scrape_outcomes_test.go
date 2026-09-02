@@ -22,10 +22,11 @@ func carry(
 	t *testing.T,
 	serverURL string,
 	subject string,
+	data []byte,
 ) {
 	t.Helper()
 	connection := natstestserver.Connect(t, serverURL)
-	if err := connection.Publish(subject, []byte("{}")); err != nil {
+	if err := connection.Publish(subject, data); err != nil {
 		t.Fatalf("carry the outcome: %v", err)
 	}
 	if err := connection.Flush(); err != nil {
@@ -36,6 +37,7 @@ func carry(
 func awaitedFetchOutcome(
 	t *testing.T,
 	subjectOf func(canonicalurl.CanonicalURL) string,
+	dataOf func(*testing.T, canonicalurl.CanonicalURL) []byte,
 ) pageread.FetchOutcome {
 	t.Helper()
 	serverURL := natstestserver.Start(t)
@@ -53,7 +55,7 @@ func awaitedFetchOutcome(
 	}
 	defer listener.Close()
 
-	carry(t, serverURL, subjectOf(pageURL))
+	carry(t, serverURL, subjectOf(pageURL), dataOf(t, pageURL))
 
 	waitCtx, stopWaiting := context.WithTimeout(context.Background(), waitLimit)
 	defer stopWaiting()
@@ -64,16 +66,66 @@ func awaitedFetchOutcome(
 	return fetchOutcome
 }
 
+func keptPageReceiptFrom(
+	t *testing.T,
+	pageURL canonicalurl.CanonicalURL,
+) []byte {
+	t.Helper()
+	data, err := pagescrapecontract.MarshalKeptPage(pagescrapecontract.KeptPage{
+		PageURL: pageURL,
+		Corpus:  pagescrapecontract.CorpusMarkdown,
+	})
+	if err != nil {
+		t.Fatalf("marshal kept page: %v", err)
+	}
+	return data
+}
+
+func rejectedPageReceiptFrom(
+	t *testing.T,
+	pageURL canonicalurl.CanonicalURL,
+) []byte {
+	t.Helper()
+	data, err := pagescrapecontract.MarshalRejectedPage(pagescrapecontract.RejectedPage{
+		PageURL: pageURL,
+		Corpus:  pagescrapecontract.CorpusMarkdown,
+	})
+	if err != nil {
+		t.Fatalf("marshal rejected page: %v", err)
+	}
+	return data
+}
+
+func scrapeFailureFrom(
+	t *testing.T,
+	pageURL canonicalurl.CanonicalURL,
+) []byte {
+	t.Helper()
+	data, err := pagescrapecontract.MarshalScrapeFailure(pagescrapecontract.ScrapeFailure{
+		PageURL:  pageURL,
+		FetchURL: pageURL,
+		Reason:   pagescrapecontract.NoReasonGiven,
+	})
+	if err != nil {
+		t.Fatalf("marshal scrape failure: %v", err)
+	}
+	return data
+}
+
 func TestAPageACorpusKeptIsAwaitedAsAFetchedPage(t *testing.T) {
-	fetchOutcome := awaitedFetchOutcome(t, pagescrapecontract.KeptPageOutcomeSubjectOf)
+	fetchOutcome := awaitedFetchOutcome(
+		t, pagescrapecontract.KeptPageOutcomeSubjectOf, keptPageReceiptFrom,
+	)
 
 	if fetchOutcome != pageread.PageFetched {
 		t.Errorf("fetch outcome = %q, want %q", fetchOutcome, pageread.PageFetched)
 	}
 }
 
-func TestAPageEveryCorpusRejectedIsAwaitedAsAPageThatCannotBeRead(t *testing.T) {
-	fetchOutcome := awaitedFetchOutcome(t, pagescrapecontract.RejectedPageOutcomeSubjectOf)
+func TestAPageCorpusMarkdownRejectedIsAwaitedAsAPageThatCannotBeRead(t *testing.T) {
+	fetchOutcome := awaitedFetchOutcome(
+		t, pagescrapecontract.RejectedPageOutcomeSubjectOf, rejectedPageReceiptFrom,
+	)
 
 	if fetchOutcome != pageread.PageNotReadable {
 		t.Errorf("fetch outcome = %q, want %q", fetchOutcome, pageread.PageNotReadable)
@@ -81,8 +133,48 @@ func TestAPageEveryCorpusRejectedIsAwaitedAsAPageThatCannotBeRead(t *testing.T) 
 }
 
 func TestAScrapeThatFailedIsAwaitedAsAPageThatCannotBeRead(t *testing.T) {
-	fetchOutcome := awaitedFetchOutcome(t, pagescrapecontract.ScrapeFailureOutcomeSubjectOf)
+	fetchOutcome := awaitedFetchOutcome(
+		t, pagescrapecontract.ScrapeFailureOutcomeSubjectOf, scrapeFailureFrom,
+	)
 
+	if fetchOutcome != pageread.PageNotReadable {
+		t.Errorf("fetch outcome = %q, want %q", fetchOutcome, pageread.PageNotReadable)
+	}
+}
+
+func TestAReceiptFromAnotherCorpusDoesNotFinishTheWait(t *testing.T) {
+	serverURL := natstestserver.Start(t)
+	pageURL := canonicalurltest.CanonicalURLOf(t, pageAddress)
+	outcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(serverURL)
+	if err != nil {
+		t.Fatalf("open the scrape outcomes: %v", err)
+	}
+	defer outcomes.Close()
+	listener, err := outcomes.ListenerFor(context.Background(), pageURL)
+	if err != nil {
+		t.Fatalf("listen for the outcome: %v", err)
+	}
+	defer listener.Close()
+
+	otherReceipt, err := pagescrapecontract.MarshalKeptPage(pagescrapecontract.KeptPage{
+		PageURL: pageURL,
+		Corpus:  "corpustext",
+	})
+	if err != nil {
+		t.Fatalf("marshal another corpus receipt: %v", err)
+	}
+	carry(t, serverURL, pagescrapecontract.KeptPageOutcomeSubjectOf(pageURL), otherReceipt)
+	carry(
+		t, serverURL, pagescrapecontract.RejectedPageOutcomeSubjectOf(pageURL),
+		rejectedPageReceiptFrom(t, pageURL),
+	)
+
+	waitCtx, stopWaiting := context.WithTimeout(context.Background(), waitLimit)
+	defer stopWaiting()
+	fetchOutcome, err := listener.AwaitedFetchOutcome(waitCtx)
+	if err != nil {
+		t.Fatalf("wait for the outcome: %v", err)
+	}
 	if fetchOutcome != pageread.PageNotReadable {
 		t.Errorf("fetch outcome = %q, want %q", fetchOutcome, pageread.PageNotReadable)
 	}

@@ -29,8 +29,6 @@ import (
 const (
 	opsReadHeaderLimit = 10 * time.Second
 	opsShutdownLimit   = 15 * time.Second
-
-	corpus = "corpusmarkdown"
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
@@ -65,7 +63,9 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		Source:            consumer,
 		FormatDerivations: formatDerivations,
 		Corpus:            markdownCorpus,
-		IntakeReceipts:    intakereceiptsnats.NewIntakeReceipts(pageOfferConnection, corpus),
+		IntakeReceipts: intakereceiptsnats.NewIntakeReceipts(
+			pageOfferConnection, pagescrapecontract.CorpusMarkdown,
+		),
 		IntakeProgress: pageintake.IntakeProgressObservers{
 			intakeprogressobserversapplog.IntakeProgressLog{},
 			intakeprogressobserversprometheus.New(registry),

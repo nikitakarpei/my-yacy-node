@@ -9,6 +9,8 @@ const (
 
 type CorpusName string
 
+const CorpusMarkdown CorpusName = "corpusmarkdown"
+
 func KeptPageSubjectOf(pageURL canonicalurl.CanonicalURL) string {
 	return intakeReceiptSubjectPrefixOf(pageURL) + ".kept"
 }
