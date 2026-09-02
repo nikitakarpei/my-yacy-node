@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/testcontainers/testcontainers-go"
+	"github.com/testcontainers/testcontainers-go/wait"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
@@ -14,9 +15,10 @@ import (
 )
 
 const (
-	corpusTextAlias    = "corpustext"
-	envCorpusTextImage = "CORPUSTEXT_IMAGE"
-	indexedLanguages   = englishLanguage + "," + germanLanguage
+	corpusTextAlias          = "corpustext"
+	corpusTextOperationsPort = "9090/tcp"
+	envCorpusTextImage       = "CORPUSTEXT_IMAGE"
+	indexedLanguages         = englishLanguage + "," + germanLanguage
 )
 
 func startCorpusText(
@@ -40,6 +42,8 @@ func startCorpusText(
 			Image:          requiredimage.FromEnv(t, envCorpusTextImage, "corpustext", "e2e"),
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {corpusTextAlias}},
+			ExposedPorts:   []string{corpusTextOperationsPort},
+			WaitingFor:     wait.ForListeningPort(corpusTextOperationsPort),
 			Env:            env,
 		},
 	})

@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/testcontainers/testcontainers-go"
+	"github.com/testcontainers/testcontainers-go/wait"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/manticore"
@@ -15,12 +16,13 @@ import (
 )
 
 const (
-	corpusTextAlias    = "corpustext"
-	envCorpusTextImage = "CORPUSTEXT_IMAGE"
-	manticoreAlias     = "manticore"
-	manticoreTableBase = "yacy_text"
-	indexedLanguage    = "en"
-	manticoreTable     = manticoreTableBase + "_v1_" + indexedLanguage
+	corpusTextAlias          = "corpustext"
+	corpusTextOperationsPort = "9090/tcp"
+	envCorpusTextImage       = "CORPUSTEXT_IMAGE"
+	manticoreAlias           = "manticore"
+	manticoreTableBase       = "yacy_text"
+	indexedLanguage          = "en"
+	manticoreTable           = manticoreTableBase + "_v1_" + indexedLanguage
 )
 
 func startManticore(t *testing.T, ctx context.Context, networkName string) string {
@@ -36,6 +38,8 @@ func startCorpusText(t *testing.T, ctx context.Context, networkName string) {
 			Image:          requiredimage.FromEnv(t, envCorpusTextImage, "corpustext", "e2e"),
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {corpusTextAlias}},
+			ExposedPorts:   []string{corpusTextOperationsPort},
+			WaitingFor:     wait.ForListeningPort(corpusTextOperationsPort),
 			Env: map[string]string{
 				"SCRAPE_PAGE_OFFER_NATS_URL": natsjetstream.NetworkURL(),
 				"SEARCH_INDEX_ENGINE":        "manticore",
