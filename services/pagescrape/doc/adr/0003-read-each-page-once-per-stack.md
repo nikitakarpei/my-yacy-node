@@ -8,33 +8,22 @@ Accepted
 
 ## Context
 
-Each corpus reads the page in a scrape request. Each corpus can get different
-bytes, and each read uses network and origin capacity.
-
-A failed page stays pending in each corpus. Repeated delivery can fill the
-intake capacity and stop unrelated pages.
-
-The corpora need the same response bytes, but they derive different values
-from those bytes.
+When each corpus reads a requested page, the reads can return different
+representations and consume origin capacity. The corpora need one input but
+derive different values from it.
 
 ## Decision
 
-The pagescrape service reads each requested page once. It offers the page to
-all corpora through the scrape page offers stream.
+The pagescrape service reads each request once and offers that representation
+to all corpora. Each corpus independently accepts or rejects the offer and
+derives the values it owns.
 
-A corpus takes in an offered page. It extracts, derives, and keeps its own
-values. It does not read the page from the origin.
-
-The crawler continues to read pages to discover links. A shared proxy cache
-can reuse that response for the scrape.
+Page reads for link discovery remain the crawler's responsibility.
 
 ## Consequences
 
-All corpora use the same page bytes for one request.
+All participating corpora are offered one representation for a scrape request.
+Adding a corpus does not add another page read.
 
-Adding a corpus does not add an origin read. A corpus can still accept or
-reject the offered page independently.
-
-The NATS server must accept messages that contain the maximum offered page.
-The supplied stacks use an 8 MB payload limit for pages capped at 2 MB.
-
+The scrape protocol must carry complete page representations, so broker capacity
+limits the largest page the stack can offer.
