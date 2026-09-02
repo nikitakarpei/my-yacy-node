@@ -1,0 +1,38 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  localhostruntunnel:
+    in: internal/localhostruntunnel/**
+  proxyprotocolingress:
+    in: internal/proxyprotocolingress/**
+  localhostrunagentcmd:
+    in: cmd/localhostrunagent/**
+
+vendors:
+  proxyproto:
+    in:
+      - github.com/pires/go-proxyproto
+  processenvironmentlease:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/processenvironmentleaseserver
+
+deps:
+  proxyprotocolingress:
+    canUse:
+      - proxyproto
+  localhostrunagentcmd:
+    anyProjectDeps: true
+    anyVendorDeps: true
+
+excludeFiles:
+  - "_test\\.go"
