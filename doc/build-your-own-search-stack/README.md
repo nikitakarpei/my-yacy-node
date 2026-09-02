@@ -24,6 +24,7 @@ Complete every empty value in `.env`.
 | 1.1 | [Join the network from behind NAT](chapters/01.1-join-the-network-from-behind-nat) |
 | 2 | [Give your peer a crawler](chapters/02-give-your-peer-a-crawler) |
 | 3 | [Search your index from a browser](chapters/03-search-your-index-from-a-browser) |
+| 3.1 | [Use Elasticsearch instead of Manticore](chapters/03.1-use-elasticsearch-instead-of-manticore) |
 | 4 | [Crawl every search result you open](chapters/04-crawl-every-search-result-you-open) |
 | 5 | [Index pages that JavaScript builds](chapters/05-index-pages-that-javascript-builds) |
 | 6 | [Share one fetch between three readers](chapters/06-share-one-fetch-between-three-readers) |

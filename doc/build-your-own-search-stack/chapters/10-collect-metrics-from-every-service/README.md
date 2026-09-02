@@ -39,4 +39,4 @@ docker compose start corpustext
 ## More information
 
 - [Collected metric endpoints](../../building-blocks/prometheus/prometheus.yml)
-- [Use Elasticsearch instead of Manticore](../../side-roads/elasticsearch)
+- [Chapter 3.1: Use Elasticsearch instead of Manticore](../03.1-use-elasticsearch-instead-of-manticore)
