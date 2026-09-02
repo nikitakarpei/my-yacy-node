@@ -2179,7 +2179,7 @@
     },
     {
       "id": 90,
-      "title": "Scrape request intake",
+      "title": "Page offer intake",
       "type": "row",
       "gridPos": {
         "h": 1,
@@ -2191,8 +2191,8 @@
     },
     {
       "id": 91,
-      "title": "Scrape attempts, by outcome",
-      "description": "Each scrape request delivery has one terminal outcome. A returned request can produce more than one attempt.",
+      "title": "Offered pages, by disposal",
+      "description": "Each offered page delivery has one terminal disposal. A returned page can produce more than one delivery.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2222,8 +2222,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (increase(scraperequestintake_attempts_total[$__rate_interval]))",
-          "legendFormat": "{{outcome}}"
+          "expr": "sum by (disposal) (increase(pageintake_offered_pages_disposed_total[$__rate_interval]))",
+          "legendFormat": "{{disposal}}"
         }
       ]
     },
@@ -2259,7 +2259,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(scraperequestintake_url_metadata_admitted_total[$__rate_interval]))",
+          "expr": "sum(rate(pageintake_url_metadata_admitted_total[$__rate_interval]))",
           "legendFormat": "admitted"
         }
       ]
@@ -2296,7 +2296,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(scraperequestintake_postings_admitted_total[$__rate_interval]))",
+          "expr": "sum(rate(pageintake_postings_admitted_total[$__rate_interval]))",
           "legendFormat": "admitted"
         }
       ]

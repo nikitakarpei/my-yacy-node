@@ -36,7 +36,6 @@ func startWebResearchMCP(t *testing.T, ctx context.Context, networkName string) 
 			Env: map[string]string{
 				"SEARXNG_URL":             searxngNetworkURL(),
 				"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL(),
-				"PAGE_MARKDOWN_NATS_URL":  natsjetstream.NetworkURL(),
 				"CORPUSMARKDOWN_ADDR":     corpusMarkdownNetworkAddress(),
 				"PAGE_FETCH_WAIT":         pageFetchWait,
 				"LOG_LEVEL":               "debug",

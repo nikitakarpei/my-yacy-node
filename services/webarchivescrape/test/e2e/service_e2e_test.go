@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/manticore"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pagescrapeservice"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/warcarchive"
 )
@@ -109,9 +110,9 @@ func TestCorpusTextIndexesCapturedAddressFromPywbReplay(t *testing.T) {
 			Body:       htmlPage("distinct newest archive words"),
 		},
 	})
-	natsURL := natsjetstream.Start(t, ctx, network.Name)
-	scraperequeststream.Provision(t, ctx, natsURL)
+	natsjetstream.Start(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
+	pagescrapeservice.Start(t, ctx, network.Name)
 	manticoreURL := manticore.Start(t, ctx, network.Name, "manticore")
 	startCorpusText(t, ctx, network.Name)
 

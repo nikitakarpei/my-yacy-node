@@ -7,7 +7,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
-	"github.com/nikitakarpei/yacy-rwi-node/scrapedpage"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pagerwi"
 )
@@ -20,9 +20,9 @@ const (
 
 var reachedAt = time.Unix(1_700_000_000, 0)
 
-func scrapedPage(t *testing.T, text string) scrapedpage.ScrapedPage {
+func scrapedPage(t *testing.T, text string) pagescrapecontract.OfferedPage {
 	t.Helper()
-	return scrapedpage.ScrapedPage{
+	return pagescrapecontract.OfferedPage{
 		PageURL:     canonicalurltest.CanonicalURLOf(t, pageURL),
 		LandedURL:   canonicalurltest.CanonicalURLOf(t, pageURL),
 		ContentType: "text/html",

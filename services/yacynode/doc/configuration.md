@@ -43,23 +43,17 @@ Every peer publishes a seed that says who it is and where to reach it.
 | `YACY_STORAGE_QUOTA` | `1GB` | Storage quota, as a human-readable size (e.g. `512MB`, `1GB`, `20GB`). |
 | `YACY_ESCROW_POSTING_CAPACITY` | `8192` | How many inbound postings wait at once for their URL metadata. The node refuses further transfers until held postings expire. |
 
-## Scrape request intake
+## Page offer intake
 
-The node does not crawl. A separate crawl fleet publishes the URL of every page it
-reaches; the node fetches each of those pages through its own proxy, derives the page's
-words, and stores them as postings. Without a scrape request server it is a pure peer.
+The node does not crawl and does not read pages. A separate scrape service reads each page
+and offers it; the node derives the page's words from the offered page and stores them as
+postings. Without a page offer server it is a pure peer.
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `SCRAPE_REQUEST_NATS_URL` | _(empty)_ | NATS server scrape requests arrive from (e.g. `nats://nats:4222`). Empty disables intake. |
-| `SCRAPE_REQUEST_SUBJECT` | `scrape.request` | Subject scrape requests arrive on. Must match the crawler. |
-| `SCRAPE_REQUEST_DURABLE` | `yacy-node` | Durable queue-consumer name shared across nodes. |
-| `SCRAPE_PROXY_URL` | _(required with intake)_ | Egress proxy every page fetch goes through. |
-| `SCRAPE_PROXY_DIAL_MODE` | `tunnel` | How to reach the proxy: `tunnel` or `absolute-url`. |
-| `SCRAPE_USER_AGENT` | `yacy-rwi-node (+https://yacy.net)` | User agent each fetch sends. |
-| `SCRAPE_MAX_BODY_BYTES` | `2097152` | Largest body a fetch reads. |
-| `SCRAPE_FETCH_DEADLINE` | `30s` | Time limit on one fetch. |
-| `SCRAPE_REQUEST_INTAKE_CONCURRENCY` | `4` | Scrape requests the node works on at once. |
+| `SCRAPE_PAGE_OFFER_NATS_URL` | _(empty)_ | NATS server offered pages arrive from (e.g. `nats://nats:4222`). Empty disables intake. |
+| `SCRAPE_PAGE_OFFER_DURABLE` | `yacy-node` | Durable queue-consumer name shared across nodes. |
+| `SCRAPE_PAGE_OFFER_INTAKE_CONCURRENCY` | `4` | Offered pages the node works on at once. |
 
 ## Distribution
 

@@ -11,7 +11,6 @@ import (
 	"github.com/testcontainers/testcontainers-go/wait"
 
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerlog"
-	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 )
@@ -33,10 +32,9 @@ func startCorpusMarkdown(t *testing.T, ctx context.Context, networkName string) 
 			ExposedPorts:   []string{corpusMarkdownPort},
 			WaitingFor:     wait.ForListeningPort(corpusMarkdownPort),
 			Env: map[string]string{
-				"SCRAPE_REQUEST_NATS_URL": natsjetstream.NetworkURL(),
-				"PAGE_MARKDOWN_NATS_URL":  natsjetstream.NetworkURL(),
-				"SCRAPE_PROXY_URL":        egressproxy.NetworkURL(),
-				"LOG_LEVEL":               "debug",
+				"SCRAPE_PAGE_OFFER_NATS_URL": natsjetstream.NetworkURL(),
+				"PAGE_MARKDOWN_NATS_URL":     natsjetstream.NetworkURL(),
+				"LOG_LEVEL":                  "debug",
 			},
 		},
 	})
