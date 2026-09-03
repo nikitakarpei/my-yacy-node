@@ -37,6 +37,10 @@ func run() error {
 
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(
+		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
+			Name: "yacynode_info",
+			Help: "YaCy node application identity.",
+		}, func() float64 { return 1 }),
 		collectors.NewGoCollector(),
 		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
 	)

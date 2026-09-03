@@ -27,7 +27,7 @@ func NewVaultCollectionMetrics(
 	metrics := &VaultCollectionMetrics{
 		collections: collections,
 		entries: prometheus.NewDesc(
-			"vault_collection_entries",
+			"yacynode_vault_collection_entries",
 			"Entries currently stored in each vault collection.",
 			[]string{labelCollection},
 			nil,

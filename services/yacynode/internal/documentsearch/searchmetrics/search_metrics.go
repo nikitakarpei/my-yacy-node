@@ -38,14 +38,14 @@ type SearchMetrics struct {
 func NewSearchMetrics(registry prometheus.Registerer) *SearchMetrics {
 	searchesPerOutcome := prometheus.NewCounterVec(
 		prometheus.CounterOpts{
-			Name: "documentsearch_searches_total",
+			Name: "yacynode_documentsearch_searches_total",
 			Help: "Search requests answered, by how each one ended.",
 		},
 		[]string{labelSearchOutcome},
 	)
 	termRingFractionPerPresence := prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{
-			Name: "documentsearch_query_term_ring_fraction",
+			Name: "yacynode_documentsearch_query_term_ring_fraction",
 			Help: "Fraction of the DHT ring between this node and the nearest " +
 				"posting position of a requested term, by whether the index " +
 				"holds the term.",
@@ -55,7 +55,7 @@ func NewSearchMetrics(registry prometheus.Registerer) *SearchMetrics {
 	)
 	requestsPerUnsupportedOption := prometheus.NewCounterVec(
 		prometheus.CounterOpts{
-			Name: "documentsearch_unsupported_options_requested_total",
+			Name: "yacynode_documentsearch_unsupported_options_requested_total",
 			Help: "Search options peers requested that this node accepts but ignores.",
 		},
 		[]string{labelSearchOption},

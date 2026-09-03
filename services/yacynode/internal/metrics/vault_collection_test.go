@@ -31,10 +31,10 @@ func TestVaultCollectionReportsEntries(t *testing.T) {
 	})
 
 	expected := `
-# HELP vault_collection_entries Entries currently stored in each vault collection.
-# TYPE vault_collection_entries gauge
-vault_collection_entries{collection="rwi"} 7
-vault_collection_entries{collection="urlmeta"} 0
+# HELP yacynode_vault_collection_entries Entries currently stored in each vault collection.
+# TYPE yacynode_vault_collection_entries gauge
+yacynode_vault_collection_entries{collection="rwi"} 7
+yacynode_vault_collection_entries{collection="urlmeta"} 0
 `
 	if err := testutil.GatherAndCompare(registry, strings.NewReader(expected)); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
@@ -48,7 +48,7 @@ func TestVaultCollectionOmitsEntriesOnError(t *testing.T) {
 		stubVaultCollections{err: errors.New("unavailable")},
 	)
 
-	if got := testutil.CollectAndCount(registry, "vault_collection_entries"); got != 0 {
-		t.Errorf("vault_collection_entries samples = %d, want none on error", got)
+	if got := testutil.CollectAndCount(registry, "yacynode_vault_collection_entries"); got != 0 {
+		t.Errorf("yacynode_vault_collection_entries samples = %d, want none on error", got)
 	}
 }

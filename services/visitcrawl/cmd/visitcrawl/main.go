@@ -33,6 +33,10 @@ func run() error {
 
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(
+		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
+			Name: "visitcrawl_info",
+			Help: "Visit crawl application identity.",
+		}, func() float64 { return 1 }),
 		collectors.NewGoCollector(),
 		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
 	)

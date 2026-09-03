@@ -11,11 +11,11 @@ type PeerRosterMetrics struct {
 
 func NewPeerRosterMetrics(registry prometheus.Registerer) *PeerRosterMetrics {
 	knownPeers := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "peerroster_known_peers",
+		Name: "yacynode_peerroster_known_peers",
 		Help: "Peers currently known to this node's roster.",
 	})
 	reachablePeers := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "peerroster_reachable_peers",
+		Name: "yacynode_peerroster_reachable_peers",
 		Help: "Peers currently confirmed reachable.",
 	})
 	registry.MustRegister(knownPeers, reachablePeers)

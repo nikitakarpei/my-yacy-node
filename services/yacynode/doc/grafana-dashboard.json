@@ -19,13 +19,21 @@
       },
       {
         "name": "service_job",
-        "type": "constant",
-        "query": "yacy-rwi-node",
-        "current": {
-          "text": "yacy-rwi-node",
-          "value": "yacy-rwi-node"
+        "label": "Scrape job",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
         },
-        "hide": 2
+        "query": {
+          "query": "label_values(yacynode_info, job)",
+          "refId": "service-job-variable"
+        },
+        "includeAll": true,
+        "allValue": ".*",
+        "multi": true,
+        "refresh": 1,
+        "sort": 1
       },
       {
         "name": "service_instance",
@@ -36,7 +44,7 @@
           "uid": "${datasource}"
         },
         "query": {
-          "query": "label_values(go_info{job=\"$service_job\"}, instance)",
+          "query": "label_values(yacynode_info{job=~\"$service_job\"}, instance)",
           "refId": "service-instance-variable"
         },
         "current": {
@@ -106,7 +114,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "peerroster_known_peers"
+          "expr": "yacynode_peerroster_known_peers"
         }
       ]
     },
@@ -156,7 +164,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "peerroster_reachable_peers"
+          "expr": "yacynode_peerroster_reachable_peers"
         }
       ]
     },
@@ -211,7 +219,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "vault_used_bytes / vault_quota_bytes"
+          "expr": "yacynode_vault_used_bytes / yacynode_vault_quota_bytes"
         }
       ]
     },
@@ -266,7 +274,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(http_requests_total{code=~\"5..\"}[5m])) / sum(rate(http_requests_total[5m]))"
+          "expr": "sum(rate(yacynode_http_requests_total{code=~\"5..\"}[5m])) / sum(rate(yacynode_http_requests_total[5m]))"
         }
       ]
     },
@@ -312,7 +320,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint) (rate(http_requests_total[$__rate_interval]))",
+          "expr": "sum by (endpoint) (rate(yacynode_http_requests_total[$__rate_interval]))",
           "legendFormat": "{{endpoint}}"
         }
       ]
@@ -351,7 +359,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint) (increase(http_requests_total{code=~\"5..\"}[$__rate_interval]))",
+          "expr": "sum by (endpoint) (increase(yacynode_http_requests_total{code=~\"5..\"}[$__rate_interval]))",
           "legendFormat": "{{endpoint}}"
         }
       ]
@@ -386,17 +394,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(http_request_duration_seconds_bucket[$__rate_interval])))",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_http_request_duration_seconds_bucket[$__rate_interval])))",
           "legendFormat": "p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_http_request_duration_seconds_bucket[$__rate_interval])))",
           "legendFormat": "p95"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(http_request_duration_seconds_bucket[$__rate_interval])))",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacynode_http_request_duration_seconds_bucket[$__rate_interval])))",
           "legendFormat": "p99"
         }
       ]
@@ -431,7 +439,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.99, sum by (le, endpoint) (rate(http_request_duration_seconds_bucket[$__rate_interval])))",
+          "expr": "histogram_quantile(0.99, sum by (le, endpoint) (rate(yacynode_http_request_duration_seconds_bucket[$__rate_interval])))",
           "legendFormat": "{{endpoint}}"
         }
       ]
@@ -478,12 +486,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "vault_used_bytes",
+          "expr": "yacynode_vault_used_bytes",
           "legendFormat": "used"
         },
         {
           "refId": "B",
-          "expr": "vault_quota_bytes",
+          "expr": "yacynode_vault_quota_bytes",
           "legendFormat": "quota"
         }
       ],
@@ -542,17 +550,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(vault_write_transactions_total{outcome=\"refused\"}[$__rate_interval])",
+          "expr": "increase(yacynode_vault_write_transactions_total{outcome=\"refused\"}[$__rate_interval])",
           "legendFormat": "engine refused: {{cause}}"
         },
         {
           "refId": "B",
-          "expr": "increase(vault_write_transactions_total{outcome=\"aborted\"}[$__rate_interval])",
+          "expr": "increase(yacynode_vault_write_transactions_total{outcome=\"aborted\"}[$__rate_interval])",
           "legendFormat": "caller aborted"
         },
         {
           "refId": "C",
-          "expr": "increase(vault_write_transaction_begin_refusals_total[$__rate_interval])",
+          "expr": "increase(yacynode_vault_write_transaction_begin_refusals_total[$__rate_interval])",
           "legendFormat": "engine refused before opening: {{cause}}"
         }
       ]
@@ -588,7 +596,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(vault_write_transaction_duration_seconds_count{phase=\"execute\"}[$__rate_interval]))",
+          "expr": "sum(rate(yacynode_vault_write_transaction_duration_seconds_count{phase=\"execute\"}[$__rate_interval]))",
           "legendFormat": "writes"
         }
       ]
@@ -625,7 +633,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(vault_write_transactions_total{outcome=\"committed\",called_write_operation=\"false\"}[$__rate_interval])) / sum(rate(vault_write_transactions_total{outcome=\"committed\"}[$__rate_interval]))",
+          "expr": "sum(rate(yacynode_vault_write_transactions_total{outcome=\"committed\",called_write_operation=\"false\"}[$__rate_interval])) / sum(rate(yacynode_vault_write_transactions_total{outcome=\"committed\"}[$__rate_interval]))",
           "legendFormat": "wrote nothing"
         }
       ]
@@ -661,7 +669,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "vault_reads_in_flight",
+          "expr": "yacynode_vault_reads_in_flight",
           "legendFormat": "reads"
         }
       ]
@@ -698,17 +706,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.5, sum by (le) (rate(vault_write_transaction_begin_seconds_bucket[$__rate_interval])))",
+          "expr": "histogram_quantile(0.5, sum by (le) (rate(yacynode_vault_write_transaction_begin_seconds_bucket[$__rate_interval])))",
           "legendFormat": "p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(vault_write_transaction_begin_seconds_bucket[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_vault_write_transaction_begin_seconds_bucket[$__rate_interval])))",
           "legendFormat": "p95"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(vault_write_transaction_begin_seconds_bucket[$__rate_interval])))",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacynode_vault_write_transaction_begin_seconds_bucket[$__rate_interval])))",
           "legendFormat": "p99"
         }
       ]
@@ -745,17 +753,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.5, sum by (le) (rate(vault_write_transaction_duration_seconds_bucket{phase=\"execute\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.5, sum by (le) (rate(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\"}[$__rate_interval])))",
           "legendFormat": "p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(vault_write_transaction_duration_seconds_bucket{phase=\"execute\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\"}[$__rate_interval])))",
           "legendFormat": "p95"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(vault_write_transaction_duration_seconds_bucket{phase=\"execute\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\"}[$__rate_interval])))",
           "legendFormat": "p99"
         }
       ]
@@ -792,17 +800,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.5, sum by (le) (rate(vault_write_transaction_duration_seconds_bucket{phase=\"commit\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.5, sum by (le) (rate(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\"}[$__rate_interval])))",
           "legendFormat": "p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(vault_write_transaction_duration_seconds_bucket{phase=\"commit\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\"}[$__rate_interval])))",
           "legendFormat": "p95"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(vault_write_transaction_duration_seconds_bucket{phase=\"commit\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\"}[$__rate_interval])))",
           "legendFormat": "p99"
         }
       ]
@@ -837,7 +845,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "vault_collection_entries",
+          "expr": "yacynode_vault_collection_entries",
           "legendFormat": "{{collection}}"
         }
       ]
@@ -884,12 +892,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(eviction_urls_evicted_total[$__rate_interval])",
+          "expr": "rate(yacynode_eviction_urls_evicted_total[$__rate_interval])",
           "legendFormat": "URLs evicted"
         },
         {
           "refId": "B",
-          "expr": "rate(eviction_postings_evicted_total[$__rate_interval])",
+          "expr": "rate(yacynode_eviction_postings_evicted_total[$__rate_interval])",
           "legendFormat": "postings evicted"
         }
       ]
@@ -946,7 +954,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(eviction_failures_total[$__rate_interval])",
+          "expr": "increase(yacynode_eviction_failures_total[$__rate_interval])",
           "legendFormat": "failures"
         }
       ]
@@ -993,12 +1001,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "peerroster_known_peers",
+          "expr": "yacynode_peerroster_known_peers",
           "legendFormat": "known"
         },
         {
           "refId": "B",
-          "expr": "peerroster_reachable_peers",
+          "expr": "yacynode_peerroster_reachable_peers",
           "legendFormat": "reachable"
         }
       ]
@@ -1067,7 +1075,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rwidistribution_peers_accepting_remote_index == bool 0)",
+          "expr": "sum(yacynode_rwidistribution_peers_accepting_remote_index == bool 0)",
           "legendFormat": "sectors"
         }
       ]
@@ -1127,7 +1135,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rwidistribution_peers_accepting_remote_index",
+          "expr": "yacynode_rwidistribution_peers_accepting_remote_index",
           "legendFormat": "{{sector}}",
           "format": "time_series"
         }
@@ -1177,12 +1185,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(rwidistribution_replica_ring_fraction_bucket[5m])))",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_rwidistribution_replica_ring_fraction_bucket[5m])))",
           "legendFormat": "p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(rwidistribution_replica_ring_fraction_bucket[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_rwidistribution_replica_ring_fraction_bucket[5m])))",
           "legendFormat": "p95"
         }
       ]
@@ -1218,7 +1226,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (increase(rwidistribution_cycles_skipped_total[$__rate_interval]))",
+          "expr": "sum by (reason) (increase(yacynode_rwidistribution_cycles_skipped_total[$__rate_interval]))",
           "legendFormat": "{{reason}}"
         }
       ]
@@ -1254,7 +1262,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (increase(rwidistribution_batches_aborted_total[$__rate_interval]))",
+          "expr": "sum by (reason) (increase(yacynode_rwidistribution_batches_aborted_total[$__rate_interval]))",
           "legendFormat": "{{reason}}"
         }
       ]
@@ -1291,7 +1299,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(rwidistribution_posting_offers_sent_total{result=\"accepted\"}[$__rate_interval])) / sum(rate(rwidistribution_posting_offers_sent_total[$__rate_interval]))",
+          "expr": "sum(rate(yacynode_rwidistribution_posting_offers_sent_total{result=\"accepted\"}[$__rate_interval])) / sum(rate(yacynode_rwidistribution_posting_offers_sent_total[$__rate_interval]))",
           "legendFormat": "accepted"
         }
       ]
@@ -1326,7 +1334,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rwidistribution_longest_offer_lateness_seconds",
+          "expr": "yacynode_rwidistribution_longest_offer_lateness_seconds",
           "legendFormat": "lateness"
         }
       ]
@@ -1455,7 +1463,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (increase(rwidistribution_posting_offers_sent_total[$__rate_interval]))",
+          "expr": "sum by (result) (increase(yacynode_rwidistribution_posting_offers_sent_total[$__rate_interval]))",
           "legendFormat": "{{result}}"
         }
       ]
@@ -1584,7 +1592,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (rate(rwidistribution_postings_offered_total[$__rate_interval]))",
+          "expr": "sum by (result) (rate(yacynode_rwidistribution_postings_offered_total[$__rate_interval]))",
           "legendFormat": "{{result}}"
         }
       ]
@@ -1683,7 +1691,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (increase(rwidistribution_url_metadata_deliveries_total[$__rate_interval]))",
+          "expr": "sum by (result) (increase(yacynode_rwidistribution_url_metadata_deliveries_total[$__rate_interval]))",
           "legendFormat": "{{result}}"
         }
       ]
@@ -1782,7 +1790,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (rate(rwidistribution_urls_delivered_total[$__rate_interval]))",
+          "expr": "sum by (result) (rate(yacynode_rwidistribution_urls_delivered_total[$__rate_interval]))",
           "legendFormat": "{{result}}"
         }
       ]
@@ -1819,7 +1827,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_stale_replicas_dropped_total[$__rate_interval])",
+          "expr": "increase(yacynode_rwidistribution_stale_replicas_dropped_total[$__rate_interval])",
           "legendFormat": "dropped"
         }
       ]
@@ -1855,7 +1863,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_postings_handed_off_total[$__rate_interval])",
+          "expr": "increase(yacynode_rwidistribution_postings_handed_off_total[$__rate_interval])",
           "legendFormat": "handed off"
         }
       ]
@@ -1891,7 +1899,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_postings_gone_total[$__rate_interval])",
+          "expr": "increase(yacynode_rwidistribution_postings_gone_total[$__rate_interval])",
           "legendFormat": "evicted"
         }
       ]
@@ -1928,7 +1936,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwidistribution_urls_unknown_to_us_total[$__rate_interval])",
+          "expr": "increase(yacynode_rwidistribution_urls_unknown_to_us_total[$__rate_interval])",
           "legendFormat": "unknown to us"
         }
       ]
@@ -1977,7 +1985,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (increase(rwiadmission_postings_refused_total[$__rate_interval]))",
+          "expr": "sum by (reason) (increase(yacynode_rwiadmission_postings_refused_total[$__rate_interval]))",
           "legendFormat": "{{reason}}"
         }
       ]
@@ -2037,7 +2045,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rwiescrow_held_postings / rwiescrow_capacity_postings",
+          "expr": "yacynode_rwiescrow_held_postings / yacynode_rwiescrow_capacity_postings",
           "legendFormat": "occupancy"
         }
       ]
@@ -2100,7 +2108,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwiescrow_postings_expired_total[$__rate_interval]) / (increase(rwiescrow_postings_released_total[$__rate_interval]) + increase(rwiescrow_postings_expired_total[$__rate_interval]))",
+          "expr": "increase(yacynode_rwiescrow_postings_expired_total[$__rate_interval]) / (increase(yacynode_rwiescrow_postings_released_total[$__rate_interval]) + increase(yacynode_rwiescrow_postings_expired_total[$__rate_interval]))",
           "legendFormat": "never claimed"
         }
       ]
@@ -2137,17 +2145,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(rwiescrow_postings_held_total[$__rate_interval])",
+          "expr": "rate(yacynode_rwiescrow_postings_held_total[$__rate_interval])",
           "legendFormat": "held"
         },
         {
           "refId": "B",
-          "expr": "rate(rwiescrow_postings_released_total[$__rate_interval])",
+          "expr": "rate(yacynode_rwiescrow_postings_released_total[$__rate_interval])",
           "legendFormat": "released"
         },
         {
           "refId": "C",
-          "expr": "rate(rwiescrow_postings_expired_total[$__rate_interval])",
+          "expr": "rate(yacynode_rwiescrow_postings_expired_total[$__rate_interval])",
           "legendFormat": "expired"
         }
       ]
@@ -2204,7 +2212,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(rwiescrow_expiry_failures_total[$__rate_interval])",
+          "expr": "increase(yacynode_rwiescrow_expiry_failures_total[$__rate_interval])",
           "legendFormat": "failures"
         }
       ]
@@ -2254,7 +2262,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (disposal) (increase(pageintake_offered_pages_disposed_total[$__rate_interval]))",
+          "expr": "sum by (disposal) (increase(yacynode_pageintake_offered_pages_disposed_total[$__rate_interval]))",
           "legendFormat": "{{disposal}}"
         }
       ]
@@ -2291,7 +2299,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(pageintake_url_metadata_admitted_total[$__rate_interval]))",
+          "expr": "sum(rate(yacynode_pageintake_url_metadata_admitted_total[$__rate_interval]))",
           "legendFormat": "admitted"
         }
       ]
@@ -2328,7 +2336,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(pageintake_postings_admitted_total[$__rate_interval]))",
+          "expr": "sum(rate(yacynode_pageintake_postings_admitted_total[$__rate_interval]))",
           "legendFormat": "admitted"
         }
       ]
@@ -2484,7 +2492,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (increase(documentsearch_searches_total[$__rate_interval]))",
+          "expr": "sum by (outcome) (increase(yacynode_documentsearch_searches_total[$__rate_interval]))",
           "legendFormat": "{{outcome}}"
         }
       ]
@@ -2521,22 +2529,22 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\"}[$__rate_interval])))",
           "legendFormat": "in_index p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\"}[$__rate_interval])))",
           "legendFormat": "in_index p95"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\"}[$__rate_interval])))",
           "legendFormat": "not_in_index p50"
         },
         {
           "refId": "D",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\"}[$__rate_interval])))",
           "legendFormat": "not_in_index p95"
         }
       ]
@@ -2573,7 +2581,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (option) (increase(documentsearch_unsupported_options_requested_total[$__rate_interval]))",
+          "expr": "sum by (option) (increase(yacynode_documentsearch_unsupported_options_requested_total[$__rate_interval]))",
           "legendFormat": "{{option}}"
         }
       ]
@@ -2594,9 +2602,9 @@
       "fieldConfig": {"defaults": {"unit": "bytes", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
-        {"refId": "A", "expr": "process_resident_memory_bytes{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} resident"},
-        {"refId": "B", "expr": "go_memstats_heap_alloc_bytes{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} heap allocated"},
-        {"refId": "C", "expr": "go_memstats_heap_inuse_bytes{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} heap in use"}
+        {"refId": "A", "expr": "process_resident_memory_bytes{job=~\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} resident"},
+        {"refId": "B", "expr": "go_memstats_heap_alloc_bytes{job=~\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} heap allocated"},
+        {"refId": "C", "expr": "go_memstats_heap_inuse_bytes{job=~\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} heap in use"}
       ]
     },
     {
@@ -2608,7 +2616,7 @@
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
-        {"refId": "A", "expr": "rate(process_cpu_seconds_total{job=\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
+        {"refId": "A", "expr": "rate(process_cpu_seconds_total{job=~\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
       ]
     },
     {
@@ -2620,7 +2628,7 @@
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
-        {"refId": "A", "expr": "go_goroutines{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
+        {"refId": "A", "expr": "go_goroutines{job=~\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
       ]
     },
     {
@@ -2632,7 +2640,7 @@
       "fieldConfig": {"defaults": {"unit": "cps", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
-        {"refId": "A", "expr": "rate(go_gc_duration_seconds_count{job=\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
+        {"refId": "A", "expr": "rate(go_gc_duration_seconds_count{job=~\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
       ]
     },
     {
@@ -2644,7 +2652,7 @@
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
-        {"refId": "A", "expr": "rate(go_gc_duration_seconds_sum{job=\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
+        {"refId": "A", "expr": "rate(go_gc_duration_seconds_sum{job=~\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
       ]
     },
     {
@@ -2656,7 +2664,7 @@
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "max": 1, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
-        {"refId": "A", "expr": "process_open_fds{job=\"$service_job\",instance=~\"$service_instance\"} / process_max_fds{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
+        {"refId": "A", "expr": "process_open_fds{job=~\"$service_job\",instance=~\"$service_instance\"} / process_max_fds{job=~\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
       ]
     }
   ]

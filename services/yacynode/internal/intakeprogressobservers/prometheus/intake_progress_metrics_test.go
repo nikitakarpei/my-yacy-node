@@ -45,16 +45,16 @@ func TestIntakeProgressMetricsCountDisposalsAndAdmissions(t *testing.T) {
 		"postings_admission_failed",
 		"invalid_message",
 	} {
-		want := `pageintake_offered_pages_disposed_total{disposal="` + disposal + `"} 1`
+		want := `yacynode_pageintake_offered_pages_disposed_total{disposal="` + disposal + `"} 1`
 		if !strings.Contains(body, want) {
 			t.Errorf("metrics output missing %q", want)
 		}
 	}
 	for _, want := range []string{
-		"pageintake_pages_offered_total 1",
-		"pageintake_url_metadata_admitted_total 1",
-		"pageintake_postings_admitted_total 17",
-		"pageintake_intake_receipt_failures_total 1",
+		"yacynode_pageintake_pages_offered_total 1",
+		"yacynode_pageintake_url_metadata_admitted_total 1",
+		"yacynode_pageintake_postings_admitted_total 17",
+		"yacynode_pageintake_intake_receipt_failures_total 1",
 	} {
 		if !strings.Contains(body, want) {
 			t.Errorf("metrics output missing %q", want)

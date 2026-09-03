@@ -21,14 +21,14 @@ type HTTPEndpointMetrics struct {
 func NewHTTPEndpointMetrics(registry prometheus.Registerer) *HTTPEndpointMetrics {
 	requests := prometheus.NewCounterVec(
 		prometheus.CounterOpts{
-			Name: "http_requests_total",
+			Name: "yacynode_http_requests_total",
 			Help: "HTTP requests served, by endpoint and response status code.",
 		},
 		[]string{labelEndpoint, labelStatusCode},
 	)
 	durations := prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{
-			Name:    "http_request_duration_seconds",
+			Name:    "yacynode_http_request_duration_seconds",
 			Help:    "HTTP request duration in seconds, by endpoint.",
 			Buckets: prometheus.DefBuckets,
 		},

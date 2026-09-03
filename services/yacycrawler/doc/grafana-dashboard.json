@@ -19,13 +19,21 @@
       },
       {
         "name": "service_job",
-        "type": "constant",
-        "query": "yacycrawler",
-        "current": {
-          "text": "yacycrawler",
-          "value": "yacycrawler"
+        "label": "Scrape job",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
         },
-        "hide": 2
+        "query": {
+          "query": "label_values(yacycrawler_info, job)",
+          "refId": "service-job-variable"
+        },
+        "includeAll": true,
+        "allValue": ".*",
+        "multi": true,
+        "refresh": 1,
+        "sort": 1
       },
       {
         "name": "service_instance",
@@ -36,7 +44,7 @@
           "uid": "${datasource}"
         },
         "query": {
-          "query": "label_values(go_info{job=\"$service_job\"}, instance)",
+          "query": "label_values(yacycrawler_info{job=~\"$service_job\"}, instance)",
           "refId": "service-instance-variable"
         },
         "current": {
@@ -533,9 +541,9 @@
       "fieldConfig": {"defaults": {"unit": "bytes", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
-        {"refId": "A", "expr": "process_resident_memory_bytes{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} resident"},
-        {"refId": "B", "expr": "go_memstats_heap_alloc_bytes{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} heap allocated"},
-        {"refId": "C", "expr": "go_memstats_heap_inuse_bytes{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} heap in use"}
+        {"refId": "A", "expr": "process_resident_memory_bytes{job=~\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} resident"},
+        {"refId": "B", "expr": "go_memstats_heap_alloc_bytes{job=~\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} heap allocated"},
+        {"refId": "C", "expr": "go_memstats_heap_inuse_bytes{job=~\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} heap in use"}
       ]
     },
     {
@@ -547,7 +555,7 @@
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
-        {"refId": "A", "expr": "rate(process_cpu_seconds_total{job=\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
+        {"refId": "A", "expr": "rate(process_cpu_seconds_total{job=~\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
       ]
     },
     {
@@ -559,7 +567,7 @@
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
-        {"refId": "A", "expr": "go_goroutines{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
+        {"refId": "A", "expr": "go_goroutines{job=~\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
       ]
     },
     {
@@ -571,7 +579,7 @@
       "fieldConfig": {"defaults": {"unit": "cps", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
-        {"refId": "A", "expr": "rate(go_gc_duration_seconds_count{job=\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
+        {"refId": "A", "expr": "rate(go_gc_duration_seconds_count{job=~\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
       ]
     },
     {
@@ -583,7 +591,7 @@
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
-        {"refId": "A", "expr": "rate(go_gc_duration_seconds_sum{job=\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
+        {"refId": "A", "expr": "rate(go_gc_duration_seconds_sum{job=~\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
       ]
     },
     {
@@ -595,7 +603,7 @@
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "max": 1, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
-        {"refId": "A", "expr": "process_open_fds{job=\"$service_job\",instance=~\"$service_instance\"} / process_max_fds{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
+        {"refId": "A", "expr": "process_open_fds{job=~\"$service_job\",instance=~\"$service_instance\"} / process_max_fds{job=~\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
       ]
     }
   ]

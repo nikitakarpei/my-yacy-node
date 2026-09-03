@@ -22,22 +22,22 @@ func TestEndpointCountsRequestsByEndpointAndStatus(t *testing.T) {
 	endpoints.Observe("", http.StatusNotFound, time.Millisecond)
 
 	expected := `
-# HELP http_requests_total HTTP requests served, by endpoint and response status code.
-# TYPE http_requests_total counter
-http_requests_total{code="200",endpoint="/yacy/transferRWI.html"} 2
-http_requests_total{code="400",endpoint="/yacy/transferRWI.html"} 1
-http_requests_total{code="404",endpoint="unmatched"} 1
+# HELP yacynode_http_requests_total HTTP requests served, by endpoint and response status code.
+# TYPE yacynode_http_requests_total counter
+yacynode_http_requests_total{code="200",endpoint="/yacy/transferRWI.html"} 2
+yacynode_http_requests_total{code="400",endpoint="/yacy/transferRWI.html"} 1
+yacynode_http_requests_total{code="404",endpoint="unmatched"} 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"http_requests_total",
+		"yacynode_http_requests_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
 	if got := testutil.CollectAndCount(
 		registry,
-		"http_request_duration_seconds",
+		"yacynode_http_request_duration_seconds",
 	); got != 2 {
 		t.Errorf("timed endpoints = %v, want 2", got)
 	}
