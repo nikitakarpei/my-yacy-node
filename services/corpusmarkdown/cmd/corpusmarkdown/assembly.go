@@ -61,6 +61,10 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(
+		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
+			Name: "corpusmarkdown_info",
+			Help: "Corpus Markdown application identity.",
+		}, func() float64 { return 1 }),
 		collectors.NewGoCollector(),
 		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
 	)
