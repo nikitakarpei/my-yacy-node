@@ -16,6 +16,38 @@
         "query": "prometheus",
         "current": {},
         "hide": 0
+      },
+      {
+        "name": "service_job",
+        "type": "constant",
+        "query": "yacy-rwi-node",
+        "current": {
+          "text": "yacy-rwi-node",
+          "value": "yacy-rwi-node"
+        },
+        "hide": 2
+      },
+      {
+        "name": "service_instance",
+        "label": "Process instance",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "query": {
+          "query": "label_values(go_info{job=\"$service_job\"}, instance)",
+          "refId": "service-instance-variable"
+        },
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "includeAll": true,
+        "allValue": ".*",
+        "multi": true,
+        "refresh": 1,
+        "sort": 1
       }
     ]
   },
@@ -2544,6 +2576,87 @@
           "expr": "sum by (option) (increase(documentsearch_unsupported_options_requested_total[$__rate_interval]))",
           "legendFormat": "{{option}}"
         }
+      ]
+    },
+    {
+      "id": 100,
+      "title": "Go process",
+      "type": "row",
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 202},
+      "panels": []
+    },
+    {
+      "id": 101,
+      "title": "Process memory",
+      "type": "timeseries",
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 203},
+      "fieldConfig": {"defaults": {"unit": "bytes", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
+      "options": {"tooltip": {"mode": "multi"}},
+      "targets": [
+        {"refId": "A", "expr": "process_resident_memory_bytes{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} resident"},
+        {"refId": "B", "expr": "go_memstats_heap_alloc_bytes{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} heap allocated"},
+        {"refId": "C", "expr": "go_memstats_heap_inuse_bytes{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}} heap in use"}
+      ]
+    },
+    {
+      "id": 102,
+      "title": "CPU cores used",
+      "type": "timeseries",
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 203},
+      "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
+      "options": {"tooltip": {"mode": "multi"}},
+      "targets": [
+        {"refId": "A", "expr": "rate(process_cpu_seconds_total{job=\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
+      ]
+    },
+    {
+      "id": 103,
+      "title": "Goroutines",
+      "type": "timeseries",
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 203},
+      "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
+      "options": {"tooltip": {"mode": "multi"}},
+      "targets": [
+        {"refId": "A", "expr": "go_goroutines{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
+      ]
+    },
+    {
+      "id": 104,
+      "title": "Garbage collection rate",
+      "type": "timeseries",
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 211},
+      "fieldConfig": {"defaults": {"unit": "cps", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
+      "options": {"tooltip": {"mode": "multi"}},
+      "targets": [
+        {"refId": "A", "expr": "rate(go_gc_duration_seconds_count{job=\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
+      ]
+    },
+    {
+      "id": 105,
+      "title": "Share of time paused for garbage collection",
+      "type": "timeseries",
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 211},
+      "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
+      "options": {"tooltip": {"mode": "multi"}},
+      "targets": [
+        {"refId": "A", "expr": "rate(go_gc_duration_seconds_sum{job=\"$service_job\",instance=~\"$service_instance\"}[$__rate_interval])", "legendFormat": "{{instance}}"}
+      ]
+    },
+    {
+      "id": 106,
+      "title": "Share of file descriptor capacity used",
+      "type": "timeseries",
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 211},
+      "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "max": 1, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
+      "options": {"tooltip": {"mode": "multi"}},
+      "targets": [
+        {"refId": "A", "expr": "process_open_fds{job=\"$service_job\",instance=~\"$service_instance\"} / process_max_fds{job=\"$service_job\",instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
       ]
     }
   ]
