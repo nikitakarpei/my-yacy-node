@@ -13,8 +13,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderbroker"
+	crawlorderplacementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderplacementobservers/applog"
+	crawlorderplacementobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderplacementobservers/prometheus"
+	visitedpageobserversapplog "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitedpageobservers/applog"
+	visitedpageobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitedpageobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitintake"
-	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitmetrics"
 )
 
 const (
@@ -29,7 +32,14 @@ func RunService(
 	cfg ServiceConfig,
 	registry *prometheus.Registry,
 ) error {
-	metrics := visitmetrics.New(registry)
+	visitedPageObservers := visitintake.VisitedPageObservers{
+		visitedpageobserversapplog.VisitedPageLog{},
+		visitedpageobserversprometheus.New(registry),
+	}
+	crawlOrderPlacementObservers := visitintake.CrawlOrderPlacementObservers{
+		crawlorderplacementobserversapplog.CrawlOrderPlacementLog{},
+		crawlorderplacementobserversprometheus.New(registry),
+	}
 	broker, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
 		NATSURL:            cfg.CrawlNATSURL,
 		CrawlOrdersSubject: cfg.CrawlOrdersSubject,
@@ -39,12 +49,14 @@ func RunService(
 	}
 	defer broker.Close()
 
-	placement := visitintake.NewBoundedPlacement(
-		broker.Orders.Place, metrics, cfg.OrderTimeout, cfg.MaxInFlight,
+	placementAttempts := visitintake.NewCrawlOrderPlacementAttempts(
+		broker.Orders.Place, crawlOrderPlacementObservers, cfg.OrderTimeout, cfg.MaxInFlight,
 	)
 
 	mux := http.NewServeMux()
-	visitintake.MountVisitIntake(mux, placement, cfg.CrawlProfile, metrics, cfg.LinkSecret)
+	visitintake.MountVisitIntake(
+		mux, placementAttempts.Start, cfg.CrawlProfile, visitedPageObservers, cfg.LinkSecret,
+	)
 
 	publicServer := &http.Server{
 		Addr:              cfg.ListenAddr,

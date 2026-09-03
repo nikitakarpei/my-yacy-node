@@ -1,7 +1,7 @@
 // Package visitintake receives a visited-page visit on a signed link,
 // attempts to place one crawl order for it, and redirects the browser onward
 // without waiting for that attempt's outcome. MountVisitIntake is its only
-// surface; CrawlOrderPlacement is the port an attempt leaves through.
+// surface.
 package visitintake
 
 import (
@@ -12,28 +12,17 @@ import (
 
 const PathVisit = "/visit"
 
-type CrawlOrderPlacement interface {
-	Attempt(order yacycrawlcontract.CrawlOrder)
-}
-
-type VisitMetrics interface {
-	VisitReceived()
-	VisitRejected()
-	OrderPlaced()
-	OrderUnplaced()
-}
-
 func MountVisitIntake(
 	mux *http.ServeMux,
-	placement CrawlOrderPlacement,
+	startCrawlOrderPlacementAttempt func(order yacycrawlcontract.CrawlOrder),
 	profile yacycrawlcontract.CrawlProfile,
-	metrics VisitMetrics,
+	visitedPageObserver VisitedPageObserver,
 	linkSecret string,
 ) {
 	mux.Handle(PathVisit, visitedPageEndpoint{
-		placement:  placement,
-		profile:    profile,
-		metrics:    metrics,
-		linkSecret: linkSecret,
+		startCrawlOrderPlacementAttempt: startCrawlOrderPlacementAttempt,
+		profile:                         profile,
+		observer:                        visitedPageObserver,
+		linkSecret:                      linkSecret,
 	})
 }

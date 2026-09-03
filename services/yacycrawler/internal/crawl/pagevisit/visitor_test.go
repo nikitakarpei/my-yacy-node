@@ -106,23 +106,49 @@ func newObserver() *recordingObserver {
 	return &recordingObserver{refusals: map[string]int{}}
 }
 
-func (o *recordingObserver) FetchTook(duration time.Duration) {
+func (o *recordingObserver) PageFetchCompleted(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ pagefetch.FetchStatus,
+	duration time.Duration,
+) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.fetchDurations = append(o.fetchDurations, duration)
+	o.fetched++
+}
+
+func (*recordingObserver) FetchConcluded(
+	context.Context,
+	canonicalurl.CanonicalURL,
+	pagefetch.FetchStatus,
+) {
+}
+
+func (o *recordingObserver) PageFetchFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+	_ error,
+) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	o.fetchDurations = append(o.fetchDurations, duration)
 }
 
-func (o *recordingObserver) PageFetched() {
-	o.mu.Lock()
-	defer o.mu.Unlock()
-	o.fetched++
+func (o *recordingObserver) IndexingRefusalEnforced(
+	context.Context,
+	canonicalurl.CanonicalURL,
+) {
+	o.honor("indexing")
 }
 
-func (o *recordingObserver) AccessRefusalHonored() { o.honor("access") }
-
-func (o *recordingObserver) IndexingRefusalHonored() { o.honor("indexing") }
-
-func (o *recordingObserver) LinkDiscoveryRefusalHonored() { o.honor("link-discovery") }
+func (o *recordingObserver) LinkDiscoveryRefusalEnforced(
+	context.Context,
+	canonicalurl.CanonicalURL,
+) {
+	o.honor("link-discovery")
+}
 
 func (o *recordingObserver) honor(refusal string) {
 	o.mu.Lock()
@@ -130,10 +156,34 @@ func (o *recordingObserver) honor(refusal string) {
 	o.refusals[refusal]++
 }
 
-func (o *recordingObserver) ScrapeRequestPublished() {
+func (o *recordingObserver) ScrapeRequestPublished(
+	context.Context,
+	canonicalurl.CanonicalURL,
+) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	o.scrapeRequestsPublished++
+}
+
+func (*recordingObserver) ScrapeRequestPublicationFailed(
+	context.Context,
+	canonicalurl.CanonicalURL,
+	error,
+) {
+}
+
+func (*recordingObserver) RecrawlRecordFailed(
+	context.Context,
+	canonicalurl.CanonicalURL,
+	error,
+) {
+}
+
+func (*recordingObserver) PageHTMLUnreadable(
+	context.Context,
+	canonicalurl.CanonicalURL,
+	error,
+) {
 }
 
 type fakeScrapeRequests struct {
@@ -203,13 +253,12 @@ func newVisitorFor(
 	observer *recordingObserver,
 	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.VisitorFor {
-	return pagevisit.New(
-		fetcher,
-		&steppingClock{now: time.Unix(0, 0), step: fetchStep},
-		recrawl,
-		observer,
-		scrapeRequests,
+	pageFetcher := pagevisit.NewPageFetcher(
+		fetcher, &steppingClock{now: time.Unix(0, 0), step: fetchStep}, observer,
 	)
+	recrawlRule := pagevisit.NewBestEffortRecrawlRule(recrawl, observer)
+	scrapePublisher := pagevisit.NewScrapeRequestPublisher(scrapeRequests, observer)
+	return pagevisit.New(pageFetcher, recrawlRule, observer, scrapePublisher)
 }
 
 func visitHost(t *testing.T, visitor pagevisit.Visitor) pagevisit.VisitOutcome {
@@ -335,9 +384,6 @@ func TestVisitStopsWhenTheTargetRefusesAccess(t *testing.T) {
 
 	outcome := visitHost(t, visitor)
 
-	if observer.refusals["access"] != 1 {
-		t.Fatalf("access refusal not honored: %v", observer.refusals)
-	}
 	if outcome.Disposal != disposal.AccessRefused {
 		t.Fatalf("want access-refused disposal, got %q", outcome.Disposal)
 	}

@@ -53,8 +53,30 @@ components:
     in: internal/visitclaims/jetstream/**
   hostpageallowancesjetstream:
     in: internal/hostpageallowances/jetstream/**
-  progressobserversprometheus:
-    in: internal/progressobservers/prometheus/**
+  crawlorderobserversapplog:
+    in: internal/crawlorderobservers/applog/**
+  crawlorderobserversprometheus:
+    in: internal/crawlorderobservers/prometheus/**
+  pendingvisitobserversapplog:
+    in: internal/pendingvisitobservers/applog/**
+  pendingvisitobserversprometheus:
+    in: internal/pendingvisitobservers/prometheus/**
+  pagefetchobserversapplog:
+    in: internal/pagefetchobservers/applog/**
+  pagefetchobserversprometheus:
+    in: internal/pagefetchobservers/prometheus/**
+  pagereadingobserversapplog:
+    in: internal/pagereadingobservers/applog/**
+  pagereadingobserversprometheus:
+    in: internal/pagereadingobservers/prometheus/**
+  scraperequestobserversapplog:
+    in: internal/scraperequestobservers/applog/**
+  scraperequestobserversprometheus:
+    in: internal/scraperequestobservers/prometheus/**
+  recrawlrecordobserversapplog:
+    in: internal/recrawlrecordobservers/applog/**
+  recrawlrecordobserversprometheus:
+    in: internal/recrawlrecordobservers/prometheus/**
   scraperequestsjetstream:
     in: internal/scraperequests/jetstream/**
   crawlercmd:
@@ -206,14 +228,55 @@ deps:
   scraperequestsjetstream:
     canUse:
       - nats
-  progressobserversprometheus:
+  crawlorderobserversapplog:
     mayDependOn:
       - orderintake
-      - visitintake
-      - pagevisit
-      - disposal
+  crawlorderobserversprometheus:
+    mayDependOn:
+      - orderintake
     canUse:
       - prometheus
+  pendingvisitobserversapplog:
+    mayDependOn:
+      - disposal
+      - pendingvisit
+  pendingvisitobserversprometheus:
+    mayDependOn:
+      - disposal
+      - pendingvisit
+    canUse:
+      - prometheus
+      - canonicalurl
+  pagefetchobserversapplog:
+    canUse:
+      - canonicalurl
+      - pagefetch
+  pagefetchobserversprometheus:
+    canUse:
+      - prometheus
+      - canonicalurl
+      - pagefetch
+  pagereadingobserversapplog:
+    canUse:
+      - canonicalurl
+  pagereadingobserversprometheus:
+    canUse:
+      - prometheus
+      - canonicalurl
+  scraperequestobserversapplog:
+    canUse:
+      - canonicalurl
+  scraperequestobserversprometheus:
+    canUse:
+      - prometheus
+      - canonicalurl
+  recrawlrecordobserversapplog:
+    canUse:
+      - canonicalurl
+  recrawlrecordobserversprometheus:
+    canUse:
+      - prometheus
+      - canonicalurl
   crawlercmd:
     anyProjectDeps: true
     anyVendorDeps: true

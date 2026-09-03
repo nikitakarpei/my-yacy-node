@@ -9,18 +9,16 @@ type VisitorFor func(ignoredRefusals pagerefusals.IgnoredRefusals) Visitor
 
 func New(
 	fetcher pagefetch.Fetcher,
-	clock Clock,
 	recrawl RecrawlRule,
-	progress VisitProgress,
+	readingObserver PageReadingObserver,
 	scrapeRequests ScrapeRequests,
 ) VisitorFor {
 	return func(ignoredRefusals pagerefusals.IgnoredRefusals) Visitor {
 		return &visitor{
 			fetcher:         fetcher,
-			clock:           clock,
 			recrawl:         recrawl,
 			ignoredRefusals: ignoredRefusals,
-			progress:        progress,
+			readingObserver: readingObserver,
 			scrapeRequests:  scrapeRequests,
 		}
 	}

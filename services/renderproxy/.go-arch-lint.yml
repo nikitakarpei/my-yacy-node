@@ -24,8 +24,18 @@ components:
     in: internal/originpreflight/**
   proxyintake:
     in: internal/proxyintake/**
-  rendermetrics:
-    in: internal/rendermetrics/**
+  proxyresponsedeliveryobserversapplog:
+    in: internal/proxyresponsedeliveryobservers/applog/**
+  proxyresponsedeliveryobserversprometheus:
+    in: internal/proxyresponsedeliveryobservers/prometheus/**
+  renderobserversapplog:
+    in: internal/renderobservers/applog/**
+  renderobserversprometheus:
+    in: internal/renderobservers/prometheus/**
+  rendercapacityobserversapplog:
+    in: internal/rendercapacityobservers/applog/**
+  rendercapacityobserversprometheus:
+    in: internal/rendercapacityobservers/prometheus/**
   renderproxycmd:
     in: cmd/renderproxy/**
 
@@ -56,7 +66,28 @@ deps:
   cdpdocumentbinding:
     canUse:
       - cdproto
-  rendermetrics:
+  proxyresponsedeliveryobserversapplog:
+    mayDependOn:
+      - proxyintake
+  proxyresponsedeliveryobserversprometheus:
+    mayDependOn:
+      - proxyintake
+    canUse:
+      - prometheus
+  renderobserversapplog:
+    mayDependOn:
+      - rendergate
+  renderobserversprometheus:
+    mayDependOn:
+      - rendergate
+    canUse:
+      - prometheus
+  rendercapacityobserversapplog:
+    mayDependOn:
+      - rendergate
+  rendercapacityobserversprometheus:
+    mayDependOn:
+      - rendergate
     canUse:
       - prometheus
   renderproxycmd:

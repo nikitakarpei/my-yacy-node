@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log/slog"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -19,8 +18,6 @@ const (
 	queryParamURL       = "url"
 	queryParamExpires   = "expires"
 	queryParamSignature = "signature"
-	msgVisitRejected    = "visit rejected"
-	msgVisitRedirected  = "visit redirected"
 )
 
 var (
@@ -29,20 +26,19 @@ var (
 )
 
 type visitedPageEndpoint struct {
-	placement  CrawlOrderPlacement
-	profile    yacycrawlcontract.CrawlProfile
-	metrics    VisitMetrics
-	linkSecret string
+	startCrawlOrderPlacementAttempt func(order yacycrawlcontract.CrawlOrder)
+	profile                         yacycrawlcontract.CrawlProfile
+	observer                        VisitedPageObserver
+	linkSecret                      string
 }
 
 func (e visitedPageEndpoint) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodGet {
+		e.observer.VisitedPageMethodRefused(req.Context(), req.Method)
 		w.Header().Set("Allow", http.MethodGet)
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-
-	e.metrics.VisitReceived()
 
 	link, err := visitLinkFrom(req.URL.Query())
 	if err != nil {
@@ -63,10 +59,9 @@ func (e visitedPageEndpoint) ServeHTTP(w http.ResponseWriter, req *http.Request)
 		return
 	}
 
-	e.placement.Attempt(crawlOrderFor(seedURL, e.profile))
+	e.startCrawlOrderPlacementAttempt(crawlOrderFor(seedURL, e.profile))
 
-	slog.DebugContext(req.Context(), msgVisitRedirected,
-		slog.String("visitedPage", link.VisitedPage))
+	e.observer.VisitedPageRedirected(req.Context(), link.VisitedPage)
 	http.Redirect(w, req, link.VisitedPage, http.StatusFound)
 }
 
@@ -123,8 +118,11 @@ func signatureFrom(raw string) (string, error) {
 	return raw, nil
 }
 
-func (e visitedPageEndpoint) rejectVisit(ctx context.Context, w http.ResponseWriter, err error) {
-	e.metrics.VisitRejected()
-	slog.WarnContext(ctx, msgVisitRejected, slog.Any("error", err))
+func (e visitedPageEndpoint) rejectVisit(
+	ctx context.Context,
+	w http.ResponseWriter,
+	err error,
+) {
+	e.observer.VisitedPageRejected(ctx, err)
 	http.Error(w, err.Error(), http.StatusBadRequest)
 }
