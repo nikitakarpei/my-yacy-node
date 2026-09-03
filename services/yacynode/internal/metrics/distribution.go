@@ -37,60 +37,60 @@ func NewDistributionMetrics(registry prometheus.Registerer) *DistributionMetrics
 func distributionMetrics() *DistributionMetrics {
 	return &DistributionMetrics{
 		postingOffers: counterPerLabelFor(
-			"rwidistribution_posting_offers_sent_total",
+			"yacynode_rwidistribution_posting_offers_sent_total",
 			"Posting offers sent to peers, by offer outcome.",
 			labelOutcome,
 		),
 		postingsOffered: counterPerLabelFor(
-			"rwidistribution_postings_offered_total",
+			"yacynode_rwidistribution_postings_offered_total",
 			"RWI postings offered to peers, by offer outcome.",
 			labelOutcome,
 		),
 		urlMetadataDeliveries: counterPerLabelFor(
-			"rwidistribution_url_metadata_deliveries_total",
+			"yacynode_rwidistribution_url_metadata_deliveries_total",
 			"URL metadata deliveries sent to peers, by delivery outcome.",
 			labelOutcome,
 		),
 		urlsDelivered: counterPerLabelFor(
-			"rwidistribution_urls_delivered_total",
+			"yacynode_rwidistribution_urls_delivered_total",
 			"URLs delivered to peers as metadata, by delivery outcome.",
 			labelOutcome,
 		),
 		urlsUnknownToUs: counterFor(
-			"rwidistribution_urls_unknown_to_us_total",
+			"yacynode_rwidistribution_urls_unknown_to_us_total",
 			"URLs a peer asked for whose metadata this node does not hold, so no delivery carried them.",
 		),
 		postingsGone: counterFor(
-			"rwidistribution_postings_gone_total",
+			"yacynode_rwidistribution_postings_gone_total",
 			"Due postings evicted between the schedule read and the posting read.",
 		),
 		scheduledPostings: gaugeFor(
-			"rwidistribution_scheduled_postings",
+			"yacynode_rwidistribution_scheduled_postings",
 			"Postings holding a due entry on the offer schedule.",
 		),
 		longestOfferLateness: gaugeFor(
-			"rwidistribution_longest_offer_lateness_seconds",
+			"yacynode_rwidistribution_longest_offer_lateness_seconds",
 			"Time the most overdue posting offer is past its scheduled time.",
 		),
 		staleReplicasDropped: counterFor(
-			"rwidistribution_stale_replicas_dropped_total",
+			"yacynode_rwidistribution_stale_replicas_dropped_total",
 			"Replicas dropped for peers no longer responsible.",
 		),
 		postingsHandedOff: counterFor(
-			"rwidistribution_postings_handed_off_total",
+			"yacynode_rwidistribution_postings_handed_off_total",
 			"Postings deleted after peers closer to their DHT position accepted them.",
 		),
 		cyclesSkipped: counterPerLabelFor(
-			"rwidistribution_cycles_skipped_total",
+			"yacynode_rwidistribution_cycles_skipped_total",
 			"Distribution cycles that ran no batch, by reason.",
 			labelReason,
 		),
 		cyclesCompleted: counterFor(
-			"rwidistribution_cycles_completed_total",
+			"yacynode_rwidistribution_cycles_completed_total",
 			"Distribution cycles that ran to the end of their due postings.",
 		),
 		batchesAborted: counterPerLabelFor(
-			"rwidistribution_batches_aborted_total",
+			"yacynode_rwidistribution_batches_aborted_total",
 			"Distribution batches aborted before their postings were rescheduled, by reason.",
 			labelReason,
 		),

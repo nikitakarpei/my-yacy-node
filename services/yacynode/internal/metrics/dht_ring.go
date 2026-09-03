@@ -19,13 +19,13 @@ type DHTRingMetrics struct {
 func NewDHTRingMetrics(registry prometheus.Registerer) *DHTRingMetrics {
 	peersAcceptingRemoteIndexPerSector := prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
-			Name: "rwidistribution_peers_accepting_remote_index",
+			Name: "yacynode_rwidistribution_peers_accepting_remote_index",
 			Help: "Peers accepting remote index, by the DHT ring sector they occupy.",
 		},
 		[]string{labelDHTRingSector},
 	)
 	ringFractionFromPostingToHolder := prometheus.NewHistogram(prometheus.HistogramOpts{
-		Name: "rwidistribution_replica_ring_fraction",
+		Name: "yacynode_rwidistribution_replica_ring_fraction",
 		Help: "Fraction of the DHT ring between a posting's position and the peer " +
 			"that accepted its replica.",
 		Buckets: prometheus.ExponentialBucketsRange(1e-6, 1, 13),

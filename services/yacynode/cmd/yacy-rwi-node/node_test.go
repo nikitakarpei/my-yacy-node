@@ -77,8 +77,8 @@ func TestServedPeerRequestsAreCountedByEndpointAndStatus(t *testing.T) {
 
 	published := node.metrics(t)
 	for _, counter := range []string{
-		`http_requests_total{code="200",endpoint="/{$}"} 1`,
-		`http_requests_total{code="404",endpoint="unmatched"} 1`,
+		`yacynode_http_requests_total{code="200",endpoint="/{$}"} 1`,
+		`yacynode_http_requests_total{code="404",endpoint="unmatched"} 1`,
 	} {
 		if !strings.Contains(published, counter) {
 			t.Errorf("metrics do not carry %s", counter)
@@ -154,7 +154,7 @@ func TestOpsEndpointPublishesWhatStorageHolds(t *testing.T) {
 	defer node.stop()
 
 	published := node.metrics(t)
-	for _, gauge := range []string{"vault_quota_bytes", "vault_used_bytes", "vault_collection"} {
+	for _, gauge := range []string{"yacynode_vault_quota_bytes", "yacynode_vault_used_bytes", "yacynode_vault_collection"} {
 		if !strings.Contains(published, gauge) {
 			t.Errorf("metrics do not carry %s", gauge)
 		}

@@ -25,13 +25,13 @@ func NewVaultCapacityMetrics(
 	metrics := &VaultCapacityMetrics{
 		capacity: capacity,
 		quota: prometheus.NewDesc(
-			"vault_quota_bytes",
+			"yacynode_vault_quota_bytes",
 			"Configured vault quota in bytes.",
 			nil,
 			nil,
 		),
 		used: prometheus.NewDesc(
-			"vault_used_bytes",
+			"yacynode_vault_used_bytes",
 			"Vault space currently used in bytes.",
 			nil,
 			nil,
