@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
@@ -50,6 +51,10 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	defer scrapeOutcomes.Close()
 
 	registry := prometheus.NewRegistry()
+	registry.MustRegister(
+		collectors.NewGoCollector(),
+		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
+	)
 	search := websearch.NewWebSearch(websearch.Config{
 		Engine: searchenginessearxng.NewSearXNG(cfg.SearXNGURL, cfg.SearXNGSearchDeadline),
 		Progress: websearch.SearchProgressObservers{

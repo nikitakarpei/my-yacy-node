@@ -9,6 +9,7 @@ import (
 
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
@@ -59,6 +60,10 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	}
 
 	registry := prometheus.NewRegistry()
+	registry.MustRegister(
+		collectors.NewGoCollector(),
+		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
+	)
 	outcomeFeed := scrapeoutcomefeedsnats.NewScrapeOutcomeFeed(connection)
 	intake := scrapeintakepkg.NewScrapeRequestConsumer(scrapeintakepkg.Config{
 		ScrapeRequests: consumer,
