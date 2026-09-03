@@ -43,12 +43,12 @@ type IntakeProgressMetrics struct {
 
 func New(registry prometheusclient.Registerer) *IntakeProgressMetrics {
 	pagesOffered := prometheusclient.NewCounter(prometheusclient.CounterOpts{
-		Name: "pageintake_pages_offered_total",
+		Name: "yacynode_pageintake_pages_offered_total",
 		Help: "Pages the scrape service offered to this node.",
 	})
 	offeredPagesDisposed := prometheusclient.NewCounterVec(
 		prometheusclient.CounterOpts{
-			Name: "pageintake_offered_pages_disposed_total",
+			Name: "yacynode_pageintake_offered_pages_disposed_total",
 			Help: "Offered page deliveries, by terminal disposal.",
 		},
 		[]string{labelOfferedPageDisposal},
@@ -57,15 +57,15 @@ func New(registry prometheusclient.Registerer) *IntakeProgressMetrics {
 		offeredPagesDisposed.WithLabelValues(disposal)
 	}
 	urlMetadataAdmitted := prometheusclient.NewCounter(prometheusclient.CounterOpts{
-		Name: "pageintake_url_metadata_admitted_total",
+		Name: "yacynode_pageintake_url_metadata_admitted_total",
 		Help: "URL metadata admissions accepted while taking in offered pages.",
 	})
 	postingsAdmitted := prometheusclient.NewCounter(prometheusclient.CounterOpts{
-		Name: "pageintake_postings_admitted_total",
+		Name: "yacynode_pageintake_postings_admitted_total",
 		Help: "Posting admissions accepted while taking in offered pages.",
 	})
 	intakeReceiptFailures := prometheusclient.NewCounter(prometheusclient.CounterOpts{
-		Name: "pageintake_intake_receipt_failures_total",
+		Name: "yacynode_pageintake_intake_receipt_failures_total",
 		Help: "Intake receipts that reached no caller waiting for the page.",
 	})
 	registry.MustRegister(

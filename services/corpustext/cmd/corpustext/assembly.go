@@ -53,6 +53,10 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	}
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(
+		prometheus.NewGaugeFunc(prometheus.GaugeOpts{
+			Name: "corpustext_info",
+			Help: "Corpus text application identity.",
+		}, func() float64 { return 1 }),
 		collectors.NewGoCollector(),
 		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
 	)

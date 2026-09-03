@@ -20,20 +20,20 @@ func TestDistributionCountsOffersByResult(t *testing.T) {
 	observer.ObservePostingOffer("busy", 1)
 
 	expected := `
-# HELP rwidistribution_posting_offers_sent_total Posting offers sent to peers, by offer outcome.
-# TYPE rwidistribution_posting_offers_sent_total counter
-rwidistribution_posting_offers_sent_total{result="busy"} 1
-rwidistribution_posting_offers_sent_total{result="ok"} 2
-# HELP rwidistribution_postings_offered_total RWI postings offered to peers, by offer outcome.
-# TYPE rwidistribution_postings_offered_total counter
-rwidistribution_postings_offered_total{result="busy"} 1
-rwidistribution_postings_offered_total{result="ok"} 5
+# HELP yacynode_rwidistribution_posting_offers_sent_total Posting offers sent to peers, by offer outcome.
+# TYPE yacynode_rwidistribution_posting_offers_sent_total counter
+yacynode_rwidistribution_posting_offers_sent_total{result="busy"} 1
+yacynode_rwidistribution_posting_offers_sent_total{result="ok"} 2
+# HELP yacynode_rwidistribution_postings_offered_total RWI postings offered to peers, by offer outcome.
+# TYPE yacynode_rwidistribution_postings_offered_total counter
+yacynode_rwidistribution_postings_offered_total{result="busy"} 1
+yacynode_rwidistribution_postings_offered_total{result="ok"} 5
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"rwidistribution_posting_offers_sent_total",
-		"rwidistribution_postings_offered_total",
+		"yacynode_rwidistribution_posting_offers_sent_total",
+		"yacynode_rwidistribution_postings_offered_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -47,14 +47,14 @@ func TestDistributionCountsURLsUnknownToUs(t *testing.T) {
 	observer.ObserveURLsUnknownToUs(2)
 
 	expected := `
-# HELP rwidistribution_urls_unknown_to_us_total URLs a peer asked for whose metadata this node does not hold, so no delivery carried them.
-# TYPE rwidistribution_urls_unknown_to_us_total counter
-rwidistribution_urls_unknown_to_us_total 5
+# HELP yacynode_rwidistribution_urls_unknown_to_us_total URLs a peer asked for whose metadata this node does not hold, so no delivery carried them.
+# TYPE yacynode_rwidistribution_urls_unknown_to_us_total counter
+yacynode_rwidistribution_urls_unknown_to_us_total 5
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"rwidistribution_urls_unknown_to_us_total",
+		"yacynode_rwidistribution_urls_unknown_to_us_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -69,20 +69,20 @@ func TestDistributionCountsURLMetadataDeliveriesByResult(t *testing.T) {
 	observer.ObserveURLMetadataDelivery("deferred", 1)
 
 	expected := `
-# HELP rwidistribution_url_metadata_deliveries_total URL metadata deliveries sent to peers, by delivery outcome.
-# TYPE rwidistribution_url_metadata_deliveries_total counter
-rwidistribution_url_metadata_deliveries_total{result="accepted"} 2
-rwidistribution_url_metadata_deliveries_total{result="deferred"} 1
-# HELP rwidistribution_urls_delivered_total URLs delivered to peers as metadata, by delivery outcome.
-# TYPE rwidistribution_urls_delivered_total counter
-rwidistribution_urls_delivered_total{result="accepted"} 5
-rwidistribution_urls_delivered_total{result="deferred"} 1
+# HELP yacynode_rwidistribution_url_metadata_deliveries_total URL metadata deliveries sent to peers, by delivery outcome.
+# TYPE yacynode_rwidistribution_url_metadata_deliveries_total counter
+yacynode_rwidistribution_url_metadata_deliveries_total{result="accepted"} 2
+yacynode_rwidistribution_url_metadata_deliveries_total{result="deferred"} 1
+# HELP yacynode_rwidistribution_urls_delivered_total URLs delivered to peers as metadata, by delivery outcome.
+# TYPE yacynode_rwidistribution_urls_delivered_total counter
+yacynode_rwidistribution_urls_delivered_total{result="accepted"} 5
+yacynode_rwidistribution_urls_delivered_total{result="deferred"} 1
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"rwidistribution_url_metadata_deliveries_total",
-		"rwidistribution_urls_delivered_total",
+		"yacynode_rwidistribution_url_metadata_deliveries_total",
+		"yacynode_rwidistribution_urls_delivered_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -96,18 +96,18 @@ func TestDistributionCountsPostingsGoneAndStaleReplicasDropped(t *testing.T) {
 	observer.ObserveStaleReplicasDropped(2)
 
 	expected := `
-# HELP rwidistribution_postings_gone_total Due postings evicted between the schedule read and the posting read.
-# TYPE rwidistribution_postings_gone_total counter
-rwidistribution_postings_gone_total 1
-# HELP rwidistribution_stale_replicas_dropped_total Replicas dropped for peers no longer responsible.
-# TYPE rwidistribution_stale_replicas_dropped_total counter
-rwidistribution_stale_replicas_dropped_total 2
+# HELP yacynode_rwidistribution_postings_gone_total Due postings evicted between the schedule read and the posting read.
+# TYPE yacynode_rwidistribution_postings_gone_total counter
+yacynode_rwidistribution_postings_gone_total 1
+# HELP yacynode_rwidistribution_stale_replicas_dropped_total Replicas dropped for peers no longer responsible.
+# TYPE yacynode_rwidistribution_stale_replicas_dropped_total counter
+yacynode_rwidistribution_stale_replicas_dropped_total 2
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"rwidistribution_postings_gone_total",
-		"rwidistribution_stale_replicas_dropped_total",
+		"yacynode_rwidistribution_postings_gone_total",
+		"yacynode_rwidistribution_stale_replicas_dropped_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -121,14 +121,14 @@ func TestDistributionCountsSkippedCyclesByReason(t *testing.T) {
 	observer.ObserveCycleSkipped("too_few_reachable_peers")
 
 	expected := `
-# HELP rwidistribution_cycles_skipped_total Distribution cycles that ran no batch, by reason.
-# TYPE rwidistribution_cycles_skipped_total counter
-rwidistribution_cycles_skipped_total{reason="too_few_reachable_peers"} 2
+# HELP yacynode_rwidistribution_cycles_skipped_total Distribution cycles that ran no batch, by reason.
+# TYPE yacynode_rwidistribution_cycles_skipped_total counter
+yacynode_rwidistribution_cycles_skipped_total{reason="too_few_reachable_peers"} 2
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"rwidistribution_cycles_skipped_total",
+		"yacynode_rwidistribution_cycles_skipped_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -142,14 +142,14 @@ func TestDistributionCountsCompletedCycles(t *testing.T) {
 	observer.ObserveCycleCompleted()
 
 	expected := `
-# HELP rwidistribution_cycles_completed_total Distribution cycles that ran to the end of their due postings.
-# TYPE rwidistribution_cycles_completed_total counter
-rwidistribution_cycles_completed_total 2
+# HELP yacynode_rwidistribution_cycles_completed_total Distribution cycles that ran to the end of their due postings.
+# TYPE yacynode_rwidistribution_cycles_completed_total counter
+yacynode_rwidistribution_cycles_completed_total 2
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"rwidistribution_cycles_completed_total",
+		"yacynode_rwidistribution_cycles_completed_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -164,15 +164,15 @@ func TestDistributionCountsAbortedBatchesByReason(t *testing.T) {
 	observer.ObserveBatchAborted("not_written")
 
 	expected := `
-# HELP rwidistribution_batches_aborted_total Distribution batches aborted before their postings were rescheduled, by reason.
-# TYPE rwidistribution_batches_aborted_total counter
-rwidistribution_batches_aborted_total{reason="due_postings_unread"} 1
-rwidistribution_batches_aborted_total{reason="not_written"} 2
+# HELP yacynode_rwidistribution_batches_aborted_total Distribution batches aborted before their postings were rescheduled, by reason.
+# TYPE yacynode_rwidistribution_batches_aborted_total counter
+yacynode_rwidistribution_batches_aborted_total{reason="due_postings_unread"} 1
+yacynode_rwidistribution_batches_aborted_total{reason="not_written"} 2
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"rwidistribution_batches_aborted_total",
+		"yacynode_rwidistribution_batches_aborted_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -185,14 +185,14 @@ func TestDistributionTracksScheduledPostings(t *testing.T) {
 	observer.ObserveScheduledPostings(7)
 
 	expected := `
-# HELP rwidistribution_scheduled_postings Postings holding a due entry on the offer schedule.
-# TYPE rwidistribution_scheduled_postings gauge
-rwidistribution_scheduled_postings 7
+# HELP yacynode_rwidistribution_scheduled_postings Postings holding a due entry on the offer schedule.
+# TYPE yacynode_rwidistribution_scheduled_postings gauge
+yacynode_rwidistribution_scheduled_postings 7
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"rwidistribution_scheduled_postings",
+		"yacynode_rwidistribution_scheduled_postings",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
@@ -205,14 +205,14 @@ func TestDistributionTracksLongestOfferLateness(t *testing.T) {
 	observer.ObserveLongestOfferLateness(90 * time.Second)
 
 	expected := `
-# HELP rwidistribution_longest_offer_lateness_seconds Time the most overdue posting offer is past its scheduled time.
-# TYPE rwidistribution_longest_offer_lateness_seconds gauge
-rwidistribution_longest_offer_lateness_seconds 90
+# HELP yacynode_rwidistribution_longest_offer_lateness_seconds Time the most overdue posting offer is past its scheduled time.
+# TYPE yacynode_rwidistribution_longest_offer_lateness_seconds gauge
+yacynode_rwidistribution_longest_offer_lateness_seconds 90
 `
 	if err := testutil.GatherAndCompare(
 		registry,
 		strings.NewReader(expected),
-		"rwidistribution_longest_offer_lateness_seconds",
+		"yacynode_rwidistribution_longest_offer_lateness_seconds",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}

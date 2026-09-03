@@ -23,19 +23,19 @@ type RWIEscrowMetrics struct {
 func NewRWIEscrowMetrics(registry prometheus.Registerer) *RWIEscrowMetrics {
 	metrics := &RWIEscrowMetrics{
 		held: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "rwiescrow_postings_held_total",
+			Name: "yacynode_rwiescrow_postings_held_total",
 			Help: "Inbound postings held because their URL metadata had not arrived.",
 		}),
 		released: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "rwiescrow_postings_released_total",
+			Name: "yacynode_rwiescrow_postings_released_total",
 			Help: "Held postings admitted to the index once their URL metadata arrived.",
 		}),
 		expired: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "rwiescrow_postings_expired_total",
+			Name: "yacynode_rwiescrow_postings_expired_total",
 			Help: "Held postings dropped because their URL metadata never arrived.",
 		}),
 		failures: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "rwiescrow_expiry_failures_total",
+			Name: "yacynode_rwiescrow_expiry_failures_total",
 			Help: "Held posting expiry runs that ended in error.",
 		}),
 	}
@@ -77,14 +77,14 @@ func NewRWIEscrowCapacityMetrics(
 ) *RWIEscrowCapacityMetrics {
 	capacity := prometheus.NewGaugeFunc(
 		prometheus.GaugeOpts{
-			Name: "rwiescrow_capacity_postings",
+			Name: "yacynode_rwiescrow_capacity_postings",
 			Help: "Postings the escrow can hold before it refuses new ones.",
 		},
 		func() float64 { return float64(escrow.Capacity()) },
 	)
 	held := prometheus.NewGaugeFunc(
 		prometheus.GaugeOpts{
-			Name: "rwiescrow_held_postings",
+			Name: "yacynode_rwiescrow_held_postings",
 			Help: "Postings currently held while their URL metadata is awaited.",
 		},
 		func() float64 {

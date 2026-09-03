@@ -270,7 +270,7 @@ func TestEndpointObservesUnsupportedOptions(t *testing.T) {
 	families := gatheredFamilies(t, registry)
 	value, found := labeledCounter(
 		families,
-		"documentsearch_unsupported_options_requested_total",
+		"yacynode_documentsearch_unsupported_options_requested_total",
 		"prefer",
 	)
 	if !found || value != 1 {
@@ -287,7 +287,7 @@ func searchesEnded(
 
 	value, _ := labeledCounter(
 		gatheredFamilies(t, registry),
-		"documentsearch_searches_total",
+		"yacynode_documentsearch_searches_total",
 		string(outcome),
 	)
 
@@ -298,7 +298,7 @@ func termsObserved(t *testing.T, registry *prometheus.Registry, presence string)
 	t.Helper()
 
 	for _, family := range gatheredFamilies(t, registry) {
-		if family.GetName() != "documentsearch_query_term_ring_fraction" {
+		if family.GetName() != "yacynode_documentsearch_query_term_ring_fraction" {
 			continue
 		}
 		for _, metric := range family.GetMetric() {
