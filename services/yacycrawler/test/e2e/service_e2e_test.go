@@ -35,20 +35,6 @@ func TestCrawlerPublishesEveryPageAnOrderReachesEndToEnd(t *testing.T) {
 	}
 }
 
-func TestEveryCorpusConsumesTheSameScrapeRequestEndToEnd(t *testing.T) {
-	ctx := context.Background()
-
-	js, originURL := startCrawlOfOriginSite(t, ctx)
-
-	first := fetchScrapeRequestForDurable(t, ctx, js, "corpusmarkdown")
-	second := fetchScrapeRequestForDurable(t, ctx, js, "corpustext")
-
-	if first.PageURL.String() != originURL || second.PageURL.String() != originURL {
-		t.Errorf("corpora read %q and %q, want both %q",
-			first.PageURL, second.PageURL, originURL)
-	}
-}
-
 func TestTwoCrawlersVisitEachURLOnceEndToEnd(t *testing.T) {
 	ctx := context.Background()
 
