@@ -266,6 +266,119 @@
       ]
     },
     {
+      "id": 40,
+      "title": "Frontier",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "panels": []
+    },
+    {
+      "id": 41,
+      "title": "Pending visits, by how they ended",
+      "description": "Every message the frontier delivers ends exactly once, one of these six ways.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 0,
+        "y": 15
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cps",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(yacycrawler_pending_visits_completed_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "completed"
+        },
+        {
+          "refId": "B",
+          "expr": "sum(rate(yacycrawler_pages_disposed_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "disposed"
+        },
+        {
+          "refId": "C",
+          "expr": "sum(rate(yacycrawler_pending_visits_deferred_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "deferred"
+        },
+        {
+          "refId": "D",
+          "expr": "sum(rate(yacycrawler_pending_visits_retry_scheduled_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "retry scheduled"
+        },
+        {
+          "refId": "E",
+          "expr": "sum(rate(yacycrawler_pending_visits_returned_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "returned"
+        },
+        {
+          "refId": "F",
+          "expr": "sum(rate(yacycrawler_pending_visits_claimed_elsewhere_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "claimed elsewhere"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "title": "Recrawl records not stored",
+      "description": "A visit the crawler cannot record is due again at once, so the page is fetched before its grace has passed.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 15
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cps",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(yacycrawler_recrawl_record_failures_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "not stored"
+        }
+      ]
+    },
+    {
       "id": 20,
       "title": "Page fetching",
       "type": "row",
@@ -273,7 +386,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 14
+        "y": 23
       },
       "panels": []
     },
@@ -289,7 +402,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 15
+        "y": 24
       },
       "fieldConfig": {
         "defaults": {
@@ -326,7 +439,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 15
+        "y": 24
       },
       "fieldConfig": {
         "defaults": {
@@ -373,7 +486,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 32
       },
       "fieldConfig": {
         "defaults": {
@@ -406,7 +519,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 40
       },
       "panels": []
     },
@@ -422,7 +535,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 41
       },
       "fieldConfig": {
         "defaults": {
@@ -459,7 +572,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 32
+        "y": 41
       },
       "fieldConfig": {
         "defaults": {
@@ -492,7 +605,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 40
+        "y": 49
       },
       "panels": []
     },
@@ -509,7 +622,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 41
+        "y": 50
       },
       "fieldConfig": {
         "defaults": {
@@ -538,7 +651,7 @@
       "id": 100,
       "title": "Go process",
       "type": "row",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 49},
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 58},
       "panels": []
     },
     {
@@ -546,7 +659,7 @@
       "title": "Process memory",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 50},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 59},
       "fieldConfig": {"defaults": {"unit": "bytes", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -560,7 +673,7 @@
       "title": "CPU cores used",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 50},
+      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 59},
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -572,7 +685,7 @@
       "title": "Goroutines",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 50},
+      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 59},
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -584,7 +697,7 @@
       "title": "Garbage collection rate",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 58},
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 67},
       "fieldConfig": {"defaults": {"unit": "cps", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -596,7 +709,7 @@
       "title": "Share of time paused for garbage collection",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 58},
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 67},
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -608,7 +721,7 @@
       "title": "Share of file descriptor capacity used",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 58},
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 67},
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "max": 1, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
