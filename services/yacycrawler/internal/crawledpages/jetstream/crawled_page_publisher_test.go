@@ -26,7 +26,7 @@ func crawledPagesStream(t *testing.T) natsjetstream.JetStream {
 	return js
 }
 
-func reportedPageOn(
+func publishedPageOn(
 	t *testing.T,
 	js natsjetstream.JetStream,
 	subject string,
@@ -55,35 +55,35 @@ func reportedPageOn(
 	return page
 }
 
-func TestAnIndexablePageIsReportedOnTheIndexableSubject(t *testing.T) {
+func TestAnIndexablePageIsPublishedOnTheIndexableSubject(t *testing.T) {
 	js := crawledPagesStream(t)
-	observer := &recordingCrawledPageReportObserver{}
+	observer := &recordingCrawledPagePublicationObserver{}
 	publisher := jetstream.New(js, observer)
 	pageURL := canonicalurltest.CanonicalURLOf(t, "http://example.com/a")
 
-	publisher.ReportIndexablePage(context.Background(), pageURL)
+	publisher.PublishIndexablePage(context.Background(), pageURL)
 
-	page := reportedPageOn(t, js, yacycrawlcontract.IndexablePageSubject)
+	page := publishedPageOn(t, js, yacycrawlcontract.IndexablePageSubject)
 	if page.PageURL != pageURL {
 		t.Fatalf("page url = %q, want %q", page.PageURL, pageURL)
 	}
-	if observer.reported != 1 {
-		t.Fatalf("reported pages = %d, want 1", observer.reported)
+	if observer.published != 1 {
+		t.Fatalf("published pages = %d, want 1", observer.published)
 	}
 	if observer.indexing != jetstream.PageAllowsIndexing {
 		t.Fatalf("indexing = %q, want %q", observer.indexing, jetstream.PageAllowsIndexing)
 	}
 }
 
-func TestAPageThatRefusesIndexingIsReportedOnItsOwnSubject(t *testing.T) {
+func TestAPageThatRefusesIndexingIsPublishedOnItsOwnSubject(t *testing.T) {
 	js := crawledPagesStream(t)
-	observer := &recordingCrawledPageReportObserver{}
+	observer := &recordingCrawledPagePublicationObserver{}
 	publisher := jetstream.New(js, observer)
 	pageURL := canonicalurltest.CanonicalURLOf(t, "http://example.com/b")
 
-	publisher.ReportIndexingRefusedPage(context.Background(), pageURL)
+	publisher.PublishIndexingRefusedPage(context.Background(), pageURL)
 
-	page := reportedPageOn(t, js, yacycrawlcontract.IndexingRefusedPageSubject)
+	page := publishedPageOn(t, js, yacycrawlcontract.IndexingRefusedPageSubject)
 	if page.PageURL != pageURL {
 		t.Fatalf("page url = %q, want %q", page.PageURL, pageURL)
 	}
@@ -92,40 +92,40 @@ func TestAPageThatRefusesIndexingIsReportedOnItsOwnSubject(t *testing.T) {
 	}
 }
 
-func TestAReportThatNeverLeavesIsObserved(t *testing.T) {
+func TestAPageThatNeverLeavesIsObserved(t *testing.T) {
 	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
-	observer := &recordingCrawledPageReportObserver{}
+	observer := &recordingCrawledPagePublicationObserver{}
 	publisher := jetstream.New(js, observer)
 
-	publisher.ReportIndexablePage(
+	publisher.PublishIndexablePage(
 		context.Background(), canonicalurltest.CanonicalURLOf(t, "http://example.com/a"),
 	)
 
-	if observer.reportingFailures != 1 {
-		t.Fatalf("reporting failures = %d, want 1", observer.reportingFailures)
+	if observer.publishingFailures != 1 {
+		t.Fatalf("publishing failures = %d, want 1", observer.publishingFailures)
 	}
-	if observer.reported != 0 {
-		t.Fatalf("reported pages = %d, want 0", observer.reported)
+	if observer.published != 0 {
+		t.Fatalf("published pages = %d, want 0", observer.published)
 	}
 }
 
-type recordingCrawledPageReportObserver struct {
-	reported          int
-	encodingFailures  int
-	reportingFailures int
-	indexing          jetstream.PageIndexing
+type recordingCrawledPagePublicationObserver struct {
+	published          int
+	encodingFailures   int
+	publishingFailures int
+	indexing           jetstream.PageIndexing
 }
 
-func (o *recordingCrawledPageReportObserver) CrawledPageReported(
+func (o *recordingCrawledPagePublicationObserver) CrawledPagePublished(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	indexing jetstream.PageIndexing,
 ) {
-	o.reported++
+	o.published++
 	o.indexing = indexing
 }
 
-func (o *recordingCrawledPageReportObserver) CrawledPageEncodingFailed(
+func (o *recordingCrawledPagePublicationObserver) CrawledPageEncodingFailed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	indexing jetstream.PageIndexing,
@@ -135,12 +135,12 @@ func (o *recordingCrawledPageReportObserver) CrawledPageEncodingFailed(
 	o.indexing = indexing
 }
 
-func (o *recordingCrawledPageReportObserver) CrawledPageReportingFailed(
+func (o *recordingCrawledPagePublicationObserver) CrawledPagePublishingFailed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	indexing jetstream.PageIndexing,
 	_ error,
 ) {
-	o.reportingFailures++
+	o.publishingFailures++
 	o.indexing = indexing
 }

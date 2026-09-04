@@ -7,6 +7,6 @@ import (
 )
 
 type CrawledPages interface {
-	ReportIndexablePage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
-	ReportIndexingRefusedPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
+	PublishIndexablePage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
+	PublishIndexingRefusedPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
 }

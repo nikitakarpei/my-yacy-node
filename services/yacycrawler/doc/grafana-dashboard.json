@@ -410,7 +410,7 @@
     },
     {
       "id": 30,
-      "title": "Crawled page reports",
+      "title": "Crawled page publication",
       "type": "row",
       "gridPos": {
         "h": 1,
@@ -422,7 +422,7 @@
     },
     {
       "id": 31,
-      "title": "Crawled pages reported, by indexing",
+      "title": "Crawled pages published, by indexing",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -452,7 +452,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (indexing) (rate(yacycrawler_crawled_pages_processed_total{instance=~\"$service_instance\",outcome=\"reported\"}[$__rate_interval]))",
+          "expr": "sum by (indexing) (rate(yacycrawler_crawled_pages_processed_total{instance=~\"$service_instance\",outcome=\"published\"}[$__rate_interval]))",
           "legendFormat": "{{indexing}}"
         }
       ]

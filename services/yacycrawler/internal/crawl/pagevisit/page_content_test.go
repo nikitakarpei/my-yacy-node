@@ -76,7 +76,7 @@ func TestVisitReportsUnsupportedMediaType(t *testing.T) {
 	}
 }
 
-func TestVisitReportsAPageThatRefusesIndexingOnItsOwnSubject(t *testing.T) {
+func TestVisitPublishesAPageThatRefusesIndexingAsRefusingIndexing(t *testing.T) {
 	crawledPages := &fakeCrawledPages{}
 	visitor := newVisitor(
 		fetchOf(fetchOutcomeOf(pageHolding(t, pageRefusingIndexing))),
@@ -88,10 +88,10 @@ func TestVisitReportsAPageThatRefusesIndexingOnItsOwnSubject(t *testing.T) {
 	outcome := visitHost(t, visitor)
 
 	if outcome.Disposal != disposal.NotDisposed {
-		t.Fatalf("a reported page carries no disposal, got %q", outcome.Disposal)
+		t.Fatalf("a published page carries no disposal, got %q", outcome.Disposal)
 	}
 	if refused := crawledPages.refusedPages(); len(refused) != 1 {
-		t.Fatalf("want the page reported as refusing indexing, got %v", refused)
+		t.Fatalf("want the page published as refusing indexing, got %v", refused)
 	}
 	if indexable := crawledPages.indexablePages(); len(indexable) != 0 {
 		t.Fatalf("a page that refuses indexing is not indexable, got %v", indexable)

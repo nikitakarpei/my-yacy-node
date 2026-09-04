@@ -86,8 +86,8 @@ func RunService(
 		refusalenforcementobserversapplog.RefusalEnforcementLog{},
 		refusalenforcementobserversprometheus.New(registry),
 	}
-	crawledPageObservers := crawledpagesjetstream.CrawledPageReportObservers{
-		crawledpageobserversapplog.CrawledPageLog{},
+	crawledPageObservers := crawledpagesjetstream.CrawledPagePublicationObservers{
+		crawledpageobserversapplog.CrawledPagePublicationLog{},
 		crawledpageobserversprometheus.New(registry),
 	}
 	recrawlRecordObservers := pagevisit.RecrawlRecordObservers{
@@ -270,7 +270,7 @@ func buildVisitConsumer(
 	pageFetchObserver pagevisit.PageFetchObserver,
 	htmlPageReading pagevisit.HTMLPageReading,
 	refusalEnforcementObserver pagevisit.RefusalEnforcementObserver,
-	crawledPageObserver crawledpagesjetstream.CrawledPageReportObserver,
+	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
 	recrawlRecordObserver pagevisit.RecrawlRecordObserver,
 ) (*visitintake.VisitConsumer, error) {
 	consumer, err := visitsConsumer(ctx, js, cfg)
@@ -368,7 +368,7 @@ func buildVisitor(
 	pageFetchObserver pagevisit.PageFetchObserver,
 	htmlPageReading pagevisit.HTMLPageReading,
 	refusalEnforcementObserver pagevisit.RefusalEnforcementObserver,
-	crawledPageObserver crawledpagesjetstream.CrawledPageReportObserver,
+	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
 	recrawlRecordObserver pagevisit.RecrawlRecordObserver,
 ) (pagevisit.Visitor, error) {
 	fetch := pagefetchershttp.New(

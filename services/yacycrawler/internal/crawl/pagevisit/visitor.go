@@ -105,20 +105,20 @@ func (v *visitor) visitFetchedPage(
 	if reading.Refusals.RefusesLinkDiscovery {
 		v.refusalEnforcement.LinkDiscoveryRefusalEnforced(ctx, url)
 	}
-	v.reportCrawledPage(ctx, page.LandedURL, reading.Refusals)
+	v.publishCrawledPage(ctx, page.LandedURL, reading.Refusals)
 	return completedOutcome(disposal.NotDisposed, reading.DiscoveredURLs), nil
 }
 
-func (v *visitor) reportCrawledPage(
+func (v *visitor) publishCrawledPage(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	refusals pagerefusals.Refusals,
 ) {
 	if refusals.RefusesIndexing {
-		v.crawledPages.ReportIndexingRefusedPage(ctx, pageURL)
+		v.crawledPages.PublishIndexingRefusedPage(ctx, pageURL)
 		return
 	}
-	v.crawledPages.ReportIndexablePage(ctx, pageURL)
+	v.crawledPages.PublishIndexablePage(ctx, pageURL)
 }
 
 func (v *visitor) recordVisit(

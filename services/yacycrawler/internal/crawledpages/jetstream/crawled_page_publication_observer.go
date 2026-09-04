@@ -13,8 +13,8 @@ const (
 	PageRefusesIndexing PageIndexing = "refused"
 )
 
-type CrawledPageReportObserver interface {
-	CrawledPageReported(
+type CrawledPagePublicationObserver interface {
+	CrawledPagePublished(
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
 		indexing PageIndexing,
@@ -25,7 +25,7 @@ type CrawledPageReportObserver interface {
 		indexing PageIndexing,
 		cause error,
 	)
-	CrawledPageReportingFailed(
+	CrawledPagePublishingFailed(
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
 		indexing PageIndexing,
@@ -33,19 +33,19 @@ type CrawledPageReportObserver interface {
 	)
 }
 
-type CrawledPageReportObservers []CrawledPageReportObserver
+type CrawledPagePublicationObservers []CrawledPagePublicationObserver
 
-func (observers CrawledPageReportObservers) CrawledPageReported(
+func (observers CrawledPagePublicationObservers) CrawledPagePublished(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	indexing PageIndexing,
 ) {
 	for _, observer := range observers {
-		observer.CrawledPageReported(ctx, pageURL, indexing)
+		observer.CrawledPagePublished(ctx, pageURL, indexing)
 	}
 }
 
-func (observers CrawledPageReportObservers) CrawledPageEncodingFailed(
+func (observers CrawledPagePublicationObservers) CrawledPageEncodingFailed(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	indexing PageIndexing,
@@ -56,13 +56,13 @@ func (observers CrawledPageReportObservers) CrawledPageEncodingFailed(
 	}
 }
 
-func (observers CrawledPageReportObservers) CrawledPageReportingFailed(
+func (observers CrawledPagePublicationObservers) CrawledPagePublishingFailed(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	indexing PageIndexing,
 	cause error,
 ) {
 	for _, observer := range observers {
-		observer.CrawledPageReportingFailed(ctx, pageURL, indexing, cause)
+		observer.CrawledPagePublishingFailed(ctx, pageURL, indexing, cause)
 	}
 }

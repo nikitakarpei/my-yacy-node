@@ -217,7 +217,7 @@ type fakeCrawledPages struct {
 	refused   []string
 }
 
-func (f *fakeCrawledPages) ReportIndexablePage(
+func (f *fakeCrawledPages) PublishIndexablePage(
 	_ context.Context,
 	pageURL canonicalurl.CanonicalURL,
 ) {
@@ -226,7 +226,7 @@ func (f *fakeCrawledPages) ReportIndexablePage(
 	f.indexable = append(f.indexable, pageURL.String())
 }
 
-func (f *fakeCrawledPages) ReportIndexingRefusedPage(
+func (f *fakeCrawledPages) PublishIndexingRefusedPage(
 	_ context.Context,
 	pageURL canonicalurl.CanonicalURL,
 ) {
@@ -329,7 +329,7 @@ func TestVisitReadsTheFetchedPage(t *testing.T) {
 		t.Fatalf("published page should report no disposal, got %q", outcome.Disposal)
 	}
 	if calls := crawledPages.indexablePages(); len(calls) != 1 || calls[0] != "http://host/" {
-		t.Fatalf("want the page reported indexable once with its canonical url, got %v", calls)
+		t.Fatalf("want the page published as indexable once with its canonical url, got %v", calls)
 	}
 }
 
@@ -352,7 +352,7 @@ func TestVisitReportsFetchRejectedDisposal(t *testing.T) {
 		t.Fatalf("visited should not be recorded for a rejected fetch, got %v", recrawl.calls())
 	}
 	if calls := crawledPages.indexablePages(); len(calls) != 0 {
-		t.Fatalf("a rejected fetch should report no crawled page, got %v", calls)
+		t.Fatalf("a rejected fetch should publish no crawled page, got %v", calls)
 	}
 }
 
@@ -371,7 +371,7 @@ func TestVisitReportsOversizedDisposal(t *testing.T) {
 		t.Fatalf("want oversized disposal, got %q", outcome.Disposal)
 	}
 	if calls := crawledPages.indexablePages(); len(calls) != 0 {
-		t.Fatalf("an oversized page should report no crawled page, got %v", calls)
+		t.Fatalf("an oversized page should publish no crawled page, got %v", calls)
 	}
 }
 
@@ -390,7 +390,7 @@ func TestVisitReportsLandedURLInvalidDisposal(t *testing.T) {
 		t.Fatalf("want landed-url-invalid disposal, got %q", outcome.Disposal)
 	}
 	if calls := crawledPages.indexablePages(); len(calls) != 0 {
-		t.Fatalf("an invalid landing should report no crawled page, got %v", calls)
+		t.Fatalf("an invalid landing should publish no crawled page, got %v", calls)
 	}
 }
 
@@ -417,7 +417,7 @@ func TestVisitStopsWhenTheTargetRefusesAccess(t *testing.T) {
 		)
 	}
 	if calls := crawledPages.indexablePages(); len(calls) != 0 {
-		t.Fatalf("a refused fetch should report no crawled page, got %v", calls)
+		t.Fatalf("a refused fetch should publish no crawled page, got %v", calls)
 	}
 }
 
@@ -672,10 +672,10 @@ func TestVisitReportsTheDisposalAbsorptionReached(t *testing.T) {
 		t.Fatalf("want the page content reason reported, got %q", outcome.Disposal)
 	}
 	if len(recrawl.calls()) != 1 {
-		t.Fatalf("want the visit recorded regardless of the report, got %v", recrawl.calls())
+		t.Fatalf("want the visit recorded regardless of the publication, got %v", recrawl.calls())
 	}
 	if calls := crawledPages.indexablePages(); len(calls) != 0 {
-		t.Fatalf("a disposed page should report no crawled page, got %v", calls)
+		t.Fatalf("a disposed page should publish no crawled page, got %v", calls)
 	}
 }
 
@@ -704,7 +704,7 @@ func TestVisitNotModifiedRecordsVersionWithoutReadingThePage(t *testing.T) {
 		t.Fatalf("want the version recorded once, got %v", calls)
 	}
 	if calls := crawledPages.indexablePages(); len(calls) != 0 {
-		t.Fatalf("a not-modified fetch should report no crawled page, got %v", calls)
+		t.Fatalf("a not-modified fetch should publish no crawled page, got %v", calls)
 	}
 }
 

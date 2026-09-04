@@ -1,6 +1,6 @@
-// Package applog writes a log line for each crawled page the crawler reports, and for each
-// report that never leaves. It is the only place that decides how a fact reads and at which
-// level it is written.
+// Package applog writes a log line for each crawled page the crawler publishes, and for
+// each page that never leaves. It is the only place that decides how a fact reads and at
+// which level it is written.
 package applog
 
 import (
@@ -12,27 +12,27 @@ import (
 )
 
 const (
-	msgCrawledPageReported   = "crawled page reported"
+	msgCrawledPagePublished  = "crawled page published"
 	msgCrawledPageUnwritable = "crawled page cannot be written, " +
 		"no consumer ever hears of it"
-	msgCrawledPageNotReported = "crawled page not reported, " +
+	msgCrawledPageNotPublished = "crawled page not published, " +
 		"no consumer ever hears of it"
 )
 
-type CrawledPageLog struct{}
+type CrawledPagePublicationLog struct{}
 
-func (CrawledPageLog) CrawledPageReported(
+func (CrawledPagePublicationLog) CrawledPagePublished(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	indexing crawledpagesjetstream.PageIndexing,
 ) {
-	slog.DebugContext(ctx, msgCrawledPageReported,
+	slog.DebugContext(ctx, msgCrawledPagePublished,
 		slog.String("url", pageURL.String()),
 		slog.String("indexing", string(indexing)),
 	)
 }
 
-func (CrawledPageLog) CrawledPageEncodingFailed(
+func (CrawledPagePublicationLog) CrawledPageEncodingFailed(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	indexing crawledpagesjetstream.PageIndexing,
@@ -45,13 +45,13 @@ func (CrawledPageLog) CrawledPageEncodingFailed(
 	)
 }
 
-func (CrawledPageLog) CrawledPageReportingFailed(
+func (CrawledPagePublicationLog) CrawledPagePublishingFailed(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	indexing crawledpagesjetstream.PageIndexing,
 	cause error,
 ) {
-	slog.WarnContext(ctx, msgCrawledPageNotReported,
+	slog.WarnContext(ctx, msgCrawledPageNotPublished,
 		slog.String("url", pageURL.String()),
 		slog.String("indexing", string(indexing)),
 		slog.Any("error", cause),
