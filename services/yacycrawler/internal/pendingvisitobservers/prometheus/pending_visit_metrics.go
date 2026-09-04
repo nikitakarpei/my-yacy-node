@@ -11,58 +11,83 @@ import (
 )
 
 const (
-	labelOutcome = "outcome"
-	labelReason  = "reason"
+	labelReason = "reason"
 )
 
 type PendingVisitMetrics struct {
-	visitsProcessed *prometheusclient.CounterVec
-	pagesDisposed   *prometheusclient.CounterVec
+	pendingVisitsReturned         prometheusclient.Counter
+	pendingVisitsClaimedElsewhere prometheusclient.Counter
+	pendingVisitsDeferred         prometheusclient.Counter
+	pendingVisitsRetryScheduled   prometheusclient.Counter
+	pendingVisitsCompleted        prometheusclient.Counter
+	pagesDisposed                 *prometheusclient.CounterVec
 }
 
 func New(registry prometheusclient.Registerer) *PendingVisitMetrics {
 	metrics := &PendingVisitMetrics{
-		visitsProcessed: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
-			Name: "yacycrawler_pending_visits_processed_total",
-			Help: "Pending visits processed, by outcome.",
-		}, []string{labelOutcome}),
+		pendingVisitsReturned: prometheusclient.NewCounter(prometheusclient.CounterOpts{
+			Name: "yacycrawler_pending_visits_returned_total",
+			Help: "Pending visits returned for redelivery.",
+		}),
+		pendingVisitsClaimedElsewhere: prometheusclient.NewCounter(prometheusclient.CounterOpts{
+			Name: "yacycrawler_pending_visits_claimed_elsewhere_total",
+			Help: "Pending visits dropped because another message holds their claim.",
+		}),
+		pendingVisitsDeferred: prometheusclient.NewCounter(prometheusclient.CounterOpts{
+			Name: "yacycrawler_pending_visits_deferred_total",
+			Help: "Pending visits deferred until a later time.",
+		}),
+		pendingVisitsRetryScheduled: prometheusclient.NewCounter(prometheusclient.CounterOpts{
+			Name: "yacycrawler_pending_visits_retry_scheduled_total",
+			Help: "Pending visits scheduled for another attempt.",
+		}),
+		pendingVisitsCompleted: prometheusclient.NewCounter(prometheusclient.CounterOpts{
+			Name: "yacycrawler_pending_visits_completed_total",
+			Help: "Pending visits completed.",
+		}),
 		pagesDisposed: prometheusclient.NewCounterVec(prometheusclient.CounterOpts{
 			Name: "yacycrawler_pages_disposed_total",
 			Help: "Pages disposed before a visit could complete, by reason.",
 		}, []string{labelReason}),
 	}
-	registry.MustRegister(metrics.visitsProcessed, metrics.pagesDisposed)
+	registry.MustRegister(
+		metrics.pendingVisitsReturned,
+		metrics.pendingVisitsClaimedElsewhere,
+		metrics.pendingVisitsDeferred,
+		metrics.pendingVisitsRetryScheduled,
+		metrics.pendingVisitsCompleted,
+		metrics.pagesDisposed,
+	)
 	return metrics
 }
 
 func (metrics *PendingVisitMetrics) PendingVisitReturned(
 	context.Context, pendingvisit.PendingVisit, error,
 ) {
-	metrics.visitsProcessed.WithLabelValues("returned").Inc()
+	metrics.pendingVisitsReturned.Inc()
 }
 
 func (metrics *PendingVisitMetrics) PendingVisitDroppedBecauseClaimedElsewhere(
 	context.Context, pendingvisit.PendingVisit,
 ) {
-	metrics.visitsProcessed.WithLabelValues("claimed_elsewhere").Inc()
+	metrics.pendingVisitsClaimedElsewhere.Inc()
 }
 
 func (metrics *PendingVisitMetrics) PendingVisitDeferred(
 	context.Context, pendingvisit.PendingVisit, time.Duration,
 ) {
-	metrics.visitsProcessed.WithLabelValues("deferred").Inc()
+	metrics.pendingVisitsDeferred.Inc()
 }
 
 func (metrics *PendingVisitMetrics) PendingVisitRetryScheduled(
 	context.Context, pendingvisit.PendingVisit, time.Duration,
 ) {
-	metrics.visitsProcessed.WithLabelValues("retry_scheduled").Inc()
+	metrics.pendingVisitsRetryScheduled.Inc()
 }
 
 func (metrics *PendingVisitMetrics) PendingVisitDisposedPage(
 	_ context.Context, _ pendingvisit.PendingVisit, reason disposal.Reason,
 ) {
-	metrics.visitsProcessed.WithLabelValues("disposed").Inc()
 	metrics.pagesDisposed.WithLabelValues(string(reason)).Inc()
 }
 
@@ -70,5 +95,5 @@ func (metrics *PendingVisitMetrics) PendingVisitCompleted(
 	context.Context,
 	pendingvisit.PendingVisit,
 ) {
-	metrics.visitsProcessed.WithLabelValues("completed").Inc()
+	metrics.pendingVisitsCompleted.Inc()
 }

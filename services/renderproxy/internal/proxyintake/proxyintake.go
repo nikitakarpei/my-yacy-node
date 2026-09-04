@@ -16,18 +16,11 @@ const (
 )
 
 type ProxyEndpoint struct {
-	renderer         renderedpage.Renderer
-	deliveryObserver ProxyResponseDeliveryObserver
+	renderer renderedpage.Renderer
 }
 
-func New(
-	renderer renderedpage.Renderer,
-	deliveryObserver ProxyResponseDeliveryObserver,
-) *ProxyEndpoint {
-	return &ProxyEndpoint{
-		renderer:         renderer,
-		deliveryObserver: deliveryObserver,
-	}
+func New(renderer renderedpage.Renderer) *ProxyEndpoint {
+	return &ProxyEndpoint{renderer: renderer}
 }
 
 func (e *ProxyEndpoint) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -58,10 +51,8 @@ func (e *ProxyEndpoint) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	page.ReuseTerms.StateOn(w.Header())
 	w.WriteHeader(page.StatusCode)
 	if _, err := w.Write(page.Body); err != nil {
-		e.deliveryObserver.ProxyResponseDeliveryFailed(r.Context(), r.URL.String(), err)
 		return
 	}
-	e.deliveryObserver.ProxyResponseDelivered(r.Context(), r.URL.String())
 }
 
 func writeFailure(w http.ResponseWriter, err error) {

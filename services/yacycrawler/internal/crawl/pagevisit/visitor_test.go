@@ -106,10 +106,9 @@ func newObserver() *recordingObserver {
 	return &recordingObserver{refusals: map[string]int{}}
 }
 
-func (o *recordingObserver) PageFetchCompleted(
+func (o *recordingObserver) PageFetchSucceeded(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
-	_ pagefetch.FetchStatus,
 	duration time.Duration,
 ) {
 	o.mu.Lock()
@@ -118,11 +117,54 @@ func (o *recordingObserver) PageFetchCompleted(
 	o.fetched++
 }
 
-func (*recordingObserver) FetchConcluded(
-	context.Context,
-	canonicalurl.CanonicalURL,
-	pagefetch.FetchStatus,
+func (o *recordingObserver) PageFetchNotModified(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
 ) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) PageFetchAccessRefused(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) PageFetchDeferred(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+	_ time.Duration,
+) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) PageFetchRejected(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) PageFetchLandedURLInvalid(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+	_ error,
+) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) PageFetchRefusedOversizedPage(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+) {
+	o.recordFetchDuration(duration)
 }
 
 func (o *recordingObserver) PageFetchFailed(
@@ -131,6 +173,10 @@ func (o *recordingObserver) PageFetchFailed(
 	duration time.Duration,
 	_ error,
 ) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) recordFetchDuration(duration time.Duration) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	o.fetchDurations = append(o.fetchDurations, duration)

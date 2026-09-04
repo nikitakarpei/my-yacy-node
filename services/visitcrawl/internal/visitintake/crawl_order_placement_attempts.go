@@ -8,20 +8,24 @@ import (
 )
 
 type CrawlOrderPlacementAttempts struct {
-	place    func(ctx context.Context, order yacycrawlcontract.CrawlOrder) error
+	placer   CrawlOrderPlacer
 	observer CrawlOrderPlacementObserver
 	timeout  time.Duration
 	inFlight chan struct{}
 }
 
+type CrawlOrderPlacer interface {
+	Place(ctx context.Context, order yacycrawlcontract.CrawlOrder) error
+}
+
 func NewCrawlOrderPlacementAttempts(
-	place func(ctx context.Context, order yacycrawlcontract.CrawlOrder) error,
+	placer CrawlOrderPlacer,
 	observer CrawlOrderPlacementObserver,
 	timeout time.Duration,
 	maxInFlight int,
 ) *CrawlOrderPlacementAttempts {
 	return &CrawlOrderPlacementAttempts{
-		place:    place,
+		placer:   placer,
 		observer: observer,
 		timeout:  timeout,
 		inFlight: make(chan struct{}, maxInFlight),
@@ -44,7 +48,7 @@ func (p *CrawlOrderPlacementAttempts) Start(order yacycrawlcontract.CrawlOrder) 
 		ctx, cancel := context.WithTimeout(context.Background(), p.timeout)
 		defer cancel()
 
-		if err := p.place(ctx, order); err != nil {
+		if err := p.placer.Place(ctx, order); err != nil {
 			p.observer.CrawlOrderPlacementFailed(ctx, order.OrderID, err)
 			return
 		}

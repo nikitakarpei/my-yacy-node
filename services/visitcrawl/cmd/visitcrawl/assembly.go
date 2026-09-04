@@ -10,13 +10,14 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderbroker"
 	crawlorderplacementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderplacementobservers/applog"
 	crawlorderplacementobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderplacementobservers/prometheus"
-	visitedpageobserversapplog "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitedpageobservers/applog"
-	visitedpageobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitedpageobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitintake"
 )
 
@@ -32,10 +33,6 @@ func RunService(
 	cfg ServiceConfig,
 	registry *prometheus.Registry,
 ) error {
-	visitedPageObservers := visitintake.VisitedPageObservers{
-		visitedpageobserversapplog.VisitedPageLog{},
-		visitedpageobserversprometheus.New(registry),
-	}
 	crawlOrderPlacementObservers := visitintake.CrawlOrderPlacementObservers{
 		crawlorderplacementobserversapplog.CrawlOrderPlacementLog{},
 		crawlorderplacementobserversprometheus.New(registry),
@@ -50,17 +47,21 @@ func RunService(
 	defer broker.Close()
 
 	placementAttempts := visitintake.NewCrawlOrderPlacementAttempts(
-		broker.Orders.Place, crawlOrderPlacementObservers, cfg.OrderTimeout, cfg.MaxInFlight,
+		broker.Orders, crawlOrderPlacementObservers, cfg.OrderTimeout, cfg.MaxInFlight,
 	)
 
 	mux := http.NewServeMux()
 	visitintake.MountVisitIntake(
-		mux, placementAttempts.Start, cfg.CrawlProfile, visitedPageObservers, cfg.LinkSecret,
+		mux, placementAttempts, cfg.CrawlProfile, cfg.LinkSecret,
 	)
 
 	publicServer := &http.Server{
-		Addr:              cfg.ListenAddr,
-		Handler:           http.MaxBytesHandler(mux, cfg.MaxBodyBytes),
+		Addr: cfg.ListenAddr,
+		Handler: httpobservation.NewHandler(
+			http.MaxBytesHandler(mux, cfg.MaxBodyBytes),
+			httpaccesslog.New(),
+			httpmetrics.NewEndpointMetrics(registry, "visitcrawl"),
+		),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 	opsServer := &http.Server{

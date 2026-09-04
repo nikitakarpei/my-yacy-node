@@ -12,13 +12,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/cdprender"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/originpreflight"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/proxyintake"
-	proxyresponsedeliveryobserversapplog "github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/proxyresponsedeliveryobservers/applog"
-	proxyresponsedeliveryobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/proxyresponsedeliveryobservers/prometheus"
 	rendercapacityobserversapplog "github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendercapacityobservers/applog"
 	rendercapacityobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendercapacityobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendergate"
 	renderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderobservers/applog"
 	renderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
@@ -56,14 +57,16 @@ func RunService(
 		cfg.RenderConcurrency,
 		renderCapacityObservers,
 	)
-	deliveryObservers := proxyintake.ProxyResponseDeliveryObservers{
-		proxyresponsedeliveryobserversapplog.ProxyResponseDeliveryLog{},
-		proxyresponsedeliveryobserversprometheus.New(registry),
-	}
+	proxyMux := http.NewServeMux()
+	proxyMux.Handle("/", proxyintake.New(capacityLimitedRenderer))
 
 	proxyServer := &http.Server{
-		Addr:              cfg.ListenAddr,
-		Handler:           proxyintake.New(capacityLimitedRenderer, deliveryObservers),
+		Addr: cfg.ListenAddr,
+		Handler: httpobservation.NewHandler(
+			proxyMux,
+			httpaccesslog.New(),
+			httpmetrics.NewEndpointMetrics(registry, "renderproxy"),
+		),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 	opsServer := &http.Server{

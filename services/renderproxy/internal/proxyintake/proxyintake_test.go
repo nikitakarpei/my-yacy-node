@@ -17,10 +17,6 @@ type stubRenderer struct {
 	err  error
 }
 
-func newProxyEndpoint(renderer renderedpage.Renderer) *proxyintake.ProxyEndpoint {
-	return proxyintake.New(renderer, proxyintake.ProxyResponseDeliveryObservers{})
-}
-
 func (s stubRenderer) Render(
 	context.Context,
 	renderedpage.Target,
@@ -29,7 +25,7 @@ func (s stubRenderer) Render(
 }
 
 func TestServeHTTPRefusesConnect(t *testing.T) {
-	handler := newProxyEndpoint(stubRenderer{})
+	handler := proxyintake.New(stubRenderer{})
 	req := httptest.NewRequestWithContext(
 		context.Background(),
 		http.MethodConnect,
@@ -46,7 +42,7 @@ func TestServeHTTPRefusesConnect(t *testing.T) {
 }
 
 func TestServeHTTPRejectsNonAbsoluteRequest(t *testing.T) {
-	handler := newProxyEndpoint(stubRenderer{})
+	handler := proxyintake.New(stubRenderer{})
 	req := httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/path", nil)
 	rec := httptest.NewRecorder()
 
@@ -58,7 +54,7 @@ func TestServeHTTPRejectsNonAbsoluteRequest(t *testing.T) {
 }
 
 func TestServeHTTPReturnsRenderedPage(t *testing.T) {
-	handler := newProxyEndpoint(stubRenderer{page: renderedpage.Page{
+	handler := proxyintake.New(stubRenderer{page: renderedpage.Page{
 		StatusCode:  http.StatusOK,
 		ContentType: "text/html",
 		Body:        []byte("<html>hi</html>"),
@@ -85,7 +81,7 @@ func TestServeHTTPReturnsRenderedPage(t *testing.T) {
 }
 
 func TestServeHTTPRelaysRedirectLocation(t *testing.T) {
-	handler := newProxyEndpoint(stubRenderer{page: renderedpage.Page{
+	handler := proxyintake.New(stubRenderer{page: renderedpage.Page{
 		StatusCode: http.StatusMovedPermanently,
 		Location:   "https://example.com/final",
 	}})
@@ -121,32 +117,11 @@ func (w *failingResponseWriter) Header() http.Header {
 func (w *failingResponseWriter) WriteHeader(code int)      { w.code = code }
 func (w *failingResponseWriter) Write([]byte) (int, error) { return 0, errors.New("client gone") }
 
-type recordingProxyResponseDelivery struct {
-	proxyResponsesDelivered    int
-	proxyResponsesNotDelivered int
-}
-
-func (p *recordingProxyResponseDelivery) ProxyResponseDelivered(context.Context, string) {
-	p.proxyResponsesDelivered++
-}
-
-func (p *recordingProxyResponseDelivery) ProxyResponseDeliveryFailed(
-	context.Context,
-	string,
-	error,
-) {
-	p.proxyResponsesNotDelivered++
-}
-
 func TestServeHTTPSurvivesWriteFailure(t *testing.T) {
-	delivery := &recordingProxyResponseDelivery{}
-	handler := proxyintake.New(
-		stubRenderer{page: renderedpage.Page{
-			StatusCode: http.StatusOK,
-			Body:       []byte("<html>hi</html>"),
-		}},
-		delivery,
-	)
+	handler := proxyintake.New(stubRenderer{page: renderedpage.Page{
+		StatusCode: http.StatusOK,
+		Body:       []byte("<html>hi</html>"),
+	}})
 	req := httptest.NewRequestWithContext(
 		context.Background(),
 		http.MethodGet,
@@ -160,38 +135,10 @@ func TestServeHTTPSurvivesWriteFailure(t *testing.T) {
 	if w.code != http.StatusOK {
 		t.Fatalf("status = %d, want %d", w.code, http.StatusOK)
 	}
-	if delivery.proxyResponsesNotDelivered != 1 || delivery.proxyResponsesDelivered != 0 {
-		t.Fatalf(
-			"delivered = %d, not delivered = %d",
-			delivery.proxyResponsesDelivered,
-			delivery.proxyResponsesNotDelivered,
-		)
-	}
-}
-
-func TestServeHTTPReportsProxyResponseDelivered(t *testing.T) {
-	delivery := &recordingProxyResponseDelivery{}
-	handler := proxyintake.New(
-		stubRenderer{page: renderedpage.Page{StatusCode: http.StatusOK}},
-		delivery,
-	)
-	req := httptest.NewRequestWithContext(
-		context.Background(), http.MethodGet, "http://example.com/", nil,
-	)
-
-	handler.ServeHTTP(httptest.NewRecorder(), req)
-
-	if delivery.proxyResponsesDelivered != 1 || delivery.proxyResponsesNotDelivered != 0 {
-		t.Fatalf(
-			"delivered = %d, not delivered = %d",
-			delivery.proxyResponsesDelivered,
-			delivery.proxyResponsesNotDelivered,
-		)
-	}
 }
 
 func TestServeHTTPFailsOnDeadlineExceeded(t *testing.T) {
-	handler := newProxyEndpoint(stubRenderer{err: context.DeadlineExceeded})
+	handler := proxyintake.New(stubRenderer{err: context.DeadlineExceeded})
 	req := httptest.NewRequestWithContext(
 		context.Background(),
 		http.MethodGet,
@@ -208,7 +155,7 @@ func TestServeHTTPFailsOnDeadlineExceeded(t *testing.T) {
 }
 
 func TestServeHTTPFailsOnRenderError(t *testing.T) {
-	handler := newProxyEndpoint(stubRenderer{err: errors.New("browser unreachable")})
+	handler := proxyintake.New(stubRenderer{err: errors.New("browser unreachable")})
 	req := httptest.NewRequestWithContext(
 		context.Background(),
 		http.MethodGet,
@@ -227,7 +174,7 @@ func TestServeHTTPFailsOnRenderError(t *testing.T) {
 func TestServeHTTPStatesOriginReuseTermsOnTheClientResponse(t *testing.T) {
 	originResponseHeader := http.Header{}
 	originResponseHeader.Set("ETag", `"v1"`)
-	handler := newProxyEndpoint(stubRenderer{page: renderedpage.Page{
+	handler := proxyintake.New(stubRenderer{page: renderedpage.Page{
 		StatusCode: http.StatusNotModified,
 		ReuseTerms: pagefreshness.ReuseTermsOf(originResponseHeader),
 	}})
@@ -272,7 +219,7 @@ func TestServeHTTPPassesClientConditionsToTheRenderer(t *testing.T) {
 	)
 	req.Header.Set("If-Modified-Since", "Mon, 02 Jan 2006 15:04:05 GMT")
 
-	newProxyEndpoint(renderer).ServeHTTP(httptest.NewRecorder(), req)
+	proxyintake.New(renderer).ServeHTTP(httptest.NewRecorder(), req)
 
 	if got := renderer.statedConditions.Get("If-Modified-Since"); got == "" {
 		t.Fatal("if-modified-since did not reach the renderer")

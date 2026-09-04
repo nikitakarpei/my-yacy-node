@@ -10,6 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -331,7 +332,7 @@ func assembleNode(
 		peerHandler: httpobservation.NewHandler(
 			mux,
 			httpaccesslog.New(),
-			endpointMetricsObserver{endpoints: metrics.NewHTTPEndpointMetrics(registry)},
+			httpmetrics.NewEndpointMetrics(registry, "yacynode"),
 		),
 		evictionSweeper: eviction.NewSweeper(
 			vault,

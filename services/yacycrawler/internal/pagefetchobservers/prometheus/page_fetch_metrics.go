@@ -7,7 +7,6 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
 const labelOutcome = "outcome"
@@ -32,45 +31,55 @@ func New(registry prometheusclient.Registerer) *PageFetchMetrics {
 	return metrics
 }
 
-func (metrics *PageFetchMetrics) PageFetchCompleted(
-	_ context.Context,
-	_ canonicalurl.CanonicalURL,
-	status pagefetch.FetchStatus,
-	duration time.Duration,
+func (m *PageFetchMetrics) PageFetchSucceeded(
+	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration,
 ) {
-	metrics.record(pageFetchOutcome(status), duration)
+	m.record("succeeded", fetchDuration)
 }
 
-func (metrics *PageFetchMetrics) PageFetchFailed(
-	_ context.Context, _ canonicalurl.CanonicalURL, duration time.Duration, _ error,
+func (m *PageFetchMetrics) PageFetchNotModified(
+	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration,
 ) {
-	metrics.record("error", duration)
+	m.record("not_modified", fetchDuration)
 }
 
-func (metrics *PageFetchMetrics) record(outcome string, duration time.Duration) {
-	metrics.pagesProcessed.WithLabelValues(outcome).Inc()
-	metrics.pageFetchSeconds.Observe(duration.Seconds())
+func (m *PageFetchMetrics) PageFetchAccessRefused(
+	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration,
+) {
+	m.record("access_refused", fetchDuration)
 }
 
-func pageFetchOutcome(status pagefetch.FetchStatus) string {
-	switch status {
-	case pagefetch.FetchSucceeded:
-		return "succeeded"
-	case pagefetch.FetchNotModified:
-		return "not_modified"
-	case pagefetch.FetchAccessRefused:
-		return "access_refused"
-	case pagefetch.FetchDeferred:
-		return "deferred"
-	case pagefetch.FetchRejected:
-		return "rejected"
-	case pagefetch.FetchLandedURLInvalid:
-		return "landed_url_invalid"
-	case pagefetch.FetchOversized:
-		return "oversized"
-	case pagefetch.FetchFailed:
-		return "failed"
-	default:
-		return "unknown"
-	}
+func (m *PageFetchMetrics) PageFetchDeferred(
+	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration, _ time.Duration,
+) {
+	m.record("deferred", fetchDuration)
+}
+
+func (m *PageFetchMetrics) PageFetchRejected(
+	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration,
+) {
+	m.record("rejected", fetchDuration)
+}
+
+func (m *PageFetchMetrics) PageFetchLandedURLInvalid(
+	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration, _ error,
+) {
+	m.record("landed_url_invalid", fetchDuration)
+}
+
+func (m *PageFetchMetrics) PageFetchRefusedOversizedPage(
+	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration,
+) {
+	m.record("oversized", fetchDuration)
+}
+
+func (m *PageFetchMetrics) PageFetchFailed(
+	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration, _ error,
+) {
+	m.record("failed", fetchDuration)
+}
+
+func (m *PageFetchMetrics) record(outcome string, fetchDuration time.Duration) {
+	m.pagesProcessed.WithLabelValues(outcome).Inc()
+	m.pageFetchSeconds.Observe(fetchDuration.Seconds())
 }

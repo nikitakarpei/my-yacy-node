@@ -17,6 +17,29 @@ type recordingCrawlOrderPlacementObserver struct {
 	unplaced int
 }
 
+type successfulCrawlOrderPlacer struct{}
+
+func (successfulCrawlOrderPlacer) Place(context.Context, yacycrawlcontract.CrawlOrder) error {
+	return nil
+}
+
+type failingCrawlOrderPlacer struct{}
+
+func (failingCrawlOrderPlacer) Place(context.Context, yacycrawlcontract.CrawlOrder) error {
+	return errors.New("broker down")
+}
+
+type blockingCrawlOrderPlacer struct {
+	started sync.WaitGroup
+	release <-chan struct{}
+}
+
+func (p *blockingCrawlOrderPlacer) Place(context.Context, yacycrawlcontract.CrawlOrder) error {
+	p.started.Done()
+	<-p.release
+	return nil
+}
+
 func (o *recordingCrawlOrderPlacementObserver) CrawlOrderPlaced(context.Context, string) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
@@ -71,7 +94,7 @@ func waitFor(t *testing.T, condition func() bool) {
 func TestCrawlOrderPlacementAttemptsRecordsSuccess(t *testing.T) {
 	observer := &recordingCrawlOrderPlacementObserver{}
 	placementAttempts := visitintake.NewCrawlOrderPlacementAttempts(
-		func(_ context.Context, _ yacycrawlcontract.CrawlOrder) error { return nil },
+		successfulCrawlOrderPlacer{},
 		observer, time.Second, 1,
 	)
 	placementAttempts.Start(yacycrawlcontract.CrawlOrder{OrderID: "o1"})
@@ -84,7 +107,7 @@ func TestCrawlOrderPlacementAttemptsRecordsSuccess(t *testing.T) {
 func TestCrawlOrderPlacementAttemptsRecordsFailure(t *testing.T) {
 	observer := &recordingCrawlOrderPlacementObserver{}
 	placementAttempts := visitintake.NewCrawlOrderPlacementAttempts(
-		func(_ context.Context, _ yacycrawlcontract.CrawlOrder) error { return errors.New("broker down") },
+		failingCrawlOrderPlacer{},
 		observer,
 		time.Second,
 		1,
@@ -95,21 +118,19 @@ func TestCrawlOrderPlacementAttemptsRecordsFailure(t *testing.T) {
 
 func TestCrawlOrderPlacementAttemptsSaturationSkipsWithoutBlocking(t *testing.T) {
 	release := make(chan struct{})
-	var started sync.WaitGroup
-	started.Add(1)
 
 	observer := &recordingCrawlOrderPlacementObserver{}
+	placer := &blockingCrawlOrderPlacer{release: release}
+	placer.started.Add(1)
 	placementAttempts := visitintake.NewCrawlOrderPlacementAttempts(
-		func(_ context.Context, _ yacycrawlcontract.CrawlOrder) error {
-			started.Done()
-			<-release
-			return nil
-		},
-		observer, time.Second, 1,
+		placer,
+		observer,
+		time.Second,
+		1,
 	)
 
 	placementAttempts.Start(yacycrawlcontract.CrawlOrder{OrderID: "o1"})
-	started.Wait()
+	placer.started.Wait()
 
 	done := make(chan struct{})
 	go func() {

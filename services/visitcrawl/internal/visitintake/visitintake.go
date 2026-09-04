@@ -12,17 +12,19 @@ import (
 
 const PathVisit = "/visit"
 
+type CrawlOrderPlacement interface {
+	Start(order yacycrawlcontract.CrawlOrder)
+}
+
 func MountVisitIntake(
 	mux *http.ServeMux,
-	startCrawlOrderPlacementAttempt func(order yacycrawlcontract.CrawlOrder),
+	placement CrawlOrderPlacement,
 	profile yacycrawlcontract.CrawlProfile,
-	visitedPageObserver VisitedPageObserver,
 	linkSecret string,
 ) {
 	mux.Handle(PathVisit, visitedPageEndpoint{
-		startCrawlOrderPlacementAttempt: startCrawlOrderPlacementAttempt,
-		profile:                         profile,
-		observer:                        visitedPageObserver,
-		linkSecret:                      linkSecret,
+		placement:  placement,
+		profile:    profile,
+		linkSecret: linkSecret,
 	})
 }

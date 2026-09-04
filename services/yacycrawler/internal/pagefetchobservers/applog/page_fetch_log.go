@@ -6,26 +6,83 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
 const (
-	msgPageFetchCompleted = "page fetch completed"
-	msgPageFetchFailed    = "page fetch failed"
+	msgPageFetchSucceeded            = "page fetch succeeded"
+	msgPageFetchNotModified          = "page fetch not modified"
+	msgPageFetchAccessRefused        = "page fetch access refused"
+	msgPageFetchDeferred             = "page fetch deferred"
+	msgPageFetchRejected             = "page fetch rejected"
+	msgPageFetchLandedURLInvalid     = "page fetch landed url invalid"
+	msgPageFetchRefusedOversizedPage = "page fetch refused oversized page"
+	msgPageFetchFailed               = "page fetch failed"
 )
 
 type PageFetchLog struct{}
 
-func (PageFetchLog) PageFetchCompleted(
+func (PageFetchLog) PageFetchSucceeded(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
-	status pagefetch.FetchStatus,
 	_ time.Duration,
 ) {
-	slog.DebugContext(ctx, msgPageFetchCompleted,
+	slog.DebugContext(ctx, msgPageFetchSucceeded, slog.String("url", pageURL.String()))
+}
+
+func (PageFetchLog) PageFetchNotModified(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	_ time.Duration,
+) {
+	slog.DebugContext(ctx, msgPageFetchNotModified, slog.String("url", pageURL.String()))
+}
+
+func (PageFetchLog) PageFetchAccessRefused(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	_ time.Duration,
+) {
+	slog.DebugContext(ctx, msgPageFetchAccessRefused, slog.String("url", pageURL.String()))
+}
+
+func (PageFetchLog) PageFetchDeferred(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	_ time.Duration,
+	deferFor time.Duration,
+) {
+	slog.DebugContext(ctx, msgPageFetchDeferred,
 		slog.String("url", pageURL.String()),
-		slog.Int("status", int(status)),
+		slog.Duration("deferFor", deferFor),
 	)
+}
+
+func (PageFetchLog) PageFetchRejected(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	_ time.Duration,
+) {
+	slog.DebugContext(ctx, msgPageFetchRejected, slog.String("url", pageURL.String()))
+}
+
+func (PageFetchLog) PageFetchLandedURLInvalid(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	_ time.Duration,
+	cause error,
+) {
+	slog.WarnContext(ctx, msgPageFetchLandedURLInvalid,
+		slog.String("url", pageURL.String()),
+		slog.Any("error", cause),
+	)
+}
+
+func (PageFetchLog) PageFetchRefusedOversizedPage(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	_ time.Duration,
+) {
+	slog.DebugContext(ctx, msgPageFetchRefusedOversizedPage, slog.String("url", pageURL.String()))
 }
 
 func (PageFetchLog) PageFetchFailed(

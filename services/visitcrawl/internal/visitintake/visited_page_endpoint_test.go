@@ -24,40 +24,19 @@ type recordingPlacement struct {
 	attempts int
 }
 
-func (p *recordingPlacement) Attempt(order yacycrawlcontract.CrawlOrder) {
+func (p *recordingPlacement) Start(order yacycrawlcontract.CrawlOrder) {
 	p.order = order
 	p.attempts++
 }
 
-type recordingVisitedPageObserver struct {
-	redirected    int
-	rejected      int
-	methodRefused int
-}
-
-func (o *recordingVisitedPageObserver) VisitedPageRedirected(context.Context, string) {
-	o.redirected++
-}
-
-func (o *recordingVisitedPageObserver) VisitedPageRejected(context.Context, error) {
-	o.rejected++
-}
-
-func (o *recordingVisitedPageObserver) VisitedPageMethodRefused(context.Context, string) {
-	o.methodRefused++
-}
-
 const linkSecret = "shared-secret"
 
-func mount(
-	placement *recordingPlacement,
-	observer visitintake.VisitedPageObserver,
-) *http.ServeMux {
+func mount(placement visitintake.CrawlOrderPlacement) *http.ServeMux {
 	mux := http.NewServeMux()
 	profile := yacycrawlcontract.CrawlProfile{
 		Scope: yacycrawlcontract.ScopeDomain,
 	}
-	visitintake.MountVisitIntake(mux, placement.Attempt, profile, observer, linkSecret)
+	visitintake.MountVisitIntake(mux, placement, profile, linkSecret)
 	return mux
 }
 
@@ -83,8 +62,7 @@ func get(mux *http.ServeMux, target string) *httptest.ResponseRecorder {
 
 func TestVisitRedirectsAndAttemptsPlacement(t *testing.T) {
 	placement := &recordingPlacement{}
-	observer := &recordingVisitedPageObserver{}
-	rec := get(mount(placement, observer), currentTarget("https://example.org/a"))
+	rec := get(mount(placement), currentTarget("https://example.org/a"))
 
 	if rec.Code != http.StatusFound {
 		t.Fatalf("status = %d, want 302", rec.Code)
@@ -102,24 +80,17 @@ func TestVisitRedirectsAndAttemptsPlacement(t *testing.T) {
 	if placement.order.OrderID == "" {
 		t.Fatal("order id is empty")
 	}
-	if observer.redirected != 1 {
-		t.Fatalf("redirected = %d, want 1", observer.redirected)
-	}
 }
 
 func TestVisitRejectsMissingURL(t *testing.T) {
 	placement := &recordingPlacement{}
-	observer := &recordingVisitedPageObserver{}
-	rec := get(mount(placement, observer), visitintake.PathVisit)
+	rec := get(mount(placement), visitintake.PathVisit)
 
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("status = %d, want 400", rec.Code)
 	}
 	if placement.attempts != 0 {
 		t.Fatal("placement should not be attempted")
-	}
-	if observer.rejected != 1 {
-		t.Fatalf("rejected = %d, want 1", observer.rejected)
 	}
 }
 
@@ -133,7 +104,7 @@ func TestVisitRejectsMalformedLinks(t *testing.T) {
 			"?url=https%3A%2F%2Fexample.org%2Fa&expires=9999999999",
 	} {
 		placement := &recordingPlacement{}
-		rec := get(mount(placement, &recordingVisitedPageObserver{}), target)
+		rec := get(mount(placement), target)
 		if rec.Code != http.StatusBadRequest {
 			t.Errorf("%s: status = %d, want 400", name, rec.Code)
 		}
@@ -145,9 +116,8 @@ func TestVisitRejectsMalformedLinks(t *testing.T) {
 
 func TestVisitRejectsLinkSignedWithAnotherSecret(t *testing.T) {
 	placement := &recordingPlacement{}
-	observer := &recordingVisitedPageObserver{}
 	target := signedTarget("https://example.org/a", time.Now().Add(time.Minute), "another-secret")
-	rec := get(mount(placement, observer), target)
+	rec := get(mount(placement), target)
 
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("status = %d, want 400", rec.Code)
@@ -155,16 +125,13 @@ func TestVisitRejectsLinkSignedWithAnotherSecret(t *testing.T) {
 	if placement.attempts != 0 {
 		t.Fatal("placement should not be attempted")
 	}
-	if observer.rejected != 1 {
-		t.Fatalf("rejected = %d, want 1", observer.rejected)
-	}
 }
 
 func TestVisitRejectsReplacedVisitedPage(t *testing.T) {
 	placement := &recordingPlacement{}
 	target := currentTarget("https://example.org/a")
 	tampered := strings.Replace(target, "example.org", "evil.example", 1)
-	rec := get(mount(placement, &recordingVisitedPageObserver{}), tampered)
+	rec := get(mount(placement), tampered)
 
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("status = %d, want 400", rec.Code)
@@ -176,9 +143,8 @@ func TestVisitRejectsReplacedVisitedPage(t *testing.T) {
 
 func TestVisitRejectsExpiredLink(t *testing.T) {
 	placement := &recordingPlacement{}
-	observer := &recordingVisitedPageObserver{}
 	target := signedTarget("https://example.org/a", time.Now().Add(-time.Minute), linkSecret)
-	rec := get(mount(placement, observer), target)
+	rec := get(mount(placement), target)
 
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("status = %d, want 400", rec.Code)
@@ -186,14 +152,10 @@ func TestVisitRejectsExpiredLink(t *testing.T) {
 	if placement.attempts != 0 {
 		t.Fatal("placement should not be attempted")
 	}
-	if observer.rejected != 1 {
-		t.Fatalf("rejected = %d, want 1", observer.rejected)
-	}
 }
 
 func TestVisitRejectsNonGet(t *testing.T) {
-	observer := &recordingVisitedPageObserver{}
-	mux := mount(&recordingPlacement{}, observer)
+	mux := mount(&recordingPlacement{})
 	req := httptest.NewRequestWithContext(
 		context.Background(), http.MethodPost, visitintake.PathVisit, nil,
 	)
@@ -201,8 +163,5 @@ func TestVisitRejectsNonGet(t *testing.T) {
 	mux.ServeHTTP(rec, req)
 	if rec.Code != http.StatusMethodNotAllowed {
 		t.Fatalf("status = %d, want 405", rec.Code)
-	}
-	if observer.methodRefused != 1 {
-		t.Fatalf("method refused = %d, want 1", observer.methodRefused)
 	}
 }

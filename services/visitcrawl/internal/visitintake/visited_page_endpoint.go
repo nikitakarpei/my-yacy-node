@@ -26,15 +26,13 @@ var (
 )
 
 type visitedPageEndpoint struct {
-	startCrawlOrderPlacementAttempt func(order yacycrawlcontract.CrawlOrder)
-	profile                         yacycrawlcontract.CrawlProfile
-	observer                        VisitedPageObserver
-	linkSecret                      string
+	placement  CrawlOrderPlacement
+	profile    yacycrawlcontract.CrawlProfile
+	linkSecret string
 }
 
 func (e visitedPageEndpoint) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodGet {
-		e.observer.VisitedPageMethodRefused(req.Context(), req.Method)
 		w.Header().Set("Allow", http.MethodGet)
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -59,9 +57,8 @@ func (e visitedPageEndpoint) ServeHTTP(w http.ResponseWriter, req *http.Request)
 		return
 	}
 
-	e.startCrawlOrderPlacementAttempt(crawlOrderFor(seedURL, e.profile))
+	e.placement.Start(crawlOrderFor(seedURL, e.profile))
 
-	e.observer.VisitedPageRedirected(req.Context(), link.VisitedPage)
 	http.Redirect(w, req, link.VisitedPage, http.StatusFound)
 }
 
@@ -123,6 +120,5 @@ func (e visitedPageEndpoint) rejectVisit(
 	w http.ResponseWriter,
 	err error,
 ) {
-	e.observer.VisitedPageRejected(ctx, err)
 	http.Error(w, err.Error(), http.StatusBadRequest)
 }
