@@ -3,7 +3,6 @@ package linkdiscovery
 
 import (
 	"context"
-	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
@@ -12,32 +11,28 @@ import (
 const (
 	elementAnchor = "a"
 	elementBase   = "base"
-
-	msgBaseHrefUnresolved  = "base href unresolved, using page url"
-	msgLinkHrefsUnresolved = "link hrefs unresolved, left off the frontier"
 )
 
-func LinkedURLsFrom(
+type LinkDiscovery struct {
+	observer LinkResolutionObserver
+}
+
+func NewLinkDiscovery(observer LinkResolutionObserver) *LinkDiscovery {
+	return &LinkDiscovery{observer: observer}
+}
+
+func (discovery *LinkDiscovery) LinkedURLsFrom(
 	ctx context.Context,
 	elementTree pagehtml.ElementTree,
 	pageURL canonicalurl.CanonicalURL,
 ) []canonicalurl.CanonicalURL {
-	baseURL := baseURLOf(ctx, pageURL, baseHrefOf(elementTree))
+	baseURL := discovery.baseURLOf(ctx, pageURL, baseHrefOf(elementTree))
 	urls, unresolved := distinctURLsFrom(linkHrefsOf(elementTree), baseURL)
-	reportUnresolvedLinkHrefs(ctx, baseURL, unresolved)
+	discovery.reportUnresolvedLinkHrefs(ctx, baseURL, unresolved)
 	return urls
 }
 
-func baseHrefOf(elementTree pagehtml.ElementTree) string {
-	for element := range elementTree.ElementsNamed(elementBase) {
-		if href, ok := element.AttributeOf("href"); ok {
-			return href
-		}
-	}
-	return ""
-}
-
-func baseURLOf(
+func (discovery *LinkDiscovery) baseURLOf(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	baseHref string,
@@ -47,14 +42,30 @@ func baseURLOf(
 	}
 	base, err := pageURL.CanonicalURLOfLink(baseHref)
 	if err != nil {
-		slog.WarnContext(ctx, msgBaseHrefUnresolved,
-			slog.String("url", pageURL.String()),
-			slog.String("baseHref", baseHref),
-			slog.Any("error", err),
-		)
+		discovery.observer.BaseHrefUnresolved(ctx, pageURL, baseHref, err)
 		return pageURL
 	}
 	return base
+}
+
+func (discovery *LinkDiscovery) reportUnresolvedLinkHrefs(
+	ctx context.Context,
+	baseURL canonicalurl.CanonicalURL,
+	unresolved int,
+) {
+	if unresolved == 0 {
+		return
+	}
+	discovery.observer.LinkHrefsUnresolved(ctx, baseURL, unresolved)
+}
+
+func baseHrefOf(elementTree pagehtml.ElementTree) string {
+	for element := range elementTree.ElementsNamed(elementBase) {
+		if href, ok := element.AttributeOf("href"); ok {
+			return href
+		}
+	}
+	return ""
 }
 
 func linkHrefsOf(elementTree pagehtml.ElementTree) []string {
@@ -87,18 +98,4 @@ func distinctURLsFrom(
 		urls = append(urls, canonical)
 	}
 	return urls, unresolved
-}
-
-func reportUnresolvedLinkHrefs(
-	ctx context.Context,
-	baseURL canonicalurl.CanonicalURL,
-	unresolved int,
-) {
-	if unresolved == 0 {
-		return
-	}
-	slog.WarnContext(ctx, msgLinkHrefsUnresolved,
-		slog.String("url", baseURL.String()),
-		slog.Int("hrefs", unresolved),
-	)
 }

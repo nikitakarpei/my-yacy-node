@@ -1,11 +1,15 @@
 package pagehtmlreading_test
 
 import (
+	"context"
 	"errors"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 )
@@ -27,13 +31,20 @@ func pageHolding(t *testing.T, markup string) pagefetch.FetchedPage {
 	}
 }
 
+func htmlPageReading() *pagehtmlreading.HTMLPageReading {
+	return pagehtmlreading.NewHTMLPageReading(
+		pagehtml.NewHTMLParser(silentMediaTypeObserver{}),
+		linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
+	)
+}
+
 func readingOf(
 	t *testing.T,
 	page pagefetch.FetchedPage,
 	ignored pagerefusals.IgnoredRefusals,
 ) pagehtmlreading.Reading {
 	t.Helper()
-	reading, err := pagehtmlreading.ReadingOfPage(t.Context(), page, ignored)
+	reading, err := htmlPageReading().ReadingOfPage(t.Context(), page, ignored)
 	if err != nil {
 		t.Fatalf("ReadingOfPage: %v", err)
 	}
@@ -44,7 +55,9 @@ func TestReadingOfPageRejectsABodyThatIsNotHTML(t *testing.T) {
 	page := pageHolding(t, pageLinkingNext)
 	page.ContentType = "application/pdf"
 
-	_, err := pagehtmlreading.ReadingOfPage(t.Context(), page, pagerefusals.IgnoredRefusals{})
+	_, err := htmlPageReading().ReadingOfPage(
+		t.Context(), page, pagerefusals.IgnoredRefusals{},
+	)
 
 	if !errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
 		t.Fatalf("want ErrPageNotHTML, got %v", err)
@@ -99,4 +112,20 @@ func TestReadingOfPageDropsAnIndexingRefusalTheOrderIgnores(t *testing.T) {
 	if reading.Refusals.RefusesIndexing {
 		t.Fatal("an ignored indexing refusal is not reported")
 	}
+}
+
+type silentMediaTypeObserver struct{}
+
+func (silentMediaTypeObserver) MediaTypeUnparsed(context.Context, string, error) {}
+
+type silentLinkResolutionObserver struct{}
+
+func (silentLinkResolutionObserver) BaseHrefUnresolved(
+	context.Context, canonicalurl.CanonicalURL, string, error,
+) {
+}
+
+func (silentLinkResolutionObserver) LinkHrefsUnresolved(
+	context.Context, canonicalurl.CanonicalURL, int,
+) {
 }

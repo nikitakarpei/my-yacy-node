@@ -1,6 +1,7 @@
 package pagerefusals_test
 
 import (
+	"context"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
@@ -18,7 +19,9 @@ func refusalsOfPage(
 	pageHTML string,
 ) pagerefusals.Refusals {
 	t.Helper()
-	elementTree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(pageHTML))
+	elementTree, err := pagehtml.NewHTMLParser(silentMediaTypeObserver{}).ElementTreeFrom(
+		t.Context(), "text/html", []byte(pageHTML),
+	)
 	if err != nil {
 		t.Fatalf("ElementTreeFrom: %v", err)
 	}
@@ -88,3 +91,7 @@ func TestAPageRefusesWhateverEitherItsDirectivesOrItsHTMLRefuse(t *testing.T) {
 		t.Fatalf("refusals = %+v, want both", refusals)
 	}
 }
+
+type silentMediaTypeObserver struct{}
+
+func (silentMediaTypeObserver) MediaTypeUnparsed(context.Context, string, error) {}

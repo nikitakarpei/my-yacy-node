@@ -9,36 +9,65 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 )
 
 var ErrPageNotHTML = errors.New("page is not html")
 
+type HTMLParser interface {
+	ElementTreeFrom(
+		ctx context.Context,
+		contentType string,
+		body []byte,
+	) (pagehtml.ElementTree, error)
+}
+
+type LinkDiscovery interface {
+	LinkedURLsFrom(
+		ctx context.Context,
+		elementTree pagehtml.ElementTree,
+		pageURL canonicalurl.CanonicalURL,
+	) []canonicalurl.CanonicalURL
+}
+
 type Reading struct {
 	Refusals       pagerefusals.Refusals
 	DiscoveredURLs []canonicalurl.CanonicalURL
 }
 
-func ReadingOfPage(
+type HTMLPageReading struct {
+	htmlParser    HTMLParser
+	linkDiscovery LinkDiscovery
+}
+
+func NewHTMLPageReading(
+	htmlParser HTMLParser,
+	linkDiscovery LinkDiscovery,
+) *HTMLPageReading {
+	return &HTMLPageReading{htmlParser: htmlParser, linkDiscovery: linkDiscovery}
+}
+
+func (reading *HTMLPageReading) ReadingOfPage(
 	ctx context.Context,
 	page pagefetch.FetchedPage,
 	ignored pagerefusals.IgnoredRefusals,
 ) (Reading, error) {
-	elementTree, err := pagehtml.ElementTreeFrom(ctx, page.ContentType, page.Body)
+	elementTree, err := reading.htmlParser.ElementTreeFrom(ctx, page.ContentType, page.Body)
 	if err != nil {
 		return Reading{}, fmt.Errorf("%w: %w", ErrPageNotHTML, err)
 	}
 	refusals := pagerefusals.RefusalsOfPage(page.RobotsDirectives, elementTree).
 		HonoredBy(ignored)
 	return Reading{
-		Refusals:       refusals,
-		DiscoveredURLs: discoveredURLsFrom(ctx, elementTree, page.LandedURL, refusals),
+		Refusals: refusals,
+		DiscoveredURLs: reading.discoveredURLsFrom(
+			ctx, elementTree, page.LandedURL, refusals,
+		),
 	}, nil
 }
 
-func discoveredURLsFrom(
+func (reading *HTMLPageReading) discoveredURLsFrom(
 	ctx context.Context,
 	elementTree pagehtml.ElementTree,
 	landedURL canonicalurl.CanonicalURL,
@@ -47,5 +76,5 @@ func discoveredURLsFrom(
 	if refusals.RefusesLinkDiscovery {
 		return nil
 	}
-	return linkdiscovery.LinkedURLsFrom(ctx, elementTree, landedURL)
+	return reading.linkDiscovery.LinkedURLsFrom(ctx, elementTree, landedURL)
 }

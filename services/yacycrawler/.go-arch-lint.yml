@@ -65,10 +65,18 @@ components:
     in: internal/pagefetchobservers/applog/**
   pagefetchobserversprometheus:
     in: internal/pagefetchobservers/prometheus/**
-  pagereadingobserversapplog:
-    in: internal/pagereadingobservers/applog/**
-  pagereadingobserversprometheus:
-    in: internal/pagereadingobservers/prometheus/**
+  mediatypeobserversapplog:
+    in: internal/mediatypeobservers/applog/**
+  mediatypeobserversprometheus:
+    in: internal/mediatypeobservers/prometheus/**
+  linkresolutionobserversapplog:
+    in: internal/linkresolutionobservers/applog/**
+  linkresolutionobserversprometheus:
+    in: internal/linkresolutionobservers/prometheus/**
+  refusalenforcementobserversapplog:
+    in: internal/refusalenforcementobservers/applog/**
+  refusalenforcementobserversprometheus:
+    in: internal/refusalenforcementobservers/prometheus/**
   scraperequestobserversapplog:
     in: internal/scraperequestobservers/applog/**
   scraperequestobserversprometheus:
@@ -256,10 +264,20 @@ deps:
       - prometheus
       - canonicalurl
       - pagefetch
-  pagereadingobserversapplog:
+  mediatypeobserversprometheus:
+    canUse:
+      - prometheus
+  linkresolutionobserversapplog:
     canUse:
       - canonicalurl
-  pagereadingobserversprometheus:
+  linkresolutionobserversprometheus:
+    canUse:
+      - prometheus
+      - canonicalurl
+  refusalenforcementobserversapplog:
+    canUse:
+      - canonicalurl
+  refusalenforcementobserversprometheus:
     canUse:
       - prometheus
       - canonicalurl

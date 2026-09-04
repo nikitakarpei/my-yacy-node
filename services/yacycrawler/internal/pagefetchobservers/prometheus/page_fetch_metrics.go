@@ -9,7 +9,31 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
-const labelOutcome = "outcome"
+const (
+	labelOutcome = "outcome"
+
+	outcomeSucceeded        = "succeeded"
+	outcomeNotModified      = "not_modified"
+	outcomeAccessRefused    = "access_refused"
+	outcomeDeferred         = "deferred"
+	outcomeRejected         = "rejected"
+	outcomeLandedURLInvalid = "landed_url_invalid"
+	outcomeOversized        = "oversized"
+	outcomeFailed           = "failed"
+	outcomeCanceled         = "canceled"
+)
+
+var pageFetchOutcomes = []string{
+	outcomeSucceeded,
+	outcomeNotModified,
+	outcomeAccessRefused,
+	outcomeDeferred,
+	outcomeRejected,
+	outcomeLandedURLInvalid,
+	outcomeOversized,
+	outcomeFailed,
+	outcomeCanceled,
+}
 
 type PageFetchMetrics struct {
 	pagesProcessed   *prometheusclient.CounterVec
@@ -27,6 +51,9 @@ func New(registry prometheusclient.Registerer) *PageFetchMetrics {
 			Help: "Page fetch duration in seconds.",
 		}),
 	}
+	for _, outcome := range pageFetchOutcomes {
+		metrics.pagesProcessed.WithLabelValues(outcome)
+	}
 	registry.MustRegister(metrics.pagesProcessed, metrics.pageFetchSeconds)
 	return metrics
 }
@@ -34,49 +61,55 @@ func New(registry prometheusclient.Registerer) *PageFetchMetrics {
 func (m *PageFetchMetrics) PageFetchSucceeded(
 	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration,
 ) {
-	m.record("succeeded", fetchDuration)
+	m.record(outcomeSucceeded, fetchDuration)
 }
 
 func (m *PageFetchMetrics) PageFetchNotModified(
 	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration,
 ) {
-	m.record("not_modified", fetchDuration)
+	m.record(outcomeNotModified, fetchDuration)
 }
 
 func (m *PageFetchMetrics) PageFetchAccessRefused(
 	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration,
 ) {
-	m.record("access_refused", fetchDuration)
+	m.record(outcomeAccessRefused, fetchDuration)
 }
 
 func (m *PageFetchMetrics) PageFetchDeferred(
 	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration, _ time.Duration,
 ) {
-	m.record("deferred", fetchDuration)
+	m.record(outcomeDeferred, fetchDuration)
 }
 
 func (m *PageFetchMetrics) PageFetchRejected(
 	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration,
 ) {
-	m.record("rejected", fetchDuration)
+	m.record(outcomeRejected, fetchDuration)
 }
 
 func (m *PageFetchMetrics) PageFetchLandedURLInvalid(
 	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration, _ error,
 ) {
-	m.record("landed_url_invalid", fetchDuration)
+	m.record(outcomeLandedURLInvalid, fetchDuration)
 }
 
 func (m *PageFetchMetrics) PageFetchRefusedOversizedPage(
 	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration,
 ) {
-	m.record("oversized", fetchDuration)
+	m.record(outcomeOversized, fetchDuration)
 }
 
 func (m *PageFetchMetrics) PageFetchFailed(
 	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration, _ error,
 ) {
-	m.record("failed", fetchDuration)
+	m.record(outcomeFailed, fetchDuration)
+}
+
+func (m *PageFetchMetrics) PageFetchCanceled(
+	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration,
+) {
+	m.record(outcomeCanceled, fetchDuration)
 }
 
 func (m *PageFetchMetrics) record(outcome string, fetchDuration time.Duration) {

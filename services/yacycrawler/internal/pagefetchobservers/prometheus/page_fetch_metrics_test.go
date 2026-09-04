@@ -33,11 +33,13 @@ func TestPageFetchMetricsCountConcreteFetchFacts(t *testing.T) {
 	)
 	metrics.PageFetchRefusedOversizedPage(context.Background(), pageURL, fetchDuration)
 	metrics.PageFetchFailed(context.Background(), pageURL, fetchDuration, errors.New("unavailable"))
+	metrics.PageFetchCanceled(context.Background(), pageURL, fetchDuration)
 
 	expected := `
 # HELP yacycrawler_page_fetches_processed_total Page fetches processed, by outcome.
 # TYPE yacycrawler_page_fetches_processed_total counter
 yacycrawler_page_fetches_processed_total{outcome="access_refused"} 1
+yacycrawler_page_fetches_processed_total{outcome="canceled"} 1
 yacycrawler_page_fetches_processed_total{outcome="deferred"} 1
 yacycrawler_page_fetches_processed_total{outcome="failed"} 1
 yacycrawler_page_fetches_processed_total{outcome="landed_url_invalid"} 1

@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
-	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 )
 
 type PageFetchObserver interface {
@@ -50,6 +49,11 @@ type PageFetchObserver interface {
 		pageURL canonicalurl.CanonicalURL,
 		fetchDuration time.Duration,
 		cause error,
+	)
+	PageFetchCanceled(
+		ctx context.Context,
+		pageURL canonicalurl.CanonicalURL,
+		fetchDuration time.Duration,
 	)
 }
 
@@ -138,60 +142,12 @@ func (observers PageFetchObservers) PageFetchFailed(
 	}
 }
 
-type PageFetcher struct {
-	inner    pagefetch.Fetcher
-	clock    Clock
-	observer PageFetchObserver
-}
-
-func NewPageFetcher(
-	inner pagefetch.Fetcher,
-	clock Clock,
-	observer PageFetchObserver,
-) *PageFetcher {
-	return &PageFetcher{inner: inner, clock: clock, observer: observer}
-}
-
-func (f *PageFetcher) Fetch(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	knownVersion pagefetch.PageVersion,
-) (pagefetch.FetchOutcome, error) {
-	fetchStarted := f.clock.Now()
-	fetchOutcome, err := f.inner.Fetch(ctx, pageURL, knownVersion)
-	fetchDuration := f.clock.Now().Sub(fetchStarted)
-	if err != nil {
-		f.observer.PageFetchFailed(ctx, pageURL, fetchDuration, err)
-		return fetchOutcome, err
-	}
-	f.observeFetchOutcome(ctx, pageURL, fetchDuration, fetchOutcome)
-	return fetchOutcome, nil
-}
-
-func (f *PageFetcher) observeFetchOutcome(
+func (observers PageFetchObservers) PageFetchCanceled(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	fetchDuration time.Duration,
-	fetchOutcome pagefetch.FetchOutcome,
 ) {
-	switch fetchOutcome.Status {
-	case pagefetch.FetchSucceeded:
-		f.observer.PageFetchSucceeded(ctx, pageURL, fetchDuration)
-	case pagefetch.FetchNotModified:
-		f.observer.PageFetchNotModified(ctx, pageURL, fetchDuration)
-	case pagefetch.FetchAccessRefused:
-		f.observer.PageFetchAccessRefused(ctx, pageURL, fetchDuration)
-	case pagefetch.FetchDeferred:
-		f.observer.PageFetchDeferred(ctx, pageURL, fetchDuration, fetchOutcome.DeferFor)
-	case pagefetch.FetchRejected:
-		f.observer.PageFetchRejected(ctx, pageURL, fetchDuration)
-	case pagefetch.FetchLandedURLInvalid:
-		f.observer.PageFetchLandedURLInvalid(
-			ctx, pageURL, fetchDuration, fetchOutcome.FailureCause,
-		)
-	case pagefetch.FetchOversized:
-		f.observer.PageFetchRefusedOversizedPage(ctx, pageURL, fetchDuration)
-	case pagefetch.FetchFailed:
-		f.observer.PageFetchFailed(ctx, pageURL, fetchDuration, fetchOutcome.FailureCause)
+	for _, observer := range observers {
+		observer.PageFetchCanceled(ctx, pageURL, fetchDuration)
 	}
 }

@@ -18,11 +18,12 @@ type Visitor interface {
 }
 
 type visitor struct {
-	fetcher         pagefetch.Fetcher
-	recrawl         RecrawlRule
-	ignoredRefusals pagerefusals.IgnoredRefusals
-	readingObserver PageReadingObserver
-	scrapeRequests  ScrapeRequests
+	fetches            PageFetcher
+	recrawl            RecrawlRule
+	ignoredRefusals    pagerefusals.IgnoredRefusals
+	htmlPageReading    HTMLPageReading
+	refusalEnforcement RefusalEnforcementObserver
+	scrapeRequests     ScrapeRequests
 }
 
 func (v *visitor) Visit(
@@ -36,11 +37,7 @@ func (v *visitor) Visit(
 	if !decision.Due {
 		return completedOutcome(disposal.NotDue, noDiscoveredURLs), nil
 	}
-	fetchOutcome, err := v.fetcher.Fetch(ctx, url, decision.Version)
-	if err != nil {
-		return VisitOutcome{}, fmt.Errorf("fetch %s: %w", url, err)
-	}
-	return v.concludeVisit(ctx, url, fetchOutcome)
+	return v.concludeVisit(ctx, url, v.fetches.Fetch(ctx, url, decision.Version))
 }
 
 func (v *visitor) concludeVisit(
@@ -83,45 +80,21 @@ func (v *visitor) visitFetchedPage(
 ) (VisitOutcome, error) {
 	page := fetchOutcome.Page
 	v.recordVisit(ctx, url, fetchOutcome.Version)
-	reading, err := pagehtmlreading.ReadingOfPage(ctx, page, v.ignoredRefusals)
+	reading, err := v.htmlPageReading.ReadingOfPage(ctx, page, v.ignoredRefusals)
 	if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
-		v.readingObserver.PageHTMLUnreadable(ctx, page.LandedURL, err)
 		return completedOutcome(disposal.UnsupportedMediaType, noDiscoveredURLs), nil
 	}
 	if err != nil {
 		return VisitOutcome{}, err
 	}
-	v.reportEnforcedRefusals(ctx, url, reading.Refusals)
+	if reading.Refusals.RefusesLinkDiscovery {
+		v.refusalEnforcement.LinkDiscoveryRefusalEnforced(ctx, url)
+	}
 	if reading.Refusals.RefusesIndexing {
 		return completedOutcome(disposal.IndexingRefused, reading.DiscoveredURLs), nil
 	}
-	if err := v.requestScrape(ctx, page.LandedURL); err != nil {
-		return VisitOutcome{}, err
-	}
+	v.scrapeRequests.Publish(ctx, page.LandedURL)
 	return completedOutcome(disposal.NotDisposed, reading.DiscoveredURLs), nil
-}
-
-func (v *visitor) reportEnforcedRefusals(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	refusals pagerefusals.Refusals,
-) {
-	if refusals.RefusesIndexing {
-		v.readingObserver.IndexingRefusalEnforced(ctx, pageURL)
-	}
-	if refusals.RefusesLinkDiscovery {
-		v.readingObserver.LinkDiscoveryRefusalEnforced(ctx, pageURL)
-	}
-}
-
-func (v *visitor) requestScrape(
-	ctx context.Context,
-	landedURL canonicalurl.CanonicalURL,
-) error {
-	if err := v.scrapeRequests.Publish(ctx, landedURL); err != nil {
-		return fmt.Errorf("publish scrape request %s: %w", landedURL, err)
-	}
-	return nil
 }
 
 func (v *visitor) recordVisit(
