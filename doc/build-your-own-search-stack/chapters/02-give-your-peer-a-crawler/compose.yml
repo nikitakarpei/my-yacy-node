@@ -36,17 +36,15 @@ services:
 
   scrape-request-bridge:
     image: natsio/nats-box:0.19.7
-    restart: on-failure
+    restart: unless-stopped
     depends_on:
       yacycrawler:
         condition: service_started
-    entrypoint: ["sh", "-c"]
-    command:
-      - |
-        nats --server nats://nats:4222 consumer info YACY_CRAWL_PAGES scrape_request_bridge >/dev/null 2>&1 && exit 0
-        nats --server nats://nats:4222 consumer add YACY_CRAWL_PAGES scrape_request_bridge \
-          --filter crawl.page.indexable --target scrape.request \
-          --deliver all --ack none --replay instant --defaults
+    environment:
+      CRAWL_NATS_URL: nats://nats:4222
+    volumes:
+      - ../../building-blocks/scrape-request-bridge/relay-crawled-pages-as-scrape-requests.sh:/relay-crawled-pages-as-scrape-requests.sh:ro
+    entrypoint: ["sh", "/relay-crawled-pages-as-scrape-requests.sh"]
 
   yacycrawler:
     image: ghcr.io/nikitakarpei/yacycrawler:latest

@@ -35,7 +35,7 @@ func TestCrawledPageMarkdownIsStoredAndRecalledByURL(t *testing.T) {
 	egressproxy.Start(t, ctx, network.Name)
 	pagescrapeservice.Start(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
-	scraperequestbridge.Bind(t, ctx, crawlNATSURL)
+	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
 	recallAddress := startCorpusMarkdown(t, ctx, network.Name)
 
 	js := connectJetStream(t, crawlNATSURL)

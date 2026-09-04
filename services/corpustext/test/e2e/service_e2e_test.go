@@ -25,7 +25,7 @@ func TestScrapeRequestStaysSearchableInElasticsearch(t *testing.T) {
 	pagescrapeservice.Start(t, ctx, network.Name)
 	startNode(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
-	scraperequestbridge.Bind(t, ctx, crawlNATSURL)
+	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
 	corpusText := startCorpusText(t, ctx, network.Name, elasticsearchCorpusTextEnv())
 
 	js := connectJetStream(t, crawlNATSURL)
@@ -67,7 +67,7 @@ func TestScrapeRequestStaysSearchableInManticore(t *testing.T) {
 	pagescrapeservice.Start(t, ctx, network.Name)
 	startNode(t, ctx, network.Name)
 	startCrawler(t, ctx, network.Name)
-	scraperequestbridge.Bind(t, ctx, crawlNATSURL)
+	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
 	corpusText := startCorpusText(t, ctx, network.Name, manticoreCorpusTextEnv())
 
 	js := connectJetStream(t, crawlNATSURL)

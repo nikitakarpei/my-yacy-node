@@ -75,7 +75,7 @@ func startCrawlOfOriginSiteAcross(
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 	startCrawlers(t, ctx, network.Name, crawlers)
-	scraperequestbridge.Bind(t, ctx, crawlNATSURL)
+	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
 
 	js := connectJetStream(t, crawlNATSURL)
 	awaitStream(t, ctx, js, yacycrawlcontract.OrdersStreamName)
