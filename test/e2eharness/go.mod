@@ -7,6 +7,7 @@ require (
 	github.com/docker/go-connections v0.6.0
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
 	github.com/testcontainers/testcontainers-go v0.40.0
 )
 
@@ -71,6 +72,8 @@ require (
 )
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract => ../../services/pagescrape/contract
+
+replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../services/yacycrawler/contract
 
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 

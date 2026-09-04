@@ -45,6 +45,7 @@ type Tunnel struct {
 	stop     context.CancelFunc
 	assigned chan string
 	failure  chan error
+	ended    chan struct{}
 	hostname string
 }
 
@@ -56,6 +57,7 @@ func Open(ctx context.Context, configuration Configuration) (*Tunnel, error) {
 		stop:     stop,
 		assigned: make(chan string, 1),
 		failure:  make(chan error, 1),
+		ended:    make(chan struct{}),
 	}
 
 	events, err := tunnel.command.StdoutPipe()
@@ -148,6 +150,8 @@ func eventLines(events io.Reader) *bufio.Scanner {
 }
 
 func (tunnel *Tunnel) read(ctx context.Context, lines *bufio.Scanner) {
+	defer close(tunnel.ended)
+
 	assigned := ""
 
 	for lines.Scan() {
@@ -205,12 +209,21 @@ func (tunnel *Tunnel) acquiredHostname(ctx context.Context) (string, error) {
 	select {
 	case hostname := <-tunnel.assigned:
 		return hostname, nil
-	case err := <-tunnel.failure:
-		return "", fmt.Errorf("acquire the tunnel hostname: %w", err)
+	case <-tunnel.ended:
+		return tunnel.assignedHostnameBeforeTheEnd()
 	case <-timer.C:
 		return "", fmt.Errorf("acquire the tunnel hostname: %w", ErrNoAssignedHostname)
 	case <-ctx.Done():
 		return "", fmt.Errorf("acquire the tunnel hostname: %w", ctx.Err())
+	}
+}
+
+func (tunnel *Tunnel) assignedHostnameBeforeTheEnd() (string, error) {
+	select {
+	case hostname := <-tunnel.assigned:
+		return hostname, nil
+	default:
+		return "", fmt.Errorf("acquire the tunnel hostname: %w", <-tunnel.failure)
 	}
 }
 

@@ -9,21 +9,21 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
 type AcceptedOrders interface {
 	Keep(ctx context.Context, order acceptedorder.AcceptedOrder) error
 }
 
-type PendingVisits interface {
-	Publish(ctx context.Context, visit pendingvisit.PendingVisit) error
+type PendingPageVisits interface {
+	Publish(ctx context.Context, pageVisit pendingpagevisit.PendingPageVisit) error
 }
 
 type OrderConsumer struct {
 	source                 pullintake.MessageSource
 	orders                 AcceptedOrders
-	frontier               PendingVisits
+	frontier               PendingPageVisits
 	observer               CrawlOrderObserver
 	orderIntakeConcurrency int
 }
@@ -31,7 +31,7 @@ type OrderConsumer struct {
 func NewOrderConsumer(
 	source pullintake.MessageSource,
 	orders AcceptedOrders,
-	frontier PendingVisits,
+	frontier PendingPageVisits,
 	observer CrawlOrderObserver,
 	orderIntakeConcurrency int,
 ) *OrderConsumer {
@@ -79,7 +79,7 @@ func (c *OrderConsumer) putSeedURLsOnFrontier(
 	order acceptedorder.AcceptedOrder,
 ) error {
 	for _, seed := range order.SeedURLs() {
-		if err := c.frontier.Publish(ctx, pendingvisit.PendingVisit{
+		if err := c.frontier.Publish(ctx, pendingpagevisit.PendingPageVisit{
 			OrderID: order.OrderID(),
 			URL:     seed,
 			Depth:   0,

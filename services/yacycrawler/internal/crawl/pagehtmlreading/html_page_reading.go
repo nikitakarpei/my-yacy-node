@@ -51,14 +51,15 @@ func NewHTMLPageReading(
 func (reading *HTMLPageReading) ReadingOfPage(
 	ctx context.Context,
 	page pagefetch.FetchedPage,
-	ignored pagerefusals.IgnoredRefusals,
 ) (Reading, error) {
 	elementTree, err := reading.htmlParser.ElementTreeFrom(ctx, page.ContentType, page.Body)
-	if err != nil {
+	if errors.Is(err, pagehtml.ErrNotHTML) {
 		return Reading{}, fmt.Errorf("%w: %w", ErrPageNotHTML, err)
 	}
-	refusals := pagerefusals.RefusalsOfPage(page.RobotsDirectives, elementTree).
-		HonoredBy(ignored)
+	if err != nil {
+		return Reading{}, err
+	}
+	refusals := pagerefusals.RefusalsOfPage(page.RobotsDirectives, elementTree)
 	return Reading{
 		Refusals: refusals,
 		DiscoveredURLs: reading.discoveredURLsFrom(

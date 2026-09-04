@@ -43,8 +43,8 @@
   },
   "panels": [
     {
-      "id": 1,
-      "title": "Crawler health",
+      "id": 10,
+      "title": "Order flow",
       "type": "row",
       "gridPos": {
         "h": 1,
@@ -55,165 +55,8 @@
       "panels": []
     },
     {
-      "id": 3,
-      "title": "Share of received orders returned",
-      "type": "stat",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 0,
-        "y": 1
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit",
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              },
-              {
-                "value": 0.05,
-                "color": "yellow"
-              },
-              {
-                "value": 0.2,
-                "color": "red"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(increase(yacycrawler_orders_returned_total{instance=~\"$service_instance\"}[$__range])) / sum(increase(yacycrawler_orders_received_total{instance=~\"$service_instance\"}[$__range]))"
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "title": "Fetch latency (p99)",
-      "type": "stat",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 8,
-        "y": 1
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacycrawler_fetch_duration_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))"
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "title": "Page fetch rate",
-      "description": "Pages fetched each second across crawler instances.",
-      "type": "stat",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 1
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "cps",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(rate(yacycrawler_pages_fetched_total{instance=~\"$service_instance\"}[$__rate_interval]))"
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "title": "Order flow",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 5
-      },
-      "panels": []
-    },
-    {
       "id": 11,
-      "title": "Orders received, accepted, and returned",
+      "title": "Orders accepted and returned",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -223,7 +66,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 1
       },
       "fieldConfig": {
         "defaults": {
@@ -260,36 +103,26 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(increase(yacycrawler_orders_received_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "received"
-        },
-        {
-          "refId": "B",
-          "expr": "sum(increase(yacycrawler_orders_accepted_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "accepted"
-        },
-        {
-          "refId": "C",
-          "expr": "sum(increase(yacycrawler_orders_returned_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "returned"
+          "expr": "sum by (outcome) (increase(yacycrawler_crawl_orders_processed_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "{{outcome}}"
         }
       ]
     },
     {
-      "id": 20,
-      "title": "Page fetching",
+      "id": 40,
+      "title": "Frontier",
       "type": "row",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 14
+        "y": 9
       },
       "panels": []
     },
     {
-      "id": 21,
-      "title": "Pages fetched",
+      "id": 41,
+      "title": "Page visit attempts, by outcome",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -297,9 +130,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 16,
         "x": 0,
-        "y": 15
+        "y": 10
       },
       "fieldConfig": {
         "defaults": {
@@ -319,14 +152,15 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacycrawler_pages_fetched_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "fetched"
+          "expr": "sum by (outcome) (rate(yacycrawler_page_visit_attempts_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "{{outcome}}"
         }
       ]
     },
     {
-      "id": 22,
-      "title": "Fetch attempt latency (p50/p95/p99)",
+      "id": 42,
+      "title": "Page visit history failures",
+      "description": "Failures to read or update page visit history. A read failure can cause an extra fetch now. A write failure can allow an extra fetch later.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -334,105 +168,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 15
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "custom": {
-            "fillOpacity": 10,
-            "drawStyle": "line",
-            "showPoints": "auto"
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacycrawler_fetch_duration_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacycrawler_fetch_duration_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p95"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacycrawler_fetch_duration_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p99"
-        }
-      ]
-    },
-    {
-      "id": 23,
-      "title": "Refusals honored, by target demand",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 23
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "fillOpacity": 10,
-            "drawStyle": "line",
-            "showPoints": "auto"
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (demand) (increase(yacycrawler_refusals_honored_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "{{demand}}"
-        }
-      ]
-    },
-    {
-      "id": 30,
-      "title": "Scrape request publication",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 31
-      },
-      "panels": []
-    },
-    {
-      "id": 31,
-      "title": "Scrape requests published",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 32
+        "w": 8,
+        "x": 16,
+        "y": 10
       },
       "fieldConfig": {
         "defaults": {
@@ -452,22 +190,15 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacycrawler_scrape_requests_published_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "published"
+          "expr": "sum(rate(yacycrawler_page_visits_not_recorded_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "write failures"
+        },
+        {
+          "refId": "B",
+          "expr": "sum(rate(yacycrawler_last_page_visits_not_read_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "read failures"
         }
       ]
-    },
-    {
-      "id": 34,
-      "title": "Page disposal",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 40
-      },
-      "panels": []
     },
     {
       "id": 32,
@@ -482,7 +213,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 41
+        "y": 18
       },
       "fieldConfig": {
         "defaults": {
@@ -508,10 +239,356 @@
       ]
     },
     {
+      "id": 20,
+      "title": "Page fetching",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "panels": []
+    },
+    {
+      "id": 21,
+      "title": "Page fetches, by outcome",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 27
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cps",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (rate(yacycrawler_page_fetches_processed_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "{{outcome}}"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "title": "Fetch attempt latency (p50/p95/p99)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 27
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "B",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
+          "legendFormat": "p95"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
+          "legendFormat": "p99"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "title": "Page reading",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "panels": []
+    },
+    {
+      "id": 51,
+      "title": "Page media types not parsed",
+      "description": "The crawler reads the media type up to the first semicolon instead, to tell whether the page is HTML.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 36
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(increase(yacycrawler_page_media_types_unparsed_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "not parsed"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "title": "Link discovery refusals enforced",
+      "description": "The page told the crawler not to follow its links, so none of them reach the frontier.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 36
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(increase(yacycrawler_link_discovery_refusals_enforced_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "enforced"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "title": "Base URLs not resolved",
+      "description": "A page can state the URL its links are relative to. When the crawler cannot resolve that URL, it uses the page URL instead.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 44
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(increase(yacycrawler_page_base_urls_unresolved_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "not resolved"
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "title": "Links not resolved",
+      "description": "A link the crawler cannot resolve into a URL never reaches the frontier, so the page behind it stays uncrawled.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 44
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(increase(yacycrawler_page_links_unresolved_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "not resolved"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "title": "Crawled pages",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 52
+      },
+      "panels": []
+    },
+    {
+      "id": 31,
+      "title": "Crawled pages, by indexing",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 53
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cps",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (indexing) (rate(yacycrawler_crawled_pages_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "{{indexing}}"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "title": "Crawled page publications, by outcome",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 53
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cps",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (rate(yacycrawler_crawled_page_publications_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "{{outcome}}"
+        }
+      ]
+    },
+    {
       "id": 100,
       "title": "Go process",
       "type": "row",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 49},
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 61},
       "panels": []
     },
     {
@@ -519,7 +596,7 @@
       "title": "Process memory",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 50},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 62},
       "fieldConfig": {"defaults": {"unit": "bytes", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -533,7 +610,7 @@
       "title": "CPU cores used",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 50},
+      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 62},
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -545,7 +622,7 @@
       "title": "Goroutines",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 50},
+      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 62},
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -557,7 +634,7 @@
       "title": "Garbage collection rate",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 58},
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 70},
       "fieldConfig": {"defaults": {"unit": "cps", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -569,7 +646,7 @@
       "title": "Share of time paused for garbage collection",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 58},
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 70},
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -581,7 +658,7 @@
       "title": "Share of file descriptor capacity used",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 58},
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 70},
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "max": 1, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [

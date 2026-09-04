@@ -20,17 +20,6 @@ type Refusals struct {
 	RefusesLinkDiscovery bool
 }
 
-type IgnoredRefusals struct {
-	IndexingRefusal bool
-}
-
-func (refusals Refusals) HonoredBy(ignored IgnoredRefusals) Refusals {
-	return Refusals{
-		RefusesIndexing:      refusals.RefusesIndexing && !ignored.IndexingRefusal,
-		RefusesLinkDiscovery: refusals.RefusesLinkDiscovery,
-	}
-}
-
 func RefusalsOfPage(robotsDirectives []string, elementTree pagehtml.ElementTree) Refusals {
 	var refusals Refusals
 	for _, stated := range robotsDirectives {

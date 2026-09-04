@@ -6,15 +6,26 @@ The crawler is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CRAWL_NATS_URL` | required | NATS server the crawler consumes crawl orders from. |
-| `SCRAPE_REQUEST_NATS_URL` | required | NATS server the crawler publishes scrape requests to. |
+| `CRAWL_NATS_URL` | required | NATS server the crawler consumes crawl orders from and publishes crawled pages to. |
 | `CRAWL_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject the crawler consumes orders from. |
 | `CRAWL_ORDERS_DURABLE` | `yacycrawler` | Durable queue-consumer name shared across instances. |
-| `PENDING_VISIT_DURABLE` | `yacycrawler-visits` | Durable queue-consumer name every instance reads pending visits from. |
+| `PENDING_PAGE_VISIT_DURABLE` | `yacycrawler-page-visits` | Durable queue-consumer name every instance reads pending page visits from. |
 
-The crawler publishes a scrape request for every page it admits on the `scrape.request`
-subject of the `SCRAPE_REQUESTS` stream. Neither is configurable. The crawler does not
-create that stream. An operator creates it before the crawler starts.
+The crawler publishes every page it read on the `YACY_CRAWL_PAGES` stream, which it creates
+and owns. A page that states no indexing refusal goes to `crawl.page.indexable`, a page
+that refuses indexing goes to `crawl.page.indexing-refused`. No name here is configurable.
+
+To have the pages scraped, an operator binds a consumer that delivers them to the scrape
+service:
+
+```sh
+nats consumer add YACY_CRAWL_PAGES scrape_request_bridge \
+  --filter crawl.page.indexable --target scrape.request \
+  --deliver all --ack none --replay instant
+```
+
+Bind `crawl.page.>` instead of `crawl.page.indexable` to scrape pages that refuse
+indexing as well. That choice applies to every crawl the deployment runs.
 
 ## Fetching
 

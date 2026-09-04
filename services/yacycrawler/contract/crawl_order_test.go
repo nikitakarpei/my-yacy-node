@@ -13,13 +13,12 @@ func TestCrawlOrderRoundTrip(t *testing.T) {
 	order := yacycrawlcontract.CrawlOrder{
 		OrderID: "3f8a2c14-6b2d-4e1a-9c7f-8d0e1a2b3c4d",
 		Profile: yacycrawlcontract.CrawlProfile{
-			Scope:                  yacycrawlcontract.ScopeSubpath,
-			URLMustMatch:           yacycrawlcontract.MatchAll,
-			URLMustNotMatch:        ".*\\.pdf",
-			MaxDepth:               4,
-			AllowQueryURLs:         true,
-			MaxPagesPerHost:        100,
-			IgnoresIndexingRefusal: true,
+			Scope:           yacycrawlcontract.ScopeSubpath,
+			URLMustMatch:    yacycrawlcontract.MatchAll,
+			URLMustNotMatch: ".*\\.pdf",
+			MaxDepth:        4,
+			AllowQueryURLs:  true,
+			MaxPagesPerHost: 100,
 		},
 		SeedURLs: []canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, "https://example.org/a"),

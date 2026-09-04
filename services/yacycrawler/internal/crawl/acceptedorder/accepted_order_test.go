@@ -14,11 +14,10 @@ func crawlOrder(t *testing.T) yacycrawlcontract.CrawlOrder {
 	return yacycrawlcontract.CrawlOrder{
 		OrderID: "o1",
 		Profile: yacycrawlcontract.CrawlProfile{
-			Scope:                  yacycrawlcontract.ScopeDomain,
-			URLMustMatch:           yacycrawlcontract.MatchAll,
-			MaxDepth:               2,
-			MaxPagesPerHost:        7,
-			IgnoresIndexingRefusal: true,
+			Scope:           yacycrawlcontract.ScopeDomain,
+			URLMustMatch:    yacycrawlcontract.MatchAll,
+			MaxDepth:        2,
+			MaxPagesPerHost: 7,
 		},
 		SeedURLs: []canonicalurl.CanonicalURL{
 			canonicalurltest.CanonicalURLOf(t, "http://host/one"),
@@ -48,9 +47,6 @@ func TestAnAcceptedOrderCarriesWhatTheOperatorSent(t *testing.T) {
 	}
 	if accepted.MaxPagesPerHost() != 7 {
 		t.Errorf("max pages per host = %d, want 7", accepted.MaxPagesPerHost())
-	}
-	if !accepted.IgnoresIndexingRefusal() {
-		t.Error("the order ignores indexing refusals")
 	}
 	if accepted.CrawlOrder().Profile.MaxDepth != 2 {
 		t.Errorf("crawl order = %+v, want the order the operator sent", accepted.CrawlOrder())

@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/dockernetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/natsjetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequestbridge"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/scraperequeststream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
@@ -31,20 +32,6 @@ func TestCrawlerPublishesEveryPageAnOrderReachesEndToEnd(t *testing.T) {
 			scrapeRequest.PageURL,
 			originURL,
 		)
-	}
-}
-
-func TestEveryCorpusConsumesTheSameScrapeRequestEndToEnd(t *testing.T) {
-	ctx := context.Background()
-
-	js, originURL := startCrawlOfOriginSite(t, ctx)
-
-	first := fetchScrapeRequestForDurable(t, ctx, js, "corpusmarkdown")
-	second := fetchScrapeRequestForDurable(t, ctx, js, "corpustext")
-
-	if first.PageURL.String() != originURL || second.PageURL.String() != originURL {
-		t.Errorf("corpora read %q and %q, want both %q",
-			first.PageURL, second.PageURL, originURL)
 	}
 }
 
@@ -88,6 +75,7 @@ func startCrawlOfOriginSiteAcross(
 	originURL := startOrigin(t, ctx, network.Name)
 	egressproxy.Start(t, ctx, network.Name)
 	startCrawlers(t, ctx, network.Name, crawlers)
+	scraperequestbridge.Relay(t, ctx, crawlNATSURL)
 
 	js := connectJetStream(t, crawlNATSURL)
 	awaitStream(t, ctx, js, yacycrawlcontract.OrdersStreamName)
