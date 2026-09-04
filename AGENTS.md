@@ -1,6 +1,6 @@
 Structure: new capability → new unit (file or package) on the smallest seam; behavior change → edit in place. A unit owns durable state, a protocol endpoint, or a value type and the rule computing it; a stage of a procedure is not ownable, and stages that only run in sequence are one unit. Split a unit when responsibilities diverge; collapse a seam when it couples units tightly.
 
-Shared state: the service that owns a stream, bucket, or table is the only one that creates it. A contract package holds vocabulary — names, subjects, keys — never provisioning. A consumer opens what it reads and passes the broker's error through; it adds no precondition check.
+Shared state: the service that owns a stream, bucket, or table is the only one that creates it. A contract package holds vocabulary — names, subjects, keys — never provisioning. A consumer opens what it reads and adds no precondition check.
 
 Abstraction: a function orchestrates or it works, never both. An orchestrator only names steps and reads as the scenario in plain language; log attributes, struct assembly, and error wrapping are detail. A call chain deeper than one step means the middle level speaks its own vocabulary and needs its own unit.
 
@@ -26,7 +26,7 @@ Tech debt: when you read code that breaks a rule in this file, mark it where you
 
 Docs: each doc is self-contained, at most 80 lines unless the user approves an exception, with paragraphs of at most five lines, written in ASD-STE100 Simplified Technical English. It covers only what someone using the system needs — no implementation detail, no rationale — and every sentence must be true against the running system.
 
-Failure: a unit stays on the happy path and returns no error to its consumer. The implementation that knows what went wrong reports it to its own observer, in its own vocabulary, and reports only what it can see; a decorator never assumes what the implementation it wraps reports, and duplicated facts are the honest cost. The consumer acts on a reported failure only if it has something to decide. Returning an error is failing fast, and needs the user's approval for that case.
+Failure: a unit stays on the happy path and returns no error to its consumer. The implementation that knows what went wrong reports it to its own observer, in its own vocabulary, and reports only what it can see; a decorator never assumes what the implementation it wraps reports, and duplicated facts are the honest cost. The consumer acts on a reported failure only if it has something to decide. Returning an error is failing fast, and needs the user's approval for that case. Wiring fails fast: a unit that opens a stream, bucket, or table it does not own returns the error unchanged, and the service does not start.
 
 Logging: nothing fails silently. Happy paths DEBUG, recoverable failures WARN, failures that need an operator to intervene ERROR.
 
