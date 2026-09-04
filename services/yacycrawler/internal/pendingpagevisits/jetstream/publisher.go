@@ -34,7 +34,7 @@ func (p *Publisher) Publish(
 		data,
 		jetstream.WithMsgID(messageIdentityOf(pageVisit)),
 	); err != nil {
-		return fmt.Errorf("publish pending page pageVisit %s: %w", pageVisit.URL, err)
+		return fmt.Errorf("publish pending page visit %s: %w", pageVisit.URL, err)
 	}
 	return nil
 }

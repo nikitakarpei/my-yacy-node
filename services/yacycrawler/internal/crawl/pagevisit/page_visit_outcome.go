@@ -15,8 +15,6 @@ const (
 	PageVisitDeferred
 )
 
-var noDiscoveredURLs []canonicalurl.CanonicalURL
-
 type PageVisitOutcome struct {
 	Conclusion     PageVisitConclusion
 	DeferFor       time.Duration
@@ -24,14 +22,15 @@ type PageVisitOutcome struct {
 	Disposal       disposal.Reason
 }
 
-func terminalOutcome(
-	reason disposal.Reason,
-	discoveredURLs []canonicalurl.CanonicalURL,
-) PageVisitOutcome {
+func disposedOutcome(reason disposal.Reason) PageVisitOutcome {
+	return PageVisitOutcome{Conclusion: PageVisitTerminal, Disposal: reason}
+}
+
+func crawledOutcome(discoveredURLs []canonicalurl.CanonicalURL) PageVisitOutcome {
 	return PageVisitOutcome{
 		Conclusion:     PageVisitTerminal,
 		DiscoveredURLs: discoveredURLs,
-		Disposal:       reason,
+		Disposal:       disposal.NotDisposed,
 	}
 }
 

@@ -18,67 +18,106 @@ type PageVisitor interface {
 }
 
 type pageVisitor struct {
-	fetches            PageFetcher
-	recrawlRule        RecrawlRule
-	visitedPages       VisitedPages
-	htmlPageReading    HTMLPageReading
-	refusalEnforcement RefusalEnforcementObserver
-	crawledPages       CrawledPages
+	pageFetcher                PageFetcher
+	recrawlRule                RecrawlRule
+	visitedPages               VisitedPages
+	htmlPageReading            HTMLPageReading
+	refusalEnforcementObserver RefusalEnforcementObserver
+	crawledPages               CrawledPages
 }
 
 //nolint:revive // a page visitor names every collaborator one page visit needs
 func New(
-	fetches PageFetcher,
+	pageFetcher PageFetcher,
 	recrawlRule RecrawlRule,
 	visitedPages VisitedPages,
 	htmlPageReading HTMLPageReading,
-	refusalEnforcement RefusalEnforcementObserver,
+	refusalEnforcementObserver RefusalEnforcementObserver,
 	crawledPages CrawledPages,
 ) PageVisitor {
 	return &pageVisitor{
-		fetches:            fetches,
-		recrawlRule:        recrawlRule,
-		visitedPages:       visitedPages,
-		htmlPageReading:    htmlPageReading,
-		refusalEnforcement: refusalEnforcement,
-		crawledPages:       crawledPages,
+		pageFetcher:                pageFetcher,
+		recrawlRule:                recrawlRule,
+		visitedPages:               visitedPages,
+		htmlPageReading:            htmlPageReading,
+		refusalEnforcementObserver: refusalEnforcementObserver,
+		crawledPages:               crawledPages,
 	}
 }
 
-func (v *pageVisitor) VisitPage(
+func (visitor *pageVisitor) VisitPage(
 	ctx context.Context,
 	url canonicalurl.CanonicalURL,
 ) (PageVisitOutcome, error) {
-	decision, err := v.recrawlRule.RecrawlDecisionFor(ctx, url)
+	decision, err := visitor.recrawlRule.RecrawlDecisionFor(ctx, url)
 	if err != nil {
 		return PageVisitOutcome{}, fmt.Errorf("recrawl decision: %w", err)
 	}
 	if !decision.Due {
-		return terminalOutcome(disposal.NotDue, noDiscoveredURLs), nil
+		return disposedOutcome(disposal.NotDue), nil
 	}
-	return v.concludeVisit(ctx, url, v.fetches.Fetch(ctx, url, decision.Version))
+	fetchOutcome := visitor.pageFetcher.Fetch(ctx, url, decision.Version)
+	if originAnsweredAboutPage(fetchOutcome.Status) {
+		visitor.visitedPages.RecordPageVisit(ctx, url, fetchOutcome.Version)
+	}
+	if fetchOutcome.Status == pagefetch.FetchSucceeded {
+		return visitor.outcomeOfFetchedPage(ctx, url, fetchOutcome.Page)
+	}
+	return outcomeOfUnfetchedPage(fetchOutcome, url)
 }
 
-func (v *pageVisitor) concludeVisit(
+func originAnsweredAboutPage(status pagefetch.FetchStatus) bool {
+	return status == pagefetch.FetchSucceeded ||
+		status == pagefetch.FetchNotModified ||
+		status == pagefetch.FetchAccessRefused
+}
+
+func (visitor *pageVisitor) outcomeOfFetchedPage(
 	ctx context.Context,
 	url canonicalurl.CanonicalURL,
+	page pagefetch.FetchedPage,
+) (PageVisitOutcome, error) {
+	reading, err := visitor.htmlPageReading.ReadingOfPage(ctx, page)
+	if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
+		return disposedOutcome(disposal.UnsupportedMediaType), nil
+	}
+	if err != nil {
+		return PageVisitOutcome{}, err
+	}
+	if reading.Refusals.RefusesLinkDiscovery {
+		visitor.refusalEnforcementObserver.LinkDiscoveryRefusalEnforced(ctx, url)
+	}
+	visitor.publishCrawledPage(ctx, page.LandedURL, reading.Refusals)
+	return crawledOutcome(reading.DiscoveredURLs), nil
+}
+
+func (visitor *pageVisitor) publishCrawledPage(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	refusals pagerefusals.Refusals,
+) {
+	if refusals.RefusesIndexing {
+		visitor.crawledPages.PublishIndexingRefusedPage(ctx, pageURL)
+		return
+	}
+	visitor.crawledPages.PublishIndexablePage(ctx, pageURL)
+}
+
+func outcomeOfUnfetchedPage(
 	fetchOutcome pagefetch.FetchOutcome,
+	url canonicalurl.CanonicalURL,
 ) (PageVisitOutcome, error) {
 	switch fetchOutcome.Status {
-	case pagefetch.FetchSucceeded:
-		return v.visitFetchedPage(ctx, url, fetchOutcome)
 	case pagefetch.FetchNotModified:
-		v.recordPageVisit(ctx, url, fetchOutcome.Version)
-		return terminalOutcome(disposal.NotModified, noDiscoveredURLs), nil
+		return disposedOutcome(disposal.NotModified), nil
 	case pagefetch.FetchAccessRefused:
-		v.recordPageVisit(ctx, url, fetchOutcome.Version)
-		return terminalOutcome(disposal.AccessRefused, noDiscoveredURLs), nil
+		return disposedOutcome(disposal.AccessRefused), nil
 	case pagefetch.FetchRejected:
-		return terminalOutcome(disposal.FetchRejected, noDiscoveredURLs), nil
+		return disposedOutcome(disposal.FetchRejected), nil
 	case pagefetch.FetchLandedURLInvalid:
-		return terminalOutcome(disposal.LandedURLInvalid, noDiscoveredURLs), nil
+		return disposedOutcome(disposal.LandedURLInvalid), nil
 	case pagefetch.FetchOversized:
-		return terminalOutcome(disposal.Oversized, noDiscoveredURLs), nil
+		return disposedOutcome(disposal.Oversized), nil
 	case pagefetch.FetchDeferred:
 		return deferredOutcome(fetchOutcome.DeferFor), nil
 	case pagefetch.FetchFailed:
@@ -90,45 +129,4 @@ func (v *pageVisitor) concludeVisit(
 			url,
 		)
 	}
-}
-
-func (v *pageVisitor) visitFetchedPage(
-	ctx context.Context,
-	url canonicalurl.CanonicalURL,
-	fetchOutcome pagefetch.FetchOutcome,
-) (PageVisitOutcome, error) {
-	page := fetchOutcome.Page
-	v.recordPageVisit(ctx, url, fetchOutcome.Version)
-	reading, err := v.htmlPageReading.ReadingOfPage(ctx, page)
-	if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
-		return terminalOutcome(disposal.UnsupportedMediaType, noDiscoveredURLs), nil
-	}
-	if err != nil {
-		return PageVisitOutcome{}, err
-	}
-	if reading.Refusals.RefusesLinkDiscovery {
-		v.refusalEnforcement.LinkDiscoveryRefusalEnforced(ctx, url)
-	}
-	v.publishCrawledPage(ctx, page.LandedURL, reading.Refusals)
-	return terminalOutcome(disposal.NotDisposed, reading.DiscoveredURLs), nil
-}
-
-func (v *pageVisitor) publishCrawledPage(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	refusals pagerefusals.Refusals,
-) {
-	if refusals.RefusesIndexing {
-		v.crawledPages.PublishIndexingRefusedPage(ctx, pageURL)
-		return
-	}
-	v.crawledPages.PublishIndexablePage(ctx, pageURL)
-}
-
-func (v *pageVisitor) recordPageVisit(
-	ctx context.Context,
-	url canonicalurl.CanonicalURL,
-	version pagefetch.PageVersion,
-) {
-	v.visitedPages.RecordPageVisit(ctx, url, version)
 }

@@ -67,7 +67,7 @@ func (a *Allowances) pageSpentOnPageVisit(
 ) (bool, error) {
 	pageVisit, err := a.spentPageVisits.RecordAt(ctx, pageVisitKeyOf(orderID, url))
 	if err != nil {
-		return false, fmt.Errorf("read the page spent on the page pageVisit to %s: %w", url, err)
+		return false, fmt.Errorf("read the page spent on the page visit to %s: %w", url, err)
 	}
 	return pageVisit.PageSpent, nil
 }
@@ -104,7 +104,7 @@ func (a *Allowances) markPageSpentOnPageVisit(
 ) error {
 	_, _, err := a.spentPageVisits.Revise(ctx, pageVisitKeyOf(orderID, url), markPageSpent)
 	if err != nil {
-		return fmt.Errorf("mark the page spent on the page pageVisit to %s: %w", url, err)
+		return fmt.Errorf("mark the page spent on the page visit to %s: %w", url, err)
 	}
 	return nil
 }
@@ -130,5 +130,5 @@ func hostKeyOf(orderID string, host string) string {
 }
 
 func pageVisitKeyOf(orderID string, url canonicalurl.CanonicalURL) string {
-	return jetstreamrecord.KeyOf(orderID, "pageVisit", url.String())
+	return jetstreamrecord.KeyOf(orderID, "page-visit", url.String())
 }
