@@ -23,8 +23,8 @@ import (
 var errURLMetadataAdmissionRejected = errors.New("url metadata admission rejected")
 
 type IntakeReceipts interface {
-	ReportKeptPage(ctx context.Context, pageURL canonicalurl.CanonicalURL) error
-	ReportRejectedPage(ctx context.Context, pageURL canonicalurl.CanonicalURL) error
+	ReportKeptPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
+	ReportRejectedPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
 }
 
 type OfferedPageConsumer struct {
@@ -33,7 +33,7 @@ type OfferedPageConsumer struct {
 	urlReceiver                urlmeta.URLReceiver
 	postingReceiver            rwiadmission.PostingReceiver
 	intakeReceipts             IntakeReceipts
-	intakeProgress             IntakeProgress
+	pageIntakeObserver         PageIntakeObserver
 	pageOfferIntakeConcurrency int
 }
 
@@ -43,7 +43,7 @@ type OfferedPageConsumerConfig struct {
 	URLReceiver                urlmeta.URLReceiver
 	PostingReceiver            rwiadmission.PostingReceiver
 	IntakeReceipts             IntakeReceipts
-	IntakeProgress             IntakeProgress
+	PageIntakeObserver         PageIntakeObserver
 	PageOfferIntakeConcurrency int
 }
 
@@ -54,7 +54,7 @@ func NewOfferedPageConsumer(config OfferedPageConsumerConfig) *OfferedPageConsum
 		urlReceiver:                config.URLReceiver,
 		postingReceiver:            config.PostingReceiver,
 		intakeReceipts:             config.IntakeReceipts,
-		intakeProgress:             config.IntakeProgress,
+		pageIntakeObserver:         config.PageIntakeObserver,
 		pageOfferIntakeConcurrency: config.PageOfferIntakeConcurrency,
 	}
 }
@@ -74,19 +74,19 @@ func (c *OfferedPageConsumer) takeIn(
 ) error {
 	page, err := pagescrapecontract.UnmarshalOfferedPage(message.Body())
 	if err != nil {
-		c.intakeProgress.OfferedPageInvalid(ctx)
+		c.pageIntakeObserver.OfferedPageInvalid(ctx)
 
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
 	reachedAt := time.Now()
-	c.intakeProgress.PageOffered(ctx, message.Identity(), page.PageURL)
+	c.pageIntakeObserver.PageOffered(ctx, message.Identity(), page.PageURL)
 	document, extracted := c.documentOf(ctx, message, page)
 	if !extracted {
 		return c.reject(ctx, message, page.PageURL)
 	}
 	text, derived := c.fullTextOf(ctx, document, page.LandedURL)
 	if !derived {
-		c.intakeProgress.NoIndexDerived(ctx, message.Identity(), page.PageURL)
+		c.pageIntakeObserver.NoIndexDerived(ctx, message.Identity(), page.PageURL)
 
 		return c.reject(ctx, message, page.PageURL)
 	}
@@ -104,7 +104,7 @@ func (c *OfferedPageConsumer) documentOf(
 		ctx, page.Body, page.ContentType, page.LandedURL,
 	)
 	if err != nil {
-		c.intakeProgress.DocumentExtractionFailed(
+		c.pageIntakeObserver.DocumentExtractionFailed(
 			ctx,
 			message.Identity(),
 			page.LandedURL,
@@ -138,11 +138,9 @@ func (c *OfferedPageConsumer) store(
 	if !c.admitPostings(ctx, message, index) {
 		return
 	}
-	if err := c.intakeReceipts.ReportKeptPage(ctx, index.PageURL); err != nil {
-		c.intakeProgress.IntakeReceiptNotSent(ctx, message.Identity(), index.PageURL, err)
-	}
+	c.intakeReceipts.ReportKeptPage(ctx, index.PageURL)
 	message.Acknowledge(ctx)
-	c.intakeProgress.PageIndexed(ctx, message.Identity(), index.PageURL)
+	c.pageIntakeObserver.PageIndexed(ctx, message.Identity(), index.PageURL)
 }
 
 func (c *OfferedPageConsumer) admitURLMetadata(
@@ -152,7 +150,7 @@ func (c *OfferedPageConsumer) admitURLMetadata(
 ) bool {
 	receipt, err := c.urlReceiver.Receive(ctx, []yacymodel.URLMetadata{index.Metadata})
 	if err != nil {
-		c.intakeProgress.URLMetadataAdmissionFailed(
+		c.pageIntakeObserver.URLMetadataAdmissionFailed(
 			ctx, message.Identity(), index.PageURL, err,
 		)
 		message.Return(ctx)
@@ -160,13 +158,13 @@ func (c *OfferedPageConsumer) admitURLMetadata(
 		return false
 	}
 	if receipt.Busy {
-		c.intakeProgress.URLMetadataAdmissionBusy(ctx, message.Identity(), index.PageURL)
+		c.pageIntakeObserver.URLMetadataAdmissionBusy(ctx, message.Identity(), index.PageURL)
 		message.Return(ctx)
 
 		return false
 	}
 	if len(receipt.ErrorURL) != 0 {
-		c.intakeProgress.URLMetadataAdmissionFailed(
+		c.pageIntakeObserver.URLMetadataAdmissionFailed(
 			ctx,
 			message.Identity(),
 			index.PageURL,
@@ -176,7 +174,7 @@ func (c *OfferedPageConsumer) admitURLMetadata(
 
 		return false
 	}
-	c.intakeProgress.URLMetadataAdmitted(ctx, message.Identity(), index.PageURL)
+	c.pageIntakeObserver.URLMetadataAdmitted(ctx, message.Identity(), index.PageURL)
 
 	return true
 }
@@ -188,7 +186,7 @@ func (c *OfferedPageConsumer) admitPostings(
 ) bool {
 	receipt, err := c.postingReceiver.Receive(ctx, index.Postings)
 	if err != nil {
-		c.intakeProgress.PostingsAdmissionFailed(
+		c.pageIntakeObserver.PostingsAdmissionFailed(
 			ctx,
 			message.Identity(),
 			index.PageURL,
@@ -200,7 +198,7 @@ func (c *OfferedPageConsumer) admitPostings(
 		return false
 	}
 	if receipt.Busy {
-		c.intakeProgress.PostingsAdmissionBusy(
+		c.pageIntakeObserver.PostingsAdmissionBusy(
 			ctx,
 			message.Identity(),
 			index.PageURL,
@@ -210,7 +208,7 @@ func (c *OfferedPageConsumer) admitPostings(
 
 		return false
 	}
-	c.intakeProgress.PostingsAdmitted(
+	c.pageIntakeObserver.PostingsAdmitted(
 		ctx,
 		message.Identity(),
 		index.PageURL,
@@ -225,9 +223,7 @@ func (c *OfferedPageConsumer) reject(
 	message pullintake.PendingMessage,
 	pageURL canonicalurl.CanonicalURL,
 ) error {
-	if err := c.intakeReceipts.ReportRejectedPage(ctx, pageURL); err != nil {
-		c.intakeProgress.IntakeReceiptNotSent(ctx, message.Identity(), pageURL, err)
-	}
+	c.intakeReceipts.ReportRejectedPage(ctx, pageURL)
 	message.Acknowledge(ctx)
 
 	return nil

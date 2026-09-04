@@ -1,27 +1,26 @@
 package pagevisit
 
 import (
-	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 )
 
 type VisitorFor func(ignoredRefusals pagerefusals.IgnoredRefusals) Visitor
 
 func New(
-	fetcher pagefetch.Fetcher,
-	clock Clock,
+	fetches PageFetcher,
 	recrawl RecrawlRule,
-	progress VisitProgress,
+	htmlPageReading HTMLPageReading,
+	refusalEnforcement RefusalEnforcementObserver,
 	scrapeRequests ScrapeRequests,
 ) VisitorFor {
 	return func(ignoredRefusals pagerefusals.IgnoredRefusals) Visitor {
 		return &visitor{
-			fetcher:         fetcher,
-			clock:           clock,
-			recrawl:         recrawl,
-			ignoredRefusals: ignoredRefusals,
-			progress:        progress,
-			scrapeRequests:  scrapeRequests,
+			fetches:            fetches,
+			recrawl:            recrawl,
+			ignoredRefusals:    ignoredRefusals,
+			htmlPageReading:    htmlPageReading,
+			refusalEnforcement: refusalEnforcement,
+			scrapeRequests:     scrapeRequests,
 		}
 	}
 }

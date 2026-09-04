@@ -4,18 +4,12 @@ package orderintake
 
 import (
 	"context"
-	"log/slog"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/poisonhalt"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
-)
-
-const (
-	msgOrderAccepted = "crawl order accepted"
-	msgOrderReturned = "crawl order returned for redelivery"
 )
 
 type AcceptedOrders interface {
@@ -26,17 +20,11 @@ type PendingVisits interface {
 	Publish(ctx context.Context, visit pendingvisit.PendingVisit) error
 }
 
-type OrderProgress interface {
-	OrderReceived()
-	OrderReturned()
-	OrderAccepted()
-}
-
 type OrderConsumer struct {
 	source                 pullintake.MessageSource
 	orders                 AcceptedOrders
 	frontier               PendingVisits
-	observer               OrderProgress
+	observer               CrawlOrderObserver
 	orderIntakeConcurrency int
 }
 
@@ -44,7 +32,7 @@ func NewOrderConsumer(
 	source pullintake.MessageSource,
 	orders AcceptedOrders,
 	frontier PendingVisits,
-	observer OrderProgress,
+	observer CrawlOrderObserver,
 	orderIntakeConcurrency int,
 ) *OrderConsumer {
 	return &OrderConsumer{
@@ -68,7 +56,6 @@ func (c *OrderConsumer) acceptOrder(
 	if err != nil {
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	c.observer.OrderReceived()
 	order, err := acceptedorder.AcceptedOrderFrom(sentOrder)
 	if err != nil {
 		c.returnOrder(ctx, message, sentOrder.OrderID, err)
@@ -83,11 +70,7 @@ func (c *OrderConsumer) acceptOrder(
 		return nil
 	}
 	message.Acknowledge(ctx)
-	c.observer.OrderAccepted()
-	slog.DebugContext(ctx, msgOrderAccepted,
-		slog.String("order", order.OrderID()),
-		slog.Int("seeds", len(order.SeedURLs())),
-	)
+	c.observer.CrawlOrderAccepted(ctx, order.OrderID(), len(order.SeedURLs()))
 	return nil
 }
 
@@ -113,10 +96,6 @@ func (c *OrderConsumer) returnOrder(
 	orderID string,
 	cause error,
 ) {
-	c.observer.OrderReturned()
-	slog.WarnContext(ctx, msgOrderReturned,
-		slog.String("order", orderID),
-		slog.Any("error", cause),
-	)
+	c.observer.CrawlOrderReturned(ctx, orderID, cause)
 	message.Return(ctx)
 }

@@ -4,7 +4,6 @@ package proxyintake
 import (
 	"context"
 	"errors"
-	"log/slog"
 	"net/http"
 
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/pagefreshness"
@@ -16,21 +15,15 @@ const (
 	headerLocation    = "Location"
 )
 
-const (
-	msgRenderFailed  = "render failed"
-	msgRenderTimeout = "render timed out"
-	msgWriteFailed   = "write rendered page to client failed"
-)
-
-type Handler struct {
+type ProxyEndpoint struct {
 	renderer renderedpage.Renderer
 }
 
-func New(renderer renderedpage.Renderer) *Handler {
-	return &Handler{renderer: renderer}
+func New(renderer renderedpage.Renderer) *ProxyEndpoint {
+	return &ProxyEndpoint{renderer: renderer}
 }
 
-func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (e *ProxyEndpoint) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodConnect {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
@@ -40,12 +33,12 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	page, err := h.renderer.Render(r.Context(), renderedpage.Target{
+	page, err := e.renderer.Render(r.Context(), renderedpage.Target{
 		URL:        r.URL.String(),
 		Conditions: pagefreshness.ConditionsOf(r.Header),
 	})
 	if err != nil {
-		h.writeFailure(w, r.Context(), err)
+		writeFailure(w, err)
 		return
 	}
 
@@ -58,16 +51,14 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	page.ReuseTerms.StateOn(w.Header())
 	w.WriteHeader(page.StatusCode)
 	if _, err := w.Write(page.Body); err != nil {
-		slog.WarnContext(r.Context(), msgWriteFailed, slog.Any("error", err))
+		return
 	}
 }
 
-func (h *Handler) writeFailure(w http.ResponseWriter, ctx context.Context, err error) {
+func writeFailure(w http.ResponseWriter, err error) {
 	if errors.Is(err, context.DeadlineExceeded) || errors.Is(err, context.Canceled) {
-		slog.WarnContext(ctx, msgRenderTimeout, slog.Any("error", err))
 		w.WriteHeader(http.StatusGatewayTimeout)
 		return
 	}
-	slog.WarnContext(ctx, msgRenderFailed, slog.Any("error", err))
 	w.WriteHeader(http.StatusBadGateway)
 }

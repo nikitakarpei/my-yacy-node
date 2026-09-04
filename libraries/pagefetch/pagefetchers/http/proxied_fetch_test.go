@@ -211,6 +211,9 @@ func TestFetchStatusMapping(t *testing.T) {
 		if outcome.Status != wantKind {
 			t.Errorf("status %d: kind = %v, want %v", status, outcome.Status, wantKind)
 		}
+		if wantKind == pagefetch.FetchFailed && outcome.FailureCause == nil {
+			t.Errorf("status %d: failure cause is nil", status)
+		}
 	}
 }
 
@@ -295,6 +298,9 @@ func TestFetchTransientOnProxyFailure(t *testing.T) {
 	}
 	if outcome.Status != pagefetch.FetchFailed {
 		t.Fatalf("kind = %v, want transient", outcome.Status)
+	}
+	if outcome.FailureCause == nil {
+		t.Fatal("failure cause is nil")
 	}
 }
 

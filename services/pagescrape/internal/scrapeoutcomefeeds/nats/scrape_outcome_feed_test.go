@@ -7,6 +7,7 @@ import (
 
 	"github.com/nats-io/nats.go"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	scrapeoutcomefeeds "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeoutcomefeeds/nats"
@@ -18,6 +19,71 @@ const (
 	outcomeWait  = 5 * time.Second
 	carrierStart = 100 * time.Millisecond
 )
+
+type recordingScrapeOutcomeFeedObserver struct {
+	announcedSubject string
+	failures         int
+	carried          chan string
+}
+
+func (o *recordingScrapeOutcomeFeedObserver) ScrapeFailureAnnounced(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	subject string,
+) {
+	o.announcedSubject = subject
+}
+
+func (o *recordingScrapeOutcomeFeedObserver) ScrapeFailureEncodingFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ error,
+) {
+	o.failures++
+}
+
+func (o *recordingScrapeOutcomeFeedObserver) ScrapeFailurePublishingFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ string,
+	_ error,
+) {
+	o.failures++
+}
+
+func (o *recordingScrapeOutcomeFeedObserver) ScrapeFailureConfirmationFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ string,
+	_ error,
+) {
+	o.failures++
+}
+
+func (o *recordingScrapeOutcomeFeedObserver) IntakeReceiptCarried(
+	_ context.Context,
+	_ string,
+	outcomeSubject string,
+) {
+	o.carried <- outcomeSubject
+}
+
+func (o *recordingScrapeOutcomeFeedObserver) IntakeReceiptSubjectUnreadable(
+	_ context.Context,
+	_ string,
+	_ error,
+) {
+	o.failures++
+}
+
+func (o *recordingScrapeOutcomeFeedObserver) IntakeReceiptNotCarried(
+	_ context.Context,
+	_ string,
+	_ string,
+	_ error,
+) {
+	o.failures++
+}
 
 func subscribeToThePageFeed(t *testing.T, connection *nats.Conn) *nats.Subscription {
 	t.Helper()
@@ -40,10 +106,9 @@ func TestScrapeFailureReachesAReaderOfThePageFeed(t *testing.T) {
 		Reason:   pagescrapecontract.NoReasonGiven,
 	}
 
-	if err := scrapeoutcomefeeds.NewScrapeOutcomeFeed(connection).
-		AnnounceScrapeFailure(context.Background(), failure); err != nil {
-		t.Fatalf("announce the scrape failure: %v", err)
-	}
+	observer := &recordingScrapeOutcomeFeedObserver{}
+	scrapeoutcomefeeds.NewScrapeOutcomeFeed(connection, observer).
+		AnnounceScrapeFailure(context.Background(), failure)
 
 	message, err := subscription.NextMsg(outcomeWait)
 	if err != nil {
@@ -60,6 +125,12 @@ func TestScrapeFailureReachesAReaderOfThePageFeed(t *testing.T) {
 	if announced != failure {
 		t.Errorf("announced %#v, want %#v", announced, failure)
 	}
+	if observer.announcedSubject != want {
+		t.Errorf("observed the announcement on %q, want %q", observer.announcedSubject, want)
+	}
+	if observer.failures != 0 {
+		t.Errorf("observed %d failures, want none", observer.failures)
+	}
 }
 
 func TestIntakeReceiptIsCarriedOntoThePageFeedAsItStands(t *testing.T) {
@@ -67,8 +138,10 @@ func TestIntakeReceiptIsCarriedOntoThePageFeedAsItStands(t *testing.T) {
 	subscription := subscribeToThePageFeed(t, connection)
 	ctx, stop := context.WithCancel(context.Background())
 	defer stop()
+	observer := &recordingScrapeOutcomeFeedObserver{carried: make(chan string, 1)}
 	go func() {
-		_ = scrapeoutcomefeeds.NewScrapeOutcomeFeed(connection).CarryIntakeReceipts(ctx)
+		_ = scrapeoutcomefeeds.NewScrapeOutcomeFeed(connection, observer).
+			CarryIntakeReceipts(ctx)
 	}()
 	time.Sleep(carrierStart)
 
@@ -96,5 +169,13 @@ func TestIntakeReceiptIsCarriedOntoThePageFeedAsItStands(t *testing.T) {
 	}
 	if string(message.Data) != string(receipt) {
 		t.Errorf("carried %q, want the receipt %q as it stands", message.Data, receipt)
+	}
+	select {
+	case carried := <-observer.carried:
+		if carried != want {
+			t.Errorf("observed the receipt carried onto %q, want %q", carried, want)
+		}
+	case <-time.After(outcomeWait):
+		t.Error("the carried receipt was never observed")
 	}
 }

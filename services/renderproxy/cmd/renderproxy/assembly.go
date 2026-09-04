@@ -12,8 +12,14 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/cdprender"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/originpreflight"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/proxyintake"
+	rendercapacityobserversapplog "github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendercapacityobservers/applog"
+	rendercapacityobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendercapacityobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendergate"
-	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendermetrics"
+	renderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderobservers/applog"
+	renderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 )
@@ -30,20 +36,34 @@ func RunService(
 	cfg ServiceConfig,
 	registry *prometheus.Registry,
 ) error {
-	metrics := rendermetrics.New(registry)
+	renderObservers := rendergate.RenderObservers{
+		renderobserversapplog.RenderLog{},
+		renderobserversprometheus.New(registry),
+	}
+	renderCapacityObservers := rendergate.RenderCapacityObservers{
+		rendercapacityobserversapplog.RenderCapacityLog{},
+		rendercapacityobserversprometheus.New(registry),
+	}
 	browser := cdprender.New(ctx, cfg.CDPURL, cfg.EgressProxyURL, cfg.MaxResponseBytes)
 	defer browser.Close()
 
-	gated := rendergate.New(
+	deadlineRenderer := rendergate.NewDeadlineRenderer(
 		originpreflight.New(browser, cfg.EgressProxyURL, cfg.MaxResponseBytes),
-		cfg.RenderConcurrency,
 		cfg.RequestDeadline,
-		metrics,
+		renderObservers,
 	)
-
+	capacityLimitedRenderer := rendergate.NewCapacityLimitedRenderer(
+		deadlineRenderer,
+		cfg.RenderConcurrency,
+		renderCapacityObservers,
+	)
 	proxyServer := &http.Server{
-		Addr:              cfg.ListenAddr,
-		Handler:           proxyintake.New(gated),
+		Addr: cfg.ListenAddr,
+		Handler: httpobservation.NewHandler(
+			proxyintake.New(capacityLimitedRenderer),
+			httpaccesslog.New(),
+			httpmetrics.NewEndpointMetrics(registry, "renderproxy"),
+		),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 	opsServer := &http.Server{

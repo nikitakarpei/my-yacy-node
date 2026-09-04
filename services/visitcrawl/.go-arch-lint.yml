@@ -15,8 +15,16 @@ components:
     in: internal/visitlink/**
   crawlorderbroker:
     in: internal/crawlorderbroker/**
-  visitmetrics:
-    in: internal/visitmetrics/**
+  crawlorderplacersbackground:
+    in: internal/crawlorderplacers/background/**
+  crawlorderpublicationobserversapplog:
+    in: internal/crawlorderpublicationobservers/applog/**
+  crawlorderpublicationobserversprometheus:
+    in: internal/crawlorderpublicationobservers/prometheus/**
+  backgroundcrawlorderplacementobserversapplog:
+    in: internal/backgroundcrawlorderplacementobservers/applog/**
+  backgroundcrawlorderplacementobserversprometheus:
+    in: internal/backgroundcrawlorderplacementobservers/prometheus/**
   visitcrawlcmd:
     in: cmd/visitcrawl/**
 
@@ -43,6 +51,9 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
@@ -59,7 +70,23 @@ deps:
       - yacycrawlcontract
       - nats
       - serviceruntime
-  visitmetrics:
+  crawlorderplacersbackground:
+    canUse:
+      - yacycrawlcontract
+  crawlorderpublicationobserversapplog:
+    mayDependOn:
+      - crawlorderbroker
+  crawlorderpublicationobserversprometheus:
+    mayDependOn:
+      - crawlorderbroker
+    canUse:
+      - prometheus
+  backgroundcrawlorderplacementobserversapplog:
+    mayDependOn:
+      - crawlorderplacersbackground
+  backgroundcrawlorderplacementobserversprometheus:
+    mayDependOn:
+      - crawlorderplacersbackground
     canUse:
       - prometheus
   visitcrawlcmd:

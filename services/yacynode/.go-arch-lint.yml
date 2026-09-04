@@ -70,14 +70,18 @@ components:
     in: internal/pagerwi/**
   pageintake:
     in: internal/pageintake/**
-  intakeprogressobserversapplog:
-    in: internal/intakeprogressobservers/applog/**
-  intakeprogressobserversprometheus:
-    in: internal/intakeprogressobservers/prometheus/**
+  pageintakeobserversapplog:
+    in: internal/pageintakeobservers/applog/**
+  pageintakeobserversprometheus:
+    in: internal/pageintakeobservers/prometheus/**
   pageofferbroker:
     in: internal/pageofferbroker/**
   intakereceiptsnats:
     in: internal/intakereceipts/nats/**
+  intakereceiptpublicationobserversapplog:
+    in: internal/intakereceiptpublicationobservers/applog/**
+  intakereceiptpublicationobserversprometheus:
+    in: internal/intakereceiptpublicationobservers/prometheus/**
   cmd:
     in:
       - cmd/yacy-entrypoint/**
@@ -129,6 +133,7 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
@@ -313,7 +318,10 @@ deps:
     canUse:
       - pagescrapecontract
       - nats
-  intakeprogressobserversprometheus:
+  pageintakeobserversprometheus:
+    canUse:
+      - prometheus
+  intakereceiptpublicationobserversprometheus:
     canUse:
       - prometheus
   cmd:

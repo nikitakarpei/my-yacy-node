@@ -14,6 +14,8 @@ components:
     in: httpobservation/**
   httpaccesslog:
     in: httpaccesslog/**
+  httpmetrics:
+    in: httpmetrics/**
   opsmetrics:
     in: opsmetrics/**
   servergroup:
@@ -46,11 +48,19 @@ vendors:
   processenvironmentlease:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/processenvironmentlease
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
 
 deps:
   httpaccesslog:
     mayDependOn:
       - httpobservation
+  httpmetrics:
+    mayDependOn:
+      - httpobservation
+    canUse:
+      - prometheus
   servergroup:
     canUse:
       - errgroup

@@ -43,7 +43,9 @@ func awaitedFetchOutcome(
 	serverURL := natstestserver.Start(t)
 	pageURL := canonicalurltest.CanonicalURLOf(t, pageAddress)
 
-	outcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(serverURL)
+	outcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(
+		serverURL, &recordingScrapeOutcomeObserver{},
+	)
 	if err != nil {
 		t.Fatalf("open the scrape outcomes: %v", err)
 	}
@@ -59,11 +61,7 @@ func awaitedFetchOutcome(
 
 	waitCtx, stopWaiting := context.WithTimeout(context.Background(), waitLimit)
 	defer stopWaiting()
-	fetchOutcome, err := listener.AwaitedFetchOutcome(waitCtx)
-	if err != nil {
-		t.Fatalf("wait for the outcome: %v", err)
-	}
-	return fetchOutcome
+	return listener.AwaitedFetchOutcome(waitCtx)
 }
 
 func keptPageReceiptFrom(
@@ -145,7 +143,9 @@ func TestAScrapeThatFailedIsAwaitedAsAPageThatCannotBeRead(t *testing.T) {
 func TestAReceiptFromAnotherCorpusDoesNotFinishTheWait(t *testing.T) {
 	serverURL := natstestserver.Start(t)
 	pageURL := canonicalurltest.CanonicalURLOf(t, pageAddress)
-	outcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(serverURL)
+	outcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(
+		serverURL, &recordingScrapeOutcomeObserver{},
+	)
 	if err != nil {
 		t.Fatalf("open the scrape outcomes: %v", err)
 	}
@@ -171,18 +171,17 @@ func TestAReceiptFromAnotherCorpusDoesNotFinishTheWait(t *testing.T) {
 
 	waitCtx, stopWaiting := context.WithTimeout(context.Background(), waitLimit)
 	defer stopWaiting()
-	fetchOutcome, err := listener.AwaitedFetchOutcome(waitCtx)
-	if err != nil {
-		t.Fatalf("wait for the outcome: %v", err)
-	}
+	fetchOutcome := listener.AwaitedFetchOutcome(waitCtx)
 	if fetchOutcome != pageread.PageNotReadable {
 		t.Errorf("fetch outcome = %q, want %q", fetchOutcome, pageread.PageNotReadable)
 	}
 }
 
-func TestWaitThatRunsOutBeforeAnyAnnouncementFails(t *testing.T) {
+func TestWaitThatRunsOutBeforeAnyAnnouncementIsUnfinished(t *testing.T) {
 	serverURL := natstestserver.Start(t)
-	outcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(serverURL)
+	outcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(
+		serverURL, &recordingScrapeOutcomeObserver{},
+	)
 	if err != nil {
 		t.Fatalf("open the scrape outcomes: %v", err)
 	}
@@ -199,13 +198,75 @@ func TestWaitThatRunsOutBeforeAnyAnnouncementFails(t *testing.T) {
 
 	waitCtx, stopWaiting := context.WithTimeout(context.Background(), time.Millisecond)
 	defer stopWaiting()
-	if _, err := listener.AwaitedFetchOutcome(waitCtx); err == nil {
-		t.Fatal("the wait answered without an error, want the wait that ran out to fail")
+	if fetchOutcome := listener.AwaitedFetchOutcome(waitCtx); fetchOutcome !=
+		pageread.FetchUnfinished {
+		t.Errorf("fetch outcome = %q, want %q", fetchOutcome, pageread.FetchUnfinished)
+	}
+}
+
+func TestAMessageThatCannotBeReadIsObservedAndDoesNotFinishTheWait(t *testing.T) {
+	serverURL := natstestserver.Start(t)
+	pageURL := canonicalurltest.CanonicalURLOf(t, pageAddress)
+	observer := &recordingScrapeOutcomeObserver{}
+	outcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(serverURL, observer)
+	if err != nil {
+		t.Fatalf("open the scrape outcomes: %v", err)
+	}
+	defer outcomes.Close()
+	listener, err := outcomes.ListenerFor(context.Background(), pageURL)
+	if err != nil {
+		t.Fatalf("listen for the outcome: %v", err)
+	}
+	defer listener.Close()
+
+	carry(
+		t, serverURL, pagescrapecontract.KeptPageOutcomeSubjectOf(pageURL),
+		[]byte("not a kept page"),
+	)
+	carry(
+		t, serverURL, pagescrapecontract.RejectedPageOutcomeSubjectOf(pageURL),
+		rejectedPageReceiptFrom(t, pageURL),
+	)
+
+	waitCtx, stopWaiting := context.WithTimeout(context.Background(), waitLimit)
+	defer stopWaiting()
+	if fetchOutcome := listener.AwaitedFetchOutcome(waitCtx); fetchOutcome !=
+		pageread.PageNotReadable {
+		t.Errorf("fetch outcome = %q, want %q", fetchOutcome, pageread.PageNotReadable)
+	}
+	if observer.malformedMessages != 1 {
+		t.Errorf("malformed messages = %d, want 1", observer.malformedMessages)
 	}
 }
 
 func TestScrapeOutcomesCannotOpenOnAServerThatIsAway(t *testing.T) {
-	if _, err := scrapeoutcomesnats.OpenScrapeOutcomes("nats://127.0.0.1:1"); err == nil {
+	if _, err := scrapeoutcomesnats.OpenScrapeOutcomes(
+		"nats://127.0.0.1:1", &recordingScrapeOutcomeObserver{},
+	); err == nil {
 		t.Fatal("the scrape outcomes opened, want the server that is away to fail")
 	}
+}
+
+type recordingScrapeOutcomeObserver struct {
+	subscriptionFailures         int
+	listenerConfirmationFailures int
+	malformedMessages            int
+}
+
+func (o *recordingScrapeOutcomeObserver) ScrapeOutcomeSubscriptionFailed(
+	context.Context, canonicalurl.CanonicalURL, error,
+) {
+	o.subscriptionFailures++
+}
+
+func (o *recordingScrapeOutcomeObserver) ScrapeOutcomeListenerConfirmationFailed(
+	context.Context, canonicalurl.CanonicalURL, error,
+) {
+	o.listenerConfirmationFailures++
+}
+
+func (o *recordingScrapeOutcomeObserver) ScrapeOutcomeMessageMalformed(
+	context.Context, canonicalurl.CanonicalURL, error,
+) {
+	o.malformedMessages++
 }

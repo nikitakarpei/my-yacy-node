@@ -20,20 +20,20 @@ type SearchEngine interface {
 
 type Config struct {
 	Engine            SearchEngine
-	Progress          SearchProgress
+	Observer          WebSearchObserver
 	SearchResultLimit int
 }
 
 type WebSearch struct {
 	engine            SearchEngine
-	progress          SearchProgress
+	observer          WebSearchObserver
 	searchResultLimit int
 }
 
 func NewWebSearch(cfg Config) *WebSearch {
 	return &WebSearch{
 		engine:            cfg.Engine,
-		progress:          cfg.Progress,
+		observer:          cfg.Observer,
 		searchResultLimit: cfg.SearchResultLimit,
 	}
 }
@@ -45,14 +45,14 @@ func (s *WebSearch) SearchResultsFor(
 ) ([]SearchResult, error) {
 	engineSearchResults, err := s.engine.SearchResultsFor(ctx, query)
 	if err != nil {
-		s.progress.SearchFailed(ctx, query, err)
+		s.observer.SearchFailed(ctx, query, err)
 		return nil, fmt.Errorf("search for %q: %w", query, err)
 	}
 	searchResults := s.searchResultsWithinLimitFrom(
 		engineSearchResults,
 		requestedSearchResultLimit,
 	)
-	s.progress.SearchServed(ctx, query, len(searchResults))
+	s.observer.SearchServed(ctx, query, len(searchResults))
 	return searchResults, nil
 }
 

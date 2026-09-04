@@ -28,6 +28,12 @@ func (AccessLog) ObserveRequest(ctx context.Context, served httpobservation.Serv
 		"status", served.Status,
 		"duration_ms", served.Duration.Milliseconds(),
 	}
+	if served.ResponseWriteError != nil {
+		attrs = append(attrs, "error", served.ResponseWriteError)
+		slog.WarnContext(ctx, requestFailedMessage, attrs...)
+
+		return
+	}
 	if served.Status >= http.StatusBadRequest {
 		slog.WarnContext(ctx, requestFailedMessage, attrs...)
 

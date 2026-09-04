@@ -1,40 +1,24 @@
 package pagehtml_test
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
 )
 
-const page = `<html><head><title>t</title></head><body><a href="/first">first</a><a href="/second">second</a></body></html>`
-
-func TestElementTreeFromRejectsABodyThatIsNotHTML(t *testing.T) {
-	if _, err := pagehtml.ElementTreeFrom(t.Context(), "application/pdf", []byte(page)); !errors.Is(
-		err, pagehtml.ErrNotHTML,
-	) {
-		t.Fatalf("want ErrNotHTML, got %v", err)
-	}
-}
-
-func TestElementTreeFromAcceptsTheHTMLMediaTypes(t *testing.T) {
-	for _, contentType := range []string{
-		"text/html",
-		"text/html; charset=utf-8",
-		"application/xhtml+xml",
-		"text/html;",
-	} {
-		if _, err := pagehtml.ElementTreeFrom(t.Context(), contentType, []byte(page)); err != nil {
-			t.Errorf("ElementTreeFrom %q: %v", contentType, err)
-		}
-	}
-}
-
-func TestElementsNamedYieldsEveryElementOfThatNameInDocumentOrder(t *testing.T) {
-	tree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(page))
+func elementTreeOfHTML(t *testing.T, pageHTML string) pagehtml.ElementTree {
+	t.Helper()
+	tree, err := pagehtml.NewHTMLParser(&recordingMediaTypeObserver{}).ElementTreeFrom(
+		t.Context(), "text/html", []byte(pageHTML),
+	)
 	if err != nil {
 		t.Fatalf("ElementTreeFrom: %v", err)
 	}
+	return tree
+}
+
+func TestElementsNamedYieldsEveryElementOfThatNameInDocumentOrder(t *testing.T) {
+	tree := elementTreeOfHTML(t, page)
 
 	var hrefs []string
 	for element := range tree.ElementsNamed("a") {
@@ -54,10 +38,7 @@ func TestElementsNamedYieldsEveryElementOfThatNameInDocumentOrder(t *testing.T) 
 }
 
 func TestElementsNamedSkipsEveryOtherElement(t *testing.T) {
-	tree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(page))
-	if err != nil {
-		t.Fatalf("ElementTreeFrom: %v", err)
-	}
+	tree := elementTreeOfHTML(t, page)
 
 	titles := 0
 	for range tree.ElementsNamed("title") {
@@ -70,10 +51,7 @@ func TestElementsNamedSkipsEveryOtherElement(t *testing.T) {
 }
 
 func TestElementsNamedStopsWhenTheReaderStops(t *testing.T) {
-	tree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(page))
-	if err != nil {
-		t.Fatalf("ElementTreeFrom: %v", err)
-	}
+	tree := elementTreeOfHTML(t, page)
 
 	visited := 0
 	for range tree.ElementsNamed("a") {
@@ -87,12 +65,7 @@ func TestElementsNamedStopsWhenTheReaderStops(t *testing.T) {
 }
 
 func TestAttributeOfReadsAKeyWhateverItsCase(t *testing.T) {
-	tree, err := pagehtml.ElementTreeFrom(t.Context(), "text/html", []byte(
-		`<html><body><a HREF="/next">next</a></body></html>`,
-	))
-	if err != nil {
-		t.Fatalf("ElementTreeFrom: %v", err)
-	}
+	tree := elementTreeOfHTML(t, `<html><body><a HREF="/next">next</a></body></html>`)
 
 	for element := range tree.ElementsNamed("a") {
 		href, ok := element.AttributeOf("href")

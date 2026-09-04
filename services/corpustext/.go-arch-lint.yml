@@ -18,10 +18,14 @@ components:
     in: internal/pageintake/**
   intakereceiptsnats:
     in: internal/intakereceipts/nats/**
-  intakeprogressobserversapplog:
-    in: internal/intakeprogressobservers/applog/**
-  intakeprogressobserversprometheus:
-    in: internal/intakeprogressobservers/prometheus/**
+  intakereceiptpublicationobserversapplog:
+    in: internal/intakereceiptpublicationobservers/applog/**
+  intakereceiptpublicationobserversprometheus:
+    in: internal/intakereceiptpublicationobservers/prometheus/**
+  pageintakeobserversapplog:
+    in: internal/pageintakeobservers/applog/**
+  pageintakeobserversprometheus:
+    in: internal/pageintakeobservers/prometheus/**
   corpustextcmd:
     in: cmd/corpustext/**
 
@@ -90,10 +94,17 @@ deps:
       - pagescrapecontract
       - canonicalurl
       - nats
-  intakeprogressobserversapplog:
+  intakereceiptpublicationobserversapplog:
     canUse:
       - canonicalurl
-  intakeprogressobserversprometheus:
+  intakereceiptpublicationobserversprometheus:
+    canUse:
+      - canonicalurl
+      - prometheus
+  pageintakeobserversapplog:
+    canUse:
+      - canonicalurl
+  pageintakeobserversprometheus:
     canUse:
       - canonicalurl
       - prometheus

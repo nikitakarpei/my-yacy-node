@@ -16,6 +16,38 @@ import (
 
 const crawlOrdersSubject = "yacy.crawl.orders"
 
+type recordingCrawlOrderPublicationObserver struct {
+	publishedOrderID string
+	publishedSubject string
+	failures         int
+}
+
+func (o *recordingCrawlOrderPublicationObserver) CrawlOrderPublished(
+	_ context.Context,
+	orderID string,
+	subject string,
+) {
+	o.publishedOrderID = orderID
+	o.publishedSubject = subject
+}
+
+func (o *recordingCrawlOrderPublicationObserver) CrawlOrderPublishingFailed(
+	_ context.Context,
+	_ string,
+	_ string,
+	_ error,
+) {
+	o.failures++
+}
+
+func (o *recordingCrawlOrderPublicationObserver) CrawlOrderEncodingFailed(
+	_ context.Context,
+	_ string,
+	_ error,
+) {
+	o.failures++
+}
+
 func createOrdersStream(t *testing.T, ctx context.Context, url string) {
 	t.Helper()
 	if _, err := natstestserver.ConnectJetStream(t, url).CreateOrUpdateStream(
@@ -30,16 +62,17 @@ func createOrdersStream(t *testing.T, ctx context.Context, url string) {
 	}
 }
 
-func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
+func TestPublishedCrawlOrderReachesOrdersStream(t *testing.T) {
 	url := natstestserver.Start(t)
 	ctx, cancel := context.WithCancel(context.Background())
 	t.Cleanup(cancel)
 	createOrdersStream(t, ctx, url)
 
+	observer := &recordingCrawlOrderPublicationObserver{}
 	broker, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
 		NATSURL:            url,
 		CrawlOrdersSubject: crawlOrdersSubject,
-	})
+	}, observer)
 	if err != nil {
 		t.Fatalf("open broker: %v", err)
 	}
@@ -52,9 +85,7 @@ func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 			canonicalurltest.CanonicalURLOf(t, "https://example.org"),
 		},
 	}
-	if err := broker.Orders.Place(ctx, order); err != nil {
-		t.Fatalf("place order: %v", err)
-	}
+	broker.OrderPlacer.Place(ctx, order)
 
 	js := natstestserver.ConnectJetStream(t, url)
 	consumer, err := js.CreateOrUpdateConsumer(
@@ -79,6 +110,13 @@ func TestOrderPlacementDeliversToOrdersStream(t *testing.T) {
 	if got.OrderID != order.OrderID || got.Profile.MaxDepth != order.Profile.MaxDepth {
 		t.Fatalf("round-tripped order mismatch: %+v", got)
 	}
+	if observer.publishedOrderID != order.OrderID ||
+		observer.publishedSubject != crawlOrdersSubject {
+		t.Fatalf("published %q on %q", observer.publishedOrderID, observer.publishedSubject)
+	}
+	if observer.failures != 0 {
+		t.Fatalf("failures = %d, want 0", observer.failures)
+	}
 }
 
 func TestOpenRejectsUnreachableNATS(t *testing.T) {
@@ -87,7 +125,7 @@ func TestOpenRejectsUnreachableNATS(t *testing.T) {
 	if _, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
 		NATSURL:            "nats://127.0.0.1:1",
 		CrawlOrdersSubject: crawlOrdersSubject,
-	}); err == nil {
+	}, &recordingCrawlOrderPublicationObserver{}); err == nil {
 		t.Fatal("unreachable nats should fail to open")
 	}
 }

@@ -30,7 +30,7 @@ type MarkdownCorpus interface {
 }
 
 type ScrapeRequests interface {
-	AskToScrape(ctx context.Context, pageURL canonicalurl.CanonicalURL) error
+	AskToScrape(ctx context.Context, pageURL canonicalurl.CanonicalURL)
 }
 
 type ScrapeOutcomes interface {
@@ -41,7 +41,7 @@ type ScrapeOutcomes interface {
 }
 
 type ScrapeOutcomeListener interface {
-	AwaitedFetchOutcome(ctx context.Context) (FetchOutcome, error)
+	AwaitedFetchOutcome(ctx context.Context) FetchOutcome
 	Close()
 }
 
@@ -64,7 +64,7 @@ type Config struct {
 	Corpus          MarkdownCorpus
 	ScrapeRequests  ScrapeRequests
 	ScrapeOutcomes  ScrapeOutcomes
-	Progress        PageReadProgress
+	Observer        PageReadObserver
 	CharacterLimit  int
 	ScrapeTolerance time.Duration
 	FetchWait       time.Duration
@@ -74,7 +74,7 @@ type PageReader struct {
 	corpus          MarkdownCorpus
 	scrapeRequests  ScrapeRequests
 	scrapeOutcomes  ScrapeOutcomes
-	progress        PageReadProgress
+	observer        PageReadObserver
 	characterLimit  int
 	scrapeTolerance time.Duration
 	fetchWait       time.Duration
@@ -85,7 +85,7 @@ func NewPageReader(cfg Config) *PageReader {
 		corpus:          cfg.Corpus,
 		scrapeRequests:  cfg.ScrapeRequests,
 		scrapeOutcomes:  cfg.ScrapeOutcomes,
-		progress:        cfg.Progress,
+		observer:        cfg.Observer,
 		characterLimit:  cfg.CharacterLimit,
 		scrapeTolerance: cfg.ScrapeTolerance,
 		fetchWait:       cfg.FetchWait,
@@ -98,7 +98,7 @@ func (r *PageReader) PageAnswerFor(ctx context.Context, call PageCall) (PageAnsw
 		return PageAnswer{}, err
 	}
 	if r.fetchIsNotNeeded(call, stored) {
-		r.progress.PageAnswered(ctx, call.URL, FetchNotNeeded)
+		r.observer.PageAnswered(ctx, call.URL, FetchNotNeeded)
 		return r.pageAnswerFrom(call, stored, FetchNotNeeded), nil
 	}
 
@@ -109,7 +109,7 @@ func (r *PageReader) PageAnswerFor(ctx context.Context, call PageCall) (PageAnsw
 			return PageAnswer{}, err
 		}
 	}
-	r.progress.PageAnswered(ctx, call.URL, fetchOutcome)
+	r.observer.PageAnswered(ctx, call.URL, fetchOutcome)
 	return r.pageAnswerFrom(call, stored, fetchOutcome), nil
 }
 
@@ -122,7 +122,7 @@ func (r *PageReader) storedPageMarkdownAt(
 		return nil, nil
 	}
 	if err != nil {
-		r.progress.MarkdownRecallFailed(ctx, pageURL, err)
+		r.observer.MarkdownRecallFailed(ctx, pageURL, err)
 		return nil, fmt.Errorf("recall %q from the corpus: %w", pageURL, err)
 	}
 	return &stored, nil
@@ -181,19 +181,14 @@ func (r *PageReader) fetchPage(
 
 	listener, err := r.scrapeOutcomes.ListenerFor(fetchCtx, pageURL)
 	if err != nil {
-		r.progress.ScrapeOutcomeListenFailed(ctx, pageURL, err)
 		return FetchUnfinished
 	}
 	defer listener.Close()
 
-	if err := r.scrapeRequests.AskToScrape(fetchCtx, pageURL); err != nil {
-		r.progress.ScrapeRequestFailed(ctx, pageURL, err)
-		return FetchUnfinished
-	}
-	fetchOutcome, err := listener.AwaitedFetchOutcome(fetchCtx)
-	if err != nil {
-		r.progress.FetchOutcomeNotHeard(ctx, pageURL, r.fetchWait, err)
-		return FetchUnfinished
+	r.scrapeRequests.AskToScrape(fetchCtx, pageURL)
+	fetchOutcome := listener.AwaitedFetchOutcome(fetchCtx)
+	if fetchOutcome == FetchUnfinished {
+		r.observer.FetchOutcomeNotHeard(ctx, pageURL, r.fetchWait)
 	}
 	return fetchOutcome
 }

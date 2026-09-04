@@ -28,7 +28,7 @@ func pageContentOutcome(t *testing.T, page pagefetch.FetchedPage) pagevisit.Visi
 	))
 }
 
-func refusalsHonoredFor(t *testing.T, markup string) map[string]int {
+func linkDiscoveryRefusalsEnforcedFor(t *testing.T, markup string) int {
 	t.Helper()
 	observer := newObserver()
 	visitHost(t, newVisitor(
@@ -37,7 +37,7 @@ func refusalsHonoredFor(t *testing.T, markup string) map[string]int {
 		observer,
 		&fakeScrapeRequests{},
 	))
-	return observer.refusals
+	return observer.linkDiscoveryRefusalsEnforced
 }
 
 func fetchOutcomeOf(page pagefetch.FetchedPage) pagefetch.FetchOutcome {
@@ -85,30 +85,6 @@ func TestVisitHonorsMetaNoIndex(t *testing.T) {
 	}
 }
 
-func TestVisitReportsAnHonoredIndexingRefusal(t *testing.T) {
-	honored := refusalsHonoredFor(t, pageRefusingIndexing)
-
-	if honored["indexing"] != 1 {
-		t.Fatalf("honored refusals %v, want one indexing refusal", honored)
-	}
-}
-
-func TestVisitReportsNoHonoredIndexingRefusalWhenTheOrderIgnoresIt(t *testing.T) {
-	observer := newObserver()
-	visitorFor := newVisitorFor(
-		fetchOf(fetchOutcomeOf(pageHolding(t, pageRefusingIndexing))),
-		&fakeRecrawl{due: true},
-		observer,
-		&fakeScrapeRequests{},
-	)
-
-	visitHost(t, visitorFor(pagerefusals.IgnoredRefusals{IndexingRefusal: true}))
-
-	if observer.refusals["indexing"] != 0 {
-		t.Fatalf("honored refusals %v, want none", observer.refusals)
-	}
-}
-
 func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T) {
 	visitorFor := newVisitorFor(
 		fetchOf(fetchOutcomeOf(pageHolding(t, pageRefusingIndexing))),
@@ -125,10 +101,10 @@ func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T)
 }
 
 func TestVisitReportsAnHonoredLinkDiscoveryRefusal(t *testing.T) {
-	honored := refusalsHonoredFor(t, pageRefusingLinkDiscovery)
+	enforced := linkDiscoveryRefusalsEnforcedFor(t, pageRefusingLinkDiscovery)
 
-	if honored["link-discovery"] != 1 {
-		t.Fatalf("honored refusals %v, want one link-discovery refusal", honored)
+	if enforced != 1 {
+		t.Fatalf("link discovery refusals enforced = %d, want 1", enforced)
 	}
 }
 

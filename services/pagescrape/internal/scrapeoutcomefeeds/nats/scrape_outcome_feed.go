@@ -3,44 +3,57 @@ package nats
 import (
 	"context"
 	"fmt"
-	"log/slog"
 	"time"
 
 	"github.com/nats-io/nats.go"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
-const (
-	publicationConfirmationLimit = 10 * time.Second
-
-	msgReceiptSubjectUnknown = "intake receipt carried on no page feed, " +
-		"a caller waiting for this page learns nothing until it stops waiting"
-	msgReceiptNotCarried = "intake receipt not carried onto the page feed, " +
-		"a caller waiting for this page learns nothing until it stops waiting"
-)
+const publicationConfirmationLimit = 10 * time.Second
 
 type ScrapeOutcomeFeed struct {
 	connection *nats.Conn
+	observer   ScrapeOutcomeFeedObserver
 }
 
-func NewScrapeOutcomeFeed(connection *nats.Conn) *ScrapeOutcomeFeed {
-	return &ScrapeOutcomeFeed{connection: connection}
+func NewScrapeOutcomeFeed(
+	connection *nats.Conn,
+	observer ScrapeOutcomeFeedObserver,
+) *ScrapeOutcomeFeed {
+	return &ScrapeOutcomeFeed{connection: connection, observer: observer}
 }
 
 func (f *ScrapeOutcomeFeed) AnnounceScrapeFailure(
 	ctx context.Context,
 	failure pagescrapecontract.ScrapeFailure,
-) error {
+) {
 	data, err := pagescrapecontract.MarshalScrapeFailure(failure)
 	if err != nil {
-		return err
+		f.observer.ScrapeFailureEncodingFailed(ctx, failure.PageURL, err)
+		return
 	}
 	subject := pagescrapecontract.ScrapeFailureOutcomeSubjectOf(failure.PageURL)
 	if err := f.connection.Publish(subject, data); err != nil {
-		return fmt.Errorf("announce the failed scrape of %q: %w", failure.PageURL, err)
+		f.observer.ScrapeFailurePublishingFailed(ctx, failure.PageURL, subject, err)
+		return
 	}
-	return f.confirm(ctx, failure.PageURL.String())
+	f.confirm(ctx, failure.PageURL, subject)
+}
+
+func (f *ScrapeOutcomeFeed) confirm(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	subject string,
+) {
+	confirmationCtx, cancel := context.WithTimeout(ctx, publicationConfirmationLimit)
+	defer cancel()
+	if err := f.connection.FlushWithContext(confirmationCtx); err != nil {
+		f.observer.ScrapeFailureConfirmationFailed(ctx, pageURL, subject, err)
+		return
+	}
+	f.observer.ScrapeFailureAnnounced(ctx, pageURL, subject)
 }
 
 func (f *ScrapeOutcomeFeed) CarryIntakeReceipts(ctx context.Context) error {
@@ -65,25 +78,12 @@ func (f *ScrapeOutcomeFeed) CarryIntakeReceipts(ctx context.Context) error {
 func (f *ScrapeOutcomeFeed) carry(ctx context.Context, receipt *nats.Msg) {
 	subject, err := pagescrapecontract.ScrapeOutcomeSubjectFrom(receipt.Subject)
 	if err != nil {
-		slog.WarnContext(ctx, msgReceiptSubjectUnknown,
-			slog.String("receiptSubject", receipt.Subject),
-			slog.Any("error", err),
-		)
+		f.observer.IntakeReceiptSubjectUnreadable(ctx, receipt.Subject, err)
 		return
 	}
 	if err := f.connection.Publish(subject, receipt.Data); err != nil {
-		slog.WarnContext(ctx, msgReceiptNotCarried,
-			slog.String("receiptSubject", receipt.Subject),
-			slog.Any("error", err),
-		)
+		f.observer.IntakeReceiptNotCarried(ctx, receipt.Subject, subject, err)
+		return
 	}
-}
-
-func (f *ScrapeOutcomeFeed) confirm(ctx context.Context, pageURL string) error {
-	confirmationCtx, cancel := context.WithTimeout(ctx, publicationConfirmationLimit)
-	defer cancel()
-	if err := f.connection.FlushWithContext(confirmationCtx); err != nil {
-		return fmt.Errorf("flush the page feed of %q: %w", pageURL, err)
-	}
-	return nil
+	f.observer.IntakeReceiptCarried(ctx, receipt.Subject, subject)
 }
