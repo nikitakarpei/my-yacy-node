@@ -34,6 +34,20 @@ services:
       - nats
     entrypoint: ["nats", "--server", "nats://nats:4222"]
 
+  scrape-request-bridge:
+    image: natsio/nats-box:0.19.7
+    restart: on-failure
+    depends_on:
+      yacycrawler:
+        condition: service_started
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        nats --server nats://nats:4222 consumer info YACY_CRAWL_PAGES scrape_request_bridge >/dev/null 2>&1 && exit 0
+        nats --server nats://nats:4222 consumer add YACY_CRAWL_PAGES scrape_request_bridge \
+          --filter crawl.page.indexable --target scrape.request \
+          --deliver all --ack none --replay instant --defaults
+
   yacycrawler:
     image: ghcr.io/nikitakarpei/yacycrawler:latest
     restart: unless-stopped
@@ -44,7 +58,6 @@ services:
         condition: service_started
     environment:
       CRAWL_NATS_URL: nats://nats:4222
-      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
       YACYCRAWLER_FETCH_PROXY_URL: http://smokescreen:4750
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
 

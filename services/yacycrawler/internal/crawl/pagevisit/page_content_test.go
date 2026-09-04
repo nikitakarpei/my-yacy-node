@@ -6,7 +6,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
@@ -24,7 +23,7 @@ func pageContentOutcome(t *testing.T, page pagefetch.FetchedPage) pagevisit.Visi
 		fetchOf(fetchOutcomeOf(page)),
 		&fakeRecrawl{due: true},
 		newObserver(),
-		&fakeScrapeRequests{},
+		&fakeCrawledPages{},
 	))
 }
 
@@ -35,7 +34,7 @@ func linkDiscoveryRefusalsEnforcedFor(t *testing.T, markup string) int {
 		fetchOf(fetchOutcomeOf(pageHolding(t, markup))),
 		&fakeRecrawl{due: true},
 		observer,
-		&fakeScrapeRequests{},
+		&fakeCrawledPages{},
 	))
 	return observer.linkDiscoveryRefusalsEnforced
 }
@@ -77,26 +76,25 @@ func TestVisitReportsUnsupportedMediaType(t *testing.T) {
 	}
 }
 
-func TestVisitHonorsMetaNoIndex(t *testing.T) {
-	outcome := pageContentOutcome(t, pageHolding(t, pageRefusingIndexing))
-
-	if outcome.Disposal != disposal.IndexingRefused {
-		t.Fatalf("noindex not honored, disposal = %q", outcome.Disposal)
-	}
-}
-
-func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T) {
-	visitorFor := newVisitorFor(
+func TestVisitReportsAPageThatRefusesIndexingOnItsOwnSubject(t *testing.T) {
+	crawledPages := &fakeCrawledPages{}
+	visitor := newVisitor(
 		fetchOf(fetchOutcomeOf(pageHolding(t, pageRefusingIndexing))),
 		&fakeRecrawl{due: true},
 		newObserver(),
-		&fakeScrapeRequests{},
+		crawledPages,
 	)
 
-	outcome := visitHost(t, visitorFor(pagerefusals.IgnoredRefusals{IndexingRefusal: true}))
+	outcome := visitHost(t, visitor)
 
 	if outcome.Disposal != disposal.NotDisposed {
-		t.Fatalf("noindex not ignored, disposal = %q", outcome.Disposal)
+		t.Fatalf("a reported page carries no disposal, got %q", outcome.Disposal)
+	}
+	if refused := crawledPages.refusedPages(); len(refused) != 1 {
+		t.Fatalf("want the page reported as refusing indexing, got %v", refused)
+	}
+	if indexable := crawledPages.indexablePages(); len(indexable) != 0 {
+		t.Fatalf("a page that refuses indexing is not indexable, got %v", indexable)
 	}
 }
 

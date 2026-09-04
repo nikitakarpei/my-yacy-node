@@ -15,7 +15,6 @@ func envFrom(values map[string]string) func(string) string {
 func baseEnv() map[string]string {
 	return map[string]string{
 		"CRAWL_NATS_URL":              "nats://localhost:4222",
-		"SCRAPE_REQUEST_NATS_URL":     "nats://localhost:4222",
 		"YACYCRAWLER_FETCH_PROXY_URL": "http://proxy:8080",
 	}
 }
@@ -82,14 +81,6 @@ func TestLoadServiceConfigRequiresCrawlNATSURL(t *testing.T) {
 	delete(env, "CRAWL_NATS_URL")
 	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
 		t.Fatal("missing CRAWL_NATS_URL should error")
-	}
-}
-
-func TestLoadServiceConfigRequiresScrapeRequestNATSURL(t *testing.T) {
-	env := baseEnv()
-	delete(env, "SCRAPE_REQUEST_NATS_URL")
-	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
-		t.Fatal("missing SCRAPE_REQUEST_NATS_URL should error")
 	}
 }
 

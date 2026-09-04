@@ -15,7 +15,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitallowance"
@@ -141,14 +140,6 @@ type fakeVisitor struct {
 	outcomes []pagevisit.VisitOutcome
 	err      error
 	visited  []string
-	refusals []pagerefusals.IgnoredRefusals
-}
-
-func (f *fakeVisitor) visitorFor(ignoredRefusals pagerefusals.IgnoredRefusals) pagevisit.Visitor {
-	f.mu.Lock()
-	defer f.mu.Unlock()
-	f.refusals = append(f.refusals, ignoredRefusals)
-	return f
 }
 
 func (f *fakeVisitor) Visit(
@@ -290,7 +281,7 @@ func (w *crawlWorker) consume(t *testing.T, messages ...jetstream.Msg) error {
 		w.ledger,
 		w.orders,
 		w.frontier,
-		w.visitor.visitorFor,
+		w.visitor,
 		w.observer,
 		1,
 	).Run(context.Background())
@@ -496,20 +487,6 @@ func TestARedeliveredMessageAsksTheLedgerForItsHostPageAgain(t *testing.T) {
 			"the ledger was asked for %d host pages, want one for each delivery",
 			len(worker.ledger.hostPageLimits),
 		)
-	}
-}
-
-func TestTheVisitorHonorsTheOrdersIndexingRefusal(t *testing.T) {
-	worker := newWorker()
-	worker.orders.profile.IgnoresIndexingRefusal = true
-
-	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if len(worker.visitor.refusals) != 1 ||
-		!worker.visitor.refusals[0].IndexingRefusal {
-		t.Fatalf("visitor built for %v, want ignored", worker.visitor.refusals)
 	}
 }
 

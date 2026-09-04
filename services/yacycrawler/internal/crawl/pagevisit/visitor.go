@@ -20,10 +20,25 @@ type Visitor interface {
 type visitor struct {
 	fetches            PageFetcher
 	recrawl            RecrawlRule
-	ignoredRefusals    pagerefusals.IgnoredRefusals
 	htmlPageReading    HTMLPageReading
 	refusalEnforcement RefusalEnforcementObserver
-	scrapeRequests     ScrapeRequests
+	crawledPages       CrawledPages
+}
+
+func New(
+	fetches PageFetcher,
+	recrawl RecrawlRule,
+	htmlPageReading HTMLPageReading,
+	refusalEnforcement RefusalEnforcementObserver,
+	crawledPages CrawledPages,
+) Visitor {
+	return &visitor{
+		fetches:            fetches,
+		recrawl:            recrawl,
+		htmlPageReading:    htmlPageReading,
+		refusalEnforcement: refusalEnforcement,
+		crawledPages:       crawledPages,
+	}
 }
 
 func (v *visitor) Visit(
@@ -80,7 +95,7 @@ func (v *visitor) visitFetchedPage(
 ) (VisitOutcome, error) {
 	page := fetchOutcome.Page
 	v.recordVisit(ctx, url, fetchOutcome.Version)
-	reading, err := v.htmlPageReading.ReadingOfPage(ctx, page, v.ignoredRefusals)
+	reading, err := v.htmlPageReading.ReadingOfPage(ctx, page)
 	if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
 		return completedOutcome(disposal.UnsupportedMediaType, noDiscoveredURLs), nil
 	}
@@ -90,11 +105,20 @@ func (v *visitor) visitFetchedPage(
 	if reading.Refusals.RefusesLinkDiscovery {
 		v.refusalEnforcement.LinkDiscoveryRefusalEnforced(ctx, url)
 	}
-	if reading.Refusals.RefusesIndexing {
-		return completedOutcome(disposal.IndexingRefused, reading.DiscoveredURLs), nil
-	}
-	v.scrapeRequests.Publish(ctx, page.LandedURL)
+	v.reportCrawledPage(ctx, page.LandedURL, reading.Refusals)
 	return completedOutcome(disposal.NotDisposed, reading.DiscoveredURLs), nil
+}
+
+func (v *visitor) reportCrawledPage(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	refusals pagerefusals.Refusals,
+) {
+	if refusals.RefusesIndexing {
+		v.crawledPages.ReportIndexingRefusedPage(ctx, pageURL)
+		return
+	}
+	v.crawledPages.ReportIndexablePage(ctx, pageURL)
 }
 
 func (v *visitor) recordVisit(

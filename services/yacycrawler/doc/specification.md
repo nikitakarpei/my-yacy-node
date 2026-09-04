@@ -3,9 +3,9 @@
 ## Context
 
 `yacycrawler` is a standalone, optional, disposable crawling service. It accepts crawl
-orders. For each order, it fetches the pages the order admits and publishes a scrape
-request for each page. A YaCy node is the typical order source and consumer, but the
-service depends on no consumer's internals.
+orders. For each order, it fetches the pages the order admits and reports each page it
+read. A YaCy node is the typical order source and consumer, but the service depends on no
+consumer's internals.
 
 Several instances share one order stream and one frontier. Every instance takes any URL
 of any order, so a run spreads across the instances that are up. The service is meant for
@@ -17,7 +17,7 @@ a more capable host than an always-on node.
 * Ranking, indexing, or judging what it fetches.
 * Deriving, carrying, or storing page content for a consumer.
 * Authorizing broker subjects beyond the broker deployment's own trust boundary.
-* Creating the scrape-request stream, or sizing its retention; an operator does both.
+* Deciding what a reported page is used for; a consumer of the fact stream decides that.
 * Defeating anti-bot walls; a wall is a refusal signal to honor, not an obstacle to evade.
 * Guaranteeing delivery beyond the broker's own semantics.
 
@@ -32,24 +32,24 @@ a more capable host than an always-on node.
 * Every outbound fetch SHALL egress through the operator's configured proxy.
 * The service SHALL honor a target's explicit refusal, ceasing or deferring the fetch
   rather than pressing against it.
-* The service SHALL honor a page's indexing refusal, unless the order's profile ignores
-  it.
-* The service SHALL publish a scrape request naming the canonical URL of each page it
-  reached, and never the page's content.
+* The service SHALL report a page that refuses indexing on a subject of its own, so that
+  a consumer, not the crawler, decides what to do with it.
+* The service SHALL report the canonical URL of each page it read, and never the page's
+  content.
 * Every URL a run admits SHALL be visited by exactly one instance, and SHALL reach one
-  terminal outcome: published as a scrape request, or disposed, counted against the
-  reason for it.
-* A publication SHALL fail only on a hard, non-retryable broker error; transient
-  backpressure returns the URL for redelivery.
-* A publication failure SHALL NOT be terminal; the page stays unpublished.
+  terminal outcome: reported as a crawled page, or disposed, counted against the reason
+  for it.
+* A report SHALL fail only on a hard, non-retryable broker error; transient backpressure
+  returns the URL for redelivery.
+* A report failure SHALL NOT be terminal; the page stays unreported.
 * The service SHALL acknowledge an order once the order and its seed URLs are durable.
 
 ## Non-Functional Requirements
 
 * The service SHALL process each order idempotently per its identity under at-least-once
   delivery.
-* Each published page SHALL be addressed by its canonical URL, so a re-run of that URL
-  replaces its prior publication downstream rather than duplicating it.
+* Each reported page SHALL be addressed by its canonical URL, so a re-run of that URL
+  replaces its prior report downstream rather than duplicating it.
 * The service SHALL keep its frontier in the broker, not in memory, so run size never
   inflates an instance; it SHALL cap the buffers and fetched-body sizes it does hold.
 * The service SHALL bound every outbound fetch with an explicit deadline.
@@ -69,7 +69,7 @@ a more capable host than an always-on node.
   policy; the service adds none of them.
 * A proxy that rewrites fetch responses must preserve the refusal and wait signals the
   service honors, or the service cannot act on them.
-* A scrape request names a URL anyone with broker publish rights can inject, sending every
-  consumer to fetch it; restrict publish rights on the scrape-request subject to the crawler.
+* A crawled page names a URL anyone with broker publish rights can inject, sending every
+  consumer to fetch it; restrict publish rights on the `crawl.page.>` subjects to the crawler.
 * Each consumer fetches the page again for itself, so the origin serves it once per
   interested consumer and each consumer can see a different page than the crawler saw.

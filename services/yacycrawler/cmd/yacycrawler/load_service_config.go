@@ -9,11 +9,10 @@ import (
 )
 
 const (
-	EnvCrawlNATSURL         = "CRAWL_NATS_URL"
-	EnvScrapeRequestNATSURL = "SCRAPE_REQUEST_NATS_URL"
-	EnvCrawlOrdersSubject   = "CRAWL_ORDERS_SUBJECT"
-	EnvCrawlOrdersDurable   = "CRAWL_ORDERS_DURABLE"
-	EnvPendingVisitDurable  = "PENDING_VISIT_DURABLE"
+	EnvCrawlNATSURL        = "CRAWL_NATS_URL"
+	EnvCrawlOrdersSubject  = "CRAWL_ORDERS_SUBJECT"
+	EnvCrawlOrdersDurable  = "CRAWL_ORDERS_DURABLE"
+	EnvPendingVisitDurable = "PENDING_VISIT_DURABLE"
 
 	EnvProxyURL         = "YACYCRAWLER_FETCH_PROXY_URL"
 	EnvProxyDialMode    = "YACYCRAWLER_FETCH_PROXY_DIAL_MODE"
@@ -44,10 +43,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	scrapeRequestNATSURL, err := envconfig.Required(getenv, EnvScrapeRequestNATSURL)
-	if err != nil {
-		return ServiceConfig{}, err
-	}
 	proxyURL, err := envconfig.RequiredHTTPURL(getenv, EnvProxyURL)
 	if err != nil {
 		return ServiceConfig{}, err
@@ -66,8 +61,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	}
 
 	return ServiceConfig{
-		CrawlNATSURL:         crawlNATSURL,
-		ScrapeRequestNATSURL: scrapeRequestNATSURL,
+		CrawlNATSURL: crawlNATSURL,
 		CrawlOrdersSubject: envconfig.String(
 			getenv,
 			EnvCrawlOrdersSubject,

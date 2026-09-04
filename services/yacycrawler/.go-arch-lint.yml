@@ -7,7 +7,6 @@ allow:
 
 commonVendors:
   - yacycrawlcontract
-  - pagescrapecontract
   - canonicalurl
 
 components:
@@ -77,16 +76,16 @@ components:
     in: internal/refusalenforcementobservers/applog/**
   refusalenforcementobserversprometheus:
     in: internal/refusalenforcementobservers/prometheus/**
-  scraperequestobserversapplog:
-    in: internal/scraperequestobservers/applog/**
-  scraperequestobserversprometheus:
-    in: internal/scraperequestobservers/prometheus/**
+  crawledpageobserversapplog:
+    in: internal/crawledpageobservers/applog/**
+  crawledpageobserversprometheus:
+    in: internal/crawledpageobservers/prometheus/**
   recrawlrecordobserversapplog:
     in: internal/recrawlrecordobservers/applog/**
   recrawlrecordobserversprometheus:
     in: internal/recrawlrecordobservers/prometheus/**
-  scraperequestsjetstream:
-    in: internal/scraperequests/jetstream/**
+  crawledpagesjetstream:
+    in: internal/crawledpages/jetstream/**
   crawlercmd:
     in: cmd/yacycrawler/**
 
@@ -99,8 +98,6 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  pagescrapecontract:
-    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -233,7 +230,7 @@ deps:
     canUse:
       - nats
       - canonicalurl
-  scraperequestsjetstream:
+  crawledpagesjetstream:
     canUse:
       - nats
   crawlorderobserversapplog:
@@ -281,10 +278,14 @@ deps:
     canUse:
       - prometheus
       - canonicalurl
-  scraperequestobserversapplog:
+  crawledpageobserversapplog:
+    mayDependOn:
+      - crawledpagesjetstream
     canUse:
       - canonicalurl
-  scraperequestobserversprometheus:
+  crawledpageobserversprometheus:
+    mayDependOn:
+      - crawledpagesjetstream
     canUse:
       - prometheus
       - canonicalurl

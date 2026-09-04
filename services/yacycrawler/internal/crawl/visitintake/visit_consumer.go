@@ -12,7 +12,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/visitallowance"
@@ -59,7 +58,7 @@ type VisitConsumer struct {
 	ledger           VisitLedger
 	orders           AcceptedOrders
 	frontier         PendingVisits
-	visitorFor       pagevisit.VisitorFor
+	visitor          pagevisit.Visitor
 	observer         PendingVisitObserver
 	fetchConcurrency int
 }
@@ -71,7 +70,7 @@ func NewVisitConsumer(
 	ledger VisitLedger,
 	orders AcceptedOrders,
 	frontier PendingVisits,
-	visitorFor pagevisit.VisitorFor,
+	visitor pagevisit.Visitor,
 	observer PendingVisitObserver,
 	fetchConcurrency int,
 ) *VisitConsumer {
@@ -81,7 +80,7 @@ func NewVisitConsumer(
 		ledger:           ledger,
 		orders:           orders,
 		frontier:         frontier,
-		visitorFor:       visitorFor,
+		visitor:          visitor,
 		observer:         observer,
 		fetchConcurrency: fetchConcurrency,
 	}
@@ -107,7 +106,7 @@ func (c *VisitConsumer) payVisit(
 	if !c.claimVisit(ctx, message, order, pendingVisit) {
 		return nil
 	}
-	outcome, err := c.visitorFor(ignoredRefusalsOf(order)).Visit(ctx, pendingVisit.URL)
+	outcome, err := c.visitor.Visit(ctx, pendingVisit.URL)
 	if err != nil {
 		c.returnVisit(ctx, message, pendingVisit, err)
 		return nil
@@ -192,10 +191,6 @@ func (c *VisitConsumer) dropExhaustedVisit(
 ) {
 	c.observer.PendingVisitDisposedPage(ctx, pendingVisit, exhausted)
 	message.Acknowledge(ctx)
-}
-
-func ignoredRefusalsOf(order acceptedorder.AcceptedOrder) pagerefusals.IgnoredRefusals {
-	return pagerefusals.IgnoredRefusals{IndexingRefusal: order.IgnoresIndexingRefusal()}
 }
 
 func (c *VisitConsumer) carryOutConclusion(

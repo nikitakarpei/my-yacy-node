@@ -31,22 +31,23 @@ const (
 
 	acceptedOrderRetention = 7 * 24 * time.Hour
 	acceptedOrderMaxBytes  = 64 << 20
+
+	crawledPageRetention = 7 * 24 * time.Hour
 )
 
 type ServiceConfig struct {
-	CrawlNATSURL         string
-	ScrapeRequestNATSURL string
-	CrawlOrdersSubject   string
-	CrawlOrdersDurable   string
-	PendingVisitDurable  string
-	ProxyURL             *url.URL
-	ProxyDialMode        http.ProxyDialMode
-	FetchConcurrency     int
-	MaxBodyBytes         int64
-	FetchDeadline        time.Duration
-	RecrawlGrace         time.Duration
-	OpsAddr              string
-	UserAgent            string
+	CrawlNATSURL        string
+	CrawlOrdersSubject  string
+	CrawlOrdersDurable  string
+	PendingVisitDurable string
+	ProxyURL            *url.URL
+	ProxyDialMode       http.ProxyDialMode
+	FetchConcurrency    int
+	MaxBodyBytes        int64
+	FetchDeadline       time.Duration
+	RecrawlGrace        time.Duration
+	OpsAddr             string
+	UserAgent           string
 }
 
 func (cfg ServiceConfig) SuppressesRecrawl() bool {
@@ -102,6 +103,10 @@ func (ServiceConfig) CrawlOrdersAckWait() time.Duration {
 
 func (ServiceConfig) OrderIntakeConcurrency() int {
 	return orderIntakeConcurrency
+}
+
+func (ServiceConfig) CrawledPageRetention() time.Duration {
+	return crawledPageRetention
 }
 
 func (ServiceConfig) PendingVisitDuplicateWindow() time.Duration {
