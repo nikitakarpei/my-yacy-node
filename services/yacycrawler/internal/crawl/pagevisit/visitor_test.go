@@ -274,7 +274,7 @@ func newVisitorFor(
 	observer *recordingObserver,
 	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.VisitorFor {
-	pageFetcher := pagevisit.NewTimedPageFetcher(
+	pageFetcher := pagevisit.NewObservedPageFetcher(
 		fetcher, &steppingClock{now: time.Unix(0, 0), step: fetchStep}, observer,
 	)
 	recrawlRule := pagevisit.NewBestEffortRecrawlRule(recrawl, observer)

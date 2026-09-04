@@ -394,7 +394,7 @@ func buildVisitorFor(
 	if err != nil {
 		return nil, err
 	}
-	pageFetcher := pagevisit.NewTimedPageFetcher(fetch, wallclock.Clock{}, pageFetchObserver)
+	pageFetcher := pagevisit.NewObservedPageFetcher(fetch, wallclock.Clock{}, pageFetchObserver)
 	bestEffortRecrawl := pagevisit.NewBestEffortRecrawlRule(recrawl, recrawlRecordObserver)
 	scrapeRequests := scraperequestsjetstream.New(
 		brokers.scrapeRequests, scrapeRequestObserver,
