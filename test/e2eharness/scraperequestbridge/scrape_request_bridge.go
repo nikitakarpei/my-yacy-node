@@ -22,6 +22,7 @@ const (
 	durable            = "scrape_request_bridge"
 	streamAppearance   = 60 * time.Second
 	consumerAppearance = 60 * time.Second
+	relayShutdown      = 30 * time.Second
 )
 
 func Relay(t *testing.T, ctx context.Context, natsURL string) {
@@ -42,7 +43,7 @@ func Relay(t *testing.T, ctx context.Context, natsURL string) {
 	if err != nil {
 		t.Fatalf("relay indexable crawled pages: %v", err)
 	}
-	t.Cleanup(relaying.Stop)
+	t.Cleanup(func() { stopRelaying(t, relaying) })
 }
 
 func awaitCrawledPagesStream(t *testing.T, ctx context.Context, js jetstream.JetStream) {
@@ -97,5 +98,15 @@ func relayAsScrapeRequest(
 	}
 	if err := page.Ack(); err != nil {
 		t.Errorf("ack a relayed crawled page: %v", err)
+	}
+}
+
+func stopRelaying(t *testing.T, relaying jetstream.ConsumeContext) {
+	t.Helper()
+	relaying.Stop()
+	select {
+	case <-relaying.Closed():
+	case <-time.After(relayShutdown):
+		t.Errorf("the relay did not stop within %s", relayShutdown)
 	}
 }
