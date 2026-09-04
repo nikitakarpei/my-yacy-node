@@ -14,38 +14,38 @@ import (
 )
 
 const (
-	baseHrefMetricName  = "yacycrawler_page_base_hrefs_unresolved_total"
-	linkHrefsMetricName = "yacycrawler_page_link_hrefs_unresolved_total"
+	baseURLMetricName = "yacycrawler_page_base_urls_unresolved_total"
+	linksMetricName   = "yacycrawler_page_links_unresolved_total"
 )
 
-func TestLinkResolutionMetricsCountEveryHrefThatCannotBeResolved(t *testing.T) {
+func TestLinkResolutionMetricsCountEveryLinkThatCannotBeResolved(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := linkresolutionobserversprometheus.New(registry)
 	pageURL := canonicalurltest.CanonicalURLOf(t, "http://host.example/page")
 
-	metrics.BaseHrefUnresolved(context.Background(), pageURL, "::base::", errors.New("parse"))
-	metrics.LinkHrefsUnresolved(context.Background(), pageURL, 3)
+	metrics.BaseURLUnresolved(context.Background(), pageURL, "::base::", errors.New("parse"))
+	metrics.LinksUnresolved(context.Background(), pageURL, 3)
 
 	if err := testutil.GatherAndCompare(registry, strings.NewReader(
-		"# HELP "+baseHrefMetricName+
-			" Pages whose base href cannot be resolved, read against the page url.\n"+
-			"# TYPE "+baseHrefMetricName+" counter\n"+
-			baseHrefMetricName+" 1\n"+
-			"# HELP "+linkHrefsMetricName+
-			" Link hrefs that cannot be resolved, left off the frontier.\n"+
-			"# TYPE "+linkHrefsMetricName+" counter\n"+
-			linkHrefsMetricName+" 3\n",
-	), baseHrefMetricName, linkHrefsMetricName); err != nil {
+		"# HELP "+baseURLMetricName+
+			" Pages whose stated base URL cannot be resolved, read against the page URL instead.\n"+
+			"# TYPE "+baseURLMetricName+" counter\n"+
+			baseURLMetricName+" 1\n"+
+			"# HELP "+linksMetricName+
+			" Links that cannot be resolved into a URL, left off the frontier.\n"+
+			"# TYPE "+linksMetricName+" counter\n"+
+			linksMetricName+" 3\n",
+	), baseURLMetricName, linksMetricName); err != nil {
 		t.Fatal(err)
 	}
 }
 
-func TestEveryUnresolvedHrefReadsZeroBeforeItHappens(t *testing.T) {
+func TestEveryUnresolvedLinkReadsZeroBeforeItHappens(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	linkresolutionobserversprometheus.New(registry)
 
 	if counters := testutil.CollectAndCount(
-		registry, baseHrefMetricName, linkHrefsMetricName,
+		registry, baseURLMetricName, linksMetricName,
 	); counters != 2 {
 		t.Fatalf("counters = %d, want 2", counters)
 	}
@@ -56,7 +56,7 @@ func TestLinkResolutionMetricsExposeNoPageAddress(t *testing.T) {
 	metrics := linkresolutionobserversprometheus.New(registry)
 	pageURL := canonicalurltest.CanonicalURLOf(t, "http://private.example/page")
 
-	metrics.BaseHrefUnresolved(context.Background(), pageURL, "::base::", errors.New("parse"))
+	metrics.BaseURLUnresolved(context.Background(), pageURL, "::base::", errors.New("parse"))
 
 	families, err := registry.Gather()
 	if err != nil {

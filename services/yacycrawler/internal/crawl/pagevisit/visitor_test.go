@@ -204,7 +204,7 @@ func (o *recordingObserver) PageFetchCanceled(
 	o.fetchesCanceled++
 }
 
-func (*recordingObserver) RecrawlRecordFailed(
+func (*recordingObserver) PageVisitNotRecorded(
 	context.Context,
 	canonicalurl.CanonicalURL,
 	error,
@@ -726,7 +726,7 @@ func (silentMediaTypeObserver) MediaTypeUnparsed(context.Context, string, error)
 
 type silentLinkResolutionObserver struct{}
 
-func (silentLinkResolutionObserver) BaseHrefUnresolved(
+func (silentLinkResolutionObserver) BaseURLUnresolved(
 	context.Context,
 	canonicalurl.CanonicalURL,
 	string,
@@ -734,7 +734,7 @@ func (silentLinkResolutionObserver) BaseHrefUnresolved(
 ) {
 }
 
-func (silentLinkResolutionObserver) LinkHrefsUnresolved(
+func (silentLinkResolutionObserver) LinksUnresolved(
 	context.Context,
 	canonicalurl.CanonicalURL,
 	int,

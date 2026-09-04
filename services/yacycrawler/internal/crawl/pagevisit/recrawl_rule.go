@@ -24,30 +24,14 @@ type RecrawlDecision struct {
 	Version pagefetch.PageVersion
 }
 
-type RecrawlRecordObserver interface {
-	RecrawlRecordFailed(ctx context.Context, pageURL canonicalurl.CanonicalURL, cause error)
-}
-
-type RecrawlRecordObservers []RecrawlRecordObserver
-
-func (observers RecrawlRecordObservers) RecrawlRecordFailed(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	for _, observer := range observers {
-		observer.RecrawlRecordFailed(ctx, pageURL, cause)
-	}
-}
-
 type BestEffortRecrawlRule struct {
 	inner    RecrawlRule
-	observer RecrawlRecordObserver
+	observer PageVisitRecordObserver
 }
 
 func NewBestEffortRecrawlRule(
 	inner RecrawlRule,
-	observer RecrawlRecordObserver,
+	observer PageVisitRecordObserver,
 ) *BestEffortRecrawlRule {
 	return &BestEffortRecrawlRule{inner: inner, observer: observer}
 }
@@ -65,7 +49,7 @@ func (r *BestEffortRecrawlRule) RecordVisit(
 	version pagefetch.PageVersion,
 ) error {
 	if err := r.inner.RecordVisit(ctx, pageURL, version); err != nil {
-		r.observer.RecrawlRecordFailed(ctx, pageURL, err)
+		r.observer.PageVisitNotRecorded(ctx, pageURL, err)
 	}
 	return nil
 }

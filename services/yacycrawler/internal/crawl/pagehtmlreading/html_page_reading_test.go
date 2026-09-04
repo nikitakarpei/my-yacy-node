@@ -101,12 +101,12 @@ func (silentMediaTypeObserver) MediaTypeUnparsed(context.Context, string, error)
 
 type silentLinkResolutionObserver struct{}
 
-func (silentLinkResolutionObserver) BaseHrefUnresolved(
+func (silentLinkResolutionObserver) BaseURLUnresolved(
 	context.Context, canonicalurl.CanonicalURL, string, error,
 ) {
 }
 
-func (silentLinkResolutionObserver) LinkHrefsUnresolved(
+func (silentLinkResolutionObserver) LinksUnresolved(
 	context.Context, canonicalurl.CanonicalURL, int,
 ) {
 }

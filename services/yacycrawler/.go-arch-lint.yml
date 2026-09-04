@@ -80,10 +80,10 @@ components:
     in: internal/crawledpageobservers/applog/**
   crawledpageobserversprometheus:
     in: internal/crawledpageobservers/prometheus/**
-  recrawlrecordobserversapplog:
-    in: internal/recrawlrecordobservers/applog/**
-  recrawlrecordobserversprometheus:
-    in: internal/recrawlrecordobservers/prometheus/**
+  pagevisitrecordobserversapplog:
+    in: internal/pagevisitrecordobservers/applog/**
+  pagevisitrecordobserversprometheus:
+    in: internal/pagevisitrecordobservers/prometheus/**
   crawledpagesjetstream:
     in: internal/crawledpages/jetstream/**
   crawlercmd:
@@ -289,10 +289,10 @@ deps:
     canUse:
       - prometheus
       - canonicalurl
-  recrawlrecordobserversapplog:
+  pagevisitrecordobserversapplog:
     canUse:
       - canonicalurl
-  recrawlrecordobserversprometheus:
+  pagevisitrecordobserversprometheus:
     canUse:
       - prometheus
       - canonicalurl

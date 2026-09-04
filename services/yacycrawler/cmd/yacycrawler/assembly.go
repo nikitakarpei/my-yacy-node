@@ -38,11 +38,11 @@ import (
 	mediatypeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediatypeobservers/prometheus"
 	pagefetchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/applog"
 	pagefetchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/prometheus"
+	pagevisitrecordobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecordobservers/applog"
+	pagevisitrecordobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecordobservers/prometheus"
 	pendingvisitobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingvisitobservers/applog"
 	pendingvisitobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingvisitobservers/prometheus"
 	pendingvisitsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingvisits/jetstream"
-	recrawlrecordobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrecordobservers/applog"
-	recrawlrecordobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrecordobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/alwaysdue"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	refusalenforcementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/applog"
@@ -90,9 +90,9 @@ func RunService(
 		crawledpageobserversapplog.CrawledPagePublicationLog{},
 		crawledpageobserversprometheus.New(registry),
 	}
-	recrawlRecordObservers := pagevisit.RecrawlRecordObservers{
-		recrawlrecordobserversapplog.RecrawlRecordLog{},
-		recrawlrecordobserversprometheus.New(registry),
+	pageVisitRecordObservers := pagevisit.PageVisitRecordObservers{
+		pagevisitrecordobserversapplog.PageVisitRecordLog{},
+		pagevisitrecordobserversprometheus.New(registry),
 	}
 	js, connection, err := jetstreamconnect.Open(cfg.CrawlNATSURL)
 	if err != nil {
@@ -108,7 +108,7 @@ func RunService(
 	}
 	visits, err := buildVisitConsumer(
 		ctx, js, cfg, pendingVisitObservers, pageFetchObservers, htmlPageReading,
-		refusalEnforcementObservers, crawledPageObservers, recrawlRecordObservers,
+		refusalEnforcementObservers, crawledPageObservers, pageVisitRecordObservers,
 	)
 	if err != nil {
 		return err
@@ -271,7 +271,7 @@ func buildVisitConsumer(
 	htmlPageReading pagevisit.HTMLPageReading,
 	refusalEnforcementObserver pagevisit.RefusalEnforcementObserver,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
-	recrawlRecordObserver pagevisit.RecrawlRecordObserver,
+	pageVisitRecordObserver pagevisit.PageVisitRecordObserver,
 ) (*visitintake.VisitConsumer, error) {
 	consumer, err := visitsConsumer(ctx, js, cfg)
 	if err != nil {
@@ -297,7 +297,7 @@ func buildVisitConsumer(
 		htmlPageReading,
 		refusalEnforcementObserver,
 		crawledPageObserver,
-		recrawlRecordObserver,
+		pageVisitRecordObserver,
 	)
 	if err != nil {
 		return nil, err
@@ -369,7 +369,7 @@ func buildVisitor(
 	htmlPageReading pagevisit.HTMLPageReading,
 	refusalEnforcementObserver pagevisit.RefusalEnforcementObserver,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
-	recrawlRecordObserver pagevisit.RecrawlRecordObserver,
+	pageVisitRecordObserver pagevisit.PageVisitRecordObserver,
 ) (pagevisit.Visitor, error) {
 	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
@@ -383,7 +383,7 @@ func buildVisitor(
 		return nil, err
 	}
 	pageFetcher := pagevisit.NewObservedPageFetcher(fetch, wallclock.Clock{}, pageFetchObserver)
-	bestEffortRecrawl := pagevisit.NewBestEffortRecrawlRule(recrawl, recrawlRecordObserver)
+	bestEffortRecrawl := pagevisit.NewBestEffortRecrawlRule(recrawl, pageVisitRecordObserver)
 	crawledPages := crawledpagesjetstream.New(js, crawledPageObserver)
 	return pagevisit.New(
 		pageFetcher,

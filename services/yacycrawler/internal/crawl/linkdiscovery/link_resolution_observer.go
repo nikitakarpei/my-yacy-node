@@ -7,38 +7,38 @@ import (
 )
 
 type LinkResolutionObserver interface {
-	BaseHrefUnresolved(
+	BaseURLUnresolved(
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
-		baseHref string,
+		statedBaseURL string,
 		cause error,
 	)
-	LinkHrefsUnresolved(
+	LinksUnresolved(
 		ctx context.Context,
 		baseURL canonicalurl.CanonicalURL,
-		hrefs int,
+		links int,
 	)
 }
 
 type LinkResolutionObservers []LinkResolutionObserver
 
-func (observers LinkResolutionObservers) BaseHrefUnresolved(
+func (observers LinkResolutionObservers) BaseURLUnresolved(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
-	baseHref string,
+	statedBaseURL string,
 	cause error,
 ) {
 	for _, observer := range observers {
-		observer.BaseHrefUnresolved(ctx, pageURL, baseHref, cause)
+		observer.BaseURLUnresolved(ctx, pageURL, statedBaseURL, cause)
 	}
 }
 
-func (observers LinkResolutionObservers) LinkHrefsUnresolved(
+func (observers LinkResolutionObservers) LinksUnresolved(
 	ctx context.Context,
 	baseURL canonicalurl.CanonicalURL,
-	hrefs int,
+	links int,
 ) {
 	for _, observer := range observers {
-		observer.LinkHrefsUnresolved(ctx, baseURL, hrefs)
+		observer.LinksUnresolved(ctx, baseURL, links)
 	}
 }

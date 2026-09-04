@@ -8,32 +8,32 @@ import (
 )
 
 const (
-	msgBaseHrefUnresolved  = "base href unresolved, using page url"
-	msgLinkHrefsUnresolved = "link hrefs unresolved, left off the frontier"
+	msgBaseURLUnresolved = "base url unresolved, using page url"
+	msgLinksUnresolved   = "links unresolved, left off the frontier"
 )
 
 type LinkResolutionLog struct{}
 
-func (LinkResolutionLog) BaseHrefUnresolved(
+func (LinkResolutionLog) BaseURLUnresolved(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
-	baseHref string,
+	statedBaseURL string,
 	cause error,
 ) {
-	slog.WarnContext(ctx, msgBaseHrefUnresolved,
+	slog.WarnContext(ctx, msgBaseURLUnresolved,
 		slog.String("url", pageURL.String()),
-		slog.String("baseHref", baseHref),
+		slog.String("statedBaseUrl", statedBaseURL),
 		slog.Any("error", cause),
 	)
 }
 
-func (LinkResolutionLog) LinkHrefsUnresolved(
+func (LinkResolutionLog) LinksUnresolved(
 	ctx context.Context,
 	baseURL canonicalurl.CanonicalURL,
-	hrefs int,
+	links int,
 ) {
-	slog.WarnContext(ctx, msgLinkHrefsUnresolved,
+	slog.WarnContext(ctx, msgLinksUnresolved,
 		slog.String("url", baseURL.String()),
-		slog.Int("hrefs", hrefs),
+		slog.Int("links", links),
 	)
 }

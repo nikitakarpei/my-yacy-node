@@ -279,8 +279,7 @@
     },
     {
       "id": 41,
-      "title": "Pending visits, by what the crawler did with each",
-      "description": "A pending visit is one URL an order admits, waiting to be visited. Counted once per delivery: completed and disposed end it, the other four put the URL back on the frontier.",
+      "title": "Page visit attempts, by outcome",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -310,40 +309,15 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacycrawler_pending_visits_completed_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "completed"
-        },
-        {
-          "refId": "B",
-          "expr": "sum(rate(yacycrawler_pages_disposed_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "disposed"
-        },
-        {
-          "refId": "C",
-          "expr": "sum(rate(yacycrawler_pending_visits_deferred_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "deferred"
-        },
-        {
-          "refId": "D",
-          "expr": "sum(rate(yacycrawler_pending_visits_retry_scheduled_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "retry scheduled"
-        },
-        {
-          "refId": "E",
-          "expr": "sum(rate(yacycrawler_pending_visits_returned_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "returned"
-        },
-        {
-          "refId": "F",
-          "expr": "sum(rate(yacycrawler_pending_visits_claimed_elsewhere_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "claimed elsewhere"
+          "expr": "sum by (outcome) (rate(yacycrawler_page_visit_attempts_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "{{outcome}}"
         }
       ]
     },
     {
       "id": 42,
-      "title": "Recrawl records not stored",
-      "description": "A visit the crawler cannot record is due again at once, so the page is fetched before its grace has passed.",
+      "title": "Page visits not recorded",
+      "description": "The crawler skips a page it visited recently. What it does not record it cannot skip, so it fetches the page again.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -373,7 +347,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacycrawler_recrawl_record_failures_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum(rate(yacycrawler_page_visits_not_recorded_total{instance=~\"$service_instance\"}[$__rate_interval]))",
           "legendFormat": "not stored"
         }
       ]
@@ -513,8 +487,21 @@
       ]
     },
     {
-      "id": 23,
-      "title": "Link discovery refusals enforced",
+      "id": 50,
+      "title": "Page reading",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 40
+      },
+      "panels": []
+    },
+    {
+      "id": 51,
+      "title": "Page media types not parsed",
+      "description": "The crawler reads the media type up to the first semicolon instead, to tell whether the page is HTML.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -522,9 +509,47 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
-        "y": 40
+        "y": 41
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(increase(yacycrawler_page_media_types_unparsed_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "not parsed"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "title": "Link discovery refusals enforced",
+      "description": "The page told the crawler not to follow its links, so none of them reach the frontier.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 41
       },
       "fieldConfig": {
         "defaults": {
@@ -550,6 +575,82 @@
       ]
     },
     {
+      "id": 52,
+      "title": "Base URLs not resolved",
+      "description": "A page can state the URL its links are relative to. When the crawler cannot resolve that URL, it uses the page URL instead.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 49
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(increase(yacycrawler_page_base_urls_unresolved_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "not resolved"
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "title": "Links not resolved",
+      "description": "A link the crawler cannot resolve into a URL never reaches the frontier, so the page behind it stays uncrawled.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 49
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(increase(yacycrawler_page_links_unresolved_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "not resolved"
+        }
+      ]
+    },
+    {
       "id": 30,
       "title": "Crawled pages",
       "type": "row",
@@ -557,7 +658,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 48
+        "y": 57
       },
       "panels": []
     },
@@ -573,7 +674,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 49
+        "y": 58
       },
       "fieldConfig": {
         "defaults": {
@@ -610,7 +711,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 49
+        "y": 58
       },
       "fieldConfig": {
         "defaults": {
@@ -639,7 +740,7 @@
       "id": 100,
       "title": "Go process",
       "type": "row",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 57},
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 66},
       "panels": []
     },
     {
@@ -647,7 +748,7 @@
       "title": "Process memory",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 58},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 67},
       "fieldConfig": {"defaults": {"unit": "bytes", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -661,7 +762,7 @@
       "title": "CPU cores used",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 58},
+      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 67},
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -673,7 +774,7 @@
       "title": "Goroutines",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 58},
+      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 67},
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -685,7 +786,7 @@
       "title": "Garbage collection rate",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 66},
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 75},
       "fieldConfig": {"defaults": {"unit": "cps", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -697,7 +798,7 @@
       "title": "Share of time paused for garbage collection",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 66},
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 75},
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -709,7 +810,7 @@
       "title": "Share of file descriptor capacity used",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 66},
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 75},
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "max": 1, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [

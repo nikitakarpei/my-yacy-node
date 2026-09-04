@@ -15,7 +15,7 @@ import (
 	pendingvisitmetricsprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingvisitobservers/prometheus"
 )
 
-func TestPendingVisitMetricsCountEachLifecycleFact(t *testing.T) {
+func TestPageVisitAttemptsCountOneOutcomeEach(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	metrics := pendingvisitmetricsprometheus.New(registry)
 	visit := pendingvisit.PendingVisit{}
@@ -28,24 +28,17 @@ func TestPendingVisitMetricsCountEachLifecycleFact(t *testing.T) {
 	metrics.PendingVisitCompleted(context.Background(), visit)
 
 	expected := `
+# HELP yacycrawler_page_visit_attempts_total Attempts to visit a page, by the outcome each attempt reached.
+# TYPE yacycrawler_page_visit_attempts_total counter
+yacycrawler_page_visit_attempts_total{outcome="claimed-elsewhere"} 1
+yacycrawler_page_visit_attempts_total{outcome="completed"} 1
+yacycrawler_page_visit_attempts_total{outcome="deferred"} 1
+yacycrawler_page_visit_attempts_total{outcome="disposed"} 1
+yacycrawler_page_visit_attempts_total{outcome="retry-scheduled"} 1
+yacycrawler_page_visit_attempts_total{outcome="returned"} 1
 # HELP yacycrawler_pages_disposed_total Pages disposed before a visit could complete, by reason.
 # TYPE yacycrawler_pages_disposed_total counter
 yacycrawler_pages_disposed_total{reason="fetch-rejected"} 1
-# HELP yacycrawler_pending_visits_claimed_elsewhere_total Pending visits dropped because another message holds their claim.
-# TYPE yacycrawler_pending_visits_claimed_elsewhere_total counter
-yacycrawler_pending_visits_claimed_elsewhere_total 1
-# HELP yacycrawler_pending_visits_completed_total Pending visits completed.
-# TYPE yacycrawler_pending_visits_completed_total counter
-yacycrawler_pending_visits_completed_total 1
-# HELP yacycrawler_pending_visits_deferred_total Pending visits deferred until a later time.
-# TYPE yacycrawler_pending_visits_deferred_total counter
-yacycrawler_pending_visits_deferred_total 1
-# HELP yacycrawler_pending_visits_retry_scheduled_total Pending visits scheduled for another attempt.
-# TYPE yacycrawler_pending_visits_retry_scheduled_total counter
-yacycrawler_pending_visits_retry_scheduled_total 1
-# HELP yacycrawler_pending_visits_returned_total Pending visits returned for redelivery.
-# TYPE yacycrawler_pending_visits_returned_total counter
-yacycrawler_pending_visits_returned_total 1
 `
 	if err := testutil.GatherAndCompare(registry, strings.NewReader(expected)); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
