@@ -26,7 +26,7 @@ var (
 )
 
 type visitedPageEndpoint struct {
-	placement  CrawlOrderPlacement
+	placer     CrawlOrderPlacer
 	profile    yacycrawlcontract.CrawlProfile
 	linkSecret string
 }
@@ -57,7 +57,7 @@ func (e visitedPageEndpoint) ServeHTTP(w http.ResponseWriter, req *http.Request)
 		return
 	}
 
-	e.placement.Start(crawlOrderFor(seedURL, e.profile))
+	e.placer.Place(req.Context(), crawlOrderFor(seedURL, e.profile))
 
 	http.Redirect(w, req, link.VisitedPage, http.StatusFound)
 }

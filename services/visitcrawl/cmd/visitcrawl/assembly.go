@@ -15,9 +15,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	backgroundcrawlorderplacementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/backgroundcrawlorderplacementobservers/applog"
+	backgroundcrawlorderplacementobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/backgroundcrawlorderplacementobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderbroker"
-	crawlorderplacementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderplacementobservers/applog"
-	crawlorderplacementobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderplacementobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderplacers/background"
+	crawlorderpublicationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderpublicationobservers/applog"
+	crawlorderpublicationobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderpublicationobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitintake"
 )
 
@@ -33,26 +36,34 @@ func RunService(
 	cfg ServiceConfig,
 	registry *prometheus.Registry,
 ) error {
-	crawlOrderPlacementObservers := visitintake.CrawlOrderPlacementObservers{
-		crawlorderplacementobserversapplog.CrawlOrderPlacementLog{},
-		crawlorderplacementobserversprometheus.New(registry),
-	}
 	broker, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
 		NATSURL:            cfg.CrawlNATSURL,
 		CrawlOrdersSubject: cfg.CrawlOrdersSubject,
+	}, crawlorderbroker.CrawlOrderPublicationObservers{
+		crawlorderpublicationobserversapplog.CrawlOrderPublicationLog{},
+		crawlorderpublicationobserversprometheus.New(registry),
 	})
 	if err != nil {
 		return fmt.Errorf("open crawl order broker: %w", err)
 	}
 	defer broker.Close()
 
-	placementAttempts := visitintake.NewCrawlOrderPlacementAttempts(
-		broker.Orders, crawlOrderPlacementObservers, cfg.OrderTimeout, cfg.MaxInFlight,
+	placer := background.New(
+		broker.OrderPlacer,
+		background.BackgroundCrawlOrderPlacementObservers{
+			backgroundcrawlorderplacementobserversapplog.BackgroundCrawlOrderPlacementLog{},
+			backgroundcrawlorderplacementobserversprometheus.New(registry),
+		},
+		cfg.OrderTimeout,
+		cfg.MaxInFlight,
 	)
 
 	mux := http.NewServeMux()
 	visitintake.MountVisitIntake(
-		mux, placementAttempts, cfg.CrawlProfile, cfg.LinkSecret,
+		mux,
+		placer,
+		cfg.CrawlProfile,
+		cfg.LinkSecret,
 	)
 
 	publicServer := &http.Server{

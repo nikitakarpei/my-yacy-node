@@ -15,10 +15,16 @@ components:
     in: internal/visitlink/**
   crawlorderbroker:
     in: internal/crawlorderbroker/**
-  crawlorderplacementobserversapplog:
-    in: internal/crawlorderplacementobservers/applog/**
-  crawlorderplacementobserversprometheus:
-    in: internal/crawlorderplacementobservers/prometheus/**
+  crawlorderplacersbackground:
+    in: internal/crawlorderplacers/background/**
+  crawlorderpublicationobserversapplog:
+    in: internal/crawlorderpublicationobservers/applog/**
+  crawlorderpublicationobserversprometheus:
+    in: internal/crawlorderpublicationobservers/prometheus/**
+  backgroundcrawlorderplacementobserversapplog:
+    in: internal/backgroundcrawlorderplacementobservers/applog/**
+  backgroundcrawlorderplacementobserversprometheus:
+    in: internal/backgroundcrawlorderplacementobservers/prometheus/**
   visitcrawlcmd:
     in: cmd/visitcrawl/**
 
@@ -64,12 +70,23 @@ deps:
       - yacycrawlcontract
       - nats
       - serviceruntime
-  crawlorderplacementobserversapplog:
+  crawlorderplacersbackground:
+    canUse:
+      - yacycrawlcontract
+  crawlorderpublicationobserversapplog:
     mayDependOn:
-      - visitintake
-  crawlorderplacementobserversprometheus:
+      - crawlorderbroker
+  crawlorderpublicationobserversprometheus:
     mayDependOn:
-      - visitintake
+      - crawlorderbroker
+    canUse:
+      - prometheus
+  backgroundcrawlorderplacementobserversapplog:
+    mayDependOn:
+      - crawlorderplacersbackground
+  backgroundcrawlorderplacementobserversprometheus:
+    mayDependOn:
+      - crawlorderplacersbackground
     canUse:
       - prometheus
   visitcrawlcmd:
