@@ -105,11 +105,7 @@ func (c *PageVisitConsumer) payPageVisit(
 	if !c.takePageVisit(ctx, message, order, pendingPageVisit) {
 		return nil
 	}
-	outcome, err := c.pageVisitor.VisitPage(ctx, pendingPageVisit.URL)
-	if err != nil {
-		c.returnPageVisit(ctx, message, pendingPageVisit, err)
-		return nil
-	}
+	outcome := c.pageVisitor.VisitPage(ctx, pendingPageVisit.URL)
 	c.carryOutConclusion(ctx, message, order, pendingPageVisit, outcome)
 	return nil
 }

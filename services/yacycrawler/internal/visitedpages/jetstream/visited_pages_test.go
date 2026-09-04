@@ -40,13 +40,10 @@ func newBucket(t *testing.T) natsjetstream.KeyValue {
 func TestNoPageVisitOfAPageNeverVisited(t *testing.T) {
 	pages := visitedpagesjetstream.New(newBucket(t), &manualClock{}, silentPageVisitRecords{})
 
-	visit, visited, err := pages.LastPageVisitOf(
+	visit, visited := pages.LastPageVisitOf(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://example.com/a"),
 	)
-	if err != nil {
-		t.Fatalf("last page visit: %v", err)
-	}
 	if visited {
 		t.Fatalf("want no page visit, got %+v", visit)
 	}
@@ -62,10 +59,7 @@ func TestARecordedPageVisitKeepsItsTimeAndPageVersion(t *testing.T) {
 	pages.RecordPageVisit(context.Background(), url, version)
 
 	clock.now = now.Add(30 * time.Minute)
-	visit, visited, err := pages.LastPageVisitOf(context.Background(), url)
-	if err != nil {
-		t.Fatalf("last page visit: %v", err)
-	}
+	visit, visited := pages.LastPageVisitOf(context.Background(), url)
 	if !visited || !visit.VisitedAt.Equal(now) {
 		t.Fatalf("visited at %v, want the page visit recorded at %v", visit.VisitedAt, now)
 	}
@@ -84,9 +78,24 @@ func (silentPageVisitRecords) PageVisitNotRecorded(
 ) {
 }
 
+func (silentPageVisitRecords) LastPageVisitNotRead(
+	context.Context,
+	canonicalurl.CanonicalURL,
+	error,
+) {
+}
+
 type recordedFailures struct{ causes []error }
 
 func (f *recordedFailures) PageVisitNotRecorded(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	cause error,
+) {
+	f.causes = append(f.causes, cause)
+}
+
+func (f *recordedFailures) LastPageVisitNotRead(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	cause error,
@@ -108,19 +117,25 @@ func (f failingBucket) Put(context.Context, string, []byte) (uint64, error) {
 	return 0, f.putErr
 }
 
-func TestALookupTheBucketRefusesFailsFast(t *testing.T) {
-	boom := errors.New("boom")
+func TestALastPageVisitTheBucketRefusesIsReportedAsNeverVisited(t *testing.T) {
+	boom := errors.New("bucket down")
+	failures := &recordedFailures{}
 	pages := visitedpagesjetstream.New(
 		failingBucket{getErr: boom},
 		&manualClock{},
-		silentPageVisitRecords{},
+		failures,
 	)
 
-	if _, _, err := pages.LastPageVisitOf(
+	visit, visited := pages.LastPageVisitOf(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://example.com/a"),
-	); !errors.Is(err, boom) {
-		t.Fatalf("error = %v, want the refusal of the bucket", err)
+	)
+
+	if visited {
+		t.Fatalf("want no page visit, got %+v", visit)
+	}
+	if len(failures.causes) != 1 || !errors.Is(failures.causes[0], boom) {
+		t.Fatalf("reported %v, want the refusal of the bucket", failures.causes)
 	}
 }
 

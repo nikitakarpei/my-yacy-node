@@ -49,7 +49,6 @@ type fakePageVisits struct {
 	mu      sync.Mutex
 	due     bool
 	version pagefetch.PageVersion
-	err     error
 
 	visitedCalls []visitedCall
 }
@@ -57,11 +56,8 @@ type fakePageVisits struct {
 func (f *fakePageVisits) LastPageVisitOf(
 	context.Context,
 	canonicalurl.CanonicalURL,
-) (pagevisit.PageVisit, bool, error) {
-	if f.err != nil {
-		return pagevisit.PageVisit{}, false, f.err
-	}
-	return pagevisit.PageVisit{Version: f.version}, true, nil
+) (pagevisit.PageVisit, bool) {
+	return pagevisit.PageVisit{Version: f.version}, true
 }
 
 func (f *fakePageVisits) PageDueForRecrawl(pagevisit.PageVisit) bool {
@@ -104,18 +100,7 @@ type recordingObserver struct {
 	fetched                       int
 	fetchesCanceled               int
 	linkDiscoveryRefusalsEnforced int
-	unreadableLastPageVisits      int
 	unreadablePageHTMLs           int
-}
-
-func (o *recordingObserver) LastPageVisitUnreadable(
-	_ context.Context,
-	_ canonicalurl.CanonicalURL,
-	_ error,
-) {
-	o.mu.Lock()
-	defer o.mu.Unlock()
-	o.unreadableLastPageVisits++
 }
 
 func (o *recordingObserver) PageHTMLUnreadable(
@@ -128,10 +113,10 @@ func (o *recordingObserver) PageHTMLUnreadable(
 	o.unreadablePageHTMLs++
 }
 
-func (o *recordingObserver) unreadable() (int, int) {
+func (o *recordingObserver) unreadablePageHTML() int {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	return o.unreadableLastPageVisits, o.unreadablePageHTMLs
+	return o.unreadablePageHTMLs
 }
 
 func newObserver() *recordingObserver {
@@ -316,13 +301,10 @@ func newPageVisitor(
 
 func visitHostPage(t *testing.T, pageVisitor pagevisit.PageVisitor) pagevisit.PageVisitOutcome {
 	t.Helper()
-	outcome, err := pageVisitor.VisitPage(
+	outcome := pageVisitor.VisitPage(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
 	)
-	if err != nil {
-		t.Fatalf("visit: %v", err)
-	}
 	if outcome.Conclusion != pagevisit.PageVisitTerminal {
 		t.Fatalf("want concluded, got %v", outcome.Conclusion)
 	}
@@ -454,13 +436,10 @@ func TestVisitReportsTransient(t *testing.T) {
 		&fakeCrawledPages{},
 	)
 
-	outcome, err := pageVisitor.VisitPage(
+	outcome := pageVisitor.VisitPage(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
 	)
-	if err != nil {
-		t.Fatalf("visit: %v", err)
-	}
 	if outcome.Conclusion != pagevisit.PageVisitRetryable {
 		t.Fatalf("want retryable, got %v", outcome.Conclusion)
 	}
@@ -472,7 +451,7 @@ func TestVisitReportsTransient(t *testing.T) {
 	}
 }
 
-func TestVisitUnknownFetchStatusFails(t *testing.T) {
+func TestAnUnreadableFetchStatusLeavesThePageForAnotherAttempt(t *testing.T) {
 	pageVisitor := newPageVisitor(
 		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchStatus(99)}),
 		&fakePageVisits{due: true},
@@ -480,11 +459,13 @@ func TestVisitUnknownFetchStatusFails(t *testing.T) {
 		&fakeCrawledPages{},
 	)
 
-	if _, err := pageVisitor.VisitPage(
+	outcome := pageVisitor.VisitPage(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
-	); err == nil {
-		t.Fatal("an unknown fetch status should fail the visit, not retry silently")
+	)
+
+	if outcome.Conclusion != pagevisit.PageVisitRetryable {
+		t.Fatalf("conclusion = %v, want retryable", outcome.Conclusion)
 	}
 }
 
@@ -496,13 +477,10 @@ func TestVisitReportsDeferred(t *testing.T) {
 		&fakeCrawledPages{},
 	)
 
-	outcome, err := pageVisitor.VisitPage(
+	outcome := pageVisitor.VisitPage(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
 	)
-	if err != nil {
-		t.Fatalf("visit: %v", err)
-	}
 	if outcome.Conclusion != pagevisit.PageVisitDeferred || outcome.DeferFor != time.Second {
 		t.Fatalf("want deferred for 1s, got %+v", outcome)
 	}
@@ -516,13 +494,10 @@ func TestVisitFetchErrorLeavesTheVisitRetryable(t *testing.T) {
 		&fakeCrawledPages{},
 	)
 
-	outcome, err := pageVisitor.VisitPage(
+	outcome := pageVisitor.VisitPage(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
 	)
-	if err != nil {
-		t.Fatalf("visit: %v", err)
-	}
 	if outcome.Conclusion != pagevisit.PageVisitRetryable {
 		t.Fatalf("want the visit retryable, got %v", outcome.Conclusion)
 	}
@@ -539,12 +514,10 @@ func TestAFetchThatIsCanceledIsObservedAsCanceled(t *testing.T) {
 
 	ctx, cancelVisit := context.WithCancel(context.Background())
 	cancelVisit()
-	if _, err := pageVisitor.VisitPage(
+	pageVisitor.VisitPage(
 		ctx,
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
-	); err != nil {
-		t.Fatalf("visit: %v", err)
-	}
+	)
 
 	if observer.fetchesCanceled != 1 {
 		t.Fatalf("canceled fetches = %d, want 1", observer.fetchesCanceled)
@@ -575,7 +548,7 @@ func TestVisitReportsHowLongAFailedFetchTook(t *testing.T) {
 		&fakeCrawledPages{},
 	)
 
-	_, _ = pageVisitor.VisitPage(
+	pageVisitor.VisitPage(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
 	)
@@ -597,31 +570,6 @@ func TestVisitReportsNoFetchDurationWhenNotDue(t *testing.T) {
 
 	if len(observer.fetchDurations) != 0 {
 		t.Fatalf("want no fetch observed, got %v", observer.fetchDurations)
-	}
-}
-
-func TestAnUnreadableLastPageVisitLeavesThePageForAnotherAttempt(t *testing.T) {
-	observer := newObserver()
-	pageVisitor := newPageVisitor(
-		&fakeFetch{},
-		&fakePageVisits{err: errors.New("boom")},
-		observer,
-		&fakeCrawledPages{},
-	)
-
-	outcome, err := pageVisitor.VisitPage(
-		context.Background(),
-		canonicalurltest.CanonicalURLOf(t, "http://host/"),
-	)
-	if err != nil {
-		t.Fatalf("visit: %v", err)
-	}
-
-	if outcome.Conclusion != pagevisit.PageVisitRetryable {
-		t.Fatalf("conclusion = %v, want retryable", outcome.Conclusion)
-	}
-	if unreadableVisits, _ := observer.unreadable(); unreadableVisits != 1 {
-		t.Fatalf("unreadable last page visits = %d, want 1", unreadableVisits)
 	}
 }
 
@@ -650,18 +598,15 @@ func TestUnreadablePageHTMLLeavesThePageForAnotherAttempt(t *testing.T) {
 		observer,
 	)
 
-	outcome, err := pageVisitor.VisitPage(
+	outcome := pageVisitor.VisitPage(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
 	)
-	if err != nil {
-		t.Fatalf("visit: %v", err)
-	}
 
 	if outcome.Conclusion != pagevisit.PageVisitRetryable {
 		t.Fatalf("conclusion = %v, want retryable", outcome.Conclusion)
 	}
-	if _, unreadableHTML := observer.unreadable(); unreadableHTML != 1 {
+	if unreadableHTML := observer.unreadablePageHTML(); unreadableHTML != 1 {
 		t.Fatalf("unreadable page html = %d, want 1", unreadableHTML)
 	}
 }
@@ -695,12 +640,10 @@ func TestVisitPassesKnownVersionToFetcher(t *testing.T) {
 		&fakeCrawledPages{},
 	)
 
-	if _, err := pageVisitor.VisitPage(
+	pageVisitor.VisitPage(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
-	); err != nil {
-		t.Fatalf("visit: %v", err)
-	}
+	)
 	if fetch.gotVersion != known {
 		t.Fatalf("fetcher version = %+v, want %+v", fetch.gotVersion, known)
 	}
@@ -715,12 +658,10 @@ func TestVisitRecordsVersionAfterReadingThePage(t *testing.T) {
 		&fakeCrawledPages{},
 	)
 
-	if _, err := pageVisitor.VisitPage(
+	pageVisitor.VisitPage(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
-	); err != nil {
-		t.Fatalf("visit: %v", err)
-	}
+	)
 	calls := recrawl.calls()
 	if len(calls) != 1 {
 		t.Fatalf("want exactly one visited call, got %v", calls)

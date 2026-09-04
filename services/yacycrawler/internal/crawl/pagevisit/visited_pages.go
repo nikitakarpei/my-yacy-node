@@ -12,7 +12,7 @@ type VisitedPages interface {
 	LastPageVisitOf(
 		ctx context.Context,
 		canonicalURL canonicalurl.CanonicalURL,
-	) (PageVisit, bool, error)
+	) (PageVisit, bool)
 	RecordPageVisit(
 		ctx context.Context,
 		canonicalURL canonicalurl.CanonicalURL,

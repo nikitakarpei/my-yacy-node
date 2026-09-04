@@ -37,6 +37,18 @@ func New(
 func (pages *VisitedPages) LastPageVisitOf(
 	ctx context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
+) (pagevisit.PageVisit, bool) {
+	lastVisit, visited, err := pages.readLastPageVisit(ctx, canonicalURL)
+	if err != nil {
+		pages.observer.LastPageVisitNotRead(ctx, canonicalURL, err)
+		return pagevisit.PageVisit{}, false
+	}
+	return lastVisit, visited
+}
+
+func (pages *VisitedPages) readLastPageVisit(
+	ctx context.Context,
+	canonicalURL canonicalurl.CanonicalURL,
 ) (pagevisit.PageVisit, bool, error) {
 	entry, err := pages.bucket.Get(ctx, pageVisitKeyOf(canonicalURL))
 	if errors.Is(err, jetstream.ErrKeyNotFound) {

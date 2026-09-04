@@ -137,25 +137,21 @@ func (v *fakePendingVisits) visits() []pendingpagevisit.PendingPageVisit {
 type fakePageVisitor struct {
 	mu       sync.Mutex
 	outcomes []pagevisit.PageVisitOutcome
-	err      error
 	visited  []string
 }
 
 func (f *fakePageVisitor) VisitPage(
 	_ context.Context, url canonicalurl.CanonicalURL,
-) (pagevisit.PageVisitOutcome, error) {
+) pagevisit.PageVisitOutcome {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	f.visited = append(f.visited, url.String())
-	if f.err != nil {
-		return pagevisit.PageVisitOutcome{}, f.err
-	}
 	if len(f.outcomes) == 0 {
-		return pagevisit.PageVisitOutcome{Conclusion: pagevisit.PageVisitTerminal}, nil
+		return pagevisit.PageVisitOutcome{Conclusion: pagevisit.PageVisitTerminal}
 	}
 	outcome := f.outcomes[0]
 	f.outcomes = f.outcomes[1:]
-	return outcome, nil
+	return outcome
 }
 
 func (f *fakePageVisitor) pageVisitCount() int {
@@ -496,20 +492,6 @@ func TestARedeliveredMessageAsksForItsHostPageAgain(t *testing.T) {
 			"asked for %d host pages, want one for each delivery",
 			len(worker.allowances.hostPageLimits),
 		)
-	}
-}
-
-func TestAVisitThatFailsReturnsForRedelivery(t *testing.T) {
-	worker := newWorker()
-	worker.pageVisitor.err = errors.New("fetch exploded")
-	message := visitMessage(t, 1)
-
-	if err := worker.consume(t, message); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.HeldBack {
-		t.Fatalf("message settled %v, want one delayed return", got)
 	}
 }
 

@@ -4,7 +4,6 @@ package pagevisit
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
@@ -14,7 +13,7 @@ import (
 )
 
 type PageVisitor interface {
-	VisitPage(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) (PageVisitOutcome, error)
+	VisitPage(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) PageVisitOutcome
 }
 
 type pageVisitor struct {
@@ -51,23 +50,16 @@ func New(
 func (visitor *pageVisitor) VisitPage(
 	ctx context.Context,
 	url canonicalurl.CanonicalURL,
-) (PageVisitOutcome, error) {
-	lastVisit, visited, err := visitor.visitedPages.LastPageVisitOf(ctx, url)
-	if err != nil {
-		visitor.pageVisitFailureObserver.LastPageVisitUnreadable(ctx, url, err)
-		return retryableOutcome(), nil
-	}
+) PageVisitOutcome {
+	lastVisit, visited := visitor.visitedPages.LastPageVisitOf(ctx, url)
 	if visited && !visitor.recrawlRule.PageDueForRecrawl(lastVisit) {
-		return disposedOutcome(disposal.NotDue), nil
+		return disposedOutcome(disposal.NotDue)
 	}
 	fetchOutcome := visitor.pageFetcher.Fetch(ctx, url, lastVisit.Version)
 	if originAnsweredAboutPage(fetchOutcome.Status) {
 		visitor.visitedPages.RecordPageVisit(ctx, url, fetchOutcome.Version)
 	}
-	if fetchOutcome.Status == pagefetch.FetchSucceeded {
-		return visitor.outcomeOfFetchedPage(ctx, url, fetchOutcome.Page), nil
-	}
-	return outcomeOfUnfetchedPage(fetchOutcome, url)
+	return visitor.outcomeOfPageFetch(ctx, url, fetchOutcome)
 }
 
 func originAnsweredAboutPage(status pagefetch.FetchStatus) bool {
@@ -76,7 +68,33 @@ func originAnsweredAboutPage(status pagefetch.FetchStatus) bool {
 		status == pagefetch.FetchAccessRefused
 }
 
-func (visitor *pageVisitor) outcomeOfFetchedPage(
+func (visitor *pageVisitor) outcomeOfPageFetch(
+	ctx context.Context,
+	url canonicalurl.CanonicalURL,
+	fetchOutcome pagefetch.FetchOutcome,
+) PageVisitOutcome {
+	switch fetchOutcome.Status {
+	case pagefetch.FetchSucceeded:
+		return visitor.outcomeOfPageHTML(ctx, url, fetchOutcome.Page)
+	case pagefetch.FetchNotModified:
+		return disposedOutcome(disposal.NotModified)
+	case pagefetch.FetchAccessRefused:
+		return disposedOutcome(disposal.AccessRefused)
+	case pagefetch.FetchRejected:
+		return disposedOutcome(disposal.FetchRejected)
+	case pagefetch.FetchLandedURLInvalid:
+		return disposedOutcome(disposal.LandedURLInvalid)
+	case pagefetch.FetchOversized:
+		return disposedOutcome(disposal.Oversized)
+	case pagefetch.FetchDeferred:
+		return deferredOutcome(fetchOutcome.DeferFor)
+	case pagefetch.FetchFailed:
+		return retryableOutcome()
+	}
+	return retryableOutcome()
+}
+
+func (visitor *pageVisitor) outcomeOfPageHTML(
 	ctx context.Context,
 	url canonicalurl.CanonicalURL,
 	page pagefetch.FetchedPage,
@@ -106,32 +124,4 @@ func (visitor *pageVisitor) publishCrawledPage(
 		return
 	}
 	visitor.crawledPages.PublishIndexablePage(ctx, pageURL)
-}
-
-func outcomeOfUnfetchedPage(
-	fetchOutcome pagefetch.FetchOutcome,
-	url canonicalurl.CanonicalURL,
-) (PageVisitOutcome, error) {
-	switch fetchOutcome.Status {
-	case pagefetch.FetchNotModified:
-		return disposedOutcome(disposal.NotModified), nil
-	case pagefetch.FetchAccessRefused:
-		return disposedOutcome(disposal.AccessRefused), nil
-	case pagefetch.FetchRejected:
-		return disposedOutcome(disposal.FetchRejected), nil
-	case pagefetch.FetchLandedURLInvalid:
-		return disposedOutcome(disposal.LandedURLInvalid), nil
-	case pagefetch.FetchOversized:
-		return disposedOutcome(disposal.Oversized), nil
-	case pagefetch.FetchDeferred:
-		return deferredOutcome(fetchOutcome.DeferFor), nil
-	case pagefetch.FetchFailed:
-		return retryableOutcome(), nil
-	default:
-		return PageVisitOutcome{}, fmt.Errorf(
-			"unknown fetch status %d for %s",
-			fetchOutcome.Status,
-			url,
-		)
-	}
 }

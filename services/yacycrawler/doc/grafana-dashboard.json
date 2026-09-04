@@ -316,8 +316,8 @@
     },
     {
       "id": 42,
-      "title": "Page visits not recorded",
-      "description": "The crawler skips a page it visited recently. What it does not record it cannot skip, so it fetches the page again.",
+      "title": "Page visits the crawler could not skip",
+      "description": "The crawler skips a page it visited recently. A visit it cannot record, or cannot read back, makes it fetch the page again.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -348,7 +348,12 @@
         {
           "refId": "A",
           "expr": "sum(rate(yacycrawler_page_visits_not_recorded_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "not stored"
+          "legendFormat": "not recorded"
+        },
+        {
+          "refId": "B",
+          "expr": "sum(rate(yacycrawler_last_page_visits_not_read_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "not read"
         }
       ]
     },

@@ -7,25 +7,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
-const (
-	msgLastPageVisitUnreadable = "last page visit unreadable, page visit left for another attempt"
-	msgPageHTMLUnreadable      = "page html unreadable, page visit left for another attempt"
-)
+const msgPageHTMLUnreadable = "page html unreadable, page visit left for another attempt"
 
 type PageVisitFailureLog struct{}
-
-func (PageVisitFailureLog) LastPageVisitUnreadable(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	slog.WarnContext(
-		ctx,
-		msgLastPageVisitUnreadable,
-		slog.String("url", pageURL.String()),
-		slog.Any("error", cause),
-	)
-}
 
 func (PageVisitFailureLog) PageHTMLUnreadable(
 	ctx context.Context,

@@ -11,8 +11,7 @@ import (
 const (
 	labelUnreadable = "unreadable"
 
-	unreadableLastPageVisit = "last-page-visit"
-	unreadablePageHTML      = "page-html"
+	unreadablePageHTML = "page-html"
 )
 
 type PageVisitFailureMetrics struct {
@@ -28,12 +27,6 @@ func New(registry prometheusclient.Registerer) *PageVisitFailureMetrics {
 	}
 	registry.MustRegister(metrics.pageVisitFailures)
 	return metrics
-}
-
-func (metrics *PageVisitFailureMetrics) LastPageVisitUnreadable(
-	context.Context, canonicalurl.CanonicalURL, error,
-) {
-	metrics.pageVisitFailures.WithLabelValues(unreadableLastPageVisit).Inc()
 }
 
 func (metrics *PageVisitFailureMetrics) PageHTMLUnreadable(
