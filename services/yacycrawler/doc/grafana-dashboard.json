@@ -43,163 +43,6 @@
   },
   "panels": [
     {
-      "id": 1,
-      "title": "Crawler health",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "panels": []
-    },
-    {
-      "id": 3,
-      "title": "Share of received orders returned",
-      "type": "stat",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 0,
-        "y": 1
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit",
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              },
-              {
-                "value": 0.05,
-                "color": "yellow"
-              },
-              {
-                "value": 0.2,
-                "color": "red"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(increase(yacycrawler_crawl_orders_processed_total{outcome=\"returned\",instance=~\"$service_instance\"}[$__range])) / sum(increase(yacycrawler_crawl_orders_processed_total{instance=~\"$service_instance\"}[$__range]))"
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "title": "Fetch latency (p99)",
-      "type": "stat",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 8,
-        "y": 1
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))"
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "title": "Page fetch rate",
-      "description": "Pages fetched each second across crawler instances.",
-      "type": "stat",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 1
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "cps",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(rate(yacycrawler_page_fetches_processed_total{instance=~\"$service_instance\"}[$__rate_interval]))"
-        }
-      ]
-    },
-    {
       "id": 10,
       "title": "Order flow",
       "type": "row",
@@ -207,7 +50,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 5
+        "y": 0
       },
       "panels": []
     },
@@ -223,7 +66,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 1
       },
       "fieldConfig": {
         "defaults": {
@@ -273,7 +116,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 14
+        "y": 9
       },
       "panels": []
     },
@@ -289,7 +132,7 @@
         "h": 8,
         "w": 16,
         "x": 0,
-        "y": 15
+        "y": 10
       },
       "fieldConfig": {
         "defaults": {
@@ -327,7 +170,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 15
+        "y": 10
       },
       "fieldConfig": {
         "defaults": {
@@ -370,7 +213,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 18
       },
       "fieldConfig": {
         "defaults": {
@@ -403,7 +246,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 26
       },
       "panels": []
     },
@@ -419,7 +262,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 27
       },
       "fieldConfig": {
         "defaults": {
@@ -456,7 +299,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 32
+        "y": 27
       },
       "fieldConfig": {
         "defaults": {
@@ -499,7 +342,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 40
+        "y": 35
       },
       "panels": []
     },
@@ -516,7 +359,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 41
+        "y": 36
       },
       "fieldConfig": {
         "defaults": {
@@ -554,7 +397,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 41
+        "y": 36
       },
       "fieldConfig": {
         "defaults": {
@@ -592,7 +435,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 49
+        "y": 44
       },
       "fieldConfig": {
         "defaults": {
@@ -630,7 +473,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 49
+        "y": 44
       },
       "fieldConfig": {
         "defaults": {
@@ -663,7 +506,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 57
+        "y": 52
       },
       "panels": []
     },
@@ -679,7 +522,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 58
+        "y": 53
       },
       "fieldConfig": {
         "defaults": {
@@ -716,7 +559,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 58
+        "y": 53
       },
       "fieldConfig": {
         "defaults": {
@@ -745,7 +588,7 @@
       "id": 100,
       "title": "Go process",
       "type": "row",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 66},
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 61},
       "panels": []
     },
     {
@@ -753,7 +596,7 @@
       "title": "Process memory",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 67},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 62},
       "fieldConfig": {"defaults": {"unit": "bytes", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -767,7 +610,7 @@
       "title": "CPU cores used",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 67},
+      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 62},
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -779,7 +622,7 @@
       "title": "Goroutines",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 67},
+      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 62},
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -791,7 +634,7 @@
       "title": "Garbage collection rate",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 75},
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 70},
       "fieldConfig": {"defaults": {"unit": "cps", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -803,7 +646,7 @@
       "title": "Share of time paused for garbage collection",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 75},
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 70},
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -815,7 +658,7 @@
       "title": "Share of file descriptor capacity used",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 75},
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 70},
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "max": 1, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
