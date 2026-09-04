@@ -6,11 +6,23 @@ import (
 	"time"
 )
 
-const msgRenderEndedWhileWaitingForCapacity = "render ended while waiting for capacity"
+const (
+	msgRenderWaitedForCapacity            = "render waited for capacity"
+	msgRenderEndedWhileWaitingForCapacity = "render ended while waiting for capacity"
+)
 
 type RenderCapacityLog struct{}
 
-func (RenderCapacityLog) RenderWaitedForCapacity(context.Context, string, time.Duration) {}
+func (RenderCapacityLog) RenderWaitedForCapacity(
+	ctx context.Context,
+	targetURL string,
+	waitDuration time.Duration,
+) {
+	slog.DebugContext(ctx, msgRenderWaitedForCapacity,
+		slog.String("url", targetURL),
+		slog.Duration("waitDuration", waitDuration),
+	)
+}
 
 func (RenderCapacityLog) RenderEndedWhileWaitingForCapacity(
 	ctx context.Context,

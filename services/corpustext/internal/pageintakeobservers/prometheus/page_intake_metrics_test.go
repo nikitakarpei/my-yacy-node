@@ -12,14 +12,14 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	intakeprogressmetrics "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintakeobservers/prometheus"
+	pageintakemetrics "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/pageintakeobservers/prometheus"
 )
 
 const pageURL = "https://example.org/a"
 
 func TestPageIntakeMetricsRecordsAndExposesCounters(t *testing.T) {
 	registry := prometheus.NewRegistry()
-	metrics := intakeprogressmetrics.New(registry)
+	metrics := pageintakemetrics.New(registry)
 	ctx := context.Background()
 	page := canonicalurltest.CanonicalURLOf(t, pageURL)
 	cause := errors.New("no listener")

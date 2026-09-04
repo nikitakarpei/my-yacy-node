@@ -1,4 +1,4 @@
-// Package applog writes page intake progress to the application log.
+// Package applog writes each page intake fact to the application log.
 package applog
 
 import (
@@ -10,6 +10,7 @@ import (
 
 const (
 	msgPageOffered                = "offered page received"
+	msgOfferedPageInvalid         = "offered page invalid, nothing stored"
 	msgDocumentExtractionFailed   = "offered page document extraction failed, nothing stored"
 	msgNoIndexDerived             = "offered page derives no index, nothing stored"
 	msgURLMetadataAdmitted        = "offered page url metadata admitted"
@@ -23,7 +24,9 @@ const (
 
 type PageIntakeLog struct{}
 
-func (PageIntakeLog) OfferedPageInvalid(context.Context) {}
+func (PageIntakeLog) OfferedPageInvalid(ctx context.Context) {
+	slog.WarnContext(ctx, msgOfferedPageInvalid)
+}
 
 func (PageIntakeLog) PageOffered(
 	ctx context.Context,

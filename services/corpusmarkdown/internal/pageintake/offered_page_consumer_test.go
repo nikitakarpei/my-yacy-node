@@ -70,7 +70,7 @@ func (r *recordingIntakeReceipts) ReportRejectedPage(
 	r.rejected = append(r.rejected, pageURL.String())
 }
 
-type recordingProgress struct {
+type recordingPageIntakeObserver struct {
 	mu            sync.Mutex
 	offered       int
 	stored        int
@@ -79,15 +79,15 @@ type recordingProgress struct {
 	storeFailures int
 }
 
-func (p *recordingProgress) PageOffered(context.Context, canonicalurl.CanonicalURL) {
+func (p *recordingPageIntakeObserver) PageOffered(context.Context, canonicalurl.CanonicalURL) {
 	p.count(&p.offered)
 }
 
-func (p *recordingProgress) MarkdownStored(context.Context, canonicalurl.CanonicalURL) {
+func (p *recordingPageIntakeObserver) MarkdownStored(context.Context, canonicalurl.CanonicalURL) {
 	p.count(&p.stored)
 }
 
-func (p *recordingProgress) NoDocumentExtracted(
+func (p *recordingPageIntakeObserver) NoDocumentExtracted(
 	context.Context,
 	canonicalurl.CanonicalURL,
 	error,
@@ -95,11 +95,14 @@ func (p *recordingProgress) NoDocumentExtracted(
 	p.count(&p.noDocument)
 }
 
-func (p *recordingProgress) NoMarkdownDerived(context.Context, canonicalurl.CanonicalURL) {
+func (p *recordingPageIntakeObserver) NoMarkdownDerived(
+	context.Context,
+	canonicalurl.CanonicalURL,
+) {
 	p.count(&p.noMarkdown)
 }
 
-func (p *recordingProgress) MarkdownNotStored(
+func (p *recordingPageIntakeObserver) MarkdownNotStored(
 	context.Context,
 	canonicalurl.CanonicalURL,
 	error,
@@ -107,7 +110,7 @@ func (p *recordingProgress) MarkdownNotStored(
 	p.count(&p.storeFailures)
 }
 
-func (p *recordingProgress) count(counter *int) {
+func (p *recordingPageIntakeObserver) count(counter *int) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 	*counter++
@@ -117,7 +120,7 @@ type pageIntake struct {
 	message  *pullintaketest.Message
 	corpus   *recordingCorpus
 	receipts *recordingIntakeReceipts
-	progress *recordingProgress
+	observer *recordingPageIntakeObserver
 }
 
 func offeredPage(t *testing.T, body string) *pullintaketest.Message {
@@ -156,19 +159,19 @@ func runPageIntakeInto(
 	if err != nil {
 		t.Fatalf("open the format derivations: %v", err)
 	}
-	progress := &recordingProgress{}
+	observer := &recordingPageIntakeObserver{}
 	consumer := pageintake.NewOfferedPageConsumer(pageintake.Config{
 		Source:                     pullintaketest.MessageSourceOf(message),
 		FormatDerivations:          formatDerivations,
 		Corpus:                     corpus,
 		IntakeReceipts:             receipts,
-		PageIntakeObserver:         progress,
+		PageIntakeObserver:         observer,
 		PageOfferIntakeConcurrency: 1,
 	})
 	if err := consumer.Run(context.Background()); err != nil {
 		t.Fatalf("run intake: %v", err)
 	}
-	return pageIntake{message: message, corpus: corpus, receipts: receipts, progress: progress}
+	return pageIntake{message: message, corpus: corpus, receipts: receipts, observer: observer}
 }
 
 func TestOfferedPageIsStoredAsMarkdownAndReportedAsKept(t *testing.T) {
@@ -199,9 +202,9 @@ func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
 		t.Fatalf("reported %d pages as rejected, want exactly one",
 			len(intake.receipts.rejected))
 	}
-	if intake.progress.noDocument != 1 {
+	if intake.observer.noDocument != 1 {
 		t.Errorf("observed %d pages no document came out of, want exactly one",
-			intake.progress.noDocument)
+			intake.observer.noDocument)
 	}
 	if settlement := intake.message.Settlement(t); settlement != pullintaketest.Acknowledged {
 		t.Errorf("the offer was %s, want it %s", settlement, pullintaketest.Acknowledged)
@@ -216,9 +219,9 @@ func TestOfferComesBackWhenTheCorpusWriteFails(t *testing.T) {
 	if len(intake.receipts.kept)+len(intake.receipts.rejected) != 0 {
 		t.Errorf("sent a receipt for a page it did not dispose of")
 	}
-	if intake.progress.storeFailures != 1 {
+	if intake.observer.storeFailures != 1 {
 		t.Errorf("observed %d corpus write failures, want exactly one",
-			intake.progress.storeFailures)
+			intake.observer.storeFailures)
 	}
 	if settlement := intake.message.Settlement(t); settlement != pullintaketest.HeldBack {
 		t.Errorf("the offer was %s, want it %s", settlement, pullintaketest.HeldBack)
@@ -231,7 +234,7 @@ func TestOfferedPageThatCannotBeReadHaltsIntake(t *testing.T) {
 		Source:                     pullintaketest.MessageSourceOf(message),
 		Corpus:                     &recordingCorpus{},
 		IntakeReceipts:             &recordingIntakeReceipts{},
-		PageIntakeObserver:         &recordingProgress{},
+		PageIntakeObserver:         &recordingPageIntakeObserver{},
 		PageOfferIntakeConcurrency: 1,
 	})
 

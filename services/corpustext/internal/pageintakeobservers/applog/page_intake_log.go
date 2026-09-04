@@ -13,11 +13,12 @@ import (
 )
 
 const (
-	msgPageOffered      = "offered page received"
-	msgExtractionFailed = "offered page document extraction failed, nothing indexed"
-	msgNoTextDerived    = "offered page derives no text, nothing indexed"
-	msgIndexFailed      = "offered page index failed"
-	msgPageIndexed      = "offered page indexed"
+	msgPageOffered        = "offered page received"
+	msgExtractionFailed   = "offered page document extraction failed, nothing indexed"
+	msgNoTextDerived      = "offered page derives no text, nothing indexed"
+	msgIndexWriteFinished = "offered page index write finished"
+	msgIndexFailed        = "offered page index failed"
+	msgPageIndexed        = "offered page indexed"
 )
 
 type PageIntakeLog struct{}
@@ -44,7 +45,9 @@ func (PageIntakeLog) NoReadableTextDerived(
 	slog.DebugContext(ctx, msgNoTextDerived, slog.String("pageUrl", pageURL.String()))
 }
 
-func (PageIntakeLog) IndexObserved(context.Context, time.Duration) {}
+func (PageIntakeLog) IndexObserved(ctx context.Context, elapsed time.Duration) {
+	slog.DebugContext(ctx, msgIndexWriteFinished, slog.Duration("indexDuration", elapsed))
+}
 
 func (PageIntakeLog) IndexFailed(
 	ctx context.Context,

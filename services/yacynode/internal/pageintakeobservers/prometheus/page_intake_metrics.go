@@ -1,4 +1,4 @@
-// Package prometheus exports page intake progress as Prometheus metrics.
+// Package prometheus exports each page intake fact as Prometheus metrics.
 package prometheus
 
 import (
