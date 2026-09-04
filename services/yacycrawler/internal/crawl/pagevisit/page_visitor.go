@@ -24,6 +24,7 @@ type pageVisitor struct {
 	htmlPageReading            HTMLPageReading
 	refusalEnforcementObserver RefusalEnforcementObserver
 	crawledPages               CrawledPages
+	pageVisitFailureObserver   PageVisitFailureObserver
 }
 
 //nolint:revive // a page visitor names every collaborator one page visit needs
@@ -34,6 +35,7 @@ func New(
 	htmlPageReading HTMLPageReading,
 	refusalEnforcementObserver RefusalEnforcementObserver,
 	crawledPages CrawledPages,
+	pageVisitFailureObserver PageVisitFailureObserver,
 ) PageVisitor {
 	return &pageVisitor{
 		pageFetcher:                pageFetcher,
@@ -42,6 +44,7 @@ func New(
 		htmlPageReading:            htmlPageReading,
 		refusalEnforcementObserver: refusalEnforcementObserver,
 		crawledPages:               crawledPages,
+		pageVisitFailureObserver:   pageVisitFailureObserver,
 	}
 }
 
@@ -51,7 +54,8 @@ func (visitor *pageVisitor) VisitPage(
 ) (PageVisitOutcome, error) {
 	lastVisit, visited, err := visitor.visitedPages.LastPageVisitOf(ctx, url)
 	if err != nil {
-		return PageVisitOutcome{}, fmt.Errorf("last page visit to %s: %w", url, err)
+		visitor.pageVisitFailureObserver.LastPageVisitUnreadable(ctx, url, err)
+		return retryableOutcome(), nil
 	}
 	if visited && !visitor.recrawlRule.PageDueForRecrawl(lastVisit) {
 		return disposedOutcome(disposal.NotDue), nil
@@ -61,7 +65,7 @@ func (visitor *pageVisitor) VisitPage(
 		visitor.visitedPages.RecordPageVisit(ctx, url, fetchOutcome.Version)
 	}
 	if fetchOutcome.Status == pagefetch.FetchSucceeded {
-		return visitor.outcomeOfFetchedPage(ctx, url, fetchOutcome.Page)
+		return visitor.outcomeOfFetchedPage(ctx, url, fetchOutcome.Page), nil
 	}
 	return outcomeOfUnfetchedPage(fetchOutcome, url)
 }
@@ -76,19 +80,20 @@ func (visitor *pageVisitor) outcomeOfFetchedPage(
 	ctx context.Context,
 	url canonicalurl.CanonicalURL,
 	page pagefetch.FetchedPage,
-) (PageVisitOutcome, error) {
+) PageVisitOutcome {
 	reading, err := visitor.htmlPageReading.ReadingOfPage(ctx, page)
 	if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
-		return disposedOutcome(disposal.UnsupportedMediaType), nil
+		return disposedOutcome(disposal.UnsupportedMediaType)
 	}
 	if err != nil {
-		return PageVisitOutcome{}, err
+		visitor.pageVisitFailureObserver.PageHTMLUnreadable(ctx, url, err)
+		return retryableOutcome()
 	}
 	if reading.Refusals.RefusesLinkDiscovery {
 		visitor.refusalEnforcementObserver.LinkDiscoveryRefusalEnforced(ctx, url)
 	}
 	visitor.publishCrawledPage(ctx, page.LandedURL, reading.Refusals)
-	return crawledOutcome(reading.DiscoveredURLs), nil
+	return crawledOutcome(reading.DiscoveredURLs)
 }
 
 func (visitor *pageVisitor) publishCrawledPage(

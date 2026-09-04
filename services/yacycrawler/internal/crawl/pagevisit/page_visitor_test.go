@@ -104,6 +104,34 @@ type recordingObserver struct {
 	fetched                       int
 	fetchesCanceled               int
 	linkDiscoveryRefusalsEnforced int
+	unreadableLastPageVisits      int
+	unreadablePageHTMLs           int
+}
+
+func (o *recordingObserver) LastPageVisitUnreadable(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ error,
+) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.unreadableLastPageVisits++
+}
+
+func (o *recordingObserver) PageHTMLUnreadable(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ error,
+) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.unreadablePageHTMLs++
+}
+
+func (o *recordingObserver) unreadable() (int, int) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	return o.unreadableLastPageVisits, o.unreadablePageHTMLs
 }
 
 func newObserver() *recordingObserver {
@@ -282,7 +310,7 @@ func newPageVisitor(
 		linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
 	)
 	return pagevisit.New(
-		pageFetcher, pageVisits, pageVisits, htmlPageReading, observer, crawledPages,
+		pageFetcher, pageVisits, pageVisits, htmlPageReading, observer, crawledPages, observer,
 	)
 }
 
@@ -572,19 +600,69 @@ func TestVisitReportsNoFetchDurationWhenNotDue(t *testing.T) {
 	}
 }
 
-func TestVisitAnUnreadableLastPageVisitFails(t *testing.T) {
+func TestAnUnreadableLastPageVisitLeavesThePageForAnotherAttempt(t *testing.T) {
+	observer := newObserver()
 	pageVisitor := newPageVisitor(
 		&fakeFetch{},
 		&fakePageVisits{err: errors.New("boom")},
-		newObserver(),
+		observer,
 		&fakeCrawledPages{},
 	)
 
-	if _, err := pageVisitor.VisitPage(
+	outcome, err := pageVisitor.VisitPage(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
-	); err == nil {
-		t.Fatal("an unreadable last page visit should fail the visit")
+	)
+	if err != nil {
+		t.Fatalf("visit: %v", err)
+	}
+
+	if outcome.Conclusion != pagevisit.PageVisitRetryable {
+		t.Fatalf("conclusion = %v, want retryable", outcome.Conclusion)
+	}
+	if unreadableVisits, _ := observer.unreadable(); unreadableVisits != 1 {
+		t.Fatalf("unreadable last page visits = %d, want 1", unreadableVisits)
+	}
+}
+
+type unreadableHTMLPage struct{ err error }
+
+func (page unreadableHTMLPage) ReadingOfPage(
+	context.Context,
+	pagefetch.FetchedPage,
+) (pagehtmlreading.Reading, error) {
+	return pagehtmlreading.Reading{}, page.err
+}
+
+func TestUnreadablePageHTMLLeavesThePageForAnotherAttempt(t *testing.T) {
+	observer := newObserver()
+	pageVisitor := pagevisit.New(
+		pagevisit.NewObservedPageFetcher(
+			fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchSucceeded}),
+			&steppingClock{now: time.Unix(0, 0), step: fetchStep},
+			observer,
+		),
+		&fakePageVisits{due: true},
+		&fakePageVisits{due: true},
+		unreadableHTMLPage{err: errors.New("boom")},
+		observer,
+		&fakeCrawledPages{},
+		observer,
+	)
+
+	outcome, err := pageVisitor.VisitPage(
+		context.Background(),
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	)
+	if err != nil {
+		t.Fatalf("visit: %v", err)
+	}
+
+	if outcome.Conclusion != pagevisit.PageVisitRetryable {
+		t.Fatalf("conclusion = %v, want retryable", outcome.Conclusion)
+	}
+	if _, unreadableHTML := observer.unreadable(); unreadableHTML != 1 {
+		t.Fatalf("unreadable page html = %d, want 1", unreadableHTML)
 	}
 }
 
