@@ -11,7 +11,6 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
-	"sync"
 	"testing"
 	"time"
 
@@ -20,52 +19,27 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 )
 
-type recordingPlacement struct {
-	order    yacycrawlcontract.CrawlOrder
-	attempts int
+type recordingCrawlOrderPlacer struct {
+	order      yacycrawlcontract.CrawlOrder
+	placements int
 }
 
-func (p *recordingPlacement) Attempt(order yacycrawlcontract.CrawlOrder) {
+func (p *recordingCrawlOrderPlacer) Place(
+	_ context.Context,
+	order yacycrawlcontract.CrawlOrder,
+) {
 	p.order = order
-	p.attempts++
-}
-
-type recordingMetrics struct {
-	mu       sync.Mutex
-	received int
-	rejected int
-	placed   int
-	unplaced int
-}
-
-func (m *recordingMetrics) VisitReceived() { m.mu.Lock(); defer m.mu.Unlock(); m.received++ }
-func (m *recordingMetrics) VisitRejected() { m.mu.Lock(); defer m.mu.Unlock(); m.rejected++ }
-func (m *recordingMetrics) OrderPlaced()   { m.mu.Lock(); defer m.mu.Unlock(); m.placed++ }
-func (m *recordingMetrics) OrderUnplaced() { m.mu.Lock(); defer m.mu.Unlock(); m.unplaced++ }
-
-func (m *recordingMetrics) placedCount() int {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	return m.placed
-}
-
-func (m *recordingMetrics) unplacedCount() int {
-	m.mu.Lock()
-	defer m.mu.Unlock()
-	return m.unplaced
+	p.placements++
 }
 
 const linkSecret = "shared-secret"
 
-func mount(
-	placement visitintake.CrawlOrderPlacement,
-	metrics visitintake.VisitMetrics,
-) *http.ServeMux {
+func mount(placer visitintake.CrawlOrderPlacer) *http.ServeMux {
 	mux := http.NewServeMux()
 	profile := yacycrawlcontract.CrawlProfile{
 		Scope: yacycrawlcontract.ScopeDomain,
 	}
-	visitintake.MountVisitIntake(mux, placement, profile, metrics, linkSecret)
+	visitintake.MountVisitIntake(mux, placer, profile, linkSecret)
 	return mux
 }
 
@@ -89,10 +63,12 @@ func get(mux *http.ServeMux, target string) *httptest.ResponseRecorder {
 	return rec
 }
 
-func TestVisitRedirectsAndAttemptsPlacement(t *testing.T) {
-	placement := &recordingPlacement{}
-	metrics := &recordingMetrics{}
-	rec := get(mount(placement, metrics), currentTarget("https://example.org/a"))
+func TestVisitRedirectsAndPlacesCrawlOrder(t *testing.T) {
+	placer := &recordingCrawlOrderPlacer{}
+	rec := get(
+		mount(placer),
+		currentTarget("https://example.org/a"),
+	)
 
 	if rec.Code != http.StatusFound {
 		t.Fatalf("status = %d, want 302", rec.Code)
@@ -100,34 +76,27 @@ func TestVisitRedirectsAndAttemptsPlacement(t *testing.T) {
 	if got := rec.Header().Get("Location"); got != "https://example.org/a" {
 		t.Fatalf("location = %q", got)
 	}
-	if placement.attempts != 1 {
-		t.Fatalf("attempts = %d, want 1", placement.attempts)
+	if placer.placements != 1 {
+		t.Fatalf("attempts = %d, want 1", placer.placements)
 	}
-	if len(placement.order.SeedURLs) != 1 ||
-		placement.order.SeedURLs[0] != canonicalurltest.CanonicalURLOf(t, "https://example.org/a") {
-		t.Fatalf("order seeds = %v", placement.order.SeedURLs)
+	if len(placer.order.SeedURLs) != 1 ||
+		placer.order.SeedURLs[0] != canonicalurltest.CanonicalURLOf(t, "https://example.org/a") {
+		t.Fatalf("order seeds = %v", placer.order.SeedURLs)
 	}
-	if placement.order.OrderID == "" {
+	if placer.order.OrderID == "" {
 		t.Fatal("order id is empty")
-	}
-	if metrics.received != 1 {
-		t.Fatalf("received = %d, want 1", metrics.received)
 	}
 }
 
 func TestVisitRejectsMissingURL(t *testing.T) {
-	placement := &recordingPlacement{}
-	metrics := &recordingMetrics{}
-	rec := get(mount(placement, metrics), visitintake.PathVisit)
+	placer := &recordingCrawlOrderPlacer{}
+	rec := get(mount(placer), visitintake.PathVisit)
 
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("status = %d, want 400", rec.Code)
 	}
-	if placement.attempts != 0 {
-		t.Fatal("placement should not be attempted")
-	}
-	if metrics.rejected != 1 {
-		t.Fatalf("rejected = %d, want 1", metrics.rejected)
+	if placer.placements != 0 {
+		t.Fatal("no crawl order should be placed")
 	}
 }
 
@@ -140,67 +109,59 @@ func TestVisitRejectsMalformedLinks(t *testing.T) {
 		"missing signature": visitintake.PathVisit +
 			"?url=https%3A%2F%2Fexample.org%2Fa&expires=9999999999",
 	} {
-		placement := &recordingPlacement{}
-		rec := get(mount(placement, &recordingMetrics{}), target)
+		placer := &recordingCrawlOrderPlacer{}
+		rec := get(mount(placer), target)
 		if rec.Code != http.StatusBadRequest {
 			t.Errorf("%s: status = %d, want 400", name, rec.Code)
 		}
-		if placement.attempts != 0 {
-			t.Errorf("%s: placement should not be attempted", name)
+		if placer.placements != 0 {
+			t.Errorf("%s: no crawl order should be placed", name)
 		}
 	}
 }
 
 func TestVisitRejectsLinkSignedWithAnotherSecret(t *testing.T) {
-	placement := &recordingPlacement{}
-	metrics := &recordingMetrics{}
+	placer := &recordingCrawlOrderPlacer{}
 	target := signedTarget("https://example.org/a", time.Now().Add(time.Minute), "another-secret")
-	rec := get(mount(placement, metrics), target)
+	rec := get(mount(placer), target)
 
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("status = %d, want 400", rec.Code)
 	}
-	if placement.attempts != 0 {
-		t.Fatal("placement should not be attempted")
-	}
-	if metrics.rejected != 1 {
-		t.Fatalf("rejected = %d, want 1", metrics.rejected)
+	if placer.placements != 0 {
+		t.Fatal("no crawl order should be placed")
 	}
 }
 
 func TestVisitRejectsReplacedVisitedPage(t *testing.T) {
-	placement := &recordingPlacement{}
+	placer := &recordingCrawlOrderPlacer{}
 	target := currentTarget("https://example.org/a")
 	tampered := strings.Replace(target, "example.org", "evil.example", 1)
-	rec := get(mount(placement, &recordingMetrics{}), tampered)
+	rec := get(mount(placer), tampered)
 
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("status = %d, want 400", rec.Code)
 	}
-	if placement.attempts != 0 {
-		t.Fatal("placement should not be attempted")
+	if placer.placements != 0 {
+		t.Fatal("no crawl order should be placed")
 	}
 }
 
 func TestVisitRejectsExpiredLink(t *testing.T) {
-	placement := &recordingPlacement{}
-	metrics := &recordingMetrics{}
+	placer := &recordingCrawlOrderPlacer{}
 	target := signedTarget("https://example.org/a", time.Now().Add(-time.Minute), linkSecret)
-	rec := get(mount(placement, metrics), target)
+	rec := get(mount(placer), target)
 
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("status = %d, want 400", rec.Code)
 	}
-	if placement.attempts != 0 {
-		t.Fatal("placement should not be attempted")
-	}
-	if metrics.rejected != 1 {
-		t.Fatalf("rejected = %d, want 1", metrics.rejected)
+	if placer.placements != 0 {
+		t.Fatal("no crawl order should be placed")
 	}
 }
 
 func TestVisitRejectsNonGet(t *testing.T) {
-	mux := mount(&recordingPlacement{}, &recordingMetrics{})
+	mux := mount(&recordingCrawlOrderPlacer{})
 	req := httptest.NewRequestWithContext(
 		context.Background(), http.MethodPost, visitintake.PathVisit, nil,
 	)

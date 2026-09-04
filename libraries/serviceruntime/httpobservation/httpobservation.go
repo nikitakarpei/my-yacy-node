@@ -5,16 +5,18 @@ package httpobservation
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"time"
 )
 
 type ServedRequest struct {
-	Method   string
-	Path     string
-	Pattern  string
-	Status   int
-	Duration time.Duration
+	Method             string
+	Path               string
+	Pattern            string
+	Status             int
+	Duration           time.Duration
+	ResponseWriteError error
 }
 
 type Observer interface {
@@ -28,11 +30,12 @@ func NewHandler(next http.Handler, observers ...Observer) http.Handler {
 		next.ServeHTTP(recorder, r)
 
 		served := ServedRequest{
-			Method:   r.Method,
-			Path:     r.URL.Path,
-			Pattern:  r.Pattern,
-			Status:   recorder.servedStatus(),
-			Duration: time.Since(started),
+			Method:             r.Method,
+			Path:               r.URL.Path,
+			Pattern:            r.Pattern,
+			Status:             recorder.servedStatus(),
+			Duration:           time.Since(started),
+			ResponseWriteError: recorder.responseWriteError,
 		}
 		for _, observer := range observers {
 			observer.ObserveRequest(r.Context(), served)
@@ -42,7 +45,8 @@ func NewHandler(next http.Handler, observers ...Observer) http.Handler {
 
 type statusRecorder struct {
 	http.ResponseWriter
-	status int
+	status             int
+	responseWriteError error
 }
 
 func (r *statusRecorder) WriteHeader(status int) {
@@ -50,6 +54,18 @@ func (r *statusRecorder) WriteHeader(status int) {
 		r.status = status
 	}
 	r.ResponseWriter.WriteHeader(status)
+}
+
+func (r *statusRecorder) Write(body []byte) (int, error) {
+	written, err := r.ResponseWriter.Write(body)
+	if err == nil {
+		return written, nil
+	}
+	responseWriteError := fmt.Errorf("write HTTP response: %w", err)
+	if r.responseWriteError == nil {
+		r.responseWriteError = responseWriteError
+	}
+	return written, responseWriteError
 }
 
 func (r *statusRecorder) servedStatus() int {

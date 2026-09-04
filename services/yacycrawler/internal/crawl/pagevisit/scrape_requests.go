@@ -7,5 +7,5 @@ import (
 )
 
 type ScrapeRequests interface {
-	Publish(ctx context.Context, canonicalURL canonicalurl.CanonicalURL) error
+	Publish(ctx context.Context, canonicalURL canonicalurl.CanonicalURL)
 }

@@ -15,9 +15,11 @@ import (
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	pageofferpublishersjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/pageofferpublishers/jetstream"
 	scrapeintakepkg "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintake"
+	scrapeintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintakeobservers/applog"
+	scrapeintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintakeobservers/prometheus"
+	scrapeoutcomefeedobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeoutcomefeedobservers/applog"
+	scrapeoutcomefeedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeoutcomefeedobservers/prometheus"
 	scrapeoutcomefeedsnats "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeoutcomefeeds/nats"
-	scrapeprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeprogressobservers/applog"
-	scrapeprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeprogressobservers/prometheus"
 	scrapeschedulesjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeschedules/jetstream"
 	scrapestreamsjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapestreams/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
@@ -68,7 +70,13 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		collectors.NewGoCollector(),
 		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
 	)
-	outcomeFeed := scrapeoutcomefeedsnats.NewScrapeOutcomeFeed(connection)
+	outcomeFeed := scrapeoutcomefeedsnats.NewScrapeOutcomeFeed(
+		connection,
+		scrapeoutcomefeedsnats.ScrapeOutcomeFeedObservers{
+			scrapeoutcomefeedobserversapplog.ScrapeOutcomeFeedLog{},
+			scrapeoutcomefeedobserversprometheus.New(registry),
+		},
+	)
 	intake := scrapeintakepkg.NewScrapeRequestConsumer(scrapeintakepkg.Config{
 		ScrapeRequests: consumer,
 		PageFetcher: pagefetchershttp.New(
@@ -81,9 +89,9 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		PageOffers:        pageofferpublishersjetstream.NewPageOfferPublisher(broker),
 		ScrapeSchedules:   scrapeschedulesjetstream.NewScrapeSchedules(broker, time.Now),
 		ScrapeOutcomeFeed: outcomeFeed,
-		ScrapeProgress: scrapeintakepkg.ScrapeProgressObservers{
-			scrapeprogressobserversapplog.ScrapeProgressLog{},
-			scrapeprogressobserversprometheus.New(registry),
+		ScrapeIntakeObserver: scrapeintakepkg.ScrapeIntakeObservers{
+			scrapeintakeobserversapplog.ScrapeIntakeLog{},
+			scrapeintakeobserversprometheus.New(registry),
 		},
 		DeferralWindow:    cfg.ScrapeDeferralWindow,
 		IntakeConcurrency: cfg.ScrapeIntakeConcurrency,

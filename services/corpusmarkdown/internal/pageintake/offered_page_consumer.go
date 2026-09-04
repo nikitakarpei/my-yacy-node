@@ -19,8 +19,8 @@ type PageMarkdownCorpus interface {
 }
 
 type IntakeReceipts interface {
-	ReportKeptPage(ctx context.Context, pageURL canonicalurl.CanonicalURL) error
-	ReportRejectedPage(ctx context.Context, pageURL canonicalurl.CanonicalURL) error
+	ReportKeptPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
+	ReportRejectedPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
 }
 
 type OfferedPageConsumer struct {
@@ -28,7 +28,7 @@ type OfferedPageConsumer struct {
 	formatDerivations          pageformats.FormatDerivationCatalog
 	corpus                     PageMarkdownCorpus
 	intakeReceipts             IntakeReceipts
-	intakeProgress             IntakeProgress
+	pageIntakeObserver         PageIntakeObserver
 	pageOfferIntakeConcurrency int
 }
 
@@ -37,7 +37,7 @@ type Config struct {
 	FormatDerivations          pageformats.FormatDerivationCatalog
 	Corpus                     PageMarkdownCorpus
 	IntakeReceipts             IntakeReceipts
-	IntakeProgress             IntakeProgress
+	PageIntakeObserver         PageIntakeObserver
 	PageOfferIntakeConcurrency int
 }
 
@@ -47,7 +47,7 @@ func NewOfferedPageConsumer(config Config) *OfferedPageConsumer {
 		formatDerivations:          config.FormatDerivations,
 		corpus:                     config.Corpus,
 		intakeReceipts:             config.IntakeReceipts,
-		intakeProgress:             config.IntakeProgress,
+		pageIntakeObserver:         config.PageIntakeObserver,
 		pageOfferIntakeConcurrency: config.PageOfferIntakeConcurrency,
 	}
 }
@@ -64,19 +64,19 @@ func (c *OfferedPageConsumer) takeIn(
 	if err != nil {
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	c.intakeProgress.PageOffered(ctx, page.PageURL)
+	c.pageIntakeObserver.PageOffered(ctx, page.PageURL)
 	document, err := documentextraction.DocumentFrom(
 		ctx, page.Body, page.ContentType, page.LandedURL,
 	)
 	if err != nil {
-		c.intakeProgress.NoDocumentExtracted(ctx, page.LandedURL, err)
+		c.pageIntakeObserver.NoDocumentExtracted(ctx, page.LandedURL, err)
 		return c.reject(ctx, message, page.PageURL)
 	}
 	markdown, derived := c.formatDerivations.BodyIn(
 		ctx, documentextraction.FormatMarkdown, document, page.LandedURL,
 	)
 	if !derived {
-		c.intakeProgress.NoMarkdownDerived(ctx, page.PageURL)
+		c.pageIntakeObserver.NoMarkdownDerived(ctx, page.PageURL)
 		return c.reject(ctx, message, page.PageURL)
 	}
 	return c.store(ctx, message, page.PageURL, markdown)
@@ -89,14 +89,12 @@ func (c *OfferedPageConsumer) store(
 	markdown []byte,
 ) error {
 	if err := c.corpus.Put(ctx, pageURL, markdown); err != nil {
-		c.intakeProgress.MarkdownNotStored(ctx, pageURL, err)
+		c.pageIntakeObserver.MarkdownNotStored(ctx, pageURL, err)
 		message.Return(ctx)
 		return nil
 	}
-	c.intakeProgress.MarkdownStored(ctx, pageURL)
-	if err := c.intakeReceipts.ReportKeptPage(ctx, pageURL); err != nil {
-		c.intakeProgress.IntakeReceiptNotSent(ctx, pageURL, err)
-	}
+	c.pageIntakeObserver.MarkdownStored(ctx, pageURL)
+	c.intakeReceipts.ReportKeptPage(ctx, pageURL)
 	message.Acknowledge(ctx)
 	return nil
 }
@@ -106,9 +104,7 @@ func (c *OfferedPageConsumer) reject(
 	message pullintake.PendingMessage,
 	pageURL canonicalurl.CanonicalURL,
 ) error {
-	if err := c.intakeReceipts.ReportRejectedPage(ctx, pageURL); err != nil {
-		c.intakeProgress.IntakeReceiptNotSent(ctx, pageURL, err)
-	}
+	c.intakeReceipts.ReportRejectedPage(ctx, pageURL)
 	message.Acknowledge(ctx)
 	return nil
 }

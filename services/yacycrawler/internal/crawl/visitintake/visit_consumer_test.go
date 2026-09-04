@@ -175,9 +175,12 @@ func (f *fakeVisitor) visitCount() int {
 }
 
 type recordingObserver struct {
-	mu        sync.Mutex
-	disposed  map[disposal.Reason]int
-	deferrals int
+	mu               sync.Mutex
+	disposed         map[disposal.Reason]int
+	deferrals        int
+	retries          int
+	returned         int
+	claimedElsewhere int
 }
 
 func newObserver() *recordingObserver {
@@ -186,17 +189,56 @@ func newObserver() *recordingObserver {
 	}
 }
 
-func (o *recordingObserver) PageDisposed(reason disposal.Reason) {
+func (o *recordingObserver) PendingVisitDisposedPage(
+	_ context.Context,
+	_ pendingvisit.PendingVisit,
+	reason disposal.Reason,
+) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	o.disposed[reason]++
 }
 
-func (o *recordingObserver) DeferralHonored() {
+func (o *recordingObserver) PendingVisitDeferred(
+	context.Context,
+	pendingvisit.PendingVisit,
+	time.Duration,
+) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	o.deferrals++
 }
+
+func (o *recordingObserver) PendingVisitRetryScheduled(
+	context.Context,
+	pendingvisit.PendingVisit,
+	time.Duration,
+) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.retries++
+}
+
+func (o *recordingObserver) PendingVisitReturned(
+	context.Context,
+	pendingvisit.PendingVisit,
+	error,
+) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.returned++
+}
+
+func (o *recordingObserver) PendingVisitDroppedBecauseClaimedElsewhere(
+	context.Context,
+	pendingvisit.PendingVisit,
+) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.claimedElsewhere++
+}
+
+func (*recordingObserver) PendingVisitCompleted(context.Context, pendingvisit.PendingVisit) {}
 
 func wideProfile() yacycrawlcontract.CrawlProfile {
 	return yacycrawlcontract.CrawlProfile{

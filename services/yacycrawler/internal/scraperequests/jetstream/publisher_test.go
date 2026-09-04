@@ -7,6 +7,7 @@ import (
 
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
@@ -23,13 +24,12 @@ func TestPublishWritesContractMessage(t *testing.T) {
 	}); err != nil {
 		t.Fatal(err)
 	}
-	publisher := jetstream.New(js)
+	observer := &recordingScrapeRequestPublicationObserver{}
+	publisher := jetstream.New(js, observer)
 
 	const url = "http://example.com/a"
 	pageURL := canonicalurltest.CanonicalURLOf(t, url)
-	if err := publisher.Publish(ctx, pageURL); err != nil {
-		t.Fatalf("publish: %v", err)
-	}
+	publisher.Publish(ctx, pageURL)
 
 	consumer, err := js.CreateOrUpdateConsumer(ctx, pagescrapecontract.ScrapeRequestsStreamName,
 		natsjetstream.ConsumerConfig{AckPolicy: natsjetstream.AckExplicitPolicy})
@@ -52,4 +52,48 @@ func TestPublishWritesContractMessage(t *testing.T) {
 	if page.FetchURL != pageURL {
 		t.Fatalf("fetch url = %q, want the page url %q", page.FetchURL, url)
 	}
+	if observer.published != 1 {
+		t.Fatalf("published requests = %d, want 1", observer.published)
+	}
+}
+
+func TestARequestThatNeverLeavesIsObserved(t *testing.T) {
+	js := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
+	observer := &recordingScrapeRequestPublicationObserver{}
+	publisher := jetstream.New(js, observer)
+
+	publisher.Publish(
+		context.Background(), canonicalurltest.CanonicalURLOf(t, "http://example.com/a"),
+	)
+
+	if observer.publishingFailures != 1 {
+		t.Fatalf("publishing failures = %d, want 1", observer.publishingFailures)
+	}
+	if observer.published != 0 {
+		t.Fatalf("published requests = %d, want 0", observer.published)
+	}
+}
+
+type recordingScrapeRequestPublicationObserver struct {
+	published          int
+	encodingFailures   int
+	publishingFailures int
+}
+
+func (o *recordingScrapeRequestPublicationObserver) ScrapeRequestPublished(
+	context.Context, canonicalurl.CanonicalURL,
+) {
+	o.published++
+}
+
+func (o *recordingScrapeRequestPublicationObserver) ScrapeRequestEncodingFailed(
+	context.Context, canonicalurl.CanonicalURL, error,
+) {
+	o.encodingFailures++
+}
+
+func (o *recordingScrapeRequestPublicationObserver) ScrapeRequestPublishingFailed(
+	context.Context, canonicalurl.CanonicalURL, error,
+) {
+	o.publishingFailures++
 }

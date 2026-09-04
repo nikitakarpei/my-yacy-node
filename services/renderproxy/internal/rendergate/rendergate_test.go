@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"sync"
-	"sync/atomic"
 	"testing"
 	"time"
 
@@ -14,7 +13,6 @@ import (
 )
 
 type stubRenderer struct {
-	page  renderedpage.Page
 	err   error
 	delay time.Duration
 }
@@ -28,8 +26,112 @@ func (s *stubRenderer) Render(
 	case <-ctx.Done():
 		return renderedpage.Page{}, fmt.Errorf("stub render canceled: %w", ctx.Err())
 	}
+	return renderedpage.Page{}, s.err
+}
 
-	return s.page, s.err
+type recordingRenderObserver struct {
+	succeeded    int
+	timedOut     int
+	callerGaveUp int
+	pageTooLarge int
+	failed       int
+}
+
+func (o *recordingRenderObserver) RenderSucceeded(context.Context, string, time.Duration) {
+	o.succeeded++
+}
+
+func (o *recordingRenderObserver) RenderTimedOut(context.Context, string, time.Duration, error) {
+	o.timedOut++
+}
+
+func (o *recordingRenderObserver) RenderCallerGaveUp(
+	context.Context,
+	string,
+	time.Duration,
+	error,
+) {
+	o.callerGaveUp++
+}
+
+func (o *recordingRenderObserver) RenderPageTooLarge(
+	context.Context,
+	string,
+	time.Duration,
+	error,
+) {
+	o.pageTooLarge++
+}
+
+func (o *recordingRenderObserver) RenderFailed(context.Context, string, time.Duration, error) {
+	o.failed++
+}
+
+func TestDeadlineRendererReportsOversizedPageFailureReason(t *testing.T) {
+	observer := &recordingRenderObserver{}
+	renderer := rendergate.NewDeadlineRenderer(
+		&stubRenderer{err: fmt.Errorf("serialize: %w", renderedpage.ErrTooLarge)},
+		time.Second,
+		observer,
+	)
+
+	_, err := renderer.Render(t.Context(), renderedpage.Target{URL: "https://example.com"})
+	if err == nil {
+		t.Fatal("expected oversized page error")
+	}
+	if observer.pageTooLarge != 1 {
+		t.Fatalf("page too large = %d", observer.pageTooLarge)
+	}
+}
+
+func TestDeadlineRendererReportsDeadlineFailureReason(t *testing.T) {
+	observer := &recordingRenderObserver{}
+	renderer := rendergate.NewDeadlineRenderer(
+		&stubRenderer{delay: 50 * time.Millisecond},
+		5*time.Millisecond,
+		observer,
+	)
+
+	_, err := renderer.Render(t.Context(), renderedpage.Target{URL: "https://example.com"})
+	if !errors.Is(err, context.DeadlineExceeded) {
+		t.Fatalf("err = %v, want deadline exceeded", err)
+	}
+	if observer.timedOut != 1 {
+		t.Fatalf("timed out = %d", observer.timedOut)
+	}
+}
+
+func TestDeadlineRendererTellsACallerThatGaveUpFromItsOwnDeadline(t *testing.T) {
+	observer := &recordingRenderObserver{}
+	renderer := rendergate.NewDeadlineRenderer(
+		&stubRenderer{delay: time.Minute},
+		time.Minute,
+		observer,
+	)
+	ctx, giveUp := context.WithCancel(context.Background())
+	giveUp()
+
+	if _, err := renderer.Render(
+		ctx, renderedpage.Target{URL: "https://example.com"},
+	); !errors.Is(err, context.Canceled) {
+		t.Fatalf("err = %v, want the cancellation", err)
+	}
+	if observer.callerGaveUp != 1 {
+		t.Fatalf("caller gave up = %d, want 1", observer.callerGaveUp)
+	}
+}
+
+func TestDeadlineRendererReportsSuccess(t *testing.T) {
+	observer := &recordingRenderObserver{}
+	renderer := rendergate.NewDeadlineRenderer(&stubRenderer{}, time.Second, observer)
+
+	_, err := renderer.Render(t.Context(), renderedpage.Target{URL: "https://example.com"})
+	if err != nil {
+		t.Fatalf("render: %v", err)
+	}
+	if observer.succeeded != 1 || observer.failed != 0 {
+		t.Fatalf("succeeded = %d, failed = %d", observer.succeeded, observer.failed)
+	}
 }
 
 type blockingRenderer struct {
@@ -41,120 +143,58 @@ func (r *blockingRenderer) Render(
 	context.Context,
 	renderedpage.Target,
 ) (renderedpage.Page, error) {
-	close(r.entered)
+	r.entered <- struct{}{}
 	<-r.release
-
 	return renderedpage.Page{}, nil
 }
 
-type stubMetrics struct {
-	waited       atomic.Int64
-	succeeded    atomic.Int64
-	failed       atomic.Int64
-	failedReason atomic.Pointer[string]
+type recordingRenderCapacityObserver struct {
+	waitedForCapacity       int
+	endedWaitingForCapacity int
 }
 
-func (m *stubMetrics) RenderWaited()    { m.waited.Add(1) }
-func (m *stubMetrics) RenderSucceeded() { m.succeeded.Add(1) }
-
-func (m *stubMetrics) RenderFailed(reason string) {
-	m.failed.Add(1)
-	m.failedReason.Store(&reason)
+func (o *recordingRenderCapacityObserver) RenderWaitedForCapacity(
+	context.Context,
+	string,
+	time.Duration,
+) {
+	o.waitedForCapacity++
 }
 
-func (m *stubMetrics) RenderObserved(time.Duration) {}
-
-func TestRenderReportsTooLargeWhenTheRendererRefusesAnOversizedPage(t *testing.T) {
-	inner := &stubRenderer{err: fmt.Errorf("render: %w", renderedpage.ErrTooLarge)}
-	metrics := &stubMetrics{}
-	gated := rendergate.New(inner, 1, time.Second, metrics)
-
-	if _, err := gated.Render(
-		context.Background(),
-		renderedpage.Target{URL: "http://example.com"},
-	); err == nil {
-		t.Fatal("expected error for oversized page")
-	}
-	reason := metrics.failedReason.Load()
-	if reason == nil || *reason != rendergate.ReasonTooLarge {
-		t.Fatalf("failure reason = %v, want %s", reason, rendergate.ReasonTooLarge)
-	}
+func (o *recordingRenderCapacityObserver) RenderEndedWhileWaitingForCapacity(
+	context.Context,
+	string,
+	time.Duration,
+	error,
+) {
+	o.endedWaitingForCapacity++
 }
 
-func TestRenderAppliesDeadline(t *testing.T) {
-	inner := &stubRenderer{delay: 50 * time.Millisecond}
-	metrics := &stubMetrics{}
-	gated := rendergate.New(inner, 1, 5*time.Millisecond, metrics)
-
-	_, err := gated.Render(context.Background(), renderedpage.Target{URL: "http://example.com"})
-	if !errors.Is(err, context.DeadlineExceeded) {
-		t.Fatalf("err = %v, want context.DeadlineExceeded", err)
-	}
-}
-
-func TestRenderPropagatesInnerError(t *testing.T) {
-	inner := &stubRenderer{err: errors.New("boom")}
-	metrics := &stubMetrics{}
-	gated := rendergate.New(inner, 1, time.Second, metrics)
-
-	if _, err := gated.Render(
-		context.Background(),
-		renderedpage.Target{URL: "http://example.com"},
-	); err == nil {
-		t.Fatal("expected error")
-	}
-	if metrics.succeeded.Load() != 0 {
-		t.Fatal("did not expect success recorded")
-	}
-}
-
-func TestRenderWaitsForSlotWhenConcurrencyCapReached(t *testing.T) {
-	gated, metrics, release, held := gateWithSlotHeld(t)
-
-	ctx, cancel := context.WithCancel(context.Background())
-	cancel()
-	_, _ = gated.Render(ctx, renderedpage.Target{URL: "http://example.com"})
-
-	close(release)
-	held.Wait()
-
-	if metrics.waited.Load() != 1 {
-		t.Fatalf("waited count = %d, want 1", metrics.waited.Load())
-	}
-}
-
-func gateWithSlotHeld(
-	t *testing.T,
-) (*rendergate.Renderer, *stubMetrics, chan<- struct{}, *sync.WaitGroup) {
-	t.Helper()
-
-	metrics := &stubMetrics{}
-	inner := &blockingRenderer{entered: make(chan struct{}), release: make(chan struct{})}
-	gated := rendergate.New(inner, 1, time.Second, metrics)
+func TestCapacityLimitedRendererReportsRenderEndedWhileWaitingForCapacity(t *testing.T) {
+	inner := &blockingRenderer{entered: make(chan struct{}, 1), release: make(chan struct{})}
+	observer := &recordingRenderCapacityObserver{}
+	renderer := rendergate.NewCapacityLimitedRenderer(inner, 1, observer)
 
 	var held sync.WaitGroup
 	held.Go(func() {
-		_, _ = gated.Render(context.Background(), renderedpage.Target{URL: "http://example.com"})
+		_, _ = renderer.Render(t.Context(), renderedpage.Target{URL: "https://held.example"})
 	})
 	<-inner.entered
 
-	return gated, metrics, inner.release, &held
-}
-
-func TestRenderReportsSlotWaitTimeout(t *testing.T) {
-	gated, metrics, release, held := gateWithSlotHeld(t)
-
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancel(t.Context())
 	cancel()
-	if _, err := gated.Render(ctx, renderedpage.Target{URL: "http://example.com"}); err == nil {
-		t.Fatal("expected error from render with an already cancelled context")
-	}
-
-	close(release)
+	_, err := renderer.Render(ctx, renderedpage.Target{URL: "https://waiting.example"})
+	close(inner.release)
 	held.Wait()
 
-	reason := metrics.failedReason.Load()
-	if reason == nil || *reason != rendergate.ReasonSlotWaitTimeout {
-		t.Fatalf("failure reason = %v, want %s", reason, rendergate.ReasonSlotWaitTimeout)
+	if err == nil {
+		t.Fatal("expected render capacity error")
+	}
+	if observer.endedWaitingForCapacity != 1 || observer.waitedForCapacity != 0 {
+		t.Fatalf(
+			"ended while waiting = %d, waited for capacity = %d",
+			observer.endedWaitingForCapacity,
+			observer.waitedForCapacity,
+		)
 	}
 }

@@ -2,7 +2,6 @@ package nats
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/nats-io/nats.go"
@@ -16,41 +15,45 @@ const publicationConfirmationLimit = 10 * time.Second
 type IntakeReceipts struct {
 	connection *nats.Conn
 	corpus     pagescrapecontract.CorpusName
+	observer   IntakeReceiptPublicationObserver
 }
 
 func NewIntakeReceipts(
 	connection *nats.Conn,
 	corpus pagescrapecontract.CorpusName,
+	observer IntakeReceiptPublicationObserver,
 ) *IntakeReceipts {
-	return &IntakeReceipts{connection: connection, corpus: corpus}
+	return &IntakeReceipts{connection: connection, corpus: corpus, observer: observer}
 }
 
 func (r *IntakeReceipts) ReportKeptPage(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
-) error {
+) {
 	data, err := pagescrapecontract.MarshalKeptPage(pagescrapecontract.KeptPage{
 		PageURL: pageURL,
 		Corpus:  r.corpus,
 	})
 	if err != nil {
-		return err
+		r.observer.IntakeReceiptEncodingFailed(ctx, pageURL, err)
+		return
 	}
-	return r.send(ctx, pagescrapecontract.KeptPageSubjectOf(pageURL), data, pageURL)
+	r.send(ctx, pagescrapecontract.KeptPageSubjectOf(pageURL), data, pageURL)
 }
 
 func (r *IntakeReceipts) ReportRejectedPage(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
-) error {
+) {
 	data, err := pagescrapecontract.MarshalRejectedPage(pagescrapecontract.RejectedPage{
 		PageURL: pageURL,
 		Corpus:  r.corpus,
 	})
 	if err != nil {
-		return err
+		r.observer.IntakeReceiptEncodingFailed(ctx, pageURL, err)
+		return
 	}
-	return r.send(ctx, pagescrapecontract.RejectedPageSubjectOf(pageURL), data, pageURL)
+	r.send(ctx, pagescrapecontract.RejectedPageSubjectOf(pageURL), data, pageURL)
 }
 
 func (r *IntakeReceipts) send(
@@ -58,14 +61,16 @@ func (r *IntakeReceipts) send(
 	subject string,
 	data []byte,
 	pageURL canonicalurl.CanonicalURL,
-) error {
+) {
 	if err := r.connection.Publish(subject, data); err != nil {
-		return fmt.Errorf("send the intake receipt for %q: %w", pageURL, err)
+		r.observer.IntakeReceiptPublishingFailed(ctx, pageURL, subject, err)
+		return
 	}
 	confirmationCtx, cancel := context.WithTimeout(ctx, publicationConfirmationLimit)
 	defer cancel()
 	if err := r.connection.FlushWithContext(confirmationCtx); err != nil {
-		return fmt.Errorf("confirm the intake receipt for %q: %w", pageURL, err)
+		r.observer.IntakeReceiptConfirmationFailed(ctx, pageURL, subject, err)
+		return
 	}
-	return nil
+	r.observer.IntakeReceiptSent(ctx, pageURL, subject)
 }

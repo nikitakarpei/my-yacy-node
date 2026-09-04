@@ -19,8 +19,8 @@ The visit intake service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `VISITCRAWL_ORDER_TIMEOUT` | `5s` | Time bound on a single placement attempt. |
-| `VISITCRAWL_MAX_IN_FLIGHT` | `256` | Concurrent placement attempts allowed before new visits are skipped. |
+| `VISITCRAWL_ORDER_TIMEOUT` | `5s` | Time bound on placing one crawl order. |
+| `VISITCRAWL_MAX_IN_FLIGHT` | `256` | Concurrent placements allowed before a further placement is refused. |
 | `VISITCRAWL_MAX_BODY_BYTES` | `4096` | Largest request body accepted on `/visit`. |
 
 ## Crawl profile

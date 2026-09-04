@@ -16,8 +16,8 @@ format.
 ## Decision
 
 We use `github.com/prometheus/client_golang` (pinned in `go.mod`) with a private registry and
-serve it on the ops mux `/metrics`. `visitintake` depends only on its own narrow `VisitMetrics`
-port; `visitmetrics` implements that port.
+serve it on the ops mux `/metrics`. Intake emits concrete visit and placement facts through
+observer ports. Prometheus adapters observe those ports outside the intake package.
 
 ## Consequences
 

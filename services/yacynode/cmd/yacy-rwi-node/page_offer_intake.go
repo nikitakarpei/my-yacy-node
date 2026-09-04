@@ -7,11 +7,13 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
-	intakeprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/intakeprogressobservers/applog"
-	intakeprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/intakeprogressobservers/prometheus"
+	intakereceiptpublicationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/intakereceiptpublicationobservers/applog"
+	intakereceiptpublicationobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/intakereceiptpublicationobservers/prometheus"
 	intakereceiptsnats "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/intakereceipts/nats"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintake"
+	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintakeobservers/applog"
+	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintakeobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageofferbroker"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/rwiadmission"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/urlmeta"
@@ -56,10 +58,14 @@ func openPageOfferIntake(
 				PostingReceiver:   postings,
 				IntakeReceipts: intakereceiptsnats.NewIntakeReceipts(
 					broker.Connection, corpus,
+					intakereceiptsnats.IntakeReceiptPublicationObservers{
+						intakereceiptpublicationobserversapplog.IntakeReceiptPublicationLog{},
+						intakereceiptpublicationobserversprometheus.New(registry),
+					},
 				),
-				IntakeProgress: pageintake.IntakeProgressObservers{
-					intakeprogressobserversapplog.IntakeProgressLog{},
-					intakeprogressobserversprometheus.New(registry),
+				PageIntakeObserver: pageintake.PageIntakeObservers{
+					pageintakeobserversapplog.PageIntakeLog{},
+					pageintakeobserversprometheus.New(registry),
 				},
 				PageOfferIntakeConcurrency: config.PageOfferIntakeConcurrency,
 			}),

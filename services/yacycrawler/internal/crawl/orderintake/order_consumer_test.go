@@ -43,14 +43,17 @@ func (v *fakePendingVisits) Publish(_ context.Context, visit pendingvisit.Pendin
 }
 
 type recordingObserver struct {
-	received int
 	accepted int
 	returned int
 }
 
-func (o *recordingObserver) OrderReceived() { o.received++ }
-func (o *recordingObserver) OrderAccepted() { o.accepted++ }
-func (o *recordingObserver) OrderReturned() { o.returned++ }
+func (o *recordingObserver) CrawlOrderAccepted(context.Context, string, int) {
+	o.accepted++
+}
+
+func (o *recordingObserver) CrawlOrderReturned(context.Context, string, error) {
+	o.returned++
+}
 
 func seeds(t *testing.T) []canonicalurl.CanonicalURL {
 	t.Helper()
@@ -123,8 +126,8 @@ func TestAnAcceptedOrderSeedsTheFrontierThenAcknowledges(t *testing.T) {
 	if got := message.Settlements(); len(got) != 1 || got[0] != pullintaketest.Acknowledged {
 		t.Fatalf("message settled %v, want one ack", got)
 	}
-	if observer.received != 1 || observer.accepted != 1 {
-		t.Fatalf("observer %+v, want one received and one accepted", observer)
+	if observer.accepted != 1 {
+		t.Fatalf("observer %+v, want one accepted order", observer)
 	}
 }
 

@@ -19,10 +19,14 @@ components:
     in: internal/scrapeschedules/jetstream/**
   scrapeoutcomefeedsnats:
     in: internal/scrapeoutcomefeeds/nats/**
-  scrapeprogressobserversapplog:
-    in: internal/scrapeprogressobservers/applog/**
-  scrapeprogressobserversprometheus:
-    in: internal/scrapeprogressobservers/prometheus/**
+  scrapeoutcomefeedobserversapplog:
+    in: internal/scrapeoutcomefeedobservers/applog/**
+  scrapeoutcomefeedobserversprometheus:
+    in: internal/scrapeoutcomefeedobservers/prometheus/**
+  scrapeintakeobserversapplog:
+    in: internal/scrapeintakeobservers/applog/**
+  scrapeintakeobserversprometheus:
+    in: internal/scrapeintakeobservers/prometheus/**
   pagescrapecmd:
     in: cmd/pagescrape/**
 
@@ -71,11 +75,17 @@ deps:
     canUse:
       - pagescrapecontract
       - nats
-  scrapeprogressobserversapplog:
+  scrapeoutcomefeedobserversapplog:
+    canUse:
+      - canonicalurl
+  scrapeoutcomefeedobserversprometheus:
+    canUse:
+      - prometheus
+  scrapeintakeobserversapplog:
     canUse:
       - pagescrapecontract
       - serviceruntime
-  scrapeprogressobserversprometheus:
+  scrapeintakeobserversprometheus:
     canUse:
       - pagescrapecontract
       - prometheus

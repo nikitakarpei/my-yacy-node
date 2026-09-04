@@ -12,12 +12,14 @@ import (
 	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	intakeprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakeprogressobservers/applog"
-	intakeprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakeprogressobservers/prometheus"
+	intakereceiptpublicationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakereceiptpublicationobservers/applog"
+	intakereceiptpublicationobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakereceiptpublicationobservers/prometheus"
 	intakereceiptsnats "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakereceipts/nats"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecall"
 	markdownrecallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/grpc"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintake"
+	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintakeobservers/applog"
+	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintakeobservers/prometheus"
 	pagemarkdowncorporajetstream "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pagemarkdowncorpora/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
@@ -74,10 +76,14 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		Corpus:            markdownCorpus,
 		IntakeReceipts: intakereceiptsnats.NewIntakeReceipts(
 			pageOfferConnection, pagescrapecontract.CorpusMarkdown,
+			intakereceiptsnats.IntakeReceiptPublicationObservers{
+				intakereceiptpublicationobserversapplog.IntakeReceiptPublicationLog{},
+				intakereceiptpublicationobserversprometheus.New(registry),
+			},
 		),
-		IntakeProgress: pageintake.IntakeProgressObservers{
-			intakeprogressobserversapplog.IntakeProgressLog{},
-			intakeprogressobserversprometheus.New(registry),
+		PageIntakeObserver: pageintake.PageIntakeObservers{
+			pageintakeobserversapplog.PageIntakeLog{},
+			pageintakeobserversprometheus.New(registry),
 		},
 		PageOfferIntakeConcurrency: cfg.PageOfferIntakeConcurrency,
 	})

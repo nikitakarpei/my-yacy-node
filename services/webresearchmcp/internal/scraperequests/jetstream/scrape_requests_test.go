@@ -7,6 +7,7 @@ import (
 
 	natsjetstream "github.com/nats-io/nats.go/jetstream"
 
+	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
@@ -32,18 +33,15 @@ func TestAskingToScrapeWritesTheContractRequestOnTheStream(t *testing.T) {
 		t.Fatalf("create the scrape requests stream: %v", err)
 	}
 
-	requests, err := jetstream.OpenScrapeRequests(serverURL)
+	requests, err := jetstream.OpenScrapeRequests(
+		serverURL, &recordingScrapeRequestPublicationObserver{},
+	)
 	if err != nil {
 		t.Fatalf("open the scrape requests: %v", err)
 	}
 	defer requests.Close()
 
-	if err := requests.AskToScrape(
-		ctx,
-		canonicalurltest.CanonicalURLOf(t, pageAddress),
-	); err != nil {
-		t.Fatalf("ask to scrape %s: %v", pageAddress, err)
-	}
+	requests.AskToScrape(ctx, canonicalurltest.CanonicalURLOf(t, pageAddress))
 
 	consumer, err := stream.CreateOrUpdateConsumer(
 		ctx,
@@ -72,25 +70,57 @@ func TestAskingToScrapeWritesTheContractRequestOnTheStream(t *testing.T) {
 	}
 }
 
-func TestAskingToScrapeFailsWhileTheStreamIsMissing(t *testing.T) {
+func TestARequestThatNeverLeavesIsObserved(t *testing.T) {
 	serverURL := natstestserver.Start(t)
+	observer := &recordingScrapeRequestPublicationObserver{}
 
-	requests, err := jetstream.OpenScrapeRequests(serverURL)
+	requests, err := jetstream.OpenScrapeRequests(serverURL, observer)
 	if err != nil {
 		t.Fatalf("open the scrape requests: %v", err)
 	}
 	defer requests.Close()
 
-	if err := requests.AskToScrape(
+	requests.AskToScrape(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, pageAddress),
-	); err == nil {
-		t.Fatal("asking to scrape answered without an error, want the missing stream to fail")
+	)
+
+	if observer.publishingFailures != 1 {
+		t.Errorf("publishing failures = %d, want 1", observer.publishingFailures)
+	}
+	if observer.published != 0 {
+		t.Errorf("published requests = %d, want none", observer.published)
 	}
 }
 
 func TestScrapeRequestsCannotOpenOnAServerThatIsAway(t *testing.T) {
-	if _, err := jetstream.OpenScrapeRequests("nats://127.0.0.1:1"); err == nil {
+	if _, err := jetstream.OpenScrapeRequests(
+		"nats://127.0.0.1:1", &recordingScrapeRequestPublicationObserver{},
+	); err == nil {
 		t.Fatal("the scrape requests opened, want the server that is away to fail")
 	}
+}
+
+type recordingScrapeRequestPublicationObserver struct {
+	published          int
+	encodingFailures   int
+	publishingFailures int
+}
+
+func (o *recordingScrapeRequestPublicationObserver) ScrapeRequestPublished(
+	context.Context, canonicalurl.CanonicalURL,
+) {
+	o.published++
+}
+
+func (o *recordingScrapeRequestPublicationObserver) ScrapeRequestEncodingFailed(
+	context.Context, canonicalurl.CanonicalURL, error,
+) {
+	o.encodingFailures++
+}
+
+func (o *recordingScrapeRequestPublicationObserver) ScrapeRequestPublishingFailed(
+	context.Context, canonicalurl.CanonicalURL, error,
+) {
+	o.publishingFailures++
 }

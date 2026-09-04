@@ -62,15 +62,15 @@ func runScrapeIntakeAgainst(
 	message := &pullintaketest.Message{Body: body}
 	feed := &scrapeOutcomeFeed{}
 	consumer := scrapeintake.NewScrapeRequestConsumer(scrapeintake.Config{
-		ScrapeRequests:    pullintaketest.MessageSourceOf(message),
-		PageFetcher:       reads,
-		PageOffers:        broker.offers,
-		ScrapeSchedules:   broker.schedules,
-		ScrapeOutcomeFeed: feed,
-		ScrapeProgress:    scrapeintake.ScrapeProgressObservers{silentScrapeProgress{}},
-		DeferralWindow:    deferralWindow,
-		IntakeConcurrency: 1,
-		ReadingTime:       func() time.Time { return readingTime },
+		ScrapeRequests:       pullintaketest.MessageSourceOf(message),
+		PageFetcher:          reads,
+		PageOffers:           broker.offers,
+		ScrapeSchedules:      broker.schedules,
+		ScrapeOutcomeFeed:    feed,
+		ScrapeIntakeObserver: scrapeintake.ScrapeIntakeObservers{silentScrapeIntakeObserver{}},
+		DeferralWindow:       deferralWindow,
+		IntakeConcurrency:    1,
+		ReadingTime:          func() time.Time { return readingTime },
 	})
 	if err := consumer.Run(context.Background()); err != nil {
 		t.Fatalf("run intake: %v", err)
@@ -273,14 +273,14 @@ func TestRequestComesBackWhenTheBrokerSchedulesNoLaterRead(t *testing.T) {
 func TestUnreadableScrapeRequestHaltsIntake(t *testing.T) {
 	message := &pullintaketest.Message{Body: []byte("not json")}
 	consumer := scrapeintake.NewScrapeRequestConsumer(scrapeintake.Config{
-		ScrapeRequests:    pullintaketest.MessageSourceOf(message),
-		PageFetcher:       pageReads{},
-		PageOffers:        &pageOffers{},
-		ScrapeSchedules:   &scrapeSchedules{},
-		ScrapeOutcomeFeed: &scrapeOutcomeFeed{},
-		ScrapeProgress:    scrapeintake.ScrapeProgressObservers{silentScrapeProgress{}},
-		DeferralWindow:    deferralWindow,
-		IntakeConcurrency: 1,
+		ScrapeRequests:       pullintaketest.MessageSourceOf(message),
+		PageFetcher:          pageReads{},
+		PageOffers:           &pageOffers{},
+		ScrapeSchedules:      &scrapeSchedules{},
+		ScrapeOutcomeFeed:    &scrapeOutcomeFeed{},
+		ScrapeIntakeObserver: scrapeintake.ScrapeIntakeObservers{silentScrapeIntakeObserver{}},
+		DeferralWindow:       deferralWindow,
+		IntakeConcurrency:    1,
 	})
 
 	if err := consumer.Run(context.Background()); err == nil {

@@ -2,6 +2,7 @@ package httpobservation_test
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -82,5 +83,38 @@ func TestAnInformationalStatusIsNotTheServedStatus(t *testing.T) {
 
 	if observer.served[0].Status != http.StatusCreated {
 		t.Errorf("status = %d, want the status that ended the response", observer.served[0].Status)
+	}
+}
+
+type failingResponseWriter struct {
+	header http.Header
+}
+
+func (w *failingResponseWriter) Header() http.Header {
+	if w.header == nil {
+		w.header = http.Header{}
+	}
+	return w.header
+}
+
+func (*failingResponseWriter) WriteHeader(int) {}
+
+func (*failingResponseWriter) Write([]byte) (int, error) {
+	return 0, errors.New("client gone")
+}
+
+func TestAResponseWriteFailureIsObserved(t *testing.T) {
+	observer := &recordedRequests{}
+	handler := http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		_, _ = w.Write([]byte("body"))
+	})
+	request := httptest.NewRequestWithContext(
+		context.Background(), http.MethodGet, "/", nil,
+	)
+
+	httpobservation.NewHandler(handler, observer).ServeHTTP(&failingResponseWriter{}, request)
+
+	if observer.served[0].ResponseWriteError == nil {
+		t.Fatal("response write error was not observed")
 	}
 }

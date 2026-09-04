@@ -11,6 +11,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/linkdiscovery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtml"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagehtmlreading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
@@ -95,64 +98,132 @@ func (c *steppingClock) Now() time.Time {
 }
 
 type recordingObserver struct {
-	mu                      sync.Mutex
-	refusals                map[string]int
-	fetchDurations          []time.Duration
-	fetched                 int
-	scrapeRequestsPublished int
+	mu                            sync.Mutex
+	fetchDurations                []time.Duration
+	fetched                       int
+	fetchesCanceled               int
+	linkDiscoveryRefusalsEnforced int
 }
 
 func newObserver() *recordingObserver {
-	return &recordingObserver{refusals: map[string]int{}}
+	return &recordingObserver{}
 }
 
-func (o *recordingObserver) FetchTook(duration time.Duration) {
+func (o *recordingObserver) PageFetchSucceeded(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+) {
+	o.mu.Lock()
+	defer o.mu.Unlock()
+	o.fetchDurations = append(o.fetchDurations, duration)
+	o.fetched++
+}
+
+func (o *recordingObserver) PageFetchNotModified(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) PageFetchAccessRefused(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) PageFetchDeferred(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+	_ time.Duration,
+) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) PageFetchRejected(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) PageFetchLandedURLInvalid(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+	_ error,
+) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) PageFetchRefusedOversizedPage(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) PageFetchFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+	_ error,
+) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) recordFetchDuration(duration time.Duration) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
 	o.fetchDurations = append(o.fetchDurations, duration)
 }
 
-func (o *recordingObserver) PageFetched() {
+func (o *recordingObserver) LinkDiscoveryRefusalEnforced(
+	context.Context,
+	canonicalurl.CanonicalURL,
+) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	o.fetched++
+	o.linkDiscoveryRefusalsEnforced++
 }
 
-func (o *recordingObserver) AccessRefusalHonored() { o.honor("access") }
-
-func (o *recordingObserver) IndexingRefusalHonored() { o.honor("indexing") }
-
-func (o *recordingObserver) LinkDiscoveryRefusalHonored() { o.honor("link-discovery") }
-
-func (o *recordingObserver) honor(refusal string) {
+func (o *recordingObserver) PageFetchCanceled(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+) {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	o.refusals[refusal]++
+	o.fetchDurations = append(o.fetchDurations, duration)
+	o.fetchesCanceled++
 }
 
-func (o *recordingObserver) ScrapeRequestPublished() {
-	o.mu.Lock()
-	defer o.mu.Unlock()
-	o.scrapeRequestsPublished++
+func (*recordingObserver) RecrawlRecordFailed(
+	context.Context,
+	canonicalurl.CanonicalURL,
+	error,
+) {
 }
 
 type fakeScrapeRequests struct {
 	mu        sync.Mutex
-	err       error
 	published []string
 }
 
 func (f *fakeScrapeRequests) Publish(
 	_ context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
-) error {
+) {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	if f.err != nil {
-		return f.err
-	}
 	f.published = append(f.published, canonicalURL.String())
-	return nil
 }
 
 func (f *fakeScrapeRequests) calls() []string {
@@ -203,13 +274,15 @@ func newVisitorFor(
 	observer *recordingObserver,
 	scrapeRequests pagevisit.ScrapeRequests,
 ) pagevisit.VisitorFor {
-	return pagevisit.New(
-		fetcher,
-		&steppingClock{now: time.Unix(0, 0), step: fetchStep},
-		recrawl,
-		observer,
-		scrapeRequests,
+	pageFetcher := pagevisit.NewObservedPageFetcher(
+		fetcher, &steppingClock{now: time.Unix(0, 0), step: fetchStep}, observer,
 	)
+	recrawlRule := pagevisit.NewBestEffortRecrawlRule(recrawl, observer)
+	htmlPageReading := pagehtmlreading.NewHTMLPageReading(
+		pagehtml.NewHTMLParser(silentMediaTypeObserver{}),
+		linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
+	)
+	return pagevisit.New(pageFetcher, recrawlRule, htmlPageReading, observer, scrapeRequests)
 }
 
 func visitHost(t *testing.T, visitor pagevisit.Visitor) pagevisit.VisitOutcome {
@@ -252,12 +325,6 @@ func TestVisitReadsTheFetchedPage(t *testing.T) {
 	}
 	if calls := scrapeRequests.calls(); len(calls) != 1 || calls[0] != "http://host/" {
 		t.Fatalf("want the scrape request published once with its canonical url, got %v", calls)
-	}
-	if observer.scrapeRequestsPublished != 1 {
-		t.Fatalf(
-			"want the scrape request metric observed once, got %d",
-			observer.scrapeRequestsPublished,
-		)
 	}
 }
 
@@ -335,9 +402,6 @@ func TestVisitStopsWhenTheTargetRefusesAccess(t *testing.T) {
 
 	outcome := visitHost(t, visitor)
 
-	if observer.refusals["access"] != 1 {
-		t.Fatalf("access refusal not honored: %v", observer.refusals)
-	}
 	if outcome.Disposal != disposal.AccessRefused {
 		t.Fatalf("want access-refused disposal, got %q", outcome.Disposal)
 	}
@@ -415,7 +479,7 @@ func TestVisitReportsDeferred(t *testing.T) {
 	}
 }
 
-func TestVisitFetchErrorFails(t *testing.T) {
+func TestVisitFetchErrorLeavesTheVisitRetryable(t *testing.T) {
 	visitor := newVisitor(
 		&fakeFetch{err: errors.New("boom")},
 		&fakeRecrawl{due: true},
@@ -423,11 +487,38 @@ func TestVisitFetchErrorFails(t *testing.T) {
 		&fakeScrapeRequests{},
 	)
 
-	if _, err := visitor.Visit(
+	outcome, err := visitor.Visit(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
-	); err == nil {
-		t.Fatal("fetch error should fail the visit")
+	)
+	if err != nil {
+		t.Fatalf("visit: %v", err)
+	}
+	if outcome.Conclusion != pagevisit.VisitRetryable {
+		t.Fatalf("want the visit retryable, got %v", outcome.Conclusion)
+	}
+}
+
+func TestAFetchThatIsCanceledIsObservedAsCanceled(t *testing.T) {
+	observer := newObserver()
+	visitor := newVisitor(
+		&fakeFetch{err: errors.New("boom")},
+		&fakeRecrawl{due: true},
+		observer,
+		&fakeScrapeRequests{},
+	)
+
+	ctx, cancelVisit := context.WithCancel(context.Background())
+	cancelVisit()
+	if _, err := visitor.Visit(
+		ctx,
+		canonicalurltest.CanonicalURLOf(t, "http://host/"),
+	); err != nil {
+		t.Fatalf("visit: %v", err)
+	}
+
+	if observer.fetchesCanceled != 1 {
+		t.Fatalf("canceled fetches = %d, want 1", observer.fetchesCanceled)
 	}
 }
 
@@ -624,19 +715,23 @@ func TestVisitedErrorIsRecoverable(t *testing.T) {
 	visitHost(t, visitor)
 }
 
-func TestVisitScrapeRequestPublishErrorFails(t *testing.T) {
-	scrapeRequests := &fakeScrapeRequests{err: errors.New("publish boom")}
-	visitor := newVisitor(
-		fetchOf(fetchedOutcome(t)),
-		&fakeRecrawl{due: true},
-		newObserver(),
-		scrapeRequests,
-	)
+type silentMediaTypeObserver struct{}
 
-	if _, err := visitor.Visit(
-		context.Background(),
-		canonicalurltest.CanonicalURLOf(t, "http://host/"),
-	); err == nil {
-		t.Fatal("a scrape request publish error should fail the visit")
-	}
+func (silentMediaTypeObserver) MediaTypeUnparsed(context.Context, string, error) {}
+
+type silentLinkResolutionObserver struct{}
+
+func (silentLinkResolutionObserver) BaseHrefUnresolved(
+	context.Context,
+	canonicalurl.CanonicalURL,
+	string,
+	error,
+) {
+}
+
+func (silentLinkResolutionObserver) LinkHrefsUnresolved(
+	context.Context,
+	canonicalurl.CanonicalURL,
+	int,
+) {
 }

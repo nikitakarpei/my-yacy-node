@@ -1,9 +1,9 @@
-// Package jetstream publishes a scrape request for every page the crawler admits.
+// Package jetstream publishes a scrape request for every page the crawler admits. A request
+// that never leaves goes to the observer; the caller learns nothing and visits the next page.
 package jetstream
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/nats-io/nats.go/jetstream"
 
@@ -12,29 +12,32 @@ import (
 )
 
 type Publisher struct {
-	stream jetstream.JetStream
+	stream   jetstream.JetStream
+	observer ScrapeRequestPublicationObserver
 }
 
-func New(stream jetstream.JetStream) *Publisher {
-	return &Publisher{stream: stream}
+func New(
+	stream jetstream.JetStream,
+	observer ScrapeRequestPublicationObserver,
+) *Publisher {
+	return &Publisher{stream: stream, observer: observer}
 }
 
-func (p *Publisher) Publish(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-) error {
+func (p *Publisher) Publish(ctx context.Context, pageURL canonicalurl.CanonicalURL) {
 	data, err := pagescrapecontract.MarshalScrapeRequest(
 		pagescrapecontract.ScrapeRequest{PageURL: pageURL},
 	)
 	if err != nil {
-		return fmt.Errorf("marshal scrape request %s: %w", pageURL, err)
+		p.observer.ScrapeRequestEncodingFailed(ctx, pageURL, err)
+		return
 	}
 	if _, err := p.stream.Publish(
 		ctx,
 		pagescrapecontract.ScrapeRequestSubject,
 		data,
 	); err != nil {
-		return fmt.Errorf("publish scrape request %s: %w", pageURL, err)
+		p.observer.ScrapeRequestPublishingFailed(ctx, pageURL, err)
+		return
 	}
-	return nil
+	p.observer.ScrapeRequestPublished(ctx, pageURL)
 }

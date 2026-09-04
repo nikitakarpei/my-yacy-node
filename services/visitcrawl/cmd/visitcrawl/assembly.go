@@ -10,11 +10,18 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
+	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	backgroundcrawlorderplacementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/backgroundcrawlorderplacementobservers/applog"
+	backgroundcrawlorderplacementobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/backgroundcrawlorderplacementobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderbroker"
+	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderplacers/background"
+	crawlorderpublicationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderpublicationobservers/applog"
+	crawlorderpublicationobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/crawlorderpublicationobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitintake"
-	"github.com/nikitakarpei/yacy-rwi-node/visitcrawl/internal/visitmetrics"
 )
 
 const (
@@ -29,26 +36,43 @@ func RunService(
 	cfg ServiceConfig,
 	registry *prometheus.Registry,
 ) error {
-	metrics := visitmetrics.New(registry)
 	broker, err := crawlorderbroker.Open(ctx, crawlorderbroker.Config{
 		NATSURL:            cfg.CrawlNATSURL,
 		CrawlOrdersSubject: cfg.CrawlOrdersSubject,
+	}, crawlorderbroker.CrawlOrderPublicationObservers{
+		crawlorderpublicationobserversapplog.CrawlOrderPublicationLog{},
+		crawlorderpublicationobserversprometheus.New(registry),
 	})
 	if err != nil {
 		return fmt.Errorf("open crawl order broker: %w", err)
 	}
 	defer broker.Close()
 
-	placement := visitintake.NewBoundedPlacement(
-		broker.Orders.Place, metrics, cfg.OrderTimeout, cfg.MaxInFlight,
+	placer := background.New(
+		broker.OrderPlacer,
+		background.BackgroundCrawlOrderPlacementObservers{
+			backgroundcrawlorderplacementobserversapplog.BackgroundCrawlOrderPlacementLog{},
+			backgroundcrawlorderplacementobserversprometheus.New(registry),
+		},
+		cfg.OrderTimeout,
+		cfg.MaxInFlight,
 	)
 
 	mux := http.NewServeMux()
-	visitintake.MountVisitIntake(mux, placement, cfg.CrawlProfile, metrics, cfg.LinkSecret)
+	visitintake.MountVisitIntake(
+		mux,
+		placer,
+		cfg.CrawlProfile,
+		cfg.LinkSecret,
+	)
 
 	publicServer := &http.Server{
-		Addr:              cfg.ListenAddr,
-		Handler:           http.MaxBytesHandler(mux, cfg.MaxBodyBytes),
+		Addr: cfg.ListenAddr,
+		Handler: httpobservation.NewHandler(
+			http.MaxBytesHandler(mux, cfg.MaxBodyBytes),
+			httpaccesslog.New(),
+			httpmetrics.NewEndpointMetrics(registry, "visitcrawl"),
+		),
 		ReadHeaderTimeout: opsReadHeaderLimit,
 	}
 	opsServer := &http.Server{
