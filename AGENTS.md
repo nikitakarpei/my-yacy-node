@@ -26,6 +26,8 @@ Tech debt: when you read code that breaks a rule in this file, mark it where you
 
 Docs: each doc is self-contained, at most 80 lines unless the user approves an exception, with paragraphs of at most five lines, written in ASD-STE100 Simplified Technical English. It covers only what someone using the system needs — no implementation detail, no rationale — and every sentence must be true against the running system.
 
+Failure: a unit stays on the happy path and returns no error to its consumer. The implementation that knows what went wrong reports it to its own observer, in its own vocabulary, and reports only what it can see; a decorator never assumes what the implementation it wraps reports, and duplicated facts are the honest cost. The consumer acts on a reported failure only if it has something to decide. Returning an error is failing fast, and needs the user's approval for that case.
+
 Logging: nothing fails silently. Happy paths DEBUG, recoverable failures WARN, failures that need an operator to intervene ERROR.
 
 Arch-lint: the composition root may use anything; every other component lists what it may use. A change that allows more — a new common component or vendor, a new edge, a wider glob — names the dropped rule in the commit.
