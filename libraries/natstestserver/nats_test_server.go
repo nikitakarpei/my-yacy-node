@@ -24,7 +24,10 @@ func Start(t *testing.T) string {
 	if !srv.ReadyForConnections(10 * time.Second) {
 		t.Fatal("nats server not ready")
 	}
-	t.Cleanup(srv.Shutdown)
+	t.Cleanup(func() {
+		srv.Shutdown()
+		srv.WaitForShutdown()
+	})
 	return srv.ClientURL()
 }
 
