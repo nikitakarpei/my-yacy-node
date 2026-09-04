@@ -98,7 +98,7 @@ func (c *OfferedPageConsumer) index(
 ) error {
 	started := time.Now()
 	err := c.searchIndex.Index(ctx, document)
-	c.pageIntakeObserver.IndexObserved(ctx, time.Since(started))
+	c.pageIntakeObserver.IndexWriteEnded(ctx, time.Since(started))
 	if err != nil {
 		c.pageIntakeObserver.IndexFailed(ctx, pageURL, err)
 		message.Return(ctx)

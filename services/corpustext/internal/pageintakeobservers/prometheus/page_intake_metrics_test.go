@@ -29,7 +29,7 @@ func TestPageIntakeMetricsRecordsAndExposesCounters(t *testing.T) {
 	metrics.NoDocumentExtracted(ctx, page, cause)
 	metrics.NoReadableTextDerived(ctx, page)
 	metrics.IndexFailed(ctx, page, cause)
-	metrics.IndexObserved(ctx, 250*time.Millisecond)
+	metrics.IndexWriteEnded(ctx, 250*time.Millisecond)
 
 	req := httptest.NewRequestWithContext(ctx, "GET", "/metrics", nil)
 	rec := httptest.NewRecorder()

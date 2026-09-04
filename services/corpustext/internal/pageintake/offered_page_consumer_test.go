@@ -104,7 +104,7 @@ func (p *recordingPageIntakeObserver) IndexFailed(
 	p.count(&p.indexFailures)
 }
 
-func (p *recordingPageIntakeObserver) IndexObserved(context.Context, time.Duration) {
+func (p *recordingPageIntakeObserver) IndexWriteEnded(context.Context, time.Duration) {
 	p.count(&p.observations)
 }
 

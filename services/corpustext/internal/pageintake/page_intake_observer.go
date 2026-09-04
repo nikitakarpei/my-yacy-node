@@ -21,7 +21,7 @@ type PageIntakeObserver interface {
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
 	)
-	IndexObserved(
+	IndexWriteEnded(
 		ctx context.Context,
 		elapsed time.Duration,
 	)
@@ -66,12 +66,12 @@ func (observers PageIntakeObservers) NoReadableTextDerived(
 	}
 }
 
-func (observers PageIntakeObservers) IndexObserved(
+func (observers PageIntakeObservers) IndexWriteEnded(
 	ctx context.Context,
 	elapsed time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.IndexObserved(ctx, elapsed)
+		observer.IndexWriteEnded(ctx, elapsed)
 	}
 }
 

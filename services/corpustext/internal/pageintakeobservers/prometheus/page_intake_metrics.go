@@ -80,7 +80,7 @@ func (m *PageIntakeMetrics) NoReadableTextDerived(
 	m.dispose(disposalNoReadableTextDerived)
 }
 
-func (m *PageIntakeMetrics) IndexObserved(_ context.Context, elapsed time.Duration) {
+func (m *PageIntakeMetrics) IndexWriteEnded(_ context.Context, elapsed time.Duration) {
 	m.indexDurationSecs.Observe(elapsed.Seconds())
 }
 
