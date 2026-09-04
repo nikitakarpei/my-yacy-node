@@ -14,7 +14,8 @@ import (
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
 )
 
-func TestCrawledPagePublicationMetricsCountEveryOutcome(t *testing.T) {
+func metricsAfterEveryOutcome(t *testing.T) *prometheus.Registry {
+	t.Helper()
 	registry := prometheus.NewRegistry()
 	metrics := crawledpagepublicationmetricsprometheus.New(registry)
 	pageURL := canonicalurl.CanonicalURL{}
@@ -26,41 +27,58 @@ func TestCrawledPagePublicationMetricsCountEveryOutcome(t *testing.T) {
 		context.Background(), pageURL, crawledpagesjetstream.PageRefusesIndexing,
 	)
 	metrics.CrawledPageEncodingFailed(
-		context.Background(), pageURL, crawledpagesjetstream.PageAllowsIndexing,
+		context.Background(), pageURL, crawledpagesjetstream.PageRefusesIndexing,
 		errors.New("unwritable"),
 	)
 	metrics.CrawledPagePublishingFailed(
 		context.Background(), pageURL, crawledpagesjetstream.PageAllowsIndexing,
 		errors.New("no responders"),
 	)
+	return registry
+}
 
+func TestPublicationsCountEveryOutcome(t *testing.T) {
 	expected := `
-# HELP yacycrawler_crawled_pages_processed_total Crawled pages processed, by outcome and by what the page states about indexing.
-# TYPE yacycrawler_crawled_pages_processed_total counter
-yacycrawler_crawled_pages_processed_total{indexing="allowed",outcome="encoding_failed"} 1
-yacycrawler_crawled_pages_processed_total{indexing="allowed",outcome="published"} 1
-yacycrawler_crawled_pages_processed_total{indexing="allowed",outcome="publishing_failed"} 1
-yacycrawler_crawled_pages_processed_total{indexing="refused",outcome="encoding_failed"} 0
-yacycrawler_crawled_pages_processed_total{indexing="refused",outcome="published"} 1
-yacycrawler_crawled_pages_processed_total{indexing="refused",outcome="publishing_failed"} 0
+# HELP yacycrawler_crawled_page_publications_total Crawled page publications, by outcome.
+# TYPE yacycrawler_crawled_page_publications_total counter
+yacycrawler_crawled_page_publications_total{outcome="encoding_failed"} 1
+yacycrawler_crawled_page_publications_total{outcome="published"} 2
+yacycrawler_crawled_page_publications_total{outcome="publishing_failed"} 1
 `
 	if err := testutil.GatherAndCompare(
-		registry,
+		metricsAfterEveryOutcome(t),
 		strings.NewReader(expected),
-		"yacycrawler_crawled_pages_processed_total",
+		"yacycrawler_crawled_page_publications_total",
 	); err != nil {
 		t.Fatalf("GatherAndCompare: %v", err)
 	}
 }
 
-func TestEveryPublicationOutcomeReadsZeroBeforeItHappens(t *testing.T) {
+func TestAPageCountsUnderItsIndexingStatementWhateverBecameOfTheWrite(t *testing.T) {
+	expected := `
+# HELP yacycrawler_crawled_pages_total Crawled pages, by what the page states about indexing.
+# TYPE yacycrawler_crawled_pages_total counter
+yacycrawler_crawled_pages_total{indexing="allowed"} 2
+yacycrawler_crawled_pages_total{indexing="refused"} 2
+`
+	if err := testutil.GatherAndCompare(
+		metricsAfterEveryOutcome(t),
+		strings.NewReader(expected),
+		"yacycrawler_crawled_pages_total",
+	); err != nil {
+		t.Fatalf("GatherAndCompare: %v", err)
+	}
+}
+
+func TestEveryOutcomeAndStatementReadsZeroBeforeItHappens(t *testing.T) {
 	registry := prometheus.NewRegistry()
 	crawledpagepublicationmetricsprometheus.New(registry)
 
 	if got := testutil.CollectAndCount(
 		registry,
-		"yacycrawler_crawled_pages_processed_total",
-	); got != 6 {
-		t.Fatalf("publication outcome series = %d, want 6", got)
+		"yacycrawler_crawled_page_publications_total",
+		"yacycrawler_crawled_pages_total",
+	); got != 5 {
+		t.Fatalf("crawled page series = %d, want 5", got)
 	}
 }

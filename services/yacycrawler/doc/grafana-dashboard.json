@@ -422,7 +422,7 @@
     },
     {
       "id": 31,
-      "title": "Crawled pages published, by indexing",
+      "title": "Crawled pages, by indexing",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -430,7 +430,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 32
       },
@@ -452,8 +452,45 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (indexing) (rate(yacycrawler_crawled_pages_processed_total{instance=~\"$service_instance\",outcome=\"published\"}[$__rate_interval]))",
+          "expr": "sum by (indexing) (rate(yacycrawler_crawled_pages_total{instance=~\"$service_instance\"}[$__rate_interval]))",
           "legendFormat": "{{indexing}}"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "title": "Crawled page publications, by outcome",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 32
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cps",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (rate(yacycrawler_crawled_page_publications_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "{{outcome}}"
         }
       ]
     },
