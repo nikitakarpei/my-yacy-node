@@ -78,6 +78,10 @@ components:
     in: internal/pageofferbroker/**
   intakereceiptsnats:
     in: internal/intakereceipts/nats/**
+  intakereceiptpublicationobserversapplog:
+    in: internal/intakereceiptpublicationobservers/applog/**
+  intakereceiptpublicationobserversprometheus:
+    in: internal/intakereceiptpublicationobservers/prometheus/**
   cmd:
     in:
       - cmd/yacy-entrypoint/**
@@ -315,6 +319,9 @@ deps:
       - pagescrapecontract
       - nats
   intakeprogressobserversprometheus:
+    canUse:
+      - prometheus
+  intakereceiptpublicationobserversprometheus:
     canUse:
       - prometheus
   cmd:

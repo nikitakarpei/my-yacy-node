@@ -60,12 +60,6 @@ type IntakeProgress interface {
 		postings int,
 		cause error,
 	)
-	IntakeReceiptNotSent(
-		ctx context.Context,
-		messageIdentity string,
-		pageURL canonicalurl.CanonicalURL,
-		cause error,
-	)
 	PageIndexed(
 		ctx context.Context,
 		messageIdentity string,
@@ -174,17 +168,6 @@ func (observers IntakeProgressObservers) PostingsAdmissionFailed(
 ) {
 	for _, observer := range observers {
 		observer.PostingsAdmissionFailed(ctx, messageIdentity, pageURL, postings, cause)
-	}
-}
-
-func (observers IntakeProgressObservers) IntakeReceiptNotSent(
-	ctx context.Context,
-	messageIdentity string,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	for _, observer := range observers {
-		observer.IntakeReceiptNotSent(ctx, messageIdentity, pageURL, cause)
 	}
 }
 

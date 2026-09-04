@@ -56,7 +56,6 @@ func (r *recordingPostings) Receive(
 }
 
 type recordingIntakeReceipts struct {
-	err      error
 	kept     []canonicalurl.CanonicalURL
 	rejected []canonicalurl.CanonicalURL
 }
@@ -64,19 +63,15 @@ type recordingIntakeReceipts struct {
 func (r *recordingIntakeReceipts) ReportKeptPage(
 	_ context.Context,
 	pageURL canonicalurl.CanonicalURL,
-) error {
+) {
 	r.kept = append(r.kept, pageURL)
-
-	return r.err
 }
 
 func (r *recordingIntakeReceipts) ReportRejectedPage(
 	_ context.Context,
 	pageURL canonicalurl.CanonicalURL,
-) error {
+) {
 	r.rejected = append(r.rejected, pageURL)
-
-	return r.err
 }
 
 type recordingIntakeProgress struct {
@@ -86,7 +81,6 @@ type recordingIntakeProgress struct {
 	postingsAdmitted    int
 	postingsNotAdmitted []int
 	admissionFailures   []error
-	receiptFailures     int
 }
 
 func (r *recordingIntakeProgress) OfferedPageInvalid(context.Context) {
@@ -173,15 +167,6 @@ func (r *recordingIntakeProgress) PostingsAdmissionFailed(
 	r.disposals = append(r.disposals, "postings_admission_failed")
 	r.postingsNotAdmitted = append(r.postingsNotAdmitted, postings)
 	r.admissionFailures = append(r.admissionFailures, cause)
-}
-
-func (r *recordingIntakeProgress) IntakeReceiptNotSent(
-	context.Context,
-	string,
-	canonicalurl.CanonicalURL,
-	error,
-) {
-	r.receiptFailures++
 }
 
 func (r *recordingIntakeProgress) PageIndexed(
@@ -365,31 +350,6 @@ func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
 	}
 	if got := progress.disposals; len(got) != 1 || got[0] != "document_extraction_failed" {
 		t.Errorf("disposals = %v, want document_extraction_failed", got)
-	}
-}
-
-func TestReceiptThatReachesNobodyLeavesThePageIndexed(t *testing.T) {
-	progress := &recordingIntakeProgress{}
-	urls := &recordingURLs{}
-	message := offeredPageMessage(t, "alpha")
-
-	if err := runWith(t, message, intakeCollaborators{
-		urlReceiver:     urls,
-		postingReceiver: &recordingPostings{},
-		intakeReceipts:  &recordingIntakeReceipts{err: errors.New("nobody listens")},
-		intakeProgress:  progress,
-	}); err != nil {
-		t.Fatalf("run: %v", err)
-	}
-
-	if action := message.Settlement(t); action != pullintaketest.Acknowledged {
-		t.Errorf("action = %q, want ack", action)
-	}
-	if len(urls.received) != 1 {
-		t.Errorf("stored metadata %+v, want the page indexed anyway", urls.received)
-	}
-	if progress.receiptFailures != 1 {
-		t.Errorf("receipt failures = %d, want 1", progress.receiptFailures)
 	}
 }
 

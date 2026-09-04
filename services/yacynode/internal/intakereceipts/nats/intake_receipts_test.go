@@ -2,7 +2,6 @@ package nats_test
 
 import (
 	"context"
-	"errors"
 	"testing"
 	"time"
 
@@ -22,13 +21,52 @@ const (
 	receiptWait  = 5 * time.Second
 )
 
+type recordingIntakeReceiptPublicationObserver struct {
+	sentSubject          string
+	encodingFailures     int
+	publishingFailures   int
+	confirmationFailures int
+}
+
+func (o *recordingIntakeReceiptPublicationObserver) IntakeReceiptSent(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	subject string,
+) {
+	o.sentSubject = subject
+}
+
+func (o *recordingIntakeReceiptPublicationObserver) IntakeReceiptEncodingFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ error,
+) {
+	o.encodingFailures++
+}
+
+func (o *recordingIntakeReceiptPublicationObserver) IntakeReceiptPublishingFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ string,
+	_ error,
+) {
+	o.publishingFailures++
+}
+
+func (o *recordingIntakeReceiptPublicationObserver) IntakeReceiptConfirmationFailed(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ string,
+	_ error,
+) {
+	o.confirmationFailures++
+}
+
 func TestKeptPageIsReportedOnTheSubjectOfThatPage(t *testing.T) {
-	receipts, listener := receiptsUnderTest(t, pagescrapecontract.KeptPageSubjectOf)
+	receipts, listener, observer := receiptsUnderTest(t, pagescrapecontract.KeptPageSubjectOf)
 	page := canonicalurltest.CanonicalURLOf(t, pageURL)
 
-	if err := receipts.ReportKeptPage(context.Background(), page); err != nil {
-		t.Fatalf("report the kept page: %v", err)
-	}
+	receipts.ReportKeptPage(context.Background(), page)
 
 	kept, err := pagescrapecontract.UnmarshalKeptPage(heardReceipt(t, listener))
 	if err != nil {
@@ -40,15 +78,18 @@ func TestKeptPageIsReportedOnTheSubjectOfThatPage(t *testing.T) {
 	if kept.Corpus != corpus {
 		t.Errorf("reported corpus = %q, want %q", kept.Corpus, corpus)
 	}
+	if want := pagescrapecontract.KeptPageSubjectOf(page); observer.sentSubject != want {
+		t.Errorf("observed the receipt on %q, want %q", observer.sentSubject, want)
+	}
 }
 
 func TestRejectedPageIsReportedOnTheSubjectOfThatPage(t *testing.T) {
-	receipts, listener := receiptsUnderTest(t, pagescrapecontract.RejectedPageSubjectOf)
+	receipts, listener, observer := receiptsUnderTest(
+		t, pagescrapecontract.RejectedPageSubjectOf,
+	)
 	page := canonicalurltest.CanonicalURLOf(t, pageURL)
 
-	if err := receipts.ReportRejectedPage(context.Background(), page); err != nil {
-		t.Fatalf("report the rejected page: %v", err)
-	}
+	receipts.ReportRejectedPage(context.Background(), page)
 
 	rejected, err := pagescrapecontract.UnmarshalRejectedPage(heardReceipt(t, listener))
 	if err != nil {
@@ -60,46 +101,55 @@ func TestRejectedPageIsReportedOnTheSubjectOfThatPage(t *testing.T) {
 	if rejected.Corpus != corpus {
 		t.Errorf("reported corpus = %q, want %q", rejected.Corpus, corpus)
 	}
+	if want := pagescrapecontract.RejectedPageSubjectOf(page); observer.sentSubject != want {
+		t.Errorf("observed the receipt on %q, want %q", observer.sentSubject, want)
+	}
 }
 
 func TestReceiptOfOnePageReachesNoListenerOfAnother(t *testing.T) {
-	receipts, listener := receiptsUnderTest(t, pagescrapecontract.KeptPageSubjectOf)
+	receipts, listener, _ := receiptsUnderTest(t, pagescrapecontract.KeptPageSubjectOf)
 
-	err := receipts.ReportKeptPage(
+	receipts.ReportKeptPage(
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, otherPageURL),
 	)
-	if err != nil {
-		t.Fatalf("report the kept page: %v", err)
-	}
 
 	if _, err := listener.NextMsg(time.Second); err == nil {
 		t.Error("a listener of one page heard the receipt of another")
 	}
 }
 
-func TestReceiptsStopWhenTheCallerStopsWaiting(t *testing.T) {
-	receipts, _ := receiptsUnderTest(t, pagescrapecontract.KeptPageSubjectOf)
+func TestReceiptThatIsNeverConfirmedIsObserved(t *testing.T) {
+	receipts, _, observer := receiptsUnderTest(t, pagescrapecontract.KeptPageSubjectOf)
 	ctx, stopWaiting := context.WithCancel(context.Background())
 	stopWaiting()
 
-	err := receipts.ReportKeptPage(ctx, canonicalurltest.CanonicalURLOf(t, pageURL))
+	receipts.ReportKeptPage(ctx, canonicalurltest.CanonicalURLOf(t, pageURL))
 
-	if !errors.Is(err, context.Canceled) {
-		t.Errorf("report the kept page = %v, want the cancellation", err)
+	if observer.confirmationFailures != 1 {
+		t.Errorf("observed %d unconfirmed receipts, want exactly one",
+			observer.confirmationFailures)
+	}
+	if observer.sentSubject != "" {
+		t.Errorf("observed a receipt sent on %q, want none", observer.sentSubject)
 	}
 }
 
 func receiptsUnderTest(
 	t *testing.T,
 	subjectOf func(canonicalurl.CanonicalURL) string,
-) (*intakereceiptsnats.IntakeReceipts, *nats.Subscription) {
+) (
+	*intakereceiptsnats.IntakeReceipts,
+	*nats.Subscription,
+	*recordingIntakeReceiptPublicationObserver,
+) {
 	t.Helper()
 	url := natstestserver.Start(t)
 	listener := listenerOf(t, url, subjectOf(canonicalurltest.CanonicalURLOf(t, pageURL)))
+	observer := &recordingIntakeReceiptPublicationObserver{}
 	return intakereceiptsnats.NewIntakeReceipts(
-		natstestserver.Connect(t, url), corpus,
-	), listener
+		natstestserver.Connect(t, url), corpus, observer,
+	), listener, observer
 }
 
 func listenerOf(t *testing.T, url string, subject string) *nats.Subscription {

@@ -34,11 +34,10 @@ var offeredPageDisposals = []string{
 }
 
 type IntakeProgressMetrics struct {
-	pagesOffered          prometheusclient.Counter
-	offeredPagesDisposed  *prometheusclient.CounterVec
-	urlMetadataAdmitted   prometheusclient.Counter
-	postingsAdmitted      prometheusclient.Counter
-	intakeReceiptFailures prometheusclient.Counter
+	pagesOffered         prometheusclient.Counter
+	offeredPagesDisposed *prometheusclient.CounterVec
+	urlMetadataAdmitted  prometheusclient.Counter
+	postingsAdmitted     prometheusclient.Counter
 }
 
 func New(registry prometheusclient.Registerer) *IntakeProgressMetrics {
@@ -64,24 +63,18 @@ func New(registry prometheusclient.Registerer) *IntakeProgressMetrics {
 		Name: "yacynode_pageintake_postings_admitted_total",
 		Help: "Posting admissions accepted while taking in offered pages.",
 	})
-	intakeReceiptFailures := prometheusclient.NewCounter(prometheusclient.CounterOpts{
-		Name: "yacynode_pageintake_intake_receipt_failures_total",
-		Help: "Intake receipts that reached no caller waiting for the page.",
-	})
 	registry.MustRegister(
 		pagesOffered,
 		offeredPagesDisposed,
 		urlMetadataAdmitted,
 		postingsAdmitted,
-		intakeReceiptFailures,
 	)
 
 	return &IntakeProgressMetrics{
-		pagesOffered:          pagesOffered,
-		offeredPagesDisposed:  offeredPagesDisposed,
-		urlMetadataAdmitted:   urlMetadataAdmitted,
-		postingsAdmitted:      postingsAdmitted,
-		intakeReceiptFailures: intakeReceiptFailures,
+		pagesOffered:         pagesOffered,
+		offeredPagesDisposed: offeredPagesDisposed,
+		urlMetadataAdmitted:  urlMetadataAdmitted,
+		postingsAdmitted:     postingsAdmitted,
 	}
 }
 
@@ -165,15 +158,6 @@ func (m *IntakeProgressMetrics) PostingsAdmissionFailed(
 	error,
 ) {
 	m.dispose(disposalPostingsAdmissionFailed)
-}
-
-func (m *IntakeProgressMetrics) IntakeReceiptNotSent(
-	context.Context,
-	string,
-	canonicalurl.CanonicalURL,
-	error,
-) {
-	m.intakeReceiptFailures.Inc()
 }
 
 func (m *IntakeProgressMetrics) PageIndexed(

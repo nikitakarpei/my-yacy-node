@@ -31,7 +31,6 @@ func TestIntakeProgressMetricsCountDisposalsAndAdmissions(t *testing.T) {
 	metrics.PostingsAdmissionFailed(ctx, "message", pageURL, 13, cause)
 	metrics.URLMetadataAdmitted(ctx, "message", pageURL)
 	metrics.PostingsAdmitted(ctx, "message", pageURL, 17)
-	metrics.IntakeReceiptNotSent(ctx, "message", pageURL, cause)
 	metrics.PageIndexed(ctx, "message", pageURL)
 
 	body := exposition(t, registry)
@@ -54,7 +53,6 @@ func TestIntakeProgressMetricsCountDisposalsAndAdmissions(t *testing.T) {
 		"yacynode_pageintake_pages_offered_total 1",
 		"yacynode_pageintake_url_metadata_admitted_total 1",
 		"yacynode_pageintake_postings_admitted_total 17",
-		"yacynode_pageintake_intake_receipt_failures_total 1",
 	} {
 		if !strings.Contains(body, want) {
 			t.Errorf("metrics output missing %q", want)

@@ -18,9 +18,7 @@ const (
 	msgPostingsAdmitted           = "offered page postings admitted"
 	msgPostingsAdmissionBusy      = "offered page postings admission deferred because storage is busy"
 	msgPostingsAdmissionFailed    = "offered page postings admission failed"
-	msgReceiptNotSent             = "intake receipt not sent, " +
-		"a caller waiting for this page learns nothing until it stops waiting"
-	msgPageIndexed = "offered page indexed"
+	msgPageIndexed                = "offered page indexed"
 )
 
 type IntakeProgressLog struct{}
@@ -137,19 +135,6 @@ func (IntakeProgressLog) PostingsAdmissionFailed(
 		slog.String("message", messageIdentity),
 		slog.String("pageUrl", pageURL.String()),
 		slog.Int("postings", postings),
-		slog.Any("error", cause),
-	)
-}
-
-func (IntakeProgressLog) IntakeReceiptNotSent(
-	ctx context.Context,
-	messageIdentity string,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	slog.WarnContext(ctx, msgReceiptNotSent,
-		slog.String("message", messageIdentity),
-		slog.String("pageUrl", pageURL.String()),
 		slog.Any("error", cause),
 	)
 }

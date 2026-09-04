@@ -60,7 +60,6 @@ func TestIntakeProgressLogWritesEveryIntakeFactAtItsOperationalLevel(t *testing.
 	progress.PostingsAdmitted(ctx, "message", pageURL, 17)
 	progress.PostingsAdmissionBusy(ctx, "message", pageURL, 11)
 	progress.PostingsAdmissionFailed(ctx, "message", pageURL, 13, cause)
-	progress.IntakeReceiptNotSent(ctx, "message", pageURL, cause)
 	progress.PageIndexed(ctx, "message", pageURL)
 
 	wantLevels := []slog.Level{
@@ -71,7 +70,6 @@ func TestIntakeProgressLogWritesEveryIntakeFactAtItsOperationalLevel(t *testing.
 		slog.LevelWarn,
 		slog.LevelWarn,
 		slog.LevelDebug,
-		slog.LevelWarn,
 		slog.LevelWarn,
 		slog.LevelWarn,
 		slog.LevelDebug,

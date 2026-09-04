@@ -23,8 +23,8 @@ import (
 var errURLMetadataAdmissionRejected = errors.New("url metadata admission rejected")
 
 type IntakeReceipts interface {
-	ReportKeptPage(ctx context.Context, pageURL canonicalurl.CanonicalURL) error
-	ReportRejectedPage(ctx context.Context, pageURL canonicalurl.CanonicalURL) error
+	ReportKeptPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
+	ReportRejectedPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
 }
 
 type OfferedPageConsumer struct {
@@ -138,9 +138,7 @@ func (c *OfferedPageConsumer) store(
 	if !c.admitPostings(ctx, message, index) {
 		return
 	}
-	if err := c.intakeReceipts.ReportKeptPage(ctx, index.PageURL); err != nil {
-		c.intakeProgress.IntakeReceiptNotSent(ctx, message.Identity(), index.PageURL, err)
-	}
+	c.intakeReceipts.ReportKeptPage(ctx, index.PageURL)
 	message.Acknowledge(ctx)
 	c.intakeProgress.PageIndexed(ctx, message.Identity(), index.PageURL)
 }
@@ -225,9 +223,7 @@ func (c *OfferedPageConsumer) reject(
 	message pullintake.PendingMessage,
 	pageURL canonicalurl.CanonicalURL,
 ) error {
-	if err := c.intakeReceipts.ReportRejectedPage(ctx, pageURL); err != nil {
-		c.intakeProgress.IntakeReceiptNotSent(ctx, message.Identity(), pageURL, err)
-	}
+	c.intakeReceipts.ReportRejectedPage(ctx, pageURL)
 	message.Acknowledge(ctx)
 
 	return nil
