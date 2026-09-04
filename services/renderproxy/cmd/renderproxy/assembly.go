@@ -57,13 +57,10 @@ func RunService(
 		cfg.RenderConcurrency,
 		renderCapacityObservers,
 	)
-	proxyMux := http.NewServeMux()
-	proxyMux.Handle("/", proxyintake.New(capacityLimitedRenderer))
-
 	proxyServer := &http.Server{
 		Addr: cfg.ListenAddr,
 		Handler: httpobservation.NewHandler(
-			proxyMux,
+			proxyintake.New(capacityLimitedRenderer),
 			httpaccesslog.New(),
 			httpmetrics.NewEndpointMetrics(registry, "renderproxy"),
 		),
