@@ -5,13 +5,15 @@ import (
 	"time"
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
-
-	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendergate"
 )
 
 const (
-	labelOutcome          = "outcome"
-	resultRenderSucceeded = "succeeded"
+	labelOutcome              = "outcome"
+	resultRenderSucceeded     = "succeeded"
+	resultRenderTimedOut      = "timed_out"
+	resultRenderCallerGaveUp  = "caller_gave_up"
+	resultRenderPageTooLarge  = "page_too_large"
+	resultRenderFailedUnknown = "unexpected"
 )
 
 type RenderMetrics struct {
@@ -43,14 +45,40 @@ func (metrics *RenderMetrics) RenderSucceeded(
 	metrics.recordRender(resultRenderSucceeded, renderDuration)
 }
 
+func (metrics *RenderMetrics) RenderTimedOut(
+	_ context.Context,
+	_ string,
+	renderDuration time.Duration,
+	_ error,
+) {
+	metrics.recordRender(resultRenderTimedOut, renderDuration)
+}
+
+func (metrics *RenderMetrics) RenderCallerGaveUp(
+	_ context.Context,
+	_ string,
+	renderDuration time.Duration,
+	_ error,
+) {
+	metrics.recordRender(resultRenderCallerGaveUp, renderDuration)
+}
+
+func (metrics *RenderMetrics) RenderPageTooLarge(
+	_ context.Context,
+	_ string,
+	renderDuration time.Duration,
+	_ error,
+) {
+	metrics.recordRender(resultRenderPageTooLarge, renderDuration)
+}
+
 func (metrics *RenderMetrics) RenderFailed(
 	_ context.Context,
 	_ string,
 	renderDuration time.Duration,
-	reason rendergate.RenderFailureReason,
 	_ error,
 ) {
-	metrics.recordRender(string(reason), renderDuration)
+	metrics.recordRender(resultRenderFailedUnknown, renderDuration)
 }
 
 func (metrics *RenderMetrics) recordRender(outcome string, renderDuration time.Duration) {

@@ -11,7 +11,6 @@ import (
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/rendergate"
 	renderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/renderproxy/internal/renderobservers/prometheus"
 )
 
@@ -19,11 +18,10 @@ func TestRenderMetricsRecordExplicitRenderFacts(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := renderobserversprometheus.New(registry)
 	metrics.RenderSucceeded(t.Context(), "https://example.com", time.Second)
-	metrics.RenderFailed(
+	metrics.RenderPageTooLarge(
 		t.Context(),
 		"https://example.com",
 		250*time.Millisecond,
-		rendergate.RenderFailurePageTooLarge,
 		errors.New("too large"),
 	)
 

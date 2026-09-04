@@ -94,7 +94,7 @@ func TestSearchCarriesTheNumberOfResultsTheCallerNames(t *testing.T) {
 	}
 }
 
-func TestSearchTellsTheProgressObserverHowManyResultsItServed(t *testing.T) {
+func TestSearchTellsTheObserverHowManyResultsItServed(t *testing.T) {
 	observer := &recordingWebSearchObserver{}
 	search := websearch.NewWebSearch(websearch.Config{
 		Engine:            engineAnswering{results: resultsNumbered(10)},

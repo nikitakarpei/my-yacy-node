@@ -251,7 +251,7 @@ func runWith(
 }
 
 func TestOfferedPageIsIndexedAndReportedAsKept(t *testing.T) {
-	progress := &recordingPageIntakeObserver{}
+	observer := &recordingPageIntakeObserver{}
 	receipts := &recordingIntakeReceipts{}
 	urls := &recordingURLs{}
 	postings := &recordingPostings{}
@@ -261,7 +261,7 @@ func TestOfferedPageIsIndexedAndReportedAsKept(t *testing.T) {
 		urlReceiver:        urls,
 		postingReceiver:    postings,
 		intakeReceipts:     receipts,
-		pageIntakeObserver: progress,
+		pageIntakeObserver: observer,
 	}); err != nil {
 		t.Fatalf("run: %v", err)
 	}
@@ -269,11 +269,11 @@ func TestOfferedPageIsIndexedAndReportedAsKept(t *testing.T) {
 	if action := message.Settlement(t); action != pullintaketest.Acknowledged {
 		t.Errorf("action = %q, want ack", action)
 	}
-	if got := progress.disposals; len(got) != 1 || got[0] != "indexed" {
+	if got := observer.disposals; len(got) != 1 || got[0] != "indexed" {
 		t.Errorf("disposals = %v, want indexed", got)
 	}
-	if progress.pagesOffered != 1 {
-		t.Errorf("pages offered = %d, want 1", progress.pagesOffered)
+	if observer.pagesOffered != 1 {
+		t.Errorf("pages offered = %d, want 1", observer.pagesOffered)
 	}
 	if len(urls.received) != 1 || urls.received[0].Address != offeredPageURL {
 		t.Fatalf("stored metadata %+v, want one row for the offered page", urls.received)
@@ -320,7 +320,7 @@ func TestConsumerAdmitsEveryPostingOfAPageInOneCall(t *testing.T) {
 }
 
 func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
-	progress := &recordingPageIntakeObserver{}
+	observer := &recordingPageIntakeObserver{}
 	receipts := &recordingIntakeReceipts{}
 	postings := &recordingPostings{}
 
@@ -334,7 +334,7 @@ func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
 		urlReceiver:        &recordingURLs{},
 		postingReceiver:    postings,
 		intakeReceipts:     receipts,
-		pageIntakeObserver: progress,
+		pageIntakeObserver: observer,
 	}); err != nil {
 		t.Fatalf("run: %v", err)
 	}
@@ -348,7 +348,7 @@ func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
 	if len(receipts.rejected) != 1 {
 		t.Errorf("rejected receipts = %v, want one for the offered page", receipts.rejected)
 	}
-	if got := progress.disposals; len(got) != 1 || got[0] != "document_extraction_failed" {
+	if got := observer.disposals; len(got) != 1 || got[0] != "document_extraction_failed" {
 		t.Errorf("disposals = %v, want document_extraction_failed", got)
 	}
 }
@@ -401,14 +401,14 @@ func TestConsumerReportsWhichAdmissionReturnedTheOfferedPage(t *testing.T) {
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
-			progress := &recordingPageIntakeObserver{}
+			observer := &recordingPageIntakeObserver{}
 			message := offeredPageMessage(t, "alpha")
 
 			if err := runWith(t, message, intakeCollaborators{
 				urlReceiver:        expectation.urls,
 				postingReceiver:    expectation.postings,
 				intakeReceipts:     &recordingIntakeReceipts{},
-				pageIntakeObserver: progress,
+				pageIntakeObserver: observer,
 			}); err != nil {
 				t.Fatalf("run: %v", err)
 			}
@@ -416,42 +416,42 @@ func TestConsumerReportsWhichAdmissionReturnedTheOfferedPage(t *testing.T) {
 			if action := message.Settlement(t); action != pullintaketest.HeldBack {
 				t.Errorf("action = %q, want nak", action)
 			}
-			assertAdmissionDisposal(t, progress, expectation)
+			assertAdmissionDisposal(t, observer, expectation)
 		})
 	}
 }
 
 func assertAdmissionDisposal(
 	t *testing.T,
-	progress *recordingPageIntakeObserver,
+	observer *recordingPageIntakeObserver,
 	expectation admissionDisposalExpectation,
 ) {
 	t.Helper()
 
-	if got := progress.disposals; len(got) != 1 || got[0] != expectation.wantDisposal {
+	if got := observer.disposals; len(got) != 1 || got[0] != expectation.wantDisposal {
 		t.Errorf("disposals = %v, want %s", got, expectation.wantDisposal)
 	}
-	if progress.urlMetadataAdmitted != expectation.wantURLMetadata {
+	if observer.urlMetadataAdmitted != expectation.wantURLMetadata {
 		t.Errorf("url metadata admitted = %d, want %d",
-			progress.urlMetadataAdmitted, expectation.wantURLMetadata)
+			observer.urlMetadataAdmitted, expectation.wantURLMetadata)
 	}
-	if progress.postingsAdmitted != 0 {
-		t.Errorf("postings admitted = %d, want 0", progress.postingsAdmitted)
+	if observer.postingsAdmitted != 0 {
+		t.Errorf("postings admitted = %d, want 0", observer.postingsAdmitted)
 	}
 	if len(expectation.postings.calls) != expectation.wantPostingCalls {
 		t.Errorf("posting admission calls = %d, want %d",
 			len(expectation.postings.calls), expectation.wantPostingCalls)
 	}
-	if expectation.wantPostingCalls == 0 && len(progress.postingsNotAdmitted) != 0 {
-		t.Errorf("postings not admitted = %v, want none", progress.postingsNotAdmitted)
+	if expectation.wantPostingCalls == 0 && len(observer.postingsNotAdmitted) != 0 {
+		t.Errorf("postings not admitted = %v, want none", observer.postingsNotAdmitted)
 	}
 	if expectation.wantPostingCalls == 1 &&
-		(len(progress.postingsNotAdmitted) != 1 ||
-			progress.postingsNotAdmitted[0] != len(expectation.postings.calls[0])) {
+		(len(observer.postingsNotAdmitted) != 1 ||
+			observer.postingsNotAdmitted[0] != len(expectation.postings.calls[0])) {
 		t.Errorf("postings not admitted = %v, want %d",
-			progress.postingsNotAdmitted, len(expectation.postings.calls[0]))
+			observer.postingsNotAdmitted, len(expectation.postings.calls[0]))
 	}
-	if got := len(progress.admissionFailures) != 0; got != expectation.wantFailureCause {
+	if got := len(observer.admissionFailures) != 0; got != expectation.wantFailureCause {
 		t.Errorf("failure cause reported = %t, want %t", got, expectation.wantFailureCause)
 	}
 }

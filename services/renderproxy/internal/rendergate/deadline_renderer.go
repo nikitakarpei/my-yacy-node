@@ -12,23 +12,21 @@ import (
 
 type RenderObserver interface {
 	RenderSucceeded(ctx context.Context, targetURL string, renderDuration time.Duration)
-	RenderFailed(
+	RenderTimedOut(ctx context.Context, targetURL string, renderDuration time.Duration, cause error)
+	RenderCallerGaveUp(
 		ctx context.Context,
 		targetURL string,
 		renderDuration time.Duration,
-		reason RenderFailureReason,
 		cause error,
 	)
+	RenderPageTooLarge(
+		ctx context.Context,
+		targetURL string,
+		renderDuration time.Duration,
+		cause error,
+	)
+	RenderFailed(ctx context.Context, targetURL string, renderDuration time.Duration, cause error)
 }
-
-type RenderFailureReason string
-
-const (
-	RenderFailureUnexpected   RenderFailureReason = "unexpected"
-	RenderFailureTimedOut     RenderFailureReason = "timed_out"
-	RenderFailureCallerGaveUp RenderFailureReason = "caller_gave_up"
-	RenderFailurePageTooLarge RenderFailureReason = "page_too_large"
-)
 
 type DeadlineRenderer struct {
 	inner          renderedpage.Renderer
@@ -59,26 +57,29 @@ func (r *DeadlineRenderer) Render(
 	page, err := r.inner.Render(renderContext, target)
 	renderDuration := time.Since(renderStarted)
 	if err != nil {
-		r.renderObserver.RenderFailed(
-			ctx, target.URL, renderDuration, renderFailureReasonFrom(ctx, err), err,
-		)
+		r.reportRenderFailure(ctx, target.URL, renderDuration, err)
 		return renderedpage.Page{}, fmt.Errorf("render %s: %w", target.URL, err)
 	}
 	r.renderObserver.RenderSucceeded(ctx, target.URL, renderDuration)
 	return page, nil
 }
 
-func renderFailureReasonFrom(callerContext context.Context, cause error) RenderFailureReason {
-	if callerContext.Err() != nil {
-		return RenderFailureCallerGaveUp
+func (r *DeadlineRenderer) reportRenderFailure(
+	ctx context.Context,
+	targetURL string,
+	renderDuration time.Duration,
+	cause error,
+) {
+	switch {
+	case ctx.Err() != nil:
+		r.renderObserver.RenderCallerGaveUp(ctx, targetURL, renderDuration, cause)
+	case errors.Is(cause, context.DeadlineExceeded):
+		r.renderObserver.RenderTimedOut(ctx, targetURL, renderDuration, cause)
+	case errors.Is(cause, renderedpage.ErrTooLarge):
+		r.renderObserver.RenderPageTooLarge(ctx, targetURL, renderDuration, cause)
+	default:
+		r.renderObserver.RenderFailed(ctx, targetURL, renderDuration, cause)
 	}
-	if errors.Is(cause, context.DeadlineExceeded) {
-		return RenderFailureTimedOut
-	}
-	if errors.Is(cause, renderedpage.ErrTooLarge) {
-		return RenderFailurePageTooLarge
-	}
-	return RenderFailureUnexpected
 }
 
 type RenderObservers []RenderObserver
@@ -93,14 +94,46 @@ func (observers RenderObservers) RenderSucceeded(
 	}
 }
 
+func (observers RenderObservers) RenderTimedOut(
+	ctx context.Context,
+	targetURL string,
+	renderDuration time.Duration,
+	cause error,
+) {
+	for _, observer := range observers {
+		observer.RenderTimedOut(ctx, targetURL, renderDuration, cause)
+	}
+}
+
+func (observers RenderObservers) RenderCallerGaveUp(
+	ctx context.Context,
+	targetURL string,
+	renderDuration time.Duration,
+	cause error,
+) {
+	for _, observer := range observers {
+		observer.RenderCallerGaveUp(ctx, targetURL, renderDuration, cause)
+	}
+}
+
+func (observers RenderObservers) RenderPageTooLarge(
+	ctx context.Context,
+	targetURL string,
+	renderDuration time.Duration,
+	cause error,
+) {
+	for _, observer := range observers {
+		observer.RenderPageTooLarge(ctx, targetURL, renderDuration, cause)
+	}
+}
+
 func (observers RenderObservers) RenderFailed(
 	ctx context.Context,
 	targetURL string,
 	renderDuration time.Duration,
-	reason RenderFailureReason,
 	cause error,
 ) {
 	for _, observer := range observers {
-		observer.RenderFailed(ctx, targetURL, renderDuration, reason, cause)
+		observer.RenderFailed(ctx, targetURL, renderDuration, cause)
 	}
 }

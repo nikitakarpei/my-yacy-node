@@ -30,24 +30,41 @@ func (s *stubRenderer) Render(
 }
 
 type recordingRenderObserver struct {
-	succeeded     int
-	failed        int
-	failureReason rendergate.RenderFailureReason
+	succeeded    int
+	timedOut     int
+	callerGaveUp int
+	pageTooLarge int
+	failed       int
 }
 
 func (o *recordingRenderObserver) RenderSucceeded(context.Context, string, time.Duration) {
 	o.succeeded++
 }
 
-func (o *recordingRenderObserver) RenderFailed(
-	_ context.Context,
-	_ string,
-	_ time.Duration,
-	reason rendergate.RenderFailureReason,
-	_ error,
+func (o *recordingRenderObserver) RenderTimedOut(context.Context, string, time.Duration, error) {
+	o.timedOut++
+}
+
+func (o *recordingRenderObserver) RenderCallerGaveUp(
+	context.Context,
+	string,
+	time.Duration,
+	error,
 ) {
+	o.callerGaveUp++
+}
+
+func (o *recordingRenderObserver) RenderPageTooLarge(
+	context.Context,
+	string,
+	time.Duration,
+	error,
+) {
+	o.pageTooLarge++
+}
+
+func (o *recordingRenderObserver) RenderFailed(context.Context, string, time.Duration, error) {
 	o.failed++
-	o.failureReason = reason
 }
 
 func TestDeadlineRendererReportsOversizedPageFailureReason(t *testing.T) {
@@ -62,8 +79,8 @@ func TestDeadlineRendererReportsOversizedPageFailureReason(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected oversized page error")
 	}
-	if observer.failureReason != rendergate.RenderFailurePageTooLarge {
-		t.Fatalf("failure reason = %q", observer.failureReason)
+	if observer.pageTooLarge != 1 {
+		t.Fatalf("page too large = %d", observer.pageTooLarge)
 	}
 }
 
@@ -79,8 +96,8 @@ func TestDeadlineRendererReportsDeadlineFailureReason(t *testing.T) {
 	if !errors.Is(err, context.DeadlineExceeded) {
 		t.Fatalf("err = %v, want deadline exceeded", err)
 	}
-	if observer.failureReason != rendergate.RenderFailureTimedOut {
-		t.Fatalf("failure reason = %q", observer.failureReason)
+	if observer.timedOut != 1 {
+		t.Fatalf("timed out = %d", observer.timedOut)
 	}
 }
 
@@ -99,9 +116,8 @@ func TestDeadlineRendererTellsACallerThatGaveUpFromItsOwnDeadline(t *testing.T) 
 	); !errors.Is(err, context.Canceled) {
 		t.Fatalf("err = %v, want the cancellation", err)
 	}
-	if observer.failureReason != rendergate.RenderFailureCallerGaveUp {
-		t.Fatalf("failure reason = %q, want %q",
-			observer.failureReason, rendergate.RenderFailureCallerGaveUp)
+	if observer.callerGaveUp != 1 {
+		t.Fatalf("caller gave up = %d, want 1", observer.callerGaveUp)
 	}
 }
 
