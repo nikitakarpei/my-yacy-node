@@ -156,7 +156,7 @@ func runPageIntakeInto(
 		FormatDerivations:          formatDerivations,
 		SearchIndex:                index,
 		IntakeReceipts:             receipts,
-		IntakeProgress:             progress,
+		PageIntakeObserver:         progress,
 		PageOfferIntakeConcurrency: 1,
 	})
 	if err := consumer.Run(context.Background()); err != nil {
@@ -220,7 +220,7 @@ func TestOfferedPageThatCannotBeReadHaltsIntake(t *testing.T) {
 		Source:                     pullintaketest.MessageSourceOf(message),
 		SearchIndex:                &recordingIndex{},
 		IntakeReceipts:             &recordingIntakeReceipts{},
-		IntakeProgress:             &recordingProgress{},
+		PageIntakeObserver:         &recordingProgress{},
 		PageOfferIntakeConcurrency: 1,
 	})
 

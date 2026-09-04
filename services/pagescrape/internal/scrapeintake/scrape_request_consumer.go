@@ -37,27 +37,27 @@ type ScrapeOutcomeFeed interface {
 }
 
 type ScrapeRequestConsumer struct {
-	scrapeRequests    pullintake.MessageSource
-	pageFetcher       PageFetcher
-	pageOffers        PageOffers
-	scrapeSchedules   ScrapeSchedules
-	scrapeOutcomeFeed ScrapeOutcomeFeed
-	scrapeProgress    ScrapeProgress
-	deferralWindow    time.Duration
-	intakeConcurrency int
-	readingTime       func() time.Time
+	scrapeRequests       pullintake.MessageSource
+	pageFetcher          PageFetcher
+	pageOffers           PageOffers
+	scrapeSchedules      ScrapeSchedules
+	scrapeOutcomeFeed    ScrapeOutcomeFeed
+	scrapeIntakeObserver ScrapeIntakeObserver
+	deferralWindow       time.Duration
+	intakeConcurrency    int
+	readingTime          func() time.Time
 }
 
 type Config struct {
-	ScrapeRequests    pullintake.MessageSource
-	PageFetcher       PageFetcher
-	PageOffers        PageOffers
-	ScrapeSchedules   ScrapeSchedules
-	ScrapeOutcomeFeed ScrapeOutcomeFeed
-	ScrapeProgress    ScrapeProgress
-	DeferralWindow    time.Duration
-	IntakeConcurrency int
-	ReadingTime       func() time.Time
+	ScrapeRequests       pullintake.MessageSource
+	PageFetcher          PageFetcher
+	PageOffers           PageOffers
+	ScrapeSchedules      ScrapeSchedules
+	ScrapeOutcomeFeed    ScrapeOutcomeFeed
+	ScrapeIntakeObserver ScrapeIntakeObserver
+	DeferralWindow       time.Duration
+	IntakeConcurrency    int
+	ReadingTime          func() time.Time
 }
 
 func NewScrapeRequestConsumer(config Config) *ScrapeRequestConsumer {
@@ -66,15 +66,15 @@ func NewScrapeRequestConsumer(config Config) *ScrapeRequestConsumer {
 		readingTime = time.Now
 	}
 	return &ScrapeRequestConsumer{
-		scrapeRequests:    config.ScrapeRequests,
-		pageFetcher:       config.PageFetcher,
-		pageOffers:        config.PageOffers,
-		scrapeSchedules:   config.ScrapeSchedules,
-		scrapeOutcomeFeed: config.ScrapeOutcomeFeed,
-		scrapeProgress:    config.ScrapeProgress,
-		deferralWindow:    config.DeferralWindow,
-		intakeConcurrency: config.IntakeConcurrency,
-		readingTime:       readingTime,
+		scrapeRequests:       config.ScrapeRequests,
+		pageFetcher:          config.PageFetcher,
+		pageOffers:           config.PageOffers,
+		scrapeSchedules:      config.ScrapeSchedules,
+		scrapeOutcomeFeed:    config.ScrapeOutcomeFeed,
+		scrapeIntakeObserver: config.ScrapeIntakeObserver,
+		deferralWindow:       config.DeferralWindow,
+		intakeConcurrency:    config.IntakeConcurrency,
+		readingTime:          readingTime,
 	}
 }
 
@@ -88,13 +88,13 @@ func (c *ScrapeRequestConsumer) processOne(
 ) error {
 	request, err := pagescrapecontract.UnmarshalScrapeRequest(message.Body())
 	if err != nil {
-		c.scrapeProgress.ScrapeRequestInvalid(ctx, message.Identity(), err)
+		c.scrapeIntakeObserver.ScrapeRequestInvalid(ctx, message.Identity(), err)
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	c.scrapeProgress.ScrapeRequestReceived(ctx, request.PageURL)
+	c.scrapeIntakeObserver.ScrapeRequestReceived(ctx, request.PageURL)
 	outcome, err := c.pageFetcher.Fetch(ctx, request.FetchURL, pagefetch.PageVersion{})
 	if err != nil {
-		c.scrapeProgress.OriginReadFailed(ctx, request.FetchURL, err)
+		c.scrapeIntakeObserver.OriginReadFailed(ctx, request.FetchURL, err)
 		c.reportFailure(ctx, message, request, pagescrapecontract.NoReasonGiven)
 		return nil
 	}
@@ -115,11 +115,11 @@ func (c *ScrapeRequestConsumer) offerPage(
 	page pagescrapecontract.OfferedPage,
 ) {
 	if err := c.pageOffers.OfferPage(ctx, page); err != nil {
-		c.scrapeProgress.PageNotOffered(ctx, page.PageURL, err)
+		c.scrapeIntakeObserver.PageNotOffered(ctx, page.PageURL, err)
 		message.Return(ctx)
 		return
 	}
-	c.scrapeProgress.PageOffered(ctx, page.PageURL, page.LandedURL)
+	c.scrapeIntakeObserver.PageOffered(ctx, page.PageURL, page.LandedURL)
 	message.Acknowledge(ctx)
 }
 
@@ -142,11 +142,11 @@ func (c *ScrapeRequestConsumer) deferScrape(
 		return
 	}
 	if err := c.scrapeSchedules.ScheduleScrape(ctx, deferred, deferFor); err != nil {
-		c.scrapeProgress.ScrapeScheduleFailed(ctx, request.PageURL, err)
+		c.scrapeIntakeObserver.ScrapeScheduleFailed(ctx, request.PageURL, err)
 		message.Return(ctx)
 		return
 	}
-	c.scrapeProgress.ScrapeDeferred(ctx, request.PageURL, deferFor)
+	c.scrapeIntakeObserver.ScrapeDeferred(ctx, request.PageURL, deferFor)
 	message.Acknowledge(ctx)
 }
 
@@ -162,12 +162,12 @@ func (c *ScrapeRequestConsumer) reportFailure(
 		Reason:   reason,
 	}
 	if err := c.pageOffers.ReportScrapeFailure(ctx, failure); err != nil {
-		c.scrapeProgress.PageNotOffered(ctx, request.PageURL, err)
+		c.scrapeIntakeObserver.PageNotOffered(ctx, request.PageURL, err)
 		message.Return(ctx)
 		return
 	}
 	c.scrapeOutcomeFeed.AnnounceScrapeFailure(ctx, failure)
-	c.scrapeProgress.ScrapeFailed(ctx, request.PageURL, reason)
+	c.scrapeIntakeObserver.ScrapeFailed(ctx, request.PageURL, reason)
 	message.Acknowledge(ctx)
 }
 

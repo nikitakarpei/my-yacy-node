@@ -11,10 +11,10 @@ commonVendors:
 components:
   pageintake:
     in: internal/pageintake/**
-  intakeprogressobserversprometheus:
-    in: internal/intakeprogressobservers/prometheus/**
-  intakeprogressobserversapplog:
-    in: internal/intakeprogressobservers/applog/**
+  pageintakeobserversprometheus:
+    in: internal/pageintakeobservers/prometheus/**
+  pageintakeobserversapplog:
+    in: internal/pageintakeobservers/applog/**
   pagemarkdowncorporajetstream:
     in: internal/pagemarkdowncorpora/jetstream/**
   markdownrecall:
@@ -105,7 +105,7 @@ deps:
   intakereceiptpublicationobserversprometheus:
     canUse:
       - prometheus
-  intakeprogressobserversprometheus:
+  pageintakeobserversprometheus:
     canUse:
       - prometheus
   corpusmarkdowncmd:

@@ -22,10 +22,10 @@ components:
     in: internal/intakereceiptpublicationobservers/applog/**
   intakereceiptpublicationobserversprometheus:
     in: internal/intakereceiptpublicationobservers/prometheus/**
-  intakeprogressobserversapplog:
-    in: internal/intakeprogressobservers/applog/**
-  intakeprogressobserversprometheus:
-    in: internal/intakeprogressobservers/prometheus/**
+  pageintakeobserversapplog:
+    in: internal/pageintakeobservers/applog/**
+  pageintakeobserversprometheus:
+    in: internal/pageintakeobservers/prometheus/**
   corpustextcmd:
     in: cmd/corpustext/**
 
@@ -101,10 +101,10 @@ deps:
     canUse:
       - canonicalurl
       - prometheus
-  intakeprogressobserversapplog:
+  pageintakeobserversapplog:
     canUse:
       - canonicalurl
-  intakeprogressobserversprometheus:
+  pageintakeobserversprometheus:
     canUse:
       - canonicalurl
       - prometheus

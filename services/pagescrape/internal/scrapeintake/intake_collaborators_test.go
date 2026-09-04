@@ -83,48 +83,52 @@ func (f *scrapeOutcomeFeed) AnnounceScrapeFailure(
 	f.announced = append(f.announced, failure)
 }
 
-type silentScrapeProgress struct{}
+type silentScrapeIntakeObserver struct{}
 
-func (silentScrapeProgress) ScrapeRequestInvalid(_ context.Context, _ string, _ error) {}
+func (silentScrapeIntakeObserver) ScrapeRequestInvalid(_ context.Context, _ string, _ error) {}
 
-func (silentScrapeProgress) ScrapeRequestReceived(_ context.Context, _ canonicalurl.CanonicalURL) {}
+func (silentScrapeIntakeObserver) ScrapeRequestReceived(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+) {
+}
 
-func (silentScrapeProgress) OriginReadFailed(
+func (silentScrapeIntakeObserver) OriginReadFailed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ error,
 ) {
 }
 
-func (silentScrapeProgress) PageOffered(
+func (silentScrapeIntakeObserver) PageOffered(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ canonicalurl.CanonicalURL,
 ) {
 }
 
-func (silentScrapeProgress) PageNotOffered(
+func (silentScrapeIntakeObserver) PageNotOffered(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ error,
 ) {
 }
 
-func (silentScrapeProgress) ScrapeDeferred(
+func (silentScrapeIntakeObserver) ScrapeDeferred(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ time.Duration,
 ) {
 }
 
-func (silentScrapeProgress) ScrapeScheduleFailed(
+func (silentScrapeIntakeObserver) ScrapeScheduleFailed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ error,
 ) {
 }
 
-func (silentScrapeProgress) ScrapeFailed(
+func (silentScrapeIntakeObserver) ScrapeFailed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ pagescrapecontract.ScrapeFailureReason,

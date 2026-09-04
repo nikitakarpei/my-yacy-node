@@ -74,7 +74,7 @@ func (r *recordingIntakeReceipts) ReportRejectedPage(
 	r.rejected = append(r.rejected, pageURL)
 }
 
-type recordingIntakeProgress struct {
+type recordingPageIntakeObserver struct {
 	disposals           []string
 	pagesOffered        int
 	urlMetadataAdmitted int
@@ -83,11 +83,11 @@ type recordingIntakeProgress struct {
 	admissionFailures   []error
 }
 
-func (r *recordingIntakeProgress) OfferedPageInvalid(context.Context) {
+func (r *recordingPageIntakeObserver) OfferedPageInvalid(context.Context) {
 	r.disposals = append(r.disposals, "invalid_message")
 }
 
-func (r *recordingIntakeProgress) PageOffered(
+func (r *recordingPageIntakeObserver) PageOffered(
 	context.Context,
 	string,
 	canonicalurl.CanonicalURL,
@@ -95,7 +95,7 @@ func (r *recordingIntakeProgress) PageOffered(
 	r.pagesOffered++
 }
 
-func (r *recordingIntakeProgress) DocumentExtractionFailed(
+func (r *recordingPageIntakeObserver) DocumentExtractionFailed(
 	context.Context,
 	string,
 	canonicalurl.CanonicalURL,
@@ -104,7 +104,7 @@ func (r *recordingIntakeProgress) DocumentExtractionFailed(
 	r.disposals = append(r.disposals, "document_extraction_failed")
 }
 
-func (r *recordingIntakeProgress) NoIndexDerived(
+func (r *recordingPageIntakeObserver) NoIndexDerived(
 	context.Context,
 	string,
 	canonicalurl.CanonicalURL,
@@ -112,7 +112,7 @@ func (r *recordingIntakeProgress) NoIndexDerived(
 	r.disposals = append(r.disposals, "no_index_derived")
 }
 
-func (r *recordingIntakeProgress) URLMetadataAdmitted(
+func (r *recordingPageIntakeObserver) URLMetadataAdmitted(
 	context.Context,
 	string,
 	canonicalurl.CanonicalURL,
@@ -120,7 +120,7 @@ func (r *recordingIntakeProgress) URLMetadataAdmitted(
 	r.urlMetadataAdmitted++
 }
 
-func (r *recordingIntakeProgress) URLMetadataAdmissionBusy(
+func (r *recordingPageIntakeObserver) URLMetadataAdmissionBusy(
 	context.Context,
 	string,
 	canonicalurl.CanonicalURL,
@@ -128,7 +128,7 @@ func (r *recordingIntakeProgress) URLMetadataAdmissionBusy(
 	r.disposals = append(r.disposals, "url_metadata_admission_busy")
 }
 
-func (r *recordingIntakeProgress) URLMetadataAdmissionFailed(
+func (r *recordingPageIntakeObserver) URLMetadataAdmissionFailed(
 	_ context.Context,
 	_ string,
 	_ canonicalurl.CanonicalURL,
@@ -138,7 +138,7 @@ func (r *recordingIntakeProgress) URLMetadataAdmissionFailed(
 	r.admissionFailures = append(r.admissionFailures, cause)
 }
 
-func (r *recordingIntakeProgress) PostingsAdmitted(
+func (r *recordingPageIntakeObserver) PostingsAdmitted(
 	_ context.Context,
 	_ string,
 	_ canonicalurl.CanonicalURL,
@@ -147,7 +147,7 @@ func (r *recordingIntakeProgress) PostingsAdmitted(
 	r.postingsAdmitted += postings
 }
 
-func (r *recordingIntakeProgress) PostingsAdmissionBusy(
+func (r *recordingPageIntakeObserver) PostingsAdmissionBusy(
 	_ context.Context,
 	_ string,
 	_ canonicalurl.CanonicalURL,
@@ -157,7 +157,7 @@ func (r *recordingIntakeProgress) PostingsAdmissionBusy(
 	r.postingsNotAdmitted = append(r.postingsNotAdmitted, postings)
 }
 
-func (r *recordingIntakeProgress) PostingsAdmissionFailed(
+func (r *recordingPageIntakeObserver) PostingsAdmissionFailed(
 	_ context.Context,
 	_ string,
 	_ canonicalurl.CanonicalURL,
@@ -169,7 +169,7 @@ func (r *recordingIntakeProgress) PostingsAdmissionFailed(
 	r.admissionFailures = append(r.admissionFailures, cause)
 }
 
-func (r *recordingIntakeProgress) PageIndexed(
+func (r *recordingPageIntakeObserver) PageIndexed(
 	context.Context,
 	string,
 	canonicalurl.CanonicalURL,
@@ -206,10 +206,10 @@ func offeredPage(
 }
 
 type intakeCollaborators struct {
-	urlReceiver     urlmeta.URLReceiver
-	postingReceiver rwiadmission.PostingReceiver
-	intakeReceipts  pageintake.IntakeReceipts
-	intakeProgress  pageintake.IntakeProgress
+	urlReceiver        urlmeta.URLReceiver
+	postingReceiver    rwiadmission.PostingReceiver
+	intakeReceipts     pageintake.IntakeReceipts
+	pageIntakeObserver pageintake.PageIntakeObserver
 }
 
 func run(
@@ -219,10 +219,10 @@ func run(
 	postings rwiadmission.PostingReceiver,
 ) error {
 	return runWith(t, msg, intakeCollaborators{
-		urlReceiver:     urls,
-		postingReceiver: postings,
-		intakeReceipts:  &recordingIntakeReceipts{},
-		intakeProgress:  pageintake.IntakeProgressObservers{},
+		urlReceiver:        urls,
+		postingReceiver:    postings,
+		intakeReceipts:     &recordingIntakeReceipts{},
+		pageIntakeObserver: pageintake.PageIntakeObservers{},
 	})
 }
 
@@ -245,23 +245,23 @@ func runWith(
 			URLReceiver:                collaborators.urlReceiver,
 			PostingReceiver:            collaborators.postingReceiver,
 			IntakeReceipts:             collaborators.intakeReceipts,
-			IntakeProgress:             collaborators.intakeProgress,
+			PageIntakeObserver:         collaborators.pageIntakeObserver,
 			PageOfferIntakeConcurrency: 1,
 		}).Run(context.Background())
 }
 
 func TestOfferedPageIsIndexedAndReportedAsKept(t *testing.T) {
-	progress := &recordingIntakeProgress{}
+	progress := &recordingPageIntakeObserver{}
 	receipts := &recordingIntakeReceipts{}
 	urls := &recordingURLs{}
 	postings := &recordingPostings{}
 	message := offeredPageMessage(t, "alpha beta")
 
 	if err := runWith(t, message, intakeCollaborators{
-		urlReceiver:     urls,
-		postingReceiver: postings,
-		intakeReceipts:  receipts,
-		intakeProgress:  progress,
+		urlReceiver:        urls,
+		postingReceiver:    postings,
+		intakeReceipts:     receipts,
+		pageIntakeObserver: progress,
 	}); err != nil {
 		t.Fatalf("run: %v", err)
 	}
@@ -320,7 +320,7 @@ func TestConsumerAdmitsEveryPostingOfAPageInOneCall(t *testing.T) {
 }
 
 func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
-	progress := &recordingIntakeProgress{}
+	progress := &recordingPageIntakeObserver{}
 	receipts := &recordingIntakeReceipts{}
 	postings := &recordingPostings{}
 
@@ -331,10 +331,10 @@ func TestPageNoDocumentIsExtractedFromIsReportedAsRejected(t *testing.T) {
 		Body:        []byte("%PDF-1.4"),
 	})
 	if err := runWith(t, message, intakeCollaborators{
-		urlReceiver:     &recordingURLs{},
-		postingReceiver: postings,
-		intakeReceipts:  receipts,
-		intakeProgress:  progress,
+		urlReceiver:        &recordingURLs{},
+		postingReceiver:    postings,
+		intakeReceipts:     receipts,
+		pageIntakeObserver: progress,
 	}); err != nil {
 		t.Fatalf("run: %v", err)
 	}
@@ -401,14 +401,14 @@ func TestConsumerReportsWhichAdmissionReturnedTheOfferedPage(t *testing.T) {
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
-			progress := &recordingIntakeProgress{}
+			progress := &recordingPageIntakeObserver{}
 			message := offeredPageMessage(t, "alpha")
 
 			if err := runWith(t, message, intakeCollaborators{
-				urlReceiver:     expectation.urls,
-				postingReceiver: expectation.postings,
-				intakeReceipts:  &recordingIntakeReceipts{},
-				intakeProgress:  progress,
+				urlReceiver:        expectation.urls,
+				postingReceiver:    expectation.postings,
+				intakeReceipts:     &recordingIntakeReceipts{},
+				pageIntakeObserver: progress,
 			}); err != nil {
 				t.Fatalf("run: %v", err)
 			}
@@ -423,7 +423,7 @@ func TestConsumerReportsWhichAdmissionReturnedTheOfferedPage(t *testing.T) {
 
 func assertAdmissionDisposal(
 	t *testing.T,
-	progress *recordingIntakeProgress,
+	progress *recordingPageIntakeObserver,
 	expectation admissionDisposalExpectation,
 ) {
 	t.Helper()

@@ -13,10 +13,10 @@ components:
     in: internal/websearch/**
   searchenginessearxng:
     in: internal/searchengines/searxng/**
-  searchprogressobserversapplog:
-    in: internal/searchprogressobservers/applog/**
-  searchprogressobserversprometheus:
-    in: internal/searchprogressobservers/prometheus/**
+  websearchobserversapplog:
+    in: internal/websearchobservers/applog/**
+  websearchobserversprometheus:
+    in: internal/websearchobservers/prometheus/**
   pageread:
     in: internal/pageread/**
   markdownexcerpt:
@@ -27,10 +27,10 @@ components:
     in: internal/scraperequests/jetstream/**
   scrapeoutcomesnats:
     in: internal/scrapeoutcomes/nats/**
-  pagereadprogressobserversapplog:
-    in: internal/pagereadprogressobservers/applog/**
-  pagereadprogressobserversprometheus:
-    in: internal/pagereadprogressobservers/prometheus/**
+  pagereadobserversapplog:
+    in: internal/pagereadobservers/applog/**
+  pagereadobserversprometheus:
+    in: internal/pagereadobservers/prometheus/**
   scraperequestobserversapplog:
     in: internal/scraperequestobservers/applog/**
   scraperequestobserversprometheus:
@@ -84,10 +84,10 @@ deps:
   searchenginessearxng:
     mayDependOn:
       - websearch
-  searchprogressobserversapplog:
+  websearchobserversapplog:
     mayDependOn:
       - websearch
-  searchprogressobserversprometheus:
+  websearchobserversprometheus:
     mayDependOn:
       - websearch
     canUse:
@@ -109,10 +109,10 @@ deps:
     canUse:
       - pagescrapecontract
       - nats
-  pagereadprogressobserversapplog:
+  pagereadobserversapplog:
     mayDependOn:
       - pageread
-  pagereadprogressobserversprometheus:
+  pagereadobserversprometheus:
     mayDependOn:
       - pageread
     canUse:

@@ -14,8 +14,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	markdowncorporagrpc "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/markdowncorpora/grpc"
 	"github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pageread"
-	pagereadprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pagereadprogressobservers/applog"
-	pagereadprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pagereadprogressobservers/prometheus"
+	pagereadobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pagereadobservers/applog"
+	pagereadobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pagereadobservers/prometheus"
 	scrapeoutcomeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scrapeoutcomeobservers/applog"
 	scrapeoutcomeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scrapeoutcomeobservers/prometheus"
 	scrapeoutcomesnats "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scrapeoutcomes/nats"
@@ -23,10 +23,10 @@ import (
 	scraperequestobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scraperequestobservers/prometheus"
 	scraperequestsjetstream "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scraperequests/jetstream"
 	searchenginessearxng "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/searchengines/searxng"
-	searchprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/searchprogressobservers/applog"
-	searchprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/searchprogressobservers/prometheus"
 	toolcallreceiversmcp "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/toolcallreceivers/mcp"
 	"github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/websearch"
+	websearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/websearchobservers/applog"
+	websearchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/websearchobservers/prometheus"
 )
 
 const (
@@ -77,9 +77,9 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	defer scrapeOutcomes.Close()
 	search := websearch.NewWebSearch(websearch.Config{
 		Engine: searchenginessearxng.NewSearXNG(cfg.SearXNGURL, cfg.SearXNGSearchDeadline),
-		Progress: websearch.SearchProgressObservers{
-			searchprogressobserversapplog.SearchProgressLog{},
-			searchprogressobserversprometheus.New(registry),
+		Observer: websearch.WebSearchObservers{
+			websearchobserversapplog.WebSearchLog{},
+			websearchobserversprometheus.New(registry),
 		},
 		SearchResultLimit: cfg.SearchResultLimit,
 	})
@@ -87,9 +87,9 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		Corpus:         corpus,
 		ScrapeRequests: scrapeRequests,
 		ScrapeOutcomes: scrapeOutcomes,
-		Progress: pageread.PageReadProgressObservers{
-			pagereadprogressobserversapplog.PageReadProgressLog{},
-			pagereadprogressobserversprometheus.New(registry),
+		Observer: pageread.PageReadObservers{
+			pagereadobserversapplog.PageReadLog{},
+			pagereadobserversprometheus.New(registry),
 		},
 		CharacterLimit:  cfg.PageFetchCharacterLimit,
 		ScrapeTolerance: cfg.PageScrapeTolerance,

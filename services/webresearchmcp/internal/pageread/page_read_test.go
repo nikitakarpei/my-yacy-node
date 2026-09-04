@@ -76,13 +76,13 @@ func (o *outcomesAnnouncing) AwaitedFetchOutcome(
 
 func (o *outcomesAnnouncing) Close() { o.closed = true }
 
-type recordingPageReadProgress struct {
+type recordingPageReadObserver struct {
 	answeredOutcomes []pageread.FetchOutcome
 	recallFailures   int
 	outcomesNotHeard int
 }
 
-func (p *recordingPageReadProgress) PageAnswered(
+func (p *recordingPageReadObserver) PageAnswered(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	fetchOutcome pageread.FetchOutcome,
@@ -90,7 +90,7 @@ func (p *recordingPageReadProgress) PageAnswered(
 	p.answeredOutcomes = append(p.answeredOutcomes, fetchOutcome)
 }
 
-func (p *recordingPageReadProgress) MarkdownRecallFailed(
+func (p *recordingPageReadObserver) MarkdownRecallFailed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ error,
@@ -98,7 +98,7 @@ func (p *recordingPageReadProgress) MarkdownRecallFailed(
 	p.recallFailures++
 }
 
-func (p *recordingPageReadProgress) FetchOutcomeNotHeard(
+func (p *recordingPageReadObserver) FetchOutcomeNotHeard(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ time.Duration,
@@ -111,7 +111,7 @@ type readerUnderTest struct {
 	corpus   *corpusHolding
 	requests *recordedScrapeRequests
 	outcomes *outcomesAnnouncing
-	progress *recordingPageReadProgress
+	observer *recordingPageReadObserver
 }
 
 func newReaderUnderTest(
@@ -119,13 +119,13 @@ func newReaderUnderTest(
 	outcomes *outcomesAnnouncing,
 ) readerUnderTest {
 	requests := &recordedScrapeRequests{}
-	progress := &recordingPageReadProgress{}
+	observer := &recordingPageReadObserver{}
 	return readerUnderTest{
 		reader: pageread.NewPageReader(pageread.Config{
 			Corpus:          corpus,
 			ScrapeRequests:  requests,
 			ScrapeOutcomes:  outcomes,
-			Progress:        progress,
+			Observer:        observer,
 			CharacterLimit:  characterLimit,
 			ScrapeTolerance: scrapeTolerance,
 			FetchWait:       fetchWait,
@@ -133,7 +133,7 @@ func newReaderUnderTest(
 		corpus:   corpus,
 		requests: requests,
 		outcomes: outcomes,
-		progress: progress,
+		observer: observer,
 	}
 }
 
@@ -334,8 +334,8 @@ func TestWaitThatRunsOutIsAnsweredAsUnfinished(t *testing.T) {
 	if page.FetchOutcome != pageread.FetchUnfinished {
 		t.Errorf("fetch outcome = %q, want %q", page.FetchOutcome, pageread.FetchUnfinished)
 	}
-	if under.progress.outcomesNotHeard != 1 {
-		t.Errorf("outcomes not heard = %d, want 1", under.progress.outcomesNotHeard)
+	if under.observer.outcomesNotHeard != 1 {
+		t.Errorf("outcomes not heard = %d, want 1", under.observer.outcomesNotHeard)
 	}
 }
 
@@ -373,8 +373,8 @@ func TestCorpusThatCannotBeReachedFailsTheCall(t *testing.T) {
 	if !errors.Is(err, errCorpusAway) {
 		t.Fatalf("error = %v, want it to carry %v", err, errCorpusAway)
 	}
-	if under.progress.recallFailures != 1 {
-		t.Errorf("recall failures = %d, want 1", under.progress.recallFailures)
+	if under.observer.recallFailures != 1 {
+		t.Errorf("recall failures = %d, want 1", under.observer.recallFailures)
 	}
 }
 

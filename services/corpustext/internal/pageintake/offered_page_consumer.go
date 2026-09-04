@@ -30,7 +30,7 @@ type OfferedPageConsumer struct {
 	formatDerivations          pageformats.FormatDerivationCatalog
 	searchIndex                SearchIndex
 	intakeReceipts             IntakeReceipts
-	intakeProgress             IntakeProgress
+	pageIntakeObserver         PageIntakeObserver
 	pageOfferIntakeConcurrency int
 }
 
@@ -39,7 +39,7 @@ type Config struct {
 	FormatDerivations          pageformats.FormatDerivationCatalog
 	SearchIndex                SearchIndex
 	IntakeReceipts             IntakeReceipts
-	IntakeProgress             IntakeProgress
+	PageIntakeObserver         PageIntakeObserver
 	PageOfferIntakeConcurrency int
 }
 
@@ -49,7 +49,7 @@ func NewOfferedPageConsumer(config Config) *OfferedPageConsumer {
 		formatDerivations:          config.FormatDerivations,
 		searchIndex:                config.SearchIndex,
 		intakeReceipts:             config.IntakeReceipts,
-		intakeProgress:             config.IntakeProgress,
+		pageIntakeObserver:         config.PageIntakeObserver,
 		pageOfferIntakeConcurrency: config.PageOfferIntakeConcurrency,
 	}
 }
@@ -66,20 +66,20 @@ func (c *OfferedPageConsumer) takeIn(
 	if err != nil {
 		return poisonhalt.Halt(ctx, message.Identity(), err)
 	}
-	c.intakeProgress.PageOffered(ctx, page.PageURL)
+	c.pageIntakeObserver.PageOffered(ctx, page.PageURL)
 	indexedAt := time.Now()
 	document, err := documentextraction.DocumentFrom(
 		ctx, page.Body, page.ContentType, page.LandedURL,
 	)
 	if err != nil {
-		c.intakeProgress.NoDocumentExtracted(ctx, page.LandedURL, err)
+		c.pageIntakeObserver.NoDocumentExtracted(ctx, page.LandedURL, err)
 		return c.reject(ctx, message, page.PageURL)
 	}
 	text, derived := c.formatDerivations.BodyIn(
 		ctx, documentextraction.FormatReadableText, document, page.LandedURL,
 	)
 	if !derived {
-		c.intakeProgress.NoReadableTextDerived(ctx, page.PageURL)
+		c.pageIntakeObserver.NoReadableTextDerived(ctx, page.PageURL)
 		return c.reject(ctx, message, page.PageURL)
 	}
 	return c.index(
@@ -98,13 +98,13 @@ func (c *OfferedPageConsumer) index(
 ) error {
 	started := time.Now()
 	err := c.searchIndex.Index(ctx, document)
-	c.intakeProgress.IndexObserved(ctx, time.Since(started))
+	c.pageIntakeObserver.IndexObserved(ctx, time.Since(started))
 	if err != nil {
-		c.intakeProgress.IndexFailed(ctx, pageURL, err)
+		c.pageIntakeObserver.IndexFailed(ctx, pageURL, err)
 		message.Return(ctx)
 		return nil
 	}
-	c.intakeProgress.PageIndexed(ctx, pageURL)
+	c.pageIntakeObserver.PageIndexed(ctx, pageURL)
 	c.intakeReceipts.ReportKeptPage(ctx, pageURL)
 	message.Acknowledge(ctx)
 	return nil

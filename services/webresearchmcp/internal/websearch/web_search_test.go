@@ -25,23 +25,23 @@ func (e engineAnswering) SearchResultsFor(
 	return e.results, e.failure
 }
 
-type recordingSearchProgress struct {
+type recordingWebSearchObserver struct {
 	servedResultCount int
 	failures          int
 }
 
-func (p *recordingSearchProgress) SearchServed(_ context.Context, _ string, count int) {
+func (p *recordingWebSearchObserver) SearchServed(_ context.Context, _ string, count int) {
 	p.servedResultCount = count
 }
 
-func (p *recordingSearchProgress) SearchFailed(_ context.Context, _ string, _ error) {
+func (p *recordingWebSearchObserver) SearchFailed(_ context.Context, _ string, _ error) {
 	p.failures++
 }
 
 func TestSearchAnswersWithTheResultsInTheOrderTheEngineReturnsThem(t *testing.T) {
 	search := websearch.NewWebSearch(websearch.Config{
 		Engine:            engineAnswering{results: resultsNumbered(3)},
-		Progress:          &recordingSearchProgress{},
+		Observer:          &recordingWebSearchObserver{},
 		SearchResultLimit: configuredLimit,
 	})
 
@@ -62,7 +62,7 @@ func TestSearchAnswersWithTheResultsInTheOrderTheEngineReturnsThem(t *testing.T)
 func TestSearchCarriesAtMostTheConfiguredNumberOfResults(t *testing.T) {
 	search := websearch.NewWebSearch(websearch.Config{
 		Engine:            engineAnswering{results: resultsNumbered(10)},
-		Progress:          &recordingSearchProgress{},
+		Observer:          &recordingWebSearchObserver{},
 		SearchResultLimit: configuredLimit,
 	})
 
@@ -81,7 +81,7 @@ func TestSearchCarriesAtMostTheConfiguredNumberOfResults(t *testing.T) {
 func TestSearchCarriesTheNumberOfResultsTheCallerNames(t *testing.T) {
 	search := websearch.NewWebSearch(websearch.Config{
 		Engine:            engineAnswering{results: resultsNumbered(10)},
-		Progress:          &recordingSearchProgress{},
+		Observer:          &recordingWebSearchObserver{},
 		SearchResultLimit: configuredLimit,
 	})
 
@@ -95,26 +95,26 @@ func TestSearchCarriesTheNumberOfResultsTheCallerNames(t *testing.T) {
 }
 
 func TestSearchTellsTheProgressObserverHowManyResultsItServed(t *testing.T) {
-	progress := &recordingSearchProgress{}
+	observer := &recordingWebSearchObserver{}
 	search := websearch.NewWebSearch(websearch.Config{
 		Engine:            engineAnswering{results: resultsNumbered(10)},
-		Progress:          progress,
+		Observer:          observer,
 		SearchResultLimit: configuredLimit,
 	})
 
 	if _, err := search.SearchResultsFor(context.Background(), "a query", 0); err != nil {
 		t.Fatalf("search: %v", err)
 	}
-	if progress.servedResultCount != configuredLimit {
-		t.Errorf("served result count = %d, want %d", progress.servedResultCount, configuredLimit)
+	if observer.servedResultCount != configuredLimit {
+		t.Errorf("served result count = %d, want %d", observer.servedResultCount, configuredLimit)
 	}
 }
 
 func TestSearchPassesTheEngineFailureOnAndReportsIt(t *testing.T) {
-	progress := &recordingSearchProgress{}
+	observer := &recordingWebSearchObserver{}
 	search := websearch.NewWebSearch(websearch.Config{
 		Engine:            engineAnswering{failure: errEngineUnreachable},
-		Progress:          progress,
+		Observer:          observer,
 		SearchResultLimit: configuredLimit,
 	})
 
@@ -122,8 +122,8 @@ func TestSearchPassesTheEngineFailureOnAndReportsIt(t *testing.T) {
 	if !errors.Is(err, errEngineUnreachable) {
 		t.Fatalf("search error = %v, want the engine failure", err)
 	}
-	if progress.failures != 1 {
-		t.Errorf("reported failures = %d, want 1", progress.failures)
+	if observer.failures != 1 {
+		t.Errorf("reported failures = %d, want 1", observer.failures)
 	}
 }
 
