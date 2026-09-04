@@ -36,17 +36,13 @@ func TestPageReadProgressMetricsCountsEveryFactItIsTold(t *testing.T) {
 	metrics.PageAnswered(ctx, pageURL, pageread.PageFetched)
 	metrics.PageAnswered(ctx, pageURL, pageread.FetchNotNeeded)
 	metrics.MarkdownRecallFailed(ctx, pageURL, cause)
-	metrics.ScrapeOutcomeListenFailed(ctx, pageURL, cause)
-	metrics.ScrapeRequestFailed(ctx, pageURL, cause)
-	metrics.FetchOutcomeNotHeard(ctx, pageURL, time.Second, cause)
+	metrics.FetchOutcomeNotHeard(ctx, pageURL, time.Second)
 
 	body := exposition(t, registry)
 	for _, wanted := range []string{
 		`webresearchmcp_pages_answered_total{fetch_outcome="page-fetched"} 1`,
 		`webresearchmcp_pages_answered_total{fetch_outcome="fetch-not-needed"} 1`,
 		"webresearchmcp_markdown_recall_failures_total 1",
-		"webresearchmcp_scrape_outcome_listen_failures_total 1",
-		"webresearchmcp_scrape_request_failures_total 1",
 		"webresearchmcp_fetch_outcomes_not_heard_total 1",
 	} {
 		if !strings.Contains(body, wanted) {

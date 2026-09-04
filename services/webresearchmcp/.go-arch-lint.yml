@@ -31,6 +31,14 @@ components:
     in: internal/pagereadprogressobservers/applog/**
   pagereadprogressobserversprometheus:
     in: internal/pagereadprogressobservers/prometheus/**
+  scraperequestobserversapplog:
+    in: internal/scraperequestobservers/applog/**
+  scraperequestobserversprometheus:
+    in: internal/scraperequestobservers/prometheus/**
+  scrapeoutcomeobserversapplog:
+    in: internal/scrapeoutcomeobservers/applog/**
+  scrapeoutcomeobserversprometheus:
+    in: internal/scrapeoutcomeobservers/prometheus/**
   toolcallreceiversmcp:
     in: internal/toolcallreceivers/mcp/**
   webresearchmcpcmd:
@@ -107,6 +115,12 @@ deps:
   pagereadprogressobserversprometheus:
     mayDependOn:
       - pageread
+    canUse:
+      - prometheus
+  scraperequestobserversprometheus:
+    canUse:
+      - prometheus
+  scrapeoutcomeobserversprometheus:
     canUse:
       - prometheus
   toolcallreceiversmcp:

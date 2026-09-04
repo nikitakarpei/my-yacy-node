@@ -13,12 +13,8 @@ import (
 )
 
 const (
-	msgPageAnswered              = "page call answered"
-	msgMarkdownRecallFailed      = "markdown corpus recall failed, the caller gets an error"
-	msgScrapeOutcomeListenFailed = "scrape outcome listener not opened, " +
-		"the caller waits for nothing and reads what the corpus already holds"
-	msgScrapeRequestFailed = "scrape request not published, " +
-		"the caller reads what the corpus already holds"
+	msgPageAnswered         = "page call answered"
+	msgMarkdownRecallFailed = "markdown corpus recall failed, the caller gets an error"
 	msgFetchOutcomeNotHeard = "what became of the page fetch was not heard, " +
 		"the caller reads what the corpus already holds"
 )
@@ -47,37 +43,13 @@ func (PageReadProgressLog) MarkdownRecallFailed(
 	)
 }
 
-func (PageReadProgressLog) ScrapeOutcomeListenFailed(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	slog.WarnContext(ctx, msgScrapeOutcomeListenFailed,
-		slog.String("pageUrl", pageURL.String()),
-		slog.Any("error", cause),
-	)
-}
-
-func (PageReadProgressLog) ScrapeRequestFailed(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	slog.WarnContext(ctx, msgScrapeRequestFailed,
-		slog.String("pageUrl", pageURL.String()),
-		slog.Any("error", cause),
-	)
-}
-
 func (PageReadProgressLog) FetchOutcomeNotHeard(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	fetchWait time.Duration,
-	cause error,
 ) {
 	slog.WarnContext(ctx, msgFetchOutcomeNotHeard,
 		slog.String("pageUrl", pageURL.String()),
 		slog.Duration("fetchWait", fetchWait),
-		slog.Any("error", cause),
 	)
 }

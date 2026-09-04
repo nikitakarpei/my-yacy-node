@@ -43,23 +43,18 @@ func (c *corpusHolding) PageMarkdownAt(
 	return held, nil
 }
 
-type recordedScrapeRequests struct {
-	asked   int
-	failure error
-}
+type recordedScrapeRequests struct{ asked int }
 
 func (r *recordedScrapeRequests) AskToScrape(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
-) error {
+) {
 	r.asked++
-	return r.failure
 }
 
 type outcomesAnnouncing struct {
 	outcome     pageread.FetchOutcome
 	listenError error
-	waitError   error
 	closed      bool
 }
 
@@ -75,8 +70,8 @@ func (o *outcomesAnnouncing) ListenerFor(
 
 func (o *outcomesAnnouncing) AwaitedFetchOutcome(
 	_ context.Context,
-) (pageread.FetchOutcome, error) {
-	return o.outcome, o.waitError
+) pageread.FetchOutcome {
+	return o.outcome
 }
 
 func (o *outcomesAnnouncing) Close() { o.closed = true }
@@ -84,8 +79,6 @@ func (o *outcomesAnnouncing) Close() { o.closed = true }
 type recordingPageReadProgress struct {
 	answeredOutcomes []pageread.FetchOutcome
 	recallFailures   int
-	listenFailures   int
-	requestFailures  int
 	outcomesNotHeard int
 }
 
@@ -105,27 +98,10 @@ func (p *recordingPageReadProgress) MarkdownRecallFailed(
 	p.recallFailures++
 }
 
-func (p *recordingPageReadProgress) ScrapeOutcomeListenFailed(
-	_ context.Context,
-	_ canonicalurl.CanonicalURL,
-	_ error,
-) {
-	p.listenFailures++
-}
-
-func (p *recordingPageReadProgress) ScrapeRequestFailed(
-	_ context.Context,
-	_ canonicalurl.CanonicalURL,
-	_ error,
-) {
-	p.requestFailures++
-}
-
 func (p *recordingPageReadProgress) FetchOutcomeNotHeard(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ time.Duration,
-	_ error,
 ) {
 	p.outcomesNotHeard++
 }
@@ -345,7 +321,7 @@ func TestPageTheFetchCouldNotReadIsAnsweredAsNotReadable(t *testing.T) {
 func TestWaitThatRunsOutIsAnsweredAsUnfinished(t *testing.T) {
 	under := newReaderUnderTest(
 		&corpusHolding{stored: []pageread.PageMarkdown{{}}},
-		&outcomesAnnouncing{waitError: context.DeadlineExceeded},
+		&outcomesAnnouncing{outcome: pageread.FetchUnfinished},
 	)
 
 	page, err := under.reader.PageAnswerFor(
@@ -360,28 +336,6 @@ func TestWaitThatRunsOutIsAnsweredAsUnfinished(t *testing.T) {
 	}
 	if under.progress.outcomesNotHeard != 1 {
 		t.Errorf("outcomes not heard = %d, want 1", under.progress.outcomesNotHeard)
-	}
-}
-
-func TestScrapeRequestThatFailsIsAnsweredAsUnfinished(t *testing.T) {
-	under := newReaderUnderTest(
-		&corpusHolding{stored: []pageread.PageMarkdown{{}}},
-		&outcomesAnnouncing{outcome: pageread.PageFetched},
-	)
-	under.requests.failure = errors.New("broker away")
-
-	page, err := under.reader.PageAnswerFor(
-		context.Background(),
-		pageread.PageCall{URL: pageURLUnderTest(t)},
-	)
-	if err != nil {
-		t.Fatalf("read the page: %v", err)
-	}
-	if page.FetchOutcome != pageread.FetchUnfinished {
-		t.Errorf("fetch outcome = %q, want %q", page.FetchOutcome, pageread.FetchUnfinished)
-	}
-	if under.progress.requestFailures != 1 {
-		t.Errorf("scrape request failures = %d, want 1", under.progress.requestFailures)
 	}
 }
 
@@ -403,9 +357,6 @@ func TestListenerThatCannotOpenIsAnsweredAsUnfinished(t *testing.T) {
 	}
 	if under.requests.asked != 0 {
 		t.Errorf("scrape requests = %d, want none without a listener", under.requests.asked)
-	}
-	if under.progress.listenFailures != 1 {
-		t.Errorf("listen failures = %d, want 1", under.progress.listenFailures)
 	}
 }
 

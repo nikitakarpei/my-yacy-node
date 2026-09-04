@@ -16,7 +16,11 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pageread"
 	pagereadprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pagereadprogressobservers/applog"
 	pagereadprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pagereadprogressobservers/prometheus"
+	scrapeoutcomeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scrapeoutcomeobservers/applog"
+	scrapeoutcomeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scrapeoutcomeobservers/prometheus"
 	scrapeoutcomesnats "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scrapeoutcomes/nats"
+	scraperequestobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scraperequestobservers/applog"
+	scraperequestobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scraperequestobservers/prometheus"
 	scraperequestsjetstream "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/scraperequests/jetstream"
 	searchenginessearxng "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/searchengines/searxng"
 	searchprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/searchprogressobservers/applog"
@@ -39,16 +43,6 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		return err
 	}
 	defer func() { _ = corpus.Close() }()
-	scrapeRequests, err := scraperequestsjetstream.OpenScrapeRequests(cfg.ScrapeRequestNATSURL)
-	if err != nil {
-		return err
-	}
-	defer scrapeRequests.Close()
-	scrapeOutcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(cfg.ScrapeRequestNATSURL)
-	if err != nil {
-		return err
-	}
-	defer scrapeOutcomes.Close()
 
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(
@@ -59,6 +53,28 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		collectors.NewGoCollector(),
 		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
 	)
+	scrapeRequests, err := scraperequestsjetstream.OpenScrapeRequests(
+		cfg.ScrapeRequestNATSURL,
+		scraperequestsjetstream.ScrapeRequestPublicationObservers{
+			scraperequestobserversapplog.ScrapeRequestLog{},
+			scraperequestobserversprometheus.New(registry),
+		},
+	)
+	if err != nil {
+		return err
+	}
+	defer scrapeRequests.Close()
+	scrapeOutcomes, err := scrapeoutcomesnats.OpenScrapeOutcomes(
+		cfg.ScrapeRequestNATSURL,
+		scrapeoutcomesnats.ScrapeOutcomeObservers{
+			scrapeoutcomeobserversapplog.ScrapeOutcomeLog{},
+			scrapeoutcomeobserversprometheus.New(registry),
+		},
+	)
+	if err != nil {
+		return err
+	}
+	defer scrapeOutcomes.Close()
 	search := websearch.NewWebSearch(websearch.Config{
 		Engine: searchenginessearxng.NewSearXNG(cfg.SearXNGURL, cfg.SearXNGSearchDeadline),
 		Progress: websearch.SearchProgressObservers{

@@ -18,21 +18,10 @@ type PageReadProgress interface {
 		pageURL canonicalurl.CanonicalURL,
 		cause error,
 	)
-	ScrapeOutcomeListenFailed(
-		ctx context.Context,
-		pageURL canonicalurl.CanonicalURL,
-		cause error,
-	)
-	ScrapeRequestFailed(
-		ctx context.Context,
-		pageURL canonicalurl.CanonicalURL,
-		cause error,
-	)
 	FetchOutcomeNotHeard(
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
 		fetchWait time.Duration,
-		cause error,
 	)
 }
 
@@ -58,33 +47,12 @@ func (observers PageReadProgressObservers) MarkdownRecallFailed(
 	}
 }
 
-func (observers PageReadProgressObservers) ScrapeOutcomeListenFailed(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	for _, observer := range observers {
-		observer.ScrapeOutcomeListenFailed(ctx, pageURL, cause)
-	}
-}
-
-func (observers PageReadProgressObservers) ScrapeRequestFailed(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	for _, observer := range observers {
-		observer.ScrapeRequestFailed(ctx, pageURL, cause)
-	}
-}
-
 func (observers PageReadProgressObservers) FetchOutcomeNotHeard(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	fetchWait time.Duration,
-	cause error,
 ) {
 	for _, observer := range observers {
-		observer.FetchOutcomeNotHeard(ctx, pageURL, fetchWait, cause)
+		observer.FetchOutcomeNotHeard(ctx, pageURL, fetchWait)
 	}
 }

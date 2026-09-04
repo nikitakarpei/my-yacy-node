@@ -30,7 +30,7 @@ type MarkdownCorpus interface {
 }
 
 type ScrapeRequests interface {
-	AskToScrape(ctx context.Context, pageURL canonicalurl.CanonicalURL) error
+	AskToScrape(ctx context.Context, pageURL canonicalurl.CanonicalURL)
 }
 
 type ScrapeOutcomes interface {
@@ -41,7 +41,7 @@ type ScrapeOutcomes interface {
 }
 
 type ScrapeOutcomeListener interface {
-	AwaitedFetchOutcome(ctx context.Context) (FetchOutcome, error)
+	AwaitedFetchOutcome(ctx context.Context) FetchOutcome
 	Close()
 }
 
@@ -181,19 +181,14 @@ func (r *PageReader) fetchPage(
 
 	listener, err := r.scrapeOutcomes.ListenerFor(fetchCtx, pageURL)
 	if err != nil {
-		r.progress.ScrapeOutcomeListenFailed(ctx, pageURL, err)
 		return FetchUnfinished
 	}
 	defer listener.Close()
 
-	if err := r.scrapeRequests.AskToScrape(fetchCtx, pageURL); err != nil {
-		r.progress.ScrapeRequestFailed(ctx, pageURL, err)
-		return FetchUnfinished
-	}
-	fetchOutcome, err := listener.AwaitedFetchOutcome(fetchCtx)
-	if err != nil {
-		r.progress.FetchOutcomeNotHeard(ctx, pageURL, r.fetchWait, err)
-		return FetchUnfinished
+	r.scrapeRequests.AskToScrape(fetchCtx, pageURL)
+	fetchOutcome := listener.AwaitedFetchOutcome(fetchCtx)
+	if fetchOutcome == FetchUnfinished {
+		r.progress.FetchOutcomeNotHeard(ctx, pageURL, r.fetchWait)
 	}
 	return fetchOutcome
 }
