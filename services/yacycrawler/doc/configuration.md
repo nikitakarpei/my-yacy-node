@@ -9,7 +9,7 @@ The crawler is configured entirely through environment variables.
 | `CRAWL_NATS_URL` | required | NATS server the crawler consumes crawl orders from and publishes crawled pages to. |
 | `CRAWL_ORDERS_SUBJECT` | `yacy.crawl.orders` | Subject the crawler consumes orders from. |
 | `CRAWL_ORDERS_DURABLE` | `yacycrawler` | Durable queue-consumer name shared across instances. |
-| `PENDING_VISIT_DURABLE` | `yacycrawler-visits` | Durable queue-consumer name every instance reads pending visits from. |
+| `PENDING_PAGE_VISIT_DURABLE` | `yacycrawler-page-visits` | Durable queue-consumer name every instance reads pending page visits from. |
 
 The crawler publishes every page it read on the `YACY_CRAWL_PAGES` stream, which it creates
 and owns. A page that states no indexing refusal goes to `crawl.page.indexable`, a page

@@ -27,8 +27,8 @@ a more capable host than an always-on node.
 * The service SHALL crawl only what an order's profile admits, from its seeds and
   discovered links.
 * A crawl run SHALL end when its profile admits no more URLs, never by elapsed time.
-* Before fetching a page, the service SHALL ask the recrawl rule whether the page is due,
-  and skip the fetch if not.
+* Before fetching a page, the service SHALL ask the recrawl rule whether the page is
+  due, and skip the fetch if not.
 * Every outbound fetch SHALL egress through the operator's configured proxy.
 * The service SHALL honor a target's explicit refusal, ceasing or deferring the fetch
   rather than pressing against it.
@@ -59,7 +59,8 @@ a more capable host than an always-on node.
   delivery with acknowledgment and redelivery, with no change to crawl logic.
 * The page-fetch mechanism SHALL be replaceable behind a narrow interface, with no
   change to crawl logic.
-* The recrawl rule SHALL sit behind a narrow interface; its default admits every page.
+* The visited pages SHALL sit behind a narrow interface; the default keeps none, so the
+  recrawl rule holds every page due.
 * Operational behavior SHALL be observable through machine-readable metrics.
 
 ## Known Limitations

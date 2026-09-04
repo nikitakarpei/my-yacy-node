@@ -17,11 +17,11 @@ const (
 		`</head><body><a href="/next">next</a></body></html>`
 )
 
-func pageContentOutcome(t *testing.T, page pagefetch.FetchedPage) pagevisit.VisitOutcome {
+func pageContentOutcome(t *testing.T, page pagefetch.FetchedPage) pagevisit.PageVisitOutcome {
 	t.Helper()
-	return visitHost(t, newVisitor(
+	return visitHostPage(t, newPageVisitor(
 		fetchOf(fetchOutcomeOf(page)),
-		&fakeRecrawl{due: true},
+		&fakePageVisits{due: true},
 		newObserver(),
 		&fakeCrawledPages{},
 	))
@@ -30,9 +30,9 @@ func pageContentOutcome(t *testing.T, page pagefetch.FetchedPage) pagevisit.Visi
 func linkDiscoveryRefusalsEnforcedFor(t *testing.T, markup string) int {
 	t.Helper()
 	observer := newObserver()
-	visitHost(t, newVisitor(
+	visitHostPage(t, newPageVisitor(
 		fetchOf(fetchOutcomeOf(pageHolding(t, markup))),
-		&fakeRecrawl{due: true},
+		&fakePageVisits{due: true},
 		observer,
 		&fakeCrawledPages{},
 	))
@@ -78,14 +78,14 @@ func TestVisitReportsUnsupportedMediaType(t *testing.T) {
 
 func TestVisitPublishesAPageThatRefusesIndexingAsRefusingIndexing(t *testing.T) {
 	crawledPages := &fakeCrawledPages{}
-	visitor := newVisitor(
+	pageVisitor := newPageVisitor(
 		fetchOf(fetchOutcomeOf(pageHolding(t, pageRefusingIndexing))),
-		&fakeRecrawl{due: true},
+		&fakePageVisits{due: true},
 		newObserver(),
 		crawledPages,
 	)
 
-	outcome := visitHost(t, visitor)
+	outcome := visitHostPage(t, pageVisitor)
 
 	if outcome.Disposal != disposal.NotDisposed {
 		t.Fatalf("a published page carries no disposal, got %q", outcome.Disposal)

@@ -1,4 +1,4 @@
-// Package disposal names how a pending visit ended, publication included.
+// Package disposal names how a pending page visit ended, publication included.
 package disposal
 
 type Reason string

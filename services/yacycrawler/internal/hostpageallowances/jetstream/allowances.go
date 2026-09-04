@@ -22,14 +22,14 @@ func Ensure(
 }
 
 type Allowances struct {
-	hostPages   *jetstreamrecord.Records[hostPages]
-	spentVisits *jetstreamrecord.Records[spentVisit]
+	hostPages       *jetstreamrecord.Records[hostPages]
+	spentPageVisits *jetstreamrecord.Records[spentPageVisit]
 }
 
 func New(bucket jetstream.KeyValue) *Allowances {
 	return &Allowances{
-		hostPages:   jetstreamrecord.New[hostPages](bucket),
-		spentVisits: jetstreamrecord.New[spentVisit](bucket),
+		hostPages:       jetstreamrecord.New[hostPages](bucket),
+		spentPageVisits: jetstreamrecord.New[spentPageVisit](bucket),
 	}
 }
 
@@ -43,7 +43,7 @@ func (a *Allowances) HoldsHostPage(
 	if maxPages == yacycrawlcontract.UnlimitedPagesPerHost {
 		return true, nil
 	}
-	alreadySpent, err := a.pageSpentOnVisit(ctx, orderID, url)
+	alreadySpent, err := a.pageSpentOnPageVisit(ctx, orderID, url)
 	if err != nil {
 		return false, err
 	}
@@ -54,22 +54,22 @@ func (a *Allowances) HoldsHostPage(
 	if err != nil || !spent {
 		return false, err
 	}
-	if err := a.markPageSpentOnVisit(ctx, orderID, url); err != nil {
+	if err := a.markPageSpentOnPageVisit(ctx, orderID, url); err != nil {
 		return false, err
 	}
 	return true, nil
 }
 
-func (a *Allowances) pageSpentOnVisit(
+func (a *Allowances) pageSpentOnPageVisit(
 	ctx context.Context,
 	orderID string,
 	url canonicalurl.CanonicalURL,
 ) (bool, error) {
-	visit, err := a.spentVisits.RecordAt(ctx, visitKeyOf(orderID, url))
+	pageVisit, err := a.spentPageVisits.RecordAt(ctx, pageVisitKeyOf(orderID, url))
 	if err != nil {
-		return false, fmt.Errorf("read the page spent on the visit to %s: %w", url, err)
+		return false, fmt.Errorf("read the page spent on the page pageVisit to %s: %w", url, err)
 	}
-	return visit.PageSpent, nil
+	return pageVisit.PageSpent, nil
 }
 
 func (a *Allowances) takePageOfHost(
@@ -97,31 +97,31 @@ func pageWithinAllowance(maxPages int) func(hostPages) (hostPages, bool) {
 	}
 }
 
-func (a *Allowances) markPageSpentOnVisit(
+func (a *Allowances) markPageSpentOnPageVisit(
 	ctx context.Context,
 	orderID string,
 	url canonicalurl.CanonicalURL,
 ) error {
-	_, _, err := a.spentVisits.Revise(ctx, visitKeyOf(orderID, url), markPageSpent)
+	_, _, err := a.spentPageVisits.Revise(ctx, pageVisitKeyOf(orderID, url), markPageSpent)
 	if err != nil {
-		return fmt.Errorf("mark the page spent on the visit to %s: %w", url, err)
+		return fmt.Errorf("mark the page spent on the page pageVisit to %s: %w", url, err)
 	}
 	return nil
 }
 
-func markPageSpent(visit spentVisit) (spentVisit, bool) {
-	if visit.PageSpent {
-		return visit, false
+func markPageSpent(pageVisit spentPageVisit) (spentPageVisit, bool) {
+	if pageVisit.PageSpent {
+		return pageVisit, false
 	}
-	visit.PageSpent = true
-	return visit, true
+	pageVisit.PageSpent = true
+	return pageVisit, true
 }
 
 type hostPages struct {
 	Pages int `json:"Pages"`
 }
 
-type spentVisit struct {
+type spentPageVisit struct {
 	PageSpent bool `json:"PageSpent"`
 }
 
@@ -129,6 +129,6 @@ func hostKeyOf(orderID string, host string) string {
 	return jetstreamrecord.KeyOf(orderID, "host", host)
 }
 
-func visitKeyOf(orderID string, url canonicalurl.CanonicalURL) string {
-	return jetstreamrecord.KeyOf(orderID, "visit", url.String())
+func pageVisitKeyOf(orderID string, url canonicalurl.CanonicalURL) string {
+	return jetstreamrecord.KeyOf(orderID, "pageVisit", url.String())
 }

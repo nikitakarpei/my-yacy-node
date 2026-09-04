@@ -30,8 +30,8 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.FetchConcurrency != yacycrawler.DefaultFetchConcurrency {
 		t.Fatalf("unexpected defaults: %+v", cfg)
 	}
-	if cfg.PendingVisitDurable != yacycrawler.DefaultPendingVisitDurable {
-		t.Fatalf("pending visit durable = %q", cfg.PendingVisitDurable)
+	if cfg.PendingPageVisitDurable != yacycrawler.DefaultPendingPageVisitDurable {
+		t.Fatalf("pending page visit durable = %q", cfg.PendingPageVisitDurable)
 	}
 	if cfg.FetchDeadline != yacycrawler.DefaultFetchDeadline {
 		t.Fatalf("fetch deadline = %v", cfg.FetchDeadline)
@@ -120,9 +120,9 @@ func TestPendingVisitAckWaitOutlastsTheFetchDeadline(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if cfg.PendingVisitAckWait() <= 5*time.Second {
-		t.Fatalf("pending visit ack wait = %v, want longer than the fetch deadline",
-			cfg.PendingVisitAckWait())
+	if cfg.PendingPageVisitAckWait() <= 5*time.Second {
+		t.Fatalf("pending page visit ack wait = %v, want longer than the fetch deadline",
+			cfg.PendingPageVisitAckWait())
 	}
 }
 

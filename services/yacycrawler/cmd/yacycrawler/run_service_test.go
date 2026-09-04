@@ -21,15 +21,15 @@ func TestRunServiceProcessesOrderThenStops(t *testing.T) {
 	proxy, _ := url.Parse("http://127.0.0.1:1")
 	crawlNATSURL := natstestserver.Start(t)
 	cfg := yacycrawler.ServiceConfig{
-		CrawlNATSURL:        crawlNATSURL,
-		CrawlOrdersSubject:  yacycrawler.DefaultCrawlOrdersSubject,
-		CrawlOrdersDurable:  yacycrawler.DefaultCrawlOrdersDurable,
-		ProxyURL:            proxy,
-		FetchConcurrency:    2,
-		PendingVisitDurable: yacycrawler.DefaultPendingVisitDurable,
-		MaxBodyBytes:        yacycrawler.DefaultMaxBodyBytes,
-		FetchDeadline:       time.Second,
-		OpsAddr:             "127.0.0.1:0",
+		CrawlNATSURL:            crawlNATSURL,
+		CrawlOrdersSubject:      yacycrawler.DefaultCrawlOrdersSubject,
+		CrawlOrdersDurable:      yacycrawler.DefaultCrawlOrdersDurable,
+		ProxyURL:                proxy,
+		FetchConcurrency:        2,
+		PendingPageVisitDurable: yacycrawler.DefaultPendingPageVisitDurable,
+		MaxBodyBytes:            yacycrawler.DefaultMaxBodyBytes,
+		FetchDeadline:           time.Second,
+		OpsAddr:                 "127.0.0.1:0",
 	}
 
 	publishOrder(t, cfg.CrawlNATSURL)
