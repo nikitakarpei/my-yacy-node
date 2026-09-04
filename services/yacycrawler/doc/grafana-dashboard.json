@@ -279,8 +279,8 @@
     },
     {
       "id": 41,
-      "title": "Pending visits, by how they ended",
-      "description": "Every message the frontier delivers ends exactly once, one of these six ways.",
+      "title": "Pending visits, by what the crawler did with each",
+      "description": "A pending visit is one URL an order admits, waiting to be visited. Counted once per delivery: completed and disposed end it, the other four put the URL back on the frontier.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -379,6 +379,44 @@
       ]
     },
     {
+      "id": 32,
+      "title": "Pages disposed, by reason",
+      "description": "A disposed page is one the crawler ended without publishing.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (reason) (increase(yacycrawler_pages_disposed_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "{{reason}}"
+        }
+      ]
+    },
+    {
       "id": 20,
       "title": "Page fetching",
       "type": "row",
@@ -386,7 +424,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 31
       },
       "panels": []
     },
@@ -402,7 +440,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 24
+        "y": 32
       },
       "fieldConfig": {
         "defaults": {
@@ -439,7 +477,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 24
+        "y": 32
       },
       "fieldConfig": {
         "defaults": {
@@ -486,7 +524,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 32
+        "y": 40
       },
       "fieldConfig": {
         "defaults": {
@@ -519,7 +557,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 40
+        "y": 48
       },
       "panels": []
     },
@@ -535,7 +573,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 41
+        "y": 49
       },
       "fieldConfig": {
         "defaults": {
@@ -572,7 +610,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 41
+        "y": 49
       },
       "fieldConfig": {
         "defaults": {
@@ -598,60 +636,10 @@
       ]
     },
     {
-      "id": 34,
-      "title": "Page disposal",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 49
-      },
-      "panels": []
-    },
-    {
-      "id": 32,
-      "title": "Pages disposed, by reason",
-      "description": "A disposed page is one the crawler ended without publishing.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 50
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "fillOpacity": 10,
-            "drawStyle": "line",
-            "showPoints": "auto"
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (reason) (increase(yacycrawler_pages_disposed_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "{{reason}}"
-        }
-      ]
-    },
-    {
       "id": 100,
       "title": "Go process",
       "type": "row",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 58},
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 57},
       "panels": []
     },
     {
@@ -659,7 +647,7 @@
       "title": "Process memory",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 59},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 58},
       "fieldConfig": {"defaults": {"unit": "bytes", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -673,7 +661,7 @@
       "title": "CPU cores used",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 59},
+      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 58},
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -685,7 +673,7 @@
       "title": "Goroutines",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 59},
+      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 58},
       "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -697,7 +685,7 @@
       "title": "Garbage collection rate",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 67},
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 66},
       "fieldConfig": {"defaults": {"unit": "cps", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -709,7 +697,7 @@
       "title": "Share of time paused for garbage collection",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 67},
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 66},
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
@@ -721,7 +709,7 @@
       "title": "Share of file descriptor capacity used",
       "type": "timeseries",
       "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 67},
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 66},
       "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "max": 1, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
       "options": {"tooltip": {"mode": "multi"}},
       "targets": [
