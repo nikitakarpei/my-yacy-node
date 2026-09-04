@@ -58,17 +58,14 @@ func (f *fakePageVisits) LastPageVisitOf(
 	context.Context,
 	canonicalurl.CanonicalURL,
 ) (pagevisit.PageVisit, bool, error) {
-	return pagevisit.PageVisit{}, false, nil
+	if f.err != nil {
+		return pagevisit.PageVisit{}, false, f.err
+	}
+	return pagevisit.PageVisit{Version: f.version}, true, nil
 }
 
-func (f *fakePageVisits) RecrawlDecisionFor(
-	context.Context,
-	canonicalurl.CanonicalURL,
-) (pagevisit.RecrawlDecision, error) {
-	if f.err != nil {
-		return pagevisit.RecrawlDecision{}, f.err
-	}
-	return pagevisit.RecrawlDecision{Due: f.due, Version: f.version}, nil
+func (f *fakePageVisits) PageDueForRecrawl(pagevisit.PageVisit) bool {
+	return f.due
 }
 
 func (f *fakePageVisits) RecordPageVisit(
@@ -575,7 +572,7 @@ func TestVisitReportsNoFetchDurationWhenNotDue(t *testing.T) {
 	}
 }
 
-func TestVisitRecrawlDecisionErrorFails(t *testing.T) {
+func TestVisitAnUnreadableLastPageVisitFails(t *testing.T) {
 	pageVisitor := newPageVisitor(
 		&fakeFetch{},
 		&fakePageVisits{err: errors.New("boom")},
@@ -587,7 +584,7 @@ func TestVisitRecrawlDecisionErrorFails(t *testing.T) {
 		context.Background(),
 		canonicalurltest.CanonicalURLOf(t, "http://host/"),
 	); err == nil {
-		t.Fatal("recrawl decision error should fail the visit")
+		t.Fatal("an unreadable last page visit should fail the visit")
 	}
 }
 

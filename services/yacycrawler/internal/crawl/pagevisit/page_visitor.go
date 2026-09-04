@@ -49,14 +49,14 @@ func (visitor *pageVisitor) VisitPage(
 	ctx context.Context,
 	url canonicalurl.CanonicalURL,
 ) (PageVisitOutcome, error) {
-	decision, err := visitor.recrawlRule.RecrawlDecisionFor(ctx, url)
+	lastVisit, visited, err := visitor.visitedPages.LastPageVisitOf(ctx, url)
 	if err != nil {
-		return PageVisitOutcome{}, fmt.Errorf("recrawl decision: %w", err)
+		return PageVisitOutcome{}, fmt.Errorf("last page visit to %s: %w", url, err)
 	}
-	if !decision.Due {
+	if visited && !visitor.recrawlRule.PageDueForRecrawl(lastVisit) {
 		return disposedOutcome(disposal.NotDue), nil
 	}
-	fetchOutcome := visitor.pageFetcher.Fetch(ctx, url, decision.Version)
+	fetchOutcome := visitor.pageFetcher.Fetch(ctx, url, lastVisit.Version)
 	if originAnsweredAboutPage(fetchOutcome.Status) {
 		visitor.visitedPages.RecordPageVisit(ctx, url, fetchOutcome.Version)
 	}

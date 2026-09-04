@@ -384,7 +384,7 @@ func buildPageVisitor(
 	crawledPages := crawledpagesjetstream.New(js, crawledPageObserver)
 	return pagevisit.New(
 		pageFetcher,
-		dueaftergrace.New(visitedPages, wallclock.Clock{}, cfg.RecrawlGrace),
+		dueaftergrace.New(wallclock.Clock{}, cfg.RecrawlGrace),
 		visitedPages,
 		htmlPageReading,
 		refusalEnforcementObserver,
