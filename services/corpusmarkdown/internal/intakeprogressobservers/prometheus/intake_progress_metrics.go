@@ -28,9 +28,8 @@ var offeredPageDisposals = []string{
 }
 
 type IntakeProgressMetrics struct {
-	pagesOffered          prometheus.Counter
-	offeredPagesDisposed  *prometheus.CounterVec
-	intakeReceiptFailures prometheus.Counter
+	pagesOffered         prometheus.Counter
+	offeredPagesDisposed *prometheus.CounterVec
 }
 
 func New(registry prometheus.Registerer) *IntakeProgressMetrics {
@@ -43,10 +42,6 @@ func New(registry prometheus.Registerer) *IntakeProgressMetrics {
 			Name: "corpusmarkdown_offered_pages_disposed_total",
 			Help: "Offered pages, by how the corpus disposed of each one.",
 		}, []string{labelOfferedPageDisposal}),
-		intakeReceiptFailures: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "corpusmarkdown_intake_receipt_failures_total",
-			Help: "Intake receipts that reached no caller waiting for the page.",
-		}),
 	}
 	for _, disposal := range offeredPageDisposals {
 		metrics.offeredPagesDisposed.WithLabelValues(disposal)
@@ -54,7 +49,6 @@ func New(registry prometheus.Registerer) *IntakeProgressMetrics {
 	registry.MustRegister(
 		metrics.pagesOffered,
 		metrics.offeredPagesDisposed,
-		metrics.intakeReceiptFailures,
 	)
 	return metrics
 }
@@ -88,14 +82,6 @@ func (m *IntakeProgressMetrics) MarkdownNotStored(
 
 func (m *IntakeProgressMetrics) MarkdownStored(_ context.Context, _ canonicalurl.CanonicalURL) {
 	m.dispose(disposalStored)
-}
-
-func (m *IntakeProgressMetrics) IntakeReceiptNotSent(
-	_ context.Context,
-	_ canonicalurl.CanonicalURL,
-	_ error,
-) {
-	m.intakeReceiptFailures.Inc()
 }
 
 func (m *IntakeProgressMetrics) dispose(disposal string) {

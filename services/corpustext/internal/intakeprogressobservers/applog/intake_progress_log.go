@@ -18,8 +18,6 @@ const (
 	msgNoTextDerived    = "offered page derives no text, nothing indexed"
 	msgIndexFailed      = "offered page index failed"
 	msgPageIndexed      = "offered page indexed"
-	msgReceiptNotSent   = "intake receipt not sent, " +
-		"a caller waiting for this page learns nothing until it stops waiting"
 )
 
 type IntakeProgressLog struct{}
@@ -61,15 +59,4 @@ func (IntakeProgressLog) IndexFailed(
 
 func (IntakeProgressLog) PageIndexed(ctx context.Context, pageURL canonicalurl.CanonicalURL) {
 	slog.DebugContext(ctx, msgPageIndexed, slog.String("pageUrl", pageURL.String()))
-}
-
-func (IntakeProgressLog) IntakeReceiptNotSent(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	slog.WarnContext(ctx, msgReceiptNotSent,
-		slog.String("pageUrl", pageURL.String()),
-		slog.Any("error", cause),
-	)
 }

@@ -79,9 +79,8 @@ type scrapeOutcomeFeed struct {
 func (f *scrapeOutcomeFeed) AnnounceScrapeFailure(
 	_ context.Context,
 	failure pagescrapecontract.ScrapeFailure,
-) error {
+) {
 	f.announced = append(f.announced, failure)
-	return nil
 }
 
 type silentScrapeProgress struct{}
@@ -129,12 +128,5 @@ func (silentScrapeProgress) ScrapeFailed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ pagescrapecontract.ScrapeFailureReason,
-) {
-}
-
-func (silentScrapeProgress) ScrapeOutcomeAnnouncementFailed(
-	_ context.Context,
-	_ canonicalurl.CanonicalURL,
-	_ error,
 ) {
 }

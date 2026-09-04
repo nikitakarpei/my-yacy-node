@@ -48,11 +48,6 @@ type ScrapeProgress interface {
 		pageURL canonicalurl.CanonicalURL,
 		reason pagescrapecontract.ScrapeFailureReason,
 	)
-	ScrapeOutcomeAnnouncementFailed(
-		ctx context.Context,
-		pageURL canonicalurl.CanonicalURL,
-		cause error,
-	)
 }
 
 type ScrapeProgressObservers []ScrapeProgress
@@ -133,15 +128,5 @@ func (observers ScrapeProgressObservers) ScrapeFailed(
 ) {
 	for _, observer := range observers {
 		observer.ScrapeFailed(ctx, pageURL, reason)
-	}
-}
-
-func (observers ScrapeProgressObservers) ScrapeOutcomeAnnouncementFailed(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	for _, observer := range observers {
-		observer.ScrapeOutcomeAnnouncementFailed(ctx, pageURL, cause)
 	}
 }

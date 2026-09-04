@@ -19,8 +19,8 @@ type PageMarkdownCorpus interface {
 }
 
 type IntakeReceipts interface {
-	ReportKeptPage(ctx context.Context, pageURL canonicalurl.CanonicalURL) error
-	ReportRejectedPage(ctx context.Context, pageURL canonicalurl.CanonicalURL) error
+	ReportKeptPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
+	ReportRejectedPage(ctx context.Context, pageURL canonicalurl.CanonicalURL)
 }
 
 type OfferedPageConsumer struct {
@@ -94,9 +94,7 @@ func (c *OfferedPageConsumer) store(
 		return nil
 	}
 	c.intakeProgress.MarkdownStored(ctx, pageURL)
-	if err := c.intakeReceipts.ReportKeptPage(ctx, pageURL); err != nil {
-		c.intakeProgress.IntakeReceiptNotSent(ctx, pageURL, err)
-	}
+	c.intakeReceipts.ReportKeptPage(ctx, pageURL)
 	message.Acknowledge(ctx)
 	return nil
 }
@@ -106,9 +104,7 @@ func (c *OfferedPageConsumer) reject(
 	message pullintake.PendingMessage,
 	pageURL canonicalurl.CanonicalURL,
 ) error {
-	if err := c.intakeReceipts.ReportRejectedPage(ctx, pageURL); err != nil {
-		c.intakeProgress.IntakeReceiptNotSent(ctx, pageURL, err)
-	}
+	c.intakeReceipts.ReportRejectedPage(ctx, pageURL)
 	message.Acknowledge(ctx)
 	return nil
 }

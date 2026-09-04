@@ -26,6 +26,7 @@ type RenderFailureReason string
 const (
 	RenderFailureUnexpected   RenderFailureReason = "unexpected"
 	RenderFailureTimedOut     RenderFailureReason = "timed_out"
+	RenderFailureCallerGaveUp RenderFailureReason = "caller_gave_up"
 	RenderFailurePageTooLarge RenderFailureReason = "page_too_large"
 )
 
@@ -59,7 +60,7 @@ func (r *DeadlineRenderer) Render(
 	renderDuration := time.Since(renderStarted)
 	if err != nil {
 		r.renderObserver.RenderFailed(
-			ctx, target.URL, renderDuration, renderFailureReasonFrom(err), err,
+			ctx, target.URL, renderDuration, renderFailureReasonFrom(ctx, err), err,
 		)
 		return renderedpage.Page{}, fmt.Errorf("render %s: %w", target.URL, err)
 	}
@@ -67,8 +68,11 @@ func (r *DeadlineRenderer) Render(
 	return page, nil
 }
 
-func renderFailureReasonFrom(cause error) RenderFailureReason {
-	if errors.Is(cause, context.DeadlineExceeded) || errors.Is(cause, context.Canceled) {
+func renderFailureReasonFrom(callerContext context.Context, cause error) RenderFailureReason {
+	if callerContext.Err() != nil {
+		return RenderFailureCallerGaveUp
+	}
+	if errors.Is(cause, context.DeadlineExceeded) {
 		return RenderFailureTimedOut
 	}
 	if errors.Is(cause, renderedpage.ErrTooLarge) {

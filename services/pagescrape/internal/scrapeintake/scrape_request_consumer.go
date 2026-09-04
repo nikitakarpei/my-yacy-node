@@ -33,7 +33,7 @@ type ScrapeSchedules interface {
 }
 
 type ScrapeOutcomeFeed interface {
-	AnnounceScrapeFailure(ctx context.Context, failure pagescrapecontract.ScrapeFailure) error
+	AnnounceScrapeFailure(ctx context.Context, failure pagescrapecontract.ScrapeFailure)
 }
 
 type ScrapeRequestConsumer struct {
@@ -166,9 +166,7 @@ func (c *ScrapeRequestConsumer) reportFailure(
 		message.Return(ctx)
 		return
 	}
-	if err := c.scrapeOutcomeFeed.AnnounceScrapeFailure(ctx, failure); err != nil {
-		c.scrapeProgress.ScrapeOutcomeAnnouncementFailed(ctx, request.PageURL, err)
-	}
+	c.scrapeOutcomeFeed.AnnounceScrapeFailure(ctx, failure)
 	c.scrapeProgress.ScrapeFailed(ctx, request.PageURL, reason)
 	message.Acknowledge(ctx)
 }

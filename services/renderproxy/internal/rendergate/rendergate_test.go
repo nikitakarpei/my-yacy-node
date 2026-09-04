@@ -84,6 +84,27 @@ func TestDeadlineRendererReportsDeadlineFailureReason(t *testing.T) {
 	}
 }
 
+func TestDeadlineRendererTellsACallerThatGaveUpFromItsOwnDeadline(t *testing.T) {
+	observer := &recordingRenderObserver{}
+	renderer := rendergate.NewDeadlineRenderer(
+		&stubRenderer{delay: time.Minute},
+		time.Minute,
+		observer,
+	)
+	ctx, giveUp := context.WithCancel(context.Background())
+	giveUp()
+
+	if _, err := renderer.Render(
+		ctx, renderedpage.Target{URL: "https://example.com"},
+	); !errors.Is(err, context.Canceled) {
+		t.Fatalf("err = %v, want the cancellation", err)
+	}
+	if observer.failureReason != rendergate.RenderFailureCallerGaveUp {
+		t.Fatalf("failure reason = %q, want %q",
+			observer.failureReason, rendergate.RenderFailureCallerGaveUp)
+	}
+}
+
 func TestDeadlineRendererReportsSuccess(t *testing.T) {
 	observer := &recordingRenderObserver{}
 	renderer := rendergate.NewDeadlineRenderer(&stubRenderer{}, time.Second, observer)

@@ -17,8 +17,6 @@ const (
 	msgNoMarkdownDerived = "offered page derives no markdown, nothing stored"
 	msgMarkdownNotStored = "offered page markdown write failed"
 	msgMarkdownStored    = "offered page markdown stored"
-	msgReceiptNotSent    = "intake receipt not sent, " +
-		"a caller waiting for this page learns nothing until it stops waiting"
 )
 
 type IntakeProgressLog struct{}
@@ -58,15 +56,4 @@ func (IntakeProgressLog) MarkdownNotStored(
 
 func (IntakeProgressLog) MarkdownStored(ctx context.Context, pageURL canonicalurl.CanonicalURL) {
 	slog.DebugContext(ctx, msgMarkdownStored, slog.String("pageUrl", pageURL.String()))
-}
-
-func (IntakeProgressLog) IntakeReceiptNotSent(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	slog.WarnContext(ctx, msgReceiptNotSent,
-		slog.String("pageUrl", pageURL.String()),
-		slog.Any("error", cause),
-	)
 }

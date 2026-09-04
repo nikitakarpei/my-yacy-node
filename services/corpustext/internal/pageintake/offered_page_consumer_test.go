@@ -40,7 +40,6 @@ func (i *recordingIndex) Index(_ context.Context, document searchdocument.Docume
 }
 
 type recordingIntakeReceipts struct {
-	err      error
 	mu       sync.Mutex
 	kept     []string
 	rejected []string
@@ -49,32 +48,29 @@ type recordingIntakeReceipts struct {
 func (r *recordingIntakeReceipts) ReportKeptPage(
 	_ context.Context,
 	pageURL canonicalurl.CanonicalURL,
-) error {
+) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	r.kept = append(r.kept, pageURL.String())
-	return r.err
 }
 
 func (r *recordingIntakeReceipts) ReportRejectedPage(
 	_ context.Context,
 	pageURL canonicalurl.CanonicalURL,
-) error {
+) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	r.rejected = append(r.rejected, pageURL.String())
-	return r.err
 }
 
 type recordingProgress struct {
-	mu              sync.Mutex
-	offered         int
-	indexed         int
-	noDocument      int
-	noReadableText  int
-	indexFailures   int
-	receiptFailures int
-	observations    int
+	mu             sync.Mutex
+	offered        int
+	indexed        int
+	noDocument     int
+	noReadableText int
+	indexFailures  int
+	observations   int
 }
 
 func (p *recordingProgress) PageOffered(context.Context, canonicalurl.CanonicalURL) {
@@ -99,14 +95,6 @@ func (p *recordingProgress) NoReadableTextDerived(context.Context, canonicalurl.
 
 func (p *recordingProgress) IndexFailed(context.Context, canonicalurl.CanonicalURL, error) {
 	p.count(&p.indexFailures)
-}
-
-func (p *recordingProgress) IntakeReceiptNotSent(
-	context.Context,
-	canonicalurl.CanonicalURL,
-	error,
-) {
-	p.count(&p.receiptFailures)
 }
 
 func (p *recordingProgress) IndexObserved(context.Context, time.Duration) {
@@ -223,26 +211,6 @@ func TestOfferComesBackWhenTheIndexFails(t *testing.T) {
 	}
 	if settlement := intake.message.Settlement(t); settlement != pullintaketest.HeldBack {
 		t.Errorf("the offer was %s, want it %s", settlement, pullintaketest.HeldBack)
-	}
-}
-
-func TestReceiptThatReachesNobodyLeavesThePageIndexed(t *testing.T) {
-	intake := runPageIntakeInto(
-		t,
-		offeredPage(t, pageHTML),
-		&recordingIndex{},
-		&recordingIntakeReceipts{err: errors.New("no listener")},
-	)
-
-	if len(intake.index.documents) != 1 {
-		t.Errorf("indexed %d documents, want exactly one", len(intake.index.documents))
-	}
-	if intake.progress.receiptFailures != 1 {
-		t.Errorf("observed %d receipt failures, want exactly one",
-			intake.progress.receiptFailures)
-	}
-	if settlement := intake.message.Settlement(t); settlement != pullintaketest.Acknowledged {
-		t.Errorf("the offer was %s, want it %s", settlement, pullintaketest.Acknowledged)
 	}
 }
 

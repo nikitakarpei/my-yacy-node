@@ -29,7 +29,6 @@ func TestIntakeProgressMetricsRecordsAndExposesCounters(t *testing.T) {
 	metrics.NoDocumentExtracted(ctx, page, cause)
 	metrics.NoReadableTextDerived(ctx, page)
 	metrics.IndexFailed(ctx, page, cause)
-	metrics.IntakeReceiptNotSent(ctx, page, cause)
 	metrics.IndexObserved(ctx, 250*time.Millisecond)
 
 	req := httptest.NewRequestWithContext(ctx, "GET", "/metrics", nil)
@@ -43,7 +42,6 @@ func TestIntakeProgressMetricsRecordsAndExposesCounters(t *testing.T) {
 		`corpustext_offered_pages_disposed_total{disposal="no-document-extracted"} 1`,
 		`corpustext_offered_pages_disposed_total{disposal="no-readable-text-derived"} 1`,
 		`corpustext_offered_pages_disposed_total{disposal="index-failed"} 1`,
-		"corpustext_intake_receipt_failures_total 1",
 		"corpustext_index_duration_seconds",
 	} {
 		if !strings.Contains(body, want) {

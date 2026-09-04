@@ -15,6 +15,8 @@ import (
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	pageofferpublishersjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/pageofferpublishers/jetstream"
 	scrapeintakepkg "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintake"
+	scrapeoutcomefeedobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeoutcomefeedobservers/applog"
+	scrapeoutcomefeedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeoutcomefeedobservers/prometheus"
 	scrapeoutcomefeedsnats "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeoutcomefeeds/nats"
 	scrapeprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeprogressobservers/applog"
 	scrapeprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeprogressobservers/prometheus"
@@ -68,7 +70,13 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		collectors.NewGoCollector(),
 		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
 	)
-	outcomeFeed := scrapeoutcomefeedsnats.NewScrapeOutcomeFeed(connection)
+	outcomeFeed := scrapeoutcomefeedsnats.NewScrapeOutcomeFeed(
+		connection,
+		scrapeoutcomefeedsnats.ScrapeOutcomeFeedObservers{
+			scrapeoutcomefeedobserversapplog.ScrapeOutcomeFeedLog{},
+			scrapeoutcomefeedobserversprometheus.New(registry),
+		},
+	)
 	intake := scrapeintakepkg.NewScrapeRequestConsumer(scrapeintakepkg.Config{
 		ScrapeRequests: consumer,
 		PageFetcher: pagefetchershttp.New(

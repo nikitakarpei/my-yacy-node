@@ -34,11 +34,6 @@ type IntakeProgress interface {
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
 	)
-	IntakeReceiptNotSent(
-		ctx context.Context,
-		pageURL canonicalurl.CanonicalURL,
-		cause error,
-	)
 }
 
 type IntakeProgressObservers []IntakeProgress
@@ -96,15 +91,5 @@ func (observers IntakeProgressObservers) PageIndexed(
 ) {
 	for _, observer := range observers {
 		observer.PageIndexed(ctx, pageURL)
-	}
-}
-
-func (observers IntakeProgressObservers) IntakeReceiptNotSent(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	for _, observer := range observers {
-		observer.IntakeReceiptNotSent(ctx, pageURL, cause)
 	}
 }

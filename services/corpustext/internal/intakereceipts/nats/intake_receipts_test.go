@@ -9,7 +9,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	intakereceiptsnats "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakereceipts/nats"
+	intakereceiptsnats "github.com/nikitakarpei/yacy-rwi-node/corpustext/internal/intakereceipts/nats"
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
@@ -17,7 +17,7 @@ import (
 const (
 	pageURL      = "https://example.com/"
 	otherPageURL = "https://example.com/other"
-	corpus       = "corpusmarkdown"
+	corpus       = "corpustext"
 	receiptWait  = 5 * time.Second
 )
 

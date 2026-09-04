@@ -18,8 +18,6 @@ const (
 	msgScrapeDeferred        = "scrape deferred by the origin, scheduled for a later read"
 	msgScrapeScheduleFailed  = "scrape not scheduled, the request comes back"
 	msgScrapeFailed          = "scrape failed, the page is given up"
-	msgScrapeOutcomeAnnounce = "scrape failure not announced, " +
-		"a caller waiting for this page learns nothing until it stops waiting"
 )
 
 type ScrapeProgressLog struct{}
@@ -101,16 +99,5 @@ func (ScrapeProgressLog) ScrapeFailed(
 	slog.WarnContext(ctx, msgScrapeFailed,
 		slog.String("pageUrl", pageURL.String()),
 		slog.String("reason", string(reason)),
-	)
-}
-
-func (ScrapeProgressLog) ScrapeOutcomeAnnouncementFailed(
-	ctx context.Context,
-	pageURL canonicalurl.CanonicalURL,
-	cause error,
-) {
-	slog.WarnContext(ctx, msgScrapeOutcomeAnnounce,
-		slog.String("pageUrl", pageURL.String()),
-		slog.Any("error", cause),
 	)
 }

@@ -28,7 +28,6 @@ func TestIntakeProgressMetricsRecordsAndExposesCounters(t *testing.T) {
 	metrics.NoDocumentExtracted(ctx, page, cause)
 	metrics.NoMarkdownDerived(ctx, page)
 	metrics.MarkdownNotStored(ctx, page, cause)
-	metrics.IntakeReceiptNotSent(ctx, page, cause)
 
 	req := httptest.NewRequestWithContext(ctx, "GET", "/metrics", nil)
 	rec := httptest.NewRecorder()
@@ -41,7 +40,6 @@ func TestIntakeProgressMetricsRecordsAndExposesCounters(t *testing.T) {
 		`corpusmarkdown_offered_pages_disposed_total{disposal="no-document-extracted"} 1`,
 		`corpusmarkdown_offered_pages_disposed_total{disposal="no-markdown-derived"} 1`,
 		`corpusmarkdown_offered_pages_disposed_total{disposal="store-failed"} 1`,
-		"corpusmarkdown_intake_receipt_failures_total 1",
 	} {
 		if !strings.Contains(body, want) {
 			t.Fatalf("metrics output missing %q, got:\n%s", want, body)

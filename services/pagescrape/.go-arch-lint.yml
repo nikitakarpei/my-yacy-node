@@ -19,6 +19,10 @@ components:
     in: internal/scrapeschedules/jetstream/**
   scrapeoutcomefeedsnats:
     in: internal/scrapeoutcomefeeds/nats/**
+  scrapeoutcomefeedobserversapplog:
+    in: internal/scrapeoutcomefeedobservers/applog/**
+  scrapeoutcomefeedobserversprometheus:
+    in: internal/scrapeoutcomefeedobservers/prometheus/**
   scrapeprogressobserversapplog:
     in: internal/scrapeprogressobservers/applog/**
   scrapeprogressobserversprometheus:
@@ -71,6 +75,12 @@ deps:
     canUse:
       - pagescrapecontract
       - nats
+  scrapeoutcomefeedobserversapplog:
+    canUse:
+      - canonicalurl
+  scrapeoutcomefeedobserversprometheus:
+    canUse:
+      - prometheus
   scrapeprogressobserversapplog:
     canUse:
       - pagescrapecontract

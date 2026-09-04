@@ -14,6 +14,8 @@ import (
 
 	intakeprogressobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakeprogressobservers/applog"
 	intakeprogressobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakeprogressobservers/prometheus"
+	intakereceiptpublicationobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakereceiptpublicationobservers/applog"
+	intakereceiptpublicationobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakereceiptpublicationobservers/prometheus"
 	intakereceiptsnats "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakereceipts/nats"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecall"
 	markdownrecallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/grpc"
@@ -74,6 +76,10 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 		Corpus:            markdownCorpus,
 		IntakeReceipts: intakereceiptsnats.NewIntakeReceipts(
 			pageOfferConnection, pagescrapecontract.CorpusMarkdown,
+			intakereceiptsnats.IntakeReceiptPublicationObservers{
+				intakereceiptpublicationobserversapplog.IntakeReceiptPublicationLog{},
+				intakereceiptpublicationobserversprometheus.New(registry),
+			},
 		),
 		IntakeProgress: pageintake.IntakeProgressObservers{
 			intakeprogressobserversapplog.IntakeProgressLog{},

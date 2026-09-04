@@ -36,9 +36,8 @@ var scrapeRequestDisposals = []string{
 }
 
 type ScrapeProgressMetrics struct {
-	scrapeRequestsReceived            prometheus.Counter
-	scrapeRequestsDisposed            *prometheus.CounterVec
-	scrapeOutcomeAnnouncementFailures prometheus.Counter
+	scrapeRequestsReceived prometheus.Counter
+	scrapeRequestsDisposed *prometheus.CounterVec
 }
 
 func New(registry prometheus.Registerer) *ScrapeProgressMetrics {
@@ -53,19 +52,13 @@ func New(registry prometheus.Registerer) *ScrapeProgressMetrics {
 	for _, disposal := range scrapeRequestDisposals {
 		scrapeRequestsDisposed.WithLabelValues(disposal)
 	}
-	scrapeOutcomeAnnouncementFailures := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "pagescrape_scrape_outcome_announcement_failures_total",
-		Help: "Scrape failures that reached no caller waiting for the page.",
-	})
 	registry.MustRegister(
 		scrapeRequestsReceived,
 		scrapeRequestsDisposed,
-		scrapeOutcomeAnnouncementFailures,
 	)
 	return &ScrapeProgressMetrics{
-		scrapeRequestsReceived:            scrapeRequestsReceived,
-		scrapeRequestsDisposed:            scrapeRequestsDisposed,
-		scrapeOutcomeAnnouncementFailures: scrapeOutcomeAnnouncementFailures,
+		scrapeRequestsReceived: scrapeRequestsReceived,
+		scrapeRequestsDisposed: scrapeRequestsDisposed,
 	}
 }
 
@@ -125,14 +118,6 @@ func (m *ScrapeProgressMetrics) ScrapeFailed(
 	reason pagescrapecontract.ScrapeFailureReason,
 ) {
 	m.dispose(string(reason))
-}
-
-func (m *ScrapeProgressMetrics) ScrapeOutcomeAnnouncementFailed(
-	_ context.Context,
-	_ canonicalurl.CanonicalURL,
-	_ error,
-) {
-	m.scrapeOutcomeAnnouncementFailures.Inc()
 }
 
 func (m *ScrapeProgressMetrics) dispose(disposal string) {
