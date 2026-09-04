@@ -16,7 +16,7 @@ func (c fixedClock) Now() time.Time { return c.now }
 
 func dueForRecrawl(visitedAt time.Time) bool {
 	return dueaftergrace.New(fixedClock{now: now}, time.Hour).
-		PageDueForRecrawl(pagevisit.PageVisit{VisitedAt: visitedAt})
+		PageDueForRecrawl(pagevisit.LastPageVisit{VisitedAt: visitedAt})
 }
 
 func TestAPageVisitedWithinTheGraceIsNotDue(t *testing.T) {

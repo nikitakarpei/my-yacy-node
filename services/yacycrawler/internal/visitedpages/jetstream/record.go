@@ -6,24 +6,24 @@ import (
 	"time"
 )
 
-type pageVisit struct {
+type lastPageVisit struct {
 	VisitedAt  time.Time `json:"visitedAt"`
 	EntityTag  string    `json:"entityTag,omitempty"`
 	ModifiedAt time.Time `json:"modifiedAt"`
 }
 
-func marshalPageVisit(record pageVisit) ([]byte, error) {
+func marshalLastPageVisit(record lastPageVisit) ([]byte, error) {
 	payload, err := json.Marshal(record)
 	if err != nil {
-		return nil, fmt.Errorf("marshal page visit: %w", err)
+		return nil, fmt.Errorf("marshal last page visit: %w", err)
 	}
 	return payload, nil
 }
 
-func unmarshalPageVisit(payload []byte) (pageVisit, error) {
-	var record pageVisit
+func unmarshalLastPageVisit(payload []byte) (lastPageVisit, error) {
+	var record lastPageVisit
 	if err := json.Unmarshal(payload, &record); err != nil {
-		return pageVisit{}, fmt.Errorf("unmarshal page visit: %w", err)
+		return lastPageVisit{}, fmt.Errorf("unmarshal last page visit: %w", err)
 	}
 	return record, nil
 }

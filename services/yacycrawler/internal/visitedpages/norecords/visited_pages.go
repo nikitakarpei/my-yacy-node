@@ -14,8 +14,8 @@ type VisitedPages struct{}
 func (VisitedPages) LastPageVisitOf(
 	context.Context,
 	canonicalurl.CanonicalURL,
-) (pagevisit.PageVisit, bool) {
-	return pagevisit.PageVisit{}, false
+) (pagevisit.LastPageVisit, bool) {
+	return pagevisit.LastPageVisit{}, false
 }
 
 func (VisitedPages) RecordPageVisit(

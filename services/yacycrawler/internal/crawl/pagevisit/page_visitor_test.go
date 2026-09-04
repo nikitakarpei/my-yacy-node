@@ -56,11 +56,11 @@ type fakePageVisits struct {
 func (f *fakePageVisits) LastPageVisitOf(
 	context.Context,
 	canonicalurl.CanonicalURL,
-) (pagevisit.PageVisit, bool) {
-	return pagevisit.PageVisit{Version: f.version}, true
+) (pagevisit.LastPageVisit, bool) {
+	return pagevisit.LastPageVisit{Version: f.version}, true
 }
 
-func (f *fakePageVisits) PageDueForRecrawl(pagevisit.PageVisit) bool {
+func (f *fakePageVisits) PageDueForRecrawl(pagevisit.LastPageVisit) bool {
 	return f.due
 }
 

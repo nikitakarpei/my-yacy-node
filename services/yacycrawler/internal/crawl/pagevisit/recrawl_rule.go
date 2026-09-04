@@ -1,5 +1,5 @@
 package pagevisit
 
 type RecrawlRule interface {
-	PageDueForRecrawl(lastVisit PageVisit) bool
+	PageDueForRecrawl(lastVisit LastPageVisit) bool
 }

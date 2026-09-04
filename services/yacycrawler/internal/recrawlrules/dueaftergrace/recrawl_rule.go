@@ -21,6 +21,6 @@ func New(clock Clock, grace time.Duration) *RecrawlRule {
 	return &RecrawlRule{clock: clock, grace: grace}
 }
 
-func (rule *RecrawlRule) PageDueForRecrawl(lastVisit pagevisit.PageVisit) bool {
+func (rule *RecrawlRule) PageDueForRecrawl(lastVisit pagevisit.LastPageVisit) bool {
 	return rule.clock.Now().Sub(lastVisit.VisitedAt) >= rule.grace
 }

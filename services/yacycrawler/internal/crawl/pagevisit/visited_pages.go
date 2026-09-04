@@ -12,7 +12,7 @@ type VisitedPages interface {
 	LastPageVisitOf(
 		ctx context.Context,
 		canonicalURL canonicalurl.CanonicalURL,
-	) (PageVisit, bool)
+	) (LastPageVisit, bool)
 	RecordPageVisit(
 		ctx context.Context,
 		canonicalURL canonicalurl.CanonicalURL,
@@ -20,7 +20,7 @@ type VisitedPages interface {
 	)
 }
 
-type PageVisit struct {
+type LastPageVisit struct {
 	VisitedAt time.Time
 	Version   pagefetch.PageVersion
 }

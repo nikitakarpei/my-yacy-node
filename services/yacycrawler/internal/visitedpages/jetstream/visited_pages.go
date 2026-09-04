@@ -37,11 +37,11 @@ func New(
 func (pages *VisitedPages) LastPageVisitOf(
 	ctx context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
-) (pagevisit.PageVisit, bool) {
+) (pagevisit.LastPageVisit, bool) {
 	lastVisit, visited, err := pages.readLastPageVisit(ctx, canonicalURL)
 	if err != nil {
 		pages.observer.LastPageVisitNotRead(ctx, canonicalURL, err)
-		return pagevisit.PageVisit{}, false
+		return pagevisit.LastPageVisit{}, false
 	}
 	return lastVisit, visited
 }
@@ -49,21 +49,21 @@ func (pages *VisitedPages) LastPageVisitOf(
 func (pages *VisitedPages) readLastPageVisit(
 	ctx context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
-) (pagevisit.PageVisit, bool, error) {
-	entry, err := pages.bucket.Get(ctx, pageVisitKeyOf(canonicalURL))
+) (pagevisit.LastPageVisit, bool, error) {
+	entry, err := pages.bucket.Get(ctx, lastPageVisitKeyOf(canonicalURL))
 	if errors.Is(err, jetstream.ErrKeyNotFound) {
-		return pagevisit.PageVisit{}, false, nil
+		return pagevisit.LastPageVisit{}, false, nil
 	}
 	if err != nil {
-		return pagevisit.PageVisit{}, false, fmt.Errorf(
-			"get page visit %s: %w", canonicalURL, err,
+		return pagevisit.LastPageVisit{}, false, fmt.Errorf(
+			"get last page visit %s: %w", canonicalURL, err,
 		)
 	}
-	record, err := unmarshalPageVisit(entry.Value())
+	record, err := unmarshalLastPageVisit(entry.Value())
 	if err != nil {
-		return pagevisit.PageVisit{}, false, err
+		return pagevisit.LastPageVisit{}, false, err
 	}
-	return pagevisit.PageVisit{
+	return pagevisit.LastPageVisit{
 		VisitedAt: record.VisitedAt,
 		Version: pagefetch.PageVersion{
 			EntityTag:  record.EntityTag,
@@ -72,7 +72,7 @@ func (pages *VisitedPages) readLastPageVisit(
 	}, true, nil
 }
 
-func pageVisitKeyOf(canonicalURL canonicalurl.CanonicalURL) string {
+func lastPageVisitKeyOf(canonicalURL canonicalurl.CanonicalURL) string {
 	return jetstreamrecord.KeyOf(canonicalURL.String())
 }
 
@@ -81,17 +81,17 @@ func (pages *VisitedPages) RecordPageVisit(
 	canonicalURL canonicalurl.CanonicalURL,
 	version pagefetch.PageVersion,
 ) {
-	if err := pages.putPageVisit(ctx, canonicalURL, version); err != nil {
+	if err := pages.putLastPageVisit(ctx, canonicalURL, version); err != nil {
 		pages.observer.PageVisitNotRecorded(ctx, canonicalURL, err)
 	}
 }
 
-func (pages *VisitedPages) putPageVisit(
+func (pages *VisitedPages) putLastPageVisit(
 	ctx context.Context,
 	canonicalURL canonicalurl.CanonicalURL,
 	version pagefetch.PageVersion,
 ) error {
-	payload, err := marshalPageVisit(pageVisit{
+	payload, err := marshalLastPageVisit(lastPageVisit{
 		VisitedAt:  pages.clock.Now(),
 		EntityTag:  version.EntityTag,
 		ModifiedAt: version.ModifiedAt,
@@ -99,8 +99,8 @@ func (pages *VisitedPages) putPageVisit(
 	if err != nil {
 		return err
 	}
-	if _, err := pages.bucket.Put(ctx, pageVisitKeyOf(canonicalURL), payload); err != nil {
-		return fmt.Errorf("put page visit %s: %w", canonicalURL, err)
+	if _, err := pages.bucket.Put(ctx, lastPageVisitKeyOf(canonicalURL), payload); err != nil {
+		return fmt.Errorf("put last page visit %s: %w", canonicalURL, err)
 	}
 	return nil
 }
