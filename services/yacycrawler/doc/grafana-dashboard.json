@@ -410,7 +410,7 @@
     },
     {
       "id": 30,
-      "title": "Crawled page publication",
+      "title": "Crawled pages",
       "type": "row",
       "gridPos": {
         "h": 1,
