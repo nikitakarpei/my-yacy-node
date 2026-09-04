@@ -86,36 +86,6 @@ func fetchOneScrapeRequest(
 	return scrapeRequest
 }
 
-func fetchScrapeRequestForDurable(
-	t *testing.T,
-	ctx context.Context,
-	js jetstream.JetStream,
-	durable string,
-) pagescrapecontract.ScrapeRequest {
-	t.Helper()
-	stream := awaitStream(t, ctx, js, pagescrapecontract.ScrapeRequestsStreamName)
-	consumer, err := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
-		Durable:       durable,
-		FilterSubject: pagescrapecontract.ScrapeRequestSubject,
-		AckPolicy:     jetstream.AckExplicitPolicy,
-	})
-	if err != nil {
-		t.Fatalf("create %s consumer: %v", durable, err)
-	}
-	msg, err := consumer.Next(jetstream.FetchMaxWait(messageArrivalWait))
-	if err != nil {
-		t.Fatalf("fetch scrape request for %s: %v", durable, err)
-	}
-	scrapeRequest, err := pagescrapecontract.UnmarshalScrapeRequest(msg.Data())
-	if err != nil {
-		t.Fatalf("decode scrape request for %s: %v", durable, err)
-	}
-	if err := msg.Ack(); err != nil {
-		t.Fatalf("ack scrape request for %s: %v", durable, err)
-	}
-	return scrapeRequest
-}
-
 func fetchEveryScrapeRequest(
 	t *testing.T,
 	ctx context.Context,

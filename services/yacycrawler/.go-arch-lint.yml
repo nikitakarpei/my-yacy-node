@@ -7,7 +7,6 @@ allow:
 
 commonVendors:
   - yacycrawlcontract
-  - pagescrapecontract
   - canonicalurl
 
 components:
@@ -15,18 +14,16 @@ components:
     in: internal/crawl/disposal/**
   retrydelay:
     in: internal/crawl/retrydelay/**
-  pendingvisit:
-    in: internal/crawl/pendingvisit/**
+  pendingpagevisit:
+    in: internal/crawl/pendingpagevisit/**
   profileadmission:
     in: internal/crawl/profileadmission/**
   acceptedorder:
     in: internal/crawl/acceptedorder/**
   orderintake:
     in: internal/crawl/orderintake/**
-  visitclaim:
-    in: internal/crawl/visitclaim/**
-  visitintake:
-    in: internal/crawl/visitintake/**
+  pagevisitintake:
+    in: internal/crawl/pagevisitintake/**
   pagevisit:
     in: internal/crawl/pagevisit/**
   pagehtml:
@@ -37,30 +34,32 @@ components:
     in: internal/crawl/linkdiscovery/**
   pagehtmlreading:
     in: internal/crawl/pagehtmlreading/**
-  visitallowance:
-    in: internal/crawl/visitallowance/**
-  recrawlrulesalwaysdue:
-    in: internal/recrawlrules/alwaysdue/**
+  pagevisitallowance:
+    in: internal/crawl/pagevisitallowance/**
+  visitedpagesnorecords:
+    in: internal/visitedpages/norecords/**
+  visitedpagesjetstream:
+    in: internal/visitedpages/jetstream/**
   recrawlrulesdueaftergrace:
     in: internal/recrawlrules/dueaftergrace/**
   acceptedordersjetstream:
     in: internal/acceptedorders/jetstream/**
-  pendingvisitsjetstream:
-    in: internal/pendingvisits/jetstream/**
+  pendingpagevisitsjetstream:
+    in: internal/pendingpagevisits/jetstream/**
   jetstreamrecord:
     in: internal/jetstreamrecord/**
-  visitclaimsjetstream:
-    in: internal/visitclaims/jetstream/**
-  hostpageallowancesjetstream:
-    in: internal/hostpageallowances/jetstream/**
+  takenpagevisitsjetstream:
+    in: internal/takenpagevisits/jetstream/**
+  pagevisitlimitsjetstream:
+    in: internal/pagevisitlimits/jetstream/**
   crawlorderobserversapplog:
     in: internal/crawlorderobservers/applog/**
   crawlorderobserversprometheus:
     in: internal/crawlorderobservers/prometheus/**
-  pendingvisitobserversapplog:
-    in: internal/pendingvisitobservers/applog/**
-  pendingvisitobserversprometheus:
-    in: internal/pendingvisitobservers/prometheus/**
+  pendingpagevisitobserversapplog:
+    in: internal/pendingpagevisitobservers/applog/**
+  pendingpagevisitobserversprometheus:
+    in: internal/pendingpagevisitobservers/prometheus/**
   pagefetchobserversapplog:
     in: internal/pagefetchobservers/applog/**
   pagefetchobserversprometheus:
@@ -77,16 +76,16 @@ components:
     in: internal/refusalenforcementobservers/applog/**
   refusalenforcementobserversprometheus:
     in: internal/refusalenforcementobservers/prometheus/**
-  scraperequestobserversapplog:
-    in: internal/scraperequestobservers/applog/**
-  scraperequestobserversprometheus:
-    in: internal/scraperequestobservers/prometheus/**
-  recrawlrecordobserversapplog:
-    in: internal/recrawlrecordobservers/applog/**
-  recrawlrecordobserversprometheus:
-    in: internal/recrawlrecordobservers/prometheus/**
-  scraperequestsjetstream:
-    in: internal/scraperequests/jetstream/**
+  crawledpageobserversapplog:
+    in: internal/crawledpageobservers/applog/**
+  crawledpageobserversprometheus:
+    in: internal/crawledpageobservers/prometheus/**
+  pagevisitrecordobserversapplog:
+    in: internal/pagevisitrecordobservers/applog/**
+  pagevisitrecordobserversprometheus:
+    in: internal/pagevisitrecordobservers/prometheus/**
+  crawledpagesjetstream:
+    in: internal/crawledpages/jetstream/**
   crawlercmd:
     in: cmd/yacycrawler/**
 
@@ -99,8 +98,6 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract
       - github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract/**
-  pagescrapecontract:
-    in: github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -129,7 +126,7 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/pullintake
 
 deps:
-  pendingvisit:
+  pendingpagevisit:
     canUse:
       - canonicalurl
   acceptedorder:
@@ -140,20 +137,18 @@ deps:
       - yacycrawlcontract
   orderintake:
     mayDependOn:
-      - pendingvisit
+      - pendingpagevisit
       - acceptedorder
     canUse:
       - yacycrawlcontract
       - serviceruntime
-  visitintake:
+  pagevisitintake:
     mayDependOn:
       - disposal
-      - visitclaim
-      - visitallowance
-      - pendingvisit
+      - pagevisitallowance
+      - pendingpagevisit
       - acceptedorder
       - pagevisit
-      - pagerefusals
     canUse:
       - canonicalurl
       - yacycrawlcontract
@@ -185,25 +180,28 @@ deps:
     canUse:
       - canonicalurl
       - pagefetch
-  visitallowance:
+  pagevisitallowance:
     mayDependOn:
       - disposal
-      - pendingvisit
+      - pendingpagevisit
       - retrydelay
     canUse:
       - canonicalurl
-  recrawlrulesalwaysdue:
+  visitedpagesnorecords:
     mayDependOn:
       - pagevisit
     canUse:
       - pagefetch
-  recrawlrulesdueaftergrace:
+  visitedpagesjetstream:
     mayDependOn:
       - pagevisit
       - jetstreamrecord
     canUse:
       - nats
       - pagefetch
+  recrawlrulesdueaftergrace:
+    mayDependOn:
+      - pagevisit
   acceptedordersjetstream:
     mayDependOn:
       - acceptedorder
@@ -211,29 +209,28 @@ deps:
     canUse:
       - nats
       - yacycrawlcontract
-  pendingvisitsjetstream:
+  pendingpagevisitsjetstream:
     mayDependOn:
-      - pendingvisit
+      - pendingpagevisit
     canUse:
       - nats
   jetstreamrecord:
     canUse:
       - nats
-  visitclaimsjetstream:
+  takenpagevisitsjetstream:
     mayDependOn:
-      - visitclaim
+      - jetstreamrecord
+    canUse:
+      - nats
+      - canonicalurl
+  pagevisitlimitsjetstream:
+    mayDependOn:
       - jetstreamrecord
     canUse:
       - nats
       - canonicalurl
       - yacycrawlcontract
-  hostpageallowancesjetstream:
-    mayDependOn:
-      - jetstreamrecord
-    canUse:
-      - nats
-      - canonicalurl
-  scraperequestsjetstream:
+  crawledpagesjetstream:
     canUse:
       - nats
   crawlorderobserversapplog:
@@ -244,14 +241,14 @@ deps:
       - orderintake
     canUse:
       - prometheus
-  pendingvisitobserversapplog:
+  pendingpagevisitobserversapplog:
     mayDependOn:
       - disposal
-      - pendingvisit
-  pendingvisitobserversprometheus:
+      - pendingpagevisit
+  pendingpagevisitobserversprometheus:
     mayDependOn:
       - disposal
-      - pendingvisit
+      - pendingpagevisit
     canUse:
       - prometheus
       - canonicalurl
@@ -281,17 +278,21 @@ deps:
     canUse:
       - prometheus
       - canonicalurl
-  scraperequestobserversapplog:
+  crawledpageobserversapplog:
+    mayDependOn:
+      - crawledpagesjetstream
     canUse:
       - canonicalurl
-  scraperequestobserversprometheus:
+  crawledpageobserversprometheus:
+    mayDependOn:
+      - crawledpagesjetstream
     canUse:
       - prometheus
       - canonicalurl
-  recrawlrecordobserversapplog:
+  pagevisitrecordobserversapplog:
     canUse:
       - canonicalurl
-  recrawlrecordobserversprometheus:
+  pagevisitrecordobserversprometheus:
     canUse:
       - prometheus
       - canonicalurl

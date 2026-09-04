@@ -28,7 +28,7 @@ func (discovery *LinkDiscovery) LinkedURLsFrom(
 ) []canonicalurl.CanonicalURL {
 	baseURL := discovery.baseURLOf(ctx, pageURL, baseHrefOf(elementTree))
 	urls, unresolved := distinctURLsFrom(linkHrefsOf(elementTree), baseURL)
-	discovery.reportUnresolvedLinkHrefs(ctx, baseURL, unresolved)
+	discovery.reportUnresolvedLinks(ctx, baseURL, unresolved)
 	return urls
 }
 
@@ -42,13 +42,13 @@ func (discovery *LinkDiscovery) baseURLOf(
 	}
 	base, err := pageURL.CanonicalURLOfLink(baseHref)
 	if err != nil {
-		discovery.observer.BaseHrefUnresolved(ctx, pageURL, baseHref, err)
+		discovery.observer.BaseURLUnresolved(ctx, pageURL, baseHref, err)
 		return pageURL
 	}
 	return base
 }
 
-func (discovery *LinkDiscovery) reportUnresolvedLinkHrefs(
+func (discovery *LinkDiscovery) reportUnresolvedLinks(
 	ctx context.Context,
 	baseURL canonicalurl.CanonicalURL,
 	unresolved int,
@@ -56,7 +56,7 @@ func (discovery *LinkDiscovery) reportUnresolvedLinkHrefs(
 	if unresolved == 0 {
 		return
 	}
-	discovery.observer.LinkHrefsUnresolved(ctx, baseURL, unresolved)
+	discovery.observer.LinksUnresolved(ctx, baseURL, unresolved)
 }
 
 func baseHrefOf(elementTree pagehtml.ElementTree) string {

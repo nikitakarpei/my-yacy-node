@@ -6,7 +6,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagerefusals"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 )
 
@@ -18,24 +17,24 @@ const (
 		`</head><body><a href="/next">next</a></body></html>`
 )
 
-func pageContentOutcome(t *testing.T, page pagefetch.FetchedPage) pagevisit.VisitOutcome {
+func pageContentOutcome(t *testing.T, page pagefetch.FetchedPage) pagevisit.PageVisitOutcome {
 	t.Helper()
-	return visitHost(t, newVisitor(
+	return visitHostPage(t, newPageVisitor(
 		fetchOf(fetchOutcomeOf(page)),
-		&fakeRecrawl{due: true},
+		&fakePageVisits{due: true},
 		newObserver(),
-		&fakeScrapeRequests{},
+		&fakeCrawledPages{},
 	))
 }
 
 func linkDiscoveryRefusalsEnforcedFor(t *testing.T, markup string) int {
 	t.Helper()
 	observer := newObserver()
-	visitHost(t, newVisitor(
+	visitHostPage(t, newPageVisitor(
 		fetchOf(fetchOutcomeOf(pageHolding(t, markup))),
-		&fakeRecrawl{due: true},
+		&fakePageVisits{due: true},
 		observer,
-		&fakeScrapeRequests{},
+		&fakeCrawledPages{},
 	))
 	return observer.linkDiscoveryRefusalsEnforced
 }
@@ -77,26 +76,25 @@ func TestVisitReportsUnsupportedMediaType(t *testing.T) {
 	}
 }
 
-func TestVisitHonorsMetaNoIndex(t *testing.T) {
-	outcome := pageContentOutcome(t, pageHolding(t, pageRefusingIndexing))
-
-	if outcome.Disposal != disposal.IndexingRefused {
-		t.Fatalf("noindex not honored, disposal = %q", outcome.Disposal)
-	}
-}
-
-func TestVisitLeavesRefusedIndexingUndisposedWhenTheOrderIgnoresIt(t *testing.T) {
-	visitorFor := newVisitorFor(
+func TestVisitPublishesAPageThatRefusesIndexingAsRefusingIndexing(t *testing.T) {
+	crawledPages := &fakeCrawledPages{}
+	pageVisitor := newPageVisitor(
 		fetchOf(fetchOutcomeOf(pageHolding(t, pageRefusingIndexing))),
-		&fakeRecrawl{due: true},
+		&fakePageVisits{due: true},
 		newObserver(),
-		&fakeScrapeRequests{},
+		crawledPages,
 	)
 
-	outcome := visitHost(t, visitorFor(pagerefusals.IgnoredRefusals{IndexingRefusal: true}))
+	outcome := visitHostPage(t, pageVisitor)
 
 	if outcome.Disposal != disposal.NotDisposed {
-		t.Fatalf("noindex not ignored, disposal = %q", outcome.Disposal)
+		t.Fatalf("a published page carries no disposal, got %q", outcome.Disposal)
+	}
+	if refused := crawledPages.refusedPages(); len(refused) != 1 {
+		t.Fatalf("want the page published as refusing indexing, got %v", refused)
+	}
+	if indexable := crawledPages.indexablePages(); len(indexable) != 0 {
+		t.Fatalf("a page that refuses indexing is not indexable, got %v", indexable)
 	}
 }
 

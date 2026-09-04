@@ -36,10 +36,6 @@ func (o AcceptedOrder) MaxPagesPerHost() int {
 	return o.order.Profile.MaxPagesPerHost
 }
 
-func (o AcceptedOrder) IgnoresIndexingRefusal() bool {
-	return o.order.Profile.IgnoresIndexingRefusal
-}
-
 func (o AcceptedOrder) Admits(url canonicalurl.CanonicalURL, depth int) bool {
 	return o.admission.Admits(url, depth)
 }

@@ -15,7 +15,6 @@ func envFrom(values map[string]string) func(string) string {
 func baseEnv() map[string]string {
 	return map[string]string{
 		"CRAWL_NATS_URL":              "nats://localhost:4222",
-		"SCRAPE_REQUEST_NATS_URL":     "nats://localhost:4222",
 		"YACYCRAWLER_FETCH_PROXY_URL": "http://proxy:8080",
 	}
 }
@@ -31,8 +30,8 @@ func TestLoadServiceConfigDefaults(t *testing.T) {
 	if cfg.FetchConcurrency != yacycrawler.DefaultFetchConcurrency {
 		t.Fatalf("unexpected defaults: %+v", cfg)
 	}
-	if cfg.PendingVisitDurable != yacycrawler.DefaultPendingVisitDurable {
-		t.Fatalf("pending visit durable = %q", cfg.PendingVisitDurable)
+	if cfg.PendingPageVisitDurable != yacycrawler.DefaultPendingPageVisitDurable {
+		t.Fatalf("pending page visit durable = %q", cfg.PendingPageVisitDurable)
 	}
 	if cfg.FetchDeadline != yacycrawler.DefaultFetchDeadline {
 		t.Fatalf("fetch deadline = %v", cfg.FetchDeadline)
@@ -85,14 +84,6 @@ func TestLoadServiceConfigRequiresCrawlNATSURL(t *testing.T) {
 	}
 }
 
-func TestLoadServiceConfigRequiresScrapeRequestNATSURL(t *testing.T) {
-	env := baseEnv()
-	delete(env, "SCRAPE_REQUEST_NATS_URL")
-	if _, err := yacycrawler.LoadServiceConfig(envFrom(env)); err == nil {
-		t.Fatal("missing SCRAPE_REQUEST_NATS_URL should error")
-	}
-}
-
 func TestLoadServiceConfigRequiresProxy(t *testing.T) {
 	env := baseEnv()
 	delete(env, "YACYCRAWLER_FETCH_PROXY_URL")
@@ -129,9 +120,9 @@ func TestPendingVisitAckWaitOutlastsTheFetchDeadline(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if cfg.PendingVisitAckWait() <= 5*time.Second {
-		t.Fatalf("pending visit ack wait = %v, want longer than the fetch deadline",
-			cfg.PendingVisitAckWait())
+	if cfg.PendingPageVisitAckWait() <= 5*time.Second {
+		t.Fatalf("pending page visit ack wait = %v, want longer than the fetch deadline",
+			cfg.PendingPageVisitAckWait())
 	}
 }
 

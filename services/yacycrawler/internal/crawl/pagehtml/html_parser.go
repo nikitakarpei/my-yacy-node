@@ -18,7 +18,11 @@ const (
 	mediaXHTML = "application/xhtml+xml"
 )
 
-var ErrNotHTML = errors.New("not an html page")
+var (
+	ErrNotHTML           = errors.New("not an html page")
+	ErrCharsetUnreadable = errors.New("html charset unreadable")
+	ErrHTMLUnparseable   = errors.New("html unparseable")
+)
 
 type HTMLParser struct {
 	observer MediaTypeObserver
@@ -38,11 +42,11 @@ func (parser *HTMLParser) ElementTreeFrom(
 	}
 	decoded, err := charset.NewReader(bytes.NewReader(body), contentType)
 	if err != nil {
-		return ElementTree{}, fmt.Errorf("decode charset: %w", err)
+		return ElementTree{}, fmt.Errorf("%w: %w", ErrCharsetUnreadable, err)
 	}
 	root, err := html.Parse(decoded)
 	if err != nil {
-		return ElementTree{}, fmt.Errorf("parse html: %w", err)
+		return ElementTree{}, fmt.Errorf("%w: %w", ErrHTMLUnparseable, err)
 	}
 	return ElementTree{root: root}, nil
 }

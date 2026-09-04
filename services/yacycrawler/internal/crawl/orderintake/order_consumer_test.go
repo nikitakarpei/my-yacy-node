@@ -13,7 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/acceptedorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/orderintake"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingvisit"
+	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
 type fakeAcceptedOrders struct {
@@ -30,11 +30,14 @@ func (o *fakeAcceptedOrders) Keep(_ context.Context, order acceptedorder.Accepte
 }
 
 type fakePendingVisits struct {
-	published []pendingvisit.PendingVisit
+	published []pendingpagevisit.PendingPageVisit
 	err       error
 }
 
-func (v *fakePendingVisits) Publish(_ context.Context, visit pendingvisit.PendingVisit) error {
+func (v *fakePendingVisits) Publish(
+	_ context.Context,
+	visit pendingpagevisit.PendingPageVisit,
+) error {
 	if v.err != nil {
 		return v.err
 	}

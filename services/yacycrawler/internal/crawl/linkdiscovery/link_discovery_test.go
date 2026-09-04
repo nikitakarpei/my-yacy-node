@@ -103,13 +103,13 @@ type recordingLinkResolutionObserver struct {
 	unresolvedLinkHrefs int
 }
 
-func (o *recordingLinkResolutionObserver) BaseHrefUnresolved(
+func (o *recordingLinkResolutionObserver) BaseURLUnresolved(
 	context.Context, canonicalurl.CanonicalURL, string, error,
 ) {
 	o.unresolvedBaseHrefs++
 }
 
-func (o *recordingLinkResolutionObserver) LinkHrefsUnresolved(
+func (o *recordingLinkResolutionObserver) LinksUnresolved(
 	_ context.Context, _ canonicalurl.CanonicalURL, hrefs int,
 ) {
 	o.unresolvedLinkHrefs += hrefs
