@@ -23,7 +23,6 @@ type pageVisitor struct {
 	htmlPageReading            HTMLPageReading
 	refusalEnforcementObserver RefusalEnforcementObserver
 	crawledPages               CrawledPages
-	pageVisitFailureObserver   PageVisitFailureObserver
 }
 
 //nolint:revive // a page visitor names every collaborator one page visit needs
@@ -34,7 +33,6 @@ func New(
 	htmlPageReading HTMLPageReading,
 	refusalEnforcementObserver RefusalEnforcementObserver,
 	crawledPages CrawledPages,
-	pageVisitFailureObserver PageVisitFailureObserver,
 ) PageVisitor {
 	return &pageVisitor{
 		pageFetcher:                pageFetcher,
@@ -43,7 +41,6 @@ func New(
 		htmlPageReading:            htmlPageReading,
 		refusalEnforcementObserver: refusalEnforcementObserver,
 		crawledPages:               crawledPages,
-		pageVisitFailureObserver:   pageVisitFailureObserver,
 	}
 }
 
@@ -104,8 +101,7 @@ func (visitor *pageVisitor) outcomeOfPageHTML(
 		return disposedOutcome(disposal.UnsupportedMediaType)
 	}
 	if err != nil {
-		visitor.pageVisitFailureObserver.PageHTMLUnreadable(ctx, url, err)
-		return retryableOutcome()
+		return disposedOutcome(disposal.UnreadableHTML)
 	}
 	if reading.Refusals.RefusesLinkDiscovery {
 		visitor.refusalEnforcementObserver.LinkDiscoveryRefusalEnforced(ctx, url)

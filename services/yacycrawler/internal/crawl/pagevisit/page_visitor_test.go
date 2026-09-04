@@ -100,23 +100,6 @@ type recordingObserver struct {
 	fetched                       int
 	fetchesCanceled               int
 	linkDiscoveryRefusalsEnforced int
-	unreadablePageHTMLs           int
-}
-
-func (o *recordingObserver) PageHTMLUnreadable(
-	_ context.Context,
-	_ canonicalurl.CanonicalURL,
-	_ error,
-) {
-	o.mu.Lock()
-	defer o.mu.Unlock()
-	o.unreadablePageHTMLs++
-}
-
-func (o *recordingObserver) unreadablePageHTML() int {
-	o.mu.Lock()
-	defer o.mu.Unlock()
-	return o.unreadablePageHTMLs
 }
 
 func newObserver() *recordingObserver {
@@ -295,7 +278,7 @@ func newPageVisitor(
 		linkdiscovery.NewLinkDiscovery(silentLinkResolutionObserver{}),
 	)
 	return pagevisit.New(
-		pageFetcher, pageVisits, pageVisits, htmlPageReading, observer, crawledPages, observer,
+		pageFetcher, pageVisits, pageVisits, htmlPageReading, observer, crawledPages,
 	)
 }
 
@@ -582,7 +565,7 @@ func (page unreadableHTMLPage) ReadingOfPage(
 	return pagehtmlreading.Reading{}, page.err
 }
 
-func TestUnreadablePageHTMLLeavesThePageForAnotherAttempt(t *testing.T) {
+func TestUnreadablePageHTMLIsDisposed(t *testing.T) {
 	observer := newObserver()
 	pageVisitor := pagevisit.New(
 		pagevisit.NewObservedPageFetcher(
@@ -595,19 +578,12 @@ func TestUnreadablePageHTMLLeavesThePageForAnotherAttempt(t *testing.T) {
 		unreadableHTMLPage{err: errors.New("boom")},
 		observer,
 		&fakeCrawledPages{},
-		observer,
 	)
 
-	outcome := pageVisitor.VisitPage(
-		context.Background(),
-		canonicalurltest.CanonicalURLOf(t, "http://host/"),
-	)
+	outcome := visitHostPage(t, pageVisitor)
 
-	if outcome.Conclusion != pagevisit.PageVisitRetryable {
-		t.Fatalf("conclusion = %v, want retryable", outcome.Conclusion)
-	}
-	if unreadableHTML := observer.unreadablePageHTML(); unreadableHTML != 1 {
-		t.Fatalf("unreadable page html = %d, want 1", unreadableHTML)
+	if outcome.Disposal != disposal.UnreadableHTML {
+		t.Fatalf("disposal = %q, want %q", outcome.Disposal, disposal.UnreadableHTML)
 	}
 }
 

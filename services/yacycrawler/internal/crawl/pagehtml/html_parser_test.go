@@ -37,6 +37,18 @@ func TestElementTreeFromAcceptsTheHTMLMediaTypes(t *testing.T) {
 	}
 }
 
+func TestElementTreeFromReportsAnUnreadableCharset(t *testing.T) {
+	parser := pagehtml.NewHTMLParser(&recordingMediaTypeObserver{})
+
+	_, err := parser.ElementTreeFrom(
+		t.Context(), "text/html", nil,
+	)
+
+	if !errors.Is(err, pagehtml.ErrCharsetUnreadable) {
+		t.Fatalf("want ErrCharsetUnreadable, got %v", err)
+	}
+}
+
 func TestAContentTypeThatCannotBeParsedIsObserved(t *testing.T) {
 	observer := &recordingMediaTypeObserver{}
 	parser := pagehtml.NewHTMLParser(observer)

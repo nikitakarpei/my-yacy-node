@@ -57,6 +57,29 @@ func TestReadingOfPageRejectsABodyThatIsNotHTML(t *testing.T) {
 	}
 }
 
+func TestReadingOfPageKeepsHTMLReadingFailuresDistinct(t *testing.T) {
+	for name, readingError := range map[string]error{
+		"charset": pagehtml.ErrCharsetUnreadable,
+		"parse":   pagehtml.ErrHTMLUnparseable,
+	} {
+		t.Run(name, func(t *testing.T) {
+			reading := pagehtmlreading.NewHTMLPageReading(
+				failingHTMLParser{err: readingError},
+				linkDiscoveryWithoutLinks{},
+			)
+
+			_, err := reading.ReadingOfPage(t.Context(), pageHolding(t, pageLinkingNext))
+
+			if !errors.Is(err, readingError) {
+				t.Fatalf("want %v, got %v", readingError, err)
+			}
+			if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
+				t.Fatalf("HTML reading error flattened into ErrPageNotHTML: %v", err)
+			}
+		})
+	}
+}
+
 func TestReadingOfPageReportsTheURLsThePageLinksTo(t *testing.T) {
 	reading := readingOf(t, pageHolding(t, pageLinkingNext))
 
@@ -98,6 +121,26 @@ func TestReadingOfPageHonorsARefusalStatedOutsideTheHTML(t *testing.T) {
 type silentMediaTypeObserver struct{}
 
 func (silentMediaTypeObserver) MediaTypeUnparsed(context.Context, string, error) {}
+
+type failingHTMLParser struct{ err error }
+
+func (parser failingHTMLParser) ElementTreeFrom(
+	context.Context,
+	string,
+	[]byte,
+) (pagehtml.ElementTree, error) {
+	return pagehtml.ElementTree{}, parser.err
+}
+
+type linkDiscoveryWithoutLinks struct{}
+
+func (linkDiscoveryWithoutLinks) LinkedURLsFrom(
+	context.Context,
+	pagehtml.ElementTree,
+	canonicalurl.CanonicalURL,
+) []canonicalurl.CanonicalURL {
+	return nil
+}
 
 type silentLinkResolutionObserver struct{}
 

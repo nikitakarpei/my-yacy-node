@@ -13,7 +13,12 @@ func TestNotDisposedDisposesOfNothing(t *testing.T) {
 }
 
 func TestANamedReasonDisposes(t *testing.T) {
-	if !disposal.UnsupportedMediaType.DisposedThePage() {
-		t.Fatalf("%q should count as a disposal", disposal.UnsupportedMediaType)
+	for _, reason := range []disposal.Reason{
+		disposal.UnsupportedMediaType,
+		disposal.UnreadableHTML,
+	} {
+		if !reason.DisposedThePage() {
+			t.Fatalf("%q should count as a disposal", reason)
+		}
 	}
 }

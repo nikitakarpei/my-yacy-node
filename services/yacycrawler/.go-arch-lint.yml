@@ -80,10 +80,6 @@ components:
     in: internal/crawledpageobservers/applog/**
   crawledpageobserversprometheus:
     in: internal/crawledpageobservers/prometheus/**
-  pagevisitfailureobserversapplog:
-    in: internal/pagevisitfailureobservers/applog/**
-  pagevisitfailureobserversprometheus:
-    in: internal/pagevisitfailureobservers/prometheus/**
   pagevisitrecordobserversapplog:
     in: internal/pagevisitrecordobservers/applog/**
   pagevisitrecordobserversprometheus:
@@ -256,13 +252,6 @@ deps:
     canUse:
       - prometheus
       - canonicalurl
-  pagevisitfailureobserversapplog:
-    canUse:
-      - canonicalurl
-  pagevisitfailureobserversprometheus:
-    canUse:
-      - canonicalurl
-      - prometheus
   pagefetchobserversapplog:
     canUse:
       - canonicalurl

@@ -37,8 +37,6 @@ import (
 	mediatypeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediatypeobservers/prometheus"
 	pagefetchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/applog"
 	pagefetchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/prometheus"
-	pagevisitfailureobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitfailureobservers/applog"
-	pagevisitfailureobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitfailureobservers/prometheus"
 	pagevisitlimitsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/jetstream"
 	pagevisitrecordobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecordobservers/applog"
 	pagevisitrecordobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecordobservers/prometheus"
@@ -89,10 +87,6 @@ func RunService(
 		refusalenforcementobserversapplog.RefusalEnforcementLog{},
 		refusalenforcementobserversprometheus.New(registry),
 	}
-	pageVisitFailureObservers := pagevisit.PageVisitFailureObservers{
-		pagevisitfailureobserversapplog.PageVisitFailureLog{},
-		pagevisitfailureobserversprometheus.New(registry),
-	}
 	crawledPageObservers := crawledpagesjetstream.CrawledPagePublicationObservers{
 		crawledpageobserversapplog.CrawledPagePublicationLog{},
 		crawledpageobserversprometheus.New(registry),
@@ -116,7 +110,6 @@ func RunService(
 	visits, err := buildPageVisitConsumer(
 		ctx, js, cfg, pendingPageVisitObservers, pageFetchObservers, htmlPageReading,
 		refusalEnforcementObservers, crawledPageObservers, pageVisitRecordObservers,
-		pageVisitFailureObservers,
 	)
 	if err != nil {
 		return err
@@ -280,7 +273,6 @@ func buildPageVisitConsumer(
 	refusalEnforcementObserver pagevisit.RefusalEnforcementObserver,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
 	pageVisitRecordObserver visitedpagesjetstream.PageVisitRecordObserver,
-	pageVisitFailureObserver pagevisit.PageVisitFailureObserver,
 ) (*pagevisitintake.PageVisitConsumer, error) {
 	consumer, err := visitsConsumer(ctx, js, cfg)
 	if err != nil {
@@ -307,7 +299,6 @@ func buildPageVisitConsumer(
 		refusalEnforcementObserver,
 		crawledPageObserver,
 		pageVisitRecordObserver,
-		pageVisitFailureObserver,
 	)
 	if err != nil {
 		return nil, err
@@ -377,7 +368,6 @@ func buildPageVisitor(
 	refusalEnforcementObserver pagevisit.RefusalEnforcementObserver,
 	crawledPageObserver crawledpagesjetstream.CrawledPagePublicationObserver,
 	pageVisitRecordObserver visitedpagesjetstream.PageVisitRecordObserver,
-	pageVisitFailureObserver pagevisit.PageVisitFailureObserver,
 ) (pagevisit.PageVisitor, error) {
 	fetch := pagefetchershttp.New(
 		cfg.ProxyURL,
@@ -399,7 +389,6 @@ func buildPageVisitor(
 		htmlPageReading,
 		refusalEnforcementObserver,
 		crawledPages,
-		pageVisitFailureObserver,
 	), nil
 }
 

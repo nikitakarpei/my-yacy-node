@@ -13,6 +13,7 @@ const (
 	LandedURLInvalid     Reason = "landed-url-invalid"
 	Oversized            Reason = "oversized"
 	UnsupportedMediaType Reason = "unsupported-media-type"
+	UnreadableHTML       Reason = "unreadable-html"
 	DeferralsExhausted   Reason = "deferrals-exhausted"
 	RetriesExhausted     Reason = "retries-exhausted"
 	HostPagesExhausted   Reason = "host-pages-exhausted"
