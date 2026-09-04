@@ -7,7 +7,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/retrydelay"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/jetstreamrecord"
-	pagevisitclaimsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitclaims/jetstream"
+	pagevisitlimitsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/jetstream"
 )
 
 const (
@@ -23,11 +23,11 @@ const (
 	pageVisitRetention = 30 * 24 * time.Hour
 	pageVisitMaxBytes  = 256 << 20
 
-	pageVisitClaimRetention = 7 * 24 * time.Hour
-	pageVisitClaimMaxBytes  = 1 << 30
+	takenPageVisitRetention = 7 * 24 * time.Hour
+	takenPageVisitMaxBytes  = 1 << 30
 
-	hostPageAllowanceRetention = 7 * 24 * time.Hour
-	hostPageAllowanceMaxBytes  = 256 << 20
+	pageVisitLimitRetention = 7 * 24 * time.Hour
+	pageVisitLimitMaxBytes  = 256 << 20
 
 	acceptedOrderRetention = 7 * 24 * time.Hour
 	acceptedOrderMaxBytes  = 64 << 20
@@ -65,17 +65,17 @@ func (ServiceConfig) PageVisitBucketSpec() jetstreamrecord.BucketSpec {
 	}
 }
 
-func (ServiceConfig) PageVisitClaimBucketSpec() jetstreamrecord.BucketSpec {
+func (ServiceConfig) TakenPageVisitBucketSpec() jetstreamrecord.BucketSpec {
 	return jetstreamrecord.BucketSpec{
-		MaxBytes:  pageVisitClaimMaxBytes,
-		Retention: pageVisitClaimRetention,
+		MaxBytes:  takenPageVisitMaxBytes,
+		Retention: takenPageVisitRetention,
 	}
 }
 
-func (ServiceConfig) HostPageAllowanceBucketSpec() jetstreamrecord.BucketSpec {
+func (ServiceConfig) PageVisitLimitBucketSpec() jetstreamrecord.BucketSpec {
 	return jetstreamrecord.BucketSpec{
-		MaxBytes:  hostPageAllowanceMaxBytes,
-		Retention: hostPageAllowanceRetention,
+		MaxBytes:  pageVisitLimitMaxBytes,
+		Retention: pageVisitLimitRetention,
 	}
 }
 
@@ -90,10 +90,10 @@ func (ServiceConfig) FetchRetryBounds() retrydelay.Bounds {
 	return retrydelay.Bounds{Floor: fetchRetryFloor, Ceiling: fetchRetryCeiling}
 }
 
-func (ServiceConfig) PageVisitClaimLimits() pagevisitclaimsjetstream.ClaimLimits {
-	return pagevisitclaimsjetstream.ClaimLimits{
-		MaxDeferralsPerURL: maxDeferralsPerURL,
-		MaxAttemptsPerURL:  maxAttemptsPerURL,
+func (ServiceConfig) MaxPerURL() pagevisitlimitsjetstream.MaxPerURL {
+	return pagevisitlimitsjetstream.MaxPerURL{
+		Deferrals: maxDeferralsPerURL,
+		Attempts:  maxAttemptsPerURL,
 	}
 }
 

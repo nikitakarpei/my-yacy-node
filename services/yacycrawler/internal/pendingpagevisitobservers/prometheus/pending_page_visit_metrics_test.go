@@ -21,7 +21,7 @@ func TestPageVisitAttemptsCountOneOutcomeEach(t *testing.T) {
 	visit := pendingpagevisit.PendingPageVisit{}
 
 	metrics.PendingPageVisitReturned(context.Background(), visit, errors.New("unavailable"))
-	metrics.PendingPageVisitDroppedBecauseClaimedElsewhere(context.Background(), visit)
+	metrics.PendingPageVisitDroppedAsTakenByAnother(context.Background(), visit)
 	metrics.PendingPageVisitDeferred(context.Background(), visit, time.Minute)
 	metrics.PendingPageVisitRetryScheduled(context.Background(), visit, time.Minute)
 	metrics.PendingPageVisitDisposedPage(context.Background(), visit, disposal.FetchRejected)
@@ -30,7 +30,7 @@ func TestPageVisitAttemptsCountOneOutcomeEach(t *testing.T) {
 	expected := `
 # HELP yacycrawler_page_visit_attempts_total Attempts to visit a page, by the outcome each attempt reached.
 # TYPE yacycrawler_page_visit_attempts_total counter
-yacycrawler_page_visit_attempts_total{outcome="claimed-elsewhere"} 1
+yacycrawler_page_visit_attempts_total{outcome="taken-by-another"} 1
 yacycrawler_page_visit_attempts_total{outcome="completed"} 1
 yacycrawler_page_visit_attempts_total{outcome="deferred"} 1
 yacycrawler_page_visit_attempts_total{outcome="disposed"} 1

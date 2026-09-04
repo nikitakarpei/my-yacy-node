@@ -10,12 +10,12 @@ import (
 )
 
 const (
-	msgPendingPageVisitReturned         = "pending page visit returned for redelivery"
-	msgPendingPageVisitClaimedElsewhere = "pending page visit dropped because another message holds its claim"
-	msgPendingPageVisitDeferred         = "pending page visit deferred"
-	msgPendingPageVisitRetryScheduled   = "pending page visit scheduled for another attempt"
-	msgPendingPageVisitDisposedPage     = "pending page visit disposed page"
-	msgPendingPageVisitCompleted        = "pending page visit completed"
+	msgPendingPageVisitReturned       = "pending page visit returned for redelivery"
+	msgPendingPageVisitTakenByAnother = "pending page visit dropped because another message took it"
+	msgPendingPageVisitDeferred       = "pending page visit deferred"
+	msgPendingPageVisitRetryScheduled = "pending page visit scheduled for another attempt"
+	msgPendingPageVisitDisposedPage   = "pending page visit disposed page"
+	msgPendingPageVisitCompleted      = "pending page visit completed"
 )
 
 type PendingPageVisitLog struct{}
@@ -32,13 +32,13 @@ func (PendingPageVisitLog) PendingPageVisitReturned(
 	)
 }
 
-func (PendingPageVisitLog) PendingPageVisitDroppedBecauseClaimedElsewhere(
+func (PendingPageVisitLog) PendingPageVisitDroppedAsTakenByAnother(
 	ctx context.Context,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) {
 	slog.DebugContext(
 		ctx,
-		msgPendingPageVisitClaimedElsewhere,
+		msgPendingPageVisitTakenByAnother,
 		slog.String(
 			"order",
 			pendingPageVisit.OrderID,

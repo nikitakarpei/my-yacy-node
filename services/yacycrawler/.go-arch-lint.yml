@@ -22,8 +22,6 @@ components:
     in: internal/crawl/acceptedorder/**
   orderintake:
     in: internal/crawl/orderintake/**
-  pagevisitclaim:
-    in: internal/crawl/pagevisitclaim/**
   pagevisitintake:
     in: internal/crawl/pagevisitintake/**
   pagevisit:
@@ -50,10 +48,10 @@ components:
     in: internal/pendingpagevisits/jetstream/**
   jetstreamrecord:
     in: internal/jetstreamrecord/**
-  pagevisitclaimsjetstream:
-    in: internal/pagevisitclaims/jetstream/**
-  hostpageallowancesjetstream:
-    in: internal/hostpageallowances/jetstream/**
+  takenpagevisitsjetstream:
+    in: internal/takenpagevisits/jetstream/**
+  pagevisitlimitsjetstream:
+    in: internal/pagevisitlimits/jetstream/**
   crawlorderobserversapplog:
     in: internal/crawlorderobservers/applog/**
   crawlorderobserversprometheus:
@@ -147,7 +145,6 @@ deps:
   pagevisitintake:
     mayDependOn:
       - disposal
-      - pagevisitclaim
       - pagevisitallowance
       - pendingpagevisit
       - acceptedorder
@@ -221,20 +218,19 @@ deps:
   jetstreamrecord:
     canUse:
       - nats
-  pagevisitclaimsjetstream:
+  takenpagevisitsjetstream:
     mayDependOn:
-      - pagevisitclaim
+      - jetstreamrecord
+    canUse:
+      - nats
+      - canonicalurl
+  pagevisitlimitsjetstream:
+    mayDependOn:
       - jetstreamrecord
     canUse:
       - nats
       - canonicalurl
       - yacycrawlcontract
-  hostpageallowancesjetstream:
-    mayDependOn:
-      - jetstreamrecord
-    canUse:
-      - nats
-      - canonicalurl
   crawledpagesjetstream:
     canUse:
       - nats

@@ -17,7 +17,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitclaim"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitintake"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
@@ -27,33 +26,30 @@ const (
 	visitURL = "http://host/"
 )
 
-type fakeClaims struct {
-	holders  map[string]string
-	claimErr error
+type fakeTakenPageVisits struct {
+	takers  map[string]string
+	takeErr error
 }
 
-func newClaims() *fakeClaims {
-	return &fakeClaims{holders: map[string]string{}}
+func newTakenPageVisits() *fakeTakenPageVisits {
+	return &fakeTakenPageVisits{takers: map[string]string{}}
 }
 
-func (c *fakeClaims) Claim(
-	_ context.Context, _ string, url canonicalurl.CanonicalURL, holder string,
-) (pagevisitclaim.Claim, error) {
-	if c.claimErr != nil {
-		return pagevisitclaim.Unanswered, c.claimErr
+func (visits *fakeTakenPageVisits) TakePageVisit(
+	_ context.Context, _ string, url canonicalurl.CanonicalURL, taker string,
+) (bool, error) {
+	if visits.takeErr != nil {
+		return false, visits.takeErr
 	}
-	standing, held := c.holders[url.String()]
-	if !held {
-		c.holders[url.String()] = holder
-		return pagevisitclaim.Taken, nil
+	standing, taken := visits.takers[url.String()]
+	if !taken {
+		visits.takers[url.String()] = taker
+		return true, nil
 	}
-	if standing != holder {
-		return pagevisitclaim.HeldElsewhere, nil
-	}
-	return pagevisitclaim.Resumed, nil
+	return standing == taker, nil
 }
 
-type fakeLedger struct {
+type fakeAllowances struct {
 	hostSpent      bool
 	hostPageLimits []int
 	deferrals      int
@@ -62,38 +58,38 @@ type fakeLedger struct {
 	maxRetries     int
 }
 
-func newLedger() *fakeLedger {
-	return &fakeLedger{hostSpent: true, maxDeferrals: 2, maxRetries: 2}
+func newAllowances() *fakeAllowances {
+	return &fakeAllowances{hostSpent: true, maxDeferrals: 2, maxRetries: 2}
 }
 
-func (a *fakeLedger) HostPageFor(
+func (a *fakeAllowances) HostPageFor(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit, maxPages int,
 ) (pagevisitallowance.Allowance, error) {
 	a.hostPageLimits = append(a.hostPageLimits, maxPages)
 	if !a.hostSpent {
-		return pagevisitallowance.Allowance{Exhausted: disposal.HostPagesExhausted}, nil
+		return pagevisitallowance.Allowance{Disposal: disposal.HostPagesExhausted}, nil
 	}
-	return pagevisitallowance.Allowance{Granted: true}, nil
+	return pagevisitallowance.Allowance{}, nil
 }
 
-func (a *fakeLedger) DeferralFor(
+func (a *fakeAllowances) DeferralFor(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit, deferFor time.Duration,
 ) (pagevisitallowance.Allowance, error) {
 	if a.deferrals >= a.maxDeferrals {
-		return pagevisitallowance.Allowance{Exhausted: disposal.DeferralsExhausted}, nil
+		return pagevisitallowance.Allowance{Disposal: disposal.DeferralsExhausted}, nil
 	}
 	a.deferrals++
-	return pagevisitallowance.Allowance{Granted: true, PauseFor: deferFor}, nil
+	return pagevisitallowance.Allowance{PauseFor: deferFor}, nil
 }
 
-func (a *fakeLedger) AnotherAttemptFor(
+func (a *fakeAllowances) AnotherAttemptFor(
 	_ context.Context, _ pendingpagevisit.PendingPageVisit,
 ) (pagevisitallowance.Allowance, error) {
 	if a.retries >= a.maxRetries {
-		return pagevisitallowance.Allowance{Exhausted: disposal.RetriesExhausted}, nil
+		return pagevisitallowance.Allowance{Disposal: disposal.RetriesExhausted}, nil
 	}
 	a.retries++
-	return pagevisitallowance.Allowance{Granted: true, PauseFor: time.Second}, nil
+	return pagevisitallowance.Allowance{PauseFor: time.Second}, nil
 }
 
 type fakeAcceptedOrders struct {
@@ -223,7 +219,7 @@ func (o *recordingObserver) PendingPageVisitReturned(
 	o.returned++
 }
 
-func (o *recordingObserver) PendingPageVisitDroppedBecauseClaimedElsewhere(
+func (o *recordingObserver) PendingPageVisitDroppedAsTakenByAnother(
 	context.Context,
 	pendingpagevisit.PendingPageVisit,
 ) {
@@ -261,8 +257,8 @@ func visitMessage(t *testing.T, sequence uint64) *pullintaketest.Message {
 }
 
 type crawlWorker struct {
-	claims      *fakeClaims
-	ledger      *fakeLedger
+	pageVisits  *fakeTakenPageVisits
+	allowances  *fakeAllowances
 	orders      *fakeAcceptedOrders
 	frontier    *fakePendingVisits
 	pageVisitor *fakePageVisitor
@@ -271,8 +267,8 @@ type crawlWorker struct {
 
 func newWorker() *crawlWorker {
 	return &crawlWorker{
-		claims:      newClaims(),
-		ledger:      newLedger(),
+		pageVisits:  newTakenPageVisits(),
+		allowances:  newAllowances(),
 		orders:      &fakeAcceptedOrders{profile: wideProfile()},
 		frontier:    &fakePendingVisits{},
 		pageVisitor: &fakePageVisitor{},
@@ -284,8 +280,8 @@ func (w *crawlWorker) consume(t *testing.T, messages ...jetstream.Msg) error {
 	t.Helper()
 	return pagevisitintake.NewPageVisitConsumer(
 		pullintaketest.MessageSourceOf(messages...),
-		w.claims,
-		w.ledger,
+		w.pageVisits,
+		w.allowances,
 		w.orders,
 		w.frontier,
 		w.pageVisitor,
@@ -404,7 +400,7 @@ func TestADeferredVisitReturnsAfterTheDelayTheSiteAsked(t *testing.T) {
 
 func TestAURLThatExhaustedItsDeferralsIsDropped(t *testing.T) {
 	worker := newWorker()
-	worker.ledger.deferrals = 2
+	worker.allowances.deferrals = 2
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{
 		{Conclusion: pagevisit.PageVisitDeferred},
 	}
@@ -440,7 +436,7 @@ func TestARetryableVisitReturnsAfterItsBackoff(t *testing.T) {
 
 func TestAURLThatExhaustedItsRetriesIsDropped(t *testing.T) {
 	worker := newWorker()
-	worker.ledger.retries = 2
+	worker.allowances.retries = 2
 	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{
 		{Conclusion: pagevisit.PageVisitRetryable},
 	}
@@ -456,7 +452,7 @@ func TestAURLThatExhaustedItsRetriesIsDropped(t *testing.T) {
 
 func TestAURLWhoseHostExhaustedItsPagesIsDroppedBeforeTheFetch(t *testing.T) {
 	worker := newWorker()
-	worker.ledger.hostSpent = false
+	worker.allowances.hostSpent = false
 	message := visitMessage(t, 1)
 
 	if err := worker.consume(t, message); err != nil {
@@ -471,7 +467,7 @@ func TestAURLWhoseHostExhaustedItsPagesIsDroppedBeforeTheFetch(t *testing.T) {
 	}
 }
 
-func TestTheProfilesHostPageLimitReachesTheLedger(t *testing.T) {
+func TestTheProfilesHostPageLimitReachesTheAllowances(t *testing.T) {
 	worker := newWorker()
 	worker.orders.profile.MaxPagesPerHost = 7
 
@@ -479,15 +475,15 @@ func TestTheProfilesHostPageLimitReachesTheLedger(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if len(worker.ledger.hostPageLimits) != 1 || worker.ledger.hostPageLimits[0] != 7 {
+	if len(worker.allowances.hostPageLimits) != 1 || worker.allowances.hostPageLimits[0] != 7 {
 		t.Fatalf(
-			"ledger spent against %v, want the profile limit of 7",
-			worker.ledger.hostPageLimits,
+			"the host page was taken against %v, want the profile limit of 7",
+			worker.allowances.hostPageLimits,
 		)
 	}
 }
 
-func TestARedeliveredMessageAsksTheLedgerForItsHostPageAgain(t *testing.T) {
+func TestARedeliveredMessageAsksForItsHostPageAgain(t *testing.T) {
 	worker := newWorker()
 	message := visitMessage(t, 1)
 
@@ -495,10 +491,10 @@ func TestARedeliveredMessageAsksTheLedgerForItsHostPageAgain(t *testing.T) {
 		t.Fatalf("run: %v", err)
 	}
 
-	if len(worker.ledger.hostPageLimits) != 2 {
+	if len(worker.allowances.hostPageLimits) != 2 {
 		t.Fatalf(
-			"the ledger was asked for %d host pages, want one for each delivery",
-			len(worker.ledger.hostPageLimits),
+			"asked for %d host pages, want one for each delivery",
+			len(worker.allowances.hostPageLimits),
 		)
 	}
 }
@@ -517,9 +513,9 @@ func TestAVisitThatFailsReturnsForRedelivery(t *testing.T) {
 	}
 }
 
-func TestAVisitWhoseClaimTheLedgerCannotAnswerReturnsForRedelivery(t *testing.T) {
+func TestAPageVisitNoOneCanTakeReturnsForRedelivery(t *testing.T) {
 	worker := newWorker()
-	worker.claims.claimErr = errors.New("bucket down")
+	worker.pageVisits.takeErr = errors.New("bucket down")
 	message := visitMessage(t, 1)
 
 	if err := worker.consume(t, message); err != nil {

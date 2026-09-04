@@ -14,12 +14,12 @@ const (
 	labelOutcome = "outcome"
 	labelReason  = "reason"
 
-	outcomeReturned         = "returned"
-	outcomeClaimedElsewhere = "claimed-elsewhere"
-	outcomeDeferred         = "deferred"
-	outcomeRetryScheduled   = "retry-scheduled"
-	outcomeDisposed         = "disposed"
-	outcomeCompleted        = "completed"
+	outcomeReturned       = "returned"
+	outcomeTakenByAnother = "taken-by-another"
+	outcomeDeferred       = "deferred"
+	outcomeRetryScheduled = "retry-scheduled"
+	outcomeDisposed       = "disposed"
+	outcomeCompleted      = "completed"
 )
 
 type PendingPageVisitMetrics struct {
@@ -48,10 +48,10 @@ func (metrics *PendingPageVisitMetrics) PendingPageVisitReturned(
 	metrics.pageVisitAttempts.WithLabelValues(outcomeReturned).Inc()
 }
 
-func (metrics *PendingPageVisitMetrics) PendingPageVisitDroppedBecauseClaimedElsewhere(
+func (metrics *PendingPageVisitMetrics) PendingPageVisitDroppedAsTakenByAnother(
 	context.Context, pendingpagevisit.PendingPageVisit,
 ) {
-	metrics.pageVisitAttempts.WithLabelValues(outcomeClaimedElsewhere).Inc()
+	metrics.pageVisitAttempts.WithLabelValues(outcomeTakenByAnother).Inc()
 }
 
 func (metrics *PendingPageVisitMetrics) PendingPageVisitDeferred(

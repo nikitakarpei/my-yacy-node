@@ -14,20 +14,19 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/disposal"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisit"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitallowance"
-	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pagevisitclaim"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawl/pendingpagevisit"
 )
 
-type PageVisitClaims interface {
-	Claim(
+type TakenPageVisits interface {
+	TakePageVisit(
 		ctx context.Context,
 		orderID string,
 		url canonicalurl.CanonicalURL,
-		holder string,
-	) (pagevisitclaim.Claim, error)
+		taker string,
+	) (bool, error)
 }
 
-type PageVisitLedger interface {
+type PageVisitAllowances interface {
 	HostPageFor(
 		ctx context.Context,
 		pageVisit pendingpagevisit.PendingPageVisit,
@@ -54,8 +53,8 @@ type PendingPageVisits interface {
 
 type PageVisitConsumer struct {
 	source           pullintake.MessageSource
-	claims           PageVisitClaims
-	ledger           PageVisitLedger
+	takenPageVisits  TakenPageVisits
+	allowances       PageVisitAllowances
 	orders           AcceptedOrders
 	frontier         PendingPageVisits
 	pageVisitor      pagevisit.PageVisitor
@@ -66,8 +65,8 @@ type PageVisitConsumer struct {
 //nolint:revive // a consumer names every collaborator it visits a page with
 func NewPageVisitConsumer(
 	source pullintake.MessageSource,
-	claims PageVisitClaims,
-	ledger PageVisitLedger,
+	takenPageVisits TakenPageVisits,
+	allowances PageVisitAllowances,
 	orders AcceptedOrders,
 	frontier PendingPageVisits,
 	pageVisitor pagevisit.PageVisitor,
@@ -76,8 +75,8 @@ func NewPageVisitConsumer(
 ) *PageVisitConsumer {
 	return &PageVisitConsumer{
 		source:           source,
-		claims:           claims,
-		ledger:           ledger,
+		takenPageVisits:  takenPageVisits,
+		allowances:       allowances,
 		orders:           orders,
 		frontier:         frontier,
 		pageVisitor:      pageVisitor,
@@ -103,7 +102,7 @@ func (c *PageVisitConsumer) payPageVisit(
 		c.returnPageVisit(ctx, message, pendingPageVisit, err)
 		return nil
 	}
-	if !c.claimPageVisit(ctx, message, order, pendingPageVisit) {
+	if !c.takePageVisit(ctx, message, order, pendingPageVisit) {
 		return nil
 	}
 	outcome, err := c.pageVisitor.VisitPage(ctx, pendingPageVisit.URL)
@@ -125,33 +124,32 @@ func (c *PageVisitConsumer) returnPageVisit(
 	message.Return(ctx)
 }
 
-func (c *PageVisitConsumer) claimPageVisit(
+func (c *PageVisitConsumer) takePageVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	order acceptedorder.AcceptedOrder,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) bool {
-	claim, err := c.claims.Claim(
+	took, err := c.takenPageVisits.TakePageVisit(
 		ctx, pendingPageVisit.OrderID, pendingPageVisit.URL, message.Identity(),
 	)
 	if err != nil {
 		c.returnPageVisit(ctx, message, pendingPageVisit, err)
 		return false
 	}
-	switch claim {
-	case pagevisitclaim.Taken, pagevisitclaim.Resumed:
-		return c.holdsHostPage(ctx, message, order, pendingPageVisit)
+	if !took {
+		c.dropPageVisitTakenByAnother(ctx, message, pendingPageVisit)
+		return false
 	}
-	c.dropPageVisitClaimedElsewhere(ctx, message, pendingPageVisit)
-	return false
+	return c.holdsHostPage(ctx, message, order, pendingPageVisit)
 }
 
-func (c *PageVisitConsumer) dropPageVisitClaimedElsewhere(
+func (c *PageVisitConsumer) dropPageVisitTakenByAnother(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) {
-	c.observer.PendingPageVisitDroppedBecauseClaimedElsewhere(ctx, pendingPageVisit)
+	c.observer.PendingPageVisitDroppedAsTakenByAnother(ctx, pendingPageVisit)
 	message.Acknowledge(ctx)
 }
 
@@ -161,7 +159,7 @@ func (c *PageVisitConsumer) holdsHostPage(
 	order acceptedorder.AcceptedOrder,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) bool {
-	allowance, err := c.ledger.HostPageFor(ctx, pendingPageVisit, order.MaxPagesPerHost())
+	allowance, err := c.allowances.HostPageFor(ctx, pendingPageVisit, order.MaxPagesPerHost())
 	return c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err)
 }
 
@@ -176,8 +174,8 @@ func (c *PageVisitConsumer) carryOutAllowance(
 		c.returnPageVisit(ctx, message, pendingPageVisit, cause)
 		return false
 	}
-	if !allowance.Granted {
-		c.dropExhaustedPageVisit(ctx, message, pendingPageVisit, allowance.Exhausted)
+	if allowance.Disposal.DisposedThePage() {
+		c.dropExhaustedPageVisit(ctx, message, pendingPageVisit, allowance.Disposal)
 		return false
 	}
 	return true
@@ -187,9 +185,9 @@ func (c *PageVisitConsumer) dropExhaustedPageVisit(
 	ctx context.Context,
 	message pullintake.PendingMessage,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
-	exhausted disposal.Reason,
+	reason disposal.Reason,
 ) {
-	c.observer.PendingPageVisitDisposedPage(ctx, pendingPageVisit, exhausted)
+	c.observer.PendingPageVisitDisposedPage(ctx, pendingPageVisit, reason)
 	message.Acknowledge(ctx)
 }
 
@@ -216,7 +214,7 @@ func (c *PageVisitConsumer) deferPageVisit(
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 	deferFor time.Duration,
 ) {
-	allowance, err := c.ledger.DeferralFor(ctx, pendingPageVisit, deferFor)
+	allowance, err := c.allowances.DeferralFor(ctx, pendingPageVisit, deferFor)
 	if !c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err) {
 		return
 	}
@@ -229,7 +227,7 @@ func (c *PageVisitConsumer) retryPageVisit(
 	message pullintake.PendingMessage,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) {
-	allowance, err := c.ledger.AnotherAttemptFor(ctx, pendingPageVisit)
+	allowance, err := c.allowances.AnotherAttemptFor(ctx, pendingPageVisit)
 	if !c.carryOutAllowance(ctx, message, pendingPageVisit, allowance, err) {
 		return
 	}

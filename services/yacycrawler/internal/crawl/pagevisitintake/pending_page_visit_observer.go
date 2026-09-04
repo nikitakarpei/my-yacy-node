@@ -14,7 +14,7 @@ type PendingPageVisitObserver interface {
 		pendingPageVisit pendingpagevisit.PendingPageVisit,
 		cause error,
 	)
-	PendingPageVisitDroppedBecauseClaimedElsewhere(
+	PendingPageVisitDroppedAsTakenByAnother(
 		ctx context.Context,
 		pendingPageVisit pendingpagevisit.PendingPageVisit,
 	)
@@ -51,12 +51,12 @@ func (observers PendingPageVisitObservers) PendingPageVisitReturned(
 	}
 }
 
-func (observers PendingPageVisitObservers) PendingPageVisitDroppedBecauseClaimedElsewhere(
+func (observers PendingPageVisitObservers) PendingPageVisitDroppedAsTakenByAnother(
 	ctx context.Context,
 	pendingPageVisit pendingpagevisit.PendingPageVisit,
 ) {
 	for _, observer := range observers {
-		observer.PendingPageVisitDroppedBecauseClaimedElsewhere(ctx, pendingPageVisit)
+		observer.PendingPageVisitDroppedAsTakenByAnother(ctx, pendingPageVisit)
 	}
 }
 

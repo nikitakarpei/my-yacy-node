@@ -31,14 +31,13 @@ import (
 	crawledpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawledpages/jetstream"
 	crawlorderobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/applog"
 	crawlorderobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/crawlorderobservers/prometheus"
-	hostpageallowancesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/hostpageallowances/jetstream"
 	linkresolutionobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/linkresolutionobservers/applog"
 	linkresolutionobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/linkresolutionobservers/prometheus"
 	mediatypeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediatypeobservers/applog"
 	mediatypeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/mediatypeobservers/prometheus"
 	pagefetchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/applog"
 	pagefetchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagefetchobservers/prometheus"
-	pagevisitclaimsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitclaims/jetstream"
+	pagevisitlimitsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitlimits/jetstream"
 	pagevisitrecordobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecordobservers/applog"
 	pagevisitrecordobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pagevisitrecordobservers/prometheus"
 	pendingpagevisitobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/pendingpagevisitobservers/applog"
@@ -47,6 +46,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/recrawlrules/dueaftergrace"
 	refusalenforcementobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/applog"
 	refusalenforcementobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/refusalenforcementobservers/prometheus"
+	takenpagevisitsjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/takenpagevisits/jetstream"
 	visitedpagesjetstream "github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/visitedpages/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/yacycrawler/internal/visitedpages/norecords"
 )
@@ -146,11 +146,11 @@ func ensureNATSState(ctx context.Context, js jetstream.JetStream, cfg ServiceCon
 	if err := ensureCrawledPagesStream(ctx, js, cfg); err != nil {
 		return err
 	}
-	if err := pagevisitclaimsjetstream.Ensure(ctx, js, cfg.PageVisitClaimBucketSpec()); err != nil {
+	if err := takenpagevisitsjetstream.Ensure(ctx, js, cfg.TakenPageVisitBucketSpec()); err != nil {
 		return err
 	}
-	if err := hostpageallowancesjetstream.Ensure(
-		ctx, js, cfg.HostPageAllowanceBucketSpec(),
+	if err := pagevisitlimitsjetstream.Ensure(
+		ctx, js, cfg.PageVisitLimitBucketSpec(),
 	); err != nil {
 		return err
 	}
@@ -278,11 +278,11 @@ func buildPageVisitConsumer(
 	if err != nil {
 		return nil, err
 	}
-	claims, err := pageVisitClaims(ctx, js, cfg)
+	takenPageVisits, err := takenPageVisitsOf(ctx, js)
 	if err != nil {
 		return nil, err
 	}
-	ledger, err := visitLedger(ctx, js, cfg, claims)
+	allowances, err := pageVisitAllowances(ctx, js, cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -305,8 +305,8 @@ func buildPageVisitConsumer(
 	}
 	return pagevisitintake.NewPageVisitConsumer(
 		consumer,
-		claims,
-		ledger,
+		takenPageVisits,
+		allowances,
 		orders,
 		pendingpagevisitsjetstream.New(js),
 		pageVisitor,
@@ -333,31 +333,28 @@ func visitsConsumer(
 	return consumer, nil
 }
 
-func pageVisitClaims(
+func takenPageVisitsOf(
 	ctx context.Context,
 	js jetstream.JetStream,
-	cfg ServiceConfig,
-) (*pagevisitclaimsjetstream.Claims, error) {
-	bucket, err := js.KeyValue(ctx, pagevisitclaimsjetstream.BucketName)
+) (*takenpagevisitsjetstream.TakenPageVisits, error) {
+	bucket, err := js.KeyValue(ctx, takenpagevisitsjetstream.BucketName)
 	if err != nil {
-		return nil, fmt.Errorf("open page visit claim bucket: %w", err)
+		return nil, fmt.Errorf("open taken page visit bucket: %w", err)
 	}
-	return pagevisitclaimsjetstream.New(bucket, cfg.PageVisitClaimLimits()), nil
+	return takenpagevisitsjetstream.New(bucket), nil
 }
 
-func visitLedger(
+func pageVisitAllowances(
 	ctx context.Context,
 	js jetstream.JetStream,
 	cfg ServiceConfig,
-	claims *pagevisitclaimsjetstream.Claims,
-) (*pagevisitallowance.Ledger, error) {
-	bucket, err := js.KeyValue(ctx, hostpageallowancesjetstream.BucketName)
+) (*pagevisitallowance.Allowances, error) {
+	bucket, err := js.KeyValue(ctx, pagevisitlimitsjetstream.BucketName)
 	if err != nil {
-		return nil, fmt.Errorf("open host page allowance bucket: %w", err)
+		return nil, fmt.Errorf("open page visit limit bucket: %w", err)
 	}
 	return pagevisitallowance.New(
-		claims,
-		hostpageallowancesjetstream.New(bucket),
+		pagevisitlimitsjetstream.New(bucket, cfg.MaxPerURL()),
 		cfg.FetchRetryBounds(),
 	), nil
 }
