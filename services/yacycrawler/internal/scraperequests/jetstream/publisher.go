@@ -28,7 +28,7 @@ func (p *Publisher) Publish(ctx context.Context, pageURL canonicalurl.CanonicalU
 		pagescrapecontract.ScrapeRequest{PageURL: pageURL},
 	)
 	if err != nil {
-		p.observer.ScrapeRequestMarshalingFailed(ctx, pageURL, err)
+		p.observer.ScrapeRequestEncodingFailed(ctx, pageURL, err)
 		return
 	}
 	if _, err := p.stream.Publish(

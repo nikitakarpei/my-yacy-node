@@ -41,7 +41,7 @@ func (r *ScrapeRequests) AskToScrape(
 		pagescrapecontract.ScrapeRequest{PageURL: pageURL, GivesUpOnDeferral: true},
 	)
 	if err != nil {
-		r.observer.ScrapeRequestMarshalingFailed(ctx, pageURL, err)
+		r.observer.ScrapeRequestEncodingFailed(ctx, pageURL, err)
 		return
 	}
 	if _, err := r.stream.Publish(

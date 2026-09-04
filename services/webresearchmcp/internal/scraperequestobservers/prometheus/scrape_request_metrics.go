@@ -15,13 +15,13 @@ const (
 	labelOutcome = "outcome"
 
 	outcomePublished        = "published"
-	outcomeMarshalingFailed = "marshaling_failed"
+	outcomeEncodingFailed   = "encoding_failed"
 	outcomePublishingFailed = "publishing_failed"
 )
 
 var scrapeRequestPublicationOutcomes = []string{
 	outcomePublished,
-	outcomeMarshalingFailed,
+	outcomeEncodingFailed,
 	outcomePublishingFailed,
 }
 
@@ -48,10 +48,10 @@ func (metrics *ScrapeRequestMetrics) ScrapeRequestPublished(
 	metrics.count(outcomePublished)
 }
 
-func (metrics *ScrapeRequestMetrics) ScrapeRequestMarshalingFailed(
+func (metrics *ScrapeRequestMetrics) ScrapeRequestEncodingFailed(
 	context.Context, canonicalurl.CanonicalURL, error,
 ) {
-	metrics.count(outcomeMarshalingFailed)
+	metrics.count(outcomeEncodingFailed)
 }
 
 func (metrics *ScrapeRequestMetrics) ScrapeRequestPublishingFailed(

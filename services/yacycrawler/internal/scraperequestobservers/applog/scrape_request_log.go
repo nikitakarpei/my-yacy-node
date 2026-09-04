@@ -27,7 +27,7 @@ func (ScrapeRequestLog) ScrapeRequestPublished(
 	slog.DebugContext(ctx, msgScrapeRequestPublished, slog.String("url", pageURL.String()))
 }
 
-func (ScrapeRequestLog) ScrapeRequestMarshalingFailed(
+func (ScrapeRequestLog) ScrapeRequestEncodingFailed(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	cause error,

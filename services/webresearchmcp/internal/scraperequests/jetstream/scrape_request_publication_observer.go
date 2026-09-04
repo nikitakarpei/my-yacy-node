@@ -8,7 +8,7 @@ import (
 
 type ScrapeRequestPublicationObserver interface {
 	ScrapeRequestPublished(ctx context.Context, pageURL canonicalurl.CanonicalURL)
-	ScrapeRequestMarshalingFailed(
+	ScrapeRequestEncodingFailed(
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
 		cause error,
@@ -31,13 +31,13 @@ func (observers ScrapeRequestPublicationObservers) ScrapeRequestPublished(
 	}
 }
 
-func (observers ScrapeRequestPublicationObservers) ScrapeRequestMarshalingFailed(
+func (observers ScrapeRequestPublicationObservers) ScrapeRequestEncodingFailed(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	cause error,
 ) {
 	for _, observer := range observers {
-		observer.ScrapeRequestMarshalingFailed(ctx, pageURL, cause)
+		observer.ScrapeRequestEncodingFailed(ctx, pageURL, cause)
 	}
 }
 

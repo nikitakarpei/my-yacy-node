@@ -19,7 +19,7 @@ func TestScrapeRequestMetricsCountEveryPublicationOutcome(t *testing.T) {
 	pageURL := canonicalurl.CanonicalURL{}
 
 	metrics.ScrapeRequestPublished(context.Background(), pageURL)
-	metrics.ScrapeRequestMarshalingFailed(
+	metrics.ScrapeRequestEncodingFailed(
 		context.Background(), pageURL, errors.New("unwritable"),
 	)
 	metrics.ScrapeRequestPublishingFailed(
@@ -29,7 +29,7 @@ func TestScrapeRequestMetricsCountEveryPublicationOutcome(t *testing.T) {
 	expected := `
 # HELP yacycrawler_scrape_requests_processed_total Scrape requests processed, by outcome.
 # TYPE yacycrawler_scrape_requests_processed_total counter
-yacycrawler_scrape_requests_processed_total{outcome="marshaling_failed"} 1
+yacycrawler_scrape_requests_processed_total{outcome="encoding_failed"} 1
 yacycrawler_scrape_requests_processed_total{outcome="published"} 1
 yacycrawler_scrape_requests_processed_total{outcome="publishing_failed"} 1
 `

@@ -103,7 +103,7 @@ func TestScrapeRequestsCannotOpenOnAServerThatIsAway(t *testing.T) {
 
 type recordingScrapeRequestPublicationObserver struct {
 	published          int
-	marshalingFailures int
+	encodingFailures   int
 	publishingFailures int
 }
 
@@ -113,10 +113,10 @@ func (o *recordingScrapeRequestPublicationObserver) ScrapeRequestPublished(
 	o.published++
 }
 
-func (o *recordingScrapeRequestPublicationObserver) ScrapeRequestMarshalingFailed(
+func (o *recordingScrapeRequestPublicationObserver) ScrapeRequestEncodingFailed(
 	context.Context, canonicalurl.CanonicalURL, error,
 ) {
-	o.marshalingFailures++
+	o.encodingFailures++
 }
 
 func (o *recordingScrapeRequestPublicationObserver) ScrapeRequestPublishingFailed(
