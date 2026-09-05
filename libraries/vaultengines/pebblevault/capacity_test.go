@@ -11,14 +11,14 @@ import (
 
 func TestQuotaAndUsedBytes(t *testing.T) {
 	ctx := context.Background()
-	store, err := pebblevault.Open(
+	store, err := pebblevault.OpenEngine(
 		filepath.Join(t.TempDir(), "node"),
 		4096,
 		testLimits,
 		nil,
 	)
 	if err != nil {
-		t.Fatalf("Open: %v", err)
+		t.Fatalf("OpenEngine: %v", err)
 	}
 	t.Cleanup(func() {
 		if err := store.Close(); err != nil {
