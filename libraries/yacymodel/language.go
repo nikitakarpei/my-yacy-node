@@ -24,6 +24,8 @@ func ParseLanguage(code string) (Language, error) {
 	return Language{value: code}, nil
 }
 
+var LanguageOfUndeclaredDocument = Language{value: "en"}
+
 func (l Language) IsZero() bool { return l.value == "" }
 
 func (l Language) String() string { return l.value }

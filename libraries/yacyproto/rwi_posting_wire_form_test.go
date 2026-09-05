@@ -110,7 +110,7 @@ func TestTransferRWIRequestNormalizesYaCyPropertyForm(t *testing.T) {
 	if got.Hits != 1 || got.TextPosition != 258 || got.LocalLinks != 2 {
 		t.Fatalf("cardinals = %+v", got)
 	}
-	if language, ok := got.Language.Get(); !ok || language.String() != "en" {
+	if got.Language.String() != "en" {
 		t.Fatalf("language = %v, want %q", got.Language, "en")
 	}
 	if got.DocumentType != yacymodel.DocumentTypeHTML {
@@ -155,6 +155,7 @@ func TestTransferRWIRequestReadsASparseLine(t *testing.T) {
 	want := yacymodel.RWIPosting{
 		WordHash: mustHash(t, postingWordHash),
 		URLHash:  mustPostingURLHash(t),
+		Language: yacymodel.LanguageOfUndeclaredDocument,
 	}
 	if got := postingFromLine(t, postingWordHash+"{h="+postingURLHash+"}"); got != want {
 		t.Fatalf("posting = %+v, want %+v", got, want)

@@ -15,7 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 )
 
-func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Language] {
+func mustLanguage(t *testing.T, raw string) yacymodel.Language {
 	t.Helper()
 
 	language, err := yacymodel.ParseLanguage(raw)
@@ -23,7 +23,7 @@ func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Languag
 		t.Fatalf("parse language %q: %v", raw, err)
 	}
 
-	return yacymodel.Some(language)
+	return language
 }
 
 func postingEntry(word yacymodel.Hash, url string, position int) yacymodel.RWIPosting {
@@ -354,7 +354,7 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 	result, err := results.ResultFor(context.Background(), searchcriteria.Criteria{
 		Terms:         []yacymodel.Hash{word1, word2},
 		MaxTermSpread: 5,
-		Language:      mustLanguage(t, "en"),
+		Language:      yacymodel.Some(mustLanguage(t, "en")),
 	}, indexabstract.NoIndexAbstracts{})
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)

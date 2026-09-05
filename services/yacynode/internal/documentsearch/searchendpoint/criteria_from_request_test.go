@@ -87,11 +87,11 @@ func parsedAddress(t *testing.T, address string) *url.URL {
 	return parsed
 }
 
-func languageIn(t *testing.T, document searchDocument) yacymodel.Optional[yacymodel.Language] {
+func languageIn(t *testing.T, document searchDocument) yacymodel.Language {
 	t.Helper()
 
 	if document.Language == "" {
-		return yacymodel.None[yacymodel.Language]()
+		return yacymodel.LanguageOfUndeclaredDocument
 	}
 
 	language, err := yacymodel.ParseLanguage(document.Language)
@@ -99,7 +99,7 @@ func languageIn(t *testing.T, document searchDocument) yacymodel.Optional[yacymo
 		t.Fatalf("ParseLanguage(%q): %v", document.Language, err)
 	}
 
-	return yacymodel.Some(language)
+	return language
 }
 
 func searchRequestFor(

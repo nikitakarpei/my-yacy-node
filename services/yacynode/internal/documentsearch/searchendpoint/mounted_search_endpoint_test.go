@@ -149,6 +149,7 @@ func postingEntry(word yacymodel.Hash, id string) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash: word,
 		URLHash:  documentHashOf(id),
+		Language: yacymodel.LanguageOfUndeclaredDocument,
 		Hits:     1,
 	}
 }
