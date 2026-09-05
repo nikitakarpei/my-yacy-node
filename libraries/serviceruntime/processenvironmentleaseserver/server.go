@@ -104,6 +104,7 @@ func (server *Server) accept(ctx context.Context) {
 
 		select {
 		case grant := <-server.granted:
+			server.stopListening(ctx)
 			server.serve(ctx, connection, grant)
 
 			return
@@ -140,7 +141,6 @@ func (server *Server) serve(
 		return
 	}
 
-	server.stopListening(ctx)
 	slog.DebugContext(ctx, "process environment lease granted")
 
 	server.fail(ctx, consumerEndedWith(waitForConsumerEnd(connection)))
