@@ -9,18 +9,18 @@ type URLDirectory struct {
 	Documents map[yacymodel.URLHash]yacymodel.URLMetadata
 }
 
-func (d URLDirectory) MetadataByHash(
+func (d URLDirectory) MetadataPerHash(
 	_ *vault.Txn,
 	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLMetadata, error) {
-	out := make([]yacymodel.URLMetadata, 0, len(hashes))
+) (map[yacymodel.URLHash]yacymodel.URLMetadata, error) {
+	found := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(hashes))
 	for _, hash := range hashes {
 		if stored, ok := d.Documents[hash]; ok {
-			out = append(out, stored)
+			found[hash] = stored
 		}
 	}
 
-	return out, nil
+	return found, nil
 }
 
 func (d URLDirectory) Count(*vault.Txn) (int, error) {
@@ -31,10 +31,10 @@ type FailingURLDirectory struct {
 	Err error
 }
 
-func (d FailingURLDirectory) MetadataByHash(
+func (d FailingURLDirectory) MetadataPerHash(
 	*vault.Txn,
 	[]yacymodel.URLHash,
-) ([]yacymodel.URLMetadata, error) {
+) (map[yacymodel.URLHash]yacymodel.URLMetadata, error) {
 	return nil, d.Err
 }
 

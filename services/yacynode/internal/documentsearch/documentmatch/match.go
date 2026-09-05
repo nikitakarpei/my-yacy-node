@@ -52,10 +52,10 @@ func MatchesAcrossEveryTerm(
 
 				continue
 			}
+			match.posting = postingAcrossTerms(match.posting, posting)
 			// Deliberate divergence from YaCy, which takes the max: summing per-word
 			// hit counts across the query terms ranks by total query-term frequency,
 			// the relevance signal this node orders on.
-			match.posting = postingAcrossTerms(match.posting, posting)
 			match.termOccurrences += posting.Hits
 			match.firstTermPosition = min(match.firstTermPosition, posting.TextPosition)
 			match.lastTermPosition = max(match.lastTermPosition, posting.TextPosition)
@@ -88,8 +88,10 @@ func postingAcrossTerms(posting, additional yacymodel.RWIPosting) yacymodel.RWIP
 	return posting
 }
 
+const positionAbsent = 0
+
 func earliestPosition(position, additional int) int {
-	if position == 0 || additional == 0 {
+	if position == positionAbsent || additional == positionAbsent {
 		return max(position, additional)
 	}
 

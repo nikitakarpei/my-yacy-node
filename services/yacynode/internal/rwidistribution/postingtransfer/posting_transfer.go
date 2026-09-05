@@ -140,24 +140,32 @@ func (t *PostingTransfers) metadataOfUnknownURLs(
 	ctx context.Context,
 	hashes []yacymodel.URLHash,
 ) ([]yacymodel.URLMetadata, []yacymodel.URLHash, error) {
-	var metadata []yacymodel.URLMetadata
-
-	var missing []yacymodel.URLHash
+	var metadataPerHash map[yacymodel.URLHash]yacymodel.URLMetadata
 
 	if err := t.vault.View(ctx, func(tx *vault.Txn) error {
-		stored, err := t.urls.MetadataByHash(tx, hashes)
+		stored, err := t.urls.MetadataPerHash(tx, hashes)
 		if err != nil {
 			return err
 		}
-		absent, err := t.urls.MissingURLs(tx, hashes)
-		if err != nil {
-			return err
-		}
-		metadata, missing = stored, absent
+		metadataPerHash = stored
 
 		return nil
 	}); err != nil {
 		return nil, nil, fmt.Errorf("read metadata of urls unknown to the peer: %w", err)
+	}
+
+	metadata := make([]yacymodel.URLMetadata, 0, len(hashes))
+
+	missing := make([]yacymodel.URLHash, 0)
+
+	for _, hash := range hashes {
+		stored, ok := metadataPerHash[hash]
+		if !ok {
+			missing = append(missing, hash)
+
+			continue
+		}
+		metadata = append(metadata, stored)
 	}
 
 	return metadata, missing, nil

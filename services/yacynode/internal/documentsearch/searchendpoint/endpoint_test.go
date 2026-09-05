@@ -53,15 +53,15 @@ func TestEndpointAnswersWithThePostingThatMatchedEachDocument(t *testing.T) {
 	if len(resp.Resources) != 1 {
 		t.Fatalf("resources = %d, want 1", len(resp.Resources))
 	}
-	if resp.Resources[0].Posting.URLHash != documentHashOf("u1") {
-		t.Errorf(
-			"posting names %q, want %q",
-			resp.Resources[0].Posting.URLHash,
-			documentHashOf("u1"),
-		)
+	posting, ok := resp.Resources[0].Posting.Get()
+	if !ok {
+		t.Fatal("resource carries no posting")
 	}
-	if resp.Resources[0].Posting.Hits != 1 {
-		t.Errorf("posting hits = %d, want 1", resp.Resources[0].Posting.Hits)
+	if posting.URLHash != documentHashOf("u1") {
+		t.Errorf("posting names %q, want %q", posting.URLHash, documentHashOf("u1"))
+	}
+	if posting.Hits != 1 {
+		t.Errorf("posting hits = %d, want 1", posting.Hits)
 	}
 }
 

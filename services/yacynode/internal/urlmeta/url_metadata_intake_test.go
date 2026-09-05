@@ -98,9 +98,9 @@ func TestIntakeDurabilityAndLookup(t *testing.T) {
 		t.Fatalf("Intake: %v", err)
 	}
 
-	rows := metadataByHash(t, v, module.Directory, []yacymodel.URLHash{hash})
-	if len(rows) != 1 || metadataHash(t, rows[0]) != hash {
-		t.Fatalf("RowsByHash = %v, want one matching row", rows)
+	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{hash})
+	if len(rows) != 1 || metadataHash(t, rows[hash]) != hash {
+		t.Fatalf("MetadataPerHash = %v, want one matching row", rows)
 	}
 
 	var missing []yacymodel.URLHash
@@ -175,8 +175,8 @@ func TestIntakeUpdatesAndNotifiesOnDuplicateURLs(t *testing.T) {
 		t.Fatalf("stored = %v, want two matching hashes", observer.stored)
 	}
 
-	rows := metadataByHash(t, v, module.Directory, []yacymodel.URLHash{hash})
-	if len(rows) != 1 || rows[0].Title != "refreshed" {
+	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{hash})
+	if len(rows) != 1 || rows[hash].Title != "refreshed" {
 		t.Fatalf("stored row = %+v, want refreshed title", rows)
 	}
 }

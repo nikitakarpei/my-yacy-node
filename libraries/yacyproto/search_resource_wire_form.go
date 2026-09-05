@@ -9,7 +9,7 @@ import (
 
 type SearchResource struct {
 	Metadata yacymodel.URLMetadata
-	Posting  yacymodel.RWIPosting
+	Posting  yacymodel.Optional[yacymodel.RWIPosting]
 }
 
 const searchResourceColPosting = "wi"
@@ -18,10 +18,10 @@ type searchResourceWireCodec struct{}
 
 func (searchResourceWireCodec) encode(resource SearchResource) string {
 	form := urlMetadataWireFormFromDomain(resource.Metadata)
-	if resource.Posting.URLHash.String() != "" {
+	if posting, ok := resource.Posting.Get(); ok {
 		form.put(
 			searchResourceColPosting,
-			yacymodel.Encode([]byte(rwiPostingWireCodec{}.encodePropertyForm(resource.Posting))),
+			yacymodel.Encode([]byte(rwiPostingWireCodec{}.encodePropertyForm(posting))),
 		)
 	}
 
@@ -50,14 +50,21 @@ func (searchResourceWireCodec) decode(
 	return SearchResource{Metadata: metadata, Posting: posting}, nil
 }
 
-func searchResourcePostingFrom(encoded string) (yacymodel.RWIPosting, error) {
+func searchResourcePostingFrom(
+	encoded string,
+) (yacymodel.Optional[yacymodel.RWIPosting], error) {
 	if encoded == "" {
-		return yacymodel.RWIPosting{}, nil
+		return yacymodel.None[yacymodel.RWIPosting](), nil
 	}
 	form, err := yacymodel.Decode(encoded)
 	if err != nil {
-		return yacymodel.RWIPosting{}, fmt.Errorf("search resource posting: %w", err)
+		return yacymodel.None[yacymodel.RWIPosting](),
+			fmt.Errorf("search resource posting: %w", err)
+	}
+	posting, err := rwiPostingWireCodec{}.decodePropertyForm(string(form))
+	if err != nil {
+		return yacymodel.None[yacymodel.RWIPosting](), err
 	}
 
-	return rwiPostingWireCodec{}.decodePropertyForm(string(form))
+	return yacymodel.Some(posting), nil
 }

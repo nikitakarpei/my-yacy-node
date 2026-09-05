@@ -70,12 +70,13 @@ func receivedThenRead(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.UR
 		t.Fatalf("Receive: %v", err)
 	}
 
-	rows := metadataByHash(t, v, module.Directory, []yacymodel.URLHash{metadataHash(t, metadata)})
+	hash := metadataHash(t, metadata)
+	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{hash})
 	if len(rows) != 1 {
 		t.Fatalf("rows = %v, want the one received row", rows)
 	}
 
-	return rows[0]
+	return rows[hash]
 }
 
 func TestStoredURLMetadataKeepsEveryField(t *testing.T) {

@@ -116,7 +116,7 @@ func sampleSearchResource(tb testing.TB, urlWord string) yacyproto.SearchResourc
 
 	return yacyproto.SearchResource{
 		Metadata: metadata,
-		Posting: yacymodel.RWIPosting{
+		Posting: yacymodel.Some(yacymodel.RWIPosting{
 			URLHash:      urlHash,
 			Language:     yacymodel.LanguageOfUndeclaredDocument,
 			TitleWords:   3,
@@ -124,7 +124,7 @@ func sampleSearchResource(tb testing.TB, urlWord string) yacyproto.SearchResourc
 			Hits:         7,
 			TextPosition: 258,
 			Appearance:   yacymodel.Appearance{AppearsInTitle: true},
-		},
+		}),
 	}
 }
 

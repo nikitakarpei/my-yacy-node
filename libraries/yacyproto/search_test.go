@@ -181,11 +181,11 @@ func TestSearchResponsePostingNamesTheDocumentOfItsRow(t *testing.T) {
 	if err != nil {
 		t.Fatalf("url metadata hash: %v", err)
 	}
-	if got.Resources[0].Posting.URLHash != documentHash {
-		t.Fatalf(
-			"posting names %q, row names %q",
-			got.Resources[0].Posting.URLHash,
-			documentHash,
-		)
+	posting, ok := got.Resources[0].Posting.Get()
+	if !ok {
+		t.Fatal("row carries no posting")
+	}
+	if posting.URLHash != documentHash {
+		t.Fatalf("posting names %q, row names %q", posting.URLHash, documentHash)
 	}
 }
