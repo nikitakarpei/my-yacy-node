@@ -2880,7 +2880,7 @@
     {
       "id": 116,
       "title": "Block cache hit ratio",
-      "description": "Share of block reads answered from memory. A gap means no reads. A ratio that falls as stored bytes grow means the cache is too small.",
+      "description": "Share of block reads answered from memory. A gap means no reads. Near zero with nothing held means the memtable reserved the whole cache.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2945,7 +2945,7 @@
     {
       "id": 117,
       "title": "Block cache use vs limit",
-      "description": "Held bytes at the limit is the cache running full. Held bytes below the limit means more cache would not help.",
+      "description": "Held bytes at the limit is the cache running full. Zero held while reads run means the memtable reserved the whole cache.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
