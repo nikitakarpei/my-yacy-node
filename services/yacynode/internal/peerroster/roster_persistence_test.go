@@ -5,14 +5,14 @@ import (
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 )
 
 func TestRosterRestoresPeerNetworkAddressWithoutRestoringReachability(t *testing.T) {
-	databasePath := filepath.Join(t.TempDir(), "peer-roster.db")
+	storagePath := filepath.Join(t.TempDir(), "peer-roster")
 	peerSeed := seniorSeed(t, "peer", "203.0.113.10", 8090)
 
-	storedVault := openBoltRosterVault(t, databasePath)
+	storedVault := openRosterVault(t, storagePath)
 	storedRoster := openRoster(
 		t,
 		rosterFixture{storage: storedVault, reservoirCap: 8, reachableCap: 4},
@@ -22,7 +22,7 @@ func TestRosterRestoresPeerNetworkAddressWithoutRestoringReachability(t *testing
 		t.Fatalf("Close stored roster: %v", err)
 	}
 
-	restoredVault := openBoltRosterVault(t, databasePath)
+	restoredVault := openRosterVault(t, storagePath)
 	t.Cleanup(func() {
 		if err := restoredVault.Close(); err != nil {
 			t.Errorf("Close restored roster: %v", err)
@@ -49,12 +49,12 @@ func TestRosterRestoresPeerNetworkAddressWithoutRestoringReachability(t *testing
 	}
 }
 
-func openBoltRosterVault(t testing.TB, databasePath string) *vault.Vault {
+func openRosterVault(t testing.TB, storagePath string) *vault.Vault {
 	t.Helper()
 
-	storage, err := boltvault.Open(databasePath, 0, boltvault.WriteBatch{}, nil)
+	storage, err := pebblevault.Open(storagePath, 0, pebblevault.MachineLimits{}, nil)
 	if err != nil {
-		t.Fatalf("boltvault.Open: %v", err)
+		t.Fatalf("pebblevault.Open: %v", err)
 	}
 
 	return storage

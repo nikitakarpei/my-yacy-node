@@ -2,30 +2,35 @@ package nodeconfiguration
 
 import (
 	"path/filepath"
-	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig"
 )
 
 const (
-	EnvDataDir               = "YACY_DATA_DIR"
-	EnvStorageQuota          = "YACY_STORAGE_QUOTA"
-	EnvBBoltWriteBatchWrites = "YACY_BBOLT_WRITE_BATCH_WRITES"
-	EnvBBoltWriteBatchDelay  = "YACY_BBOLT_WRITE_BATCH_DELAY"
+	EnvDataDir                     = "YACY_DATA_DIR"
+	EnvStorageQuota                = "YACY_STORAGE_QUOTA"
+	EnvPebbleBlockCache            = "YACY_PEBBLE_BLOCK_CACHE"
+	EnvPebbleMemtableSize          = "YACY_PEBBLE_MEMTABLE_SIZE"
+	EnvPebbleCompactionConcurrency = "YACY_PEBBLE_COMPACTION_CONCURRENCY"
+	EnvPebbleOpenFileLimit         = "YACY_PEBBLE_OPEN_FILE_LIMIT"
 
-	DefaultDataDir                      = "./data"
-	DefaultQuota                        = "1GB"
-	DefaultBBoltWriteBatchMaximumWrites = 1000
-	DefaultBBoltWriteBatchMaximumDelay  = 10 * time.Millisecond
+	DefaultDataDir                     = "./data"
+	DefaultQuota                       = "1GB"
+	DefaultPebbleBlockCache            = "64MB"
+	DefaultPebbleMemtableSize          = "32MB"
+	DefaultPebbleCompactionConcurrency = 1
+	DefaultPebbleOpenFileLimit         = 1000
 
-	StorageFileName = "node.db"
+	StorageDirectoryName = "node"
 )
 
 type StorageConfig struct {
-	Path                         string
-	QuotaByte                    int64
-	BBoltWriteBatchMaximumWrites int
-	BBoltWriteBatchMaximumDelay  time.Duration
+	Path                  string
+	QuotaByte             int64
+	BlockCacheByte        int64
+	MemtableByte          int64
+	CompactionConcurrency int
+	OpenFileLimit         int
 }
 
 func loadStorageConfig(getenv func(string) string) (StorageConfig, error) {
@@ -34,19 +39,29 @@ func loadStorageConfig(getenv func(string) string) (StorageConfig, error) {
 		return StorageConfig{}, err
 	}
 
-	writeBatchWrites, err := envconfig.PositiveInt(
+	blockCache, err := envconfig.ByteSize(getenv, EnvPebbleBlockCache, DefaultPebbleBlockCache)
+	if err != nil {
+		return StorageConfig{}, err
+	}
+
+	memtable, err := envconfig.ByteSize(getenv, EnvPebbleMemtableSize, DefaultPebbleMemtableSize)
+	if err != nil {
+		return StorageConfig{}, err
+	}
+
+	compactionConcurrency, err := envconfig.PositiveInt(
 		getenv,
-		EnvBBoltWriteBatchWrites,
-		DefaultBBoltWriteBatchMaximumWrites,
+		EnvPebbleCompactionConcurrency,
+		DefaultPebbleCompactionConcurrency,
 	)
 	if err != nil {
 		return StorageConfig{}, err
 	}
 
-	writeBatchDelay, err := envconfig.NonNegativeDuration(
+	openFileLimit, err := envconfig.PositiveInt(
 		getenv,
-		EnvBBoltWriteBatchDelay,
-		DefaultBBoltWriteBatchMaximumDelay,
+		EnvPebbleOpenFileLimit,
+		DefaultPebbleOpenFileLimit,
 	)
 	if err != nil {
 		return StorageConfig{}, err
@@ -55,9 +70,11 @@ func loadStorageConfig(getenv func(string) string) (StorageConfig, error) {
 	dataDir := envconfig.String(getenv, EnvDataDir, DefaultDataDir)
 
 	return StorageConfig{
-		Path:                         filepath.Join(dataDir, StorageFileName),
-		QuotaByte:                    quota,
-		BBoltWriteBatchMaximumWrites: writeBatchWrites,
-		BBoltWriteBatchMaximumDelay:  writeBatchDelay,
+		Path:                  filepath.Join(dataDir, StorageDirectoryName),
+		QuotaByte:             quota,
+		BlockCacheByte:        blockCache,
+		MemtableByte:          memtable,
+		CompactionConcurrency: compactionConcurrency,
+		OpenFileLimit:         openFileLimit,
 	}, nil
 }

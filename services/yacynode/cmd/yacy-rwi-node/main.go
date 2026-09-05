@@ -13,7 +13,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog"
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
-	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault"
+	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/metrics"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeconfiguration"
 )
@@ -45,12 +45,14 @@ func run() error {
 		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
 	)
 
-	storage, err := boltvault.Open(
+	storage, err := pebblevault.Open(
 		config.Storage.Path,
 		config.Storage.QuotaByte,
-		boltvault.WriteBatch{
-			MaximumWrites: config.Storage.BBoltWriteBatchMaximumWrites,
-			MaximumDelay:  config.Storage.BBoltWriteBatchMaximumDelay,
+		pebblevault.MachineLimits{
+			BlockCacheBytes:       config.Storage.BlockCacheByte,
+			MemtableBytes:         config.Storage.MemtableByte,
+			CompactionConcurrency: config.Storage.CompactionConcurrency,
+			OpenFileLimit:         config.Storage.OpenFileLimit,
 		},
 		metrics.NewVaultTransactionMetrics(registry),
 	)
