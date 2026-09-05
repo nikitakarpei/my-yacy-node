@@ -2880,7 +2880,7 @@
     {
       "id": 116,
       "title": "Block cache hit ratio",
-      "description": "Share of block reads answered from memory. A ratio that falls as stored bytes grow means the block cache is too small for the working set.",
+      "description": "Share of block reads answered from memory. A gap means no reads. Near zero with nothing held means the memtable reserved the whole cache.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2896,11 +2896,33 @@
         "defaults": {
           "unit": "percentunit",
           "custom": {
-            "fillOpacity": 10
+            "fillOpacity": 10,
+            "axisSoftMax": 1
           },
-          "min": 0,
-          "max": 1
-        }
+          "min": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "block reads"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "reqps"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              }
+            ]
+          }
+        ]
       },
       "options": {
         "tooltip": {
@@ -2910,15 +2932,20 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) / clamp_min(sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) + sum(rate(yacynode_pebble_block_cache_misses_total{instance=~\"$service_instance\"}[$__rate_interval])), 1)",
+          "expr": "sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) / (sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) + sum(rate(yacynode_pebble_block_cache_misses_total{instance=~\"$service_instance\"}[$__rate_interval])))",
           "legendFormat": "hit ratio"
+        },
+        {
+          "refId": "B",
+          "expr": "sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) + sum(rate(yacynode_pebble_block_cache_misses_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "block reads"
         }
       ]
     },
     {
       "id": 117,
       "title": "Block cache use vs limit",
-      "description": "Held bytes at the limit is the cache running full. Held bytes below the limit means more cache would not help.",
+      "description": "Held bytes at the limit is the cache running full. Zero held while reads run means the memtable reserved the whole cache.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2960,7 +2987,7 @@
     {
       "id": 118,
       "title": "File cache hit ratio and share of open files used",
-      "description": "Table files are reopened when the cache is full. A falling hit ratio with the share near one means the engine may open too few files at once.",
+      "description": "Share of table lookups answered from the cache. A gap means no lookups. A falling ratio with the share near one means too few open files.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2976,11 +3003,33 @@
         "defaults": {
           "unit": "percentunit",
           "custom": {
-            "fillOpacity": 10
+            "fillOpacity": 10,
+            "axisSoftMax": 1
           },
-          "min": 0,
-          "max": 1
-        }
+          "min": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "table lookups"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "reqps"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              }
+            ]
+          }
+        ]
       },
       "options": {
         "tooltip": {
@@ -2990,11 +3039,16 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) / clamp_min(sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) + sum(rate(yacynode_pebble_file_cache_misses_total{instance=~\"$service_instance\"}[$__rate_interval])), 1)",
+          "expr": "sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) / (sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) + sum(rate(yacynode_pebble_file_cache_misses_total{instance=~\"$service_instance\"}[$__rate_interval])))",
           "legendFormat": "hit ratio"
         },
         {
           "refId": "B",
+          "expr": "sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) + sum(rate(yacynode_pebble_file_cache_misses_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "table lookups"
+        },
+        {
+          "refId": "C",
           "expr": "yacynode_pebble_file_cache_tables{instance=~\"$service_instance\"} / clamp_min(yacynode_pebble_file_cache_limit{instance=~\"$service_instance\"}, 1)",
           "legendFormat": "share of open files used"
         }
