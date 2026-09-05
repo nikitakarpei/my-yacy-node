@@ -16,10 +16,10 @@ import (
 )
 
 type URLDirectory interface {
-	MetadataByHash(
+	MetadataPerHash(
 		tx *vault.Txn,
 		hashes []yacymodel.URLHash,
-	) ([]yacymodel.URLMetadata, error)
+	) (map[yacymodel.URLHash]yacymodel.URLMetadata, error)
 	MissingURLs(tx *vault.Txn, hashes []yacymodel.URLHash) ([]yacymodel.URLHash, error)
 	Count(tx *vault.Txn) (int, error)
 }

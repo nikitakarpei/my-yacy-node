@@ -83,22 +83,22 @@ func storedURLCount(t *testing.T, v *vault.Vault, directory urlmeta.URLDirectory
 	return count
 }
 
-func metadataByHash(
+func metadataPerHash(
 	t *testing.T,
 	v *vault.Vault,
 	directory urlmeta.URLDirectory,
 	hashes []yacymodel.URLHash,
-) []yacymodel.URLMetadata {
+) map[yacymodel.URLHash]yacymodel.URLMetadata {
 	t.Helper()
 
-	var rows []yacymodel.URLMetadata
+	var rows map[yacymodel.URLHash]yacymodel.URLMetadata
 	if err := v.View(context.Background(), func(tx *vault.Txn) error {
-		stored, err := directory.MetadataByHash(tx, hashes)
+		stored, err := directory.MetadataPerHash(tx, hashes)
 		rows = stored
 
 		return err
 	}); err != nil {
-		t.Fatalf("MetadataByHash: %v", err)
+		t.Fatalf("MetadataPerHash: %v", err)
 	}
 
 	return rows

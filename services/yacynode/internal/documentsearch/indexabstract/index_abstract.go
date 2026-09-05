@@ -69,7 +69,7 @@ func termWithMostPostingsOf(
 }
 
 func documentHashesOf(
-	postingPerDocument map[yacymodel.URLHash]termpostings.Posting,
+	postingPerDocument map[yacymodel.URLHash]yacymodel.RWIPosting,
 ) []yacymodel.URLHash {
 	hashes := make([]yacymodel.URLHash, 0, len(postingPerDocument))
 	for documentHash := range postingPerDocument {

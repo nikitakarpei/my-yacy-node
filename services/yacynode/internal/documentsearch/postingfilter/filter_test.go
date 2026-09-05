@@ -216,10 +216,10 @@ func TestFilterForReportRejectsOtherLanguages(t *testing.T) {
 		searchcriteria.Criteria{Language: yacymodel.Some(english)},
 	)
 
-	if !filter.Accepts(yacymodel.RWIPosting{Language: yacymodel.Some(english)}) {
+	if !filter.Accepts(yacymodel.RWIPosting{Language: english}) {
 		t.Error("posting in the required language should be accepted")
 	}
-	if filter.Accepts(yacymodel.RWIPosting{Language: yacymodel.Some(german)}) {
+	if filter.Accepts(yacymodel.RWIPosting{Language: german}) {
 		t.Error("posting in another language should be rejected")
 	}
 	if filter.Accepts(yacymodel.RWIPosting{}) {

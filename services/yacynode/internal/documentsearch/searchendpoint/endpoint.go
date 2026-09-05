@@ -85,8 +85,8 @@ func (e endpoint) Serve(
 		resp.SearchTime = int(result.Duration / time.Millisecond)
 		resp.References = strings.Join(result.Topics, ",")
 		resp.JoinCount = result.TotalDocumentsMatchingEveryTerm
-		resp.Count = len(result.DocumentMetadata)
-		resp.Resources = result.DocumentMetadata
+		resp.Resources = searchResourcesFrom(result)
+		resp.Count = len(resp.Resources)
 		resp.IndexCount = result.PostingsHeldPerTerm
 		resp.IndexAbstract = encodedIndexAbstractsFrom(result.IndexAbstracts)
 	} else {
@@ -99,6 +99,18 @@ func (e endpoint) Serve(
 	)
 
 	return resp, nil
+}
+
+func searchResourcesFrom(result searchresult.Result) []yacyproto.SearchResource {
+	resources := make([]yacyproto.SearchResource, 0, len(result.MatchedDocuments))
+	for _, document := range result.MatchedDocuments {
+		resources = append(resources, yacyproto.SearchResource{
+			Metadata: document.Metadata,
+			Posting:  yacymodel.Some(document.Posting),
+		})
+	}
+
+	return resources
 }
 
 func encodedIndexAbstractsFrom(

@@ -35,13 +35,20 @@ func PushPosting(
 ) {
 	t.Helper()
 
+	language, err := yacymodel.ParseLanguage("en")
+	if err != nil {
+		t.Fatalf("posting language: %v", err)
+	}
+
 	req := yacyproto.TransferRWIRequest{
 		NetworkName: yacyproto.DefaultNetwork,
 		Iam:         pushSenderHash,
 		YouAre:      nodeHash,
 		WordCount:   1,
 		EntryCount:  1,
-		Indexes:     []yacymodel.RWIPosting{{WordHash: word, URLHash: docURL}},
+		Indexes: []yacymodel.RWIPosting{
+			{WordHash: word, URLHash: docURL, Language: language},
+		},
 	}
 
 	result := probe.PostRaw(

@@ -55,18 +55,18 @@ type fakeURLDirectory struct {
 	unread   error
 }
 
-func (f fakeURLDirectory) MetadataByHash(
+func (f fakeURLDirectory) MetadataPerHash(
 	_ *vault.Txn,
 	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLMetadata, error) {
+) (map[yacymodel.URLHash]yacymodel.URLMetadata, error) {
 	if f.unread != nil {
 		return nil, f.unread
 	}
 
-	found := make([]yacymodel.URLMetadata, 0, len(hashes))
+	found := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(hashes))
 	for _, hash := range hashes {
 		if entry, ok := f.metadata[hash]; ok {
-			found = append(found, entry)
+			found[hash] = entry
 		}
 	}
 

@@ -37,6 +37,34 @@ func TestEndpointJoinsAndAnswers(t *testing.T) {
 	}
 }
 
+func TestEndpointAnswersWithThePostingThatMatchedEachDocument(t *testing.T) {
+	word := searchtest.HashFor("w1")
+	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
+		word: {postingEntry(word, "u1")},
+	}}
+	mux := mountedSearch(t, index, searchtest.URLDirectory{Documents: urlMetadata("u1")})
+
+	resp := search(t, mux, yacyproto.SearchRequest{
+		NetworkName: "freeworld",
+		Query:       []yacymodel.Hash{word},
+		Count:       10,
+	})
+
+	if len(resp.Resources) != 1 {
+		t.Fatalf("resources = %d, want 1", len(resp.Resources))
+	}
+	posting, ok := resp.Resources[0].Posting.Get()
+	if !ok {
+		t.Fatal("resource carries no posting")
+	}
+	if posting.URLHash != documentHashOf("u1") {
+		t.Errorf("posting names %q, want %q", posting.URLHash, documentHashOf("u1"))
+	}
+	if posting.Hits != 1 {
+		t.Errorf("posting hits = %d, want 1", posting.Hits)
+	}
+}
+
 func TestEndpointReportsTermWithMostMatches(t *testing.T) {
 	word1, word2 := searchtest.HashFor("w1"), searchtest.HashFor("w2")
 	index := searchtest.PostingIndex{Postings: map[yacymodel.Hash][]yacymodel.RWIPosting{
@@ -85,8 +113,8 @@ func TestEndpointAnswersWithTitleTopics(t *testing.T) {
 		word: {postingEntry(word, "u1")},
 	}}
 	documents := searchtest.URLDirectory{Documents: map[yacymodel.URLHash]yacymodel.URLMetadata{
-		searchtest.URLHashFor("u1"): {
-			Address: "http://example.com/u1",
+		documentHashOf("u1"): {
+			Address: documentAddressOf("u1"),
 			Title:   "orange kitten pictures",
 		},
 	}}

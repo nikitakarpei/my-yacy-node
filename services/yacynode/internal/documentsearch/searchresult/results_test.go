@@ -15,7 +15,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/documentsearch/termpostings"
 )
 
-func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Language] {
+func mustLanguage(t *testing.T, raw string) yacymodel.Language {
 	t.Helper()
 
 	language, err := yacymodel.ParseLanguage(raw)
@@ -23,7 +23,7 @@ func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Languag
 		t.Fatalf("parse language %q: %v", raw, err)
 	}
 
-	return yacymodel.Some(language)
+	return language
 }
 
 func postingEntry(word yacymodel.Hash, url string, position int) yacymodel.RWIPosting {
@@ -91,11 +91,11 @@ func TestSearchJoinsAndCountsAndReports(t *testing.T) {
 			result.TotalDocumentsMatchingEveryTerm,
 		)
 	}
-	if len(result.DocumentMetadata) != 1 {
-		t.Fatalf("resources = %d, want 1", len(result.DocumentMetadata))
+	if len(result.MatchedDocuments) != 1 {
+		t.Fatalf("resources = %d, want 1", len(result.MatchedDocuments))
 	}
-	if result.DocumentMetadata[0].Address != addressFor("u2") {
-		t.Errorf("resource = %v, want u2", result.DocumentMetadata[0])
+	if result.MatchedDocuments[0].Metadata.Address != addressFor("u2") {
+		t.Errorf("resource = %v, want u2", result.MatchedDocuments[0].Metadata)
 	}
 	if result.PostingsHeldPerTerm[word1] != 2 {
 		t.Errorf(
@@ -141,8 +141,8 @@ func TestSearchTakesMostRelevantUpToLimit(t *testing.T) {
 			result.TotalDocumentsMatchingEveryTerm,
 		)
 	}
-	if len(result.DocumentMetadata) != 2 {
-		t.Errorf("resources = %d, want 2", len(result.DocumentMetadata))
+	if len(result.MatchedDocuments) != 2 {
+		t.Errorf("resources = %d, want 2", len(result.MatchedDocuments))
 	}
 }
 
@@ -172,9 +172,9 @@ func TestSearchFiltersByAverageGapNotSpan(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)
 	}
-	if len(result.DocumentMetadata) != 1 ||
-		result.DocumentMetadata[0].Address != addressFor("uA") {
-		t.Fatalf("resources = %v, want only uA (span 8, average gap 4)", result.DocumentMetadata)
+	if len(result.MatchedDocuments) != 1 ||
+		result.MatchedDocuments[0].Metadata.Address != addressFor("uA") {
+		t.Fatalf("resources = %v, want only uA (span 8, average gap 4)", result.MatchedDocuments)
 	}
 }
 
@@ -274,7 +274,7 @@ func TestSearchAbstractsRequestedTermsWithoutQueryTerms(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)
 	}
-	if result.TotalDocumentsMatchingEveryTerm != 0 || len(result.DocumentMetadata) != 0 {
+	if result.TotalDocumentsMatchingEveryTerm != 0 || len(result.MatchedDocuments) != 0 {
 		t.Fatalf("result = %+v, want report only", result)
 	}
 	if len(result.PostingsHeldPerTerm) != 0 {
@@ -354,14 +354,14 @@ func TestSearchQualifiesByLanguageAndTermSpread(t *testing.T) {
 	result, err := results.ResultFor(context.Background(), searchcriteria.Criteria{
 		Terms:         []yacymodel.Hash{word1, word2},
 		MaxTermSpread: 5,
-		Language:      mustLanguage(t, "en"),
+		Language:      yacymodel.Some(mustLanguage(t, "en")),
 	}, indexabstract.NoIndexAbstracts{})
 	if err != nil {
 		t.Fatalf("ResultFor: %v", err)
 	}
-	if len(result.DocumentMetadata) != 1 ||
-		result.DocumentMetadata[0].Address != addressFor("u1") {
-		t.Fatalf("resources = %v, want only u1", result.DocumentMetadata)
+	if len(result.MatchedDocuments) != 1 ||
+		result.MatchedDocuments[0].Metadata.Address != addressFor("u1") {
+		t.Fatalf("resources = %v, want only u1", result.MatchedDocuments)
 	}
 }
 

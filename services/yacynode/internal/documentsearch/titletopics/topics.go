@@ -20,13 +20,13 @@ const titleWordSeparators = " /()-:_.,?!'\""
 // to keep search latency bounded; the field is a navigation hint, so the narrower
 // sample is acceptable.
 func TopicsFromTitles(
-	documentMetadata []yacymodel.URLMetadata,
+	titles []string,
 	queryTerms []yacymodel.Hash,
 ) []string {
 	queryTermHashes := termSet(queryTerms)
 	frequency := make(map[string]int)
-	for _, metadata := range documentMetadata {
-		for _, word := range titleWords(metadata.Title) {
+	for _, title := range titles {
+		for _, word := range titleWords(title) {
 			if _, isQueryTerm := queryTermHashes[yacymodel.WordHash(word)]; isQueryTerm {
 				continue
 			}

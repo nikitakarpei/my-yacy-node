@@ -58,3 +58,25 @@ func ActivePeerHashes(body []byte) (map[string]struct{}, error) {
 	}
 	return out, nil
 }
+
+// IndexedWordCounts reports the ICount each seed publishes, the RWI word count
+// YaCy reads to decide whether a peer is worth a remote search
+// (DHTSelection.java:215).
+func IndexedWordCounts(body []byte) (map[string]int, error) {
+	var doc struct {
+		Seeds []struct {
+			Hash   string `xml:"Hash"`
+			ICount int    `xml:"ICount"`
+		} `xml:"seed"`
+	}
+	out := map[string]int{}
+	if err := xml.Unmarshal(body, &doc); err != nil {
+		return out, fmt.Errorf("parse seed list: %w", err)
+	}
+	for _, seed := range doc.Seeds {
+		if seed.Hash != "" {
+			out[seed.Hash] = seed.ICount
+		}
+	}
+	return out, nil
+}

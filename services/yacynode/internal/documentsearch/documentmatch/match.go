@@ -11,7 +11,7 @@ import (
 )
 
 type Match struct {
-	documentHash      yacymodel.URLHash
+	posting           yacymodel.RWIPosting
 	termOccurrences   int
 	firstTermPosition int
 	lastTermPosition  int
@@ -36,8 +36,8 @@ func MatchesAcrossEveryTerm(
 	matchingEvery := make(map[yacymodel.URLHash]Match, len(firstTermPostings))
 	for documentHash, posting := range firstTermPostings {
 		matchingEvery[documentHash] = Match{
-			documentHash:      documentHash,
-			termOccurrences:   posting.Occurrences,
+			posting:           posting,
+			termOccurrences:   posting.Hits,
 			firstTermPosition: posting.TextPosition,
 			lastTermPosition:  posting.TextPosition,
 		}
@@ -52,10 +52,11 @@ func MatchesAcrossEveryTerm(
 
 				continue
 			}
+			match.posting = postingAcrossTerms(match.posting, posting)
 			// Deliberate divergence from YaCy, which takes the max: summing per-word
 			// hit counts across the query terms ranks by total query-term frequency,
 			// the relevance signal this node orders on.
-			match.termOccurrences += posting.Occurrences
+			match.termOccurrences += posting.Hits
 			match.firstTermPosition = min(match.firstTermPosition, posting.TextPosition)
 			match.lastTermPosition = max(match.lastTermPosition, posting.TextPosition)
 			matchingEvery[documentHash] = match
@@ -63,6 +64,38 @@ func MatchesAcrossEveryTerm(
 	}
 
 	return matchingEvery
+}
+
+// postingAcrossTerms merges the postings of one document the way YaCy's own join
+// does, so the posting this node hands a peer is the posting that peer would
+// have built for itself: the earliest positions, and the largest counts.
+func postingAcrossTerms(posting, additional yacymodel.RWIPosting) yacymodel.RWIPosting {
+	posting.TextPosition = earliestPosition(posting.TextPosition, additional.TextPosition)
+	if posting.PhrasePosition > additional.PhrasePosition {
+		posting.PhrasePosition = additional.PhrasePosition
+		posting.PhraseRelativePosition = additional.PhraseRelativePosition
+	} else if posting.PhrasePosition == additional.PhrasePosition {
+		posting.PhraseRelativePosition = min(
+			posting.PhraseRelativePosition,
+			additional.PhraseRelativePosition,
+		)
+	}
+	posting.TextWords = max(posting.TextWords, additional.TextWords)
+	posting.TitleWords = max(posting.TitleWords, additional.TitleWords)
+	posting.Phrases = max(posting.Phrases, additional.Phrases)
+	posting.Hits = max(posting.Hits, additional.Hits)
+
+	return posting
+}
+
+const positionAbsent = 0
+
+func earliestPosition(position, additional int) int {
+	if position == positionAbsent || additional == positionAbsent {
+		return max(position, additional)
+	}
+
+	return min(position, additional)
 }
 
 func MatchesWithinTermSpread(
@@ -88,11 +121,11 @@ func MatchesWithinTermSpread(
 // the average gap between the query terms' text positions; it matches YaCy's value
 // where YaCy's is deterministic, without depending on YaCy's join-order-sensitive
 // position queue.
-func HashesOfMostRelevantDocuments(
+func PostingsOfMostRelevantDocuments(
 	matches map[yacymodel.URLHash]Match,
 	termCount int,
 	maxResults int,
-) []yacymodel.URLHash {
+) []yacymodel.RWIPosting {
 	ranked := make([]Match, 0, len(matches))
 	for _, match := range matches {
 		ranked = append(ranked, match)
@@ -105,16 +138,16 @@ func HashesOfMostRelevantDocuments(
 			return cmp.Compare(a.termSpread(termCount), b.termSpread(termCount))
 		}
 
-		return cmp.Compare(a.documentHash.String(), b.documentHash.String())
+		return cmp.Compare(a.posting.URLHash.String(), b.posting.URLHash.String())
 	})
 
-	documentHashes := make([]yacymodel.URLHash, 0, len(ranked))
+	postings := make([]yacymodel.RWIPosting, 0, len(ranked))
 	for _, match := range ranked {
-		documentHashes = append(documentHashes, match.documentHash)
+		postings = append(postings, match.posting)
 	}
-	if maxResults > 0 && len(documentHashes) > maxResults {
-		return documentHashes[:maxResults]
+	if maxResults > 0 && len(postings) > maxResults {
+		return postings[:maxResults]
 	}
 
-	return documentHashes
+	return postings
 }
