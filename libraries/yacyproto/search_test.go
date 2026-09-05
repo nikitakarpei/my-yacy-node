@@ -125,10 +125,10 @@ func TestParseSearchRequestRejectsUnknownStrictContentDom(t *testing.T) {
 	}
 }
 
-func TestSearchResponseUsesYaCyLinkCountField(t *testing.T) {
+func TestSearchResponseUsesYaCyCountField(t *testing.T) {
 	t.Parallel()
 
-	msg := yacyproto.Message{yacyproto.FieldLinkCount: "5"}
+	msg := yacyproto.Message{yacyproto.FieldCount: "5"}
 	got, err := yacyproto.ParseSearchResponse(context.Background(), msg)
 	if err != nil {
 		t.Fatalf("ParseSearchResponse: %v", err)
@@ -144,9 +144,9 @@ func TestParseSearchResponseSkipsMissingAndBadResources(t *testing.T) {
 
 	valid := sampleURLMetadata("url-a")
 	msg := yacyproto.Message{
-		yacyproto.FieldLinkCount: "3",
-		"resource0":              sampleURLMetadataWireForm(t, valid),
-		"resource2":              "bad",
+		yacyproto.FieldCount: "3",
+		"resource0":          sampleURLMetadataWireForm(t, valid),
+		"resource2":          "bad",
 	}
 	got, err := yacyproto.ParseSearchResponse(context.Background(), msg)
 	if err != nil {

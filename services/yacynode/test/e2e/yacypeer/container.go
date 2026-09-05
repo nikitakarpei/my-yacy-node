@@ -28,6 +28,7 @@ func Start(
 	ctx context.Context,
 	probe *httpprobe.Probe,
 	networkName, alias string,
+	configOverrides ...string,
 ) (testcontainers.Container, string) {
 	t.Helper()
 	image := os.Getenv("YACY_YACY_IMAGE")
@@ -36,7 +37,7 @@ func Start(
 	}
 	const defaults = "/opt/yacy_search_server/defaults/"
 	const unitFile = defaults + "yacy.network.freeworld.unit"
-	setup := strings.Join([]string{
+	setup := strings.Join(append([]string{
 		"sed -i 's#<auth-method>DIGEST</auth-method>#<auth-method>BASIC</auth-method>#' " + defaults + "web.xml",
 		"sed -i '/^network.unit.bootstrap.seedlist/d' " + unitFile,
 		"sed -i 's#^network.unit.domain.*#network.unit.domain = any#' " + unitFile,
@@ -51,7 +52,7 @@ func Start(
 		"sed -i 's#^20_dhtdistribution_idlesleep=.*#20_dhtdistribution_idlesleep=1000#' " + defaults + "yacy.init",
 		"sed -i 's#^20_dhtdistribution_busysleep=.*#20_dhtdistribution_busysleep=0#' " + defaults + "yacy.init",
 		"sed -i 's#^.level=.*#.level=FINE#' " + defaults + "yacy.logging",
-	}, " && ")
+	}, configOverrides...), " && ")
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
 		ContainerRequest: testcontainers.ContainerRequest{

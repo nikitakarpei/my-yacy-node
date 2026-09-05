@@ -106,3 +106,34 @@ func waitFleetActiveConnected(
 	}
 	t.Fatal("YaCy has no active connected fleet node; DHT dispatcher may remain nil after restart")
 }
+
+// waitPeerIndexedWords waits until YaCy publishes a non-zero ICount for the
+// peer. Below one indexed word YaCy drops the peer from a remote search
+// (DHTSelection.java:215).
+func waitPeerIndexedWords(
+	t *testing.T,
+	ctx context.Context,
+	probe *httpprobe.Probe,
+	yacyURL string,
+	peerHash yacymodel.Hash,
+	timeout time.Duration,
+) {
+	t.Helper()
+	if pollwait.For(timeout, func() bool {
+		result := probe.Get(ctx, yacyURL+"/yacy/seedlist.xml")
+		if !result.OK {
+			return false
+		}
+		counts, err := peerdirectory.IndexedWordCounts([]byte(result.Body))
+		if err != nil {
+			return false
+		}
+		return counts[peerHash.String()] > 0
+	}) {
+		return
+	}
+	if result := probe.Get(ctx, yacyURL+"/yacy/seedlist.xml"); result.OK {
+		t.Logf("final seedlist.xml:\n%s", result.Body)
+	}
+	t.Fatalf("YaCy never saw a non-zero ICount for peer hash %s", peerHash)
+}

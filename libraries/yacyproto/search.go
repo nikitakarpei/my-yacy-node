@@ -205,7 +205,7 @@ func (r SearchResponse) Encode() Message {
 	setInt(msg, FieldSearchTime, r.SearchTime)
 	setString(msg, FieldReferences, r.References)
 	setInt(msg, FieldJoinCount, r.JoinCount)
-	setInt(msg, FieldLinkCount, r.Count)
+	setInt(msg, FieldCount, r.Count)
 	for i, row := range r.Resources {
 		setString(msg, indexedKey(prefixResource, i), urlMetadataWireCodec{}.encode(row))
 	}
@@ -238,7 +238,7 @@ func ParseSearchResponse(ctx context.Context, m Message) (SearchResponse, error)
 		return SearchResponse{}, err
 	}
 
-	if resp.Count, err = optionalInt(FieldLinkCount, m[FieldLinkCount]); err != nil {
+	if resp.Count, err = optionalInt(FieldCount, m[FieldCount]); err != nil {
 		return SearchResponse{}, err
 	}
 
