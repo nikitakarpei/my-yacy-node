@@ -83,14 +83,21 @@ func TestConditionReportsTheTablesTheEngineWritesOut(t *testing.T) {
 		storeWords(t, engine, batch, 1024)
 	}
 	settled := conditionMeeting(t, engine, func(c pebblevault.EngineCondition) bool {
-		return c.Flushes > before.Flushes && c.Levels[0].Tables > 0
+		return c.Flushes > before.Flushes
 	})
 
-	if settled.DiskOccupiedBytes <= before.DiskOccupiedBytes {
+	if settled.Levels[0].Tables <= before.Levels[0].Tables {
 		t.Errorf(
-			"DiskOccupiedBytes went %d -> %d, want a rise",
-			before.DiskOccupiedBytes,
-			settled.DiskOccupiedBytes,
+			"level 0 tables went %d -> %d, want a rise",
+			before.Levels[0].Tables,
+			settled.Levels[0].Tables,
+		)
+	}
+	if settled.Levels[0].TableBytes <= before.Levels[0].TableBytes {
+		t.Errorf(
+			"level 0 table bytes went %d -> %d, want a rise",
+			before.Levels[0].TableBytes,
+			settled.Levels[0].TableBytes,
 		)
 	}
 }

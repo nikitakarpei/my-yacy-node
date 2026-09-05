@@ -38,7 +38,6 @@ type EngineCondition struct {
 	FileCacheLimit                int
 	BloomFilterHits               int64
 	BloomFilterMisses             int64
-	DiskOccupiedBytes             int64
 	WriteAheadLogBytes            int64
 	WriteAheadLogFiles            int64
 	ObsoleteTableBytes            int64
@@ -83,7 +82,6 @@ func engineConditionOf(reported *pebble.Metrics, limits MachineLimits) EngineCon
 		FileCacheLimit:                limits.OpenFileLimit,
 		BloomFilterHits:               reported.Filter.Hits,
 		BloomFilterMisses:             reported.Filter.Misses,
-		DiskOccupiedBytes:             signed(reported.DiskSpaceUsage()),
 		WriteAheadLogBytes:            signed(reported.WAL.PhysicalSize),
 		WriteAheadLogFiles:            reported.WAL.Files,
 		ObsoleteTableBytes:            signed(reported.Table.ObsoleteSize),

@@ -261,11 +261,6 @@ func bloomFilterReadings() []engineReading {
 func diskFootprintReadings() []engineReading {
 	return append(reclaimableReadings(), []engineReading{
 		engineGaugeReading(
-			"yacynode_pebble_disk_occupied_bytes",
-			"Bytes the storage engine occupies on disk, live and not yet reclaimed.",
-			func(c pebblevault.EngineCondition) float64 { return float64(c.DiskOccupiedBytes) },
-		),
-		engineGaugeReading(
 			"yacynode_pebble_write_ahead_log_bytes",
 			"Bytes the write-ahead log files occupy on disk.",
 			func(c pebblevault.EngineCondition) float64 { return float64(c.WriteAheadLogBytes) },

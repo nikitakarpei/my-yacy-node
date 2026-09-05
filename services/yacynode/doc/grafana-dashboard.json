@@ -3117,53 +3117,6 @@
       ]
     },
     {
-      "id": 122,
-      "title": "Bytes on disk vs bytes the vault counts",
-      "description": "The gap is what the quota does not see: obsolete files, the log, and data kept for open snapshots.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 250
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "bytes",
-          "custom": {
-            "fillOpacity": 10
-          },
-          "min": 0
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "yacynode_pebble_disk_occupied_bytes{instance=~\"$service_instance\"}",
-          "legendFormat": "on disk"
-        },
-        {
-          "refId": "B",
-          "expr": "yacynode_vault_used_bytes{instance=~\"$service_instance\"}",
-          "legendFormat": "counted by the vault"
-        },
-        {
-          "refId": "C",
-          "expr": "yacynode_pebble_write_ahead_log_bytes{instance=~\"$service_instance\"}",
-          "legendFormat": "write-ahead log"
-        }
-      ]
-    },
-    {
       "id": 123,
       "title": "Bytes disk holds but reads cannot see",
       "description": "Bytes a compaction or a file removal can still return to the disk.",
@@ -3175,7 +3128,7 @@
       "gridPos": {
         "h": 8,
         "w": 8,
-        "x": 16,
+        "x": 8,
         "y": 250
       },
       "fieldConfig": {
