@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -138,18 +139,30 @@ func search(
 func urlMetadata(ids ...string) map[yacymodel.URLHash]yacymodel.URLMetadata {
 	metadata := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(ids))
 	for _, id := range ids {
-		metadata[searchtest.URLHashFor(id)] = yacymodel.URLMetadata{
-			Address: "http://example.com/" + id,
-		}
+		metadata[documentHashOf(id)] = yacymodel.URLMetadata{Address: documentAddressOf(id)}
 	}
 
 	return metadata
 }
 
-func postingEntry(word yacymodel.Hash, url string) yacymodel.RWIPosting {
+func postingEntry(word yacymodel.Hash, id string) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash: word,
-		URLHash:  searchtest.URLHashFor(url),
+		URLHash:  documentHashOf(id),
+		Language: yacymodel.LanguageOfUndeclaredDocument,
 		Hits:     1,
 	}
+}
+
+func documentAddressOf(id string) string {
+	return "http://example.com/" + id
+}
+
+func documentHashOf(id string) yacymodel.URLHash {
+	address, err := url.Parse(documentAddressOf(id))
+	if err != nil {
+		panic(err)
+	}
+
+	return yacymodel.URLNormalformOf(address).Hash()
 }

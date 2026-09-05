@@ -21,10 +21,10 @@ import (
 )
 
 type DocumentDirectory interface {
-	MetadataByHash(
+	MetadataPerHash(
 		tx *vault.Txn,
 		hashes []yacymodel.URLHash,
-	) ([]yacymodel.URLMetadata, error)
+	) (map[yacymodel.URLHash]yacymodel.URLMetadata, error)
 }
 
 type Results struct {
@@ -41,8 +41,13 @@ func New(
 	return Results{vault: v, termPostings: postings, documentDirectory: documents}
 }
 
+type MatchedDocument struct {
+	Metadata yacymodel.URLMetadata
+	Posting  yacymodel.RWIPosting
+}
+
 type Result struct {
-	DocumentMetadata                []yacymodel.URLMetadata
+	MatchedDocuments                []MatchedDocument
 	Topics                          []string
 	TotalDocumentsMatchingEveryTerm int
 	Duration                        time.Duration
@@ -66,10 +71,14 @@ func (r Results) ResultFor(
 			return err
 		}
 
-		documentMetadata, err := r.documentDirectory.MetadataByHash(tx, joined.documentHashes)
+		metadataPerHash, err := r.documentDirectory.MetadataPerHash(
+			tx,
+			documentHashesOf(joined.postings),
+		)
 		if err != nil {
 			return fmt.Errorf("%w: %w", ErrDocumentDirectory, err)
 		}
+		matchedDocuments := matchedDocumentsOf(joined.postings, metadataPerHash)
 
 		matchesForIndexAbstractTerms, err := r.termPostings.MatchesFor(
 			ctx,
@@ -89,9 +98,9 @@ func (r Results) ResultFor(
 		)
 
 		result = Result{
-			DocumentMetadata: documentMetadata,
+			MatchedDocuments: matchedDocuments,
 			Topics: titletopics.TopicsFromTitles(
-				documentMetadata,
+				documentTitlesOf(matchedDocuments),
 				criteria.Terms,
 			),
 			TotalDocumentsMatchingEveryTerm: joined.documentsMatchingEveryTerm,
@@ -113,7 +122,7 @@ func (r Results) ResultFor(
 
 type joinedTerms struct {
 	matchesForQueryTerms       map[yacymodel.Hash]termpostings.Match
-	documentHashes             []yacymodel.URLHash
+	postings                   []yacymodel.RWIPosting
 	documentsMatchingEveryTerm int
 }
 
@@ -149,11 +158,45 @@ func (r Results) joinedTerms(
 
 	return joinedTerms{
 		matchesForQueryTerms: matchesForQueryTerms,
-		documentHashes: documentmatch.HashesOfMostRelevantDocuments(
+		postings: documentmatch.PostingsOfMostRelevantDocuments(
 			matchesWithinTermSpread,
 			len(criteria.Terms),
 			criteria.MaxResults,
 		),
 		documentsMatchingEveryTerm: len(matchesWithinTermSpread),
 	}, nil
+}
+
+func documentHashesOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
+	hashes := make([]yacymodel.URLHash, 0, len(postings))
+	for _, posting := range postings {
+		hashes = append(hashes, posting.URLHash)
+	}
+
+	return hashes
+}
+
+func matchedDocumentsOf(
+	postings []yacymodel.RWIPosting,
+	metadataPerHash map[yacymodel.URLHash]yacymodel.URLMetadata,
+) []MatchedDocument {
+	matched := make([]MatchedDocument, 0, len(postings))
+	for _, posting := range postings {
+		metadata, ok := metadataPerHash[posting.URLHash]
+		if !ok {
+			continue
+		}
+		matched = append(matched, MatchedDocument{Metadata: metadata, Posting: posting})
+	}
+
+	return matched
+}
+
+func documentTitlesOf(matched []MatchedDocument) []string {
+	titles := make([]string, 0, len(matched))
+	for _, document := range matched {
+		titles = append(titles, document.Metadata.Title)
+	}
+
+	return titles
 }

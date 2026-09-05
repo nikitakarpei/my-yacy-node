@@ -125,6 +125,7 @@ func posting(word, urlSeed string) yacymodel.RWIPosting {
 	return yacymodel.RWIPosting{
 		WordHash:   yacymodel.WordHash(word),
 		URLHash:    urlHash(urlSeed),
+		Language:   yacymodel.LanguageOfUndeclaredDocument,
 		LocalLinks: 1,
 		Hits:       1,
 	}

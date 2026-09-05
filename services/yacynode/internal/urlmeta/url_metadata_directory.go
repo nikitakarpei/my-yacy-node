@@ -13,11 +13,11 @@ type urlDirectory struct {
 	observers  observers
 }
 
-func (d urlDirectory) MetadataByHash(
+func (d urlDirectory) MetadataPerHash(
 	tx *vault.Txn,
 	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLMetadata, error) {
-	metadata := make([]yacymodel.URLMetadata, 0, len(hashes))
+) (map[yacymodel.URLHash]yacymodel.URLMetadata, error) {
+	metadata := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(hashes))
 	for _, hash := range hashes {
 		stored, ok, err := d.collection.Get(tx, hash)
 		if err != nil {
@@ -26,7 +26,7 @@ func (d urlDirectory) MetadataByHash(
 		if !ok {
 			continue
 		}
-		metadata = append(metadata, stored)
+		metadata[hash] = stored
 	}
 
 	return metadata, nil

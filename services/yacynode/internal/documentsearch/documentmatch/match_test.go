@@ -27,19 +27,19 @@ func urlHashFor(url string) yacymodel.URLHash {
 	return hash
 }
 
-func matchOf(postings ...termpostings.Posting) termpostings.Match {
-	byDocument := make(map[yacymodel.URLHash]termpostings.Posting, len(postings))
+func matchOf(postings ...yacymodel.RWIPosting) termpostings.Match {
+	byDocument := make(map[yacymodel.URLHash]yacymodel.RWIPosting, len(postings))
 	for _, posting := range postings {
-		byDocument[posting.DocumentHash] = posting
+		byDocument[posting.URLHash] = posting
 	}
 
 	return termpostings.Match{PostingPerDocument: byDocument, PostingsHeld: len(postings)}
 }
 
-func postingIn(url string, occurrences, textPosition int) termpostings.Posting {
-	return termpostings.Posting{
-		DocumentHash: urlHashFor(url),
-		Occurrences:  occurrences,
+func postingIn(url string, occurrences, textPosition int) yacymodel.RWIPosting {
+	return yacymodel.RWIPosting{
+		URLHash:      urlHashFor(url),
+		Hits:         occurrences,
 		TextPosition: textPosition,
 	}
 }
@@ -55,14 +55,14 @@ func matchesOfTwoTerms(
 	)
 }
 
-func assertOrder(t *testing.T, ordered, want []yacymodel.URLHash) {
+func assertOrder(t *testing.T, ordered []yacymodel.RWIPosting, want []yacymodel.URLHash) {
 	t.Helper()
 
 	if len(ordered) != len(want) {
 		t.Fatalf("order = %v, want %v", ordered, want)
 	}
 	for position, documentHash := range want {
-		if ordered[position] != documentHash {
+		if ordered[position].URLHash != documentHash {
 			t.Fatalf("order = %v, want %v", ordered, want)
 		}
 	}
@@ -76,7 +76,7 @@ func TestMatchesAcrossEveryTermDropsDocumentsMissingATerm(t *testing.T) {
 
 	assertOrder(
 		t,
-		documentmatch.HashesOfMostRelevantDocuments(matches, 2, 0),
+		documentmatch.PostingsOfMostRelevantDocuments(matches, 2, 0),
 		[]yacymodel.URLHash{urlHashFor("u2")},
 	)
 }
@@ -89,9 +89,39 @@ func TestMatchesAcrossEveryTermSumsOccurrencesRatherThanTakingTheHighest(t *test
 
 	assertOrder(
 		t,
-		documentmatch.HashesOfMostRelevantDocuments(matches, 2, 0),
+		documentmatch.PostingsOfMostRelevantDocuments(matches, 2, 0),
 		[]yacymodel.URLHash{urlHashFor("u1"), urlHashFor("u2")},
 	)
+}
+
+func TestMatchesAcrossEveryTermKeepsTheLargestCountAndEarliestPosition(t *testing.T) {
+	matches := matchesOfTwoTerms(
+		matchOf(postingIn("u1", 2, 40)),
+		matchOf(postingIn("u1", 5, 9)),
+	)
+
+	postings := documentmatch.PostingsOfMostRelevantDocuments(matches, 2, 0)
+	if len(postings) != 1 {
+		t.Fatalf("postings = %d, want 1", len(postings))
+	}
+	if postings[0].Hits != 5 {
+		t.Errorf("hits = %d, want 5", postings[0].Hits)
+	}
+	if postings[0].TextPosition != 9 {
+		t.Errorf("text position = %d, want 9", postings[0].TextPosition)
+	}
+}
+
+func TestMatchesAcrossEveryTermIgnoresAnAbsentPosition(t *testing.T) {
+	matches := matchesOfTwoTerms(
+		matchOf(postingIn("u1", 1, 0)),
+		matchOf(postingIn("u1", 1, 12)),
+	)
+
+	postings := documentmatch.PostingsOfMostRelevantDocuments(matches, 2, 0)
+	if len(postings) != 1 || postings[0].TextPosition != 12 {
+		t.Fatalf("postings = %+v, want one at position 12", postings)
+	}
 }
 
 func TestMatchesAcrossEveryTermWithoutTerms(t *testing.T) {
@@ -112,7 +142,7 @@ func TestMatchesWithinTermSpreadDropsWidelySpreadDocuments(t *testing.T) {
 
 	assertOrder(
 		t,
-		documentmatch.HashesOfMostRelevantDocuments(within, 2, 0),
+		documentmatch.PostingsOfMostRelevantDocuments(within, 2, 0),
 		[]yacymodel.URLHash{urlHashFor("u1")},
 	)
 }
@@ -127,7 +157,7 @@ func TestMatchesWithinTermSpreadKeepsEveryDocumentWithoutLimit(t *testing.T) {
 
 	assertOrder(
 		t,
-		documentmatch.HashesOfMostRelevantDocuments(within, 2, 0),
+		documentmatch.PostingsOfMostRelevantDocuments(within, 2, 0),
 		[]yacymodel.URLHash{urlHashFor("u1"), urlHashFor("u2")},
 	)
 }
@@ -140,7 +170,7 @@ func TestHashesOfMostRelevantDocumentsOrdersByOccurrencesThenSpread(t *testing.T
 
 	assertOrder(
 		t,
-		documentmatch.HashesOfMostRelevantDocuments(matches, 2, 0),
+		documentmatch.PostingsOfMostRelevantDocuments(matches, 2, 0),
 		[]yacymodel.URLHash{urlHashFor("u1"), urlHashFor("u2"), urlHashFor("u3")},
 	)
 }
@@ -153,7 +183,7 @@ func TestHashesOfMostRelevantDocumentsBreaksTiesOnDocumentHash(t *testing.T) {
 
 	assertOrder(
 		t,
-		documentmatch.HashesOfMostRelevantDocuments(matches, 2, 1),
+		documentmatch.PostingsOfMostRelevantDocuments(matches, 2, 1),
 		[]yacymodel.URLHash{urlHashFor("u1")},
 	)
 }

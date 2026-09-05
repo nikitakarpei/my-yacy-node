@@ -63,7 +63,6 @@ const (
 	FieldSearchTime       = "searchtime"
 	FieldReferences       = "references"
 	FieldJoinCount        = "joincount"
-	FieldLinkCount        = "linkcount"
 	prefixResource        = "resource"
 	prefixIndexCount      = "indexcount."
 	prefixIndexAbstract   = "indexabstract."

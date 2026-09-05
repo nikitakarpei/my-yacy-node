@@ -58,8 +58,7 @@ func documentSet(documentHashes []yacymodel.URLHash) map[yacymodel.URLHash]struc
 
 func (f Filter) Accepts(posting yacymodel.RWIPosting) bool {
 	if requiredLanguage, ok := f.language.Get(); ok {
-		code, ok := posting.Language.Get()
-		if !ok || code != requiredLanguage {
+		if posting.Language != requiredLanguage {
 			return false
 		}
 	}

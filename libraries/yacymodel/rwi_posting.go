@@ -16,7 +16,7 @@ type RWIPosting struct {
 	TextWords              int
 	Phrases                int
 	DocumentType           DocumentType
-	Language               Optional[Language]
+	Language               Language
 	LocalLinks             int
 	ExternalLinks          int
 	URLLength              int

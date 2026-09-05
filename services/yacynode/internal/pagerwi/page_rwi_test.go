@@ -130,16 +130,28 @@ func TestOfMetadataCarriesURLHash(t *testing.T) {
 	}
 }
 
-func TestOfOmitsLanguageWhenAbsent(t *testing.T) {
+func TestOfRecordsTheUndeclaredLanguageInEveryPosting(t *testing.T) {
 	document := extractedDocument()
 	document.Language = ""
 
 	index := pagerwi.Of(scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt)
 
 	for _, posting := range index.Postings {
-		if language, ok := posting.Language.Get(); ok {
-			t.Fatalf("language should be empty when unknown, got %q", language)
+		if posting.Language != yacymodel.LanguageOfUndeclaredDocument {
+			t.Fatalf("language = %q, want %q",
+				posting.Language, yacymodel.LanguageOfUndeclaredDocument)
 		}
+	}
+}
+
+func TestOfLeavesMetadataLanguageAbsentWhenThePageDeclaresNone(t *testing.T) {
+	document := extractedDocument()
+	document.Language = ""
+
+	index := pagerwi.Of(scrapedPage(t, sampleText), document, []byte(sampleText), reachedAt)
+
+	if language, ok := index.Metadata.Language.Get(); ok {
+		t.Fatalf("metadata language = %q, want absent", language)
 	}
 }
 

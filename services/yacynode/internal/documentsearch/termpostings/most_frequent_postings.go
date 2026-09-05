@@ -1,18 +1,24 @@
 package termpostings
 
-import "container/heap"
+import (
+	"container/heap"
 
-type postingsLeastFrequentFirst []Posting
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
+
+type postingsLeastFrequentFirst []yacymodel.RWIPosting
 
 func (h postingsLeastFrequentFirst) Len() int { return len(h) }
 
 func (h postingsLeastFrequentFirst) Less(i, j int) bool {
-	return h[i].Occurrences < h[j].Occurrences
+	return h[i].Hits < h[j].Hits
 }
 
 func (h postingsLeastFrequentFirst) Swap(i, j int) { h[i], h[j] = h[j], h[i] }
 
-func (h *postingsLeastFrequentFirst) Push(x any) { *h = append(*h, x.(Posting)) }
+func (h *postingsLeastFrequentFirst) Push(x any) {
+	*h = append(*h, x.(yacymodel.RWIPosting))
+}
 
 func (h *postingsLeastFrequentFirst) Pop() any {
 	postings := *h
@@ -27,13 +33,13 @@ type mostFrequentPostings struct {
 	postings    postingsLeastFrequentFirst
 }
 
-func (m *mostFrequentPostings) consider(candidate Posting) {
+func (m *mostFrequentPostings) consider(candidate yacymodel.RWIPosting) {
 	if m.maxPostings <= 0 || len(m.postings) < m.maxPostings {
 		heap.Push(&m.postings, candidate)
 
 		return
 	}
-	if m.postings[0].Occurrences < candidate.Occurrences {
+	if m.postings[0].Hits < candidate.Hits {
 		m.postings[0] = candidate
 		heap.Fix(&m.postings, 0)
 	}

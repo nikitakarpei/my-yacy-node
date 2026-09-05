@@ -19,14 +19,14 @@ func mustHash(t *testing.T, raw string) yacymodel.Hash {
 	return hash
 }
 
-func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Language] {
+func englishLanguage(t *testing.T) yacymodel.Language {
 	t.Helper()
-	language, err := yacymodel.ParseLanguage(raw)
+	language, err := yacymodel.ParseLanguage("en")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	return yacymodel.Some(language)
+	return language
 }
 
 func sampleHash(tb testing.TB, word string) yacymodel.Hash {
@@ -90,6 +90,7 @@ func sampleRWIPosting(tb testing.TB, word, urlWord string) yacymodel.RWIPosting 
 	return yacymodel.RWIPosting{
 		WordHash:   sampleHash(tb, word),
 		URLHash:    sampleURLHash(tb, urlWord),
+		Language:   yacymodel.LanguageOfUndeclaredDocument,
 		LocalLinks: 2,
 	}
 }
@@ -101,6 +102,29 @@ func sampleURLMetadata(urlWord string) yacymodel.URLMetadata {
 		DocumentType: yacymodel.DocumentTypeText,
 		Loaded:       yacymodel.Some(yacymodel.NewCalendarDay(2026, time.July, 18)),
 		LocalLinks:   2,
+	}
+}
+
+func sampleSearchResource(tb testing.TB, urlWord string) yacyproto.SearchResource {
+	tb.Helper()
+
+	metadata := sampleURLMetadata(urlWord)
+	urlHash, err := metadata.Hash()
+	if err != nil {
+		tb.Fatalf("url metadata hash: %v", err)
+	}
+
+	return yacyproto.SearchResource{
+		Metadata: metadata,
+		Posting: yacymodel.Some(yacymodel.RWIPosting{
+			URLHash:      urlHash,
+			Language:     yacymodel.LanguageOfUndeclaredDocument,
+			TitleWords:   3,
+			TextWords:    120,
+			Hits:         7,
+			TextPosition: 258,
+			Appearance:   yacymodel.Appearance{AppearsInTitle: true},
+		}),
 	}
 }
 

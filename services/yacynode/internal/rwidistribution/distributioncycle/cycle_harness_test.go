@@ -372,14 +372,14 @@ type fakeURLDirectory struct {
 	metadata map[yacymodel.URLHash]yacymodel.URLMetadata
 }
 
-func (f fakeURLDirectory) MetadataByHash(
+func (f fakeURLDirectory) MetadataPerHash(
 	_ *vault.Txn,
 	hashes []yacymodel.URLHash,
-) ([]yacymodel.URLMetadata, error) {
-	found := make([]yacymodel.URLMetadata, 0, len(hashes))
+) (map[yacymodel.URLHash]yacymodel.URLMetadata, error) {
+	found := make(map[yacymodel.URLHash]yacymodel.URLMetadata, len(hashes))
 	for _, hash := range hashes {
 		if entry, ok := f.metadata[hash]; ok {
-			found = append(found, entry)
+			found[hash] = entry
 		}
 	}
 

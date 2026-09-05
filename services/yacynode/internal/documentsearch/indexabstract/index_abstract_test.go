@@ -11,10 +11,10 @@ import (
 )
 
 func matchOf(urls ...string) termpostings.Match {
-	byDocument := make(map[yacymodel.URLHash]termpostings.Posting, len(urls))
+	byDocument := make(map[yacymodel.URLHash]yacymodel.RWIPosting, len(urls))
 	for _, url := range urls {
-		byDocument[searchtest.URLHashFor(url)] = termpostings.Posting{
-			DocumentHash: searchtest.URLHashFor(url),
+		byDocument[searchtest.URLHashFor(url)] = yacymodel.RWIPosting{
+			URLHash: searchtest.URLHashFor(url),
 		}
 	}
 

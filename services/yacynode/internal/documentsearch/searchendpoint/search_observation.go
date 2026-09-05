@@ -45,7 +45,7 @@ func outcomeOfSearchFailure(err error) searchmetrics.SearchOutcome {
 }
 
 func (o searchObservation) observeServed(result searchresult.Result) {
-	if len(result.DocumentMetadata) > 0 {
+	if len(result.MatchedDocuments) > 0 {
 		o.metrics.ObserveSearchOutcome(searchmetrics.SearchServedWithResults)
 	} else {
 		o.metrics.ObserveSearchOutcome(searchmetrics.SearchServedNoResults)

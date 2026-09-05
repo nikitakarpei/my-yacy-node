@@ -50,7 +50,7 @@ func (postingValueCodec) Encode(posting yacymodel.RWIPosting) ([]byte, error) {
 	stored.Count(posting.TextWords)
 	stored.Count(posting.Phrases)
 	stored.Byte(byte(posting.DocumentType))
-	writeLanguage(&stored, posting.Language)
+	stored.Text(posting.Language.String())
 	stored.Count(posting.LocalLinks)
 	stored.Count(posting.ExternalLinks)
 	stored.Count(posting.URLLength)
@@ -96,32 +96,15 @@ func (postingValueCodec) Decode(data []byte) (yacymodel.RWIPosting, error) {
 	return posting, nil
 }
 
-func writeLanguage(
-	stored *storedfields.Writer,
-	language yacymodel.Optional[yacymodel.Language],
-) {
-	code, spoken := language.Get()
-	if !spoken {
-		stored.Text("")
-
-		return
-	}
-	stored.Text(code.String())
-}
-
-func languageFrom(stored *storedfields.Reader) yacymodel.Optional[yacymodel.Language] {
-	raw := stored.Text("language")
-	if raw == "" {
-		return yacymodel.None[yacymodel.Language]()
-	}
-	language, err := yacymodel.ParseLanguage(raw)
+func languageFrom(stored *storedfields.Reader) yacymodel.Language {
+	language, err := yacymodel.ParseLanguage(stored.Text("language"))
 	if err != nil {
 		stored.Reject("language", err)
 
-		return yacymodel.None[yacymodel.Language]()
+		return yacymodel.Language{}
 	}
 
-	return yacymodel.Some(language)
+	return language
 }
 
 func appearanceFields(a *yacymodel.Appearance) []*bool {

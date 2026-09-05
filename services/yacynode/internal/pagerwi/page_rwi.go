@@ -66,7 +66,7 @@ func sharedPosting(
 		URLHash:       urlHash,
 		LastModified:  yacymodel.MicroDateFromTime(reachedAt),
 		DocumentType:  yacymodel.DocumentTypeText,
-		Language:      languageOf(document),
+		Language:      recordedLanguageOf(document),
 		LocalLinks:    document.LocalLinks,
 		ExternalLinks: document.ExternalLinks,
 		URLLength:     len(pageURL.String()),
@@ -86,7 +86,7 @@ func metadataOf(
 		Title:         document.Title,
 		Loaded:        yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),
 		DocumentType:  yacymodel.DocumentTypeText,
-		Language:      languageOf(document),
+		Language:      declaredLanguageOf(document),
 		ByteSize:      documentByteSize,
 		WordCount:     wordCount,
 		LocalLinks:    document.LocalLinks,
@@ -94,7 +94,18 @@ func metadataOf(
 	}
 }
 
-func languageOf(document documentextraction.Document) yacymodel.Optional[yacymodel.Language] {
+func recordedLanguageOf(document documentextraction.Document) yacymodel.Language {
+	declared, ok := declaredLanguageOf(document).Get()
+	if !ok {
+		return yacymodel.LanguageOfUndeclaredDocument
+	}
+
+	return declared
+}
+
+func declaredLanguageOf(
+	document documentextraction.Document,
+) yacymodel.Optional[yacymodel.Language] {
 	if document.Language == "" {
 		return yacymodel.None[yacymodel.Language]()
 	}
