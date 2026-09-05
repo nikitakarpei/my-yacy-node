@@ -14,7 +14,7 @@ func TestQuotaAndUsedBytes(t *testing.T) {
 	store, err := pebblevault.Open(
 		filepath.Join(t.TempDir(), "node"),
 		4096,
-		8<<20,
+		testLimits,
 		nil,
 	)
 	if err != nil {

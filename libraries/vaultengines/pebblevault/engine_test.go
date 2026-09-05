@@ -12,7 +12,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault"
 )
 
-const testCacheBytes = 8 << 20
+var testLimits = pebblevault.MachineLimits{BlockCacheBytes: 8 << 20}
 
 var stringKeyLayout = vault.SingleKey(vault.TextKeyPart).KeyLayout()
 
@@ -27,7 +27,7 @@ func openVault(t *testing.T, quotaBytes int64) *vault.Vault {
 	store, err := pebblevault.Open(
 		filepath.Join(t.TempDir(), "node"),
 		quotaBytes,
-		testCacheBytes,
+		testLimits,
 		nil,
 	)
 	if err != nil {
@@ -59,7 +59,7 @@ func registerWords(t *testing.T, store *vault.Vault) *vault.Collection[string, s
 
 func TestConformance(t *testing.T) {
 	vaultenginetest.RunConformance(t, func(quotaBytes int64) (vault.Engine, error) {
-		opened, err := pebblevault.OpenEngine(t.TempDir()+"/node", quotaBytes, testCacheBytes)
+		opened, err := pebblevault.OpenEngine(t.TempDir()+"/node", quotaBytes, testLimits)
 		if err != nil {
 			return nil, err
 		}
@@ -72,7 +72,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 	ctx := context.Background()
 	path := filepath.Join(t.TempDir(), "node")
 
-	first, err := pebblevault.Open(path, 0, testCacheBytes, nil)
+	first, err := pebblevault.Open(path, 0, testLimits, nil)
 	if err != nil {
 		t.Fatalf("Open: %v", err)
 	}
@@ -86,7 +86,7 @@ func TestDurabilityAcrossReopen(t *testing.T) {
 		t.Fatalf("Close: %v", err)
 	}
 
-	reopened, err := pebblevault.Open(path, 0, testCacheBytes, nil)
+	reopened, err := pebblevault.Open(path, 0, testLimits, nil)
 	if err != nil {
 		t.Fatalf("reopen: %v", err)
 	}
@@ -121,7 +121,7 @@ func TestOpenRefusesAStoragePathUnderAFile(t *testing.T) {
 	if _, err := pebblevault.Open(
 		filepath.Join(occupied, "node"),
 		0,
-		testCacheBytes,
+		testLimits,
 		nil,
 	); err == nil {
 		t.Fatal("Open under a file succeeded, want error")
@@ -132,7 +132,7 @@ func TestOpenRefusesAStoragePathAnotherProcessHolds(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "node")
 	openVaultAt(t, path)
 
-	if _, err := pebblevault.OpenEngine(path, 0, testCacheBytes); err == nil {
+	if _, err := pebblevault.OpenEngine(path, 0, testLimits); err == nil {
 		t.Fatal("OpenEngine on a held directory succeeded, want error")
 	}
 }
@@ -140,7 +140,7 @@ func TestOpenRefusesAStoragePathAnotherProcessHolds(t *testing.T) {
 func openVaultAt(t *testing.T, path string) {
 	t.Helper()
 
-	holder, err := pebblevault.OpenEngine(path, 0, testCacheBytes)
+	holder, err := pebblevault.OpenEngine(path, 0, testLimits)
 	if err != nil {
 		t.Fatalf("OpenEngine: %v", err)
 	}
@@ -159,5 +159,15 @@ func TestWritesAreNotGatedByQuota(t *testing.T) {
 		return words.Put(tx, "a", "alpha")
 	}); err != nil {
 		t.Fatalf("Update over quota = %v, want nil (the engine does not gate writes)", err)
+	}
+}
+
+func TestOpenRefusesAMemtableTheEngineCannotAddress(t *testing.T) {
+	if _, err := pebblevault.OpenEngine(
+		filepath.Join(t.TempDir(), "node"),
+		0,
+		pebblevault.MachineLimits{MemtableBytes: 1 << 32},
+	); err == nil {
+		t.Fatal("OpenEngine with an unaddressable memtable succeeded, want error")
 	}
 }

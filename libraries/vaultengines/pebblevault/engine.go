@@ -23,13 +23,20 @@ type engine struct {
 	writing    sync.Mutex
 }
 
+type MachineLimits struct {
+	BlockCacheBytes       int64
+	MemtableBytes         int64
+	CompactionConcurrency int
+	OpenFileLimit         int
+}
+
 func Open(
 	path string,
 	quotaBytes int64,
-	cacheBytes int64,
+	limits MachineLimits,
 	observer vault.TransactionObserver,
 ) (*vault.Vault, error) {
-	opened, err := OpenEngine(path, quotaBytes, cacheBytes)
+	opened, err := OpenEngine(path, quotaBytes, limits)
 	if err != nil {
 		return nil, err
 	}
@@ -46,20 +53,39 @@ func Open(
 	return vaulted, nil
 }
 
-func OpenEngine(path string, quotaBytes int64, cacheBytes int64) (vault.Engine, error) {
+func OpenEngine(path string, quotaBytes int64, limits MachineLimits) (vault.Engine, error) {
 	if err := os.MkdirAll(path, 0o750); err != nil {
 		return nil, fmt.Errorf("create storage directory: %w", err)
 	}
 
-	cache := pebble.NewCache(cacheBytes)
-	defer cache.Unref()
+	options := optionsWithin(limits)
+	if options.Cache != nil {
+		defer options.Cache.Unref()
+	}
 
-	db, err := pebble.Open(path, &pebble.Options{Cache: cache})
+	db, err := pebble.Open(path, options)
 	if err != nil {
 		return nil, fmt.Errorf("open storage: %w", err)
 	}
 
 	return &engine{db: db, quotaBytes: quotaBytes}, nil
+}
+
+func optionsWithin(limits MachineLimits) *pebble.Options {
+	options := &pebble.Options{
+		MemTableSize: uint64(max(limits.MemtableBytes, 0)),
+		MaxOpenFiles: limits.OpenFileLimit,
+	}
+	if limits.BlockCacheBytes > 0 {
+		options.Cache = pebble.NewCache(limits.BlockCacheBytes)
+	}
+	if limits.CompactionConcurrency > 0 {
+		options.CompactionConcurrencyRange = func() (int, int) {
+			return 1, limits.CompactionConcurrency
+		}
+	}
+
+	return options
 }
 
 func (e *engine) Provision(_ vault.Name) error {

@@ -38,15 +38,27 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if config.Identity.AdvertisePort != 8090 {
 		t.Errorf("AdvertisePort = %d, want 8090 (from peer addr)", config.Identity.AdvertisePort)
 	}
-	if !strings.HasSuffix(config.Storage.Path, nodeconfiguration.StorageFileName) {
+	if !strings.HasSuffix(config.Storage.Path, nodeconfiguration.StorageDirectoryName) {
 		t.Errorf(
 			"StoragePath = %q, want suffix %q",
 			config.Storage.Path,
-			nodeconfiguration.StorageFileName,
+			nodeconfiguration.StorageDirectoryName,
 		)
 	}
 	if config.Storage.QuotaByte != 1<<30 {
 		t.Errorf("StorageQuotaByte = %d, want 1GB", config.Storage.QuotaByte)
+	}
+	if config.Storage.BlockCacheByte != 64<<20 {
+		t.Errorf("BlockCacheByte = %d, want 64MB", config.Storage.BlockCacheByte)
+	}
+	if config.Storage.MemtableByte != 32<<20 {
+		t.Errorf("MemtableByte = %d, want 32MB", config.Storage.MemtableByte)
+	}
+	if config.Storage.CompactionConcurrency != nodeconfiguration.DefaultPebbleCompactionConcurrency {
+		t.Errorf("CompactionConcurrency = %d, want default", config.Storage.CompactionConcurrency)
+	}
+	if config.Storage.OpenFileLimit != nodeconfiguration.DefaultPebbleOpenFileLimit {
+		t.Errorf("OpenFileLimit = %d, want default", config.Storage.OpenFileLimit)
 	}
 	if config.PeerExchange.AnnounceInterval != nodeconfiguration.DefaultAnnounceInterval {
 		t.Errorf("AnnounceInterval = %v, want default", config.PeerExchange.AnnounceInterval)
@@ -91,21 +103,25 @@ func TestLoadDefaultsThePageOfferIntake(t *testing.T) {
 
 func TestLoadReadsOverrides(t *testing.T) {
 	config, err := nodeconfiguration.Load(envFrom(map[string]string{
-		nodeconfiguration.EnvInitialPeerHash:            "0123456789AB",
-		nodeconfiguration.EnvPeerName:                   "node",
-		nodeconfiguration.EnvEgressProxyURL:             "http://proxy:4750",
-		nodeconfiguration.EnvNetworkName:                "testnet",
-		nodeconfiguration.EnvPeerAddr:                   ":7000",
-		nodeconfiguration.EnvOpsAddr:                    ":7001",
-		nodeconfiguration.EnvAdvertiseHost:              "203.0.113.1",
-		nodeconfiguration.EnvAdvertisePort:              "9999",
-		nodeconfiguration.EnvStorageQuota:               "2MB",
-		nodeconfiguration.EnvTrustedProxies:             "10.0.0.0/8",
-		nodeconfiguration.EnvSeedlistURLs:               " http://a , http://b ,",
-		nodeconfiguration.EnvAnnounceInterval:           "30s",
-		nodeconfiguration.EnvPageOfferNATSURL:           "nats://broker:4222",
-		nodeconfiguration.EnvPageOfferDurable:           "reached-durable",
-		nodeconfiguration.EnvPageOfferIntakeConcurrency: "9",
+		nodeconfiguration.EnvInitialPeerHash:             "0123456789AB",
+		nodeconfiguration.EnvPeerName:                    "node",
+		nodeconfiguration.EnvEgressProxyURL:              "http://proxy:4750",
+		nodeconfiguration.EnvNetworkName:                 "testnet",
+		nodeconfiguration.EnvPeerAddr:                    ":7000",
+		nodeconfiguration.EnvOpsAddr:                     ":7001",
+		nodeconfiguration.EnvAdvertiseHost:               "203.0.113.1",
+		nodeconfiguration.EnvAdvertisePort:               "9999",
+		nodeconfiguration.EnvStorageQuota:                "2MB",
+		nodeconfiguration.EnvPebbleBlockCache:            "4MB",
+		nodeconfiguration.EnvPebbleMemtableSize:          "2MB",
+		nodeconfiguration.EnvPebbleCompactionConcurrency: "3",
+		nodeconfiguration.EnvPebbleOpenFileLimit:         "128",
+		nodeconfiguration.EnvTrustedProxies:              "10.0.0.0/8",
+		nodeconfiguration.EnvSeedlistURLs:                " http://a , http://b ,",
+		nodeconfiguration.EnvAnnounceInterval:            "30s",
+		nodeconfiguration.EnvPageOfferNATSURL:            "nats://broker:4222",
+		nodeconfiguration.EnvPageOfferDurable:            "reached-durable",
+		nodeconfiguration.EnvPageOfferIntakeConcurrency:  "9",
 	}))
 	if err != nil {
 		t.Fatalf("load config: %v", err)
@@ -119,6 +135,18 @@ func TestLoadReadsOverrides(t *testing.T) {
 	}
 	if config.Storage.QuotaByte != 2<<20 {
 		t.Errorf("StorageQuotaByte = %d, want 2MB", config.Storage.QuotaByte)
+	}
+	if config.Storage.BlockCacheByte != 4<<20 {
+		t.Errorf("BlockCacheByte = %d, want 4MB", config.Storage.BlockCacheByte)
+	}
+	if config.Storage.MemtableByte != 2<<20 {
+		t.Errorf("MemtableByte = %d, want 2MB", config.Storage.MemtableByte)
+	}
+	if config.Storage.CompactionConcurrency != 3 {
+		t.Errorf("CompactionConcurrency = %d, want 3", config.Storage.CompactionConcurrency)
+	}
+	if config.Storage.OpenFileLimit != 128 {
+		t.Errorf("OpenFileLimit = %d, want 128", config.Storage.OpenFileLimit)
 	}
 	if len(config.Serving.TrustedProxyNetworks) != 1 {
 		t.Errorf("TrustedProxyNetworks = %d, want 1", len(config.Serving.TrustedProxyNetworks))
@@ -207,6 +235,26 @@ func TestLoadRejects(t *testing.T) {
 			nodeconfiguration.EnvInitialPeerHash: "0123456789AB",
 			nodeconfiguration.EnvPeerName:        "n",
 			nodeconfiguration.EnvStorageQuota:    "big",
+		},
+		"bad block cache": {
+			nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
+			nodeconfiguration.EnvPeerName:         "n",
+			nodeconfiguration.EnvPebbleBlockCache: "plenty",
+		},
+		"bad memtable size": {
+			nodeconfiguration.EnvInitialPeerHash:    "0123456789AB",
+			nodeconfiguration.EnvPeerName:           "n",
+			nodeconfiguration.EnvPebbleMemtableSize: "plenty",
+		},
+		"bad compaction concurrency": {
+			nodeconfiguration.EnvInitialPeerHash:             "0123456789AB",
+			nodeconfiguration.EnvPeerName:                    "n",
+			nodeconfiguration.EnvPebbleCompactionConcurrency: "0",
+		},
+		"bad open file limit": {
+			nodeconfiguration.EnvInitialPeerHash:     "0123456789AB",
+			nodeconfiguration.EnvPeerName:            "n",
+			nodeconfiguration.EnvPebbleOpenFileLimit: "-1",
 		},
 		"bad announce interval": {
 			nodeconfiguration.EnvInitialPeerHash:  "0123456789AB",
