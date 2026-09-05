@@ -107,8 +107,8 @@ vendors:
     in: github.com/nikitakarpei/yacy-rwi-node/storedfields
   vault:
     in: github.com/nikitakarpei/yacy-rwi-node/vault
-  boltvault:
-    in: github.com/nikitakarpei/yacy-rwi-node/vaultengines/boltvault
+  pebblevault:
+    in: github.com/nikitakarpei/yacy-rwi-node/vaultengines/pebblevault
   prometheus:
     in:
       - github.com/prometheus/client_golang/prometheus

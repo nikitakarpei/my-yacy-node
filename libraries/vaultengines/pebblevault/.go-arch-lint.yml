@@ -1,0 +1,30 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+components:
+  pebblevault:
+    in:
+      - .
+      - "**"
+
+vendors:
+  vault:
+    in: github.com/nikitakarpei/yacy-rwi-node/vault
+  storedfields:
+    in: github.com/nikitakarpei/yacy-rwi-node/storedfields
+  pebble:
+    in: github.com/cockroachdb/pebble/v2
+
+deps:
+  pebblevault:
+    canUse:
+      - vault
+      - storedfields
+      - pebble
+
+excludeFiles:
+  - "_test\\.go"
