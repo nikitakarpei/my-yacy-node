@@ -5,9 +5,13 @@
 // order of the key equals the domain order of its parts. No storage-medium type
 // appears on its exported surface.
 //
-// An Engine keeps a write transaction whole against concurrent writers and can
-// report UsedBytes late after a delete. Because an Engine can call a closure more
-// than one time, a closure reads what it decides on inside its own transaction.
+// An Engine keeps a write transaction whole against concurrent writers, and
+// reports a UsedBytes that a delete lowers by the next call. Each Engine counts
+// those bytes in its own unit, comparable only against its own QuotaBytes.
+// Because an Engine can call a closure more than one time, a closure reads what
+// it decides on inside its own transaction. A key and a value that a scan gives
+// a closure stay usable until that closure returns. An Engine that gets a
+// context which is already done reports an error and does not call the closure.
 package vault
 
 import (

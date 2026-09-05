@@ -5,10 +5,10 @@
 package boltvault
 
 import (
-	"bytes"
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"time"
@@ -66,7 +66,7 @@ func OpenEngine(path string, quotaBytes int64, writeBatch WriteBatch) (vault.Eng
 
 	opened := &engine{db: db, quotaBytes: quotaBytes}
 	if err := opened.createBucket(lengthBucket); err != nil {
-		return nil, closedAfter(db, err)
+		return nil, errors.Join(err, release(db))
 	}
 
 	return opened, nil
@@ -81,12 +81,12 @@ func applyWriteBatch(db *bolt.DB, writeBatch WriteBatch) {
 	}
 }
 
-func closedAfter(db *bolt.DB, err error) error {
-	if closeErr := db.Close(); closeErr != nil {
-		return fmt.Errorf("%w: %w", err, closeErr)
+func release(handle io.Closer) error {
+	if err := handle.Close(); err != nil {
+		return fmt.Errorf("release storage handle: %w", err)
 	}
 
-	return err
+	return nil
 }
 
 var errReservedBucket = errors.New("bucket name reserved for storage internals")
@@ -113,7 +113,11 @@ func (e *engine) createBucket(name vault.Name) error {
 	return nil
 }
 
-func (e *engine) Update(_ context.Context, fn func(vault.EngineTxn) error) error {
+func (e *engine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
+	if err := ctx.Err(); err != nil {
+		return fmt.Errorf("context: %w", err)
+	}
+
 	if err := e.db.Batch(func(tx *bolt.Tx) error {
 		return fn(boltTxn{tx: tx, writable: true})
 	}); err != nil {
@@ -127,7 +131,11 @@ func (e *engine) Update(_ context.Context, fn func(vault.EngineTxn) error) error
 	return nil
 }
 
-func (e *engine) View(_ context.Context, fn func(vault.EngineTxn) error) error {
+func (e *engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error {
+	if err := ctx.Err(); err != nil {
+		return fmt.Errorf("context: %w", err)
+	}
+
 	if err := e.db.View(func(tx *bolt.Tx) error {
 		return fn(boltTxn{tx: tx, writable: false})
 	}); err != nil {
@@ -146,89 +154,29 @@ func (e *engine) Close() error {
 	return nil
 }
 
-type boltTxn struct {
-	tx       *bolt.Tx
-	writable bool
+func (e *engine) QuotaBytes() int64 {
+	return e.quotaBytes
 }
 
-func (t boltTxn) Writable() bool { return t.writable }
-
-func (t boltTxn) Bucket(name vault.Name) vault.EngineBucket {
-	return boltBucket{
-		name:    name,
-		entries: t.tx.Bucket([]byte(name)),
-		lengths: t.tx.Bucket([]byte(lengthBucket)),
+func (e *engine) UsedBytes(ctx context.Context) (int64, error) {
+	if err := ctx.Err(); err != nil {
+		return 0, fmt.Errorf("context: %w", err)
 	}
-}
 
-type boltBucket struct {
-	name    vault.Name
-	entries *bolt.Bucket
-	lengths *bolt.Bucket
-}
+	var used int64
+	if err := e.db.View(func(tx *bolt.Tx) error {
+		stats := e.db.Stats()
+		pageSize := int64(e.db.Info().PageSize)
+		free := int64(stats.FreePageN+stats.PendingPageN) * pageSize
+		used = tx.Size() - free
 
-func (b boltBucket) Get(key []byte) ([]byte, error) {
-	return b.entries.Get(key), nil
-}
-
-func (b boltBucket) Put(key []byte, val []byte) error {
-	inserted := b.entries.Get(key) == nil
-	if err := b.entries.Put(key, val); err != nil {
-		return fmt.Errorf("store: %w", err)
-	}
-	if !inserted {
 		return nil
+	}); err != nil {
+		return 0, fmt.Errorf("read storage stats: %w", err)
+	}
+	if used < 0 {
+		used = 0
 	}
 
-	return adjustLength(b.lengths, b.name, 1)
-}
-
-func (b boltBucket) Delete(key []byte) (bool, error) {
-	if b.entries.Get(key) == nil {
-		return false, nil
-	}
-	if err := b.entries.Delete(key); err != nil {
-		return false, fmt.Errorf("delete: %w", err)
-	}
-	if err := adjustLength(b.lengths, b.name, -1); err != nil {
-		return false, err
-	}
-
-	return true, nil
-}
-
-func (b boltBucket) Len() (int, error) {
-	return lengthOf(b.lengths, b.name)
-}
-
-func (b boltBucket) Scan(keys vault.KeyRange, fn func(key, value []byte) (bool, error)) error {
-	firstIncluded, firstExcluded := keys.Bounds()
-
-	cursor := b.entries.Cursor()
-	key, value := firstEntryFrom(cursor, firstIncluded)
-	for key != nil && isBeforeFirstExcluded(key, firstExcluded) {
-		keep, err := fn(key, value)
-		if err != nil {
-			return err
-		}
-		if !keep {
-			return nil
-		}
-
-		key, value = cursor.Next()
-	}
-
-	return nil
-}
-
-func firstEntryFrom(cursor *bolt.Cursor, firstIncluded []byte) ([]byte, []byte) {
-	if len(firstIncluded) == 0 {
-		return cursor.First()
-	}
-
-	return cursor.Seek(firstIncluded)
-}
-
-func isBeforeFirstExcluded(key, firstExcluded []byte) bool {
-	return firstExcluded == nil || bytes.Compare(key, firstExcluded) < 0
+	return used, nil
 }

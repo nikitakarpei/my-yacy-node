@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"slices"
 	"strconv"
+	"strings"
 	"sync"
 	"testing"
 
@@ -38,9 +39,15 @@ func RunConformance(t *testing.T, open func(quotaBytes int64) (vault.Engine, err
 		"CrossCollectionAtomicRollback",
 		func(t *testing.T) { crossCollectionAtomicRollback(t, open) },
 	)
+	t.Run(
+		"ScanEntriesLastUntilTheClosureReturns",
+		func(t *testing.T) { scanEntriesLastUntilTheClosureReturns(t, open) },
+	)
+	t.Run("DoneContextSkipsTheClosure", func(t *testing.T) { doneContextSkipsTheClosure(t, open) })
 	t.Run("BucketOwnershipIsolation", func(t *testing.T) { bucketOwnershipIsolation(t, open) })
 	t.Run("AtCapacityTracksQuota", func(t *testing.T) { atCapacityTracksQuota(t, open) })
 	t.Run("UsedBytesGrowsWithData", func(t *testing.T) { usedBytesGrowsWithData(t, open) })
+	t.Run("UsedBytesFallsAfterDelete", func(t *testing.T) { usedBytesFallsAfterDelete(t, open) })
 	t.Run(
 		"ConcurrentUpdatesKeepEveryIncrement",
 		func(t *testing.T) { concurrentUpdatesKeepEveryIncrement(t, open) },
@@ -432,6 +439,92 @@ func crossCollectionAtomicRollback(t *testing.T, open func(int64) (vault.Engine,
 	}
 }
 
+const scannedBucket = vault.Name("words")
+
+func scanEntriesLastUntilTheClosureReturns(t *testing.T, open func(int64) (vault.Engine, error)) {
+	ctx := context.Background()
+	engine := openEngine(t, open, 4096)
+	storeScannedEntries(t, engine)
+
+	if err := engine.View(ctx, func(tx vault.EngineTxn) error {
+		return tx.Bucket(scannedBucket).Scan(
+			vault.EveryKey(),
+			func(key, value []byte) (bool, error) {
+				entered, valueEntered := string(key), string(value)
+				if _, err := tx.Bucket(scannedBucket).Get([]byte("c")); err != nil {
+					return false, wrapTest(err)
+				}
+				if string(key) != entered || string(value) != valueEntered {
+					return false, fmt.Errorf(
+						"entry %q=%q became %q=%q before the closure returned",
+						entered, valueEntered, key, value,
+					)
+				}
+
+				return true, nil
+			},
+		)
+	}); err != nil {
+		t.Fatalf("View: %v", err)
+	}
+}
+
+func storeScannedEntries(t *testing.T, engine vault.Engine) {
+	t.Helper()
+
+	if err := engine.Provision(scannedBucket); err != nil {
+		t.Fatalf("Provision: %v", err)
+	}
+	if err := engine.Update(context.Background(), func(tx vault.EngineTxn) error {
+		for _, key := range []string{"a", "b", "c"} {
+			if err := tx.Bucket(scannedBucket).Put([]byte(key), []byte(key+"-value")); err != nil {
+				return wrapTest(err)
+			}
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+}
+
+func doneContextSkipsTheClosure(t *testing.T, open func(int64) (vault.Engine, error)) {
+	engine := openEngine(t, open, 4096)
+	if err := engine.Provision(scannedBucket); err != nil {
+		t.Fatalf("Provision: %v", err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	verifyClosureSkipped(t, "Update", func(fn func(vault.EngineTxn) error) error {
+		return engine.Update(ctx, fn)
+	})
+	verifyClosureSkipped(t, "View", func(fn func(vault.EngineTxn) error) error {
+		return engine.View(ctx, fn)
+	})
+}
+
+func verifyClosureSkipped(
+	t *testing.T,
+	operation string,
+	run func(func(vault.EngineTxn) error) error,
+) {
+	t.Helper()
+
+	called := false
+	if err := run(func(vault.EngineTxn) error {
+		called = true
+
+		return nil
+	}); err == nil {
+		t.Fatalf("%s on a done context succeeded, want an error", operation)
+	}
+	if called {
+		t.Fatalf("%s called the closure on a done context", operation)
+	}
+}
+
 func bucketOwnershipIsolation(t *testing.T, open func(int64) (vault.Engine, error)) {
 	ctx := context.Background()
 	v := openVault(t, open, 0)
@@ -512,6 +605,60 @@ func usedBytesGrowsWithData(t *testing.T, open func(int64) (vault.Engine, error)
 	}
 	if v.QuotaBytes() != 4096 {
 		t.Fatalf("QuotaBytes = %d, want 4096", v.QuotaBytes())
+	}
+}
+
+const (
+	deletedRowCount      = 512
+	deletedRowValueBytes = 512
+)
+
+func usedBytesFallsAfterDelete(t *testing.T, open func(int64) (vault.Engine, error)) {
+	ctx := context.Background()
+	v := openVault(t, open, 16<<20)
+	words := register(t, v, "words")
+
+	storeDeletedRows(t, v, words)
+	filled, err := v.UsedBytes(ctx)
+	if err != nil {
+		t.Fatalf("UsedBytes: %v", err)
+	}
+
+	if err := v.Update(ctx, func(tx *vault.Txn) error {
+		for row := range deletedRowCount {
+			if _, err := words.Delete(tx, strconv.Itoa(row)); err != nil {
+				return wrapTest(err)
+			}
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
+	}
+
+	emptied, err := v.UsedBytes(ctx)
+	if err != nil {
+		t.Fatalf("UsedBytes: %v", err)
+	}
+	if emptied >= filled {
+		t.Fatalf("UsedBytes did not fall: filled=%d emptied=%d", filled, emptied)
+	}
+}
+
+func storeDeletedRows(t *testing.T, v *vault.Vault, words *vault.Collection[string, string]) {
+	t.Helper()
+
+	value := strings.Repeat("x", deletedRowValueBytes)
+	if err := v.Update(context.Background(), func(tx *vault.Txn) error {
+		for row := range deletedRowCount {
+			if err := words.Put(tx, strconv.Itoa(row), value); err != nil {
+				return wrapTest(err)
+			}
+		}
+
+		return nil
+	}); err != nil {
+		t.Fatalf("Update: %v", err)
 	}
 }
 
