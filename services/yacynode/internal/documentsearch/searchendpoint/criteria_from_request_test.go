@@ -117,7 +117,7 @@ func assertDocuments(t *testing.T, resp yacyproto.SearchResponse, want ...string
 
 	found := make([]string, len(resp.Resources))
 	for position, resource := range resp.Resources {
-		found[position] = resource.Address
+		found[position] = resource.Metadata.Address
 	}
 	slices.Sort(found)
 

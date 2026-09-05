@@ -43,7 +43,7 @@ type SearchResponse struct {
 	References    string
 	JoinCount     int
 	Count         int
-	Resources     []yacymodel.URLMetadata
+	Resources     []SearchResource
 	IndexCount    map[yacymodel.Hash]int
 	IndexAbstract map[yacymodel.Hash]string
 }
@@ -207,7 +207,7 @@ func (r SearchResponse) Encode() Message {
 	setInt(msg, FieldJoinCount, r.JoinCount)
 	setInt(msg, FieldCount, r.Count)
 	for i, row := range r.Resources {
-		setString(msg, indexedKey(prefixResource, i), urlMetadataWireCodec{}.encode(row))
+		setString(msg, indexedKey(prefixResource, i), searchResourceWireCodec{}.encode(row))
 	}
 	for hash, count := range r.IndexCount {
 		setInt(msg, prefixIndexCount+hash.String(), count)
@@ -255,8 +255,8 @@ func parseSearchResources(
 	ctx context.Context,
 	m Message,
 	count int,
-) []yacymodel.URLMetadata {
-	var resources []yacymodel.URLMetadata
+) []SearchResource {
+	var resources []SearchResource
 	for i := 0; count <= 0 || i < count; i++ {
 		raw, ok := m[indexedKey(prefixResource, i)]
 		if !ok {
@@ -267,7 +267,7 @@ func parseSearchResources(
 			continue
 		}
 
-		resource, err := urlMetadataWireCodec{}.decode(ctx, raw)
+		resource, err := searchResourceWireCodec{}.decode(ctx, raw)
 		if err != nil {
 			slog.WarnContext(
 				ctx,

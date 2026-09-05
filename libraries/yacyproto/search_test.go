@@ -59,9 +59,9 @@ func TestSearchResponseRoundTrip(t *testing.T) {
 		References:     "topic",
 		JoinCount:      4,
 		Count:          2,
-		Resources: []yacymodel.URLMetadata{
-			sampleURLMetadata("url-a"),
-			sampleURLMetadata("url-b"),
+		Resources: []yacyproto.SearchResource{
+			sampleSearchResource(t, "url-a"),
+			sampleSearchResource(t, "url-b"),
 		},
 		IndexCount:    map[yacymodel.Hash]int{alpha: 17},
 		IndexAbstract: map[yacymodel.Hash]string{alpha: "abc"},
@@ -155,7 +155,37 @@ func TestParseSearchResponseSkipsMissingAndBadResources(t *testing.T) {
 	if len(got.Resources) != 1 {
 		t.Fatalf("resources = %d, want 1", len(got.Resources))
 	}
-	if !reflect.DeepEqual(got.Resources[0], valid) {
-		t.Fatalf("resource = %#v, want %#v", got.Resources[0], valid)
+	if !reflect.DeepEqual(got.Resources[0].Metadata, valid) {
+		t.Fatalf("resource = %#v, want %#v", got.Resources[0].Metadata, valid)
+	}
+}
+
+func TestSearchResponsePostingNamesTheDocumentOfItsRow(t *testing.T) {
+	t.Parallel()
+
+	resource := sampleSearchResource(t, "url-a")
+	msg := yacyproto.SearchResponse{
+		Count:     1,
+		Resources: []yacyproto.SearchResource{resource},
+	}.Encode()
+
+	got, err := yacyproto.ParseSearchResponse(context.Background(), msg)
+	if err != nil {
+		t.Fatalf("ParseSearchResponse: %v", err)
+	}
+	if len(got.Resources) != 1 {
+		t.Fatalf("resources = %d, want 1", len(got.Resources))
+	}
+
+	documentHash, err := got.Resources[0].Metadata.Hash()
+	if err != nil {
+		t.Fatalf("url metadata hash: %v", err)
+	}
+	if got.Resources[0].Posting.URLHash != documentHash {
+		t.Fatalf(
+			"posting names %q, row names %q",
+			got.Resources[0].Posting.URLHash,
+			documentHash,
+		)
 	}
 }

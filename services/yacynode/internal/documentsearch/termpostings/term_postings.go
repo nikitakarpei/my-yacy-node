@@ -16,7 +16,7 @@ import (
 )
 
 type Match struct {
-	PostingPerDocument map[yacymodel.URLHash]Posting
+	PostingPerDocument map[yacymodel.URLHash]yacymodel.RWIPosting
 	PostingsHeld       int
 }
 
@@ -85,11 +85,7 @@ func (t termPostings) matchOf(
 		if !filter.Accepts(posting) {
 			return true, nil
 		}
-		frequentPostings.consider(Posting{
-			DocumentHash: posting.URLHash,
-			Occurrences:  posting.Hits,
-			TextPosition: posting.TextPosition,
-		})
+		frequentPostings.consider(posting)
 
 		return true, nil
 	})
@@ -103,10 +99,12 @@ func (t termPostings) matchOf(
 	}, nil
 }
 
-func postingPerDocument(postings []Posting) map[yacymodel.URLHash]Posting {
-	byDocument := make(map[yacymodel.URLHash]Posting, len(postings))
+func postingPerDocument(
+	postings []yacymodel.RWIPosting,
+) map[yacymodel.URLHash]yacymodel.RWIPosting {
+	byDocument := make(map[yacymodel.URLHash]yacymodel.RWIPosting, len(postings))
 	for _, posting := range postings {
-		byDocument[posting.DocumentHash] = posting
+		byDocument[posting.URLHash] = posting
 	}
 
 	return byDocument

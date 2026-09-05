@@ -79,6 +79,23 @@ func (rwiPostingWireCodec) encode(p yacymodel.RWIPosting) string {
 	return rwiPostingWireFormFromDomain(p).line()
 }
 
+func (rwiPostingWireCodec) decodePropertyForm(form string) (yacymodel.RWIPosting, error) {
+	properties, err := propertyPairsOfRow(form)
+	if err != nil {
+		return yacymodel.RWIPosting{}, fmt.Errorf("%w: %w", yacymodel.ErrBadRWIPosting, err)
+	}
+	posting, err := rwiPostingWireForm{properties: properties}.domain()
+	if err != nil {
+		return yacymodel.RWIPosting{}, fmt.Errorf("%w: %w", yacymodel.ErrBadRWIPosting, err)
+	}
+
+	return posting, nil
+}
+
+func (rwiPostingWireCodec) encodePropertyForm(p yacymodel.RWIPosting) string {
+	return rwiPostingWireFormFromDomain(p).propertyForm()
+}
+
 const maxRWIPostingsPerTransfer = 1000
 
 func (c rwiPostingWireCodec) encodeLines(postings []yacymodel.RWIPosting) string {
@@ -276,13 +293,16 @@ func parseRWIPostingLine(line string) (rwiPostingWireForm, error) {
 }
 
 func (e rwiPostingWireForm) line() string {
+	return e.wordHash.String() + e.propertyForm()
+}
+
+func (e rwiPostingWireForm) propertyForm() string {
 	keys := make([]string, 0, len(e.properties))
 	for k := range e.properties {
 		keys = append(keys, k)
 	}
 	slices.Sort(keys)
 	var b strings.Builder
-	b.WriteString(e.wordHash.String())
 	b.WriteByte(propertyOpen)
 	for i, k := range keys {
 		if i > 0 {

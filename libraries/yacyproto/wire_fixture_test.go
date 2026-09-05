@@ -104,6 +104,28 @@ func sampleURLMetadata(urlWord string) yacymodel.URLMetadata {
 	}
 }
 
+func sampleSearchResource(tb testing.TB, urlWord string) yacyproto.SearchResource {
+	tb.Helper()
+
+	metadata := sampleURLMetadata(urlWord)
+	urlHash, err := metadata.Hash()
+	if err != nil {
+		tb.Fatalf("url metadata hash: %v", err)
+	}
+
+	return yacyproto.SearchResource{
+		Metadata: metadata,
+		Posting: yacymodel.RWIPosting{
+			URLHash:      urlHash,
+			TitleWords:   3,
+			TextWords:    120,
+			Hits:         7,
+			TextPosition: 258,
+			Appearance:   yacymodel.Appearance{AppearsInTitle: true},
+		},
+	}
+}
+
 func sampleURLMetadataWireForm(tb testing.TB, metadata yacymodel.URLMetadata) string {
 	tb.Helper()
 

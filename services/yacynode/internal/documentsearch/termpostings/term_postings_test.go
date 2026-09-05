@@ -75,8 +75,8 @@ func TestMatchesForHoldsOnePostingPerDocument(t *testing.T) {
 	if match.PostingsHeld != 2 || len(match.PostingPerDocument) != 2 {
 		t.Fatalf("match = %+v, want two postings", match)
 	}
-	if match.PostingPerDocument[searchtest.URLHashFor("u2")].Occurrences != 3 {
-		t.Errorf("occurrences = %+v, want 3", match.PostingPerDocument[searchtest.URLHashFor("u2")])
+	if match.PostingPerDocument[searchtest.URLHashFor("u2")].Hits != 3 {
+		t.Errorf("hits = %+v, want 3", match.PostingPerDocument[searchtest.URLHashFor("u2")])
 	}
 }
 

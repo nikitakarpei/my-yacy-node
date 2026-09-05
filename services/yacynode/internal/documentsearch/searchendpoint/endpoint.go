@@ -85,8 +85,8 @@ func (e endpoint) Serve(
 		resp.SearchTime = int(result.Duration / time.Millisecond)
 		resp.References = strings.Join(result.Topics, ",")
 		resp.JoinCount = result.TotalDocumentsMatchingEveryTerm
-		resp.Count = len(result.DocumentMetadata)
-		resp.Resources = result.DocumentMetadata
+		resp.Resources = searchResourcesFrom(ctx, result)
+		resp.Count = len(resp.Resources)
 		resp.IndexCount = result.PostingsHeldPerTerm
 		resp.IndexAbstract = encodedIndexAbstractsFrom(result.IndexAbstracts)
 	} else {
@@ -99,6 +99,33 @@ func (e endpoint) Serve(
 	)
 
 	return resp, nil
+}
+
+// searchResourcesFrom pairs each document with the posting that matched it. A
+// peer drops a result whose posting is missing or names another document, so a
+// document this node cannot name by hash is left out of the answer.
+func searchResourcesFrom(
+	ctx context.Context,
+	result searchresult.Result,
+) []yacyproto.SearchResource {
+	resources := make([]yacyproto.SearchResource, 0, len(result.DocumentMetadata))
+	for _, metadata := range result.DocumentMetadata {
+		documentHash, err := metadata.Hash()
+		if err != nil {
+			slog.WarnContext(ctx, "search result withheld",
+				slog.String("reason", "document hash unknown"),
+				slog.Any("error", err),
+			)
+
+			continue
+		}
+		resources = append(resources, yacyproto.SearchResource{
+			Metadata: metadata,
+			Posting:  result.PostingPerDocument[documentHash],
+		})
+	}
+
+	return resources
 }
 
 func encodedIndexAbstractsFrom(

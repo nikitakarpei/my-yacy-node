@@ -43,6 +43,7 @@ func New(
 
 type Result struct {
 	DocumentMetadata                []yacymodel.URLMetadata
+	PostingPerDocument              map[yacymodel.URLHash]yacymodel.RWIPosting
 	Topics                          []string
 	TotalDocumentsMatchingEveryTerm int
 	Duration                        time.Duration
@@ -66,7 +67,10 @@ func (r Results) ResultFor(
 			return err
 		}
 
-		documentMetadata, err := r.documentDirectory.MetadataByHash(tx, joined.documentHashes)
+		documentMetadata, err := r.documentDirectory.MetadataByHash(
+			tx,
+			documentHashesOf(joined.postings),
+		)
 		if err != nil {
 			return fmt.Errorf("%w: %w", ErrDocumentDirectory, err)
 		}
@@ -89,7 +93,8 @@ func (r Results) ResultFor(
 		)
 
 		result = Result{
-			DocumentMetadata: documentMetadata,
+			DocumentMetadata:   documentMetadata,
+			PostingPerDocument: postingPerDocument(joined.postings),
 			Topics: titletopics.TopicsFromTitles(
 				documentMetadata,
 				criteria.Terms,
@@ -113,7 +118,7 @@ func (r Results) ResultFor(
 
 type joinedTerms struct {
 	matchesForQueryTerms       map[yacymodel.Hash]termpostings.Match
-	documentHashes             []yacymodel.URLHash
+	postings                   []yacymodel.RWIPosting
 	documentsMatchingEveryTerm int
 }
 
@@ -149,11 +154,31 @@ func (r Results) joinedTerms(
 
 	return joinedTerms{
 		matchesForQueryTerms: matchesForQueryTerms,
-		documentHashes: documentmatch.HashesOfMostRelevantDocuments(
+		postings: documentmatch.PostingsOfMostRelevantDocuments(
 			matchesWithinTermSpread,
 			len(criteria.Terms),
 			criteria.MaxResults,
 		),
 		documentsMatchingEveryTerm: len(matchesWithinTermSpread),
 	}, nil
+}
+
+func documentHashesOf(postings []yacymodel.RWIPosting) []yacymodel.URLHash {
+	hashes := make([]yacymodel.URLHash, 0, len(postings))
+	for _, posting := range postings {
+		hashes = append(hashes, posting.URLHash)
+	}
+
+	return hashes
+}
+
+func postingPerDocument(
+	postings []yacymodel.RWIPosting,
+) map[yacymodel.URLHash]yacymodel.RWIPosting {
+	byDocument := make(map[yacymodel.URLHash]yacymodel.RWIPosting, len(postings))
+	for _, posting := range postings {
+		byDocument[posting.URLHash] = posting
+	}
+
+	return byDocument
 }
