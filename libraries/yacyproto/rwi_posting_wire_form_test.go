@@ -70,7 +70,7 @@ func TestTransferRWIRequestCarriesEveryPostingColumn(t *testing.T) {
 		TextWords:              120,
 		Phrases:                8,
 		DocumentType:           yacymodel.DocumentTypeImage,
-		Language:               mustLanguage(t, "en"),
+		Language:               englishLanguage(t),
 		LocalLinks:             2,
 		ExternalLinks:          5,
 		URLLength:              42,
@@ -121,7 +121,7 @@ func TestTransferRWIRequestNormalizesYaCyPropertyForm(t *testing.T) {
 func TestTransferRWIRequestKeepsALastModifiedDateWiderThanTwoBytes(t *testing.T) {
 	t.Parallel()
 
-	line := postingWordHash + "{a=200000,h=" + postingURLHash + "}"
+	line := postingWordHash + "{a=200000,h=" + postingURLHash + ",l=en}"
 	got := postingFromLine(t, line)
 	if got.LastModified != yacymodel.MicroDate(200000) {
 		t.Fatalf("last modified = %d, want 200000", got.LastModified)
@@ -141,6 +141,7 @@ func TestTransferRWIRequestWrapsTheLastModifiedDateAtTheYaCyModulus(t *testing.T
 		posting := yacymodel.RWIPosting{
 			WordHash:     mustHash(t, postingWordHash),
 			URLHash:      mustPostingURLHash(t),
+			Language:     englishLanguage(t),
 			LastModified: written,
 		}
 		if got := postingRoundTrip(t, posting).LastModified; got != want {
@@ -155,9 +156,30 @@ func TestTransferRWIRequestReadsASparseLine(t *testing.T) {
 	want := yacymodel.RWIPosting{
 		WordHash: mustHash(t, postingWordHash),
 		URLHash:  mustPostingURLHash(t),
-		Language: yacymodel.LanguageOfUndeclaredDocument,
+		Language: englishLanguage(t),
 	}
-	if got := postingFromLine(t, postingWordHash+"{h="+postingURLHash+"}"); got != want {
+	if got := postingFromLine(t, postingWordHash+"{h="+postingURLHash+",l=en}"); got != want {
 		t.Fatalf("posting = %+v, want %+v", got, want)
+	}
+}
+
+func TestTransferRWIRequestRejectsALineWithoutALanguage(t *testing.T) {
+	t.Parallel()
+
+	rejectedLines := map[string]string{
+		"absent":      postingWordHash + "{h=" + postingURLHash + "}",
+		"empty":       postingWordHash + "{h=" + postingURLHash + ",l=}",
+		"zero bytes":  postingWordHash + "{h=" + postingURLHash + ",l=\x00\x00}",
+		"not letters": postingWordHash + "{h=" + postingURLHash + ",l=12}",
+	}
+	for name, line := range rejectedLines {
+		form := url.Values{yacyproto.FieldIndexes: {line}}
+		req, err := yacyproto.ParseTransferRWIRequest(t.Context(), form)
+		if err != nil {
+			t.Fatalf("ParseTransferRWIRequest: %v", err)
+		}
+		if len(req.Indexes) != 0 {
+			t.Errorf("%s language kept %+v, want a rejected posting", name, req.Indexes)
+		}
 	}
 }

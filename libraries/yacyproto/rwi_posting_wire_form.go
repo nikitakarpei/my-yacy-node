@@ -216,9 +216,6 @@ func (e rwiPostingWireForm) uint16Cardinal(column string) uint16 {
 // three-letter codes in this column.
 func (e rwiPostingWireForm) language() (yacymodel.Language, error) {
 	value := e.properties[colLanguage]
-	if value == "" {
-		return yacymodel.LanguageOfUndeclaredDocument, nil
-	}
 	if len(value) > yacymodel.LanguageCodeLength {
 		value = value[:yacymodel.LanguageCodeLength]
 	}

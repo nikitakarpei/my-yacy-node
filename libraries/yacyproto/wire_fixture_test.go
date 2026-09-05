@@ -19,9 +19,9 @@ func mustHash(t *testing.T, raw string) yacymodel.Hash {
 	return hash
 }
 
-func mustLanguage(t *testing.T, raw string) yacymodel.Language {
+func englishLanguage(t *testing.T) yacymodel.Language {
 	t.Helper()
-	language, err := yacymodel.ParseLanguage(raw)
+	language, err := yacymodel.ParseLanguage("en")
 	if err != nil {
 		t.Fatal(err)
 	}
