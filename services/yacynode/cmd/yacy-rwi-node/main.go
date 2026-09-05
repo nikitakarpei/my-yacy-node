@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"os"
@@ -45,7 +46,7 @@ func run() error {
 		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
 	)
 
-	storage, err := pebblevault.Open(
+	engine, err := pebblevault.OpenEngine(
 		config.Storage.Path,
 		config.Storage.QuotaByte,
 		pebblevault.MachineLimits{
@@ -54,10 +55,16 @@ func run() error {
 			CompactionConcurrency: config.Storage.CompactionConcurrency,
 			OpenFileLimit:         config.Storage.OpenFileLimit,
 		},
-		metrics.NewVaultTransactionMetrics(registry),
+		metrics.NewPebbleWriteStallMetrics(registry),
 	)
 	if err != nil {
 		return fmt.Errorf("open storage: %w", err)
+	}
+	metrics.NewPebbleConditionMetrics(registry, engine)
+
+	storage, err := vault.New(engine, metrics.NewVaultTransactionMetrics(registry))
+	if err != nil {
+		return errors.Join(fmt.Errorf("lend storage: %w", err), engine.Close())
 	}
 	defer closeVault(storage)
 

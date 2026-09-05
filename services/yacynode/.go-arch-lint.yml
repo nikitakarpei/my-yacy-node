@@ -294,6 +294,7 @@ deps:
     canUse:
       - prometheus
       - vault
+      - pebblevault
   pagerwi:
     canUse:
       - canonicalurl

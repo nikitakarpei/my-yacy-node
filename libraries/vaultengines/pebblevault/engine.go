@@ -17,9 +17,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/vault"
 )
 
-type engine struct {
+type Engine struct {
 	db         *pebble.DB
 	quotaBytes int64
+	limits     MachineLimits
 	writing    sync.Mutex
 }
 
@@ -30,35 +31,21 @@ type MachineLimits struct {
 	OpenFileLimit         int
 }
 
-func Open(
+func OpenEngine(
 	path string,
 	quotaBytes int64,
 	limits MachineLimits,
-	observer vault.TransactionObserver,
-) (*vault.Vault, error) {
-	opened, err := OpenEngine(path, quotaBytes, limits)
-	if err != nil {
-		return nil, err
-	}
-
-	vaulted, err := vault.New(opened, observer)
-	if err != nil {
-		if closeErr := opened.Close(); closeErr != nil {
-			return nil, fmt.Errorf("initialize storage: %w: %w", err, closeErr)
-		}
-
-		return nil, fmt.Errorf("initialize storage: %w", err)
-	}
-
-	return vaulted, nil
-}
-
-func OpenEngine(path string, quotaBytes int64, limits MachineLimits) (vault.Engine, error) {
+	stalls WriteStallObserver,
+) (*Engine, error) {
 	if err := os.MkdirAll(path, 0o750); err != nil {
 		return nil, fmt.Errorf("create storage directory: %w", err)
 	}
 
 	options := optionsWithin(limits)
+	options.EventListener = writeStallListenerFor(stalls)
+	options.EnsureDefaults()
+	imposed := machineLimitsOf(options)
+
 	if options.Cache != nil {
 		defer options.Cache.Unref()
 	}
@@ -68,7 +55,7 @@ func OpenEngine(path string, quotaBytes int64, limits MachineLimits) (vault.Engi
 		return nil, fmt.Errorf("open storage: %w", err)
 	}
 
-	return &engine{db: db, quotaBytes: quotaBytes}, nil
+	return &Engine{db: db, quotaBytes: quotaBytes, limits: imposed}, nil
 }
 
 func optionsWithin(limits MachineLimits) *pebble.Options {
@@ -88,11 +75,39 @@ func optionsWithin(limits MachineLimits) *pebble.Options {
 	return options
 }
 
-func (e *engine) Provision(_ vault.Name) error {
+func writeStallListenerFor(observer WriteStallObserver) *pebble.EventListener {
+	if observer == nil {
+		observer = silentWriteStallObserver{}
+	}
+
+	return &pebble.EventListener{
+		WriteStallBegin: func(info pebble.WriteStallBeginInfo) {
+			reportWriteStallBegan(observer, writeStallCauseOf(info.Reason))
+		},
+		WriteStallEnd: func() { reportWriteStallEnded(observer) },
+	}
+}
+
+func machineLimitsOf(options *pebble.Options) MachineLimits {
+	blockCacheBytes := options.CacheSize
+	if options.Cache != nil {
+		blockCacheBytes = options.Cache.MaxSize()
+	}
+	_, compactionConcurrency := options.CompactionConcurrencyRange()
+
+	return MachineLimits{
+		BlockCacheBytes:       blockCacheBytes,
+		MemtableBytes:         signed(options.MemTableSize),
+		CompactionConcurrency: compactionConcurrency,
+		OpenFileLimit:         options.MaxOpenFiles,
+	}
+}
+
+func (e *Engine) Provision(_ vault.Name) error {
 	return nil
 }
 
-func (e *engine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
+func (e *Engine) Update(ctx context.Context, fn func(vault.EngineTxn) error) error {
 	e.writing.Lock()
 	defer e.writing.Unlock()
 
@@ -128,7 +143,7 @@ func release(handle io.Closer) error {
 	return nil
 }
 
-func (e *engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error {
+func (e *Engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error {
 	if err := ctx.Err(); err != nil {
 		return fmt.Errorf("context: %w", err)
 	}
@@ -142,7 +157,7 @@ func (e *engine) View(ctx context.Context, fn func(vault.EngineTxn) error) error
 	return release(committed)
 }
 
-func (e *engine) Close() error {
+func (e *Engine) Close() error {
 	if err := e.db.Close(); err != nil {
 		return fmt.Errorf("close storage: %w", err)
 	}
@@ -150,11 +165,15 @@ func (e *engine) Close() error {
 	return nil
 }
 
-func (e *engine) QuotaBytes() int64 {
+func (e *Engine) QuotaBytes() int64 {
 	return e.quotaBytes
 }
 
-func (e *engine) UsedBytes(ctx context.Context) (int64, error) {
+func (e *Engine) Condition() EngineCondition {
+	return engineConditionOf(e.db.Metrics(), e.limits)
+}
+
+func (e *Engine) UsedBytes(ctx context.Context) (int64, error) {
 	if err := ctx.Err(); err != nil {
 		return 0, fmt.Errorf("context: %w", err)
 	}

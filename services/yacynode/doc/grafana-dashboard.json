@@ -2648,6 +2648,719 @@
       "targets": [
         {"refId": "A", "expr": "(process_open_fds{instance=~\"$service_instance\"} / process_max_fds{instance=~\"$service_instance\"}) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
       ]
+    },
+    {
+      "id": 110,
+      "title": "Pebble storage engine",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 219
+      },
+      "panels": []
+    },
+    {
+      "id": 111,
+      "title": "Delayed writes",
+      "description": "Any band means the storage engine held writes back and every write waited.",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 220
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 1,
+                "color": "red"
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "mergeValues": true,
+        "showValue": "auto",
+        "legend": {
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_pebble_writes_delayed{instance=~\"$service_instance\"}",
+          "legendFormat": "writes delayed"
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "title": "Write stalls, by cause",
+      "description": "What the engine waited for. Memtables awaiting flush means the write buffer filled faster than it drained. L0 files awaiting compaction means compaction fell behind the flushes.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 220
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(yacynode_pebble_write_stalls_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "legendFormat": "{{cause}}"
+        }
+      ]
+    },
+    {
+      "id": 113,
+      "title": "Memtable use vs limit",
+      "description": "Held bytes near the limit with rising memtable count is a write buffer too small for the write rate.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 226
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_pebble_memtable_held_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "held"
+        },
+        {
+          "refId": "B",
+          "expr": "yacynode_pebble_memtable_size_limit_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "limit per memtable"
+        }
+      ]
+    },
+    {
+      "id": 114,
+      "title": "Compaction debt",
+      "description": "Bytes the engine must still compact to settle its shape. A debt that grows and never returns to zero means compaction cannot keep up.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 226
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_pebble_compaction_debt_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "debt"
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "title": "Compactions running vs limit",
+      "description": "Compactions pinned at the limit while debt grows means the engine is allowed too few compactions at once.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 226
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_pebble_compactions_in_progress{instance=~\"$service_instance\"}",
+          "legendFormat": "running"
+        },
+        {
+          "refId": "B",
+          "expr": "yacynode_pebble_compaction_concurrency_limit{instance=~\"$service_instance\"}",
+          "legendFormat": "limit"
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "title": "Block cache hit ratio",
+      "description": "Share of block reads answered from memory. A ratio that falls as stored bytes grow means the block cache is too small for the working set.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 234
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0,
+          "max": 1
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) / clamp_min(sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) + sum(rate(yacynode_pebble_block_cache_misses_total{instance=~\"$service_instance\"}[$__rate_interval])), 1)",
+          "legendFormat": "hit ratio"
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "title": "Block cache use vs limit",
+      "description": "Held bytes at the limit is the cache running full. Held bytes below the limit means more cache would not help.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 234
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_pebble_block_cache_held_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "held"
+        },
+        {
+          "refId": "B",
+          "expr": "yacynode_pebble_block_cache_limit_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "limit"
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "title": "File cache hit ratio and share of open files used",
+      "description": "Table files are reopened when the cache is full. A falling hit ratio with the share near one means the engine may open too few files at once.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 234
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0,
+          "max": 1
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) / clamp_min(sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) + sum(rate(yacynode_pebble_file_cache_misses_total{instance=~\"$service_instance\"}[$__rate_interval])), 1)",
+          "legendFormat": "hit ratio"
+        },
+        {
+          "refId": "B",
+          "expr": "yacynode_pebble_file_cache_tables{instance=~\"$service_instance\"} / clamp_min(yacynode_pebble_file_cache_limit{instance=~\"$service_instance\"}, 1)",
+          "legendFormat": "share of open files used"
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "title": "Sublevels, by level",
+      "description": "A read touches one file per sublevel. The sum over all levels is the read amplification a search pays.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 242
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_pebble_level_sublevels{instance=~\"$service_instance\"}",
+          "legendFormat": "L{{level}}"
+        },
+        {
+          "refId": "B",
+          "expr": "sum(yacynode_pebble_level_sublevels{instance=~\"$service_instance\"})",
+          "legendFormat": "all levels"
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "title": "Table bytes, by level",
+      "description": "The shape of the tree. Bytes held at L0 that do not drain to deeper levels precede a stall.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 242
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_pebble_level_table_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "L{{level}}"
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "title": "Write amplification",
+      "description": "Bytes compactions rewrote for each byte the memtables flushed in. A high value spends disk throughput on rewriting settled data.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 250
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(yacynode_pebble_level_compacted_bytes_total{instance=~\"$service_instance\"}[$__rate_interval])) / clamp_min(sum(rate(yacynode_pebble_level_flushed_bytes_total{instance=~\"$service_instance\"}[$__rate_interval])), 1)",
+          "legendFormat": "bytes rewritten per byte flushed"
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "title": "Bytes on disk vs bytes the vault counts",
+      "description": "The gap is what the quota does not see: obsolete files, the log, and data kept for open snapshots.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 250
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_pebble_disk_occupied_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "on disk"
+        },
+        {
+          "refId": "B",
+          "expr": "yacynode_vault_used_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "counted by the vault"
+        },
+        {
+          "refId": "C",
+          "expr": "yacynode_pebble_write_ahead_log_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "write-ahead log"
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "title": "Bytes disk holds but reads cannot see",
+      "description": "Bytes a compaction or a file removal can still return to the disk.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 250
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_pebble_obsolete_table_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "obsolete files"
+        },
+        {
+          "refId": "B",
+          "expr": "yacynode_pebble_zombie_table_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "files a reader still holds"
+        },
+        {
+          "refId": "C",
+          "expr": "yacynode_pebble_point_deletion_reclaimable_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "deleted keys"
+        },
+        {
+          "refId": "D",
+          "expr": "yacynode_pebble_range_deletion_reclaimable_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "deleted ranges"
+        },
+        {
+          "refId": "E",
+          "expr": "yacynode_pebble_snapshot_pinned_bytes{instance=~\"$service_instance\"}",
+          "legendFormat": "kept for open snapshots"
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "title": "Flush and compaction rate",
+      "description": "What the engine does in the background to settle the tree.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 258
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(yacynode_pebble_flushes_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "legendFormat": "flushes"
+        },
+        {
+          "refId": "B",
+          "expr": "rate(yacynode_pebble_compactions_completed_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "legendFormat": "{{kind}} compactions"
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "title": "Compaction failures",
+      "description": "Any band means the tree stopped settling and debt will grow.",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 258
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 1,
+                "color": "red"
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "mergeValues": true,
+        "showValue": "auto",
+        "legend": {
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(yacynode_pebble_compactions_failed_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "legendFormat": "failed compactions"
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "title": "Deleted keys and open snapshots",
+      "description": "Deleted keys a compaction has not yet removed. A long-lived snapshot keeps them, and the bytes behind them, on disk.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 258
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10
+          },
+          "min": 0
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_pebble_tombstone_keys{instance=~\"$service_instance\"}",
+          "legendFormat": "deleted keys"
+        },
+        {
+          "refId": "B",
+          "expr": "yacynode_pebble_open_snapshots{instance=~\"$service_instance\"}",
+          "legendFormat": "open snapshots"
+        }
+      ]
     }
   ]
 }
