@@ -51,8 +51,8 @@ func TestLoadAppliesDefaults(t *testing.T) {
 	if config.Storage.BlockCacheByte != 64<<20 {
 		t.Errorf("BlockCacheByte = %d, want 64MB", config.Storage.BlockCacheByte)
 	}
-	if config.Storage.MemtableByte != 32<<20 {
-		t.Errorf("MemtableByte = %d, want 32MB", config.Storage.MemtableByte)
+	if config.Storage.MemtableByte != 8<<20 {
+		t.Errorf("MemtableByte = %d, want 8MB", config.Storage.MemtableByte)
 	}
 	if config.Storage.CompactionConcurrency != nodeconfiguration.DefaultPebbleCompactionConcurrency {
 		t.Errorf("CompactionConcurrency = %d, want default", config.Storage.CompactionConcurrency)

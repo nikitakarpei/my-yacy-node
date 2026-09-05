@@ -17,7 +17,7 @@ const (
 	DefaultDataDir                     = "./data"
 	DefaultQuota                       = "1GB"
 	DefaultPebbleBlockCache            = "64MB"
-	DefaultPebbleMemtableSize          = "32MB"
+	DefaultPebbleMemtableSize          = "8MB"
 	DefaultPebbleCompactionConcurrency = 1
 	DefaultPebbleOpenFileLimit         = 1000
 
