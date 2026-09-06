@@ -14,6 +14,7 @@ import (
 
 	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
 	pageofferpublishersjetstream "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/pageofferpublishers/jetstream"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/redirectfollowingfetch"
 	scrapeintakepkg "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintake"
 	scrapeintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintakeobservers/applog"
 	scrapeintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeintakeobservers/prometheus"
@@ -26,6 +27,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
 
 const (
@@ -77,26 +79,29 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 			scrapeoutcomefeedobserversprometheus.New(registry),
 		},
 	)
-	intake := scrapeintakepkg.NewScrapeRequestConsumer(scrapeintakepkg.Config{
-		ScrapeRequests: consumer,
-		PageFetcher: pagefetchershttp.New(
-			cfg.ProxyURL,
-			cfg.ProxyDialMode,
-			cfg.UserAgent,
-			cfg.MaxBodyBytes,
-			cfg.FetchDeadline,
+	intake := scrapeintakepkg.NewScrapeRequestConsumer(
+		consumer,
+		redirectfollowingfetch.New(
+			pagefetchershttp.New(
+				cfg.ProxyURL,
+				cfg.ProxyDialMode,
+				cfg.UserAgent,
+				cfg.MaxBodyBytes,
+				cfg.FetchDeadline,
+			),
+			cfg.MaxRedirectHops,
 		),
-		PageOffers:        pageofferpublishersjetstream.NewPageOfferPublisher(broker),
-		ScrapeSchedules:   scrapeschedulesjetstream.NewScrapeSchedules(broker, time.Now),
-		ScrapeOutcomeFeed: outcomeFeed,
-		ScrapeIntakeObserver: scrapeintakepkg.ScrapeIntakeObservers{
+		pageofferpublishersjetstream.NewPageOfferPublisher(broker),
+		scrapeschedulesjetstream.NewScrapeSchedules(broker, wallclock.Clock{}),
+		outcomeFeed,
+		scrapeintakepkg.ScrapeIntakeObservers{
 			scrapeintakeobserversapplog.ScrapeIntakeLog{},
 			scrapeintakeobserversprometheus.New(registry),
 		},
-		DeferralWindow:    cfg.ScrapeDeferralWindow,
-		IntakeConcurrency: cfg.ScrapeIntakeConcurrency,
-		ReadingTime:       time.Now,
-	})
+		cfg.ScrapeDeferralWindow,
+		cfg.ScrapeIntakeConcurrency,
+		wallclock.Clock{},
+	)
 
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,

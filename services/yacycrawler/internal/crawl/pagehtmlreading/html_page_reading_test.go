@@ -21,10 +21,14 @@ const (
 		`</head><body><a href="/next">next</a></body></html>`
 )
 
+func pageURL(t *testing.T) canonicalurl.CanonicalURL {
+	t.Helper()
+	return canonicalurltest.CanonicalURLOf(t, "http://host/")
+}
+
 func pageHolding(t *testing.T, markup string) pagefetch.FetchedPage {
 	t.Helper()
 	return pagefetch.FetchedPage{
-		LandedURL:   canonicalurltest.CanonicalURLOf(t, "http://host/"),
 		ContentType: "text/html",
 		Body:        []byte(markup),
 	}
@@ -39,7 +43,7 @@ func htmlPageReading() *pagehtmlreading.HTMLPageReading {
 
 func readingOf(t *testing.T, page pagefetch.FetchedPage) pagehtmlreading.Reading {
 	t.Helper()
-	reading, err := htmlPageReading().ReadingOfPage(t.Context(), page)
+	reading, err := htmlPageReading().ReadingOfPage(t.Context(), pageURL(t), page)
 	if err != nil {
 		t.Fatalf("ReadingOfPage: %v", err)
 	}
@@ -50,7 +54,7 @@ func TestReadingOfPageRejectsABodyThatIsNotHTML(t *testing.T) {
 	page := pageHolding(t, pageLinkingNext)
 	page.ContentType = "application/pdf"
 
-	_, err := htmlPageReading().ReadingOfPage(t.Context(), page)
+	_, err := htmlPageReading().ReadingOfPage(t.Context(), pageURL(t), page)
 
 	if !errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
 		t.Fatalf("want ErrPageNotHTML, got %v", err)
@@ -68,7 +72,11 @@ func TestReadingOfPageKeepsHTMLReadingFailuresDistinct(t *testing.T) {
 				linkDiscoveryWithoutLinks{},
 			)
 
-			_, err := reading.ReadingOfPage(t.Context(), pageHolding(t, pageLinkingNext))
+			_, err := reading.ReadingOfPage(
+				t.Context(),
+				pageURL(t),
+				pageHolding(t, pageLinkingNext),
+			)
 
 			if !errors.Is(err, readingError) {
 				t.Fatalf("want %v, got %v", readingError, err)

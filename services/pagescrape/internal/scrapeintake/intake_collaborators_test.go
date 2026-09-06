@@ -7,22 +7,36 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/redirectfollowingfetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
-var errBrokerRefused = errors.New("the broker refused the message")
+type fixedClock struct{ now time.Time }
 
-type pageReads struct {
-	outcome pagefetch.FetchOutcome
-	err     error
+func (c fixedClock) Now() time.Time {
+	return c.now
 }
 
-func (r pageReads) Fetch(
-	context.Context,
-	canonicalurl.CanonicalURL,
-	pagefetch.PageVersion,
-) (pagefetch.FetchOutcome, error) {
-	return r.outcome, r.err
+var errBrokerRefused = errors.New("the broker refused the message")
+
+type pageFetches struct {
+	landedURL canonicalurl.CanonicalURL
+	outcome   pagefetch.FetchOutcome
+	err       error
+}
+
+func (f pageFetches) Fetch(
+	_ context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	_ pagefetch.PageVersion,
+) (redirectfollowingfetch.LandedFetch, error) {
+	if f.err != nil {
+		return redirectfollowingfetch.LandedFetch{}, f.err
+	}
+	if f.landedURL.String() == "" {
+		return redirectfollowingfetch.LandedFetch{URL: pageURL, Outcome: f.outcome}, nil
+	}
+	return redirectfollowingfetch.LandedFetch{URL: f.landedURL, Outcome: f.outcome}, nil
 }
 
 type pageOffers struct {
@@ -93,7 +107,7 @@ func (silentScrapeIntakeObserver) ScrapeRequestReceived(
 ) {
 }
 
-func (silentScrapeIntakeObserver) OriginReadFailed(
+func (silentScrapeIntakeObserver) OriginFetchFailed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ error,

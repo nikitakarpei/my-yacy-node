@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/natstestserver"
 	scrapeschedules "github.com/nikitakarpei/yacy-rwi-node/pagescrape/internal/scrapeschedules/jetstream"
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
+	"github.com/nikitakarpei/yacy-rwi-node/wallclock"
 )
 
 const pageURL = "https://example.org/a"
@@ -45,7 +46,7 @@ func TestDeferredScrapeComesBackOnTheRequestSubject(t *testing.T) {
 	}
 	request := scrapeRequestOf(t)
 
-	if err := scrapeschedules.NewScrapeSchedules(broker, time.Now).
+	if err := scrapeschedules.NewScrapeSchedules(broker, wallclock.Clock{}).
 		ScheduleScrape(ctx, request, time.Second); err != nil {
 		t.Fatalf("schedule the scrape: %v", err)
 	}
@@ -67,7 +68,7 @@ func TestScrapeIsNotScheduledWithoutAStreamThatTakesSchedules(t *testing.T) {
 	ctx := context.Background()
 	broker := natstestserver.ConnectJetStream(t, natstestserver.Start(t))
 
-	if err := scrapeschedules.NewScrapeSchedules(broker, nil).
+	if err := scrapeschedules.NewScrapeSchedules(broker, wallclock.Clock{}).
 		ScheduleScrape(ctx, scrapeRequestOf(t), time.Second); err == nil {
 		t.Error("want an error scheduling a scrape no stream takes")
 	}

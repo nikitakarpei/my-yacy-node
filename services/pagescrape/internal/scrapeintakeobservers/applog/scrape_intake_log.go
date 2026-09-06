@@ -12,10 +12,10 @@ import (
 const (
 	msgScrapeRequestInvalid  = "scrape request unreadable, intake halted"
 	msgScrapeRequestReceived = "scrape request received"
-	msgOriginReadFailed      = "page read from the origin failed"
+	msgOriginFetchFailed     = "page fetch from the origin failed"
 	msgPageOffered           = "page offered to the corpora"
 	msgPageNotOffered        = "nothing offered to the corpora for this page, the request comes back"
-	msgScrapeDeferred        = "scrape deferred by the origin, scheduled for a later read"
+	msgScrapeDeferred        = "scrape deferred by the origin, scheduled for a later fetch"
 	msgScrapeScheduleFailed  = "scrape not scheduled, the request comes back"
 	msgScrapeFailed          = "scrape failed, the page is given up"
 )
@@ -36,12 +36,12 @@ func (ScrapeIntakeLog) ScrapeRequestReceived(
 	slog.DebugContext(ctx, msgScrapeRequestReceived, slog.String("pageUrl", pageURL.String()))
 }
 
-func (ScrapeIntakeLog) OriginReadFailed(
+func (ScrapeIntakeLog) OriginFetchFailed(
 	ctx context.Context,
 	fetchURL canonicalurl.CanonicalURL,
 	cause error,
 ) {
-	slog.WarnContext(ctx, msgOriginReadFailed,
+	slog.WarnContext(ctx, msgOriginFetchFailed,
 		slog.String("fetchUrl", fetchURL.String()),
 		slog.Any("error", cause),
 	)

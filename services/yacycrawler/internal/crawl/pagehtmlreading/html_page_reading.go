@@ -50,6 +50,7 @@ func NewHTMLPageReading(
 
 func (reading *HTMLPageReading) ReadingOfPage(
 	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
 	page pagefetch.FetchedPage,
 ) (Reading, error) {
 	elementTree, err := reading.htmlParser.ElementTreeFrom(ctx, page.ContentType, page.Body)
@@ -63,7 +64,7 @@ func (reading *HTMLPageReading) ReadingOfPage(
 	return Reading{
 		Refusals: refusals,
 		DiscoveredURLs: reading.discoveredURLsFrom(
-			ctx, elementTree, page.LandedURL, refusals,
+			ctx, elementTree, pageURL, refusals,
 		),
 	}, nil
 }
@@ -71,11 +72,11 @@ func (reading *HTMLPageReading) ReadingOfPage(
 func (reading *HTMLPageReading) discoveredURLsFrom(
 	ctx context.Context,
 	elementTree pagehtml.ElementTree,
-	landedURL canonicalurl.CanonicalURL,
+	pageURL canonicalurl.CanonicalURL,
 	refusals pagerefusals.Refusals,
 ) []canonicalurl.CanonicalURL {
 	if refusals.RefusesLinkDiscovery {
 		return nil
 	}
-	return reading.linkDiscovery.LinkedURLsFrom(ctx, elementTree, landedURL)
+	return reading.linkDiscovery.LinkedURLsFrom(ctx, elementTree, pageURL)
 }

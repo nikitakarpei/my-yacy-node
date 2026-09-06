@@ -19,10 +19,11 @@ type OfferedPage struct {
 func OfferedPageFrom(
 	request ScrapeRequest,
 	fetchedPage pagefetch.FetchedPage,
+	landedURL canonicalurl.CanonicalURL,
 ) OfferedPage {
 	return OfferedPage{
 		PageURL:          request.PageURL,
-		LandedURL:        fetchedPage.LandedURL,
+		LandedURL:        landedURL,
 		ContentType:      fetchedPage.ContentType,
 		Body:             fetchedPage.Body,
 		RobotsDirectives: fetchedPage.RobotsDirectives,

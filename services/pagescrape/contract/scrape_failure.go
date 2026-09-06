@@ -10,13 +10,14 @@ import (
 type ScrapeFailureReason string
 
 const (
-	NotModified      ScrapeFailureReason = "not-modified"
-	AccessRefused    ScrapeFailureReason = "access-refused"
-	LandedURLInvalid ScrapeFailureReason = "landed-url-invalid"
-	Oversized        ScrapeFailureReason = "oversized"
-	NoReasonGiven    ScrapeFailureReason = "no-reason-given"
-	Deferred         ScrapeFailureReason = "deferred"
-	DeferredTooLong  ScrapeFailureReason = "deferred-too-long"
+	NotModified           ScrapeFailureReason = "not-modified"
+	AccessRefused         ScrapeFailureReason = "access-refused"
+	RedirectsExhausted    ScrapeFailureReason = "redirects-exhausted"
+	RedirectTargetInvalid ScrapeFailureReason = "redirect-target-invalid"
+	Oversized             ScrapeFailureReason = "oversized"
+	NoReasonGiven         ScrapeFailureReason = "no-reason-given"
+	Deferred              ScrapeFailureReason = "deferred"
+	DeferredTooLong       ScrapeFailureReason = "deferred-too-long"
 )
 
 type ScrapeFailure struct {

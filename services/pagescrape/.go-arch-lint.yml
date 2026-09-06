@@ -11,6 +11,8 @@ commonVendors:
 components:
   scrapeintake:
     in: internal/scrapeintake/**
+  redirectfollowingfetch:
+    in: internal/redirectfollowingfetch/**
   scrapestreamsjetstream:
     in: internal/scrapestreams/jetstream/**
   pageofferpublishersjetstream:
@@ -55,10 +57,15 @@ vendors:
 
 deps:
   scrapeintake:
+    mayDependOn:
+      - redirectfollowingfetch
     canUse:
       - pagescrapecontract
       - pagefetch
       - serviceruntime
+  redirectfollowingfetch:
+    canUse:
+      - pagefetch
   scrapestreamsjetstream:
     canUse:
       - pagescrapecontract

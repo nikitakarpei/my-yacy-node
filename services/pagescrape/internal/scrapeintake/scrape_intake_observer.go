@@ -18,7 +18,7 @@ type ScrapeIntakeObserver interface {
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
 	)
-	OriginReadFailed(
+	OriginFetchFailed(
 		ctx context.Context,
 		fetchURL canonicalurl.CanonicalURL,
 		cause error,
@@ -71,13 +71,13 @@ func (observers ScrapeIntakeObservers) ScrapeRequestReceived(
 	}
 }
 
-func (observers ScrapeIntakeObservers) OriginReadFailed(
+func (observers ScrapeIntakeObservers) OriginFetchFailed(
 	ctx context.Context,
 	fetchURL canonicalurl.CanonicalURL,
 	cause error,
 ) {
 	for _, observer := range observers {
-		observer.OriginReadFailed(ctx, fetchURL, cause)
+		observer.OriginFetchFailed(ctx, fetchURL, cause)
 	}
 }
 

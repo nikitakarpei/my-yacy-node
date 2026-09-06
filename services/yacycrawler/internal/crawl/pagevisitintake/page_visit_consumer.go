@@ -250,8 +250,36 @@ func (c *PageVisitConsumer) completePageVisit(
 		c.returnPageVisit(ctx, message, pendingPageVisit, err)
 		return
 	}
+	if err := c.putRedirectTargetOnFrontier(
+		ctx,
+		order,
+		pendingPageVisit,
+		outcome.RedirectTarget,
+	); err != nil {
+		c.returnPageVisit(ctx, message, pendingPageVisit, err)
+		return
+	}
 	message.Acknowledge(ctx)
 	c.observer.PendingPageVisitCompleted(ctx, pendingPageVisit)
+}
+
+func (c *PageVisitConsumer) putRedirectTargetOnFrontier(
+	ctx context.Context,
+	order acceptedorder.AcceptedOrder,
+	pendingPageVisit pendingpagevisit.PendingPageVisit,
+	redirectTarget canonicalurl.CanonicalURL,
+) error {
+	if redirectTarget.String() == "" {
+		return nil
+	}
+	if !order.Admits(redirectTarget, pendingPageVisit.Depth) {
+		return nil
+	}
+	return c.frontier.Publish(ctx, pendingpagevisit.PendingPageVisit{
+		OrderID: pendingPageVisit.OrderID,
+		URL:     redirectTarget,
+		Depth:   pendingPageVisit.Depth,
+	})
 }
 
 func (c *PageVisitConsumer) putDiscoveredURLsOnFrontier(

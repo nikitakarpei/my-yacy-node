@@ -19,6 +19,7 @@ type PageVisitOutcome struct {
 	Conclusion     PageVisitConclusion
 	DeferFor       time.Duration
 	DiscoveredURLs []canonicalurl.CanonicalURL
+	RedirectTarget canonicalurl.CanonicalURL
 	Disposal       disposal.Reason
 }
 
@@ -30,6 +31,14 @@ func crawledOutcome(discoveredURLs []canonicalurl.CanonicalURL) PageVisitOutcome
 	return PageVisitOutcome{
 		Conclusion:     PageVisitTerminal,
 		DiscoveredURLs: discoveredURLs,
+		Disposal:       disposal.NotDisposed,
+	}
+}
+
+func redirectedOutcome(redirectTarget canonicalurl.CanonicalURL) PageVisitOutcome {
+	return PageVisitOutcome{
+		Conclusion:     PageVisitTerminal,
+		RedirectTarget: redirectTarget,
 		Disposal:       disposal.NotDisposed,
 	}
 }

@@ -28,7 +28,8 @@ var scrapeRequestDisposals = []string{
 	disposalUnreadable,
 	string(pagescrapecontract.NotModified),
 	string(pagescrapecontract.AccessRefused),
-	string(pagescrapecontract.LandedURLInvalid),
+	string(pagescrapecontract.RedirectsExhausted),
+	string(pagescrapecontract.RedirectTargetInvalid),
 	string(pagescrapecontract.Oversized),
 	string(pagescrapecontract.NoReasonGiven),
 	string(pagescrapecontract.Deferred),
@@ -73,7 +74,7 @@ func (m *ScrapeIntakeMetrics) ScrapeRequestReceived(
 	m.scrapeRequestsReceived.Inc()
 }
 
-func (m *ScrapeIntakeMetrics) OriginReadFailed(
+func (m *ScrapeIntakeMetrics) OriginFetchFailed(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	_ error,

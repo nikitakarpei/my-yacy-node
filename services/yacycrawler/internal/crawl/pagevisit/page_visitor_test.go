@@ -150,7 +150,16 @@ func (o *recordingObserver) PageFetchRejected(
 	o.recordFetchDuration(duration)
 }
 
-func (o *recordingObserver) PageFetchLandedURLInvalid(
+func (o *recordingObserver) PageFetchRedirected(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ canonicalurl.CanonicalURL,
+	duration time.Duration,
+) {
+	o.recordFetchDuration(duration)
+}
+
+func (o *recordingObserver) PageFetchRedirectTargetInvalid(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 	duration time.Duration,
@@ -243,7 +252,6 @@ func fetchedOutcome(t *testing.T) pagefetch.FetchOutcome {
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			LandedURL:   canonicalurltest.CanonicalURLOf(t, "http://host/"),
 			ContentType: "text/html",
 			Body:        []byte(pageLinkingNext),
 		},
@@ -364,10 +372,10 @@ func TestVisitReportsOversizedDisposal(t *testing.T) {
 	}
 }
 
-func TestVisitReportsLandedURLInvalidDisposal(t *testing.T) {
+func TestVisitReportsRedirectTargetInvalidDisposal(t *testing.T) {
 	crawledPages := &fakeCrawledPages{}
 	pageVisitor := newPageVisitor(
-		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchLandedURLInvalid}),
+		fetchOf(pagefetch.FetchOutcome{Status: pagefetch.FetchRedirectTargetInvalid}),
 		&fakePageVisits{due: true},
 		newObserver(),
 		crawledPages,
@@ -375,11 +383,37 @@ func TestVisitReportsLandedURLInvalidDisposal(t *testing.T) {
 
 	outcome := visitHostPage(t, pageVisitor)
 
-	if outcome.Disposal != disposal.LandedURLInvalid {
-		t.Fatalf("want landed-url-invalid disposal, got %q", outcome.Disposal)
+	if outcome.Disposal != disposal.RedirectTargetInvalid {
+		t.Fatalf("want redirect-target-invalid disposal, got %q", outcome.Disposal)
 	}
 	if calls := crawledPages.indexablePages(); len(calls) != 0 {
-		t.Fatalf("an invalid landing should publish no crawled page, got %v", calls)
+		t.Fatalf("an invalid redirect target should publish no crawled page, got %v", calls)
+	}
+}
+
+func TestVisitReportsTheRedirectTargetTheOriginAnsweredWith(t *testing.T) {
+	crawledPages := &fakeCrawledPages{}
+	redirectTarget := canonicalurltest.CanonicalURLOf(t, "http://host/moved")
+	pageVisitor := newPageVisitor(
+		fetchOf(pagefetch.FetchOutcome{
+			Status:         pagefetch.FetchRedirected,
+			RedirectTarget: redirectTarget,
+		}),
+		&fakePageVisits{due: true},
+		newObserver(),
+		crawledPages,
+	)
+
+	outcome := visitHostPage(t, pageVisitor)
+
+	if outcome.RedirectTarget != redirectTarget {
+		t.Fatalf("want redirect target %q, got %q", redirectTarget, outcome.RedirectTarget)
+	}
+	if outcome.Disposal != disposal.NotDisposed {
+		t.Fatalf("a redirect carries no disposal reason, got %q", outcome.Disposal)
+	}
+	if calls := crawledPages.indexablePages(); len(calls) != 0 {
+		t.Fatalf("a redirect should publish no crawled page, got %v", calls)
 	}
 }
 
@@ -560,6 +594,7 @@ type unreadableHTMLPage struct{ err error }
 
 func (page unreadableHTMLPage) ReadingOfPage(
 	context.Context,
+	canonicalurl.CanonicalURL,
 	pagefetch.FetchedPage,
 ) (pagehtmlreading.Reading, error) {
 	return pagehtmlreading.Reading{}, page.err

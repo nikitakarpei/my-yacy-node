@@ -25,7 +25,8 @@ func TestPageFetchMetricsCountConcreteFetchFacts(t *testing.T) {
 	metrics.PageFetchAccessRefused(context.Background(), pageURL, fetchDuration)
 	metrics.PageFetchDeferred(context.Background(), pageURL, fetchDuration, time.Minute)
 	metrics.PageFetchRejected(context.Background(), pageURL, fetchDuration)
-	metrics.PageFetchLandedURLInvalid(
+	metrics.PageFetchRedirected(context.Background(), pageURL, pageURL, fetchDuration)
+	metrics.PageFetchRedirectTargetInvalid(
 		context.Background(),
 		pageURL,
 		fetchDuration,
@@ -42,9 +43,10 @@ yacycrawler_page_fetches_processed_total{outcome="access_refused"} 1
 yacycrawler_page_fetches_processed_total{outcome="canceled"} 1
 yacycrawler_page_fetches_processed_total{outcome="deferred"} 1
 yacycrawler_page_fetches_processed_total{outcome="failed"} 1
-yacycrawler_page_fetches_processed_total{outcome="landed_url_invalid"} 1
 yacycrawler_page_fetches_processed_total{outcome="not_modified"} 1
 yacycrawler_page_fetches_processed_total{outcome="oversized"} 1
+yacycrawler_page_fetches_processed_total{outcome="redirect_target_invalid"} 1
+yacycrawler_page_fetches_processed_total{outcome="redirected"} 1
 yacycrawler_page_fetches_processed_total{outcome="rejected"} 1
 yacycrawler_page_fetches_processed_total{outcome="succeeded"} 1
 `

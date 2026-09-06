@@ -33,7 +33,13 @@ type PageFetchObserver interface {
 		pageURL canonicalurl.CanonicalURL,
 		fetchDuration time.Duration,
 	)
-	PageFetchLandedURLInvalid(
+	PageFetchRedirected(
+		ctx context.Context,
+		pageURL canonicalurl.CanonicalURL,
+		redirectTarget canonicalurl.CanonicalURL,
+		fetchDuration time.Duration,
+	)
+	PageFetchRedirectTargetInvalid(
 		ctx context.Context,
 		pageURL canonicalurl.CanonicalURL,
 		fetchDuration time.Duration,
@@ -110,14 +116,25 @@ func (observers PageFetchObservers) PageFetchRejected(
 	}
 }
 
-func (observers PageFetchObservers) PageFetchLandedURLInvalid(
+func (observers PageFetchObservers) PageFetchRedirected(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	redirectTarget canonicalurl.CanonicalURL,
+	fetchDuration time.Duration,
+) {
+	for _, observer := range observers {
+		observer.PageFetchRedirected(ctx, pageURL, redirectTarget, fetchDuration)
+	}
+}
+
+func (observers PageFetchObservers) PageFetchRedirectTargetInvalid(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	fetchDuration time.Duration,
 	cause error,
 ) {
 	for _, observer := range observers {
-		observer.PageFetchLandedURLInvalid(ctx, pageURL, fetchDuration, cause)
+		observer.PageFetchRedirectTargetInvalid(ctx, pageURL, fetchDuration, cause)
 	}
 }
 

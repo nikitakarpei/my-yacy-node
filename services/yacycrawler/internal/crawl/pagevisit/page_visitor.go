@@ -62,6 +62,7 @@ func (visitor *pageVisitor) VisitPage(
 func originAnsweredAboutPage(status pagefetch.FetchStatus) bool {
 	return status == pagefetch.FetchSucceeded ||
 		status == pagefetch.FetchNotModified ||
+		status == pagefetch.FetchRedirected ||
 		status == pagefetch.FetchAccessRefused
 }
 
@@ -75,12 +76,14 @@ func (visitor *pageVisitor) outcomeOfPageFetch(
 		return visitor.outcomeOfPageHTML(ctx, url, fetchOutcome.Page)
 	case pagefetch.FetchNotModified:
 		return disposedOutcome(disposal.NotModified)
+	case pagefetch.FetchRedirected:
+		return redirectedOutcome(fetchOutcome.RedirectTarget)
 	case pagefetch.FetchAccessRefused:
 		return disposedOutcome(disposal.AccessRefused)
 	case pagefetch.FetchRejected:
 		return disposedOutcome(disposal.FetchRejected)
-	case pagefetch.FetchLandedURLInvalid:
-		return disposedOutcome(disposal.LandedURLInvalid)
+	case pagefetch.FetchRedirectTargetInvalid:
+		return disposedOutcome(disposal.RedirectTargetInvalid)
 	case pagefetch.FetchOversized:
 		return disposedOutcome(disposal.Oversized)
 	case pagefetch.FetchDeferred:
@@ -96,7 +99,7 @@ func (visitor *pageVisitor) outcomeOfPageHTML(
 	url canonicalurl.CanonicalURL,
 	page pagefetch.FetchedPage,
 ) PageVisitOutcome {
-	reading, err := visitor.htmlPageReading.ReadingOfPage(ctx, page)
+	reading, err := visitor.htmlPageReading.ReadingOfPage(ctx, url, page)
 	if errors.Is(err, pagehtmlreading.ErrPageNotHTML) {
 		return disposedOutcome(disposal.UnsupportedMediaType)
 	}
@@ -106,7 +109,7 @@ func (visitor *pageVisitor) outcomeOfPageHTML(
 	if reading.Refusals.RefusesLinkDiscovery {
 		visitor.refusalEnforcementObserver.LinkDiscoveryRefusalEnforced(ctx, url)
 	}
-	visitor.publishCrawledPage(ctx, page.LandedURL, reading.Refusals)
+	visitor.publishCrawledPage(ctx, url, reading.Refusals)
 	return crawledOutcome(reading.DiscoveredURLs)
 }
 

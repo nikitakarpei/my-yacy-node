@@ -23,6 +23,7 @@ const (
 	headerLastModified    = "Last-Modified"
 	headerIfNoneMatch     = "If-None-Match"
 	headerIfModifiedSince = "If-Modified-Since"
+	headerLocation        = "Location"
 
 	defaultDeferFor = time.Minute
 )
@@ -42,7 +43,10 @@ func New(
 	deadline time.Duration,
 ) *ProxiedFetch {
 	return &ProxiedFetch{
-		client:       &http.Client{Transport: transportForDialMode(proxyURL, dialMode)},
+		client: &http.Client{
+			Transport:     transportForDialMode(proxyURL, dialMode),
+			CheckRedirect: relayRedirect,
+		},
 		userAgent:    userAgent,
 		maxBodyBytes: maxBodyBytes,
 		deadline:     deadline,
@@ -88,6 +92,9 @@ func (f *ProxiedFetch) classify(
 			Status:  pagefetch.FetchNotModified,
 			Version: sent,
 		}
+	case response.StatusCode >= 300 && response.StatusCode < 400 &&
+		response.Header.Get(headerLocation) != "":
+		return redirected(response)
 	case response.StatusCode == http.StatusTooManyRequests,
 		response.StatusCode == http.StatusServiceUnavailable:
 		return pagefetch.FetchOutcome{
@@ -118,23 +125,41 @@ func (f *ProxiedFetch) fetched(
 	if int64(len(body)) > f.maxBodyBytes {
 		return pagefetch.FetchOutcome{Status: pagefetch.FetchOversized}
 	}
-	landedURL, err := canonicalurl.CanonicalURLOf(response.Request.URL.String())
-	if err != nil {
-		return pagefetch.FetchOutcome{
-			Status:       pagefetch.FetchLandedURLInvalid,
-			FailureCause: err,
-		}
-	}
 	return pagefetch.FetchOutcome{
 		Status: pagefetch.FetchSucceeded,
 		Page: pagefetch.FetchedPage{
-			LandedURL:        landedURL,
 			ContentType:      response.Header.Get(headerContentType),
 			Body:             body,
 			RobotsDirectives: response.Header.Values(headerXRobotsTag),
 		},
 		Version: pageVersionOf(response),
 	}
+}
+
+func redirected(response *http.Response) pagefetch.FetchOutcome {
+	location, err := response.Request.URL.Parse(response.Header.Get(headerLocation))
+	if err != nil {
+		return pagefetch.FetchOutcome{
+			Status:       pagefetch.FetchRedirectTargetInvalid,
+			FailureCause: fmt.Errorf("resolve location: %w", err),
+		}
+	}
+	redirectTarget, err := canonicalurl.CanonicalURLOf(location.String())
+	if err != nil {
+		return pagefetch.FetchOutcome{
+			Status:       pagefetch.FetchRedirectTargetInvalid,
+			FailureCause: err,
+		}
+	}
+	return pagefetch.FetchOutcome{
+		Status:         pagefetch.FetchRedirected,
+		RedirectTarget: redirectTarget,
+		Version:        pageVersionOf(response),
+	}
+}
+
+func relayRedirect(*http.Request, []*http.Request) error {
+	return http.ErrUseLastResponse
 }
 
 func setConditionalHeaders(request *http.Request, version pagefetch.PageVersion) {

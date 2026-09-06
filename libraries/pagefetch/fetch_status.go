@@ -5,10 +5,11 @@ type FetchStatus int
 const (
 	FetchSucceeded FetchStatus = iota
 	FetchNotModified
+	FetchRedirected
 	FetchAccessRefused
 	FetchDeferred
 	FetchRejected
-	FetchLandedURLInvalid
+	FetchRedirectTargetInvalid
 	FetchOversized
 	FetchFailed
 )

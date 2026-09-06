@@ -9,16 +9,16 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract"
 )
 
-func TestOfferedPageFromCarriesTheBytesTheReadReturned(t *testing.T) {
+func TestOfferedPageFromCarriesTheBytesTheFetchReturned(t *testing.T) {
 	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.org/a")
 
 	offered := pagescrapecontract.OfferedPageFrom(
 		pagescrapecontract.ScrapeRequest{PageURL: pageURL, FetchURL: pageURL},
 		pagefetch.FetchedPage{
-			LandedURL:   pageURL,
 			ContentType: "text/html",
 			Body:        []byte("hello"),
 		},
+		pageURL,
 	)
 
 	if offered.ContentType != "text/html" || string(offered.Body) != "hello" {
@@ -32,7 +32,8 @@ func TestOfferedPageFromKeepsThePageURLTheRequestNamed(t *testing.T) {
 
 	offered := pagescrapecontract.OfferedPageFrom(
 		pagescrapecontract.ScrapeRequest{PageURL: pageURL, FetchURL: pageURL},
-		pagefetch.FetchedPage{LandedURL: landedURL},
+		pagefetch.FetchedPage{},
+		landedURL,
 	)
 
 	if offered.PageURL != pageURL {
@@ -52,7 +53,8 @@ func TestOfferedPageFromKeepsThePageURLWhenTheFetchURLNamesAnotherAddress(t *tes
 			PageURL:  pageURL,
 			FetchURL: canonicalurltest.CanonicalURLOf(t, "https://archive.example/a"),
 		},
-		pagefetch.FetchedPage{LandedURL: landedURL},
+		pagefetch.FetchedPage{},
+		landedURL,
 	)
 
 	if offered.PageURL != pageURL {

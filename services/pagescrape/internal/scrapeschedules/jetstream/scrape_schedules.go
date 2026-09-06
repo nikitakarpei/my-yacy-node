@@ -12,17 +12,14 @@ import (
 
 type ScrapeSchedules struct {
 	scrapeRequests jetstream.JetStream
-	readingTime    func() time.Time
+	clock          Clock
 }
 
 func NewScrapeSchedules(
 	scrapeRequests jetstream.JetStream,
-	readingTime func() time.Time,
+	clock Clock,
 ) *ScrapeSchedules {
-	if readingTime == nil {
-		readingTime = time.Now
-	}
-	return &ScrapeSchedules{scrapeRequests: scrapeRequests, readingTime: readingTime}
+	return &ScrapeSchedules{scrapeRequests: scrapeRequests, clock: clock}
 }
 
 func (s *ScrapeSchedules) ScheduleScrape(
@@ -38,7 +35,7 @@ func (s *ScrapeSchedules) ScheduleScrape(
 		ctx,
 		pagescrapecontract.ScrapeScheduleSubjectOf(request.PageURL),
 		data,
-		jetstream.WithScheduleAt(s.readingTime().Add(after)),
+		jetstream.WithScheduleAt(s.clock.Now().Add(after)),
 		jetstream.WithScheduleTarget(pagescrapecontract.ScrapeRequestSubject),
 	); err != nil {
 		return fmt.Errorf("schedule the scrape of %q in %s: %w", request.PageURL, after, err)

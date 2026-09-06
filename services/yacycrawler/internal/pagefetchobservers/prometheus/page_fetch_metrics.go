@@ -12,15 +12,16 @@ import (
 const (
 	labelOutcome = "outcome"
 
-	outcomeSucceeded        = "succeeded"
-	outcomeNotModified      = "not_modified"
-	outcomeAccessRefused    = "access_refused"
-	outcomeDeferred         = "deferred"
-	outcomeRejected         = "rejected"
-	outcomeLandedURLInvalid = "landed_url_invalid"
-	outcomeOversized        = "oversized"
-	outcomeFailed           = "failed"
-	outcomeCanceled         = "canceled"
+	outcomeSucceeded             = "succeeded"
+	outcomeNotModified           = "not_modified"
+	outcomeAccessRefused         = "access_refused"
+	outcomeDeferred              = "deferred"
+	outcomeRejected              = "rejected"
+	outcomeRedirected            = "redirected"
+	outcomeRedirectTargetInvalid = "redirect_target_invalid"
+	outcomeOversized             = "oversized"
+	outcomeFailed                = "failed"
+	outcomeCanceled              = "canceled"
 )
 
 var pageFetchOutcomes = []string{
@@ -29,7 +30,8 @@ var pageFetchOutcomes = []string{
 	outcomeAccessRefused,
 	outcomeDeferred,
 	outcomeRejected,
-	outcomeLandedURLInvalid,
+	outcomeRedirected,
+	outcomeRedirectTargetInvalid,
 	outcomeOversized,
 	outcomeFailed,
 	outcomeCanceled,
@@ -88,10 +90,19 @@ func (m *PageFetchMetrics) PageFetchRejected(
 	m.record(outcomeRejected, fetchDuration)
 }
 
-func (m *PageFetchMetrics) PageFetchLandedURLInvalid(
+func (m *PageFetchMetrics) PageFetchRedirected(
+	_ context.Context,
+	_ canonicalurl.CanonicalURL,
+	_ canonicalurl.CanonicalURL,
+	fetchDuration time.Duration,
+) {
+	m.record(outcomeRedirected, fetchDuration)
+}
+
+func (m *PageFetchMetrics) PageFetchRedirectTargetInvalid(
 	_ context.Context, _ canonicalurl.CanonicalURL, fetchDuration time.Duration, _ error,
 ) {
-	m.record(outcomeLandedURLInvalid, fetchDuration)
+	m.record(outcomeRedirectTargetInvalid, fetchDuration)
 }
 
 func (m *PageFetchMetrics) PageFetchRefusedOversizedPage(

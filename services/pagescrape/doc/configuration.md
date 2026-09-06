@@ -13,15 +13,16 @@ The service is configured entirely through environment variables.
 | `SCRAPE_PAGE_OFFER_MAX_BYTES` | `1GB` | Total bytes the page offer stream keeps. |
 | `SCRAPE_PAGE_OFFER_MAX_AGE` | `24h` | Longest time the page offer stream keeps a message. |
 
-## Page reads
+## Page fetches
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `SCRAPE_PROXY_URL` | required | HTTP or HTTPS proxy used for every page read. |
+| `SCRAPE_PROXY_URL` | required | HTTP or HTTPS proxy used for every page fetch. |
 | `SCRAPE_PROXY_DIAL_MODE` | `tunnel` | Proxy mode: `tunnel` or `absolute-url`. |
-| `SCRAPE_USER_AGENT` | `pagescrape (+https://yacy.net)` | HTTP user agent sent with every page read. |
+| `SCRAPE_USER_AGENT` | `pagescrape (+https://yacy.net)` | HTTP user agent sent with every page fetch. |
 | `SCRAPE_MAX_BODY_BYTES` | `2097152` | Largest response body offered; a larger body fails the scrape. |
-| `SCRAPE_FETCH_DEADLINE` | `30s` | Time limit for one page read. |
+| `SCRAPE_FETCH_DEADLINE` | `30s` | Time limit for one page fetch. |
+| `SCRAPE_MAX_REDIRECT_HOPS` | `10` | Redirects followed before a page fetch fails. |
 
 ## Intake and deferral
 

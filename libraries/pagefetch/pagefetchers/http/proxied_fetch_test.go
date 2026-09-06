@@ -318,21 +318,15 @@ func TestFetchCancelledContext(t *testing.T) {
 	}
 }
 
-func TestFetchReportsTheLandedURLOfTheRedirectChain(t *testing.T) {
+func TestFetchReportsTheRedirectTargetWithoutFollowingIt(t *testing.T) {
 	for _, dialMode := range []httppkg.ProxyDialMode{
 		httppkg.ProxyDialTunnel,
 		httppkg.ProxyDialAbsoluteURL,
 	} {
+		visitedPaths := []string{}
 		proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, r *http.Request) {
-			switch r.URL.Path {
-			case "/a":
-				http.Redirect(w, r, "http://target.example/b", http.StatusMovedPermanently)
-			case "/b":
-				http.Redirect(w, r, "http://target.example/c", http.StatusFound)
-			default:
-				w.Header().Set("Content-Type", "text/html")
-				_, _ = w.Write([]byte("<html>final</html>"))
-			}
+			visitedPaths = append(visitedPaths, r.URL.Path)
+			http.Redirect(w, r, "http://target.example/b", http.StatusMovedPermanently)
 		})
 
 		outcome, err := httppkg.New(proxy, dialMode, testUserAgent, 1<<20, time.Second).
@@ -344,8 +338,75 @@ func TestFetchReportsTheLandedURLOfTheRedirectChain(t *testing.T) {
 		if err != nil {
 			t.Fatalf("dial %v: Fetch: %v", dialMode, err)
 		}
-		if outcome.Page.LandedURL != canonicalurltest.CanonicalURLOf(t, "http://target.example/c") {
-			t.Fatalf("dial %v: LandedURL = %q", dialMode, outcome.Page.LandedURL)
+		if outcome.Status != pagefetch.FetchRedirected {
+			t.Fatalf("dial %v: status = %v", dialMode, outcome.Status)
 		}
+		want := canonicalurltest.CanonicalURLOf(t, "http://target.example/b")
+		if outcome.RedirectTarget != want {
+			t.Fatalf("dial %v: redirect target = %q, want %q",
+				dialMode, outcome.RedirectTarget, want)
+		}
+		if !slices.Equal(visitedPaths, []string{"/a"}) {
+			t.Fatalf("dial %v: visited %v, want only /a", dialMode, visitedPaths)
+		}
+	}
+}
+
+func TestFetchResolvesARelativeRedirectTarget(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "../elsewhere/", http.StatusFound)
+	})
+	defer closeFn()
+
+	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://target.example/here/page"),
+			pagefetch.PageVersion{})
+	if err != nil {
+		t.Fatalf("Fetch: %v", err)
+	}
+	want := canonicalurltest.CanonicalURLOf(t, "http://target.example/elsewhere/")
+	if outcome.RedirectTarget != want {
+		t.Fatalf("redirect target = %q, want %q", outcome.RedirectTarget, want)
+	}
+}
+
+func TestFetchReadsPageVersionFromRedirect(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("ETag", "\"moved\"")
+		http.Redirect(w, r, "http://target.example/b", http.StatusMovedPermanently)
+	})
+	defer closeFn()
+
+	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://target.example/a"),
+			pagefetch.PageVersion{})
+	if err != nil {
+		t.Fatalf("Fetch: %v", err)
+	}
+	if outcome.Version.EntityTag != "\"moved\"" {
+		t.Fatalf("entity tag = %q", outcome.Version.EntityTag)
+	}
+}
+
+func TestFetchFailsOnARedirectWithoutALocation(t *testing.T) {
+	proxy, closeFn := proxyURL(t, func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusFound)
+	})
+	defer closeFn()
+
+	outcome, err := httppkg.New(proxy, httppkg.ProxyDialTunnel, testUserAgent, 1<<20, time.Second).
+		Fetch(
+			context.Background(),
+			canonicalurltest.CanonicalURLOf(t, "http://target.example/a"),
+			pagefetch.PageVersion{})
+	if err != nil {
+		t.Fatalf("Fetch: %v", err)
+	}
+	if outcome.Status != pagefetch.FetchFailed {
+		t.Fatalf("status = %v, want failed", outcome.Status)
 	}
 }

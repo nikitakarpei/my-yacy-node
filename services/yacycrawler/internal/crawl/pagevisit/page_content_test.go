@@ -51,7 +51,6 @@ func fetchedPage(t *testing.T) pagefetch.FetchedPage {
 func pageHolding(t *testing.T, markup string) pagefetch.FetchedPage {
 	t.Helper()
 	return pagefetch.FetchedPage{
-		LandedURL:   canonicalurltest.CanonicalURLOf(t, "http://host/"),
 		ContentType: "text/html",
 		Body:        []byte(markup),
 	}

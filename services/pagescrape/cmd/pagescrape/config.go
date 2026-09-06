@@ -16,6 +16,7 @@ const (
 	EnvUserAgent               = "SCRAPE_USER_AGENT"
 	EnvScrapeMaxBodyBytes      = "SCRAPE_MAX_BODY_BYTES"
 	EnvScrapeFetchDeadline     = "SCRAPE_FETCH_DEADLINE"
+	EnvScrapeMaxRedirectHops   = "SCRAPE_MAX_REDIRECT_HOPS"
 	EnvScrapeRequestDurable    = "SCRAPE_REQUEST_DURABLE"
 	EnvScrapeIntakeConcurrency = "SCRAPE_INTAKE_CONCURRENCY"
 	EnvScrapeRequestsInFlight  = "SCRAPE_REQUESTS_IN_FLIGHT"
@@ -29,6 +30,7 @@ const (
 	DefaultUserAgent               = "pagescrape (+https://yacy.net)"
 	DefaultScrapeMaxBodyBytes      = 2 << 20
 	DefaultScrapeFetchDeadline     = 30 * time.Second
+	DefaultScrapeMaxRedirectHops   = 10
 	DefaultScrapeRequestDurable    = "pagescrape"
 	DefaultScrapeIntakeConcurrency = 4
 	DefaultScrapeRequestsInFlight  = 64
@@ -46,6 +48,7 @@ type ServiceConfig struct {
 	UserAgent               string
 	MaxBodyBytes            int64
 	FetchDeadline           time.Duration
+	MaxRedirectHops         int
 	ScrapeRequestDurable    string
 	ScrapeIntakeConcurrency int
 	ScrapeRequestsInFlight  int
@@ -57,10 +60,11 @@ type ServiceConfig struct {
 }
 
 type fetchSettings struct {
-	proxyURL      *url.URL
-	proxyDialMode http.ProxyDialMode
-	maxBodyBytes  int64
-	fetchDeadline time.Duration
+	proxyURL        *url.URL
+	proxyDialMode   http.ProxyDialMode
+	maxBodyBytes    int64
+	fetchDeadline   time.Duration
+	maxRedirectHops int
 }
 
 type streamSettings struct {
@@ -101,12 +105,13 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		return ServiceConfig{}, err
 	}
 	return ServiceConfig{
-		ScrapeNATSURL: scrapeNATSURL,
-		ProxyURL:      fetch.proxyURL,
-		ProxyDialMode: fetch.proxyDialMode,
-		UserAgent:     envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
-		MaxBodyBytes:  fetch.maxBodyBytes,
-		FetchDeadline: fetch.fetchDeadline,
+		ScrapeNATSURL:   scrapeNATSURL,
+		ProxyURL:        fetch.proxyURL,
+		ProxyDialMode:   fetch.proxyDialMode,
+		UserAgent:       envconfig.String(getenv, EnvUserAgent, DefaultUserAgent),
+		MaxBodyBytes:    fetch.maxBodyBytes,
+		FetchDeadline:   fetch.fetchDeadline,
+		MaxRedirectHops: fetch.maxRedirectHops,
 		ScrapeRequestDurable: envconfig.String(
 			getenv, EnvScrapeRequestDurable, DefaultScrapeRequestDurable,
 		),
@@ -143,11 +148,18 @@ func loadFetchSettings(getenv func(string) string) (fetchSettings, error) {
 	if err != nil {
 		return fetchSettings{}, err
 	}
+	maxRedirectHops, err := envconfig.PositiveInt(
+		getenv, EnvScrapeMaxRedirectHops, DefaultScrapeMaxRedirectHops,
+	)
+	if err != nil {
+		return fetchSettings{}, err
+	}
 	return fetchSettings{
-		proxyURL:      proxyURL,
-		proxyDialMode: proxyDialMode,
-		maxBodyBytes:  maxBodyBytes,
-		fetchDeadline: fetchDeadline,
+		proxyURL:        proxyURL,
+		proxyDialMode:   proxyDialMode,
+		maxBodyBytes:    maxBodyBytes,
+		fetchDeadline:   fetchDeadline,
+		maxRedirectHops: maxRedirectHops,
 	}, nil
 }
 

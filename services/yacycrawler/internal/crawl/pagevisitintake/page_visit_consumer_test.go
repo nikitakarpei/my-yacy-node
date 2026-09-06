@@ -353,6 +353,46 @@ func TestDiscoveredURLsTheProfileAdmitsGoBackOnTheFrontier(t *testing.T) {
 	}
 }
 
+func TestARedirectTargetTheProfileAdmitsGoesOnTheFrontierAtTheSameDepth(t *testing.T) {
+	worker := newWorker()
+	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
+		Conclusion:     pagevisit.PageVisitTerminal,
+		RedirectTarget: canonicalurltest.CanonicalURLOf(t, "http://host/moved"),
+	}}
+
+	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	published := worker.frontier.visits()
+	if len(published) != 1 {
+		t.Fatalf("published %d urls, want 1", len(published))
+	}
+	if published[0].Depth != 0 || published[0].OrderID != orderID {
+		t.Fatalf("published %+v, want the order at the depth it was visited", published[0])
+	}
+	if published[0].URL != canonicalurltest.CanonicalURLOf(t, "http://host/moved") {
+		t.Fatalf("published %q, want the redirect target", published[0].URL)
+	}
+}
+
+func TestARedirectTargetBeyondTheProfileStaysOff(t *testing.T) {
+	worker := newWorker()
+	worker.orders.profile.URLMustNotMatch = "/moved"
+	worker.pageVisitor.outcomes = []pagevisit.PageVisitOutcome{{
+		Conclusion:     pagevisit.PageVisitTerminal,
+		RedirectTarget: canonicalurltest.CanonicalURLOf(t, "http://host/moved"),
+	}}
+
+	if err := worker.consume(t, visitMessage(t, 1)); err != nil {
+		t.Fatalf("run: %v", err)
+	}
+
+	if len(worker.frontier.visits()) != 0 {
+		t.Fatal("a redirect target beyond the profile should not be published")
+	}
+}
+
 func TestDiscoveredURLsBeyondTheProfileStayOff(t *testing.T) {
 	worker := newWorker()
 	worker.orders.profile.MaxDepth = 0

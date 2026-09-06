@@ -9,15 +9,16 @@ import (
 )
 
 const (
-	msgPageFetchSucceeded            = "page fetch succeeded"
-	msgPageFetchNotModified          = "page fetch not modified"
-	msgPageFetchAccessRefused        = "page fetch access refused"
-	msgPageFetchDeferred             = "page fetch deferred"
-	msgPageFetchRejected             = "page fetch rejected"
-	msgPageFetchLandedURLInvalid     = "page fetch landed url invalid"
-	msgPageFetchRefusedOversizedPage = "page fetch refused oversized page"
-	msgPageFetchFailed               = "page fetch failed"
-	msgPageFetchCanceled             = "page fetch canceled before it finished"
+	msgPageFetchSucceeded             = "page fetch succeeded"
+	msgPageFetchNotModified           = "page fetch not modified"
+	msgPageFetchAccessRefused         = "page fetch access refused"
+	msgPageFetchDeferred              = "page fetch deferred"
+	msgPageFetchRejected              = "page fetch rejected"
+	msgPageFetchRedirected            = "page fetch redirected"
+	msgPageFetchRedirectTargetInvalid = "page fetch redirect target invalid"
+	msgPageFetchRefusedOversizedPage  = "page fetch refused oversized page"
+	msgPageFetchFailed                = "page fetch failed"
+	msgPageFetchCanceled              = "page fetch canceled before it finished"
 )
 
 type PageFetchLog struct{}
@@ -66,13 +67,25 @@ func (PageFetchLog) PageFetchRejected(
 	slog.DebugContext(ctx, msgPageFetchRejected, slog.String("url", pageURL.String()))
 }
 
-func (PageFetchLog) PageFetchLandedURLInvalid(
+func (PageFetchLog) PageFetchRedirected(
+	ctx context.Context,
+	pageURL canonicalurl.CanonicalURL,
+	redirectTarget canonicalurl.CanonicalURL,
+	_ time.Duration,
+) {
+	slog.DebugContext(ctx, msgPageFetchRedirected,
+		slog.String("url", pageURL.String()),
+		slog.String("redirectTarget", redirectTarget.String()),
+	)
+}
+
+func (PageFetchLog) PageFetchRedirectTargetInvalid(
 	ctx context.Context,
 	pageURL canonicalurl.CanonicalURL,
 	_ time.Duration,
 	cause error,
 ) {
-	slog.WarnContext(ctx, msgPageFetchLandedURLInvalid,
+	slog.WarnContext(ctx, msgPageFetchRedirectTargetInvalid,
 		slog.String("url", pageURL.String()),
 		slog.Any("error", cause),
 	)
