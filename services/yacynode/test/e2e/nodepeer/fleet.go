@@ -22,10 +22,9 @@ func StartFleet(
 	ctx context.Context,
 	probe *httpprobe.Probe,
 	networkName, seedlistURL string,
-	size int,
 ) []Peer {
 	t.Helper()
-	fleet := make([]Peer, size)
+	fleet := make([]Peer, FleetSize)
 	for i := range fleet {
 		alias := fmt.Sprintf("node-tr-%02d", i)
 		hash, err := yacymodel.NewHash()

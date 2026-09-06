@@ -52,6 +52,9 @@ func Start(
 		"sed -i 's#^20_dhtdistribution_idlesleep=.*#20_dhtdistribution_idlesleep=1000#' " + defaults + "yacy.init",
 		"sed -i 's#^20_dhtdistribution_busysleep=.*#20_dhtdistribution_busysleep=0#' " + defaults + "yacy.init",
 		"sed -i 's#^.level=.*#.level=FINE#' " + defaults + "yacy.logging",
+		"sed -i 's#^NETWORK.level.*#NETWORK.level = FINE#' " + defaults + "yacy.logging",
+		"sed -i 's#^SWITCHBOARD.level.*#SWITCHBOARD.level = FINE#' " + defaults + "yacy.logging",
+		"sed -i 's#^DHT-OUT.level.*#DHT-OUT.level = FINE#' " + defaults + "yacy.logging",
 	}, configOverrides...), " && ")
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		Started: true,
@@ -88,10 +91,11 @@ func Restart(
 	container testcontainers.Container,
 ) string {
 	t.Helper()
-	stopTimeout := 30 * time.Second
+	stopTimeout := 60 * time.Second
 	if err := container.Stop(ctx, &stopTimeout); err != nil {
 		t.Fatalf("stop yacy: %v", err)
 	}
+	requireFlushedShutdown(t, ctx, container)
 	if err := container.Start(ctx); err != nil {
 		t.Fatalf("restart yacy: %v", err)
 	}
@@ -102,4 +106,22 @@ func Restart(
 		t.Fatal("YaCy never became reachable after restart")
 	}
 	return yacyURL
+}
+
+const killedOnStopExitCode = 137
+
+// requireFlushedShutdown fails when the stop timeout expired and YaCy was
+// killed, because the peer then restarts with none of the RWIs it held.
+func requireFlushedShutdown(t *testing.T, ctx context.Context, container testcontainers.Container) {
+	t.Helper()
+	state, err := container.State(ctx)
+	if err != nil {
+		t.Fatalf("read yacy state after stop: %v", err)
+	}
+	if state.ExitCode == killedOnStopExitCode {
+		t.Fatalf(
+			"YaCy was killed before it finished writing its index, exit code %d",
+			state.ExitCode,
+		)
+	}
 }

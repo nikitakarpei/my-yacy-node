@@ -34,7 +34,10 @@ func Start(t *testing.T, ctx context.Context, networkNames ...string) {
 			ExposedPorts:   []string{port + "/tcp"},
 			Networks:       networkNames,
 			NetworkAliases: aliasPerNetwork(networkNames),
-			WaitingFor: wait.ForListeningPort(port + "/tcp").
+			WaitingFor: wait.ForHTTP("/").
+				WithPort(port + "/tcp").
+				WithStatusCodeMatcher(anyStatusCode).
+				WithForcedIPv4LocalHost().
 				WithStartupTimeout(time.Minute),
 		},
 	})
@@ -44,6 +47,8 @@ func Start(t *testing.T, ctx context.Context, networkNames ...string) {
 	t.Cleanup(func() { _ = container.Terminate(context.Background()) })
 	containerlog.DumpOnFailure(t, "smokescreen", container)
 }
+
+func anyStatusCode(int) bool { return true }
 
 func NetworkURL() string {
 	return "http://" + alias + ":" + port

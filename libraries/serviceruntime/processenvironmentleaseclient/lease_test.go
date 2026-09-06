@@ -13,6 +13,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/processenvironmentleaseclient"
 )
 
+const acquisitionBudget = 500 * time.Millisecond
+
 func TestLeaseCarriesTheGrant(t *testing.T) {
 	socketPath, producer := producing(t, `{"protocol_version":1,"process_environment":`+
 		`{"YACY_ADVERTISE_HOST":"name.localhost.run"}}`+"\n")
@@ -58,32 +60,39 @@ func TestLeaseIsRevokedWhenTheProducerWritesAfterTheGrant(t *testing.T) {
 	}
 }
 
-func TestLeaseWaitsForTheProducerToListen(t *testing.T) {
+func TestLeaseKeepsTryingWhileTheProducerIsAbsent(t *testing.T) {
 	socketPath := socketPathIn(t)
 
-	acquisitions := make(chan *processenvironmentleaseclient.Lease, 1)
-	go func() {
-		lease, err := processenvironmentleaseclient.Acquire(t.Context(), socketPath)
-		if err != nil {
-			acquisitions <- nil
+	ctx, cancel := context.WithTimeout(t.Context(), acquisitionBudget)
+	defer cancel()
 
-			return
-		}
-		acquisitions <- lease
-	}()
+	begun := time.Now()
+	if _, err := processenvironmentleaseclient.Acquire(ctx, socketPath); err == nil {
+		t.Fatal("Acquire returned a lease with no producer listening")
+	}
 
-	time.Sleep(300 * time.Millisecond)
-	producer := listening(t, socketPath, `{"protocol_version":1,"process_environment":{}}`+"\n")
+	if waited := time.Since(begun); waited < acquisitionBudget {
+		t.Errorf(
+			"Acquire gave up after %v, want it to keep trying for %v",
+			waited,
+			acquisitionBudget,
+		)
+	}
+}
+
+func TestLeaseIsAcquiredAfterAProducerSendsABadGrant(t *testing.T) {
+	socketPath, producer := producing(
+		t,
+		"not a grant\n",
+		`{"protocol_version":1,"process_environment":{"YACY_ADVERTISE_HOST":"name.localhost.run"}}`+"\n",
+	)
 	defer producer.close()
 
-	select {
-	case lease := <-acquisitions:
-		if lease == nil {
-			t.Fatal("Acquire failed after the producer started listening")
-		}
-		closeLease(t, lease)
-	case <-time.After(30 * time.Second):
-		t.Fatal("Acquire did not return after the producer started listening")
+	lease := acquired(t, socketPath)
+	defer closeLease(t, lease)
+
+	if host := lease.Grant().ProcessEnvironment["YACY_ADVERTISE_HOST"]; host != "name.localhost.run" {
+		t.Errorf("YACY_ADVERTISE_HOST = %q, want %q", host, "name.localhost.run")
 	}
 }
 
@@ -92,25 +101,31 @@ func TestLeaseRetriesAProducerThatSendsNoGrant(t *testing.T) {
 	silent := listening(t, socketPath, "")
 	defer silent.close()
 
-	ctx, cancel := context.WithTimeout(t.Context(), time.Second)
+	ctx, cancel := context.WithTimeout(t.Context(), acquisitionBudget)
 	defer cancel()
 
+	begun := time.Now()
 	if _, err := processenvironmentleaseclient.Acquire(ctx, socketPath); err == nil {
 		t.Fatal("Acquire returned a lease without a grant")
+	}
+
+	if waited := time.Since(begun); waited > 2*acquisitionBudget {
+		t.Errorf("Acquire read the missing grant for %v, want it to end with the context", waited)
 	}
 }
 
 type producer struct {
 	listener net.Listener
-	accepted chan net.Conn
+	accepted []net.Conn
+	stopped  chan struct{}
 }
 
-func producing(t *testing.T, frame string) (string, *producer) {
+func producing(t *testing.T, frames ...string) (string, *producer) {
 	t.Helper()
 
 	socketPath := socketPathIn(t)
 
-	return socketPath, listening(t, socketPath, frame)
+	return socketPath, listening(t, socketPath, frames...)
 }
 
 func socketPathIn(t *testing.T) string {
@@ -129,7 +144,7 @@ func socketPathIn(t *testing.T) string {
 	return filepath.Join(directory, "lease.sock")
 }
 
-func listening(t *testing.T, socketPath string, frame string) *producer {
+func listening(t *testing.T, socketPath string, frames ...string) *producer {
 	t.Helper()
 
 	configuration := net.ListenConfig{}
@@ -139,30 +154,35 @@ func listening(t *testing.T, socketPath string, frame string) *producer {
 		t.Fatalf("listen: %v", err)
 	}
 
-	started := &producer{listener: listener, accepted: make(chan net.Conn, 1)}
-	go started.serve(frame)
+	started := &producer{listener: listener, stopped: make(chan struct{})}
+	go started.serve(frames)
 
 	return started
 }
 
-func (started *producer) serve(frame string) {
-	connection, err := started.listener.Accept()
-	if err != nil {
-		return
+func (started *producer) serve(frames []string) {
+	defer close(started.stopped)
+
+	for {
+		connection, err := started.listener.Accept()
+		if err != nil {
+			return
+		}
+		started.accepted = append(started.accepted, connection)
+
+		frame := frames[min(len(started.accepted)-1, len(frames)-1)]
+		if frame != "" {
+			_, _ = connection.Write([]byte(frame))
+		}
 	}
-	if frame != "" {
-		_, _ = connection.Write([]byte(frame))
-	}
-	started.accepted <- connection
 }
 
 func (started *producer) close() {
 	_ = started.listener.Close()
+	<-started.stopped
 
-	select {
-	case connection := <-started.accepted:
+	for _, connection := range started.accepted {
 		_ = connection.Close()
-	default:
 	}
 }
 

@@ -19,9 +19,10 @@ import (
 )
 
 const (
-	alias    = "pagescrape"
-	opsPort  = "9090/tcp"
-	envImage = "PAGESCRAPE_IMAGE"
+	alias          = "pagescrape"
+	opsPort        = "9090/tcp"
+	opsPathMetrics = "/metrics"
+	envImage       = "PAGESCRAPE_IMAGE"
 )
 
 func Start(t *testing.T, ctx context.Context, networkName string) {
@@ -33,7 +34,9 @@ func Start(t *testing.T, ctx context.Context, networkName string) {
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {alias}},
 			ExposedPorts:   []string{opsPort},
-			WaitingFor:     wait.ForListeningPort(opsPort),
+			WaitingFor: wait.ForHTTP(opsPathMetrics).
+				WithPort(opsPort).
+				WithForcedIPv4LocalHost(),
 			Env: map[string]string{
 				"SCRAPE_NATS_URL":  natsjetstream.NetworkURL(),
 				"SCRAPE_PROXY_URL": egressproxy.NetworkURL(),

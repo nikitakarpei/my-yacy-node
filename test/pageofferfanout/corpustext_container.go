@@ -18,6 +18,7 @@ import (
 const (
 	corpusTextAlias          = "corpustext"
 	corpusTextOperationsPort = "9090/tcp"
+	corpusTextMetricsPath    = "/metrics"
 	envCorpusTextImage       = "CORPUSTEXT_IMAGE"
 	manticoreAlias           = "manticore"
 	manticoreTableBase       = "yacy_text"
@@ -39,7 +40,9 @@ func startCorpusText(t *testing.T, ctx context.Context, networkName string) {
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {corpusTextAlias}},
 			ExposedPorts:   []string{corpusTextOperationsPort},
-			WaitingFor:     wait.ForListeningPort(corpusTextOperationsPort),
+			WaitingFor: wait.ForHTTP(corpusTextMetricsPath).
+				WithPort(corpusTextOperationsPort).
+				WithForcedIPv4LocalHost(),
 			Env: map[string]string{
 				"SCRAPE_PAGE_OFFER_NATS_URL": natsjetstream.NetworkURL(),
 				"SEARCH_INDEX_ENGINE":        "manticore",

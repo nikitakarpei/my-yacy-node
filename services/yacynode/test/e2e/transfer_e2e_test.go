@@ -32,14 +32,7 @@ func TestRealYaCyTransfersRWIToFleet(t *testing.T) {
 	yacyHash := peerclient.ResolveHash(t, ctx, probe, yacyURL)
 
 	seedlistURL := "http://" + transferYaCyAlias + ":" + peerclient.Port + "/yacy/seedlist.html"
-	fleet := nodepeer.StartFleet(
-		t,
-		ctx,
-		probe,
-		network.Name,
-		seedlistURL,
-		nodepeer.MinConnectedPeers,
-	)
+	fleet := nodepeer.StartFleet(t, ctx, probe, network.Name, seedlistURL)
 
 	yacypeer.PushDocument(t, ctx, probe, yacyURL, yacypeer.TransferTokens())
 
@@ -52,10 +45,27 @@ func TestRealYaCyTransfersRWIToFleet(t *testing.T) {
 		yacypeer.DHTMinLocalRWIs,
 		30*time.Second,
 	)
-	waitFleetSenior(t, ctx, probe, yacyURL, fleet, 60*time.Second)
-	waitFleetActiveConnected(t, ctx, probe, yacyURL, fleet, 15*time.Second)
+	waitConnectedFleetPeers(
+		t,
+		ctx,
+		probe,
+		yacyURL,
+		fleet,
+		nodepeer.MinConnectedPeersForDHT,
+		90*time.Second,
+	)
 
-	yacypeer.Restart(t, ctx, probe, yacyContainer)
+	yacyURL = yacypeer.Restart(t, ctx, probe, yacyContainer)
+
+	waitConnectedFleetPeers(
+		t,
+		ctx,
+		probe,
+		yacyURL,
+		fleet,
+		nodepeer.MinConnectedPeersForDHT,
+		90*time.Second,
+	)
 
 	received := pollwait.For(180*time.Second, func() bool {
 		for _, node := range fleet {

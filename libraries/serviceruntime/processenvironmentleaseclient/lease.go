@@ -62,7 +62,7 @@ func acquireOnce(ctx context.Context, socketPath string) (*Lease, error) {
 
 	reader := bufio.NewReaderSize(connection, processenvironmentlease.MaximumFrameByte+1)
 
-	grant, err := grantFrom(connection, reader)
+	grant, err := grantFrom(ctx, connection, reader)
 	if err != nil {
 		closeConnection(ctx, connection)
 
@@ -80,10 +80,11 @@ func acquireOnce(ctx context.Context, socketPath string) (*Lease, error) {
 }
 
 func grantFrom(
+	ctx context.Context,
 	connection net.Conn,
 	reader *bufio.Reader,
 ) (processenvironmentlease.Grant, error) {
-	if err := connection.SetReadDeadline(time.Now().Add(grantReadTimeout)); err != nil {
+	if err := connection.SetReadDeadline(grantDeadlineFrom(ctx)); err != nil {
 		return processenvironmentlease.Grant{}, fmt.Errorf("await the grant frame: %w", err)
 	}
 
@@ -102,6 +103,16 @@ func grantFrom(
 	}
 
 	return grant, nil
+}
+
+func grantDeadlineFrom(ctx context.Context) time.Time {
+	deadline := time.Now().Add(grantReadTimeout)
+
+	if acquisitionDeadline, ok := ctx.Deadline(); ok && acquisitionDeadline.Before(deadline) {
+		return acquisitionDeadline
+	}
+
+	return deadline
 }
 
 func (lease *Lease) watch(ctx context.Context, reader *bufio.Reader) {

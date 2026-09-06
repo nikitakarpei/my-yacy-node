@@ -25,9 +25,15 @@ import (
 )
 
 const (
-	// MinConnectedPeers is the DHT sender gate's minimum connected-peer count.
-	MinConnectedPeers = 33
-	envNodeImage      = "YACY_NODE_IMAGE"
+	// MinConnectedPeersForDHT is the connected-peer count below which YaCy
+	// calls the network too small and distributes no RWI at all.
+	MinConnectedPeersForDHT = 33
+
+	// FleetSize keeps the fleet above MinConnectedPeersForDHT while YaCy holds
+	// a peer out of its connected set between two of that peer's hellos.
+	FleetSize = MinConnectedPeersForDHT + 3
+
+	envNodeImage = "YACY_NODE_IMAGE"
 )
 
 type Config struct {
@@ -68,7 +74,7 @@ func Start(
 		"YACY_ADVERTISE_PORT":            peerclient.Port,
 		"YACY_DATA_DIR":                  "/tmp/data",
 		"YACY_ANNOUNCE_INTERVAL":         "10s",
-		"YACY_REACHABLE_ROSTER_CAPACITY": strconv.Itoa(MinConnectedPeers + 8),
+		"YACY_REACHABLE_ROSTER_CAPACITY": strconv.Itoa(FleetSize + 8),
 		"EGRESS_PROXY_URL":               egressproxy.NetworkURL(),
 		"LOG_LEVEL":                      "debug",
 	}

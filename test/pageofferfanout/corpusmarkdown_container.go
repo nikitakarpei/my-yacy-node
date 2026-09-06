@@ -17,6 +17,7 @@ import (
 const (
 	corpusMarkdownAlias          = "corpusmarkdown"
 	corpusMarkdownOperationsPort = "9090/tcp"
+	corpusMarkdownMetricsPath    = "/metrics"
 	envCorpusMarkdownImage       = "CORPUSMARKDOWN_IMAGE"
 )
 
@@ -34,7 +35,9 @@ func startCorpusMarkdown(t *testing.T, ctx context.Context, networkName string) 
 			Networks:       []string{networkName},
 			NetworkAliases: map[string][]string{networkName: {corpusMarkdownAlias}},
 			ExposedPorts:   []string{corpusMarkdownOperationsPort},
-			WaitingFor:     wait.ForListeningPort(corpusMarkdownOperationsPort),
+			WaitingFor: wait.ForHTTP(corpusMarkdownMetricsPath).
+				WithPort(corpusMarkdownOperationsPort).
+				WithForcedIPv4LocalHost(),
 			Env: map[string]string{
 				"SCRAPE_PAGE_OFFER_NATS_URL": natsjetstream.NetworkURL(),
 				"PAGE_MARKDOWN_NATS_URL":     natsjetstream.NetworkURL(),

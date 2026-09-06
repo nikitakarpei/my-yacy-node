@@ -40,45 +40,13 @@ func waitPeerActiveConnected(
 	t.Fatalf("YaCy never saw peer hash %s as an active connected peer", peerHash)
 }
 
-func waitFleetSenior(
+func waitConnectedFleetPeers(
 	t *testing.T,
 	ctx context.Context,
 	probe *httpprobe.Probe,
 	yacyURL string,
 	fleet []nodepeer.Peer,
-	timeout time.Duration,
-) {
-	t.Helper()
-	if pollwait.For(timeout, func() bool {
-		result := probe.Get(ctx, yacyURL+"/yacy/seedlist.xml")
-		if !result.OK {
-			return false
-		}
-		seniors, err := peerdirectory.SeniorHashes([]byte(result.Body))
-		if err != nil {
-			return false
-		}
-		for _, node := range fleet {
-			if _, ok := seniors[node.Hash.String()]; !ok {
-				return false
-			}
-		}
-		return true
-	}) {
-		return
-	}
-	if result := probe.Get(ctx, yacyURL+"/yacy/seedlist.xml"); result.OK {
-		t.Logf("final seedlist.xml:\n%s", result.Body)
-	}
-	t.Fatalf("YaCy never published all %d fleet hashes as PeerType=senior", len(fleet))
-}
-
-func waitFleetActiveConnected(
-	t *testing.T,
-	ctx context.Context,
-	probe *httpprobe.Probe,
-	yacyURL string,
-	fleet []nodepeer.Peer,
+	want int,
 	timeout time.Duration,
 ) {
 	t.Helper()
@@ -86,6 +54,7 @@ func waitFleetActiveConnected(
 	for _, node := range fleet {
 		hashes[node.Hash.String()] = struct{}{}
 	}
+	most := 0
 	if pollwait.For(timeout, func() bool {
 		result := probe.Get(ctx, yacyURL+"/Network.xml?page=1&maxCount=1000")
 		if !result.OK {
@@ -95,16 +64,25 @@ func waitFleetActiveConnected(
 		if err != nil {
 			return false
 		}
+		connected := 0
 		for hash := range active {
 			if _, ok := hashes[hash]; ok {
-				return true
+				connected++
 			}
 		}
-		return false
+		if connected > most {
+			most = connected
+		}
+		return connected >= want
 	}) {
 		return
 	}
-	t.Fatal("YaCy has no active connected fleet node; DHT dispatcher may remain nil after restart")
+	t.Fatalf(
+		"YaCy connected at most %d of %d fleet peers, short of the %d it needs to distribute RWIs",
+		most,
+		len(fleet),
+		want,
+	)
 }
 
 // waitPeerIndexedWords waits until YaCy publishes a non-zero ICount for the
