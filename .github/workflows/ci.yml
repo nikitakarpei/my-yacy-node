@@ -17,77 +17,76 @@ jobs:
     uses: ./.github/workflows/verify.yml
 
   e2e:
-    needs: verify
     uses: ./.github/workflows/e2e.yml
 
   build-yacynode:
-    needs: verify
+    needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-yacynode.yml
     secrets: inherit
 
   build-localhostrunagent:
-    needs: verify
+    needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-localhostrunagent.yml
     secrets: inherit
 
   build-yacycrawler:
-    needs: verify
+    needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-yacycrawler.yml
     secrets: inherit
 
   build-visitcrawl:
-    needs: verify
+    needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-visitcrawl.yml
     secrets: inherit
 
   build-corpustext:
-    needs: verify
+    needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-corpustext.yml
     secrets: inherit
 
   build-searxng-crawled-text-search:
-    needs: verify
+    needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-searxng-crawled-text-search.yml
     secrets: inherit
 
   build-searxng-result-router:
-    needs: verify
+    needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-searxng-result-router.yml
     secrets: inherit
 
   build-renderproxy:
-    needs: verify
+    needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-renderproxy.yml
     secrets: inherit
 
   build-pagescrape:
-    needs: verify
+    needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-pagescrape.yml
     secrets: inherit
 
   build-corpusmarkdown:
-    needs: verify
+    needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-corpusmarkdown.yml
     secrets: inherit
 
   build-webarchivescrape:
-    needs: verify
+    needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-webarchivescrape.yml
     secrets: inherit
 
   build-webresearchmcp:
-    needs: verify
+    needs: [verify, e2e]
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-webresearchmcp.yml
     secrets: inherit
