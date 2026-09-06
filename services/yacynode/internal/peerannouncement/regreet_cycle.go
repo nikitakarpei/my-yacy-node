@@ -142,8 +142,8 @@ func (a *announcer) contactOne(
 
 		return
 	}
-	reportedPeerType, confirmed := result.ObservedPeerType.Get()
-	if !confirmed {
+	reportedPeerType, present := result.ObservedPeerType.Get()
+	if !present || !confirmsOurNetwork(reportedPeerType) {
 		a.roster.ConfirmUnreachable(ctx, peerHash)
 		slog.WarnContext(
 			ctx,
@@ -166,4 +166,13 @@ func (a *announcer) contactOne(
 
 	a.roster.ConfirmReachable(ctx, result.RespondingSeed)
 	a.roster.Discover(ctx, result.KnownSeeds...)
+}
+
+func confirmsOurNetwork(reportedPeerType yacymodel.PeerType) bool {
+	switch reportedPeerType {
+	case yacymodel.PeerJunior, yacymodel.PeerSenior, yacymodel.PeerPrincipal:
+		return true
+	default:
+		return false
+	}
 }

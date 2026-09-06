@@ -3,13 +3,19 @@ package peeradmission
 import (
 	"context"
 	"log/slog"
-	"math/rand/v2"
-	"slices"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/httpguard"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/nodeidentity"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
+)
+
+const maxKnownPeersPerHello = 100
+
+const (
+	msgForeignNetwork = "not in my network"
+	msgAdmitted       = "ok"
 )
 
 type callerReachabilityProbe interface {
@@ -22,13 +28,14 @@ type callerReachabilityProbe interface {
 }
 
 type reachableRoster interface {
-	ReachablePeers(ctx context.Context) []yacymodel.Seed
+	MostRecentlyReachablePeers(ctx context.Context, limit int) []yacymodel.Seed
 	ConfirmReachable(ctx context.Context, seed yacymodel.Seed)
 }
 
 type helloEndpoint struct {
 	identity     nodeidentity.Identity
 	status       RuntimeStatus
+	now          func() time.Time
 	probe        callerReachabilityProbe
 	reachability reachableRoster
 }
@@ -37,19 +44,42 @@ func (e helloEndpoint) Serve(
 	ctx context.Context,
 	req yacyproto.HelloRequest,
 ) (yacyproto.HelloResponse, error) {
-	resp := yacyproto.HelloResponse{
-		YourIP: httpguard.RemoteAddr(ctx),
-		Seeds:  []yacymodel.Seed{e.status.SelfSeed(ctx)},
+	if !e.identity.NetworkMatches(req.NetworkName) {
+		return e.foreignNetworkReply(ctx), nil
 	}
 
-	if e.identity.NetworkMatches(req.NetworkName) {
-		resp.YourType = yacymodel.Some(e.classifyCaller(ctx, req.Seed))
-		resp.Seeds = append(resp.Seeds, e.knownPeers(ctx, req.Count)...)
+	return e.sameNetworkReply(ctx, req), nil
+}
+
+func (e helloEndpoint) foreignNetworkReply(ctx context.Context) yacyproto.HelloResponse {
+	slog.DebugContext(ctx, "hello refused, caller is on another network")
+
+	return yacyproto.HelloResponse{
+		YourIP:   httpguard.RemoteAddr(ctx),
+		YourType: yacymodel.Some(yacymodel.PeerVirgin),
+		MyTime:   e.now(),
+		Message:  msgForeignNetwork,
 	}
+}
 
-	slog.DebugContext(ctx, "hello served", slog.Int("seedCount", len(resp.Seeds)))
+func (e helloEndpoint) sameNetworkReply(
+	ctx context.Context,
+	req yacyproto.HelloRequest,
+) yacyproto.HelloResponse {
+	seeds := append(
+		[]yacymodel.Seed{e.status.SelfSeed(ctx)},
+		e.knownPeers(ctx, req.Count)...,
+	)
 
-	return resp, nil
+	slog.DebugContext(ctx, "hello served", slog.Int("seedCount", len(seeds)))
+
+	return yacyproto.HelloResponse{
+		YourIP:   httpguard.RemoteAddr(ctx),
+		YourType: yacymodel.Some(e.classifyCaller(ctx, req.Seed)),
+		MyTime:   e.now(),
+		Message:  msgAdmitted,
+		Seeds:    seeds,
+	}
 }
 
 func (e helloEndpoint) classifyCaller(
@@ -66,20 +96,13 @@ func (e helloEndpoint) classifyCaller(
 
 	e.reachability.ConfirmReachable(ctx, caller)
 
+	if caller.PeerType == yacymodel.PeerPrincipal {
+		return yacymodel.PeerPrincipal
+	}
+
 	return yacymodel.PeerSenior
 }
 
 func (e helloEndpoint) knownPeers(ctx context.Context, count int) []yacymodel.Seed {
-	known := slices.Clone(e.reachability.ReachablePeers(ctx))
-
-	//nolint:gosec // G404: the order only spreads load across peers; it needs no unpredictability.
-	rand.Shuffle(len(known), func(i, j int) {
-		known[i], known[j] = known[j], known[i]
-	})
-
-	if count > 0 && count < len(known) {
-		known = known[:count]
-	}
-
-	return known
+	return e.reachability.MostRecentlyReachablePeers(ctx, min(count, maxKnownPeersPerHello))
 }

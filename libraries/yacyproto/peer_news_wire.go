@@ -57,7 +57,7 @@ func (peerNewsWireCodec) decode(ctx context.Context, raw string) (yacymodel.Peer
 	if err != nil {
 		return yacymodel.PeerNews{}, fmt.Errorf("%w: %w", yacymodel.ErrBadPeerNews, err)
 	}
-	created, ok := seedTimestampWireCodec{}.decode(fields[newsColCreated])
+	created, ok := instantWireCodec{}.decode(fields[newsColCreated])
 	if !ok {
 		return yacymodel.PeerNews{}, fmt.Errorf(
 			"%w: created %q", yacymodel.ErrBadPeerNews, fields[newsColCreated],
@@ -65,7 +65,7 @@ func (peerNewsWireCodec) decode(ctx context.Context, raw string) (yacymodel.Peer
 	}
 
 	received := yacymodel.None[time.Time]()
-	if instant, ok := (seedTimestampWireCodec{}).decode(fields[newsColReceived]); ok {
+	if instant, ok := (instantWireCodec{}).decode(fields[newsColReceived]); ok {
 		received = yacymodel.Some(instant)
 	}
 
@@ -108,7 +108,7 @@ func newsAttributes(fields map[string]string) map[string]string {
 }
 
 func (peerNewsWireCodec) encode(news yacymodel.PeerNews) string {
-	timestamp := seedTimestampWireCodec{}
+	timestamp := instantWireCodec{}
 	pairs := []string{
 		newsColOriginator + "=" + news.Originator().String(),
 		newsColCategory + "=" + news.Category().String(),

@@ -274,7 +274,24 @@ func TestAnnounceMarksFailedGreetUnreachable(t *testing.T) {
 func TestAnnounceRejectsPeerThatDidNotConfirmOurNetwork(t *testing.T) {
 	self := newStubPeer(t, "self", seniorAnswer(t))
 	known := newStubPeer(t, "known", seniorAnswer(t))
-	peer := newStubPeer(t, "peer", unconfirmedAnswer(t, known.seed))
+	peer := newStubPeer(t, "peer", untypedAnswer(t, known.seed))
+
+	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
+	runUntilPeerConfirmed(t, announcerFor(self.seed, nil, roster, 4), roster)
+
+	unreachable := roster.unreachableHashes()
+	if len(unreachable) != 1 || unreachable[0] != peer.seed.Hash {
+		t.Fatalf("unreachable = %v, want [%v]", unreachable, peer.seed.Hash)
+	}
+	if discovered := roster.discoveredSeeds(); len(discovered) != 0 {
+		t.Fatalf("discovered = %v, want no seeds from a peer outside our network", discovered)
+	}
+}
+
+func TestAnnounceRejectsPeerThatAnswersVirgin(t *testing.T) {
+	self := newStubPeer(t, "self", seniorAnswer(t))
+	known := newStubPeer(t, "known", seniorAnswer(t))
+	peer := newStubPeer(t, "peer", virginAnswer(t, known.seed))
 
 	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
 	runUntilPeerConfirmed(t, announcerFor(self.seed, nil, roster, 4), roster)

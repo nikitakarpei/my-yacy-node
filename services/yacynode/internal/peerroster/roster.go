@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"slices"
 	"sync"
 	"time"
 
@@ -24,6 +25,11 @@ type rosterEntry struct {
 	lastContacted  time.Time
 }
 
+type reachablePeer struct {
+	seed        yacymodel.Seed
+	confirmedAt time.Time
+}
+
 type knownPeer struct {
 	peerHash    yacymodel.Hash
 	rosterEntry rosterEntry
@@ -40,7 +46,7 @@ type roster struct {
 	observer         RosterObserver
 
 	mu        sync.Mutex
-	reachable map[yacymodel.Hash]yacymodel.Seed
+	reachable map[yacymodel.Hash]reachablePeer
 }
 
 func (r *roster) Discover(ctx context.Context, seeds ...yacymodel.Seed) {
@@ -232,9 +238,10 @@ func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
 
 		return
 	}
+	confirmedAt := r.now()
 	known := 0
 	if err := r.vault.Update(ctx, func(tx *vault.Txn) error {
-		if err := r.recordReachable(tx, seed.Hash, networkAddress); err != nil {
+		if err := r.recordReachable(tx, seed.Hash, networkAddress, confirmedAt); err != nil {
 			return err
 		}
 		if err := r.evictOverflow(tx); err != nil {
@@ -255,7 +262,7 @@ func (r *roster) ConfirmReachable(ctx context.Context, seed yacymodel.Seed) {
 		return
 	}
 
-	admitted, wasReachable := r.admitReachable(seed.Hash, seed)
+	admitted, wasReachable := r.admitReachable(seed, confirmedAt)
 	switch {
 	case admitted && !wasReachable:
 		slog.DebugContext(ctx, "peer became reachable", slog.String("peer", seed.Hash.String()))
@@ -275,6 +282,7 @@ func (r *roster) recordReachable(
 	tx *vault.Txn,
 	peerHash yacymodel.Hash,
 	networkAddress yacymodel.NetworkAddress,
+	confirmedAt time.Time,
 ) error {
 	entry, _, err := r.peers.Get(tx, peerHash)
 	if err != nil {
@@ -283,8 +291,8 @@ func (r *roster) recordReachable(
 
 	entry.primaryAddress = networkAddress.Host()
 	entry.port = networkAddress.Port()
-	entry.lastContacted = r.now()
-	entry.lastReachable = r.now()
+	entry.lastContacted = confirmedAt
+	entry.lastReachable = confirmedAt
 	if err := r.peers.Put(tx, peerHash, entry); err != nil {
 		return fmt.Errorf("store peer %s: %w", peerHash, err)
 	}
@@ -293,16 +301,16 @@ func (r *roster) recordReachable(
 }
 
 func (r *roster) admitReachable(
-	peer yacymodel.Hash,
 	seed yacymodel.Seed,
+	confirmedAt time.Time,
 ) (admitted, wasReachable bool) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	_, wasReachable = r.reachable[peer]
+	_, wasReachable = r.reachable[seed.Hash]
 	admitted = wasReachable || len(r.reachable) < r.reachableCap
 	if admitted {
-		r.reachable[peer] = seed
+		r.reachable[seed.Hash] = reachablePeer{seed: seed, confirmedAt: confirmedAt}
 	}
 
 	return admitted, wasReachable
@@ -362,11 +370,47 @@ func (r *roster) ReachablePeers(_ context.Context) []yacymodel.Seed {
 	defer r.mu.Unlock()
 
 	peers := make([]yacymodel.Seed, 0, len(r.reachable))
-	for _, seed := range r.reachable {
-		peers = append(peers, seed)
+	for _, reachable := range r.reachable {
+		peers = append(peers, reachable.seed)
 	}
 
 	return peers
+}
+
+func (r *roster) MostRecentlyReachablePeers(
+	_ context.Context,
+	limit int,
+) []yacymodel.Seed {
+	if limit <= 0 {
+		return nil
+	}
+
+	ranked := r.reachablePeersByRecency()
+	if limit < len(ranked) {
+		ranked = ranked[:limit]
+	}
+
+	peers := make([]yacymodel.Seed, len(ranked))
+	for index, reachable := range ranked {
+		peers[index] = reachable.seed
+	}
+
+	return peers
+}
+
+func (r *roster) reachablePeersByRecency() []reachablePeer {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	ranked := make([]reachablePeer, 0, len(r.reachable))
+	for _, reachable := range r.reachable {
+		ranked = append(ranked, reachable)
+	}
+	slices.SortFunc(ranked, func(a, b reachablePeer) int {
+		return b.confirmedAt.Compare(a.confirmedAt)
+	})
+
+	return ranked
 }
 
 func (r *roster) IsReachable(_ context.Context, peer yacymodel.Hash) bool {

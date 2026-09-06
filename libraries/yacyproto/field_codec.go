@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var ErrBadField = errors.New("bad field")
@@ -13,6 +14,12 @@ var ErrBadField = errors.New("bad field")
 func putString(dst url.Values, key, value string) {
 	if value != "" {
 		dst.Set(key, value)
+	}
+}
+
+func putInstant(dst url.Values, key string, instant time.Time) {
+	if !instant.IsZero() {
+		dst.Set(key, instantWireCodec{}.encode(instant))
 	}
 }
 
@@ -38,6 +45,12 @@ func setString(dst Message, key, value string) {
 	}
 }
 
+func setInstant(dst Message, key string, instant time.Time) {
+	if !instant.IsZero() {
+		dst[key] = instantWireCodec{}.encode(instant)
+	}
+}
+
 func setInt(dst Message, key string, value int) {
 	dst[key] = strconv.Itoa(value)
 }
@@ -57,6 +70,20 @@ func optionalInt(key, value string) (int, error) {
 	}
 
 	return readInt(key, value)
+}
+
+//nolint:unparam // key names the field in the error, as in every sibling reader.
+func optionalInstant(key, value string) (time.Time, error) {
+	if value == "" {
+		return time.Time{}, nil
+	}
+
+	instant, ok := instantWireCodec{}.decode(value)
+	if !ok {
+		return time.Time{}, fmt.Errorf("%w: %s=%q", ErrBadField, key, value)
+	}
+
+	return instant, nil
 }
 
 func optionalBool(key, value string) (bool, error) {

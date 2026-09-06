@@ -238,7 +238,7 @@ func assembleNode(
 		return node{}, fmt.Errorf("open peer roster: %w", err)
 	}
 
-	peeradmission.MountHello(router, identity, runtimeStatus, peerRoster, egressClient)
+	peeradmission.MountHello(router, identity, runtimeStatus, now, peerRoster, egressClient)
 
 	peerAnnouncer := peerannouncement.New(
 		peerannouncement.Config{

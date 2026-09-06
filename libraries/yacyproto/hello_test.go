@@ -4,6 +4,7 @@ import (
 	"net/url"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
@@ -19,7 +20,7 @@ func TestHelloRequestRoundTrip(t *testing.T) {
 		Count:       50,
 		Iam:         sampleHash(t, "alpha"),
 		MagicMD5:    yacyproto.MagicMD5("k", "iam", "ess"),
-		MyTime:      "20260617120000",
+		MyTime:      time.Date(2026, time.June, 17, 12, 0, 0, 0, time.UTC),
 	}
 
 	got, err := yacyproto.ParseHelloRequest(t.Context(), req.Form())
@@ -39,7 +40,7 @@ func TestHelloResponseRoundTrip(t *testing.T) {
 		ResponseHeader: yacyproto.ResponseHeader{Version: "1.0", Uptime: 42},
 		YourIP:         "203.0.113.7",
 		YourType:       yacymodel.Some(yacymodel.PeerSenior),
-		MyTime:         "20260617120001",
+		MyTime:         time.Date(2026, time.June, 17, 12, 0, 1, 0, time.UTC),
 		Message:        "ok",
 		Seeds: []yacymodel.Seed{
 			sampleSeed(t, "alpha", "peer-self"),
@@ -56,6 +57,15 @@ func TestHelloResponseRoundTrip(t *testing.T) {
 
 	if !reflect.DeepEqual(got, resp) {
 		t.Fatalf("round-trip mismatch:\n got %#v\nwant %#v", got, resp)
+	}
+}
+
+func TestParseHelloRequestRejectsBadMyTime(t *testing.T) {
+	t.Parallel()
+
+	form := url.Values{yacyproto.FieldMyTime: {"yesterday"}}
+	if _, err := yacyproto.ParseHelloRequest(t.Context(), form); err == nil {
+		t.Fatal("expected error for malformed mytime")
 	}
 }
 
