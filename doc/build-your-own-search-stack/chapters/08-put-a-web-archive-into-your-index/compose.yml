@@ -1,7 +1,6 @@
 services:
   smokescreen:
-    build:
-      context: ../../building-blocks/smokescreen
+    image: ghcr.io/nikitakarpei/smokescreen:latest
     restart: unless-stopped
     command:
       - "--listen-ip"
