@@ -16,6 +16,8 @@ import (
 
 const adminAuthHeader = "Authorization: Basic YWRtaW46eWFjeQ=="
 
+const pushedDocumentTitle = "yacy rwi node end to end document"
+
 func TransferTokens() []string {
 	tokens := make([]string, 150)
 	for i := range tokens {
@@ -24,8 +26,9 @@ func TransferTokens() []string {
 	return tokens
 }
 
-// PushDocument indexes one plain-text document of the given tokens into the
-// real YaCy peer and reports the address it now holds it under.
+// PushDocument indexes one HTML document of the given tokens into the real
+// YaCy peer and reports the address it now holds it under. Only an HTML
+// document leaves the peer holding a title for it.
 func PushDocument(
 	t *testing.T,
 	ctx context.Context,
@@ -34,18 +37,18 @@ func PushDocument(
 	tokens []string,
 ) string {
 	t.Helper()
-	wantURL := fmt.Sprintf("http://transfer.example.invalid/doc-%d.txt", len(tokens))
+	wantURL := fmt.Sprintf("http://transfer.example.invalid/doc-%d.html", len(tokens))
 
 	body, contentType := buildMultipart(
 		map[string]string{
 			"count":         "1",
 			"url-0":         wantURL,
-			"contentType-0": "text/plain",
+			"contentType-0": "text/html",
 			"collection-0":  "transfer",
 			"synchronous":   "true",
 			"commit":        "true",
 		},
-		map[string]string{"data-0": strings.Join(tokens, " ")},
+		map[string]string{"data-0": htmlPageOf(tokens)},
 	)
 
 	result := probe.PostRaw(ctx, yacyURL+"/api/push_p.json", body,
@@ -58,6 +61,11 @@ func PushDocument(
 	}
 
 	return wantURL
+}
+
+func htmlPageOf(tokens []string) string {
+	return "<html><head><title>" + pushedDocumentTitle + "</title></head>" +
+		"<body><p>" + strings.Join(tokens, " ") + "</p></body></html>"
 }
 
 func buildMultipart(fields, files map[string]string) (body, contentType string) {
