@@ -1,7 +1,6 @@
 services:
   warcprox:
-    build:
-      context: ../../building-blocks/warcprox
+    image: ghcr.io/nikitakarpei/warcprox:latest
     restart: unless-stopped
     command:
       - "--address=0.0.0.0"
@@ -23,8 +22,7 @@ services:
       archive:
 
   warcprox-trust:
-    build:
-      context: ../../building-blocks/warcprox
+    image: ghcr.io/nikitakarpei/warcprox:latest
     depends_on:
       - warcprox
     volumes:
@@ -38,8 +36,7 @@ services:
         sed -n '/BEGIN CERTIFICATE/,/END CERTIFICATE/p' /ca/warcprox-ca.pem >> /trust/ca-certificates.crt
 
   smokescreen:
-    build:
-      context: ../../building-blocks/smokescreen
+    image: ghcr.io/nikitakarpei/smokescreen:latest
     restart: unless-stopped
     depends_on:
       - warcprox

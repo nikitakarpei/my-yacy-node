@@ -96,3 +96,15 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/build-webresearchmcp.yml
     secrets: inherit
+
+  build-smokescreen:
+    needs: [verify, e2e]
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/build-smokescreen.yml
+    secrets: inherit
+
+  build-warcprox:
+    needs: [verify, e2e]
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/build-warcprox.yml
+    secrets: inherit
