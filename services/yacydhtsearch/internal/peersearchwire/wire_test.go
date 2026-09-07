@@ -74,12 +74,17 @@ func peerAnswering(t *testing.T, body string, status int) string {
 	return server.URL
 }
 
-func searchAnswerHolding(address string) string {
+func searchAnswerHolding(addresses ...string) string {
+	resources := make([]yacyproto.SearchResource, 0, len(addresses))
+	for _, address := range addresses {
+		resources = append(resources, yacyproto.SearchResource{
+			Metadata: yacymodel.URLMetadata{Address: address, Title: "Weather"},
+		})
+	}
+
 	return yacyproto.SearchResponse{
-		Count: 1,
-		Resources: []yacyproto.SearchResource{
-			{Metadata: yacymodel.URLMetadata{Address: address, Title: "Weather"}},
-		},
+		Count:     len(resources),
+		Resources: resources,
 	}.Encode().Encode()
 }
 
@@ -93,14 +98,14 @@ func TestAPeerAnswerBecomesResultItems(t *testing.T) {
 		peersearchwire.PeerSearchObservers{observer},
 	)
 
-	items := wire.Search(
+	items, replied := wire.Search(
 		t.Context(),
 		peerAnswering(t, searchAnswerHolding("https://example.org/weather"), http.StatusOK),
 		yacyproto.SearchRequest{NetworkName: "freeworld"},
 	)
 
-	if len(items) != 1 || items[0].Address != "https://example.org/weather" {
-		t.Fatalf("Search = %+v, want the address the peer reported", items)
+	if !replied || len(items) != 1 || items[0].Address != "https://example.org/weather" {
+		t.Fatalf("Search = %+v, %v, want the address the peer reported", items, replied)
 	}
 	if observer.answered != 1 {
 		t.Fatalf("PeerAnswered reported %d times, want once", observer.answered)
@@ -123,14 +128,31 @@ func TestAPeerThatRefusesTheSearchYieldsNoItems(t *testing.T) {
 	observer := &recordedOutcome{}
 	wire := peersearchwire.New(http.DefaultClient, responseLimit, observer)
 
-	items := wire.Search(
+	items, replied := wire.Search(
 		t.Context(),
 		peerAnswering(t, "", http.StatusServiceUnavailable),
 		yacyproto.SearchRequest{},
 	)
 
-	if len(items) != 0 || observer.refused != 1 {
+	if replied || len(items) != 0 || observer.refused != 1 {
 		t.Fatalf("Search = %+v with %d refusals, want none and one", items, observer.refused)
+	}
+}
+
+func TestAPeerThatHoldsNothingStillReplies(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedOutcome{}
+	wire := peersearchwire.New(http.DefaultClient, responseLimit, observer)
+
+	items, replied := wire.Search(
+		t.Context(),
+		peerAnswering(t, searchAnswerHolding(), http.StatusOK),
+		yacyproto.SearchRequest{},
+	)
+
+	if !replied || len(items) != 0 {
+		t.Fatalf("Search = %+v, %v, want a reply that carries nothing", items, replied)
 	}
 }
 
@@ -140,9 +162,9 @@ func TestAPeerThatCannotBeReachedYieldsNoItems(t *testing.T) {
 	observer := &recordedOutcome{}
 	wire := peersearchwire.New(http.DefaultClient, responseLimit, observer)
 
-	items := wire.Search(t.Context(), "http://127.0.0.1:1", yacyproto.SearchRequest{})
+	items, replied := wire.Search(t.Context(), "http://127.0.0.1:1", yacyproto.SearchRequest{})
 
-	if len(items) != 0 || observer.unreachable != 1 {
+	if replied || len(items) != 0 || observer.unreachable != 1 {
 		t.Fatalf("Search = %+v with %d unreachable, want none and one", items, observer.unreachable)
 	}
 }

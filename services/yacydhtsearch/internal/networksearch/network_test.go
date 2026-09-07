@@ -271,3 +271,24 @@ func TestPeersThatHoldNoAddressInCommonReportNoRepeatedItem(t *testing.T) {
 		)
 	}
 }
+
+func TestAPeerThatRepliedHoldingNothingAnswersButSendsNoItem(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedQuery{}
+	directory := directoryAnsweringAt(t,
+		peerHolding(t),
+		peerHolding(t, "https://a.example/"),
+	)
+	network := networkOver(t, directory, everyAskablePeer{}, observer)
+
+	network.Search(t.Context(), searchquery.QueryFrom("berlin"))
+
+	if observer.performed.AmountOfAnsweringPeers != 2 ||
+		observer.performed.AmountOfPeersThatSentItems != 1 {
+		t.Fatalf(
+			"NetworkSearchPerformed = %+v, want two peers answering and one sending items",
+			observer.performed,
+		)
+	}
+}

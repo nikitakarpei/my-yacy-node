@@ -40,17 +40,17 @@ func (w Wire) Search(
 	ctx context.Context,
 	address string,
 	request yacyproto.SearchRequest,
-) []searchresult.Item {
+) ([]searchresult.Item, bool) {
 	startedAt := time.Now()
 	body, ok := w.postSearch(ctx, address, request, startedAt)
 	if !ok {
-		return nil
+		return nil, false
 	}
 
 	response, err := yacyproto.ParseSearchResponse(ctx, yacyproto.ParseMessage(body))
 	if err != nil {
 		w.observer.PeerAnswerUnreadable(ctx, address, err, time.Since(startedAt))
-		return nil
+		return nil, false
 	}
 
 	items := make([]searchresult.Item, 0, len(response.Resources))
@@ -63,7 +63,7 @@ func (w Wire) Search(
 	}
 	w.observer.PeerAnswered(ctx, address, items, time.Since(startedAt))
 
-	return items
+	return items, true
 }
 
 func (w Wire) postSearch(

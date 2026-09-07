@@ -25,6 +25,7 @@ type PeerSelection interface {
 type PerformedNetworkSearch struct {
 	AmountOfAskedPeers                 int
 	AmountOfAnsweringPeers             int
+	AmountOfPeersThatSentItems         int
 	AmountOfItemsAcrossAnswers         int
 	AmountOfRepeatedItemsAcrossAnswers int
 	AmountOfItemsInRanking             int
@@ -92,6 +93,7 @@ func (n Network) Search(ctx context.Context, query searchquery.Query) searchresu
 	n.observer.NetworkSearchPerformed(ctx, PerformedNetworkSearch{
 		AmountOfAskedPeers:                 len(chosenPeers),
 		AmountOfAnsweringPeers:             len(answers),
+		AmountOfPeersThatSentItems:         amountOfPeersThatSentItems(answers),
 		AmountOfItemsAcrossAnswers:         amountOfItemsAcrossAnswers(answers),
 		AmountOfRepeatedItemsAcrossAnswers: amountOfRepeatedItemsAcrossAnswers(answers),
 		AmountOfItemsInRanking:             len(ranking.Items),
@@ -121,6 +123,18 @@ func (n Network) rankingOf(answers []peersearch.Answer) searchresult.Ranking {
 	}
 
 	return searchresult.RankingFrom(items, n.rankedItemsCeiling)
+}
+
+func amountOfPeersThatSentItems(answers []peersearch.Answer) int {
+	var peersThatSentItems int
+	for _, answer := range answers {
+		if len(answer.Items) == 0 {
+			continue
+		}
+		peersThatSentItems++
+	}
+
+	return peersThatSentItems
 }
 
 func amountOfItemsAcrossAnswers(answers []peersearch.Answer) int {

@@ -37,6 +37,7 @@ func TestOneQueryPublishesThePeersItReachedAndWhatItCost(t *testing.T) {
 	metrics.NetworkSearchPerformed(t.Context(), networksearch.PerformedNetworkSearch{
 		AmountOfAskedPeers:                 8,
 		AmountOfAnsweringPeers:             4,
+		AmountOfPeersThatSentItems:         2,
 		AmountOfItemsAcrossAnswers:         40,
 		AmountOfRepeatedItemsAcrossAnswers: 20,
 		AmountOfItemsInRanking:             20,
@@ -47,7 +48,8 @@ func TestOneQueryPublishesThePeersItReachedAndWhatItCost(t *testing.T) {
 	for _, published := range []string{
 		"yacydhtsearch_network_searches_performed_total 1",
 		"yacydhtsearch_network_search_peers_asked_sum 8",
-		"yacydhtsearch_network_search_completeness_ratio_sum 0.5",
+		"yacydhtsearch_network_search_answering_peers_ratio_sum 0.5",
+		"yacydhtsearch_network_search_peers_that_sent_items_ratio_sum 0.5",
 		"yacydhtsearch_network_search_overlap_ratio_sum 0.5",
 		"yacydhtsearch_network_search_duration_seconds_count 1",
 	} {
@@ -98,7 +100,7 @@ func TestAQueryOverTheBudgetIsCountedApartFromOneInsideIt(t *testing.T) {
 	}
 }
 
-func TestASearchThatCarriedNoItemPublishesNoOverlap(t *testing.T) {
+func TestASearchThatNoPeerAnsweredObservesNoItemShare(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
@@ -109,8 +111,25 @@ func TestASearchThatCarriedNoItemPublishesNoOverlap(t *testing.T) {
 	})
 
 	body := publishedBy(t, registry)
-	if !strings.Contains(body, "yacydhtsearch_network_search_overlap_ratio_sum 0") ||
-		!strings.Contains(body, "yacydhtsearch_network_search_overlap_ratio_count 1") {
-		t.Fatalf("metrics do not carry a search that carried no item:\n%s", body)
+	if !strings.Contains(
+		body, "yacydhtsearch_network_search_peers_that_sent_items_ratio_count 0",
+	) {
+		t.Fatalf("metrics carry an item share for a search that no peer answered:\n%s", body)
+	}
+}
+
+func TestASearchThatCarriedNoItemObservesNoOverlap(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := networksearchobserversprometheus.New(registry, queryBudget)
+
+	metrics.NetworkSearchPerformed(t.Context(), networksearch.PerformedNetworkSearch{
+		AmountOfAskedPeers: 4, AmountOfAnsweringPeers: 0, TimeSpent: time.Second,
+	})
+
+	body := publishedBy(t, registry)
+	if !strings.Contains(body, "yacydhtsearch_network_search_overlap_ratio_count 0") {
+		t.Fatalf("metrics carry an overlap for a search that had no item:\n%s", body)
 	}
 }

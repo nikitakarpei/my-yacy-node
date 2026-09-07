@@ -22,6 +22,7 @@ func (NetworkSearchLog) NetworkSearchPerformed(
 	slog.DebugContext(ctx, msgNetworkSearchPerformed,
 		slog.Int("amountOfAskedPeers", search.AmountOfAskedPeers),
 		slog.Int("amountOfAnsweringPeers", search.AmountOfAnsweringPeers),
+		slog.Int("amountOfPeersThatSentItems", search.AmountOfPeersThatSentItems),
 		slog.Int("amountOfItemsAcrossAnswers", search.AmountOfItemsAcrossAnswers),
 		slog.Int("amountOfRepeatedItemsAcrossAnswers", search.AmountOfRepeatedItemsAcrossAnswers),
 		slog.Int("amountOfItemsInRanking", search.AmountOfItemsInRanking),

@@ -81,7 +81,7 @@ func TestEveryAskedPeerThatHoldsSomethingAnswers(t *testing.T) {
 	}
 }
 
-func TestAPeerWithNothingToSayIsNotAnAnswer(t *testing.T) {
+func TestAPeerWithNothingToSayStillAnswers(t *testing.T) {
 	t.Parallel()
 
 	answers := peersCalling(t).Ask(t.Context(), []peerdirectory.AskablePeer{
@@ -89,8 +89,22 @@ func TestAPeerWithNothingToSayIsNotAnAnswer(t *testing.T) {
 		askablePeerAt(t, "holder", peerHolding(t, "https://a.example/")),
 	}, yacyproto.SearchRequest{})
 
+	if len(answers) != 2 || len(answers[0].Items) != 0 ||
+		answers[1].Items[0].Address != "https://a.example/" {
+		t.Fatalf("Ask = %+v, want one empty answer and one that holds something", answers)
+	}
+}
+
+func TestAPeerThatCannotBeReachedIsNoAnswer(t *testing.T) {
+	t.Parallel()
+
+	answers := peersCalling(t).Ask(t.Context(), []peerdirectory.AskablePeer{
+		askablePeerAt(t, "gone", "http://127.0.0.1:1"),
+		askablePeerAt(t, "holder", peerHolding(t, "https://a.example/")),
+	}, yacyproto.SearchRequest{})
+
 	if len(answers) != 1 || answers[0].Items[0].Address != "https://a.example/" {
-		t.Fatalf("Ask = %+v, want only the peer that holds something", answers)
+		t.Fatalf("Ask = %+v, want only the peer that replied", answers)
 	}
 }
 

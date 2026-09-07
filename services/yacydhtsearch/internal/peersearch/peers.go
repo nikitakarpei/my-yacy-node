@@ -1,5 +1,6 @@
 // Package peersearch asks many peers one query at once, within a bounded number
-// of calls in flight and a per-call time budget.
+// of calls in flight and a per-call time budget. It carries back one answer for
+// each peer that replied, and an answer holds no item when the peer had none.
 package peersearch
 
 import (
@@ -35,6 +36,7 @@ func (p Peers) Ask(
 	request yacyproto.SearchRequest,
 ) []Answer {
 	answers := make([]Answer, len(peers))
+	replied := make([]bool, len(peers))
 	inFlight := make(chan struct{}, p.inFlight)
 	var calls sync.WaitGroup
 
@@ -44,32 +46,31 @@ func (p Peers) Ask(
 			defer calls.Done()
 			inFlight <- struct{}{}
 			defer func() { <-inFlight }()
-			answers[index] = p.askOne(ctx, peer, request)
+			answers[index], replied[index] = p.askOne(ctx, peer, request)
 		}()
 	}
 	calls.Wait()
 
-	return answersWithItems(answers)
+	return answersOfRepliedPeers(answers, replied)
 }
 
 func (p Peers) askOne(
 	ctx context.Context,
 	peer peerdirectory.AskablePeer,
 	request yacyproto.SearchRequest,
-) Answer {
+) (Answer, bool) {
 	callCtx, endCall := context.WithTimeout(ctx, p.peerCallBudget)
 	defer endCall()
 
-	return Answer{
-		Peer:  peer.Hash,
-		Items: p.wire.Search(callCtx, peer.Address, request),
-	}
+	items, replied := p.wire.Search(callCtx, peer.Address, request)
+
+	return Answer{Peer: peer.Hash, Items: items}, replied
 }
 
-func answersWithItems(answers []Answer) []Answer {
+func answersOfRepliedPeers(answers []Answer, replied []bool) []Answer {
 	keptAnswers := make([]Answer, 0, len(answers))
-	for _, answer := range answers {
-		if len(answer.Items) == 0 {
+	for index, answer := range answers {
+		if !replied[index] {
 			continue
 		}
 		keptAnswers = append(keptAnswers, answer)

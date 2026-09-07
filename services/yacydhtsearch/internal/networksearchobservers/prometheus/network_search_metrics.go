@@ -1,5 +1,5 @@
 // Package prometheus reports how many peers a network search reached, and its
-// completeness, overlap and duration, as metrics.
+// answering peers, peers that sent items, overlap and duration, as metrics.
 package prometheus
 
 import (
@@ -22,7 +22,8 @@ var overBudgetShares = []float64{1.25, 1.5, 2}
 type NetworkSearchMetrics struct {
 	networkSearchesPerformed     prometheusclient.Counter
 	peersAskedPerNetworkSearch   prometheusclient.Histogram
-	networkSearchCompleteness    prometheusclient.Histogram
+	answeringPeersRatio          prometheusclient.Histogram
+	peersThatSentItemsRatio      prometheusclient.Histogram
 	networkSearchOverlap         prometheusclient.Histogram
 	networkSearchDurationSeconds prometheusclient.Histogram
 }
@@ -38,9 +39,14 @@ func New(registry prometheusclient.Registerer, queryBudget time.Duration) *Netwo
 			Help:    "Peers asked for one network search. Zero means it found no askable peer.",
 			Buckets: prometheusclient.ExponentialBucketsRange(1, 128, 8),
 		}),
-		networkSearchCompleteness: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-			Name:    "yacydhtsearch_network_search_completeness_ratio",
-			Help:    "Share of asked peers that returned at least one item.",
+		answeringPeersRatio: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
+			Name:    "yacydhtsearch_network_search_answering_peers_ratio",
+			Help:    "Share of asked peers that replied.",
+			Buckets: prometheusclient.LinearBuckets(0, 0.1, 11),
+		}),
+		peersThatSentItemsRatio: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
+			Name:    "yacydhtsearch_network_search_peers_that_sent_items_ratio",
+			Help:    "Share of replying peers that sent at least one item.",
 			Buckets: prometheusclient.LinearBuckets(0, 0.1, 11),
 		}),
 		networkSearchOverlap: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
@@ -57,7 +63,8 @@ func New(registry prometheusclient.Registerer, queryBudget time.Duration) *Netwo
 	registry.MustRegister(
 		metrics.networkSearchesPerformed,
 		metrics.peersAskedPerNetworkSearch,
-		metrics.networkSearchCompleteness,
+		metrics.answeringPeersRatio,
+		metrics.peersThatSentItemsRatio,
 		metrics.networkSearchOverlap,
 		metrics.networkSearchDurationSeconds,
 	)
@@ -85,21 +92,34 @@ func (m *NetworkSearchMetrics) NetworkSearchPerformed(
 	m.networkSearchesPerformed.Inc()
 	m.peersAskedPerNetworkSearch.Observe(float64(search.AmountOfAskedPeers))
 	m.networkSearchDurationSeconds.Observe(search.TimeSpent.Seconds())
-	m.networkSearchCompleteness.Observe(
+	m.answeringPeersRatio.Observe(
 		float64(search.AmountOfAnsweringPeers) / float64(search.AmountOfAskedPeers),
 	)
-	m.networkSearchOverlap.Observe(overlapOf(search))
+	m.observePeersThatSentItemsRatio(search)
+	m.observeOverlap(search)
 }
 
-func overlapOf(search networksearch.PerformedNetworkSearch) float64 {
-	if search.AmountOfItemsAcrossAnswers == 0 {
-		return 0
+func (m *NetworkSearchMetrics) observePeersThatSentItemsRatio(
+	search networksearch.PerformedNetworkSearch,
+) {
+	if search.AmountOfAnsweringPeers == 0 {
+		return
 	}
 
-	return float64(
-		search.AmountOfRepeatedItemsAcrossAnswers,
-	) / float64(
-		search.AmountOfItemsAcrossAnswers,
+	m.peersThatSentItemsRatio.Observe(
+		float64(search.AmountOfPeersThatSentItems) /
+			float64(search.AmountOfAnsweringPeers),
+	)
+}
+
+func (m *NetworkSearchMetrics) observeOverlap(search networksearch.PerformedNetworkSearch) {
+	if search.AmountOfItemsAcrossAnswers == 0 {
+		return
+	}
+
+	m.networkSearchOverlap.Observe(
+		float64(search.AmountOfRepeatedItemsAcrossAnswers) /
+			float64(search.AmountOfItemsAcrossAnswers),
 	)
 }
 

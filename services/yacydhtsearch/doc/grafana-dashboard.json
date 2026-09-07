@@ -384,8 +384,8 @@
     },
     {
       "id": 9,
-      "title": "Share of asked peers that returned at least one item",
-      "description": "A peer that answered holding nothing does not count. A search that asked no peer is absent.",
+      "title": "Share of asked peers that replied",
+      "description": "Searches that asked no peer are not shown.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -430,7 +430,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_completeness_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_completeness_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_answering_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_answering_peers_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -439,7 +439,7 @@
     {
       "id": 32,
       "title": "Share of answered items that repeat an address another peer answered",
-      "description": "A peer returns only its highest ranked items, so an address one peer left out does not count.",
+      "description": "Each peer sends only its top items. An address that a peer holds but did not send is not counted.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -491,6 +491,60 @@
       ]
     },
     {
+      "id": 33,
+      "title": "Share of replying peers that sent at least one item",
+      "description": "A search that no peer answered counts as zero.",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 26
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "percentunit",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_peers_that_sent_items_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_that_sent_items_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
       "id": 10,
       "title": "Peer directory",
       "type": "row",
@@ -505,7 +559,7 @@
     {
       "id": 11,
       "title": "Peers the directory holds, against its capacity",
-      "description": "A held peer that answers no address is kept and probed again every refresh cycle. Only an answering peer is asked for a search.",
+      "description": "A peer that has not given an address yet stays in the directory, and is probed again on each refresh. Only a peer with an address is asked for a search.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -596,7 +650,7 @@
     {
       "id": 15,
       "title": "Ring distance from a query term to the peer picked for it",
-      "description": "Zero is the peer that holds the term.",
+      "description": "Zero means the picked peer sits exactly where the term belongs on the ring.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -662,7 +716,7 @@
     {
       "id": 17,
       "title": "Calls to peers, by outcome",
-      "description": "A refused peer answered and declined the search. An unreadable answer arrived but did not parse.",
+      "description": "A refused call reached the peer, and the peer declined the search. An unreadable answer arrived, but it did not parse.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -702,7 +756,7 @@
     {
       "id": 31,
       "title": "How long a call to an answering peer took",
-      "description": "The rows above the peer call budget hold the calls that ran over it.",
+      "description": "Rows above the peer call budget are calls that took longer than the budget.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -756,7 +810,7 @@
     {
       "id": 19,
       "title": "Items one peer returned for one search",
-      "description": "A pile in the top row means the item ceiling is binding.",
+      "description": "Answers gather in the top row when peers return as many items as the search asked for.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
