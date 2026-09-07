@@ -96,7 +96,7 @@ func (n Network) Search(ctx context.Context, query searchquery.Query) searchresu
 	n.peerDirectory.MarkPeersAsked(ctx, chosenPeers)
 
 	answers := n.peerSearch.Ask(ctx, chosenPeers, n.requestFor(query))
-	ranking := n.rankingOf(answers)
+	ranking := searchresult.RankingFrom(itemsOfEachAnswer(answers), n.rankedItemsCeiling)
 	n.observer.NetworkSearchPerformed(ctx, PerformedNetworkSearch{
 		AmountOfAskedPeers:                 len(chosenPeers),
 		AmountOfAnsweringPeers:             len(answers),
@@ -123,13 +123,13 @@ func (n Network) requestFor(query searchquery.Query) yacyproto.SearchRequest {
 	}
 }
 
-func (n Network) rankingOf(answers []peersearch.Answer) searchresult.Ranking {
+func itemsOfEachAnswer(answers []peersearch.Answer) [][]searchresult.Item {
 	items := make([][]searchresult.Item, 0, len(answers))
 	for _, answer := range answers {
 		items = append(items, answer.Items)
 	}
 
-	return searchresult.RankingFrom(items, n.rankedItemsCeiling)
+	return items
 }
 
 func amountOfPeersThatSentItems(answers []peersearch.Answer) int {

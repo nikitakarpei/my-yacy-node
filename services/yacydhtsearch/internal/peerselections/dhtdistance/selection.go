@@ -67,7 +67,7 @@ func (s Selection) nearestPeers(
 	askablePeers []peerdirectory.AskablePeer,
 	position yacymodel.DHTRingPosition,
 ) []peerdirectory.AskablePeer {
-	rankedPeers := slices.SortedFunc(
+	peersByRingDistance := slices.SortedFunc(
 		slices.Values(askablePeers),
 		func(a, b peerdirectory.AskablePeer) int {
 			return cmp.Compare(
@@ -77,7 +77,7 @@ func (s Selection) nearestPeers(
 		},
 	)
 
-	return rankedPeers[:min(s.redundancy, len(rankedPeers))]
+	return peersByRingDistance[:min(s.redundancy, len(peersByRingDistance))]
 }
 
 type DHTDistanceObservers []DHTDistanceObserver
