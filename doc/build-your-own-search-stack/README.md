@@ -1,8 +1,8 @@
 # Build your own search stack
 
 This guide builds a self-hosted web search stack in small steps. The stack
-joins the YaCy peer-to-peer search network, crawls web pages, keeps a local
-full-text index, and provides a search page. Later chapters add browser
+joins the YaCy peer-to-peer search network, provides a search page, crawls web
+pages, and keeps a local full-text index. Later chapters add browser
 rendering, web archives, AI access, metrics, and dashboards.
 
 Start with chapter 1 and continue in order. Each chapter provides a complete,
@@ -28,14 +28,15 @@ Complete every empty value in `.env`.
 | --- | --- |
 | 1 | [Join the YaCy network with one peer](chapters/01-join-the-yacy-network-with-one-peer) |
 | 1.1 | [Join the network from behind NAT](chapters/01.1-join-the-network-from-behind-nat) |
-| 2 | [Give your peer a crawler](chapters/02-give-your-peer-a-crawler) |
-| 3 | [Search your index from a browser](chapters/03-search-your-index-from-a-browser) |
-| 3.1 | [Use Elasticsearch instead of Manticore](chapters/03.1-use-elasticsearch-instead-of-manticore) |
-| 4 | [Crawl every search result you open](chapters/04-crawl-every-search-result-you-open) |
-| 5 | [Index pages that JavaScript builds](chapters/05-index-pages-that-javascript-builds) |
-| 6 | [Share one fetch between three readers](chapters/06-share-one-fetch-between-three-readers) |
-| 7 | [Put a web archive into your index](chapters/07-put-a-web-archive-into-your-index) |
-| 8 | [Keep every page as a Web ARChive file](chapters/08-keep-every-page-as-a-warc-file) |
-| 9 | [Let an AI assistant use your web](chapters/09-let-an-ai-assistant-search-and-read-your-web) |
-| 10 | [Collect search service metrics](chapters/10-collect-metrics-from-every-service) |
-| 11 | [Watch the peer and crawler on dashboards](chapters/11-watch-the-stack-on-dashboards) |
+| 2 | [Search the YaCy network from your browser](chapters/02-search-the-yacy-network-from-your-browser) |
+| 3 | [Give your peer a crawler](chapters/03-give-your-peer-a-crawler) |
+| 4 | [Search your index from a browser](chapters/04-search-your-index-from-a-browser) |
+| 4.1 | [Use Elasticsearch instead of Manticore](chapters/04.1-use-elasticsearch-instead-of-manticore) |
+| 5 | [Crawl every search result you open](chapters/05-crawl-every-search-result-you-open) |
+| 6 | [Index pages that JavaScript builds](chapters/06-index-pages-that-javascript-builds) |
+| 7 | [Share one fetch between three readers](chapters/07-share-one-fetch-between-three-readers) |
+| 8 | [Put a web archive into your index](chapters/08-put-a-web-archive-into-your-index) |
+| 9 | [Keep every page as a Web ARChive file](chapters/09-keep-every-page-as-a-warc-file) |
+| 10 | [Let an AI assistant use your web](chapters/10-let-an-ai-assistant-search-and-read-your-web) |
+| 11 | [Collect search service metrics](chapters/11-collect-metrics-from-every-service) |
+| 12 | [Watch search services on dashboards](chapters/12-watch-the-stack-on-dashboards) |

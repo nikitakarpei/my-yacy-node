@@ -3,10 +3,9 @@ package pagerwi
 import (
 	"strings"
 	"unicode"
-)
 
-// minWordLength mirrors YaCy's Tokenizer.wordminsize: shorter tokens are noise, not indexed.
-const minWordLength = 2
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
 
 // startingPhraseNumber mirrors YaCy's Tokenizer, which numbers body sentences from 100 upward.
 const startingPhraseNumber = 100
@@ -40,7 +39,7 @@ func tokenize(
 		}
 		word := builder.String()
 		builder.Reset()
-		if len([]rune(word)) < minWordLength {
+		if !yacymodel.WordIsIndexed(word) {
 			return
 		}
 		existing, seen := occurrences[word]

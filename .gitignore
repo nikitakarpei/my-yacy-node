@@ -3,6 +3,7 @@ docker-compose.yml
 coverage.out
 coverage.out.gated
 arch-diagrams/
+e2e-container-logs/
 services/yacycrawler/cmd/yacycrawler/yacycrawler
 
 # Project-local Go toolchain (venv-style)
