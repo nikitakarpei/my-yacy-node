@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -12,6 +13,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	peersearchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peersearchobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 )
 
 const (
@@ -31,13 +33,24 @@ func publishedBy(t *testing.T, registry *prometheusclient.Registry) string {
 	return recorder.Body.String()
 }
 
+func answeredItems(items int) []searchresult.Item {
+	answered := make([]searchresult.Item, 0, items)
+	for item := range items {
+		answered = append(answered, searchresult.Item{
+			Address: "https://" + strconv.Itoa(item) + ".example/",
+		})
+	}
+
+	return answered
+}
+
 func TestEveryPeerCallIsCountedUnderItsOutcome(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
 	metrics := peersearchobserversprometheus.New(registry, peerCallBudget, peerResultCeiling)
 
-	metrics.PeerAnswered(t.Context(), "http://peer.example", 3, time.Second)
+	metrics.PeerAnswered(t.Context(), "http://peer.example", answeredItems(3), time.Second)
 	metrics.PeerRefused(
 		t.Context(), "http://peer.example", http.StatusServiceUnavailable, time.Second,
 	)
@@ -75,8 +88,10 @@ func TestAnAnswerPublishesHowManyItemsItCarried(t *testing.T) {
 	registry := prometheusclient.NewRegistry()
 	metrics := peersearchobserversprometheus.New(registry, peerCallBudget, peerResultCeiling)
 
-	metrics.PeerAnswered(t.Context(), "http://peer.example", 3, time.Second)
-	metrics.PeerAnswered(t.Context(), "http://peer.example", peerResultCeiling, time.Second)
+	metrics.PeerAnswered(t.Context(), "http://peer.example", answeredItems(3), time.Second)
+	metrics.PeerAnswered(
+		t.Context(), "http://peer.example", answeredItems(peerResultCeiling), time.Second,
+	)
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{

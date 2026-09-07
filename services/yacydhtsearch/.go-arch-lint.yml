@@ -179,12 +179,22 @@ deps:
   dhtdistanceobserversprometheus:
     canUse:
       - prometheus
+  networksearchobserversapplog:
+    mayDependOn:
+      - networksearch
   networksearchobserversprometheus:
     canUse:
       - prometheus
+    mayDependOn:
+      - networksearch
+  peersearchobserversapplog:
+    mayDependOn:
+      - searchresult
   peersearchobserversprometheus:
     canUse:
       - prometheus
+    mayDependOn:
+      - searchresult
   peerdirectoryobserversapplog:
     canUse:
       - yacymodel

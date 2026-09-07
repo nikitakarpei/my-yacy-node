@@ -10,6 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peersearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peersearchwire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -22,7 +23,10 @@ const (
 
 type silentOutcome struct{}
 
-func (silentOutcome) PeerAnswered(context.Context, string, int, time.Duration)           {}
+func (silentOutcome) PeerAnswered(
+	context.Context, string, []searchresult.Item, time.Duration,
+) {
+}
 func (silentOutcome) PeerRefused(context.Context, string, int, time.Duration)            {}
 func (silentOutcome) PeerUnreachable(context.Context, string, error, time.Duration)      {}
 func (silentOutcome) PeerAnswerUnreadable(context.Context, string, error, time.Duration) {}

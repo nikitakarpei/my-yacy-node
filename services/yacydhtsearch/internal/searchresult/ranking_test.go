@@ -95,7 +95,7 @@ func rankingOver(t *testing.T, addresses ...string) searchresult.Ranking {
 	return searchresult.Ranking{Items: items}
 }
 
-func TestAPageCarriesTheRecordsItStartsAt(t *testing.T) {
+func TestAPageCarriesTheItemsItStartsAt(t *testing.T) {
 	t.Parallel()
 
 	ranking := rankingOver(t, "https://a.example/1", "https://a.example/2", "https://a.example/3")
@@ -108,7 +108,7 @@ func TestAPageCarriesTheRecordsItStartsAt(t *testing.T) {
 	}
 }
 
-func TestAPageStopsAtTheLastRecordTheRankingHolds(t *testing.T) {
+func TestAPageStopsAtTheLastItemTheRankingHolds(t *testing.T) {
 	t.Parallel()
 
 	ranking := rankingOver(t, "https://a.example/1", "https://a.example/2")
@@ -118,7 +118,7 @@ func TestAPageStopsAtTheLastRecordTheRankingHolds(t *testing.T) {
 	}
 }
 
-func TestAPagePastTheLastRecordCarriesNothing(t *testing.T) {
+func TestAPagePastTheLastItemCarriesNothing(t *testing.T) {
 	t.Parallel()
 
 	ranking := rankingOver(t, "https://a.example/1")
@@ -128,7 +128,7 @@ func TestAPagePastTheLastRecordCarriesNothing(t *testing.T) {
 	}
 }
 
-func TestAPageOfNoRecordsCarriesNothing(t *testing.T) {
+func TestAPageOfNoItemsCarriesNothing(t *testing.T) {
 	t.Parallel()
 
 	ranking := rankingOver(t, "https://a.example/1")

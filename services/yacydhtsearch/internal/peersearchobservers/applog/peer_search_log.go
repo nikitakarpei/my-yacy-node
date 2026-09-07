@@ -5,6 +5,8 @@ import (
 	"context"
 	"log/slog"
 	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 )
 
 const (
@@ -19,14 +21,24 @@ type PeerSearchLog struct{}
 func (PeerSearchLog) PeerAnswered(
 	ctx context.Context,
 	address string,
-	resources int,
+	answeredItems []searchresult.Item,
 	spent time.Duration,
 ) {
 	slog.DebugContext(ctx, msgPeerAnswered,
 		slog.String("address", address),
-		slog.Int("resources", resources),
+		slog.Int("items", len(answeredItems)),
+		slog.Any("answeredAddresses", addressesOf(answeredItems)),
 		slog.Duration("spent", spent),
 	)
+}
+
+func addressesOf(items []searchresult.Item) []string {
+	addresses := make([]string, 0, len(items))
+	for _, item := range items {
+		addresses = append(addresses, item.Address)
+	}
+
+	return addresses
 }
 
 func (PeerSearchLog) PeerRefused(

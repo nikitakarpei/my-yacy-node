@@ -94,7 +94,7 @@ func RunService(
 		cfg.QueryBudget,
 		peerBudgetCeiling,
 		peerResultCeiling,
-		cfg.RecordCeiling,
+		cfg.RankedItemsCeiling,
 		cfg.Partitions,
 		networksearch.NetworkSearchObservers{
 			networksearchobserversapplog.NetworkSearchLog{},
@@ -128,7 +128,7 @@ func RunService(
 	searchServer := &http.Server{
 		Addr: cfg.ListenAddr,
 		Handler: httpobservation.NewHandler(
-			yacysearchendpoint.NewMux(rankings, cfg.RecordCeiling),
+			yacysearchendpoint.NewMux(rankings),
 			httpaccesslog.New(),
 			httpmetrics.NewEndpointMetrics(registry, "yacydhtsearch"),
 		),

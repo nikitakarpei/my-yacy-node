@@ -8,6 +8,8 @@ import (
 	"time"
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 )
 
 const (
@@ -70,11 +72,11 @@ func peerCallDurationBucketsFor(peerCallBudget time.Duration) []float64 {
 func (m *PeerSearchMetrics) PeerAnswered(
 	_ context.Context,
 	_ string,
-	resources int,
+	answeredItems []searchresult.Item,
 	spent time.Duration,
 ) {
 	m.countCall(outcomePeerAnswered, spent)
-	m.answerItems.Observe(float64(resources))
+	m.answerItems.Observe(float64(len(answeredItems)))
 }
 
 func (m *PeerSearchMetrics) PeerRefused(_ context.Context, _ string, _ int, spent time.Duration) {

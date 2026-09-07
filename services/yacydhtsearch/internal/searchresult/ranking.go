@@ -12,17 +12,17 @@ func RankingFrom(answers [][]Item, ceiling int) Ranking {
 	}
 
 	items := make([]Item, 0, ceiling)
-	taken := map[yacymodel.URLHash]struct{}{}
-	for round := 0; round < longest(answers) && len(items) < ceiling; round++ {
+	takenHashes := map[yacymodel.URLHash]struct{}{}
+	for round := 0; round < amountOfRounds(answers) && len(items) < ceiling; round++ {
 		for _, answer := range answers {
 			if round >= len(answer) || len(items) == ceiling {
 				continue
 			}
 			item := answer[round]
-			if _, seen := taken[item.Hash]; seen {
+			if _, seen := takenHashes[item.Hash]; seen {
 				continue
 			}
-			taken[item.Hash] = struct{}{}
+			takenHashes[item.Hash] = struct{}{}
 			items = append(items, item)
 		}
 	}
@@ -30,15 +30,17 @@ func RankingFrom(answers [][]Item, ceiling int) Ranking {
 	return Ranking{Items: items}
 }
 
-func (r Ranking) PageFrom(startRecord, records int) Page {
-	if startRecord < 0 || startRecord >= len(r.Items) || records <= 0 {
+func (r Ranking) PageFrom(skippedItems, wantedItems int) Page {
+	if skippedItems < 0 || skippedItems >= len(r.Items) || wantedItems <= 0 {
 		return Page{}
 	}
 
-	return Page{Items: r.Items[startRecord:min(startRecord+records, len(r.Items))]}
+	return Page{
+		Items: r.Items[skippedItems:min(skippedItems+wantedItems, len(r.Items))],
+	}
 }
 
-func longest(answers [][]Item) int {
+func amountOfRounds(answers [][]Item) int {
 	var rounds int
 	for _, answer := range answers {
 		rounds = max(rounds, len(answer))

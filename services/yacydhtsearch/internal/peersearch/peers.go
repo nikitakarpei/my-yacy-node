@@ -1,5 +1,5 @@
 // Package peersearch asks many peers one query at once, within a bounded number
-// of calls in flight and a per-call idle timeout.
+// of calls in flight and a per-call time budget.
 package peersearch
 
 import (
@@ -20,13 +20,13 @@ type Answer struct {
 }
 
 type Peers struct {
-	wire        peersearchwire.Wire
-	inFlight    int
-	idleTimeout time.Duration
+	wire           peersearchwire.Wire
+	inFlight       int
+	peerCallBudget time.Duration
 }
 
-func New(wire peersearchwire.Wire, inFlight int, idleTimeout time.Duration) Peers {
-	return Peers{wire: wire, inFlight: inFlight, idleTimeout: idleTimeout}
+func New(wire peersearchwire.Wire, inFlight int, peerCallBudget time.Duration) Peers {
+	return Peers{wire: wire, inFlight: inFlight, peerCallBudget: peerCallBudget}
 }
 
 func (p Peers) Ask(
@@ -49,7 +49,7 @@ func (p Peers) Ask(
 	}
 	calls.Wait()
 
-	return answered(answers)
+	return answersWithItems(answers)
 }
 
 func (p Peers) askOne(
@@ -57,7 +57,7 @@ func (p Peers) askOne(
 	peer peerdirectory.AskablePeer,
 	request yacyproto.SearchRequest,
 ) Answer {
-	callCtx, endCall := context.WithTimeout(ctx, p.idleTimeout)
+	callCtx, endCall := context.WithTimeout(ctx, p.peerCallBudget)
 	defer endCall()
 
 	return Answer{
@@ -66,14 +66,14 @@ func (p Peers) askOne(
 	}
 }
 
-func answered(answers []Answer) []Answer {
-	arrived := make([]Answer, 0, len(answers))
+func answersWithItems(answers []Answer) []Answer {
+	keptAnswers := make([]Answer, 0, len(answers))
 	for _, answer := range answers {
 		if len(answer.Items) == 0 {
 			continue
 		}
-		arrived = append(arrived, answer)
+		keptAnswers = append(keptAnswers, answer)
 	}
 
-	return arrived
+	return keptAnswers
 }

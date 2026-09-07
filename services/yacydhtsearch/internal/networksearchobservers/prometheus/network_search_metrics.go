@@ -1,5 +1,5 @@
 // Package prometheus reports how many peers a network search reached, and its
-// completeness and duration, as metrics.
+// completeness, overlap and duration, as metrics.
 package prometheus
 
 import (
@@ -8,6 +8,8 @@ import (
 	"time"
 
 	prometheusclient "github.com/prometheus/client_golang/prometheus"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 )
 
 const (
@@ -21,6 +23,7 @@ type NetworkSearchMetrics struct {
 	networkSearchesPerformed     prometheusclient.Counter
 	peersAskedPerNetworkSearch   prometheusclient.Histogram
 	networkSearchCompleteness    prometheusclient.Histogram
+	networkSearchOverlap         prometheusclient.Histogram
 	networkSearchDurationSeconds prometheusclient.Histogram
 }
 
@@ -40,6 +43,11 @@ func New(registry prometheusclient.Registerer, queryBudget time.Duration) *Netwo
 			Help:    "Share of asked peers that returned at least one item.",
 			Buckets: prometheusclient.LinearBuckets(0, 0.1, 11),
 		}),
+		networkSearchOverlap: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
+			Name:    "yacydhtsearch_network_search_overlap_ratio",
+			Help:    "Share of answered items that repeat an address another peer answered.",
+			Buckets: prometheusclient.LinearBuckets(0, 0.1, 11),
+		}),
 		networkSearchDurationSeconds: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
 			Name:    "yacydhtsearch_network_search_duration_seconds",
 			Help:    "Network search duration in seconds.",
@@ -50,6 +58,7 @@ func New(registry prometheusclient.Registerer, queryBudget time.Duration) *Netwo
 		metrics.networkSearchesPerformed,
 		metrics.peersAskedPerNetworkSearch,
 		metrics.networkSearchCompleteness,
+		metrics.networkSearchOverlap,
 		metrics.networkSearchDurationSeconds,
 	)
 
@@ -71,13 +80,27 @@ func networkSearchDurationBucketsFor(queryBudget time.Duration) []float64 {
 
 func (m *NetworkSearchMetrics) NetworkSearchPerformed(
 	_ context.Context,
-	asked, answered, _ int,
-	spent time.Duration,
+	search networksearch.PerformedNetworkSearch,
 ) {
 	m.networkSearchesPerformed.Inc()
-	m.peersAskedPerNetworkSearch.Observe(float64(asked))
-	m.networkSearchDurationSeconds.Observe(spent.Seconds())
-	m.networkSearchCompleteness.Observe(float64(answered) / float64(asked))
+	m.peersAskedPerNetworkSearch.Observe(float64(search.AmountOfAskedPeers))
+	m.networkSearchDurationSeconds.Observe(search.TimeSpent.Seconds())
+	m.networkSearchCompleteness.Observe(
+		float64(search.AmountOfAnsweringPeers) / float64(search.AmountOfAskedPeers),
+	)
+	m.networkSearchOverlap.Observe(overlapOf(search))
+}
+
+func overlapOf(search networksearch.PerformedNetworkSearch) float64 {
+	if search.AmountOfItemsAcrossAnswers == 0 {
+		return 0
+	}
+
+	return float64(
+		search.AmountOfRepeatedItemsAcrossAnswers,
+	) / float64(
+		search.AmountOfItemsAcrossAnswers,
+	)
 }
 
 func (m *NetworkSearchMetrics) NetworkSearchFoundNoAskablePeers(context.Context) {

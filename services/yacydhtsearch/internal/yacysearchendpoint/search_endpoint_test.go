@@ -16,7 +16,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const recordCeiling = 50
+const rankedItems = 50
 
 type recordedRankings struct {
 	query   searchquery.Query
@@ -75,7 +75,7 @@ func TestTheEndpointAnswersInYaCysPublicSearchForm(t *testing.T) {
 
 	recorder := answerTo(
 		t,
-		yacysearchendpoint.New(rankings, recordCeiling),
+		yacysearchendpoint.New(rankings),
 		yacysearchendpoint.Path+"?query=berlin",
 	)
 
@@ -105,7 +105,7 @@ func TestTheEndpointReadsTheQueryTheClientAskedFor(t *testing.T) {
 
 	answerTo(
 		t,
-		yacysearchendpoint.New(rankings, recordCeiling),
+		yacysearchendpoint.New(rankings),
 		yacysearchendpoint.Path+"?query=berlin&startRecord=20&maximumRecords=5&lr=lang_de",
 	)
 
@@ -160,7 +160,7 @@ func TestTheEndpointCutsThePageTheClientAskedForFromTheRanking(t *testing.T) {
 
 	recorder := answerTo(
 		t,
-		yacysearchendpoint.New(rankings, recordCeiling),
+		yacysearchendpoint.New(rankings),
 		yacysearchendpoint.Path+"?query=berlin&startRecord=1&maximumRecords=2",
 	)
 
@@ -176,7 +176,7 @@ func TestTwoPagesOfOneRankingCarryDifferentRecords(t *testing.T) {
 	rankings := &recordedRankings{ranking: rankingOver(
 		t, "https://a.example/1", "https://a.example/2",
 	)}
-	endpoint := yacysearchendpoint.New(rankings, recordCeiling)
+	endpoint := yacysearchendpoint.New(rankings)
 
 	first := linksIn(t, answerTo(
 		t, endpoint, yacysearchendpoint.Path+"?query=berlin&startRecord=0&maximumRecords=1",
@@ -198,7 +198,7 @@ func TestAPagePastTheLastRecordCarriesNoItem(t *testing.T) {
 
 	recorder := answerTo(
 		t,
-		yacysearchendpoint.New(rankings, recordCeiling),
+		yacysearchendpoint.New(rankings),
 		yacysearchendpoint.Path+"?query=berlin&startRecord=10",
 	)
 
@@ -216,32 +216,14 @@ func manyAddresses(count int) []string {
 	return addresses
 }
 
-func TestNoClientGetsMoreRecordsThanTheCeiling(t *testing.T) {
-	t.Parallel()
-
-	rankings := &recordedRankings{
-		ranking: rankingOver(t, manyAddresses(recordCeiling+1)...),
-	}
-
-	recorder := answerTo(
-		t,
-		yacysearchendpoint.New(rankings, recordCeiling),
-		yacysearchendpoint.Path+"?query=berlin&maximumRecords=5000",
-	)
-
-	if links := linksIn(t, recorder); len(links) != recordCeiling {
-		t.Fatalf("items = %d, want the ceiling %d", len(links), recordCeiling)
-	}
-}
-
 func TestAClientThatNamesNoRecordCountGetsTheUsualPage(t *testing.T) {
 	t.Parallel()
 
-	rankings := &recordedRankings{ranking: rankingOver(t, manyAddresses(recordCeiling)...)}
+	rankings := &recordedRankings{ranking: rankingOver(t, manyAddresses(rankedItems)...)}
 
 	recorder := answerTo(
 		t,
-		yacysearchendpoint.New(rankings, recordCeiling),
+		yacysearchendpoint.New(rankings),
 		yacysearchendpoint.Path+"?query=berlin",
 	)
 
@@ -256,7 +238,7 @@ func TestAnotherPathIsNotTheSearchEndpoint(t *testing.T) {
 
 	recorder := answerTo(
 		t,
-		yacysearchendpoint.NewMux(&recordedRankings{}, recordCeiling),
+		yacysearchendpoint.NewMux(&recordedRankings{}),
 		"/elsewhere",
 	)
 

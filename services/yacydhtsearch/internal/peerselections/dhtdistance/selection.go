@@ -33,27 +33,27 @@ func New(
 func (s Selection) PeersFor(
 	ctx context.Context,
 	query searchquery.Query,
-	askable []peerdirectory.AskablePeer,
+	askablePeers []peerdirectory.AskablePeer,
 ) []peerdirectory.AskablePeer {
-	chosen := make([]peerdirectory.AskablePeer, 0, len(askable))
-	ringFractions := make([]float64, 0, len(askable))
-	taken := map[yacymodel.Hash]struct{}{}
+	chosenPeers := make([]peerdirectory.AskablePeer, 0, len(askablePeers))
+	ringFractions := make([]float64, 0, len(askablePeers))
+	takenPeers := map[yacymodel.Hash]struct{}{}
 	for _, term := range query.TermHashes() {
 		for partition := range uint(s.partitions) {
 			position := yacymodel.DHTRingPositionOfWordInPartition(term, partition, s.partitions)
-			for _, peer := range s.nearest(askable, position) {
-				if _, seen := taken[peer.Hash]; seen {
+			for _, peer := range s.nearestPeers(askablePeers, position) {
+				if _, seen := takenPeers[peer.Hash]; seen {
 					continue
 				}
-				taken[peer.Hash] = struct{}{}
-				chosen = append(chosen, peer)
+				takenPeers[peer.Hash] = struct{}{}
+				chosenPeers = append(chosenPeers, peer)
 				ringFractions = append(ringFractions, ringFractionTo(position, peer))
 			}
 		}
 	}
 	s.observer.PeersSelected(ctx, ringFractions)
 
-	return chosen
+	return chosenPeers
 }
 
 func ringFractionTo(
@@ -63,12 +63,12 @@ func ringFractionTo(
 	return position.DistanceTo(yacymodel.DHTRingPositionOf(peer.Hash)).FractionOfDHTRing()
 }
 
-func (s Selection) nearest(
-	askable []peerdirectory.AskablePeer,
+func (s Selection) nearestPeers(
+	askablePeers []peerdirectory.AskablePeer,
 	position yacymodel.DHTRingPosition,
 ) []peerdirectory.AskablePeer {
-	ranked := slices.SortedFunc(
-		slices.Values(askable),
+	rankedPeers := slices.SortedFunc(
+		slices.Values(askablePeers),
 		func(a, b peerdirectory.AskablePeer) int {
 			return cmp.Compare(
 				position.DistanceTo(yacymodel.DHTRingPositionOf(a.Hash)),
@@ -77,7 +77,7 @@ func (s Selection) nearest(
 		},
 	)
 
-	return ranked[:min(s.redundancy, len(ranked))]
+	return rankedPeers[:min(s.redundancy, len(rankedPeers))]
 }
 
 type DHTDistanceObservers []DHTDistanceObserver

@@ -4,7 +4,8 @@ package applog
 import (
 	"context"
 	"log/slog"
-	"time"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 )
 
 const (
@@ -16,14 +17,15 @@ type NetworkSearchLog struct{}
 
 func (NetworkSearchLog) NetworkSearchPerformed(
 	ctx context.Context,
-	asked, answered, items int,
-	spent time.Duration,
+	search networksearch.PerformedNetworkSearch,
 ) {
 	slog.DebugContext(ctx, msgNetworkSearchPerformed,
-		slog.Int("askedPeers", asked),
-		slog.Int("answeredPeers", answered),
-		slog.Int("items", items),
-		slog.Duration("spent", spent),
+		slog.Int("amountOfAskedPeers", search.AmountOfAskedPeers),
+		slog.Int("amountOfAnsweringPeers", search.AmountOfAnsweringPeers),
+		slog.Int("amountOfItemsAcrossAnswers", search.AmountOfItemsAcrossAnswers),
+		slog.Int("amountOfRepeatedItemsAcrossAnswers", search.AmountOfRepeatedItemsAcrossAnswers),
+		slog.Int("amountOfItemsInRanking", search.AmountOfItemsInRanking),
+		slog.Duration("timeSpent", search.TimeSpent),
 	)
 }
 

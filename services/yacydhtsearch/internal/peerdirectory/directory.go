@@ -98,17 +98,17 @@ func (d *Directory) AskablePeers(ctx context.Context) []AskablePeer {
 	return askable
 }
 
-func (d *Directory) NoteAsked(ctx context.Context, peers []AskablePeer) {
+func (d *Directory) MarkPeersAsked(ctx context.Context, peers []AskablePeer) {
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
 
-	for _, asked := range peers {
-		known, ok := d.peers[asked.Hash]
+	for _, askedPeer := range peers {
+		known, ok := d.peers[askedPeer.Hash]
 		if !ok {
 			continue
 		}
 		known.AskedAt = d.now()
-		d.peers[asked.Hash] = known
+		d.peers[askedPeer.Hash] = known
 	}
 }
 

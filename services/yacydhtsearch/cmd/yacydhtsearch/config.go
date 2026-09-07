@@ -27,7 +27,7 @@ const (
 	EnvPartitionExponent    = "YACYDHTSEARCH_PARTITION_EXPONENT"
 	EnvPeerRedundancy       = "YACYDHTSEARCH_PEER_REDUNDANCY"
 	EnvMaxResponseBytes     = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
-	EnvRecordCeiling        = "YACYDHTSEARCH_RECORD_CEILING"
+	EnvRankedItemsCeiling   = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
 	EnvNATSURL              = "YACYDHTSEARCH_NATS_URL"
 	EnvRankingCacheCapacity = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
 	EnvRankingLifetime      = "YACYDHTSEARCH_RANKING_LIFETIME"
@@ -44,7 +44,7 @@ const (
 	DefaultPartitionExponent    = 4
 	DefaultPeerRedundancy       = 3
 	DefaultMaxResponseBytes     = 4 * 1024 * 1024
-	DefaultRecordCeiling        = 50
+	DefaultRankedItemsCeiling   = 50
 	DefaultRankingCacheCapacity = 1024
 	DefaultRankingLifetime      = 2 * time.Minute
 
@@ -68,7 +68,7 @@ type ServiceConfig struct {
 	Partitions         yacymodel.DHTRingPartitions
 	PeerRedundancy     int
 	MaxResponseBytes   int64
-	RecordCeiling      int
+	RankedItemsCeiling int
 	NATSURL            string
 	RankingCache       int
 	RankingLifetime    time.Duration
@@ -118,7 +118,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		Partitions:         partitions,
 		PeerRedundancy:     counts.peerRedundancy,
 		MaxResponseBytes:   maxResponseBytes,
-		RecordCeiling:      counts.recordCeiling,
+		RankedItemsCeiling: counts.rankedItemsCeiling,
 		NATSURL:            strings.TrimSpace(getenv(EnvNATSURL)),
 		RankingCache:       counts.rankingCacheCapacity,
 		RankingLifetime:    durations.rankingLifetime,
@@ -161,7 +161,7 @@ type configuredCounts struct {
 	peerCallsInFlight    int
 	directoryCapacity    int
 	peerRedundancy       int
-	recordCeiling        int
+	rankedItemsCeiling   int
 	rankingCacheCapacity int
 }
 
@@ -176,7 +176,7 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvPeerCallsInFlight, DefaultPeerCallsInFlight, &counts.peerCallsInFlight},
 		{EnvDirectoryCapacity, DefaultDirectoryCapacity, &counts.directoryCapacity},
 		{EnvPeerRedundancy, DefaultPeerRedundancy, &counts.peerRedundancy},
-		{EnvRecordCeiling, DefaultRecordCeiling, &counts.recordCeiling},
+		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},
 	} {
 		if *field.into, err = envconfig.PositiveInt(getenv, field.key, field.fallback); err != nil {

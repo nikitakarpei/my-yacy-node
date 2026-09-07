@@ -1,37 +1,61 @@
 # Naming
 
-Every package, file, type, interface, port, function, method, field, and variable has one bounded responsibility, stateable in one sentence. The name is an exhaustive predicate over it: everything inside is implied by the name, and nothing inside falls outside it. Two parallel vocabularies in one unit, such as two outcome enums or two receipt types, are a boundary that no name covers; split the unit.
+Every package, file, type, function, method, field, and variable has one
+responsibility, stateable in one sentence. Its name states that responsibility
+exactly: nothing inside falls outside the name, and nothing the name promises is
+missing. Two vocabularies under one name are two units.
 
 ## Packages
 
-A package name has the form `<subject><head>`. The subject is the domain object the package concerns, repeated by every sibling that shares it, because the name is read without its path: `postingcourier`, `postingoffer`, `postingreplicas`. The head names what the package owns — `searchresult`, `pageintake`, `ordersettlement`. A package that owns nothing has no head to take, and is not a package.
+A package name is `<subject><head>`: `postingcourier`, `postingoffer`,
+`postingreplicas`. Siblings repeat the subject. A package that owns nothing takes
+no head, and is not a package.
 
-Implementations of a port live under a plural directory that carries the port name and holds no code. Each is a package named for its technology or variant, and takes `New` (`pagefetchers/http`, `vaultengines/bolt`, `recrawlrules/dueaftergrace`). The interface belongs to the consumer that calls it.
+Port implementations live under a plural directory named for the port, which
+holds no code. Each one is named for its technology or variant and takes `New`:
+`pagefetchers/http`, `vaultengines/bolt`. The interface belongs to the consumer.
 
-## Protocols
+A package that speaks a wire protocol carries the protocol in its name, and never
+reads as pure domain vocabulary.
 
-A package that speaks one wire protocol carries the protocol in its name.
+## Words
 
-Do not give such a package a name that reads as pure domain vocabulary.
+Name the domain thing, not how it is built or where it goes. Strip implementation
+terms (count, map, hash, digest, buffer) and destination terms (shared, peer,
+abstract, response). Spell every word in full. Transport vocabulary stays in the
+package that translates it.
 
-## Style
+## Phrases
 
-Name a thing for what it is in the problem domain, not for how it is built or what it is for. Strip implementation terms (count, map, hash, digest, buffer) and destination terms (shared, peer, abstract, response); keep the domain noun. Spell names in full; abbreviation is not permitted. Protocol and transport vocabulary stays at the edge that translates to and from it.
+A name reads as a complete phrase and stands alone. Skip no word that the
+package, the type, or the code beside it supplies: `amountOfItemsAcrossAnswers`,
+not `answeredItems`.
+
+Every name carries its noun: `duePostings`, not `due`. A bare adjective or
+participle is never a name; the comma-ok idiom keeps `found`.
+
+A name states the state the value is in, not one it reaches later: `chosenPeers`
+before the call that asks them.
+
+A quantity takes `amountOf` for things, and `sumOf` for values that add.
 
 ## Derivation
 
-The preposition binds to the first parameter. The parameters after it are the context the value is computed against; context and transaction parameters are never the subject. A value with no single subject takes no preposition. A misstated relation fails the name.
+A function that returns a value is named for the value. A function that acts
+keeps its verb.
 
-A derivation names the domain fact, not the conversion. A name that reads as the subject expressed as another type fails, even when the relation is stated correctly. A derived value has two ends; a name that gives only the source hides the subject and states a conversion.
+A preposition binds the value to the first parameter: `Of` an attribute the
+subject has, `From` a value derived from it, `For` a value that serves it.
+Context and transaction parameters are never the subject. A value with no single
+subject takes no preposition.
 
-`new<Type>` is reserved for a collaborator assembled from injected dependencies, never for a computed value.
+A derivation names the domain fact, never the conversion, and never only its
+source.
 
-## Subjects and predicates
-
-A bare adjective or participle is never a name. Every name carries the noun it qualifies: `duePostings`, not `due`; `recordedHolders`, not `recorded`; `postingsAcceptedByPeer`, not `accepted`. The comma-ok idiom keeps `found`.
-
-A name that yields a boolean asks a question about its subject and reads as one where it is used: `isEligible(peer)`, `peer.IsReachable(...)`, `acceptsRemoteIndex(seed)`, `responsible.contains(peer)`. `is`, `has`, and `can` are for a state of being. A boolean field takes its subject from its receiver: `answer.Accepted`.
+`new<Type>` is reserved for a collaborator assembled from injected dependencies.
 
 ## Symmetry
 
-When one variant is qualified, every sibling is qualified the same way. Parallel implementations get parallel names: `elasticsearchSearchOnce`, `manticoreSearchOnce`. No sibling is left bare.
+Parallel things get parallel names: `elasticsearchSearchOnce`,
+`manticoreSearchOnce`. When one variant is qualified, every sibling is qualified
+the same way.

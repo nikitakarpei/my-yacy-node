@@ -18,71 +18,85 @@ type PeerSelection interface {
 	PeersFor(
 		ctx context.Context,
 		query searchquery.Query,
-		askable []peerdirectory.AskablePeer,
+		askablePeers []peerdirectory.AskablePeer,
 	) []peerdirectory.AskablePeer
 }
 
+type PerformedNetworkSearch struct {
+	AmountOfAskedPeers                 int
+	AmountOfAnsweringPeers             int
+	AmountOfItemsAcrossAnswers         int
+	AmountOfRepeatedItemsAcrossAnswers int
+	AmountOfItemsInRanking             int
+	TimeSpent                          time.Duration
+}
+
 type NetworkSearchObserver interface {
-	NetworkSearchPerformed(ctx context.Context, asked, answered, items int, spent time.Duration)
+	NetworkSearchPerformed(ctx context.Context, search PerformedNetworkSearch)
 	NetworkSearchFoundNoAskablePeers(ctx context.Context)
 }
 
 type Network struct {
-	networkName string
-	directory   *peerdirectory.Directory
-	selection   PeerSelection
-	peers       peersearch.Peers
-	budget      time.Duration
-	peerBudget  time.Duration
-	peerResults int
-	records     int
-	partitions  yacymodel.DHTRingPartitions
-	observer    NetworkSearchObserver
+	networkName        string
+	peerDirectory      *peerdirectory.Directory
+	peerSelection      PeerSelection
+	peerSearch         peersearch.Peers
+	queryBudget        time.Duration
+	peerCallBudget     time.Duration
+	peerItemsCeiling   int
+	rankedItemsCeiling int
+	ringPartitions     yacymodel.DHTRingPartitions
+	observer           NetworkSearchObserver
 }
 
 //nolint:revive // argument-limit: nine explicit, independently-meaningful collaborators
 func New(
 	networkName string,
-	directory *peerdirectory.Directory,
-	selection PeerSelection,
-	peers peersearch.Peers,
-	budget, peerBudget time.Duration,
-	peerResults, records int,
-	partitions yacymodel.DHTRingPartitions,
+	peerDirectory *peerdirectory.Directory,
+	peerSelection PeerSelection,
+	peerSearch peersearch.Peers,
+	queryBudget, peerCallBudget time.Duration,
+	peerItemsCeiling, rankedItemsCeiling int,
+	ringPartitions yacymodel.DHTRingPartitions,
 	observer NetworkSearchObserver,
 ) Network {
 	return Network{
-		networkName: networkName,
-		directory:   directory,
-		selection:   selection,
-		peers:       peers,
-		budget:      budget,
-		peerBudget:  peerBudget,
-		peerResults: peerResults,
-		records:     records,
-		partitions:  partitions,
-		observer:    observer,
+		networkName:        networkName,
+		peerDirectory:      peerDirectory,
+		peerSelection:      peerSelection,
+		peerSearch:         peerSearch,
+		queryBudget:        queryBudget,
+		peerCallBudget:     peerCallBudget,
+		peerItemsCeiling:   peerItemsCeiling,
+		rankedItemsCeiling: rankedItemsCeiling,
+		ringPartitions:     ringPartitions,
+		observer:           observer,
 	}
 }
 
 func (n Network) Search(ctx context.Context, query searchquery.Query) searchresult.Ranking {
-	ctx, spent := context.WithTimeout(ctx, n.budget)
-	defer spent()
+	ctx, stopQueryBudget := context.WithTimeout(ctx, n.queryBudget)
+	defer stopQueryBudget()
 	startedAt := time.Now()
 
-	asked := n.selection.PeersFor(ctx, query, n.directory.AskablePeers(ctx))
-	if len(asked) == 0 {
+	chosenPeers := n.peerSelection.PeersFor(ctx, query, n.peerDirectory.AskablePeers(ctx))
+	if len(chosenPeers) == 0 {
 		n.observer.NetworkSearchFoundNoAskablePeers(ctx)
 
 		return searchresult.Ranking{}
 	}
-	n.directory.NoteAsked(ctx, asked)
+	n.peerDirectory.MarkPeersAsked(ctx, chosenPeers)
 
-	answers := n.peers.Ask(ctx, asked, n.requestFor(query))
+	answers := n.peerSearch.Ask(ctx, chosenPeers, n.requestFor(query))
 	ranking := n.rankingOf(answers)
-	n.observer.NetworkSearchPerformed(
-		ctx, len(asked), len(answers), len(ranking.Items), time.Since(startedAt),
-	)
+	n.observer.NetworkSearchPerformed(ctx, PerformedNetworkSearch{
+		AmountOfAskedPeers:                 len(chosenPeers),
+		AmountOfAnsweringPeers:             len(answers),
+		AmountOfItemsAcrossAnswers:         amountOfItemsAcrossAnswers(answers),
+		AmountOfRepeatedItemsAcrossAnswers: amountOfRepeatedItemsAcrossAnswers(answers),
+		AmountOfItemsInRanking:             len(ranking.Items),
+		TimeSpent:                          time.Since(startedAt),
+	})
 
 	return ranking
 }
@@ -92,9 +106,9 @@ func (n Network) requestFor(query searchquery.Query) yacyproto.SearchRequest {
 		NetworkName: n.networkName,
 		Query:       query.TermHashes(),
 		Exclude:     query.ExclusionHashes(),
-		Count:       n.peerResults,
-		Time:        int(n.peerBudget.Milliseconds()),
-		Partitions:  int(n.partitions),
+		Count:       n.peerItemsCeiling,
+		Time:        int(n.peerCallBudget.Milliseconds()),
+		Partitions:  int(n.ringPartitions),
 		ContentDom:  yacyproto.ContentDomainText,
 		Language:    query.Language,
 	}
@@ -106,18 +120,43 @@ func (n Network) rankingOf(answers []peersearch.Answer) searchresult.Ranking {
 		items = append(items, answer.Items)
 	}
 
-	return searchresult.RankingFrom(items, n.records)
+	return searchresult.RankingFrom(items, n.rankedItemsCeiling)
+}
+
+func amountOfItemsAcrossAnswers(answers []peersearch.Answer) int {
+	var answeredItems int
+	for _, answer := range answers {
+		answeredItems += len(answer.Items)
+	}
+
+	return answeredItems
+}
+
+func amountOfRepeatedItemsAcrossAnswers(answers []peersearch.Answer) int {
+	answeredAddresses := make(map[yacymodel.URLHash]struct{}, amountOfItemsAcrossAnswers(answers))
+	var repeatedItems int
+	for _, answer := range answers {
+		for _, item := range answer.Items {
+			if _, answeredBefore := answeredAddresses[item.Hash]; answeredBefore {
+				repeatedItems++
+
+				continue
+			}
+			answeredAddresses[item.Hash] = struct{}{}
+		}
+	}
+
+	return repeatedItems
 }
 
 type NetworkSearchObservers []NetworkSearchObserver
 
 func (observers NetworkSearchObservers) NetworkSearchPerformed(
 	ctx context.Context,
-	asked, answered, items int,
-	spent time.Duration,
+	search PerformedNetworkSearch,
 ) {
 	for _, observer := range observers {
-		observer.NetworkSearchPerformed(ctx, asked, answered, items, spent)
+		observer.NetworkSearchPerformed(ctx, search)
 	}
 }
 

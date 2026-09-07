@@ -8,7 +8,6 @@ yacydhtsearch is configured entirely through environment variables.
 |---|---|---|
 | `YACYDHTSEARCH_LISTEN_ADDR` | `:8080` | Address that serves `/yacysearch.json`. |
 | `YACYDHTSEARCH_OPS_ADDR` | `:9090` | Address that serves `/metrics`. |
-| `YACYDHTSEARCH_RECORD_CEILING` | `50` | Most results one client request can ask for. |
 
 ## Network
 
@@ -26,6 +25,7 @@ ranking stays in the cache, the peers are not asked again.
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_RANKING_LIFETIME` | `2m` | Time one ranking answers a repeated query. |
+| `YACYDHTSEARCH_RANKED_ITEMS_CEILING` | `50` | Most items one ranking holds. A client cannot get more than this. |
 | `YACYDHTSEARCH_RANKING_CACHE_CAPACITY` | `1024` | Most rankings the cache keeps at one time. |
 | `YACYDHTSEARCH_NATS_URL` | in-memory | NATS address that caches rankings for every instance. |
 

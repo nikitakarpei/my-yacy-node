@@ -13,6 +13,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peersearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peersearchwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -39,24 +40,24 @@ func (silentDirectoryObserver) DirectoryHolds(context.Context, int, int, int)   
 
 type silentOutcome struct{}
 
-func (silentOutcome) PeerAnswered(context.Context, string, int, time.Duration)           {}
+func (silentOutcome) PeerAnswered(
+	context.Context, string, []searchresult.Item, time.Duration,
+) {
+}
 func (silentOutcome) PeerRefused(context.Context, string, int, time.Duration)            {}
 func (silentOutcome) PeerUnreachable(context.Context, string, error, time.Duration)      {}
 func (silentOutcome) PeerAnswerUnreadable(context.Context, string, error, time.Duration) {}
 
 type recordedQuery struct {
-	asked        int
-	answered     int
-	items        int
+	performed    networksearch.PerformedNetworkSearch
 	withoutPeers int
 }
 
 func (r *recordedQuery) NetworkSearchPerformed(
 	_ context.Context,
-	asked, answered, items int,
-	_ time.Duration,
+	search networksearch.PerformedNetworkSearch,
 ) {
-	r.asked, r.answered, r.items = asked, answered, items
+	r.performed = search
 }
 
 func (r *recordedQuery) NetworkSearchFoundNoAskablePeers(context.Context) { r.withoutPeers++ }
@@ -182,10 +183,12 @@ func TestOneQueryCarriesBackWhatThePeersHold(t *testing.T) {
 	if len(ranking.Items) != 1 || ranking.Items[0].Address != "https://a.example/" {
 		t.Fatalf("Search = %+v, want the address the peer holds", ranking.Items)
 	}
-	if observer.asked != 1 || observer.answered != 1 || observer.items != 1 {
+	if observer.performed.AmountOfAskedPeers != 1 ||
+		observer.performed.AmountOfAnsweringPeers != 1 ||
+		observer.performed.AmountOfItemsInRanking != 1 {
 		t.Fatalf(
 			"NetworkSearchPerformed = %+v, want one peer asked, answered and one item",
-			observer,
+			observer.performed,
 		)
 	}
 }
@@ -220,6 +223,51 @@ func TestAQueryThatReachesNoPeerIsReportedAsSuch(t *testing.T) {
 			"Search = %+v with %d reports, want an empty ranking and one report",
 			ranking.Items,
 			observer.withoutPeers,
+		)
+	}
+}
+
+func TestAnAddressTwoPeersHoldIsCountedOnceAndReportedAsRepeated(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedQuery{}
+	directory := directoryAnsweringAt(t,
+		peerHolding(t, "https://a.example/", "https://shared.example/"),
+		peerHolding(t, "https://shared.example/", "https://b.example/"),
+	)
+	network := networkOver(t, directory, everyAskablePeer{}, observer)
+
+	ranking := network.Search(t.Context(), searchquery.QueryFrom("berlin"))
+
+	if len(ranking.Items) != 3 {
+		t.Fatalf("Search = %+v, want the three addresses the two peers hold", ranking.Items)
+	}
+	if observer.performed.AmountOfItemsAcrossAnswers != 4 ||
+		observer.performed.AmountOfRepeatedItemsAcrossAnswers != 1 {
+		t.Fatalf(
+			"NetworkSearchPerformed = %+v, want four items answered and one repeated",
+			observer.performed,
+		)
+	}
+}
+
+func TestPeersThatHoldNoAddressInCommonReportNoRepeatedItem(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedQuery{}
+	directory := directoryAnsweringAt(t,
+		peerHolding(t, "https://a.example/"),
+		peerHolding(t, "https://b.example/"),
+	)
+	network := networkOver(t, directory, everyAskablePeer{}, observer)
+
+	network.Search(t.Context(), searchquery.QueryFrom("berlin"))
+
+	if observer.performed.AmountOfItemsAcrossAnswers != 2 ||
+		observer.performed.AmountOfRepeatedItemsAcrossAnswers != 0 {
+		t.Fatalf(
+			"NetworkSearchPerformed = %+v, want two items answered and none repeated",
+			observer.performed,
 		)
 	}
 }

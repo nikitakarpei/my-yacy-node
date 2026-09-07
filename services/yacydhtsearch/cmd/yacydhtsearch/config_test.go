@@ -66,14 +66,14 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 	environment[main.EnvQueryBudget] = "9s"
 	environment[main.EnvPeerSearchCooldown] = "7s"
 	environment[main.EnvPeerCallsInFlight] = "7"
-	environment[main.EnvRecordCeiling] = "25"
+	environment[main.EnvRankedItemsCeiling] = "25"
 
 	cfg, err := main.LoadServiceConfig(environmentOf(environment))
 	if err != nil {
 		t.Fatalf("load service config: %v", err)
 	}
 	if cfg.QueryBudget != 9*time.Second || cfg.PeerSearchCooldown != 7*time.Second ||
-		cfg.PeerCallsInFlight != 7 || cfg.RecordCeiling != 25 {
+		cfg.PeerCallsInFlight != 7 || cfg.RankedItemsCeiling != 25 {
 		t.Fatalf("config = %+v, want the overrides", cfg)
 	}
 }

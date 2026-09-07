@@ -15,7 +15,12 @@ import (
 const searchPath = "/yacy/search.html"
 
 type PeerSearchObserver interface {
-	PeerAnswered(ctx context.Context, address string, resources int, spent time.Duration)
+	PeerAnswered(
+		ctx context.Context,
+		address string,
+		answeredItems []searchresult.Item,
+		spent time.Duration,
+	)
 	PeerRefused(ctx context.Context, address string, status int, spent time.Duration)
 	PeerUnreachable(ctx context.Context, address string, cause error, spent time.Duration)
 	PeerAnswerUnreadable(ctx context.Context, address string, cause error, spent time.Duration)
@@ -56,7 +61,7 @@ func (w Wire) Search(
 		}
 		items = append(items, item)
 	}
-	w.observer.PeerAnswered(ctx, address, len(items), time.Since(startedAt))
+	w.observer.PeerAnswered(ctx, address, items, time.Since(startedAt))
 
 	return items
 }
@@ -102,11 +107,11 @@ type PeerSearchObservers []PeerSearchObserver
 func (observers PeerSearchObservers) PeerAnswered(
 	ctx context.Context,
 	address string,
-	resources int,
+	answeredItems []searchresult.Item,
 	spent time.Duration,
 ) {
 	for _, observer := range observers {
-		observer.PeerAnswered(ctx, address, resources, spent)
+		observer.PeerAnswered(ctx, address, answeredItems, spent)
 	}
 }
 

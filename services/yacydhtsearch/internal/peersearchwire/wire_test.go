@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peersearchwire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -15,15 +16,22 @@ import (
 const responseLimit = 1 << 20
 
 type recordedOutcome struct {
-	answered    int
-	refused     int
-	unreachable int
-	unreadable  int
-	spent       time.Duration
+	answered      int
+	answeredItems []searchresult.Item
+	refused       int
+	unreachable   int
+	unreadable    int
+	spent         time.Duration
 }
 
-func (r *recordedOutcome) PeerAnswered(_ context.Context, _ string, _ int, spent time.Duration) {
+func (r *recordedOutcome) PeerAnswered(
+	_ context.Context,
+	_ string,
+	answeredItems []searchresult.Item,
+	spent time.Duration,
+) {
 	r.answered++
+	r.answeredItems = answeredItems
 	r.spent = spent
 }
 
@@ -96,6 +104,13 @@ func TestAPeerAnswerBecomesResultItems(t *testing.T) {
 	}
 	if observer.answered != 1 {
 		t.Fatalf("PeerAnswered reported %d times, want once", observer.answered)
+	}
+	if len(observer.answeredItems) != 1 ||
+		observer.answeredItems[0].Address != "https://example.org/weather" {
+		t.Fatalf(
+			"PeerAnswered reported %+v, want the item the peer carried",
+			observer.answeredItems,
+		)
 	}
 	if observer.spent <= 0 {
 		t.Fatalf("PeerAnswered reported %v spent, want the time the call took", observer.spent)

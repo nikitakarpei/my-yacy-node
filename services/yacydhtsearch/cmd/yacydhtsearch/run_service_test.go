@@ -32,7 +32,7 @@ func TestTheServiceAnswersSearchesAndPublishesMetricsUntilItStops(t *testing.T) 
 		Partitions:         16,
 		PeerRedundancy:     3,
 		MaxResponseBytes:   1024,
-		RecordCeiling:      50,
+		RankedItemsCeiling: 50,
 	}
 
 	ctx, stop := context.WithCancel(t.Context())

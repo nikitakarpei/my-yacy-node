@@ -28,26 +28,25 @@ type QueryRankings interface {
 }
 
 type SearchEndpoint struct {
-	rankings      QueryRankings
-	recordCeiling int
+	rankings QueryRankings
 }
 
-func NewMux(rankings QueryRankings, recordCeiling int) *http.ServeMux {
+func NewMux(rankings QueryRankings) *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.Handle(Path, New(rankings, recordCeiling))
+	mux.Handle(Path, New(rankings))
 
 	return mux
 }
 
-func New(rankings QueryRankings, recordCeiling int) SearchEndpoint {
-	return SearchEndpoint{rankings: rankings, recordCeiling: recordCeiling}
+func New(rankings QueryRankings) SearchEndpoint {
+	return SearchEndpoint{rankings: rankings}
 }
 
 func (e SearchEndpoint) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	form := request.URL.Query()
 
 	ranking := e.rankings.RankingFor(request.Context(), queryOf(form))
-	page := ranking.PageFrom(startRecordOf(form), e.maximumRecordsOf(form))
+	page := ranking.PageFrom(startRecordOf(form), maximumRecordsOf(form))
 
 	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 	_ = json.NewEncoder(writer).Encode(searchPageFrom(page))
@@ -64,11 +63,8 @@ func startRecordOf(form url.Values) int {
 	return max(0, intOf(form.Get(fieldStartRecord), 0))
 }
 
-func (e SearchEndpoint) maximumRecordsOf(form url.Values) int {
-	return min(
-		e.recordCeiling,
-		max(1, intOf(form.Get(fieldMaximumRecords), defaultMaximumRecords)),
-	)
+func maximumRecordsOf(form url.Values) int {
+	return max(1, intOf(form.Get(fieldMaximumRecords), defaultMaximumRecords))
 }
 
 func intOf(raw string, fallback int) int {
