@@ -27,6 +27,7 @@ const (
 	EnvPartitionExponent    = "YACYDHTSEARCH_PARTITION_EXPONENT"
 	EnvPeerRedundancy       = "YACYDHTSEARCH_PEER_REDUNDANCY"
 	EnvMaxResponseBytes     = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
+	EnvPeerItemsCeiling     = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
 	EnvRankedItemsCeiling   = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
 	EnvNATSURL              = "YACYDHTSEARCH_NATS_URL"
 	EnvRankingCacheCapacity = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
@@ -44,11 +45,11 @@ const (
 	DefaultPartitionExponent    = 4
 	DefaultPeerRedundancy       = 3
 	DefaultMaxResponseBytes     = 4 * 1024 * 1024
+	DefaultPeerItemsCeiling     = 10
 	DefaultRankedItemsCeiling   = 50
 	DefaultRankingCacheCapacity = 1024
 	DefaultRankingLifetime      = 2 * time.Minute
 
-	peerResultCeiling = 10
 	peerBudgetCeiling = 3 * time.Second
 )
 
@@ -68,6 +69,7 @@ type ServiceConfig struct {
 	Partitions         yacymodel.DHTRingPartitions
 	PeerRedundancy     int
 	MaxResponseBytes   int64
+	PeerItemsCeiling   int
 	RankedItemsCeiling int
 	NATSURL            string
 	RankingCache       int
@@ -118,6 +120,7 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		Partitions:         partitions,
 		PeerRedundancy:     counts.peerRedundancy,
 		MaxResponseBytes:   maxResponseBytes,
+		PeerItemsCeiling:   counts.peerItemsCeiling,
 		RankedItemsCeiling: counts.rankedItemsCeiling,
 		NATSURL:            strings.TrimSpace(getenv(EnvNATSURL)),
 		RankingCache:       counts.rankingCacheCapacity,
@@ -161,6 +164,7 @@ type configuredCounts struct {
 	peerCallsInFlight    int
 	directoryCapacity    int
 	peerRedundancy       int
+	peerItemsCeiling     int
 	rankedItemsCeiling   int
 	rankingCacheCapacity int
 }
@@ -176,6 +180,7 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvPeerCallsInFlight, DefaultPeerCallsInFlight, &counts.peerCallsInFlight},
 		{EnvDirectoryCapacity, DefaultDirectoryCapacity, &counts.directoryCapacity},
 		{EnvPeerRedundancy, DefaultPeerRedundancy, &counts.peerRedundancy},
+		{EnvPeerItemsCeiling, DefaultPeerItemsCeiling, &counts.peerItemsCeiling},
 		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},
 	} {

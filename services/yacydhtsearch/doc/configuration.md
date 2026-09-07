@@ -60,6 +60,7 @@ peers that answered their latest probe.
 | `YACYDHTSEARCH_PEER_CALL_BUDGET` | `4s` | Time one call to one peer may take. |
 | `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `24` | Most peer calls within one query that run at the same time. |
 | `YACYDHTSEARCH_MAX_RESPONSE_BYTES` | `4194304` | Most bytes read from one peer answer or one seedlist. |
+| `YACYDHTSEARCH_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for. |
 
 ## Peer search limits
 

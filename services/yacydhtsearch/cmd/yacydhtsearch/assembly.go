@@ -84,7 +84,7 @@ func RunService(
 					peersearchobserversprometheus.New(
 						registry,
 						cfg.PeerCallBudget,
-						peerResultCeiling,
+						cfg.PeerItemsCeiling,
 					),
 				},
 			),
@@ -93,7 +93,7 @@ func RunService(
 		),
 		cfg.QueryBudget,
 		peerBudgetCeiling,
-		peerResultCeiling,
+		cfg.PeerItemsCeiling,
 		cfg.RankedItemsCeiling,
 		cfg.Partitions,
 		networksearch.NetworkSearchObservers{
