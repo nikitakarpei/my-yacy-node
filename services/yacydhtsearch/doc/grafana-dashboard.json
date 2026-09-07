@@ -331,8 +331,8 @@
     },
     {
       "id": 8,
-      "title": "Peers asked for one network search (p50/p95/p99)",
-      "type": "timeseries",
+      "title": "Peers asked for one network search",
+      "type": "heatmap",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -343,47 +343,50 @@
         "x": 0,
         "y": 18
       },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "showPoints": "auto"
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
       "interval": "$window",
       "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "short",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
         "tooltip": {
-          "mode": "multi"
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (clamp_min(yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p95"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p99"
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
         }
       ]
     },
     {
       "id": 9,
-      "title": "Share of asked peers that returned at least one item (p10/p50/p90)",
-      "description": "A peer that answered holding nothing is not counted here. p10 is the tenth of network searches that got the least back. A network search with no asked peer is absent here.",
-      "type": "timeseries",
+      "title": "Share of asked peers that returned at least one item",
+      "description": "A peer that answered holding nothing does not count. A search that asked no peer is absent.",
+      "type": "heatmap",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -394,46 +397,49 @@
         "x": 12,
         "y": 18
       },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "showPoints": "auto"
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
       "interval": "$window",
       "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "percentunit",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
         "tooltip": {
-          "mode": "multi"
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.10, sum by (le) (clamp_min(yacydhtsearch_network_search_completeness_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_completeness_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p10"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_network_search_completeness_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_completeness_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacydhtsearch_network_search_completeness_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_completeness_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p90"
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_completeness_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_completeness_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
         }
       ]
     },
     {
       "id": 32,
       "title": "Share of answered items that repeat an address another peer answered",
-      "description": "Each row is a range of shares. The cell color shows how many network searches repeated that share of their answered items. A peer returns only its highest ranked items, so an address one peer left out is not counted here.",
+      "description": "A peer returns only its highest ranked items, so an address one peer left out does not count.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -589,9 +595,9 @@
     },
     {
       "id": 15,
-      "title": "Ring distance from a query term to the peer picked for it (p50/p95/p99)",
-      "description": "Share of the DHT ring between a term and the peer asked to answer for it. Zero is the peer that holds the term. A rise means the directory holds no peer near the terms this instance asks about.",
-      "type": "timeseries",
+      "title": "Ring distance from a query term to the peer picked for it",
+      "description": "Zero is the peer that holds the term.",
+      "type": "heatmap",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -602,39 +608,42 @@
         "x": 16,
         "y": 35
       },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "showPoints": "auto"
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
       "interval": "$window",
       "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "percentunit",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
         "tooltip": {
-          "mode": "multi"
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (clamp_min(yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p95"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p99"
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
         }
       ]
     },
@@ -693,7 +702,7 @@
     {
       "id": 31,
       "title": "How long a call to an answering peer took",
-      "description": "Each row is a range of call times. The cell color shows how many calls took that long. The rows above the peer call budget hold the calls that ran over it.",
+      "description": "The rows above the peer call budget hold the calls that ran over it.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -746,9 +755,9 @@
     },
     {
       "id": 19,
-      "title": "Items one peer returned for one search (p50/p95)",
-      "description": "A peer returns at most the item ceiling one search asks it for. An answer that carries nothing counts as zero.",
-      "type": "timeseries",
+      "title": "Items one peer returned for one search",
+      "description": "A pile in the top row means the item ceiling is binding.",
+      "type": "heatmap",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -759,34 +768,42 @@
         "x": 16,
         "y": 44
       },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "showPoints": "auto"
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
       "interval": "$window",
       "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "short",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
         "tooltip": {
-          "mode": "multi"
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (clamp_min(yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p95"
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
         }
       ]
     },
