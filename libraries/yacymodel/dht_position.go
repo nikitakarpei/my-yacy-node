@@ -118,3 +118,14 @@ func (p DHTRingPosition) DistanceFromPostingsOfWord(
 
 	return DHTRingDistance((uint64(p) - uint64(wordPosition)) & mask)
 }
+
+func DHTRingPositionOfWordInPartition(
+	word Hash,
+	partition uint,
+	partitions DHTRingPartitions,
+) DHTRingPosition {
+	shift := partitions.shiftLength()
+	mask := DHTRingPosition(uint64(1)<<shift - 1)
+
+	return DHTRingPositionOf(word)&mask | DHTRingPosition(uint64(partition)<<shift)&^mask
+}

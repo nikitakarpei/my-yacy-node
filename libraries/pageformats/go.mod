@@ -16,6 +16,7 @@ require (
 	github.com/go-shiori/dom v0.0.0-20230515143342-73569d674e1c // indirect
 	github.com/gogs/chardet v0.0.0-20211120154057-b7413eaefb8f // indirect
 	github.com/itlightning/dateparse v0.2.1 // indirect
+	github.com/stretchr/testify v1.11.1 // indirect
 	golang.org/x/text v0.37.0 // indirect
 )
 

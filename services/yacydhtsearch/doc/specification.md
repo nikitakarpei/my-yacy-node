@@ -31,10 +31,7 @@ nothing beyond a peer directory.
   the query's time budget.
 * The service SHALL bound the total time spent on a query by an operator-configured budget.
 * The service SHALL NOT return duplicate results for the same URL within a query's response.
-* The service SHALL apply a configurable ordering strategy to merged results before returning
-  them.
-* The service MAY rank results beyond best-effort ordering if the operator configures an
-  ordering strategy that assumes peer trust.
+* The service SHALL return merged results in best-effort order.
 
 ## Non-Functional Requirements
 
@@ -47,8 +44,8 @@ nothing beyond a peer directory.
 * The service SHALL preserve compatibility with standard YaCy peer-to-peer contracts.
 * The service SHALL preserve compatibility with YaCy's public `/yacysearch.json` contract closely
   enough that any compliant client, including SearXNG's native YaCy engine, can use it unmodified.
-* Peer selection, result ordering, and peer-directory eviction SHALL be replaceable behind narrow
-  interfaces, with no trust or reputation mechanism assumed by the default implementation.
+* Peer selection and peer-directory eviction SHALL be replaceable behind narrow interfaces, with
+  no trust or reputation mechanism assumed by the default implementation.
 * Operational behavior SHALL be observable through machine-readable metrics, including per-query
   completeness.
 * The service SHOULD track peer liveness and refresh its peer directory to reduce the likelihood

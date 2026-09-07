@@ -8,6 +8,8 @@ require (
 	github.com/nats-io/nats.go v1.52.0
 	github.com/nikitakarpei/yacy-rwi-node/pagescrapecontract v0.0.0
 	github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/yacymodel v0.0.0
+	github.com/nikitakarpei/yacy-rwi-node/yacyproto v0.0.0-00010101000000-000000000000
 	github.com/testcontainers/testcontainers-go v0.40.0
 )
 
@@ -78,3 +80,7 @@ replace github.com/nikitakarpei/yacy-rwi-node/yacycrawlcontract => ../../service
 replace github.com/nikitakarpei/yacy-rwi-node/canonicalurl => ../../libraries/canonicalurl
 
 replace github.com/nikitakarpei/yacy-rwi-node/pagefetch => ../../libraries/pagefetch
+
+replace github.com/nikitakarpei/yacy-rwi-node/yacymodel => ../../libraries/yacymodel
+
+replace github.com/nikitakarpei/yacy-rwi-node/yacyproto => ../../libraries/yacyproto

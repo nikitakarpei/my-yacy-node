@@ -70,7 +70,7 @@ linters:
         linters:
           - revive
         text: argument-limit
-      - path: (^|/)test/e2e/
+      - path: (^|/)test/e2e(harness)?/
         linters:
           - revive
         text: argument-limit

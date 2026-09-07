@@ -1,0 +1,211 @@
+version: 3
+workdir: .
+
+allow:
+  depOnAnyVendor: false
+  deepScan: false
+
+commonComponents:
+  - searchquery
+  - searchresult
+  - peerdirectory
+
+components:
+  searchquery:
+    in: internal/searchquery/**
+  searchresult:
+    in: internal/searchresult/**
+  peerdirectory:
+    in: internal/peerdirectory/**
+  stalepeersourcesleastrecentlyanswered:
+    in: internal/stalepeersources/leastrecentlyanswered/**
+  peerselectionsdhtdistance:
+    in: internal/peerselections/dhtdistance/**
+  dhtdistanceobserversprometheus:
+    in: internal/dhtdistanceobservers/prometheus/**
+  networksearch:
+    in: internal/networksearch/**
+  queryrankings:
+    in: internal/queryrankings/**
+  rankingcachememory:
+    in: internal/rankingcache/memory/**
+  rankingcachejetstream:
+    in: internal/rankingcache/jetstream/**
+  rankingcacheobserversapplog:
+    in: internal/rankingcacheobservers/applog/**
+  rankingcacheobserversprometheus:
+    in: internal/rankingcacheobservers/prometheus/**
+  peersearch:
+    in: internal/peersearch/**
+  peersearchwire:
+    in: internal/peersearchwire/**
+  peerlivenesswire:
+    in: internal/peerlivenesswire/**
+  yacyseedlist:
+    in: internal/yacyseedlist/**
+  peerdirectoryrefresh:
+    in: internal/peerdirectoryrefresh/**
+  yacysearchendpoint:
+    in: internal/yacysearchendpoint/**
+  networksearchobserversapplog:
+    in: internal/networksearchobservers/applog/**
+  networksearchobserversprometheus:
+    in: internal/networksearchobservers/prometheus/**
+  peersearchobserversapplog:
+    in: internal/peersearchobservers/applog/**
+  peersearchobserversprometheus:
+    in: internal/peersearchobservers/prometheus/**
+  peerdirectoryobserversapplog:
+    in: internal/peerdirectoryobservers/applog/**
+  peerdirectoryobserversprometheus:
+    in: internal/peerdirectoryobservers/prometheus/**
+  yacyseedlistobserversapplog:
+    in: internal/yacyseedlistobservers/applog/**
+  yacydhtsearchcmd:
+    in: cmd/yacydhtsearch/**
+
+vendors:
+  yacymodel:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/yacymodel
+      - github.com/nikitakarpei/yacy-rwi-node/yacymodel/**
+  yacyproto:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/yacyproto
+      - github.com/nikitakarpei/yacy-rwi-node/yacyproto/**
+  prometheus:
+    in:
+      - github.com/prometheus/client_golang/**
+  hashicorplru:
+    in:
+      - github.com/hashicorp/golang-lru/v2/**
+  nats:
+    in:
+      - github.com/nats-io/nats.go/**
+  serviceruntime:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/applog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/envconfig
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/jetstreamconnect
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics
+      - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
+
+deps:
+  searchquery:
+    canUse:
+      - yacymodel
+  searchresult:
+    canUse:
+      - yacymodel
+  peerdirectory:
+    canUse:
+      - yacymodel
+  stalepeersourcesleastrecentlyanswered:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - peerdirectory
+  peerselectionsdhtdistance:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - peerdirectory
+      - searchquery
+  networksearch:
+    canUse:
+      - yacymodel
+      - yacyproto
+    mayDependOn:
+      - peerdirectory
+      - peersearch
+      - searchquery
+      - searchresult
+  queryrankings:
+    mayDependOn:
+      - searchquery
+      - searchresult
+  rankingcachememory:
+    canUse:
+      - hashicorplru
+    mayDependOn:
+      - searchquery
+      - searchresult
+  rankingcachejetstream:
+    canUse:
+      - nats
+    mayDependOn:
+      - searchquery
+      - searchresult
+  rankingcacheobserversapplog:
+    mayDependOn:
+      - searchquery
+  rankingcacheobserversprometheus:
+    canUse:
+      - prometheus
+    mayDependOn:
+      - searchquery
+  peersearch:
+    canUse:
+      - yacymodel
+      - yacyproto
+    mayDependOn:
+      - peerdirectory
+      - peersearchwire
+      - searchresult
+  peersearchwire:
+    canUse:
+      - yacyproto
+    mayDependOn:
+      - searchresult
+  peerlivenesswire:
+    canUse:
+      - yacyproto
+  yacyseedlist:
+    canUse:
+      - yacymodel
+      - yacyproto
+  peerdirectoryrefresh:
+    mayDependOn:
+      - peerdirectory
+      - peerlivenesswire
+      - yacyseedlist
+  yacysearchendpoint:
+    mayDependOn:
+      - searchquery
+      - searchresult
+  dhtdistanceobserversprometheus:
+    canUse:
+      - prometheus
+  networksearchobserversapplog:
+    mayDependOn:
+      - networksearch
+  networksearchobserversprometheus:
+    canUse:
+      - prometheus
+    mayDependOn:
+      - networksearch
+  peersearchobserversapplog:
+    mayDependOn:
+      - searchresult
+  peersearchobserversprometheus:
+    canUse:
+      - prometheus
+    mayDependOn:
+      - searchresult
+  peerdirectoryobserversapplog:
+    canUse:
+      - yacymodel
+  peerdirectoryobserversprometheus:
+    canUse:
+      - yacymodel
+      - prometheus
+  yacydhtsearchcmd:
+    anyProjectDeps: true
+    anyVendorDeps: true
+
+excludeFiles:
+  - "test/e2e"
+  - "_test\\.go"

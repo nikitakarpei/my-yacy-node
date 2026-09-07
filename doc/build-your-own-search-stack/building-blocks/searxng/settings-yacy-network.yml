@@ -1,0 +1,17 @@
+use_default_settings: true
+
+search:
+  formats:
+    - html
+    - json
+
+engines:
+  - name: yacy
+    engine: yacy
+    shortcut: ya
+    categories: general
+    search_type: text
+    disabled: false
+    enable_http: true
+    base_url: http://yacydhtsearch:8080
+    timeout: 6.0

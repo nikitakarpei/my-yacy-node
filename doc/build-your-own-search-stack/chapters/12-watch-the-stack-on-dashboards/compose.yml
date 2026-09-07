@@ -1,0 +1,416 @@
+services:
+  warcprox:
+    build:
+      context: ../../building-blocks/warcprox
+    restart: unless-stopped
+    command:
+      - "--address=0.0.0.0"
+      - "--port=8000"
+      - "--dir=/warcs"
+      - "--gzip"
+      - "--prefix=CRAWL"
+      - "--cacert=/ca/warcprox-ca.pem"
+      - "--certs-dir=/ca/certs"
+      - "--rollover-idle-time=300"
+      - "--dedup-db-file=/state/dedup.sqlite"
+    volumes:
+      - ./warcs:/warcs
+      - warcprox-ca:/ca
+      - warcprox-state:/state
+    networks:
+      default:
+        ipv4_address: 10.99.0.10
+      archive:
+
+  warcprox-trust:
+    build:
+      context: ../../building-blocks/warcprox
+    depends_on:
+      - warcprox
+    volumes:
+      - warcprox-ca:/ca
+      - warcprox-trust:/trust
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        until [ -s /ca/warcprox-ca.pem ]; do sleep 1; done
+        cat /etc/ssl/certs/ca-certificates.crt > /trust/ca-certificates.crt
+        sed -n '/BEGIN CERTIFICATE/,/END CERTIFICATE/p' /ca/warcprox-ca.pem >> /trust/ca-certificates.crt
+
+  smokescreen:
+    build:
+      context: ../../building-blocks/smokescreen
+    restart: unless-stopped
+    depends_on:
+      - warcprox
+    command:
+      - "--listen-ip"
+      - "0.0.0.0"
+      - "--upstream-http-proxy-addr"
+      - "http://warcprox:8000"
+      - "--upstream-https-proxy-addr"
+      - "http://warcprox:8000"
+      - "--allow-address"
+      - "10.99.0.10:8000"
+      - "--allow-address"
+      - "10.99.1.11:8080"
+    networks:
+      - default
+      - archive
+
+  pywb:
+    image: docker.io/webrecorder/pywb:2.9.1
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        mkdir -p /webarchive/collections/imported/indexes
+        exec wayback -a --auto-interval 30 -b 0.0.0.0 -p 8080
+    ports:
+      - "127.0.0.1:8081:8080"
+    volumes:
+      - ./imported:/webarchive/collections/imported/archive:ro
+      - pywb-indexes:/webarchive/collections/imported/indexes
+    networks:
+      archive:
+        ipv4_address: 10.99.1.11
+
+  webarchivescrape:
+    image: ghcr.io/nikitakarpei/webarchivescrape:latest
+    profiles:
+      - console
+    depends_on:
+      pagescrape:
+        condition: service_started
+      pywb:
+        condition: service_started
+    environment:
+      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
+    networks:
+      - default
+      - archive
+
+  nats:
+    image: nats:2.14.2
+    restart: unless-stopped
+    command: ["-c", "/etc/nats/nats.conf"]
+    volumes:
+      - ../../building-blocks/nats/nats.conf:/etc/nats/nats.conf:ro
+      - nats-data:/data
+
+  pagescrape:
+    image: ghcr.io/nikitakarpei/pagescrape:latest
+    restart: unless-stopped
+    depends_on:
+      nats:
+        condition: service_started
+      squid:
+        condition: service_started
+    environment:
+      SCRAPE_NATS_URL: nats://nats:4222
+      SCRAPE_PROXY_URL: http://squid:3128
+      SCRAPE_PROXY_DIAL_MODE: absolute-url
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  crawl-console:
+    image: natsio/nats-box:0.19.7
+    profiles:
+      - console
+    depends_on:
+      - nats
+    entrypoint: ["nats", "--server", "nats://nats:4222"]
+
+  lightpanda:
+    image: lightpanda/browser:0.3.4
+    restart: unless-stopped
+    depends_on:
+      warcprox-trust:
+        condition: service_completed_successfully
+    volumes:
+      - warcprox-trust:/etc/ssl/certs:ro
+    command:
+      - "/bin/lightpanda"
+      - "serve"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "9222"
+      - "--advertise-host"
+      - "lightpanda"
+      - "--http-proxy"
+      - "http://127.0.0.1:1"
+      - "--obey-robots"
+
+  renderproxy:
+    image: ghcr.io/nikitakarpei/renderproxy:latest
+    restart: unless-stopped
+    depends_on:
+      - lightpanda
+      - smokescreen
+    volumes:
+      - warcprox-trust:/trust:ro
+    environment:
+      RENDERPROXY_CDP_URL: ws://lightpanda:9222
+      EGRESS_PROXY_URL: http://smokescreen:4750
+      SSL_CERT_FILE: /trust/ca-certificates.crt
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  squid:
+    image: ubuntu/squid:6.6-24.04_edge
+    restart: unless-stopped
+    depends_on:
+      - renderproxy
+    volumes:
+      - ../../building-blocks/squid/squid.conf:/etc/squid/squid.conf:ro
+      - squid-data:/var/spool/squid
+
+  scrape-request-bridge:
+    image: natsio/nats-box:0.19.7
+    restart: unless-stopped
+    depends_on:
+      yacycrawler:
+        condition: service_started
+    environment:
+      CRAWL_NATS_URL: nats://nats:4222
+    volumes:
+      - ../../building-blocks/scrape-request-bridge/relay-crawled-pages-as-scrape-requests.sh:/relay-crawled-pages-as-scrape-requests.sh:ro
+    entrypoint: ["sh", "/relay-crawled-pages-as-scrape-requests.sh"]
+
+  yacycrawler:
+    image: ghcr.io/nikitakarpei/yacycrawler:latest
+    restart: unless-stopped
+    depends_on:
+      pagescrape:
+        condition: service_started
+      squid:
+        condition: service_started
+    environment:
+      CRAWL_NATS_URL: nats://nats:4222
+      YACYCRAWLER_FETCH_PROXY_URL: http://squid:3128
+      YACYCRAWLER_FETCH_PROXY_DIAL_MODE: absolute-url
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  manticore:
+    image: manticoresearch/manticore:27.1.5
+    restart: unless-stopped
+    volumes:
+      - manticore-data:/var/lib/manticore
+
+  corpustext:
+    image: ghcr.io/nikitakarpei/corpustext:latest
+    restart: unless-stopped
+    depends_on:
+      pagescrape:
+        condition: service_started
+      manticore:
+        condition: service_started
+    environment:
+      SCRAPE_PAGE_OFFER_NATS_URL: nats://nats:4222
+      SEARCH_INDEX_ENGINE: manticore
+      MANTICORE_URL: http://manticore:9308
+      CORPUSTEXT_LANGUAGES: ${CORPUSTEXT_LANGUAGES:-en}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  corpusmarkdown:
+    image: ghcr.io/nikitakarpei/corpusmarkdown:latest
+    restart: unless-stopped
+    depends_on:
+      pagescrape:
+        condition: service_started
+    environment:
+      SCRAPE_PAGE_OFFER_NATS_URL: nats://nats:4222
+      PAGE_MARKDOWN_NATS_URL: nats://nats:4222
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  searxng-engines-seed:
+    image: docker.io/searxng/searxng:2026.7.5-a6438586a
+    entrypoint: ["true"]
+    volumes:
+      - searxng-engines:/usr/local/searxng/searx/engines
+
+  searxng-crawled-text-search-init:
+    image: ghcr.io/nikitakarpei/searxng-crawled-text-search:latest
+    depends_on:
+      searxng-engines-seed:
+        condition: service_completed_successfully
+    command: ["/payload/crawled_text_search.py", "/engines/crawled_text_search.py"]
+    volumes:
+      - searxng-engines:/engines
+
+  visitcrawl:
+    image: ghcr.io/nikitakarpei/visitcrawl:latest
+    restart: unless-stopped
+    depends_on:
+      - nats
+    environment:
+      CRAWL_NATS_URL: nats://nats:4222
+      VISITCRAWL_LINK_SECRET: ${VISITCRAWL_LINK_SECRET:?set VISITCRAWL_LINK_SECRET in .env}
+      VISITCRAWL_SCOPE: ${VISITCRAWL_SCOPE:-domain}
+      VISITCRAWL_MAX_DEPTH: ${VISITCRAWL_MAX_DEPTH:-1}
+      VISITCRAWL_MAX_PAGES_PER_HOST: ${VISITCRAWL_MAX_PAGES_PER_HOST:-100}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  searxng-result-router-init:
+    image: ghcr.io/nikitakarpei/searxng-result-router:latest
+    command: ["/payload/result_link_router.py", "/plugins/result_link_router.py"]
+    volumes:
+      - searxng-plugins:/plugins
+
+  searxng:
+    image: docker.io/searxng/searxng:2026.7.5-a6438586a
+    restart: unless-stopped
+    depends_on:
+      searxng-crawled-text-search-init:
+        condition: service_completed_successfully
+      searxng-result-router-init:
+        condition: service_completed_successfully
+      manticore:
+        condition: service_started
+      visitcrawl:
+        condition: service_started
+      yacydhtsearch:
+        condition: service_started
+    environment:
+      PYTHONPATH: /opt/searxng-plugins
+      SEARXNG_SECRET: ${SEARXNG_SECRET:?set SEARXNG_SECRET in .env}
+      VISITCRAWL_LINK_SECRET: ${VISITCRAWL_LINK_SECRET:?set VISITCRAWL_LINK_SECRET in .env}
+      SEARXNG_SETTINGS_PATH: /etc/searxng/settings.yml
+    volumes:
+      - ../../building-blocks/searxng/settings-local-index-yacy-network-and-visit-links.yml:/etc/searxng/settings.yml:ro
+      - searxng-engines:/usr/local/searxng/searx/engines
+      - searxng-plugins:/opt/searxng-plugins:ro
+
+  webresearchmcp:
+    image: ghcr.io/nikitakarpei/webresearchmcp:latest
+    restart: unless-stopped
+    depends_on:
+      - corpusmarkdown
+      - searxng
+    ports:
+      - "127.0.0.1:8095:8095"
+    environment:
+      SEARXNG_URL: http://searxng:8080
+      SCRAPE_REQUEST_NATS_URL: nats://nats:4222
+      CORPUSMARKDOWN_ADDR: corpusmarkdown:8094
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  caddy:
+    image: docker.io/library/caddy:2.11.4-alpine
+    restart: unless-stopped
+    depends_on:
+      - searxng
+      - visitcrawl
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../../building-blocks/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+  yacy-rwi-node:
+    image: ghcr.io/nikitakarpei/yacynode:latest
+    restart: unless-stopped
+    depends_on:
+      pagescrape:
+        condition: service_started
+      smokescreen:
+        condition: service_started
+      squid:
+        condition: service_started
+    ports:
+      - "8090:8090"
+      - "127.0.0.1:9090:9090"
+    environment:
+      YACY_ADVERTISE_HOST: ${YACY_ADVERTISE_HOST-}
+      YACY_NETWORK_NAME: &yacy-network-name ${YACY_NETWORK_NAME:-freeworld}
+      YACY_SEEDLIST_URLS: &yacy-seedlist-urls >-
+        http://sixcooler.de/yacy/seed.txt,
+        https://sonst.mifritscher.de/yacy/seed.txt,
+        http://5.45.105.16/yacyseed,
+        http://yacy.v16.de/seed/seed.txt,
+        https://frank-siebert.de/seed.txt,
+        http://seedlist.wertewesten.net/seed.txt
+      YACY_DISTRIBUTION_ENABLED: "true"
+      YACY_STORAGE_QUOTA: ${YACY_STORAGE_QUOTA:-1GB}
+      EGRESS_PROXY_URL: http://smokescreen:4750
+      SCRAPE_PAGE_OFFER_NATS_URL: nats://nats:4222
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - yacy-data:/data
+
+  yacydhtsearch:
+    image: ghcr.io/nikitakarpei/yacydhtsearch:latest
+    restart: unless-stopped
+    depends_on:
+      smokescreen:
+        condition: service_started
+    environment:
+      YACYDHTSEARCH_NETWORK_NAME: *yacy-network-name
+      YACYDHTSEARCH_SEEDLIST_URLS: *yacy-seedlist-urls
+      EGRESS_PROXY_URL: http://smokescreen:4750
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  nats-metrics:
+    image: natsio/prometheus-nats-exporter:0.16.0
+    restart: unless-stopped
+    depends_on:
+      - nats
+    command: ["-varz", "-jsz=all", "http://nats:8222"]
+
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    restart: unless-stopped
+    depends_on:
+      - nats-metrics
+    ports:
+      - "127.0.0.1:9099:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    volumes:
+      - ../../building-blocks/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+
+  grafana:
+    image: grafana/grafana:11.4.0
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+    volumes:
+      - ../../building-blocks/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ../../../../services/yacynode/doc/grafana-dashboard.json:/var/lib/grafana/dashboards/yacynode.json:ro
+      - ../../../../services/yacycrawler/doc/grafana-dashboard.json:/var/lib/grafana/dashboards/yacycrawler.json:ro
+      - ../../../../services/yacydhtsearch/doc/grafana-dashboard.json:/var/lib/grafana/dashboards/yacydhtsearch.json:ro
+      - grafana-data:/var/lib/grafana
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 10.99.0.0/24
+  archive:
+    internal: true
+    ipam:
+      config:
+        - subnet: 10.99.1.0/24
+
+volumes:
+  warcprox-ca:
+  warcprox-state:
+  warcprox-trust:
+  pywb-indexes:
+  nats-data:
+  squid-data:
+  yacy-data:
+  manticore-data:
+  searxng-engines:
+  searxng-plugins:
+  caddy-data:
+  caddy-config:
+  prometheus-data:
+  grafana-data:

@@ -1,0 +1,25 @@
+use_default_settings: true
+
+search:
+  formats:
+    - html
+    - json
+
+engines:
+  - name: crawled text search
+    engine: crawled_text_search
+    shortcut: ct
+    categories: general
+    enable_http: true
+    search_index_engine: manticore
+    manticore_url: http://manticore:9308
+
+  - name: yacy
+    engine: yacy
+    shortcut: ya
+    categories: general
+    search_type: text
+    disabled: false
+    enable_http: true
+    base_url: http://yacydhtsearch:8080
+    timeout: 6.0

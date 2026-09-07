@@ -10,10 +10,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/hermeticnetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/httpprobe"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/peerclient"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/yacypeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/nodepeer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/peerclient"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/yacypeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -34,7 +34,7 @@ func TestRealYaCyTransfersRWIToFleet(t *testing.T) {
 	seedlistURL := "http://" + transferYaCyAlias + ":" + peerclient.Port + "/yacy/seedlist.html"
 	fleet := nodepeer.StartFleet(t, ctx, probe, network.Name, seedlistURL)
 
-	yacypeer.PushDocument(t, ctx, probe, yacyURL, yacypeer.TransferTokens())
+	_ = yacypeer.PushDocument(t, ctx, probe, yacyURL, yacypeer.TransferTokens())
 
 	yacypeer.WaitRWICount(
 		t,

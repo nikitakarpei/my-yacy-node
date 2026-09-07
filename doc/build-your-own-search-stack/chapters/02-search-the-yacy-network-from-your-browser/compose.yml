@@ -1,0 +1,64 @@
+x-yacy-network-name: &yacy-network-name ${YACY_NETWORK_NAME:-freeworld}
+x-yacy-seedlist-urls: &yacy-seedlist-urls >-
+  http://sixcooler.de/yacy/seed.txt,
+  https://sonst.mifritscher.de/yacy/seed.txt,
+  http://5.45.105.16/yacyseed,
+  http://yacy.v16.de/seed/seed.txt,
+  https://frank-siebert.de/seed.txt,
+  http://seedlist.wertewesten.net/seed.txt
+
+services:
+  smokescreen:
+    build:
+      context: ../../building-blocks/smokescreen
+    restart: unless-stopped
+    command: ["--listen-ip", "0.0.0.0"]
+
+  yacy-rwi-node:
+    image: ghcr.io/nikitakarpei/yacynode:latest
+    restart: unless-stopped
+    depends_on:
+      smokescreen:
+        condition: service_started
+    ports:
+      - "8090:8090"
+      - "127.0.0.1:9090:9090"
+    environment:
+      YACY_ADVERTISE_HOST: ${YACY_ADVERTISE_HOST-}
+      YACY_NETWORK_NAME: *yacy-network-name
+      YACY_SEEDLIST_URLS: *yacy-seedlist-urls
+      YACY_DISTRIBUTION_ENABLED: "true"
+      YACY_STORAGE_QUOTA: ${YACY_STORAGE_QUOTA:-1GB}
+      EGRESS_PROXY_URL: http://smokescreen:4750
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - yacy-data:/data
+
+  yacydhtsearch:
+    image: ghcr.io/nikitakarpei/yacydhtsearch:latest
+    restart: unless-stopped
+    depends_on:
+      smokescreen:
+        condition: service_started
+    environment:
+      YACYDHTSEARCH_NETWORK_NAME: *yacy-network-name
+      YACYDHTSEARCH_SEEDLIST_URLS: *yacy-seedlist-urls
+      EGRESS_PROXY_URL: http://smokescreen:4750
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+  searxng:
+    image: docker.io/searxng/searxng:2026.7.5-a6438586a
+    restart: unless-stopped
+    depends_on:
+      yacydhtsearch:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    environment:
+      SEARXNG_SECRET: ${SEARXNG_SECRET:?set SEARXNG_SECRET in .env}
+      SEARXNG_SETTINGS_PATH: /etc/searxng/settings.yml
+    volumes:
+      - ../../building-blocks/searxng/settings-yacy-network.yml:/etc/searxng/settings.yml:ro
+
+volumes:
+  yacy-data:

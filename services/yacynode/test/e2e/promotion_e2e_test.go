@@ -10,12 +10,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/hermeticnetwork"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/httpprobe"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/peerclient"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/yacypeer"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/nodepeer"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/peerclient"
 	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/yacypeer"
 )
 
 const (

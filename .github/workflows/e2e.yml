@@ -30,4 +30,17 @@ jobs:
           restore-keys: go-${{ runner.os }}-
 
       - name: Run e2e suites
-        run: make e2e
+        env:
+          E2E_CONTAINER_LOG_DIR: ${{ github.workspace }}/e2e-container-logs
+        run: |
+          mkdir -p "$E2E_CONTAINER_LOG_DIR"
+          make e2e
+
+      - name: Upload container logs of failed suites
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-container-logs
+          path: e2e-container-logs/
+          if-no-files-found: ignore
+          retention-days: 14

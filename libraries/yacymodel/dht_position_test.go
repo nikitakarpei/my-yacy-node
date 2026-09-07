@@ -1,6 +1,7 @@
 package yacymodel_test
 
 import (
+	"strconv"
 	"testing"
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
@@ -148,4 +149,37 @@ func postingOfWordForURL(
 	}
 
 	return yacymodel.RWIPosting{WordHash: word, URLHash: urlHash}
+}
+
+func TestDHTRingPositionOfWordInPartitionHoldsEveryPostingOfThatWord(t *testing.T) {
+	const partitionExponent = 4
+	partitions, err := yacymodel.DHTRingPartitionsFromExponent(partitionExponent)
+	if err != nil {
+		t.Fatalf("dht ring partitions: %v", err)
+	}
+	word := yacymodel.WordHash("partitionprobe")
+
+	named := map[yacymodel.DHTRingPosition]struct{}{}
+	for partition := range uint(partitions) {
+		named[yacymodel.DHTRingPositionOfWordInPartition(word, partition, partitions)] = struct{}{}
+	}
+	if len(named) != int(partitions) {
+		t.Fatalf("partitions name %d distinct positions, want %d", len(named), partitions)
+	}
+
+	for document := range 4096 {
+		urlHash, err := yacymodel.ParseURLHash(
+			yacymodel.WordHash(strconv.Itoa(document)).String(),
+		)
+		if err != nil {
+			t.Fatalf("url hash: %v", err)
+		}
+		position := yacymodel.DHTRingPositionOfPosting(
+			yacymodel.RWIPosting{WordHash: word, URLHash: urlHash},
+			partitions,
+		)
+		if _, ok := named[position]; !ok {
+			t.Fatalf("posting of the word sits at %d, which no partition names", position)
+		}
+	}
 }

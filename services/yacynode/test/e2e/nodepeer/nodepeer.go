@@ -17,10 +17,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/containerurl"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/egressproxy"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/httpprobe"
+	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/peerclient"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/pollwait"
 	"github.com/nikitakarpei/yacy-rwi-node/e2eharness/requiredimage"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
-	"github.com/nikitakarpei/yacy-rwi-node/yacynode/test/e2e/peerclient"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
 
@@ -121,7 +121,7 @@ func Start(
 		t.Fatalf("start node container from Dockerfile: %v", err)
 	}
 	t.Cleanup(func() { _ = container.Terminate(context.Background()) })
-	containerlog.DumpOnFailure(t, "node", container)
+	containerlog.DumpOnFailure(t, cfg.Alias, container)
 	nodeURL := containerurl.HostURL(t, ctx, container, peerclient.ExposedPort)
 	if !pollwait.For(20*time.Second, func() bool {
 		return probe.OK(ctx, nodeURL+"/yacy/query.html?object=rwicount")
