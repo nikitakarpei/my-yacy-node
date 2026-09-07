@@ -31,23 +31,33 @@ func TestQueryFromPutsAMinusTermUnderExclusions(t *testing.T) {
 	}
 }
 
-func TestQueryFromDropsAStrayInitialBesideALongerTerm(t *testing.T) {
+func TestQueryFromDropsATermTooShortForAnIndex(t *testing.T) {
 	t.Parallel()
 
-	query := searchquery.QueryFrom("a berlin")
+	query := searchquery.QueryFrom("berlin 1")
 
 	if !slices.Equal(query.Terms, []string{"berlin"}) {
 		t.Fatalf("Terms = %v, want berlin alone", query.Terms)
 	}
 }
 
-func TestQueryFromKeepsInitialsWhenEveryTermIsOne(t *testing.T) {
+func TestQueryFromDropsATermTooShortForAnIndexWhenItStandsAlone(t *testing.T) {
 	t.Parallel()
 
-	query := searchquery.QueryFrom("a b")
+	query := searchquery.QueryFrom("1")
 
-	if !slices.Equal(query.Terms, []string{"a", "b"}) {
-		t.Fatalf("Terms = %v, want a b", query.Terms)
+	if len(query.Terms) != 0 {
+		t.Fatalf("Terms = %v, want no term", query.Terms)
+	}
+}
+
+func TestQueryFromDropsAnExclusionTooShortForAnIndex(t *testing.T) {
+	t.Parallel()
+
+	query := searchquery.QueryFrom("berlin -a")
+
+	if len(query.Exclusions) != 0 {
+		t.Fatalf("Exclusions = %v, want no exclusion", query.Exclusions)
 	}
 }
 

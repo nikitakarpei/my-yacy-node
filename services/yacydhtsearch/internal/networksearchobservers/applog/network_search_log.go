@@ -11,6 +11,7 @@ import (
 const (
 	msgNetworkSearchPerformed           = "network search performed"
 	msgNetworkSearchFoundNoAskablePeers = "network search found no askable peers"
+	msgNetworkSearchFoundNoIndexedTerm  = "network search found no indexed term in the query"
 )
 
 type NetworkSearchLog struct{}
@@ -32,4 +33,8 @@ func (NetworkSearchLog) NetworkSearchPerformed(
 
 func (NetworkSearchLog) NetworkSearchFoundNoAskablePeers(ctx context.Context) {
 	slog.WarnContext(ctx, msgNetworkSearchFoundNoAskablePeers)
+}
+
+func (NetworkSearchLog) NetworkSearchFoundNoIndexedTerm(ctx context.Context) {
+	slog.DebugContext(ctx, msgNetworkSearchFoundNoIndexedTerm)
 }

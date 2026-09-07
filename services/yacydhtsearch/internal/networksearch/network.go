@@ -35,6 +35,7 @@ type PerformedNetworkSearch struct {
 type NetworkSearchObserver interface {
 	NetworkSearchPerformed(ctx context.Context, search PerformedNetworkSearch)
 	NetworkSearchFoundNoAskablePeers(ctx context.Context)
+	NetworkSearchFoundNoIndexedTerm(ctx context.Context)
 }
 
 type Network struct {
@@ -76,6 +77,12 @@ func New(
 }
 
 func (n Network) Search(ctx context.Context, query searchquery.Query) searchresult.Ranking {
+	if len(query.Terms) == 0 {
+		n.observer.NetworkSearchFoundNoIndexedTerm(ctx)
+
+		return searchresult.Ranking{}
+	}
+
 	ctx, stopQueryBudget := context.WithTimeout(ctx, n.queryBudget)
 	defer stopQueryBudget()
 	startedAt := time.Now()
@@ -177,5 +184,11 @@ func (observers NetworkSearchObservers) NetworkSearchPerformed(
 func (observers NetworkSearchObservers) NetworkSearchFoundNoAskablePeers(ctx context.Context) {
 	for _, observer := range observers {
 		observer.NetworkSearchFoundNoAskablePeers(ctx)
+	}
+}
+
+func (observers NetworkSearchObservers) NetworkSearchFoundNoIndexedTerm(ctx context.Context) {
+	for _, observer := range observers {
+		observer.NetworkSearchFoundNoIndexedTerm(ctx)
 	}
 }

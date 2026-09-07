@@ -49,8 +49,9 @@ func (silentOutcome) PeerUnreachable(context.Context, string, error, time.Durati
 func (silentOutcome) PeerAnswerUnreadable(context.Context, string, error, time.Duration) {}
 
 type recordedQuery struct {
-	performed    networksearch.PerformedNetworkSearch
-	withoutPeers int
+	performed          networksearch.PerformedNetworkSearch
+	withoutPeers       int
+	withoutIndexedTerm int
 }
 
 func (r *recordedQuery) NetworkSearchPerformed(
@@ -61,6 +62,10 @@ func (r *recordedQuery) NetworkSearchPerformed(
 }
 
 func (r *recordedQuery) NetworkSearchFoundNoAskablePeers(context.Context) { r.withoutPeers++ }
+
+func (r *recordedQuery) NetworkSearchFoundNoIndexedTerm(context.Context) {
+	r.withoutIndexedTerm++
+}
 
 type everyAskablePeer struct{}
 
@@ -223,6 +228,30 @@ func TestAQueryThatReachesNoPeerIsReportedAsSuch(t *testing.T) {
 			"Search = %+v with %d reports, want an empty ranking and one report",
 			ranking.Items,
 			observer.withoutPeers,
+		)
+	}
+}
+
+func TestAQueryWithoutAnIndexedTermReachesNoPeer(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedQuery{}
+	directory := directoryAnsweringAt(t, peerHolding(t, "https://a.example/"))
+	network := networkOver(t, directory, everyAskablePeer{}, observer)
+
+	ranking := network.Search(t.Context(), searchquery.QueryFrom("1"))
+
+	if len(ranking.Items) != 0 || observer.performed.AmountOfAskedPeers != 0 {
+		t.Fatalf(
+			"Search = %+v after asking %d peers, want an empty ranking and no peer asked",
+			ranking.Items,
+			observer.performed.AmountOfAskedPeers,
+		)
+	}
+	if observer.withoutIndexedTerm != 1 {
+		t.Fatalf(
+			"NetworkSearchFoundNoIndexedTerm reported %d times, want one",
+			observer.withoutIndexedTerm,
 		)
 	}
 }

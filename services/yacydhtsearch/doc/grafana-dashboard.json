@@ -233,7 +233,7 @@
     },
     {
       "id": 5,
-      "title": "Network searches, by whether a peer was asked",
+      "title": "Network searches, by whether they reached peers",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -275,9 +275,14 @@
           "refId": "B",
           "expr": "clamp_min(yacydhtsearch_network_search_peers_asked_count{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_asked_count{instance=~\"$service_instance\"} offset $window), 0) - clamp_min(yacydhtsearch_network_searches_performed_total{instance=~\"$service_instance\"} - (yacydhtsearch_network_searches_performed_total{instance=~\"$service_instance\"} offset $window), 0)",
           "legendFormat": "no peer to ask"
+        },
+        {
+          "refId": "C",
+          "expr": "clamp_min(yacydhtsearch_searches_without_indexed_term_total{instance=~\"$service_instance\"} - (yacydhtsearch_searches_without_indexed_term_total{instance=~\"$service_instance\"} offset $window), 0)",
+          "legendFormat": "no indexed term"
         }
       ],
-      "description": "The directory held no peer for the terms of these queries, so they came back empty."
+      "description": "A search reaches peers only if the query holds a word long enough to be indexed and the directory holds a peer for it. The others come back empty."
     },
     {
       "id": 7,

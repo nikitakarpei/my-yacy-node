@@ -24,7 +24,7 @@ func QueryFrom(raw string) Query {
 		terms = appendUnseen(terms, token.word)
 	}
 
-	return Query{Terms: withoutStrayInitials(terms), Exclusions: exclusions}
+	return Query{Terms: terms, Exclusions: exclusions}
 }
 
 func (q Query) String() string {
@@ -69,7 +69,7 @@ func tokensOf(raw string) []token {
 		word := strings.TrimLeft(field, "+-")
 		word = strings.Trim(word, `"'`)
 		word = strings.ToLower(strings.TrimSpace(word))
-		if word == "" {
+		if !yacymodel.WordIsIndexed(word) {
 			continue
 		}
 		tokens = append(tokens, token{word: word, excluded: excluded})
@@ -86,23 +86,4 @@ func appendUnseen(words []string, word string) []string {
 	}
 
 	return append(words, word)
-}
-
-func withoutStrayInitials(terms []string) []string {
-	var longest int
-	for _, term := range terms {
-		longest = max(longest, len(term))
-	}
-	if longest <= 1 {
-		return terms
-	}
-
-	kept := make([]string, 0, len(terms))
-	for _, term := range terms {
-		if len(term) > 1 {
-			kept = append(kept, term)
-		}
-	}
-
-	return kept
 }
