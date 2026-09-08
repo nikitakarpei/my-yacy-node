@@ -2321,7 +2321,7 @@
     {
       "id": 91,
       "title": "Offered pages, by disposal",
-      "description": "A page counts once. An undecodable message counts as invalid_message and stops intake until an operator resolves it.",
+      "description": "An undecodable message counts as invalid_message and stops intake until an operator resolves it.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2360,7 +2360,6 @@
     {
       "id": 94,
       "title": "Pages left for a later retry, by cause",
-      "description": "The node takes each of these pages in again.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
