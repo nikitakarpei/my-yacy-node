@@ -62,7 +62,7 @@ func distributionMetrics() *DistributionMetrics {
 		),
 		postingsGone: counterFor(
 			"yacynode_rwidistribution_postings_gone_total",
-			"Due postings evicted between the schedule read and the posting read.",
+			"Due postings missing from the index when the cycle read them.",
 		),
 		scheduledPostings: gaugeFor(
 			"yacynode_rwidistribution_scheduled_postings",
