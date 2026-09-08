@@ -118,7 +118,7 @@
   "panels": [
     {
       "id": 10,
-      "title": "Crawl orders coming in",
+      "title": "Inbound crawl orders",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -185,7 +185,7 @@
     },
     {
       "id": 40,
-      "title": "Pages taken for a visit",
+      "title": "Page visits",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -460,7 +460,7 @@
     },
     {
       "id": 50,
-      "title": "Links the crawler could not use",
+      "title": "Addresses the crawler could not resolve",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -549,7 +549,7 @@
     },
     {
       "id": 60,
-      "title": "What pages tell the crawler to do",
+      "title": "Rules the pages state about indexing and links",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -637,7 +637,7 @@
     },
     {
       "id": 30,
-      "title": "Crawled pages going out for indexing",
+      "title": "Published crawled pages",
       "type": "row",
       "collapsed": false,
       "gridPos": {
