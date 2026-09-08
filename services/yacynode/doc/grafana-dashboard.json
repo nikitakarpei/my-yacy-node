@@ -1877,8 +1877,8 @@
     },
     {
       "id": 58,
-      "title": "Replicas dropped from peers",
-      "description": "A replica the node no longer counts as held by that peer.",
+      "title": "Posting replica holders the node stopped counting",
+      "description": "A peer stops counting as a holder when it is unreachable for too long, or when it drifts outside the replica window of the posting.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1952,7 +1952,7 @@
     },
     {
       "id": 57,
-      "title": "Due postings that left the index mid-cycle",
+      "title": "Due postings missing from the index (should be zero)",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1982,7 +1982,7 @@
         {
           "refId": "A",
           "expr": "clamp_min(yacynode_rwidistribution_postings_gone_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_postings_gone_total{instance=~\"$service_instance\"} offset $window), 0)",
-          "legendFormat": "evicted"
+          "legendFormat": "missing"
         }
       ],
       "interval": "$window"
