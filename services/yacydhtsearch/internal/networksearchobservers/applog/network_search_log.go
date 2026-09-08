@@ -8,11 +8,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 )
 
-const (
-	msgNetworkSearchPerformed           = "network search performed"
-	msgNetworkSearchFoundNoAskablePeers = "network search found no askable peers"
-	msgNetworkSearchFoundNoIndexedTerm  = "network search found no indexed term in the query"
-)
+const msgNetworkSearchPerformed = "network search performed"
 
 type NetworkSearchLog struct{}
 
@@ -29,12 +25,4 @@ func (NetworkSearchLog) NetworkSearchPerformed(
 		slog.Int("amountOfItemsInRanking", search.AmountOfItemsInRanking),
 		slog.Duration("timeSpent", search.TimeSpent),
 	)
-}
-
-func (NetworkSearchLog) NetworkSearchFoundNoAskablePeers(ctx context.Context) {
-	slog.WarnContext(ctx, msgNetworkSearchFoundNoAskablePeers)
-}
-
-func (NetworkSearchLog) NetworkSearchFoundNoIndexedTerm(ctx context.Context) {
-	slog.DebugContext(ctx, msgNetworkSearchFoundNoIndexedTerm)
 }

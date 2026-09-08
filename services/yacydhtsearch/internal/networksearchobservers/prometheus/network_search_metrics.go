@@ -1,7 +1,5 @@
 // Package prometheus reports how many peers a network search reached, and its
-// answering peers, peers that sent items, overlap and duration, as metrics. It
-// also counts the searches that reached no peer, because the query holds no
-// indexed word.
+// answering peers, peers that sent items, overlap and duration, as metrics.
 package prometheus
 
 import (
@@ -22,8 +20,6 @@ const (
 var overBudgetShares = []float64{1.25, 1.5, 2}
 
 type NetworkSearchMetrics struct {
-	networkSearchesPerformed     prometheusclient.Counter
-	searchesWithoutIndexedTerm   prometheusclient.Counter
 	peersAskedPerNetworkSearch   prometheusclient.Histogram
 	answeringPeersRatio          prometheusclient.Histogram
 	peersThatSentItemsRatio      prometheusclient.Histogram
@@ -33,17 +29,9 @@ type NetworkSearchMetrics struct {
 
 func New(registry prometheusclient.Registerer, queryBudget time.Duration) *NetworkSearchMetrics {
 	metrics := &NetworkSearchMetrics{
-		networkSearchesPerformed: prometheusclient.NewCounter(prometheusclient.CounterOpts{
-			Name: "yacydhtsearch_network_searches_performed_total",
-			Help: "Network searches that asked at least one peer.",
-		}),
-		searchesWithoutIndexedTerm: prometheusclient.NewCounter(prometheusclient.CounterOpts{
-			Name: "yacydhtsearch_searches_without_indexed_term_total",
-			Help: "Searches no peer can answer, because no query word is long enough to be indexed.",
-		}),
 		peersAskedPerNetworkSearch: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
 			Name:    "yacydhtsearch_network_search_peers_asked",
-			Help:    "Peers asked for one network search. Zero means the directory held none.",
+			Help:    "Peers asked for one network search.",
 			Buckets: prometheusclient.ExponentialBucketsRange(1, 128, 8),
 		}),
 		answeringPeersRatio: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
@@ -68,8 +56,6 @@ func New(registry prometheusclient.Registerer, queryBudget time.Duration) *Netwo
 		}),
 	}
 	registry.MustRegister(
-		metrics.networkSearchesPerformed,
-		metrics.searchesWithoutIndexedTerm,
 		metrics.peersAskedPerNetworkSearch,
 		metrics.answeringPeersRatio,
 		metrics.peersThatSentItemsRatio,
@@ -97,7 +83,6 @@ func (m *NetworkSearchMetrics) NetworkSearchPerformed(
 	_ context.Context,
 	search networksearch.PerformedNetworkSearch,
 ) {
-	m.networkSearchesPerformed.Inc()
 	m.peersAskedPerNetworkSearch.Observe(float64(search.AmountOfAskedPeers))
 	m.networkSearchDurationSeconds.Observe(search.TimeSpent.Seconds())
 	m.answeringPeersRatio.Observe(
@@ -129,12 +114,4 @@ func (m *NetworkSearchMetrics) observeOverlap(search networksearch.PerformedNetw
 		float64(search.AmountOfRepeatedItemsAcrossAnswers) /
 			float64(search.AmountOfItemsAcrossAnswers),
 	)
-}
-
-func (m *NetworkSearchMetrics) NetworkSearchFoundNoAskablePeers(context.Context) {
-	m.peersAskedPerNetworkSearch.Observe(0)
-}
-
-func (m *NetworkSearchMetrics) NetworkSearchFoundNoIndexedTerm(context.Context) {
-	m.searchesWithoutIndexedTerm.Inc()
 }

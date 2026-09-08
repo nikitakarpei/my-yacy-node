@@ -121,10 +121,10 @@ func TestASecondServiceAnswersFromTheRankingHeldInNATS(t *testing.T) {
 	}
 
 	metrics := publishedBy(t, ctx, probe, reading)
-	if !strings.Contains(metrics, `yacydhtsearch_ranking_lookups_total{source="cache"} 1`) {
+	if !strings.Contains(metrics, `yacydhtsearch_searches_total{outcome="answered_from_cache"} 1`) {
 		t.Fatalf("%s did not answer from the ranking cache:\n%s", readingSearchAlias, metrics)
 	}
-	if !strings.Contains(metrics, "yacydhtsearch_network_searches_performed_total 0") {
+	if strings.Contains(metrics, `yacydhtsearch_searches_total{outcome="answered_by_peers"}`) {
 		t.Fatalf("%s asked peers for a query it could read:\n%s", readingSearchAlias, metrics)
 	}
 }

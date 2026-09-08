@@ -32,6 +32,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peersearchwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerselections/dhtdistance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankings"
+	queryrankingsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/applog"
+	queryrankingsobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/prometheus"
 	rankingcachejetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/jetstream"
 	rankingcachememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/memory"
 	rankingcacheobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/applog"
@@ -107,8 +109,8 @@ func RunService(
 		return err
 	}
 	rankings := queryrankings.New(cache, network, queryrankings.RankingObservers{
-		rankingcacheobserversapplog.RankingLog{},
-		rankingMetrics,
+		queryrankingsobserversapplog.QueryRankingLog{},
+		queryrankingsobserversprometheus.New(registry),
 	})
 	refresh := peerdirectoryrefresh.New(
 		yacyseedlist.New(

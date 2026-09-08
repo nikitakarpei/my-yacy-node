@@ -120,6 +120,7 @@
       "id": 10,
       "title": "Crawl orders coming in",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -184,8 +185,9 @@
     },
     {
       "id": 40,
-      "title": "Pages waiting to be crawled",
+      "title": "Pages taken for a visit",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -320,6 +322,7 @@
       "id": 20,
       "title": "Pages fetched from the web",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -338,7 +341,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 27
       },
@@ -375,8 +378,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 8,
         "y": 27
       },
       "fieldConfig": {
@@ -413,18 +416,6 @@
       ]
     },
     {
-      "id": 50,
-      "title": "Links found in fetched pages",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 35
-      },
-      "panels": []
-    },
-    {
       "id": 51,
       "title": "Page media types not parsed",
       "description": "The crawler reads the media type up to the first semicolon instead, to tell whether the page is HTML.",
@@ -435,9 +426,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 36
+        "w": 8,
+        "x": 16,
+        "y": 27
       },
       "fieldConfig": {
         "defaults": {
@@ -463,42 +454,17 @@
       ]
     },
     {
-      "id": 23,
-      "title": "Pages that told the crawler not to follow their links",
-      "description": "None of the links on such a page reach the frontier.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
+      "id": 50,
+      "title": "Links the crawler could not use",
+      "type": "row",
+      "collapsed": false,
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 36
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 35
       },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "fillOpacity": 10,
-            "drawStyle": "line",
-            "showPoints": "auto"
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(clamp_min(yacycrawler_link_discovery_refusals_enforced_total{instance=~\"$service_instance\"} - (yacycrawler_link_discovery_refusals_enforced_total{instance=~\"$service_instance\"} offset $window), 0))",
-          "legendFormat": "enforced"
-        }
-      ]
+      "panels": []
     },
     {
       "id": 52,
@@ -513,7 +479,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 44
+        "y": 36
       },
       "fieldConfig": {
         "defaults": {
@@ -551,7 +517,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 44
+        "y": 36
       },
       "fieldConfig": {
         "defaults": {
@@ -577,14 +543,15 @@
       ]
     },
     {
-      "id": 30,
-      "title": "Crawled pages going out for indexing",
+      "id": 60,
+      "title": "What pages tell the crawler to do",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 52
+        "y": 44
       },
       "panels": []
     },
@@ -600,7 +567,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 53
+        "y": 45
       },
       "fieldConfig": {
         "defaults": {
@@ -626,8 +593,9 @@
       ]
     },
     {
-      "id": 35,
-      "title": "Crawled pages published, by outcome",
+      "id": 23,
+      "title": "Pages that told the crawler not to follow their links",
+      "description": "None of the links on such a page reach the frontier.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -637,7 +605,57 @@
         "h": 8,
         "w": 12,
         "x": 12,
+        "y": 45
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(clamp_min(yacycrawler_link_discovery_refusals_enforced_total{instance=~\"$service_instance\"} - (yacycrawler_link_discovery_refusals_enforced_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "legendFormat": "enforced"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "title": "Crawled pages going out for indexing",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
         "y": 53
+      },
+      "panels": []
+    },
+    {
+      "id": 35,
+      "title": "Crawled pages published, by outcome",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 54
       },
       "fieldConfig": {
         "defaults": {
@@ -666,11 +684,12 @@
       "id": 100,
       "title": "Go process",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 61
+        "y": 62
       },
       "panels": []
     },
@@ -686,7 +705,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 62
+        "y": 63
       },
       "fieldConfig": {
         "defaults": {
@@ -733,7 +752,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 62
+        "y": 63
       },
       "fieldConfig": {
         "defaults": {
@@ -770,7 +789,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 62
+        "y": 63
       },
       "fieldConfig": {
         "defaults": {
@@ -807,7 +826,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 70
+        "y": 71
       },
       "fieldConfig": {
         "defaults": {
@@ -844,7 +863,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 70
+        "y": 71
       },
       "fieldConfig": {
         "defaults": {
@@ -882,7 +901,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 70
+        "y": 71
       },
       "fieldConfig": {
         "defaults": {
