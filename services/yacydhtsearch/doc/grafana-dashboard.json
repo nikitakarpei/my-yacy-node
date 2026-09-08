@@ -165,7 +165,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint) (clamp_min(yacydhtsearch_http_requests_total{instance=~\"$service_instance\"} - (yacydhtsearch_http_requests_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (endpoint) (clamp_min(yacydhtsearch_http_requests_total{instance=~\"$service_instance\"} - (yacydhtsearch_http_requests_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{endpoint}}"
         }
       ]
@@ -212,7 +212,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint, code) (clamp_min(yacydhtsearch_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} - (yacydhtsearch_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (endpoint, code) (clamp_min(yacydhtsearch_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} - (yacydhtsearch_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{endpoint}} {{code}}"
         }
       ]
@@ -257,7 +257,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.90, sum by (le, endpoint) (clamp_min(yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
+          "expr": "histogram_quantile(0.90, sum by (le, endpoint) (clamp_min(yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "{{endpoint}}"
         }
       ]
@@ -312,7 +312,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_searches_total{instance=~\"$service_instance\"} - (yacydhtsearch_searches_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_searches_total{instance=~\"$service_instance\"} - (yacydhtsearch_searches_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
       ],
@@ -422,7 +422,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacydhtsearch_ranking_cache_failures_total{instance=~\"$service_instance\"} - (yacydhtsearch_ranking_cache_failures_total{instance=~\"$service_instance\"} offset $window), 0)",
+          "expr": "clamp_min(yacydhtsearch_ranking_cache_failures_total{instance=~\"$service_instance\"} - (yacydhtsearch_ranking_cache_failures_total{instance=~\"$service_instance\"} offset $__interval), 0)",
           "legendFormat": "{{action}}"
         }
       ]
@@ -487,7 +487,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -540,7 +540,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -594,7 +594,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_answering_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_answering_peers_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_answering_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_answering_peers_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -648,7 +648,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_overlap_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_overlap_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_overlap_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_overlap_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -702,7 +702,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_peers_that_sent_items_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_that_sent_items_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_peers_that_sent_items_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_that_sent_items_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -756,7 +756,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -861,7 +861,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (change) (clamp_min(yacydhtsearch_directory_peer_changes_total{instance=~\"$service_instance\"} - (yacydhtsearch_directory_peer_changes_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (change) (clamp_min(yacydhtsearch_directory_peer_changes_total{instance=~\"$service_instance\"} - (yacydhtsearch_directory_peer_changes_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{change}}"
         }
       ]
@@ -914,7 +914,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
       ]
@@ -967,7 +967,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_call_duration_seconds_bucket{outcome=\"answered\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_call_duration_seconds_bucket{outcome=\"answered\", instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_call_duration_seconds_bucket{outcome=\"answered\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_call_duration_seconds_bucket{outcome=\"answered\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -1021,7 +1021,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -1205,7 +1205,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(go_gc_duration_seconds_count{instance=~\"$service_instance\"} - (go_gc_duration_seconds_count{instance=~\"$service_instance\"} offset $window), 0) and on (job, instance) yacydhtsearch_info{instance=~\"$service_instance\"}",
+          "expr": "clamp_min(go_gc_duration_seconds_count{instance=~\"$service_instance\"} - (go_gc_duration_seconds_count{instance=~\"$service_instance\"} offset $__interval), 0) and on (job, instance) yacydhtsearch_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
       ]

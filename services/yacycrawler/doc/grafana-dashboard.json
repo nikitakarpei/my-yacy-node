@@ -178,10 +178,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacycrawler_crawl_orders_processed_total{instance=~\"$service_instance\"} - (yacycrawler_crawl_orders_processed_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacycrawler_crawl_orders_processed_total{instance=~\"$service_instance\"} - (yacycrawler_crawl_orders_processed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 40,
@@ -228,10 +229,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacycrawler_page_visit_attempts_total{instance=~\"$service_instance\"} - (yacycrawler_page_visit_attempts_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacycrawler_page_visit_attempts_total{instance=~\"$service_instance\"} - (yacycrawler_page_visit_attempts_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 42,
@@ -270,15 +272,16 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(yacycrawler_page_visits_not_recorded_total{instance=~\"$service_instance\"} - (yacycrawler_page_visits_not_recorded_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum(clamp_min(yacycrawler_page_visits_not_recorded_total{instance=~\"$service_instance\"} - (yacycrawler_page_visits_not_recorded_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "write failures"
         },
         {
           "refId": "B",
-          "expr": "sum(clamp_min(yacycrawler_last_page_visits_not_read_total{instance=~\"$service_instance\"} - (yacycrawler_last_page_visits_not_read_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum(clamp_min(yacycrawler_last_page_visits_not_read_total{instance=~\"$service_instance\"} - (yacycrawler_last_page_visits_not_read_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "read failures"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 32,
@@ -313,10 +316,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (clamp_min(yacycrawler_pages_disposed_total{instance=~\"$service_instance\"} - (yacycrawler_pages_disposed_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (reason) (clamp_min(yacycrawler_pages_disposed_total{instance=~\"$service_instance\"} - (yacycrawler_pages_disposed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{reason}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 20,
@@ -363,10 +367,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacycrawler_page_fetches_processed_total{instance=~\"$service_instance\"} - (yacycrawler_page_fetches_processed_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacycrawler_page_fetches_processed_total{instance=~\"$service_instance\"} - (yacycrawler_page_fetches_processed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 22,
@@ -414,11 +419,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 51,
@@ -453,10 +459,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(yacycrawler_page_media_types_unparsed_total{instance=~\"$service_instance\"} - (yacycrawler_page_media_types_unparsed_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum(clamp_min(yacycrawler_page_media_types_unparsed_total{instance=~\"$service_instance\"} - (yacycrawler_page_media_types_unparsed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "not parsed"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 50,
@@ -504,10 +511,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(yacycrawler_page_base_urls_unresolved_total{instance=~\"$service_instance\"} - (yacycrawler_page_base_urls_unresolved_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum(clamp_min(yacycrawler_page_base_urls_unresolved_total{instance=~\"$service_instance\"} - (yacycrawler_page_base_urls_unresolved_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "not resolved"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 53,
@@ -542,10 +550,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(yacycrawler_page_links_unresolved_total{instance=~\"$service_instance\"} - (yacycrawler_page_links_unresolved_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum(clamp_min(yacycrawler_page_links_unresolved_total{instance=~\"$service_instance\"} - (yacycrawler_page_links_unresolved_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "not resolved"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 60,
@@ -592,10 +601,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (indexing) (clamp_min(yacycrawler_crawled_pages_total{instance=~\"$service_instance\"} - (yacycrawler_crawled_pages_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (indexing) (clamp_min(yacycrawler_crawled_pages_total{instance=~\"$service_instance\"} - (yacycrawler_crawled_pages_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{indexing}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 23,
@@ -630,10 +640,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(clamp_min(yacycrawler_link_discovery_refusals_enforced_total{instance=~\"$service_instance\"} - (yacycrawler_link_discovery_refusals_enforced_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum(clamp_min(yacycrawler_link_discovery_refusals_enforced_total{instance=~\"$service_instance\"} - (yacycrawler_link_discovery_refusals_enforced_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "enforced"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 30,
@@ -680,10 +691,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacycrawler_crawled_page_publications_total{instance=~\"$service_instance\"} - (yacycrawler_crawled_page_publications_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacycrawler_crawled_page_publications_total{instance=~\"$service_instance\"} - (yacycrawler_crawled_page_publications_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 100,
@@ -743,7 +755,8 @@
           "expr": "go_memstats_heap_inuse_bytes{instance=~\"$service_instance\"} and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}} heap in use"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 102,
@@ -780,7 +793,8 @@
           "expr": "rate(process_cpu_seconds_total{instance=~\"$service_instance\"}[$window]) and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 103,
@@ -817,7 +831,8 @@
           "expr": "go_goroutines{instance=~\"$service_instance\"} and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 104,
@@ -851,10 +866,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(go_gc_duration_seconds_count{instance=~\"$service_instance\"} - (go_gc_duration_seconds_count{instance=~\"$service_instance\"} offset $window), 0) and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
+          "expr": "clamp_min(go_gc_duration_seconds_count{instance=~\"$service_instance\"} - (go_gc_duration_seconds_count{instance=~\"$service_instance\"} offset $__interval), 0) and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 105,
@@ -892,7 +908,8 @@
           "expr": "rate(go_gc_duration_seconds_sum{instance=~\"$service_instance\"}[$window]) and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 106,
@@ -931,7 +948,8 @@
           "expr": "(process_open_fds{instance=~\"$service_instance\"} / process_max_fds{instance=~\"$service_instance\"}) and on (job, instance) yacycrawler_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
-      ]
+      ],
+      "interval": "$window"
     }
   ]
 }
