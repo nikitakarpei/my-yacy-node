@@ -69,7 +69,6 @@ endef
 	cover cover-go cover-py \
 	cover-check cover-check-go cover-check-py \
 	build build-go verify peer-hash \
-	proto \
 	e2e e2e-images
 
 fmt:         fmt-go fmt-go-e2e fmt-py
@@ -89,21 +88,6 @@ $(TOOLS_STAMP): tools/install tools/tools.lock
 	@touch $@
 
 tools: $(TOOLS_STAMP)
-
-PROTOC := $(TOOLS_BIN)/protoc
-PROTOC_INCLUDE := $(CURDIR)/.toolchain/include
-PROTO_GEN_GO := $(TOOLS_BIN)/protoc-gen-go
-PROTO_GEN_GO_GRPC := $(TOOLS_BIN)/protoc-gen-go-grpc
-CORPUSMARKDOWN_API_DIR := services/corpusmarkdown/contract
-
-proto: $(TOOLS_STAMP)
-	@echo "==> proto"
-	@PATH="$(TOOLS_BIN):$$PATH" $(PROTOC) \
-		--proto_path=$(PROTOC_INCLUDE) \
-		--proto_path=$(CORPUSMARKDOWN_API_DIR) \
-		--go_out=$(CORPUSMARKDOWN_API_DIR) --go_opt=paths=source_relative \
-		--go-grpc_out=$(CORPUSMARKDOWN_API_DIR) --go-grpc_opt=paths=source_relative \
-		corpusmarkdown/v1/markdowncorpus.proto
 
 $(PY_VENV_STAMPS): %/.venv/.installed: %/requirements-dev.txt
 	$(PYTHON) -m venv $*/.venv

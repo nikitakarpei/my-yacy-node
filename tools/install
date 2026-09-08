@@ -10,7 +10,6 @@ lock="$root/tools/tools.lock"
 toolchain="$root/.toolchain"
 bin="$toolchain/bin"
 goroot="$toolchain/go"
-protoc_include="$toolchain/include"
 
 case "$(uname -s)" in
 	Linux) os=linux ;;
@@ -74,29 +73,6 @@ fetch_go() {
 	trap - EXIT
 }
 
-# protoc needs its bundled well-known type definitions, such as
-# google/protobuf/timestamp.proto, on the proto path; the release zip carries them
-# beside the binary and one checksum covers both.
-fetch_protoc() {
-	url="$1"; want="$2"
-	tmp=$(mktemp -d)
-	trap 'rm -rf "$tmp"' EXIT
-	echo "==> protoc $platform"
-	curl -fsSL "$url" -o "$tmp/archive.zip"
-	got=$(sha256 "$tmp/archive.zip")
-	if [ "$got" != "$want" ]; then
-		echo "checksum mismatch for protoc: expected $want, got $got" >&2
-		exit 1
-	fi
-	unzip -q -o "$tmp/archive.zip" -d "$tmp"
-	install -m 0755 "$tmp/bin/protoc" "$bin/protoc"
-	rm -rf "$protoc_include"
-	mkdir -p "$protoc_include"
-	cp -R "$tmp/include/." "$protoc_include/"
-	rm -rf "$tmp"
-	trap - EXIT
-}
-
 # Shells reach the toolchain through `. .toolchain/activate`, which points GOROOT
 # at the pinned tree and keeps every cache inside .toolchain.
 write_activate() {
@@ -156,27 +132,3 @@ ver="$1"; sum="$2"
 fetch mado \
 	"https://github.com/akiomik/mado/releases/download/v$ver/mado-$mado_os-$mado_arch.tar.gz" \
 	"$sum" "mado"
-
-case "$platform" in
-	linux-amd64) protoc_plat=linux-x86_64 ;;
-	linux-arm64) protoc_plat=linux-aarch_64 ;;
-	darwin-amd64) protoc_plat=osx-x86_64 ;;
-	darwin-arm64) protoc_plat=osx-aarch_64 ;;
-esac
-set -- $(lookup protoc)
-ver="$1"; sum="$2"
-fetch_protoc \
-	"https://github.com/protocolbuffers/protobuf/releases/download/v$ver/protoc-$ver-$protoc_plat.zip" \
-	"$sum"
-
-set -- $(lookup protoc-gen-go)
-ver="$1"; sum="$2"
-fetch protoc-gen-go \
-	"https://github.com/protocolbuffers/protobuf-go/releases/download/v$ver/protoc-gen-go.v$ver.$os.$arch.tar.gz" \
-	"$sum" "protoc-gen-go"
-
-set -- $(lookup protoc-gen-go-grpc)
-ver="$1"; sum="$2"
-fetch protoc-gen-go-grpc \
-	"https://github.com/grpc/grpc-go/releases/download/cmd%2Fprotoc-gen-go-grpc%2Fv$ver/protoc-gen-go-grpc.v$ver.$os.$arch.tar.gz" \
-	"$sum" "protoc-gen-go-grpc"

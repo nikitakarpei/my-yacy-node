@@ -12,7 +12,7 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
-	markdowncorporagrpc "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/markdowncorpora/grpc"
+	markdowncorporahttp "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/markdowncorpora/http"
 	"github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pageread"
 	pagereadobserversapplog "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pagereadobservers/applog"
 	pagereadobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pagereadobservers/prometheus"
@@ -35,14 +35,10 @@ const (
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
-	corpus, err := markdowncorporagrpc.OpenMarkdownCorpus(
+	corpus := markdowncorporahttp.NewMarkdownCorpus(
 		cfg.CorpusMarkdownAddr,
 		cfg.CorpusMarkdownRecallDeadline,
 	)
-	if err != nil {
-		return err
-	}
-	defer func() { _ = corpus.Close() }()
 
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(

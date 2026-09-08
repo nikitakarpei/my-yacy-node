@@ -21,8 +21,8 @@ components:
     in: internal/pageread/**
   markdownexcerpt:
     in: internal/markdownexcerpt/**
-  markdowncorporagrpc:
-    in: internal/markdowncorpora/grpc/**
+  markdowncorporahttp:
+    in: internal/markdowncorpora/http/**
   scraperequestsjetstream:
     in: internal/scraperequests/jetstream/**
   scrapeoutcomesnats:
@@ -58,10 +58,6 @@ vendors:
   mcpsdk:
     in:
       - github.com/modelcontextprotocol/go-sdk/mcp
-  grpc:
-    in:
-      - google.golang.org/grpc
-      - google.golang.org/grpc/**
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -92,12 +88,11 @@ deps:
       - websearch
     canUse:
       - prometheus
-  markdowncorporagrpc:
+  markdowncorporahttp:
     mayDependOn:
       - pageread
     canUse:
       - pagemarkdownstore
-      - grpc
   scraperequestsjetstream:
     canUse:
       - pagescrapecontract

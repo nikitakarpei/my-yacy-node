@@ -22,7 +22,7 @@ type PageMarkdownCorpus interface {
 	) (StoredMarkdown, bool, error)
 }
 
-type RecalledPage struct {
+type PageUnderRequestedURL struct {
 	MarkdownURL canonicalurl.CanonicalURL
 	StoredMarkdown
 }
@@ -38,10 +38,10 @@ func NewPageMarkdownRecall(corpus PageMarkdownCorpus) *PageMarkdownRecall {
 func (r *PageMarkdownRecall) PageOf(
 	ctx context.Context,
 	requestedURL canonicalurl.CanonicalURL,
-) (RecalledPage, bool, error) {
+) (PageUnderRequestedURL, bool, error) {
 	stored, held, err := r.corpus.MarkdownOf(ctx, requestedURL)
 	if err != nil || !held {
-		return RecalledPage{}, false, err
+		return PageUnderRequestedURL{}, false, err
 	}
-	return RecalledPage{MarkdownURL: requestedURL, StoredMarkdown: stored}, true, nil
+	return PageUnderRequestedURL{MarkdownURL: requestedURL, StoredMarkdown: stored}, true, nil
 }
