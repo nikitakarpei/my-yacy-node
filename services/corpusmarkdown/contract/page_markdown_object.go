@@ -1,7 +1,8 @@
 // Package pagemarkdownstore is the single source of truth binding a crawled page's
-// canonical URL to the bucket and object name that hold its markdown, and to the subject
-// that carries the outcome of scraping it, shared by the writer that fills the corpus and
-// the readers and waiters that recall from it.
+// canonical URL to the bucket and object name that hold its markdown, to the subject that
+// carries the outcome of scraping it, and to the path and answer body a reader recalls that
+// markdown through, shared by the writer that fills the corpus and the readers and waiters
+// that recall from it.
 package pagemarkdownstore
 
 import (

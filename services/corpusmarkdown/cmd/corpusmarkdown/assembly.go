@@ -16,7 +16,7 @@ import (
 	intakereceiptpublicationobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakereceiptpublicationobservers/prometheus"
 	intakereceiptsnats "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/intakereceipts/nats"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecall"
-	markdownrecallreceiversgrpc "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/grpc"
+	markdownrecallreceivershttp "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/markdownrecallreceivers/http"
 	"github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintake"
 	pageintakeobserversapplog "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintakeobservers/applog"
 	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/corpusmarkdown/internal/pageintakeobservers/prometheus"
@@ -30,8 +30,8 @@ import (
 )
 
 const (
-	opsReadHeaderLimit = 10 * time.Second
-	opsShutdownLimit   = 15 * time.Second
+	readHeaderLimit = 10 * time.Second
+	shutdownLimit   = 15 * time.Second
 )
 
 func RunService(ctx context.Context, cfg ServiceConfig) error {
@@ -91,26 +91,32 @@ func RunService(ctx context.Context, cfg ServiceConfig) error {
 	opsServer := &http.Server{
 		Addr:              cfg.OpsAddr,
 		Handler:           opsmetrics.NewMux(promhttp.HandlerFor(registry, promhttp.HandlerOpts{})),
-		ReadHeaderTimeout: opsReadHeaderLimit,
+		ReadHeaderTimeout: readHeaderLimit,
 	}
 
 	recall := markdownrecall.NewPageMarkdownRecall(markdownCorpus)
-	receiver := markdownrecallreceiversgrpc.NewMarkdownRecallReceiver(recall, cfg.ListenAddr)
+	recallServer := &http.Server{
+		Addr:              cfg.ListenAddr,
+		Handler:           markdownrecallreceivershttp.NewMux(recall),
+		ReadHeaderTimeout: readHeaderLimit,
+	}
 
 	slog.InfoContext(ctx, "corpusmarkdown started",
 		slog.String("listen", cfg.ListenAddr),
 		slog.String("bucket", pagemarkdownstore.BucketName),
 		slog.Int("pageOfferIntakeConcurrency", cfg.PageOfferIntakeConcurrency),
 	)
-	err = servergroup.Run(ctx, opsShutdownLimit,
-		[]servergroup.NamedServer{{Name: "ops", Server: opsServer}},
+	err = servergroup.Run(ctx, shutdownLimit,
+		[]servergroup.NamedServer{
+			{Name: "ops", Server: opsServer},
+			{Name: "recall", Server: recallServer},
+		},
 		func(runCtx context.Context) error {
 			if err := intake.Run(runCtx); err != nil {
 				return fmt.Errorf("run offered page consumer: %w", err)
 			}
 			return nil
 		},
-		receiver.Serve,
 	)
 	slog.InfoContext(ctx, "corpusmarkdown stopped")
 	return err
