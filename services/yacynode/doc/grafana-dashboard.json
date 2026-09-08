@@ -39,6 +39,79 @@
         "multi": true,
         "refresh": 1,
         "sort": 1
+      },
+      {
+        "name": "window",
+        "label": "Smoothing window",
+        "type": "interval",
+        "query": "30s,1m,2m,5m,10m,30m,1h,6h,12h,1d",
+        "options": [
+          {
+            "text": "auto",
+            "value": "$__auto_interval_window",
+            "selected": true
+          },
+          {
+            "text": "30s",
+            "value": "30s",
+            "selected": false
+          },
+          {
+            "text": "1m",
+            "value": "1m",
+            "selected": false
+          },
+          {
+            "text": "2m",
+            "value": "2m",
+            "selected": false
+          },
+          {
+            "text": "5m",
+            "value": "5m",
+            "selected": false
+          },
+          {
+            "text": "10m",
+            "value": "10m",
+            "selected": false
+          },
+          {
+            "text": "30m",
+            "value": "30m",
+            "selected": false
+          },
+          {
+            "text": "1h",
+            "value": "1h",
+            "selected": false
+          },
+          {
+            "text": "6h",
+            "value": "6h",
+            "selected": false
+          },
+          {
+            "text": "12h",
+            "value": "12h",
+            "selected": false
+          },
+          {
+            "text": "1d",
+            "value": "1d",
+            "selected": false
+          }
+        ],
+        "auto": true,
+        "auto_count": 60,
+        "auto_min": "30s",
+        "current": {
+          "text": "auto",
+          "value": "$__auto_interval_window",
+          "selected": true
+        },
+        "refresh": 2,
+        "hide": 0
       }
     ]
   },
@@ -66,7 +139,7 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
+        "w": 8,
         "x": 0,
         "y": 1
       },
@@ -112,8 +185,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 6,
+        "w": 8,
+        "x": 8,
         "y": 1
       },
       "fieldConfig": {
@@ -161,8 +234,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 12,
+        "w": 8,
+        "x": 16,
         "y": 1
       },
       "fieldConfig": {
@@ -207,61 +280,6 @@
       ]
     },
     {
-      "id": 5,
-      "title": "Share of requests answered 5xx (5m)",
-      "type": "stat",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 18,
-        "y": 1
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit",
-          "min": 0,
-          "max": 1,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              },
-              {
-                "value": 0.01,
-                "color": "yellow"
-              },
-              {
-                "value": 0.05,
-                "color": "red"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "graphMode": "area",
-        "colorMode": "value",
-        "justifyMode": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum(rate(yacynode_http_requests_total{code=~\"5..\",instance=~\"$service_instance\"}[5m])) / sum(rate(yacynode_http_requests_total{instance=~\"$service_instance\"}[5m]))"
-        }
-      ]
-    },
-    {
       "id": 10,
       "title": "HTTP traffic",
       "type": "row",
@@ -274,8 +292,8 @@
       "panels": []
     },
     {
-      "id": 11,
-      "title": "Request rate by endpoint",
+      "id": 12,
+      "title": "Responses by endpoint and status code",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -285,54 +303,18 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 6
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "reqps",
-          "custom": {
-            "fillOpacity": 10
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (endpoint) (rate(yacynode_http_requests_total{instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "{{endpoint}}"
-        }
-      ]
-    },
-    {
-      "id": 12,
-      "title": "5xx responses by endpoint",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
         "y": 6
       },
       "fieldConfig": {
         "defaults": {
           "unit": "short",
+          "min": 0,
           "custom": {
-            "fillOpacity": 10
-          },
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "red"
+            "drawStyle": "bars",
+            "fillOpacity": 70
           }
-        }
+        },
+        "overrides": []
       },
       "options": {
         "tooltip": {
@@ -342,53 +324,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint) (increase(yacynode_http_requests_total{code=~\"5..\",instance=~\"$service_instance\"}[$__rate_interval]))",
-          "legendFormat": "{{endpoint}}"
-        }
-      ]
-    },
-    {
-      "id": 13,
-      "title": "Request latency across endpoints (p50/p95/p99)",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 14
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "custom": {
-            "fillOpacity": 0
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_http_request_duration_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_http_request_duration_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p95"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacynode_http_request_duration_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p99"
+          "expr": "sum by (endpoint, code) (increase(yacynode_http_requests_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "legendFormat": "{{endpoint}} {{code}}"
         }
       ]
     },
@@ -404,7 +341,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 14
+        "y": 6
       },
       "fieldConfig": {
         "defaults": {
@@ -435,7 +372,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 14
       },
       "panels": []
     },
@@ -451,7 +388,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 23
+        "y": 15
       },
       "fieldConfig": {
         "defaults": {
@@ -493,7 +430,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 23
+        "y": 15
       },
       "fieldConfig": {
         "defaults": {
@@ -561,7 +498,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 31
+        "y": 23
       },
       "fieldConfig": {
         "defaults": {
@@ -596,7 +533,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 31
+        "y": 23
       },
       "fieldConfig": {
         "defaults": {
@@ -633,7 +570,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 31
+        "y": 23
       },
       "fieldConfig": {
         "defaults": {
@@ -659,9 +596,9 @@
     },
     {
       "id": 24,
-      "title": "Write begin latency (p50/p95/p99)",
-      "description": "A rising p50 is sustained contention. A flat p50 under a rising p99 is an occasional pile-up.",
-      "type": "timeseries",
+      "title": "How long a write transaction waited to begin",
+      "description": "Two bands are a fast path and a queue behind it.",
+      "type": "heatmap",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -670,45 +607,52 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 39
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "min": 0,
-          "custom": {
-            "fillOpacity": 10
-          }
-        }
+        "y": 31
       },
       "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "s",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
         "tooltip": {
-          "mode": "multi"
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.5, sum by (le) (rate(yacynode_vault_write_transaction_begin_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_vault_write_transaction_begin_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p95"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacynode_vault_write_transaction_begin_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p99"
+          "expr": "sum by (le) (increase(yacynode_vault_write_transaction_begin_seconds_bucket{instance=~\"$service_instance\"}[$window]))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 27,
-      "title": "Write execute latency (p50/p95/p99)",
+      "title": "How long a write transaction held the engine",
       "description": "Time spent inside the transaction.",
-      "type": "timeseries",
+      "type": "heatmap",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -717,45 +661,52 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 39
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "min": 0,
-          "custom": {
-            "fillOpacity": 10
-          }
-        }
+        "y": 31
       },
       "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "s",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
         "tooltip": {
-          "mode": "multi"
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.5, sum by (le) (rate(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\",instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\",instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p95"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\",instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p99"
+          "expr": "sum by (le) (increase(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\", instance=~\"$service_instance\"}[$window]))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 28,
-      "title": "Write commit latency (p50/p95/p99)",
+      "title": "How long a write transaction took to commit",
       "description": "A rolled-back transaction is absent here.",
-      "type": "timeseries",
+      "type": "heatmap",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -764,39 +715,46 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 39
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "min": 0,
-          "custom": {
-            "fillOpacity": 10
-          }
-        }
+        "y": 31
       },
       "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "s",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
         "tooltip": {
-          "mode": "multi"
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.5, sum by (le) (rate(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\",instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\",instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p95"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\",instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "p99"
+          "expr": "sum by (le) (increase(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\", instance=~\"$service_instance\"}[$window]))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 25,
@@ -810,7 +768,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 47
+        "y": 39
       },
       "fieldConfig": {
         "defaults": {
@@ -841,7 +799,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 55
+        "y": 47
       },
       "panels": []
     },
@@ -857,7 +815,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 56
+        "y": 48
       },
       "fieldConfig": {
         "defaults": {
@@ -897,7 +855,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 56
+        "y": 48
       },
       "fieldConfig": {
         "defaults": {
@@ -950,7 +908,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 64
+        "y": 56
       },
       "panels": []
     },
@@ -966,7 +924,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 65
+        "y": 57
       },
       "fieldConfig": {
         "defaults": {
@@ -1003,7 +961,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 73
+        "y": 65
       },
       "panels": []
     },
@@ -1019,7 +977,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 74
+        "y": 66
       },
       "fieldConfig": {
         "defaults": {
@@ -1076,7 +1034,7 @@
         "h": 28,
         "w": 24,
         "x": 0,
-        "y": 82
+        "y": 74
       },
       "fieldConfig": {
         "defaults": {
@@ -1132,13 +1090,13 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 110
+        "y": 102
       },
       "panels": []
     },
     {
       "id": 74,
-      "title": "Ring fraction from a posting to the peer that accepted its replica (5m p50/p95)",
+      "title": "Ring distance from a posting to the peer that accepted its replica",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1148,17 +1106,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 111
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "showPoints": "auto"
-          }
-        }
+        "y": 103
       },
       "options": {
         "tooltip": {
@@ -1168,15 +1116,36 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"}[5m])))",
-          "legendFormat": "p50"
+          "expr": "histogram_quantile(0.10, sum by (le) (rate(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"}[$window])))",
+          "legendFormat": "p10"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"}[5m])))",
-          "legendFormat": "p95"
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"}[$window])))",
+          "legendFormat": "p50"
+        },
+        {
+          "refId": "C",
+          "expr": "histogram_quantile(0.90, sum by (le) (rate(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"}[$window])))",
+          "legendFormat": "p90"
+        },
+        {
+          "refId": "D",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"}[$window])))",
+          "legendFormat": "p99"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      }
     },
     {
       "id": 59,
@@ -1190,7 +1159,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 119
+        "y": 111
       },
       "fieldConfig": {
         "defaults": {
@@ -1226,7 +1195,7 @@
         "h": 8,
         "w": 6,
         "x": 6,
-        "y": 119
+        "y": 111
       },
       "fieldConfig": {
         "defaults": {
@@ -1262,7 +1231,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 119
+        "y": 111
       },
       "fieldConfig": {
         "defaults": {
@@ -1299,7 +1268,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 119
+        "y": 111
       },
       "fieldConfig": {
         "defaults": {
@@ -1334,7 +1303,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 127
+        "y": 119
       },
       "fieldConfig": {
         "defaults": {
@@ -1463,7 +1432,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 127
+        "y": 119
       },
       "fieldConfig": {
         "defaults": {
@@ -1592,7 +1561,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 135
+        "y": 127
       },
       "fieldConfig": {
         "defaults": {
@@ -1691,7 +1660,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 135
+        "y": 127
       },
       "fieldConfig": {
         "defaults": {
@@ -1791,7 +1760,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 143
+        "y": 135
       },
       "fieldConfig": {
         "defaults": {
@@ -1827,7 +1796,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 143
+        "y": 135
       },
       "fieldConfig": {
         "defaults": {
@@ -1863,7 +1832,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 151
+        "y": 143
       },
       "fieldConfig": {
         "defaults": {
@@ -1899,7 +1868,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 151
+        "y": 143
       },
       "fieldConfig": {
         "defaults": {
@@ -1932,7 +1901,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 159
+        "y": 151
       },
       "panels": []
     },
@@ -1948,7 +1917,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 160
+        "y": 152
       },
       "fieldConfig": {
         "defaults": {
@@ -1985,7 +1954,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 160
+        "y": 152
       },
       "fieldConfig": {
         "defaults": {
@@ -2045,7 +2014,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 168
+        "y": 160
       },
       "fieldConfig": {
         "defaults": {
@@ -2108,7 +2077,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 168
+        "y": 160
       },
       "fieldConfig": {
         "defaults": {
@@ -2155,7 +2124,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 168
+        "y": 160
       },
       "fieldConfig": {
         "defaults": {
@@ -2208,7 +2177,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 176
+        "y": 168
       },
       "panels": []
     },
@@ -2225,7 +2194,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 177
+        "y": 169
       },
       "fieldConfig": {
         "defaults": {
@@ -2262,7 +2231,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 177
+        "y": 169
       },
       "fieldConfig": {
         "defaults": {
@@ -2299,7 +2268,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 177
+        "y": 169
       },
       "fieldConfig": {
         "defaults": {
@@ -2332,7 +2301,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 185
+        "y": 177
       },
       "panels": []
     },
@@ -2348,7 +2317,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 186
+        "y": 178
       },
       "fieldConfig": {
         "defaults": {
@@ -2482,7 +2451,7 @@
     },
     {
       "id": 82,
-      "title": "Ring fraction from this node to requested terms (p50/p95)",
+      "title": "Ring distance from this node to requested terms",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2492,17 +2461,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 186
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "showPoints": "auto"
-          }
-        }
+        "y": 178
       },
       "options": {
         "tooltip": {
@@ -2512,25 +2471,36 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\",instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "in_index p50"
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"}[$window])))",
+          "legendFormat": "holds it p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\",instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "in_index p95"
+          "expr": "histogram_quantile(0.90, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"}[$window])))",
+          "legendFormat": "holds it p90"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\",instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "not_in_index p50"
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"}[$window])))",
+          "legendFormat": "does not hold it p50"
         },
         {
           "refId": "D",
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\",instance=~\"$service_instance\"}[$__rate_interval])))",
-          "legendFormat": "not_in_index p95"
+          "expr": "histogram_quantile(0.90, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"}[$window])))",
+          "legendFormat": "does not hold it p90"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      }
     },
     {
       "id": 84,
@@ -2544,7 +2514,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 194
+        "y": 186
       },
       "fieldConfig": {
         "defaults": {
@@ -2573,81 +2543,247 @@
       "id": 100,
       "title": "Go process",
       "type": "row",
-      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 202},
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 194
+      },
       "panels": []
     },
     {
       "id": 101,
       "title": "Process memory",
       "type": "timeseries",
-      "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 203},
-      "fieldConfig": {"defaults": {"unit": "bytes", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
-      "options": {"tooltip": {"mode": "multi"}},
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 195
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
-        {"refId": "A", "expr": "process_resident_memory_bytes{instance=~\"$service_instance\"} and on (job, instance) yacynode_info{instance=~\"$service_instance\"}", "legendFormat": "{{instance}} resident"},
-        {"refId": "B", "expr": "go_memstats_heap_alloc_bytes{instance=~\"$service_instance\"} and on (job, instance) yacynode_info{instance=~\"$service_instance\"}", "legendFormat": "{{instance}} heap allocated"},
-        {"refId": "C", "expr": "go_memstats_heap_inuse_bytes{instance=~\"$service_instance\"} and on (job, instance) yacynode_info{instance=~\"$service_instance\"}", "legendFormat": "{{instance}} heap in use"}
+        {
+          "refId": "A",
+          "expr": "process_resident_memory_bytes{instance=~\"$service_instance\"} and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}} resident"
+        },
+        {
+          "refId": "B",
+          "expr": "go_memstats_heap_alloc_bytes{instance=~\"$service_instance\"} and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}} heap allocated"
+        },
+        {
+          "refId": "C",
+          "expr": "go_memstats_heap_inuse_bytes{instance=~\"$service_instance\"} and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}} heap in use"
+        }
       ]
     },
     {
       "id": 102,
       "title": "CPU cores used",
       "type": "timeseries",
-      "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 6, "x": 12, "y": 203},
-      "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
-      "options": {"tooltip": {"mode": "multi"}},
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 195
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
-        {"refId": "A", "expr": "rate(process_cpu_seconds_total{instance=~\"$service_instance\"}[$__rate_interval]) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
+        {
+          "refId": "A",
+          "expr": "rate(process_cpu_seconds_total{instance=~\"$service_instance\"}[$__rate_interval]) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}}"
+        }
       ]
     },
     {
       "id": 103,
       "title": "Goroutines",
       "type": "timeseries",
-      "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 6, "x": 18, "y": 203},
-      "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
-      "options": {"tooltip": {"mode": "multi"}},
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 195
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
-        {"refId": "A", "expr": "go_goroutines{instance=~\"$service_instance\"} and on (job, instance) yacynode_info{instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
+        {
+          "refId": "A",
+          "expr": "go_goroutines{instance=~\"$service_instance\"} and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}}"
+        }
       ]
     },
     {
       "id": 104,
       "title": "Garbage collection rate",
       "type": "timeseries",
-      "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 211},
-      "fieldConfig": {"defaults": {"unit": "cps", "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
-      "options": {"tooltip": {"mode": "multi"}},
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 203
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cps",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
-        {"refId": "A", "expr": "rate(go_gc_duration_seconds_count{instance=~\"$service_instance\"}[$__rate_interval]) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
+        {
+          "refId": "A",
+          "expr": "rate(go_gc_duration_seconds_count{instance=~\"$service_instance\"}[$__rate_interval]) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}}"
+        }
       ]
     },
     {
       "id": 105,
       "title": "Share of time paused for garbage collection",
       "type": "timeseries",
-      "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 211},
-      "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
-      "options": {"tooltip": {"mode": "multi"}},
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 203
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
-        {"refId": "A", "expr": "rate(go_gc_duration_seconds_sum{instance=~\"$service_instance\"}[$__rate_interval]) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
+        {
+          "refId": "A",
+          "expr": "rate(go_gc_duration_seconds_sum{instance=~\"$service_instance\"}[$__rate_interval]) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}}"
+        }
       ]
     },
     {
       "id": 106,
       "title": "Share of file descriptor capacity used",
       "type": "timeseries",
-      "datasource": {"type": "prometheus", "uid": "${datasource}"},
-      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 211},
-      "fieldConfig": {"defaults": {"unit": "percentunit", "min": 0, "max": 1, "custom": {"drawStyle": "line", "fillOpacity": 10, "showPoints": "auto"}}},
-      "options": {"tooltip": {"mode": "multi"}},
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 203
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
-        {"refId": "A", "expr": "(process_open_fds{instance=~\"$service_instance\"} / process_max_fds{instance=~\"$service_instance\"}) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}", "legendFormat": "{{instance}}"}
+        {
+          "refId": "A",
+          "expr": "(process_open_fds{instance=~\"$service_instance\"} / process_max_fds{instance=~\"$service_instance\"}) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
+          "legendFormat": "{{instance}}"
+        }
       ]
     },
     {
@@ -2658,7 +2794,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 219
+        "y": 211
       },
       "panels": []
     },
@@ -2675,7 +2811,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 220
+        "y": 212
       },
       "fieldConfig": {
         "defaults": {
@@ -2733,7 +2869,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 220
+        "y": 212
       },
       "fieldConfig": {
         "defaults": {
@@ -2770,7 +2906,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 226
+        "y": 218
       },
       "fieldConfig": {
         "defaults": {
@@ -2812,7 +2948,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 226
+        "y": 218
       },
       "fieldConfig": {
         "defaults": {
@@ -2849,7 +2985,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 226
+        "y": 218
       },
       "fieldConfig": {
         "defaults": {
@@ -2891,7 +3027,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 234
+        "y": 226
       },
       "fieldConfig": {
         "defaults": {
@@ -2956,7 +3092,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 234
+        "y": 226
       },
       "fieldConfig": {
         "defaults": {
@@ -2998,7 +3134,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 234
+        "y": 226
       },
       "fieldConfig": {
         "defaults": {
@@ -3068,7 +3204,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 242
+        "y": 234
       },
       "fieldConfig": {
         "defaults": {
@@ -3110,7 +3246,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 242
+        "y": 234
       },
       "fieldConfig": {
         "defaults": {
@@ -3147,7 +3283,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 250
+        "y": 242
       },
       "fieldConfig": {
         "defaults": {
@@ -3184,7 +3320,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 250
+        "y": 242
       },
       "fieldConfig": {
         "defaults": {
@@ -3241,7 +3377,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 258
+        "y": 250
       },
       "fieldConfig": {
         "defaults": {
@@ -3283,7 +3419,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 258
+        "y": 250
       },
       "fieldConfig": {
         "defaults": {
@@ -3341,7 +3477,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 258
+        "y": 250
       },
       "fieldConfig": {
         "defaults": {
