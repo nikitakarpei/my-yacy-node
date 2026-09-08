@@ -118,7 +118,7 @@
   "panels": [
     {
       "id": 1,
-      "title": "HTTP traffic",
+      "title": "Inbound HTTP requests",
       "type": "row",
       "gridPos": {
         "h": 1,
@@ -219,7 +219,7 @@
     {
       "id": 3,
       "title": "Request latency across endpoints (p50/p95/p99)",
-      "description": "Every search counts here, including one the ranking cache answered without a network search.",
+      "description": "Every search counts here, including one the cache answered without asking peers.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -272,8 +272,8 @@
       ]
     },
     {
-      "id": 4,
-      "title": "Network searches",
+      "id": 20,
+      "title": "Cached search results",
       "type": "row",
       "gridPos": {
         "h": 1,
@@ -284,8 +284,8 @@
       "panels": []
     },
     {
-      "id": 5,
-      "title": "Network searches, by whether they reached peers",
+      "id": 21,
+      "title": "Search results answered, by where they came from",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -296,6 +296,117 @@
         "w": 12,
         "x": 0,
         "y": 18
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (source) (clamp_min(yacydhtsearch_ranking_lookups_total{instance=~\"$service_instance\"} - (yacydhtsearch_ranking_lookups_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "legendFormat": "{{source}}"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "title": "Search result cache failures, by action",
+      "description": "A lookup failure sends a query the cache could have answered to the network. A store failure means the next query pays the same cost.",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 18
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 1,
+                "color": "red"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "mergeValues": true,
+        "showValue": "auto",
+        "legend": {
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "clamp_min(yacydhtsearch_ranking_cache_failures_total{instance=~\"$service_instance\"} - (yacydhtsearch_ranking_cache_failures_total{instance=~\"$service_instance\"} offset $window), 0)",
+          "legendFormat": "{{action}}"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Searches sent to peers",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "panels": []
+    },
+    {
+      "id": 5,
+      "title": "Searches, by whether they reached peers",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 27
       },
       "fieldConfig": {
         "defaults": {
@@ -338,7 +449,7 @@
     },
     {
       "id": 7,
-      "title": "Network search duration (p50/p95/p99)",
+      "title": "Search duration (p50/p95/p99)",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -348,7 +459,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 27
       },
       "fieldConfig": {
         "defaults": {
@@ -388,7 +499,7 @@
     },
     {
       "id": 8,
-      "title": "Peers asked for one network search",
+      "title": "Peers asked for one search",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -398,7 +509,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 26
+        "y": 35
       },
       "interval": "$window",
       "options": {
@@ -452,7 +563,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 26
+        "y": 35
       },
       "interval": "$window",
       "options": {
@@ -506,7 +617,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 34
+        "y": 43
       },
       "interval": "$window",
       "options": {
@@ -560,7 +671,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 34
+        "y": 43
       },
       "interval": "$window",
       "options": {
@@ -603,19 +714,19 @@
     },
     {
       "id": 10,
-      "title": "Peer directory",
+      "title": "Peers this service knows",
       "type": "row",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 42
+        "y": 51
       },
       "panels": []
     },
     {
       "id": 11,
-      "title": "Peers the directory holds, against its capacity",
+      "title": "Peers known, against directory capacity",
       "description": "A peer that has not given an address yet stays in the directory, and is probed again on each refresh. Only a peer with an address is asked for a search.",
       "type": "timeseries",
       "datasource": {
@@ -626,7 +737,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 43
+        "y": 52
       },
       "fieldConfig": {
         "defaults": {
@@ -666,7 +777,7 @@
     },
     {
       "id": 13,
-      "title": "Peer directory changes, by change",
+      "title": "Peers admitted and dropped, by change",
       "description": "A refresh cycle changes the directory in one burst. A peer is admitted once, then answers or stays silent on each probe, and is dropped when the directory has no room for it.",
       "type": "timeseries",
       "datasource": {
@@ -677,7 +788,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 43
+        "y": 52
       },
       "fieldConfig": {
         "defaults": {
@@ -717,7 +828,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 43
+        "y": 52
       },
       "interval": "$window",
       "options": {
@@ -760,13 +871,13 @@
     },
     {
       "id": 16,
-      "title": "Peer calls",
+      "title": "Calls to peers during a search",
       "type": "row",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 51
+        "y": 60
       },
       "panels": []
     },
@@ -783,7 +894,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 52
+        "y": 61
       },
       "fieldConfig": {
         "defaults": {
@@ -823,7 +934,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 52
+        "y": 61
       },
       "interval": "$window",
       "options": {
@@ -877,7 +988,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 52
+        "y": 61
       },
       "interval": "$window",
       "options": {
@@ -915,117 +1026,6 @@
           "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} offset $window), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
-      "id": 20,
-      "title": "Ranking cache",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 60
-      },
-      "panels": []
-    },
-    {
-      "id": 21,
-      "title": "Rankings answered, by where the ranking came from",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 61
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (source) (clamp_min(yacydhtsearch_ranking_lookups_total{instance=~\"$service_instance\"} - (yacydhtsearch_ranking_lookups_total{instance=~\"$service_instance\"} offset $window), 0))",
-          "legendFormat": "{{source}}"
-        }
-      ]
-    },
-    {
-      "id": 23,
-      "title": "Ranking cache failures, by action",
-      "description": "A lookup failure sends a query the cache could have answered to the network. A store failure means the next query pays the same cost.",
-      "type": "state-timeline",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 61
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "fillOpacity": 70,
-            "lineWidth": 0
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              },
-              {
-                "value": 1,
-                "color": "red"
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "mergeValues": true,
-        "showValue": "auto",
-        "legend": {
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "clamp_min(yacydhtsearch_ranking_cache_failures_total{instance=~\"$service_instance\"} - (yacydhtsearch_ranking_cache_failures_total{instance=~\"$service_instance\"} offset $window), 0)",
-          "legendFormat": "{{action}}"
         }
       ]
     },
