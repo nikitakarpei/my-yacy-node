@@ -3,6 +3,7 @@ package yacymodel
 import (
 	"errors"
 	"fmt"
+	"slices"
 )
 
 type PeerType struct{ value string }
@@ -18,13 +19,24 @@ var (
 
 var ErrInvalidPeerType = errors.New("invalid peer type")
 
+func PeerTypes() []PeerType {
+	return []PeerType{
+		PeerVirgin,
+		PeerJunior,
+		PeerMentee,
+		PeerSenior,
+		PeerMentor,
+		PeerPrincipal,
+	}
+}
+
 func ParsePeerType(s string) (PeerType, error) {
-	switch (PeerType{value: s}) {
-	case PeerVirgin, PeerJunior, PeerMentee, PeerSenior, PeerMentor, PeerPrincipal:
-		return PeerType{value: s}, nil
-	default:
+	peerType := PeerType{value: s}
+	if !slices.Contains(PeerTypes(), peerType) {
 		return PeerType{}, fmt.Errorf("%w: %q", ErrInvalidPeerType, s)
 	}
+
+	return peerType, nil
 }
 
 func (t PeerType) String() string { return t.value }

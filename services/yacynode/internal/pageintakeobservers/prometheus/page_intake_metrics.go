@@ -9,51 +9,66 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 )
 
-const labelOfferedPageDisposal = "disposal"
+const (
+	labelOfferedPageDisposal = "disposal"
+	labelRetryCause          = "cause"
+)
 
 const (
-	disposalIndexed                    = "indexed"
-	disposalDocumentExtractionFailed   = "document_extraction_failed"
-	disposalNoIndexDerived             = "no_index_derived"
-	disposalURLMetadataAdmissionBusy   = "url_metadata_admission_busy"
-	disposalURLMetadataAdmissionFailed = "url_metadata_admission_failed"
-	disposalPostingsAdmissionBusy      = "postings_admission_busy"
-	disposalPostingsAdmissionFailed    = "postings_admission_failed"
-	disposalInvalidMessage             = "invalid_message"
+	disposalIndexed                  = "indexed"
+	disposalDocumentExtractionFailed = "document_extraction_failed"
+	disposalNoIndexDerived           = "no_index_derived"
+	disposalInvalidMessage           = "invalid_message"
 )
 
 var offeredPageDisposals = []string{
 	disposalIndexed,
 	disposalDocumentExtractionFailed,
 	disposalNoIndexDerived,
-	disposalURLMetadataAdmissionBusy,
-	disposalURLMetadataAdmissionFailed,
-	disposalPostingsAdmissionBusy,
-	disposalPostingsAdmissionFailed,
 	disposalInvalidMessage,
 }
 
+const (
+	retryCauseURLMetadataAdmissionBusy   = "url_metadata_admission_busy"
+	retryCauseURLMetadataAdmissionFailed = "url_metadata_admission_failed"
+	retryCausePostingsAdmissionBusy      = "postings_admission_busy"
+	retryCausePostingsAdmissionFailed    = "postings_admission_failed"
+)
+
+var retryCauses = []string{
+	retryCauseURLMetadataAdmissionBusy,
+	retryCauseURLMetadataAdmissionFailed,
+	retryCausePostingsAdmissionBusy,
+	retryCausePostingsAdmissionFailed,
+}
+
 type PageIntakeMetrics struct {
-	pagesOffered         prometheusclient.Counter
 	offeredPagesDisposed *prometheusclient.CounterVec
+	pagesLeftForRetry    *prometheusclient.CounterVec
 	urlMetadataAdmitted  prometheusclient.Counter
 	postingsAdmitted     prometheusclient.Counter
 }
 
 func New(registry prometheusclient.Registerer) *PageIntakeMetrics {
-	pagesOffered := prometheusclient.NewCounter(prometheusclient.CounterOpts{
-		Name: "yacynode_pageintake_pages_offered_total",
-		Help: "Pages the scrape service offered to this node.",
-	})
 	offeredPagesDisposed := prometheusclient.NewCounterVec(
 		prometheusclient.CounterOpts{
 			Name: "yacynode_pageintake_offered_pages_disposed_total",
-			Help: "Offered page deliveries, by terminal disposal.",
+			Help: "Offered pages, by the disposal that ended their intake.",
 		},
 		[]string{labelOfferedPageDisposal},
 	)
 	for _, disposal := range offeredPageDisposals {
 		offeredPagesDisposed.WithLabelValues(disposal)
+	}
+	pagesLeftForRetry := prometheusclient.NewCounterVec(
+		prometheusclient.CounterOpts{
+			Name: "yacynode_pageintake_pages_left_for_retry_total",
+			Help: "Offered pages the node could not take in yet, by cause.",
+		},
+		[]string{labelRetryCause},
+	)
+	for _, cause := range retryCauses {
+		pagesLeftForRetry.WithLabelValues(cause)
 	}
 	urlMetadataAdmitted := prometheusclient.NewCounter(prometheusclient.CounterOpts{
 		Name: "yacynode_pageintake_url_metadata_admitted_total",
@@ -64,15 +79,15 @@ func New(registry prometheusclient.Registerer) *PageIntakeMetrics {
 		Help: "Posting admissions accepted while taking in offered pages.",
 	})
 	registry.MustRegister(
-		pagesOffered,
 		offeredPagesDisposed,
+		pagesLeftForRetry,
 		urlMetadataAdmitted,
 		postingsAdmitted,
 	)
 
 	return &PageIntakeMetrics{
-		pagesOffered:         pagesOffered,
 		offeredPagesDisposed: offeredPagesDisposed,
+		pagesLeftForRetry:    pagesLeftForRetry,
 		urlMetadataAdmitted:  urlMetadataAdmitted,
 		postingsAdmitted:     postingsAdmitted,
 	}
@@ -87,7 +102,6 @@ func (m *PageIntakeMetrics) PageOffered(
 	string,
 	canonicalurl.CanonicalURL,
 ) {
-	m.pagesOffered.Inc()
 }
 
 func (m *PageIntakeMetrics) DocumentExtractionFailed(
@@ -120,7 +134,7 @@ func (m *PageIntakeMetrics) URLMetadataAdmissionBusy(
 	string,
 	canonicalurl.CanonicalURL,
 ) {
-	m.dispose(disposalURLMetadataAdmissionBusy)
+	m.leaveForRetry(retryCauseURLMetadataAdmissionBusy)
 }
 
 func (m *PageIntakeMetrics) URLMetadataAdmissionFailed(
@@ -129,7 +143,7 @@ func (m *PageIntakeMetrics) URLMetadataAdmissionFailed(
 	canonicalurl.CanonicalURL,
 	error,
 ) {
-	m.dispose(disposalURLMetadataAdmissionFailed)
+	m.leaveForRetry(retryCauseURLMetadataAdmissionFailed)
 }
 
 func (m *PageIntakeMetrics) PostingsAdmitted(
@@ -147,7 +161,7 @@ func (m *PageIntakeMetrics) PostingsAdmissionBusy(
 	canonicalurl.CanonicalURL,
 	int,
 ) {
-	m.dispose(disposalPostingsAdmissionBusy)
+	m.leaveForRetry(retryCausePostingsAdmissionBusy)
 }
 
 func (m *PageIntakeMetrics) PostingsAdmissionFailed(
@@ -157,7 +171,7 @@ func (m *PageIntakeMetrics) PostingsAdmissionFailed(
 	int,
 	error,
 ) {
-	m.dispose(disposalPostingsAdmissionFailed)
+	m.leaveForRetry(retryCausePostingsAdmissionFailed)
 }
 
 func (m *PageIntakeMetrics) PageIndexed(
@@ -170,4 +184,8 @@ func (m *PageIntakeMetrics) PageIndexed(
 
 func (m *PageIntakeMetrics) dispose(disposal string) {
 	m.offeredPagesDisposed.WithLabelValues(disposal).Inc()
+}
+
+func (m *PageIntakeMetrics) leaveForRetry(cause string) {
+	m.pagesLeftForRetry.WithLabelValues(cause).Inc()
 }

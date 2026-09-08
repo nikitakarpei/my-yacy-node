@@ -290,6 +290,7 @@ deps:
   metrics:
     mayDependOn:
       - eviction
+      - peerannouncement
       - rwiadmission
     canUse:
       - prometheus

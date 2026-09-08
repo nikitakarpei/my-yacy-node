@@ -12,19 +12,18 @@ import (
 
 const (
 	labelScrapeRequestDisposal = "disposal"
+	labelRetryCause            = "cause"
+)
 
-	disposalOffered         = "offered"
-	disposalScheduled       = "scheduled"
-	disposalOfferRefused    = "offer-refused"
-	disposalScheduleRefused = "schedule-refused"
-	disposalUnreadable      = "unreadable"
+const (
+	disposalOffered    = "offered"
+	disposalScheduled  = "scheduled"
+	disposalUnreadable = "unreadable"
 )
 
 var scrapeRequestDisposals = []string{
 	disposalOffered,
 	disposalScheduled,
-	disposalOfferRefused,
-	disposalScheduleRefused,
 	disposalUnreadable,
 	string(pagescrapecontract.NotModified),
 	string(pagescrapecontract.AccessRefused),
@@ -36,30 +35,43 @@ var scrapeRequestDisposals = []string{
 	string(pagescrapecontract.DeferredTooLong),
 }
 
+const (
+	retryCauseOfferRefused    = "offer-refused"
+	retryCauseScheduleRefused = "schedule-refused"
+)
+
+var retryCauses = []string{
+	retryCauseOfferRefused,
+	retryCauseScheduleRefused,
+}
+
 type ScrapeIntakeMetrics struct {
-	scrapeRequestsReceived prometheus.Counter
-	scrapeRequestsDisposed *prometheus.CounterVec
+	scrapeRequestsDisposed     *prometheus.CounterVec
+	scrapeRequestsLeftForRetry *prometheus.CounterVec
 }
 
 func New(registry prometheus.Registerer) *ScrapeIntakeMetrics {
-	scrapeRequestsReceived := prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "pagescrape_scrape_requests_received_total",
-		Help: "Scrape requests received.",
-	})
 	scrapeRequestsDisposed := prometheus.NewCounterVec(prometheus.CounterOpts{
 		Name: "pagescrape_scrape_requests_disposed_total",
-		Help: "Scrape requests, by how the service disposed of each one.",
+		Help: "Scrape requests, by the disposal that ended their intake.",
 	}, []string{labelScrapeRequestDisposal})
 	for _, disposal := range scrapeRequestDisposals {
 		scrapeRequestsDisposed.WithLabelValues(disposal)
 	}
+	scrapeRequestsLeftForRetry := prometheus.NewCounterVec(prometheus.CounterOpts{
+		Name: "pagescrape_scrape_requests_left_for_retry_total",
+		Help: "Scrape requests the service could not finish yet, by cause.",
+	}, []string{labelRetryCause})
+	for _, cause := range retryCauses {
+		scrapeRequestsLeftForRetry.WithLabelValues(cause)
+	}
 	registry.MustRegister(
-		scrapeRequestsReceived,
 		scrapeRequestsDisposed,
+		scrapeRequestsLeftForRetry,
 	)
 	return &ScrapeIntakeMetrics{
-		scrapeRequestsReceived: scrapeRequestsReceived,
-		scrapeRequestsDisposed: scrapeRequestsDisposed,
+		scrapeRequestsDisposed:     scrapeRequestsDisposed,
+		scrapeRequestsLeftForRetry: scrapeRequestsLeftForRetry,
 	}
 }
 
@@ -71,7 +83,6 @@ func (m *ScrapeIntakeMetrics) ScrapeRequestReceived(
 	_ context.Context,
 	_ canonicalurl.CanonicalURL,
 ) {
-	m.scrapeRequestsReceived.Inc()
 }
 
 func (m *ScrapeIntakeMetrics) OriginFetchFailed(
@@ -94,7 +105,7 @@ func (m *ScrapeIntakeMetrics) PageNotOffered(
 	_ canonicalurl.CanonicalURL,
 	_ error,
 ) {
-	m.dispose(disposalOfferRefused)
+	m.leaveForRetry(retryCauseOfferRefused)
 }
 
 func (m *ScrapeIntakeMetrics) ScrapeDeferred(
@@ -110,7 +121,7 @@ func (m *ScrapeIntakeMetrics) ScrapeScheduleFailed(
 	_ canonicalurl.CanonicalURL,
 	_ error,
 ) {
-	m.dispose(disposalScheduleRefused)
+	m.leaveForRetry(retryCauseScheduleRefused)
 }
 
 func (m *ScrapeIntakeMetrics) ScrapeFailed(
@@ -123,4 +134,8 @@ func (m *ScrapeIntakeMetrics) ScrapeFailed(
 
 func (m *ScrapeIntakeMetrics) dispose(disposal string) {
 	m.scrapeRequestsDisposed.WithLabelValues(disposal).Inc()
+}
+
+func (m *ScrapeIntakeMetrics) leaveForRetry(cause string) {
+	m.scrapeRequestsLeftForRetry.WithLabelValues(cause).Inc()
 }

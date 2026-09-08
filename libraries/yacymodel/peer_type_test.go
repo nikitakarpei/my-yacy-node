@@ -7,8 +7,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+var peerTypeNames = []string{"virgin", "junior", "mentee", "senior", "mentor", "principal"}
+
 func TestParsePeerType(t *testing.T) {
-	for _, valid := range []string{"virgin", "junior", "mentee", "senior", "mentor", "principal"} {
+	for _, valid := range peerTypeNames {
 		pt, err := yacymodel.ParsePeerType(valid)
 		if err != nil {
 			t.Errorf("ParsePeerType(%q) = %v", valid, err)

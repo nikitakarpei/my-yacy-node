@@ -130,7 +130,7 @@
     },
     {
       "id": 2,
-      "title": "Responses by endpoint and status code",
+      "title": "Requests by endpoint",
       "description": "A request that matched no route counts under the endpoint \"unmatched\".",
       "type": "timeseries",
       "datasource": {
@@ -157,13 +157,61 @@
       "interval": "$window",
       "options": {
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint, code) (clamp_min(yacydhtsearch_http_requests_total{instance=~\"$service_instance\"} - (yacydhtsearch_http_requests_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (endpoint) (clamp_min(yacydhtsearch_http_requests_total{instance=~\"$service_instance\"} - (yacydhtsearch_http_requests_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "legendFormat": "{{endpoint}}"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "title": "Non-2xx responses by endpoint and status code",
+      "description": "An empty panel is a healthy service.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "always",
+            "spanNulls": false,
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (endpoint, code) (clamp_min(yacydhtsearch_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} - (yacydhtsearch_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} offset $window), 0))",
           "legendFormat": "{{endpoint}} {{code}}"
         }
       ]
@@ -179,9 +227,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 1
+        "w": 24,
+        "x": 0,
+        "y": 9
       },
       "fieldConfig": {
         "defaults": {
@@ -189,16 +237,20 @@
           "custom": {
             "drawStyle": "line",
             "fillOpacity": 0,
-            "showPoints": "auto"
-          },
-          "min": 0
+            "showPoints": "auto",
+            "scaleDistribution": {
+              "type": "log",
+              "log": 10
+            }
+          }
         },
         "overrides": []
       },
       "interval": "$window",
       "options": {
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
@@ -227,7 +279,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 17
       },
       "panels": []
     },
@@ -243,7 +295,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 10
+        "y": 18
       },
       "fieldConfig": {
         "defaults": {
@@ -296,7 +348,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 10
+        "y": 18
       },
       "fieldConfig": {
         "defaults": {
@@ -346,7 +398,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 18
+        "y": 26
       },
       "interval": "$window",
       "options": {
@@ -400,7 +452,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 26
       },
       "interval": "$window",
       "options": {
@@ -454,7 +506,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 26
+        "y": 34
       },
       "interval": "$window",
       "options": {
@@ -508,7 +560,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 26
+        "y": 34
       },
       "interval": "$window",
       "options": {
@@ -557,7 +609,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 34
+        "y": 42
       },
       "panels": []
     },
@@ -574,7 +626,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 35
+        "y": 43
       },
       "fieldConfig": {
         "defaults": {
@@ -625,7 +677,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 35
+        "y": 43
       },
       "fieldConfig": {
         "defaults": {
@@ -665,7 +717,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 35
+        "y": 43
       },
       "interval": "$window",
       "options": {
@@ -714,7 +766,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 51
       },
       "panels": []
     },
@@ -731,7 +783,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 44
+        "y": 52
       },
       "fieldConfig": {
         "defaults": {
@@ -771,7 +823,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 44
+        "y": 52
       },
       "interval": "$window",
       "options": {
@@ -825,7 +877,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 44
+        "y": 52
       },
       "interval": "$window",
       "options": {
@@ -874,7 +926,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 52
+        "y": 60
       },
       "panels": []
     },
@@ -890,7 +942,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 53
+        "y": 61
       },
       "fieldConfig": {
         "defaults": {
@@ -930,7 +982,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 53
+        "y": 61
       },
       "fieldConfig": {
         "defaults": {
@@ -985,7 +1037,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 61
+        "y": 69
       },
       "panels": []
     },
@@ -1001,7 +1053,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 62
+        "y": 70
       },
       "fieldConfig": {
         "defaults": {
@@ -1051,7 +1103,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 62
+        "y": 70
       },
       "fieldConfig": {
         "defaults": {
@@ -1091,7 +1143,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 62
+        "y": 70
       },
       "fieldConfig": {
         "defaults": {
@@ -1131,7 +1183,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 70
+        "y": 78
       },
       "fieldConfig": {
         "defaults": {
@@ -1171,7 +1223,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 70
+        "y": 78
       },
       "fieldConfig": {
         "defaults": {
@@ -1211,7 +1263,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 70
+        "y": 78
       },
       "fieldConfig": {
         "defaults": {

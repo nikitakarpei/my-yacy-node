@@ -1,6 +1,7 @@
 // Package prometheus counts what became of every page the scrape service offered to this
 // corpus, so an operator can tell a page that carries no document from one that carries no
-// markdown, and either of those from a corpus that turns the write down.
+// markdown, and either of those from a corpus that turns the write down and leaves the page
+// for a later retry.
 package prometheus
 
 import (
@@ -13,48 +14,57 @@ import (
 
 const (
 	labelOfferedPageDisposal = "disposal"
+	labelRetryCause          = "cause"
+)
 
+const (
 	disposalStored              = "stored"
 	disposalNoDocumentExtracted = "no-document-extracted"
 	disposalNoMarkdownDerived   = "no-markdown-derived"
-	disposalStoreFailed         = "store-failed"
 )
 
 var offeredPageDisposals = []string{
 	disposalStored,
 	disposalNoDocumentExtracted,
 	disposalNoMarkdownDerived,
-	disposalStoreFailed,
+}
+
+const retryCauseStoreFailed = "store-failed"
+
+var retryCauses = []string{
+	retryCauseStoreFailed,
 }
 
 type PageIntakeMetrics struct {
-	pagesOffered         prometheus.Counter
 	offeredPagesDisposed *prometheus.CounterVec
+	pagesLeftForRetry    *prometheus.CounterVec
 }
 
 func New(registry prometheus.Registerer) *PageIntakeMetrics {
 	metrics := &PageIntakeMetrics{
-		pagesOffered: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "corpusmarkdown_pages_offered_total",
-			Help: "Pages the scrape service offered to this corpus.",
-		}),
 		offeredPagesDisposed: prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: "corpusmarkdown_offered_pages_disposed_total",
-			Help: "Offered pages, by how the corpus disposed of each one.",
+			Help: "Offered pages, by the disposal that ended their intake.",
 		}, []string{labelOfferedPageDisposal}),
+		pagesLeftForRetry: prometheus.NewCounterVec(prometheus.CounterOpts{
+			Name: "corpusmarkdown_pages_left_for_retry_total",
+			Help: "Offered pages the corpus could not store yet, by cause.",
+		}, []string{labelRetryCause}),
 	}
 	for _, disposal := range offeredPageDisposals {
 		metrics.offeredPagesDisposed.WithLabelValues(disposal)
 	}
+	for _, cause := range retryCauses {
+		metrics.pagesLeftForRetry.WithLabelValues(cause)
+	}
 	registry.MustRegister(
-		metrics.pagesOffered,
 		metrics.offeredPagesDisposed,
+		metrics.pagesLeftForRetry,
 	)
 	return metrics
 }
 
 func (m *PageIntakeMetrics) PageOffered(_ context.Context, _ canonicalurl.CanonicalURL) {
-	m.pagesOffered.Inc()
 }
 
 func (m *PageIntakeMetrics) NoDocumentExtracted(
@@ -77,7 +87,7 @@ func (m *PageIntakeMetrics) MarkdownNotStored(
 	_ canonicalurl.CanonicalURL,
 	_ error,
 ) {
-	m.dispose(disposalStoreFailed)
+	m.leaveForRetry(retryCauseStoreFailed)
 }
 
 func (m *PageIntakeMetrics) MarkdownStored(_ context.Context, _ canonicalurl.CanonicalURL) {
@@ -86,4 +96,8 @@ func (m *PageIntakeMetrics) MarkdownStored(_ context.Context, _ canonicalurl.Can
 
 func (m *PageIntakeMetrics) dispose(disposal string) {
 	m.offeredPagesDisposed.WithLabelValues(disposal).Inc()
+}
+
+func (m *PageIntakeMetrics) leaveForRetry(cause string) {
+	m.pagesLeftForRetry.WithLabelValues(cause).Inc()
 }
