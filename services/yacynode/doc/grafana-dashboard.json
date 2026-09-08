@@ -177,8 +177,8 @@
     },
     {
       "id": 3,
-      "title": "Reachable peers",
-      "description": "Known peers the node can reach.",
+      "title": "Peers reaching this node",
+      "description": "Peers that reached this node back in the last announce round.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -221,7 +221,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "yacynode_peerroster_reachable_peers{instance=~\"$service_instance\"}"
+          "expr": "sum(yacynode_peerannouncement_peers_per_contact_outcome{outcome=~\"reported_self_(senior|principal)\", instance=~\"$service_instance\"})"
         }
       ],
       "interval": "$window"
@@ -992,7 +992,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 65
       },
@@ -1019,6 +1019,51 @@
           "refId": "B",
           "expr": "yacynode_peerroster_reachable_peers{instance=~\"$service_instance\"}",
           "legendFormat": "reachable"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 42,
+      "title": "Announce round outcomes",
+      "description": "Peers contacted in the last announce round, by the peer type they reported this node to be.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 65
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_peerannouncement_peers_per_contact_outcome{instance=~\"$service_instance\"} > 0",
+          "legendFormat": "{{outcome}}"
         }
       ],
       "interval": "$window"

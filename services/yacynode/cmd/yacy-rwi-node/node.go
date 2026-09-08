@@ -251,6 +251,7 @@ func assembleNode(
 		runtimeStatus,
 		bootstrap.New(egressClient, config.PeerExchange.SeedlistURLs),
 		peerRoster,
+		metrics.NewPeerAnnouncementMetrics(registry),
 	)
 
 	var pageOffers *pageOfferIntake
