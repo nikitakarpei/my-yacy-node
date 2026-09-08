@@ -21,7 +21,7 @@ The service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CORPUSMARKDOWN_ADDR` | required | gRPC address of the markdown corpus the service reads pages from. |
+| `CORPUSMARKDOWN_ADDR` | required | Host and port of the markdown corpus the service reads pages from. |
 | `CORPUSMARKDOWN_RECALL_DEADLINE` | `5s` | Time limit on one read from the corpus. |
 
 ## Answers

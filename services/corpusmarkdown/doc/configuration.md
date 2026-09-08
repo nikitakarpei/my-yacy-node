@@ -20,7 +20,7 @@ The service is configured entirely through environment variables.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CORPUSMARKDOWN_LISTEN_ADDR` | `:8094` | Address serving the markdown corpus gRPC contract. |
+| `CORPUSMARKDOWN_LISTEN_ADDR` | `:8094` | Address serving the markdown corpus contract. |
 
 ## Operations
 
