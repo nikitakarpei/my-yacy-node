@@ -370,8 +370,8 @@
     },
     {
       "id": 22,
-      "title": "Page fetch duration (p50/p95/p99)",
-      "type": "timeseries",
+      "title": "How long a page fetch took",
+      "type": "heatmap",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -382,36 +382,41 @@
         "x": 8,
         "y": 27
       },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "custom": {
-            "fillOpacity": 10,
-            "drawStyle": "line",
-            "showPoints": "auto"
-          }
-        }
-      },
       "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "s",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
         "tooltip": {
-          "mode": "multi"
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (clamp_min(yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p95"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p99"
+          "expr": "sum by (le) (clamp_min(yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacycrawler_page_fetch_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
         }
       ]
     },
