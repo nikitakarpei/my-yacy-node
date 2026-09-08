@@ -172,7 +172,8 @@
           "refId": "A",
           "expr": "yacynode_peerroster_known_peers{instance=~\"$service_instance\"}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 3,
@@ -222,7 +223,8 @@
           "refId": "A",
           "expr": "yacynode_peerroster_reachable_peers{instance=~\"$service_instance\"}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 4,
@@ -277,7 +279,8 @@
           "refId": "A",
           "expr": "yacynode_vault_used_bytes{instance=~\"$service_instance\"} / yacynode_vault_quota_bytes{instance=~\"$service_instance\"}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 10,
@@ -329,10 +332,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint) (increase(yacynode_http_requests_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum by (endpoint) (clamp_min(yacynode_http_requests_total{instance=~\"$service_instance\"} - (yacynode_http_requests_total{instance=~\"$service_instance\"} offset $window), 0))",
           "legendFormat": "{{endpoint}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 127,
@@ -375,10 +379,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint, code) (increase(yacynode_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum by (endpoint, code) (clamp_min(yacynode_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} - (yacynode_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} offset $window), 0))",
           "legendFormat": "{{endpoint}} {{code}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 14,
@@ -415,10 +420,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.90, sum by (le, endpoint) (rate(yacynode_http_request_duration_seconds_bucket{instance=~\"$service_instance\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.90, sum by (le, endpoint) (clamp_min(yacynode_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
           "legendFormat": "{{endpoint}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 20,
@@ -471,7 +477,8 @@
           "legendFormat": "quota"
         }
       ],
-      "description": "A gap in the used series means the reading was unavailable."
+      "description": "A gap in the used series means the reading was unavailable.",
+      "interval": "$window"
     },
     {
       "id": 22,
@@ -526,20 +533,21 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(yacynode_vault_write_transactions_total{outcome=\"refused\",instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "clamp_min(yacynode_vault_write_transactions_total{outcome=\"refused\",instance=~\"$service_instance\"} - (yacynode_vault_write_transactions_total{outcome=\"refused\",instance=~\"$service_instance\"} offset $window), 0)",
           "legendFormat": "engine refused: {{cause}}"
         },
         {
           "refId": "B",
-          "expr": "increase(yacynode_vault_write_transactions_total{outcome=\"aborted\",instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "clamp_min(yacynode_vault_write_transactions_total{outcome=\"aborted\",instance=~\"$service_instance\"} - (yacynode_vault_write_transactions_total{outcome=\"aborted\",instance=~\"$service_instance\"} offset $window), 0)",
           "legendFormat": "caller aborted"
         },
         {
           "refId": "C",
-          "expr": "increase(yacynode_vault_write_transaction_begin_refusals_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "clamp_min(yacynode_vault_write_transaction_begin_refusals_total{instance=~\"$service_instance\"} - (yacynode_vault_write_transaction_begin_refusals_total{instance=~\"$service_instance\"} offset $window), 0)",
           "legendFormat": "engine refused before opening: {{cause}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 23,
@@ -572,10 +580,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_vault_write_transaction_duration_seconds_count{phase=\"execute\",instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum(rate(yacynode_vault_write_transaction_duration_seconds_count{phase=\"execute\",instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "writes"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 29,
@@ -609,10 +618,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_vault_write_transactions_total{outcome=\"committed\",called_write_operation=\"false\",instance=~\"$service_instance\"}[$__rate_interval])) / sum(rate(yacynode_vault_write_transactions_total{outcome=\"committed\",instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum(rate(yacynode_vault_write_transactions_total{outcome=\"committed\",called_write_operation=\"false\",instance=~\"$service_instance\"}[$window])) / sum(rate(yacynode_vault_write_transactions_total{outcome=\"committed\",instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "wrote nothing"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 26,
@@ -648,7 +658,8 @@
           "expr": "yacynode_vault_reads_in_flight{instance=~\"$service_instance\"}",
           "legendFormat": "reads"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 24,
@@ -697,7 +708,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (increase(yacynode_vault_write_transaction_begin_seconds_bucket{instance=~\"$service_instance\"}[$window]))",
+          "expr": "sum by (le) (clamp_min(yacynode_vault_write_transaction_begin_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_vault_write_transaction_begin_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -751,7 +762,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (increase(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\", instance=~\"$service_instance\"}[$window]))",
+          "expr": "sum by (le) (clamp_min(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\", instance=~\"$service_instance\"} - (yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\", instance=~\"$service_instance\"} offset $window), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -805,7 +816,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (increase(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\", instance=~\"$service_instance\"}[$window]))",
+          "expr": "sum by (le) (clamp_min(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\", instance=~\"$service_instance\"} - (yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\", instance=~\"$service_instance\"} offset $window), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -845,7 +856,8 @@
           "expr": "yacynode_vault_collection_entries{instance=~\"$service_instance\"}",
           "legendFormat": "{{collection}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 30,
@@ -889,15 +901,16 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(yacynode_eviction_urls_evicted_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "rate(yacynode_eviction_urls_evicted_total{instance=~\"$service_instance\"}[$window])",
           "legendFormat": "URLs evicted"
         },
         {
           "refId": "B",
-          "expr": "rate(yacynode_eviction_postings_evicted_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "rate(yacynode_eviction_postings_evicted_total{instance=~\"$service_instance\"}[$window])",
           "legendFormat": "postings evicted"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 32,
@@ -951,10 +964,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(yacynode_eviction_failures_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "clamp_min(yacynode_eviction_failures_total{instance=~\"$service_instance\"} - (yacynode_eviction_failures_total{instance=~\"$service_instance\"} offset $window), 0)",
           "legendFormat": "failures"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 40,
@@ -1006,7 +1020,8 @@
           "expr": "yacynode_peerroster_reachable_peers{instance=~\"$service_instance\"}",
           "legendFormat": "reachable"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 70,
@@ -1075,7 +1090,8 @@
           "expr": "sum(yacynode_rwidistribution_peers_accepting_remote_index{instance=~\"$service_instance\"} == bool 0)",
           "legendFormat": "sectors"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 71,
@@ -1136,7 +1152,8 @@
           "legendFormat": "{{sector}}",
           "format": "time_series"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 50,
@@ -1172,22 +1189,22 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.10, sum by (le) (rate(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"}[$window])))",
+          "expr": "histogram_quantile(0.10, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
           "legendFormat": "p10"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"}[$window])))",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
           "legendFormat": "p50"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.90, sum by (le) (rate(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"}[$window])))",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
           "legendFormat": "p90"
         },
         {
           "refId": "D",
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"}[$window])))",
+          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
           "legendFormat": "p99"
         }
       ],
@@ -1201,7 +1218,8 @@
             "showPoints": "auto"
           }
         }
-      }
+      },
+      "interval": "$window"
     },
     {
       "id": 59,
@@ -1234,10 +1252,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (increase(yacynode_rwidistribution_cycles_skipped_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum by (reason) (clamp_min(yacynode_rwidistribution_cycles_skipped_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_cycles_skipped_total{instance=~\"$service_instance\"} offset $window), 0))",
           "legendFormat": "{{reason}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 85,
@@ -1270,10 +1289,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (increase(yacynode_rwidistribution_batches_aborted_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum by (reason) (clamp_min(yacynode_rwidistribution_batches_aborted_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_batches_aborted_total{instance=~\"$service_instance\"} offset $window), 0))",
           "legendFormat": "{{reason}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 52,
@@ -1307,10 +1327,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_rwidistribution_posting_offers_sent_total{result=\"accepted\",instance=~\"$service_instance\"}[$__rate_interval])) / sum(rate(yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum(rate(yacynode_rwidistribution_posting_offers_sent_total{result=\"accepted\",instance=~\"$service_instance\"}[$window])) / sum(rate(yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "accepted"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 56,
@@ -1345,7 +1366,8 @@
           "expr": "yacynode_rwidistribution_longest_offer_lateness_seconds{instance=~\"$service_instance\"}",
           "legendFormat": "lateness"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 51,
@@ -1471,10 +1493,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (increase(yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum by (result) (clamp_min(yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"} offset $window), 0))",
           "legendFormat": "{{result}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 53,
@@ -1600,10 +1623,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (rate(yacynode_rwidistribution_postings_offered_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum by (result) (rate(yacynode_rwidistribution_postings_offered_total{instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "{{result}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 54,
@@ -1699,10 +1723,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (increase(yacynode_rwidistribution_url_metadata_deliveries_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum by (result) (clamp_min(yacynode_rwidistribution_url_metadata_deliveries_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_url_metadata_deliveries_total{instance=~\"$service_instance\"} offset $window), 0))",
           "legendFormat": "{{result}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 55,
@@ -1798,10 +1823,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (rate(yacynode_rwidistribution_urls_delivered_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum by (result) (rate(yacynode_rwidistribution_urls_delivered_total{instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "{{result}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 58,
@@ -1835,10 +1861,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(yacynode_rwidistribution_stale_replicas_dropped_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "clamp_min(yacynode_rwidistribution_stale_replicas_dropped_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_stale_replicas_dropped_total{instance=~\"$service_instance\"} offset $window), 0)",
           "legendFormat": "dropped"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 69,
@@ -1871,10 +1898,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(yacynode_rwidistribution_postings_handed_off_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "clamp_min(yacynode_rwidistribution_postings_handed_off_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_postings_handed_off_total{instance=~\"$service_instance\"} offset $window), 0)",
           "legendFormat": "handed off"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 57,
@@ -1907,10 +1935,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(yacynode_rwidistribution_postings_gone_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "clamp_min(yacynode_rwidistribution_postings_gone_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_postings_gone_total{instance=~\"$service_instance\"} offset $window), 0)",
           "legendFormat": "evicted"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 86,
@@ -1944,10 +1973,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(yacynode_rwidistribution_urls_unknown_to_us_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "clamp_min(yacynode_rwidistribution_urls_unknown_to_us_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_urls_unknown_to_us_total{instance=~\"$service_instance\"} offset $window), 0)",
           "legendFormat": "unknown to us"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 60,
@@ -1993,10 +2023,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (increase(yacynode_rwiadmission_postings_refused_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum by (reason) (clamp_min(yacynode_rwiadmission_postings_refused_total{instance=~\"$service_instance\"} - (yacynode_rwiadmission_postings_refused_total{instance=~\"$service_instance\"} offset $window), 0))",
           "legendFormat": "{{reason}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 64,
@@ -2056,7 +2087,8 @@
           "expr": "yacynode_rwiescrow_held_postings{instance=~\"$service_instance\"} / yacynode_rwiescrow_capacity_postings{instance=~\"$service_instance\"}",
           "legendFormat": "occupancy"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 63,
@@ -2116,10 +2148,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"}[$__rate_interval]) / (increase(yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"}[$__rate_interval]) + increase(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "clamp_min(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} offset $window), 0) / (clamp_min(yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"} offset $window), 0) + clamp_min(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} offset $window), 0))",
           "legendFormat": "never claimed"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 61,
@@ -2153,20 +2186,21 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(yacynode_rwiescrow_postings_held_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "rate(yacynode_rwiescrow_postings_held_total{instance=~\"$service_instance\"}[$window])",
           "legendFormat": "held"
         },
         {
           "refId": "B",
-          "expr": "rate(yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "rate(yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"}[$window])",
           "legendFormat": "released"
         },
         {
           "refId": "C",
-          "expr": "rate(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "rate(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"}[$window])",
           "legendFormat": "expired"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 62,
@@ -2220,10 +2254,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(yacynode_rwiescrow_expiry_failures_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "clamp_min(yacynode_rwiescrow_expiry_failures_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_expiry_failures_total{instance=~\"$service_instance\"} offset $window), 0)",
           "legendFormat": "failures"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 90,
@@ -2270,10 +2305,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (disposal) (increase(yacynode_pageintake_offered_pages_disposed_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum by (disposal) (clamp_min(yacynode_pageintake_offered_pages_disposed_total{instance=~\"$service_instance\"} - (yacynode_pageintake_offered_pages_disposed_total{instance=~\"$service_instance\"} offset $window), 0))",
           "legendFormat": "{{disposal}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 92,
@@ -2307,10 +2343,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_pageintake_url_metadata_admitted_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum(rate(yacynode_pageintake_url_metadata_admitted_total{instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "admitted"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 93,
@@ -2344,10 +2381,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_pageintake_postings_admitted_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum(rate(yacynode_pageintake_postings_admitted_total{instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "admitted"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 80,
@@ -2500,10 +2538,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (increase(yacynode_documentsearch_searches_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum by (outcome) (clamp_min(yacynode_documentsearch_searches_total{instance=~\"$service_instance\"} - (yacynode_documentsearch_searches_total{instance=~\"$service_instance\"} offset $window), 0))",
           "legendFormat": "{{outcome}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 82,
@@ -2527,22 +2566,22 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"}[$window])))",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"} - (yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"} offset $window), 0)))",
           "legendFormat": "holds it p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.90, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"}[$window])))",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"} - (yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"} offset $window), 0)))",
           "legendFormat": "holds it p90"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.50, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"}[$window])))",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"} - (yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"} offset $window), 0)))",
           "legendFormat": "does not hold it p50"
         },
         {
           "refId": "D",
-          "expr": "histogram_quantile(0.90, sum by (le) (rate(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"}[$window])))",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"} - (yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"} offset $window), 0)))",
           "legendFormat": "does not hold it p90"
         }
       ],
@@ -2556,7 +2595,8 @@
             "showPoints": "auto"
           }
         }
-      }
+      },
+      "interval": "$window"
     },
     {
       "id": 84,
@@ -2590,10 +2630,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (option) (increase(yacynode_documentsearch_unsupported_options_requested_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum by (option) (clamp_min(yacynode_documentsearch_unsupported_options_requested_total{instance=~\"$service_instance\"} - (yacynode_documentsearch_unsupported_options_requested_total{instance=~\"$service_instance\"} offset $window), 0))",
           "legendFormat": "{{option}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 100,
@@ -2652,7 +2693,8 @@
           "expr": "go_memstats_heap_inuse_bytes{instance=~\"$service_instance\"} and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}} heap in use"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 102,
@@ -2686,10 +2728,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(process_cpu_seconds_total{instance=~\"$service_instance\"}[$__rate_interval]) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
+          "expr": "rate(process_cpu_seconds_total{instance=~\"$service_instance\"}[$window]) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 103,
@@ -2726,11 +2769,12 @@
           "expr": "go_goroutines{instance=~\"$service_instance\"} and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 104,
-      "title": "Garbage collection rate",
+      "title": "Garbage collections",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2744,7 +2788,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "cps",
+          "unit": "short",
           "custom": {
             "drawStyle": "line",
             "fillOpacity": 10,
@@ -2760,10 +2804,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(go_gc_duration_seconds_count{instance=~\"$service_instance\"}[$__rate_interval]) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
+          "expr": "clamp_min(go_gc_duration_seconds_count{instance=~\"$service_instance\"} - (go_gc_duration_seconds_count{instance=~\"$service_instance\"} offset $window), 0) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 105,
@@ -2798,10 +2843,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(go_gc_duration_seconds_sum{instance=~\"$service_instance\"}[$__rate_interval]) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
+          "expr": "rate(go_gc_duration_seconds_sum{instance=~\"$service_instance\"}[$window]) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 106,
@@ -2840,7 +2886,8 @@
           "expr": "(process_open_fds{instance=~\"$service_instance\"} / process_max_fds{instance=~\"$service_instance\"}) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 110,
@@ -2910,7 +2957,8 @@
           "expr": "yacynode_pebble_writes_delayed{instance=~\"$service_instance\"}",
           "legendFormat": "writes delayed"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 112,
@@ -2944,10 +2992,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(yacynode_pebble_write_stalls_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "clamp_min(yacynode_pebble_write_stalls_total{instance=~\"$service_instance\"} - (yacynode_pebble_write_stalls_total{instance=~\"$service_instance\"} offset $window), 0)",
           "legendFormat": "{{cause}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 113,
@@ -2989,7 +3038,8 @@
           "expr": "yacynode_pebble_memtable_size_limit_bytes{instance=~\"$service_instance\"}",
           "legendFormat": "limit per memtable"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 114,
@@ -3026,7 +3076,8 @@
           "expr": "yacynode_pebble_compaction_debt_bytes{instance=~\"$service_instance\"}",
           "legendFormat": "debt"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 115,
@@ -3068,7 +3119,8 @@
           "expr": "yacynode_pebble_compaction_concurrency_limit{instance=~\"$service_instance\"}",
           "legendFormat": "limit"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 116,
@@ -3125,15 +3177,16 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) / (sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) + sum(rate(yacynode_pebble_block_cache_misses_total{instance=~\"$service_instance\"}[$__rate_interval])))",
+          "expr": "sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$window])) / (sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$window])) + sum(rate(yacynode_pebble_block_cache_misses_total{instance=~\"$service_instance\"}[$window])))",
           "legendFormat": "hit ratio"
         },
         {
           "refId": "B",
-          "expr": "sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) + sum(rate(yacynode_pebble_block_cache_misses_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum(rate(yacynode_pebble_block_cache_hits_total{instance=~\"$service_instance\"}[$window])) + sum(rate(yacynode_pebble_block_cache_misses_total{instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "block reads"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 117,
@@ -3175,7 +3228,8 @@
           "expr": "yacynode_pebble_block_cache_limit_bytes{instance=~\"$service_instance\"}",
           "legendFormat": "limit"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 118,
@@ -3232,12 +3286,12 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) / (sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) + sum(rate(yacynode_pebble_file_cache_misses_total{instance=~\"$service_instance\"}[$__rate_interval])))",
+          "expr": "sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$window])) / (sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$window])) + sum(rate(yacynode_pebble_file_cache_misses_total{instance=~\"$service_instance\"}[$window])))",
           "legendFormat": "hit ratio"
         },
         {
           "refId": "B",
-          "expr": "sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$__rate_interval])) + sum(rate(yacynode_pebble_file_cache_misses_total{instance=~\"$service_instance\"}[$__rate_interval]))",
+          "expr": "sum(rate(yacynode_pebble_file_cache_hits_total{instance=~\"$service_instance\"}[$window])) + sum(rate(yacynode_pebble_file_cache_misses_total{instance=~\"$service_instance\"}[$window]))",
           "legendFormat": "table lookups"
         },
         {
@@ -3245,7 +3299,8 @@
           "expr": "yacynode_pebble_file_cache_tables{instance=~\"$service_instance\"} / clamp_min(yacynode_pebble_file_cache_limit{instance=~\"$service_instance\"}, 1)",
           "legendFormat": "share of open files used"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 119,
@@ -3287,7 +3342,8 @@
           "expr": "sum(yacynode_pebble_level_sublevels{instance=~\"$service_instance\"})",
           "legendFormat": "all levels"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 120,
@@ -3324,7 +3380,8 @@
           "expr": "yacynode_pebble_level_table_bytes{instance=~\"$service_instance\"}",
           "legendFormat": "L{{level}}"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 121,
@@ -3358,10 +3415,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_pebble_level_compacted_bytes_total{instance=~\"$service_instance\"}[$__rate_interval])) / clamp_min(sum(rate(yacynode_pebble_level_flushed_bytes_total{instance=~\"$service_instance\"}[$__rate_interval])), 1)",
+          "expr": "sum(rate(yacynode_pebble_level_compacted_bytes_total{instance=~\"$service_instance\"}[$window])) / clamp_min(sum(rate(yacynode_pebble_level_flushed_bytes_total{instance=~\"$service_instance\"}[$window])), 1)",
           "legendFormat": "bytes rewritten per byte flushed"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 123,
@@ -3418,7 +3476,8 @@
           "expr": "yacynode_pebble_snapshot_pinned_bytes{instance=~\"$service_instance\"}",
           "legendFormat": "kept for open snapshots"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 124,
@@ -3452,15 +3511,16 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "rate(yacynode_pebble_flushes_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "rate(yacynode_pebble_flushes_total{instance=~\"$service_instance\"}[$window])",
           "legendFormat": "flushes"
         },
         {
           "refId": "B",
-          "expr": "rate(yacynode_pebble_compactions_completed_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "rate(yacynode_pebble_compactions_completed_total{instance=~\"$service_instance\"}[$window])",
           "legendFormat": "{{kind}} compactions"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 125,
@@ -3515,10 +3575,11 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(yacynode_pebble_compactions_failed_total{instance=~\"$service_instance\"}[$__rate_interval])",
+          "expr": "clamp_min(yacynode_pebble_compactions_failed_total{instance=~\"$service_instance\"} - (yacynode_pebble_compactions_failed_total{instance=~\"$service_instance\"} offset $window), 0)",
           "legendFormat": "failed compactions"
         }
-      ]
+      ],
+      "interval": "$window"
     },
     {
       "id": 126,
@@ -3560,7 +3621,8 @@
           "expr": "yacynode_pebble_open_snapshots{instance=~\"$service_instance\"}",
           "legendFormat": "open snapshots"
         }
-      ]
+      ],
+      "interval": "$window"
     }
   ]
 }
