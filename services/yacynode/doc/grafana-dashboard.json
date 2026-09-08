@@ -2321,7 +2321,7 @@
     {
       "id": 91,
       "title": "Offered pages, by disposal",
-      "description": "Each offered page delivery has one terminal disposal. A returned page can produce more than one delivery.",
+      "description": "A page counts once. An undecodable message counts as invalid_message and stops intake until an operator resolves it.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2358,6 +2358,46 @@
       "interval": "$window"
     },
     {
+      "id": 94,
+      "title": "Pages left for a later retry, by cause",
+      "description": "The node takes each of these pages in again.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 177
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 10,
+            "drawStyle": "line",
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (cause) (clamp_min(yacynode_pageintake_pages_left_for_retry_total{instance=~\"$service_instance\"} - (yacynode_pageintake_pages_left_for_retry_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "legendFormat": "{{cause}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
       "id": 92,
       "title": "URL metadata admission throughput",
       "type": "timeseries",
@@ -2367,9 +2407,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 12,
-        "y": 177
+        "w": 12,
+        "x": 0,
+        "y": 185
       },
       "fieldConfig": {
         "defaults": {
@@ -2405,9 +2445,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 18,
-        "y": 177
+        "w": 12,
+        "x": 12,
+        "y": 185
       },
       "fieldConfig": {
         "defaults": {
@@ -2441,7 +2481,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 185
+        "y": 193
       },
       "panels": []
     },
@@ -2457,7 +2497,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 186
+        "y": 194
       },
       "fieldConfig": {
         "defaults": {
@@ -2602,7 +2642,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 186
+        "y": 194
       },
       "options": {
         "tooltip": {
@@ -2656,7 +2696,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 194
+        "y": 202
       },
       "fieldConfig": {
         "defaults": {
@@ -2690,7 +2730,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 202
+        "y": 210
       },
       "panels": []
     },
@@ -2706,7 +2746,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 203
+        "y": 211
       },
       "fieldConfig": {
         "defaults": {
@@ -2754,7 +2794,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 203
+        "y": 211
       },
       "fieldConfig": {
         "defaults": {
@@ -2792,7 +2832,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 203
+        "y": 211
       },
       "fieldConfig": {
         "defaults": {
@@ -2830,7 +2870,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 211
+        "y": 219
       },
       "fieldConfig": {
         "defaults": {
@@ -2868,7 +2908,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 211
+        "y": 219
       },
       "fieldConfig": {
         "defaults": {
@@ -2907,7 +2947,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 211
+        "y": 219
       },
       "fieldConfig": {
         "defaults": {
@@ -2943,7 +2983,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 219
+        "y": 227
       },
       "panels": []
     },
@@ -2960,7 +3000,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 220
+        "y": 228
       },
       "fieldConfig": {
         "defaults": {
@@ -3019,7 +3059,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 220
+        "y": 228
       },
       "fieldConfig": {
         "defaults": {
@@ -3057,7 +3097,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 226
+        "y": 234
       },
       "fieldConfig": {
         "defaults": {
@@ -3100,7 +3140,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 226
+        "y": 234
       },
       "fieldConfig": {
         "defaults": {
@@ -3138,7 +3178,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 226
+        "y": 234
       },
       "fieldConfig": {
         "defaults": {
@@ -3181,7 +3221,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 234
+        "y": 242
       },
       "fieldConfig": {
         "defaults": {
@@ -3247,7 +3287,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 234
+        "y": 242
       },
       "fieldConfig": {
         "defaults": {
@@ -3290,7 +3330,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 234
+        "y": 242
       },
       "fieldConfig": {
         "defaults": {
@@ -3361,7 +3401,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 242
+        "y": 250
       },
       "fieldConfig": {
         "defaults": {
@@ -3404,7 +3444,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 242
+        "y": 250
       },
       "fieldConfig": {
         "defaults": {
@@ -3442,7 +3482,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 250
+        "y": 258
       },
       "fieldConfig": {
         "defaults": {
@@ -3480,7 +3520,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 250
+        "y": 258
       },
       "fieldConfig": {
         "defaults": {
@@ -3538,7 +3578,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 258
+        "y": 266
       },
       "fieldConfig": {
         "defaults": {
@@ -3581,7 +3621,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 258
+        "y": 266
       },
       "fieldConfig": {
         "defaults": {
@@ -3640,7 +3680,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 258
+        "y": 266
       },
       "fieldConfig": {
         "defaults": {
