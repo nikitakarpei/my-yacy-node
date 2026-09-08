@@ -14,7 +14,7 @@ import (
 	pageintakeobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacynode/internal/pageintakeobservers/prometheus"
 )
 
-func TestPageIntakeMetricsCountDisposalsAndAdmissions(t *testing.T) {
+func TestPageIntakeMetricsCountDisposalsRetriesAndAdmissions(t *testing.T) {
 	ctx := context.Background()
 	registry := prometheusclient.NewRegistry()
 	metrics := pageintakeobserversprometheus.New(registry)
@@ -38,10 +38,6 @@ func TestPageIntakeMetricsCountDisposalsAndAdmissions(t *testing.T) {
 		"indexed",
 		"document_extraction_failed",
 		"no_index_derived",
-		"url_metadata_admission_busy",
-		"url_metadata_admission_failed",
-		"postings_admission_busy",
-		"postings_admission_failed",
 		"invalid_message",
 	} {
 		want := `yacynode_pageintake_offered_pages_disposed_total{disposal="` + disposal + `"} 1`
@@ -49,8 +45,18 @@ func TestPageIntakeMetricsCountDisposalsAndAdmissions(t *testing.T) {
 			t.Errorf("metrics output missing %q", want)
 		}
 	}
+	for _, cause := range []string{
+		"url_metadata_admission_busy",
+		"url_metadata_admission_failed",
+		"postings_admission_busy",
+		"postings_admission_failed",
+	} {
+		want := `yacynode_pageintake_pages_left_for_retry_total{cause="` + cause + `"} 1`
+		if !strings.Contains(body, want) {
+			t.Errorf("metrics output missing %q", want)
+		}
+	}
 	for _, want := range []string{
-		"yacynode_pageintake_pages_offered_total 1",
 		"yacynode_pageintake_url_metadata_admitted_total 1",
 		"yacynode_pageintake_postings_admitted_total 17",
 	} {
@@ -73,6 +79,29 @@ func TestPageIntakeMetricsDoNotExposeMessageOrURLLabels(t *testing.T) {
 	for _, secret := range []string{"secret.example", "secret-message"} {
 		if strings.Contains(body, secret) {
 			t.Errorf("metrics output contains %q", secret)
+		}
+	}
+}
+
+func TestPageIntakeMetricsKeepRetriedPagesOutOfDisposals(t *testing.T) {
+	ctx := context.Background()
+	registry := prometheusclient.NewRegistry()
+	metrics := pageintakeobserversprometheus.New(registry)
+	pageURL := canonicalurltest.CanonicalURLOf(t, "https://example.test/page")
+
+	metrics.URLMetadataAdmissionBusy(ctx, "message", pageURL)
+	metrics.PostingsAdmissionBusy(ctx, "message", pageURL, 3)
+	metrics.PageIndexed(ctx, "message", pageURL)
+
+	body := exposition(t, registry)
+	want := `yacynode_pageintake_offered_pages_disposed_total{disposal="indexed"} 1`
+	if !strings.Contains(body, want) {
+		t.Errorf("metrics output missing %q", want)
+	}
+	for _, cause := range []string{"url_metadata_admission_busy", "postings_admission_busy"} {
+		unwanted := `yacynode_pageintake_offered_pages_disposed_total{disposal="` + cause + `"}`
+		if strings.Contains(body, unwanted) {
+			t.Errorf("metrics output contains %q", unwanted)
 		}
 	}
 }

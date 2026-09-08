@@ -1,6 +1,7 @@
 // Package prometheus counts what became of every page the scrape service offered to this
 // corpus, so an operator can tell a page that carries no document from one that carries no
-// readable text, and either of those from a search index that turns the write down.
+// readable text, and either of those from a search index that turns the write down and
+// leaves the page for a later retry.
 package prometheus
 
 import (
@@ -14,36 +15,43 @@ import (
 
 const (
 	labelOfferedPageDisposal = "disposal"
+	labelRetryCause          = "cause"
+)
 
+const (
 	disposalIndexed               = "indexed"
 	disposalNoDocumentExtracted   = "no-document-extracted"
 	disposalNoReadableTextDerived = "no-readable-text-derived"
-	disposalIndexFailed           = "index-failed"
 )
 
 var offeredPageDisposals = []string{
 	disposalIndexed,
 	disposalNoDocumentExtracted,
 	disposalNoReadableTextDerived,
-	disposalIndexFailed,
+}
+
+const retryCauseIndexFailed = "index-failed"
+
+var retryCauses = []string{
+	retryCauseIndexFailed,
 }
 
 type PageIntakeMetrics struct {
-	pagesOffered         prometheus.Counter
 	offeredPagesDisposed *prometheus.CounterVec
+	pagesLeftForRetry    *prometheus.CounterVec
 	indexDurationSecs    prometheus.Histogram
 }
 
 func New(registry prometheus.Registerer) *PageIntakeMetrics {
 	metrics := &PageIntakeMetrics{
-		pagesOffered: prometheus.NewCounter(prometheus.CounterOpts{
-			Name: "corpustext_pages_offered_total",
-			Help: "Pages the scrape service offered to this corpus.",
-		}),
 		offeredPagesDisposed: prometheus.NewCounterVec(prometheus.CounterOpts{
 			Name: "corpustext_offered_pages_disposed_total",
-			Help: "Offered pages, by how the corpus disposed of each one.",
+			Help: "Offered pages, by the disposal that ended their intake.",
 		}, []string{labelOfferedPageDisposal}),
+		pagesLeftForRetry: prometheus.NewCounterVec(prometheus.CounterOpts{
+			Name: "corpustext_pages_left_for_retry_total",
+			Help: "Offered pages the corpus could not index yet, by cause.",
+		}, []string{labelRetryCause}),
 		indexDurationSecs: prometheus.NewHistogram(prometheus.HistogramOpts{
 			Name:    "corpustext_index_duration_seconds",
 			Help:    "Search-index write duration in seconds.",
@@ -53,16 +61,18 @@ func New(registry prometheus.Registerer) *PageIntakeMetrics {
 	for _, disposal := range offeredPageDisposals {
 		metrics.offeredPagesDisposed.WithLabelValues(disposal)
 	}
+	for _, cause := range retryCauses {
+		metrics.pagesLeftForRetry.WithLabelValues(cause)
+	}
 	registry.MustRegister(
-		metrics.pagesOffered,
 		metrics.offeredPagesDisposed,
+		metrics.pagesLeftForRetry,
 		metrics.indexDurationSecs,
 	)
 	return metrics
 }
 
 func (m *PageIntakeMetrics) PageOffered(_ context.Context, _ canonicalurl.CanonicalURL) {
-	m.pagesOffered.Inc()
 }
 
 func (m *PageIntakeMetrics) NoDocumentExtracted(
@@ -89,7 +99,7 @@ func (m *PageIntakeMetrics) IndexFailed(
 	_ canonicalurl.CanonicalURL,
 	_ error,
 ) {
-	m.dispose(disposalIndexFailed)
+	m.leaveForRetry(retryCauseIndexFailed)
 }
 
 func (m *PageIntakeMetrics) PageIndexed(_ context.Context, _ canonicalurl.CanonicalURL) {
@@ -98,4 +108,8 @@ func (m *PageIntakeMetrics) PageIndexed(_ context.Context, _ canonicalurl.Canoni
 
 func (m *PageIntakeMetrics) dispose(disposal string) {
 	m.offeredPagesDisposed.WithLabelValues(disposal).Inc()
+}
+
+func (m *PageIntakeMetrics) leaveForRetry(cause string) {
+	m.pagesLeftForRetry.WithLabelValues(cause).Inc()
 }

@@ -32,6 +32,7 @@ type announcer struct {
 	seeds              bootstrap.SeedSource
 	roster             peerRoster
 	greeter            httpPeerGreeter
+	observer           AnnouncementObserver
 }
 
 func (a *announcer) Run(ctx context.Context) {
@@ -63,17 +64,18 @@ func (a *announcer) announce(ctx context.Context) {
 		)
 	}
 
-	a.contactAll(ctx, self, peerHashes)
+	contactOutcomes := a.contactAll(ctx, self, peerHashes)
+	a.observer.ObserveAnnounceRound(amountOfPeersPerContactOutcome(contactOutcomes))
 }
 
 func (a *announcer) contactAll(
 	ctx context.Context,
 	self yacymodel.Seed,
 	peerHashes []yacymodel.Hash,
-) {
+) []ContactOutcome {
 	concurrency := max(a.contactConcurrency, 1)
 	slots := make(chan struct{}, concurrency)
-	done := make(chan struct{}, len(peerHashes))
+	outcomes := make(chan ContactOutcome, len(peerHashes))
 
 	pending := 0
 	for _, peerHash := range peerHashes {
@@ -90,24 +92,27 @@ func (a *announcer) contactAll(
 		pending++
 		slots <- struct{}{}
 		go func(peerHash yacymodel.Hash) {
-			defer func() { <-slots; done <- struct{}{} }()
-			a.contactOne(ctx, self, peerHash)
+			defer func() { <-slots }()
+			outcomes <- a.contactOne(ctx, self, peerHash)
 		}(peerHash)
 	}
 
+	contactOutcomes := make([]ContactOutcome, 0, pending)
 	for range pending {
-		<-done
+		contactOutcomes = append(contactOutcomes, <-outcomes)
 	}
+
+	return contactOutcomes
 }
 
 func (a *announcer) contactOne(
 	ctx context.Context,
 	self yacymodel.Seed,
 	peerHash yacymodel.Hash,
-) {
+) ContactOutcome {
 	networkAddress, found := a.roster.NetworkAddressOf(ctx, peerHash)
 	if !found {
-		return
+		return PeerDidNotAnswer
 	}
 
 	result, err := a.greeter.Greet(ctx, networkAddress, self, announceHelloPeerCount)
@@ -121,7 +126,7 @@ func (a *announcer) contactOne(
 			slog.Any("error", err),
 		)
 
-		return
+		return PeerDidNotAnswer
 	}
 	if result.RespondingSeed.Hash != peerHash {
 		a.roster.ConfirmUnreachable(ctx, peerHash)
@@ -140,7 +145,7 @@ func (a *announcer) contactOne(
 			slog.String("peer", peerHash.String()),
 		)
 
-		return
+		return PeerDidNotAnswer
 	}
 	reportedPeerType, present := result.ObservedPeerType.Get()
 	if !present || !confirmsOurNetwork(reportedPeerType) {
@@ -152,7 +157,7 @@ func (a *announcer) contactOne(
 			slog.String("endpoint", networkAddress.String()),
 		)
 
-		return
+		return contactOutcomeFromObservedPeerType(result.ObservedPeerType)
 	}
 	if reportedPeerType == yacymodel.PeerJunior {
 		slog.WarnContext(
@@ -166,6 +171,8 @@ func (a *announcer) contactOne(
 
 	a.roster.ConfirmReachable(ctx, result.RespondingSeed)
 	a.roster.Discover(ctx, result.KnownSeeds...)
+
+	return contactOutcomeFromObservedPeerType(result.ObservedPeerType)
 }
 
 func confirmsOurNetwork(reportedPeerType yacymodel.PeerType) bool {

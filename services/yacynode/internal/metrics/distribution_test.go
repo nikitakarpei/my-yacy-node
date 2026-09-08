@@ -96,7 +96,7 @@ func TestDistributionCountsPostingsGoneAndStaleReplicasDropped(t *testing.T) {
 	observer.ObserveStaleReplicasDropped(2)
 
 	expected := `
-# HELP yacynode_rwidistribution_postings_gone_total Due postings evicted between the schedule read and the posting read.
+# HELP yacynode_rwidistribution_postings_gone_total Due postings missing from the index when the cycle read them.
 # TYPE yacynode_rwidistribution_postings_gone_total counter
 yacynode_rwidistribution_postings_gone_total 1
 # HELP yacynode_rwidistribution_stale_replicas_dropped_total Replicas dropped for peers no longer responsible.

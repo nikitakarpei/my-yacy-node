@@ -123,6 +123,18 @@ func seniorAnswer(t testing.TB, gossiped ...yacymodel.Seed) peerAnswer {
 	}
 }
 
+func juniorAnswer(t testing.TB, gossiped ...yacymodel.Seed) peerAnswer {
+	t.Helper()
+
+	return func(respondingSeed yacymodel.Seed) http.HandlerFunc {
+		return helloAnswer(yacyproto.HelloResponse{
+			YourIP:   "203.0.113.9",
+			YourType: yacymodel.Some(yacymodel.PeerJunior),
+			Seeds:    append([]yacymodel.Seed{respondingSeed}, gossiped...),
+		})
+	}
+}
+
 func virginAnswer(t testing.TB, gossiped ...yacymodel.Seed) peerAnswer {
 	t.Helper()
 

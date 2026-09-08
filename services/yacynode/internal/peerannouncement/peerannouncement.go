@@ -34,6 +34,7 @@ func New(
 	self SelfSeed,
 	seeds bootstrap.SeedSource,
 	roster peerRoster,
+	observer AnnouncementObserver,
 ) Announcer {
 	return &announcer{
 		interval:           cfg.Interval,
@@ -43,5 +44,6 @@ func New(
 		seeds:              seeds,
 		roster:             roster,
 		greeter:            newHTTPPeerGreeter(cfg.Client, cfg.NetworkName),
+		observer:           observer,
 	}
 }

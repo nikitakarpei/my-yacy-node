@@ -145,11 +145,28 @@ func (s *stubSeedSource) Fetch(context.Context) []yacymodel.Seed {
 	return s.seeds
 }
 
+type stubAnnouncementObserver struct {
+	rounds chan map[peerannouncement.ContactOutcome]int
+}
+
+func newStubAnnouncementObserver() *stubAnnouncementObserver {
+	return &stubAnnouncementObserver{
+		rounds: make(chan map[peerannouncement.ContactOutcome]int, 16),
+	}
+}
+
+func (s *stubAnnouncementObserver) ObserveAnnounceRound(
+	amountOfPeersPerContactOutcome map[peerannouncement.ContactOutcome]int,
+) {
+	s.rounds <- amountOfPeersPerContactOutcome
+}
+
 func announcerFor(
 	self yacymodel.Seed,
 	seeds []yacymodel.Seed,
 	roster *stubRoster,
 	reachableCap int,
+	observer peerannouncement.AnnouncementObserver,
 ) peerannouncement.Announcer {
 	return peerannouncement.New(
 		peerannouncement.Config{
@@ -162,6 +179,7 @@ func announcerFor(
 		stubSelf{seed: self},
 		&stubSeedSource{seeds: seeds},
 		roster,
+		observer,
 	)
 }
 
@@ -190,13 +208,140 @@ func runUntilPeerConfirmed(
 	<-stopped
 }
 
+func roundObservedFor(
+	t *testing.T,
+	self yacymodel.Seed,
+	roster *stubRoster,
+) map[peerannouncement.ContactOutcome]int {
+	t.Helper()
+
+	observer := newStubAnnouncementObserver()
+	announcer := announcerFor(self, nil, roster, 4, observer)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	stopped := make(chan struct{})
+	go func() {
+		defer close(stopped)
+		announcer.Run(ctx)
+	}()
+
+	var round map[peerannouncement.ContactOutcome]int
+	select {
+	case round = <-observer.rounds:
+	case <-time.After(confirmationWait):
+		cancel()
+		t.Fatal("timed out waiting for the announcer to observe a round")
+	}
+
+	cancel()
+	<-stopped
+
+	return round
+}
+
+func assertSolePeerOutcome(
+	t *testing.T,
+	round map[peerannouncement.ContactOutcome]int,
+	want peerannouncement.ContactOutcome,
+) {
+	t.Helper()
+
+	for _, outcome := range peerannouncement.ContactOutcomes() {
+		amountOfPeers, reported := round[outcome]
+		if !reported {
+			t.Fatalf("outcome %q absent from the round, want every outcome reported", outcome)
+		}
+		wantAmountOfPeers := 0
+		if outcome == want {
+			wantAmountOfPeers = 1
+		}
+		if amountOfPeers != wantAmountOfPeers {
+			t.Fatalf(
+				"outcome %q = %d, want %d",
+				outcome,
+				amountOfPeers,
+				wantAmountOfPeers,
+			)
+		}
+	}
+}
+
+func TestAnnounceReportsPeerThatReachedThisNodeBack(t *testing.T) {
+	self := newStubPeer(t, "self", seniorAnswer(t))
+	peer := newStubPeer(t, "peer", seniorAnswer(t))
+
+	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
+
+	assertSolePeerOutcome(
+		t,
+		roundObservedFor(t, self.seed, roster),
+		peerannouncement.ContactOutcomeFromReportedSelfType(yacymodel.PeerSenior),
+	)
+}
+
+func TestAnnounceReportsPeerThatCouldNotReachThisNodeBack(t *testing.T) {
+	self := newStubPeer(t, "self", seniorAnswer(t))
+	peer := newStubPeer(t, "peer", juniorAnswer(t))
+
+	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
+
+	assertSolePeerOutcome(
+		t,
+		roundObservedFor(t, self.seed, roster),
+		peerannouncement.ContactOutcomeFromReportedSelfType(yacymodel.PeerJunior),
+	)
+}
+
+func TestAnnounceReportsPeerThatDoesNotKnowThisNode(t *testing.T) {
+	self := newStubPeer(t, "self", seniorAnswer(t))
+	peer := newStubPeer(t, "peer", virginAnswer(t))
+
+	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
+
+	assertSolePeerOutcome(
+		t,
+		roundObservedFor(t, self.seed, roster),
+		peerannouncement.ContactOutcomeFromReportedSelfType(yacymodel.PeerVirgin),
+	)
+}
+
+func TestAnnounceReportsPeerThatReportedNoTypeForThisNode(t *testing.T) {
+	self := newStubPeer(t, "self", seniorAnswer(t))
+	peer := newStubPeer(t, "peer", untypedAnswer(t))
+
+	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
+
+	assertSolePeerOutcome(
+		t,
+		roundObservedFor(t, self.seed, roster),
+		peerannouncement.PeerReportedNoSelfType,
+	)
+}
+
+func TestAnnounceReportsPeerThatDidNotAnswer(t *testing.T) {
+	self := newStubPeer(t, "self", seniorAnswer(t))
+	peer := newStubPeer(t, "peer", unavailableAnswer())
+
+	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
+
+	assertSolePeerOutcome(
+		t,
+		roundObservedFor(t, self.seed, roster),
+		peerannouncement.PeerDidNotAnswer,
+	)
+}
+
 func TestAnnounceRecordsReachableAndGossip(t *testing.T) {
 	self := newStubPeer(t, "self", seniorAnswer(t))
 	known := newStubPeer(t, "known", seniorAnswer(t))
 	peer := newStubPeer(t, "peer", seniorAnswer(t, known.seed))
 
 	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
-	runUntilPeerConfirmed(t, announcerFor(self.seed, nil, roster, 4), roster)
+	runUntilPeerConfirmed(
+		t,
+		announcerFor(self.seed, nil, roster, 4, peerannouncement.DiscardObserver),
+		roster,
+	)
 
 	reachable := roster.reachableHashes()
 	if len(reachable) != 1 || reachable[0] != peer.seed.Hash {
@@ -219,7 +364,11 @@ func TestAnnounceReplacesPeerIdentityAtKnownAddress(t *testing.T) {
 	respondingPeer := answeringPeerSeed(t)
 
 	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
-	runUntilPeerConfirmed(t, announcerFor(self.seed, nil, roster, 4), roster)
+	runUntilPeerConfirmed(
+		t,
+		announcerFor(self.seed, nil, roster, 4, peerannouncement.DiscardObserver),
+		roster,
+	)
 
 	unreachable := roster.unreachableHashes()
 	if len(unreachable) != 1 || unreachable[0] != peer.seed.Hash {
@@ -240,7 +389,11 @@ func TestAnnounceSkipsSelfInTargets(t *testing.T) {
 	peer := newStubPeer(t, "peer", seniorAnswer(t))
 
 	roster := newStubRoster(nil, []yacymodel.Seed{self.seed, peer.seed})
-	runUntilPeerConfirmed(t, announcerFor(self.seed, nil, roster, 4), roster)
+	runUntilPeerConfirmed(
+		t,
+		announcerFor(self.seed, nil, roster, 4, peerannouncement.DiscardObserver),
+		roster,
+	)
 
 	if self.greetCount() != 0 {
 		t.Fatalf("self greeted %d times, want 0", self.greetCount())
@@ -260,7 +413,11 @@ func TestAnnounceMarksFailedGreetUnreachable(t *testing.T) {
 	peer := newStubPeer(t, "peer", unavailableAnswer())
 
 	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
-	runUntilPeerConfirmed(t, announcerFor(self.seed, nil, roster, 4), roster)
+	runUntilPeerConfirmed(
+		t,
+		announcerFor(self.seed, nil, roster, 4, peerannouncement.DiscardObserver),
+		roster,
+	)
 
 	unreachable := roster.unreachableHashes()
 	if len(unreachable) != 1 || unreachable[0] != peer.seed.Hash {
@@ -277,7 +434,11 @@ func TestAnnounceRejectsPeerThatDidNotConfirmOurNetwork(t *testing.T) {
 	peer := newStubPeer(t, "peer", untypedAnswer(t, known.seed))
 
 	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
-	runUntilPeerConfirmed(t, announcerFor(self.seed, nil, roster, 4), roster)
+	runUntilPeerConfirmed(
+		t,
+		announcerFor(self.seed, nil, roster, 4, peerannouncement.DiscardObserver),
+		roster,
+	)
 
 	unreachable := roster.unreachableHashes()
 	if len(unreachable) != 1 || unreachable[0] != peer.seed.Hash {
@@ -294,7 +455,11 @@ func TestAnnounceRejectsPeerThatAnswersVirgin(t *testing.T) {
 	peer := newStubPeer(t, "peer", virginAnswer(t, known.seed))
 
 	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
-	runUntilPeerConfirmed(t, announcerFor(self.seed, nil, roster, 4), roster)
+	runUntilPeerConfirmed(
+		t,
+		announcerFor(self.seed, nil, roster, 4, peerannouncement.DiscardObserver),
+		roster,
+	)
 
 	unreachable := roster.unreachableHashes()
 	if len(unreachable) != 1 || unreachable[0] != peer.seed.Hash {
@@ -314,7 +479,11 @@ func TestAnnounceRefreshesReachablePeersEvenAtCapacity(t *testing.T) {
 		[]yacymodel.Seed{reachablePeer.seed},
 		[]yacymodel.Seed{skippedPeer.seed},
 	)
-	runUntilPeerConfirmed(t, announcerFor(self.seed, nil, roster, 1), roster)
+	runUntilPeerConfirmed(
+		t,
+		announcerFor(self.seed, nil, roster, 1, peerannouncement.DiscardObserver),
+		roster,
+	)
 
 	if reachablePeer.greetCount() != 1 {
 		t.Fatalf("reachable peer greeted %d times, want 1", reachablePeer.greetCount())
@@ -331,7 +500,13 @@ func TestRunFetchesSeedSourceOnStart(t *testing.T) {
 	roster := newStubRoster(nil, []yacymodel.Seed{peer.seed})
 	runUntilPeerConfirmed(
 		t,
-		announcerFor(self.seed, []yacymodel.Seed{peer.seed}, roster, 4),
+		announcerFor(
+			self.seed,
+			[]yacymodel.Seed{peer.seed},
+			roster,
+			4,
+			peerannouncement.DiscardObserver,
+		),
 		roster,
 	)
 
