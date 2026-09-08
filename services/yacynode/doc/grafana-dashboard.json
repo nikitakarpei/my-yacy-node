@@ -297,6 +297,7 @@
     {
       "id": 12,
       "title": "Requests by endpoint",
+      "description": "A request that matched no route counts under the endpoint \"unmatched\".",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
