@@ -14,6 +14,13 @@ small, single-purpose Go services.
 Start with [Build your own search stack](doc/build-your-own-search-stack) to see
 how to compose the services into working deployments.
 
+## Demo
+
+Try [the public search instance](https://search.my-yacy-node.org/). It combines
+chapters 1–6, 11, and 12 of [the guide](doc/build-your-own-search-stack#chapters)
+on a VPS with 1 CPU and 1 GB RAM.
+See the [live metrics](https://metrics.my-yacy-node.org/dashboards).
+
 ## Motivation
 
 A standard YaCy node can exceed the memory available on small machines such as
