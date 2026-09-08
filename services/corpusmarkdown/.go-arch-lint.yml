@@ -19,8 +19,8 @@ components:
     in: internal/pagemarkdowncorpora/jetstream/**
   markdownrecall:
     in: internal/markdownrecall/**
-  markdownrecallreceiversgrpc:
-    in: internal/markdownrecallreceivers/grpc/**
+  markdownrecallreceivershttp:
+    in: internal/markdownrecallreceivers/http/**
   intakereceiptsnats:
     in: internal/intakereceipts/nats/**
   intakereceiptpublicationobserversapplog:
@@ -51,14 +51,6 @@ vendors:
     in:
       - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore
       - github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/**
-  grpc:
-    in:
-      - google.golang.org/grpc
-      - google.golang.org/grpc/**
-  protobuf:
-    in:
-      - google.golang.org/protobuf
-      - google.golang.org/protobuf/**
   nats:
     in:
       - github.com/nats-io/nats.go
@@ -95,13 +87,11 @@ deps:
     canUse:
       - pagescrapecontract
       - nats
-  markdownrecallreceiversgrpc:
+  markdownrecallreceivershttp:
     mayDependOn:
       - markdownrecall
     canUse:
       - pagemarkdownstore
-      - grpc
-      - protobuf
   intakereceiptpublicationobserversprometheus:
     canUse:
       - prometheus

@@ -50,7 +50,6 @@ linters:
       ignore-package-globs:
         - github.com/nikitakarpei/yacy-rwi-node/*
         - golang.org/x/sync/errgroup
-        - google.golang.org/grpc/status
     testpackage:
       allow-packages:
         - e2e

@@ -1,20 +1,17 @@
-package grpc_test
+package http_test
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
-	"net"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 	"time"
 
-	grpcserver "google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl/canonicalurltest"
-	corpusmarkdownv1 "github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/corpusmarkdown/v1"
-	markdowncorporagrpc "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/markdowncorpora/grpc"
+	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
+	markdowncorporahttp "github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/markdowncorpora/http"
 	"github.com/nikitakarpei/yacy-rwi-node/webresearchmcp/internal/pageread"
 )
 
@@ -26,51 +23,38 @@ const (
 )
 
 type corpusServing struct {
-	corpusmarkdownv1.UnimplementedMarkdownCorpusServer
-	held     *corpusmarkdownv1.RecallPageResponse
+	held     *pagemarkdownstore.RecalledPage
 	notFound bool
 }
 
-func (s *corpusServing) RecallPage(
-	_ context.Context,
-	_ *corpusmarkdownv1.RecallPageRequest,
-) (*corpusmarkdownv1.RecallPageResponse, error) {
+func (s *corpusServing) ServeHTTP(writer http.ResponseWriter, _ *http.Request) {
 	if s.notFound {
-		return nil, status.Error(codes.NotFound, "the corpus holds no markdown for the page")
+		http.Error(writer, "the corpus holds no markdown for the page", http.StatusNotFound)
+		return
 	}
 	if s.held == nil {
-		return nil, status.Error(codes.Unavailable, "the corpus is away")
+		http.Error(writer, "the corpus is away", http.StatusServiceUnavailable)
+		return
 	}
-	return s.held, nil
+	writer.Header().Set("Content-Type", "application/json; charset=utf-8")
+	_ = json.NewEncoder(writer).Encode(s.held)
 }
 
-func openCorpusUnderTest(t *testing.T, serving *corpusServing) *markdowncorporagrpc.MarkdownCorpus {
+func openCorpusUnderTest(t *testing.T, serving *corpusServing) *markdowncorporahttp.MarkdownCorpus {
 	t.Helper()
-	listener, err := (&net.ListenConfig{}).Listen(t.Context(), "tcp", "127.0.0.1:0")
-	if err != nil {
-		t.Fatalf("listen: %v", err)
-	}
-	endpoint := grpcserver.NewServer()
-	corpusmarkdownv1.RegisterMarkdownCorpusServer(endpoint, serving)
-	go func() { _ = endpoint.Serve(listener) }()
-	t.Cleanup(endpoint.Stop)
-
-	corpus, err := markdowncorporagrpc.OpenMarkdownCorpus(listener.Addr().String(), recallDeadline)
-	if err != nil {
-		t.Fatalf("open the markdown corpus: %v", err)
-	}
-	t.Cleanup(func() { _ = corpus.Close() })
-	return corpus
+	corpus := httptest.NewServer(serving)
+	t.Cleanup(corpus.Close)
+	return markdowncorporahttp.NewMarkdownCorpus(corpus.Listener.Addr().String(), recallDeadline)
 }
 
 func TestPageTheCorpusHoldsIsReadWithItsVersionAndTheTimeItWasStored(t *testing.T) {
 	storedAt := time.Now().UTC().Truncate(time.Second)
 	corpus := openCorpusUnderTest(t, &corpusServing{
-		held: &corpusmarkdownv1.RecallPageResponse{
-			CanonicalUrl: pageAddress,
+		held: &pagemarkdownstore.RecalledPage{
+			CanonicalURL: pageAddress,
 			Markdown:     heldMarkdown,
 			Version:      heldVersion,
-			StoredAt:     timestamppb.New(storedAt),
+			StoredAt:     storedAt,
 		},
 	})
 

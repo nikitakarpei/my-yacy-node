@@ -49,7 +49,7 @@ func pageOf(
 	t *testing.T,
 	corpus markdownrecall.PageMarkdownCorpus,
 	url string,
-) (markdownrecall.RecalledPage, bool, error) {
+) (markdownrecall.PageUnderRequestedURL, bool, error) {
 	t.Helper()
 	return markdownrecall.NewPageMarkdownRecall(corpus).PageOf(
 		context.Background(), canonicalurltest.CanonicalURLOf(t, url),

@@ -1,23 +1,59 @@
-// Package markdowncorpusclienttest dials the markdown corpus contract of a running service in a test.
+// Package markdowncorpusclienttest calls the markdown corpus contract of a running service in a test.
 package markdowncorpusclienttest
 
 import (
+	"context"
+	"encoding/json"
+	"net/http"
+	"net/url"
 	"testing"
 
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-
-	corpusmarkdownv1 "github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore/corpusmarkdown/v1"
+	"github.com/nikitakarpei/yacy-rwi-node/pagemarkdownstore"
 )
 
-func New(t *testing.T, listenAddress string) corpusmarkdownv1.MarkdownCorpusClient {
+type MarkdownCorpusClient struct {
+	t             *testing.T
+	recallAddress string
+}
+
+func New(t *testing.T, listenAddress string) MarkdownCorpusClient {
 	t.Helper()
-	connection, err := grpc.NewClient(
-		listenAddress, grpc.WithTransportCredentials(insecure.NewCredentials()),
+	return MarkdownCorpusClient{
+		t:             t,
+		recallAddress: "http://" + listenAddress + pagemarkdownstore.RecalledPagePath,
+	}
+}
+
+func (c MarkdownCorpusClient) RecallPage(
+	ctx context.Context,
+	requestedURL string,
+) (pagemarkdownstore.RecalledPage, int) {
+	c.t.Helper()
+	request, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodGet,
+		c.recallAddressOf(requestedURL),
+		nil,
 	)
 	if err != nil {
-		t.Fatalf("dial markdown corpus: %v", err)
+		c.t.Fatalf("build the recall request: %v", err)
 	}
-	t.Cleanup(func() { _ = connection.Close() })
-	return corpusmarkdownv1.NewMarkdownCorpusClient(connection)
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		c.t.Fatalf("recall page: %v", err)
+	}
+	defer func() { _ = response.Body.Close() }()
+	if response.StatusCode != http.StatusOK {
+		return pagemarkdownstore.RecalledPage{}, response.StatusCode
+	}
+	var recalled pagemarkdownstore.RecalledPage
+	if err := json.NewDecoder(response.Body).Decode(&recalled); err != nil {
+		c.t.Fatalf("decode the recalled page: %v", err)
+	}
+	return recalled, response.StatusCode
+}
+
+func (c MarkdownCorpusClient) recallAddressOf(requestedURL string) string {
+	query := url.Values{pagemarkdownstore.RequestedURLQueryParam: {requestedURL}}
+	return c.recallAddress + "?" + query.Encode()
 }
