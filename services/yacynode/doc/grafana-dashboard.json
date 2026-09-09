@@ -120,6 +120,7 @@
       "id": 1,
       "title": "Node health",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -130,8 +131,8 @@
     },
     {
       "id": 2,
-      "title": "Known peers",
-      "description": "Peers in the roster, reachable or not.",
+      "title": "Peers this node knows",
+      "description": "Reachable or not.",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -286,6 +287,7 @@
       "id": 10,
       "title": "Inbound HTTP requests",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -333,7 +335,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint) (clamp_min(yacynode_http_requests_total{instance=~\"$service_instance\"} - (yacynode_http_requests_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (endpoint) (clamp_min(yacynode_http_requests_total{instance=~\"$service_instance\"} - (yacynode_http_requests_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{endpoint}}"
         }
       ],
@@ -380,7 +382,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint, code) (clamp_min(yacynode_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} - (yacynode_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (endpoint, code) (clamp_min(yacynode_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} - (yacynode_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{endpoint}} {{code}}"
         }
       ],
@@ -421,7 +423,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.90, sum by (le, endpoint) (clamp_min(yacynode_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
+          "expr": "histogram_quantile(0.90, sum by (le, endpoint) (clamp_min(yacynode_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "{{endpoint}}"
         }
       ],
@@ -429,8 +431,9 @@
     },
     {
       "id": 40,
-      "title": "Peers this node knows",
+      "title": "Known peers",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -482,7 +485,7 @@
     },
     {
       "id": 42,
-      "title": "Announce round outcomes",
+      "title": "Peers reached in each announce round, by outcome",
       "description": "Peers contacted in the last announce round, by the peer type they reported this node to be.",
       "type": "timeseries",
       "datasource": {
@@ -529,6 +532,7 @@
       "id": 80,
       "title": "Search requests from peers",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -676,7 +680,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacynode_documentsearch_searches_total{instance=~\"$service_instance\"} - (yacynode_documentsearch_searches_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (outcome) (clamp_min(yacynode_documentsearch_searches_total{instance=~\"$service_instance\"} - (yacynode_documentsearch_searches_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
       ],
@@ -704,22 +708,22 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"} - (yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"} offset $window), 0)))",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"} - (yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "holds it p50"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"} - (yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"} offset $window), 0)))",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"} - (yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"in_index\", instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "holds it p90"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"} - (yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"} offset $window), 0)))",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"} - (yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "does not hold it p50"
         },
         {
           "refId": "D",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"} - (yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"} offset $window), 0)))",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"} - (yacynode_documentsearch_query_term_ring_fraction_bucket{presence=\"not_in_index\", instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "does not hold it p90"
         }
       ],
@@ -768,7 +772,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (option) (clamp_min(yacynode_documentsearch_unsupported_options_requested_total{instance=~\"$service_instance\"} - (yacynode_documentsearch_unsupported_options_requested_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (option) (clamp_min(yacynode_documentsearch_unsupported_options_requested_total{instance=~\"$service_instance\"} - (yacynode_documentsearch_unsupported_options_requested_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{option}}"
         }
       ],
@@ -776,8 +780,9 @@
     },
     {
       "id": 60,
-      "title": "Word index coming in from peers",
+      "title": "Word index admission from peers",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -818,7 +823,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (reason) (clamp_min(yacynode_rwiadmission_postings_refused_total{instance=~\"$service_instance\"} - (yacynode_rwiadmission_postings_refused_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (reason) (clamp_min(yacynode_rwiadmission_postings_refused_total{instance=~\"$service_instance\"} - (yacynode_rwiadmission_postings_refused_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{reason}}"
         }
       ],
@@ -886,6 +891,54 @@
       "interval": "$window"
     },
     {
+      "id": 61,
+      "title": "Postings that start waiting, join the index, or are dropped",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 57
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cps",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "showPoints": "auto"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(yacynode_rwiescrow_postings_held_total{instance=~\"$service_instance\"}[$window])",
+          "legendFormat": "waiting"
+        },
+        {
+          "refId": "B",
+          "expr": "rate(yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"}[$window])",
+          "legendFormat": "joined the index"
+        },
+        {
+          "refId": "C",
+          "expr": "rate(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"}[$window])",
+          "legendFormat": "dropped"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
       "id": 63,
       "title": "Share of waiting postings whose URL never arrived",
       "type": "state-timeline",
@@ -943,56 +996,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} offset $window), 0) / (clamp_min(yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"} offset $window), 0) + clamp_min(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "clamp_min(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} offset $__interval), 0) / (clamp_min(yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"} offset $__interval), 0) + clamp_min(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "URL never arrived"
-        }
-      ],
-      "interval": "$window"
-    },
-    {
-      "id": 61,
-      "title": "Postings that start waiting, join the index, or are dropped",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 57
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "cps",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "showPoints": "auto"
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "rate(yacynode_rwiescrow_postings_held_total{instance=~\"$service_instance\"}[$window])",
-          "legendFormat": "waiting"
-        },
-        {
-          "refId": "B",
-          "expr": "rate(yacynode_rwiescrow_postings_released_total{instance=~\"$service_instance\"}[$window])",
-          "legendFormat": "joined the index"
-        },
-        {
-          "refId": "C",
-          "expr": "rate(yacynode_rwiescrow_postings_expired_total{instance=~\"$service_instance\"}[$window])",
-          "legendFormat": "dropped"
         }
       ],
       "interval": "$window"
@@ -1049,7 +1054,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacynode_rwiescrow_expiry_failures_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_expiry_failures_total{instance=~\"$service_instance\"} offset $window), 0)",
+          "expr": "clamp_min(yacynode_rwiescrow_expiry_failures_total{instance=~\"$service_instance\"} - (yacynode_rwiescrow_expiry_failures_total{instance=~\"$service_instance\"} offset $__interval), 0)",
           "legendFormat": "failures"
         }
       ],
@@ -1059,6 +1064,7 @@
       "id": 90,
       "title": "Pages offered for indexing",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1100,7 +1106,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (disposal) (clamp_min(yacynode_pageintake_offered_pages_disposed_total{instance=~\"$service_instance\"} - (yacynode_pageintake_offered_pages_disposed_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (disposal) (clamp_min(yacynode_pageintake_offered_pages_disposed_total{instance=~\"$service_instance\"} - (yacynode_pageintake_offered_pages_disposed_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{disposal}}"
         }
       ],
@@ -1139,7 +1145,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (cause) (clamp_min(yacynode_pageintake_pages_left_for_retry_total{instance=~\"$service_instance\"} - (yacynode_pageintake_pages_left_for_retry_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (cause) (clamp_min(yacynode_pageintake_pages_left_for_retry_total{instance=~\"$service_instance\"} - (yacynode_pageintake_pages_left_for_retry_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{cause}}"
         }
       ],
@@ -1236,7 +1242,7 @@
     },
     {
       "id": 72,
-      "title": "Ring sectors with no accepting peer",
+      "title": "Ring sectors with no peer accepting word index",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1293,7 +1299,7 @@
     },
     {
       "id": 71,
-      "title": "Peers accepting remote index, by ring sector",
+      "title": "Peers accepting word index, by ring sector",
       "description": "The DHT ring unrolled: each row is one sector of the keyspace.",
       "type": "heatmap",
       "datasource": {
@@ -1355,8 +1361,9 @@
     },
     {
       "id": 50,
-      "title": "Word index going out to peers",
+      "title": "Word index distribution to peers",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1375,7 +1382,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 120
       },
@@ -1387,22 +1394,22 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.10, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
+          "expr": "histogram_quantile(0.10, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "p10"
         },
         {
           "refId": "B",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
+          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "p50"
         },
         {
           "refId": "C",
-          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
+          "expr": "histogram_quantile(0.90, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "p90"
         },
         {
           "refId": "D",
-          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
+          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacynode_rwidistribution_replica_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
           "legendFormat": "p99"
         }
       ],
@@ -1420,8 +1427,9 @@
       "interval": "$window"
     },
     {
-      "id": 59,
-      "title": "Distribution cycles skipped, by reason",
+      "id": 58,
+      "title": "Peers no longer counted as replica holders",
+      "description": "A peer stops counting as a holder when it is unreachable for too long, or when it drifts outside the replica window of the posting.",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -1429,91 +1437,16 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 0,
-        "y": 128
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (reason) (clamp_min(yacynode_rwidistribution_cycles_skipped_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_cycles_skipped_total{instance=~\"$service_instance\"} offset $window), 0))",
-          "legendFormat": "{{reason}}"
-        }
-      ],
-      "interval": "$window"
-    },
-    {
-      "id": 85,
-      "title": "Distribution batches aborted, by reason",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 6,
-        "y": 128
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (reason) (clamp_min(yacynode_rwidistribution_batches_aborted_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_batches_aborted_total{instance=~\"$service_instance\"} offset $window), 0))",
-          "legendFormat": "{{reason}}"
-        }
-      ],
-      "interval": "$window"
-    },
-    {
-      "id": 52,
-      "title": "Share of posting offers peers accepted",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
+        "w": 12,
         "x": 12,
-        "y": 128
+        "y": 120
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percentunit",
-          "min": 0,
-          "max": 1,
+          "unit": "short",
           "custom": {
-            "fillOpacity": 10
+            "drawStyle": "bars",
+            "fillOpacity": 70
           }
         }
       },
@@ -1525,44 +1458,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum(rate(yacynode_rwidistribution_posting_offers_sent_total{result=\"accepted\",instance=~\"$service_instance\"}[$window])) / sum(rate(yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"}[$window]))",
-          "legendFormat": "accepted"
-        }
-      ],
-      "interval": "$window"
-    },
-    {
-      "id": 56,
-      "title": "Lateness of the most overdue posting offer",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 18,
-        "y": 128
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "custom": {
-            "fillOpacity": 10
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "yacynode_rwidistribution_longest_offer_lateness_seconds{instance=~\"$service_instance\"}",
-          "legendFormat": "lateness"
+          "expr": "clamp_min(yacynode_rwidistribution_stale_replicas_dropped_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_stale_replicas_dropped_total{instance=~\"$service_instance\"} offset $__interval), 0)",
+          "legendFormat": "dropped"
         }
       ],
       "interval": "$window"
@@ -1579,7 +1476,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 136
+        "y": 128
       },
       "fieldConfig": {
         "defaults": {
@@ -1691,7 +1588,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (clamp_min(yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (result) (clamp_min(yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{result}}"
         }
       ],
@@ -1709,7 +1606,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 136
+        "y": 128
       },
       "fieldConfig": {
         "defaults": {
@@ -1839,7 +1736,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 144
+        "y": 136
       },
       "fieldConfig": {
         "defaults": {
@@ -1921,7 +1818,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (result) (clamp_min(yacynode_rwidistribution_url_metadata_deliveries_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_url_metadata_deliveries_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (result) (clamp_min(yacynode_rwidistribution_url_metadata_deliveries_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_url_metadata_deliveries_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{result}}"
         }
       ],
@@ -1939,7 +1836,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 144
+        "y": 136
       },
       "fieldConfig": {
         "defaults": {
@@ -2028,9 +1925,8 @@
       "interval": "$window"
     },
     {
-      "id": 58,
-      "title": "Posting replica holders the node stopped counting",
-      "description": "A peer stops counting as a holder when it is unreachable for too long, or when it drifts outside the replica window of the posting.",
+      "id": 52,
+      "title": "Share of posting offers peers accepted",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -2040,14 +1936,15 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 152
+        "y": 144
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
           "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
+            "fillOpacity": 10
           }
         }
       },
@@ -2059,82 +1956,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacynode_rwidistribution_stale_replicas_dropped_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_stale_replicas_dropped_total{instance=~\"$service_instance\"} offset $window), 0)",
-          "legendFormat": "dropped"
-        }
-      ],
-      "interval": "$window"
-    },
-    {
-      "id": 69,
-      "title": "Postings deleted after closer peers accepted them",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 152
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "clamp_min(yacynode_rwidistribution_postings_handed_off_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_postings_handed_off_total{instance=~\"$service_instance\"} offset $window), 0)",
-          "legendFormat": "handed off"
-        }
-      ],
-      "interval": "$window"
-    },
-    {
-      "id": 57,
-      "title": "Due postings missing from the index (should be zero)",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 160
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "clamp_min(yacynode_rwidistribution_postings_gone_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_postings_gone_total{instance=~\"$service_instance\"} offset $window), 0)",
-          "legendFormat": "missing"
+          "expr": "sum(rate(yacynode_rwidistribution_posting_offers_sent_total{result=\"accepted\",instance=~\"$service_instance\"}[$window])) / sum(rate(yacynode_rwidistribution_posting_offers_sent_total{instance=~\"$service_instance\"}[$window]))",
+          "legendFormat": "accepted"
         }
       ],
       "interval": "$window"
@@ -2151,7 +1974,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 160
+        "y": 144
       },
       "fieldConfig": {
         "defaults": {
@@ -2171,23 +1994,221 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacynode_rwidistribution_urls_unknown_to_us_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_urls_unknown_to_us_total{instance=~\"$service_instance\"} offset $window), 0)",
+          "expr": "clamp_min(yacynode_rwidistribution_urls_unknown_to_us_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_urls_unknown_to_us_total{instance=~\"$service_instance\"} offset $__interval), 0)",
           "legendFormat": "unknown to us"
         }
       ],
       "interval": "$window"
     },
     {
-      "id": 30,
-      "title": "Eviction of old URLs and postings",
+      "id": 130,
+      "title": "Word index distribution cycles",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 168
+        "y": 152
       },
       "panels": []
+    },
+    {
+      "id": 59,
+      "title": "Distribution cycles skipped, by reason",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 153
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (reason) (clamp_min(yacynode_rwidistribution_cycles_skipped_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_cycles_skipped_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{reason}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 85,
+      "title": "Distribution batches aborted, by reason",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 153
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (reason) (clamp_min(yacynode_rwidistribution_batches_aborted_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_batches_aborted_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{reason}}"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 56,
+      "title": "Lateness of the most overdue posting offer",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 153
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "fillOpacity": 10
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "yacynode_rwidistribution_longest_offer_lateness_seconds{instance=~\"$service_instance\"}",
+          "legendFormat": "lateness"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 57,
+      "title": "Due postings missing from the index (should be zero)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 161
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "clamp_min(yacynode_rwidistribution_postings_gone_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_postings_gone_total{instance=~\"$service_instance\"} offset $__interval), 0)",
+          "legendFormat": "missing"
+        }
+      ],
+      "interval": "$window"
+    },
+    {
+      "id": 30,
+      "title": "Word index this node stopped holding",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 169
+      },
+      "panels": []
+    },
+    {
+      "id": 69,
+      "title": "Postings deleted after closer peers accepted them",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 170
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "clamp_min(yacynode_rwidistribution_postings_handed_off_total{instance=~\"$service_instance\"} - (yacynode_rwidistribution_postings_handed_off_total{instance=~\"$service_instance\"} offset $__interval), 0)",
+          "legendFormat": "handed off"
+        }
+      ],
+      "interval": "$window"
     },
     {
       "id": 31,
@@ -2199,9 +2220,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 169
+        "w": 8,
+        "x": 8,
+        "y": 170
       },
       "fieldConfig": {
         "defaults": {
@@ -2240,9 +2261,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 169
+        "w": 8,
+        "x": 16,
+        "y": 170
       },
       "fieldConfig": {
         "defaults": {
@@ -2282,7 +2303,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacynode_eviction_failures_total{instance=~\"$service_instance\"} - (yacynode_eviction_failures_total{instance=~\"$service_instance\"} offset $window), 0)",
+          "expr": "clamp_min(yacynode_eviction_failures_total{instance=~\"$service_instance\"} - (yacynode_eviction_failures_total{instance=~\"$service_instance\"} offset $__interval), 0)",
           "legendFormat": "failures"
         }
       ],
@@ -2292,11 +2313,12 @@
       "id": 20,
       "title": "Vault database",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 177
+        "y": 178
       },
       "panels": []
     },
@@ -2312,7 +2334,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 178
+        "y": 179
       },
       "fieldConfig": {
         "defaults": {
@@ -2355,7 +2377,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 178
+        "y": 179
       },
       "fieldConfig": {
         "defaults": {
@@ -2395,17 +2417,17 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacynode_vault_write_transactions_total{outcome=\"refused\",instance=~\"$service_instance\"} - (yacynode_vault_write_transactions_total{outcome=\"refused\",instance=~\"$service_instance\"} offset $window), 0)",
+          "expr": "clamp_min(yacynode_vault_write_transactions_total{outcome=\"refused\",instance=~\"$service_instance\"} - (yacynode_vault_write_transactions_total{outcome=\"refused\",instance=~\"$service_instance\"} offset $__interval), 0)",
           "legendFormat": "engine refused: {{cause}}"
         },
         {
           "refId": "B",
-          "expr": "clamp_min(yacynode_vault_write_transactions_total{outcome=\"aborted\",instance=~\"$service_instance\"} - (yacynode_vault_write_transactions_total{outcome=\"aborted\",instance=~\"$service_instance\"} offset $window), 0)",
+          "expr": "clamp_min(yacynode_vault_write_transactions_total{outcome=\"aborted\",instance=~\"$service_instance\"} - (yacynode_vault_write_transactions_total{outcome=\"aborted\",instance=~\"$service_instance\"} offset $__interval), 0)",
           "legendFormat": "caller aborted"
         },
         {
           "refId": "C",
-          "expr": "clamp_min(yacynode_vault_write_transaction_begin_refusals_total{instance=~\"$service_instance\"} - (yacynode_vault_write_transaction_begin_refusals_total{instance=~\"$service_instance\"} offset $window), 0)",
+          "expr": "clamp_min(yacynode_vault_write_transaction_begin_refusals_total{instance=~\"$service_instance\"} - (yacynode_vault_write_transaction_begin_refusals_total{instance=~\"$service_instance\"} offset $__interval), 0)",
           "legendFormat": "engine refused before opening: {{cause}}"
         }
       ],
@@ -2424,7 +2446,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 186
+        "y": 187
       },
       "fieldConfig": {
         "defaults": {
@@ -2460,7 +2482,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 186
+        "y": 187
       },
       "fieldConfig": {
         "defaults": {
@@ -2498,7 +2520,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 186
+        "y": 187
       },
       "fieldConfig": {
         "defaults": {
@@ -2536,7 +2558,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 194
+        "y": 195
       },
       "options": {
         "calculate": false,
@@ -2570,7 +2592,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacynode_vault_write_transaction_begin_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_vault_write_transaction_begin_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacynode_vault_write_transaction_begin_seconds_bucket{instance=~\"$service_instance\"} - (yacynode_vault_write_transaction_begin_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -2590,7 +2612,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 194
+        "y": 195
       },
       "options": {
         "calculate": false,
@@ -2624,7 +2646,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\", instance=~\"$service_instance\"} - (yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\", instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\", instance=~\"$service_instance\"} - (yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"execute\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -2644,7 +2666,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 194
+        "y": 195
       },
       "options": {
         "calculate": false,
@@ -2678,7 +2700,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\", instance=~\"$service_instance\"} - (yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\", instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\", instance=~\"$service_instance\"} - (yacynode_vault_write_transaction_duration_seconds_bucket{phase=\"commit\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -2697,7 +2719,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 202
+        "y": 203
       },
       "fieldConfig": {
         "defaults": {
@@ -2725,11 +2747,12 @@
       "id": 110,
       "title": "Pebble storage engine",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 210
+        "y": 211
       },
       "panels": []
     },
@@ -2746,7 +2769,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 211
+        "y": 212
       },
       "fieldConfig": {
         "defaults": {
@@ -2805,7 +2828,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 211
+        "y": 212
       },
       "fieldConfig": {
         "defaults": {
@@ -2824,7 +2847,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacynode_pebble_write_stalls_total{instance=~\"$service_instance\"} - (yacynode_pebble_write_stalls_total{instance=~\"$service_instance\"} offset $window), 0)",
+          "expr": "clamp_min(yacynode_pebble_write_stalls_total{instance=~\"$service_instance\"} - (yacynode_pebble_write_stalls_total{instance=~\"$service_instance\"} offset $__interval), 0)",
           "legendFormat": "{{cause}}"
         }
       ],
@@ -2843,7 +2866,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 217
+        "y": 218
       },
       "fieldConfig": {
         "defaults": {
@@ -2886,7 +2909,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 217
+        "y": 218
       },
       "fieldConfig": {
         "defaults": {
@@ -2924,7 +2947,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 217
+        "y": 218
       },
       "fieldConfig": {
         "defaults": {
@@ -2967,7 +2990,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 225
+        "y": 226
       },
       "fieldConfig": {
         "defaults": {
@@ -3033,7 +3056,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 225
+        "y": 226
       },
       "fieldConfig": {
         "defaults": {
@@ -3076,7 +3099,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 225
+        "y": 226
       },
       "fieldConfig": {
         "defaults": {
@@ -3147,7 +3170,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 233
+        "y": 234
       },
       "fieldConfig": {
         "defaults": {
@@ -3190,7 +3213,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 233
+        "y": 234
       },
       "fieldConfig": {
         "defaults": {
@@ -3228,7 +3251,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 241
+        "y": 242
       },
       "fieldConfig": {
         "defaults": {
@@ -3266,7 +3289,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 241
+        "y": 242
       },
       "fieldConfig": {
         "defaults": {
@@ -3324,7 +3347,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 249
+        "y": 250
       },
       "fieldConfig": {
         "defaults": {
@@ -3367,7 +3390,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 249
+        "y": 250
       },
       "fieldConfig": {
         "defaults": {
@@ -3407,7 +3430,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacynode_pebble_compactions_failed_total{instance=~\"$service_instance\"} - (yacynode_pebble_compactions_failed_total{instance=~\"$service_instance\"} offset $window), 0)",
+          "expr": "clamp_min(yacynode_pebble_compactions_failed_total{instance=~\"$service_instance\"} - (yacynode_pebble_compactions_failed_total{instance=~\"$service_instance\"} offset $__interval), 0)",
           "legendFormat": "failed compactions"
         }
       ],
@@ -3426,7 +3449,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 249
+        "y": 250
       },
       "fieldConfig": {
         "defaults": {
@@ -3460,11 +3483,12 @@
       "id": 100,
       "title": "Go process",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 257
+        "y": 258
       },
       "panels": []
     },
@@ -3480,7 +3504,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 258
+        "y": 259
       },
       "fieldConfig": {
         "defaults": {
@@ -3528,7 +3552,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 258
+        "y": 259
       },
       "fieldConfig": {
         "defaults": {
@@ -3566,7 +3590,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 258
+        "y": 259
       },
       "fieldConfig": {
         "defaults": {
@@ -3604,7 +3628,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 266
+        "y": 267
       },
       "fieldConfig": {
         "defaults": {
@@ -3624,7 +3648,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(go_gc_duration_seconds_count{instance=~\"$service_instance\"} - (go_gc_duration_seconds_count{instance=~\"$service_instance\"} offset $window), 0) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
+          "expr": "clamp_min(go_gc_duration_seconds_count{instance=~\"$service_instance\"} - (go_gc_duration_seconds_count{instance=~\"$service_instance\"} offset $__interval), 0) and on (job, instance) yacynode_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
       ],
@@ -3642,7 +3666,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 266
+        "y": 267
       },
       "fieldConfig": {
         "defaults": {
@@ -3681,7 +3705,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 266
+        "y": 267
       },
       "fieldConfig": {
         "defaults": {

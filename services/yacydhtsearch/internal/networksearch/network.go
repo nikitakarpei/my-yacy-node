@@ -32,10 +32,16 @@ type PerformedNetworkSearch struct {
 	TimeSpent                          time.Duration
 }
 
+type SearchOutcome int
+
+const (
+	PeersAsked SearchOutcome = iota
+	NoIndexedTermInQuery
+	NoPeerToAsk
+)
+
 type NetworkSearchObserver interface {
 	NetworkSearchPerformed(ctx context.Context, search PerformedNetworkSearch)
-	NetworkSearchFoundNoAskablePeers(ctx context.Context)
-	NetworkSearchFoundNoIndexedTerm(ctx context.Context)
 }
 
 type Network struct {
@@ -76,11 +82,12 @@ func New(
 	}
 }
 
-func (n Network) Search(ctx context.Context, query searchquery.Query) searchresult.Ranking {
+func (n Network) Search(
+	ctx context.Context,
+	query searchquery.Query,
+) (searchresult.Ranking, SearchOutcome) {
 	if len(query.Terms) == 0 {
-		n.observer.NetworkSearchFoundNoIndexedTerm(ctx)
-
-		return searchresult.Ranking{}
+		return searchresult.Ranking{}, NoIndexedTermInQuery
 	}
 
 	ctx, stopQueryBudget := context.WithTimeout(ctx, n.queryBudget)
@@ -89,9 +96,7 @@ func (n Network) Search(ctx context.Context, query searchquery.Query) searchresu
 
 	chosenPeers := n.peerSelection.PeersFor(ctx, query, n.peerDirectory.AskablePeers(ctx))
 	if len(chosenPeers) == 0 {
-		n.observer.NetworkSearchFoundNoAskablePeers(ctx)
-
-		return searchresult.Ranking{}
+		return searchresult.Ranking{}, NoPeerToAsk
 	}
 	n.peerDirectory.MarkPeersAsked(ctx, chosenPeers)
 
@@ -107,7 +112,7 @@ func (n Network) Search(ctx context.Context, query searchquery.Query) searchresu
 		TimeSpent:                          time.Since(startedAt),
 	})
 
-	return ranking
+	return ranking, PeersAsked
 }
 
 func (n Network) requestFor(query searchquery.Query) yacyproto.SearchRequest {
@@ -178,17 +183,5 @@ func (observers NetworkSearchObservers) NetworkSearchPerformed(
 ) {
 	for _, observer := range observers {
 		observer.NetworkSearchPerformed(ctx, search)
-	}
-}
-
-func (observers NetworkSearchObservers) NetworkSearchFoundNoAskablePeers(ctx context.Context) {
-	for _, observer := range observers {
-		observer.NetworkSearchFoundNoAskablePeers(ctx)
-	}
-}
-
-func (observers NetworkSearchObservers) NetworkSearchFoundNoIndexedTerm(ctx context.Context) {
-	for _, observer := range observers {
-		observer.NetworkSearchFoundNoIndexedTerm(ctx)
 	}
 }

@@ -120,6 +120,7 @@
       "id": 1,
       "title": "Inbound HTTP requests",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -164,7 +165,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint) (clamp_min(yacydhtsearch_http_requests_total{instance=~\"$service_instance\"} - (yacydhtsearch_http_requests_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (endpoint) (clamp_min(yacydhtsearch_http_requests_total{instance=~\"$service_instance\"} - (yacydhtsearch_http_requests_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{endpoint}}"
         }
       ]
@@ -211,14 +212,14 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (endpoint, code) (clamp_min(yacydhtsearch_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} - (yacydhtsearch_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (endpoint, code) (clamp_min(yacydhtsearch_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} - (yacydhtsearch_http_requests_total{code!~\"2..\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{endpoint}} {{code}}"
         }
       ]
     },
     {
       "id": 3,
-      "title": "Request latency across endpoints (p50/p95/p99)",
+      "title": "Request latency by endpoint (p90)",
       "description": "Every search counts here, including one the cache answered without asking peers.",
       "type": "timeseries",
       "datasource": {
@@ -256,25 +257,16 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (clamp_min(yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p95"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p99"
+          "expr": "histogram_quantile(0.90, sum by (le, endpoint) (clamp_min(yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_http_request_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0)))",
+          "legendFormat": "{{endpoint}}"
         }
       ]
     },
     {
-      "id": 20,
-      "title": "Cached search results",
+      "id": 40,
+      "title": "Inbound searches",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -284,8 +276,8 @@
       "panels": []
     },
     {
-      "id": 21,
-      "title": "Search results answered, by where they came from",
+      "id": 5,
+      "title": "Searches, by outcome",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -293,7 +285,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
         "y": 18
       },
@@ -302,7 +294,10 @@
           "unit": "short",
           "custom": {
             "drawStyle": "bars",
-            "fillOpacity": 70
+            "fillOpacity": 70,
+            "stacking": {
+              "mode": "normal"
+            }
           },
           "min": 0
         },
@@ -317,8 +312,58 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (source) (clamp_min(yacydhtsearch_ranking_lookups_total{instance=~\"$service_instance\"} - (yacydhtsearch_ranking_lookups_total{instance=~\"$service_instance\"} offset $window), 0))",
-          "legendFormat": "{{source}}"
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_searches_total{instance=~\"$service_instance\"} - (yacydhtsearch_searches_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{outcome}}"
+        }
+      ],
+      "description": "Every search reaches exactly one outcome."
+    },
+    {
+      "id": 20,
+      "title": "Search result cache",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "panels": []
+    },
+    {
+      "id": 22,
+      "title": "Share of searches the cache answered",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 27
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(yacydhtsearch_searches_total{outcome=\"answered_from_cache\",instance=~\"$service_instance\"}[$window])) / sum(rate(yacydhtsearch_searches_total{instance=~\"$service_instance\"}[$window]))",
+          "legendFormat": "answered from cache"
         }
       ]
     },
@@ -335,7 +380,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 27
       },
       "fieldConfig": {
         "defaults": {
@@ -377,7 +422,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(yacydhtsearch_ranking_cache_failures_total{instance=~\"$service_instance\"} - (yacydhtsearch_ranking_cache_failures_total{instance=~\"$service_instance\"} offset $window), 0)",
+          "expr": "clamp_min(yacydhtsearch_ranking_cache_failures_total{instance=~\"$service_instance\"} - (yacydhtsearch_ranking_cache_failures_total{instance=~\"$service_instance\"} offset $__interval), 0)",
           "legendFormat": "{{action}}"
         }
       ]
@@ -386,18 +431,19 @@
       "id": 4,
       "title": "Searches sent to peers",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 26
+        "y": 35
       },
       "panels": []
     },
     {
-      "id": 5,
-      "title": "Searches, by whether they reached peers",
-      "type": "timeseries",
+      "id": 7,
+      "title": "How long a search took",
+      "type": "heatmap",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -406,94 +452,44 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 27
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70,
-            "stacking": {
-              "mode": "normal"
-            }
-          },
-          "min": 0
-        },
-        "overrides": []
+        "y": 36
       },
       "interval": "$window",
       "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "clamp_min(yacydhtsearch_network_searches_performed_total{instance=~\"$service_instance\"} - (yacydhtsearch_network_searches_performed_total{instance=~\"$service_instance\"} offset $window), 0)",
-          "legendFormat": "peers asked"
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
         },
-        {
-          "refId": "B",
-          "expr": "clamp_min(yacydhtsearch_network_search_peers_asked_count{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_asked_count{instance=~\"$service_instance\"} offset $window), 0) - clamp_min(yacydhtsearch_network_searches_performed_total{instance=~\"$service_instance\"} - (yacydhtsearch_network_searches_performed_total{instance=~\"$service_instance\"} offset $window), 0)",
-          "legendFormat": "no peer to ask"
-        },
-        {
-          "refId": "C",
-          "expr": "clamp_min(yacydhtsearch_searches_without_indexed_term_total{instance=~\"$service_instance\"} - (yacydhtsearch_searches_without_indexed_term_total{instance=~\"$service_instance\"} offset $window), 0)",
-          "legendFormat": "no indexed term"
-        }
-      ],
-      "description": "A search reaches peers only if the query holds a word long enough to be indexed and the directory holds a peer for it. The others come back empty."
-    },
-    {
-      "id": 7,
-      "title": "Search duration (p50/p95/p99)",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 27
-      },
-      "fieldConfig": {
-        "defaults": {
+        "yAxis": {
           "unit": "s",
-          "custom": {
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "showPoints": "auto"
-          },
-          "min": 0
+          "axisPlacement": "left"
         },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
+        "legend": {
+          "show": true
+        },
         "tooltip": {
-          "mode": "multi"
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
         }
       },
       "targets": [
         {
           "refId": "A",
-          "expr": "histogram_quantile(0.50, sum by (le) (clamp_min(yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p50"
-        },
-        {
-          "refId": "B",
-          "expr": "histogram_quantile(0.95, sum by (le) (clamp_min(yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p95"
-        },
-        {
-          "refId": "C",
-          "expr": "histogram_quantile(0.99, sum by (le) (clamp_min(yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} offset $window), 0)))",
-          "legendFormat": "p99"
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_duration_seconds_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
         }
       ]
     },
@@ -508,8 +504,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
-        "y": 35
+        "x": 12,
+        "y": 36
       },
       "interval": "$window",
       "options": {
@@ -544,7 +540,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_asked_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -562,8 +558,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
-        "y": 35
+        "x": 0,
+        "y": 44
       },
       "interval": "$window",
       "options": {
@@ -598,7 +594,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_answering_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_answering_peers_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_answering_peers_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_answering_peers_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -606,8 +602,8 @@
     },
     {
       "id": 32,
-      "title": "Share of answered items that repeat an address another peer answered",
-      "description": "Each peer sends only its top items. An address that a peer holds but did not send is not counted.",
+      "title": "Share of items peers returned that were duplicates",
+      "description": "A duplicate repeats an address another peer already answered. Each peer sends only its top items. An address that a peer holds but did not send is not counted.",
       "type": "heatmap",
       "datasource": {
         "type": "prometheus",
@@ -616,8 +612,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
-        "y": 43
+        "x": 12,
+        "y": 44
       },
       "interval": "$window",
       "options": {
@@ -652,7 +648,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_overlap_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_overlap_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_overlap_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_overlap_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -670,8 +666,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
-        "y": 43
+        "x": 0,
+        "y": 52
       },
       "interval": "$window",
       "options": {
@@ -706,7 +702,61 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_peers_that_sent_items_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_that_sent_items_ratio_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_network_search_peers_that_sent_items_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_network_search_peers_that_sent_items_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Ring distance from a query term to the peer picked for it",
+      "description": "Zero means the picked peer sits exactly where the term belongs on the ring.",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 52
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "percentunit",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -714,13 +764,14 @@
     },
     {
       "id": 10,
-      "title": "Peers this service knows",
+      "title": "Known peers",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 51
+        "y": 60
       },
       "panels": []
     },
@@ -735,9 +786,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
+        "w": 12,
         "x": 0,
-        "y": 52
+        "y": 61
       },
       "fieldConfig": {
         "defaults": {
@@ -786,114 +837,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 52
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70
-          },
-          "min": 0
-        },
-        "overrides": []
-      },
-      "interval": "$window",
-      "options": {
-        "tooltip": {
-          "mode": "multi"
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (change) (clamp_min(yacydhtsearch_directory_peer_changes_total{instance=~\"$service_instance\"} - (yacydhtsearch_directory_peer_changes_total{instance=~\"$service_instance\"} offset $window), 0))",
-          "legendFormat": "{{change}}"
-        }
-      ]
-    },
-    {
-      "id": 15,
-      "title": "Ring distance from a query term to the peer picked for it",
-      "description": "Zero means the picked peer sits exactly where the term belongs on the ring.",
-      "type": "heatmap",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 52
-      },
-      "interval": "$window",
-      "options": {
-        "calculate": false,
-        "cellGap": 1,
-        "color": {
-          "mode": "scheme",
-          "scheme": "Viridis",
-          "steps": 64,
-          "exponent": 0.5,
-          "reverse": false,
-          "min": 0
-        },
-        "yAxis": {
-          "unit": "percentunit",
-          "axisPlacement": "left"
-        },
-        "legend": {
-          "show": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "yHistogram": true
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        }
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_selection_ring_fraction_bucket{instance=~\"$service_instance\"} offset $window), 0))",
-          "format": "heatmap",
-          "legendFormat": "{{le}}"
-        }
-      ]
-    },
-    {
-      "id": 16,
-      "title": "Calls to peers during a search",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 60
-      },
-      "panels": []
-    },
-    {
-      "id": 17,
-      "title": "Calls to peers, by outcome",
-      "description": "A refused call reached the peer, and the peer declined the search. An unreadable answer arrived, but it did not parse.",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
+        "w": 12,
+        "x": 12,
         "y": 61
       },
       "fieldConfig": {
@@ -916,7 +861,60 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (change) (clamp_min(yacydhtsearch_directory_peer_changes_total{instance=~\"$service_instance\"} - (yacydhtsearch_directory_peer_changes_total{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "legendFormat": "{{change}}"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "title": "Calls to peers during a search",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 69
+      },
+      "panels": []
+    },
+    {
+      "id": 17,
+      "title": "Calls to peers, by outcome",
+      "description": "A refused call reached the peer, and the peer declined the search. An unreadable answer arrived, but it did not parse.",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 70
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 70
+          },
+          "min": 0
+        },
+        "overrides": []
+      },
+      "interval": "$window",
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (clamp_min(yacydhtsearch_peer_calls_total{instance=~\"$service_instance\"} - (yacydhtsearch_peer_calls_total{instance=~\"$service_instance\"} offset $__interval), 0))",
           "legendFormat": "{{outcome}}"
         }
       ]
@@ -934,7 +932,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 61
+        "y": 70
       },
       "interval": "$window",
       "options": {
@@ -969,7 +967,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_call_duration_seconds_bucket{outcome=\"answered\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_call_duration_seconds_bucket{outcome=\"answered\", instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_call_duration_seconds_bucket{outcome=\"answered\", instance=~\"$service_instance\"} - (yacydhtsearch_peer_call_duration_seconds_bucket{outcome=\"answered\", instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -988,7 +986,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 61
+        "y": 70
       },
       "interval": "$window",
       "options": {
@@ -1023,7 +1021,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} offset $window), 0))",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_peer_answer_items_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
           "format": "heatmap",
           "legendFormat": "{{le}}"
         }
@@ -1033,11 +1031,12 @@
       "id": 24,
       "title": "Go process",
       "type": "row",
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 69
+        "y": 78
       },
       "panels": []
     },
@@ -1053,7 +1052,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 70
+        "y": 79
       },
       "fieldConfig": {
         "defaults": {
@@ -1103,7 +1102,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 70
+        "y": 79
       },
       "fieldConfig": {
         "defaults": {
@@ -1143,7 +1142,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 70
+        "y": 79
       },
       "fieldConfig": {
         "defaults": {
@@ -1183,7 +1182,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 78
+        "y": 87
       },
       "fieldConfig": {
         "defaults": {
@@ -1206,7 +1205,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "clamp_min(go_gc_duration_seconds_count{instance=~\"$service_instance\"} - (go_gc_duration_seconds_count{instance=~\"$service_instance\"} offset $window), 0) and on (job, instance) yacydhtsearch_info{instance=~\"$service_instance\"}",
+          "expr": "clamp_min(go_gc_duration_seconds_count{instance=~\"$service_instance\"} - (go_gc_duration_seconds_count{instance=~\"$service_instance\"} offset $__interval), 0) and on (job, instance) yacydhtsearch_info{instance=~\"$service_instance\"}",
           "legendFormat": "{{instance}}"
         }
       ]
@@ -1223,7 +1222,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 78
+        "y": 87
       },
       "fieldConfig": {
         "defaults": {
@@ -1263,7 +1262,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 78
+        "y": 87
       },
       "fieldConfig": {
         "defaults": {

@@ -46,7 +46,6 @@ func TestOneQueryPublishesThePeersItReachedAndWhatItCost(t *testing.T) {
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		"yacydhtsearch_network_searches_performed_total 1",
 		"yacydhtsearch_network_search_peers_asked_sum 8",
 		"yacydhtsearch_network_search_answering_peers_ratio_sum 0.5",
 		"yacydhtsearch_network_search_peers_that_sent_items_ratio_sum 0.5",
@@ -56,21 +55,6 @@ func TestOneQueryPublishesThePeersItReachedAndWhatItCost(t *testing.T) {
 		if !strings.Contains(body, published) {
 			t.Fatalf("metrics do not carry %q:\n%s", published, body)
 		}
-	}
-}
-
-func TestAQueryThatReachedNoPeerIsPublishedAsZeroPeersAsked(t *testing.T) {
-	t.Parallel()
-
-	registry := prometheusclient.NewRegistry()
-	metrics := networksearchobserversprometheus.New(registry, queryBudget)
-
-	metrics.NetworkSearchFoundNoAskablePeers(t.Context())
-
-	body := publishedBy(t, registry)
-	if !strings.Contains(body, "yacydhtsearch_network_search_peers_asked_count 1") ||
-		!strings.Contains(body, "yacydhtsearch_network_search_peers_asked_sum 0") {
-		t.Fatalf("metrics do not carry a query that asked no peer:\n%s", body)
 	}
 }
 
