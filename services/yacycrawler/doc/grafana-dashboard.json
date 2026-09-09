@@ -7,7 +7,7 @@
     "from": "now-24h",
     "to": "now"
   },
-  "refresh": "15s",
+  "refresh": "30s",
   "graphTooltip": 1,
   "templating": {
     "list": [
