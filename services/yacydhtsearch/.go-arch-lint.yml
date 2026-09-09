@@ -31,6 +31,10 @@ components:
     in: internal/rankingcache/memory/**
   rankingcachejetstream:
     in: internal/rankingcache/jetstream/**
+  queryrankingsobserversapplog:
+    in: internal/queryrankingsobservers/applog/**
+  queryrankingsobserversprometheus:
+    in: internal/queryrankingsobservers/prometheus/**
   rankingcacheobserversapplog:
     in: internal/rankingcacheobservers/applog/**
   rankingcacheobserversprometheus:
@@ -125,6 +129,7 @@ deps:
       - searchresult
   queryrankings:
     mayDependOn:
+      - networksearch
       - searchquery
       - searchresult
   rankingcachememory:
@@ -139,6 +144,14 @@ deps:
     mayDependOn:
       - searchquery
       - searchresult
+  queryrankingsobserversapplog:
+    mayDependOn:
+      - searchquery
+  queryrankingsobserversprometheus:
+    canUse:
+      - prometheus
+    mayDependOn:
+      - searchquery
   rankingcacheobserversapplog:
     mayDependOn:
       - searchquery

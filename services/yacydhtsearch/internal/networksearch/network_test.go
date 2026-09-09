@@ -49,9 +49,7 @@ func (silentOutcome) PeerUnreachable(context.Context, string, error, time.Durati
 func (silentOutcome) PeerAnswerUnreadable(context.Context, string, error, time.Duration) {}
 
 type recordedQuery struct {
-	performed          networksearch.PerformedNetworkSearch
-	withoutPeers       int
-	withoutIndexedTerm int
+	performed networksearch.PerformedNetworkSearch
 }
 
 func (r *recordedQuery) NetworkSearchPerformed(
@@ -59,12 +57,6 @@ func (r *recordedQuery) NetworkSearchPerformed(
 	search networksearch.PerformedNetworkSearch,
 ) {
 	r.performed = search
-}
-
-func (r *recordedQuery) NetworkSearchFoundNoAskablePeers(context.Context) { r.withoutPeers++ }
-
-func (r *recordedQuery) NetworkSearchFoundNoIndexedTerm(context.Context) {
-	r.withoutIndexedTerm++
 }
 
 type everyAskablePeer struct{}
@@ -183,8 +175,11 @@ func TestOneQueryCarriesBackWhatThePeersHold(t *testing.T) {
 	directory := directoryAnsweringAt(t, peerHolding(t, "https://a.example/"))
 	network := networkOver(t, directory, everyAskablePeer{}, observer)
 
-	ranking := network.Search(t.Context(), searchquery.QueryFrom("berlin"))
+	ranking, outcome := network.Search(t.Context(), searchquery.QueryFrom("berlin"))
 
+	if outcome != networksearch.PeersAsked {
+		t.Fatalf("Search reached outcome %v, want peers asked", outcome)
+	}
 	if len(ranking.Items) != 1 || ranking.Items[0].Address != "https://a.example/" {
 		t.Fatalf("Search = %+v, want the address the peer holds", ranking.Items)
 	}
@@ -208,26 +203,25 @@ func TestARankingStopsAtTheRecordCeiling(t *testing.T) {
 	directory := directoryAnsweringAt(t, peerHolding(t, addresses...))
 	network := networkOver(t, directory, everyAskablePeer{}, &recordedQuery{})
 
-	ranking := network.Search(t.Context(), searchquery.QueryFrom("berlin"))
+	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin"))
 
 	if len(ranking.Items) != recordCeiling {
 		t.Fatalf("Search carried %d items, want the ceiling %d", len(ranking.Items), recordCeiling)
 	}
 }
 
-func TestAQueryThatReachesNoPeerIsReportedAsSuch(t *testing.T) {
+func TestAQueryThatReachesNoPeerCarriesBackThatOutcome(t *testing.T) {
 	t.Parallel()
 
-	observer := &recordedQuery{}
-	network := networkOver(t, directoryAnsweringAt(t), noPeerAtAll{}, observer)
+	network := networkOver(t, directoryAnsweringAt(t), noPeerAtAll{}, &recordedQuery{})
 
-	ranking := network.Search(t.Context(), searchquery.QueryFrom("berlin"))
+	ranking, outcome := network.Search(t.Context(), searchquery.QueryFrom("berlin"))
 
-	if len(ranking.Items) != 0 || observer.withoutPeers != 1 {
+	if len(ranking.Items) != 0 || outcome != networksearch.NoPeerToAsk {
 		t.Fatalf(
-			"Search = %+v with %d reports, want an empty ranking and one report",
+			"Search = %+v with outcome %v, want an empty ranking and no peer to ask",
 			ranking.Items,
-			observer.withoutPeers,
+			outcome,
 		)
 	}
 }
@@ -239,7 +233,7 @@ func TestAQueryWithoutAnIndexedTermReachesNoPeer(t *testing.T) {
 	directory := directoryAnsweringAt(t, peerHolding(t, "https://a.example/"))
 	network := networkOver(t, directory, everyAskablePeer{}, observer)
 
-	ranking := network.Search(t.Context(), searchquery.QueryFrom("1"))
+	ranking, outcome := network.Search(t.Context(), searchquery.QueryFrom("1"))
 
 	if len(ranking.Items) != 0 || observer.performed.AmountOfAskedPeers != 0 {
 		t.Fatalf(
@@ -248,11 +242,8 @@ func TestAQueryWithoutAnIndexedTermReachesNoPeer(t *testing.T) {
 			observer.performed.AmountOfAskedPeers,
 		)
 	}
-	if observer.withoutIndexedTerm != 1 {
-		t.Fatalf(
-			"NetworkSearchFoundNoIndexedTerm reported %d times, want one",
-			observer.withoutIndexedTerm,
-		)
+	if outcome != networksearch.NoIndexedTermInQuery {
+		t.Fatalf("Search reached outcome %v, want no indexed term in the query", outcome)
 	}
 }
 
@@ -266,7 +257,7 @@ func TestAnAddressTwoPeersHoldIsCountedOnceAndReportedAsRepeated(t *testing.T) {
 	)
 	network := networkOver(t, directory, everyAskablePeer{}, observer)
 
-	ranking := network.Search(t.Context(), searchquery.QueryFrom("berlin"))
+	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin"))
 
 	if len(ranking.Items) != 3 {
 		t.Fatalf("Search = %+v, want the three addresses the two peers hold", ranking.Items)

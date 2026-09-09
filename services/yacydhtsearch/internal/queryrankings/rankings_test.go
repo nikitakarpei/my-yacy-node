@@ -4,21 +4,28 @@ import (
 	"context"
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankings"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+const answeredAddress = "https://a.example/"
+
 type countedNetwork struct {
 	searches int
 	ranking  searchresult.Ranking
+	outcome  networksearch.SearchOutcome
 }
 
-func (n *countedNetwork) Search(context.Context, searchquery.Query) searchresult.Ranking {
+func (n *countedNetwork) Search(
+	context.Context,
+	searchquery.Query,
+) (searchresult.Ranking, networksearch.SearchOutcome) {
 	n.searches++
 
-	return n.ranking
+	return n.ranking, n.outcome
 }
 
 type rememberedRankings struct {
@@ -58,23 +65,42 @@ func (cacheNothing) CachedRankingFor(
 func (cacheNothing) StoreRanking(context.Context, searchquery.Query, searchresult.Ranking) {}
 
 type recordedRanking struct {
-	reused int
-	sought int
-	items  int
+	fromCache          int
+	fromPeers          int
+	withoutIndexedTerm int
+	withoutPeerToAsk   int
+	items              int
 }
 
-func (r *recordedRanking) CachedRankingAnswered(_ context.Context, _ searchquery.Query, items int) {
-	r.reused++
-	r.items = items
-}
-
-func (r *recordedRanking) NetworkRankingAnswered(
+func (r *recordedRanking) QueryAnsweredFromCache(
 	_ context.Context,
 	_ searchquery.Query,
 	items int,
 ) {
-	r.sought++
+	r.fromCache++
 	r.items = items
+}
+
+func (r *recordedRanking) QueryAnsweredByPeers(_ context.Context, _ searchquery.Query, items int) {
+	r.fromPeers++
+	r.items = items
+}
+
+func (r *recordedRanking) QueryHadNoIndexedTerm(context.Context, searchquery.Query) {
+	r.withoutIndexedTerm++
+}
+
+func (r *recordedRanking) QueryFoundNoPeerToAsk(context.Context, searchquery.Query) {
+	r.withoutPeerToAsk++
+}
+
+func networkAnsweringOneAddress(t *testing.T) *countedNetwork {
+	t.Helper()
+
+	return &countedNetwork{
+		ranking: rankingOver(t, answeredAddress),
+		outcome: networksearch.PeersAsked,
+	}
 }
 
 func rankingOver(t *testing.T, address string) searchresult.Ranking {
@@ -88,27 +114,31 @@ func rankingOver(t *testing.T, address string) searchresult.Ranking {
 	return searchresult.Ranking{Items: []searchresult.Item{item}}
 }
 
-func TestTheNetworkAnswersAQueryNoRankingIsHeldFor(t *testing.T) {
+func TestThePeersAnswerAQueryNoRankingIsHeldFor(t *testing.T) {
 	t.Parallel()
 
-	network := &countedNetwork{ranking: rankingOver(t, "https://a.example/")}
+	network := networkAnsweringOneAddress(t)
 	observer := &recordedRanking{}
 	rankings := queryrankings.New(newRememberedRankings(), network, observer)
 
 	ranking := rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
 
-	if len(ranking.Items) != 1 || ranking.Items[0].Address != "https://a.example/" {
-		t.Fatalf("RankingFor = %+v, want what the network found", ranking.Items)
+	if len(ranking.Items) != 1 || ranking.Items[0].Address != answeredAddress {
+		t.Fatalf("RankingFor = %+v, want what the peers hold", ranking.Items)
 	}
-	if network.searches != 1 || observer.sought != 1 || observer.items != 1 {
-		t.Fatalf("network searched %d times, sought %d", network.searches, observer.sought)
+	if network.searches != 1 || observer.fromPeers != 1 || observer.items != 1 {
+		t.Fatalf(
+			"network searched %d times, answered by peers %d",
+			network.searches,
+			observer.fromPeers,
+		)
 	}
 }
 
 func TestARepeatedQueryReachesTheNetworkOnce(t *testing.T) {
 	t.Parallel()
 
-	network := &countedNetwork{ranking: rankingOver(t, "https://a.example/")}
+	network := networkAnsweringOneAddress(t)
 	observer := &recordedRanking{}
 	rankings := queryrankings.New(newRememberedRankings(), network, observer)
 
@@ -121,15 +151,15 @@ func TestARepeatedQueryReachesTheNetworkOnce(t *testing.T) {
 	if len(second.Items) != len(first.Items) || second.Items[0] != first.Items[0] {
 		t.Fatalf("second = %+v, want the ranking the first query found", second.Items)
 	}
-	if observer.reused != 1 {
-		t.Fatalf("reuse reported %d times, want once", observer.reused)
+	if observer.fromCache != 1 {
+		t.Fatalf("cache answered %d times, want once", observer.fromCache)
 	}
 }
 
 func TestAnotherQueryReachesTheNetworkOfItsOwn(t *testing.T) {
 	t.Parallel()
 
-	network := &countedNetwork{}
+	network := networkAnsweringOneAddress(t)
 	rankings := queryrankings.New(newRememberedRankings(), network, &recordedRanking{})
 
 	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
@@ -143,7 +173,7 @@ func TestAnotherQueryReachesTheNetworkOfItsOwn(t *testing.T) {
 func TestARankingThatIsNeverHeldSendsEveryQueryToTheNetwork(t *testing.T) {
 	t.Parallel()
 
-	network := &countedNetwork{}
+	network := networkAnsweringOneAddress(t)
 	rankings := queryrankings.New(cacheNothing{}, network, &recordedRanking{})
 
 	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
@@ -154,20 +184,119 @@ func TestARankingThatIsNeverHeldSendsEveryQueryToTheNetwork(t *testing.T) {
 	}
 }
 
+func TestAQueryWithoutAnIndexedTermIsReportedAndLeavesTheCacheEmpty(t *testing.T) {
+	t.Parallel()
+
+	network := &countedNetwork{outcome: networksearch.NoIndexedTermInQuery}
+	observer := &recordedRanking{}
+	rankings := queryrankings.New(newRememberedRankings(), network, observer)
+
+	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
+	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
+
+	if observer.withoutIndexedTerm != 2 || observer.fromCache != 0 {
+		t.Fatalf(
+			"reported %d queries without an indexed term and %d from the cache, want two and none",
+			observer.withoutIndexedTerm,
+			observer.fromCache,
+		)
+	}
+}
+
+func TestAQueryThatFoundNoPeerToAskIsReportedAndLeavesTheCacheEmpty(t *testing.T) {
+	t.Parallel()
+
+	network := &countedNetwork{outcome: networksearch.NoPeerToAsk}
+	observer := &recordedRanking{}
+	rankings := queryrankings.New(newRememberedRankings(), network, observer)
+
+	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
+	second := rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
+
+	if network.searches != 2 || observer.withoutPeerToAsk != 2 {
+		t.Fatalf(
+			"network searched %d times and reported %d queries without a peer, want two of each",
+			network.searches,
+			observer.withoutPeerToAsk,
+		)
+	}
+	if len(second.Items) != 0 || observer.fromCache != 0 {
+		t.Fatalf(
+			"second = %+v answered from the cache %d times, want an empty ranking and none",
+			second.Items,
+			observer.fromCache,
+		)
+	}
+}
+
+func TestAnEmptyRankingThePeersAnsweredIsHeldForTheNextQuery(t *testing.T) {
+	t.Parallel()
+
+	network := &countedNetwork{outcome: networksearch.PeersAsked}
+	observer := &recordedRanking{}
+	rankings := queryrankings.New(newRememberedRankings(), network, observer)
+
+	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
+	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
+
+	if network.searches != 1 || observer.fromCache != 1 {
+		t.Fatalf(
+			"network searched %d times and the cache answered %d, want one of each",
+			network.searches,
+			observer.fromCache,
+		)
+	}
+}
+
 func TestEveryObserverHearsAboutOneRanking(t *testing.T) {
 	t.Parallel()
 
 	first, second := &recordedRanking{}, &recordedRanking{}
 	rankings := queryrankings.New(
 		newRememberedRankings(),
-		&countedNetwork{},
+		networkAnsweringOneAddress(t),
 		queryrankings.RankingObservers{first, second},
 	)
 
 	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
 	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
 
-	if first.sought != 1 || second.sought != 1 || first.reused != 1 || second.reused != 1 {
+	if first.fromPeers != 1 || second.fromPeers != 1 ||
+		first.fromCache != 1 || second.fromCache != 1 {
 		t.Fatalf("observers heard %+v and %+v, want one of each", first, second)
+	}
+}
+
+func TestEveryObserverHearsAboutAQueryThatReachedNoPeer(t *testing.T) {
+	t.Parallel()
+
+	first, second := &recordedRanking{}, &recordedRanking{}
+	rankings := queryrankings.New(
+		newRememberedRankings(),
+		&countedNetwork{outcome: networksearch.NoPeerToAsk},
+		queryrankings.RankingObservers{first, second},
+	)
+
+	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
+
+	if first.withoutPeerToAsk != 1 || second.withoutPeerToAsk != 1 {
+		t.Fatalf("observers heard %+v and %+v, want one report each", first, second)
+	}
+}
+
+func TestEveryObserverHearsAboutAQueryWithoutAnIndexedTerm(t *testing.T) {
+	t.Parallel()
+
+	first, second := &recordedRanking{}, &recordedRanking{}
+	rankings := queryrankings.New(
+		newRememberedRankings(),
+		&countedNetwork{outcome: networksearch.NoIndexedTermInQuery},
+		queryrankings.RankingObservers{first, second},
+	)
+
+	rankings.RankingFor(t.Context(), searchquery.QueryFrom("berlin"))
+
+	if first.withoutIndexedTerm != 1 || second.withoutIndexedTerm != 1 {
+		t.Fatalf("observers heard %+v and %+v, want one report each", first, second)
 	}
 }
