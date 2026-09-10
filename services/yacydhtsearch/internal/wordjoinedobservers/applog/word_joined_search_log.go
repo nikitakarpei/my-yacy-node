@@ -30,6 +30,19 @@ func (WordJoinedSearchLog) WordJoinedSearchPerformed(
 		slog.Int("amountOfPeersHoldingAQueryWord", search.AmountOfPeersHoldingAQueryWord),
 		slog.Int("amountOfJoinedDocuments", search.AmountOfJoinedDocuments),
 		slog.Int(
+			"amountOfJoinedDocumentsAlreadyReported",
+			search.AmountOfJoinedDocumentsAlreadyReported,
+		),
+		slog.Int("amountOfReportedItems", search.AmountOfReportedItems),
+		slog.Int(
+			"amountOfReportedItemsWithAPosting",
+			search.AmountOfReportedItemsWithAPosting,
+		),
+		slog.Any(
+			"documentsEachPeerHoldsForAQueryWord",
+			search.DocumentsEachPeerHoldsForAQueryWord,
+		),
+		slog.Int(
 			"amountOfDocumentsToAskMetadataFor",
 			search.AmountOfDocumentsToAskMetadataFor,
 		),

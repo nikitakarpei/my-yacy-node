@@ -18,14 +18,18 @@ const (
 	firstWord                        = "berlin"
 	secondWord                       = "weather"
 	documentsToAskMetadataForCeiling = 10
+	peerItemsCeiling                 = 10
 	peerCallsCeiling                 = 24
 )
 
 type peerNetwork struct {
-	documentsPerWordPerPeer map[string]map[string][]string
-	heldDocumentsAsks       []peerasks.HeldDocumentsAsk
-	urlMetadataAsks         []peerasks.URLMetadataAsk
-	silentPeers             map[string]struct{}
+	documentsPerWordPerPeer     map[string]map[string][]string
+	reportedItemsPerWordPerPeer map[string]map[string][]string
+	itemsWithAPostingPerAnswer  int
+	documentsHeldForEveryWord   int
+	heldDocumentsAsks           []peerasks.HeldDocumentsAsk
+	urlMetadataAsks             []peerasks.URLMetadataAsk
+	silentPeers                 map[string]struct{}
 }
 
 func networkOf(documentsPerWordPerPeer map[string]map[string][]string) *peerNetwork {
@@ -49,6 +53,11 @@ func (n *peerNetwork) AskForHeldDocuments(
 		answeredAsks = append(answeredAsks, peerasks.AnsweredHeldDocumentsAsk{
 			Ask:       ask,
 			Documents: n.documentsHeldBy(ask.Peer.Address, ask.Word),
+			Items: itemsOf(
+				documentsPerWordOf(n.reportedItemsPerWordPerPeer, ask.Peer.Address, ask.Word),
+			),
+			AmountOfItemsWithAPosting:       n.itemsWithAPostingPerAnswer,
+			AmountOfDocumentsHeldForTheWord: n.documentsHeldForEveryWord,
 		})
 	}
 
@@ -56,7 +65,15 @@ func (n *peerNetwork) AskForHeldDocuments(
 }
 
 func (n *peerNetwork) documentsHeldBy(address string, word yacymodel.Hash) []yacymodel.URLHash {
-	for spelledWord, addresses := range n.documentsPerWordPerPeer[address] {
+	return documentsPerWordOf(n.documentsPerWordPerPeer, address, word)
+}
+
+func documentsPerWordOf(
+	documentsPerWordPerPeer map[string]map[string][]string,
+	address string,
+	word yacymodel.Hash,
+) []yacymodel.URLHash {
+	for spelledWord, addresses := range documentsPerWordPerPeer[address] {
 		if yacymodel.WordHash(spelledWord) != word {
 			continue
 		}
@@ -211,6 +228,7 @@ func searchAskingMetadataForUpTo(
 			network,
 			choice,
 			documentsToAskMetadataForCeiling,
+			peerItemsCeiling,
 			peerCallsCeiling,
 			observer,
 		),
@@ -556,6 +574,7 @@ func TestNoMorePeersAreAskedForMetadataThanTheCallsOneQueryMayPut(t *testing.T) 
 			network,
 			responsiblePeers{},
 			documentsToAskMetadataForCeiling,
+			peerItemsCeiling,
 			peerCalls,
 			&recordedSearches{},
 		),
@@ -576,5 +595,90 @@ func TestNoMorePeersAreAskedForMetadataThanTheCallsOneQueryMayPut(t *testing.T) 
 	})
 	if !slices.Equal(got, wanted) {
 		t.Fatalf("asked about %v, want every joined document %v", got, wanted)
+	}
+}
+
+func TestAJoinedDocumentAPeerAlreadyReportedIsNotAskedMetadataFor(t *testing.T) {
+	t.Parallel()
+
+	reported := "https://reported.example/"
+	unreported := "https://unreported.example/"
+	joined := []string{reported, unreported}
+	network := networkOf(map[string]map[string][]string{
+		"first": {firstWord: joined, secondWord: joined},
+	})
+	network.reportedItemsPerWordPerPeer = map[string]map[string][]string{
+		"first": {firstWord: {reported}},
+	}
+
+	searchOf(network, &recordedSearches{})
+
+	wanted := documentHashesOf([]string{unreported})
+	if got := distinctDocumentsAskedMetadataFor(network.urlMetadataAsks); !slices.Equal(
+		got, wanted,
+	) {
+		t.Fatalf("asked about %v, want only the joined document no peer reported", got)
+	}
+}
+
+func TestTheItemsAPeerReportedForJoinedDocumentsComeBack(t *testing.T) {
+	t.Parallel()
+
+	reported := "https://reported.example/"
+	network := networkOf(map[string]map[string][]string{
+		"first": {firstWord: {reported}, secondWord: {reported}},
+	})
+	network.reportedItemsPerWordPerPeer = map[string]map[string][]string{
+		"first": {firstWord: {reported, "https://unjoined.example/"}},
+	}
+
+	itemsOfEachPeer := searchOf(network, &recordedSearches{})
+
+	wanted := documentHashOf(t, reported)
+	documents := map[yacymodel.URLHash]struct{}{}
+	for _, items := range itemsOfEachPeer {
+		for _, item := range items {
+			documents[item.Hash] = struct{}{}
+		}
+	}
+	if _, cameBack := documents[wanted]; !cameBack || len(documents) != 1 {
+		t.Fatalf("the search answered %v, want only the joined document the peer reported",
+			documents)
+	}
+}
+
+func TestTheSearchReportsWhatThePeersReportedBesideTheDocumentsTheyHold(t *testing.T) {
+	t.Parallel()
+
+	reported := "https://reported.example/"
+	network := networkOf(map[string]map[string][]string{
+		"first": {firstWord: {reported}, secondWord: {reported}},
+	})
+	network.reportedItemsPerWordPerPeer = map[string]map[string][]string{
+		"first": {firstWord: {reported}, secondWord: {reported}},
+	}
+	network.itemsWithAPostingPerAnswer = 1
+	network.documentsHeldForEveryWord = 512
+	observer := &recordedSearches{}
+
+	searchChoosing(network, responsiblePeers{peersPerWord: map[string][]string{
+		firstWord:  {"first"},
+		secondWord: {"first"},
+	}}, observer)
+
+	performed := observer.performed[0]
+	if performed.AmountOfJoinedDocumentsAlreadyReported != 1 ||
+		performed.AmountOfReportedItems != 2 ||
+		performed.AmountOfReportedItemsWithAPosting != 2 {
+		t.Fatalf(
+			"the search reported %+v, want the joined document reported once and two postings",
+			performed,
+		)
+	}
+	if !slices.Equal(performed.DocumentsEachPeerHoldsForAQueryWord, []int{512, 512}) {
+		t.Fatalf(
+			"the search reported %v documents held per query word, want 512 for each answer",
+			performed.DocumentsEachPeerHoldsForAQueryWord,
+		)
 	}
 }

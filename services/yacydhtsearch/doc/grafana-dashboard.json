@@ -1221,6 +1221,168 @@
       ]
     },
     {
+      "id": 72,
+      "title": "Share of the join the peers already reported as an item",
+      "description": "What the first round reports needs no second round call.",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 102
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "percentunit",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_search_join_already_reported_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_search_join_already_reported_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "title": "Share of the reported items that carried a posting",
+      "description": "Only a peer that answers from its own word index carries one.",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 102
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "percentunit",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_search_reported_items_with_a_posting_ratio_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_search_reported_items_with_a_posting_ratio_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "title": "Documents one peer holds for one query word",
+      "description": "A word the whole network holds few documents for narrows a query most.",
+      "type": "heatmap",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 110
+      },
+      "interval": "$window",
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "color": {
+          "mode": "scheme",
+          "scheme": "Viridis",
+          "steps": 64,
+          "exponent": 0.5,
+          "reverse": false,
+          "min": 0
+        },
+        "yAxis": {
+          "unit": "short",
+          "axisPlacement": "left"
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "yHistogram": true
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-09
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (le) (clamp_min(yacydhtsearch_word_joined_search_documents_a_peer_holds_per_query_word_bucket{instance=~\"$service_instance\"} - (yacydhtsearch_word_joined_search_documents_a_peer_holds_per_query_word_bucket{instance=~\"$service_instance\"} offset $__interval), 0))",
+          "format": "heatmap",
+          "legendFormat": "{{le}}"
+        }
+      ]
+    },
+    {
       "id": 10,
       "title": "Known peers",
       "type": "row",
@@ -1229,7 +1391,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 102
+        "y": 118
       },
       "panels": []
     },
@@ -1246,7 +1408,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 103
+        "y": 119
       },
       "fieldConfig": {
         "defaults": {
@@ -1297,7 +1459,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 103
+        "y": 119
       },
       "fieldConfig": {
         "defaults": {
@@ -1333,7 +1495,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 111
+        "y": 127
       },
       "panels": []
     },
@@ -1353,7 +1515,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 112
+        "y": 128
       },
       "fieldConfig": {
         "defaults": {
@@ -1396,7 +1558,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 120
+        "y": 136
       },
       "interval": "$window",
       "options": {
@@ -1446,7 +1608,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 128
+        "y": 144
       },
       "panels": []
     },
@@ -1462,7 +1624,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 129
+        "y": 145
       },
       "fieldConfig": {
         "defaults": {
@@ -1512,7 +1674,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 129
+        "y": 145
       },
       "fieldConfig": {
         "defaults": {
@@ -1552,7 +1714,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 129
+        "y": 145
       },
       "fieldConfig": {
         "defaults": {
@@ -1592,7 +1754,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 137
+        "y": 153
       },
       "fieldConfig": {
         "defaults": {
@@ -1632,7 +1794,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 137
+        "y": 153
       },
       "fieldConfig": {
         "defaults": {
@@ -1672,7 +1834,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 137
+        "y": 153
       },
       "fieldConfig": {
         "defaults": {

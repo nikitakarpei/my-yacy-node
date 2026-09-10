@@ -1,8 +1,9 @@
 // Package wordjoined finds documents that match the whole query even when no
 // single peer holds every query word. It asks each peer which documents it
-// holds for one query word, keeps the documents that came back for every word,
-// and asks the peers that hold them for the metadata of those documents. It
-// puts each word only to the peers the DHT ring makes responsible for that
+// holds for one query word and which items it puts first for that word, keeps
+// the documents that came back for every word, and asks the peers that hold
+// them for the metadata of the joined documents no peer reported an item for.
+// It puts each word only to the peers the DHT ring makes responsible for that
 // word. Each round stays within the peer calls one query may put: the first
 // shares them over the query words, and the second keeps the peers that cover
 // the most documents between them. The first round also leaves the second round
@@ -49,14 +50,17 @@ type Spread struct {
 	peerAsks                         PeerAsks
 	peerChoice                       PeerChoice
 	documentsToAskMetadataForCeiling int
+	peerItemsCeiling                 int
 	peerCallsCeiling                 int
 	observer                         WordJoinedSearchObserver
 }
 
+//nolint:revive // argument-limit: the ceilings one word joined search stays within
 func New(
 	peerAsks PeerAsks,
 	peerChoice PeerChoice,
 	documentsToAskMetadataForCeiling int,
+	peerItemsCeiling int,
 	peerCallsCeiling int,
 	observer WordJoinedSearchObserver,
 ) Spread {
@@ -64,6 +68,7 @@ func New(
 		peerAsks:                         peerAsks,
 		peerChoice:                       peerChoice,
 		documentsToAskMetadataForCeiling: documentsToAskMetadataForCeiling,
+		peerItemsCeiling:                 peerItemsCeiling,
 		peerCallsCeiling:                 peerCallsCeiling,
 		observer:                         observer,
 	}
@@ -77,12 +82,15 @@ func (s Spread) SpreadOverPeers(
 	startedAt := time.Now()
 
 	peersPerQueryWord := s.choosePeersPerQueryWord(ctx, query, askablePeers)
-	heldDocumentsAsks := asksForTheDocumentsHeldPerQueryWord(query, peersPerQueryWord)
+	heldDocumentsAsks := asksForTheDocumentsHeldPerQueryWord(
+		query, peersPerQueryWord, s.peerItemsCeiling,
+	)
 	answeredHeldDocumentsAsks := s.askForHeldDocuments(ctx, heldDocumentsAsks)
 
 	joinedDocuments := joinedDocumentsOf(answeredHeldDocumentsAsks, query.TermHashes())
+	reportedItems := reportedItemsOfJoinedDocuments(answeredHeldDocumentsAsks, joinedDocuments)
 	documentsToAskMetadataFor := mostHeldDocumentsAmong(
-		joinedDocuments,
+		joinedDocumentsWithoutAReportedItem(joinedDocuments, reportedItems),
 		answeredHeldDocumentsAsks,
 		s.documentsToAskMetadataForCeiling,
 	)
@@ -101,13 +109,14 @@ func (s Spread) SpreadOverPeers(
 			heldDocumentsAsks,
 			answeredHeldDocumentsAsks,
 			joinedDocuments,
+			reportedItems,
 			documentsToAskMetadataFor,
 			answeredURLMetadataAsks,
 			time.Since(startedAt),
 		),
 	)
 
-	return itemsOfEachAnsweredAsk(answeredURLMetadataAsks)
+	return append(itemsOfEachAnsweredAsk(answeredURLMetadataAsks), reportedItems...)
 }
 
 func (s Spread) choosePeersPerQueryWord(
@@ -134,6 +143,7 @@ func (s Spread) choosePeersPerQueryWord(
 func asksForTheDocumentsHeldPerQueryWord(
 	query searchquery.Query,
 	peersPerQueryWord []peersForQueryWord,
+	itemsCeiling int,
 ) []peerasks.HeldDocumentsAsk {
 	var asks []peerasks.HeldDocumentsAsk
 	for _, forQueryWord := range peersPerQueryWord {
@@ -143,6 +153,7 @@ func asksForTheDocumentsHeldPerQueryWord(
 				Word:          forQueryWord.word,
 				ExcludedWords: query.ExclusionHashes(),
 				Language:      query.Language,
+				ItemsCeiling:  itemsCeiling,
 			})
 		}
 	}

@@ -1,7 +1,9 @@
 // Package prometheus reports how many peers the first round of a word joined
 // search asked and how many answered, how much of the query the network held,
-// how often no document held all query words, and how much of the join the
-// second round asked metadata for and got back, as metrics.
+// how often no document held all query words, how many documents the peers hold
+// for a query word, how much of the join the peers already reported as an item
+// and how much of that carried a posting, and how much of the join the second
+// round asked metadata for and got back, as metrics.
 package prometheus
 
 import (
@@ -14,15 +16,17 @@ import (
 )
 
 const (
-	peerBucketCeiling   = 128.0
-	peerBuckets         = 8
-	durationBuckets     = 12
-	budgetShare         = 1024
-	ratioBuckets        = 11
-	ratioStep           = 0.1
-	labelJoin           = "join"
-	joinFoundNoDocument = "no document"
-	joinFoundDocuments  = "documents"
+	peerBucketCeiling             = 128.0
+	peerBuckets                   = 8
+	documentsPerWordBucketCeiling = 1048576.0
+	documentsPerWordBuckets       = 11
+	durationBuckets               = 12
+	budgetShare                   = 1024
+	ratioBuckets                  = 11
+	ratioStep                     = 0.1
+	labelJoin                     = "join"
+	joinFoundNoDocument           = "no document"
+	joinFoundDocuments            = "documents"
 )
 
 type WordJoinedSearchMetrics struct {
@@ -30,6 +34,9 @@ type WordJoinedSearchMetrics struct {
 	peersAskedForHeldDocuments       prometheusclient.Histogram
 	heldDocumentsAnsweringPeersRatio prometheusclient.Histogram
 	unheldQueryWordsRatio            prometheusclient.Histogram
+	joinAlreadyReportedRatio         prometheusclient.Histogram
+	reportedItemsWithAPostingRatio   prometheusclient.Histogram
+	documentsAPeerHoldsPerQueryWord  prometheusclient.Histogram
 	joinAskedMetadataForRatio        prometheusclient.Histogram
 	metadataThatCameBackRatio        prometheusclient.Histogram
 	wordJoinedSearchDurationSeconds  prometheusclient.Histogram
@@ -52,29 +59,41 @@ func New(
 				Buckets: bucketsFromNoneTo(peerBucketCeiling, peerBuckets),
 			},
 		),
-		heldDocumentsAnsweringPeersRatio: prometheusclient.NewHistogram(
+		heldDocumentsAnsweringPeersRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_search_held_documents_answering_peers_ratio",
+			"Share of the peers asked which documents they hold that answered.",
+		),
+		unheldQueryWordsRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_search_unheld_query_words_ratio",
+			"Share of query words that no asked peer held a document for.",
+		),
+		joinAlreadyReportedRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_search_join_already_reported_ratio",
+			"Share of the joined documents that a peer already reported as an item with "+
+				"the documents it holds.",
+		),
+		reportedItemsWithAPostingRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_search_reported_items_with_a_posting_ratio",
+			"Share of the items the peers reported with the documents they hold that "+
+				"carried a posting.",
+		),
+		documentsAPeerHoldsPerQueryWord: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
-				Name:    "yacydhtsearch_word_joined_search_held_documents_answering_peers_ratio",
-				Help:    "Share of the peers asked which documents they hold that answered.",
-				Buckets: prometheusclient.LinearBuckets(0, ratioStep, ratioBuckets),
+				Name: "yacydhtsearch_word_joined_search_documents_a_peer_holds_per_query_word",
+				Help: "Documents one peer reported holding for one query word.",
+				Buckets: bucketsFromNoneTo(
+					documentsPerWordBucketCeiling, documentsPerWordBuckets,
+				),
 			},
 		),
-		unheldQueryWordsRatio: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-			Name:    "yacydhtsearch_word_joined_search_unheld_query_words_ratio",
-			Help:    "Share of query words that no asked peer held a document for.",
-			Buckets: prometheusclient.LinearBuckets(0, ratioStep, ratioBuckets),
-		}),
-		joinAskedMetadataForRatio: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-			Name:    "yacydhtsearch_word_joined_search_join_asked_metadata_for_ratio",
-			Help:    "Share of the joined documents the search asked the peers metadata for.",
-			Buckets: prometheusclient.LinearBuckets(0, ratioStep, ratioBuckets),
-		}),
-		metadataThatCameBackRatio: prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
-			Name: "yacydhtsearch_word_joined_search_metadata_that_came_back_ratio",
-			Help: "Share of the documents the search asked metadata for that came back " +
-				"as an item.",
-			Buckets: prometheusclient.LinearBuckets(0, ratioStep, ratioBuckets),
-		}),
+		joinAskedMetadataForRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_search_join_asked_metadata_for_ratio",
+			"Share of the joined documents the search asked the peers metadata for.",
+		),
+		metadataThatCameBackRatio: ratioHistogramNamed(
+			"yacydhtsearch_word_joined_search_metadata_that_came_back_ratio",
+			"Share of the documents the search asked metadata for that came back as an item.",
+		),
 		wordJoinedSearchDurationSeconds: prometheusclient.NewHistogram(
 			prometheusclient.HistogramOpts{
 				Name: "yacydhtsearch_word_joined_search_duration_seconds",
@@ -92,12 +111,23 @@ func New(
 		metrics.peersAskedForHeldDocuments,
 		metrics.heldDocumentsAnsweringPeersRatio,
 		metrics.unheldQueryWordsRatio,
+		metrics.joinAlreadyReportedRatio,
+		metrics.reportedItemsWithAPostingRatio,
+		metrics.documentsAPeerHoldsPerQueryWord,
 		metrics.joinAskedMetadataForRatio,
 		metrics.metadataThatCameBackRatio,
 		metrics.wordJoinedSearchDurationSeconds,
 	)
 
 	return metrics
+}
+
+func ratioHistogramNamed(name string, help string) prometheusclient.Histogram {
+	return prometheusclient.NewHistogram(prometheusclient.HistogramOpts{
+		Name:    name,
+		Help:    help,
+		Buckets: prometheusclient.LinearBuckets(0, ratioStep, ratioBuckets),
+	})
 }
 
 func bucketsFromNoneTo(ceiling float64, buckets int) []float64 {
@@ -116,6 +146,21 @@ func (m *WordJoinedSearchMetrics) WordJoinedSearchPerformed(
 	m.countJoin(search)
 	m.observeHeldDocumentsAnsweringPeersRatio(search)
 	m.observeQueryRatios(search)
+	m.observeWhatThePeersReported(search)
+}
+
+func (m *WordJoinedSearchMetrics) observeWhatThePeersReported(
+	search wordjoined.PerformedWordJoinedSearch,
+) {
+	for _, documentsHeld := range search.DocumentsEachPeerHoldsForAQueryWord {
+		m.documentsAPeerHoldsPerQueryWord.Observe(float64(documentsHeld))
+	}
+	if search.AmountOfReportedItems == 0 {
+		return
+	}
+	m.reportedItemsWithAPostingRatio.Observe(
+		float64(search.AmountOfReportedItemsWithAPosting) / float64(search.AmountOfReportedItems),
+	)
 }
 
 func (m *WordJoinedSearchMetrics) countJoin(search wordjoined.PerformedWordJoinedSearch) {
@@ -127,6 +172,10 @@ func (m *WordJoinedSearchMetrics) countJoin(search wordjoined.PerformedWordJoine
 	m.wordJoinedSearches.WithLabelValues(joinFoundDocuments).Inc()
 	m.joinAskedMetadataForRatio.Observe(
 		float64(search.AmountOfDocumentsToAskMetadataFor) / float64(search.AmountOfJoinedDocuments),
+	)
+	m.joinAlreadyReportedRatio.Observe(
+		float64(search.AmountOfJoinedDocumentsAlreadyReported) /
+			float64(search.AmountOfJoinedDocuments),
 	)
 }
 

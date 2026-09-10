@@ -177,6 +177,7 @@ func querySpreadFor(
 			peers,
 			choice,
 			cfg.RankedItemsCeiling,
+			cfg.PeerItemsCeiling,
 			cfg.PeerCallsPerQuery,
 			wordjoined.WordJoinedSearchObservers{
 				wordjoinedobserversapplog.WordJoinedSearchLog{},

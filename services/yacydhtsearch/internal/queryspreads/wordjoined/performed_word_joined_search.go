@@ -5,19 +5,24 @@ import (
 
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PerformedWordJoinedSearch struct {
-	AmountOfQueryWords                  int
-	AmountOfQueryWordsNoPeerHeld        int
-	AmountOfPeersAskedForHeldDocuments  int
-	AmountOfPeersThatNamedHeldDocuments int
-	AmountOfPeersHoldingAQueryWord      int
-	AmountOfJoinedDocuments             int
-	AmountOfDocumentsToAskMetadataFor   int
-	AmountOfDocumentsThatCameBack       int
-	TimeSpent                           time.Duration
+	AmountOfQueryWords                     int
+	AmountOfQueryWordsNoPeerHeld           int
+	AmountOfPeersAskedForHeldDocuments     int
+	AmountOfPeersThatNamedHeldDocuments    int
+	AmountOfPeersHoldingAQueryWord         int
+	AmountOfJoinedDocuments                int
+	AmountOfJoinedDocumentsAlreadyReported int
+	AmountOfReportedItems                  int
+	AmountOfReportedItemsWithAPosting      int
+	DocumentsEachPeerHoldsForAQueryWord    []int
+	AmountOfDocumentsToAskMetadataFor      int
+	AmountOfDocumentsThatCameBack          int
+	TimeSpent                              time.Duration
 }
 
 //nolint:revive // argument-limit: the stages one word joined search passes
@@ -26,6 +31,7 @@ func performedWordJoinedSearchFrom(
 	heldDocumentsAsks []peerasks.HeldDocumentsAsk,
 	answeredHeldDocumentsAsks []peerasks.AnsweredHeldDocumentsAsk,
 	joinedDocuments map[yacymodel.URLHash]struct{},
+	reportedItems [][]searchresult.Item,
 	documentsToAskMetadataFor map[yacymodel.URLHash]struct{},
 	answeredURLMetadataAsks []peerasks.AnsweredURLMetadataAsk,
 	timeSpent time.Duration,
@@ -40,8 +46,18 @@ func performedWordJoinedSearchFrom(
 		AmountOfPeersThatNamedHeldDocuments: amountOfPeersAcrossAnsweredAsks(
 			answeredHeldDocumentsAsks,
 		),
-		AmountOfPeersHoldingAQueryWord:    amountOfPeersAcrossAnsweredAsks(asksThatHeldADocument),
-		AmountOfJoinedDocuments:           len(joinedDocuments),
+		AmountOfPeersHoldingAQueryWord: amountOfPeersAcrossAnsweredAsks(
+			asksThatHeldADocument,
+		),
+		AmountOfJoinedDocuments:                len(joinedDocuments),
+		AmountOfJoinedDocumentsAlreadyReported: amountOfDocumentsAmong(reportedItems),
+		AmountOfReportedItems:                  amountOfReportedItems(answeredHeldDocumentsAsks),
+		AmountOfReportedItemsWithAPosting: amountOfReportedItemsWithAPosting(
+			answeredHeldDocumentsAsks,
+		),
+		DocumentsEachPeerHoldsForAQueryWord: documentsEachPeerHoldsForAQueryWord(
+			answeredHeldDocumentsAsks,
+		),
 		AmountOfDocumentsToAskMetadataFor: len(documentsToAskMetadataFor),
 		AmountOfDocumentsThatCameBack: amountOfDocumentsThatCameBack(
 			documentsToAskMetadataFor,
@@ -49,6 +65,46 @@ func performedWordJoinedSearchFrom(
 		),
 		TimeSpent: timeSpent,
 	}
+}
+
+func amountOfDocumentsAmong(itemsOfEachAnsweredAsk [][]searchresult.Item) int {
+	documents := map[yacymodel.URLHash]struct{}{}
+	for _, items := range itemsOfEachAnsweredAsk {
+		for _, item := range items {
+			documents[item.Hash] = struct{}{}
+		}
+	}
+
+	return len(documents)
+}
+
+func amountOfReportedItems(answeredAsks []peerasks.AnsweredHeldDocumentsAsk) int {
+	amount := 0
+	for _, answeredAsk := range answeredAsks {
+		amount += len(answeredAsk.Items)
+	}
+
+	return amount
+}
+
+func amountOfReportedItemsWithAPosting(answeredAsks []peerasks.AnsweredHeldDocumentsAsk) int {
+	amount := 0
+	for _, answeredAsk := range answeredAsks {
+		amount += answeredAsk.AmountOfItemsWithAPosting
+	}
+
+	return amount
+}
+
+func documentsEachPeerHoldsForAQueryWord(
+	answeredAsks []peerasks.AnsweredHeldDocumentsAsk,
+) []int {
+	documentsHeld := make([]int, 0, len(answeredAsks))
+	for _, answeredAsk := range answeredAsks {
+		documentsHeld = append(documentsHeld, answeredAsk.AmountOfDocumentsHeldForTheWord)
+	}
+
+	return documentsHeld
 }
 
 func answeredAsksThatHeldADocument(

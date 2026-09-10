@@ -1,7 +1,8 @@
 // Package peercallwire speaks the YaCy search protocol to the peers an ask
 // names. It asks a peer for the items it matches, for the documents it holds
-// for one word, or for the metadata it holds for documents the ask names,
-// reads back what the peer answered, and leaves every peer the time the peer
+// for one word together with the items it puts first for that word, or for the
+// metadata it holds for documents the ask names, reads back what the peer
+// answered, and leaves every peer the time the peer
 // call has left, less the margin the answer needs to reach this node; a peer
 // call with no deadline leaves the peer a time of its own. It puts every ask of
 // one round at once, because the spread that names the asks holds their amount
@@ -282,7 +283,13 @@ func (w Wire) putHeldDocumentsAsk(
 		ctx, ask.Peer.Address, len(documents), time.Since(startedAt),
 	)
 
-	return peerasks.AnsweredHeldDocumentsAsk{Ask: ask, Documents: documents}, true
+	return peerasks.AnsweredHeldDocumentsAsk{
+		Ask:                             ask,
+		Documents:                       documents,
+		Items:                           itemsOf(response),
+		AmountOfItemsWithAPosting:       amountOfResourcesWithAPosting(response),
+		AmountOfDocumentsHeldForTheWord: response.IndexCount[ask.Word],
+	}, true
 }
 
 func (w Wire) requestForHeldDocuments(
@@ -291,8 +298,22 @@ func (w Wire) requestForHeldDocuments(
 ) yacyproto.SearchRequest {
 	request := w.requestFor(ctx, ask.ExcludedWords, ask.Language)
 	request.Abstracts = yacyproto.SearchAbstractsOf([]yacymodel.Hash{ask.Word})
+	request.Query = []yacymodel.Hash{ask.Word}
+	request.Count = ask.ItemsCeiling
 
 	return request
+}
+
+func amountOfResourcesWithAPosting(response yacyproto.SearchResponse) int {
+	amount := 0
+	for _, resource := range response.Resources {
+		if _, reported := resource.Posting.Get(); !reported {
+			continue
+		}
+		amount++
+	}
+
+	return amount
 }
 
 func (w Wire) searchResponse(
