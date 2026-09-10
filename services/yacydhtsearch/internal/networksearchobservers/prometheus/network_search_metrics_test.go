@@ -35,21 +35,17 @@ func TestOneQueryPublishesThePeersItReachedAndWhatItCost(t *testing.T) {
 	metrics := networksearchobserversprometheus.New(registry, queryBudget)
 
 	metrics.NetworkSearchPerformed(t.Context(), networksearch.PerformedNetworkSearch{
-		AmountOfAskedPeers:                 8,
-		AmountOfAnsweringPeers:             4,
-		AmountOfPeersThatSentItems:         2,
-		AmountOfItemsAcrossAnswers:         40,
-		AmountOfRepeatedItemsAcrossAnswers: 20,
-		AmountOfItemsInRanking:             20,
-		TimeSpent:                          250 * time.Millisecond,
+		AmountOfAskablePeers:            8,
+		AmountOfItemsInRanking:          20,
+		AmountOfRankedItemsOfTheOnePeer: 5,
+		TimeSpent:                       250 * time.Millisecond,
 	})
 
 	body := publishedBy(t, registry)
 	for _, published := range []string{
-		"yacydhtsearch_network_search_peers_asked_sum 8",
-		"yacydhtsearch_network_search_answering_peers_ratio_sum 0.5",
-		"yacydhtsearch_network_search_peers_that_sent_items_ratio_sum 0.5",
-		"yacydhtsearch_network_search_overlap_ratio_sum 0.5",
+		"yacydhtsearch_network_search_askable_peers_sum 8",
+		"yacydhtsearch_network_search_items_ranked_sum 20",
+		"yacydhtsearch_network_search_ranking_top_peer_share_sum 0.25",
 		"yacydhtsearch_network_search_duration_seconds_count 1",
 	} {
 		if !strings.Contains(body, published) {
@@ -65,11 +61,11 @@ func TestAQueryOverTheBudgetIsCountedApartFromOneInsideIt(t *testing.T) {
 	metrics := networksearchobserversprometheus.New(registry, queryBudget)
 
 	metrics.NetworkSearchPerformed(t.Context(), networksearch.PerformedNetworkSearch{
-		AmountOfAskedPeers: 1, AmountOfAnsweringPeers: 1, AmountOfItemsInRanking: 1,
+		AmountOfAskablePeers: 1, AmountOfItemsInRanking: 1,
 		TimeSpent: queryBudget - time.Millisecond,
 	})
 	metrics.NetworkSearchPerformed(t.Context(), networksearch.PerformedNetworkSearch{
-		AmountOfAskedPeers: 1, AmountOfAnsweringPeers: 1, AmountOfItemsInRanking: 1,
+		AmountOfAskablePeers: 1, AmountOfItemsInRanking: 1,
 		TimeSpent: queryBudget + time.Millisecond,
 	})
 
@@ -84,36 +80,18 @@ func TestAQueryOverTheBudgetIsCountedApartFromOneInsideIt(t *testing.T) {
 	}
 }
 
-func TestASearchThatNoPeerAnsweredObservesNoItemShare(t *testing.T) {
+func TestASearchThatRankedNoItemObservesNoRankingShare(t *testing.T) {
 	t.Parallel()
 
 	registry := prometheusclient.NewRegistry()
 	metrics := networksearchobserversprometheus.New(registry, queryBudget)
 
 	metrics.NetworkSearchPerformed(t.Context(), networksearch.PerformedNetworkSearch{
-		AmountOfAskedPeers: 4, AmountOfAnsweringPeers: 0, TimeSpent: time.Second,
+		AmountOfAskablePeers: 4, TimeSpent: time.Second,
 	})
 
 	body := publishedBy(t, registry)
-	if !strings.Contains(
-		body, "yacydhtsearch_network_search_peers_that_sent_items_ratio_count 0",
-	) {
-		t.Fatalf("metrics carry an item share for a search that no peer answered:\n%s", body)
-	}
-}
-
-func TestASearchThatCarriedNoItemObservesNoOverlap(t *testing.T) {
-	t.Parallel()
-
-	registry := prometheusclient.NewRegistry()
-	metrics := networksearchobserversprometheus.New(registry, queryBudget)
-
-	metrics.NetworkSearchPerformed(t.Context(), networksearch.PerformedNetworkSearch{
-		AmountOfAskedPeers: 4, AmountOfAnsweringPeers: 0, TimeSpent: time.Second,
-	})
-
-	body := publishedBy(t, registry)
-	if !strings.Contains(body, "yacydhtsearch_network_search_overlap_ratio_count 0") {
-		t.Fatalf("metrics carry an overlap for a search that had no item:\n%s", body)
+	if !strings.Contains(body, "yacydhtsearch_network_search_ranking_top_peer_share_count 0") {
+		t.Fatalf("metrics carry a ranking share for a search that ranked no item:\n%s", body)
 	}
 }

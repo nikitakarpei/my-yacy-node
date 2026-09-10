@@ -43,24 +43,33 @@ peers that answered their latest probe.
 | `YACYDHTSEARCH_DIRECTORY_CAPACITY` | `4096` | Most peers the directory holds. A full directory drops the peer that answered longest ago. |
 | `YACYDHTSEARCH_REFRESH_INTERVAL` | `5m` | Time between seedlist reads and probe cycles. |
 | `YACYDHTSEARCH_PROBE_BUDGET` | `3s` | Time one probe of one peer address may take. |
-| `YACYDHTSEARCH_PEER_SEARCH_COOLDOWN` | `5s` | Time between search requests sent to the same peer. |
+| `YACYDHTSEARCH_PROBES_IN_FLIGHT` | `24` | Most probes of one cycle that run at the same time. |
+| `YACYDHTSEARCH_PEER_CHOICE_COOLDOWN` | `5s` | Time a chosen peer rests before a search may choose it again. |
 
 ## Peer selection
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_PARTITION_EXPONENT` | `4` | Vertical partitions of the DHT ring, as a power of two. It must match the network. |
-| `YACYDHTSEARCH_PEER_REDUNDANCY` | `3` | Peers asked for each term in each partition. |
+
+## Cross-peer words
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `YACYDHTSEARCH_WORD_JOINED_SEARCH` | `false` | Use word joined search for queries with more than one term. Queries with one term use peer matched search. |
 
 ## Limits
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `YACYDHTSEARCH_QUERY_BUDGET` | `5s` | Time one client query may take, end to end. |
-| `YACYDHTSEARCH_PEER_CALL_BUDGET` | `4s` | Time one call to one peer may take. |
-| `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `24` | Most peer calls within one query that run at the same time. |
+| `YACYDHTSEARCH_QUERY_BUDGET` | `8s` | Time one client query may take, end to end. |
+| `YACYDHTSEARCH_PEER_CALLS_PER_QUERY` | `24` | Most peer calls one query puts. The query shares them over its terms. |
 | `YACYDHTSEARCH_MAX_RESPONSE_BYTES` | `4194304` | Most bytes read from one peer answer or one seedlist. |
 | `YACYDHTSEARCH_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for. |
+
+Word joined search puts two rounds of peer calls. Each round stays within
+`YACYDHTSEARCH_PEER_CALLS_PER_QUERY`, and each peer call leaves the peer the time the query
+has left.
 
 ## Peer search limits
 

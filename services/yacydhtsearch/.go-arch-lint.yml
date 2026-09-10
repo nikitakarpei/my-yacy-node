@@ -11,6 +11,10 @@ commonComponents:
   - peerdirectory
 
 components:
+  peermatchedobserversapplog:
+    in: internal/peermatchedobservers/applog/**
+  peermatchedobserversprometheus:
+    in: internal/peermatchedobservers/prometheus/**
   searchquery:
     in: internal/searchquery/**
   searchresult:
@@ -25,6 +29,12 @@ components:
     in: internal/dhtdistanceobservers/prometheus/**
   networksearch:
     in: internal/networksearch/**
+  peermatched:
+    in: internal/queryspreads/peermatched/**
+  wordjoined:
+    in: internal/queryspreads/wordjoined/**
+  joinablequery:
+    in: internal/queryspreads/joinablequery/**
   queryrankings:
     in: internal/queryrankings/**
   rankingcachememory:
@@ -39,10 +49,12 @@ components:
     in: internal/rankingcacheobservers/applog/**
   rankingcacheobserversprometheus:
     in: internal/rankingcacheobservers/prometheus/**
-  peersearch:
-    in: internal/peersearch/**
-  peersearchwire:
-    in: internal/peersearchwire/**
+  peerasks:
+    in: internal/peerasks/**
+  peerchoice:
+    in: internal/peerchoice/**
+  peercallwire:
+    in: internal/peercallwire/**
   peerlivenesswire:
     in: internal/peerlivenesswire/**
   yacyseedlist:
@@ -55,10 +67,14 @@ components:
     in: internal/networksearchobservers/applog/**
   networksearchobserversprometheus:
     in: internal/networksearchobservers/prometheus/**
-  peersearchobserversapplog:
-    in: internal/peersearchobservers/applog/**
-  peersearchobserversprometheus:
-    in: internal/peersearchobservers/prometheus/**
+  wordjoinedobserversapplog:
+    in: internal/wordjoinedobservers/applog/**
+  wordjoinedobserversprometheus:
+    in: internal/wordjoinedobservers/prometheus/**
+  peercallobserversapplog:
+    in: internal/peercallobservers/applog/**
+  peercallobserversprometheus:
+    in: internal/peercallobservers/prometheus/**
   peerdirectoryobserversapplog:
     in: internal/peerdirectoryobservers/applog/**
   peerdirectoryobserversprometheus:
@@ -98,6 +114,14 @@ vendors:
       - github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup
 
 deps:
+  peermatchedobserversapplog:
+    mayDependOn:
+      - peermatched
+  peermatchedobserversprometheus:
+    canUse:
+      - prometheus
+    mayDependOn:
+      - peermatched
   searchquery:
     canUse:
       - yacymodel
@@ -117,14 +141,37 @@ deps:
       - yacymodel
     mayDependOn:
       - peerdirectory
-      - searchquery
+  peerchoice:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - peerdirectory
   networksearch:
     canUse:
       - yacymodel
-      - yacyproto
     mayDependOn:
       - peerdirectory
-      - peersearch
+      - searchquery
+      - searchresult
+  peermatched:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - peerdirectory
+      - peerasks
+      - searchquery
+      - searchresult
+  wordjoined:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - peerdirectory
+      - peerasks
+      - searchquery
+      - searchresult
+  joinablequery:
+    mayDependOn:
+      - peerdirectory
       - searchquery
       - searchresult
   queryrankings:
@@ -160,18 +207,18 @@ deps:
       - prometheus
     mayDependOn:
       - searchquery
-  peersearch:
+  peerasks:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - peerdirectory
+      - searchresult
+  peercallwire:
     canUse:
       - yacymodel
       - yacyproto
     mayDependOn:
-      - peerdirectory
-      - peersearchwire
-      - searchresult
-  peersearchwire:
-    canUse:
-      - yacyproto
-    mayDependOn:
+      - peerasks
       - searchresult
   peerlivenesswire:
     canUse:
@@ -200,14 +247,22 @@ deps:
       - prometheus
     mayDependOn:
       - networksearch
-  peersearchobserversapplog:
+  wordjoinedobserversapplog:
     mayDependOn:
-      - searchresult
-  peersearchobserversprometheus:
+      - wordjoined
+  wordjoinedobserversprometheus:
     canUse:
       - prometheus
     mayDependOn:
-      - searchresult
+      - wordjoined
+  peercallobserversapplog:
+    mayDependOn:
+      - peerasks
+  peercallobserversprometheus:
+    canUse:
+      - prometheus
+    mayDependOn:
+      - peerasks
   peerdirectoryobserversapplog:
     canUse:
       - yacymodel

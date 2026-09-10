@@ -12,7 +12,9 @@ import (
 const (
 	labelOutcome             = "outcome"
 	outcomeAnsweredFromCache = "answered_from_cache"
+	outcomeNoItemFromCache   = "no_item_from_cache"
 	outcomeAnsweredByPeers   = "answered_by_peers"
+	outcomeNoItemFromPeers   = "no_item_from_peers"
 	outcomeNoIndexedTerm     = "no_indexed_term"
 	outcomeNoPeerToAsk       = "no_peer_to_ask"
 )
@@ -34,15 +36,32 @@ func New(registry prometheusclient.Registerer) *QueryRankingMetrics {
 }
 
 func (m *QueryRankingMetrics) QueryAnsweredFromCache(
-	context.Context,
-	searchquery.Query,
-	int,
+	_ context.Context,
+	_ searchquery.Query,
+	items int,
 ) {
-	m.searches.WithLabelValues(outcomeAnsweredFromCache).Inc()
+	m.countSearch(outcomeAnsweredFromCache, outcomeNoItemFromCache, items)
 }
 
-func (m *QueryRankingMetrics) QueryAnsweredByPeers(context.Context, searchquery.Query, int) {
-	m.searches.WithLabelValues(outcomeAnsweredByPeers).Inc()
+func (m *QueryRankingMetrics) QueryAnsweredByPeers(
+	_ context.Context,
+	_ searchquery.Query,
+	items int,
+) {
+	m.countSearch(outcomeAnsweredByPeers, outcomeNoItemFromPeers, items)
+}
+
+func (m *QueryRankingMetrics) countSearch(
+	outcomeWithItems string,
+	outcomeWithNoItem string,
+	items int,
+) {
+	if items == 0 {
+		m.searches.WithLabelValues(outcomeWithNoItem).Inc()
+
+		return
+	}
+	m.searches.WithLabelValues(outcomeWithItems).Inc()
 }
 
 func (m *QueryRankingMetrics) QueryHadNoIndexedTerm(context.Context, searchquery.Query) {

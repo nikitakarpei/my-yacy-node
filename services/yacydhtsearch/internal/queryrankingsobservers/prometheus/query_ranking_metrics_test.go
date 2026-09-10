@@ -50,3 +50,27 @@ func TestEveryOutcomeOfASearchIsPublishedApart(t *testing.T) {
 		}
 	}
 }
+
+func TestASearchThatCameBackWithNoItemIsCountedApartFromOneThatHeldItems(t *testing.T) {
+	t.Parallel()
+
+	registry := prometheusclient.NewRegistry()
+	metrics := queryrankingsobserversprometheus.New(registry)
+	query := searchquery.QueryFrom("berlin")
+
+	metrics.QueryAnsweredByPeers(t.Context(), query, 0)
+	metrics.QueryAnsweredFromCache(t.Context(), query, 0)
+
+	body := publishedBy(t, registry)
+	for _, published := range []string{
+		`yacydhtsearch_searches_total{outcome="no_item_from_peers"} 1`,
+		`yacydhtsearch_searches_total{outcome="no_item_from_cache"} 1`,
+	} {
+		if !strings.Contains(body, published) {
+			t.Fatalf("metrics do not carry %q:\n%s", published, body)
+		}
+	}
+	if strings.Contains(body, `outcome="answered_by_peers"`) {
+		t.Fatalf("a search that came back with no item was counted as answered:\n%s", body)
+	}
+}

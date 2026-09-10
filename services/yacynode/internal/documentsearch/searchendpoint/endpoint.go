@@ -88,7 +88,7 @@ func (e endpoint) Serve(
 		resp.Resources = searchResourcesFrom(result)
 		resp.Count = len(resp.Resources)
 		resp.IndexCount = result.PostingsHeldPerTerm
-		resp.IndexAbstract = encodedIndexAbstractsFrom(result.IndexAbstracts)
+		resp.IndexAbstract = result.IndexAbstracts
 	} else {
 		e.observation.observeNetworkMismatch()
 	}
@@ -111,15 +111,4 @@ func searchResourcesFrom(result searchresult.Result) []yacyproto.SearchResource 
 	}
 
 	return resources
-}
-
-func encodedIndexAbstractsFrom(
-	documentsPerTerm map[yacymodel.Hash][]yacymodel.URLHash,
-) map[yacymodel.Hash]string {
-	abstracts := make(map[yacymodel.Hash]string, len(documentsPerTerm))
-	for term, documentHashes := range documentsPerTerm {
-		abstracts[term] = yacyproto.EncodeSearchIndexAbstract(documentHashes)
-	}
-
-	return abstracts
 }

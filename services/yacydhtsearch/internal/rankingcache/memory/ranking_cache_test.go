@@ -18,12 +18,16 @@ const (
 func rankingOver(t *testing.T, address string) searchresult.Ranking {
 	t.Helper()
 
-	item, ok := searchresult.ItemFrom(yacymodel.URLMetadata{Address: address})
-	if !ok {
-		t.Fatalf("ItemFrom(%q) refused a well-formed address", address)
+	hash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
-	return searchresult.Ranking{Items: []searchresult.Item{item}}
+	return searchresult.Ranking{
+		Items: []searchresult.Item{
+			searchresult.ItemFrom(yacymodel.URLMetadata{Hash: hash, Address: address}),
+		},
+	}
 }
 
 func TestARankingIsReadBackForTheQueryItWasHeldFor(t *testing.T) {

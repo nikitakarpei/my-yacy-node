@@ -122,11 +122,14 @@ func rankingOver(t *testing.T, addresses ...string) searchresult.Ranking {
 
 	items := make([]searchresult.Item, 0, len(addresses))
 	for _, address := range addresses {
-		item, ok := searchresult.ItemFrom(yacymodel.URLMetadata{Address: address})
-		if !ok {
-			t.Fatalf("ItemFrom(%q) refused a well-formed address", address)
+		hash, err := yacymodel.URLHashOf(address)
+		if err != nil {
+			t.Fatalf("URLHashOf(%q): %v", address, err)
 		}
-		items = append(items, item)
+		items = append(
+			items,
+			searchresult.ItemFrom(yacymodel.URLMetadata{Hash: hash, Address: address}),
+		)
 	}
 
 	return searchresult.Ranking{Items: items}

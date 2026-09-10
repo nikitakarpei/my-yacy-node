@@ -17,20 +17,15 @@ type Item struct {
 	ImageAddress string
 }
 
-func ItemFrom(metadata yacymodel.URLMetadata) (Item, bool) {
-	hash, err := metadata.Hash()
-	if err != nil {
-		return Item{}, false
-	}
-
+func ItemFrom(metadata yacymodel.URLMetadata) Item {
 	return Item{
-		Hash:         hash,
+		Hash:         metadata.Hash,
 		Address:      metadata.Address,
 		Title:        metadata.Title,
 		Description:  metadata.Snippet,
 		PublishedAt:  publicationInstantOf(metadata),
 		ImageAddress: metadata.FaviconAddress,
-	}, true
+	}
 }
 
 func publicationInstantOf(metadata yacymodel.URLMetadata) yacymodel.Optional[time.Time] {

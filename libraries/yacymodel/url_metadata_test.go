@@ -7,18 +7,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-func TestURLMetadataHashDerivesFromAddress(t *testing.T) {
-	metadata := yacymodel.URLMetadata{Address: "http://example.com/a"}
-
-	got, err := metadata.Hash()
-	if err != nil {
-		t.Fatalf("Hash: %v", err)
-	}
-	if want := hashOfAddress(t, "http://example.com/a"); got != want {
-		t.Errorf("Hash = %q, want %q", got, want)
-	}
-}
-
 func TestFreshnessPrefersLoadedThenModifiedThenFreshUntil(t *testing.T) {
 	loaded := yacymodel.Some(yacymodel.NewCalendarDay(2025, time.February, 3))
 	modified := yacymodel.Some(yacymodel.NewCalendarDay(2024, time.January, 2))

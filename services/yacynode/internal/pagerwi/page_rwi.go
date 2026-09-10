@@ -25,12 +25,12 @@ func Of(
 	reachedAt time.Time,
 ) PageRWI {
 	pageURL := scrapedPage.PageURL
-	urlHash := yacymodel.URLNormalformOf(pageURL.WebAddress()).Hash()
 
 	order, occurrences, textStats := tokenize(string(text))
 	_, _, titleStats := tokenize(document.Title)
 
-	shared := sharedPosting(pageURL, document, reachedAt, urlHash)
+	metadata := metadataOf(pageURL, document, len(scrapedPage.Body), reachedAt, textStats.Words)
+	shared := sharedPosting(pageURL, document, reachedAt, metadata.Hash)
 	shared.TitleWords = titleStats.Words
 	shared.TextWords = textStats.Words
 	shared.Phrases = textStats.Phrases
@@ -48,10 +48,8 @@ func Of(
 	}
 
 	return PageRWI{
-		PageURL: pageURL,
-		Metadata: metadataOf(
-			pageURL, document, len(scrapedPage.Body), reachedAt, textStats.Words,
-		),
+		PageURL:  pageURL,
+		Metadata: metadata,
 		Postings: postings,
 	}
 }
@@ -82,6 +80,7 @@ func metadataOf(
 	wordCount int,
 ) yacymodel.URLMetadata {
 	return yacymodel.URLMetadata{
+		Hash:          yacymodel.URLNormalformOf(pageURL.WebAddress()).Hash(),
 		Address:       pageURL.String(),
 		Title:         document.Title,
 		Loaded:        yacymodel.Some(yacymodel.CalendarDayOf(reachedAt)),

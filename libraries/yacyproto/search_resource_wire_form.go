@@ -17,7 +17,7 @@ const searchResourceColPosting = "wi"
 type searchResourceWireCodec struct{}
 
 func (searchResourceWireCodec) encode(resource SearchResource) string {
-	form := urlMetadataWireFormFromDomain(resource.Metadata)
+	form := urlMetadataWireFormOf(resource.Metadata)
 	if posting, ok := resource.Posting.Get(); ok {
 		form.put(
 			searchResourceColPosting,

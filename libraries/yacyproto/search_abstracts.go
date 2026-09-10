@@ -6,6 +6,10 @@ type SearchAbstracts string
 
 const SearchAbstractsAuto SearchAbstracts = "auto"
 
+func SearchAbstractsOf(hashes []yacymodel.Hash) SearchAbstracts {
+	return SearchAbstracts(concatHashes(hashes))
+}
+
 func parseSearchAbstracts(raw string) (SearchAbstracts, error) {
 	if raw == "" || raw == string(SearchAbstractsAuto) {
 		return SearchAbstracts(raw), nil

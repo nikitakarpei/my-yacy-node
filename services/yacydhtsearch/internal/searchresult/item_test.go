@@ -12,16 +12,13 @@ func TestItemFromCarriesWhatAPeerReported(t *testing.T) {
 	t.Parallel()
 
 	modified := yacymodel.NewCalendarDay(2026, time.March, 4)
-	item, ok := searchresult.ItemFrom(yacymodel.URLMetadata{
+	item := searchresult.ItemFrom(yacymodel.URLMetadata{
 		Address:        "https://example.org/weather",
 		Title:          "Weather",
 		Snippet:        "",
 		Modified:       yacymodel.Some(modified),
 		FaviconAddress: "https://example.org/icon.png",
 	})
-	if !ok {
-		t.Fatal("ItemFrom refused metadata that names a reachable address")
-	}
 	if item.Address != "https://example.org/weather" || item.Title != "Weather" {
 		t.Fatalf("ItemFrom = %+v, want the reported address and title", item)
 	}
@@ -38,7 +35,7 @@ func TestItemFromFallsBackToTheDayThePeerLoadedIt(t *testing.T) {
 	t.Parallel()
 
 	loaded := yacymodel.NewCalendarDay(2025, time.December, 31)
-	item, _ := searchresult.ItemFrom(yacymodel.URLMetadata{
+	item := searchresult.ItemFrom(yacymodel.URLMetadata{
 		Address: "https://example.org/",
 		Loaded:  yacymodel.Some(loaded),
 	})
@@ -52,17 +49,27 @@ func TestItemFromFallsBackToTheDayThePeerLoadedIt(t *testing.T) {
 func TestItemFromLeavesThePublicationDayUnsetWhenThePeerNamedNone(t *testing.T) {
 	t.Parallel()
 
-	item, _ := searchresult.ItemFrom(yacymodel.URLMetadata{Address: "https://example.org/"})
+	item := searchresult.ItemFrom(yacymodel.URLMetadata{Address: "https://example.org/"})
 
 	if _, ok := item.PublishedAt.Get(); ok {
 		t.Fatalf("PublishedAt = %+v, want none", item.PublishedAt)
 	}
 }
 
-func TestItemFromRefusesAnAddressThatIsNotOne(t *testing.T) {
+func TestItemFromKeepsTheNameThePeerHoldsTheDocumentUnder(t *testing.T) {
 	t.Parallel()
 
-	if _, ok := searchresult.ItemFrom(yacymodel.URLMetadata{Address: "://"}); ok {
-		t.Fatal("ItemFrom accepted an address that is not a URL")
+	named, err := yacymodel.ParseURLHash("TULSZfg4-80c")
+	if err != nil {
+		t.Fatalf("ParseURLHash: %v", err)
+	}
+
+	item := searchresult.ItemFrom(yacymodel.URLMetadata{
+		Hash:    named,
+		Address: "https://example.org/somewhere-else",
+	})
+
+	if item.Hash != named {
+		t.Fatalf("Hash = %q, want the name the peer reported %q", item.Hash, named)
 	}
 }

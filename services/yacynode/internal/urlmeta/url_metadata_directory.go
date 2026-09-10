@@ -26,6 +26,7 @@ func (d urlDirectory) MetadataPerHash(
 		if !ok {
 			continue
 		}
+		stored.Hash = hash
 		metadata[hash] = stored
 	}
 

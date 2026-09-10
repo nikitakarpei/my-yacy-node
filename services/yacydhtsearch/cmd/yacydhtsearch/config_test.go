@@ -29,11 +29,11 @@ func TestAServiceConfigFallsBackToTheDocumentedDefaults(t *testing.T) {
 		t.Fatalf("addresses = %q and %q, want the defaults", cfg.ListenAddr, cfg.OpsAddr)
 	}
 	if cfg.QueryBudget != main.DefaultQueryBudget ||
-		cfg.PeerSearchCooldown != main.DefaultPeerSearchCooldown {
+		cfg.PeerChoiceCooldown != main.DefaultPeerChoiceCooldown {
 		t.Fatalf(
 			"budgets = %v and %v, want the defaults",
 			cfg.QueryBudget,
-			cfg.PeerSearchCooldown,
+			cfg.PeerChoiceCooldown,
 		)
 	}
 	if cfg.Partitions != 1<<main.DefaultPartitionExponent {
@@ -64,16 +64,17 @@ func TestAnOperatorOverridesEveryBudgetAndLimit(t *testing.T) {
 
 	environment := minimalEnvironment()
 	environment[main.EnvQueryBudget] = "9s"
-	environment[main.EnvPeerSearchCooldown] = "7s"
-	environment[main.EnvPeerCallsInFlight] = "7"
+	environment[main.EnvPeerChoiceCooldown] = "7s"
+	environment[main.EnvPeerCallsPerQuery] = "7"
+	environment[main.EnvProbesInFlight] = "12"
 	environment[main.EnvRankedItemsCeiling] = "25"
 
 	cfg, err := main.LoadServiceConfig(environmentOf(environment))
 	if err != nil {
 		t.Fatalf("load service config: %v", err)
 	}
-	if cfg.QueryBudget != 9*time.Second || cfg.PeerSearchCooldown != 7*time.Second ||
-		cfg.PeerCallsInFlight != 7 || cfg.RankedItemsCeiling != 25 {
+	if cfg.QueryBudget != 9*time.Second || cfg.PeerChoiceCooldown != 7*time.Second ||
+		cfg.PeerCallsPerQuery != 7 || cfg.ProbesInFlight != 12 || cfg.RankedItemsCeiling != 25 {
 		t.Fatalf("config = %+v, want the overrides", cfg)
 	}
 }

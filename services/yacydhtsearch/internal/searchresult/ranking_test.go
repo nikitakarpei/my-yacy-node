@@ -12,12 +12,18 @@ import (
 func itemAt(t *testing.T, address string) searchresult.Item {
 	t.Helper()
 
-	item, ok := searchresult.ItemFrom(yacymodel.URLMetadata{Address: address})
-	if !ok {
-		t.Fatalf("ItemFrom(%q) refused a well-formed address", address)
+	return searchresult.ItemFrom(metadataNamedByAddress(t, address))
+}
+
+func metadataNamedByAddress(t *testing.T, address string) yacymodel.URLMetadata {
+	t.Helper()
+
+	hash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
-	return item
+	return yacymodel.URLMetadata{Hash: hash, Address: address}
 }
 
 func addressesOf(items []searchresult.Item) []string {

@@ -35,10 +35,10 @@ nothing beyond a peer directory.
 
 ## Non-Functional Requirements
 
-* The service SHALL set explicit limits on the peer directory, per-peer response size, in-flight
-  peer calls, and per-query time budget.
-* The service SHALL apply a per-call idle timeout distinct from the whole-query budget, so one
-  unresponsive peer cannot exhaust the budget before reserves are tried.
+* The service SHALL set explicit limits on the peer directory, per-peer response size, the peer
+  calls one query may put, and the per-query time budget.
+* The service SHALL end every peer call when the query's budget ends, and SHALL tell each peer
+  how much of that budget its answer has, so one unresponsive peer cannot delay the answer.
 * The service SHALL keep memory usage bounded independently of network size.
 * The service SHALL NOT persist any state beyond the peer directory.
 * The service SHALL preserve compatibility with standard YaCy peer-to-peer contracts.

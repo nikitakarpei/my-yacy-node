@@ -27,6 +27,7 @@ const (
 )
 
 var searchDocument = yacymodel.URLMetadata{
+	Hash:         mustURLHash("http://search-probe.example.com/node-only-document"),
 	Address:      "http://search-probe.example.com/node-only-document",
 	Title:        "node only document",
 	DocumentType: yacymodel.DocumentTypeHTML,
@@ -57,10 +58,7 @@ func TestRealYaCyFindsNodeDocument(t *testing.T) {
 		SeedlistURL: "http://" + searchYaCyAlias + ":" + peerclient.Port + "/yacy/seedlist.html",
 	})
 
-	documentHash, err := searchDocument.Hash()
-	if err != nil {
-		t.Fatalf("document hash: %v", err)
-	}
+	documentHash := searchDocument.Hash
 
 	nodepeer.PushPosting(
 		t,

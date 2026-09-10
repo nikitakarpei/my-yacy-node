@@ -2,8 +2,6 @@ package yacymodel
 
 import (
 	"errors"
-	"fmt"
-	"net/url"
 	"strings"
 )
 
@@ -20,8 +18,11 @@ const (
 	applicationMediaTypePrefix = "application/"
 )
 
-// URLMetadata is what the index knows about the document at one address.
+// URLMetadata is what the index knows about the document at one address. Hash
+// is the name the index that reported it holds the document under, and the name
+// an ask for the document must use.
 type URLMetadata struct {
+	Hash             URLHash
 	Address          string
 	Referrer         Optional[URLHash]
 	Title            string
@@ -45,15 +46,6 @@ type URLMetadata struct {
 	ApplicationLinks int
 	Snippet          string
 	FaviconAddress   string
-}
-
-func (m URLMetadata) Hash() (URLHash, error) {
-	address, err := url.Parse(m.Address)
-	if err != nil {
-		return URLHash{}, fmt.Errorf("%w: address %q: %w", ErrBadURLMetadata, m.Address, err)
-	}
-
-	return URLNormalformOf(address).Hash(), nil
 }
 
 // Freshness is the day this metadata last stood for the document, preferring

@@ -46,16 +46,20 @@ func openModule(t *testing.T, quotaBytes int64) (*vault.Vault, urlPorts) {
 	return v, urlPorts{Directory: directory, Evictor: evictor, Receiver: receiver}
 }
 
-func urlMetadata(seed string) yacymodel.URLMetadata {
-	return yacymodel.URLMetadata{Address: "http://example.com/" + seed}
-}
-
-func metadataHash(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.URLHash {
+func urlMetadata(t *testing.T, seed string) yacymodel.URLMetadata {
 	t.Helper()
 
-	hash, err := metadata.Hash()
+	address := "http://example.com/" + seed
+
+	return yacymodel.URLMetadata{Hash: urlHashOf(t, address), Address: address}
+}
+
+func urlHashOf(t *testing.T, address string) yacymodel.URLHash {
+	t.Helper()
+
+	hash, err := yacymodel.URLHashOf(address)
 	if err != nil {
-		t.Fatalf("Hash: %v", err)
+		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
 	return hash
@@ -64,8 +68,8 @@ func metadataHash(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.URLHas
 func TestIntakePersistsAndReportsExisting(t *testing.T) {
 	ctx := context.Background()
 	v, module := openModule(t, 0)
-	first := urlMetadata("a")
-	second := urlMetadata("b")
+	first := urlMetadata(t, "a")
+	second := urlMetadata(t, "b")
 
 	receipt, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{first, second})
 	if err != nil {
@@ -91,15 +95,15 @@ func TestIntakePersistsAndReportsExisting(t *testing.T) {
 func TestIntakeDurabilityAndLookup(t *testing.T) {
 	ctx := context.Background()
 	v, module := openObservedModule(t)
-	row := urlMetadata("a")
-	hash := metadataHash(t, row)
+	row := urlMetadata(t, "a")
+	hash := row.Hash
 
 	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
 
 	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{hash})
-	if len(rows) != 1 || metadataHash(t, rows[hash]) != hash {
+	if len(rows) != 1 || rows[hash].Hash != hash {
 		t.Fatalf("MetadataPerHash = %v, want one matching row", rows)
 	}
 
@@ -125,7 +129,7 @@ func TestIntakeBusyAtCapacity(t *testing.T) {
 	ctx := context.Background()
 	_, module := openModule(t, 1)
 
-	receipt, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{urlMetadata("a")})
+	receipt, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{urlMetadata(t, "a")})
 	if err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
@@ -133,7 +137,7 @@ func TestIntakeBusyAtCapacity(t *testing.T) {
 		t.Fatalf("first receipt = %+v, want stored", receipt)
 	}
 
-	receipt, err = module.Receiver.Receive(ctx, []yacymodel.URLMetadata{urlMetadata("b")})
+	receipt, err = module.Receiver.Receive(ctx, []yacymodel.URLMetadata{urlMetadata(t, "b")})
 	if err != nil {
 		t.Fatalf("Intake over capacity: %v", err)
 	}
@@ -146,12 +150,12 @@ func TestIntakeNotifiesObserverOfStoredURLs(t *testing.T) {
 	ctx := context.Background()
 	observer := &recordingObserver{}
 	_, module := openObservedModule(t, observer)
-	row := urlMetadata("a")
+	row := urlMetadata(t, "a")
 
 	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}
-	if len(observer.stored) != 1 || observer.stored[0] != metadataHash(t, row) {
+	if len(observer.stored) != 1 || observer.stored[0] != row.Hash {
 		t.Fatalf("stored = %v, want one matching hash", observer.stored)
 	}
 }
@@ -160,8 +164,8 @@ func TestIntakeUpdatesAndNotifiesOnDuplicateURLs(t *testing.T) {
 	ctx := context.Background()
 	observer := &recordingObserver{}
 	v, module := openObservedModule(t, observer)
-	row := urlMetadata("a")
-	hash := metadataHash(t, row)
+	row := urlMetadata(t, "a")
+	hash := row.Hash
 
 	if _, err := module.Receiver.Receive(ctx, []yacymodel.URLMetadata{row}); err != nil {
 		t.Fatalf("Intake: %v", err)
@@ -188,7 +192,7 @@ func TestIntakeSurvivesObserverFailure(t *testing.T) {
 
 	if _, err := module.Receiver.Receive(
 		ctx,
-		[]yacymodel.URLMetadata{urlMetadata("a")},
+		[]yacymodel.URLMetadata{urlMetadata(t, "a")},
 	); err != nil {
 		t.Fatalf("Intake: %v", err)
 	}

@@ -18,39 +18,36 @@ const (
 	EnvSeedlistURLs         = "YACYDHTSEARCH_SEEDLIST_URLS"
 	EnvEgressProxyURL       = "EGRESS_PROXY_URL"
 	EnvQueryBudget          = "YACYDHTSEARCH_QUERY_BUDGET"
-	EnvPeerCallBudget       = "YACYDHTSEARCH_PEER_CALL_BUDGET"
-	EnvPeerSearchCooldown   = "YACYDHTSEARCH_PEER_SEARCH_COOLDOWN"
-	EnvPeerCallsInFlight    = "YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT"
+	EnvPeerChoiceCooldown   = "YACYDHTSEARCH_PEER_CHOICE_COOLDOWN"
+	EnvPeerCallsPerQuery    = "YACYDHTSEARCH_PEER_CALLS_PER_QUERY"
+	EnvProbesInFlight       = "YACYDHTSEARCH_PROBES_IN_FLIGHT"
 	EnvDirectoryCapacity    = "YACYDHTSEARCH_DIRECTORY_CAPACITY"
 	EnvRefreshInterval      = "YACYDHTSEARCH_REFRESH_INTERVAL"
 	EnvProbeBudget          = "YACYDHTSEARCH_PROBE_BUDGET"
 	EnvPartitionExponent    = "YACYDHTSEARCH_PARTITION_EXPONENT"
-	EnvPeerRedundancy       = "YACYDHTSEARCH_PEER_REDUNDANCY"
 	EnvMaxResponseBytes     = "YACYDHTSEARCH_MAX_RESPONSE_BYTES"
 	EnvPeerItemsCeiling     = "YACYDHTSEARCH_PEER_ITEMS_CEILING"
 	EnvRankedItemsCeiling   = "YACYDHTSEARCH_RANKED_ITEMS_CEILING"
 	EnvNATSURL              = "YACYDHTSEARCH_NATS_URL"
 	EnvRankingCacheCapacity = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
 	EnvRankingLifetime      = "YACYDHTSEARCH_RANKING_LIFETIME"
+	EnvWordJoinedSearch     = "YACYDHTSEARCH_WORD_JOINED_SEARCH"
 
 	DefaultListenAddr           = ":8080"
 	DefaultOpsAddr              = ":9090"
-	DefaultQueryBudget          = 5 * time.Second
-	DefaultPeerCallBudget       = 4 * time.Second
-	DefaultPeerSearchCooldown   = 5 * time.Second
-	DefaultPeerCallsInFlight    = 24
+	DefaultQueryBudget          = 8 * time.Second
+	DefaultPeerChoiceCooldown   = 5 * time.Second
+	DefaultPeerCallsPerQuery    = 24
+	DefaultProbesInFlight       = 24
 	DefaultDirectoryCapacity    = 4096
 	DefaultRefreshInterval      = 5 * time.Minute
 	DefaultProbeBudget          = 3 * time.Second
 	DefaultPartitionExponent    = 4
-	DefaultPeerRedundancy       = 3
 	DefaultMaxResponseBytes     = 4 * 1024 * 1024
 	DefaultPeerItemsCeiling     = 10
 	DefaultRankedItemsCeiling   = 50
 	DefaultRankingCacheCapacity = 1024
 	DefaultRankingLifetime      = 2 * time.Minute
-
-	peerBudgetCeiling = 3 * time.Second
 )
 
 type ServiceConfig struct {
@@ -60,20 +57,20 @@ type ServiceConfig struct {
 	SeedlistURLs       []string
 	EgressProxyURL     *url.URL
 	QueryBudget        time.Duration
-	PeerCallBudget     time.Duration
-	PeerSearchCooldown time.Duration
-	PeerCallsInFlight  int
+	PeerChoiceCooldown time.Duration
+	PeerCallsPerQuery  int
+	ProbesInFlight     int
 	DirectoryCapacity  int
 	RefreshInterval    time.Duration
 	ProbeBudget        time.Duration
 	Partitions         yacymodel.DHTRingPartitions
-	PeerRedundancy     int
 	MaxResponseBytes   int64
 	PeerItemsCeiling   int
 	RankedItemsCeiling int
 	NATSURL            string
 	RankingCache       int
 	RankingLifetime    time.Duration
+	WordJoinedSearch   bool
 }
 
 func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
@@ -103,6 +100,10 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
+	wordJoinedSearch, err := envconfig.Bool(getenv, EnvWordJoinedSearch, false)
+	if err != nil {
+		return ServiceConfig{}, err
+	}
 
 	return ServiceConfig{
 		ListenAddr:         envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
@@ -111,27 +112,26 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		SeedlistURLs:       seedlistURLs,
 		EgressProxyURL:     egressProxyURL,
 		QueryBudget:        durations.queryBudget,
-		PeerCallBudget:     durations.peerCallBudget,
-		PeerSearchCooldown: durations.peerSearchCooldown,
-		PeerCallsInFlight:  counts.peerCallsInFlight,
+		PeerChoiceCooldown: durations.peerChoiceCooldown,
+		PeerCallsPerQuery:  counts.peerCallsPerQuery,
+		ProbesInFlight:     counts.probesInFlight,
 		DirectoryCapacity:  counts.directoryCapacity,
 		RefreshInterval:    durations.refreshInterval,
 		ProbeBudget:        durations.probeBudget,
 		Partitions:         partitions,
-		PeerRedundancy:     counts.peerRedundancy,
 		MaxResponseBytes:   maxResponseBytes,
 		PeerItemsCeiling:   counts.peerItemsCeiling,
 		RankedItemsCeiling: counts.rankedItemsCeiling,
 		NATSURL:            strings.TrimSpace(getenv(EnvNATSURL)),
 		RankingCache:       counts.rankingCacheCapacity,
 		RankingLifetime:    durations.rankingLifetime,
+		WordJoinedSearch:   wordJoinedSearch,
 	}, nil
 }
 
 type configuredDurations struct {
 	queryBudget        time.Duration
-	peerCallBudget     time.Duration
-	peerSearchCooldown time.Duration
+	peerChoiceCooldown time.Duration
 	refreshInterval    time.Duration
 	probeBudget        time.Duration
 	rankingLifetime    time.Duration
@@ -146,8 +146,7 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 		into     *time.Duration
 	}{
 		{EnvQueryBudget, DefaultQueryBudget, &durations.queryBudget},
-		{EnvPeerCallBudget, DefaultPeerCallBudget, &durations.peerCallBudget},
-		{EnvPeerSearchCooldown, DefaultPeerSearchCooldown, &durations.peerSearchCooldown},
+		{EnvPeerChoiceCooldown, DefaultPeerChoiceCooldown, &durations.peerChoiceCooldown},
 		{EnvRefreshInterval, DefaultRefreshInterval, &durations.refreshInterval},
 		{EnvProbeBudget, DefaultProbeBudget, &durations.probeBudget},
 		{EnvRankingLifetime, DefaultRankingLifetime, &durations.rankingLifetime},
@@ -161,9 +160,9 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 }
 
 type configuredCounts struct {
-	peerCallsInFlight    int
+	peerCallsPerQuery    int
+	probesInFlight       int
 	directoryCapacity    int
-	peerRedundancy       int
 	peerItemsCeiling     int
 	rankedItemsCeiling   int
 	rankingCacheCapacity int
@@ -177,9 +176,9 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		fallback int
 		into     *int
 	}{
-		{EnvPeerCallsInFlight, DefaultPeerCallsInFlight, &counts.peerCallsInFlight},
+		{EnvPeerCallsPerQuery, DefaultPeerCallsPerQuery, &counts.peerCallsPerQuery},
+		{EnvProbesInFlight, DefaultProbesInFlight, &counts.probesInFlight},
 		{EnvDirectoryCapacity, DefaultDirectoryCapacity, &counts.directoryCapacity},
-		{EnvPeerRedundancy, DefaultPeerRedundancy, &counts.peerRedundancy},
 		{EnvPeerItemsCeiling, DefaultPeerItemsCeiling, &counts.peerItemsCeiling},
 		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},

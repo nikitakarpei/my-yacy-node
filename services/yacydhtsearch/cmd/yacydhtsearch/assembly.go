@@ -21,24 +21,31 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	networksearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/applog"
 	networksearchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/prometheus"
+	peercallobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallobservers/applog"
+	peercallobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	peerdirectoryobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryobservers/applog"
 	peerdirectoryobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectoryrefresh"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerlivenesswire"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peersearch"
-	peersearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peersearchobservers/applog"
-	peersearchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peersearchobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peersearchwire"
+	peermatchedobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peermatchedobservers/applog"
+	peermatchedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peermatchedobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerselections/dhtdistance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankings"
 	queryrankingsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/applog"
 	queryrankingsobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/joinablequery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	rankingcachejetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/jetstream"
 	rankingcachememory "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/memory"
 	rankingcacheobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/applog"
 	rankingcacheobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcacheobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/stalepeersources/leastrecentlyanswered"
+	wordjoinedobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordjoinedobservers/applog"
+	wordjoinedobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/wordjoinedobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacysearchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 	yacyseedlistobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlistobservers/applog"
@@ -61,7 +68,7 @@ func RunService(
 	outbound := outboundClient(cfg)
 	directory := peerdirectory.New(
 		cfg.DirectoryCapacity,
-		cfg.PeerSearchCooldown,
+		cfg.PeerChoiceCooldown,
 		time.Now,
 		leastrecentlyanswered.New(),
 		peerdirectory.DirectoryObservers{
@@ -69,35 +76,24 @@ func RunService(
 			peerdirectoryobserversprometheus.New(registry),
 		},
 	)
-	network := networksearch.New(
-		cfg.NetworkName,
+	peers := peercallwire.New(
+		outbound,
+		peercallwire.SearchedNetwork{Name: cfg.NetworkName, RingPartitions: cfg.Partitions},
+		cfg.MaxResponseBytes,
+		peercallwire.PeerCallObservers{
+			peercallobserversapplog.PeerCallLog{},
+			peercallobserversprometheus.New(registry, cfg.QueryBudget),
+		},
+	)
+	choice := peerchoice.New(
+		dhtdistance.New(cfg.Partitions, dhtdistanceobserversprometheus.New(registry)),
 		directory,
-		dhtdistance.New(
-			cfg.Partitions,
-			cfg.PeerRedundancy,
-			dhtdistanceobserversprometheus.New(registry),
-		),
-		peersearch.New(
-			peersearchwire.New(
-				outbound,
-				cfg.MaxResponseBytes,
-				peersearchwire.PeerSearchObservers{
-					peersearchobserversapplog.PeerSearchLog{},
-					peersearchobserversprometheus.New(
-						registry,
-						cfg.PeerCallBudget,
-						cfg.PeerItemsCeiling,
-					),
-				},
-			),
-			cfg.PeerCallsInFlight,
-			cfg.PeerCallBudget,
-		),
+	)
+	network := networksearch.New(
+		directory,
+		querySpreadFor(cfg, peers, choice, registry),
 		cfg.QueryBudget,
-		peerBudgetCeiling,
-		cfg.PeerItemsCeiling,
 		cfg.RankedItemsCeiling,
-		cfg.Partitions,
 		networksearch.NetworkSearchObservers{
 			networksearchobserversapplog.NetworkSearchLog{},
 			networksearchobserversprometheus.New(registry, cfg.QueryBudget),
@@ -123,7 +119,7 @@ func RunService(
 		peerlivenesswire.New(outbound, cfg.NetworkName),
 		cfg.RefreshInterval,
 		cfg.ProbeBudget,
-		cfg.PeerCallsInFlight,
+		cfg.ProbesInFlight,
 	)
 	go refresh.Run(ctx)
 
@@ -154,6 +150,41 @@ func RunService(
 	slog.InfoContext(ctx, msgServiceStopped)
 
 	return err
+}
+
+func querySpreadFor(
+	cfg ServiceConfig,
+	peers peercallwire.Wire,
+	choice peerchoice.Choice,
+	registry *prometheus.Registry,
+) networksearch.QuerySpread {
+	peerMatchedSpread := peermatched.New(
+		peers,
+		choice,
+		cfg.PeerItemsCeiling,
+		cfg.PeerCallsPerQuery,
+		peermatched.PeerMatchedSearchObservers{
+			peermatchedobserversapplog.PeerMatchedSearchLog{},
+			peermatchedobserversprometheus.New(registry, cfg.QueryBudget),
+		},
+	)
+	if !cfg.WordJoinedSearch {
+		return peerMatchedSpread
+	}
+
+	return joinablequery.New(
+		wordjoined.New(
+			peers,
+			choice,
+			cfg.RankedItemsCeiling,
+			cfg.PeerCallsPerQuery,
+			wordjoined.WordJoinedSearchObservers{
+				wordjoinedobserversapplog.WordJoinedSearchLog{},
+				wordjoinedobserversprometheus.New(registry, cfg.QueryBudget),
+			},
+		),
+		peerMatchedSpread,
+	)
 }
 
 func rankingCacheFor(

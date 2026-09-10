@@ -19,8 +19,8 @@ func TestTransferURLRequestRoundTrip(t *testing.T) {
 		YouAre:      sampleHash(t, "beta"),
 		URLCount:    2,
 		URLs: []yacymodel.URLMetadata{
-			sampleURLMetadata("url-a"),
-			sampleURLMetadata("url-b"),
+			sampleURLMetadata(t, "url-a"),
+			sampleURLMetadata(t, "url-b"),
 		},
 	}
 
@@ -74,7 +74,7 @@ func TestParseTransferURLRequestSkipsMissingDeclaredURL(t *testing.T) {
 		yacyproto.FieldIam:      {sampleHash(t, "alpha").String()},
 		yacyproto.FieldYouAre:   {sampleHash(t, "beta").String()},
 		yacyproto.FieldURLCount: {"2"},
-		"url0":                  {sampleURLMetadataWireForm(t, sampleURLMetadata("url-a"))},
+		"url0":                  {sampleURLMetadataWireForm(t, sampleURLMetadata(t, "url-a"))},
 	}
 	req, err := yacyproto.ParseTransferURLRequest(context.Background(), form)
 	if err != nil {

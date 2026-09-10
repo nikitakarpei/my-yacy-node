@@ -34,7 +34,7 @@ func mustLanguage(t *testing.T, raw string) yacymodel.Optional[yacymodel.Languag
 func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 	t.Helper()
 
-	return yacymodel.URLMetadata{
+	metadata := yacymodel.URLMetadata{
 		Address:          "https://example.org/",
 		Referrer:         yacymodel.Some(mustURLHash(t, "MNOPQRSTUVWX")),
 		Title:            "Example, Inc.",
@@ -59,6 +59,9 @@ func fullURLMetadata(t *testing.T) yacymodel.URLMetadata {
 		Snippet:          "an example",
 		FaviconAddress:   "https://example.org/favicon.ico",
 	}
+	metadata.Hash = urlHashOf(t, metadata.Address)
+
+	return metadata
 }
 
 func receivedThenRead(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.URLMetadata {
@@ -70,7 +73,7 @@ func receivedThenRead(t *testing.T, metadata yacymodel.URLMetadata) yacymodel.UR
 		t.Fatalf("Receive: %v", err)
 	}
 
-	hash := metadataHash(t, metadata)
+	hash := metadata.Hash
 	rows := metadataPerHash(t, v, module.Directory, []yacymodel.URLHash{hash})
 	if len(rows) != 1 {
 		t.Fatalf("rows = %v, want the one received row", rows)
@@ -88,7 +91,9 @@ func TestStoredURLMetadataKeepsEveryField(t *testing.T) {
 }
 
 func TestStoredURLMetadataKeepsAbsentValues(t *testing.T) {
-	stored := yacymodel.URLMetadata{Address: "https://example.org/"}
+	const address = "https://example.org/"
+
+	stored := yacymodel.URLMetadata{Hash: urlHashOf(t, address), Address: address}
 
 	if read := receivedThenRead(t, stored); !reflect.DeepEqual(read, stored) {
 		t.Errorf("read back\n got  %+v\n want %+v", read, stored)
