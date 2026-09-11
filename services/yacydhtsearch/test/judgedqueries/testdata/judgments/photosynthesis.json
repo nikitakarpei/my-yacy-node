@@ -2,10 +2,64 @@
   "query": "photosynthesis",
   "judgedDocuments": [
     {
+      "hash": "ZDTXjz0xT8s5",
+      "address": "https://astrobiology.com/2026/07/16/discovery-oxygenic-photosynthesis-is-possible-with-only-one-photosystem/",
+      "title": "Discovery: Oxygenic Photosynthesis Is Possible With Only One Photosystem - Astrobiology",
+      "grade": 2
+    },
+    {
+      "hash": "bYtFGl6N3OQy",
+      "address": "https://www.quantamagazine.org/an-early-step-on-the-long-strange-road-to-photosynthesis-20260610/",
+      "title": "An Early Step on the Long, Strange Road to Photosynthesis | Quanta Magazine",
+      "grade": 2
+    },
+    {
+      "hash": "YHsgmyOpC_C5",
+      "address": "https://www.sciencedaily.com/releases/2023/05/230503121144.htm",
+      "title": "Researchers capture elusive missing step in the final act of photosynthesis | ScienceDaily",
+      "grade": 2
+    },
+    {
+      "hash": "bwl7Kl0vY5X7",
+      "address": "https://www.europeanscientist.com/en/agriculture/project-to-understand-the-dynamics-of-photosynthesis-and-improve-indoor-agriculture/",
+      "title": "Project to understand the dynamics of photosynthesis and improve indoor agriculture",
+      "grade": 1
+    },
+    {
       "hash": "JXNStDrP9Fca",
       "address": "http://sound.photosynthesis.com/TERENCE_M.html",
       "title": "Sound Photosynthesis: TERENCE McKENNA: videotapes audiotapes publications and more",
       "grade": 0
+    },
+    {
+      "hash": "aJofoz4nScL4",
+      "address": "https://www.wired.com/story/plants-growing-in-darkness/",
+      "title": "Scientists Are Trying to Grow Crops in the Dark | WIRED",
+      "grade": 1
+    },
+    {
+      "hash": "brE8_kQeSaC6",
+      "address": "https://www.smithsonianmag.com/science-nature/these-sea-slugs-can-eat-sunlight-but-theyre-no-astrophage-heres-how-the-project-hail-mary-antagonist-has-a-real-life-analog-in-earths-oceans-180988361/",
+      "title": "These Sea Slugs Can 'Eat' Sunlight—but They're No Astrophage. Here's How the 'Project Hail Mary' Antagonist Has a Real-Life Analogue in Earth's Oceans",
+      "grade": 1
+    },
+    {
+      "hash": "1eBzfJw5aEs5",
+      "address": "https://www.britannica.com/science/photosynthesis",
+      "title": "Photosynthesis | Definition, Formula, Process, Diagram, Reactants, Products, & Facts | Britannica",
+      "grade": 2
+    },
+    {
+      "hash": "zYLtAopg4UCw",
+      "address": "https://www.wikidata.org/wiki/Q11982",
+      "title": "photosynthesis - Wikidata",
+      "grade": 1
+    },
+    {
+      "hash": "FBzgW7ddNfw6",
+      "address": "https://www.storyboardthat.com/create/photosynthesis-worksheets",
+      "title": "Photosynthesis Worksheet Templates for Grade 5-8 Science",
+      "grade": 1
     },
     {
       "hash": "AHcMH3ph0Po5",
@@ -20,57 +74,15 @@
       "grade": 1
     },
     {
-      "hash": "U5cjd3ph0Po5",
-      "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/light-respiration.html",
-      "title": "Fit models to estimate light respiration - photosynthesis",
-      "grade": 1
-    },
-    {
-      "hash": "C1lucjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Food",
-      "title": "Food - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "1eBzfJw5aEs5",
-      "address": "https://www.britannica.com/science/photosynthesis",
-      "title": "Photosynthesis | Definition, Formula, Process, Diagram, Reactants, Products, \u0026 Facts | Britannica",
-      "grade": 2
-    },
-    {
-      "hash": "JJRHGFyfkZD5",
-      "address": "https://aphalo.r-universe.dev/photobiologyWavebands",
-      "title": "photobiologyWavebands: Waveband Definitions for UV, VIS, and IR Radiation",
-      "grade": 0
-    },
-    {
-      "hash": "09ke0jYJ75Zx",
-      "address": "https://en.citizendium.org/wiki/Photosynthesis",
-      "title": "Photosynthesis - Citizendium",
-      "grade": 1
-    },
-    {
-      "hash": "hDPCBjldhbwx",
-      "address": "https://en.wikibooks.org/wiki/Cell_Biology/Plants/Photosynthesis",
-      "title": "Cell Biology/Plants/Photosynthesis",
-      "grade": 2
-    },
-    {
-      "hash": "8hMAdnWShwPz",
-      "address": "https://education.nationalgeographic.org/resource/photosynthesis/",
-      "title": "Photosynthesis",
-      "grade": 2
-    },
-    {
       "hash": "NaYvV51Yh7s4",
       "address": "https://pawb.social/comment/17998976",
       "title": "Hue hue hue - Pawb.Social",
       "grade": 0
     },
     {
-      "hash": "THAWw_YJ934w",
-      "address": "https://phys.org/news/2026-01-protein-network-cooperatively-iron.html",
-      "title": "How protein network cooperatively regulates iron balance in plants",
+      "hash": "_Xu71-sOqGph",
+      "address": "https://www.ardsounds.de/episode/urn:ard:episode:7352f67259722d85/",
+      "title": "Open World | WDR 3 · Neue alte Tradition: Moderner Joik aus Sápmi · Podcast in ARD Sounds",
       "grade": 0
     },
     {

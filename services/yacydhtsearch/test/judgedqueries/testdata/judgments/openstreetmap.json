@@ -8,34 +8,34 @@
       "grade": 2
     },
     {
-      "hash": "bE2T7lybg-vy",
-      "address": "https://www.openstreetmap.org/?mlat=47\u0026mlon=2\u0026zoom=6",
-      "title": "OpenStreetMap",
-      "grade": 2
-    },
-    {
-      "hash": "ZECBX7qJpRgC",
-      "address": "http://openstreetmap.by/?lon=116.8\u0026lat=5.5\u0026zoom=11",
-      "title": "OpenStreetMap.by - Беларусь",
-      "grade": 1
-    },
-    {
-      "hash": "dkfYoF9eh9Zy",
-      "address": "https://welcome.openstreetmap.org/",
-      "title": "Welcome Mat | OpenStreetMap - Welcome to OpenStreetMap",
-      "grade": 2
-    },
-    {
       "hash": "Q92cXlybg-vy",
       "address": "https://www.openstreetmap.org/communities",
       "title": "OpenStreetMap",
       "grade": 2
     },
     {
-      "hash": "MEC8btgcGDHy",
-      "address": "https://blog.openstreetmap.org/",
-      "title": "OpenStreetMap Blog | Supporting the OpenStreetMap project",
+      "hash": "bE2T7lybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=47&mlon=2&zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "ZECBX7qJpRgC",
+      "address": "http://openstreetmap.by/?lon=116.8&lat=5.5&zoom=11",
+      "title": "OpenStreetMap.by - Беларусь",
       "grade": 1
+    },
+    {
+      "hash": "o4iVflybg-vy",
+      "address": "https://www.openstreetmap.org/edit?editor=remote",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "F7qAclybg-vy",
+      "address": "https://www.openstreetmap.org/directions",
+      "title": "OpenStreetMap",
+      "grade": 2
     },
     {
       "hash": "ePCLCl-n3pGi",
@@ -44,22 +44,22 @@
       "grade": 2
     },
     {
-      "hash": "cjiPJlybg-vy",
-      "address": "https://www.openstreetmap.org/?mlat=-27.5\u0026mlon=130\u0026zoom=5",
+      "hash": "dkfYoF9eh9Zy",
+      "address": "https://welcome.openstreetmap.org/",
+      "title": "Welcome Mat | OpenStreetMap - Welcome to OpenStreetMap",
+      "grade": 2
+    },
+    {
+      "hash": "ZCH4qlybg-vy",
+      "address": "https://www.openstreetmap.org/about/",
       "title": "OpenStreetMap",
       "grade": 2
     },
     {
-      "hash": "WmYuElybg-vy",
-      "address": "https://www.openstreetmap.org/?mlat=1.3\u0026mlon=103.8\u0026zoom=6",
-      "title": "OpenStreetMap",
+      "hash": "5T_ov8KDigKy",
+      "address": "https://wiki.openstreetmap.org/wiki/Mapbox",
+      "title": "Mapbox - OpenStreetMap Wiki",
       "grade": 1
-    },
-    {
-      "hash": "yruxllybg-vy",
-      "address": "https://www.openstreetmap.org/?mlat=-20\u0026mlon=47\u0026zoom=6",
-      "title": "OpenStreetMap",
-      "grade": 2
     },
     {
       "hash": "D1UyW8ybg-vy",
@@ -70,14 +70,20 @@
     {
       "hash": "FW4Ehsxlxh74",
       "address": "https://domain.glass/2604:b000:c100:749:4ae6:1f9e:43f9:4141",
-      "title": "2604:b000:c100:749:4ae6:1f9e:43f9:4141 IPv6 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
+      "title": "2604:b000:c100:749:4ae6:1f9e:43f9:4141 IPv6 Formats, Reverse DNS, ASN, Location & TLS · domain.glass",
       "grade": 0
     },
     {
-      "hash": "YNjaUlybg-vy",
-      "address": "https://www.openstreetmap.org/directions?to=29.844667,31.250916",
+      "hash": "cjiPJlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=-27.5&mlon=130&zoom=5",
       "title": "OpenStreetMap",
-      "grade": 1
+      "grade": 2
+    },
+    {
+      "hash": "7sbfBsxlxh74",
+      "address": "https://domain.glass/5.75.231.55",
+      "title": "5.75.231.55 IPv4 Formats, Reverse DNS, ASN, Location & TLS · domain.glass",
+      "grade": 0
     },
     {
       "hash": "3FWf8ldA5r_4",
@@ -89,6 +95,12 @@
       "hash": "2Q34jlHS80Jh",
       "address": "https://www.mba-studium.de/datenschutzerklaerung/",
       "title": "Datenschutzerklärung | MBA-Studium.de",
+      "grade": 0
+    },
+    {
+      "hash": "oKnZg8UYpAnx",
+      "address": "https://www.electromaker.io/project/view/gps-tracker-using-heltec-wifi-lora-32-v4-and-reyax-rys352a-g",
+      "title": "Gps Tracker Using Heltec Wifi Lora 32 V4 And Reyax Rys352a G",
       "grade": 0
     }
   ]

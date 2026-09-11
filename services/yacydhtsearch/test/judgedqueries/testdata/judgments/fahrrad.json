@@ -2,24 +2,6 @@
   "query": "fahrrad",
   "judgedDocuments": [
     {
-      "hash": "ueLLVFotHkcg",
-      "address": "https://kaufradar.spiegel.de/auto-fahrrad/",
-      "title": "Auto \u0026 Fahrrad - DER SPIEGEL Kaufradar",
-      "grade": 1
-    },
-    {
-      "hash": "BkidfpL47Vlg",
-      "address": "https://bikemarkt.mtb-news.de/kaufvertrag-fahrrad",
-      "title": "Kaufvertrag Fahrrad – Kaufvertrag Vorlage für ein gebrauchtes Fahrrad | Bikemarkt.MTB-News.de",
-      "grade": 1
-    },
-    {
-      "hash": "adfdUmlPDvFg",
-      "address": "https://www.wien.gv.at/amtswege/fahrradstaender-scooter-nicht-oeffentlicher-grund",
-      "title": "Antrag auf Förderung von Fahrrad- und Scooter-Abstellplätzen auf nicht öffentlichem Grund - Stadt Wien",
-      "grade": 1
-    },
-    {
       "hash": "Ol37rmlamVlg",
       "address": "https://www.pferd.de/threads/fahrrad-fahren-mit-pferd.128584/",
       "title": "Fahrrad fahren mit Pferd",
@@ -38,22 +20,10 @@
       "grade": 1
     },
     {
-      "hash": "5bfb-NseDREg",
-      "address": "https://www.zdfheute.de/thema/fahrrad-150.html",
-      "title": "Fahrrad - News, Tipps \u0026 Tricks",
-      "grade": 1
-    },
-    {
       "hash": "fx_qtlzZulEg",
       "address": "https://www.lexbike.de/fahrrad-richtig-reinigen/",
-      "title": "Fahrrad richtig reinigen: Tipps \u0026 Tricks | Lexbike.de – Fahrrad und mehr!",
+      "title": "Fahrrad richtig reinigen: Tipps & Tricks | Lexbike.de – Fahrrad und mehr!",
       "grade": 1
-    },
-    {
-      "hash": "vGrOEx55XpXg",
-      "address": "https://miniklexikon.zum.de/wiki/Fahrrad",
-      "title": "Fahrrad – MiniKlexikon - das Kinderlexikon für Leseanfänger",
-      "grade": 2
     },
     {
       "hash": "sm2a9JemigYg",
@@ -62,10 +32,40 @@
       "grade": 1
     },
     {
-      "hash": "Ao-x4AwFKWzg",
-      "address": "https://streaming-guide.spiegel.de/streamingdienste/paramount-plus/",
-      "title": "Top Filme und Serien auf Paramount+ - Ihr ultimativer Streaming-Guide | Streaming Guide",
-      "grade": 0
+      "hash": "8p5gwlkdSSIx",
+      "address": "https://www.vergleich.org/fahrrad/",
+      "title": "Fahrrad kaufen - Test & Vergleich » Top 10 im Januar 2026",
+      "grade": 2
+    },
+    {
+      "hash": "0tDCmJwm21Ng",
+      "address": "https://www.flixbus.ch/service/fahrrad-mitnahme",
+      "title": "Nimm Dein Fahrrad mit im FlixBus",
+      "grade": 1
+    },
+    {
+      "hash": "a1zkjdfd0Dbg",
+      "address": "https://www.krone.at/vergleich/fahrrad-test/",
+      "title": "Fahrrad Test & Vergleich 2026 » Die besten Produkte auf Krone.at",
+      "grade": 2
+    },
+    {
+      "hash": "BkidfpL47Vlg",
+      "address": "https://bikemarkt.mtb-news.de/kaufvertrag-fahrrad",
+      "title": "Kaufvertrag Fahrrad – Kaufvertrag Vorlage für ein gebrauchtes Fahrrad | Bikemarkt.MTB-News.de",
+      "grade": 1
+    },
+    {
+      "hash": "PZOOWNpg7ax4",
+      "address": "https://de.wikipedia.org./wiki/Aufbruch_Fahrrad",
+      "title": "Aufbruch Fahrrad – Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "K3XqtLlA2Rig",
+      "address": "https://www.n-tv.de/mediathek/videos/wirtschaft/Warum-immer-mehr-Menschen-das-Fahrrad-stehen-lassen-id31007897.html",
+      "title": "Neue Modelle, neue Hürden: Warum immer mehr Menschen das Fahrrad stehen lassen - n-tv.de",
+      "grade": 1
     },
     {
       "hash": "AUzbOPemigYg",
@@ -74,28 +74,34 @@
       "grade": 0
     },
     {
+      "hash": "ueLLVFotHkcg",
+      "address": "https://kaufradar.spiegel.de/auto-fahrrad/",
+      "title": "Auto & Fahrrad - DER SPIEGEL Kaufradar",
+      "grade": 1
+    },
+    {
       "hash": "UMCez_KP-5B5",
       "address": "https://demystifikation.wordpress.com/category/fahrrad/",
       "title": "Fahrrad | Demystifikation",
       "grade": 1
     },
     {
-      "hash": "i2TgoZCZCJKg",
-      "address": "https://www.merkur.de/wirtschaft/fahrrad-riese-accell-insolvent-haibike-ghost-und-winora-bangen-zr-94441488.html",
-      "title": "Fahrrad-Riese Accell insolvent – Haibike, Ghost und Winora bangen",
+      "hash": "hgpLOKaZAz0h",
+      "address": "https://www.tageblatt.de/Nachrichten/Fahrrad-Gruppe-stellt-Insolvenzantrag-761770.html",
+      "title": "Fahrrad-Gruppe stellt Insolvenzantrag",
       "grade": 1
+    },
+    {
+      "hash": "rbRpbe6j6z4g",
+      "address": "https://www.bmluk.gv.at/themen/regionen-raumentwicklung/internationale-kooperationen/eusdr-flagships-2026.html",
+      "title": "Wie Österreich von der europäischen Strategie für den Donauraum profitiert - Bundesministerium für Land- und Forstwirtschaft, Klima- und Umweltschutz, Regionen und Wasserwirtschaft",
+      "grade": 0
     },
     {
       "hash": "XdTmsyX3cKDg",
       "address": "https://www.bahn.de/angebot/zusatzticket/fahrrad/bw",
       "title": "Fahrrad-Tageskarte Baden-Württemberg",
       "grade": 1
-    },
-    {
-      "hash": "XyLvql9yi-Lh",
-      "address": "https://www.cntraveller.de/",
-      "title": "Condé Nast Traveller Germany",
-      "grade": 0
     }
   ]
 }

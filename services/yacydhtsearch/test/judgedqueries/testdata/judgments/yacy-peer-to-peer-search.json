@@ -1,11 +1,4 @@
 {
   "query": "yacy peer to peer search",
-  "judgedDocuments": [
-    {
-      "hash": "AeOqws55Qxow",
-      "address": "https://yacy.net/.",
-      "title": "Home - YaCy",
-      "grade": 2
-    }
-  ]
+  "judgedDocuments": []
 }

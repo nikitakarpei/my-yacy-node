@@ -2,34 +2,10 @@
   "query": "libreoffice",
   "judgedDocuments": [
     {
-      "hash": "Uy5MSiMQjAmx",
-      "address": "https://it.libreoffice.org/",
-      "title": "Home | LibreOffice in italiano - La suite libera per l'ufficio",
-      "grade": 2
-    },
-    {
-      "hash": "A8BLfu9heOmx",
-      "address": "https://fr.libreoffice.org/",
-      "title": "Home | Communauté LibreOffice francophone",
-      "grade": 2
-    },
-    {
-      "hash": "0DfJtk-4htmx",
-      "address": "https://www.libreoffice.org/community/nlc/",
-      "title": "Native-Lang Projects | LibreOffice - Free and private office suite - Based on OpenOffice - Compatible with Microsoft",
+      "hash": "g5dE49OwONZ6",
+      "address": "https://www.gamingonlinux.com/2026/09/yes-no-ai-is-now-a-feature-libreoffice-the-document-foundation/page=1/",
+      "title": "\"Yes, no AI is now a feature\" - LibreOffice / The Document Foundation | GamingOnLinux",
       "grade": 1
-    },
-    {
-      "hash": "3plJUHBHhFQx",
-      "address": "https://tr.libreoffice.org/",
-      "title": "Ana Sayfa | LibreOffice Özgür Ofis Yazılımı - LibreOffice Özgür Ofis Yazılımı",
-      "grade": 2
-    },
-    {
-      "hash": "5y_i0yz8AoWx",
-      "address": "https://de.libreoffice.org/",
-      "title": "Willkommen | LibreOffice - Freie Office Suite – Nachfolger von OpenOffice",
-      "grade": 2
     },
     {
       "hash": "ehYdFl-4htmx",
@@ -38,9 +14,9 @@
       "grade": 1
     },
     {
-      "hash": "byNhP2lS3xSx",
-      "address": "https://lt.libreoffice.org/",
-      "title": "Pradžia | LibreOffice - Laisvasis raštinės programų paketas",
+      "hash": "DchgXl-4htmx",
+      "address": "https://www.libreoffice.org/download-other/",
+      "title": "Alternative installation methods, SDK and source code — LibreOffice",
       "grade": 2
     },
     {
@@ -50,15 +26,39 @@
       "grade": 1
     },
     {
+      "hash": "e3kA0O1f59yx",
+      "address": "https://cs.libreoffice.org/get-help/documentation/",
+      "title": "Dokumentace | LibreOffice - Svobodný kancelářský balík - Smysluplný projekt - Skvělí lidé",
+      "grade": 2
+    },
+    {
+      "hash": "5y_i0yz8AoWx",
+      "address": "https://de.libreoffice.org/",
+      "title": "Willkommen | LibreOffice - Freie Office Suite – Nachfolger von OpenOffice",
+      "grade": 2
+    },
+    {
+      "hash": "XIY3hYj86aPx",
+      "address": "https://help.libreoffice.org/latest/en-US/text/swriter/main0000.html",
+      "title": "Welcome to the LibreOffice Writer Help",
+      "grade": 2
+    },
+    {
+      "hash": "0Cj1PMLQStix",
+      "address": "https://zh-cn.libreoffice.org/",
+      "title": "主页 | LibreOffice 简体中文官方网站 - 自由免费的办公套件",
+      "grade": 2
+    },
+    {
       "hash": "qZrTal-4htmx",
       "address": "https://www.libreoffice.org/improve-it/",
       "title": "Improve it — LibreOffice",
       "grade": 1
     },
     {
-      "hash": "9QUWw_044EGx",
-      "address": "https://sk.libreoffice.org/",
-      "title": "Domov | LibreOffice - Slobodný kancelársky balík - Zmysluplný projekt - Skvelí ľudia",
+      "hash": "21XYOwp2j53x",
+      "address": "https://documentation.libreoffice.org/en/english-documentation/",
+      "title": "English documentation | LibreOffice Documentation - LibreOffice User Guides",
       "grade": 2
     },
     {
@@ -68,10 +68,10 @@
       "grade": 1
     },
     {
-      "hash": "QaEPlQxXGmlz",
-      "address": "https://wiki.documentfoundation.org/LibreOffice_Localization_Guide",
-      "title": "LibreOffice Localization Guide - The Document Foundation Wiki",
-      "grade": 1
+      "hash": "Uy5MSiMQjAmx",
+      "address": "https://it.libreoffice.org/",
+      "title": "Home | LibreOffice in italiano - La suite libera per l'ufficio",
+      "grade": 2
     },
     {
       "hash": "bb55mls8l0-4",
@@ -86,39 +86,27 @@
       "grade": 0
     },
     {
-      "hash": "0c2hEZZ5FD3x",
-      "address": "https://bugs.launchpad.net/ubuntu/+source/libreoffice/+bug/1300792",
-      "title": "Bug #1300792 “libreoffice toolbar icons large and ugly - no matt...” : Bugs : libreoffice package : Ubuntu",
+      "hash": "8856zsuNWVxw",
+      "address": "https://linuxfr.org/",
+      "title": "Accueil - LinuxFr.org",
+      "grade": 0
+    },
+    {
+      "hash": "tb9f6s_XwdU5",
+      "address": "https://endoflife.date/libreoffice",
+      "title": "LibreOffice added",
       "grade": 1
     },
     {
-      "hash": "a_LYv0hl92eQ",
-      "address": "http://advisories.mageia.org/src_libreoffice.html",
-      "title": "Mageia advisories for package libreoffice",
-      "grade": 1
-    },
-    {
-      "hash": "cBBK_NcIC9Gh",
-      "address": "https://www.eduvidual.at/course/view.php?id=215108",
-      "title": "Course: LibreOffice Writer | eduvidual.at",
-      "grade": 1
-    },
-    {
-      "hash": "g5dE49OwONZ6",
-      "address": "https://www.gamingonlinux.com/2026/09/yes-no-ai-is-now-a-feature-libreoffice-the-document-foundation/page=1/",
-      "title": "\"Yes, no AI is now a feature\" - LibreOffice / The Document Foundation | GamingOnLinux",
-      "grade": 1
+      "hash": "QKtcwtZoJuAw",
+      "address": "https://anwalt.us/im/LaDanzaDeLaCorrupci%C3%B3n18NOV2025.pdf",
+      "title": "LaDanzaDeLaCorrupción18NOV2025.pdf",
+      "grade": 0
     },
     {
       "hash": "xe-kDv8UyKhh",
       "address": "https://www.computerbase.de/news/apps/libreoffice-7-1-office-suite-neue-features.75375/",
       "title": "LibreOffice 7.1 Community: Die freie Office-Suite wird mächtiger und anpassbarer - ComputerBase",
-      "grade": 1
-    },
-    {
-      "hash": "GJX4jj5Hl25w",
-      "address": "https://www.plctalk.net/forums/threads/libreoffice-dde-rslinx.139579/",
-      "title": "LibreOffice DDE RSLinx | PLCtalk - Interactive Q \u0026 A",
       "grade": 1
     }
   ]

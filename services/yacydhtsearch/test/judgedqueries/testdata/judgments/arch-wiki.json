@@ -2,21 +2,27 @@
   "query": "arch wiki",
   "judgedDocuments": [
     {
+      "hash": "fpnvOeSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=846630",
+      "title": "Wayland on Arch Linux? / AUR Issues, Discussion & PKGBUILD Requests / Arch Linux Forums",
+      "grade": 0
+    },
+    {
+      "hash": "oej5lsdsPYlw",
+      "address": "https://archhurd.org/",
+      "title": "Arch Hurd",
+      "grade": 0
+    },
+    {
       "hash": "ohk1xxtQ-zSx",
       "address": "https://wiki.archlinux.org/title/Arch_Linux_Archive",
       "title": "Arch Linux Archive - ArchWiki",
       "grade": 2
     },
     {
-      "hash": "wbNjbeSLKN4x",
-      "address": "https://bbs.archlinux.org/viewtopic.php?pid=779734",
-      "title": "Downloadable Arch Wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
-      "grade": 1
-    },
-    {
-      "hash": "49PA9eSLKN4x",
-      "address": "https://bbs.archlinux.org/viewtopic.php?pid=13604",
-      "title": "Wiki? / Forum \u0026 Wiki discussion / Arch Linux Forums",
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
       "grade": 1
     },
     {
@@ -26,28 +32,28 @@
       "grade": 0
     },
     {
-      "hash": "YFWL1h3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Category:Stone_arch_bridges",
-      "title": "Category:Stone arch bridges - Wikimedia Commons",
-      "grade": 0
-    },
-    {
       "hash": "o8Mxf2bypRQw",
       "address": "https://forgejo.org/docs/latest/user/packages/arch/",
       "title": "Arch Package Registry | Forgejo – Beyond coding. We forge.",
       "grade": 0
     },
     {
-      "hash": "G6MDmGsyhcfx",
-      "address": "https://archlinux.org/mirrors/purring.online/",
-      "title": "Arch Linux - purring.online - Mirror Details",
+      "hash": "Am29seSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1008517",
+      "title": "Proposal: Translate extension for the wiki / Forum & Wiki discussion / Arch Linux Forums",
+      "grade": 1
+    },
+    {
+      "hash": "1kOALGsyhcfx",
+      "address": "https://archlinux.org/mirrors/cachy-arch.ru/",
+      "title": "Arch Linux - cachy-arch.ru - Mirror Details",
       "grade": 0
     },
     {
-      "hash": "Am29seSLKN4x",
-      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1008517",
-      "title": "Proposal: Translate extension for the wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
-      "grade": 1
+      "hash": "fMgRSGsyhcfx",
+      "address": "https://archlinux.org/mirrors/arch.mirror.winslow.cloud/",
+      "title": "Arch Linux - arch.mirror.winslow.cloud - Mirror Details",
+      "grade": 0
     },
     {
       "hash": "Yfz3rQsPPfbx",
@@ -56,15 +62,9 @@
       "grade": 0
     },
     {
-      "hash": "Cq-xgm0h8sSw",
-      "address": "https://tracker.debian.org/pkg/libreoffice",
-      "title": "libreoffice - Debian Package Tracker",
-      "grade": 0
-    },
-    {
-      "hash": "vK2-rsqBIpS6",
-      "address": "https://xn--gckvb8fzb.com/a-word-on-omarchy/",
-      "title": "A Word on Omarchy",
+      "hash": "8856zsuNWVxw",
+      "address": "https://linuxfr.org/",
+      "title": "Accueil - LinuxFr.org",
       "grade": 0
     },
     {
@@ -74,9 +74,9 @@
       "grade": 0
     },
     {
-      "hash": "5ZDOu7NSh3ha",
-      "address": "http://xn--gckvb8fzb.com/a-word-on-omarchy/",
-      "title": "マリウス . A Word on Omarchy",
+      "hash": "1eLp2eSLKN4x",
+      "address": "https://bbs.archlinux.org/viewtopic.php?pid=1759847",
+      "title": "[solved] /bin/init is in systemd-sysvcompat ? / Installation / Arch Linux Forums",
       "grade": 0
     }
   ]

@@ -2,16 +2,10 @@
   "query": "linux kernel",
   "judgedDocuments": [
     {
-      "hash": "5A3Als-kQ1nw",
-      "address": "https://kernel.org/",
-      "title": "The Linux Kernel Archives",
-      "grade": 2
-    },
-    {
-      "hash": "lWsPplGZ4FKw",
-      "address": "https://www.kernel.org/",
-      "title": "The Linux Kernel Archives",
-      "grade": 2
+      "hash": "Wd9L1l6bFQy6",
+      "address": "https://www.notebookcheck.com/Linux-Kernel-6-11-mit-Unterstuetzung-fuer-Qualcomm-SDX-Wireless-Chips-und-Intel-Battlemage-GPUs-jetzt-als-Release-Candidate-1-verfuegbar.869230.0.html",
+      "title": "Linux Kernel 6.11 mit Unterstützung für Qualcomm SDX Wireless Chips und Intel Battlemage GPUs jetzt als Release Candidate 1 verfügbar - Notebookcheck News",
+      "grade": 1
     },
     {
       "hash": "N_bW_5DJH5aw",
@@ -20,15 +14,39 @@
       "grade": 2
     },
     {
-      "hash": "nXiF30WUVeV5",
-      "address": "https://opensource.com/resources/linux",
-      "title": "What is Linux? | Opensource.com",
+      "hash": "cWZdmz9qXMBw",
+      "address": "https://planet.kernel.org/",
+      "title": "Kernel Planet",
       "grade": 1
     },
     {
-      "hash": "zm1LfOy8O7iw",
-      "address": "https://kernel.opensuse.org/",
-      "title": "Welcome To The openSUSE Kernel Site - openSUSE Kernel",
+      "hash": "fK864sueNoX4",
+      "address": "https://itsfoss.com/compile-linux-kernel/",
+      "title": "A Guide to Compiling the Linux Kernel All By Yourself",
+      "grade": 2
+    },
+    {
+      "hash": "V_Sy6HDMrHS4",
+      "address": "https://gist.github.com/ricardoanguiano/18125b7eb3f26cf83724fb60662bdd2c",
+      "title": "linux kernel mainline 4.9 sloccount.txt · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "fT4cXiCRdREw",
+      "address": "https://jvns.ca/categories/linux/",
+      "title": "Linux",
+      "grade": 1
+    },
+    {
+      "hash": "WpZ1HHOSpvvg",
+      "address": "https://nluug.nl/evenementen/nluug/voorjaarsconferentie-2025/talks/michael-boelen-application-security-sandboxing-features-of-the-linux-kernel-and-systemd/",
+      "title": "Michael Boelen - Application security: sandboxing features of the Linux kernel and systemd | NLUUG",
+      "grade": 1
+    },
+    {
+      "hash": "WeAoouoXncf5",
+      "address": "https://android.googlesource.com/kernel/common/+/431907c026fb80a4fc2a482bde3f2d913ef39c37",
+      "title": "431907c026fb80a4fc2a482bde3f2d913ef39c37 - kernel/common - Git at Google",
       "grade": 1
     },
     {
@@ -38,46 +56,40 @@
       "grade": 0
     },
     {
-      "hash": "lzMhkqNKpOCw",
-      "address": "https://linux.slashdot.org/story/26/05/18/0238214/linus-torvalds-ai-detected-bug-reports-make-kernel-security-list-almost-entirely-unmanageable",
-      "title": "Linus Torvalds: AI-Detected Bug Reports Make Kernel Security List 'Almost Entirely Unmanageable' - Slashdot",
+      "hash": "sVT_FJ70mtR4",
+      "address": "https://eoss2023.sched.com/event/1LcNH/status-of-embedded-linux-tim-bird-sony-electronics",
+      "title": "Embedded Open Source Summit 2023: Status of Embedded Linux - Tim Bird, Son...",
       "grade": 1
     },
     {
-      "hash": "CzKLxslc4Pz6",
-      "address": "https://open-sourceress.com/my-project-at-linux-kernel/",
-      "title": "My Project at Linux Kernel | Open Sourceress",
-      "grade": 1
+      "hash": "HIiwRVGZ4FKw",
+      "address": "https://www.kernel.org/doc/html/latest/admin-guide/pm/system-wide.html",
+      "title": "System-Wide Power Management — The Linux Kernel documentation",
+      "grade": 2
     },
     {
-      "hash": "hMYfxA24Kkqw",
-      "address": "https://www.ghacks.net/category/linux/",
-      "title": "Linux News: Distributions, Kernel Updates, Open-Source Developments - gHacks",
-      "grade": 1
-    },
-    {
-      "hash": "3EXd2WlXccYg",
-      "address": "https://nfsec.pl/tag/kernel",
-      "title": "NF.sec – Bezpieczeństwo systemu Linux - Posty tagowane \"kernel\"",
-      "grade": 1
-    },
-    {
-      "hash": "7zoiPTrhyvQw",
-      "address": "https://www.man7.org/linux/man-pages/man8/hwclock.8.html",
-      "title": "hwclock(8) - Linux manual page",
-      "grade": 1
-    },
-    {
-      "hash": "HSA0HjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/User_interface",
-      "title": "User interface - Wikipedia",
+      "hash": "3VHCVsOEIUyr",
+      "address": "https://simerdupolresbatang.id/",
+      "title": "simerdupolresbatangid",
       "grade": 0
     },
     {
-      "hash": "jmJ6Qs6JlDf5",
-      "address": "https://wallpapers.com/linux",
-      "title": "[200+] Linux Wallpapers | Wallpapers.com",
+      "hash": "HXn7qqyiDYm6",
+      "address": "https://unit42.paloaltonetworks.com/a-look-into-fysbis-sofacys-linux-backdoor/",
+      "title": "A Look Into Fysbis: Sofacy’s Linux Backdoor",
       "grade": 0
+    },
+    {
+      "hash": "NNfgL520dH2R",
+      "address": "http://buildroot.org/downloads/manual/manual.html",
+      "title": "The Buildroot user manual",
+      "grade": 1
+    },
+    {
+      "hash": "fq3pBVGZ4FKw",
+      "address": "https://www.kernel.org/doc/html/latest/kbuild/index.html",
+      "title": "Kernel Build System — The Linux Kernel documentation",
+      "grade": 2
     }
   ]
 }

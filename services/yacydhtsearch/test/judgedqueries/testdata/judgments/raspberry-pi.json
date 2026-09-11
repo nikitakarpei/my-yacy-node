@@ -2,21 +2,45 @@
   "query": "raspberry pi",
   "judgedDocuments": [
     {
-      "hash": "ryUhvGS6MKD4",
-      "address": "https://github.com/veggiemonk/awesome-docker",
-      "title": "GitHub - veggiemonk/awesome-docker: :whale: A curated list of Docker resources and projects",
+      "hash": "uik3ku78zDE5",
+      "address": "https://www.xatakahome.com/trucos-y-bricolaje-smart/probamos-chromium-el-sistema-operativo-de-google-en-la-raspberry-pi-3",
+      "title": "Probamos Chromium, el sistema operativo de Google, en la Raspberry Pi 3",
+      "grade": 1
+    },
+    {
+      "hash": "ZupVVT78zDE5",
+      "address": "https://www.xatakahome.com/aplicaciones/retropie-3-no-pierdas-el-tiempo-e-instalalo-ya-en-tu-raspberry-pi",
+      "title": "RetroPie 3: no pierdas el tiempo e instálalo ya en tu Raspberry Pi",
+      "grade": 1
+    },
+    {
+      "hash": "gji-djRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Dexter_Industries",
+      "title": "Dexter Industries - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "qhUqczS6MKD4",
+      "address": "https://github.com/topics/pi",
+      "title": "pi · GitHub Topics · GitHub",
       "grade": 0
     },
     {
-      "hash": "7b0gSsUQxb2x",
-      "address": "https://join-lemmy.org/",
-      "title": "Lemmy - A decentralised discussion platform for communities",
+      "hash": "mt6MjstbkMiw",
+      "address": "https://mesa3d.org/",
+      "title": "Home — The Mesa 3D Graphics Library",
       "grade": 0
     },
     {
-      "hash": "rsWFmIf1Pcd5",
-      "address": "https://store.steampowered.com/mobile",
-      "title": "Steam, The Ultimate Online Game Platform",
+      "hash": "UqygLNqRILQr",
+      "address": "https://www.qtreetechnologies.in/course/iot-training-in-coimbatore.php",
+      "title": "The Best IOT Training Course in Coimbatore | Qtree Technologies",
+      "grade": 0
+    },
+    {
+      "hash": "j2Pq0_nMM_j5",
+      "address": "https://grokipedia.com/page/Home_Assistant",
+      "title": "Home Assistant — Grokipedia",
       "grade": 0
     },
     {
@@ -26,45 +50,39 @@
       "grade": 0
     },
     {
-      "hash": "MaHDQsRDFHM6",
-      "address": "https://stackexchange.com/sites",
-      "title": "All Sites - Stack Exchange",
+      "hash": "7b0gSsUQxb2x",
+      "address": "https://join-lemmy.org/",
+      "title": "Lemmy - A decentralised discussion platform for communities",
       "grade": 0
     },
     {
-      "hash": "yQQNDjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Embedded_system",
-      "title": "Embedded system - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "DlmlistSAQe4",
-      "address": "https://ai.google/societal-impact/",
-      "title": "Applying AI to help solve humanity's biggest challenges — Google AI",
+      "hash": "h5BqzzS6MKD4",
+      "address": "https://github.com/topics/synthesizer",
+      "title": "synthesizer · GitHub Topics · GitHub",
       "grade": 0
     },
     {
-      "hash": "cd84qAK-xyJ4",
-      "address": "https://go.dev/doc/go1.8",
-      "title": "Go 1.8 Release Notes - The Go Programming Language",
+      "hash": "dgQz1_nMM_j5",
+      "address": "https://grokipedia.com/page/Edge_computing",
+      "title": "Edge computing — Grokipedia",
       "grade": 0
     },
     {
-      "hash": "5DZ6TjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
-      "title": "Android (operating system) - Wikipedia",
+      "hash": "ryUhvGS6MKD4",
+      "address": "https://github.com/veggiemonk/awesome-docker",
+      "title": "GitHub - veggiemonk/awesome-docker: :whale: A curated list of Docker resources and projects",
       "grade": 0
     },
     {
-      "hash": "2uLc-sm1ohFp",
-      "address": "https://polrestoba.id/",
-      "title": "polrestoba.id",
+      "hash": "IU0OTl8bqxA4",
+      "address": "https://www.sparkfun.com/",
+      "title": "SparkFun Electronics - SparkFun Electronics",
       "grade": 0
     },
     {
-      "hash": "D9zZ37S6MKD4",
-      "address": "https://github.com/sindresorhus/awesome-nodejs",
-      "title": "GitHub - sindresorhus/awesome-nodejs: :zap: Delightful Node.js packages and resources",
+      "hash": "rsWFmIf1Pcd5",
+      "address": "https://store.steampowered.com/mobile",
+      "title": "Steam, The Ultimate Online Game Platform",
       "grade": 0
     }
   ]

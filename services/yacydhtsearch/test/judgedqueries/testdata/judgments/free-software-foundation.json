@@ -2,75 +2,111 @@
   "query": "free software foundation",
   "judgedDocuments": [
     {
-      "hash": "3-XPLjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Free_Software_Foundation_of_India",
-      "title": "Free Software Foundation of India - Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "rXvFw_YTtSsx",
-      "address": "https://sourceware.org/glibc/manual/",
-      "title": "The GNU C Library - GNU Project - Free Software Foundation (FSF)",
+      "hash": "dSQ7JMaQF27w",
+      "address": "https://www.apache.org/foundation/sponsorship.html",
+      "title": "ASF Sponsorship | Apache Software Foundation",
       "grade": 0
     },
     {
-      "hash": "VInr0d75SICx",
-      "address": "https://dictionary.cambridge.org/dictionary/english/free-software",
-      "title": "FREE SOFTWARE | English meaning - Cambridge Dictionary",
+      "hash": "HnrGHy1nrxbw",
+      "address": "https://www.debian.org/legal/licenses/",
+      "title": "Debian -- License information",
       "grade": 0
     },
     {
-      "hash": "ev89tjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Open_Source_Security_Foundation",
-      "title": "Open Source Security Foundation - Wikipedia",
+      "hash": "BFjbOyfAodxw",
+      "address": "https://docs.freebsd.org/en/articles/bsdl-gpl/",
+      "title": "Why you should use a BSD style license for your Open Source Project | FreeBSD Documentation Portal",
       "grade": 0
     },
     {
-      "hash": "GDraRjjpmq6Q",
-      "address": "http://www.gnu.org/licenses/fdl-1.3.html",
-      "title": "GNU Free Documentation License v1.3 - GNU Project - Free Software Foundation",
-      "grade": 1
-    },
-    {
-      "hash": "lUVJHobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/GNU_Free_Documentation_License",
-      "title": "GNU Free Documentation License - MediaWiki",
+      "hash": "8q_7kd8zMi84",
+      "address": "https://docs.cloud.google.com/release-notes",
+      "title": "Google Cloud release notes | Google Cloud Documentation",
       "grade": 0
     },
     {
-      "hash": "njbwnh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Category:Berkeley_Software_Distribution",
-      "title": "Category:Berkeley Software Distribution - Wikimedia Commons",
+      "hash": "0BZyCsY-tUi5",
+      "address": "https://moralparty.com/ai/",
+      "title": "AI – MoralParty.com",
       "grade": 0
     },
     {
-      "hash": "eTGg0U5yy4Rk",
-      "address": "https://visme.co/blog/interactive-training-software/",
-      "title": "12 Best Interactive Training Software for Clients \u0026 Employees",
+      "hash": "BxsbyjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
+      "title": "Apple Inc. - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "3ZEiijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
-      "title": "Wikipedia:About - Wikipedia",
+      "hash": "3BIWPQyqhLoR",
+      "address": "http://www.openoffice.org/",
+      "title": "Apache OpenOffice - Official Site - The Free and Open Productivity Suite",
       "grade": 0
     },
     {
-      "hash": "HOf_cobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/Project:About",
-      "title": "Project:About - MediaWiki",
+      "hash": "LYB_9j-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Wikiquote:Community_Portal",
+      "title": "Wikiquote:Community Portal - Wikiquote",
       "grade": 0
     },
     {
-      "hash": "cXbKpjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Portal:Current_events",
-      "title": "Portal:Current events - Wikipedia",
+      "hash": "VpCOpt6ArEvw",
+      "address": "https://blog.archive.org/",
+      "title": "Internet Archive Blogs | Updates from the Internet Archive",
       "grade": 0
     },
     {
-      "hash": "c-mSaBQkoGTh",
-      "address": "https://news.europawire.eu/launch-of-the-anna-lindh-foundation-virtual-marathon-for-dialogue-0145000/eu-press-release/2021/05/28/12/21/37/88811/",
-      "title": "Launch of the Anna Lindh Foundation Virtual Marathon for Dialogue! | EuropaWire",
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "grade": 0
+    },
+    {
+      "hash": "THPLFiVUrQm6",
+      "address": "https://earthnewspaper.com/2022-news/24-7-news-november-2022/",
+      "title": "24/7 News November 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0
+    },
+    {
+      "hash": "WdJ2qlDmGrO5",
+      "address": "https://www.yatesgear.com/index.php?route=journal3/blog/post&journal_blog_post_id=10",
+      "title": "Another Blog Post",
+      "grade": 0
+    },
+    {
+      "hash": "1U9VNkPMN02h",
+      "address": "https://www.mardi4nfdi.de/community/newsletter",
+      "title": "Newsletter - MaRDI",
+      "grade": 0
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "grade": 0
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "grade": 0
+    },
+    {
+      "hash": "AHhJbh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Main_Page",
+      "title": "Wikimedia Commons",
+      "grade": 0
+    },
+    {
+      "hash": "8UUF7AIRlUi5",
+      "address": "https://www.10zenmonkeys.com/category/politics/",
+      "title": "Politics, Law & War – 10 Zen Monkeys",
       "grade": 0
     }
   ]

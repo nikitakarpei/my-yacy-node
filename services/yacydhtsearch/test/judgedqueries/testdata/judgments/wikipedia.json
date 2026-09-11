@@ -2,15 +2,21 @@
   "query": "wikipedia",
   "judgedDocuments": [
     {
-      "hash": "i6_MRjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
-      "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
-      "grade": 2
-    },
-    {
       "hash": "eV8_WladqZ_x",
       "address": "https://www.wikipedia.org/",
       "title": "Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "Fct7Cj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikiquote",
+      "grade": 1
+    },
+    {
+      "hash": "i6_MRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
+      "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
       "grade": 2
     },
     {
@@ -20,10 +26,28 @@
       "grade": 1
     },
     {
-      "hash": "Fct7Cj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Wikipedia",
-      "title": "Wikipedia - Wikiquote",
+      "hash": "YzjYVjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Five_pillars",
+      "title": "Wikipedia:Five pillars - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "euIZqjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Jimmy_Wales",
+      "title": "Jimmy Wales - Wikipedia",
       "grade": 1
+    },
+    {
+      "hash": "dZ2Y8sqyzXmw",
+      "address": "https://swprs.org/wikipedia-und-propaganda/",
+      "title": "Wikipedia und Propaganda – Swiss Policy Research",
+      "grade": 1
+    },
+    {
+      "hash": "3PTlTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:Introduction",
+      "title": "Help:Introduction - Wikipedia",
+      "grade": 2
     },
     {
       "hash": "SbIsMjcl0ynx",
@@ -38,33 +62,9 @@
       "grade": 1
     },
     {
-      "hash": "jr-9W07Yyjex",
-      "address": "https://en.greatfire.org/wikipedia.org/wehufi",
-      "title": "Is http://wikipedia.org/wehufi blocked in mainland China? — GreatFire",
-      "grade": 0
-    },
-    {
-      "hash": "4N7QFh6tsM8o",
-      "address": "https://wikipedia.softonic.cn/",
-      "title": "Wikipedia 版 - 下载",
-      "grade": 1
-    },
-    {
-      "hash": "3PTlTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Help:Introduction",
-      "title": "Help:Introduction - Wikipedia",
-      "grade": 2
-    },
-    {
-      "hash": "3ZEiijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
-      "title": "Wikipedia:About - Wikipedia",
-      "grade": 2
-    },
-    {
-      "hash": "LEWIqjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Systemic_bias",
-      "title": "Wikipedia:Systemic bias - Wikipedia",
+      "hash": "CiItojRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Sister_projects",
+      "title": "Wikipedia:Wikimedia sister projects - Wikipedia",
       "grade": 1
     },
     {
@@ -74,21 +74,15 @@
       "grade": 1
     },
     {
-      "hash": "9JVEzDN5JSd5",
-      "address": "https://techstartups.com/2025/09/30/elon-musk-unveils-grokipedia-xais-wikipedia-alternative/",
-      "title": "Elon Musk Unveils Grokipedia, xAI’s Wikipedia Alternative - Tech Startups",
-      "grade": 1
+      "hash": "h3gCDEBAPQf4",
+      "address": "https://gaybd1.tumblr.com/post/740024179291783168/wikipedia-tell-me-if-this-mans-gay",
+      "title": "free palestine and also luigi — wikipedia Tell me if this man’s gay",
+      "grade": 0
     },
     {
-      "hash": "5ZYlcjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Who_writes_Wikipedia",
-      "title": "Wikipedia:Who writes Wikipedia? - Wikipedia",
-      "grade": 2
-    },
-    {
-      "hash": "S7SfSjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:How_to_copy-edit",
-      "title": "Wikipedia:Basic copyediting - Wikipedia",
+      "hash": "GAYQ-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Strychnine",
+      "title": "Strychnine - Wikipedia",
       "grade": 1
     },
     {
@@ -98,9 +92,21 @@
       "grade": 1
     },
     {
-      "hash": "tljzSjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Content_translation_tool",
-      "title": "Wikipedia:Content translation tool - Wikipedia",
+      "hash": "jr-9W07Yyjex",
+      "address": "https://en.greatfire.org/wikipedia.org/wehufi",
+      "title": "Is http://wikipedia.org/wehufi blocked in mainland China? — GreatFire",
+      "grade": 0
+    },
+    {
+      "hash": "3ZEiijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
+      "title": "Wikipedia:About - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "q1CE6n7Yyjex",
+      "address": "https://en.greatfire.org/ja.wikipedia.org",
+      "title": "Is http://ja.wikipedia.org blocked in mainland China? — GreatFire",
       "grade": 1
     }
   ]

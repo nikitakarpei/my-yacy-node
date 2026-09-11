@@ -2,32 +2,14 @@
   "query": "programación funcional",
   "judgedDocuments": [
     {
-      "hash": "SadvfD09qPgk",
-      "address": "https://www.scielo.br/j/reeusp/i/2013.v47n1/?ilang=pt_BR",
-      "title": "Revista da Escola de Enfermagem da USP, Volume: 47, Número: 1, Publicado: 2013",
-      "grade": 0
-    },
-    {
-      "hash": "wj21NCSt_F9g",
-      "address": "https://www.abc.es/motor/novedades/",
-      "title": "Novedades en motor - ABC.es",
-      "grade": 0
-    },
-    {
-      "hash": "em42fNg2z915",
-      "address": "https://www.thoughtworks.com/es-es/insights/podcasts",
-      "title": "Thoughtworks Podcasts | Thoughtworks Spain",
-      "grade": 0
-    },
-    {
-      "hash": "QACewIgEMcog",
-      "address": "https://www.larazon.es/economia/cajeros-reponedores-tendran-que-limpiar-banos-supermercados-asi-establece-supremo_202609076a9efbb13bfe5d1eff47001f.html",
-      "title": "Los cajeros y reponedores ya no tendrán que limpiar los baños de los supermercados: así lo establece el Supremo",
+      "hash": "9wGSm5ETZZex",
+      "address": "https://pdba.georgetown.edu/Constitutions/Honduras/hond82.html",
+      "title": "Honduras: Constitución de 1982",
       "grade": 0
     },
     {
       "hash": "x4f8sznCqoag",
-      "address": "https://www.boe.es/buscar/doc.php?lang=fr\u0026id=BOE-A-1980-16523",
+      "address": "https://www.boe.es/buscar/doc.php?lang=fr&id=BOE-A-1980-16523",
       "title": "BOE-A-1980-16523 Real Decreto 1601/1980, de 18 de julio, por el que se aprueban las normas orgánicas del Ministerio de Cultura.",
       "grade": 0
     },
@@ -38,27 +20,51 @@
       "grade": 0
     },
     {
-      "hash": "REIgDh4KILng",
-      "address": "https://csirc.ugr.es/informacion/servicios/plataformas-web",
-      "title": "Servicios | Centro de Servicios Informáticos y Redes de Comunicación",
+      "hash": "cw1kIznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2006-13087",
+      "title": "BOE-A-2006-13087 Ley Orgánica 6/2006, de 19 de julio, de reforma del Estatuto de Autonomía de Cataluña.",
       "grade": 0
     },
     {
-      "hash": "nGkx8OgEMcog",
-      "address": "https://www.larazon.es/espana/13-anos-despues-accidente-angrois-caso-sigue-abierto-indulto-maquinista-recursos-constitucional_202607186a5b5cf00500ab412c9cc5df.html",
-      "title": "13 años después del accidente de Angrois: el caso sigue abierto con el indulto al maquinista y recursos al Constitucional",
+      "hash": "tQ27Vlh0gGlj",
+      "address": "https://www.espressotranslations.es/",
+      "title": "Servicios de Traducción – Agencia de Traducción | Espresso Translations",
       "grade": 0
     },
     {
-      "hash": "WbWN3OgEMcog",
-      "address": "https://www.larazon.es/espana/achaca-practicas-esquirolaje-metro-sevilla-utilizar-trenes-dobles-huelga_2026031269b2a586e1ff634075e5a8c9.html",
-      "title": "El TC achaca prácticas de \"esquirolaje\" a Metro de Sevilla por utilizar trenes dobles durante una huelga",
+      "hash": "C2m1MznCqoag",
+      "address": "https://www.boe.es/buscar/doc.php?id=BOE-A-1991-28106",
+      "title": "BOE-A-1991-28106 Real Decreto 1652/1991, de 11 de octubre, por el que se modifica parcialmente el Real Decreto 1558/1986, de 28 de junio, por el que se establecen las bases",
       "grade": 0
     },
     {
-      "hash": "WbOLu7kUu61g",
-      "address": "https://www.csic.es/es/actualidad-del-csic/la-mayor-base-de-datos-genetica-de-los-pueblos-indigenas-de-america-revela-mas-de-un-millon-de-variantes-ineditas",
-      "title": "La mayor base de datos genética de los pueblos indígenas de América revela más de un millón de variantes inéditas | Consejo Superior de Investigaciones Científicas",
+      "hash": "wj21NCSt_F9g",
+      "address": "https://www.abc.es/motor/novedades/",
+      "title": "Novedades en motor - ABC.es",
+      "grade": 0
+    },
+    {
+      "hash": "V41FQznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430&p=20220908&tn=0",
+      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "grade": 0
+    },
+    {
+      "hash": "pY_MRznCqoag",
+      "address": "https://www.boe.es/buscar/act.php?lang=ca&id=BOE-A-2015-11430&tn=1&p=20220908",
+      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "grade": 0
+    },
+    {
+      "hash": "qHhk9znCqoag",
+      "address": "https://www.boe.es/buscar/act.php?lang=eu&id=BOE-A-2015-11430&tn=1&p=20220908",
+      "title": "BOE-A-2015-11430 Real Decreto Legislativo 2/2015, de 23 de octubre, por el que se aprueba el texto refundido de la Ley del Estatuto de los Trabajadores.",
+      "grade": 0
+    },
+    {
+      "hash": "Q0aY8CjMl7g4",
+      "address": "https://www.elcorreo.com/motor/novedades/",
+      "title": "Novedades del Motor | El Correo",
       "grade": 0
     },
     {

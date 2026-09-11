@@ -2,21 +2,9 @@
   "query": "how to install debian",
   "judgedDocuments": [
     {
-      "hash": "OYZdJl1nrxbw",
-      "address": "https://www.debian.org/support",
-      "title": "Debian -- User Support",
-      "grade": 1
-    },
-    {
-      "hash": "VjvtpeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples/ruby.html",
-      "title": "Create an Apache Kafka Client App for Ruby | Confluent Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "Vq7ROeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/vscode/overview.html",
-      "title": "Confluent for VS Code with Confluent Platform | Confluent Documentation",
+      "hash": "TC82-eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
+      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
       "grade": 0
     }
   ]

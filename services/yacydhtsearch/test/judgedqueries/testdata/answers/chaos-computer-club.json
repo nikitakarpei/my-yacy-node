@@ -1,265 +1,70 @@
 {
   "query": "chaos computer club",
-  "recordedAt": "2026-09-11T19:26:16Z",
-  "itemsInTheOrderOfEachAnswer": [],
+  "recordedAt": "2026-09-11T21:02:55Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "pYw3_AHucLY4",
+        "address": "https://adrienalfiste.vip-blog.com/",
+        "title": "adrienalfiste blog : Le blog d'Adri (83)",
+        "snippet": "",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "6SKJg0Ll-TIS": {
+            "hits": 3,
+            "textWords": 15701
+          },
+          "lcxrSsWr3q3H": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "pYw3_AHucLY4",
+        "address": "https://adrienalfiste.vip-blog.com/",
+        "title": "adrienalfiste blog : Le blog d'Adri (83)",
+        "snippet": "",
+        "matchedWords": {
+          "31PKJoJAynZn": {
+            "hits": 41,
+            "textWords": 15695
+          },
+          "6SKJg0Ll-TIS": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "lcxrSsWr3q3H": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ]
+  ],
   "itemsInNoOrder": [
     {
       "hash": "GtLjhloUbV15",
       "address": "https://www.whatfinger.com/",
       "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "",
+      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke\n🤣 Daily Dose of Based Humor,",
       "matchedWords": {
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         },
         "6SKJg0Ll-TIS": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         },
         "lcxrSsWr3q3H": {
           "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "MUJTAzT6fUdA",
-      "address": "http://www.greenteethmm.co.uk/ib-activists-jailed-211117.shtml",
-      "title": "-daily-stirrer",
-      "snippet": "club members think the recently ascended King Charles should go to COP27 as â€œsovereign of Tuvalu, a cluster of Pacific atolls sinking underwater.â€� The vision of Tuvalu island losing land to a rising sea is emotive, and it calls for a reaction. However, it might be best to first check the claim",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 19179
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 2,
-          "textWords": 19179
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 1,
-          "textWords": 19179
-        }
-      }
-    },
-    {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "snippet": "chaos, or secrets, into your code base.\nThe conversation focused not only on technical solutions, but also got into bigger questions about trust, how much oversight AI really needs, and the evolving role of developers.\nChris emphasised that while these AI tools can accelerate and democratise",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 32181
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 7,
-          "textWords": 32181
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 2,
-          "textWords": 32181
-        }
-      }
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "Computer History Time Capsule\nPosted on August 27, 2026 by kaysavetz\nOnce upon a time, before the Internet, computer hobbyists went to great lengths to learn about their new technology. Many of these learning opportunities were inherently social: computer classes, software store hangouts,",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 19,
-          "textWords": 6385
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 6385
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 6,
-          "textWords": 6385
-        }
-      }
-    },
-    {
-      "hash": "B1-6vlAU28d6",
-      "address": "https://www.thenationalnews.com/",
-      "title": "The National - Latest world news, sport \u0026 opinion",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "_f5CEjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Security_hacker",
-      "title": "Security hacker - Wikipedia",
-      "snippet": "Computer security term; someone who hacks computer systems\nNot to be confused with Hacker or Hacker culture.\nBruce Sterling, author of The Hacker Crackdown\nPart of a series on\nComputer hacking\nHistory\nPhreaking\nCryptovirology\nHacking of consumer electronics\nList of hackers\nHacker culture and ethic",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 83,
-          "textWords": 5636
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 3,
-          "textWords": 5636
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 2,
-          "textWords": 5636
-        }
-      }
-    },
-    {
-      "hash": "MUJTAzT6fUdA",
-      "address": "http://www.greenteethmm.co.uk/ib-activists-jailed-211117.shtml",
-      "title": "-daily-stirrer",
-      "snippet": "club members think the recently ascended King Charles should go to COP27 as â€œsovereign of Tuvalu, a cluster of Pacific atolls sinking underwater.â€� The vision of Tuvalu island losing land to a rising sea is emotive, and it calls for a reaction. However, it might be best to first check the claim",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 19179
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 2,
-          "textWords": 19179
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 1,
-          "textWords": 19179
-        }
-      }
-    },
-    {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "snippet": "chaos, or secrets, into your code base.\nThe conversation focused not only on technical solutions, but also got into bigger questions about trust, how much oversight AI really needs, and the evolving role of developers.\nChris emphasised that while these AI tools can accelerate and democratise",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 32181
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 7,
-          "textWords": 32181
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 2,
-          "textWords": 32181
-        }
-      }
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "en.planet.wikimedia.org\nen.planet.wikimedia\nSubscriptions Subscribe RSS\nWikimedia ar cs de el en es fr gmq id it pl pt ro ru uk zh\nPlanetarium Planet Debian Planet freedesktop.org Planet GNOME\nCoverage of Wikimania 2026: From Paris to the World\nFriday, 11 September 2026 15:30 UTC\nThis July, the",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 20357
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 20357
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 20357
-        }
-      }
-    },
-    {
-      "hash": "KEXZBlmC98Ig",
-      "address": "https://www.ccc.de/",
-      "title": "CCC | Startseite",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "pZOf2ym_mTBS",
-      "address": "http://www.concatenation.org/stuff/best-science-fiction-of-the-year.html",
-      "title": "Best Science Fiction of the Year",
-      "snippet": "Chaos Kind of Awards 2022 in its 'Science Fiction' category. A Psalm for the Wild-Built and Project Hail Mary were both short-listed for a Hugo Award with A Psalm for the Wild-Built winning in the 'Best Novella' category. A Psalm for the Wild-Built won the inaugural Utopia Award for Best Novella.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 17670
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 1,
-          "textWords": 17670
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 4,
-          "textWords": 17670
+          "textWords": 157
         }
       }
     },
@@ -267,79 +72,19 @@
       "hash": "GtLjhloUbV15",
       "address": "https://www.whatfinger.com/",
       "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "",
+      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke\n🤣 Daily Dose of Based Humor,",
       "matchedWords": {
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         },
         "6SKJg0Ll-TIS": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         },
         "lcxrSsWr3q3H": {
           "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "Computer History Time Capsule\nPosted on August 27, 2026 by kaysavetz\nOnce upon a time, before the Internet, computer hobbyists went to great lengths to learn about their new technology. Many of these learning opportunities were inherently social: computer classes, software store hangouts,",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 19,
-          "textWords": 6385
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 6385
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 6,
-          "textWords": 6385
-        }
-      }
-    },
-    {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "uaEnGzTwnifx",
-      "address": "https://planet.wordpress.org/",
-      "title": "Planet — WordPress.org",
-      "snippet": "chaos, or secrets, into your code base.\nThe conversation focused not only on technical solutions, but also got into bigger questions about trust, how much oversight AI really needs, and the evolving role of developers.\nChris emphasised that while these AI tools can accelerate and democratise",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 32181
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 7,
-          "textWords": 32181
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 2,
-          "textWords": 32181
+          "textWords": 157
         }
       }
     },
@@ -347,99 +92,19 @@
       "hash": "GtLjhloUbV15",
       "address": "https://www.whatfinger.com/",
       "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "",
+      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke\n🤣 Daily Dose of Based Humor,",
       "matchedWords": {
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         },
         "6SKJg0Ll-TIS": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         },
         "lcxrSsWr3q3H": {
           "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "Computer History Time Capsule\nPosted on August 27, 2026 by kaysavetz\nOnce upon a time, before the Internet, computer hobbyists went to great lengths to learn about their new technology. Many of these learning opportunities were inherently social: computer classes, software store hangouts,",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 19,
-          "textWords": 6385
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 6385
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 6,
-          "textWords": 6385
-        }
-      }
-    },
-    {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "_f5CEjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Security_hacker",
-      "title": "Security hacker - Wikipedia",
-      "snippet": "Computer security term; someone who hacks computer systems\nNot to be confused with Hacker or Hacker culture.\nBruce Sterling, author of The Hacker Crackdown\nPart of a series on\nComputer hacking\nHistory\nPhreaking\nCryptovirology\nHacking of consumer electronics\nList of hackers\nHacker culture and ethic",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 83,
-          "textWords": 5636
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 3,
-          "textWords": 5636
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 2,
-          "textWords": 5636
-        }
-      }
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "en.planet.wikimedia.org\nen.planet.wikimedia\nSubscriptions Subscribe RSS\nWikimedia ar cs de el en es fr gmq id it pl pt ro ru uk zh\nPlanetarium Planet Debian Planet freedesktop.org Planet GNOME\nCoverage of Wikimania 2026: From Paris to the World\nFriday, 11 September 2026 15:30 UTC\nThis July, the",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 20357
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 20357
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 20357
+          "textWords": 157
         }
       }
     },
@@ -447,99 +112,19 @@
       "hash": "GtLjhloUbV15",
       "address": "https://www.whatfinger.com/",
       "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "",
+      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke\n🤣 Daily Dose of Based Humor,",
       "matchedWords": {
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         },
         "6SKJg0Ll-TIS": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         },
         "lcxrSsWr3q3H": {
           "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "B1-6vlAU28d6",
-      "address": "https://www.thenationalnews.com/",
-      "title": "The National - Latest world news, sport \u0026 opinion",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "en.planet.wikimedia.org\nen.planet.wikimedia\nSubscriptions Subscribe RSS\nWikimedia ar cs de el en es fr gmq id it pl pt ro ru uk zh\nPlanetarium Planet Debian Planet freedesktop.org Planet GNOME\nCoverage of Wikimania 2026: From Paris to the World\nFriday, 11 September 2026 15:30 UTC\nThis July, the",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 20357
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 20357
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 20357
-        }
-      }
-    },
-    {
-      "hash": "pZOf2ym_mTBS",
-      "address": "http://www.concatenation.org/stuff/best-science-fiction-of-the-year.html",
-      "title": "Best Science Fiction of the Year",
-      "snippet": "Chaos Kind of Awards 2022 in its 'Science Fiction' category. A Psalm for the Wild-Built and Project Hail Mary were both short-listed for a Hugo Award with A Psalm for the Wild-Built winning in the 'Best Novella' category. A Psalm for the Wild-Built won the inaugural Utopia Award for Best Novella.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 17670
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 1,
-          "textWords": 17670
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 4,
-          "textWords": 17670
+          "textWords": 157
         }
       }
     },
@@ -547,159 +132,19 @@
       "hash": "GtLjhloUbV15",
       "address": "https://www.whatfinger.com/",
       "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "",
+      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke\n🤣 Daily Dose of Based Humor,",
       "matchedWords": {
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         },
         "6SKJg0Ll-TIS": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         },
         "lcxrSsWr3q3H": {
           "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
-      "snippet": "Computer History Time Capsule\nPosted on August 27, 2026 by kaysavetz\nOnce upon a time, before the Internet, computer hobbyists went to great lengths to learn about their new technology. Many of these learning opportunities were inherently social: computer classes, software store hangouts,",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 19,
-          "textWords": 6385
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 6385
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 6,
-          "textWords": 6385
-        }
-      }
-    },
-    {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "MUJTAzT6fUdA",
-      "address": "http://www.greenteethmm.co.uk/ib-activists-jailed-211117.shtml",
-      "title": "-daily-stirrer",
-      "snippet": "club members think the recently ascended King Charles should go to COP27 as â€œsovereign of Tuvalu, a cluster of Pacific atolls sinking underwater.â€� The vision of Tuvalu island losing land to a rising sea is emotive, and it calls for a reaction. However, it might be best to first check the claim",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 1,
-          "textWords": 19179
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 2,
-          "textWords": 19179
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 1,
-          "textWords": 19179
-        }
-      }
-    },
-    {
-      "hash": "KEXZBlmC98Ig",
-      "address": "https://www.ccc.de/",
-      "title": "CCC | Startseite",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "pZOf2ym_mTBS",
-      "address": "http://www.concatenation.org/stuff/best-science-fiction-of-the-year.html",
-      "title": "Best Science Fiction of the Year",
-      "snippet": "Chaos Kind of Awards 2022 in its 'Science Fiction' category. A Psalm for the Wild-Built and Project Hail Mary were both short-listed for a Hugo Award with A Psalm for the Wild-Built winning in the 'Best Novella' category. A Psalm for the Wild-Built won the inaugural Utopia Award for Best Novella.",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 5,
-          "textWords": 17670
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 1,
-          "textWords": 17670
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 4,
-          "textWords": 17670
-        }
-      }
-    },
-    {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "snippet": "",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "en.planet.wikimedia.org\nen.planet.wikimedia\nSubscriptions Subscribe RSS\nWikimedia ar cs de el en es fr gmq id it pl pt ro ru uk zh\nPlanetarium Planet Debian Planet freedesktop.org Planet GNOME\nCoverage of Wikimania 2026: From Paris to the World\nFriday, 11 September 2026 15:30 UTC\nThis July, the",
-      "matchedWords": {
-        "31PKJoJAynZn": {
-          "hits": 0,
-          "textWords": 20357
-        },
-        "6SKJg0Ll-TIS": {
-          "hits": 0,
-          "textWords": 20357
-        },
-        "lcxrSsWr3q3H": {
-          "hits": 0,
-          "textWords": 20357
+          "textWords": 157
         }
       }
     },
@@ -707,26 +152,26 @@
       "hash": "GtLjhloUbV15",
       "address": "https://www.whatfinger.com/",
       "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "",
+      "snippet": "Whatfinger – 🛑 Features, Red-pill blasts, takedowns, hits, deep state reveals, and savage roasts that’ll make you say ‘DAMN!’ No safe spaces. (use arrows) – Sgt Pat, Beth, Ben, Sgt K\n🛑Headline Hurricane: 40 Top Stories Across All Beats (use arrows) – Sgt Pat, Ben, Luke\n🤣 Daily Dose of Based Humor,",
       "matchedWords": {
         "31PKJoJAynZn": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         },
         "6SKJg0Ll-TIS": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         },
         "lcxrSsWr3q3H": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 157
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "31PKJoJAynZn": 60101,
-    "6SKJg0Ll-TIS": 49569,
-    "lcxrSsWr3q3H": 61129
+    "31PKJoJAynZn": 58224,
+    "6SKJg0Ll-TIS": 1332,
+    "lcxrSsWr3q3H": 55018
   }
 }

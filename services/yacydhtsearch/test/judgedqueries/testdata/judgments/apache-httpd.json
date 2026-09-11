@@ -20,12 +20,6 @@
       "grade": 2
     },
     {
-      "hash": "h5b7DXyzSDzw",
-      "address": "https://httpd.apache.org/docs/current/howto/reverse_proxy.html",
-      "title": "Reverse Proxy Guide - Apache HTTP Server Version 2.4",
-      "grade": 2
-    },
-    {
       "hash": "QJO3EayzSDzw",
       "address": "https://httpd.apache.org/support.html",
       "title": "Apache HTTP Server Support - The Apache HTTP Server Project",
@@ -38,10 +32,10 @@
       "grade": 1
     },
     {
-      "hash": "DJNgIXyzSDzw",
-      "address": "https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html",
-      "title": "SSL/TLS Strong Encryption: How-To - Apache HTTP Server Version 2.4",
-      "grade": 2
+      "hash": "CymIK8uKjjbw",
+      "address": "https://wiki.gentoo.org/wiki/Project:Apache",
+      "title": "Project:Apache - Gentoo wiki",
+      "grade": 1
     },
     {
       "hash": "s2BSFayzSDzw",
@@ -56,9 +50,15 @@
       "grade": 1
     },
     {
-      "hash": "9N5z4MaQF27w",
-      "address": "https://www.apache.org/foundation/members",
-      "title": "ASF Members | Apache Software Foundation",
+      "hash": "N7wUjwH9JDL6",
+      "address": "https://flask.palletsprojects.com/en/stable/deploying/",
+      "title": "Deploying to Production — Flask Documentation (3.1.x)",
+      "grade": 0
+    },
+    {
+      "hash": "VE5O8I55Qxow",
+      "address": "https://yacy.net/operation/yacy_conf/",
+      "title": "YaCy config settings - YaCy",
       "grade": 0
     },
     {
@@ -68,27 +68,9 @@
       "grade": 0
     },
     {
-      "hash": "TQ_Z1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/XHTML",
-      "title": "XHTML - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "WU-RwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Web_server",
-      "title": "Web server - Wikipedia",
-      "grade": 1
-    },
-    {
       "hash": "CeKDz29cq-94",
       "address": "https://git-scm.com/docs/git-config",
       "title": "Git - git-config Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "N7wUjwH9JDL6",
-      "address": "https://flask.palletsprojects.com/en/stable/deploying/",
-      "title": "Deploying to Production — Flask Documentation (3.1.x)",
       "grade": 0
     },
     {

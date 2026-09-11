@@ -2,34 +2,16 @@
   "query": "climate change",
   "judgedDocuments": [
     {
-      "hash": "UUfDFPnI6JIw",
-      "address": "https://climate.law.columbia.edu/content/climate-litigation-newsletter",
-      "title": "Climate Litigation Newsletter | Sabin Center for Climate Change Law",
-      "grade": 1
+      "hash": "Glu_e5GPlOdg",
+      "address": "https://www.daera-ni.gov.uk/articles/northern-ireland-climate-change-adaptation-programme",
+      "title": "Northern Ireland Climate Change Adaptation Programme | Department of Agriculture, Environment and Rural Affairs",
+      "grade": 2
     },
     {
-      "hash": "jFH1V7rrBtSg",
-      "address": "https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe/eu-missions-horizon-europe/adaptation-climate-change_en",
-      "title": "EU Mission: Adaptation to Climate Change",
-      "grade": 1
-    },
-    {
-      "hash": "QU4s6s_wyst4",
-      "address": "https://observer.com/climate-change/",
-      "title": "Climate Change | Observer",
-      "grade": 1
-    },
-    {
-      "hash": "uQJ5Mfm7MhAy",
-      "address": "https://hechingerreport.org/special-reports/climate-change/",
-      "title": "Climate change: Are we ready? - The Hechinger Report",
-      "grade": 1
-    },
-    {
-      "hash": "ncY549TRvWp5",
-      "address": "https://hecubus.wordpress.com/category/global-climate-change/",
-      "title": "global climate change | We Have Seen Better Days",
-      "grade": 1
+      "hash": "3jqqLl6ahC7x",
+      "address": "https://www.greenfacts.org/en/climate-change-ar6-impacts/index.htm",
+      "title": "IPCC Climate Change technical report 2022: Impacts, Adaptation and Vulnerability",
+      "grade": 2
     },
     {
       "hash": "ZdH796WMDgLg",
@@ -44,9 +26,9 @@
       "grade": 1
     },
     {
-      "hash": "X3orB6WMDgLg",
-      "address": "https://climate.ec.europa.eu/areas-action/ozone-layer_en?prefLang=ro",
-      "title": "Ozone Layer - Climate Action",
+      "hash": "QU4s6s_wyst4",
+      "address": "https://observer.com/climate-change/",
+      "title": "Climate Change | Observer",
       "grade": 1
     },
     {
@@ -56,33 +38,45 @@
       "grade": 1
     },
     {
-      "hash": "85LuzLpdc6bg",
-      "address": "https://climate-pact.europa.eu/climate-pact-privacy-statement_en?prefLang=hr",
-      "title": "Climate Pact privacy statement - European Climate Pact - European Union",
-      "grade": 0
+      "hash": "1HKmQlKyg81x",
+      "address": "https://www.carbonbrief.org/explainer-dealing-with-the-loss-and-damage-caused-by-climate-change",
+      "title": "Explainer: Dealing with the 'loss and damage' caused by climate change - Carbon Brief",
+      "grade": 2
     },
     {
-      "hash": "5CGlk2lbxFxx",
-      "address": "https://www.navigation.org/grants/climate-change",
-      "title": "Climate Change | The Navigation Fund",
+      "hash": "7woeyA7dmKb4",
+      "address": "https://heatmap.news/politics/climate-change-voting-elections",
+      "title": "Are Pollsters Getting Climate Change Wrong? - Heatmap News",
       "grade": 1
     },
     {
-      "hash": "wGfAewXKfw-g",
-      "address": "https://www.cmcc.it/article/forging-the-causal-chain-a-workshop-exploring-the-interplay-between-climate-science-and-legal-responsibility",
-      "title": "Forging the causal chain: A workshop exploring the interplay between climate science and legal responsibility - CMCC",
+      "hash": "nexTyzOLCOH6",
+      "address": "https://wattsupwiththat.com/2026/08/27/wrong-reuters-an-early-champagne-harvest-isnt-proof-of-climate-change/",
+      "title": "Wrong, Reuters, An Early Champagne Harvest Isn’t Proof of Climate Change - Watts Up With That?",
       "grade": 1
     },
     {
-      "hash": "AX4MssOLCOH6",
-      "address": "https://wattsupwiththat.com/climate-sensitivity/",
-      "title": "Climate Sensitivity - Watts Up With That?",
+      "hash": "75qEQsjE1go7",
+      "address": "https://healthpolicy-watch.news/the-price-of-climate-change-is-being-paid-by-our-lungs/",
+      "title": "Longer Pollen Seasons, Extreme Heat And Wildfires - The Climate Change Cost To Lung Health - Health Policy Watch",
       "grade": 1
     },
     {
-      "hash": "97eIXjNcDvjw",
-      "address": "https://journals.plos.org/climate/s/editors-in-chief",
-      "title": "PLOS Climate",
+      "hash": "-GTAl-vKPktw",
+      "address": "https://www.c2es.org/press-release/leading-companies-back-369b-climate-investments/",
+      "title": "Leading Companies Back $369B Climate Investments - Center for Climate and Energy SolutionsCenter for Climate and Energy Solutions",
+      "grade": 1
+    },
+    {
+      "hash": "99ttcqXKfw-g",
+      "address": "https://www.cmcc.it/lectures_conferences/beyond-the-two-week-forecast-decoding-climate-variability-through-nonequilibrium-thermodynamics",
+      "title": "Beyond the two-week forecast: Decoding climate variability through nonequilibrium thermodynamics - CMCC",
+      "grade": 1
+    },
+    {
+      "hash": "TTdgPlS5WTn4",
+      "address": "https://www.jpost.com/environment-and-climate-change",
+      "title": "Environment & Climate Change | The Jerusalem Post",
       "grade": 1
     },
     {
@@ -95,6 +89,18 @@
       "hash": "6ItKbWOiSHKx",
       "address": "https://he.wikipedia.org/wiki/%D7%A8%D7%95%D7%A1%D7%99%D7%94",
       "title": "רוסיה – ויקיפדיה",
+      "grade": 0
+    },
+    {
+      "hash": "nd_sljAmda_w",
+      "address": "https://latitude.plos.org/2026/08/meet-plos-climate-academic-editor-andreas-morr/",
+      "title": "Meet PLOS Climate Academic Editor Andreas Morr - Latitude",
+      "grade": 0
+    },
+    {
+      "hash": "85LuzLpdc6bg",
+      "address": "https://climate-pact.europa.eu/climate-pact-privacy-statement_en?prefLang=hr",
+      "title": "Climate Pact privacy statement - European Climate Pact - European Union",
       "grade": 0
     },
     {

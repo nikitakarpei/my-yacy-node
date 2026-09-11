@@ -2,45 +2,9 @@
   "query": "golang concurrency",
   "judgedDocuments": [
     {
-      "hash": "V7zmBsK-xyJ4",
-      "address": "https://go.dev/doc/",
-      "title": "Documentation - The Go Programming Language",
-      "grade": 1
-    },
-    {
-      "hash": "8gsjosK-xyJ4",
-      "address": "https://go.dev/",
-      "title": "The Go Programming Language",
-      "grade": 1
-    },
-    {
-      "hash": "tucm1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
-      "title": "Concurrent computing - Wikipedia",
-      "grade": 1
-    },
-    {
       "hash": "DB7viAK-xyJ4",
       "address": "https://go.dev/doc/faq",
       "title": "Frequently Asked Questions (FAQ) - The Go Programming Language",
-      "grade": 1
-    },
-    {
-      "hash": "XzjEdWK-xyJ4",
-      "address": "https://go.dev/solutions/paypal",
-      "title": "PayPal Taps Go to Modernize and Scale - The Go Programming Language",
-      "grade": 0
-    },
-    {
-      "hash": "A_45Olcc31ei",
-      "address": "https://www.gophercon-russia.ru/en",
-      "title": "GopherCon Russia 2021",
-      "grade": 0
-    },
-    {
-      "hash": "jh2nEAK-xyJ4",
-      "address": "https://go.dev/doc/go1.15",
-      "title": "Go 1.15 Release Notes - The Go Programming Language",
       "grade": 1
     },
     {
@@ -50,10 +14,16 @@
       "grade": 0
     },
     {
-      "hash": "ioDB87f4Pib5",
-      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
-      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
+      "hash": "A_45Olcc31ei",
+      "address": "https://www.gophercon-russia.ru/en",
+      "title": "GopherCon Russia 2021",
       "grade": 0
+    },
+    {
+      "hash": "tucm1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
+      "title": "Concurrent computing - Wikipedia",
+      "grade": 1
     },
     {
       "hash": "QriquAK-xyJ4",
@@ -62,16 +32,46 @@
       "grade": 1
     },
     {
+      "hash": "CDe2DjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Race_condition",
+      "title": "Race condition - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "NPoTiMvuh6k5",
+      "address": "https://muharem.wordpress.com/",
+      "title": "Muharem Hrnjadovic | Cool ideas revolving around computers and programming",
+      "grade": 0
+    },
+    {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
       "grade": 0
     },
     {
-      "hash": "CDe2DjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Race_condition",
-      "title": "Race condition - Wikipedia",
+      "hash": "8gsjosK-xyJ4",
+      "address": "https://go.dev/",
+      "title": "The Go Programming Language",
       "grade": 1
+    },
+    {
+      "hash": "r_C2TAK-xyJ4",
+      "address": "https://go.dev/doc/go1.26",
+      "title": "Go 1.26 Release Notes - The Go Programming Language",
+      "grade": 1
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "grade": 0
+    },
+    {
+      "hash": "84vzxd14cltk",
+      "address": "https://planet.python.org.br/",
+      "title": "Planeta PythonBrasil",
+      "grade": 0
     },
     {
       "hash": "pKhEcsxbIFag",

@@ -1,103 +1,71 @@
 {
   "query": "arch wiki",
-  "recordedAt": "2026-09-11T19:22:25Z",
+  "recordedAt": "2026-09-11T20:59:54Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "vK2-rsqBIpS6",
-        "address": "https://xn--gckvb8fzb.com/a-word-on-omarchy/",
-        "title": "A Word on Omarchy",
-        "snippet": "Arch Linux configuration that is Omarchy.\nPro tip: If you’ve arrived here via a link aggregator, feel free to skip ahead to the Summary for a conveniently digestible tl;dr that spares you all the tedious details, yet still provides enough ammunition to trash-talk this post in the comments of",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 2,
-            "textWords": 9477
-          },
-          "1hlMaPzH55u1": {
-            "hits": 23,
-            "textWords": 9477
-          }
-        }
-      },
-      {
-        "hash": "5ZDOu7NSh3ha",
-        "address": "http://xn--gckvb8fzb.com/a-word-on-omarchy/",
-        "title": "マリウス . A Word on Omarchy",
-        "snippet": "Arch Linux configuration that is Omarchy.\nPro tip: If you’ve arrived here via a link aggregator, feel free to skip ahead to the Summary for a conveniently digestible tl;dr that spares you all the tedious details, yet still provides enough ammunition to trash-talk this post in the comments of",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 2,
-            "textWords": 9477
-          },
-          "1hlMaPzH55u1": {
-            "hits": 23,
-            "textWords": 9477
-          }
-        }
-      },
-      {
-        "hash": "Cq-xgm0h8sSw",
-        "address": "https://tracker.debian.org/pkg/libreoffice",
-        "title": "libreoffice - Debian Package Tracker",
-        "snippet": "arch: all alpha amd64 arm64 armel armhf hppa i386 ia64 loong64 m68k mips mips64 mips64el mipsel powerpc ppc64 ppc64el riscv64 s390x sparc sparc64\nstd-ver: 4.0.1\nVCS: Git (Browse, QA)\nversions [more versions can be listed by madison] [old versions available from snapshot.debian.org] [pool directory]",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 1,
-            "textWords": 2754
-          },
-          "1hlMaPzH55u1": {
-            "hits": 19,
-            "textWords": 2754
-          }
-        }
-      },
-      {
-        "hash": "DjABDjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/MariaDB",
-        "title": "MariaDB - Wikipedia",
-        "snippet": "Arch Linux (from 2013),[155] Fedora (from Fedora 19 in 2013),[156][157] openSUSE (from openSUSE 12.3 Dartmouth in 2013),[158] Slackware Linux (from Slackware 14.1 in 2013),[159] CentOS (from CentOS 7 in 2014),[160] Manjaro (from 0.8.11 in 2014),[153] Red Hat Enterprise Linux (from RHEL 7 in June",
+        "hash": "1kOALGsyhcfx",
+        "address": "https://archlinux.org/mirrors/cachy-arch.ru/",
+        "title": "Arch Linux - cachy-arch.ru - Mirror Details",
+        "snippet": "cachy-arch.ru\nTier:\nTier 2\nHas ISOs:\nYes\nAvailable URLs\nMirror URL\nProtocol\nCountry\nIPv4\nIPv6\nLast Sync\nCompletion %\nμ Delay (hh:mm)\nμ Duration (s)\nσ Duration (s)\nScore\nDetails\nhttp://mirror.cachy-arch.ru/archlinux/\nhttp\nRussia\nYes\nYes\n2026-09-11 18:01\n100.0%\n2:10\n0.19\n0.24\n2.6\nDetails",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
-            "textWords": 8080
+            "textWords": 130
           },
           "1hlMaPzH55u1": {
+            "hits": 4,
+            "textWords": 130
+          }
+        }
+      },
+      {
+        "hash": "oej5lsdsPYlw",
+        "address": "https://archhurd.org/",
+        "title": "Arch Hurd",
+        "snippet": "Arch Hurd website. Arch Hurd is a derivative work of Arch Linux porting it to the GNU Hurd system with packages optimised for the i686 architecture.\nOur goal is to provide an Arch-like user environment (BSD-style init scripts, i686-optimised packages, use of the pacman package manager,",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 1,
+            "textWords": 751
+          },
+          "1hlMaPzH55u1": {
+            "hits": 15,
+            "textWords": 751
+          }
+        }
+      },
+      {
+        "hash": "fpnvOeSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=846630",
+        "title": "Wayland on Arch Linux? / AUR Issues, Discussion \u0026 PKGBUILD Requests / Arch Linux Forums",
+        "snippet": "Arch Linux?\nWhat is Wayland: [official site].\nTo summarize, this is lean and mean replacement for X server using modern technologies available in Linux kernel. It has a lot of potential comparing to outdated ugly design of X11. That's why it's important for the project to reach potential testers",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
             "hits": 2,
-            "textWords": 8080
+            "textWords": 2166
+          },
+          "1hlMaPzH55u1": {
+            "hits": 36,
+            "textWords": 2166
           }
         }
       }
     ],
     [
       {
-        "hash": "49PA9eSLKN4x",
-        "address": "https://bbs.archlinux.org/viewtopic.php?pid=13604",
-        "title": "Wiki? / Forum \u0026 Wiki discussion / Arch Linux Forums",
-        "snippet": "Wiki? / Forum \u0026 Wiki discussion / Arch Linux Forums\nArch Linux\nHome\nPackages\nForums\nWiki\nGitLab\nSecurity\nAUR\nDownload\nIndex\nRules\nSearch\nRegister\nLogin\nYou are not logged in.\nTopics: Active | Unanswered\nIndex\n» Forum \u0026 Wiki discussion\n» Wiki?\nPages: 1\n#1 2004-02-02 22:01:12\nMork II\nMember\nFrom:",
+        "hash": "8856zsuNWVxw",
+        "address": "https://linuxfr.org/",
+        "title": "Accueil - LinuxFr.org",
+        "snippet": "Arch linux équipé d'OpenRC, ReGreet et niri\n11\n2\nsept.\n2026\nArch Linux est une distribution très connue pour être une bonne base permettant de créer son propre système Linux personnalisé de fond en comble. La possibilité d’y ajouter des logiciels libres peu connus du grand public via l' AUR est",
         "matchedWords": {
           "1Ut7onVxovAL": {
-            "hits": 69,
-            "textWords": 3324
+            "hits": 0,
+            "textWords": 1669
           },
           "1hlMaPzH55u1": {
-            "hits": 25,
-            "textWords": 3324
-          }
-        }
-      },
-      {
-        "hash": "G6MDmGsyhcfx",
-        "address": "https://archlinux.org/mirrors/purring.online/",
-        "title": "Arch Linux - purring.online - Mirror Details",
-        "snippet": "Arch Linux - purring.online - Mirror Details\nArch Linux\nHome\nPackages\nForums\nWiki\nGitLab\nSecurity\nAUR\nDownload\nMirror Details: purring.online\nName:\npurring.online\nTier:\nTier 2\nHas ISOs:\nYes\nAvailable URLs\nMirror URL\nProtocol\nCountry\nIPv4\nIPv6\nLast Sync\nCompletion %\nμ Delay (hh:mm)\nμ Duration (s)\nσ",
-        "matchedWords": {
-          "1Ut7onVxovAL": {
-            "hits": 1,
-            "textWords": 193
-          },
-          "1hlMaPzH55u1": {
-            "hits": 6,
-            "textWords": 193
+            "hits": 3,
+            "textWords": 1669
           }
         }
       }
@@ -107,15 +75,15 @@
         "hash": "Yfz3rQsPPfbx",
         "address": "https://lij.wikisource.org/wiki/P%C3%A0gina_prin%C3%A7ip%C3%A2",
         "title": "Wikivivàgna",
-        "snippet": "Meta-Wiki\nWikimedia Outreach\nWikisource multilingue\nWikispecies\nWikidata\nWikifunctions\nWikimania\nWikipedia\nEleménto Wikidata\nCâa\nméscia inta bâra laterâle\nascóndi\nDa Wikivivàgna\nBenvegnui a-a Wikivivagna\na libraja in lengua ligure\nche tutti pœuan avantaggiâ\n(semm'à 16 880 paggine)\nindiçe generâ ·",
+        "snippet": "Arch. Stor. Com. de Zena - ed. da N. Lagomagiô e E. G. Parodi Arch. Glott. It. II, 1876 e X, 1886-88)\nInstruçuin polittiche a Seguran (1320 - Zena, Arch. de Stato - ed. da E.G. Parodi, Arch. Glott. It. XIV, 1898)\nO Comun de Zena a-o re d’Ungaja, pe ’n’aliansa contra i Veneçien (1352 - Zena, Arch.",
         "matchedWords": {
           "1Ut7onVxovAL": {
-            "hits": 1,
-            "textWords": 2575
+            "hits": 0,
+            "textWords": 1735
           },
           "1hlMaPzH55u1": {
             "hits": 19,
-            "textWords": 2575
+            "textWords": 1735
           }
         }
       }
@@ -129,11 +97,11 @@
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 1,
-            "textWords": 12826
+            "textWords": 10526
           },
           "1hlMaPzH55u1": {
             "hits": 2,
-            "textWords": 12826
+            "textWords": 10526
           }
         }
       }
@@ -143,15 +111,15 @@
         "hash": "ohk1xxtQ-zSx",
         "address": "https://wiki.archlinux.org/title/Arch_Linux_Archive",
         "title": "Arch Linux Archive - ArchWiki",
-        "snippet": "Arch Linux Archive - ArchWiki\nHome\nPackages\nForums\nWiki\nGitLab\nSecurity\nAUR\nDownload\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nTable of contents\nGetting involved\nWiki news\nRandom page\nInteraction\nHelp\nContributing\nRecent changes\nRecent talks\nNew pages\nStatistics",
+        "snippet": "Arch Linux Archive (ALA)—formerly known as Arch Linux Rollback Machine (ARM)—stores:\nofficial ISO images and bootstrap tarballs,\nall versions of each package,\nofficial repositories daily snapshots across time.\nYou can use it to:\nfind a previous version of an official ISO image,\ndowngrade to a",
         "matchedWords": {
           "1Ut7onVxovAL": {
-            "hits": 3,
-            "textWords": 1413
+            "hits": 0,
+            "textWords": 1180
           },
           "1hlMaPzH55u1": {
-            "hits": 26,
-            "textWords": 1413
+            "hits": 19,
+            "textWords": 1180
           }
         }
       },
@@ -159,15 +127,15 @@
         "hash": "xApa7jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Arch_Hall,_Jr.",
         "title": "Arch Hall Jr. - Wikipedia",
-        "snippet": "Arch Hall Jr. - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate",
+        "snippet": "Arch Hall, Jr.)\nArch Hall Jr.\nHall in Eegah (1962)\nBorn\nArchibald Williams Hall Jr.\nDecember 2, 1943 (age 82)\nVan Nuys, Los Angeles, California, U.S.\nOther names\nArchie Hall\nArch Hall\nNicolas Merriweather\nOccupations\nActor, musician[1]\nYears active\n1961-1965, 2014\nParents\nArch Hall Sr. (father)",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
-            "textWords": 1051
+            "textWords": 627
           },
           "1hlMaPzH55u1": {
-            "hits": 18,
-            "textWords": 1051
+            "hits": 13,
+            "textWords": 627
           }
         }
       },
@@ -175,15 +143,15 @@
         "hash": "YFWL1h3e0QFx",
         "address": "https://commons.wikimedia.org/wiki/Category:Stone_arch_bridges",
         "title": "Category:Stone arch bridges - Wikimedia Commons",
-        "snippet": "arch bridges - Wikimedia Commons\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigate\nMain page\nWelcome\nCommunity portal\nVillage pump\nHelp center\nParticipate\nUpload file\nRecent changes\nLatest files\nRandom file\nContact us\nSpecial pages\nIn Wikipedia\nDansk\nEnglish\n한국어\nNorsk bokmål\nSvenska",
+        "snippet": "arch bridges\"\nThe following 6 pages are in this category, out of 6 total.\nMedia in category \"Stone arch bridges\"\nThe following 78 files are in this category, out of 78 total.\nAfrin,Huri.jpg 1,920 × 1,285; 616 KB\nBridge in Tumi..JPG 3,888 × 2,592; 6.82 MB\nBridgetown 062.jpg 2,592 × 1,944; 1.89 MB",
         "matchedWords": {
           "1Ut7onVxovAL": {
             "hits": 0,
-            "textWords": 1653
+            "textWords": 145
           },
           "1hlMaPzH55u1": {
-            "hits": 31,
-            "textWords": 1653
+            "hits": 2,
+            "textWords": 145
           }
         }
       },
@@ -191,31 +159,65 @@
         "hash": "o8Mxf2bypRQw",
         "address": "https://forgejo.org/docs/latest/user/packages/arch/",
         "title": "Arch Package Registry | Forgejo – Beyond coding. We forge.",
-        "snippet": "Arch Package Registry | Forgejo – Beyond coding. We forge.\nDocs v16.0\nNext\nLatest (v16.0.4)\nLTS (v15.0.8)\nNews\nReleases\nFAQ\nDonate\nSource code\nRSS feed\nForgejo Administrator Guide\nAdvanced\nAdopt existing git directories\nIncoming Email\nInstance Commit Signing\nInterface customization\nModeration tools",
+        "snippet": "Arch Package Registry\nForgejo has a Arch Linux package registry, which can act as a fully working Arch linux mirror and connected directly in /etc/pacman.conf. Forgejo automatically creates pacman database for packages in user/organization space when a new Arch package is uploaded.\nUpload packages",
         "matchedWords": {
           "1Ut7onVxovAL": {
-            "hits": 1,
-            "textWords": 898
+            "hits": 0,
+            "textWords": 400
           },
           "1hlMaPzH55u1": {
-            "hits": 15,
-            "textWords": 898
+            "hits": 12,
+            "textWords": 400
           }
         }
       },
       {
-        "hash": "wbNjbeSLKN4x",
-        "address": "https://bbs.archlinux.org/viewtopic.php?pid=779734",
-        "title": "Downloadable Arch Wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
-        "snippet": "Arch Wiki / Forum \u0026 Wiki discussion / Arch Linux Forums\nArch Linux\nHome\nPackages\nForums\nWiki\nGitLab\nSecurity\nAUR\nDownload\nIndex\nRules\nSearch\nRegister\nLogin\nYou are not logged in.\nTopics: Active | Unanswered\nIndex\n» Forum \u0026 Wiki discussion\n» Downloadable Arch Wiki\nPages: 1 2 3 Next\nTopic closed\n#1",
+        "hash": "93M8veSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=1648326",
+        "title": "[SOLVED] Xfce - PowerManager - Sleep on AC / Applications \u0026 Desktop Environments / Arch Linux Forums",
+        "snippet": "Wiki Maintainer\nRegistered: 2013-06-02\nPosts: 506\nOffline\n#3 2016-08-17 20:30:16\nali_molaei\nMember\nFrom: Iran\nRegistered: 2015-12-24\nPosts: 63\nWebsite\nRe: [SOLVED] Xfce - PowerManager - Sleep on AC\nChazza wrote:\nlogind-handle-lid-switch is already false in",
         "matchedWords": {
           "1Ut7onVxovAL": {
-            "hits": 64,
-            "textWords": 1981
+            "hits": 2,
+            "textWords": 587
           },
           "1hlMaPzH55u1": {
-            "hits": 48,
-            "textWords": 1981
+            "hits": 0,
+            "textWords": 587
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "fMgRSGsyhcfx",
+        "address": "https://archlinux.org/mirrors/arch.mirror.winslow.cloud/",
+        "title": "Arch Linux - arch.mirror.winslow.cloud - Mirror Details",
+        "snippet": "arch.mirror.winslow.cloud\nTier:\nTier 2\nHas ISOs:\nYes\nAvailable URLs\nMirror URL\nProtocol\nCountry\nIPv4\nIPv6\nLast Sync\nCompletion %\nμ Delay (hh:mm)\nμ Duration (s)\nσ Duration (s)\nScore\nDetails\nhttps://arch.mirror.winslow.cloud/\nhttps\nCanada\nYes\nYes\n2026-09-11 20:00\n50.0%\n2:06\n0.55\n0.07\n5.5\nDetails",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 108
+          },
+          "1hlMaPzH55u1": {
+            "hits": 3,
+            "textWords": 108
+          }
+        }
+      },
+      {
+        "hash": "1eLp2eSLKN4x",
+        "address": "https://bbs.archlinux.org/viewtopic.php?pid=1759847",
+        "title": "[solved] /bin/init is in systemd-sysvcompat ? / Installation / Arch Linux Forums",
+        "snippet": "Arch + dwm • Mercurial repos • Surfraw\nRegistered Linux User #482438\nOffline\n#3 2018-01-08 21:58:55\njernst\nMember\nFrom: Silicon Valley\nRegistered: 2014-03-04\nPosts: 307\nRe: [solved] /bin/init is in systemd-sysvcompat ?\njasonwryan: so how do you boot? With kernel param init=/usr/lib/systemd/systemd?",
+        "matchedWords": {
+          "1Ut7onVxovAL": {
+            "hits": 0,
+            "textWords": 253
+          },
+          "1hlMaPzH55u1": {
+            "hits": 2,
+            "textWords": 253
           }
         }
       }
@@ -230,27 +232,11 @@
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 12755
+          "textWords": 11521
         },
         "1hlMaPzH55u1": {
           "hits": 1,
-          "textWords": 12755
-        }
-      }
-    },
-    {
-      "hash": "B0wZMjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Noto_fonts",
-      "title": "Noto fonts - Wikipedia",
-      "snippet": "Arch Linux,[23] Fedora Linux,[24] Gentoo Linux,[25] CTAN.[26] Since version 6.0, LibreOffice bundles Noto.[27]\nIn 2019 IKEA adopted Noto Sans as its corporate typeface, replacing Verdana. It is used in pair with Noto IKEA, a customised version of Noto Sans that modifies certain characters to",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 2,
-          "textWords": 4571
-        },
-        "1hlMaPzH55u1": {
-          "hits": 2,
-          "textWords": 4571
+          "textWords": 11521
         }
       }
     },
@@ -262,11 +248,11 @@
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 7373
+          "textWords": 6188
         },
         "1hlMaPzH55u1": {
-          "hits": 2,
-          "textWords": 7373
+          "hits": 1,
+          "textWords": 6188
         }
       }
     },
@@ -274,303 +260,63 @@
       "hash": "CiJ7TjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Xfce",
       "title": "Xfce - Wikipedia",
-      "snippet": "Wiki[17]\nThe Slackware Linux distribution has nicknamed Xfce the \"Cholesterol Free Desktop Environment\", a loose interpretation of the initialism.\nMascot\n[edit]\nSee also: List of computing mascots\nPer the FAQ, the logo of Xfce is \"a mouse, obviously, for all kinds of reasons like world domination",
+      "snippet": "Wiki[17]\nThe Slackware Linux distribution has nicknamed Xfce the \"Cholesterol Free Desktop Environment\", a loose interpretation of the initialism.\nPer the FAQ, the logo of Xfce is \"a mouse, obviously, for all kinds of reasons like world domination and monsters and such.\"[17] In the SuperTuxKart",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 8,
-          "textWords": 4897
+          "textWords": 4122
         },
         "1hlMaPzH55u1": {
           "hits": 3,
-          "textWords": 4897
+          "textWords": 4122
         }
       }
     },
     {
-      "hash": "BvdnDV2Rr_dw",
-      "address": "https://docs.searxng.org/admin/settings/settings_valkey.html",
-      "title": "valkey: — SearXNG Documentation (2025.9.23+3bf702447)",
-      "snippet": "Arch Linux\narXiv\nAstrophysics Data System (ADS)\nAzure Resources\nBing Engines\nBpb\nBrave Engines\nBT4G\nChinaSo\nCORE\nCrossref\nDailymotion\nDiscourse Forums\nDuckDuckGo Engines\nEurope PMC\nExa API Engine\nGeizhals\nGitea\nGithub Code\nGitLab\nGoogle Engines\nHugging Face\nJina Engine\nKagi Engines\nLemmy\nLibrary of",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 561
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 561
-        }
-      }
-    },
-    {
-      "hash": "CzOtWV2Rr_dw",
-      "address": "https://docs.searxng.org/admin/installation.html",
-      "title": "Installation — SearXNG Documentation (2025.9.23+3bf702447)",
-      "snippet": "Arch Linux\narXiv\nAstrophysics Data System (ADS)\nAzure Resources\nBing Engines\nBpb\nBrave Engines\nBT4G\nChinaSo\nCORE\nCrossref\nDailymotion\nDiscourse Forums\nDuckDuckGo Engines\nEurope PMC\nExa API Engine\nGeizhals\nGitea\nGithub Code\nGitLab\nGoogle Engines\nHugging Face\nJina Engine\nKagi Engines\nLemmy\nLibrary of",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 467
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 467
-        }
-      }
-    },
-    {
-      "hash": "BoTwejRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Barcelona",
-      "title": "Barcelona - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BxsbyjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
-      "title": "Apple Inc. - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "B_3gljRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/BSD",
-      "title": "Berkeley Software Distribution - Wikipedia",
-      "snippet": "Arch Linux\nInfluenced by\nUnix\nDefault\nuser interface\nUnix shell\nLicense\nBSD licenses\nThe Berkeley Software Distribution[a], also known as BSD or Berkeley UNIX, is a Unix operating system developed and distributed by the Computer Systems Research Group at the University of California, Berkeley.[2]",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 4184
-        },
-        "1hlMaPzH55u1": {
-          "hits": 2,
-          "textWords": 4184
-        }
-      }
-    },
-    {
-      "hash": "DqivBjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Free_and_open-source_software",
-      "title": "Free and open-source software - Wikipedia",
-      "snippet": "Wiki\nFandom\nLocalWiki\nScholarpedia\nTatoeba\nWikiTree\nHardware\nProjects\nOpen Source Ecology\nRepRap project\nWikiHouse\nMicrocontroller boards\nArduino\nNetduino\nNodeMCU\nParallax Propeller\nSingle-board computers\nColor Maximite\nNovena\nParallella\nProcessors\nAmber\nJ Core\nLEON\nOpenPOWER\nOpenRISC\nOpenSPARC",
+      "hash": "DhV7ZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Virtualization",
+      "title": "Virtualization - Wikipedia",
+      "snippet": "Arch Linux may host a virtual machine that looks like a computer with the Microsoft Windows operating system; Windows-based software can be run on the virtual machine.[5][6]\nDifferent types of hardware virtualization include:\nFull virtualization – Almost complete virtualization of the actual",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 2,
-          "textWords": 10791
+          "textWords": 4045
         },
         "1hlMaPzH55u1": {
           "hits": 1,
-          "textWords": 10791
+          "textWords": 4045
         }
       }
     },
     {
-      "hash": "CcYVa7S6MKD4",
-      "address": "https://github.com/sindresorhus/awesome",
-      "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics",
-      "snippet": "Arch-based Projects - Linux distributions and projects based on Arch Linux.\nAppImage - Package apps in a single file that works on various mainstream Linux distributions.\nOmarchy - Opinionated Arch Linux and Hyprland desktop environment from the creator of Ruby on Rails.\nmacOS - Operating system",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 5246
-        },
-        "1hlMaPzH55u1": {
-          "hits": 3,
-          "textWords": 5246
-        }
-      }
-    },
-    {
-      "hash": "AXJnk2bypRQw",
-      "address": "https://forgejo.org/docs/latest/contributor/dco/",
-      "title": "Developer Certificate of Origin (DCO) | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 685
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 685
-        }
-      }
-    },
-    {
-      "hash": "BJ_i-2bypRQw",
-      "address": "https://forgejo.org/docs/latest/admin/installation/database-preparation/",
-      "title": "Database Preparation | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 2553
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 2553
-        }
-      }
-    },
-    {
-      "hash": "Bm2lX2bypRQw",
-      "address": "https://forgejo.org/docs/latest/contributor/code-forgejo-org/",
-      "title": "code.forgejo.org | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 550
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 550
-        }
-      }
-    },
-    {
-      "hash": "Bww5H2bypRQw",
-      "address": "https://forgejo.org/docs/latest/user/packages/npm/",
-      "title": "npm Package Registry | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 1363
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 1363
-        }
-      }
-    },
-    {
-      "hash": "CRMnc2bypRQw",
-      "address": "https://forgejo.org/docs/latest/",
-      "title": "Forgejo v13.0 documentation | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 505
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 505
-        }
-      }
-    },
-    {
-      "hash": "CRdtH2bypRQw",
-      "address": "https://forgejo.org/docs/latest/contributor/governance/",
-      "title": "Governance | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 572
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 572
-        }
-      }
-    },
-    {
-      "hash": "DfjW22bypRQw",
-      "address": "https://forgejo.org/docs/latest/contributor/development-environment/",
-      "title": "Development environment | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 1407
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 1407
-        }
-      }
-    },
-    {
-      "hash": "BvdnDV2Rr_dw",
-      "address": "https://docs.searxng.org/admin/settings/settings_valkey.html",
-      "title": "valkey: - SearXNG Documentation (2026.8.4+c63835bd2)",
-      "snippet": "Arch Linux\narXiv\nAstrophysics Data System (ADS)\nAzure Resources\nBing Engines\nBpb\nBrave Engines\nBT4G\nChinaSo\nCORE\nCrossref\nDailymotion\nDiscourse Forums\nDuckDuckGo Engines\nEurope PMC\nExa API Engine\nGeizhals\nGitea\nGithub Code\nGitLab\nGoogle Engines\nHugging Face\nJina Engine\nKagi Engines\nLemmy\nLibrary of",
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "Arch Hall, Jr., looks up.]\nCrow: Honk if you love Eegah!\nTommy: Hi, Roxie!\nJoel [as Tommy]: Sorry about my face!!\n[The not-so-intrepid Robert I. Miller goes exploring in the desert.]\nJoel: Oh, look, he's wearing corrective shoes with black socks.\nServo: He's wearing corrective everything!\n[Tommy",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 561
+          "textWords": 143064
         },
         "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 561
-        }
-      }
-    },
-    {
-      "hash": "CzOtWV2Rr_dw",
-      "address": "https://docs.searxng.org/admin/installation.html",
-      "title": "Installation - SearXNG Documentation (2026.5.13+8e5aa9d39)",
-      "snippet": "Arch Linux\narXiv\nAstrophysics Data System (ADS)\nAzure Resources\nBing Engines\nBpb\nBrave Engines\nBT4G\nChinaSo\nCORE\nCrossref\nDailymotion\nDiscourse Forums\nDuckDuckGo Engines\nEurope PMC\nExa API Engine\nGeizhals\nGitea\nGithub Code\nGitLab\nGoogle Engines\nHugging Face\nJina Engine\nKagi Engines\nLemmy\nLibrary of",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 467
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 467
-        }
-      }
-    },
-    {
-      "hash": "MFJlXnGt4Xm4",
-      "address": "https://christadelphianworld.blogspot.com/2013/04/history-of-acceptance-of-three-in-one.html",
-      "title": "Our World: History of the acceptance of a three-in-one God",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Ad6tHvRWrbY5",
-      "address": "https://memooftheair.wordpress.com/",
-      "title": "Memo Of The Air | Marco McClean's Good Night Radio",
-      "snippet": "https://commons.wikimedia.org/wiki/File:Radcliffe_College_radio_class_1922.jpg\nDishy.\nhttps://myonebeautifulthing.com/2026/08/21/lisa-sea-urchin/\n“Hey, get up, Tracee called. Go down the park, get your father before the sheriff gets there.” “What now?” “I don’t know, I’m done with his shit. I’m so",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
           "hits": 4,
-          "textWords": 42590
+          "textWords": 143064
+        }
+      }
+    },
+    {
+      "hash": "KIHq942Rr_dw",
+      "address": "https://docs.searxng.org/user/configured_engines.html",
+      "title": "Configured Engines - SearXNG Documentation (2026.8.4+c63835bd2)",
+      "snippet": "SearXNG supports 267 search engines of which 81 are enabled by default.\nEngines can be assigned to multiple categories. The UI displays the tabs that are configured in categories_as_tabs. In addition to these UI categories (also called tabs), engines can be queried by their name or the categories",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 142
         },
         "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 42590
+          "hits": 0,
+          "textWords": 142
         }
       }
     },
@@ -578,31 +324,47 @@
       "hash": "AboGSjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Terabyte",
       "title": "Byte - Wikipedia",
-      "snippet": "https://web.archive.org/web/20090818042050/http://www.iec.ch/online_news/etech/arch_2003/etech_0503/focus.htm\n|*| v1: https://www.iec.ch/prefixes-binary-multiples Archived 2021-08-16 at the Wayback Machine\n]\n↑ Prefixes for Binary Multiples Archived 2007-08-08 at the Wayback Machine\n— The NIST",
+      "snippet": "https://web.archive.org/web/20090818042050/http://www.iec.ch/online_news/etech/arch_2003/etech_0503/focus.htm\n|*| v1: https://www.iec.ch/prefixes-binary-multiples Archived 2021-08-16 at the Wayback Machine ]\n↑ Prefixes for Binary Multiples Archived 2007-08-08 at the Wayback Machine — The NIST",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 3,
-          "textWords": 7886
+          "textWords": 7173
         },
         "1hlMaPzH55u1": {
           "hits": 1,
-          "textWords": 7886
+          "textWords": 7173
         }
       }
     },
     {
-      "hash": "BoTwejRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Barcelona",
-      "title": "Barcelona - Wikipedia",
-      "snippet": "",
+      "hash": "BUNQTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Current_events/September_2011",
+      "title": "Portal:Current events/September 2011 - Wikipedia",
+      "snippet": "Arch Truss covered bridge located between the Rapho and West Hempfield townships in Lancaster, is swept away by rushing waters from Chiques Creek. (LNP)\nPennsylvania closes and evacuates the Pennsylvania Governor's Residence and the state government is suspended. (Patriot-News)\nAt least four deaths",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 10217
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 10217
+        }
+      }
+    },
+    {
+      "hash": "BaZLYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/NetBSD",
+      "title": "NetBSD - Wikipedia",
+      "snippet": "wiki. 10 July 2021. Archived from the original on 13 March 2025. Retrieved 11 February 2025.\n↑ Dillon, Matthew (31 August 2005). \"PKGSRC will be officially supported as of the next release\". DragonFly users (Mailing list). Archived from the original on 20 January 2008. Retrieved 15 January 2010.\n↑",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 8,
+          "textWords": 11740
         },
         "1hlMaPzH55u1": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 11740
         }
       }
     },
@@ -610,31 +372,15 @@
       "hash": "BxsbyjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
       "title": "Apple Inc. - Wikipedia",
-      "snippet": "",
+      "snippet": "Apple Inc.\nApple logo used since 1999\nApple Park, the company's headquarters, in Cupertino, California\nFormerly\nApple Computer Company (1976–1977)\nApple Computer, Inc. (1977–2007)\nType\nPublic\nTraded as\nNasdaq: AAPL\nNasdaq-100 component\nDJIA component\nS\u0026P 100 component\nS\u0026P 500 component\nISIN",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 22925
         },
         "1hlMaPzH55u1": {
           "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "B0wZMjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Noto_fonts",
-      "title": "Noto fonts - Wikipedia",
-      "snippet": "Arch Linux,[23] Fedora Linux,[24] Gentoo Linux,[25] CTAN.[26] Since version 6.0, LibreOffice bundles Noto.[27]\nIn 2019 IKEA adopted Noto Sans as its corporate typeface, replacing Verdana. It is used in pair with Noto IKEA, a customised version of Noto Sans that modifies certain characters to",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 2,
-          "textWords": 4571
-        },
-        "1hlMaPzH55u1": {
-          "hits": 2,
-          "textWords": 4571
+          "textWords": 22925
         }
       }
     },
@@ -646,11 +392,11 @@
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 1,
-          "textWords": 4184
+          "textWords": 3039
         },
         "1hlMaPzH55u1": {
-          "hits": 2,
-          "textWords": 4184
+          "hits": 1,
+          "textWords": 3039
         }
       }
     },
@@ -662,43 +408,11 @@
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 7373
+          "textWords": 6188
         },
         "1hlMaPzH55u1": {
-          "hits": 2,
-          "textWords": 7373
-        }
-      }
-    },
-    {
-      "hash": "DMqpejRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Roman_Empire",
-      "title": "Roman Empire - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DQ7SSjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Milan",
-      "title": "Milan - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 6188
         }
       }
     },
@@ -706,15 +420,31 @@
       "hash": "DTPX7jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
       "title": "Wikipedia:Featured articles - Wikipedia",
-      "snippet": "",
+      "snippet": "Arch of Remembrance – Brighton War Memorial – Cadaver Tomb of René of Chalon – Canadian National Vimy Memorial – The Cenotaph – The Chattri – Civil Service Rifles War Memorial – Devon County War Memorial – Duffield Memorial – Equestrian statue of Edward Horner – Funerary art – Great Western Railway",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 21232
         },
         "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 21232
+        }
+      }
+    },
+    {
+      "hash": "DhV7ZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Virtualization",
+      "title": "Virtualization - Wikipedia",
+      "snippet": "Arch Linux may host a virtual machine that looks like a computer with the Microsoft Windows operating system; Windows-based software can be run on the virtual machine.[5][6]\nDifferent types of hardware virtualization include:\nFull virtualization – Almost complete virtualization of the actual",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 2,
+          "textWords": 4045
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 4045
         }
       }
     },
@@ -722,22 +452,278 @@
       "hash": "DqivBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Free_and_open-source_software",
       "title": "Free and open-source software - Wikipedia",
-      "snippet": "Wiki\nFandom\nLocalWiki\nScholarpedia\nTatoeba\nWikiTree\nHardware\nProjects\nOpen Source Ecology\nRepRap project\nWikiHouse\nMicrocontroller boards\nArduino\nNetduino\nNodeMCU\nParallax Propeller\nSingle-board computers\nColor Maximite\nNovena\nParallella\nProcessors\nAmber\nJ Core\nLEON\nOpenPOWER\nOpenRISC\nOpenSPARC",
+      "snippet": "Screenshot of free and open-source software: Debian running KDE Plasma, Firefox, Dolphin, VLC, LibreOffice Writer, GIMP, and KCalc\nFree and open-source software (FOSS) is software available under a license that gives users the right to use, share, modify, and distribute the software — modified or",
       "matchedWords": {
         "1Ut7onVxovAL": {
-          "hits": 2,
-          "textWords": 10791
+          "hits": 0,
+          "textWords": 9016
         },
         "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 10791
+          "hits": 0,
+          "textWords": 9016
         }
       }
     },
     {
-      "hash": "FZ0t4jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Netflix",
-      "title": "Netflix - Wikipedia",
+      "hash": "FZ5ZijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
+      "title": "List of free and open-source software packages - Wikipedia",
+      "snippet": "arch\nHgsubversion\nKallithea\nMercurial\nMonotone\nOpenGrok\nQVCS\nRevision Control System\nRhodeCode\nSource Code Control System\nSourcePuller\nTortoiseCVS\nTortoiseGit\nTortoiseHg\nTortoiseSVN\nVesta\nConfiguration management and deployment\n[edit]\nAnsible\nChef\nPuppet\nSalt\nReference management software\n[edit]",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 8085
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 8085
+        }
+      }
+    },
+    {
+      "hash": "ID5LWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Washington,_D.C.",
+      "title": "Washington, D.C. - Wikipedia",
+      "snippet": "Washington, D.C.\nFederal capital city\nand federal district\nDistrict of Columbia\nFrom top, left to right: The U.S. Capitol, the Washington Monument and Lincoln Memorial on the National Mall, Washington National Cathedral, The Wharf, storefronts in Adams Morgan, Old Post Office Tower, White House",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 24084
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 24084
+        }
+      }
+    },
+    {
+      "hash": "IobUWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Global_catastrophe_scenarios",
+      "title": "Global catastrophe scenarios - Wikipedia",
+      "snippet": "(arch 2015): A35. arXiv:1412.3648. Bibcode:2015A\u0026A...575A..35B. doi:10.1051/0004-6361/201425221. S2CID 59039482.\n↑ Jacob Aron (December 17, 2014). \"Star's flying visit could fling comets at Earth\". New Scientist.\n↑ Ćirković, Milan M.; Vukotić, Branislav (December 2016). \"Long-term prospects:",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 12208
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 12208
+        }
+      }
+    },
+    {
+      "hash": "IsPS8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Detention_of_Leqaa_Kordia",
+      "title": "Detention of Leqaa Kordia - Wikipedia",
+      "snippet": "From Wikipedia, the free encyclopedia\nDetention of Leqaa Kordia\nPart of the Visa and deportation controversies in the second Trump administration\nDate\nMarch 13, 2025\nLocation\nNewark, New Jersey, U.S.\nCause\nPro-Palestinian activism at Columbia University\nParticipants\nU.S. Immigration and Customs",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 2604
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 2604
+        }
+      }
+    },
+    {
+      "hash": "ItKhVjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Visa_and_deportation_controversies_in_the_second_Trump_administration",
+      "title": "Visa and deportation controversies in the second Trump administration - Wikipedia",
+      "snippet": "Wiki. Retrieved May 10, 2025.\n1 2 \"Georgetown scholar released from ICE detention says they treated him like a 'subhuman'\". NBC News. May 14, 2025. Retrieved May 17, 2025.\n1 2 3 Ventre, Sarah (April 11, 2025). \"Jewish students at Georgetown protest detention of professor Badar Khan Suri\". NPR.",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 1,
+          "textWords": 10875
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 10875
+        }
+      }
+    },
+    {
+      "hash": "IvnKrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Manila",
+      "title": "Manila - Wikipedia",
+      "snippet": "Arch, Seng Guan Buddhist Temple, and authentic Chinese restaurants.\nManila is designated as the country's leading destination for medical tourism, which is estimated to annually generate $1 billion in revenue.[297] Lack of a progressive health system, inadequate infrastructure, and the unstable",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 27501
+        },
+        "1hlMaPzH55u1": {
+          "hits": 2,
+          "textWords": 27501
+        }
+      }
+    },
+    {
+      "hash": "IzJxojRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Targeting_of_law_firms_and_lawyers_under_the_second_Trump_administration",
+      "title": "Targeting of law firms and lawyers under the second Trump administration - Wikipedia",
+      "snippet": "Targeting of law firms and lawyers under the second Trump administration\nDates: February–April, 2025\nFirms specifically targeted by a presidential memo or executive order:\nCovington \u0026 Burling\nElias Law Group\nJenner \u0026 Block\nPaul, Weiss, Rifkind, Wharton \u0026 Garrison\nPerkins Coie\nSusman Godfrey\nWilmer",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 9067
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 9067
+        }
+      }
+    },
+    {
+      "hash": "VmbnPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Zilog_Z80",
+      "title": "Zilog Z80 - Wikipedia",
+      "snippet": "Zilog Z80\nA Z80 manufactured in June 1976\nGeneral information\nLaunched\nJuly 1976\nDiscontinued\nJune 2024\nMarketed by\nZilog\nDesigned by\nFederico Faggin, Masatoshi Shima\nCommon manufacturers\nZilog, Mostek, Synertek, SGS, NEC, Sharp, Toshiba, Rohm, GoldStar, Hitachi, National Semiconductor[a]\nand",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 12890
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 12890
+        }
+      }
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "Proprietary software is software that grants its creator, publisher, or other rightsholder or rightsholder partner a legal monopoly by modern copyright and intellectual property law to exclude the recipient from freely sharing the software or modifying it, and—in some cases, as is the case with",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 5213
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 5213
+        }
+      }
+    },
+    {
+      "hash": "rWczfjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/England",
+      "title": "England - Wikipedia",
+      "snippet": "arch, now known as the Tudor arch, was a defining feature as were wattle and daub houses domestically. In the aftermath of the Renaissance a form of architecture echoing classical antiquity synthesised with Christianity appeared, the English Baroque style of architect Christopher Wren being",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 23825
+        },
+        "1hlMaPzH55u1": {
+          "hits": 2,
+          "textWords": 23825
+        }
+      }
+    },
+    {
+      "hash": "CcYVa7S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome",
+      "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics [NOTE: Pull requests are temporarily disabled until I have a chance to catch up with the existing ones] · GitHub",
+      "snippet": "Arch-based Projects - Linux distributions and projects based on Arch Linux.\nAppImage - Package apps in a single file that works on various mainstream Linux distributions.\nOmarchy - Opinionated Arch Linux and Hyprland desktop environment from the creator of Ruby on Rails.\nmacOS - Operating system",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 1,
+          "textWords": 4709
+        },
+        "1hlMaPzH55u1": {
+          "hits": 3,
+          "textWords": 4709
+        }
+      }
+    },
+    {
+      "hash": "JEWZurS6MKD4",
+      "address": "https://github.com/rbenv/rbenv",
+      "title": "GitHub - rbenv/rbenv: Manage your app's Ruby environment · GitHub",
+      "snippet": "Arch Linux and its derivatives\nArchlinux has an official package which you can install:\nsudo pacman -S rbenv\nFedora\nFedora has an official package which you can install:\nsudo dnf install rbenv\nOpenSUSE Tumbleweed\nOpenSUSE has an official package which you can install:\nsudo zypper in rbenv\nSet up",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 1,
+          "textWords": 1874
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 1874
+        }
+      }
+    },
+    {
+      "hash": "CRMnc2bypRQw",
+      "address": "https://forgejo.org/docs/latest/",
+      "title": "Forgejo v16.0 documentation | Forgejo – Beyond coding. We forge.",
+      "snippet": "Copyright © 2026 Forgejo authors. Content available under CC BY-SA 4.0, unless stated otherwise.\nForgejo mascot by David Revoy, CC BY 4.0.",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 20
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 20
+        }
+      }
+    },
+    {
+      "hash": "CkczXlmJ800w",
+      "address": "https://www.gentoo.org/",
+      "title": "Welcome – Gentoo Linux",
+      "snippet": "(~arch or latest stable LTS), as upstream does not reliably backport security fixes to older versions.",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 216
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 216
+        }
+      }
+    },
+    {
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
+      "snippet": "Arch Linux, a lightweight and flexible Linux® distribution that tries to Keep It Simple.\nCurrently we have official packages optimized for the x86-64 architecture. We complement our official package sets with a community-operated package repository that grows in size and quality each and every day.",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 1,
+          "textWords": 730
+        },
+        "1hlMaPzH55u1": {
+          "hits": 7,
+          "textWords": 730
+        }
+      }
+    },
+    {
+      "hash": "K3GIyiGt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/2014/10/which-man-is-mentioned-most-often-in.html",
+      "title": "Our World: Which man is mentioned most often in the Bible? Jesus, Moses, Abraham or David?",
+      "snippet": "Jesus or Jesus Christ is mentioned approximately 968 times. Christ (without Jesus) is mentioned an additional 286 times (approx). Making a total of approximately 1254 times\nEnglish: Icon of Jesus Christ (Photo credit: Wikipedia)\nMoses is mentioned 852 times.\nAbraham is mentioned 250 times and Abram",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 132
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 132
+        }
+      }
+    },
+    {
+      "hash": "2i-X_sofUy-5",
+      "address": "https://duckduckgo.com/bang_lite.html",
+      "title": "DuckDuckGo !Bang",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -747,214 +733,6 @@
         "1hlMaPzH55u1": {
           "hits": 0,
           "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Xu0QIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
-      "title": "Proprietary software - Wikipedia",
-      "snippet": "arch (2001)\nGNU Bazaar (2005)\nMercurial (2005)\nMonotone (2003)\nProprietary\nAzure DevOps Server (via Git) (2013)\nServices (via Git) (2014)\nTeamWare (1992)\nPlastic SCM (2006)\nConcepts\nBaseline\nBranch Trunk\nChangeset\nCommit Gated\nDelta compression Interleaved\ndiff\nFile comparison\nFork\nMerge\nMonorepo",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 6447
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 6447
-        }
-      }
-    },
-    {
-      "hash": "9flRCjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Helvetica",
-      "title": "Helvetica - Wikipedia",
-      "snippet": "\"Arch Linux - gsfonts\". Retrieved 31 January 2026.\n↑\n\"Debian package - gsfonts\". Retrieved 31 January 2026.\n↑\n\"Fonts\". R Cookbook. Archived from the original on 14 April 2016. Retrieved 7 April 2016.\n↑\nHorton, Nicholas (19 April 2010). \"Specifying fonts in graphics\". SAS \u0026 R. Archived from the",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 11074
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 11074
-        }
-      }
-    },
-    {
-      "hash": "CcYVa7S6MKD4",
-      "address": "https://github.com/sindresorhus/awesome",
-      "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics",
-      "snippet": "Arch-based Projects - Linux distributions and projects based on Arch Linux.\nAppImage - Package apps in a single file that works on various mainstream Linux distributions.\nOmarchy - Opinionated Arch Linux and Hyprland desktop environment from the creator of Ruby on Rails.\nmacOS - Operating system",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 5246
-        },
-        "1hlMaPzH55u1": {
-          "hits": 3,
-          "textWords": 5246
-        }
-      }
-    },
-    {
-      "hash": "AXJnk2bypRQw",
-      "address": "https://forgejo.org/docs/latest/contributor/dco/",
-      "title": "Developer Certificate of Origin (DCO) | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 685
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 685
-        }
-      }
-    },
-    {
-      "hash": "BJ_i-2bypRQw",
-      "address": "https://forgejo.org/docs/latest/admin/installation/database-preparation/",
-      "title": "Database Preparation | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 2553
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 2553
-        }
-      }
-    },
-    {
-      "hash": "Bm2lX2bypRQw",
-      "address": "https://forgejo.org/docs/latest/contributor/code-forgejo-org/",
-      "title": "code.forgejo.org | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 550
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 550
-        }
-      }
-    },
-    {
-      "hash": "Bww5H2bypRQw",
-      "address": "https://forgejo.org/docs/latest/user/packages/npm/",
-      "title": "npm Package Registry | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 1363
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 1363
-        }
-      }
-    },
-    {
-      "hash": "CRMnc2bypRQw",
-      "address": "https://forgejo.org/docs/latest/",
-      "title": "Forgejo v15.0 documentation | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 505
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 505
-        }
-      }
-    },
-    {
-      "hash": "CRdtH2bypRQw",
-      "address": "https://forgejo.org/docs/latest/contributor/governance/",
-      "title": "Governance | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 572
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 572
-        }
-      }
-    },
-    {
-      "hash": "DfjW22bypRQw",
-      "address": "https://forgejo.org/docs/latest/contributor/development-environment/",
-      "title": "Development environment | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 1407
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 1407
-        }
-      }
-    },
-    {
-      "hash": "NkWHhwxrQlU5",
-      "address": "https://steppingtoes.wordpress.com/tag/human-traditions/",
-      "title": "Human traditions | Stepping Toes",
-      "snippet": "arch across shopping streets, multiplying their twinkle in canal reflections. No garish multi-color, animatronic ego contests anywhere. You will hear Christmas music, but you’re not assaulted, and dreams of restraining orders against Bing Crosby never fill your head (unfortunately, the same",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 22043
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 22043
-        }
-      }
-    },
-    {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "snippet": "Wiki\nDeveloper Center\nFirefox\nThunderbird\nPlanet Mozilla\nJonathan Almeida\nPerf wins from relocating MOZ_OBJDIR have a dev experience cost\nBy Jonathan Almeida on September 11, 2026 12:00 AM\nThis is the opposite of what I wanted to write about: relocating your MOZ_OBJDIR outside of your source",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 4,
-          "textWords": 66909
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 66909
-        }
-      }
-    },
-    {
-      "hash": "UAq9HjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Kennedy_family",
-      "title": "Kennedy family - Wikipedia",
-      "snippet": "Arch of Dignity, Equality, and Justice\nKennedy–King College\nRobert F. Kennedy Community Schools\nRobert F. Kennedy Bridge\nUSNS Robert F. Kennedy\nPopular\nculture\nRobert F. Kennedy in media\nCrisis: Behind a Presidential Commitment (1963 documentary)\nRobert Kennedy Remembered (1968 documentary)",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 5416
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 5416
         }
       }
     },
@@ -978,15 +756,15 @@
       "hash": "5fsApjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Parallel_computing",
       "title": "Parallel computing - Wikipedia",
-      "snippet": "Arch (2013). Structured Parallel Programming: Patterns for Efficient Computation. Elsevier. p. 61. ISBN 978-0-12-415993-8.\n↑\nGunther, Neil (2007). Guerrilla Capacity Planning: A Tactical Approach to Planning for Highly Scalable Applications and Services. ISBN 978-3540261384.\n↑\nBernstein, Arthur J.",
+      "snippet": "Arch (2013). Structured Parallel Programming: Patterns for Efficient Computation. Elsevier. p. 61. ISBN 978-0-12-415993-8.\n↑ Gunther, Neil (2007). Guerrilla Capacity Planning: A Tactical Approach to Planning for Highly Scalable Applications and Services. ISBN 978-3540261384.\n↑ Bernstein, Arthur J.",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 9721
+          "textWords": 8556
         },
         "1hlMaPzH55u1": {
           "hits": 1,
-          "textWords": 9721
+          "textWords": 8556
         }
       }
     },
@@ -994,159 +772,31 @@
       "hash": "52lt4jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Manhattan",
       "title": "Manhattan - Wikipedia",
-      "snippet": "",
+      "snippet": "Arch; and Stonewall Inn); Harlem and Spanish Harlem; the High Line; Koreatown; Lincoln Center; Little Australia; Little Italy; Madison Square Garden; Museum Mile on Fifth Avenue (including the Metropolitan Museum of Art); New York Penn Station, Port Authority Bus Terminal; Rockefeller Center",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "snippet": "Wiki\nDeveloper Center\nFirefox\nThunderbird\nPlanet Mozilla\nJonathan Almeida\nPerf wins from relocating MOZ_OBJDIR have a dev experience cost\nBy Jonathan Almeida on September 11, 2026 12:00 AM\nThis is the opposite of what I wanted to write about: relocating your MOZ_OBJDIR outside of your source",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 4,
-          "textWords": 66909
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 66909
-        }
-      }
-    },
-    {
-      "hash": "MFJlXnGt4Xm4",
-      "address": "https://christadelphianworld.blogspot.com/2013/04/history-of-acceptance-of-three-in-one.html",
-      "title": "Our World: History of the acceptance of a three-in-one God",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "VwOJNjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Kyiv",
-      "title": "Kyiv - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Xu0QIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
-      "title": "Proprietary software - Wikipedia",
-      "snippet": "arch (2001)\nGNU Bazaar (2005)\nMercurial (2005)\nMonotone (2003)\nProprietary\nAzure DevOps Server (via Git) (2013)\nServices (via Git) (2014)\nTeamWare (1992)\nPlastic SCM (2006)\nConcepts\nBaseline\nBranch Trunk\nChangeset\nCommit Gated\nDelta compression Interleaved\ndiff\nFile comparison\nFork\nMerge\nMonorepo",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 6447
+          "textWords": 32535
         },
         "1hlMaPzH55u1": {
           "hits": 1,
-          "textWords": 6447
+          "textWords": 32535
         }
       }
     },
     {
-      "hash": "3VnfJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Apollo_Computer",
-      "title": "Apollo Computer - Wikipedia",
-      "snippet": "arch (2001)\nGNU Bazaar (2005)\nMercurial (2005)\nMonotone (2003)\nProprietary\nAzure DevOps Server (via Git) (2013)\nServices (via Git) (2014)\nTeamWare (1992)\nPlastic SCM (2006)\nConcepts\nBaseline\nBranch Trunk\nChangeset\nCommit Gated\nDelta compression Interleaved\ndiff\nFile comparison\nFork\nMerge\nMonorepo",
+      "hash": "E8JqR7qvfVDx",
+      "address": "https://security.archlinux.org/CVE-2023-0122",
+      "title": "CVE-2023-0122 - linux linux-lts linux-hardened linux-zen - Arch Linux",
+      "snippet": "Arch Linux\nRed Hat\nGentoo\nSUSE\nGitHub\nLists oss-security\nfull-disclosure\nbugtraq\nMisc GitHub code\nweb search\nSeverity\nUnknown\nRemote\nUnknown\nType\nUnknown\nDescription\nGroup\nPackage\nAffected\nFixed\nSeverity\nStatus\nTicket\nAVG-2836\nlinux-zen\n6.0.12-1\n6.2-1\nHigh\nUnknown\nAVG-2835\nlinux-hardened\n6.0.19-1",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 2766
+          "textWords": 81
         },
         "1hlMaPzH55u1": {
           "hits": 1,
-          "textWords": 2766
-        }
-      }
-    },
-    {
-      "hash": "4KoEojRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Oberlin_College",
-      "title": "Oberlin College - Wikipedia",
-      "snippet": "Arch became a rallying point for the college's civil rights activists and its anti-war movement. Oberlin supplied a disproportionate number of participants in Mississippi Freedom Summer, rebuilt the Antioch Missionary Baptist Church in the Carpenters for Christmas project, supported NAACP sponsored",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 14021
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 14021
-        }
-      }
-    },
-    {
-      "hash": "5WMThjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Puberty",
-      "title": "Puberty - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "VI9YzkSKkctx",
-      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
-      "title": "Toxic Managers",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 81
         }
       }
     },
@@ -1154,15 +804,47 @@
       "hash": "DchgXl-4htmx",
       "address": "https://www.libreoffice.org/download-other/",
       "title": "Alternative installation methods, SDK and source code — LibreOffice",
-      "snippet": "",
+      "snippet": "wiki. Check our licenses.\nDownload the SDK\nLibreOffice_26.8.0_Linux_x86-64_rpm_sdk.tar.gz (Torrent, all mirror links)\nLibreOffice_26.8.0_Linux_aarch64_rpm_sdk.tar.gz (Torrent, all mirror links)\nLibreOffice_26.8.0_Linux_x86-64_deb_sdk.tar.gz (Torrent, all mirror links)",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 2,
+          "textWords": 2273
+        },
+        "1hlMaPzH55u1": {
+          "hits": 2,
+          "textWords": 2273
+        }
+      }
+    },
+    {
+      "hash": "8st5vj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/User:CensoredScribe",
+      "title": "User:CensoredScribe - Wikiquote",
+      "snippet": "Arch Psychiatry, 2017 Aug 25; 29(4): 243–246.\nIn phase 2 clinical trials sponsored by MAPS, 61 percent of the 107 participants with chronic, treatment-resistant PTSD no longer had the disorder after two months of MDMA-assisted psychotherapy treatment. At a 12-month follow up, 68 percent no longer",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 224604
+        },
+        "1hlMaPzH55u1": {
+          "hits": 6,
+          "textWords": 224604
+        }
+      }
+    },
+    {
+      "hash": "K3GIyiGt4Xm4",
+      "address": "https://christadelphianworld.blogspot.com/2014/10/which-man-is-mentioned-most-often-in.html",
+      "title": "Our World: Which man is mentioned most often in the Bible? Jesus, Moses, Abraham or David?",
+      "snippet": "Jesus or Jesus Christ is mentioned approximately 968 times. Christ (without Jesus) is mentioned an additional 286 times (approx). Making a total of approximately 1254 times\nEnglish: Icon of Jesus Christ (Photo credit: Wikipedia)\nMoses is mentioned 852 times.\nAbraham is mentioned 250 times and Abram",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 132
         },
         "1hlMaPzH55u1": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 132
         }
       }
     },
@@ -1170,15 +852,15 @@
       "hash": "PJI79eGt4Xm4",
       "address": "https://christadelphianworld.blogspot.com/2016/10/in-few-days-time-it-will-be-2020-years.html",
       "title": "Our World: In a few days time it will be 2020 years ago that the Messiah was born",
-      "snippet": "",
+      "snippet": "Lord Krishna displays his Vishvarupa (Universal Form) to Arjuna on the battlefield of Kurukshetra. (Photo credit: Wikipedia)\nIn a few days time it will be 2020 years ago that the Messiah was born.\nSince the appearance of the Messiah 2 millennia ago for man's attitude not so much has been changed.",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1592
         },
         "1hlMaPzH55u1": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1592
         }
       }
     },
@@ -1202,15 +884,15 @@
       "hash": "Xu0QIjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Proprietary_software",
       "title": "Proprietary software - Wikipedia",
-      "snippet": "arch (2001)\nGNU Bazaar (2005)\nMercurial (2005)\nMonotone (2003)\nProprietary\nAzure DevOps Server (via Git) (2013)\nServices (via Git) (2014)\nTeamWare (1992)\nPlastic SCM (2006)\nConcepts\nBaseline\nBranch Trunk\nChangeset\nCommit Gated\nDelta compression Interleaved\ndiff\nFile comparison\nFork\nMerge\nMonorepo",
+      "snippet": "Proprietary software is software that grants its creator, publisher, or other rightsholder or rightsholder partner a legal monopoly by modern copyright and intellectual property law to exclude the recipient from freely sharing the software or modifying it, and—in some cases, as is the case with",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 6447
+          "textWords": 5213
         },
         "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 6447
+          "hits": 0,
+          "textWords": 5213
         }
       }
     },
@@ -1234,22 +916,22 @@
       "hash": "rWczfjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/England",
       "title": "England - Wikipedia",
-      "snippet": "",
+      "snippet": "arch, now known as the Tudor arch, was a defining feature as were wattle and daub houses domestically. In the aftermath of the Renaissance a form of architecture echoing classical antiquity synthesised with Christianity appeared, the English Baroque style of architect Christopher Wren being",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 23825
         },
         "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 23825
         }
       }
     },
     {
-      "hash": "VI9YzkSKkctx",
-      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
-      "title": "Toxic Managers",
+      "hash": "2uDGSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mosaic",
+      "title": "Mosaic - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -1266,15 +948,15 @@
       "hash": "Am29seSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=1008517",
       "title": "Proposal: Translate extension for the wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
-      "snippet": "wiki / Forum \u0026 Wiki discussion / Arch Linux Forums\nArch Linux\nHome\nPackages\nForums\nWiki\nGitLab\nSecurity\nAUR\nDownload\nIndex\nRules\nSearch\nRegister\nLogin\nYou are not logged in.\nTopics: Active | Unanswered\nIndex\n» Forum \u0026 Wiki discussion\n» Proposal: Translate extension for the wiki\nPages: 1\n#1",
+      "snippet": "wiki\nHi. I'm trying to translate some articles into Turkish. While looking to the net, i've found a wiki extension named Translate extension. Advantages of this extension as well as the contact information of authors can be found here:\nhttp://www.mediawiki.org/wiki/Extension:Translate\nFeatures",
       "matchedWords": {
         "1Ut7onVxovAL": {
-          "hits": 28,
-          "textWords": 919
+          "hits": 20,
+          "textWords": 791
         },
         "1hlMaPzH55u1": {
-          "hits": 5,
-          "textWords": 919
+          "hits": 1,
+          "textWords": 791
         }
       }
     },
@@ -1295,82 +977,18 @@
       }
     },
     {
-      "hash": "DOqB2jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/EMUI",
-      "title": "EMUI - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "UAq9HjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Kennedy_family",
-      "title": "Kennedy family - Wikipedia",
-      "snippet": "Arch of Dignity, Equality, and Justice\nKennedy–King College\nRobert F. Kennedy Community Schools\nRobert F. Kennedy Bridge\nUSNS Robert F. Kennedy\nPopular\nculture\nRobert F. Kennedy in media\nCrisis: Behind a Presidential Commitment (1963 documentary)\nRobert Kennedy Remembered (1968 documentary)",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 5416
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 5416
-        }
-      }
-    },
-    {
-      "hash": "3VnfJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Apollo_Computer",
-      "title": "Apollo Computer - Wikipedia",
-      "snippet": "arch (2001)\nGNU Bazaar (2005)\nMercurial (2005)\nMonotone (2003)\nProprietary\nAzure DevOps Server (via Git) (2013)\nServices (via Git) (2014)\nTeamWare (1992)\nPlastic SCM (2006)\nConcepts\nBaseline\nBranch Trunk\nChangeset\nCommit Gated\nDelta compression Interleaved\ndiff\nFile comparison\nFork\nMerge\nMonorepo",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 2766
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 2766
-        }
-      }
-    },
-    {
-      "hash": "4rUoSjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/May_25",
-      "title": "May 25 - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "PJI79eGt4Xm4",
       "address": "https://christadelphianworld.blogspot.com/2016/10/in-few-days-time-it-will-be-2020-years.html",
       "title": "Our World: In a few days time it will be 2020 years ago that the Messiah was born",
-      "snippet": "",
+      "snippet": "Lord Krishna displays his Vishvarupa (Universal Form) to Arjuna on the battlefield of Kurukshetra. (Photo credit: Wikipedia)\nIn a few days time it will be 2020 years ago that the Messiah was born.\nSince the appearance of the Messiah 2 millennia ago for man's attitude not so much has been changed.",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1592
         },
         "1hlMaPzH55u1": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1592
         }
       }
     },
@@ -1394,15 +1012,15 @@
       "hash": "BxsbyjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
       "title": "Apple Inc. - Wikipedia",
-      "snippet": "",
+      "snippet": "Apple Inc.\nApple logo used since 1999\nApple Park, the company's headquarters, in Cupertino, California\nFormerly\nApple Computer Company (1976–1977)\nApple Computer, Inc. (1977–2007)\nType\nPublic\nTraded as\nNasdaq: AAPL\nNasdaq-100 component\nDJIA component\nS\u0026P 100 component\nS\u0026P 500 component\nISIN",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 22925
         },
         "1hlMaPzH55u1": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 22925
         }
       }
     },
@@ -1423,18 +1041,18 @@
       }
     },
     {
-      "hash": "VwOJNjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Kyiv",
-      "title": "Kyiv - Wikipedia",
-      "snippet": "",
+      "hash": "IvnKrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Manila",
+      "title": "Manila - Wikipedia",
+      "snippet": "Arch, Seng Guan Buddhist Temple, and authentic Chinese restaurants.\nManila is designated as the country's leading destination for medical tourism, which is estimated to annually generate $1 billion in revenue.[297] Lack of a progressive health system, inadequate infrastructure, and the unstable",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 27501
         },
         "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 27501
         }
       }
     },
@@ -1442,31 +1060,15 @@
       "hash": "rWczfjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/England",
       "title": "England - Wikipedia",
-      "snippet": "",
+      "snippet": "arch, now known as the Tudor arch, was a defining feature as were wattle and daub houses domestically. In the aftermath of the Renaissance a form of architecture echoing classical antiquity synthesised with Christianity appeared, the English Baroque style of architect Christopher Wren being",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 23825
         },
         "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "5WMThjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Puberty",
-      "title": "Puberty - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 23825
         }
       }
     },
@@ -1474,31 +1076,31 @@
       "hash": "CRMnc2bypRQw",
       "address": "https://forgejo.org/docs/latest/",
       "title": "Forgejo v16.0 documentation | Forgejo – Beyond coding. We forge.",
-      "snippet": "Wiki\nThe Basics of Issue Tracking\nYour First Repository\nGit CLI\nAGit Workflow Usage\nPush Options\nPackage Registry\nAlpine Packages Repository\nALT Package Registry\nArch Package Registry\nCargo Package Registry\nChef Package Registry\nComposer Package Registry\nConan Package Registry\nConda Package",
+      "snippet": "Copyright © 2026 Forgejo authors. Content available under CC BY-SA 4.0, unless stated otherwise.\nForgejo mascot by David Revoy, CC BY 4.0.",
       "matchedWords": {
         "1Ut7onVxovAL": {
-          "hits": 1,
-          "textWords": 505
+          "hits": 0,
+          "textWords": 20
         },
         "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 505
+          "hits": 0,
+          "textWords": 20
         }
       }
     },
     {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "snippet": "Wiki\nDeveloper Center\nFirefox\nThunderbird\nPlanet Mozilla\nJonathan Almeida\nPerf wins from relocating MOZ_OBJDIR have a dev experience cost\nBy Jonathan Almeida on September 11, 2026 12:00 AM\nThis is the opposite of what I wanted to write about: relocating your MOZ_OBJDIR outside of your source",
+      "hash": "GvUBmisE1LOw",
+      "address": "https://devmanual.gentoo.org/",
+      "title": "Master index – Gentoo Development Guide",
+      "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
-          "hits": 4,
-          "textWords": 66909
+          "hits": 0,
+          "textWords": 0
         },
         "1hlMaPzH55u1": {
           "hits": 0,
-          "textWords": 66909
+          "textWords": 0
         }
       }
     },
@@ -1506,15 +1108,191 @@
       "hash": "Am29seSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=1008517",
       "title": "Re: Proposal: Translate extension for the wiki",
-      "snippet": "wiki / Forum \u0026 Wiki discussion / Arch Linux Forums\nArch Linux\nHome\nPackages\nForums\nWiki\nGitLab\nSecurity\nAUR\nDownload\nIndex\nRules\nSearch\nRegister\nLogin\nYou are not logged in.\nTopics: Active | Unanswered\nIndex\n» Forum \u0026 Wiki discussion\n» Proposal: Translate extension for the wiki\nPages: 1\n#1",
+      "snippet": "wiki\nHi. I'm trying to translate some articles into Turkish. While looking to the net, i've found a wiki extension named Translate extension. Advantages of this extension as well as the contact information of authors can be found here:\nhttp://www.mediawiki.org/wiki/Extension:Translate\nFeatures",
       "matchedWords": {
         "1Ut7onVxovAL": {
-          "hits": 28,
-          "textWords": 919
+          "hits": 20,
+          "textWords": 791
         },
         "1hlMaPzH55u1": {
-          "hits": 5,
-          "textWords": 919
+          "hits": 1,
+          "textWords": 791
+        }
+      }
+    },
+    {
+      "hash": "8st5vj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/User:CensoredScribe",
+      "title": "User:CensoredScribe - Wikiquote",
+      "snippet": "Arch Psychiatry, 2017 Aug 25; 29(4): 243–246.\nIn phase 2 clinical trials sponsored by MAPS, 61 percent of the 107 participants with chronic, treatment-resistant PTSD no longer had the disorder after two months of MDMA-assisted psychotherapy treatment. At a 12-month follow up, 68 percent no longer",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 224604
+        },
+        "1hlMaPzH55u1": {
+          "hits": 6,
+          "textWords": 224604
+        }
+      }
+    },
+    {
+      "hash": "AxrTZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Shield_of_the_Americas",
+      "title": "Shield of the Americas - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "BUNQTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Current_events/September_2011",
+      "title": "Portal:Current events/September 2011 - Wikipedia",
+      "snippet": "Arch Truss covered bridge located between the Rapho and West Hempfield townships in Lancaster, is swept away by rushing waters from Chiques Creek. (LNP)\nPennsylvania closes and evacuates the Pennsylvania Governor's Residence and the state government is suspended. (Patriot-News)\nAt least four deaths",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 10217
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 10217
+        }
+      }
+    },
+    {
+      "hash": "HZJEmjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/IOS",
+      "title": "iOS - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "IaKUVjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Minneapolis%E2%80%93Saint_Paul",
+      "title": "Minneapolis–Saint Paul - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "ItKhVjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Visa_and_deportation_controversies_in_the_second_Trump_administration",
+      "title": "Visa and deportation controversies in the second Trump administration - Wikipedia",
+      "snippet": "Wiki. Retrieved May 10, 2025.\n1 2 \"Georgetown scholar released from ICE detention says they treated him like a 'subhuman'\". NBC News. May 14, 2025. Retrieved May 17, 2025.\n1 2 3 Ventre, Sarah (April 11, 2025). \"Jewish students at Georgetown protest detention of professor Badar Khan Suri\". NPR.",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 1,
+          "textWords": 10875
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 10875
+        }
+      }
+    },
+    {
+      "hash": "VmbnPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Zilog_Z80",
+      "title": "Zilog Z80 - Wikipedia",
+      "snippet": "Zilog Z80\nA Z80 manufactured in June 1976\nGeneral information\nLaunched\nJuly 1976\nDiscontinued\nJune 2024\nMarketed by\nZilog\nDesigned by\nFederico Faggin, Masatoshi Shima\nCommon manufacturers\nZilog, Mostek, Synertek, SGS, NEC, Sharp, Toshiba, Rohm, GoldStar, Hitachi, National Semiconductor[a]\nand",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 12890
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 12890
+        }
+      }
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "Proprietary software is software that grants its creator, publisher, or other rightsholder or rightsholder partner a legal monopoly by modern copyright and intellectual property law to exclude the recipient from freely sharing the software or modifying it, and—in some cases, as is the case with",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 5213
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 5213
+        }
+      }
+    },
+    {
+      "hash": "wHUqXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Copper",
+      "title": "Copper - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "2iTHdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/River_Thames",
+      "title": "River Thames - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "2uDGSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mosaic",
+      "title": "Mosaic - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
         }
       }
     },
@@ -1522,15 +1300,31 @@
       "hash": "AboGSjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Terabyte",
       "title": "Byte - Wikipedia",
-      "snippet": "https://web.archive.org/web/20090818042050/http://www.iec.ch/online_news/etech/arch_2003/etech_0503/focus.htm\n|*| v1: https://www.iec.ch/prefixes-binary-multiples Archived 2021-08-16 at the Wayback Machine\n]\n↑ Prefixes for Binary Multiples Archived 2007-08-08 at the Wayback Machine\n— The NIST",
+      "snippet": "https://web.archive.org/web/20090818042050/http://www.iec.ch/online_news/etech/arch_2003/etech_0503/focus.htm\n|*| v1: https://www.iec.ch/prefixes-binary-multiples Archived 2021-08-16 at the Wayback Machine ]\n↑ Prefixes for Binary Multiples Archived 2007-08-08 at the Wayback Machine — The NIST",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 3,
-          "textWords": 7886
+          "textWords": 7173
         },
         "1hlMaPzH55u1": {
           "hits": 1,
-          "textWords": 7886
+          "textWords": 7173
+        }
+      }
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "Arch Hall, Jr., looks up.]\nCrow: Honk if you love Eegah!\nTommy: Hi, Roxie!\nJoel [as Tommy]: Sorry about my face!!\n[The not-so-intrepid Robert I. Miller goes exploring in the desert.]\nJoel: Oh, look, he's wearing corrective shoes with black socks.\nServo: He's wearing corrective everything!\n[Tommy",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 143064
+        },
+        "1hlMaPzH55u1": {
+          "hits": 4,
+          "textWords": 143064
         }
       }
     },
@@ -1551,34 +1345,18 @@
       }
     },
     {
-      "hash": "MFJlXnGt4Xm4",
-      "address": "https://christadelphianworld.blogspot.com/2013/04/history-of-acceptance-of-three-in-one.html",
-      "title": "Our World: History of the acceptance of a three-in-one God",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "PJI79eGt4Xm4",
       "address": "https://christadelphianworld.blogspot.com/2016/10/in-few-days-time-it-will-be-2020-years.html",
       "title": "Our World: In a few days time it will be 2020 years ago that the Messiah was born",
-      "snippet": "",
+      "snippet": "Lord Krishna displays his Vishvarupa (Universal Form) to Arjuna on the battlefield of Kurukshetra. (Photo credit: Wikipedia)\nIn a few days time it will be 2020 years ago that the Messiah was born.\nSince the appearance of the Messiah 2 millennia ago for man's attitude not so much has been changed.",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1592
         },
         "1hlMaPzH55u1": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1592
         }
       }
     },
@@ -1615,22 +1393,6 @@
       }
     },
     {
-      "hash": "Ad6tHvRWrbY5",
-      "address": "https://memooftheair.wordpress.com/",
-      "title": "Memo Of The Air | Marco McClean's Good Night Radio",
-      "snippet": "https://commons.wikimedia.org/wiki/File:Radcliffe_College_radio_class_1922.jpg\nDishy.\nhttps://myonebeautifulthing.com/2026/08/21/lisa-sea-urchin/\n“Hey, get up, Tracee called. Go down the park, get your father before the sheriff gets there.” “What now?” “I don’t know, I’m done with his shit. I’m so",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 4,
-          "textWords": 42590
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 42590
-        }
-      }
-    },
-    {
       "hash": "AonnkjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Perl",
       "title": "Perl - Wikipedia",
@@ -1638,11 +1400,27 @@
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 12755
+          "textWords": 11521
         },
         "1hlMaPzH55u1": {
           "hits": 1,
-          "textWords": 12755
+          "textWords": 11521
+        }
+      }
+    },
+    {
+      "hash": "BaZLYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/NetBSD",
+      "title": "NetBSD - Wikipedia",
+      "snippet": "wiki. 10 July 2021. Archived from the original on 13 March 2025. Retrieved 11 February 2025.\n↑ Dillon, Matthew (31 August 2005). \"PKGSRC will be officially supported as of the next release\". DragonFly users (Mailing list). Archived from the original on 20 January 2008. Retrieved 15 January 2010.\n↑",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 8,
+          "textWords": 11740
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 11740
         }
       }
     },
@@ -1650,15 +1428,15 @@
       "hash": "BxsbyjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
       "title": "Apple Inc. - Wikipedia",
-      "snippet": "",
+      "snippet": "Apple Inc.\nApple logo used since 1999\nApple Park, the company's headquarters, in Cupertino, California\nFormerly\nApple Computer Company (1976–1977)\nApple Computer, Inc. (1977–2007)\nType\nPublic\nTraded as\nNasdaq: AAPL\nNasdaq-100 component\nDJIA component\nS\u0026P 100 component\nS\u0026P 500 component\nISIN",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 22925
         },
         "1hlMaPzH55u1": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 22925
         }
       }
     },
@@ -1670,11 +1448,11 @@
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 1,
-          "textWords": 4184
+          "textWords": 3039
         },
         "1hlMaPzH55u1": {
-          "hits": 2,
-          "textWords": 4184
+          "hits": 1,
+          "textWords": 3039
         }
       }
     },
@@ -1686,11 +1464,11 @@
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 7373
+          "textWords": 6188
         },
         "1hlMaPzH55u1": {
-          "hits": 2,
-          "textWords": 7373
+          "hits": 1,
+          "textWords": 6188
         }
       }
     },
@@ -1698,31 +1476,15 @@
       "hash": "CiJ7TjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Xfce",
       "title": "Xfce - Wikipedia",
-      "snippet": "Wiki[17]\nThe Slackware Linux distribution has nicknamed Xfce the \"Cholesterol Free Desktop Environment\", a loose interpretation of the initialism.\nMascot\n[edit]\nSee also: List of computing mascots\nPer the FAQ, the logo of Xfce is \"a mouse, obviously, for all kinds of reasons like world domination",
+      "snippet": "Wiki[17]\nThe Slackware Linux distribution has nicknamed Xfce the \"Cholesterol Free Desktop Environment\", a loose interpretation of the initialism.\nPer the FAQ, the logo of Xfce is \"a mouse, obviously, for all kinds of reasons like world domination and monsters and such.\"[17] In the SuperTuxKart",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 8,
-          "textWords": 4897
+          "textWords": 4122
         },
         "1hlMaPzH55u1": {
           "hits": 3,
-          "textWords": 4897
-        }
-      }
-    },
-    {
-      "hash": "DQ7SSjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Milan",
-      "title": "Milan - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 4122
         }
       }
     },
@@ -1730,15 +1492,31 @@
       "hash": "DTPX7jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
       "title": "Wikipedia:Featured articles - Wikipedia",
-      "snippet": "",
+      "snippet": "Arch of Remembrance – Brighton War Memorial – Cadaver Tomb of René of Chalon – Canadian National Vimy Memorial – The Cenotaph – The Chattri – Civil Service Rifles War Memorial – Devon County War Memorial – Duffield Memorial – Equestrian statue of Edward Horner – Funerary art – Great Western Railway",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 21232
         },
         "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 21232
+        }
+      }
+    },
+    {
+      "hash": "DhV7ZjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Virtualization",
+      "title": "Virtualization - Wikipedia",
+      "snippet": "Arch Linux may host a virtual machine that looks like a computer with the Microsoft Windows operating system; Windows-based software can be run on the virtual machine.[5][6]\nDifferent types of hardware virtualization include:\nFull virtualization – Almost complete virtualization of the actual",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 2,
+          "textWords": 4045
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 4045
         }
       }
     },
@@ -1746,15 +1524,15 @@
       "hash": "DqivBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Free_and_open-source_software",
       "title": "Free and open-source software - Wikipedia",
-      "snippet": "Wiki\nFandom\nLocalWiki\nScholarpedia\nTatoeba\nWikiTree\nHardware\nProjects\nOpen Source Ecology\nRepRap project\nWikiHouse\nMicrocontroller boards\nArduino\nNetduino\nNodeMCU\nParallax Propeller\nSingle-board computers\nColor Maximite\nNovena\nParallella\nProcessors\nAmber\nJ Core\nLEON\nOpenPOWER\nOpenRISC\nOpenSPARC",
+      "snippet": "Screenshot of free and open-source software: Debian running KDE Plasma, Firefox, Dolphin, VLC, LibreOffice Writer, GIMP, and KCalc\nFree and open-source software (FOSS) is software available under a license that gives users the right to use, share, modify, and distribute the software — modified or",
       "matchedWords": {
         "1Ut7onVxovAL": {
-          "hits": 2,
-          "textWords": 10791
+          "hits": 0,
+          "textWords": 9016
         },
         "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 10791
+          "hits": 0,
+          "textWords": 9016
         }
       }
     },
@@ -1775,9 +1553,25 @@
       }
     },
     {
-      "hash": "VwOJNjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Kyiv",
-      "title": "Kyiv - Wikipedia",
+      "hash": "FZ5ZijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
+      "title": "List of free and open-source software packages - Wikipedia",
+      "snippet": "arch\nHgsubversion\nKallithea\nMercurial\nMonotone\nOpenGrok\nQVCS\nRevision Control System\nRhodeCode\nSource Code Control System\nSourcePuller\nTortoiseCVS\nTortoiseGit\nTortoiseHg\nTortoiseSVN\nVesta\nConfiguration management and deployment\n[edit]\nAnsible\nChef\nPuppet\nSalt\nReference management software\n[edit]",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 8085
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 8085
+        }
+      }
+    },
+    {
+      "hash": "HZJEmjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/IOS",
+      "title": "iOS - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -1791,18 +1585,66 @@
       }
     },
     {
-      "hash": "Xu0QIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
-      "title": "Proprietary software - Wikipedia",
-      "snippet": "arch (2001)\nGNU Bazaar (2005)\nMercurial (2005)\nMonotone (2003)\nProprietary\nAzure DevOps Server (via Git) (2013)\nServices (via Git) (2014)\nTeamWare (1992)\nPlastic SCM (2006)\nConcepts\nBaseline\nBranch Trunk\nChangeset\nCommit Gated\nDelta compression Interleaved\ndiff\nFile comparison\nFork\nMerge\nMonorepo",
+      "hash": "ID5LWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Washington,_D.C.",
+      "title": "Washington, D.C. - Wikipedia",
+      "snippet": "Washington, D.C.\nFederal capital city\nand federal district\nDistrict of Columbia\nFrom top, left to right: The U.S. Capitol, the Washington Monument and Lincoln Memorial on the National Mall, Washington National Cathedral, The Wharf, storefronts in Adams Morgan, Old Post Office Tower, White House",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 6447
+          "textWords": 24084
         },
         "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 6447
+          "hits": 0,
+          "textWords": 24084
+        }
+      }
+    },
+    {
+      "hash": "IaKUVjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Minneapolis%E2%80%93Saint_Paul",
+      "title": "Minneapolis–Saint Paul - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "IvnKrjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Manila",
+      "title": "Manila - Wikipedia",
+      "snippet": "Arch, Seng Guan Buddhist Temple, and authentic Chinese restaurants.\nManila is designated as the country's leading destination for medical tourism, which is estimated to annually generate $1 billion in revenue.[297] Lack of a progressive health system, inadequate infrastructure, and the unstable",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 27501
+        },
+        "1hlMaPzH55u1": {
+          "hits": 2,
+          "textWords": 27501
+        }
+      }
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "Proprietary software is software that grants its creator, publisher, or other rightsholder or rightsholder partner a legal monopoly by modern copyright and intellectual property law to exclude the recipient from freely sharing the software or modifying it, and—in some cases, as is the case with",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 5213
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 5213
         }
       }
     },
@@ -1826,6 +1668,22 @@
       "hash": "rWczfjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/England",
       "title": "England - Wikipedia",
+      "snippet": "arch, now known as the Tudor arch, was a defining feature as were wattle and daub houses domestically. In the aftermath of the Renaissance a form of architecture echoing classical antiquity synthesised with Christianity appeared, the English Baroque style of architect Christopher Wren being",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 23825
+        },
+        "1hlMaPzH55u1": {
+          "hits": 2,
+          "textWords": 23825
+        }
+      }
+    },
+    {
+      "hash": "wHUqXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Copper",
+      "title": "Copper - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -1839,9 +1697,9 @@
       }
     },
     {
-      "hash": "4rUoSjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/May_25",
-      "title": "May 25 - Wikipedia",
+      "hash": "2iTHdjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/River_Thames",
+      "title": "River Thames - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -1858,47 +1716,15 @@
       "hash": "5fsApjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Parallel_computing",
       "title": "Parallel computing - Wikipedia",
-      "snippet": "Arch (2013). Structured Parallel Programming: Patterns for Efficient Computation. Elsevier. p. 61. ISBN 978-0-12-415993-8.\n↑\nGunther, Neil (2007). Guerrilla Capacity Planning: A Tactical Approach to Planning for Highly Scalable Applications and Services. ISBN 978-3540261384.\n↑\nBernstein, Arthur J.",
+      "snippet": "Arch (2013). Structured Parallel Programming: Patterns for Efficient Computation. Elsevier. p. 61. ISBN 978-0-12-415993-8.\n↑ Gunther, Neil (2007). Guerrilla Capacity Planning: A Tactical Approach to Planning for Highly Scalable Applications and Services. ISBN 978-3540261384.\n↑ Bernstein, Arthur J.",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 9721
+          "textWords": 8556
         },
         "1hlMaPzH55u1": {
           "hits": 1,
-          "textWords": 9721
-        }
-      }
-    },
-    {
-      "hash": "9flRCjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Helvetica",
-      "title": "Helvetica - Wikipedia",
-      "snippet": "\"Arch Linux - gsfonts\". Retrieved 31 January 2026.\n↑\n\"Debian package - gsfonts\". Retrieved 31 January 2026.\n↑\n\"Fonts\". R Cookbook. Archived from the original on 14 April 2016. Retrieved 7 April 2016.\n↑\nHorton, Nicholas (19 April 2010). \"Specifying fonts in graphics\". SAS \u0026 R. Archived from the",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 11074
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 11074
-        }
-      }
-    },
-    {
-      "hash": "-X0TwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Data",
-      "title": "Data - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 8556
         }
       }
     },
@@ -1910,11 +1736,43 @@
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 1,
-          "textWords": 5246
+          "textWords": 4709
         },
         "1hlMaPzH55u1": {
           "hits": 3,
-          "textWords": 5246
+          "textWords": 4709
+        }
+      }
+    },
+    {
+      "hash": "JEWZurS6MKD4",
+      "address": "https://github.com/rbenv/rbenv",
+      "title": "GitHub - rbenv/rbenv: Manage your app's Ruby environment · GitHub",
+      "snippet": "Arch Linux and its derivatives\nArchlinux has an official package which you can install:\nsudo pacman -S rbenv\nFedora\nFedora has an official package which you can install:\nsudo dnf install rbenv\nOpenSUSE Tumbleweed\nOpenSUSE has an official package which you can install:\nsudo zypper in rbenv\nSet up",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 1,
+          "textWords": 1874
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 1874
+        }
+      }
+    },
+    {
+      "hash": "CkczXlmJ800w",
+      "address": "https://www.gentoo.org/",
+      "title": "Welcome – Gentoo Linux",
+      "snippet": "(~arch or latest stable LTS), as upstream does not reliably backport security fixes to older versions.",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 216
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 216
         }
       }
     },
@@ -1935,9 +1793,25 @@
       }
     },
     {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
+      "hash": "E8JqR7qvfVDx",
+      "address": "https://security.archlinux.org/CVE-2023-0122",
+      "title": "CVE-2023-0122 - linux linux-lts linux-hardened linux-zen - Arch Linux",
+      "snippet": "Arch Linux\nRed Hat\nGentoo\nSUSE\nGitHub\nLists oss-security\nfull-disclosure\nbugtraq\nMisc GitHub code\nweb search\nSeverity\nUnknown\nRemote\nUnknown\nType\nUnknown\nDescription\nGroup\nPackage\nAffected\nFixed\nSeverity\nStatus\nTicket\nAVG-2836\nlinux-zen\n6.0.12-1\n6.2-1\nHigh\nUnknown\nAVG-2835\nlinux-hardened\n6.0.19-1",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 81
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 81
+        }
+      }
+    },
+    {
+      "hash": "GvUBmisE1LOw",
+      "address": "https://devmanual.gentoo.org/",
+      "title": "Master index – Gentoo Development Guide",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -1951,25 +1825,25 @@
       }
     },
     {
-      "hash": "NkWHhwxrQlU5",
-      "address": "https://steppingtoes.wordpress.com/tag/human-traditions/",
-      "title": "Human traditions | Stepping Toes",
-      "snippet": "arch across shopping streets, multiplying their twinkle in canal reflections. No garish multi-color, animatronic ego contests anywhere. You will hear Christmas music, but you’re not assaulted, and dreams of restraining orders against Bing Crosby never fill your head (unfortunately, the same",
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
+      "snippet": "Arch Linux, a lightweight and flexible Linux® distribution that tries to Keep It Simple.\nCurrently we have official packages optimized for the x86-64 architecture. We complement our official package sets with a community-operated package repository that grows in size and quality each and every day.",
       "matchedWords": {
         "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 22043
+          "hits": 1,
+          "textWords": 730
         },
         "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 22043
+          "hits": 7,
+          "textWords": 730
         }
       }
     },
     {
-      "hash": "DOqB2jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/EMUI",
-      "title": "EMUI - Wikipedia",
+      "hash": "wHUqXjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Copper",
+      "title": "Copper - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "1Ut7onVxovAL": {
@@ -1979,22 +1853,6 @@
         "1hlMaPzH55u1": {
           "hits": 0,
           "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "4KoEojRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Oberlin_College",
-      "title": "Oberlin College - Wikipedia",
-      "snippet": "Arch became a rallying point for the college's civil rights activists and its anti-war movement. Oberlin supplied a disproportionate number of participants in Mississippi Freedom Summer, rebuilt the Antioch Missionary Baptist Church in the Carpenters for Christmas project, supported NAACP sponsored",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 14021
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 14021
         }
       }
     },
@@ -2002,63 +1860,31 @@
       "hash": "52lt4jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Manhattan",
       "title": "Manhattan - Wikipedia",
-      "snippet": "",
+      "snippet": "Arch; and Stonewall Inn); Harlem and Spanish Harlem; the High Line; Koreatown; Lincoln Center; Little Australia; Little Italy; Madison Square Garden; Museum Mile on Fifth Avenue (including the Metropolitan Museum of Art); New York Penn Station, Port Authority Bus Terminal; Rockefeller Center",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "NkWHhwxrQlU5",
-      "address": "https://steppingtoes.wordpress.com/tag/human-traditions/",
-      "title": "Human traditions | Stepping Toes",
-      "snippet": "arch across shopping streets, multiplying their twinkle in canal reflections. No garish multi-color, animatronic ego contests anywhere. You will hear Christmas music, but you’re not assaulted, and dreams of restraining orders against Bing Crosby never fill your head (unfortunately, the same",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 22043
+          "textWords": 32535
         },
         "1hlMaPzH55u1": {
           "hits": 1,
-          "textWords": 22043
+          "textWords": 32535
         }
       }
     },
     {
-      "hash": "DMqpejRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Roman_Empire",
-      "title": "Roman Empire - Wikipedia",
-      "snippet": "",
+      "hash": "ID5LWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Washington,_D.C.",
+      "title": "Washington, D.C. - Wikipedia",
+      "snippet": "Washington, D.C.\nFederal capital city\nand federal district\nDistrict of Columbia\nFrom top, left to right: The U.S. Capitol, the Washington Monument and Lincoln Memorial on the National Mall, Washington National Cathedral, The Wharf, storefronts in Adams Morgan, Old Post Office Tower, White House",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 24084
         },
         "1hlMaPzH55u1": {
           "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "UAq9HjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Kennedy_family",
-      "title": "Kennedy family - Wikipedia",
-      "snippet": "Arch of Dignity, Equality, and Justice\nKennedy–King College\nRobert F. Kennedy Community Schools\nRobert F. Kennedy Bridge\nUSNS Robert F. Kennedy\nPopular\nculture\nRobert F. Kennedy in media\nCrisis: Behind a Presidential Commitment (1963 documentary)\nRobert Kennedy Remembered (1968 documentary)",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 5416
-        },
-        "1hlMaPzH55u1": {
-          "hits": 1,
-          "textWords": 5416
+          "textWords": 24084
         }
       }
     },
@@ -2066,15 +1892,31 @@
       "hash": "DchgXl-4htmx",
       "address": "https://www.libreoffice.org/download-other/",
       "title": "Alternative installation methods, SDK and source code — LibreOffice",
-      "snippet": "",
+      "snippet": "wiki. Check our licenses.\nDownload the SDK\nLibreOffice_26.8.0_Linux_x86-64_rpm_sdk.tar.gz (Torrent, all mirror links)\nLibreOffice_26.8.0_Linux_aarch64_rpm_sdk.tar.gz (Torrent, all mirror links)\nLibreOffice_26.8.0_Linux_x86-64_deb_sdk.tar.gz (Torrent, all mirror links)",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 2,
+          "textWords": 2273
+        },
+        "1hlMaPzH55u1": {
+          "hits": 2,
+          "textWords": 2273
+        }
+      }
+    },
+    {
+      "hash": "CTQ-Yj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
+      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "snippet": "Arch Hall, Jr., looks up.]\nCrow: Honk if you love Eegah!\nTommy: Hi, Roxie!\nJoel [as Tommy]: Sorry about my face!!\n[The not-so-intrepid Robert I. Miller goes exploring in the desert.]\nJoel: Oh, look, he's wearing corrective shoes with black socks.\nServo: He's wearing corrective everything!\n[Tommy",
       "matchedWords": {
         "1Ut7onVxovAL": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 143064
         },
         "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 143064
         }
       }
     },
@@ -2095,6 +1937,54 @@
       }
     },
     {
+      "hash": "IdMDDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/National_Defense_Authorization_Act_for_Fiscal_Year_2026",
+      "title": "National Defense Authorization Act for Fiscal Year 2026 - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "IobUWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Global_catastrophe_scenarios",
+      "title": "Global catastrophe scenarios - Wikipedia",
+      "snippet": "(arch 2015): A35. arXiv:1412.3648. Bibcode:2015A\u0026A...575A..35B. doi:10.1051/0004-6361/201425221. S2CID 59039482.\n↑ Jacob Aron (December 17, 2014). \"Star's flying visit could fling comets at Earth\". New Scientist.\n↑ Ćirković, Milan M.; Vukotić, Branislav (December 2016). \"Long-term prospects:",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 12208
+        },
+        "1hlMaPzH55u1": {
+          "hits": 1,
+          "textWords": 12208
+        }
+      }
+    },
+    {
+      "hash": "VmbnPjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Zilog_Z80",
+      "title": "Zilog Z80 - Wikipedia",
+      "snippet": "Zilog Z80\nA Z80 manufactured in June 1976\nGeneral information\nLaunched\nJuly 1976\nDiscontinued\nJune 2024\nMarketed by\nZilog\nDesigned by\nFederico Faggin, Masatoshi Shima\nCommon manufacturers\nZilog, Mostek, Synertek, SGS, NEC, Sharp, Toshiba, Rohm, GoldStar, Hitachi, National Semiconductor[a]\nand",
+      "matchedWords": {
+        "1Ut7onVxovAL": {
+          "hits": 0,
+          "textWords": 12890
+        },
+        "1hlMaPzH55u1": {
+          "hits": 0,
+          "textWords": 12890
+        }
+      }
+    },
+    {
       "hash": "fZM8XjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/2026_Iran_war",
       "title": "2026 Iran war - Wikipedia",
@@ -2109,42 +1999,10 @@
           "textWords": 0
         }
       }
-    },
-    {
-      "hash": "VI9YzkSKkctx",
-      "address": "https://softpanorama.org/Social/Toxic_managers/index.shtml",
-      "title": "Toxic Managers",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "snippet": "",
-      "matchedWords": {
-        "1Ut7onVxovAL": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "1hlMaPzH55u1": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "1Ut7onVxovAL": 60769,
-    "1hlMaPzH55u1": 8023
+    "1Ut7onVxovAL": 66494,
+    "1hlMaPzH55u1": 7616
   }
 }

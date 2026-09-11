@@ -1,277 +1,85 @@
 {
   "query": "how to install debian",
-  "recordedAt": "2026-09-11T19:23:47Z",
+  "recordedAt": "2026-09-11T21:01:00Z",
   "itemsInTheOrderOfEachAnswer": [],
   "itemsInNoOrder": [
     {
-      "hash": "OYZdJl1nrxbw",
-      "address": "https://www.debian.org/support",
-      "title": "Debian -- User Support",
-      "snippet": "Debian -- User Support\nSkip Quicknav\nBlog\nMicronews\nPlanet\nWiki\nUser Support\nIRC (real time Support)\nMailing Lists\nUsenet Newsgroups\nDebian User Forums\nHow to contact Package Maintainers\nBug Tracking System\nKnown Problems\nDebian support is offered by a group of volunteers. If this community-driven",
+      "hash": "TC82-eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
+      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
+      "snippet": "to define and connect custom processors and to interact with state stores. With the Processor API, you can define arbitrary stream processors that process one received record at a time, and connect these processors with their associated state stores to compose the processor topology that represents",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 3,
-          "textWords": 802
+          "hits": 4,
+          "textWords": 4569
         },
         "AbbiA0S2iDXF": {
-          "hits": 32,
-          "textWords": 802
+          "hits": 113,
+          "textWords": 4569
         },
         "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 802
+          "hits": 0,
+          "textWords": 4569
         },
         "bpVSyb2OYcjy": {
-          "hits": 29,
-          "textWords": 802
+          "hits": 0,
+          "textWords": 4569
         }
       }
     },
     {
-      "hash": "VjvtpeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples/ruby.html",
-      "title": "Create an Apache Kafka Client App for Ruby | Confluent Documentation",
-      "snippet": "to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient\nBundler installed on your machine. Install using gem install bundler.\nKafka Cluster\nThe easiest way",
+      "hash": "TC82-eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
+      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
+      "snippet": "to define and connect custom processors and to interact with state stores. With the Processor API, you can define arbitrary stream processors that process one received record at a time, and connect these processors with their associated state stores to compose the processor topology that represents",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 5,
-          "textWords": 4886
+          "hits": 4,
+          "textWords": 4569
         },
         "AbbiA0S2iDXF": {
-          "hits": 81,
-          "textWords": 4886
+          "hits": 113,
+          "textWords": 4569
         },
         "Ga2JvD48nX72": {
-          "hits": 26,
-          "textWords": 4886
+          "hits": 0,
+          "textWords": 4569
         },
         "bpVSyb2OYcjy": {
-          "hits": 2,
-          "textWords": 4886
+          "hits": 0,
+          "textWords": 4569
         }
       }
     },
     {
-      "hash": "Vq7ROeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/vscode/overview.html",
-      "title": "Confluent for VS Code with Confluent Platform | Confluent Documentation",
-      "snippet": "to Confluent Platform and other Apache Kafka® clusters to browse topics, view schemas, and produce and consume messages directly from your editor, streamlining streaming application development.\nConfluent for VS Code makes it easy for you to build stream processing applications using Confluent",
+      "hash": "TC82-eFEcjUx",
+      "address": "https://docs.confluent.io/platform/current/streams/developer-guide/processor-api.html",
+      "title": "Kafka Streams Processor API for Confluent Platform | Confluent Documentation",
+      "snippet": "to define and connect custom processors and to interact with state stores. With the Processor API, you can define arbitrary stream processors that process one received record at a time, and connect these processors with their associated state stores to compose the processor topology that represents",
       "matchedWords": {
         "24igJXwiDb_d": {
-          "hits": 6,
-          "textWords": 5567
+          "hits": 4,
+          "textWords": 4569
         },
         "AbbiA0S2iDXF": {
-          "hits": 112,
-          "textWords": 5567
+          "hits": 113,
+          "textWords": 4569
         },
         "Ga2JvD48nX72": {
-          "hits": 31,
-          "textWords": 5567
+          "hits": 0,
+          "textWords": 4569
         },
         "bpVSyb2OYcjy": {
-          "hits": 2,
-          "textWords": 5567
-        }
-      }
-    },
-    {
-      "hash": "OYZdJl1nrxbw",
-      "address": "https://www.debian.org/support",
-      "title": "Debian -- User Support",
-      "snippet": "Debian -- User Support\nSkip Quicknav\nBlog\nMicronews\nPlanet\nWiki\nUser Support\nIRC (real time Support)\nMailing Lists\nUsenet Newsgroups\nDebian User Forums\nHow to contact Package Maintainers\nBug Tracking System\nKnown Problems\nDebian support is offered by a group of volunteers. If this community-driven",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 3,
-          "textWords": 802
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 32,
-          "textWords": 802
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 802
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 29,
-          "textWords": 802
-        }
-      }
-    },
-    {
-      "hash": "VjvtpeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples/ruby.html",
-      "title": "Create a Kafka Client App for Ruby for Use With Confluent Platform | Confluent Documentation",
-      "snippet": "to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient\nBundler installed on your machine. Install using gem install bundler.\nKafka Cluster\nThe easiest way",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 5,
-          "textWords": 4886
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 81,
-          "textWords": 4886
-        },
-        "Ga2JvD48nX72": {
-          "hits": 26,
-          "textWords": 4886
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 2,
-          "textWords": 4886
-        }
-      }
-    },
-    {
-      "hash": "Vq7ROeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/vscode/overview.html",
-      "title": "Confluent for VS Code with Confluent Platform | Confluent Documentation",
-      "snippet": "to Confluent Platform and other Apache Kafka® clusters to browse topics, view schemas, and produce and consume messages directly from your editor, streamlining streaming application development.\nConfluent for VS Code makes it easy for you to build stream processing applications using Confluent",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 6,
-          "textWords": 5567
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 112,
-          "textWords": 5567
-        },
-        "Ga2JvD48nX72": {
-          "hits": 31,
-          "textWords": 5567
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 2,
-          "textWords": 5567
-        }
-      }
-    },
-    {
-      "hash": "OYZdJl1nrxbw",
-      "address": "https://www.debian.org/support",
-      "title": "Debian -- User Support",
-      "snippet": "Debian -- User Support\nSkip Quicknav\nBlog\nMicronews\nPlanet\nWiki\nUser Support\nIRC (real time Support)\nMailing Lists\nUsenet Newsgroups\nDebian User Forums\nHow to contact Package Maintainers\nBug Tracking System\nKnown Problems\nDebian support is offered by a group of volunteers. If this community-driven",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 3,
-          "textWords": 802
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 32,
-          "textWords": 802
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 802
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 29,
-          "textWords": 802
-        }
-      }
-    },
-    {
-      "hash": "Vq7ROeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/vscode/overview.html",
-      "title": "Confluent for VS Code with Confluent Platform | Confluent Documentation",
-      "snippet": "to Confluent Platform and other Apache Kafka® clusters to browse topics, view schemas, and produce and consume messages directly from your editor, streamlining streaming application development.\nConfluent for VS Code makes it easy for you to build stream processing applications using Confluent",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 6,
-          "textWords": 5567
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 112,
-          "textWords": 5567
-        },
-        "Ga2JvD48nX72": {
-          "hits": 31,
-          "textWords": 5567
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 2,
-          "textWords": 5567
-        }
-      }
-    },
-    {
-      "hash": "OYZdJl1nrxbw",
-      "address": "https://www.debian.org/support",
-      "title": "Debian -- User Support",
-      "snippet": "Debian -- User Support\nSkip Quicknav\nBlog\nMicronews\nPlanet\nWiki\nUser Support\nIRC (real time Support)\nMailing Lists\nUsenet Newsgroups\nDebian User Forums\nHow to contact Package Maintainers\nBug Tracking System\nKnown Problems\nDebian support is offered by a group of volunteers. If this community-driven",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 3,
-          "textWords": 802
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 32,
-          "textWords": 802
-        },
-        "Ga2JvD48nX72": {
-          "hits": 1,
-          "textWords": 802
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 29,
-          "textWords": 802
-        }
-      }
-    },
-    {
-      "hash": "VjvtpeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/examples/ruby.html",
-      "title": "Create a Kafka Client App for Ruby for Use With Confluent Platform | Confluent Documentation",
-      "snippet": "to and consumes messages from an Apache Kafka® cluster.\nAfter you run the tutorial, use the provided source code as a reference to develop your own Kafka client application.\nPrerequisites\nClient\nBundler installed on your machine. Install using gem install bundler.\nKafka Cluster\nThe easiest way",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 5,
-          "textWords": 4886
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 81,
-          "textWords": 4886
-        },
-        "Ga2JvD48nX72": {
-          "hits": 26,
-          "textWords": 4886
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 2,
-          "textWords": 4886
-        }
-      }
-    },
-    {
-      "hash": "Vq7ROeFEcjUx",
-      "address": "https://docs.confluent.io/platform/current/clients/vscode/overview.html",
-      "title": "Confluent for VS Code with Confluent Platform | Confluent Documentation",
-      "snippet": "to Confluent Platform and other Apache Kafka® clusters to browse topics, view schemas, and produce and consume messages directly from your editor, streamlining streaming application development.\nConfluent for VS Code makes it easy for you to build stream processing applications using Confluent",
-      "matchedWords": {
-        "24igJXwiDb_d": {
-          "hits": 6,
-          "textWords": 5567
-        },
-        "AbbiA0S2iDXF": {
-          "hits": 112,
-          "textWords": 5567
-        },
-        "Ga2JvD48nX72": {
-          "hits": 31,
-          "textWords": 5567
-        },
-        "bpVSyb2OYcjy": {
-          "hits": 2,
-          "textWords": 5567
+          "hits": 0,
+          "textWords": 4569
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "24igJXwiDb_d": 150806,
-    "AbbiA0S2iDXF": 68985,
-    "Ga2JvD48nX72": 5379,
-    "bpVSyb2OYcjy": 17597
+    "24igJXwiDb_d": 84864,
+    "AbbiA0S2iDXF": 40339,
+    "Ga2JvD48nX72": 5424,
+    "bpVSyb2OYcjy": 15215
   }
 }

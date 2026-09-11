@@ -1,55 +1,21 @@
 {
   "query": "golang concurrency",
-  "recordedAt": "2026-09-11T19:21:51Z",
+  "recordedAt": "2026-09-11T20:59:31Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "D4lABzaS0qdw",
         "address": "https://planet.debian.org/",
         "title": "Planet Debian",
-        "snippet": "golang-github-adamkorcz-go-fuzz-headers-1.\n#1145915 filed against googletest.\nJochen Sprickerhof:\n#1145443 filed against cross-toolchain-base.\n#1146088 filed against ferret-vis.\nRobin Candau:\nbashburn\nLMMS\nWerner Fink:\nbash\nIf you are interested in contributing to the project, please visit our",
+        "snippet": "https://pkg.go.dev/golang.org/x/perf/cmd/benchstat BENCHFLAGS=-run=^$$ -bench=. -benchtime=200000x -count=6 # use taskset -c1 to always pin to the same single core, # avoiding accidental scheduling on different cores on # mixed-core CPUs like the Ryzen 9 9950X3D. TASKSET=taskset -c 1",
         "matchedWords": {
           "FyRSmQlWVTdS": {
-            "hits": 2,
-            "textWords": 63106
+            "hits": 0,
+            "textWords": 8109
           },
           "IcwoQJcpVl_B": {
-            "hits": 2,
-            "textWords": 63106
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "V7zmBsK-xyJ4",
-        "address": "https://go.dev/doc/",
-        "title": "Documentation - The Go Programming Language",
-        "snippet": "concurrency mechanisms make it easy to write programs that get the most out of multicore and networked machines, while its novel type system enables flexible and modular program construction. Go compiles quickly to machine code yet has the convenience of garbage collection and the power of run-time",
-        "matchedWords": {
-          "FyRSmQlWVTdS": {
-            "hits": 12,
-            "textWords": 1925
-          },
-          "IcwoQJcpVl_B": {
-            "hits": 3,
-            "textWords": 1925
-          }
-        }
-      },
-      {
-        "hash": "D4lABzaS0qdw",
-        "address": "https://planet.debian.org/",
-        "title": "Planet Debian",
-        "snippet": "golang-github-adamkorcz-go-fuzz-headers-1.\n#1145915 filed against googletest.\nJochen Sprickerhof:\n#1145443 filed against cross-toolchain-base.\n#1146088 filed against ferret-vis.\nRobin Candau:\nbashburn\nLMMS\nWerner Fink:\nbash\nIf you are interested in contributing to the project, please visit our",
-        "matchedWords": {
-          "FyRSmQlWVTdS": {
-            "hits": 2,
-            "textWords": 63106
-          },
-          "IcwoQJcpVl_B": {
-            "hits": 2,
-            "textWords": 63106
+            "hits": 1,
+            "textWords": 8109
           }
         }
       }
@@ -59,39 +25,37 @@
         "hash": "8gsjosK-xyJ4",
         "address": "https://go.dev/",
         "title": "The Go Programming Language",
-        "snippet": "concurrency and a robust standard library\nLarge ecosystem of partners, communities, and tools\nGet Started Download Opens a new window with the Get Started guide.\nOpens a new window to download Go.\nDownload packages for Windows 64-bit, macOS, Linux, and more\nThe go command by default downloads and",
+        "snippet": "concurrency and a robust standard library\nLarge ecosystem of partners, communities, and tools\nDownload packages for Windows 64-bit, macOS, Linux, and more\nThe go command by default downloads and authenticates modules using the Go module mirror and Go checksum database run by Google. Learn more.\n“At",
         "matchedWords": {
           "FyRSmQlWVTdS": {
             "hits": 2,
-            "textWords": 1136
+            "textWords": 607
           },
           "IcwoQJcpVl_B": {
-            "hits": 2,
-            "textWords": 1136
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "tucm1jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
-        "title": "Concurrent computing - Wikipedia",
-        "snippet": "Concurrency (computer science).\nThis article needs more citations. Please help improve this article by adding citations to reliable sources. Unsourced material may be challenged and removed.\nFind sources: \"Concurrent computing\" – news · newspapers · books · scholar · JSTOR (February 2014) (Learn",
-        "matchedWords": {
-          "FyRSmQlWVTdS": {
-            "hits": 29,
-            "textWords": 3963
-          },
-          "IcwoQJcpVl_B": {
-            "hits": 1,
-            "textWords": 3963
+            "hits": 0,
+            "textWords": 607
           }
         }
       }
     ]
   ],
   "itemsInNoOrder": [
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "Last update: September 11, 2026 07:49 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of food for thought — as well",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 30728
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 30728
+        }
+      }
+    },
     {
       "hash": "DB7viAK-xyJ4",
       "address": "https://go.dev/doc/faq",
@@ -100,11 +64,27 @@
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 17,
-          "textWords": 14199
+          "textWords": 13818
         },
         "IcwoQJcpVl_B": {
-          "hits": 10,
-          "textWords": 14199
+          "hits": 8,
+          "textWords": 13818
+        }
+      }
+    },
+    {
+      "hash": "84vzxd14cltk",
+      "address": "https://planet.python.org.br/",
+      "title": "Planeta PythonBrasil",
+      "snippet": "Este tutorial é baseado no Intro to Django que fica na parte de baixo da página start do Django project.\nAté a data deste post o Django está na versão 2.2.2, e requer Python 3.\nO que você precisa?\nPython 3.6 ou superior, pip e virtualenv.\nConsidere que você tenha instalado Python 3.6 ou superior,",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 2318
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 2318
         }
       }
     },
@@ -112,15 +92,15 @@
       "hash": "CDe2DjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Race_condition",
       "title": "Race condition - Wikipedia",
-      "snippet": "concurrency models\n3.3.1 Sequential consistency for data race freedom\n3.4 Computer security\n3.5 File systems\n3.6 Networking\n3.7 Life-critical systems\n3.8 Tools\n4 In other areas\n5 See also\n6 References\n7 External links\nToggle the table of contents\nRace condition\n28 languages\nالعربية\nAzərbaycanca",
+      "snippet": "concurrency model being used, but typically it refers to a situation where a memory operation in one thread could potentially attempt to access a memory location at the same time that a memory operation in another thread is writing to that memory location, in a context where this is dangerous. This",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 10,
-          "textWords": 5380
+          "hits": 5,
+          "textWords": 4488
         },
         "IcwoQJcpVl_B": {
           "hits": 1,
-          "textWords": 5380
+          "textWords": 4488
         }
       }
     },
@@ -132,11 +112,11 @@
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 1,
-          "textWords": 2804
+          "textWords": 2583
         },
         "IcwoQJcpVl_B": {
-          "hits": 3,
-          "textWords": 2804
+          "hits": 2,
+          "textWords": 2583
         }
       }
     },
@@ -148,27 +128,27 @@
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 1,
-          "textWords": 2445
+          "textWords": 1518
         },
         "IcwoQJcpVl_B": {
           "hits": 2,
-          "textWords": 2445
+          "textWords": 1518
         }
       }
     },
     {
-      "hash": "ioDB87f4Pib5",
-      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
-      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
-      "snippet": "\"golang.org/x/sync/errgroup\" \"golang.org/x/sync/semaphore\" \"go.opentelemetry.io/otel\" ) type Result[T any] struct { Name string `json:\"name\"` Value T `json:\"value,omitempty\"` Error string `json:\"error,omitempty\"` } type Meta struct { Format string `json:\"format\"` Width int `json:\"width\"` Height int",
+      "hash": "NPoTiMvuh6k5",
+      "address": "https://muharem.wordpress.com/",
+      "title": "Muharem Hrnjadovic | Cool ideas revolving around computers and programming",
+      "snippet": "golang). In order to get a feeling for it I picked a random Google code jam problem and programmed it in Go.\nThe code used in the experiments that follow is pretty simple\nthe main module handles the command line arguments and prints the results\nthe input module parses the input file and starts a",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 1,
-          "textWords": 2445
+          "hits": 0,
+          "textWords": 609
         },
         "IcwoQJcpVl_B": {
-          "hits": 2,
-          "textWords": 2445
+          "hits": 3,
+          "textWords": 609
         }
       }
     },
@@ -180,11 +160,11 @@
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 1,
-          "textWords": 18477
+          "textWords": 17249
         },
         "IcwoQJcpVl_B": {
           "hits": 0,
-          "textWords": 18477
+          "textWords": 17249
         }
       }
     },
@@ -196,59 +176,59 @@
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 2,
-          "textWords": 43664
+          "textWords": 43354
         },
         "IcwoQJcpVl_B": {
-          "hits": 44,
-          "textWords": 43664
+          "hits": 42,
+          "textWords": 43354
         }
       }
     },
     {
-      "hash": "XzjEdWK-xyJ4",
-      "address": "https://go.dev/solutions/paypal",
-      "title": "PayPal Taps Go to Modernize and Scale - The Go Programming Language",
-      "snippet": "concurrency, garbage collection, and type safety.\nWith Go, PayPal enables its developers to spend more time looking at code and thinking strategically, by freeing them from the noise of C++ and Java development.\nAfter the success of this newly re-written NoSQL system, more platform and content",
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "snippet": "Concurrency Patterns: Timing out, moving on article (thanks Francisco Souza), add Go image/draw package article and convert code snippets to Go1, add Gobs of data article (thanks Francisco Souza), add Godoc: documenting Go code article (thanks Francisco Souza), add JSON and Go article (thanks",
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 2,
-          "textWords": 1472
+          "textWords": 43354
         },
         "IcwoQJcpVl_B": {
-          "hits": 2,
-          "textWords": 1472
+          "hits": 42,
+          "textWords": 43354
         }
       }
     },
     {
-      "hash": "jh2nEAK-xyJ4",
-      "address": "https://go.dev/doc/go1.15",
-      "title": "Go 1.15 Release Notes - The Go Programming Language",
-      "snippet": "https://proxy.golang.org,direct, which does not fall back to direct in case of errors.\ngo test\nChanging the -timeout flag now invalidates cached test results. A cached result for a test run with a long timeout will no longer count as passing when go test is re-invoked with a short one.\nFlag parsing",
+      "hash": "r_C2TAK-xyJ4",
+      "address": "https://go.dev/doc/go1.26",
+      "title": "Go 1.26 Release Notes - The Go Programming Language",
+      "snippet": "concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked. The runtime detects leaked goroutines using the garbage collector: if a goroutine G is blocked on concurrency primitive P, and P is unreachable from any runnable goroutine or any goroutine that those",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 1,
-          "textWords": 3975
-        },
-        "IcwoQJcpVl_B": {
           "hits": 3,
-          "textWords": 3975
+          "textWords": 4063
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 4063
         }
       }
     },
     {
-      "hash": "_vAEAfxyfg74",
-      "address": "https://pkg.go.dev/net/http",
-      "title": "http package - net/http - Go Packages",
-      "snippet": "concurrency slot reserved by Reserve. If there are no reserved concurrency slots, it has no effect.\nfunc (*ClientConn) Reserve ¶ added in go1.26.0\nfunc (cc *ClientConn) Reserve() error\nReserve reserves a concurrency slot on the connection. If Reserve returns nil, one additional RoundTrip call may",
+      "hash": "tucm1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Concurrent_computing",
+      "title": "Concurrent computing - Wikipedia",
+      "snippet": "concurrency: no task begins until the prior task ends) is called a serial schedule. A set of tasks that can be scheduled serially is serializable, which simplifies concurrency control.[citation needed]\nCoordinating access to shared resources\n[edit]\nThe main challenge in designing concurrent",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 8,
-          "textWords": 22328
+          "hits": 25,
+          "textWords": 2973
         },
         "IcwoQJcpVl_B": {
-          "hits": 5,
-          "textWords": 22328
+          "hits": 1,
+          "textWords": 2973
         }
       }
     },
@@ -260,11 +240,11 @@
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 2,
-          "textWords": 43664
+          "textWords": 43354
         },
         "IcwoQJcpVl_B": {
-          "hits": 44,
-          "textWords": 43664
+          "hits": 42,
+          "textWords": 43354
         }
       }
     },
@@ -276,27 +256,11 @@
       "matchedWords": {
         "FyRSmQlWVTdS": {
           "hits": 17,
-          "textWords": 14199
+          "textWords": 13818
         },
         "IcwoQJcpVl_B": {
-          "hits": 10,
-          "textWords": 14199
-        }
-      }
-    },
-    {
-      "hash": "XzjEdWK-xyJ4",
-      "address": "https://go.dev/solutions/paypal",
-      "title": "PayPal Taps Go to Modernize and Scale - The Go Programming Language",
-      "snippet": "concurrency, garbage collection, and type safety.\nWith Go, PayPal enables its developers to spend more time looking at code and thinking strategically, by freeing them from the noise of C++ and Java development.\nAfter the success of this newly re-written NoSQL system, more platform and content",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 2,
-          "textWords": 1472
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 2,
-          "textWords": 1472
+          "hits": 8,
+          "textWords": 13818
         }
       }
     },
@@ -304,69 +268,85 @@
       "hash": "CDe2DjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Race_condition",
       "title": "Race condition - Wikipedia",
-      "snippet": "concurrency models\n3.3.1 Sequential consistency for data race freedom\n3.4 Computer security\n3.5 File systems\n3.6 Networking\n3.7 Life-critical systems\n3.8 Tools\n4 In other areas\n5 See also\n6 References\n7 External links\nToggle the table of contents\nRace condition\n28 languages\nالعربية\nAzərbaycanca",
+      "snippet": "concurrency model being used, but typically it refers to a situation where a memory operation in one thread could potentially attempt to access a memory location at the same time that a memory operation in another thread is writing to that memory location, in a context where this is dangerous. This",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 10,
-          "textWords": 5380
+          "hits": 5,
+          "textWords": 4488
         },
         "IcwoQJcpVl_B": {
           "hits": 1,
-          "textWords": 5380
+          "textWords": 4488
         }
       }
     },
     {
-      "hash": "jh2nEAK-xyJ4",
-      "address": "https://go.dev/doc/go1.15",
-      "title": "Go 1.15 Release Notes - The Go Programming Language",
-      "snippet": "https://proxy.golang.org,direct, which does not fall back to direct in case of errors.\ngo test\nChanging the -timeout flag now invalidates cached test results. A cached result for a test run with a long timeout will no longer count as passing when go test is re-invoked with a short one.\nFlag parsing",
+      "hash": "r_C2TAK-xyJ4",
+      "address": "https://go.dev/doc/go1.26",
+      "title": "Go 1.26 Release Notes - The Go Programming Language",
+      "snippet": "concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked. The runtime detects leaked goroutines using the garbage collector: if a goroutine G is blocked on concurrency primitive P, and P is unreachable from any runnable goroutine or any goroutine that those",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 1,
-          "textWords": 3975
+          "hits": 3,
+          "textWords": 4063
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 4063
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "Last update: September 11, 2026 07:49 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of food for thought — as well",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 30728
+        },
+        "IcwoQJcpVl_B": {
+          "hits": 0,
+          "textWords": 30728
+        }
+      }
+    },
+    {
+      "hash": "NPoTiMvuh6k5",
+      "address": "https://muharem.wordpress.com/",
+      "title": "Muharem Hrnjadovic | Cool ideas revolving around computers and programming",
+      "snippet": "golang). In order to get a feeling for it I picked a random Google code jam problem and programmed it in Go.\nThe code used in the experiments that follow is pretty simple\nthe main module handles the command line arguments and prints the results\nthe input module parses the input file and starts a",
+      "matchedWords": {
+        "FyRSmQlWVTdS": {
+          "hits": 0,
+          "textWords": 609
         },
         "IcwoQJcpVl_B": {
           "hits": 3,
-          "textWords": 3975
+          "textWords": 609
         }
       }
     },
     {
-      "hash": "ioDB87f4Pib5",
-      "address": "https://code.visualstudio.com/?wt.mc_id=DX_841432",
-      "title": "Visual Studio Code - The open source AI code editor | Your home for multi-agent development",
-      "snippet": "\"golang.org/x/sync/errgroup\" \"golang.org/x/sync/semaphore\" \"go.opentelemetry.io/otel\" ) type Result[T any] struct { Name string `json:\"name\"` Value T `json:\"value,omitempty\"` Error string `json:\"error,omitempty\"` } type Meta struct { Format string `json:\"format\"` Width int `json:\"width\"` Height int",
+      "hash": "r_C2TAK-xyJ4",
+      "address": "https://go.dev/doc/go1.26",
+      "title": "Go 1.26 Release Notes - The Go Programming Language",
+      "snippet": "concurrency primitive (channels, sync.Mutex, sync.Cond, etc) that cannot possibly become unblocked. The runtime detects leaked goroutines using the garbage collector: if a goroutine G is blocked on concurrency primitive P, and P is unreachable from any runnable goroutine or any goroutine that those",
       "matchedWords": {
         "FyRSmQlWVTdS": {
-          "hits": 1,
-          "textWords": 2445
+          "hits": 3,
+          "textWords": 4063
         },
         "IcwoQJcpVl_B": {
-          "hits": 2,
-          "textWords": 2445
-        }
-      }
-    },
-    {
-      "hash": "_vAEAfxyfg74",
-      "address": "https://pkg.go.dev/net/http",
-      "title": "http package - net/http - Go Packages",
-      "snippet": "concurrency slot reserved by Reserve. If there are no reserved concurrency slots, it has no effect.\nfunc (*ClientConn) Reserve ¶ added in go1.26.0\nfunc (cc *ClientConn) Reserve() error\nReserve reserves a concurrency slot on the connection. If Reserve returns nil, one additional RoundTrip call may",
-      "matchedWords": {
-        "FyRSmQlWVTdS": {
-          "hits": 8,
-          "textWords": 22328
-        },
-        "IcwoQJcpVl_B": {
-          "hits": 5,
-          "textWords": 22328
+          "hits": 0,
+          "textWords": 4063
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "FyRSmQlWVTdS": 4002,
-    "IcwoQJcpVl_B": 1073
+    "FyRSmQlWVTdS": 3774,
+    "IcwoQJcpVl_B": 1081
   }
 }

@@ -8,39 +8,21 @@
       "grade": 2
     },
     {
-      "hash": "MaRThsRMLT-5",
-      "address": "https://canonical.com/",
-      "title": "Trusted open source for enterprises | Canonical",
-      "grade": 0
-    },
-    {
-      "hash": "MnvOKjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
-      "title": "Portal:Free and open-source software - Wikipedia",
-      "grade": 1
-    },
-    {
       "hash": "B1eHQs8BaC94",
       "address": "https://brave.com/",
       "title": "The browser that puts you first | Brave",
       "grade": 1
     },
     {
-      "hash": "cad2Xscvw7Vx",
-      "address": "https://wordpress.org/",
-      "title": "Blog Tool, Publishing Platform, and CMS – WordPress.org",
+      "hash": "dv5_v78cRLz5",
+      "address": "https://www.afterdawn.com/glossary/term.cfm/android",
+      "title": "What means Android? - AfterDawn",
       "grade": 0
     },
     {
-      "hash": "OVvAkg2Rr_dw",
-      "address": "https://docs.searxng.org/dev/searxng_extra/index.html",
-      "title": "Tooling box searxng_extra - SearXNG Documentation (2026.9.7+3e454637f)",
-      "grade": 2
-    },
-    {
-      "hash": "VNG8NsS6MKD4",
-      "address": "https://github.com/apache",
-      "title": "The Apache Software Foundation · GitHub",
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
       "grade": 0
     },
     {
@@ -50,27 +32,15 @@
       "grade": 0
     },
     {
-      "hash": "JY72vjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Trusted_Platform_Module",
-      "title": "Trusted Platform Module - Wikipedia",
+      "hash": "SOAt4sWMnAPx",
+      "address": "https://fedoraplanet.org/",
+      "title": "Fedora People",
       "grade": 0
     },
     {
-      "hash": "153XgsQ2H1F4",
-      "address": "https://wpvip.com/",
-      "title": "WordPress VIP | Enterprise Content Platform \u0026 Managed WordPress",
-      "grade": 0
-    },
-    {
-      "hash": "Qw0Oas-RJCSj",
-      "address": "https://wspomozycielka-lodz.pl/?p=747",
-      "title": "OGŁOSZENIA PARAFIALNE (11.06.2023) – Parafia Matki Bożej Wspomożenia Wiernych w Łodzi",
-      "grade": 0
-    },
-    {
-      "hash": "DH4bEs5DCs35",
-      "address": "https://wordpress.com/?ref=footer_blog",
-      "title": "WordPress.com: Everything You Need to Build Your Website",
+      "hash": "Nd6lETPhOXO4",
+      "address": "https://www.adgully.com/date/02-09-2025",
+      "title": "Adgully.com: Latest Advertising, Marketing & Media News",
       "grade": 0
     },
     {
@@ -80,21 +50,27 @@
       "grade": 0
     },
     {
+      "hash": "5KkuiGKlvN85",
+      "address": "https://arstechnica.com/civis/threads/the-pixel-2-contains-a-custom-google-soc-the-%E2%80%9Cpixel-visual-core%E2%80%9D.1405265/",
+      "title": "The Pixel 2 contains a custom Google SoC: The “Pixel Visual Core” | Ars OpenForum",
+      "grade": 0
+    },
+    {
+      "hash": "t2h4nQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2013-november.shtml",
+      "title": "dailystirrer curent month",
+      "grade": 0
+    },
+    {
+      "hash": "Qw0Oas-RJCSj",
+      "address": "https://wspomozycielka-lodz.pl/?p=747",
+      "title": "OGŁOSZENIA PARAFIALNE (11.06.2023) – Parafia Matki Bożej Wspomożenia Wiernych w Łodzi",
+      "grade": 0
+    },
+    {
       "hash": "WS3SgL7t2YV4",
       "address": "https://www.nvidia.com/en-us/ai-data-science/products/nim-microservices/",
       "title": "NVIDIA NIM Microservices for Accelerated AI Inference | NVIDIA",
-      "grade": 0
-    },
-    {
-      "hash": "sgghmlAUKsO5",
-      "address": "https://www.findarticles.com/news/",
-      "title": "News Articles - FindArticles",
-      "grade": 0
-    },
-    {
-      "hash": "W7uvnJF20Rww",
-      "address": "https://ma.tt/author/saxmatt/",
-      "title": "Matt | Matt Mullenweg",
       "grade": 0
     },
     {
@@ -107,6 +83,18 @@
       "hash": "TKYymjGG7ou5",
       "address": "https://kingnorth.wordpress.com/",
       "title": "kingnorth | King North is the 8th King World Government",
+      "grade": 0
+    },
+    {
+      "hash": "PSeufkIRcMkY",
+      "address": "http://rigorousintuition.blogspot.com/2006/04/body-eclectic-part-two.html",
+      "title": "Rigorous Intuition: The Body Eclectic (Part Two)",
+      "grade": 0
+    },
+    {
+      "hash": "QEdRQsS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=bn",
+      "title": "Trending repositories on GitHub today · GitHub",
       "grade": 0
     }
   ]

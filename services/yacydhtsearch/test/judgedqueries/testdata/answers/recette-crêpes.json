@@ -1,91 +1,62 @@
 {
   "query": "recette crêpes",
-  "recordedAt": "2026-09-11T19:27:09Z",
-  "itemsInTheOrderOfEachAnswer": [],
+  "recordedAt": "2026-09-11T21:03:38Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "N5_8O2KCIhSg",
+        "address": "https://madame.lefigaro.fr/tag/bande-annonce",
+        "title": "Bande-annonce",
+        "snippet": "Passer les articles suggérés\nLa Bataille de Gaulle : l’âge de fer : de Gaulle avant la légende, de Londres à la bataille de Bir Hakeim\nAvant d’être le Général, il fut un homme seul contre tous. Antonin Baudry raconte cette conquête de la légitimité dans une fresque historique à hauteur d’homme. En",
+        "matchedWords": {
+          "5fuQgx56JnNw": {
+            "hits": 0,
+            "textWords": 3179
+          },
+          "fTPlth54Kuw3": {
+            "hits": 0,
+            "textWords": 3179
+          }
+        }
+      }
+    ]
+  ],
   "itemsInNoOrder": [
     {
-      "hash": "Sw5E4jKCIhSg",
-      "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
-      "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
-      "snippet": "recette\nRencontres\nIdées menuMenu de la semaine\nRecettes de Noel\nRecettes de Réveillon\nRecettes pour la Saint-Valentin\nRecettes pour Pâques\nApéro dinatoire\nRecettes faciles et rapides\nRecettes entre amis\nIdées de repas d'anniversaire\nRecettes à base de légumes\nRepas pour un soir d'été\nRecettes",
+      "hash": "Zj6fIsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/comment-muscler-et-dessiner-ses-bras-sans-poids-ni-halteres-20220426",
+      "title": "Comment muscler et dessiner ses bras sans poids ni haltères",
+      "snippet": "Par Clémence Dubrana-Rolin\nPublié le 26/04/2022 à 17h26, mis à jour le 02/05/2024 à 11h37\nCinq exercices, à répéter 15 fois chacun, le tout trois fois par semaine. SrdjanPav / Getty Images\nVoici cinq exercices très efficaces pour tonifier ses bras sans aucun équipement, selon Julie Pujols-Benoist,",
       "matchedWords": {
         "5fuQgx56JnNw": {
-          "hits": 8,
-          "textWords": 1622
+          "hits": 0,
+          "textWords": 673
         },
         "fTPlth54Kuw3": {
-          "hits": 1,
-          "textWords": 1622
+          "hits": 0,
+          "textWords": 673
         }
       }
     },
     {
-      "hash": "Sw5E4jKCIhSg",
-      "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
-      "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
-      "snippet": "recette\nRencontres\nIdées menuMenu de la semaine\nRecettes de Noel\nRecettes de Réveillon\nRecettes pour la Saint-Valentin\nRecettes pour Pâques\nApéro dinatoire\nRecettes faciles et rapides\nRecettes entre amis\nIdées de repas d'anniversaire\nRecettes à base de légumes\nRepas pour un soir d'été\nRecettes",
+      "hash": "Zj6fIsKCIhSg",
+      "address": "https://madame.lefigaro.fr/bien-etre/forme-detente/comment-muscler-et-dessiner-ses-bras-sans-poids-ni-halteres-20220426",
+      "title": "Comment muscler et dessiner ses bras sans poids ni haltères",
+      "snippet": "Par Clémence Dubrana-Rolin\nPublié le 26/04/2022 à 17h26, mis à jour le 02/05/2024 à 11h37\nCinq exercices, à répéter 15 fois chacun, le tout trois fois par semaine. SrdjanPav / Getty Images\nVoici cinq exercices très efficaces pour tonifier ses bras sans aucun équipement, selon Julie Pujols-Benoist,",
       "matchedWords": {
         "5fuQgx56JnNw": {
-          "hits": 8,
-          "textWords": 1622
+          "hits": 0,
+          "textWords": 673
         },
         "fTPlth54Kuw3": {
-          "hits": 1,
-          "textWords": 1622
-        }
-      }
-    },
-    {
-      "hash": "16j4fTKCIhSg",
-      "address": "https://madame.lefigaro.fr/style",
-      "title": "Les Tendances de la mode au féminin et défilés",
-      "snippet": "recette\nRencontres\nIdées menuMenu de la semaine\nRecettes de Noel\nRecettes de Réveillon\nRecettes pour la Saint-Valentin\nRecettes pour Pâques\nApéro dinatoire\nRecettes faciles et rapides\nRecettes entre amis\nIdées de repas d'anniversaire\nRecettes à base de légumes\nRepas pour un soir d'été\nRecettes",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 8,
-          "textWords": 3548
-        },
-        "fTPlth54Kuw3": {
-          "hits": 1,
-          "textWords": 3548
-        }
-      }
-    },
-    {
-      "hash": "Sw5E4jKCIhSg",
-      "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
-      "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
-      "snippet": "recette\nRencontres\nIdées menuMenu de la semaine\nRecettes de Noel\nRecettes de Réveillon\nRecettes pour la Saint-Valentin\nRecettes pour Pâques\nApéro dinatoire\nRecettes faciles et rapides\nRecettes entre amis\nIdées de repas d'anniversaire\nRecettes à base de légumes\nRepas pour un soir d'été\nRecettes",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 8,
-          "textWords": 1622
-        },
-        "fTPlth54Kuw3": {
-          "hits": 1,
-          "textWords": 1622
-        }
-      }
-    },
-    {
-      "hash": "16j4fTKCIhSg",
-      "address": "https://madame.lefigaro.fr/style",
-      "title": "Les Tendances de la mode au féminin et défilés",
-      "snippet": "recette\nRencontres\nIdées menuMenu de la semaine\nRecettes de Noel\nRecettes de Réveillon\nRecettes pour la Saint-Valentin\nRecettes pour Pâques\nApéro dinatoire\nRecettes faciles et rapides\nRecettes entre amis\nIdées de repas d'anniversaire\nRecettes à base de légumes\nRepas pour un soir d'été\nRecettes",
-      "matchedWords": {
-        "5fuQgx56JnNw": {
-          "hits": 8,
-          "textWords": 3548
-        },
-        "fTPlth54Kuw3": {
-          "hits": 1,
-          "textWords": 3548
+          "hits": 0,
+          "textWords": 673
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "5fuQgx56JnNw": 1827,
-    "fTPlth54Kuw3": 2149
+    "5fuQgx56JnNw": 1225,
+    "fTPlth54Kuw3": 2663
   }
 }

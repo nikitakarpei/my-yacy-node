@@ -2,6 +2,12 @@
   "query": "rust",
   "judgedDocuments": [
     {
+      "hash": "KT8bUtV9oHh4",
+      "address": "https://rust.utils.com/",
+      "title": "Rust Shell - utils.com",
+      "grade": 1
+    },
+    {
       "hash": "_4-AysS6MKD4",
       "address": "https://github.com/rust-lang",
       "title": "The Rust Programming Language · GitHub",
@@ -26,21 +32,9 @@
       "grade": 1
     },
     {
-      "hash": "EJQL5vDOAHJg",
-      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html?wt_mc=rss.red.ho.beitrag.atom.beitrag.beitrag",
-      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
-      "grade": 1
-    },
-    {
       "hash": "XvPK_coCj-7w",
       "address": "https://rust-unofficial.github.io/patterns/print.html",
       "title": "Rust Design Patterns",
-      "grade": 1
-    },
-    {
-      "hash": "Q2tdhvDOAHJg",
-      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
-      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
       "grade": 1
     },
     {
@@ -50,16 +44,22 @@
       "grade": 1
     },
     {
-      "hash": "0INJAoBXHPax",
-      "address": "https://blog.rust-lang.org/inside-rust/2024/08/09/async-closures-call-for-testing/",
-      "title": "Async Closures MVP: Call for Testing! | Inside Rust Blog",
+      "hash": "OUkf3mgko1nx",
+      "address": "https://users.rust-lang.org/t/twir-quote-of-the-week/328",
+      "title": "TWiR quote of the week - community - The Rust Programming Language Forum",
       "grade": 1
     },
     {
-      "hash": "KT8bUtV9oHh4",
-      "address": "https://rust.utils.com/",
-      "title": "Rust Shell - utils.com",
+      "hash": "Q2tdhvDOAHJg",
+      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
+      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
       "grade": 1
+    },
+    {
+      "hash": "_GS0aoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/core/keyword.crate.html",
+      "title": "crate - Rust",
+      "grade": 2
     },
     {
       "hash": "qIqhBUemigYg",
@@ -68,16 +68,16 @@
       "grade": 0
     },
     {
-      "hash": "LW1BGl64SAv5",
-      "address": "https://thehiveindex.com/features/forum/",
-      "title": "3806 Forum Based communities | Hive Index",
-      "grade": 0
+      "hash": "qgv-8wSMo4M4",
+      "address": "https://www.zdnet.com/article/rust-will-save-linux-from-ai-says-greg-kroah-hartman/",
+      "title": "Rust will save Linux from AI, says Greg Kroah-Hartman - ZDNET",
+      "grade": 1
     },
     {
-      "hash": "W2WjYYk2MzR5",
-      "address": "https://theintercept.com/2024/06/02/gaza-student-protest-campus-rust-belt/",
-      "title": "Not Coastal Elites: Rust Belt Colleges Protest Israel’s Gaza War",
-      "grade": 0
+      "hash": "XMCiuVZiwg85",
+      "address": "https://www.jetbrains.com/lp/devecosystem-2023/rust/",
+      "title": "Rust Programming - The State of Developer Ecosystem in 2023 Infographic | JetBrains: Developer Tools for Professionals and Teams",
+      "grade": 1
     },
     {
       "hash": "-TAUrUemigYg",
@@ -92,9 +92,9 @@
       "grade": 1
     },
     {
-      "hash": "pE0bEngko1nx",
-      "address": "https://users.rust-lang.org/u/nasa42",
-      "title": "Profile - nasa42 - The Rust Programming Language Forum",
+      "hash": "vsGE397JARt4",
+      "address": "https://www.infoq.com/presentations/rust-polyglot-sdk/?topicPageSponsorship=33b2362b-79e8-4a5f-a47a-e00fa89099c5",
+      "title": "Rust at the Core - Accelerating Polyglot SDK Development - InfoQ",
       "grade": 1
     },
     {

@@ -1,21 +1,139 @@
 {
   "query": "raspberry pi",
-  "recordedAt": "2026-09-11T19:23:35Z",
+  "recordedAt": "2026-09-11T21:00:52Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "7b0gSsUQxb2x",
         "address": "https://join-lemmy.org/",
         "title": "Lemmy - A decentralised discussion platform for communities",
-        "snippet": "Raspberry Pi or alongside other services.\nCreate a Server\nOpen Source\nLemmy is entirely open source. You can follow the development process and make suggestions for new features. You can also fork the code and implement new changes yourself.\nSource Code\nMore Features\nSelf hostable, easy to deploy,",
+        "snippet": "Raspberry Pi or alongside other services.\nCreate a Server\nOpen Source\nLemmy is entirely open source. You can follow the development process and make suggestions for new features. You can also fork the code and implement new changes yourself.\nSource Code\nMore Features\nClean, mobile-friendly",
         "matchedWords": {
           "cquK9WvdqzOy": {
             "hits": 1,
-            "textWords": 449
+            "textWords": 365
           },
           "uJdJUF4US1ZK": {
             "hits": 1,
-            "textWords": 449
+            "textWords": 365
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "uik3ku78zDE5",
+        "address": "https://www.xatakahome.com/trucos-y-bricolaje-smart/probamos-chromium-el-sistema-operativo-de-google-en-la-raspberry-pi-3",
+        "title": "Probamos Chromium, el sistema operativo de Google, en la Raspberry Pi 3",
+        "snippet": "Raspberry Pi 3 para navegar por internet y utilizar las aplicaciones de Google, puede que haya una alternativa mejor. Y ahora también puedes instalar Chromium en la Raspberry Pi 3.\nEn realidad Chromium OS es la base open source del sistema operativo Chrome OS que desde hace tiempo podemos encontrar",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 13,
+            "textWords": 438
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 14,
+            "textWords": 438
+          }
+        }
+      },
+      {
+        "hash": "IU0OTl8bqxA4",
+        "address": "https://www.sparkfun.com/",
+        "title": "SparkFun Electronics - SparkFun Electronics",
+        "snippet": "Our Latest \u0026 Greatest Products\nNew Releases\nBest Sellers\nBuild a Custom Kit\nOur custom kit service may be perfect for virtual or in-person workshops or to support classroom activities/curriculum, our custom kits ensure you have the exact kit you need.\nSpecify the components you require, or we can",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 126
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 0,
+            "textWords": 126
+          }
+        }
+      },
+      {
+        "hash": "gji-djRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Dexter_Industries",
+        "title": "Dexter Industries - Wikipedia",
+        "snippet": "Raspberry Pi, LEGO Mindstorms, and Arduino.\nWebsite\nwww.dexterindustries.com\nDexter Industries is a company that designs robots for education, research, and personal use. The company makes several products that expand the LEGO Mindstorms, Raspberry Pi, and Arduino prototype systems.\nDexter",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 25,
+            "textWords": 2985
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 25,
+            "textWords": 2985
+          }
+        }
+      },
+      {
+        "hash": "MaRThsRMLT-5",
+        "address": "https://canonical.com/",
+        "title": "Trusted open source for enterprises | Canonical",
+        "snippet": "Simple, cost-effective, supported – expand the Ubuntu philosophy to every layer of your enterprise stack.\nInnovate on your own terms\nBuild your stack with composable open source solutions, supported by the experts behind the world’s leading Linux.\nStart with Ubuntu\nTake control of your",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 0,
+            "textWords": 574
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 0,
+            "textWords": 574
+          }
+        }
+      },
+      {
+        "hash": "mt6MjstbkMiw",
+        "address": "https://mesa3d.org/",
+        "title": "Home — The Mesa 3D Graphics Library",
+        "snippet": "Raspberry Pi 4. It's officially supported by Broadcom, and is the official Linux driver for the hardware. More information…\nBroadcom V3DV\nThe V3DV Vulkan driver supports Broadcom's VC5 and later GPUs, similar to the V3D driver. More information…\nBroadcom VC4\nThe VC4 driver supports Broadcom's VC4",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 1,
+            "textWords": 490
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 2,
+            "textWords": 490
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "dgQz1_nMM_j5",
+        "address": "https://grokipedia.com/page/Edge_computing",
+        "title": "Edge computing — Grokipedia",
+        "snippet": "Raspberry Pi and AI-accelerated modules like the NVIDIA Jetson series, serve as primary endpoints for local computation and sensor integration.[27][28] These devices often incorporate power-efficient processors, including ARM-based System-on-Chips (SoCs), which provide high performance per watt",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 1,
+            "textWords": 7570
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 1,
+            "textWords": 7570
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "j2Pq0_nMM_j5",
+        "address": "https://grokipedia.com/page/Home_Assistant",
+        "title": "Home Assistant — Grokipedia",
+        "snippet": "Raspberry Pi or local servers, allowing integration with over a thousand devices and services from over 1,000 brands.[3] The platform features an advanced automation engine for creating custom rules, customizable dashboards via a drag-and-drop interface, and a built-in voice assistant called",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 14,
+            "textWords": 11902
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 11,
+            "textWords": 11902
           }
         }
       }
@@ -29,11 +147,11 @@
         "matchedWords": {
           "cquK9WvdqzOy": {
             "hits": 4,
-            "textWords": 7007
+            "textWords": 6505
           },
           "uJdJUF4US1ZK": {
             "hits": 4,
-            "textWords": 7007
+            "textWords": 6505
           }
         }
       },
@@ -41,15 +159,15 @@
         "hash": "rsWFmIf1Pcd5",
         "address": "https://store.steampowered.com/mobile",
         "title": "Steam, The Ultimate Online Game Platform",
-        "snippet": "Raspberry Pi 3, 4, \u0026 5 For Windows For Linux For MacOS\nLearn more about Steam Link and Remote Play\nSteam Chat\nA lightweight app focused on chatting with friends and groups.\nRich Chat\nPick up the conversation right where you left off with videos, Tweets, Gifs and more.\nFriends List\nQuickly see who's",
+        "snippet": "We've Got Apps\nStay connected from anywhere. Check out the 3 mobile apps from Steam below.\nSteam Mobile\nBuy games, protect your Steam account, and get the latest news from your games and the community.\nSteam Guard\nProtect your Steam account and make login faster.\nSign in to Steam by scanning a QR",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 1,
-            "textWords": 488
+            "hits": 0,
+            "textWords": 195
           },
           "uJdJUF4US1ZK": {
-            "hits": 1,
-            "textWords": 488
+            "hits": 0,
+            "textWords": 195
           }
         }
       }
@@ -59,15 +177,49 @@
         "hash": "uS2bt_nMM_j5",
         "address": "https://grokipedia.com/page/Node-RED",
         "title": "Node-RED — Grokipedia",
-        "snippet": "",
+        "snippet": "Raspberry Pi or in cloud environments.[1] Originally developed in early 2013 as a side project by Nick O’Leary and Dave Conway-Jones at IBM’s Emerging Technology Services, Node-RED was open-sourced in September 2013 to facilitate rapid prototyping of Internet of Things (IoT) solutions.[1] It",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 6,
+            "textWords": 5559
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 5,
+            "textWords": 5559
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "ZupVVT78zDE5",
+        "address": "https://www.xatakahome.com/aplicaciones/retropie-3-no-pierdas-el-tiempo-e-instalalo-ya-en-tu-raspberry-pi",
+        "title": "RetroPie 3: no pierdas el tiempo e instálalo ya en tu Raspberry Pi",
+        "snippet": "Raspberry Pi da mucho juego y nunca mejor dicho. Uno de los usos más populares junto al de reproductor multimedia es el de emulador de juegos. La potencia que ofrece es más que suficiente para disfrutar de títulos de máquinas arcade o consolas como la Super Nintendo o Megadrive por ejemplo.\nSi eres",
+        "matchedWords": {
+          "cquK9WvdqzOy": {
+            "hits": 5,
+            "textWords": 205
+          },
+          "uJdJUF4US1ZK": {
+            "hits": 5,
+            "textWords": 205
+          }
+        }
+      },
+      {
+        "hash": "IU0OTl8bqxA4",
+        "address": "https://www.sparkfun.com/",
+        "title": "SparkFun Electronics - SparkFun Electronics",
+        "snippet": "Our Latest \u0026 Greatest Products\nNew Releases\nBest Sellers\nBuild a Custom Kit\nOur custom kit service may be perfect for virtual or in-person workshops or to support classroom activities/curriculum, our custom kits ensure you have the exact kit you need.\nSpecify the components you require, or we can",
         "matchedWords": {
           "cquK9WvdqzOy": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 126
           },
           "uJdJUF4US1ZK": {
-            "hits": 6,
-            "textWords": 6086
+            "hits": 0,
+            "textWords": 126
           }
         }
       }
@@ -75,57 +227,201 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "cd84qAK-xyJ4",
-      "address": "https://go.dev/doc/go1.8",
-      "title": "Go 1.8 Release Notes - The Go Programming Language",
-      "snippet": "Raspberry Pi 1) or later. To identify whether a Linux system is ARMv6K or later, run “go tool dist -check-armv6k” (to facilitate testing, it is also possible to just copy the dist command to the system without installing a full copy of Go 1.8) and if the program terminates with output “ARMv6K",
+      "hash": "2JrHxl-ZoZRw",
+      "address": "https://www.khronos.org/opengles/",
+      "title": "OpenGL ES - The Standard for Embedded 3D Graphics Acceleration",
+      "snippet": "Raspberry Pi Ltd\nSamsung Electronics\nSocionext, Inc.\nSoftware Freedom Conservancy\nSoftware in the Public Interest\nSony Computer Entertainment\nTakumi Corporation\nVerisilicon\nVivante Corporation\nStay Informed\nSubscribe to the Khronos Newsletter\nStay in the loop by subscribing to our newsletter to",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 5042
+          "textWords": 709
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 5042
+          "textWords": 709
         }
       }
     },
     {
-      "hash": "MaHDQsRDFHM6",
-      "address": "https://stackexchange.com/sites",
-      "title": "All Sites - Stack Exchange",
-      "snippet": "Raspberry Pi\nRaspberry Pi\nQ\u0026A for users and developers of hardware and software for Raspberry Pi\nquestions\n38k\nanswers\n50k\nanswered\n75%\nusers\n166k\nloading...\nloading top users...\nRussian Language\nRussian Language\nQ\u0026A for students, teachers, and linguists wanting to discuss the finer points of the",
+      "hash": "0_ddYXCmq5v4",
+      "address": "https://www.suse.com/security/cve/CVE-2019-8980.html",
+      "title": "CVE-2019-8980 Common Vulnerabilities and Exposures | SUSE",
+      "snippet": "Raspberry Pi 12 SP2 kernel-source Not affected SUSE Linux Enterprise Server for SAP Applications 12 kernel-default Not affected SUSE Linux Enterprise Server for SAP Applications 12 kernel-source Not affected SUSE Linux Enterprise Server for SAP Applications 12 SP1 kernel-source Not affected SUSE",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 3,
-          "textWords": 4742
+          "hits": 1,
+          "textWords": 6407
         },
         "uJdJUF4US1ZK": {
-          "hits": 3,
-          "textWords": 4742
+          "hits": 1,
+          "textWords": 6407
         }
       }
     },
     {
-      "hash": "cd84qAK-xyJ4",
-      "address": "https://go.dev/doc/go1.8",
-      "title": "Go 1.8 Release Notes - The Go Programming Language",
-      "snippet": "Raspberry Pi 1) or later. To identify whether a Linux system is ARMv6K or later, run “go tool dist -check-armv6k” (to facilitate testing, it is also possible to just copy the dist command to the system without installing a full copy of Go 1.8) and if the program terminates with output “ARMv6K",
+      "hash": "14W7JXCmq5v4",
+      "address": "https://www.suse.com/security/cve/CVE-2011-0413.html",
+      "title": "CVE-2011-0413 Common Vulnerabilities and Exposures | SUSE",
+      "snippet": "Raspberry Pi 12 SP2 dhcp \u003e= 4.3.3-9.1\ndhcp-client \u003e= 4.3.3-9.1\ndhcp-relay \u003e= 4.3.3-9.1\ndhcp-server \u003e= 4.3.3-9.1\nPatchnames:\nSUSE Linux Enterprise Server for Raspberry Pi 12 SP2 GA dhcp-4.3.3-9.1 (aarch64,ppc64le,s390x,x86_64) SUSE Linux Enterprise Server for SAP Applications 12 SP1\nSUSE Linux",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 5042
+          "hits": 2,
+          "textWords": 1549
         },
         "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 5042
+          "hits": 2,
+          "textWords": 1549
         }
       }
     },
     {
-      "hash": "5DZ6TjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
-      "title": "Android (operating system) - Wikipedia",
+      "hash": "3W7MIXCmq5v4",
+      "address": "https://www.suse.com/security/cve/CVE-2024-50132.html",
+      "title": "CVE-2024-50132 Common Vulnerabilities and Exposures | SUSE",
+      "snippet": "Raspberry Pi 12 SP2 kernel-source Not affected SUSE Linux Enterprise Server for SAP Applications 12 SP1 kernel-source Unsupported SUSE Linux Enterprise Server for SAP Applications 12 SP2 kernel-source Not affected SUSE Linux Enterprise Server for SAP Applications 12 SP3 kernel-source Not affected",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 2750
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 2750
+        }
+      }
+    },
+    {
+      "hash": "3XeXMXCmq5v4",
+      "address": "https://www.suse.com/security/cve/CVE-2023-26931.html",
+      "title": "CVE-2023-26931 Common Vulnerabilities and Exposures | SUSE",
+      "snippet": "Raspberry Pi 12 SP2 poppler Not affected SUSE Linux Enterprise Server for SAP Applications 11 SP2 poppler Not affected SUSE Linux Enterprise Server for SAP Applications 11 SP3 poppler Not affected SUSE Linux Enterprise Server for SAP Applications 11 SP4 poppler Not affected SUSE Linux Enterprise",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 1687
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 1687
+        }
+      }
+    },
+    {
+      "hash": "MK5eRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
+      "title": "Linux distribution - Wikipedia",
+      "snippet": "Raspberry Pi OS targets the Raspberry Pi platform\nDo it yourself, that is distributions manually built from the ground up, such as Linux From Scratch.\nEducation – examples are Edubuntu and Karoshi, server systems based on PCLinuxOS\nDigital audio workstations for music production – for example,",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 2,
+          "textWords": 5798
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 2,
+          "textWords": 5798
+        }
+      }
+    },
+    {
+      "hash": "Ma72KjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/ChromeOS",
+      "title": "ChromeOS - Wikipedia",
+      "snippet": "This article is about the operating system. For the web browser, see Google Chrome.\nChromeOS\nChromeOS 132 desktop, showing the homepage of Wikipedia\nDeveloper\nGoogle\nWritten in\nC, C++, assembly, JavaScript, HTML5, Python, Rust\nOS family\nUnix-like (Linux)[1]\nWorking state\nPreinstalled on",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 11960
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 11960
+        }
+      }
+    },
+    {
+      "hash": "Om4wYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Booting",
+      "title": "Booting - Wikipedia",
+      "snippet": "This article is about bootstrapping operating systems. For the general concept, see Bootstrapping.\nA flow diagram of an IBM-compatible PC booting\nIn computing, booting is the process of starting a computer as initiated via hardware such as a physical button on the computer or by a software command.",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 11182
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 11182
+        }
+      }
+    },
+    {
+      "hash": "yQQNDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Embedded_system",
+      "title": "Embedded system - Wikipedia",
+      "snippet": "Raspberry Pi.\nA system on a chip (SoC) contains a complete system - consisting of multiple processors, multipliers, caches, even different types of memory and commonly various peripherals like interfaces for wired or wireless communication on a single chip. Often, graphics processing units (GPUs)",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 5151
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 5151
+        }
+      }
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "snippet": "Linux\nTux, the mascot of Linux, created by Larry Ewing[1]\nDeveloper\nLinus Torvalds (BDFL)\nCommunity contributors\nOS family\nUnix-like\nWorking state\nCurrent\nSource model\nOpen source (kernel)\nInitial release\n17 September 1991; 34 years ago (kernel)[2]\nMarketing target\nGeneral-purpose[a]\nAvailable in",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 11216
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 11216
+        }
+      }
+    },
+    {
+      "hash": "LX0cieS6MKD4",
+      "address": "https://github.com/bayandin/awesome-awesomeness",
+      "title": "GitHub - bayandin/awesome-awesomeness: A curated list of awesome awesomeness",
+      "snippet": "Raspberry Pi by @blackout314\nby @thibmaek\nReact Native\nREADME\nRegex\nRemote Job\nRemote Work\nREST\nRobotics\nRobotic Tooling\nRNN\nScalability\nScience Fiction\nSearch Engine Optimization (SEO) by @marcobiedermann\nby @sneg55\nby @teles\nSecurity\nSelfhosted\nServerless\nServerless Security\nService Fabric",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 651
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 651
+        }
+      }
+    },
+    {
+      "hash": "8ggxLyakFVXw",
+      "address": "https://slashdot.org/poll/3236/is-2023-the-year-of-the-linux-desktop",
+      "title": "Slashdot Poll | Is 2023 the Year of the ...",
+      "snippet": "Raspberry Pi's I unplugged in December as Desktop machines (in which case, they're already Linux.) I have a tablet for portable use. My wife only has a laptop; her Desktop got hauled off to recycling in December.\nI'd imagine that the typical household now has 2 or 3 smartphones that are carried by",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 4741
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 4741
+        }
+      }
+    },
+    {
+      "hash": "8VNV2sghd-Kg",
+      "address": "https://geizhals.de/?cat=kb\u0026xf=1041_Verbatim",
+      "title": "Eingabegeräte Tastaturen mit Hersteller: Verbatim Preisvergleich Geizhals Deutschland",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -139,9 +435,665 @@
       }
     },
     {
-      "hash": "2uLc-sm1ohFp",
-      "address": "https://polrestoba.id/",
-      "title": "polrestoba.id",
+      "hash": "9GDPfsghd-Kg",
+      "address": "https://geizhals.de/?cat=kb\u0026xf=1041_LogicKeyboard",
+      "title": "Eingabegeräte Tastaturen mit Hersteller: LogicKeyboard Preisvergleich Geizhals Deutschland",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "9XLfosghd-Kg",
+      "address": "https://geizhals.de/?cat=kb\u0026xf=7019_Rollen",
+      "title": "Eingabegeräte Tastaturen mit Statusanzeige: Rollen (Bildlaufsperrentaste) Preisvergleich Geizhals Deutschland",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CuDVklpcc_2y",
+      "address": "https://www.notebookcheck.net/Newsarchive-2023-05.712071.0.html",
+      "title": "Newsarchive 2023 05 - Notebookcheck News",
+      "snippet": "Archive 2026/09 (613 articles)\nArchive 2026/08 (1984 articles)\nArchive 2026/07 (1763 articles)\nArchive 2026/06 (1495 articles)\nArchive 2026/05 (1633 articles)\nArchive 2026/04 (1703 articles)\nArchive 2026/03 (1671 articles)\nArchive 2026/02 (1533 articles)\nArchive 2026/01 (1731 articles)\nArchive",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 965
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 965
+        }
+      }
+    },
+    {
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 2520
+        }
+      }
+    },
+    {
+      "hash": "cd84qAK-xyJ4",
+      "address": "https://go.dev/doc/go1.8",
+      "title": "Go 1.8 Release Notes - The Go Programming Language",
+      "snippet": "Raspberry Pi 1) or later. To identify whether a Linux system is ARMv6K or later, run “go tool dist -check-armv6k” (to facilitate testing, it is also possible to just copy the dist command to the system without installing a full copy of Go 1.8) and if the program terminates with output “ARMv6K",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 4732
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 4732
+        }
+      }
+    },
+    {
+      "hash": "vRwADbM7dPow",
+      "address": "https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html",
+      "title": "Getting Started with Fully Sharded Data Parallel (FSDP2) — PyTorch Tutorials 2.14.0+cu130 documentation",
+      "snippet": "Created On: Mar 17, 2022 | Last Updated: Sep 02, 2025 | Last Verified: Nov 05, 2024\nAuthor: Wei Feng, Will Constable, Yifan Mao\nNote\nCheck out the code in this tutorial from pytorch/examples. FSDP1 is deprecated. FSDP1 tutorials are archived in [1] and [2]\nHow FSDP2 works#\nIn",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 2386
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 2386
+        }
+      }
+    },
+    {
+      "hash": "MaHDQsRDFHM6",
+      "address": "https://stackexchange.com/sites",
+      "title": "All Sites - Stack Exchange",
+      "snippet": "Raspberry Pi\nRaspberry Pi\nQ\u0026A for users and developers of hardware and software for Raspberry Pi\nquestions\n38k\nanswers\n50k\nanswered\n75%\nusers\n166k\nloading top users...\nRussian Language\nRussian Language\nQ\u0026A for students, teachers, and linguists wanting to discuss the finer points of the Russian",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 3,
+          "textWords": 4419
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 3,
+          "textWords": 4419
+        }
+      }
+    },
+    {
+      "hash": "M89BHJS6MKD4",
+      "address": "https://github.com/home-assistant/core",
+      "title": "GitHub - home-assistant/core: :house_with_garden: Open source home automation that puts local control and privacy first. · GitHub",
+      "snippet": "Raspberry Pi or a local server.\nCheck out home-assistant.io for a demo, installation instructions, tutorials and documentation.\nFeatured integrations\nThe system is built using a modular approach so support for other devices or actions can be implemented easily. See also the section on architecture",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 103
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 103
+        }
+      }
+    },
+    {
+      "hash": "WVhIT9S6MKD4",
+      "address": "https://github.com/bytedeco/javacpp-presets",
+      "title": "GitHub - bytedeco/javacpp-presets: The missing Java distribution of native C++ libraries",
+      "snippet": "Raspberry Pi, etc.\nReplacing the Bash/Maven build combo by something easier to use (Gradle?)\nAdding new presets as child modules for other C/C++ libraries (Caffe2, OpenNI, OpenMesh, PCL, etc.)\nTo contribute, please fork and create pull requests, or post your suggestions as a new \"issue\". Thank you",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 2239
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 2239
+        }
+      }
+    },
+    {
+      "hash": "X9v9dxS6MKD4",
+      "address": "https://github.com/boppreh/keyboard",
+      "title": "GitHub - boppreh/keyboard: Hook and simulate global keyboard events on Windows and Linux.",
+      "snippet": "Raspberry PI that is running keyboard via SSH, the server will not detect your key events.\nCommon patterns and mistakes\nPreventing the program from closing\nimport keyboard keyboard.add_hotkey('space', lambda: print('space was pressed!')) # If the program finishes, the hotkey is not in effect",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 3002
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 3002
+        }
+      }
+    },
+    {
+      "hash": "UqygLNqRILQr",
+      "address": "https://www.qtreetechnologies.in/course/iot-training-in-coimbatore.php",
+      "title": "The Best IOT Training Course in Coimbatore | Qtree Technologies",
+      "snippet": "Raspberry Pi are elaborated. The various IoT communication protocols (wired, wireless, application, and transport layer) are dealt with in detail. Training on Cloud Computing and Cloud services like IaaS, PaaS, SaaS is imparted. Students will learn to design an IoT product, interface peripherals,",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 15,
+          "textWords": 2743
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 16,
+          "textWords": 2743
+        }
+      }
+    },
+    {
+      "hash": "cd84qAK-xyJ4",
+      "address": "https://go.dev/doc/go1.8",
+      "title": "Go 1.8 Release Notes - The Go Programming Language",
+      "snippet": "Raspberry Pi 1) or later. To identify whether a Linux system is ARMv6K or later, run “go tool dist -check-armv6k” (to facilitate testing, it is also possible to just copy the dist command to the system without installing a full copy of Go 1.8) and if the program terminates with output “ARMv6K",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 4732
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 4732
+        }
+      }
+    },
+    {
+      "hash": "hrGj3xKAn6I5",
+      "address": "https://news.ycombinator.com/item?id=34544745",
+      "title": "SirTunnel, a personal ngrok alternative | Hacker News",
+      "snippet": "Raspberry Pi, and even my car stereo are peers on my Yggdrasil network. The downside is sharing with a 3rd party means they need to install Yggrasil, that is unless you set up a public web server to act as a \"tunnel\" to the web servers in your network.\nBefore someone mentions security, not all of",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 1383
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 1383
+        }
+      }
+    },
+    {
+      "hash": "CtEhczS6MKD4",
+      "address": "https://github.com/topics/bash",
+      "title": "bash · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi OS. Includes client config and management scripts.\nUpdated Sep 8, 2026\nShell\nCode\nIssues\nPull requests\nExtendable version manager with support for Ruby, Node.js, Elixir, Erlang \u0026 more\nUpdated Sep 3, 2026\nGo\nCode\nIssues\nPull requests\nIDE-style autocomplete for your existing terminal \u0026",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 444
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 444
+        }
+      }
+    },
+    {
+      "hash": "D9zZ37S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome-nodejs",
+      "title": "GitHub - sindresorhus/awesome-nodejs: :zap: Delightful Node.js packages and resources [BECAUSE OF TOO MUCH SPAM AND LOW-QUALITY SUBMISSIONS, SUBMISSIONS ARE PAUSED UNTIL JULY] · GitHub",
+      "snippet": "Raspberry Pi.\ngps - NMEA parser for handling GPS receivers.\nmodbus-serial - A pure JavaScript implementation of MODBUS-RTU (serial and TCP).\nTemplating\nmarko - HTML-based templating engine that compiles templates to CommonJS modules and supports streaming, async rendering and custom tags.\nnunjucks",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 5502
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 5502
+        }
+      }
+    },
+    {
+      "hash": "EpPuQzS6MKD4",
+      "address": "https://github.com/topics/tensorflow",
+      "title": "tensorflow · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi 4 to high power GPU servers.\nUpdated Jun 19, 2025\nC++\nCode\nIssues\nPull requests\nUpdated May 19, 2026\nJupyter Notebook\nCode\nIssues\nPull requests\nMask R-CNN for object detection and instance segmentation on Keras and TensorFlow\nUpdated Jun 7, 2024\nPython\nCode\nIssues\nPull requests",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 438
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 438
+        }
+      }
+    },
+    {
+      "hash": "LcA-MxS6MKD4",
+      "address": "https://github.com/mopidy/mopidy",
+      "title": "GitHub - mopidy/mopidy: Mopidy is an extensible music server written in Python · GitHub",
+      "snippet": "Raspberry Pi OS, Arch Linux, macOS, and manual installation.\nLinks\nWebsite — project pitch, extensions, and news\nDocumentation — install, configure, and develop\nDiscourse forum — ask for help, discuss usage and development, and follow announcements\nZulip chat — real-time development chat\nIssue",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 115
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 115
+        }
+      }
+    },
+    {
+      "hash": "M89BHJS6MKD4",
+      "address": "https://github.com/home-assistant/core",
+      "title": "GitHub - home-assistant/core: :house_with_garden: Open source home automation that puts local control and privacy first. · GitHub",
+      "snippet": "Raspberry Pi or a local server.\nCheck out home-assistant.io for a demo, installation instructions, tutorials and documentation.\nFeatured integrations\nThe system is built using a modular approach so support for other devices or actions can be implemented easily. See also the section on architecture",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 103
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 103
+        }
+      }
+    },
+    {
+      "hash": "TNnjxzS6MKD4",
+      "address": "https://github.com/topics/privacy",
+      "title": "privacy · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi OS. Includes client config and management scripts.\nUpdated Sep 8, 2026\nShell\nCode\nIssues\nPull requests\nDiscussions\nGoogle Chromium, sans integration with Google\nUpdated Sep 4, 2026\nPython\nCode\nIssues\nPull requests\nDiscussions\nDNS-Blocklists: For a better internet - keep the internet",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 594
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 594
+        }
+      }
+    },
+    {
+      "hash": "ZwVdezS6MKD4",
+      "address": "https://github.com/topics/play-sounds",
+      "title": "play-sounds · GitHub Topics · GitHub",
+      "snippet": "Raspberry, using a distance-probe to generate the sound\nUpdated Mar 12, 2019\nPython\nCode\nIssues\nPull requests\nwin32 microphone echo\nUpdated May 28, 2022\nC++\nCode\nIssues\nPull requests\nA 3DSoundSystem-like library for playing sounds with LWJGL3\nUpdated Apr 11, 2018\nKotlin\nCode\nIssues\nPull requests",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 411
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 2,
+          "textWords": 411
+        }
+      }
+    },
+    {
+      "hash": "chssQzS6MKD4",
+      "address": "https://github.com/topics/qt",
+      "title": "qt · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi / AsteroidOS / Ubuntu Touch / JavaScript / WebAssembly\nUpdated Mar 4, 2024\nGo\nCode\nIssues\nPull requests\nDiscussions\nA custom launcher for Minecraft that allows you to easily manage multiple installations of Minecraft at once (Fork of MultiMC)\nUpdated Sep 11, 2026\nC++\nCode\nIssues\nPull",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 501
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 501
+        }
+      }
+    },
+    {
+      "hash": "fa7NxzS6MKD4",
+      "address": "https://github.com/topics/encryption",
+      "title": "encryption · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi OS. Includes client config and management scripts.\nUpdated Sep 8, 2026\nShell\nCode\nIssues\nPull requests\nDiscussions\nSimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱!\nUpdated Sep 11, 2026",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 519
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 519
+        }
+      }
+    },
+    {
+      "hash": "h5BqzzS6MKD4",
+      "address": "https://github.com/topics/synthesizer",
+      "title": "synthesizer · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi 3 or later into a Roland MT-32 emulator and SoundFont synthesizer based on Circle, Munt, and FluidSynth.\nUpdated Feb 4, 2025\nC++\nCode\nIssues\nPull requests\nDiscussions\nDexed FM synthesizer similar to 8x DX7 (TX816/TX802) running on a bare metal Raspberry Pi (without a Linux kernel or",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 2,
+          "textWords": 442
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 2,
+          "textWords": 442
+        }
+      }
+    },
+    {
+      "hash": "iMrbp2S6MKD4",
+      "address": "https://github.com/alda-lang/alda",
+      "title": "GitHub - alda-lang/alda: A music programming language for musicians. :notes: · GitHub",
+      "snippet": "Raspberry Pi support\nInstallation\nSee the official website for instructions to install the latest release of Alda.\nBuilding from source\nAnother option is to build Alda from source. Alda consists of two components: the client (written in Go) and the player (written in Kotlin/Java).\n# Clone the repo",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 444
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 444
+        }
+      }
+    },
+    {
+      "hash": "iia0mzS6MKD4",
+      "address": "https://github.com/topics/explorer",
+      "title": "explorer · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi fullnode distros including Umbrel, Raspiblitz, Start9, and more!\nUpdated Sep 11, 2026\nTypeScript\nCode\nIssues\nPull requests\nEvEx: Everything 拼音搜索, ローマ字検索, wildcard, quick select, Shell extension\nUpdated Aug 2, 2026\nC++\nCode\nIssues\nPull requests\nUpdated Aug 27, 2026\nC++\nCode\nIssues\nPull",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 402
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 402
+        }
+      }
+    },
+    {
+      "hash": "qhUqczS6MKD4",
+      "address": "https://github.com/topics/pi",
+      "title": "pi · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi/Odroid/PC with RetroArch emulator and various cores\nUpdated Sep 8, 2026\nShell\nCode\nIssues\nPull requests\nDiscussions\nFast Desktop Switching Device\nUpdated Sep 11, 2026\nC\nCode\nIssues\nPull requests\nDiscussions\nCollaborative multi-agent AI coding workspace: aggregate sessions from Claude",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 10,
+          "textWords": 513
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 6,
+          "textWords": 513
+        }
+      }
+    },
+    {
+      "hash": "snPGwzS6MKD4",
+      "address": "https://github.com/topics/instrument",
+      "title": "instrument · GitHub Topics · GitHub",
+      "snippet": "py/pi based video sampler\nUpdated Jan 11, 2022\nPython\nCode\nIssues\nPull requests\n基于NI-VISA/VISA32(Virtual Instrument Software Architecture)的仪器编程（C#），支持RS232、USB、GPIB及LAN通信接口的收发控制\nUpdated Mar 26, 2022\nC#\nCode\nIssues\nPull requests\nPython package for device control and experiment automation\nUpdated May",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 2,
+          "textWords": 437
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 437
+        }
+      }
+    },
+    {
+      "hash": "vLwBRVS6MKD4",
+      "address": "https://github.com/tensorflow/tensorflow",
+      "title": "GitHub - tensorflow/tensorflow: An Open Source Machine Learning Framework for Everyone · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "yfvCSzS6MKD4",
+      "address": "https://github.com/topics/network",
+      "title": "network · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "icqWIskYfsM7",
+      "address": "https://amazingtimlocksmith.com/",
+      "title": "amazingtimlocksmith.com",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "KavSrh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Computer",
+      "title": "Computer - Wikimedia Commons",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AXN8YjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bioinformatics",
+      "title": "Bioinformatics - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Df5JkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/System_time",
+      "title": "System time - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "fFhxWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Personal_computer",
+      "title": "Personal computer - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "yQQNDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Embedded_system",
+      "title": "Embedded system - Wikipedia",
+      "snippet": "Raspberry Pi.\nA system on a chip (SoC) contains a complete system - consisting of multiple processors, multipliers, caches, even different types of memory and commonly various peripherals like interfaces for wired or wireless communication on a single chip. Often, graphics processing units (GPUs)",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 5151
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 5151
+        }
+      }
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "6Y0sVdS6MKD4",
+      "address": "https://github.com/raysan5/raylib",
+      "title": "GitHub - raysan5/raylib: A simple and easy-to-use library to enjoy videogames programming",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "X50jjalrjgr4",
+      "address": "https://www.techdirt.com/tag/daily-deal/",
+      "title": "Daily deal stories at Techdirt.",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "_jRa_lmJ800w",
+      "address": "https://www.gentoo.org/downloads/",
+      "title": "Downloads – Gentoo Linux",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AXN8YjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bioinformatics",
+      "title": "Bioinformatics - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Df5JkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/System_time",
+      "title": "System time - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -162,306 +1114,114 @@
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 6033
+          "textWords": 5502
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 6033
+          "textWords": 5502
         }
       }
     },
     {
-      "hash": "DlmlistSAQe4",
-      "address": "https://ai.google/societal-impact/",
-      "title": "Applying AI to help solve humanity's biggest challenges — Google AI",
-      "snippet": "Raspberry Pi Foundation and Google DeepMind, Experience AI supports teachers in the exciting area of AI, and gets young people passionate about the subject.\nLearn more\n$30M in Google.org for AI learning\n$30 million in new funding for learning projects and unveiling new research of AI’s impact on",
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 2520
+        }
+      }
+    },
+    {
+      "hash": "Ma72KjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/ChromeOS",
+      "title": "ChromeOS - Wikipedia",
+      "snippet": "This article is about the operating system. For the web browser, see Google Chrome.\nChromeOS\nChromeOS 132 desktop, showing the homepage of Wikipedia\nDeveloper\nGoogle\nWritten in\nC, C++, assembly, JavaScript, HTML5, Python, Rust\nOS family\nUnix-like (Linux)[1]\nWorking state\nPreinstalled on",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 11960
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 11960
+        }
+      }
+    },
+    {
+      "hash": "fa7NxzS6MKD4",
+      "address": "https://github.com/topics/encryption",
+      "title": "encryption · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi OS. Includes client config and management scripts.\nUpdated Sep 8, 2026\nShell\nCode\nIssues\nPull requests\nDiscussions\nSimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱!\nUpdated Sep 11, 2026",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 2680
+          "textWords": 519
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 2680
+          "textWords": 519
         }
       }
     },
     {
-      "hash": "DlmlistSAQe4",
-      "address": "https://ai.google/societal-impact/",
-      "title": "Applying AI to help solve humanity's biggest challenges — Google AI",
-      "snippet": "Raspberry Pi Foundation and Google DeepMind, Experience AI supports teachers in the exciting area of AI, and gets young people passionate about the subject.\nLearn more\n$30M in Google.org for AI learning\n$30 million in new funding for learning projects and unveiling new research of AI’s impact on",
+      "hash": "WVhIT9S6MKD4",
+      "address": "https://github.com/bytedeco/javacpp-presets",
+      "title": "GitHub - bytedeco/javacpp-presets: The missing Java distribution of native C++ libraries",
+      "snippet": "Raspberry Pi, etc.\nReplacing the Bash/Maven build combo by something easier to use (Gradle?)\nAdding new presets as child modules for other C/C++ libraries (Caffe2, OpenNI, OpenMesh, PCL, etc.)\nTo contribute, please fork and create pull requests, or post your suggestions as a new \"issue\". Thank you",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 2680
+          "textWords": 2239
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 2680
+          "textWords": 2239
         }
       }
     },
     {
-      "hash": "FYAXzjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mozilla",
-      "title": "Mozilla - Wikipedia",
-      "snippet": "Raspberry Pi as a gateway for IoT management with decentralised software.\nComponents\n[edit]\nNSS\n[edit]\nMain article: Network Security Services\nNetwork Security Services (NSS) comprises a set of libraries designed to support cross-platform development of security-enabled client and server",
+      "hash": "X9v9dxS6MKD4",
+      "address": "https://github.com/boppreh/keyboard",
+      "title": "GitHub - boppreh/keyboard: Hook and simulate global keyboard events on Windows and Linux.",
+      "snippet": "Raspberry PI that is running keyboard via SSH, the server will not detect your key events.\nCommon patterns and mistakes\nPreventing the program from closing\nimport keyboard keyboard.add_hotkey('space', lambda: print('space was pressed!')) # If the program finishes, the hotkey is not in effect",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 9444
+          "textWords": 3002
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 9444
+          "textWords": 3002
         }
       }
     },
     {
-      "hash": "ZR_AYjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Generative_artificial_intelligence",
-      "title": "Generative AI - Wikipedia",
-      "snippet": "",
+      "hash": "UqygLNqRILQr",
+      "address": "https://www.qtreetechnologies.in/course/iot-training-in-coimbatore.php",
+      "title": "The Best IOT Training Course in Coimbatore | Qtree Technologies",
+      "snippet": "Raspberry Pi are elaborated. The various IoT communication protocols (wired, wireless, application, and transport layer) are dealt with in detail. Training on Cloud Computing and Cloud services like IaaS, PaaS, SaaS is imparted. Students will learn to design an IoT product, interface peripherals,",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 15,
+          "textWords": 2743
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 16,
+          "textWords": 2743
         }
       }
     },
     {
-      "hash": "AC_vCv6owqx6",
-      "address": "https://www.thailandmedical.news/news/vitamin-d3-inhibits-sars-cov-2-nucleocapsid-induced-hyperinflammation-by-inactivating-nlrp3-inflammasome-via-the-vdr-brcc3-pathway",
-      "title": "Vitamin D3 Inhibits SARS-CoV-2 Nucleocapsid Induced Hyperinflammation By Inactivating NLRP3 Inflammasome Via The VDR-BRCC3 Pathway - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AIrVHv6owqx6",
-      "address": "https://www.thailandmedical.news/news/long-covid-news-t-cell-dysregulation,-inflammation-and-a-dysfunctional-adaptive-immune-response-to-persistent-sars-cov-2-occurs-in-long-covid",
-      "title": "Long COVID News: T Cell Dysregulation, Inflammation And A Dysfunctional Adaptive Immune Response To Persistent SARS-CoV-2 Occurs In Long COVID! - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "1z6Lsv6owqx6",
-      "address": "https://www.thailandmedical.news/news/canada-faces-rising-measles-cases-amid-outbreak-in-new-brunswick",
-      "title": "Canada Faces Rising Measles Cases Amid Outbreak in New Brunswick - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "30-ZAv6owqx6",
-      "address": "https://www.thailandmedical.news/news/pennsylvania-state-university-modelling-predicts-that-u-s-will-face-more-omicron-deaths-in-coming-weeks",
-      "title": "Pennsylvania State University Modelling Predicts That U.S. Will Face More Omicron Deaths In Coming Weeks! - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "35dDGv6owqx6",
-      "address": "https://www.thailandmedical.news/news/kerala-s-hepatitis-a-outbreak-shatters-records-and-sparks-alarm-as-82-die-and-31536-infected",
-      "title": "Kerala’s Hepatitis A Outbreak Shatters Records and Sparks Alarm as 82 Die and 31,536 Infected - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "4JAqqv6owqx6",
-      "address": "https://www.thailandmedical.news/news/new-sars-cov-2-variants-debut-fresh-covid-19-surge-in-sri-lanka-with-2-deaths-reported",
-      "title": "New SARS-CoV-2 Variants Debut Fresh COVID-19 Surge in Sri Lanka With 2 Deaths Reported - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "5Y3RTv6owqx6",
-      "address": "https://www.thailandmedical.news/news/despite-debut-of-new-sar-cov-2-ba-3-2-variant-with-50-plus-mutations-nb-1-8-1-and-xfg-will-prevail-in-weeks-ahead",
-      "title": "Despite Debut of New SAR-CoV-2 BA.3.2 Variant With 50 Plus Mutations, NB.1.8.1 and XFG Will Prevail in Weeks Ahead - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "5sDJTv6owqx6",
-      "address": "https://www.thailandmedical.news/news/ketogenic-diets-can-cause-liver-damage-and-gut-dysbiosis",
-      "title": "Ketogenic Diets Can Cause Liver Damage and Gut Dysbiosis! - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "6phZfv6owqx6",
-      "address": "https://www.thailandmedical.news/news/breaking-ba-2-86-news-scientists-alarmingly-discover-that-ba-2-86-variant-has-also-picked-up-flip-mutation-l455s",
-      "title": "BREAKING BA.2.86 News! Scientists Alarmingly Discover That BA.2.86 Variant Has Also Picked Up FLip Mutation L455S! - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "7kARMv6owqx6",
-      "address": "https://www.thailandmedical.news/news/new-genotypes-of-human-cytomegalovirus-causing-ocular-diseases",
-      "title": "New Genotypes of Human Cytomegalovirus Causing Ocular Diseases - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "7otRnv6owqx6",
-      "address": "https://www.thailandmedical.news/news/new-hope-for-hard-to-treat-digestive-cancers-as-treatment-strategies-rapidly-evolve",
-      "title": "New Hope for Hard-to-Treat Digestive Cancers as Treatment Strategies Rapidly Evolve - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "8eHCuv6owqx6",
-      "address": "https://www.thailandmedical.news/news/interferon-activated-nk-cells-found-to-weaken-covid-19-antibody-response",
-      "title": "Interferon Activated NK Cells Found to Weaken COVID-19 Antibody Response - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "9y8_3v6owqx6",
-      "address": "https://www.thailandmedical.news/news/thailand-doctors-explore-herbal-medicines-against-deadly-cholangiocarcinoma",
-      "title": "Thailand Doctors Explore Herbal Medicines Against Deadly Cholangiocarcinoma - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-leuDv6owqx6",
-      "address": "https://www.thailandmedical.news/news/cytolytic-cd8-t-cell-response-to-sars-cov-2-and-non-sars-cov-2-related-viruses-and-severe-covid-19-manifestations",
-      "title": "Cytolytic CD8+ T Cell Response To SARS-CoV-2 And Non-SARS-CoV-2-Related Viruses And Severe COVID-19 Manifestations - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-37Akv6owqx6",
-      "address": "https://www.thailandmedical.news/news/covid-19-news-covid-19-crisis-unveiled-in-poland-as-medical-expert-challenges-official-figures-and-reveals-alarming-50,000-daily-infections",
-      "title": "COVID-19 News: COVID-19 Crisis Unveiled In Poland As Medical Expert Challenges Official Figures And Reveals Alarming 50,000 Daily Infections! - Thailand Medical News",
+      "hash": "KavSrh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Computer",
+      "title": "Computer - Wikimedia Commons",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -482,18 +1242,18 @@
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 5042
+          "textWords": 4732
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 5042
+          "textWords": 4732
         }
       }
     },
     {
-      "hash": "2uLc-sm1ohFp",
-      "address": "https://polrestoba.id/",
-      "title": "polrestoba.id",
+      "hash": "6Y0sVdS6MKD4",
+      "address": "https://github.com/raysan5/raylib",
+      "title": "GitHub - raysan5/raylib: A simple and easy-to-use library to enjoy videogames programming · GitHub",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -507,9 +1267,9 @@
       }
     },
     {
-      "hash": "4pBONv6owqx6",
-      "address": "https://www.thailandmedical.news/news/breaking-university-of-queensland-study-reveals-that-sars-cov-2-spike-proteins-induces-nlrp3-inflammasome-activation-in-human-microglia",
-      "title": "BREAKING! University Of Queensland Study Reveals That SARS-CoV-2 Spike Proteins Induces NLRP3 Inflammasome Activation In Human Microglia! - Thailand Medical News",
+      "hash": "X50jjalrjgr4",
+      "address": "https://www.techdirt.com/tag/daily-deal/",
+      "title": "Daily deal stories at Techdirt.",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -523,41 +1283,41 @@
       }
     },
     {
-      "hash": "5qfkcv6owqx6",
-      "address": "https://www.thailandmedical.news/news/apple-cider-vinegar-powder-shows-promise-in-fixing-liver-damage-and-gut-problems-caused-by-fatty-diets",
-      "title": "Apple Cider Vinegar Powder Shows Promise in Fixing Liver Damage and Gut Problems Caused by Fatty Diets - Thailand Medical News",
-      "snippet": "",
+      "hash": "hrGj3xKAn6I5",
+      "address": "https://news.ycombinator.com/item?id=34544745",
+      "title": "SirTunnel, a personal ngrok alternative | Hacker News",
+      "snippet": "Raspberry Pi, and even my car stereo are peers on my Yggdrasil network. The downside is sharing with a 3rd party means they need to install Yggrasil, that is unless you set up a public web server to act as a \"tunnel\" to the web servers in your network.\nBefore someone mentions security, not all of",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1383
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1383
         }
       }
     },
     {
-      "hash": "FYAXzjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mozilla",
-      "title": "Mozilla - Wikipedia",
-      "snippet": "Raspberry Pi as a gateway for IoT management with decentralised software.\nComponents\n[edit]\nNSS\n[edit]\nMain article: Network Security Services\nNetwork Security Services (NSS) comprises a set of libraries designed to support cross-platform development of security-enabled client and server",
+      "hash": "MK5eRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
+      "title": "Linux distribution - Wikipedia",
+      "snippet": "Raspberry Pi OS targets the Raspberry Pi platform\nDo it yourself, that is distributions manually built from the ground up, such as Linux From Scratch.\nEducation – examples are Edubuntu and Karoshi, server systems based on PCLinuxOS\nDigital audio workstations for music production – for example,",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 9444
+          "hits": 2,
+          "textWords": 5798
         },
         "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 9444
+          "hits": 2,
+          "textWords": 5798
         }
       }
     },
     {
-      "hash": "v2M7fjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Sony",
-      "title": "Sony - Wikipedia",
+      "hash": "fFhxWjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Personal_computer",
+      "title": "Personal computer - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -574,63 +1334,31 @@
       "hash": "yQQNDjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Embedded_system",
       "title": "Embedded system - Wikipedia",
-      "snippet": "Raspberry Pi.\nASIC and FPGA SoC solutions\n[edit source]\nA system on a chip (SoC) contains a complete system - consisting of multiple processors, multipliers, caches, even different types of memory and commonly various peripherals like interfaces for wired or wireless communication on a single chip.",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 2,
-          "textWords": 6426
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 2,
-          "textWords": 6426
-        }
-      }
-    },
-    {
-      "hash": "4eqKNjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Artificial_Intelligence",
-      "title": "Artificial intelligence - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "5DZ6TjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
-      "title": "Android (operating system) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "521wgjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Home_computer",
-      "title": "Home computer - Wikipedia",
-      "snippet": "Raspberry Pi\nList of home computers\nList of home computers by category\nList of home computers by video hardware\nList of video game consoles\nInfluence of the IBM PC on the personal computer market\nMicroprocessor development board and List of early microcomputers, first microprocessor based systems",
+      "snippet": "Raspberry Pi.\nA system on a chip (SoC) contains a complete system - consisting of multiple processors, multipliers, caches, even different types of memory and commonly various peripherals like interfaces for wired or wireless communication on a single chip. Often, graphics processing units (GPUs)",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 12449
+          "textWords": 5151
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 12449
+          "textWords": 5151
+        }
+      }
+    },
+    {
+      "hash": "zPsYJjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Linux",
+      "title": "Linux - Wikipedia",
+      "snippet": "Linux\nTux, the mascot of Linux, created by Larry Ewing[1]\nDeveloper\nLinus Torvalds (BDFL)\nCommunity contributors\nOS family\nUnix-like\nWorking state\nCurrent\nSource model\nOpen source (kernel)\nInitial release\n17 September 1991; 34 years ago (kernel)[2]\nMarketing target\nGeneral-purpose[a]\nAvailable in",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 11216
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 11216
         }
       }
     },
@@ -658,18 +1386,178 @@
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 1,
-          "textWords": 6033
+          "textWords": 5502
         },
         "uJdJUF4US1ZK": {
           "hits": 1,
-          "textWords": 6033
+          "textWords": 5502
         }
       }
     },
     {
-      "hash": "A4SQNv6owqx6",
-      "address": "https://www.thailandmedical.news/news/south-korean-physicians-warn-that-covid-19-infections-can-trigger-gastrointestinal-aa-amyloidosis",
-      "title": "South Korean Physicians Warn That COVID-19 Infections Can Trigger Gastrointestinal AA Amyloidosis - Thailand Medical News",
+      "hash": "EpPuQzS6MKD4",
+      "address": "https://github.com/topics/tensorflow",
+      "title": "tensorflow · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi 4 to high power GPU servers.\nUpdated Jun 19, 2025\nC++\nCode\nIssues\nPull requests\nUpdated May 19, 2026\nJupyter Notebook\nCode\nIssues\nPull requests\nMask R-CNN for object detection and instance segmentation on Keras and TensorFlow\nUpdated Jun 7, 2024\nPython\nCode\nIssues\nPull requests",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 438
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 438
+        }
+      }
+    },
+    {
+      "hash": "LX0cieS6MKD4",
+      "address": "https://github.com/bayandin/awesome-awesomeness",
+      "title": "GitHub - bayandin/awesome-awesomeness: A curated list of awesome awesomeness · GitHub",
+      "snippet": "Raspberry Pi by @blackout314\nby @thibmaek\nReact Native\nREADME\nRegex\nRemote Job\nRemote Work\nREST\nRobotics\nRobotic Tooling\nRNN\nScalability\nScience Fiction\nSearch Engine Optimization (SEO) by @marcobiedermann\nby @sneg55\nby @teles\nSecurity\nSelfhosted\nServerless\nServerless Security\nService Fabric",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 651
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 651
+        }
+      }
+    },
+    {
+      "hash": "LcA-MxS6MKD4",
+      "address": "https://github.com/mopidy/mopidy",
+      "title": "GitHub - mopidy/mopidy: Mopidy is an extensible music server written in Python · GitHub",
+      "snippet": "Raspberry Pi OS, Arch Linux, macOS, and manual installation.\nLinks\nWebsite — project pitch, extensions, and news\nDocumentation — install, configure, and develop\nDiscourse forum — ask for help, discuss usage and development, and follow announcements\nZulip chat — real-time development chat\nIssue",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 115
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 115
+        }
+      }
+    },
+    {
+      "hash": "M89BHJS6MKD4",
+      "address": "https://github.com/home-assistant/core",
+      "title": "GitHub - home-assistant/core: :house_with_garden: Open source home automation that puts local control and privacy first. · GitHub",
+      "snippet": "Raspberry Pi or a local server.\nCheck out home-assistant.io for a demo, installation instructions, tutorials and documentation.\nFeatured integrations\nThe system is built using a modular approach so support for other devices or actions can be implemented easily. See also the section on architecture",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 103
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 103
+        }
+      }
+    },
+    {
+      "hash": "ZwVdezS6MKD4",
+      "address": "https://github.com/topics/play-sounds",
+      "title": "play-sounds · GitHub Topics · GitHub",
+      "snippet": "Raspberry, using a distance-probe to generate the sound\nUpdated Mar 12, 2019\nPython\nCode\nIssues\nPull requests\nwin32 microphone echo\nUpdated May 28, 2022\nC++\nCode\nIssues\nPull requests\nA 3DSoundSystem-like library for playing sounds with LWJGL3\nUpdated Apr 11, 2018\nKotlin\nCode\nIssues\nPull requests",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 411
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 2,
+          "textWords": 411
+        }
+      }
+    },
+    {
+      "hash": "chssQzS6MKD4",
+      "address": "https://github.com/topics/qt",
+      "title": "qt · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi / AsteroidOS / Ubuntu Touch / JavaScript / WebAssembly\nUpdated Mar 4, 2024\nGo\nCode\nIssues\nPull requests\nDiscussions\nA custom launcher for Minecraft that allows you to easily manage multiple installations of Minecraft at once (Fork of MultiMC)\nUpdated Sep 11, 2026\nC++\nCode\nIssues\nPull",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 501
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 501
+        }
+      }
+    },
+    {
+      "hash": "h5BqzzS6MKD4",
+      "address": "https://github.com/topics/synthesizer",
+      "title": "synthesizer · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi 3 or later into a Roland MT-32 emulator and SoundFont synthesizer based on Circle, Munt, and FluidSynth.\nUpdated Feb 4, 2025\nC++\nCode\nIssues\nPull requests\nDiscussions\nDexed FM synthesizer similar to 8x DX7 (TX816/TX802) running on a bare metal Raspberry Pi (without a Linux kernel or",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 2,
+          "textWords": 442
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 2,
+          "textWords": 442
+        }
+      }
+    },
+    {
+      "hash": "iMrbp2S6MKD4",
+      "address": "https://github.com/alda-lang/alda",
+      "title": "GitHub - alda-lang/alda: A music programming language for musicians. :notes: · GitHub",
+      "snippet": "Raspberry Pi support\nInstallation\nSee the official website for instructions to install the latest release of Alda.\nBuilding from source\nAnother option is to build Alda from source. Alda consists of two components: the client (written in Go) and the player (written in Kotlin/Java).\n# Clone the repo",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 444
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 444
+        }
+      }
+    },
+    {
+      "hash": "iia0mzS6MKD4",
+      "address": "https://github.com/topics/explorer",
+      "title": "explorer · GitHub Topics · GitHub",
+      "snippet": "Raspberry Pi fullnode distros including Umbrel, Raspiblitz, Start9, and more!\nUpdated Sep 11, 2026\nTypeScript\nCode\nIssues\nPull requests\nEvEx: Everything 拼音搜索, ローマ字検索, wildcard, quick select, Shell extension\nUpdated Aug 2, 2026\nC++\nCode\nIssues\nPull requests\nUpdated Aug 27, 2026\nC++\nCode\nIssues\nPull",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 1,
+          "textWords": 402
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 402
+        }
+      }
+    },
+    {
+      "hash": "snPGwzS6MKD4",
+      "address": "https://github.com/topics/instrument",
+      "title": "instrument · GitHub Topics · GitHub",
+      "snippet": "py/pi based video sampler\nUpdated Jan 11, 2022\nPython\nCode\nIssues\nPull requests\n基于NI-VISA/VISA32(Virtual Instrument Software Architecture)的仪器编程（C#），支持RS232、USB、GPIB及LAN通信接口的收发控制\nUpdated Mar 26, 2022\nC#\nCode\nIssues\nPull requests\nPython package for device control and experiment automation\nUpdated May",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 2,
+          "textWords": 437
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 1,
+          "textWords": 437
+        }
+      }
+    },
+    {
+      "hash": "vLwBRVS6MKD4",
+      "address": "https://github.com/tensorflow/tensorflow",
+      "title": "GitHub - tensorflow/tensorflow: An Open Source Machine Learning Framework for Everyone · GitHub",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -683,9 +1571,9 @@
       }
     },
     {
-      "hash": "0viWDv6owqx6",
-      "address": "https://www.thailandmedical.news/news/breaking-covid-19-news-international-study-finds-that-sars-cov-2-induces-igg4-synthesis-to-evade-the-immune-system",
-      "title": "BREAKING COVID-19 NEWS! International Study Finds That SARS-CoV-2 Induces IgG4 Synthesis To Evade The Immune System! - Thailand Medical News",
+      "hash": "yfvCSzS6MKD4",
+      "address": "https://github.com/topics/network",
+      "title": "network · GitHub Topics · GitHub",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -699,9 +1587,9 @@
       }
     },
     {
-      "hash": "1t31Av6owqx6",
-      "address": "https://www.thailandmedical.news/news/pharma-news-nirmatrelvir-a-key-component-of-paxlovid-blunts-development-of-antiviral-adaptive-immune-responses-in-sars-cov-2-infected-mice",
-      "title": "Pharma News: Nirmatrelvir (A Key Component Of Paxlovid) Blunts Development Of Antiviral Adaptive Immune Responses In SARS-CoV-2 Infected Mice! - Thailand Medical News",
+      "hash": "icqWIskYfsM7",
+      "address": "https://amazingtimlocksmith.com/",
+      "title": "amazingtimlocksmith.com",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -715,249 +1603,9 @@
       }
     },
     {
-      "hash": "2C2glv6owqx6",
-      "address": "https://www.thailandmedical.news/news/rising-cases-of-sars-cov-2-eg-5-1,-dubbed-eris,-spark-concern-in-france-hospitals-report-26-percent-increase-in-er-admissions",
-      "title": "Rising Cases of SARS-CoV-2 EG.5.1, Dubbed \"Eris,\" Spark Concern in France - Hospitals Report 26% Increase in ER Admissions - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "2JOTcv6owqx6",
-      "address": "https://www.thailandmedical.news/news/indonesian-physicians-report-case-study-showing-sars-cov-2-infection-escalating-penile-necrosis-in-leprosy-patient",
-      "title": "Indonesian Physicians Report Case Study Showing SARS-CoV-2 Infection Escalating Penile Necrosis In Leprosy Patient! - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "2qLFQv6owqx6",
-      "address": "https://www.thailandmedical.news/news/covid-19-infection-linked-to-depression-and-anxiety-in-children",
-      "title": "COVID-19 Infection Linked to Depression and Anxiety in Children - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "3sYqjv6owqx6",
-      "address": "https://www.thailandmedical.news/news/tropisetron-found-to-prevent-pancreatic-cancer-by-blocking-dangerous-inflammation-trigger",
-      "title": "Tropisetron Found to Prevent Pancreatic Cancer by Blocking Dangerous Inflammation Trigger - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "5XKbXv6owqx6",
-      "address": "https://www.thailandmedical.news/news/thailand-medical-researchers-explore-the-use-of-kratom-to-treat-alzheimer-s-disease",
-      "title": "Thailand Medical Researchers Explore the Use of Kratom to Treat Alzheimer’s Disease - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "6QKfsv6owqx6",
-      "address": "https://www.thailandmedical.news/news/breaking-news-brazilian-study-shockingly-finds-that-sars-cov-2-directly-infects-liver-cells-or-hepatocytes-to-cause-hyperglycemia",
-      "title": "BREAKING NEWS! Brazilian Study Shockingly Finds That SARS-CoV-2 Directly Infects Liver Cells Or Hepatocytes To Cause Hyperglycemia! - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "7FbFWv6owqx6",
-      "address": "https://www.thailandmedical.news/news/study-alarmingly-finds-that-cannabis-is-responsible-for-40-percent-of-fatal-car-crashes",
-      "title": "Study Alarmingly Finds That Cannabis is Responsible for 40 Percent of Fatal Car Crashes - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "7UBFiv6owqx6",
-      "address": "https://www.thailandmedical.news/news/new-diet-clues-may-change-how-healing-blood-therapies-work",
-      "title": "New Diet Clues May Change How Healing Blood Therapies Work - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "7jdNiv6owqx6",
-      "address": "https://www.thailandmedical.news/news/russian-antiviral-drug-ingavirin-found-effective-against-human-metapneumovirus-insights-from-a-2012-study",
-      "title": "Russian Antiviral Drug Ingavirin Found Effective Against Human Metapneumovirus, Insights from a 2012 Study - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "8pb78v6owqx6",
-      "address": "https://www.thailandmedical.news/news/breaking-outbreak-news-many-parts-of-india-facing-simultaneous-onslaught-of-a-variety-of-viral-infections,-increasing-risk-of-severity",
-      "title": "BREAKING! Outbreak News: Many Parts Of India Facing Simultaneous Onslaught Of A Variety Of Viral Infections, Increasing Risk Of Severity! - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "85Yblv6owqx6",
-      "address": "https://www.thailandmedical.news/news/cord-blood-therapy-shows-big-promise-easing-long-covid-fatigue",
-      "title": "Cord Blood Therapy Shows Big Promise Easing Long COVID Fatigue - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "9FV6Zv6owqx6",
-      "address": "https://www.thailandmedical.news/news/covid-19-news-what-s-really-happening-in-singapore-covid-19-cases-in-epidemiological-week-48-hits-record-32,035-while-hospitalizations-rising",
-      "title": "COVID-19 News: What’s Really Happening In Singapore? COVID-19 Cases In Epidemiological Week 48 Hits Record 32,035 While Hospitalizations Rising! - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "9QyiQv6owqx6",
-      "address": "https://www.thailandmedical.news/news/german-researchers-find-new-treatment-for-ophthalmic-mpox-infections",
-      "title": "German researchers find new treatment for ophthalmic Mpox infections - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "9__7eH6owqx6",
-      "address": "https://www.thailandmedical.news/articles/immunology",
-      "title": "Immunology - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-ptHKv6owqx6",
-      "address": "https://www.thailandmedical.news/news/defibrotide-emerges-as-lifesaving-therapy-for-covid-19-and-blood-cancers",
-      "title": "Defibrotide Emerges as Lifesaving Therapy for COVID-19 and Blood Cancers - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-_zmPv6owqx6",
-      "address": "https://www.thailandmedical.news/news/new-insights-into-heart-failure-and-amyloidosis-in-aging-individuals",
-      "title": "New Insights into Heart Failure and Amyloidosis in Aging Individuals - Thailand Medical News",
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -974,22 +1622,22 @@
       "hash": "MaHDQsRDFHM6",
       "address": "https://stackexchange.com/sites",
       "title": "All Sites - Stack Exchange",
-      "snippet": "Raspberry Pi\nRaspberry Pi\nQ\u0026A for users and developers of hardware and software for Raspberry Pi\nquestions\n38k\nanswers\n50k\nanswered\n75%\nusers\n166k\nloading...\nloading top users...\nRussian Language\nRussian Language\nQ\u0026A for students, teachers, and linguists wanting to discuss the finer points of the",
+      "snippet": "Raspberry Pi\nRaspberry Pi\nQ\u0026A for users and developers of hardware and software for Raspberry Pi\nquestions\n38k\nanswers\n50k\nanswered\n75%\nusers\n166k\nloading top users...\nRussian Language\nRussian Language\nQ\u0026A for students, teachers, and linguists wanting to discuss the finer points of the Russian",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 3,
-          "textWords": 4742
+          "textWords": 4419
         },
         "uJdJUF4US1ZK": {
           "hits": 3,
-          "textWords": 4742
+          "textWords": 4419
         }
       }
     },
     {
-      "hash": "ZR_AYjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Generative_artificial_intelligence",
-      "title": "Generative artificial intelligence - Wikipedia",
+      "hash": "_jRa_lmJ800w",
+      "address": "https://www.gentoo.org/downloads/",
+      "title": "Downloads – Gentoo Linux",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -1003,50 +1651,50 @@
       }
     },
     {
-      "hash": "1t5HdjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wireless_sensor_network",
-      "title": "Wireless sensor network - Wikipedia",
-      "snippet": "",
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 2520
         },
         "uJdJUF4US1ZK": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 2520
         }
       }
     },
     {
-      "hash": "521wgjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Home_computer",
-      "title": "Home computer - Wikipedia",
-      "snippet": "Raspberry Pi\nList of home computers\nList of home computers by category\nList of home computers by video hardware\nList of video game consoles\nInfluence of the IBM PC on the personal computer market\nMicroprocessor development board and List of early microcomputers, first microprocessor based systems",
+      "hash": "vRwADbM7dPow",
+      "address": "https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html",
+      "title": "Getting Started with Fully Sharded Data Parallel (FSDP2) — PyTorch Tutorials 2.14.0+cu130 documentation",
+      "snippet": "Created On: Mar 17, 2022 | Last Updated: Sep 02, 2025 | Last Verified: Nov 05, 2024\nAuthor: Wei Feng, Will Constable, Yifan Mao\nNote\nCheck out the code in this tutorial from pytorch/examples. FSDP1 is deprecated. FSDP1 tutorials are archived in [1] and [2]\nHow FSDP2 works#\nIn",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 1,
-          "textWords": 12449
+          "hits": 0,
+          "textWords": 2386
         },
         "uJdJUF4US1ZK": {
-          "hits": 1,
-          "textWords": 12449
+          "hits": 0,
+          "textWords": 2386
         }
       }
     },
     {
-      "hash": "v2M7fjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Sony",
-      "title": "Sony - Wikipedia",
-      "snippet": "",
+      "hash": "Om4wYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Booting",
+      "title": "Booting - Wikipedia",
+      "snippet": "This article is about bootstrapping operating systems. For the general concept, see Bootstrapping.\nA flow diagram of an IBM-compatible PC booting\nIn computing, booting is the process of starting a computer as initiated via hardware such as a physical button on the computer or by a software command.",
       "matchedWords": {
         "cquK9WvdqzOy": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 11182
         },
         "uJdJUF4US1ZK": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 11182
         }
       }
     },
@@ -1054,21 +1702,37 @@
       "hash": "yQQNDjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Embedded_system",
       "title": "Embedded system - Wikipedia",
-      "snippet": "Raspberry Pi.\nASIC and FPGA SoC solutions\n[edit source]\nA system on a chip (SoC) contains a complete system - consisting of multiple processors, multipliers, caches, even different types of memory and commonly various peripherals like interfaces for wired or wireless communication on a single chip.",
+      "snippet": "Raspberry Pi.\nA system on a chip (SoC) contains a complete system - consisting of multiple processors, multipliers, caches, even different types of memory and commonly various peripherals like interfaces for wired or wireless communication on a single chip. Often, graphics processing units (GPUs)",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 2,
-          "textWords": 6426
+          "hits": 1,
+          "textWords": 5151
         },
         "uJdJUF4US1ZK": {
-          "hits": 2,
-          "textWords": 6426
+          "hits": 1,
+          "textWords": 5151
+        }
+      }
+    },
+    {
+      "hash": "mHyFhKsrSOQw",
+      "address": "https://arxiv.org/list/cs.AI/new",
+      "title": "Artificial Intelligence",
+      "snippet": "New submissions\nCross-lists\nReplacements\nSee recent articles\nShowing new listings for Friday, 11 September 2026\nTotal of 273 entries\nShowing up to 2000 entries per page: fewer | more | all\nNew submissions (showing 77 of 77 entries)\n[1] arXiv:2609.10584 [pdf, html, other]\n[2] arXiv:2609.10629 [pdf,",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 2520
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 2520
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "cquK9WvdqzOy": 9995,
-    "uJdJUF4US1ZK": 11861
+    "cquK9WvdqzOy": 10550,
+    "uJdJUF4US1ZK": 1511
   }
 }

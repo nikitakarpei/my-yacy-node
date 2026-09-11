@@ -2,27 +2,45 @@
   "query": "kubernetes",
   "judgedDocuments": [
     {
-      "hash": "jrBUgOjw1Zlx",
-      "address": "https://kubernetes.io/zh-cn/blog/2015/03/28/weekly-kubernetes-community-hangout/",
-      "title": "Kubernetes 社区每周聚会笔记 - 2015 年 3 月 27 日 | Kubernetes",
-      "grade": 1
-    },
-    {
-      "hash": "li8uc2jw1Zlx",
-      "address": "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/",
-      "title": "Installing kubeadm | Kubernetes",
+      "hash": "2YmsATjw1Zlx",
+      "address": "https://kubernetes.io/es/training/",
+      "title": "Capacitación | Kubernetes",
       "grade": 2
     },
     {
-      "hash": "rhegtsjw1Zlx",
-      "address": "https://kubernetes.io/training/",
-      "title": "Training | Kubernetes",
+      "hash": "qjEAgsjw1Zlx",
+      "address": "https://kubernetes.io/zh-cn/",
+      "title": "Kubernetes",
+      "grade": 2
+    },
+    {
+      "hash": "o0eGEOjw1Zlx",
+      "address": "https://kubernetes.io/zh-cn/blog/2023/08/15/pkgs-k8s-io-introduction/",
+      "title": "pkgs.k8s.io：介绍 Kubernetes 社区自有的包仓库 | Kubernetes",
       "grade": 1
     },
     {
-      "hash": "P8xl6XqO2Dlg",
-      "address": "https://media.ccc.de/v/nixcon2025-56396-kubernetes-on-nix",
-      "title": "Kubernetes on Nix - media.ccc.de",
+      "hash": "WvWPIsjw1Zlx",
+      "address": "https://kubernetes.io/",
+      "title": "Kubernetes",
+      "grade": 2
+    },
+    {
+      "hash": "B9WLxGjw1Zlx",
+      "address": "https://kubernetes.io/pt-br/docs/concepts/architecture/cloud-controller/",
+      "title": "Conceitos sobre Cloud Controller Manager | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "L0PizM-VnHQw",
+      "address": "https://kubernetes-csi.github.io/docs/",
+      "title": "Introduction - Kubernetes CSI Developer Documentation",
+      "grade": 1
+    },
+    {
+      "hash": "hlp8hzS6MKD4",
+      "address": "https://github.com/topics/kubernetes",
+      "title": "kubernetes · GitHub Topics · GitHub",
       "grade": 1
     },
     {
@@ -32,38 +50,20 @@
       "grade": 2
     },
     {
-      "hash": "L0PizM-VnHQw",
-      "address": "https://kubernetes-csi.github.io/docs/",
-      "title": "Introduction - Kubernetes CSI Developer Documentation",
+      "hash": "P8xl6XqO2Dlg",
+      "address": "https://media.ccc.de/v/nixcon2025-56396-kubernetes-on-nix",
+      "title": "Kubernetes on Nix - media.ccc.de",
       "grade": 1
     },
     {
-      "hash": "Bc3md2jw1Zlx",
-      "address": "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/",
-      "title": "Horizontal Pod Autoscaling | Kubernetes",
-      "grade": 2
-    },
-    {
-      "hash": "Tm_2BMS6MKD4",
-      "address": "https://github.com/kubernetes-client/python",
-      "title": "GitHub - kubernetes-client/python: Official Python client library for kubernetes · GitHub",
+      "hash": "0KDJNlaFvW05",
+      "address": "https://www.kubernetes.dev/docs/",
+      "title": "Documentation | Kubernetes Contributors",
       "grade": 1
-    },
-    {
-      "hash": "2JDQhQRul9D4",
-      "address": "https://aws.amazon.com/kubernetes/",
-      "title": "Kubernetes on AWS | Amazon Web Services",
-      "grade": 2
-    },
-    {
-      "hash": "4xIejdSCNQa4",
-      "address": "https://www.redhat.com/ja/topics/containers/what-is-kubernetes",
-      "title": "Kubernetes とは？をわかりやすく解説",
-      "grade": 2
     },
     {
       "hash": "AsVNaz7OfS44",
-      "address": "https://labs.iximiuz.com/playgrounds?category=kubernetes\u0026filter=all",
+      "address": "https://labs.iximiuz.com/playgrounds?category=kubernetes&filter=all",
       "title": "Kubernetes Playgrounds 🧪 | iximiuz Labs",
       "grade": 1
     },
@@ -74,10 +74,16 @@
       "grade": 0
     },
     {
-      "hash": "zlEh5a9VKBYx",
-      "address": "https://chronosphere.io/learn/what-is-a-kubernetes-pod/",
-      "title": "What is a Kubernetes pod?",
-      "grade": 2
+      "hash": "HN68UjwjNTMg",
+      "address": "https://market.cnews.ru/articles/2025-04-03_managed_kubernetes_i_preryvaemye_virtualnye",
+      "title": "Managed Kubernetes и прерываемые виртуальные машины: способ сэкономить до 70% на серверах – CNewsMarket",
+      "grade": 1
+    },
+    {
+      "hash": "WvTFd1S6MKD4",
+      "address": "https://github.com/hjacobs/kubernetes-failure-stories",
+      "title": "GitHub - hjacobs/kubernetes-failure-stories: Compilation of public failure/horror stories related to Kubernetes",
+      "grade": 1
     },
     {
       "hash": "QptPQSMAuxi4",
@@ -86,21 +92,27 @@
       "grade": 0
     },
     {
-      "hash": "dZkbOdUhjm5w",
-      "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/cli-ref.html",
-      "title": "Kubernetes Executor Commands — apache-airflow-providers-cncf-kubernetes Documentation",
+      "hash": "Tm_2BMS6MKD4",
+      "address": "https://github.com/kubernetes-client/python",
+      "title": "GitHub - kubernetes-client/python: Official Python client library for kubernetes · GitHub",
       "grade": 1
     },
     {
-      "hash": "6y4OTxAl9Ia5",
-      "address": "https://developer.hashicorp.com/vault/tutorials/integrate-kubernetes-hcp-vault-dedicated/kubernetes-vso-hcp-vault",
-      "title": "Create Kubernetes native secrets from HCP Vault Dedicated with VSO | Vault | HashiCorp Developer",
+      "hash": "QXrR1PdMIKYg",
+      "address": "https://www.eca.europa.eu/ContentPagesDocuments/Traineeships/ECA_Traineeship_in_AI_Call_EN.pdf",
+      "title": "Call for applications - Trainees in the area of artificial intelligence",
+      "grade": 0
+    },
+    {
+      "hash": "ubKuHJb8iyg4",
+      "address": "https://cloud.google.com/kubernetes-engine/pricing",
+      "title": "Google Kubernetes Engine pricing | Google Cloud",
       "grade": 1
     },
     {
-      "hash": "n3XoxFCmq5v4",
-      "address": "https://www.suse.com/c/rancher_blog/deploy-a-nodejs-app-on-kubernetes-and-rancher/",
-      "title": "Deploy a NodeJS App on Kubernetes and Rancher | SUSE Communities",
+      "hash": "F3WKxSyfovZ5",
+      "address": "https://www.enterprisedb.com/use-case/microservices-and-kubernetes",
+      "title": "Application Scalability with Microservices and Kubernetes: EDB Postgres AI",
       "grade": 1
     }
   ]

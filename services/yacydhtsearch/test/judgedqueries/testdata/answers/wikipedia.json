@@ -1,17 +1,17 @@
 {
   "query": "wikipedia",
-  "recordedAt": "2026-09-11T19:19:29Z",
+  "recordedAt": "2026-09-11T20:57:49Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "LEWIqjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Systemic_bias",
-        "title": "Wikipedia:Systemic bias - Wikipedia",
-        "snippet": "Wikipedia:Systemic bias - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate",
+        "hash": "CiItojRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Sister_projects",
+        "title": "Wikipedia:Wikimedia sister projects - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia\nWikimedia sister projects are all the publicly available wikis operated by the Wikimedia Foundation, including Wikipedia. This guideline covers Wikipedia's relations to the sister projects, including linking and copying content between a Wikipedia article and a",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 130,
-            "textWords": 6425
+            "hits": 25,
+            "textWords": 1293
           }
         }
       },
@@ -43,23 +43,23 @@
         "hash": "FYec7opg4UCw",
         "address": "https://www.wikidata.org/wiki/Wikidata:Database_reports/Wikipedia_versions?setlang=frr",
         "title": "Wikidata:Database reports/Wikipedia versions - Wikidata",
-        "snippet": "reports/Wikipedia versions - Wikidata\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nCommunity portal\nProject chat\nCreate a new Item\nRecent changes\nRandom Item\nQuery Service\nNearby\nHelp\nSpecial pages\nLexicographical data\nCreate a new Lexeme\nRecent changes\nRandom",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 707,
-            "textWords": 5166
+            "hits": 195,
+            "textWords": 5214
           }
         }
       },
       {
-        "hash": "CiItojRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Sister_projects",
-        "title": "Wikipedia:Wikimedia sister projects - Wikipedia",
-        "snippet": "",
+        "hash": "LEWIqjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Systemic_bias",
+        "title": "Wikipedia:Systemic bias - Wikipedia",
+        "snippet": "Wikipedia aims for a neutral point of view, but it falls short due to systemic bias caused by the narrow demographics of its editing community. This bias results in underrepresentation of Global South perspectives, limited access individuals, and women, among others.\nWikipedia strives for a neutral",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 47,
-            "textWords": 2963
+            "hits": 69,
+            "textWords": 3570
           }
         }
       },
@@ -67,11 +67,35 @@
         "hash": "Nn-z5jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:WikiHate",
         "title": "Wikipedia:WikiHate - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia\n\"WP:HATRED\" redirects here; not to be confused with WP:REDHAT.\nSome people become filled with negative emotions. (Painting by Adriaen Brouwer, c. 1630–1640)\nWikiHate (or, even more melodramatically, WikiViolence) is a counterproductive attitude and hostile behavior",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 10,
+            "textWords": 268
+          }
+        }
+      },
+      {
+        "hash": "djvJKjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Guidance_for_younger_editors",
+        "title": "Wikipedia:Guidance for younger editors - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia\nThis page is about guiding underage editors on Wikipedia. For small edits, such as spelling or grammar fixes, see Help:Minor edit.\nNever give out any personal information (e.g., name, age, location, school...) on the Internet, even to people that you think you know",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 36,
+            "textWords": 2193
+          }
+        }
+      },
+      {
+        "hash": "bfqz2jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_abbreviations",
+        "title": "Wikipedia:Wikipedia abbreviations - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 63,
-            "textWords": 3189
+            "hits": 164,
+            "textWords": 9897
           }
         }
       },
@@ -98,30 +122,6 @@
             "textWords": 3409
           }
         }
-      },
-      {
-        "hash": "KrFWTjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Latitude_32_degrees_N",
-        "title": "Circles of latitude between the 30th parallel north and the 35th parallel north - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 6,
-            "textWords": 5142
-          }
-        }
-      },
-      {
-        "hash": "NZ-D6jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Citation_templates",
-        "title": "Citation - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 33,
-            "textWords": 8206
-          }
-        }
       }
     ],
     [
@@ -129,11 +129,11 @@
         "hash": "HEl15jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Contents",
         "title": "Wikipedia:Contents - Wikipedia",
-        "snippet": "Wikipedia:Contents - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate",
+        "snippet": "Wikipedia, the free encyclopedia\nContents\nOverviews\nOutlines\nLists\nPortals\nGlossaries\nCategories\nVital articles\nFeatured content\nGood content\nIndices\nIndex\nReference\nCulture\nGeography\nHealth\nHistory\nHuman activities\nMathematics\nNature\nPeople\nPhilosophy\nReligion\nSociety\nTechnology\nWP:EXPLORE\nEasily",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 34,
-            "textWords": 1008
+            "hits": 14,
+            "textWords": 405
           }
         }
       },
@@ -141,11 +141,11 @@
         "hash": "Fct7Cj-JVcyx",
         "address": "https://en.wikiquote.org/wiki/Wikipedia",
         "title": "Wikipedia - Wikiquote",
-        "snippet": "Wikipedia - Wikiquote\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nCommunity portal\nVillage pump\nRecent changes\nRandom page\nHelp\nContact Wikiquote\nWikiquote links\nPeople\nLiterary works\nProverbs\nFilms\nTV shows\nThemes\nCategories\nSearch\nSearch\nAppearance\nDonate\nCreate",
+        "snippet": "Wikipedia, the free encyclopedia that anyone can edit.\nImagine a world in which every single person on the planet is given free access to the sum of all human knowledge. That's what we're doing.\nActive editors at the English Wikipedia 2001–2023\nWikipedia is a free content, multilingual online",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 549,
-            "textWords": 18940
+            "hits": 538,
+            "textWords": 18513
           }
         }
       },
@@ -186,14 +186,14 @@
         }
       },
       {
-        "hash": "flUXrjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Mathematics_in_medieval_Islam",
-        "title": "Mathematics in the medieval Islamic world - Wikipedia",
+        "hash": "H0uUXjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Category:Disambiguation_pages",
+        "title": "Category:Disambiguation pages - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 10,
-            "textWords": 6913
+            "textWords": 1615
           }
         }
       },
@@ -210,18 +210,6 @@
         }
       },
       {
-        "hash": "aeojfvDOAHJg",
-        "address": "https://www.heise.de/news/Wikipedia-als-Vorbild-der-Bibliotheken-133575.html",
-        "title": "Wikipedia als Vorbild der Bibliotheken | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 12,
-            "textWords": 1132
-          }
-        }
-      },
-      {
         "hash": "FqBu2jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Jeff_Green_(editor)",
         "title": "Jeff Green (writer) - Wikipedia",
@@ -234,52 +222,40 @@
         }
       },
       {
-        "hash": "6dzwHjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:WWUS",
-        "title": "Wikipedia:Wiki Workers United solidarity - Wikipedia",
+        "hash": "AaJsEjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Peugeot",
+        "title": "Peugeot - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 147,
-            "textWords": 28146
+            "hits": 6,
+            "textWords": 14801
+          }
+        }
+      },
+      {
+        "hash": "HQbJ2jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Jordan_River",
+        "title": "Jordan River - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 8,
+            "textWords": 6241
           }
         }
       }
     ],
     [
       {
-        "hash": "9JVEzDN5JSd5",
-        "address": "https://techstartups.com/2025/09/30/elon-musk-unveils-grokipedia-xais-wikipedia-alternative/",
-        "title": "Elon Musk Unveils Grokipedia, xAI’s Wikipedia Alternative - Tech Startups",
-        "snippet": "Wikipedia Alternative - Tech Startups\nHome\nExecutive Interviews\nStartups\nAdvertise\nAbout Trust \u0026 Safety\nEditorial Policy\nSeptember 11, 2026\nHome\nExecutive Interviews\nStartups\nAdvertise\nAbout Trust \u0026 Safety\nEditorial Policy\nTopics Search Startups Top Startups\nStartup List\nSubmit Your Startup\nTools",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 16,
-            "textWords": 780
-          }
-        }
-      },
-      {
-        "hash": "71qWRsDh6Kzh",
-        "address": "https://wikimedia.es/wikipedia-en-espanol-a-los-25-diversidad-soberania-digital-y-el-futuro-del-conocimiento-libre/",
-        "title": "Conversatorio Wikipedia en español 25 años",
+        "hash": "h3gCDEBAPQf4",
+        "address": "https://gaybd1.tumblr.com/post/740024179291783168/wikipedia-tell-me-if-this-mans-gay",
+        "title": "free palestine and also luigi — wikipedia Tell me if this man’s gay",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 17,
-            "textWords": 1119
-          }
-        }
-      },
-      {
-        "hash": "9ibmhTVN3PR6",
-        "address": "https://bestmediainfo.com/mediainfo/mediainfo-digital/elon-musk-confirms-xai-is-building-grokipedia-a-rival-to-wikipedia-10517168",
-        "title": "Elon Musk confirms xAI is building “Grokipedia,” a rival to Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 9,
-            "textWords": 794
+            "hits": 4,
+            "textWords": 3126
           }
         }
       },
@@ -296,42 +272,6 @@
         }
       },
       {
-        "hash": "54fXdlIAZIfz",
-        "address": "https://www.worldcouncilforhealth.org/wikipedia/",
-        "title": "World Council for Health – Wikipedia Overview",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 19,
-            "textWords": 2171
-          }
-        }
-      },
-      {
-        "hash": "5koOvUY_uPlw",
-        "address": "https://wikiedu.org/blog/2026/08/19/making-rare-disease-knowledge-a-little-more-common-on-wikipedia/",
-        "title": "Making rare disease knowledge a little more common on Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 1,
-            "textWords": 102
-          }
-        }
-      },
-      {
-        "hash": "h3gCDEBAPQf4",
-        "address": "https://gaybd1.tumblr.com/post/740024179291783168/wikipedia-tell-me-if-this-mans-gay",
-        "title": "free palestine and also luigi — wikipedia Tell me if this man’s gay",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 4,
-            "textWords": 3126
-          }
-        }
-      },
-      {
         "hash": "JqG10Q9HYB2A",
         "address": "http://tracemedia.co.uk/portfolio/mapping-wikipedia/",
         "title": "TraceMedia - Mapping Wikipedia",
@@ -344,14 +284,26 @@
         }
       },
       {
-        "hash": "JeplmJ_rb6v5",
-        "address": "https://wikipedia-un-mythe.over-blog.com/",
-        "title": "wikipedia ou le mythe de la neutralité - observatoire de wikipedia qui se prétend une encyclopédie, sans spécialistes ni vérification d'experts, chacun peut écrire ce qu'il veut sous anonymat : une pseudo-encyclopédie où prospèrent la propagande et l'irrationnel. Blog de réflexion sur la culture",
+        "hash": "jk7-Nl6vfQl5",
+        "address": "https://www.instagram.com/wikipedia/",
+        "title": "Wikipedia (@wikipedia) • Instagram photos and videos",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 26,
-            "textWords": 1193
+            "hits": 2,
+            "textWords": 71
+          }
+        }
+      },
+      {
+        "hash": "JeplmJ_rb6v5",
+        "address": "https://wikipedia-un-mythe.over-blog.com/",
+        "title": "wikipedia ou le mythe de la neutralité - observatoire de wikipedia qui se prétend une encyclopédie, sans spécialistes ni vérification d'experts, chacun peut écrire ce qu'il veut sous anonymat : une pseudo-encyclopédie où prospèrent la propagande et l'irrationnel. Blog de réflexion sur la culture",
+        "snippet": "wikipedia pas fiable : une étude estime à 90% la proportion d'articles erronés\n19.09.2014\nPar alithia\nOn s'en doutait mais c'est établi : au chapitre médecine et santé, une étude approfondie de wikipedia faite aux Etats-Unise, a établi que 9 articles sur 10 sont erronés ou contiennent des erreurs",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 12,
+            "textWords": 466
           }
         }
       },
@@ -359,11 +311,59 @@
         "hash": "C3xmFtMAuxi4",
         "address": "https://www.linkedin.com/company/wikipedia-the-free-encyclopedia/",
         "title": "Wikipedia | LinkedIn",
-        "snippet": "Wikipedia | LinkedIn\nLinkedIn respects your privacy\nLinkedIn and 3rd parties use essential and non-essential cookies to provide, secure, analyze and improve our Services, and to show you relevant ads (including professional and job ads) on and off LinkedIn. Learn more in our Cookie Policy.\nSelect",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 23,
-            "textWords": 1313
+            "hits": 29,
+            "textWords": 1637
+          }
+        }
+      },
+      {
+        "hash": "9JVEzDN5JSd5",
+        "address": "https://techstartups.com/2025/09/30/elon-musk-unveils-grokipedia-xais-wikipedia-alternative/",
+        "title": "Elon Musk Unveils Grokipedia, xAI’s Wikipedia Alternative - Tech Startups",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 16,
+            "textWords": 1048
+          }
+        }
+      },
+      {
+        "hash": "nOS69lWrAPG6",
+        "address": "https://www.citationneeded.news/elon-musk-and-the-rights-war-on-wikipedia/",
+        "title": "Elon Musk and the right’s war on Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 97,
+            "textWords": 6840
+          }
+        }
+      },
+      {
+        "hash": "54fXdlIAZIfz",
+        "address": "https://www.worldcouncilforhealth.org/wikipedia/",
+        "title": "World Council for Health – Wikipedia Overview",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 19,
+            "textWords": 2171
+          }
+        }
+      },
+      {
+        "hash": "zi6mL_UPPat4",
+        "address": "https://utaw.tech/news/wikipedia-recognition",
+        "title": "UTAW: UK Wikipedia Workers seek union recognition",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 4,
+            "textWords": 515
           }
         }
       }
@@ -373,11 +373,11 @@
         "hash": "3PTlTjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Help:Introduction",
         "title": "Help:Introduction - Wikipedia",
-        "snippet": "Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate account\nLog in",
+        "snippet": "Wikipedia, the free encyclopedia\nIntroduction to Wikipedia\nWikipedia is made by people like you.\nThis page takes you through a set of tutorials aimed at complete newcomers who wish to contribute. It covers all the basics, and each tutorial takes only a few minutes, so you can become a proficient",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 15,
-            "textWords": 552
+            "hits": 3,
+            "textWords": 59
           }
         }
       },
@@ -385,11 +385,11 @@
         "hash": "XsJrXjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_for_Schools",
         "title": "Wikipedia:Wikipedia for Schools - Wikipedia",
-        "snippet": "Wikipedia:Wikipedia for Schools - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch",
+        "snippet": "Wikipedia, the free encyclopedia\nWikipedia for Schools\nWebsite type\nEducation\nAvailable in\nEnglish\nFounded\nApril 2006\nDissolved\nMay 10, 2020 (online)\nOwner\nSOS Children\nCreator\nSOS Children\nCommercial\nNo\nThis Wikipedia page needs to be updated. Please help update this Wikipedia page to reflect",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 41,
-            "textWords": 955
+            "hits": 27,
+            "textWords": 663
           }
         }
       },
@@ -397,23 +397,23 @@
         "hash": "2t5mmvDOAHJg",
         "address": "https://www.heise.de/news/Wikipedia-nicht-mehr-ganz-offen-155058.html",
         "title": "Wikipedia nicht mehr ganz offen | heise online",
-        "snippet": "Wikipedia nicht mehr ganz offen | heise online\nheise+ entdecken\nSuchen\nAbo\nSuchen\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise+\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop\nheise jobs\nheise academy\nheise",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 16,
-            "textWords": 1005
+            "hits": 13,
+            "textWords": 1253
           }
         }
       },
       {
-        "hash": "TGXeWwkE_K04",
-        "address": "https://www.nysun.com/article/wikipedia-co-founder-unveils-plan-to-fix-websites-biased-engine-of-defamation",
-        "title": "Wikipedia Co-Founder Unveils Plan To Fix Website’s Biased ‘Engine of Defamation’ | The New York Sun",
-        "snippet": "",
+        "hash": "G3_H_jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:DICK",
+        "title": "Wikipedia:Don't be a dick - Wikipedia",
+        "snippet": "Wikipedia:Please be a giant dick, so we can ban you.\nThis page is currently inactive and is retained for historical reference.\nPlease avoid using this title in discussions, per meta:Talk:Don't be a jerk.\nmeta:Don't be a jerk\nThis page is a soft redirect.",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 5,
-            "textWords": 913
+            "hits": 1,
+            "textWords": 52
           }
         }
       },
@@ -430,26 +430,38 @@
         }
       },
       {
-        "hash": "iPm10jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Eight_simple_rules_for_editing_our_encyclopedia",
-        "title": "Wikipedia:Eight simple rules for editing our encyclopedia - Wikipedia",
+        "hash": "TGXeWwkE_K04",
+        "address": "https://www.nysun.com/article/wikipedia-co-founder-unveils-plan-to-fix-websites-biased-engine-of-defamation",
+        "title": "Wikipedia Co-Founder Unveils Plan To Fix Website’s Biased ‘Engine of Defamation’ | The New York Sun",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 74,
-            "textWords": 3882
+            "hits": 5,
+            "textWords": 913
           }
         }
       },
       {
-        "hash": "G3_H_jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:DICK",
-        "title": "Wikipedia:Don't be a dick - Wikipedia",
+        "hash": "iPm10jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Eight_simple_rules_for_editing_our_encyclopedia",
+        "title": "Wikipedia:Eight simple rules for editing our encyclopedia - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia\nThis page in a nutshell: A quick overview of some of Wikipedia's most important policies.\nEven though there is a huge number of policy and guideline pages, you can get a good sense of how to edit Wikipedia by following these eight simple rules.\nTo some, Wikipedia",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 17,
+            "textWords": 611
+          }
+        }
+      },
+      {
+        "hash": "FxMu4jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:START",
+        "title": "Help:Introduction - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 14,
-            "textWords": 474
+            "hits": 15,
+            "textWords": 754
           }
         }
       },
@@ -476,42 +488,18 @@
             "textWords": 4684
           }
         }
-      },
-      {
-        "hash": "_dtkMjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Help:Your_first_article",
-        "title": "Help:Your first article - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 68,
-            "textWords": 4090
-          }
-        }
       }
     ],
     [
       {
-        "hash": "5ZYlcjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Who_writes_Wikipedia",
-        "title": "Wikipedia:Who writes Wikipedia? - Wikipedia",
-        "snippet": "Wikipedia:Who writes Wikipedia? - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 71,
-            "textWords": 1850
-          }
-        }
-      },
-      {
-        "hash": "bf-RnjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Let_it_cool_before_proposing_a_rule",
-        "title": "Wikipedia:Let it cool before proposing a rule - Wikipedia",
+        "hash": "GAYQ-jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Strychnine",
+        "title": "Strychnine - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 14,
-            "textWords": 491
+            "hits": 10,
+            "textWords": 8167
           }
         }
       },
@@ -528,14 +516,14 @@
         }
       },
       {
-        "hash": "KzHh2YX5sgqx",
-        "address": "https://netzpolitik.org/2024/generative-ki-bei-wikipedia-die-freie-und-ki-generierte-enzyklopaedie/",
-        "title": "Generative KI bei Wikipedia: Die freie und KI-generierte Enzyklopädie? - netzpolitik.org",
+        "hash": "LWHHR-X5sgqx",
+        "address": "https://netzpolitik.org/2007/wikipedia-academy-2007/",
+        "title": "Wikipedia Academy 2007 - netzpolitik.org",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 39,
-            "textWords": 2239
+            "hits": 13,
+            "textWords": 691
           }
         }
       },
@@ -552,26 +540,38 @@
         }
       },
       {
-        "hash": "a4KZZjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Compliment_before_criticism",
-        "title": "Wikipedia:Compliment before criticism - Wikipedia",
+        "hash": "OtlWijRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Contents/Categories",
+        "title": "Wikipedia:Contents/Categories - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 32,
-            "textWords": 1498
+            "hits": 16,
+            "textWords": 2516
           }
         }
       },
       {
-        "hash": "6yuIIjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Proprietary",
-        "title": "Proprietary - Wikipedia",
+        "hash": "Gy9OLjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/List_of_Internet_Relay_Chat_commands",
+        "title": "List of IRC commands - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 9,
-            "textWords": 420
+            "hits": 7,
+            "textWords": 4102
+          }
+        }
+      },
+      {
+        "hash": "5ZYlcjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Who_writes_Wikipedia",
+        "title": "Wikipedia:Who writes Wikipedia? - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia\nA short video about that \"Edit\" button and what it can do when you are bold! (1:06 min)\nYou do. Yes, anyone can be bold and edit an existing article or create a new one, and volunteers do not need to have any formal training. The people who create and edit articles",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 32,
+            "textWords": 1165
           }
         }
       },
@@ -614,14 +614,14 @@
     ],
     [
       {
-        "hash": "S7SfSjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:How_to_copy-edit",
-        "title": "Wikipedia:Basic copyediting - Wikipedia",
-        "snippet": "Wikipedia:Basic copyediting - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance",
+        "hash": "YzjYVjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Five_pillars",
+        "title": "Wikipedia:Five pillars - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia\nWikipedia is an encyclopedia\nWikipedia combines many features of general and specialized encyclopedias, almanacs, and gazetteers. Wikipedia is not a soapbox, an advertising platform, a social network, a vanity press, an experiment in anarchy or democracy, an",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 43,
-            "textWords": 2091
+            "hits": 4,
+            "textWords": 92
           }
         }
       },
@@ -629,11 +629,11 @@
         "hash": "XopilhX5sgqx",
         "address": "https://netzpolitik.org/2021/podcast-npp-219-wikipedia-ist-das-erste-digitale-weltwunder/",
         "title": "Podcast NPP 219: Wikipedia ist das erste digitale Weltwunder - netzpolitik.org",
-        "snippet": "Wikipedia ist das erste digitale Weltwunder - netzpolitik.org\nZum Inhalt springen Menu Icon\nMenü\nSuchen\nAktuelle Beiträge\nNewsletter\nPodcast\nTicker\nSpenden ❤️\nÜber uns\nKontakt\nMerch-Shop\nNP_logo_1z_332x35\nSpenden\nX\nDie Hütte brennt!\nWir gehen rein.\nDie Hütte brennt! Wir gehen rein.\nDeine Spende",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 36,
-            "textWords": 1536
+            "hits": 28,
+            "textWords": 1719
           }
         }
       },
@@ -650,14 +650,38 @@
         }
       },
       {
+        "hash": "eQEnXBFfdPSy",
+        "address": "https://creativecommons.org/2009/06/22/wikipedia-cc-by-sa-free-culture-win/",
+        "title": "Wikipedia + CC BY-SA = Free Culture Win! - Creative Commons",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 12,
+            "textWords": 903
+          }
+        }
+      },
+      {
+        "hash": "S7SfSjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:How_to_copy-edit",
+        "title": "Wikipedia:Basic copyediting - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia\nDiscovering that Wikipedia pages need basic copyediting, i.e., correcting for grammar, spelling, readability, or layout, may surprise new visitors to the site, but this is the \"encyclopedia that anyone can edit\": it is not perfect yet! Thousands of articles need",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 18,
+            "textWords": 1522
+          }
+        }
+      },
+      {
         "hash": "XIDc9jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_a_work_in_progress",
         "title": "Wikipedia:Wikipedia is a work in progress - Wikipedia",
-        "snippet": "Wikipedia:Wikipedia is a work in progress - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch",
+        "snippet": "Wikipedia, the free encyclopedia\nThis page in a nutshell: Wikipedia is a living document, constantly improving and expanding. It will never be a finished work.\nThe missing puzzle pieces in the Wikipedia logo reflects the fact that Wikipedia will never be truly complete; it is a constant work in",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 105,
-            "textWords": 4931
+            "hits": 43,
+            "textWords": 2166
           }
         }
       },
@@ -708,30 +732,6 @@
             "textWords": 3045
           }
         }
-      },
-      {
-        "hash": "VEd_HjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:IPA_for_English",
-        "title": "Help:IPA/English - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 24,
-            "textWords": 6306
-          }
-        }
-      },
-      {
-        "hash": "BaTssjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Help:Multilingual_support_(East_Asian)",
-        "title": "Help:Multilingual support (East Asian) - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 12,
-            "textWords": 2223
-          }
-        }
       }
     ],
     [
@@ -739,23 +739,11 @@
         "hash": "cwuhGjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
         "title": "Wikipedia:General disclaimer - Wikipedia",
-        "snippet": "Wikipedia:General disclaimer - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance",
+        "snippet": "Wikipedia, the free encyclopedia\nWP:GENERAL\nWP:5D\nWP:GENDIS\nGeneral disclaimer\nContent disclaimer\nLegal disclaimer\nMedical disclaimer\nRisk disclaimer\nSurvey disclaimer\nWikipedia makes no guarantee of validity\nWikipedia is an online open-content collaborative encyclopedia; that is, a voluntary",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 32,
-            "textWords": 1273
-          }
-        }
-      },
-      {
-        "hash": "Fct7Cj-JVcyx",
-        "address": "https://en.wikiquote.org/wiki/Wikipedia",
-        "title": "Wikipedia - Wikiquote",
-        "snippet": "Wikipedia - Wikiquote\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nCommunity portal\nVillage pump\nRecent changes\nRandom page\nHelp\nContact Wikiquote\nWikiquote links\nPeople\nLiterary works\nProverbs\nFilms\nTV shows\nThemes\nCategories\nSearch\nSearch\nAppearance\nDonate\nCreate",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 549,
-            "textWords": 18940
+            "hits": 20,
+            "textWords": 841
           }
         }
       },
@@ -763,11 +751,23 @@
         "hash": "dZ2Y8sqyzXmw",
         "address": "https://swprs.org/wikipedia-und-propaganda/",
         "title": "Wikipedia und Propaganda – Swiss Policy Research",
-        "snippet": "Wikipedia und Propaganda – Swiss Policy Research\nSkip to content\nSearch Search for:\nSwiss Policy Research\nGeopolitics and Media\nMenu\nEnglish 🏁 Contents\nSubscribe\nContact\nDonations\nStudien SRF / ZDF\nNZZ-Studie\nAgenturen\nMedienmatrix\nAnalysen Navigator\nWikipedia\nTechniken\nKriege\nNetzwerke Schweiz",
+        "snippet": "Wikipedia: Offene Enzyklopädie oder verdeckte Propaganda-Plattform? (SPR)\nAktualisiert: März 2024\nPubliziert: März 2020\nSprachen: DEU / ENG\nWikipedia: Eine offene Enzyklopädie oder eine verdeckte Propaganda-Plattform?\nDie Grundlagen\nAls die siebtmeist besuchte Website der Welt und die bei weitem",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 120,
-            "textWords": 3276
+            "hits": 117,
+            "textWords": 3184
+          }
+        }
+      },
+      {
+        "hash": "Fct7Cj-JVcyx",
+        "address": "https://en.wikiquote.org/wiki/Wikipedia",
+        "title": "Wikipedia - Wikiquote",
+        "snippet": "Wikipedia, the free encyclopedia that anyone can edit.\nImagine a world in which every single person on the planet is given free access to the sum of all human knowledge. That's what we're doing.\nActive editors at the English Wikipedia 2001–2023\nWikipedia is a free content, multilingual online",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 538,
+            "textWords": 18513
           }
         }
       },
@@ -775,23 +775,11 @@
         "hash": "bG7gxlTg2KM4",
         "address": "https://www.wikihow.com/Become-a-Wikipedia-Editor",
         "title": "How to Become a Wikipedia Editor: The Complete Guide",
-        "snippet": "Wikipedia Editor: The Complete Guide\nSkip to Content\nQuizzes\nSearch\nPRO\nCourses Hot Guides Tech Help Pro Expert Videos About wikiHow Pro Upgrade\nQUIZZES All Quizzes Hot Community Quizzes Love Quizzes Personality Quizzes Trivia Quizzes Taylor Swift Quizzes\nEXPLORE Tech Help ProAbout UsRandom",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 90,
-            "textWords": 2687
-          }
-        }
-      },
-      {
-        "hash": "eV8_WladqZ_x",
-        "address": "https://www.wikipedia.org/",
-        "title": "Wikipedia",
-        "snippet": "Wikipedia\nWikipedia The Free Encyclopedia\nEnglish 7,237,000+ articles\n日本語 1,517,000+ 記事\nDeutsch 3.150.000+ Artikel\nFrançais 2 778 000+ articles\nРусский 2 117 000+ статей\nEspañol 2.136.000+ artículos\nItaliano 1.986.000+ voci\n中文 1,554,000+ 条目 / 條目\nPolski 1 707 000+ haseł\nPortuguês 1.181.000+ artigos",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 16,
-            "textWords": 1066
+            "hits": 86,
+            "textWords": 3820
           }
         }
       },
@@ -799,11 +787,35 @@
         "hash": "euIZqjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Jimmy_Wales",
         "title": "Jimmy Wales - Wikipedia",
-        "snippet": "",
+        "snippet": "Wikipedia\nTitle\nPresident of Fandom (2004–present)\nChairman of the Wikimedia Foundation (2003–2006)\nChair emeritus of the Wikimedia Foundation (2006–present)\nSpouses\nPamela Green\n​\n​\n(m. 1986; div. 1993)\n​\nChristine Rohan\n​\n​\n(m. 1997; div. 2011)\n​\nKate Garvey\n​\n(m. 2012)\n​\nChildren\n3\nRecorded",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 210,
-            "textWords": 15796
+            "hits": 167,
+            "textWords": 12312
+          }
+        }
+      },
+      {
+        "hash": "eV8_WladqZ_x",
+        "address": "https://www.wikipedia.org/",
+        "title": "Wikipedia",
+        "snippet": "Wikipedia still can't be sold.\nAn important update for readers in the United States.\nYou deserve an explanation, so please don't skip this 1-minute read. This year, Wikipedia has had fewer visitors and fewer new supporters, so your visit today means a lot. We hope that Wikipedia's given you at",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 7,
+            "textWords": 267
+          }
+        }
+      },
+      {
+        "hash": "KJMQsjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Purpose",
+        "title": "Wikipedia:Purpose - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia\nWikipedia has a lofty goal: \"a world in which every single person on the planet is given free access to the sum of all human knowledge.\"[1]\nWikipedia's purpose is to benefit readers by acting as a widely accessible and free encyclopedia; a comprehensive written",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 29,
+            "textWords": 779
           }
         }
       },
@@ -832,18 +844,6 @@
         }
       },
       {
-        "hash": "KJMQsjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Purpose",
-        "title": "Wikipedia:Purpose - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 71,
-            "textWords": 2047
-          }
-        }
-      },
-      {
         "hash": "eZKXBr1HgGE5",
         "address": "https://www.apkmirror.com/apk/wikimedia-foundation/wikipedia-fdroid-version/wikipedia-fdroid-version-r-2-7-50495-r-2024-07-23-release/wikipedia-f-droid-version-r-2-7-50495-r-2024-07-23-android-apk-download/",
         "title": "Wikipedia (f-droid version) r/2.7.50495-r-2024-07-23 APK Download by Wikimedia Foundation - APKMirror",
@@ -861,11 +861,11 @@
         "hash": "jr-9W07Yyjex",
         "address": "https://en.greatfire.org/wikipedia.org/wehufi",
         "title": "Is http://wikipedia.org/wehufi blocked in mainland China? — GreatFire",
-        "snippet": "http://wikipedia.org/wehufi blocked in mainland China? — GreatFire\nCheck\nBlocked listsExploreTrendsCompareDataVPNEN中文\nPart of wikipedia.org·All blocked·2988 tested URLs→Can you open http://wikipedia.org/wehufi from mainland China?\nNo.\nIt's blocked — 100% of the last 1 conclusive tests failed in",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 93,
-            "textWords": 602
+            "textWords": 920
           }
         }
       },
@@ -873,11 +873,11 @@
         "hash": "iH4v_jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Ideological_bias_on_Wikipedia",
         "title": "Ideological bias on Wikipedia - Wikipedia",
-        "snippet": "Wikipedia - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate",
+        "snippet": "Wikipedia has been the subject of both academic analysis and public discussion.\nThe English Wikipedia has an internal policy which states that articles must be written from a neutral point of view, which has the goal of representing fairly, proportionately, and without bias, the significant points",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 203,
-            "textWords": 7013
+            "hits": 164,
+            "textWords": 5977
           }
         }
       },
@@ -945,11 +945,11 @@
         "hash": "eV8_WladqZ_x",
         "address": "https://www.wikipedia.org/",
         "title": "Wikipedia",
-        "snippet": "Wikipedia\nWikipedia The Free Encyclopedia\nEnglish 7,237,000+ articles\n日本語 1,517,000+ 記事\nDeutsch 3.150.000+ Artikel\nFrançais 2 778 000+ articles\nРусский 2 117 000+ статей\nEspañol 2.136.000+ artículos\nItaliano 1.986.000+ voci\n中文 1,554,000+ 条目 / 條目\nPolski 1 707 000+ haseł\nPortuguês 1.181.000+ artigos",
+        "snippet": "Wikipedia still can't be sold.\nAn important update for readers in the United States.\nYou deserve an explanation, so please don't skip this 1-minute read. This year, Wikipedia has had fewer visitors and fewer new supporters, so your visit today means a lot. We hope that Wikipedia's given you at",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 16,
-            "textWords": 1066
+            "hits": 7,
+            "textWords": 267
           }
         }
       },
@@ -983,11 +983,11 @@
         "hash": "3ZEiijRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
         "title": "Wikipedia:About - Wikipedia",
-        "snippet": "Wikipedia:About - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate",
+        "snippet": "Wikipedia, the free encyclopedia\nWP:ABT\nWP:ABOUT\nWP:WIKIPEDIA\n\"Imagine a world in which every single person on the planet is given free access to the sum of all human knowledge.\nThat's what we're doing.\" — Jimmy Wales\nWikipedia is a free online encyclopedia that anyone can edit, and millions",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 45,
-            "textWords": 1158
+            "hits": 18,
+            "textWords": 412
           }
         }
       },
@@ -1007,11 +1007,11 @@
         "hash": "mgmYajAL9Tgx",
         "address": "https://en.wikisource.org/wiki/Category:Wikipedia",
         "title": "Category:Wikipedia - Wikisource, the free online library",
-        "snippet": "Category:Wikipedia - Wikisource, the free online library\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain Page\nCommunity portal\nCentral discussion\nRecent changes\nSubject index\nAuthors\nRandom work\nRandom author\nRandom transcription\nHelp\nSpecial pages\nSearch\nSearch\nAppearance",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 21,
-            "textWords": 419
+            "textWords": 532
           }
         }
       },
@@ -1055,11 +1055,11 @@
         "hash": "kgXpZsgKzQ9w",
         "address": "https://indieweb.org/Wikipedia",
         "title": "Wikipedia - IndieWeb",
-        "snippet": "Wikipedia - IndieWeb\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nExplore the IndieWeb\n🗽 Principles\n📜 Community posts\n🌐 Visit a random site\n🌱 Get a personal site\nℹ️ FAQ\n📩 Subscribe to newsletter\nNew and coming up soon!\n🎪 IWC San Diego 12/12…13\nJoin the community!\n🌈 Code of conduct\n💬",
+        "snippet": "Wikipedia is a collaboratively edited, openly licensed, multilingual centralized encyclopedia on numerous topics.\nAdmin\nIf you need an administrator (e.g. to provide the content of deleted pages), tommorris overlaps the wikipedia and indieweb community.\nFeatures\nInteresting Features of Wikipedia,",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 32,
-            "textWords": 498
+            "hits": 29,
+            "textWords": 297
           }
         }
       },
@@ -1102,14 +1102,14 @@
     ],
     [
       {
-        "hash": "jr-9W07Yyjex",
-        "address": "https://en.greatfire.org/wikipedia.org/wehufi",
-        "title": "Is http://wikipedia.org/wehufi blocked in mainland China? — GreatFire",
-        "snippet": "http://wikipedia.org/wehufi blocked in mainland China? — GreatFire\nCheck\nBlocked listsExploreTrendsCompareDataVPNEN中文\nPart of wikipedia.org·All blocked·2988 tested URLs→Can you open http://wikipedia.org/wehufi from mainland China?\nNo.\nIt's blocked — 100% of the last 1 conclusive tests failed in",
+        "hash": "q1CE6n7Yyjex",
+        "address": "https://en.greatfire.org/ja.wikipedia.org",
+        "title": "Is http://ja.wikipedia.org blocked in mainland China? — GreatFire",
+        "snippet": "wikipedia.orgAll blocked2988 tested URLs\nCan you open http://ja.wikipedia.org from mainland China?\nNo.\nNo recent testsVerdict from 2026-06-02 · 3 mo ago\nAs of the last test on 2026-06-02 — 3 mo ago — it was blocked in mainland China. We haven't tested it since, so this may have changed.\nAccess",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 93,
-            "textWords": 602
+            "hits": 11,
+            "textWords": 221
           }
         }
       },
@@ -1117,11 +1117,11 @@
         "hash": "i6_MRjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
         "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
-        "snippet": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch",
+        "snippet": "Wikipedia is an encyclopedia.\nAn encyclopedia is a written compendium of knowledge.\nWikipedia is freely available, and combines many features\nof general and specialized encyclopedias and other reference works.\nWikipedia is not a dumping ground for random information.\nWikipedia is not a place to",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 49,
-            "textWords": 502
+            "hits": 17,
+            "textWords": 126
           }
         }
       },
@@ -1129,11 +1129,11 @@
         "hash": "SbIsMjcl0ynx",
         "address": "https://en.wikiversity.org/wiki/Researching_with_Wikipedia",
         "title": "Researching with Wikipedia - Wikiversity",
-        "snippet": "Wikipedia - Wikiversity\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain Page\nBrowse\nRecent changes\nGuided tours\nRandom\nHelp\nCommunity\nPortal\nColloquium\nNews\nProjects\nSandbox\nSearch\nSearch\nAppearance\nDonate\nCreate account\nLog in\nPersonal tools\nDonate\nCreate account\nLog in",
+        "snippet": "Wikipedia project page Wikipedia:Researching with Wikipedia. In this new context, we will probably want to evolve it toward being a more general discussion on encyclopedias as research tools.\nWikipedia can be a great tool for learning and researching information. However, like all sources, not",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 147,
-            "textWords": 3314
+            "hits": 126,
+            "textWords": 2935
           }
         }
       },
@@ -1141,23 +1141,11 @@
         "hash": "kgXpZsgKzQ9w",
         "address": "https://indieweb.org/Wikipedia",
         "title": "Wikipedia - IndieWeb",
-        "snippet": "Wikipedia - IndieWeb\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nExplore the IndieWeb\n🗽 Principles\n📜 Community posts\n🌐 Visit a random site\n🌱 Get a personal site\nℹ️ FAQ\n📩 Subscribe to newsletter\nNew and coming up soon!\n🎪 IWC San Diego 12/12…13\nJoin the community!\n🌈 Code of conduct\n💬",
+        "snippet": "Wikipedia is a collaboratively edited, openly licensed, multilingual centralized encyclopedia on numerous topics.\nAdmin\nIf you need an administrator (e.g. to provide the content of deleted pages), tommorris overlaps the wikipedia and indieweb community.\nFeatures\nInteresting Features of Wikipedia,",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 32,
-            "textWords": 498
-          }
-        }
-      },
-      {
-        "hash": "mY0dNHJCW4l4",
-        "address": "https://piefed.europe.pub/c/wikipedia@lemmy.world",
-        "title": "Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 114,
-            "textWords": 5146
+            "hits": 29,
+            "textWords": 297
           }
         }
       },
@@ -1186,26 +1174,14 @@
         }
       },
       {
-        "hash": "mgmYajAL9Tgx",
-        "address": "https://en.wikisource.org/wiki/Category:Wikipedia",
-        "title": "Category:Wikipedia - Wikisource, the free online library",
-        "snippet": "Category:Wikipedia - Wikisource, the free online library\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain Page\nCommunity portal\nCentral discussion\nRecent changes\nSubject index\nAuthors\nRandom work\nRandom author\nRandom transcription\nHelp\nSpecial pages\nSearch\nSearch\nAppearance",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 21,
-            "textWords": 419
-          }
-        }
-      },
-      {
         "hash": "MIaemAyZbNhw",
         "address": "https://gwern.net/doc/wikipedia/index",
         "title": "‘Wikipedia’ directory · Gwern.net",
-        "snippet": "‘Wikipedia’ directory · Gwern.net\nSkip to main content\nSite Me New Blog Links Patreon Substack\n‘Wikipedia’ directory\nSee Also\nGwern “Towards a Better Hutter Prize”, Gwern 2026\n“CQK Is The First Unused TLA”, Gwern 2023\n“Prediction Markets”, Gwern 2009\n“In Defense of Inclusionism”, Gwern 2009",
+        "snippet": "Wikipedia Link Archive Bot”, Gwern 2008\nWriting a Wikipedia Link Archive Bot\n“Wikipedia Résumé”, Gwern 2010\nWikipedia Résumé\n“Wikipedia \u0026 YouTube”, Gwern 2009\nWikipedia \u0026 YouTube\n“Wikipedia \u0026 Knol: Why Knol Already Failed”, Gwern 2009\nWikipedia \u0026 Knol: Why Knol Already Failed\n“Wikipedia and Dark",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 218,
-            "textWords": 4109
+            "hits": 102,
+            "textWords": 2132
           }
         }
       },
@@ -1213,37 +1189,49 @@
         "hash": "Fct7Cj-JVcyx",
         "address": "https://en.wikiquote.org/wiki/Wikipedia",
         "title": "Wikipedia - Wikiquote",
-        "snippet": "Wikipedia - Wikiquote\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nCommunity portal\nVillage pump\nRecent changes\nRandom page\nHelp\nContact Wikiquote\nWikiquote links\nPeople\nLiterary works\nProverbs\nFilms\nTV shows\nThemes\nCategories\nSearch\nSearch\nAppearance\nDonate\nCreate",
+        "snippet": "Wikipedia, the free encyclopedia that anyone can edit.\nImagine a world in which every single person on the planet is given free access to the sum of all human knowledge. That's what we're doing.\nActive editors at the English Wikipedia 2001–2023\nWikipedia is a free content, multilingual online",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 549,
-            "textWords": 18940
+            "hits": 538,
+            "textWords": 18513
+          }
+        }
+      },
+      {
+        "hash": "dZ2Y8sqyzXmw",
+        "address": "https://swprs.org/wikipedia-und-propaganda/",
+        "title": "Wikipedia und Propaganda – Swiss Policy Research",
+        "snippet": "Wikipedia: Offene Enzyklopädie oder verdeckte Propaganda-Plattform? (SPR)\nAktualisiert: März 2024\nPubliziert: März 2020\nSprachen: DEU / ENG\nWikipedia: Eine offene Enzyklopädie oder eine verdeckte Propaganda-Plattform?\nDie Grundlagen\nAls die siebtmeist besuchte Website der Welt und die bei weitem",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 117,
+            "textWords": 3184
+          }
+        }
+      },
+      {
+        "hash": "TrdU7s0sjhTw",
+        "address": "https://spectrum.ieee.org/wikipedia-at-25",
+        "title": "At Age 25, Wikipedia Refuses to Evolve",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 53,
+            "textWords": 2747
           }
         }
       }
     ],
     [
       {
-        "hash": "tljzSjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Content_translation_tool",
-        "title": "Wikipedia:Content translation tool - Wikipedia",
-        "snippet": "Wikipedia:Content translation tool - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch",
+        "hash": "TYL59jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Books",
+        "title": "Wikipedia:Books - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia\nThis page has been closed down by community consensus, and is retained only for historical reference.\nIf you wish to restart discussion on the status of this page, seek community input at a forum such as the village pump. It was last substantively updated in May",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 33,
-            "textWords": 1214
-          }
-        }
-      },
-      {
-        "hash": "s2BfEjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Pave_the_path",
-        "title": "Wikipedia:Pave the path - Wikipedia",
-        "snippet": "Wikipedia:Pave the path - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 59,
-            "textWords": 2969
+            "hits": 31,
+            "textWords": 1325
           }
         }
       },
@@ -1260,50 +1248,14 @@
         }
       },
       {
-        "hash": "v8EUQCeN6VN4",
-        "address": "https://prezi.com/ljk3w0m44w6x/introduction-to-wikipedia-in-odia/",
-        "title": "Introduction to Wikipedia (In Odia)! by Subhashish Panigrahi on Prezi",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 1,
-            "textWords": 305
-          }
-        }
-      },
-      {
-        "hash": "tCPX4GFozFBx",
-        "address": "https://diff.wikimedia.org/2017/06/19/wikipedia-information-literacy-study/?share=mastodon",
-        "title": "Writing Wikipedia articles teaches information literacy skills, study finds – Diff",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 20,
-            "textWords": 1024
-          }
-        }
-      },
-      {
-        "hash": "tfgVqjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Citation_needed",
-        "title": "Wikipedia:Citation needed - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 34,
-            "textWords": 2324
-          }
-        }
-      },
-      {
         "hash": "sQw_9jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Don't_cry_COI",
         "title": "Wikipedia:Don't cry COI - Wikipedia",
-        "snippet": "",
+        "snippet": "Wikipedia, the free encyclopedia\nThis page in a nutshell: Do not attack editors just because they are paid editors or have a conflict of interest.\nMaybe instead of crying, whining, and throwing your toys out of the pram when we see paid editors, we should all just calm down and be reasonable.\nWhen",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 63,
-            "textWords": 3663
+            "hits": 11,
+            "textWords": 789
           }
         }
       },
@@ -1311,11 +1263,23 @@
         "hash": "AuYI3jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Glossary",
         "title": "Wikipedia:Glossary - Wikipedia",
-        "snippet": "",
+        "snippet": "Wikipedia.\n!$@\n!\nShorthand for the word \"not\".\n: – en:, de:, es:, fr:, ja:, etc.\nThe English-, German-, Spanish-, French-, Japanese-, etc.-language Wikipedia. For a full list of codes, see List of Wikipedias or m:List of Wikipedias.\nø\nThe character ø has been used in edit summaries to mean a Null",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 190,
-            "textWords": 25421
+            "hits": 377,
+            "textWords": 19540
+          }
+        }
+      },
+      {
+        "hash": "Y1h-ejRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Infobox_templates",
+        "title": "Wikipedia:Manual of Style/Infoboxes - Wikipedia",
+        "snippet": "\"Wikipedia:Infobox\" and \"Wikipedia:Infoboxes\" redirect here. For the WikiProject, see Wikipedia:WikiProject Infoboxes. For general help on creating infoboxes, see Help:Infobox.\nAn infobox is a panel that summarizes key facts about the page's subject. It is usually displayed in the top right of an",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 25,
+            "textWords": 3269
           }
         }
       },
@@ -1323,11 +1287,11 @@
         "hash": "DTPX7jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
         "title": "Wikipedia:Featured articles - Wikipedia",
-        "snippet": "",
+        "snippet": "Art, architecture, and archaeology\nArchaeology\nAcra (fortress) – Ai-Khanoum – Aineta aryballos – Barkhale Camp – Benty Grange hanging bowl – Benty Grange helmet – Beulé Gate – Bonn–Oberkassel dog – Cefnllys Castle – Chestnuts Long Barrow – Chetro Ketl – Coffin Stone – Coldrum Long Barrow – Combe",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 18,
-            "textWords": 22660
+            "hits": 0,
+            "textWords": 21232
           }
         }
       },
@@ -1335,11 +1299,47 @@
         "hash": "MnodljRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:404",
         "title": "Wikipedia:Link rot - Wikipedia",
+        "snippet": "Wikipedia suffers from the phenomenon known as link rot, where external links become dead, as the linked web pages or complete websites disappear, change their content, or move without HTTP redirection.[a]\nLink rot is a significant danger to Wikipedia because of the reliability policy, the source",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 38,
+            "textWords": 3610
+          }
+        }
+      },
+      {
+        "hash": "UcLWdjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:ELSEVIER",
+        "title": "Wikipedia:Elsevier ScienceDirect - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 95,
-            "textWords": 6685
+            "hits": 20,
+            "textWords": 976
+          }
+        }
+      },
+      {
+        "hash": "tljzSjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Content_translation_tool",
+        "title": "Wikipedia:Content translation tool - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 30,
+            "textWords": 1414
+          }
+        }
+      },
+      {
+        "hash": "s2BfEjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Pave_the_path",
+        "title": "Wikipedia:Pave the path - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 58,
+            "textWords": 3133
           }
         }
       }
@@ -1349,11 +1349,11 @@
         "hash": "5rIs1jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/MediaWiki:Citethispage-content",
         "title": "MediaWiki:Citethispage-content - Wikipedia",
-        "snippet": "Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate account\nLog in",
+        "snippet": "Wikipedia, the free encyclopedia\nIMPORTANT NOTE: Most educators and professionals do not consider it appropriate to use tertiary sources such as encyclopedias as a sole source for any information—citing an encyclopedia as an important reference in footnotes or bibliographies may result in censure",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 39,
-            "textWords": 754
+            "hits": 33,
+            "textWords": 530
           }
         }
       },
@@ -1361,11 +1361,11 @@
         "hash": "xgze2sqyzXmw",
         "address": "https://swprs.org/wikipedia-and-propaganda/",
         "title": "Wikipedia and Propaganda – Swiss Policy Research",
-        "snippet": "Wikipedia and Propaganda – Swiss Policy Research\nSkip to content\nSearch Search for:\nSwiss Policy Research\nGeopolitics and Media\nMenu\nEnglish 🏁 Contents\nSubscribe\nContact\nDonations\nStudien SRF / ZDF\nNZZ-Studie\nAgenturen\nMedienmatrix\nAnalysen Navigator\nWikipedia\nTechniken\nKriege\nNetzwerke Schweiz",
+        "snippet": "Wikipedia: An open encyclopedia or a covert propaganda platform? (SPR)\nUpdated: March 2024\nPublished: March 2020\nIs Wikipedia an open encyclopedia or a covert propaganda platform?\nThe basics\nAs the seventh most visited website in the world and the most popular online encyclopedia, Wikipedia exerts",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 110,
-            "textWords": 3134
+            "hits": 107,
+            "textWords": 3042
           }
         }
       },
@@ -1373,11 +1373,11 @@
         "hash": "6BYhXjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:The_Wikipedia_Library/Newsletter/February2014",
         "title": "Wikipedia:The Wikipedia Library/Newsletter/February2014 - Wikipedia",
-        "snippet": "Wikipedia:The Wikipedia Library/Newsletter/February2014 - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages",
+        "snippet": "Wikipedia, the free encyclopedia\nBooks \u0026 Bytes\nIssue 4, February 2014\nby The Interior (talk · contribs), Ocaasi (talk · contribs)\nSign up for monthly delivery\nHello and welcome to Books \u0026 Bytes! The first two months of The Wikipedia's Library's second round of Individual Engagement Grant has been a",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 58,
-            "textWords": 2862
+            "hits": 34,
+            "textWords": 2421
           }
         }
       },
@@ -1409,11 +1409,11 @@
         "hash": "wiS6cjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Help:WP_search_protocol",
         "title": "Help:WP search protocol - Wikipedia",
-        "snippet": "",
+        "snippet": "Wikipedia, the free encyclopedia\nThe template {{WP search protocol}} (or {{WP search}}) may be used at help forums and user talk pages to explain the advice on this page.\nThe WP search protocol described in this page – an easy method to navigate the labyrinthine behind-the-scenes of Wikipedia – is",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 57,
-            "textWords": 1623
+            "hits": 40,
+            "textWords": 869
           }
         }
       },
@@ -1471,11 +1471,11 @@
         "hash": "3PTlTjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Help:Introduction",
         "title": "Help:Introduction - Wikipedia",
-        "snippet": "Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate account\nLog in",
+        "snippet": "Wikipedia, the free encyclopedia\nIntroduction to Wikipedia\nWikipedia is made by people like you.\nThis page takes you through a set of tutorials aimed at complete newcomers who wish to contribute. It covers all the basics, and each tutorial takes only a few minutes, so you can become a proficient",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 15,
-            "textWords": 552
+            "hits": 3,
+            "textWords": 59
           }
         }
       },
@@ -1516,18 +1516,6 @@
         }
       },
       {
-        "hash": "1ahuixAorqWw",
-        "address": "https://features.slashdot.org/story/05/04/18/164213/the-early-history-of-nupedia-and-wikipedia-a-memoir",
-        "title": "The Early History of Nupedia and Wikipedia: A Memoir - Slashdot",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 190,
-            "textWords": 15626
-          }
-        }
-      },
-      {
         "hash": "0sCfwXqO2Dlg",
         "address": "https://media.ccc.de/v/oscal19-17-categorizing_wikipedia",
         "title": "Categorizing Wikipedia - media.ccc.de",
@@ -1536,6 +1524,18 @@
           "EmcuebAenKcB": {
             "hits": 6,
             "textWords": 383
+          }
+        }
+      },
+      {
+        "hash": "1ahuixAorqWw",
+        "address": "https://features.slashdot.org/story/05/04/18/164213/the-early-history-of-nupedia-and-wikipedia-a-memoir",
+        "title": "The Early History of Nupedia and Wikipedia: A Memoir - Slashdot",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 190,
+            "textWords": 15626
           }
         }
       },
@@ -1552,18 +1552,6 @@
         }
       },
       {
-        "hash": "2t5mmvDOAHJg",
-        "address": "https://www.heise.de/news/Wikipedia-nicht-mehr-ganz-offen-155058.html",
-        "title": "Wikipedia nicht mehr ganz offen | heise online",
-        "snippet": "Wikipedia nicht mehr ganz offen | heise online\nheise+ entdecken\nSuchen\nAbo\nSuchen\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise+\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop\nheise jobs\nheise academy\nheise",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 16,
-            "textWords": 1005
-          }
-        }
-      },
-      {
         "hash": "1BfUr2NbdQ8h",
         "address": "https://blog.wikimedia.de/2025/11/28/wikipedia-meinungsverschiedenheit/",
         "title": "Wikipedia: Die Kunst der Meinungsverschiedenheit",
@@ -1576,14 +1564,26 @@
         }
       },
       {
-        "hash": "0uC_glqxWuj4",
-        "address": "https://www.argia.eus/wikipedia",
-        "title": "Wikipedia | ARGIA",
+        "hash": "2t5mmvDOAHJg",
+        "address": "https://www.heise.de/news/Wikipedia-nicht-mehr-ganz-offen-155058.html",
+        "title": "Wikipedia nicht mehr ganz offen | heise online",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 5,
-            "textWords": 859
+            "hits": 13,
+            "textWords": 1253
+          }
+        }
+      },
+      {
+        "hash": "0uKQyz4nScL4",
+        "address": "https://www.wired.com/story/wikipedia-online-encyclopedia-best-place-internet/",
+        "title": "Wikipedia Is the Last Best Place on the Internet | WIRED",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 58,
+            "textWords": 5536
           }
         }
       }
@@ -1605,11 +1605,11 @@
         "hash": "eV8_WladqZ_x",
         "address": "https://www.wikipedia.org/",
         "title": "Wikipedia",
-        "snippet": "Wikipedia\nWikipedia The Free Encyclopedia\nEnglish 7,237,000+ articles\n日本語 1,517,000+ 記事\nDeutsch 3.150.000+ Artikel\nFrançais 2 778 000+ articles\nРусский 2 117 000+ статей\nEspañol 2.136.000+ artículos\nItaliano 1.986.000+ voci\n中文 1,554,000+ 条目 / 條目\nPolski 1 707 000+ haseł\nPortuguês 1.181.000+ artigos",
+        "snippet": "Wikipedia still can't be sold.\nAn important update for readers in the United States.\nYou deserve an explanation, so please don't skip this 1-minute read. This year, Wikipedia has had fewer visitors and fewer new supporters, so your visit today means a lot. We hope that Wikipedia's given you at",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 16,
-            "textWords": 1066
+            "hits": 7,
+            "textWords": 267
           }
         }
       },
@@ -1626,14 +1626,14 @@
         }
       },
       {
-        "hash": "3ZEiijRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
-        "title": "Wikipedia:About - Wikipedia",
-        "snippet": "Wikipedia:About - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate",
+        "hash": "ybCZmjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Multilingual_coordination",
+        "title": "Wikipedia:Multilingual coordination - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia\nThis page is currently inactive and is retained for historical reference.\nEither the page is no longer relevant or consensus on its purpose has become unclear. To revive discussion, seek broader input via a forum such as the village pump.\nThis page is a short",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 45,
-            "textWords": 1158
+            "hits": 13,
+            "textWords": 316
           }
         }
       },
@@ -1641,11 +1641,35 @@
         "hash": "8SL9jsd660dx",
         "address": "https://nl.wikipedia.org/wiki/Wikipedia",
         "title": "Wikipedia - Wikipedia",
+        "snippet": "Wikipedia.\nWikipedia\nEigendom en doelgroep\nType\nonline encyclopedie\nRegistratie\nOptioneel\nEigenaar\nWikimedia Foundation\nAuteur(s)\nWikipediagemeenschap\nLocatie en taal\nLocatie\nAshburn, San Francisco, Dallas, Carrollton, Chicago, Amsterdam, Singapore\nLand(en)\nVerenigde Staten\nTaal\nMeertalig\nTijdlijn",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 135,
+            "textWords": 4550
+          }
+        }
+      },
+      {
+        "hash": "z1CT4ZiEKjLx",
+        "address": "https://lb.wikipedia.org/wiki/Wikipedia_op_L%C3%ABtzebuergesch",
+        "title": "Wikipedia op Lëtzebuergesch – Wikipedia",
+        "snippet": "Wikipedia op Lëtzebuergesch\nLb-Wiki - Entwécklung vun der Zuel vun den Artikelen\nEntwécklung vun der Zuel vun den Artikelen op dëser Wikipedia\ntëscht dem 21. Juli 2004 an dem 1. Juli 2025\nD'Wikipedia op Lëtzebuergesch (oder och: Lëtzebuergesch Wikipedia) ass d'Versioun a Lëtzebuerger Sprooch vun",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 22,
+            "textWords": 531
+          }
+        }
+      },
+      {
+        "hash": "_IT5n1_bylRx",
+        "address": "https://da.wikipedia.org/wiki/Wikipedia:GLAM",
+        "title": "Wikipedia:GLAM - Wikipedia, den frie encyklopædi",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 149,
-            "textWords": 6210
+            "hits": 9,
+            "textWords": 439
           }
         }
       },
@@ -1662,14 +1686,14 @@
         }
       },
       {
-        "hash": "z1CT4ZiEKjLx",
-        "address": "https://lb.wikipedia.org/wiki/Wikipedia_op_L%C3%ABtzebuergesch",
-        "title": "Wikipedia op Lëtzebuergesch – Wikipedia",
+        "hash": "Zk80-q5_AtLx",
+        "address": "https://war.wikipedia.org/wiki/Syahan_nga_Pakli",
+        "title": "Wikipedia",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 30,
-            "textWords": 1056
+            "hits": 19,
+            "textWords": 2036
           }
         }
       },
@@ -1684,30 +1708,6 @@
             "textWords": 629
           }
         }
-      },
-      {
-        "hash": "MR_Yb1_bylRx",
-        "address": "https://da.wikipedia.org/wiki/Wikipedia:Tilf%C3%A6ldige_artikler",
-        "title": "Wikipedia:Tilfældige artikler - Wikipedia, den frie encyklopædi",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 8,
-            "textWords": 612
-          }
-        }
-      },
-      {
-        "hash": "AuXyaEegD5Jx",
-        "address": "https://ny.wikipedia.org/wiki/Tsamba_Lalikulu",
-        "title": "Wikipedia – Encyclopedia Yaulere",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 17,
-            "textWords": 1711
-          }
-        }
       }
     ],
     [
@@ -1715,11 +1715,11 @@
         "hash": "q1CE6n7Yyjex",
         "address": "https://en.greatfire.org/ja.wikipedia.org",
         "title": "Is http://ja.wikipedia.org blocked in mainland China? — GreatFire",
-        "snippet": "http://ja.wikipedia.org blocked in mainland China? — GreatFire\nCheck\nBlocked listsExploreTrendsCompareDataVPNEN中文\nPart of wikipedia.org·All blocked·2988 tested URLs→Can you open http://ja.wikipedia.org from mainland China?\nNo.\nNo recent testsVerdict from 2026-06-02 · 3 mo ago\nAs of the last test on",
+        "snippet": "wikipedia.orgAll blocked2988 tested URLs\nCan you open http://ja.wikipedia.org from mainland China?\nNo.\nNo recent testsVerdict from 2026-06-02 · 3 mo ago\nAs of the last test on 2026-06-02 — 3 mo ago — it was blocked in mainland China. We haven't tested it since, so this may have changed.\nAccess",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 94,
-            "textWords": 659
+            "hits": 11,
+            "textWords": 221
           }
         }
       },
@@ -1763,11 +1763,11 @@
         "hash": "t4P03vqPRUWw",
         "address": "https://wingolog.org/tags/wikipedia",
         "title": "posts tagged \"wikipedia\"",
-        "snippet": "\"wikipedia\"\nwingolog\nabout\narchives\nprojects\ntalks\nposts tagged \"wikipedia\" (feed)\nwikipedia \u0026 guile\nrelated tags\nemacs gc guile scheme\npowered by tekuti",
+        "snippet": "wikipedia \u0026 guile\nrelated tags\nemacs gc guile scheme",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 3,
-            "textWords": 23
+            "hits": 1,
+            "textWords": 8
           }
         }
       },
@@ -1775,11 +1775,11 @@
         "hash": "Z98dBs3Ko1Rg",
         "address": "https://telegram.im/ingush_wikipedia",
         "title": "@ingush_wikipedia - view channel telegram @ingush_wikipedia",
-        "snippet": "@ingush_wikipedia - view channel telegram @ingush_wikipedia\n@ingush_wikipedia\n6 members @ingush_wikipedia\nOpen a Channel via Telegram app\nPreview channel\nDon't have Telegram yet?\nOpen via web telegram\nor\nGet telegram app\n© Telegram_im\nUnofficial service for Telegram messenger",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 4,
-            "textWords": 38
+            "textWords": 64
           }
         }
       },
@@ -1787,11 +1787,11 @@
         "hash": "4DzpoFS6MKD4",
         "address": "https://github.com/kenpratt/wikipedia-client",
         "title": "GitHub - kenpratt/wikipedia-client: Ruby client for the Wikipedia API · GitHub",
-        "snippet": "kenpratt/wikipedia-client: Ruby client for the Wikipedia API · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 50,
-            "textWords": 1107
+            "hits": 36,
+            "textWords": 1239
           }
         }
       },
@@ -1799,11 +1799,11 @@
         "hash": "SbIsMjcl0ynx",
         "address": "https://en.wikiversity.org/wiki/Researching_with_Wikipedia",
         "title": "Researching with Wikipedia - Wikiversity",
-        "snippet": "Wikipedia - Wikiversity\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain Page\nBrowse\nRecent changes\nGuided tours\nRandom\nHelp\nCommunity\nPortal\nColloquium\nNews\nProjects\nSandbox\nSearch\nSearch\nAppearance\nDonate\nCreate account\nLog in\nPersonal tools\nDonate\nCreate account\nLog in",
+        "snippet": "Wikipedia project page Wikipedia:Researching with Wikipedia. In this new context, we will probably want to evolve it toward being a more general discussion on encyclopedias as research tools.\nWikipedia can be a great tool for learning and researching information. However, like all sources, not",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 147,
-            "textWords": 3314
+            "hits": 126,
+            "textWords": 2935
           }
         }
       },
@@ -1811,11 +1811,11 @@
         "hash": "xgze2sqyzXmw",
         "address": "https://swprs.org/wikipedia-and-propaganda/",
         "title": "Wikipedia and Propaganda – Swiss Policy Research",
-        "snippet": "Wikipedia and Propaganda – Swiss Policy Research\nSkip to content\nSearch Search for:\nSwiss Policy Research\nGeopolitics and Media\nMenu\nEnglish 🏁 Contents\nSubscribe\nContact\nDonations\nStudien SRF / ZDF\nNZZ-Studie\nAgenturen\nMedienmatrix\nAnalysen Navigator\nWikipedia\nTechniken\nKriege\nNetzwerke Schweiz",
+        "snippet": "Wikipedia: An open encyclopedia or a covert propaganda platform? (SPR)\nUpdated: March 2024\nPublished: March 2020\nIs Wikipedia an open encyclopedia or a covert propaganda platform?\nThe basics\nAs the seventh most visited website in the world and the most popular online encyclopedia, Wikipedia exerts",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 110,
-            "textWords": 3134
+            "hits": 107,
+            "textWords": 3042
           }
         }
       },
@@ -1823,269 +1823,147 @@
         "hash": "38c7rjjEZfvx",
         "address": "https://en.wiktionary.org/wiki/Template:wikipedia",
         "title": "Template:wikipedia - Wiktionary, the free dictionary",
-        "snippet": "Template:wikipedia - Wiktionary, the free dictionary\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nCommunity portal\nRequested entries\nRecent changes\nRandom entry\nHelp\nGlossary\nContact us\nSpecial pages\nSearch\nSearch\nAppearance\nDonations\nCreate account\nLog in\nPersonal",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 59,
-            "textWords": 1397
+            "hits": 54,
+            "textWords": 1565
           }
         }
       }
     ],
     [
       {
-        "hash": "JEulyKA4psi4",
-        "address": "https://www.theverge.com/2019/1/10/18176938/google-translate-wikipedia-articles-languages-apertium",
-        "title": "Wikipedia is working with Google to translate more of its articles | The Verge",
+        "hash": "jfRh1dFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/PTR_Resource_Record",
+        "title": "PTR Resource Record – Wikipedia",
         "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 13,
-            "textWords": 1968
-          }
-        }
-      },
-      {
-        "hash": "BRS3TEsQYg_4",
-        "address": "https://wikidiff.com/wikipedia/semapedia",
-        "title": "Wikipedia vs Semapedia - What's the difference? | WikiDiff",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 14,
-            "textWords": 603
-          }
-        }
-      },
-      {
-        "hash": "qfnZPlfaFwXk",
-        "address": "https://www.404media.co/jimmy-wales-wikipedia-ai-chatgpt/",
-        "title": "Jimmy Wales Says Wikipedia Could Use AI. Editors Call It the 'Antithesis of Wikipedia'",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 11,
-            "textWords": 779
-          }
-        }
-      },
-      {
-        "hash": "C3xmFtMAuxi4",
-        "address": "https://www.linkedin.com/company/wikipedia-the-free-encyclopedia/",
-        "title": "Wikipedia | LinkedIn",
-        "snippet": "Wikipedia | LinkedIn\nLinkedIn respects your privacy\nLinkedIn and 3rd parties use essential and non-essential cookies to provide, secure, analyze and improve our Services, and to show you relevant ads (including professional and job ads) on and off LinkedIn. Learn more in our Cookie Policy.\nSelect",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 23,
-            "textWords": 1313
-          }
-        }
-      },
-      {
-        "hash": "a8BEHKA4psi4",
-        "address": "https://www.theverge.com/2019/5/29/18644158/north-face-wikipedia-hack-leo-burnett-top-imagens",
-        "title": "North Face tried to scam Wikipedia to get its products to the top of Google search | The Verge",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 11,
-            "textWords": 1735
-          }
-        }
-      },
-      {
-        "hash": "o_2AWsA4psi4",
-        "address": "https://www.theverge.com/23416056/wikipedia-app-vs-google-mobile-search",
-        "title": "Wikipedia’s mobile app is the cure for my Google frustrations | The Verge",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 17,
-            "textWords": 2200
-          }
-        }
-      },
-      {
-        "hash": "AVYPoGQxkaA5",
-        "address": "https://pilledtexts.com/works/do-not-trust-wikipedia-sources",
-        "title": "Critique of Wikipedia | Blog",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 12,
-            "textWords": 409
-          }
-        }
-      },
-      {
-        "hash": "YGpuWsqBIpS6",
-        "address": "https://xn--gckvb8fzb.com/lets-take-wikipedia-offline/",
-        "title": "マリウス . Let's Take Wikipedia Offline!",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 26,
-            "textWords": 2914
-          }
-        }
-      },
-      {
-        "hash": "DSZ8mQbqq9ei",
-        "address": "https://www.rundschau-online.de/kultur/wikipedia-mit-25-unter-druck-durch-ki-konkurrenz-1187833",
-        "title": "Wikipedia wird 25: KI-Konkurenz setzt Online-Lexikon unter Druck - Rundschau Online",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 36,
-            "textWords": 1781
-          }
-        }
-      },
-      {
-        "hash": "AdFweeMcq6Ew",
-        "address": "https://web.archive.org/web/20221231105811/https:/www.theatlantic.com/technology/archive/2015/10/how-wikipedia-is-hostile-to-women/411619/",
-        "title": "The Sexism of Wikipedia - The Atlantic",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 35,
-            "textWords": 2954
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "jr-9W07Yyjex",
-        "address": "https://en.greatfire.org/wikipedia.org/wehufi",
-        "title": "Is http://wikipedia.org/wehufi blocked in mainland China? — GreatFire",
-        "snippet": "http://wikipedia.org/wehufi blocked in mainland China? — GreatFire\nCheck\nBlocked listsExploreTrendsCompareDataVPNEN中文\nPart of wikipedia.org·All blocked·2988 tested URLs→Can you open http://wikipedia.org/wehufi from mainland China?\nNo.\nIt's blocked — 100% of the last 1 conclusive tests failed in",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 93,
-            "textWords": 602
-          }
-        }
-      },
-      {
-        "hash": "i6_MRjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
-        "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
-        "snippet": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 49,
-            "textWords": 502
-          }
-        }
-      },
-      {
-        "hash": "xgze2sqyzXmw",
-        "address": "https://swprs.org/wikipedia-and-propaganda/",
-        "title": "Wikipedia and Propaganda – Swiss Policy Research",
-        "snippet": "Wikipedia and Propaganda – Swiss Policy Research\nSkip to content\nSearch Search for:\nSwiss Policy Research\nGeopolitics and Media\nMenu\nEnglish 🏁 Contents\nSubscribe\nContact\nDonations\nStudien SRF / ZDF\nNZZ-Studie\nAgenturen\nMedienmatrix\nAnalysen Navigator\nWikipedia\nTechniken\nKriege\nNetzwerke Schweiz",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 110,
-            "textWords": 3134
-          }
-        }
-      },
-      {
-        "hash": "Z98dBs3Ko1Rg",
-        "address": "https://telegram.im/ingush_wikipedia",
-        "title": "@ingush_wikipedia - view channel telegram @ingush_wikipedia",
-        "snippet": "@ingush_wikipedia - view channel telegram @ingush_wikipedia\n@ingush_wikipedia\n6 members @ingush_wikipedia\nOpen a Channel via Telegram app\nPreview channel\nDon't have Telegram yet?\nOpen via web telegram\nor\nGet telegram app\n© Telegram_im\nUnofficial service for Telegram messenger",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 4,
-            "textWords": 38
+            "textWords": 616
           }
         }
       },
       {
-        "hash": "SbIsMjcl0ynx",
-        "address": "https://en.wikiversity.org/wiki/Researching_with_Wikipedia",
-        "title": "Researching with Wikipedia - Wikiversity",
-        "snippet": "Wikipedia - Wikiversity\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain Page\nBrowse\nRecent changes\nGuided tours\nRandom\nHelp\nCommunity\nPortal\nColloquium\nNews\nProjects\nSandbox\nSearch\nSearch\nAppearance\nDonate\nCreate account\nLog in\nPersonal tools\nDonate\nCreate account\nLog in",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 147,
-            "textWords": 3314
-          }
-        }
-      },
-      {
-        "hash": "RRPJ8lFN6nW4",
-        "address": "https://www.wikiwand.com/en/articles/Wikipedia_community",
-        "title": "Wikipedia community - Wikiwand",
+        "hash": "FcDGNjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Privacy_Badger",
+        "title": "Privacy Badger - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 116,
-            "textWords": 4363
+            "hits": 8,
+            "textWords": 1819
           }
         }
       },
       {
-        "hash": "MIaemAyZbNhw",
-        "address": "https://gwern.net/doc/wikipedia/index",
-        "title": "‘Wikipedia’ directory · Gwern.net",
-        "snippet": "‘Wikipedia’ directory · Gwern.net\nSkip to main content\nSite Me New Blog Links Patreon Substack\n‘Wikipedia’ directory\nSee Also\nGwern “Towards a Better Hutter Prize”, Gwern 2026\n“CQK Is The First Unused TLA”, Gwern 2023\n“Prediction Markets”, Gwern 2009\n“In Defense of Inclusionism”, Gwern 2009",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 218,
-            "textWords": 4109
-          }
-        }
-      },
-      {
-        "hash": "kgXpZsgKzQ9w",
-        "address": "https://indieweb.org/Wikipedia",
-        "title": "Wikipedia - IndieWeb",
-        "snippet": "Wikipedia - IndieWeb\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nExplore the IndieWeb\n🗽 Principles\n📜 Community posts\n🌐 Visit a random site\n🌱 Get a personal site\nℹ️ FAQ\n📩 Subscribe to newsletter\nNew and coming up soon!\n🎪 IWC San Diego 12/12…13\nJoin the community!\n🌈 Code of conduct\n💬",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 32,
-            "textWords": 498
-          }
-        }
-      },
-      {
-        "hash": "mY0dNHJCW4l4",
-        "address": "https://piefed.europe.pub/c/wikipedia@lemmy.world",
-        "title": "Wikipedia",
+        "hash": "mwjTzDr4UJf4",
+        "address": "https://we-do.wiki/books/postfix",
+        "title": "Postfix | we-do.wiki",
         "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 114,
-            "textWords": 5146
+            "hits": 1,
+            "textWords": 180
           }
         }
       },
       {
-        "hash": "mgmYajAL9Tgx",
-        "address": "https://en.wikisource.org/wiki/Category:Wikipedia",
-        "title": "Category:Wikipedia - Wikisource, the free online library",
-        "snippet": "Category:Wikipedia - Wikisource, the free online library\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain Page\nCommunity portal\nCentral discussion\nRecent changes\nSubject index\nAuthors\nRandom work\nRandom author\nRandom transcription\nHelp\nSpecial pages\nSearch\nSearch\nAppearance",
+        "hash": "xr6iDzS6MKD4",
+        "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+        "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 21,
-            "textWords": 419
+            "hits": 6,
+            "textWords": 25449
+          }
+        }
+      },
+      {
+        "hash": "LYJ22oOmiIFg",
+        "address": "https://www.stefanux.de/wiki/doku.php/netzwerke/webdav",
+        "title": "netzwerke:webdav [Dokumentation für Linux-Admins [stefanux.de]]",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 2,
+            "textWords": 1400
+          }
+        }
+      },
+      {
+        "hash": "FlXJ4k_Av1Mw",
+        "address": "https://dejure.org/gesetze/UrhG/97.html",
+        "title": "§ 97 UrhG - Anspruch auf Unterlassung und Schadensersatz - dejure.org",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 1,
+            "textWords": 836
+          }
+        }
+      },
+      {
+        "hash": "OqU1klUKWg6g",
+        "address": "https://www.manitu.de/webhosting/",
+        "title": "Webhosting - schon ab 1 € pro Monat - manitu",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 1,
+            "textWords": 7232
+          }
+        }
+      },
+      {
+        "hash": "tGF8OxCtKNbh",
+        "address": "https://wiki.archlinux.de/title/TrueCrypt",
+        "title": "TrueCrypt – wiki.archlinux.de",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 1,
+            "textWords": 1266
+          }
+        }
+      },
+      {
+        "hash": "7TXARQxXGmlz",
+        "address": "https://wiki.documentfoundation.org/Feature_Comparison:_LibreOffice_-_Microsoft_Office",
+        "title": "Feature Comparison: LibreOffice - Microsoft Office - The Document Foundation Wiki",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 1,
+            "textWords": 11775
+          }
+        }
+      },
+      {
+        "hash": "Xeg4HOK-feu4",
+        "address": "https://musik.ernstlx.com/",
+        "title": "Die Geschichte des Musikvideos",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 5,
+            "textWords": 791
           }
         }
       }
     ],
     [
       {
-        "hash": "JzD34jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Conformity",
-        "title": "Conformity - Wikipedia",
-        "snippet": "",
+        "hash": "GCAt8jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:List_of_articles_every_Wikipedia_should_have",
+        "title": "Wikipedia:List of articles every Wikipedia should have - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 10,
-            "textWords": 10316
+            "hits": 1,
+            "textWords": 14
           }
         }
       },
@@ -2102,86 +1980,50 @@
         }
       },
       {
-        "hash": "okGLaXqO2Dlg",
-        "address": "https://media.ccc.de/v/ds2010-4034-wikipedia-openstreetmap",
-        "title": "Wikipedia \u0026 OpenStreetMap - media.ccc.de",
+        "hash": "L_ZOKopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Wikidata:List_of_audio_podcasts_of_Wikipedia_articles_in_English",
+        "title": "Wikidata:List of audio podcasts of Wikipedia articles in English - Wikidata",
         "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 43,
+            "textWords": 40587
+          }
+        }
+      },
+      {
+        "hash": "IHq1ZjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:Failure",
+        "title": "Wikipedia:Failure - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia\nNot to be confused with WP:FAIL.\nMembers of a rowing team bow their heads and cradle their faces after their defeat in a race. Even though they lost, they probably still learned something that will help them in their next event.\nFailure: Without it, the world would",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 5,
-            "textWords": 382
+            "textWords": 189
           }
         }
       },
       {
-        "hash": "Wf__xh8sSnOw",
-        "address": "https://patdavid.net/2014/12/wikipedia-edit2014-video/",
-        "title": "Wikipedia #Edit2014 Video",
-        "snippet": "",
+        "hash": "eV8_WladqZ_x",
+        "address": "https://www.wikipedia.org/",
+        "title": "Wikipedia",
+        "snippet": "Wikipedia still can't be sold.\nAn important update for readers in the United States.\nYou deserve an explanation, so please don't skip this 1-minute read. This year, Wikipedia has had fewer visitors and fewer new supporters, so your visit today means a lot. We hope that Wikipedia's given you at",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 1,
-            "textWords": 727
+            "hits": 7,
+            "textWords": 267
           }
         }
       },
       {
-        "hash": "KR6ahjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Tom_Steyer",
-        "title": "Tom Steyer - Wikipedia",
-        "snippet": "",
+        "hash": "BE07HjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:SELF",
+        "title": "Wikipedia:Manual of Style/Self-references to avoid - Wikipedia",
+        "snippet": "Wikipedia, the free encyclopedia\nThis page in a nutshell: Wikipedia's free content is reused in many places: do not assume that the reader is reading Wikipedia, or indeed any website. Articles may refer to themselves, but they shouldn't refer to Wikipedia in a non-neutral fashion except under",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 8,
-            "textWords": 9982
-          }
-        }
-      },
-      {
-        "hash": "L9idyjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Thomas_Paine",
-        "title": "Thomas Paine - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 16,
-            "textWords": 24134
-          }
-        }
-      },
-      {
-        "hash": "R8kE-vDRD4s4",
-        "address": "https://exiguus.blog/tags/wikipedia/",
-        "title": "Wikipedia | exiguus.blog",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 3,
-            "textWords": 193
-          }
-        }
-      },
-      {
-        "hash": "IDUqxjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Request_directory",
-        "title": "Wikipedia:Request directory - Wikipedia",
-        "snippet": "Wikipedia:Request directory - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 98,
-            "textWords": 6554
-          }
-        }
-      },
-      {
-        "hash": "IAXnxjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Wikipedia:Barnstaritis",
-        "title": "Wikipedia:Barnstaritis - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 54,
-            "textWords": 3711
+            "hits": 65,
+            "textWords": 1556
           }
         }
       },
@@ -2196,6 +2038,42 @@
             "textWords": 413
           }
         }
+      },
+      {
+        "hash": "Ud7y79WIljx5",
+        "address": "https://www.breitbart.com/tech/2025/09/27/wikipedia-editors-propose-deleting-page-on-charlie-kirk-memorial-service-add-nazi-comparisons/",
+        "title": "Wikipedia Editors Propose Deleting Page on Charlie Kirk Memorial Service, Add Nazi Comparisons",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 16,
+            "textWords": 2535
+          }
+        }
+      },
+      {
+        "hash": "B0YQtsQ6IZd5",
+        "address": "https://torrentfreak.com/copyright-industry-rhetoric-ignores-the-existence-of-linux-and-wikipedia-011016/",
+        "title": "Copyright Industry Rhetoric Ignores The Existence Of Linux And Wikipedia * TorrentFreak",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 4,
+            "textWords": 1407
+          }
+        }
+      },
+      {
+        "hash": "cdsPFlkICQS7",
+        "address": "https://www.hurriyetdailynews.com/wikipedia-should-blame-itself-for-ban-in-turkey-minister-124352",
+        "title": "Wikipedia has itself to blame for ban in Turkey: Minister - Türkiye News",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 7,
+            "textWords": 799
+          }
+        }
       }
     ],
     [
@@ -2203,11 +2081,11 @@
         "hash": "cdsaN6NbHyMw",
         "address": "https://wikimedia.org.au/wiki/My_Wikipedia_page_could_be_better",
         "title": "My Wikipedia page could be better - Wikimedia Australia",
-        "snippet": "Wikipedia page could be better - Wikimedia Australia\nNews\nWhat's on\nResources\nProjects\nDonate\nAbout\nSpecial:Search\nMy Wikipedia page could be better\nDo you have a Wikipedia page? Here is what you can do if you don't like it!\n16 May 2025, Alice Woods.\nWikimedia Australia is contacted regularly by",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 28,
-            "textWords": 861
+            "hits": 27,
+            "textWords": 1304
           }
         }
       },
@@ -2215,11 +2093,11 @@
         "hash": "Oh0OMhW4vJ7w",
         "address": "https://dev.to/t/wikipedia",
         "title": "Wikipedia - DEV Community",
-        "snippet": "Wikipedia - DEV Community\nSkip to content Navigation menu\nSearch\nPowered by Algolia Search\nLog in Create account\nDEV Community\nClose\n#wikipedia\nFollow\nHide\nCreate Post\nPosts\nLeft menu\n👋 Sign in for the ability to sort posts by relevant, latest, or top.\nRight menu\nงานวิจัยชี้ AI Overviews",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 7,
-            "textWords": 236
+            "hits": 64,
+            "textWords": 3291
           }
         }
       },
@@ -2227,11 +2105,11 @@
         "hash": "MIaemAyZbNhw",
         "address": "https://gwern.net/doc/wikipedia/index",
         "title": "‘Wikipedia’ directory · Gwern.net",
-        "snippet": "‘Wikipedia’ directory · Gwern.net\nSkip to main content\nSite Me New Blog Links Patreon Substack\n‘Wikipedia’ directory\nSee Also\nGwern “Towards a Better Hutter Prize”, Gwern 2026\n“CQK Is The First Unused TLA”, Gwern 2023\n“Prediction Markets”, Gwern 2009\n“In Defense of Inclusionism”, Gwern 2009",
+        "snippet": "Wikipedia Link Archive Bot”, Gwern 2008\nWriting a Wikipedia Link Archive Bot\n“Wikipedia Résumé”, Gwern 2010\nWikipedia Résumé\n“Wikipedia \u0026 YouTube”, Gwern 2009\nWikipedia \u0026 YouTube\n“Wikipedia \u0026 Knol: Why Knol Already Failed”, Gwern 2009\nWikipedia \u0026 Knol: Why Knol Already Failed\n“Wikipedia and Dark",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 218,
-            "textWords": 4109
+            "hits": 102,
+            "textWords": 2132
           }
         }
       },
@@ -2263,11 +2141,11 @@
         "hash": "DTPX7jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_articles",
         "title": "Wikipedia:Featured articles - Wikipedia",
-        "snippet": "",
+        "snippet": "Art, architecture, and archaeology\nArchaeology\nAcra (fortress) – Ai-Khanoum – Aineta aryballos – Barkhale Camp – Benty Grange hanging bowl – Benty Grange helmet – Beulé Gate – Bonn–Oberkassel dog – Cefnllys Castle – Chestnuts Long Barrow – Chetro Ketl – Coffin Stone – Coldrum Long Barrow – Combe",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 18,
-            "textWords": 22649
+            "hits": 0,
+            "textWords": 21232
           }
         }
       },
@@ -2275,11 +2153,11 @@
         "hash": "Fct7Cj-JVcyx",
         "address": "https://en.wikiquote.org/wiki/Wikipedia",
         "title": "Wikipedia - Wikiquote",
-        "snippet": "Wikipedia - Wikiquote\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nCommunity portal\nVillage pump\nRecent changes\nRandom page\nHelp\nContact Wikiquote\nWikiquote links\nPeople\nLiterary works\nProverbs\nFilms\nTV shows\nThemes\nCategories\nSearch\nSearch\nAppearance\nDonate\nCreate",
+        "snippet": "Wikipedia, the free encyclopedia that anyone can edit.\nImagine a world in which every single person on the planet is given free access to the sum of all human knowledge. That's what we're doing.\nActive editors at the English Wikipedia 2001–2023\nWikipedia is a free content, multilingual online",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 549,
-            "textWords": 18940
+            "hits": 538,
+            "textWords": 18513
           }
         }
       },
@@ -2322,26 +2200,14 @@
     ],
     [
       {
-        "hash": "4N7QFh6tsM8o",
-        "address": "https://wikipedia.softonic.cn/",
-        "title": "Wikipedia 版 - 下载",
-        "snippet": "",
+        "hash": "xgze2sqyzXmw",
+        "address": "https://swprs.org/wikipedia-and-propaganda/",
+        "title": "Wikipedia and Propaganda – Swiss Policy Research",
+        "snippet": "Wikipedia: An open encyclopedia or a covert propaganda platform? (SPR)\nUpdated: March 2024\nPublished: March 2020\nIs Wikipedia an open encyclopedia or a covert propaganda platform?\nThe basics\nAs the seventh most visited website in the world and the most popular online encyclopedia, Wikipedia exerts",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 25,
-            "textWords": 852
-          }
-        }
-      },
-      {
-        "hash": "7qXiQoC2Dk-o",
-        "address": "https://wikipedia-android.softonic.cn/android",
-        "title": "Wikipedia APK Android 版 - 下载",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 51,
-            "textWords": 1937
+            "hits": 107,
+            "textWords": 3042
           }
         }
       },
@@ -2349,11 +2215,11 @@
         "hash": "i6_MRjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
         "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
-        "snippet": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch",
+        "snippet": "Wikipedia is an encyclopedia.\nAn encyclopedia is a written compendium of knowledge.\nWikipedia is freely available, and combines many features\nof general and specialized encyclopedias and other reference works.\nWikipedia is not a dumping ground for random information.\nWikipedia is not a place to",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 49,
-            "textWords": 502
+            "hits": 17,
+            "textWords": 126
           }
         }
       },
@@ -2361,11 +2227,11 @@
         "hash": "t4P03vqPRUWw",
         "address": "https://wingolog.org/tags/wikipedia",
         "title": "posts tagged \"wikipedia\"",
-        "snippet": "\"wikipedia\"\nwingolog\nabout\narchives\nprojects\ntalks\nposts tagged \"wikipedia\" (feed)\nwikipedia \u0026 guile\nrelated tags\nemacs gc guile scheme\npowered by tekuti",
+        "snippet": "wikipedia \u0026 guile\nrelated tags\nemacs gc guile scheme",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 3,
-            "textWords": 23
+            "hits": 1,
+            "textWords": 8
           }
         }
       },
@@ -2373,47 +2239,11 @@
         "hash": "Z98dBs3Ko1Rg",
         "address": "https://telegram.im/ingush_wikipedia",
         "title": "@ingush_wikipedia - view channel telegram @ingush_wikipedia",
-        "snippet": "@ingush_wikipedia - view channel telegram @ingush_wikipedia\n@ingush_wikipedia\n6 members @ingush_wikipedia\nOpen a Channel via Telegram app\nPreview channel\nDon't have Telegram yet?\nOpen via web telegram\nor\nGet telegram app\n© Telegram_im\nUnofficial service for Telegram messenger",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
             "hits": 4,
-            "textWords": 38
-          }
-        }
-      },
-      {
-        "hash": "xgze2sqyzXmw",
-        "address": "https://swprs.org/wikipedia-and-propaganda/",
-        "title": "Wikipedia and Propaganda – Swiss Policy Research",
-        "snippet": "Wikipedia and Propaganda – Swiss Policy Research\nSkip to content\nSearch Search for:\nSwiss Policy Research\nGeopolitics and Media\nMenu\nEnglish 🏁 Contents\nSubscribe\nContact\nDonations\nStudien SRF / ZDF\nNZZ-Studie\nAgenturen\nMedienmatrix\nAnalysen Navigator\nWikipedia\nTechniken\nKriege\nNetzwerke Schweiz",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 110,
-            "textWords": 3134
-          }
-        }
-      },
-      {
-        "hash": "4DzpoFS6MKD4",
-        "address": "https://github.com/kenpratt/wikipedia-client",
-        "title": "GitHub - kenpratt/wikipedia-client: Ruby client for the Wikipedia API · GitHub",
-        "snippet": "kenpratt/wikipedia-client: Ruby client for the Wikipedia API · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 50,
-            "textWords": 1107
-          }
-        }
-      },
-      {
-        "hash": "kgXpZsgKzQ9w",
-        "address": "https://indieweb.org/Wikipedia",
-        "title": "Wikipedia - IndieWeb",
-        "snippet": "Wikipedia - IndieWeb\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nExplore the IndieWeb\n🗽 Principles\n📜 Community posts\n🌐 Visit a random site\n🌱 Get a personal site\nℹ️ FAQ\n📩 Subscribe to newsletter\nNew and coming up soon!\n🎪 IWC San Diego 12/12…13\nJoin the community!\n🌈 Code of conduct\n💬",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 32,
-            "textWords": 498
+            "textWords": 64
           }
         }
       },
@@ -2421,11 +2251,23 @@
         "hash": "SbIsMjcl0ynx",
         "address": "https://en.wikiversity.org/wiki/Researching_with_Wikipedia",
         "title": "Researching with Wikipedia - Wikiversity",
-        "snippet": "Wikipedia - Wikiversity\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain Page\nBrowse\nRecent changes\nGuided tours\nRandom\nHelp\nCommunity\nPortal\nColloquium\nNews\nProjects\nSandbox\nSearch\nSearch\nAppearance\nDonate\nCreate account\nLog in\nPersonal tools\nDonate\nCreate account\nLog in",
+        "snippet": "Wikipedia project page Wikipedia:Researching with Wikipedia. In this new context, we will probably want to evolve it toward being a more general discussion on encyclopedias as research tools.\nWikipedia can be a great tool for learning and researching information. However, like all sources, not",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 147,
-            "textWords": 3314
+            "hits": 126,
+            "textWords": 2935
+          }
+        }
+      },
+      {
+        "hash": "kgXpZsgKzQ9w",
+        "address": "https://indieweb.org/Wikipedia",
+        "title": "Wikipedia - IndieWeb",
+        "snippet": "Wikipedia is a collaboratively edited, openly licensed, multilingual centralized encyclopedia on numerous topics.\nAdmin\nIf you need an administrator (e.g. to provide the content of deleted pages), tommorris overlaps the wikipedia and indieweb community.\nFeatures\nInteresting Features of Wikipedia,",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 29,
+            "textWords": 297
           }
         }
       },
@@ -2438,6 +2280,42 @@
           "EmcuebAenKcB": {
             "hits": 116,
             "textWords": 4363
+          }
+        }
+      },
+      {
+        "hash": "SFppgopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Wikidata:List_of_1000_articles_every_Wikipedia_should_have",
+        "title": "Wikidata:List of 1000 articles every Wikipedia should have - Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 7,
+            "textWords": 881
+          }
+        }
+      },
+      {
+        "hash": "mY0dNHJCW4l4",
+        "address": "https://piefed.europe.pub/c/wikipedia@lemmy.world",
+        "title": "Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 114,
+            "textWords": 5146
+          }
+        }
+      },
+      {
+        "hash": "MIaemAyZbNhw",
+        "address": "https://gwern.net/doc/wikipedia/index",
+        "title": "‘Wikipedia’ directory · Gwern.net",
+        "snippet": "Wikipedia Link Archive Bot”, Gwern 2008\nWriting a Wikipedia Link Archive Bot\n“Wikipedia Résumé”, Gwern 2010\nWikipedia Résumé\n“Wikipedia \u0026 YouTube”, Gwern 2009\nWikipedia \u0026 YouTube\n“Wikipedia \u0026 Knol: Why Knol Already Failed”, Gwern 2009\nWikipedia \u0026 Knol: Why Knol Already Failed\n“Wikipedia and Dark",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 102,
+            "textWords": 2132
           }
         }
       }
@@ -2516,6 +2394,18 @@
         }
       },
       {
+        "hash": "5peVJsiA1Ih4",
+        "address": "https://dailydot.com/wikipedia-endownemnt-fundraising",
+        "title": "Wikipedia Endowment: Is Wikipedia Going Broke?",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 33,
+            "textWords": 1984
+          }
+        }
+      },
+      {
         "hash": "V9a2-uoQHeJw",
         "address": "https://healthquestions.medhelp.org/diabetes-in-men-wikipedia",
         "title": "diabetes in men wikipedia - MedHelp",
@@ -2531,23 +2421,11 @@
         "hash": "t4P03vqPRUWw",
         "address": "https://wingolog.org/tags/wikipedia",
         "title": "posts tagged \"wikipedia\"",
-        "snippet": "\"wikipedia\"\nwingolog\nabout\narchives\nprojects\ntalks\nposts tagged \"wikipedia\" (feed)\nwikipedia \u0026 guile\nrelated tags\nemacs gc guile scheme\npowered by tekuti",
+        "snippet": "wikipedia \u0026 guile\nrelated tags\nemacs gc guile scheme",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 3,
-            "textWords": 23
-          }
-        }
-      },
-      {
-        "hash": "VHhsKU-oXJi4",
-        "address": "https://hhvm.com/blog/7205/wikipedia-on-hhvm",
-        "title": "Wikipedia on HHVM | HHVM",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 17,
-            "textWords": 3146
+            "hits": 1,
+            "textWords": 8
           }
         }
       },
@@ -2569,11 +2447,11 @@
         "hash": "YzjYVjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Five_pillars",
         "title": "Wikipedia:Five pillars - Wikipedia",
-        "snippet": "Wikipedia:Five pillars - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate",
+        "snippet": "Wikipedia, the free encyclopedia\nWikipedia is an encyclopedia\nWikipedia combines many features of general and specialized encyclopedias, almanacs, and gazetteers. Wikipedia is not a soapbox, an advertising platform, a social network, a vanity press, an experiment in anarchy or democracy, an",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 37,
-            "textWords": 1540
+            "hits": 4,
+            "textWords": 92
           }
         }
       },
@@ -2593,11 +2471,11 @@
         "hash": "38c7rjjEZfvx",
         "address": "https://en.wiktionary.org/wiki/Template:wikipedia",
         "title": "Template:wikipedia - Wiktionary, the free dictionary",
-        "snippet": "Template:wikipedia - Wiktionary, the free dictionary\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nCommunity portal\nRequested entries\nRecent changes\nRandom entry\nHelp\nGlossary\nContact us\nSpecial pages\nSearch\nSearch\nAppearance\nDonations\nCreate account\nLog in\nPersonal",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 59,
-            "textWords": 1397
+            "hits": 54,
+            "textWords": 1565
           }
         }
       },
@@ -2617,11 +2495,11 @@
         "hash": "U8owRjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Be_bold",
         "title": "Wikipedia:Be bold - Wikipedia",
-        "snippet": "",
+        "snippet": "Wikipedia, the free encyclopedia\nThis page in a nutshell: Jump right in! If an edit seems like an improvement, go for it!\n... and the child is right to be bold.\nWe would like everyone to be bold and help make Wikipedia a better encyclopedia. How many times have you read something and thought—Why",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 42,
-            "textWords": 2607
+            "hits": 15,
+            "textWords": 1433
           }
         }
       },
@@ -2653,11 +2531,11 @@
         "hash": "IDUqxjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wikipedia:Request_directory",
         "title": "Wikipedia:Request directory - Wikipedia",
-        "snippet": "Wikipedia:Request directory - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance",
+        "snippet": "",
         "matchedWords": {
           "EmcuebAenKcB": {
-            "hits": 98,
-            "textWords": 6554
+            "hits": 96,
+            "textWords": 7065
           }
         }
       },
@@ -2700,6 +2578,18 @@
         }
       },
       {
+        "hash": "GgWyh26kHrvx",
+        "address": "https://wikiindex.org/w/Category:Wikipedia",
+        "title": "Category:Wikipedia – WikiIndex – the index of all wiki",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 221,
+            "textWords": 5277
+          }
+        }
+      },
+      {
         "hash": "ek3BalFN6nW4",
         "address": "https://www.wikiwand.com/en/articles/German_Wikipedia",
         "title": "German Wikipedia - Wikiwand",
@@ -2712,6 +2602,78 @@
         }
       },
       {
+        "hash": "dZ2Y8sqyzXmw",
+        "address": "https://swprs.org/wikipedia-und-propaganda/",
+        "title": "Wikipedia und Propaganda – Swiss Policy Research",
+        "snippet": "Wikipedia: Offene Enzyklopädie oder verdeckte Propaganda-Plattform? (SPR)\nAktualisiert: März 2024\nPubliziert: März 2020\nSprachen: DEU / ENG\nWikipedia: Eine offene Enzyklopädie oder eine verdeckte Propaganda-Plattform?\nDie Grundlagen\nAls die siebtmeist besuchte Website der Welt und die bei weitem",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 117,
+            "textWords": 3184
+          }
+        }
+      },
+      {
+        "hash": "fxnyABoAuDBx",
+        "address": "https://climateaudit.org/2009/12/19/climategatekeeping-wikipedia/",
+        "title": "Climategatekeeping: Wikipedia « Climate Audit",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 8,
+            "textWords": 21571
+          }
+        }
+      },
+      {
+        "hash": "euIZqjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Jimmy_Wales",
+        "title": "Jimmy Wales - Wikipedia",
+        "snippet": "Wikipedia\nTitle\nPresident of Fandom (2004–present)\nChairman of the Wikimedia Foundation (2003–2006)\nChair emeritus of the Wikimedia Foundation (2006–present)\nSpouses\nPamela Green\n​\n​\n(m. 1986; div. 1993)\n​\nChristine Rohan\n​\n​\n(m. 1997; div. 2011)\n​\nKate Garvey\n​\n(m. 2012)\n​\nChildren\n3\nRecorded",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 167,
+            "textWords": 12312
+          }
+        }
+      },
+      {
+        "hash": "fGwyAjhVhmg4",
+        "address": "https://javbtc.com/pornpics/metart-bridget-wong-playing-asshole-wikipedia",
+        "title": "Metart Bridget Wong Playing Asshole Wikipedia Porn Pics javbtc.com",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 1,
+            "textWords": 1831
+          }
+        }
+      },
+      {
+        "hash": "cYoaY00xCwIg",
+        "address": "https://etoile-psy.webnode.fr/news/wikipedia/",
+        "title": "Wikipedia en italien :: Cabinet l’Étoile",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 4,
+            "textWords": 2477
+          }
+        }
+      },
+      {
+        "hash": "diCK6mtcFS8B",
+        "address": "http://irpup.w.interiowo.pl/wikipedia.html",
+        "title": "Wikipedia. Server wikipedia and tiba bone wikipedia with north sea oil wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "EmcuebAenKcB": {
+            "hits": 128,
+            "textWords": 4983
+          }
+        }
+      },
+      {
         "hash": "eRGDCDLtrFJw",
         "address": "https://lmstudio.ai/lmstudio/wikipedia",
         "title": "lmstudio/wikipedia • LM Studio Hub",
@@ -2720,90 +2682,6 @@
           "EmcuebAenKcB": {
             "hits": 5,
             "textWords": 192
-          }
-        }
-      },
-      {
-        "hash": "eQwY0NScvXig",
-        "address": "https://video.golem.de/software-entwicklung/3926/wikibhasha-tool-zum-uebersetzen-von-wikipedia-artikeln.html",
-        "title": "WikiBhasha - Tool zum Übersetzen von Wikipedia-Artikeln - Video.Golem.de",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 8,
-            "textWords": 983
-          }
-        }
-      },
-      {
-        "hash": "fh2N9EySe1Hw",
-        "address": "https://yro.slashdot.org/story/09/04/24/1239232/wikipedia-threatens-artists-for-fair-use",
-        "title": "Wikipedia Threatens Artists For Fair Use - Slashdot",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 186,
-            "textWords": 9687
-          }
-        }
-      },
-      {
-        "hash": "fuaD8hdtagq4",
-        "address": "https://slate.com/technology/2021/07/wikipedia-daily-mail-generally-unreliable.html",
-        "title": "Wikipedia’s war on the Daily Mail.",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 43,
-            "textWords": 2139
-          }
-        }
-      },
-      {
-        "hash": "cOS312NbdQ8h",
-        "address": "https://blog.wikimedia.de/2025/11/20/ki-in-der-wikipedia/",
-        "title": "Der Streit über den Einsatz von KI in der Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 31,
-            "textWords": 2708
-          }
-        }
-      },
-      {
-        "hash": "e8dlm6NbHyMw",
-        "address": "https://wikimedia.org.au/wiki/Dangerously_Modern_-_Wikipedia_Edit-a-thon",
-        "title": "Dangerously Modern - Wikipedia Edit-a-thon - Wikimedia Australia",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 11,
-            "textWords": 677
-          }
-        }
-      },
-      {
-        "hash": "e5BABvY3c3Fg",
-        "address": "https://www.golem.de/news/kritik-aus-der-community-wikipedia-stoppt-test-mit-ki-zusammenfassungen-2506-197060.html",
-        "title": "Wikipedia stoppt Test mit KI-Zusammenfassungen vorzeitig",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 12,
-            "textWords": 1445
-          }
-        }
-      },
-      {
-        "hash": "dOUfQlzc3F4h",
-        "address": "https://www.kuketz-blog.de/wikipedia-list-of-data-breaches/",
-        "title": "Wikipedia: List of data breaches • Kuketz IT-Security Blog",
-        "snippet": "",
-        "matchedWords": {
-          "EmcuebAenKcB": {
-            "hits": 3,
-            "textWords": 505
           }
         }
       }

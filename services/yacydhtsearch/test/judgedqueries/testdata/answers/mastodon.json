@@ -1,17 +1,17 @@
 {
   "query": "mastodon",
-  "recordedAt": "2026-09-11T19:21:47Z",
+  "recordedAt": "2026-09-11T20:59:28Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "rlS7rcg_vK7w",
         "address": "https://www.colino.net/wordpress/mastodon-for-apple-ii/",
         "title": "Mastodon for Apple II (][+, //c, IIe, and IIgs) – colin@colino.net",
-        "snippet": "Mastodon for Apple II (][+, //c, IIe, and IIgs) – colin@colino.net\nSkip to content colin@colino.net\nMastodon for Apple II (][+, //c, IIe, and IIgs)\nIf you’re interested in retro computing, you may be happy to read that I’ve made a binary release of my Mastodon client for the Apple 2. It has been",
+        "snippet": "Mastodon client for the Apple 2. It has been mostly tested on an Apple //c and IIgs, and works on any Apple II with 64kB of memory or more.\nThe login screen\nFeatures:\nThis Mastodon client features:\n2 factor authentication login\nHome, local and global timelines view\nInfinite scroll\nProfile view",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 14,
-            "textWords": 966
+            "hits": 10,
+            "textWords": 645
           }
         }
       },
@@ -19,11 +19,11 @@
         "hash": "Cf-y4s9nw72x",
         "address": "https://joinmastodon.org/hosting",
         "title": "Managed Mastodon",
-        "snippet": "Mastodon\nSkip to main content\nApps\nFor Institutions\nDonate\nResources\nAbout usLearn about the small team behind Mastodon.\nServersBrowse the directory of other Mastodon servers.\nBlogGet the latest news about the platform.\nDocumentationLearn how Mastodon works in-depth.\nSupportGet help or suggest a",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 15,
-            "textWords": 621
+            "hits": 16,
+            "textWords": 801
           }
         }
       },
@@ -76,18 +76,6 @@
         }
       },
       {
-        "hash": "_0C9kl235HP5",
-        "address": "https://www.martinfowler.com/dsl.html",
-        "title": "DSL Guide",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 2,
-            "textWords": 1257
-          }
-        }
-      },
-      {
         "hash": "w1rBp2qBLvHg",
         "address": "https://www.datenschutz.rlp.de/",
         "title": "Startseite | datenschutz.rlp.de",
@@ -122,45 +110,21 @@
             "textWords": 873
           }
         }
+      },
+      {
+        "hash": "6VevKD09qPgk",
+        "address": "https://www.scielo.br/j/jsbf/grid?ilang=pt_BR",
+        "title": "Fascículos:Jornal da Sociedade Brasileira de Fonoaudiologia",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 509
+          }
+        }
       }
     ],
     [
-      {
-        "hash": "G4zo3nbMGqiy",
-        "address": "https://simonwillison.net/2002/Sep/2/testingPingback/",
-        "title": "Testing pingback",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 1,
-            "textWords": 221
-          }
-        }
-      },
-      {
-        "hash": "HuqVwWX5sgqx",
-        "address": "https://netzpolitik.org/tag/ravensburger/",
-        "title": "Ravensburger - netzpolitik.org",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 1,
-            "textWords": 259
-          }
-        }
-      },
-      {
-        "hash": "HpO6-7WCAo1g",
-        "address": "https://www.dzne.de/forschung/forschungsbereiche/grundlagenforschung/forschungsgruppen/amin/curriculum-vitae/",
-        "title": "DZNE Amin, Hayder Curriculum vitae",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 520
-          }
-        }
-      },
       {
         "hash": "GfWWQnbMGqiy",
         "address": "https://simonwillison.net/2002/Oct/27/tidakadaRedesign/",
@@ -174,62 +138,62 @@
         }
       },
       {
-        "hash": "EWDgSkw6k2Lw",
-        "address": "https://www.w3.org/standards/history/epub-anno-ucr/",
-        "title": "EPUB Annotations Use Cases and Requirements publication history | Standards | W3C",
+        "hash": "Hn40eKmxQ4Ah",
+        "address": "https://www.ids-mannheim.de/infos/presse-medien/",
+        "title": "für Presse \u0026 Medien | IDS",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 425
+            "textWords": 562
           }
         }
       },
       {
-        "hash": "FIZUPsp7fyJg",
-        "address": "https://uol.de/hydrogeologie",
-        "title": "Hydrogeologie und Landschaftswasserhaushalt // Universität Oldenburg",
+        "hash": "Gxkap7WCAo1g",
+        "address": "https://www.dzne.de/forschung/wissenschaftliche-services/flocus/faq/",
+        "title": "DZNE FLOCUS FAQ",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 3,
+            "textWords": 1198
+          }
+        }
+      },
+      {
+        "hash": "GYFPl2bypRQw",
+        "address": "https://forgejo.org/docs/latest/contributor/repository-migration/",
+        "title": "Repository Migration | Forgejo – Beyond coding. We forge.",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 1001
+            "textWords": 650
           }
         }
       },
       {
-        "hash": "GEXjNVTF_qXg",
-        "address": "https://competition-policy.ec.europa.eu/mergers_en?prefLang=cs",
-        "title": "Mergers - Competition Policy - European Commission",
+        "hash": "GeusF6NbHyMw",
+        "address": "https://wikimedia.org.au/wiki/Partnerships",
+        "title": "Projects \u0026 Partners - Wikimedia Australia",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 576
+            "textWords": 1118
           }
         }
       },
       {
-        "hash": "HLoJheTeQuPw",
-        "address": "https://codeberg.org/inventaire/inventaire-client",
-        "title": "inventaire/inventaire-client: A webapp for the inventaire server 📚 - Codeberg.org",
+        "hash": "Fl-YxlDOAHJg",
+        "address": "https://www.heise.de/",
+        "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 829
-          }
-        }
-      },
-      {
-        "hash": "HZrE4D09qPgk",
-        "address": "https://www.scielo.br/j/rn/?ilang=pt_BR",
-        "title": "Revista de Nutrição",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 2,
-            "textWords": 1948
+            "textWords": 6387
           }
         }
       },
@@ -237,37 +201,85 @@
         "hash": "HlfJLkxSc8xg",
         "address": "https://www.gea.mpg.de/",
         "title": "Max Planck Institute of Geoanthropology Homepage | Max Planck Institute of Geoanthropology",
+        "snippet": "Zalasiewicz, J.; Thomas, J. A.; Cohen, K. M.; Vidas, D.; Sörlin, S.; Waters, C. N.; Head, M. J.; Summerhayes, C. P.; Leinfelder, R.; Wallenhorst, N. et al.; Syvitski, J.; McNeill, J. R.; Robin, L.; Williams, M.; Cearreta, A.; Ivar do Sul, J. A.; Park, B. S.; McCarthy, F. M. G.; Han, Y.; Turner, S.;",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 0,
+            "textWords": 73
+          }
+        }
+      },
+      {
+        "hash": "FZ4U7pE9zJGx",
+        "address": "https://learn.wordpress.org/",
+        "title": "Learn WordPress - There's always more to learn | Learn WordPress",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 1438
+            "textWords": 1035
+          }
+        }
+      },
+      {
+        "hash": "H9azdNp7fyJg",
+        "address": "https://uol.de/kooperationsstelle/projekte",
+        "title": "Projekte // Universität Oldenburg",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 1730
+          }
+        }
+      },
+      {
+        "hash": "Eg-QHNcX-Nvg",
+        "address": "https://mpimet.mpg.de/karriere/stellenangebote",
+        "title": "Max-Planck-Institut für Meteorologie: Stellenangebote",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 663
           }
         }
       }
     ],
     [
       {
-        "hash": "7xcye5svrCt4",
-        "address": "https://mastodon.gamedev.place/@ruffle",
-        "title": "Ruffle - Flash Player Emulator (@ruffle@mastodon.gamedev.place) - Gamedev Mastodon",
-        "snippet": "(@ruffle@mastodon.gamedev.place) - Gamedev Mastodon",
+        "hash": "ytosSsXT2Q14",
+        "address": "https://mastodon.social/?ref=jamesfrew.me",
+        "title": "Mastodon",
+        "snippet": "Mastodon",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 2,
+            "hits": 1,
+            "textWords": 1
+          }
+        }
+      },
+      {
+        "hash": "_WYPmIpL_jd4",
+        "address": "https://mastodon.world/@Thoogah/116676239477210513",
+        "title": "Wonko The Sane: \"#rainbow🌈 #pixel_dailies #pixelart @pixel_dailies…\" - Mastodon",
+        "snippet": "Mastodon",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
             "textWords": 10
           }
         }
       },
       {
-        "hash": "_CRjE5IHupF5",
-        "address": "https://mastodon.fediverse.observer/go\u0026software=mastodon",
-        "title": "Fediverse Observer | mastodon Sites Status",
-        "snippet": "mastodon Sites Status\nFediverse Observer\nServers:\nList\nMap\nAuto Pick\nStats:\nMonthly\nDaily\nFediverse\nSoftware Filter:\nmastodon All nodebb mastodon misskey pixelfed writefreely peertube lemmy microdotblog perohub alvanista diaspora pleroma mobilizon mostr elektrine sharkey loops dicecho fedibird",
+        "hash": "0__Qf5IHupF5",
+        "address": "https://mastodon.fediverse.observer/allsoftwares",
+        "title": "Fediverse Observer | Mastodon Sites Status",
+        "snippet": "About Fediverse Observer\nFediverse Observer finds all servers in the fediverse and gives you an easy way to find a home",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 5,
-            "textWords": 126
+            "hits": 0,
+            "textWords": 20
           }
         }
       },
@@ -284,22 +296,58 @@
         }
       },
       {
-        "hash": "_WYPmIpL_jd4",
-        "address": "https://mastodon.world/@Thoogah/116676239477210513",
-        "title": "Wonko The Sane: \"#rainbow🌈 #pixel_dailies #pixelart @pixel_dailies…\" - Mastodon",
-        "snippet": "",
+        "hash": "DViQBsq2qmtw",
+        "address": "https://mastodon.cc/",
+        "title": "Mastodon.cc",
+        "snippet": "Mastodon.cc",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 63
+            "hits": 1,
+            "textWords": 2
           }
         }
       },
       {
-        "hash": "42sQF5RuA92w",
-        "address": "https://mastodon.derg.nz/@anthropy",
-        "title": "Anthropy (@anthropy@mastodon.derg.nz) - Mastodon",
-        "snippet": "(@anthropy@mastodon.derg.nz) - Mastodon",
+        "hash": "6fa3RsWePEQ6",
+        "address": "https://opencollective.com/mastodon",
+        "title": "Mastodon - Open Collective",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 17,
+            "textWords": 654
+          }
+        }
+      },
+      {
+        "hash": "p1aXE5svrCt4",
+        "address": "https://mastodon.gamedev.place/@itchio",
+        "title": "itchio (@itchio@mastodon.gamedev.place) - Gamedev Mastodon",
+        "snippet": "(@itchio@mastodon.gamedev.place) - Gamedev Mastodon",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 7
+          }
+        }
+      },
+      {
+        "hash": "ZMzosslxRMg4",
+        "address": "https://mastodon.energy/@EarthOrgUK",
+        "title": "Earth Notes (@EarthOrgUK@mastodon.energy) - mastodon.energy",
+        "snippet": "(@EarthOrgUK@mastodon.energy) - mastodon.energy",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 7
+          }
+        }
+      },
+      {
+        "hash": "Me7WRsRP9VD4",
+        "address": "https://mastodon.online/@mullvadnet",
+        "title": "Mullvad VPN (@mullvadnet@mastodon.online) - Mastodon",
+        "snippet": "(@mullvadnet@mastodon.online) - Mastodon",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 2,
@@ -308,62 +356,14 @@
         }
       },
       {
-        "hash": "aiHkCRoAYwY4",
-        "address": "https://mastodon.scot/@simon_brooke/117110852735398138",
-        "title": "Simon Brooke: \"@mikaeleiman@mastodon.sdf.org @blog@shkspr.mobi y…\" - mastodon.scot",
-        "snippet": "\"@mikaeleiman@mastodon.sdf.org @blog@shkspr.mobi y…\" - mastodon.scot",
+        "hash": "rlS7rcg_vK7w",
+        "address": "https://www.colino.net/wordpress/mastodon-for-apple-ii/",
+        "title": "Mastodon for Apple II (][+, //c, IIe, and IIgs) – colin@colino.net",
+        "snippet": "Mastodon client for the Apple 2. It has been mostly tested on an Apple //c and IIgs, and works on any Apple II with 64kB of memory or more.\nThe login screen\nFeatures:\nThis Mastodon client features:\n2 factor authentication login\nHome, local and global timelines view\nInfinite scroll\nProfile view",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 2,
-            "textWords": 11
-          }
-        }
-      },
-      {
-        "hash": "YG1umRXT2Q14",
-        "address": "https://mastodon.social/@plainmeaning/117196495171973194",
-        "title": "Plain Meaning: \"Do you really want to know what the age verificat…\" - Mastodon",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 96
-          }
-        }
-      },
-      {
-        "hash": "6fa3RsWePEQ6",
-        "address": "https://opencollective.com/mastodon",
-        "title": "Mastodon - Open Collective",
-        "snippet": "Mastodon - Open Collective\nPlatform\nSolutions\nResources\nSearch\nSearch\nSearch\nMastodon\nCOLLECTIVE\nactivity-stream\nactivitypub\nmastodon\n+ 4 more\nmicroblog\nsocial-network\nwebfinger\nOpen source\nFiscal Host: Open Source Collective\nMastodon is a free, open-source social network server based on",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 17,
-            "textWords": 507
-          }
-        }
-      },
-      {
-        "hash": "DViQBsq2qmtw",
-        "address": "https://mastodon.cc/",
-        "title": "Mastodon.cc",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 38
-          }
-        }
-      },
-      {
-        "hash": "ZMzosslxRMg4",
-        "address": "https://mastodon.energy/@EarthOrgUK",
-        "title": "Earth Notes (@EarthOrgUK@mastodon.energy) - mastodon.energy",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 4,
-            "textWords": 83
+            "hits": 10,
+            "textWords": 645
           }
         }
       }
@@ -373,11 +373,11 @@
         "hash": "s7qd0CiSEDRx",
         "address": "https://shop.joinmastodon.org/",
         "title": "Mastodon Merch Store",
-        "snippet": "Mastodon Merch Store\nSkip to content\nSearch\nCountry/region\nGermany | EUR €\nSearch\nAustralia USD $\nAustria EUR €\nBelgium EUR €\nBulgaria EUR €\nCanada USD $\nCroatia EUR €\nCyprus EUR €\nCzechia CZK Kč\nDenmark DKK kr.\nEstonia EUR €\nFinland EUR €\nFrance EUR €\nGermany EUR €\nGreece EUR €\nHong Kong SAR USD $",
+        "snippet": "Mastodon plushie 35cm - Plushtodon\nUnavailable\nMastodon plushie 35cm - Plushtodon\n4 total reviews\nRegular price €29,99 EUR\nRegular price €39,99 EUR Sale price €29,99 EUR\nUnit price per\nUnavailable\nMastodon plushie 20cm - Plushtodon\nUnavailable\nMastodon plushie 20cm - Plushtodon\nRegular price €24,99",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 20,
-            "textWords": 691
+            "hits": 18,
+            "textWords": 397
           }
         }
       },
@@ -385,11 +385,11 @@
         "hash": "nLEeWYsNgbb4",
         "address": "https://music.apple.com/np/album/marrow-deep/6781040477",
         "title": "‎Marrow Deep - Album by Mastodon - Apple Music",
-        "snippet": "Mastodon - Apple Music\nSearch\nHome\nNew\nRadio\nOpen in Music\nMarrow Deep\nMastodon\nMetal · 2026\nAs with too many Mastodon albums, Marrow Deep is a triumph born out of tragedy. Or as drummer/vocalist Brann Dailor tells Apple Music, “It’s another unfortunate set of circumstances that got in the way of",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 13,
-            "textWords": 1416
+            "hits": 12,
+            "textWords": 1510
           }
         }
       },
@@ -492,148 +492,160 @@
     ],
     [
       {
-        "hash": "BH0SPsXT2Q14",
-        "address": "https://mastodon.social/@Sarahp",
-        "title": "Sarah Perez 💙 (@Sarahp@mastodon.social) - Mastodon",
-        "snippet": "(@Sarahp@mastodon.social) - Mastodon",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 2,
-            "textWords": 6
-          }
-        }
-      },
-      {
-        "hash": "Vx0JhxS6MKD4",
-        "address": "https://github.com/Juerd/tootpick",
-        "title": "GitHub - Juerd/tootpick: Link target for Mastodon \"share buttons\" · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 19,
-            "textWords": 1714
-          }
-        }
-      },
-      {
-        "hash": "xGxqRJEmwyky",
-        "address": "https://fedi.simonwillison.net/@simon",
-        "title": "Simon Willison (@simon@simonwillison.net) - Mastodon",
+        "hash": "69WGN_XT2Q14",
+        "address": "https://mastodon.social/@pid_eins/115762118507750011",
+        "title": "Lennart Poettering: \"1️⃣7️⃣ Here's the 17th post highlighting key new …\" - Mastodon",
         "snippet": "Mastodon",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 6
+            "textWords": 10
           }
         }
       },
       {
-        "hash": "Va238B2U_21j",
-        "address": "https://www.bundesnetzagentur.de/SharedDocs/Social_Datenschutz/mastodon.html?nn=650412",
-        "title": "Bundesnetzagentur - Mediathek - Hinweis",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 4,
-            "textWords": 410
-          }
-        }
-      },
-      {
-        "hash": "3AVW1_XT2Q14",
-        "address": "https://mastodon.social/@pid_eins/116679111124902335",
-        "title": "Lennart Poettering: \"9️⃣ Here's the 9th post highlighting key new feat…\" - Mastodon",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 124
-          }
-        }
-      },
-      {
-        "hash": "3lKaD_XT2Q14",
-        "address": "https://mastodon.social/@pid_eins/114584855720355892",
-        "title": "Lennart Poettering: \"5️⃣ Here's the 5th post highlighting key new feat…\" - Mastodon",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 131
-          }
-        }
-      },
-      {
-        "hash": "_2IAIsa79ss4",
-        "address": "https://bots.law/",
-        "title": "Home — Bots.law",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 436
-          }
-        }
-      },
-      {
-        "hash": "CtErps_REEpw",
-        "address": "https://0pointer.net/blog/",
-        "title": "Pid Eins",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 24,
-            "textWords": 4746
-          }
-        }
-      },
-      {
-        "hash": "7zTVCqH1Rf7w",
-        "address": "https://dblp.org/pid/126/2233.html",
-        "title": "dblp: Jnanendra Prasad Sarkar",
+        "hash": "vvJ8dtFozFBx",
+        "address": "https://diff.wikimedia.org/2023/03/17/4-movement-charter-ambassadors-from-the-french-speaking-community-share-their-experience/?share=mastodon",
+        "title": "4 Movement Charter ambassadors from the French-speaking community share their experience – Diff",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 2,
-            "textWords": 2537
+            "textWords": 979
           }
         }
       },
       {
-        "hash": "3ed4V_XT2Q14",
-        "address": "https://mastodon.social/@pid_eins/115812764240295998",
-        "title": "Lennart Poettering: \"2️⃣4️⃣ Here's the 24th post highlighting key new …\" - Mastodon",
+        "hash": "PVC8iscSDvG5",
+        "address": "https://wikimedia.social/@sal",
+        "title": "Wikimedia Tech SAL (@sal@wikimedia.social) - Wikimedia Social",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 133
+            "hits": 2,
+            "textWords": 85
+          }
+        }
+      },
+      {
+        "hash": "ZUnV9sWJC0rw",
+        "address": "https://sdf.org/",
+        "title": "SDF Public Access UNIX System - Free Shell Account and Shell Access",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 167
+          }
+        }
+      },
+      {
+        "hash": "9XiCZD09qPgk",
+        "address": "https://www.scielo.br/j/asas/grid?ilang=pt_BR",
+        "title": "Fascículos:Acta Scientiarum. Animal Sciences",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 558
+          }
+        }
+      },
+      {
+        "hash": "uZhZK0kYmBHg",
+        "address": "https://social.bund.de/@TABundestag",
+        "title": "TAB (@TABundestag@social.bund.de) - social.bund.de",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 88
+          }
+        }
+      },
+      {
+        "hash": "7APeSsU0Gqf5",
+        "address": "https://fedigroups.social/@bookstodon",
+        "title": "Bookstodon Group (@bookstodon@fedigroups.social) - FediGroups",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 83
+          }
+        }
+      },
+      {
+        "hash": "_rO8FsyMa-6g",
+        "address": "https://www.musiconn.de/musiconnsearch/Record/dma355528754/Email",
+        "title": "Login musiconn.search",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 290
+          }
+        }
+      },
+      {
+        "hash": "-YBHuSFxAKb5",
+        "address": "https://fromguestwriters.wordpress.com/",
+        "title": "From guestwriters | Lifestyle magazine and Readers Digest",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 40,
+            "textWords": 31475
+          }
+        }
+      },
+      {
+        "hash": "6p7MVwR_5yw4",
+        "address": "https://toad.social/@PimentoMori/114252628497656096",
+        "title": "PimentoMori: \"When you make up excuses to fire and get rid of d…\" - toad.social",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 111
           }
         }
       }
     ],
     [
       {
-        "hash": "HC4g6gPhh8Ax",
-        "address": "https://netbib.hypotheses.org/78638883",
-        "title": "Jubiläum des WorldCat – netbib",
+        "hash": "_cKDnCqN1Ufw",
+        "address": "https://flathub.org/en/setup/AlmaLinux",
+        "title": "AlmaLinux Flathub Setup | Flathub",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 1360
+            "hits": 1,
+            "textWords": 168
           }
         }
       },
       {
-        "hash": "3myo6fpBE0tg",
-        "address": "https://www.epfl.ch/innovation/startup/community/",
-        "title": "Community ‒ Startup ‐ EPFL",
+        "hash": "ExnOmfqN1Ufw",
+        "address": "https://flathub.org/ckb/setup/Zorin%20OS",
+        "title": "ڕێکخستنی فلاتهەب لە Zorin OS | فلاتهەب",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 2,
-            "textWords": 830
+            "hits": 1,
+            "textWords": 155
+          }
+        }
+      },
+      {
+        "hash": "yunQAWgu4uJ4",
+        "address": "https://lithub.com/tag/spying/",
+        "title": "Literary Hub » spying",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 1210
           }
         }
       },
@@ -662,102 +674,199 @@
         }
       },
       {
-        "hash": "23Sa8Wt853Ax",
-        "address": "https://pluralistic.net/tag/privacy-without-monopoly/",
-        "title": "privacy without monopoly – Pluralistic: Daily links from Cory Doctorow",
+        "hash": "3myo6fpBE0tg",
+        "address": "https://www.epfl.ch/innovation/startup/community/",
+        "title": "Community ‒ Startup ‐ EPFL",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 2,
-            "textWords": 1212
+            "textWords": 830
           }
         }
       },
       {
-        "hash": "-j9pq8w6k2Lw",
-        "address": "https://www.w3.org/groups/wg/das/participants/",
-        "title": "Participants | Devices and Sensors | Working Groups | Discover W3C groups | W3C",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 1,
-            "textWords": 1093
-          }
-        }
-      },
-      {
-        "hash": "3N-DCNo4ceWh",
-        "address": "https://fragdenstaat.de/anfrage/anzeigen-in-den-printmedien-faktenbooster-01/",
-        "title": "Anzeigen in den Printmedien - Faktenbooster #01 - FragDenStaat",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 2,
-            "textWords": 1412
-          }
-        }
-      },
-      {
-        "hash": "3TY92Cu-sg8w",
-        "address": "https://april.org/en/derniers-contenus?page=60\u0026membre=vvaldelievre",
+        "hash": "25G37lbmZMZw",
+        "address": "https://www.april.org/en/derniers-contenus?page=1\u0026membre=inno",
         "title": "Les derniers contenus publiés | April",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 4,
-            "textWords": 3265
+            "hits": 1,
+            "textWords": 3421
           }
         }
       },
       {
-        "hash": "3dvj3Cu-sg8w",
-        "address": "https://april.org/en/derniers-contenus?page=60\u0026membre=bruxelleslinuxusergroup",
-        "title": "Les derniers contenus publiés | April",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 4,
-            "textWords": 3265
-          }
-        }
-      },
-      {
-        "hash": "PJ80kFH2Pyiw",
-        "address": "https://ocw.mit.edu/courses/18-726-algebraic-geometry-spring-2009/pages/assignments/",
-        "title": "Assignments | Algebraic Geometry | Mathematics | MIT OpenCourseWare",
+        "hash": "WWRL5fqN1Ufw",
+        "address": "https://flathub.org/ckb/setup/Arch",
+        "title": "ڕێکخستنی فلاتهەب لە Arch | فلاتهەب",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 599
+            "textWords": 159
+          }
+        }
+      },
+      {
+        "hash": "HwtnofqN1Ufw",
+        "address": "https://flathub.org/ckb/setup/PureOS",
+        "title": "ڕێکخستنی فلاتهەب لە PureOS | فلاتهەب",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 169
+          }
+        }
+      },
+      {
+        "hash": "6TNTrCqN1Ufw",
+        "address": "https://flathub.org/en/setup/OpenMandriva%20Lx",
+        "title": "OpenMandriva Lx Flathub Setup | Flathub",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 202
           }
         }
       }
     ],
     [],
-    [],
     [
       {
-        "hash": "kBEnrscvw7Vx",
-        "address": "https://wordpress.org/download/",
-        "title": "Download – WordPress.org",
-        "snippet": "",
+        "hash": "jLIPjsY8g9Qg",
+        "address": "https://mastodon.ie/@donncha",
+        "title": "Donncha Ó Caoimh (@donncha@mastodon.ie) - mastodon.ie",
+        "snippet": "(@donncha@mastodon.ie) - mastodon.ie",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 1,
-            "textWords": 474
+            "hits": 2,
+            "textWords": 7
           }
         }
       },
       {
-        "hash": "TavY0sFfdPSy",
-        "address": "https://creativecommons.org/implement/",
-        "title": "Implement - Creative Commons",
+        "hash": "ZE95msXT2Q14",
+        "address": "https://mastodon.social/@pfefferle",
+        "title": "Matthias Pfefferle (@pfefferle@mastodon.social) - Mastodon",
+        "snippet": "(@pfefferle@mastodon.social) - Mastodon",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 6
+          }
+        }
+      },
+      {
+        "hash": "CaeV-sXblxm6",
+        "address": "https://florianbrinkmann.com/",
+        "title": "Florian Brinkmann · Webentwickler mit Statamic, Laravel und WordPress",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 627
+            "textWords": 340
+          }
+        }
+      },
+      {
+        "hash": "fdSdvs1Pjs6w",
+        "address": "https://fediring.net/",
+        "title": "Fediring.net",
+        "snippet": "This webring is for the personal sites of any member of the fediverse (also known as fedizens). Head towards the bottom of the page to see a table of members or continue on to read the rules and how to join :)\nWe accept pretty much any site as long as the owner has an account on fedi. However, we",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 0,
+            "textWords": 454
+          }
+        }
+      },
+      {
+        "hash": "VigJclNou8f4",
+        "address": "https://www.eskimo.com/",
+        "title": "Eskimo North | Your Home on the Internet +1 206 812-0051",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 1050
+          }
+        }
+      },
+      {
+        "hash": "zMXHHsQymAw4",
+        "address": "https://newsie.social/@TheConversationUS",
+        "title": "The Conversation U.S. (@TheConversationUS@newsie.social) - Newsie",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 125
+          }
+        }
+      },
+      {
+        "hash": "qOQaXHvg97Ux",
+        "address": "https://profiles.wordpress.org/pfefferle/",
+        "title": "Matthias Pfefferle (@pfefferle) – WordPress user profile | WordPress.org",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 5,
+            "textWords": 2040
+          }
+        }
+      },
+      {
+        "hash": "yJuijsCG40j4",
+        "address": "https://tantek.com/",
+        "title": "Tantek Çelik",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 3,
+            "textWords": 11830
+          }
+        }
+      },
+      {
+        "hash": "h2zsiFK1jKfi",
+        "address": "https://openwebpodcast.de/1882/neunetzcast-94/",
+        "title": "OpenWeb Podcast - Der Podcast über offene Standards im Internet",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 4,
+            "textWords": 224
+          }
+        }
+      },
+      {
+        "hash": "7vCFayq9nTW4",
+        "address": "https://de.gravatar.com/pfefferle",
+        "title": "Matthias Pfefferle | Fediverse | Automattic | Open ...",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 3,
+            "textWords": 461
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "h-5G2scvw7Vx",
+        "address": "https://wordpress.org/playground/",
+        "title": "WordPress Playground",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 595
           }
         }
       },
@@ -774,6 +883,18 @@
         }
       },
       {
+        "hash": "TavY0sFfdPSy",
+        "address": "https://creativecommons.org/implement/",
+        "title": "Implement - Creative Commons",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 627
+          }
+        }
+      },
+      {
         "hash": "9Gfi7KsrSOQw",
         "address": "https://arxiv.org/list/cs/new",
         "title": "Computer Science",
@@ -782,6 +903,18 @@
           "YIDXHAz-Qx2s": {
             "hits": 1,
             "textWords": 48892
+          }
+        }
+      },
+      {
+        "hash": "kBEnrscvw7Vx",
+        "address": "https://wordpress.org/download/",
+        "title": "Download – WordPress.org",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 474
           }
         }
       },
@@ -798,14 +931,14 @@
         }
       },
       {
-        "hash": "h-5G2scvw7Vx",
-        "address": "https://wordpress.org/playground/",
-        "title": "WordPress Playground",
+        "hash": "cad2Xscvw7Vx",
+        "address": "https://wordpress.org/",
+        "title": "Blog Tool, Publishing Platform, and CMS – WordPress.org",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 595
+            "textWords": 815
           }
         }
       },
@@ -818,18 +951,6 @@
           "YIDXHAz-Qx2s": {
             "hits": 1,
             "textWords": 652
-          }
-        }
-      },
-      {
-        "hash": "cad2Xscvw7Vx",
-        "address": "https://wordpress.org/",
-        "title": "Blog Tool, Publishing Platform, and CMS – WordPress.org",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 1,
-            "textWords": 815
           }
         }
       },
@@ -863,11 +984,11 @@
         "hash": "rO4CGxAry6d4",
         "address": "https://fhf-mastodon.instatus.com/",
         "title": "FHF Mastodon Instances - Status",
-        "snippet": "Mastodon Instances - Status\nFHF Mastodon Instances - Status Page\nReport an issue\nGet updates\nEmail\nSlack\nMicrosoft Teams\nGoogle Chat\nWebhook\nRSS\nAtom\nAPI\nReport an issue\nGet updates\nDark mode\nAll systems operational\n👉 Our Mastodon 👈\nPlease try Firefox / reloading again if our Mastodon widget does",
+        "snippet": "Mastodon.World - Operational\n100% - uptime\nNotice history 30 days ago\nRecent notices\nNo notices reported for the past 7 days",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 7,
-            "textWords": 88
+            "hits": 1,
+            "textWords": 19
           }
         }
       },
@@ -875,11 +996,11 @@
         "hash": "oF_-LMS6MKD4",
         "address": "https://github.com/mastodon/mastodon-android",
         "title": "GitHub - mastodon/mastodon-android: Official Android app for Mastodon",
-        "snippet": "mastodon/mastodon-android: Official Android app for Mastodon · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 14,
-            "textWords": 769
+            "hits": 16,
+            "textWords": 1208
           }
         }
       },
@@ -887,11 +1008,11 @@
         "hash": "oD0JVs4Eent4",
         "address": "https://linkage.lol/a-collection-of-mastodon-tools/",
         "title": "A Collection of Mastodon Tools | Linkage",
-        "snippet": "Mastodon Tools – Linkage\nLinkage\nHome 📚Blog 🔗Living Out Loud 🎩Slash Pages 📱AppAddict 🪨Obsidian\n💯100 Strangers\nA Collection of Mastodon Tools\n06 Dec, 2024\nI'm maintaining a growing collection of links to various Mastodon resources. You can bookmark this page or subscribe to the collection via RSS.",
+        "snippet": "Mastodon resources. You can bookmark this page or subscribe to the collection via RSS.\nWith these tools, you can do things like:\nView RSS feeds as Mastodon links using RSS Parrot\nFind Accounts popular with your friends follow that you aren't following with Followgraph\nUse the Mastodon web client,",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 13,
-            "textWords": 196
+            "hits": 10,
+            "textWords": 158
           }
         }
       },
@@ -911,11 +1032,11 @@
         "hash": "rlS7rcg_vK7w",
         "address": "https://www.colino.net/wordpress/mastodon-for-apple-ii/",
         "title": "Mastodon for Apple II (][+, //c, IIe, and IIgs) – colin@colino.net",
-        "snippet": "Mastodon for Apple II (][+, //c, IIe, and IIgs) – colin@colino.net\nSkip to content colin@colino.net\nMastodon for Apple II (][+, //c, IIe, and IIgs)\nIf you’re interested in retro computing, you may be happy to read that I’ve made a binary release of my Mastodon client for the Apple 2. It has been",
+        "snippet": "Mastodon client for the Apple 2. It has been mostly tested on an Apple //c and IIgs, and works on any Apple II with 64kB of memory or more.\nThe login screen\nFeatures:\nThis Mastodon client features:\n2 factor authentication login\nHome, local and global timelines view\nInfinite scroll\nProfile view",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 14,
-            "textWords": 966
+            "hits": 10,
+            "textWords": 645
           }
         }
       },
@@ -935,11 +1056,11 @@
         "hash": "pIrg-Fiwa444",
         "address": "https://apps.apple.com/us/app/odous-for-mastodon/id6446084064",
         "title": "‎Odous for Mastodon App - App Store",
-        "snippet": "Mastodon App - App Store\nSearch\nToday\nGames\nApps\nArcade\nPlatform\niPhone\niPad\nMac\nVision\nWatch\nTV\nOdous for Mastodon\nA watch app for Mastodon\nFree · In‑App Purchases\nShare\n6 Ratings\n4.3\nAge Rating\n16+ Years\nCategory\nSocial Networking\nDeveloper\nKevin Guan\nLanguage\nEN English\nSize\n30.5 MB\niPhone,",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 15,
-            "textWords": 1164
+            "hits": 18,
+            "textWords": 1316
           }
         }
       },
@@ -982,6 +1103,30 @@
     ],
     [
       {
+        "hash": "tH6BRA2NBezg",
+        "address": "https://ec.social-network.europa.eu/@EUCommission",
+        "title": "European Commission (@EUCommission@ec.social-network.europa.eu) - European Commission on Mastodon",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 3,
+            "textWords": 111
+          }
+        }
+      },
+      {
+        "hash": "t2RHaodMIKYg",
+        "address": "https://www.eca.europa.eu/en",
+        "title": "Home | European Court of Auditors",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 374
+          }
+        }
+      },
+      {
         "hash": "hIFg9s3n95N4",
         "address": "https://fapspins.com/",
         "title": "Fapspins - I'm Feeling Lucky",
@@ -990,18 +1135,6 @@
           "YIDXHAz-Qx2s": {
             "hits": 1,
             "textWords": 885
-          }
-        }
-      },
-      {
-        "hash": "59CASs0eP-F4",
-        "address": "https://xgluz.com/free-porn-sites/",
-        "title": "Best Free HD \u0026 4K Porn Sites 2026 | New \u0026 Safe Porn Tubes!",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 1,
-            "textWords": 3937
           }
         }
       },
@@ -1018,86 +1151,74 @@
         }
       },
       {
-        "hash": "UomDb3OklBa5",
-        "address": "https://dudethrill.com/escorts-and-hookups-websites/newyork-exgirlfriend/",
-        "title": "NewYork Exgirlfriend \u0026 Top-12 Escort Sites Like New-york.exgirlfriend.com",
+        "hash": "59CASs0eP-F4",
+        "address": "https://xgluz.com/free-porn-sites/",
+        "title": "Best Free HD \u0026 4K Porn Sites 2026 | New \u0026 Safe Porn Tubes!",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 14010
+            "textWords": 3937
           }
         }
       },
       {
-        "hash": "Ag16bs0eP-F4",
-        "address": "https://xgluz.com/european-porn-sites/",
-        "title": "Best European Porn Sites 2026 (Free) | 4K Europe Porn",
+        "hash": "u-FX7WX5sgqx",
+        "address": "https://netzpolitik.org/tag/altersverifikation/",
+        "title": "Altersverifikation",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 3129
+            "textWords": 1847
           }
         }
       },
       {
-        "hash": "iJQ6JssKFxL5",
-        "address": "https://camsharks.com/Sign-Me-Up/",
-        "title": "Sign Me Up - CamSharks: Top Webcam Modeling Jobs",
+        "hash": "vwBLbt3FE9f4",
+        "address": "https://blog.sbb.berlin/barrierefreiheit/",
+        "title": "Erklärung zur Barrierefreiheit - SBB aktuell",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 552
+            "textWords": 1381
           }
         }
       },
       {
-        "hash": "gxo1SssKFxL5",
-        "address": "https://camsharks.com/sign-me-up/",
-        "title": "Sign Me Up - CamSharks: Top Webcam Modeling Jobs",
+        "hash": "uCFRlv8B3Aeg",
+        "address": "https://commission.europa.eu/legal-notice_sv",
+        "title": "Rättsligt meddelande",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 552
+            "textWords": 1498
           }
         }
       },
       {
-        "hash": "2YO2MssKFxL5",
-        "address": "https://camsharks.com/webcam-jobs-sign-up-now/",
-        "title": "WEBCAM JOBS – SIGN UP NOW! - CamSharks: Top Webcam Modeling Jobs",
+        "hash": "tNxu3F957jvx",
+        "address": "https://blog.metabrainz.org/category/metabrainz/annual-report/",
+        "title": "Annual Report – MetaBrainz Blog",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 576
+            "textWords": 6156
           }
         }
       },
       {
-        "hash": "RdW1CssKFxL5",
-        "address": "https://camsharks.com/webcam-model-careers/",
-        "title": "WEBCAM MODEL CAREERS - CamSharks: Top Webcam Modeling Jobs",
+        "hash": "2UHIoSRiTcm5",
+        "address": "https://www.theinsaneapp.com/2023/01/mada-9-supercar.html",
+        "title": "Taliban Has Launched Afghanistan's First Supercar",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 1447
-          }
-        }
-      },
-      {
-        "hash": "0ki0-ssKFxL5",
-        "address": "https://camsharks.com/1-cam-model-guide/",
-        "title": "#1 Cam Model Guide - CamSharks: Top Webcam Modeling Jobs",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 1,
-            "textWords": 1499
+            "textWords": 482
           }
         }
       }
@@ -1132,11 +1253,11 @@
         "hash": "12bb0VaoyK-x",
         "address": "https://docs.joinmastodon.org/admin/troubleshooting/",
         "title": "Troubleshooting errors - Mastodon documentation",
-        "snippet": "Mastodon documentation\nWhat is Mastodon?\nUsing MastodonSigning up for an account\nSetting up your profile\nPosting to your profile\nUsing the network features\nQuoting other posts\nDealing with unwanted content\nPromoting yourself and others\nSet your preferences\nMore settings\nUsing Mastodon externally",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 30,
-            "textWords": 1459
+            "hits": 22,
+            "textWords": 1664
           }
         }
       },
@@ -1144,11 +1265,11 @@
         "hash": "xGxqRJEmwyky",
         "address": "https://fedi.simonwillison.net/@simon",
         "title": "Simon Willison (@simon@simonwillison.net) - Mastodon",
-        "snippet": "Mastodon",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 1,
-            "textWords": 6
+            "hits": 3,
+            "textWords": 77
           }
         }
       },
@@ -1192,11 +1313,11 @@
         "hash": "mgQdwsXT2Q14",
         "address": "https://mastodon.social/@benjedwards",
         "title": "Benj Edwards (@benjedwards@mastodon.social) - Mastodon",
-        "snippet": "",
+        "snippet": "(@benjedwards@mastodon.social) - Mastodon",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 4,
-            "textWords": 70
+            "hits": 2,
+            "textWords": 6
           }
         }
       },
@@ -1254,11 +1375,11 @@
         "hash": "ItZ4urOYFhaj",
         "address": "https://www.schleswig-holstein.de/DE/landesregierung/themen/digitalisierung/digitalisierung-zukunftsthema/Digitale-Verwaltung/mastodon",
         "title": "schleswig-holstein.de - Das Land bei Mastodon",
-        "snippet": "Mastodon\nNavigation und Service\nSpringe direkt zu:\nInhalt\nHauptmenü\nSuche\nSie müssen diese Funktion zunächst im Cookiebanner erlauben.\nHauptnavigation\nLandes­portal\nLandes­regierung Übersicht\nMinisterien \u0026 Behörden Übersicht Ministerien Der Ministerpräsident - Staatskanzlei\nMinisterium für Justiz",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 15,
-            "textWords": 1391
+            "hits": 11,
+            "textWords": 1408
           }
         }
       },
@@ -1309,6 +1430,42 @@
             "textWords": 1372
           }
         }
+      },
+      {
+        "hash": "e1-qnrOYFhaj",
+        "address": "https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/I/_startseite/Artikel2026/I/260210_mastodon?nn=ea5fea70-0273-42da-bf42-098d8f27419d",
+        "title": "schleswig-holstein.de - Meldungen - Digital souveränes, soziales Netzwerk",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 7,
+            "textWords": 1387
+          }
+        }
+      },
+      {
+        "hash": "-tWRdyOYFhaj",
+        "address": "https://www.schleswig-holstein.de/EN/StateGovernment/II/ii_node",
+        "title": "schleswig-holstein.de - Ministry of Justice and Health",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 3,
+            "textWords": 634
+          }
+        }
+      },
+      {
+        "hash": "_VSjcBOYFhaj",
+        "address": "https://www.schleswig-holstein.de/SharedDocs/Kontaktdaten/DE/Landesregierung/LBSH/leitung?nn=4091d38c-c66c-4f6f-a1fb-d49e394f5f0f",
+        "title": "schleswig-holstein.de - Presse - Dr. Martin Lätzel \u0026 Berit Johannsen",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 4,
+            "textWords": 1014
+          }
+        }
       }
     ],
     [],
@@ -1338,26 +1495,14 @@
         }
       },
       {
-        "hash": "DrRExhW4vJ7w",
-        "address": "https://dev.to/t/mastodon",
-        "title": "Mastodon - DEV Community",
-        "snippet": "Mastodon - DEV Community\nSkip to content Navigation menu\nSearch\nPowered by Algolia Search\nLog in Create account\nDEV Community\nClose\nMastodon\nA free and open-source social networking service based on #ActivityPub, part of the #Fediverse.\nFollow\nHide\nCreate Post\nsubmission guidelines\nShare posts",
+        "hash": "A3Pf9MS6MKD4",
+        "address": "https://github.com/mastodon/helm-charts",
+        "title": "GitHub - mastodon/helm-charts",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 8,
-            "textWords": 242
-          }
-        }
-      },
-      {
-        "hash": "D3D4bFS6MKD4",
-        "address": "https://github.com/glitch-soc/mastodon",
-        "title": "GitHub - glitch-soc/mastodon: A glitchy but lovable microblogging server · GitHub",
-        "snippet": "glitch-soc/mastodon: A glitchy but lovable microblogging server · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 19,
-            "textWords": 1339
+            "textWords": 857
           }
         }
       },
@@ -1365,11 +1510,11 @@
         "hash": "CcoXaVjri2zx",
         "address": "https://www.macstories.net/linked/highlighting-journalism-on-mastodon/",
         "title": "Highlighting Journalism on Mastodon - MacStories",
-        "snippet": "Mastodon - MacStories\nBecome a Club MacStories Member\nExclusive stories and features, weekly newsletters, Discord, and more\nCLUB MENU\nABOUT\nCLUB\nPODCASTS\nSHORTCUTS\nSETUPS\nSECTIONS\niOS 26\nAPPS\nSTORIES\nSIGN IN\nDARK\nLIGHT\nAUTOMATIC\nApple’s Surprise and Shine Event: By the Numbers\nAll the ‘Surprise and",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 14,
-            "textWords": 443
+            "hits": 16,
+            "textWords": 573
           }
         }
       },
@@ -1377,23 +1522,11 @@
         "hash": "A5GjagX4hh0w",
         "address": "https://n8n.io/workflows/4800-save-mastodon-bookmarks-to-raindrop-automatically/",
         "title": "Save Mastodon Bookmarks to Raindrop Automatically | n8n workflow template",
-        "snippet": "Mastodon bookmarks to Raindrop automatically | n8n workflow template\nn8n.io\nProduct\nProduct overview Automate business processes without limits on your logic\nIntegrations Seamlessly move and transform data between different apps with n8n.\nTemplates Explore +10k workflow automation templates\nAI Get",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 10,
-            "textWords": 909
-          }
-        }
-      },
-      {
-        "hash": "DkJzevDOAHJg",
-        "address": "https://www.heise.de/news/Nach-Twitter-Wechsel-Aktivitaet-der-Nutzer-auf-Mastodon-geht-zurueck-7452224.html?utm_source=newsletter\u0026utm_medium=email\u0026utm_campaign=ohn",
-        "title": "Nach Twitter-Wechsel: Aktivität der Nutzer auf Mastodon geht zurück | heise online",
-        "snippet": "Mastodon geht zurück | heise online\nheise+ entdecken\nSuchen\nAbo\nSuchen\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise+\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop\nheise jobs\nheise academy\nheise download",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 18,
-            "textWords": 1017
+            "textWords": 1218
           }
         }
       },
@@ -1410,14 +1543,14 @@
         }
       },
       {
-        "hash": "DyukPsViDFz4",
-        "address": "https://mastodon.cloud/@siracusa",
-        "title": "John Siracusa (@siracusa@mastodon.cloud) - mastodon.cloud",
-        "snippet": "",
+        "hash": "AUpqbsViDFz4",
+        "address": "https://mastodon.cloud/@boingboing",
+        "title": "Boing Boing (@boingboing@mastodon.cloud) - mastodon.cloud",
+        "snippet": "(@boingboing@mastodon.cloud) - mastodon.cloud",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 4,
-            "textWords": 58
+            "hits": 2,
+            "textWords": 7
           }
         }
       },
@@ -1425,16 +1558,64 @@
         "hash": "AeMyFspL_jd4",
         "address": "https://mastodon.world/@lensco",
         "title": "Lennart Schoors (@lensco@mastodon.world) - Mastodon",
+        "snippet": "(@lensco@mastodon.world) - Mastodon",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 6
+          }
+        }
+      },
+      {
+        "hash": "B4mZ35svrCt4",
+        "address": "https://mastodon.gamedev.place/@akien",
+        "title": "Rémi Verschelde (@akien@mastodon.gamedev.place) - Gamedev Mastodon",
+        "snippet": "(@akien@mastodon.gamedev.place) - Gamedev Mastodon",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 8
+          }
+        }
+      },
+      {
+        "hash": "DrRExhW4vJ7w",
+        "address": "https://dev.to/t/mastodon",
+        "title": "Mastodon - DEV Community",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 4,
-            "textWords": 63
+            "hits": 63,
+            "textWords": 3526
           }
         }
       }
     ],
     [
+      {
+        "hash": "z4PyasOMezx5",
+        "address": "https://pimylifeup.com/raspberry-pi-mastodon/",
+        "title": "Installing Mastodon on the Raspberry Pi - Pi My Life Up",
+        "snippet": "Mastodon on the Raspberry Pi.\nMastodon is a free and open-source software that allows you to self-host your own social network on your Raspberry Pi.\nThis software is a microblogging platform that is very much like Twitter However, unlike Twitter, it is possible to use Mastodon to run a private",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 87,
+            "textWords": 3347
+          }
+        }
+      },
+      {
+        "hash": "95pGVfC6nCRj",
+        "address": "https://forum-raspberrypi.de/forum/thread/59060-raspberrypi-auf-mastodon/?postID=562741",
+        "title": "RaspberryPi auf Mastodon - Offtopic - Deutsches Raspberry Pi Forum",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 4,
+            "textWords": 473
+          }
+        }
+      },
       {
         "hash": "Hu9zVsXT2Q14",
         "address": "https://mastodon.social/@itsfoss",
@@ -1448,115 +1629,212 @@
         }
       },
       {
-        "hash": "BPuaO9ELgQGx",
-        "address": "https://www.liberafolio.org/2026/08/27/libreoffice-igas-ec-pli-esperanta/?share=mastodon",
-        "title": "LibreOffice iĝas eĉ pli Esperanta – Libera Folio",
+        "hash": "Qub0xs9PqqIw",
+        "address": "https://openscad.org/news.html",
+        "title": "OpenSCAD - News",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 2,
-            "textWords": 1136
+            "textWords": 3028
           }
         }
       },
       {
-        "hash": "kO_UAhOZsiem",
-        "address": "https://eclecticlight.co/2021/07/19/don-quixote-19-the-footman-and-the-judges-daughter/?share=mastodon",
-        "title": "Don Quixote 19: The footman and the judge’s daughter – The Eclectic Light Company",
-        "snippet": "",
+        "hash": "HlfJLkxSc8xg",
+        "address": "https://www.gea.mpg.de/",
+        "title": "Max Planck Institute of Geoanthropology Homepage | Max Planck Institute of Geoanthropology",
+        "snippet": "Zalasiewicz, J.; Thomas, J. A.; Cohen, K. M.; Vidas, D.; Sörlin, S.; Waters, C. N.; Head, M. J.; Summerhayes, C. P.; Leinfelder, R.; Wallenhorst, N. et al.; Syvitski, J.; McNeill, J. R.; Robin, L.; Williams, M.; Cearreta, A.; Ivar do Sul, J. A.; Park, B. S.; McCarthy, F. M. G.; Han, Y.; Turner, S.;",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 2,
-            "textWords": 2345
+            "hits": 0,
+            "textWords": 73
           }
         }
       },
       {
-        "hash": "mSJBSlpcc_2y",
-        "address": "https://www.notebookcheck.net/Pixelfed-Loops-and-Sup-Alternatives-to-Instagram-TikTok-and-WhatsApp-launch-crowdfunding-campaign.953039.0.html",
-        "title": "Pixelfed, Loops and Sup: Alternatives to Instagram, TikTok and WhatsApp launch crowdfunding campaign - Notebookcheck News",
+        "hash": "s1ShNtLF9yvg",
+        "address": "https://www.it-zeugs.de/page/5",
+        "title": "it-zeugs - Seite 5 von 57 - by lars®",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 1945
+            "textWords": 1227
           }
         }
       },
       {
-        "hash": "930kwD09qPgk",
-        "address": "https://www.scielo.br/j/txpp/grid?ilang=pt_BR",
-        "title": "Fascículos:Theoretical and Experimental Plant Physiology",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 2,
-            "textWords": 510
-          }
-        }
-      },
-      {
-        "hash": "_zF_W-l6rZhw",
-        "address": "https://ideas.repec.org/n/nep-ifn/2003-07-29.html",
-        "title": "NEP-IFN: New economic research on International Finance disseminated on 2003-07-29 | IDEAS/RePEc",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 2,
-            "textWords": 1313
-          }
-        }
-      },
-      {
-        "hash": "mOZwosi40_L4",
-        "address": "https://kool.tools/",
-        "title": "candle's website",
+        "hash": "FIZUPsp7fyJg",
+        "address": "https://uol.de/hydrogeologie",
+        "title": "Hydrogeologie und Landschaftswasserhaushalt // Universität Oldenburg",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 1,
-            "textWords": 154
+            "textWords": 1001
           }
         }
       },
       {
-        "hash": "-LnHmlwEeKE5",
-        "address": "https://www.guitarworld.com/bass-player",
-        "title": "Bass Player | Home of the World's Greatest Authorities on Bass Playing | Guitar World",
+        "hash": "Gxkap7WCAo1g",
+        "address": "https://www.dzne.de/forschung/wissenschaftliche-services/flocus/faq/",
+        "title": "DZNE FLOCUS FAQ",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 3,
+            "textWords": 1198
+          }
+        }
+      },
+      {
+        "hash": "HZrE4D09qPgk",
+        "address": "https://www.scielo.br/j/rn/?ilang=pt_BR",
+        "title": "Revista de Nutrição",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 2,
-            "textWords": 3395
+            "textWords": 1948
           }
         }
       },
       {
-        "hash": "2kAoGsS6MKD4",
-        "address": "https://github.com/mdn",
-        "title": "MDN Web Docs · GitHub",
+        "hash": "px9-4fC6nCRj",
+        "address": "https://forum-raspberrypi.de/forum/thread/59060-raspberrypi-auf-mastodon/",
+        "title": "RaspberryPi auf Mastodon - Offtopic - Deutsches Raspberry Pi Forum",
         "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 2,
-            "textWords": 1592
-          }
-        }
-      },
-      {
-        "hash": "r7j1WGrrBtSg",
-        "address": "https://research-and-innovation.ec.europa.eu/contact-us_en",
-        "title": "Contact us - Research and innovation - European Commission",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 1,
-            "textWords": 365
+            "hits": 4,
+            "textWords": 469
           }
         }
       }
     ],
-    [],
+    [
+      {
+        "hash": "WTKbYsXT2Q14",
+        "address": "https://mastodon.social/@Catasaur",
+        "title": "Catasaur (@Catasaur@mastodon.social) - Mastodon",
+        "snippet": "(@Catasaur@mastodon.social) - Mastodon",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 2,
+            "textWords": 5
+          }
+        }
+      },
+      {
+        "hash": "YA0MZsCe0924",
+        "address": "https://loudwire.com/mastodon-new-album-title-marrow-deep-brann-dailor-explains/",
+        "title": "Brann Dailor Explains Why Mastodon Called New Album 'Marrow Deep'",
+        "snippet": "Mastodon released their ninth studio album (Marrow Deep), which is their first without late guitarist/vocalist Brent Hinds and their first with guitarist Nick Johnston and keyboardist João Nogueira. Among the many questions surrounding the record is why the group decided to call it Marrow Deep, and",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 11,
+            "textWords": 1051
+          }
+        }
+      },
+      {
+        "hash": "j5YVhFiwa444",
+        "address": "https://apps.apple.com/us/app/mastodon/id1571998974?see-all=reviews\u0026platform=iphone",
+        "title": "‎Mastodon - Ratings \u0026 Reviews - App Store",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 28,
+            "textWords": 3826
+          }
+        }
+      },
+      {
+        "hash": "gJCBq0kyg9q0",
+        "address": "https://lemmy.ml/c/mastodon",
+        "title": "Mastodon - Lemmy",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 37,
+            "textWords": 1688
+          }
+        }
+      },
+      {
+        "hash": "LF2hOlY8g9Qg",
+        "address": "https://mastodon.ie/@donncha/115091604005791038",
+        "title": "Donncha Ó Caoimh: \"@dennisguse@chaos.social @stephtara@indieweb.soci…\" - mastodon.ie",
+        "snippet": "mastodon.ie",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 10
+          }
+        }
+      },
+      {
+        "hash": "h_Ifd-htIH0k",
+        "address": "https://lemmy.eco.br/c/mastodon",
+        "title": "Mastodon - Brasil",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 31,
+            "textWords": 1658
+          }
+        }
+      },
+      {
+        "hash": "tcWICU_REEpw",
+        "address": "https://0pointer.net/blog/mastodon-stories-for-systemd-v260.html",
+        "title": "Mastodon Stories for systemd v260",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 5,
+            "textWords": 325
+          }
+        }
+      },
+      {
+        "hash": "YUx7zUE6wZ84",
+        "address": "https://mjtsai.com/blog/2018/09/06/mastodon/",
+        "title": "Michael Tsai - Blog - Mastodon",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 23,
+            "textWords": 1494
+          }
+        }
+      },
+      {
+        "hash": "-v4Xvs9nw72x",
+        "address": "https://joinmastodon.org/apps",
+        "title": "Get an app for Mastodon - Mastodon",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 16,
+            "textWords": 1994
+          }
+        }
+      },
+      {
+        "hash": "CV7dJesrSOQw",
+        "address": "https://arxiv.org/pdf/2606.05069",
+        "title": "Federating Governance: How Community Rules Scale with Mastodon Instances",
+        "snippet": "",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 71,
+            "textWords": 14378
+          }
+        }
+      }
+    ],
     [
       {
         "hash": "dUKRusXT2Q14",
@@ -1574,11 +1852,11 @@
         "hash": "8mXPY8yXYLc4",
         "address": "https://gab.com/faq/difference-between-gab-and-mastodon",
         "title": "Gab vs Mastodon: What's the Difference?",
-        "snippet": "Mastodon: What's the Difference?\nSkip to content gab est. 2016 Explore\nGroups\nMarketplace\nBuy from independent sellers in the parallel economy.\nShop marketplace\nBusiness directory\nWatch\nVideo, clips, and live — no app store required.\nVideo\nClips\nLive streaming\nAbout\nDownload\nLog in Sign up\nSystem",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 11,
-            "textWords": 971
+            "textWords": 1025
           }
         }
       },
@@ -1598,11 +1876,11 @@
         "hash": "PQMR4O9nw72x",
         "address": "https://joinmastodon.org/be/apps",
         "title": "Спампаваць праграму для Mastodon - Mastodon",
-        "snippet": "Mastodon - Mastodon\nSkip to main content\nПраграмы\nДля ўстаноў\nАхвяраваць\nРэсурсы\nПра насДаведайцеся пра невялікую каманду Mastodon.\nСерверыПрагледзьце даведнік іншых сервераў Mastodon.\nБлогАтрымайце апошнія навіны пра платформу.\nДакументацыяДаведайцеся, як Mastodon працуе ўнутры.\nПадтрымкаАтрымайце",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 13,
-            "textWords": 460
+            "hits": 16,
+            "textWords": 1960
           }
         }
       },
@@ -1681,122 +1959,122 @@
     ],
     [
       {
-        "hash": "0xYvYWkjxbMg",
-        "address": "https://t3n.de/tag/mastodon/",
-        "title": "Mastodon News, Artikel \u0026 Ratgeber | t3n",
-        "snippet": "Mastodon: News, Ratgeber \u0026 Tests | t3n\nUnsere MarkenMIT Technology ReviewDigital Bash\nJetzt abonnierenAbonnieren\nAnmelden\nPlus-Artikel\nt3n PRO\nUnsere Marken\nNewsticker\nThemen\nSoftware \u0026 KIArbeitsweltHardware \u0026 GadgetsFuture \u0026 ScienceStartups \u0026 EconomyNew FinanceE-CommerceMarketingMobilitätGaming",
+        "hash": "_9FLAvi5yEX4",
+        "address": "https://mastodon.art/tags/mutualaid",
+        "title": "Mastodon.ART",
+        "snippet": "Mastodon.ART",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 13,
-            "textWords": 505
+            "hits": 1,
+            "textWords": 2
           }
         }
       },
       {
-        "hash": "N6qxDg2Rr_dw",
-        "address": "https://docs.searxng.org/dev/engines/online/mastodon.html",
-        "title": "Mastodon - SearXNG Documentation (2026.9.7+3e454637f)",
-        "snippet": "Mastodon - SearXNG Documentation (2026.9.11+61d660276)\nContents\nMenu\nExpand\nLight mode\nDark mode\nAuto light/dark, in light mode\nAuto light/dark, in dark mode\nSkip to content\nSearXNG Documentation (2026.9.11+61d660276)\nSearXNG Documentation (2026.9.11+61d660276)\nUser information\nSearch syntax",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 5,
-            "textWords": 456
-          }
-        }
-      },
-      {
-        "hash": "PVrle9XT2Q14",
-        "address": "https://mastodon.social/auth/sign_up",
-        "title": "Sign up - Mastodon",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 338
-          }
-        }
-      },
-      {
-        "hash": "gqZjUFiwa444",
-        "address": "https://apps.apple.com/us/app/dawn-for-mastodon-by-nightfox/id1668645019",
-        "title": "‎DAWN for Mastodon by Nightfox App - App Store",
-        "snippet": "Mastodon by Nightfox App - App Store\nSearch\nToday\nGames\nApps\nArcade\nPlatform\niPhone\niPad\nMac\nVision\nWatch\nTV\nDAWN for Mastodon by Nightfox\nFast, private Mastodon client\nFree · In‑App Purchases · Designed for iPad\nShare\n2 Ratings\n5.0\nAge Rating\n16+ In-App Controls\nCategory\nSocial Networking",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 11,
-            "textWords": 1708
-          }
-        }
-      },
-      {
-        "hash": "zahydsmeXit4",
-        "address": "https://mastodon.xyz/@nextcloud",
-        "title": "Nextcloud 📱☁️💻 (@nextcloud@mastodon.xyz) - Mastodon",
-        "snippet": "(@nextcloud@mastodon.xyz) - Mastodon",
+        "hash": "_pmfd5HK17Lw",
+        "address": "https://mastodon.acm.org/@pldi",
+        "title": "PLDI 2026 (@pldi@mastodon.acm.org) - Mastodon",
+        "snippet": "(@pldi@mastodon.acm.org) - Mastodon",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 2,
-            "textWords": 5
+            "textWords": 7
           }
         }
       },
       {
-        "hash": "G65A7UE6wZ84",
-        "address": "https://mjtsai.com/blog/2023/01/11/mastodon-client-rejections/",
-        "title": "Michael Tsai - Blog - Mastodon Client Rejections",
-        "snippet": "Mastodon Client Rejections\nWednesday, January 11, 2023\nMastodon Client Rejections\nSimon B. Støvring:\nAs I’m preparing version 1.0.2 of Re: Toot it feels even more bitter that version 1.0.1 for macOS has been rejected.\nThe reviewer said that my metadata cannot refer to Mastodon because doing so can",
+        "hash": "yulmWsKONQn4",
+        "address": "https://mastodon.coffee/",
+        "title": "Mastodon ☕",
+        "snippet": "Mastodon ☕",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 14,
-            "textWords": 1159
+            "hits": 1,
+            "textWords": 1
           }
         }
       },
       {
-        "hash": "D4XEhs9nw72x",
-        "address": "https://joinmastodon.org/privacy-policy",
-        "title": "Privacy Policy - Mastodon",
-        "snippet": "Mastodon\nSkip to main content\nApps\nFor Institutions\nDonate\nResources\nAbout usLearn about the small team behind Mastodon.\nServersBrowse the directory of other Mastodon servers.\nBlogGet the latest news about the platform.\nDocumentationLearn how Mastodon works in-depth.\nSupportGet help or suggest a",
+        "hash": "_rwim5e8Z7M5",
+        "address": "https://mastodon.fam-ribbers.com/",
+        "title": "Mastodon",
+        "snippet": "Mastodon",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 10,
-            "textWords": 330
+            "hits": 1,
+            "textWords": 1
           }
         }
       },
       {
-        "hash": "gJvGYCQrrqag",
-        "address": "https://curia.social-network.europa.eu/@Curia_fr",
-        "title": "Cour de justice de l'UE (@Curia_fr@curia.social-network.europa.eu) - Mastodon",
-        "snippet": "",
+        "hash": "4LiXfvpL_jd4",
+        "address": "https://mastodon.world/tags/golang",
+        "title": "Mastodon",
+        "snippet": "Mastodon",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 79
+            "hits": 1,
+            "textWords": 1
           }
         }
       },
       {
-        "hash": "4O7Pjsa8fn24",
-        "address": "https://mstdn.social/@Bellingcat",
-        "title": "Bellingcat (@Bellingcat@mstdn.social) - Mastodon 🐘",
-        "snippet": "",
+        "hash": "5JdNLvpL_jd4",
+        "address": "https://mastodon.world/tags/hiring",
+        "title": "Mastodon",
+        "snippet": "Mastodon",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 98
+            "hits": 1,
+            "textWords": 1
           }
         }
       },
       {
-        "hash": "PB42Q0LWEAPh",
-        "address": "https://social.greenpeace.at/@greenpeaceaustria",
-        "title": "Greenpeace Österreich (@greenpeaceaustria@social.greenpeace.at) - Greenpeace Österreich - Mastodon",
-        "snippet": "",
+        "hash": "mMNmBvpL_jd4",
+        "address": "https://mastodon.world/tags/rest",
+        "title": "Mastodon",
+        "snippet": "Mastodon",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 3,
-            "textWords": 104
+            "hits": 1,
+            "textWords": 1
+          }
+        }
+      },
+      {
+        "hash": "j2iFT5qeuOPw",
+        "address": "https://mastodon.cemea.org/",
+        "title": "Mastodon CEMEA",
+        "snippet": "Mastodon CEMEA",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 2
+          }
+        }
+      },
+      {
+        "hash": "lRieKvpL_jd4",
+        "address": "https://mastodon.world/tags/api",
+        "title": "Mastodon",
+        "snippet": "Mastodon",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 1
+          }
+        }
+      },
+      {
+        "hash": "gP6JjvmeXit4",
+        "address": "https://mastodon.xyz/tags/fediverse",
+        "title": "Mastodon",
+        "snippet": "Mastodon",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 1,
+            "textWords": 1
           }
         }
       }
@@ -1887,6 +2165,18 @@
         }
       },
       {
+        "hash": "HlfJLkxSc8xg",
+        "address": "https://www.gea.mpg.de/",
+        "title": "Max Planck Institute of Geoanthropology Homepage | Max Planck Institute of Geoanthropology",
+        "snippet": "Zalasiewicz, J.; Thomas, J. A.; Cohen, K. M.; Vidas, D.; Sörlin, S.; Waters, C. N.; Head, M. J.; Summerhayes, C. P.; Leinfelder, R.; Wallenhorst, N. et al.; Syvitski, J.; McNeill, J. R.; Robin, L.; Williams, M.; Cearreta, A.; Ivar do Sul, J. A.; Park, B. S.; McCarthy, F. M. G.; Han, Y.; Turner, S.;",
+        "matchedWords": {
+          "YIDXHAz-Qx2s": {
+            "hits": 0,
+            "textWords": 73
+          }
+        }
+      },
+      {
         "hash": "-vqVpc2OD225",
         "address": "https://immanuelverbondskind.wordpress.com/tag/yeshua-ben-yoseph-jeshua-son-of-joseph-or-jesus-christ/",
         "title": "Yeshua ben Yoseph (Jeshua son of Joseph or Jesus Christ) – Immanuel Verbondskind – עמנואל קאָווענאַנט קינד",
@@ -1895,18 +2185,6 @@
           "YIDXHAz-Qx2s": {
             "hits": 4,
             "textWords": 7001
-          }
-        }
-      },
-      {
-        "hash": "HlfJLkxSc8xg",
-        "address": "https://www.gea.mpg.de/",
-        "title": "Max Planck Institute of Geoanthropology Homepage | Max Planck Institute of Geoanthropology",
-        "snippet": "",
-        "matchedWords": {
-          "YIDXHAz-Qx2s": {
-            "hits": 1,
-            "textWords": 1438
           }
         }
       },
@@ -1928,11 +2206,11 @@
         "hash": "cZUXE03kdEV4",
         "address": "https://buffer.com/resources/mastodon-social/",
         "title": "A Beginner’s Guide to Mastodon",
-        "snippet": "Mastodon\nTop navigation\nBuffer\nFeatures\nBuffer's features\nCreateBuild your own library of content ideas\nPublishPlan and schedule your content across social media platforms\nInsightsNewUnderstand your performance and what to post next\nCommunityEasily engage with your community\nCollaborateWork",
+        "snippet": "Mastodon using Buffer. Learn more and get started here →\nPost-Elon Musk’s takeover of Twitter, interest in other, similar social networking sites has spiked significantly. Some names may be familiar to you while others are completely new, but a quick search on Google Trends reveals that old or new,",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 60,
-            "textWords": 2605
+            "hits": 53,
+            "textWords": 1656
           }
         }
       },
@@ -1940,23 +2218,23 @@
         "hash": "dRs9jc-6M-ox",
         "address": "https://blog.joinmastodon.org/2018/08/mastodon-quick-start-guide/",
         "title": "Mastodon quick start guide - Official Mastodon Blog",
-        "snippet": "Mastodon quick start guide - Mastodon Blog\nSkip to content\nBack Aug 27, 2018Guides\nShare on\nMastodon quick start guide\nNico\nGuest\nPolish translation is available: Przewodnik po Mastodonie\nSo you want to join Mastodon and get tooting. Great! Here’s how to dive straight in.\nLet’s start with the",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 26,
-            "textWords": 1639
+            "textWords": 1768
           }
         }
       },
       {
-        "hash": "e7HLWsXT2Q14",
-        "address": "https://mastodon.social/@OBSProject",
-        "title": "OBS (@OBSProject@mastodon.social) - Mastodon",
-        "snippet": "(@OBSProject@mastodon.social) - Mastodon",
+        "hash": "cVY9CsXT2Q14",
+        "address": "https://mastodon.social/@brianhurley",
+        "title": "Brian Hurley (@BrianHurley@mastodon.social) - Mastodon",
+        "snippet": "(@BrianHurley@mastodon.social) - Mastodon",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 2,
-            "textWords": 5
+            "textWords": 6
           }
         }
       },
@@ -1976,11 +2254,11 @@
         "hash": "f3QvTw9nw72x",
         "address": "https://joinmastodon.org/tr/apps",
         "title": "Mastodon için bir uygulama edinin - Mastodon",
-        "snippet": "Mastodon için bir uygulama edinin - Mastodon\nSkip to main content\nUygulamalar\nKurumlar için\nBağış Yap\nKaynaklar\nHakkımızdaMastodon'un arkasındaki küçük ekip hakkında bilgi alın.\nSunucularDiğer Mastodon sunucuları dizinine göz atın.\nBlogPlatform hakkında son haberleri öğrenin.",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 10,
-            "textWords": 469
+            "hits": 16,
+            "textWords": 1971
           }
         }
       },
@@ -2012,11 +2290,11 @@
         "hash": "fyv-XVaoyK-x",
         "address": "https://docs.joinmastodon.org/admin/upgrading/",
         "title": "Upgrading to a new release - Mastodon documentation",
-        "snippet": "Mastodon documentation\nWhat is Mastodon?\nUsing MastodonSigning up for an account\nSetting up your profile\nPosting to your profile\nUsing the network features\nQuoting other posts\nDealing with unwanted content\nPromoting yourself and others\nSet your preferences\nMore settings\nUsing Mastodon externally",
+        "snippet": "",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
             "hits": 22,
-            "textWords": 980
+            "textWords": 1070
           }
         }
       },
@@ -2036,11 +2314,11 @@
         "hash": "fdSdvs1Pjs6w",
         "address": "https://fediring.net/",
         "title": "Fediring.net",
-        "snippet": "",
+        "snippet": "This webring is for the personal sites of any member of the fediverse (also known as fedizens). Head towards the bottom of the page to see a table of members or continue on to read the rules and how to join :)\nWe accept pretty much any site as long as the owner has an account on fedi. However, we",
         "matchedWords": {
           "YIDXHAz-Qx2s": {
-            "hits": 51,
-            "textWords": 3554
+            "hits": 0,
+            "textWords": 454
           }
         }
       }

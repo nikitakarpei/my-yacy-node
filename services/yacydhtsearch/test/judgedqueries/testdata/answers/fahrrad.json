@@ -1,139 +1,17 @@
 {
   "query": "fahrrad",
-  "recordedAt": "2026-09-11T19:21:35Z",
+  "recordedAt": "2026-09-11T20:59:23Z",
   "itemsInTheOrderOfEachAnswer": [
-    [
-      {
-        "hash": "Ao-x4AwFKWzg",
-        "address": "https://streaming-guide.spiegel.de/streamingdienste/paramount-plus/",
-        "title": "Top Filme und Serien auf Paramount+ - Ihr ultimativer Streaming-Guide | Streaming Guide",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 1823
-          }
-        }
-      },
-      {
-        "hash": "C0gtHFotHkcg",
-        "address": "https://kaufradar.spiegel.de/finanzen-versicherungen/",
-        "title": "Finanzen \u0026 Versicherungen - DER SPIEGEL Kaufradar",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 4,
-            "textWords": 1749
-          }
-        }
-      },
-      {
-        "hash": "AMV3kl5ARWyg",
-        "address": "https://www.spiegel.de/kontakt?betreff=Were+Americans+As+Bad+as+the+Soviets%3F\u0026channel=International\u0026id=051d06cd-0001-0001-0000-000001021298\u0026reason=Technische+Fragen+und+Probleme",
-        "title": "Kontakt - DER SPIEGEL",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1104
-          }
-        }
-      },
-      {
-        "hash": "D_w9rdFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/Portal:Wikipedia_nach_Themen",
-        "title": "Portal:Wikipedia nach Themen – Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1428
-          }
-        }
-      },
-      {
-        "hash": "A-cG3lyeZGNi",
-        "address": "https://www.report-medizin.de/",
-        "title": "Report Medizin,Neues aus der Medizin,Medizin News,Info-Netzwerk MEDIZIN 2000,Medizin 2000",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 31500
-          }
-        }
-      },
-      {
-        "hash": "D2jvwQHjdLqg",
-        "address": "https://www.focus.de/kultur/kino-tv/buergergeld-empfaengerin-goennt-sich-luxus-limousine-trotz-geldnot_133182ed-ce3d-4284-b42d-b104b12b6076.html",
-        "title": "Bürgergeld-Empfängerin gönnt sich Luxus-Limousine trotz Geldnot - FOCUS online",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1308
-          }
-        }
-      },
-      {
-        "hash": "ASOFd0--rHBy",
-        "address": "https://www.mikrocontroller.net/topic/581844",
-        "title": "Sicherheitsschrauben? ganz einfach.",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 2378
-          }
-        }
-      },
-      {
-        "hash": "C1C1-PJ0xFth",
-        "address": "https://rp-online.de/leben/reisen/deutschland/",
-        "title": "Reisen in Deutschland",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 3900
-          }
-        }
-      },
-      {
-        "hash": "BoFERhloDMX5",
-        "address": "https://rainerspeer.com/2012/06/04/ikombe-im-juni/",
-        "title": "Ikombe im Juni – rainerspeer",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 3158
-          }
-        }
-      },
-      {
-        "hash": "DsO-P7J0xFth",
-        "address": "https://rp-online.de/nrw/staedte/rommerskirchen/rhein-kreis-neuss-tritt-rommerskirchens-stromprojekt-bei_aid-139651029",
-        "title": "Rhein-Kreis Neuss tritt  Rommerskirchens Stromprojekt bei",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1645
-          }
-        }
-      }
-    ],
     [
       {
         "hash": "BkidfpL47Vlg",
         "address": "https://bikemarkt.mtb-news.de/kaufvertrag-fahrrad",
         "title": "Kaufvertrag Fahrrad – Kaufvertrag Vorlage für ein gebrauchtes Fahrrad | Bikemarkt.MTB-News.de",
-        "snippet": "Fahrrad – Kaufvertrag Vorlage für ein gebrauchtes Fahrrad | Bikemarkt.MTB-News.de\nUnser Netzwerk: MTB-News Rennrad-News eMTB-News Nimms-Rad Bikemarkt Jobs Events\nEN | Anmelden\nBikemarkt durchsuchen\nSuche abschicken\nNews Forum Fotos Bikemarkt Jobs Daily Deals Winterpokal Videos\nFahrräder",
+        "snippet": "Fahrrad kaufen: Was sollte ich beachten bei einem Gebrauchtfahrrad Kauf von Privat?\nSieh dir das Fahrrad und das Inserat vor dem Kauf genau an. Drucke es ggf. für deine Unterlagen oder Nachfragen aus, bzw speichere es.\nPrüfe das Fahrrad am besten vor Ort - vor der Bezahlung.\nIst das Fahrrad sauber",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 15,
-            "textWords": 1454
+            "hits": 7,
+            "textWords": 659
           }
         }
       },
@@ -141,47 +19,23 @@
         "hash": "am1CxiqZa4Gg",
         "address": "https://www.familie.de/kleinkind/kinder-lieben-es-dieses-lidl-fahrrad-vereint-style-und-sicherheit-perfekt--01KZC5QHQH0TMYERB702CBPYRY",
         "title": "Kinder lieben es: Dieses Lidl-Fahrrad vereint Style und Sicherheit perfekt",
-        "snippet": "Lidl-Fahrrad vereint Style und Sicherheit perfekt\nWeiter zur NavigationWeiter zum Inhalt\nFamilienleben\nTestberichte\nSchwangerschaft\nFamilienvorsorgeAnzeige\nTop Themen\nTonieboxDDRSelbstbewusstseinGroßeltern Alle Themen\nFamilienleben\nReisen \u0026 Freizeit\nWohnen \u0026 Leben\nHaustiere\nAstro\nFinanzen \u0026 Recht",
+        "snippet": "Fahrrad her muss. Für Eltern bedeutet das: ein Rad finden, das sicher ist, zum Kind passt und am besten auch noch gefällt. Das Huffy Kinderfahrrad mit 12 Zoll bei Lidl will genau das bieten, mit Stützrädern, Felgenbremsen und einer großen Auswahl an Motiven, die Kinderaugen leuchten lassen.\nSicher",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 11,
-            "textWords": 1030
+            "hits": 6,
+            "textWords": 598
           }
         }
       },
       {
-        "hash": "loRtVPemigYg",
-        "address": "https://www.flixbus.de/fernbus/vittoria",
-        "title": "Bus nach Vittoria - Bus Ticket günstig buchen",
+        "hash": "vhP0C1qF-3Lg",
+        "address": "https://www.bmimi.gv.at/themen/verkehr/strasse/recht/stvo/fahradvo.html",
+        "title": "Fahrradverordnung",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2258
-          }
-        }
-      },
-      {
-        "hash": "pFMhHsghd-Kg",
-        "address": "https://geizhals.de/garmin-edge-explore-2-010-02703-10-a2769264.html?hloc=de",
-        "title": "Garmin Edge Explore 2 ab € 199,00 (2026) | Preisvergleich Geizhals Deutschland",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 9,
-            "textWords": 3936
-          }
-        }
-      },
-      {
-        "hash": "m0MPFPemigYg",
-        "address": "https://www.flixbus.de/fernbus/montecosaro",
-        "title": "Bus nach Montecosaro - Bus Ticket günstig buchen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2307
+            "hits": 7,
+            "textWords": 3995
           }
         }
       },
@@ -210,14 +64,14 @@
         }
       },
       {
-        "hash": "DrFMCrmnaM4g",
-        "address": "https://dailydeals.mtb-news.de/",
-        "title": "Daily Deals - Bike Schnäppchen und Angebote auf MTB News",
+        "hash": "-MavXiqZa4Gg",
+        "address": "https://www.familie.de/kleinkind/warum-sich-premium-kinderraeder-am-ende-auch-fuer-familien-mit-kleinem-budget-auszahlen--01H2SX9GGCTN5NAJ2TR0ZJKSQR",
+        "title": "Warum sich Premium-Kinderräder am Ende auch für Familien mit kleinem Budget auszahlen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 4094
+            "hits": 17,
+            "textWords": 2781
           }
         }
       },
@@ -234,6 +88,30 @@
         }
       },
       {
+        "hash": "AErQCPemigYg",
+        "address": "https://www.flixbus.de/fernbus/messina",
+        "title": "Bus nach Messina - Bus Ticket günstig buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 2373
+          }
+        }
+      },
+      {
+        "hash": "TsXqnlu8sKAg",
+        "address": "https://www.aok.de/pk/",
+        "title": "Die AOK: Vorteile \u0026 Infos Ihrer Gesundheitskasse | AOK",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1367
+          }
+        }
+      },
+      {
         "hash": "zPXZ6sOMQ-fh",
         "address": "https://konsument.at/blog",
         "title": "Blog | KONSUMENT.AT",
@@ -246,41 +124,138 @@
         }
       }
     ],
-    [],
+    [
+      {
+        "hash": "K3XqtLlA2Rig",
+        "address": "https://www.n-tv.de/mediathek/videos/wirtschaft/Warum-immer-mehr-Menschen-das-Fahrrad-stehen-lassen-id31007897.html",
+        "title": "Neue Modelle, neue Hürden: Warum immer mehr Menschen das Fahrrad stehen lassen - n-tv.de",
+        "snippet": "Fahrrad stehen lassen\n25.06.2026, 07:38 Uhr\nRund drei Viertel der Deutschen besitzen ein Fahrrad. Doch Reparatur und Instandhaltung werden für viele Radfahrer zur großen Hürde. Wie eine Umfrage von Shimano zeigt, lassen einige das Rad deshalb sogar häufiger stehen.",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 50
+          }
+        }
+      },
+      {
+        "hash": "lmn0n_3sDtZg",
+        "address": "https://tini24.de/news/handwerker-finden-hochwertiges-fahrrad-in-einem-scharbeutzer-knick/",
+        "title": "Handwerker finden hochwertiges Fahrrad in einem Scharbeutzer Knick - News | TiNi24",
+        "snippet": "Fahrrad im Gebüsch im hinteren Bereich des beschrankten Parkplatzes. Das Pedelec wäre am Vortag noch nicht dort gewesen.\nPolizeibeamtinnen der Polizeistation Scharbeutz wurden hinzugerufen. Das Fahrrad war mit einem stabilen Schloss an einem Baumstamm gesichert worden. Der Abstellort ließ darauf",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 176
+          }
+        }
+      },
+      {
+        "hash": "N4_4wlRtt2cA",
+        "address": "http://www.leipzig.de/leben-in-leipzig/verkehr/fahrrad/fahrradstrassen-in-leipzig",
+        "title": "Fahrradstraßen in Leipzig - Stadt Leipzig",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 6,
+            "textWords": 6765
+          }
+        }
+      },
+      {
+        "hash": "8tS2DYsdClVg",
+        "address": "https://kurier.at/motor/fahrrad?amp%3Bcx_artPos=1\u0026amp%3Bcx_experienceId=EXFFM61BSA2S\u0026amp%3Bcx_testId=97\u0026amp%3Bcx_testVariant=cx_1",
+        "title": "Fahrräder und E-Bikes: aktuelle News und Tests | Kurier",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 4,
+            "textWords": 2404
+          }
+        }
+      },
+      {
+        "hash": "5ASkPXDOAHJg",
+        "address": "https://www.heise.de/bestenlisten/testsieger/top-10-die-besten-gps-tracker-fuer-fahrrad-auto-und-co-im-test/1gmyf1g",
+        "title": "Top 10: Die besten GPS-Tracker für Fahrrad, Auto und Co. im Test | heise online bestenlisten",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 7,
+            "textWords": 13609
+          }
+        }
+      },
+      {
+        "hash": "l1cfILLahQOg",
+        "address": "https://www.malteser.de/aware/hilfreich/erste-hilfe-auf-radtouren-was-gehoert-ins-notfallset.html",
+        "title": "Erste Hilfe auf Radtouren: Was gehört ins Notfallset?",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 9,
+            "textWords": 1879
+          }
+        }
+      },
+      {
+        "hash": "17eJBoFVaPpg",
+        "address": "https://www.dvr.de/mensch-im-verkehr/fahrtuechtigkeit/alkohol",
+        "title": "Alkohol im Straßenverkehr und Promillegrenze im Auto | Deutscher Verkehrssicherheitsrat",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 1420
+          }
+        }
+      },
+      {
+        "hash": "JALYKJ-vbMDi",
+        "address": "https://www.nordsee-zeitung.de/bremerhaven/unbekannte-rauben-pedelec-in-geestemuende-polizei-sucht-zeugen-387053.html",
+        "title": "Unbekannte rauben Pedelec in Geestemünde: Polizei sucht Zeugen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 699
+          }
+        }
+      },
+      {
+        "hash": "sWEopPemigYg",
+        "address": "https://www.flixbus.de/fernbus/san-severo",
+        "title": "Bus nach San Severo - Bus Ticket günstig buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 2433
+          }
+        }
+      },
+      {
+        "hash": "JN4hAuQCzJQg",
+        "address": "https://www.chip.de/static/nutzungsbedingungen-chip_4fcb8cef-57bb-49ba-81eb-d27a76e3b8d5.html",
+        "title": "AGB - CHIP",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 306
+          }
+        }
+      }
+    ],
     [
       {
         "hash": "Ol37rmlamVlg",
         "address": "https://www.pferd.de/threads/fahrrad-fahren-mit-pferd.128584/",
         "title": "Fahrrad fahren mit Pferd",
-        "snippet": "Fahrrad fahren mit Pferd\nStartseite\nForum Neue Beiträge Mitglieder Mitglieder Übersicht Zurzeit aktive Besucher Profilnachrichten Profilnachrichten suchen\nForen durchsuchen Unser Pferde Quiz Pferdenamen-Generator Lexikon\nBilder Neue Medien Neue Kommentare Medien suchen\nWas ist neu? Empfohlene",
+        "snippet": "Fahrrad fahren mit Pferd Beitrag #1\nG\nGast19894\nGast\nHallo ihr lieben,\nich wollte mal fragen, wer mir seinem Pferd Fahrrad fährt? Ich mache das einmal im Monat mit meinem RB Wallach. Er ist daran gewöhnt und entspannt sich dabei immer vollkommen. Ich denke, es ist nichts anderes, wie mit einem",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 57,
-            "textWords": 3180
-          }
-        }
-      },
-      {
-        "hash": "MzIHKNlA2Rig",
-        "address": "https://www.n-tv.de/thema/fahrrad/archiv-1",
-        "title": "Fahrrad - Thema Seite 1 - n-tv.de",
-        "snippet": "Fahrrad - Thema Seite 1 - n-tv.de\nntv\nRessorts\nBilderserien\nPolitikMeldungen\nKommentare\nWieduwilts Woche\nWirtschaftMeldungen\nTermine\nStartup\nBörseAuf einen Blick\nAktien \u0026 IndizesDax\nTecDax\nMDax\nSDax\nGex\nHDax\nEuroStoxx\nStoxx50\nDow Jones\nNasdaq\nNikkei\nDevisen\nRohstoffe\nntv Zertifikate\nntv Fonds\nntv",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 6,
-            "textWords": 1001
-          }
-        }
-      },
-      {
-        "hash": "PZdUH0tFNgwi",
-        "address": "https://www.dieniedersachsen.de/nachrichten/thema/fahrrad",
-        "title": "News zu #Fahrrad auf DieNiedersachsen.de - Online Nachrichten",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 952
+            "hits": 45,
+            "textWords": 1994
           }
         }
       },
@@ -288,11 +263,35 @@
         "hash": "0QrBgsnKVAHh",
         "address": "https://sportfanat.de/mit-dem-fahrrad-durch-san-francisco/",
         "title": "Mit dem Fahrrad durch San Francisco - sportfanat.de",
-        "snippet": "Fahrrad durch San Francisco - sportfanat.de\nZum Inhalt wechseln\nHome\nSportarten Ballsport\nEissport\nFitness\nFlugsport\nFutsal\nInklusion\nKampfsport\nKraftsport\nLaufsport\nLeichtathletik\nMotorsport\nPräzisionssport\nRadsport\nReitsport\nRückschlagsport\nSchießsport\nSkating\nTanzsport\nTrendsport/Funsport",
+        "snippet": "Fahrrad durch San Francisco klingt eigentlich ganz nett. Allerdings nicht für die Jungs in unserem aktuellem Netzfundstück! Für sie ist eine entspannte Tour mit dem Fahrrad etwas zu langweilig. Sie sind nämlich im Bike-Parkour unterwegs und lieben artistische Einlagen auf dem Fahrrad. Ob mit dem",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 6,
-            "textWords": 353
+            "hits": 3,
+            "textWords": 132
+          }
+        }
+      },
+      {
+        "hash": "MzIHKNlA2Rig",
+        "address": "https://www.n-tv.de/thema/fahrrad/archiv-1",
+        "title": "Fahrrad - Thema Seite 1 - n-tv.de",
+        "snippet": "Fahrrad\nAktuelle News, Hintergründe, Kommentare, Interviews und Videos zum Thema Fahrrad\nSchäden durch \"Chaoten\"NRW will Radeln im Wald stark einschränken\nWer im Wald künftig abseits von Wegen radelt, muss in Nordrhein-Westfalen bald mit Bußgeldern rechnen. Motorräder, Mofas, Pedelecs und E-Scooter",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 472
+          }
+        }
+      },
+      {
+        "hash": "PZdUH0tFNgwi",
+        "address": "https://www.dieniedersachsen.de/nachrichten/thema/fahrrad",
+        "title": "News zu #Fahrrad auf DieNiedersachsen.de - Online Nachrichten",
+        "snippet": "Individuell gefertigte Geschenke zur Geburt\n10 Prozent Rabatt auf personalisierte Geschenke für frischgebackene Eltern und deren Familien. Besonders gefragt sind bestickte Windeln im Rahmen mit Geburtsdaten sowie kreative Windeltorten. | mehr\nIndividuell gefertigte Geschenke zur Geburt\n10 Prozent",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 0,
+            "textWords": 153
           }
         }
       },
@@ -345,14 +344,14 @@
         }
       },
       {
-        "hash": "6Sef74wuDCAi",
-        "address": "https://www.mobil-potsdam.de/de/fahrrad/fahrradparken/",
-        "title": "mobil in potsdam",
+        "hash": "FYF2T4wuDCAi",
+        "address": "https://www.mobil-potsdam.de/de/fahrrad/",
+        "title": "... und Potsdam bietet die besten Voraussetzungen dafür. Durch die kompakte Struktur sind viele Wege in der Stadt nicht länger als die ideale Fahrraddistanz von 5 km und wegen der nur wenig hügeligen Landschaft ist das Radfahren hier auch nicht so anstrengend.",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 3,
-            "textWords": 1040
+            "textWords": 526
           }
         }
       },
@@ -434,11 +433,11 @@
         "hash": "0sgrEhnAgGgh",
         "address": "https://www.heisegroup.de/artikel/heise-als-Arbeitgeber-1812545.html",
         "title": "heise als Arbeitgeber | heise group",
-        "snippet": "Fahrrad: Unsere heise-Standorte sind gut erreichbar.\nHomeoffice/Mobiles Arbeiten\nEin effektives Arbeitsumfeld, das den Schwerpunkt auf gemeinsame Arbeit im Büro legt, kombiniert mit flexiblen und hybriden Arbeitsmodellen unter Berücksichtigung individueller Bedürfnisse.\nParkplätze\nParken ist bei",
+        "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 2,
-            "textWords": 1184
+            "textWords": 1284
           }
         }
       },
@@ -479,14 +478,14 @@
         }
       },
       {
-        "hash": "yMqkpPemigYg",
-        "address": "https://www.flixbus.de/fernbus/orte",
-        "title": "Bus nach Orte - Bus Ticket günstig buchen",
+        "hash": "aXggaVqF-3Lg",
+        "address": "https://www.bmimi.gv.at/verkehrssicherheit.html",
+        "title": "Verkehrssicherheit",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2327
+            "hits": 1,
+            "textWords": 1296
           }
         }
       }
@@ -496,11 +495,11 @@
         "hash": "ueLLVFotHkcg",
         "address": "https://kaufradar.spiegel.de/auto-fahrrad/",
         "title": "Auto \u0026 Fahrrad - DER SPIEGEL Kaufradar",
-        "snippet": "Fahrrad - DER SPIEGEL Kaufradar\nZum Inhalt springen\nDER SPIEGEL\nAnmelden Abonnement Anmelden\nMenü öffnen\nMenü\nSchlagzeilen\nSPIEGEL+\nSachsen-Anhalt-Wahl\nDie Nazi-Kartei\nSportdaten\nGames und Quiz\nDebatte\nPolitik\nAusland\nPanorama\nSport\nWirtschaft\nWissenschaft\nKultur\nNetzwelt\nLeben\nEffilee\nJob \u0026",
+        "snippet": "Affiliate-Hinweis\nDieser Link enthält Affiliate-Angebote.\nMehr erfahren\nIn Artikeln des Kaufradars finden sich sogenannte Affiliate-Anzeigen, die Links zu Onlineshops enthalten. Besucht ein Nutzer über einen solchen Link einen dieser Shops und kauft dort ein, wird der SPIEGEL-Verlag, aber nie der",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 6,
-            "textWords": 784
+            "hits": 0,
+            "textWords": 54
           }
         }
       },
@@ -508,11 +507,11 @@
         "hash": "lzV3MwuDQ-Fg",
         "address": "https://www.muenchen.de/verkehr/fahrrad",
         "title": "Fahrrad in München: Touren, Karten, Hinweise - muenchen.de",
-        "snippet": "Fahrrad in München: Touren, Karten, Hinweise - muenchen.de\nSuchen\nClose search\nAnzeige Branchenbuch Suchbegriff eingeben\nSuchen\nHauptnavigation öffnen\nHauptnavigation schließen\nAnzeige Branchenbuch Navigation\nSprache\nRathaus\nZum Rathaus\nPolitik und Beteiligung\nStadtverwaltung\nPresse und Medien",
+        "snippet": "Fahrrad\nStartseite\nAnzeige Branchenbuch\nFahrradfahren in München: Infos zum Radeln\nTouren, Karten und weitere Hinweise\nOnline-Routenplaner\nSchneller oder schöner ans Ziel radeln mit dem Online-Routenplaner\nRadlstadtplan\nIdeen für Radl-Touren mit dem Radlstadtplan - online und gedruckt\nRadfahren in",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 5,
-            "textWords": 383
+            "hits": 4,
+            "textWords": 226
           }
         }
       },
@@ -520,11 +519,11 @@
         "hash": "krFymlUs6etg",
         "address": "https://www.rp-shop.de/Fahrrad/",
         "title": "RP-SHOP | Fahrrad",
-        "snippet": "Fahrrad\nLogin\nWarenkorb\nAus der Werbung\nDas Smartphone Handbuch\n1895 Fortuna 25/26\nAktivurlaub\nJacques Tilly\nJacques Tilly Drucke\nJacques Tilly Spiele\nJacques Tilly Wohnen\n80 Jahre RP\nEinschulung\nArt in the Sky ©\nStilsicher\nWein.Edition\nVinothek\nWeinpakete\nRotwein\nWeißwein\nCrémant\nCava\nProsecco",
+        "snippet": "Fahrrad-Zubehör\nGARTENGLÜCK 2026\nAuszeiten\nRatgeber\nTrinken\nBonn geht aus\nDüsseldorf geht aus\nTop Magazin\nMallorca geht aus\nMallorca im Überblick\n1895 Fortuna\neBooks\nRadfahren\nWandern\nBacken\nKochen\nTaschen\nSchmuck-Sets\nColliers\nArmbanduhren\nSchirme\nSchals\nArmbänder\nOhrringe\nRinge\nHerren\nLoriot",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 5,
-            "textWords": 570
+            "hits": 3,
+            "textWords": 251
           }
         }
       },
@@ -532,11 +531,11 @@
         "hash": "gPwaOlAii4pg",
         "address": "https://www.otto.de/sport/?sportart=_fahrrad",
         "title": "Fahrrad Produkte online kaufen | OTTO",
-        "snippet": "Fahrrad Produkte online kaufen | OTTO\nVerwende die Pfeiltasten, um Suchvorschläge oder deine Suchhistorie auszuwählen.\nDeal des Tages\nDeals der Woche\nDeals des Monats\nSuper-Sale\nMein Konto\nWillkommen!\nMein Konto\nBestellungen\nRechnungen\nMein UP\nNachrichten\nProfil\nAnmelden\nNeu bei OTTO? Jetzt",
+        "snippet": "Damen-Mode\nHerren-Mode\nBaby \u0026 Kind\nSport\nBeauty \u0026 Drogerie\nMultimedia\nHaushalt\nKüche\nHeimtextilien\nMöbel\nBaumarkt\nInspiration\nMarken\n%Sale%\nFehler beim Laden der Navigationsinhalte!\nNavigation wird geladen...\nFehler beim Laden der Navigationsinhalte!\nNavigation wird geladen...\nFehler beim Laden der",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 13,
-            "textWords": 824
+            "hits": 0,
+            "textWords": 87
           }
         }
       },
@@ -544,11 +543,11 @@
         "hash": "gJzS1hjFwR5g",
         "address": "https://www.adfc.de/artikel/beleuchtung-am-fahrrad",
         "title": "Beleuchtung am Fahrrad - ADFC",
-        "snippet": "Fahrrad - ADFC\nAllgemeiner Deutscher Fahrrad-Club e. V. (ADFC)\nMitglied werden\nSpenden\nNewsletter\nIm Alltag\nAuf Tour\nAktuelles\nÜber uns\nMitgliedschaft\nFachwissen\nPresse\nEnglish\nLogin\nBarriere\nfreiheit\nSuche Suche\nIch habe nicht gefunden, was ich gesucht habe:\nKontrastmodus\nTextzoom\n1:1",
+        "snippet": "pressedienst-fahrrad\nWelche Beleuchtung gehört ans Fahrrad? Bei der Beleuchtung am Rad hat die Technik große Sprünge gemacht, auch Vorschriften sind fahrradfreundlicher geworden. Verstöße können aber teuer werden.\nSeit Einführung der LED-Technik gibt es stärkere und zuverlässigere Scheinwerfer und",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 23,
-            "textWords": 2631
+            "hits": 15,
+            "textWords": 2239
           }
         }
       },
@@ -556,11 +555,11 @@
         "hash": "drtwWlogRgtg",
         "address": "https://www.autobild.de/fahrrad/",
         "title": "Fahrrad - AUTO BILD",
-        "snippet": "",
+        "snippet": "Fahrrad-Multitools im Test (2026)\nKleine Helfer, große Wirkung: Multitools fürs Bike im Test\nAkkupumpen: Auto, Fahr- und Motorrad\nPusten ohne Pause: 6 mobile Akku-Luftpumpen im Test\nBügel-, Falt- und Kettenschlösser\nDie Top-Hersteller von Fahrradschlössern im Test\nService\nAlle Beiträge\nExperte für",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 850
+            "hits": 1,
+            "textWords": 233
           }
         }
       },
@@ -568,11 +567,11 @@
         "hash": "RWbw3XqO2Dlg",
         "address": "https://media.ccc.de/v/ho26-150-fahrrad-schrauben-fur-anfangerinnen",
         "title": "Fahrrad schrauben für Anfänger_innen (hackover2026)",
-        "snippet": "",
+        "snippet": "Fahrrad schrauben aber wo anfangen? Was für Werkzeug braucht man dafür?\nWas kann man denn da gut selber machen? Ist das alles schwer? In dem Vortrag stelle ich so ein paar basics zum selber schrauben vor. Einfach ein paar sachen die ich gerne gewusst hätte bevor ich damit angefangen habe\nAktuell",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 464
+            "hits": 1,
+            "textWords": 125
           }
         }
       },
@@ -580,11 +579,11 @@
         "hash": "ekaWDJseDREg",
         "address": "https://www.zdfheute.de/ratgeber/urlaub-mit-dem-fahrrad-bikepacking-reisen-radreise-100.html",
         "title": "Urlaub mit dem Fahrrad: Wie Backpacking auch Anfängern gelingt",
-        "snippet": "Fahrrad: Wie Backpacking auch Anfängern gelingt\nMenü\nMerkliste\nSuche\nSchließen\nSuche\nZDFheute\nUkraine\nIran\nPolitik\nÜbersicht\nDeutschland\nWahl in Berlin\nWahl in Mecklenburg-Vorpommern\nSchwarz-rote Koalition\nAusland\nNahost-Konflikt\nUSA\nWirtschaft\nÜbersicht\nUnternehmen\nPanorama\nÜbersicht\nKriminalität",
+        "snippet": "Fahrrad gibt es meist zwei Optionen: neu vom Händler oder gebraucht von privat. Inzwischen werden auch \"refurbished\", also professionell aufbereitete Gebrauchträder angeboten.\n14.07.2026 | 6:01 min\nBikepacking ist auch für Einsteiger geeignet\nBikepacking ist nicht nur etwas für Radprofis. Eine",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 15,
-            "textWords": 1437
+            "hits": 7,
+            "textWords": 942
           }
         }
       },
@@ -592,11 +591,11 @@
         "hash": "Hk81LNrjjaYh",
         "address": "https://www.guter-rat.de/thema/reise/fahrrad",
         "title": "Fahrrad",
-        "snippet": "Fahrrad\nMenü\nSuche\nFinanzen \u0026 Versicherungen\nVersicherung\nAltersvorsorge\nBanken\nBörse\nRechner\nFinanzen \u0026 Versicherungen\nVorsorgevollmacht\nNotvertretungsrecht: Auf den Ernstfall vorbereitet sein\nRententipps\nRentenfallen: Wie Betrüger mit der Rente tricksen\nVersicherungstipps\nEndlich volljährig:",
+        "snippet": "Fahrrad\nLeserreisen\nReise\nReiseratgeber\nFahrgastrechte in der EU: So viel Entschädigung gibt es bei Verspätung...\nLeserreisen\nGuter Rat Leserreise: Erholung im Kururlaub\nReiseratgeber\nFamilienurlaub mit Zuschuss: Wer Förderung beantragen kann\nLeserreisen\nGuter Rat Leserreise: Freuen Sie sich auf",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 5,
-            "textWords": 382
+            "hits": 1,
+            "textWords": 325
           }
         }
       },
@@ -604,11 +603,11 @@
         "hash": "iIpdu1X8WHMg",
         "address": "https://langenhagen.adfc.de/artikel/fahrrad-fahr-rad-langenhagen-unsere-webseiten-beitraege-rund-ums-rad",
         "title": "Danke! Langenhagen Fahrrad = \"Fahr Rad\"!! Unsere Webseiten-Beiträge rund ums Rad - ADFC Langenhagen: Besser Radfahren",
-        "snippet": "Fahrrad = \"Fahr Rad\"!! Unsere Webseiten-Beiträge rund ums Rad - ADFC Langenhagen: Besser Radfahren\nAllgemeiner Deutscher Fahrrad-Club Ortsgruppe Langenhagen: Besser Radfahren\nMitglied werden\nSpenden\nNewsletter\nAktuelles\nTermine\nFahr Rad\nPolitik\nADFC Langenhagen: Besser Radfahren\nSei dabei\nPresse",
+        "snippet": "Fahrrad Langenhagen\nDas Archiv / die Sitemap: Wissenswertes rund ums Rad\nThanks for reading ....\nLangenhagen: “Fahrrad = fahr Rad!”\nDurchnummeriert:\nDie bisherigen Beiträge zu “Fahr Rad” auf unserer Webseite\nBeitrag Nr. xxx:\n=\u003e coming soon\n=\u003e stay tuned … ;-)\n115: Es ist doch 17:30! Komm vom Sofa:",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 26,
-            "textWords": 2793
+            "hits": 8,
+            "textWords": 922
           }
         }
       }
@@ -618,47 +617,59 @@
         "hash": "BpdPXJGyaxOg",
         "address": "https://www.flixbus.at/service/fahrrad-mitnahme",
         "title": "Nimm Dein Fahrrad mit im FlixBus",
-        "snippet": "Fahrrad mit im FlixBus\nZum Seiteninhalt springen\nPlane Deine Reise\nBusverbindungen\nFahrpläne/Haltestellen\nService\nAlle Services\nIm Bus\nSicherheit\nUmwelt\nBuchung verwalten\nFahrt verfolgen\nHilfe\nPlane Deine Reise\nBusverbindungen\nFahrpläne/Haltestellen\nService\nAlle Services\nIm Bus\nSicherheit\nUmwelt",
+        "snippet": "Fahrrad mit und starte Deine Reise mit FlixBus.\nKann ich mein Fahrrad auf jeden FlixBus mitnehmen?\nDie meisten FlixBusse sind fahrradfreundlich. Die Verfügbarkeit kann je nach Strecke und Land unterschiedlich sein und in einigen Ländern ist die Fahrradmitnahme in Bussen nicht erlaubt. Bevor Du Dein",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 11,
-            "textWords": 490
+            "hits": 9,
+            "textWords": 295
           }
         }
       },
       {
-        "hash": "toVTsit4sufg",
-        "address": "https://www.epd-film.de/personen/bruno-eyron",
-        "title": "Bruno Eyron | epd Film",
+        "hash": "w1lOUsghd-Kg",
+        "address": "https://geizhals.de/osram-ledsbike-race-50-beleuchtungsset-ledbl101-set-a3639574.html?hloc=de",
+        "title": "Osram LEDsBike Race 50 Beleuchtungsset ab € 17,49 (2026) | Preisvergleich Geizhals Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 4,
+            "textWords": 2567
+          }
+        }
+      },
+      {
+        "hash": "_r_A2UemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-hamburg-thisted",
+        "title": "Bus Hamburg nach Thisted - Günstig Tickets buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 811
+            "textWords": 1981
           }
         }
       },
       {
-        "hash": "4Uf59sghd-Kg",
-        "address": "https://geizhals.de/sigma-sport-reco-80-link-ruecklicht-15300-a3679019.html?hloc=de",
-        "title": "Sigma Sport Reco 80 Link Rücklicht ab € 109,95 (2026) | Preisvergleich Geizhals Deutschland",
+        "hash": "yFUorUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-toulon-nuernberg",
+        "title": "Bus Toulon nach Nürnberg - Günstig Tickets buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 2000
+            "hits": 1,
+            "textWords": 1817
           }
         }
       },
       {
-        "hash": "pMH19UemigYg",
-        "address": "https://www.flixbus.de/busverbindung/fernbus-karlsruhe-frejus",
-        "title": "Bus Karlsruhe nach Fréjus - Günstig Tickets buchen",
+        "hash": "18MMOUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-karlsruhe-burgas",
+        "title": "Bus Karlsruhe nach Burgas - Günstig Tickets buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 3778
+            "hits": 1,
+            "textWords": 3178
           }
         }
       },
@@ -666,71 +677,59 @@
         "hash": "SizfqluDQ-Fg",
         "address": "https://www.muenchen.de/verkehr",
         "title": "Verkehr in München: ÖPNV, Fahrrad, Auto und mehr - muenchen.de",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 1353
-          }
-        }
-      },
-      {
-        "hash": "19tTvsghd-Kg",
-        "address": "https://geizhals.de/thule-yepp-2-mini-fahrradkindersitz-soft-sand-12041103-a3791985.html?hloc=de",
-        "title": "Thule Yepp 2 Mini Fahrradkindersitz soft sand ab € 92,99 (2026) | Preisvergleich Geizhals Deutschland",
-        "snippet": "",
+        "snippet": "Fahrrad, Auto, Taxi und vieles mehr - Mobilität und Verkehr in München hat viele Gesichter. Hier gibt es alle Informationen, um am schnellsten und sichersten von A nach B zu kommen.\nTickets, Fahrpläne, Live-Auskunft, Mieträder: Die Infos\nMVG: Infos zu U-Bahn, Bus und Tram\nWo gibt es Tickets für",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 2,
-            "textWords": 1756
+            "textWords": 141
           }
         }
       },
       {
-        "hash": "9Nkossghd-Kg",
-        "address": "https://geizhals.de/thule-yepp-nexxt-2-mini-fahrradkindersitz-midnight-black-12081101-a3792005.html?hloc=de",
-        "title": "Thule Yepp Nexxt 2 Mini Fahrradkindersitz midnight black ab € 97,99 (2026) | Preisvergleich Geizhals Deutschland",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 1859
-          }
-        }
-      },
-      {
-        "hash": "-tfg1UemigYg",
-        "address": "https://www.flixbus.de/busverbindung/fernbus-heidelberg-split",
-        "title": "Bus Heidelberg nach Split - Günstig Tickets buchen",
+        "hash": "2WW6oUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-zvolen-dresden",
+        "title": "Bus Zvolen nach Dresden - Günstig Tickets buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 1902
+            "textWords": 2173
           }
         }
       },
       {
-        "hash": "faAqTPemigYg",
-        "address": "https://www.flixbus.de/fernbus/mirabilandia",
-        "title": "Bus nach Mirabilandia - Bus Ticket günstig buchen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2304
-          }
-        }
-      },
-      {
-        "hash": "6YlVcUemigYg",
-        "address": "https://www.flixbus.de/busverbindung/fernbus-bad-segeberg-dresden",
-        "title": "Bus Bad Segeberg nach Dresden - Günstig Tickets buchen",
+        "hash": "4e5V2UemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-como-karlsruhe",
+        "title": "Bus Como nach Karlsruhe - Günstig Tickets buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 2253
+            "textWords": 3375
+          }
+        }
+      },
+      {
+        "hash": "CzoEWFrrGcCg",
+        "address": "https://preisvergleich.heise.de/filmer-led-gepaecktraegermontage-ruecklicht-40062-a3771730.html?hloc=de",
+        "title": "Filmer LED Gepäckträgermontage Rücklicht (40062) ab € 4,69 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 1297
+          }
+        }
+      },
+      {
+        "hash": "3EIQ5UemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-dortmund-halmstad",
+        "title": "Bus Dortmund nach Halmstad - Günstig Tickets buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 2222
           }
         }
       }
@@ -740,11 +739,11 @@
         "hash": "UMCez_KP-5B5",
         "address": "https://demystifikation.wordpress.com/category/fahrrad/",
         "title": "Fahrrad | Demystifikation",
-        "snippet": "Fahrrad | Demystifikation\nDemystifikation\nEine Kritik, die sich mit diesem Inhalt befasst, ist die Kritik im Handgemenge (Karl Chemnitzer)\nMenü\nZum Inhalt springen Startseite\nHumorlinks\nImpressum, Datenschutz, Lizenzen\nArchiv der Kategorie: Fahrrad\nDraw togetha – TdF\nDraw togetha – TdF\n22.07.2019",
+        "snippet": "Fahrrad, darauf pinselte man erst einen Radstreifen hin. Dann gab es Proteste, das bringe doch nix, die haltenden PKWs würden sich da auch einfach draufstellen. Daraufhin wurde eine Kette von Barken errichtet, die die PKWs jetzt abhält.\nNach Norden heißt die Hauptstraße übrigens ab Kleistpark",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 6,
-            "textWords": 1735
+            "hits": 2,
+            "textWords": 1212
           }
         }
       },
@@ -752,23 +751,11 @@
         "hash": "fiGiEXCZCJKg",
         "address": "https://www.merkur.de/leben/auto/adac-warnt-diese-fuenf-fehler-beim-fahrrad-anschliessen-kosten-sie-ihr-rad-zr-94446433.html",
         "title": "ADAC warnt: Diese fünf Fehler beim Fahrrad anschließen kosten Sie Ihr Rad",
-        "snippet": "Fahrrad anschließen kosten Sie Ihr Rad\nPolitik\nWirtschaft\nDeutschland\nWelt\nLokales\nBayern\nKategorienPolitikLandtagswahl Sachsen-Anhalt\nLandtagswahl Mecklenburg-Vorpommern\nBerlin-Wahl\nIsrael im Krieg\nUkraine-Krieg\nMidterms\nWirtschaftBürgergeld\nRente\nWeltUrlaub in Italien\nUrlaub in Österreich\nVulkane",
+        "snippet": "Fahrrad anschließen will gelernt sein. Der ADAC zeigt, welche Fehler Diebe einladen und wie Radler es besser machen.\nKassel – Jedes Jahr werden in Deutschland Hunderttausende Fahrräder gestohlen. Der ADAC hat nun die häufigsten Versäumnisse zusammengestellt, die Radfahrer beim Sichern ihres",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 6,
-            "textWords": 722
-          }
-        }
-      },
-      {
-        "hash": "fEPlVZtFNgwi",
-        "address": "https://www.dieniedersachsen.de/wirtschaft/junge-auf-fahrrad-von-auto-erfasst-schwer-verletzt-3138371",
-        "title": "Junge auf Fahrrad von Auto erfasst - schwer verletzt",
-        "snippet": "Fahrrad von Auto erfasst - schwer verletzt\nLaden abbrechen\nWirtschaft\nPolitik\nJustiz\nSport\nNachrichten Religion\nGesellschaft\nGesundheit\nFreizeit\nKultur\nSoziales\nUmwelt\nBildung\nWissenschaft\nUnfall\nKurzmeldungen\nCommunity\nUnternehmen\nEvents\nJobs\nLogin\nFreitag, 11. September 2026\npowered by publizer®",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 408
+            "hits": 5,
+            "textWords": 512
           }
         }
       },
@@ -785,14 +772,26 @@
         }
       },
       {
+        "hash": "fEPlVZtFNgwi",
+        "address": "https://www.dieniedersachsen.de/wirtschaft/junge-auf-fahrrad-von-auto-erfasst-schwer-verletzt-3138371",
+        "title": "Junge auf Fahrrad von Auto erfasst - schwer verletzt",
+        "snippet": "Fahrrad eine Straße, übersieht dabei ein Auto - es kommt zum Zusammenstoß. Die Folgen für das Kind sind ernst.\nEin elf Jahre alter Radfahrer hat bei einem Unfall mit einem Auto im Emsland schwere Verletzungen erlitten. Der Junge habe am Donnerstagabend an einer Kreuzung in Lingen offensichtlich den",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 101
+          }
+        }
+      },
+      {
         "hash": "x-I85Npg7ax4",
         "address": "https://de.wikipedia.org./wiki/Portal:Fahrrad",
         "title": "Portal:Fahrrad – Wikipedia",
-        "snippet": "Portal:Fahrrad – Wikipedia\nZum Inhalt springen\nHauptmenü\nHauptmenü\nIn die Seitenleiste verschieben\nVerbergen\nNavigation\nHauptseite\nThemenportale\nZufälliger Artikel\nSpezialseiten\nMitmachen\nArtikel verbessern\nNeuen Artikel anlegen\nAutorenportal\nHilfe\nLetzte Änderungen\nKontakt\nSuche\nSuchen",
+        "snippet": "Fahrrad der Wikipedia!\nNachrichten aus dem Portal Fahrrad\nWas lange währt, wird endlich gut, neue Relevanzkriterien für Fahrradhersteller.\n[Quelltext bearbeiten]\nNeue Relevanzkriterien für Fahrradhersteller.\nBezogen auf das nunmehr beendete und angenommene Meinungsbild zum Themenbereich",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 34,
-            "textWords": 1412
+            "hits": 11,
+            "textWords": 834
           }
         }
       },
@@ -800,11 +799,11 @@
         "hash": "bA1UOFKP-5B5",
         "address": "https://demystifikation.wordpress.com/tag/fahrrad/",
         "title": "Fahrrad | Demystifikation",
-        "snippet": "",
+        "snippet": "Fahrrad, darauf pinselte man erst einen Radstreifen hin. Dann gab es Proteste, das bringe doch nix, die haltenden PKWs würden sich da auch einfach draufstellen. Daraufhin wurde eine Kette von Barken errichtet, die die PKWs jetzt abhält.\nNach Norden heißt die Hauptstraße übrigens ab Kleistpark",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 4,
-            "textWords": 1934
+            "hits": 1,
+            "textWords": 1207
           }
         }
       },
@@ -812,11 +811,11 @@
         "hash": "3YYi2Npg7ax4",
         "address": "https://de.wikipedia.org./wiki/Mein_Fahrrad",
         "title": "Mein Fahrrad – Wikipedia",
-        "snippet": "Fahrrad – Wikipedia\nZum Inhalt springen\nHauptmenü\nHauptmenü\nIn die Seitenleiste verschieben\nVerbergen\nNavigation\nHauptseite\nThemenportale\nZufälliger Artikel\nSpezialseiten\nMitmachen\nArtikel verbessern\nNeuen Artikel anlegen\nAutorenportal\nHilfe\nLetzte Änderungen\nKontakt\nSuche\nSuchen\nErscheinungsbild",
+        "snippet": "Fahrrad\nDie Prinzen\nVeröffentlichung\n9. September 1991 (Album)\n1992 (Single)\nLänge\n2:25\nGenre(s)\nPop\nAutor(en)\nSebastian Krumbiegel, Tobias Künzel\nProduktion\nAnnette Humpe\nLabel\nHansa Records\nAlbum\nDas Leben ist grausam\nMein Fahrrad ist ein Lied der deutschen A-cappella- und Popband Die Prinzen aus",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 16,
-            "textWords": 826
+            "hits": 11,
+            "textWords": 315
           }
         }
       },
@@ -824,11 +823,11 @@
         "hash": "ryCuKNpg7ax4",
         "address": "https://de.wikipedia.org./wiki/Kategorie:Fahrrad",
         "title": "Kategorie:Fahrrad – Wikipedia",
-        "snippet": "Kategorie:Fahrrad – Wikipedia\nZum Inhalt springen\nHauptmenü\nHauptmenü\nIn die Seitenleiste verschieben\nVerbergen\nNavigation\nHauptseite\nThemenportale\nZufälliger Artikel\nSpezialseiten\nMitmachen\nArtikel verbessern\nNeuen Artikel anlegen\nAutorenportal\nHilfe\nLetzte Änderungen\nKontakt\nSuche\nSuchen",
+        "snippet": "Fahrrad“. Das gilt auch für sämtliche Artikel in Unterkategorien. Diese Kategorie kann je nach Regelung des Fachbereichs eingeordnet werden in Objektkategorien und in Themenkategorien („gehört zu …“).\nHier sind Artikel zu bestimmten Fahrrädern eingeordnet. Zur Themenkategorie siehe",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 10,
-            "textWords": 419
+            "hits": 2,
+            "textWords": 87
           }
         }
       },
@@ -836,11 +835,11 @@
         "hash": "PZOOWNpg7ax4",
         "address": "https://de.wikipedia.org./wiki/Aufbruch_Fahrrad",
         "title": "Aufbruch Fahrrad – Wikipedia",
-        "snippet": "Fahrrad – Wikipedia\nZum Inhalt springen\nHauptmenü\nHauptmenü\nIn die Seitenleiste verschieben\nVerbergen\nNavigation\nHauptseite\nThemenportale\nZufälliger Artikel\nSpezialseiten\nMitmachen\nArtikel verbessern\nNeuen Artikel anlegen\nAutorenportal\nHilfe\nLetzte Änderungen\nKontakt\nSuche\nSuchen\nErscheinungsbild",
+        "snippet": "Fahrrad NRW\nAufbruch Fahrrad ist ein Projekt zur Stärkung des Radverkehrs in Nordrhein-Westfalen.\nGestartet wurde Aufbruch Fahrrad im Herbst 2016 vom gemeinnützigen Verein Radkomm e.V. in Köln. Aufbruch Fahrrad besteht aus drei Elementen: Einer breit angelegten Kampagne für mehr Radverkehr; dem",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 37,
-            "textWords": 1200
+            "hits": 31,
+            "textWords": 891
           }
         }
       },
@@ -848,28 +847,16 @@
         "hash": "NyrVYNpg7ax4",
         "address": "https://de.wikipedia.org./wiki/Kategorie:Portal:Fahrrad",
         "title": "Kategorie:Portal:Fahrrad – Wikipedia",
-        "snippet": "Kategorie:Portal:Fahrrad – Wikipedia\nZum Inhalt springen\nHauptmenü\nHauptmenü\nIn die Seitenleiste verschieben\nVerbergen\nNavigation\nHauptseite\nThemenportale\nZufälliger Artikel\nSpezialseiten\nMitmachen\nArtikel verbessern\nNeuen Artikel anlegen\nAutorenportal\nHilfe\nLetzte Änderungen\nKontakt\nSuche\nSuchen",
+        "snippet": "Der Text ist unter der Lizenz „Creative-Commons Namensnennung – Weitergabe unter gleichen Bedingungen“ verfügbar; Informationen zu den Urhebern und zum Lizenzstatus eingebundener Mediendateien (etwa Bilder oder Videos) können im Regelfall durch Anklicken dieser abgerufen werden. Möglicherweise",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 13,
-            "textWords": 306
+            "hits": 0,
+            "textWords": 66
           }
         }
       }
     ],
     [
-      {
-        "hash": "i2TgoZCZCJKg",
-        "address": "https://www.merkur.de/wirtschaft/fahrrad-riese-accell-insolvent-haibike-ghost-und-winora-bangen-zr-94441488.html",
-        "title": "Fahrrad-Riese Accell insolvent – Haibike, Ghost und Winora bangen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 826
-          }
-        }
-      },
       {
         "hash": "hgpLOKaZAz0h",
         "address": "https://www.tageblatt.de/Nachrichten/Fahrrad-Gruppe-stellt-Insolvenzantrag-761770.html",
@@ -879,6 +866,18 @@
           "9KPnrl-iyiDc": {
             "hits": 1,
             "textWords": 1136
+          }
+        }
+      },
+      {
+        "hash": "i2TgoZCZCJKg",
+        "address": "https://www.merkur.de/wirtschaft/fahrrad-riese-accell-insolvent-haibike-ghost-und-winora-bangen-zr-94441488.html",
+        "title": "Fahrrad-Riese Accell insolvent – Haibike, Ghost und Winora bangen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 826
           }
         }
       },
@@ -907,18 +906,6 @@
         }
       },
       {
-        "hash": "iyL0IT82WFg4",
-        "address": "https://hotel-salzburg.dorint.com/en/arrangements-offers",
-        "title": "Our hotel offers for Salzburg | Dorint Hotels",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 2372
-          }
-        }
-      },
-      {
         "hash": "5Shmyvc16L-j",
         "address": "https://www.arbeit-und-arbeitsrecht.de/news/arbeitsmittel-eines-fahrradlieferanten.html",
         "title": "Arbeitsmittel eines Fahrradlieferanten - Vertragsgestaltung,Entgelt | News | Arbeit und Arbeitsrecht - Personal | Praxis | Recht",
@@ -927,6 +914,18 @@
           "9KPnrl-iyiDc": {
             "hits": 5,
             "textWords": 1312
+          }
+        }
+      },
+      {
+        "hash": "iyL0IT82WFg4",
+        "address": "https://hotel-salzburg.dorint.com/en/arrangements-offers",
+        "title": "Our hotel offers for Salzburg | Dorint Hotels",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 2372
           }
         }
       },
@@ -943,6 +942,30 @@
         }
       },
       {
+        "hash": "gLOoJPY3c3Fg",
+        "address": "https://www.golem.de/specials/rtl/",
+        "title": "RTL - Golem.de",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 3155
+          }
+        }
+      },
+      {
+        "hash": "gQxAemJ0xFth",
+        "address": "https://rp-online.de/thema/gareth-southgate/",
+        "title": "Gareth Southgate: Aktuelle News und Infos zum Nationaltrainer von England",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 2125
+          }
+        }
+      },
+      {
         "hash": "jMlwsl6bFQy6",
         "address": "https://www.notebookcheck.com/",
         "title": "Notebook Test, Laptop Test und News - Notebookcheck",
@@ -953,43 +976,80 @@
             "textWords": 7418
           }
         }
-      },
+      }
+    ],
+    [
       {
-        "hash": "hUsQwTPGcd-h",
-        "address": "https://www.frankenberg.de/footer/leichte-sprache/",
-        "title": "Leichte Sprache | Stadt Frankenberg (Eder)",
+        "hash": "rbRpbe6j6z4g",
+        "address": "https://www.bmluk.gv.at/themen/regionen-raumentwicklung/internationale-kooperationen/eusdr-flagships-2026.html",
+        "title": "Wie Österreich von der europäischen Strategie für den Donauraum profitiert - Bundesministerium für Land- und Forstwirtschaft, Klima- und Umweltschutz, Regionen und Wasserwirtschaft",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 1481
+            "textWords": 1479
           }
         }
       },
       {
-        "hash": "hgYbnvHxXvQh",
-        "address": "https://www.netdoktor.de/news/newsarchiv/",
-        "title": "Newsarchiv - netDoktor.de",
+        "hash": "sKdLe1qF-3Lg",
+        "address": "https://www.bmimi.gv.at/themen/verkehr/luftfahrt/unternehmen/statistik.html",
+        "title": "Statistik der Zivilluftfahrt",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 11837
+            "textWords": 3412
+          }
+        }
+      },
+      {
+        "hash": "tjEmL1qF-3Lg",
+        "address": "https://www.bmimi.gv.at/themen/innovation/fti-themen/iwi/green-frontrunner.html",
+        "title": "green frontrunner",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 3430
+          }
+        }
+      },
+      {
+        "hash": "tWujj1qF-3Lg",
+        "address": "https://www.bmimi.gv.at/themen/verkehr/wasser/schifffahrt/seeschifffahrt/bewilligungen_patente/anerkennung.html",
+        "title": "Internationale Anerkennung österreichischer Schiffsdokumente",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 3657
+          }
+        }
+      },
+      {
+        "hash": "HHdrk1qF-3Lg",
+        "address": "https://www.bmimi.gv.at/themen/mobilitaet/fuss_radverkehr/publikationen/ap_radfahren_kinder.html",
+        "title": "Aktionsplan Radfahren für Kinder",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 3461
           }
         }
       }
     ],
-    [],
     [
       {
         "hash": "XdTmsyX3cKDg",
         "address": "https://www.bahn.de/angebot/zusatzticket/fahrrad/bw",
         "title": "Fahrrad-Tageskarte Baden-Württemberg",
-        "snippet": "",
+        "snippet": "Fahrrad durch Baden-Württemberg.\nFür beliebig viele Fahrten an einem Tag im Geltungsbereich.\n6 Euro\nSie brauchen eine bwFahrradkarte nur Montag bis Freitag zwischen 6 Uhr und 9 Uhr.\nHäufig gestellte Fragen\nDie Fahrrad-Tageskarte bwFahrrad kostet 6 Euro pro Rad und Tag. Sie ist nur gültig in",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 11
+            "hits": 2,
+            "textWords": 168
           }
         }
       },
@@ -1018,18 +1078,6 @@
         }
       },
       {
-        "hash": "T-MSgIgw84xh",
-        "address": "https://www.sueddeutsche.de/auto/e-bike-kalkhoff-image-excite-blx-test-li.3352319?reduced=true",
-        "title": "Kalkhoff Image 3 Excite BLX im Test: Das passende E-Bike für die Stadt - Auto \u0026 Mobil - SZ.de",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 1112
-          }
-        }
-      },
-      {
         "hash": "Z0RF7l6bFQy6",
         "address": "https://www.notebookcheck.com/Fenix-Kabellos-gekoppeltes-Fahrradleuchten-Set-BC28R-mit-USB-Typ-C-und-21700er-Akku.1306125.0.html",
         "title": "Fenix: Kabellos gekoppeltes Fahrradleuchten-Set BC28R mit USB Typ C und 21700er-Akku - Notebookcheck News",
@@ -1038,6 +1086,18 @@
           "9KPnrl-iyiDc": {
             "hits": 1,
             "textWords": 1227
+          }
+        }
+      },
+      {
+        "hash": "T-MSgIgw84xh",
+        "address": "https://www.sueddeutsche.de/auto/e-bike-kalkhoff-image-excite-blx-test-li.3352319?reduced=true",
+        "title": "Kalkhoff Image 3 Excite BLX im Test: Das passende E-Bike für die Stadt - Auto \u0026 Mobil - SZ.de",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 1112
           }
         }
       },
@@ -1066,30 +1126,6 @@
         }
       },
       {
-        "hash": "yKLxPLqeWpa5",
-        "address": "https://www.leverkusen.com/presse/Thema.php?view=00001300",
-        "title": "Leverkusen Thema: Landsmannschaft Schlesien",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 570
-          }
-        }
-      },
-      {
-        "hash": "R5bQilcaCqRj",
-        "address": "https://www.wir-entdecken-bayern.de/",
-        "title": "Die Seite für Ausflugstipps in Bayern - DB Regio Bayern",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 4,
-            "textWords": 1179
-          }
-        }
-      },
-      {
         "hash": "7I06CbwEL1Ng",
         "address": "https://www.nimmbus.de/fahrplanbuch/plaene/7550H-2.htm",
         "title": "Fahrplan Linie 7550, Hin, Sa",
@@ -1098,6 +1134,30 @@
           "9KPnrl-iyiDc": {
             "hits": 1,
             "textWords": 634
+          }
+        }
+      },
+      {
+        "hash": "7pyPjfDUiN7g",
+        "address": "https://www.international.tum.de/global/thinking-green-travel-stories/",
+        "title": "Thinking Green Travel Stories - TUM Global",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 1738
+          }
+        }
+      },
+      {
+        "hash": "9gnYfNVosUrh",
+        "address": "https://www.norderstedt.de/Politik-und-Rathaus/Fachkr%C3%A4fte-und-Karriere/Stellenangebote/",
+        "title": "Stellenangebote / Stadt Norderstedt",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 3,
+            "textWords": 1987
           }
         }
       }
@@ -1189,6 +1249,18 @@
         }
       },
       {
+        "hash": "Foq5cdFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Bill_Cunningham_(Fotograf,_1929)",
+        "title": "Bill Cunningham (Fotograf, 1929) – Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1472
+          }
+        }
+      },
+      {
         "hash": "WLeSrl5ARWyg",
         "address": "https://www.spiegel.de/",
         "title": "DER SPIEGEL | Online-Nachrichten",
@@ -1211,18 +1283,6 @@
             "textWords": 7984
           }
         }
-      },
-      {
-        "hash": "Foq5cdFO6r_x",
-        "address": "https://de.wikipedia.org/wiki/Bill_Cunningham_(Fotograf,_1929)",
-        "title": "Bill Cunningham (Fotograf, 1929) – Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1472
-          }
-        }
       }
     ],
     [
@@ -1230,11 +1290,11 @@
         "hash": "ueLLVFotHkcg",
         "address": "https://kaufradar.spiegel.de/auto-fahrrad/",
         "title": "Auto \u0026 Fahrrad - DER SPIEGEL Kaufradar",
-        "snippet": "Fahrrad - DER SPIEGEL Kaufradar\nZum Inhalt springen\nDER SPIEGEL\nAnmelden Abonnement Anmelden\nMenü öffnen\nMenü\nSchlagzeilen\nSPIEGEL+\nSachsen-Anhalt-Wahl\nDie Nazi-Kartei\nSportdaten\nGames und Quiz\nDebatte\nPolitik\nAusland\nPanorama\nSport\nWirtschaft\nWissenschaft\nKultur\nNetzwelt\nLeben\nEffilee\nJob \u0026",
+        "snippet": "Affiliate-Hinweis\nDieser Link enthält Affiliate-Angebote.\nMehr erfahren\nIn Artikeln des Kaufradars finden sich sogenannte Affiliate-Anzeigen, die Links zu Onlineshops enthalten. Besucht ein Nutzer über einen solchen Link einen dieser Shops und kauft dort ein, wird der SPIEGEL-Verlag, aber nie der",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 6,
-            "textWords": 784
+            "hits": 0,
+            "textWords": 54
           }
         }
       },
@@ -1242,11 +1302,11 @@
         "hash": "sm2a9JemigYg",
         "address": "https://www.flixbus.de/service/fahrrad-mitnahme",
         "title": "Nimm Dein Fahrrad mit im FlixBus",
-        "snippet": "Fahrrad mit im FlixBus\nZum Seiteninhalt springen\nPlane Deine Reise\nAlle Verbindungen\nFahrpläne/Haltestellen\nEntdecke \u0026 lebe mehr\nReise-Extras\nService\nAlle Services\nIm Bus\nSicherheit\nUmwelt\nKundenzufriedenheit\nBuchung verwalten\nFahrt verfolgen\nHilfe\nPlane Deine Reise\nAlle Verbindungen",
+        "snippet": "Fahrrad mit und starte Deine Reise mit FlixBus.\nKann ich mein Fahrrad auf jeden FlixBus mitnehmen?\nDie meisten FlixBusse sind fahrradfreundlich. Die Verfügbarkeit kann je nach Strecke und Land unterschiedlich sein und in einigen Ländern ist die Fahrradmitnahme in Bussen nicht erlaubt. Bevor Du Dein",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 11,
-            "textWords": 528
+            "hits": 9,
+            "textWords": 308
           }
         }
       },
@@ -1254,11 +1314,11 @@
         "hash": "0tDCmJwm21Ng",
         "address": "https://www.flixbus.ch/service/fahrrad-mitnahme",
         "title": "Nimm Dein Fahrrad mit im FlixBus",
-        "snippet": "Fahrrad mit im FlixBus\nZum Seiteninhalt springen\nPlane Deine Reise\nAlle Verbindungen\nFahrpläne/Haltestellen\nService\nAlle Services\nIm Bus\nSicherheit\nUmwelt\nBuchung verwalten\nFahrt verfolgen\nHilfe\nPlane Deine Reise\nAlle Verbindungen\nFahrpläne/Haltestellen\nService\nAlle Services\nIm Bus\nSicherheit",
+        "snippet": "Fahrrad mit und starte Deine Reise mit FlixBus.\nKann ich mein Fahrrad auf jeden FlixBus mitnehmen?\nDie meisten FlixBusse sind fahrradfreundlich. Die Verfügbarkeit kann je nach Strecke und Land unterschiedlich sein und in einigen Ländern ist die Fahrradmitnahme in Bussen nicht erlaubt. Bevor Du Dein",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 11,
-            "textWords": 492
+            "hits": 9,
+            "textWords": 298
           }
         }
       },
@@ -1266,11 +1326,11 @@
         "hash": "fx_qtlzZulEg",
         "address": "https://www.lexbike.de/fahrrad-richtig-reinigen/",
         "title": "Fahrrad richtig reinigen: Tipps \u0026 Tricks | Lexbike.de – Fahrrad und mehr!",
-        "snippet": "Fahrrad richtig reinigen: Tipps \u0026 Tricks | Lexbike.de – Fahrrad und mehr!\nFür Einsteiger\nFahrradteile\nFahrradzubehör\nFahrradtaschen\nBekleidung\nVerkehrssicherheit\nFahrrad richtig reinigen: Tipps \u0026 Tricks\nWer sein Fahrrad lange nutzen möchte, sollte es regelmäßig reinigen und pflegen. Wir erklären,",
+        "snippet": "Fahrrad lange nutzen möchte, sollte es regelmäßig reinigen und pflegen. Wir erklären, worauf Sie dabei achten müssen.\nInhaltsverzeichnis\nWie oft muss ich mein Fahrrad putzen?\nWelches Werkzeug benötige ich zum Reinigen?\nWelches Putzmittel ist fürs Fahrrad optimal?\nWie reinigt man ein Fahrrad",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 30,
-            "textWords": 1072
+            "hits": 20,
+            "textWords": 858
           }
         }
       },
@@ -1278,11 +1338,11 @@
         "hash": "SKnTYF1e7Xjg",
         "address": "https://unternehmen.focus.de/fahrrad-kehl.html",
         "title": "Fahrrad Kehl - FOCUS.de",
-        "snippet": "Fahrrad Kehl - FOCUS.de\nPolitik\nFinanzen\nPerspektiven\nEarth\nWissen\nGesundheit\nUnterhaltung\nPanorama\nSport\nFOCUS+\nReisen\nAuto\nImmobilien\nWetter\nUnternehmen - FOCUS.de\nGesundheit \u0026 Sport\nFahrrad Kehl\nAnzeige\nFahrrad Kehl Fahrrad in Kehl: Jetzt beim Profi kaufen!\nSago Bikes Kehl / Ladengeschäft\nSago",
+        "snippet": "Fahrrad Kehl Fahrrad in Kehl: Jetzt beim Profi kaufen!\nSago Bikes Kehl / Ladengeschäft\nSago Bikes Kehl\nSAGO Bike-Sport GmbH (Mehr Infos)\nMittwoch, 22. Oktober 2025 13:59 Wer ein neues Fahrrad in Kehl sucht, findet schnell einen professionellen Ansprechpartner: SAGO Bikes hat sich als führender",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 14,
-            "textWords": 1171
+            "hits": 11,
+            "textWords": 848
           }
         }
       },
@@ -1290,11 +1350,11 @@
         "hash": "8p5gwlkdSSIx",
         "address": "https://www.vergleich.org/fahrrad/",
         "title": "Fahrrad kaufen - Test \u0026 Vergleich » Top 10 im Januar 2026",
-        "snippet": "",
+        "snippet": "Fahrrad Vergleich\nBergsteiger Kodiak 26 Zoll\nVergleichssieger\nAirtracks Sterrato\nBergsteiger Atlantis\nPreis-Leistungs-Sieger\nLicorne Premium-Stadtfahrrad\nBestseller\nAirtracks UR.2880\nBergsteiger Kansas\nLicorne Bike Strong V\nTalson T2.\nAbbildung*\nVergleichssieger\nPreis-Leistungs-Sieger\nBestseller",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 141,
-            "textWords": 12195
+            "hits": 161,
+            "textWords": 8233
           }
         }
       },
@@ -1302,11 +1362,11 @@
         "hash": "a1zkjdfd0Dbg",
         "address": "https://www.krone.at/vergleich/fahrrad-test/",
         "title": "Fahrrad Test \u0026 Vergleich 2026 » Die besten Produkte auf Krone.at",
-        "snippet": "Fahrrad Test \u0026 Vergleich 2026 » Die besten Produkte auf Krone.at\nIn Kooperation mit:\nSuchen\nAuto \u0026 Motor\nElektronik\nGeld\nKleidung\nKörper\nKüche\nSport, Outdoor \u0026 Freizeit\nWohnen\nDie beliebtesten Vergleiche nach Kategorie\nSport, Outdoor \u0026 Freizeit Fahrradträger\nTrampolin\nMetalldetektor\nNachtsichtgerät",
+        "snippet": "Fahrrad ist nicht nur ein unkompliziertes und umweltfreundliches Fortbewegungsmittel, sondern außerdem ein Sportgerät und für viele gar ein Hobby. Dabei muss zwischen verschiedenen Fahrrad-Kategorien unterschieden werden. Neben klassischen Modellen für den Sonntagsausflug und sportlichen",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 69,
-            "textWords": 2907
+            "hits": 60,
+            "textWords": 2522
           }
         }
       },
@@ -1338,11 +1398,11 @@
         "hash": "bg5CcupuaNbg",
         "address": "https://www.der-enno.de/fahrplan/mit-fahrrad-reisen/",
         "title": "Mit dem Fahrrad unterwegs",
-        "snippet": "Fahrrad unterwegs\nEN\nJetzt bewerben!\nReiseplanung\nAktuelle Verkehrslage\nWann fährt mein enno?\nLinien und Fahrpläne\nBaustellen-Übersicht\nGültige Fahrkarten und Tarife\nMit dem Fahrrad unterwegs\nBarrierefrei unterwegs\nAusflugsziele\nUnser Tipp: Der Fahrplaner!\nHilfe \u0026 Kontakt\nUnternehmen\nÜber enno",
+        "snippet": "Fahrrad und Zug – das passt zusammen\nDein Fahrrad kommt entspannt mit – braucht aber eine Fahrkarte\nEntlang der enno Strecken gibt es tolle Radwanderwege und noch einiges mehr zu entdecken. Nimm dein Fahrrad oder E-Bike einfach mit in den Zug und erreiche so schnell und einfach den Startpunkt",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 14,
-            "textWords": 500
+            "hits": 11,
+            "textWords": 373
           }
         }
       }
@@ -1364,11 +1424,11 @@
         "hash": "GX5_0lezMa1j",
         "address": "https://www.gerichtsboulevard.de/keine-fahrrad-demo-auf-der-a-23-922673/?pk_campaign=rss\u0026pk_source=rss",
         "title": "Keine Fahrrad-Demo auf der A 23 | Gerichtsboulevard",
-        "snippet": "Fahrrad-Demo auf der A 23 | Gerichtsboulevard\nZum Inhalt springen 11. September 2026\nMenü\nJur. NachrichtenPortale\nRechtslupe \u0026 Co.\nLegal-News\nVerbraucherBoten\nNews-Cloud Nachrichtenticker\nJur. InformationsPortale\nRechtsPortale\nSteuerPortale\nWirtschaftsPortale\nRechtsWerkstatt\nAbkürzungsverzeichnisse",
+        "snippet": "Fahrrad-Demo auf der A 23\nKeine Fahrrad-Demo auf der A 23\nFür das Schleswig-Holsteinische Oberverwaltungsgericht ist es nicht zu beanstanden, dass der Kreis Steinburg die Nutzung der Bundesautobahn A 23 für eine am Sonntag geplante Fahrrad-Demonstration untersagt hat.\nDas Oberverwaltungsgericht hat",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 5,
-            "textWords": 742
+            "hits": 3,
+            "textWords": 365
           }
         }
       },
@@ -1376,11 +1436,11 @@
         "hash": "FItLjeVb8V15",
         "address": "https://www.anwaltonline.com/firmen-_-gewerbe/urteile/41858/eigenmaechtige-fahrrad-probefahrt-im-geschaeft-haftet-der-haendler-bei-einem-sturz/?pk_campaign=rss\u0026pk_source=rss",
         "title": "Eigenmächtige Fahrrad-Probefahrt im Geschäft: Haftet der Händler bei einem Sturz? - Firmen / Gewerbe - Urteile - AnwaltOnline",
-        "snippet": "Fahrrad-Probefahrt im Geschäft: Haftet der Händler bei einem Sturz? - Firmen / Gewerbe - Urteile - AnwaltOnline\nSuchen\nAnwaltOnline Premium Login\nAngemeldet bleiben\nAnmelden\nJetzt registrieren! Passwort vergessen\nRechtsprobleme? Jetzt Anwalt fragen ›\nE-Mail Telefon WhatsApp\n– 417.639 Anfragen",
+        "snippet": "Fahrrad unternimmt, handelt außerhalb der bestimmungsgemäßen Nutzung der Verkaufsräume. Eine Verletzung der Verkehrssicherungspflicht des Betreibers liegt in diesem Fall nicht vor, da dieser nicht mit einer eigenmächtigen Nutzung der Ausstellungsstücke zu Fahrzwecken rechnen muss.\nWelche Maßstäbe",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 7,
-            "textWords": 1139
+            "hits": 5,
+            "textWords": 618
           }
         }
       },
@@ -1400,11 +1460,11 @@
         "hash": "At8tqlzQbQvh",
         "address": "https://www.umweltlupe.de/fahrrad-statt-auto-oder-der-verkehrsversuch-auf-der-hauptverkehrsachse-2131526?pk_campaign=rss\u0026pk_source=rss",
         "title": "Fahrrad statt Auto - oder: Der Verkehrsversuch auf der Hauptverkehrsachse | Umweltlupe",
-        "snippet": "",
+        "snippet": "Auch auf einer Hauptverkehrsachse einer Großstadt können im Rahmen eines Verkehrsversuchs Fahrstreifen in geschützte Fahrradspuren umgewandelt werden.\nSo hat aktuell das Verwaltungsgericht Köln die Eilanträge von zwei Anliegern der Adenaueralle gegen den von der Stadt Bonn im Sommer 2025",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 1718
+            "hits": 0,
+            "textWords": 415
           }
         }
       },
@@ -1412,23 +1472,23 @@
         "hash": "pU_GestXwxcx",
         "address": "https://apollo-news.net/begegnungsort-an-kriminalittshotspots-grne-zahlen-12-000-euro-fr-e-fahrrad-bibliothek/",
         "title": "Berlin: Grüne zahlen 12.000 Euro für E-Fahrrad-Bibliothek - Apollo News",
-        "snippet": "",
+        "snippet": "E-Fahrrad mit Anhänger, das zu einer Art Leseinsel mit Hängematten umgebaut werden kann. Dort sollen sich Berliner kostenlos Bücher und Spiele ausleihen können, um es sich zwischen Drogendealern und -konsumenten an Kriminalitätshotspots wie dem Görlitzer Park gemütlich zu machen.\nDer mobile „Ort",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 1984
+            "hits": 1,
+            "textWords": 367
           }
         }
       },
       {
-        "hash": "dVFhzrf_-JMg",
-        "address": "https://www.destatis.de/DE/Presse/Pressemitteilungen/2025/04/PD25_N020_461.html",
-        "title": "KORREKTUR: Jedes sechste Todesopfer im Straßenverkehr 2024 war mit dem Fahrrad unterwegs - Statistisches Bundesamt",
-        "snippet": "Fahrrad unterwegs - Statistisches Bundesamt\nSpringe direkt zu:\nInhalt\nHauptmenü\nSuche\nServicemenü\nJobs\nPresse\nDaten übermitteln\nEnglish\nSuche\nSuchbegriff eingeben\nSchließen\nMenü\nThemen\nÜbersicht: Themen\nStatistik\nThemen im Fokus\n35 Jahre Deutsche Einheit\nDer Durchschnittsmensch in Deutschland",
+        "hash": "w4tWSrf_-JMg",
+        "address": "https://www.destatis.de/DE/Presse/Pressemitteilungen/2026/04/PD26_N025_461.html",
+        "title": "Jedes sechste Todesopfer im Straßenverkehr 2025 war mit dem Fahrrad unterwegs - Statistisches Bundesamt",
+        "snippet": "Fahrrad, um von A nach B zu gelangen. Das zeigt sich auch in den Unfallzahlen. Wie das Statistische Bundesamt (Destatis) mitteilt, war im Jahr 2025 nach vorläufigen Ergebnissen jede sechste (16,4 %) im Straßenverkehr getötete Person mit dem Fahrrad unterwegs. Insgesamt starben im vergangenen Jahr",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 6,
-            "textWords": 799
+            "hits": 4,
+            "textWords": 642
           }
         }
       },
@@ -1593,380 +1653,138 @@
     ],
     [
       {
-        "hash": "ueLLVFotHkcg",
-        "address": "https://kaufradar.spiegel.de/auto-fahrrad/",
-        "title": "Auto \u0026 Fahrrad - DER SPIEGEL Kaufradar",
-        "snippet": "Fahrrad - DER SPIEGEL Kaufradar\nZum Inhalt springen\nDER SPIEGEL\nAnmelden Abonnement Anmelden\nMenü öffnen\nMenü\nSchlagzeilen\nSPIEGEL+\nSachsen-Anhalt-Wahl\nDie Nazi-Kartei\nSportdaten\nGames und Quiz\nDebatte\nPolitik\nAusland\nPanorama\nSport\nWirtschaft\nWissenschaft\nKultur\nNetzwelt\nLeben\nEffilee\nJob \u0026",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 6,
-            "textWords": 784
-          }
-        }
-      },
-      {
-        "hash": "5bfb-NseDREg",
-        "address": "https://www.zdfheute.de/thema/fahrrad-150.html",
-        "title": "Fahrrad - News, Tipps \u0026 Tricks",
-        "snippet": "Fahrrad - News, Tipps \u0026 Tricks\nMenü\nMerkliste\nSuche\nSchließen\nSuche\nZDFheute\nUkraine\nIran\nPolitik\nÜbersicht\nDeutschland\nWahl in Berlin\nWahl in Mecklenburg-Vorpommern\nSchwarz-rote Koalition\nAusland\nNahost-Konflikt\nUSA\nWirtschaft\nÜbersicht\nUnternehmen\nPanorama\nÜbersicht\nKriminalität\nProminente\nSport",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 13,
-            "textWords": 478
-          }
-        }
-      },
-      {
-        "hash": "_XWQSIPpH0Ui",
-        "address": "https://www.fuldaerzeitung.de/fulda/scooter-unfall-in-fulda-drei-verletzte-nach-zusammenstoss-mit-fahrrad-94465279.html",
-        "title": "E-Scooter-Unfall in Fulda: Drei Verletzte nach Zusammenstoß mit Fahrrad",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 4,
-            "textWords": 312
-          }
-        }
-      },
-      {
-        "hash": "15aRPhQCzJQg",
-        "address": "https://www.chip.de/downloads/Bikemap-Fahrrad-Navi-GPS-Android-App_144195848.html",
-        "title": "Bikemap: Fahrrad Navi \u0026 GPS - Android App - Download - CHIP",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 21,
-            "textWords": 1228
-          }
-        }
-      },
-      {
-        "hash": "gf7TPXX-NDdg",
-        "address": "https://www.pcwelt.de/bestenlisten/auto-fahrrad",
-        "title": "Auto \u0026 Fahrrad Bestenlisten | PC-WELT",
-        "snippet": "Fahrrad Bestenlisten | PC-WELT\nWINDOWS\nLAPTOPS\nHANDY\nSOFTWARE\nSICHERHEIT\nHANDYTARIFE\nSMART ANSWERS\nMAGAZIN\nSuche\nMenü\nTOP-THEMEN\nHMX 6\nBeste Laptops\nBeste VPN\nBeste Antivirus\nSoftware-Shop\nPreisvergleich\nNewsletter\nZurück\nSchließen\nSuche\nAUDIO\nAUTO \u0026 FAHRRAD\nBALKONKRAFTWERKE\nBUSINESS\nCPUS\nDRUCKER",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 5,
-            "textWords": 705
-          }
-        }
-      },
-      {
-        "hash": "aesxMvi-f6Eg",
-        "address": "https://www.zeit.de/news/2026-04/18/auto-erfasst-vierjaehrige-auf-dem-fahrrad",
-        "title": "Unfall: Auto erfasst Vierjährige auf dem Fahrrad | DIE ZEIT",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 52
-          }
-        }
-      },
-      {
-        "hash": "OtLRfAbQpWqg",
-        "address": "https://www.hna.de/kassel/betrunkener-versucht-fahrrad-zu-rauben-polizei-schnappt-ihn-hinter-bauwagen-94376579.html",
-        "title": "Betrunkener versucht Fahrrad zu rauben – Polizei schnappt ihn hinter Bauwagen",
-        "snippet": "Fahrrad zu rauben – Polizei schnappt ihn hinter Bauwagen\nKassel\nLokales\nWelt\nVerbraucher\nKategorienKassel\nLokalesFrankenberg\nFritzlar-Homberg\nGöttingen\nHann. Münden\nHofgeismar\nKreis Kassel\nMelsungen\nNortheim\nRotenburg / Bebra\nSchwalmstadt\nUslar / Solling\nWitzenhausen\nWolfhagen\nWelt",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 6,
-            "textWords": 396
-          }
-        }
-      },
-      {
-        "hash": "tO_uslXmYZug",
-        "address": "https://www.kit-shop.de/Fahrrad+Multitool+TROIKA.htm",
-        "title": "TROIKA Multitool für das Fahrrad vom KIT",
+        "hash": "Ao-x4AwFKWzg",
+        "address": "https://streaming-guide.spiegel.de/streamingdienste/paramount-plus/",
+        "title": "Top Filme und Serien auf Paramount+ - Ihr ultimativer Streaming-Guide | Streaming Guide",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 2,
-            "textWords": 418
+            "textWords": 1823
           }
         }
       },
       {
-        "hash": "gUrbQFbLrFTi",
-        "address": "https://www.wer-weiss-was.de/c/auto-rad-mobilitat/fahrrad/126",
-        "title": "Auto, Rad \u0026 Mobilität / Fahrrad - Ratgeber \u0026 Forum - wer-weiss-was.de",
-        "snippet": "Fahrrad - Ratgeber \u0026 Forum - wer-weiss-was.de\nwer-weiss-was.de\nAuto, Rad \u0026 Mobilität Fahrrad\nThema\nAntworten\nAufrufe\nAktivität\nDefinition der Kategorie Fahrrad\n1\n1633\n4. September 2019\nMenü Einstellung für Controller e-bike\n2\n49\n20. August 2026\nCruxer Fahrrad Alarmanlage Fernbedienung abmelden\n2\n58",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 6,
-            "textWords": 303
-          }
-        }
-      },
-      {
-        "hash": "vMjnWzXOdHBh",
-        "address": "https://www.kino-zeit.de/film-kritiken-trailer/same-sun-mit-dem-fahrrad-durch-afrika-2026",
-        "title": "Same Sun - Mit dem Fahrrad durch Afrika (2026) | Film, Trailer, Kritik",
-        "snippet": "Fahrrad durch Afrika (2026) | Film, Trailer, Kritik\nDirekt zum Inhalt\nMenü Toggle navigation\nMain navigation\nKritiken \u0026 Trailer\nNews \u0026 Features\nHeimkino\nKinoprogramme\nSame Sun - Mit dem Fahrrad durch Afrika (2026)\nIm Dokumentarfilm „Same Sun – Mit dem Fahrrad durch Afrika“ begibt sich Wiebke",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 16,
-            "textWords": 1347
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "T3iPpdQRq0sg",
-        "address": "https://www.polizei.hessen.de/praevention/beratung-hilfe-und-unterstuetzung/sicher-im-urlaub/auf-der-reise/mit-dem-fahrrad",
-        "title": "Unterwegs mit dem Fahrrad | Polizei Hessen",
-        "snippet": "Fahrrad | Polizei Hessen\nDirekt zum Kopf der Seite\nDirekt zum Kopf der Seite\nDirekt zum Inhalt\nDirekt zum Fuß der Seite\nLogo Polizei Stern - Logo Polizei - Zur Startseite\nPolizei - Hessen\nNotruf 110\nPolizei vor Ort\nVerkehr\nSymbol - Leichte Sprache\nSymbol - Barrierefreiheit\nLogo Polizei Stern - Logo",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 7,
-            "textWords": 468
-          }
-        }
-      },
-      {
-        "hash": "woKZdW6yoeRi",
-        "address": "https://www.wienerzeitung.at/p/94-weltreise-auf-dem-fahrrad",
-        "title": "Weltreise auf dem Fahrrad: „Ich bin einfach losgefahren!“ | WZ • Wiener Zeitung",
-        "snippet": "Fahrrad: „Ich bin einfach losgefahren!“ | WZ • Wiener Zeitung\nZum Hauptinhalt springen Wiener Zeitung Logo\nSuche\nSuchbegriff\nWiener Zeitung Logo\nLesen\nHören\nSehen\nSchwerpunkte\nKolumnen\nÜber uns\nAlles über die WZ (FAQ)\nDas Team der WZ\nArchiv\nWZ-Feedback\nInitiativen\nAlgokind by WZ\nPlattformen",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 4,
-            "textWords": 696
-          }
-        }
-      },
-      {
-        "hash": "BkidfpL47Vlg",
-        "address": "https://bikemarkt.mtb-news.de/kaufvertrag-fahrrad",
-        "title": "Kaufvertrag Fahrrad – Kaufvertrag Vorlage für ein gebrauchtes Fahrrad | Bikemarkt.MTB-News.de",
-        "snippet": "Fahrrad – Kaufvertrag Vorlage für ein gebrauchtes Fahrrad | Bikemarkt.MTB-News.de\nUnser Netzwerk: MTB-News Rennrad-News eMTB-News Nimms-Rad Bikemarkt Jobs Events\nEN | Anmelden\nBikemarkt durchsuchen\nSuche abschicken\nNews Forum Fotos Bikemarkt Jobs Daily Deals Winterpokal Videos\nFahrräder",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 15,
-            "textWords": 1454
-          }
-        }
-      },
-      {
-        "hash": "adfdUmlPDvFg",
-        "address": "https://www.wien.gv.at/amtswege/fahrradstaender-scooter-nicht-oeffentlicher-grund",
-        "title": "Antrag auf Förderung von Fahrrad- und Scooter-Abstellplätzen auf nicht öffentlichem Grund - Stadt Wien",
-        "snippet": "Fahrrad- und Scooter-Abstellplätzen auf nicht öffentlichem Grund - Stadt Wien\nZum Inhalt\nZu den Suchergebnissen\nZur Seitennavigation\nStartseite wien.gv.at\nMenü\nMenü\nEnglish\nNew in Vienna?\nStadtplan\nAmtswege\nKontakte\nJobs bei der Stadt\nFreizeit Übersicht\nVeranstaltungen\nBaden\nKultur Übersicht",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 10,
-            "textWords": 1096
-          }
-        }
-      },
-      {
-        "hash": "EjKOMLlA2Rig",
-        "address": "https://www.n-tv.de/mediathek/videos/ratgeber/Auf-E-Scootern-gilt-bei-Alkohol-nicht-der-Fahrrad-Grenzwert-id30801037.html",
-        "title": "Führerschein-Entzug droht: Auf E-Scootern gilt bei Alkohol nicht der Fahrrad-Grenzwert - n-tv.de",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 967
-          }
-        }
-      },
-      {
-        "hash": "2BJAgIgw84xh",
-        "address": "https://www.sueddeutsche.de/auto/s-pedelec-radverkehr-fahrrad-1.5670381",
-        "title": "S-Pedelecs: Was man beachten muss und für wen sie interessant sind - Auto \u0026 Mobil - SZ.de",
+        "hash": "C0gtHFotHkcg",
+        "address": "https://kaufradar.spiegel.de/finanzen-versicherungen/",
+        "title": "Finanzen \u0026 Versicherungen - DER SPIEGEL Kaufradar",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 4,
-            "textWords": 2539
+            "textWords": 1749
           }
         }
       },
       {
-        "hash": "6htibYsdClVg",
-        "address": "https://kurier.at/motor/fahrrad?amp%3Bamp%3Bdicbo=v2-WZxe3Fd\u0026cm_ven=chip_outbrain",
-        "title": "Fahrräder und E-Bikes: aktuelle News und Tests | Kurier",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 4,
-            "textWords": 2397
-          }
-        }
-      },
-      {
-        "hash": "67vR1zWnwItg",
-        "address": "https://www.umwelt.nrw.de/themen/verkehr/nahmobilitaet/radverkehr",
-        "title": "Radverkehr | umwelt.nrw.de",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 5,
-            "textWords": 1993
-          }
-        }
-      },
-      {
-        "hash": "6ePMJ5ZSxJwg",
-        "address": "https://www.linz.at/umwelt/foerderungen.php",
-        "title": "Umwelt- und Energieförderungen | Stadt Linz",
+        "hash": "AMV3kl5ARWyg",
+        "address": "https://www.spiegel.de/kontakt?betreff=Were+Americans+As+Bad+as+the+Soviets%3F\u0026channel=International\u0026id=051d06cd-0001-0001-0000-000001021298\u0026reason=Technische+Fragen+und+Probleme",
+        "title": "Kontakt - DER SPIEGEL",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 503
+            "textWords": 1104
           }
         }
       },
       {
-        "hash": "OEbwPl0cR3qh",
-        "address": "https://www.stadtradeln.de/oststeinbek/",
-        "title": "STADTRADELN - Oststeinbek",
+        "hash": "D_w9rdFO6r_x",
+        "address": "https://de.wikipedia.org/wiki/Portal:Wikipedia_nach_Themen",
+        "title": "Portal:Wikipedia nach Themen – Wikipedia",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 190
+            "textWords": 1428
           }
         }
-      }
-    ],
-    [
+      },
       {
-        "hash": "xN59udQRq0sg",
-        "address": "https://www.polizei.hessen.de/praevention/beratung-hilfe-und-unterstuetzung/sicher-im-urlaub/auf-der-reise/mit-dem-fahrrad/fahrradcodierungen",
-        "title": "Hinweis zu kostenlosen Fahrradcodierungen in Westhessen | Polizei Hessen",
+        "hash": "A-cG3lyeZGNi",
+        "address": "https://www.report-medizin.de/",
+        "title": "Report Medizin,Neues aus der Medizin,Medizin News,Info-Netzwerk MEDIZIN 2000,Medizin 2000",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 2,
-            "textWords": 679
+            "textWords": 31500
           }
         }
       },
       {
-        "hash": "73fsGD_Z86ng",
-        "address": "https://www.oekom.de/buch/green-travelling-9783962382834",
-        "title": "Green travelling | oekom verlag",
+        "hash": "D2jvwQHjdLqg",
+        "address": "https://www.focus.de/kultur/kino-tv/buergergeld-empfaengerin-goennt-sich-luxus-limousine-trotz-geldnot_133182ed-ce3d-4284-b42d-b104b12b6076.html",
+        "title": "Bürgergeld-Empfängerin gönnt sich Luxus-Limousine trotz Geldnot - FOCUS online",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 1845
+            "textWords": 1308
           }
         }
       },
       {
-        "hash": "uzUk3uztH2oj",
-        "address": "https://www.meinezeitung-shop.de/deko-haushalt/leuchtturm-mit-beleuchtungssatz-edelrost-gartendeko_1045815_6741/",
-        "title": "Edelrost, Leuchtturm mit Beleuchtungssatz | Meinezeitung",
+        "hash": "ASOFd0--rHBy",
+        "address": "https://www.mikrocontroller.net/topic/581844",
+        "title": "Sicherheitsschrauben? ganz einfach.",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 825
+            "textWords": 2378
           }
         }
       },
       {
-        "hash": "uvHeBVsdClVg",
-        "address": "https://kurier.at/techno/sicherer-start-in-die-e-bike-saison/403163955",
-        "title": "Sicherer Start in die E-Bike-Saison | Kurier",
+        "hash": "C1C1-PJ0xFth",
+        "address": "https://rp-online.de/leben/reisen/deutschland/",
+        "title": "Reisen in Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 3900
+          }
+        }
+      },
+      {
+        "hash": "BoFERhloDMX5",
+        "address": "https://rainerspeer.com/2012/06/04/ikombe-im-juni/",
+        "title": "Ikombe im Juni – rainerspeer",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 2,
-            "textWords": 894
+            "textWords": 3158
           }
         }
       },
       {
-        "hash": "entT3EacE7ui",
-        "address": "https://www.vorspeisenplatte.de/speisen/2011/04/journal-sonntag-3-april-2011.htm",
-        "title": "Vorspeisenplatte » Blog Archive » Journal Sonntag, 3. April 2011",
+        "hash": "DsO-P7J0xFth",
+        "address": "https://rp-online.de/nrw/staedte/rommerskirchen/rhein-kreis-neuss-tritt-rommerskirchens-stromprojekt-bei_aid-139651029",
+        "title": "Rhein-Kreis Neuss tritt  Rommerskirchens Stromprojekt bei",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 1,
-            "textWords": 691
-          }
-        }
-      },
-      {
-        "hash": "hMXPvvAU4Fog",
-        "address": "https://kematen-ybbs.gv.at/radfahr-infos",
-        "title": "Radfahr-Infos",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 660
-          }
-        }
-      },
-      {
-        "hash": "XQPkBPemigYg",
-        "address": "https://www.flixbus.de/fernbus/laquila",
-        "title": "Bus nach L'Aquila - Bus Ticket günstig buchen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2361
-          }
-        }
-      },
-      {
-        "hash": "JN4hAuQCzJQg",
-        "address": "https://www.chip.de/static/nutzungsbedingungen-chip_4fcb8cef-57bb-49ba-81eb-d27a76e3b8d5.html",
-        "title": "AGB - CHIP",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 306
-          }
-        }
-      },
-      {
-        "hash": "T4UsHlQ_MGVg",
-        "address": "https://www.pokewiki.de/Leben-Orb",
-        "title": "Leben-Orb – PokéWiki",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 13,
-            "textWords": 13527
-          }
-        }
-      },
-      {
-        "hash": "WCqKlPemigYg",
-        "address": "https://www.flixbus.de/fernbus/sala-consilina",
-        "title": "Bus nach Sala Consilina - Bus Ticket günstig buchen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2382
+            "textWords": 1645
           }
         }
       }
     ],
+    [],
+    [],
     [
       {
         "hash": "GA9mbazJVNwg",
         "address": "https://geschichtsbuch.hamburg.de/epochen/kaiserreich/das-fahrrad-in-hamburg/",
         "title": "Das Fahrrad in Hamburg - Geschichtsbuch Hamburg",
-        "snippet": "Fahrrad in Hamburg - Geschichtsbuch Hamburg\nSuchen\nEpochen\nThemen\nZeitgenossen\nMaterialien\nForschen\nProjekte\nKontakt\nVor- und Frühgeschichte\n8000 v. Chr. - 810 n. Chr.\nFrühes Mittelalter\n810 n. Chr. - 1189 n. Chr.\nHohes Mittelalter\n1190 - 1350\nSpätes Mittelalter\n1350 - 1517\nReformation und",
+        "snippet": "Fahrrad soll in der Hansestadt zukünftig zum wichtigen Faktor bei der geplanten Verkehrs- und Mobilitätswende werden, wie es der rot-grüne Senat bereits seit 2015 proklamiert und mit dem Wandel zur „Fahrradstadt“ als politisches Ziel formuliert. Aktuell wird für einen zeitgemäßen und",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 30,
-            "textWords": 2479
+            "hits": 24,
+            "textWords": 2250
           }
         }
       },
@@ -2055,6 +1873,18 @@
         }
       },
       {
+        "hash": "_YXudUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-goettingen-heidelberg",
+        "title": "Bus Göttingen nach Heidelberg - Günstig Tickets buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 2048
+          }
+        }
+      },
+      {
         "hash": "7MQZmUemigYg",
         "address": "https://www.flixbus.de/busverbindung/fernbus-bonn-dresden",
         "title": "Bus Bonn nach Dresden - Günstig Tickets buchen",
@@ -2065,18 +1895,6 @@
             "textWords": 2286
           }
         }
-      },
-      {
-        "hash": "0sgrEhnAgGgh",
-        "address": "https://www.heisegroup.de/artikel/heise-als-Arbeitgeber-1812545.html",
-        "title": "heise als Arbeitgeber | heise group",
-        "snippet": "Fahrrad: Unsere heise-Standorte sind gut erreichbar.\nHomeoffice/Mobiles Arbeiten\nEin effektives Arbeitsumfeld, das den Schwerpunkt auf gemeinsame Arbeit im Büro legt, kombiniert mit flexiblen und hybriden Arbeitsmodellen unter Berücksichtigung individueller Bedürfnisse.\nParkplätze\nParken ist bei",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 1184
-          }
-        }
       }
     ],
     [
@@ -2084,11 +1902,11 @@
         "hash": "cWm1-7oJeR6h",
         "address": "https://www.htw-berlin.de/forschung/online-forschungskatalog/projekte/projekt?eid=2295",
         "title": "Design und technische Entwicklungen von Ausstattung (Bekleidung/Accessoires) für Fahrrad/ Fahrradfahrer_innen zur Förderung der Fahrradmobilität.",
-        "snippet": "",
+        "snippet": "Fahrrad-Mobilität fördern sollen. Dazu sollten möglichst nur Materialien verwendet werden, die Anforderungen nach Nachhaltigkeit und Recycling Fähigkeit entsprechen. Gleichermaßen konnten Zukunftstechnologien, wie z.B. Smart Textiles, Wearable Electronics und Devices angedacht werden.\nZiel war es,",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 1029
+            "hits": 1,
+            "textWords": 187
           }
         }
       },
@@ -2141,6 +1959,18 @@
         }
       },
       {
+        "hash": "9tsrZltP704h",
+        "address": "https://www.vdpb-bayern.de/kontakt/",
+        "title": "Kontakt - Vereinigung der Pflegenden in Bayern",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 738
+          }
+        }
+      },
+      {
         "hash": "j61v3s8vCbWg",
         "address": "https://kaaloon.de/",
         "title": "Günstige Produkte im Vergleich",
@@ -2149,6 +1979,30 @@
           "9KPnrl-iyiDc": {
             "hits": 2,
             "textWords": 308
+          }
+        }
+      },
+      {
+        "hash": "_61PJUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-freiburg-ibr-zuerich",
+        "title": "Bus Freiburg (i.Br.) nach Zürich - Günstig Tickets buchen",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 2117
+          }
+        }
+      },
+      {
+        "hash": "M0A0sFrrGcCg",
+        "address": "https://preisvergleich.heise.de/bellelli-tiger-standard-fahrradkindersitz-01tgts00020-a1801623.html?hloc=de",
+        "title": "Bellelli Tiger Standard Fahrradkindersitz (01TGTS00020) ab € 89,99 (2026) | heise preisvergleich Deutschland",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 4,
+            "textWords": 1289
           }
         }
       },
@@ -2163,176 +2017,19 @@
             "textWords": 2302
           }
         }
-      },
-      {
-        "hash": "1RY973qZQGWi",
-        "address": "https://karte.openstreetmap.de/",
-        "title": "OpenStreetMap Landkarte",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 109
-          }
-        }
-      },
-      {
-        "hash": "03H9KUemigYg",
-        "address": "https://www.flixbus.de/busverbindung/fernbus-neapel-napoli-dresden",
-        "title": "Bus Neapel nach Dresden - Günstig Tickets buchen",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 2232
-          }
-        }
-      },
-      {
-        "hash": "5l0jph7HDUog",
-        "address": "https://www.aponet.de/artikel/am/2024-2a-29976",
-        "title": "1. Februar 2024 | aponet.de",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1173
-          }
-        }
       }
     ],
-    [
-      {
-        "hash": "vGrOEx55XpXg",
-        "address": "https://miniklexikon.zum.de/wiki/Fahrrad",
-        "title": "Fahrrad – MiniKlexikon - das Kinderlexikon für Leseanfänger",
-        "snippet": "Fahrrad – MiniKlexikon - das Kinderlexikon für Leseanfänger\nAnmelden\nSuche\nMiniKlexikon.de – das Kinder-Lexikon in besonders einfacher Sprache\nJetzt spenden 😊\nInfos für Eltern und Schulen\nFahrrad\nAus MiniKlexikon - das Kinderlexikon für Leseanfänger\nDas Fahr-Rad hat sich im Laufe der Zeit sehr",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 9,
-            "textWords": 399
-          }
-        }
-      },
-      {
-        "hash": "U5PMbNlA2Rig",
-        "address": "https://www.n-tv.de/thema/fahrrad/archiv-44",
-        "title": "Fahrrad - Thema Seite 44 - n-tv.de",
-        "snippet": "Fahrrad - Thema Seite 44 - n-tv.de\nntv\nRessorts\nBilderserien\nPolitikMeldungen\nKommentare\nWieduwilts Woche\nWirtschaftMeldungen\nTermine\nStartup\nBörseAuf einen Blick\nAktien \u0026 IndizesDax\nTecDax\nMDax\nSDax\nGex\nHDax\nEuroStoxx\nStoxx50\nDow Jones\nNasdaq\nNikkei\nDevisen\nRohstoffe\nntv Zertifikate\nntv Fonds\nntv",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 5,
-            "textWords": 903
-          }
-        }
-      },
-      {
-        "hash": "VdO6Dffz_mdh",
-        "address": "https://www.abendblatt.de/ratgeber-wissen/fahrrad/",
-        "title": "Fahrrad: News, Infos und Berichte",
-        "snippet": "Fahrrad: News, Infos und Berichte\nEine Marke von Funke\nService\nAnzeigen\nAnzeige buchen\nAnzeigen-Angebote\nProspekte\nFUNKE MediaSales\nJobs\nImmobilien\nImmobilienbewertung\nBewerbungen\nPartnersuche\nTrauer\nWeitere Angebote\nKochen \u0026 Rezepte\nTickets\nTicket-Hotline\nSpiele\nGewinnspiele\nLeserreisen",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 15,
-            "textWords": 4028
-          }
-        }
-      },
-      {
-        "hash": "VX2fBy-pbQ4h",
-        "address": "https://www.ingolstadt.de/Rathaus/Verkehr/Radverkehr/FahrRad-im-Alltag/",
-        "title": "Fahrrad im Alltag",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 8,
-            "textWords": 4142
-          }
-        }
-      },
-      {
-        "hash": "sTpqFnW_ynWg",
-        "address": "https://www.udv.de/udv/presse/fahrrad-ist-keine-alternative-fuer-betrunkene-autofahrer-78358",
-        "title": "Fahrrad ist keine Alternative für betrunkene Autofahrer",
-        "snippet": "Fahrrad ist keine Alternative für betrunkene Autofahrer\nThemen\nVerkehrsteilnahme\nPublikationen\nPresse\nDie UDV\nThe­men\nFahrzeug\nInsas­sen­schutz\nKinder­si­cher­heit\nSchutz von zu Fuß Gehenden\nSchutz von Radfah­renden\nFahreras­sis­tenz­sys­teme\nAuto­ma­ti­siertes Fahren\nTechnik\nLkw\nBus\nMotorrad\nMoped",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 5,
-            "textWords": 599
-          }
-        }
-      },
-      {
-        "hash": "D0bzM6jq62tg",
-        "address": "https://www.uestra.de/service-und-mobilitaet/mobilitaetsangebote/fahrradmitnahme/",
-        "title": "Fahrrad­mitnahme im ÜSTRA Verkehrs­gebiet | ÜSTRA",
-        "snippet": "Fahrrad­mitnahme im ÜSTRA Verkehrs­gebiet | ÜSTRA\nZur Hauptnavigation springen\nZur Suche springen\nZum Hauptinhalt springen\nZum Fußbereich springen\nLeichte Sprache\nGebärdensprache\nKontrast erhöhenKontrast verringern\nDE , wähle deine Sprache.Deutsch , wähle deine Sprache.\nDeutsch\nEnglish\nFahrplan",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 16,
-            "textWords": 1658
-          }
-        }
-      },
-      {
-        "hash": "cKOuQDzhme2j",
-        "address": "https://www.dorlingkindersley.de/buch/claire-beaumont-ben-spurrier-das-ultimative-fahrrad-handbuch-9783831042180",
-        "title": "Das ultimative Fahrrad-Handbuch | DK Verlag",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 1402
-          }
-        }
-      },
-      {
-        "hash": "Auu9DL5ndcAi",
-        "address": "https://www.kreis-stormarn.de/freizeit-und-tourismus/vereine/show.php?mid=225\u0026from=char\u0026key=R",
-        "title": "Kreis Stormarn",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1348
-          }
-        }
-      },
-      {
-        "hash": "SWuj2lN_Debh",
-        "address": "https://www.np-coburg.de/inhalt.coburger-innenstadt-wo-radwege-noch-probleme-machen.3e97a742-9b48-4261-a79d-525bdaf866ae.html",
-        "title": "Coburger Innenstadt: An welchen Stellen Radwege noch Probleme machen - Coburg - Neue Presse Coburg",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 390
-          }
-        }
-      },
-      {
-        "hash": "jxBfKl6bFQy6",
-        "address": "https://www.notebookcheck.com/Sieht-so-das-Fahrradlicht-der-naechsten-Generation-aus.1224727.0.html",
-        "title": "Sieht so das Fahrradlicht der nächsten Generation aus? - Notebookcheck News",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1509
-          }
-        }
-      }
-    ],
+    [],
     [
       {
         "hash": "OaRb8YX3cKDg",
         "address": "https://www.bahn.de/faq/fahrrad-kostenfrei-mitnehmen-niedersachsen-ticket",
         "title": "Darf ich mein Fahrrad mit dem Niedersachsen-Ticket kostenfrei mitnehmen?",
-        "snippet": "",
+        "snippet": "Fahrrad mit dem Niedersachsen-Ticket kostenfrei mitnehmen?\nNein. Für die Mitnahme von Fahrrädern brauchen Sie eine Fahrradtageskarte pro Fahrrad.\nAusnahmen:\nDiese Verpflichtung entfällt bei Strecken, auf denen für Inhaber von Fahrkarten des DB-Tarifs besondere Bestimmungen zur kostenfreien Mitnahme",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 27
+            "hits": 3,
+            "textWords": 77
           }
         }
       },
@@ -2340,11 +2037,11 @@
         "hash": "bXkrI-uG0-bg",
         "address": "https://www.fr.de/produktempfehlung/fahrrad-sandale-shimano-sh-sd501-mit-klicks-fuers-zr-94436967.html",
         "title": "Sandale Shimano SH-SD501 mit Klicks fürs Fahrrad",
-        "snippet": "",
+        "snippet": "Fahrrad unterwegs sind und dabei nicht auf die Verbindung zum Klickpedal verzichten möchten. Zum Beispiel fürs Bikepacking oder längere Graveltouren.\nFür einen ausgedehnten Stadtbummel gibt es sicher elegantere Schuhe, aber für den Weg zum Eisladen oder zur nächsten Bank reicht es allemal.\nDie",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 1038
+            "hits": 1,
+            "textWords": 800
           }
         }
       },
@@ -2352,23 +2049,23 @@
         "hash": "adfdUmlPDvFg",
         "address": "https://www.wien.gv.at/amtswege/fahrradstaender-scooter-nicht-oeffentlicher-grund",
         "title": "Antrag auf Förderung von Fahrrad- und Scooter-Abstellplätzen auf nicht öffentlichem Grund - Stadt Wien",
-        "snippet": "Fahrrad- und Scooter-Abstellplätzen auf nicht öffentlichem Grund - Stadt Wien\nZum Inhalt\nZu den Suchergebnissen\nZur Seitennavigation\nStartseite wien.gv.at\nMenü\nMenü\nEnglish\nNew in Vienna?\nStadtplan\nAmtswege\nKontakte\nJobs bei der Stadt\nFreizeit Übersicht\nVeranstaltungen\nBaden\nKultur Übersicht",
+        "snippet": "Fahrrad- oder Scooter-Rahmen direkt an der Anlage diebstahlgeschützt abgesperrt werden.\nEs besteht kein Rechtsanspruch auf die Förderung oder auf eine Förderung in einer bestimmten Höhe. Ob Sie eine Förderung erhalten, hängt vom Vorliegen der Voraussetzungen ab und davon, wie viel Fördergelder zur",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 10,
-            "textWords": 1096
+            "hits": 6,
+            "textWords": 635
           }
         }
       },
       {
-        "hash": "ZN5-6X5ARWyg",
-        "address": "https://www.spiegel.de/tests/fahrrad-zubehoer/smartphone-halterungen-fuer-fahrraeder-im-test-modelle-von-sks-contec-sp-connect-und-mehr-a-9bb713e1-57ce-4728-8c68-5857016c98de",
-        "title": "Smartphone-Halterungen für Fahrräder im Test: Modelle von SKS, Contec, SP Connect und mehr - DER SPIEGEL",
+        "hash": "YqO_IX5ARWyg",
+        "address": "https://www.spiegel.de/tests/fahrrad-zubehoer/im-test-wechselwillige-gepaecktraegertaschen-a-203ebbcf-a451-4579-a961-69062a9ce823",
+        "title": "Im Test: Wechselwillige Gepäckträgertaschen - DER SPIEGEL",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 9,
-            "textWords": 5322
+            "hits": 1,
+            "textWords": 3350
           }
         }
       },
@@ -2421,26 +2118,26 @@
         }
       },
       {
-        "hash": "8CR5vsAmqBkj",
-        "address": "https://lilienfeld-verlag.de/",
-        "title": "Startseite - Lilienfeld Verlag",
+        "hash": "-anPKlGyaxOg",
+        "address": "https://www.flixbus.at/",
+        "title": "FlixBus → Günstig mit dem Fernbus reisen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 777
+            "hits": 1,
+            "textWords": 1401
           }
         }
       },
       {
-        "hash": "3BKSiPemigYg",
-        "address": "https://www.flixbus.de/fernbus/monsoreto",
-        "title": "Bus nach Monsoreto - Bus Ticket günstig buchen",
+        "hash": "_RhasUemigYg",
+        "address": "https://www.flixbus.de/busverbindung/fernbus-osijek-frankfurt-main",
+        "title": "Bus Osijek nach Frankfurt - Günstig Tickets buchen",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
-            "hits": 3,
-            "textWords": 2165
+            "hits": 1,
+            "textWords": 2060
           }
         }
       }
@@ -2459,18 +2156,6 @@
         }
       },
       {
-        "hash": "sZJ_Uz20pWq4",
-        "address": "https://www.press.bmwgroup.com/deutschland/article/detail/T0002987DE/designer-albrecht-graf-goertz-verstorben",
-        "title": "Designer Albrecht Graf Goertz verstorben",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 1,
-            "textWords": 1705
-          }
-        }
-      },
-      {
         "hash": "Nhn_b0oKFI1g",
         "address": "https://forum.geizhals.at/t908471.html",
         "title": "Bald geht's los...Richtung Spanien :)",
@@ -2483,18 +2168,6 @@
         }
       },
       {
-        "hash": "dxlJWXDOAHJg",
-        "address": "https://www.heise.de/bestenlisten/testsieger/top-10-bestes-tablet-im-test-samsung-vor-apple-und-lenovo/xdbnr3b?wt_mc=rss.red.ho.ho.rdf.beitrag.beitrag",
-        "title": "Top 10: Bestes Tablet im Test – Samsung vor Apple und Lenovo | heise online bestenlisten",
-        "snippet": "",
-        "matchedWords": {
-          "9KPnrl-iyiDc": {
-            "hits": 2,
-            "textWords": 65209
-          }
-        }
-      },
-      {
         "hash": "dQvZThfjI1Dh",
         "address": "https://www.tagesschau.de/ausland/europa/ukraine-cherson-130.html",
         "title": "Cherson: Leben mit der russischen Menschenjagd | tagesschau.de",
@@ -2503,6 +2176,30 @@
           "9KPnrl-iyiDc": {
             "hits": 1,
             "textWords": 1855
+          }
+        }
+      },
+      {
+        "hash": "sZJ_Uz20pWq4",
+        "address": "https://www.press.bmwgroup.com/deutschland/article/detail/T0002987DE/designer-albrecht-graf-goertz-verstorben",
+        "title": "Designer Albrecht Graf Goertz verstorben",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 1,
+            "textWords": 1705
+          }
+        }
+      },
+      {
+        "hash": "e5DcAXDOAHJg",
+        "address": "https://www.heise.de/bestenlisten/testbericht/lenovo-idea-tab-pro-gen-2-im-test-starkes-tablet-mit-13-zoll-und-144-hz-display/sbcmk97?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+        "title": "Lenovo Idea Tab Pro Gen 2 im Test: Starkes Tablet mit 13 Zoll und 144-Hz-Display | heise online bestenlisten",
+        "snippet": "",
+        "matchedWords": {
+          "9KPnrl-iyiDc": {
+            "hits": 2,
+            "textWords": 4787
           }
         }
       },
@@ -2531,14 +2228,14 @@
         }
       },
       {
-        "hash": "e5DcAXDOAHJg",
-        "address": "https://www.heise.de/bestenlisten/testbericht/lenovo-idea-tab-pro-gen-2-im-test-starkes-tablet-mit-13-zoll-und-144-hz-display/sbcmk97?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
-        "title": "Lenovo Idea Tab Pro Gen 2 im Test: Starkes Tablet mit 13 Zoll und 144-Hz-Display | heise online bestenlisten",
+        "hash": "dxlJWXDOAHJg",
+        "address": "https://www.heise.de/bestenlisten/testsieger/top-10-bestes-tablet-im-test-samsung-vor-apple-und-lenovo/xdbnr3b?wt_mc=rss.red.ho.ho.rdf.beitrag.beitrag",
+        "title": "Top 10: Bestes Tablet im Test – Samsung vor Apple und Lenovo | heise online bestenlisten",
         "snippet": "",
         "matchedWords": {
           "9KPnrl-iyiDc": {
             "hits": 2,
-            "textWords": 4787
+            "textWords": 65209
           }
         }
       }

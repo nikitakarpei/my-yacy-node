@@ -2,34 +2,16 @@
   "query": "postgresql documentation",
   "judgedDocuments": [
     {
-      "hash": "Hb2lZx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/extend-how.html",
-      "title": "PostgreSQL: Documentation: 18: 36.1. How Extensibility Works",
-      "grade": 2
-    },
-    {
       "hash": "lYsgT81iNM2x",
       "address": "https://wiki.postgresql.org/wiki/Category:Documentation",
       "title": "Category:Documentation - PostgreSQL wiki",
       "grade": 2
     },
     {
-      "hash": "qgwjkx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/libpq.html",
-      "title": "PostgreSQL: Documentation: 18: Chapter 32. libpq — C Library",
-      "grade": 2
-    },
-    {
-      "hash": "S1Yp5x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/spi-spi-freeplan.html",
-      "title": "PostgreSQL: Documentation: 18: SPI_freeplan",
-      "grade": 2
-    },
-    {
-      "hash": "H3k5-x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/tutorial-advanced.html",
-      "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
-      "grade": 2
+      "hash": "n8OZP81iNM2x",
+      "address": "https://wiki.postgresql.org/wiki/Foreign_data_wrappers",
+      "title": "Foreign data wrappers - PostgreSQL wiki",
+      "grade": 1
     },
     {
       "hash": "BR1Be6RMLT-5",
@@ -44,34 +26,52 @@
       "grade": 2
     },
     {
-      "hash": "SAoS0x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/ddl-depend.html",
-      "title": "PostgreSQL: Documentation: 18: 5.15. Dependency Tracking",
+      "hash": "Hb2lZx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/extend-how.html",
+      "title": "PostgreSQL: Documentation: 18: 36.1. How Extensibility Works",
       "grade": 2
     },
     {
-      "hash": "Rhc3Rx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/sql-set-constraints.html",
-      "title": "PostgreSQL: Documentation: 18: SET CONSTRAINTS",
-      "grade": 2
-    },
-    {
-      "hash": "Szstfx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/app-createdb.html",
-      "title": "PostgreSQL: Documentation: 18: createdb",
-      "grade": 2
-    },
-    {
-      "hash": "XccPH7NSh3ha",
-      "address": "http://xn--gckvb8fzb.com/xbsapi-an-alternative-xbrowsersync-api-that-supports-sqlite-postgresql-and-mysql/",
-      "title": "マリウス . xbsapi: An Alternative xBrowserSync API that supports SQLite, PostgreSQL and MySQL",
+      "hash": "yRevkYe7r2M5",
+      "address": "https://www.appsignal.com/python/postgresql-monitoring",
+      "title": "Psycopg2 PostgreSQL monitoring for Python | AppSignal",
       "grade": 0
+    },
+    {
+      "hash": "qgwjkx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/libpq.html",
+      "title": "PostgreSQL: Documentation: 18: Chapter 32. libpq — C Library",
+      "grade": 2
+    },
+    {
+      "hash": "2SrIwzakb0b6",
+      "address": "https://thehackernews.com/2026/09/postgresql-fixes-12-year-old-logical.html?m=1",
+      "title": "PostgreSQL Fixes 12-Year-Old Logical Decoding Flaw Enabling Replication-Role Code Execution",
+      "grade": 0
+    },
+    {
+      "hash": "eLguDfs7j0L4",
+      "address": "https://dietpi.com/forum/t/boot-dietpi-func-dietpi-logclear-1-boot-dietpi-func-dietpi-logclear-line-126-var-log-postgresql-postgresql-15-main-log-permission-denied/17426/11",
+      "title": "/boot/dietpi/func/dietpi-logclear 1 => /boot/dietpi/func/dietpi-logclear: line 126: /var/log/postgresql/postgresql-15-main.log: Permission denied",
+      "grade": 0
+    },
+    {
+      "hash": "-PElUl7Yxvhx",
+      "address": "https://www.postgresql.org/community/",
+      "title": "PostgreSQL: Community",
+      "grade": 1
     },
     {
       "hash": "qBsAylqYg_k4",
       "address": "https://www.heroku.com/what-is-postgresql/",
       "title": "What is PostgreSQL? | Heroku",
       "grade": 1
+    },
+    {
+      "hash": "Qz_7APS6MKD4",
+      "address": "https://github.com/discourse/discourse",
+      "title": "GitHub - discourse/discourse: A platform for community discussion. Free, open, simple. · GitHub",
+      "grade": 0
     },
     {
       "hash": "AEMxKJAp2-zw",
@@ -92,9 +92,9 @@
       "grade": 0
     },
     {
-      "hash": "oBb9X0E95tq5",
-      "address": "https://blog.appsignal.com/2017/01/27/documentation-updates.html",
-      "title": "Documentation updates | AppSignal Blog",
+      "hash": "v4aP-zS6MKD4",
+      "address": "https://github.com/topics/low-code",
+      "title": "low-code · GitHub Topics · GitHub",
       "grade": 0
     }
   ]

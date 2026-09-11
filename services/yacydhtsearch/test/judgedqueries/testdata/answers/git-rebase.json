@@ -1,21 +1,21 @@
 {
   "query": "git rebase",
-  "recordedAt": "2026-09-11T19:23:43Z",
+  "recordedAt": "2026-09-11T21:00:57Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "98ydQs9cq-94",
         "address": "https://git-scm.com/learn",
         "title": "Git - Learn",
-        "snippet": "Git - Learn\nAbout Trademark\nLearn Book\nCheat Sheet\nVideos\nExternal Links\nTools Command Line\nGUIs\nHosting\nReference\nInstall\nCommunity\nThe entire Pro Git book written by Scott Chacon and Ben Straub is available to read online for free. Dead tree versions are available on Amazon.com.\nLearn\nPro Git",
+        "snippet": "Git Book\nThe entire Pro Git book written by Scott Chacon and Ben Straub is available to read online for free. Print copies are available on Amazon.com.\nVideos\nShort videos introducing Git for total beginners.\nWhat is Version Control? (05:59)\nWhat is Git? (08:15)\nGet Going with Git (04:26)\nQuick",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 11,
-            "textWords": 155
+            "hits": 8,
+            "textWords": 92
           },
           "wWrW4vQhHIra": {
             "hits": 1,
-            "textWords": 155
+            "textWords": 92
           }
         }
       }
@@ -25,15 +25,15 @@
         "hash": "tetY4sElpUjy",
         "address": "https://git-send-email.io/",
         "title": "Learn to use email with git!",
-        "snippet": "git!\nemail + git = \u003c3\nGit ships with built-in tools for collaborating over email. With this guide, you'll be contributing to email-driven projects like the Linux kernel, PostgreSQL, or even git itself in no time.\nStep two Configuration\nYou only need to complete this step once for each machine you",
+        "snippet": "git send-email.\nReviewing patches you've received via email\nNow you know the contributor workflow. Ready to learn about the other side?\nCheck out our next tutorial: Reviewing git contributions via email on git-am.io\nSending several patches at once\nUse this to send the last 3 commits:\ngit send-email",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 147,
-            "textWords": 3026
+            "hits": 18,
+            "textWords": 610
           },
           "wWrW4vQhHIra": {
-            "hits": 1,
-            "textWords": 3026
+            "hits": 0,
+            "textWords": 610
           }
         }
       }
@@ -47,29 +47,29 @@
         "matchedWords": {
           "up8R7MNJfZmT": {
             "hits": 7,
-            "textWords": 32751
+            "textWords": 30728
           },
           "wWrW4vQhHIra": {
             "hits": 0,
-            "textWords": 32751
+            "textWords": 30728
           }
         }
       }
     ],
     [
       {
-        "hash": "X1qxTyXjZ9O4",
-        "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/autolinked-references-and-urls",
-        "title": "Autolinked references and URLs - GitHub Docs",
-        "snippet": "Git\nFinding example code\nReuse people's code\nLocal development\nDebug with Copilot\nGetting feedback on your code\nStoring secrets safely\nSecure your code\nSecure your dependencies\nAccessibility\nManage theme settings\nKeyboard shortcuts\nGitHub Command Palette\nWriting on GitHub\nStart writing on GitHub",
+        "hash": "LaeCPeoqRUZ4",
+        "address": "https://git-ref.utils.com/",
+        "title": "Git Command Cheat Sheet - Quick Reference for Git Commands - utils.com",
+        "snippet": "Git commands. Click any command to copy it to your clipboard.\nGit is a distributed version control system that tracks changes in source code during software development. It allows multiple developers to work on a project simultaneously, maintaining a complete history of every change.\nCore Concepts",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 10,
-            "textWords": 1021
+            "hits": 15,
+            "textWords": 245
           },
           "wWrW4vQhHIra": {
-            "hits": 3,
-            "textWords": 1021
+            "hits": 1,
+            "textWords": 245
           }
         }
       }
@@ -84,27 +84,11 @@
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 25,
-          "textWords": 5364
+          "textWords": 5305
         },
         "wWrW4vQhHIra": {
           "hits": 1,
-          "textWords": 5364
-        }
-      }
-    },
-    {
-      "hash": "Tv0cB6S6MKD4",
-      "address": "https://github.com/opencontainers/runc/pull/3905",
-      "title": "[1.1] Backport riscv64 support into 1.1.x by chazapis · Pull Request #3905 · opencontainers/runc · GitHub",
-      "snippet": "git cherry-pick -x\nSorry, something went wrong.\nUh oh!\nThere was an error while loading. Please reload this page.\n👍\n1\nkolyshkin reacted with thumbs up emoji\nAll reactions\n👍\n1 reaction\nchazapis commented Jun 17, 2023\nCopy link\nCopy Markdown\nAuthor\nPlease use git cherry-pick -x\nDone.\nAll reactions",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 2,
-          "textWords": 1859
-        },
-        "wWrW4vQhHIra": {
-          "hits": 3,
-          "textWords": 1859
+          "textWords": 5305
         }
       }
     },
@@ -116,11 +100,11 @@
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 18,
-          "textWords": 2074
+          "textWords": 1832
         },
         "wWrW4vQhHIra": {
           "hits": 1,
-          "textWords": 2074
+          "textWords": 1832
         }
       }
     },
@@ -132,11 +116,11 @@
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 6,
-          "textWords": 1523
+          "textWords": 1448
         },
         "wWrW4vQhHIra": {
           "hits": 1,
-          "textWords": 1523
+          "textWords": 1448
         }
       }
     },
@@ -144,15 +128,15 @@
       "hash": "CZQqI29cq-94",
       "address": "https://git-scm.com/docs/git-worktree/2.42.0",
       "title": "Git - git-worktree Documentation",
-      "snippet": "Git - git-worktree Documentation\nAbout Trademark\nLearn Book\nCheat Sheet\nVideos\nExternal Links\nTools Command Line\nGUIs\nHosting\nReference\nInstall\nCommunity\nTable of Contents NAME\nSYNOPSIS\nDESCRIPTION\nCOMMANDS\nOPTIONS\nREFS\nCONFIGURATION FILE\nDETAILS\nLIST OUTPUT FORMAT\nEXAMPLES\nBUGS\nGIT\nEnglish ▾",
+      "snippet": "git-worktree - Manage multiple working trees\nSYNOPSIS\ngit worktree add [-f] [--detach] [--checkout] [--lock [--reason \u003cstring\u003e]] [--orphan] [(-b | -B) \u003cnew-branch\u003e] \u003cpath\u003e [\u003ccommit-ish\u003e] git worktree list [-v | --porcelain [-z]] git worktree lock [--reason \u003cstring\u003e] \u003cworktree\u003e git worktree move",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 112,
-          "textWords": 3571
+          "hits": 99,
+          "textWords": 3098
         },
         "wWrW4vQhHIra": {
-          "hits": 1,
-          "textWords": 3571
+          "hits": 0,
+          "textWords": 3098
         }
       }
     },
@@ -164,11 +148,11 @@
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 25,
-          "textWords": 5364
+          "textWords": 5305
         },
         "wWrW4vQhHIra": {
           "hits": 1,
-          "textWords": 5364
+          "textWords": 5305
         }
       }
     },
@@ -180,11 +164,11 @@
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 18,
-          "textWords": 2074
+          "textWords": 1832
         },
         "wWrW4vQhHIra": {
           "hits": 1,
-          "textWords": 2074
+          "textWords": 1832
         }
       }
     },
@@ -196,27 +180,11 @@
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 6,
-          "textWords": 1523
+          "textWords": 1448
         },
         "wWrW4vQhHIra": {
           "hits": 1,
-          "textWords": 1523
-        }
-      }
-    },
-    {
-      "hash": "Tv0cB6S6MKD4",
-      "address": "https://github.com/opencontainers/runc/pull/3905",
-      "title": "[1.1] Backport riscv64 support into 1.1.x by chazapis · Pull Request #3905 · opencontainers/runc · GitHub",
-      "snippet": "git cherry-pick -x\nSorry, something went wrong.\nUh oh!\nThere was an error while loading. Please reload this page.\n👍\n1\nkolyshkin reacted with thumbs up emoji\nAll reactions\n👍\n1 reaction\nchazapis commented Jun 17, 2023\nCopy link\nCopy Markdown\nAuthor\nPlease use git cherry-pick -x\nDone.\nAll reactions",
-      "matchedWords": {
-        "up8R7MNJfZmT": {
-          "hits": 2,
-          "textWords": 1859
-        },
-        "wWrW4vQhHIra": {
-          "hits": 3,
-          "textWords": 1859
+          "textWords": 1448
         }
       }
     },
@@ -228,17 +196,17 @@
       "matchedWords": {
         "up8R7MNJfZmT": {
           "hits": 6,
-          "textWords": 1523
+          "textWords": 1448
         },
         "wWrW4vQhHIra": {
           "hits": 1,
-          "textWords": 1523
+          "textWords": 1448
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "up8R7MNJfZmT": 36085,
-    "wWrW4vQhHIra": 498
+    "up8R7MNJfZmT": 36526,
+    "wWrW4vQhHIra": 482
   }
 }

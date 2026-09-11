@@ -2,46 +2,64 @@
   "query": "heise",
   "judgedDocuments": [
     {
-      "hash": "sC0kMlDOAHJg",
-      "address": "https://www.heise.de/en",
-      "title": "heise online – IT news, guides and background information | heise online",
-      "grade": 2
-    },
-    {
       "hash": "R8DHxInk4jwg",
       "address": "https://compaliate.heise.de/",
       "title": "heise compaliate - Die Affiliate Plattform für Publisher",
       "grade": 1
     },
     {
+      "hash": "sx-c9XDOAHJg",
+      "address": "https://www.heise.de/bestenlisten/testbericht/e-bike-accolmile-antelope-1s-im-test/9lgtf6w",
+      "title": "E-Bike Accolmile Antelope 1S im Test | heise online bestenlisten",
+      "grade": 2
+    },
+    {
+      "hash": "TqXeBvDOAHJg",
+      "address": "https://www.heise.de/news/TGIQF-Das-Quiz-rund-die-News-Mitte-Juli-10500032.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
+      "title": "#TGIQF: Das Quiz rund die News Mitte Juli | heise online",
+      "grade": 2
+    },
+    {
       "hash": "gro9fvDOAHJg",
       "address": "https://www.heise.de/news/Ein-Jahr-heise-Danke-fuer-Ihre-Treue-4640158.html",
-      "title": "Ein Jahr heise+: Noch bis zum 5. Februar an Gewinnspiel \u0026 Umfrage teilnehmen | heise online",
+      "title": "Ein Jahr heise+: Noch bis zum 5. Februar an Gewinnspiel & Umfrage teilnehmen | heise online",
       "grade": 1
     },
     {
-      "hash": "MKQ2gEDOAHJg",
-      "address": "https://www.heise.de/benachrichtigungen/heise-bot/",
-      "title": "heise-Bot | heise online",
+      "hash": "JSdC5XDOAHJg",
+      "address": "https://www.heise.de/bestenlisten/testbericht/e-klapprad-ado-a16-im-test-70-km-reichweite-fuer-550-euro/h2g72dz",
+      "title": "E-Klapprad Ado A16 im Test: 70 km Reichweite für 550 Euro | heise online bestenlisten",
+      "grade": 2
+    },
+    {
+      "hash": "_271OvDOAHJg",
+      "address": "https://www.heise.de/news/heise-security-Tour-2026-Das-Programm-steht-jetzt-Fruehbucherpreis-sichern-11242297.html",
+      "title": "heise security Tour 2026: Das Programm steht – jetzt Frühbucherpreis sichern! | heise online",
+      "grade": 2
+    },
+    {
+      "hash": "tiM6HFrrGcCg",
+      "address": "https://preisvergleich.heise.de/steelseries-qck-large-63437-a3360097.html?hloc=de",
+      "title": "SteelSeries QcK Large, Titik Noda Limited Artist Edition (63437) ab € 36,79 (2026) | heise preisvergleich Deutschland",
       "grade": 1
     },
     {
-      "hash": "qeMWZvDOAHJg",
-      "address": "https://www.heise.de/news/Was-Wi-Fi-7-kann-c-t-uplink-11150363.html",
-      "title": "Was Wi-Fi 7 kann | c’t uplink | heise online",
+      "hash": "Ccso-errGcCg",
+      "address": "https://preisvergleich.heise.de/merchants/as-tcgstore-91-eb-de",
+      "title": "as.tcgstore Bewertungen & Erfahrungen - heise preisvergleich Deutschland",
       "grade": 1
     },
     {
-      "hash": "LPqJNvDOAHJg",
-      "address": "https://www.heise.de/news/Tipps-Tests-Reports-Mac-i-3-2026-jetzt-vorab-als-Heft-und-PDF-erhaeltlich-11302782.html",
-      "title": "Tipps, Tests, Reports: Mac \u0026 i 3/2026 jetzt vorab als Heft und PDF erhältlich | heise online",
+      "hash": "x_uR7FrrGcCg",
+      "address": "https://preisvergleich.heise.de/delock-2d-barcodescanner-schwarz-90557-a2842493.html?hloc=de",
+      "title": "DeLOCK 2D Barcodescanner schwarz, USB (90557) ab € 61,39 (2026) | heise preisvergleich Deutschland",
       "grade": 1
     },
     {
-      "hash": "lBFUiVDOAHJg",
-      "address": "https://www.heise.de/autor/Manuel-Masiero-5097753",
-      "title": "Manuel Masiero | heise online",
-      "grade": 1
+      "hash": "zCCZyvDOAHJg",
+      "address": "https://www.heise.de/news/7-Zip-Update-schliesst-Codeschmuggel-Luecke-11308241.html",
+      "title": "7-Zip: Hochriskante Lücke erlaubt Einschleusen von Schadcode | heise online",
+      "grade": 2
     },
     {
       "hash": "fSquuvDOAHJg",
@@ -50,21 +68,9 @@
       "grade": 1
     },
     {
-      "hash": "q5B3_vDOAHJg",
-      "address": "https://www.heise.de/news/Open-Data-Frag-den-Staat-gewinnt-gegen-Bundesinnenministerium-2188031.html",
-      "title": "Open Data: \"Frag den Staat“ gewinnt gegen Bundesinnenministerium | heise online",
-      "grade": 1
-    },
-    {
-      "hash": "_N0F_NDOAHJg",
-      "address": "https://www.heise.de/thema/Mobiles",
-      "title": "Mobiles: News, Ratgeber und Tipps | heise online",
-      "grade": 1
-    },
-    {
       "hash": "l9OPverrGcCg",
       "address": "https://preisvergleich.heise.de/merchants/ms-electronics-net-44-eb-de",
-      "title": "ms-electronics net Bewertungen \u0026 Erfahrungen - heise preisvergleich Deutschland",
+      "title": "ms-electronics net Bewertungen & Erfahrungen - heise preisvergleich Deutschland",
       "grade": 1
     },
     {
@@ -86,10 +92,34 @@
       "grade": 1
     },
     {
+      "hash": "LPqJNvDOAHJg",
+      "address": "https://www.heise.de/news/Tipps-Tests-Reports-Mac-i-3-2026-jetzt-vorab-als-Heft-und-PDF-erhaeltlich-11302782.html",
+      "title": "Tipps, Tests, Reports: Mac & i 3/2026 jetzt vorab als Heft und PDF erhältlich | heise online",
+      "grade": 1
+    },
+    {
       "hash": "gUZM4S5uSLiw",
       "address": "https://free21.org/wp-content/uploads/2020/11/01-Ensel-Krieg-um-Karabach-DE.pdf",
       "title": "01-Ensel-Krieg-um-Karabach-DE.pdf",
       "grade": 0
+    },
+    {
+      "hash": "qeMWZvDOAHJg",
+      "address": "https://www.heise.de/news/Was-Wi-Fi-7-kann-c-t-uplink-11150363.html",
+      "title": "Was Wi-Fi 7 kann | c’t uplink | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "q5B3_vDOAHJg",
+      "address": "https://www.heise.de/news/Open-Data-Frag-den-Staat-gewinnt-gegen-Bundesinnenministerium-2188031.html",
+      "title": "Open Data: \"Frag den Staat“ gewinnt gegen Bundesinnenministerium | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "cc3rvNDOAHJg",
+      "address": "https://www.heise.de/thema/Wissenschaft",
+      "title": "Wissenschaft: News, Ratgeber und Tipps | heise online",
+      "grade": 2
     }
   ]
 }

@@ -2,12 +2,6 @@
   "query": "wolfgang amadeus mozart",
   "judgedDocuments": [
     {
-      "hash": "_aJejh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Category:Compositions_by_Wolfgang_Amadeus_Mozart",
-      "title": "Category:Compositions by Wolfgang Amadeus Mozart - Wikimedia Commons",
-      "grade": 1
-    },
-    {
       "hash": "wBabKs5D-QSg",
       "address": "https://snl.no/Wolfgang_Amadeus_Mozart",
       "title": "Wolfgang Amadeus Mozart – Store norske leksikon",
@@ -20,63 +14,69 @@
       "grade": 2
     },
     {
-      "hash": "0PraV-ZPxIKi",
-      "address": "https://www.enciklopedija.hr/clanak/mozart-wolfgang-amadeus",
-      "title": "Mozart, Wolfgang Amadeus - Hrvatska enciklopedija",
-      "grade": 2
-    },
-    {
       "hash": "TR2jOlLSmY1j",
       "address": "https://www.deutsche-biographie.de/118584596.html?language=en",
       "title": "Deutsche Biographie - Mozart, Wolfgang Amadeus",
       "grade": 2
     },
     {
-      "hash": "qo2IOhkSiA1g",
-      "address": "https://www.gramophone.co.uk/content/features/was-wolfgang-amadeus-mozart-the-greatest-composer-of-all",
-      "title": "Was Wolfgang Amadeus Mozart the greatest composer of all?",
-      "grade": 1
-    },
-    {
-      "hash": "-Jibrh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Wolfgang_Amadeus_Mozart?uselang=fr",
-      "title": "Wolfgang Amadeus Mozart — Wikimedia Commons",
-      "grade": 1
-    },
-    {
-      "hash": "E6xpB5JMJtfQ",
-      "address": "http://www.zeno.org/Musik/M/Mozart,+Wolfgang+Amadeus",
-      "title": "Mozart, Wolfgang Amadeus - Zeno.org",
+      "hash": "0PraV-ZPxIKi",
+      "address": "https://www.enciklopedija.hr/clanak/mozart-wolfgang-amadeus",
+      "title": "Mozart, Wolfgang Amadeus - Hrvatska enciklopedija",
       "grade": 2
     },
     {
-      "hash": "yszhehTC-rDx",
-      "address": "https://et.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
-      "title": "Wolfgang Amadeus Mozart – Vikipeedia",
-      "grade": 2
-    },
-    {
-      "hash": "nDUd4Q5ARWyg",
-      "address": "https://www.spiegel.de/kultur/musik/wolfgang-amadeus-mozart-unbekanntes-manuskript-in-paris-aufgetaucht-a-37de93d5-e336-4797-8462-7fefb56fba8a",
-      "title": "Wolfgang Amadeus Mozart: Unbekanntes Manuskript in Paris aufgetaucht - DER SPIEGEL",
+      "hash": "_aJejh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Compositions_by_Wolfgang_Amadeus_Mozart",
+      "title": "Category:Compositions by Wolfgang Amadeus Mozart - Wikimedia Commons",
       "grade": 1
     },
     {
-      "hash": "3nt96qlaN2eg",
-      "address": "https://www.larousse.fr/encyclopedie/personnage/Johann_Wolfgang_von_Goethe/121689",
-      "title": "Johann Wolfgang von Goethe - LAROUSSE",
+      "hash": "i37h9p5WQO5o",
+      "address": "https://ci.nii.ac.jp/ncid/BA44131098",
+      "title": "CiNii 図書 - Così fan tutte",
+      "grade": 1
+    },
+    {
+      "hash": "-ayy5ivw0u35",
+      "address": "https://www.classicfm.com/discover-music/instruments/piano/best-pianists-all-time/",
+      "title": "The 25 best pianists of all time - Classic FM",
+      "grade": 1
+    },
+    {
+      "hash": "2omiE_5WQO5o",
+      "address": "https://ci.nii.ac.jp/author/DA04993139",
+      "title": "CiNii Books 著者 - Porter, Andrew",
       "grade": 0
     },
     {
-      "hash": "qrkNlDALMeMh",
-      "address": "https://www.smsticket.cz/vstupenky/6774-moc-art-aneb-amadeus-v-brne-strasna-mela-",
-      "title": "Moc art aneb Amadeus v Brně (strašná mela) – Divadlo Husa na provázku – Brno – tickets",
+      "hash": "gIqX6WMt_GI5",
+      "address": "https://www.infoescola.com/artes/opera/",
+      "title": "Ópera - InfoEscola",
+      "grade": 1
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
       "grade": 0
     },
     {
-      "hash": "62zG5Q8moajg",
-      "address": "https://www.welt.de/kultur/kino/article69315d0e76c2ae9f577fb060/ard-serie-mozart-mozart-ein-mozart-zum-fremdschaemen.html",
-      "title": "ARD-Serie „Mozart/Mozart“: Ein Mozart zum Fremdschämen - WELT",
+      "hash": "np71FsVUrQm6",
+      "address": "https://earthnewspaper.com/Subscribe/",
+      "title": "Subscribe – EarthNewspaper.com – All The Honest News Fit To Publish",
+      "grade": 0
+    },
+    {
+      "hash": "zuAhdcoc6Io4",
+      "address": "https://www.nndb.com/lists/800/000083551/",
+      "title": "Movie Keyword: Drama",
+      "grade": 0
+    },
+    {
+      "hash": "190GJocHOkWx",
+      "address": "https://www.gutenberg.org/browse/authors/m",
+      "title": "Browse By Author: M | Project Gutenberg",
       "grade": 1
     }
   ]

@@ -2,21 +2,9 @@
   "query": "static site generator",
   "judgedDocuments": [
     {
-      "hash": "by8Ivl_0-Tb4",
-      "address": "https://www.11ty.dev/",
-      "title": "Eleventy is a simpler static site generator",
-      "grade": 2
-    },
-    {
       "hash": "E3vPOld2TDD4",
       "address": "https://www.psd-dude.com/glitch-text-generator/",
-      "title": "Glitch Text Generator | ȻꝊꝐɎ \u0026 ꝐȺꞨȾɆ",
-      "grade": 0
-    },
-    {
-      "hash": "wci1EfyCWXM4",
-      "address": "https://name-generator.utils.com/",
-      "title": "Random Name Generator - utils.com",
+      "title": "Glitch Text Generator | ȻꝊꝐɎ & ꝐȺꞨȾɆ",
       "grade": 0
     },
     {
@@ -26,9 +14,21 @@
       "grade": 0
     },
     {
-      "hash": "CjoFQldPgiL6",
-      "address": "https://www.mylivesignature.com/",
-      "title": "Signature Design Generator Tool - Email Signature",
+      "hash": "wci1EfyCWXM4",
+      "address": "https://name-generator.utils.com/",
+      "title": "Random Name Generator - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "AbHi_QUUuPp4",
+      "address": "https://about.gitlab.com/solutions/visibility-measurement/",
+      "title": "Visibility and measurement for software delivery",
+      "grade": 0
+    },
+    {
+      "hash": "Sc8s9s_tHst4",
+      "address": "https://dwheeler.com/trusting-trust/",
+      "title": "Fully Countering Trusting Trust through Diverse Double-Compiling (DDC) - Countering Trojan Horse attacks on Compilers",
       "grade": 0
     },
     {
@@ -38,10 +38,28 @@
       "grade": 0
     },
     {
+      "hash": "37rEhlXEa2U7",
+      "address": "https://www.waybackmachinedownloader.com/en/faq/",
+      "title": "Wayback Machine downloader - Frequently Asked Questions",
+      "grade": 0
+    },
+    {
+      "hash": "1AhYvjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_tool",
+      "title": "Programming tool - Wikipedia",
+      "grade": 0
+    },
+    {
       "hash": "xr6iDzS6MKD4",
       "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
       "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
       "grade": 1
+    },
+    {
+      "hash": "3W4e5v5tsb14",
+      "address": "https://dice.utils.com/",
+      "title": "Dice Roller - utils.com",
+      "grade": 0
     },
     {
       "hash": "WGR29lBxf4j5",
@@ -50,15 +68,15 @@
       "grade": 0
     },
     {
-      "hash": "-xpxEitD2jQw",
-      "address": "https://docs.python.org/3/contents.html",
-      "title": "Python Documentation contents — Python 3.14.5rc1 documentation",
+      "hash": "Eno3yUXJd_Y4",
+      "address": "https://number-base.utils.com/",
+      "title": "Number Base Converter - Binary, Octal, Decimal, Hex & Custom Bases - utils.com",
       "grade": 0
     },
     {
-      "hash": "7TY5XyEkAvow",
-      "address": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
-      "title": "JavaScript modules - JavaScript | MDN",
+      "hash": "55ME6U-HjMJ4",
+      "address": "https://v-tree-fractal.utils.com/",
+      "title": "V-tree Fractal Generator - utils.com",
       "grade": 0
     },
     {
@@ -68,15 +86,9 @@
       "grade": 0
     },
     {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "grade": 0
-    },
-    {
-      "hash": "Ht7EIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Pathological_science",
-      "title": "Pathological science - Wikipedia",
+      "hash": "9fwXeJ6Fa3B4",
+      "address": "https://word-search.utils.com/",
+      "title": "Word Search Generator - Make Word Search Puzzles - utils.com",
       "grade": 0
     }
   ]

@@ -2,6 +2,12 @@
   "query": "nextcloud installation",
   "judgedDocuments": [
     {
+      "hash": "DkgJosH3-qPx",
+      "address": "https://cyberduck.io/",
+      "title": "Cyberduck | Libre server and cloud storage browser for Mac and Windows with support for FTP, SFTP, WebDAV, Amazon S3, OpenStack Swift, Backblaze B2, Microsoft Azure & OneDrive, Google Drive and Dropbox",
+      "grade": 0
+    },
+    {
       "hash": "xIkDby3WSkX4",
       "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
       "title": "Domains - OVHcloud Documentation",

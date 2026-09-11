@@ -1,17 +1,17 @@
 {
   "query": "rust",
-  "recordedAt": "2026-09-11T19:20:46Z",
+  "recordedAt": "2026-09-11T20:58:26Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "7-snwDDZNRCx",
         "address": "https://doc.rust-lang.org/book/",
         "title": "The Rust Programming Language - The Rust Programming Language",
-        "snippet": "Rust Programming Language - The Rust Programming Language\nKeyboard shortcuts\nPress ← or → to navigate between chapters\nPress S or / to search in the book\nPress ? to show this help\nPress Esc to hide this help\nAuto\nLight\nRust\nCoal\nNavy\nAyu\nThe Rust Programming Language\nThe Rust Programming Language",
+        "snippet": "Rust Programming Language\nby Steve Klabnik, Carol Nichols, and Chris Krycho, with contributions from the Rust Community\nThis version of the text assumes you’re using Rust 1.90.0 (released 2025-09-18) or later with edition = \"2024\" in the Cargo.toml file of all projects to configure them to use Rust",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 13,
-            "textWords": 192
+            "hits": 9,
+            "textWords": 174
           }
         }
       },
@@ -24,18 +24,6 @@
           "coEuMIc0Vdzu": {
             "hits": 1,
             "textWords": 18175
-          }
-        }
-      },
-      {
-        "hash": "HMZqwXCmq5v4",
-        "address": "https://www.suse.com/security/cve/CVE-2019-1010299.html",
-        "title": "CVE-2019-1010299 Common Vulnerabilities and Exposures | SUSE",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 69,
-            "textWords": 3047
           }
         }
       },
@@ -88,6 +76,18 @@
         }
       },
       {
+        "hash": "HMZqwXCmq5v4",
+        "address": "https://www.suse.com/security/cve/CVE-2019-1010299.html",
+        "title": "CVE-2019-1010299 Common Vulnerabilities and Exposures | SUSE",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 69,
+            "textWords": 3047
+          }
+        }
+      },
+      {
         "hash": "3PIKfjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Onion",
         "title": "Onion - Wikipedia",
@@ -129,11 +129,11 @@
         "hash": "qIqhBUemigYg",
         "address": "https://www.flixbus.de/busverbindung/fernbus-europa-park-rust-heidelberg",
         "title": "Bus Rust (Europa-Park) nach Heidelberg - Günstig Tickets buchen",
-        "snippet": "Rust (Europa-Park) nach Heidelberg - Günstig Tickets buchen\nZum Seiteninhalt springen\nPlane Deine Reise\nAlle Verbindungen\nFahrpläne/Haltestellen\nEntdecke \u0026 lebe mehr\nReise-Extras\nService\nAlle Services\nIm Bus\nSicherheit\nUmwelt\nKundenzufriedenheit\nBuchung verwalten\nFahrt verfolgen\nHilfe\nPlane Deine",
+        "snippet": "Rust (Europa-Park)\nHeidelberg\nBushaltestellen in Rust (Europa-Park)\nBitte beachte, dass Dein Ticket die aktuellste Adressinformation enthält.\nOptimaler Service an Bord\nVerfügbare Optionen, für eine komfortablere Fahrt:\nKostenloses WLAN\nBleib während Deiner Reise in Verbindung\nSteckdosen\nLade Deine",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 55,
-            "textWords": 1437
+            "hits": 28,
+            "textWords": 913
           }
         }
       },
@@ -153,23 +153,11 @@
         "hash": "EJQL5vDOAHJg",
         "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html?wt_mc=rss.red.ho.beitrag.atom.beitrag.beitrag",
         "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
-        "snippet": "Rust: Native GPU-Kernel in Rust schreiben | heise online\nheise+ entdecken\nSuchen\nAbo\nSuchen\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise+\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop\nheise jobs\nheise",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 21,
-            "textWords": 1013
-          }
-        }
-      },
-      {
-        "hash": "H0OguvODX_CE",
-        "address": "http://www.scielo.sa.cr/scielo.php?script=sci_arttext\u0026pid=S1659-13212020000300517",
-        "title": "Dynamics of severity of coffee leaf rust (Hemileia vastatrix) on Coffee, in Chanchamayo (Junín-Peru)",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 284
+            "hits": 18,
+            "textWords": 1328
           }
         }
       },
@@ -198,18 +186,6 @@
         }
       },
       {
-        "hash": "HzxxtC7NCNPA",
-        "address": "http://urn.kb.se/resolve?urn=urn:nbn:se:umu:diva-205801",
-        "title": "Molecular studies of rust on European aspen suggest an autochthonous relationship shaped by genotype",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 279
-          }
-        }
-      },
-      {
         "hash": "GIIv-qK7bYW5",
         "address": "https://www.webofscience.com/api/gateway?GWVersion=2\u0026SrcApp=elements_prod\u0026SrcAuth=WosAPI\u0026KeyUT=WOS:000830046600001\u0026DestLinkType=FullRecord\u0026DestApp=WOS_CPL",
         "title": "Phenotypic characterization of the Hordeum bulbosum             derived leaf rust resistance genes Rph22 and Rph26             in barley",
@@ -218,6 +194,30 @@
           "coEuMIc0Vdzu": {
             "hits": 1,
             "textWords": 329
+          }
+        }
+      },
+      {
+        "hash": "H0OguvODX_CE",
+        "address": "http://www.scielo.sa.cr/scielo.php?script=sci_arttext\u0026pid=S1659-13212020000300517",
+        "title": "Dynamics of severity of coffee leaf rust (Hemileia vastatrix) on Coffee, in Chanchamayo (Junín-Peru)",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 1,
+            "textWords": 284
+          }
+        }
+      },
+      {
+        "hash": "HzxxtC7NCNPA",
+        "address": "http://urn.kb.se/resolve?urn=urn:nbn:se:umu:diva-205801",
+        "title": "Molecular studies of rust on European aspen suggest an autochthonous relationship shaped by genotype",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 1,
+            "textWords": 279
           }
         }
       },
@@ -234,78 +234,174 @@
         }
       },
       {
-        "hash": "F84fXd6w19qB",
-        "address": "http://repo.lib.semmelweis.hu/handle/123456789/3790",
-        "title": "Molecular identification and pathogenicity assessment of a rust fungus infecting common ragweed (Ambrosia artemisiifolia) in its native North American range",
+        "hash": "FnTPbdLpR8Zw",
+        "address": "https://vuir.vu.edu.au/47862/",
+        "title": "Rest or rust? Complex influence of schedule congestion on the home advantage in the National Basketball Association",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
-            "textWords": 29
+            "textWords": 55
           }
         }
       }
     ],
     [
       {
-        "hash": "LW1BGl64SAv5",
-        "address": "https://thehiveindex.com/features/forum/",
-        "title": "3806 Forum Based communities | Hive Index",
-        "snippet": "",
+        "hash": "qgv-8wSMo4M4",
+        "address": "https://www.zdnet.com/article/rust-will-save-linux-from-ai-says-greg-kroah-hartman/",
+        "title": "Rust will save Linux from AI, says Greg Kroah-Hartman - ZDNET",
+        "snippet": "Rust Week 2026 – Main Track by RustNL via YouTube\nFollow ZDNET: Add us as a preferred source on Google.\nZDNET’s key takeaways\nRust will save Linux from C’s inherent security weaknesses.\nLinux, faced with a flood of AI-discovered security problems, could use the help.\nGoing forward, more and more",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 44514
+            "hits": 46,
+            "textWords": 1831
           }
         }
       },
       {
-        "hash": "J5vXHJ6WgPx4",
-        "address": "https://photo-collage.utils.com/",
-        "title": "Photo Collage Maker - utils.com",
-        "snippet": "",
+        "hash": "_GS0aoDZNRCx",
+        "address": "https://doc.rust-lang.org/nightly/core/keyword.crate.html",
+        "title": "crate - Rust",
+        "snippet": "Rust binary or library.\nThe primary use of the crate keyword is as a part of extern crate declarations, which are used to specify a dependency on a crate external to the one it’s declared in. Crates are the fundamental compilation unit of Rust code, and can be seen as libraries or projects. More",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 2951
+            "hits": 3,
+            "textWords": 208
           }
         }
       },
       {
-        "hash": "IPlGoyEkAvow",
-        "address": "https://developer.mozilla.org/en-US/docs/WebAssembly",
-        "title": "WebAssembly | MDN",
+        "hash": "-mSq1hQPJVh5",
+        "address": "https://deepsource.com/directory/rust/issues/RS-C1016",
+        "title": "Found redundant type annotation (RS-C1016) ・ Rust",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 1275
+            "hits": 3,
+            "textWords": 2326
           }
         }
       },
       {
-        "hash": "J1rIEX9Ojva4",
-        "address": "https://docs.docker.com/reference/cli/docker/container/kill/",
-        "title": "docker container kill | Docker Docs",
+        "hash": "Od57MdLtsUGy",
+        "address": "https://rustfoundation.org/media/google-contributes-1m-to-rust-foundation-to-support-c-rust-interop-initiative/",
+        "title": "Google Contributes $1M to Rust Foundation to Support C++/Rust “Interop Initiative” - The Rust Foundation",
+        "snippet": "Rust Foundation, an independent, nonprofit organization dedicated to advancing the performance, safety, and sustainability of the Rust programming language, is pleased to share that Platinum Member Google has made a generous $1M contribution specifically earmarked to underwrite the Interop",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 44,
+            "textWords": 641
+          }
+        }
+      },
+      {
+        "hash": "KT8bUtV9oHh4",
+        "address": "https://rust.utils.com/",
+        "title": "Rust Shell - utils.com",
+        "snippet": "Rust Shell powered by the official Rust Shell API. Write and execute Rust code online.\nThis Rust Shell provides an interface to the official Rust Shell API at play.rust-lang.org. Write Rust code and execute it using the latest stable Rust compiler.\nYou can embed this util on your own site as a",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 8,
+            "textWords": 87
+          }
+        }
+      },
+      {
+        "hash": "HUvUmwn-yhj5",
+        "address": "https://www.infoworld.com/article/4218383/rust-1-98-1-fixes-miscompilation-bug.html",
+        "title": "Rust 1.98.1 fixes miscompilation bug | InfoWorld",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 2427
+            "hits": 19,
+            "textWords": 1127
+          }
+        }
+      },
+      {
+        "hash": "KorfSxS6MKD4",
+        "address": "https://github.com/rust-phf/rust-phf",
+        "title": "GitHub - rust-phf/rust-phf: Compile time static maps for Rust · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 6,
+            "textWords": 1365
+          }
+        }
+      },
+      {
+        "hash": "Qm7fus-UOu6x",
+        "address": "https://thenewstack.io/rust-foundation-training-certification/",
+        "title": "Trust in Rust: Foundation debuts official training to tackle steep learning curve - The New Stack",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 34,
+            "textWords": 6057
+          }
+        }
+      },
+      {
+        "hash": "OUkf3mgko1nx",
+        "address": "https://users.rust-lang.org/t/twir-quote-of-the-week/328",
+        "title": "TWiR quote of the week - community - The Rust Programming Language Forum",
+        "snippet": "Rust world. And also there is much more going on than I can follow personally.\nSo this thread is to beg for people who see insightful or funny things said about or in relation to Rust to post them here. Please provide links - if it wasn't recorded it didn't happen!\nLeads on good quotes will be",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 23,
+            "textWords": 590
+          }
+        }
+      },
+      {
+        "hash": "zbG0ltDnLmqx",
+        "address": "https://thanks.rust-lang.org/rust/1.66.1/",
+        "title": "Rust 1.66.1 Contributors",
+        "snippet": "Back to all releases\nWe have had 5 individuals contribute to 1.66.1. Thank you so much!\nRank\nName\nContributions\n1\nEric Huss\n9\n2\nPietro Albini\n6\n3\nEmily Albini\n1\n3\nWeihang Lo\n1\n3\nbors\n1",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 0,
+            "textWords": 27
           }
         }
       }
     ],
     [
       {
-        "hash": "W2WjYYk2MzR5",
-        "address": "https://theintercept.com/2024/06/02/gaza-student-protest-campus-rust-belt/",
-        "title": "Not Coastal Elites: Rust Belt Colleges Protest Israel’s Gaza War",
+        "hash": "XMCiuVZiwg85",
+        "address": "https://www.jetbrains.com/lp/devecosystem-2023/rust/",
+        "title": "Rust Programming - The State of Developer Ecosystem in 2023 Infographic | JetBrains: Developer Tools for Professionals and Teams",
+        "snippet": "Rust as one of the languages they use.\nHow do you use Rust?\nHow long have you been using Rust?\nWhich programming languages do you use in your projects along with Rust?\nFrom which programming language have you migrated to Rust?\nHow does Rust code interact with the other parts?\nWhat plugins/utilities",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 15,
+            "textWords": 156
+          }
+        }
+      },
+      {
+        "hash": "tA8cOeWRy054",
+        "address": "https://developer.mescius.com/blogs/how-to-use-javascript-reporting-tool-in-your-rust-web-application",
+        "title": "How to Use a JavaScript Reporting Tool in Your Rust Web Application",
         "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 1,
+            "textWords": 52
+          }
+        }
+      },
+      {
+        "hash": "Q2tdhvDOAHJg",
+        "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
+        "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
+        "snippet": "Rust umfasst die Projekte cuda-oxide und cutile-rs, die die CUDA-Modelle SIMT und Tile nach Rust bringen. Produktionsreif ist noch keines der beiden Projekte aus der neuen Toolchain, Nvidia ruft Entwicklerinnen und Entwickler aber ausdrücklich zum Ausprobieren auf.\nDas im frühen Alpha-Stadium",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 7,
-            "textWords": 2290
+            "textWords": 287
           }
         }
       },
@@ -313,23 +409,11 @@
         "hash": "QLueEgsjOPf5",
         "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/cranelift-rebase",
         "title": "refs/heads/cranelift-rebase - third_party/github.com/rust-lang/rust - Git at Google",
-        "snippet": "third_party/github.com/rust-lang/rust - Git at Google\nSign in ◑Theme\nfuchsia/third_party/github.com/rust-lang/rust/refs/heads/cranelift-rebase\ncommit\n5b48834d389f2e1f2a20224cf0e3273944b27f90\n[log]\nauthor\nErin Power \u003cerin.power@embark-studios.com\u003e\nFri Apr 30 14:54:18 2021 +0200\ncommitter\nErin Power",
+        "snippet": "Rust Programming Language\nThis is the main source code repository for Rust. It contains the compiler, standard library, and documentation.\nNote: this README is for users rather than contributors. If you wish to contribute to the compiler, you should read the Getting Started section of the",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 31,
-            "textWords": 1368
-          }
-        }
-      },
-      {
-        "hash": "XMCiuVZiwg85",
-        "address": "https://www.jetbrains.com/lp/devecosystem-2023/rust/",
-        "title": "Rust Programming - The State of Developer Ecosystem in 2023 Infographic | JetBrains: Developer Tools for Professionals and Teams",
-        "snippet": "Rust Programming - The State of Developer Ecosystem in 2023 Infographic | JetBrains: Developer Tools for Professionals and Teams\nDeveloper Ecosystem\n2023\nEnglish\nRust\nRust\nShare:\nQuestions in this section were shown to the developers who identified Rust as one of the languages they use.\nHow do you",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 82,
-            "textWords": 2398
+            "hits": 27,
+            "textWords": 1234
           }
         }
       },
@@ -358,26 +442,14 @@
         }
       },
       {
-        "hash": "tA8cOeWRy054",
-        "address": "https://developer.mescius.com/blogs/how-to-use-javascript-reporting-tool-in-your-rust-web-application",
-        "title": "How to Use a JavaScript Reporting Tool in Your Rust Web Application",
+        "hash": "W2WjYYk2MzR5",
+        "address": "https://theintercept.com/2024/06/02/gaza-student-protest-campus-rust-belt/",
+        "title": "Not Coastal Elites: Rust Belt Colleges Protest Israel’s Gaza War",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 52
-          }
-        }
-      },
-      {
-        "hash": "Q2tdhvDOAHJg",
-        "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
-        "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
-        "snippet": "Rust: Native GPU-Kernel in Rust schreiben | heise online\nheise+ entdecken\nSuchen\nAbo\nSuchen\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise+\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop\nheise jobs\nheise",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 21,
-            "textWords": 1013
+            "hits": 7,
+            "textWords": 2290
           }
         }
       },
@@ -423,23 +495,11 @@
         "hash": "-TAUrUemigYg",
         "address": "https://www.flixbus.de/busverbindung/fernbus-hannover-europa-park-rust",
         "title": "Bus Hannover nach Rust (Europa-Park) - Günstig Tickets buchen",
-        "snippet": "Rust (Europa-Park) - Günstig Tickets buchen\nZum Seiteninhalt springen\nPlane Deine Reise\nAlle Verbindungen\nFahrpläne/Haltestellen\nEntdecke \u0026 lebe mehr\nReise-Extras\nService\nAlle Services\nIm Bus\nSicherheit\nUmwelt\nKundenzufriedenheit\nBuchung verwalten\nFahrt verfolgen\nHilfe\nPlane Deine Reise\nAlle",
+        "snippet": "Rust (Europa-Park)\nBushaltestellen in Hannover\nBitte beachte, dass Dein Ticket die aktuellste Adressinformation enthält.\nHannover ZOB\nRundestraße 12\n30161 Hannover\nDeutschland\nAdresse auf Google Maps anzeigen\nBussteig Informationen hier verfügbar: https://www.flixbus.de/fernbusterminal-hannover",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 53,
-            "textWords": 1266
-          }
-        }
-      },
-      {
-        "hash": "XKjr2SS6MKD4",
-        "address": "https://github.com/xd009642/tarpaulin/",
-        "title": "GitHub - xd009642/tarpaulin: A code coverage tool for Rust projects · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 13,
-            "textWords": 4408
+            "hits": 26,
+            "textWords": 821
           }
         }
       },
@@ -456,6 +516,18 @@
         }
       },
       {
+        "hash": "XKjr2SS6MKD4",
+        "address": "https://github.com/xd009642/tarpaulin/",
+        "title": "GitHub - xd009642/tarpaulin: A code coverage tool for Rust projects · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 13,
+            "textWords": 4408
+          }
+        }
+      },
+      {
         "hash": "VJ92bC7NCNPA",
         "address": "http://urn.kb.se/resolve?urn=urn:nbn:se:umu:diva-227921",
         "title": "The inheritance of resistance to Scots pine blister rust in Pinus sylvestris",
@@ -468,14 +540,14 @@
         }
       },
       {
-        "hash": "UZk23yEYm2vg",
-        "address": "https://www.repository.cam.ac.uk/handle/1810/317118",
-        "title": "Wheat rust epidemics damage Ethiopian wheat production: A decade of field disease surveillance reveals national-scale trends in past outbreaks",
+        "hash": "Xi9HvkdhihHg",
+        "address": "https://www.dora.lib4ri.ch/wsl/item/wsl:15208",
+        "title": "DNA barcoding and phylogenetic analyses of the genus \u003cem\u003eColeosporium\u003c/em\u003e (Pucciniales) reveal that the North American goldenrod rust \u003cem\u003eC. solidaginis\u003c/em\u003e is a neomycete on introduced and native \u003cem\u003eSolidago\u003c/em\u003e species in Europe",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
-            "textWords": 340
+            "textWords": 326
           }
         }
       },
@@ -492,14 +564,14 @@
         }
       },
       {
-        "hash": "Xi9HvkdhihHg",
-        "address": "https://www.dora.lib4ri.ch/wsl/item/wsl:15208",
-        "title": "DNA barcoding and phylogenetic analyses of the genus \u003cem\u003eColeosporium\u003c/em\u003e (Pucciniales) reveal that the North American goldenrod rust \u003cem\u003eC. solidaginis\u003c/em\u003e is a neomycete on introduced and native \u003cem\u003eSolidago\u003c/em\u003e species in Europe",
+        "hash": "UZk23yEYm2vg",
+        "address": "https://www.repository.cam.ac.uk/handle/1810/317118",
+        "title": "Wheat rust epidemics damage Ethiopian wheat production: A decade of field disease surveillance reveals national-scale trends in past outbreaks",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
-            "textWords": 326
+            "textWords": 340
           }
         }
       },
@@ -531,11 +603,11 @@
         "hash": "-Dzobccwnv3w",
         "address": "https://rust-lang.github.io/mdBook/guide/installation.html",
         "title": "Installation - mdBook Documentation",
-        "snippet": "",
+        "snippet": "Rust\nTo build the mdbook executable from source, you will first need to install Rust and Cargo. Follow the instructions on the Rust installation page. mdBook currently requires at least Rust version 1.88.\nOnce you have installed Rust, the following command can be used to build and install mdBook:",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 5,
-            "textWords": 384
+            "hits": 6,
+            "textWords": 332
           }
         }
       }
@@ -545,11 +617,11 @@
         "hash": "RPQES3B0B7w6",
         "address": "https://stackoverflow.blog/2020/06/05/why-the-developers-who-use-rust-love-it-so-much/",
         "title": "Why the developers who use Rust love it so much - Stack Overflow",
-        "snippet": "Rust love it so much - Stack Overflow\nBlog\nLoading…\nEverything\nThe Heap\nProductivity\nAI/ML\nOpen Source\nBusiness Hub\nCompany\nReleases\nPodcast\nNewsletter\nStack Overflow Business\nStack Internal: the knowledge intelligence layer that powers enterprise AI.\nStack Data Licensing: decades of verified,",
+        "snippet": "Rust is the number one most loved language among the 65,000 programmers who participated. Rust has taken the number one spot since 2016, showing that it’s got something that the developers who use it love. 86.1% of those survey respondents who said they currently use Rust want to continue using it",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 134,
-            "textWords": 4521
+            "hits": 130,
+            "textWords": 4264
           }
         }
       },
@@ -569,11 +641,11 @@
         "hash": "YyXMZYaFOBeg",
         "address": "https://www.cmjornal.pt/vidas/ultimas/detalhe/fbi-diz-que-alec-baldwin-disparou-arma-que-matou-colega-durante-gravacao-de-rust-vidas",
         "title": "FBI diz que Alec Baldwin disparou arma que matou colega durante gravação de 'Rust' - Últimas - Correio da Manhã",
-        "snippet": "",
+        "snippet": "‘Rust’. A afirmação é do gabinete de comunicação do FBI e desmente o ator de 64 anos que, na altura do incidente, garantiu não ter premido o gatilho. As perícias, porém, dizem o contrário.\nSegundo as autoridades norte-americanas, a arma usada no plateau não podia ter disparado sozinha, de forma",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 3,
-            "textWords": 2586
+            "hits": 1,
+            "textWords": 1304
           }
         }
       },
@@ -626,6 +698,18 @@
         }
       },
       {
+        "hash": "95nZUauhndQx",
+        "address": "https://pkgs.alpinelinux.org/package/edge/community/x86_64/gst-plugins-rs-json",
+        "title": "gst-plugins-rs-json - Alpine Linux packages",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 1,
+            "textWords": 286
+          }
+        }
+      },
+      {
         "hash": "YWxGODqv9N7E",
         "address": "http://sedici.unlp.edu.ar/handle/10915/168852",
         "title": "La calidad industrial del lino oleaginoso cultivado repetidamente sobre un suelo de La Plata",
@@ -648,45 +732,9 @@
             "textWords": 67
           }
         }
-      },
-      {
-        "hash": "EUnenDoXncf5",
-        "address": "https://android.googlesource.com/platform/external/",
-        "title": "platform/external/ - Git at Google",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 224,
-            "textWords": 9990
-          }
-        }
       }
     ],
     [
-      {
-        "hash": "pE0bEngko1nx",
-        "address": "https://users.rust-lang.org/u/nasa42",
-        "title": "Profile - nasa42 - The Rust Programming Language Forum",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 2,
-            "textWords": 64
-          }
-        }
-      },
-      {
-        "hash": "y_bJAnKObb4y",
-        "address": "https://blog.sebastianwick.net/posts/three-little-rust-crates/",
-        "title": "Three Little Rust Crates - swick's blog",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 9,
-            "textWords": 990
-          }
-        }
-      },
       {
         "hash": "vsGE397JARt4",
         "address": "https://www.infoq.com/presentations/rust-polyglot-sdk/?topicPageSponsorship=33b2362b-79e8-4a5f-a47a-e00fa89099c5",
@@ -703,11 +751,11 @@
         "hash": "6ytcEoDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/core/intrinsics/fallback/trait.CarrylessMul.html",
         "title": "CarrylessMul in core::intrinsics::fallback - Rust",
-        "snippet": "",
+        "snippet": "Rust, dyn compatibility was called \"object safety\".",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
-            "textWords": 250
+            "textWords": 75
           }
         }
       },
@@ -727,11 +775,23 @@
         "hash": "eyoTmUemigYg",
         "address": "https://www.flixbus.de/busverbindung/fernbus-europa-park-rust-karlsruhe",
         "title": "Bus Rust (Europa-Park) nach Karlsruhe - Günstig Tickets buchen",
-        "snippet": "Rust (Europa-Park) nach Karlsruhe - Günstig Tickets buchen\nZum Seiteninhalt springen\nPlane Deine Reise\nAlle Verbindungen\nFahrpläne/Haltestellen\nEntdecke \u0026 lebe mehr\nReise-Extras\nService\nAlle Services\nIm Bus\nSicherheit\nUmwelt\nKundenzufriedenheit\nBuchung verwalten\nFahrt verfolgen\nHilfe\nPlane Deine",
+        "snippet": "Rust (Europa-Park)\nKarlsruhe\nBushaltestellen in Rust (Europa-Park)\nBitte beachte, dass Dein Ticket die aktuellste Adressinformation enthält.\nOptimaler Service an Bord\nVerfügbare Optionen, für eine komfortablere Fahrt:\nKostenloses WLAN\nBleib während Deiner Reise in Verbindung\nSteckdosen\nLade Deine",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 55,
-            "textWords": 2536
+            "hits": 28,
+            "textWords": 918
+          }
+        }
+      },
+      {
+        "hash": "pE0bEngko1nx",
+        "address": "https://users.rust-lang.org/u/nasa42",
+        "title": "Profile - nasa42 - The Rust Programming Language Forum",
+        "snippet": "Home\nCategories\nGuidelines\nTerms of Service\nPowered by Discourse, best viewed with JavaScript enabled",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 0,
+            "textWords": 14
           }
         }
       },
@@ -772,6 +832,18 @@
         }
       },
       {
+        "hash": "y_bJAnKObb4y",
+        "address": "https://blog.sebastianwick.net/posts/three-little-rust-crates/",
+        "title": "Three Little Rust Crates - swick's blog",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 9,
+            "textWords": 990
+          }
+        }
+      },
+      {
         "hash": "EuFO5BrSd3W5",
         "address": "https://steveklabnik.com/writing/using-buck-to-build-rust-projects/",
         "title": "Using buck to build Rust projects",
@@ -789,11 +861,11 @@
         "hash": "_4-AysS6MKD4",
         "address": "https://github.com/rust-lang",
         "title": "The Rust Programming Language · GitHub",
-        "snippet": "Rust Programming Language · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nrust-lang\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER WORKFLOWS\nActionsAutomate any",
+        "snippet": "Rust\nShell\nTcl\nTypeScript\nVim Script\nSort\nSelect order\nLast updated\nName\nStars\nShowing 10 of 246 repositories\nrust-lang/crates.io-index's past year of commit activity\nrust Public\nEmpowering everyone to build reliable and efficient software.\nrust-lang/rust's past year of commit activity\ncargo Public",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 46,
-            "textWords": 763
+            "hits": 20,
+            "textWords": 204
           }
         }
       },
@@ -801,11 +873,11 @@
         "hash": "GAis8PMW35a4",
         "address": "https://hub.docker.com/_/rust",
         "title": "rust - Official Image | Docker Hub",
-        "snippet": "rust - Official Image | Docker Hub\nSearch Docker Hub\nK\nHelp\nSystem theme\nDocker Suite\nGo back\nHelp\nSystem theme\nDocker Suite\nSign inSign up\nExplore\n/\nOfficial Images\n/\nrust\nrust\nDocker Official Image\n•\n100M+\n•\n1.1K\nRust is a systems programming language focused on safety, speed, and concurrency.",
+        "snippet": "Rust Project developers⁠\nWhere to get help:\nthe Docker Community Slack⁠, Server Fault⁠, Unix \u0026 Linux⁠, or Stack Overflow⁠\n⁠Supported tags and respective Dockerfile links\n1-bookworm, 1.98-bookworm, 1.98.1-bookworm, bookworm⁠\n1-slim-bookworm, 1.98-slim-bookworm, 1.98.1-slim-bookworm, slim-bookworm⁠",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 34,
-            "textWords": 1251
+            "hits": 27,
+            "textWords": 1069
           }
         }
       },
@@ -813,11 +885,11 @@
         "hash": "mySMXGxDgBk4",
         "address": "https://www.almanac.com/content/rust",
         "title": "Rust: How to Identify, Control, and Prevent Garden Diseases | The Old Farmer's Almanac",
-        "snippet": "Rust: How to Identify, Control, and Prevent Garden Diseases | The Old Farmer's Almanac\nRemembering Jud Hale’s Legacy\nToggle navigation\nWeather\nWeather Forecast\nLong-Range Weather\nFall 2026 Weather Outlook\nWinter 2026–2027 Predictions\nWeather History\nGardening\nExplore Gardening\nGrowing Guides\nPests",
+        "snippet": "rust disease infiltrates these spinach leaves.\nImage Credit:\nRust photo by Howard F. Schwartz via Wikimedia Commons\nWhat is rust plant disease? This fungal disease looks like you have rust on your plants and affects a wide range of woody and herbaceous flowers and vegetables. Even though it rarely",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 37,
-            "textWords": 1553
+            "hits": 21,
+            "textWords": 446
           }
         }
       },
@@ -825,11 +897,23 @@
         "hash": "ijpxLwSMo4M4",
         "address": "https://www.zdnet.com/article/greg-kroah-hartman-linux-kernel-rust/",
         "title": "'Rust makes coding fun again': Why Linux is moving away from C, according to Greg Kroah-Hartman | ZDNET",
-        "snippet": "'Rust makes coding fun again': Why Linux is moving away from C, according to Greg Kroah-Hartman - ZDNET\nSkip to content\nTomorrow\nbelongs to those who embrace it\ntoday\nAdd as a preferred source on Google\nJoin / Log In\nLog Out\nOpen\nClose\nTomorrow\nbelongs to those who embrace it\ntoday\nLatest\nTech\nBest",
+        "snippet": "Rust experiment is over. It’s real.”\nScreenshot by Elyse Betters Picaro / ZDNET\nFollow ZDNET: Add us as a preferred source on Google.\nZDNET’s key takeaways\nIn the future, some Linux subsystems will only be written in Rust.\nRust is much safer than C, but it’s no silver bullet for bad logic.\nThe",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 44,
-            "textWords": 2056
+            "hits": 41,
+            "textWords": 1270
+          }
+        }
+      },
+      {
+        "hash": "xosIgsS6MKD4",
+        "address": "https://github.com/rust-windowing",
+        "title": "Rust Windowing · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 26,
+            "textWords": 925
           }
         }
       },
@@ -870,18 +954,6 @@
         }
       },
       {
-        "hash": "_skMXvDOAHJg",
-        "address": "https://www.heise.de/news/Rust-bis-zu-2500-Projekte-durch-Bibliothek-Hyper-fuer-DoS-verwundbar-7451019.html?wt_mc=rss.red.ho.autor.philipp%20steevens.beitrag.beitrag",
-        "title": "Rust: bis zu 2500 Projekte durch Bibliothek Hyper für DoS verwundbar",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 38
-          }
-        }
-      },
-      {
         "hash": "hH-jxvOSpvvg",
         "address": "https://nluug.nl/tags/rust/",
         "title": "Rust | NLUUG",
@@ -911,11 +983,11 @@
         "hash": "uZZMYjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Outline_of_the_Rust_programming_language",
         "title": "Outline of the Rust programming language - Wikipedia",
-        "snippet": "Rust programming language - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance",
+        "snippet": "Rust:\nRust is a multi-paradigm programming language emphasizing performance, memory safety, and concurrency. Rust was initially developed by Graydon Hoare starting in 2006, later sponsored and maintained by Mozilla Research starting in 2009, and first publicly released in 2010, with version 1.0",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 135,
-            "textWords": 1773
+            "hits": 100,
+            "textWords": 1122
           }
         }
       },
@@ -959,11 +1031,11 @@
         "hash": "f0zFwtDnLmqx",
         "address": "https://thanks.rust-lang.org/rust/0.6.0/",
         "title": "Rust 0.6.0 Contributors",
-        "snippet": "",
+        "snippet": "Back to all releases\nWe have had 81 individuals contribute to 0.6.0. Thank you so much!\nRank\nName\nContributions\n1\nbors\n400\n2\nTim Chevalier\n374\n3\nPatrick Walton\n334\n4\nBrian Anderson\n269\n5\nDaniel Micay\n242\n6\nErick Tryzelaar\n172\n7\nGraydon Hoare\n142\n8\nNiko Matsakis\n108\n9\nLuqman Aden\n87\n10\nJed Davis\n85",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 4,
-            "textWords": 578
+            "hits": 0,
+            "textWords": 275
           }
         }
       },
@@ -1004,18 +1076,6 @@
         }
       },
       {
-        "hash": "ndWerp6LpDbE",
-        "address": "http://www.alice.cnptia.embrapa.br/alice/handle/doc/458150",
-        "title": "New genes conferring resistance to Asian soybean rust: allelic testing for the Rpp2 and Rpp4 loci.",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 247
-          }
-        }
-      },
-      {
         "hash": "n1aUcsIcEOGi",
         "address": "https://openrepository.ru/article?id=111966",
         "title": "Модуль контролируемого выполнения программ на языке Rust : выпускная бакалаврская работа по направлению подготовки: 01.03.02 - Прикладная математика и информатика",
@@ -1026,6 +1086,18 @@
             "textWords": 29
           }
         }
+      },
+      {
+        "hash": "lAfl_p6LpDbE",
+        "address": "http://www.alice.cnptia.embrapa.br/alice/handle/doc/1082676",
+        "title": "Differential expression of molecular rust resistance components have distinctive profiles in Coffea arabica - Hemileia vastatrix interactions.",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 1,
+            "textWords": 266
+          }
+        }
       }
     ],
     [
@@ -1033,11 +1105,11 @@
         "hash": "t4m26nRiTAZ5",
         "address": "https://securelist.com/convuster-macos-adware-in-rust/101258/",
         "title": "Convuster: macOS adware now in Rust | Securelist",
-        "snippet": "Rust | Securelist\nSolutions for:\nHome Products\nSmall Business 1-50 employees\nMedium Business 51-999 employees\nEnterprise 1000+ employees\nby Kaspersky\nCompanyAccount\nGet In Touch\nDark mode off\nEnglishRussian\nSpanish\nBrazil\nSolutions\nInternet of Things \u0026 Embedded SecurityLearn More\nIndustrial",
+        "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 15,
-            "textWords": 2053
+            "hits": 13,
+            "textWords": 3058
           }
         }
       },
@@ -1054,18 +1126,6 @@
         }
       },
       {
-        "hash": "_oj7XH9JmPwy",
-        "address": "https://newmusicnorth.org/article/rory-mcilroy-struggles-with-rust-in-st-jude-championship-opener-fedex-cup-playoffs",
-        "title": "Rory McIlroy Struggles with Rust in St Jude Championship Opener | FedEx Cup Playoffs (2026)",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 5,
-            "textWords": 2252
-          }
-        }
-      },
-      {
         "hash": "1d08igThXEF4",
         "address": "https://source.android.com/docs/setup/build/rust/building-rust-modules/rust-ide-setup",
         "title": "Rust IDE setup | Android Open Source Project",
@@ -1074,6 +1134,18 @@
           "coEuMIc0Vdzu": {
             "hits": 13,
             "textWords": 1008
+          }
+        }
+      },
+      {
+        "hash": "_oj7XH9JmPwy",
+        "address": "https://newmusicnorth.org/article/rory-mcilroy-struggles-with-rust-in-st-jude-championship-opener-fedex-cup-playoffs",
+        "title": "Rory McIlroy Struggles with Rust in St Jude Championship Opener | FedEx Cup Playoffs (2026)",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 5,
+            "textWords": 2252
           }
         }
       },
@@ -1102,18 +1174,6 @@
         }
       },
       {
-        "hash": "pmMjcC7NCNPA",
-        "address": "http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-567498",
-        "title": "An Analysis of Malware Written in the Rust Programming Language",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 142
-          }
-        }
-      },
-      {
         "hash": "rePkKkdhihHg",
         "address": "https://www.dora.lib4ri.ch/wsl/item/wsl:12769",
         "title": "\u003cI\u003eAustropuccinia\u003c/I\u003e: a new genus name for the myrtle rust \u003cI\u003ePuccinia psidii\u003c/I\u003e placed within the redefined family Sphaerophragmiaceae (Pucciniales)",
@@ -1122,6 +1182,18 @@
           "coEuMIc0Vdzu": {
             "hits": 1,
             "textWords": 141
+          }
+        }
+      },
+      {
+        "hash": "pmMjcC7NCNPA",
+        "address": "http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-567498",
+        "title": "An Analysis of Malware Written in the Rust Programming Language",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 1,
+            "textWords": 142
           }
         }
       },
@@ -1155,11 +1227,11 @@
         "hash": "h56pKuoXncf5",
         "address": "https://android.googlesource.com/kernel/common/+/1e46082d50526018849300b6c704e475af9271ca/drivers/android/binder/rust_binder.h",
         "title": "drivers/android/binder/rust_binder.h - kernel/common - Git at Google",
-        "snippet": "drivers/android/binder/rust_binder.h - kernel/common - Git at Google\nSign in ◑Theme\nandroid/kernel/common/1e46082d50526018849300b6c704e475af9271ca/./drivers/android/binder/rust_binder.h\nblob: 742cf348bddd91ce1e0636691eadd791640bdc3d [file]\n/* SPDX-License-Identifier: GPL-2.0 */\n#ifndef",
+        "snippet": "_LINUX_RUST_BINDER_H\n#define _LINUX_RUST_BINDER_H\n#include \u003cuapi/linux/android/binder.h\u003e\n#include \u003cuapi/linux/android/binderfs.h\u003e\n/*\n* These symbols are exposed by `rust_binderfs.c` and exist here so that Rust\n* Binder can call them.\n*/\nint init_rust_binderfs(void);\nstruct dentry;\nstruct inode;",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 59,
-            "textWords": 458
+            "hits": 57,
+            "textWords": 430
           }
         }
       },
@@ -1167,11 +1239,11 @@
         "hash": "zi5zZgsjOPf5",
         "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/upstream/automation/bors/try-merge",
         "title": "refs/heads/upstream/automation/bors/try-merge - third_party/github.com/rust-lang/rust - Git at Google",
-        "snippet": "third_party/github.com/rust-lang/rust - Git at Google\nSign in ◑Theme\nfuchsia/third_party/github.com/rust-lang/rust/refs/heads/upstream/automation/bors/try-merge\ncommit\n87be6dcf662bc67bcf936bc27f9340e85b34fe4c\n[log]\nauthor\nrust-bors[bot] \u003c122020455+rust-bors[bot]@users.noreply.github.com\u003e\nFri Sep 11",
+        "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 16,
-            "textWords": 394
+            "hits": 9,
+            "textWords": 479
           }
         }
       },
@@ -1191,11 +1263,11 @@
         "hash": "h3BilJrWJ2B5",
         "address": "https://siliconislandblog.wordpress.com/2024/07/25/booting-with-rust-chapter-1/",
         "title": "Booting with Rust: Chapter 1 – Silicon Island",
-        "snippet": "Rust: Chapter 1 – Silicon Island\nSkip to content\nSilicon Island\nMy ramdon thoughts about Free Software, GNOME, and life in general.\nSearch for:\nRecent Posts\nBooting with Rust: Chapter 3\nBooting with Rust: Chapter 2\nBooting with Rust: Chapter 1\nDilemma’s in Rust Land: porting a GNOME library to Rust",
+        "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 22,
-            "textWords": 1163
+            "textWords": 1407
           }
         }
       },
@@ -1224,14 +1296,26 @@
         }
       },
       {
-        "hash": "sAniOp6LpDbE",
-        "address": "http://www.alice.cnptia.embrapa.br/alice/handle/doc/1115085",
-        "title": "Transcriptome analysis in the wheat cultivar Toropi in response to infection with Puccinia triticina, the causal pathogen on leaf rust.",
+        "hash": "myOT1G6PjJC5",
+        "address": "https://biocstaging.r-universe.dev/articles/cellchatr/cellchatr-workflow.html",
+        "title": "cellchatr: Fast CellChat Database Querying with Rust - cellchatr",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 2,
+            "textWords": 148
+          }
+        }
+      },
+      {
+        "hash": "spngop6LpDbE",
+        "address": "http://www.alice.cnptia.embrapa.br/alice/handle/doc/1129222",
+        "title": "A new standard area diagram set for assessment of severity of soybean rust improves accuracy of estimates and optimizes resource use.",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
-            "textWords": 45
+            "textWords": 36
           }
         }
       },
@@ -1248,26 +1332,14 @@
         }
       },
       {
-        "hash": "myOT1G6PjJC5",
-        "address": "https://biocstaging.r-universe.dev/articles/cellchatr/cellchatr-workflow.html",
-        "title": "cellchatr: Fast CellChat Database Querying with Rust - cellchatr",
+        "hash": "vu6aXkdhihHg",
+        "address": "https://www.dora.lib4ri.ch/wsl/item/wsl:14197",
+        "title": "Redetermination of host plants reveals that the rust fungi \u003cem\u003eAecidium annonae\u003c/em\u003e, \u003cem\u003eAecidium chrysophaeum\u003c/em\u003e and \u003cem\u003eCerotelium xylopiae\u003c/em\u003e occur on \u003cem\u003eDiospyros\u003c/em\u003e species (Ebenaceae) instead of Annonaceae",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 2,
-            "textWords": 148
-          }
-        }
-      },
-      {
-        "hash": "xWI_9uoXncf5",
-        "address": "https://android.googlesource.com/kernel/common/+/1e46082d50526018849300b6c704e475af9271ca/rust/bindings/bindings_helper.h",
-        "title": "rust/bindings/bindings_helper.h - kernel/common - Git at Google",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 20,
-            "textWords": 336
+            "hits": 1,
+            "textWords": 202
           }
         }
       }
@@ -1277,35 +1349,11 @@
         "hash": "_mM5PdLtsUGy",
         "address": "https://rustfoundation.org/media/rust-foundation-new-member-announcement-trace-machina-veecle/",
         "title": "Rust Foundation New Member Announcement: Trace Machina \u0026 Veecle - The Rust Foundation",
-        "snippet": "Rust Foundation New Member Announcement: Trace Machina \u0026 Veecle - The Rust Foundation\nBy visiting our site, you agree to our privacy policy regarding cookies, tracking statistics, etc. Under GDPR, necessary cookies are exempt from consent as they are essential for a site to function. We’d like to",
+        "snippet": "Rust Foundation, an independent, nonprofit organization dedicated to advancing the performance, safety, and sustainability of the Rust programming language, is pleased to welcome two new member organizations at the Silver level. Rust Foundation members play an active role in the organization’s",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 51,
-            "textWords": 746
-          }
-        }
-      },
-      {
-        "hash": "16ysrngko1nx",
-        "address": "https://users.rust-lang.org/u/notriddle",
-        "title": "Profile - notriddle - The Rust Programming Language Forum",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 2,
-            "textWords": 62
-          }
-        }
-      },
-      {
-        "hash": "6G9E75ZsktBi",
-        "address": "https://www.stellenanzeigen.de/gehalt-vergleich/rust/",
-        "title": "Rust Gehalt 2026 | stellenanzeigen.de",
-        "snippet": "Rust Gehalt 2026 | stellenanzeigen.de\nFirmen von A-ZKarriere-MagazinTools \u0026 Rechner\nFür Arbeitgeber\nWas?\nWo?\nJob schnappen\nStartseiteGehaltsvergleichRust\nRust Gehalt in Deutschland\nIm Bereich Rust in Deutschland kannst du ein durchschnittliches Gehalt von 60000 Euro pro Jahr verdienen. Das",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 11,
-            "textWords": 435
+            "hits": 29,
+            "textWords": 421
           }
         }
       },
@@ -1313,11 +1361,23 @@
         "hash": "noC4YwHvMhvw",
         "address": "https://firefox-source-docs.mozilla.org/rust-components/index.html",
         "title": "Rust Components — Firefox Source Docs documentation",
-        "snippet": "Rust Components — Firefox Source Docs documentation\nFirefox Source Docs\nQuick search\nOverview\nA Glossary of Common Terms\nA Quick Guide to Mozilla Applications\nGetting Started\nGetting Set Up To Work On The Firefox Codebase\nWorking On Firefox\nWorking on Firefox\nBug Handling\nFirefox Crash Reporting",
+        "snippet": "Rust.\nTopic Guides Merino\nRelevancy\nRemote Settings Client\nSuggest\nViaduct\nAPI References\nDeveloping Rust Components The Example Shared Rust Component\nGenerating Javascript bindings with UniFFI\nLogging\nRust Component Observability\nThreading\nOther desktop-specific concerns\nuniffi-bindgen-gecko-js",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 12,
-            "textWords": 447
+            "hits": 5,
+            "textWords": 77
+          }
+        }
+      },
+      {
+        "hash": "jCE6Yngko1nx",
+        "address": "https://users.rust-lang.org/u/pzometa",
+        "title": "Profile - pzometa - The Rust Programming Language Forum",
+        "snippet": "Home\nCategories\nGuidelines\nTerms of Service\nPowered by Discourse, best viewed with JavaScript enabled",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 0,
+            "textWords": 14
           }
         }
       },
@@ -1358,6 +1418,18 @@
         }
       },
       {
+        "hash": "6G9E75ZsktBi",
+        "address": "https://www.stellenanzeigen.de/gehalt-vergleich/rust/",
+        "title": "Rust Gehalt 2026 | stellenanzeigen.de",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 12,
+            "textWords": 675
+          }
+        }
+      },
+      {
         "hash": "w2vzqWVFEEow",
         "address": "https://guix.gnu.org/cookbook/en/html_node/Common-Workflow-for-Rust-Packaging.html",
         "title": "Common Workflow for Rust Packaging (GNU Guix Cookbook)",
@@ -1373,11 +1445,11 @@
         "hash": "_RH4ooDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/core/ptr/fn.read_unaligned.html",
         "title": "read_unaligned in core::ptr - Rust",
-        "snippet": "",
+        "snippet": "Function read_\nunaligned\n1.17.0 (const: 1.71.0) · Source\npub const unsafe fn read_unaligned\u003cT\u003e(src: *const T) -\u003e T\nExpand description\nReads the value from src without moving it. This leaves the memory in src unchanged.\nUnlike read, read_unaligned works with unaligned pointers.\n§Safety\nBehavior is",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 397
+            "hits": 0,
+            "textWords": 296
           }
         }
       },
@@ -1385,16 +1457,28 @@
         "hash": "zzSZQtDnLmqx",
         "address": "https://thanks.rust-lang.org/rust/1.24.0/",
         "title": "Rust 1.24.0 Contributors",
-        "snippet": "",
+        "snippet": "We have had 220 individuals contribute to 1.24.0. Thank you so much!\nRank Name Contributions 1 Oliver Scherer 757 2 Scott Olson 533 3 bors 350 4 Ralf Jung 272 5 Niko Matsakis 213 6 Alex Crichton 163 7 Seiichi Uchida 161 8 Nick Cameron 129 9 Ariel Ben-Yehuda 113 10 Eduard-Mihai Burtescu 82 10",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 4,
-            "textWords": 1443
+            "hits": 0,
+            "textWords": 706
           }
         }
       }
     ],
     [
+      {
+        "hash": "1wcWosl-2L06",
+        "address": "https://maggieappleton.com/wtf-rust",
+        "title": "What the Fork is Rust?",
+        "snippet": "Rust programming language keeps winning the middle-school popularity contest of the developer world: “most loved” on Stack Overflow surveys.\nSo, what’s this Rust thing and why is everyone enamoured?\nLet’s explore…\nThis happy balance Rust manages to strike – between speed, control over memory, and",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 9,
+            "textWords": 284
+          }
+        }
+      },
       {
         "hash": "23SBvCS6MKD4",
         "address": "https://github.com/meilisearch/meilisearch-rust",
@@ -1408,26 +1492,14 @@
         }
       },
       {
-        "hash": "1wcWosl-2L06",
-        "address": "https://maggieappleton.com/wtf-rust",
-        "title": "What the Fork is Rust?",
-        "snippet": "Rust?\nHome\nThe Garden\nEssays\nOpinionated, long-form narrative writing with an agenda\nNotes\nLoose notes on things I don't entirely understand yet\nPatterns\nA catalogue of design patterns gathered from observation and research\nSmidgeons\nInteresting links, papers, and tiny thoughts\nTalks\nConference",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 12,
-            "textWords": 467
-          }
-        }
-      },
-      {
         "hash": "0INJAoBXHPax",
         "address": "https://blog.rust-lang.org/inside-rust/2024/08/09/async-closures-call-for-testing/",
         "title": "Async Closures MVP: Call for Testing! | Inside Rust Blog",
-        "snippet": "Rust Blog\nInside Rust Blog\nRust\nInstall\nLearn\nTools\nGovernance\nCommunity\n🖌 Light\nDark\nSystem\nAsync Closures MVP: Call for Testing!\nAug. 9, 2024 · Michael Goulet on behalf of The Async Working Group\nThe async working group is excited to announce that RFC 3668 \"Async Closures\" was recently approved",
+        "snippet": "Rust.\nThe backstory\nAsync closures were originally proposed in RFC 2394 which introduced async/await to the language. Simple handling of async closures has existed in nightly since async-await was implemented soon thereafter, but until recently async closures simply desugared into closures that",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 9,
-            "textWords": 1024
+            "hits": 3,
+            "textWords": 946
           }
         }
       },
@@ -1435,11 +1507,11 @@
         "hash": "3Hk7xDDZNRCx",
         "address": "https://doc.rust-lang.org/reference/procedural-macros.html",
         "title": "Procedural macros - The Rust Reference",
-        "snippet": "",
+        "snippet": "Rust syntax, both consuming and producing Rust syntax. You can sort of think of procedural macros as functions from an AST to another AST.\nProcedural macros must be defined in the root of a crate with the crate type of proc-macro. The macros may not be used from the crate where they are defined,",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 10,
-            "textWords": 2338
+            "hits": 7,
+            "textWords": 2076
           }
         }
       },
@@ -1456,26 +1528,14 @@
         }
       },
       {
-        "hash": "3pzIZsCRdREw",
-        "address": "https://jvns.ca/post/",
-        "title": "Posts",
+        "hash": "17_oyszuCOK5",
+        "address": "https://opensustain.tech/",
+        "title": "Open Sustainable Technology",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 15,
-            "textWords": 5586
-          }
-        }
-      },
-      {
-        "hash": "3Sy5RDoXncf5",
-        "address": "https://android.googlesource.com/platform/external/rust/crates/downcast-rs/",
-        "title": "platform/external/rust/crates/downcast-rs - Git at Google",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 24,
-            "textWords": 875
+            "hits": 5,
+            "textWords": 53984
           }
         }
       },
@@ -1492,6 +1552,18 @@
         }
       },
       {
+        "hash": "38dqO7jYvV7Y",
+        "address": "http://akdart.com/lib12.html",
+        "title": "Nancy Pelosi — Former Speaker of the House",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 1,
+            "textWords": 56752
+          }
+        }
+      },
+      {
         "hash": "1u_StsR6YD45",
         "address": "https://rtfeldman.com/rust-to-zig",
         "title": "How Our Rust-to-Zig Rewrite is Going",
@@ -1504,28 +1576,28 @@
         }
       },
       {
-        "hash": "17_oyszuCOK5",
-        "address": "https://opensustain.tech/",
-        "title": "Open Sustainable Technology",
+        "hash": "3Sy5RDoXncf5",
+        "address": "https://android.googlesource.com/platform/external/rust/crates/downcast-rs/",
+        "title": "platform/external/rust/crates/downcast-rs - Git at Google",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 5,
-            "textWords": 53984
+            "hits": 24,
+            "textWords": 875
           }
         }
       }
     ],
     [
       {
-        "hash": "78Q0FhQPJVh5",
-        "address": "https://deepsource.com/directory/rust/issues/RS-W1210",
-        "title": "Found manual implementation of `find_map` (RS-W1210) ・ Rust",
+        "hash": "9HWM0hQPJVh5",
+        "address": "https://deepsource.com/directory/rust/issues/RS-W1215",
+        "title": "Found manual implementation of `cycle` (RS-W1215) ・ Rust",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 3,
-            "textWords": 2326
+            "textWords": 2347
           }
         }
       },
@@ -1545,11 +1617,11 @@
         "hash": "vSeMBs-UOu6x",
         "address": "https://thenewstack.io/combining-rust-and-python-for-high-performance-ai-systems/",
         "title": "Combining Rust and Python for High-Performance AI Systems - The New Stack",
-        "snippet": "",
+        "snippet": "Rust. On the other side of the spectrum is Rust: a systems programming language that delivers C++-level performance, memory safety without garbage collection and modern developer ergonomics. Rust is designed to handle high-performance, concurrent workloads — exactly the kind of workloads AI",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 81,
-            "textWords": 7005
+            "hits": 74,
+            "textWords": 1658
           }
         }
       },
@@ -1581,11 +1653,11 @@
         "hash": "9ZngG5Di1byx",
         "address": "https://rust-lang.org/governance/people/djc/",
         "title": "Dirkjan Ochtman - Rust Programming Language",
-        "snippet": "",
+        "snippet": "Rust Team. See a bug? File an issue!\nWeb site built every day at 22:00 UTC",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 4,
-            "textWords": 205
+            "hits": 1,
+            "textWords": 19
           }
         }
       },
@@ -1643,11 +1715,11 @@
         "hash": "_4-AysS6MKD4",
         "address": "https://github.com/rust-lang",
         "title": "The Rust Programming Language · GitHub",
-        "snippet": "Rust Programming Language · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nrust-lang\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER WORKFLOWS\nActionsAutomate any",
+        "snippet": "Rust\nShell\nTcl\nTypeScript\nVim Script\nSort\nSelect order\nLast updated\nName\nStars\nShowing 10 of 246 repositories\nrust-lang/crates.io-index's past year of commit activity\nrust Public\nEmpowering everyone to build reliable and efficient software.\nrust-lang/rust's past year of commit activity\ncargo Public",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 46,
-            "textWords": 763
+            "hits": 20,
+            "textWords": 204
           }
         }
       },
@@ -1655,11 +1727,11 @@
         "hash": "z3IhaZZ5FD3x",
         "address": "https://bugs.launchpad.net/ubuntu/+source/rust-defaults/+bug/2143149",
         "title": "Bug #2143149 “[FFE] Upgrade Rust to 1.92.0” : Bugs : rust-defaults package : Ubuntu",
-        "snippet": "Rust to 1.92.0” : Bugs : rust-defaults package : Ubuntu\nLog in / Register\nUbuntu\nrust-defaults package\nOverview\nCode\nBugs\nBlueprints\nTranslations\nAnswers\n[FFE] Upgrade Rust to 1.92.0\nBug #2143149 reported by Max Gilmour on 2026-03-03\n8\nThis bug affects 1 person\nAffects\nStatus\nImportance\nAssigned to",
+        "snippet": "rust-defaults in Ubuntu currently points to Rust 1.88.0. Debian\nunstable uses Rust 1.91.1 as its Rust version, meaning that certain\nUbuntu packages don't have sufficiently new Rust toolchains to build\nproperly. Pointing rust-defaults to 1.92.0 ensures that we will be able\nto build everything we",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 73,
-            "textWords": 1284
+            "hits": 47,
+            "textWords": 644
           }
         }
       },
@@ -1667,11 +1739,11 @@
         "hash": "98xWvgsjOPf5",
         "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/tags/1.95.0",
         "title": "refs/tags/1.95.0 - third_party/github.com/rust-lang/rust - Git at Google",
-        "snippet": "third_party/github.com/rust-lang/rust - Git at Google\nSign in ◑Theme\nfuchsia/third_party/github.com/rust-lang/rust/refs/tags/1.95.0\ntag\n60d4c03b1c63ee2d4046af32b9182b9600d28858\ntagger\nrust-lang/promote-release \u003crelease-team@rust-lang.org\u003e\nThu Apr 16 12:47:36 2026 +0000\nobject",
+        "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 20,
-            "textWords": 461
+            "hits": 10,
+            "textWords": 580
           }
         }
       },
@@ -1679,11 +1751,11 @@
         "hash": "KT8bUtV9oHh4",
         "address": "https://rust.utils.com/",
         "title": "Rust Shell - utils.com",
-        "snippet": "",
+        "snippet": "Rust Shell powered by the official Rust Shell API. Write and execute Rust code online.\nThis Rust Shell provides an interface to the official Rust Shell API at play.rust-lang.org. Write Rust code and execute it using the latest stable Rust compiler.\nYou can embed this util on your own site as a",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 19,
-            "textWords": 2857
+            "hits": 8,
+            "textWords": 87
           }
         }
       },
@@ -1715,427 +1787,136 @@
         "hash": "G1ejCoDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/std/ffi/index.html",
         "title": "std::ffi - Rust",
-        "snippet": "",
+        "snippet": "non-Rust interfaces, like other programming languages and the underlying operating system. It is mainly of use for FFI (Foreign Function Interface) bindings and code that needs to exchange C-like strings with other languages.\n§Overview\nRust represents owned strings with the String type, and",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 21,
-            "textWords": 1372
+            "hits": 22,
+            "textWords": 1256
           }
         }
       },
       {
-        "hash": "_tBv4p6LpDbE",
-        "address": "http://www.alice.cnptia.embrapa.br/alice/handle/doc/1161327",
-        "title": "Major proliferation of transposable elements shaped the genome of the soybean rust pathogen Phakopsora pachyrhizi.",
+        "hash": "857Kgp6LpDbE",
+        "address": "http://www.alice.cnptia.embrapa.br/alice/handle/doc/1097940",
+        "title": "Occurrence period, severity and management of powdery mildew and rust in Jatropha curcas.",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
-            "textWords": 32
+            "textWords": 30
           }
         }
       },
       {
-        "hash": "_UxM7oLNMZdg",
-        "address": "https://research-information.bris.ac.uk/en/publications/e6d48496-b69f-4e3f-802a-b35b0c074cfb",
-        "title": "Redox Dynamic Interactions of Arsenic(III) with Green Rust Sulfate in the Presence of Citrate",
+        "hash": "6-EXvyEYm2vg",
+        "address": "https://www.repository.cam.ac.uk/handle/1810/342709",
+        "title": "Irrigation can create new green bridges that promote rapid intercontinental spread of the wheat stem rust pathogen",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
-            "textWords": 245
+            "textWords": 359
           }
         }
       },
       {
-        "hash": "1L0JSgsjOPf5",
-        "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/relnotes-1.52.0",
-        "title": "refs/heads/relnotes-1.52.0 - third_party/github.com/rust-lang/rust - Git at Google",
+        "hash": "5WPbMC7NCNPA",
+        "address": "http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-197029",
+        "title": "Rust async for thread-per-core packet processing",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 27,
-            "textWords": 1429
+            "hits": 1,
+            "textWords": 267
           }
         }
       }
     ],
     [
       {
-        "hash": "Bi7Wzd-COV4w",
-        "address": "https://packages.altlinux.org/en/sisyphus/deps/rust/provide",
-        "title": "ALT Linux - sisyphus - Dependency - rust - provide",
+        "hash": "xr6iDzS6MKD4",
+        "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+        "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 3,
-            "textWords": 108
+            "hits": 43,
+            "textWords": 25449
           }
         }
       },
       {
-        "hash": "D6KE0UnwzCN4",
-        "address": "https://daily.dev/blog/set-up-rust-development-environment-step-by-step-guide",
-        "title": "Set Up Rust Development Environment: Quick Guide",
+        "hash": "JP2QayXjZ9O4",
+        "address": "https://docs.github.com/en/search-github/github-code-search/understanding-github-code-search-syntax",
+        "title": "Understanding GitHub Code Search syntax - GitHub Docs",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 23,
-            "textWords": 1702
+            "hits": 4,
+            "textWords": 2214
           }
         }
       },
       {
-        "hash": "C6oE6yFke-4y",
-        "address": "https://discuss.privacyguides.net/t/after-recent-kernel-drama-rust-for-linux-policy-put-in-place/24890",
-        "title": "After Recent Kernel Drama, Rust for Linux Policy Put in Place - News - Privacy Guides Community",
-        "snippet": "Rust for Linux Policy Put in Place - News - Privacy Guides Community\nPrivacy Guides Community\nAfter Recent Kernel Drama, Rust for Linux Policy Put in Place\nGeneral\nNews\narticle\nKevPham\n(Kevin Pham)\nFebruary 12, 2025, 4:45pm\n1\nIt's FOSS News – 11 Feb 25\nAfter Recent Kernel Drama, Rust for Linux",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 12,
-            "textWords": 457
-          }
-        }
-      },
-      {
-        "hash": "hiyiPaA4psi4",
-        "address": "https://www.theverge.com/2016/4/11/11408502/rust-random-female-avatars",
-        "title": "Online game Rust is randomly assigning genders to players | The Verge",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 9,
-            "textWords": 1821
-          }
-        }
-      },
-      {
-        "hash": "AFtwZeYDw19w",
-        "address": "https://crates.io/crates/select,select,https:/github.com/rust-unofficial/awesome-rust",
-        "title": "crates.io: Rust Package Registry",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 31
-          }
-        }
-      },
-      {
-        "hash": "L_rFNVa_7uS5",
-        "address": "https://www.theregister.com/2025/12/04/rust_core_library_partly_polished/",
-        "title": "Rust core library partly polished for industrial safety spec • The Register",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 12,
-            "textWords": 1963
-          }
-        }
-      },
-      {
-        "hash": "C8wD-eYDw19w",
-        "address": "https://crates.io/crates/exonum,exonum,https:/github.com/rust-unofficial/awesome-rust",
-        "title": "crates.io: Rust Package Registry",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 31
-          }
-        }
-      },
-      {
-        "hash": "DkjQ9QrLpcM4",
-        "address": "https://dev.azure.com/graphql-rust/GraphQL%20Rust/_build/latest?definitionId=1,,https://github.com/rust-unofficial/awesome-rust",
-        "title": "Pipelines",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 33
-          }
-        }
-      },
-      {
-        "hash": "ChzL5n5C2NH5",
-        "address": "https://app.travis-ci.com/github/ivanceras/titik,,https:/github.com/rust-unofficial/awesome-rust",
-        "title": "Travis CI",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 100
-          }
-        }
-      },
-      {
-        "hash": "YM9PjlUmTVG5",
-        "address": "https://www.accuweather.com/en/weather-news/why-this-iranian-island-looks-like-mars-after-it-rains/1845005",
-        "title": "Why this Iranian island looks like Mars after it rains",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 962
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "Hi39MwSMo4M4",
-        "address": "https://www.zdnet.com/article/rust-turns-10-how-a-broken-elevator-changed-software-forever/",
-        "title": "Rust turns 10: How a broken elevator changed software forever | ZDNET",
-        "snippet": "Rust turns 10: How a broken elevator changed software forever - ZDNET\nSkip to content\nTomorrow\nbelongs to those who embrace it\ntoday\nAdd as a preferred source on Google\nJoin / Log In\nLog Out\nOpen\nClose\nTomorrow\nbelongs to those who embrace it\ntoday\nLatest\nTech\nBest Products\nBusiness\nComparisons",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 40,
-            "textWords": 1908
-          }
-        }
-      },
-      {
-        "hash": "FL2phvorKaR4",
-        "address": "https://www.nfl.com/news/jordan-love-packers-not-concerned-rust-wild-card-weekend-bears",
-        "title": "Jordan Love, Packers not concerned about rust entering Wild Card Weekend game vs. Bears | Latest NFL News, Analysis \u0026 Updates | NFL.com",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 5,
-            "textWords": 3384
-          }
-        }
-      },
-      {
-        "hash": "EJQL5vDOAHJg",
-        "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html?wt_mc=rss.red.ho.beitrag.atom.beitrag.beitrag",
-        "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
-        "snippet": "Rust: Native GPU-Kernel in Rust schreiben | heise online\nheise+ entdecken\nSuchen\nAbo\nSuchen\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise+\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop\nheise jobs\nheise",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 21,
-            "textWords": 1013
-          }
-        }
-      },
-      {
-        "hash": "t4m26nRiTAZ5",
-        "address": "https://securelist.com/convuster-macos-adware-in-rust/101258/",
-        "title": "Convuster: macOS adware now in Rust | Securelist",
-        "snippet": "Rust | Securelist\nSolutions for:\nHome Products\nSmall Business 1-50 employees\nMedium Business 51-999 employees\nEnterprise 1000+ employees\nby Kaspersky\nCompanyAccount\nGet In Touch\nDark mode off\nEnglishRussian\nSpanish\nBrazil\nSolutions\nInternet of Things \u0026 Embedded SecurityLearn More\nIndustrial",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 15,
-            "textWords": 2053
-          }
-        }
-      },
-      {
-        "hash": "vQMhSbDpE0Xg",
-        "address": "https://events.at/venue/7071-rust",
-        "title": "7071 Rust",
+        "hash": "Mex80Kf4Pib5",
+        "address": "https://code.visualstudio.com/docs/getstarted/telemetry",
+        "title": "Visual Studio Code Telemetry",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 2,
-            "textWords": 669
+            "textWords": 2837
           }
         }
       },
       {
-        "hash": "gubD9hQPJVh5",
-        "address": "https://deepsource.com/directory/rust/issues/RS-W1040",
-        "title": "Found occurrence of `.skip_while(..).next()` (RS-W1040) ・ Rust",
+        "hash": "tf5D_BBpXJmw",
+        "address": "https://element.io/labs/element-x",
+        "title": "Element X | Future of Element | Fastest Matrix client",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 3,
-            "textWords": 2310
+            "hits": 1,
+            "textWords": 549
           }
         }
       },
       {
-        "hash": "EG80KtDnLmqx",
-        "address": "https://thanks.rust-lang.org/rust/1.98.1/",
-        "title": "Rust 1.98.1 Contributors",
+        "hash": "yd8YlsS6MKD4",
+        "address": "https://github.com/github",
+        "title": "GitHub · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 2,
+            "textWords": 1449
+          }
+        }
+      },
+      {
+        "hash": "SU0ZvwS6MKD4",
+        "address": "https://github.com/dani-garcia/vaultwarden",
+        "title": "GitHub - dani-garcia/vaultwarden: Unofficial Bitwarden compatible server written in Rust, formerly known as bitwarden_rs",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 4,
-            "textWords": 83
-          }
-        }
-      },
-      {
-        "hash": "Hs2FEaLfGIY4",
-        "address": "https://www.manning.com/books/clojure-in-action",
-        "title": "Clojure in Action - Amit Rathore",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 25,
-            "textWords": 1632
-          }
-        }
-      },
-      {
-        "hash": "HaVk_blRRqqw",
-        "address": "https://emacs-lsp.github.io/lsp-mode/page/lsp-clojure/",
-        "title": "Clojure - LSP Mode - LSP support for Emacs",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 10,
-            "textWords": 731
-          }
-        }
-      },
-      {
-        "hash": "59ctk5Di1byx",
-        "address": "https://rust-lang.org/governance/people/dianqk/",
-        "title": "dianqk - Rust Programming Language",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 4,
-            "textWords": 208
+            "textWords": 1581
           }
         }
       }
     ],
-    [
-      {
-        "hash": "3GRqLCd6OB24",
-        "address": "https://habr.com/en/hubs/rust/articles/",
-        "title": "Rust — Multi-Paradigm Compiled Language / Habr",
-        "snippet": "Rust — Multi-Paradigm Compiled Language / Habr\nHabr\nAll streamsSearch\nEdit\nSettings\nLogin\nPull to refresh\n64K+\n30-days reach\nSubscribe\nRust *\nMulti-Paradigm Compiled Language\n91,41\nRating\nArticlesPostsNewsAuthors\nAllDropdown\nCopy RSS link\nShow first\nNew\nTop\nRating limit\nAll\n≥0\n≥10\n≥25\n≥50\n≥100",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 29,
-            "textWords": 1700
-          }
-        }
-      },
-      {
-        "hash": "9jTn0a2Sk-24",
-        "address": "https://www.dexerto.com/rust/team-disguisedtoast-dominates-team-xqc-to-win-100k-twitch-rivals-rust-team-battle-2-1902813/",
-        "title": "Team DisguisedToast dominates Team xQc to win $100k Twitch Rivals Rust Team Battle 2 - Dexerto",
-        "snippet": "Rust Team Battle 2 - Dexerto\nGaming\nPopularView All Games\nCall of Duty\nPokemon\nOverwatch\nFortnite\nDestiny\nBattlefield\nGTA\nArc Raiders\nMore GamingEA Sports FC\nValorant\nApex Legends\nLeague of Legends\nDiablo\nCounter-Strike 2\nGenshin Impact\nHonkai Star Rail\nRoblox\nDeadlock\nBaldur's Gate\nMinecraft\nWorld",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 14,
-            "textWords": 957
-          }
-        }
-      },
-      {
-        "hash": "jp9IEwSMo4M4",
-        "address": "https://www.zdnet.com/article/github-builds-a-search-engine-for-code-from-scratch-in-rust/",
-        "title": "GitHub built a new search engine for code 'from scratch' in Rust - ZDNET",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 6,
-            "textWords": 1511
-          }
-        }
-      },
-      {
-        "hash": "IpzMgTe43T_5",
-        "address": "https://campus.w3schools.com/collections/certifications/products/rust-certification-exam",
-        "title": "Rust Certificate Exam | W3Schools — W3Schools.com",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 6,
-            "textWords": 1385
-          }
-        }
-      },
-      {
-        "hash": "gO0v0eYDw19w",
-        "address": "https://crates.io/crates/name-to-handle-at",
-        "title": "crates.io: Rust Package Registry",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 53
-          }
-        }
-      },
-      {
-        "hash": "8X4lmpIFLTI5",
-        "address": "https://oldschoolcool2.r-universe.dev/tters",
-        "title": "tters: Sequential Target Trial Emulation Data Expansion (Rust + Polars Backend)",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 7,
-            "textWords": 1136
-          }
-        }
-      },
-      {
-        "hash": "JRR2Up6LpDbE",
-        "address": "http://www.alice.cnptia.embrapa.br/alice/handle/doc/571188",
-        "title": "Pathosystem common bean-Uromyces appendiculatus: host resistance, pathogen specialization, and breeding for rust resistance.",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 240
-          }
-        }
-      },
-      {
-        "hash": "JZzcXC7NCNPA",
-        "address": "http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-423906",
-        "title": "Improving on C with Rust An analysis of Rusts preventative abilities",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 188
-          }
-        }
-      },
-      {
-        "hash": "LueoDroKvUtw",
-        "address": "https://researchprofiles.canberra.edu.au/en/publications/76ef99d8-ab97-4f8c-bb10-510373ecaba6",
-        "title": "Eight novel diagnostic markers differentiate lineages of the highly invasive myrtle rust pathogen Austropuccinia psidii",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 306
-          }
-        }
-      },
-      {
-        "hash": "J2v_YCmLwgyg",
-        "address": "https://resolver.obvsg.at/urn:nbn:at:at-ubg:1-129987",
-        "title": "Räumliche Disparitäten und Regionalentwicklung im Bezirk Eisenstadt Umgebung (inklusive der Freistädte Eisenstadt und Rust)",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 534
-          }
-        }
-      }
-    ],
+    [],
     [
       {
         "hash": "prHX5kYlAY74",
         "address": "https://ubuntu.com/toolchains/rust",
         "title": "Rust security and support – Canonical’s Rust offering for Ubuntu | Ubuntu",
-        "snippet": "Rust security and support – Canonical’s Rust offering for Ubuntu | Ubuntu\nYour submission was sent successfully! Close\nThank you for contacting us. A member of our team will be in touch shortly. Close\nYou have successfully unsubscribed! Close\nThank you for signing up for our newsletter!\nIn these",
+        "snippet": "Rust\nWhether you’re an enterprise looking for securely designed code, or a builder exploring the toolchain, Ubuntu is the best platform for Rust development.\nZero to Rust development in minutes\nTrying out Rust for the first time? Or maybe you want bleeding-edge nightly builds? Whatever your use",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 24,
-            "textWords": 712
+            "hits": 19,
+            "textWords": 382
           }
         }
       },
@@ -2155,11 +1936,11 @@
         "hash": "mzPmEU3rjROw",
         "address": "https://oxylabs.io/blog/rust-web-scraping",
         "title": "Web Scraping with Rust",
-        "snippet": "Rust\nSkip to main content\nSign up\nTalk to data expert\nProxies\nProxies \u0026 Advanced Proxy Solutions\nResidential Proxies175M+ ethically sourced IPs built for the highest reliability.\nDatacenter ProxiesHigh-speed, cost-effective proxies built for any scraping workload.\nISP ProxiesPremium static",
+        "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 35,
-            "textWords": 3419
+            "hits": 32,
+            "textWords": 4318
           }
         }
       },
@@ -2167,11 +1948,11 @@
         "hash": "fnyRUJ_MW7i4",
         "address": "https://www.docker.com/blog/cross-compiling-rust-code-for-multiple-architectures/",
         "title": "Cross Compiling Rust Code for Multiple Architectures | Docker",
-        "snippet": "Rust Code for Multiple Architectures | Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New\nYour AI Agent across",
+        "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 31,
-            "textWords": 1832
+            "textWords": 1942
           }
         }
       },
@@ -2250,26 +2031,26 @@
     ],
     [
       {
-        "hash": "Q2tdhvDOAHJg",
-        "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
-        "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
-        "snippet": "Rust: Native GPU-Kernel in Rust schreiben | heise online\nheise+ entdecken\nSuchen\nAbo\nSuchen\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise+\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop\nheise jobs\nheise",
+        "hash": "QLueEgsjOPf5",
+        "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/cranelift-rebase",
+        "title": "refs/heads/cranelift-rebase - third_party/github.com/rust-lang/rust - Git at Google",
+        "snippet": "Rust Programming Language\nThis is the main source code repository for Rust. It contains the compiler, standard library, and documentation.\nNote: this README is for users rather than contributors. If you wish to contribute to the compiler, you should read the Getting Started section of the",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 21,
-            "textWords": 1013
+            "hits": 27,
+            "textWords": 1234
           }
         }
       },
       {
-        "hash": "QLueEgsjOPf5",
-        "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/cranelift-rebase",
-        "title": "refs/heads/cranelift-rebase - third_party/github.com/rust-lang/rust - Git at Google",
-        "snippet": "third_party/github.com/rust-lang/rust - Git at Google\nSign in ◑Theme\nfuchsia/third_party/github.com/rust-lang/rust/refs/heads/cranelift-rebase\ncommit\n5b48834d389f2e1f2a20224cf0e3273944b27f90\n[log]\nauthor\nErin Power \u003cerin.power@embark-studios.com\u003e\nFri Apr 30 14:54:18 2021 +0200\ncommitter\nErin Power",
+        "hash": "Q2tdhvDOAHJg",
+        "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
+        "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
+        "snippet": "Rust umfasst die Projekte cuda-oxide und cutile-rs, die die CUDA-Modelle SIMT und Tile nach Rust bringen. Produktionsreif ist noch keines der beiden Projekte aus der neuen Toolchain, Nvidia ruft Entwicklerinnen und Entwickler aber ausdrücklich zum Ausprobieren auf.\nDas im frühen Alpha-Stadium",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 31,
-            "textWords": 1368
+            "hits": 7,
+            "textWords": 287
           }
         }
       },
@@ -2277,11 +2058,11 @@
         "hash": "U_yD6oDZNRCx",
         "address": "https://doc.rust-lang.org/nightly/std/sync/mpmc/struct.Receiver.html",
         "title": "Receiver in std::sync::mpmc - Rust",
-        "snippet": "",
+        "snippet": "Rust’s channel (or sync_channel) type. Different threads can share this Receiver by cloning it.\nMessages sent to the channel can be retrieved using recv.\n§Examples\n#![feature(mpmc_channel)] use std::sync::mpmc::channel; use std::thread; use std::time::Duration; let (send, recv) = channel(); let",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 2,
-            "textWords": 2569
+            "hits": 1,
+            "textWords": 1546
           }
         }
       },
@@ -2289,11 +2070,11 @@
         "hash": "3FqPis-UOu6x",
         "address": "https://thenewstack.io/rust-by-the-numbers-the-rust-programming-language-in-2021/",
         "title": "Rust by the Numbers: The Rust Programming Language in 2021 - The New Stack",
-        "snippet": "",
+        "snippet": "Rust as a programming language is doing everything it can to win the hearts of developers.\nRust has been Stack Overflow’s most loved language for four consecutive years in a row, and this indicates that whoever has had the opportunity to work with this language fell in love and liked it",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 80,
-            "textWords": 6587
+            "hits": 68,
+            "textWords": 1323
           }
         }
       },
@@ -2372,14 +2153,14 @@
     ],
     [
       {
-        "hash": "IiXRJLV3Q1Xw",
-        "address": "https://kobzol.github.io/rust/rustc/2026/01/05/my-rust-contributions-in-2025",
-        "title": "1160 PRs to improve Rust in 2025 | Kobzol’s blog",
-        "snippet": "Rust in 2025 | Kobzol’s blog\nKobzol's blog\nPostsTalks\n1160 PRs to improve Rust in 2025\nJan 5, 2026 |Reddit discussion\nThe end of the year is a time for reflection, so I thought that I should take a look back at the previous year. And since my main job is currently contributing to open-source, what",
+        "hash": "9-TQlLV3Q1Xw",
+        "address": "https://kobzol.github.io/rust/2026/08/03/stf-june-july-2026.html",
+        "title": "Sovereign Tech Fellowship for Rust maintenance (June-July 2026 report) | Kobzol’s blog",
+        "snippet": "Rust. It was great to have the freedom to work on anything I wanted in Rust, be it new features, performance optimizations, bot/tooling/CI improvements or even non-technical work, such as mentoring, governance, surveys or preparing Rust talks. Alas, nothing lasts forever, and my open source funding",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 220,
-            "textWords": 11606
+            "hits": 84,
+            "textWords": 4903
           }
         }
       },
@@ -2387,11 +2168,11 @@
         "hash": "P5qgbsnpCNr6",
         "address": "https://rust-for-linux.com/print",
         "title": "Rust for Linux",
-        "snippet": "Rust for Linux\nThe project\nContact\nContributing\nRust kernel policy\nBranches\nRust reference drivers\nRust version policy\nUnstable features\nBackporting and stable/LTS releases\nThird-party crates\nOut-of-tree modules\nIndustry and academia support\nSponsors\nSubprojects\nklint\npin-init\nTools\nCoccinelle for",
+        "snippet": "Rust for Linux\nRust for Linux is the project adding support for the Rust language to the Linux kernel.\nThis website is intended as a hub of links, documentation and resources related to the project.\nThe project\nContact\nContributing\nRust kernel policy\nBranches\nRust reference drivers\nRust version",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 403,
-            "textWords": 15966
+            "hits": 368,
+            "textWords": 15578
           }
         }
       },
@@ -2399,11 +2180,11 @@
         "hash": "XvPK_coCj-7w",
         "address": "https://rust-unofficial.github.io/patterns/print.html",
         "title": "Rust Design Patterns",
-        "snippet": "",
+        "snippet": "Rust\nRust is not object-oriented, and the combination of all its characteristics, such as functional elements, a strong type system, and the borrow checker, makes it unique. Because of this, Rust design patterns vary with respect to other traditional object-oriented programming languages. That’s",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 129,
-            "textWords": 22426
+            "hits": 143,
+            "textWords": 21708
           }
         }
       },
@@ -2411,23 +2192,11 @@
         "hash": "nc7-NU7GyzR4",
         "address": "https://corrode.dev/blog/tips-for-faster-rust-compile-times/",
         "title": "Tips For Faster Rust Compile Times | corrode Rust Consulting",
-        "snippet": "Rust Compile Times | corrode Rust Consulting\nHome\nBlog\nPodcast\nMigrate\nWorkshops\nMentorship\nConsulting →\nRust Insights\nTips For Faster Rust Compile Times\nby Matthias Endler Last updated: 2026-03-14\nSlow Rust Builds?\nHere are some tips to speed up your compile times. This list was originally",
+        "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 92,
-            "textWords": 6263
-          }
-        }
-      },
-      {
-        "hash": "zqBn8s5iReyk",
-        "address": "https://loige.co/where-to-go-to-learn-rust-in-2021/",
-        "title": "Where to go to learn Rust in 2021",
-        "snippet": "Rust in 2021\nLuciano Mammino Open main menu\nBlog\nBooks\nSpeaking\nAbout\nSwitch theme to light mode\nSwitch theme to dark mode\nWhere to go to learn Rust in 2021\nLearn Rust in 2021 through free and paid books, blogs, videos, and more\nUser Icon\nAuthor\nLuciano Mammino\nCalendar Icon\nPublished\n2021-03-28",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 160,
-            "textWords": 4259
+            "hits": 71,
+            "textWords": 6225
           }
         }
       },
@@ -2435,11 +2204,11 @@
         "hash": "C6xlwsORI-L4",
         "address": "https://shopify.engineering/porting-yjit-ruby-compiler-to-rust",
         "title": "Our Experience Porting the YJIT Ruby Compiler to Rust - Shopify",
-        "snippet": "Rust - Shopify\nSkip to Content\nSolutions\nStart\nStart your business.\nBuild your brand\nCreate your website.\nOnline store editor\nCustomize your store.\nStore themes\nFind business apps.\nShopify app store\nOwn your site domain.\nDomains \u0026 hosting\nExplore free business tools.\nTools to run your business\nSell",
+        "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 80,
-            "textWords": 4031
+            "hits": 75,
+            "textWords": 4103
           }
         }
       },
@@ -2456,6 +2225,18 @@
         }
       },
       {
+        "hash": "3L_C4sv-bf35",
+        "address": "https://docs.datadoghq.com/tracing/trace_collection/dd_libraries/rust/",
+        "title": "Tracing Rust Applications",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 18,
+            "textWords": 8016
+          }
+        }
+      },
+      {
         "hash": "WGDGpUd8PCJ4",
         "address": "https://gendx.dev/blog/2024/11/18/rust-rayon-optimized.html",
         "title": "Optimization adventures: making a parallel Rust workload 10x faster with (or without) Rayon | Blog | Guillaume Endignoux",
@@ -2464,6 +2245,18 @@
           "coEuMIc0Vdzu": {
             "hits": 23,
             "textWords": 5460
+          }
+        }
+      },
+      {
+        "hash": "1JqdLGiHgj34",
+        "address": "https://mmapped.blog/posts/15-when-rust-hurts",
+        "title": "When Rust hurts",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 49,
+            "textWords": 3989
           }
         }
       },
@@ -2478,18 +2271,6 @@
             "textWords": 13410
           }
         }
-      },
-      {
-        "hash": "rtOKjJNwnZ70",
-        "address": "https://www.ssp.sh/blog/rust-for-data-engineering/",
-        "title": "Rust for Data Engineering | ssp.sh",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 75,
-            "textWords": 1996
-          }
-        }
       }
     ],
     [
@@ -2497,11 +2278,11 @@
         "hash": "OUY39WVFEEow",
         "address": "https://guix.gnu.org/cookbook/en/html_node/Using-Rust-Libraries-in-Other-Build-Systems.html",
         "title": "Using Rust Libraries in Other Build Systems (GNU Guix Cookbook)",
-        "snippet": "Rust Libraries in Other Build Systems (GNU Guix Cookbook)\nVersion\nVersion\nsingle page\nPDF\nDeutsch\nEnglish\nEspañol\nFrançais\nItaliano\n한국어\nPortuguês\nрусский\nSlovenský\nSvenska\n中文; 汉语; 华语\n⊕\nNext: Common Workflow for Updating Existing Rust Packages, Previous: Cargo Workspaces and Development Snapshots,",
+        "snippet": "Rust Packages, Previous: Cargo Workspaces and Development Snapshots, Up: Packaging Rust Crates [Contents][Index]\n2.2.1.3 Using Rust Libraries in Other Build Systems ¶\nIn this example, we’ll package libchewing, which combines two build systems.\nWhen building Rust packages in other build systems, we",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 16,
-            "textWords": 336
+            "hits": 13,
+            "textWords": 282
           }
         }
       },
@@ -2509,11 +2290,11 @@
         "hash": "YyXMZYaFOBeg",
         "address": "https://www.cmjornal.pt/vidas/ultimas/detalhe/fbi-diz-que-alec-baldwin-disparou-arma-que-matou-colega-durante-gravacao-de-rust-vidas",
         "title": "FBI diz que Alec Baldwin disparou arma que matou colega durante gravação de 'Rust' - Últimas - Correio da Manhã",
-        "snippet": "",
+        "snippet": "‘Rust’. A afirmação é do gabinete de comunicação do FBI e desmente o ator de 64 anos que, na altura do incidente, garantiu não ter premido o gatilho. As perícias, porém, dizem o contrário.\nSegundo as autoridades norte-americanas, a arma usada no plateau não podia ter disparado sozinha, de forma",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 3,
-            "textWords": 2586
+            "hits": 1,
+            "textWords": 1304
           }
         }
       },
@@ -2530,18 +2311,6 @@
         }
       },
       {
-        "hash": "YrvsM44iqb7o",
-        "address": "https://scholarbank.nus.edu.sg/handle/10635/157533",
-        "title": "Rust and Recovery in South Indian Goddess Films",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 31
-          }
-        }
-      },
-      {
         "hash": "b8-Uyp6LpDbE",
         "address": "http://www.alice.cnptia.embrapa.br/alice/handle/doc/1103181",
         "title": "Relationship between biochemical and photosynthetic traits with Asian soybean rust.",
@@ -2550,6 +2319,18 @@
           "coEuMIc0Vdzu": {
             "hits": 1,
             "textWords": 27
+          }
+        }
+      },
+      {
+        "hash": "YrvsM44iqb7o",
+        "address": "https://scholarbank.nus.edu.sg/handle/10635/157533",
+        "title": "Rust and Recovery in South Indian Goddess Films",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 1,
+            "textWords": 31
           }
         }
       },
@@ -2578,18 +2359,6 @@
         }
       },
       {
-        "hash": "YWxGODqv9N7E",
-        "address": "http://sedici.unlp.edu.ar/handle/10915/168852",
-        "title": "La calidad industrial del lino oleaginoso cultivado repetidamente sobre un suelo de La Plata",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 1,
-            "textWords": 664
-          }
-        }
-      },
-      {
         "hash": "zgOgqauhndQx",
         "address": "https://pkgs.alpinelinux.org/package/edge/community/x86_64/libimagequant-dev",
         "title": "libimagequant-dev - Alpine Linux packages",
@@ -2602,14 +2371,26 @@
         }
       },
       {
-        "hash": "YSLHx1qyHZJE",
-        "address": "http://www.infoteca.cnptia.embrapa.br/infoteca/handle/doc/1110595",
-        "title": "Eficiência de fungicidas para o controle da ferrugem-asiática da soja, Phakopsora pachyrhizi, na safra 2018/19: Resultados sumarizados dos ensaios cooperativos.",
+        "hash": "933esuhBrC_x",
+        "address": "https://www.themoviedb.org/movie/164457-out-of-the-furnace",
+        "title": "Out of the Furnace (2013) — The Movie Database (TMDB)",
+        "snippet": "",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 2,
+            "textWords": 1096
+          }
+        }
+      },
+      {
+        "hash": "YWxGODqv9N7E",
+        "address": "http://sedici.unlp.edu.ar/handle/10915/168852",
+        "title": "La calidad industrial del lino oleaginoso cultivado repetidamente sobre un suelo de La Plata",
         "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 1,
-            "textWords": 35
+            "textWords": 664
           }
         }
       }
@@ -2619,11 +2400,11 @@
         "hash": "cRCK_iCRdREw",
         "address": "https://jvns.ca/juliasections/rust/",
         "title": "Rust",
-        "snippet": "Rust\nSkip to main content\nJulia Evans\nAbout\nTalks\nProjects\nMastodon\nBluesky\nGithub\nFavorites\nTIL\nZines\nRSS\nCategory: rust\nDec 2 2022 A couple of Rust error messages Jan 13 2018 Rust in 2018: it's way easier to use! Dec 24 2017 My first Rust macro Dec 23 2017 Debugging a segfault in my Rust program",
+        "snippet": "rust\nDec 2 2022 A couple of Rust error messages Jan 13 2018 Rust in 2018: it's way easier to use! Dec 24 2017 My first Rust macro Dec 23 2017 Debugging a segfault in my Rust program Dec 21 2017 Bindgen: awesome Rust tool for generating C bindings Nov 27 2017 What's a reference in Rust? Sep 11 2016",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 14,
-            "textWords": 171
+            "hits": 13,
+            "textWords": 126
           }
         }
       },
@@ -2631,11 +2412,11 @@
         "hash": "QGxlht023Lg4",
         "address": "https://blog.orhun.dev/800-rust-projects/",
         "title": "800 Rust terminal projects in 3 years - Orhun's Blog",
-        "snippet": "Rust terminal projects in 3 years - Orhun's Blog\nHome Categories Source GitHub RSS About\n800 Rust terminal projects in 3 years\n13 minute read\nPublished: 2026-04-03\nI have discovered and shared ~800 open source Rust CLI projects over the past 3 years.\nAbove is a collage of screenshots from hundreds",
+        "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 17,
-            "textWords": 1917
+            "textWords": 1930
           }
         }
       },
@@ -2643,11 +2424,23 @@
         "hash": "fWgI9q60wC34",
         "address": "https://www.flixbus.com/bus/rust-europa-park",
         "title": "Affordable Bus tickets to Rust (Europa-Park)",
-        "snippet": "Rust (Europa-Park)\nSkip to main content\nPlan Your Journey\nRoute Map\nAll Bus Destinations\nWeather and Emergency Advisories\nService\nAll Services\nOn Board\nReduced Mobility\nSustainability\nManage My Booking\nTrip Tracker\nHelp\nPlan Your Journey\nRoute Map\nAll Bus Destinations\nWeather and Emergency",
+        "snippet": "Rust (Europa-Park)\nStrasbourg\nRust (Europa-Park)\nRust (Europa-Park)\nZurich\nRust (Europa-Park)\nStrasbourg\nBasel\nRust (Europa-Park)\nRust (Europa-Park)\nBasel\nRust (Europa-Park)\nFrankfurt\nStuttgart\nRust (Europa-Park)\nMunich\nRust (Europa-Park)\nFrankfurt\nRust (Europa-Park)\nRust (Europa-Park)\nMunich\nRust",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 54,
-            "textWords": 1612
+            "hits": 49,
+            "textWords": 1225
+          }
+        }
+      },
+      {
+        "hash": "f1oG2l_zR1L4",
+        "address": "https://www.meetup.com/vancouver-rust/",
+        "title": "Vancouver Rust (Vancouver, BC) | Meetup",
+        "snippet": "Rust GPU driver in the Linux kernel\nWed, Sep 16 · 6:00 PM PDT\n·\nOnline\nOnline\nNOTE: All meetups are hybrid events meaning you can join online or in-person.\nIf you are joining in-person, our venue location is at:\n116 W 6th Ave #300, Vancouver, BC\nPunch code #300 in at the front door to be let in.",
+        "matchedWords": {
+          "coEuMIc0Vdzu": {
+            "hits": 36,
+            "textWords": 1172
           }
         }
       },
@@ -2667,11 +2460,11 @@
         "hash": "O68Ub5anrPkw",
         "address": "https://rustwiki.org/zh-CN/rust-by-example/",
         "title": "简介 - 通过例子学 Rust 中文版",
-        "snippet": "Rust 中文版\n简介\n1. Hello World\n1.1. 注释\n1.2. 格式化输出\n1.2.1. 调试（debug）\n1.2.2. 显示（display）\n1.2.3. 测试实例：List\n1.2.4. 格式化\n2. 原生类型\n2.1. 字面量和运算符\n2.2. 元组\n2.3. 数组和切片\n3. 自定义类型\n3.1. 结构体\n3.2. 枚举\n3.2.1. 使用 use\n3.2.2. C 风格用法\n3.2.3. 测试实例：链表\n3.3. 常量\n4. 变量绑定\n4.1. 可变变量\n4.2. 作用域和遮蔽\n4.3. 变量先声明\n4.4. 冻结\n5. 类型系统\n5.1. 类型转换\n5.2.",
+        "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
             "hits": 23,
-            "textWords": 557
+            "textWords": 648
           }
         }
       },
@@ -2679,11 +2472,11 @@
         "hash": "dImWO7N6RQtw",
         "address": "https://docs.litellm.ai/blog/litellm-rust-launch",
         "title": "Migrating LiteLLM to Rust - Building the Fastest and Litest AI Gateway | liteLLM",
-        "snippet": "Rust - Building the Fastest and Litest AI Gateway | liteLLM\nBlog\nSkip to main content\n🚅 LiteLLM\nDocsLearnIntegrationsEnterpriseChangelogBlogAuto Router\nTrust Center\nAll Posts\n2026\nAuto-Router Updates: Harness-Aware Routing\nSecure shared AI agents with identity-aware access and spend controls",
+        "snippet": "",
         "matchedWords": {
           "coEuMIc0Vdzu": {
-            "hits": 65,
-            "textWords": 2931
+            "hits": 61,
+            "textWords": 2913
           }
         }
       },
@@ -2708,18 +2501,6 @@
           "coEuMIc0Vdzu": {
             "hits": 25,
             "textWords": 2265
-          }
-        }
-      },
-      {
-        "hash": "cWT6Sl_zR1L4",
-        "address": "https://www.meetup.com/rust-berlin/",
-        "title": "Rust Berlin | Meetup",
-        "snippet": "",
-        "matchedWords": {
-          "coEuMIc0Vdzu": {
-            "hits": 27,
-            "textWords": 1336
           }
         }
       },

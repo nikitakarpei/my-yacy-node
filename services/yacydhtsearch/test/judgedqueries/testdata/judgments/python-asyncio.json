@@ -8,16 +8,28 @@
       "grade": 2
     },
     {
+      "hash": "FLRBMitD2jQw",
+      "address": "https://docs.python.org/3/howto/a-conceptual-overview-of-asyncio.html",
+      "title": "A Conceptual Overview of asyncio — Python 3.14.2 documentation",
+      "grade": 2
+    },
+    {
+      "hash": "Z4rOdhS6MKD4",
+      "address": "https://github.com/oxylabs/how-to-make-web-scraping-faster",
+      "title": "GitHub - oxylabs/how-to-make-web-scraping-faster: How to Make Web Scraping Faster - Python Tutorial · GitHub",
+      "grade": 1
+    },
+    {
       "hash": "A5Y2hWr4CjGw",
       "address": "https://discuss.python.org/c/async-sig/20",
       "title": "Latest Async-SIG topics - Discussions on Python.org",
       "grade": 1
     },
     {
-      "hash": "dX8heTCk19rw",
-      "address": "https://peps.python.org/pep-0492/",
-      "title": "PEP 492 – Coroutines with async and await syntax | peps.python.org",
-      "grade": 2
+      "hash": "HYOfTitD2jQw",
+      "address": "https://docs.python.org/3/whatsnew/3.7.html",
+      "title": "What’s New In Python 3.7 — Python 3.13.2 documentation",
+      "grade": 1
     },
     {
       "hash": "-xpxEitD2jQw",
@@ -26,39 +38,27 @@
       "grade": 1
     },
     {
-      "hash": "AxRdDzS6MKD4",
-      "address": "https://github.com/topics/python-3",
-      "title": "python-3 · GitHub Topics · GitHub",
+      "hash": "HQC7YitD2jQw",
+      "address": "https://docs.python.org/3/library/asyncio-sync.html",
+      "title": "Synchronization Primitives — Python 3.14.6 documentation",
+      "grade": 2
+    },
+    {
+      "hash": "Fu6eTitD2jQw",
+      "address": "https://docs.python.org/3/genindex-I.html",
+      "title": "Index — Python 3.13.2 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "F2xV5itD2jQw",
+      "address": "https://docs.python.org/3/library/__main__.html",
+      "title": "__main__ — Top-level code environment — Python 3.12.6 documentation",
       "grade": 0
     },
     {
       "hash": "Nh8yR1r4CjGw",
       "address": "https://discuss.python.org/",
       "title": "Discussions on Python.org",
-      "grade": 0
-    },
-    {
-      "hash": "C_WsyyAacB5w",
-      "address": "https://docs.aiohttp.org/en/stable/",
-      "title": "Welcome to AIOHTTP — aiohttp 3.13.2 documentation",
-      "grade": 1
-    },
-    {
-      "hash": "eFLRfzGYFcLw",
-      "address": "https://sentry.io/answers/make-fastapi-run-calls-in-parallel-instead-of-serial/",
-      "title": "Make FastAPI run calls in parallel instead of serial | Sentry",
-      "grade": 1
-    },
-    {
-      "hash": "w-d8WitD2jQw",
-      "address": "https://docs.python.org/3/license.html",
-      "title": "History and License — Python 3.14.7 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
       "grade": 0
     },
     {
@@ -80,15 +80,15 @@
       "grade": 0
     },
     {
-      "hash": "aQJ1g8bIDBOw",
-      "address": "https://pypi.org/project/asyncari/",
-      "title": "asyncari · PyPI",
-      "grade": 1
-    },
-    {
       "hash": "epEeW03rjROw",
       "address": "https://oxylabs.io/resources/integrations/langgraph",
       "title": "Web Scraping With LangGraph Tutorial",
+      "grade": 0
+    },
+    {
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
       "grade": 0
     },
     {

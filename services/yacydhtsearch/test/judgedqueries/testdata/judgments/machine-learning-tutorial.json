@@ -2,46 +2,16 @@
   "query": "machine learning tutorial",
   "judgedDocuments": [
     {
-      "hash": "A3q5IzS6MKD4",
-      "address": "https://github.com/topics/python",
-      "title": "python · GitHub Topics · GitHub",
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "DKApesRMLT-5",
-      "address": "https://canonical.com/careers",
-      "title": "Canonical Careers",
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
       "grade": 0
-    },
-    {
-      "hash": "BF23V5RMLT-5",
-      "address": "https://canonical.com/careers/commercial-operations",
-      "title": "Commercial Operations | Careers",
-      "grade": 0
-    },
-    {
-      "hash": "MaRThsRMLT-5",
-      "address": "https://canonical.com/",
-      "title": "Trusted open source for enterprises | Canonical",
-      "grade": 0
-    },
-    {
-      "hash": "BLqv9HRMLT-5",
-      "address": "https://canonical.com/legal/data-privacy",
-      "title": "Data privacy | Ubuntu and Canonical Legal",
-      "grade": 0
-    },
-    {
-      "hash": "YA5jls9w8XV5",
-      "address": "https://cloudinary.com/guides/front-end-development/front-end-development-the-complete-guide",
-      "title": "Front-End Development: The Complete Guide",
-      "grade": 0
-    },
-    {
-      "hash": "SXE97sI0z6T7",
-      "address": "https://towardsdatascience.com/",
-      "title": "Towards Data Science",
-      "grade": 1
     },
     {
       "hash": "FIRH00oB9UFw",
@@ -50,33 +20,21 @@
       "grade": 0
     },
     {
-      "hash": "RE-m0jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Java_(programming_language)",
-      "title": "Java (programming language) - Wikipedia",
+      "hash": "CrRuNlCGSsm5",
+      "address": "https://www.afewscraps.com/",
+      "title": "A Few Scraps",
       "grade": 0
     },
     {
-      "hash": "Bq57jjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/BASIC",
-      "title": "BASIC - Wikipedia",
-      "grade": 0
+      "hash": "TA880jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Generative_adversarial_network",
+      "title": "Generative adversarial network - Wikipedia",
+      "grade": 1
     },
     {
-      "hash": "Ce2W90S6MKD4",
-      "address": "https://github.com/resources/articles/what-is-vibe-coding",
-      "title": "What Is Vibe Coding? · GitHub",
-      "grade": 0
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "grade": 0
-    },
-    {
-      "hash": "AonnkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Perl",
-      "title": "Perl - Wikipedia",
+      "hash": "Fu_x-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Outline_of_the_JavaScript_programming_language",
+      "title": "Outline of the JavaScript programming language - Wikipedia",
       "grade": 0
     },
     {
@@ -86,9 +44,75 @@
       "grade": 0
     },
     {
+      "hash": "LZAo7bS6MKD4",
+      "address": "https://github.com/pytorch/pytorch",
+      "title": "GitHub - pytorch/pytorch: Tensors and Dynamic neural networks in Python with strong GPU acceleration · GitHub",
+      "grade": 1
+    },
+    {
+      "hash": "Ce2W90S6MKD4",
+      "address": "https://github.com/resources/articles/what-is-vibe-coding",
+      "title": "What Is Vibe Coding? · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "CMlI0PsrSOQw",
+      "address": "https://arxiv.org/abs/2506.02070",
+      "title": "[2506.02070] An Introduction to Flow Matching and Diffusion Models",
+      "grade": 2
+    },
+    {
+      "hash": "A3q5IzS6MKD4",
+      "address": "https://github.com/topics/python",
+      "title": "python · GitHub Topics · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "UBNlzsYlAY74",
+      "address": "https://ubuntu.com/navigation",
+      "title": "Navigation | Ubuntu",
+      "grade": 0
+    },
+    {
+      "hash": "Fl-YxlDOAHJg",
+      "address": "https://www.heise.de/",
+      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
+      "grade": 0
+    },
+    {
       "hash": "pYw3_AHucLY4",
       "address": "https://adrienalfiste.vip-blog.com/",
       "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "grade": 0
+    },
+    {
+      "hash": "SXE97sI0z6T7",
+      "address": "https://towardsdatascience.com/",
+      "title": "Towards Data Science",
+      "grade": 1
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "grade": 0
+    },
+    {
+      "hash": "H6Zz4sS6MKD4",
+      "address": "https://github.com/trending",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "G2Nk1si1vot6",
+      "address": "https://missclaireshay.com/",
+      "title": "missclaireshay -",
       "grade": 0
     }
   ]

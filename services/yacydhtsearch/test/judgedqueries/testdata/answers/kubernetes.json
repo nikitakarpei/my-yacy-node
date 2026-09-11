@@ -1,101 +1,17 @@
 {
   "query": "kubernetes",
-  "recordedAt": "2026-09-11T19:20:12Z",
+  "recordedAt": "2026-09-11T20:58:03Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "AsVNaz7OfS44",
         "address": "https://labs.iximiuz.com/playgrounds?category=kubernetes\u0026filter=all",
         "title": "Kubernetes Playgrounds 🧪 | iximiuz Labs",
-        "snippet": "Kubernetes Playgrounds | iximiuz Labs\niximiuz Labs\nMain\nCatalog\nDiscover\nTutorials\nChallenges\nCourses\nSkill Paths\nShell Gyms New!\nDocker Roadmap\nPlaygrounds\nVendors\nLabs MCP New!\nPricing\nMore\nBlog\nDocs\nOur Authors\nFor Creators\nFor Trainers\nAbout Us\nSupport\nPlaygrounds\nCtrlK\nSign in Sign up",
+        "snippet": "Kubernetes clusters in seconds, publish ports, share terminal sessions, and connect over SSH.\nCollection\nCategory\nLinux\nNetworking\nContainers\nKubernetes\nFind playgrounds matching your interests...\nThis playground was prepared for you by the iximiuz Labs team.\nPlayground on Kubernetes\nKubernetes",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 36,
-            "textWords": 819
-          }
-        }
-      },
-      {
-        "hash": "AIy_nGS6MKD4",
-        "address": "https://github.com/kubernetes/kompose",
-        "title": "GitHub - kubernetes/kompose: Convert Compose to Kubernetes",
-        "snippet": "kubernetes/kompose: Convert Compose to Kubernetes · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER WORKFLOWS",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 27,
-            "textWords": 999
-          }
-        }
-      },
-      {
-        "hash": "A2EmXsBs3ry4",
-        "address": "https://foxutech.com/what-happens-when-kubernetes-pod-cpu-memory-run-high/",
-        "title": "What Happens When Kubernetes Pod CPU \u0026 Memory Run High - FoxuTech",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 64,
-            "textWords": 2603
-          }
-        }
-      },
-      {
-        "hash": "BUw3tyHotJDk",
-        "address": "https://discuss.elastic.co/t/elastic-cloud-on-kubernetes-eck-2-8-security-update/343854",
-        "title": "Elastic Cloud on Kubernetes (ECK) 2.8 Security Update - Security Announcements - Discuss the Elastic Stack",
-        "snippet": "Kubernetes (ECK) 2.8 Security Update - Security Announcements - Discuss the Elastic Stack\nDiscuss the Elastic Stack\nElastic Cloud on Kubernetes (ECK) 2.8 Security Update\nAnnouncements\nSecurity Announcements\nismisepaul\n(Paul)\nSeptember 26, 2023, 9:48am\n1\nElastic Cloud on Kubernetes (ECK) secret",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 10,
-            "textWords": 256
-          }
-        }
-      },
-      {
-        "hash": "AhRUtUb8iyg4",
-        "address": "https://cloud.google.com/?hl=en-AU",
-        "title": "AI and Cloud Computing Services | Google Cloud",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 34,
-            "textWords": 7278
-          }
-        }
-      },
-      {
-        "hash": "Am2MF0ShZaS6",
-        "address": "https://blog.stephane-robert.info/docs/outils/observabilite/kubernetes/",
-        "title": "Observabilité Kubernetes",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 52,
-            "textWords": 3750
-          }
-        }
-      },
-      {
-        "hash": "Bc3md2jw1Zlx",
-        "address": "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/",
-        "title": "Horizontal Pod Autoscaling | Kubernetes",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 13,
-            "textWords": 7572
-          }
-        }
-      },
-      {
-        "hash": "BoZSDvDOAHJg",
-        "address": "https://www.heise.de/news/iX-Workshop-Advanced-Kubernetes-Security-Effektive-Massnahmen-und-Best-Practices-11265576.html?wt_mc=rss.red.ho.beitrag.atom.beitrag.beitrag",
-        "title": "iX-Workshop Advanced Kubernetes Security: Effektive Maßnahmen und Best Practices | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 8,
-            "textWords": 1341
+            "hits": 26,
+            "textWords": 582
           }
         }
       },
@@ -103,23 +19,107 @@
         "hash": "R-s0Lj_oppU4",
         "address": "https://www.ibm.com/products/instana/kubernetes-monitoring",
         "title": "Kubernetes monitoring | IBM",
-        "snippet": "",
+        "snippet": "Kubernetes is gaining momentum across DevOps teams as a standard infrastructure platform, traditional application performance monitoring (APM) tools often fail to provide the performance visibility your ITOps teams might be looking for. Additionally, by introducing a new layer of abstraction in",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 29,
-            "textWords": 821
+            "hits": 6,
+            "textWords": 112
           }
         }
       },
       {
-        "hash": "isScg5KXKxA4",
-        "address": "https://cloud.ionos.com/managed/kubernetes",
-        "title": "Managed Kubernetes Hosting | K8s Cluster Services",
+        "hash": "AIy_nGS6MKD4",
+        "address": "https://github.com/kubernetes/kompose",
+        "title": "GitHub - kubernetes/kompose: Convert Compose to Kubernetes",
+        "snippet": "Kubernetes. kompose takes a Compose Specification file and translates it into Kubernetes resources.\nkompose is a convenience tool to go from local Compose environment to managing your application with Kubernetes. Transformation of the Compose Specification format to Kubernetes resources manifest",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 22,
+            "textWords": 468
+          }
+        }
+      },
+      {
+        "hash": "BUw3tyHotJDk",
+        "address": "https://discuss.elastic.co/t/elastic-cloud-on-kubernetes-eck-2-8-security-update/343854",
+        "title": "Elastic Cloud on Kubernetes (ECK) 2.8 Security Update - Security Announcements - Discuss the Elastic Stack",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 53,
-            "textWords": 3509
+            "hits": 10,
+            "textWords": 333
+          }
+        }
+      },
+      {
+        "hash": "CnHQryRO6Xx4",
+        "address": "https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_security_for_kubernetes/4.5",
+        "title": "Red Hat Advanced Cluster Security for Kubernetes | 4.5 | Red Hat Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 13,
+            "textWords": 703
+          }
+        }
+      },
+      {
+        "hash": "SBlDlKKXKxA4",
+        "address": "https://cloud.ionos.com/solutions/managed-kubernetes-ci-cd",
+        "title": "Kubernetes for CI/CD Infrastructure | IONOS Cloud",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 17,
+            "textWords": 2058
+          }
+        }
+      },
+      {
+        "hash": "B9WLxGjw1Zlx",
+        "address": "https://kubernetes.io/pt-br/docs/concepts/architecture/cloud-controller/",
+        "title": "Conceitos sobre Cloud Controller Manager | Kubernetes",
+        "snippet": "Kubernetes evoluíssem independentemente um do outro. O Cloud Controller Manager é executado junto com outros componentes principais, como o Kubernetes controller manager, o servidor de API e o scheduler. Também pode ser iniciado como um addon do Kubernetes, caso em que é executado em cima do",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 18,
+            "textWords": 1028
+          }
+        }
+      },
+      {
+        "hash": "CpMRWlUq_9N6",
+        "address": "https://www.lightbitslabs.com/kubernetes-persistent-storage-management/",
+        "title": "Kubernetes Persistent Storage solutions - Ceph Kubernetes | Lightbits",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 40,
+            "textWords": 1934
+          }
+        }
+      },
+      {
+        "hash": "YTY7SvDOAHJg",
+        "address": "https://www.heise.de/news/iX-Workshop-Mit-Kubernetes-zur-effizienten-Container-Orchestrierung-11425974.html",
+        "title": "iX-Workshop: Mit Kubernetes zur effizienten Container-Orchestrierung | heise online",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 13,
+            "textWords": 1067
+          }
+        }
+      },
+      {
+        "hash": "By-CFXqO2Dlg",
+        "address": "https://media.ccc.de/v/froscon2019-2331-kubernetes_101",
+        "title": "Kubernetes 101 - media.ccc.de",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 11,
+            "textWords": 876
           }
         }
       }
@@ -180,11 +180,11 @@
         "hash": "P8xl6XqO2Dlg",
         "address": "https://media.ccc.de/v/nixcon2025-56396-kubernetes-on-nix",
         "title": "Kubernetes on Nix - media.ccc.de",
-        "snippet": "Kubernetes on Nix - media.ccc.de\nSystem\nLight\nDark\nNews\nRSS, last 100\nPodcast feed of the last two years\nSD quality\nPodcast audio feed of the last year\nPodcast archive feed, everything older than two years\nSD quality\nPodcast feeds for nixcon2025\nmp3\nopus\nwebm\nSD quality\nmp4\nSD quality\nNews\nRSS,",
+        "snippet": "kubernetes cluster is a non trivial task. Although many commercial and non-commercial solutions are available, each comes with its own limitations. Some are primarily meant to set up a single node development cluster, others have hardly any flexibility.\nHere NixOS comes to the rescue, allowing us",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 7,
-            "textWords": 359
+            "hits": 4,
+            "textWords": 182
           }
         }
       },
@@ -299,38 +299,14 @@
     ],
     [
       {
-        "hash": "zlEh5a9VKBYx",
-        "address": "https://chronosphere.io/learn/what-is-a-kubernetes-pod/",
-        "title": "What is a Kubernetes pod?",
-        "snippet": "Kubernetes pod?\nRequest Demo\nRequest a Demo\nProducts\nRecent News\nObservability in transition: Building confidence on the path to agentic workflows\nChronosphere Named a Leader in the Gartner® Magic Quadrant™ for Observability Platforms for Third Consecutive Year\nHow to monitor/observe LLMs and",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 57,
-            "textWords": 2456
-          }
-        }
-      },
-      {
         "hash": "HN68UjwjNTMg",
         "address": "https://market.cnews.ru/articles/2025-04-03_managed_kubernetes_i_preryvaemye_virtualnye",
         "title": "Managed Kubernetes и прерываемые виртуальные машины: способ сэкономить до 70% на серверах – CNewsMarket",
-        "snippet": "Kubernetes и прерываемые виртуальные машины: способ сэкономить до 70% на серверах – CNewsMarket\nВыбрать провайдера Публикации Компании Рейтинги и обзоры Личный кабинет О проекте CNews Аналитика Конференции Техника ТВ Об издании Реклама Вакансии Контакты\nMax\nTelegram\nДзен\nVK\nRutube\nCNews Аналитика",
+        "snippet": "Kubernetes автоматизировать с ней работу.\nКакие бывают конфигурации серверов\nВиртуальные машины могут быть созданы с различными конфигурациями, включая определенное количество ядер, памяти, дисков или GPU. В облаке Selectel представлено шесть основных линеек конфигураций, называемых фиксированными:",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 20,
-            "textWords": 1420
-          }
-        }
-      },
-      {
-        "hash": "nrLGEs-UOu6x",
-        "address": "https://thenewstack.io/kubernetes-building-blocks-nodes-pods-clusters/?p=22717504",
-        "title": "Kubernetes Building Blocks: Nodes, Pods, Clusters - The New Stack",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 57,
-            "textWords": 7059
+            "hits": 9,
+            "textWords": 666
           }
         }
       },
@@ -359,6 +335,30 @@
         }
       },
       {
+        "hash": "zlEh5a9VKBYx",
+        "address": "https://chronosphere.io/learn/what-is-a-kubernetes-pod/",
+        "title": "What is a Kubernetes pod?",
+        "snippet": "Kubernetes (but first, a word about containers)\nAlthough not strictly necessary, containers are highly recommended for and typically used in cloud native environments. Containers package a piece of your application code and its dependencies into portable units that can run seamlessly across",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 52,
+            "textWords": 1546
+          }
+        }
+      },
+      {
+        "hash": "nrLGEs-UOu6x",
+        "address": "https://thenewstack.io/kubernetes-building-blocks-nodes-pods-clusters/?p=22717504",
+        "title": "Kubernetes Building Blocks: Nodes, Pods, Clusters - The New Stack",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 57,
+            "textWords": 7059
+          }
+        }
+      },
+      {
         "hash": "oW4c-4Zky8w4",
         "address": "https://docs.fortinet.com/document/fortigate/6.2.0/new-features/461746/gcp-kubernetes-gke-connector",
         "title": "GCP Kubernetes (GKE) Connector | FortiGate / FortiOS 6.2.0 | Fortinet Document Library",
@@ -383,64 +383,160 @@
         }
       },
       {
-        "hash": "z2JkAJhTaKi5",
-        "address": "https://www.datadoghq.com/blog/tools-for-collecting-aws-fargate-metrics/",
-        "title": "How to collect metrics and logs from AWS Fargate workloads | Datadog",
+        "hash": "Cszu5zv-xwmy",
+        "address": "https://events.linuxfoundation.org/archive/2020/kubecon-cloudnativecon-europe/attend/experiences/",
+        "title": "Experiences | KubeCon + CloudNativeCon Europe",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 24,
-            "textWords": 6076
+            "hits": 4,
+            "textWords": 2352
           }
         }
       },
       {
-        "hash": "zIXuxDiaMkRw",
-        "address": "https://archive.fosdem.org/2023/schedule/event/media_streaming_mesh/",
-        "title": "FOSDEM 2023 - Media Streaming Mesh",
+        "hash": "S__ZLh6Yas55",
+        "address": "https://budimanjojo.com/2021/11/04/gitops-home-assistant-configurations/",
+        "title": "How I GitOps Home Assistant Configurations | Budiman JoJo",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 2,
-            "textWords": 393
+            "hits": 7,
+            "textWords": 979
           }
         }
       },
       {
-        "hash": "956rqJs7qoi5",
-        "address": "https://itopstimes.com/author/micheal-kingston/",
-        "title": "Micheal Kingston, Author at ITOps Times",
+        "hash": "Fu27_xW0-yG4",
+        "address": "https://eco.ovhcloud.com/en/",
+        "title": "Low-cost dedicated servers | Low-cost servers | OVHcloud ECO",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 3,
-            "textWords": 1429
+            "hits": 4,
+            "textWords": 17507
           }
         }
       }
     ],
     [
       {
-        "hash": "2JDQhQRul9D4",
-        "address": "https://aws.amazon.com/kubernetes/",
-        "title": "Kubernetes on AWS | Amazon Web Services",
-        "snippet": "Kubernetes on AWS | Amazon Web Services\nSkip to main content\nFilter: All\nEnglish\nContact us\nAWS Marketplace\nSupport\nMy account\nre:Invent\nDiscover AWS\nProducts\nSolutions\nPricing\nResources\nSearch\nFilter: All\nSign in to console\nCreate account\nExplore topics\nre:Invent 2026 The session catalog is live.",
+        "hash": "WvTFd1S6MKD4",
+        "address": "https://github.com/hjacobs/kubernetes-failure-stories",
+        "title": "GitHub - hjacobs/kubernetes-failure-stories: Compilation of public failure/horror stories related to Kubernetes",
+        "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 65,
-            "textWords": 2026
+            "hits": 5,
+            "textWords": 710
           }
         }
       },
       {
-        "hash": "4xIejdSCNQa4",
-        "address": "https://www.redhat.com/ja/topics/containers/what-is-kubernetes",
-        "title": "Kubernetes とは？をわかりやすく解説",
-        "snippet": "Kubernetes とは\nSkip to content AI 概要\nAI に関するニュース\n技術ブログ\nライブ AI イベント\n推論の説明\nRed Hat のアプローチを見る\n製品\nRed Hat AI Enterprise\nRed Hat AI Inference\nRed Hat Enterprise Linux AI\nRed Hat OpenShift AI\nRed Hat AI の詳細\n参加 \u0026 学習\nラーニングハブ\nAI トピック\nAI パートナー\nAI サービス\nハイブリッドクラウド プラットフォーム・ソリューション\n人工知能AI",
+        "hash": "X_8FBsjw1Zlx",
+        "address": "https://kubernetes.io/bn/",
+        "title": "Kubernetes",
+        "snippet": "\"Kubernetes is a great platform for machine learning because it comes with all the scheduling and …\"\nআরও পড়ুন\n\"Kubernetes is a great solution for us. It allows us to rapidly iterate on our clients' demands. \"\nআরও পড়ুন\n\"We realized that we needed to learn Kubernetes better in order to fully use",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 121,
-            "textWords": 1765
+            "hits": 4,
+            "textWords": 236
+          }
+        }
+      },
+      {
+        "hash": "XKCcq6tZl1y5",
+        "address": "https://kube101.jeffgeerling.com/",
+        "title": "Kubernetes 101 | A YouTube streaming series on Kubernetes and container-based infrastructure by Jeff Geerling.",
+        "snippet": "Kubernetes 101 YouTube series was so popular, I decided to translate everything into a short, concise book. The Kubernetes 101 book is the easiest introduction to container-based infrastructure.\nAll ten episodes of the video series are distilled into chapters to guide you through your journey",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 5,
+            "textWords": 162
+          }
+        }
+      },
+      {
+        "hash": "ETE5IA2GZAj4",
+        "address": "https://docs.redpanda.com/streaming/current/manage/kubernetes/security/authentication/k-schema-registry-acls/",
+        "title": "Manage Schema Registry ACLs with the Redpanda Operator | Redpanda Streaming",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 22,
+            "textWords": 3970
+          }
+        }
+      },
+      {
+        "hash": "VXHKlgUUuPp4",
+        "address": "https://about.gitlab.com/blog/pull-based-kubernetes-deployments-coming-to-gitlab-free-tier/",
+        "title": "Pull-based GitOps moving to GitLab Free tier",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 7,
+            "textWords": 1346
+          }
+        }
+      },
+      {
+        "hash": "UXbLnlhPVIOg",
+        "address": "https://www.mironet.ch/",
+        "title": "MiroNet – IT as a Service für Unternehmen",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 1,
+            "textWords": 297
+          }
+        }
+      },
+      {
+        "hash": "Xf4GnsBs3ry4",
+        "address": "https://foxutech.com/",
+        "title": "Home - FoxuTech",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 87,
+            "textWords": 2187
+          }
+        }
+      },
+      {
+        "hash": "XaEu4JBJaYCh",
+        "address": "https://cloudbear.nl/author/admin/page/2/",
+        "title": "admin, Author at Cloudbear - Page 2 of 3",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 11,
+            "textWords": 922
+          }
+        }
+      },
+      {
+        "hash": "W-eXqzF3--Qw",
+        "address": "https://planet.mozilla.org/",
+        "title": "Planet Mozilla",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 2,
+            "textWords": 7315
+          }
+        }
+      },
+      {
+        "hash": "WdC7MN8zMi84",
+        "address": "https://docs.cloud.google.com/config-connector/docs/overview",
+        "title": "Config Connector overview | Google Cloud Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 8,
+            "textWords": 913
           }
         }
       }
@@ -524,59 +620,47 @@
         "hash": "Tm_2BMS6MKD4",
         "address": "https://github.com/kubernetes-client/python",
         "title": "GitHub - kubernetes-client/python: Official Python client library for kubernetes · GitHub",
-        "snippet": "kubernetes-client/python: Official Python client library for kubernetes · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools",
+        "snippet": "kubernetes API.\nInstallation\nFrom source:\ngit clone --recursive https://github.com/kubernetes-client/python.git cd python python -m pip install --upgrade .\nFrom PyPI directly:\npip install kubernetes\nExamples\nlist all pods:\nfrom kubernetes import client, config # Configs can be set in Configuration",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 167,
-            "textWords": 2312
+            "hits": 159,
+            "textWords": 1768
           }
         }
       },
       {
-        "hash": "jrBUgOjw1Zlx",
-        "address": "https://kubernetes.io/zh-cn/blog/2015/03/28/weekly-kubernetes-community-hangout/",
-        "title": "Kubernetes 社区每周聚会笔记 - 2015 年 3 月 27 日 | Kubernetes",
-        "snippet": "Kubernetes 社区每周聚会笔记 - 2015 年 3 月 27 日 | Kubernetes\nKubernetes文档\n博客\n培训\n合作伙伴\n社区\n职业\n版本列表发布信息\nv1.37\nv1.36\nv1.35\nv1.34\nv1.33\n中文 (Chinese)English\nবাংলা (Bengali)\nFrançais (French)\nDeutsch (German)\nहिन्दी (Hindi)\nBahasa Indonesia (Indonesian)\nItaliano (Italian)\n日本語 (Japanese)\n한국어 (Korean)\nفارسی (Persian)",
+        "hash": "2YmsATjw1Zlx",
+        "address": "https://kubernetes.io/es/training/",
+        "title": "Capacitación | Kubernetes",
+        "snippet": "Kubernetes es el núcleo del movimiento de la nube nativa. Los programas de capacitación y las certificaciones de la Linux Foundation y nuestros socios de capacitación te permiten invertir en tu carrera, aprender Kubernetes y hacer que tus proyectos de nube nativa sean exitosos.\nToma un curso",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 267,
-            "textWords": 1819
+            "hits": 37,
+            "textWords": 614
           }
         }
       },
       {
-        "hash": "44l9dUL2-9j4",
-        "address": "https://bobcares.com/blog/category/kubernetes/",
-        "title": "Kubernetes Category - Bobcares",
-        "snippet": "Kubernetes Category - Bobcares\nEmergency Contact\nBack\nEmergency Contact\nSolutions\nServices\nInsights\nCompany\nEmergency Contact Client Portal\nSOLUTIONS\nProduct Engineering\nMVP Build\nMVP to Scale\nProduct Maintenance\nDigital Transformation\nProcess Digitization \u0026 Automation\nSystems Integration \u0026",
+        "hash": "qqbaU5NagAeb",
+        "address": "http://www.dasblinkenlichten.com/category/kubernetes/",
+        "title": "Kubernetes – Das Blinken Lichten",
+        "snippet": "Kubernetes networking… Kubernetes networking 101 – Pods Kubernetes networking 101 – Services Kubernetes networking 101 – (Basic) External access into… Read more »\nI called my last post ‘basic’ external access into the cluster because I didn’t get a chance to talk about the ingress object. Ingress",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 21,
-            "textWords": 855
+            "hits": 9,
+            "textWords": 180
           }
         }
       },
       {
-        "hash": "7iZ_Vssh4hQ4",
-        "address": "https://dev.events/kubernetes",
-        "title": "Docker / Kubernetes conferences 2025 / 2026",
-        "snippet": "Kubernetes conferences 2026 / 2027\ndev.club — Where best developers and top companies connect.\nRequest invite\ndev.events\nConferences Meetups Hackathons FAQ\nDocker / Kubernetes conferences 2026 / 2027\nConferences ✕ Docker / Kubernetes ✕\nLocations and topics\nLocations and topics\nUpcoming events",
+        "hash": "66S91bhzG1b4",
+        "address": "https://documentation.ubuntu.com/canonical-kubernetes/latest/",
+        "title": "Canonical Kubernetes documentation",
+        "snippet": "Kubernetes is a performant, lightweight, secure and opinionated distribution of Kubernetes which includes everything needed to create and manage a scalable cluster suitable for all use cases.\nCanonical Kubernetes builds upon upstream Kubernetes by providing all the extra services such as a",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 36,
-            "textWords": 839
-          }
-        }
-      },
-      {
-        "hash": "8VM94j76eml4",
-        "address": "https://www.mongodb.com/products/integrations/kubernetes",
-        "title": "",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 29,
-            "textWords": 1349
+            "hits": 18,
+            "textWords": 279
           }
         }
       },
@@ -584,11 +668,11 @@
         "hash": "5BSi0enQajO4",
         "address": "https://cn.ubuntu.com/kubernetes",
         "title": "适用于多云运营的企业级 Kubernetes | Ubuntu",
-        "snippet": "",
+        "snippet": "Kubernetes 部署的安全与稳定，让您专注于应用程序而非底层基础设施。使用 Canonical Kubernetes 简化安装与运维，让您的容器化工作负载无后顾之忧。\n为何选择\nCanonical Kubernetes 平台？\n12 年安全维护与支持服务，让您自主掌控升级计划\n易于使用，内置同类最佳的开源组件，用于联网、本地存储、DNS、负载均衡器、度量服务器、网关和入口\n从第 0 天到第 2 天零运维，轻松添加和管理小型 Kubernetes 集群中的节点\n借助 Juju 实现自动化集群操作，简化大规模维护工作\nKubernetes",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 48,
-            "textWords": 1014
+            "hits": 37,
+            "textWords": 284
           }
         }
       },
@@ -605,26 +689,38 @@
         }
       },
       {
-        "hash": "jqcf66PMwjH4",
-        "address": "https://docs.aws.amazon.com/ja_jp/sagemaker/latest/dg/kubernetes-sagemaker-operators.html",
-        "title": "SageMaker AI Operators for Kubernetes - Amazon SageMaker AI",
-        "snippet": "Kubernetes - Amazon SageMaker AI\nView a markdown version of this page\nSageMaker AI Operators for Kubernetes - Amazon SageMaker AI\nドキュメントAmazon SageMakerデベロッパーガイド\nオペレーターとは\n翻訳は機械翻訳により提供されています。提供された翻訳内容と英語版の間で齟齬、不一致または矛盾がある場合、英語版が優先します。\nSageMaker AI Operators for Kubernetes\nSageMaker AI Operators for",
+        "hash": "3GGNfVPMwjH4",
+        "address": "https://docs.aws.amazon.com/zh_tw/eks/latest/userguide/kubernetes-versions-standard.html",
+        "title": "檢閱標準支援 Kubernetes 版本的版本備註 - Amazon EKS",
+        "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 42,
-            "textWords": 367
+            "hits": 45,
+            "textWords": 638
           }
         }
       },
       {
-        "hash": "8LjMgUYlAY74",
-        "address": "https://ubuntu.com/blog/kubernetes-for-finservs-unlocking-success-in-digital-transformations",
-        "title": "Kubernetes for Finservs – Unlocking success in digital transformations | Ubuntu",
+        "hash": "-LlF2YW4vJ7w",
+        "address": "https://dev.to/aws-builders/awesome-kubernetes-resources--218p",
+        "title": "Awesome Kubernetes Resources !!! 🔥 - DEV Community",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 37,
-            "textWords": 1715
+            "hits": 230,
+            "textWords": 5422
+          }
+        }
+      },
+      {
+        "hash": "0KDJNlaFvW05",
+        "address": "https://www.kubernetes.dev/docs/",
+        "title": "Documentation | Kubernetes Contributors",
+        "snippet": "Kubernetes Contributor Documentation\nGetting Started\nA small list of things that you should read and be familiar with before you get started with contributing. This includes such things as signing the Contributor License Agreement, familiarizing yourself with our Code of Conduct, and more.",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 6,
+            "textWords": 171
           }
         }
       },
@@ -632,293 +728,245 @@
         "hash": "L0PizM-VnHQw",
         "address": "https://kubernetes-csi.github.io/docs/",
         "title": "Introduction - Kubernetes CSI Developer Documentation",
-        "snippet": "",
+        "snippet": "Kubernetes Container Storage Interface (CSI) Documentation\nThis site documents how to develop, deploy, and test a Container Storage Interface (CSI) driver on Kubernetes.\nThe Container Storage Interface (CSI) is a standard for exposing arbitrary block and file storage systems to containerized",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 36,
-            "textWords": 773
+            "hits": 30,
+            "textWords": 536
           }
         }
       }
     ],
     [
       {
-        "hash": "dZkbOdUhjm5w",
-        "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/cli-ref.html",
-        "title": "Kubernetes Executor Commands — apache-airflow-providers-cncf-kubernetes Documentation",
-        "snippet": "Kubernetes Executor Commands — apache-airflow-providers-cncf-kubernetes Documentation\nAirflow Summit 2026 is coming August 31 - September 2 in Austin, TX. Register now to secure your spot!\nCommunity Meetups Documentation Registry Use Cases Announcements Blog Ecosystem\nCommunity Meetups",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 16,
-            "textWords": 548
-          }
-        }
-      },
-      {
-        "hash": "J1x-W-j-Xnjg",
-        "address": "https://www.lemagit.fr/etude/Kubernetes-LANSR-reste-fidele-a-loffre-managee-dOVHcloud",
-        "title": "Kubernetes : l’ANSR reste fidèle à l’offre managée d’OVHcloud | LeMagIT",
-        "snippet": "Kubernetes : l’ANSR reste fidèle à l’offre managée d’OVHcloud | LeMagIT\nRechercher sur LeMagIT\nS'inscrire maintenant. S'identifier S'abonner\nInforma TechTarget Explore the Network\nAn Informa TechTarget Publication Découvrez nos publications\nCookies\nProjets IT\nAgenda partenaires\nRessources PDF",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 19,
-            "textWords": 2096
-          }
-        }
-      },
-      {
-        "hash": "F6hres-UOu6x",
-        "address": "https://thenewstack.io/kubernetes-fleet-management-scale/?p=22821811",
-        "title": "How Microsoft is governing thousands of Kubernetes clusters without manual intervention - The New Stack",
+        "hash": "QXrR1PdMIKYg",
+        "address": "https://www.eca.europa.eu/ContentPagesDocuments/Traineeships/ECA_Traineeship_in_AI_Call_EN.pdf",
+        "title": "Call for applications - Trainees in the area of artificial intelligence",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 29,
-            "textWords": 6115
+            "hits": 1,
+            "textWords": 1919
           }
         }
       },
       {
-        "hash": "Lrx6s3v-xwmy",
-        "address": "https://events.linuxfoundation.org/kubernetes-forum-bengaluru/program/co-located-events/",
-        "title": "Day 2 Co-Located Events | Kubernetes Forum Bengaluru",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 4,
-            "textWords": 572
-          }
-        }
-      },
-      {
-        "hash": "WFhBV2cDhyy5",
-        "address": "https://aerospike.com/docs/kubernetes/tools/backup/upgrade-backup-service/",
-        "title": "Upgrade Aerospike Backup Service on Kubernetes | Aerospike Documentation",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 12,
-            "textWords": 8445
-          }
-        }
-      },
-      {
-        "hash": "DxxvjN672-Uz",
-        "address": "https://platformengineering.org/reports/kubernetes-cluster-lifecycle-management-for-platform-engineers",
-        "title": "Kubernetes cluster lifecycle management for platform engineers",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 5,
-            "textWords": 1033
-          }
-        }
-      },
-      {
-        "hash": "FCMmGmWa3iA5",
-        "address": "https://cloudplatform.googleblog.com/2018/06/GPUs-as-a-service-with-Kubernetes-Engine-are-now-generally-available.html",
-        "title": "Google Cloud Platform Blog: GPUs as a service with Kubernetes Engine are now generally available",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 24,
-            "textWords": 1242
-          }
-        }
-      },
-      {
-        "hash": "QK3R_Xyvgfs5",
-        "address": "https://docs.digitalocean.com/reference/api/scopes/kubernetes/create/",
-        "title": "kubernetes:create | DigitalOcean Documentation",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 15,
-            "textWords": 730
-          }
-        }
-      },
-      {
-        "hash": "bxK4IsrUFFH5",
-        "address": "https://betterstack.com/community/questions/monitor-custom-kubernetes-pod-metrics-using-prometheus/",
-        "title": "Monitor Custom Kubernetes Pod Metrics Using Prometheus | Better Stack Community",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 11,
-            "textWords": 1160
-          }
-        }
-      },
-      {
-        "hash": "cP8Rbvyg9Qay",
-        "address": "https://microservices.io/tags/kubernetes",
-        "title": "tagged with: kubernetes",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 5,
-            "textWords": 1348
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "6y4OTxAl9Ia5",
-        "address": "https://developer.hashicorp.com/vault/tutorials/integrate-kubernetes-hcp-vault-dedicated/kubernetes-vso-hcp-vault",
-        "title": "Create Kubernetes native secrets from HCP Vault Dedicated with VSO | Vault | HashiCorp Developer",
-        "snippet": "Kubernetes native secrets from HCP Vault Dedicated with VSO | Vault | HashiCorp Developer\nHashiConf 2025 Don't miss the live stream of HashiConf Day 2 happening now View live stream\nProducts\nHashiCorp Cloud Platform\nGet started in minutes with our cloud products\nLearn more\nInfrastructure Lifecycle",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 59,
-            "textWords": 2170
-          }
-        }
-      },
-      {
-        "hash": "8uckywn-yhj5",
-        "address": "https://www.infoworld.com/article/2338345/cosmonic-webassembly-paas-connects-with-kubernetes.html",
-        "title": "Cosmonic WebAssembly PaaS connects with Kubernetes | InfoWorld",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 9,
-            "textWords": 1205
-          }
-        }
-      },
-      {
-        "hash": "1XLGT5c9duY5",
-        "address": "https://azure.microsoft.com/en-us/products/monitor",
-        "title": "Azure Monitor | Microsoft Azure",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 134,
-            "textWords": 2953
-          }
-        }
-      },
-      {
-        "hash": "dndkvGS6MKD4",
-        "address": "https://github.com/kubernetes/kubernetes/pulls",
-        "title": "Pull requests · kubernetes/kubernetes · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 7,
-            "textWords": 3908
-          }
-        }
-      },
-      {
-        "hash": "MHEnELo7vSm6",
-        "address": "https://www.paloaltonetworks.com/cyberpedia/kubernetes-security",
-        "title": "What Is Kubernetes Security? - Palo Alto Networks",
-        "snippet": "Kubernetes Security? - Palo Alto Networks\nDiscover how prevention starts before the attack at InterSECt 2026. Watch Now\nPrisma AIRS AI Gateway is now generally available\nProducts\nSolutions\nServices\nIndustries\nPartners\nResources\nus\nAccounts \u0026 Support\nDemos and Trials\nSearch\nAll\nTech Docs\nClose",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 159,
-            "textWords": 4182
-          }
-        }
-      },
-      {
-        "hash": "Ceyo32cDhyy5",
-        "address": "https://aerospike.com/docs/kubernetes/install/helm/",
-        "title": "Install Aerospike Kubernetes Operator using Helm | Aerospike Documentation",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 29,
-            "textWords": 10102
-          }
-        }
-      },
-      {
-        "hash": "Vx2LaG1ajpq5",
-        "address": "https://www.linuxjournal.com/content/kubernetes-and-docker-exploring-synergy-containerization",
-        "title": "Kubernetes vs. Docker: Exploring the Synergy in Containerization | Linux Journal",
-        "snippet": "Kubernetes vs. Docker: Exploring the Synergy in Containerization | Linux Journal\nSkip to main content\nToggle navigation\nTopics+ Cloud\nContainers\nDesktop\nKernel\nMobile\nNetworking\nPrivacy\nProgramming\nSecurity\nServers\nSysAdmin\nNews\neBooks\nSearch\nSearch\nSearch\nEnter the terms you wish to search for.",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 46,
-            "textWords": 1367
-          }
-        }
-      },
-      {
-        "hash": "IK2S_fRMLT-5",
-        "address": "https://canonical.com/juju/docs/juju-cli/3.6/reference/cloud/list-of-supported-clouds/canonical-kubernetes/",
-        "title": "Canonical Kubernetes - Juju documentation",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 61,
-            "textWords": 2317
-          }
-        }
-      },
-      {
-        "hash": "rVmyv3v-xwmy",
-        "address": "https://events.linuxfoundation.org/kubernetes-forum-bengaluru/program/schedule/",
-        "title": "Schedule | Kubernetes Forum Bengaluru",
+        "hash": "G6P9McxYdD3g",
+        "address": "https://www.ecb.europa.eu/press/intro/news/html/ecb.mipnews231213_annex4.de.pdf",
+        "title": "Trigger Solution Service Description",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 2,
-            "textWords": 514
+            "textWords": 19065
           }
         }
       },
       {
-        "hash": "Eud8pSE7RYL4",
-        "address": "https://www.red-gate.com/simple-talk/devops/containers-and-virtualization/how-to-create-kubernetes-deployments-and-services-using-yaml-files-and-kubectl/",
-        "title": "How to Create Kubernetes Deployments and Services using YAML files and Kubectl | Simple Talk",
+        "hash": "LS4nRt2UitBg",
+        "address": "https://www.wu.ac.at/fileadmin/wu/h/structure/servicecenters/hr/Mitteilungsblatt/Studienjahr_2025_2026/November_2025/Mitteilungsblatt_12.11.2025_7.St%C3%BCck.pdf",
+        "title": "Mitteilungsblatt_12.11.2025_7.Stück.pdf",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 75,
-            "textWords": 2493
+            "hits": 3,
+            "textWords": 8771
+          }
+        }
+      },
+      {
+        "hash": "1rSSaMXDslVg",
+        "address": "https://ec.europa.eu/docsroom/documents/48878/attachments/2/translations/en/renditions/native",
+        "title": "",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 2,
+            "textWords": 29653
+          }
+        }
+      },
+      {
+        "hash": "jNB1Lt2UitBg",
+        "address": "https://www.wu.ac.at/fileadmin/wu/h/structure/servicecenters/hr/Mitteilungsblatt/Studienjahr_2025_2026/Mai_2026/Mitteilungsblatt_06.05.2026_31.St%C3%BCck.pdf",
+        "title": "Mitteilungsblatt_06.05.2026_31.Stück.pdf",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 1,
+            "textWords": 7273
+          }
+        }
+      },
+      {
+        "hash": "L85BucxYdD3g",
+        "address": "https://www.ecb.europa.eu/press/intro/news/html/ecb.mipnews231213_annex4.en.pdf",
+        "title": "Trigger Solution Service Description",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 2,
+            "textWords": 19065
+          }
+        }
+      },
+      {
+        "hash": "nrp7tcxYdD3g",
+        "address": "https://www.ecb.europa.eu/press/intro/news/ecb.mipnews231213_annex4.en.pdf",
+        "title": "Trigger Solution Service Description",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 2,
+            "textWords": 17920
           }
         }
       }
     ],
     [
       {
-        "hash": "n3XoxFCmq5v4",
-        "address": "https://www.suse.com/c/rancher_blog/deploy-a-nodejs-app-on-kubernetes-and-rancher/",
-        "title": "Deploy a NodeJS App on Kubernetes and Rancher | SUSE Communities",
-        "snippet": "Kubernetes and Rancher | SUSE Communities\nWhy Rancher? Why Rancher?\nUse cases​\nOur Difference​\nOur Platform Overview of Rancher Prime\nCloud-Native Infrastructure\nSecurity \u0026 Performance\nApplication Development\nKubernetes Distributions\nSupport Rancher Support Support Request Documentation\nLearn",
+        "hash": "ubKuHJb8iyg4",
+        "address": "https://cloud.google.com/kubernetes-engine/pricing",
+        "title": "Google Kubernetes Engine pricing | Google Cloud",
+        "snippet": "Kubernetes Engine (GKE).\nGKE includes fully automated cluster lifecycle management, pod and cluster autoscaling, cost visibility, automated infrastructure cost optimization, and multi-cluster management features, like Fleets, Teams, Config Management, Policy Controller, and Fleet dashboard, at no",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 43,
-            "textWords": 1561
+            "hits": 9,
+            "textWords": 3588
           }
         }
       },
+      {
+        "hash": "Nls-ju35ENm5",
+        "address": "https://maltheborch.com/2022/04/automatic-https-on-kubernetes.html",
+        "title": "Automatic HTTPS on Kubernetes",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "hlp8hzS6MKD4",
+        "address": "https://github.com/topics/kubernetes",
+        "title": "kubernetes · GitHub Topics · GitHub",
+        "snippet": "Kubernetes (commonly referred to as “K8s”) is an open source system for automating deployment, scaling and management of containerized applications originally designed by Google and donated to the Cloud Native Computing Foundation. It aims to provide a “platform for automating deployment, scaling,",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 7,
+            "textWords": 509
+          }
+        }
+      },
+      {
+        "hash": "zQvx_lSCNQa4",
+        "address": "https://www.redhat.com/en",
+        "title": "Red Hat - We make open source technologies for the enterprise",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 2,
+            "textWords": 3124
+          }
+        }
+      },
+      {
+        "hash": "zrfWjGBVpjfi",
+        "address": "https://lucaswerkmeister.de/posts/2025/07/29/migrating-tools-to-buildservice/",
+        "title": "Migrating my tools to the Toolforge Build Service",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 1,
+            "textWords": 2555
+          }
+        }
+      },
+      {
+        "hash": "-KY67tI2N2_4",
+        "address": "https://blog.flaper87.com/",
+        "title": "Developer's black hole",
+        "snippet": "Kubernetes\nI recently posted a small screencast showing part of the progress I've made on the research to deploy OpenStack services on Kubernetes using TripleO.\nIn this new screencast, I would like to demo a small deployment of Keystone, Glance, and mariadb using the TripleO undercloud deploy",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 4,
+            "textWords": 313
+          }
+        }
+      },
+      {
+        "hash": "NcEsSsw_gJt4",
+        "address": "https://knative.dev/docs/",
+        "title": "Overview - Knative",
+        "snippet": "Kubernetes-based platform that provides a complete set of middleware components for building, deploying, and managing modern serverless workloads. Knative extends Kubernetes to provide higher-level abstractions that simplify the development and operation of cloud-native applications.\nProblems",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 32,
+            "textWords": 2410
+          }
+        }
+      },
+      {
+        "hash": "gDsYukRFf6Bx",
+        "address": "https://wikitech.wikimedia.org/wiki/Deployments",
+        "title": "Deployments - Wikitech",
+        "snippet": "kubernetes deployment.\n14:30–15:00 UTC #\n07:30–08:00 PDT\nTest Kitchen Experiment Deployment Window\nDeployer\nTest Kitchen\nChanges\nAutomatic start/stop of active experiments and instruments managed by Test Kitchen.\n15:30–16:00 UTC #\n08:30–09:00 PDT\nWikimedia Portals Update\nDeployer\nJan Drewniak",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 24,
+            "textWords": 4834
+          }
+        }
+      },
+      {
+        "hash": "kh05NsYlAY74",
+        "address": "https://ubuntu.com/download",
+        "title": "Get Ubuntu | Download | Ubuntu",
+        "snippet": "Ubuntu is the world's favorite Linux operating system. Run it on your laptop, workstation, server, or IoT device, with five years of free security updates. Ubuntu is always free to download and use, and you’re welcome to share the official, unmodified Ubuntu installer images. If you're planning to",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 0,
+            "textWords": 346
+          }
+        }
+      },
+      {
+        "hash": "AJpVoz7OfS44",
+        "address": "https://labs.iximiuz.com/",
+        "title": "iximiuz Labs - A hands-on learning platform for Linux, Docker, Kubernetes, and Networking",
+        "snippet": "Kubernetes, and Networking\nPractice on real servers, solve challenges, and follow guided Linux, Docker, Kubernetes, and Networking learning paths — all from your browser or via SSH.\nlabctl playground start docker\nSpinning up a fresh Docker host... Ready!\nroot@vm:~$\nFeatured Roadmap Master Docker",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 6,
+            "textWords": 712
+          }
+        }
+      }
+    ],
+    [
       {
         "hash": "F3WKxSyfovZ5",
         "address": "https://www.enterprisedb.com/use-case/microservices-and-kubernetes",
         "title": "Application Scalability with Microservices and Kubernetes: EDB Postgres AI",
-        "snippet": "Kubernetes: EDB Postgres AI\nSkip to main content\nMy Account Support Portal\nTraining Portal\nMigration Portal\nPartner Portal\nAccount Settings\nSign Out\nSign In Sign In\nContact Us\nPlatform EDB Postgres AI View the platform » Core Database\nAnalytics\nAgentic AI\nDeploy Anywhere\nFEATURED CAPABILITIES",
+        "snippet": "Kubernetes comes with significant challenges. Such architectures have inconsistent performance, require additional administrative overhead to keep operations running, and involve operational complexity when deploying across the public cloud, private cloud, on-prem, and other locations.\nOUR SOLUTION",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 38,
-            "textWords": 2097
+            "hits": 27,
+            "textWords": 1434
           }
         }
       },
       {
-        "hash": "hbZPoyRO6Xx4",
-        "address": "https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_security_for_kubernetes/3.74/html-single/about/index",
-        "title": "About | Red Hat Advanced Cluster Security for Kubernetes | 3.74 | Red Hat Documentation",
-        "snippet": "Kubernetes | 3.74 | Red Hat Documentation\nSkip to navigationSkip to contentFeatured links\nSupport\nConsole\nDevelopers\nStart a trial\nAll Red Hat\nFor customersCustomer support\nSubscription management\nSupport Cases\nRed Hat Ecosystem Catalog\nFind a partner\nFor partnersPartner portal\nPartner support",
+        "hash": "n3XoxFCmq5v4",
+        "address": "https://www.suse.com/c/rancher_blog/deploy-a-nodejs-app-on-kubernetes-and-rancher/",
+        "title": "Deploy a NodeJS App on Kubernetes and Rancher | SUSE Communities",
+        "snippet": "Kubernetes\norchestration\nframework. Now, you can leverage the capabilities of Kubernetes with\nyour Rancher environments. Kubernetes is an open-source cluster\nmanagement framework for application containers started by Google; it’s\ndesigned to provide a simple way to deploy, schedule, scale, and roll",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 27,
-            "textWords": 1263
+            "hits": 33,
+            "textWords": 1147
           }
         }
       },
@@ -926,11 +974,11 @@
         "hash": "SGpSAlyJVbc5",
         "address": "https://www.vpsserver.com/managing-kubernetes/",
         "title": "Kubernetes | Simplifying Multi-Cloud and Hybrid Deployments",
-        "snippet": "Kubernetes | Simplifying Multi-Cloud and Hybrid Deployments\nExplore Our Global VPS Services with a $100 FREE 30-Day Trial Get\nStarted\nVPSServer\nVPS\nVPS Plans Linux VPS Windows VPS Managed VPS\nPricing\nTechnology\nLocations\nUSA - New York, Chicago, Dallas, Miami, Atlanta, Los Angeles, Seattle \u0026",
+        "snippet": "Kubernetes is an open-source platform that automates these jobs more easily and quickly. This article provides an in-depth analysis of Kubernetes, examining its fundamental features, advantages, and the reasons for its widespread adoption as the preferred solution for overseeing containerized",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 113,
-            "textWords": 3587
+            "hits": 111,
+            "textWords": 3166
           }
         }
       },
@@ -943,6 +991,30 @@
           "t26Yr5qqaAl5": {
             "hits": 7,
             "textWords": 569
+          }
+        }
+      },
+      {
+        "hash": "hbZPoyRO6Xx4",
+        "address": "https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_security_for_kubernetes/3.74/html-single/about/index",
+        "title": "About | Red Hat Advanced Cluster Security for Kubernetes | 3.74 | Red Hat Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 27,
+            "textWords": 1473
+          }
+        }
+      },
+      {
+        "hash": "o0eGEOjw1Zlx",
+        "address": "https://kubernetes.io/zh-cn/blog/2023/08/15/pkgs-k8s-io-introduction/",
+        "title": "pkgs.k8s.io：介绍 Kubernetes 社区自有的包仓库 | Kubernetes",
+        "snippet": "Kubernetes SIG Release 介绍 Kubernetes 社区自有的 Debian 和 RPM 软件仓库：pkgs.k8s.io！ 这些全新的仓库取代了我们自 Kubernetes v1.5 以来一直使用的托管在 Google 的仓库（apt.kubernetes.io 和 yum.kubernetes.io）。\n这篇博文包含关于这些新的包仓库的信息、它对最终用户意味着什么以及如何迁移到新仓库。\nℹ️ 更新（2024 年 3 月 26 日）：旧版托管在 Google 的仓库于 2024 年 3 月 4 日停用。 你不能再从旧版托管在 Google 的包仓库中安装",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 57,
+            "textWords": 676
           }
         }
       },
@@ -993,54 +1065,18 @@
             "textWords": 1660
           }
         }
-      },
-      {
-        "hash": "gMCrwYXeYQw4",
-        "address": "https://www.gft.com/be/en/solutions/aws-elastic-kubernetes-service",
-        "title": "Amazon EKS Delivery | GFT Technologies Belgium",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 11,
-            "textWords": 816
-          }
-        }
       }
     ],
     [
       {
-        "hash": "BK1hxXyvgfs5",
-        "address": "https://docs.digitalocean.com/reference/api/scopes/kubernetes/access_cluster/",
-        "title": "kubernetes:access_cluster | DigitalOcean Documentation",
-        "snippet": "kubernetes:access_cluster | DigitalOcean Documentation\nDocs\nPlatform\nProducts\nReference\nSupport\nSign Up\ndoctl CLI\nAPIs\nDigitalOcean API\nReference\nCreate an Access Token\nManage Model Access Keys\nSpaces API\nReference\nOAuth API\nMetadata API\nReference\nAccess Metadata\nToken Scopes\naccount\nactions\naddon",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 14,
-            "textWords": 346
-          }
-        }
-      },
-      {
-        "hash": "i1qY6Gs7qoi5",
-        "address": "https://itopstimes.com/kubernetes/three-ways-to-automate-kubernetes-incident-management/",
-        "title": "Three ways to automate Kubernetes incident management - ITOps Times",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 14,
-            "textWords": 3216
-          }
-        }
-      },
-      {
         "hash": "sIGvK5c9duY5",
         "address": "https://azure.microsoft.com/en-us/products/kubernetes-service/",
         "title": "Azure Kubernetes Service (AKS) | Microsoft Azure",
-        "snippet": "Kubernetes Service (AKS) | Microsoft Azure\nThis is the Trace Id: 56f88709f9d3eb7fd820ccd99cfccb3b\nSkip to main content\nAzure\nGet to know Azure Microsoft as Customer Zero\nView all products (200+) Microsoft Foundry Azure Copilot GitHub Copilot Azure Kubernetes Service (AKS) Azure Cosmos DB Azure",
+        "snippet": "Kubernetes API and ecosystem.\nOptimize app performance at scale and increase productivity of containerized workloads from cloud to edge.\nSecurely modernize and optimize Kubernetes environments with unified management, governance, and monitoring.\nExplore new scenarios by tapping into open-source",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 49,
-            "textWords": 2526
+            "hits": 21,
+            "textWords": 1237
           }
         }
       },
@@ -1048,23 +1084,23 @@
         "hash": "C2SN3wn-yhj5",
         "address": "https://www.infoworld.com/article/2266945/what-is-kubernetes-scalable-cloud-native-applications.html",
         "title": "What is Kubernetes? Scalable cloud-native applications | InfoWorld",
-        "snippet": "Kubernetes? Scalable cloud-native applications | InfoWorld\nTopics\nLatest\nNewsletters\nResources\nBuyer’s Guides\nEvents\nSearch\nMenu\nTopics\nClose\nAnalytics\nArtificial Intelligence\nCareers\nCloud Computing\nData Management\nDatabases\nDevelopment Tools\nDevops\nEmerging Technology\nEnterprise Buyer’s Guides",
+        "snippet": "Kubernetes is a popular open source platform for container orchestration—that is, for managing applications built from multiple, largely self-contained runtimes called containers.\nContainers have become increasingly popular since Docker launched in 2013, but large applications spread out across",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 117,
-            "textWords": 3405
+            "hits": 114,
+            "textWords": 2835
           }
         }
       },
       {
-        "hash": "rlPK_Bj-Xnjg",
-        "address": "https://www.lemagit.fr/actualites/252474547/KubeCon-Huawei-fait-de-Kubernetes-une-solution-de-Edge-Computing",
-        "title": "KubeCon : Huawei fait de Kubernetes une solution de Edge Computing | LeMagIT",
+        "hash": "BK1hxXyvgfs5",
+        "address": "https://docs.digitalocean.com/reference/api/scopes/kubernetes/access_cluster/",
+        "title": "kubernetes:access_cluster | DigitalOcean Documentation",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 15,
-            "textWords": 2047
+            "hits": 14,
+            "textWords": 661
           }
         }
       },
@@ -1077,6 +1113,18 @@
           "t26Yr5qqaAl5": {
             "hits": 14,
             "textWords": 817
+          }
+        }
+      },
+      {
+        "hash": "i1qY6Gs7qoi5",
+        "address": "https://itopstimes.com/kubernetes/three-ways-to-automate-kubernetes-incident-management/",
+        "title": "Three ways to automate Kubernetes incident management - ITOps Times",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 14,
+            "textWords": 3216
           }
         }
       },
@@ -1117,6 +1165,18 @@
         }
       },
       {
+        "hash": "rlPK_Bj-Xnjg",
+        "address": "https://www.lemagit.fr/actualites/252474547/KubeCon-Huawei-fait-de-Kubernetes-une-solution-de-Edge-Computing",
+        "title": "KubeCon : Huawei fait de Kubernetes une solution de Edge Computing | LeMagIT",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 15,
+            "textWords": 2047
+          }
+        }
+      },
+      {
         "hash": "uYqRxs7Yxvhx",
         "address": "https://www.postgresql.org/about/news/pgedge-announces-cloudnativepg-integration-simplifying-postgres-on-kubernetes-3166/",
         "title": "PostgreSQL: pgEdge Announces CloudNativePG Integration, Simplifying Postgres on Kubernetes",
@@ -1134,11 +1194,11 @@
         "hash": "yy8YSGYlAY74",
         "address": "https://ubuntu.com/kubernetes/managed",
         "title": "Managed Kubernetes | Kubernetes | Ubuntu",
-        "snippet": "Kubernetes | Kubernetes | Ubuntu\nYour submission was sent successfully! Close\nThank you for contacting us. A member of our team will be in touch shortly. Close\nYou have successfully unsubscribed! Close\nThank you for signing up for our newsletter!\nIn these regular emails you will find the latest",
+        "snippet": "Kubernetes clusters. Run your Kubernetes anywhere with a flexible pricing model. Take back control whenever you are ready.\nKubernetes-as-a-service from our team of experts\nPredictable economics\nPredictable pricing model that gives you the flexibility to run Kubernetes on VMs, bare-metal or public",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 30,
-            "textWords": 1633
+            "hits": 17,
+            "textWords": 737
           }
         }
       },
@@ -1146,11 +1206,11 @@
         "hash": "LrlbTLo7vSm6",
         "address": "https://www.paloaltonetworks.com/cyberpedia/kubernetes-cluster-security?ts=markdown",
         "title": "Securing Your Kubernetes Cluster: Kubernetes Best Practices and Strategies - Palo Alto Networks",
-        "snippet": "Kubernetes Cluster: Kubernetes Best Practices and Strategies - Palo Alto Networks\nDiscover how prevention starts before the attack at InterSECt 2026. Watch Now\nPrisma AIRS AI Gateway is now generally available\nProducts\nSolutions\nServices\nIndustries\nPartners\nResources\nus\nAccounts \u0026 Support\nDemos and",
+        "snippet": "Kubernetes is an open-source container orchestration platform. It provides capabilities to automate container deployment, scaling, and operation across a cluster base in a Kubernetes environment. The Kubernetes framework is used for running distributed systems resiliently, allowing for scaling and",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 201,
-            "textWords": 4101
+            "hits": 91,
+            "textWords": 2422
           }
         }
       },
@@ -1191,18 +1251,6 @@
         }
       },
       {
-        "hash": "BLUJMwKvmHFw",
-        "address": "https://www.cncf.io/reports/kubernetes-day-bengaluru-2019/",
-        "title": "Kubernetes Day Bengaluru 2019 | CNCF",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 9,
-            "textWords": 1300
-          }
-        }
-      },
-      {
         "hash": "xf5b9SE7RYL4",
         "address": "https://www.red-gate.com/simple-talk/devops/containers-and-virtualization/checking-the-pulse-of-kubernetes/",
         "title": "Checking the pulse of Kubernetes | Simple Talk",
@@ -1215,14 +1263,14 @@
         }
       },
       {
-        "hash": "QxAjTfVtogJg",
-        "address": "https://www.cnews.ru/reviews/platformy_kubernetes_kompleksnoe_upravlenie/articles/cnewsmarket_opublikoval_pervyj_rejting_4",
-        "title": "CNewsMarket опубликовал первый рейтинг платформ Kubernetes для разработчиков ПО. Обзор: Платформы Kubernetes для комплексного управления разработкой приложений 2026 - CNews",
+        "hash": "BLUJMwKvmHFw",
+        "address": "https://www.cncf.io/reports/kubernetes-day-bengaluru-2019/",
+        "title": "Kubernetes Day Bengaluru 2019 | CNCF",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 31,
-            "textWords": 2878
+            "hits": 9,
+            "textWords": 1300
           }
         }
       },
@@ -1239,40 +1287,52 @@
         }
       },
       {
-        "hash": "xAReydxoOQQg",
-        "address": "https://www.nluug.nl/evenementen/nluug/voorjaarsconferentie-2019/talks/amir-jerbi-keeping-your-kubernetes-secured-using-kube-hunter-kube-bench-and-microscanner-github/",
-        "title": "Amir Jerbi - Keeping your Kubernetes secured using kube-hunter, kube-bench and microscanner GitHub | NLUUG",
+        "hash": "QxAjTfVtogJg",
+        "address": "https://www.cnews.ru/reviews/platformy_kubernetes_kompleksnoe_upravlenie/articles/cnewsmarket_opublikoval_pervyj_rejting_4",
+        "title": "CNewsMarket опубликовал первый рейтинг платформ Kubernetes для разработчиков ПО. Обзор: Платформы Kubernetes для комплексного управления разработкой приложений 2026 - CNews",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 8,
-            "textWords": 411
+            "hits": 31,
+            "textWords": 2878
+          }
+        }
+      },
+      {
+        "hash": "zKPVoUtgnJ_5",
+        "address": "https://vivekdhami.com/blog/kubernetes-working-with-multiple-contexts/",
+        "title": "Kubernetes: Working with multiple contexts | Vivek Dhami",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 4,
+            "textWords": 531
           }
         }
       }
     ],
     [
       {
-        "hash": "PbrXWGS6MKD4",
-        "address": "https://github.com/kubernetes/kubernetes",
+        "hash": "nBX0yGS6MKD4",
+        "address": "https://github.com/kubernetes/kubernetes/tree/master",
         "title": "GitHub - kubernetes/kubernetes: Production-Grade Container Scheduling and Management · GitHub",
-        "snippet": "kubernetes/kubernetes: Production-Grade Container Scheduling and Management · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools",
+        "snippet": "Kubernetes, also known as K8s, is an open source system for managing containerized applications across multiple hosts. It provides basic mechanisms for the deployment, maintenance, and scaling of applications.\nKubernetes builds upon a decade and a half of experience at Google running production",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 32,
-            "textWords": 933
+            "hits": 26,
+            "textWords": 385
           }
         }
       },
       {
-        "hash": "rhegtsjw1Zlx",
-        "address": "https://kubernetes.io/training/",
-        "title": "Training | Kubernetes",
-        "snippet": "Kubernetes\nKubernetesDocumentation\nKubernetes Blog\nTraining\nCareers\nPartners\nCommunity\nVersionsRelease Information\nv1.37\nv1.36\nv1.35\nv1.34\nv1.33\nEnglishবাংলা (Bengali)\n中文 (Chinese)\nDeutsch (German)\nहिन्दी (Hindi)\nItaliano (Italian)\n日本語 (Japanese)\n한국어 (Korean)\nفارسی (Persian)\nPolski (Polish)\nEspañol",
+        "hash": "qjEAgsjw1Zlx",
+        "address": "https://kubernetes.io/zh-cn/",
+        "title": "Kubernetes",
+        "snippet": "Kubernetes 也称为 K8s，是用于自动部署、扩缩和管理容器化应用程序的开源系统。\n它将组成应用程序的容器组合成逻辑单元，以便于管理和服务发现。Kubernetes 源自 Google 15 年生产环境的运维经验，同时凝聚了社区的最佳创意和实践。\n星际尺度\nGoogle 每周运行数十亿个容器，Kubernetes 基于与之相同的原则来设计，能够在不扩张运维团队的情况下进行规模扩展。\n永不过时\n无论是本地测试，还是跨国公司，Kubernetes 的灵活性都能让你在应对复杂系统时得心应手。\n处处适用\nKubernetes",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 42,
-            "textWords": 639
+            "hits": 18,
+            "textWords": 196
           }
         }
       },
@@ -1292,11 +1352,23 @@
         "hash": "P75USsYlAY74",
         "address": "https://ubuntu.com/kubernetes",
         "title": "Enterprise Kubernetes for multi-cloud operations | Ubuntu",
-        "snippet": "Kubernetes for production at scale | Ubuntu\nYour submission was sent successfully! Close\nThank you for contacting us. A member of our team will be in touch shortly. Close\nYou have successfully unsubscribed! Close\nThank you for signing up for our newsletter!\nIn these regular emails you will find the",
+        "snippet": "Kubernetes to simplify your deployments, and focus on applications, not infrastructure. With Canonical Kubernetes, you get hassle-free installation and maintenance, and peace of mind for your containerized workloads.\nWhy choose\nCanonical Kubernetes platform?\nUp to 15-year security maintenance and",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 61,
-            "textWords": 1810
+            "hits": 49,
+            "textWords": 948
+          }
+        }
+      },
+      {
+        "hash": "PbrXWGS6MKD4",
+        "address": "https://github.com/kubernetes/kubernetes",
+        "title": "GitHub - kubernetes/kubernetes: Production-Grade Container Scheduling and Management · GitHub",
+        "snippet": "Kubernetes, also known as K8s, is an open source system for managing containerized applications across multiple hosts. It provides basic mechanisms for the deployment, maintenance, and scaling of applications.\nKubernetes builds upon a decade and a half of experience at Google running production",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 26,
+            "textWords": 385
           }
         }
       },
@@ -1304,11 +1376,11 @@
         "hash": "HYRbGlAE-CX4",
         "address": "https://www.pulumi.com/kubernetes/",
         "title": "Kubernetes with Pulumi | Pulumi",
-        "snippet": "Kubernetes with Pulumi | Pulumi\nSkip to main content\nIdentify weaknesses before attackers do. Neo Security finds and fixes exploitable flaws in your infrastructure. Now in research preview.\nRead the blog\nProduct\nFor engineers\nFor enterprises\nDocs\nRegistry\nBlog\nPricing\nCompany\nCore product\nPlatform",
+        "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 62,
-            "textWords": 1754
+            "hits": 58,
+            "textWords": 2273
           }
         }
       },
@@ -1316,11 +1388,11 @@
         "hash": "n00mMlSCNQa4",
         "address": "https://www.redhat.com/en/topics/containers/learning-kubernetes-tutorial",
         "title": "Learning Kubernetes basics",
-        "snippet": "Kubernetes basics\nSkip to content AI Overview\nAI news\nTechnical blog\nLive AI events\nInference explained\nSee our approach\nProducts\nRed Hat AI Enterprise\nRed Hat AI Inference\nRed Hat Enterprise Linux AI\nRed Hat OpenShift AI\nExplore Red Hat AI\nEngage \u0026 learn\nLearning hub\nAI topics\nAI partners\nServices",
+        "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 112,
-            "textWords": 2881
+            "hits": 109,
+            "textWords": 3119
           }
         }
       },
@@ -1328,11 +1400,11 @@
         "hash": "c8RTymBHP_k4",
         "address": "https://www.toptal.com/developers/kubernetes",
         "title": "11 Best Freelance Kubernetes Developers for Hire in September 2026 | Toptal®",
-        "snippet": "Kubernetes Developers for Hire in September 2026 | Toptal®\nNewsweek Ranks Toptal Toptal Ranked #1 Most Reliable Professional Services Company in America.\nSkip to Navigation\nSkip to Content\nSkip to Footer\nToptal emblem\nToptal brand logo\n®\nDevelopers\nTop 3%Hire Talent\nDevelopersDesignersMarketing",
+        "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 201,
-            "textWords": 6916
+            "hits": 204,
+            "textWords": 9123
           }
         }
       },
@@ -1349,148 +1421,136 @@
         }
       },
       {
-        "hash": "zEKTiUndRB5x",
-        "address": "https://spacelift.io/blog/kubernetes",
-        "title": "Kubernetes Guides and Tutorials | Spacelift Blog",
-        "snippet": "",
+        "hash": "0a9jt1o58Nix",
+        "address": "https://discuss.kubernetes.io/",
+        "title": "Discuss Kubernetes",
+        "snippet": "Kubernetes project related to core Kubernetes.\n326\nGeneral Discussions\nGot something to say about Kubernetes? Hop in here. Links to interesting cloud-native blog posts encouraged.\n5689\nRegional Discussions\nThe Regional Discussions Category is intended for those users that belong to a specific",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 55,
-            "textWords": 1901
-          }
-        }
-      },
-      {
-        "hash": "igh22sex2X2w",
-        "address": "https://owasp.org/www-project-kubernetes-top-ten/",
-        "title": "OWASP Kubernetes Top Ten | OWASP Foundation",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 15,
-            "textWords": 620
+            "hits": 3,
+            "textWords": 117
           }
         }
       }
     ],
     [
       {
-        "hash": "5D_p4cZWqvhw",
-        "address": "https://docs.nats.io/learn/deployment/config-management",
-        "title": "Config management | NATS Documentation",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 8,
-            "textWords": 2201
-          }
-        }
-      },
-      {
-        "hash": "6mSxnzb8iyg4",
-        "address": "https://cloud.google.com/pricing/list",
-        "title": "Pricing per product | Google Cloud",
-        "snippet": "",
+        "hash": "ubKuHJb8iyg4",
+        "address": "https://cloud.google.com/kubernetes-engine/pricing",
+        "title": "Google Kubernetes Engine pricing | Google Cloud",
+        "snippet": "Kubernetes Engine (GKE).\nGKE includes fully automated cluster lifecycle management, pod and cluster autoscaling, cost visibility, automated infrastructure cost optimization, and multi-cluster management features, like Fleets, Teams, Config Management, Policy Controller, and Fleet dashboard, at no",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 9,
-            "textWords": 3131
+            "textWords": 3588
           }
         }
       },
       {
-        "hash": "68lXt2sEYJ15",
-        "address": "https://tailscale.com/docs/reference/troubleshooting",
-        "title": "Troubleshooting guide Â· Tailscale Docs",
+        "hash": "Nls-ju35ENm5",
+        "address": "https://maltheborch.com/2022/04/automatic-https-on-kubernetes.html",
+        "title": "Automatic HTTPS on Kubernetes",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 4,
-            "textWords": 1380
+            "hits": 0,
+            "textWords": 0
           }
         }
       },
       {
-        "hash": "4rlD_AK-xyJ4",
-        "address": "https://go.dev/doc/go1.25",
-        "title": "Go 1.25 Release Notes - The Go Programming Language",
-        "snippet": "",
+        "hash": "hlp8hzS6MKD4",
+        "address": "https://github.com/topics/kubernetes",
+        "title": "kubernetes · GitHub Topics · GitHub",
+        "snippet": "Kubernetes (commonly referred to as “K8s”) is an open source system for automating deployment, scaling and management of containerized applications originally designed by Google and donated to the Cloud Native Computing Foundation. It aims to provide a “platform for automating deployment, scaling,",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 3927
+            "hits": 7,
+            "textWords": 509
           }
         }
       },
       {
-        "hash": "7NqaHG0jxin4",
-        "address": "https://docs.gitlab.com/development/work_items/",
-        "title": "Work items and work item types | GitLab Docs",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 3548
-          }
-        }
-      },
-      {
-        "hash": "6i6TLpvnmcu4",
-        "address": "https://access.redhat.com/support/policy/updates/openstack/platform",
-        "title": "Red Hat OpenStack Platform Life Cycle | Red Hat Customer Portal",
+        "hash": "zQvx_lSCNQa4",
+        "address": "https://www.redhat.com/en",
+        "title": "Red Hat - We make open source technologies for the enterprise",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 2,
-            "textWords": 2703
+            "textWords": 3124
           }
         }
       },
       {
-        "hash": "66QNjizFb3q4",
-        "address": "https://careers.phenom.com/global/en",
-        "title": "Phenom: Helping Global Leaders Hire Better",
+        "hash": "zrfWjGBVpjfi",
+        "address": "https://lucaswerkmeister.de/posts/2025/07/29/migrating-tools-to-buildservice/",
+        "title": "Migrating my tools to the Toolforge Build Service",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 1,
-            "textWords": 2121
+            "textWords": 2555
           }
         }
       },
       {
-        "hash": "7if9ElSCNQa4",
-        "address": "https://www.redhat.com/en/blog/channel/security",
-        "title": "Red Hat Security",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 1589
-          }
-        }
-      },
-      {
-        "hash": "6e044tEeWEf4",
-        "address": "https://www.veeam.com/company/press-release/coficab-standardizes-its-global-backup-strategy-with-veeam.html",
-        "title": "Coficab standardizes its global backup strategy with Veeam",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 5,
-            "textWords": 1406
-          }
-        }
-      },
-      {
-        "hash": "5U1uQcZWqvhw",
-        "address": "https://docs.nats.io/learn/deployment/where-next",
-        "title": "Where to go next | NATS Documentation",
-        "snippet": "",
+        "hash": "-KY67tI2N2_4",
+        "address": "https://blog.flaper87.com/",
+        "title": "Developer's black hole",
+        "snippet": "Kubernetes\nI recently posted a small screencast showing part of the progress I've made on the research to deploy OpenStack services on Kubernetes using TripleO.\nIn this new screencast, I would like to demo a small deployment of Keystone, Glance, and mariadb using the TripleO undercloud deploy",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 4,
-            "textWords": 1514
+            "textWords": 313
+          }
+        }
+      },
+      {
+        "hash": "NcEsSsw_gJt4",
+        "address": "https://knative.dev/docs/",
+        "title": "Overview - Knative",
+        "snippet": "Kubernetes-based platform that provides a complete set of middleware components for building, deploying, and managing modern serverless workloads. Knative extends Kubernetes to provide higher-level abstractions that simplify the development and operation of cloud-native applications.\nProblems",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 32,
+            "textWords": 2410
+          }
+        }
+      },
+      {
+        "hash": "gDsYukRFf6Bx",
+        "address": "https://wikitech.wikimedia.org/wiki/Deployments",
+        "title": "Deployments - Wikitech",
+        "snippet": "kubernetes deployment.\n14:30–15:00 UTC #\n07:30–08:00 PDT\nTest Kitchen Experiment Deployment Window\nDeployer\nTest Kitchen\nChanges\nAutomatic start/stop of active experiments and instruments managed by Test Kitchen.\n15:30–16:00 UTC #\n08:30–09:00 PDT\nWikimedia Portals Update\nDeployer\nJan Drewniak",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 24,
+            "textWords": 4834
+          }
+        }
+      },
+      {
+        "hash": "AJpVoz7OfS44",
+        "address": "https://labs.iximiuz.com/",
+        "title": "iximiuz Labs - A hands-on learning platform for Linux, Docker, Kubernetes, and Networking",
+        "snippet": "Kubernetes, and Networking\nPractice on real servers, solve challenges, and follow guided Linux, Docker, Kubernetes, and Networking learning paths — all from your browser or via SSH.\nlabctl playground start docker\nSpinning up a fresh Docker host... Ready!\nroot@vm:~$\nFeatured Roadmap Master Docker",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 6,
+            "textWords": 712
+          }
+        }
+      },
+      {
+        "hash": "kh05NsYlAY74",
+        "address": "https://ubuntu.com/download",
+        "title": "Get Ubuntu | Download | Ubuntu",
+        "snippet": "Ubuntu is the world's favorite Linux operating system. Run it on your laptop, workstation, server, or IoT device, with five years of free security updates. Ubuntu is always free to download and use, and you’re welcome to share the official, unmodified Ubuntu installer images. If you're planning to",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 0,
+            "textWords": 346
           }
         }
       }
@@ -1500,11 +1560,11 @@
         "hash": "Nm0a8DiaMkRw",
         "address": "https://archive.fosdem.org/2023/schedule/event/container_kubernetes_multi_cloud/",
         "title": "FOSDEM 2023 - Deploying Kubernetes across Hybrid and Multi-Cloud Environments Using OpenNebula",
-        "snippet": "Kubernetes across Hybrid and Multi-Cloud Environments Using OpenNebula\nFOSDEM23\nHome\nAbout\nNews\nSchedule\nStands\nVolunteer\nPractical\nBrussels / 4 \u0026 5 February 2023\nschedule\nNews\nSponsors\nContact\nFOSDEM 2023\n/\nSchedule\n/\nEvents\n/\nDeveloper rooms\n/\nContainers\n/\nDeploying Kubernetes across Hybrid and",
+        "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 7,
-            "textWords": 349
+            "textWords": 480
           }
         }
       },
@@ -1512,11 +1572,11 @@
         "hash": "9GlFHsdTeyA4",
         "address": "https://github.blog/engineering/infrastructure/kubernetes-at-github/",
         "title": "Kubernetes at GitHub - The GitHub Blog",
-        "snippet": "Kubernetes at GitHub - The GitHub Blog\nSkip to content Skip to sidebar\n/ Blog Changelog\nDocs\nCustomer stories\nTry GitHub Copilot app Attend GitHub Universe\nAI \u0026 ML\nAI \u0026 ML\nLearn about artificial intelligence and machine learning across the GitHub ecosystem and the wider industry.\nGenerative AILearn",
+        "snippet": "Kubernetes clusters deployed on our metal cloud. Moving a critical application to Kubernetes was a fun challenge, and we’re excited to share some of what we’ve learned with you today.\nWhy change?\nBefore this move, our main Ruby on Rails application (we call it github/github) was configured a lot",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 49,
-            "textWords": 4166
+            "hits": 46,
+            "textWords": 2652
           }
         }
       },
@@ -1533,14 +1593,14 @@
         }
       },
       {
-        "hash": "g_KHh4Zky8w4",
-        "address": "https://docs.fortinet.com/document/fortigate-public-cloud/7.0.0/gcp-administration-guide/195320",
-        "title": "GCP Kubernetes (GKE) SDN connector | FortiGate Public Cloud 7.0.0 | Fortinet Document Library",
+        "hash": "Uwq3L4Zky8w4",
+        "address": "https://docs.fortinet.com/document/fortigate-public-cloud/7.4.0/gcp-administration-guide/195320",
+        "title": "GCP Kubernetes SDN connector | FortiGate Public Cloud 7.4.0 | Fortinet Document Library",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 14,
-            "textWords": 4183
+            "textWords": 4253
           }
         }
       },
@@ -1581,6 +1641,18 @@
         }
       },
       {
+        "hash": "-8t4NcZWqvhw",
+        "address": "https://docs.nats.io/learn/deployment/",
+        "title": "Deployment \u0026 Upgrades Deep Dive | NATS Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 5,
+            "textWords": 998
+          }
+        }
+      },
+      {
         "hash": "5e8N6sS6MKD4",
         "address": "https://github.com/nats-io",
         "title": "NATS - The Edge \u0026 Cloud Native Messaging System · GitHub",
@@ -1603,18 +1675,6 @@
             "textWords": 1418
           }
         }
-      },
-      {
-        "hash": "5oNtFldXA2n4",
-        "address": "https://www.linode.com/?r=0e105fac1868f5f735279daa027833f8f77b6e91",
-        "title": "The World's Most Distributed Cloud Computing Platform | Akamai",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 5,
-            "textWords": 1442
-          }
-        }
       }
     ],
     [
@@ -1622,11 +1682,11 @@
         "hash": "6IXXxGS6MKD4",
         "address": "https://github.com/kubernetes/autoscaler",
         "title": "GitHub - kubernetes/autoscaler: Autoscaling components for Kubernetes · GitHub",
-        "snippet": "kubernetes/autoscaler: Autoscaling components for Kubernetes · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER",
+        "snippet": "Kubernetes.\nWhat's inside\nCluster Autoscaler - a component that automatically adjusts the size of a Kubernetes Cluster so that all pods have a place to run and there are no unneeded nodes. Supports several public cloud providers. Version 1.0 (GA) was released with kubernetes 1.8.\nCluster Autoscaler",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 14,
-            "textWords": 742
+            "hits": 9,
+            "textWords": 242
           }
         }
       },
@@ -1634,11 +1694,11 @@
         "hash": "c9QXzSMAuxi4",
         "address": "https://www.linkedin.com/learning/learning-kubernetes-16086900",
         "title": "Learning Kubernetes Online Class | LinkedIn Learning, formerly Lynda.com",
-        "snippet": "Kubernetes Online Class | LinkedIn Learning, formerly Lynda.com\nLinkedIn respects your privacy\nLinkedIn and 3rd parties use essential and non-essential cookies to provide, secure, analyze and improve our Services, and to show you relevant ads (including professional and job ads) on and off",
+        "snippet": "Kubernetes, the world's most popular open-source container orchestration engine. Instructor Kim Schlesinger demonstrates how to create a Kubernetes cluster with Minikube, deploy a containerized application, and manage that application using Kubernetes. Along the way, she guides you through",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 18,
-            "textWords": 1027
+            "hits": 3,
+            "textWords": 317
           }
         }
       },
@@ -1646,11 +1706,11 @@
         "hash": "irJVd1c9duY5",
         "address": "https://azure.microsoft.com/en-in/products/kubernetes-service/",
         "title": "Azure Kubernetes Service (AKS) | Microsoft Azure",
-        "snippet": "Kubernetes Service (AKS) | Microsoft Azure\nThis is the Trace Id: ec67f6ce8ca86a6eef59ad2d0f60b1ef\nSkip to main content\nAzure\nExplore View all products (200+) Microsoft Foundry Azure Copilot GitHub Copilot Azure Kubernetes Service (AKS) Azure Cosmos DB Azure Database for PostgreSQL Azure Arc",
+        "snippet": "Kubernetes API and ecosystem.\nOptimize app performance at scale and increase productivity of containerized workloads from cloud to edge.\nSecurely modernize and optimize Kubernetes environments with unified management, governance, and monitoring.\nExplore new scenarios by tapping into open-source",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 60,
-            "textWords": 2717
+            "hits": 26,
+            "textWords": 1404
           }
         }
       },
@@ -1670,11 +1730,11 @@
         "hash": "40kVHo_IRdqx",
         "address": "https://phabricator.wikimedia.org/tag/kubernetes/",
         "title": "Kubernetes",
-        "snippet": "Kubernetes\nPage MenuHomePhabricator\nSearch\nConfigure Global Search\nLog In\nKubernetes\nOpen Tasks\nMembers\nManage\nProjects Kubernetes\nKubernetesTagActivePublic\nWatch Project\nMembers (5)\nBTullis (Ben)\nStaff SRE\njijiki (effie mouzeli)\nis an animal\nJMeybohm\nUser\nakosiaris (Alexandros Kosiaris)\nSite",
+        "snippet": "Details\nDescription\nRecent Activity\nToday\nAgreed but I think an exception should be carved out for staging, as it would simplify the testing loop for developers by cutting out patching deployment-charts\nto bump the image version.\nI can see the benefit, but I am not a huge fan and would advice",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 114,
-            "textWords": 2149
+            "hits": 0,
+            "textWords": 601
           }
         }
       },
@@ -1744,11 +1804,11 @@
         "hash": "f0AIjdUhjm5w",
         "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_modules/tests/system/cncf/kubernetes/example_kubernetes.html",
         "title": "tests.system.cncf.kubernetes.example_kubernetes — apache-airflow-providers-cncf-kubernetes Documentation",
-        "snippet": "tests.system.cncf.kubernetes.example_kubernetes — apache-airflow-providers-cncf-kubernetes Documentation\nAirflow Summit 2026 is coming August 31 - September 2 in Austin, TX. Register now to secure your spot!\nCommunity Meetups Documentation Registry Use Cases Announcements Blog Ecosystem\nCommunity",
+        "snippet": "kubernetes.client import models as k8s from airflow import DAG from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator from airflow.providers.cncf.kubernetes.secret import Secret from airflow.providers.standard.operators.bash import BashOperator # [START",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 15,
-            "textWords": 970
+            "hits": 6,
+            "textWords": 725
           }
         }
       },
@@ -1756,11 +1816,11 @@
         "hash": "GGuDG09moDe4",
         "address": "https://www.linux.com/topic/cloud/fluent-bit-flexible-logging-kubernetes/",
         "title": "Fluent Bit: Flexible Logging in Kubernetes - Linux.com",
-        "snippet": "Kubernetes - Linux.com\nX\nTopic AI/ML\nCloud\nDesktop\nEmbedded/IoT\nGovernance\nHardware\nLinux\nNetworking\nOpen Source\nSecurity\nSystem Administration\nAudience Developers\nDevOps\nEnterprise\nEnthusiast\nResources Tutorials\nTraining\nCertification\nEvents\nForums\nQ\u0026A\nWhat is Linux?\nAbout Us\nSearch\nSign in",
+        "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 20,
-            "textWords": 1358
+            "hits": 19,
+            "textWords": 1834
           }
         }
       },
@@ -1849,14 +1909,14 @@
         }
       },
       {
-        "hash": "k5CFYeMW35a4",
-        "address": "https://hub.docker.com/",
-        "title": "Docker Hub Container Image Library | App Containerization",
+        "hash": "MvhWhURMLT-5",
+        "address": "https://canonical.com/blog/tag/virtualisation",
+        "title": "Blog posts tagged \"Virtualisation\" | Canonical",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 2,
-            "textWords": 1385
+            "hits": 14,
+            "textWords": 3604
           }
         }
       }
@@ -1947,18 +2007,6 @@
         }
       },
       {
-        "hash": "JparSeFEcjUx",
-        "address": "https://docs.confluent.io/platform/current/installation/docker/development.html",
-        "title": "Docker Developer Guide for Confluent Platform | Confluent Documentation",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 87,
-            "textWords": 8984
-          }
-        }
-      },
-      {
         "hash": "73vxh2MW35a4",
         "address": "https://hub.docker.com/u/5qqbrcom",
         "title": "5qqbrcom (casa de apostas 5qq)",
@@ -1967,6 +2015,18 @@
           "t26Yr5qqaAl5": {
             "hits": 1,
             "textWords": 171
+          }
+        }
+      },
+      {
+        "hash": "JparSeFEcjUx",
+        "address": "https://docs.confluent.io/platform/current/installation/docker/development.html",
+        "title": "Docker Developer Guide for Confluent Platform | Confluent Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 87,
+            "textWords": 8984
           }
         }
       },
@@ -1997,26 +2057,26 @@
         }
       },
       {
-        "hash": "P8xl6XqO2Dlg",
-        "address": "https://media.ccc.de/v/nixcon2025-56396-kubernetes-on-nix",
-        "title": "Kubernetes on Nix - media.ccc.de",
-        "snippet": "Kubernetes on Nix - media.ccc.de\nSystem\nLight\nDark\nNews\nRSS, last 100\nPodcast feed of the last two years\nSD quality\nPodcast audio feed of the last year\nPodcast archive feed, everything older than two years\nSD quality\nPodcast feeds for nixcon2025\nmp3\nopus\nwebm\nSD quality\nmp4\nSD quality\nNews\nRSS,",
+        "hash": "DpOP6dUhjm5w",
+        "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_api/airflow/providers/cncf/kubernetes/operators/pod/index.html",
+        "title": "airflow.providers.cncf.kubernetes.operators.pod — apache-airflow-providers-cncf-kubernetes Documentation",
+        "snippet": "Kubernetes POD.\nAttributes¶\nExceptions¶\nPodReattachFailure\nWhen we expect to be able to find a pod but cannot.\nPodCredentialsExpiredFailure\nWhen pod fails to refresh credentials.\nFoundMoreThanOnePodFailure\nWhen during reconnect more than one matching pod was found.\nClasses¶\nPodEventType\nType of",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 7,
-            "textWords": 359
+            "hits": 56,
+            "textWords": 2953
           }
         }
       },
       {
-        "hash": "DpOP6dUhjm5w",
-        "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_api/airflow/providers/cncf/kubernetes/operators/pod/index.html",
-        "title": "airflow.providers.cncf.kubernetes.operators.pod — apache-airflow-providers-cncf-kubernetes Documentation",
-        "snippet": "airflow.providers.cncf.kubernetes.operators.pod — apache-airflow-providers-cncf-kubernetes Documentation\nAirflow Summit 2026 is coming August 31 - September 2 in Austin, TX. Register now to secure your spot!\nCommunity Meetups Documentation Registry Use Cases Announcements Blog Ecosystem\nCommunity",
+        "hash": "P8xl6XqO2Dlg",
+        "address": "https://media.ccc.de/v/nixcon2025-56396-kubernetes-on-nix",
+        "title": "Kubernetes on Nix - media.ccc.de",
+        "snippet": "kubernetes cluster is a non trivial task. Although many commercial and non-commercial solutions are available, each comes with its own limitations. Some are primarily meant to set up a single node development cluster, others have hardly any flexibility.\nHere NixOS comes to the rescue, allowing us",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 67,
-            "textWords": 3639
+            "hits": 4,
+            "textWords": 182
           }
         }
       },
@@ -2093,40 +2153,40 @@
         }
       },
       {
-        "hash": "NFxTivR2moT4",
-        "address": "https://checkmk.com/product/appliances",
-        "title": "The Checkmk Appliance: Monitoring made simple",
+        "hash": "ejoTHvyg9Qay",
+        "address": "https://microservices.io/tags/success%20triangle",
+        "title": "tagged with: success triangle",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 1546
+            "hits": 2,
+            "textWords": 1425
           }
         }
       }
     ],
     [
       {
-        "hash": "li8uc2jw1Zlx",
-        "address": "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/",
-        "title": "Installing kubeadm | Kubernetes",
-        "snippet": "Kubernetes\nKubernetesDocumentation\nKubernetes Blog\nTraining\nCareers\nPartners\nCommunity\nVersionsRelease Information\nv1.37\nv1.36\nv1.35\nv1.34\nv1.33\nEnglish中文 (Chinese)\nFrançais (French)\nBahasa Indonesia (Indonesian)\n日本語 (Japanese)\n한국어 (Korean)\nفارسی (Persian)\nPortuguês (Portuguese)\nTiếng Việt",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 139,
-            "textWords": 5495
-          }
-        }
-      },
-      {
-        "hash": "ooXmW69FvE-5",
-        "address": "https://goteleport.com/platform/machine-and-workload-identity/",
-        "title": "Machine \u0026 Workload Identity for Agents, MCP, SSH, Kubernetes | Teleport",
+        "hash": "VUVgeyRO6Xx4",
+        "address": "https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.0/html/web_console/index",
+        "title": "Web console | Red Hat Advanced Cluster Management for Kubernetes | 2.0 | Red Hat Documentation",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 8,
-            "textWords": 4120
+            "textWords": 668
+          }
+        }
+      },
+      {
+        "hash": "8BbFAr_rJw_4",
+        "address": "https://gitlab.com/gitlab-com/gl-infra/k8s-workloads/gitlab-com/-/commits/master",
+        "title": "Commits · master · GitLab.com / GitLab Infrastructure Team / Kubernetes Workloads / GitLab.com · GitLab",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 1,
+            "textWords": 49
           }
         }
       },
@@ -2143,6 +2203,30 @@
         }
       },
       {
+        "hash": "ooXmW69FvE-5",
+        "address": "https://goteleport.com/platform/machine-and-workload-identity/",
+        "title": "Machine \u0026 Workload Identity for Agents, MCP, SSH, Kubernetes | Teleport",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 8,
+            "textWords": 4120
+          }
+        }
+      },
+      {
+        "hash": "Xn6jIlhkKIQy",
+        "address": "https://www.linuxfoundation.org/webinars",
+        "title": "Webinars | Linux Foundation",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 28,
+            "textWords": 13740
+          }
+        }
+      },
+      {
         "hash": "TKDa22c1OJAw",
         "address": "https://etcd.io/docs/v3.6/triage/issues/",
         "title": "Issue triage guidelines | etcd",
@@ -2155,26 +2239,38 @@
         }
       },
       {
-        "hash": "oq7ftLsWTYKx",
-        "address": "https://sourceforge.net/software/containers-as-a-service-caas/for-government/",
-        "title": "Best Government Containers as a Service (CaaS) of 2026 - Reviews \u0026 Comparison",
+        "hash": "WXjVAzS6MKD4",
+        "address": "https://github.com/topics/multi-cluster",
+        "title": "multi-cluster · GitHub Topics · GitHub",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 68,
-            "textWords": 4923
+            "hits": 26,
+            "textWords": 1283
           }
         }
       },
       {
-        "hash": "rIUdkyoQg_R4",
-        "address": "https://linbit.com/tech-guide/drbd-8-4-users-guide/",
-        "title": "DRBD 8.4 User’s Guide (discontinued) - LINBIT",
+        "hash": "psNeSq0jxin4",
+        "address": "https://docs.gitlab.com/api/projects/",
+        "title": "Projects API | GitLab Docs",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 1,
-            "textWords": 521
+            "textWords": 25114
+          }
+        }
+      },
+      {
+        "hash": "TCeVDLsWTYKx",
+        "address": "https://sourceforge.net/software/containers-as-a-service-caas/asia/",
+        "title": "Best Containers as a Service (CaaS) in Asia of 2026 - Reviews \u0026 Comparison",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 64,
+            "textWords": 4786
           }
         }
       },
@@ -2189,162 +2285,126 @@
             "textWords": 104
           }
         }
-      },
-      {
-        "hash": "oyfJrxNzCnSk",
-        "address": "https://www.elastic.co/docs/solutions/search",
-        "title": "Search use case | Elastic Docs",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 13,
-            "textWords": 3027
-          }
-        }
-      },
-      {
-        "hash": "SOAt4sWMnAPx",
-        "address": "https://fedoraplanet.org/",
-        "title": "Fedora People",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 2,
-            "textWords": 54105
-          }
-        }
-      },
-      {
-        "hash": "ZKtFSlEeWEf4",
-        "address": "https://www.veeam.com/kb4225",
-        "title": "KB4225: Veeam Verified: Primary Storage for Continuous Data Protection (CDP) with VMware VVOL",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 6,
-            "textWords": 1668
-          }
-        }
       }
     ],
     [
       {
-        "hash": "WvTFd1S6MKD4",
-        "address": "https://github.com/hjacobs/kubernetes-failure-stories",
-        "title": "GitHub - hjacobs/kubernetes-failure-stories: Compilation of public failure/horror stories related to Kubernetes",
-        "snippet": "",
+        "hash": "WabxSJJyxkVw",
+        "address": "https://coredns.io/plugins/kubernetes/",
+        "title": "kubernetes",
+        "snippet": "Kubernetes DNS-Based Service Discovery Specification.\nCoreDNS running the kubernetes plugin can be used as a replacement for kube-dns in a kubernetes cluster. See the deployment repository for details on how to deploy CoreDNS in Kubernetes.\nstubDomains and upstreamNameservers are implemented via",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 5,
-            "textWords": 710
+            "hits": 50,
+            "textWords": 1755
           }
         }
       },
       {
-        "hash": "X_8FBsjw1Zlx",
-        "address": "https://kubernetes.io/bn/",
+        "hash": "Wt9ZEkSoS_m5",
+        "address": "https://piratebay.space/torrent/65614096/Backend_Master_Class_%5BGolang___Postgres___Kubernetes___gRPC%5D",
+        "title": "Backend Master Class [Golang + Postgres + Kubernetes + gRPC] (download torrent) - TPB",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 215,
+            "textWords": 5645
+          }
+        }
+      },
+      {
+        "hash": "WvWPIsjw1Zlx",
+        "address": "https://kubernetes.io/",
         "title": "Kubernetes",
-        "snippet": "",
+        "snippet": "Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.\nIt groups containers that make up an application into logical units for easy management and discovery. Kubernetes builds upon 15 years of experience of running",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 7,
-            "textWords": 576
+            "hits": 12,
+            "textWords": 416
           }
         }
       },
       {
-        "hash": "XKCcq6tZl1y5",
-        "address": "https://kube101.jeffgeerling.com/",
-        "title": "Kubernetes 101 | A YouTube streaming series on Kubernetes and container-based infrastructure by Jeff Geerling.",
-        "snippet": "Kubernetes 101 | A YouTube streaming series on Kubernetes and container-based infrastructure by Jeff Geerling.\nKubernetes 101\nA YouTube streaming series on Kubernetes and container-based infrastructure by Jeff Geerling.\nAnnouncing the Kubernetes 101 Book!\nFeb 10, 2021\nThe Kubernetes 101 YouTube",
+        "hash": "VxxIUGS6MKD4",
+        "address": "https://github.com/kubernetes/kubernetes/forks",
+        "title": "Forks · kubernetes/kubernetes · GitHub",
+        "snippet": "kubernetes\n101\n0\n1\n54\nCreated January 18, 2016 20:45\nUpdated September 11, 2026 15:26\nopenai / kubernetes\n75\n0\n0\n1\nCreated June 18, 2020 23:30\nUpdated January 26, 2026 04:43\nk3s-io / kubernetes\n11\n0\n0\n0\nCreated November 20, 2020 23:22\nUpdated August 26, 2026 19:30\nkcp-dev / kubernetes\n5\n0\n0\n2",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 20,
-            "textWords": 972
+            "hits": 24,
+            "textWords": 344
           }
         }
       },
       {
-        "hash": "ETE5IA2GZAj4",
-        "address": "https://docs.redpanda.com/streaming/current/manage/kubernetes/security/authentication/k-schema-registry-acls/",
-        "title": "Manage Schema Registry ACLs with the Redpanda Operator | Redpanda Streaming",
-        "snippet": "",
+        "hash": "XQQxLWDdo7f4",
+        "address": "https://komodor.com/solutions/kubernetes-migration/",
+        "title": "Simplify and Accelerate Kubernetes Migration with Komodor",
+        "snippet": "Kubernetes doesn’t have to be a magic spell known only by a few experts. Lower the barrier of entry across the organization, and power your teams to operate and manage their Kubernetes applications through a simple automated management platform. Developers can easily understand K8s issues with",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 22,
-            "textWords": 3970
+            "hits": 14,
+            "textWords": 430
           }
         }
       },
       {
-        "hash": "VXHKlgUUuPp4",
-        "address": "https://about.gitlab.com/blog/pull-based-kubernetes-deployments-coming-to-gitlab-free-tier/",
-        "title": "Pull-based GitOps moving to GitLab Free tier",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 7,
-            "textWords": 1346
-          }
-        }
-      },
-      {
-        "hash": "UXbLnlhPVIOg",
-        "address": "https://www.mironet.ch/",
-        "title": "MiroNet – IT as a Service für Unternehmen",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 297
-          }
-        }
-      },
-      {
-        "hash": "Xf4GnsBs3ry4",
-        "address": "https://foxutech.com/",
-        "title": "Home - FoxuTech",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 87,
-            "textWords": 2187
-          }
-        }
-      },
-      {
-        "hash": "XaEu4JBJaYCh",
-        "address": "https://cloudbear.nl/author/admin/page/2/",
-        "title": "admin, Author at Cloudbear - Page 2 of 3",
+        "hash": "W9BumUwFZDv4",
+        "address": "https://aitorres.com/blog/on-kubernetes-volumes/",
+        "title": "On Kubernetes volumes · andrés ignacio torres",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 11,
-            "textWords": 922
+            "textWords": 493
           }
         }
       },
       {
-        "hash": "W-eXqzF3--Qw",
-        "address": "https://planet.mozilla.org/",
-        "title": "Planet Mozilla",
+        "hash": "UqXEXsL2-9j4",
+        "address": "https://bobcares.com/kubernetes-support/",
+        "title": "Kubernetes Support - Bobcares",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 2,
-            "textWords": 7315
+            "hits": 62,
+            "textWords": 3553
           }
         }
       },
       {
-        "hash": "WdC7MN8zMi84",
-        "address": "https://docs.cloud.google.com/config-connector/docs/overview",
-        "title": "Config Connector overview | Google Cloud Documentation",
+        "hash": "UlsEqXqO2Dlg",
+        "address": "https://media.ccc.de/v/froscon2022-2762-mysql_in_kubernetes_umgebungen",
+        "title": "MySQL in Kubernetes Umgebungen (froscon2022)",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 8,
-            "textWords": 913
+            "hits": 10,
+            "textWords": 566
+          }
+        }
+      },
+      {
+        "hash": "UFNwT2o0jQIw",
+        "address": "https://www.techzine.tv/videos/how-vcluster-virtualizes-kubernetes-for-gpu-efficiency/",
+        "title": "How vCluster virtualizes Kubernetes for GPU efficiency - Techzine.tv",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 12,
+            "textWords": 824
+          }
+        }
+      },
+      {
+        "hash": "Uw0LPgUUuPp4",
+        "address": "https://about.gitlab.com/blog/how-to-stream-logs-through-the-gitlab-dashboard-for-kubernetes/",
+        "title": "How to stream logs through the GitLab Dashboard for Kubernetes",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 24,
+            "textWords": 1729
           }
         }
       }
@@ -2355,11 +2415,11 @@
         "hash": "cCOwMUBJaYCh",
         "address": "https://cloudbear.nl/blog/managed-kubernetes-hosting-schaalbare-infrastructuur-zonder-complexiteit/",
         "title": "Managed Kubernetes hosting: schaalbare infrastructuur zonder complexiteit - Cloudbear",
-        "snippet": "Kubernetes hosting: schaalbare infrastructuur zonder complexiteit - Cloudbear\nSkip to content\nMenu\nMenu\nAanbod\nManaged Hosting Partner\nSamenwerking\nResources\nBlog\nDownloads\nKlantcases\nOver Ons\nContact\nManaged Kubernetes hosting: schaalbare infrastructuur zonder complexiteit\nManaged Kubernetes",
+        "snippet": "Kubernetes inzetten zonder zelf de infrastructuur te beheren? Ontdek hoe Cloudbear met Managed Kubernetes hosting zorgt voor schaalbaarheid, flexibiliteit en volledige controle – zonder gedoe.\nWat is Managed Kubernetes hosting?\nManaged Kubernetes hosting houdt in dat wij als partner het volledige",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 14,
-            "textWords": 477
+            "hits": 11,
+            "textWords": 373
           }
         }
       },
@@ -2367,11 +2427,11 @@
         "hash": "YNiVlBj-Xnjg",
         "address": "https://www.lemagit.fr/actualites/366634500/IA-sur-Kubernetes-les-analystes-epinglent-la-CNCF-face-a-lhegemonie-de-Nvidia",
         "title": "IA sur Kubernetes : les analystes épinglent la CNCF face à l’hégémonie de Nvidia | LeMagIT",
-        "snippet": "Kubernetes : les analystes épinglent la CNCF face à l’hégémonie de Nvidia | LeMagIT\nRechercher sur LeMagIT\nS'inscrire maintenant. S'identifier S'abonner\nInforma TechTarget Explore the Network\nAn Informa TechTarget Publication Découvrez nos publications\nCookies\nProjets IT\nAgenda partenaires",
+        "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 22,
-            "textWords": 2242
+            "hits": 21,
+            "textWords": 2468
           }
         }
       },

@@ -1,21 +1,21 @@
 {
   "query": "nextcloud installation",
-  "recordedAt": "2026-09-11T19:23:23Z",
+  "recordedAt": "2026-09-11T21:00:42Z",
   "itemsInTheOrderOfEachAnswer": [],
   "itemsInNoOrder": [
     {
-      "hash": "xIkDby3WSkX4",
-      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
-      "title": "Domains - OVHcloud Documentation",
-      "snippet": "",
+      "hash": "DkgJosH3-qPx",
+      "address": "https://cyberduck.io/",
+      "title": "Cyberduck | Libre server and cloud storage browser for Mac and Windows with support for FTP, SFTP, WebDAV, Amazon S3, OpenStack Swift, Backblaze B2, Microsoft Azure \u0026 OneDrive, Google Drive and Dropbox",
+      "snippet": "Cryptomator. Client side encryption with Cryptomator interoperable vaults to secure your data on any server or cloud storage. Version 6\nFilename Encryption\nFile and directory names are encrypted, directory structures are obfuscated.\nFile Content Encryption\nEvery file gets encrypted individually.",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 578
         },
         "xZz3-jnU7Sza": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 578
         }
       }
     },
@@ -23,21 +23,53 @@
       "hash": "xIkDby3WSkX4",
       "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
       "title": "Domains - OVHcloud Documentation",
-      "snippet": "",
+      "snippet": "Documentation\nAPI Reference\nProduct changelog\nE-Learning \u0026 certifications\nMigration\nBare Metal Cloud\nDedicated Servers\nOverview\nKey Concepts\nGetting Started\nConfiguration\nSystem\nStorage\nNetwork\nvRack\nDeployments\nMigration\nTutorials\nSecurity\nHardening\nBackup\nNetwork\nTroubleshooting\nVirtual Private",
       "matchedWords": {
         "6gm7Nk7xv_2I": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1111
         },
         "xZz3-jnU7Sza": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1111
+        }
+      }
+    },
+    {
+      "hash": "xIkDby3WSkX4",
+      "address": "https://docs.ovhcloud.com/en/guides/web-cloud/domains/overview",
+      "title": "Domains - OVHcloud Documentation",
+      "snippet": "Documentation\nAPI Reference\nProduct changelog\nE-Learning \u0026 certifications\nMigration\nBare Metal Cloud\nDedicated Servers\nOverview\nKey Concepts\nGetting Started\nConfiguration\nSystem\nStorage\nNetwork\nvRack\nDeployments\nMigration\nTutorials\nSecurity\nHardening\nBackup\nNetwork\nTroubleshooting\nVirtual Private",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 1111
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 1111
+        }
+      }
+    },
+    {
+      "hash": "DkgJosH3-qPx",
+      "address": "https://cyberduck.io/",
+      "title": "Cyberduck | Libre server and cloud storage browser for Mac and",
+      "snippet": "Cryptomator. Client side encryption with Cryptomator interoperable vaults to secure your data on any server or cloud storage. Version 6\nFilename Encryption\nFile and directory names are encrypted, directory structures are obfuscated.\nFile Content Encryption\nEvery file gets encrypted individually.",
+      "matchedWords": {
+        "6gm7Nk7xv_2I": {
+          "hits": 0,
+          "textWords": 578
+        },
+        "xZz3-jnU7Sza": {
+          "hits": 0,
+          "textWords": 578
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "6gm7Nk7xv_2I": 56903,
-    "xZz3-jnU7Sza": 469
+    "6gm7Nk7xv_2I": 57050,
+    "xZz3-jnU7Sza": 820
   }
 }
