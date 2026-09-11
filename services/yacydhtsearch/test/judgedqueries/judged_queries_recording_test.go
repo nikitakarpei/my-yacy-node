@@ -47,7 +47,7 @@ const (
 
 	pagesReadPerQuery    = 50
 	pageReadBudget       = 10 * time.Second
-	pageByteCeiling      = 1024 * 1024
+	pageByteCeiling      = 4 * 1024 * 1024
 	snippetLengthCeiling = 300
 	pageFetchUserAgent   = "yacydhtsearch (+https://yacy.net)"
 )

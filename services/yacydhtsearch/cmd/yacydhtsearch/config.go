@@ -55,7 +55,7 @@ const (
 	DefaultRankingLifetime      = 2 * time.Minute
 	DefaultPagesReadPerQuery    = 50
 	DefaultPageReadBudget       = 3 * time.Second
-	DefaultPageByteCeiling      = 1024 * 1024
+	DefaultPageByteCeiling      = 4 * 1024 * 1024
 	DefaultSnippetLengthCeiling = 300
 )
 

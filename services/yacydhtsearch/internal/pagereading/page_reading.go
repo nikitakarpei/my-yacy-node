@@ -1,5 +1,6 @@
 // Package pagereading reads the page of each document one query puts first. It
-// takes the text the page carries, and gives back how often that text holds
+// takes the readable text of the page, and the whole text of the page when the
+// page holds no readable article, and gives back how often that text holds
 // each query word, how many words the text holds, and the text around the first
 // query word as the snippet of the document. A page that is unreachable, that
 // is refused, that is unreadable, that is of an unsupported kind, or that is
@@ -7,6 +8,7 @@
 package pagereading
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"sync"
@@ -154,9 +156,7 @@ func (r Reading) readPageFromTheDocument(
 	document documentextraction.Document,
 	pageURL canonicalurl.CanonicalURL,
 ) readPage {
-	body, derived := r.formatDerivations.BodyIn(
-		ctx, documentextraction.FormatFullText, document, pageURL,
-	)
+	text, derived := r.textOfTheDocument(ctx, document, pageURL)
 	if !derived {
 		return readPage{document: pageToRead.Document, outcome: pageUnreadable}
 	}
@@ -164,8 +164,25 @@ func (r Reading) readPageFromTheDocument(
 	return readPage{
 		document: pageToRead.Document,
 		outcome:  pageRead,
-		text:     r.pageTextOf(string(body), queryWords),
+		text:     r.pageTextOf(string(text), queryWords),
 	}
+}
+
+func (r Reading) textOfTheDocument(
+	ctx context.Context,
+	document documentextraction.Document,
+	pageURL canonicalurl.CanonicalURL,
+) ([]byte, bool) {
+	readableText, readableTextDerived := r.formatDerivations.BodyIn(
+		ctx, documentextraction.FormatReadableText, document, pageURL,
+	)
+	if readableTextDerived && len(bytes.TrimSpace(readableText)) > 0 {
+		return readableText, true
+	}
+
+	return r.formatDerivations.BodyIn(
+		ctx, documentextraction.FormatFullText, document, pageURL,
+	)
 }
 
 func (r Reading) pageTextOf(text string, queryWords []yacymodel.Hash) PageText {

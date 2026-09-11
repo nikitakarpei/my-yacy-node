@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
+	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
 	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
@@ -14,14 +15,27 @@ import (
 )
 
 const (
-	pageReadBudget       = time.Second
-	snippetLengthCeiling = 40
-	addressOfTheDocument = "https://berlin.example/"
-	visibleTextOfThePage = "Berlin Berlin holds a wall."
-	pageOfBerlin         = `<!doctype html><html><head><title>Berlin</title>` +
+	pageReadBudget        = time.Second
+	snippetLengthCeiling  = 40
+	addressOfTheDocument  = "https://berlin.example/"
+	readableTextOfThePage = "Berlin holds a wall."
+	fullTextOfThePage     = "Berlin Berlin holds a wall."
+	pageOfBerlin          = `<!doctype html><html><head><title>Berlin</title>` +
 		`<script>var div = "berlin berlin berlin";</script></head>` +
 		`<body class="berlin page"><div id="wall">` +
 		`<p>Berlin holds a wall.</p></div></body></html>`
+)
+
+const (
+	addressOfTheArticle    = "https://terraform.example/"
+	navigationOfTheArticle = "Skip to content Navigation Menu Sign in"
+	paragraphOfTheArticle  = "Terraform writes the state of the infrastructure " +
+		"to a file, and the team reads that file to learn what the cloud holds " +
+		"today and what the next change of the cloud must do."
+	pageOfTheArticle = `<!doctype html><html><head><title>Terraform</title></head>` +
+		`<body><nav>` + navigationOfTheArticle + `</nav>` +
+		`<article><p>` + paragraphOfTheArticle + `</p>` +
+		`<p>` + paragraphOfTheArticle + `</p></article></body></html>`
 )
 
 type pagesHeldAtTheirAddress map[string]string
@@ -74,6 +88,21 @@ func (pagesOfAnUnsupportedKind) Fetch(
 	}, nil
 }
 
+type documentsThatHoldNoReadableText struct{}
+
+func (documentsThatHoldNoReadableText) BodyIn(
+	_ context.Context,
+	format documentextraction.Format,
+	_ documentextraction.Document,
+	_ canonicalurl.CanonicalURL,
+) ([]byte, bool) {
+	if format == documentextraction.FormatReadableText {
+		return []byte("  \n  "), true
+	}
+
+	return []byte(fullTextOfThePage), true
+}
+
 type recordedPageReading struct {
 	performed pagereading.PerformedPageReading
 }
@@ -106,44 +135,52 @@ func readingOfThePages(
 	)
 }
 
-func documentOfTheAddress(t *testing.T) yacymodel.URLHash {
+func documentOfTheAddress(t *testing.T, address string) yacymodel.URLHash {
 	t.Helper()
 
-	document, err := yacymodel.URLHashOf(addressOfTheDocument)
+	document, err := yacymodel.URLHashOf(address)
 	if err != nil {
-		t.Fatalf("URLHashOf(%q): %v", addressOfTheDocument, err)
+		t.Fatalf("URLHashOf(%q): %v", address, err)
 	}
 
 	return document
 }
 
-func pageToReadOfTheDocument(t *testing.T) pagereading.PageToRead {
+func pageToReadOfTheAddress(t *testing.T, address string) pagereading.PageToRead {
 	t.Helper()
 
 	return pagereading.PageToRead{
-		Document: documentOfTheAddress(t),
-		Address:  addressOfTheDocument,
+		Document: documentOfTheAddress(t, address),
+		Address:  address,
 	}
 }
 
-func pagesHoldingTheDocument(t *testing.T) pagesHeldAtTheirAddress {
+func pagesHoldingTheDocuments(t *testing.T) pagesHeldAtTheirAddress {
 	t.Helper()
 
-	pageURL, err := canonicalurl.CanonicalURLOf(addressOfTheDocument)
-	if err != nil {
-		t.Fatalf("CanonicalURLOf(%q): %v", addressOfTheDocument, err)
+	pages := pagesHeldAtTheirAddress{}
+	for address, page := range map[string]string{
+		addressOfTheDocument: pageOfBerlin,
+		addressOfTheArticle:  pageOfTheArticle,
+	} {
+		pageURL, err := canonicalurl.CanonicalURLOf(address)
+		if err != nil {
+			t.Fatalf("CanonicalURLOf(%q): %v", address, err)
+		}
+		pages[pageURL.String()] = page
 	}
 
-	return pagesHeldAtTheirAddress{pageURL.String(): pageOfBerlin}
+	return pages
 }
 
-func textOfTheDocumentRead(
+func textOfTheAddressRead(
 	t *testing.T,
 	pageTextPerDocument map[yacymodel.URLHash]pagereading.PageText,
+	address string,
 ) pagereading.PageText {
 	t.Helper()
 
-	pageText, read := pageTextPerDocument[documentOfTheAddress(t)]
+	pageText, read := pageTextPerDocument[documentOfTheAddress(t, address)]
 	if !read {
 		t.Fatalf("the reading gives %+v, want the text of the page", pageTextPerDocument)
 	}
@@ -154,25 +191,25 @@ func textOfTheDocumentRead(
 func TestThePageOfADocumentGivesTheHitsOfEachQueryWordInItsText(t *testing.T) {
 	t.Parallel()
 
-	reading := readingOfThePages(t, pagesHoldingTheDocument(t), &recordedPageReading{})
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
 	pageTextPerDocument := reading.PageTextPerDocument(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin"), yacymodel.WordHash("wall")},
-		[]pagereading.PageToRead{pageToReadOfTheDocument(t)},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
-	pageText := textOfTheDocumentRead(t, pageTextPerDocument)
-	if pageText.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 2 ||
+	pageText := textOfTheAddressRead(t, pageTextPerDocument, addressOfTheDocument)
+	if pageText.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 1 ||
 		pageText.HitsPerQueryWord[yacymodel.WordHash("wall")] != 1 {
-		t.Fatalf("the page gives %+v, want two hits of berlin and one of wall", pageText)
+		t.Fatalf("the page gives %+v, want one hit of berlin and one of wall", pageText)
 	}
 }
 
 func TestOnlyTheWordsAReaderSeesInThePageAreRead(t *testing.T) {
 	t.Parallel()
 
-	reading := readingOfThePages(t, pagesHoldingTheDocument(t), &recordedPageReading{})
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
 	pageTextPerDocument := reading.PageTextPerDocument(
 		t.Context(),
@@ -181,16 +218,16 @@ func TestOnlyTheWordsAReaderSeesInThePageAreRead(t *testing.T) {
 			yacymodel.WordHash("div"),
 			yacymodel.WordHash("body"),
 		},
-		[]pagereading.PageToRead{pageToReadOfTheDocument(t)},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
-	pageText := textOfTheDocumentRead(t, pageTextPerDocument)
-	if pageText.AmountOfWords != len(yacymodel.WordsIn(visibleTextOfThePage)) {
+	pageText := textOfTheAddressRead(t, pageTextPerDocument, addressOfTheDocument)
+	if pageText.AmountOfWords != len(yacymodel.WordsIn(readableTextOfThePage)) {
 		t.Fatalf(
 			"the page holds %d words, want the %d words of %q",
 			pageText.AmountOfWords,
-			len(yacymodel.WordsIn(visibleTextOfThePage)),
-			visibleTextOfThePage,
+			len(yacymodel.WordsIn(readableTextOfThePage)),
+			readableTextOfThePage,
 		)
 	}
 	if pageText.HitsPerQueryWord[yacymodel.WordHash("div")] != 0 ||
@@ -205,18 +242,75 @@ func TestOnlyTheWordsAReaderSeesInThePageAreRead(t *testing.T) {
 func TestTheSnippetOfADocumentStartsAtTheFirstQueryWordOfItsPage(t *testing.T) {
 	t.Parallel()
 
-	reading := readingOfThePages(t, pagesHoldingTheDocument(t), &recordedPageReading{})
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
 
 	pageTextPerDocument := reading.PageTextPerDocument(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("holds")},
-		[]pagereading.PageToRead{pageToReadOfTheDocument(t)},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
-	snippet := textOfTheDocumentRead(t, pageTextPerDocument).Snippet
+	snippet := textOfTheAddressRead(t, pageTextPerDocument, addressOfTheDocument).Snippet
 	if !strings.HasPrefix(snippet, "holds a wall") ||
 		len([]rune(snippet)) > snippetLengthCeiling {
 		t.Fatalf("the snippet reads %q, want the text from the first query word on", snippet)
+	}
+}
+
+func TestOnlyTheArticleOfAPageIsReadWhenThePageHoldsOne(t *testing.T) {
+	t.Parallel()
+
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), &recordedPageReading{})
+
+	pageTextPerDocument := reading.PageTextPerDocument(
+		t.Context(),
+		[]yacymodel.Hash{
+			yacymodel.WordHash("terraform"),
+			yacymodel.WordHash("navigation"),
+		},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheArticle)},
+	)
+
+	pageText := textOfTheAddressRead(t, pageTextPerDocument, addressOfTheArticle)
+	if pageText.HitsPerQueryWord[yacymodel.WordHash("navigation")] != 0 {
+		t.Fatalf("the page gives %+v, want no hit for a word only the menu holds", pageText)
+	}
+	if !strings.HasPrefix(strings.ToLower(pageText.Snippet), "terraform") {
+		t.Fatalf("the snippet reads %q, want the text of the article", pageText.Snippet)
+	}
+	for _, wordOfTheNavigation := range yacymodel.WordsIn(navigationOfTheArticle) {
+		if strings.Contains(strings.ToLower(pageText.Snippet), wordOfTheNavigation) {
+			t.Fatalf(
+				"the snippet reads %q, want no word of the menu %q",
+				pageText.Snippet,
+				navigationOfTheArticle,
+			)
+		}
+	}
+}
+
+func TestTheWholeTextOfAPageIsReadWhenItHoldsNoReadableText(t *testing.T) {
+	t.Parallel()
+
+	observer := &recordedPageReading{}
+	reading := pagereading.New(
+		pagesHoldingTheDocuments(t),
+		documentsThatHoldNoReadableText{},
+		pageReadBudget,
+		snippetLengthCeiling,
+		pagereading.PageReadingObservers{observer},
+	)
+
+	pageTextPerDocument := reading.PageTextPerDocument(
+		t.Context(),
+		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
+	)
+
+	pageText := textOfTheAddressRead(t, pageTextPerDocument, addressOfTheDocument)
+	if pageText.HitsPerQueryWord[yacymodel.WordHash("berlin")] != 2 ||
+		pageText.AmountOfWords != len(yacymodel.WordsIn(fullTextOfThePage)) {
+		t.Fatalf("the page gives %+v, want the whole text of the page", pageText)
 	}
 }
 
@@ -229,7 +323,7 @@ func TestAPageThatNoAddressHoldsIsRefused(t *testing.T) {
 	pageTextPerDocument := reading.PageTextPerDocument(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
-		[]pagereading.PageToRead{pageToReadOfTheDocument(t)},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
 	if len(pageTextPerDocument) != 0 {
@@ -248,12 +342,14 @@ func TestAPageAtAnAddressThatIsNoWebAddressIsUnreachable(t *testing.T) {
 	t.Parallel()
 
 	observer := &recordedPageReading{}
-	reading := readingOfThePages(t, pagesHoldingTheDocument(t), observer)
+	reading := readingOfThePages(t, pagesHoldingTheDocuments(t), observer)
 
 	reading.PageTextPerDocument(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
-		[]pagereading.PageToRead{{Document: documentOfTheAddress(t), Address: "berlin"}},
+		[]pagereading.PageToRead{
+			{Document: documentOfTheAddress(t, addressOfTheDocument), Address: "berlin"},
+		},
 	)
 
 	if observer.performed.AmountOfPagesUnreachable != 1 {
@@ -283,7 +379,7 @@ func TestAPageThatOutlastsTheReadBudgetGivesNothingForItsDocument(t *testing.T) 
 	pageTextPerDocument := reading.PageTextPerDocument(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
-		[]pagereading.PageToRead{pageToReadOfTheDocument(t)},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
 	if len(pageTextPerDocument) != 0 {
@@ -303,7 +399,7 @@ func TestAPageOfAnUnsupportedKindGivesNothingForItsDocument(t *testing.T) {
 	pageTextPerDocument := reading.PageTextPerDocument(
 		t.Context(),
 		[]yacymodel.Hash{yacymodel.WordHash("berlin")},
-		[]pagereading.PageToRead{pageToReadOfTheDocument(t)},
+		[]pagereading.PageToRead{pageToReadOfTheAddress(t, addressOfTheDocument)},
 	)
 
 	if len(pageTextPerDocument) != 0 {
