@@ -10,7 +10,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 )
 
-const meanGainFloorOfTheRelevanceOrdering = 0.79
+const meanGainFloorOfTheRelevanceOrdering = 0.80
 
 type itemsOrdering interface {
 	OrderedItemsOf(answers peeranswers.AnsweredQuery) []peeranswers.AnsweredItem

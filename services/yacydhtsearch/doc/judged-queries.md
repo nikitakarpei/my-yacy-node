@@ -17,7 +17,7 @@ For each query the set holds two files in
 The recorder asks the live freeworld network from this host. It needs direct
 egress. Run it from `services/yacydhtsearch`:
 
-```
+```sh
 YACYDHTSEARCH_RECORD_JUDGED_QUERIES=1 go test \
     -run TestRecordWhatThePeersAnswerForTheJudgedQueries \
     -timeout 30m -v ./test/judgedqueries/
@@ -37,10 +37,11 @@ document one of three grades:
 - `1` — the page is about the subject of the query, but does not answer it.
 - `0` — the page has nothing to do with the query.
 
-Grade from the title and the address of the document. A page whose title and
-address do not make clear that it answers the query gets `1` at most. A
-document that the file does not name counts as `0`. A grade of `null` also
-counts as `0`, and shows that the document still needs a grade.
+Grade from the text of the page. Fetch the page from the web at the time of
+the grading and read it. A page that you cannot fetch gets the grade that the
+title and the address support, which is `1` at most. A document that the file
+does not name counts as `0`. A grade of `null` also counts as `0`, and shows
+that the document still needs a grade.
 
 ## What the gate asserts
 
@@ -59,9 +60,9 @@ other documents for the same query, so the gain of a live search is not the
 gain this gate measures. Record the answers again, and grade the new documents,
 when the measurement must stand for the network of today.
 
-The peers answered no snippet for any document, so every grade comes from the
-title and the address alone. A grade can therefore be wrong for a page whose
-title says less than its text.
+The page that the grader fetches is the page of today. The peer indexed the
+page of an earlier day. A grade can therefore describe a text that the peer
+never saw.
 
 The pool holds only documents that one of the two orderings put in its first
 ten. A document that answers the query, but that both orderings put lower,
