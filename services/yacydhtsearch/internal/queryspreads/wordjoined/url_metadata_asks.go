@@ -15,7 +15,7 @@ func urlMetadataAsksFor(
 	documentsWithoutMetadata map[yacymodel.URLHash]struct{},
 	answeredHeldDocumentsAsks []peerasks.AnsweredHeldDocumentsAsk,
 	metadataDocumentsCeiling int,
-	peerCallsCeiling int,
+	peersCeiling int,
 ) []peerasks.URLMetadataAsk {
 	mostHeldDocuments := mostHeldDocumentsAmong(
 		documentsWithoutMetadata, answeredHeldDocumentsAsks, metadataDocumentsCeiling,
@@ -23,7 +23,7 @@ func urlMetadataAsksFor(
 	documentsHeldByEachPeer := documentsHeldByEachPeerAmong(
 		mostHeldDocuments, answeredHeldDocumentsAsks,
 	)
-	coveringPeers := peersCoveringMostDocuments(documentsHeldByEachPeer, peerCallsCeiling)
+	coveringPeers := peersCoveringMostDocuments(documentsHeldByEachPeer, peersCeiling)
 
 	asks := make([]peerasks.URLMetadataAsk, 0, len(coveringPeers))
 	for _, heldByPeer := range coveringPeers {

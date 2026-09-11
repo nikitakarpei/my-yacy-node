@@ -13,18 +13,26 @@ import (
 const shortCallBudget = 500 * time.Millisecond
 
 type peerNetwork struct {
-	mutex                sync.Mutex
-	callsInFlight        int
-	callsOfTheRound      int
-	wholeRoundIsInFlight chan struct{}
+	mutex                   sync.Mutex
+	callsInFlight           int
+	mostCallsInFlight       int
+	awaitedCallsInFlight    int
+	awaitedCallsAreInFlight chan struct{}
 }
 
-func (n *peerNetwork) expectsARoundOf(calls int) {
+func (n *peerNetwork) awaitsCallsInFlight(calls int) {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 
-	n.callsOfTheRound = calls
-	n.wholeRoundIsInFlight = make(chan struct{})
+	n.awaitedCallsInFlight = calls
+	n.awaitedCallsAreInFlight = make(chan struct{})
+}
+
+func (n *peerNetwork) callsSeenInFlightAtOnce() int {
+	n.mutex.Lock()
+	defer n.mutex.Unlock()
+
+	return n.mostCallsInFlight
 }
 
 func (n *peerNetwork) peerHolding(t *testing.T, addresses ...string) string {
@@ -46,7 +54,7 @@ func (n *peerNetwork) peerAnsweringAfter(t *testing.T, delay time.Duration, body
 	})
 }
 
-func (n *peerNetwork) peerAnsweringWhenTheWholeRoundIsInFlight(
+func (n *peerNetwork) peerAnsweringWhenTheAwaitedCallsAreInFlight(
 	t *testing.T,
 	body string,
 ) string {
@@ -54,7 +62,7 @@ func (n *peerNetwork) peerAnsweringWhenTheWholeRoundIsInFlight(
 
 	return n.peerAnswering(t, body, func(peerCall *http.Request) bool {
 		select {
-		case <-n.wholeRoundIsInFlight:
+		case <-n.awaitedCallsAreInFlight:
 			return true
 		case <-peerCall.Context().Done():
 			return false
@@ -90,8 +98,9 @@ func (n *peerNetwork) enterCall() {
 	defer n.mutex.Unlock()
 
 	n.callsInFlight++
-	if n.callsOfTheRound != 0 && n.callsInFlight == n.callsOfTheRound {
-		close(n.wholeRoundIsInFlight)
+	n.mostCallsInFlight = max(n.mostCallsInFlight, n.callsInFlight)
+	if n.awaitedCallsInFlight != 0 && n.callsInFlight == n.awaitedCallsInFlight {
+		close(n.awaitedCallsAreInFlight)
 	}
 }
 
@@ -165,33 +174,45 @@ func TestAPeerThatOutlastsTheCallBudgetIsNoAnswer(t *testing.T) {
 	}
 }
 
-func TestEveryAskOfOneRoundIsPutAtOnce(t *testing.T) {
+func TestNoMorePeerCallsAreInFlightThanTheWireHolds(t *testing.T) {
 	t.Parallel()
 
-	const asksOfTheRound = 12
+	const (
+		callsInFlight  = 3
+		asksOfTheRound = 12
+	)
 
 	network := &peerNetwork{}
-	network.expectsARoundOf(asksOfTheRound)
+	network.awaitsCallsInFlight(callsInFlight)
 	asks := make([]peerasks.MatchedItemsAsk, 0, asksOfTheRound)
 	for range asksOfTheRound {
 		asks = append(
 			asks,
 			peerasks.MatchedItemsAsk{
 				Peer: peerAt(
-					network.peerAnsweringWhenTheWholeRoundIsInFlight(t, searchAnswerHolding(t)),
+					network.peerAnsweringWhenTheAwaitedCallsAreInFlight(
+						t, searchAnswerHolding(t),
+					),
 				),
 			},
 		)
 	}
 
-	answeredAsks := wireTo(&recordedOutcome{}).
+	answeredAsks := wireHolding(callsInFlight, &recordedOutcome{}).
 		AskForMatchedItems(callWithin(t, peerCallBudget), asks)
 
 	if len(answeredAsks) != asksOfTheRound {
 		t.Fatalf(
-			"%d asks of the round came back, want all %d: the peers did not answer at once",
+			"%d asks came back, want all %d: the waiting asks were dropped",
 			len(answeredAsks),
 			asksOfTheRound,
+		)
+	}
+	if network.callsSeenInFlightAtOnce() != callsInFlight {
+		t.Fatalf(
+			"%d peer calls were in flight at once, want %d",
+			network.callsSeenInFlightAtOnce(),
+			callsInFlight,
 		)
 	}
 }

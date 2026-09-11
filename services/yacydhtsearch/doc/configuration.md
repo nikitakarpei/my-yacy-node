@@ -48,6 +48,7 @@ YaCy peers can limit remote searches by client address. Service instances that u
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_PARTITION_EXPONENT` | `4` | Vertical partitions of the DHT ring, as a power of two. It must match the network. |
+| `YACYDHTSEARCH_NETWORK_REDUNDANCY` | `3` | How many peers hold one copy of a posting in the network. It must match the network. |
 
 ## Cross-peer words
 
@@ -72,8 +73,8 @@ The service reads the page of each candidate result, and reads all these pages a
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_QUERY_BUDGET` | `8s` | Time one client query may take, end to end. |
-| `YACYDHTSEARCH_PEER_CALLS_PER_QUERY` | `24` | Most peer calls one query puts. The query shares them over its terms. |
+| `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` | `48` | Most peer calls the service makes at the same time, over all queries. |
 | `YACYDHTSEARCH_MAX_RESPONSE_BYTES` | `4194304` | Most bytes read from one peer answer or one seedlist. |
 | `YACYDHTSEARCH_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for. |
 
-Word joined search puts two rounds of peer calls. Each round stays within `YACYDHTSEARCH_PEER_CALLS_PER_QUERY`, and each peer call leaves the peer the time the query has left.
+A query asks the peers that hold each of its words, which is the partitions of the ring times the redundancy of the network: 48 peers for one word with the defaults, and 192 peer calls for a query of four words. Raise `YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT` to put more of them at the same time, and lower it to put less load on the network. A peer call that waits for its turn keeps the time its query has left.

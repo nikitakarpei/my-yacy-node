@@ -22,6 +22,8 @@ const (
 	networkName    = "freeworld"
 	ringPartitions = yacymodel.DHTRingPartitions(16)
 	peerCallBudget = 4 * time.Second
+
+	callsInFlightOfTheTests = 48
 )
 
 type recordedOutcome struct {
@@ -127,10 +129,18 @@ func (r *recordedOutcome) PeerAnswerUnreadable(
 }
 
 func wireTo(observer peercallwire.PeerCallObserver) peercallwire.Wire {
+	return wireHolding(callsInFlightOfTheTests, observer)
+}
+
+func wireHolding(
+	callsInFlight int,
+	observer peercallwire.PeerCallObserver,
+) peercallwire.Wire {
 	return peercallwire.New(
 		http.DefaultClient,
 		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: ringPartitions},
 		responseLimit,
+		callsInFlight,
 		observer,
 	)
 }

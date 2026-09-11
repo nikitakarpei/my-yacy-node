@@ -5,11 +5,11 @@
 // peer answered, including how often the peer counted a word it does not name,
 // and leaves every peer the time the peer
 // call has left, less the margin the answer needs to reach this node; a peer
-// call with no deadline leaves the peer a time of its own. It puts every ask of
-// one round at once, because the spread that names the asks holds their amount
-// within the peer calls one query may put. It carries the facts that hold for
-// every peer call of this node — the network it searches and the partitions of
-// the ring.
+// call with no deadline leaves the peer a time of its own. It holds the peer
+// calls this node has in flight at the amount it is built for, and an ask that
+// waits for its turn keeps the time its peer call has left. It carries the
+// facts that hold for every peer call of this node — the network it searches
+// and the partitions of the ring.
 package peercallwire
 
 import (
@@ -40,6 +40,7 @@ type Wire struct {
 	client           *http.Client
 	searchedNetwork  SearchedNetwork
 	maxResponseBytes int64
+	callsInFlight    peerCallsInFlight
 	observer         PeerCallObserver
 }
 
@@ -47,12 +48,14 @@ func New(
 	client *http.Client,
 	searchedNetwork SearchedNetwork,
 	maxResponseBytes int64,
+	callsInFlight int,
 	observer PeerCallObserver,
 ) Wire {
 	return Wire{
 		client:           client,
 		searchedNetwork:  searchedNetwork,
 		maxResponseBytes: maxResponseBytes,
+		callsInFlight:    make(peerCallsInFlight, callsInFlight),
 		observer:         observer,
 	}
 }
@@ -62,6 +65,7 @@ func (w Wire) AskForMatchedItems(
 	asks []peerasks.MatchedItemsAsk,
 ) []peerasks.AnsweredMatchedItemsAsk {
 	return putAsksToPeers(
+		w.callsInFlight,
 		asks,
 		func(ask peerasks.MatchedItemsAsk) (peerasks.AnsweredMatchedItemsAsk, bool) {
 			return w.putMatchedItemsAsk(ctx, ask)
@@ -70,6 +74,7 @@ func (w Wire) AskForMatchedItems(
 }
 
 func putAsksToPeers[Ask any, Answered any](
+	callsInFlight peerCallsInFlight,
 	asks []Ask,
 	putAsk func(Ask) (Answered, bool),
 ) []Answered {
@@ -81,7 +86,9 @@ func putAsksToPeers[Ask any, Answered any](
 		calls.Add(1)
 		go func() {
 			defer calls.Done()
-			answeredAsks[index], replied[index] = putAsk(ask)
+			callsInFlight.putOnePeerCall(func() {
+				answeredAsks[index], replied[index] = putAsk(ask)
+			})
 		}()
 	}
 	calls.Wait()
@@ -192,6 +199,7 @@ func (w Wire) AskForURLMetadata(
 	asks []peerasks.URLMetadataAsk,
 ) []peerasks.AnsweredURLMetadataAsk {
 	return putAsksToPeers(
+		w.callsInFlight,
 		asks,
 		func(ask peerasks.URLMetadataAsk) (peerasks.AnsweredURLMetadataAsk, bool) {
 			return w.putURLMetadataAsk(ctx, ask)
@@ -259,6 +267,7 @@ func (w Wire) AskForHeldDocuments(
 	asks []peerasks.HeldDocumentsAsk,
 ) []peerasks.AnsweredHeldDocumentsAsk {
 	return putAsksToPeers(
+		w.callsInFlight,
 		asks,
 		func(ask peerasks.HeldDocumentsAsk) (peerasks.AnsweredHeldDocumentsAsk, bool) {
 			return w.putHeldDocumentsAsk(ctx, ask)

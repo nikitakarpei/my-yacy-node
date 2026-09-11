@@ -27,19 +27,20 @@ import (
 )
 
 const (
-	recordingSwitch    = "YACYDHTSEARCH_RECORD_JUDGED_QUERIES"
-	networkName        = "freeworld"
-	partitionExponent  = 4
-	maxResponseBytes   = 4 * 1024 * 1024
-	directoryCapacity  = 4096
-	peerChoiceCooldown = 5 * time.Second
-	refreshInterval    = 5 * time.Minute
-	probeBudget        = 3 * time.Second
-	probesInFlight     = 24
-	peerCallsPerQuery  = 24
-	peerItemsCeiling   = 10
-	rankedItemsCeiling = 50
-	queryBudget        = 15 * time.Second
+	recordingSwitch     = "YACYDHTSEARCH_RECORD_JUDGED_QUERIES"
+	networkName         = "freeworld"
+	partitionExponent   = 4
+	maxResponseBytes    = 4 * 1024 * 1024
+	directoryCapacity   = 4096
+	peerChoiceCooldown  = 5 * time.Second
+	refreshInterval     = 5 * time.Minute
+	probeBudget         = 3 * time.Second
+	probesInFlight      = 24
+	peersHoldingOneWord = 48
+	peerCallsInFlight   = 48
+	peerItemsCeiling    = 10
+	rankedItemsCeiling  = 50
+	queryBudget         = 15 * time.Second
 
 	pagesReadPerQuery    = 50
 	pageReadBudget       = 10 * time.Second
@@ -163,6 +164,7 @@ func querySpreadOverThePeers(t *testing.T, directory *peerdirectory.Directory) q
 		http.DefaultClient,
 		peercallwire.SearchedNetwork{Name: networkName, RingPartitions: partitions},
 		maxResponseBytes,
+		peerCallsInFlight,
 		peercallwire.PeerCallObservers{},
 	)
 	choice := peerchoice.New(
@@ -176,14 +178,14 @@ func querySpreadOverThePeers(t *testing.T, directory *peerdirectory.Directory) q
 			choice,
 			rankedItemsCeiling,
 			peerItemsCeiling,
-			peerCallsPerQuery,
+			peersHoldingOneWord,
 			wordjoined.WordJoinedSpreadObservers{},
 		),
 		peermatched.New(
 			peers,
 			choice,
 			peerItemsCeiling,
-			peerCallsPerQuery,
+			peersHoldingOneWord,
 			peermatched.PeerMatchedSpreadObservers{},
 		),
 	)

@@ -74,8 +74,10 @@ func TestEveryPeerChosenForAQueryWordRestsBeforeTheNextSearch(t *testing.T) {
 	}
 }
 
-func TestTheCallsOfOneQueryAreSharedOverItsWords(t *testing.T) {
+func TestEveryQueryWordIsGivenThePeersThatHoldOneWord(t *testing.T) {
 	t.Parallel()
+
+	const peersHoldingOneWord = 24
 
 	selection := &nearestPeers{peers: []peerdirectory.AskablePeer{peerAt("first")}}
 
@@ -83,38 +85,23 @@ func TestTheCallsOfOneQueryAreSharedOverItsWords(t *testing.T) {
 		t.Context(),
 		words(t, "berlin", "weather", "today"),
 		[]peerdirectory.AskablePeer{peerAt("first")},
-		24,
+		peersHoldingOneWord,
 	)
 
-	want := []int{8, 8, 8}
-	if len(selection.peersCeilingAsked) != len(want) {
+	if len(selection.peersCeilingAsked) != 3 {
 		t.Fatalf(
 			"the selection was asked %d times, want one for each query word",
 			len(selection.peersCeilingAsked),
 		)
 	}
 	for index, ceiling := range selection.peersCeilingAsked {
-		if ceiling != want[index] {
-			t.Errorf("query word %d was given %d peers, want %d", index, ceiling, want[index])
-		}
-	}
-}
-
-func TestEveryQueryWordKeepsOnePeerWhenTheWordsOutnumberTheCalls(t *testing.T) {
-	t.Parallel()
-
-	selection := &nearestPeers{peers: []peerdirectory.AskablePeer{peerAt("first")}}
-
-	peerchoice.New(selection, &restedPeers{}).ChoosePeersPerQueryWord(
-		t.Context(),
-		words(t, "berlin", "weather", "today"),
-		[]peerdirectory.AskablePeer{peerAt("first")},
-		2,
-	)
-
-	for index, ceiling := range selection.peersCeilingAsked {
-		if ceiling != 1 {
-			t.Errorf("query word %d was given %d peers, want one", index, ceiling)
+		if ceiling != peersHoldingOneWord {
+			t.Errorf(
+				"query word %d was given %d peers, want %d",
+				index,
+				ceiling,
+				peersHoldingOneWord,
+			)
 		}
 	}
 }

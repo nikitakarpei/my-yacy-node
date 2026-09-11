@@ -16,7 +16,7 @@ func (s Spread) askForURLMetadata(
 		documentsWithoutMetadata,
 		answeredHeldDocumentsAsks,
 		s.metadataDocumentsCeiling,
-		s.peerCallsCeiling,
+		s.peersHoldingOneWord,
 	)
 	secondRound, endSecondRound := contextOfTheSecondRound(ctx)
 	defer endSecondRound()

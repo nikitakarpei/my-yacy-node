@@ -1,7 +1,7 @@
-// Package peerchoice chooses the peers the words of a query go to. It shares
-// the peer calls one query may put over the words of that query, picks the
-// peers of each word in the order the words come in, and rests every peer it
-// chooses so that the next search reaches further into the network.
+// Package peerchoice chooses the peers the words of a query go to. It asks the
+// same amount of peers for every word, picks the peers of each word in the
+// order the words come in, and rests every peer it chooses so that the next
+// search reaches further into the network.
 package peerchoice
 
 import (
@@ -37,26 +37,19 @@ func (c Choice) ChoosePeersPerQueryWord(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
-	peerCallsCeiling int,
+	peersHoldingOneWord int,
 ) [][]peerdirectory.AskablePeer {
-	peersCeiling := peersCeilingPerQueryWord(peerCallsCeiling, len(queryWords))
-
-	peersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
+	chosenPeersPerQueryWord := make([][]peerdirectory.AskablePeer, 0, len(queryWords))
 	for _, queryWord := range queryWords {
-		chosenPeers := c.peerSelection.PeersForWord(ctx, queryWord, askablePeers, peersCeiling)
+		chosenPeers := c.peerSelection.PeersForWord(
+			ctx,
+			queryWord,
+			askablePeers,
+			peersHoldingOneWord,
+		)
 		c.peerDirectory.MarkPeersChosen(ctx, chosenPeers)
-		peersPerQueryWord = append(peersPerQueryWord, chosenPeers)
+		chosenPeersPerQueryWord = append(chosenPeersPerQueryWord, chosenPeers)
 	}
 
-	return peersPerQueryWord
-}
-
-// peersCeilingPerQueryWord shares the peer calls one round of a query may put
-// evenly over the words of that query, and leaves every word at least one peer.
-func peersCeilingPerQueryWord(peerCallsCeiling, queryWords int) int {
-	if queryWords == 0 {
-		return 0
-	}
-
-	return max(1, peerCallsCeiling/queryWords)
+	return chosenPeersPerQueryWord
 }

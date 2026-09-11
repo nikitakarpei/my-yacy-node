@@ -4,10 +4,10 @@
 // the documents that came back for every word, and asks the peers that hold
 // them for the metadata of the joined documents that came back without it.
 // It puts each word only to the peers the DHT ring makes responsible for that
-// word. Each round stays within the peer calls one query may put: the first
-// shares them over the query words, and the second keeps the peers that cover
-// the most documents between them. The first round also leaves the second round
-// its share of the time the query has left.
+// word, and asks as many peers for each word as hold that word. The second
+// round asks that same amount of peers, and keeps the peers that cover the most
+// documents between them. The first round leaves the second round its share of
+// the time the query has left.
 package wordjoined
 
 import (
@@ -26,7 +26,7 @@ type PeerChoice interface {
 		ctx context.Context,
 		queryWords []yacymodel.Hash,
 		askablePeers []peerdirectory.AskablePeer,
-		peerCallsCeiling int,
+		peersHoldingOneWord int,
 	) [][]peerdirectory.AskablePeer
 }
 
@@ -46,7 +46,7 @@ type Spread struct {
 	peerChoice               PeerChoice
 	metadataDocumentsCeiling int
 	peerItemsCeiling         int
-	peerCallsCeiling         int
+	peersHoldingOneWord      int
 	observer                 WordJoinedSpreadObserver
 }
 
@@ -56,7 +56,7 @@ func New(
 	peerChoice PeerChoice,
 	metadataDocumentsCeiling int,
 	peerItemsCeiling int,
-	peerCallsCeiling int,
+	peersHoldingOneWord int,
 	observer WordJoinedSpreadObserver,
 ) Spread {
 	return Spread{
@@ -64,7 +64,7 @@ func New(
 		peerChoice:               peerChoice,
 		metadataDocumentsCeiling: metadataDocumentsCeiling,
 		peerItemsCeiling:         peerItemsCeiling,
-		peerCallsCeiling:         peerCallsCeiling,
+		peersHoldingOneWord:      peersHoldingOneWord,
 		observer:                 observer,
 	}
 }
@@ -77,7 +77,7 @@ func (s Spread) SpreadOverPeers(
 	startedAt := time.Now()
 
 	chosenPeersPerQueryWord := s.peerChoice.ChoosePeersPerQueryWord(
-		ctx, query.TermHashes(), askablePeers, s.peerCallsCeiling,
+		ctx, query.TermHashes(), askablePeers, s.peersHoldingOneWord,
 	)
 	heldDocumentsAsks, answeredHeldDocumentsAsks := s.askForHeldDocuments(
 		ctx, query, chosenPeersPerQueryWord,

@@ -24,15 +24,16 @@ import (
 )
 
 const (
-	networkName       = "freeworld"
-	responseLimit     = 1 << 20
-	peerCallsPerQuery = 4
-	queryBudget       = 5 * time.Second
-	peerResults       = 10
-	directoryLimit    = 16
-	recordCeiling     = 50
-	pagesReadPerQuery = 50
-	cooldown          = 5 * time.Second
+	networkName         = "freeworld"
+	responseLimit       = 1 << 20
+	peersHoldingOneWord = 4
+	peerCallsInFlight   = 48
+	queryBudget         = 5 * time.Second
+	peerResults         = 10
+	directoryLimit      = 16
+	recordCeiling       = 50
+	pagesReadPerQuery   = 50
+	cooldown            = 5 * time.Second
 )
 
 type silentDirectoryObserver struct{}
@@ -174,11 +175,12 @@ func peerMatchedSpread(t *testing.T) peermatched.Spread {
 			http.DefaultClient,
 			peercallwire.SearchedNetwork{Name: networkName, RingPartitions: ringPartitions(t)},
 			responseLimit,
+			peerCallsInFlight,
 			silentOutcome{},
 		),
 		everyAskablePeer{},
 		peerResults,
-		peerCallsPerQuery,
+		peersHoldingOneWord,
 		peermatched.PeerMatchedSpreadObservers{},
 	)
 }

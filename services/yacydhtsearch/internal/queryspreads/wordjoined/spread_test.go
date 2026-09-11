@@ -20,7 +20,7 @@ const (
 	secondWord               = "weather"
 	metadataDocumentsCeiling = 10
 	peerItemsCeiling         = 10
-	peerCallsCeiling         = 24
+	peersHoldingOneWord      = 24
 )
 
 type peerNetwork struct {
@@ -153,7 +153,7 @@ func metadataOfEachDocument(documents []yacymodel.URLHash) []yacymodel.URLMetada
 }
 
 type responsiblePeers struct {
-	peersPerWord map[string][]string
+	peerAddressesPerWord map[string][]string
 }
 
 func (r responsiblePeers) ChoosePeersPerQueryWord(
@@ -174,10 +174,10 @@ func (r responsiblePeers) peersForWord(
 	word yacymodel.Hash,
 	askablePeers []peerdirectory.AskablePeer,
 ) []peerdirectory.AskablePeer {
-	if r.peersPerWord == nil {
+	if r.peerAddressesPerWord == nil {
 		return askablePeers
 	}
-	for spelledWord, addresses := range r.peersPerWord {
+	for spelledWord, addresses := range r.peerAddressesPerWord {
 		if yacymodel.WordHash(spelledWord) != word {
 			continue
 		}
@@ -261,7 +261,7 @@ func spreadAskingMetadataForUpTo(
 			choice,
 			metadataDocumentsCeiling,
 			peerItemsCeiling,
-			peerCallsCeiling,
+			peersHoldingOneWord,
 			observer,
 		),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
@@ -388,7 +388,7 @@ func TestOnlyThePeersResponsibleForAWordAreAskedWhatTheyHoldForIt(t *testing.T) 
 	})
 	observer := &recordedSpreads{}
 
-	spreadChoosing(network, responsiblePeers{peersPerWord: map[string][]string{
+	spreadChoosing(network, responsiblePeers{peerAddressesPerWord: map[string][]string{
 		firstWord:  {"first"},
 		secondWord: {"second"},
 	}}, observer)
@@ -587,10 +587,10 @@ func TestTheSpreadReportsTheWholeJoinBesideTheDocumentsItAskedMetadataFor(t *tes
 	}
 }
 
-func TestNoMorePeersAreAskedForMetadataThanTheCallsOneQueryMayPut(t *testing.T) {
+func TestNoMorePeersAreAskedForMetadataThanHoldOneWord(t *testing.T) {
 	t.Parallel()
 
-	const peerCalls = 2
+	const peersOfOneWord = 2
 
 	bothDocuments := []string{"https://first.example/", "https://second.example/"}
 	firstDocument, secondDocument := bothDocuments[:1], bothDocuments[1:]
@@ -607,17 +607,17 @@ func TestNoMorePeersAreAskedForMetadataThanTheCallsOneQueryMayPut(t *testing.T) 
 			responsiblePeers{},
 			metadataDocumentsCeiling,
 			peerItemsCeiling,
-			peerCalls,
+			peersOfOneWord,
 			&recordedSpreads{},
 		),
 		peersAt([]string{"first", "second", "third", "fourth"}),
 	)
 
-	if len(network.urlMetadataAsks) != peerCalls {
+	if len(network.urlMetadataAsks) != peersOfOneWord {
 		t.Fatalf(
 			"%d peers were asked for metadata, want %d",
 			len(network.urlMetadataAsks),
-			peerCalls,
+			peersOfOneWord,
 		)
 	}
 	wanted := documentHashesOf(bothDocuments)
@@ -793,7 +793,7 @@ func TestTheSpreadReportsWhatThePeersAnsweredBesideTheDocumentsTheyHold(t *testi
 	network.documentsHeldForEveryWord = 512
 	observer := &recordedSpreads{}
 
-	spreadChoosing(network, responsiblePeers{peersPerWord: map[string][]string{
+	spreadChoosing(network, responsiblePeers{peerAddressesPerWord: map[string][]string{
 		firstWord:  {"first"},
 		secondWord: {"first"},
 	}}, observer)

@@ -30,6 +30,10 @@ func DHTRingPartitionsFromExponent(exponent uint) (DHTRingPartitions, error) {
 	return DHTRingPartitions(1) << exponent, nil
 }
 
+func PeersHoldingOneWordOf(partitions DHTRingPartitions, networkRedundancy int) int {
+	return int(partitions) * networkRedundancy
+}
+
 func (p DHTRingPartitions) shiftLength() uint {
 	return 63 - uint(bits.Len(uint(p))-1)
 }

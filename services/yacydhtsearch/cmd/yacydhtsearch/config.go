@@ -19,7 +19,8 @@ const (
 	EnvEgressProxyURL       = "EGRESS_PROXY_URL"
 	EnvQueryBudget          = "YACYDHTSEARCH_QUERY_BUDGET"
 	EnvPeerChoiceCooldown   = "YACYDHTSEARCH_PEER_CHOICE_COOLDOWN"
-	EnvPeerCallsPerQuery    = "YACYDHTSEARCH_PEER_CALLS_PER_QUERY"
+	EnvNetworkRedundancy    = "YACYDHTSEARCH_NETWORK_REDUNDANCY"
+	EnvPeerCallsInFlight    = "YACYDHTSEARCH_PEER_CALLS_IN_FLIGHT"
 	EnvProbesInFlight       = "YACYDHTSEARCH_PROBES_IN_FLIGHT"
 	EnvDirectoryCapacity    = "YACYDHTSEARCH_DIRECTORY_CAPACITY"
 	EnvRefreshInterval      = "YACYDHTSEARCH_REFRESH_INTERVAL"
@@ -42,7 +43,8 @@ const (
 	DefaultOpsAddr              = ":9090"
 	DefaultQueryBudget          = 8 * time.Second
 	DefaultPeerChoiceCooldown   = 5 * time.Second
-	DefaultPeerCallsPerQuery    = 24
+	DefaultNetworkRedundancy    = 3
+	DefaultPeerCallsInFlight    = 48
 	DefaultProbesInFlight       = 24
 	DefaultDirectoryCapacity    = 4096
 	DefaultRefreshInterval      = 5 * time.Minute
@@ -67,7 +69,8 @@ type ServiceConfig struct {
 	EgressProxyURL     *url.URL
 	QueryBudget        time.Duration
 	PeerChoiceCooldown time.Duration
-	PeerCallsPerQuery  int
+	NetworkRedundancy  int
+	PeerCallsInFlight  int
 	ProbesInFlight     int
 	DirectoryCapacity  int
 	RefreshInterval    time.Duration
@@ -138,7 +141,8 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		EgressProxyURL:     egressProxyURL,
 		QueryBudget:        durations.queryBudget,
 		PeerChoiceCooldown: durations.peerChoiceCooldown,
-		PeerCallsPerQuery:  counts.peerCallsPerQuery,
+		NetworkRedundancy:  counts.networkRedundancy,
+		PeerCallsInFlight:  counts.peerCallsInFlight,
 		ProbesInFlight:     counts.probesInFlight,
 		DirectoryCapacity:  counts.directoryCapacity,
 		RefreshInterval:    durations.refreshInterval,
@@ -193,7 +197,8 @@ func durationsOf(getenv func(string) string) (configuredDurations, error) {
 }
 
 type configuredCounts struct {
-	peerCallsPerQuery    int
+	networkRedundancy    int
+	peerCallsInFlight    int
 	probesInFlight       int
 	directoryCapacity    int
 	peerItemsCeiling     int
@@ -211,7 +216,8 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		fallback int
 		into     *int
 	}{
-		{EnvPeerCallsPerQuery, DefaultPeerCallsPerQuery, &counts.peerCallsPerQuery},
+		{EnvNetworkRedundancy, DefaultNetworkRedundancy, &counts.networkRedundancy},
+		{EnvPeerCallsInFlight, DefaultPeerCallsInFlight, &counts.peerCallsInFlight},
 		{EnvProbesInFlight, DefaultProbesInFlight, &counts.probesInFlight},
 		{EnvDirectoryCapacity, DefaultDirectoryCapacity, &counts.directoryCapacity},
 		{EnvPeerItemsCeiling, DefaultPeerItemsCeiling, &counts.peerItemsCeiling},

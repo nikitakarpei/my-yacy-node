@@ -13,8 +13,8 @@ import (
 )
 
 const (
-	itemsCeiling     = 10
-	peerCallsCeiling = 24
+	itemsCeiling        = 10
+	peersHoldingOneWord = 24
 )
 
 type peerNetwork struct {
@@ -102,7 +102,7 @@ func searchOf(
 	network *peerNetwork,
 	observer peermatched.PeerMatchedSpreadObserver,
 ) [][]peeranswers.AnsweredItem {
-	return spreadOf(network, peerCallsCeiling, observer).SpreadOverPeers(
+	return spreadOf(network, peersHoldingOneWord, observer).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom("berlin weather"),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
@@ -110,7 +110,7 @@ func searchOf(
 }
 
 func searchForTheQuery(network *peerNetwork, query string) [][]peeranswers.AnsweredItem {
-	return spreadOf(network, peerCallsCeiling, &recordedSpreads{}).SpreadOverPeers(
+	return spreadOf(network, peersHoldingOneWord, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom(query),
 		[]peerdirectory.AskablePeer{peerAt("first"), peerAt("second")},
@@ -119,20 +119,18 @@ func searchForTheQuery(network *peerNetwork, query string) [][]peeranswers.Answe
 
 func spreadOf(
 	network *peerNetwork,
-	peerCalls int,
+	peersOfOneWord int,
 	observer peermatched.PeerMatchedSpreadObserver,
 ) peermatched.Spread {
-	return peermatched.New(network, everyAskablePeer{}, itemsCeiling, peerCalls, observer)
+	return peermatched.New(network, everyAskablePeer{}, itemsCeiling, peersOfOneWord, observer)
 }
 
-func TestNoMorePeersAreAskedThanTheCallsOneQueryMayPut(t *testing.T) {
+func TestEveryPeerChosenForAnyQueryWordIsAskedOnce(t *testing.T) {
 	t.Parallel()
-
-	const peerCalls = 2
 
 	network := networkOf(map[string][]string{})
 
-	spreadOf(network, peerCalls, &recordedSpreads{}).SpreadOverPeers(
+	spreadOf(network, peersHoldingOneWord, &recordedSpreads{}).SpreadOverPeers(
 		context.Background(),
 		searchquery.QueryFrom("berlin weather"),
 		[]peerdirectory.AskablePeer{
@@ -140,8 +138,8 @@ func TestNoMorePeersAreAskedThanTheCallsOneQueryMayPut(t *testing.T) {
 		},
 	)
 
-	if len(network.asks) != peerCalls {
-		t.Fatalf("%d asks were put, want %d", len(network.asks), peerCalls)
+	if len(network.asks) != 4 {
+		t.Fatalf("%d asks were put, want one for each chosen peer", len(network.asks))
 	}
 }
 

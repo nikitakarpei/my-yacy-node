@@ -57,6 +57,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacysearchendpoint"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlist"
 	yacyseedlistobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/yacyseedlistobservers/applog"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 const (
@@ -89,6 +90,7 @@ func RunService(
 		outbound,
 		peercallwire.SearchedNetwork{Name: cfg.NetworkName, RingPartitions: cfg.Partitions},
 		cfg.MaxResponseBytes,
+		cfg.PeerCallsInFlight,
 		peercallwire.PeerCallObservers{
 			peercallobserversapplog.PeerCallLog{},
 			peercallobserversprometheus.New(registry, cfg.QueryBudget),
@@ -174,11 +176,12 @@ func querySpreadFor(
 	choice peerchoice.Choice,
 	registry *prometheus.Registry,
 ) networksearch.QuerySpread {
+	peersHoldingOneWord := yacymodel.PeersHoldingOneWordOf(cfg.Partitions, cfg.NetworkRedundancy)
 	peerMatchedSpread := peermatched.New(
 		peers,
 		choice,
 		cfg.PeerItemsCeiling,
-		cfg.PeerCallsPerQuery,
+		peersHoldingOneWord,
 		peermatched.PeerMatchedSpreadObservers{
 			peermatchedobserversapplog.PeerMatchedSpreadLog{},
 			peermatchedobserversprometheus.New(registry, cfg.QueryBudget),
@@ -194,7 +197,7 @@ func querySpreadFor(
 			choice,
 			cfg.RankedItemsCeiling,
 			cfg.PeerItemsCeiling,
-			cfg.PeerCallsPerQuery,
+			peersHoldingOneWord,
 			wordjoined.WordJoinedSpreadObservers{
 				wordjoinedobserversapplog.WordJoinedSpreadLog{},
 				wordjoinedobserversprometheus.New(registry, cfg.QueryBudget),
