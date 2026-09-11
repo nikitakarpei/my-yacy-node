@@ -58,12 +58,11 @@ YaCy peers can limit remote searches by client address. Service instances that u
 
 ## Page reading
 
-The service reads the page of each candidate result. It counts the query words in the text of that page, and cuts the snippet of the result from the same text. A page the service cannot read leaves its result as the peers answered it.
+The service reads the page of each candidate result, and reads all these pages at the same time. It counts the query words in the text of that page, and cuts the snippet of the result from the same text. A page the service cannot read leaves its result as the peers answered it.
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_PAGES_READ_PER_QUERY` | `50` | Pages one query reads, taken from the results it puts first. |
-| `YACYDHTSEARCH_PAGE_READS_IN_FLIGHT` | `16` | Most pages of one query that are read at the same time. |
 | `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the pages of one query may take, inside the query budget. |
 | `YACYDHTSEARCH_PAGE_BYTE_CEILING` | `1048576` | Most bytes read from one page. |
 | `YACYDHTSEARCH_SNIPPET_LENGTH_CEILING` | `300` | Most characters one snippet holds. |

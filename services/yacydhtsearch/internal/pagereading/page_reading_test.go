@@ -14,7 +14,6 @@ import (
 )
 
 const (
-	pageReadsInFlight    = 4
 	pageReadBudget       = time.Second
 	snippetLengthCeiling = 40
 	addressOfTheDocument = "https://berlin.example/"
@@ -101,7 +100,6 @@ func readingOfThePages(
 	return pagereading.New(
 		pageFetch,
 		formatDerivations,
-		pageReadsInFlight,
 		pageReadBudget,
 		snippetLengthCeiling,
 		pagereading.PageReadingObservers{observer},
@@ -277,7 +275,6 @@ func TestAPageThatOutlastsTheReadBudgetGivesNothingForItsDocument(t *testing.T) 
 	reading := pagereading.New(
 		pagesThatOutlastTheBudget{},
 		formatDerivations,
-		pageReadsInFlight,
 		time.Millisecond,
 		snippetLengthCeiling,
 		pagereading.PageReadingObservers{observer},

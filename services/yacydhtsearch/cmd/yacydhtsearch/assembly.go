@@ -221,7 +221,6 @@ func pageReadingFor(
 			cfg.PageReadBudget,
 		),
 		formatDerivations,
-		cfg.PageReadsInFlight,
 		cfg.PageReadBudget,
 		cfg.SnippetLengthCeiling,
 		pagereading.PageReadingObservers{

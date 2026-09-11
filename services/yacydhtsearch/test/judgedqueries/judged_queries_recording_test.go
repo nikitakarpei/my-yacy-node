@@ -46,7 +46,6 @@ const (
 	queryBudget        = 15 * time.Second
 
 	pagesReadPerQuery    = 50
-	pageReadsInFlight    = 16
 	pageReadBudget       = 10 * time.Second
 	pageByteCeiling      = 1024 * 1024
 	snippetLengthCeiling = 300
@@ -222,7 +221,6 @@ func pageReadingOverTheWeb(t *testing.T) pagereading.Reading {
 			pageReadBudget,
 		),
 		formatDerivations,
-		pageReadsInFlight,
 		pageReadBudget,
 		snippetLengthCeiling,
 		silentPageReadingObserver{},

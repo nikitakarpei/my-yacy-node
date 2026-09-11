@@ -34,7 +34,6 @@ func TestTheServiceAnswersSearchesAndPublishesMetricsUntilItStops(t *testing.T) 
 		RankedItemsCeiling: 50,
 
 		PagesReadPerQuery:    10,
-		PageReadsInFlight:    4,
 		PageReadBudget:       time.Second,
 		PageByteCeiling:      1024,
 		SnippetLengthCeiling: 300,

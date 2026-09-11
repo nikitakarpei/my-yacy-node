@@ -18,8 +18,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-const onePageInFlight = 1
-
 type PageToRead struct {
 	Document yacymodel.URLHash
 	Address  string
@@ -43,17 +41,14 @@ type FormatDerivations interface {
 type Reading struct {
 	pageFetch            pagefetch.Fetcher
 	formatDerivations    FormatDerivations
-	pageReadsInFlight    int
 	pageReadBudget       time.Duration
 	snippetLengthCeiling int
 	observer             PageReadingObserver
 }
 
-//nolint:revive // argument-limit: what the reading of the pages of a query holds
 func New(
 	pageFetch pagefetch.Fetcher,
 	formatDerivations FormatDerivations,
-	pageReadsInFlight int,
 	pageReadBudget time.Duration,
 	snippetLengthCeiling int,
 	observer PageReadingObserver,
@@ -61,7 +56,6 @@ func New(
 	return Reading{
 		pageFetch:            pageFetch,
 		formatDerivations:    formatDerivations,
-		pageReadsInFlight:    pageReadsInFlight,
 		pageReadBudget:       pageReadBudget,
 		snippetLengthCeiling: snippetLengthCeiling,
 		observer:             observer,
@@ -92,14 +86,11 @@ func (r Reading) readPagesOf(
 	pagesToRead []PageToRead,
 ) []readPage {
 	readPages := make([]readPage, len(pagesToRead))
-	pageReadsInFlight := make(chan struct{}, max(r.pageReadsInFlight, onePageInFlight))
 	var pagesBeingRead sync.WaitGroup
 	for place, pageToRead := range pagesToRead {
-		pageReadsInFlight <- struct{}{}
 		pagesBeingRead.Add(1)
 		go func() {
 			defer pagesBeingRead.Done()
-			defer func() { <-pageReadsInFlight }()
 			readPages[place] = r.readPageOf(ctx, queryWords, pageToRead)
 		}()
 	}

@@ -34,7 +34,6 @@ const (
 	EnvWordJoinedSearch     = "YACYDHTSEARCH_WORD_JOINED_SEARCH"
 	EnvRelevanceRanking     = "YACYDHTSEARCH_RELEVANCE_RANKING"
 	EnvPagesReadPerQuery    = "YACYDHTSEARCH_PAGES_READ_PER_QUERY"
-	EnvPageReadsInFlight    = "YACYDHTSEARCH_PAGE_READS_IN_FLIGHT"
 	EnvPageReadBudget       = "YACYDHTSEARCH_PAGE_READ_BUDGET"
 	EnvPageByteCeiling      = "YACYDHTSEARCH_PAGE_BYTE_CEILING"
 	EnvSnippetLengthCeiling = "YACYDHTSEARCH_SNIPPET_LENGTH_CEILING"
@@ -55,7 +54,6 @@ const (
 	DefaultRankingCacheCapacity = 1024
 	DefaultRankingLifetime      = 2 * time.Minute
 	DefaultPagesReadPerQuery    = 50
-	DefaultPageReadsInFlight    = 16
 	DefaultPageReadBudget       = 3 * time.Second
 	DefaultPageByteCeiling      = 1024 * 1024
 	DefaultSnippetLengthCeiling = 300
@@ -85,7 +83,6 @@ type ServiceConfig struct {
 	RelevanceRanking   bool
 
 	PagesReadPerQuery    int
-	PageReadsInFlight    int
 	PageReadBudget       time.Duration
 	PageByteCeiling      int64
 	SnippetLengthCeiling int
@@ -157,7 +154,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		RelevanceRanking:   relevanceRanking,
 
 		PagesReadPerQuery:    counts.pagesReadPerQuery,
-		PageReadsInFlight:    counts.pageReadsInFlight,
 		PageReadBudget:       durations.pageReadBudget,
 		PageByteCeiling:      pageByteCeiling,
 		SnippetLengthCeiling: counts.snippetLengthCeiling,
@@ -204,7 +200,6 @@ type configuredCounts struct {
 	rankedItemsCeiling   int
 	rankingCacheCapacity int
 	pagesReadPerQuery    int
-	pageReadsInFlight    int
 	snippetLengthCeiling int
 }
 
@@ -223,7 +218,6 @@ func countsOf(getenv func(string) string) (configuredCounts, error) {
 		{EnvRankedItemsCeiling, DefaultRankedItemsCeiling, &counts.rankedItemsCeiling},
 		{EnvRankingCacheCapacity, DefaultRankingCacheCapacity, &counts.rankingCacheCapacity},
 		{EnvPagesReadPerQuery, DefaultPagesReadPerQuery, &counts.pagesReadPerQuery},
-		{EnvPageReadsInFlight, DefaultPageReadsInFlight, &counts.pageReadsInFlight},
 		{EnvSnippetLengthCeiling, DefaultSnippetLengthCeiling, &counts.snippetLengthCeiling},
 	} {
 		if *field.into, err = envconfig.PositiveInt(getenv, field.key, field.fallback); err != nil {
