@@ -1,17 +1,17 @@
 {
   "query": "openstreetmap",
-  "recordedAt": "2026-09-11T12:58:14Z",
+  "recordedAt": "2026-09-11T19:21:16Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "D1UyW8ybg-vy",
         "address": "https://www.openstreetmap.org/way/313187245",
         "title": "Way: ‪ТП-3865‬ (‪313187245‬) | OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 8,
-            "textWords": 207
+            "textWords": 195
           }
         }
       },
@@ -31,11 +31,11 @@
         "hash": "AqsQcJDOAHJg",
         "address": "https://www.heise.de/ratgeber/OpenStreetMap-Wie-Sie-Orte-mit-natuerlicher-Sprache-finden-11091390.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
         "title": "OpenStreetMap: Wie Sie Orte mit natürlicher Sprache finden | heise online",
-        "snippet": "",
+        "snippet": "OpenStreetMap: Wie Sie Orte mit natürlicher Sprache finden | heise online\nheise+ entdecken\nSuchen\nAbo\nSuchen\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise+\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 12,
-            "textWords": 1691
+            "hits": 9,
+            "textWords": 1000
           }
         }
       },
@@ -43,23 +43,23 @@
         "hash": "Asm2dcPeAUvg",
         "address": "https://natenom.de/2017/09/mein-status-bei-openstreetmap-und-wie-man-mit-netbook-und-fahrrad-mappen-kann/",
         "title": "Mein Status bei OpenStreetMap und wie man mit Netbook und Fahrrad mappen kann - Natenoms Blog",
-        "snippet": "",
+        "snippet": "OpenStreetMap und wie man mit Netbook und Fahrrad mappen kann - Natenoms Blog\nDiese Seite wird betrieben vom Natenom e. V. – Ein Verein von Natenoms Freunden zum Erhalt seines digitalen Nachlasses. – Impressum des Natenom e. V.\nNatenoms BlogNatenoms Blog\nÜber\nWiki\nBlogroll\nBlog vom kleinen 🐘\n/",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 1750
+            "hits": 10,
+            "textWords": 1342
           }
         }
       },
       {
-        "hash": "D_V_f8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/User:Ika-chan!/Fantasy_maps_with_OSM_software",
-        "title": "User:Ika-chan!/Fantasy maps with OSM software - OpenStreetMap Wiki",
-        "snippet": "",
+        "hash": "AWewB8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Lb:Main_Page",
+        "title": "Lb:Main Page - OpenStreetMap Wiki",
+        "snippet": "OpenStreetMap Wiki\nLb:Main Page\nFrom OpenStreetMap Wiki\nJump to navigation Jump to search Help\nMain Page\nIn other languages\nAfrikaans\nasturianu\nazərbaycanca\nBahasa Indonesia\nBahasa Melayu\nbosanski\nbrezhoneg\ncatalà\nčeština\nCrnogorski\ndansk\nDeutsch\neesti\nEnglish\nespañol\nEsperanto\neuskara\nfrançais",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 28,
-            "textWords": 4665
+            "hits": 34,
+            "textWords": 1941
           }
         }
       },
@@ -100,40 +100,40 @@
         }
       },
       {
-        "hash": "CqCKJcofqllg",
-        "address": "https://blog.rasc.ch/2018/07/self-hosted-tile-server.html",
-        "title": "TileServerGL, a self-hosted map tile server with OpenStreetMap data",
-        "snippet": "",
+        "hash": "C0_Z-Sofqllg",
+        "address": "https://blog.rasc.ch/2026/04/graphhopper.html",
+        "title": "GraphHopper, routing engine for OpenStreetMap data",
+        "snippet": "OpenStreetMap data\nHome | Send Feedback | Share on Bluesky |\nGraphHopper, routing engine for OpenStreetMap data\nPublished: 22. April 2026 • angular\nAt its core, GraphHopper is an open-source routing engine designed to process geographic data into navigable paths. Written in Java and powered by",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 16,
-            "textWords": 1793
+            "hits": 6,
+            "textWords": 2761
           }
         }
       },
       {
-        "hash": "BCt698ybg-vy",
-        "address": "https://www.openstreetmap.org/way/5902864",
-        "title": "Way: ‪Nortz Road‬ (‪5902864‬) | OpenStreetMap",
+        "hash": "CaGN77AG7JRY",
+        "address": "http://10779/rmit.31287256",
+        "title": "Internationally Validated Open Access Indicators of Large Public Urban Green Space for Healthy and Sustainable Cities",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 8,
-            "textWords": 302
+            "hits": 1,
+            "textWords": 238
           }
         }
       }
     ],
     [
       {
-        "hash": "E37V1UwUSuo5",
-        "address": "https://nextcloud.com/blog/webinar/nextcloud-files-vs-sharepoint-onedrive/",
-        "title": "[On-demand webinar] Beyond OneDrive and SharePoint: Comparing Nextcloud Files, the sovereign alternative",
+        "hash": "FW4Ehsxlxh74",
+        "address": "https://domain.glass/2604:b000:c100:749:4ae6:1f9e:43f9:4141",
+        "title": "2604:b000:c100:749:4ae6:1f9e:43f9:4141 IPv6 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 2,
-            "textWords": 728
+            "textWords": 1028
           }
         }
       },
@@ -148,126 +148,150 @@
             "textWords": 6972
           }
         }
+      },
+      {
+        "hash": "E37V1UwUSuo5",
+        "address": "https://nextcloud.com/blog/webinar/nextcloud-files-vs-sharepoint-onedrive/",
+        "title": "[On-demand webinar] Beyond OneDrive and SharePoint: Comparing Nextcloud Files, the sovereign alternative",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 728
+          }
+        }
+      },
+      {
+        "hash": "HC1H7jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Arctic_Ocean",
+        "title": "Arctic Ocean - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 11863
+          }
+        }
       }
     ],
     [
       {
-        "hash": "JgWBhXqO2Dlg",
-        "address": "https://media.ccc.de/v/sotm2021-10029-openstreetmap-and-the-neglected-pedestrian",
-        "title": "OpenStreetMap and the neglected pedestrian - media.ccc.de",
-        "snippet": "",
+        "hash": "dkfYoF9eh9Zy",
+        "address": "https://welcome.openstreetmap.org/",
+        "title": "Welcome Mat | OpenStreetMap - Welcome to OpenStreetMap",
+        "snippet": "OpenStreetMap - Welcome to OpenStreetMap\nSkip to content\nWelcome Mat for OpenStreetMap community and Foundation. OpenStreetMap is the free and editable map of the world, created and maintained by a huge international community. Anybody can create an account and start editing on OpenStreetMap within",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 736
+            "hits": 33,
+            "textWords": 328
           }
         }
       },
       {
-        "hash": "L7qEavPeAUvg",
-        "address": "https://natenom.de/tags/josm/",
-        "title": "JOSM - Tags - Natenoms Blog",
-        "snippet": "",
+        "hash": "Q92cXlybg-vy",
+        "address": "https://www.openstreetmap.org/communities",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up\nSelect Language\nLoading...\nClose\nCommunities\nPeople from all over the world",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 571
+            "hits": 19,
+            "textWords": 241
           }
         }
       },
       {
-        "hash": "KdDXgXqO2Dlg",
-        "address": "https://media.ccc.de/v/fossgis2020-4711-openstreetmap-tileserver-mit-tirex",
-        "title": "OpenStreetMap-Tileserver mit Tirex - media.ccc.de",
-        "snippet": "",
+        "hash": "ePCLCl-n3pGi",
+        "address": "https://www.openstreetmap.de/",
+        "title": "Die freie Weltkarte — OpenStreetMap Deutschland",
+        "snippet": "OpenStreetMap Deutschland\nZur Karte\nÜber OpenStreetMap\nOSM nutzen\nBeitragen\nCommunity\nThemenportal\nOpenStreetMap 🔗\nDie freie Weltkarte\nWillkommen auf den Webseiten von OpenStreetMap Deutschland. Hier wollen wir OpenStreetMap und seine Community vorstellen und Hilfestellung bei der Nutzung und beim",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 511
+            "hits": 20,
+            "textWords": 302
           }
         }
       },
       {
-        "hash": "Ku8c0XqO2Dlg",
-        "address": "https://media.ccc.de/v/sotm2021-9972-overpass-api-since-10-years",
-        "title": "Overpass API since 10 years - media.ccc.de",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 7,
-            "textWords": 675
-          }
-        }
-      },
-      {
-        "hash": "IXQOYvPeAUvg",
-        "address": "https://natenom.de/tags/lenkertaschen/",
-        "title": "Lenkertaschen - Tags - Natenoms Blog",
+        "hash": "xfqHhnGj0lu4",
+        "address": "https://en.osm.town/@openstreetmap",
+        "title": "OpenStreetMap (@openstreetmap@en.osm.town) - OSM Town | Mapstodon for OpenStreetMap",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 3,
-            "textWords": 690
+            "textWords": 88
           }
         }
       },
       {
-        "hash": "LaYqOXqO2Dlg",
-        "address": "https://media.ccc.de/v/sotm2022-18490-osm-and-indoor-data",
-        "title": "OSM and indoor data - media.ccc.de",
-        "snippet": "",
+        "hash": "1mo1Mlybg-vy",
+        "address": "https://www.openstreetmap.org/",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 424
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
       {
-        "hash": "IX3TaXqO2Dlg",
-        "address": "https://media.ccc.de/v/sotm2022-18519-10-years-of-maproulette",
-        "title": "10 Years Of MapRoulette - media.ccc.de",
-        "snippet": "",
+        "hash": "l8cKBlybg-vy",
+        "address": "https://www.openstreetmap.org/history",
+        "title": "Changesets | OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 654
+            "hits": 8,
+            "textWords": 135
           }
         }
       },
       {
-        "hash": "KTQfDvPeAUvg",
-        "address": "https://natenom.de/tags/juli/",
-        "title": "Juli - Tags - Natenoms Blog",
-        "snippet": "",
+        "hash": "r1cnklybg-vy",
+        "address": "https://www.openstreetmap.org/export",
+        "title": "Export | OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 458
+            "hits": 13,
+            "textWords": 267
           }
         }
       },
       {
-        "hash": "JyP9MXqO2Dlg",
-        "address": "https://media.ccc.de/v/sotm2025-74411-lightning-talks-v",
-        "title": "Lightning Talks V - media.ccc.de",
-        "snippet": "",
+        "hash": "o4iVflybg-vy",
+        "address": "https://www.openstreetmap.org/edit?editor=remote",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 442
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
       {
-        "hash": "LUSNUvPeAUvg",
-        "address": "https://natenom.de/tags/forstamt/",
-        "title": "Forstamt - Tags - Natenoms Blog",
-        "snippet": "",
+        "hash": "F7qAclybg-vy",
+        "address": "https://www.openstreetmap.org/directions",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 477
+            "hits": 8,
+            "textWords": 156
+          }
+        }
+      },
+      {
+        "hash": "k4Vnulybg-vy",
+        "address": "https://www.openstreetmap.org/search?query=Tampa%2C+FL",
+        "title": "Tampa, FL | OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 138
           }
         }
       }
@@ -277,11 +301,11 @@
         "hash": "YNjaUlybg-vy",
         "address": "https://www.openstreetmap.org/directions?to=29.844667,31.250916",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 240
+            "hits": 8,
+            "textWords": 156
           }
         }
       },
@@ -289,11 +313,11 @@
         "hash": "MEC8btgcGDHy",
         "address": "https://blog.openstreetmap.org/",
         "title": "OpenStreetMap Blog | Supporting the OpenStreetMap project",
-        "snippet": "",
+        "snippet": "OpenStreetMap Blog | Supporting the OpenStreetMap project\nThanking Proton, our newest Platinum sponsor\nOpenStreetMap Foundation is pleased and proud to announce that Proton AG has been recognised as a Platinum Corporate Member, following two donations over the past two years totalling around",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 93,
-            "textWords": 8173
+            "hits": 95,
+            "textWords": 7293
           }
         }
       },
@@ -301,23 +325,23 @@
         "hash": "K9GZh8KDigKy",
         "address": "https://wiki.openstreetmap.org/wiki/MapCSS",
         "title": "MapCSS - OpenStreetMap Wiki",
-        "snippet": "",
+        "snippet": "OpenStreetMap Wiki\nMapCSS\nFrom OpenStreetMap Wiki\nJump to navigation Jump to search Help\nMapCSS\nIn other languages\nAfrikaans\nasturianu\nazərbaycanca\nBahasa Indonesia\nBahasa Melayu\nbosanski\nbrezhoneg\ncatalà\nčeština\nCrnogorski\ndansk\nDeutsch\neesti\nEnglish\nespañol\nEsperanto\neuskara\nfrançais\nFrysk",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 5,
-            "textWords": 564
+            "textWords": 495
           }
         }
       },
       {
-        "hash": "aZBHHlybg-vy",
-        "address": "https://www.openstreetmap.org/directions?to=33.80884,-117.92066",
+        "hash": "1mo1Mlybg-vy",
+        "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 240
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
@@ -325,11 +349,11 @@
         "hash": "0nhagopg4UCw",
         "address": "https://www.wikidata.org/wiki/Property:P11693",
         "title": "OpenStreetMap node ID - Wikidata",
-        "snippet": "",
+        "snippet": "OpenStreetMap node ID - Wikidata\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nCommunity portal\nProject chat\nCreate a new Item\nRecent changes\nRandom Item\nQuery Service\nNearby\nHelp\nSpecial pages\nLexicographical data\nCreate a new Lexeme\nRecent changes\nRandom Lexeme",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 35,
-            "textWords": 1254
+            "textWords": 1076
           }
         }
       },
@@ -346,14 +370,14 @@
         }
       },
       {
-        "hash": "WQ8LM9D55d7i",
-        "address": "https://josm.openstreetmap.de/wiki/Help/Preferences/Toolbar",
-        "title": "Help/Preferences/Toolbar – JOSM",
+        "hash": "Tx92G9D55d7i",
+        "address": "https://josm.openstreetmap.de/wiki/Help/Preferences/TaggingPresetPreference?format=txt",
+        "title": "TaggingPresetPreference",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 992
+            "hits": 1,
+            "textWords": 735
           }
         }
       },
@@ -382,14 +406,14 @@
         }
       },
       {
-        "hash": "Tbl4jh3e0QFx",
-        "address": "https://commons.wikimedia.org/wiki/Cambridge",
-        "title": "Cambridge - Wikimedia Commons",
+        "hash": "Mw4n7lmEOlwi",
+        "address": "https://www.xn--pnvkarte-m4a.de/?lat=14.8\u0026lon=120.285\u0026zoom=11",
+        "title": "ÖPNVKarte",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 2134
+            "hits": 10,
+            "textWords": 742
           }
         }
       }
@@ -399,11 +423,11 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 209
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
@@ -411,23 +435,23 @@
         "hash": "yhDaRlybg-vy",
         "address": "https://www.openstreetmap.org/directions?to=33.811704,-117.918525",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 240
+            "hits": 8,
+            "textWords": 156
           }
         }
       },
       {
-        "hash": "3nmRU6TsY3CQ",
-        "address": "http://nrwbahnarchiv.bplaced.net/esn/EBOH.htm",
-        "title": "BetriebsstellenArchiv Bochum-Hamme",
-        "snippet": "",
+        "hash": "XGMeTlybg-vy",
+        "address": "https://www.openstreetmap.org/directions?to=41.893727,-87.623819",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 173
+            "hits": 8,
+            "textWords": 156
           }
         }
       },
@@ -444,14 +468,14 @@
         }
       },
       {
-        "hash": "9PQTZsxlxh74",
-        "address": "https://domain.glass/51.83.100.105",
-        "title": "51.83.100.105 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
+        "hash": "__xvksxlxh74",
+        "address": "https://domain.glass/174.94.88.138",
+        "title": "174.94.88.138 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 2,
-            "textWords": 883
+            "textWords": 884
           }
         }
       },
@@ -492,14 +516,14 @@
         }
       },
       {
-        "hash": "61myjjc4UIAx",
-        "address": "https://en.wikivoyage.org/wiki/Albuquerque",
-        "title": "Albuquerque – Travel guide at Wikivoyage",
+        "hash": "GYmUdm13NjYw",
+        "address": "https://aqicn.org/map/mozambique/",
+        "title": "Air Pollution in Mozambique: Real-time Air Quality Index Visual Map",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 1,
-            "textWords": 15723
+            "textWords": 1361
           }
         }
       },
@@ -518,86 +542,26 @@
     ],
     [
       {
-        "hash": "0otqd8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/DE:Tag:sport%3Dathletics",
-        "title": "DE:Tag:sport=athletics - OpenStreetMap Wiki",
-        "snippet": "",
+        "hash": "bE2T7lybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=47\u0026mlon=2\u0026zoom=6",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 4,
-            "textWords": 994
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
       {
-        "hash": "EOQAv8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/ES:Espa%C3%B1a",
-        "title": "ES:España - OpenStreetMap Wiki",
+        "hash": "ZECBX7qJpRgC",
+        "address": "http://openstreetmap.by/?lon=116.8\u0026lat=5.5\u0026zoom=11",
+        "title": "OpenStreetMap.by - Беларусь",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 16,
-            "textWords": 1373
-          }
-        }
-      },
-      {
-        "hash": "EgehB8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/Lleida",
-        "title": "Lleida - OpenStreetMap Wiki",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 5,
-            "textWords": 420
-          }
-        }
-      },
-      {
-        "hash": "DUkUy8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/Cs:%C4%8Cesko",
-        "title": "Cs:Česko - OpenStreetMap Wiki",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 783
-          }
-        }
-      },
-      {
-        "hash": "MOaMQ8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/ES:Alange",
-        "title": "ES:Alange - OpenStreetMap Wiki",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 5,
-            "textWords": 434
-          }
-        }
-      },
-      {
-        "hash": "MRjOV8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/ES:Carmonita",
-        "title": "ES:Carmonita - OpenStreetMap Wiki",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 5,
-            "textWords": 434
-          }
-        }
-      },
-      {
-        "hash": "2rjLg8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/Ucayali",
-        "title": "Ucayali - OpenStreetMap Wiki",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 745
+            "hits": 2,
+            "textWords": 86
           }
         }
       },
@@ -605,23 +569,47 @@
         "hash": "3kHgP8KDigKy",
         "address": "https://wiki.openstreetmap.org/wiki/ES:Nerja",
         "title": "ES:Nerja - OpenStreetMap Wiki",
-        "snippet": "",
+        "snippet": "OpenStreetMap Wiki\nES:Nerja\nFrom OpenStreetMap Wiki\nJump to navigation Jump to search Help\nNerja\nIn other languages\nAfrikaans\nasturianu\nazərbaycanca\nBahasa Indonesia\nBahasa Melayu\nbosanski\nbrezhoneg\ncatalà\nčeština\nCrnogorski\ndansk\nDeutsch\neesti\nEnglish\nespañol\nEsperanto\neuskara\nfrançais\nFrysk",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 5,
-            "textWords": 437
+            "textWords": 349
           }
         }
       },
       {
-        "hash": "Nw4M-8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/ES:Mieres",
-        "title": "ES:Mieres - OpenStreetMap Wiki",
+        "hash": "2Nlfj8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Volyn_Oblast",
+        "title": "Volyn Oblast - OpenStreetMap Wiki",
+        "snippet": "OpenStreetMap Wiki\nVolyn Oblast\nFrom OpenStreetMap Wiki\nJump to navigation Jump to search Help\nVolyn Oblast\nIn other languages\nAfrikaans\nasturianu\nazərbaycanca\nBahasa Indonesia\nBahasa Melayu\nbosanski\nbrezhoneg\ncatalà\nčeština\nCrnogorski\ndansk\nDeutsch\neesti\nEnglish\nespañol\nEsperanto\neuskara\nfrançais",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 5,
+            "textWords": 433
+          }
+        }
+      },
+      {
+        "hash": "2hzSS8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Rhineland-Palatinate",
+        "title": "Rhineland-Palatinate - OpenStreetMap Wiki",
+        "snippet": "OpenStreetMap Wiki\nRhineland-Palatinate\nFrom OpenStreetMap Wiki\nJump to navigation Jump to search Help\nRhineland-Palatinate\nIn other languages\nAfrikaans\nasturianu\nazərbaycanca\nBahasa Indonesia\nBahasa Melayu\nbosanski\nbrezhoneg\ncatalà\nčeština\nCrnogorski\ndansk\nDeutsch\neesti\nEnglish\nespañol\nEsperanto",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 5,
+            "textWords": 397
+          }
+        }
+      },
+      {
+        "hash": "RoCHT8KDigKy",
+        "address": "https://wiki.openstreetmap.org/wiki/Moldova/raionul_Taraclia/Taraclia",
+        "title": "Moldova/raionul Taraclia/Taraclia - OpenStreetMap Wiki",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 5,
-            "textWords": 432
+            "textWords": 453
           }
         }
       },
@@ -636,131 +624,167 @@
             "textWords": 1244
           }
         }
+      },
+      {
+        "hash": "ZDLZ0jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Hawaii",
+        "title": "Hawaii - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 32351
+          }
+        }
+      },
+      {
+        "hash": "noymMCd6OB24",
+        "address": "https://habr.com/en/users/betrachtung/",
+        "title": "betrachtung - / Habr",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 601
+          }
+        }
+      },
+      {
+        "hash": "pYRsQCu-sg8w",
+        "address": "https://april.org/en/derniers-contenus?page=47\u0026membre=bcogrel",
+        "title": "Les derniers contenus publiés | April",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 3148
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "cjiPJlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=-27.5\u0026mlon=130\u0026zoom=5",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 132
+          }
+        }
+      },
+      {
+        "hash": "cQJUfV7h-FJy",
+        "address": "https://agri.openstreetmap.org/?zoom=12\u0026lat=-34.6\u0026lon=-58.383333",
+        "title": "OpenStreetMap - The Australian Geographic Reference Image",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 22
+          }
+        }
+      },
+      {
+        "hash": "cgYrWQLxMQIR",
+        "address": "http://www.opencyclemap.org/?lat=37.009722\u0026lon=-117.450278\u0026zoom=15",
+        "title": "OpenCycleMap.org - the OpenStreetMap Cycle Map",
+        "snippet": "OpenStreetMap Cycle Map\nJump to:\nGo!\nShare your current view of the map! (Permalink)\nEdit OpenStreetMap data here\nMaps © Thunderforest, Data © OpenStreetMap contributors.",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 3,
+            "textWords": 26
+          }
+        }
+      },
+      {
+        "hash": "dnyHd7z-a27Y",
+        "address": "http://sautter.com/map/?lat=42.883056\u0026lon=-1.935556\u0026zoom=11",
+        "title": "transparent map comparison openstreetmap google bing yahoo",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 33
+          }
+        }
+      },
+      {
+        "hash": "c-uUG8vE7kYi",
+        "address": "https://osmose.openstreetmap.fr/en/map/?zoom=12\u0026lat=33.7325\u0026lon=-117.3933\u0026layers=BFF00FFFFFFFFFFFFT\u0026item=",
+        "title": "Osmose",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 22
+          }
+        }
+      },
+      {
+        "hash": "eMVlYkYkmYew",
+        "address": "https://mesonet.agron.iastate.edu/lsr/",
+        "title": "IEM LSR App",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 505
+          }
+        }
+      },
+      {
+        "hash": "fj6TSlQLSW3g",
+        "address": "https://www.freemap.sk/?map=11/33.02/-116.77\u0026layers=TI\u0026info-point=33.02/-116.77",
+        "title": "Freemap Slovakia, digital map",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 341
+          }
+        }
+      },
+      {
+        "hash": "c3UGXopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q816845",
+        "title": "Irapuato - Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 1339
+          }
+        }
+      },
+      {
+        "hash": "eW2kUjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Hong_Kong",
+        "title": "Hong Kong - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 30530
+          }
+        }
+      },
+      {
+        "hash": "dNe39s-3yIUg",
+        "address": "https://schmacke.de/",
+        "title": "Startseite - Mühlenbäckerei Schmacke",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 1776
+          }
+        }
       }
     ],
     [],
-    [
-      {
-        "hash": "7sbfBsxlxh74",
-        "address": "https://domain.glass/5.75.231.55",
-        "title": "5.75.231.55 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 883
-          }
-        }
-      },
-      {
-        "hash": "7dKkRsxlxh74",
-        "address": "https://domain.glass/86.19.1.166",
-        "title": "86.19.1.166 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 883
-          }
-        }
-      },
-      {
-        "hash": "7TpSqsxlxh74",
-        "address": "https://domain.glass/79.137.67.37",
-        "title": "79.137.67.37 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 884
-          }
-        }
-      },
-      {
-        "hash": "7R7mTsxlxh74",
-        "address": "https://domain.glass/145.239.69.34",
-        "title": "145.239.69.34 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 884
-          }
-        }
-      },
-      {
-        "hash": "7GRnzsxlxh74",
-        "address": "https://domain.glass/181.118.35.228",
-        "title": "181.118.35.228 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 884
-          }
-        }
-      },
-      {
-        "hash": "6yzqfsxlxh74",
-        "address": "https://domain.glass/216.158.73.248",
-        "title": "216.158.73.248 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 885
-          }
-        }
-      },
-      {
-        "hash": "7bpmdsxlxh74",
-        "address": "https://domain.glass/157.245.217.151",
-        "title": "157.245.217.151 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 885
-          }
-        }
-      },
-      {
-        "hash": "7Ge4wsxlxh74",
-        "address": "https://domain.glass/2604:2dc0:200:1a0d::",
-        "title": "2604:2dc0:200:1a0d:: IPv6 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 942
-          }
-        }
-      },
-      {
-        "hash": "7buTnsxlxh74",
-        "address": "https://domain.glass/2001:41d0:700:2564::1",
-        "title": "2001:41d0:700:2564::1 IPv6 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 955
-          }
-        }
-      },
-      {
-        "hash": "7UVPosxlxh74",
-        "address": "https://domain.glass/2001:41d0:303:ae0::1",
-        "title": "2001:41d0:303:ae0::1 IPv6 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 959
-          }
-        }
-      }
-    ],
     [
       {
         "hash": "3FWf8ldA5r_4",
@@ -782,11 +806,47 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 132
+          }
+        }
+      },
+      {
+        "hash": "2jfeC7qJpRgC",
+        "address": "http://openstreetmap.by/?lon=-1.935556\u0026lat=42.883056\u0026zoom=15",
+        "title": "OpenStreetMap.by - Беларусь",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 209
+            "hits": 2,
+            "textWords": 88
+          }
+        }
+      },
+      {
+        "hash": "0ne8hlKC9bQy",
+        "address": "https://hiking.waymarkedtrails.org/?lat=45.079167\u0026lon=7.676111\u0026zoom=16",
+        "title": "Waymarked Trails - Hiking",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 21
+          }
+        }
+      },
+      {
+        "hash": "0HXR-EIpBPXy",
+        "address": "https://slopes.waymarkedtrails.org/?lat=46\u0026lon=9.266667\u0026zoom=16",
+        "title": "Waymarked Trails - Winter Sports",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 22
           }
         }
       },
@@ -815,6 +875,30 @@
         }
       },
       {
+        "hash": "11f75lybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=47.62\u0026mlon=-122.3199\u0026zoom=5",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 132
+          }
+        }
+      },
+      {
+        "hash": "1xfQDlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=37.8327\u0026mlon=-122.2838\u0026zoom=15",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 132
+          }
+        }
+      },
+      {
         "hash": "TP0pAopg4UCw",
         "address": "https://www.wikidata.org/wiki/Q28",
         "title": "Hungary - Wikidata",
@@ -827,91 +911,19 @@
         }
       },
       {
-        "hash": "RbwT1jRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/TomTom",
-        "title": "TomTom - Wikipedia",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 14,
-            "textWords": 8817
-          }
-        }
-      },
-      {
-        "hash": "Fth-9s99Ow1x",
-        "address": "https://pastelink.net/oa4ggqt2",
-        "title": "Good88 - Link Vào Nhà Cái Good88.com Chính Thức - Pastelink.net",
+        "hash": "3tiK5jRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Macau",
+        "title": "Macau - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 1,
-            "textWords": 1329
-          }
-        }
-      },
-      {
-        "hash": "yax-ajc4UIAx",
-        "address": "https://en.wikivoyage.org/wiki/Taos",
-        "title": "Taos – Travel guide at Wikivoyage",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 7495
-          }
-        }
-      },
-      {
-        "hash": "1t7UwWDUniK4",
-        "address": "https://reason.com/tag/virginia/",
-        "title": "Virginia Archives",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 3916
-          }
-        }
-      },
-      {
-        "hash": "orCREJhBrC_x",
-        "address": "https://www.themoviedb.org/u/linkgood88contact",
-        "title": "linkgood88contact's Profile — The Movie Database (TMDB)",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 1483
-          }
-        }
-      },
-      {
-        "hash": "wqz6r5duWxU5",
-        "address": "https://www.allendave.com/obituaries/kendra-cooper",
-        "title": "Kendra Symone Cooper Obituary Oct 26, 2022 - Allen Dave Funeral Homes \u0026 Crematorium",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 596
+            "textWords": 17096
           }
         }
       }
     ],
     [
-      {
-        "hash": "v1QGQcOYFhaj",
-        "address": "https://www.schleswig-holstein.de/steuerverwaltung/servicemeta/datenschutz",
-        "title": "schleswig-holstein.de - Datenschutz - Steuerverwaltung Schleswig-Holstein",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 2981
-          }
-        }
-      },
       {
         "hash": "2Q34jlHS80Jh",
         "address": "https://www.mba-studium.de/datenschutzerklaerung/",
@@ -921,18 +933,6 @@
           "8KEZ0dWKkHmU": {
             "hits": 8,
             "textWords": 11374
-          }
-        }
-      },
-      {
-        "hash": "sUYugCmvEcxh",
-        "address": "https://idw-online.de/en/attachmentdata122527.pdf",
-        "title": "WS Berlin_Entwurf1",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 392
           }
         }
       },
@@ -949,6 +949,18 @@
         }
       },
       {
+        "hash": "veCqblr4x6Og",
+        "address": "https://www.haufe.de/media/",
+        "title": "Aktuelle Infografiken - Haufe.de | Haufe",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 3304
+          }
+        }
+      },
+      {
         "hash": "w8cAUlods5-7",
         "address": "https://www.wirtschaftsrecht-studieren.com/datenschutzerklaerung/",
         "title": "Datenschutzerklärung | wirtschaftsrecht-studieren.com",
@@ -961,62 +973,74 @@
         }
       },
       {
-        "hash": "tt_5JrOYFhaj",
-        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH",
-        "title": "schleswig-holstein.de - Datenschutzerklärung - Datenschutzerklärung",
+        "hash": "dLxCqCmvEcxh",
+        "address": "https://idw-online.de/en/attachmentdata122416.pdf",
+        "title": "WS Berlin_Entwurf1",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 4134
+            "hits": 1,
+            "textWords": 392
           }
         }
       },
       {
-        "hash": "4ZwuyrOYFhaj",
-        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=a177bbcf-080e-4098-a97a-5d149e098d11",
-        "title": "schleswig-holstein.de - Ausbildungsfinanzämter – Duales Studium - Datenschutzerklärung",
+        "hash": "v1QGQcOYFhaj",
+        "address": "https://www.schleswig-holstein.de/steuerverwaltung/servicemeta/datenschutz",
+        "title": "schleswig-holstein.de - Datenschutz - Steuerverwaltung Schleswig-Holstein",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 6,
-            "textWords": 3356
+            "textWords": 2981
           }
         }
       },
       {
-        "hash": "6nhfKrOYFhaj",
-        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=37abe148-216f-4599-adca-3820449a7328",
-        "title": "schleswig-holstein.de - Moin Kita - Datenschutzerklärung",
+        "hash": "TESZNMtFUMih",
+        "address": "https://www.finanzgericht.berlin.brandenburg.de/fg/de/kontakt-erreichbarkeit/wegbeschreibung/",
+        "title": "Wegbeschreibung | Finanzgerichtsbarkeit Berlin-Brandenburg",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 3326
+            "hits": 1,
+            "textWords": 540
           }
         }
       },
       {
-        "hash": "vjMoYrOYFhaj",
-        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=74cb2d98-bcbb-49c2-b153-a86135491350",
-        "title": "schleswig-holstein.de - Datenschutz - Datenschutzerklärung",
+        "hash": "0s0D-vr4x6Og",
+        "address": "https://www.haufe.de/media/regionaler-preisindex-iw-deutschlandkarte_665446.html",
+        "title": "Regionaler Preisindex IW Deutschlandkarte",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 3326
+            "hits": 1,
+            "textWords": 387
           }
         }
       },
       {
-        "hash": "1uR8grOYFhaj",
-        "address": "https://www.schleswig-holstein.de/DE/landesportal/servicemeta/datenschutz/Datenschutzerklaerung/datenschutzerklaerung_SH?nn=bb862124-8c62-4010-afef-42fa662897a1",
-        "title": "schleswig-holstein.de - Moin Polizei – Karriereseite der Landespolizei - Datenschutzerklärung",
+        "hash": "290jerJzxOcj",
+        "address": "https://www.bundesverfassungsgericht.de/DE/Presse/Bildmaterial/bildmaterial_node.html",
+        "title": "Bundesverfassungsgericht - Bildmaterial",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 6,
-            "textWords": 3440
+            "hits": 1,
+            "textWords": 3704
+          }
+        }
+      },
+      {
+        "hash": "2hm1_BRWkAag",
+        "address": "https://www.bafa.de/SharedDocs/Downloads/DE/Bundesamt/Werte/Umwelterklaerung_2025.pdf?__blob=publicationFile\u0026v=3",
+        "title": "Umwelterklärung 2025",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 4100
           }
         }
       }
@@ -1027,11 +1051,11 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 209
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
@@ -1039,11 +1063,23 @@
         "hash": "jft0alybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=17.351\u0026mlon=78.475",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 215
+            "hits": 8,
+            "textWords": 132
+          }
+        }
+      },
+      {
+        "hash": "R0Tdylybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=28.65000\u0026mlon=52.15000\u0026zoom=11",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
@@ -1051,23 +1087,11 @@
         "hash": "dz_O-lybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=29.993611\u0026mlon=31.119722\u0026zoom=11",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 217
-          }
-        }
-      },
-      {
-        "hash": "FKHCglybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=43.3\u0026mlon=45.866666666667\u0026zoom=14",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 216
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
@@ -1075,11 +1099,11 @@
         "hash": "AqsQcJDOAHJg",
         "address": "https://www.heise.de/ratgeber/OpenStreetMap-Wie-Sie-Orte-mit-natuerlicher-Sprache-finden-11091390.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
         "title": "OpenStreetMap: Wie Sie Orte mit natürlicher Sprache finden | heise online",
-        "snippet": "",
+        "snippet": "OpenStreetMap: Wie Sie Orte mit natürlicher Sprache finden | heise online\nheise+ entdecken\nSuchen\nAbo\nSuchen\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise+\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 12,
-            "textWords": 1691
+            "hits": 9,
+            "textWords": 1000
           }
         }
       },
@@ -1111,11 +1135,11 @@
         "hash": "9CepJopg4UCw",
         "address": "https://www.wikidata.org/wiki/Q100320716",
         "title": "OpenStreetMap relation - Wikidata",
-        "snippet": "",
+        "snippet": "OpenStreetMap relation - Wikidata\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nCommunity portal\nProject chat\nCreate a new Item\nRecent changes\nRandom Item\nQuery Service\nNearby\nHelp\nSpecial pages\nLexicographical data\nCreate a new Lexeme\nRecent changes\nRandom Lexeme",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 13,
-            "textWords": 482
+            "hits": 14,
+            "textWords": 349
           }
         }
       },
@@ -1123,11 +1147,11 @@
         "hash": "C0_Z-Sofqllg",
         "address": "https://blog.rasc.ch/2026/04/graphhopper.html",
         "title": "GraphHopper, routing engine for OpenStreetMap data",
-        "snippet": "",
+        "snippet": "OpenStreetMap data\nHome | Send Feedback | Share on Bluesky |\nGraphHopper, routing engine for OpenStreetMap data\nPublished: 22. April 2026 • angular\nAt its core, GraphHopper is an open-source routing engine designed to process geographic data into navigable paths. Written in Java and powered by",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 6,
-            "textWords": 2845
+            "textWords": 2761
           }
         }
       },
@@ -1149,11 +1173,23 @@
         "hash": "WmYuElybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=1.3\u0026mlon=103.8\u0026zoom=6",
         "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 132
+          }
+        }
+      },
+      {
+        "hash": "EYFsP7qJpRgC",
+        "address": "http://openstreetmap.by/?lon=-73.995356\u0026lat=40.730085\u0026zoom=13",
+        "title": "OpenStreetMap.by - Беларусь",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 213
+            "hits": 2,
+            "textWords": 89
           }
         }
       },
@@ -1161,11 +1197,11 @@
         "hash": "9BCDApN2pAny",
         "address": "https://help.openstreetmap.org/questions/102/i-have-made-edits-but-they-dont-show-up-on-the-map/",
         "title": "OpenStreetMap Help",
-        "snippet": "",
+        "snippet": "OpenStreetMap Help\nThis is a static archive of our old OpenStreetMap Help Site. Please post any new questions and answers at community.osm.org.\nI have made edits but they don’t show up on the map\n30\n5\nI have made some changes to the map data, but when I look at the map, it doesn't show my edits.",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 11,
-            "textWords": 1024
+            "hits": 12,
+            "textWords": 895
           }
         }
       },
@@ -1218,6 +1254,18 @@
         }
       },
       {
+        "hash": "H6k737z-a27Y",
+        "address": "http://sautter.com/map/?lat=33.7325\u0026lon=-117.3933\u0026zoom=12",
+        "title": "transparent map comparison openstreetmap google bing yahoo",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 34
+          }
+        }
+      },
+      {
         "hash": "3zYRZf3BkWcy",
         "address": "https://htonl.dev.openstreetmap.org/ngi-tiles/",
         "title": "South Africa Topographic Map",
@@ -1240,150 +1288,42 @@
             "textWords": 41
           }
         }
-      },
-      {
-        "hash": "oo6_WPYG6fAg",
-        "address": "https://maps.nls.uk/geo/explore/",
-        "title": "Georeferenced Maps viewer - Map images - National Library of Scotland",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 461
-          }
-        }
-      },
-      {
-        "hash": "aLn-olmEOlwi",
-        "address": "https://www.xn--pnvkarte-m4a.de/?lat=38.89734\u0026lon=-77.03742\u0026zoom=11",
-        "title": "ÖPNVKarte",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 10,
-            "textWords": 743
-          }
-        }
       }
     ],
     [
       {
-        "hash": "F7qAclybg-vy",
-        "address": "https://www.openstreetmap.org/directions",
-        "title": "OpenStreetMap",
+        "hash": "IoxOhsxlxh74",
+        "address": "https://domain.glass/51.75.116.194",
+        "title": "51.75.116.194 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 223
+            "hits": 2,
+            "textWords": 885
           }
         }
       },
       {
-        "hash": "-QLkMl-n3pGi",
-        "address": "https://www.openstreetmap.de/foerderer/",
-        "title": "Förderer — OpenStreetMap Deutschland",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 12,
-            "textWords": 368
-          }
-        }
-      },
-      {
-        "hash": "8Ituhlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=48.84172\u0026mlon=2.58758",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 241
-          }
-        }
-      },
-      {
-        "hash": "8AZmAlybg-vy",
-        "address": "https://www.openstreetmap.org/directions?to=35.371667,138.926667",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 255
-          }
-        }
-      },
-      {
-        "hash": "dkfYoF9eh9Zy",
-        "address": "https://welcome.openstreetmap.org/",
-        "title": "Welcome Mat | OpenStreetMap - Welcome to OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 33,
-            "textWords": 489
-          }
-        }
-      },
-      {
-        "hash": "4ijTcNIcUup5",
-        "address": "https://fontawesome.com/icons/openstreetmap?f=brands\u0026s=solid",
-        "title": "Openstreetmap Icon | Font Awesome",
+        "hash": "JWZorjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Taipei",
+        "title": "Taipei - Wikipedia, the free encyclopedia",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 1,
-            "textWords": 35
+            "textWords": 20641
           }
         }
       },
       {
-        "hash": "xfqHhnGj0lu4",
-        "address": "https://en.osm.town/@openstreetmap",
-        "title": "OpenStreetMap (@openstreetmap@en.osm.town) - OSM Town | Mapstodon for OpenStreetMap",
+        "hash": "KcVWfh3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Category:San_Bernardino_County,_California",
+        "title": "Category:San Bernardino County, California - Wikimedia Commons",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 3,
-            "textWords": 88
-          }
-        }
-      },
-      {
-        "hash": "7AYrTlybg-vy",
-        "address": "https://www.openstreetmap.org/directions?to=35.591218,139.753587",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 255
-          }
-        }
-      },
-      {
-        "hash": "-6hdqlybg-vy",
-        "address": "https://www.openstreetmap.org/directions?to=0.0535,32.4709",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 266
-          }
-        }
-      },
-      {
-        "hash": "-qEYelybg-vy",
-        "address": "https://www.openstreetmap.org/directions?to=0.0572,32.4604",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 266
+            "hits": 2,
+            "textWords": 2365
           }
         }
       }
@@ -1393,133 +1333,11 @@
         "hash": "1mo1Mlybg-vy",
         "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 209
-          }
-        }
-      },
-      {
-        "hash": "736dklybg-vy",
-        "address": "https://www.openstreetmap.org/directions?to=32.902778,35.740556",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 240
-          }
-        }
-      },
-      {
-        "hash": "5M_8Ulybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=37.967\u0026mlon=23.717\u0026zoom=12",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 217
-          }
-        }
-      },
-      {
-        "hash": "8zgN5lybg-vy",
-        "address": "https://www.openstreetmap.org/directions?to=33.80649,-117.91915",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 240
-          }
-        }
-      },
-      {
-        "hash": "8tsX6lybg-vy",
-        "address": "https://www.openstreetmap.org/directions?to=33.833907,-117.917424",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 240
-          }
-        }
-      },
-      {
-        "hash": "Au7lc59_tWB0",
-        "address": "https://aerial.openstreetmap.org.za/?lon=42.5\u0026lat=36.5\u0026zoom=15",
-        "title": "OpenStreetMap - NGI - Aerial Imagery",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 18
-          }
-        }
-      },
-      {
-        "hash": "m0w_elVv_Vw0",
-        "address": "https://topo.openstreetmap.org.za/?lon=-79.4229\u0026lat=43.6494\u0026zoom=12",
-        "title": "OpenStreetMap - NGI - Topographic Series",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 20
-          }
-        }
-      },
-      {
-        "hash": "I8RwiV7h-FJy",
-        "address": "https://agri.openstreetmap.org/?zoom=12\u0026lat=25.7\u0026lon=32.65",
-        "title": "OpenStreetMap - The Australian Geographic Reference Image",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 1,
-            "textWords": 22
-          }
-        }
-      },
-      {
-        "hash": "VgIcT8KDigKy",
-        "address": "https://wiki.openstreetmap.org/wiki/Tag:addr:state=CA?uselang=en",
-        "title": "Tag:addr:state=CA - OpenStreetMap Wiki",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 4,
-            "textWords": 725
-          }
-        }
-      },
-      {
-        "hash": "3lOrk6tx_hvy",
-        "address": "https://osmfoundation.org/wiki/Membership/Active_contributor_membership",
-        "title": "Membership/Active contributor membership - OpenStreetMap Foundation",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 8,
-            "textWords": 1172
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "1mo1Mlybg-vy",
-        "address": "https://www.openstreetmap.org/",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 209
+            "textWords": 132
           }
         }
       },
@@ -1527,11 +1345,11 @@
         "hash": "zI04Alybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=16.083333\u0026mlon=121\u0026zoom=12",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 216
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
@@ -1539,11 +1357,11 @@
         "hash": "b7l9Clybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=47.366667\u0026mlon=8.55\u0026zoom=7",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 215
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
@@ -1551,23 +1369,11 @@
         "hash": "qkJpHlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=51.533376\u0026mlon=7.41402\u0026zoom=16",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 216
-          }
-        }
-      },
-      {
-        "hash": "gOA_slybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=13.75\u0026mlon=100.483333\u0026zoom=12",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 217
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
@@ -1575,23 +1381,23 @@
         "hash": "qouJVvS6MKD4",
         "address": "https://github.com/osm-by/OpenStreetMap.by",
         "title": "GitHub - osm-by/OpenStreetMap.by: bugtracker for http://openstreetmap.by · GitHub",
-        "snippet": "",
+        "snippet": "osm-by/OpenStreetMap.by: bugtracker for http://openstreetmap.by · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 11,
-            "textWords": 1122
+            "textWords": 967
           }
         }
       },
       {
-        "hash": "5csFn7qJpRgC",
-        "address": "http://openstreetmap.by/?lon=121.433333\u0026lat=31.2\u0026zoom=15",
+        "hash": "YaW7m7qJpRgC",
+        "address": "http://openstreetmap.by/?lon=139.7438\u0026lat=35.6725\u0026zoom=11",
         "title": "OpenStreetMap.by - Беларусь",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 2,
-            "textWords": 88
+            "textWords": 89
           }
         }
       },
@@ -1599,11 +1405,11 @@
         "hash": "E7iHKPgcGDHy",
         "address": "https://blog.openstreetmap.org/2023/10/25/microsoft-compromete-150-000-dolares-para-apoiar-a-openstreetmap/?lang=gl",
         "title": "Microsoft compromete 150.000 dólares para apoiar a OpenStreetMap | OpenStreetMap Blog",
-        "snippet": "",
+        "snippet": "OpenStreetMap | OpenStreetMap Blog\nMicrosoft compromete 150.000 dólares para apoiar a OpenStreetMap\nO Consello da Fundación OpenStreetMap ten o pracer de anunciar a doazón de 150.000 dólares de Microsoft para beneficiar o proxecto e a comunidade OpenStreetMap. Este apoio substantivo irá",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 18,
-            "textWords": 907
+            "hits": 20,
+            "textWords": 739
           }
         }
       },
@@ -1630,6 +1436,18 @@
             "textWords": 19
           }
         }
+      },
+      {
+        "hash": "exXn-V7h-FJy",
+        "address": "https://agri.openstreetmap.org/?zoom=5\u0026lat=39.021944\u0026lon=-102.037222",
+        "title": "OpenStreetMap - The Australian Geographic Reference Image",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 22
+          }
+        }
       }
     ],
     [
@@ -1637,11 +1455,23 @@
         "hash": "yruxllybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=-20\u0026mlon=47\u0026zoom=6",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 214
+            "hits": 8,
+            "textWords": 132
+          }
+        }
+      },
+      {
+        "hash": "F08OWlybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=48.20843\u0026mlon=16.37813",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
@@ -1658,50 +1488,26 @@
         }
       },
       {
-        "hash": "F08OWlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=48.20843\u0026mlon=16.37813",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 215
-          }
-        }
-      },
-      {
-        "hash": "uKAJVlybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=47.8391464\u0026mlon=8.8611088",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 214
-          }
-        }
-      },
-      {
         "hash": "WG83BJDOAHJg",
         "address": "https://www.heise.de/ratgeber/Tschuess-Google-Maps-Navigations-Apps-mit-OpenStreetMap-im-Vergleich-11268273.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
         "title": "Tschüss Google Maps: Navigations-Apps mit OpenStreetMap im Vergleich | heise online",
-        "snippet": "",
+        "snippet": "OpenStreetMap im Vergleich | heise online\nheise+ entdecken\nSuchen\nAbo\nSuchen\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise+\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop\nheise jobs\nheise academy\nheise",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 16,
-            "textWords": 1647
+            "hits": 9,
+            "textWords": 963
           }
         }
       },
       {
-        "hash": "ifEoeV7h-FJy",
-        "address": "https://agri.openstreetmap.org/?zoom=5\u0026lat=44.5325\u0026lon=10.864444",
+        "hash": "utPS_V7h-FJy",
+        "address": "https://agri.openstreetmap.org/?zoom=12\u0026lat=33.02\u0026lon=-116.77",
         "title": "OpenStreetMap - The Australian Geographic Reference Image",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 1,
-            "textWords": 22
+            "textWords": 23
           }
         }
       },
@@ -1752,30 +1558,42 @@
             "textWords": 598
           }
         }
+      },
+      {
+        "hash": "J6hRflCZbfpy",
+        "address": "https://www.openrailwaymap.org/?lang=en\u0026lat=29.993611\u0026lon=31.119722\u0026zoom=11\u0026style=standard",
+        "title": "OpenRailwayMap",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 105
+          }
+        }
       }
     ],
     [
       {
-        "hash": "1mo1Mlybg-vy",
-        "address": "https://www.openstreetmap.org/",
+        "hash": "bE2T7lybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=47\u0026mlon=2\u0026zoom=6",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 209
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
       {
-        "hash": "LXGI8lybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=48.00000\u0026mlon=68.00000\u0026zoom=12",
+        "hash": "1mo1Mlybg-vy",
+        "address": "https://www.openstreetmap.org/",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 216
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
@@ -1783,11 +1601,23 @@
         "hash": "5T_ov8KDigKy",
         "address": "https://wiki.openstreetmap.org/wiki/Mapbox",
         "title": "Mapbox - OpenStreetMap Wiki",
-        "snippet": "",
+        "snippet": "OpenStreetMap Wiki\nMapbox\nFrom OpenStreetMap Wiki\nJump to navigation Jump to search Help\nMapbox\nIn other languages\nAfrikaans\nasturianu\nazərbaycanca\nBahasa Indonesia\nBahasa Melayu\nbosanski\nbrezhoneg\ncatalà\nčeština\nCrnogorski\ndansk\nDeutsch\neesti\nEnglish\nespañol\nEsperanto\neuskara\nfrançais\nFrysk",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 24,
-            "textWords": 1701
+            "textWords": 1534
+          }
+        }
+      },
+      {
+        "hash": "ZECBX7qJpRgC",
+        "address": "http://openstreetmap.by/?lon=116.8\u0026lat=5.5\u0026zoom=11",
+        "title": "OpenStreetMap.by - Беларусь",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 86
           }
         }
       },
@@ -1816,14 +1646,26 @@
         }
       },
       {
+        "hash": "LXGI8lybg-vy",
+        "address": "https://www.openstreetmap.org/?mlat=48.00000\u0026mlon=68.00000\u0026zoom=12",
+        "title": "OpenStreetMap",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 8,
+            "textWords": 132
+          }
+        }
+      },
+      {
         "hash": "jv3iflybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=33.00000\u0026mlon=131.00000\u0026zoom=12",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 216
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
@@ -1831,23 +1673,11 @@
         "hash": "SDfWDlybg-vy",
         "address": "https://www.openstreetmap.org/?mlat=33.04\u0026mlon=-115.35\u0026zoom=12",
         "title": "OpenStreetMap",
-        "snippet": "",
+        "snippet": "OpenStreetMap\nOpenStreetMap\nWhere is this?\nGraphHopper\nOSRM\nValhalla\nRoute start marker\nRoute end marker\nEdit\nEdit with iD (in-browser editor)\nEdit with Remote Control (JOSM, Potlatch, Merkaartor)\nHistory\nExport\nGPS Traces\nUser Diaries\nCommunities\nCopyright\nHelp\nDonate\nAbout\nMore\nLog In Sign Up",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 217
-          }
-        }
-      },
-      {
-        "hash": "Ckecelybg-vy",
-        "address": "https://www.openstreetmap.org/?mlat=51.5725\u0026mlon=-0.335\u0026zoom=15",
-        "title": "OpenStreetMap",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 216
+            "hits": 8,
+            "textWords": 132
           }
         }
       },
@@ -1862,18 +1692,6 @@
             "textWords": 2706
           }
         }
-      },
-      {
-        "hash": "VxsPeQralQdC",
-        "address": "http://www.openstreetmap.ch/?lon=121.433333\u0026lat=31.2\u0026zoom=15",
-        "title": "OpenStreetMap - The Free Wiki World Map",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 38
-          }
-        }
       }
     ],
     [
@@ -1881,11 +1699,11 @@
         "hash": "cEdArvDOAHJg",
         "address": "https://www.heise.de/news/OpenStreetMaps-sorgt-sich-Tausende-KI-Bots-erfassen-Daten-11156876.html?wt_mc=rss.red.ho.ho.atom.beitrag.beitrag",
         "title": "OpenStreetMap sorgt sich: Tausende KI-Bots erfassen Daten | heise online",
-        "snippet": "",
+        "snippet": "OpenStreetMap sorgt sich: Tausende KI-Bots erfassen Daten | heise online\nheise+ entdecken\nSuchen\nAbo\nSuchen\nAlle Magazine im Browser lesen\nIT News\nNewsticker\nHintergründe\nRatgeber\nTestberichte\nMeinungen\nOnline-Magazine\nheise+\nTelepolis\nheise autos\nbestenlisten\ntipps+tricks\nServices\nheise shop\nheise",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
-            "hits": 8,
-            "textWords": 1406
+            "hits": 10,
+            "textWords": 1062
           }
         }
       },
@@ -1902,42 +1720,6 @@
         }
       },
       {
-        "hash": "fLAuAsxlxh74",
-        "address": "https://domain.glass/70.76.19.63",
-        "title": "70.76.19.63 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 884
-          }
-        }
-      },
-      {
-        "hash": "f54D-sxlxh74",
-        "address": "https://domain.glass/85.134.30.3",
-        "title": "85.134.30.3 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 883
-          }
-        }
-      },
-      {
-        "hash": "fuXRRsxlxh74",
-        "address": "https://domain.glass/51.83.10.178",
-        "title": "51.83.10.178 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 2,
-            "textWords": 884
-          }
-        }
-      },
-      {
         "hash": "eeAs9h3e0QFx",
         "address": "https://commons.wikimedia.org/wiki/%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D0%B0",
         "title": "Україна",
@@ -1950,26 +1732,62 @@
         }
       },
       {
-        "hash": "dcAaIsd27_O5",
-        "address": "https://opencagedata.com/?ocs=11",
-        "title": "OpenCage - Easy, Open, Worldwide, Affordable Geocoding and Geosearch",
-        "snippet": "",
-        "matchedWords": {
-          "8KEZ0dWKkHmU": {
-            "hits": 9,
-            "textWords": 2438
-          }
-        }
-      },
-      {
-        "hash": "dbGm3opg4UCw",
-        "address": "https://www.wikidata.org/wiki/Wikidata:Status_updates/2024_02_12/szl",
-        "title": "Wikidata:Aktualizacyje statusu/2024 02 12 - Wikidata",
+        "hash": "eW2kUjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Hong_Kong",
+        "title": "Hong Kong - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 1,
-            "textWords": 1683
+            "textWords": 30530
+          }
+        }
+      },
+      {
+        "hash": "fru6Wjc4UIAx",
+        "address": "https://en.wikivoyage.org/wiki/Ontario_(California)",
+        "title": "Ontario (California) – Travel guide at Wikivoyage",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 2886
+          }
+        }
+      },
+      {
+        "hash": "dNe39s-3yIUg",
+        "address": "https://schmacke.de/",
+        "title": "Startseite - Mühlenbäckerei Schmacke",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 1776
+          }
+        }
+      },
+      {
+        "hash": "d9HZcopg4UCw",
+        "address": "https://www.wikidata.org/wiki/Q1889",
+        "title": "diplomacy - Wikidata",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 2,
+            "textWords": 1972
+          }
+        }
+      },
+      {
+        "hash": "dzXDybTOHGpx",
+        "address": "https://fa.wikipedia.org/wiki/%D8%A7%D9%88%DA%A9%D8%B1%D8%A7%DB%8C%D9%86",
+        "title": "اوکراین - ویکی‌پدیا، دانشنامهٔ آزاد",
+        "snippet": "",
+        "matchedWords": {
+          "8KEZ0dWKkHmU": {
+            "hits": 1,
+            "textWords": 14771
           }
         }
       },
@@ -1986,14 +1804,14 @@
         }
       },
       {
-        "hash": "dzXDybTOHGpx",
-        "address": "https://fa.wikipedia.org/wiki/%D8%A7%D9%88%DA%A9%D8%B1%D8%A7%DB%8C%D9%86",
-        "title": "اوکراین - ویکی‌پدیا، دانشنامهٔ آزاد",
+        "hash": "e5X4Fz4Cpqbi",
+        "address": "https://levana-verbund.de/2026/06/11/tolzin-masern/",
+        "title": "Hans Tolzin: “Das Masern-Paradox” | Vortrag vom 11. Juni 2026 | Levana Verbund",
         "snippet": "",
         "matchedWords": {
           "8KEZ0dWKkHmU": {
             "hits": 1,
-            "textWords": 14771
+            "textWords": 778
           }
         }
       }

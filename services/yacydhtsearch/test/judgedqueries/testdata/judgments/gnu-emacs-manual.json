@@ -1,4 +1,77 @@
 {
   "query": "gnu emacs manual",
-  "judgedDocuments": []
+  "judgedDocuments": [
+    {
+      "hash": "72qrVWVFEEow",
+      "address": "https://guix.gnu.org/manual/1.5.0/en/html_node/Substitute-Server-Authorization.html",
+      "title": "Substitute Server Authorization (GNU Guix Reference Manual)",
+      "grade": 0
+    },
+    {
+      "hash": "TPZ22WVFEEow",
+      "address": "https://guix.gnu.org/manual/1.5.0/en/html_node/Debbugs-User-Interfaces.html",
+      "title": "Debbugs User Interfaces (GNU Guix Reference Manual)",
+      "grade": 0
+    },
+    {
+      "hash": "D34VsF3X_rqw",
+      "address": "https://lists.gnu.org/archive/html/guix-devel/2015-01/msg00443.html",
+      "title": "GNU Guix 0.8.1 released",
+      "grade": 0
+    },
+    {
+      "hash": "N8dpuF3X_rqw",
+      "address": "https://lists.gnu.org/archive/html/guix-devel/2017-12/msg00100.html",
+      "title": "GNU Guix \u0026 GuixSD 0.14.0 released",
+      "grade": 0
+    },
+    {
+      "hash": "6BTXNjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Pwd",
+      "title": "pwd - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "2RX5-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Gratis_versus_libre",
+      "title": "Free software - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "zP5CXYfqRo-4",
+      "address": "https://ximalas.info/2015/03/10/when-does-the-64-bit-unix-time_t-really-end/",
+      "title": "When does the 64-bit Unix time_t really end? – Trond's place",
+      "grade": 0
+    },
+    {
+      "hash": "yk9R7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Troff",
+      "title": "troff - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "nzIZ8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lexical_scope",
+      "title": "Scope (computer programming) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "8UmlFjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Swaret",
+      "title": "Slackware - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "1ymSjjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Bash_(shell)",
+      "title": "Bash (Unix shell) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "QriquAK-xyJ4",
+      "address": "https://go.dev/doc/devel/weekly",
+      "title": "Weekly Snapshot History - The Go Programming Language",
+      "grade": 0
+    }
+  ]
 }

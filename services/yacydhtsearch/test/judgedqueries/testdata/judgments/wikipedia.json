@@ -2,16 +2,28 @@
   "query": "wikipedia",
   "judgedDocuments": [
     {
+      "hash": "xgze2sqyzXmw",
+      "address": "https://swprs.org/wikipedia-and-propaganda/",
+      "title": "Wikipedia and Propaganda – Swiss Policy Research",
+      "grade": 1
+    },
+    {
+      "hash": "Fct7Cj-JVcyx",
+      "address": "https://en.wikiquote.org/wiki/Wikipedia",
+      "title": "Wikipedia - Wikiquote",
+      "grade": 1
+    },
+    {
+      "hash": "SbIsMjcl0ynx",
+      "address": "https://en.wikiversity.org/wiki/Researching_with_Wikipedia",
+      "title": "Researching with Wikipedia - Wikiversity",
+      "grade": 1
+    },
+    {
       "hash": "kgXpZsgKzQ9w",
       "address": "https://indieweb.org/Wikipedia",
       "title": "Wikipedia - IndieWeb",
       "grade": 1
-    },
-    {
-      "hash": "eV8_WladqZ_x",
-      "address": "https://www.wikipedia.org/",
-      "title": "Wikipedia",
-      "grade": 2
     },
     {
       "hash": "jr-9W07Yyjex",
@@ -26,40 +38,28 @@
       "grade": 2
     },
     {
-      "hash": "xgze2sqyzXmw",
-      "address": "https://swprs.org/wikipedia-and-propaganda/",
-      "title": "Wikipedia and Propaganda – Swiss Policy Research",
-      "grade": 1
-    },
-    {
-      "hash": "dZ2Y8sqyzXmw",
-      "address": "https://swprs.org/wikipedia-und-propaganda/",
-      "title": "Wikipedia und Propaganda – Swiss Policy Research",
-      "grade": 1
-    },
-    {
-      "hash": "SbIsMjcl0ynx",
-      "address": "https://en.wikiversity.org/wiki/Researching_with_Wikipedia",
-      "title": "Researching with Wikipedia - Wikiversity",
-      "grade": 1
-    },
-    {
       "hash": "mY0dNHJCW4l4",
       "address": "https://piefed.europe.pub/c/wikipedia@lemmy.world",
       "title": "Wikipedia",
       "grade": 1
     },
     {
-      "hash": "t4P03vqPRUWw",
-      "address": "https://wingolog.org/tags/wikipedia",
-      "title": "posts tagged \"wikipedia\"",
-      "grade": 0
+      "hash": "MIaemAyZbNhw",
+      "address": "https://gwern.net/doc/wikipedia/index",
+      "title": "‘Wikipedia’ directory · Gwern.net",
+      "grade": 1
     },
     {
-      "hash": "YzjYVjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Five_pillars",
-      "title": "Wikipedia:Five pillars - Wikipedia",
+      "hash": "eV8_WladqZ_x",
+      "address": "https://www.wikipedia.org/",
+      "title": "Wikipedia",
       "grade": 2
+    },
+    {
+      "hash": "RRPJ8lFN6nW4",
+      "address": "https://www.wikiwand.com/en/articles/Wikipedia_community",
+      "title": "Wikipedia community - Wikiwand",
+      "grade": 1
     },
     {
       "hash": "LEWIqjRvmBbx",
@@ -74,27 +74,27 @@
       "grade": 1
     },
     {
-      "hash": "h3gCDEBAPQf4",
-      "address": "https://gaybd1.tumblr.com/post/740024179291783168/wikipedia-tell-me-if-this-mans-gay",
-      "title": "free palestine and also luigi — wikipedia Tell me if this man’s gay",
-      "grade": 0
-    },
-    {
-      "hash": "LkxGWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:5D",
-      "title": "Wikipedia:General disclaimer - Wikipedia",
+      "hash": "9JVEzDN5JSd5",
+      "address": "https://techstartups.com/2025/09/30/elon-musk-unveils-grokipedia-xais-wikipedia-alternative/",
+      "title": "Elon Musk Unveils Grokipedia, xAI’s Wikipedia Alternative - Tech Startups",
       "grade": 1
     },
     {
-      "hash": "XsJrXjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_for_Schools",
-      "title": "Wikipedia:Wikipedia for Schools - Wikipedia",
-      "grade": 1
+      "hash": "3PTlTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:Introduction",
+      "title": "Help:Introduction - Wikipedia",
+      "grade": 2
     },
     {
-      "hash": "WAT4kjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:GFDL",
-      "title": "Wikipedia:GFDL - Wikipedia",
+      "hash": "5ZYlcjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Who_writes_Wikipedia",
+      "title": "Wikipedia:Who writes Wikipedia? - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "S7SfSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:How_to_copy-edit",
+      "title": "Wikipedia:Basic copyediting - Wikipedia",
       "grade": 1
     },
     {
@@ -108,6 +108,12 @@
       "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
       "title": "Wikipedia:About - Wikipedia",
       "grade": 2
+    },
+    {
+      "hash": "tljzSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Content_translation_tool",
+      "title": "Wikipedia:Content translation tool - Wikipedia",
+      "grade": 1
     }
   ]
 }

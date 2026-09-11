@@ -8,10 +8,58 @@
       "grade": 2
     },
     {
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
+      "grade": 0
+    },
+    {
       "hash": "MnvOKjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Portal:Free_and_open-source_software",
       "title": "Portal:Free and open-source software - Wikipedia",
       "grade": 1
+    },
+    {
+      "hash": "B1eHQs8BaC94",
+      "address": "https://brave.com/",
+      "title": "The browser that puts you first | Brave",
+      "grade": 1
+    },
+    {
+      "hash": "cad2Xscvw7Vx",
+      "address": "https://wordpress.org/",
+      "title": "Blog Tool, Publishing Platform, and CMS – WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "OVvAkg2Rr_dw",
+      "address": "https://docs.searxng.org/dev/searxng_extra/index.html",
+      "title": "Tooling box searxng_extra - SearXNG Documentation (2026.9.7+3e454637f)",
+      "grade": 2
+    },
+    {
+      "hash": "VNG8NsS6MKD4",
+      "address": "https://github.com/apache",
+      "title": "The Apache Software Foundation · GitHub",
+      "grade": 0
+    },
+    {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "JY72vjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Trusted_Platform_Module",
+      "title": "Trusted Platform Module - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "153XgsQ2H1F4",
+      "address": "https://wpvip.com/",
+      "title": "WordPress VIP | Enterprise Content Platform \u0026 Managed WordPress",
+      "grade": 0
     },
     {
       "hash": "Qw0Oas-RJCSj",
@@ -20,9 +68,15 @@
       "grade": 0
     },
     {
-      "hash": "FAoCHL7t2YV4",
-      "address": "https://www.nvidia.com/en-us/data-center/dgx-platform/",
-      "title": "DGX Platform | NVIDIA",
+      "hash": "DH4bEs5DCs35",
+      "address": "https://wordpress.com/?ref=footer_blog",
+      "title": "WordPress.com: Everything You Need to Build Your Website",
+      "grade": 0
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
       "grade": 0
     },
     {
@@ -38,9 +92,9 @@
       "grade": 0
     },
     {
-      "hash": "D1Hz8-DUniK4",
-      "address": "https://reason.com/2007/05/30/wikipedia-and-beyond/",
-      "title": "Wikipedia and Beyond",
+      "hash": "W7uvnJF20Rww",
+      "address": "https://ma.tt/author/saxmatt/",
+      "title": "Matt | Matt Mullenweg",
       "grade": 0
     },
     {
@@ -53,18 +107,6 @@
       "hash": "TKYymjGG7ou5",
       "address": "https://kingnorth.wordpress.com/",
       "title": "kingnorth | King North is the 8th King World Government",
-      "grade": 0
-    },
-    {
-      "hash": "A81K-ZIRcMkY",
-      "address": "http://rigorousintuition.blogspot.com/2005/10/top-of-my-head.html",
-      "title": "Rigorous Intuition: The Top of My Head",
-      "grade": 0
-    },
-    {
-      "hash": "QdW-xjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
-      "title": "GNU General Public License - Wikipedia",
       "grade": 0
     }
   ]

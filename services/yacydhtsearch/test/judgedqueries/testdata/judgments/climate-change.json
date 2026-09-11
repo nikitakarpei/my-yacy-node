@@ -2,33 +2,9 @@
   "query": "climate change",
   "judgedDocuments": [
     {
-      "hash": "Glu_e5GPlOdg",
-      "address": "https://www.daera-ni.gov.uk/articles/northern-ireland-climate-change-adaptation-programme",
-      "title": "Northern Ireland Climate Change Adaptation Programme | Department of Agriculture, Environment and Rural Affairs",
-      "grade": 1
-    },
-    {
-      "hash": "Vue0tWt3OzH5",
-      "address": "https://depositsmag.com/tag/climate-change/",
-      "title": "climate change – DEPOSITS MAGAZINE",
-      "grade": 1
-    },
-    {
-      "hash": "5CGlk2lbxFxx",
-      "address": "https://www.navigation.org/grants/climate-change",
-      "title": "Climate Change | The Navigation Fund",
-      "grade": 1
-    },
-    {
       "hash": "jFH1V7rrBtSg",
       "address": "https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe/eu-missions-horizon-europe/adaptation-climate-change_en",
       "title": "EU Mission: Adaptation to Climate Change",
-      "grade": 1
-    },
-    {
-      "hash": "TTdgPlS5WTn4",
-      "address": "https://www.jpost.com/environment-and-climate-change",
-      "title": "Environment \u0026 Climate Change | The Jerusalem Post",
       "grade": 1
     },
     {
@@ -38,39 +14,69 @@
       "grade": 1
     },
     {
-      "hash": "eSKGo9JF2J06",
-      "address": "https://store.legal.thomsonreuters.com/en-us/legal/environmental-law/climate-change",
-      "title": "Climate Change Law Resource Books|Thomson Reuters Legal",
+      "hash": "uQJ5Mfm7MhAy",
+      "address": "https://hechingerreport.org/special-reports/climate-change/",
+      "title": "Climate change: Are we ready? - The Hechinger Report",
       "grade": 1
     },
     {
-      "hash": "waQr5tIIL7ew",
-      "address": "https://stallman.org/archives/2022-jan-apr.html",
-      "title": "2022: January - April Political Notes",
-      "grade": 0
-    },
-    {
-      "hash": "UUfDFPnI6JIw",
-      "address": "https://climate.law.columbia.edu/content/climate-litigation-newsletter",
-      "title": "Climate Litigation Newsletter | Sabin Center for Climate Change Law",
+      "hash": "ncY549TRvWp5",
+      "address": "https://hecubus.wordpress.com/category/global-climate-change/",
+      "title": "global climate change | We Have Seen Better Days",
       "grade": 1
     },
     {
-      "hash": "0_2DQLmMQij4",
-      "address": "https://www.who.int/activities/awareness-raising-to-protect-human-health-from-climate-change",
-      "title": "Advocacy and Partnerships to protect human health from climate change",
+      "hash": "Glu_e5GPlOdg",
+      "address": "https://www.daera-ni.gov.uk/articles/northern-ireland-climate-change-adaptation-programme",
+      "title": "Northern Ireland Climate Change Adaptation Programme | Department of Agriculture, Environment and Rural Affairs",
       "grade": 1
     },
     {
-      "hash": "-GTAl-vKPktw",
-      "address": "https://www.c2es.org/press-release/leading-companies-back-369b-climate-investments/",
-      "title": "Leading Companies Back $369B Climate Investments - Center for Climate and Energy SolutionsCenter for Climate and Energy Solutions",
+      "hash": "9b5fJl1Tzgcx",
+      "address": "https://www.worldbank.org/en/news/press-release/2023/12/01/mainstreaming-climate-change-into-afe-mozambique-s-planning-is-key-to-building-a-resilient-economy",
+      "title": "Mainstreaming Climate Change into Mozambique’s Planning is Key to Building a Resilient Economy",
       "grade": 1
     },
     {
-      "hash": "cG30FEN6vgFx",
-      "address": "https://heartland.org/podcasts/big-climate-strikes-back-the-climate-realism-show-172/",
-      "title": "Big Climate Strikes Back — The Climate Realism Show #172 - The Heartland Institute",
+      "hash": "5CGlk2lbxFxx",
+      "address": "https://www.navigation.org/grants/climate-change",
+      "title": "Climate Change | The Navigation Fund",
+      "grade": 1
+    },
+    {
+      "hash": "2ADbTD5jvdsw",
+      "address": "https://climatecommunication.yale.edu/about/projects/identifying-climate-messages-work/",
+      "title": "Identifying Climate Messages That Work - Yale Program on Climate Change Communication",
+      "grade": 1
+    },
+    {
+      "hash": "alH4nmCCIsDg",
+      "address": "https://agriculture.ec.europa.eu/cap-my-country/sustainability/environmental-sustainability/climate-change_en",
+      "title": "Climate change - Agriculture and rural development - European Commission",
+      "grade": 1
+    },
+    {
+      "hash": "CvYIMh5-F5dg",
+      "address": "https://www.bgs.ac.uk/discovering-geology/climate-change/",
+      "title": "Discovering Geology: climate change - British Geological Survey",
+      "grade": 2
+    },
+    {
+      "hash": "wGfAewXKfw-g",
+      "address": "https://www.cmcc.it/article/forging-the-causal-chain-a-workshop-exploring-the-interplay-between-climate-science-and-legal-responsibility",
+      "title": "Forging the causal chain: A workshop exploring the interplay between climate science and legal responsibility - CMCC",
+      "grade": 1
+    },
+    {
+      "hash": "IcAc5IL0Fk7w",
+      "address": "https://climate.uchicago.edu/",
+      "title": "The Institute for Climate and Sustainable Growth",
+      "grade": 1
+    },
+    {
+      "hash": "AX4MssOLCOH6",
+      "address": "https://wattsupwiththat.com/climate-sensitivity/",
+      "title": "Climate Sensitivity - Watts Up With That?",
       "grade": 1
     },
     {
@@ -83,6 +89,18 @@
       "hash": "rMew3XPMwjH4",
       "address": "https://docs.aws.amazon.com/solutions/physical-climate-risk-assessment-on-aws/",
       "title": "Guidance for Physical Climate Risk Assessment on AWS",
+      "grade": 1
+    },
+    {
+      "hash": "6ItKbWOiSHKx",
+      "address": "https://he.wikipedia.org/wiki/%D7%A8%D7%95%D7%A1%D7%99%D7%94",
+      "title": "רוסיה – ויקיפדיה",
+      "grade": 0
+    },
+    {
+      "hash": "UUfDFPnI6JIw",
+      "address": "https://climate.law.columbia.edu/content/climate-litigation-newsletter",
+      "title": "Climate Litigation Newsletter | Sabin Center for Climate Change Law",
       "grade": 1
     },
     {

@@ -1,91 +1,187 @@
 {
   "query": "docker compose",
-  "recordedAt": "2026-09-11T12:59:26Z",
+  "recordedAt": "2026-09-11T19:23:12Z",
   "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "KSSoYZ9Ojva4",
+        "address": "https://docs.docker.com/retired/",
+        "title": "Deprecated and retired Docker products and features | Docker Docs",
+        "snippet": "Docker products and features | Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 197,
+            "textWords": 3621
+          },
+          "E7Pz527QGKEF": {
+            "hits": 31,
+            "textWords": 3621
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "AYjzb2RnNlC4",
+        "address": "https://supabase.com/docs/guides/self-hosting/docker",
+        "title": "Self-Hosting with Docker | Supabase Docs",
+        "snippet": "Docker | Supabase Docs\nSkip to content\nDOCSStart\nProducts\nBuild\nManage\nReference\nResources\nDOCS\nSearch docs...\nCtrl K\nMain menu\nSelf-Hosting\nOverview\nDeploy with Docker\nAccessing Postgres\nConfigure new API keys\nLearn about API Gateway\nAdd Reverse Proxy with HTTPS\nUpgrade to Postgres 17\nRemove",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 54,
+            "textWords": 3690
+          },
+          "E7Pz527QGKEF": {
+            "hits": 27,
+            "textWords": 3690
+          }
+        }
+      },
+      {
+        "hash": "dliouf9Ojva4",
+        "address": "https://docs.docker.com/get-started/introduction/develop-with-containers/",
+        "title": "Develop with containers | Docker Docs",
+        "snippet": "",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 23,
+            "textWords": 1524
+          },
+          "E7Pz527QGKEF": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "L34sUGdTeyA4",
+        "address": "https://github.blog/changelog/2024-04-10-github-hosted-runner-images-deprecation-notice-docker-compose-v1/",
+        "title": "GitHub-hosted runner images deprecation notice: Docker Compose v1 - GitHub Changelog",
+        "snippet": "Docker Compose v1 - GitHub Changelog\nSkip to content Skip to sidebar\n/ Blog Changelog\nDocs\nCustomer stories\nTry GitHub Copilot app Attend GitHub Universe\nSearch\nChangelog\nDocs\nCustomer stories\nAttend GitHub Universe Try GitHub Copilot app\nBack to changelog\nRetired\nApril 10, 2024 • 1 minute read",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 5,
+            "textWords": 424
+          },
+          "E7Pz527QGKEF": {
+            "hits": 7,
+            "textWords": 424
+          }
+        }
+      },
+      {
+        "hash": "sDiyRs7Yxvhx",
+        "address": "https://www.postgresql.org/about/news/pglayers-postgresql-extensions-as-stackable-docker-layers-3344/",
+        "title": "PostgreSQL: pglayers: PostgreSQL extensions as stackable Docker layers",
+        "snippet": "Docker layers\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nQuick Links\nAbout\nGovernance\nPolicies\nFeature Matrix\nDonate\nHistory\nSponsors Contributing\nFinancial\nServers\nLatest",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 7,
+            "textWords": 588
+          },
+          "E7Pz527QGKEF": {
+            "hits": 1,
+            "textWords": 588
+          }
+        }
+      }
+    ],
     [
       {
         "hash": "6PUUbj_MW7i4",
         "address": "https://www.docker.com/products/developer-tools/",
         "title": "Developer Tools | Docker",
-        "snippet": "",
+        "snippet": "Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New\nYour AI Agent across Docker\nDocker Model Runner\nLocal-first LLM",
         "matchedWords": {
           "BbYFPEGiEwr9": {
             "hits": 60,
-            "textWords": 1083
+            "textWords": 926
           },
           "E7Pz527QGKEF": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 4,
+            "textWords": 926
           }
         }
       }
     ],
     [
       {
-        "hash": "eWuR-l_MW7i4",
-        "address": "https://www.docker.com/trainings/",
-        "title": "Skill up with Docker Training | Docker",
-        "snippet": "",
+        "hash": "L34sUGdTeyA4",
+        "address": "https://github.blog/changelog/2024-04-10-github-hosted-runner-images-deprecation-notice-docker-compose-v1/",
+        "title": "GitHub-hosted runner images deprecation notice: Docker Compose v1 - GitHub Changelog",
+        "snippet": "Docker Compose v1 - GitHub Changelog\nSkip to content Skip to sidebar\n/ Blog Changelog\nDocs\nCustomer stories\nTry GitHub Copilot app Attend GitHub Universe\nSearch\nChangelog\nDocs\nCustomer stories\nAttend GitHub Universe Try GitHub Copilot app\nBack to changelog\nRetired\nApril 10, 2024 • 1 minute read",
         "matchedWords": {
           "BbYFPEGiEwr9": {
-            "hits": 49,
-            "textWords": 858
+            "hits": 5,
+            "textWords": 424
           },
           "E7Pz527QGKEF": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "FevfV2gYLBO5",
-        "address": "https://caddyserver.com/docs/install",
-        "title": "Install — Caddy Documentation",
-        "snippet": "",
-        "matchedWords": {
-          "BbYFPEGiEwr9": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "E7Pz527QGKEF": {
-            "hits": 1,
-            "textWords": 1113
+            "hits": 7,
+            "textWords": 424
           }
         }
       },
       {
-        "hash": "OK3199wNqMp4",
-        "address": "https://findnerd.com/profile/publicprofile/linkbong24hcom/165497",
-        "title": "Luong Son TV",
-        "snippet": "",
+        "hash": "_1ijAG9elSo4",
+        "address": "https://mailcow.email/posts/2022/release-2022-06/",
+        "title": "🌕🐄 Moone Update 2022 - The Docker Compose V2 Update (Part I) | Changes - mailcow: dockerized - Blog",
+        "snippet": "Docker Compose V2 Update (Part I) | Changes - mailcow: dockerized - Blog\nmailcow: dockerized - Blog📰\nPosts\nTags\nCategories\nDocs\nVerified VPS Providers\nSupport\nGitHub\nDemos✅ Stable Demo\n🛠️ Nightly Demo\nSponsor the Project❤️ Buy a Stay Awesome License\n🧡 Sponsor us directly on GitHub\nEnglish\nDeutsch",
         "matchedWords": {
           "BbYFPEGiEwr9": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "E7Pz527QGKEF": {
-            "hits": 1,
-            "textWords": 946
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "NHWIWV2Rr_dw",
-        "address": "https://docs.searxng.org/admin/installation-docker.html",
-        "title": "Installation container - SearXNG Documentation (2026.8.4+c63835bd2)",
-        "snippet": "",
-        "matchedWords": {
-          "BbYFPEGiEwr9": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 14,
+            "textWords": 529
           },
           "E7Pz527QGKEF": {
             "hits": 17,
-            "textWords": 1403
+            "textWords": 529
+          }
+        }
+      },
+      {
+        "hash": "u-FvND8sSnOw",
+        "address": "https://patdavid.net/2025/05/anubis-and-caddy-docker-proxy/",
+        "title": "Anubis and caddy-docker-proxy",
+        "snippet": "caddy-docker-proxy\nPAT DAVID\nABOUT ARCHIVE\n◑ Theme\nMay 8, 2025 3 min read Anubis and caddy-docker-proxy\nAs part of my work infrastructure I run an instance of the Comprehensive Knowledge Archive Network (CKAN) as a data center. Things were running along nicely for quite some time before I was",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 11,
+            "textWords": 762
+          },
+          "E7Pz527QGKEF": {
+            "hits": 5,
+            "textWords": 762
+          }
+        }
+      },
+      {
+        "hash": "_1RN8w-ynEe4",
+        "address": "https://docs.mailcow.email/troubleshooting/debug-mysql_aria/",
+        "title": "Recover crashed Aria storage engine - mailcow: dockerized documentation",
+        "snippet": "Docker Compose Plugin and the Standalone Version syntax\nmailcow: dockerized documentation\nRecover crashed Aria storage engine\nEnglish\nDeutsch\nInitializing search\nmailcow/mailcow-dockerized\nmailcow: dockerized documentation\nmailcow/mailcow-dockerized\nInformation \u0026 Support\nGet started\nGet started",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 22,
+            "textWords": 689
+          },
+          "E7Pz527QGKEF": {
+            "hits": 19,
+            "textWords": 689
+          }
+        }
+      },
+      {
+        "hash": "_B_aiX9Ojva4",
+        "address": "https://docs.docker.com/reference/api/hub/changelog/",
+        "title": "Docker Hub API changelog | Docker Docs",
+        "snippet": "Docker Hub API changelog | Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the",
+        "matchedWords": {
+          "BbYFPEGiEwr9": {
+            "hits": 437,
+            "textWords": 2345
+          },
+          "E7Pz527QGKEF": {
+            "hits": 48,
+            "textWords": 2345
           }
         }
       }
@@ -96,15 +192,15 @@
       "hash": "CN-RM49Ojva4",
       "address": "https://docs.docker.com/build/building/multi-platform/",
       "title": "Multi-platform | Docker Docs",
-      "snippet": "",
+      "snippet": "Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the documentation.\nBack\nManuals",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 137,
+          "textWords": 4392
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 15,
+          "textWords": 4392
         }
       }
     },
@@ -112,15 +208,15 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "",
+      "snippet": "Planet Python\nPlanet Python\nLast update: September 11, 2026 04:48 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of",
       "matchedWords": {
         "BbYFPEGiEwr9": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 32751
         },
         "E7Pz527QGKEF": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 32751
         }
       }
     },
@@ -128,159 +224,15 @@
       "hash": "A1QAeDS6MKD4",
       "address": "https://github.com/fastapi/full-stack-fastapi-template",
       "title": "GitHub - fastapi/full-stack-fastapi-template: Full stack, modern web application template. Using FastAPI, React, SQLModel, PostgreSQL, Docker, GitHub Actions, automatic HTTPS and more.",
-      "snippet": "",
+      "snippet": "Docker Compose. · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER WORKFLOWS\nActionsAutomate any workflow",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 860
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "SU0ZvwS6MKD4",
-      "address": "https://github.com/dani-garcia/vaultwarden",
-      "title": "GitHub - dani-garcia/vaultwarden: Unofficial Bitwarden compatible server written in Rust, formerly known as bitwarden_rs",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KXuKCf9Ojva4",
-      "address": "https://docs.docker.com/get-started/docker-concepts/running-containers/sharing-local-files/",
-      "title": "Sharing local files with containers | Docker Docs",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "FZ5ZijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
-      "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ANdR2LS6MKD4",
-      "address": "https://github.com/TryGhost/Ghost",
-      "title": "GitHub - TryGhost/Ghost: Independent technology for modern publishing, memberships, subscriptions and newsletters.",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "J5OD4zS6MKD4",
-      "address": "https://github.com/topics/pytest",
-      "title": "pytest · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "K513D7S6MKD4",
-      "address": "https://github.com/microsoft/agent-governance-toolkit",
-      "title": "GitHub - microsoft/agent-governance-toolkit: AI Agent Governance Toolkit — Policy enforcement, zero-trust identity, execution sandboxing, and reliability engineering for autonomous AI agents. Covers 10/10 OWASP Agentic Top 10. · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "c8pv3t_MW7i4",
-      "address": "https://www.docker.com/company/newsroom/",
-      "title": "Docker Newsroom | Docker",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "JXOoAobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker",
-      "title": "How to become a MediaWiki hacker - MediaWiki",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "PWDhjP957jvx",
-      "address": "https://blog.metabrainz.org/2023/09/",
-      "title": "September 2023 – MetaBrainz Blog",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 14,
+          "textWords": 860
         }
       }
     },
@@ -288,31 +240,223 @@
       "hash": "DEKXKM9Ojva4",
       "address": "https://docs.docker.com/desktop/setup/install/linux/",
       "title": "Install Docker Desktop on Linux | Docker Docs",
-      "snippet": "",
+      "snippet": "Docker Desktop on Linux | Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 175,
+          "textWords": 3292
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 15,
+          "textWords": 3292
         }
       }
     },
     {
-      "hash": "KSSoYZ9Ojva4",
-      "address": "https://docs.docker.com/retired/",
-      "title": "Deprecated and retired Docker products and features | Docker Docs",
-      "snippet": "",
+      "hash": "75lx7E9Ojva4",
+      "address": "https://docs.docker.com/engine/security/",
+      "title": "Docker Engine security | Docker Docs",
+      "snippet": "Docker Engine security | Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 141,
+          "textWords": 4156
+        },
+        "E7Pz527QGKEF": {
+          "hits": 15,
+          "textWords": 4156
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "Planet Python\nPlanet Python\nLast update: September 11, 2026 04:48 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of",
       "matchedWords": {
         "BbYFPEGiEwr9": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 32751
         },
         "E7Pz527QGKEF": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 32751
+        }
+      }
+    },
+    {
+      "hash": "Ckphb1MW35a4",
+      "address": "https://hub.docker.com/r/itzg/minecraft-bedrock-server",
+      "title": "itzg/minecraft-bedrock-server - Docker Image",
+      "snippet": "Docker Image\nSearch Docker Hub\nK\nHelp\nSystem theme\nDocker Suite\nGo back\nHelp\nSystem theme\nDocker Suite\nSign inSign up\nExplore\n/\nitzg\n/\nminecraft-bedrock-server\nitzg/minecraft-bedrock-server\nSponsored OSS\nBy itzg\n•Updated 22 days ago\nMinecraft Bedrock Dedicated Server with selectable version\nImage",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 19,
+          "textWords": 1142
+        },
+        "E7Pz527QGKEF": {
+          "hits": 5,
+          "textWords": 1142
+        }
+      }
+    },
+    {
+      "hash": "GkyDLPMW35a4",
+      "address": "https://hub.docker.com/_/geonetwork",
+      "title": "geonetwork - Official Image | Docker Hub",
+      "snippet": "Docker Hub\nSearch Docker Hub\nK\nHelp\nSystem theme\nDocker Suite\nGo back\nHelp\nSystem theme\nDocker Suite\nSign inSign up\nExplore\n/\nOfficial Images\n/\ngeonetwork\ngeonetwork\nDocker Official Image\n•\n5M+\n•\n91\nGeoNetwork is a FOSS catalog for spatially referenced resources.\nData science\nOverviewTags",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 45,
+          "textWords": 3119
+        },
+        "E7Pz527QGKEF": {
+          "hits": 4,
+          "textWords": 3119
+        }
+      }
+    },
+    {
+      "hash": "FZ5ZijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
+      "title": "List of free and open-source software packages - Wikipedia",
+      "snippet": "Docker – Docker Engine is open-source for Linux only\nFileZilla – FTP\nH2O – supports HTTP/2, TLS, and server push\nHiawatha – HTTP server\nlighttpd – HTTP Server\nLucee – CFML application server\nNginx – web server/reverse proxy and e-mail (IMAP/POP3) proxy\nNetKernel – Internet application server\nQcodo",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 3,
+          "textWords": 11535
+        },
+        "E7Pz527QGKEF": {
+          "hits": 1,
+          "textWords": 11535
+        }
+      }
+    },
+    {
+      "hash": "ANdR2LS6MKD4",
+      "address": "https://github.com/TryGhost/Ghost",
+      "title": "GitHub - TryGhost/Ghost: Independent technology for modern publishing, memberships, subscriptions and newsletters.",
+      "snippet": "docker\ndocker\ndocs\ndocs\ne2e\ne2e\nghost/core\nghost/core\nkoenig\nkoenig\npackages\npackages\nscripts\nscripts\n.coderabbit.yaml\n.coderabbit.yaml\n.dependency-cruiser.cjs\n.dependency-cruiser.cjs\n.dockerignore\n.dockerignore\n.editorconfig\n.editorconfig\n.env.example\n.env.example\n.git-blame-ignore-revs",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 2,
+          "textWords": 1054
+        },
+        "E7Pz527QGKEF": {
+          "hits": 14,
+          "textWords": 1054
+        }
+      }
+    },
+    {
+      "hash": "AgkPisS6MKD4",
+      "address": "https://github.com/VictorMoni",
+      "title": "VictorMoni (Victor Moni) · GitHub",
+      "snippet": "Docker Compose or Kubernetes.\nJava\n15\n1\nTaskyHub TaskyHub\nPublic\nNext.js \u0026 TypeScript task manager with Google Auth, recurring tasks, dark mode, batch operations, and import/export support.\nTypeScript\n8\nBingoBlitz BingoBlitz\nPublic\nThis is a simple and entertaining project that simulates a classic",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 1,
+          "textWords": 829
+        },
+        "E7Pz527QGKEF": {
+          "hits": 1,
+          "textWords": 829
+        }
+      }
+    },
+    {
+      "hash": "A1QAeDS6MKD4",
+      "address": "https://github.com/fastapi/full-stack-fastapi-template",
+      "title": "GitHub - fastapi/full-stack-fastapi-template: Full-stack web application template with FastAPI, React, SQLModel, PostgreSQL, Vite, Tailwind CSS, shadcn/ui, FastAPI Cloud, and Docker Compose. · GitHub",
+      "snippet": "Docker Compose. · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER WORKFLOWS\nActionsAutomate any workflow",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 8,
+          "textWords": 860
+        },
+        "E7Pz527QGKEF": {
+          "hits": 14,
+          "textWords": 860
+        }
+      }
+    },
+    {
+      "hash": "vCkbDzS6MKD4",
+      "address": "https://github.com/topics/postgresql",
+      "title": "postgresql · GitHub Topics · GitHub",
+      "snippet": "docker kubernetes devops machine-learning database ai monitoring mongodb influxdb mcp grafana alerting postgresql cncf prometheus data-visualization observability netdata\nUpdated Sep 11, 2026\nGo\nnocodb / nocodb\nSponsor\nStar 64.9k\nCode\nIssues\nPull requests\nDiscussions\n🔥 🔥 🔥 A Free \u0026 Self-hostable",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 8,
+          "textWords": 1378
+        },
+        "E7Pz527QGKEF": {
+          "hits": 2,
+          "textWords": 1378
+        }
+      }
+    },
+    {
+      "hash": "I9UfPeMW35a4",
+      "address": "https://hub.docker.com/search",
+      "title": "Explore Docker's Container Image Repository | Docker Hub",
+      "snippet": "Docker's Container Image Repository | Docker Hub\nSearch Docker Hub\nK\nHelp\nSystem theme\nDocker Suite\nGo back\nHelp\nSystem theme\nDocker Suite\nSign inSign up\nFilter by\nProducts\nImages\nHelm Charts\nSandbox kits\nAI Models\nCompose\nShow more\nTrusted content\nDocker Hardened Image\nDocker Official Image",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 39,
+          "textWords": 559
+        },
+        "E7Pz527QGKEF": {
+          "hits": 1,
+          "textWords": 559
+        }
+      }
+    },
+    {
+      "hash": "NHWIWV2Rr_dw",
+      "address": "https://docs.searxng.org/admin/installation-docker.html",
+      "title": "Installation container — SearXNG Documentation (2025.9.23+3bf702447)",
+      "snippet": "Docker 101\nDocker cheat sheet (PDF doc)\nPodman rootless containers\nImportant\nUnderstanding container architecture basics is essential for properly maintaining your SearXNG instance. This guide assumes familiarity with container concepts and provides deployment steps at a high level.\nIf you’re new",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 40,
+          "textWords": 1346
+        },
+        "E7Pz527QGKEF": {
+          "hits": 22,
+          "textWords": 1346
+        }
+      }
+    },
+    {
+      "hash": "PWDhjP957jvx",
+      "address": "https://blog.metabrainz.org/2023/09/",
+      "title": "September 2023 – MetaBrainz Blog",
+      "snippet": "Docker is also available that matches this update of MusicBrainz Server. See the release notes for update instructions.\nThanks to HibiscusKazeneko, jesus2099 and kakawup for having reported bugs and suggested improvements. Thanks to claybiockiller, mfmeulenbelt, outsidecontext, salo.rock and Vac31.",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 3,
+          "textWords": 1805
+        },
+        "E7Pz527QGKEF": {
+          "hits": 1,
+          "textWords": 1805
+        }
+      }
+    },
+    {
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Install Docker Desktop on Linux | Docker Docs",
+      "snippet": "Docker Desktop on Linux | Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 175,
+          "textWords": 3292
+        },
+        "E7Pz527QGKEF": {
+          "hits": 15,
+          "textWords": 3292
         }
       }
     },
@@ -320,15 +464,15 @@
       "hash": "MbQgLE9Ojva4",
       "address": "https://docs.docker.com/engine/manage-resources/labels/",
       "title": "Docker object labels | Docker Docs",
-      "snippet": "",
+      "snippet": "Docker object labels | Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 109,
+          "textWords": 2900
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 15,
+          "textWords": 2900
         }
       }
     },
@@ -336,15 +480,15 @@
       "hash": "NRZFDZ9Ojva4",
       "address": "https://docs.docker.com/docker-hub",
       "title": "Docker Hub | Docker Docs",
-      "snippet": "",
+      "snippet": "Docker Hub | Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the documentation.",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 90,
+          "textWords": 2327
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 15,
+          "textWords": 2327
         }
       }
     },
@@ -368,15 +512,31 @@
       "hash": "33nc5Z9Ojva4",
       "address": "https://docs.docker.com/",
       "title": "Docker Docs",
-      "snippet": "",
+      "snippet": "Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the documentation.\nHow can we",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 28,
+          "textWords": 546
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 546
+        }
+      }
+    },
+    {
+      "hash": "rmf3ysBAoHwy",
+      "address": "https://podman-desktop.io/",
+      "title": "Podman Desktop - Containers and Kubernetes | Podman Desktop",
+      "snippet": "Compose. This compatibility ensures a smooth transition without disrupting existing workflows or requiring extensive retooling.\nCrafted for Kubernetes\nStreamline Kubernetes workflows\nPodman Desktop isn't just a container manager; it's built with Kubernetes at its core. This deep integration means",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 3,
+          "textWords": 783
+        },
+        "E7Pz527QGKEF": {
+          "hits": 2,
+          "textWords": 783
         }
       }
     },
@@ -384,15 +544,15 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "",
+      "snippet": "Planet Python\nPlanet Python\nLast update: September 11, 2026 04:48 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of",
       "matchedWords": {
         "BbYFPEGiEwr9": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 32751
         },
         "E7Pz527QGKEF": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 32751
         }
       }
     },
@@ -400,15 +560,15 @@
       "hash": "M2WI19OKiiF6",
       "address": "https://www.epsilonsworld.com/2026/03/",
       "title": "Epsilon's World: March 2026",
-      "snippet": "",
+      "snippet": "compose songs.\nThere were also many copycat commercial tracker software releases though, based on the soundtracker/protracker concept. One of these was Audio Sculpture. The interface is very similar - if it ain't broke, why fix it right?\nAs tracker fans will know, soundtracker, noise tracker, and",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 8376
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 8376
         }
       }
     },
@@ -416,15 +576,15 @@
       "hash": "FZ5ZijRvmBbx",
       "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
       "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "",
+      "snippet": "Docker – Docker Engine is open-source for Linux only\nFileZilla – FTP\nH2O – supports HTTP/2, TLS, and server push\nHiawatha – HTTP server\nlighttpd – HTTP Server\nLucee – CFML application server\nNginx – web server/reverse proxy and e-mail (IMAP/POP3) proxy\nNetKernel – Internet application server\nQcodo",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 11535
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 11535
         }
       }
     },
@@ -432,15 +592,15 @@
       "hash": "PpAMKjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_Guix_System",
       "title": "GNU Guix - Wikipedia",
-      "snippet": "",
+      "snippet": "Docker) that are also commonly employed to solve dependency hell, Guix is leaner and conforms to practices like don't repeat yourself and single source of truth. If the user chooses to build everything from source, an even larger amount of storage space and bandwidth is required.\nThe store\n[edit]",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 5061
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 5061
         }
       }
     },
@@ -448,15 +608,15 @@
       "hash": "ANdR2LS6MKD4",
       "address": "https://github.com/TryGhost/Ghost",
       "title": "GitHub - TryGhost/Ghost: Independent technology for modern publishing, memberships, subscriptions and newsletters.",
-      "snippet": "",
+      "snippet": "docker\ndocker\ndocs\ndocs\ne2e\ne2e\nghost/core\nghost/core\nkoenig\nkoenig\npackages\npackages\nscripts\nscripts\n.coderabbit.yaml\n.coderabbit.yaml\n.dependency-cruiser.cjs\n.dependency-cruiser.cjs\n.dockerignore\n.dockerignore\n.editorconfig\n.editorconfig\n.env.example\n.env.example\n.git-blame-ignore-revs",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1054
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 14,
+          "textWords": 1054
         }
       }
     },
@@ -464,15 +624,15 @@
       "hash": "GOC_RsS6MKD4",
       "address": "https://github.com/mvanhorn",
       "title": "mvanhorn (Matt Van Horn) · GitHub",
-      "snippet": "",
+      "snippet": "Docker service name channel URL guidance, Serialize concurrent exec_command calls in AioSandbox\nByteDance's OpenViking\n- Agent space name hashing, MCP stdio contention detection, async memory extraction, semantic summary filtering, non-dict LLM response handling, filename preservation, retrieval",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 14216
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 14216
         }
       }
     },
@@ -480,15 +640,15 @@
       "hash": "JWSlkdS6MKD4",
       "address": "https://github.com/github/gh-aw-firewall",
       "title": "GitHub - github/gh-aw-firewall: GitHub Agentic Workflows Firewall · GitHub",
-      "snippet": "",
+      "snippet": "Docker sandbox with three containers:\nSquid proxy — filters outbound traffic by domain allowlist\nAgent — runs your command; all HTTP/HTTPS is routed through Squid\nAPI proxy sidecar (optional) — holds LLM API keys so they never reach the agent process\nRequirements\nDocker: 20.10+ with Docker Compose",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 1388
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1388
         }
       }
     },
@@ -496,15 +656,15 @@
       "hash": "J5OD4zS6MKD4",
       "address": "https://github.com/topics/pytest",
       "title": "pytest · GitHub Topics · GitHub",
-      "snippet": "",
+      "snippet": "Docker Compose.\nreact python docker jwt typescript docker-compose postgresql openapi full-stack pytest tailwindcss vite github-actions fastapi playwright sqlmodel tanstack-query tanstack-router shadcn-ui fastapi-cloud\nUpdated Sep 3, 2026\nTypeScript\nseleniumbase / SeleniumBase\nStar 13k\nCode\nIssues",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 1160
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1160
         }
       }
     },
@@ -512,15 +672,15 @@
       "hash": "NW0FU9S6MKD4",
       "address": "https://github.com/funmusicplace/mirlo",
       "title": "GitHub - funmusicplace/mirlo: An open source audio distribution and patronage platform · GitHub",
-      "snippet": "",
+      "snippet": "docker-compose.api.yml\ndocker-compose.api.yml\ndocker-compose.prod.yml\ndocker-compose.prod.yml\ndocker-compose.test.yml\ndocker-compose.test.yml\ndocker-compose.yml\ndocker-compose.yml\neslint.config.mjs\neslint.config.mjs\nnodemon.json\nnodemon.json\npackage.json\npackage.json\nrender.yaml\nrender.yaml",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 26,
+          "textWords": 1346
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 12,
+          "textWords": 1346
         }
       }
     },
@@ -528,15 +688,15 @@
       "hash": "NX1lJPS6MKD4",
       "address": "https://github.com/rtk-ai/rtk",
       "title": "GitHub - rtk-ai/rtk: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies · GitHub",
-      "snippet": "",
+      "snippet": "docker ps\nEssential fields only\nHow Savings Work\nRTK cuts up to 90% of the bash output your agent reads. That is what RTK measures, and it is not the same as cutting your bill by 90%.\nBash output is one contributor to input tokens, alongside your prompt, the system prompt and conversation history.",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 3495
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 3495
         }
       }
     },
@@ -544,15 +704,15 @@
       "hash": "NsSDlzS6MKD4",
       "address": "https://github.com/topics/bitwarden-rs",
       "title": "bitwarden-rs · GitHub Topics · GitHub",
-      "snippet": "",
+      "snippet": "docker rust rocket bitwarden bitwarden-rs vaultwarden\nUpdated Sep 9, 2026\nRust\nttionya / vaultwarden-backup\nStar 1.9k\nCode\nIssues\nPull requests\nBackup vaultwarden (formerly known as bitwarden_rs) SQLite3/PostgreSQL/MySQL/MariaDB database by rclone. (Docker)\nbitwarden-rs vaultwarden",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 17,
+          "textWords": 1034
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 1034
         }
       }
     },
@@ -560,15 +720,15 @@
       "hash": "N-XUO0S6MKD4",
       "address": "https://github.com/netxms/netxms",
       "title": "GitHub - netxms/netxms: NetXMS - Open Source network and infrastructure monitoring and management",
-      "snippet": "",
+      "snippet": "Docker Setup - Fastest way to get started\nDownload - Get the latest release\nDocumentation - Complete administration guide\nUbuntu installation video - Video tutorials and webinars\nDemo - NetXMS demo\n🏗️ Architecture\nNetXMS follows a distributed architecture with a central management server,",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 1856
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1856
         }
       }
     },
@@ -576,15 +736,15 @@
       "hash": "OIjuydS6MKD4",
       "address": "https://github.com/HKUDS/Vibe-Trading",
       "title": "GitHub - HKUDS/Vibe-Trading: \"Vibe-Trading: Your Personal Trading Agent\" · GitHub",
-      "snippet": "",
+      "snippet": "docker-compose.yml\ndocker-compose.yml\npyproject.toml\npyproject.toml\nrequirements-channels-lock.txt\nrequirements-channels-lock.txt\nrequirements-lock.txt\nrequirements-lock.txt\nView all files\nRepository files navigation\nREADME\nCode of conduct\nContributing\nMIT license\nSecurity\nMore items\nLoading\nAbout",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 561
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 561
         }
       }
     },
@@ -592,15 +752,15 @@
       "hash": "Ofc55PS6MKD4",
       "address": "https://github.com/strapi/strapi",
       "title": "GitHub - strapi/strapi: 🚀 Strapi is the leading open-source headless CMS. It’s 100% JavaScript/TypeScript, fully customizable and developer-first.",
-      "snippet": "",
+      "snippet": "docker-compose.dev.yml\ndocker-compose.dev.yml\ndocker-compose.test.yml\ndocker-compose.test.yml\nfileTransformer.js\nfileTransformer.js\njest-preset.front.js\njest-preset.front.js\njest-preset.unit.js\njest-preset.unit.js\njest.config.api.js\njest.config.api.js\njest.config.cli.js\njest.config.cli.js",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 1357
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1357
         }
       }
     },
@@ -608,15 +768,15 @@
       "hash": "OuHQGzS6MKD4",
       "address": "https://github.com/topics/podman",
       "title": "podman · GitHub Topics · GitHub",
-      "snippet": "",
+      "snippet": "docker integration kde gnome nautilus qemu xfce wine libvirt freerdp linux-app cassowary hacktoberfest qemu-kvm seamless podman nix-flake winapps\nUpdated Sep 1, 2026\nShell\nkubernetes-sigs / kind\nStar 15.5k\nCode\nIssues\nPull requests\nKubernetes IN Docker - local clusters for testing Kubernetes\ndocker",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 32,
+          "textWords": 1324
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 1324
         }
       }
     },
@@ -624,15 +784,15 @@
       "hash": "O8wW-IS6MKD4",
       "address": "https://github.com/openfoodfoundation/openfoodnetwork",
       "title": "GitHub - openfoodfoundation/openfoodnetwork: Connect suppliers, distributors and consumers to trade local produce.",
-      "snippet": "",
+      "snippet": "docker\ndocker\nengines\nengines\nlib\nlib\nlog\nlog\npublic\npublic\nreports\nreports\nscript\nscript\nspec\nspec\nswagger\nswagger\nvendor/assets\nvendor/assets\n.dockerignore\n.dockerignore\n.env\n.env\n.env.development\n.env.development\n.env.test\n.env.test\n.foreman\n.foreman\n.gitattributes\n.gitattributes\n.gitignore",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 1077
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1077
         }
       }
     },
@@ -640,15 +800,15 @@
       "hash": "PStUCzS6MKD4",
       "address": "https://github.com/topics/chrome",
       "title": "chrome · GitHub Topics · GitHub",
-      "snippet": "",
+      "snippet": "compose download-manager kotlin-multiplatform compose-desktop compose-multiplatform\nUpdated Sep 8, 2026\nKotlin\nGoogleChrome / chrome-extensions-samples\nStar 17.8k\nCode\nIssues\nPull requests\nChrome Extensions Samples\nchrome\nUpdated Sep 8, 2026\nJavaScript\nFlareSolverr / FlareSolverr\nStar 15.6k\nCode",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1242
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1242
         }
       }
     },
@@ -656,31 +816,31 @@
       "hash": "QtceyzS6MKD4",
       "address": "https://github.com/topics/angular",
       "title": "angular · GitHub Topics · GitHub",
-      "snippet": "",
+      "snippet": "Compose), Flutter and you name it compatible.\nreact javascript android kotlin java swift ios angular typescript vue objective-c cross-platform svelte capacitor nativescript flutter solidjs swiftui visionos visionpro\nUpdated Sep 10, 2026\nTypeScript\nangular / components\nStar 25k\nCode\nIssues\nPull",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1328
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1328
         }
       }
     },
     {
-      "hash": "dQXZ9sS6MKD4",
-      "address": "https://github.com/fastapi",
-      "title": "FastAPI · GitHub",
-      "snippet": "",
+      "hash": "pM7ZozS6MKD4",
+      "address": "https://github.com/topics/responsive",
+      "title": "responsive · GitHub Topics · GitHub",
+      "snippet": "docker monitor monitoring responsive single-page-app websocket socket-io selfhosted self-hosted uptime webapp uptime-monitoring\nUpdated Sep 11, 2026\nJavaScript\nColorlibHQ / AdminLTE\nStar 45.6k\nCode\nIssues\nPull requests\nDiscussions\nAdminLTE - Free admin dashboard template based on Bootstrap 5\ncss",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 1150
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1150
         }
       }
     },
@@ -736,15 +896,15 @@
       "hash": "RRNM9k_MW7i4",
       "address": "https://www.docker.com/community/open-source/",
       "title": "Docker and Open Source | Docker",
-      "snippet": "",
+      "snippet": "Docker and Open Source | Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New\nYour AI Agent across Docker\nDocker Model",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 57,
+          "textWords": 952
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 952
         }
       }
     },
@@ -752,31 +912,15 @@
       "hash": "S0w-Wl_MW7i4",
       "address": "https://www.docker.com/products/",
       "title": "Products | Docker",
-      "snippet": "",
+      "snippet": "Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New\nYour AI Agent across Docker\nDocker Model Runner\nLocal-first LLM",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 51,
+          "textWords": 937
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "c8pv3t_MW7i4",
-      "address": "https://www.docker.com/company/newsroom/",
-      "title": "Docker Newsroom | Docker",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 937
         }
       }
     },
@@ -784,15 +928,31 @@
       "hash": "dUFt5j_MW7i4",
       "address": "https://www.docker.com/products/docker-desktop/",
       "title": "Docker Desktop: The #1 Containerization Tool for Developers | Docker",
-      "snippet": "",
+      "snippet": "Docker Desktop: The #1 Containerization Tool for Developers | Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 71,
+          "textWords": 1177
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1177
+        }
+      }
+    },
+    {
+      "hash": "eWuR-l_MW7i4",
+      "address": "https://www.docker.com/trainings/",
+      "title": "Skill up with Docker Training | Docker",
+      "snippet": "Docker Training | Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New\nYour AI Agent across Docker\nDocker Model Runner",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 45,
+          "textWords": 661
+        },
+        "E7Pz527QGKEF": {
+          "hits": 1,
+          "textWords": 661
         }
       }
     },
@@ -845,38 +1005,6 @@
       }
     },
     {
-      "hash": "QZrMav8r-I95",
-      "address": "https://riscv-runners.riseproject.dev/docs/faq.html",
-      "title": "FAQ | RISE RISC-V Runners",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Qllpsv8r-I95",
-      "address": "https://riscv-runners.riseproject.dev/docs/architecture/images.html",
-      "title": "Container Images | RISE RISC-V Runners",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "QETWOeFEcjUx",
       "address": "https://docs.confluent.io/platform/current/streams/microservices-orders.html",
       "title": "Tutorial: Streaming Application Development Basics on Confluent Platform | Confluent Documentation",
@@ -896,15 +1024,15 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "",
+      "snippet": "Planet Python\nPlanet Python\nLast update: September 11, 2026 04:48 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of",
       "matchedWords": {
         "BbYFPEGiEwr9": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 32751
         },
         "E7Pz527QGKEF": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 32751
         }
       }
     },
@@ -912,22 +1040,22 @@
       "hash": "QtceyzS6MKD4",
       "address": "https://github.com/topics/angular",
       "title": "angular · GitHub Topics · GitHub",
-      "snippet": "",
+      "snippet": "Compose), Flutter and you name it compatible.\nreact javascript android kotlin java swift ios angular typescript vue objective-c cross-platform svelte capacitor nativescript flutter solidjs swiftui visionos visionpro\nUpdated Sep 10, 2026\nTypeScript\nangular / components\nStar 25k\nCode\nIssues\nPull",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1328
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1328
         }
       }
     },
     {
-      "hash": "SU0ZvwS6MKD4",
-      "address": "https://github.com/dani-garcia/vaultwarden",
-      "title": "GitHub - dani-garcia/vaultwarden: Unofficial Bitwarden compatible server written in Rust, formerly known as bitwarden_rs",
+      "hash": "qVgO2cS6MKD4",
+      "address": "https://github.com/brave/brave-search-mcp-server",
+      "title": "GitHub - brave/brave-search-mcp-server · GitHub",
       "snippet": "",
       "matchedWords": {
         "BbYFPEGiEwr9": {
@@ -944,15 +1072,15 @@
       "hash": "RRNM9k_MW7i4",
       "address": "https://www.docker.com/community/open-source/",
       "title": "Docker and Open Source | Docker",
-      "snippet": "",
+      "snippet": "Docker and Open Source | Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New\nYour AI Agent across Docker\nDocker Model",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 57,
+          "textWords": 952
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 952
         }
       }
     },
@@ -960,47 +1088,15 @@
       "hash": "S0w-Wl_MW7i4",
       "address": "https://www.docker.com/products/",
       "title": "Products | Docker",
-      "snippet": "",
+      "snippet": "Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New\nYour AI Agent across Docker\nDocker Model Runner\nLocal-first LLM",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 51,
+          "textWords": 937
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "EhYhXE9Ojva4",
-      "address": "https://docs.docker.com/engine/security/userns-remap/",
-      "title": "Isolate containers with a user namespace | Docker Docs",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KXuKCf9Ojva4",
-      "address": "https://docs.docker.com/get-started/docker-concepts/running-containers/sharing-local-files/",
-      "title": "Sharing local files with containers | Docker Docs",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 937
         }
       }
     },
@@ -1021,50 +1117,18 @@
       }
     },
     {
-      "hash": "FZ5ZijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
-      "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "",
+      "hash": "k5CFYeMW35a4",
+      "address": "https://hub.docker.com/",
+      "title": "Docker Hub Container Image Library | App Containerization",
+      "snippet": "Docker Hub Container Image Library | App Containerization\nSearch Docker Hub\nK\nHelp\nSystem theme\nDocker Suite\nGo back\nHelp\nSystem theme\nDocker Suite\nSign inSign up\nDocker Hardened Images - Now free\nNear-zero CVE hardened images with built in security, compliance, and continuous updates. Free for all",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 41,
+          "textWords": 879
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "HYwjgDmDCiww",
-      "address": "https://podman.io/blogs/atom.xml",
-      "title": "",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CsBSKxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Docker",
-      "title": "Docker - ArchWiki",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 879
         }
       }
     },
@@ -1072,63 +1136,15 @@
       "hash": "PStUCzS6MKD4",
       "address": "https://github.com/topics/chrome",
       "title": "chrome · GitHub Topics · GitHub",
-      "snippet": "",
+      "snippet": "compose download-manager kotlin-multiplatform compose-desktop compose-multiplatform\nUpdated Sep 8, 2026\nKotlin\nGoogleChrome / chrome-extensions-samples\nStar 17.8k\nCode\nIssues\nPull requests\nChrome Extensions Samples\nchrome\nUpdated Sep 8, 2026\nJavaScript\nFlareSolverr / FlareSolverr\nStar 15.6k\nCode",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1242
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "dQXZ9sS6MKD4",
-      "address": "https://github.com/fastapi",
-      "title": "FastAPI · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "c8pv3t_MW7i4",
-      "address": "https://www.docker.com/company/newsroom/",
-      "title": "Docker Newsroom | Docker",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "dUFt5j_MW7i4",
-      "address": "https://www.docker.com/products/docker-desktop/",
-      "title": "Docker Desktop: The #1 Containerization Tool for Developers | Docker",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1242
         }
       }
     },
@@ -1149,9 +1165,57 @@
       }
     },
     {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
+      "hash": "rmf3ysBAoHwy",
+      "address": "https://podman-desktop.io/",
+      "title": "Podman Desktop - Containers and Kubernetes | Podman Desktop",
+      "snippet": "Compose. This compatibility ensures a smooth transition without disrupting existing workflows or requiring extensive retooling.\nCrafted for Kubernetes\nStreamline Kubernetes workflows\nPodman Desktop isn't just a container manager; it's built with Kubernetes at its core. This deep integration means",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 3,
+          "textWords": 783
+        },
+        "E7Pz527QGKEF": {
+          "hits": 2,
+          "textWords": 783
+        }
+      }
+    },
+    {
+      "hash": "PStUCzS6MKD4",
+      "address": "https://github.com/topics/chrome",
+      "title": "chrome · GitHub Topics · GitHub",
+      "snippet": "compose download-manager kotlin-multiplatform compose-desktop compose-multiplatform\nUpdated Sep 8, 2026\nKotlin\nGoogleChrome / chrome-extensions-samples\nStar 17.8k\nCode\nIssues\nPull requests\nChrome Extensions Samples\nchrome\nUpdated Sep 8, 2026\nJavaScript\nFlareSolverr / FlareSolverr\nStar 15.6k\nCode",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 3,
+          "textWords": 1242
+        },
+        "E7Pz527QGKEF": {
+          "hits": 3,
+          "textWords": 1242
+        }
+      }
+    },
+    {
+      "hash": "pM7ZozS6MKD4",
+      "address": "https://github.com/topics/responsive",
+      "title": "responsive · GitHub Topics · GitHub",
+      "snippet": "docker monitor monitoring responsive single-page-app websocket socket-io selfhosted self-hosted uptime webapp uptime-monitoring\nUpdated Sep 11, 2026\nJavaScript\nColorlibHQ / AdminLTE\nStar 45.6k\nCode\nIssues\nPull requests\nDiscussions\nAdminLTE - Free admin dashboard template based on Bootstrap 5\ncss",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 8,
+          "textWords": 1150
+        },
+        "E7Pz527QGKEF": {
+          "hits": 2,
+          "textWords": 1150
+        }
+      }
+    },
+    {
+      "hash": "qVgO2cS6MKD4",
+      "address": "https://github.com/brave/brave-search-mcp-server",
+      "title": "GitHub - brave/brave-search-mcp-server · GitHub",
       "snippet": "",
       "matchedWords": {
         "BbYFPEGiEwr9": {
@@ -1161,6 +1225,38 @@
         "E7Pz527QGKEF": {
           "hits": 0,
           "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "vCkbDzS6MKD4",
+      "address": "https://github.com/topics/postgresql",
+      "title": "postgresql · GitHub Topics · GitHub",
+      "snippet": "docker kubernetes devops machine-learning database ai monitoring mongodb influxdb mcp grafana alerting postgresql cncf prometheus data-visualization observability netdata\nUpdated Sep 11, 2026\nGo\nnocodb / nocodb\nSponsor\nStar 64.9k\nCode\nIssues\nPull requests\nDiscussions\n🔥 🔥 🔥 A Free \u0026 Self-hostable",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 8,
+          "textWords": 1378
+        },
+        "E7Pz527QGKEF": {
+          "hits": 2,
+          "textWords": 1378
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "Planet Python\nPlanet Python\nLast update: September 11, 2026 04:48 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 32751
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 32751
         }
       }
     },
@@ -1168,6 +1264,22 @@
       "hash": "PWDhjP957jvx",
       "address": "https://blog.metabrainz.org/2023/09/",
       "title": "September 2023 – MetaBrainz Blog",
+      "snippet": "Docker is also available that matches this update of MusicBrainz Server. See the release notes for update instructions.\nThanks to HibiscusKazeneko, jesus2099 and kakawup for having reported bugs and suggested improvements. Thanks to claybiockiller, mfmeulenbelt, outsidecontext, salo.rock and Vac31.",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 3,
+          "textWords": 1805
+        },
+        "E7Pz527QGKEF": {
+          "hits": 1,
+          "textWords": 1805
+        }
+      }
+    },
+    {
+      "hash": "OK3199wNqMp4",
+      "address": "https://findnerd.com/profile/publicprofile/linkbong24hcom/165497",
+      "title": "Luong Son TV",
       "snippet": "",
       "matchedWords": {
         "BbYFPEGiEwr9": {
@@ -1181,34 +1293,18 @@
       }
     },
     {
-      "hash": "QZrMav8r-I95",
-      "address": "https://riscv-runners.riseproject.dev/docs/faq.html",
-      "title": "FAQ | RISE RISC-V Runners",
-      "snippet": "",
+      "hash": "NHWIWV2Rr_dw",
+      "address": "https://docs.searxng.org/admin/installation-docker.html",
+      "title": "Installation container - SearXNG Documentation (2026.8.4+c63835bd2)",
+      "snippet": "Docker 101\nDocker cheat sheet (PDF doc)\nPodman rootless containers\nImportant\nUnderstanding container architecture basics is essential for properly maintaining your SearXNG instance. This guide assumes familiarity with container concepts and provides deployment steps at a high level.\nIf you’re new",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 40,
+          "textWords": 1346
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Qllpsv8r-I95",
-      "address": "https://riscv-runners.riseproject.dev/docs/architecture/images.html",
-      "title": "Container Images | RISE RISC-V Runners",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 22,
+          "textWords": 1346
         }
       }
     },
@@ -1216,15 +1312,15 @@
       "hash": "MbQgLE9Ojva4",
       "address": "https://docs.docker.com/engine/manage-resources/labels/",
       "title": "Docker object labels | Docker Docs",
-      "snippet": "",
+      "snippet": "Docker object labels | Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 109,
+          "textWords": 2900
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 15,
+          "textWords": 2900
         }
       }
     },
@@ -1248,15 +1344,15 @@
       "hash": "S0w-Wl_MW7i4",
       "address": "https://www.docker.com/products/",
       "title": "Products | Docker",
-      "snippet": "",
+      "snippet": "Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New\nYour AI Agent across Docker\nDocker Model Runner\nLocal-first LLM",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 51,
+          "textWords": 937
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 937
         }
       }
     },
@@ -1280,15 +1376,15 @@
       "hash": "CN-RM49Ojva4",
       "address": "https://docs.docker.com/build/building/multi-platform/",
       "title": "Multi-platform builds | Docker Docs",
-      "snippet": "",
+      "snippet": "Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the documentation.\nBack\nManuals",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 137,
+          "textWords": 4392
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 15,
+          "textWords": 4392
         }
       }
     },
@@ -1296,63 +1392,15 @@
       "hash": "DEKXKM9Ojva4",
       "address": "https://docs.docker.com/desktop/setup/install/linux/",
       "title": "Install Docker Desktop on Linux | Docker Docs",
-      "snippet": "",
+      "snippet": "Docker Desktop on Linux | Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 175,
+          "textWords": 3292
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "EhYhXE9Ojva4",
-      "address": "https://docs.docker.com/engine/security/userns-remap/",
-      "title": "Isolate containers with a user namespace | Docker Docs",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KSSoYZ9Ojva4",
-      "address": "https://docs.docker.com/retired/",
-      "title": "Deprecated and retired Docker products and features | Docker Docs",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KXuKCf9Ojva4",
-      "address": "https://docs.docker.com/get-started/docker-concepts/running-containers/sharing-local-files/",
-      "title": "Sharing local files with containers | Docker Docs",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 15,
+          "textWords": 3292
         }
       }
     },
@@ -1360,15 +1408,15 @@
       "hash": "NRZFDZ9Ojva4",
       "address": "https://docs.docker.com/docker-hub",
       "title": "Docker Hub | Docker Docs",
-      "snippet": "",
+      "snippet": "Docker Hub | Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the documentation.",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 90,
+          "textWords": 2327
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 15,
+          "textWords": 2327
         }
       }
     },
@@ -1392,15 +1440,79 @@
       "hash": "33nc5Z9Ojva4",
       "address": "https://docs.docker.com/",
       "title": "Docker Docs",
-      "snippet": "",
+      "snippet": "Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the documentation.\nHow can we",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 28,
+          "textWords": 546
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 546
+        }
+      }
+    },
+    {
+      "hash": "75lx7E9Ojva4",
+      "address": "https://docs.docker.com/engine/security/",
+      "title": "Docker Engine security | Docker Docs",
+      "snippet": "Docker Engine security | Docker Docs\nGet started\nGuides\nManuals\nReference\nGordon\nGordon, your AI assistant for Docker docs\nSearch\nStart a new chat\nWhen enabled, Gordon considers the current page you're viewing to provide more relevant answers.\nShare feedback\nAnswers are generated based on the",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 141,
+          "textWords": 4156
+        },
+        "E7Pz527QGKEF": {
+          "hits": 15,
+          "textWords": 4156
+        }
+      }
+    },
+    {
+      "hash": "rmf3ysBAoHwy",
+      "address": "https://podman-desktop.io/",
+      "title": "Podman Desktop - Containers and Kubernetes | Podman Desktop",
+      "snippet": "Compose. This compatibility ensures a smooth transition without disrupting existing workflows or requiring extensive retooling.\nCrafted for Kubernetes\nStreamline Kubernetes workflows\nPodman Desktop isn't just a container manager; it's built with Kubernetes at its core. This deep integration means",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 3,
+          "textWords": 783
+        },
+        "E7Pz527QGKEF": {
+          "hits": 2,
+          "textWords": 783
+        }
+      }
+    },
+    {
+      "hash": "I9UfPeMW35a4",
+      "address": "https://hub.docker.com/search",
+      "title": "Explore Docker's Container Image Repository | Docker Hub",
+      "snippet": "Docker's Container Image Repository | Docker Hub\nSearch Docker Hub\nK\nHelp\nSystem theme\nDocker Suite\nGo back\nHelp\nSystem theme\nDocker Suite\nSign inSign up\nFilter by\nProducts\nImages\nHelm Charts\nSandbox kits\nAI Models\nCompose\nShow more\nTrusted content\nDocker Hardened Image\nDocker Official Image",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 39,
+          "textWords": 559
+        },
+        "E7Pz527QGKEF": {
+          "hits": 1,
+          "textWords": 559
+        }
+      }
+    },
+    {
+      "hash": "k5CFYeMW35a4",
+      "address": "https://hub.docker.com/",
+      "title": "Docker Hub Container Image Library | App Containerization",
+      "snippet": "Docker Hub Container Image Library | App Containerization\nSearch Docker Hub\nK\nHelp\nSystem theme\nDocker Suite\nGo back\nHelp\nSystem theme\nDocker Suite\nSign inSign up\nDocker Hardened Images - Now free\nNear-zero CVE hardened images with built in security, compliance, and continuous updates. Free for all",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 41,
+          "textWords": 879
+        },
+        "E7Pz527QGKEF": {
+          "hits": 2,
+          "textWords": 879
         }
       }
     },
@@ -1408,15 +1520,15 @@
       "hash": "FZ5ZijRvmBbx",
       "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
       "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "",
+      "snippet": "Docker – Docker Engine is open-source for Linux only\nFileZilla – FTP\nH2O – supports HTTP/2, TLS, and server push\nHiawatha – HTTP server\nlighttpd – HTTP Server\nLucee – CFML application server\nNginx – web server/reverse proxy and e-mail (IMAP/POP3) proxy\nNetKernel – Internet application server\nQcodo",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 11535
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 11535
         }
       }
     },
@@ -1424,15 +1536,15 @@
       "hash": "PpAMKjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/GNU_Guix_System",
       "title": "GNU Guix - Wikipedia",
-      "snippet": "",
+      "snippet": "Docker) that are also commonly employed to solve dependency hell, Guix is leaner and conforms to practices like don't repeat yourself and single source of truth. If the user chooses to build everything from source, an even larger amount of storage space and bandwidth is required.\nThe store\n[edit]",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 5061
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 5061
         }
       }
     },
@@ -1456,15 +1568,15 @@
       "hash": "RRNM9k_MW7i4",
       "address": "https://www.docker.com/community/open-source/",
       "title": "Docker and Open Source | Docker",
-      "snippet": "",
+      "snippet": "Docker and Open Source | Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New\nYour AI Agent across Docker\nDocker Model",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 57,
+          "textWords": 952
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 952
         }
       }
     },
@@ -1472,31 +1584,15 @@
       "hash": "S0w-Wl_MW7i4",
       "address": "https://www.docker.com/products/",
       "title": "Products | Docker",
-      "snippet": "",
+      "snippet": "Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New\nYour AI Agent across Docker\nDocker Model Runner\nLocal-first LLM",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 51,
+          "textWords": 937
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "c8pv3t_MW7i4",
-      "address": "https://www.docker.com/company/newsroom/",
-      "title": "Docker Newsroom | Docker",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 937
         }
       }
     },
@@ -1504,31 +1600,31 @@
       "hash": "dUFt5j_MW7i4",
       "address": "https://www.docker.com/products/docker-desktop/",
       "title": "Docker Desktop: The #1 Containerization Tool for Developers | Docker",
-      "snippet": "",
+      "snippet": "Docker Desktop: The #1 Containerization Tool for Developers | Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 71,
+          "textWords": 1177
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1177
         }
       }
     },
     {
-      "hash": "JXOoAobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker",
-      "title": "How to become a MediaWiki hacker - MediaWiki",
-      "snippet": "",
+      "hash": "eWuR-l_MW7i4",
+      "address": "https://www.docker.com/trainings/",
+      "title": "Skill up with Docker Training | Docker",
+      "snippet": "Docker Training | Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New\nYour AI Agent across Docker\nDocker Model Runner",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 45,
+          "textWords": 661
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 661
         }
       }
     },
@@ -1565,18 +1661,66 @@
       }
     },
     {
-      "hash": "CsBSKxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Docker",
-      "title": "Docker - ArchWiki",
-      "snippet": "",
+      "hash": "Ckphb1MW35a4",
+      "address": "https://hub.docker.com/r/itzg/minecraft-bedrock-server",
+      "title": "itzg/minecraft-bedrock-server - Docker Image",
+      "snippet": "Docker Image\nSearch Docker Hub\nK\nHelp\nSystem theme\nDocker Suite\nGo back\nHelp\nSystem theme\nDocker Suite\nSign inSign up\nExplore\n/\nitzg\n/\nminecraft-bedrock-server\nitzg/minecraft-bedrock-server\nSponsored OSS\nBy itzg\n•Updated 22 days ago\nMinecraft Bedrock Dedicated Server with selectable version\nImage",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 19,
+          "textWords": 1142
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 1142
+        }
+      }
+    },
+    {
+      "hash": "GkyDLPMW35a4",
+      "address": "https://hub.docker.com/_/geonetwork",
+      "title": "geonetwork - Official Image | Docker Hub",
+      "snippet": "Docker Hub\nSearch Docker Hub\nK\nHelp\nSystem theme\nDocker Suite\nGo back\nHelp\nSystem theme\nDocker Suite\nSign inSign up\nExplore\n/\nOfficial Images\n/\ngeonetwork\ngeonetwork\nDocker Official Image\n•\n5M+\n•\n91\nGeoNetwork is a FOSS catalog for spatially referenced resources.\nData science\nOverviewTags",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 45,
+          "textWords": 3119
+        },
+        "E7Pz527QGKEF": {
+          "hits": 4,
+          "textWords": 3119
+        }
+      }
+    },
+    {
+      "hash": "I9UfPeMW35a4",
+      "address": "https://hub.docker.com/search",
+      "title": "Explore Docker's Container Image Repository | Docker Hub",
+      "snippet": "Docker's Container Image Repository | Docker Hub\nSearch Docker Hub\nK\nHelp\nSystem theme\nDocker Suite\nGo back\nHelp\nSystem theme\nDocker Suite\nSign inSign up\nFilter by\nProducts\nImages\nHelm Charts\nSandbox kits\nAI Models\nCompose\nShow more\nTrusted content\nDocker Hardened Image\nDocker Official Image",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 39,
+          "textWords": 559
+        },
+        "E7Pz527QGKEF": {
+          "hits": 1,
+          "textWords": 559
+        }
+      }
+    },
+    {
+      "hash": "k5CFYeMW35a4",
+      "address": "https://hub.docker.com/",
+      "title": "Docker Hub Container Image Library | App Containerization",
+      "snippet": "Docker Hub Container Image Library | App Containerization\nSearch Docker Hub\nK\nHelp\nSystem theme\nDocker Suite\nGo back\nHelp\nSystem theme\nDocker Suite\nSign inSign up\nDocker Hardened Images - Now free\nNear-zero CVE hardened images with built in security, compliance, and continuous updates. Free for all",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 41,
+          "textWords": 879
+        },
+        "E7Pz527QGKEF": {
+          "hits": 2,
+          "textWords": 879
         }
       }
     },
@@ -1584,15 +1728,15 @@
       "hash": "M2WI19OKiiF6",
       "address": "https://www.epsilonsworld.com/2026/03/",
       "title": "Epsilon's World: March 2026",
-      "snippet": "",
+      "snippet": "compose songs.\nThere were also many copycat commercial tracker software releases though, based on the soundtracker/protracker concept. One of these was Audio Sculpture. The interface is very similar - if it ain't broke, why fix it right?\nAs tracker fans will know, soundtracker, noise tracker, and",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 8376
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 8376
         }
       }
     },
@@ -1600,31 +1744,15 @@
       "hash": "ANdR2LS6MKD4",
       "address": "https://github.com/TryGhost/Ghost",
       "title": "GitHub - TryGhost/Ghost: Independent technology for modern publishing, memberships, subscriptions and newsletters. · GitHub",
-      "snippet": "",
+      "snippet": "docker\ndocker\ndocs\ndocs\ne2e\ne2e\nghost/core\nghost/core\nkoenig\nkoenig\npackages\npackages\nscripts\nscripts\n.coderabbit.yaml\n.coderabbit.yaml\n.dependency-cruiser.cjs\n.dependency-cruiser.cjs\n.dockerignore\n.dockerignore\n.editorconfig\n.editorconfig\n.env.example\n.env.example\n.git-blame-ignore-revs",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1054
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "GJa2wSS6MKD4",
-      "address": "https://github.com/bencherdev/bencher",
-      "title": "GitHub - bencherdev/bencher: 🐰 Bencher - Continuous Benchmarking · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 14,
+          "textWords": 1054
         }
       }
     },
@@ -1632,15 +1760,15 @@
       "hash": "Ofc55PS6MKD4",
       "address": "https://github.com/strapi/strapi",
       "title": "GitHub - strapi/strapi: 🚀 Strapi is the leading open-source headless CMS. It’s 100% JavaScript/TypeScript, fully customizable, and developer-first. · GitHub",
-      "snippet": "",
+      "snippet": "docker-compose.dev.yml\ndocker-compose.dev.yml\ndocker-compose.test.yml\ndocker-compose.test.yml\nfileTransformer.js\nfileTransformer.js\njest-preset.front.js\njest-preset.front.js\njest-preset.unit.js\njest-preset.unit.js\njest.config.api.js\njest.config.api.js\njest.config.cli.js\njest.config.cli.js",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 1357
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1357
         }
       }
     },
@@ -1648,15 +1776,15 @@
       "hash": "OuHQGzS6MKD4",
       "address": "https://github.com/topics/podman",
       "title": "podman · GitHub Topics · GitHub",
-      "snippet": "",
+      "snippet": "docker integration kde gnome nautilus qemu xfce wine libvirt freerdp linux-app cassowary hacktoberfest qemu-kvm seamless podman nix-flake winapps\nUpdated Sep 1, 2026\nShell\nkubernetes-sigs / kind\nStar 15.5k\nCode\nIssues\nPull requests\nKubernetes IN Docker - local clusters for testing Kubernetes\ndocker",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 32,
+          "textWords": 1324
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 1324
         }
       }
     },
@@ -1664,31 +1792,31 @@
       "hash": "QtceyzS6MKD4",
       "address": "https://github.com/topics/angular",
       "title": "angular · GitHub Topics · GitHub",
-      "snippet": "",
+      "snippet": "Compose), Flutter and you name it compatible.\nreact javascript android kotlin java swift ios angular typescript vue objective-c cross-platform svelte capacitor nativescript flutter solidjs swiftui visionos visionpro\nUpdated Sep 10, 2026\nTypeScript\nangular / components\nStar 25k\nCode\nIssues\nPull",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1328
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1328
         }
       }
     },
     {
-      "hash": "dQXZ9sS6MKD4",
-      "address": "https://github.com/fastapi",
-      "title": "FastAPI · GitHub",
-      "snippet": "",
+      "hash": "vCkbDzS6MKD4",
+      "address": "https://github.com/topics/postgresql",
+      "title": "postgresql · GitHub Topics · GitHub",
+      "snippet": "docker kubernetes devops machine-learning database ai monitoring mongodb influxdb mcp grafana alerting postgresql cncf prometheus data-visualization observability netdata\nUpdated Sep 11, 2026\nGo\nnocodb / nocodb\nSponsor\nStar 64.9k\nCode\nIssues\nPull requests\nDiscussions\n🔥 🔥 🔥 A Free \u0026 Self-hostable",
       "matchedWords": {
         "BbYFPEGiEwr9": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 1378
         },
         "E7Pz527QGKEF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1378
         }
       }
     },
@@ -1707,10 +1835,74 @@
           "textWords": 0
         }
       }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "Planet Python\nPlanet Python\nLast update: September 11, 2026 04:48 PM UTC\nSeptember 11, 2026\nLernerPython blog, from Reuven Lerner\nNewsprint: Turning e-mail newsletters into a personal PDF\nI really enjoy reading e-mail newsletters. They’re clever, informative, and funny, and provide me with lots of",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 0,
+          "textWords": 32751
+        },
+        "E7Pz527QGKEF": {
+          "hits": 0,
+          "textWords": 32751
+        }
+      }
+    },
+    {
+      "hash": "k5CFYeMW35a4",
+      "address": "https://hub.docker.com/",
+      "title": "Docker Hub Container Image Library | App Containerization",
+      "snippet": "Docker Hub Container Image Library | App Containerization\nSearch Docker Hub\nK\nHelp\nSystem theme\nDocker Suite\nGo back\nHelp\nSystem theme\nDocker Suite\nSign inSign up\nDocker Hardened Images - Now free\nNear-zero CVE hardened images with built in security, compliance, and continuous updates. Free for all",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 41,
+          "textWords": 879
+        },
+        "E7Pz527QGKEF": {
+          "hits": 2,
+          "textWords": 879
+        }
+      }
+    },
+    {
+      "hash": "S0w-Wl_MW7i4",
+      "address": "https://www.docker.com/products/",
+      "title": "Products | Docker",
+      "snippet": "Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New\nYour AI Agent across Docker\nDocker Model Runner\nLocal-first LLM",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 51,
+          "textWords": 937
+        },
+        "E7Pz527QGKEF": {
+          "hits": 1,
+          "textWords": 937
+        }
+      }
+    },
+    {
+      "hash": "dUFt5j_MW7i4",
+      "address": "https://www.docker.com/products/docker-desktop/",
+      "title": "Docker Desktop: The #1 Containerization Tool for Developers | Docker",
+      "snippet": "Docker Desktop: The #1 Containerization Tool for Developers | Docker\nSkip to content\nProducts\nAI and Agents\nDocker Sandboxes New\nIsolated environments for coding agents\nAI Governance New\nGovern agents and Claws across every team\nMCP Enterprise Gateway New\nConnect and manage MCP tools\nGordon New",
+      "matchedWords": {
+        "BbYFPEGiEwr9": {
+          "hits": 71,
+          "textWords": 1177
+        },
+        "E7Pz527QGKEF": {
+          "hits": 2,
+          "textWords": 1177
+        }
+      }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "BbYFPEGiEwr9": 30323,
-    "E7Pz527QGKEF": 5345
+    "BbYFPEGiEwr9": 28671,
+    "E7Pz527QGKEF": 6844
   }
 }

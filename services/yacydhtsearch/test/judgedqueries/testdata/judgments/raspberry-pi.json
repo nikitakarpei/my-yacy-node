@@ -2,10 +2,10 @@
   "query": "raspberry pi",
   "judgedDocuments": [
     {
-      "hash": "ZinRLlDOAHJg",
-      "address": "https://www.heise.de/make",
-      "title": "Make Magazin: Kreativ mit Technik | heise online",
-      "grade": 1
+      "hash": "ryUhvGS6MKD4",
+      "address": "https://github.com/veggiemonk/awesome-docker",
+      "title": "GitHub - veggiemonk/awesome-docker: :whale: A curated list of Docker resources and projects",
+      "grade": 0
     },
     {
       "hash": "7b0gSsUQxb2x",
@@ -26,33 +26,9 @@
       "grade": 0
     },
     {
-      "hash": "MaRThsRMLT-5",
-      "address": "https://canonical.com/",
-      "title": "Trusted open source for enterprises | Canonical",
-      "grade": 0
-    },
-    {
-      "hash": "ryUhvGS6MKD4",
-      "address": "https://github.com/veggiemonk/awesome-docker",
-      "title": "GitHub - veggiemonk/awesome-docker: :whale: A curated list of Docker resources and projects",
-      "grade": 0
-    },
-    {
-      "hash": "1rwT0fS6MKD4",
-      "address": "https://github.com/sonic-pi-net/sonic-pi",
-      "title": "GitHub - sonic-pi-net/sonic-pi: Code. Music. Live. · GitHub",
-      "grade": 1
-    },
-    {
-      "hash": "MWWnL_nMM_j5",
-      "address": "https://grokipedia.com/page/JavaScript",
-      "title": "JavaScript — Grokipedia",
-      "grade": 0
-    },
-    {
-      "hash": "MK5eRjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
-      "title": "Linux distribution - Wikipedia",
+      "hash": "MaHDQsRDFHM6",
+      "address": "https://stackexchange.com/sites",
+      "title": "All Sites - Stack Exchange",
       "grade": 0
     },
     {
@@ -62,9 +38,33 @@
       "grade": 1
     },
     {
-      "hash": "zPsYJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux",
-      "title": "Linux - Wikipedia",
+      "hash": "DlmlistSAQe4",
+      "address": "https://ai.google/societal-impact/",
+      "title": "Applying AI to help solve humanity's biggest challenges — Google AI",
+      "grade": 0
+    },
+    {
+      "hash": "cd84qAK-xyJ4",
+      "address": "https://go.dev/doc/go1.8",
+      "title": "Go 1.8 Release Notes - The Go Programming Language",
+      "grade": 0
+    },
+    {
+      "hash": "5DZ6TjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Android_(operating_system)",
+      "title": "Android (operating system) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "2uLc-sm1ohFp",
+      "address": "https://polrestoba.id/",
+      "title": "polrestoba.id",
+      "grade": 0
+    },
+    {
+      "hash": "D9zZ37S6MKD4",
+      "address": "https://github.com/sindresorhus/awesome-nodejs",
+      "title": "GitHub - sindresorhus/awesome-nodejs: :zap: Delightful Node.js packages and resources",
       "grade": 0
     }
   ]

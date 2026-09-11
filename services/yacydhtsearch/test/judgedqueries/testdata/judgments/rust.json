@@ -8,22 +8,34 @@
       "grade": 2
     },
     {
-      "hash": "Q2tdhvDOAHJg",
-      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
-      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
-      "grade": 1
-    },
-    {
       "hash": "QLueEgsjOPf5",
       "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/cranelift-rebase",
       "title": "refs/heads/cranelift-rebase - third_party/github.com/rust-lang/rust - Git at Google",
       "grade": 1
     },
     {
-      "hash": "KT8bUtV9oHh4",
-      "address": "https://rust.utils.com/",
-      "title": "Rust Shell - utils.com",
+      "hash": "EJQL5vDOAHJg",
+      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html?wt_mc=rss.red.ho.beitrag.atom.beitrag.beitrag",
+      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
       "grade": 1
+    },
+    {
+      "hash": "Q2tdhvDOAHJg",
+      "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
+      "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
+      "grade": 1
+    },
+    {
+      "hash": "t4m26nRiTAZ5",
+      "address": "https://securelist.com/convuster-macos-adware-in-rust/101258/",
+      "title": "Convuster: macOS adware now in Rust | Securelist",
+      "grade": 1
+    },
+    {
+      "hash": "YrvsM44iqb7o",
+      "address": "https://scholarbank.nus.edu.sg/handle/10635/157533",
+      "title": "Rust and Recovery in South Indian Goddess Films",
+      "grade": 0
     },
     {
       "hash": "YyXMZYaFOBeg",
@@ -32,9 +44,9 @@
       "grade": 0
     },
     {
-      "hash": "YrvsM44iqb7o",
-      "address": "https://scholarbank.nus.edu.sg/handle/10635/157533",
-      "title": "Rust and Recovery in South Indian Goddess Films",
+      "hash": "b8-Uyp6LpDbE",
+      "address": "http://www.alice.cnptia.embrapa.br/alice/handle/doc/1103181",
+      "title": "Relationship between biochemical and photosynthetic traits with Asian soybean rust.",
       "grade": 0
     },
     {
@@ -44,51 +56,39 @@
       "grade": 0
     },
     {
-      "hash": "h56pKuoXncf5",
-      "address": "https://android.googlesource.com/kernel/common/+/1e46082d50526018849300b6c704e475af9271ca/drivers/android/binder/rust_binder.h",
-      "title": "drivers/android/binder/rust_binder.h - kernel/common - Git at Google",
-      "grade": 1
-    },
-    {
       "hash": "uZZMYjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Outline_of_the_Rust_programming_language",
       "title": "Outline of the Rust programming language - Wikipedia",
       "grade": 2
     },
     {
-      "hash": "_mM5PdLtsUGy",
-      "address": "https://rustfoundation.org/media/rust-foundation-new-member-announcement-trace-machina-veecle/",
-      "title": "Rust Foundation New Member Announcement: Trace Machina \u0026 Veecle - The Rust Foundation",
-      "grade": 1
+      "hash": "7-snwDDZNRCx",
+      "address": "https://doc.rust-lang.org/book/",
+      "title": "The Rust Programming Language - The Rust Programming Language",
+      "grade": 2
     },
     {
-      "hash": "4LoyN942YLxg",
-      "address": "https://user.iiasa.ac.at/~marek/fbook/04/fields/2051.html",
-      "title": "CIA - The World Factbook -- Field Listing - Administrative divisions",
+      "hash": "qIqhBUemigYg",
+      "address": "https://www.flixbus.de/busverbindung/fernbus-europa-park-rust-heidelberg",
+      "title": "Bus Rust (Europa-Park) nach Heidelberg - Günstig Tickets buchen",
       "grade": 0
     },
     {
-      "hash": "oZTAP_S6MKD4",
-      "address": "https://github.com/rust-osdev/ieee1275-rs",
-      "title": "GitHub - rust-osdev/ieee1275-rs: Rudimentary ieee1275/OpenFirmware Rust environment similar to uefi-rs. · GitHub",
-      "grade": 1
+      "hash": "LW1BGl64SAv5",
+      "address": "https://thehiveindex.com/features/forum/",
+      "title": "3806 Forum Based communities | Hive Index",
+      "grade": 0
     },
     {
-      "hash": "ZyXsfs-UOu6x",
-      "address": "https://thenewstack.io/rust-in-the-linux-kernel/",
-      "title": "Rust in the Linux Kernel - The New Stack",
-      "grade": 1
+      "hash": "W2WjYYk2MzR5",
+      "address": "https://theintercept.com/2024/06/02/gaza-student-protest-campus-rust-belt/",
+      "title": "Not Coastal Elites: Rust Belt Colleges Protest Israel’s Gaza War",
+      "grade": 0
     },
     {
-      "hash": "XMCiuVZiwg85",
-      "address": "https://www.jetbrains.com/lp/devecosystem-2023/rust/",
-      "title": "Rust Programming - The State of Developer Ecosystem in 2023 Infographic | JetBrains: Developer Tools for Professionals and Teams",
-      "grade": 1
-    },
-    {
-      "hash": "9N2ewUemigYg",
-      "address": "https://www.flixbus.de/busverbindung/fernbus-europa-park-rust-frankfurt-main",
-      "title": "Bus Rust (Europa-Park) nach Frankfurt - Günstig Tickets buchen",
+      "hash": "-TAUrUemigYg",
+      "address": "https://www.flixbus.de/busverbindung/fernbus-hannover-europa-park-rust",
+      "title": "Bus Hannover nach Rust (Europa-Park) - Günstig Tickets buchen",
       "grade": 0
     },
     {
@@ -101,12 +101,6 @@
       "hash": "pE0bEngko1nx",
       "address": "https://users.rust-lang.org/u/nasa42",
       "title": "Profile - nasa42 - The Rust Programming Language Forum",
-      "grade": 1
-    },
-    {
-      "hash": "t4m26nRiTAZ5",
-      "address": "https://securelist.com/convuster-macos-adware-in-rust/101258/",
-      "title": "Convuster: macOS adware now in Rust | Securelist",
       "grade": 1
     }
   ]

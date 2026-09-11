@@ -8,33 +8,27 @@
       "grade": 2
     },
     {
+      "hash": "bE2T7lybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=47\u0026mlon=2\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
       "hash": "AqsQcJDOAHJg",
       "address": "https://www.heise.de/ratgeber/OpenStreetMap-Wie-Sie-Orte-mit-natuerlicher-Sprache-finden-11091390.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
       "title": "OpenStreetMap: Wie Sie Orte mit natürlicher Sprache finden | heise online",
       "grade": 1
     },
     {
-      "hash": "WmYuElybg-vy",
-      "address": "https://www.openstreetmap.org/?mlat=1.3\u0026mlon=103.8\u0026zoom=6",
-      "title": "OpenStreetMap",
+      "hash": "ZECBX7qJpRgC",
+      "address": "http://openstreetmap.by/?lon=116.8\u0026lat=5.5\u0026zoom=11",
+      "title": "OpenStreetMap.by - Беларусь",
       "grade": 1
     },
     {
-      "hash": "yruxllybg-vy",
-      "address": "https://www.openstreetmap.org/?mlat=-20\u0026mlon=47\u0026zoom=6",
-      "title": "OpenStreetMap",
-      "grade": 1
-    },
-    {
-      "hash": "F7qAclybg-vy",
-      "address": "https://www.openstreetmap.org/directions",
-      "title": "OpenStreetMap",
-      "grade": 1
-    },
-    {
-      "hash": "YNjaUlybg-vy",
-      "address": "https://www.openstreetmap.org/directions?to=29.844667,31.250916",
-      "title": "OpenStreetMap",
+      "hash": "C0_Z-Sofqllg",
+      "address": "https://blog.rasc.ch/2026/04/graphhopper.html",
+      "title": "GraphHopper, routing engine for OpenStreetMap data",
       "grade": 1
     },
     {
@@ -44,10 +38,10 @@
       "grade": 2
     },
     {
-      "hash": "-QLkMl-n3pGi",
-      "address": "https://www.openstreetmap.de/foerderer/",
-      "title": "Förderer — OpenStreetMap Deutschland",
-      "grade": 1
+      "hash": "Q92cXlybg-vy",
+      "address": "https://www.openstreetmap.org/communities",
+      "title": "OpenStreetMap",
+      "grade": 2
     },
     {
       "hash": "MEC8btgcGDHy",
@@ -56,34 +50,34 @@
       "grade": 1
     },
     {
+      "hash": "ePCLCl-n3pGi",
+      "address": "https://www.openstreetmap.de/",
+      "title": "Die freie Weltkarte — OpenStreetMap Deutschland",
+      "grade": 2
+    },
+    {
+      "hash": "cjiPJlybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=-27.5\u0026mlon=130\u0026zoom=5",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
       "hash": "D1UyW8ybg-vy",
       "address": "https://www.openstreetmap.org/way/313187245",
       "title": "Way: ‪ТП-3865‬ (‪313187245‬) | OpenStreetMap",
       "grade": 1
     },
     {
-      "hash": "E37V1UwUSuo5",
-      "address": "https://nextcloud.com/blog/webinar/nextcloud-files-vs-sharepoint-onedrive/",
-      "title": "[On-demand webinar] Beyond OneDrive and SharePoint: Comparing Nextcloud Files, the sovereign alternative",
+      "hash": "FW4Ehsxlxh74",
+      "address": "https://domain.glass/2604:b000:c100:749:4ae6:1f9e:43f9:4141",
+      "title": "2604:b000:c100:749:4ae6:1f9e:43f9:4141 IPv6 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
       "grade": 0
     },
     {
-      "hash": "JgWBhXqO2Dlg",
-      "address": "https://media.ccc.de/v/sotm2021-10029-openstreetmap-and-the-neglected-pedestrian",
-      "title": "OpenStreetMap and the neglected pedestrian - media.ccc.de",
+      "hash": "YNjaUlybg-vy",
+      "address": "https://www.openstreetmap.org/directions?to=29.844667,31.250916",
+      "title": "OpenStreetMap",
       "grade": 1
-    },
-    {
-      "hash": "0otqd8KDigKy",
-      "address": "https://wiki.openstreetmap.org/wiki/DE:Tag:sport%3Dathletics",
-      "title": "DE:Tag:sport=athletics - OpenStreetMap Wiki",
-      "grade": 1
-    },
-    {
-      "hash": "7sbfBsxlxh74",
-      "address": "https://domain.glass/5.75.231.55",
-      "title": "5.75.231.55 IPv4 Formats, Reverse DNS, ASN, Location \u0026 TLS · domain.glass",
-      "grade": 0
     },
     {
       "hash": "3FWf8ldA5r_4",
@@ -92,10 +86,16 @@
       "grade": 0
     },
     {
-      "hash": "v1QGQcOYFhaj",
-      "address": "https://www.schleswig-holstein.de/steuerverwaltung/servicemeta/datenschutz",
-      "title": "schleswig-holstein.de - Datenschutz - Steuerverwaltung Schleswig-Holstein",
+      "hash": "2Q34jlHS80Jh",
+      "address": "https://www.mba-studium.de/datenschutzerklaerung/",
+      "title": "Datenschutzerklärung | MBA-Studium.de",
       "grade": 0
+    },
+    {
+      "hash": "WmYuElybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=1.3\u0026mlon=103.8\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 1
     }
   ]
 }

@@ -1,39 +1,21 @@
 {
   "query": "programmazione funzionale",
-  "recordedAt": "2026-09-11T13:02:29Z",
+  "recordedAt": "2026-09-11T19:27:45Z",
   "itemsInTheOrderOfEachAnswer": [
-    [
-      {
-        "hash": "W9B-bFtsxhzg",
-        "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
-        "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
-        "snippet": "",
-        "matchedWords": {
-          "LJfIul09S28e": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "NqMNRJUSyBn1": {
-            "hits": 3,
-            "textWords": 51285
-          }
-        }
-      }
-    ],
     [
       {
         "hash": "ZIJNjOnsHw9g",
         "address": "https://www.treccani.it/enciclopedia/antropologia/",
         "title": "Antropologia - Enciclopedia - Treccani",
-        "snippet": "",
+        "snippet": "funzionale al mantenimento del tutto. Sulla scia del contributo di Malinowski e con l’apporto della sociologia francese di Durkheim, fu A.R. Radcliffe-Brown a dominare la scena teorica britannica tra gli anni 1940 e gli anni 1960. Nello stesso periodo, le ricerche antropologiche in Africa si",
         "matchedWords": {
           "LJfIul09S28e": {
             "hits": 2,
-            "textWords": 6581
+            "textWords": 6478
           },
           "NqMNRJUSyBn1": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 6478
           }
         }
       },
@@ -57,18 +39,66 @@
   ],
   "itemsInNoOrder": [
     {
+      "hash": "NNO_NwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/40712/processo-alfredo-bono",
+      "title": "Processo Alfredo Bono (1.03.1991)",
+      "snippet": "programmazione di Venerdì 11 Settembre 2026 Palinsesto\n06:45 Critica e militanti, a cura di Matteo Marchesini\n06:50 A che punto è la notte?, a cura di Roberto Sommella, direttore di Milano Finanza\n06:55 Rassegna stampa internazionale, a cura di David Carretta\n07:10 Spazio transnazionale, a cura di",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 1,
+          "textWords": 5048
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 1,
+          "textWords": 5048
+        }
+      }
+    },
+    {
       "hash": "ZImYYwUl8GVi",
       "address": "https://www.radioradicale.it/scheda/566126/partito-radicale-la-parola-agli-iscritti",
       "title": "Partito Radicale: la parola agli iscritti (16.02.2019)",
-      "snippet": "",
+      "snippet": "programmazione di Venerdì 11 Settembre 2026 Palinsesto\n06:45 Critica e militanti, a cura di Matteo Marchesini\n06:50 A che punto è la notte?, a cura di Roberto Sommella, direttore di Milano Finanza\n06:55 Rassegna stampa internazionale, a cura di David Carretta\n07:10 Spazio transnazionale, a cura di",
       "matchedWords": {
         "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 8759
         },
         "NqMNRJUSyBn1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 8759
+        }
+      }
+    },
+    {
+      "hash": "lv9LfwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/461302/processo-dappello-per-il-crac-parmalat",
+      "title": "Processo d'appello per il crac Parmalat (14.12.2015)",
+      "snippet": "programmazione di Venerdì 11 Settembre 2026 Palinsesto\n06:45 Critica e militanti, a cura di Matteo Marchesini\n06:50 A che punto è la notte?, a cura di Roberto Sommella, direttore di Milano Finanza\n06:55 Rassegna stampa internazionale, a cura di David Carretta\n07:10 Spazio transnazionale, a cura di",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 1,
+          "textWords": 11878
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 1,
+          "textWords": 11878
+        }
+      }
+    },
+    {
+      "hash": "s0im2v7fOGSg",
+      "address": "https://www.regione.veneto.it/",
+      "title": "Home - Regione del Veneto",
+      "snippet": "funzionale dei mercati rionali.\nBando per il Sistema Fieristico Veneto\nNuovo bando per l'erogazione di contributi a fondo perduto al Sistema Fieristico Veneto\nAutonomia del Veneto Link al portale dedicato - Attuazione art.116, 3° comma, Cost.\nSuperstrada Pedemontana Veneta Link al portale dedicato",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 1,
+          "textWords": 1203
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 6,
+          "textWords": 1203
         }
       }
     },
@@ -89,9 +119,9 @@
       }
     },
     {
-      "hash": "q5NJjgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Trani",
-      "title": "Trani - Wikipedia",
+      "hash": "-3-OagM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Apple",
+      "title": "Apple - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "LJfIul09S28e": {
@@ -105,24 +135,56 @@
       }
     },
     {
+      "hash": "NNO_NwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/40712/processo-alfredo-bono",
+      "title": "Processo Alfredo Bono (1.03.1991)",
+      "snippet": "programmazione di Venerdì 11 Settembre 2026 Palinsesto\n06:45 Critica e militanti, a cura di Matteo Marchesini\n06:50 A che punto è la notte?, a cura di Roberto Sommella, direttore di Milano Finanza\n06:55 Rassegna stampa internazionale, a cura di David Carretta\n07:10 Spazio transnazionale, a cura di",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 1,
+          "textWords": 5048
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 1,
+          "textWords": 5048
+        }
+      }
+    },
+    {
       "hash": "ZImYYwUl8GVi",
       "address": "https://www.radioradicale.it/scheda/566126/partito-radicale-la-parola-agli-iscritti",
       "title": "Partito Radicale: la parola agli iscritti (16.02.2019)",
-      "snippet": "",
+      "snippet": "programmazione di Venerdì 11 Settembre 2026 Palinsesto\n06:45 Critica e militanti, a cura di Matteo Marchesini\n06:50 A che punto è la notte?, a cura di Roberto Sommella, direttore di Milano Finanza\n06:55 Rassegna stampa internazionale, a cura di David Carretta\n07:10 Spazio transnazionale, a cura di",
       "matchedWords": {
         "LJfIul09S28e": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 8759
         },
         "NqMNRJUSyBn1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 8759
+        }
+      }
+    },
+    {
+      "hash": "lv9LfwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/461302/processo-dappello-per-il-crac-parmalat",
+      "title": "Processo d'appello per il crac Parmalat (14.12.2015)",
+      "snippet": "programmazione di Venerdì 11 Settembre 2026 Palinsesto\n06:45 Critica e militanti, a cura di Matteo Marchesini\n06:50 A che punto è la notte?, a cura di Roberto Sommella, direttore di Milano Finanza\n06:55 Rassegna stampa internazionale, a cura di David Carretta\n07:10 Spazio transnazionale, a cura di",
+      "matchedWords": {
+        "LJfIul09S28e": {
+          "hits": 1,
+          "textWords": 11878
+        },
+        "NqMNRJUSyBn1": {
+          "hits": 1,
+          "textWords": 11878
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "LJfIul09S28e": 128,
-    "NqMNRJUSyBn1": 1656
+    "LJfIul09S28e": 183,
+    "NqMNRJUSyBn1": 1625
   }
 }

@@ -1,21 +1,69 @@
 {
   "query": "linux kernel",
-  "recordedAt": "2026-09-11T12:58:53Z",
+  "recordedAt": "2026-09-11T19:22:11Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "N_bW_5DJH5aw",
-        "address": "https://www.wiki.kernel.org/",
-        "title": "Main Page - Demeter of the Kernel.org",
-        "snippet": "",
+        "hash": "hMYfxA24Kkqw",
+        "address": "https://www.ghacks.net/category/linux/",
+        "title": "Linux News: Distributions, Kernel Updates, Open-Source Developments - gHacks",
+        "snippet": "Linux News: Distributions, Kernel Updates, Open-Source Developments - gHacks\nghacks.net\nTech News\nBig Tech\nWindows\nSoftware\nCybersecurity\nAI\nGaming\nBrowsers\nMobile\nLinux\nInternet\nTech News \u003e Linux\nLinux News\nLinux news covers open-source operating systems, kernel updates, distribution releases,",
         "matchedWords": {
           "4galTpdpDM5Q": {
-            "hits": 37,
-            "textWords": 310
+            "hits": 42,
+            "textWords": 594
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 7,
+            "textWords": 594
+          }
+        }
+      },
+      {
+        "hash": "nXiF30WUVeV5",
+        "address": "https://opensource.com/resources/linux",
+        "title": "What is Linux? | Opensource.com",
+        "snippet": "Linux? | Opensource.com\nSkip to main content\nUser account menu\nLog in\nRSS\nMain navigation\nArticles\nResources What is open source? The open source way\nProjects and applications\nOrganizations\nOpen source alternatives Alternatives to Acrobat\nAlternatives to AutoCAD\nAlternatives to Dreamweaver",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 76,
+            "textWords": 1552
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 6,
+            "textWords": 1552
+          }
+        }
+      },
+      {
+        "hash": "dDOGQDOAID44",
+        "address": "https://linuxiac.com/category/linux-knowledge/general/",
+        "title": "Linux General Archives - Linuxiac",
+        "snippet": "Linux General Archives - Linuxiac\nSkip to content\nNo results\nHome\nNews\nOS\nSoftware\nHardware\nWeekly Wrap-Up\nLinux Knowledge\nGeneral\nTutorials\nTips \u0026 Tricks\nLinux Distributions\nHome\nNews\nOS\nSoftware\nHardware\nWeekly Wrap-Up\nLinux Knowledge\nGeneral\nTutorials\nTips \u0026 Tricks\nLinux Distributions\nSearch",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 30,
+            "textWords": 509
           },
           "UEhMGfGv2vOE": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 509
+          }
+        }
+      },
+      {
+        "hash": "OBXywlSCNQa4",
+        "address": "https://www.redhat.com/en/topics/linux/fedora-vs-red-hat-enterprise-linux",
+        "title": "What's the difference between Fedora and Red Hat Enterprise Linux",
+        "snippet": "Linux\nSkip to content AI Overview\nAI news\nTechnical blog\nLive AI events\nInference explained\nSee our approach\nProducts\nRed Hat AI Enterprise\nRed Hat AI Inference\nRed Hat Enterprise Linux AI\nRed Hat OpenShift AI\nExplore Red Hat AI\nEngage \u0026 learn\nLearning hub\nAI topics\nAI partners\nServices for AI",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 108,
+            "textWords": 2429
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 6,
+            "textWords": 2429
           }
         }
       }
@@ -25,15 +73,99 @@
         "hash": "OBXywlSCNQa4",
         "address": "https://www.redhat.com/en/topics/linux/fedora-vs-red-hat-enterprise-linux",
         "title": "What's the difference between Fedora and Red Hat Enterprise Linux",
-        "snippet": "",
+        "snippet": "Linux\nSkip to content AI Overview\nAI news\nTechnical blog\nLive AI events\nInference explained\nSee our approach\nProducts\nRed Hat AI Enterprise\nRed Hat AI Inference\nRed Hat Enterprise Linux AI\nRed Hat OpenShift AI\nExplore Red Hat AI\nEngage \u0026 learn\nLearning hub\nAI topics\nAI partners\nServices for AI",
         "matchedWords": {
           "4galTpdpDM5Q": {
-            "hits": 106,
-            "textWords": 2757
+            "hits": 108,
+            "textWords": 2429
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 6,
+            "textWords": 2429
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "5A3Als-kQ1nw",
+        "address": "https://kernel.org/",
+        "title": "The Linux Kernel Archives",
+        "snippet": "Linux Kernel Archives\nThe Linux Kernel Archives\nAbout\nContact us\nFAQ\nReleases\nSignatures\nSite news\nThe Linux Kernel Archives\nAbout\nContact us\nFAQ\nReleases\nSignatures\nSite news\nProtocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nLatest",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 7,
+            "textWords": 228
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 9,
+            "textWords": 228
+          }
+        }
+      },
+      {
+        "hash": "jmJ6Qs6JlDf5",
+        "address": "https://wallpapers.com/linux",
+        "title": "[200+] Linux Wallpapers | Wallpapers.com",
+        "snippet": "Linux Wallpapers | Wallpapers.com\n✨ Make your own wallpaper with AI Try it free →\nTools\nWallpapers\nBackgrounds\nPictures\nSVG\nPNG\nColoring\nDiscover\nHome\nBrowse all Wallpapers\n4K Wallpapers Aesthetic Wallpapers Nature Wallpapers Art Wallpapers Cute Wallpapers Dark Aesthetic Wallpapers Cartoon",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 117,
+            "textWords": 3934
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 2,
+            "textWords": 3934
+          }
+        }
+      },
+      {
+        "hash": "dDOGQDOAID44",
+        "address": "https://linuxiac.com/category/linux-knowledge/general/",
+        "title": "Linux General Archives - Linuxiac",
+        "snippet": "Linux General Archives - Linuxiac\nSkip to content\nNo results\nHome\nNews\nOS\nSoftware\nHardware\nWeekly Wrap-Up\nLinux Knowledge\nGeneral\nTutorials\nTips \u0026 Tricks\nLinux Distributions\nHome\nNews\nOS\nSoftware\nHardware\nWeekly Wrap-Up\nLinux Knowledge\nGeneral\nTutorials\nTips \u0026 Tricks\nLinux Distributions\nSearch",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 30,
+            "textWords": 509
           },
           "UEhMGfGv2vOE": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 509
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "nXiF30WUVeV5",
+        "address": "https://opensource.com/resources/linux",
+        "title": "What is Linux? | Opensource.com",
+        "snippet": "Linux? | Opensource.com\nSkip to main content\nUser account menu\nLog in\nRSS\nMain navigation\nArticles\nResources What is open source? The open source way\nProjects and applications\nOrganizations\nOpen source alternatives Alternatives to Acrobat\nAlternatives to AutoCAD\nAlternatives to Dreamweaver",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 76,
+            "textWords": 1552
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 6,
+            "textWords": 1552
+          }
+        }
+      },
+      {
+        "hash": "lWsPplGZ4FKw",
+        "address": "https://www.kernel.org/",
+        "title": "The Linux Kernel Archives",
+        "snippet": "Linux Kernel Archives\nThe Linux Kernel Archives\nAbout\nContact us\nFAQ\nReleases\nSignatures\nSite news\nThe Linux Kernel Archives\nAbout\nContact us\nFAQ\nReleases\nSignatures\nSite news\nProtocol\nLocation\nHTTP\nhttps://www.kernel.org/pub/\nGIT\nhttps://git.kernel.org/\nRSYNC\nrsync://rsync.kernel.org/pub/\nLatest",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 7,
+            "textWords": 228
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 9,
+            "textWords": 228
           }
         }
       }
@@ -43,15 +175,15 @@
         "hash": "7zoiPTrhyvQw",
         "address": "https://www.man7.org/linux/man-pages/man8/hwclock.8.html",
         "title": "hwclock(8) - Linux manual page",
-        "snippet": "",
+        "snippet": "Linux manual page\nman7.org \u003e Linux \u003e man-pages\nLinux/UNIX system programming training\nhwclock(8) — Linux manual page\nNAME | SYNOPSIS | DESCRIPTION | FUNCTIONS | OPTIONS | NOTES | DATE-TIME CONFIGURATION | EXIT STATUS | ENVIRONMENT | FILES | SEE ALSO | AUTHORS | REPORTING BUGS | AVAILABILITY",
         "matchedWords": {
           "4galTpdpDM5Q": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 44,
+            "textWords": 6133
           },
           "UEhMGfGv2vOE": {
             "hits": 46,
-            "textWords": 5987
+            "textWords": 6133
           }
         }
       }
@@ -61,22 +193,104 @@
         "hash": "HSA0HjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/User_interface",
         "title": "User interface - Wikipedia",
-        "snippet": "",
+        "snippet": "Kernel\nArchitectures\nExokernel\nHybrid\nMicrokernel\nMonolithic\nMultikernel\nvkernel\nRump kernel\nUnikernel\nComponents\nDevice driver\nLoadable kernel module\nUser space and kernel space\nProcess management\nConcepts\nComputer multitasking (Cooperative, Preemptive)\nContext switch\nInterrupt\nIPC\nProcess\nProcess",
         "matchedWords": {
           "4galTpdpDM5Q": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 6151
           },
           "UEhMGfGv2vOE": {
             "hits": 4,
-            "textWords": 7049
+            "textWords": 6151
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "zm1LfOy8O7iw",
+        "address": "https://kernel.opensuse.org/",
+        "title": "Welcome To The openSUSE Kernel Site - openSUSE Kernel",
+        "snippet": "Kernel Site - openSUSE Kernel\nKernel\nopenSUSE master stable\nupstream linux-next vanilla\nSUSE Linux 16 SL-16.1 SL-16.0 SUSE-2024\nSUSE Linux 16 Addons SL-16.1-NV SL-16.1-GA SUSE-2024-RT\nSLE SLE15-SP7 SLE12-SP5\nSLE Addons SLE15-SP7-RT SLE15-SP6-LTSS SLE15-SP5-RT-LTSS SLE15-SP5-LTSS SLE15-SP4-RT-LTSS",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 3,
+            "textWords": 130
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 6,
+            "textWords": 130
           }
         }
       },
       {
-        "hash": "F5kb_lj4MAVw",
-        "address": "https://man7.org/linux/man-pages/man7/tcp.7.html",
-        "title": "tcp(7) - Linux manual page",
+        "hash": "ed_i7zVlhvo5",
+        "address": "https://sigquit.wordpress.com/tag/kernel/",
+        "title": "kernel | SIGQUIT",
+        "snippet": "kernel – SIGQUIT\nSkip to navigation\nSkip to main content\nSkip to primary sidebar\nSkip to secondary sidebar\nSkip to footer\nSIGQUIT\n… and core dumped\nHome\nBlog Archives\nYour custom kernel in MeeGo\nSep 2\nPosted by aleksander\nIn my last post I covered the steps needed to create custom MeeGo images and",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 8,
+            "textWords": 1506
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 37,
+            "textWords": 1506
+          }
+        }
+      },
+      {
+        "hash": "HJCv1zboYiyg",
+        "address": "https://forums.puri.sm/t/kernel-6-18-available-for-testing/31104",
+        "title": "Kernel 6.18 available for testing - Librem 5 - Purism community",
+        "snippet": "Kernel 6.18 available for testing - Librem 5 - Purism community\nPurism community\nKernel 6.18 available for testing\nHardware\nLibrem 5\nkernel\ndos\nAugust 16, 2026, 4:41am\n1\nA few months ago we have moved from kernel 6.6 to 6.12, which was a great step forward, but it still was quite a few releases",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 7,
+            "textWords": 1688
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 29,
+            "textWords": 1688
+          }
+        }
+      },
+      {
+        "hash": "3EXd2WlXccYg",
+        "address": "https://nfsec.pl/tag/kernel",
+        "title": "NF.sec – Bezpieczeństwo systemu Linux - Posty tagowane \"kernel\"",
+        "snippet": "Linux - Posty tagowane \"kernel\"\nTerminal\nstrona główna\nKategorie\nwedług tematyki\nInformacje\no blogu\nRegulamin\ni polityka strony\nKontakt\nz autorem\nSubskrybuj\nkanał RSS\nAdministracja\nAtaki Internetowe\nBezpieczeństwo\nCmdLineFu\nDebug\nHacks \u0026 Scripts\nHackultura\nMagazyny\nPen Test\nTechblog",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 22,
+            "textWords": 2448
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 15,
+            "textWords": 2448
+          }
+        }
+      },
+      {
+        "hash": "CzKLxslc4Pz6",
+        "address": "https://open-sourceress.com/my-project-at-linux-kernel/",
+        "title": "My Project at Linux Kernel | Open Sourceress",
+        "snippet": "Linux Kernel | Open Sourceress\n28 de junho de 2021 • 4 min de leitura\nMy Project at Linux Kernel\nOutreachy Saga - Part 3 #outreachy #kernel #linux #drm #vkms\nHi all, hope you all are doing fine!\nToday it's part 3 of my Outreachy Saga it’s been 5 weeks of my Outreachy internship, and everything is",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 15,
+            "textWords": 870
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 23,
+            "textWords": 870
+          }
+        }
+      },
+      {
+        "hash": "mT7GWsTHJ6c4",
+        "address": "https://hackread.com/linux-kernel-vulnerability-copy-fail-full-root-access/",
+        "title": "9-Year-Old Linux Kernel Vulnerability “Copy Fail” Enables Full Root Access",
         "snippet": "",
         "matchedWords": {
           "4galTpdpDM5Q": {
@@ -84,8 +298,56 @@
             "textWords": 0
           },
           "UEhMGfGv2vOE": {
-            "hits": 118,
-            "textWords": 7084
+            "hits": 7,
+            "textWords": 1806
+          }
+        }
+      },
+      {
+        "hash": "LL1PKsOAID44",
+        "address": "https://linuxiac.com/mageia-10-revives-the-mandrake-spirit-with-plasma-6-and-kernel-6-18/",
+        "title": "Mageia 10 Revives the Mandrake Spirit with Plasma 6 and Kernel 6.18 LTS",
+        "snippet": "Kernel 6.18 LTS\nSkip to content\nNo results\nHome\nNews\nOS\nSoftware\nHardware\nWeekly Wrap-Up\nLinux Knowledge\nGeneral\nTutorials\nTips \u0026 Tricks\nLinux Distributions\nHome\nNews\nOS\nSoftware\nHardware\nWeekly Wrap-Up\nLinux Knowledge\nGeneral\nTutorials\nTips \u0026 Tricks\nLinux Distributions\nSearch\nMenu\nHome\nLinux \u0026",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 16,
+            "textWords": 856
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 6,
+            "textWords": 856
+          }
+        }
+      },
+      {
+        "hash": "EW5wxOE6Hic4",
+        "address": "https://webflow.sysdig.com/blog/cve-2026-31431-copy-fail-linux-kernel-flaw-lets-local-users-gain-root-in-seconds",
+        "title": "CVE-2026-31431: “Copy Fail” Linux kernel flaw lets local users gain root in seconds | Sysdig",
+        "snippet": "Linux kernel flaw lets local users gain root in seconds | Sysdig\nINTRODUCING SYSDIG SECURE AI\nPlatform\nBack\nPlatform\nSysdig Secure\nUnify prevention, detection, and response across containers and Kubernetes, identities, workloads, and cloud services.\nEcosystem\nIntegrations\nSysdig Monitor\nAI FOR",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 7,
+            "textWords": 1787
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 16,
+            "textWords": 1787
+          }
+        }
+      },
+      {
+        "hash": "lzMhkqNKpOCw",
+        "address": "https://linux.slashdot.org/story/26/05/18/0238214/linus-torvalds-ai-detected-bug-reports-make-kernel-security-list-almost-entirely-unmanageable",
+        "title": "Linus Torvalds: AI-Detected Bug Reports Make Kernel Security List 'Almost Entirely Unmanageable' - Slashdot",
+        "snippet": "Kernel Security List 'Almost Entirely Unmanageable' - Slashdot\nSlashdot\nStories\nFirehose\nAll\nPopular\nPolls\nSoftware\nThought Leadership\nSubmit\nSearch Slashdot\nLogin\nor\nSign up\nTopics:\nDevices\nBuild\nEntertainment\nTechnology\nOpen Source\nScience\nYRO\nFollow us:\nRSS\nFacebook\nLinkedIn\nTwitter\nYoutube",
+        "matchedWords": {
+          "4galTpdpDM5Q": {
+            "hits": 14,
+            "textWords": 4052
+          },
+          "UEhMGfGv2vOE": {
+            "hits": 14,
+            "textWords": 4052
           }
         }
       }
@@ -95,31 +357,15 @@
         "hash": "N_bW_5DJH5aw",
         "address": "https://www.wiki.kernel.org/",
         "title": "Main Page - Demeter of the Kernel.org",
-        "snippet": "",
+        "snippet": "Kernel.org\nListing of Wikis\nFrom Demeter of the Kernel.org\nrt - RTwiki\next4 - Ext4\nbtrfs - btrfs Wiki\nata - ata Wiki\nieee1394 - IEEE 1394 FireWire Wiki\nsecurity - Linux Security Wiki (obsolete)\ni2c - Linux i2c Wiki\nparisc - Linux PARISC Wiki\nreiser4 - Reiser4 FS Wiki\nperf - Perf Wiki\nhail - Hail",
         "matchedWords": {
           "4galTpdpDM5Q": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 12,
+            "textWords": 266
           },
           "UEhMGfGv2vOE": {
             "hits": 37,
-            "textWords": 310
-          }
-        }
-      },
-      {
-        "hash": "N7_cIm1dafs6",
-        "address": "https://stackoverflow.com/questions/tagged/kernel",
-        "title": "Newest 'kernel' Questions - Stack Overflow",
-        "snippet": "",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 118,
-            "textWords": 4227
+            "textWords": 266
           }
         }
       },
@@ -127,49 +373,15 @@
         "hash": "NNfgL520dH2R",
         "address": "http://buildroot.org/downloads/manual/manual.html",
         "title": "The Buildroot user manual",
-        "snippet": "",
+        "snippet": "kernel modules\n18.22. Infrastructure for asciidoc documents\n18.23. Infrastructure specific to the Linux kernel package\n18.24. Hooks available in the various build steps\n18.25. Gettext integration and interaction with packages\n18.26. Tips and tricks\n18.27. Conclusion\n19. Patching a package\n19.1.",
         "matchedWords": {
           "4galTpdpDM5Q": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 175,
+            "textWords": 58119
           },
           "UEhMGfGv2vOE": {
-            "hits": 146,
-            "textWords": 58418
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "3VHCVsOEIUyr",
-        "address": "https://simerdupolresbatang.id/",
-        "title": "simerdupolresbatangid",
-        "snippet": "",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 1,
-            "textWords": 15502
-          }
-        }
-      },
-      {
-        "hash": "lfLZNsHRh3Y6",
-        "address": "https://texasgirlreads.com/",
-        "title": "texasgirlreadscom",
-        "snippet": "",
-        "matchedWords": {
-          "4galTpdpDM5Q": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "UEhMGfGv2vOE": {
-            "hits": 2,
-            "textWords": 4385
+            "hits": 176,
+            "textWords": 58119
           }
         }
       }
@@ -177,18 +389,50 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "B6RumAK-xyJ4",
-      "address": "https://go.dev/doc/godebug",
-      "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
-      "snippet": "",
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "obj-aarch64-unknown-linux-android\n2025-11-04\n29 G\n113,116\nobjdir-desktop\n2025-11-04\n19 G\n41,010\nobjdir-frontend\n2026-09-09\n6.3 G\n66,930\nobj-aarch64-apple-darwin24.5.0\n2025-06-16\n4 K\n1\nThat's a lot to index! I figured a way around this problem is to move the OBJDIRs out of the source directory and",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 24,
+          "textWords": 66909
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 66909
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "Linux Stans\nListenData\nLogilab\nLow Kian Seong\nLuca Botti\nLucas Cimon\nLudovic Gasc\nLudvig Ericson\nLuke Plant\nMaciej Fijalkowsk\nMade With Mu\nMahmoud Hashemi\nMalthe Borch\nMarc Richter\nMarc-André Lemburg\nMarcos Dione\nMariatta\nMarius Gedminas\nMark Dufour\nMark McLoughlin\nMark McMahon\nMartijn Pieters",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 2,
+          "textWords": 32751
         },
         "UEhMGfGv2vOE": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 32751
+        }
+      }
+    },
+    {
+      "hash": "B6RumAK-xyJ4",
+      "address": "https://go.dev/doc/godebug",
+      "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
+      "snippet": "Linux. For Go 1.25, it defaults to decoratemappings=1, enabling annotations. Using decoratemappings=0 reverts to the pre-Go 1.25 behavior. This setting is fixed at program startup time, and can’t be modified by changing the GODEBUG environment variable after the program starts.\nGo 1.25 added a new",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 6,
+          "textWords": 4117
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 4117
         }
       }
     },
@@ -196,15 +440,15 @@
       "hash": "Bc3dcitD2jQw",
       "address": "https://docs.python.org/3/library/os.html",
       "title": "os — Miscellaneous operating system interfaces — Python 3.14.0 documentation",
-      "snippet": "",
+      "snippet": "Linux extended attributes\nProcess Management\nInterface to the scheduler\nMiscellaneous System Information\nRandom numbers\nPrevious topic\nGeneric Operating System Services\nNext topic\nio — Core tools for working with streams\nThis page\nReport a bug\nImprove this page\nShow source\nNavigation\nindex\nmodules",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 76,
+          "textWords": 27782
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 15,
+          "textWords": 27782
         }
       }
     },
@@ -212,15 +456,15 @@
       "hash": "B6RumAK-xyJ4",
       "address": "https://go.dev/doc/godebug",
       "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
-      "snippet": "",
+      "snippet": "Linux. For Go 1.25, it defaults to decoratemappings=1, enabling annotations. Using decoratemappings=0 reverts to the pre-Go 1.25 behavior. This setting is fixed at program startup time, and can’t be modified by changing the GODEBUG environment variable after the program starts.\nGo 1.25 added a new",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 4117
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 4117
         }
       }
     },
@@ -228,15 +472,15 @@
       "hash": "H6Zz4sS6MKD4",
       "address": "https://github.com/trending",
       "title": "Trending repositories on GitHub today · GitHub",
-      "snippet": "",
+      "snippet": "Linux Kernel Module Liquid Liquidsoap Literate Agda Literate CoffeeScript Literate Haskell LiveCode Script LiveScript LLVM Lobster Logos Logtalk LOLCODE LookML LoomScript LSL LTspice Symbol Lua Luau M M3U M4 M4Sugar Macaulay2 Makefile Mako Markdown Marko Mask Wolfram Language Mathematical",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2121
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2121
         }
       }
     },
@@ -244,47 +488,127 @@
       "hash": "Bc3dcitD2jQw",
       "address": "https://docs.python.org/3/library/os.html",
       "title": "os — Miscellaneous operating system interfaces — Python 3.14.6 documentation",
-      "snippet": "",
+      "snippet": "Linux extended attributes\nProcess Management\nInterface to the scheduler\nMiscellaneous System Information\nRandom numbers\nPrevious topic\nGeneric Operating System Services\nNext topic\nio — Core tools for working with streams\nThis page\nReport a bug\nImprove this page\nShow source\nNavigation\nindex\nmodules",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 76,
+          "textWords": 27782
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 15,
+          "textWords": 27782
         }
       }
     },
     {
-      "hash": "H6Zz4sS6MKD4",
-      "address": "https://github.com/trending",
-      "title": "Trending repositories on GitHub today · GitHub",
-      "snippet": "",
+      "hash": "TaKWHsABp4xg",
+      "address": "https://err.no/personal/blog/",
+      "title": "Blogs",
+      "snippet": "Linux and it all works quite well.\nThe signing is done with an EV code signing cert from SSL.com and stored on a Yubikey. Getting the certificate onto the key is a bit tedious, but reasonably well-explained in the ssl.com docs.\nMicrosoft wants the shim binaries uploaded to their partner portal",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 2964
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 2964
         }
       }
     },
     {
-      "hash": "EIkpSjbCa2Ow",
-      "address": "https://man.freebsd.org/cgi/man.cgi",
-      "title": "FreeBSD Manual Pages",
-      "snippet": "",
+      "hash": "SJfZpcBKGmUw",
+      "address": "https://lcamtuf.coredump.cx/afl/",
+      "title": "american fuzzy lop",
+      "snippet": "Linux btrfs 1 2 3 4 6 7 8\nKnot DNS 1\ncurl 1 2 3\nwpa_supplicant 1\nlibde265 [reported by author]\ndnsmasq 1\nlibbpg (1)\nlame 1 2 3 4 5 6\nlibwmf 1\nuudecode 1\nMuPDF 1 2 3 4\nimlib2 1 2 3 4\nlibraw 1\nlibbson 1\nlibsass 1\nyara 1 2 3 4\nW3C tidy-html5 1\nVLC 1 2\nFreeBSD syscons 1 2 3\nJohn the Ripper 1 2\nscreen 1",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 1189
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 3,
+          "textWords": 1189
+        }
+      }
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "obj-aarch64-unknown-linux-android\n2025-11-04\n29 G\n113,116\nobjdir-desktop\n2025-11-04\n19 G\n41,010\nobjdir-frontend\n2026-09-09\n6.3 G\n66,930\nobj-aarch64-apple-darwin24.5.0\n2025-06-16\n4 K\n1\nThat's a lot to index! I figured a way around this problem is to move the OBJDIRs out of the source directory and",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 24,
+          "textWords": 66909
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 66909
+        }
+      }
+    },
+    {
+      "hash": "7evxTdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Freie_Software",
+      "title": "Freie Software – Wikipedia",
+      "snippet": "Kernel vollständig. Einige Leute erkannten, dass Linux, ein damals proprietärer Kernel für Minix, sich für GNU eignen könnte. Nachdem die Entwickler den Linux-Kernel unter die „GNU GPL“ stellten, konnte zum ersten Mal ein vollständig freies Betriebssystem ausgebaut werden. Mit der darauffolgenden",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 13,
+          "textWords": 9379
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 4,
+          "textWords": 9379
+        }
+      }
+    },
+    {
+      "hash": "-VdzLVGZ4FKw",
+      "address": "https://www.kernel.org/doc/man-pages/",
+      "title": "The Linux man-pages project",
+      "snippet": "Linux man-pages project\nLinux man-pages: home || git | readme | contributing | conventions | mailing list | archives | releases | book | online pages\nThe Linux man-pages project\nThe Linux man-pages project documents the Linux kernel and C library interfaces that are employed by user-space programs.",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 6,
+          "textWords": 76
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 76
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "Linux Stans\nListenData\nLogilab\nLow Kian Seong\nLuca Botti\nLucas Cimon\nLudovic Gasc\nLudvig Ericson\nLuke Plant\nMaciej Fijalkowsk\nMade With Mu\nMahmoud Hashemi\nMalthe Borch\nMarc Richter\nMarc-André Lemburg\nMarcos Dione\nMariatta\nMarius Gedminas\nMark Dufour\nMark McLoughlin\nMark McMahon\nMartijn Pieters",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 2,
+          "textWords": 32751
         },
         "UEhMGfGv2vOE": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 32751
+        }
+      }
+    },
+    {
+      "hash": "BF23V5RMLT-5",
+      "address": "https://canonical.com/careers/commercial-operations",
+      "title": "Commercial Operations | Careers",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 36,
+          "textWords": 2443
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 2443
         }
       }
     },
@@ -292,15 +616,15 @@
       "hash": "DKApesRMLT-5",
       "address": "https://canonical.com/careers",
       "title": "Careers | Canonical",
-      "snippet": "",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 36,
+          "textWords": 2313
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 2313
         }
       }
     },
@@ -308,95 +632,95 @@
       "hash": "MaRThsRMLT-5",
       "address": "https://canonical.com/",
       "title": "Trusted open source for enterprises | Canonical",
-      "snippet": "",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 39,
+          "textWords": 3712
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3712
         }
       }
     },
     {
-      "hash": "QRS_dsRMLT-5",
-      "address": "https://canonical.com/data",
-      "title": "Open source data platform solutions | Canonical",
-      "snippet": "",
+      "hash": "TS-p86RMLT-5",
+      "address": "https://canonical.com/data/mongodb",
+      "title": "An enterprise solution for MongoDB from Canonical",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 36,
+          "textWords": 3566
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3566
         }
       }
     },
     {
-      "hash": "Is_TdWRfu9ww",
-      "address": "https://datatracker.ietf.org/doc/html/rfc9293",
-      "title": "RFC 9293 - Transmission Control Protocol (TCP)",
-      "snippet": "",
+      "hash": "dckjqsRMLT-5",
+      "address": "https://canonical.com/observability",
+      "title": "Open source observability for enterprises",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 36,
+          "textWords": 3043
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3043
         }
       }
     },
     {
-      "hash": "BbE7ZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Claude_(AI)",
-      "title": "Claude (AI) - Wikipedia",
-      "snippet": "",
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "Linux operating system kernel and the GNU Compiler Collection (GCC). David A. Wheeler argues that the copyleft provided by the GPL was crucial to the success of Linux-based systems, giving the contributing programmers some assurance that their work would benefit the world and remain free, rather",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 53,
+          "textWords": 17302
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 22,
+          "textWords": 17302
         }
       }
     },
     {
-      "hash": "Xy1HPjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Hang_(computing)",
-      "title": "Hang (computing) - Wikipedia",
-      "snippet": "",
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "kernel and system utilities.[32][33]\nMulti-licensing\n[edit]\nMain article: Multi-licensing\nSome free software packages are also simultaneously available under proprietary terms. Examples include MySQL, Sendmail and ssh. The original copyright holders for a work of free software, even copyleft free",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 6447
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 6447
         }
       }
     },
     {
-      "hash": "eLD0SjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/John_von_Neumann",
-      "title": "John von Neumann - Wikipedia",
-      "snippet": "",
+      "hash": "YFkvAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Denial-of-service_attack",
+      "title": "Denial-of-service attack - Wikipedia",
+      "snippet": "Linux kernel, potentially causing a kernel panic.[104] Jonathan Looney discovered CVE-2019-11477, CVE-2019-11478, CVE-2019-11479 on June 17, 2019.[105]\nShrew attack\n[edit]\nThe shrew attack is a denial-of-service attack on the Transmission Control Protocol where the attacker employs",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 12935
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 12935
         }
       }
     },
@@ -417,162 +741,50 @@
       }
     },
     {
-      "hash": "-el3vjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Constitutional_AI",
-      "title": "Claude (AI) - Wikipedia",
-      "snippet": "",
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "snippet": "kernel updates, requiring me to keep retyping 7 version pairs, finally motivated me to make it more generic. Just imagine typing the equivalent of, twice a day:\nbump-kernels 7.0.{12,13} 6.18.{35,36} 6.12.{93,94} 6.6.{142,143} 6.1.{175,176} 5.15.{209,210} 5.10.{258,259}\nGeneric increments in pkgbump",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 26,
+          "textWords": 27710
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 52,
+          "textWords": 27710
         }
       }
     },
     {
-      "hash": "MFVfNtS6MKD4",
-      "address": "https://github.com/trending/vcl?since=daily",
-      "title": "Trending VCL repositories on GitHub today · GitHub",
-      "snippet": "",
+      "hash": "Je81eLVlhvo5",
+      "address": "https://sigquit.wordpress.com/",
+      "title": "SIGQUIT | … and core dumped",
+      "snippet": "gnu/linux, ModemManager, NetworkManager, wwan\nQMI and MBIM in Python, Javascript…\nJun 3\nPosted by aleksander\nThis is what introspection looks like\nThe libqmi and libmbim libraries are every day getting more popular to control your QMI or MBIM based devices. One of the things I’ve noticed, though,",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 2515
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 2515
         }
       }
     },
     {
-      "hash": "M0Gx6tS6MKD4",
-      "address": "https://github.com/trending/texinfo?since=daily",
-      "title": "Trending Texinfo repositories on GitHub today · GitHub",
-      "snippet": "",
+      "hash": "EI3SjsYlAY74",
+      "address": "https://ubuntu.com/",
+      "title": "Enterprise Open Source and Linux | Ubuntu",
+      "snippet": "Linux | Ubuntu\nYour submission was sent successfully! Close\nThank you for contacting us. A member of our team will be in touch shortly. Close\nYou have successfully unsubscribed! Close\nThank you for signing up for our newsletter!\nIn these regular emails you will find the latest updates about Ubuntu",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 1952
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "M4GchtS6MKD4",
-      "address": "https://github.com/trending/vhdl?since=daily",
-      "title": "Trending VHDL repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "NZrn_tS6MKD4",
-      "address": "https://github.com/trending/ti-program?since=daily",
-      "title": "Trending TI Program repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "NsthRtS6MKD4",
-      "address": "https://github.com/trending/hlsl?since=daily",
-      "title": "Trending HLSL repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ON7-OsS6MKD4",
-      "address": "https://github.com/trending?spoken_language_code=hy",
-      "title": "Trending repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Opr4ltS6MKD4",
-      "address": "https://github.com/trending/e?since=daily",
-      "title": "Trending E repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "2TKprtS6MKD4",
-      "address": "https://github.com/trending/mirc-script?since=daily",
-      "title": "Trending mIRC Script repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "7cxFetS6MKD4",
-      "address": "https://github.com/trending/sed?since=daily",
-      "title": "Trending sed repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 1952
         }
       }
     },
@@ -580,15 +792,31 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "",
+      "snippet": "Linux Weekly News article by Jake Edge entitled Bootstrappable builds: how and why, which serves as an excellent introduction to the concept:\nThe basic idea behind bootstrappable builds is to create a system that can be built without relying on pre-built artifacts. “Can we go from zero to the",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 58,
+          "textWords": 63106
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 22,
+          "textWords": 63106
+        }
+      }
+    },
+    {
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
+      "snippet": "Slashdot: News for nerds, stuff that matters, \u0026 software\nSlashdot\nStories\nFirehose\nAll\nPopular\nPolls\nSoftware\nThought Leadership\nSubmit\nSearch Slashdot\nLogin\nor\nSign up\nTopics:\nDevices\nBuild\nEntertainment\nTechnology\nOpen Source\nScience\nYRO\nFollow us:\nRSS\nFacebook\nLinkedIn\nTwitter\nYoutube\nMastodon",
       "matchedWords": {
         "4galTpdpDM5Q": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 5028
         },
         "UEhMGfGv2vOE": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 5028
         }
       }
     },
@@ -596,95 +824,79 @@
       "hash": "EIkpSjbCa2Ow",
       "address": "https://man.freebsd.org/cgi/man.cgi",
       "title": "FreeBSD Manual Pages",
-      "snippet": "",
+      "snippet": "Kernel Interface\nn - New Commands\nFreeBSD 16.0-CURRENT\nFreeBSD 15.1-RELEASE\nFreeBSD 15.1-RELEASE and Ports\nFreeBSD 15.1-RELEASE and Ports.quarterly\nFreeBSD 15.1-STABLE\nFreeBSD 15.0-RELEASE\nFreeBSD 15.0-RELEASE and Ports\nFreeBSD 14.5-RELEASE\nFreeBSD 14.5-RELEASE and Ports\nFreeBSD 14.5-STABLE\nFreeBSD",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1319
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1319
         }
       }
     },
     {
-      "hash": "EDZIWvmJ800w",
-      "address": "https://www.gentoo.org/news/2026/05/19/copy-fail-fragnesia-vulnerabilities.html",
-      "title": "Copy Fail, Dirty Frag, and Fragnesia kernel vulnerabilities – Gentoo Linux",
-      "snippet": "",
+      "hash": "F5kb_lj4MAVw",
+      "address": "https://man7.org/linux/man-pages/man7/tcp.7.html",
+      "title": "tcp(7) - Linux manual page",
+      "snippet": "Linux manual page\nman7.org \u003e Linux \u003e man-pages\nLinux/UNIX system programming training\ntcp(7) — Linux manual page\nNAME | SYNOPSIS | DESCRIPTION | ERRORS | VERSIONS | BUGS | SEE ALSO | COLOPHON\ntcp(7) Miscellaneous Information Manual tcp(7)\nNAME top\ntcp - TCP protocol\nSYNOPSIS top\n#include",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 121,
+          "textWords": 7073
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 21,
+          "textWords": 7073
         }
       }
     },
     {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
-      "snippet": "",
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
+      "snippet": "Linux\nArch Linux\nHome\nPackages\nForums\nWiki\nGitLab\nSecurity\nAUR\nDownload\nA simple, lightweight distribution\nYou've reached the website for Arch Linux, a lightweight and flexible Linux® distribution that tries to Keep It Simple.\nCurrently we have official packages optimized for the x86-64",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 10,
+          "textWords": 934
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 934
         }
       }
     },
     {
-      "hash": "aRUDlswvoTD5",
-      "address": "https://r-universe.dev/organizations",
-      "title": "R-universe - community",
-      "snippet": "",
+      "hash": "TaKWHsABp4xg",
+      "address": "https://err.no/personal/blog/",
+      "title": "Blogs",
+      "snippet": "Linux and it all works quite well.\nThe signing is done with an EV code signing cert from SSL.com and stored on a Yubikey. Getting the certificate onto the key is a bit tedious, but reasonably well-explained in the ssl.com docs.\nMicrosoft wants the shim binaries uploaded to their partner portal",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 2964
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 2964
         }
       }
     },
     {
-      "hash": "SzUDgSxWH45x",
-      "address": "https://vice-emu.sourceforge.io/index.html",
-      "title": "VICE - the Versatile Commodore Emulator",
-      "snippet": "",
+      "hash": "SJfZpcBKGmUw",
+      "address": "https://lcamtuf.coredump.cx/afl/",
+      "title": "american fuzzy lop",
+      "snippet": "Linux btrfs 1 2 3 4 6 7 8\nKnot DNS 1\ncurl 1 2 3\nwpa_supplicant 1\nlibde265 [reported by author]\ndnsmasq 1\nlibbpg (1)\nlame 1 2 3 4 5 6\nlibwmf 1\nuudecode 1\nMuPDF 1 2 3 4\nimlib2 1 2 3 4\nlibraw 1\nlibbson 1\nlibsass 1\nyara 1 2 3 4\nW3C tidy-html5 1\nVLC 1 2\nFreeBSD syscons 1 2 3\nJohn the Ripper 1 2\nscreen 1",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 1189
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "fjsuLOxyFvIw",
-      "address": "https://forums.gentoo.org/index.php",
-      "title": "Gentoo Forums - Index page",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1189
         }
       }
     },
@@ -692,15 +904,31 @@
       "hash": "QRS_dsRMLT-5",
       "address": "https://canonical.com/data",
       "title": "Open source data platform solutions | Canonical",
-      "snippet": "",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 37,
+          "textWords": 3449
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3449
+        }
+      }
+    },
+    {
+      "hash": "TS-p86RMLT-5",
+      "address": "https://canonical.com/data/mongodb",
+      "title": "An enterprise solution for MongoDB from Canonical",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 36,
+          "textWords": 3566
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 3566
         }
       }
     },
@@ -708,31 +936,15 @@
       "hash": "MFVfNtS6MKD4",
       "address": "https://github.com/trending/vcl?since=daily",
       "title": "Trending VCL repositories on GitHub today · GitHub",
-      "snippet": "",
+      "snippet": "Linux Kernel Module Liquid Liquidsoap Literate Agda Literate CoffeeScript Literate Haskell LiveCode Script LiveScript LLVM Lobster Logos Logtalk LOLCODE LookML LoomScript LSL LTspice Symbol Lua Luau M M3U M4 M4Sugar Macaulay2 Makefile Mako Markdown Marko Mask Wolfram Language Mathematical",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1678
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "M0Gx6tS6MKD4",
-      "address": "https://github.com/trending/texinfo?since=daily",
-      "title": "Trending Texinfo repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1678
         }
       }
     },
@@ -740,15 +952,15 @@
       "hash": "M4GchtS6MKD4",
       "address": "https://github.com/trending/vhdl?since=daily",
       "title": "Trending VHDL repositories on GitHub today · GitHub",
-      "snippet": "",
+      "snippet": "Linux Kernel Module Liquid Liquidsoap Literate Agda Literate CoffeeScript Literate Haskell LiveCode Script LiveScript LLVM Lobster Logos Logtalk LOLCODE LookML LoomScript LSL LTspice Symbol Lua Luau M M3U M4 M4Sugar Macaulay2 Makefile Mako Markdown Marko Mask Wolfram Language Mathematical",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1698
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1698
         }
       }
     },
@@ -756,15 +968,15 @@
       "hash": "NZrn_tS6MKD4",
       "address": "https://github.com/trending/ti-program?since=daily",
       "title": "Trending TI Program repositories on GitHub today · GitHub",
-      "snippet": "",
+      "snippet": "Linux Kernel Module Liquid Liquidsoap Literate Agda Literate CoffeeScript Literate Haskell LiveCode Script LiveScript LLVM Lobster Logos Logtalk LOLCODE LookML LoomScript LSL LTspice Symbol Lua Luau M M3U M4 M4Sugar Macaulay2 Makefile Mako Markdown Marko Mask Wolfram Language Mathematical",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1681
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1681
         }
       }
     },
@@ -817,6 +1029,22 @@
       }
     },
     {
+      "hash": "R812vtS6MKD4",
+      "address": "https://github.com/trending/asl?since=daily",
+      "title": "Trending ASL repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "aRUDlswvoTD5",
       "address": "https://r-universe.dev/organizations",
       "title": "R-universe - community",
@@ -865,9 +1093,89 @@
       }
     },
     {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "obj-aarch64-unknown-linux-android\n2025-11-04\n29 G\n113,116\nobjdir-desktop\n2025-11-04\n19 G\n41,010\nobjdir-frontend\n2026-09-09\n6.3 G\n66,930\nobj-aarch64-apple-darwin24.5.0\n2025-06-16\n4 K\n1\nThat's a lot to index! I figured a way around this problem is to move the OBJDIRs out of the source directory and",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 24,
+          "textWords": 66909
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 66909
+        }
+      }
+    },
+    {
       "hash": "MaRThsRMLT-5",
       "address": "https://canonical.com/",
       "title": "Trusted open source for enterprises | Canonical",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 39,
+          "textWords": 3712
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 3712
+        }
+      }
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "kernel and system utilities.[32][33]\nMulti-licensing\n[edit]\nMain article: Multi-licensing\nSome free software packages are also simultaneously available under proprietary terms. Examples include MySQL, Sendmail and ssh. The original copyright holders for a work of free software, even copyleft free",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 5,
+          "textWords": 6447
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 6447
+        }
+      }
+    },
+    {
+      "hash": "USNkAsS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=nl",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "UeSNytS6MKD4",
+      "address": "https://github.com/trending/lookml?since=daily",
+      "title": "Trending LookML repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "X-IwktS6MKD4",
+      "address": "https://github.com/trending/textmate-properties?since=daily",
+      "title": "Trending TextMate Properties repositories on GitHub today · GitHub",
       "snippet": "",
       "matchedWords": {
         "4galTpdpDM5Q": {
@@ -932,15 +1240,15 @@
       "hash": "-VdzLVGZ4FKw",
       "address": "https://www.kernel.org/doc/man-pages/",
       "title": "The Linux man-pages project",
-      "snippet": "",
+      "snippet": "Linux man-pages project\nLinux man-pages: home || git | readme | contributing | conventions | mailing list | archives | releases | book | online pages\nThe Linux man-pages project\nThe Linux man-pages project documents the Linux kernel and C library interfaces that are employed by user-space programs.",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 76
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 76
         }
       }
     },
@@ -948,15 +1256,15 @@
       "hash": "DKApesRMLT-5",
       "address": "https://canonical.com/careers",
       "title": "Careers | Canonical",
-      "snippet": "",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 36,
+          "textWords": 2313
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 2313
         }
       }
     },
@@ -964,15 +1272,15 @@
       "hash": "MaRThsRMLT-5",
       "address": "https://canonical.com/",
       "title": "Trusted open source for enterprises | Canonical",
-      "snippet": "",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 39,
+          "textWords": 3712
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3712
         }
       }
     },
@@ -980,15 +1288,31 @@
       "hash": "QRS_dsRMLT-5",
       "address": "https://canonical.com/data",
       "title": "Open source data platform solutions | Canonical",
-      "snippet": "",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 37,
+          "textWords": 3449
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3449
+        }
+      }
+    },
+    {
+      "hash": "dckjqsRMLT-5",
+      "address": "https://canonical.com/observability",
+      "title": "Observability | Canonical",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 36,
+          "textWords": 3043
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 3043
         }
       }
     },
@@ -1009,18 +1333,34 @@
       }
     },
     {
-      "hash": "BbE7ZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Claude_(AI)",
-      "title": "Claude (AI) - Wikipedia",
-      "snippet": "",
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "Linux operating system kernel and the GNU Compiler Collection (GCC). David A. Wheeler argues that the copyleft provided by the GPL was crucial to the success of Linux-based systems, giving the contributing programmers some assurance that their work would benefit the world and remain free, rather",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 53,
+          "textWords": 17302
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 22,
+          "textWords": 17302
+        }
+      }
+    },
+    {
+      "hash": "YFkvAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Denial-of-service_attack",
+      "title": "Denial-of-service attack - Wikipedia",
+      "snippet": "Linux kernel, potentially causing a kernel panic.[104] Jonathan Looney discovered CVE-2019-11477, CVE-2019-11478, CVE-2019-11479 on June 17, 2019.[105]\nShrew attack\n[edit]\nThe shrew attack is a denial-of-service attack on the Transmission Control Protocol where the attacker employs",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 12935
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 12935
         }
       }
     },
@@ -1057,9 +1397,9 @@
       }
     },
     {
-      "hash": "7MMLutS6MKD4",
-      "address": "https://github.com/trending/brightscript?since=daily",
-      "title": "Trending Brightscript repositories on GitHub today · GitHub",
+      "hash": "USNkAsS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=nl",
+      "title": "Trending repositories on GitHub today · GitHub",
       "snippet": "",
       "matchedWords": {
         "4galTpdpDM5Q": {
@@ -1073,9 +1413,25 @@
       }
     },
     {
-      "hash": "7cxFetS6MKD4",
-      "address": "https://github.com/trending/sed?since=daily",
-      "title": "Trending sed repositories on GitHub today · GitHub",
+      "hash": "UeSNytS6MKD4",
+      "address": "https://github.com/trending/lookml?since=daily",
+      "title": "Trending LookML repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "X-IwktS6MKD4",
+      "address": "https://github.com/trending/textmate-properties?since=daily",
+      "title": "Trending TextMate Properties repositories on GitHub today · GitHub",
       "snippet": "",
       "matchedWords": {
         "4galTpdpDM5Q": {
@@ -1105,18 +1461,82 @@
       }
     },
     {
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "snippet": "kernel updates, requiring me to keep retyping 7 version pairs, finally motivated me to make it more generic. Just imagine typing the equivalent of, twice a day:\nbump-kernels 7.0.{12,13} 6.18.{35,36} 6.12.{93,94} 6.6.{142,143} 6.1.{175,176} 5.15.{209,210} 5.10.{258,259}\nGeneric increments in pkgbump",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 26,
+          "textWords": 27710
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 52,
+          "textWords": 27710
+        }
+      }
+    },
+    {
+      "hash": "Je81eLVlhvo5",
+      "address": "https://sigquit.wordpress.com/",
+      "title": "SIGQUIT | … and core dumped",
+      "snippet": "gnu/linux, ModemManager, NetworkManager, wwan\nQMI and MBIM in Python, Javascript…\nJun 3\nPosted by aleksander\nThis is what introspection looks like\nThe libqmi and libmbim libraries are every day getting more popular to control your QMI or MBIM based devices. One of the things I’ve noticed, though,",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 5,
+          "textWords": 2515
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 2515
+        }
+      }
+    },
+    {
+      "hash": "EI3SjsYlAY74",
+      "address": "https://ubuntu.com/",
+      "title": "Enterprise Open Source and Linux | Ubuntu",
+      "snippet": "Linux | Ubuntu\nYour submission was sent successfully! Close\nThank you for contacting us. A member of our team will be in touch shortly. Close\nYou have successfully unsubscribed! Close\nThank you for signing up for our newsletter!\nIn these regular emails you will find the latest updates about Ubuntu",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 9,
+          "textWords": 1952
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 4,
+          "textWords": 1952
+        }
+      }
+    },
+    {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "",
+      "snippet": "Linux Weekly News article by Jake Edge entitled Bootstrappable builds: how and why, which serves as an excellent introduction to the concept:\nThe basic idea behind bootstrappable builds is to create a system that can be built without relying on pre-built artifacts. “Can we go from zero to the",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 58,
+          "textWords": 63106
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 22,
+          "textWords": 63106
+        }
+      }
+    },
+    {
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters",
+      "snippet": "Slashdot: News for nerds, stuff that matters, \u0026 software\nSlashdot\nStories\nFirehose\nAll\nPopular\nPolls\nSoftware\nThought Leadership\nSubmit\nSearch Slashdot\nLogin\nor\nSign up\nTopics:\nDevices\nBuild\nEntertainment\nTechnology\nOpen Source\nScience\nYRO\nFollow us:\nRSS\nFacebook\nLinkedIn\nTwitter\nYoutube\nMastodon",
       "matchedWords": {
         "4galTpdpDM5Q": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 5028
         },
         "UEhMGfGv2vOE": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 5028
         }
       }
     },
@@ -1124,15 +1544,31 @@
       "hash": "EIkpSjbCa2Ow",
       "address": "https://man.freebsd.org/cgi/man.cgi",
       "title": "FreeBSD Manual Pages",
-      "snippet": "",
+      "snippet": "Kernel Interface\nn - New Commands\nFreeBSD 16.0-CURRENT\nFreeBSD 15.1-RELEASE\nFreeBSD 15.1-RELEASE and Ports\nFreeBSD 15.1-RELEASE and Ports.quarterly\nFreeBSD 15.1-STABLE\nFreeBSD 15.0-RELEASE\nFreeBSD 15.0-RELEASE and Ports\nFreeBSD 14.5-RELEASE\nFreeBSD 14.5-RELEASE and Ports\nFreeBSD 14.5-STABLE\nFreeBSD",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1319
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1319
+        }
+      }
+    },
+    {
+      "hash": "F5kb_lj4MAVw",
+      "address": "https://man7.org/linux/man-pages/man7/tcp.7.html",
+      "title": "tcp(7) - Linux manual page",
+      "snippet": "Linux manual page\nman7.org \u003e Linux \u003e man-pages\nLinux/UNIX system programming training\ntcp(7) — Linux manual page\nNAME | SYNOPSIS | DESCRIPTION | ERRORS | VERSIONS | BUGS | SEE ALSO | COLOPHON\ntcp(7) Miscellaneous Information Manual tcp(7)\nNAME top\ntcp - TCP protocol\nSYNOPSIS top\n#include",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 121,
+          "textWords": 7073
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 21,
+          "textWords": 7073
         }
       }
     },
@@ -1201,18 +1637,66 @@
       }
     },
     {
-      "hash": "DKApesRMLT-5",
-      "address": "https://canonical.com/careers",
-      "title": "Careers | Canonical",
-      "snippet": "",
+      "hash": "SJfZpcBKGmUw",
+      "address": "https://lcamtuf.coredump.cx/afl/",
+      "title": "american fuzzy lop",
+      "snippet": "Linux btrfs 1 2 3 4 6 7 8\nKnot DNS 1\ncurl 1 2 3\nwpa_supplicant 1\nlibde265 [reported by author]\ndnsmasq 1\nlibbpg (1)\nlame 1 2 3 4 5 6\nlibwmf 1\nuudecode 1\nMuPDF 1 2 3 4\nimlib2 1 2 3 4\nlibraw 1\nlibbson 1\nlibsass 1\nyara 1 2 3 4\nW3C tidy-html5 1\nVLC 1 2\nFreeBSD syscons 1 2 3\nJohn the Ripper 1 2\nscreen 1",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 1189
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 3,
+          "textWords": 1189
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "Linux Stans\nListenData\nLogilab\nLow Kian Seong\nLuca Botti\nLucas Cimon\nLudovic Gasc\nLudvig Ericson\nLuke Plant\nMaciej Fijalkowsk\nMade With Mu\nMahmoud Hashemi\nMalthe Borch\nMarc Richter\nMarc-André Lemburg\nMarcos Dione\nMariatta\nMarius Gedminas\nMark Dufour\nMark McLoughlin\nMark McMahon\nMartijn Pieters",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 2,
+          "textWords": 32751
         },
         "UEhMGfGv2vOE": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 32751
+        }
+      }
+    },
+    {
+      "hash": "BF23V5RMLT-5",
+      "address": "https://canonical.com/careers/commercial-operations",
+      "title": "Commercial operations | Careers | Canonical",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 36,
+          "textWords": 2443
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 2443
+        }
+      }
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 36,
+          "textWords": 2313
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 2313
         }
       }
     },
@@ -1233,18 +1717,50 @@
       }
     },
     {
+      "hash": "QdW-xjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/GNU_General_Public_License",
+      "title": "GNU General Public License - Wikipedia",
+      "snippet": "Linux operating system kernel and the GNU Compiler Collection (GCC). David A. Wheeler argues that the copyleft provided by the GPL was crucial to the success of Linux-based systems, giving the contributing programmers some assurance that their work would benefit the world and remain free, rather",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 53,
+          "textWords": 17302
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 22,
+          "textWords": 17302
+        }
+      }
+    },
+    {
+      "hash": "Xu0QIjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Proprietary_software",
+      "title": "Proprietary software - Wikipedia",
+      "snippet": "kernel and system utilities.[32][33]\nMulti-licensing\n[edit]\nMain article: Multi-licensing\nSome free software packages are also simultaneously available under proprietary terms. Examples include MySQL, Sendmail and ssh. The original copyright holders for a work of free software, even copyleft free",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 5,
+          "textWords": 6447
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 6447
+        }
+      }
+    },
+    {
       "hash": "H6Zz4sS6MKD4",
       "address": "https://github.com/trending",
       "title": "Trending repositories on GitHub today · GitHub",
-      "snippet": "",
+      "snippet": "Linux Kernel Module Liquid Liquidsoap Literate Agda Literate CoffeeScript Literate Haskell LiveCode Script LiveScript LLVM Lobster Logos Logtalk LOLCODE LookML LoomScript LSL LTspice Symbol Lua Luau M M3U M4 M4Sugar Macaulay2 Makefile Mako Markdown Marko Mask Wolfram Language Mathematical",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2121
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2121
         }
       }
     },
@@ -1252,15 +1768,15 @@
       "hash": "MFVfNtS6MKD4",
       "address": "https://github.com/trending/vcl?since=daily",
       "title": "Trending VCL repositories on GitHub today · GitHub",
-      "snippet": "",
+      "snippet": "Linux Kernel Module Liquid Liquidsoap Literate Agda Literate CoffeeScript Literate Haskell LiveCode Script LiveScript LLVM Lobster Logos Logtalk LOLCODE LookML LoomScript LSL LTspice Symbol Lua Luau M M3U M4 M4Sugar Macaulay2 Makefile Mako Markdown Marko Mask Wolfram Language Mathematical",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1678
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1678
         }
       }
     },
@@ -1268,15 +1784,15 @@
       "hash": "M4GchtS6MKD4",
       "address": "https://github.com/trending/vhdl?since=daily",
       "title": "Trending VHDL repositories on GitHub today · GitHub",
-      "snippet": "",
+      "snippet": "Linux Kernel Module Liquid Liquidsoap Literate Agda Literate CoffeeScript Literate Haskell LiveCode Script LiveScript LLVM Lobster Logos Logtalk LOLCODE LookML LoomScript LSL LTspice Symbol Lua Luau M M3U M4 M4Sugar Macaulay2 Makefile Mako Markdown Marko Mask Wolfram Language Mathematical",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1698
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1698
         }
       }
     },
@@ -1329,9 +1845,9 @@
       }
     },
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
+      "hash": "R812vtS6MKD4",
+      "address": "https://github.com/trending/asl?since=daily",
+      "title": "Trending ASL repositories on GitHub today · GitHub",
       "snippet": "",
       "matchedWords": {
         "4galTpdpDM5Q": {
@@ -1341,6 +1857,22 @@
         "UEhMGfGv2vOE": {
           "hits": 0,
           "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "Linux Weekly News article by Jake Edge entitled Bootstrappable builds: how and why, which serves as an excellent introduction to the concept:\nThe basic idea behind bootstrappable builds is to create a system that can be built without relying on pre-built artifacts. “Can we go from zero to the",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 58,
+          "textWords": 63106
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 22,
+          "textWords": 63106
         }
       }
     },
@@ -1377,6 +1909,22 @@
       }
     },
     {
+      "hash": "7evxTdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Freie_Software",
+      "title": "Freie Software – Wikipedia",
+      "snippet": "Kernel vollständig. Einige Leute erkannten, dass Linux, ein damals proprietärer Kernel für Minix, sich für GNU eignen könnte. Nachdem die Entwickler den Linux-Kernel unter die „GNU GPL“ stellten, konnte zum ersten Mal ein vollständig freies Betriebssystem ausgebaut werden. Mit der darauffolgenden",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 13,
+          "textWords": 9379
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 4,
+          "textWords": 9379
+        }
+      }
+    },
+    {
       "hash": "-el3vjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Constitutional_AI",
       "title": "Claude (AI) - Wikipedia",
@@ -1393,89 +1941,9 @@
       }
     },
     {
-      "hash": "4Ggj0sR7ciCw",
-      "address": "https://lkml.org/rss.php",
-      "title": "lkml.org",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "0WxbhtS6MKD4",
       "address": "https://github.com/trending/applescript?since=daily",
       "title": "Trending AppleScript repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "7GUvMtS6MKD4",
-      "address": "https://github.com/trending/labview?since=daily",
-      "title": "Trending LabVIEW repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "7MMLutS6MKD4",
-      "address": "https://github.com/trending/brightscript?since=daily",
-      "title": "Trending Brightscript repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "7wvHWtS6MKD4",
-      "address": "https://github.com/trending/dogescript?since=daily",
-      "title": "Trending Dogescript repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "8SBrdtS6MKD4",
-      "address": "https://github.com/trending/linux-kernel-module?since=daily",
-      "title": "Trending Linux Kernel Module repositories on GitHub today · GitHub",
       "snippet": "",
       "matchedWords": {
         "4galTpdpDM5Q": {
@@ -1521,66 +1989,66 @@
       }
     },
     {
-      "hash": "-GPQIsYlAY74",
-      "address": "https://ubuntu.com/what-is-enterprise-linux",
-      "title": "What is enterprise Linux? | Ubuntu",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "06p-fssWTYKx",
-      "address": "https://sourceforge.net/directory/?q=gparted",
-      "title": "gparted free download - SourceForge",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "3xuUlW16jqw6",
-      "address": "https://rossmanngroup.com/services/nas-data-recovery/terramaster",
-      "title": "TerraMaster NAS Data Recovery | Rossmann Group",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "H6Zz4sS6MKD4",
       "address": "https://github.com/trending",
       "title": "Trending repositories on GitHub today · GitHub",
-      "snippet": "",
+      "snippet": "Linux Kernel Module Liquid Liquidsoap Literate Agda Literate CoffeeScript Literate Haskell LiveCode Script LiveScript LLVM Lobster Logos Logtalk LOLCODE LookML LoomScript LSL LTspice Symbol Lua Luau M M3U M4 M4Sugar Macaulay2 Makefile Mako Markdown Marko Mask Wolfram Language Mathematical",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2121
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2121
+        }
+      }
+    },
+    {
+      "hash": "EI3SjsYlAY74",
+      "address": "https://ubuntu.com/",
+      "title": "Enterprise Open Source and Linux | Ubuntu",
+      "snippet": "Linux | Ubuntu\nYour submission was sent successfully! Close\nThank you for contacting us. A member of our team will be in touch shortly. Close\nYou have successfully unsubscribed! Close\nThank you for signing up for our newsletter!\nIn these regular emails you will find the latest updates about Ubuntu",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 9,
+          "textWords": 1952
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 4,
+          "textWords": 1952
+        }
+      }
+    },
+    {
+      "hash": "F5kb_lj4MAVw",
+      "address": "https://man7.org/linux/man-pages/man7/tcp.7.html",
+      "title": "tcp(7) - Linux manual page",
+      "snippet": "Linux manual page\nman7.org \u003e Linux \u003e man-pages\nLinux/UNIX system programming training\ntcp(7) — Linux manual page\nNAME | SYNOPSIS | DESCRIPTION | ERRORS | VERSIONS | BUGS | SEE ALSO | COLOPHON\ntcp(7) Miscellaneous Information Manual tcp(7)\nNAME top\ntcp - TCP protocol\nSYNOPSIS top\n#include",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 121,
+          "textWords": 7073
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 21,
+          "textWords": 7073
+        }
+      }
+    },
+    {
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
+      "snippet": "Linux\nArch Linux\nHome\nPackages\nForums\nWiki\nGitLab\nSecurity\nAUR\nDownload\nA simple, lightweight distribution\nYou've reached the website for Arch Linux, a lightweight and flexible Linux® distribution that tries to Keep It Simple.\nCurrently we have official packages optimized for the x86-64",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 10,
+          "textWords": 934
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 934
         }
       }
     },
@@ -1588,15 +2056,15 @@
       "hash": "B6RumAK-xyJ4",
       "address": "https://go.dev/doc/godebug",
       "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
-      "snippet": "",
+      "snippet": "Linux. For Go 1.25, it defaults to decoratemappings=1, enabling annotations. Using decoratemappings=0 reverts to the pre-Go 1.25 behavior. This setting is fixed at program startup time, and can’t be modified by changing the GODEBUG environment variable after the program starts.\nGo 1.25 added a new",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 4117
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 4117
         }
       }
     },
@@ -1604,31 +2072,15 @@
       "hash": "MaRThsRMLT-5",
       "address": "https://canonical.com/",
       "title": "Canonical | Trusted open source for enterprises",
-      "snippet": "",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 39,
+          "textWords": 3712
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BbE7ZjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Claude_(AI)",
-      "title": "Claude (AI) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3712
         }
       }
     },
@@ -1645,6 +2097,22 @@
         "UEhMGfGv2vOE": {
           "hits": 0,
           "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "YFkvAjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Denial-of-service_attack",
+      "title": "Denial-of-service attack - Wikipedia",
+      "snippet": "Linux kernel, potentially causing a kernel panic.[104] Jonathan Looney discovered CVE-2019-11477, CVE-2019-11478, CVE-2019-11479 on June 17, 2019.[105]\nShrew attack\n[edit]\nThe shrew attack is a denial-of-service attack on the Transmission Control Protocol where the attacker employs",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 12935
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 12935
         }
       }
     },
@@ -1700,31 +2168,15 @@
       "hash": "MFVfNtS6MKD4",
       "address": "https://github.com/trending/vcl?since=daily",
       "title": "Trending VCL repositories on GitHub today · GitHub",
-      "snippet": "",
+      "snippet": "Linux Kernel Module Liquid Liquidsoap Literate Agda Literate CoffeeScript Literate Haskell LiveCode Script LiveScript LLVM Lobster Logos Logtalk LOLCODE LookML LoomScript LSL LTspice Symbol Lua Luau M M3U M4 M4Sugar Macaulay2 Makefile Mako Markdown Marko Mask Wolfram Language Mathematical",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1678
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "M0Gx6tS6MKD4",
-      "address": "https://github.com/trending/texinfo?since=daily",
-      "title": "Trending Texinfo repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1678
         }
       }
     },
@@ -1732,15 +2184,15 @@
       "hash": "M4GchtS6MKD4",
       "address": "https://github.com/trending/vhdl?since=daily",
       "title": "Trending VHDL repositories on GitHub today · GitHub",
-      "snippet": "",
+      "snippet": "Linux Kernel Module Liquid Liquidsoap Literate Agda Literate CoffeeScript Literate Haskell LiveCode Script LiveScript LLVM Lobster Logos Logtalk LOLCODE LookML LoomScript LSL LTspice Symbol Lua Luau M M3U M4 M4Sugar Macaulay2 Makefile Mako Markdown Marko Mask Wolfram Language Mathematical",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1698
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1698
         }
       }
     },
@@ -1748,15 +2200,15 @@
       "hash": "NZrn_tS6MKD4",
       "address": "https://github.com/trending/ti-program?since=daily",
       "title": "Trending TI Program repositories on GitHub today · GitHub",
-      "snippet": "",
+      "snippet": "Linux Kernel Module Liquid Liquidsoap Literate Agda Literate CoffeeScript Literate Haskell LiveCode Script LiveScript LLVM Lobster Logos Logtalk LOLCODE LookML LoomScript LSL LTspice Symbol Lua Luau M M3U M4 M4Sugar Macaulay2 Makefile Mako Markdown Marko Mask Wolfram Language Mathematical",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1681
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1681
         }
       }
     },
@@ -1812,15 +2264,15 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "",
+      "snippet": "Linux Weekly News article by Jake Edge entitled Bootstrappable builds: how and why, which serves as an excellent introduction to the concept:\nThe basic idea behind bootstrappable builds is to create a system that can be built without relying on pre-built artifacts. “Can we go from zero to the",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 58,
+          "textWords": 63106
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 22,
+          "textWords": 63106
         }
       }
     },
@@ -1828,15 +2280,15 @@
       "hash": "Bc3dcitD2jQw",
       "address": "https://docs.python.org/3/library/os.html",
       "title": "os — Miscellaneous operating system interfaces — Python 3.14.7 documentation",
-      "snippet": "",
+      "snippet": "Linux extended attributes\nProcess Management\nInterface to the scheduler\nMiscellaneous System Information\nRandom numbers\nPrevious topic\nGeneric Operating System Services\nNext topic\nio — Core tools for working with streams\nThis page\nReport a bug\nImprove this page\nShow source\nNavigation\nindex\nmodules",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 76,
+          "textWords": 27782
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 15,
+          "textWords": 27782
         }
       }
     },
@@ -1857,18 +2309,50 @@
       }
     },
     {
+      "hash": "TaKWHsABp4xg",
+      "address": "https://err.no/personal/blog/",
+      "title": "Blogs",
+      "snippet": "Linux and it all works quite well.\nThe signing is done with an EV code signing cert from SSL.com and stored on a Yubikey. Getting the certificate onto the key is a bit tedious, but reasonably well-explained in the ssl.com docs.\nMicrosoft wants the shim binaries uploaded to their partner portal",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 3,
+          "textWords": 2964
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 5,
+          "textWords": 2964
+        }
+      }
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "obj-aarch64-unknown-linux-android\n2025-11-04\n29 G\n113,116\nobjdir-desktop\n2025-11-04\n19 G\n41,010\nobjdir-frontend\n2026-09-09\n6.3 G\n66,930\nobj-aarch64-apple-darwin24.5.0\n2025-06-16\n4 K\n1\nThat's a lot to index! I figured a way around this problem is to move the OBJDIRs out of the source directory and",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 24,
+          "textWords": 66909
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 6,
+          "textWords": 66909
+        }
+      }
+    },
+    {
       "hash": "-VdzLVGZ4FKw",
       "address": "https://www.kernel.org/doc/man-pages/",
       "title": "The Linux man-pages project",
-      "snippet": "",
+      "snippet": "Linux man-pages project\nLinux man-pages: home || git | readme | contributing | conventions | mailing list | archives | releases | book | online pages\nThe Linux man-pages project\nThe Linux man-pages project documents the Linux kernel and C library interfaces that are employed by user-space programs.",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 76
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 76
         }
       }
     },
@@ -1876,15 +2360,15 @@
       "hash": "DKApesRMLT-5",
       "address": "https://canonical.com/careers",
       "title": "Careers | Canonical",
-      "snippet": "",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 36,
+          "textWords": 2313
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 2313
         }
       }
     },
@@ -1892,15 +2376,15 @@
       "hash": "MaRThsRMLT-5",
       "address": "https://canonical.com/",
       "title": "Trusted open source for enterprises | Canonical",
-      "snippet": "",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 39,
+          "textWords": 3712
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3712
         }
       }
     },
@@ -1908,15 +2392,15 @@
       "hash": "QRS_dsRMLT-5",
       "address": "https://canonical.com/data",
       "title": "Open source data platform solutions | Canonical",
-      "snippet": "",
+      "snippet": "Linux\nUbuntu Server\nScalable Linux for the cloud\nMAAS\nBare metal provisioning\nSnapcraft\nApp store for Linux\nOpenStack\nPrivate cloud provisioning\nMicroCloud\nLightweight, automated clouds\nUbuntu Pro\nSecurity \u0026 compliance subscription\nEnterprise-grade support\n24/7 support for the full-stack\nLivepatch",
       "matchedWords": {
         "4galTpdpDM5Q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 37,
+          "textWords": 3449
         },
         "UEhMGfGv2vOE": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3449
         }
       }
     },
@@ -1972,6 +2456,22 @@
       "hash": "NZrn_tS6MKD4",
       "address": "https://github.com/trending/ti-program?since=daily",
       "title": "Trending TI Program repositories on GitHub today · GitHub",
+      "snippet": "Linux Kernel Module Liquid Liquidsoap Literate Agda Literate CoffeeScript Literate Haskell LiveCode Script LiveScript LLVM Lobster Logos Logtalk LOLCODE LookML LoomScript LSL LTspice Symbol Lua Luau M M3U M4 M4Sugar Macaulay2 Makefile Mako Markdown Marko Mask Wolfram Language Mathematical",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 1,
+          "textWords": 1681
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 1681
+        }
+      }
+    },
+    {
+      "hash": "R812vtS6MKD4",
+      "address": "https://github.com/trending/asl?since=daily",
+      "title": "Trending ASL repositories on GitHub today · GitHub",
       "snippet": "",
       "matchedWords": {
         "4galTpdpDM5Q": {
@@ -1981,6 +2481,118 @@
         "UEhMGfGv2vOE": {
           "hits": 0,
           "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "USNkAsS6MKD4",
+      "address": "https://github.com/trending?spoken_language_code=nl",
+      "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "UeSNytS6MKD4",
+      "address": "https://github.com/trending/lookml?since=daily",
+      "title": "Trending LookML repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "X-IwktS6MKD4",
+      "address": "https://github.com/trending/textmate-properties?since=daily",
+      "title": "Trending TextMate Properties repositories on GitHub today · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SH9s9zTnALtw",
+      "address": "https://planet.gentoo.org/",
+      "title": "Planet Gentoo",
+      "snippet": "kernel updates, requiring me to keep retyping 7 version pairs, finally motivated me to make it more generic. Just imagine typing the equivalent of, twice a day:\nbump-kernels 7.0.{12,13} 6.18.{35,36} 6.12.{93,94} 6.6.{142,143} 6.1.{175,176} 5.15.{209,210} 5.10.{258,259}\nGeneric increments in pkgbump",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 26,
+          "textWords": 27710
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 52,
+          "textWords": 27710
+        }
+      }
+    },
+    {
+      "hash": "Je81eLVlhvo5",
+      "address": "https://sigquit.wordpress.com/",
+      "title": "SIGQUIT | … and core dumped",
+      "snippet": "gnu/linux, ModemManager, NetworkManager, wwan\nQMI and MBIM in Python, Javascript…\nJun 3\nPosted by aleksander\nThis is what introspection looks like\nThe libqmi and libmbim libraries are every day getting more popular to control your QMI or MBIM based devices. One of the things I’ve noticed, though,",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 5,
+          "textWords": 2515
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 2,
+          "textWords": 2515
+        }
+      }
+    },
+    {
+      "hash": "aJD3bsakFVXw",
+      "address": "https://slashdot.org/",
+      "title": "Slashdot: News for nerds, stuff that matters, \u0026 software",
+      "snippet": "Slashdot: News for nerds, stuff that matters, \u0026 software\nSlashdot\nStories\nFirehose\nAll\nPopular\nPolls\nSoftware\nThought Leadership\nSubmit\nSearch Slashdot\nLogin\nor\nSign up\nTopics:\nDevices\nBuild\nEntertainment\nTechnology\nOpen Source\nScience\nYRO\nFollow us:\nRSS\nFacebook\nLinkedIn\nTwitter\nYoutube\nMastodon",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 0,
+          "textWords": 5028
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 0,
+          "textWords": 5028
+        }
+      }
+    },
+    {
+      "hash": "Gab0Essyhcfx",
+      "address": "https://archlinux.org/",
+      "title": "Arch Linux",
+      "snippet": "Linux\nArch Linux\nHome\nPackages\nForums\nWiki\nGitLab\nSecurity\nAUR\nDownload\nA simple, lightweight distribution\nYou've reached the website for Arch Linux, a lightweight and flexible Linux® distribution that tries to Keep It Simple.\nCurrently we have official packages optimized for the x86-64",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 10,
+          "textWords": 934
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 1,
+          "textWords": 934
         }
       }
     },
@@ -2047,10 +2659,26 @@
           "textWords": 0
         }
       }
+    },
+    {
+      "hash": "7evxTdFO6r_x",
+      "address": "https://de.wikipedia.org/wiki/Freie_Software",
+      "title": "Freie Software – Wikipedia",
+      "snippet": "Kernel vollständig. Einige Leute erkannten, dass Linux, ein damals proprietärer Kernel für Minix, sich für GNU eignen könnte. Nachdem die Entwickler den Linux-Kernel unter die „GNU GPL“ stellten, konnte zum ersten Mal ein vollständig freies Betriebssystem ausgebaut werden. Mit der darauffolgenden",
+      "matchedWords": {
+        "4galTpdpDM5Q": {
+          "hits": 13,
+          "textWords": 9379
+        },
+        "UEhMGfGv2vOE": {
+          "hits": 4,
+          "textWords": 9379
+        }
+      }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "4galTpdpDM5Q": 24413,
-    "UEhMGfGv2vOE": 11905
+    "4galTpdpDM5Q": 37320,
+    "UEhMGfGv2vOE": 15600
   }
 }

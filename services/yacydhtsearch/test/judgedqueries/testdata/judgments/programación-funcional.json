@@ -2,6 +2,12 @@
   "query": "programación funcional",
   "judgedDocuments": [
     {
+      "hash": "SadvfD09qPgk",
+      "address": "https://www.scielo.br/j/reeusp/i/2013.v47n1/?ilang=pt_BR",
+      "title": "Revista da Escola de Enfermagem da USP, Volume: 47, Número: 1, Publicado: 2013",
+      "grade": 0
+    },
+    {
       "hash": "wj21NCSt_F9g",
       "address": "https://www.abc.es/motor/novedades/",
       "title": "Novedades en motor - ABC.es",
@@ -14,9 +20,21 @@
       "grade": 0
     },
     {
-      "hash": "SadvfD09qPgk",
-      "address": "https://www.scielo.br/j/reeusp/i/2013.v47n1/?ilang=pt_BR",
-      "title": "Revista da Escola de Enfermagem da USP, Volume: 47, Número: 1, Publicado: 2013",
+      "hash": "QACewIgEMcog",
+      "address": "https://www.larazon.es/economia/cajeros-reponedores-tendran-que-limpiar-banos-supermercados-asi-establece-supremo_202609076a9efbb13bfe5d1eff47001f.html",
+      "title": "Los cajeros y reponedores ya no tendrán que limpiar los baños de los supermercados: así lo establece el Supremo",
+      "grade": 0
+    },
+    {
+      "hash": "x4f8sznCqoag",
+      "address": "https://www.boe.es/buscar/doc.php?lang=fr\u0026id=BOE-A-1980-16523",
+      "title": "BOE-A-1980-16523 Real Decreto 1601/1980, de 18 de julio, por el que se aprueban las normas orgánicas del Ministerio de Cultura.",
+      "grade": 0
+    },
+    {
+      "hash": "aKYONl2UtE1g",
+      "address": "https://labra.weso.es/",
+      "title": "Labra's home page",
       "grade": 0
     },
     {
@@ -26,9 +44,9 @@
       "grade": 0
     },
     {
-      "hash": "QACewIgEMcog",
-      "address": "https://www.larazon.es/economia/cajeros-reponedores-tendran-que-limpiar-banos-supermercados-asi-establece-supremo_202609076a9efbb13bfe5d1eff47001f.html",
-      "title": "Los cajeros y reponedores ya no tendrán que limpiar los baños de los supermercados: así lo establece el Supremo",
+      "hash": "nGkx8OgEMcog",
+      "address": "https://www.larazon.es/espana/13-anos-despues-accidente-angrois-caso-sigue-abierto-indulto-maquinista-recursos-constitucional_202607186a5b5cf00500ab412c9cc5df.html",
+      "title": "13 años después del accidente de Angrois: el caso sigue abierto con el indulto al maquinista y recursos al Constitucional",
       "grade": 0
     },
     {
@@ -38,27 +56,45 @@
       "grade": 0
     },
     {
-      "hash": "nGkx8OgEMcog",
-      "address": "https://www.larazon.es/espana/13-anos-despues-accidente-angrois-caso-sigue-abierto-indulto-maquinista-recursos-constitucional_202607186a5b5cf00500ab412c9cc5df.html",
-      "title": "13 años después del accidente de Angrois: el caso sigue abierto con el indulto al maquinista y recursos al Constitucional",
+      "hash": "WbOLu7kUu61g",
+      "address": "https://www.csic.es/es/actualidad-del-csic/la-mayor-base-de-datos-genetica-de-los-pueblos-indigenas-de-america-revela-mas-de-un-millon-de-variantes-ineditas",
+      "title": "La mayor base de datos genética de los pueblos indígenas de América revela más de un millón de variantes inéditas | Consejo Superior de Investigaciones Científicas",
       "grade": 0
     },
     {
-      "hash": "EbuDACjMl7g4",
-      "address": "https://www.elcorreo.com/de-tiendas/estilo-de-vida/mucho-simple-cabecero-pierdas-estos-modelos-soluciones-almacenaje-20260820094701-ntrc.html",
-      "title": "¡Mucho más que un simple cabecero! No te pierdas estos modelos con soluciones de almacenaje | El Correo",
+      "hash": "ILDDMs2mPfs5",
+      "address": "https://infofuturo.com/",
+      "title": "Desarrollo web y Marketing Digital | Infofuturo - Asturias",
       "grade": 0
     },
     {
-      "hash": "AhT55znCqoag",
-      "address": "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740",
-      "title": "BOE-A-1992-28740 Ley 37/1992, de 28 de diciembre, del Impuesto sobre el Valor Añadido.",
+      "hash": "EzJNil5N-Oqk",
+      "address": "https://www.radiohc.cu/",
+      "title": "Radio Habana Cuba EN VIVO - Noticias y Música Cubana 24/7",
       "grade": 0
     },
     {
-      "hash": "C2m1MznCqoag",
-      "address": "https://www.boe.es/buscar/doc.php?id=BOE-A-1991-28106",
-      "title": "BOE-A-1991-28106 Real Decreto 1652/1991, de 11 de octubre, por el que se modifica parcialmente el Real Decreto 1558/1986, de 28 de junio, por el que se establecen las bases",
+      "hash": "a2SYvh7CQepw",
+      "address": "https://www.ifla.org/wp-content/uploads/2019/05/assets/hq/publications/archive/the-public-library-service/pg01-s.pdf",
+      "title": "Directrices IFLA/UNESCO para el desarrollo del servicio de bibliotecas públicas; 2001",
+      "grade": 0
+    },
+    {
+      "hash": "GTWryN92mGZY",
+      "address": "http://lacinefilianoespatriota.blogspot.com/",
+      "title": "LA CINEFILIA NO ES PATRIOTA",
+      "grade": 0
+    },
+    {
+      "hash": "OJX8mlAZ2Nxi",
+      "address": "https://www.eldiadecordoba.es/cordoba/",
+      "title": "Córdoba capital: noticias y última hora",
+      "grade": 0
+    },
+    {
+      "hash": "53uEvSBNKy9k",
+      "address": "https://inehrm.gob.mx/work/models/inehrm/Resource/440/1/images/La-legislacion-del-Segundo-Imperio.pdf",
+      "title": "La-legislacion-del-Segundo-Imperio.pdf",
       "grade": 0
     }
   ]

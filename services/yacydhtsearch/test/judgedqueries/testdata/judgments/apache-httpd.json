@@ -2,16 +2,16 @@
   "query": "apache httpd",
   "judgedDocuments": [
     {
-      "hash": "FE6GfV2Rr_dw",
-      "address": "https://docs.searxng.org/admin/installation-apache.html",
-      "title": "Apache — SearXNG Documentation (2024.10.6+5332d3a0b)",
-      "grade": 1
+      "hash": "D6ZmTayzSDzw",
+      "address": "https://httpd.apache.org/modules/",
+      "title": "Apache httpd Modules - The Apache HTTP Server Project",
+      "grade": 2
     },
     {
-      "hash": "CymIK8uKjjbw",
-      "address": "https://wiki.gentoo.org/wiki/Project:Apache",
-      "title": "Project:Apache - Gentoo wiki",
-      "grade": 1
+      "hash": "P2FWiayzSDzw",
+      "address": "https://httpd.apache.org/docs/",
+      "title": "Documentation: Apache HTTP Server - The Apache HTTP Server Project",
+      "grade": 2
     },
     {
       "hash": "WU-RwjRvmBbx",
@@ -20,16 +20,34 @@
       "grade": 1
     },
     {
-      "hash": "eldMzjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Brotli",
-      "title": "Brotli - Wikipedia",
+      "hash": "9N5z4MaQF27w",
+      "address": "https://www.apache.org/foundation/members",
+      "title": "ASF Members | Apache Software Foundation",
       "grade": 0
     },
     {
-      "hash": "ESUH1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/HTTP_request",
-      "title": "HTTP - Wikipedia",
-      "grade": 0
+      "hash": "U69luayzSDzw",
+      "address": "https://httpd.apache.org/",
+      "title": "Welcome! - The Apache HTTP Server Project",
+      "grade": 2
+    },
+    {
+      "hash": "h5b7DXyzSDzw",
+      "address": "https://httpd.apache.org/docs/current/howto/reverse_proxy.html",
+      "title": "Reverse Proxy Guide - Apache HTTP Server Version 2.4",
+      "grade": 2
+    },
+    {
+      "hash": "QJO3EayzSDzw",
+      "address": "https://httpd.apache.org/support.html",
+      "title": "Apache HTTP Server Support - The Apache HTTP Server Project",
+      "grade": 1
+    },
+    {
+      "hash": "OlDnjayzSDzw",
+      "address": "https://httpd.apache.org/docs-project/",
+      "title": "Documentation Project - The Apache HTTP Server Project",
+      "grade": 1
     },
     {
       "hash": "DJNgIXyzSDzw",
@@ -38,34 +56,40 @@
       "grade": 2
     },
     {
+      "hash": "s2BSFayzSDzw",
+      "address": "https://httpd.apache.org/security_report.html",
+      "title": "Reporting Security Problems with Apache - The Apache HTTP Server Project",
+      "grade": 1
+    },
+    {
+      "hash": "ESUH1jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/HTTP_request",
+      "title": "HTTP - Wikipedia",
+      "grade": 0
+    },
+    {
       "hash": "TQ_Z1jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/XHTML",
       "title": "XHTML - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "r4dI5jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/OpenBSD",
-      "title": "OpenBSD - Wikipedia",
+      "hash": "CeKDz29cq-94",
+      "address": "https://git-scm.com/docs/git-config",
+      "title": "Git - git-config Documentation",
       "grade": 0
     },
     {
-      "hash": "eBFR8ATGzh04",
-      "address": "https://roy.gbiv.com/",
-      "title": "Roy T. Fielding",
-      "grade": 1
-    },
-    {
-      "hash": "B0_2p79moDe4",
-      "address": "https://www.linux.com/training-tutorials/configuring-apache2-run-python-scripts/",
-      "title": "Configuring Apache2 to run Python Scripts - Linux.com",
-      "grade": 1
-    },
-    {
-      "hash": "D_ywrswDvzb5",
-      "address": "https://distrowatch.com/table.php?distribution=mint",
-      "title": "DistroWatch.com: Linux Mint",
+      "hash": "N7wUjwH9JDL6",
+      "address": "https://flask.palletsprojects.com/en/stable/deploying/",
+      "title": "Deploying to Production — Flask Documentation (3.1.x)",
       "grade": 0
+    },
+    {
+      "hash": "OtQmQXyzSDzw",
+      "address": "https://httpd.apache.org/docs/2.4/",
+      "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
+      "grade": 2
     }
   ]
 }

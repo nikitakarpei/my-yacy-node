@@ -8,45 +8,27 @@
       "grade": 0
     },
     {
-      "hash": "AbNXDYC4jGs5",
-      "address": "https://support.kaspersky.com/ksc_cloudconsole/209754",
-      "title": "How settings are implemented on a managed device",
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Canonical Careers",
       "grade": 0
     },
     {
-      "hash": "H6Zz4sS6MKD4",
-      "address": "https://github.com/trending",
-      "title": "Trending repositories on GitHub today · GitHub",
+      "hash": "BF23V5RMLT-5",
+      "address": "https://canonical.com/careers/commercial-operations",
+      "title": "Commercial Operations | Careers",
       "grade": 0
     },
     {
-      "hash": "ww-gf8cZd9Fw",
-      "address": "https://hackage.haskell.org/packages/",
-      "title": "packages by category | Hackage",
+      "hash": "MaRThsRMLT-5",
+      "address": "https://canonical.com/",
+      "title": "Trusted open source for enterprises | Canonical",
       "grade": 0
     },
     {
-      "hash": "Arno8JexqsOx",
-      "address": "https://docs.opensearch.org/latest/analyzers/character-filters/pattern-replace-character-filter/",
-      "title": "Pattern replace character filter | OpenSearch Documentation",
-      "grade": 0
-    },
-    {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "grade": 0
-    },
-    {
-      "hash": "s8IBmsqzz5gq",
-      "address": "https://senibudayaislam.id/",
-      "title": "senibudayaislamid",
-      "grade": 0
-    },
-    {
-      "hash": "FIRH00oB9UFw",
-      "address": "https://docs-archive.freebsd.org/44doc/",
-      "title": "4.4BSD Documents",
+      "hash": "BLqv9HRMLT-5",
+      "address": "https://canonical.com/legal/data-privacy",
+      "title": "Data privacy | Ubuntu and Canonical Legal",
       "grade": 0
     },
     {
@@ -56,39 +38,57 @@
       "grade": 0
     },
     {
-      "hash": "a9EGGsQ5pC07",
-      "address": "https://eastlewiscountychamber.com/",
-      "title": "eastlewiscountychamber -",
-      "grade": 0
-    },
-    {
-      "hash": "BV6JfZC4jGs5",
-      "address": "https://support.kaspersky.com/kata/8.0/247767?page=help",
-      "title": "Adding a scan exclusion rule",
-      "grade": 0
-    },
-    {
-      "hash": "CrRuNlCGSsm5",
-      "address": "https://www.afewscraps.com/",
-      "title": "A Few Scraps",
-      "grade": 0
-    },
-    {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "grade": 0
-    },
-    {
       "hash": "SXE97sI0z6T7",
       "address": "https://towardsdatascience.com/",
       "title": "Towards Data Science",
       "grade": 1
     },
     {
+      "hash": "FIRH00oB9UFw",
+      "address": "https://docs-archive.freebsd.org/44doc/",
+      "title": "4.4BSD Documents",
+      "grade": 0
+    },
+    {
+      "hash": "RE-m0jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Java_(programming_language)",
+      "title": "Java (programming language) - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Bq57jjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BASIC",
+      "title": "BASIC - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "Ce2W90S6MKD4",
+      "address": "https://github.com/resources/articles/what-is-vibe-coding",
+      "title": "What Is Vibe Coding? · GitHub",
+      "grade": 0
+    },
+    {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
+      "grade": 0
+    },
+    {
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "CcQGBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Unix",
+      "title": "Unix - Wikipedia",
+      "grade": 0
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
       "grade": 0
     }
   ]

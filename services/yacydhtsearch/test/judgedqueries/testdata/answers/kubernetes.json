@@ -1,17 +1,17 @@
 {
   "query": "kubernetes",
-  "recordedAt": "2026-09-11T12:57:28Z",
+  "recordedAt": "2026-09-11T19:20:12Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "AsVNaz7OfS44",
         "address": "https://labs.iximiuz.com/playgrounds?category=kubernetes\u0026filter=all",
         "title": "Kubernetes Playgrounds 🧪 | iximiuz Labs",
-        "snippet": "",
+        "snippet": "Kubernetes Playgrounds | iximiuz Labs\niximiuz Labs\nMain\nCatalog\nDiscover\nTutorials\nChallenges\nCourses\nSkill Paths\nShell Gyms New!\nDocker Roadmap\nPlaygrounds\nVendors\nLabs MCP New!\nPricing\nMore\nBlog\nDocs\nOur Authors\nFor Creators\nFor Trainers\nAbout Us\nSupport\nPlaygrounds\nCtrlK\nSign in Sign up",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 37,
-            "textWords": 861
+            "hits": 36,
+            "textWords": 819
           }
         }
       },
@@ -19,11 +19,11 @@
         "hash": "AIy_nGS6MKD4",
         "address": "https://github.com/kubernetes/kompose",
         "title": "GitHub - kubernetes/kompose: Convert Compose to Kubernetes",
-        "snippet": "",
+        "snippet": "kubernetes/kompose: Convert Compose to Kubernetes · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER WORKFLOWS",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 29,
-            "textWords": 1229
+            "hits": 27,
+            "textWords": 999
           }
         }
       },
@@ -43,11 +43,11 @@
         "hash": "BUw3tyHotJDk",
         "address": "https://discuss.elastic.co/t/elastic-cloud-on-kubernetes-eck-2-8-security-update/343854",
         "title": "Elastic Cloud on Kubernetes (ECK) 2.8 Security Update - Security Announcements - Discuss the Elastic Stack",
-        "snippet": "",
+        "snippet": "Kubernetes (ECK) 2.8 Security Update - Security Announcements - Discuss the Elastic Stack\nDiscuss the Elastic Stack\nElastic Cloud on Kubernetes (ECK) 2.8 Security Update\nAnnouncements\nSecurity Announcements\nismisepaul\n(Paul)\nSeptember 26, 2023, 9:48am\n1\nElastic Cloud on Kubernetes (ECK) secret",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 10,
-            "textWords": 333
+            "textWords": 256
           }
         }
       },
@@ -177,14 +177,136 @@
     [],
     [
       {
-        "hash": "zlEh5a9VKBYx",
-        "address": "https://chronosphere.io/learn/what-is-a-kubernetes-pod/",
-        "title": "What is a Kubernetes pod?",
+        "hash": "P8xl6XqO2Dlg",
+        "address": "https://media.ccc.de/v/nixcon2025-56396-kubernetes-on-nix",
+        "title": "Kubernetes on Nix - media.ccc.de",
+        "snippet": "Kubernetes on Nix - media.ccc.de\nSystem\nLight\nDark\nNews\nRSS, last 100\nPodcast feed of the last two years\nSD quality\nPodcast audio feed of the last year\nPodcast archive feed, everything older than two years\nSD quality\nPodcast feeds for nixcon2025\nmp3\nopus\nwebm\nSD quality\nmp4\nSD quality\nNews\nRSS,",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 7,
+            "textWords": 359
+          }
+        }
+      },
+      {
+        "hash": "NiOG725OSlTx",
+        "address": "https://www.openstack.org/videos/barcelona-2016/openstack-and-magnum-kubernetes-as-a-service-for-everyone",
+        "title": "Open Infrastructure Summit videos from past community events, featuring keynotes and sessions from the global network of developers, operators, and supporting organizations.",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
+            "hits": 1,
+            "textWords": 351
+          }
+        }
+      },
+      {
+        "hash": "mxLp7snJaDGx",
+        "address": "https://hachyderm.io/@K8sContributors",
+        "title": "K8sContributors (@K8sContributors@hachyderm.io) - Hachyderm.io",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 1,
+            "textWords": 64
+          }
+        }
+      },
+      {
+        "hash": "DM4wLXCmq5v4",
+        "address": "https://www.suse.com/security/cve/CVE-2020-15187.html",
+        "title": "CVE-2020-15187 Common Vulnerabilities and Exposures | SUSE",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 14,
+            "textWords": 2307
+          }
+        }
+      },
+      {
+        "hash": "BocGQ1MW35a4",
+        "address": "https://hub.docker.com/r/denoland/deno/tags",
+        "title": "denoland/deno - Docker Image",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 1,
+            "textWords": 993
+          }
+        }
+      },
+      {
+        "hash": "EjxtFjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/List_of_mergers_and_acquisitions_by_Microsoft",
+        "title": "List of mergers and acquisitions by Microsoft - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 2,
+            "textWords": 17682
+          }
+        }
+      },
+      {
+        "hash": "D-hrT6bz1kY4",
+        "address": "https://canasta.wiki/wiki/Canasta",
+        "title": "canasta",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 2,
+            "textWords": 1375
+          }
+        }
+      },
+      {
+        "hash": "LTzLrkRFf6Bx",
+        "address": "https://wikitech.wikimedia.org/wiki/How_to_deploy_code",
+        "title": "How to deploy code - Wikitech",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 2,
+            "textWords": 7843
+          }
+        }
+      },
+      {
+        "hash": "JLwvGhBcMUU4",
+        "address": "https://www.boot.dev/paths/backend?tech=python-golang",
+        "title": "Backend Developer Path | Boot.dev",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 1,
+            "textWords": 2532
+          }
+        }
+      },
+      {
+        "hash": "Ig-YwBj-Xnjg",
+        "address": "https://www.lemagit.fr/actualites/252522034/Hashicorp-devoile-sa-vision-dune-architecture-zero-trust",
+        "title": "Hashicorp dévoile sa vision d’une architecture zero-trust | LeMagIT",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 5,
+            "textWords": 2631
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "zlEh5a9VKBYx",
+        "address": "https://chronosphere.io/learn/what-is-a-kubernetes-pod/",
+        "title": "What is a Kubernetes pod?",
+        "snippet": "Kubernetes pod?\nRequest Demo\nRequest a Demo\nProducts\nRecent News\nObservability in transition: Building confidence on the path to agentic workflows\nChronosphere Named a Leader in the Gartner® Magic Quadrant™ for Observability Platforms for Third Consecutive Year\nHow to monitor/observe LLMs and",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
             "hits": 57,
-            "textWords": 3402
+            "textWords": 2456
           }
         }
       },
@@ -192,23 +314,11 @@
         "hash": "HN68UjwjNTMg",
         "address": "https://market.cnews.ru/articles/2025-04-03_managed_kubernetes_i_preryvaemye_virtualnye",
         "title": "Managed Kubernetes и прерываемые виртуальные машины: способ сэкономить до 70% на серверах – CNewsMarket",
-        "snippet": "",
+        "snippet": "Kubernetes и прерываемые виртуальные машины: способ сэкономить до 70% на серверах – CNewsMarket\nВыбрать провайдера Публикации Компании Рейтинги и обзоры Личный кабинет О проекте CNews Аналитика Конференции Техника ТВ Об издании Реклама Вакансии Контакты\nMax\nTelegram\nДзен\nVK\nRutube\nCNews Аналитика",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 19,
-            "textWords": 2284
-          }
-        }
-      },
-      {
-        "hash": "RlgmHUqZWFe4",
-        "address": "https://gyptazy.com/blog/talos-linux-howto-create-a-kubernetes-cluster-in-10-minutes/",
-        "title": "Deploy a Kubernetes Cluster with Talos Linux in 10 Minutes",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 95
+            "hits": 20,
+            "textWords": 1420
           }
         }
       },
@@ -221,6 +331,18 @@
           "t26Yr5qqaAl5": {
             "hits": 57,
             "textWords": 7059
+          }
+        }
+      },
+      {
+        "hash": "RlgmHUqZWFe4",
+        "address": "https://gyptazy.com/blog/talos-linux-howto-create-a-kubernetes-cluster-in-10-minutes/",
+        "title": "Deploy a Kubernetes Cluster with Talos Linux in 10 Minutes",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 1,
+            "textWords": 95
           }
         }
       },
@@ -261,18 +383,6 @@
         }
       },
       {
-        "hash": "RjbA1s6GdY-4",
-        "address": "https://danluu.com/programming-blogs/",
-        "title": "Some programming blogs to consider reading",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 4877
-          }
-        }
-      },
-      {
         "hash": "z2JkAJhTaKi5",
         "address": "https://www.datadoghq.com/blog/tools-for-collecting-aws-fargate-metrics/",
         "title": "How to collect metrics and logs from AWS Fargate workloads | Datadog",
@@ -285,14 +395,52 @@
         }
       },
       {
-        "hash": "OZD5wi7dUTJ4",
-        "address": "https://www.cio.com/profile/anirban-ghoshal/",
-        "title": "Anirban Ghoshal | CIO",
+        "hash": "zIXuxDiaMkRw",
+        "address": "https://archive.fosdem.org/2023/schedule/event/media_streaming_mesh/",
+        "title": "FOSDEM 2023 - Media Streaming Mesh",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 2,
-            "textWords": 1674
+            "textWords": 393
+          }
+        }
+      },
+      {
+        "hash": "956rqJs7qoi5",
+        "address": "https://itopstimes.com/author/micheal-kingston/",
+        "title": "Micheal Kingston, Author at ITOps Times",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 3,
+            "textWords": 1429
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "2JDQhQRul9D4",
+        "address": "https://aws.amazon.com/kubernetes/",
+        "title": "Kubernetes on AWS | Amazon Web Services",
+        "snippet": "Kubernetes on AWS | Amazon Web Services\nSkip to main content\nFilter: All\nEnglish\nContact us\nAWS Marketplace\nSupport\nMy account\nre:Invent\nDiscover AWS\nProducts\nSolutions\nPricing\nResources\nSearch\nFilter: All\nSign in to console\nCreate account\nExplore topics\nre:Invent 2026 The session catalog is live.",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 65,
+            "textWords": 2026
+          }
+        }
+      },
+      {
+        "hash": "4xIejdSCNQa4",
+        "address": "https://www.redhat.com/ja/topics/containers/what-is-kubernetes",
+        "title": "Kubernetes とは？をわかりやすく解説",
+        "snippet": "Kubernetes とは\nSkip to content AI 概要\nAI に関するニュース\n技術ブログ\nライブ AI イベント\n推論の説明\nRed Hat のアプローチを見る\n製品\nRed Hat AI Enterprise\nRed Hat AI Inference\nRed Hat Enterprise Linux AI\nRed Hat OpenShift AI\nRed Hat AI の詳細\n参加 \u0026 学習\nラーニングハブ\nAI トピック\nAI パートナー\nAI サービス\nハイブリッドクラウド プラットフォーム・ソリューション\n人工知能AI",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 121,
+            "textWords": 1765
           }
         }
       }
@@ -373,148 +521,160 @@
     ],
     [
       {
-        "hash": "cCOwMUBJaYCh",
-        "address": "https://cloudbear.nl/blog/managed-kubernetes-hosting-schaalbare-infrastructuur-zonder-complexiteit/",
-        "title": "Managed Kubernetes hosting: schaalbare infrastructuur zonder complexiteit - Cloudbear",
-        "snippet": "",
+        "hash": "Tm_2BMS6MKD4",
+        "address": "https://github.com/kubernetes-client/python",
+        "title": "GitHub - kubernetes-client/python: Official Python client library for kubernetes · GitHub",
+        "snippet": "kubernetes-client/python: Official Python client library for kubernetes · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 11,
-            "textWords": 648
+            "hits": 167,
+            "textWords": 2312
           }
         }
       },
       {
-        "hash": "YNiVlBj-Xnjg",
-        "address": "https://www.lemagit.fr/actualites/366634500/IA-sur-Kubernetes-les-analystes-epinglent-la-CNCF-face-a-lhegemonie-de-Nvidia",
-        "title": "IA sur Kubernetes : les analystes épinglent la CNCF face à l’hégémonie de Nvidia | LeMagIT",
-        "snippet": "",
+        "hash": "jrBUgOjw1Zlx",
+        "address": "https://kubernetes.io/zh-cn/blog/2015/03/28/weekly-kubernetes-community-hangout/",
+        "title": "Kubernetes 社区每周聚会笔记 - 2015 年 3 月 27 日 | Kubernetes",
+        "snippet": "Kubernetes 社区每周聚会笔记 - 2015 年 3 月 27 日 | Kubernetes\nKubernetes文档\n博客\n培训\n合作伙伴\n社区\n职业\n版本列表发布信息\nv1.37\nv1.36\nv1.35\nv1.34\nv1.33\n中文 (Chinese)English\nবাংলা (Bengali)\nFrançais (French)\nDeutsch (German)\nहिन्दी (Hindi)\nBahasa Indonesia (Indonesian)\nItaliano (Italian)\n日本語 (Japanese)\n한국어 (Korean)\nفارسی (Persian)",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 267,
+            "textWords": 1819
+          }
+        }
+      },
+      {
+        "hash": "44l9dUL2-9j4",
+        "address": "https://bobcares.com/blog/category/kubernetes/",
+        "title": "Kubernetes Category - Bobcares",
+        "snippet": "Kubernetes Category - Bobcares\nEmergency Contact\nBack\nEmergency Contact\nSolutions\nServices\nInsights\nCompany\nEmergency Contact Client Portal\nSOLUTIONS\nProduct Engineering\nMVP Build\nMVP to Scale\nProduct Maintenance\nDigital Transformation\nProcess Digitization \u0026 Automation\nSystems Integration \u0026",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 21,
-            "textWords": 2468
+            "textWords": 855
           }
         }
       },
       {
-        "hash": "dmb_HXqO2Dlg",
-        "address": "https://media.ccc.de/v/ASG2017-137-what_if_component_xxx_dies_introducing_self-healing_kubernetes",
-        "title": "What If Component xxx Dies? Introducing Self-Healing Kubernetes - media.ccc.de",
-        "snippet": "",
+        "hash": "7iZ_Vssh4hQ4",
+        "address": "https://dev.events/kubernetes",
+        "title": "Docker / Kubernetes conferences 2025 / 2026",
+        "snippet": "Kubernetes conferences 2026 / 2027\ndev.club — Where best developers and top companies connect.\nRequest invite\ndev.events\nConferences Meetups Hackathons FAQ\nDocker / Kubernetes conferences 2026 / 2027\nConferences ✕ Docker / Kubernetes ✕\nLocations and topics\nLocations and topics\nUpcoming events",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 4,
-            "textWords": 605
+            "hits": 36,
+            "textWords": 839
           }
         }
       },
       {
-        "hash": "pFakVasqLD_o",
-        "address": "https://techblog.hacomono.jp/entry/2025/12/11/000000",
-        "title": "コードでみる Crossplane と kro - hacomono TECH BLOG",
+        "hash": "8VM94j76eml4",
+        "address": "https://www.mongodb.com/products/integrations/kubernetes",
+        "title": "",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 27,
-            "textWords": 2063
+            "hits": 29,
+            "textWords": 1349
           }
         }
       },
       {
-        "hash": "SgExoZ2nMu64",
-        "address": "https://docs.nvidia.com/ai-enterprise/",
-        "title": "NVIDIA AI Enterprise - NVIDIA Docs",
+        "hash": "5BSi0enQajO4",
+        "address": "https://cn.ubuntu.com/kubernetes",
+        "title": "适用于多云运营的企业级 Kubernetes | Ubuntu",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 9,
-            "textWords": 2649
+            "hits": 48,
+            "textWords": 1014
           }
         }
       },
       {
-        "hash": "5HKAkvyg9Qay",
-        "address": "https://microservices.io/tags/scripting",
-        "title": "tagged with: scripting",
+        "hash": "OozyAT8zMi84",
+        "address": "https://docs.cloud.google.com/docs/get-started/",
+        "title": "Get started with Google Cloud | Google Cloud Documentation",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 2,
-            "textWords": 1322
+            "hits": 126,
+            "textWords": 2316
           }
         }
       },
       {
-        "hash": "RSuX2DiaMkRw",
-        "address": "https://archive.fosdem.org/2023/schedule/speaker/gaurav_sitlani/",
-        "title": "FOSDEM 2023 - Gaurav Sitlani",
-        "snippet": "",
+        "hash": "jqcf66PMwjH4",
+        "address": "https://docs.aws.amazon.com/ja_jp/sagemaker/latest/dg/kubernetes-sagemaker-operators.html",
+        "title": "SageMaker AI Operators for Kubernetes - Amazon SageMaker AI",
+        "snippet": "Kubernetes - Amazon SageMaker AI\nView a markdown version of this page\nSageMaker AI Operators for Kubernetes - Amazon SageMaker AI\nドキュメントAmazon SageMakerデベロッパーガイド\nオペレーターとは\n翻訳は機械翻訳により提供されています。提供された翻訳内容と英語版の間で齟齬、不一致または矛盾がある場合、英語版が優先します。\nSageMaker AI Operators for Kubernetes\nSageMaker AI Operators for",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 2,
-            "textWords": 250
+            "hits": 42,
+            "textWords": 367
           }
         }
       },
       {
-        "hash": "evu0Wo75cLRw",
-        "address": "https://www.apalrd.net/posts/2022/cluster_ceph/",
-        "title": "Making the $250 Proxmox HA Cluster Hyperconverged",
+        "hash": "8LjMgUYlAY74",
+        "address": "https://ubuntu.com/blog/kubernetes-for-finservs-unlocking-success-in-digital-transformations",
+        "title": "Kubernetes for Finservs – Unlocking success in digital transformations | Ubuntu",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 123
+            "hits": 37,
+            "textWords": 1715
           }
         }
       },
       {
-        "hash": "x4bZcev-bf35",
-        "address": "https://docs.datadoghq.com/llm_observability/investigate/evaluations/",
-        "title": "Evaluations",
+        "hash": "L0PizM-VnHQw",
+        "address": "https://kubernetes-csi.github.io/docs/",
+        "title": "Introduction - Kubernetes CSI Developer Documentation",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 18,
-            "textWords": 9577
-          }
-        }
-      },
-      {
-        "hash": "dgQz1_nMM_j5",
-        "address": "https://grokipedia.com/page/Edge_computing",
-        "title": "Edge computing — Grokipedia",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 4,
-            "textWords": 8632
+            "hits": 36,
+            "textWords": 773
           }
         }
       }
     ],
     [
       {
-        "hash": "QK3R_Xyvgfs5",
-        "address": "https://docs.digitalocean.com/reference/api/scopes/kubernetes/create/",
-        "title": "kubernetes:create | DigitalOcean Documentation",
-        "snippet": "",
+        "hash": "dZkbOdUhjm5w",
+        "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/cli-ref.html",
+        "title": "Kubernetes Executor Commands — apache-airflow-providers-cncf-kubernetes Documentation",
+        "snippet": "Kubernetes Executor Commands — apache-airflow-providers-cncf-kubernetes Documentation\nAirflow Summit 2026 is coming August 31 - September 2 in Austin, TX. Register now to secure your spot!\nCommunity Meetups Documentation Registry Use Cases Announcements Blog Ecosystem\nCommunity Meetups",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 15,
-            "textWords": 730
+            "hits": 16,
+            "textWords": 548
           }
         }
       },
       {
-        "hash": "cP8Rbvyg9Qay",
-        "address": "https://microservices.io/tags/kubernetes",
-        "title": "tagged with: kubernetes",
+        "hash": "J1x-W-j-Xnjg",
+        "address": "https://www.lemagit.fr/etude/Kubernetes-LANSR-reste-fidele-a-loffre-managee-dOVHcloud",
+        "title": "Kubernetes : l’ANSR reste fidèle à l’offre managée d’OVHcloud | LeMagIT",
+        "snippet": "Kubernetes : l’ANSR reste fidèle à l’offre managée d’OVHcloud | LeMagIT\nRechercher sur LeMagIT\nS'inscrire maintenant. S'identifier S'abonner\nInforma TechTarget Explore the Network\nAn Informa TechTarget Publication Découvrez nos publications\nCookies\nProjets IT\nAgenda partenaires\nRessources PDF",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 19,
+            "textWords": 2096
+          }
+        }
+      },
+      {
+        "hash": "F6hres-UOu6x",
+        "address": "https://thenewstack.io/kubernetes-fleet-management-scale/?p=22821811",
+        "title": "How Microsoft is governing thousands of Kubernetes clusters without manual intervention - The New Stack",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 5,
-            "textWords": 1348
+            "hits": 29,
+            "textWords": 6115
           }
         }
       },
@@ -567,172 +727,160 @@
         }
       },
       {
-        "hash": "dZkbOdUhjm5w",
-        "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/cli-ref.html",
-        "title": "Kubernetes Executor Commands — apache-airflow-providers-cncf-kubernetes Documentation",
+        "hash": "QK3R_Xyvgfs5",
+        "address": "https://docs.digitalocean.com/reference/api/scopes/kubernetes/create/",
+        "title": "kubernetes:create | DigitalOcean Documentation",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 15,
-            "textWords": 583
+            "textWords": 730
           }
         }
       },
       {
-        "hash": "oG0D6s-UOu6x",
-        "address": "https://thenewstack.io/kubernetes/",
-        "title": "Kubernetes Overview, News and Trends | The New Stack",
+        "hash": "bxK4IsrUFFH5",
+        "address": "https://betterstack.com/community/questions/monitor-custom-kubernetes-pod-metrics-using-prometheus/",
+        "title": "Monitor Custom Kubernetes Pod Metrics Using Prometheus | Better Stack Community",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 61,
-            "textWords": 6592
+            "hits": 11,
+            "textWords": 1160
           }
         }
       },
       {
-        "hash": "h8h4oBj-Xnjg",
-        "address": "https://www.lemagit.fr/actualites/366575437/AIOps-quand-lIA-generative-aide-a-superviser-Kubernetes",
-        "title": "AIOps : quand l’IA générative s’invite dans la supervision de Kubernetes | LeMagIT",
+        "hash": "cP8Rbvyg9Qay",
+        "address": "https://microservices.io/tags/kubernetes",
+        "title": "tagged with: kubernetes",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 16,
-            "textWords": 2362
-          }
-        }
-      },
-      {
-        "hash": "Ssu14ELc30Qw",
-        "address": "https://www.coursera.org/projects/googlecloud-cloud-logging-on-kubernetes-engine-jphhs",
-        "title": "Cloud Logging on Kubernetes Engine",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 7,
-            "textWords": 2150
+            "hits": 5,
+            "textWords": 1348
           }
         }
       }
     ],
     [
       {
-        "hash": "Nls-ju35ENm5",
-        "address": "https://maltheborch.com/2022/04/automatic-https-on-kubernetes.html",
-        "title": "Automatic HTTPS on Kubernetes",
-        "snippet": "",
+        "hash": "6y4OTxAl9Ia5",
+        "address": "https://developer.hashicorp.com/vault/tutorials/integrate-kubernetes-hcp-vault-dedicated/kubernetes-vso-hcp-vault",
+        "title": "Create Kubernetes native secrets from HCP Vault Dedicated with VSO | Vault | HashiCorp Developer",
+        "snippet": "Kubernetes native secrets from HCP Vault Dedicated with VSO | Vault | HashiCorp Developer\nHashiConf 2025 Don't miss the live stream of HashiConf Day 2 happening now View live stream\nProducts\nHashiCorp Cloud Platform\nGet started in minutes with our cloud products\nLearn more\nInfrastructure Lifecycle",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 506
+            "hits": 59,
+            "textWords": 2170
           }
         }
       },
       {
-        "hash": "hlp8hzS6MKD4",
-        "address": "https://github.com/topics/kubernetes",
-        "title": "kubernetes · GitHub Topics · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 33,
-            "textWords": 1391
-          }
-        }
-      },
-      {
-        "hash": "zQvx_lSCNQa4",
-        "address": "https://www.redhat.com/en",
-        "title": "Red Hat - We make open source technologies for the enterprise",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 2,
-            "textWords": 3124
-          }
-        }
-      },
-      {
-        "hash": "zrfWjGBVpjfi",
-        "address": "https://lucaswerkmeister.de/posts/2025/07/29/migrating-tools-to-buildservice/",
-        "title": "Migrating my tools to the Toolforge Build Service",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 2555
-          }
-        }
-      },
-      {
-        "hash": "-pEOWUb8iyg4",
-        "address": "https://cloud.google.com/discover",
-        "title": "Learn about Cloud Computing | Google Cloud",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 16,
-            "textWords": 9227
-          }
-        }
-      },
-      {
-        "hash": "-KY67tI2N2_4",
-        "address": "https://blog.flaper87.com/",
-        "title": "Developer's black hole",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 4,
-            "textWords": 383
-          }
-        }
-      },
-      {
-        "hash": "AJpVoz7OfS44",
-        "address": "https://labs.iximiuz.com/",
-        "title": "iximiuz Labs - A hands-on learning platform for Linux, Docker, Kubernetes, and Networking",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 8,
-            "textWords": 1382
-          }
-        }
-      },
-      {
-        "hash": "kh05NsYlAY74",
-        "address": "https://ubuntu.com/download",
-        "title": "Get Ubuntu | Download | Ubuntu",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 3,
-            "textWords": 833
-          }
-        }
-      },
-      {
-        "hash": "xke9psYF9EJw",
-        "address": "https://dspace.org/building-a-scalable-dspace-10-deployment-with-containerized-architecture/",
-        "title": "Building a Scalable DSpace 10 Deployment with Containerized Architecture - DSpace",
+        "hash": "8uckywn-yhj5",
+        "address": "https://www.infoworld.com/article/2338345/cosmonic-webassembly-paas-connects-with-kubernetes.html",
+        "title": "Cosmonic WebAssembly PaaS connects with Kubernetes | InfoWorld",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 9,
-            "textWords": 1632
+            "textWords": 1205
           }
         }
       },
       {
-        "hash": "AXT4Jh3e0QFx",
-        "address": "https://commons.wikimedia.org/wiki/Category:Google",
-        "title": "Category:Google - Wikimedia Commons",
+        "hash": "1XLGT5c9duY5",
+        "address": "https://azure.microsoft.com/en-us/products/monitor",
+        "title": "Azure Monitor | Microsoft Azure",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 11855
+            "hits": 134,
+            "textWords": 2953
+          }
+        }
+      },
+      {
+        "hash": "dndkvGS6MKD4",
+        "address": "https://github.com/kubernetes/kubernetes/pulls",
+        "title": "Pull requests · kubernetes/kubernetes · GitHub",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 7,
+            "textWords": 3908
+          }
+        }
+      },
+      {
+        "hash": "MHEnELo7vSm6",
+        "address": "https://www.paloaltonetworks.com/cyberpedia/kubernetes-security",
+        "title": "What Is Kubernetes Security? - Palo Alto Networks",
+        "snippet": "Kubernetes Security? - Palo Alto Networks\nDiscover how prevention starts before the attack at InterSECt 2026. Watch Now\nPrisma AIRS AI Gateway is now generally available\nProducts\nSolutions\nServices\nIndustries\nPartners\nResources\nus\nAccounts \u0026 Support\nDemos and Trials\nSearch\nAll\nTech Docs\nClose",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 159,
+            "textWords": 4182
+          }
+        }
+      },
+      {
+        "hash": "Ceyo32cDhyy5",
+        "address": "https://aerospike.com/docs/kubernetes/install/helm/",
+        "title": "Install Aerospike Kubernetes Operator using Helm | Aerospike Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 29,
+            "textWords": 10102
+          }
+        }
+      },
+      {
+        "hash": "Vx2LaG1ajpq5",
+        "address": "https://www.linuxjournal.com/content/kubernetes-and-docker-exploring-synergy-containerization",
+        "title": "Kubernetes vs. Docker: Exploring the Synergy in Containerization | Linux Journal",
+        "snippet": "Kubernetes vs. Docker: Exploring the Synergy in Containerization | Linux Journal\nSkip to main content\nToggle navigation\nTopics+ Cloud\nContainers\nDesktop\nKernel\nMobile\nNetworking\nPrivacy\nProgramming\nSecurity\nServers\nSysAdmin\nNews\neBooks\nSearch\nSearch\nSearch\nEnter the terms you wish to search for.",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 46,
+            "textWords": 1367
+          }
+        }
+      },
+      {
+        "hash": "IK2S_fRMLT-5",
+        "address": "https://canonical.com/juju/docs/juju-cli/3.6/reference/cloud/list-of-supported-clouds/canonical-kubernetes/",
+        "title": "Canonical Kubernetes - Juju documentation",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 61,
+            "textWords": 2317
+          }
+        }
+      },
+      {
+        "hash": "rVmyv3v-xwmy",
+        "address": "https://events.linuxfoundation.org/kubernetes-forum-bengaluru/program/schedule/",
+        "title": "Schedule | Kubernetes Forum Bengaluru",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 2,
+            "textWords": 514
+          }
+        }
+      },
+      {
+        "hash": "Eud8pSE7RYL4",
+        "address": "https://www.red-gate.com/simple-talk/devops/containers-and-virtualization/how-to-create-kubernetes-deployments-and-services-using-yaml-files-and-kubectl/",
+        "title": "How to Create Kubernetes Deployments and Services using YAML files and Kubectl | Simple Talk",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 75,
+            "textWords": 2493
           }
         }
       }
@@ -742,23 +890,23 @@
         "hash": "n3XoxFCmq5v4",
         "address": "https://www.suse.com/c/rancher_blog/deploy-a-nodejs-app-on-kubernetes-and-rancher/",
         "title": "Deploy a NodeJS App on Kubernetes and Rancher | SUSE Communities",
-        "snippet": "",
+        "snippet": "Kubernetes and Rancher | SUSE Communities\nWhy Rancher? Why Rancher?\nUse cases​\nOur Difference​\nOur Platform Overview of Rancher Prime\nCloud-Native Infrastructure\nSecurity \u0026 Performance\nApplication Development\nKubernetes Distributions\nSupport Rancher Support Support Request Documentation\nLearn",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 41,
-            "textWords": 2207
+            "hits": 43,
+            "textWords": 1561
           }
         }
       },
       {
-        "hash": "b-zzR05kpS44",
-        "address": "https://www.oracle.com/cloud/cloud-native/kubernetes-engine/",
-        "title": "Kubernetes Engine | Oracle",
-        "snippet": "",
+        "hash": "F3WKxSyfovZ5",
+        "address": "https://www.enterprisedb.com/use-case/microservices-and-kubernetes",
+        "title": "Application Scalability with Microservices and Kubernetes: EDB Postgres AI",
+        "snippet": "Kubernetes: EDB Postgres AI\nSkip to main content\nMy Account Support Portal\nTraining Portal\nMigration Portal\nPartner Portal\nAccount Settings\nSign Out\nSign In Sign In\nContact Us\nPlatform EDB Postgres AI View the platform » Core Database\nAnalytics\nAgentic AI\nDeploy Anywhere\nFEATURED CAPABILITIES",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 17,
-            "textWords": 1200
+            "hits": 38,
+            "textWords": 2097
           }
         }
       },
@@ -766,11 +914,23 @@
         "hash": "hbZPoyRO6Xx4",
         "address": "https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_security_for_kubernetes/3.74/html-single/about/index",
         "title": "About | Red Hat Advanced Cluster Security for Kubernetes | 3.74 | Red Hat Documentation",
-        "snippet": "",
+        "snippet": "Kubernetes | 3.74 | Red Hat Documentation\nSkip to navigationSkip to contentFeatured links\nSupport\nConsole\nDevelopers\nStart a trial\nAll Red Hat\nFor customersCustomer support\nSubscription management\nSupport Cases\nRed Hat Ecosystem Catalog\nFind a partner\nFor partnersPartner portal\nPartner support",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 27,
-            "textWords": 1473
+            "textWords": 1263
+          }
+        }
+      },
+      {
+        "hash": "SGpSAlyJVbc5",
+        "address": "https://www.vpsserver.com/managing-kubernetes/",
+        "title": "Kubernetes | Simplifying Multi-Cloud and Hybrid Deployments",
+        "snippet": "Kubernetes | Simplifying Multi-Cloud and Hybrid Deployments\nExplore Our Global VPS Services with a $100 FREE 30-Day Trial Get\nStarted\nVPSServer\nVPS\nVPS Plans Linux VPS Windows VPS Managed VPS\nPricing\nTechnology\nLocations\nUSA - New York, Chicago, Dallas, Miami, Atlanta, Los Angeles, Seattle \u0026",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 113,
+            "textWords": 3587
           }
         }
       },
@@ -787,30 +947,6 @@
         }
       },
       {
-        "hash": "F3WKxSyfovZ5",
-        "address": "https://www.enterprisedb.com/use-case/microservices-and-kubernetes",
-        "title": "Application Scalability with Microservices and Kubernetes: EDB Postgres AI",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 36,
-            "textWords": 2428
-          }
-        }
-      },
-      {
-        "hash": "BdajytqJRbEg",
-        "address": "https://blog.frankel.ch/kubernetes-extensibility/",
-        "title": "Introduction to Kubernetes extensibility",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 28,
-            "textWords": 2199
-          }
-        }
-      },
-      {
         "hash": "zX_yB26U3cGx",
         "address": "https://superuser.openinfra.org/articles/openstack-and-kubernetes-join-forces-for-an-internet-of-things-platform/",
         "title": "OpenStack and Kubernetes join forces for an Internet of Things platform – Superuser",
@@ -819,6 +955,18 @@
           "t26Yr5qqaAl5": {
             "hits": 19,
             "textWords": 2864
+          }
+        }
+      },
+      {
+        "hash": "x_Mk5dlZJkVw",
+        "address": "https://blog.nginx.org/blog/announcing-nginx-ingress-controller-for-kubernetes-release-1-5-0",
+        "title": "Announcing NGINX Ingress Controller for Kubernetes Release 1.5.0 – NGINX Community Blog",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 20,
+            "textWords": 2421
           }
         }
       },
@@ -835,76 +983,40 @@
         }
       },
       {
-        "hash": "h8-ScVXeYQw4",
-        "address": "https://www.gft.com/cn/en/solutions/aws-elastic-kubernetes-service",
-        "title": "Amazon EKS Delivery | GFT Technologies China",
+        "hash": "2WXb_H0jxin4",
+        "address": "https://docs.gitlab.com/runner/install/kubernetes-agent/",
+        "title": "Use the agent to install GitLab Runner | GitLab Docs",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 11,
-            "textWords": 819
+            "hits": 55,
+            "textWords": 1660
           }
         }
       },
       {
-        "hash": "qEqsXsROkKVw",
-        "address": "https://charmhub.io/",
-        "title": "Charmhub | The Open Operator Collection",
+        "hash": "gMCrwYXeYQw4",
+        "address": "https://www.gft.com/be/en/solutions/aws-elastic-kubernetes-service",
+        "title": "Amazon EKS Delivery | GFT Technologies Belgium",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 2,
-            "textWords": 153
+            "hits": 11,
+            "textWords": 816
           }
         }
       }
     ],
     [
       {
-        "hash": "sIGvK5c9duY5",
-        "address": "https://azure.microsoft.com/en-us/products/kubernetes-service/",
-        "title": "Azure Kubernetes Service (AKS) | Microsoft Azure",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 47,
-            "textWords": 4524
-          }
-        }
-      },
-      {
-        "hash": "C2SN3wn-yhj5",
-        "address": "https://www.infoworld.com/article/2266945/what-is-kubernetes-scalable-cloud-native-applications.html",
-        "title": "What is Kubernetes? Scalable cloud-native applications | InfoWorld",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 112,
-            "textWords": 3823
-          }
-        }
-      },
-      {
         "hash": "BK1hxXyvgfs5",
         "address": "https://docs.digitalocean.com/reference/api/scopes/kubernetes/access_cluster/",
         "title": "kubernetes:access_cluster | DigitalOcean Documentation",
-        "snippet": "",
+        "snippet": "kubernetes:access_cluster | DigitalOcean Documentation\nDocs\nPlatform\nProducts\nReference\nSupport\nSign Up\ndoctl CLI\nAPIs\nDigitalOcean API\nReference\nCreate an Access Token\nManage Model Access Keys\nSpaces API\nReference\nOAuth API\nMetadata API\nReference\nAccess Metadata\nToken Scopes\naccount\nactions\naddon",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 14,
-            "textWords": 661
-          }
-        }
-      },
-      {
-        "hash": "G0mGDdUhjm5w",
-        "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_modules/tests/system/cncf/kubernetes/example_kubernetes_kueue.html",
-        "title": "tests.system.cncf.kubernetes.example_kubernetes_kueue — apache-airflow-providers-cncf-kubernetes Documentation",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 14,
-            "textWords": 817
+            "textWords": 346
           }
         }
       },
@@ -917,6 +1029,54 @@
           "t26Yr5qqaAl5": {
             "hits": 14,
             "textWords": 3216
+          }
+        }
+      },
+      {
+        "hash": "sIGvK5c9duY5",
+        "address": "https://azure.microsoft.com/en-us/products/kubernetes-service/",
+        "title": "Azure Kubernetes Service (AKS) | Microsoft Azure",
+        "snippet": "Kubernetes Service (AKS) | Microsoft Azure\nThis is the Trace Id: 56f88709f9d3eb7fd820ccd99cfccb3b\nSkip to main content\nAzure\nGet to know Azure Microsoft as Customer Zero\nView all products (200+) Microsoft Foundry Azure Copilot GitHub Copilot Azure Kubernetes Service (AKS) Azure Cosmos DB Azure",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 49,
+            "textWords": 2526
+          }
+        }
+      },
+      {
+        "hash": "C2SN3wn-yhj5",
+        "address": "https://www.infoworld.com/article/2266945/what-is-kubernetes-scalable-cloud-native-applications.html",
+        "title": "What is Kubernetes? Scalable cloud-native applications | InfoWorld",
+        "snippet": "Kubernetes? Scalable cloud-native applications | InfoWorld\nTopics\nLatest\nNewsletters\nResources\nBuyer’s Guides\nEvents\nSearch\nMenu\nTopics\nClose\nAnalytics\nArtificial Intelligence\nCareers\nCloud Computing\nData Management\nDatabases\nDevelopment Tools\nDevops\nEmerging Technology\nEnterprise Buyer’s Guides",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 117,
+            "textWords": 3405
+          }
+        }
+      },
+      {
+        "hash": "rlPK_Bj-Xnjg",
+        "address": "https://www.lemagit.fr/actualites/252474547/KubeCon-Huawei-fait-de-Kubernetes-une-solution-de-Edge-Computing",
+        "title": "KubeCon : Huawei fait de Kubernetes une solution de Edge Computing | LeMagIT",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 15,
+            "textWords": 2047
+          }
+        }
+      },
+      {
+        "hash": "G0mGDdUhjm5w",
+        "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_modules/tests/system/cncf/kubernetes/example_kubernetes_kueue.html",
+        "title": "tests.system.cncf.kubernetes.example_kubernetes_kueue — apache-airflow-providers-cncf-kubernetes Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 14,
+            "textWords": 817
           }
         }
       },
@@ -957,18 +1117,6 @@
         }
       },
       {
-        "hash": "rlPK_Bj-Xnjg",
-        "address": "https://www.lemagit.fr/actualites/252474547/KubeCon-Huawei-fait-de-Kubernetes-une-solution-de-Edge-Computing",
-        "title": "KubeCon : Huawei fait de Kubernetes une solution de Edge Computing | LeMagIT",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 15,
-            "textWords": 2047
-          }
-        }
-      },
-      {
         "hash": "uYqRxs7Yxvhx",
         "address": "https://www.postgresql.org/about/news/pgedge-announces-cloudnativepg-integration-simplifying-postgres-on-kubernetes-3166/",
         "title": "PostgreSQL: pgEdge Announces CloudNativePG Integration, Simplifying Postgres on Kubernetes",
@@ -983,14 +1131,26 @@
     ],
     [
       {
+        "hash": "yy8YSGYlAY74",
+        "address": "https://ubuntu.com/kubernetes/managed",
+        "title": "Managed Kubernetes | Kubernetes | Ubuntu",
+        "snippet": "Kubernetes | Kubernetes | Ubuntu\nYour submission was sent successfully! Close\nThank you for contacting us. A member of our team will be in touch shortly. Close\nYou have successfully unsubscribed! Close\nThank you for signing up for our newsletter!\nIn these regular emails you will find the latest",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 30,
+            "textWords": 1633
+          }
+        }
+      },
+      {
         "hash": "LrlbTLo7vSm6",
         "address": "https://www.paloaltonetworks.com/cyberpedia/kubernetes-cluster-security?ts=markdown",
         "title": "Securing Your Kubernetes Cluster: Kubernetes Best Practices and Strategies - Palo Alto Networks",
-        "snippet": "",
+        "snippet": "Kubernetes Cluster: Kubernetes Best Practices and Strategies - Palo Alto Networks\nDiscover how prevention starts before the attack at InterSECt 2026. Watch Now\nPrisma AIRS AI Gateway is now generally available\nProducts\nSolutions\nServices\nIndustries\nPartners\nResources\nus\nAccounts \u0026 Support\nDemos and",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 198,
-            "textWords": 4282
+            "hits": 201,
+            "textWords": 4101
           }
         }
       },
@@ -1055,14 +1215,14 @@
         }
       },
       {
-        "hash": "yy8YSGYlAY74",
-        "address": "https://ubuntu.com/kubernetes/managed",
-        "title": "Managed Kubernetes | Kubernetes | Ubuntu",
+        "hash": "QxAjTfVtogJg",
+        "address": "https://www.cnews.ru/reviews/platformy_kubernetes_kompleksnoe_upravlenie/articles/cnewsmarket_opublikoval_pervyj_rejting_4",
+        "title": "CNewsMarket опубликовал первый рейтинг платформ Kubernetes для разработчиков ПО. Обзор: Платформы Kubernetes для комплексного управления разработкой приложений 2026 - CNews",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 28,
-            "textWords": 2081
+            "hits": 31,
+            "textWords": 2878
           }
         }
       },
@@ -1079,26 +1239,14 @@
         }
       },
       {
-        "hash": "QxAjTfVtogJg",
-        "address": "https://www.cnews.ru/reviews/platformy_kubernetes_kompleksnoe_upravlenie/articles/cnewsmarket_opublikoval_pervyj_rejting_4",
-        "title": "CNewsMarket опубликовал первый рейтинг платформ Kubernetes для разработчиков ПО. Обзор: Платформы Kubernetes для комплексного управления разработкой приложений 2026 - CNews",
+        "hash": "xAReydxoOQQg",
+        "address": "https://www.nluug.nl/evenementen/nluug/voorjaarsconferentie-2019/talks/amir-jerbi-keeping-your-kubernetes-secured-using-kube-hunter-kube-bench-and-microscanner-github/",
+        "title": "Amir Jerbi - Keeping your Kubernetes secured using kube-hunter, kube-bench and microscanner GitHub | NLUUG",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 31,
-            "textWords": 2878
-          }
-        }
-      },
-      {
-        "hash": "zKPVoUtgnJ_5",
-        "address": "https://vivekdhami.com/blog/kubernetes-working-with-multiple-contexts/",
-        "title": "Kubernetes: Working with multiple contexts | Vivek Dhami",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 4,
-            "textWords": 531
+            "hits": 8,
+            "textWords": 411
           }
         }
       }
@@ -1108,11 +1256,11 @@
         "hash": "PbrXWGS6MKD4",
         "address": "https://github.com/kubernetes/kubernetes",
         "title": "GitHub - kubernetes/kubernetes: Production-Grade Container Scheduling and Management · GitHub",
-        "snippet": "",
+        "snippet": "kubernetes/kubernetes: Production-Grade Container Scheduling and Management · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 32,
-            "textWords": 1111
+            "textWords": 933
           }
         }
       },
@@ -1120,11 +1268,11 @@
         "hash": "rhegtsjw1Zlx",
         "address": "https://kubernetes.io/training/",
         "title": "Training | Kubernetes",
-        "snippet": "",
+        "snippet": "Kubernetes\nKubernetesDocumentation\nKubernetes Blog\nTraining\nCareers\nPartners\nCommunity\nVersionsRelease Information\nv1.37\nv1.36\nv1.35\nv1.34\nv1.33\nEnglishবাংলা (Bengali)\n中文 (Chinese)\nDeutsch (German)\nहिन्दी (Hindi)\nItaliano (Italian)\n日本語 (Japanese)\n한국어 (Korean)\nفارسی (Persian)\nPolski (Polish)\nEspañol",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 41,
-            "textWords": 907
+            "hits": 42,
+            "textWords": 639
           }
         }
       },
@@ -1144,23 +1292,11 @@
         "hash": "P75USsYlAY74",
         "address": "https://ubuntu.com/kubernetes",
         "title": "Enterprise Kubernetes for multi-cloud operations | Ubuntu",
-        "snippet": "",
+        "snippet": "Kubernetes for production at scale | Ubuntu\nYour submission was sent successfully! Close\nThank you for contacting us. A member of our team will be in touch shortly. Close\nYou have successfully unsubscribed! Close\nThank you for signing up for our newsletter!\nIn these regular emails you will find the",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 59,
-            "textWords": 2248
-          }
-        }
-      },
-      {
-        "hash": "wY49LGS6MKD4",
-        "address": "https://github.com/kubernetes/kubernetes/issues",
-        "title": "Issues · kubernetes/kubernetes · GitHub",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 29,
-            "textWords": 1928
+            "hits": 61,
+            "textWords": 1810
           }
         }
       },
@@ -1168,11 +1304,11 @@
         "hash": "HYRbGlAE-CX4",
         "address": "https://www.pulumi.com/kubernetes/",
         "title": "Kubernetes with Pulumi | Pulumi",
-        "snippet": "",
+        "snippet": "Kubernetes with Pulumi | Pulumi\nSkip to main content\nIdentify weaknesses before attackers do. Neo Security finds and fixes exploitable flaws in your infrastructure. Now in research preview.\nRead the blog\nProduct\nFor engineers\nFor enterprises\nDocs\nRegistry\nBlog\nPricing\nCompany\nCore product\nPlatform",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 58,
-            "textWords": 2273
+            "hits": 62,
+            "textWords": 1754
           }
         }
       },
@@ -1180,11 +1316,11 @@
         "hash": "n00mMlSCNQa4",
         "address": "https://www.redhat.com/en/topics/containers/learning-kubernetes-tutorial",
         "title": "Learning Kubernetes basics",
-        "snippet": "",
+        "snippet": "Kubernetes basics\nSkip to content AI Overview\nAI news\nTechnical blog\nLive AI events\nInference explained\nSee our approach\nProducts\nRed Hat AI Enterprise\nRed Hat AI Inference\nRed Hat Enterprise Linux AI\nRed Hat OpenShift AI\nExplore Red Hat AI\nEngage \u0026 learn\nLearning hub\nAI topics\nAI partners\nServices",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 109,
-            "textWords": 3119
+            "hits": 112,
+            "textWords": 2881
           }
         }
       },
@@ -1192,11 +1328,11 @@
         "hash": "c8RTymBHP_k4",
         "address": "https://www.toptal.com/developers/kubernetes",
         "title": "11 Best Freelance Kubernetes Developers for Hire in September 2026 | Toptal®",
-        "snippet": "",
+        "snippet": "Kubernetes Developers for Hire in September 2026 | Toptal®\nNewsweek Ranks Toptal Toptal Ranked #1 Most Reliable Professional Services Company in America.\nSkip to Navigation\nSkip to Content\nSkip to Footer\nToptal emblem\nToptal brand logo\n®\nDevelopers\nTop 3%Hire Talent\nDevelopersDesignersMarketing",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 204,
-            "textWords": 9123
+            "hits": 201,
+            "textWords": 6916
           }
         }
       },
@@ -1223,90 +1359,138 @@
             "textWords": 1901
           }
         }
+      },
+      {
+        "hash": "igh22sex2X2w",
+        "address": "https://owasp.org/www-project-kubernetes-top-ten/",
+        "title": "OWASP Kubernetes Top Ten | OWASP Foundation",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 15,
+            "textWords": 620
+          }
+        }
       }
     ],
     [
       {
-        "hash": "1yEnuHO-4K54",
-        "address": "https://wptoots.social/@wpbot/116897223394304624",
-        "title": "wpbot :wordpress:: \"Running WordPress in Kubernetes https://wordpress…\" - WordPress Mastodon Toots",
+        "hash": "5D_p4cZWqvhw",
+        "address": "https://docs.nats.io/learn/deployment/config-management",
+        "title": "Config management | NATS Documentation",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 77
+            "hits": 8,
+            "textWords": 2201
           }
         }
       },
       {
-        "hash": "s_LILCXT2Q14",
-        "address": "https://mastodon.social/@curtismchale/117089274047993011",
-        "title": "Curtis McHale: \"Password Protecting a Redis Pod on Google Kuberne…\" - Mastodon",
+        "hash": "6mSxnzb8iyg4",
+        "address": "https://cloud.google.com/pricing/list",
+        "title": "Pricing per product | Google Cloud",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 68
+            "hits": 9,
+            "textWords": 3131
           }
         }
       },
       {
-        "hash": "xx4QJvRP9VD4",
-        "address": "https://mastodon.online/@Websplaining/116340840372860315",
-        "title": "Websplaining: \"How To Install WordPress App On An Existing Kuber…\" - Mastodon",
+        "hash": "68lXt2sEYJ15",
+        "address": "https://tailscale.com/docs/reference/troubleshooting",
+        "title": "Troubleshooting guide Â· Tailscale Docs",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 90
+            "hits": 4,
+            "textWords": 1380
           }
         }
       },
       {
-        "hash": "61pbNwAgmmYg",
-        "address": "https://social.epfl.ch/@entenza/115983039984389771",
-        "title": "Xurxo Adrián Entenza: \"If you’re at @fosdem@fosstodon.org this weekend, …\" - Mastodon EPFL",
+        "hash": "4rlD_AK-xyJ4",
+        "address": "https://go.dev/doc/go1.25",
+        "title": "Go 1.25 Release Notes - The Go Programming Language",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 1,
-            "textWords": 138
+            "textWords": 3927
           }
         }
       },
       {
-        "hash": "dcTjTF4E0lWg",
-        "address": "https://social.tchncs.de/@jbr_IC/115488862214769234",
-        "title": "Jens Brückner 😷 :debian:: \"Mittlerweile habe ich, ich weiß nicht mehr, wie v…\" - Mastodon",
+        "hash": "7NqaHG0jxin4",
+        "address": "https://docs.gitlab.com/development/work_items/",
+        "title": "Work items and work item types | GitLab Docs",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 1,
-            "textWords": 144
+            "textWords": 3548
           }
         }
       },
       {
-        "hash": "26Dbwm5PcwK5",
-        "address": "https://httpsholuwadamilarecomics.wordpress.com/2026/08/17/%f0%9f%8c%8c-nexus-omniverse-2050-readme/",
-        "title": "🌌 NEXUS OMNIVERSE 2050 Readme – holuwadamilarecomics.wordpress.com",
+        "hash": "6i6TLpvnmcu4",
+        "address": "https://access.redhat.com/support/policy/updates/openstack/platform",
+        "title": "Red Hat OpenStack Platform Life Cycle | Red Hat Customer Portal",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 1547
+            "hits": 2,
+            "textWords": 2703
           }
         }
       },
       {
-        "hash": "LrMR5eXT2Q14",
-        "address": "https://mastodon.social/@codetrendy/116352689820120498",
-        "title": "CodeTrendy: \"👀 Now live on #CodeTrendy → Top Celebrities Net W…\" - Mastodon",
+        "hash": "66QNjizFb3q4",
+        "address": "https://careers.phenom.com/global/en",
+        "title": "Phenom: Helping Global Leaders Hire Better",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 1,
-            "textWords": 83
+            "textWords": 2121
+          }
+        }
+      },
+      {
+        "hash": "7if9ElSCNQa4",
+        "address": "https://www.redhat.com/en/blog/channel/security",
+        "title": "Red Hat Security",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 1,
+            "textWords": 1589
+          }
+        }
+      },
+      {
+        "hash": "6e044tEeWEf4",
+        "address": "https://www.veeam.com/company/press-release/coficab-standardizes-its-global-backup-strategy-with-veeam.html",
+        "title": "Coficab standardizes its global backup strategy with Veeam",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 5,
+            "textWords": 1406
+          }
+        }
+      },
+      {
+        "hash": "5U1uQcZWqvhw",
+        "address": "https://docs.nats.io/learn/deployment/where-next",
+        "title": "Where to go next | NATS Documentation",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 4,
+            "textWords": 1514
           }
         }
       }
@@ -1316,11 +1500,11 @@
         "hash": "Nm0a8DiaMkRw",
         "address": "https://archive.fosdem.org/2023/schedule/event/container_kubernetes_multi_cloud/",
         "title": "FOSDEM 2023 - Deploying Kubernetes across Hybrid and Multi-Cloud Environments Using OpenNebula",
-        "snippet": "",
+        "snippet": "Kubernetes across Hybrid and Multi-Cloud Environments Using OpenNebula\nFOSDEM23\nHome\nAbout\nNews\nSchedule\nStands\nVolunteer\nPractical\nBrussels / 4 \u0026 5 February 2023\nschedule\nNews\nSponsors\nContact\nFOSDEM 2023\n/\nSchedule\n/\nEvents\n/\nDeveloper rooms\n/\nContainers\n/\nDeploying Kubernetes across Hybrid and",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 7,
-            "textWords": 480
+            "textWords": 349
           }
         }
       },
@@ -1328,11 +1512,11 @@
         "hash": "9GlFHsdTeyA4",
         "address": "https://github.blog/engineering/infrastructure/kubernetes-at-github/",
         "title": "Kubernetes at GitHub - The GitHub Blog",
-        "snippet": "",
+        "snippet": "Kubernetes at GitHub - The GitHub Blog\nSkip to content Skip to sidebar\n/ Blog Changelog\nDocs\nCustomer stories\nTry GitHub Copilot app Attend GitHub Universe\nAI \u0026 ML\nAI \u0026 ML\nLearn about artificial intelligence and machine learning across the GitHub ecosystem and the wider industry.\nGenerative AILearn",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 46,
-            "textWords": 4637
+            "hits": 49,
+            "textWords": 4166
           }
         }
       },
@@ -1397,14 +1581,14 @@
         }
       },
       {
-        "hash": "5oNtFldXA2n4",
-        "address": "https://www.linode.com/?r=0e105fac1868f5f735279daa027833f8f77b6e91",
-        "title": "The World's Most Distributed Cloud Computing Platform | Akamai",
+        "hash": "5e8N6sS6MKD4",
+        "address": "https://github.com/nats-io",
+        "title": "NATS - The Edge \u0026 Cloud Native Messaging System · GitHub",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 5,
-            "textWords": 1442
+            "hits": 1,
+            "textWords": 1310
           }
         }
       },
@@ -1421,14 +1605,14 @@
         }
       },
       {
-        "hash": "8lUbZeFEcjUx",
-        "address": "https://docs.confluent.io/platform/current/clients/overview.html",
-        "title": "Kafka Clients | Confluent Documentation",
+        "hash": "5oNtFldXA2n4",
+        "address": "https://www.linode.com/?r=0e105fac1868f5f735279daa027833f8f77b6e91",
+        "title": "The World's Most Distributed Cloud Computing Platform | Akamai",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 8,
-            "textWords": 6044
+            "hits": 5,
+            "textWords": 1442
           }
         }
       }
@@ -1438,11 +1622,11 @@
         "hash": "6IXXxGS6MKD4",
         "address": "https://github.com/kubernetes/autoscaler",
         "title": "GitHub - kubernetes/autoscaler: Autoscaling components for Kubernetes · GitHub",
-        "snippet": "",
+        "snippet": "kubernetes/autoscaler: Autoscaling components for Kubernetes · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 14,
-            "textWords": 887
+            "textWords": 742
           }
         }
       },
@@ -1450,11 +1634,11 @@
         "hash": "c9QXzSMAuxi4",
         "address": "https://www.linkedin.com/learning/learning-kubernetes-16086900",
         "title": "Learning Kubernetes Online Class | LinkedIn Learning, formerly Lynda.com",
-        "snippet": "",
+        "snippet": "Kubernetes Online Class | LinkedIn Learning, formerly Lynda.com\nLinkedIn respects your privacy\nLinkedIn and 3rd parties use essential and non-essential cookies to provide, secure, analyze and improve our Services, and to show you relevant ads (including professional and job ads) on and off",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 17,
-            "textWords": 1043
+            "hits": 18,
+            "textWords": 1027
           }
         }
       },
@@ -1462,11 +1646,11 @@
         "hash": "irJVd1c9duY5",
         "address": "https://azure.microsoft.com/en-in/products/kubernetes-service/",
         "title": "Azure Kubernetes Service (AKS) | Microsoft Azure",
-        "snippet": "",
+        "snippet": "Kubernetes Service (AKS) | Microsoft Azure\nThis is the Trace Id: ec67f6ce8ca86a6eef59ad2d0f60b1ef\nSkip to main content\nAzure\nExplore View all products (200+) Microsoft Foundry Azure Copilot GitHub Copilot Azure Kubernetes Service (AKS) Azure Cosmos DB Azure Database for PostgreSQL Azure Arc",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 58,
-            "textWords": 5025
+            "hits": 60,
+            "textWords": 2717
           }
         }
       },
@@ -1486,11 +1670,11 @@
         "hash": "40kVHo_IRdqx",
         "address": "https://phabricator.wikimedia.org/tag/kubernetes/",
         "title": "Kubernetes",
-        "snippet": "",
+        "snippet": "Kubernetes\nPage MenuHomePhabricator\nSearch\nConfigure Global Search\nLog In\nKubernetes\nOpen Tasks\nMembers\nManage\nProjects Kubernetes\nKubernetesTagActivePublic\nWatch Project\nMembers (5)\nBTullis (Ben)\nStaff SRE\njijiki (effie mouzeli)\nis an animal\nJMeybohm\nUser\nakosiaris (Alexandros Kosiaris)\nSite",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 79,
-            "textWords": 1958
+            "hits": 114,
+            "textWords": 2149
           }
         }
       },
@@ -1560,11 +1744,11 @@
         "hash": "f0AIjdUhjm5w",
         "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_modules/tests/system/cncf/kubernetes/example_kubernetes.html",
         "title": "tests.system.cncf.kubernetes.example_kubernetes — apache-airflow-providers-cncf-kubernetes Documentation",
-        "snippet": "",
+        "snippet": "tests.system.cncf.kubernetes.example_kubernetes — apache-airflow-providers-cncf-kubernetes Documentation\nAirflow Summit 2026 is coming August 31 - September 2 in Austin, TX. Register now to secure your spot!\nCommunity Meetups Documentation Registry Use Cases Announcements Blog Ecosystem\nCommunity",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 14,
-            "textWords": 1024
+            "hits": 15,
+            "textWords": 970
           }
         }
       },
@@ -1572,11 +1756,11 @@
         "hash": "GGuDG09moDe4",
         "address": "https://www.linux.com/topic/cloud/fluent-bit-flexible-logging-kubernetes/",
         "title": "Fluent Bit: Flexible Logging in Kubernetes - Linux.com",
-        "snippet": "",
+        "snippet": "Kubernetes - Linux.com\nX\nTopic AI/ML\nCloud\nDesktop\nEmbedded/IoT\nGovernance\nHardware\nLinux\nNetworking\nOpen Source\nSecurity\nSystem Administration\nAudience Developers\nDevOps\nEnterprise\nEnthusiast\nResources Tutorials\nTraining\nCertification\nEvents\nForums\nQ\u0026A\nWhat is Linux?\nAbout Us\nSearch\nSign in",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 19,
-            "textWords": 1834
+            "hits": 20,
+            "textWords": 1358
           }
         }
       },
@@ -1629,26 +1813,26 @@
         }
       },
       {
-        "hash": "HS0fzYYlAY74",
-        "address": "https://ubuntu.com/security/CVE-2007-1799",
-        "title": "CVE-2007-1799 | Ubuntu",
+        "hash": "-FdRisS6MKD4",
+        "address": "https://github.com/digitalocean",
+        "title": "DigitalOcean · GitHub",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 3,
-            "textWords": 571
+            "hits": 4,
+            "textWords": 998
           }
         }
       },
       {
-        "hash": "10os_EvogSxk",
-        "address": "https://diogobaeder.com.br/",
-        "title": "Diogo Baeder",
+        "hash": "n2gvZjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Helm_(software)",
+        "title": "Helm (package manager) - Wikipedia",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 262
+            "hits": 7,
+            "textWords": 1126
           }
         }
       },
@@ -1665,14 +1849,14 @@
         }
       },
       {
-        "hash": "n2gvZjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Helm_(software)",
-        "title": "Helm (package manager) - Wikipedia",
+        "hash": "k5CFYeMW35a4",
+        "address": "https://hub.docker.com/",
+        "title": "Docker Hub Container Image Library | App Containerization",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 7,
-            "textWords": 1126
+            "hits": 2,
+            "textWords": 1385
           }
         }
       }
@@ -1763,30 +1947,6 @@
         }
       },
       {
-        "hash": "-EJb82MW35a4",
-        "address": "https://hub.docker.com/u/qdrant",
-        "title": "qdrant",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 216
-          }
-        }
-      },
-      {
-        "hash": "_SAlu4Zky8w4",
-        "address": "https://docs.fortinet.com/document/fortiap/hardware/fortiwifi-50g-5g-qsg?model=all",
-        "title": "FortiWiFi 50G-5G QSG|FortiAP / FortiWiFi",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 5,
-            "textWords": 3090
-          }
-        }
-      },
-      {
         "hash": "JparSeFEcjUx",
         "address": "https://docs.confluent.io/platform/current/installation/docker/development.html",
         "title": "Docker Developer Guide for Confluent Platform | Confluent Documentation",
@@ -1797,18 +1957,66 @@
             "textWords": 8984
           }
         }
+      },
+      {
+        "hash": "73vxh2MW35a4",
+        "address": "https://hub.docker.com/u/5qqbrcom",
+        "title": "5qqbrcom (casa de apostas 5qq)",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 1,
+            "textWords": 171
+          }
+        }
+      },
+      {
+        "hash": "gt89e57IOcX4",
+        "address": "https://www.aquasec.com/cloud-native-academy/application-security/container-scanning/",
+        "title": "What is container scanning?",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 48,
+            "textWords": 3392
+          }
+        }
       }
     ],
     [
       {
-        "hash": "P8xl6XqO2Dlg",
-        "address": "https://media.ccc.de/v/nixcon2025-56396-kubernetes-on-nix",
-        "title": "Kubernetes on Nix - media.ccc.de",
+        "hash": "E-Lv0nv-bf35",
+        "address": "https://docs.datadoghq.com/security/workload_protection/setup/kubernetes/",
+        "title": "Setting up Workload Protection on Kubernetes",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 6,
-            "textWords": 489
+            "hits": 31,
+            "textWords": 9683
+          }
+        }
+      },
+      {
+        "hash": "P8xl6XqO2Dlg",
+        "address": "https://media.ccc.de/v/nixcon2025-56396-kubernetes-on-nix",
+        "title": "Kubernetes on Nix - media.ccc.de",
+        "snippet": "Kubernetes on Nix - media.ccc.de\nSystem\nLight\nDark\nNews\nRSS, last 100\nPodcast feed of the last two years\nSD quality\nPodcast audio feed of the last year\nPodcast archive feed, everything older than two years\nSD quality\nPodcast feeds for nixcon2025\nmp3\nopus\nwebm\nSD quality\nmp4\nSD quality\nNews\nRSS,",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 7,
+            "textWords": 359
+          }
+        }
+      },
+      {
+        "hash": "DpOP6dUhjm5w",
+        "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_api/airflow/providers/cncf/kubernetes/operators/pod/index.html",
+        "title": "airflow.providers.cncf.kubernetes.operators.pod — apache-airflow-providers-cncf-kubernetes Documentation",
+        "snippet": "airflow.providers.cncf.kubernetes.operators.pod — apache-airflow-providers-cncf-kubernetes Documentation\nAirflow Summit 2026 is coming August 31 - September 2 in Austin, TX. Register now to secure your spot!\nCommunity Meetups Documentation Registry Use Cases Announcements Blog Ecosystem\nCommunity",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 67,
+            "textWords": 3639
           }
         }
       },
@@ -1825,184 +2033,172 @@
         }
       },
       {
-        "hash": "mxLp7snJaDGx",
-        "address": "https://hachyderm.io/@K8sContributors",
-        "title": "K8sContributors (@K8sContributors@hachyderm.io) - Hachyderm.io",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 64
-          }
-        }
-      },
-      {
-        "hash": "BjqkodUhjm5w",
-        "address": "https://airflow.apache.org/docs/apache-airflow/stable/installation/supported-versions.html",
-        "title": "Supported versions — Airflow 3.3.1 Documentation",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 9,
-            "textWords": 814
-          }
-        }
-      },
-      {
-        "hash": "AGOFV2MW35a4",
-        "address": "https://hub.docker.com/u/redhatdistribution",
-        "title": "redhatdistribution (Red Hat Distribution)",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 163
-          }
-        }
-      },
-      {
-        "hash": "bQbioBv-bf35",
-        "address": "https://docs.datadoghq.com/mcp_server/setup/",
-        "title": "Set Up the Datadog MCP Server",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 21,
-            "textWords": 13952
-          }
-        }
-      },
-      {
-        "hash": "O4pfPbZxZnv4",
-        "address": "https://community.hetzner.com/tutorials/",
-        "title": "Tutorials | Hetzner Community",
+        "hash": "H6EQ8sMgN9kx",
+        "address": "https://cert-manager.io/",
+        "title": "cert-manager",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 2,
-            "textWords": 693
+            "textWords": 405
           }
         }
       },
       {
-        "hash": "DM4wLXCmq5v4",
-        "address": "https://www.suse.com/security/cve/CVE-2020-15187.html",
-        "title": "CVE-2020-15187 Common Vulnerabilities and Exposures | SUSE",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 14,
-            "textWords": 2307
-          }
-        }
-      },
-      {
-        "hash": "OnK4ujZWqvhw",
-        "address": "https://docs.nats.io/concepts/what-is-nats",
-        "title": "What is NATS? | NATS Documentation",
+        "hash": "BCAT30hl92eQ",
+        "address": "http://advisories.mageia.org/9.html",
+        "title": "Mageia 9 Advisories",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 1,
-            "textWords": 646
+            "textWords": 34106
           }
         }
       },
       {
-        "hash": "El9JLjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/App_Store_(Apple)",
-        "title": "App Store (Apple) - Wikipedia",
+        "hash": "-pHipvZky8w4",
+        "address": "https://docs.fortinet.com/product/fortindr-cloud-sensors/2.2",
+        "title": "FortiNDR Cloud Sensors 2.2",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 5,
+            "textWords": 3542
+          }
+        }
+      },
+      {
+        "hash": "UugEVs86j_2w",
+        "address": "https://monokle.io/",
+        "title": "Monokle Desktop IDE",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 7,
+            "textWords": 1747
+          }
+        }
+      },
+      {
+        "hash": "1YZauBj-Xnjg",
+        "address": "https://www.lemagit.fr/actualites/252474336/KubeCon-les-fournisseurs-se-mobilisent-pour-ameliorer-le-reseau",
+        "title": "KubeCon : les fournisseurs se mobilisent pour améliorer le réseau | LeMagIT",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 23,
+            "textWords": 2789
+          }
+        }
+      },
+      {
+        "hash": "NFxTivR2moT4",
+        "address": "https://checkmk.com/product/appliances",
+        "title": "The Checkmk Appliance: Monitoring made simple",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 1,
-            "textWords": 20873
+            "textWords": 1546
           }
         }
       }
     ],
     [
       {
-        "hash": "-XPpN2Hdo1K4",
-        "address": "https://buddy.works/docs/yaml/yaml-actions/helm",
-        "title": "YAML for Kubernetes Run Helm CMDs | Docs",
-        "snippet": "",
+        "hash": "li8uc2jw1Zlx",
+        "address": "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/",
+        "title": "Installing kubeadm | Kubernetes",
+        "snippet": "Kubernetes\nKubernetesDocumentation\nKubernetes Blog\nTraining\nCareers\nPartners\nCommunity\nVersionsRelease Information\nv1.37\nv1.36\nv1.35\nv1.34\nv1.33\nEnglish中文 (Chinese)\nFrançais (French)\nBahasa Indonesia (Indonesian)\n日本語 (Japanese)\n한국어 (Korean)\nفارسی (Persian)\nPortuguês (Portuguese)\nTiếng Việt",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 17,
-            "textWords": 1092
+            "hits": 139,
+            "textWords": 5495
           }
         }
       },
       {
-        "hash": "OMJcaBJx_nz4",
-        "address": "https://docs.pingcap.com/tidb-in-kubernetes/stable/deploy-on-aws-eks/?_ga=2.242579074.1614367570.1635442853-1838323573.1635354495",
-        "title": "Deploy TiDB on AWS EKS | TiDB Docs",
+        "hash": "ooXmW69FvE-5",
+        "address": "https://goteleport.com/platform/machine-and-workload-identity/",
+        "title": "Machine \u0026 Workload Identity for Agents, MCP, SSH, Kubernetes | Teleport",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 12,
-            "textWords": 3443
+            "hits": 8,
+            "textWords": 4120
           }
         }
       },
       {
-        "hash": "SK8aXqyiDYm6",
-        "address": "https://unit42.paloaltonetworks.com/siloscape/",
-        "title": "Siloscape: First Known Malware Targeting Windows Containers to Compromise Cloud Environments",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 18,
-            "textWords": 4499
-          }
-        }
-      },
-      {
-        "hash": "-Ul_Vliv48_z",
-        "address": "https://www.cloudcomputing-news.net/resources/",
-        "title": "Cloud Computing Resources | Cloud Computing Whitepapers \u0026 Reports | Cloud Tech News",
+        "hash": "2lY5OgndnJA5",
+        "address": "https://access.crunchydata.com/documentation/",
+        "title": "Documentation | Enterprise PostgreSQL Support \u0026 Kubernetes Solutions | Crunchy Data",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 3,
-            "textWords": 2390
+            "textWords": 1846
           }
         }
       },
       {
-        "hash": "0ZK3iX4eGBC5",
-        "address": "https://www.digitalocean.com/security/shared-responsibility-model-app-platform",
-        "title": "Shared Responsibility Model for App Platform",
+        "hash": "TKDa22c1OJAw",
+        "address": "https://etcd.io/docs/v3.6/triage/issues/",
+        "title": "Issue triage guidelines | etcd",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 3,
-            "textWords": 1013
+            "hits": 6,
+            "textWords": 2877
           }
         }
       },
       {
-        "hash": "RskoXgvnmcu4",
-        "address": "https://access.redhat.com/products/",
-        "title": "Red Hat Customer Portal - Access to 24x7 support and knowledge",
+        "hash": "oq7ftLsWTYKx",
+        "address": "https://sourceforge.net/software/containers-as-a-service-caas/for-government/",
+        "title": "Best Government Containers as a Service (CaaS) of 2026 - Reviews \u0026 Comparison",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 21,
-            "textWords": 7307
+            "hits": 68,
+            "textWords": 4923
           }
         }
       },
       {
-        "hash": "q8XdylKm-Xo4",
-        "address": "https://www.scaleway.com/en/bare-metal/",
-        "title": "High-availability Bare Metal servers | Scaleway",
+        "hash": "rIUdkyoQg_R4",
+        "address": "https://linbit.com/tech-guide/drbd-8-4-users-guide/",
+        "title": "DRBD 8.4 User’s Guide (discontinued) - LINBIT",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 7,
-            "textWords": 4220
+            "hits": 1,
+            "textWords": 521
+          }
+        }
+      },
+      {
+        "hash": "2VgA4sgkss25",
+        "address": "https://courses.ardanlabs.com/users/sign_in",
+        "title": "Sign In - Ardan Labs Education",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 1,
+            "textWords": 104
+          }
+        }
+      },
+      {
+        "hash": "oyfJrxNzCnSk",
+        "address": "https://www.elastic.co/docs/solutions/search",
+        "title": "Search use case | Elastic Docs",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 13,
+            "textWords": 3027
           }
         }
       },
@@ -2019,26 +2215,14 @@
         }
       },
       {
-        "hash": "qT9lef7_RIqy",
-        "address": "https://forum.linuxfoundation.org/discussion/855542/need-help",
-        "title": "Need help!!! — Linux Foundation Forums",
+        "hash": "ZKtFSlEeWEf4",
+        "address": "https://www.veeam.com/kb4225",
+        "title": "KB4225: Veeam Verified: Primary Storage for Continuous Data Protection (CDP) with VMware VVOL",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 550
-          }
-        }
-      },
-      {
-        "hash": "wyFcisyVVfIy",
-        "address": "https://events19.linuxfoundation.org/events/open-source-summit-japan-2019/",
-        "title": "Open Source Summit Japan 2019 - Linux Foundation Events",
-        "snippet": "",
-        "matchedWords": {
-          "t26Yr5qqaAl5": {
-            "hits": 1,
-            "textWords": 2834
+            "hits": 6,
+            "textWords": 1668
           }
         }
       }
@@ -2057,14 +2241,14 @@
         }
       },
       {
-        "hash": "W73sz2jw1Zlx",
-        "address": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/",
-        "title": "Deployments | Kubernetes",
+        "hash": "X_8FBsjw1Zlx",
+        "address": "https://kubernetes.io/bn/",
+        "title": "Kubernetes",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 97,
-            "textWords": 10047
+            "hits": 7,
+            "textWords": 576
           }
         }
       },
@@ -2072,11 +2256,11 @@
         "hash": "XKCcq6tZl1y5",
         "address": "https://kube101.jeffgeerling.com/",
         "title": "Kubernetes 101 | A YouTube streaming series on Kubernetes and container-based infrastructure by Jeff Geerling.",
-        "snippet": "",
+        "snippet": "Kubernetes 101 | A YouTube streaming series on Kubernetes and container-based infrastructure by Jeff Geerling.\nKubernetes 101\nA YouTube streaming series on Kubernetes and container-based infrastructure by Jeff Geerling.\nAnnouncing the Kubernetes 101 Book!\nFeb 10, 2021\nThe Kubernetes 101 YouTube",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 19,
-            "textWords": 1241
+            "hits": 20,
+            "textWords": 972
           }
         }
       },
@@ -2141,31 +2325,153 @@
         }
       },
       {
-        "hash": "XBmPNyRO6Xx4",
-        "address": "https://docs.redhat.com/en/products/",
-        "title": "Red Hat Documentation index | Red Hat Documentation",
+        "hash": "W-eXqzF3--Qw",
+        "address": "https://planet.mozilla.org/",
+        "title": "Planet Mozilla",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
             "hits": 2,
-            "textWords": 910
+            "textWords": 7315
           }
         }
       },
       {
-        "hash": "UM4IvUb8iyg4",
-        "address": "https://cloud.google.com/logging",
-        "title": "Cloud Logging | Google Cloud | Google Cloud",
+        "hash": "WdC7MN8zMi84",
+        "address": "https://docs.cloud.google.com/config-connector/docs/overview",
+        "title": "Config Connector overview | Google Cloud Documentation",
         "snippet": "",
         "matchedWords": {
           "t26Yr5qqaAl5": {
-            "hits": 4,
-            "textWords": 3218
+            "hits": 8,
+            "textWords": 913
           }
         }
       }
     ],
-    []
+    [],
+    [
+      {
+        "hash": "cCOwMUBJaYCh",
+        "address": "https://cloudbear.nl/blog/managed-kubernetes-hosting-schaalbare-infrastructuur-zonder-complexiteit/",
+        "title": "Managed Kubernetes hosting: schaalbare infrastructuur zonder complexiteit - Cloudbear",
+        "snippet": "Kubernetes hosting: schaalbare infrastructuur zonder complexiteit - Cloudbear\nSkip to content\nMenu\nMenu\nAanbod\nManaged Hosting Partner\nSamenwerking\nResources\nBlog\nDownloads\nKlantcases\nOver Ons\nContact\nManaged Kubernetes hosting: schaalbare infrastructuur zonder complexiteit\nManaged Kubernetes",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 14,
+            "textWords": 477
+          }
+        }
+      },
+      {
+        "hash": "YNiVlBj-Xnjg",
+        "address": "https://www.lemagit.fr/actualites/366634500/IA-sur-Kubernetes-les-analystes-epinglent-la-CNCF-face-a-lhegemonie-de-Nvidia",
+        "title": "IA sur Kubernetes : les analystes épinglent la CNCF face à l’hégémonie de Nvidia | LeMagIT",
+        "snippet": "Kubernetes : les analystes épinglent la CNCF face à l’hégémonie de Nvidia | LeMagIT\nRechercher sur LeMagIT\nS'inscrire maintenant. S'identifier S'abonner\nInforma TechTarget Explore the Network\nAn Informa TechTarget Publication Découvrez nos publications\nCookies\nProjets IT\nAgenda partenaires",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 22,
+            "textWords": 2242
+          }
+        }
+      },
+      {
+        "hash": "dmb_HXqO2Dlg",
+        "address": "https://media.ccc.de/v/ASG2017-137-what_if_component_xxx_dies_introducing_self-healing_kubernetes",
+        "title": "What If Component xxx Dies? Introducing Self-Healing Kubernetes - media.ccc.de",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 4,
+            "textWords": 605
+          }
+        }
+      },
+      {
+        "hash": "SgExoZ2nMu64",
+        "address": "https://docs.nvidia.com/ai-enterprise/",
+        "title": "NVIDIA AI Enterprise - NVIDIA Docs",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 9,
+            "textWords": 2649
+          }
+        }
+      },
+      {
+        "hash": "UmQ_xvyg9Qay",
+        "address": "https://microservices.io/tags/application%20architecture",
+        "title": "tagged with: application architecture",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 2,
+            "textWords": 1600
+          }
+        }
+      },
+      {
+        "hash": "pFakVasqLD_o",
+        "address": "https://techblog.hacomono.jp/entry/2025/12/11/000000",
+        "title": "コードでみる Crossplane と kro - hacomono TECH BLOG",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 27,
+            "textWords": 2063
+          }
+        }
+      },
+      {
+        "hash": "RSuX2DiaMkRw",
+        "address": "https://archive.fosdem.org/2023/schedule/speaker/gaurav_sitlani/",
+        "title": "FOSDEM 2023 - Gaurav Sitlani",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 2,
+            "textWords": 250
+          }
+        }
+      },
+      {
+        "hash": "JIcpQsH7AiC6",
+        "address": "https://thebackroomtech.com/",
+        "title": "The Back Room Tech - Serving up the info for back room techs everywhere",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 5,
+            "textWords": 1593
+          }
+        }
+      },
+      {
+        "hash": "XUXpyLwjNTMg",
+        "address": "https://market.cnews.ru/service",
+        "title": "Список услуг – CNewsMarket",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 3,
+            "textWords": 3615
+          }
+        }
+      },
+      {
+        "hash": "e2azK0g5sCUy",
+        "address": "https://www.socallinuxexpo.org/scale/21x/sponsor/site24x7/",
+        "title": "Site24x7 | SCALE 21x",
+        "snippet": "",
+        "matchedWords": {
+          "t26Yr5qqaAl5": {
+            "hits": 2,
+            "textWords": 319
+          }
+        }
+      }
+    ]
   ],
   "itemsInNoOrder": [],
   "documentsHeldPerQueryWord": null

@@ -1,29 +1,29 @@
 {
   "query": "self hosted email server",
-  "recordedAt": "2026-09-11T13:00:57Z",
+  "recordedAt": "2026-09-11T19:25:49Z",
   "itemsInTheOrderOfEachAnswer": [],
   "itemsInNoOrder": [
     {
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "",
+      "snippet": "Hosted by Plus.line\nContent Management by InterRed\nCopyright © 2026 Heise Medien\nVertrag widerrufen\nheise+ ab 2,99 € pro Woche lesenJetzt heise+ entdecken – ab 2,99 € pro Woche\nMit heise+ lesen Sie alle Inhalte auf heise online. Zusätzlich zu unseren Magazin-Inhalten erhalten Sie damit weitere",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4520
         },
         "WQ9T6GmYF8b6": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4520
         },
         "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4520
         },
         "zx6MFOVFBfYK": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4520
         }
       }
     },
@@ -31,23 +31,23 @@
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "",
+      "snippet": "Hosted by Plus.line\nContent Management by InterRed\nCopyright © 2026 Heise Medien\nVertrag widerrufen\nheise+ ab 2,99 € pro Woche lesenJetzt heise+ entdecken – ab 2,99 € pro Woche\nMit heise+ lesen Sie alle Inhalte auf heise online. Zusätzlich zu unseren Magazin-Inhalten erhalten Sie damit weitere",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4520
         },
         "WQ9T6GmYF8b6": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4520
         },
         "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4520
         },
         "zx6MFOVFBfYK": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4520
         }
       }
     },
@@ -55,31 +55,31 @@
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "",
+      "snippet": "Hosted by Plus.line\nContent Management by InterRed\nCopyright © 2026 Heise Medien\nVertrag widerrufen\nheise+ ab 2,99 € pro Woche lesenJetzt heise+ entdecken – ab 2,99 € pro Woche\nMit heise+ lesen Sie alle Inhalte auf heise online. Zusätzlich zu unseren Magazin-Inhalten erhalten Sie damit weitere",
       "matchedWords": {
         "DIP1fHhqC0o5": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4520
         },
         "WQ9T6GmYF8b6": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4520
         },
         "c00wMP9yrY2W": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4520
         },
         "zx6MFOVFBfYK": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4520
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "DIP1fHhqC0o5": 81774,
-    "WQ9T6GmYF8b6": 51366,
-    "c00wMP9yrY2W": 7921,
-    "zx6MFOVFBfYK": 6482
+    "DIP1fHhqC0o5": 82717,
+    "WQ9T6GmYF8b6": 51326,
+    "c00wMP9yrY2W": 6829,
+    "zx6MFOVFBfYK": 33567
   }
 }

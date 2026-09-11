@@ -1,127 +1,215 @@
 {
   "query": "free software foundation",
-  "recordedAt": "2026-09-11T12:59:59Z",
+  "recordedAt": "2026-09-11T19:24:05Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "WdJ2qlDmGrO5",
-        "address": "https://www.yatesgear.com/index.php?route=journal3/blog/post\u0026journal_blog_post_id=10",
-        "title": "Another Blog Post",
-        "snippet": "",
+        "hash": "lUVJHobrsZjx",
+        "address": "https://www.mediawiki.org/wiki/GNU_Free_Documentation_License",
+        "title": "GNU Free Documentation License - MediaWiki",
+        "snippet": "Free Documentation License - MediaWiki\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nGet MediaWiki\nGet extensions\nTech blog\nContribute\nSupport\nUser help\nFAQ\nTechnical manual\nSupport desk\nCommunication\nDevelopment\nDeveloper portal\nCode statistics\nmediawiki.org",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 65,
-            "textWords": 6685
+            "hits": 12,
+            "textWords": 3562
           },
           "Abrza739aVio": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 3562
           },
           "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      },
-      {
-        "hash": "Wfq3FswvoTD5",
-        "address": "https://r-universe.dev/articles",
-        "title": "R-universe - browse articles",
-        "snippet": "",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 9,
-            "textWords": 10851
-          },
-          "Abrza739aVio": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      },
-      {
-        "hash": "h-LMlkV-s05k",
-        "address": "https://alumni32.com.br/ato-no-02-2020-regimento-eleitoral/",
-        "title": "Ato Nº 02/2020 - Regimento Eleitoral - Alumni '32",
-        "snippet": "",
-        "matchedWords": {
-          "-foQupVsrPkd": {
-            "hits": 58,
-            "textWords": 51282
-          },
-          "Abrza739aVio": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 26,
+            "textWords": 3562
           }
         }
       }
     ],
     [
       {
-        "hash": "HYStKluI8hnw",
-        "address": "https://www.eff.org/deeplinks/2016/05/australian-productivity-commission-slams-protectionist-copyright-and-patent-laws",
-        "title": "Australian Productivity Commission Slams Protectionist Copyright and Patent Laws | Electronic Frontier Foundation",
-        "snippet": "",
+        "hash": "cXbKpjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Portal:Current_events",
+        "title": "Portal:Current events - Wikipedia",
+        "snippet": "free encyclopedia\nPortal maintenance status: (October 2020) This portal's subpages have been checked by an editor, and are needed.\nPlease take care when editing, especially if using automated editing software. Learn how to update the maintenance information here.\nWikipedia portal for content",
         "matchedWords": {
           "-foQupVsrPkd": {
+            "hits": 1,
+            "textWords": 7169
+          },
+          "Abrza739aVio": {
+            "hits": 1,
+            "textWords": 7169
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 3,
+            "textWords": 7169
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "3-XPLjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Free_Software_Foundation_of_India",
+        "title": "Free Software Foundation of India - Wikipedia",
+        "snippet": "Free Software Foundation of India - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 57,
+            "textWords": 1173
+          },
+          "Abrza739aVio": {
+            "hits": 20,
+            "textWords": 1173
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 44,
+            "textWords": 1173
+          }
+        }
+      },
+      {
+        "hash": "njbwnh3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Category:Berkeley_Software_Distribution",
+        "title": "Category:Berkeley Software Distribution - Wikimedia Commons",
+        "snippet": "Software Distribution - Wikimedia Commons\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigate\nMain page\nWelcome\nCommunity portal\nVillage pump\nHelp center\nParticipate\nUpload file\nRecent changes\nLatest files\nRandom file\nContact us\nSpecial pages\nIn Wikipedia\nالعربية\nAsturianu",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 47,
+            "textWords": 1325
+          },
+          "Abrza739aVio": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 1325
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 4,
+            "textWords": 1325
+          }
+        }
+      },
+      {
+        "hash": "eTGg0U5yy4Rk",
+        "address": "https://visme.co/blog/interactive-training-software/",
+        "title": "12 Best Interactive Training Software for Clients \u0026 Employees",
+        "snippet": "Software for Clients \u0026 Employees\nGet the practical and simple design tricks to take your slides from “meh” to “stunning”! Download for free\nSign Up Free\nCreate Products\nPresentations\nKeep your audience engaged\nDocuments\nVisual docs that inform\nCharts \u0026 Graphs\nBring your data to life\nInfographics",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 22,
+            "textWords": 5378
+          },
+          "Abrza739aVio": {
+            "hits": 1,
+            "textWords": 5378
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 15,
+            "textWords": 5378
+          }
+        }
+      },
+      {
+        "hash": "VInr0d75SICx",
+        "address": "https://dictionary.cambridge.org/dictionary/english/free-software",
+        "title": "FREE SOFTWARE | English meaning - Cambridge Dictionary",
+        "snippet": "FREE SOFTWARE | English meaning - Cambridge Dictionary\nDictionary\nTranslate\nGrammar\nThesaurus\n+Plus Cambridge Dictionary +Plus\nGames\nCambridge Dictionary +Plus\nMy profile\n+Plus help\nLog out\nCambridge Dictionary +Plus\nMy profile\n+Plus help\nLog out\nLog in / Sign up\nEnglish (UK)\nEnglish\nMeaning of",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 23,
+            "textWords": 1103
+          },
+          "Abrza739aVio": {
+            "hits": 1,
+            "textWords": 1103
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 31,
+            "textWords": 1103
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "3ZEiijRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
+        "title": "Wikipedia:About - Wikipedia",
+        "snippet": "Foundation\nMediaWiki\nMeta-Wiki\nWikimedia Outreach\nMultilingual Wikisource\nWikispecies\nWikidata\nWikifunctions\nWikimania\nWikiquote\nWikisource\nWikivoyage\nWiktionary\nWikidata item\nAppearance\nmove to sidebar\nhide\nFrom Wikipedia, the free encyclopedia\nIntroduction to English-language Wikipedia\nShortcuts",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 1,
+            "textWords": 1158
           },
           "Abrza739aVio": {
             "hits": 3,
-            "textWords": 1920
+            "textWords": 1158
           },
           "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 4,
+            "textWords": 1158
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "ev89tjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Open_Source_Security_Foundation",
+        "title": "Open Source Security Foundation - Wikipedia",
+        "snippet": "Foundation - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate",
+        "matchedWords": {
+          "-foQupVsrPkd": {
+            "hits": 37,
+            "textWords": 1209
+          },
+          "Abrza739aVio": {
+            "hits": 27,
+            "textWords": 1209
+          },
+          "qi1uT1eOsM-r": {
+            "hits": 15,
+            "textWords": 1209
           }
         }
       },
       {
-        "hash": "-b3sxspKNBr4",
-        "address": "https://rense.com/",
-        "title": "rense.com",
-        "snippet": "",
+        "hash": "c-mSaBQkoGTh",
+        "address": "https://news.europawire.eu/launch-of-the-anna-lindh-foundation-virtual-marathon-for-dialogue-0145000/eu-press-release/2021/05/28/12/21/37/88811/",
+        "title": "Launch of the Anna Lindh Foundation Virtual Marathon for Dialogue! | EuropaWire",
+        "snippet": "Foundation Virtual Marathon for Dialogue! | EuropaWire\nSkip to content\nHome\nAbout FAQs\nEditorial Staff\nContact\nInvestors\nPR Firms\nLegal Privacy Policy\nCopyright notices\nDisclaimer\nTerms of Service\nTakedown\nCopyright Infringement\nCookie Policy (EU)\nSocial X (Twitter)\nFacebook\nPinterest\nFlipboard",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 9001
           },
           "Abrza739aVio": {
-            "hits": 169,
-            "textWords": 28100
+            "hits": 11,
+            "textWords": 9001
           },
           "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 9001
           }
         }
-      },
+      }
+    ],
+    [
       {
-        "hash": "1U9VNkPMN02h",
-        "address": "https://www.mardi4nfdi.de/community/newsletter",
-        "title": "Newsletter - MaRDI",
-        "snippet": "",
+        "hash": "rXvFw_YTtSsx",
+        "address": "https://sourceware.org/glibc/manual/",
+        "title": "The GNU C Library - GNU Project - Free Software Foundation (FSF)",
+        "snippet": "Free Software Foundation (FSF)\nThe GNU C Library (glibc) manual\nThis glibc manual version 2.44 (latest) is available in the following formats:\nHTML - entirely on one web page.\nHTML - one web page per node.\nHTML compressed (gzipped tar file) - with one web page per node.\nInfo document (gzipped tar",
         "matchedWords": {
           "-foQupVsrPkd": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 170
           },
           "Abrza739aVio": {
-            "hits": 170,
-            "textWords": 6177
+            "hits": 2,
+            "textWords": 170
           },
           "qi1uT1eOsM-r": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 170
           }
         }
       }
@@ -129,9 +217,49 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "hash": "AuSc5b8CAV45",
+      "address": "https://www.encyclopedia.com/places/asia/bangladesh-political-geography/bangladesh",
+      "title": "Bangladesh | Encyclopedia.com",
+      "snippet": "free and fair elections ever held in Bangladesh, in 1991.\nBegum Khaleda Ziair Rahman, widow of General Rahman and the head of his Bangladesh Nationalist Party, became the first woman to hold the position of prime minister in Bangladesh following the elections in 1991. Among her first acts, she",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 3,
+          "textWords": 112143
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 112143
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 62,
+          "textWords": 112143
+        }
+      }
+    },
+    {
+      "hash": "EWIlQTA8Y7d4",
+      "address": "https://en.uptodown.com/about-us/stats",
+      "title": "Uptodown's Transparency Center: security, control \u0026 metrics",
+      "snippet": "foundation of trust. The information we provide here, including the most relevant metrics and context about our practices, reflects our commitment to responsible and ethical operations. Below, you will find real data on how we manage our platform —from app control to community engagement.\nThis",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 2,
+          "textWords": 1446
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 1446
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 3,
+          "textWords": 1446
+        }
+      }
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -149,9 +277,29 @@
       }
     },
     {
-      "hash": "eaT0Hj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Main_Page",
-      "title": "Wikiquote",
+      "hash": "P1V77jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Doom_3:_BFG_Edition",
+      "title": "Doom 3 - Wikipedia",
+      "snippet": "free encyclopedia\n(Redirected from Doom 3: BFG Edition)\n2004 video game\n2004 video game\nDoom 3\nBox art, displaying a Hell Knight\nDeveloper\nid Software[a]\nPublisher\nActivision[b]\nDesigner\nTim Willits[1]\nProgrammers\nJohn Carmack\nRobert A. Duffy\nArtists\nKenneth Scott\nKevin Cloud\nAdrian Carmack\nWriter",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 51,
+          "textWords": 9171
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 9171
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 2,
+          "textWords": 9171
+        }
+      }
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -169,9 +317,29 @@
       }
     },
     {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
+      "hash": "rIs7VjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Main_Page",
+      "title": "Wikipedia, the free encyclopedia",
+      "snippet": "free encyclopedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate account",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 1934
+        },
+        "Abrza739aVio": {
+          "hits": 3,
+          "textWords": 1934
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 10,
+          "textWords": 1934
+        }
+      }
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -189,9 +357,9 @@
       }
     },
     {
-      "hash": "OUOWKs7YLxR5",
-      "address": "https://thedailymessenger.wordpress.com/category/honey/",
-      "title": "honey | The Daily Messenger (mirror)",
+      "hash": "7wcW6Wawk-F5",
+      "address": "https://theintactone.com/tag/free-association-for-problem-solving/",
+      "title": "Read MBA, BBA, B.COM Notes",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -209,9 +377,9 @@
       }
     },
     {
-      "hash": "UQwEcs7YLxR5",
-      "address": "https://thedailymessenger.wordpress.com/category/ibm/",
-      "title": "IBM | The Daily Messenger (mirror)",
+      "hash": "GNfYVQhivb2Y",
+      "address": "http://www.akdart.com/abu7.html",
+      "title": "Money Down the Drain",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -229,9 +397,9 @@
       }
     },
     {
-      "hash": "2Goj8sAq2i9i",
-      "address": "https://vanosengineering.nl/table_filling/",
-      "title": "table_filling – VAN OS ENGINEERING",
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -249,189 +417,9 @@
       }
     },
     {
-      "hash": "R5vzYsOocYRx",
-      "address": "https://murdoconline.net/",
-      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Mb7ip0SWekJ4",
-      "address": "https://thangs.com/resources/blog",
-      "title": "Blog",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Tm8vbiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ELIe2QXx1HRZ",
-      "address": "http://www.dailystirrer.com/2021-may.shtml",
-      "title": "2021",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "6pHilQZchFfZ",
-      "address": "http://www.greenteethmm.com/google-omnibus.shtml",
-      "title": "google-how-search-engine-corporation-is-building-a-digital-superstate-daily-stirrer",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "I7b5hjcl0ynx",
-      "address": "https://en.wikiversity.org/wiki/Wikiversity:Main_Page",
-      "title": "Wikiversity",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Y8JVkjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Wiktionary:Main_Page",
-      "title": "Wiktionary, the free dictionary",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "djzHwjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Main_Page",
-      "title": "Wiktionary, the free dictionary",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "M1SWfqksK-54",
-      "address": "https://www.creaid.com/shortcodes/sale-banners/",
-      "title": "Sale banners - Creaid",
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -469,9 +457,9 @@
       }
     },
     {
-      "hash": "8XJ8vlptNsG4",
-      "address": "https://www.akdart.com/lib7.html",
-      "title": "Liberal Departures from the Truth",
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -489,9 +477,9 @@
       }
     },
     {
-      "hash": "Q4lQ4lpyxNCY",
-      "address": "http://dailymessenger.blogspot.com/2026/07/trumpsteins-4th-of-july-scam-false-flag.html",
-      "title": "The Daily Messenger: Trumpstein's 4th of July scam false flag doing this saturday",
+      "hash": "X4pErzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=03514",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -509,9 +497,9 @@
       }
     },
     {
-      "hash": "N6PmM7z1lbtB",
-      "address": "http://blockshuette.de/blog/?p=285",
-      "title": "Padparadschas \u0026 Blockshütte » Blog Archive » Helen \u0026 Andy’s Kinder werden 4 Wochen alt !",
+      "hash": "0ek5szqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=01228",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -529,9 +517,49 @@
       }
     },
     {
-      "hash": "BxsbyjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
-      "title": "Apple Inc. - Wikipedia",
+      "hash": "KkO8BitD2jQw",
+      "address": "https://docs.python.org/3/c-api/init_config.html",
+      "title": "Python Initialization Configuration — Python 3.14.7 documentation",
+      "snippet": "PyInitConfig_Free(config); return 0; error: { // Display the error message. // // This uncommon braces style is used, because you cannot make // goto targets point to variable declarations. const char *err_msg; (void)PyInitConfig_GetError(config, \u0026err_msg); printf(\"PYTHON INIT ERROR: %s\\n\",",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 3,
+          "textWords": 7809
+        },
+        "Abrza739aVio": {
+          "hits": 3,
+          "textWords": 7809
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 10,
+          "textWords": 7809
+        }
+      }
+    },
+    {
+      "hash": "KoP_NitD2jQw",
+      "address": "https://docs.python.org/3/reference/import.html",
+      "title": "5. The import system — Python 3.14.7 documentation",
+      "snippet": "free to remove cache entries from sys.path_importer_cache forcing the path based finder to perform the path entry search again.\nIf the path entry is not present in the cache, the path based finder iterates over every callable in sys.path_hooks. Each of the path entry hooks in this list is called",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 3,
+          "textWords": 6318
+        },
+        "Abrza739aVio": {
+          "hits": 3,
+          "textWords": 6318
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 1,
+          "textWords": 6318
+        }
+      }
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -549,9 +577,49 @@
       }
     },
     {
-      "hash": "2HPybK0C6gHw",
-      "address": "https://about.muse.jhu.edu/muse/open-access-overview/",
-      "title": "Open Access",
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "snippet": "FREE PRESS\nTrump tries to control crowd when they start to boo John Thune — ‘He’s a great Senator.’\nMaria Bartiromo issues first staement since firing.\nCollege hockey player suffers heat stroke, now brain dead after Green Beret team workout.\nDemocrat admits Talarico is lying for votes.\nHouthis",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 11117
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 11117
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 10,
+          "textWords": 11117
+        }
+      }
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "software. This is a weekly summary of its progress and community. Want something mentioned? Tag us at @thisweekinrust.bsky.social on Bluesky or @ThisWeekinRust on mastodon.social, or send us a pull request. Want to get involved? We love contributions.\nThis Week in Rust is openly developed on GitHub",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 19,
+          "textWords": 66909
+        },
+        "Abrza739aVio": {
+          "hits": 25,
+          "textWords": 66909
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 12,
+          "textWords": 66909
+        }
+      }
+    },
+    {
+      "hash": "4tQuDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Formula_One",
+      "title": "Formula One - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -569,9 +637,29 @@
       }
     },
     {
-      "hash": "Nu2Vo42ZTLMg",
-      "address": "https://bowlxtreme.co.uk/",
-      "title": "Bowl Xtreme – World Sport",
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "software reliability.\nSo these new frontiers are both exciting and a cause of anxiety for developers who can sense the industry move from the deterministic, step-by-step processes, to the unpredictable and occasionally wild world of non-deterministic AI models.\nIf you’re interested in how AI is",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 15,
+          "textWords": 32181
+        },
+        "Abrza739aVio": {
+          "hits": 8,
+          "textWords": 32181
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 5,
+          "textWords": 32181
+        }
+      }
+    },
+    {
+      "hash": "jI-jjsjsdFw4",
+      "address": "https://akdart.com/lib73.html",
+      "title": "Which party promotes hate speech and violence?",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -589,9 +677,9 @@
       }
     },
     {
-      "hash": "OUOWKs7YLxR5",
-      "address": "https://thedailymessenger.wordpress.com/category/honey/",
-      "title": "honey | The Daily Messenger (mirror)",
+      "hash": "JnqFGzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=10313",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -609,9 +697,149 @@
       }
     },
     {
-      "hash": "2Goj8sAq2i9i",
-      "address": "https://vanosengineering.nl/table_filling/",
-      "title": "table_filling – VAN OS ENGINEERING",
+      "hash": "6xU3Hs0HiIww",
+      "address": "https://indure.org/",
+      "title": "indure – House of Beauty and Healthy",
+      "snippet": "free helm engine 12th planet 2012 123 gt michael kors outlet clearance faltronsoft gegaruch bee info palermo bugs destinos exotico auto travel indure msugcf fonderie roubaix foto concurso in mujer maternity observer city room escape comic adze hellenes online hub thai nyc Software Design Website",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 9,
+          "textWords": 14158
+        },
+        "Abrza739aVio": {
+          "hits": 2,
+          "textWords": 14158
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 4,
+          "textWords": 14158
+        }
+      }
+    },
+    {
+      "hash": "BRxNPl2fgWb5",
+      "address": "https://www.tradingview.com/ideas/?type=education",
+      "title": "Trading Ideas and Technical Analysis From Top Traders — TradingView",
+      "snippet": "free. 🔵 QUICK RECAP FROM LESSON 12 Lesson 12 covered truncation — a fifth wave that completes without making a new extreme, and the internal count that separates it from a sequence still building. That was the last of the structures. This lesson uses all of them, and asks a different question:",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 12874
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 12874
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 1,
+          "textWords": 12874
+        }
+      }
+    },
+    {
+      "hash": "GUgtLB2nI1i6",
+      "address": "https://www.pissedconsumer.com/search-companies/category/stores-malls.html",
+      "title": "Search Supermarkets and Malls Companies @ PissedConsumer",
+      "snippet": "Free Fire\nWrite review For Business\nLogin\nHome\nBrowse Companies\nSupermarkets and Malls\nBrowse Supermarkets and Malls Companies\nNewly added\nCategory\nClear\nreset button\nAnimals (320)\nAnimal Services (622)\nBreeders (217)\nPet Medicine and Veterinary Clinics (633)\nPet Stores (1253)\nAppliances and",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 1238
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 1238
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 1,
+          "textWords": 1238
+        }
+      }
+    },
+    {
+      "hash": "E8oOth3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Pagina_prima",
+      "title": "Pagina prima - Wikimedia Commons",
+      "snippet": "free media repository\nSalutem tibi in Communibus!\nHaec sunt Vicimedia Communia, in quibus 147,480,496 res ad libere utendum proponuntur\nNatura\nImagines\nSocietas\nSoni\nScientia\nVideo\nAfrikaans\nAlemannisch\naragonés\nÆnglisc\nअंगिका\nالعربية\nasturianu\nавар\nBasa Bali\nBoarisch\nбеларуская\nбеларуская",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 646
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 646
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 1,
+          "textWords": 646
+        }
+      }
+    },
+    {
+      "hash": "Jb4XHs5IzNm6",
+      "address": "https://citizenfreepress.com/",
+      "title": "CITIZEN FREE PRESS",
+      "snippet": "FREE PRESS\nTrump tries to control crowd when they start to boo John Thune — ‘He’s a great Senator.’\nMaria Bartiromo issues first staement since firing.\nCollege hockey player suffers heat stroke, now brain dead after Green Beret team workout.\nDemocrat admits Talarico is lying for votes.\nHouthis",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 11117
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 11117
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 10,
+          "textWords": 11117
+        }
+      }
+    },
+    {
+      "hash": "HvLsFs5vKoy6",
+      "address": "https://12thplanet2012.com/",
+      "title": "What to Do and Know Related Business Investment",
+      "snippet": "Software\nStaffing \u0026 HR\nStart Up\nDirectory and Resources\nSociety Community\nEducation Sciences and Career\nE-sports\nPublications\nSchools and Colleges\nStudents\nWomen’s Committee\nInformations and Reviews\nSubscribe\nReformas de Baños en Pineda de Mar: Guía Completa 2025\nAug 12, 2025\nIntroducción",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 3,
+          "textWords": 1176
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 1176
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 2,
+          "textWords": 1176
+        }
+      }
+    },
+    {
+      "hash": "AuSc5b8CAV45",
+      "address": "https://www.encyclopedia.com/places/asia/bangladesh-political-geography/bangladesh",
+      "title": "Bangladesh | Encyclopedia.com",
+      "snippet": "free and fair elections ever held in Bangladesh, in 1991.\nBegum Khaleda Ziair Rahman, widow of General Rahman and the head of his Bangladesh Nationalist Party, became the first woman to hold the position of prime minister in Bangladesh following the elections in 1991. Among her first acts, she",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 3,
+          "textWords": 112143
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 112143
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 62,
+          "textWords": 112143
+        }
+      }
+    },
+    {
+      "hash": "VNx-T_8T85F5",
+      "address": "https://boggartblog.wordpress.com/",
+      "title": "BNN - Boggart Network News | Boggart Network News (BNN) reports the bizarre, weird, whacky and plain crazy news from around the globe.",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -629,9 +857,49 @@
       }
     },
     {
-      "hash": "Cpc5fjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia",
-      "title": "Wikipedia - Wikipedia",
+      "hash": "FyIGh78cRLz5",
+      "address": "https://www.afterdawn.com/glossary/term.cfm/digital_video_recorder",
+      "title": "Digital Video Recorder - AfterDawn: Glossary of technology terms \u0026 acronyms",
+      "snippet": "Software downloads | Tech Support | Forums | HIGH.FI\nRecent headlines | LG's TVs listen to conversations, collect data from home network devices, ..\nAfterDawn \u003e Digital Video Recorder\nDigital Video Recorder\nA digital video recorder (DVR) is a device that records video in a digital format to a disk",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 23,
+          "textWords": 8688
+        },
+        "Abrza739aVio": {
+          "hits": 4,
+          "textWords": 8688
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 4,
+          "textWords": 8688
+        }
+      }
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "software. This is a weekly summary of its progress and community. Want something mentioned? Tag us at @thisweekinrust.bsky.social on Bluesky or @ThisWeekinRust on mastodon.social, or send us a pull request. Want to get involved? We love contributions.\nThis Week in Rust is openly developed on GitHub",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 19,
+          "textWords": 66909
+        },
+        "Abrza739aVio": {
+          "hits": 25,
+          "textWords": 66909
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 12,
+          "textWords": 66909
+        }
+      }
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -649,9 +917,69 @@
       }
     },
     {
-      "hash": "NTmDCjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/CNN",
-      "title": "CNN - Wikipedia",
+      "hash": "GKsuSqQkoGTh",
+      "address": "https://news.europawire.eu/diabeloop-presents-new-real-life-results-of-dblg1-system-confirmed-improvement-in-time-in-range-18-4-percentage-points-reduction-of-time-spent-in-hypoglycemia-to-only-0-9-069628000/eu-press-release/2022/04/28/08/01/08/99960/",
+      "title": "Diabeloop presents new real-life results of DBLG1® System: Confirmed improvement in Time In Range +18.4 percentage points; Reduction of time spent in hypoglycemia to only 0.",
+      "snippet": "Free (Exclusivity)\nVIP Account\nDistribution reports\nNewsrooms\nVIP\nInvestors\nPublications\n🌍 🇪🇺 EuropaWire Pan-European\n🇪🇸 EuropaWire Spain\n🇩🇪 EuropaWire Germany\n🇫🇷 EuropaWire France\nDiabeloop presents new real-life results of DBLG1® System: Confirmed improvement in Time In Range +18.4 percentage",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 10325
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 10325
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 4,
+          "textWords": 10325
+        }
+      }
+    },
+    {
+      "hash": "BVTg4jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/JPIP",
+      "title": "JPIP - Wikipedia",
+      "snippet": "free encyclopedia\nThis article includes a list of references, related reading, or external links, but its sources remain unclear because it lacks inline citations. Please help improve this article by introducing more precise citations. (September 2024) (Learn how and when to remove this message)",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 1073
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 1073
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 1,
+          "textWords": 1073
+        }
+      }
+    },
+    {
+      "hash": "P1V77jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Doom_3:_BFG_Edition",
+      "title": "Doom 3 - Wikipedia",
+      "snippet": "free encyclopedia\n(Redirected from Doom 3: BFG Edition)\n2004 video game\n2004 video game\nDoom 3\nBox art, displaying a Hell Knight\nDeveloper\nid Software[a]\nPublisher\nActivision[b]\nDesigner\nTim Willits[1]\nProgrammers\nJohn Carmack\nRobert A. Duffy\nArtists\nKenneth Scott\nKevin Cloud\nAdrian Carmack\nWriter",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 51,
+          "textWords": 9171
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 9171
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 2,
+          "textWords": 9171
+        }
+      }
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -669,9 +997,29 @@
       }
     },
     {
-      "hash": "M6B2ytS6MKD4",
-      "address": "https://github.com/trending/fortran?since=daily",
-      "title": "Trending Fortran repositories on GitHub today · GitHub",
+      "hash": "rIs7VjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Main_Page",
+      "title": "Wikipedia, the free encyclopedia",
+      "snippet": "free encyclopedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate account",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 1934
+        },
+        "Abrza739aVio": {
+          "hits": 3,
+          "textWords": 1934
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 10,
+          "textWords": 1934
+        }
+      }
+    },
+    {
+      "hash": "0l6d2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/COVID-19",
+      "title": "COVID-19 - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -689,9 +1037,29 @@
       }
     },
     {
-      "hash": "Mb7ip0SWekJ4",
-      "address": "https://thangs.com/resources/blog",
-      "title": "Blog",
+      "hash": "3be4yjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lazy_evaluation",
+      "title": "Lazy evaluation - Wikipedia",
+      "snippet": "free encyclopedia\nSoftware optimization technique\nEvaluation strategies\nEager evaluation\nLazy evaluation\nPartial evaluation\nRemote evaluation\nShort-circuit evaluation\nv\nt\ne\nIn programming language theory, lazy evaluation, or call-by-need,[1] is an evaluation strategy which delays the evaluation of",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 4219
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 4219
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 1,
+          "textWords": 4219
+        }
+      }
+    },
+    {
+      "hash": "4tQuDjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Formula_One",
+      "title": "Formula One - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -709,9 +1077,29 @@
       }
     },
     {
-      "hash": "UhauJsX0qSDr",
-      "address": "https://kebudayaantanahdatar.id/",
-      "title": "kebudayaantanahdatarid",
+      "hash": "65ew2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Digital_object_identifier",
+      "title": "Digital object identifier - Wikipedia",
+      "snippet": "free encyclopedia\nISO standard unique string identifier for a digital object\nDigital object identifier\nFull name\nDigital Object Identifier\nAcronym\nDOI\nOrganisation\nInternational DOI Foundation\nIntroduced\nOctober 1997; 28 years ago (1997-10)[1]\nExample\n10.1000/182\nWebsite\nwww\n.doi\n.org",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 2,
+          "textWords": 5487
+        },
+        "Abrza739aVio": {
+          "hits": 19,
+          "textWords": 5487
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 2,
+          "textWords": 5487
+        }
+      }
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -729,9 +1117,49 @@
       }
     },
     {
-      "hash": "Diwoi2Y5tOkw",
-      "address": "https://www.unodc.org/unodc/en/frontpage/index.html",
-      "title": "Stories from UNODC",
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "software reliability.\nSo these new frontiers are both exciting and a cause of anxiety for developers who can sense the industry move from the deterministic, step-by-step processes, to the unpredictable and occasionally wild world of non-deterministic AI models.\nIf you’re interested in how AI is",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 15,
+          "textWords": 32181
+        },
+        "Abrza739aVio": {
+          "hits": 8,
+          "textWords": 32181
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 5,
+          "textWords": 32181
+        }
+      }
+    },
+    {
+      "hash": "VtHnjQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-january.shtml",
+      "title": "dailystirrer-2021-news-January-comment-opinion-controversy-contrarianism",
+      "snippet": "free speech, this does not mean we necessarily agree with the views expressed by our contributors.\nAfter a year in 2020 of disrupted poisting due mainly to the hoax pandemic, we hope to be back with our regular updates on the news you will not get from mainstream media. If you want to know what is",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 35670
+        },
+        "Abrza739aVio": {
+          "hits": 10,
+          "textWords": 35670
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 10,
+          "textWords": 35670
+        }
+      }
+    },
+    {
+      "hash": "7wcW6Wawk-F5",
+      "address": "https://theintactone.com/tag/free-association-for-problem-solving/",
+      "title": "Read MBA, BBA, B.COM Notes",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -749,302 +1177,22 @@
       }
     },
     {
-      "hash": "MW69aQZchFfZ",
-      "address": "http://www.greenteethmm.com/2021-october.shtml",
-      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "",
+      "hash": "HOf_cobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Project:About",
+      "title": "Project:About - MediaWiki",
+      "snippet": "Foundation\nMeta-Wiki\nWikimedia Outreach\nMultilingual Wikisource\nWikispecies\nWikidata\nWikifunctions\nWikimania\nWikipedia\nWikiquote\nWikisource\nWikivoyage\nWiktionary\nWikidata item\nAppearance\nmove to sidebar\nhide\nFrom mediawiki.org\nTranslate this page\nLanguages:\nAfrikaans\nBahasa Indonesia\nBahasa Melayu",
       "matchedWords": {
         "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 18,
+          "textWords": 1447
         },
         "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1447
         },
         "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CBV5zLkCAQb4",
-      "address": "https://tysknews.com/News/news.html",
-      "title": "TYSK — NEWS \u0026 EDITORIALS",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "M1SWfqksK-54",
-      "address": "https://www.creaid.com/shortcodes/sale-banners/",
-      "title": "Sale banners - Creaid",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "O_mSlwxrQlU5",
-      "address": "https://steppingtoes.wordpress.com/tag/only-true-god/",
-      "title": "Only True God | Stepping Toes",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "P8uyUQyWzhSa",
-      "address": "http://www.battleswarmblog.com/",
-      "title": "Lawrence Person's BattleSwarm Blog",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "N6PmM7z1lbtB",
-      "address": "http://blockshuette.de/blog/?p=285",
-      "title": "Padparadschas \u0026 Blockshütte » Blog Archive » Helen \u0026 Andy’s Kinder werden 4 Wochen alt !",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "eaT0Hj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Main_Page",
-      "title": "Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "UQwEcs7YLxR5",
-      "address": "https://thedailymessenger.wordpress.com/category/ibm/",
-      "title": "IBM | The Daily Messenger (mirror)",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Cpc5fjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia",
-      "title": "Wikipedia - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Tm8vbiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 1447
         }
       }
     },
@@ -1069,9 +1217,29 @@
       }
     },
     {
-      "hash": "I7b5hjcl0ynx",
-      "address": "https://en.wikiversity.org/wiki/Wikiversity:Main_Page",
-      "title": "Wikiversity",
+      "hash": "Fn4lKjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Main_Page",
+      "title": "Wikivoyage – The free worldwide travel guide that you can edit",
+      "snippet": "free worldwide travel guide that you can edit\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nTravel destinations\nStar articles\nWhat's nearby?\nTrip planner\nTravel forum\nArrivals lounge\nRandom page\nGet involved\nTravellers' pub\nRecent changes\nCommunity portal\nMaintenance",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 607
+        },
+        "Abrza739aVio": {
+          "hits": 2,
+          "textWords": 607
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 3,
+          "textWords": 607
+        }
+      }
+    },
+    {
+      "hash": "99jWW5c9duY5",
+      "address": "https://azure.microsoft.com/en-us/free/students/",
+      "title": "Azure for Students | Microsoft Azure",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1089,9 +1257,9 @@
       }
     },
     {
-      "hash": "Y8JVkjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Wiktionary:Main_Page",
-      "title": "Wiktionary, the free dictionary",
+      "hash": "GNfYVQhivb2Y",
+      "address": "http://www.akdart.com/abu7.html",
+      "title": "Money Down the Drain",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1109,9 +1277,29 @@
       }
     },
     {
-      "hash": "djzHwjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Main_Page",
-      "title": "Wiktionary, the free dictionary",
+      "hash": "GDraRjjpmq6Q",
+      "address": "http://www.gnu.org/licenses/fdl-1.3.html",
+      "title": "GNU Free Documentation License v1.3 - GNU Project - Free Software Foundation",
+      "snippet": "Free Documentation License v1.3 - GNU Project - Free Software Foundation\nSkip to main text\nFree Software Supporter:\nJOIN THE FSF\nGNU Operating System\nSupported by the Free Software Foundation\nSite navigation Skip ABOUT GNU\nPHILOSOPHY\n= LICENSES =\nEDUCATION\nSOFTWARE\nDISTROS\nDOCS\nMALWARE\nHELP GNU",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 20,
+          "textWords": 3887
+        },
+        "Abrza739aVio": {
+          "hits": 8,
+          "textWords": 3887
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 30,
+          "textWords": 3887
+        }
+      }
+    },
+    {
+      "hash": "jI-jjsjsdFw4",
+      "address": "https://akdart.com/lib73.html",
+      "title": "Which party promotes hate speech and violence?",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1129,9 +1317,9 @@
       }
     },
     {
-      "hash": "Q4lQ4lpyxNCY",
-      "address": "http://dailymessenger.blogspot.com/2026/07/trumpsteins-4th-of-july-scam-false-flag.html",
-      "title": "The Daily Messenger: Trumpstein's 4th of July scam false flag doing this saturday",
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1149,9 +1337,9 @@
       }
     },
     {
-      "hash": "SzUDgSxWH45x",
-      "address": "https://vice-emu.sourceforge.io/index.html",
-      "title": "VICE - the Versatile Commodore Emulator",
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1169,9 +1357,9 @@
       }
     },
     {
-      "hash": "O_mSlwxrQlU5",
-      "address": "https://steppingtoes.wordpress.com/tag/only-true-god/",
-      "title": "Only True God | Stepping Toes",
+      "hash": "D-6-jlotZ7Sw",
+      "address": "https://www.gnome.org/privacy-policy",
+      "title": "GNOME — Privacy Policy",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1189,9 +1377,9 @@
       }
     },
     {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1209,709 +1397,9 @@
       }
     },
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "2HPybK0C6gHw",
-      "address": "https://about.muse.jhu.edu/muse/open-access-overview/",
-      "title": "Open Access",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Nu2Vo42ZTLMg",
-      "address": "https://bowlxtreme.co.uk/",
-      "title": "Bowl Xtreme – World Sport",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DWeYUh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Category:Commodore_128",
-      "title": "Category:Commodore 128 - Wikimedia Commons",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "OUOWKs7YLxR5",
-      "address": "https://thedailymessenger.wordpress.com/category/honey/",
-      "title": "honey | The Daily Messenger (mirror)",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "UQwEcs7YLxR5",
-      "address": "https://thedailymessenger.wordpress.com/category/ibm/",
-      "title": "IBM | The Daily Messenger (mirror)",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "2Goj8sAq2i9i",
-      "address": "https://vanosengineering.nl/table_filling/",
-      "title": "table_filling – VAN OS ENGINEERING",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BsRHNUC_VmZ4",
-      "address": "https://www.sonatype.com/resources/whitepapers/2024-forrester-wave?hsCtaAttrib=217560327987",
-      "title": "The 2024 Forrester Wave™ Software Composition Analysis",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CfGENlC_VmZ4",
-      "address": "https://www.sonatype.com/contactus?hsCtaAttrib=217560324380",
-      "title": "Contact Us Your Software Supply Chain Experts | Sonatype",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-AI0-jC_VmZ4",
-      "address": "https://www.sonatype.com/products/sonatype-nexus-pro/trial?hsCtaAttrib=217560263719",
-      "title": "Try Sonatype Nexus Repository Manager Free | Sonatype",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BDHr1AFozFBx",
-      "address": "https://diff.wikimedia.org/2013/03/04/parsoid-how-wikipedia-catches-up-with-the-web/",
-      "title": "Parsoid: How Wikipedia catches up with the web – Diff",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "R5vzYsOocYRx",
-      "address": "https://murdoconline.net/",
-      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BxsbyjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
-      "title": "Apple Inc. - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Cpc5fjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia",
-      "title": "Wikipedia - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "NTmDCjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/CNN",
-      "title": "CNN - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "TmMGljRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/New_York_(state)",
-      "title": "New York (state) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Mb7ip0SWekJ4",
-      "address": "https://thangs.com/resources/blog",
-      "title": "Blog",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Tm8vbiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "UhauJsX0qSDr",
-      "address": "https://kebudayaantanahdatar.id/",
-      "title": "kebudayaantanahdatarid",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DjdQVQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2020-january.shtml",
-      "title": "dailystirrer-2020-news-January-comment-opinion-controversy-contrarianism",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ELIe2QXx1HRZ",
-      "address": "http://www.dailystirrer.com/2021-may.shtml",
-      "title": "2021",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Diwoi2Y5tOkw",
-      "address": "https://www.unodc.org/unodc/en/frontpage/index.html",
-      "title": "Stories from UNODC",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "MW69aQZchFfZ",
-      "address": "http://www.greenteethmm.com/2021-october.shtml",
-      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "q2TQsobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/MediaWiki",
-      "title": "MediaWiki",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "I7b5hjcl0ynx",
-      "address": "https://en.wikiversity.org/wiki/Wikiversity:Main_Page",
-      "title": "Wikiversity",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Y8JVkjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Wiktionary:Main_Page",
-      "title": "Wiktionary, the free dictionary",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "djzHwjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Main_Page",
-      "title": "Wiktionary, the free dictionary",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CBV5zLkCAQb4",
-      "address": "https://tysknews.com/News/news.html",
-      "title": "TYSK — NEWS \u0026 EDITORIALS",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "M1SWfqksK-54",
-      "address": "https://www.creaid.com/shortcodes/sale-banners/",
-      "title": "Sale banners - Creaid",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "5m_o9sl9MDZ6",
-      "address": "https://colablosangeles.com/",
-      "title": "COLAB Los Angeles | Digital Marketing Agency \u0026 Video Production",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CoQevlnNKG4w",
-      "address": "https://www150.statcan.gc.ca/n1/en/type/reference",
-      "title": "Reference resources",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ClTOilptNsG4",
-      "address": "https://www.akdart.com/obama11.html",
-      "title": "The Obama Presidency : Narcissism and Bad Decisions",
+      "hash": "FzYmTlptNsG4",
+      "address": "https://www.akdart.com/sports.html",
+      "title": "The Sports Page: Corporate Welfare, Publicly Funded Stadiums",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1949,9 +1437,9 @@
       }
     },
     {
-      "hash": "8XJ8vlptNsG4",
-      "address": "https://www.akdart.com/lib7.html",
-      "title": "Liberal Departures from the Truth",
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1969,9 +1457,9 @@
       }
     },
     {
-      "hash": "Q4lQ4lpyxNCY",
-      "address": "http://dailymessenger.blogspot.com/2026/07/trumpsteins-4th-of-july-scam-false-flag.html",
-      "title": "The Daily Messenger: Trumpstein's 4th of July scam false flag doing this saturday",
+      "hash": "C0ZCSzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=01873",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -1989,9 +1477,9 @@
       }
     },
     {
-      "hash": "U0PG4qwMR4F5",
-      "address": "https://originalboggartblog.wordpress.com/tag/health/",
-      "title": "health | The Original Boggart Blog",
+      "hash": "IEhBNzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=08330",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2009,9 +1497,9 @@
       }
     },
     {
-      "hash": "SzUDgSxWH45x",
-      "address": "https://vice-emu.sourceforge.io/index.html",
-      "title": "VICE - the Versatile Commodore Emulator",
+      "hash": "JnqFGzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=10313",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2029,9 +1517,9 @@
       }
     },
     {
-      "hash": "O_mSlwxrQlU5",
-      "address": "https://steppingtoes.wordpress.com/tag/only-true-god/",
-      "title": "Only True God | Stepping Toes",
+      "hash": "7nRKkzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=00909",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2049,9 +1537,49 @@
       }
     },
     {
-      "hash": "N6PmM7z1lbtB",
-      "address": "http://blockshuette.de/blog/?p=285",
-      "title": "Padparadschas \u0026 Blockshütte » Blog Archive » Helen \u0026 Andy’s Kinder werden 4 Wochen alt !",
+      "hash": "KkO8BitD2jQw",
+      "address": "https://docs.python.org/3/c-api/init_config.html",
+      "title": "Python Initialization Configuration — Python 3.14.7 documentation",
+      "snippet": "PyInitConfig_Free(config); return 0; error: { // Display the error message. // // This uncommon braces style is used, because you cannot make // goto targets point to variable declarations. const char *err_msg; (void)PyInitConfig_GetError(config, \u0026err_msg); printf(\"PYTHON INIT ERROR: %s\\n\",",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 3,
+          "textWords": 7809
+        },
+        "Abrza739aVio": {
+          "hits": 3,
+          "textWords": 7809
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 10,
+          "textWords": 7809
+        }
+      }
+    },
+    {
+      "hash": "KoP_NitD2jQw",
+      "address": "https://docs.python.org/3/reference/import.html",
+      "title": "5. The import system — Python 3.14.7 documentation",
+      "snippet": "free to remove cache entries from sys.path_importer_cache forcing the path based finder to perform the path entry search again.\nIf the path entry is not present in the cache, the path based finder iterates over every callable in sys.path_hooks. Each of the path entry hooks in this list is called",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 3,
+          "textWords": 6318
+        },
+        "Abrza739aVio": {
+          "hits": 3,
+          "textWords": 6318
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 1,
+          "textWords": 6318
+        }
+      }
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2069,9 +1597,9 @@
       }
     },
     {
-      "hash": "M6B2ytS6MKD4",
-      "address": "https://github.com/trending/fortran?since=daily",
-      "title": "Trending Fortran repositories on GitHub today · GitHub",
+      "hash": "HjtAGszRZe6w",
+      "address": "https://kde.org/donate/",
+      "title": "Donate and support KDE - KDE Community",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2089,9 +1617,9 @@
       }
     },
     {
-      "hash": "6pHilQZchFfZ",
-      "address": "http://www.greenteethmm.com/google-omnibus.shtml",
-      "title": "google-how-search-engine-corporation-is-building-a-digital-superstate-daily-stirrer",
+      "hash": "X4pErzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=03514",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2109,9 +1637,9 @@
       }
     },
     {
-      "hash": "P8uyUQyWzhSa",
-      "address": "http://www.battleswarmblog.com/",
-      "title": "Lawrence Person's BattleSwarm Blog",
+      "hash": "0ek5szqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=01228",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2129,9 +1657,9 @@
       }
     },
     {
-      "hash": "eaT0Hj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Main_Page",
-      "title": "Wikiquote",
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2149,9 +1677,9 @@
       }
     },
     {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2169,9 +1697,49 @@
       }
     },
     {
-      "hash": "TmMGljRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/New_York_(state)",
-      "title": "New York (state) - Wikipedia",
+      "hash": "rIs7VjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Main_Page",
+      "title": "Wikipedia, the free encyclopedia",
+      "snippet": "free encyclopedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate account",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 1934
+        },
+        "Abrza739aVio": {
+          "hits": 3,
+          "textWords": 1934
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 10,
+          "textWords": 1934
+        }
+      }
+    },
+    {
+      "hash": "BRxNPl2fgWb5",
+      "address": "https://www.tradingview.com/ideas/?type=education",
+      "title": "Trading Ideas and Technical Analysis From Top Traders — TradingView",
+      "snippet": "free. 🔵 QUICK RECAP FROM LESSON 12 Lesson 12 covered truncation — a fifth wave that completes without making a new extreme, and the internal count that separates it from a sequence still building. That was the last of the structures. This lesson uses all of them, and asks a different question:",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 12874
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 12874
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 1,
+          "textWords": 12874
+        }
+      }
+    },
+    {
+      "hash": "AVDk_jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/International_Standard_Book_Number",
+      "title": "ISBN - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2189,9 +1757,149 @@
       }
     },
     {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
+      "hash": "BVTg4jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/JPIP",
+      "title": "JPIP - Wikipedia",
+      "snippet": "free encyclopedia\nThis article includes a list of references, related reading, or external links, but its sources remain unclear because it lacks inline citations. Please help improve this article by introducing more precise citations. (September 2024) (Learn how and when to remove this message)",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 1073
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 1073
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 1,
+          "textWords": 1073
+        }
+      }
+    },
+    {
+      "hash": "65ew2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Digital_object_identifier",
+      "title": "Digital object identifier - Wikipedia",
+      "snippet": "free encyclopedia\nISO standard unique string identifier for a digital object\nDigital object identifier\nFull name\nDigital Object Identifier\nAcronym\nDOI\nOrganisation\nInternational DOI Foundation\nIntroduced\nOctober 1997; 28 years ago (1997-10)[1]\nExample\n10.1000/182\nWebsite\nwww\n.doi\n.org",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 2,
+          "textWords": 5487
+        },
+        "Abrza739aVio": {
+          "hits": 19,
+          "textWords": 5487
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 2,
+          "textWords": 5487
+        }
+      }
+    },
+    {
+      "hash": "GUgtLB2nI1i6",
+      "address": "https://www.pissedconsumer.com/search-companies/category/stores-malls.html",
+      "title": "Search Supermarkets and Malls Companies @ PissedConsumer",
+      "snippet": "Free Fire\nWrite review For Business\nLogin\nHome\nBrowse Companies\nSupermarkets and Malls\nBrowse Supermarkets and Malls Companies\nNewly added\nCategory\nClear\nreset button\nAnimals (320)\nAnimal Services (622)\nBreeders (217)\nPet Medicine and Veterinary Clinics (633)\nPet Stores (1253)\nAppliances and",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 1238
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 1238
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 1,
+          "textWords": 1238
+        }
+      }
+    },
+    {
+      "hash": "E8oOth3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Pagina_prima",
+      "title": "Pagina prima - Wikimedia Commons",
+      "snippet": "free media repository\nSalutem tibi in Communibus!\nHaec sunt Vicimedia Communia, in quibus 147,480,496 res ad libere utendum proponuntur\nNatura\nImagines\nSocietas\nSoni\nScientia\nVideo\nAfrikaans\nAlemannisch\naragonés\nÆnglisc\nअंगिका\nالعربية\nasturianu\nавар\nBasa Bali\nBoarisch\nбеларуская\nбеларуская",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 646
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 646
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 1,
+          "textWords": 646
+        }
+      }
+    },
+    {
+      "hash": "HvLsFs5vKoy6",
+      "address": "https://12thplanet2012.com/",
+      "title": "What to Do and Know Related Business Investment",
+      "snippet": "Software\nStaffing \u0026 HR\nStart Up\nDirectory and Resources\nSociety Community\nEducation Sciences and Career\nE-sports\nPublications\nSchools and Colleges\nStudents\nWomen’s Committee\nInformations and Reviews\nSubscribe\nReformas de Baños en Pineda de Mar: Guía Completa 2025\nAug 12, 2025\nIntroducción",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 3,
+          "textWords": 1176
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 1176
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 2,
+          "textWords": 1176
+        }
+      }
+    },
+    {
+      "hash": "FyIGh78cRLz5",
+      "address": "https://www.afterdawn.com/glossary/term.cfm/digital_video_recorder",
+      "title": "Digital Video Recorder - AfterDawn: Glossary of technology terms \u0026 acronyms",
+      "snippet": "Software downloads | Tech Support | Forums | HIGH.FI\nRecent headlines | LG's TVs listen to conversations, collect data from home network devices, ..\nAfterDawn \u003e Digital Video Recorder\nDigital Video Recorder\nA digital video recorder (DVR) is a device that records video in a digital format to a disk",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 23,
+          "textWords": 8688
+        },
+        "Abrza739aVio": {
+          "hits": 4,
+          "textWords": 8688
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 4,
+          "textWords": 8688
+        }
+      }
+    },
+    {
+      "hash": "EWIlQTA8Y7d4",
+      "address": "https://en.uptodown.com/about-us/stats",
+      "title": "Uptodown's Transparency Center: security, control \u0026 metrics",
+      "snippet": "foundation of trust. The information we provide here, including the most relevant metrics and context about our practices, reflects our commitment to responsible and ethical operations. Below, you will find real data on how we manage our platform —from app control to community engagement.\nThis",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 2,
+          "textWords": 1446
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 1446
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 3,
+          "textWords": 1446
+        }
+      }
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2209,9 +1917,49 @@
       }
     },
     {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
+      "hash": "GKsuSqQkoGTh",
+      "address": "https://news.europawire.eu/diabeloop-presents-new-real-life-results-of-dblg1-system-confirmed-improvement-in-time-in-range-18-4-percentage-points-reduction-of-time-spent-in-hypoglycemia-to-only-0-9-069628000/eu-press-release/2022/04/28/08/01/08/99960/",
+      "title": "Diabeloop presents new real-life results of DBLG1® System: Confirmed improvement in Time In Range +18.4 percentage points; Reduction of time spent in hypoglycemia to only 0.9% | EuropaWire",
+      "snippet": "Free (Exclusivity)\nVIP Account\nDistribution reports\nNewsrooms\nVIP\nInvestors\nPublications\n🌍 🇪🇺 EuropaWire Pan-European\n🇪🇸 EuropaWire Spain\n🇩🇪 EuropaWire Germany\n🇫🇷 EuropaWire France\nDiabeloop presents new real-life results of DBLG1® System: Confirmed improvement in Time In Range +18.4 percentage",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 10325
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 10325
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 4,
+          "textWords": 10325
+        }
+      }
+    },
+    {
+      "hash": "rIs7VjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Main_Page",
+      "title": "Wikipedia, the free encyclopedia",
+      "snippet": "free encyclopedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate account",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 1934
+        },
+        "Abrza739aVio": {
+          "hits": 3,
+          "textWords": 1934
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 10,
+          "textWords": 1934
+        }
+      }
+    },
+    {
+      "hash": "9p2eCjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "title": "Artificial intelligence - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -2229,762 +1977,22 @@
       }
     },
     {
-      "hash": "DWeYUh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Category:Commodore_128",
-      "title": "Category:Commodore 128 - Wikimedia Commons",
-      "snippet": "",
+      "hash": "HOf_cobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Project:About",
+      "title": "Project:About - MediaWiki",
+      "snippet": "Foundation\nMeta-Wiki\nWikimedia Outreach\nMultilingual Wikisource\nWikispecies\nWikidata\nWikifunctions\nWikimania\nWikipedia\nWikiquote\nWikisource\nWikivoyage\nWiktionary\nWikidata item\nAppearance\nmove to sidebar\nhide\nFrom mediawiki.org\nTranslate this page\nLanguages:\nAfrikaans\nBahasa Indonesia\nBahasa Melayu",
       "matchedWords": {
         "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 18,
+          "textWords": 1447
         },
         "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1447
         },
         "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BsRHNUC_VmZ4",
-      "address": "https://www.sonatype.com/resources/whitepapers/2024-forrester-wave?hsCtaAttrib=217560327987",
-      "title": "The 2024 Forrester Wave™ Software Composition Analysis",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CfGENlC_VmZ4",
-      "address": "https://www.sonatype.com/contactus?hsCtaAttrib=217560324380",
-      "title": "Contact Us Your Software Supply Chain Experts | Sonatype",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BDHr1AFozFBx",
-      "address": "https://diff.wikimedia.org/2013/03/04/parsoid-how-wikipedia-catches-up-with-the-web/",
-      "title": "Parsoid: How Wikipedia catches up with the web – Diff",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BxsbyjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
-      "title": "Apple Inc. - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Cpc5fjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia",
-      "title": "Wikipedia - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DjdQVQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2020-january.shtml",
-      "title": "dailystirrer-2020-news-January-comment-opinion-controversy-contrarianism",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Diwoi2Y5tOkw",
-      "address": "https://www.unodc.org/unodc/en/frontpage/index.html",
-      "title": "Stories from UNODC",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CBV5zLkCAQb4",
-      "address": "https://tysknews.com/News/news.html",
-      "title": "TYSK — NEWS \u0026 EDITORIALS",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CoQevlnNKG4w",
-      "address": "https://www150.statcan.gc.ca/n1/en/type/reference",
-      "title": "Reference",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ClTOilptNsG4",
-      "address": "https://www.akdart.com/obama11.html",
-      "title": "The Obama Presidency : Narcissism and Bad Decisions",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BDHr1AFozFBx",
-      "address": "https://diff.wikimedia.org/2013/03/04/parsoid-how-wikipedia-catches-up-with-the-web/",
-      "title": "Parsoid: How Wikipedia catches up with the web – Diff",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "I7b5hjcl0ynx",
-      "address": "https://en.wikiversity.org/wiki/Wikiversity:Main_Page",
-      "title": "Wikiversity",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Y8JVkjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Wiktionary:Main_Page",
-      "title": "Wiktionary, the free dictionary",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "I7b5hjcl0ynx",
-      "address": "https://en.wikiversity.org/wiki/Wikiversity:Main_Page",
-      "title": "Wikiversity",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "eaT0Hj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Main_Page",
-      "title": "Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "2HPybK0C6gHw",
-      "address": "https://about.muse.jhu.edu/muse/open-access-overview/",
-      "title": "Open Access",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Nu2Vo42ZTLMg",
-      "address": "https://bowlxtreme.co.uk/",
-      "title": "Bowl Xtreme – World Sport",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DWeYUh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Category:Commodore_128",
-      "title": "Category:Commodore 128 - Wikimedia Commons",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "OUOWKs7YLxR5",
-      "address": "https://thedailymessenger.wordpress.com/category/honey/",
-      "title": "honey | The Daily Messenger (mirror)",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BsRHNUC_VmZ4",
-      "address": "https://www.sonatype.com/resources/whitepapers/2024-forrester-wave?hsCtaAttrib=217560327987",
-      "title": "The 2024 Forrester Wave™ Software Composition Analysis",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CfGENlC_VmZ4",
-      "address": "https://www.sonatype.com/contactus?hsCtaAttrib=217560324380",
-      "title": "Contact Us Your Software Supply Chain Experts | Sonatype",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-AI0-jC_VmZ4",
-      "address": "https://www.sonatype.com/products/sonatype-nexus-pro/trial?hsCtaAttrib=217560263719",
-      "title": "Try Sonatype Nexus Repository Manager Free | Sonatype",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BDHr1AFozFBx",
-      "address": "https://diff.wikimedia.org/2013/03/04/parsoid-how-wikipedia-catches-up-with-the-web/",
-      "title": "Parsoid: How Wikipedia catches up with the web – Diff",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "R5vzYsOocYRx",
-      "address": "https://murdoconline.net/",
-      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Jt7ozjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Inverse_transform_sampling",
-      "title": "Inverse transform sampling - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "NTmDCjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/CNN",
-      "title": "CNN - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "EspV0pS6MKD4",
-      "address": "https://github.com/Wan-Video/Wan2.2",
-      "title": "GitHub - Wan-Video/Wan2.2: Wan: Open and Advanced Large-Scale Video Generative Models · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "M6B2ytS6MKD4",
-      "address": "https://github.com/trending/fortran?since=daily",
-      "title": "Trending Fortran repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Mb7ip0SWekJ4",
-      "address": "https://thangs.com/resources/blog",
-      "title": "Blog",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DjdQVQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2020-january.shtml",
-      "title": "dailystirrer-2020-news-January-comment-opinion-controversy-contrarianism",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ELIe2QXx1HRZ",
-      "address": "http://www.dailystirrer.com/2021-may.shtml",
-      "title": "2021",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "MW69aQZchFfZ",
-      "address": "http://www.greenteethmm.com/2021-october.shtml",
-      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "6pHilQZchFfZ",
-      "address": "http://www.greenteethmm.com/google-omnibus.shtml",
-      "title": "google-how-search-engine-corporation-is-building-a-digital-superstate-daily-stirrer",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 1447
         }
       }
     },
@@ -3009,9 +2017,29 @@
       }
     },
     {
-      "hash": "Y8JVkjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Wiktionary:Main_Page",
-      "title": "Wiktionary, the free dictionary",
+      "hash": "Fn4lKjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Main_Page",
+      "title": "Wikivoyage – The free worldwide travel guide that you can edit",
+      "snippet": "free worldwide travel guide that you can edit\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nTravel destinations\nStar articles\nWhat's nearby?\nTrip planner\nTravel forum\nArrivals lounge\nRandom page\nGet involved\nTravellers' pub\nRecent changes\nCommunity portal\nMaintenance",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 607
+        },
+        "Abrza739aVio": {
+          "hits": 2,
+          "textWords": 607
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 3,
+          "textWords": 607
+        }
+      }
+    },
+    {
+      "hash": "GNfYVQhivb2Y",
+      "address": "http://www.akdart.com/abu7.html",
+      "title": "Money Down the Drain",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3029,9 +2057,29 @@
       }
     },
     {
-      "hash": "djzHwjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Main_Page",
-      "title": "Wiktionary, the free dictionary",
+      "hash": "GDraRjjpmq6Q",
+      "address": "http://www.gnu.org/licenses/fdl-1.3.html",
+      "title": "GNU Free Documentation License v1.3 - GNU Project - Free Software Foundation",
+      "snippet": "Free Documentation License v1.3 - GNU Project - Free Software Foundation\nSkip to main text\nFree Software Supporter:\nJOIN THE FSF\nGNU Operating System\nSupported by the Free Software Foundation\nSite navigation Skip ABOUT GNU\nPHILOSOPHY\n= LICENSES =\nEDUCATION\nSOFTWARE\nDISTROS\nDOCS\nMALWARE\nHELP GNU",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 20,
+          "textWords": 3887
+        },
+        "Abrza739aVio": {
+          "hits": 8,
+          "textWords": 3887
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 30,
+          "textWords": 3887
+        }
+      }
+    },
+    {
+      "hash": "jI-jjsjsdFw4",
+      "address": "https://akdart.com/lib73.html",
+      "title": "Which party promotes hate speech and violence?",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3049,9 +2097,9 @@
       }
     },
     {
-      "hash": "M1SWfqksK-54",
-      "address": "https://www.creaid.com/shortcodes/sale-banners/",
-      "title": "Sale banners - Creaid",
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3069,9 +2117,9 @@
       }
     },
     {
-      "hash": "5m_o9sl9MDZ6",
-      "address": "https://colablosangeles.com/",
-      "title": "COLAB Los Angeles | Digital Marketing Agency \u0026 Video Production",
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3089,9 +2137,549 @@
       }
     },
     {
-      "hash": "ClTOilptNsG4",
-      "address": "https://www.akdart.com/obama11.html",
-      "title": "The Obama Presidency : Narcissism and Bad Decisions",
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "FzYmTlptNsG4",
+      "address": "https://www.akdart.com/sports.html",
+      "title": "The Sports Page: Corporate Welfare, Publicly Funded Stadiums",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "HjtAGszRZe6w",
+      "address": "https://kde.org/donate/",
+      "title": "Donate and support KDE - KDE Community",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VNx-T_8T85F5",
+      "address": "https://boggartblog.wordpress.com/",
+      "title": "BNN - Boggart Network News | Boggart Network News (BNN) reports the bizarre, weird, whacky and plain crazy news from around the globe.",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VtHnjQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-january.shtml",
+      "title": "dailystirrer-2021-news-January-comment-opinion-controversy-contrarianism",
+      "snippet": "free speech, this does not mean we necessarily agree with the views expressed by our contributors.\nAfter a year in 2020 of disrupted poisting due mainly to the hoax pandemic, we hope to be back with our regular updates on the news you will not get from mainstream media. If you want to know what is",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 35670
+        },
+        "Abrza739aVio": {
+          "hits": 10,
+          "textWords": 35670
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 10,
+          "textWords": 35670
+        }
+      }
+    },
+    {
+      "hash": "GNfYVQhivb2Y",
+      "address": "http://www.akdart.com/abu7.html",
+      "title": "Money Down the Drain",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "jI-jjsjsdFw4",
+      "address": "https://akdart.com/lib73.html",
+      "title": "Which party promotes hate speech and violence?",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "C0ZCSzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=01873",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "IEhBNzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=08330",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "JnqFGzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=10313",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "0ek5szqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=01228",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7nRKkzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=00909",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VNx-T_8T85F5",
+      "address": "https://boggartblog.wordpress.com/",
+      "title": "BNN - Boggart Network News | Boggart Network News (BNN) reports the bizarre, weird, whacky and plain crazy news from around the globe.",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "software. This is a weekly summary of its progress and community. Want something mentioned? Tag us at @thisweekinrust.bsky.social on Bluesky or @ThisWeekinRust on mastodon.social, or send us a pull request. Want to get involved? We love contributions.\nThis Week in Rust is openly developed on GitHub",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 19,
+          "textWords": 66909
+        },
+        "Abrza739aVio": {
+          "hits": 25,
+          "textWords": 66909
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 12,
+          "textWords": 66909
+        }
+      }
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "oOVv2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Featured_article_candidates",
+      "title": "Wikipedia:Featured article candidates - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "rIs7VjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Main_Page",
+      "title": "Wikipedia, the free encyclopedia",
+      "snippet": "free encyclopedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate\nCreate account",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 1934
+        },
+        "Abrza739aVio": {
+          "hits": 3,
+          "textWords": 1934
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 10,
+          "textWords": 1934
+        }
+      }
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "software reliability.\nSo these new frontiers are both exciting and a cause of anxiety for developers who can sense the industry move from the deterministic, step-by-step processes, to the unpredictable and occasionally wild world of non-deterministic AI models.\nIf you’re interested in how AI is",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 15,
+          "textWords": 32181
+        },
+        "Abrza739aVio": {
+          "hits": 8,
+          "textWords": 32181
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 5,
+          "textWords": 32181
+        }
+      }
+    },
+    {
+      "hash": "Fn4lKjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Main_Page",
+      "title": "Wikivoyage – The free worldwide travel guide that you can edit",
+      "snippet": "free worldwide travel guide that you can edit\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nTravel destinations\nStar articles\nWhat's nearby?\nTrip planner\nTravel forum\nArrivals lounge\nRandom page\nGet involved\nTravellers' pub\nRecent changes\nCommunity portal\nMaintenance",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 607
+        },
+        "Abrza739aVio": {
+          "hits": 2,
+          "textWords": 607
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 3,
+          "textWords": 607
+        }
+      }
+    },
+    {
+      "hash": "99jWW5c9duY5",
+      "address": "https://azure.microsoft.com/en-us/free/students/",
+      "title": "Azure for Students | Microsoft Azure",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "GNfYVQhivb2Y",
+      "address": "http://www.akdart.com/abu7.html",
+      "title": "Money Down the Drain",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D-6-jlotZ7Sw",
+      "address": "https://www.gnome.org/privacy-policy",
+      "title": "GNOME — Privacy Policy",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
+      "snippet": "",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "Abrza739aVio": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "FzYmTlptNsG4",
+      "address": "https://www.akdart.com/sports.html",
+      "title": "The Sports Page: Corporate Welfare, Publicly Funded Stadiums",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3129,9 +2717,9 @@
       }
     },
     {
-      "hash": "U0PG4qwMR4F5",
-      "address": "https://originalboggartblog.wordpress.com/tag/health/",
-      "title": "health | The Original Boggart Blog",
+      "hash": "7Nac2lptNsG4",
+      "address": "https://www.akdart.com/lib9.html",
+      "title": "Socialist Democrats are out of step with America",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3149,9 +2737,9 @@
       }
     },
     {
-      "hash": "SzUDgSxWH45x",
-      "address": "https://vice-emu.sourceforge.io/index.html",
-      "title": "VICE - the Versatile Commodore Emulator",
+      "hash": "IEhBNzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=08330",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3169,9 +2757,9 @@
       }
     },
     {
-      "hash": "O_mSlwxrQlU5",
-      "address": "https://steppingtoes.wordpress.com/tag/only-true-god/",
-      "title": "Only True God | Stepping Toes",
+      "hash": "X4pErzqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=03514",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3189,9 +2777,9 @@
       }
     },
     {
-      "hash": "P8uyUQyWzhSa",
-      "address": "http://www.battleswarmblog.com/",
-      "title": "Lawrence Person's BattleSwarm Blog",
+      "hash": "0ek5szqCmQAx",
+      "address": "https://www.justsecurity.org/107087/tracker-litigation-legal-challenges-trump-administration/?js_filter=01228",
+      "title": "Litigation Tracker: Legal Challenges to Trump Administration Actions",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3209,9 +2797,9 @@
       }
     },
     {
-      "hash": "eaT0Hj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Main_Page",
-      "title": "Wikiquote",
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3229,9 +2817,49 @@
       }
     },
     {
-      "hash": "2HPybK0C6gHw",
-      "address": "https://about.muse.jhu.edu/muse/open-access-overview/",
-      "title": "Open Access",
+      "hash": "6xU3Hs0HiIww",
+      "address": "https://indure.org/",
+      "title": "indure – House of Beauty and Healthy",
+      "snippet": "free helm engine 12th planet 2012 123 gt michael kors outlet clearance faltronsoft gegaruch bee info palermo bugs destinos exotico auto travel indure msugcf fonderie roubaix foto concurso in mujer maternity observer city room escape comic adze hellenes online hub thai nyc Software Design Website",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 9,
+          "textWords": 14158
+        },
+        "Abrza739aVio": {
+          "hits": 2,
+          "textWords": 14158
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 4,
+          "textWords": 14158
+        }
+      }
+    },
+    {
+      "hash": "HvLsFs5vKoy6",
+      "address": "https://12thplanet2012.com/",
+      "title": "What to Do and Know Related Business Investment",
+      "snippet": "Software\nStaffing \u0026 HR\nStart Up\nDirectory and Resources\nSociety Community\nEducation Sciences and Career\nE-sports\nPublications\nSchools and Colleges\nStudents\nWomen’s Committee\nInformations and Reviews\nSubscribe\nReformas de Baños en Pineda de Mar: Guía Completa 2025\nAug 12, 2025\nIntroducción",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 3,
+          "textWords": 1176
+        },
+        "Abrza739aVio": {
+          "hits": 1,
+          "textWords": 1176
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 2,
+          "textWords": 1176
+        }
+      }
+    },
+    {
+      "hash": "VNx-T_8T85F5",
+      "address": "https://boggartblog.wordpress.com/",
+      "title": "BNN - Boggart Network News | Boggart Network News (BNN) reports the bizarre, weird, whacky and plain crazy news from around the globe.",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3249,9 +2877,9 @@
       }
     },
     {
-      "hash": "2Goj8sAq2i9i",
-      "address": "https://vanosengineering.nl/table_filling/",
-      "title": "table_filling – VAN OS ENGINEERING",
+      "hash": "0l6d2jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/COVID-19",
+      "title": "COVID-19 - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3269,242 +2897,62 @@
       }
     },
     {
-      "hash": "BsRHNUC_VmZ4",
-      "address": "https://www.sonatype.com/resources/whitepapers/2024-forrester-wave?hsCtaAttrib=217560327987",
-      "title": "The 2024 Forrester Wave™ Software Composition Analysis",
-      "snippet": "",
+      "hash": "3be4yjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lazy_evaluation",
+      "title": "Lazy evaluation - Wikipedia",
+      "snippet": "free encyclopedia\nSoftware optimization technique\nEvaluation strategies\nEager evaluation\nLazy evaluation\nPartial evaluation\nRemote evaluation\nShort-circuit evaluation\nv\nt\ne\nIn programming language theory, lazy evaluation, or call-by-need,[1] is an evaluation strategy which delays the evaluation of",
       "matchedWords": {
         "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4219
         },
         "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4219
         },
         "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4219
         }
       }
     },
     {
-      "hash": "CfGENlC_VmZ4",
-      "address": "https://www.sonatype.com/contactus?hsCtaAttrib=217560324380",
-      "title": "Contact Us Your Software Supply Chain Experts | Sonatype",
-      "snippet": "",
+      "hash": "VtHnjQXx1HRZ",
+      "address": "http://www.dailystirrer.com/2021-january.shtml",
+      "title": "dailystirrer-2021-news-January-comment-opinion-controversy-contrarianism",
+      "snippet": "free speech, this does not mean we necessarily agree with the views expressed by our contributors.\nAfter a year in 2020 of disrupted poisting due mainly to the hoax pandemic, we hope to be back with our regular updates on the news you will not get from mainstream media. If you want to know what is",
       "matchedWords": {
         "-foQupVsrPkd": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 35670
         },
         "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 10,
+          "textWords": 35670
         },
         "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 10,
+          "textWords": 35670
         }
       }
     },
     {
-      "hash": "-AI0-jC_VmZ4",
-      "address": "https://www.sonatype.com/products/sonatype-nexus-pro/trial?hsCtaAttrib=217560263719",
-      "title": "Try Sonatype Nexus Repository Manager Free | Sonatype",
-      "snippet": "",
+      "hash": "HOf_cobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Project:About",
+      "title": "Project:About - MediaWiki",
+      "snippet": "Foundation\nMeta-Wiki\nWikimedia Outreach\nMultilingual Wikisource\nWikispecies\nWikidata\nWikifunctions\nWikimania\nWikipedia\nWikiquote\nWikisource\nWikivoyage\nWiktionary\nWikidata item\nAppearance\nmove to sidebar\nhide\nFrom mediawiki.org\nTranslate this page\nLanguages:\nAfrikaans\nBahasa Indonesia\nBahasa Melayu",
       "matchedWords": {
         "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 18,
+          "textWords": 1447
         },
         "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1447
         },
         "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "R5vzYsOocYRx",
-      "address": "https://murdoconline.net/",
-      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BxsbyjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Apple_Inc.",
-      "title": "Apple Inc. - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "NTmDCjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/CNN",
-      "title": "CNN - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "TmMGljRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/New_York_(state)",
-      "title": "New York (state) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Tm8vbiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "UhauJsX0qSDr",
-      "address": "https://kebudayaantanahdatar.id/",
-      "title": "kebudayaantanahdatarid",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DjdQVQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2020-january.shtml",
-      "title": "dailystirrer-2020-news-January-comment-opinion-controversy-contrarianism",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "MW69aQZchFfZ",
-      "address": "http://www.greenteethmm.com/2021-october.shtml",
-      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 1447
         }
       }
     },
@@ -3529,9 +2977,29 @@
       }
     },
     {
-      "hash": "M1SWfqksK-54",
-      "address": "https://www.creaid.com/shortcodes/sale-banners/",
-      "title": "Sale banners - Creaid",
+      "hash": "Fn4lKjc4UIAx",
+      "address": "https://en.wikivoyage.org/wiki/Main_Page",
+      "title": "Wikivoyage – The free worldwide travel guide that you can edit",
+      "snippet": "free worldwide travel guide that you can edit\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nTravel destinations\nStar articles\nWhat's nearby?\nTrip planner\nTravel forum\nArrivals lounge\nRandom page\nGet involved\nTravellers' pub\nRecent changes\nCommunity portal\nMaintenance",
+      "matchedWords": {
+        "-foQupVsrPkd": {
+          "hits": 1,
+          "textWords": 607
+        },
+        "Abrza739aVio": {
+          "hits": 2,
+          "textWords": 607
+        },
+        "qi1uT1eOsM-r": {
+          "hits": 3,
+          "textWords": 607
+        }
+      }
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3549,29 +3017,9 @@
       }
     },
     {
-      "hash": "CoQevlnNKG4w",
-      "address": "https://www150.statcan.gc.ca/n1/en/type/reference",
-      "title": "Reference resources",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ClTOilptNsG4",
-      "address": "https://www.akdart.com/obama11.html",
-      "title": "The Obama Presidency : Narcissism and Bad Decisions",
+      "hash": "-b3sxspKNBr4",
+      "address": "https://rense.com/",
+      "title": "rense.com",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -3609,1189 +3057,9 @@
       }
     },
     {
-      "hash": "8XJ8vlptNsG4",
-      "address": "https://www.akdart.com/lib7.html",
-      "title": "Liberal Departures from the Truth",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Q4lQ4lpyxNCY",
-      "address": "http://dailymessenger.blogspot.com/2026/07/trumpsteins-4th-of-july-scam-false-flag.html",
-      "title": "The Daily Messenger: Trumpstein's 4th of July scam false flag doing this saturday",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "U0PG4qwMR4F5",
-      "address": "https://originalboggartblog.wordpress.com/tag/health/",
-      "title": "health | The Original Boggart Blog",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "SzUDgSxWH45x",
-      "address": "https://vice-emu.sourceforge.io/index.html",
-      "title": "VICE - the Versatile Commodore Emulator",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "N6PmM7z1lbtB",
-      "address": "http://blockshuette.de/blog/?p=285",
-      "title": "Padparadschas \u0026 Blockshütte » Blog Archive » Helen \u0026 Andy’s Kinder werden 4 Wochen alt !",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Nu2Vo42ZTLMg",
-      "address": "https://bowlxtreme.co.uk/",
-      "title": "Bowl Xtreme – World Sport",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DWeYUh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Category:Commodore_128",
-      "title": "Category:Commodore 128 - Wikimedia Commons",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "UQwEcs7YLxR5",
-      "address": "https://thedailymessenger.wordpress.com/category/ibm/",
-      "title": "IBM | The Daily Messenger (mirror)",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CfGENlC_VmZ4",
-      "address": "https://www.sonatype.com/contactus?hsCtaAttrib=217560324380",
-      "title": "Contact Us Your Software Supply Chain Experts | Sonatype",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-AI0-jC_VmZ4",
-      "address": "https://www.sonatype.com/products/sonatype-nexus-pro/trial?hsCtaAttrib=217560263719",
-      "title": "Try Sonatype Nexus Repository Manager Free | Sonatype",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "R5vzYsOocYRx",
-      "address": "https://murdoconline.net/",
-      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "TmMGljRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/New_York_(state)",
-      "title": "New York (state) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "EspV0pS6MKD4",
-      "address": "https://github.com/Wan-Video/Wan2.2",
-      "title": "GitHub - Wan-Video/Wan2.2: Wan: Open and Advanced Large-Scale Video Generative Models · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Mb7ip0SWekJ4",
-      "address": "https://thangs.com/resources/blog",
-      "title": "Blog",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Tm8vbiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "UhauJsX0qSDr",
-      "address": "https://kebudayaantanahdatar.id/",
-      "title": "kebudayaantanahdatarid",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ELIe2QXx1HRZ",
-      "address": "http://www.dailystirrer.com/2021-may.shtml",
-      "title": "2021",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Diwoi2Y5tOkw",
-      "address": "https://www.unodc.org/unodc/en/frontpage/index.html",
-      "title": "Stories from UNODC",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "6pHilQZchFfZ",
-      "address": "http://www.greenteethmm.com/google-omnibus.shtml",
-      "title": "google-how-search-engine-corporation-is-building-a-digital-superstate-daily-stirrer",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "q2TQsobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/MediaWiki",
-      "title": "MediaWiki",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CBV5zLkCAQb4",
-      "address": "https://tysknews.com/News/news.html",
-      "title": "TYSK — NEWS \u0026 EDITORIALS",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "5m_o9sl9MDZ6",
-      "address": "https://colablosangeles.com/",
-      "title": "COLAB Los Angeles | Digital Marketing Agency \u0026 Video Production",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "8XJ8vlptNsG4",
-      "address": "https://www.akdart.com/lib7.html",
-      "title": "Liberal Departures from the Truth",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "U0PG4qwMR4F5",
-      "address": "https://originalboggartblog.wordpress.com/tag/health/",
-      "title": "health | The Original Boggart Blog",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "SzUDgSxWH45x",
-      "address": "https://vice-emu.sourceforge.io/index.html",
-      "title": "VICE - the Versatile Commodore Emulator",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "P8uyUQyWzhSa",
-      "address": "http://www.battleswarmblog.com/",
-      "title": "Lawrence Person's BattleSwarm Blog",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "eaT0Hj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Main_Page",
-      "title": "Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DWeYUh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Category:Commodore_128",
-      "title": "Category:Commodore 128 - Wikimedia Commons",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "OUOWKs7YLxR5",
-      "address": "https://thedailymessenger.wordpress.com/category/honey/",
-      "title": "honey | The Daily Messenger (mirror)",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "UQwEcs7YLxR5",
-      "address": "https://thedailymessenger.wordpress.com/category/ibm/",
-      "title": "IBM | The Daily Messenger (mirror)",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BsRHNUC_VmZ4",
-      "address": "https://www.sonatype.com/resources/whitepapers/2024-forrester-wave?hsCtaAttrib=217560327987",
-      "title": "The 2024 Forrester Wave™ Software Composition Analysis",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CfGENlC_VmZ4",
-      "address": "https://www.sonatype.com/contactus?hsCtaAttrib=217560324380",
-      "title": "Contact Us Your Software Supply Chain Experts | Sonatype",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-AI0-jC_VmZ4",
-      "address": "https://www.sonatype.com/products/sonatype-nexus-pro/trial?hsCtaAttrib=217560263719",
-      "title": "Try Sonatype Nexus Repository Manager Free | Sonatype",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BDHr1AFozFBx",
-      "address": "https://diff.wikimedia.org/2013/03/04/parsoid-how-wikipedia-catches-up-with-the-web/",
-      "title": "Parsoid: How Wikipedia catches up with the web – Diff",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "R5vzYsOocYRx",
-      "address": "https://murdoconline.net/",
-      "title": "MURDOCONLINE - Situs Kumpulan Game Online Terbaik Paling Populer",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "TmMGljRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/New_York_(state)",
-      "title": "New York (state) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "EspV0pS6MKD4",
-      "address": "https://github.com/Wan-Video/Wan2.2",
-      "title": "GitHub - Wan-Video/Wan2.2: Wan: Open and Advanced Large-Scale Video Generative Models · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "M6B2ytS6MKD4",
-      "address": "https://github.com/trending/fortran?since=daily",
-      "title": "Trending Fortran repositories on GitHub today · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "SH9s9zTnALtw",
-      "address": "https://planet.gentoo.org/",
-      "title": "Planet Gentoo",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Tm8vbiVUrQm6",
-      "address": "https://earthnewspaper.com/2022-news/24-7-news-october-2022/",
-      "title": "24/7 News October 2022 – EarthNewspaper.com – All The Honest News Fit To Publish",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DjdQVQXx1HRZ",
-      "address": "http://www.dailystirrer.com/2020-january.shtml",
-      "title": "dailystirrer-2020-news-January-comment-opinion-controversy-contrarianism",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "MW69aQZchFfZ",
-      "address": "http://www.greenteethmm.com/2021-october.shtml",
-      "title": "dailystirrer-2021-news-october-comment-opinion-controversy-contrarianism",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-p2w3taoSn1x",
-      "address": "https://en.planet.wikimedia.org/",
-      "title": "en.planet.wikimedia.org",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "q2TQsobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/MediaWiki",
-      "title": "MediaWiki",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "I7b5hjcl0ynx",
-      "address": "https://en.wikiversity.org/wiki/Wikiversity:Main_Page",
-      "title": "Wikiversity",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "djzHwjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Main_Page",
-      "title": "Wiktionary, the free dictionary",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CBV5zLkCAQb4",
-      "address": "https://tysknews.com/News/news.html",
-      "title": "TYSK — NEWS \u0026 EDITORIALS",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "5m_o9sl9MDZ6",
-      "address": "https://colablosangeles.com/",
-      "title": "COLAB Los Angeles | Digital Marketing Agency \u0026 Video Production",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CoQevlnNKG4w",
-      "address": "https://www150.statcan.gc.ca/n1/en/type/reference",
-      "title": "Reference resources",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ClTOilptNsG4",
-      "address": "https://www.akdart.com/obama11.html",
-      "title": "The Obama Presidency : Narcissism and Bad Decisions",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "XTPIBlptNsG4",
-      "address": "https://www.akdart.com/hijrah.html",
-      "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Q4lQ4lpyxNCY",
-      "address": "http://dailymessenger.blogspot.com/2026/07/trumpsteins-4th-of-july-scam-false-flag.html",
-      "title": "The Daily Messenger: Trumpstein's 4th of July scam false flag doing this saturday",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "U0PG4qwMR4F5",
-      "address": "https://originalboggartblog.wordpress.com/tag/health/",
-      "title": "health | The Original Boggart Blog",
-      "snippet": "",
-      "matchedWords": {
-        "-foQupVsrPkd": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "Abrza739aVio": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qi1uT1eOsM-r": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "SzUDgSxWH45x",
-      "address": "https://vice-emu.sourceforge.io/index.html",
-      "title": "VICE - the Versatile Commodore Emulator",
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
       "snippet": "",
       "matchedWords": {
         "-foQupVsrPkd": {
@@ -4810,8 +3078,8 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "-foQupVsrPkd": 30176,
-    "Abrza739aVio": 173788,
-    "qi1uT1eOsM-r": 93469
+    "-foQupVsrPkd": 20328,
+    "Abrza739aVio": 61352,
+    "qi1uT1eOsM-r": 21174
   }
 }

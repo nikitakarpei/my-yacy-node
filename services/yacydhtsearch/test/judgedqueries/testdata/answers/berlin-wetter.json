@@ -1,21 +1,21 @@
 {
   "query": "berlin wetter",
-  "recordedAt": "2026-09-11T12:59:10Z",
+  "recordedAt": "2026-09-11T19:22:42Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "m4HF5WVhMz6w",
         "address": "https://journalism.us.to/",
         "title": "Journalism | Jornalismus | Journalism.us.to",
-        "snippet": "",
+        "snippet": "Berlin-München-Zug\nhttps://lovesunpeace.com/102/panik-und-kreislauf-probleme-im-berlin-muenchen-zug\n4\nKalifornien. Feuerlöschen mit Schallwellen\nhttps://lovesunpeace.com/102/kalifornien-feuerloeschen-mit-schallwellen\n5\nWuppertal: Verletzte nach Streit mit Messer im Bus",
         "matchedWords": {
           "01oC60kUlFD7": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 10,
+            "textWords": 3732
           },
           "WdCRTATBnXV3": {
-            "hits": 2,
-            "textWords": 3941
+            "hits": 4,
+            "textWords": 3732
           }
         }
       }
@@ -26,15 +26,15 @@
       "hash": "gt1Hms8_y8I6",
       "address": "https://henrymakow-de.com/",
       "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
-      "snippet": "",
+      "snippet": "Berlin machen Menschen mit Migrationshintergrund 30 % der Einwohner aus. Deutsche sind im Bezirk Mitte und in vielen umliegenden zentralen Bezirken bereits eine Minderheit.\nSchon vor der „Schleusenöffnung“ durch Angela Merkel hatte im Jahr 2014 ein Viertel der Menschen zwischen 15 und 45 Jahren",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 12198
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 12198
         }
       }
     },
@@ -90,15 +90,15 @@
       "hash": "FHhKwln76Wxw",
       "address": "https://www.gmx.net/",
       "title": "GMX - kostenlose E-Mail, Cloud, Nachrichten \u0026 Freemail",
-      "snippet": "",
+      "snippet": "Berlin\nApfelkuchen mit Puddingschicht\n21:22 Uhr\nSchalke 04 führt bei Union – und lässt weitere Chancen liegen\n21:20 Uhr\n15-Jähriger treibt tagelang im Meer – und wird gerettet\n21:13 Uhr\nZeitumstellung auf Winterzeit: Wird die Uhr vor- oder zurückgestellt?\n21:13 Uhr\n\"Bauer sucht Frau\"-Star Narumol",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 2258
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 2258
         }
       }
     },
@@ -122,15 +122,15 @@
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "",
+      "snippet": "Berlin-Cyberangriff, Handyverbot für Fußgänger, GTA 6\nc’t uplinkDSL vs. Kabel: Router, Tarife und Co.\n11c't Magazin\nMehr Videos\nAnzeige\nUnsere meistgelesenen englischen Meldungen\nAlle englischen Meldungen\nGoogle stops selling the Pixel Tablet\nNavier-Stokes: Possible AI breakthrough overshadowed by",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4522
         },
         "WdCRTATBnXV3": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4522
         }
       }
     },
@@ -138,223 +138,63 @@
       "hash": "GeX42sX5sgqx",
       "address": "https://netzpolitik.org/",
       "title": "netzpolitik.org",
-      "snippet": "",
+      "snippet": "Berlin.\nÜberwachungsbrillen: Warum deutsche Gerichte Smart Glasses nicht verbieten\nHeimlich filmen, mithören, sich zuflüstern lassen: Mit KI-Brillen bleibt das unauffällig. Andere Länder reagieren mit Verboten in Gerichtsgebäuden, Besucher*innen müssen die Brillen am Eingang abgeben. Die deutschen",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 3936
         },
         "WdCRTATBnXV3": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 3936
         }
       }
     },
     {
-      "hash": "gt1Hms8_y8I6",
-      "address": "https://henrymakow-de.com/",
-      "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
-      "snippet": "",
+      "hash": "RGSGlC8moajg",
+      "address": "https://www.welt.de/regionales/hamburg/article174493626/Merkel-muss-weg-Proteste-gegen-rechte-Kundgebung-in-Hamburg.html",
+      "title": "„Merkel muss weg“: Proteste gegen rechte Kundgebung in Hamburg - WELT",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 867
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 867
         }
       }
     },
     {
-      "hash": "MNFgsL8moajg",
-      "address": "https://www.welt.de/vermischtes/article174542033/Mann-in-Oberhausen-vor-Internetcafe-lebensgefaehrlich-verletzt.html",
-      "title": "Mann in Oberhausen vor Internetcafé lebensgefährlich verletzt - WELT",
-      "snippet": "",
+      "hash": "RUwvfj8moajg",
+      "address": "https://www.welt.de/debatte/kommentare/article174642068/Reich-und-arm-Wir-Deutschen-sind-Neidweltmeister.html",
+      "title": "Reich und arm: Wir Deutschen sind Neidweltmeister - WELT",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1523
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1523
         }
       }
     },
     {
-      "hash": "MQvUwX8moajg",
-      "address": "https://www.welt.de/politik/deutschland/article174450033/Bildungspolitik-Schulen-muessen-auf-Anstand-und-guten-Umgang-achten.html",
-      "title": "Bildungspolitik: „Schulen müssen auf Anstand und guten Umgang achten“ - WELT",
-      "snippet": "",
+      "hash": "SuW19X8moajg",
+      "address": "https://www.welt.de/politik/ausland/article185039308/Belgien-UN-Migrationspakt-loest-Regierungskrise-aus.html",
+      "title": "Belgien: UN-Migrationspakt löst Regierungskrise aus - WELT",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 725
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Mx76jX8moajg",
-      "address": "https://www.welt.de/politik/ausland/article176325552/Botschaftsumzug-nach-Jerusalem-Al-Qaida-Chef-ruft-Anhaenger-zum-Dschihad-auf.html",
-      "title": "Botschaftsumzug nach Jerusalem: Al-Qaida-Chef ruft Anhänger zum Dschihad auf - WELT",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "NQuL1X8moajg",
-      "address": "https://www.welt.de/politik/deutschland/article176518262/BAMF-Affaere-weitet-sich-aus-Auffaelligkeiten-in-anderen-Staedten.html",
-      "title": "BAMF-Affäre weitet sich aus – Auffälligkeiten in anderen Städten - WELT",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Ni18IX8moajg",
-      "address": "https://www.welt.de/politik/deutschland/article185177400/CDU-Chefin-Annegret-Kramp-Karrenbauer-loest-Angela-Merkel-ab.html",
-      "title": "CDU-Chefin: Annegret Kramp-Karrenbauer löst Angela Merkel ab - WELT",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "OAJouZ8moajg",
-      "address": "https://www.welt.de/wirtschaft/article176445441/Umweltverschmutzung-EU-Kommission-verklagt-Deutschland-wegen-zu-schlechter-Luft.html",
-      "title": "Umweltverschmutzung: EU-Kommission verklagt Deutschland wegen zu schlechter Luft - WELT",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "OaCuDX8moajg",
-      "address": "https://www.welt.de/politik/ausland/article185195650/Internationale-Presse-zur-CDU-Fortsetzung-des-Merkelianismus-Die-AfD-wird-es-freuen.html",
-      "title": "Internationale Presse zur CDU: „Fortsetzung des Merkelianismus. Die AfD wird es freuen“ - WELT",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Fl-YxlDOAHJg",
-      "address": "https://www.heise.de/",
-      "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "K0nzzjc4UIAx",
-      "address": "https://en.wikivoyage.org/wiki/Europe",
-      "title": "Europe – Travel guide at Wikivoyage",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "GMKmQscJYL54",
-      "address": "https://gizmodo.com/",
-      "title": "Gizmodo | The Future Is Here",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ySJH8lvSGqr4",
-      "address": "https://einarschlereth.blogspot.com/",
-      "title": "einartysken",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BKlEylyX5Qug",
-      "address": "https://www.t-online.de/",
-      "title": "News \u0026 E-Mail bei t-online | Politik, Sport, Unterhaltung \u0026 Ratgeber",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 725
         }
       }
     },
@@ -394,15 +234,15 @@
       "hash": "FcrOSdR5Djcw",
       "address": "https://de.wikinews.org/wiki/Hauptseite",
       "title": "Wikinews, die freie Nachrichtenquelle",
-      "snippet": "",
+      "snippet": "Wetter\nStarke Unwetter in mehreren Regionen Italiens\nMehrere italienische Regionen wurden in der Nacht zum 10. September durch Starkregenfälle in Mitleidenschaft gezogen, die von einem atlantischen Tiefdruckgebiet herangeführt wurden, darunter die Lombardei, die Toskana, Friaul-Julisch Venetien,",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2020
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2020
         }
       }
     },
@@ -442,15 +282,15 @@
       "hash": "K0nzzjc4UIAx",
       "address": "https://en.wikivoyage.org/wiki/Europe",
       "title": "Europe – Travel guide at Wikivoyage",
-      "snippet": "",
+      "snippet": "Berlin\n– scarred by four decades of division but experiencing an almost unprecedented boom, the capital of reunited Germany is one of Europe's most creative and innovative cities\n41.0128.9602784 Istanbul\n– Europe's largest city, the epic former capital of the great Byzantine and Ottoman empires, is",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 19435
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 19435
         }
       }
     },
@@ -490,15 +330,15 @@
       "hash": "rtQ-JluG0-bg",
       "address": "https://www.fr.de/",
       "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
-      "snippet": "",
+      "snippet": "Berlin-Wahl 2026\nPhilipp Ruch: „Die CDU dürfte sich die Sache mit der AfD anders vorgestellt haben“\nPolitik\nDebatte ums Verbrenner-Aus\nVerzweifelter Rettungsversuch für den Verbrenner\nDer Präsident der TU München lässt von fachfremden Professoren ein Papier zur Energiewende zusammenstellen und",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3904
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 3904
         }
       }
     },
@@ -538,15 +378,15 @@
       "hash": "gt1Hms8_y8I6",
       "address": "https://henrymakow-de.com/",
       "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
-      "snippet": "",
+      "snippet": "Berlin machen Menschen mit Migrationshintergrund 30 % der Einwohner aus. Deutsche sind im Bezirk Mitte und in vielen umliegenden zentralen Bezirken bereits eine Minderheit.\nSchon vor der „Schleusenöffnung“ durch Angela Merkel hatte im Jahr 2014 ein Viertel der Menschen zwischen 15 und 45 Jahren",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 12198
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 12198
         }
       }
     },
@@ -570,15 +410,15 @@
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "",
+      "snippet": "Berlin-Cyberangriff, Handyverbot für Fußgänger, GTA 6\nc’t uplinkDSL vs. Kabel: Router, Tarife und Co.\n11c't Magazin\nMehr Videos\nAnzeige\nUnsere meistgelesenen englischen Meldungen\nAlle englischen Meldungen\nGoogle stops selling the Pixel Tablet\nNavier-Stokes: Possible AI breakthrough overshadowed by",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4522
         },
         "WdCRTATBnXV3": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4522
         }
       }
     },
@@ -602,15 +442,15 @@
       "hash": "GeX42sX5sgqx",
       "address": "https://netzpolitik.org/",
       "title": "netzpolitik.org - Medium für digitale Freiheitsrechte",
-      "snippet": "",
+      "snippet": "Berlin.\nÜberwachungsbrillen: Warum deutsche Gerichte Smart Glasses nicht verbieten\nHeimlich filmen, mithören, sich zuflüstern lassen: Mit KI-Brillen bleibt das unauffällig. Andere Länder reagieren mit Verboten in Gerichtsgebäuden, Besucher*innen müssen die Brillen am Eingang abgeben. Die deutschen",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 3936
         },
         "WdCRTATBnXV3": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 3936
         }
       }
     },
@@ -634,15 +474,15 @@
       "hash": "JXWIlLfjI1Dh",
       "address": "https://www.tagesschau.de/inland/innenpolitik",
       "title": "Innenpolitik - aktuelle Nachrichten | tagesschau.de",
-      "snippet": "",
+      "snippet": "Wetter Untermenü Wetter einblenden Pfeil rechts\ntagesschau24 LIVE\nVideos \u0026 Audios Untermenü Videos \u0026 Audios einblenden Pfeil rechts\nMehr Untermenü Mehr einblenden Pfeil rechts\nEinstellungen einblenden Pfeil rechts\nUntermenü Inland ausblenden Pfeil links\nInland\nStartseite Inland\nInnenpolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 1521
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1521
         }
       }
     },
@@ -666,15 +506,15 @@
       "hash": "K3X4pstNzuRy",
       "address": "https://magazinredaktion.tk/",
       "title": "magazin",
-      "snippet": "",
+      "snippet": "Berlin-Neukölln\nZu den Ankündigungstexten\n﻿ Medienecho:\nAus der Kurvenzeitung „Orange Times“ der Ultras Chemie Leipzig\nDie Lesung von Abschnitten des „Konspirationistischen Manifest“ in Leipzig-Connewitz stellte sich als kontrovers heraus, da einige Fans von Chemie Leipzig sie erfolglos verhindern",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 14,
+          "textWords": 4250
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4250
         }
       }
     },
@@ -682,15 +522,15 @@
       "hash": "ySJH8lvSGqr4",
       "address": "https://einarschlereth.blogspot.com/",
       "title": "einartysken",
-      "snippet": "",
+      "snippet": "Berlin will, dass wir nicht mehr Weißrussland sagen, sondern nur noch „Belarus“. Wir sollen gegen Russland jetzt auch etymologisch klare Kante zeigen. Im Folgenden werden beide Bezeichnungen nach Belieben verwendet.\nDie slavischen Völker sagen schon immer Belarus (Bjelorusija, Białoruś,",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 14252
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 14252
         }
       }
     },
@@ -698,15 +538,15 @@
       "hash": "C-V-iTyX5Qug",
       "address": "https://www.t-online.de/klima/handbuch/",
       "title": "Klima \u0026 Nachhaltigkeit im Handbauch: Bedeutung, Strategien \u0026 Co.",
-      "snippet": "",
+      "snippet": "Wetter\nDAX\nJobsuche\nPartnersuche\nTelefonverz.\nLotto\nTelekom Services\nTelekomHilfe \u0026 ServiceFrag MagentaKundencenterFreemailMagentaCloudTarife \u0026 Produkte\nSuchen\nE-Mail Login\nRegionalBerlin\nHamburg\nMünchen\nKöln\nFrankfurt\nAlle Städte\nPolitikDeutschland\nLandtagswahl Sachsen-Anhalt 2026\nLandtagswahl",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 631
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 631
         }
       }
     },
@@ -714,15 +554,31 @@
       "hash": "MqvP_XyX5Qug",
       "address": "https://www.t-online.de/leben/liebe/",
       "title": "Liebe und Partnerschaft",
-      "snippet": "",
+      "snippet": "Wetter\nDAX\nJobsuche\nPartnersuche\nTelefonverz.\nLotto\nTelekom Services\nTelekomHilfe \u0026 ServiceFrag MagentaKundencenterFreemailMagentaCloudTarife \u0026 Produkte\nSuchen\nE-Mail Login\nRegionalBerlin\nHamburg\nMünchen\nKöln\nFrankfurt\nAlle Städte\nPolitikDeutschland\nLandtagswahl Sachsen-Anhalt 2026\nLandtagswahl",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 925
         },
         "WdCRTATBnXV3": {
+          "hits": 3,
+          "textWords": 925
+        }
+      }
+    },
+    {
+      "hash": "Qr-JZhyX5Qug",
+      "address": "https://www.t-online.de/finanzen/ratgeber/banking/",
+      "title": "News \u0026 E-Mail bei t-online.de | Politik, Sport, Unterhaltung \u0026 Ratgeber",
+      "snippet": "Wetter\nDAX\nJobsuche\nPartnersuche\nTelefonverz.\nLotto\nTelekom Services\nTelekomHilfe \u0026 ServiceFrag MagentaKundencenterFreemailMagentaCloudTarife \u0026 Produkte\nSuchen\nE-Mail Login\nRegionalBerlin\nHamburg\nMünchen\nKöln\nFrankfurt\nAlle Städte\nPolitikDeutschland\nLandtagswahl Sachsen-Anhalt 2026\nLandtagswahl",
+      "matchedWords": {
+        "01oC60kUlFD7": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 757
+        },
+        "WdCRTATBnXV3": {
+          "hits": 3,
+          "textWords": 757
         }
       }
     },
@@ -730,15 +586,15 @@
       "hash": "gt1Hms8_y8I6",
       "address": "https://henrymakow-de.com/",
       "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
-      "snippet": "",
+      "snippet": "Berlin machen Menschen mit Migrationshintergrund 30 % der Einwohner aus. Deutsche sind im Bezirk Mitte und in vielen umliegenden zentralen Bezirken bereits eine Minderheit.\nSchon vor der „Schleusenöffnung“ durch Angela Merkel hatte im Jahr 2014 ein Viertel der Menschen zwischen 15 und 45 Jahren",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 12198
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 12198
         }
       }
     },
@@ -762,15 +618,15 @@
       "hash": "JY4FoX8moajg",
       "address": "https://www.welt.de/politik/deutschland/",
       "title": "Politik - Aktuelle Nachrichten \u0026 News - Deutschland - WELT",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 2851
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2851
         }
       }
     },
@@ -778,15 +634,15 @@
       "hash": "Mbn1eZ8moajg",
       "address": "https://www.welt.de/wirtschaft/karriere/",
       "title": "Karriere - News \u0026 Tipps zu Beruf, Bewerbung \u0026 Uni - WELT",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1508
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1508
         }
       }
     },
@@ -794,15 +650,15 @@
       "hash": "OoovQl8moajg",
       "address": "https://www.welt.de/reise/",
       "title": "Reise - Aktuelle Informationen rund um Reise und Urlaub - WELT",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 2797
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2797
         }
       }
     },
@@ -810,15 +666,31 @@
       "hash": "O1sJdW8moajg",
       "address": "https://www.welt.de/reise/Kreuzfahrt/",
       "title": "Kreuzfahrt: News zu Schriffen und Kreuzfahrten",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1891
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1891
+        }
+      }
+    },
+    {
+      "hash": "Sp_KJC8moajg",
+      "address": "https://www.welt.de/regionales/hamburg/",
+      "title": "Hamburg \u0026 Schleswig-Holstein: News \u0026 aktuelle Nachrichten - WELT",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 2497
+        },
+        "WdCRTATBnXV3": {
+          "hits": 2,
+          "textWords": 2497
         }
       }
     },
@@ -826,15 +698,31 @@
       "hash": "SrWob48moajg",
       "address": "https://www.welt.de/weltplus/backstage/",
       "title": "Backstage",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1906
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1906
+        }
+      }
+    },
+    {
+      "hash": "S2UatX8moajg",
+      "address": "https://www.welt.de/sonderthemen/bierreport/",
+      "title": "Bierreport",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 2,
+          "textWords": 1779
+        },
+        "WdCRTATBnXV3": {
+          "hits": 1,
+          "textWords": 1779
         }
       }
     },
@@ -858,15 +746,15 @@
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "",
+      "snippet": "Berlin-Cyberangriff, Handyverbot für Fußgänger, GTA 6\nc’t uplinkDSL vs. Kabel: Router, Tarife und Co.\n11c't Magazin\nMehr Videos\nAnzeige\nUnsere meistgelesenen englischen Meldungen\nAlle englischen Meldungen\nGoogle stops selling the Pixel Tablet\nNavier-Stokes: Possible AI breakthrough overshadowed by",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4522
         },
         "WdCRTATBnXV3": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4522
         }
       }
     },
@@ -938,6 +826,22 @@
       "hash": "SH2v_lfjI1Dh",
       "address": "https://www.tagesschau.de/ausland",
       "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
+      "snippet": "Wetter Untermenü Wetter einblenden Pfeil rechts\ntagesschau24 LIVE\nVideos \u0026 Audios Untermenü Videos \u0026 Audios einblenden Pfeil rechts\nMehr Untermenü Mehr einblenden Pfeil rechts\nEinstellungen einblenden Pfeil rechts\nUntermenü Inland ausblenden Pfeil links\nInland\nStartseite Inland\nInnenpolitik",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 3,
+          "textWords": 1839
+        },
+        "WdCRTATBnXV3": {
+          "hits": 6,
+          "textWords": 1839
+        }
+      }
+    },
+    {
+      "hash": "QBDi6ltPGYUg",
+      "address": "https://brf.be/kultur/kino/",
+      "title": "Kino - BRF Nachrichten",
       "snippet": "",
       "matchedWords": {
         "01oC60kUlFD7": {
@@ -954,15 +858,15 @@
       "hash": "rtQ-JluG0-bg",
       "address": "https://www.fr.de/",
       "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
-      "snippet": "",
+      "snippet": "Berlin-Wahl 2026\nPhilipp Ruch: „Die CDU dürfte sich die Sache mit der AfD anders vorgestellt haben“\nPolitik\nDebatte ums Verbrenner-Aus\nVerzweifelter Rettungsversuch für den Verbrenner\nDer Präsident der TU München lässt von fachfremden Professoren ein Papier zur Energiewende zusammenstellen und",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3904
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 3904
         }
       }
     },
@@ -970,15 +874,15 @@
       "hash": "ySJH8lvSGqr4",
       "address": "https://einarschlereth.blogspot.com/",
       "title": "einartysken",
-      "snippet": "",
+      "snippet": "Berlin will, dass wir nicht mehr Weißrussland sagen, sondern nur noch „Belarus“. Wir sollen gegen Russland jetzt auch etymologisch klare Kante zeigen. Im Folgenden werden beide Bezeichnungen nach Belieben verwendet.\nDie slavischen Völker sagen schon immer Belarus (Bjelorusija, Białoruś,",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 14252
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 14252
         }
       }
     },
@@ -986,15 +890,15 @@
       "hash": "01XG7hyX5Qug",
       "address": "https://www.t-online.de/finanzen/ihr-weg-an-die-boerse/",
       "title": "News \u0026 E-Mail bei t-online.de | Politik, Sport, Unterhaltung \u0026 Ratgeber",
-      "snippet": "",
+      "snippet": "Wetter\nDAX\nJobsuche\nPartnersuche\nTelefonverz.\nLotto\nTelekom Services\nTelekomHilfe \u0026 ServiceFrag MagentaKundencenterFreemailMagentaCloudTarife \u0026 Produkte\nSuchen\nE-Mail Login\nRegionalBerlin\nHamburg\nMünchen\nKöln\nFrankfurt\nAlle Städte\nPolitikDeutschland\nLandtagswahl Sachsen-Anhalt 2026\nLandtagswahl",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 957
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 957
         }
       }
     },
@@ -1002,15 +906,15 @@
       "hash": "1bgQY0yX5Qug",
       "address": "https://www.t-online.de/nachrichten/panorama/",
       "title": "Panorama: News zu Menschen \u0026 Schicksale, Prozessen und Katastrophen",
-      "snippet": "",
+      "snippet": "Wetter\nDAX\nJobsuche\nPartnersuche\nTelefonverz.\nLotto\nTelekom Services\nTelekomHilfe \u0026 ServiceFrag MagentaKundencenterFreemailMagentaCloudTarife \u0026 Produkte\nSuchen\nE-Mail Login\nRegionalBerlin\nHamburg\nMünchen\nKöln\nFrankfurt\nAlle Städte\nPolitikDeutschland\nLandtagswahl Sachsen-Anhalt 2026\nLandtagswahl",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 923
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 923
         }
       }
     },
@@ -1018,15 +922,15 @@
       "hash": "K0nzzjc4UIAx",
       "address": "https://en.wikivoyage.org/wiki/Europe",
       "title": "Europe – Travel guide at Wikivoyage",
-      "snippet": "",
+      "snippet": "Berlin\n– scarred by four decades of division but experiencing an almost unprecedented boom, the capital of reunited Germany is one of Europe's most creative and innovative cities\n41.0128.9602784 Istanbul\n– Europe's largest city, the epic former capital of the great Byzantine and Ottoman empires, is",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 19435
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 19435
         }
       }
     },
@@ -1034,127 +938,15 @@
       "hash": "rtQ-JluG0-bg",
       "address": "https://www.fr.de/",
       "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
-      "snippet": "",
+      "snippet": "Berlin-Wahl 2026\nPhilipp Ruch: „Die CDU dürfte sich die Sache mit der AfD anders vorgestellt haben“\nPolitik\nDebatte ums Verbrenner-Aus\nVerzweifelter Rettungsversuch für den Verbrenner\nDer Präsident der TU München lässt von fachfremden Professoren ein Papier zur Energiewende zusammenstellen und",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3904
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "MNFgsL8moajg",
-      "address": "https://www.welt.de/vermischtes/article174542033/Mann-in-Oberhausen-vor-Internetcafe-lebensgefaehrlich-verletzt.html",
-      "title": "Mann in Oberhausen vor Internetcafé lebensgefährlich verletzt - WELT",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "MQvUwX8moajg",
-      "address": "https://www.welt.de/politik/deutschland/article174450033/Bildungspolitik-Schulen-muessen-auf-Anstand-und-guten-Umgang-achten.html",
-      "title": "Bildungspolitik: „Schulen müssen auf Anstand und guten Umgang achten“ - WELT",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Mx76jX8moajg",
-      "address": "https://www.welt.de/politik/ausland/article176325552/Botschaftsumzug-nach-Jerusalem-Al-Qaida-Chef-ruft-Anhaenger-zum-Dschihad-auf.html",
-      "title": "Botschaftsumzug nach Jerusalem: Al-Qaida-Chef ruft Anhänger zum Dschihad auf - WELT",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "NQuL1X8moajg",
-      "address": "https://www.welt.de/politik/deutschland/article176518262/BAMF-Affaere-weitet-sich-aus-Auffaelligkeiten-in-anderen-Staedten.html",
-      "title": "BAMF-Affäre weitet sich aus – Auffälligkeiten in anderen Städten - WELT",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Ni18IX8moajg",
-      "address": "https://www.welt.de/politik/deutschland/article185177400/CDU-Chefin-Annegret-Kramp-Karrenbauer-loest-Angela-Merkel-ab.html",
-      "title": "CDU-Chefin: Annegret Kramp-Karrenbauer löst Angela Merkel ab - WELT",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "OAJouZ8moajg",
-      "address": "https://www.welt.de/wirtschaft/article176445441/Umweltverschmutzung-EU-Kommission-verklagt-Deutschland-wegen-zu-schlechter-Luft.html",
-      "title": "Umweltverschmutzung: EU-Kommission verklagt Deutschland wegen zu schlechter Luft - WELT",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "OaCuDX8moajg",
-      "address": "https://www.welt.de/politik/ausland/article185195650/Internationale-Presse-zur-CDU-Fortsetzung-des-Merkelianismus-Die-AfD-wird-es-freuen.html",
-      "title": "Internationale Presse zur CDU: „Fortsetzung des Merkelianismus. Die AfD wird es freuen“ - WELT",
-      "snippet": "",
-      "matchedWords": {
-        "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 3904
         }
       }
     },
@@ -1162,15 +954,15 @@
       "hash": "JXWIlLfjI1Dh",
       "address": "https://www.tagesschau.de/inland/innenpolitik",
       "title": "Innenpolitik - aktuelle Nachrichten | tagesschau.de",
-      "snippet": "",
+      "snippet": "Wetter Untermenü Wetter einblenden Pfeil rechts\ntagesschau24 LIVE\nVideos \u0026 Audios Untermenü Videos \u0026 Audios einblenden Pfeil rechts\nMehr Untermenü Mehr einblenden Pfeil rechts\nEinstellungen einblenden Pfeil rechts\nUntermenü Inland ausblenden Pfeil links\nInland\nStartseite Inland\nInnenpolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 1521
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1521
         }
       }
     },
@@ -1187,6 +979,54 @@
         "WdCRTATBnXV3": {
           "hits": 0,
           "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "RGSGlC8moajg",
+      "address": "https://www.welt.de/regionales/hamburg/article174493626/Merkel-muss-weg-Proteste-gegen-rechte-Kundgebung-in-Hamburg.html",
+      "title": "„Merkel muss weg“: Proteste gegen rechte Kundgebung in Hamburg - WELT",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 867
+        },
+        "WdCRTATBnXV3": {
+          "hits": 1,
+          "textWords": 867
+        }
+      }
+    },
+    {
+      "hash": "RUwvfj8moajg",
+      "address": "https://www.welt.de/debatte/kommentare/article174642068/Reich-und-arm-Wir-Deutschen-sind-Neidweltmeister.html",
+      "title": "Reich und arm: Wir Deutschen sind Neidweltmeister - WELT",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 1523
+        },
+        "WdCRTATBnXV3": {
+          "hits": 1,
+          "textWords": 1523
+        }
+      }
+    },
+    {
+      "hash": "SuW19X8moajg",
+      "address": "https://www.welt.de/politik/ausland/article185039308/Belgien-UN-Migrationspakt-loest-Regierungskrise-aus.html",
+      "title": "Belgien: UN-Migrationspakt löst Regierungskrise aus - WELT",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 725
+        },
+        "WdCRTATBnXV3": {
+          "hits": 1,
+          "textWords": 725
         }
       }
     },
@@ -1242,15 +1082,15 @@
       "hash": "FcrOSdR5Djcw",
       "address": "https://de.wikinews.org/wiki/Hauptseite",
       "title": "Wikinews, die freie Nachrichtenquelle",
-      "snippet": "",
+      "snippet": "Wetter\nStarke Unwetter in mehreren Regionen Italiens\nMehrere italienische Regionen wurden in der Nacht zum 10. September durch Starkregenfälle in Mitleidenschaft gezogen, die von einem atlantischen Tiefdruckgebiet herangeführt wurden, darunter die Lombardei, die Toskana, Friaul-Julisch Venetien,",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2020
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2020
         }
       }
     },
@@ -1258,15 +1098,15 @@
       "hash": "SH2v_lfjI1Dh",
       "address": "https://www.tagesschau.de/ausland",
       "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
-      "snippet": "",
+      "snippet": "Wetter Untermenü Wetter einblenden Pfeil rechts\ntagesschau24 LIVE\nVideos \u0026 Audios Untermenü Videos \u0026 Audios einblenden Pfeil rechts\nMehr Untermenü Mehr einblenden Pfeil rechts\nEinstellungen einblenden Pfeil rechts\nUntermenü Inland ausblenden Pfeil links\nInland\nStartseite Inland\nInnenpolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1839
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1839
         }
       }
     },
@@ -1274,15 +1114,15 @@
       "hash": "ySJH8lvSGqr4",
       "address": "https://einarschlereth.blogspot.com/",
       "title": "einartysken",
-      "snippet": "",
+      "snippet": "Berlin will, dass wir nicht mehr Weißrussland sagen, sondern nur noch „Belarus“. Wir sollen gegen Russland jetzt auch etymologisch klare Kante zeigen. Im Folgenden werden beide Bezeichnungen nach Belieben verwendet.\nDie slavischen Völker sagen schon immer Belarus (Bjelorusija, Białoruś,",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 14252
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 14252
         }
       }
     },
@@ -1322,15 +1162,15 @@
       "hash": "gt1Hms8_y8I6",
       "address": "https://henrymakow-de.com/",
       "title": "Henry Makow – Aufdeckung der Neuen Weltordnung",
-      "snippet": "",
+      "snippet": "Berlin machen Menschen mit Migrationshintergrund 30 % der Einwohner aus. Deutsche sind im Bezirk Mitte und in vielen umliegenden zentralen Bezirken bereits eine Minderheit.\nSchon vor der „Schleusenöffnung“ durch Angela Merkel hatte im Jahr 2014 ein Viertel der Menschen zwischen 15 und 45 Jahren",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 12198
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 12198
         }
       }
     },
@@ -1338,15 +1178,15 @@
       "hash": "E0-FzQ8moajg",
       "address": "https://www.welt.de/kultur/theater/",
       "title": "Theater – Nachrichten und aktuelle Kritiken - WELT",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1865
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1865
         }
       }
     },
@@ -1354,15 +1194,15 @@
       "hash": "E8-qFl8moajg",
       "address": "https://www.welt.de/apps/",
       "title": "Apps",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 637
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 637
         }
       }
     },
@@ -1386,15 +1226,15 @@
       "hash": "JY4FoX8moajg",
       "address": "https://www.welt.de/politik/deutschland/",
       "title": "Politik - Aktuelle Nachrichten \u0026 News - Deutschland - WELT",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 2851
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2851
         }
       }
     },
@@ -1418,15 +1258,15 @@
       "hash": "Mbn1eZ8moajg",
       "address": "https://www.welt.de/wirtschaft/karriere/",
       "title": "Karriere - News \u0026 Tipps zu Beruf, Bewerbung \u0026 Uni - WELT",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1508
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1508
         }
       }
     },
@@ -1434,15 +1274,15 @@
       "hash": "OoovQl8moajg",
       "address": "https://www.welt.de/reise/",
       "title": "Reise - Aktuelle Informationen rund um Reise und Urlaub - WELT",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 2797
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2797
         }
       }
     },
@@ -1450,15 +1290,31 @@
       "hash": "O1sJdW8moajg",
       "address": "https://www.welt.de/reise/Kreuzfahrt/",
       "title": "Kreuzfahrt: News zu Schriffen und Kreuzfahrten",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1891
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1891
+        }
+      }
+    },
+    {
+      "hash": "Sp_KJC8moajg",
+      "address": "https://www.welt.de/regionales/hamburg/",
+      "title": "Hamburg \u0026 Schleswig-Holstein: News \u0026 aktuelle Nachrichten - WELT",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 1,
+          "textWords": 2497
+        },
+        "WdCRTATBnXV3": {
+          "hits": 2,
+          "textWords": 2497
         }
       }
     },
@@ -1466,15 +1322,31 @@
       "hash": "SrWob48moajg",
       "address": "https://www.welt.de/weltplus/backstage/",
       "title": "Backstage",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1906
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1906
+        }
+      }
+    },
+    {
+      "hash": "S2UatX8moajg",
+      "address": "https://www.welt.de/sonderthemen/bierreport/",
+      "title": "Bierreport",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 2,
+          "textWords": 1779
+        },
+        "WdCRTATBnXV3": {
+          "hits": 1,
+          "textWords": 1779
         }
       }
     },
@@ -1498,15 +1370,15 @@
       "hash": "5xyqlL8moajg",
       "address": "https://www.welt.de/mediathek/dokumentation/",
       "title": "Dokumentation - WELT",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1096
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1096
         }
       }
     },
@@ -1514,15 +1386,15 @@
       "hash": "8UBl4l8moajg",
       "address": "https://www.welt.de/boerse/",
       "title": "Börse - Aktuelle Infos - WELT",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1078
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1078
         }
       }
     },
@@ -1530,15 +1402,15 @@
       "hash": "9y76_X8moajg",
       "address": "https://www.welt.de/sonderthemen/weinland-frankreich/",
       "title": "Weinland Frankreich",
-      "snippet": "",
+      "snippet": "Wetter\nNewsletter\nWELTGo!\nSpiele\nKreuzworträtsel\nSudoku\nWordle\nSchachmatt\nSchlagzeilen-Archiv\nLive-TVWELT Live\nN24 Doku\nMediathekMeinungsfreiheit\nDuell des Tages\nLive-Sport\nDeffner \u0026 Zschäpitz\nReportagen\nDokumentationen\nMagazine\nSendungen A-Z\nVideos\nModeratoren\nTV-Empfang\nTV-App\nWELTPLUSPolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1451
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1451
         }
       }
     },
@@ -1546,15 +1418,15 @@
       "hash": "Fl-YxlDOAHJg",
       "address": "https://www.heise.de/",
       "title": "heise online - IT-News, Nachrichten und Hintergründe | heise online",
-      "snippet": "",
+      "snippet": "Berlin-Cyberangriff, Handyverbot für Fußgänger, GTA 6\nc’t uplinkDSL vs. Kabel: Router, Tarife und Co.\n11c't Magazin\nMehr Videos\nAnzeige\nUnsere meistgelesenen englischen Meldungen\nAlle englischen Meldungen\nGoogle stops selling the Pixel Tablet\nNavier-Stokes: Possible AI breakthrough overshadowed by",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4522
         },
         "WdCRTATBnXV3": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4522
         }
       }
     },
@@ -1658,15 +1530,15 @@
       "hash": "FcrOSdR5Djcw",
       "address": "https://de.wikinews.org/wiki/Hauptseite",
       "title": "Wikinews, die freie Nachrichtenquelle",
-      "snippet": "",
+      "snippet": "Wetter\nStarke Unwetter in mehreren Regionen Italiens\nMehrere italienische Regionen wurden in der Nacht zum 10. September durch Starkregenfälle in Mitleidenschaft gezogen, die von einem atlantischen Tiefdruckgebiet herangeführt wurden, darunter die Lombardei, die Toskana, Friaul-Julisch Venetien,",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2020
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2020
         }
       }
     },
@@ -1674,15 +1546,15 @@
       "hash": "GeX42sX5sgqx",
       "address": "https://netzpolitik.org/",
       "title": "netzpolitik.org - Medium für digitale Freiheitsrechte",
-      "snippet": "",
+      "snippet": "Berlin.\nÜberwachungsbrillen: Warum deutsche Gerichte Smart Glasses nicht verbieten\nHeimlich filmen, mithören, sich zuflüstern lassen: Mit KI-Brillen bleibt das unauffällig. Andere Länder reagieren mit Verboten in Gerichtsgebäuden, Besucher*innen müssen die Brillen am Eingang abgeben. Die deutschen",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 3936
         },
         "WdCRTATBnXV3": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 3936
         }
       }
     },
@@ -1706,15 +1578,15 @@
       "hash": "JXWIlLfjI1Dh",
       "address": "https://www.tagesschau.de/inland/innenpolitik",
       "title": "Innenpolitik - aktuelle Nachrichten | tagesschau.de",
-      "snippet": "",
+      "snippet": "Wetter Untermenü Wetter einblenden Pfeil rechts\ntagesschau24 LIVE\nVideos \u0026 Audios Untermenü Videos \u0026 Audios einblenden Pfeil rechts\nMehr Untermenü Mehr einblenden Pfeil rechts\nEinstellungen einblenden Pfeil rechts\nUntermenü Inland ausblenden Pfeil links\nInland\nStartseite Inland\nInnenpolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 1521
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1521
         }
       }
     },
@@ -1722,15 +1594,15 @@
       "hash": "SH2v_lfjI1Dh",
       "address": "https://www.tagesschau.de/ausland",
       "title": "Internationale Nachrichten aus aller Welt | tagesschau.de",
-      "snippet": "",
+      "snippet": "Wetter Untermenü Wetter einblenden Pfeil rechts\ntagesschau24 LIVE\nVideos \u0026 Audios Untermenü Videos \u0026 Audios einblenden Pfeil rechts\nMehr Untermenü Mehr einblenden Pfeil rechts\nEinstellungen einblenden Pfeil rechts\nUntermenü Inland ausblenden Pfeil links\nInland\nStartseite Inland\nInnenpolitik",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1839
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1839
         }
       }
     },
@@ -1751,25 +1623,25 @@
       }
     },
     {
-      "hash": "CzG6bNlA2Rig",
-      "address": "https://www.n-tv.de/wissen/fundsache/",
-      "title": "Fundsache - ntv.de",
-      "snippet": "",
+      "hash": "F5nrHZlA2Rig",
+      "address": "https://www.n-tv.de/wirtschaft/wirtschaft_startup/",
+      "title": "Startup - ntv.de",
+      "snippet": "Berlin \u0026 Brandenburg\nHamburg \u0026 Schleswig-Holstein\nHessen\nMecklenburg-Vorpommern\nNiedersachsen \u0026 Bremen\nNordrhein-Westfalen\nRheinland-Pfalz \u0026 Saarland\nSachsen\nSachsen-Anhalt\nThüringen\nAlle TageDer Tag - Archiv\nDer Börsen-Tag - Archiv\nDer Sport-Tag - Archiv\nLotto spielen Anzeige\nSport\nLive-Kalender",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1467
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1467
         }
       }
     },
     {
-      "hash": "F5nrHZlA2Rig",
-      "address": "https://www.n-tv.de/wirtschaft/wirtschaft_startup/",
-      "title": "Startup - ntv.de",
+      "hash": "QS6XHllA2Rig",
+      "address": "https://www.n-tv.de/der_tag/",
+      "title": "Der Tag - ntv.de",
       "snippet": "",
       "matchedWords": {
         "01oC60kUlFD7": {
@@ -1786,15 +1658,15 @@
       "hash": "FHhKwln76Wxw",
       "address": "https://www.gmx.net/",
       "title": "GMX - kostenlose E-Mail, Cloud, Nachrichten \u0026 Freemail",
-      "snippet": "",
+      "snippet": "Berlin\nApfelkuchen mit Puddingschicht\n21:22 Uhr\nSchalke 04 führt bei Union – und lässt weitere Chancen liegen\n21:20 Uhr\n15-Jähriger treibt tagelang im Meer – und wird gerettet\n21:13 Uhr\nZeitumstellung auf Winterzeit: Wird die Uhr vor- oder zurückgestellt?\n21:13 Uhr\n\"Bauer sucht Frau\"-Star Narumol",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 2258
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 2258
         }
       }
     },
@@ -1802,6 +1674,22 @@
       "hash": "K3X4pstNzuRy",
       "address": "https://magazinredaktion.tk/",
       "title": "magazin",
+      "snippet": "Berlin-Neukölln\nZu den Ankündigungstexten\n﻿ Medienecho:\nAus der Kurvenzeitung „Orange Times“ der Ultras Chemie Leipzig\nDie Lesung von Abschnitten des „Konspirationistischen Manifest“ in Leipzig-Connewitz stellte sich als kontrovers heraus, da einige Fans von Chemie Leipzig sie erfolglos verhindern",
+      "matchedWords": {
+        "01oC60kUlFD7": {
+          "hits": 14,
+          "textWords": 4250
+        },
+        "WdCRTATBnXV3": {
+          "hits": 1,
+          "textWords": 4250
+        }
+      }
+    },
+    {
+      "hash": "QBDi6ltPGYUg",
+      "address": "https://brf.be/kultur/kino/",
+      "title": "Kino - BRF Nachrichten",
       "snippet": "",
       "matchedWords": {
         "01oC60kUlFD7": {
@@ -1834,15 +1722,15 @@
       "hash": "rtQ-JluG0-bg",
       "address": "https://www.fr.de/",
       "title": "FR.de | News aus Politik, Wirtschaft, Sport, Frankfurt, Hessen und der Welt",
-      "snippet": "",
+      "snippet": "Berlin-Wahl 2026\nPhilipp Ruch: „Die CDU dürfte sich die Sache mit der AfD anders vorgestellt haben“\nPolitik\nDebatte ums Verbrenner-Aus\nVerzweifelter Rettungsversuch für den Verbrenner\nDer Präsident der TU München lässt von fachfremden Professoren ein Papier zur Energiewende zusammenstellen und",
       "matchedWords": {
         "01oC60kUlFD7": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3904
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 3904
         }
       }
     },
@@ -1866,15 +1754,15 @@
       "hash": "C-V-iTyX5Qug",
       "address": "https://www.t-online.de/klima/handbuch/",
       "title": "Klima \u0026 Nachhaltigkeit im Handbauch: Bedeutung, Strategien \u0026 Co.",
-      "snippet": "",
+      "snippet": "Wetter\nDAX\nJobsuche\nPartnersuche\nTelefonverz.\nLotto\nTelekom Services\nTelekomHilfe \u0026 ServiceFrag MagentaKundencenterFreemailMagentaCloudTarife \u0026 Produkte\nSuchen\nE-Mail Login\nRegionalBerlin\nHamburg\nMünchen\nKöln\nFrankfurt\nAlle Städte\nPolitikDeutschland\nLandtagswahl Sachsen-Anhalt 2026\nLandtagswahl",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 631
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 631
         }
       }
     },
@@ -1882,15 +1770,31 @@
       "hash": "MqvP_XyX5Qug",
       "address": "https://www.t-online.de/leben/liebe/",
       "title": "Liebe und Partnerschaft",
-      "snippet": "",
+      "snippet": "Wetter\nDAX\nJobsuche\nPartnersuche\nTelefonverz.\nLotto\nTelekom Services\nTelekomHilfe \u0026 ServiceFrag MagentaKundencenterFreemailMagentaCloudTarife \u0026 Produkte\nSuchen\nE-Mail Login\nRegionalBerlin\nHamburg\nMünchen\nKöln\nFrankfurt\nAlle Städte\nPolitikDeutschland\nLandtagswahl Sachsen-Anhalt 2026\nLandtagswahl",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 925
         },
         "WdCRTATBnXV3": {
+          "hits": 3,
+          "textWords": 925
+        }
+      }
+    },
+    {
+      "hash": "Qr-JZhyX5Qug",
+      "address": "https://www.t-online.de/finanzen/ratgeber/banking/",
+      "title": "News \u0026 E-Mail bei t-online.de | Politik, Sport, Unterhaltung \u0026 Ratgeber",
+      "snippet": "Wetter\nDAX\nJobsuche\nPartnersuche\nTelefonverz.\nLotto\nTelekom Services\nTelekomHilfe \u0026 ServiceFrag MagentaKundencenterFreemailMagentaCloudTarife \u0026 Produkte\nSuchen\nE-Mail Login\nRegionalBerlin\nHamburg\nMünchen\nKöln\nFrankfurt\nAlle Städte\nPolitikDeutschland\nLandtagswahl Sachsen-Anhalt 2026\nLandtagswahl",
+      "matchedWords": {
+        "01oC60kUlFD7": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 757
+        },
+        "WdCRTATBnXV3": {
+          "hits": 3,
+          "textWords": 757
         }
       }
     },
@@ -1898,15 +1802,15 @@
       "hash": "01XG7hyX5Qug",
       "address": "https://www.t-online.de/finanzen/ihr-weg-an-die-boerse/",
       "title": "News \u0026 E-Mail bei t-online.de | Politik, Sport, Unterhaltung \u0026 Ratgeber",
-      "snippet": "",
+      "snippet": "Wetter\nDAX\nJobsuche\nPartnersuche\nTelefonverz.\nLotto\nTelekom Services\nTelekomHilfe \u0026 ServiceFrag MagentaKundencenterFreemailMagentaCloudTarife \u0026 Produkte\nSuchen\nE-Mail Login\nRegionalBerlin\nHamburg\nMünchen\nKöln\nFrankfurt\nAlle Städte\nPolitikDeutschland\nLandtagswahl Sachsen-Anhalt 2026\nLandtagswahl",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 957
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 957
         }
       }
     },
@@ -1914,15 +1818,15 @@
       "hash": "1bgQY0yX5Qug",
       "address": "https://www.t-online.de/nachrichten/panorama/",
       "title": "Panorama: News zu Menschen \u0026 Schicksale, Prozessen und Katastrophen",
-      "snippet": "",
+      "snippet": "Wetter\nDAX\nJobsuche\nPartnersuche\nTelefonverz.\nLotto\nTelekom Services\nTelekomHilfe \u0026 ServiceFrag MagentaKundencenterFreemailMagentaCloudTarife \u0026 Produkte\nSuchen\nE-Mail Login\nRegionalBerlin\nHamburg\nMünchen\nKöln\nFrankfurt\nAlle Städte\nPolitikDeutschland\nLandtagswahl Sachsen-Anhalt 2026\nLandtagswahl",
       "matchedWords": {
         "01oC60kUlFD7": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 923
         },
         "WdCRTATBnXV3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 923
         }
       }
     },
@@ -1960,7 +1864,7 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "01oC60kUlFD7": 43832,
-    "WdCRTATBnXV3": 168048
+    "01oC60kUlFD7": 36993,
+    "WdCRTATBnXV3": 168211
   }
 }

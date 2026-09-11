@@ -1,45 +1,69 @@
 {
   "query": "static site generator",
-  "recordedAt": "2026-09-11T13:00:24Z",
+  "recordedAt": "2026-09-11T19:24:35Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "NTKSIW8dlWJ4",
-        "address": "https://ics-generator.utils.com/",
-        "title": "ICS File Generator - utils.com",
-        "snippet": "",
+        "hash": "xr6iDzS6MKD4",
+        "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+        "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
+        "snippet": "_static\n_static\nLICENSE\nLICENSE\nREADME.md\nREADME.md\nnon-free.md\nnon-free.md\nView all files\nRepository files navigation\nREADME\nLicense\nMore items\nLoading\nAbout\nA list of Free Software network services and web applications which can be hosted on your own servers\nawesome-selfhosted.net/\nTopics",
         "matchedWords": {
           "2sljCuxkKkKM": {
-            "hits": 54,
-            "textWords": 2921
+            "hits": 0,
+            "textWords": 451
           },
           "mN79bucN-x3q": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 451
+          },
+          "qBJZzvjpWcYk": {
+            "hits": 2,
+            "textWords": 451
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "WGR29lBxf4j5",
+        "address": "https://www.education.com/",
+        "title": "Education.com | #1 Educational Site for Pre-K to 8th Grade",
+        "snippet": "Site for Pre-K to 8th Grade\nLoading...\nChoose an Account to Log In\nLog in with different email For more assistance contact customer service\nSKIP TO CONTENT\nUpgrade Now\nLog In Sign Up\nNotifications\nDelete all\nDid you receive a login code from your child's teacher? Enter it here.\nHave a login code?",
+        "matchedWords": {
+          "2sljCuxkKkKM": {
+            "hits": 1,
+            "textWords": 662
+          },
+          "mN79bucN-x3q": {
+            "hits": 1,
+            "textWords": 662
           },
           "qBJZzvjpWcYk": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 662
           }
         }
-      },
+      }
+    ],
+    [
       {
         "hash": "E3vPOld2TDD4",
         "address": "https://www.psd-dude.com/glitch-text-generator/",
         "title": "Glitch Text Generator | ȻꝊꝐɎ \u0026 ꝐȺꞨȾɆ",
-        "snippet": "",
+        "snippet": "Generator | ȻꝊꝐɎ \u0026 ꝐȺꞨȾɆ\nPsdDude TUTORIALS Basics\nCSS\nDrawing\nIcons and Buttons\nFlyers and Templates\nPhoto Effects\nPhoto Manipulation\nPhotoshop Tips\nText Effects\nTextures and Patterns\nRESOURCES BRUSHES\nCUSTOM SHAPES\nTEXTURES\nICONS\nDesign News\nFeatured Artists\nInspiration Images\nInterviews\nPatterns",
         "matchedWords": {
           "2sljCuxkKkKM": {
-            "hits": 34,
-            "textWords": 1817
+            "hits": 42,
+            "textWords": 1656
           },
           "mN79bucN-x3q": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 1656
           },
           "qBJZzvjpWcYk": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 1656
           }
         }
       }
@@ -49,19 +73,19 @@
         "hash": "wci1EfyCWXM4",
         "address": "https://name-generator.utils.com/",
         "title": "Random Name Generator - utils.com",
-        "snippet": "",
+        "snippet": "Generator - utils.com\nUTILS\nFree online tools to generate, calculate,\nconvert, format, encode, and play.\nRandom Name Generator\nGenerate random names for characters, stories, games, or brainstorming. Choose gender, origin, and how many names to generate.\nGender: Any\nMale\nFemale\nOrigin: Any\nEnglish",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 56,
-            "textWords": 2762
+            "textWords": 2716
           },
           "mN79bucN-x3q": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 2716
           },
           "qBJZzvjpWcYk": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 2716
           }
         }
       },
@@ -69,19 +93,19 @@
         "hash": "NTKSIW8dlWJ4",
         "address": "https://ics-generator.utils.com/",
         "title": "ICS File Generator - utils.com",
-        "snippet": "",
+        "snippet": "Generator - utils.com\nUTILS\nFree online tools to generate, calculate,\nconvert, format, encode, and play.\nICS File Generator\nBuild one or more calendar events, then export them as a single .ics file ready to import into Google Calendar, Outlook, or Apple Calendar. Everything runs in your browser.",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 54,
-            "textWords": 2921
+            "textWords": 2870
           },
           "mN79bucN-x3q": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 2870
           },
           "qBJZzvjpWcYk": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 2870
           }
         }
       }
@@ -91,19 +115,39 @@
         "hash": "by8Ivl_0-Tb4",
         "address": "https://www.11ty.dev/",
         "title": "Eleventy is a simpler static site generator",
-        "snippet": "",
+        "snippet": "static site generator\nSkip to navigation Skip to main content\nBuild Awesome\nFont Awesome\nWeb Awesome\nPodcast Awesome\nBlog Awesome\n11ty\nGet Started\nBlog\nCommunity\nv3.1.6\nVersions\nv4 Pre-release\nv3 Stable\nv2\nv1\nv0\nHistory\nFirehose\nSearch\nSearch\nGitHub\nYouTube\nMastodon\nBluesky\nDiscord\nBuild Awesome",
         "matchedWords": {
           "2sljCuxkKkKM": {
             "hits": 6,
-            "textWords": 3268
+            "textWords": 1692
           },
           "mN79bucN-x3q": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 11,
+            "textWords": 1692
+          },
+          "qBJZzvjpWcYk": {
+            "hits": 7,
+            "textWords": 1692
+          }
+        }
+      },
+      {
+        "hash": "qcSF2cuStRZ4",
+        "address": "https://mock-data.utils.com/",
+        "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
+        "snippet": "Generator (JSON) - Generate Fake Test Data - utils.com\nUTILS\nFree online tools to generate, calculate,\nconvert, format, encode, and play.\nMock Data Generator\nGenerate realistic fake JSON data for testing and development. Define a schema and produce any number of records instantly in your browser.",
+        "matchedWords": {
+          "2sljCuxkKkKM": {
+            "hits": 54,
+            "textWords": 3027
+          },
+          "mN79bucN-x3q": {
+            "hits": 1,
+            "textWords": 3027
           },
           "qBJZzvjpWcYk": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 3027
           }
         }
       }
@@ -111,22 +155,42 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "W-eXqzF3--Qw",
-      "address": "https://planet.mozilla.org/",
-      "title": "Planet Mozilla",
-      "snippet": "",
+      "hash": "3B2CgF3-2Qa4",
+      "address": "https://www.mlex.com/mlex/data-privacy-security",
+      "title": "Data Privacy and Security | MLex | Specialist news and analysis on legal risk and regulation",
+      "snippet": "Site Menu\nContact Us\nUS Coverage\nLaw360 | The Practice of Law\nAccess to Justice\nAerospace \u0026 Defense\nAppellate\nAsset Management\nBanking\nBankruptcy\nBenefits\nCannabis\nCapital Markets\nClass Action\nCommercial Contracts\nCompetition\nCompliance\nConstruction\nConsumer Protection\nCorporate\nCriminal Practice",
       "matchedWords": {
         "2sljCuxkKkKM": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1992
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1992
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1992
+        }
+      }
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "generator for SUIT Manifests and Structure-Aware Parser Fuzzing\n2026-09-29 | Manchester, UK | Rust Manchester Rust Manchester September Code Night\n2026-09-30 | Basel, CH | Rust Basel Rust Meetup #16 @ ERNI\n2026-10-05 | München, DE | Rust Munich Rust Munich 2026 / 3\nNorth America\n2026-09-08 -",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 2,
+          "textWords": 66909
+        },
+        "mN79bucN-x3q": {
+          "hits": 22,
+          "textWords": 66909
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 3,
+          "textWords": 66909
         }
       }
     },
@@ -134,19 +198,19 @@
       "hash": "Ht7EIjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Pathological_science",
       "title": "Pathological science - Wikipedia",
-      "snippet": "",
+      "snippet": "site of Kenneth Steiglitz, Professor of Computer Science, Princeton University. But see also: I. Langmuir, \"Pathological Science\", General Electric, (Distribution Unit, Bldg. 5, Room 345, Research and Development Center, P.O. Box 8, Schenectady, NY 12301), 68-C-035 (1968); I. Langmuir,",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2861
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 2861
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 2861
         }
       }
     },
@@ -154,19 +218,39 @@
       "hash": "PxWhyjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Michael_Chabon",
       "title": "Michael Chabon - Wikipedia",
-      "snippet": "",
+      "snippet": "generator.\"[59] In a 2017 radio interview, Chabon spoke of Trump: \"Every morning I wake up and in the seconds before I turn my phone on to see what the latest news is, I have this boundless sense of optimism and hope that this is the day that he's going to have a massive stroke, and, you know, be",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 11535
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 11535
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 11535
+        }
+      }
+    },
+    {
+      "hash": "1AhYvjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_tool",
+      "title": "Programming tool - Wikipedia",
+      "snippet": "generator\nDebugger – Software for debugging a computer program\nDecompiler – Program translating executable to source code\nDisassembler – Computer program to translate machine language into assembly language\nDocumentation generator – Automation technology for creating software documentation",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 2,
+          "textWords": 1295
+        },
+        "mN79bucN-x3q": {
+          "hits": 2,
+          "textWords": 1295
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 1,
+          "textWords": 1295
         }
       }
     },
@@ -174,19 +258,59 @@
       "hash": "8IbirxSUv9O4",
       "address": "https://hangman.utils.com/",
       "title": "Hangman - Word Guessing Game - utils.com",
-      "snippet": "",
+      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nRelated Utils\nChess Number Guessing High or Low Lander Tic-Tac-Toe Snake Memory Cards Rock",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 51,
+          "textWords": 2779
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2779
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 2779
+        }
+      }
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "snippet": "site and whatever begins.\nAnd then about two years ago, actually almost exactly two years ago, I joined the devrel team as a developer advocate, became a senior developer advocate. Now I’m a senior manager, developer relations. So I’m leading the developer relations team. And yeah, really love",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 32181
+        },
+        "mN79bucN-x3q": {
+          "hits": 23,
+          "textWords": 32181
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 32181
+        }
+      }
+    },
+    {
+      "hash": "AbHi_QUUuPp4",
+      "address": "https://about.gitlab.com/solutions/visibility-measurement/",
+      "title": "Visibility and measurement for software delivery",
+      "snippet": "static site generator with GitLab.\nUse GitLab Pages without wildcard DNS\nPublish static websites for free with GitLab Pages\nPublish your website from a private project for free\nCustom domains for GitLab Pages\nMultiple custom domains for GitLab Pages\nLimit the maximum number of custom domains per",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 1,
+          "textWords": 1669
+        },
+        "mN79bucN-x3q": {
+          "hits": 3,
+          "textWords": 1669
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 4,
+          "textWords": 1669
         }
       }
     },
@@ -194,59 +318,59 @@
       "hash": "90BnaIV5WAV4",
       "address": "https://kanban-board.utils.com/",
       "title": "Kanban Board - utils.com",
-      "snippet": "",
+      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nRelated Utils\nTo-Do List Sticky Notes Eisenhower Matrix Daily Planner\nFeedback\nHelp us",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 51,
+          "textWords": 2831
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2831
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 2831
         }
       }
     },
     {
-      "hash": "daW1ZQZchFfZ",
-      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
-      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
-      "snippet": "",
+      "hash": "R8207vZN_n44",
+      "address": "https://prime-checker.utils.com/",
+      "title": "Prime Number Checker \u0026 Finder - utils.com",
+      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nRelated Utils\nPrime Factorization GCD \u0026 LCM Fraction Simplifier Factorial Calculator",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 51,
+          "textWords": 2852
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2852
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 2852
         }
       }
     },
     {
-      "hash": "XOrKy_fC8ci4",
-      "address": "https://address-change.utils.com/",
-      "title": "Address Change Checklist - Who to Notify When You Move - utils.com",
-      "snippet": "",
+      "hash": "Sc8s9s_tHst4",
+      "address": "https://dwheeler.com/trusting-trust/",
+      "title": "Fully Countering Trusting Trust through Diverse Double-Compiling (DDC) - Countering Trojan Horse attacks on Compilers",
+      "snippet": "generator, as long as you give the user control over the random number generator seed (gcc, for example, has a command line option for setting the seed). For example, on a Unix/Linux system, you should be able to do this:\n$ mycompiler input.c # Compile, store result in \"a.out\". $ mv a.out",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 13367
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 13367
         },
         "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 13367
         }
       }
     },
@@ -254,19 +378,19 @@
       "hash": "473ZV3j8ty25",
       "address": "https://r4epi.r-universe.dev/epidict",
       "title": "epidict: Epidemiology Data Dictionaries and Random Data Generators",
-      "snippet": "",
+      "snippet": "generator from these dictionaries is provided. It is also possible to read in any Open Data Kit format data dictionary.\nAuthors:Alexander Spina [aut, cre], Zhian N. Kamvar [aut], Lukas Richter [aut], Patrick Keating [aut], Annick Lenglet [ctb], Applied Epi Incorporated [cph], Medecins Sans",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 520
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 520
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 520
         }
       }
     },
@@ -274,39 +398,19 @@
       "hash": "SRhTBGsGtf35",
       "address": "https://r-lib.r-universe.dev/R6",
       "title": "R6: Encapsulated Classes with Reference Semantics",
-      "snippet": "",
+      "snippet": "site:https://r6.r-lib.org\nOn CRAN:\nConda:\n15.64 score 425 stars 16k packages 18 scripts 1.9M downloads 8 mentions 3 exports 0 dependencies\nLast updated from:2bced0f135. Checks:9 OK. Indexed: yes.\nTarget\nResult\nTime\nFiles\nSyslog\nlinux-devel\nOK\n127\nsource / vignettes\nOK\n198\nlinux-release\nOK\n124",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 325
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 325
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "qcSF2cuStRZ4",
-      "address": "https://mock-data.utils.com/",
-      "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 325
         }
       }
     },
@@ -351,9 +455,669 @@
       }
     },
     {
-      "hash": "Z5FWhh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Commons:Village_pump",
-      "title": "Commons:Village pump - Wikimedia Commons",
+      "hash": "R8207vZN_n44",
+      "address": "https://prime-checker.utils.com/",
+      "title": "Prime Number Checker \u0026 Finder - utils.com",
+      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nRelated Utils\nPrime Factorization GCD \u0026 LCM Fraction Simplifier Factorial Calculator",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 51,
+          "textWords": 2852
+        },
+        "mN79bucN-x3q": {
+          "hits": 1,
+          "textWords": 2852
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 2852
+        }
+      }
+    },
+    {
+      "hash": "oa79-h3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Commons:Featured_picture_candidates",
+      "title": "Commons:Featured picture candidates - Wikimedia Commons",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AgVD_WRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc4287",
+      "title": "RFC 4287 - The Atom Syndication Format",
+      "snippet": "\"atom:generator\" Element .......................18 4.2.5. The \"atom:icon\" Element ............................19 4.2.6. The \"atom:id\" Element ..............................19 4.2.7. The \"atom:link\" Element ............................21 4.2.8. The \"atom:logo\" Element ............................23",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 11,
+          "textWords": 10282
+        },
+        "mN79bucN-x3q": {
+          "hits": 1,
+          "textWords": 10282
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 10282
+        }
+      }
+    },
+    {
+      "hash": "wZZyVlTpUM_5",
+      "address": "https://www.similarweb.com/top-websites/",
+      "title": "Top Websites Ranking - Most Visited Websites In The World | Similarweb",
+      "snippet": "Site Audit\nAI SEO Strategy Agent\nDisplay Advertising\nVideo Advertising\nPaid Search Intelligence\nExplore API\nSimilarweb App Intelligence\nApp Competitor Analysis\nMobile Market Trends\nApp Technographics (SDK)\nApp Rating \u0026 Reviews\nApp Usage Analytics\nApp Revenue Analytics\nApp Keyword Ranking Tracker",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 1,
+          "textWords": 1853
+        },
+        "mN79bucN-x3q": {
+          "hits": 3,
+          "textWords": 1853
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 1853
+        }
+      }
+    },
+    {
+      "hash": "D8O53r-5p35x",
+      "address": "https://iu.wikipedia.org/wiki/%E1%90%85%E1%90%83%E1%91%AD%E1%90%B1%E1%91%8E%E1%90%8A:%E1%90%B9%E1%95%90%E1%93%82%E1%96%85",
+      "title": "ᐅᐃᑭᐱᑎᐊ:ᐹᕐᓂᖅ - ᐅᐃᑭᐱᑎᐊ",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "KQzBC91aZrsx",
+      "address": "https://lg.wikipedia.org/wiki/Wikipedia:Community_Portal",
+      "title": "Wikipedia:Community Portal - Wikipedia",
+      "snippet": "site notice from local administrators (see sample)\nAdd your local project page and CampWiz link to the Meta project page\nCampaign Tools\nThe Wiki Loves Folklore Tech Team has introduced tools to support organizers and participants:\nArticle List Generator by Topic – Helps identify articles available",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 1,
+          "textWords": 5342
+        },
+        "mN79bucN-x3q": {
+          "hits": 1,
+          "textWords": 5342
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 5342
+        }
+      }
+    },
+    {
+      "hash": "KlUPBm1dafs6",
+      "address": "https://stackoverflow.com/questions/tagged/performance",
+      "title": "Newest 'performance' Questions - Stack Overflow",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "N2EtBm1dafs6",
+      "address": "https://stackoverflow.com/questions/tagged/xml",
+      "title": "Newest 'xml' Questions - Stack Overflow",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "3B2CgF3-2Qa4",
+      "address": "https://www.mlex.com/mlex/data-privacy-security",
+      "title": "Data Privacy and Security | MLex | Specialist news and analysis on legal risk and regulation",
+      "snippet": "Site Menu\nContact Us\nUS Coverage\nLaw360 | The Practice of Law\nAccess to Justice\nAerospace \u0026 Defense\nAppellate\nAsset Management\nBanking\nBankruptcy\nBenefits\nCannabis\nCapital Markets\nClass Action\nCommercial Contracts\nCompetition\nCompliance\nConstruction\nConsumer Protection\nCorporate\nCriminal Practice",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 1992
+        },
+        "mN79bucN-x3q": {
+          "hits": 1,
+          "textWords": 1992
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 1992
+        }
+      }
+    },
+    {
+      "hash": "oa79-h3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Commons:Featured_picture_candidates",
+      "title": "Commons:Featured picture candidates - Wikimedia Commons",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7TY5XyEkAvow",
+      "address": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
+      "title": "JavaScript modules - JavaScript | MDN",
+      "snippet": "generator\nBorder-radius generator\nBox-shadow generator\nColor format converter\nColor mixer\nShape generator\nAbout\nGet to know MDN better\nAbout MDN\nAdvertise with us\nCommunity\nMDN on GitHub\nBlog\nWeb\nJavaScript\nGuide\nJavaScript modules\nJavaScript modules\nPrevious\nThis guide gives you all you need to",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 6,
+          "textWords": 8842
+        },
+        "mN79bucN-x3q": {
+          "hits": 3,
+          "textWords": 8842
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 5,
+          "textWords": 8842
+        }
+      }
+    },
+    {
+      "hash": "W-eXqzF3--Qw",
+      "address": "https://planet.mozilla.org/",
+      "title": "Planet Mozilla",
+      "snippet": "generator for SUIT Manifests and Structure-Aware Parser Fuzzing\n2026-09-29 | Manchester, UK | Rust Manchester Rust Manchester September Code Night\n2026-09-30 | Basel, CH | Rust Basel Rust Meetup #16 @ ERNI\n2026-10-05 | München, DE | Rust Munich Rust Munich 2026 / 3\nNorth America\n2026-09-08 -",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 2,
+          "textWords": 66909
+        },
+        "mN79bucN-x3q": {
+          "hits": 22,
+          "textWords": 66909
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 3,
+          "textWords": 66909
+        }
+      }
+    },
+    {
+      "hash": "6V5j2eGIvvyx",
+      "address": "https://arc.wikipedia.org/wiki/%DC%98%DC%9D%DC%A9%DC%9D%DC%A6%DC%95%DC%9D%DC%90:%DC%AC%DC%AA%DC%A5%DC%90_%DC%95%DC%9F%DC%A2%DC%AB%DC%90",
+      "title": "ܘܝܩܝܦܕܝܐ:ܬܪܥܐ ܕܟܢܫܐ - ܘܝܩܝܦܕܝܐ",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PUGkJPJRn13x",
+      "address": "https://tn.wikipedia.org/wiki/Wikipedia:Patlelo_ya_set%C5%A1haba",
+      "title": "Wikipedia:Patlelo ya setšhaba - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "4nm4V0L1BEe6",
+      "address": "https://meta.stackoverflow.com/questions/421831/policy-generative-ai-e-g-chatgpt-is-banned",
+      "title": "Policy: Generative AI (e.g., ChatGPT) is banned - Meta Stack Overflow",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AgVD_WRfu9ww",
+      "address": "https://datatracker.ietf.org/doc/html/rfc4287",
+      "title": "RFC 4287 - The Atom Syndication Format",
+      "snippet": "\"atom:generator\" Element .......................18 4.2.5. The \"atom:icon\" Element ............................19 4.2.6. The \"atom:id\" Element ..............................19 4.2.7. The \"atom:link\" Element ............................21 4.2.8. The \"atom:logo\" Element ............................23",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 11,
+          "textWords": 10282
+        },
+        "mN79bucN-x3q": {
+          "hits": 1,
+          "textWords": 10282
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 10282
+        }
+      }
+    },
+    {
+      "hash": "APdoGjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Radiation_therapy",
+      "title": "Radiation therapy - Wikipedia",
+      "snippet": "site. It is a type of coagulative necrosis that occurs because the radiation directly or indirectly damages blood vessels in the area, which reduces the blood supply to the remaining healthy tissue, causing it to die by ischemia, similar to what happens in an ischemic stroke.[54] Because it is an",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 2,
+          "textWords": 15703
+        },
+        "mN79bucN-x3q": {
+          "hits": 8,
+          "textWords": 15703
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 1,
+          "textWords": 15703
+        }
+      }
+    },
+    {
+      "hash": "CYZstjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Go_(programming_language)",
+      "title": "Go (programming language) - Wikipedia",
+      "snippet": "static, strong,[8] structural,[9][10] nominal\nMemory management\nGarbage collection\nImplementation language\nGo, Assembly language (gc); C++ (gofrontend)\nOS\nDragonFly BSD, FreeBSD, Linux, macOS, NetBSD, OpenBSD,[11] Plan 9,[12] Solaris, Windows\nLicense\n3-clause BSD[13] + patent grant[14]\nFilename",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 1,
+          "textWords": 9180
+        },
+        "mN79bucN-x3q": {
+          "hits": 3,
+          "textWords": 9180
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 7,
+          "textWords": 9180
+        }
+      }
+    },
+    {
+      "hash": "1AhYvjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Software_tool",
+      "title": "Programming tool - Wikipedia",
+      "snippet": "generator\nDebugger – Software for debugging a computer program\nDecompiler – Program translating executable to source code\nDisassembler – Computer program to translate machine language into assembly language\nDocumentation generator – Automation technology for creating software documentation",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 2,
+          "textWords": 1295
+        },
+        "mN79bucN-x3q": {
+          "hits": 2,
+          "textWords": 1295
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 1,
+          "textWords": 1295
+        }
+      }
+    },
+    {
+      "hash": "-igz0jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Prolog",
+      "title": "Prolog - Wikipedia",
+      "snippet": "static analysis, supports term hiding, and facilitates programming in the large.[44] XSB takes a different approach and offers an atom-based module system.[45] The latter two Prolog systems allow controlling the visibility of terms in addition to that of predicates.[42]\nParsing\n[edit]\nMain",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 1,
+          "textWords": 9172
+        },
+        "mN79bucN-x3q": {
+          "hits": 2,
+          "textWords": 9172
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 2,
+          "textWords": 9172
+        }
+      }
+    },
+    {
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet \u0026mdash; WordPress.org",
+      "snippet": "site and whatever begins.\nAnd then about two years ago, actually almost exactly two years ago, I joined the devrel team as a developer advocate, became a senior developer advocate. Now I’m a senior manager, developer relations. So I’m leading the developer relations team. And yeah, really love",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 32181
+        },
+        "mN79bucN-x3q": {
+          "hits": 23,
+          "textWords": 32181
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 32181
+        }
+      }
+    },
+    {
+      "hash": "AbHi_QUUuPp4",
+      "address": "https://about.gitlab.com/solutions/visibility-measurement/",
+      "title": "Visibility \u0026 measurement",
+      "snippet": "static site generator with GitLab.\nUse GitLab Pages without wildcard DNS\nPublish static websites for free with GitLab Pages\nPublish your website from a private project for free\nCustom domains for GitLab Pages\nMultiple custom domains for GitLab Pages\nLimit the maximum number of custom domains per",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 1,
+          "textWords": 1669
+        },
+        "mN79bucN-x3q": {
+          "hits": 3,
+          "textWords": 1669
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 4,
+          "textWords": 1669
+        }
+      }
+    },
+    {
+      "hash": "4fZ-CYVS6C54",
+      "address": "https://legal.hubspot.com/dpa",
+      "title": "Data Processing Agreement",
+      "snippet": "Static code analysis: Code stored in our source code repositories is checked for best practices and identifiable software flaws using automated tooling.\nEndpoint Harding: Endpoints are hardened in accordance with industry standard practice. Workstations are protected using anti-malware and endpoint",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 4,
+          "textWords": 9703
+        },
+        "mN79bucN-x3q": {
+          "hits": 1,
+          "textWords": 9703
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 1,
+          "textWords": 9703
+        }
+      }
+    },
+    {
+      "hash": "2ARlB8_4RGt5",
+      "address": "https://aftermathnews.wordpress.com/2007/10/01/blackwater-knights-of-malta-in-iraq/",
+      "title": "Blackwater: Knights of Malta in Iraq | Aftermath News",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Sc8s9s_tHst4",
+      "address": "https://dwheeler.com/trusting-trust/",
+      "title": "Fully Countering Trusting Trust through Diverse Double-Compiling (DDC) - Countering Trojan Horse attacks on Compilers",
+      "snippet": "generator, as long as you give the user control over the random number generator seed (gcc, for example, has a command line option for setting the seed). For example, on a Unix/Linux system, you should be able to do this:\n$ mycompiler input.c # Compile, store result in \"a.out\". $ mv a.out",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 3,
+          "textWords": 13367
+        },
+        "mN79bucN-x3q": {
+          "hits": 6,
+          "textWords": 13367
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 3,
+          "textWords": 13367
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "appstream-generator, you will get much smaller images and, for screenshots, will benefit from other JPEG-XL features such as progressive decoding, providing a far nicer user experience. libAppStream has supported JXL icons since version 1.1.3, so your clients will need that version or a newer one,",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 8,
+          "textWords": 63106
+        },
+        "mN79bucN-x3q": {
+          "hits": 7,
+          "textWords": 63106
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 1,
+          "textWords": 63106
+        }
+      }
+    },
+    {
+      "hash": "JePBaFbShQqx",
+      "address": "https://xal.wikipedia.org/wiki/Wikipedia:Community_Portal",
+      "title": "Wikipedia:Community Portal — Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "mN79bucN-x3q": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CjoFQldPgiL6",
+      "address": "https://www.mylivesignature.com/",
+      "title": "Signature Design Generator Tool - Email Signature",
+      "snippet": "Generator Tool - Email Signature\nOh No! It appears that you are using an ad blocker :-(\nPlease add an exception for our site and click refresh\nAds help pay the bills and allow us to keep the site and service free.\nOur ads are small and non-intrusive and family friendly.\nIf you want to use our site",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 6,
+          "textWords": 1426
+        },
+        "mN79bucN-x3q": {
+          "hits": 8,
+          "textWords": 1426
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 2,
+          "textWords": 1426
+        }
+      }
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "snippet": "appstream-generator, you will get much smaller images and, for screenshots, will benefit from other JPEG-XL features such as progressive decoding, providing a far nicer user experience. libAppStream has supported JXL icons since version 1.1.3, so your clients will need that version or a newer one,",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 5,
+          "textWords": 13680
+        },
+        "mN79bucN-x3q": {
+          "hits": 3,
+          "textWords": 13680
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 0,
+          "textWords": 13680
+        }
+      }
+    },
+    {
+      "hash": "8WfrdFhkCDL4",
+      "address": "https://goblinpunch.blogspot.com/",
+      "title": "Goblin Punch",
+      "snippet": "static and unchanging. Not only is it unfashionable, but beastly. It's seen as something more animalistic--not \"dirty\" but definitely something that debases you.\nLegal Status\nThe Yavanelya are led by patriarchs. Even if some of them happen to be women this month, it is clear that they are",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 8350
+        },
+        "mN79bucN-x3q": {
+          "hits": 2,
+          "textWords": 8350
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 1,
+          "textWords": 8350
+        }
+      }
+    },
+    {
+      "hash": "MJWk_slTOqhw",
+      "address": "https://gohugo.io/",
+      "title": "The world's fastest framework for building websites",
+      "snippet": "static site generators. With its amazing speed and flexibility, Hugo makes building websites fun again.\nDocs\nSearch docs /\nOpen source\nHugo is open source and free to use. It is distributed under the Apache 2.0 License.\nPopular.\nHugo has 89,780 stars on GitHub as of September 11, 2026. Join the",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 316
+        },
+        "mN79bucN-x3q": {
+          "hits": 2,
+          "textWords": 316
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 1,
+          "textWords": 316
+        }
+      }
+    },
+    {
+      "hash": "F0m3WEqUITMy",
+      "address": "https://opensource.creativecommons.org/contributing-code/projects/",
+      "title": "Open Source Projects — Creative Commons Open Source",
+      "snippet": "site's posts which will display terms and licensing for Creative Commons reposting, as well as the title and content of the post for easy sharing. This is useful for sites that want to easily and clearly share their content with others.\nPHP\nGNU General Public License v3.0\nGitHub\n17",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 0,
+          "textWords": 1250
+        },
+        "mN79bucN-x3q": {
+          "hits": 6,
+          "textWords": 1250
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 3,
+          "textWords": 1250
+        }
+      }
+    },
+    {
+      "hash": "-xpxEitD2jQw",
+      "address": "https://docs.python.org/3/contents.html",
+      "title": "Python Documentation contents — Python 3.14.5rc1 documentation",
+      "snippet": "site\nsqlite3\nssl\nstatistics\nsubprocess\nsys\ntempfile\ntime\ntkinter\ntraceback\ntypes\ntyping\nunicodedata\nvenv\nwarnings\nxml\nzipimport\nOptimizations\nRemoved Modules And APIs PEP 594: Remove “dead batteries” from the standard library\n2to3\nbuiltins\nconfigparser\nimportlib.metadata\nlocale\nopcode\noptparse",
+      "matchedWords": {
+        "2sljCuxkKkKM": {
+          "hits": 17,
+          "textWords": 15890
+        },
+        "mN79bucN-x3q": {
+          "hits": 8,
+          "textWords": 15890
+        },
+        "qBJZzvjpWcYk": {
+          "hits": 6,
+          "textWords": 15890
+        }
+      }
+    },
+    {
+      "hash": "-DqTnLwtqo7x",
+      "address": "https://am.wikipedia.org/wiki/%E1%8B%8D%E1%8A%AD%E1%8D%94%E1%8B%B2%E1%8B%AB_%E1%8B%8D%E1%8B%AD%E1%8B%AD%E1%89%B5:%E1%88%9D%E1%8A%95%E1%8C%AD%E1%8C%8C",
+      "title": "ውክፔዲያ - ውክፔዲያ ውይይት:ምንጭጌ",
       "snippet": "",
       "matchedWords": {
         "2sljCuxkKkKM": {
@@ -374,19 +1138,19 @@
       "hash": "RAz7ZPKXKxA4",
       "address": "https://cloud.ionos.com/network/application-load-balancer",
       "title": "Application Load Balancer as Managed Service | IONOS Cloud",
-      "snippet": "",
+      "snippet": "Site Builder\nNew\nCreate websites and apps by chat – maximum flexibility.\nNever miss a customer inquiry again\nAI Receptionist\nNew\nNever miss a customer call again.\nAI Chat Assistant\nNew\nAnswer website inquiries any time.\nProfessional models and a reliable AI platform\nAI Model Hub\nAI voice and",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 2391
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 2391
         },
         "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2391
         }
       }
     },
@@ -394,19 +1158,19 @@
       "hash": "S-QHJPKXKxA4",
       "address": "https://cloud.ionos.com/network/network-loadbalancer",
       "title": "Managed Network Load Balancer | A Service from the IONOS Cloud",
-      "snippet": "",
+      "snippet": "Site Builder\nNew\nCreate websites and apps by chat – maximum flexibility.\nNever miss a customer inquiry again\nAI Receptionist\nNew\nNever miss a customer call again.\nAI Chat Assistant\nNew\nAnswer website inquiries any time.\nProfessional models and a reliable AI platform\nAI Model Hub\nAI voice and",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 2110
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 2110
         },
         "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2110
         }
       }
     },
@@ -434,19 +1198,19 @@
       "hash": "NkgclXyzSDzw",
       "address": "https://httpd.apache.org/docs/current/mod/core.html",
       "title": "core - Apache HTTP Server Version 2.4",
-      "snippet": "",
+      "snippet": "cross-site scripting attacks due to user-provided data being included in the output. Note, however, that a better solution is to just fix (or delete) those scripts, since setting a default charset does not protect users that have enabled the \"auto-detect character encoding\" feature on their",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 22614
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 22614
         },
         "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 22614
         }
       }
     },
@@ -471,62 +1235,22 @@
       }
     },
     {
-      "hash": "onaY7j-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Barack_Obama",
-      "title": "Barack Obama - Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
-      "snippet": "",
+      "snippet": "generator for SUIT Manifests and Structure-Aware Parser Fuzzing\n2026-09-29 | Manchester, UK | Rust Manchester Rust Manchester September Code Night\n2026-09-30 | Basel, CH | Rust Basel Rust Meetup #16 @ ERNI\n2026-10-05 | München, DE | Rust Munich Rust Munich 2026 / 3\nNorth America\n2026-09-08 -",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 66909
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 22,
+          "textWords": 66909
         },
         "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "odiKIjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Backdoor_(computing)",
-      "title": "Backdoor (computing) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 66909
         }
       }
     },
@@ -554,19 +1278,19 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "",
+      "snippet": "appstream-generator, you will get much smaller images and, for screenshots, will benefit from other JPEG-XL features such as progressive decoding, providing a far nicer user experience. libAppStream has supported JXL icons since version 1.1.3, so your clients will need that version or a newer one,",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 63106
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 63106
         },
         "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 63106
         }
       }
     },
@@ -574,19 +1298,19 @@
       "hash": "SRhTBGsGtf35",
       "address": "https://r-lib.r-universe.dev/R6",
       "title": "R6: Encapsulated Classes with Reference Semantics",
-      "snippet": "",
+      "snippet": "site:https://r6.r-lib.org\nOn CRAN:\nConda:\n15.64 score 425 stars 16k packages 18 scripts 1.9M downloads 8 mentions 3 exports 0 dependencies\nLast updated from:2bced0f135. Checks:9 OK. Indexed: yes.\nTarget\nResult\nTime\nFiles\nSyslog\nlinux-devel\nOK\n127\nsource / vignettes\nOK\n198\nlinux-release\nOK\n124",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 325
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 325
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 325
         }
       }
     },
@@ -614,19 +1338,19 @@
       "hash": "W-eXqzF3--Qw",
       "address": "https://planet.mozilla.org/",
       "title": "Planet Mozilla",
-      "snippet": "",
+      "snippet": "generator for SUIT Manifests and Structure-Aware Parser Fuzzing\n2026-09-29 | Manchester, UK | Rust Manchester Rust Manchester September Code Night\n2026-09-30 | Basel, CH | Rust Basel Rust Meetup #16 @ ERNI\n2026-10-05 | München, DE | Rust Munich Rust Munich 2026 / 3\nNorth America\n2026-09-08 -",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 66909
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 22,
+          "textWords": 66909
         },
         "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 66909
         }
       }
     },
@@ -654,19 +1378,19 @@
       "hash": "RAz7ZPKXKxA4",
       "address": "https://cloud.ionos.com/network/application-load-balancer",
       "title": "Application Load Balancer as Managed Service | IONOS CLOUD",
-      "snippet": "",
+      "snippet": "Site Builder\nNew\nCreate websites and apps by chat – maximum flexibility.\nNever miss a customer inquiry again\nAI Receptionist\nNew\nNever miss a customer call again.\nAI Chat Assistant\nNew\nAnswer website inquiries any time.\nProfessional models and a reliable AI platform\nAI Model Hub\nAI voice and",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 2391
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 2391
         },
         "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2391
         }
       }
     },
@@ -674,19 +1398,19 @@
       "hash": "CYZstjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Go_(programming_language)",
       "title": "Go (programming language) - Wikipedia",
-      "snippet": "",
+      "snippet": "static, strong,[8] structural,[9][10] nominal\nMemory management\nGarbage collection\nImplementation language\nGo, Assembly language (gc); C++ (gofrontend)\nOS\nDragonFly BSD, FreeBSD, Linux, macOS, NetBSD, OpenBSD,[11] Plan 9,[12] Solaris, Windows\nLicense\n3-clause BSD[13] + patent grant[14]\nFilename",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 9180
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 9180
         },
         "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 9180
         }
       }
     },
@@ -734,39 +1458,19 @@
       "hash": "8IbirxSUv9O4",
       "address": "https://hangman.utils.com/",
       "title": "Hangman - Word Guessing Game - utils.com",
-      "snippet": "",
+      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nRelated Utils\nChess Number Guessing High or Low Lander Tic-Tac-Toe Snake Memory Cards Rock",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 51,
+          "textWords": 2779
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2779
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Zaf27sU3D8gh",
-      "address": "https://weeklyosm.eu/",
-      "title": "weekly – semanario – hebdo – 週刊 – týdeník – Wochennotiz – 주간 – tygodnik – A summary of things happening in the OpenStreetMap world",
-      "snippet": "",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 2779
         }
       }
     },
@@ -774,19 +1478,19 @@
       "hash": "90BnaIV5WAV4",
       "address": "https://kanban-board.utils.com/",
       "title": "Kanban Board - utils.com",
-      "snippet": "",
+      "snippet": "site as a widget. Adding ?embed=1 to the URL loads a compact version with just the tool itself; no header, menu, or documentation. Paste this snippet into your HTML:\nCopy snippet Adjust the height to taste.\nRelated Utils\nTo-Do List Sticky Notes Eisenhower Matrix Daily Planner\nFeedback\nHelp us",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 51,
+          "textWords": 2831
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2831
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 2831
         }
       }
     },
@@ -794,39 +1498,19 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "",
+      "snippet": "appstream-generator, you will get much smaller images and, for screenshots, will benefit from other JPEG-XL features such as progressive decoding, providing a far nicer user experience. libAppStream has supported JXL icons since version 1.1.3, so your clients will need that version or a newer one,",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 63106
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 63106
         },
         "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "XOrKy_fC8ci4",
-      "address": "https://address-change.utils.com/",
-      "title": "Address Change Checklist - Who to Notify When You Move - utils.com",
-      "snippet": "",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 63106
         }
       }
     },
@@ -834,39 +1518,19 @@
       "hash": "473ZV3j8ty25",
       "address": "https://r4epi.r-universe.dev/epidict",
       "title": "epidict: Epidemiology Data Dictionaries and Random Data Generators",
-      "snippet": "",
+      "snippet": "generator from these dictionaries is provided. It is also possible to read in any Open Data Kit format data dictionary.\nAuthors:Alexander Spina [aut, cre], Zhian N. Kamvar [aut], Lukas Richter [aut], Patrick Keating [aut], Annick Lenglet [ctb], Applied Epi Incorporated [cph], Medecins Sans",
       "matchedWords": {
         "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 520
         },
         "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 520
         },
         "qBJZzvjpWcYk": {
           "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "qcSF2cuStRZ4",
-      "address": "https://mock-data.utils.com/",
-      "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
-      "snippet": "",
-      "matchedWords": {
-        "2sljCuxkKkKM": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "mN79bucN-x3q": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "qBJZzvjpWcYk": {
-          "hits": 0,
-          "textWords": 0
+          "textWords": 520
         }
       }
     },
@@ -892,8 +1556,8 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "2sljCuxkKkKM": 12835,
-    "mN79bucN-x3q": 515927,
-    "qBJZzvjpWcYk": 41428
+    "2sljCuxkKkKM": 26633,
+    "mN79bucN-x3q": 433270,
+    "qBJZzvjpWcYk": 46586
   }
 }

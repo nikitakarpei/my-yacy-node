@@ -2,15 +2,21 @@
   "query": "static site generator",
   "judgedDocuments": [
     {
-      "hash": "NTKSIW8dlWJ4",
-      "address": "https://ics-generator.utils.com/",
-      "title": "ICS File Generator - utils.com",
-      "grade": 0
+      "hash": "by8Ivl_0-Tb4",
+      "address": "https://www.11ty.dev/",
+      "title": "Eleventy is a simpler static site generator",
+      "grade": 2
     },
     {
       "hash": "E3vPOld2TDD4",
       "address": "https://www.psd-dude.com/glitch-text-generator/",
       "title": "Glitch Text Generator | ȻꝊꝐɎ \u0026 ꝐȺꞨȾɆ",
+      "grade": 0
+    },
+    {
+      "hash": "CjoFQldPgiL6",
+      "address": "https://www.mylivesignature.com/",
+      "title": "Signature Design Generator Tool - Email Signature",
       "grade": 0
     },
     {
@@ -20,15 +26,45 @@
       "grade": 0
     },
     {
-      "hash": "by8Ivl_0-Tb4",
-      "address": "https://www.11ty.dev/",
-      "title": "Eleventy is a simpler static site generator",
-      "grade": 2
+      "hash": "NTKSIW8dlWJ4",
+      "address": "https://ics-generator.utils.com/",
+      "title": "ICS File Generator - utils.com",
+      "grade": 0
     },
     {
       "hash": "qcSF2cuStRZ4",
       "address": "https://mock-data.utils.com/",
       "title": "Mock Data Generator (JSON) - Generate Fake Test Data - utils.com",
+      "grade": 0
+    },
+    {
+      "hash": "xr6iDzS6MKD4",
+      "address": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "title": "GitHub - awesome-selfhosted/awesome-selfhosted: A list of Free Software network services and web applications which can be hosted on your own servers",
+      "grade": 1
+    },
+    {
+      "hash": "WGR29lBxf4j5",
+      "address": "https://www.education.com/",
+      "title": "Education.com | #1 Educational Site for Pre-K to 8th Grade",
+      "grade": 0
+    },
+    {
+      "hash": "-xpxEitD2jQw",
+      "address": "https://docs.python.org/3/contents.html",
+      "title": "Python Documentation contents — Python 3.14.5rc1 documentation",
+      "grade": 0
+    },
+    {
+      "hash": "7TY5XyEkAvow",
+      "address": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules",
+      "title": "JavaScript modules - JavaScript | MDN",
+      "grade": 0
+    },
+    {
+      "hash": "3B2CgF3-2Qa4",
+      "address": "https://www.mlex.com/mlex/data-privacy-security",
+      "title": "Data Privacy and Security | MLex | Specialist news and analysis on legal risk and regulation",
       "grade": 0
     },
     {
@@ -41,30 +77,6 @@
       "hash": "Ht7EIjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Pathological_science",
       "title": "Pathological science - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "PxWhyjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Michael_Chabon",
-      "title": "Michael Chabon - Wikipedia",
-      "grade": 0
-    },
-    {
-      "hash": "8IbirxSUv9O4",
-      "address": "https://hangman.utils.com/",
-      "title": "Hangman - Word Guessing Game - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "90BnaIV5WAV4",
-      "address": "https://kanban-board.utils.com/",
-      "title": "Kanban Board - utils.com",
-      "grade": 0
-    },
-    {
-      "hash": "daW1ZQZchFfZ",
-      "address": "http://www.greenteethmm.com/transgenderr-ladies-first.shtml",
-      "title": "whether-tom-chivers-is-a-science-writer-a-hack-journalist-or-a-cunt-is-a-matter-of-semantics-daily-stirrer-dailystirrer",
       "grade": 0
     }
   ]

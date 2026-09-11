@@ -9,8 +9,11 @@ import (
 	"testing"
 	"time"
 
+	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerchoice"
@@ -41,6 +44,13 @@ const (
 	peerItemsCeiling   = 10
 	rankedItemsCeiling = 50
 	queryBudget        = 15 * time.Second
+
+	pagesReadPerQuery    = 50
+	pageReadsInFlight    = 16
+	pageReadBudget       = 10 * time.Second
+	pageByteCeiling      = 1024 * 1024
+	snippetLengthCeiling = 300
+	pageFetchUserAgent   = "yacydhtsearch (+https://yacy.net)"
 )
 
 var seedlistURLs = []string{
@@ -112,13 +122,14 @@ func TestRecordWhatThePeersAnswerForTheJudgedQueries(t *testing.T) {
 
 	directory := directoryOfTheNetwork(t)
 	spread := querySpreadOverThePeers(t, directory)
+	reading := pageReadingOverTheWeb(t)
 	t.Logf(
 		"the directory knows %d peers and can ask %d",
 		len(directory.KnownPeers(t.Context())),
 		len(directory.AskablePeers(t.Context())),
 	)
 	for _, query := range judgedQueries {
-		recordOneJudgedQuery(t, spread, directory, query)
+		recordOneJudgedQuery(t, spread, reading, directory, query)
 	}
 }
 
@@ -194,15 +205,42 @@ func ringPartitions(t *testing.T) yacymodel.DHTRingPartitions {
 	return partitions
 }
 
+func pageReadingOverTheWeb(t *testing.T) pagereading.Reading {
+	t.Helper()
+
+	formatDerivations, err := pageformats.New()
+	if err != nil {
+		t.Fatalf("page format derivations: %v", err)
+	}
+
+	return pagereading.New(
+		pagefetchershttp.New(
+			nil,
+			pagefetchershttp.ProxyDialTunnel,
+			pageFetchUserAgent,
+			pageByteCeiling,
+			pageReadBudget,
+		),
+		formatDerivations,
+		pageReadsInFlight,
+		pageReadBudget,
+		snippetLengthCeiling,
+		silentPageReadingObserver{},
+	)
+}
+
 func recordOneJudgedQuery(
 	t *testing.T,
 	spread querySpread,
+	reading pagereading.Reading,
 	directory *peerdirectory.Directory,
 	query string,
 ) {
 	t.Helper()
 
-	answers := answersOfOneQuery(t, spread, directory, query)
+	answers := answersCarryingThePageTextOfEachDocument(
+		t, reading, query, answersOfOneQuery(t, spread, directory, query),
+	)
 	writeFixtureFile(t, recordedAnswersFileOf(query), recordedAnswersOf(query, answers))
 	pooledDocuments := pooledDocumentsOf(answers)
 	writeFixtureFile(t, queryJudgmentsFileOf(query), queryJudgmentsOfThePool(
@@ -228,6 +266,55 @@ func answersOfOneQuery(
 	return spread.SpreadOverPeers(
 		ctx, searchquery.QueryFrom(query), directory.AskablePeers(ctx),
 	)
+}
+
+func answersCarryingThePageTextOfEachDocument(
+	t *testing.T,
+	reading pagereading.Reading,
+	query string,
+	answers peeranswers.AnsweredQuery,
+) peeranswers.AnsweredQuery {
+	t.Helper()
+
+	candidates := relevance.Ordering{}.OrderedItemsOf(answers)
+	pageTextPerDocument := reading.PageTextPerDocument(
+		t.Context(),
+		searchquery.QueryFrom(query).TermHashes(),
+		pagesToReadOf(candidates[:min(pagesReadPerQuery, len(candidates))]),
+	)
+
+	return answers.CarryingTheTextOfEachDocument(
+		documentTextPerDocumentOf(pageTextPerDocument),
+	)
+}
+
+func pagesToReadOf(candidates []peeranswers.AnsweredItem) []pagereading.PageToRead {
+	pagesToRead := make([]pagereading.PageToRead, 0, len(candidates))
+	for _, candidate := range candidates {
+		pagesToRead = append(pagesToRead, pagereading.PageToRead{
+			Document: candidate.Metadata.Hash,
+			Address:  candidate.Metadata.Address,
+		})
+	}
+
+	return pagesToRead
+}
+
+func documentTextPerDocumentOf(
+	pageTextPerDocument map[yacymodel.URLHash]pagereading.PageText,
+) map[yacymodel.URLHash]peeranswers.DocumentText {
+	documentTextPerDocument := make(
+		map[yacymodel.URLHash]peeranswers.DocumentText, len(pageTextPerDocument),
+	)
+	for document, pageText := range pageTextPerDocument {
+		documentTextPerDocument[document] = peeranswers.DocumentText{
+			HitsPerQueryWord: pageText.HitsPerQueryWord,
+			AmountOfWords:    pageText.AmountOfWords,
+			Snippet:          pageText.Snippet,
+		}
+	}
+
+	return documentTextPerDocument
 }
 
 func pooledDocumentsOf(answers peeranswers.AnsweredQuery) []judgedDocument {

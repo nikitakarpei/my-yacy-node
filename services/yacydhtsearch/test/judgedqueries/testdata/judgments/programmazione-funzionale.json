@@ -2,15 +2,27 @@
   "query": "programmazione funzionale",
   "judgedDocuments": [
     {
-      "hash": "W9B-bFtsxhzg",
-      "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
-      "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
-      "grade": 0
-    },
-    {
       "hash": "ZIJNjOnsHw9g",
       "address": "https://www.treccani.it/enciclopedia/antropologia/",
       "title": "Antropologia - Enciclopedia - Treccani",
+      "grade": 0
+    },
+    {
+      "hash": "s0im2v7fOGSg",
+      "address": "https://www.regione.veneto.it/",
+      "title": "Home - Regione del Veneto",
+      "grade": 0
+    },
+    {
+      "hash": "NNO_NwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/40712/processo-alfredo-bono",
+      "title": "Processo Alfredo Bono (1.03.1991)",
+      "grade": 0
+    },
+    {
+      "hash": "W9B-bFtsxhzg",
+      "address": "https://www.camera.it/leg18/1058?idLegislatura=18\u0026tipologia=audiz1\u0026sottotipologia=\u0026anno=2018\u0026mese=11\u0026giorno=09\u0026idCommissione=05c05\u0026numero=0001\u0026file=indice_stenografico",
+      "title": "XVIII Legislatura - Lavori - Resoconti delle Giunte e Commissioni",
       "grade": 0
     },
     {
@@ -20,15 +32,21 @@
       "grade": 0
     },
     {
+      "hash": "lv9LfwUl8GVi",
+      "address": "https://www.radioradicale.it/scheda/461302/processo-dappello-per-il-crac-parmalat",
+      "title": "Processo d'appello per il crac Parmalat (14.12.2015)",
+      "grade": 0
+    },
+    {
       "hash": "STL-FgM-i-mx",
       "address": "https://it.wikipedia.org/wiki/Unione_europea",
       "title": "Unione europea - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "q5NJjgM-i-mx",
-      "address": "https://it.wikipedia.org/wiki/Trani",
-      "title": "Trani - Wikipedia",
+      "hash": "-3-OagM-i-mx",
+      "address": "https://it.wikipedia.org/wiki/Apple",
+      "title": "Apple - Wikipedia",
       "grade": 0
     }
   ]

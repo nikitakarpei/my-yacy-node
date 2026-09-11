@@ -1,25 +1,25 @@
 {
   "query": "machine learning tutorial",
-  "recordedAt": "2026-09-11T13:00:41Z",
+  "recordedAt": "2026-09-11T19:25:39Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "A3q5IzS6MKD4",
         "address": "https://github.com/topics/python",
         "title": "python · GitHub Topics · GitHub",
-        "snippet": "",
+        "snippet": "project-based-learning\nStar 283k\nCode\nIssues\nPull requests\nDiscussions\nCurated list of project-based tutorials\njavascript python golang tutorial cpp beginner-project project webdevelopment\nUpdated Sep 7, 2026\nPython\nTheAlgorithms / Python\nStar 224k\nCode\nIssues\nPull requests\nDiscussions\nAll",
         "matchedWords": {
           "BXXI1ZL7ewiC": {
-            "hits": 47,
-            "textWords": 1460
+            "hits": 1,
+            "textWords": 1280
           },
           "FHVPE-UoDF1J": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 6,
+            "textWords": 1280
           },
           "JamsQGrOtHoM": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 11,
+            "textWords": 1280
           }
         }
       }
@@ -27,62 +27,142 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "AbNXDYC4jGs5",
-      "address": "https://support.kaspersky.com/ksc_cloudconsole/209754",
-      "title": "How settings are implemented on a managed device",
-      "snippet": "",
+      "hash": "BLqv9HRMLT-5",
+      "address": "https://canonical.com/legal/data-privacy",
+      "title": "Data privacy | Ubuntu and Canonical Legal",
+      "snippet": "machine learning solutions\nJuju\nOrchestration engine for operators\nCertified hardware\nUbuntu hardware you can trust\nCanonical Academy\nReal-world, industry relevant exams.\nUbuntu OS Back\nUbuntu Desktop\nFast, modern and secure Linux\nUbuntu Server\nScalable Linux for the cloud\nUbuntu Pro\nSecurity \u0026",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 5884
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 5884
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 5884
         }
       }
     },
     {
-      "hash": "BV6JfZC4jGs5",
-      "address": "https://support.kaspersky.com/kata/8.0/247767?page=help",
-      "title": "Adding a scan exclusion rule",
-      "snippet": "",
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Canonical Careers",
+      "snippet": "machine learning solutions\nJuju\nOrchestration engine for operators\nCertified hardware\nUbuntu hardware you can trust\nCanonical Academy\nReal-world, industry relevant exams.\nUbuntu OS Back\nUbuntu Desktop\nFast, modern and secure Linux\nUbuntu Server\nScalable Linux for the cloud\nUbuntu Pro\nSecurity \u0026",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 2313
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 2313
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 2313
         }
       }
     },
     {
-      "hash": "CrRuNlCGSsm5",
-      "address": "https://www.afewscraps.com/",
-      "title": "A Few Scraps",
-      "snippet": "",
+      "hash": "Bq57jjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BASIC",
+      "title": "BASIC - Wikipedia",
+      "snippet": "machine's firmware or sometimes on a ROM cartridge.\nBASIC declined in popularity in the 1990s, as more powerful microcomputers came to market and programming languages with advanced features (such as Pascal and C) became tenable on such computers. By then, most nontechnical personal computer users",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 9704
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 14,
+          "textWords": 9704
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 9704
+        }
+      }
+    },
+    {
+      "hash": "Ce2W90S6MKD4",
+      "address": "https://github.com/resources/articles/what-is-vibe-coding",
+      "title": "What Is Vibe Coding? · GitHub",
+      "snippet": "learning the fundamentals of coding, but doing so will affect their ability to effectively review output.\nLack of clarity. AI can’t explain its choices, which makes it harder to trace decisions or spot edge cases.\nRemember, vibe coding is a creative, collaborative process. You bring the ideas, the",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 4838
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 2,
+          "textWords": 4838
+        },
+        "JamsQGrOtHoM": {
+          "hits": 6,
+          "textWords": 4838
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "machine connected to an rtl-sdr. Of course, any replies will get sent to the bit bucket, but it can definitely decode things just fine! Very fucking cool.\nWell right, ok! Let’s go back to two rx/tx radios, and see what we can do with our newfound network stack over ham radio frequencies – let’s try",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 63106
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 29,
+          "textWords": 63106
+        },
+        "JamsQGrOtHoM": {
+          "hits": 12,
+          "textWords": 63106
+        }
+      }
+    },
+    {
+      "hash": "AonnkjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Perl",
+      "title": "Perl - Wikipedia",
+      "snippet": "machine. The goal was to ensure the future of the millions of lines of Perl 5 code at thousands of companies around the world.[52] The PONIE project ended in 2006 and is no longer being actively developed. Some of the improvements made to the Perl 5 interpreter as part of PONIE were folded into",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 12755
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 33,
+          "textWords": 12755
+        },
+        "JamsQGrOtHoM": {
+          "hits": 7,
+          "textWords": 12755
+        }
+      }
+    },
+    {
+      "hash": "CcQGBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Unix",
+      "title": "Unix - Wikipedia",
+      "snippet": "machine families than any other operating system.\nThe Unix operating system consists of many libraries and utilities along with the master control program, the kernel. The kernel provides services to start and stop programs, handles the file system and other common \"low-level\" tasks that most",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 7373
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 6,
+          "textWords": 7373
+        },
+        "JamsQGrOtHoM": {
+          "hits": 2,
+          "textWords": 7373
         }
       }
     },
@@ -110,6 +190,26 @@
       "hash": "SXE97sI0z6T7",
       "address": "https://towardsdatascience.com/",
       "title": "Towards Data Science",
+      "snippet": "Learning\nUnderstanding permutation symmetry in deep learning, and what it means for weight averaging and model merging\nAnanya BhattacharyyaSeptember 9, 202611 min read\nWhen One Process Becomes Too Much: Splitting a Pipeline into MCP Services\nAgentic AI\nHow we split a tightly coupled Python pipeline",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 818
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 2,
+          "textWords": 818
+        },
+        "JamsQGrOtHoM": {
+          "hits": 9,
+          "textWords": 818
+        }
+      }
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -130,6 +230,26 @@
       "hash": "H6Zz4sS6MKD4",
       "address": "https://github.com/trending",
       "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "Machine Description GDB GDScript GDShader GEDCOM Gemfile.lock Gemini Genero 4gl Genero per Genie Genshi Gentoo Ebuild Gentoo Eclass Gerber Image Gettext Catalog Gherkin Git Attributes Git Commit Git Config Git Revision List Gleam Glimmer JS Glimmer TS GLSL Glyph Glyph Bitmap Distribution Format GN",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 2121
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 3,
+          "textWords": 2121
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 2121
+        }
+      }
+    },
+    {
+      "hash": "EBFDKs_mmaDp",
+      "address": "https://budayakita.id/",
+      "title": "budayakitaid",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -150,86 +270,26 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "",
+      "snippet": "machine connected to an rtl-sdr. Of course, any replies will get sent to the bit bucket, but it can definitely decode things just fine! Very fucking cool.\nWell right, ok! Let’s go back to two rx/tx radios, and see what we can do with our newfound network stack over ham radio frequencies – let’s try",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 63106
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 29,
+          "textWords": 63106
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 12,
+          "textWords": 63106
         }
       }
     },
     {
-      "hash": "ww-gf8cZd9Fw",
-      "address": "https://hackage.haskell.org/packages/",
-      "title": "packages by category | Hackage",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Arno8JexqsOx",
-      "address": "https://docs.opensearch.org/latest/analyzers/character-filters/pattern-replace-character-filter/",
-      "title": "Pattern replace character filter | OpenSearch Documentation",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "G2Nk1si1vot6",
-      "address": "https://missclaireshay.com/",
-      "title": "missclaireshay -",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "HAvOGsl5y2D7",
-      "address": "https://bluebonnetcountry.com/",
-      "title": "Bluebonnetcountry.com -",
+      "hash": "XeaO-skIK3Wq",
+      "address": "https://solusikesehatan.id/",
+      "title": "solusikesehatanid",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -307,9 +367,9 @@
       }
     },
     {
-      "hash": "Fu_x-jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Outline_of_the_JavaScript_programming_language",
-      "title": "Outline of the JavaScript programming language - Wikipedia",
+      "hash": "1lGoBsyuNlT5",
+      "address": "https://alt-webring.com/",
+      "title": "alt-webring | The (former) alternative webring system",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -327,22 +387,22 @@
       }
     },
     {
-      "hash": "EYCuSddTeyA4",
-      "address": "https://github.blog/developer-skills/github/",
-      "title": "Improve how you use GitHub at work - The GitHub Blog",
-      "snippet": "",
+      "hash": "Fu_x-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Outline_of_the_JavaScript_programming_language",
+      "title": "Outline of the JavaScript programming language - Wikipedia",
+      "snippet": "learning resources\nToggle the table of contents\nOutline of the JavaScript programming language\nAdd languages\nAdd links\nArticle\nTalk\nEnglish\nRead\nEdit\nView history\nTools\nTools\nmove to sidebar\nhide\nActions\nRead\nEdit\nView history\nGeneral\nWhat links here\nRelated changes\nUpload file\nPermanent link\nPage",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1897
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1897
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1897
         }
       }
     },
@@ -350,79 +410,19 @@
       "hash": "FIRH00oB9UFw",
       "address": "https://docs-archive.freebsd.org/44doc/",
       "title": "4.4BSD Documents",
-      "snippet": "",
+      "snippet": "tutorial introduction and many examples. (encumbered)\nPSD:7 Berkeley Pascal User's Manual\nAn implementation of this language popular for learning to program. (Not provided in FreeBSD.)\nPSD:8 A Portable Fortran 77 Compiler\nA revised version of the document which originally appeared in Volume 2b of",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 2433
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2433
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "94quQs2iXRY4",
-      "address": "https://ezblogz.com/new-posts?3=",
-      "title": "Latest Posts page 3",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KJsVns7-8f-6",
-      "address": "https://gratefulgluttons.com/",
-      "title": "gratefulgluttons.com -",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "3VnvyX7raSJ4",
-      "address": "https://www.shopify.com/sitemap/core-blog",
-      "title": "Shopify Sitemap - Ecommerce Resources - Shopify",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2433
         }
       }
     },
@@ -430,86 +430,46 @@
       "hash": "YA5jls9w8XV5",
       "address": "https://cloudinary.com/guides/front-end-development/front-end-development-the-complete-guide",
       "title": "Front-End Development: The Complete Guide",
-      "snippet": "",
+      "snippet": "Tutorial Library\nApp Gallery\nManage Your Assets\nUpload\nTransform \u0026 Customize\nManage \u0026 Analyze\nOptimize \u0026 Deliver\nAI in Action\nResources Learn\nBlog\nCustomers\nDemos\nEvents\nGlossary\nLabs\nResource Library\nTools\nSupport\nDocumentation\nKnowledge Base\nTechnical Support\nSERVICES\nProfessional Services",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 8371
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 8371
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 8371
         }
       }
     },
     {
-      "hash": "bBrE5W9w8XV5",
-      "address": "https://cloudinary.com/solutions/retail",
-      "title": "Image and Video Automation for E-Commerce | Cloudinary",
-      "snippet": "",
+      "hash": "W5u5XsDsuHHz",
+      "address": "https://serenitysalonanddayspa.org/",
+      "title": "serenitysalonanddayspa -",
+      "snippet": "tutorial for their games.\nMany online lottery sites use a ticket messenger service to purchase real tickets for you. These agents act as worldwide hands and buy a real ticket in your name using your lucky numbers. Then they will scan it and send it to you as proof of purchase. These services can",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 68067
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 68067
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 68067
         }
       }
     },
     {
-      "hash": "2esyls9w8XV5",
-      "address": "https://cloudinary.com/video_api",
-      "title": "What is a Video API?",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "8bYOps9w8XV5",
-      "address": "https://cloudinary.com/tou",
-      "title": "Terms of Use | Cloudinary",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "a9EGGsQ5pC07",
-      "address": "https://eastlewiscountychamber.com/",
-      "title": "eastlewiscountychamber -",
+      "hash": "PNCRYsEU1fB5",
+      "address": "https://acemgmtgroup.com/",
+      "title": "acemgmtgroup.com",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -529,40 +489,40 @@
     {
       "hash": "MaRThsRMLT-5",
       "address": "https://canonical.com/",
-      "title": "Canonical | Trusted open source for enterprises",
-      "snippet": "",
+      "title": "Trusted open source for enterprises | Canonical",
+      "snippet": "machine learning solutions\nJuju\nOrchestration engine for operators\nCertified hardware\nUbuntu hardware you can trust\nCanonical Academy\nReal-world, industry relevant exams.\nUbuntu OS Back\nUbuntu Desktop\nFast, modern and secure Linux\nUbuntu Server\nScalable Linux for the cloud\nUbuntu Pro\nSecurity \u0026",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 3712
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 3712
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3712
         }
       }
     },
     {
-      "hash": "1mbZwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/NASA",
-      "title": "NASA - Wikipedia",
-      "snippet": "",
+      "hash": "Ce2W90S6MKD4",
+      "address": "https://github.com/resources/articles/what-is-vibe-coding",
+      "title": "What Is Vibe Coding? · GitHub",
+      "snippet": "learning the fundamentals of coding, but doing so will affect their ability to effectively review output.\nLack of clarity. AI can’t explain its choices, which makes it harder to trace decisions or spot edge cases.\nRemember, vibe coding is a creative, collaborative process. You bring the ideas, the",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4838
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 4838
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 4838
         }
       }
     },
@@ -570,6 +530,66 @@
       "hash": "H6Zz4sS6MKD4",
       "address": "https://github.com/trending",
       "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "Machine Description GDB GDScript GDShader GEDCOM Gemfile.lock Gemini Genero 4gl Genero per Genie Genshi Gentoo Ebuild Gentoo Eclass Gerber Image Gettext Catalog Gherkin Git Attributes Git Commit Git Config Git Revision List Gleam Glimmer JS Glimmer TS GLSL Glyph Glyph Bitmap Distribution Format GN",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 2121
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 3,
+          "textWords": 2121
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 2121
+        }
+      }
+    },
+    {
+      "hash": "TY6SLbS6MKD4",
+      "address": "https://github.com/rohitg00/ai-engineering-from-scratch",
+      "title": "GitHub - rohitg00/ai-engineering-from-scratch: Learn it. Build it. Ship it for others. · GitHub",
+      "snippet": "learning-paths\nlearning-paths\noutputs\noutputs\nphases\nphases\nprojects\nprojects\nscripts\nscripts\nsite\nsite\nskills\nskills\nweb\nweb\n.coderabbit.yaml\n.coderabbit.yaml\n.gitignore\n.gitignore\nAGENTS.md\nAGENTS.md\nBACKERS.md\nBACKERS.md\nCHANGELOG.md\nCHANGELOG.md\nCODE_OF_CONDUCT.md\nCODE_OF_CONDUCT.md",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 8984
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 5,
+          "textWords": 8984
+        },
+        "JamsQGrOtHoM": {
+          "hits": 43,
+          "textWords": 8984
+        }
+      }
+    },
+    {
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "snippet": "Learning centerSell your 3d designs\nGrow your business\nPrint on demand\nTechnologies and materialsFused Deposition Modeling (FDM)\nMaterial Jetting (MJP)\nSelective Laser Sintering (SLS)\nStereolithography (SLA)\nMulti Jet Fusion (MJF)\nCast Metals\nHelp CenterFor members\nFor designers\nFrequently Asked",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 8,
+          "textWords": 51823
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 9,
+          "textWords": 51823
+        },
+        "JamsQGrOtHoM": {
+          "hits": 7,
+          "textWords": 51823
+        }
+      }
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -607,9 +627,9 @@
       }
     },
     {
-      "hash": "EYCuSddTeyA4",
-      "address": "https://github.blog/developer-skills/github/",
-      "title": "Improve how you use GitHub at work - The GitHub Blog",
+      "hash": "OlbnP1X4hh0w",
+      "address": "https://n8n.io/integrations/set/",
+      "title": "Edit Fields (Set) integrations | Workflow automation with n8n",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -627,9 +647,9 @@
       }
     },
     {
-      "hash": "G2Nk1si1vot6",
-      "address": "https://missclaireshay.com/",
-      "title": "missclaireshay -",
+      "hash": "WKJ7SseQQCqz",
+      "address": "https://westminsterpasadena.org/",
+      "title": "Faith, Community, and Church Services",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -647,9 +667,9 @@
       }
     },
     {
-      "hash": "HAvOGsl5y2D7",
-      "address": "https://bluebonnetcountry.com/",
-      "title": "Bluebonnetcountry.com -",
+      "hash": "cQB3Ysg-H2eq",
+      "address": "https://ragambudayajatim.id/",
+      "title": "ragambudayajatimid",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -687,26 +707,6 @@
       }
     },
     {
-      "hash": "x_LrOsmr6zb7",
-      "address": "https://elperiodicodelara.com/",
-      "title": "elperiodicodelara -",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "GtLjhloUbV15",
       "address": "https://www.whatfinger.com/",
       "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
@@ -727,42 +727,42 @@
       }
     },
     {
-      "hash": "CrRuNlCGSsm5",
-      "address": "https://www.afewscraps.com/",
-      "title": "A Few Scraps",
-      "snippet": "",
+      "hash": "SXE97sI0z6T7",
+      "address": "https://towardsdatascience.com/",
+      "title": "Towards Data Science",
+      "snippet": "Learning\nUnderstanding permutation symmetry in deep learning, and what it means for weight averaging and model merging\nAnanya BhattacharyyaSeptember 9, 202611 min read\nWhen One Process Becomes Too Much: Splitting a Pipeline into MCP Services\nAgentic AI\nHow we split a tightly coupled Python pipeline",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 818
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 818
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 818
         }
       }
     },
     {
-      "hash": "SXE97sI0z6T7",
-      "address": "https://towardsdatascience.com/",
-      "title": "Towards Data Science",
-      "snippet": "",
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "machine can now do almost flawlessly? Six reasons out of an interview with him.\n1. Syntax is the disposable half; problem-solving is the durable one\nPiech splits learning to program into two parts: the syntax (how you tell a computer to do things) and the problem-solving (how you break a big",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 32751
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 32751
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 32751
         }
       }
     },
@@ -770,19 +770,19 @@
       "hash": "SVkhqsMAuxi4",
       "address": "https://www.linkedin.com/top-content/technology/",
       "title": "Top Technology Content from LinkedIn Members",
-      "snippet": "",
+      "snippet": "Learning\nJobs\nGames\nJoin now Sign in\nTop Content\nTechnology\nExplore top LinkedIn content from expert professionals.\nLinas Beliūnas\nBrand partnership • 🔔linas.substack.com🔔 Daily Intelligence on Finance \u0026 AI | Scouting FinTech \u0026 AI Startups 🦄\n692,128 followers 3w\nReport this post\nRevolut has one of",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4122
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4122
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 4122
         }
       }
     },
@@ -790,19 +790,19 @@
       "hash": "BF23V5RMLT-5",
       "address": "https://canonical.com/careers/commercial-operations",
       "title": "Commercial Operations | Careers",
-      "snippet": "",
+      "snippet": "machine learning solutions\nJuju\nOrchestration engine for operators\nCertified hardware\nUbuntu hardware you can trust\nCanonical Academy\nReal-world, industry relevant exams.\nUbuntu OS Back\nUbuntu Desktop\nFast, modern and secure Linux\nUbuntu Server\nScalable Linux for the cloud\nUbuntu Pro\nSecurity \u0026",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 2443
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 2443
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 2443
         }
       }
     },
@@ -810,39 +810,19 @@
       "hash": "BLqv9HRMLT-5",
       "address": "https://canonical.com/legal/data-privacy",
       "title": "Data privacy | Ubuntu and Canonical Legal",
-      "snippet": "",
+      "snippet": "machine learning solutions\nJuju\nOrchestration engine for operators\nCertified hardware\nUbuntu hardware you can trust\nCanonical Academy\nReal-world, industry relevant exams.\nUbuntu OS Back\nUbuntu Desktop\nFast, modern and secure Linux\nUbuntu Server\nScalable Linux for the cloud\nUbuntu Pro\nSecurity \u0026",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 5884
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 5884
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AWf3sjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_Emacs",
-      "title": "GNU Emacs - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 5884
         }
       }
     },
@@ -870,39 +850,39 @@
       "hash": "AonnkjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Perl",
       "title": "Perl - Wikipedia",
-      "snippet": "",
+      "snippet": "machine. The goal was to ensure the future of the millions of lines of Perl 5 code at thousands of companies around the world.[52] The PONIE project ended in 2006 and is no longer being actively developed. Some of the improvements made to the Perl 5 interpreter as part of PONIE were folded into",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 12755
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 33,
+          "textWords": 12755
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 12755
         }
       }
     },
     {
-      "hash": "BosOdjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Chronobiology",
-      "title": "Chronobiology - Wikipedia",
-      "snippet": "",
+      "hash": "Bq57jjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BASIC",
+      "title": "BASIC - Wikipedia",
+      "snippet": "machine's firmware or sometimes on a ROM cartridge.\nBASIC declined in popularity in the 1990s, as more powerful microcomputers came to market and programming languages with advanced features (such as Pascal and C) became tenable on such computers. By then, most nontechnical personal computer users",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 9704
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 14,
+          "textWords": 9704
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 9704
         }
       }
     },
@@ -910,19 +890,19 @@
       "hash": "CcQGBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Unix",
       "title": "Unix - Wikipedia",
-      "snippet": "",
+      "snippet": "machine families than any other operating system.\nThe Unix operating system consists of many libraries and utilities along with the master control program, the kernel. The kernel provides services to start and stop programs, handles the file system and other common \"low-level\" tasks that most",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 7373
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 7373
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 7373
         }
       }
     },
@@ -930,39 +910,19 @@
       "hash": "Fu_x-jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Outline_of_the_JavaScript_programming_language",
       "title": "Outline of the JavaScript programming language - Wikipedia",
-      "snippet": "",
+      "snippet": "learning resources\nToggle the table of contents\nOutline of the JavaScript programming language\nAdd languages\nAdd links\nArticle\nTalk\nEnglish\nRead\nEdit\nView history\nTools\nTools\nmove to sidebar\nhide\nActions\nRead\nEdit\nView history\nGeneral\nWhat links here\nRelated changes\nUpload file\nPermanent link\nPage",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1897
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1897
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "PbwP7jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
-      "title": "Wikipedia:Village pump (WMF) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1897
         }
       }
     },
@@ -970,6 +930,46 @@
       "hash": "RE-m0jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Java_(programming_language)",
       "title": "Java (programming language) - Wikipedia",
+      "snippet": "Machine learning and AI\nApache Mahout\nApache MXNet\nApache OpenNLP\nDeeplearning4j\nEncog\nLIBSVM\nMallet\nMLlib\nNeuroph\nWeka\nYooreeka\nMath and scientific libraries\nColt\nEfficient Java Matrix Library\nEasy Java Simulations\nExp4j\nGroovyLab\nJAMA\nJblas\nJava Astrodynamics Toolkit\nMatrix Toolkit Java\nOjAlgo",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 8749
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 25,
+          "textWords": 8749
+        },
+        "JamsQGrOtHoM": {
+          "hits": 3,
+          "textWords": 8749
+        }
+      }
+    },
+    {
+      "hash": "VCBDjjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mixin",
+      "title": "Mixin - Wikipedia",
+      "snippet": "Machine Lisp. The name was inspired by Steve's Ice Cream Parlor in Somerville, Massachusetts:[1] The owner of the ice cream shop offered a basic flavor of ice cream (vanilla, chocolate, etc.) and blended in a combination of extra items (nuts, cookies, fudge, etc.) and called the item a \"mix-in\",",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 4254
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 4254
+        },
+        "JamsQGrOtHoM": {
+          "hits": 1,
+          "textWords": 4254
+        }
+      }
+    },
+    {
+      "hash": "bXB3NjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Durham_University",
+      "title": "Durham University - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -987,82 +987,22 @@
       }
     },
     {
-      "hash": "ZTANnjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Lua",
-      "title": "Lua - Wikipedia",
-      "snippet": "",
+      "hash": "besrOjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/McMaster_University",
+      "title": "McMaster University - Wikipedia",
+      "snippet": "Learning \u0026 Discovery, which houses many well-funded research groups in areas of genetics, infectious diseases, and several specific conditions.[37]\nThe McMaster Nuclear Reactor (MNR) has been the largest university reactor in the Commonwealth since it began operation and is the second largest",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 14566
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 14566
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "arMKFjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Python_programming_language",
-      "title": "",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "1bj-gjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Device_driver",
-      "title": "Device driver - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "2fgfWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Vim_(text_editor)",
-      "title": "Vim (text editor) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 17,
+          "textWords": 14566
         }
       }
     },
@@ -1130,19 +1070,19 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "",
+      "snippet": "machine), according to a study by Netcraft surveying March and June 2001. Some of Netcraft’s surveys have also included data on OSes; two 2001 surveys (their June 2001 and September 2001 surveys) found that GNU/Linux is the #2 OS for web servers when counting physical machines (and has been",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 92305
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 11,
+          "textWords": 92305
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 92305
         }
       }
     },
@@ -1150,19 +1090,19 @@
       "hash": "3hsDOlluK2rw",
       "address": "https://www.qt.io/blog",
       "title": "Qt Blog",
-      "snippet": "",
+      "snippet": "Machine Modeling with Automated Code Generation\nALL QT GROUP PRODUCTS\nView Products\nSoftware Quality\nPRODUCTS\nSquish GUI Test Automation\nCoco Code Coverage Analysis\nTest Center Test Results Management and Analysis\nAxivion Static Code Analysis Certified Static Code Analysis\nAxivion Architecture",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1884
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1884
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1884
         }
       }
     },
@@ -1170,19 +1110,19 @@
       "hash": "FIRH00oB9UFw",
       "address": "https://docs-archive.freebsd.org/44doc/",
       "title": "4.4BSD Documents",
-      "snippet": "",
+      "snippet": "tutorial introduction and many examples. (encumbered)\nPSD:7 Berkeley Pascal User's Manual\nAn implementation of this language popular for learning to program. (Not provided in FreeBSD.)\nPSD:8 A Portable Fortran 77 Compiler\nA revised version of the document which originally appeared in Volume 2b of",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 2433
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2433
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2433
         }
       }
     },
@@ -1190,6 +1130,26 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
+      "snippet": "machine connected to an rtl-sdr. Of course, any replies will get sent to the bit bucket, but it can definitely decode things just fine! Very fucking cool.\nWell right, ok! Let’s go back to two rx/tx radios, and see what we can do with our newfound network stack over ham radio frequencies – let’s try",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 63106
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 29,
+          "textWords": 63106
+        },
+        "JamsQGrOtHoM": {
+          "hits": 12,
+          "textWords": 63106
+        }
+      }
+    },
+    {
+      "hash": "T5bTTsD6g8e4",
+      "address": "https://pbcvoice.com/",
+      "title": "pbcvoice.com",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -1207,9 +1167,9 @@
       }
     },
     {
-      "hash": "KJsVns7-8f-6",
-      "address": "https://gratefulgluttons.com/",
-      "title": "gratefulgluttons.com -",
+      "hash": "TA880jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Generative_adversarial_network",
+      "title": "Generative adversarial network - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -1227,9 +1187,9 @@
       }
     },
     {
-      "hash": "CrRuNlCGSsm5",
-      "address": "https://www.afewscraps.com/",
-      "title": "A Few Scraps",
+      "hash": "SUM-Tsa5-DC6",
+      "address": "https://williemcginest.com/",
+      "title": "williemcginest.com",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -1247,9 +1207,9 @@
       }
     },
     {
-      "hash": "PbwP7jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
-      "title": "Wikipedia:Village pump (WMF) - Wikipedia",
+      "hash": "Hp25lWawk-F5",
+      "address": "https://theintactone.com/tag/titles/",
+      "title": "Read MBA, BBA, B.COM Notes",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -1267,9 +1227,29 @@
       }
     },
     {
-      "hash": "arMKFjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Python_programming_language",
-      "title": "Python (programming language) - Wikipedia",
+      "hash": "Qy5lgspN1dF5",
+      "address": "https://cirosantilli.com/china-dictatorship/",
+      "title": "China Dictatorship 中国独裁统治",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SjQgUsvkuLK5",
+      "address": "https://healthywife.com/",
+      "title": "healthywife.com",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -1290,6 +1270,46 @@
       "hash": "Wfq3FswvoTD5",
       "address": "https://r-universe.dev/articles",
       "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "1lGoBsyuNlT5",
+      "address": "https://alt-webring.com/",
+      "title": "alt-webring | The (former) alternative webring system",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PNCRYsEU1fB5",
+      "address": "https://acemgmtgroup.com/",
+      "title": "acemgmtgroup.com",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -1330,19 +1350,19 @@
       "hash": "SXE97sI0z6T7",
       "address": "https://towardsdatascience.com/",
       "title": "Towards Data Science",
-      "snippet": "",
+      "snippet": "Learning\nUnderstanding permutation symmetry in deep learning, and what it means for weight averaging and model merging\nAnanya BhattacharyyaSeptember 9, 202611 min read\nWhen One Process Becomes Too Much: Splitting a Pipeline into MCP Services\nAgentic AI\nHow we split a tightly coupled Python pipeline",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 818
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 818
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 818
         }
       }
     },
@@ -1350,6 +1370,26 @@
       "hash": "SVkhqsMAuxi4",
       "address": "https://www.linkedin.com/top-content/technology/",
       "title": "Top Technology Content from LinkedIn Members",
+      "snippet": "Learning\nJobs\nGames\nJoin now Sign in\nTop Content\nTechnology\nExplore top LinkedIn content from expert professionals.\nLinas Beliūnas\nBrand partnership • 🔔linas.substack.com🔔 Daily Intelligence on Finance \u0026 AI | Scouting FinTech \u0026 AI Startups 🦄\n692,128 followers 3w\nReport this post\nRevolut has one of",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 4122
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 4122
+        },
+        "JamsQGrOtHoM": {
+          "hits": 3,
+          "textWords": 4122
+        }
+      }
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -1370,19 +1410,39 @@
       "hash": "RE-m0jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Java_(programming_language)",
       "title": "Java (programming language) - Wikipedia",
-      "snippet": "",
+      "snippet": "Machine learning and AI\nApache Mahout\nApache MXNet\nApache OpenNLP\nDeeplearning4j\nEncog\nLIBSVM\nMallet\nMLlib\nNeuroph\nWeka\nYooreeka\nMath and scientific libraries\nColt\nEfficient Java Matrix Library\nEasy Java Simulations\nExp4j\nGroovyLab\nJAMA\nJblas\nJava Astrodynamics Toolkit\nMatrix Toolkit Java\nOjAlgo",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 8749
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 25,
+          "textWords": 8749
+        },
+        "JamsQGrOtHoM": {
+          "hits": 3,
+          "textWords": 8749
+        }
+      }
+    },
+    {
+      "hash": "TY6SLbS6MKD4",
+      "address": "https://github.com/rohitg00/ai-engineering-from-scratch",
+      "title": "GitHub - rohitg00/ai-engineering-from-scratch: Learn it. Build it. Ship it for others. · GitHub",
+      "snippet": "learning-paths\nlearning-paths\noutputs\noutputs\nphases\nphases\nprojects\nprojects\nscripts\nscripts\nsite\nsite\nskills\nskills\nweb\nweb\n.coderabbit.yaml\n.coderabbit.yaml\n.gitignore\n.gitignore\nAGENTS.md\nAGENTS.md\nBACKERS.md\nBACKERS.md\nCHANGELOG.md\nCHANGELOG.md\nCODE_OF_CONDUCT.md\nCODE_OF_CONDUCT.md",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 8984
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 8984
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 43,
+          "textWords": 8984
         }
       }
     },
@@ -1470,46 +1530,26 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "",
+      "snippet": "machine), according to a study by Netcraft surveying March and June 2001. Some of Netcraft’s surveys have also included data on OSes; two 2001 surveys (their June 2001 and September 2001 surveys) found that GNU/Linux is the #2 OS for web servers when counting physical machines (and has been",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 92305
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 11,
+          "textWords": 92305
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 92305
         }
       }
     },
     {
-      "hash": "d5SKKsbC2yYr",
-      "address": "https://lumbungbudayadermaji.id/",
-      "title": "lumbungbudayadermajiid",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ww-gf8cZd9Fw",
-      "address": "https://hackage.haskell.org/packages/",
-      "title": "packages by category | Hackage",
+      "hash": "cQB3Ysg-H2eq",
+      "address": "https://ragambudayajatim.id/",
+      "title": "ragambudayajatimid",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -1567,29 +1607,29 @@
       }
     },
     {
-      "hash": "3VnvyX7raSJ4",
-      "address": "https://www.shopify.com/sitemap/core-blog",
-      "title": "Shopify Sitemap - Ecommerce Resources - Shopify",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "YA5jls9w8XV5",
       "address": "https://cloudinary.com/guides/front-end-development/front-end-development-the-complete-guide",
       "title": "Front-End Development: The Complete Guide",
+      "snippet": "Tutorial Library\nApp Gallery\nManage Your Assets\nUpload\nTransform \u0026 Customize\nManage \u0026 Analyze\nOptimize \u0026 Deliver\nAI in Action\nResources Learn\nBlog\nCustomers\nDemos\nEvents\nGlossary\nLabs\nResource Library\nTools\nSupport\nDocumentation\nKnowledge Base\nTechnical Support\nSERVICES\nProfessional Services",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 5,
+          "textWords": 8371
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 2,
+          "textWords": 8371
+        },
+        "JamsQGrOtHoM": {
+          "hits": 5,
+          "textWords": 8371
+        }
+      }
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -1607,9 +1647,9 @@
       }
     },
     {
-      "hash": "a9EGGsQ5pC07",
-      "address": "https://eastlewiscountychamber.com/",
-      "title": "eastlewiscountychamber -",
+      "hash": "bXB3NjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Durham_University",
+      "title": "Durham University - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -1627,9 +1667,49 @@
       }
     },
     {
-      "hash": "1mbZwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/NASA",
-      "title": "NASA - Wikipedia",
+      "hash": "besrOjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/McMaster_University",
+      "title": "McMaster University - Wikipedia",
+      "snippet": "Learning \u0026 Discovery, which houses many well-funded research groups in areas of genetics, infectious diseases, and several specific conditions.[37]\nThe McMaster Nuclear Reactor (MNR) has been the largest university reactor in the Commonwealth since it began operation and is the second largest",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 14566
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 14566
+        },
+        "JamsQGrOtHoM": {
+          "hits": 17,
+          "textWords": 14566
+        }
+      }
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "WKJ7SseQQCqz",
+      "address": "https://westminsterpasadena.org/",
+      "title": "Faith, Community, and Church Services",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -1687,122 +1767,42 @@
       }
     },
     {
-      "hash": "bBrE5W9w8XV5",
-      "address": "https://cloudinary.com/solutions/retail",
-      "title": "Image and Video Automation for E-Commerce | Cloudinary",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "MaRThsRMLT-5",
       "address": "https://canonical.com/",
       "title": "Trusted open source for enterprises | Canonical",
-      "snippet": "",
+      "snippet": "machine learning solutions\nJuju\nOrchestration engine for operators\nCertified hardware\nUbuntu hardware you can trust\nCanonical Academy\nReal-world, industry relevant exams.\nUbuntu OS Back\nUbuntu Desktop\nFast, modern and secure Linux\nUbuntu Server\nScalable Linux for the cloud\nUbuntu Pro\nSecurity \u0026",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 3712
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 3712
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3712
         }
       }
     },
     {
-      "hash": "ZTANnjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Lua",
-      "title": "Lua - Wikipedia",
-      "snippet": "",
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "machine can now do almost flawlessly? Six reasons out of an interview with him.\n1. Syntax is the disposable half; problem-solving is the durable one\nPiech splits learning to program into two parts: the syntax (how you tell a computer to do things) and the problem-solving (how you break a big",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 32751
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 32751
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "arMKFjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Python_programming_language",
-      "title": "Python (programming language) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "HAvOGsl5y2D7",
-      "address": "https://bluebonnetcountry.com/",
-      "title": "Bluebonnetcountry.com -",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "x_LrOsmr6zb7",
-      "address": "https://elperiodicodelara.com/",
-      "title": "elperiodicodelara -",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 32751
         }
       }
     },
@@ -1810,19 +1810,19 @@
       "hash": "SVkhqsMAuxi4",
       "address": "https://www.linkedin.com/top-content/technology/",
       "title": "Top Technology Content from LinkedIn Members",
-      "snippet": "",
+      "snippet": "Learning\nJobs\nGames\nJoin now Sign in\nTop Content\nTechnology\nExplore top LinkedIn content from expert professionals.\nLinas Beliūnas\nBrand partnership • 🔔linas.substack.com🔔 Daily Intelligence on Finance \u0026 AI | Scouting FinTech \u0026 AI Startups 🦄\n692,128 followers 3w\nReport this post\nRevolut has one of",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 4122
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4122
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 4122
         }
       }
     },
@@ -1830,19 +1830,19 @@
       "hash": "BF23V5RMLT-5",
       "address": "https://canonical.com/careers/commercial-operations",
       "title": "Commercial operations | Careers | Canonical",
-      "snippet": "",
+      "snippet": "machine learning solutions\nJuju\nOrchestration engine for operators\nCertified hardware\nUbuntu hardware you can trust\nCanonical Academy\nReal-world, industry relevant exams.\nUbuntu OS Back\nUbuntu Desktop\nFast, modern and secure Linux\nUbuntu Server\nScalable Linux for the cloud\nUbuntu Pro\nSecurity \u0026",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 2443
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 2443
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 2443
         }
       }
     },
@@ -1850,19 +1850,39 @@
       "hash": "BLqv9HRMLT-5",
       "address": "https://canonical.com/legal/data-privacy",
       "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
-      "snippet": "",
+      "snippet": "machine learning solutions\nJuju\nOrchestration engine for operators\nCertified hardware\nUbuntu hardware you can trust\nCanonical Academy\nReal-world, industry relevant exams.\nUbuntu OS Back\nUbuntu Desktop\nFast, modern and secure Linux\nUbuntu Server\nScalable Linux for the cloud\nUbuntu Pro\nSecurity \u0026",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 5884
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 5884
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 5884
+        }
+      }
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "machine learning solutions\nJuju\nOrchestration engine for operators\nCertified hardware\nUbuntu hardware you can trust\nCanonical Academy\nReal-world, industry relevant exams.\nUbuntu OS Back\nUbuntu Desktop\nFast, modern and secure Linux\nUbuntu Server\nScalable Linux for the cloud\nUbuntu Pro\nSecurity \u0026",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 2313
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 6,
+          "textWords": 2313
+        },
+        "JamsQGrOtHoM": {
+          "hits": 6,
+          "textWords": 2313
         }
       }
     },
@@ -1870,39 +1890,19 @@
       "hash": "MaRThsRMLT-5",
       "address": "https://canonical.com/",
       "title": "Trusted open source for enterprises | Canonical",
-      "snippet": "",
+      "snippet": "machine learning solutions\nJuju\nOrchestration engine for operators\nCertified hardware\nUbuntu hardware you can trust\nCanonical Academy\nReal-world, industry relevant exams.\nUbuntu OS Back\nUbuntu Desktop\nFast, modern and secure Linux\nUbuntu Server\nScalable Linux for the cloud\nUbuntu Pro\nSecurity \u0026",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 3712
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 3712
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AWf3sjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/GNU_Emacs",
-      "title": "GNU Emacs - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3712
         }
       }
     },
@@ -1930,39 +1930,39 @@
       "hash": "AonnkjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Perl",
       "title": "Perl - Wikipedia",
-      "snippet": "",
+      "snippet": "machine. The goal was to ensure the future of the millions of lines of Perl 5 code at thousands of companies around the world.[52] The PONIE project ended in 2006 and is no longer being actively developed. Some of the improvements made to the Perl 5 interpreter as part of PONIE were folded into",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 12755
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 33,
+          "textWords": 12755
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 12755
         }
       }
     },
     {
-      "hash": "BosOdjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Chronobiology",
-      "title": "Chronobiology - Wikipedia",
-      "snippet": "",
+      "hash": "Bq57jjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/BASIC",
+      "title": "BASIC - Wikipedia",
+      "snippet": "machine's firmware or sometimes on a ROM cartridge.\nBASIC declined in popularity in the 1990s, as more powerful microcomputers came to market and programming languages with advanced features (such as Pascal and C) became tenable on such computers. By then, most nontechnical personal computer users",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 9704
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 14,
+          "textWords": 9704
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 9704
         }
       }
     },
@@ -1970,19 +1970,19 @@
       "hash": "CcQGBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Unix",
       "title": "Unix - Wikipedia",
-      "snippet": "",
+      "snippet": "machine families than any other operating system.\nThe Unix operating system consists of many libraries and utilities along with the master control program, the kernel. The kernel provides services to start and stop programs, handles the file system and other common \"low-level\" tasks that most",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 7373
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 7373
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 7373
         }
       }
     },
@@ -1990,19 +1990,19 @@
       "hash": "Fu_x-jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Outline_of_the_JavaScript_programming_language",
       "title": "Outline of the JavaScript programming language - Wikipedia",
-      "snippet": "",
+      "snippet": "learning resources\nToggle the table of contents\nOutline of the JavaScript programming language\nAdd languages\nAdd links\nArticle\nTalk\nEnglish\nRead\nEdit\nView history\nTools\nTools\nmove to sidebar\nhide\nActions\nRead\nEdit\nView history\nGeneral\nWhat links here\nRelated changes\nUpload file\nPermanent link\nPage",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1897
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1897
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1897
         }
       }
     },
@@ -2010,79 +2010,39 @@
       "hash": "RE-m0jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Java_(programming_language)",
       "title": "Java (programming language) - Wikipedia",
-      "snippet": "",
+      "snippet": "Machine learning and AI\nApache Mahout\nApache MXNet\nApache OpenNLP\nDeeplearning4j\nEncog\nLIBSVM\nMallet\nMLlib\nNeuroph\nWeka\nYooreeka\nMath and scientific libraries\nColt\nEfficient Java Matrix Library\nEasy Java Simulations\nExp4j\nGroovyLab\nJAMA\nJblas\nJava Astrodynamics Toolkit\nMatrix Toolkit Java\nOjAlgo",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 8749
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 25,
+          "textWords": 8749
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 8749
         }
       }
     },
     {
-      "hash": "ZTANnjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Lua",
-      "title": "Lua - Wikipedia",
-      "snippet": "",
+      "hash": "VCBDjjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mixin",
+      "title": "Mixin - Wikipedia",
+      "snippet": "Machine Lisp. The name was inspired by Steve's Ice Cream Parlor in Somerville, Massachusetts:[1] The owner of the ice cream shop offered a basic flavor of ice cream (vanilla, chocolate, etc.) and blended in a combination of extra items (nuts, cookies, fudge, etc.) and called the item a \"mix-in\",",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4254
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4254
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "1bj-gjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Device_driver",
-      "title": "Device driver - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "2fgfWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Vim_(text_editor)",
-      "title": "Vim (text editor) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4254
         }
       }
     },
@@ -2170,19 +2130,19 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
-      "snippet": "",
+      "snippet": "machine), according to a study by Netcraft surveying March and June 2001. Some of Netcraft’s surveys have also included data on OSes; two 2001 surveys (their June 2001 and September 2001 surveys) found that GNU/Linux is the #2 OS for web servers when counting physical machines (and has been",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 92305
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 11,
+          "textWords": 92305
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 92305
         }
       }
     },
@@ -2190,26 +2150,26 @@
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
-      "snippet": "",
+      "snippet": "machine connected to an rtl-sdr. Of course, any replies will get sent to the bit bucket, but it can definitely decode things just fine! Very fucking cool.\nWell right, ok! Let’s go back to two rx/tx radios, and see what we can do with our newfound network stack over ham radio frequencies – let’s try",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 63106
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 29,
+          "textWords": 63106
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 12,
+          "textWords": 63106
         }
       }
     },
     {
-      "hash": "d5SKKsbC2yYr",
-      "address": "https://lumbungbudayadermaji.id/",
-      "title": "lumbungbudayadermajiid",
+      "hash": "cQB3Ysg-H2eq",
+      "address": "https://ragambudayajatim.id/",
+      "title": "ragambudayajatimid",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -2230,19 +2190,19 @@
       "hash": "3hsDOlluK2rw",
       "address": "https://www.qt.io/blog",
       "title": "Qt Blog",
-      "snippet": "",
+      "snippet": "Machine Modeling with Automated Code Generation\nALL QT GROUP PRODUCTS\nView Products\nSoftware Quality\nPRODUCTS\nSquish GUI Test Automation\nCoco Code Coverage Analysis\nTest Center Test Results Management and Analysis\nAxivion Static Code Analysis Certified Static Code Analysis\nAxivion Architecture",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1884
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1884
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1884
         }
       }
     },
@@ -2250,19 +2210,19 @@
       "hash": "FIRH00oB9UFw",
       "address": "https://docs-archive.freebsd.org/44doc/",
       "title": "4.4BSD Documents",
-      "snippet": "",
+      "snippet": "tutorial introduction and many examples. (encumbered)\nPSD:7 Berkeley Pascal User's Manual\nAn implementation of this language popular for learning to program. (Not provided in FreeBSD.)\nPSD:8 A Portable Fortran 77 Compiler\nA revised version of the document which originally appeared in Volume 2b of",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 2433
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2433
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2433
         }
       }
     },
@@ -2287,9 +2247,129 @@
       }
     },
     {
-      "hash": "AonnkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Perl",
-      "title": "Perl - Wikipedia",
+      "hash": "T5bTTsD6g8e4",
+      "address": "https://pbcvoice.com/",
+      "title": "pbcvoice.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "PNCRYsEU1fB5",
+      "address": "https://acemgmtgroup.com/",
+      "title": "acemgmtgroup.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
+      "snippet": "machine can now do almost flawlessly? Six reasons out of an interview with him.\n1. Syntax is the disposable half; problem-solving is the durable one\nPiech splits learning to program into two parts: the syntax (how you tell a computer to do things) and the problem-solving (how you break a big",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 6,
+          "textWords": 32751
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 7,
+          "textWords": 32751
+        },
+        "JamsQGrOtHoM": {
+          "hits": 1,
+          "textWords": 32751
+        }
+      }
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DKApesRMLT-5",
+      "address": "https://canonical.com/careers",
+      "title": "Careers | Canonical",
+      "snippet": "machine learning solutions\nJuju\nOrchestration engine for operators\nCertified hardware\nUbuntu hardware you can trust\nCanonical Academy\nReal-world, industry relevant exams.\nUbuntu OS Back\nUbuntu Desktop\nFast, modern and secure Linux\nUbuntu Server\nScalable Linux for the cloud\nUbuntu Pro\nSecurity \u0026",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 2313
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 6,
+          "textWords": 2313
+        },
+        "JamsQGrOtHoM": {
+          "hits": 6,
+          "textWords": 2313
+        }
+      }
+    },
+    {
+      "hash": "AX7xBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
+      "title": "Wikipedia:Help desk - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -2310,6 +2390,26 @@
       "hash": "CcQGBjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Unix",
       "title": "Unix - Wikipedia",
+      "snippet": "machine families than any other operating system.\nThe Unix operating system consists of many libraries and utilities along with the master control program, the kernel. The kernel provides services to start and stop programs, handles the file system and other common \"low-level\" tasks that most",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 7373
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 6,
+          "textWords": 7373
+        },
+        "JamsQGrOtHoM": {
+          "hits": 2,
+          "textWords": 7373
+        }
+      }
+    },
+    {
+      "hash": "TA880jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Generative_adversarial_network",
+      "title": "Generative adversarial network - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -2327,62 +2427,22 @@
       }
     },
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
+      "hash": "Ce2W90S6MKD4",
+      "address": "https://github.com/resources/articles/what-is-vibe-coding",
+      "title": "What Is Vibe Coding? · GitHub",
+      "snippet": "learning the fundamentals of coding, but doing so will affect their ability to effectively review output.\nLack of clarity. AI can’t explain its choices, which makes it harder to trace decisions or spot edge cases.\nRemember, vibe coding is a creative, collaborative process. You bring the ideas, the",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4838
         },
         "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 4838
         },
         "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AbNXDYC4jGs5",
-      "address": "https://support.kaspersky.com/ksc_cloudconsole/209754",
-      "title": "How settings are implemented on a managed device",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BV6JfZC4jGs5",
-      "address": "https://support.kaspersky.com/kata/8.0/247767?page=help",
-      "title": "Adding a scan exclusion rule",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 4838
         }
       }
     },
@@ -2390,6 +2450,46 @@
       "hash": "H6Zz4sS6MKD4",
       "address": "https://github.com/trending",
       "title": "Trending repositories on GitHub today · GitHub",
+      "snippet": "Machine Description GDB GDScript GDShader GEDCOM Gemfile.lock Gemini Genero 4gl Genero per Genie Genshi Gentoo Ebuild Gentoo Eclass Gerber Image Gettext Catalog Gherkin Git Attributes Git Commit Git Config Git Revision List Gleam Glimmer JS Glimmer TS GLSL Glyph Glyph Bitmap Distribution Format GN",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 2121
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 3,
+          "textWords": 2121
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 2121
+        }
+      }
+    },
+    {
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "snippet": "Learning centerSell your 3d designs\nGrow your business\nPrint on demand\nTechnologies and materialsFused Deposition Modeling (FDM)\nMaterial Jetting (MJP)\nSelective Laser Sintering (SLS)\nStereolithography (SLA)\nMulti Jet Fusion (MJF)\nCast Metals\nHelp CenterFor members\nFor designers\nFrequently Asked",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 8,
+          "textWords": 51823
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 9,
+          "textWords": 51823
+        },
+        "JamsQGrOtHoM": {
+          "hits": 7,
+          "textWords": 51823
+        }
+      }
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -2407,9 +2507,9 @@
       }
     },
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
+      "hash": "OlbnP1X4hh0w",
+      "address": "https://n8n.io/integrations/set/",
+      "title": "Edit Fields (Set) integrations | Workflow automation with n8n",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -2427,529 +2527,9 @@
       }
     },
     {
-      "hash": "Arno8JexqsOx",
-      "address": "https://docs.opensearch.org/latest/analyzers/character-filters/pattern-replace-character-filter/",
-      "title": "Pattern replace character filter | OpenSearch Documentation",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "EyjETIl7OZJE",
-      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
-      "title": "Post Without Sidebar",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "94quQs2iXRY4",
-      "address": "https://ezblogz.com/new-posts?3=",
-      "title": "Latest Posts page 3",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KJsVns7-8f-6",
-      "address": "https://gratefulgluttons.com/",
-      "title": "gratefulgluttons.com -",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CrRuNlCGSsm5",
-      "address": "https://www.afewscraps.com/",
-      "title": "A Few Scraps",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "a9EGGsQ5pC07",
-      "address": "https://eastlewiscountychamber.com/",
-      "title": "eastlewiscountychamber -",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "PbwP7jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Village_pump_(WMF)",
-      "title": "Wikipedia:Village pump (WMF) - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "1mbZwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/NASA",
-      "title": "NASA - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "EYCuSddTeyA4",
-      "address": "https://github.blog/developer-skills/github/",
-      "title": "Improve how you use GitHub at work - The GitHub Blog",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "G2Nk1si1vot6",
-      "address": "https://missclaireshay.com/",
-      "title": "missclaireshay -",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "EyjETIl7OZJE",
-      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
-      "title": "Post Without Sidebar",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "x_LrOsmr6zb7",
-      "address": "https://elperiodicodelara.com/",
-      "title": "elperiodicodelara -",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "s8IBmsqzz5gq",
-      "address": "https://senibudayaislam.id/",
-      "title": "senibudayaislamid",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "BLqv9HRMLT-5",
-      "address": "https://canonical.com/legal/data-privacy",
-      "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AX7xBjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
-      "title": "Wikipedia:Help desk - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "YA5jls9w8XV5",
-      "address": "https://cloudinary.com/guides/front-end-development/front-end-development-the-complete-guide",
-      "title": "Front-End Development: The Complete Guide",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "bBrE5W9w8XV5",
-      "address": "https://cloudinary.com/solutions/retail",
-      "title": "Image and Video Automation for E-Commerce | Cloudinary",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "2esyls9w8XV5",
-      "address": "https://cloudinary.com/video_api",
-      "title": "What is a Video API?",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "8bYOps9w8XV5",
-      "address": "https://cloudinary.com/tou",
-      "title": "Terms of Use | Cloudinary",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "pYw3_AHucLY4",
-      "address": "https://adrienalfiste.vip-blog.com/",
-      "title": "adrienalfiste blog : Le blog d'Adri (83)",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "SVkhqsMAuxi4",
-      "address": "https://www.linkedin.com/top-content/technology/",
-      "title": "Top Technology Content from LinkedIn Members",
-      "snippet": "",
-      "matchedWords": {
-        "BXXI1ZL7ewiC": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "FHVPE-UoDF1J": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "JamsQGrOtHoM": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AX7xBjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
-      "title": "Wikipedia:Help desk - Wikipedia",
+      "hash": "EBFDKs_mmaDp",
+      "address": "https://budayakita.id/",
+      "title": "budayakitaid",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -2970,6 +2550,26 @@
       "hash": "Rx8AIs_tHst4",
       "address": "https://dwheeler.com/oss_fs_why.html",
       "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "snippet": "machine), according to a study by Netcraft surveying March and June 2001. Some of Netcraft’s surveys have also included data on OSes; two 2001 surveys (their June 2001 and September 2001 surveys) found that GNU/Linux is the #2 OS for web servers when counting physical machines (and has been",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 92305
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 11,
+          "textWords": 92305
+        },
+        "JamsQGrOtHoM": {
+          "hits": 7,
+          "textWords": 92305
+        }
+      }
+    },
+    {
+      "hash": "SUM-Tsa5-DC6",
+      "address": "https://williemcginest.com/",
+      "title": "williemcginest.com",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -2987,9 +2587,29 @@
       }
     },
     {
-      "hash": "ww-gf8cZd9Fw",
-      "address": "https://hackage.haskell.org/packages/",
-      "title": "packages by category | Hackage",
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "machine connected to an rtl-sdr. Of course, any replies will get sent to the bit bucket, but it can definitely decode things just fine! Very fucking cool.\nWell right, ok! Let’s go back to two rx/tx radios, and see what we can do with our newfound network stack over ham radio frequencies – let’s try",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 63106
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 29,
+          "textWords": 63106
+        },
+        "JamsQGrOtHoM": {
+          "hits": 12,
+          "textWords": 63106
+        }
+      }
+    },
+    {
+      "hash": "Hp25lWawk-F5",
+      "address": "https://theintactone.com/tag/titles/",
+      "title": "Read MBA, BBA, B.COM Notes",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -3007,9 +2627,9 @@
       }
     },
     {
-      "hash": "1mbZwjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/NASA",
-      "title": "NASA - Wikipedia",
+      "hash": "WKJ7SseQQCqz",
+      "address": "https://westminsterpasadena.org/",
+      "title": "Faith, Community, and Church Services",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -3027,9 +2647,9 @@
       }
     },
     {
-      "hash": "d5SKKsbC2yYr",
-      "address": "https://lumbungbudayadermaji.id/",
-      "title": "lumbungbudayadermajiid",
+      "hash": "cQB3Ysg-H2eq",
+      "address": "https://ragambudayajatim.id/",
+      "title": "ragambudayajatimid",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -3047,9 +2667,69 @@
       }
     },
     {
-      "hash": "HAvOGsl5y2D7",
-      "address": "https://bluebonnetcountry.com/",
-      "title": "Bluebonnetcountry.com -",
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "3hsDOlluK2rw",
+      "address": "https://www.qt.io/blog",
+      "title": "Qt Blog",
+      "snippet": "Machine Modeling with Automated Code Generation\nALL QT GROUP PRODUCTS\nView Products\nSoftware Quality\nPRODUCTS\nSquish GUI Test Automation\nCoco Code Coverage Analysis\nTest Center Test Results Management and Analysis\nAxivion Static Code Analysis Certified Static Code Analysis\nAxivion Architecture",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 1884
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 1884
+        },
+        "JamsQGrOtHoM": {
+          "hits": 3,
+          "textWords": 1884
+        }
+      }
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Qy5lgspN1dF5",
+      "address": "https://cirosantilli.com/china-dictatorship/",
+      "title": "China Dictatorship 中国独裁统治",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -3087,6 +2767,26 @@
       }
     },
     {
+      "hash": "SjQgUsvkuLK5",
+      "address": "https://healthywife.com/",
+      "title": "healthywife.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "Wfq3FswvoTD5",
       "address": "https://r-universe.dev/articles",
       "title": "R-universe - browse articles",
@@ -3107,9 +2807,1069 @@
       }
     },
     {
+      "hash": "1lGoBsyuNlT5",
+      "address": "https://alt-webring.com/",
+      "title": "alt-webring | The (former) alternative webring system",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "T5bTTsD6g8e4",
+      "address": "https://pbcvoice.com/",
+      "title": "pbcvoice.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "SVkhqsMAuxi4",
       "address": "https://www.linkedin.com/top-content/technology/",
       "title": "Top Technology Content from LinkedIn Members",
+      "snippet": "Learning\nJobs\nGames\nJoin now Sign in\nTop Content\nTechnology\nExplore top LinkedIn content from expert professionals.\nLinas Beliūnas\nBrand partnership • 🔔linas.substack.com🔔 Daily Intelligence on Finance \u0026 AI | Scouting FinTech \u0026 AI Startups 🦄\n692,128 followers 3w\nReport this post\nRevolut has one of",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 4122
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 4122
+        },
+        "JamsQGrOtHoM": {
+          "hits": 3,
+          "textWords": 4122
+        }
+      }
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TA880jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Generative_adversarial_network",
+      "title": "Generative adversarial network - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "TY6SLbS6MKD4",
+      "address": "https://github.com/rohitg00/ai-engineering-from-scratch",
+      "title": "GitHub - rohitg00/ai-engineering-from-scratch: Learn it. Build it. Ship it for others. · GitHub",
+      "snippet": "learning-paths\nlearning-paths\noutputs\noutputs\nphases\nphases\nprojects\nprojects\nscripts\nscripts\nsite\nsite\nskills\nskills\nweb\nweb\n.coderabbit.yaml\n.coderabbit.yaml\n.gitignore\n.gitignore\nAGENTS.md\nAGENTS.md\nBACKERS.md\nBACKERS.md\nCHANGELOG.md\nCHANGELOG.md\nCODE_OF_CONDUCT.md\nCODE_OF_CONDUCT.md",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 8984
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 5,
+          "textWords": 8984
+        },
+        "JamsQGrOtHoM": {
+          "hits": 43,
+          "textWords": 8984
+        }
+      }
+    },
+    {
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "snippet": "Learning centerSell your 3d designs\nGrow your business\nPrint on demand\nTechnologies and materialsFused Deposition Modeling (FDM)\nMaterial Jetting (MJP)\nSelective Laser Sintering (SLS)\nStereolithography (SLA)\nMulti Jet Fusion (MJF)\nCast Metals\nHelp CenterFor members\nFor designers\nFrequently Asked",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 8,
+          "textWords": 51823
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 9,
+          "textWords": 51823
+        },
+        "JamsQGrOtHoM": {
+          "hits": 7,
+          "textWords": 51823
+        }
+      }
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "snippet": "machine), according to a study by Netcraft surveying March and June 2001. Some of Netcraft’s surveys have also included data on OSes; two 2001 surveys (their June 2001 and September 2001 surveys) found that GNU/Linux is the #2 OS for web servers when counting physical machines (and has been",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 92305
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 11,
+          "textWords": 92305
+        },
+        "JamsQGrOtHoM": {
+          "hits": 7,
+          "textWords": 92305
+        }
+      }
+    },
+    {
+      "hash": "SUM-Tsa5-DC6",
+      "address": "https://williemcginest.com/",
+      "title": "williemcginest.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "machine connected to an rtl-sdr. Of course, any replies will get sent to the bit bucket, but it can definitely decode things just fine! Very fucking cool.\nWell right, ok! Let’s go back to two rx/tx radios, and see what we can do with our newfound network stack over ham radio frequencies – let’s try",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 63106
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 29,
+          "textWords": 63106
+        },
+        "JamsQGrOtHoM": {
+          "hits": 12,
+          "textWords": 63106
+        }
+      }
+    },
+    {
+      "hash": "Hp25lWawk-F5",
+      "address": "https://theintactone.com/tag/titles/",
+      "title": "Read MBA, BBA, B.COM Notes",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "cQB3Ysg-H2eq",
+      "address": "https://ragambudayajatim.id/",
+      "title": "ragambudayajatimid",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "XeaO-skIK3Wq",
+      "address": "https://solusikesehatan.id/",
+      "title": "solusikesehatanid",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Qy5lgspN1dF5",
+      "address": "https://cirosantilli.com/china-dictatorship/",
+      "title": "China Dictatorship 中国独裁统治",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "s8IBmsqzz5gq",
+      "address": "https://senibudayaislam.id/",
+      "title": "senibudayaislamid",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "SjQgUsvkuLK5",
+      "address": "https://healthywife.com/",
+      "title": "healthywife.com",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "1lGoBsyuNlT5",
+      "address": "https://alt-webring.com/",
+      "title": "alt-webring | The (former) alternative webring system",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "W5u5XsDsuHHz",
+      "address": "https://serenitysalonanddayspa.org/",
+      "title": "serenitysalonanddayspa -",
+      "snippet": "tutorial for their games.\nMany online lottery sites use a ticket messenger service to purchase real tickets for you. These agents act as worldwide hands and buy a real ticket in your name using your lucky numbers. Then they will scan it and send it to you as proof of purchase. These services can",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 68067
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 5,
+          "textWords": 68067
+        },
+        "JamsQGrOtHoM": {
+          "hits": 8,
+          "textWords": 68067
+        }
+      }
+    },
+    {
+      "hash": "pYw3_AHucLY4",
+      "address": "https://adrienalfiste.vip-blog.com/",
+      "title": "adrienalfiste blog : Le blog d'Adri (83)",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "bXB3NjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Durham_University",
+      "title": "Durham University - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "besrOjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/McMaster_University",
+      "title": "McMaster University - Wikipedia",
+      "snippet": "Learning \u0026 Discovery, which houses many well-funded research groups in areas of genetics, infectious diseases, and several specific conditions.[37]\nThe McMaster Nuclear Reactor (MNR) has been the largest university reactor in the Commonwealth since it began operation and is the second largest",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 14566
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 14566
+        },
+        "JamsQGrOtHoM": {
+          "hits": 17,
+          "textWords": 14566
+        }
+      }
+    },
+    {
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "snippet": "Learning centerSell your 3d designs\nGrow your business\nPrint on demand\nTechnologies and materialsFused Deposition Modeling (FDM)\nMaterial Jetting (MJP)\nSelective Laser Sintering (SLS)\nStereolithography (SLA)\nMulti Jet Fusion (MJF)\nCast Metals\nHelp CenterFor members\nFor designers\nFrequently Asked",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 8,
+          "textWords": 51823
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 9,
+          "textWords": 51823
+        },
+        "JamsQGrOtHoM": {
+          "hits": 7,
+          "textWords": 51823
+        }
+      }
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "EBFDKs_mmaDp",
+      "address": "https://budayakita.id/",
+      "title": "budayakitaid",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "machine connected to an rtl-sdr. Of course, any replies will get sent to the bit bucket, but it can definitely decode things just fine! Very fucking cool.\nWell right, ok! Let’s go back to two rx/tx radios, and see what we can do with our newfound network stack over ham radio frequencies – let’s try",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 63106
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 29,
+          "textWords": 63106
+        },
+        "JamsQGrOtHoM": {
+          "hits": 12,
+          "textWords": 63106
+        }
+      }
+    },
+    {
+      "hash": "WKJ7SseQQCqz",
+      "address": "https://westminsterpasadena.org/",
+      "title": "Faith, Community, and Church Services",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "XeaO-skIK3Wq",
+      "address": "https://solusikesehatan.id/",
+      "title": "solusikesehatanid",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "EyjETIl7OZJE",
+      "address": "http://www.kursaal.com.ar/web/post-without-sidebar/",
+      "title": "Post Without Sidebar",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "3hsDOlluK2rw",
+      "address": "https://www.qt.io/blog",
+      "title": "Qt Blog",
+      "snippet": "Machine Modeling with Automated Code Generation\nALL QT GROUP PRODUCTS\nView Products\nSoftware Quality\nPRODUCTS\nSquish GUI Test Automation\nCoco Code Coverage Analysis\nTest Center Test Results Management and Analysis\nAxivion Static Code Analysis Certified Static Code Analysis\nAxivion Architecture",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 1884
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 1884
+        },
+        "JamsQGrOtHoM": {
+          "hits": 3,
+          "textWords": 1884
+        }
+      }
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Qy5lgspN1dF5",
+      "address": "https://cirosantilli.com/china-dictatorship/",
+      "title": "China Dictatorship 中国独裁统治",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "1lGoBsyuNlT5",
+      "address": "https://alt-webring.com/",
+      "title": "alt-webring | The (former) alternative webring system",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VCBDjjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Mixin",
+      "title": "Mixin - Wikipedia",
+      "snippet": "Machine Lisp. The name was inspired by Steve's Ice Cream Parlor in Somerville, Massachusetts:[1] The owner of the ice cream shop offered a basic flavor of ice cream (vanilla, chocolate, etc.) and blended in a combination of extra items (nuts, cookies, fudge, etc.) and called the item a \"mix-in\",",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 4254
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 4254
+        },
+        "JamsQGrOtHoM": {
+          "hits": 1,
+          "textWords": 4254
+        }
+      }
+    },
+    {
+      "hash": "YA5jls9w8XV5",
+      "address": "https://cloudinary.com/guides/front-end-development/front-end-development-the-complete-guide",
+      "title": "Front-End Development: The Complete Guide",
+      "snippet": "Tutorial Library\nApp Gallery\nManage Your Assets\nUpload\nTransform \u0026 Customize\nManage \u0026 Analyze\nOptimize \u0026 Deliver\nAI in Action\nResources Learn\nBlog\nCustomers\nDemos\nEvents\nGlossary\nLabs\nResource Library\nTools\nSupport\nDocumentation\nKnowledge Base\nTechnical Support\nSERVICES\nProfessional Services",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 5,
+          "textWords": 8371
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 2,
+          "textWords": 8371
+        },
+        "JamsQGrOtHoM": {
+          "hits": 5,
+          "textWords": 8371
+        }
+      }
+    },
+    {
+      "hash": "W5u5XsDsuHHz",
+      "address": "https://serenitysalonanddayspa.org/",
+      "title": "serenitysalonanddayspa -",
+      "snippet": "tutorial for their games.\nMany online lottery sites use a ticket messenger service to purchase real tickets for you. These agents act as worldwide hands and buy a real ticket in your name using your lucky numbers. Then they will scan it and send it to you as proof of purchase. These services can",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 68067
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 5,
+          "textWords": 68067
+        },
+        "JamsQGrOtHoM": {
+          "hits": 8,
+          "textWords": 68067
+        }
+      }
+    },
+    {
+      "hash": "iLQO1sN0ip-w",
+      "address": "https://m-reform.net/",
+      "title": "replica football shirts",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "BLqv9HRMLT-5",
+      "address": "https://canonical.com/legal/data-privacy",
+      "title": "Data privacy | Ubuntu and Canonical Legal | Canonical",
+      "snippet": "machine learning solutions\nJuju\nOrchestration engine for operators\nCertified hardware\nUbuntu hardware you can trust\nCanonical Academy\nReal-world, industry relevant exams.\nUbuntu OS Back\nUbuntu Desktop\nFast, modern and secure Linux\nUbuntu Server\nScalable Linux for the cloud\nUbuntu Pro\nSecurity \u0026",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 5884
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 6,
+          "textWords": 5884
+        },
+        "JamsQGrOtHoM": {
+          "hits": 6,
+          "textWords": 5884
+        }
+      }
+    },
+    {
+      "hash": "AX7xBjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Help_desk",
+      "title": "Wikipedia:Help desk - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "bXB3NjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Durham_University",
+      "title": "Durham University - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "besrOjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/McMaster_University",
+      "title": "McMaster University - Wikipedia",
+      "snippet": "Learning \u0026 Discovery, which houses many well-funded research groups in areas of genetics, infectious diseases, and several specific conditions.[37]\nThe McMaster Nuclear Reactor (MNR) has been the largest university reactor in the Commonwealth since it began operation and is the second largest",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 2,
+          "textWords": 14566
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 1,
+          "textWords": 14566
+        },
+        "JamsQGrOtHoM": {
+          "hits": 17,
+          "textWords": 14566
+        }
+      }
+    },
+    {
+      "hash": "Ce2W90S6MKD4",
+      "address": "https://github.com/resources/articles/what-is-vibe-coding",
+      "title": "What Is Vibe Coding? · GitHub",
+      "snippet": "learning the fundamentals of coding, but doing so will affect their ability to effectively review output.\nLack of clarity. AI can’t explain its choices, which makes it harder to trace decisions or spot edge cases.\nRemember, vibe coding is a creative, collaborative process. You bring the ideas, the",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 4838
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 2,
+          "textWords": 4838
+        },
+        "JamsQGrOtHoM": {
+          "hits": 6,
+          "textWords": 4838
+        }
+      }
+    },
+    {
+      "hash": "Mb7ip0SWekJ4",
+      "address": "https://thangs.com/resources/blog",
+      "title": "Blog",
+      "snippet": "Learning centerSell your 3d designs\nGrow your business\nPrint on demand\nTechnologies and materialsFused Deposition Modeling (FDM)\nMaterial Jetting (MJP)\nSelective Laser Sintering (SLS)\nStereolithography (SLA)\nMulti Jet Fusion (MJF)\nCast Metals\nHelp CenterFor members\nFor designers\nFrequently Asked",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 8,
+          "textWords": 51823
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 9,
+          "textWords": 51823
+        },
+        "JamsQGrOtHoM": {
+          "hits": 7,
+          "textWords": 51823
+        }
+      }
+    },
+    {
+      "hash": "btqgslTg2KM4",
+      "address": "https://www.wikihow.com/Experts",
+      "title": "wikiHow Experts",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "OlbnP1X4hh0w",
+      "address": "https://n8n.io/integrations/set/",
+      "title": "Edit Fields (Set) integrations | Workflow automation with n8n",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "machine connected to an rtl-sdr. Of course, any replies will get sent to the bit bucket, but it can definitely decode things just fine! Very fucking cool.\nWell right, ok! Let’s go back to two rx/tx radios, and see what we can do with our newfound network stack over ham radio frequencies – let’s try",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 1,
+          "textWords": 63106
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 29,
+          "textWords": 63106
+        },
+        "JamsQGrOtHoM": {
+          "hits": 12,
+          "textWords": 63106
+        }
+      }
+    },
+    {
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "snippet": "",
+      "matchedWords": {
+        "BXXI1ZL7ewiC": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "FHVPE-UoDF1J": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "JamsQGrOtHoM": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Wfq3FswvoTD5",
+      "address": "https://r-universe.dev/articles",
+      "title": "R-universe - browse articles",
       "snippet": "",
       "matchedWords": {
         "BXXI1ZL7ewiC": {
@@ -3128,8 +3888,8 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "BXXI1ZL7ewiC": 30220,
-    "FHVPE-UoDF1J": 84296,
-    "JamsQGrOtHoM": 115901
+    "BXXI1ZL7ewiC": 39651,
+    "FHVPE-UoDF1J": 102348,
+    "JamsQGrOtHoM": 135149
   }
 }

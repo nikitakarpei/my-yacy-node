@@ -10,7 +10,10 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 )
 
-const meanGainFloorOfTheRelevanceOrdering = 0.80
+const (
+	meanGainFloorOfTheRelevanceOrdering                = 0.76
+	leastLiftOfTheRelevanceOrderingOverThePeerOrdering = 0.20
+)
 
 type itemsOrdering interface {
 	OrderedItemsOf(answers peeranswers.AnsweredQuery) []peeranswers.AnsweredItem
@@ -22,15 +25,27 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 	judged := judgedQueriesRecorded(t)
 
 	meanGainOfTheRelevanceOrdering := meanNormalizedGainOf(relevance.Ordering{}, judged)
+	meanGainOfThePeerOrdering := meanNormalizedGainOf(peerorder.Ordering{}, judged)
 
 	if meanGainOfTheRelevanceOrdering < meanGainFloorOfTheRelevanceOrdering {
-		t.Fatalf(
+		t.Errorf(
 			"the relevance ordering reaches a mean gain of %.4f over %d judged queries, "+
 				"want at least %.2f; the peer ordering reaches %.4f",
 			meanGainOfTheRelevanceOrdering,
 			len(judged),
 			meanGainFloorOfTheRelevanceOrdering,
-			meanNormalizedGainOf(peerorder.Ordering{}, judged),
+			meanGainOfThePeerOrdering,
+		)
+	}
+	if meanGainOfTheRelevanceOrdering-meanGainOfThePeerOrdering <
+		leastLiftOfTheRelevanceOrderingOverThePeerOrdering {
+		t.Errorf(
+			"the relevance ordering lifts the mean gain from %.4f to %.4f over %d judged "+
+				"queries, want a lift of at least %.2f",
+			meanGainOfThePeerOrdering,
+			meanGainOfTheRelevanceOrdering,
+			len(judged),
+			leastLiftOfTheRelevanceOrderingOverThePeerOrdering,
 		)
 	}
 }

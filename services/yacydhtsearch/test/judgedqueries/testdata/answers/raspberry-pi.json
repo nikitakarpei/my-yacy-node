@@ -1,75 +1,21 @@
 {
   "query": "raspberry pi",
-  "recordedAt": "2026-09-11T12:59:38Z",
+  "recordedAt": "2026-09-11T19:23:35Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
         "hash": "7b0gSsUQxb2x",
         "address": "https://join-lemmy.org/",
         "title": "Lemmy - A decentralised discussion platform for communities",
-        "snippet": "",
+        "snippet": "Raspberry Pi or alongside other services.\nCreate a Server\nOpen Source\nLemmy is entirely open source. You can follow the development process and make suggestions for new features. You can also fork the code and implement new changes yourself.\nSource Code\nMore Features\nSelf hostable, easy to deploy,",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 449
           },
           "uJdJUF4US1ZK": {
             "hits": 1,
-            "textWords": 528
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "MaRThsRMLT-5",
-        "address": "https://canonical.com/",
-        "title": "Trusted open source for enterprises | Canonical",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 4,
-            "textWords": 5038
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "MWWnL_nMM_j5",
-        "address": "https://grokipedia.com/page/JavaScript",
-        "title": "JavaScript — Grokipedia",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 1,
-            "textWords": 12008
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "ZinRLlDOAHJg",
-        "address": "https://www.heise.de/make",
-        "title": "Make Magazin: Kreativ mit Technik | heise online",
-        "snippet": "",
-        "matchedWords": {
-          "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "uJdJUF4US1ZK": {
-            "hits": 2,
-            "textWords": 1176
+            "textWords": 449
           }
         }
       }
@@ -79,15 +25,15 @@
         "hash": "ryUhvGS6MKD4",
         "address": "https://github.com/veggiemonk/awesome-docker",
         "title": "GitHub - veggiemonk/awesome-docker: :whale: A curated list of Docker resources and projects",
-        "snippet": "",
+        "snippet": "Raspberry Pi \u0026 ARM\nSecurity Articles\nVideos\nCommunities and Meetups Brazilian\nEnglish\nRussian\nSpanish\nStargazers over time\nProjects\nOfficial Projects\nMoby\nDocker Hub\nDocker Compose - Define and run multi-container applications with Docker.\nDocker Registry - The Docker toolset to pack, ship, store,",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 4,
+            "textWords": 7007
           },
           "uJdJUF4US1ZK": {
-            "hits": 3,
-            "textWords": 10421
+            "hits": 4,
+            "textWords": 7007
           }
         }
       },
@@ -95,15 +41,15 @@
         "hash": "rsWFmIf1Pcd5",
         "address": "https://store.steampowered.com/mobile",
         "title": "Steam, The Ultimate Online Game Platform",
-        "snippet": "",
+        "snippet": "Raspberry Pi 3, 4, \u0026 5 For Windows For Linux For MacOS\nLearn more about Steam Link and Remote Play\nSteam Chat\nA lightweight app focused on chatting with friends and groups.\nRich Chat\nPick up the conversation right where you left off with videos, Tweets, Gifs and more.\nFriends List\nQuickly see who's",
         "matchedWords": {
           "cquK9WvdqzOy": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 488
           },
           "uJdJUF4US1ZK": {
             "hits": 1,
-            "textWords": 754
+            "textWords": 488
           }
         }
       }
@@ -129,82 +75,18 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "MK5eRjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
-      "title": "Linux distribution - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "yQQNDjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Embedded_system",
-      "title": "Embedded system - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "zPsYJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux",
-      "title": "Linux - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "mHyFhKsrSOQw",
-      "address": "https://arxiv.org/list/cs.AI/new",
-      "title": "Artificial Intelligence",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "cd84qAK-xyJ4",
       "address": "https://go.dev/doc/go1.8",
       "title": "Go 1.8 Release Notes - The Go Programming Language",
-      "snippet": "",
+      "snippet": "Raspberry Pi 1) or later. To identify whether a Linux system is ARMv6K or later, run “go tool dist -check-armv6k” (to facilitate testing, it is also possible to just copy the dist command to the system without installing a full copy of Go 1.8) and if the program terminates with output “ARMv6K",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 5042
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 5042
         }
       }
     },
@@ -212,63 +94,15 @@
       "hash": "MaHDQsRDFHM6",
       "address": "https://stackexchange.com/sites",
       "title": "All Sites - Stack Exchange",
-      "snippet": "",
+      "snippet": "Raspberry Pi\nRaspberry Pi\nQ\u0026A for users and developers of hardware and software for Raspberry Pi\nquestions\n38k\nanswers\n50k\nanswered\n75%\nusers\n166k\nloading...\nloading top users...\nRussian Language\nRussian Language\nQ\u0026A for students, teachers, and linguists wanting to discuss the finer points of the",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 4742
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "0IsrslZZ-o74",
-      "address": "https://www.nccgroup.com/research/",
-      "title": "Cyber Security Research | NCC Group",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "iEtWflDOAHJg",
-      "address": "https://www.heise.de/thema",
-      "title": "Themenseiten | heise online",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "4BAFKdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/PDP-11",
-      "title": "PDP-11 – Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 4742
         }
       }
     },
@@ -276,127 +110,15 @@
       "hash": "cd84qAK-xyJ4",
       "address": "https://go.dev/doc/go1.8",
       "title": "Go 1.8 Release Notes - The Go Programming Language",
-      "snippet": "",
+      "snippet": "Raspberry Pi 1) or later. To identify whether a Linux system is ARMv6K or later, run “go tool dist -check-armv6k” (to facilitate testing, it is also possible to just copy the dist command to the system without installing a full copy of Go 1.8) and if the program terminates with output “ARMv6K",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 5042
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AXN8YjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Bioinformatics",
-      "title": "Bioinformatics - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "COUi-jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Internet_of_things",
-      "title": "Internet of things - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "FYAXzjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Mozilla",
-      "title": "Mozilla - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "MK5eRjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
-      "title": "Linux distribution - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "d5oz1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux_adoption",
-      "title": "Linux adoption - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "fFhxWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Personal_computer",
-      "title": "Personal computer - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "zPsYJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux",
-      "title": "Linux - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 5042
         }
       }
     },
@@ -417,233 +139,9 @@
       }
     },
     {
-      "hash": "9p2eCjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
-      "title": "Artificial intelligence - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "D9zZ37S6MKD4",
-      "address": "https://github.com/sindresorhus/awesome-nodejs",
-      "title": "GitHub - sindresorhus/awesome-nodejs: :zap: Delightful Node.js packages and resources [BECAUSE OF TOO MUCH SPAM AND LOW-QUALITY SUBMISSIONS, SUBMISSIONS ARE PAUSED TEMPORARILY] · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "2Af0RMS6MKD4",
-      "address": "https://github.com/orgs/community/discussions/categories/programming-help",
-      "title": "community Programming Help · Discussions · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "3GHeQzS6MKD4",
-      "address": "https://github.com/topics/lisp-interpreter",
-      "title": "lisp-interpreter · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "3NI4azS6MKD4",
-      "address": "https://github.com/topics/javascript-engine",
-      "title": "javascript-engine · GitHub Topics · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Df5JkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/System_time",
-      "title": "System time - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "fFhxWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Personal_computer",
-      "title": "Personal computer - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "yQQNDjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Embedded_system",
-      "title": "Embedded system - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "9p2eCjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Artificial_intelligence",
-      "title": "Artificial intelligence - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DEKXKM9Ojva4",
-      "address": "https://docs.docker.com/desktop/setup/install/linux/",
-      "title": "Linux | Docker Docs",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AXN8YjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Bioinformatics",
-      "title": "Bioinformatics - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Df5JkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/System_time",
-      "title": "System time - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "CcYVa7S6MKD4",
-      "address": "https://github.com/sindresorhus/awesome",
-      "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics · GitHub",
+      "hash": "2uLc-sm1ohFp",
+      "address": "https://polrestoba.id/",
+      "title": "polrestoba.id",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -660,31 +158,15 @@
       "hash": "D9zZ37S6MKD4",
       "address": "https://github.com/sindresorhus/awesome-nodejs",
       "title": "GitHub - sindresorhus/awesome-nodejs: :zap: Delightful Node.js packages and resources",
-      "snippet": "",
+      "snippet": "Raspberry Pi.\ngps - NMEA parser for handling GPS receivers.\nmodbus-serial - A pure JavaScript implementation of MODBUS-RTU (serial and TCP).\nTemplating\nmarko - HTML-based templating engine that compiles templates to CommonJS modules and supports streaming, async rendering and custom tags.\nnunjucks",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 6033
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "mHyFhKsrSOQw",
-      "address": "https://arxiv.org/list/cs.AI/new",
-      "title": "Artificial Intelligence",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 6033
         }
       }
     },
@@ -692,15 +174,15 @@
       "hash": "DlmlistSAQe4",
       "address": "https://ai.google/societal-impact/",
       "title": "Applying AI to help solve humanity's biggest challenges — Google AI",
-      "snippet": "",
+      "snippet": "Raspberry Pi Foundation and Google DeepMind, Experience AI supports teachers in the exciting area of AI, and gets young people passionate about the subject.\nLearn more\n$30M in Google.org for AI learning\n$30 million in new funding for learning projects and unveiling new research of AI’s impact on",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2680
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2680
         }
       }
     },
@@ -708,159 +190,15 @@
       "hash": "DlmlistSAQe4",
       "address": "https://ai.google/societal-impact/",
       "title": "Applying AI to help solve humanity's biggest challenges — Google AI",
-      "snippet": "",
+      "snippet": "Raspberry Pi Foundation and Google DeepMind, Experience AI supports teachers in the exciting area of AI, and gets young people passionate about the subject.\nLearn more\n$30M in Google.org for AI learning\n$30 million in new funding for learning projects and unveiling new research of AI’s impact on",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2680
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "01Efzv6owqx6",
-      "address": "https://www.thailandmedical.news/news/human-defensins-as-a-new-frontier-in-antimicrobial-therapy",
-      "title": "Human Defensins as a New Frontier in Antimicrobial Therapy - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "3mVvqv6owqx6",
-      "address": "https://www.thailandmedical.news/news/study-reveals-lasting-heart-damage-linked-to-inflammation-in-long-covid-patients",
-      "title": "Study Reveals Lasting Heart Damage Linked to Inflammation in Long COVID Patients - Thailand Medical News",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DEKXKM9Ojva4",
-      "address": "https://docs.docker.com/desktop/setup/install/linux/",
-      "title": "Linux | Docker Docs",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "iEtWflDOAHJg",
-      "address": "https://www.heise.de/thema",
-      "title": "Themenseiten | heise online",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "P7qK5DF20Rww",
-      "address": "https://ma.tt/category/wordpress/",
-      "title": "WordPress | Matt Mullenweg",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AXN8YjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Bioinformatics",
-      "title": "Bioinformatics - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Df5JkjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/System_time",
-      "title": "System time - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DlmlistSAQe4",
-      "address": "https://ai.google/societal-impact/",
-      "title": "Applying AI to help solve humanity's biggest challenges — Google AI",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2680
         }
       }
     },
@@ -868,47 +206,15 @@
       "hash": "FYAXzjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Mozilla",
       "title": "Mozilla - Wikipedia",
-      "snippet": "",
+      "snippet": "Raspberry Pi as a gateway for IoT management with decentralised software.\nComponents\n[edit]\nNSS\n[edit]\nMain article: Network Security Services\nNetwork Security Services (NSS) comprises a set of libraries designed to support cross-platform development of security-enabled client and server",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 9444
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "0IsrslZZ-o74",
-      "address": "https://www.nccgroup.com/research/",
-      "title": "Cyber Security Research | NCC Group",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "0IsrslZZ-o74",
-      "address": "https://www.nccgroup.com/research/",
-      "title": "Cyber Security Research | NCC Group",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 9444
         }
       }
     },
@@ -929,9 +235,25 @@
       }
     },
     {
-      "hash": "0IsrslZZ-o74",
-      "address": "https://www.nccgroup.com/research/",
-      "title": "Cyber Security Research | NCC Group",
+      "hash": "AC_vCv6owqx6",
+      "address": "https://www.thailandmedical.news/news/vitamin-d3-inhibits-sars-cov-2-nucleocapsid-induced-hyperinflammation-by-inactivating-nlrp3-inflammasome-via-the-vdr-brcc3-pathway",
+      "title": "Vitamin D3 Inhibits SARS-CoV-2 Nucleocapsid Induced Hyperinflammation By Inactivating NLRP3 Inflammasome Via The VDR-BRCC3 Pathway - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "AIrVHv6owqx6",
+      "address": "https://www.thailandmedical.news/news/long-covid-news-t-cell-dysregulation,-inflammation-and-a-dysfunctional-adaptive-immune-response-to-persistent-sars-cov-2-occurs-in-long-covid",
+      "title": "Long COVID News: T Cell Dysregulation, Inflammation And A Dysfunctional Adaptive Immune Response To Persistent SARS-CoV-2 Occurs In Long COVID! - Thailand Medical News",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -1009,6 +331,118 @@
       }
     },
     {
+      "hash": "5Y3RTv6owqx6",
+      "address": "https://www.thailandmedical.news/news/despite-debut-of-new-sar-cov-2-ba-3-2-variant-with-50-plus-mutations-nb-1-8-1-and-xfg-will-prevail-in-weeks-ahead",
+      "title": "Despite Debut of New SAR-CoV-2 BA.3.2 Variant With 50 Plus Mutations, NB.1.8.1 and XFG Will Prevail in Weeks Ahead - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "5sDJTv6owqx6",
+      "address": "https://www.thailandmedical.news/news/ketogenic-diets-can-cause-liver-damage-and-gut-dysbiosis",
+      "title": "Ketogenic Diets Can Cause Liver Damage and Gut Dysbiosis! - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "6phZfv6owqx6",
+      "address": "https://www.thailandmedical.news/news/breaking-ba-2-86-news-scientists-alarmingly-discover-that-ba-2-86-variant-has-also-picked-up-flip-mutation-l455s",
+      "title": "BREAKING BA.2.86 News! Scientists Alarmingly Discover That BA.2.86 Variant Has Also Picked Up FLip Mutation L455S! - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7kARMv6owqx6",
+      "address": "https://www.thailandmedical.news/news/new-genotypes-of-human-cytomegalovirus-causing-ocular-diseases",
+      "title": "New Genotypes of Human Cytomegalovirus Causing Ocular Diseases - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7otRnv6owqx6",
+      "address": "https://www.thailandmedical.news/news/new-hope-for-hard-to-treat-digestive-cancers-as-treatment-strategies-rapidly-evolve",
+      "title": "New Hope for Hard-to-Treat Digestive Cancers as Treatment Strategies Rapidly Evolve - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "8eHCuv6owqx6",
+      "address": "https://www.thailandmedical.news/news/interferon-activated-nk-cells-found-to-weaken-covid-19-antibody-response",
+      "title": "Interferon Activated NK Cells Found to Weaken COVID-19 Antibody Response - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "9y8_3v6owqx6",
+      "address": "https://www.thailandmedical.news/news/thailand-doctors-explore-herbal-medicines-against-deadly-cholangiocarcinoma",
+      "title": "Thailand Doctors Explore Herbal Medicines Against Deadly Cholangiocarcinoma - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "-leuDv6owqx6",
       "address": "https://www.thailandmedical.news/news/cytolytic-cd8-t-cell-response-to-sars-cov-2-and-non-sars-cov-2-related-viruses-and-severe-covid-19-manifestations",
       "title": "Cytolytic CD8+ T Cell Response To SARS-CoV-2 And Non-SARS-CoV-2-Related Viruses And Severe COVID-19 Manifestations - Thailand Medical News",
@@ -1044,22 +478,22 @@
       "hash": "cd84qAK-xyJ4",
       "address": "https://go.dev/doc/go1.8",
       "title": "Go 1.8 Release Notes - The Go Programming Language",
-      "snippet": "",
+      "snippet": "Raspberry Pi 1) or later. To identify whether a Linux system is ARMv6K or later, run “go tool dist -check-armv6k” (to facilitate testing, it is also possible to just copy the dist command to the system without installing a full copy of Go 1.8) and if the program terminates with output “ARMv6K",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 5042
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 5042
         }
       }
     },
     {
-      "hash": "d5oz1jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux_adoption",
-      "title": "Linux adoption - Wikipedia",
+      "hash": "2uLc-sm1ohFp",
+      "address": "https://polrestoba.id/",
+      "title": "polrestoba.id",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -1089,41 +523,9 @@
       }
     },
     {
-      "hash": "P7qK5DF20Rww",
-      "address": "https://ma.tt/category/wordpress/",
-      "title": "WordPress | Matt Mullenweg",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "4BAFKdFO6r_x",
-      "address": "https://de.wikipedia.org/wiki/PDP-11",
-      "title": "PDP-11 – Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "COUi-jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Internet_of_things",
-      "title": "Internet of things - Wikipedia",
+      "hash": "5qfkcv6owqx6",
+      "address": "https://www.thailandmedical.news/news/apple-cider-vinegar-powder-shows-promise-in-fixing-liver-damage-and-gut-problems-caused-by-fatty-diets",
+      "title": "Apple Cider Vinegar Powder Shows Promise in Fixing Liver Damage and Gut Problems Caused by Fatty Diets - Thailand Medical News",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -1140,47 +542,15 @@
       "hash": "FYAXzjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Mozilla",
       "title": "Mozilla - Wikipedia",
-      "snippet": "",
+      "snippet": "Raspberry Pi as a gateway for IoT management with decentralised software.\nComponents\n[edit]\nNSS\n[edit]\nMain article: Network Security Services\nNetwork Security Services (NSS) comprises a set of libraries designed to support cross-platform development of security-enabled client and server",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 9444
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "MK5eRjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux_distribution",
-      "title": "Linux distribution - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "fFhxWjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Personal_computer",
-      "title": "Personal computer - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 9444
         }
       }
     },
@@ -1204,31 +574,15 @@
       "hash": "yQQNDjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Embedded_system",
       "title": "Embedded system - Wikipedia",
-      "snippet": "",
+      "snippet": "Raspberry Pi.\nASIC and FPGA SoC solutions\n[edit source]\nA system on a chip (SoC) contains a complete system - consisting of multiple processors, multipliers, caches, even different types of memory and commonly various peripherals like interfaces for wired or wireless communication on a single chip.",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 6426
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "zPsYJjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Linux",
-      "title": "Linux - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 6426
         }
       }
     },
@@ -1268,15 +622,15 @@
       "hash": "521wgjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Home_computer",
       "title": "Home computer - Wikipedia",
-      "snippet": "",
+      "snippet": "Raspberry Pi\nList of home computers\nList of home computers by category\nList of home computers by video hardware\nList of video game consoles\nInfluence of the IBM PC on the personal computer market\nMicroprocessor development board and List of early microcomputers, first microprocessor based systems",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 12449
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 12449
         }
       }
     },
@@ -1297,57 +651,25 @@
       }
     },
     {
-      "hash": "CcYVa7S6MKD4",
-      "address": "https://github.com/sindresorhus/awesome",
-      "title": "GitHub - sindresorhus/awesome: 😎 Awesome lists about all kinds of interesting topics [NOTE: Pull requests are temporarily disabled until I have a chance to catch up with the existing ones] · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "D9zZ37S6MKD4",
       "address": "https://github.com/sindresorhus/awesome-nodejs",
       "title": "GitHub - sindresorhus/awesome-nodejs: :zap: Delightful Node.js packages and resources [BECAUSE OF TOO MUCH SPAM AND LOW-QUALITY SUBMISSIONS, SUBMISSIONS ARE PAUSED TEMPORARILY] · GitHub",
-      "snippet": "",
+      "snippet": "Raspberry Pi.\ngps - NMEA parser for handling GPS receivers.\nmodbus-serial - A pure JavaScript implementation of MODBUS-RTU (serial and TCP).\nTemplating\nmarko - HTML-based templating engine that compiles templates to CommonJS modules and supports streaming, async rendering and custom tags.\nnunjucks",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 6033
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 6033
         }
       }
     },
     {
-      "hash": "1rwT0fS6MKD4",
-      "address": "https://github.com/sonic-pi-net/sonic-pi",
-      "title": "GitHub - sonic-pi-net/sonic-pi: Code. Music. Live. · GitHub",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "3GHeQzS6MKD4",
-      "address": "https://github.com/topics/lisp-interpreter",
-      "title": "lisp-interpreter · GitHub Topics · GitHub",
+      "hash": "A4SQNv6owqx6",
+      "address": "https://www.thailandmedical.news/news/south-korean-physicians-warn-that-covid-19-infections-can-trigger-gastrointestinal-aa-amyloidosis",
+      "title": "South Korean Physicians Warn That COVID-19 Infections Can Trigger Gastrointestinal AA Amyloidosis - Thailand Medical News",
       "snippet": "",
       "matchedWords": {
         "cquK9WvdqzOy": {
@@ -1473,6 +795,150 @@
       }
     },
     {
+      "hash": "6QKfsv6owqx6",
+      "address": "https://www.thailandmedical.news/news/breaking-news-brazilian-study-shockingly-finds-that-sars-cov-2-directly-infects-liver-cells-or-hepatocytes-to-cause-hyperglycemia",
+      "title": "BREAKING NEWS! Brazilian Study Shockingly Finds That SARS-CoV-2 Directly Infects Liver Cells Or Hepatocytes To Cause Hyperglycemia! - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7FbFWv6owqx6",
+      "address": "https://www.thailandmedical.news/news/study-alarmingly-finds-that-cannabis-is-responsible-for-40-percent-of-fatal-car-crashes",
+      "title": "Study Alarmingly Finds That Cannabis is Responsible for 40 Percent of Fatal Car Crashes - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7UBFiv6owqx6",
+      "address": "https://www.thailandmedical.news/news/new-diet-clues-may-change-how-healing-blood-therapies-work",
+      "title": "New Diet Clues May Change How Healing Blood Therapies Work - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7jdNiv6owqx6",
+      "address": "https://www.thailandmedical.news/news/russian-antiviral-drug-ingavirin-found-effective-against-human-metapneumovirus-insights-from-a-2012-study",
+      "title": "Russian Antiviral Drug Ingavirin Found Effective Against Human Metapneumovirus, Insights from a 2012 Study - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "8pb78v6owqx6",
+      "address": "https://www.thailandmedical.news/news/breaking-outbreak-news-many-parts-of-india-facing-simultaneous-onslaught-of-a-variety-of-viral-infections,-increasing-risk-of-severity",
+      "title": "BREAKING! Outbreak News: Many Parts Of India Facing Simultaneous Onslaught Of A Variety Of Viral Infections, Increasing Risk Of Severity! - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "85Yblv6owqx6",
+      "address": "https://www.thailandmedical.news/news/cord-blood-therapy-shows-big-promise-easing-long-covid-fatigue",
+      "title": "Cord Blood Therapy Shows Big Promise Easing Long COVID Fatigue - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "9FV6Zv6owqx6",
+      "address": "https://www.thailandmedical.news/news/covid-19-news-what-s-really-happening-in-singapore-covid-19-cases-in-epidemiological-week-48-hits-record-32,035-while-hospitalizations-rising",
+      "title": "COVID-19 News: What’s Really Happening In Singapore? COVID-19 Cases In Epidemiological Week 48 Hits Record 32,035 While Hospitalizations Rising! - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "9QyiQv6owqx6",
+      "address": "https://www.thailandmedical.news/news/german-researchers-find-new-treatment-for-ophthalmic-mpox-infections",
+      "title": "German researchers find new treatment for ophthalmic Mpox infections - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "9__7eH6owqx6",
+      "address": "https://www.thailandmedical.news/articles/immunology",
+      "title": "Immunology - Thailand Medical News",
+      "snippet": "",
+      "matchedWords": {
+        "cquK9WvdqzOy": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "uJdJUF4US1ZK": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "-ptHKv6owqx6",
       "address": "https://www.thailandmedical.news/news/defibrotide-emerges-as-lifesaving-therapy-for-covid-19-and-blood-cancers",
       "title": "Defibrotide Emerges as Lifesaving Therapy for COVID-19 and Blood Cancers - Thailand Medical News",
@@ -1508,15 +974,15 @@
       "hash": "MaHDQsRDFHM6",
       "address": "https://stackexchange.com/sites",
       "title": "All Sites - Stack Exchange",
-      "snippet": "",
+      "snippet": "Raspberry Pi\nRaspberry Pi\nQ\u0026A for users and developers of hardware and software for Raspberry Pi\nquestions\n38k\nanswers\n50k\nanswered\n75%\nusers\n166k\nloading...\nloading top users...\nRussian Language\nRussian Language\nQ\u0026A for students, teachers, and linguists wanting to discuss the finer points of the",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 4742
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 4742
         }
       }
     },
@@ -1556,63 +1022,15 @@
       "hash": "521wgjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Home_computer",
       "title": "Home computer - Wikipedia",
-      "snippet": "",
+      "snippet": "Raspberry Pi\nList of home computers\nList of home computers by category\nList of home computers by video hardware\nList of video game consoles\nInfluence of the IBM PC on the personal computer market\nMicroprocessor development board and List of early microcomputers, first microprocessor based systems",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 12449
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "0IsrslZZ-o74",
-      "address": "https://www.nccgroup.com/research/",
-      "title": "Cyber Security Research | NCC Group",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "mHyFhKsrSOQw",
-      "address": "https://arxiv.org/list/cs.AI/new",
-      "title": "Artificial Intelligence",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "0IsrslZZ-o74",
-      "address": "https://www.nccgroup.com/research/",
-      "title": "Cyber Security Research | NCC Group",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 12449
         }
       }
     },
@@ -1636,37 +1054,21 @@
       "hash": "yQQNDjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Embedded_system",
       "title": "Embedded system - Wikipedia",
-      "snippet": "",
+      "snippet": "Raspberry Pi.\nASIC and FPGA SoC solutions\n[edit source]\nA system on a chip (SoC) contains a complete system - consisting of multiple processors, multipliers, caches, even different types of memory and commonly various peripherals like interfaces for wired or wireless communication on a single chip.",
       "matchedWords": {
         "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 6426
         },
         "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "mHyFhKsrSOQw",
-      "address": "https://arxiv.org/list/cs.AI/new",
-      "title": "Artificial Intelligence",
-      "snippet": "",
-      "matchedWords": {
-        "cquK9WvdqzOy": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "uJdJUF4US1ZK": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 6426
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "cquK9WvdqzOy": 11478,
-    "uJdJUF4US1ZK": 12720
+    "cquK9WvdqzOy": 9995,
+    "uJdJUF4US1ZK": 11861
   }
 }

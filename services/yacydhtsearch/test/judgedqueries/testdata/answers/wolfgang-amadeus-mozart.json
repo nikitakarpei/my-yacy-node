@@ -1,52 +1,154 @@
 {
   "query": "wolfgang amadeus mozart",
-  "recordedAt": "2026-09-11T13:00:33Z",
+  "recordedAt": "2026-09-11T19:25:22Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "SCDjQ_wMIbph",
-        "address": "https://www.kinopoisk.ru/name/149547/",
-        "title": "Вольфганг Амадей Моцарт (Wolfgang Amadeus Mozart): фильмы, биография, семья, фильмография — Кинопоиск",
-        "snippet": "",
+        "hash": "3nt96qlaN2eg",
+        "address": "https://www.larousse.fr/encyclopedie/personnage/Johann_Wolfgang_von_Goethe/121689",
+        "title": "Johann Wolfgang von Goethe - LAROUSSE",
+        "snippet": "Wolfgang von Goethe - LAROUSSE\nEN\nES\nDE\nIT\n\n\n\nNewsletter\nLAROUSSE\n\nToggle navigation\nLAROUSSE\n\n\n\nLANGUE FRANÇAISE\nBILINGUES\nFLASHCARDS\nTRADUCTEUR\nCONJUGATEUR\nENCYCLOPÉDIE\nCUISINE\nJEUX\nLIVRES\nNewsletter\nSuivez nous: \n \nEN ES DE IT\nAccueil \u003e Encyclopédie [personnage] \u003e Johann",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 7935
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 7935
           },
           "NyD1TpGbIszj": {
-            "hits": 1,
-            "textWords": 187
+            "hits": 9,
+            "textWords": 7935
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "wBabKs5D-QSg",
+        "address": "https://snl.no/Wolfgang_Amadeus_Mozart",
+        "title": "Wolfgang Amadeus Mozart – Store norske leksikon",
+        "snippet": "Wolfgang Amadeus Mozart – Store norske leksikon\nHopp til hovedinnholdet\nStore norske leksikon\nLogg inn\nCherubinos arie fra Figaros bryllup. Av Wolfgang Amadeus Mozart. Falt i det fri (Public domain)\nWolfgang Amadeus Mozart\nStore norske leksikon\nKunst og estetikk\nMusikk\nKlassisk musikk\nDen klassiske",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 53,
+            "textWords": 2459
+          },
+          "FqmRT36qFgho": {
+            "hits": 16,
+            "textWords": 2459
+          },
+          "NyD1TpGbIszj": {
+            "hits": 20,
+            "textWords": 2459
           }
         }
       },
       {
-        "hash": "Pcf6mopg4UCw",
-        "address": "https://www.wikidata.org/wiki/Q5064?uselang=gv",
-        "title": "Die Zauberflöte - Wikidata",
-        "snippet": "",
+        "hash": "_aJejh3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Category:Compositions_by_Wolfgang_Amadeus_Mozart",
+        "title": "Category:Compositions by Wolfgang Amadeus Mozart - Wikimedia Commons",
+        "snippet": "Wolfgang Amadeus Mozart - Wikimedia Commons\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigate\nMain page\nWelcome\nCommunity portal\nVillage pump\nHelp center\nParticipate\nUpload file\nRecent changes\nLatest files\nRandom file\nContact us\nSpecial pages\nIn Wikipedia\nAfrikaans\nالعربية",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 44,
+            "textWords": 898
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 20,
+            "textWords": 898
           },
           "NyD1TpGbIszj": {
-            "hits": 5,
-            "textWords": 2132
+            "hits": 22,
+            "textWords": 898
           }
         }
       },
       {
-        "hash": "eon5Kh3e0QFx",
-        "address": "https://commons.wikimedia.org/wiki/New_York_City",
-        "title": "New York City - Wikimedia Commons",
+        "hash": "Jgz8BjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+        "title": "Wolfgang Amadeus Mozart - Wikipedia",
+        "snippet": "Wolfgang Amadeus Mozart - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 423,
+            "textWords": 13813
+          },
+          "FqmRT36qFgho": {
+            "hits": 37,
+            "textWords": 13813
+          },
+          "NyD1TpGbIszj": {
+            "hits": 57,
+            "textWords": 13813
+          }
+        }
+      },
+      {
+        "hash": "0PraV-ZPxIKi",
+        "address": "https://www.enciklopedija.hr/clanak/mozart-wolfgang-amadeus",
+        "title": "Mozart, Wolfgang Amadeus - Hrvatska enciklopedija",
+        "snippet": "Mozart, Wolfgang Amadeus - Hrvatska enciklopedija\nO enciklopediji\nImpresum\nPredgovor\nUpute\nUvjeti korištenja\nKontakt\nLeksikografski zavod Miroslav Krleža\nFrankopanska 26, Zagreb\ntel.: +385 1 4800 332\ntel.: +385 1 4800 392\nfax.: +385 1 4800 399\nurednistvoHE@lzmk.hr\nMozart, Wolfgang Amadeus\ntraži",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 12,
+            "textWords": 1043
+          },
+          "FqmRT36qFgho": {
+            "hits": 7,
+            "textWords": 1043
+          },
+          "NyD1TpGbIszj": {
+            "hits": 7,
+            "textWords": 1043
+          }
+        }
+      },
+      {
+        "hash": "TR2jOlLSmY1j",
+        "address": "https://www.deutsche-biographie.de/118584596.html?language=en",
+        "title": "Deutsche Biographie - Mozart, Wolfgang Amadeus",
+        "snippet": "Mozart, Wolfgang Amadeus\nDeutsche Biographie\nSearch Simple Search\nAdvanced Search\nMapsearch\nGeographical Distribution\nBrowse\nProject About the Project\nPartner\nLinked Services\nNotifications\nHelp\nDeutsch\nOverview\nNDB 18 (1997)\nADB 22 (1885)\nNDB-online\nBiographies\nSources\nLiterature\nObjects\nPortraits",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 80,
+            "textWords": 12703
+          },
+          "FqmRT36qFgho": {
+            "hits": 17,
+            "textWords": 12703
+          },
+          "NyD1TpGbIszj": {
+            "hits": 40,
+            "textWords": 12703
+          }
+        }
+      },
+      {
+        "hash": "i37h9p5WQO5o",
+        "address": "https://ci.nii.ac.jp/ncid/BA44131098",
+        "title": "CiNii 図書 - Così fan tutte",
+        "snippet": "Mozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nMargiono, Charlotte\nSteiger, Anna\nZiegler, Delores\nWalt, Deon van der\nCachemaille, Gilles\nHampson, Thomas\nNederlands Operakoor\nConcertgebouworkest\nHarnoncourt, Nikolaus\n著者\nMozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nMargiono, Charlotte\nSteiger, Anna",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 3,
+            "textWords": 434
+          },
+          "FqmRT36qFgho": {
+            "hits": 3,
+            "textWords": 434
+          },
+          "NyD1TpGbIszj": {
+            "hits": 3,
+            "textWords": 434
+          }
+        }
+      },
+      {
+        "hash": "zuAhdcoc6Io4",
+        "address": "https://www.nndb.com/lists/800/000083551/",
+        "title": "Movie Keyword: Drama",
         "snippet": "",
         "matchedWords": {
           "6EJ5Wygik_1h": {
@@ -58,8 +160,8 @@
             "textWords": 0
           },
           "NyD1TpGbIszj": {
-            "hits": 1,
-            "textWords": 19531
+            "hits": 8,
+            "textWords": 716
           }
         }
       }
@@ -69,19 +171,19 @@
         "hash": "qrkNlDALMeMh",
         "address": "https://www.smsticket.cz/vstupenky/6774-moc-art-aneb-amadeus-v-brne-strasna-mela-",
         "title": "Moc art aneb Amadeus v Brně (strašná mela) – Divadlo Husa na provázku – Brno – tickets",
-        "snippet": "",
+        "snippet": "Amadeus v Brně (strašná mela) – Divadlo Husa na provázku – Brno – vstupenky\nsmsticket Menu\nVstupenky\nPro návštěvníky\nPro pořadatele\nBlog\nRegistrace návštěvníka\nPřes Facebook\nnebo přes email\nZapomněl/a jste heslo?\nPřihlášení\nČesky\nEnglish\nSlovensky\nDeutsch\nPolski\nPředprodej byl ukončen\nDIVADLO /",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 406
           },
           "FqmRT36qFgho": {
             "hits": 3,
-            "textWords": 462
+            "textWords": 406
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 406
           }
         }
       },
@@ -109,19 +211,19 @@
         "hash": "E6xpB5JMJtfQ",
         "address": "http://www.zeno.org/Musik/M/Mozart,+Wolfgang+Amadeus",
         "title": "Mozart, Wolfgang Amadeus - Zeno.org",
-        "snippet": "",
+        "snippet": "Mozart, Wolfgang Amadeus - Zeno.org\nOnline-Bibliothek\nZeno.org\nErweiterte Suche\nBibliothek\nNur in Musik\nBibliothek\nLesesaal\nZufälliger Artikel\nKategorien\nShop\nDrucken\n\u003c\u003c Zurück | Vorwärts \u003e\u003e\nMusik\nInhaltsverzeichnis | Zufälliger Artikel\nMozart, Leopold\nMozart, Wolfgang Amadeus\nNessler, Viktor",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 36,
+            "textWords": 949
           },
           "FqmRT36qFgho": {
             "hits": 11,
-            "textWords": 968
+            "textWords": 949
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 15,
+            "textWords": 949
           }
         }
       },
@@ -129,19 +231,19 @@
         "hash": "cKaIjQ8moajg",
         "address": "https://www.welt.de/kultur/article693ff49151bc29ca6d7a3961/serie-amadeus-der-allzu-sedierte-mozart.html",
         "title": "Serie „Amadeus“: Der allzu sedierte Mozart - WELT",
-        "snippet": "",
+        "snippet": "„Amadeus“: Der allzu sedierte Mozart - WELT\nInhaltsbereich\nHauptnavigation\nSuche\nLogin\nFußbereich\nTicker\nSuche\nAnmelden\nAboAbonnement\nMenu\nHauptnavigation: Nutzen Sie die Tabulatortaste, um durch die Menüpunkte zu navigieren. Öffnen Sie Untermenüs mit der Leertaste. Schließen Sie Untermenüs mit der",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 25,
+            "textWords": 1831
           },
           "FqmRT36qFgho": {
             "hits": 22,
-            "textWords": 1931
+            "textWords": 1831
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 1831
           }
         }
       },
@@ -149,19 +251,19 @@
         "hash": "-Jibrh3e0QFx",
         "address": "https://commons.wikimedia.org/wiki/Wolfgang_Amadeus_Mozart?uselang=fr",
         "title": "Wolfgang Amadeus Mozart — Wikimedia Commons",
-        "snippet": "",
+        "snippet": "Wolfgang Amadeus Mozart — Wikimedia Commons\nAller au contenu\nMenu principal\nMenu principal\ndéplacer vers la barre latérale\nmasquer\nNavigation\nPage d’accueil\nBienvenue\nPortail communautaire\nBistro\nAide\nParticiper\nImporter un fichier\nModifications récentes\nNouveaux fichiers\nUn fichier au hasard",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 126,
+            "textWords": 3193
           },
           "FqmRT36qFgho": {
-            "hits": 198,
-            "textWords": 3670
+            "hits": 58,
+            "textWords": 3193
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 67,
+            "textWords": 3193
           }
         }
       },
@@ -169,19 +271,19 @@
         "hash": "yszhehTC-rDx",
         "address": "https://et.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
         "title": "Wolfgang Amadeus Mozart – Vikipeedia",
-        "snippet": "",
+        "snippet": "Wolfgang Amadeus Mozart – Vikipeedia\nMine sisu juurde\nPeamenüü\nPeamenüü\nvii külgpaanile\npeida\nNavigeerimine\nEsileht\nJuhuslik lehekülg\nViimased muudatused\nÜldine arutelu\nErileheküljed\nJuhend\nKontakt\nOtsing\nOtsi\nIlme\nAnneta\nLoo konto\nLogi sisse\nIsiklikud lehed\nAnneta\nLoo konto\nLogi sisse\nSisukord\nvii",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 29,
+            "textWords": 1506
           },
           "FqmRT36qFgho": {
-            "hits": 18,
-            "textWords": 1504
+            "hits": 19,
+            "textWords": 1506
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 21,
+            "textWords": 1506
           }
         }
       },
@@ -189,130 +291,148 @@
         "hash": "8cIYpx9HRjox",
         "address": "https://pdc.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
         "title": "Wolfgang Amadeus Mozart – Wikipedia",
-        "snippet": "",
+        "snippet": "Wolfgang Amadeus Mozart – Wikipedia\nZum Inhalt springen\nHauptmenü\nHauptmenü\nIn die Seitenleiste verschieben\nVerbergen\nFaahre-Gnepp\nHaaptblatt\nGmeeschafts-Portal\nArdickele nooch Abdeeling\nWas mer letscht geduh henn\nEnnich Ardickel\nHilf\nGuck uff\nGuck uff\nErscheinungsbild\nSpenden\nBenutzerkonto",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 555
           },
           "FqmRT36qFgho": {
             "hits": 7,
-            "textWords": 548
+            "textWords": 555
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 555
           }
         }
       }
     ],
     [
       {
-        "hash": "RueziJZAFfux",
-        "address": "https://no.wikipedia.org/wiki/Forside",
-        "title": "Wikipedia, den frie encyklopedi",
-        "snippet": "",
+        "hash": "_aJejh3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Category:Compositions_by_Wolfgang_Amadeus_Mozart",
+        "title": "Category:Compositions by Wolfgang Amadeus Mozart - Wikimedia Commons",
+        "snippet": "Wolfgang Amadeus Mozart - Wikimedia Commons\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigate\nMain page\nWelcome\nCommunity portal\nVillage pump\nHelp center\nParticipate\nUpload file\nRecent changes\nLatest files\nRandom file\nContact us\nSpecial pages\nIn Wikipedia\nAfrikaans\nالعربية",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 44,
+            "textWords": 898
           },
           "FqmRT36qFgho": {
-            "hits": 1,
-            "textWords": 1757
+            "hits": 20,
+            "textWords": 898
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 22,
+            "textWords": 898
           }
         }
       },
       {
-        "hash": "_JJX7gJPjR4x",
-        "address": "https://es.wikipedia.org/wiki/Wikipedia:Portada",
-        "title": "Wikipedia, la enciclopedia libre",
-        "snippet": "",
+        "hash": "wBabKs5D-QSg",
+        "address": "https://snl.no/Wolfgang_Amadeus_Mozart",
+        "title": "Wolfgang Amadeus Mozart – Store norske leksikon",
+        "snippet": "Wolfgang Amadeus Mozart – Store norske leksikon\nHopp til hovedinnholdet\nStore norske leksikon\nLogg inn\nCherubinos arie fra Figaros bryllup. Av Wolfgang Amadeus Mozart. Falt i det fri (Public domain)\nWolfgang Amadeus Mozart\nStore norske leksikon\nKunst og estetikk\nMusikk\nKlassisk musikk\nDen klassiske",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 53,
+            "textWords": 2459
           },
           "FqmRT36qFgho": {
-            "hits": 1,
-            "textWords": 2323
+            "hits": 16,
+            "textWords": 2459
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 20,
+            "textWords": 2459
           }
         }
       },
       {
-        "hash": "QembcgM-i-mx",
-        "address": "https://it.wikipedia.org/wiki/Pagina_principale",
-        "title": "Wikipedia, l'enciclopedia libera",
-        "snippet": "",
+        "hash": "Jgz8BjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+        "title": "Wolfgang Amadeus Mozart - Wikipedia",
+        "snippet": "Wolfgang Amadeus Mozart - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 423,
+            "textWords": 13813
           },
           "FqmRT36qFgho": {
-            "hits": 1,
-            "textWords": 3414
+            "hits": 37,
+            "textWords": 13813
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "SCDjQ_wMIbph",
-        "address": "https://www.kinopoisk.ru/name/149547/",
-        "title": "Вольфганг Амадей Моцарт (Wolfgang Amadeus Mozart): фильмы, биография, семья, фильмография — Кинопоиск",
-        "snippet": "",
-        "matchedWords": {
-          "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "FqmRT36qFgho": {
-            "hits": 1,
-            "textWords": 187
-          },
-          "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 57,
+            "textWords": 13813
           }
         }
       },
       {
-        "hash": "Pcf6mopg4UCw",
-        "address": "https://www.wikidata.org/wiki/Q5064?uselang=gv",
-        "title": "Die Zauberflöte - Wikidata",
-        "snippet": "",
+        "hash": "0PraV-ZPxIKi",
+        "address": "https://www.enciklopedija.hr/clanak/mozart-wolfgang-amadeus",
+        "title": "Mozart, Wolfgang Amadeus - Hrvatska enciklopedija",
+        "snippet": "Mozart, Wolfgang Amadeus - Hrvatska enciklopedija\nO enciklopediji\nImpresum\nPredgovor\nUpute\nUvjeti korištenja\nKontakt\nLeksikografski zavod Miroslav Krleža\nFrankopanska 26, Zagreb\ntel.: +385 1 4800 332\ntel.: +385 1 4800 392\nfax.: +385 1 4800 399\nurednistvoHE@lzmk.hr\nMozart, Wolfgang Amadeus\ntraži",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 12,
+            "textWords": 1043
           },
           "FqmRT36qFgho": {
-            "hits": 5,
-            "textWords": 2132
+            "hits": 7,
+            "textWords": 1043
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 1043
           }
         }
       },
       {
-        "hash": "eon5Kh3e0QFx",
-        "address": "https://commons.wikimedia.org/wiki/New_York_City",
-        "title": "New York City - Wikimedia Commons",
+        "hash": "TR2jOlLSmY1j",
+        "address": "https://www.deutsche-biographie.de/118584596.html?language=en",
+        "title": "Deutsche Biographie - Mozart, Wolfgang Amadeus",
+        "snippet": "Mozart, Wolfgang Amadeus\nDeutsche Biographie\nSearch Simple Search\nAdvanced Search\nMapsearch\nGeographical Distribution\nBrowse\nProject About the Project\nPartner\nLinked Services\nNotifications\nHelp\nDeutsch\nOverview\nNDB 18 (1997)\nADB 22 (1885)\nNDB-online\nBiographies\nSources\nLiterature\nObjects\nPortraits",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 80,
+            "textWords": 12703
+          },
+          "FqmRT36qFgho": {
+            "hits": 17,
+            "textWords": 12703
+          },
+          "NyD1TpGbIszj": {
+            "hits": 40,
+            "textWords": 12703
+          }
+        }
+      },
+      {
+        "hash": "i37h9p5WQO5o",
+        "address": "https://ci.nii.ac.jp/ncid/BA44131098",
+        "title": "CiNii 図書 - Così fan tutte",
+        "snippet": "Mozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nMargiono, Charlotte\nSteiger, Anna\nZiegler, Delores\nWalt, Deon van der\nCachemaille, Gilles\nHampson, Thomas\nNederlands Operakoor\nConcertgebouworkest\nHarnoncourt, Nikolaus\n著者\nMozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nMargiono, Charlotte\nSteiger, Anna",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 3,
+            "textWords": 434
+          },
+          "FqmRT36qFgho": {
+            "hits": 3,
+            "textWords": 434
+          },
+          "NyD1TpGbIszj": {
+            "hits": 3,
+            "textWords": 434
+          }
+        }
+      },
+      {
+        "hash": "190GJocHOkWx",
+        "address": "https://www.gutenberg.org/browse/authors/m",
+        "title": "Browse By Author: M | Project Gutenberg",
         "snippet": "",
         "matchedWords": {
           "6EJ5Wygik_1h": {
@@ -320,8 +440,8 @@
             "textWords": 0
           },
           "FqmRT36qFgho": {
-            "hits": 1,
-            "textWords": 19531
+            "hits": 3,
+            "textWords": 58497
           },
           "NyD1TpGbIszj": {
             "hits": 0,
@@ -335,19 +455,19 @@
         "hash": "62zG5Q8moajg",
         "address": "https://www.welt.de/kultur/kino/article69315d0e76c2ae9f577fb060/ard-serie-mozart-mozart-ein-mozart-zum-fremdschaemen.html",
         "title": "ARD-Serie „Mozart/Mozart“: Ein Mozart zum Fremdschämen - WELT",
-        "snippet": "",
+        "snippet": "„Mozart/Mozart“: Ein Mozart zum Fremdschämen - WELT\nInhaltsbereich\nHauptnavigation\nSuche\nLogin\nFußbereich\nTicker\nSuche\nAnmelden\nAboAbonnement\nMenu\nHauptnavigation: Nutzen Sie die Tabulatortaste, um durch die Menüpunkte zu navigieren. Öffnen Sie Untermenüs mit der Leertaste. Schließen Sie Untermenüs",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 33,
-            "textWords": 1349
+            "hits": 34,
+            "textWords": 1287
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 8,
+            "textWords": 1287
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 1287
           }
         }
       },
@@ -375,19 +495,19 @@
         "hash": "nDUd4Q5ARWyg",
         "address": "https://www.spiegel.de/kultur/musik/wolfgang-amadeus-mozart-unbekanntes-manuskript-in-paris-aufgetaucht-a-37de93d5-e336-4797-8462-7fefb56fba8a",
         "title": "Wolfgang Amadeus Mozart: Unbekanntes Manuskript in Paris aufgetaucht - DER SPIEGEL",
-        "snippet": "",
+        "snippet": "Wolfgang Amadeus Mozart: Unbekanntes Manuskript des Musikers in Paris aufgetaucht - DER SPIEGEL\nZum Inhalt springen\nDER SPIEGEL\nAnmelden Abonnement Anmelden\nMenü öffnen\nMenü\nStartseite\nKultur\nMusik\nWolfgang Amadeus Mozart\nWolfgang Amadeus Mozart: Unbekanntes Manuskript des Musikers in Paris",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 13,
-            "textWords": 1345
+            "hits": 19,
+            "textWords": 831
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 831
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 831
           }
         }
       },
@@ -395,19 +515,19 @@
         "hash": "YaMZzhq8WcQ5",
         "address": "https://infernemland.blog/2014/04/03/julia-lezhneva-canta-vivaldi-handel-porpora-mozart-rossini-i-schubert/",
         "title": "JULIA LEZHNEVA CANTA Vivaldi, Handel. Porpora, Mozart Rossini i Schubert | IN FERNEM LAND",
-        "snippet": "",
+        "snippet": "Mozart Rossini i Schubert | IN FERNEM LAND\nIN FERNEM LAND\nla vida com a pretext per anar a l'òpera\nMenú principal\nVés al contingut\nLA FONOFERNEMLANDTECA\nAMFORTAS, EL CORRESPONSAL\nSUGGERIMENTS\nJULIA LEZHNEVA CANTA Vivaldi, Handel. Porpora, Mozart Rossini i Schubert\nLa joveníssima soprano russa Julia",
         "matchedWords": {
           "6EJ5Wygik_1h": {
             "hits": 6,
-            "textWords": 2769
+            "textWords": 2666
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 2666
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 2666
           }
         }
       },
@@ -415,19 +535,19 @@
         "hash": "_aJejh3e0QFx",
         "address": "https://commons.wikimedia.org/wiki/Category:Compositions_by_Wolfgang_Amadeus_Mozart",
         "title": "Category:Compositions by Wolfgang Amadeus Mozart - Wikimedia Commons",
-        "snippet": "",
+        "snippet": "Wolfgang Amadeus Mozart - Wikimedia Commons\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigate\nMain page\nWelcome\nCommunity portal\nVillage pump\nHelp center\nParticipate\nUpload file\nRecent changes\nLatest files\nRandom file\nContact us\nSpecial pages\nIn Wikipedia\nAfrikaans\nالعربية",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 46,
-            "textWords": 966
+            "hits": 44,
+            "textWords": 898
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 20,
+            "textWords": 898
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 22,
+            "textWords": 898
           }
         }
       },
@@ -435,19 +555,19 @@
         "hash": "0XoFCsqiBbnx",
         "address": "https://stq.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
         "title": "Wolfgang Amadeus Mozart – Wikipedia",
-        "snippet": "",
+        "snippet": "Wolfgang Amadeus Mozart – Wikipedia\nZum Inhalt springen\nHauptmenü\nHauptmenü\nIn die Seitenleiste verschieben\nVerbergen\nNavigation\nHaudsiede\nWikipedia-Portoal\nAktuälle Geböärnisse\nLääste Annerengen\nToufällige Siede\nWeerskup\nAal do Sieden\nUursicht\nHälpe\nSäike\nSäike\nErscheinungsbild\nSpenden",
         "matchedWords": {
           "6EJ5Wygik_1h": {
             "hits": 11,
-            "textWords": 626
+            "textWords": 634
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 6,
+            "textWords": 634
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 634
           }
         }
       },
@@ -475,19 +595,19 @@
         "hash": "2LwXx4XlMkDx",
         "address": "https://scn.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
         "title": "Wolfgang Amadeus Mozart - Wikipedia",
-        "snippet": "",
+        "snippet": "Wolfgang Amadeus Mozart - Wikipedia\nVa ô cuntinutu\nMenù mastru\nMenù mastru\nsposta nella barra laterale\nammuccia\nNavicazzioni\nPàggina mastra\nPurtali dâ cumunità\nCanciati antura\nPàggina a muzzu\nAjutu\nCumunitati\nLu Cìrculu\nArtìculi 'n Vitrina\nIRC (#wikipedia-scn)\nGrammàtica\nCumpenniu Stilìsticu",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 12,
-            "textWords": 797
+            "hits": 13,
+            "textWords": 798
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 6,
+            "textWords": 798
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 6,
+            "textWords": 798
           }
         }
       }
@@ -497,19 +617,39 @@
         "hash": "_aJejh3e0QFx",
         "address": "https://commons.wikimedia.org/wiki/Category:Compositions_by_Wolfgang_Amadeus_Mozart",
         "title": "Category:Compositions by Wolfgang Amadeus Mozart - Wikimedia Commons",
-        "snippet": "",
+        "snippet": "Wolfgang Amadeus Mozart - Wikimedia Commons\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigate\nMain page\nWelcome\nCommunity portal\nVillage pump\nHelp center\nParticipate\nUpload file\nRecent changes\nLatest files\nRandom file\nContact us\nSpecial pages\nIn Wikipedia\nAfrikaans\nالعربية",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 40,
-            "textWords": 2005
+            "hits": 44,
+            "textWords": 898
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 20,
+            "textWords": 898
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 22,
+            "textWords": 898
+          }
+        }
+      },
+      {
+        "hash": "wBabKs5D-QSg",
+        "address": "https://snl.no/Wolfgang_Amadeus_Mozart",
+        "title": "Wolfgang Amadeus Mozart – Store norske leksikon",
+        "snippet": "Wolfgang Amadeus Mozart – Store norske leksikon\nHopp til hovedinnholdet\nStore norske leksikon\nLogg inn\nCherubinos arie fra Figaros bryllup. Av Wolfgang Amadeus Mozart. Falt i det fri (Public domain)\nWolfgang Amadeus Mozart\nStore norske leksikon\nKunst og estetikk\nMusikk\nKlassisk musikk\nDen klassiske",
+        "matchedWords": {
+          "6EJ5Wygik_1h": {
+            "hits": 53,
+            "textWords": 2459
+          },
+          "FqmRT36qFgho": {
+            "hits": 16,
+            "textWords": 2459
+          },
+          "NyD1TpGbIszj": {
+            "hits": 20,
+            "textWords": 2459
           }
         }
       },
@@ -517,101 +657,79 @@
         "hash": "Jgz8BjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
         "title": "Wolfgang Amadeus Mozart - Wikipedia",
-        "snippet": "",
+        "snippet": "Wolfgang Amadeus Mozart - Wikipedia\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nContents\nCurrent events\nRandom article\nAbout Wikipedia\nContact us\nContribute\nHelp\nLearn to edit\nCommunity portal\nRecent changes\nUpload file\nSpecial pages\nSearch\nSearch\nAppearance\nDonate",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 146,
-            "textWords": 15096
+            "hits": 423,
+            "textWords": 13813
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 37,
+            "textWords": 13813
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      }
-    ],
-    [
-      {
-        "hash": "eaisguQeSaC6",
-        "address": "https://www.smithsonianmag.com/smart-news/A-German-Composer-uncovered-collaboration-between-mozart-and-salieri-180958154/?itm_source=related-content\u0026itm_medium=parsely-api",
-        "title": "A German Composer Uncovered a Collaboration Between Mozart and Salieri",
-        "snippet": "",
-        "matchedWords": {
-          "6EJ5Wygik_1h": {
-            "hits": 13,
-            "textWords": 1003
-          },
-          "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 57,
+            "textWords": 13813
           }
         }
       },
       {
-        "hash": "SCDjQ_wMIbph",
-        "address": "https://www.kinopoisk.ru/name/149547/",
-        "title": "Вольфганг Амадей Моцарт (Wolfgang Amadeus Mozart): фильмы, биография, семья, фильмография — Кинопоиск",
-        "snippet": "",
+        "hash": "0PraV-ZPxIKi",
+        "address": "https://www.enciklopedija.hr/clanak/mozart-wolfgang-amadeus",
+        "title": "Mozart, Wolfgang Amadeus - Hrvatska enciklopedija",
+        "snippet": "Mozart, Wolfgang Amadeus - Hrvatska enciklopedija\nO enciklopediji\nImpresum\nPredgovor\nUpute\nUvjeti korištenja\nKontakt\nLeksikografski zavod Miroslav Krleža\nFrankopanska 26, Zagreb\ntel.: +385 1 4800 332\ntel.: +385 1 4800 392\nfax.: +385 1 4800 399\nurednistvoHE@lzmk.hr\nMozart, Wolfgang Amadeus\ntraži",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 1,
-            "textWords": 187
+            "hits": 12,
+            "textWords": 1043
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 1043
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 1043
           }
         }
       },
       {
-        "hash": "01EQXopg4UCw",
-        "address": "https://www.wikidata.org/wiki/Q231390?uselang=mzn",
-        "title": "سمفونی شماره ۴۰ (موتسارت) - Wikidata",
-        "snippet": "",
+        "hash": "TR2jOlLSmY1j",
+        "address": "https://www.deutsche-biographie.de/118584596.html?language=en",
+        "title": "Deutsche Biographie - Mozart, Wolfgang Amadeus",
+        "snippet": "Mozart, Wolfgang Amadeus\nDeutsche Biographie\nSearch Simple Search\nAdvanced Search\nMapsearch\nGeographical Distribution\nBrowse\nProject About the Project\nPartner\nLinked Services\nNotifications\nHelp\nDeutsch\nOverview\nNDB 18 (1997)\nADB 22 (1885)\nNDB-online\nBiographies\nSources\nLiterature\nObjects\nPortraits",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 27,
-            "textWords": 1430
+            "hits": 80,
+            "textWords": 12703
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 17,
+            "textWords": 12703
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 40,
+            "textWords": 12703
           }
         }
       },
       {
-        "hash": "eon5Kh3e0QFx",
-        "address": "https://commons.wikimedia.org/wiki/New_York_City",
-        "title": "New York City - Wikimedia Commons",
-        "snippet": "",
+        "hash": "i37h9p5WQO5o",
+        "address": "https://ci.nii.ac.jp/ncid/BA44131098",
+        "title": "CiNii 図書 - Così fan tutte",
+        "snippet": "Mozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nMargiono, Charlotte\nSteiger, Anna\nZiegler, Delores\nWalt, Deon van der\nCachemaille, Gilles\nHampson, Thomas\nNederlands Operakoor\nConcertgebouworkest\nHarnoncourt, Nikolaus\n著者\nMozart, Wolfgang Amadeus\nDa Ponte, Lorenzo\nMargiono, Charlotte\nSteiger, Anna",
         "matchedWords": {
           "6EJ5Wygik_1h": {
-            "hits": 1,
-            "textWords": 19531
+            "hits": 3,
+            "textWords": 434
           },
           "FqmRT36qFgho": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 434
           },
           "NyD1TpGbIszj": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 434
           }
         }
       }
@@ -619,9 +737,49 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "6R0qplU0FcHg",
-      "address": "https://www.gravsted.dk/person.php?navn=constanzemozart",
-      "title": "Constanze Mozart",
+      "hash": "REDKRAvw0u35",
+      "address": "https://www.classicfm.com/composers/bartok/",
+      "title": "Bartók - Composers - Classic FM",
+      "snippet": "Wolfgang Amadeus Mozart\nJohann Sebastian Bach\nClara Schumann\nJohn Williams\nLudovico Einaudi\nSamuel Coleridge-Taylor\nFrédéric Chopin\nLatest on Classic FM\nGet tickets to Classic FM Live with Viking at the Royal Albert Hall in October 2026!\nEvents\nActor Richard Armitage joins Classic FM to present new",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 3,
+          "textWords": 737
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 737
+        },
+        "NyD1TpGbIszj": {
+          "hits": 1,
+          "textWords": 737
+        }
+      }
+    },
+    {
+      "hash": "tUVzUivw0u35",
+      "address": "https://www.classicfm.com/discover-music/latest/music-coronation-queen-elizabeth-ii/",
+      "title": "What music was played at Queen Elizabeth II’s coronation? - Classic FM",
+      "snippet": "Mozart\nGrammy Award-winning pianist Yuja Wang stars in new documentary, ‘YUJA’\n25 days ago\nYuja Wang\nOne in three adults regret giving up music, as A-level entries plummet\n29 days ago\nBest classical music\nSee more Best classical music\nThe 15 most famous tunes in classical music\nThe 15 greatest",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 2,
+          "textWords": 1667
+        },
+        "FqmRT36qFgho": {
+          "hits": 0,
+          "textWords": 1667
+        },
+        "NyD1TpGbIszj": {
+          "hits": 0,
+          "textWords": 1667
+        }
+      }
+    },
+    {
+      "hash": "SWV0kjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Vienna",
+      "title": "Vienna - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "6EJ5Wygik_1h": {
@@ -635,6 +793,26 @@
         "NyD1TpGbIszj": {
           "hits": 0,
           "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "6R0qplU0FcHg",
+      "address": "https://www.gravsted.dk/person.php?navn=constanzemozart",
+      "title": "Constanze Mozart",
+      "snippet": "Mozart\nKendtes Gravsted\nForside\nBiografier\nNyheder\nPortrætnyt\nDenne dag\nLinks\nRouletten\nOm siden\nSøgning\nSøg på navn:\nFlere søgemuligheder\nPersongrupper\nAlle personer\nArkitekter \u0026 tegnere\nBilledkunstnere\nEfterlyste personer\nErhvervsfolk\nFilmfolk\nForfattere\nJournalister \u0026 Radio/TV\nKirkens folk",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 4,
+          "textWords": 344
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 344
+        },
+        "NyD1TpGbIszj": {
+          "hits": 1,
+          "textWords": 344
         }
       }
     },
@@ -719,9 +897,29 @@
       }
     },
     {
-      "hash": "b9rfSjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/St._Stephen%27s_Cathedral,_Vienna",
-      "title": "St. Stephen's Cathedral, Vienna - Wikipedia",
+      "hash": "AbSm09WhB64g",
+      "address": "https://klassikaraadio.err.ee/",
+      "title": "Klassikaraadio | ERR",
+      "snippet": "Klassikaraadio | ERR\nX!\nLiigu sisu juurde Liigu parema veeru juurde\nUudised\nKultuur\nAK\nEesti uudised\nSport\nVärsked raadiouudised\nVälisuudised\nEeter\nrus.err.ee\nMajandus\nTeadus\nnews.err.ee\nArvamus\nEP valimised\nIlm\nViipekeelsed\nTV\nETV\nOtse\nTelekava\nETV2\nOtse\nTelekava\nLasteekraan\nETV+\nПрямой эфир",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 0,
+          "textWords": 883
+        },
+        "FqmRT36qFgho": {
+          "hits": 0,
+          "textWords": 883
+        },
+        "NyD1TpGbIszj": {
+          "hits": 0,
+          "textWords": 883
+        }
+      }
+    },
+    {
+      "hash": "cM9CUasdClVg",
+      "address": "https://kurier.at/sales/content-marketing/produkte",
+      "title": "Produkte | Kurier",
       "snippet": "",
       "matchedWords": {
         "6EJ5Wygik_1h": {
@@ -739,22 +937,62 @@
       }
     },
     {
-      "hash": "d9r-KocHOkWx",
-      "address": "https://www.gutenberg.org/browse/authors/p",
-      "title": "Browse By Author: P | Project Gutenberg",
-      "snippet": "",
+      "hash": "tUVzUivw0u35",
+      "address": "https://www.classicfm.com/discover-music/latest/music-coronation-queen-elizabeth-ii/",
+      "title": "What music was played at Queen Elizabeth II’s coronation? - Classic FM",
+      "snippet": "Mozart\nGrammy Award-winning pianist Yuja Wang stars in new documentary, ‘YUJA’\n25 days ago\nYuja Wang\nOne in three adults regret giving up music, as A-level entries plummet\n29 days ago\nBest classical music\nSee more Best classical music\nThe 15 most famous tunes in classical music\nThe 15 greatest",
       "matchedWords": {
         "6EJ5Wygik_1h": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1667
         },
         "FqmRT36qFgho": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1667
         },
         "NyD1TpGbIszj": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 1667
+        }
+      }
+    },
+    {
+      "hash": "b9rfSjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/St._Stephen%27s_Cathedral,_Vienna",
+      "title": "St. Stephen's Cathedral, Vienna - Wikipedia",
+      "snippet": "Wolfgang Amadeus Mozart's relationship with the cathedral, including the fact that he had been appointed an adjunct music director here shortly before his death. This was his parish church when he lived at the \"Figaro House\" and he was married here, two of his children were baptised here, and his",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 7,
+          "textWords": 8534
+        },
+        "FqmRT36qFgho": {
+          "hits": 2,
+          "textWords": 8534
+        },
+        "NyD1TpGbIszj": {
+          "hits": 2,
+          "textWords": 8534
+        }
+      }
+    },
+    {
+      "hash": "d9r-KocHOkWx",
+      "address": "https://www.gutenberg.org/browse/authors/p",
+      "title": "Browse By Author: P | Project Gutenberg",
+      "snippet": "Wolfgang Amadeus Mozart (English) (as Author)\nPeyton, A. Conway\nThe Adventures of Diggeldy Dan (English) (as Illustrator)\nPeyton, Green, 1907-1968\nWertenbaker, Green Peyton\nThe Chamber of Life (English) (as Author)\nThe Coming of the Ice (English) (as Author)\nPeyton, J. Lewis (John Lewis), 1824-1896",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 2,
+          "textWords": 67069
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 67069
+        },
+        "NyD1TpGbIszj": {
+          "hits": 1,
+          "textWords": 67069
         }
       }
     },
@@ -779,29 +1017,49 @@
       }
     },
     {
-      "hash": "190GJocHOkWx",
-      "address": "https://www.gutenberg.org/browse/authors/m",
-      "title": "Browse By Author: M | Project Gutenberg",
-      "snippet": "",
+      "hash": "eon5Kh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/New_York_City",
+      "title": "New York City - Wikimedia Commons",
+      "snippet": "Wolfgang Amadeus Mozart in Prospect Park\nBust of Ludwig van Beethoven in Prospect Park\nPanorama\n[edit]\nThe skylines of New York City and Jersey City as seen from Liberty Island\nManhattan Skyline\nLower Manhattan from Brooklyn Bridge Park\nView south from 'Top of the Rock' at night\nView north from",
       "matchedWords": {
         "6EJ5Wygik_1h": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4982
         },
         "FqmRT36qFgho": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4982
         },
         "NyD1TpGbIszj": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4982
+        }
+      }
+    },
+    {
+      "hash": "REDKRAvw0u35",
+      "address": "https://www.classicfm.com/composers/bartok/",
+      "title": "Bartók - Composers - Classic FM",
+      "snippet": "Wolfgang Amadeus Mozart\nJohann Sebastian Bach\nClara Schumann\nJohn Williams\nLudovico Einaudi\nSamuel Coleridge-Taylor\nFrédéric Chopin\nLatest on Classic FM\nGet tickets to Classic FM Live with Viking at the Royal Albert Hall in October 2026!\nEvents\nActor Richard Armitage joins Classic FM to present new",
+      "matchedWords": {
+        "6EJ5Wygik_1h": {
+          "hits": 3,
+          "textWords": 737
+        },
+        "FqmRT36qFgho": {
+          "hits": 1,
+          "textWords": 737
+        },
+        "NyD1TpGbIszj": {
+          "hits": 1,
+          "textWords": 737
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "6EJ5Wygik_1h": 29001,
-    "FqmRT36qFgho": 33972,
-    "NyD1TpGbIszj": 76647
+    "6EJ5Wygik_1h": 29037,
+    "FqmRT36qFgho": 34469,
+    "NyD1TpGbIszj": 76941
   }
 }

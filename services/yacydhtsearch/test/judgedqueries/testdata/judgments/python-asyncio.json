@@ -8,81 +8,45 @@
       "grade": 2
     },
     {
-      "hash": "FLRBMitD2jQw",
-      "address": "https://docs.python.org/3/howto/a-conceptual-overview-of-asyncio.html",
-      "title": "A Conceptual Overview of asyncio — Python 3.14.6 documentation",
-      "grade": 2
-    },
-    {
-      "hash": "HQC7YitD2jQw",
-      "address": "https://docs.python.org/3/library/asyncio-sync.html",
-      "title": "Synchronization Primitives — Python 3.14.7 documentation",
-      "grade": 2
-    },
-    {
       "hash": "A5Y2hWr4CjGw",
       "address": "https://discuss.python.org/c/async-sig/20",
       "title": "Latest Async-SIG topics - Discussions on Python.org",
       "grade": 1
     },
     {
-      "hash": "RZuwo7S6MKD4",
-      "address": "https://github.com/microsoft/agent-framework",
-      "title": "GitHub - microsoft/agent-framework: A framework for building, orchestrating and deploying AI agents and multi-agent workflows with support for Python and .NET. · GitHub",
+      "hash": "dX8heTCk19rw",
+      "address": "https://peps.python.org/pep-0492/",
+      "title": "PEP 492 – Coroutines with async and await syntax | peps.python.org",
+      "grade": 2
+    },
+    {
+      "hash": "AxRdDzS6MKD4",
+      "address": "https://github.com/topics/python-3",
+      "title": "python-3 · GitHub Topics · GitHub",
       "grade": 0
     },
     {
-      "hash": "HYOfTitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/3.7.html",
-      "title": "What’s New In Python 3.7 — Python 3.13.2 documentation",
+      "hash": "-xpxEitD2jQw",
+      "address": "https://docs.python.org/3/contents.html",
+      "title": "Python Documentation contents — Python 3.14.5rc1 documentation",
       "grade": 1
     },
     {
-      "hash": "Fu6eTitD2jQw",
-      "address": "https://docs.python.org/3/genindex-I.html",
-      "title": "Index — Python 3.13.2 documentation",
-      "grade": 0
-    },
-    {
-      "hash": "WEIifshgn1pw",
-      "address": "https://redis.io/agents/",
-      "title": "",
-      "grade": 0
-    },
-    {
-      "hash": "raq9iitD2jQw",
-      "address": "https://docs.python.org/3/whatsnew/3.10.html",
-      "title": "What’s New In Python 3.10 — Python 3.12.3 documentation",
+      "hash": "C_WsyyAacB5w",
+      "address": "https://docs.aiohttp.org/en/stable/",
+      "title": "Welcome to AIOHTTP — aiohttp 3.13.2 documentation",
       "grade": 1
     },
     {
-      "hash": "E2RhIitD2jQw",
-      "address": "https://docs.python.org/3/library/concurrent.futures.html",
-      "title": "concurrent.futures — Launching parallel tasks — Python 3.13.2 documentation",
+      "hash": "eFLRfzGYFcLw",
+      "address": "https://sentry.io/answers/make-fastapi-run-calls-in-parallel-instead-of-serial/",
+      "title": "Make FastAPI run calls in parallel instead of serial | Sentry",
       "grade": 1
     },
     {
-      "hash": "kEYSoltD2jQw",
-      "address": "https://docs.python.org/3.14/whatsnew/3.6.html",
-      "title": "What’s New In Python 3.6 — Python 3.14.0a0 documentation",
-      "grade": 1
-    },
-    {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "grade": 0
-    },
-    {
-      "hash": "2ZqdVzfOEiDw",
-      "address": "https://planet.gnome.org/",
-      "title": "Planet GNOME",
-      "grade": 0
-    },
-    {
-      "hash": "GOC_RsS6MKD4",
-      "address": "https://github.com/mvanhorn",
-      "title": "mvanhorn (Matt Van Horn) · GitHub",
+      "hash": "Nh8yR1r4CjGw",
+      "address": "https://discuss.python.org/",
+      "title": "Discussions on Python.org",
       "grade": 0
     },
     {
@@ -92,9 +56,39 @@
       "grade": 0
     },
     {
-      "hash": "ojdnMD1nrxbw",
-      "address": "https://www.debian.org/devel/wnpp/being_packaged_byage",
-      "title": "Debian -- Packages being worked on, organized by age",
+      "hash": "epEeW03rjROw",
+      "address": "https://oxylabs.io/resources/integrations/langgraph",
+      "title": "Web Scraping With LangGraph Tutorial",
+      "grade": 0
+    },
+    {
+      "hash": "2ZqdVzfOEiDw",
+      "address": "https://planet.gnome.org/",
+      "title": "Planet GNOME",
+      "grade": 0
+    },
+    {
+      "hash": "G-gdcsJxtbKg",
+      "address": "https://mpi-msk.ru/specialties/courses/professiia-python-razrabotcik",
+      "title": "Курсы Python с трудоустройством🐍. Профессия «Python-разработчик» для начинающих с нуля - «Московский профессиональный институт»",
+      "grade": 0
+    },
+    {
+      "hash": "J7RVs2o0ru95",
+      "address": "https://launchdarkly.com/docs/tutorials/agent-graph-experiments",
+      "title": "Benchmark LangGraph, Strands, OpenAI Agents, and Google ADK on the same agent graph | LaunchDarkly | Documentation",
+      "grade": 0
+    },
+    {
+      "hash": "aQJ1g8bIDBOw",
+      "address": "https://pypi.org/project/asyncari/",
+      "title": "asyncari · PyPI",
+      "grade": 1
+    },
+    {
+      "hash": "GOC_RsS6MKD4",
+      "address": "https://github.com/mvanhorn",
+      "title": "mvanhorn (Matt Van Horn) · GitHub",
       "grade": 0
     }
   ]

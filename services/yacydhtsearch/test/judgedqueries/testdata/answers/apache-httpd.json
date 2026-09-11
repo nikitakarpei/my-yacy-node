@@ -1,55 +1,93 @@
 {
   "query": "apache httpd",
-  "recordedAt": "2026-09-11T13:01:25Z",
+  "recordedAt": "2026-09-11T19:26:25Z",
   "itemsInTheOrderOfEachAnswer": [
     [
       {
-        "hash": "CymIK8uKjjbw",
-        "address": "https://wiki.gentoo.org/wiki/Project:Apache",
-        "title": "Project:Apache - Gentoo wiki",
-        "snippet": "",
+        "hash": "P2FWiayzSDzw",
+        "address": "https://httpd.apache.org/docs/",
+        "title": "Documentation: Apache HTTP Server - The Apache HTTP Server Project",
+        "snippet": "Apache HTTP Server - The Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs\nTest",
         "matchedWords": {
           "UYOsXCzLOk3q": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 172
           },
           "tu_WBtEY0PYg": {
-            "hits": 17,
-            "textWords": 350
+            "hits": 12,
+            "textWords": 172
           }
         }
       }
     ],
     [
       {
-        "hash": "FE6GfV2Rr_dw",
-        "address": "https://docs.searxng.org/admin/installation-apache.html",
-        "title": "Apache — SearXNG Documentation (2024.10.6+5332d3a0b)",
-        "snippet": "",
+        "hash": "D6ZmTayzSDzw",
+        "address": "https://httpd.apache.org/modules/",
+        "title": "Apache httpd Modules - The Apache HTTP Server Project",
+        "snippet": "Apache httpd Modules - The Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs\nTest",
         "matchedWords": {
           "UYOsXCzLOk3q": {
-            "hits": 29,
-            "textWords": 1618
+            "hits": 15,
+            "textWords": 757
           },
           "tu_WBtEY0PYg": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 28,
+            "textWords": 757
           }
         }
-      },
+      }
+    ],
+    [
+      {
+        "hash": "s2BSFayzSDzw",
+        "address": "https://httpd.apache.org/security_report.html",
+        "title": "Reporting Security Problems with Apache - The Apache HTTP Server Project",
+        "snippet": "Apache - The Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs\nTest\nFlood\nModules",
+        "matchedWords": {
+          "UYOsXCzLOk3q": {
+            "hits": 1,
+            "textWords": 384
+          },
+          "tu_WBtEY0PYg": {
+            "hits": 23,
+            "textWords": 384
+          }
+        }
+      }
+    ],
+    [
       {
         "hash": "ESUH1jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/HTTP_request",
         "title": "HTTP - Wikipedia",
-        "snippet": "",
+        "snippet": "httpd\nThe protocol has been revised over time. A version is identified as HTTP/# where # is the version number. This article covers aspects of all versions but provides primary coverage for HTTP/0.9, HTTP/1.0, and HTTP/1.1. Separate articles cover HTTP/2 and HTTP/3 in detail.\nVersion\nIntroduced",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 2,
-            "textWords": 9698
+            "textWords": 9372
           },
           "tu_WBtEY0PYg": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 6,
+            "textWords": 9372
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "D6ZmTayzSDzw",
+        "address": "https://httpd.apache.org/modules/",
+        "title": "Apache httpd Modules - The Apache HTTP Server Project",
+        "snippet": "Apache httpd Modules - The Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs\nTest",
+        "matchedWords": {
+          "UYOsXCzLOk3q": {
+            "hits": 15,
+            "textWords": 757
+          },
+          "tu_WBtEY0PYg": {
+            "hits": 28,
+            "textWords": 757
           }
         }
       }
@@ -59,15 +97,15 @@
         "hash": "TQ_Z1jRvmBbx",
         "address": "https://en.wikipedia.org/wiki/XHTML",
         "title": "XHTML - Wikipedia",
-        "snippet": "",
+        "snippet": "Apache (via URL rewriting).\nMozilla Web Author FAQ: How is the treatment of application/xhtml+xml documents different from the treatment of text/html documents? – summarizes one web browser's XHTML processing mode\nEmpty elements in SGML, HTML, XML, and XHTML\nHeptagrama's Basic XHTML 1.0 Strict",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 1,
-            "textWords": 8265
+            "textWords": 8073
           },
           "tu_WBtEY0PYg": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 8073
           }
         }
       }
@@ -77,33 +115,33 @@
         "hash": "WU-RwjRvmBbx",
         "address": "https://en.wikipedia.org/wiki/Web_server",
         "title": "Web server - Wikipedia",
-        "snippet": "",
+        "snippet": "httpd.\nThose early browsers retrieved web pages written in a simple early form of HTML from web servers using a new basic communication protocol that was named HTTP 0.9.\nIn August 1991 Tim Berners-Lee announced the birth of WWW technology and encouraged scientists to adopt and develop it.[13] Soon",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 16,
-            "textWords": 11714
+            "textWords": 10866
           },
           "tu_WBtEY0PYg": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 26,
+            "textWords": 10866
           }
         }
       }
     ],
     [
       {
-        "hash": "eldMzjRvmBbx",
-        "address": "https://en.wikipedia.org/wiki/Brotli",
-        "title": "Brotli - Wikipedia",
-        "snippet": "",
+        "hash": "P2FWiayzSDzw",
+        "address": "https://httpd.apache.org/docs/",
+        "title": "Documentation: Apache HTTP Server - The Apache HTTP Server Project",
+        "snippet": "Apache HTTP Server - The Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs\nTest",
         "matchedWords": {
           "UYOsXCzLOk3q": {
             "hits": 1,
-            "textWords": 2623
+            "textWords": 172
           },
           "tu_WBtEY0PYg": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 12,
+            "textWords": 172
           }
         }
       }
@@ -111,34 +149,194 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "r4dI5jRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/OpenBSD",
-      "title": "OpenBSD - Wikipedia",
-      "snippet": "",
+      "hash": "CeKDz29cq-94",
+      "address": "https://git-scm.com/docs/git-config",
+      "title": "Git - git-config Documentation",
+      "snippet": "instaweb.httpd\nThe HTTP daemon command-line to start gitweb on your working repository. See git-instaweb[1].\ninstaweb.local\nIf true the web server started by git-instaweb[1] will be bound to the local IP (127.0.0.1).\ninstaweb.modulePath\nThe default module path for git-instaweb[1] to use instead of",
       "matchedWords": {
         "UYOsXCzLOk3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 51789
         },
         "tu_WBtEY0PYg": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 51789
         }
       }
     },
     {
-      "hash": "eBFR8ATGzh04",
-      "address": "https://roy.gbiv.com/",
-      "title": "Roy T. Fielding",
-      "snippet": "",
+      "hash": "N7wUjwH9JDL6",
+      "address": "https://flask.palletsprojects.com/en/stable/deploying/",
+      "title": "Deploying to Production — Flask Documentation (3.1.x)",
+      "snippet": "Apache httpd\nThis list is not exhaustive, and you should evaluate these and other servers based on your application’s needs. Different servers will have different capabilities, configuration, and support.\nHosting Platforms¶\nThere are many services available for hosting web applications without",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 1,
+          "textWords": 446
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 1,
+          "textWords": 446
+        }
+      }
+    },
+    {
+      "hash": "OlDnjayzSDzw",
+      "address": "https://httpd.apache.org/docs-project/",
+      "title": "Documentation Project - The Apache HTTP Server Project",
+      "snippet": "Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs\nTest\nFlood\nModules\nmod_fcgid",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 4,
+          "textWords": 343
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 14,
+          "textWords": 343
+        }
+      }
+    },
+    {
+      "hash": "OtQmQXyzSDzw",
+      "address": "https://httpd.apache.org/docs/2.4/",
+      "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
+      "snippet": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug\nApache HTTP Server Version 2.4\nApache \u003e HTTP Server \u003e Documentation\nApache HTTP Server Version 2.4 Documentation\nAvailable Languages: da | de | en | es | fr |",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 240
         },
         "tu_WBtEY0PYg": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 11,
+          "textWords": 240
+        }
+      }
+    },
+    {
+      "hash": "QJO3EayzSDzw",
+      "address": "https://httpd.apache.org/support.html",
+      "title": "Apache HTTP Server Support - The Apache HTTP Server Project",
+      "snippet": "Apache HTTP Server Support - The Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 5,
+          "textWords": 302
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 16,
+          "textWords": 302
+        }
+      }
+    },
+    {
+      "hash": "VE5O8I55Qxow",
+      "address": "https://yacy.net/operation/yacy_conf/",
+      "title": "YaCy config settings - YaCy",
+      "snippet": "httpd sessions. a client may open several connections at once, and the httpdMaxBusySessions value sets a limit on the number of concurrent connections\nhttp.outgoing.pool.general.maxTotal = 200 maximum number of simultaneously open outgoing HTTP connections in the general pool",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 4,
+          "textWords": 9585
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 2,
+          "textWords": 9585
+        }
+      }
+    },
+    {
+      "hash": "QJO3EayzSDzw",
+      "address": "https://httpd.apache.org/support.html",
+      "title": "Apache HTTP Server Support - The Apache HTTP Server Project",
+      "snippet": "Apache HTTP Server Support - The Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 5,
+          "textWords": 302
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 16,
+          "textWords": 302
+        }
+      }
+    },
+    {
+      "hash": "U69luayzSDzw",
+      "address": "https://httpd.apache.org/",
+      "title": "Welcome! - The Apache HTTP Server Project",
+      "snippet": "Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs\nTest\nFlood\nModules\nmod_fcgid",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 6,
+          "textWords": 328
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 22,
+          "textWords": 328
+        }
+      }
+    },
+    {
+      "hash": "r4dI5jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/OpenBSD",
+      "title": "OpenBSD - Wikipedia",
+      "snippet": "httpd,[67][68] an implementation of httpd\nGame of Trees, an implementation of Git's formats and protocols[69]\nhw.sensors, a sensors framework used by over 100 drivers\nLibreSSL, an implementation of the SSL and TLS protocols, forked from OpenSSL 1.0.1g[70]\nmandoc, a utility used for formatting man",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 5,
+          "textWords": 11984
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 2,
+          "textWords": 11984
+        }
+      }
+    },
+    {
+      "hash": "h5b7DXyzSDzw",
+      "address": "https://httpd.apache.org/docs/current/howto/reverse_proxy.html",
+      "title": "Reverse Proxy Guide - Apache HTTP Server Version 2.4",
+      "snippet": "Apache HTTP Server Version 2.4\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug\nApache HTTP Server Version 2.4\nApache \u003e HTTP Server \u003e Documentation \u003e Version 2.4 \u003e How-To / Tutorials\nReverse Proxy Guide\nAvailable Languages: en | fr\nBesides serving static and dynamic content directly,",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 8,
+          "textWords": 1195
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 8,
+          "textWords": 1195
+        }
+      }
+    },
+    {
+      "hash": "ng_vvayzSDzw",
+      "address": "https://httpd.apache.org/dev/",
+      "title": "Apache HTTP Server Developer Information - The Apache HTTP Server Project",
+      "snippet": "Apache HTTP Server Developer Information - The Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 1,
+          "textWords": 255
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 18,
+          "textWords": 255
+        }
+      }
+    },
+    {
+      "hash": "uFJMaayzSDzw",
+      "address": "https://httpd.apache.org/contributors/",
+      "title": "Apache Contributors - The Apache HTTP Server Project",
+      "snippet": "Apache Contributors - The Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs\nTest",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 4,
+          "textWords": 3105
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 38,
+          "textWords": 3105
         }
       }
     },
@@ -146,15 +344,15 @@
       "hash": "B0_2p79moDe4",
       "address": "https://www.linux.com/training-tutorials/configuring-apache2-run-python-scripts/",
       "title": "Configuring Apache2 to run Python Scripts - Linux.com",
-      "snippet": "",
+      "snippet": "apache.org has mountains of documentation (http://httpd.apache.org/docs/2.2/howto/cgi.html) relating to running CGIs. What I didn’t find was a simple guide on how to set it up. I’m a developer, not a sys-admin, and while I like knowing how to configure Apache and tune my linux boxes, sometimes I",
       "matchedWords": {
         "UYOsXCzLOk3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 727
         },
         "tu_WBtEY0PYg": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 727
         }
       }
     },
@@ -162,15 +360,15 @@
       "hash": "D_ywrswDvzb5",
       "address": "https://distrowatch.com/table.php?distribution=mint",
       "title": "DistroWatch.com: Linux Mint",
-      "snippet": "",
+      "snippet": "Apache web server is listed as \"httpd\" and the Linux kernel is listed as \"linux\". The KDE desktop is represented by the \"plasma-desktop\" package and the Xfce desktop by the \"xfdesktop\" package.\nColour scheme: green text = latest stable version, red text = development or beta version. The function",
       "matchedWords": {
         "UYOsXCzLOk3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 4093
         },
         "tu_WBtEY0PYg": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 4093
         }
       }
     },
@@ -178,31 +376,271 @@
       "hash": "DJNgIXyzSDzw",
       "address": "https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html",
       "title": "SSL/TLS Strong Encryption: How-To - Apache HTTP Server Version 2.4",
-      "snippet": "",
+      "snippet": "Apache HTTP Server Version 2.4\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug\nApache HTTP Server Version 2.4\nApache \u003e HTTP Server \u003e Documentation \u003e Version 2.4 \u003e SSL/TLS\nSSL/TLS Strong Encryption: How-To\nAvailable Languages: en | fr\nThis document is intended to get you started, and",
       "matchedWords": {
         "UYOsXCzLOk3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 2082
         },
         "tu_WBtEY0PYg": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 2082
         }
       }
     },
     {
-      "hash": "eBFR8ATGzh04",
-      "address": "https://roy.gbiv.com/",
-      "title": "Roy T. Fielding",
-      "snippet": "",
+      "hash": "VE5O8I55Qxow",
+      "address": "https://yacy.net/operation/yacy_conf/",
+      "title": "YaCy config settings - YaCy",
+      "snippet": "httpd sessions. a client may open several connections at once, and the httpdMaxBusySessions value sets a limit on the number of concurrent connections\nhttp.outgoing.pool.general.maxTotal = 200 maximum number of simultaneously open outgoing HTTP connections in the general pool",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 4,
+          "textWords": 9585
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 2,
+          "textWords": 9585
+        }
+      }
+    },
+    {
+      "hash": "CeKDz29cq-94",
+      "address": "https://git-scm.com/docs/git-config",
+      "title": "Git - git-config Documentation",
+      "snippet": "instaweb.httpd\nThe HTTP daemon command-line to start gitweb on your working repository. See git-instaweb[1].\ninstaweb.local\nIf true the web server started by git-instaweb[1] will be bound to the local IP (127.0.0.1).\ninstaweb.modulePath\nThe default module path for git-instaweb[1] to use instead of",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 3,
+          "textWords": 51789
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 1,
+          "textWords": 51789
+        }
+      }
+    },
+    {
+      "hash": "JnOPVjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Common_Gateway_Interface",
+      "title": "Common Gateway Interface - Wikipedia",
+      "snippet": "HTTPd Web server)\nJohn Franks (author of the GN Web server)\nAri Luotonen (the developer of the CERN httpd Web server)\nTony Sanders (author of the Plexus Web server)\nGeorge Phillips (Web server maintainer at the University of British Columbia)\nHistorically CGI programs were often written using the C",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 2,
+          "textWords": 2901
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 9,
+          "textWords": 2901
+        }
+      }
+    },
+    {
+      "hash": "YJ11QjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Server_Name_Indication",
+      "title": "Server Name Indication - Wikipedia",
+      "snippet": "(Apache HTTP Server in 2009, Microsoft IIS in 2012).\nFor an application program to implement SNI, the TLS library it uses must implement it and the application must pass the hostname to the TLS library. Further complicating matters, the TLS library may either be included in the application program",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 1,
+          "textWords": 3910
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 4,
+          "textWords": 3910
+        }
+      }
+    },
+    {
+      "hash": "Rx8AIs_tHst4",
+      "address": "https://dwheeler.com/oss_fs_why.html",
+      "title": "Why Open Source Software / Free Software (OSS/FS, FOSS, or FLOSS)? Look at the Numbers!",
+      "snippet": "Apache web server, the Mozilla Firefox web browser, and the OpenOffice.org office suite, since these are some of the most visible FLOSS projects. I’ll also primarily compare FLOSS software to Microsoft’s products (such as Windows and IIS), since Microsoft Windows is widely used and Microsoft is one",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 1,
+          "textWords": 92305
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 109,
+          "textWords": 92305
+        }
+      }
+    },
+    {
+      "hash": "9N5z4MaQF27w",
+      "address": "https://www.apache.org/foundation/members",
+      "title": "ASF Members | Apache Software Foundation",
+      "snippet": "Apache Software Foundation\nIntroducing The ASF’s New Logo Read Now\nToggle navigation\nCommunity Contributor Getting Started\nBecoming a Committer\nCode of Conduct\nCommunity Resources\nCommunity Over Code\nEvents\nProjects Projects\nIncubator Projects\nProjects Directory\nMailing Lists\nReport a Vulnerability",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 40,
+          "textWords": 3705
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 13,
+          "textWords": 3705
+        }
+      }
+    },
+    {
+      "hash": "rMsoyobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Manual:Installation_guide",
+      "title": "Manual:Installing MediaWiki - MediaWiki",
+      "snippet": "Apache, PHP, and MySQL/MariaDB will make the process easier. For any questions regarding MediaWiki installations, ask the Project: Support desk or refer to other places listed at Communication .\nThe Appendices section below offers alternatives to manual installation, along with specific",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 5,
+          "textWords": 1843
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 5,
+          "textWords": 1843
+        }
+      }
+    },
+    {
+      "hash": "OlDnjayzSDzw",
+      "address": "https://httpd.apache.org/docs-project/",
+      "title": "Documentation Project - The Apache HTTP Server Project",
+      "snippet": "Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs\nTest\nFlood\nModules\nmod_fcgid",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 4,
+          "textWords": 343
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 14,
+          "textWords": 343
+        }
+      }
+    },
+    {
+      "hash": "OtQmQXyzSDzw",
+      "address": "https://httpd.apache.org/docs/2.4/",
+      "title": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4",
+      "snippet": "Apache HTTP Server Version 2.4 Documentation - Apache HTTP Server Version 2.4\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug\nApache HTTP Server Version 2.4\nApache \u003e HTTP Server \u003e Documentation\nApache HTTP Server Version 2.4 Documentation\nAvailable Languages: da | de | en | es | fr |",
       "matchedWords": {
         "UYOsXCzLOk3q": {
           "hits": 0,
-          "textWords": 0
+          "textWords": 240
         },
         "tu_WBtEY0PYg": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 11,
+          "textWords": 240
+        }
+      }
+    },
+    {
+      "hash": "QJO3EayzSDzw",
+      "address": "https://httpd.apache.org/support.html",
+      "title": "Apache HTTP Server Support - The Apache HTTP Server Project",
+      "snippet": "Apache HTTP Server Support - The Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 5,
+          "textWords": 302
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 16,
+          "textWords": 302
+        }
+      }
+    },
+    {
+      "hash": "U69luayzSDzw",
+      "address": "https://httpd.apache.org/",
+      "title": "Welcome! - The Apache HTTP Server Project",
+      "snippet": "Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs\nTest\nFlood\nModules\nmod_fcgid",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 6,
+          "textWords": 328
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 22,
+          "textWords": 328
+        }
+      }
+    },
+    {
+      "hash": "h5b7DXyzSDzw",
+      "address": "https://httpd.apache.org/docs/current/howto/reverse_proxy.html",
+      "title": "Reverse Proxy Guide - Apache HTTP Server Version 2.4",
+      "snippet": "Apache HTTP Server Version 2.4\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug\nApache HTTP Server Version 2.4\nApache \u003e HTTP Server \u003e Documentation \u003e Version 2.4 \u003e How-To / Tutorials\nReverse Proxy Guide\nAvailable Languages: en | fr\nBesides serving static and dynamic content directly,",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 8,
+          "textWords": 1195
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 8,
+          "textWords": 1195
+        }
+      }
+    },
+    {
+      "hash": "jZqlPXyzSDzw",
+      "address": "https://httpd.apache.org/docs/2.4/mod/mod_userdir.html",
+      "title": "mod_userdir - Apache HTTP Server Version 2.4",
+      "snippet": "Apache HTTP Server Version 2.4\nModules | Directives | FAQ | Glossary | Sitemap | Report a bug\nApache HTTP Server Version 2.4\nApache \u003e HTTP Server \u003e Documentation \u003e Version 2.4 \u003e Modules\nApache Module mod_userdir\nAvailable Languages: en | fr | ja | ko | tr\nDescription:\nUser-specific directories",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 2,
+          "textWords": 719
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 7,
+          "textWords": 719
+        }
+      }
+    },
+    {
+      "hash": "ng_vvayzSDzw",
+      "address": "https://httpd.apache.org/dev/",
+      "title": "Apache HTTP Server Developer Information - The Apache HTTP Server Project",
+      "snippet": "Apache HTTP Server Developer Information - The Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 1,
+          "textWords": 255
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 18,
+          "textWords": 255
+        }
+      }
+    },
+    {
+      "hash": "uFJMaayzSDzw",
+      "address": "https://httpd.apache.org/contributors/",
+      "title": "Apache Contributors - The Apache HTTP Server Project",
+      "snippet": "Apache Contributors - The Apache HTTP Server Project\n☰\nEssentials¶\nDownload!\nAbout\nLicense\nFAQ\nSecurity Reports\nSource Repositories¶\nGeneral Information\nTrunk\n2.4\nDocumentation¶\nVersion 2.4\nTrunk (dev)\nWiki\nGet Involved¶\nMailing Lists\nBug Reports\nDeveloper Info\nUser Support\nSubprojects¶\nDocs\nTest",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 4,
+          "textWords": 3105
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 38,
+          "textWords": 3105
+        }
+      }
+    },
+    {
+      "hash": "N7wUjwH9JDL6",
+      "address": "https://flask.palletsprojects.com/en/stable/deploying/",
+      "title": "Deploying to Production — Flask Documentation (3.1.x)",
+      "snippet": "Apache httpd\nThis list is not exhaustive, and you should evaluate these and other servers based on your application’s needs. Different servers will have different capabilities, configuration, and support.\nHosting Platforms¶\nThere are many services available for hosting web applications without",
+      "matchedWords": {
+        "UYOsXCzLOk3q": {
+          "hits": 1,
+          "textWords": 446
+        },
+        "tu_WBtEY0PYg": {
+          "hits": 1,
+          "textWords": 446
         }
       }
     },
@@ -210,15 +648,15 @@
       "hash": "TtoO2dFO6r_x",
       "address": "https://de.wikipedia.org/wiki/Hostrechner",
       "title": "Hostrechner – Wikipedia",
-      "snippet": "",
+      "snippet": "Apache-HTTP-Servern enthält eine VirtualHosts-Direktive,[7] die mehrere getrennte Websites auf einem einzigen Host ermöglicht.\nZwei Formen sind zu unterscheiden:\nIP-basierte virtuelle Hosts erfordern, dass der Netzwerkschnittstelle des Hosts mehrere IP-Adressen zugewiesen werden. Um auf eine",
       "matchedWords": {
         "UYOsXCzLOk3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 2081
         },
         "tu_WBtEY0PYg": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 2081
         }
       }
     },
@@ -226,15 +664,15 @@
       "hash": "5TYifdFO6r_x",
       "address": "https://de.wikipedia.org/wiki/Webserver",
       "title": "Webserver – Wikipedia",
-      "snippet": "",
+      "snippet": "Apache-Module\nmod_jk | mod_lisp | mod_parrot | mod_perl | mod_php | mod_python | mod_wsgi | mod_ruby | Phusion Passenger\nWeb APIs\nWSDL | XML-RPC | SOAP | REST\nWeitere Funktionen\n[Bearbeiten | Quelltext bearbeiten]\nNeben dem Ausliefern von statischen oder dynamischen Dokumenten können Webserver noch",
       "matchedWords": {
         "UYOsXCzLOk3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 4,
+          "textWords": 1875
         },
         "tu_WBtEY0PYg": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1875
         }
       }
     },
@@ -242,21 +680,21 @@
       "hash": "r4dI5jRvmBbx",
       "address": "https://en.wikipedia.org/wiki/OpenBSD",
       "title": "OpenBSD - Wikipedia",
-      "snippet": "",
+      "snippet": "httpd,[67][68] an implementation of httpd\nGame of Trees, an implementation of Git's formats and protocols[69]\nhw.sensors, a sensors framework used by over 100 drivers\nLibreSSL, an implementation of the SSL and TLS protocols, forked from OpenSSL 1.0.1g[70]\nmandoc, a utility used for formatting man",
       "matchedWords": {
         "UYOsXCzLOk3q": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 11984
         },
         "tu_WBtEY0PYg": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 11984
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "UYOsXCzLOk3q": 697,
-    "tu_WBtEY0PYg": 20942
+    "UYOsXCzLOk3q": 897,
+    "tu_WBtEY0PYg": 21433
   }
 }

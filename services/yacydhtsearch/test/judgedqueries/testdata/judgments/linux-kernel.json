@@ -2,27 +2,9 @@
   "query": "linux kernel",
   "judgedDocuments": [
     {
-      "hash": "N_bW_5DJH5aw",
-      "address": "https://www.wiki.kernel.org/",
-      "title": "Main Page - Demeter of the Kernel.org",
-      "grade": 2
-    },
-    {
-      "hash": "N7_cIm1dafs6",
-      "address": "https://stackoverflow.com/questions/tagged/kernel",
-      "title": "Newest 'kernel' Questions - Stack Overflow",
-      "grade": 1
-    },
-    {
-      "hash": "7zoiPTrhyvQw",
-      "address": "https://www.man7.org/linux/man-pages/man8/hwclock.8.html",
-      "title": "hwclock(8) - Linux manual page",
-      "grade": 1
-    },
-    {
-      "hash": "F5kb_lj4MAVw",
-      "address": "https://man7.org/linux/man-pages/man7/tcp.7.html",
-      "title": "tcp(7) - Linux manual page",
+      "hash": "nXiF30WUVeV5",
+      "address": "https://opensource.com/resources/linux",
+      "title": "What is Linux? | Opensource.com",
       "grade": 1
     },
     {
@@ -32,45 +14,75 @@
       "grade": 0
     },
     {
+      "hash": "CzKLxslc4Pz6",
+      "address": "https://open-sourceress.com/my-project-at-linux-kernel/",
+      "title": "My Project at Linux Kernel | Open Sourceress",
+      "grade": 1
+    },
+    {
+      "hash": "hMYfxA24Kkqw",
+      "address": "https://www.ghacks.net/category/linux/",
+      "title": "Linux News: Distributions, Kernel Updates, Open-Source Developments - gHacks",
+      "grade": 1
+    },
+    {
+      "hash": "5A3Als-kQ1nw",
+      "address": "https://kernel.org/",
+      "title": "The Linux Kernel Archives",
+      "grade": 2
+    },
+    {
+      "hash": "lWsPplGZ4FKw",
+      "address": "https://www.kernel.org/",
+      "title": "The Linux Kernel Archives",
+      "grade": 2
+    },
+    {
+      "hash": "3EXd2WlXccYg",
+      "address": "https://nfsec.pl/tag/kernel",
+      "title": "NF.sec – Bezpieczeństwo systemu Linux - Posty tagowane \"kernel\"",
+      "grade": 1
+    },
+    {
+      "hash": "EW5wxOE6Hic4",
+      "address": "https://webflow.sysdig.com/blog/cve-2026-31431-copy-fail-linux-kernel-flaw-lets-local-users-gain-root-in-seconds",
+      "title": "CVE-2026-31431: “Copy Fail” Linux kernel flaw lets local users gain root in seconds | Sysdig",
+      "grade": 1
+    },
+    {
+      "hash": "dDOGQDOAID44",
+      "address": "https://linuxiac.com/category/linux-knowledge/general/",
+      "title": "Linux General Archives - Linuxiac",
+      "grade": 0
+    },
+    {
+      "hash": "N_bW_5DJH5aw",
+      "address": "https://www.wiki.kernel.org/",
+      "title": "Main Page - Demeter of the Kernel.org",
+      "grade": 2
+    },
+    {
+      "hash": "7zoiPTrhyvQw",
+      "address": "https://www.man7.org/linux/man-pages/man8/hwclock.8.html",
+      "title": "hwclock(8) - Linux manual page",
+      "grade": 1
+    },
+    {
       "hash": "HSA0HjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/User_interface",
       "title": "User interface - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "lfLZNsHRh3Y6",
-      "address": "https://texasgirlreads.com/",
-      "title": "texasgirlreadscom",
-      "grade": 0
-    },
-    {
-      "hash": "NNfgL520dH2R",
-      "address": "http://buildroot.org/downloads/manual/manual.html",
-      "title": "The Buildroot user manual",
+      "hash": "zm1LfOy8O7iw",
+      "address": "https://kernel.opensuse.org/",
+      "title": "Welcome To The openSUSE Kernel Site - openSUSE Kernel",
       "grade": 1
     },
     {
-      "hash": "EDZIWvmJ800w",
-      "address": "https://www.gentoo.org/news/2026/05/19/copy-fail-fragnesia-vulnerabilities.html",
-      "title": "Copy Fail, Dirty Frag, and Fragnesia kernel vulnerabilities – Gentoo Linux",
-      "grade": 1
-    },
-    {
-      "hash": "8SBrdtS6MKD4",
-      "address": "https://github.com/trending/linux-kernel-module?since=daily",
-      "title": "Trending Linux Kernel Module repositories on GitHub today · GitHub",
-      "grade": 1
-    },
-    {
-      "hash": "3VHCVsOEIUyr",
-      "address": "https://simerdupolresbatang.id/",
-      "title": "simerdupolresbatangid",
-      "grade": 0
-    },
-    {
-      "hash": "B6RumAK-xyJ4",
-      "address": "https://go.dev/doc/godebug",
-      "title": "Go, Backwards Compatibility, and GODEBUG - The Go Programming Language",
+      "hash": "jmJ6Qs6JlDf5",
+      "address": "https://wallpapers.com/linux",
+      "title": "[200+] Linux Wallpapers | Wallpapers.com",
       "grade": 0
     }
   ]

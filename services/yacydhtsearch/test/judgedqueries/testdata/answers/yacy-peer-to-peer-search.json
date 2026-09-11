@@ -1,29 +1,29 @@
 {
   "query": "yacy peer to peer search",
-  "recordedAt": "2026-09-11T13:00:49Z",
+  "recordedAt": "2026-09-11T19:25:47Z",
   "itemsInTheOrderOfEachAnswer": [],
   "itemsInNoOrder": [
     {
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "",
+      "snippet": "YaCy\nToggle navigation\nHome\nDemo\nDownload\nDocs\nFAQ\nUser Forum\nSupport GPT\nStats\nGitHub\nYaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nDownload YaCy Try Demo\nChoose",
       "matchedWords": {
         "-P5otMTLoZfv": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 354
         },
         "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 354
         },
         "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 21,
+          "textWords": 354
         },
         "pIBmMGNtuISD": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 20,
+          "textWords": 354
         }
       }
     },
@@ -31,23 +31,23 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "",
+      "snippet": "YaCy\nToggle navigation\nHome\nDemo\nDownload\nDocs\nFAQ\nUser Forum\nSupport GPT\nStats\nGitHub\nYaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nDownload YaCy Try Demo\nChoose",
       "matchedWords": {
         "-P5otMTLoZfv": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 354
         },
         "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 354
         },
         "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 21,
+          "textWords": 354
         },
         "pIBmMGNtuISD": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 20,
+          "textWords": 354
         }
       }
     },
@@ -55,31 +55,55 @@
       "hash": "AeOqws55Qxow",
       "address": "https://yacy.net/.",
       "title": "Home - YaCy",
-      "snippet": "",
+      "snippet": "YaCy\nToggle navigation\nHome\nDemo\nDownload\nDocs\nFAQ\nUser Forum\nSupport GPT\nStats\nGitHub\nYaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nDownload YaCy Try Demo\nChoose",
       "matchedWords": {
         "-P5otMTLoZfv": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 354
         },
         "AbbiA0S2iDXF": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 354
         },
         "BqlDxZ8zo0u1": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 21,
+          "textWords": 354
         },
         "pIBmMGNtuISD": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 20,
+          "textWords": 354
+        }
+      }
+    },
+    {
+      "hash": "AeOqws55Qxow",
+      "address": "https://yacy.net/.",
+      "title": "Home - YaCy",
+      "snippet": "YaCy\nToggle navigation\nHome\nDemo\nDownload\nDocs\nFAQ\nUser Forum\nSupport GPT\nStats\nGitHub\nYaCy is free software for your own search engine.\nYaCy is free search engine software for local search, organization-wide search portals, and a decentralized peer-to-peer web index.\nDownload YaCy Try Demo\nChoose",
+      "matchedWords": {
+        "-P5otMTLoZfv": {
+          "hits": 6,
+          "textWords": 354
+        },
+        "AbbiA0S2iDXF": {
+          "hits": 9,
+          "textWords": 354
+        },
+        "BqlDxZ8zo0u1": {
+          "hits": 21,
+          "textWords": 354
+        },
+        "pIBmMGNtuISD": {
+          "hits": 20,
+          "textWords": 354
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "-P5otMTLoZfv": 38100,
-    "AbbiA0S2iDXF": 71833,
-    "BqlDxZ8zo0u1": 1132317,
-    "pIBmMGNtuISD": 7491
+    "-P5otMTLoZfv": 38294,
+    "AbbiA0S2iDXF": 68985,
+    "BqlDxZ8zo0u1": 165664,
+    "pIBmMGNtuISD": 9673
   }
 }

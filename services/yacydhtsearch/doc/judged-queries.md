@@ -14,8 +14,15 @@ For each query the set holds two files in
 
 ## How to record the answers again
 
-The recorder asks the live freeworld network from this host. It needs direct
-egress. Run it from `services/yacydhtsearch`:
+The recorder follows the service: it asks the peers, puts the answers in the
+relevance order, reads the page of each of the first fifty documents, and
+writes what the page says as the hits, the amount of words and the snippet of
+the document. A page that the recorder cannot read leaves the counts of its
+document as the peers answered them, and leaves its snippet empty.
+
+The recorder asks the live freeworld network from this host, and reads the
+pages from the web. It needs direct egress for both. Run it from
+`services/yacydhtsearch`:
 
 ```sh
 YACYDHTSEARCH_RECORD_JUDGED_QUERIES=1 go test \
@@ -46,12 +53,16 @@ that the document still needs a grade.
 ## What the gate asserts
 
 `TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries` runs the relevance
-ordering over every recorded answer and measures the normalized discounted
-cumulative gain of the first ten documents. It takes the mean over the queries
-and fails if the mean falls below the floor that the test holds. A query whose
-judgments hold no document of grade 1 or more does not count towards the mean.
-The failure message reports the mean of the peer ordering beside the mean of
-the relevance ordering, so that a fall is easy to read.
+ordering and the peer ordering over every recorded answer and measures the
+normalized discounted cumulative gain of the first ten documents. It takes the
+mean of each ordering over the queries. A query whose judgments hold no
+document of grade 1 or more does not count towards the means.
+
+The gate asserts two things. The mean of the relevance ordering must stay at or
+above the floor that the test holds. The mean of the relevance ordering must
+also stay at least the lift that the test holds above the mean of the peer
+ordering. Each assertion fails with its own message, and each message reports
+both means and the amount of counted queries.
 
 ## Limits
 

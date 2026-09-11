@@ -2,15 +2,33 @@
   "query": "chaos computer club",
   "judgedDocuments": [
     {
-      "hash": "GtLjhloUbV15",
-      "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
+      "hash": "_f5CEjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Security_hacker",
+      "title": "Security hacker - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "VpCOpt6ArEvw",
+      "address": "https://blog.archive.org/",
+      "title": "Internet Archive Blogs | Updates from the Internet Archive",
       "grade": 0
     },
     {
-      "hash": "RxUPpjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Blog",
-      "title": "Blog - Wikipedia",
+      "hash": "uaEnGzTwnifx",
+      "address": "https://planet.wordpress.org/",
+      "title": "Planet — WordPress.org",
+      "grade": 0
+    },
+    {
+      "hash": "pZOf2ym_mTBS",
+      "address": "http://www.concatenation.org/stuff/best-science-fiction-of-the-year.html",
+      "title": "Best Science Fiction of the Year",
+      "grade": 0
+    },
+    {
+      "hash": "MUJTAzT6fUdA",
+      "address": "http://www.greenteethmm.co.uk/ib-activists-jailed-211117.shtml",
+      "title": "-daily-stirrer",
       "grade": 0
     },
     {
@@ -20,15 +38,15 @@
       "grade": 0
     },
     {
-      "hash": "VpCOpt6ArEvw",
-      "address": "https://blog.archive.org/",
-      "title": "Internet Archive Blogs | Updates from the Internet Archive",
+      "hash": "B1-6vlAU28d6",
+      "address": "https://www.thenationalnews.com/",
+      "title": "The National - Latest world news, sport \u0026 opinion",
       "grade": 0
     },
     {
-      "hash": "QzTPhfcqomtg",
-      "address": "https://taz.de/Ueber-die-Wahrheit/!5068762/",
-      "title": "Über die Wahrheit: Die Wahrheit auf taz.de | taz.de",
+      "hash": "GtLjhloUbV15",
+      "address": "https://www.whatfinger.com/",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
       "grade": 0
     },
     {
@@ -36,6 +54,12 @@
       "address": "https://www.ccc.de/",
       "title": "CCC | Startseite",
       "grade": 2
+    },
+    {
+      "hash": "-p2w3taoSn1x",
+      "address": "https://en.planet.wikimedia.org/",
+      "title": "en.planet.wikimedia.org",
+      "grade": 0
     }
   ]
 }

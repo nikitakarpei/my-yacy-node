@@ -1,103 +1,71 @@
 {
   "query": "climate change",
-  "recordedAt": "2026-09-11T12:59:18Z",
+  "recordedAt": "2026-09-11T19:22:59Z",
   "itemsInTheOrderOfEachAnswer": [
     [
-      {
-        "hash": "-GTAl-vKPktw",
-        "address": "https://www.c2es.org/press-release/leading-companies-back-369b-climate-investments/",
-        "title": "Leading Companies Back $369B Climate Investments - Center for Climate and Energy SolutionsCenter for Climate and Energy Solutions",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 43,
-            "textWords": 1790
-          }
-        }
-      },
       {
         "hash": "5CGlk2lbxFxx",
         "address": "https://www.navigation.org/grants/climate-change",
         "title": "Climate Change | The Navigation Fund",
-        "snippet": "",
+        "snippet": "Climate Change | The Navigation Fund\nHome\nGrants\nClimate Change\nFarm Animal Welfare\nTransforming Criminal Justice\nOpen Science\nGrants\nClimate ChangeFarm Animal WelfareTransforming Criminal JusticeOpen Science\nAbout\nTeam\nBlog\nDonate\nClimate Change\nHome\nGrants\nClimate Change\nFarm Animal Welfare",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 13,
+            "textWords": 1238
           },
           "C4U1RGaZEs7W": {
             "hits": 34,
-            "textWords": 1482
+            "textWords": 1238
           }
         }
       },
       {
-        "hash": "-EI30UT7ERug",
-        "address": "https://international-partnerships.ec.europa.eu/news-and-events/stories/women-lead-climate-actions-resilient-communities-myanmar_en",
-        "title": "Women lead climate actions for resilient communities in Myanmar - International Partnerships",
-        "snippet": "",
+        "hash": "-GTAl-vKPktw",
+        "address": "https://www.c2es.org/press-release/leading-companies-back-369b-climate-investments/",
+        "title": "Leading Companies Back $369B Climate Investments - Center for Climate and Energy SolutionsCenter for Climate and Energy Solutions",
+        "snippet": "Climate Investments - Center for Climate and Energy SolutionsCenter for Climate and Energy Solutions\nClose Enter search terms\nOur Work Accelerating the US Net-Zero Transition\nSupporting the Paris Agreement\nBuilding Climate Resilience\nBusiness Engagement Business Environmental Leadership Council",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 1645
           },
           "C4U1RGaZEs7W": {
-            "hits": 12,
-            "textWords": 730
-          }
-        }
-      },
-      {
-        "hash": "wCBQFYnEUwmz",
-        "address": "https://www.ellenmacarthurfoundation.org/topics/climate/overview",
-        "title": "Circular Economy \u0026 Climate Change | Systemic Solutions | Ellen MacArthur Foundation",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 39,
-            "textWords": 2546
+            "hits": 45,
+            "textWords": 1645
           }
         }
       }
     ],
     [
       {
-        "hash": "Glu_e5GPlOdg",
-        "address": "https://www.daera-ni.gov.uk/articles/northern-ireland-climate-change-adaptation-programme",
-        "title": "Northern Ireland Climate Change Adaptation Programme | Department of Agriculture, Environment and Rural Affairs",
-        "snippet": "",
+        "hash": "wGfAewXKfw-g",
+        "address": "https://www.cmcc.it/article/forging-the-causal-chain-a-workshop-exploring-the-interplay-between-climate-science-and-legal-responsibility",
+        "title": "Forging the causal chain: A workshop exploring the interplay between climate science and legal responsibility - CMCC",
+        "snippet": "climate science and legal responsibility - CMCC\nAbout us – The CMCC Foundation\nOur Team\nWhere we are\nContact us\n– Communication and Outreach\nTenders and announcements\nCareers\nsocial-icons-megamenu\n.vc_custom_1713534553102{margin-bottom: 0px !important;padding-top: 20px",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 8,
+            "textWords": 1298
           },
           "C4U1RGaZEs7W": {
-            "hits": 75,
-            "textWords": 1636
+            "hits": 28,
+            "textWords": 1298
           }
         }
       },
       {
-        "hash": "S0j-qqXKfw-g",
-        "address": "https://www.cmcc.it/lectures_conferences/modeling-the-future-climate-science-and-interactive-learning",
-        "title": "Modeling the future: Climate science and interactive learning - CMCC",
-        "snippet": "",
+        "hash": "Glu_e5GPlOdg",
+        "address": "https://www.daera-ni.gov.uk/articles/northern-ireland-climate-change-adaptation-programme",
+        "title": "Northern Ireland Climate Change Adaptation Programme | Department of Agriculture, Environment and Rural Affairs",
+        "snippet": "Climate Change Adaptation Programme | Department of Agriculture, Environment and Rural Affairs\nSkip to main content Department of Agriculture, Environment and Rural Affairs\nDepartment of\nAgriculture, Environment\nand Rural Affairs\nAn Roinn\nTalmhaíochta, Comhshaoil\nagus Gnóthaí Tuaithe\nDepairtment o'",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 61,
+            "textWords": 1571
           },
           "C4U1RGaZEs7W": {
-            "hits": 22,
-            "textWords": 956
+            "hits": 76,
+            "textWords": 1571
           }
         }
       },
@@ -105,31 +73,31 @@
         "hash": "QU4s6s_wyst4",
         "address": "https://observer.com/climate-change/",
         "title": "Climate Change | Observer",
-        "snippet": "",
+        "snippet": "Climate Change | Observer\nSearch for:\nSubmit\nObserver\nBusiness\nArt\nLifestyle\nNewsletters\nBusiness\nFinance\nMedia\nTechnology\nPolicy\nWealth\nInsights\nInterviews\nArt\nArt Fairs\nArt Market\nArt Reviews\nAuctions\nGalleries\nMuseums\nInterviews\nLifestyle\nNightlife \u0026 Dining\nStyle\nTravel\nInterviews\nPower Lists",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 743
           },
           "C4U1RGaZEs7W": {
             "hits": 12,
-            "textWords": 1668
+            "textWords": 743
           }
         }
       },
       {
-        "hash": "Zji9clKyg81x",
-        "address": "https://www.carbonbrief.org/guest-post-investigating-how-volcanic-eruptions-can-affect-climate-projections",
-        "title": "Guest post: Investigating how volcanic eruptions can affect climate projections - Carbon Brief",
-        "snippet": "",
+        "hash": "xvfX-lKyg81x",
+        "address": "https://www.carbonbrief.org/qa-how-trump-is-threatening-climate-science-in-earths-polar-regions",
+        "title": "Q\u0026A: How Trump is threatening climate science in Earth’s polar regions - Carbon Brief",
+        "snippet": "climate science in Earth’s polar regions - Carbon Brief\nSkip to content\nSearch\nSearch\nNewsletters\nMenu\nCarbon Brief is a specialist climate change publication producing in-depth coverage of climate science and policy.\nClose\nEnergy\nNature\nPolicy\nScience\nView all\nChina\nIndia\nUK\nUS\nView all\nAnalysis",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 2729
           },
           "C4U1RGaZEs7W": {
-            "hits": 45,
-            "textWords": 1817
+            "hits": 25,
+            "textWords": 2729
           }
         }
       },
@@ -137,15 +105,15 @@
         "hash": "p14nqj8B3Aeg",
         "address": "https://commission.europa.eu/about/departments-and-executive-agencies/climate-action_en",
         "title": "Climate Action",
-        "snippet": "",
+        "snippet": "Climate Action\nSkip to main content\nenSelect your language\nClose\nbgбългарски\nesespañol\ncsčeština\ndadansk\ndeDeutsch\neteesti\nelελληνικά\nenEnglish\nfrfrançais\ngaGaeilge\nhrhrvatski\nititaliano\nlvlatviešu\nltlietuvių\nhumagyar\nmtMalti\nnlNederlands\nplpolski\nptportuguês\nroromână\nskslovenčina\nslslovenščina",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 992
           },
           "C4U1RGaZEs7W": {
-            "hits": 16,
-            "textWords": 1348
+            "hits": 18,
+            "textWords": 992
           }
         }
       },
@@ -153,15 +121,15 @@
         "hash": "EoDBU9DvCWFg",
         "address": "https://energy.ec.europa.eu/strategy/energy-union/national-energy-and-climate-plans_en",
         "title": "National energy and climate plans - Energy - European Commission",
-        "snippet": "",
+        "snippet": "climate plans - Energy - European Commission\nSkip to main content\nenSelect your language\nClose\nbgбългарски\nesespañol\ncsčeština\ndadansk\ndeDeutsch\neteesti\nelελληνικά\nenEnglish\nfrfrançais\ngaGaeilge\nhrhrvatski\nititaliano\nlvlatviešu\nltlietuvių\nhumagyar\nmtMalti\nnlNederlands\nplpolski\nptportuguês\nroromână",
         "matchedWords": {
           "6zmbyspob4YJ": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 4409
           },
           "C4U1RGaZEs7W": {
-            "hits": 49,
-            "textWords": 4502
+            "hits": 50,
+            "textWords": 4409
           }
         }
       },
@@ -169,113 +137,33 @@
         "hash": "jFH1V7rrBtSg",
         "address": "https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe/eu-missions-horizon-europe/adaptation-climate-change_en",
         "title": "EU Mission: Adaptation to Climate Change",
-        "snippet": "",
+        "snippet": "Climate Change\nSkip to main content\nenSelect your language\nClose\nbgбългарски\nesespañol\ncsčeština\ndadansk\ndeDeutsch\neteesti\nelελληνικά\nenEnglish\nfrfrançais\ngaGaeilge\nhrhrvatski\nititaliano\nlvlatviešu\nltlietuvių\nhumagyar\nmtMalti\nnlNederlands\nplpolski\nptportuguês\nroromână\nskslovenčina\nslslovenščina",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 16,
+            "textWords": 1129
           },
           "C4U1RGaZEs7W": {
-            "hits": 33,
-            "textWords": 1316
+            "hits": 38,
+            "textWords": 1129
           }
         }
       }
     ],
     [
       {
-        "hash": "cG30FEN6vgFx",
-        "address": "https://heartland.org/podcasts/big-climate-strikes-back-the-climate-realism-show-172/",
-        "title": "Big Climate Strikes Back — The Climate Realism Show #172 - The Heartland Institute",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 27,
-            "textWords": 670
-          }
-        }
-      },
-      {
-        "hash": "Vue0tWt3OzH5",
-        "address": "https://depositsmag.com/tag/climate-change/",
-        "title": "climate change – DEPOSITS MAGAZINE",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 56,
-            "textWords": 2930
-          }
-        }
-      },
-      {
-        "hash": "0Sr6isvFJx_w",
-        "address": "https://heigit.org/one-year-with-the-climate-action-navigator-how-open-data-is-powering-climate-action-in-cities/",
-        "title": "One Year with the Climate Action Navigator: How Open Data is Powering Climate Action in Cities – HeiGIT",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 28,
-            "textWords": 1531
-          }
-        }
-      },
-      {
         "hash": "IcAc5IL0Fk7w",
         "address": "https://climate.uchicago.edu/",
         "title": "The Institute for Climate and Sustainable Growth",
-        "snippet": "",
+        "snippet": "Climate and Sustainable Growth\nSkip to content We have a new podcast! LISTEN TO SHOCKED\nclose\nCSEI\nEPIC\nETI\nGlobal\nAbout\nAbout the Institute Balancing the urgency of climate action with society’s need for sustainable growth through research, education, and international engagement\nWhat They're",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 2110
           },
           "C4U1RGaZEs7W": {
-            "hits": 79,
-            "textWords": 2338
-          }
-        }
-      },
-      {
-        "hash": "QMyYg8EfDEd4",
-        "address": "https://www.iheart.com/podcast/256-the-climate-realism-show-31001689/",
-        "title": "The Climate Realism Show | iHeart",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 89,
-            "textWords": 3143
-          }
-        }
-      },
-      {
-        "hash": "G385kl28kNww",
-        "address": "https://www.wusf.org/florida-and-climate-change",
-        "title": "Florida And Climate Change | WUSF",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 22,
-            "textWords": 1630
+            "hits": 75,
+            "textWords": 2110
           }
         }
       },
@@ -283,22 +171,86 @@
         "hash": "4o98uS7dmKb4",
         "address": "https://heatmap.news/ideas/republican-climate-action",
         "title": "How to Unlock Republican Support for Climate Action - Heatmap News",
-        "snippet": "",
+        "snippet": "Climate Action - Heatmap News\nHome\nHomepage\nEnergy\nClimate Tech\nPolitics\nDaily Briefing\nAM Briefing\nCarbon Removal\nAdaptation\nClimate\nElectric Vehicles\nIdeas\nPodcast\nSparks\nEconomy\nSustainability\nCulture\nGuides\nStatic Pages\nDecarbonize Your Life\nTechnology\nLifestyle\nClimate 101\nThe Aftermath\nThe",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 20,
+            "textWords": 2121
           },
           "C4U1RGaZEs7W": {
             "hits": 44,
-            "textWords": 1652
+            "textWords": 2121
           }
         }
       },
       {
-        "hash": "q6ug3s3RVaC6",
-        "address": "https://heartlandernews.com/democrats-go-quiet-on-climate-after-biden-era-regulatory-blitz/",
-        "title": "Democrats go quiet on climate after Biden-era regulatory blitz - Heartlander News",
+        "hash": "QMyYg8EfDEd4",
+        "address": "https://www.iheart.com/podcast/256-the-climate-realism-show-31001689/",
+        "title": "The Climate Realism Show | iHeart",
+        "snippet": "Climate Realism Show | iHeart\niHeart Navigation Logotype\niHeart Navigation Logotype\nHome\nSearch\nPodcasts\nWhat do you want to listen to?\nThe Climate Realism Show\nPodcast\nLoading\nNow Playing\nEpisodes\nAbout\nSearch in this show\nAll episodes\nall\nunplayed\nNewest\nWhat The Heck Is Dairy Net Zero? - TCRS",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 25,
+            "textWords": 3115
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 94,
+            "textWords": 3115
+          }
+        }
+      },
+      {
+        "hash": "co5CXEN6vgFx",
+        "address": "https://heartland.org/podcasts/good-news-climate-cult-in-decline-the-climate-realism-show-184-2/",
+        "title": "Good News: Climate Cult In Decline — The Climate Realism Show #184 - The Heartland Institute",
+        "snippet": "Climate Cult In Decline — The Climate Realism Show #184 - The Heartland Institute\nSkip to content The Heartland Institute Open Menu\nDonate\nSubscribe\nSearch The Heartland Institute\nSearch\nTopics Environment \u0026 Energy\nGovernment \u0026 Liberty\nEducation\nHealth Care\nEconomy\nEmerging Issues\nOpinion",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 5,
+            "textWords": 598
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 29,
+            "textWords": 598
+          }
+        }
+      },
+      {
+        "hash": "Vue0tWt3OzH5",
+        "address": "https://depositsmag.com/tag/climate-change/",
+        "title": "climate change – DEPOSITS MAGAZINE",
+        "snippet": "climate change – DEPOSITS MAGAZINE\nSkip to content Menu\nUK FOSSILS\nEARTH SCIENCES Palaeontology\nGeology\nMinerals\nVolcanoes\nClimate\nURBAN AND HUMAN Museums \u0026 societies\nMining\nUrban, art \u0026 anthropology\nHistory \u0026 biographies\nINTERESTS Fossils\nDinosaurs\nMinerals\nSpace\nLOCATIONS United Kingdom England",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 11,
+            "textWords": 2448
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 44,
+            "textWords": 2448
+          }
+        }
+      },
+      {
+        "hash": "G385kl28kNww",
+        "address": "https://www.wusf.org/florida-and-climate-change",
+        "title": "Florida And Climate Change | WUSF",
+        "snippet": "Climate Change | WUSF\nSkip to main content\nSearch Query\nShow Search\nNews\nHome\n(Text-Only Site)\nLocal / State\nWeather\nUS / World\nPolitics\nHealth News Florida\nEducation\nUniversity Beat\nEnvironment\nArts / Culture\nEconomy / Business\nTransportation\nCourts / Law\nScience / Space\nSports\nWUSF Noticias\nHome",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 15,
+            "textWords": 1598
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 22,
+            "textWords": 1598
+          }
+        }
+      },
+      {
+        "hash": "Ny5MvsvFJx_w",
+        "address": "https://heigit.org/climate-action/",
+        "title": "Climate Action – HeiGIT",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
@@ -306,8 +258,24 @@
             "textWords": 0
           },
           "C4U1RGaZEs7W": {
-            "hits": 26,
-            "textWords": 1375
+            "hits": 30,
+            "textWords": 5836
+          }
+        }
+      },
+      {
+        "hash": "ncY549TRvWp5",
+        "address": "https://hecubus.wordpress.com/category/global-climate-change/",
+        "title": "global climate change | We Have Seen Better Days",
+        "snippet": "climate change | We Have Seen Better Days\nHome\nWe Have Seen Better Days\nInterests and Irritations\nFeeds:\nPosts\nComments\nArchive for the ‘global climate change’ Category\nPEW Poll on Global Warming – Americans Smarten Up\nPosted in An Inconvenient Truth, anthropogenic global warming, Documentary,",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 56,
+            "textWords": 17140
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 95,
+            "textWords": 17140
           }
         }
       },
@@ -315,49 +283,33 @@
         "hash": "uQJ5Mfm7MhAy",
         "address": "https://hechingerreport.org/special-reports/climate-change/",
         "title": "Climate change: Are we ready? - The Hechinger Report",
-        "snippet": "",
+        "snippet": "Climate change: Are we ready? - The Hechinger Report\nClose\nSearch for:\nSearch\nNewsletters\nAbout\nDonate\nTwitter\nFacebook\nInstagram\nRSS Feed\nClose\nSkip to content\nThe Hechinger Report\nCovering Innovation \u0026 Inequality in Education\nNewsletters\nAbout\nDonate\nOpen Search\nSearch for:\nSearch\nMenu\nClimate",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 20,
+            "textWords": 728
           },
           "C4U1RGaZEs7W": {
-            "hits": 21,
-            "textWords": 875
-          }
-        }
-      },
-      {
-        "hash": "Bcaho7CzXwx6",
-        "address": "https://thenewamerican.com/us/environment/in-paris-scientists-debunk-un-climate-hysteria/",
-        "title": "In Paris, Scientists Debunk UN “Climate” Hysteria",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 42,
-            "textWords": 2454
+            "hits": 13,
+            "textWords": 728
           }
         }
       }
     ],
     [
       {
-        "hash": "TTdgPlS5WTn4",
-        "address": "https://www.jpost.com/environment-and-climate-change",
-        "title": "Environment \u0026 Climate Change | The Jerusalem Post",
-        "snippet": "",
+        "hash": "AX4MssOLCOH6",
+        "address": "https://wattsupwiththat.com/climate-sensitivity/",
+        "title": "Climate Sensitivity - Watts Up With That?",
+        "snippet": "Climate Sensitivity - Watts Up With That?\nSkip to content Friday, September 11, 2026\nWatts Up With That?\nThe world's most viewed site on global warming and climate change\nSearch\nSearch\nNew? Start Here\nLog In\nAbout Awards\nContact\nCompose story\nFAQs\nMy Blog Spawn\nPolicy\nPrivacy Policy\nPublications",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 18,
+            "textWords": 2489
           },
           "C4U1RGaZEs7W": {
-            "hits": 9,
-            "textWords": 1527
+            "hits": 103,
+            "textWords": 2489
           }
         }
       }
@@ -367,15 +319,15 @@
         "hash": "97eIXjNcDvjw",
         "address": "https://journals.plos.org/climate/s/editors-in-chief",
         "title": "PLOS Climate",
-        "snippet": "",
+        "snippet": "Climate\nSkip to main content Advertisement\nPLOS Climate\nPublish Submissions Submission Guidelines\nFigures\nTables\nSupporting Information\nLaTeX\nWhat We Publish\nPreprints\nRevising Your Manuscript\nSubmit Now\nCalls for Papers\nPolicies Best Practices in Research Reporting\nHuman Subjects Research\nAnimal",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 451
           },
           "C4U1RGaZEs7W": {
             "hits": 7,
-            "textWords": 566
+            "textWords": 451
           }
         }
       },
@@ -383,31 +335,15 @@
         "hash": "ZdH796WMDgLg",
         "address": "https://climate.ec.europa.eu/areas-action/climate-disinformation_en?prefLang=bg",
         "title": "Climate disinformation - Climate Action - European Commission",
-        "snippet": "",
+        "snippet": "Climate disinformation - Climate Action - European Commission\nSkip to main content\nenSelect your language\nClose\nbgбългарски\nesespañol\ncsčeština\ndadansk\ndeDeutsch\neteesti\nelελληνικά\nenEnglish\nfrfrançais\ngaGaeilge\nhrhrvatski\nititaliano\nlvlatviešu\nltlietuvių\nhumagyar\nmtMalti\nnlNederlands\nplpolski",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 27,
+            "textWords": 1659
           },
           "C4U1RGaZEs7W": {
             "hits": 103,
-            "textWords": 2012
-          }
-        }
-      },
-      {
-        "hash": "GwwrVdrKlibw",
-        "address": "https://www.wri.org/insights/ocean-climate-action-2025-ndcs",
-        "title": "New National Climate Plans Overlook Key Ocean Actions | World Resources Institute",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 57,
-            "textWords": 3096
+            "textWords": 1659
           }
         }
       },
@@ -415,6 +351,38 @@
         "hash": "tIoKvLpdc6bg",
         "address": "https://climate-pact.europa.eu/index_en",
         "title": "European Climate Pact - European Climate Pact - European Union",
+        "snippet": "Climate Pact - European Climate Pact - European Union\nSkip to main content\nEnglishSelect your language\nClose\nbgбългарски\nesespañol\ncsčeština\ndadansk\ndeDeutsch\neteesti\nelελληνικά\nenEnglish\nfrfrançais\ngaGaeilge\nhrhrvatski\nititaliano\nlvlatviešu\nltlietuvių\nhumagyar\nmtMalti\nnlNederlands\nplpolski",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 2,
+            "textWords": 725
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 33,
+            "textWords": 725
+          }
+        }
+      },
+      {
+        "hash": "4OHUAnI5edIg",
+        "address": "https://www.metoffice.gov.uk/services/government/international-development/global-climate-observing-system",
+        "title": "Global Climate Observing System - Met Office",
+        "snippet": "Climate Observing System - Met Office\nSkip to main content\nWeather \u0026 climate\nResearch programmes\nServices\nAbout us\nCareers\nMenu\nSearch site\nSearch\nBack\nWeather \u0026 climate Everything you need to know about the forecast, and making the most of the weather.\nFind a forecast\nWarnings \u0026 advice\nWarnings \u0026",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 14,
+            "textWords": 1069
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 49,
+            "textWords": 1069
+          }
+        }
+      },
+      {
+        "hash": "UToSHQZchFfZ",
+        "address": "http://www.greenteethmm.com/climate_change.shtml",
+        "title": "climate_change",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
@@ -422,8 +390,24 @@
             "textWords": 0
           },
           "C4U1RGaZEs7W": {
-            "hits": 28,
-            "textWords": 1155
+            "hits": 42,
+            "textWords": 32983
+          }
+        }
+      },
+      {
+        "hash": "HcOR_gOIMQQg",
+        "address": "https://www.england.nhs.uk/publication/climate-adaptation-resources/",
+        "title": "NHS England » Climate adaptation resources",
+        "snippet": "Climate adaptation resources\nSkip to main content\nCookies on the NHS England website\nWe've put some small files called cookies on your device to make our site work. We'd also like to use analytics cookies. These send information about how our site is used to a service called Google Analytics. We",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 11,
+            "textWords": 401
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 17,
+            "textWords": 401
           }
         }
       }
@@ -433,6 +417,22 @@
         "hash": "rMew3XPMwjH4",
         "address": "https://docs.aws.amazon.com/solutions/physical-climate-risk-assessment-on-aws/",
         "title": "Guidance for Physical Climate Risk Assessment on AWS",
+        "snippet": "Climate Risk Assessment on AWS\nOverview\nThis Guidance provides a technical foundation to visualize and monitor key performance indicators (KPIs) for reporting on climate-related physical risks to your operations. In particular, it demonstrates how you can enrich physical assets using large-scale,",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 2,
+            "textWords": 791
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 16,
+            "textWords": 791
+          }
+        }
+      },
+      {
+        "hash": "nc4sWmUGDmy5",
+        "address": "https://serverfault.com/questions/878695/server-corrosion-air-conditioning-and-climate-control/879565",
+        "title": "",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
@@ -440,8 +440,8 @@
             "textWords": 0
           },
           "C4U1RGaZEs7W": {
-            "hits": 15,
-            "textWords": 826
+            "hits": 2,
+            "textWords": 3147
           }
         }
       },
@@ -496,50 +496,68 @@
     ],
     [
       {
+        "hash": "6ItKbWOiSHKx",
+        "address": "https://he.wikipedia.org/wiki/%D7%A8%D7%95%D7%A1%D7%99%D7%94",
+        "title": "רוסיה – ויקיפדיה",
+        "snippet": "",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 1,
+            "textWords": 6408
+          }
+        }
+      },
+      {
+        "hash": "cXbKpjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Portal:Current_events",
+        "title": "Portal:Current events - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 1,
+            "textWords": 4586
+          }
+        }
+      }
+    ],
+    [
+      {
         "hash": "UUfDFPnI6JIw",
         "address": "https://climate.law.columbia.edu/content/climate-litigation-newsletter",
         "title": "Climate Litigation Newsletter | Sabin Center for Climate Change Law",
-        "snippet": "",
+        "snippet": "Climate Litigation Newsletter | Sabin Center for Climate Change Law\nSkip to main content\nSubmit keywords\nSearch the site\nColumbia University in the City of New York\nToggle search\nColumbia University\nSabin Center for Climate Change Law\nToggle search\nMain navigation expanded\nHome\nProgram Areas",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 551
           },
           "C4U1RGaZEs7W": {
-            "hits": 47,
-            "textWords": 646
+            "hits": 48,
+            "textWords": 551
           }
         }
       },
       {
-        "hash": "nd_sljAmda_w",
-        "address": "https://latitude.plos.org/2026/08/meet-plos-climate-academic-editor-andreas-morr/",
-        "title": "Meet PLOS Climate Academic Editor Andreas Morr - Latitude",
-        "snippet": "",
+        "hash": "D_zNUh3e0QFx",
+        "address": "https://commons.wikimedia.org/wiki/Category:Climate",
+        "title": "Category:Climate - Wikimedia Commons",
+        "snippet": "Category:Climate - Wikimedia Commons\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigate\nMain page\nWelcome\nCommunity portal\nVillage pump\nHelp center\nParticipate\nUpload file\nRecent changes\nLatest files\nRandom file\nContact us\nSpecial pages\nIn Wikipedia\nAfrikaans\nAragonés\nÆnglisc\nالعربية",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 1606
           },
           "C4U1RGaZEs7W": {
-            "hits": 33,
-            "textWords": 955
-          }
-        }
-      },
-      {
-        "hash": "XM9VvTbD0zn4",
-        "address": "https://stripe.com/gb/climate",
-        "title": "Stripe Climate",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 18,
-            "textWords": 7795
+            "hits": 48,
+            "textWords": 1606
           }
         }
       },
@@ -547,15 +565,31 @@
         "hash": "nmqHbjrKlibw",
         "address": "https://www.wri.org/index%2Ephp/research/adapting-to-climate-related-health-risks",
         "title": "Adapting to Climate-Related Health Risks: The Economic Case for Climate Services for Health | World Resources Institute",
-        "snippet": "",
+        "snippet": "Climate-Related Health Risks: The Economic Case for Climate Services for Health | World Resources Institute\nSkip to main content Accessibility\nWorld Resources Institute\nMaking Big Ideas Happen\nMain navigation\nResearch Recently Published\nReach an Expert\nOur Standards\nPermissions \u0026 Licensing\nAll",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 1070
           },
           "C4U1RGaZEs7W": {
-            "hits": 27,
-            "textWords": 1326
+            "hits": 36,
+            "textWords": 1070
+          }
+        }
+      },
+      {
+        "hash": "IDS9iJ6pnxAw",
+        "address": "https://www.unicef.org/blog/championing-climate-adaptation-youth-and-education-cop29",
+        "title": "Championing climate adaptation: Youth and education at COP29 | UNICEF",
+        "snippet": "climate adaptation: Youth and education at COP29 | UNICEF\nSkip to main content\nToggle navigation\nCurrent language: English\nClick to select different language\nCurrent language: English\nFrançais\nEspañol\nالعربية\n中文\nPress centre\nDonate\nWho we are Back\nWho we are\nAbout UNICEF\nAbout UNICEF Who we are",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 20,
+            "textWords": 1765
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 56,
+            "textWords": 1765
           }
         }
       },
@@ -563,63 +597,31 @@
         "hash": "csNGlsPsBOYy",
         "address": "https://natoassociation.ca/should-nato-treat-climate-data-as-strategic-intelligence/",
         "title": "Should NATO Treat Climate Data as Strategic Intelligence? – NAOC",
-        "snippet": "",
+        "snippet": "Climate Data as Strategic Intelligence? – NAOC\nSkip to content\nFriday, September 11, 2026\nAbout The Team Executive Committee\nBoard of Directors\nNATO Youth Canada\nNATO Champions\nEvents Past Events\nAnnual Gala 2026\nPodcast Dr Robert M. Cutler\nNATÔ Canada\nPrograms Canadian Armed Forces\nCentre For",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 16,
+            "textWords": 1886
           },
           "C4U1RGaZEs7W": {
-            "hits": 52,
-            "textWords": 2075
+            "hits": 60,
+            "textWords": 1886
           }
         }
       },
       {
-        "hash": "eSKGo9JF2J06",
-        "address": "https://store.legal.thomsonreuters.com/en-us/legal/environmental-law/climate-change",
-        "title": "Climate Change Law Resource Books|Thomson Reuters Legal",
-        "snippet": "",
+        "hash": "X3orB6WMDgLg",
+        "address": "https://climate.ec.europa.eu/areas-action/ozone-layer_en?prefLang=ro",
+        "title": "Ozone Layer - Climate Action",
+        "snippet": "Climate Action\nSkip to main content\nenSelect your language\nClose\nbgбългарски\nesespañol\ncsčeština\ndadansk\ndeDeutsch\neteesti\nelελληνικά\nenEnglish\nfrfrançais\ngaGaeilge\nhrhrvatski\nititaliano\nlvlatviešu\nltlietuvių\nhumagyar\nmtMalti\nnlNederlands\nplpolski\nptportuguês\nroromână\nskslovenčina\nslslovenščina",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 6,
+            "textWords": 647
           },
           "C4U1RGaZEs7W": {
-            "hits": 3,
-            "textWords": 2110
-          }
-        }
-      },
-      {
-        "hash": "QuSxfE7AqNmg",
-        "address": "https://employment-social-affairs.ec.europa.eu/policies-and-activities/funding/social-climate-fund_en?prefLang=el",
-        "title": "Social Climate Fund - Employment, Social Affairs and Inclusion",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 28,
-            "textWords": 1522
-          }
-        }
-      },
-      {
-        "hash": "lFPYGfPaTzPg",
-        "address": "https://reutersinstitute.politics.ox.ac.uk/calendar/identifying-africas-untold-climate-change-stories",
-        "title": "Identifying Africa's untold climate change stories | Reuters Institute for the Study of Journalism",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 30,
-            "textWords": 1948
+            "hits": 23,
+            "textWords": 647
           }
         }
       }
@@ -629,86 +631,86 @@
         "hash": "85LuzLpdc6bg",
         "address": "https://climate-pact.europa.eu/climate-pact-privacy-statement_en?prefLang=hr",
         "title": "Climate Pact privacy statement - European Climate Pact - European Union",
-        "snippet": "",
+        "snippet": "Climate Pact privacy statement - European Climate Pact - European Union\nSkip to main content\nEnglishSelect your language\nClose\nbgбългарски\nesespañol\ncsčeština\ndadansk\ndeDeutsch\neteesti\nelελληνικά\nenEnglish\nfrfrançais\ngaGaeilge\nhrhrvatski\nititaliano\nlvlatviešu\nltlietuvių\nhumagyar\nmtMalti",
         "matchedWords": {
           "6zmbyspob4YJ": {
             "hits": 0,
-            "textWords": 0
+            "textWords": 264
           },
           "C4U1RGaZEs7W": {
-            "hits": 13,
-            "textWords": 353
+            "hits": 15,
+            "textWords": 264
           }
         }
       },
       {
-        "hash": "waQr5tIIL7ew",
-        "address": "https://stallman.org/archives/2022-jan-apr.html",
-        "title": "2022: January - April Political Notes",
-        "snippet": "",
+        "hash": "9b5fJl1Tzgcx",
+        "address": "https://www.worldbank.org/en/news/press-release/2023/12/01/mainstreaming-climate-change-into-afe-mozambique-s-planning-is-key-to-building-a-resilient-economy",
+        "title": "Mainstreaming Climate Change into Mozambique’s Planning is Key to Building a Resilient Economy",
+        "snippet": "Climate Change into Mozambique’s Planning is Key to Building a Resilient Economy\nfalse\nHome\nhttps://www.worldbank.org/ext/en/home\nNews\nhttps://www.worldbank.org/ext/en/news\nPress Release\nhttps://www.worldbank.org/en/news/all?displayconttype_exact=Press+Release\u0026lang_exact=English\nMainstreaming",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 20,
+            "textWords": 1261
           },
           "C4U1RGaZEs7W": {
-            "hits": 147,
-            "textWords": 52435
+            "hits": 35,
+            "textWords": 1261
           }
         }
       },
       {
-        "hash": "04_WK2XDslVg",
-        "address": "https://ec.europa.eu/eurostat/web/sdi/database/climate-action",
-        "title": "13. Climate action - Sustainable development goals - Eurostat",
-        "snippet": "",
+        "hash": "-KUrfNAU28d6",
+        "address": "https://www.thenationalnews.com/climate/2025/07/07/brazilian-president-urges-brics-nations-to-lead-on-climate-fight-ahead-of-cop30/",
+        "title": "Brazilian President urges Brics nations to lead on climate fight ahead of Cop30 | The National",
+        "snippet": "climate fight ahead of Cop30 | The National\nMenu Search\nUser\nMy Profile\nSaved articles\nNewsletters\nSign out\nRegister\nUser\nSign in\nUser\nSign in\nRegister\nSign in\nNews\nBusiness\nOpinion\nFuture\nClimate\nHealth\nCulture\nLifestyle\nSport\nPuzzles\nNewsletters\nTN Magazine\nInternational EditionChevron",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 996
           },
           "C4U1RGaZEs7W": {
-            "hits": 10,
-            "textWords": 846
+            "hits": 15,
+            "textWords": 996
           }
         }
       },
       {
-        "hash": "3jqqLl6ahC7x",
-        "address": "https://www.greenfacts.org/en/climate-change-ar6-impacts/index.htm",
-        "title": "IPCC Climate Change technical report 2022: Impacts, Adaptation and Vulnerability",
-        "snippet": "",
+        "hash": "2ADbTD5jvdsw",
+        "address": "https://climatecommunication.yale.edu/about/projects/identifying-climate-messages-work/",
+        "title": "Identifying Climate Messages That Work - Yale Program on Climate Change Communication",
+        "snippet": "Climate Messages That Work - Yale Program on Climate Change Communication\nYale Program on Climate Change Communication\nGet Updates\nAbout About YPCCC\nYale Climate Connections\nOur Team\nEmployment\nStudent Employment\nContact Us\nNews \u0026 Media For The Media\nEvents\nYPCCC in the News\nBlog\nOur Research",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 26,
+            "textWords": 1321
           },
           "C4U1RGaZEs7W": {
-            "hits": 120,
-            "textWords": 6643
+            "hits": 49,
+            "textWords": 1321
           }
         }
       },
       {
-        "hash": "2c52TjrKlibw",
-        "address": "https://www.wri.org/index%2Ephp/insights/ukraine-food-security-climate-change",
-        "title": "7 Ways to Support Food Security \u0026 the Climate in Ukraine | World Resources Institute",
-        "snippet": "",
+        "hash": "yMlcfO-f5Pf4",
+        "address": "https://www.perlego.com/book/4888268/climate-adaptation-for-architects-a-design-toolkit-pdf",
+        "title": "[PDF] Climate Adaptation for Architects by Allison Anderson | 9781032702865, 9781040389591",
+        "snippet": "Climate Adaptation for Architects by Allison Anderson | 9781032702865, 9781040389591\nSkip to main content\nPerlego\nBrowse\nInstitutions\nPricing\nLogin\nSign up to read\nglobe icon\nclose\nglobe icon\nEnglish\nclose\nBrowse by topic\nArchitecture\nArt\nBiological Sciences\nBusiness\nComputer Science\nDesign",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 4,
+            "textWords": 844
           },
           "C4U1RGaZEs7W": {
-            "hits": 17,
-            "textWords": 2649
+            "hits": 12,
+            "textWords": 844
           }
         }
       },
       {
-        "hash": "0_2DQLmMQij4",
-        "address": "https://www.who.int/activities/awareness-raising-to-protect-human-health-from-climate-change",
-        "title": "Advocacy and Partnerships to protect human health from climate change",
+        "hash": "S1jsole9g31w",
+        "address": "https://www.eib.org/en/stories/food-agriculture-climate-solutions",
+        "title": "Climate solutions: Your stomach can save humanity",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
@@ -716,8 +718,56 @@
             "textWords": 0
           },
           "C4U1RGaZEs7W": {
-            "hits": 25,
-            "textWords": 1116
+            "hits": 21,
+            "textWords": 4942
+          }
+        }
+      },
+      {
+        "hash": "nTv0f3toV5Bw",
+        "address": "https://cpaess.ucar.edu/meetings/societally-relevant-multi-year-climate-predictions-workshop",
+        "title": "Societally-Relevant Multi-Year Climate Predictions Workshop | Cooperative Programs for the Advancement of Earth System Science (CPAESS)",
+        "snippet": "Climate Predictions Workshop | Cooperative Programs for the Advancement of Earth System Science (CPAESS)\nSocietally-Relevant Multi-Year Climate Predictions Workshop | Cooperative Programs for the Advancement of Earth System Science (CPAESS)\nSkip to main content Main navigation\nCooperative Programs",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 2,
+            "textWords": 363
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 6,
+            "textWords": 363
+          }
+        }
+      },
+      {
+        "hash": "JVqp9dijm46g",
+        "address": "https://www.somerset.gov.uk/climate-nature-and-water/health-and-wellbeing/",
+        "title": "Your health and wellbeing in a changing climate",
+        "snippet": "climate\nSkip to main content Cookies on our website\nWe use essential cookies to make this website work.\nWe would also like to use optional cookies to understand how people use the site and help us improve it. We do not collect any data that can personally identify you.\nYou can choose to accept or",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 5,
+            "textWords": 1026
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 20,
+            "textWords": 1026
+          }
+        }
+      },
+      {
+        "hash": "mqNO7lKyg81x",
+        "address": "https://www.carbonbrief.org/mapped-how-climate-change-affects-extreme-weather-around-the-world",
+        "title": "Mapped: How climate change affects extreme weather around the world",
+        "snippet": "climate change affects extreme weather around the world\nSkip to content\nSearch\nSearch\nNewsletters\nMenu\nCarbon Brief is a specialist climate change publication producing in-depth coverage of climate science and policy.\nClose\nEnergy\nNature\nPolicy\nScience\nView all\nChina\nIndia\nUK\nUS\nView all\nAnalysis",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 75,
+            "textWords": 6488
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 96,
+            "textWords": 6488
           }
         }
       }
@@ -727,43 +777,27 @@
         "hash": "O7hcoa-i-k-g",
         "address": "https://www.lse.ac.uk/lse-player/the-hidden-health-crisis-behind-climate-change-lse-future-proof",
         "title": "The hidden health crisis behind climate change | LSE Future Proof - LSE",
-        "snippet": "",
+        "snippet": "climate change | LSE Future Proof - LSE\nSkip to main content\nCurrent students\nStaff\nAlumni \u0026 friends\nStudy\nStudy at LSE\nUndergraduate study\nGraduate study\nGlobal and Online Degrees\nExecutive Education\nOnline courses\nExecutive Master's Degrees\nLSE Summer School\nStudy abroad\nMeet, visit and discover",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 12,
-            "textWords": 1408
+            "hits": 14,
+            "textWords": 1020
           },
           "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 15,
+            "textWords": 1020
           }
         }
       },
       {
-        "hash": "1HKmQlKyg81x",
-        "address": "https://www.carbonbrief.org/explainer-dealing-with-the-loss-and-damage-caused-by-climate-change",
-        "title": "Explainer: Dealing with the 'loss and damage' caused by climate change - Carbon Brief",
+        "hash": "XzojnlKyg81x",
+        "address": "https://www.carbonbrief.org/analysis-nine-key-moments-that-changed-chinas-mind-about-climate-change",
+        "title": "Analysis: Nine key moments that changed China’s mind about climate change - Carbon Brief",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 35,
-            "textWords": 3179
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      },
-      {
-        "hash": "cIFrCb3Ieh7g",
-        "address": "https://economy-finance.ec.europa.eu/publications/assessing-macro-fiscal-risks-climate-change-concepts-methodological-approaches-and-insights-country_en?prefLang=pl",
-        "title": "Assessing the Macro-Fiscal Risks from Climate Change: Concepts, Methodological Approaches, and Insights from Country Practices - Economy and Finance",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 7,
-            "textWords": 744
+            "hits": 58,
+            "textWords": 14261
           },
           "C4U1RGaZEs7W": {
             "hits": 0,
@@ -788,34 +822,18 @@
         }
       },
       {
-        "hash": "5CGlk2lbxFxx",
-        "address": "https://www.navigation.org/grants/climate-change",
-        "title": "Climate Change | The Navigation Fund",
-        "snippet": "",
+        "hash": "cIFrCb3Ieh7g",
+        "address": "https://economy-finance.ec.europa.eu/publications/assessing-macro-fiscal-risks-climate-change-concepts-methodological-approaches-and-insights-country_en?prefLang=pl",
+        "title": "Assessing the Macro-Fiscal Risks from Climate Change: Concepts, Methodological Approaches, and Insights from Country Practices - Economy and Finance",
+        "snippet": "Climate Change: Concepts, Methodological Approaches, and Insights from Country Practices - Economy and Finance\nSkip to main content\nenSelect your language\nClose\nbgбългарски\nesespañol\ncsčeština\ndadansk\ndeDeutsch\neteesti\nelελληνικά\nenEnglish\nfrfrançais\ngaGaeilge\nhrhrvatski\nititaliano\nlvlatviešu",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 14,
-            "textWords": 1482
+            "hits": 8,
+            "textWords": 558
           },
           "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      },
-      {
-        "hash": "r2doDsOLCOH6",
-        "address": "https://wattsupwiththat.com/climate-change-is-increasing-the-strength-and-frequency-of-hurricanes/",
-        "title": "Climate Change is Increasing the Strength and Frequency of Hurricanes - Watts Up With That?",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 20,
-            "textWords": 2177
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 13,
+            "textWords": 558
           }
         }
       },
@@ -823,49 +841,33 @@
         "hash": "LqPrpbVBAEt4",
         "address": "https://research.google/pubs/what-it-would-really-take-to-reverse-climate-change/",
         "title": "What It Would Really Take to Reverse Climate Change",
-        "snippet": "",
+        "snippet": "Climate Change\nSkip to main content\nExplore our many areas of focus\nExplore all research areas\nApplied AI \u0026 sciences\nEarth AI\nHealth AI\nScience AI\nSustainability \u0026 crisis resilience\nFoundational ML \u0026 algorithms\nAlgorithms \u0026 theory\nInformation retrieval\nMachine intelligence\nMachine perception",
         "matchedWords": {
           "6zmbyspob4YJ": {
             "hits": 2,
-            "textWords": 1008
+            "textWords": 572
           },
           "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 572
           }
         }
       }
     ],
     [
       {
-        "hash": "Glu_e5GPlOdg",
-        "address": "https://www.daera-ni.gov.uk/articles/northern-ireland-climate-change-adaptation-programme",
-        "title": "Northern Ireland Climate Change Adaptation Programme | Department of Agriculture, Environment and Rural Affairs",
-        "snippet": "",
+        "hash": "VhlcETGPlOdg",
+        "address": "https://www.daera-ni.gov.uk/consultations/public-consultation-draft-third-northern-ireland-climate-change-adaptation-programme-niccap3",
+        "title": "Public Consultation on the draft Third Northern Ireland Climate Change Adaptation Programme (NICCAP3) | Department of Agriculture, Environment and Rural Affairs",
+        "snippet": "Climate Change Adaptation Programme (NICCAP3) | Department of Agriculture, Environment and Rural Affairs\nSkip to main content Department of Agriculture, Environment and Rural Affairs\nDepartment of\nAgriculture, Environment\nand Rural Affairs\nAn Roinn\nTalmhaíochta, Comhshaoil\nagus Gnóthaí Tuaithe",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 60,
-            "textWords": 1636
+            "hits": 14,
+            "textWords": 619
           },
           "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      },
-      {
-        "hash": "QU4s6s_wyst4",
-        "address": "https://observer.com/climate-change/",
-        "title": "Climate Change | Observer",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 6,
-            "textWords": 1668
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 14,
+            "textWords": 619
           }
         }
       },
@@ -873,70 +875,118 @@
         "hash": "jFH1V7rrBtSg",
         "address": "https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe/eu-missions-horizon-europe/adaptation-climate-change_en",
         "title": "EU Mission: Adaptation to Climate Change",
-        "snippet": "",
+        "snippet": "Climate Change\nSkip to main content\nenSelect your language\nClose\nbgбългарски\nesespañol\ncsčeština\ndadansk\ndeDeutsch\neteesti\nelελληνικά\nenEnglish\nfrfrançais\ngaGaeilge\nhrhrvatski\nititaliano\nlvlatviešu\nltlietuvių\nhumagyar\nmtMalti\nnlNederlands\nplpolski\nptportuguês\nroromână\nskslovenčina\nslslovenščina",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 15,
-            "textWords": 1316
+            "hits": 16,
+            "textWords": 1129
           },
           "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 38,
+            "textWords": 1129
+          }
+        }
+      },
+      {
+        "hash": "QU4s6s_wyst4",
+        "address": "https://observer.com/climate-change/",
+        "title": "Climate Change | Observer",
+        "snippet": "Climate Change | Observer\nSearch for:\nSubmit\nObserver\nBusiness\nArt\nLifestyle\nNewsletters\nBusiness\nFinance\nMedia\nTechnology\nPolicy\nWealth\nInsights\nInterviews\nArt\nArt Fairs\nArt Market\nArt Reviews\nAuctions\nGalleries\nMuseums\nInterviews\nLifestyle\nNightlife \u0026 Dining\nStyle\nTravel\nInterviews\nPower Lists",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 7,
+            "textWords": 743
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 12,
+            "textWords": 743
           }
         }
       }
     ],
     [
-      {
-        "hash": "Vue0tWt3OzH5",
-        "address": "https://depositsmag.com/tag/climate-change/",
-        "title": "climate change – DEPOSITS MAGAZINE",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 40,
-            "textWords": 2930
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      },
-      {
-        "hash": "mar9Z0N6vgFx",
-        "address": "https://heartland.org/events/15th-international-conference-on-climate-change/",
-        "title": "15th International Conference on Climate Change - The Heartland Institute",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 8,
-            "textWords": 567
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      },
       {
         "hash": "ncY549TRvWp5",
         "address": "https://hecubus.wordpress.com/category/global-climate-change/",
         "title": "global climate change | We Have Seen Better Days",
+        "snippet": "climate change | We Have Seen Better Days\nHome\nWe Have Seen Better Days\nInterests and Irritations\nFeeds:\nPosts\nComments\nArchive for the ‘global climate change’ Category\nPEW Poll on Global Warming – Americans Smarten Up\nPosted in An Inconvenient Truth, anthropogenic global warming, Documentary,",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 56,
+            "textWords": 17140
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 95,
+            "textWords": 17140
+          }
+        }
+      },
+      {
+        "hash": "uQJ5Mfm7MhAy",
+        "address": "https://hechingerreport.org/special-reports/climate-change/",
+        "title": "Climate change: Are we ready? - The Hechinger Report",
+        "snippet": "Climate change: Are we ready? - The Hechinger Report\nClose\nSearch for:\nSearch\nNewsletters\nAbout\nDonate\nTwitter\nFacebook\nInstagram\nRSS Feed\nClose\nSkip to content\nThe Hechinger Report\nCovering Innovation \u0026 Inequality in Education\nNewsletters\nAbout\nDonate\nOpen Search\nSearch for:\nSearch\nMenu\nClimate",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 20,
+            "textWords": 728
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 13,
+            "textWords": 728
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "zPce29IcbLAw",
+        "address": "https://www.change.org/local/dallas--tx--us?source_location=location-sitemap-most-visited-section",
+        "title": "Petitions in Dallas - Support Local Causes \u0026 Make a Difference | Dallas, Texas · Change.org",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 46,
-            "textWords": 17129
+            "hits": 5,
+            "textWords": 1226
           },
           "C4U1RGaZEs7W": {
             "hits": 0,
             "textWords": 0
           }
         }
-      }
-    ],
-    [
+      },
+      {
+        "hash": "54Qky2kwQsLw",
+        "address": "https://droughtmonitor.unl.edu/Maps/ChangeMaps.aspx",
+        "title": "Change Maps | U.S. Drought Monitor",
+        "snippet": "",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 3,
+            "textWords": 785
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      },
+      {
+        "hash": "CvYIMh5-F5dg",
+        "address": "https://www.bgs.ac.uk/discovering-geology/climate-change/",
+        "title": "Discovering Geology: climate change - British Geological Survey",
+        "snippet": "climate change - British Geological Survey\nSkip to Content\nNews and events\nBGS Shop\nHosted sites\nSkip to Content\nSearch Button\nAbout BGS Overview\nOur work Who we work with\nGovernment and policy\nScience briefing papers\nOur history\nEnvironmental policy and sustainability strategy\nHow we use drones",
+        "matchedWords": {
+          "6zmbyspob4YJ": {
+            "hits": 21,
+            "textWords": 1142
+          },
+          "C4U1RGaZEs7W": {
+            "hits": 26,
+            "textWords": 1142
+          }
+        }
+      },
       {
         "hash": "X-bsolINTRD4",
         "address": "https://www.avclub.com/the-best-movies-of-2006",
@@ -952,32 +1002,18 @@
             "textWords": 0
           }
         }
-      },
+      }
+    ],
+    [
       {
-        "hash": "CvYIMh5-F5dg",
-        "address": "https://www.bgs.ac.uk/discovering-geology/climate-change/",
-        "title": "Discovering Geology: climate change - British Geological Survey",
+        "hash": "6ItKbWOiSHKx",
+        "address": "https://he.wikipedia.org/wiki/%D7%A8%D7%95%D7%A1%D7%99%D7%94",
+        "title": "רוסיה – ויקיפדיה",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 21,
-            "textWords": 1566
-          },
-          "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      },
-      {
-        "hash": "wwDOS9j078-4",
-        "address": "https://www.statnews.com/2026/08/12/climate-change-chronic-disease-heat-smoke-arthritis-lupus-pots/",
-        "title": "Climate change is deadly for people with chronic diseases | STAT",
-        "snippet": "",
-        "matchedWords": {
-          "6zmbyspob4YJ": {
-            "hits": 5,
-            "textWords": 1914
+            "hits": 1,
+            "textWords": 6408
           },
           "C4U1RGaZEs7W": {
             "hits": 0,
@@ -1009,15 +1045,15 @@
         "hash": "eSKGo9JF2J06",
         "address": "https://store.legal.thomsonreuters.com/en-us/legal/environmental-law/climate-change",
         "title": "Climate Change Law Resource Books|Thomson Reuters Legal",
-        "snippet": "",
+        "snippet": "Climate Change Law Resource Books|Thomson Reuters Legal\nSkip to main content\nLegal\nTax \u0026 Accounting\nTrade \u0026 Supply\nRisk \u0026 Fraud\nNews \u0026 Media\nBooks\nDevelopers\nBack\nLegal\nCategories\nBusiness development\nCorporate \u0026 business organization\nDrafting software, service \u0026 guidance\nEvidence\nFinancial",
         "matchedWords": {
           "6zmbyspob4YJ": {
             "hits": 3,
-            "textWords": 2110
+            "textWords": 1776
           },
           "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 3,
+            "textWords": 1776
           }
         }
       },
@@ -1025,15 +1061,15 @@
         "hash": "TTdgPlS5WTn4",
         "address": "https://www.jpost.com/environment-and-climate-change",
         "title": "Environment \u0026 Climate Change | The Jerusalem Post",
-        "snippet": "",
+        "snippet": "Climate Change | The Jerusalem Post\nCONFERENCES\nISRAEL NEWS\nWORLD NEWS\nMIDDLE EAST\nBUSINESS \u0026 INNOVATION\nDEFENSE \u0026 TECH\nOPINION\nJP STORE\nLogin\nLoginSubscribe\nJPOST DIGITAL LIBRARY\nHOME PAGE\nTHE JERUSALEM REPORT\nDEFENSE \u0026 TECH\nJPOST HIGHER EDUCATION\nOPINION\nBUSINESS \u0026 INNOVATION\nREAL ESTATE LISTINGS",
         "matchedWords": {
           "6zmbyspob4YJ": {
             "hits": 6,
-            "textWords": 1489
+            "textWords": 734
           },
           "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 7,
+            "textWords": 734
           }
         }
       },
@@ -1073,15 +1109,15 @@
         "hash": "8qifDNmMQij4",
         "address": "https://www.who.int/europe/health-topics/climate-change",
         "title": "Climate change EURO",
-        "snippet": "",
+        "snippet": "Climate change EURO\nSkip to main content\nGlobal\nRegions\nWHO Regional websites\nAfrica\nAmericas\nSouth-East Asia\nEurope\nEastern Mediterranean\nWestern Pacific\nCountries\nAlbania\nAndorra\nArmenia\nAustria\nAzerbaijan\nBelarus\nBelgium\nBosnia and Herzegovina\nBulgaria\nCroatia\nCyprus\nCzechia\nDenmark\nEstonia",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 10,
-            "textWords": 1726
+            "hits": 11,
+            "textWords": 1230
           },
           "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 34,
+            "textWords": 1230
           }
         }
       },
@@ -1089,29 +1125,29 @@
         "hash": "AJzS5jAg8xXw",
         "address": "https://en.wikinews.org/wiki/Category:2012_United_Nations_Climate_Change_Conference",
         "title": "Category:2012 United Nations Climate Change Conference - Wikinews, the free news source",
-        "snippet": "",
+        "snippet": "Climate Change Conference - Wikinews, the free news source\nJump to content\nMain menu\nMain menu\nmove to sidebar\nhide\nNavigation\nMain page\nNewsroom\nRecent changes\nRandom article\nArchives\nFree use media upload\nWikinews\nHelp\nPillars of writing\nWrite an article\nWater cooler\nStyle guide\nLive chat\nDonate",
         "matchedWords": {
           "6zmbyspob4YJ": {
             "hits": 6,
-            "textWords": 748
+            "textWords": 452
           },
           "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 6,
+            "textWords": 452
           }
         }
       }
     ],
     [
       {
-        "hash": "oy_BfnOrhOS4",
-        "address": "https://edition.cnn.com/2007/WORLD/europe/11/17/spain.climate/",
-        "title": "U.N. report: Urgent action needed on 'severe' climate change - CNN.com",
+        "hash": "p9PrkzUfA8tY",
+        "address": "http://obamacartoon.blogspot.com/2011/08/",
+        "title": "TRUMP LAND : August 2011",
         "snippet": "",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 12,
-            "textWords": 1408
+            "hits": 32,
+            "textWords": 26688
           },
           "C4U1RGaZEs7W": {
             "hits": 0,
@@ -1125,15 +1161,15 @@
         "hash": "oz8tMTetCYjx",
         "address": "https://www.orfonline.org/programme/inclusive-growth-and-sdgs/climate-change-and-sustainable-development",
         "title": "Climate Change And Sustainable Development | ORF",
-        "snippet": "",
+        "snippet": "Climate Change And Sustainable Development | ORF\nORF हिन्दी ORF मराठी ORF বাংলা Subscribe\nRESEARCH Essay Series\nExpert Speak\nCommentaries\nYoung Voices\nSeries\nLong-form\nIssue Briefs\nSpecial Reports\nOccasional Papers\nGP-ORF Series\nBooks and Monographs\nMonitors\nVideos\nBrowse by Topics\nCENTRES",
         "matchedWords": {
           "6zmbyspob4YJ": {
             "hits": 7,
-            "textWords": 2118
+            "textWords": 1024
           },
           "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 11,
+            "textWords": 1024
           }
         }
       },
@@ -1157,15 +1193,15 @@
         "hash": "alH4nmCCIsDg",
         "address": "https://agriculture.ec.europa.eu/cap-my-country/sustainability/environmental-sustainability/climate-change_en",
         "title": "Climate change - Agriculture and rural development - European Commission",
-        "snippet": "",
+        "snippet": "Climate change - Agriculture and rural development - European Commission\nSkip to main content\nenSelect your language\nClose\nbgбългарски\nesespañol\ncsčeština\ndadansk\ndeDeutsch\neteesti\nelελληνικά\nenEnglish\nfrfrançais\ngaGaeilge\nhrhrvatski\nititaliano\nlvlatviešu\nltlietuvių\nhumagyar\nmtMalti\nnlNederlands",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 21,
-            "textWords": 2073
+            "hits": 22,
+            "textWords": 1745
           },
           "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 41,
+            "textWords": 1745
           }
         }
       },
@@ -1189,15 +1225,15 @@
         "hash": "X-oflT_jZEx4",
         "address": "https://www.ey.com/en_sg/services/climate-change-sustainability-services",
         "title": "Climate change \u0026 sustainability services | EY Singapore",
-        "snippet": "",
+        "snippet": "Climate change \u0026 sustainability services | EY Singapore\nEY Logo\nInsights AI Insights\nTrust\nPurpose\nSustainability\nTechnology\nTransformation\nServices Strategy by EY-Parthenon Strategy Consulting\nCorporate Strategy\nGeopolitical Strategy\nCommercial Strategy\nWorking Capital\nTurnaround and Restructuring",
         "matchedWords": {
           "6zmbyspob4YJ": {
-            "hits": 16,
-            "textWords": 2291
+            "hits": 17,
+            "textWords": 1945
           },
           "C4U1RGaZEs7W": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 21,
+            "textWords": 1945
           }
         }
       },
@@ -1272,6 +1308,22 @@
       "hash": "-p2w3taoSn1x",
       "address": "https://en.planet.wikimedia.org/",
       "title": "en.planet.wikimedia.org",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "GaHMqEb-Tly5",
+      "address": "https://greenteeth.wordpress.com/",
+      "title": "Greenteeth Bites | Hard hitting comments on the madness of the world",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1397,38 +1449,6 @@
       }
     },
     {
-      "hash": "7GLTa2cHOkWx",
-      "address": "https://www.gutenberg.org/files/12342/12342-h/12342-h.htm",
-      "title": "The Project Gutenberg eBook of The Nuttall Encyclopædia, edited by the Rev. James Wood",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "Q4SEOs3rpWVz",
       "address": "https://inconvenienttruths.net/",
       "title": "INCONVENIEINCONVENIENT TRUTHS - DEEP STATE, JFK, GLOBAL FINANCIAL ELITE, POWER ELITE, PLUTOCRACY, MEDICAL MAFIA, VACCINES, FALSE FLAGS, GLOBALISM, CORPORATOCRACY, ZIONISM, MOSSAD",
@@ -1480,6 +1500,22 @@
       "hash": "uFRXijRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Barack_Obama",
       "title": "Barack Obama - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "7IIFujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/United_Kingdom",
+      "title": "United Kingdom - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1669,9 +1705,73 @@
       }
     },
     {
+      "hash": "CyUYvsY-tUi5",
+      "address": "https://moralparty.com/Warnings/",
+      "title": "Warnings – MoralParty.com",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "D4lABzaS0qdw",
       "address": "https://planet.debian.org/",
       "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "GaHMqEb-Tly5",
+      "address": "https://greenteeth.wordpress.com/",
+      "title": "Greenteeth Bites | Hard hitting comments on the madness of the world",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D_FUmsbQMMCy",
+      "address": "https://realworldorder.net/",
+      "title": "ROTHSCHILD WORLD ORDER - ROTHSCHILD, FINANCIAL OLIGARCHY, MONEY POWER, RULING ELITE, GLOBAL ELITE, DYNASTIC OLIGARCHY, POWER ELITE, DEEP STATE, ROCKEFELLER, GLOBALISM, NEW WORLD",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "190N3snp_33z",
+      "address": "https://globalkleptocracy.net/",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -1704,22 +1804,6 @@
       "hash": "phB_Oj-JVcyx",
       "address": "https://en.wikiquote.org/wiki/Love",
       "title": "Love - Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "6apnaj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Science",
-      "title": "",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -2005,22 +2089,6 @@
       }
     },
     {
-      "hash": "6apnaj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Science",
-      "title": "Science - Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "Na9tTl05rw04",
       "address": "https://www.unz.com/",
       "title": "The Unz Review • An Alternative Media Selection - The Unz Review",
@@ -2165,6 +2233,22 @@
       }
     },
     {
+      "hash": "7IIFujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/United_Kingdom",
+      "title": "United Kingdom - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "pLvr3lS5WTn4",
       "address": "https://www.jpost.com/",
       "title": "The Jerusalem Post - All News from the Middle East, Israel, and the Jewish World",
@@ -2293,6 +2377,22 @@
       }
     },
     {
+      "hash": "CyUYvsY-tUi5",
+      "address": "https://moralparty.com/Warnings/",
+      "title": "Warnings – MoralParty.com",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "J6LFIsYyzH0z",
       "address": "https://awesome-selfhosted.net/",
       "title": "awesome-selfhosted",
@@ -2341,6 +2441,22 @@
       }
     },
     {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "0kg9LsaTsUao",
       "address": "https://mybudaya.id/",
       "title": "mybudayaid",
@@ -2357,9 +2473,25 @@
       }
     },
     {
-      "hash": "7GLTa2cHOkWx",
-      "address": "https://www.gutenberg.org/files/12342/12342-h/12342-h.htm",
-      "title": "The Project Gutenberg eBook of The Nuttall Encyclopædia, edited by the Rev. James Wood",
+      "hash": "GaHMqEb-Tly5",
+      "address": "https://greenteeth.wordpress.com/",
+      "title": "Greenteeth Bites | Hard hitting comments on the madness of the world",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D_FUmsbQMMCy",
+      "address": "https://realworldorder.net/",
+      "title": "ROTHSCHILD WORLD ORDER - ROTHSCHILD, FINANCIAL OLIGARCHY, MONEY POWER, RULING ELITE, GLOBAL ELITE, DYNASTIC OLIGARCHY, POWER ELITE, DEEP STATE, ROCKEFELLER, GLOBALISM, NEW WORLD ORDER",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -2437,22 +2569,6 @@
       }
     },
     {
-      "hash": "6ekYMPsrSOQw",
-      "address": "https://arxiv.org/abs/2402.09470",
-      "title": "[2402.09470] Rolling Diffusion Models",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "Wfq3FswvoTD5",
       "address": "https://r-universe.dev/articles",
       "title": "R-universe - browse articles",
@@ -2517,22 +2633,6 @@
       }
     },
     {
-      "hash": "D4lABzaS0qdw",
-      "address": "https://planet.debian.org/",
-      "title": "Planet Debian",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "jI-jjsjsdFw4",
       "address": "https://akdart.com/lib73.html",
       "title": "Which party promotes hate speech and violence?",
@@ -2583,7 +2683,7 @@
     {
       "hash": "190N3snp_33z",
       "address": "https://globalkleptocracy.net/",
-      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG",
+      "title": "GLOBAL KLEPTOCRACY - GLOBAL ELITE, RULING ELITE, GLOBAL OLIGARCHY, DEEP STATE, GLOBALISM, DYNASTIC ELITE, MONOPOLY CAPITALISM, CORPORATOCRACY, PLUTOCRACY, MONEY LAUNDERING, DRUG TRAFFICKING",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -2789,38 +2889,6 @@
       }
     },
     {
-      "hash": "6apnaj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Science",
-      "title": "Science - Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "6n2Qqj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Ralph_Waldo_Emerson",
-      "title": "Ralph Waldo Emerson - Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "6JvYOv8B3Aeg",
       "address": "https://commission.europa.eu/cookies-policy_en",
       "title": "Cookies policy - European Commission",
@@ -2936,22 +3004,6 @@
       "hash": "phB_Oj-JVcyx",
       "address": "https://en.wikiquote.org/wiki/Love",
       "title": "Love - Wikiquote",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "6n2Qqj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Ralph_Waldo_Emerson",
-      "title": "Ralph Waldo Emerson - Wikiquote",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -3093,6 +3145,22 @@
       }
     },
     {
+      "hash": "7IIFujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/United_Kingdom",
+      "title": "United Kingdom - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "-hqIvsV0Vh5w",
       "address": "https://unric.org/en/",
       "title": "United Nations in Western Europe - UNRIC Brussels",
@@ -3221,9 +3289,25 @@
       }
     },
     {
-      "hash": "7GLTa2cHOkWx",
-      "address": "https://www.gutenberg.org/files/12342/12342-h/12342-h.htm",
-      "title": "The Project Gutenberg eBook of The Nuttall Encyclopædia, edited by the Rev. James Wood",
+      "hash": "GaHMqEb-Tly5",
+      "address": "https://greenteeth.wordpress.com/",
+      "title": "Greenteeth Bites | Hard hitting comments on the madness of the world",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D_FUmsbQMMCy",
+      "address": "https://realworldorder.net/",
+      "title": "ROTHSCHILD WORLD ORDER - ROTHSCHILD, FINANCIAL OLIGARCHY, MONEY POWER, RULING ELITE, GLOBAL ELITE, DYNASTIC OLIGARCHY, POWER ELITE, DEEP STATE, ROCKEFELLER, GLOBALISM, NEW WORLD ORDER",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -3304,22 +3388,6 @@
       "hash": "XTPIBlptNsG4",
       "address": "https://www.akdart.com/hijrah.html",
       "title": "Islamic invasion disguised as the displacement and acceptance of refugees",
-      "snippet": "",
-      "matchedWords": {
-        "6zmbyspob4YJ": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "C4U1RGaZEs7W": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "6ekYMPsrSOQw",
-      "address": "https://arxiv.org/abs/2402.09470",
-      "title": "[2402.09470] Rolling Diffusion Models",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -3477,6 +3545,22 @@
       }
     },
     {
+      "hash": "CyUYvsY-tUi5",
+      "address": "https://moralparty.com/Warnings/",
+      "title": "Warnings – MoralParty.com",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "59FTtQZchFfZ",
       "address": "http://www.greenteethmm.com/MH17-news-suppressed.shtml",
       "title": "downed-malaysia-airlines-flight-mh17-news-developments-being-suppressed-by-mainstream-media.",
@@ -3527,7 +3611,7 @@
     {
       "hash": "GtLjhloUbV15",
       "address": "https://www.whatfinger.com/",
-      "title": "Whatfinger News™ – Unfiltered Truth. America’s News Feed",
+      "title": "Whatfinger News® – Unfiltered Truth. America’s News Feed",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -3893,6 +3977,22 @@
       }
     },
     {
+      "hash": "7IIFujRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/United_Kingdom",
+      "title": "United Kingdom - Wikipedia",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "jgWYRlV1C_95",
       "address": "https://www.ferdyonfilms.com/",
       "title": "Ferdy on Films",
@@ -3973,6 +4073,22 @@
       }
     },
     {
+      "hash": "CyUYvsY-tUi5",
+      "address": "https://moralparty.com/Warnings/",
+      "title": "Warnings – MoralParty.com",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "a-z2eQZchFfZ",
       "address": "http://www.greenteethmm.com/climate-scam-real-agenda.shtml",
       "title": "un-official-reveals-real-reason-behind-warming-scare-news-opinion-comment-daily-stirrer",
@@ -4040,6 +4156,38 @@
       "hash": "0kg9LsaTsUao",
       "address": "https://mybudaya.id/",
       "title": "mybudayaid",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "GaHMqEb-Tly5",
+      "address": "https://greenteeth.wordpress.com/",
+      "title": "Greenteeth Bites | Hard hitting comments on the madness of the world",
+      "snippet": "",
+      "matchedWords": {
+        "6zmbyspob4YJ": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "C4U1RGaZEs7W": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D_FUmsbQMMCy",
+      "address": "https://realworldorder.net/",
+      "title": "ROTHSCHILD WORLD ORDER - ROTHSCHILD, FINANCIAL OLIGARCHY, MONEY POWER, RULING ELITE, GLOBAL ELITE, DYNASTIC OLIGARCHY, POWER ELITE, DEEP STATE, ROCKEFELLER, GLOBALISM, NEW WORLD",
       "snippet": "",
       "matchedWords": {
         "6zmbyspob4YJ": {
@@ -4214,7 +4362,7 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "6zmbyspob4YJ": 276343,
-    "C4U1RGaZEs7W": 109193
+    "6zmbyspob4YJ": 277396,
+    "C4U1RGaZEs7W": 110262
   }
 }

@@ -2,15 +2,21 @@
   "query": "postgresql documentation",
   "judgedDocuments": [
     {
+      "hash": "BR1Be6RMLT-5",
+      "address": "https://canonical.com/data/postgresql",
+      "title": "PostgreSQL | Canonical",
+      "grade": 0
+    },
+    {
       "hash": "Hb2lZx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/extend-how.html",
       "title": "PostgreSQL: Documentation: 18: 36.1. How Extensibility Works",
       "grade": 2
     },
     {
-      "hash": "S1Yp5x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/spi-spi-freeplan.html",
-      "title": "PostgreSQL: Documentation: 18: SPI_freeplan",
+      "hash": "lYsgT81iNM2x",
+      "address": "https://wiki.postgresql.org/wiki/Category:Documentation",
+      "title": "Category:Documentation - PostgreSQL wiki",
       "grade": 2
     },
     {
@@ -20,21 +26,9 @@
       "grade": 2
     },
     {
-      "hash": "H3k5-x7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/tutorial-advanced.html",
-      "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
-      "grade": 2
-    },
-    {
-      "hash": "BJhprx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/plpython-python23.html",
-      "title": "PostgreSQL: Documentation: 18: 44.10. Python 2 vs. Python 3",
-      "grade": 2
-    },
-    {
-      "hash": "CpKsWx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/xfunc-pl.html",
-      "title": "PostgreSQL: Documentation: 18: 36.8. Procedural Language Functions",
+      "hash": "S1Yp5x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/spi-spi-freeplan.html",
+      "title": "PostgreSQL: Documentation: 18: SPI_freeplan",
       "grade": 2
     },
     {
@@ -44,21 +38,33 @@
       "grade": 0
     },
     {
-      "hash": "MXqsU1e7r2M5",
-      "address": "https://www.appsignal.com/nodejs/postgresql-monitoring",
-      "title": "PostgreSQL Monitoring with AppSignal for Node.js | AppSignal",
+      "hash": "H3k5-x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/tutorial-advanced.html",
+      "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
+      "grade": 2
+    },
+    {
+      "hash": "yRevkYe7r2M5",
+      "address": "https://www.appsignal.com/python/postgresql-monitoring",
+      "title": "Psycopg2 PostgreSQL monitoring for Python | AppSignal",
       "grade": 0
     },
     {
-      "hash": "3-U8T8S15f35",
-      "address": "https://topic.alibabacloud.com/a/configuration-file-for-postgresql_1_44_30003428.html",
-      "title": "Configuration file for PostgreSQL",
+      "hash": "a7Urh_nMM_j5",
+      "address": "https://grokipedia.com/page/PostgreSQL",
+      "title": "PostgreSQL — Grokipedia",
       "grade": 1
     },
     {
-      "hash": "1yTpG0S6MKD4",
-      "address": "https://github.com/Vonng/pgtpc",
-      "title": "GitHub - Vonng/pgtpc: TPC B/C/H Benchmark for PostgreSQL · GitHub",
+      "hash": "OFFidA07xaXx",
+      "address": "https://musicbrainz.org/doc/Live_Data_Feed",
+      "title": "Live Data Feed - MusicBrainz",
+      "grade": 0
+    },
+    {
+      "hash": "XccPH7NSh3ha",
+      "address": "http://xn--gckvb8fzb.com/xbsapi-an-alternative-xbrowsersync-api-that-supports-sqlite-postgresql-and-mysql/",
+      "title": "マリウス . xbsapi: An Alternative xBrowserSync API that supports SQLite, PostgreSQL and MySQL",
       "grade": 0
     },
     {
@@ -74,21 +80,21 @@
       "grade": 0
     },
     {
-      "hash": "-HnftobrsZjx",
-      "address": "https://www.mediawiki.org/wiki/MediaWiki_1.21/wmf2",
-      "title": "MediaWiki 1.21/wmf2 - MediaWiki",
+      "hash": "Lj9Sl2c9duY5",
+      "address": "https://azure.microsoft.com/en-us",
+      "title": "Cloud Computing Services | Microsoft Azure",
       "grade": 0
+    },
+    {
+      "hash": "k5-pcx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/release/18.6/",
+      "title": "PostgreSQL: Release Notes",
+      "grade": 2
     },
     {
       "hash": "oBb9X0E95tq5",
       "address": "https://blog.appsignal.com/2017/01/27/documentation-updates.html",
       "title": "Documentation updates | AppSignal Blog",
-      "grade": 0
-    },
-    {
-      "hash": "RC3FQXCmq5v4",
-      "address": "https://www.suse.com/security/cve/CVE-2026-14676.html",
-      "title": "CVE-2026-14676 Common Vulnerabilities and Exposures | SUSE",
       "grade": 0
     }
   ]

@@ -1,11 +1,379 @@
 {
   "query": "gnu emacs manual",
-  "recordedAt": "2026-09-11T13:01:04Z",
-  "itemsInTheOrderOfEachAnswer": [],
-  "itemsInNoOrder": [],
+  "recordedAt": "2026-09-11T19:26:07Z",
+  "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "72qrVWVFEEow",
+        "address": "https://guix.gnu.org/manual/1.5.0/en/html_node/Substitute-Server-Authorization.html",
+        "title": "Substitute Server Authorization (GNU Guix Reference Manual)",
+        "snippet": "(GNU Guix Reference Manual)\nVersion\nVersion\n1.5.0\ndevelopment\nsingle page\nPDF\nDeutsch\nEnglish\nEspañol\nFrançais\nItaliano\nPortuguês\nрусский\n中文; 汉语; 华语\n⊕\nNext: Getting Substitutes from Other Servers, Previous: Official Substitute Servers, Up: Substitutes [Contents][Index]\n5.3.2 Substitute Server",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 1,
+            "textWords": 388
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 4,
+            "textWords": 388
+          },
+          "juD3tm0asFcU": {
+            "hits": 15,
+            "textWords": 388
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "1ymSjjRvmBbx",
+        "address": "https://en.wikipedia.org/wiki/Bash_(shell)",
+        "title": "Bash (Unix shell) - Wikipedia",
+        "snippet": "",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 0,
+            "textWords": 0
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 2,
+            "textWords": 15538
+          },
+          "juD3tm0asFcU": {
+            "hits": 0,
+            "textWords": 0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "QriquAK-xyJ4",
+        "address": "https://go.dev/doc/devel/weekly",
+        "title": "Weekly Snapshot History - The Go Programming Language",
+        "snippet": "Manual\nA complete introduction to building software with Go\nStandard library\nReference documentation for Go's standard library\nRelease Notes\nLearn what's new in each Go release\nEffective Go\nTips for writing clear, performant, and idiomatic Go code\nPackages Press Enter to activate/deactivate",
+        "matchedWords": {
+          "PHizVQKyaT_v": {
+            "hits": 4,
+            "textWords": 43664
+          },
+          "di0Zq1WG3Awc": {
+            "hits": 13,
+            "textWords": 43664
+          },
+          "juD3tm0asFcU": {
+            "hits": 3,
+            "textWords": 43664
+          }
+        }
+      }
+    ]
+  ],
+  "itemsInNoOrder": [
+    {
+      "hash": "D34VsF3X_rqw",
+      "address": "https://lists.gnu.org/archive/html/guix-devel/2015-01/msg00443.html",
+      "title": "GNU Guix 0.8.1 released",
+      "snippet": "GNU Guix 0.8.1 released\nguix-devel\n[Top][All Lists]\nAdvanced\n[Date Prev][Date Next][Thread Prev][Thread Next][Date Index][Thread Index] GNU Guix 0.8.1 released\nFrom:\nLudovic Courtès\nSubject:\nGNU Guix 0.8.1 released\nDate:\nThu, 29 Jan 2015 10:17:37 +0100\nUser-agent:\nGnus/5.13 (Gnus v5.13) Emacs/24.4",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 13,
+          "textWords": 2214
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 6,
+          "textWords": 2214
+        },
+        "juD3tm0asFcU": {
+          "hits": 55,
+          "textWords": 2214
+        }
+      }
+    },
+    {
+      "hash": "N8dpuF3X_rqw",
+      "address": "https://lists.gnu.org/archive/html/guix-devel/2017-12/msg00100.html",
+      "title": "GNU Guix \u0026 GuixSD 0.14.0 released",
+      "snippet": "GNU Guix \u0026 GuixSD 0.14.0 released\nguix-devel\n[Top][All Lists]\nAdvanced\n[Date Prev][Date Next][Thread Prev][Thread Next][Date Index][Thread Index] GNU Guix \u0026 GuixSD 0.14.0 released\nFrom:\nLudovic Courtès\nSubject:\nGNU Guix \u0026 GuixSD 0.14.0 released\nDate:\nThu, 07 Dec 2017 13:45:11 +0100\nUser-agent:",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 2,
+          "textWords": 7281
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 61,
+          "textWords": 7281
+        },
+        "juD3tm0asFcU": {
+          "hits": 61,
+          "textWords": 7281
+        }
+      }
+    },
+    {
+      "hash": "nzIZ8jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Lexical_scope",
+      "title": "Scope (computer programming) - Wikipedia",
+      "snippet": "GNU C as ({ int x = f(); x * x; }).\nIn Python, auxiliary variables in generator expressions and list comprehensions (in Python 3) have expression scope.\nIn C, variable names in a function prototype have expression scope, known in this context as function protocol scope. As the variable names in the",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 3,
+          "textWords": 10717
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 5,
+          "textWords": 10717
+        },
+        "juD3tm0asFcU": {
+          "hits": 2,
+          "textWords": 10717
+        }
+      }
+    },
+    {
+      "hash": "yk9R7jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Troff",
+      "title": "troff - Wikipedia",
+      "snippet": "GNU groff.\nIn 1983, troff was one of several UNIX tools available for Charles River Data Systems' UNOS operating system under Bell Laboratories license.[5]\nThe troff collection of tools (including pre- and post-processors) was eventually called Documenter's WorkBench (DWB), and was under continuous",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 17,
+          "textWords": 2918
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 2918
+        },
+        "juD3tm0asFcU": {
+          "hits": 3,
+          "textWords": 2918
+        }
+      }
+    },
+    {
+      "hash": "2RX5-jRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Gratis_versus_libre",
+      "title": "Free software - Wikipedia",
+      "snippet": "GNU Project\n4.2 1990s: Release of the Linux kernel\n5 Licensing\n6 Security and reliability\nToggle Security and reliability subsection\n6.1 Binary blobs and other proprietary software\n7 Business model\n8 Economic aspects and adoption\n9 See also\n10 Notes\n11 References\n12 Further reading\n13 External",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 1,
+          "textWords": 6938
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 3,
+          "textWords": 6938
+        },
+        "juD3tm0asFcU": {
+          "hits": 46,
+          "textWords": 6938
+        }
+      }
+    },
+    {
+      "hash": "6BTXNjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Pwd",
+      "title": "pwd - Wikipedia",
+      "snippet": "GNU Core Utilities was written by Jim Meyering.[15]\nThe command is available in other shells and operating systems including SpartaDOS X,[16] PANOS,[17] and KolibriOS.[18] PowerShell provides pwd as an alias for the cmdlet Get-Location. An equivalent command in COMMAND.COM and Command Prompt is the",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 11,
+          "textWords": 1565
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 1565
+        },
+        "juD3tm0asFcU": {
+          "hits": 25,
+          "textWords": 1565
+        }
+      }
+    },
+    {
+      "hash": "8UmlFjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Swaret",
+      "title": "Slackware - Wikipedia",
+      "snippet": "GNU\nDefault\nuser interface\nCLI\nLicense\nGNU General Public License\nOfficial website\nwww\n.slackware\n.com\nSlackware is a Linux distribution created by Patrick Volkerding in 1993. Originally based on Softlanding Linux System (SLS),[5] Slackware has been the basis for many other Linux distributions,",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 2,
+          "textWords": 9407
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 9407
+        },
+        "juD3tm0asFcU": {
+          "hits": 8,
+          "textWords": 9407
+        }
+      }
+    },
+    {
+      "hash": "TPZ22WVFEEow",
+      "address": "https://guix.gnu.org/manual/1.5.0/en/html_node/Debbugs-User-Interfaces.html",
+      "title": "Debbugs User Interfaces (GNU Guix Reference Manual)",
+      "snippet": "(GNU Guix Reference Manual)\nVersion\nVersion\n1.5.0\ndevelopment\nsingle page\nPDF\nDeutsch\nEnglish\nEspañol\nFrançais\nItaliano\nPortuguês\nрусский\n中文; 汉语; 华语\n⊕\nNext: Debbugs Usertags, Previous: Managing Patches and Branches, Up: Tracking Bugs and Changes [Contents][Index]\n22.11.3 Debbugs User Interfaces",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 1,
+          "textWords": 889
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 7,
+          "textWords": 889
+        },
+        "juD3tm0asFcU": {
+          "hits": 12,
+          "textWords": 889
+        }
+      }
+    },
+    {
+      "hash": "xsKvr-fhXesw",
+      "address": "https://issues.guix.gnu.org/issue/76503",
+      "title": "[GCD] Migrating repositories, issues, and patches to Codeberg",
+      "snippet": "",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "zP5CXYfqRo-4",
+      "address": "https://ximalas.info/2015/03/10/when-does-the-64-bit-unix-time_t-really-end/",
+      "title": "When does the 64-bit Unix time_t really end? – Trond's place",
+      "snippet": "GNU\nGNU Bash\nGNU Emacs\nGNU Midnight Commander\nGNU Screen\nGnuPG\nGo Language\nGoogle\nGoogle Chrome\nGoogle Chromium\nGraphViz\nGreenbone Vulnerability Management\nGUID Partition Table (GPT)\nHalloween\nHP\nHP Compaq\nHP Compaq Presario\nHP Compaq Presario CQ56\nhtop\nHTTPS\nHuawei\nHuawei B593s-22\nHuawei E220",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 1,
+          "textWords": 2210
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 2210
+        },
+        "juD3tm0asFcU": {
+          "hits": 5,
+          "textWords": 2210
+        }
+      }
+    },
+    {
+      "hash": "S5sCOcpiq92w",
+      "address": "https://packages.debian.org/experimental/allpackages",
+      "title": "Debian -- Software Packages in \"experimental\"",
+      "snippet": "",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "qgphAesrSOQw",
+      "address": "https://arxiv.org/pdf/2402.07530",
+      "title": "2402.07530",
+      "snippet": "",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "xsKvr-fhXesw",
+      "address": "https://issues.guix.gnu.org/issue/76503",
+      "title": "[GCD] Migrating repositories, issues, and patches to Codeberg",
+      "snippet": "",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "juD3tm0asFcU": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "lN9DCbR2NVbw",
+      "address": "https://devguide.python.org/documentation/markup/",
+      "title": "reStructuredText markup",
+      "snippet": "Emacs’ auto-fill mode.\nParagraphs¶\nThe paragraph is the most basic block in a reST document. Paragraphs are simply chunks of text separated by one or more blank lines. As in Python, indentation is significant in reST, so all lines of the same paragraph must be left-aligned to the same level of",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 4,
+          "textWords": 6354
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 6354
+        },
+        "juD3tm0asFcU": {
+          "hits": 2,
+          "textWords": 6354
+        }
+      }
+    },
+    {
+      "hash": "lN9DCbR2NVbw",
+      "address": "https://devguide.python.org/documentation/markup/",
+      "title": "reStructuredText markup",
+      "snippet": "Emacs’ auto-fill mode.\nParagraphs¶\nThe paragraph is the most basic block in a reST document. Paragraphs are simply chunks of text separated by one or more blank lines. As in Python, indentation is significant in reST, so all lines of the same paragraph must be left-aligned to the same level of",
+      "matchedWords": {
+        "PHizVQKyaT_v": {
+          "hits": 4,
+          "textWords": 6354
+        },
+        "di0Zq1WG3Awc": {
+          "hits": 1,
+          "textWords": 6354
+        },
+        "juD3tm0asFcU": {
+          "hits": 2,
+          "textWords": 6354
+        }
+      }
+    }
+  ],
   "documentsHeldPerQueryWord": {
-    "PHizVQKyaT_v": 26560,
-    "di0Zq1WG3Awc": 1117,
-    "juD3tm0asFcU": 5426
+    "PHizVQKyaT_v": 88197,
+    "di0Zq1WG3Awc": 2531,
+    "juD3tm0asFcU": 1355
   }
 }

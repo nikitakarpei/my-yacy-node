@@ -2,87 +2,75 @@
   "query": "free software foundation",
   "judgedDocuments": [
     {
-      "hash": "HYStKluI8hnw",
-      "address": "https://www.eff.org/deeplinks/2016/05/australian-productivity-commission-slams-protectionist-copyright-and-patent-laws",
-      "title": "Australian Productivity Commission Slams Protectionist Copyright and Patent Laws | Electronic Frontier Foundation",
+      "hash": "3-XPLjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Free_Software_Foundation_of_India",
+      "title": "Free Software Foundation of India - Wikipedia",
+      "grade": 1
+    },
+    {
+      "hash": "rXvFw_YTtSsx",
+      "address": "https://sourceware.org/glibc/manual/",
+      "title": "The GNU C Library - GNU Project - Free Software Foundation (FSF)",
       "grade": 0
     },
     {
-      "hash": "WdJ2qlDmGrO5",
-      "address": "https://www.yatesgear.com/index.php?route=journal3/blog/post\u0026journal_blog_post_id=10",
-      "title": "Another Blog Post",
+      "hash": "VInr0d75SICx",
+      "address": "https://dictionary.cambridge.org/dictionary/english/free-software",
+      "title": "FREE SOFTWARE | English meaning - Cambridge Dictionary",
       "grade": 0
     },
     {
-      "hash": "Wfq3FswvoTD5",
-      "address": "https://r-universe.dev/articles",
-      "title": "R-universe - browse articles",
+      "hash": "ev89tjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Open_Source_Security_Foundation",
+      "title": "Open Source Security Foundation - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "1U9VNkPMN02h",
-      "address": "https://www.mardi4nfdi.de/community/newsletter",
-      "title": "Newsletter - MaRDI",
+      "hash": "GDraRjjpmq6Q",
+      "address": "http://www.gnu.org/licenses/fdl-1.3.html",
+      "title": "GNU Free Documentation License v1.3 - GNU Project - Free Software Foundation",
+      "grade": 1
+    },
+    {
+      "hash": "lUVJHobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/GNU_Free_Documentation_License",
+      "title": "GNU Free Documentation License - MediaWiki",
       "grade": 0
     },
     {
-      "hash": "h-LMlkV-s05k",
-      "address": "https://alumni32.com.br/ato-no-02-2020-regimento-eleitoral/",
-      "title": "Ato Nº 02/2020 - Regimento Eleitoral - Alumni '32",
+      "hash": "njbwnh3e0QFx",
+      "address": "https://commons.wikimedia.org/wiki/Category:Berkeley_Software_Distribution",
+      "title": "Category:Berkeley Software Distribution - Wikimedia Commons",
       "grade": 0
     },
     {
-      "hash": "-b3sxspKNBr4",
-      "address": "https://rense.com/",
-      "title": "rense.com",
+      "hash": "eTGg0U5yy4Rk",
+      "address": "https://visme.co/blog/interactive-training-software/",
+      "title": "12 Best Interactive Training Software for Clients \u0026 Employees",
       "grade": 0
     },
     {
-      "hash": "Y8JVkjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Wiktionary:Main_Page",
-      "title": "Wiktionary, the free dictionary",
+      "hash": "3ZEiijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
+      "title": "Wikipedia:About - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "djzHwjjEZfvx",
-      "address": "https://en.wiktionary.org/wiki/Main_Page",
-      "title": "Wiktionary, the free dictionary",
+      "hash": "HOf_cobrsZjx",
+      "address": "https://www.mediawiki.org/wiki/Project:About",
+      "title": "Project:About - MediaWiki",
       "grade": 0
     },
     {
-      "hash": "BsRHNUC_VmZ4",
-      "address": "https://www.sonatype.com/resources/whitepapers/2024-forrester-wave?hsCtaAttrib=217560327987",
-      "title": "The 2024 Forrester Wave™ Software Composition Analysis",
+      "hash": "cXbKpjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Portal:Current_events",
+      "title": "Portal:Current events - Wikipedia",
       "grade": 0
     },
     {
-      "hash": "CfGENlC_VmZ4",
-      "address": "https://www.sonatype.com/contactus?hsCtaAttrib=217560324380",
-      "title": "Contact Us Your Software Supply Chain Experts | Sonatype",
-      "grade": 0
-    },
-    {
-      "hash": "CTQ-Yj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Mystery_Science_Theater_3000",
-      "title": "Mystery Science Theater 3000 - Wikiquote",
-      "grade": 0
-    },
-    {
-      "hash": "eaT0Hj-JVcyx",
-      "address": "https://en.wikiquote.org/wiki/Main_Page",
-      "title": "Wikiquote",
-      "grade": 0
-    },
-    {
-      "hash": "AHhJbh3e0QFx",
-      "address": "https://commons.wikimedia.org/wiki/Main_Page",
-      "title": "Wikimedia Commons",
-      "grade": 0
-    },
-    {
-      "hash": "OUOWKs7YLxR5",
-      "address": "https://thedailymessenger.wordpress.com/category/honey/",
-      "title": "honey | The Daily Messenger (mirror)",
+      "hash": "c-mSaBQkoGTh",
+      "address": "https://news.europawire.eu/launch-of-the-anna-lindh-foundation-virtual-marathon-for-dialogue-0145000/eu-press-release/2021/05/28/12/21/37/88811/",
+      "title": "Launch of the Anna Lindh Foundation Virtual Marathon for Dialogue! | EuropaWire",
       "grade": 0
     }
   ]

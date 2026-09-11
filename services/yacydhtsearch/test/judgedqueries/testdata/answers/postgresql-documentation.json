@@ -1,37 +1,119 @@
 {
   "query": "postgresql documentation",
-  "recordedAt": "2026-09-11T13:01:36Z",
+  "recordedAt": "2026-09-11T19:26:38Z",
   "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "XccPH7NSh3ha",
+        "address": "http://xn--gckvb8fzb.com/xbsapi-an-alternative-xbrowsersync-api-that-supports-sqlite-postgresql-and-mysql/",
+        "title": "マリウス . xbsapi: An Alternative xBrowserSync API that supports SQLite, PostgreSQL and MySQL",
+        "snippet": "PostgreSQL and MySQL\nJournal\nUpdates\nGuides\nReviews\nMake\nNow\nProjects\nDesk\nComputer\nKeyboard\nCommand Line\nInfrastructure\nEDC\nPhone\nCamera\nAudio\nWorkout\nCoffee\nTravel\nLuggage\nBelongings\nLocations\nLibrary\nBookmarks\nContact\nOdysee\nYouTube\nSource Code\nGitHub\nFAQ\nSupport\nRSS\nxbsapi: An Alternative",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 4,
+            "textWords": 567
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 1,
+            "textWords": 567
+          }
+        }
+      },
+      {
+        "hash": "wFsBysqBIpS6",
+        "address": "https://xn--gckvb8fzb.com/xbsapi-an-alternative-xbrowsersync-api-that-supports-sqlite-postgresql-and-mysql/",
+        "title": "マリウス . xbsapi: An Alternative xBrowserSync API that supports SQLite, PostgreSQL and MySQL",
+        "snippet": "PostgreSQL and MySQL\nJournal\nUpdates\nGuides\nReviews\nMake\nNow\nProjects\nDesk\nComputer\nKeyboard\nCommand Line\nInfrastructure\nEDC\nPhone\nCamera\nAudio\nWorkout\nCoffee\nTravel\nLuggage\nBelongings\nLocations\nLibrary\nBookmarks\nContact\nOdysee\nYouTube\nSource Code\nGitHub\nFAQ\nSupport\nRSS\nxbsapi: An Alternative",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 4,
+            "textWords": 567
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 1,
+            "textWords": 567
+          }
+        }
+      },
+      {
+        "hash": "BJ_i-2bypRQw",
+        "address": "https://forgejo.org/docs/latest/admin/installation/database-preparation/",
+        "title": "Database Preparation | Forgejo – Beyond coding. We forge.",
+        "snippet": "PostgreSQL\nDatabase Connection over TLS\nPrerequisites\nPostgreSQL\nMySQL/MariaDB\nDedicated Primary/Replica Connection Pools\nDatabase Preparation\nForgejo uses a database to store relational data, however not every relational database can be used by Forgejo. Only the following databases are supported:",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 37,
+            "textWords": 2553
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 3,
+            "textWords": 2553
+          }
+        }
+      },
+      {
+        "hash": "ANPjMSS6MKD4",
+        "address": "https://github.com/A75G/docker-templates",
+        "title": "GitHub - A75G/docker-templates: Unraid Docker Templates",
+        "snippet": "Documentation\nBlog\nChangelog\nMarketplace\nView all features\nSolutions\nBY COMPANY SIZEEnterprises\nSmall and medium teams\nStartups\nNonprofits\nBY USE CASEApp Modernization\nDevSecOps\nDevOps\nCI/CD\nView all use cases\nBY INDUSTRYHealthcare\nFinancial services\nManufacturing\nGovernment\nView all industries",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 3,
+            "textWords": 3855
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 1,
+            "textWords": 3855
+          }
+        }
+      },
+      {
+        "hash": "Cq-xgm0h8sSw",
+        "address": "https://tracker.debian.org/pkg/libreoffice",
+        "title": "libreoffice - Debian Package Tracker",
+        "snippet": "libreoffice-sdbc-postgresql\nlibreoffice-smoketest-data\nlibreoffice-style-breeze\nlibreoffice-style-colibre\nlibreoffice-style-elementary\nlibreoffice-style-karasa-jaga\nlibreoffice-style-sifr\nlibreoffice-style-sukapura\nlibreoffice-subsequentcheckbase\nlibreoffice-uiconfig-base\nlibreoffice-uiconfig-calc",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 1,
+            "textWords": 2754
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 1,
+            "textWords": 2754
+          }
+        }
+      },
+      {
+        "hash": "AVYAAlkeWTZw",
+        "address": "https://www.bsdnow.tv/199",
+        "title": "BSD Now 199: Read the source, KARL",
+        "snippet": "PostgreSQL (client and server are distinct packages … databases/(mysql/portgresql)-client, and databases/(mysql/postgresql)-server). Additionally, a more modern concept of NoSQL with CouchDB, for example (databases/couchdb), MongoDB (databases/mongodb), and Cassandra (databases/cassandra), to name",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 2,
+            "textWords": 3010
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 1,
+            "textWords": 3010
+          }
+        }
+      }
+    ],
     [
       {
         "hash": "Hb2lZx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/extend-how.html",
         "title": "PostgreSQL: Documentation: 18: 36.1. How Extensibility Works",
-        "snippet": "",
+        "snippet": "PostgreSQL: Documentation: 18: 36.1. How Extensibility Works\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 /",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 14,
-            "textWords": 366
+            "textWords": 363
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      },
-      {
-        "hash": "RC3FQXCmq5v4",
-        "address": "https://www.suse.com/security/cve/CVE-2026-14676.html",
-        "title": "CVE-2026-14676 Common Vulnerabilities and Exposures | SUSE",
-        "snippet": "",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 142,
-            "textWords": 6054
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 363
           }
         }
       },
@@ -39,31 +121,31 @@
         "hash": "XuGKRe4N0vbw",
         "address": "https://www.nuget.org/packages/Serilog.Sinks.PeriodicBatching/3.1.0",
         "title": "NuGet Gallery | Serilog.Sinks.PeriodicBatching 3.1.0",
-        "snippet": "",
+        "snippet": "Documentation\nDownloads\nBlog\nSign in\n﻿\nSerilog.\nSinks.\nPeriodicBatching 3.1.0\nPrefix Reserved\n.NET Standard 1.1 This package targets .NET Standard 1.1. The package is compatible with this framework or higher. .NET Framework 4.5 This package targets .NET Framework 4.5. The package is compatible with",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 2,
-            "textWords": 1447
+            "textWords": 1368
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 1368
           }
         }
       },
       {
-        "hash": "H3k5-x7Yxvhx",
-        "address": "https://www.postgresql.org/docs/current/tutorial-advanced.html",
-        "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
-        "snippet": "",
+        "hash": "6Nn5OQ3MeyZ4",
+        "address": "https://www0.assets.heroku.com/",
+        "title": "Heroku | The Cloud Application Platform For Developers",
+        "snippet": "Documentation\nSupport\nDashboard\nLogin Sign Up\nProducts Products\nDiscover Heroku’s PaaS (Platform as a Service), designed for effortless app deployment and scaling. Explore our cloud application platform features, reliable managed data services, and a robust ecosystem to power your modern",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 5,
-            "textWords": 152
+            "hits": 1,
+            "textWords": 1983
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 1983
           }
         }
       },
@@ -84,66 +166,66 @@
         }
       },
       {
+        "hash": "RC3FQXCmq5v4",
+        "address": "https://www.suse.com/security/cve/CVE-2026-14676.html",
+        "title": "CVE-2026-14676 Common Vulnerabilities and Exposures | SUSE",
+        "snippet": "Documentation\nKnowledgebase\nProduct Support Life Cycle\nPackage Hub Community packages for SUSE Linux Enterprise Server\nDriver Search\nSupport Forums\nDeveloper Services\nBeta Program\nSecurity\nBack\nPartners\nPartner Program\nFind a Partner\nBecome a Partner\nLogin to the SUSE Partner Portal\nBack",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 143,
+            "textWords": 6334
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 1,
+            "textWords": 6334
+          }
+        }
+      },
+      {
         "hash": "Cw10n_nMM_j5",
         "address": "https://grokipedia.com/page/MySQL",
         "title": "MySQL — Grokipedia",
-        "snippet": "",
+        "snippet": "documentation and use tools like MySQL Shell's Upgrade Checker Utility for preparation.[33] [34] [35] This dual-track approach balances reliability for production environments against agility for emerging needs, reflecting MySQL's adaptation to cloud-native and high-availability demands.[31]",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 16,
-            "textWords": 15545
+            "textWords": 15874
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 10,
+            "textWords": 15874
           }
         }
       },
       {
-        "hash": "kVgkU33wopR4",
-        "address": "https://www.zabbix.com/documentation/6.2/en/manual/api/reference/sla",
-        "title": "SLA",
-        "snippet": "",
+        "hash": "4Xoex33wopR4",
+        "address": "https://www.zabbix.com/documentation/6.2/en/manual/introduction/overview",
+        "title": "4 Zabbix overview",
+        "snippet": "documentation page for an unsupported version of Zabbix.\nIs this not what you were looking for? Switch to the current version or choose one from the drop-down menu.\nDocs\nVersion: 6.2\nSupported\n7.4 (current)\n7.0\n6.0\nIn development\n8.0 (devel)\nUnsupported\n7.2\n6.4\n6.2\n5.4\n5.2\n5.0\n4.4\n4.2\n4.0\n3.4\n3.2",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 3,
-            "textWords": 2394
+            "textWords": 2563
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 4,
+            "textWords": 2563
           }
         }
       },
       {
-        "hash": "BJhprx7Yxvhx",
-        "address": "https://www.postgresql.org/docs/current/plpython-python23.html",
-        "title": "PostgreSQL: Documentation: 18: 44.10. Python 2 vs. Python 3",
-        "snippet": "",
+        "hash": "H3k5-x7Yxvhx",
+        "address": "https://www.postgresql.org/docs/current/tutorial-advanced.html",
+        "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
+        "snippet": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 /",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 6,
-            "textWords": 153
+            "hits": 5,
+            "textWords": 133
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
-          }
-        }
-      },
-      {
-        "hash": "CpKsWx7Yxvhx",
-        "address": "https://www.postgresql.org/docs/current/xfunc-pl.html",
-        "title": "PostgreSQL: Documentation: 18: 36.8. Procedural Language Functions",
-        "snippet": "",
-        "matchedWords": {
-          "5HKPREskg54_": {
-            "hits": 7,
-            "textWords": 187
-          },
-          "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 133
           }
         }
       }
@@ -153,31 +235,31 @@
         "hash": "qBsAylqYg_k4",
         "address": "https://www.heroku.com/what-is-postgresql/",
         "title": "What is PostgreSQL? | Heroku",
-        "snippet": "",
+        "snippet": "PostgreSQL? | Heroku\nSearch overlay panel for performing site-wide searches\nSearch For:\nClose\nBuild Your Next Big Thing on Heroku. Sign Up Now!\nSearch Open Search Popup\nAccount menu\nDashboard\nDatabases\nDataclips\nElements\nDocumentation\nSupport\nDashboard\nLogin Sign Up\nProducts Products\nDiscover",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 64,
-            "textWords": 2754
+            "hits": 65,
+            "textWords": 2405
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 2405
           }
         }
       },
       {
-        "hash": "MXqsU1e7r2M5",
-        "address": "https://www.appsignal.com/nodejs/postgresql-monitoring",
-        "title": "PostgreSQL Monitoring with AppSignal for Node.js | AppSignal",
-        "snippet": "",
+        "hash": "yRevkYe7r2M5",
+        "address": "https://www.appsignal.com/python/postgresql-monitoring",
+        "title": "Psycopg2 PostgreSQL monitoring for Python | AppSignal",
+        "snippet": "PostgreSQL monitoring for Python | AppSignal\nPlatform\nFeatures\nError Tracking\nPerformance Monitoring\nHost Monitoring\nAnomaly Detection\nUptime Monitoring\nMetric Dashboards\nLog Management\nProcess Monitoring\nIntelligence\nWorkflow\nDashboards\nTime Detective\nMCP Server\nHosting\nHatchbox\nLanguages",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 27,
-            "textWords": 1029
+            "hits": 20,
+            "textWords": 603
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 603
           }
         }
       },
@@ -185,15 +267,15 @@
         "hash": "c701ExFYRqW5",
         "address": "https://www.meilisearch.com/docs/resources/migration/postgresql_migration",
         "title": "Migrating from PostgreSQL full-text search to Meilisearch - Meilisearch Documentation",
-        "snippet": "",
+        "snippet": "PostgreSQL full-text search to Meilisearch - Meilisearch Documentation\nDocumentation Index\nFetch the complete documentation index at: /docs/llms.txt\nUse this file to discover all available pages before exploring further.\nSkip to main content\nMeilisearch Documentation home page\nlatest\nSearch...\n⌘K",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 48,
-            "textWords": 3042
+            "hits": 55,
+            "textWords": 3840
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 8,
+            "textWords": 3840
           }
         }
       }
@@ -203,15 +285,33 @@
         "hash": "S1Yp5x7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/spi-spi-freeplan.html",
         "title": "PostgreSQL: Documentation: 18: SPI_freeplan",
-        "snippet": "",
+        "snippet": "PostgreSQL: Documentation: 18: SPI_freeplan\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 5,
-            "textWords": 183
+            "textWords": 175
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 175
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "BR1Be6RMLT-5",
+        "address": "https://canonical.com/data/postgresql",
+        "title": "PostgreSQL | Canonical",
+        "snippet": "PostgreSQL | Canonical\nSkip to main content Your submission was sent successfully! Close\nThank you for signing up for our newsletter!\nIn these regular emails you will find the latest updates from Canonical and upcoming events where you can meet our team.Close\nThank you for contacting us. A member",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 40,
+            "textWords": 3420
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 19,
+            "textWords": 3420
           }
         }
       }
@@ -221,15 +321,15 @@
         "hash": "AEMxKJAp2-zw",
         "address": "https://www.wiz.io/blog/postgresql-cryptomining",
         "title": "Fileless XMRig-C3 Cryptominer Targets PostgreSQL Servers | Wiz Blog",
-        "snippet": "",
+        "snippet": "PostgreSQL Servers | Wiz Blog\nSign in\nExperiencing an incident?\nWiz\nPlatform\nSolutions\nPricing\nResources\nCustomers\nCompany\nGet a demo\nBlog\nCPU_HU: Fileless cryptominer targeting exposed PostgreSQL with over 1.5K victims\nCloud environments at risk: Attackers target weak PostgreSQL instances with",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 13,
-            "textWords": 2157
+            "textWords": 1707
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 1707
           }
         }
       },
@@ -237,15 +337,15 @@
         "hash": "qgwjkx7Yxvhx",
         "address": "https://www.postgresql.org/docs/current/libpq.html",
         "title": "PostgreSQL: Documentation: 18: Chapter 32. libpq — C Library",
-        "snippet": "",
+        "snippet": "PostgreSQL: Documentation: 18: Chapter 32. libpq — C Library\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 /",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 8,
-            "textWords": 574
+            "textWords": 539
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 539
           }
         }
       },
@@ -253,15 +353,15 @@
         "hash": "1yTpG0S6MKD4",
         "address": "https://github.com/Vonng/pgtpc",
         "title": "GitHub - Vonng/pgtpc: TPC B/C/H Benchmark for PostgreSQL · GitHub",
-        "snippet": "",
+        "snippet": "PostgreSQL · GitHub\nSkip to content\nNavigation Menu\nSign in\nAppearance settings\nPlatform\nAI CODE CREATION\nGitHub CopilotWrite better code with AI\nGitHub Copilot appDirect agents from issue to merge\nMCP RegistryIntegrate external tools\nDEVELOPER WORKFLOWS\nActionsAutomate any workflow",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 17,
-            "textWords": 1454
+            "textWords": 1216
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 1216
           }
         }
       },
@@ -285,20 +385,72 @@
         "hash": "a7Urh_nMM_j5",
         "address": "https://grokipedia.com/page/PostgreSQL",
         "title": "PostgreSQL — Grokipedia",
-        "snippet": "",
+        "snippet": "PostgreSQL — Grokipedia\nSearch ⌘K\nSuggest Edit\nSign in\nSign in\nGetting Started\nHistory and Development\nOrigins and Early History\nRelease History\nCore Architecture\nStorage Model\nConcurrency Control\nData Definition\nData Types\nSchemas and User-Defined Objects\nModifying Table Structures\nQuery",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 180,
-            "textWords": 19872
+            "hits": 451,
+            "textWords": 20531
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 17,
+            "textWords": 20531
           }
         }
       }
     ],
     [
+      {
+        "hash": "BR1Be6RMLT-5",
+        "address": "https://canonical.com/data/postgresql",
+        "title": "PostgreSQL | Canonical",
+        "snippet": "PostgreSQL | Canonical\nSkip to main content Your submission was sent successfully! Close\nThank you for signing up for our newsletter!\nIn these regular emails you will find the latest updates from Canonical and upcoming events where you can meet our team.Close\nThank you for contacting us. A member",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 40,
+            "textWords": 3420
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 19,
+            "textWords": 3420
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "Lj9Sl2c9duY5",
+        "address": "https://azure.microsoft.com/en-us",
+        "title": "Cloud Computing Services | Microsoft Azure",
+        "snippet": "PostgreSQL Azure Arc Microsoft Fabric Linux virtual machines in Azure\nFoundry Models Foundry Agent Service Foundry IQ Foundry Tools Foundry Control Plane Observability in Foundry Control Plane Azure OpenAI in Foundry Models Azure Speech in Foundry Tools Azure Machine Learning\nView all databases",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 5,
+            "textWords": 2198
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 2,
+            "textWords": 2198
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "OFFidA07xaXx",
+        "address": "https://musicbrainz.org/doc/Live_Data_Feed",
+        "title": "Live Data Feed - MusicBrainz",
+        "snippet": "Documentation\nAbout us ▾About MusicBrainz\nSponsors\nTeam\nShop\nContact us\nData licenses\nSocial contract\nCode of Conduct\nPrivacy policy\nGDPR compliance\nCopyright and DMCA compliance\nData removal policy\nAuto-editor elections\nPrivileged user accounts\nStatistics\nTimeline graph\nMusicBrainz history",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 1,
+            "textWords": 443
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 3,
+            "textWords": 443
+          }
+        }
+      },
       {
         "hash": "-HnftobrsZjx",
         "address": "https://www.mediawiki.org/wiki/MediaWiki_1.21/wmf2",
@@ -318,34 +470,98 @@
     ],
     [
       {
-        "hash": "3-U8T8S15f35",
-        "address": "https://topic.alibabacloud.com/a/configuration-file-for-postgresql_1_44_30003428.html",
-        "title": "Configuration file for PostgreSQL",
-        "snippet": "",
+        "hash": "k5-pcx7Yxvhx",
+        "address": "https://www.postgresql.org/docs/release/18.6/",
+        "title": "PostgreSQL: Release Notes",
+        "snippet": "PostgreSQL: Release Notes\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nQuick Links\nDocumentation\nManuals Archive\nRelease Notes\nBooks\nTutorials \u0026 Other Resources\nFAQ\nWiki",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 11,
-            "textWords": 1292
+            "hits": 37,
+            "textWords": 6578
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 5,
+            "textWords": 6578
           }
         }
       },
       {
-        "hash": "31-fm8S15f35",
-        "address": "https://topic.alibabacloud.com/a/postgresqlprepared-statement-s_1-already-exists_1_44_30051641.html",
-        "title": "postgresql:prepared statement \"S_1\" already exists",
-        "snippet": "",
+        "hash": "2SrIwzakb0b6",
+        "address": "https://thehackernews.com/2026/09/postgresql-fixes-12-year-old-logical.html?m=1",
+        "title": "PostgreSQL Fixes 12-Year-Old Logical Decoding Flaw Enabling Replication-Role Code Execution",
+        "snippet": "PostgreSQL Fixes 12-Year-Old Logical Decoding Flaw Enabling Replication-Role Code Execution\n--\u003e #1 Trusted Cybersecurity News Platform\nFollowed by 5.70+ million  \n\n\n Get the Latest News\nHome\nNewsletter\nWebinars\nHome\nThreat Intelligence\nVulnerabilities\nCyber Attacks\nWebinars\nExpert Insights",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 15,
+            "textWords": 1403
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 2,
+            "textWords": 1403
+          }
+        }
+      },
+      {
+        "hash": "BUC8H33wopR4",
+        "address": "https://www.zabbix.com/documentation/7.4/lv/manual/best_practices/security/access_control/postgresql",
+        "title": "2 PostgreSQL/TimescaleDB drošības nodrošināšana",
+        "snippet": "PostgreSQL/TimescaleDB drošības nodrošināšana\nThis is a translation of the original English documentation page. Help us make it better.\nDocs\nVersion: 7.4 (current)\nSupported\n7.4 (current)\n7.0\n6.0\nIn development\n8.0 (devel)\nUnsupported\n7.2\n6.4\n6.2\n5.4\n5.2\n5.0\n4.4\n4.2\n4.0\n3.4\n3.2\n3.0\n2.4\n2.2\n2.0\n1.8",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 11,
+            "textWords": 3093
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 4,
+            "textWords": 3093
+          }
+        }
+      },
+      {
+        "hash": "kBN5XnhMeBWw",
+        "address": "https://metacpan.org/pod/DBD::Pg",
+        "title": "DBD::Pg - PostgreSQL database driver for the DBI module - metacpan.org",
+        "snippet": "PostgreSQL database driver for the DBI module - metacpan.org\nAbout\nSponsor\ngrep::cpan\nRecent\nFAQ\nTools\nAPI\nIdentities\nProfile\nFavorites\nLogout\nGitHub\nGoogle\nDistribution\nDBD-Pg\nModule version: v3.21.2\n26 Aug 2026 22:19:08 UTC\nLicense: perl_5\nPerl: v5.8.1\nCode\nDownload (310.89KB)\nSource (raw)\nBrowse",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 46,
+            "textWords": 22724
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 24,
+            "textWords": 22724
+          }
+        }
+      },
+      {
+        "hash": "kzwdvqrfwOMw",
+        "address": "https://rubygems.org/gems/surus",
+        "title": "surus | RubyGems.org | your community gem host",
+        "snippet": "PostgreSQL specific types and functionality. It enables indexed searching of serialized arrays and hashes. It also can control PostgreSQL synchronous commit behavior. By relaxing PostgreSQL's durability guarantee, transaction commit rate can be increased by 50% or more.\nRequired Ruby Version\n\u003e= 0",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 3,
+            "textWords": 178
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 1,
+            "textWords": 178
+          }
+        }
+      },
+      {
+        "hash": "hStMhlBbCobw",
+        "address": "https://www.php.net/pg-close",
+        "title": "PHP: pg_close - Manual",
+        "snippet": "Documentation\nGet Involved\nHelp\nSearch docs\nPHP 8.6.0 Beta 3 is available for testing\nGetting Started\nIntroduction\nA simple tutorial\nLanguage Reference\nBasic syntax\nTypes\nVariables\nConstants\nExpressions\nOperators\nControl Structures\nFunctions\nClasses and Objects\nNamespaces\nEnumerations\nErrors",
         "matchedWords": {
           "5HKPREskg54_": {
             "hits": 7,
-            "textWords": 937
+            "textWords": 949
           },
           "VYdiKIU6v2Mt": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 2,
+            "textWords": 949
           }
         }
       }
@@ -355,6 +571,22 @@
         "hash": "oBb9X0E95tq5",
         "address": "https://blog.appsignal.com/2017/01/27/documentation-updates.html",
         "title": "Documentation updates | AppSignal Blog",
+        "snippet": "Documentation updates | AppSignal Blog\nPlatform\nFeatures\nError Tracking\nPerformance Monitoring\nHost Monitoring\nAnomaly Detection\nUptime Monitoring\nMetric Dashboards\nLog Management\nProcess Monitoring\nIntelligence\nWorkflow\nDashboards\nTime Detective\nMCP Server\nHosting\nHatchbox\nLanguages\nSupported",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 0,
+            "textWords": 1076
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 11,
+            "textWords": 1076
+          }
+        }
+      },
+      {
+        "hash": "kC75-zW61vZ4",
+        "address": "https://handbook.gitlab.com/handbook/sales/field-operations/sales-systems/gtm-technical-documentation/",
+        "title": "Go-To-Market Technical Documentation | The GitLab Handbook",
         "snippet": "",
         "matchedWords": {
           "5HKPREskg54_": {
@@ -362,26 +594,44 @@
             "textWords": 0
           },
           "VYdiKIU6v2Mt": {
-            "hits": 9,
-            "textWords": 1546
+            "hits": 27,
+            "textWords": 23244
           }
         }
       }
     ],
     [
       {
-        "hash": "-HnftobrsZjx",
-        "address": "https://www.mediawiki.org/wiki/MediaWiki_1.21/wmf2",
-        "title": "MediaWiki 1.21/wmf2 - MediaWiki",
-        "snippet": "",
+        "hash": "OFFidA07xaXx",
+        "address": "https://musicbrainz.org/doc/Live_Data_Feed",
+        "title": "Live Data Feed - MusicBrainz",
+        "snippet": "Documentation\nAbout us ▾About MusicBrainz\nSponsors\nTeam\nShop\nContact us\nData licenses\nSocial contract\nCode of Conduct\nPrivacy policy\nGDPR compliance\nCopyright and DMCA compliance\nData removal policy\nAuto-editor elections\nPrivileged user accounts\nStatistics\nTimeline graph\nMusicBrainz history",
         "matchedWords": {
           "5HKPREskg54_": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 1,
+            "textWords": 443
           },
           "VYdiKIU6v2Mt": {
-            "hits": 17,
-            "textWords": 9717
+            "hits": 3,
+            "textWords": 443
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "lYsgT81iNM2x",
+        "address": "https://wiki.postgresql.org/wiki/Category:Documentation",
+        "title": "Category:Documentation - PostgreSQL wiki",
+        "snippet": "Category:Documentation - PostgreSQL wiki\nWant to edit, but don't see an edit button when logged in? Click here.\nHelp\nCategory:Documentation\nFrom PostgreSQL wiki\nJump to navigationJump to search Documentations\nSubcategories\nThis category has the following 7 subcategories, out of 7 total.\nE",
+        "matchedWords": {
+          "5HKPREskg54_": {
+            "hits": 5,
+            "textWords": 178
+          },
+          "VYdiKIU6v2Mt": {
+            "hits": 6,
+            "textWords": 178
           }
         }
       }
@@ -389,9 +639,9 @@
   ],
   "itemsInNoOrder": [
     {
-      "hash": "AXOajx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/sql-grant.html",
-      "title": "PostgreSQL: Documentation: 17: GRANT",
+      "hash": "CjgsxsIyoLTx",
+      "address": "https://planetpython.org/",
+      "title": "Planet Python",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -401,6 +651,102 @@
         "VYdiKIU6v2Mt": {
           "hits": 0,
           "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CLrpAUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2015/06/cluster-level-logging-with-kubernetes/",
+      "title": "Cluster Level Logging with Kubernetes | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "CRCONUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2018/10/08/support-for-azure-vmss-cluster-autoscaler-and-user-assigned-identity/",
+      "title": "Support for Azure VMSS, Cluster-Autoscaler and User Assigned Identity | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "C7QlOUjw1Zlx",
+      "address": "https://kubernetes.io/blog/2020/12/10/kubernetes-1.20-volume-snapshot-moves-to-ga/",
+      "title": "Kubernetes 1.20: Kubernetes Volume Snapshot Moves to GA | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DYf71Ujw1Zlx",
+      "address": "https://kubernetes.io/blog/2017/02/inside-jd-com-shift-to-kubernetes-from-openstack/",
+      "title": "Inside JD.com's Shift to Kubernetes from OpenStack | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D5nVgx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/plpgsql-trigger.html",
+      "title": "PostgreSQL: Documentation: 18: 41.10. Trigger Functions",
+      "snippet": "PostgreSQL: Documentation: 18: 41.10. Trigger Functions\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 /",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 6,
+          "textWords": 2822
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 5,
+          "textWords": 2822
         }
       }
     },
@@ -437,34 +783,18 @@
       }
     },
     {
-      "hash": "ClUafl76eml4",
-      "address": "https://www.mongodb.com/",
-      "title": "MongoDB: The World’s Leading Modern Database | MongoDB",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "Rhc3Rx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-set-constraints.html",
       "title": "PostgreSQL: Documentation: 18: SET CONSTRAINTS",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: SET CONSTRAINTS\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 587
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 587
         }
       }
     },
@@ -472,6 +802,22 @@
       "hash": "TmZA3x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/datatype-json.html",
       "title": "PostgreSQL: Documentation: 18: 8.14. JSON Types",
+      "snippet": "PostgreSQL: Documentation: 18: 8.14. JSON Types\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 19,
+          "textWords": 4481
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 5,
+          "textWords": 4481
+        }
+      }
+    },
+    {
+      "hash": "VaAJPX9Ojva4",
+      "address": "https://docs.docker.com/reference/dockerfile",
+      "title": "Dockerfile reference | Docker Docs",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -487,39 +833,7 @@
     {
       "hash": "MaRThsRMLT-5",
       "address": "https://canonical.com/",
-      "title": "Canonical | Trusted open source for enterprises",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "FZ5ZijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
-      "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KgBwHjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Regular_expression",
-      "title": "Regular expression - Wikipedia",
+      "title": "Trusted open source for enterprises | Canonical",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -549,9 +863,25 @@
       }
     },
     {
-      "hash": "-OnNvzW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/legal/subscription-agreement/",
-      "title": "GitLab Subscription Agreement | The GitLab Handbook",
+      "hash": "U2p_HzS6MKD4",
+      "address": "https://github.com/topics/mcp",
+      "title": "mcp · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VtiH_zS6MKD4",
+      "address": "https://github.com/topics/database",
+      "title": "database · GitHub Topics · GitHub",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -629,57 +959,9 @@
       }
     },
     {
-      "hash": "Lj9Sl2c9duY5",
-      "address": "https://azure.microsoft.com/en-us",
-      "title": "Cloud Computing Services | Microsoft Azure",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "HVgp6MhTaKi5",
       "address": "https://www.datadoghq.com/product/database-monitoring/",
       "title": "Database Monitoring | Datadog",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "LCf8MvhTaKi5",
-      "address": "https://www.datadoghq.com/solutions/aws/",
-      "title": "AWS Monitoring | Datadog",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KUpkllpUQKyx",
-      "address": "https://www.discourse.org/open-source",
-      "title": "Open Source | Discourse - Civilized Discussion",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -709,9 +991,9 @@
       }
     },
     {
-      "hash": "M7Rip9wdAEQg",
-      "address": "https://selfoss.aditu.de/",
-      "title": "selfoss – the open source web based rss reader and multi source mashup aggregator",
+      "hash": "VZyArZv-bf35",
+      "address": "https://docs.datadoghq.com/notebooks/",
+      "title": "Notebooks",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -725,9 +1007,9 @@
       }
     },
     {
-      "hash": "nrHrKl4eGBC5",
-      "address": "https://www.digitalocean.com/",
-      "title": "AI-Native Cloud | DigitalOcean",
+      "hash": "M7Rip9wdAEQg",
+      "address": "https://selfoss.aditu.de/",
+      "title": "selfoss – the open source web based rss reader and multi source mashup aggregator",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -869,34 +1151,18 @@
       }
     },
     {
-      "hash": "DZnJZFv-bf35",
-      "address": "https://docs.datadoghq.com/logs/explorer/analytics/",
-      "title": "Log Analytics",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "QKy_sx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/functions-aggregate.html",
       "title": "PostgreSQL: Documentation: 18: 9.21. Aggregate Functions",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 9.21. Aggregate Functions\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 2903
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 2903
         }
       }
     },
@@ -904,15 +1170,15 @@
       "hash": "Q7KzEx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-call.html",
       "title": "PostgreSQL: Documentation: 18: CALL",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: CALL\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14\nDevelopment",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 337
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 337
         }
       }
     },
@@ -920,15 +1186,15 @@
       "hash": "RC623x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/spi-spi-rollback.html",
       "title": "PostgreSQL: Documentation: 18: SPI_rollback",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: SPI_rollback\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 237
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 237
         }
       }
     },
@@ -936,15 +1202,15 @@
       "hash": "RQ9RBx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-createsubscription.html",
       "title": "PostgreSQL: Documentation: 18: CREATE SUBSCRIPTION",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: CREATE SUBSCRIPTION\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 2267
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 2267
         }
       }
     },
@@ -952,15 +1218,15 @@
       "hash": "Rhc3Rx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-set-constraints.html",
       "title": "PostgreSQL: Documentation: 18: SET CONSTRAINTS",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: SET CONSTRAINTS\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 587
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 587
         }
       }
     },
@@ -968,15 +1234,15 @@
       "hash": "RuGRax7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-altereventtrigger.html",
       "title": "PostgreSQL: Documentation: 18: ALTER EVENT TRIGGER",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: ALTER EVENT TRIGGER\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 274
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 274
         }
       }
     },
@@ -984,15 +1250,15 @@
       "hash": "SAoS0x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/ddl-depend.html",
       "title": "PostgreSQL: Documentation: 18: 5.15. Dependency Tracking",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 5.15. Dependency Tracking\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 10,
+          "textWords": 748
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 748
         }
       }
     },
@@ -1000,15 +1266,15 @@
       "hash": "SCGPDx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/error-style-guide.html",
       "title": "PostgreSQL: Documentation: 18: 55.3. Error Message Style Guide",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 55.3. Error Message Style Guide\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 1731
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1731
         }
       }
     },
@@ -1016,15 +1282,15 @@
       "hash": "SGwdJx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/catalog-pg-index.html",
       "title": "PostgreSQL: Documentation: 18: 52.26. pg_index",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 52.26. pg_index\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 743
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 743
         }
       }
     },
@@ -1032,15 +1298,15 @@
       "hash": "SnAumx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-createfunction.html",
       "title": "PostgreSQL: Documentation: 17: CREATE FUNCTION",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: CREATE FUNCTION\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 11,
+          "textWords": 3784
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3784
         }
       }
     },
@@ -1048,15 +1314,15 @@
       "hash": "Szstfx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/app-createdb.html",
       "title": "PostgreSQL: Documentation: 18: createdb",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: createdb\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 11,
+          "textWords": 973
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 973
         }
       }
     },
@@ -1064,15 +1330,15 @@
       "hash": "TPKYFx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/trigger-definition.html",
       "title": "PostgreSQL: Documentation: 18: 37.1. Overview of Trigger Behavior",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 37.1. Overview of Trigger Behavior\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 2596
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 2596
         }
       }
     },
@@ -1080,15 +1346,31 @@
       "hash": "TmZA3x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/datatype-json.html",
       "title": "PostgreSQL: Documentation: 18: 8.14. JSON Types",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 8.14. JSON Types\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 19,
+          "textWords": 4481
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 4481
+        }
+      }
+    },
+    {
+      "hash": "TuYLDx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/plperl-trusted.html",
+      "title": "PostgreSQL: Documentation: 18: 43.5. Trusted and Untrusted PL/Perl",
+      "snippet": "PostgreSQL: Documentation: 18: 43.5. Trusted and Untrusted PL/Perl\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) /",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 5,
+          "textWords": 679
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 5,
+          "textWords": 679
         }
       }
     },
@@ -1096,6 +1378,22 @@
       "hash": "Tu3G6x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/runtime-config-replication.html",
       "title": "PostgreSQL: Documentation: 18: 19.6. Replication",
+      "snippet": "PostgreSQL: Documentation: 18: 19.6. Replication\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 24,
+          "textWords": 4608
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 6,
+          "textWords": 4608
+        }
+      }
+    },
+    {
+      "hash": "Tw1yQx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/datatype-numeric.html",
+      "title": "PostgreSQL: Documentation: 18: 8.1. Numeric Types",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1112,54 +1410,6 @@
       "hash": "SUOb2itD2jQw",
       "address": "https://docs.python.org/3/whatsnew/2.5.html",
       "title": "What’s New in Python 2.5 — Python 3.14.6 documentation",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "nrHrKl4eGBC5",
-      "address": "https://www.digitalocean.com/",
-      "title": "AI-Native Cloud | DigitalOcean",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ClUafl76eml4",
-      "address": "https://www.mongodb.com/",
-      "title": "MongoDB: The World’s Leading Modern Data Platform | MongoDB",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "AXOajx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/sql-grant.html",
-      "title": "PostgreSQL: Documentation: 18: GRANT",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1240,15 +1490,15 @@
       "hash": "RQ9RBx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-createsubscription.html",
       "title": "PostgreSQL: Documentation: 18: CREATE SUBSCRIPTION",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: CREATE SUBSCRIPTION\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 2267
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 2267
         }
       }
     },
@@ -1256,15 +1506,15 @@
       "hash": "SAoS0x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/ddl-depend.html",
       "title": "PostgreSQL: Documentation: 18: 5.15. Dependency Tracking",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 5.15. Dependency Tracking\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 10,
+          "textWords": 748
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 748
         }
       }
     },
@@ -1272,15 +1522,15 @@
       "hash": "Szstfx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/app-createdb.html",
       "title": "PostgreSQL: Documentation: 18: createdb",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: createdb\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 11,
+          "textWords": 973
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 973
         }
       }
     },
@@ -1288,15 +1538,15 @@
       "hash": "TmZA3x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/datatype-json.html",
       "title": "PostgreSQL: Documentation: 18: 8.14. JSON Types",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 8.14. JSON Types\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 19,
+          "textWords": 4481
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 4481
         }
       }
     },
@@ -1304,31 +1554,15 @@
       "hash": "Tu3G6x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/runtime-config-replication.html",
       "title": "PostgreSQL: Documentation: 18: 19.6. Replication",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 19.6. Replication\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 24,
+          "textWords": 4608
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-PElUl7Yxvhx",
-      "address": "https://www.postgresql.org/community/",
-      "title": "PostgreSQL: Community",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 4608
         }
       }
     },
@@ -1336,22 +1570,6 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DLJ3u6RMLT-5",
-      "address": "https://canonical.com/data/mysql",
-      "title": "MySQL | Canonical",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1429,22 +1647,6 @@
       }
     },
     {
-      "hash": "-OnNvzW61vZ4",
-      "address": "https://handbook.gitlab.com/handbook/legal/subscription-agreement/",
-      "title": "GitLab Subscription Agreement | The GitLab Handbook",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "NJRSwlXKYy14",
       "address": "https://www.odoo.com/",
       "title": "Open Source ERP and CRM | Odoo",
@@ -1464,6 +1666,22 @@
       "hash": "6nZV-gYlAY74",
       "address": "https://ubuntu.com/server/docs/",
       "title": "Ubuntu Server documentation",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1509,22 +1727,6 @@
       }
     },
     {
-      "hash": "Lj9Sl2c9duY5",
-      "address": "https://azure.microsoft.com/en-us",
-      "title": "Cloud Computing Services | Microsoft Azure",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "OXYnF5c9duY5",
       "address": "https://azure.microsoft.com/en-us/resources/customer-stories",
       "title": "Customer and Partner Success Stories | Microsoft Azure",
@@ -1544,22 +1746,6 @@
       "hash": "HVgp6MhTaKi5",
       "address": "https://www.datadoghq.com/product/database-monitoring/",
       "title": "Database Monitoring | Datadog",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KUpkllpUQKyx",
-      "address": "https://www.discourse.org/open-source",
-      "title": "Open Source | Discourse - Civilized Discussion",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1605,9 +1791,9 @@
       }
     },
     {
-      "hash": "DZnJZFv-bf35",
-      "address": "https://docs.datadoghq.com/logs/explorer/analytics/",
-      "title": "Log Analytics",
+      "hash": "VZyArZv-bf35",
+      "address": "https://docs.datadoghq.com/notebooks/",
+      "title": "Notebooks",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1624,15 +1810,15 @@
       "hash": "QKy_sx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/functions-aggregate.html",
       "title": "PostgreSQL: Documentation: 16: 9.21. Aggregate Functions",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 9.21. Aggregate Functions\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 2903
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 2903
         }
       }
     },
@@ -1640,15 +1826,15 @@
       "hash": "Q7KzEx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-call.html",
       "title": "PostgreSQL: Documentation: 18: CALL",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: CALL\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14\nDevelopment",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 337
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 337
         }
       }
     },
@@ -1656,15 +1842,15 @@
       "hash": "RC623x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/spi-spi-rollback.html",
       "title": "PostgreSQL: Documentation: 18: SPI_rollback",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: SPI_rollback\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 237
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 237
         }
       }
     },
@@ -1672,15 +1858,15 @@
       "hash": "RuGRax7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-altereventtrigger.html",
       "title": "PostgreSQL: Documentation: 18: ALTER EVENT TRIGGER",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: ALTER EVENT TRIGGER\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 274
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 274
         }
       }
     },
@@ -1688,15 +1874,15 @@
       "hash": "SGwdJx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/catalog-pg-index.html",
       "title": "PostgreSQL: Documentation: 18: 52.26. pg_index",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 52.26. pg_index\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 743
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 743
         }
       }
     },
@@ -1704,15 +1890,15 @@
       "hash": "SnAumx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-createfunction.html",
       "title": "PostgreSQL: Documentation: 17: CREATE FUNCTION",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: CREATE FUNCTION\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 11,
+          "textWords": 3784
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3784
         }
       }
     },
@@ -1720,6 +1906,38 @@
       "hash": "TPKYFx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/trigger-definition.html",
       "title": "PostgreSQL: Documentation: 18: 37.1. Overview of Trigger Behavior",
+      "snippet": "PostgreSQL: Documentation: 18: 37.1. Overview of Trigger Behavior\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) /",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 6,
+          "textWords": 2596
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 5,
+          "textWords": 2596
+        }
+      }
+    },
+    {
+      "hash": "TuYLDx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/plperl-trusted.html",
+      "title": "PostgreSQL: Documentation: 18: 43.5. Trusted and Untrusted PL/Perl",
+      "snippet": "PostgreSQL: Documentation: 18: 43.5. Trusted and Untrusted PL/Perl\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) /",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 5,
+          "textWords": 679
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 5,
+          "textWords": 679
+        }
+      }
+    },
+    {
+      "hash": "Tw1yQx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/datatype-numeric.html",
+      "title": "PostgreSQL: Documentation: 18: 8.1. Numeric Types",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1781,57 +1999,9 @@
       }
     },
     {
-      "hash": "Lj9Sl2c9duY5",
-      "address": "https://azure.microsoft.com/en-us",
-      "title": "Cloud Computing Services | Microsoft Azure",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
       "hash": "OHvVIX2Yfep5",
       "address": "https://learn.microsoft.com/en-us/windows/wsl/about",
       "title": "What is Windows Subsystem for Linux | Microsoft Learn",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "1OPeZs3tZYNx",
-      "address": "https://quassel-irc.org/",
-      "title": "Blogs | Quassel IRC",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "nrHrKl4eGBC5",
-      "address": "https://www.digitalocean.com/",
-      "title": "AI-Native Cloud | DigitalOcean",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1909,9 +2079,9 @@
       }
     },
     {
-      "hash": "-PElUl7Yxvhx",
-      "address": "https://www.postgresql.org/community/",
-      "title": "PostgreSQL: Community",
+      "hash": "VaAJPX9Ojva4",
+      "address": "https://docs.docker.com/reference/dockerfile",
+      "title": "Dockerfile reference | Docker Docs",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1928,22 +2098,6 @@
       "hash": "CjgsxsIyoLTx",
       "address": "https://planetpython.org/",
       "title": "Planet Python",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "DLJ3u6RMLT-5",
-      "address": "https://canonical.com/data/mysql",
-      "title": "MySQL | Canonical",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -1992,38 +2146,6 @@
       "hash": "OnNZCERMLT-5",
       "address": "https://canonical.com/partners/silicon",
       "title": "Silicon program | Partners | Canonical",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "FZ5ZijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
-      "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KgBwHjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Regular_expression",
-      "title": "Regular expression - Wikipedia",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -2149,6 +2271,22 @@
       }
     },
     {
+      "hash": "Ueoi95c9duY5",
+      "address": "https://azure.microsoft.com/en-us/products/container-registry/",
+      "title": "Azure Container Registry | Microsoft Azure",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
       "hash": "8NEnslqYg_k4",
       "address": "https://www.heroku.com/",
       "title": "Heroku | The Cloud Application Platform For Developers",
@@ -2181,89 +2319,9 @@
       }
     },
     {
-      "hash": "Lj9Sl2c9duY5",
-      "address": "https://azure.microsoft.com/en-us",
-      "title": "Cloud Computing Services | Microsoft Azure",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "nrHrKl4eGBC5",
-      "address": "https://www.digitalocean.com/",
-      "title": "AI-Native Cloud | DigitalOcean",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "1OPeZs3tZYNx",
-      "address": "https://quassel-irc.org/",
-      "title": "Blogs | Quassel IRC",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "nrHrKl4eGBC5",
-      "address": "https://www.digitalocean.com/",
-      "title": "AI-Native Cloud | DigitalOcean",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "ClUafl76eml4",
-      "address": "https://www.mongodb.com/",
-      "title": "MongoDB: The World’s Leading Modern Data Platform | MongoDB",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "-PElUl7Yxvhx",
-      "address": "https://www.postgresql.org/community/",
-      "title": "PostgreSQL: Community",
+      "hash": "VtiH_zS6MKD4",
+      "address": "https://github.com/topics/database",
+      "title": "database · GitHub Topics · GitHub",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -2293,105 +2351,9 @@
       }
     },
     {
-      "hash": "CjgsxsIyoLTx",
-      "address": "https://planetpython.org/",
-      "title": "Planet Python",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "FZ5ZijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/List_of_free_and_open-source_software_packages",
-      "title": "List of free and open-source software packages - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KgBwHjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Regular_expression",
-      "title": "Regular expression - Wikipedia",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "PeRz22YlAY74",
-      "address": "https://ubuntu.com/docs/launchpad/",
-      "title": "Launchpad manual",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "Lj9Sl2c9duY5",
-      "address": "https://azure.microsoft.com/en-us",
-      "title": "Cloud Computing Services | Microsoft Azure",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "LCf8MvhTaKi5",
-      "address": "https://www.datadoghq.com/solutions/aws/",
-      "title": "AWS Monitoring | Datadog",
-      "snippet": "",
-      "matchedWords": {
-        "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
-        },
-        "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
-        }
-      }
-    },
-    {
-      "hash": "KUpkllpUQKyx",
-      "address": "https://www.discourse.org/open-source",
-      "title": "Open Source | Discourse - Civilized Discussion",
+      "hash": "2tE_2sbENtew",
+      "address": "https://spdx.org/licenses/",
+      "title": "SPDX License List | Software Package Data Exchange (SPDX)",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -2408,15 +2370,15 @@
       "hash": "QKy_sx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/functions-aggregate.html",
       "title": "PostgreSQL: Documentation: 16: 9.21. Aggregate Functions",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 9.21. Aggregate Functions\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 2903
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 2903
         }
       }
     },
@@ -2424,15 +2386,15 @@
       "hash": "Q7KzEx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-call.html",
       "title": "PostgreSQL: Documentation: 18: CALL",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: CALL\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14\nDevelopment",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 337
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 337
         }
       }
     },
@@ -2440,15 +2402,15 @@
       "hash": "RC623x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/spi-spi-rollback.html",
       "title": "PostgreSQL: Documentation: 18: SPI_rollback",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: SPI_rollback\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 237
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 237
         }
       }
     },
@@ -2456,15 +2418,15 @@
       "hash": "RQ9RBx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-createsubscription.html",
       "title": "PostgreSQL: Documentation: 18: CREATE SUBSCRIPTION",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: CREATE SUBSCRIPTION\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 9,
+          "textWords": 2267
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 2267
         }
       }
     },
@@ -2472,15 +2434,15 @@
       "hash": "Rhc3Rx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-set-constraints.html",
       "title": "PostgreSQL: Documentation: 18: SET CONSTRAINTS",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: SET CONSTRAINTS\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 587
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 587
         }
       }
     },
@@ -2488,15 +2450,15 @@
       "hash": "RuGRax7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-altereventtrigger.html",
       "title": "PostgreSQL: Documentation: 18: ALTER EVENT TRIGGER",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: ALTER EVENT TRIGGER\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 274
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 274
         }
       }
     },
@@ -2504,15 +2466,15 @@
       "hash": "SAoS0x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/ddl-depend.html",
       "title": "PostgreSQL: Documentation: 18: 5.15. Dependency Tracking",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 5.15. Dependency Tracking\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 10,
+          "textWords": 748
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 748
         }
       }
     },
@@ -2520,15 +2482,15 @@
       "hash": "SCGPDx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/error-style-guide.html",
       "title": "PostgreSQL: Documentation: 18: 55.3. Error Message Style Guide",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 55.3. Error Message Style Guide\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 7,
+          "textWords": 1731
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1731
         }
       }
     },
@@ -2536,15 +2498,15 @@
       "hash": "SGwdJx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/catalog-pg-index.html",
       "title": "PostgreSQL: Documentation: 18: 52.26. pg_index",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 52.26. pg_index\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 743
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 743
         }
       }
     },
@@ -2552,15 +2514,15 @@
       "hash": "SnAumx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/sql-createfunction.html",
       "title": "PostgreSQL: Documentation: 17: CREATE FUNCTION",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: CREATE FUNCTION\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 11,
+          "textWords": 3784
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 3784
         }
       }
     },
@@ -2568,15 +2530,15 @@
       "hash": "Szstfx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/app-createdb.html",
       "title": "PostgreSQL: Documentation: 18: createdb",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: createdb\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 11,
+          "textWords": 973
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 973
         }
       }
     },
@@ -2584,15 +2546,31 @@
       "hash": "TPKYFx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/trigger-definition.html",
       "title": "PostgreSQL: Documentation: 18: 37.1. Overview of Trigger Behavior",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 37.1. Overview of Trigger Behavior\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) /",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 2596
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 5,
+          "textWords": 2596
+        }
+      }
+    },
+    {
+      "hash": "TuYLDx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/plperl-trusted.html",
+      "title": "PostgreSQL: Documentation: 18: 43.5. Trusted and Untrusted PL/Perl",
+      "snippet": "PostgreSQL: Documentation: 18: 43.5. Trusted and Untrusted PL/Perl\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) /",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 5,
+          "textWords": 679
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 5,
+          "textWords": 679
         }
       }
     },
@@ -2600,15 +2578,15 @@
       "hash": "Tu3G6x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/runtime-config-replication.html",
       "title": "PostgreSQL: Documentation: 11: 19.6. Replication",
-      "snippet": "",
+      "snippet": "PostgreSQL: Documentation: 18: 19.6. Replication\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 / 15 / 14",
       "matchedWords": {
         "5HKPREskg54_": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 24,
+          "textWords": 4608
         },
         "VYdiKIU6v2Mt": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 4608
         }
       }
     },
@@ -2645,9 +2623,153 @@
       }
     },
     {
-      "hash": "AXOajx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/current/sql-grant.html",
-      "title": "PostgreSQL: Documentation: 18: GRANT",
+      "hash": "D5nVgx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/plpgsql-trigger.html",
+      "title": "PostgreSQL: Documentation: 18: 41.10. Trigger Functions",
+      "snippet": "PostgreSQL: Documentation: 18: 41.10. Trigger Functions\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 /",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 6,
+          "textWords": 2822
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 5,
+          "textWords": 2822
+        }
+      }
+    },
+    {
+      "hash": "TuYLDx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/plperl-trusted.html",
+      "title": "PostgreSQL: Documentation: 18: 43.5. Trusted and Untrusted PL/Perl",
+      "snippet": "PostgreSQL: Documentation: 18: 43.5. Trusted and Untrusted PL/Perl\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) /",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 5,
+          "textWords": 679
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 5,
+          "textWords": 679
+        }
+      }
+    },
+    {
+      "hash": "U2p_HzS6MKD4",
+      "address": "https://github.com/topics/mcp",
+      "title": "mcp · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VtiH_zS6MKD4",
+      "address": "https://github.com/topics/database",
+      "title": "database · GitHub Topics · GitHub",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D4lABzaS0qdw",
+      "address": "https://planet.debian.org/",
+      "title": "Planet Debian",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "Ueoi95c9duY5",
+      "address": "https://azure.microsoft.com/en-us/products/container-registry/",
+      "title": "Azure Container Registry | Microsoft Azure",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "DYf71Ujw1Zlx",
+      "address": "https://kubernetes.io/blog/2017/02/inside-jd-com-shift-to-kubernetes-from-openstack/",
+      "title": "Inside JD.com's Shift to Kubernetes from OpenStack | Kubernetes",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "VZyArZv-bf35",
+      "address": "https://docs.datadoghq.com/notebooks/",
+      "title": "Notebooks",
+      "snippet": "",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 0,
+          "textWords": 0
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 0,
+          "textWords": 0
+        }
+      }
+    },
+    {
+      "hash": "D5nVgx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/plpgsql-trigger.html",
+      "title": "PostgreSQL: Documentation: 18: 41.10. Trigger Functions",
+      "snippet": "PostgreSQL: Documentation: 18: 41.10. Trigger Functions\nHome\nAbout\nDownload\nDocumentation\nCommunity\nDevelopers\nSupport\nDonate\nYour account\nAugust 13, 2026: PostgreSQL 18.6, 17.11, 16.15, 15.19, 14.24 and 19 Beta 3 Released!\nDocumentation → PostgreSQL 18\nSupported Versions: Current (18) / 17 / 16 /",
+      "matchedWords": {
+        "5HKPREskg54_": {
+          "hits": 6,
+          "textWords": 2822
+        },
+        "VYdiKIU6v2Mt": {
+          "hits": 5,
+          "textWords": 2822
+        }
+      }
+    },
+    {
+      "hash": "VaAJPX9Ojva4",
+      "address": "https://docs.docker.com/reference/dockerfile",
+      "title": "Dockerfile reference | Docker Docs",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -2677,9 +2799,9 @@
       }
     },
     {
-      "hash": "Lj9Sl2c9duY5",
-      "address": "https://azure.microsoft.com/en-us",
-      "title": "Cloud Computing Services | Microsoft Azure",
+      "hash": "U2p_HzS6MKD4",
+      "address": "https://github.com/topics/mcp",
+      "title": "mcp · GitHub Topics · GitHub",
       "snippet": "",
       "matchedWords": {
         "5HKPREskg54_": {
@@ -2694,7 +2816,7 @@
     }
   ],
   "documentsHeldPerQueryWord": {
-    "5HKPREskg54_": 71892,
-    "VYdiKIU6v2Mt": 172989
+    "5HKPREskg54_": 72084,
+    "VYdiKIU6v2Mt": 180736
   }
 }

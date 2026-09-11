@@ -1,21 +1,75 @@
 {
   "query": "git rebase",
-  "recordedAt": "2026-09-11T12:59:43Z",
+  "recordedAt": "2026-09-11T19:23:43Z",
   "itemsInTheOrderOfEachAnswer": [
+    [
+      {
+        "hash": "98ydQs9cq-94",
+        "address": "https://git-scm.com/learn",
+        "title": "Git - Learn",
+        "snippet": "Git - Learn\nAbout Trademark\nLearn Book\nCheat Sheet\nVideos\nExternal Links\nTools Command Line\nGUIs\nHosting\nReference\nInstall\nCommunity\nThe entire Pro Git book written by Scott Chacon and Ben Straub is available to read online for free. Dead tree versions are available on Amazon.com.\nLearn\nPro Git",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 11,
+            "textWords": 155
+          },
+          "wWrW4vQhHIra": {
+            "hits": 1,
+            "textWords": 155
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "tetY4sElpUjy",
+        "address": "https://git-send-email.io/",
+        "title": "Learn to use email with git!",
+        "snippet": "git!\nemail + git = \u003c3\nGit ships with built-in tools for collaborating over email. With this guide, you'll be contributing to email-driven projects like the Linux kernel, PostgreSQL, or even git itself in no time.\nStep two Configuration\nYou only need to complete this step once for each machine you",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 147,
+            "textWords": 3026
+          },
+          "wWrW4vQhHIra": {
+            "hits": 1,
+            "textWords": 3026
+          }
+        }
+      }
+    ],
+    [
+      {
+        "hash": "CjgsxsIyoLTx",
+        "address": "https://planetpython.org/",
+        "title": "Planet Python",
+        "snippet": "\u003cstrong\u003eGit-like branching\u003c/strong\u003e: \u003ca href=\"https://ducklake.select/roadmap.html?featured_on=talkpython\" target=\"_blank\" \u003educklake.select\u003c/a\u003e\u003cbr/\u003e \u003cbr/\u003e \u003cstrong\u003eWatch this episode on YouTube\u003c/strong\u003e: \u003ca href=\"https://www.youtube.com/watch?v=wEKbbY5tPtI\" target=\"_blank\" \u003eyoutube.com\u003c/a\u003e\u003cbr/\u003e",
+        "matchedWords": {
+          "up8R7MNJfZmT": {
+            "hits": 7,
+            "textWords": 32751
+          },
+          "wWrW4vQhHIra": {
+            "hits": 0,
+            "textWords": 32751
+          }
+        }
+      }
+    ],
     [
       {
         "hash": "X1qxTyXjZ9O4",
         "address": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/autolinked-references-and-urls",
         "title": "Autolinked references and URLs - GitHub Docs",
-        "snippet": "",
+        "snippet": "Git\nFinding example code\nReuse people's code\nLocal development\nDebug with Copilot\nGetting feedback on your code\nStoring secrets safely\nSecure your code\nSecure your dependencies\nAccessibility\nManage theme settings\nKeyboard shortcuts\nGitHub Command Palette\nWriting on GitHub\nStart writing on GitHub",
         "matchedWords": {
           "up8R7MNJfZmT": {
-            "hits": 0,
-            "textWords": 0
+            "hits": 10,
+            "textWords": 1021
           },
           "wWrW4vQhHIra": {
             "hits": 3,
-            "textWords": 1166
+            "textWords": 1021
           }
         }
       }
@@ -23,18 +77,50 @@
   ],
   "itemsInNoOrder": [
     {
+      "hash": "u2SnisCRdREw",
+      "address": "https://jvns.ca/",
+      "title": "Julia Evans",
+      "snippet": "Git (and other docs updates) Oct 10 2025 Notes on switching to Helix from vim\nand all posts by category: (or see popular posts)\nUncategorized\nJul 2026 Some more things about Django I've been enjoying Jul 2026 Learning a few things about running SQLite May 2026 Moving away from Tailwind, and",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 25,
+          "textWords": 5364
+        },
+        "wWrW4vQhHIra": {
+          "hits": 1,
+          "textWords": 5364
+        }
+      }
+    },
+    {
       "hash": "Tv0cB6S6MKD4",
       "address": "https://github.com/opencontainers/runc/pull/3905",
       "title": "[1.1] Backport riscv64 support into 1.1.x by chazapis · Pull Request #3905 · opencontainers/runc · GitHub",
-      "snippet": "",
+      "snippet": "git cherry-pick -x\nSorry, something went wrong.\nUh oh!\nThere was an error while loading. Please reload this page.\n👍\n1\nkolyshkin reacted with thumbs up emoji\nAll reactions\n👍\n1 reaction\nchazapis commented Jun 17, 2023\nCopy link\nCopy Markdown\nAuthor\nPlease use git cherry-pick -x\nDone.\nAll reactions",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 2,
+          "textWords": 1859
         },
         "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 3,
+          "textWords": 1859
+        }
+      }
+    },
+    {
+      "hash": "Pq85gxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/AUR_submission_guidelines",
+      "title": "AUR submission guidelines - ArchWiki",
+      "snippet": "-git for git and so on, see VCS package guidelines#Package naming for a full list.\nPackages that use prebuilt deliverables, when the sources are available, must use the -bin suffix. An exception to this is with Java. The AUR should not contain the binary tarball created by makepkg, nor should it",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 18,
+          "textWords": 2074
+        },
+        "wWrW4vQhHIra": {
+          "hits": 1,
+          "textWords": 2074
         }
       }
     },
@@ -42,15 +128,15 @@
       "hash": "dneiglzbmVEz",
       "address": "https://www.conventionalcommits.org/en/v1.0.0/",
       "title": "Conventional Commits",
-      "snippet": "",
+      "snippet": "git trailer format.\nAdditional types are not mandated by the Conventional Commits specification, and have no implicit effect in Semantic Versioning (unless they include a BREAKING CHANGE). A scope may be provided to a commit’s type, to provide additional contextual information and is contained",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1523
         },
         "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1523
         }
       }
     },
@@ -58,31 +144,47 @@
       "hash": "CZQqI29cq-94",
       "address": "https://git-scm.com/docs/git-worktree/2.42.0",
       "title": "Git - git-worktree Documentation",
-      "snippet": "",
+      "snippet": "Git - git-worktree Documentation\nAbout Trademark\nLearn Book\nCheat Sheet\nVideos\nExternal Links\nTools Command Line\nGUIs\nHosting\nReference\nInstall\nCommunity\nTable of Contents NAME\nSYNOPSIS\nDESCRIPTION\nCOMMANDS\nOPTIONS\nREFS\nCONFIGURATION FILE\nDETAILS\nLIST OUTPUT FORMAT\nEXAMPLES\nBUGS\nGIT\nEnglish ▾",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 112,
+          "textWords": 3571
         },
         "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 3571
         }
       }
     },
     {
-      "hash": "Tv0cB6S6MKD4",
-      "address": "https://github.com/opencontainers/runc/pull/3905",
-      "title": "[1.1] Backport riscv64 support into 1.1.x by chazapis · Pull Request #3905 · opencontainers/runc · GitHub",
-      "snippet": "",
+      "hash": "u2SnisCRdREw",
+      "address": "https://jvns.ca/",
+      "title": "Julia Evans",
+      "snippet": "Git (and other docs updates) Oct 10 2025 Notes on switching to Helix from vim\nand all posts by category: (or see popular posts)\nUncategorized\nJul 2026 Some more things about Django I've been enjoying Jul 2026 Learning a few things about running SQLite May 2026 Moving away from Tailwind, and",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 25,
+          "textWords": 5364
         },
         "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 5364
+        }
+      }
+    },
+    {
+      "hash": "Pq85gxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/AUR_submission_guidelines",
+      "title": "AUR submission guidelines - ArchWiki",
+      "snippet": "-git for git and so on, see VCS package guidelines#Package naming for a full list.\nPackages that use prebuilt deliverables, when the sources are available, must use the -bin suffix. An exception to this is with Java. The AUR should not contain the binary tarball created by makepkg, nor should it",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 18,
+          "textWords": 2074
+        },
+        "wWrW4vQhHIra": {
+          "hits": 1,
+          "textWords": 2074
         }
       }
     },
@@ -90,21 +192,53 @@
       "hash": "dneiglzbmVEz",
       "address": "https://www.conventionalcommits.org/en/v1.0.0/",
       "title": "Conventional Commits",
-      "snippet": "",
+      "snippet": "git trailer format.\nAdditional types are not mandated by the Conventional Commits specification, and have no implicit effect in Semantic Versioning (unless they include a BREAKING CHANGE). A scope may be provided to a commit’s type, to provide additional contextual information and is contained",
       "matchedWords": {
         "up8R7MNJfZmT": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 6,
+          "textWords": 1523
         },
         "wWrW4vQhHIra": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1523
+        }
+      }
+    },
+    {
+      "hash": "Tv0cB6S6MKD4",
+      "address": "https://github.com/opencontainers/runc/pull/3905",
+      "title": "[1.1] Backport riscv64 support into 1.1.x by chazapis · Pull Request #3905 · opencontainers/runc · GitHub",
+      "snippet": "git cherry-pick -x\nSorry, something went wrong.\nUh oh!\nThere was an error while loading. Please reload this page.\n👍\n1\nkolyshkin reacted with thumbs up emoji\nAll reactions\n👍\n1 reaction\nchazapis commented Jun 17, 2023\nCopy link\nCopy Markdown\nAuthor\nPlease use git cherry-pick -x\nDone.\nAll reactions",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 2,
+          "textWords": 1859
+        },
+        "wWrW4vQhHIra": {
+          "hits": 3,
+          "textWords": 1859
+        }
+      }
+    },
+    {
+      "hash": "dneiglzbmVEz",
+      "address": "https://www.conventionalcommits.org/en/v1.0.0/",
+      "title": "Conventional Commits",
+      "snippet": "git trailer format.\nAdditional types are not mandated by the Conventional Commits specification, and have no implicit effect in Semantic Versioning (unless they include a BREAKING CHANGE). A scope may be provided to a commit’s type, to provide additional contextual information and is contained",
+      "matchedWords": {
+        "up8R7MNJfZmT": {
+          "hits": 6,
+          "textWords": 1523
+        },
+        "wWrW4vQhHIra": {
+          "hits": 1,
+          "textWords": 1523
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "up8R7MNJfZmT": 35945,
-    "wWrW4vQhHIra": 319
+    "up8R7MNJfZmT": 36085,
+    "wWrW4vQhHIra": 498
   }
 }

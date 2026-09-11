@@ -1,75 +1,91 @@
 {
   "query": "recette crêpes",
-  "recordedAt": "2026-09-11T13:02:06Z",
+  "recordedAt": "2026-09-11T19:27:09Z",
   "itemsInTheOrderOfEachAnswer": [],
   "itemsInNoOrder": [
     {
-      "hash": "l7WpW2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/meghan-markle",
-      "title": "Meghan Markle",
-      "snippet": "",
+      "hash": "Sw5E4jKCIhSg",
+      "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
+      "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
+      "snippet": "recette\nRencontres\nIdées menuMenu de la semaine\nRecettes de Noel\nRecettes de Réveillon\nRecettes pour la Saint-Valentin\nRecettes pour Pâques\nApéro dinatoire\nRecettes faciles et rapides\nRecettes entre amis\nIdées de repas d'anniversaire\nRecettes à base de légumes\nRepas pour un soir d'été\nRecettes",
       "matchedWords": {
         "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 1622
         },
         "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1622
         }
       }
     },
     {
-      "hash": "N5_8O2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/bande-annonce",
-      "title": "Bande-annonce",
-      "snippet": "",
+      "hash": "Sw5E4jKCIhSg",
+      "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
+      "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
+      "snippet": "recette\nRencontres\nIdées menuMenu de la semaine\nRecettes de Noel\nRecettes de Réveillon\nRecettes pour la Saint-Valentin\nRecettes pour Pâques\nApéro dinatoire\nRecettes faciles et rapides\nRecettes entre amis\nIdées de repas d'anniversaire\nRecettes à base de légumes\nRepas pour un soir d'été\nRecettes",
       "matchedWords": {
         "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 1622
         },
         "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1622
         }
       }
     },
     {
-      "hash": "l7WpW2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/meghan-markle",
-      "title": "Meghan Markle",
-      "snippet": "",
+      "hash": "16j4fTKCIhSg",
+      "address": "https://madame.lefigaro.fr/style",
+      "title": "Les Tendances de la mode au féminin et défilés",
+      "snippet": "recette\nRencontres\nIdées menuMenu de la semaine\nRecettes de Noel\nRecettes de Réveillon\nRecettes pour la Saint-Valentin\nRecettes pour Pâques\nApéro dinatoire\nRecettes faciles et rapides\nRecettes entre amis\nIdées de repas d'anniversaire\nRecettes à base de légumes\nRepas pour un soir d'été\nRecettes",
       "matchedWords": {
         "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 3548
         },
         "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 3548
         }
       }
     },
     {
-      "hash": "N5_8O2KCIhSg",
-      "address": "https://madame.lefigaro.fr/tag/bande-annonce",
-      "title": "Bande-annonce",
-      "snippet": "",
+      "hash": "Sw5E4jKCIhSg",
+      "address": "https://madame.lefigaro.fr/astro/horoscope/quotidien",
+      "title": "Horoscope gratuit du jour : prévisions quotidiennes par signe",
+      "snippet": "recette\nRencontres\nIdées menuMenu de la semaine\nRecettes de Noel\nRecettes de Réveillon\nRecettes pour la Saint-Valentin\nRecettes pour Pâques\nApéro dinatoire\nRecettes faciles et rapides\nRecettes entre amis\nIdées de repas d'anniversaire\nRecettes à base de légumes\nRepas pour un soir d'été\nRecettes",
       "matchedWords": {
         "5fuQgx56JnNw": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 8,
+          "textWords": 1622
         },
         "fTPlth54Kuw3": {
-          "hits": 0,
-          "textWords": 0
+          "hits": 1,
+          "textWords": 1622
+        }
+      }
+    },
+    {
+      "hash": "16j4fTKCIhSg",
+      "address": "https://madame.lefigaro.fr/style",
+      "title": "Les Tendances de la mode au féminin et défilés",
+      "snippet": "recette\nRencontres\nIdées menuMenu de la semaine\nRecettes de Noel\nRecettes de Réveillon\nRecettes pour la Saint-Valentin\nRecettes pour Pâques\nApéro dinatoire\nRecettes faciles et rapides\nRecettes entre amis\nIdées de repas d'anniversaire\nRecettes à base de légumes\nRepas pour un soir d'été\nRecettes",
+      "matchedWords": {
+        "5fuQgx56JnNw": {
+          "hits": 8,
+          "textWords": 3548
+        },
+        "fTPlth54Kuw3": {
+          "hits": 1,
+          "textWords": 3548
         }
       }
     }
   ],
   "documentsHeldPerQueryWord": {
-    "5fuQgx56JnNw": 1345,
-    "fTPlth54Kuw3": 1783
+    "5fuQgx56JnNw": 1827,
+    "fTPlth54Kuw3": 2149
   }
 }
