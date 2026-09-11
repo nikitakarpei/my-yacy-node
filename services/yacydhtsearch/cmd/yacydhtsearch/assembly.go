@@ -21,7 +21,6 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	dhtdistanceobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/dhtdistanceobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/hostturns"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	networksearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/applog"
@@ -108,7 +107,7 @@ func RunService(
 		directory,
 		querySpreadFor(cfg, peers, choice, registry),
 		pageReading,
-		itemsOrderingFor(cfg),
+		itemsOrderingOfTheService(),
 		cfg.QueryBudget,
 		cfg.PagesReadPerQuery,
 		cfg.RankedItemsCeiling,
@@ -234,11 +233,7 @@ func pageReadingFor(
 	), nil
 }
 
-func itemsOrderingFor(cfg ServiceConfig) networksearch.ItemsOrdering {
-	if !cfg.RelevanceRanking {
-		return peerorder.Ordering{}
-	}
-
+func itemsOrderingOfTheService() networksearch.ItemsOrdering {
 	return hostturns.New(relevance.New(relevance.DefaultScoreWeights()))
 }
 

@@ -33,7 +33,6 @@ const (
 	EnvRankingCacheCapacity = "YACYDHTSEARCH_RANKING_CACHE_CAPACITY"
 	EnvRankingLifetime      = "YACYDHTSEARCH_RANKING_LIFETIME"
 	EnvWordJoinedSearch     = "YACYDHTSEARCH_WORD_JOINED_SEARCH"
-	EnvRelevanceRanking     = "YACYDHTSEARCH_RELEVANCE_RANKING"
 	EnvPagesReadPerQuery    = "YACYDHTSEARCH_PAGES_READ_PER_QUERY"
 	EnvPageReadBudget       = "YACYDHTSEARCH_PAGE_READ_BUDGET"
 	EnvPageByteCeiling      = "YACYDHTSEARCH_PAGE_BYTE_CEILING"
@@ -83,7 +82,6 @@ type ServiceConfig struct {
 	RankingCache       int
 	RankingLifetime    time.Duration
 	WordJoinedSearch   bool
-	RelevanceRanking   bool
 
 	PagesReadPerQuery    int
 	PageReadBudget       time.Duration
@@ -128,10 +126,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 	if err != nil {
 		return ServiceConfig{}, err
 	}
-	relevanceRanking, err := envconfig.Bool(getenv, EnvRelevanceRanking, false)
-	if err != nil {
-		return ServiceConfig{}, err
-	}
 
 	return ServiceConfig{
 		ListenAddr:         envconfig.String(getenv, EnvListenAddr, DefaultListenAddr),
@@ -155,7 +149,6 @@ func LoadServiceConfig(getenv func(string) string) (ServiceConfig, error) {
 		RankingCache:       counts.rankingCacheCapacity,
 		RankingLifetime:    durations.rankingLifetime,
 		WordJoinedSearch:   wordJoinedSearch,
-		RelevanceRanking:   relevanceRanking,
 
 		PagesReadPerQuery:    counts.pagesReadPerQuery,
 		PageReadBudget:       durations.pageReadBudget,
