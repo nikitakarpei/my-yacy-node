@@ -17,13 +17,13 @@ words of the query, in lower case and joined by `-`, make each `<query>` name.
 The recorder asks the peers, reads the page of each of the first fifty
 documents of the relevance ordering, and stores the text of each page it read.
 From that text it writes the hits, the query phrase hits, the amount of words
-and the snippet of each document. A document whose page the recorder did not
-read keeps the counts of the peers and gets no snippet.
+and the snippet of each document. A document with no stored page keeps the
+counts of the peers and gets no snippet.
 
 The recorder asks the live freeworld network from this host and reads the pages
-from the web, and needs direct egress for both. The run takes some
-minutes, writes every file again, and gives how many grades each query waits
-for. Run it from `services/yacydhtsearch`:
+from the web, and needs direct egress for both. The run takes some minutes,
+writes every file again, and gives how many grades each query waits for. Run it
+from `services/yacydhtsearch`:
 
 ```sh
 YACYDHTSEARCH_RECORD_JUDGED_QUERIES=1 go test \
@@ -46,35 +46,35 @@ YACYDHTSEARCH_DERIVE_JUDGED_QUERIES=1 go test \
 
 ## How to grade
 
-The recorder and the derivation write the judgments files. A document is judged
-when its page text is stored, or when the peer ordering puts it in its first
-ten. Both steps keep each grade that a person gave, and give each new document
-the grade `null`. Give each document with the grade `null` one grade:
+A document is judged when its page text is stored, or when the peer ordering
+puts it in its first ten. The two steps above keep each grade a person gave, and
+give each new document the grade `null`. Give each such document one grade:
 
 - `2` — the page answers the query.
 - `1` — the page is about the subject of the query, but does not answer it.
 - `0` — the page has nothing to do with the query.
 
-Grade from the stored text of the page, the title and the address. A document
-with no stored text gets the grade that the title and the address support,
-which is `1` at most. Never change a grade that a person gave.
+Grade from the stored page text, the title and the address. A document with no
+stored text gets at most the grade `1`. Never change a grade that a person gave.
 
 ## What the gate asserts
 
-`TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries` measures the
-normalized discounted cumulative gain of the first ten graded documents of the
-ordering of the service and of the peer ordering, and takes the mean of each
-over the queries. The ordering of the service is the relevance ordering where
-the hosts take turns.
+`TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries` measures the gain of
+the first ten graded documents of each ordering and logs the mean of the
+ordering of the service, of the relevance ordering, and of the peer ordering.
 
-The gate drops a document with the grade `null` before it measures, so a change
-of the ordering needs no new grading. A query whose judgments hold no document
-of grade 1 or more does not count. The mean of the ordering of the service must
-stay at or above the floor that the test holds, and at least the lift that the
-test holds above the mean of the peer ordering.
+The gain of a document is its grade, discounted by its place as the discounted
+cumulative gain does it, and discounted again per host: a second document of a
+host counts half of a first document of another host, and a third counts a
+quarter. Only a document of grade 1 or more discounts the documents of its host
+below it.
 
-## Limits
+The gate divides by the gain of the ideal order, which takes at each place the
+document with the highest gain that is left. It drops a document with the grade
+`null` before it measures, so a change of the ordering needs no new grading. A
+query whose judgments hold no document of grade 1 or more does not count.
 
-The recorded answers and the stored page text are a photograph of the network
-and of the web on the day of the recording. The gain of a live search is not
-the gain this gate measures.
+The mean of the ordering of the service must stay at or above the floor of the
+test, and at least the lift of the test above the mean of the peer ordering. The
+recorded answers and the stored page text are a photograph of the network and of
+the web on the day of the recording, and a live search reaches another gain.

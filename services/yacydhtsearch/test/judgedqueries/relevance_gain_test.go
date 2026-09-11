@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	meanGainFloorOfTheRelevanceOrdering                = 0.80
-	leastLiftOfTheRelevanceOrderingOverThePeerOrdering = 0.20
+	meanGainFloorOfTheOrderingOfTheService                = 0.74
+	leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering = 0.27
 )
 
 type itemsOrdering interface {
@@ -25,31 +25,33 @@ func TestTheRelevanceOrderingHoldsItsGainOverTheJudgedQueries(t *testing.T) {
 
 	judged := judgedQueriesRecorded(t)
 
-	meanGainOfTheRelevanceOrdering := meanNormalizedGainOf(
+	meanGainOfTheOrderingOfTheService := meanNormalizedGainDiscountedPerHostOf(
 		hostturns.New(relevance.Ordering{}), judged,
 	)
-	meanGainOfThePeerOrdering := meanNormalizedGainOf(peerorder.Ordering{}, judged)
+	meanGainOfThePeerOrdering := meanNormalizedGainDiscountedPerHostOf(
+		peerorder.Ordering{}, judged,
+	)
 	reportTheGainOfEachJudgedQuery(t, judged)
 
-	if meanGainOfTheRelevanceOrdering < meanGainFloorOfTheRelevanceOrdering {
+	if meanGainOfTheOrderingOfTheService < meanGainFloorOfTheOrderingOfTheService {
 		t.Errorf(
-			"the relevance ordering reaches a mean gain of %.4f over %d judged queries, "+
+			"the ordering of the service reaches a mean gain of %.4f over %d judged queries, "+
 				"want at least %.2f; the peer ordering reaches %.4f",
-			meanGainOfTheRelevanceOrdering,
+			meanGainOfTheOrderingOfTheService,
 			len(judged),
-			meanGainFloorOfTheRelevanceOrdering,
+			meanGainFloorOfTheOrderingOfTheService,
 			meanGainOfThePeerOrdering,
 		)
 	}
-	if meanGainOfTheRelevanceOrdering-meanGainOfThePeerOrdering <
-		leastLiftOfTheRelevanceOrderingOverThePeerOrdering {
+	if meanGainOfTheOrderingOfTheService-meanGainOfThePeerOrdering <
+		leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering {
 		t.Errorf(
-			"the relevance ordering lifts the mean gain from %.4f to %.4f over %d judged "+
+			"the ordering of the service lifts the mean gain from %.4f to %.4f over %d judged "+
 				"queries, want a lift of at least %.2f",
 			meanGainOfThePeerOrdering,
-			meanGainOfTheRelevanceOrdering,
+			meanGainOfTheOrderingOfTheService,
 			len(judged),
-			leastLiftOfTheRelevanceOrderingOverThePeerOrdering,
+			leastLiftOfTheOrderingOfTheServiceOverThePeerOrdering,
 		)
 	}
 }
@@ -88,13 +90,15 @@ func gradedDocumentsOfTheAnswersFile(t *testing.T, answersFile string) gradedDoc
 		t.Fatalf("read %s: %v", judgmentsFile, err)
 	}
 
-	return queryJudgmentsInTheFile(t, judgmentsFile).gradeOfEachGradedDocument()
+	return queryJudgmentsInTheFile(t, judgmentsFile).gradedDocumentsOfTheQuery()
 }
 
-func meanNormalizedGainOf(ordering itemsOrdering, judged []judgedQuery) float64 {
+func meanNormalizedGainDiscountedPerHostOf(
+	ordering itemsOrdering, judged []judgedQuery,
+) float64 {
 	sumOfNormalizedGains := 0.0
 	for _, judgedQuery := range judged {
-		sumOfNormalizedGains += judgedQuery.gradedDocuments.normalizedGainOf(
+		sumOfNormalizedGains += judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
 			ordering.OrderedItemsOf(judgedQuery.answers),
 		)
 	}
@@ -110,14 +114,21 @@ func reportTheGainOfEachJudgedQuery(t *testing.T, judged []judgedQuery) {
 		t.Logf(
 			"%q: host turns %.4f, relevance %.4f, peer order %.4f, %d ungraded documents dropped",
 			judgedQuery.query,
-			judgedQuery.gradedDocuments.normalizedGainOf(orderedItems),
-			judgedQuery.gradedDocuments.normalizedGainOf(
+			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(orderedItems),
+			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
 				relevance.Ordering{}.OrderedItemsOf(judgedQuery.answers),
 			),
-			judgedQuery.gradedDocuments.normalizedGainOf(
+			judgedQuery.gradedDocuments.normalizedGainDiscountedPerHostOf(
 				peerorder.Ordering{}.OrderedItemsOf(judgedQuery.answers),
 			),
 			judgedQuery.gradedDocuments.amountOfUngradedItemsAmong(orderedItems),
 		)
 	}
+	t.Logf(
+		"the mean over %d judged queries: host turns %.4f, relevance %.4f, peer order %.4f",
+		len(judged),
+		meanNormalizedGainDiscountedPerHostOf(hostturns.New(relevance.Ordering{}), judged),
+		meanNormalizedGainDiscountedPerHostOf(relevance.Ordering{}, judged),
+		meanNormalizedGainDiscountedPerHostOf(peerorder.Ordering{}, judged),
+	)
 }

@@ -3,6 +3,7 @@ package judgedqueries_test
 import (
 	"encoding/json"
 	"errors"
+	"net/url"
 	"os"
 	"testing"
 
@@ -25,16 +26,28 @@ type judgedDocument struct {
 	Grade   *int              `json:"grade"`
 }
 
-func (j queryJudgments) gradeOfEachGradedDocument() gradedDocuments {
-	grades := make(gradedDocuments, len(j.JudgedDocuments))
+func (j queryJudgments) gradedDocumentsOfTheQuery() gradedDocuments {
+	graded := make(gradedDocuments, len(j.JudgedDocuments))
 	for _, judged := range j.JudgedDocuments {
 		if judged.Grade == nil {
 			continue
 		}
-		grades[judged.Hash] = *judged.Grade
+		graded[judged.Hash] = gradedDocument{
+			grade: *judged.Grade,
+			host:  hostOf(judged.Address),
+		}
 	}
 
-	return grades
+	return graded
+}
+
+func hostOf(address string) string {
+	readAddress, err := url.Parse(address)
+	if err != nil || readAddress.Hostname() == "" {
+		return address
+	}
+
+	return readAddress.Hostname()
 }
 
 func (j queryJudgments) amountOfUngradedDocuments() int {
