@@ -4,15 +4,15 @@
 // score and its place adds the rest, how many query words its title holds,
 // how often they appear in its text, and how many of them the host of its
 // address holds. A first place from one peer weighs one, a query word in the
-// title weighs one half, a query word in the host weighs one, and one
-// saturated hit weighs the rarity of its word. An address that does not
-// parse holds no word. The text score follows BM25: a word weighs
-// more the fewer documents the peers hold for it and the more often the page
-// of the document or a peer counted it, each further hit adding less, and
-// weighs less the longer the document is. A word no peer counted documents
-// for weighs as much as the most common counted word, a document with no
-// counted hits holds each matched word once, and a document of unmeasured
-// length is of average length.
+// title weighs one half, a missing title weighs minus one, a query word in
+// the host weighs one, and one saturated hit weighs the rarity of its word.
+// An address that does not parse holds no word. The text score follows BM25:
+// a word weighs more the fewer documents the peers hold for it and the more
+// often the page of the document or a peer counted it, each further hit
+// adding less, and weighs less the longer the document is. A word no peer
+// counted documents for weighs as much as the most common counted word, a
+// word no page and no peer counted hits of weighs nothing, and a document of
+// unmeasured length is of average length.
 // Documents of equal relevance keep the order the peers put them in.
 package relevance
 

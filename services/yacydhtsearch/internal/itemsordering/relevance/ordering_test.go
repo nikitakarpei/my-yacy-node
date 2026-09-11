@@ -242,13 +242,51 @@ func TestTheDocumentThatMatchedMoreQueryWordsComesFirst(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"berlin": 100, "weather": 100},
-		[]peeranswers.AnsweredItem{itemMatchingTheWords(t, "https://one.example/", "berlin")},
 		[]peeranswers.AnsweredItem{
-			itemMatchingTheWords(t, "https://both.example/", "berlin", "weather"),
+			itemCountedForTheWords(t, "https://one.example/", map[string]int{"berlin": 1}),
+		},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWords(t, "https://both.example/",
+				map[string]int{"berlin": 1, "weather": 1}),
 		},
 	)
 
 	want := []string{"https://both.example/", "https://one.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestTheDocumentNoOneCountedAHitInComesAfterOneWithAHit(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100, "weather": 100},
+		[]peeranswers.AnsweredItem{
+			itemMatchingTheWords(t, "https://uncounted.example/", "berlin", "weather"),
+		},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWords(t, "https://counted.example/", map[string]int{"berlin": 1}),
+		},
+	)
+
+	want := []string{"https://counted.example/", "https://uncounted.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestTheDocumentWithoutATitleComesAfterOneAPeerPutBehindIt(t *testing.T) {
+	t.Parallel()
+
+	answers := answersOf(
+		[]peeranswers.AnsweredItem{
+			itemMatchingTheWords(t, "https://untitled.example/", "berlin"),
+			itemTitledMatchingTheWords(t, "https://titled.example/", "A city", "berlin"),
+		},
+	)
+
+	want := []string{"https://titled.example/", "https://untitled.example/"}
 	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
 	}
@@ -279,7 +317,10 @@ func TestATitleThatOnlyHoldsALongerWordChangesNoOrder(t *testing.T) {
 
 	answers := answersHolding(
 		map[string]int{"tofu": 100},
-		[]peeranswers.AnsweredItem{itemMatchingTheWords(t, "https://beside.example/", "tofu")},
+		[]peeranswers.AnsweredItem{
+			itemTitledMatchingTheWords(t, "https://beside.example/", "Migrating to a fork",
+				"tofu"),
+		},
 		[]peeranswers.AnsweredItem{
 			itemTitledMatchingTheWords(t, "https://titled.example/", "Migrating to OpenTofu",
 				"tofu"),

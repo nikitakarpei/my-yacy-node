@@ -5,7 +5,12 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
+const titleScoreOfADocumentWithoutATitle = -2.0
+
 func titleScoreOf(item peeranswers.AnsweredItem) float64 {
+	if item.Metadata.Title == "" {
+		return titleScoreOfADocumentWithoutATitle
+	}
 	wordsOfTheTitle := wordsOfTheTitleOf(item.Metadata.Title)
 
 	amountOfQueryWordsInTheTitle := 0

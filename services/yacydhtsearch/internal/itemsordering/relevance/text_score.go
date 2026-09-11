@@ -12,7 +12,6 @@ import (
 
 const (
 	rarityOfAQueryWordWhenNoWordWasCounted = 1.0
-	hitsOfAWordNoPeerCounted               = 1
 	saturationOfTheHitsOfAWord             = 1.2
 	weightOfTheDocumentLength              = 0.75
 	lengthRatioOfADocumentNoPeerMeasured   = 1.0
@@ -108,7 +107,7 @@ func matchedWordsAlwaysInTheSameOrder(item peeranswers.AnsweredItem) []yacymodel
 }
 
 func saturatedHitsOf(hits int, amountOfTextWords int, averageDocumentLength float64) float64 {
-	countedHits := float64(max(hits, hitsOfAWordNoPeerCounted))
+	countedHits := float64(hits)
 	saturationForTheDocumentLength := saturationOfTheHitsOfAWord * (1 - weightOfTheDocumentLength +
 		weightOfTheDocumentLength*documentLengthRatioOf(amountOfTextWords, averageDocumentLength))
 
