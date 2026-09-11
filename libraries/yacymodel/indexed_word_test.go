@@ -1,6 +1,7 @@
 package yacymodel_test
 
 import (
+	"maps"
 	"slices"
 	"testing"
 
@@ -57,5 +58,35 @@ func TestAWordOfOneMultibyteLetterIsNotIndexed(t *testing.T) {
 
 	if yacymodel.WordIsIndexed("ä") {
 		t.Fatal("WordIsIndexed(ä) = true, want false")
+	}
+}
+
+func TestEachWordOfATextIsReadWithThePlaceWhereItStarts(t *testing.T) {
+	t.Parallel()
+
+	placePerWord := map[string]int{}
+	for place, word := range yacymodel.PlacedWordsIn("Über Berlin: a wall") {
+		placePerWord[word] = place
+	}
+
+	want := map[string]int{"über": 0, "berlin": 6, "wall": 16}
+	if !maps.Equal(placePerWord, want) {
+		t.Fatalf("PlacedWordsIn = %v, want %v", placePerWord, want)
+	}
+}
+
+func TestTheWordsOfATextStopWhenTheReaderStops(t *testing.T) {
+	t.Parallel()
+
+	var wordsRead []string
+	for _, word := range yacymodel.PlacedWordsIn("berlin holds a wall") {
+		wordsRead = append(wordsRead, word)
+		if len(wordsRead) == 2 {
+			break
+		}
+	}
+
+	if !slices.Equal(wordsRead, []string{"berlin", "holds"}) {
+		t.Fatalf("PlacedWordsIn read %v, want the first two words", wordsRead)
 	}
 }
