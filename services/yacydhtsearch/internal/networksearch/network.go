@@ -11,6 +11,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
@@ -32,11 +33,11 @@ type ItemsOrdering interface {
 }
 
 type PageReading interface {
-	PageTextPerDocument(
+	DocumentTextPerDocument(
 		ctx context.Context,
 		queryWords []yacymodel.Hash,
 		pagesToRead []pagereading.PageToRead,
-	) map[yacymodel.URLHash]pagereading.PageText
+	) map[yacymodel.URLHash]documenttext.DocumentText
 }
 
 type SearchOutcome int
@@ -104,11 +105,10 @@ func (n Network) Search(
 
 	answers := n.querySpread.SpreadOverPeers(ctx, query, askablePeers)
 	candidates := itemsUpTo(n.itemsOrdering.OrderedItemsOf(answers), n.pagesReadPerQuery)
-	pageTextPerDocument := n.pageReading.PageTextPerDocument(
-		ctx, query.TermHashes(), pagesToReadOf(candidates),
-	)
 	readAnswers := answers.CarryingTheTextOfEachDocument(
-		documentTextPerDocumentOf(pageTextPerDocument),
+		n.pageReading.DocumentTextPerDocument(
+			ctx, query.TermHashes(), pagesToReadOf(candidates),
+		),
 	)
 	rankedItems := itemsUpTo(
 		n.itemsOrdering.OrderedItemsOf(readAnswers), n.rankedItemsCeiling,
@@ -144,23 +144,6 @@ func pagesToReadOf(candidates []peeranswers.AnsweredItem) []pagereading.PageToRe
 	}
 
 	return pagesToRead
-}
-
-func documentTextPerDocumentOf(
-	pageTextPerDocument map[yacymodel.URLHash]pagereading.PageText,
-) map[yacymodel.URLHash]peeranswers.DocumentText {
-	documentTextPerDocument := make(
-		map[yacymodel.URLHash]peeranswers.DocumentText, len(pageTextPerDocument),
-	)
-	for document, pageText := range pageTextPerDocument {
-		documentTextPerDocument[document] = peeranswers.DocumentText{
-			HitsPerQueryWord: pageText.HitsPerQueryWord,
-			AmountOfWords:    pageText.AmountOfWords,
-			Snippet:          pageText.Snippet,
-		}
-	}
-
-	return documentTextPerDocument
 }
 
 func rankingOf(rankedItems []peeranswers.AnsweredItem) searchresult.Ranking {

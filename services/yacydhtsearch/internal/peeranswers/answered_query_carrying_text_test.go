@@ -3,6 +3,7 @@ package peeranswers_test
 import (
 	"testing"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
@@ -15,10 +16,10 @@ func documentOf(t *testing.T, address string) yacymodel.URLHash {
 	return metadataNamedByAddress(t, address).Hash
 }
 
-func textOfTheReadDocument(t *testing.T) map[yacymodel.URLHash]peeranswers.DocumentText {
+func textOfTheReadDocument(t *testing.T) map[yacymodel.URLHash]documenttext.DocumentText {
 	t.Helper()
 
-	return map[yacymodel.URLHash]peeranswers.DocumentText{
+	return map[yacymodel.URLHash]documenttext.DocumentText{
 		documentOf(t, addressOfTheReadDocument): {
 			HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash("berlin"): 7},
 			AmountOfWords:    400,

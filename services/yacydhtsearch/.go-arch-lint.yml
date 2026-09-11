@@ -21,6 +21,8 @@ components:
     in: internal/searchresult/**
   peeranswers:
     in: internal/peeranswers/**
+  documenttext:
+    in: internal/documenttext/**
   itemsorderingpeerorder:
     in: internal/itemsordering/peerorder/**
   itemsorderingrelevance:
@@ -163,6 +165,11 @@ deps:
   peeranswers:
     canUse:
       - yacymodel
+    mayDependOn:
+      - documenttext
+  documenttext:
+    canUse:
+      - yacymodel
   peerdirectory:
     canUse:
       - yacymodel
@@ -185,6 +192,7 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
+      - documenttext
       - pagereading
       - peeranswers
       - peerdirectory
@@ -196,6 +204,8 @@ deps:
       - documentextraction
       - pagefetch
       - yacymodel
+    mayDependOn:
+      - documenttext
   pagereadingobserversapplog:
     mayDependOn:
       - pagereading

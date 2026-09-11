@@ -1,11 +1,14 @@
 package pagereading
 
-import "github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
 
 type readPage struct {
 	document yacymodel.URLHash
 	outcome  readOutcome
-	text     PageText
+	text     documenttext.DocumentText
 }
 
 type readOutcome int

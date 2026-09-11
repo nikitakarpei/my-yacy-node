@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
@@ -227,11 +228,11 @@ func networkOrdering(
 
 type pagesThatNoOneReads struct{}
 
-func (pagesThatNoOneReads) PageTextPerDocument(
+func (pagesThatNoOneReads) DocumentTextPerDocument(
 	_ context.Context,
 	_ []yacymodel.Hash,
 	_ []pagereading.PageToRead,
-) map[yacymodel.URLHash]pagereading.PageText {
+) map[yacymodel.URLHash]documenttext.DocumentText {
 	return nil
 }
 
@@ -509,23 +510,23 @@ type pagesHoldingTheWordOfOneDocument struct {
 	hits    int
 }
 
-func (p pagesHoldingTheWordOfOneDocument) PageTextPerDocument(
+func (p pagesHoldingTheWordOfOneDocument) DocumentTextPerDocument(
 	_ context.Context,
 	_ []yacymodel.Hash,
 	pagesToRead []pagereading.PageToRead,
-) map[yacymodel.URLHash]pagereading.PageText {
-	pageTextPerDocument := map[yacymodel.URLHash]pagereading.PageText{}
+) map[yacymodel.URLHash]documenttext.DocumentText {
+	documentTextPerDocument := map[yacymodel.URLHash]documenttext.DocumentText{}
 	for _, pageToRead := range pagesToRead {
 		if pageToRead.Address != p.address {
 			continue
 		}
-		pageTextPerDocument[pageToRead.Document] = pagereading.PageText{
+		documentTextPerDocument[pageToRead.Document] = documenttext.DocumentText{
 			HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(p.word): p.hits},
 			AmountOfWords:    p.hits,
 		}
 	}
 
-	return pageTextPerDocument
+	return documentTextPerDocument
 }
 
 func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {

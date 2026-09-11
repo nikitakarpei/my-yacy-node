@@ -1,10 +1,8 @@
-// Package pagereading reads the page of each document one query puts first. It
-// takes the readable text of the page, and the whole text of the page when the
-// page holds no readable article, and gives back how often that text holds
-// each query word, how many words the text holds, and the text around the first
-// query word as the snippet of the document. A page that is unreachable, that
-// is refused, that is unreadable, that is of an unsupported kind, or that is
-// still out when the read budget ends, gives back nothing for its document.
+// Package pagereading reads the page of each document one query puts first,
+// all at once inside one read budget, and gives back the text of each document
+// it could read. It takes the readable text of the page, and the whole text
+// when the page holds no readable article. A page it cannot fetch, read, or
+// finish inside the budget gives back nothing for its document.
 package pagereading
 
 import (
@@ -17,18 +15,13 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/canonicalurl"
 	"github.com/nikitakarpei/yacy-rwi-node/documentextraction"
 	"github.com/nikitakarpei/yacy-rwi-node/pagefetch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type PageToRead struct {
 	Document yacymodel.URLHash
 	Address  string
-}
-
-type PageText struct {
-	HitsPerQueryWord map[yacymodel.Hash]int
-	AmountOfWords    int
-	Snippet          string
 }
 
 type FormatDerivations interface {
@@ -64,11 +57,11 @@ func New(
 	}
 }
 
-func (r Reading) PageTextPerDocument(
+func (r Reading) DocumentTextPerDocument(
 	ctx context.Context,
 	queryWords []yacymodel.Hash,
 	pagesToRead []PageToRead,
-) map[yacymodel.URLHash]PageText {
+) map[yacymodel.URLHash]documenttext.DocumentText {
 	startedAt := time.Now()
 	budgetedCtx, stopPageReadBudget := context.WithTimeout(ctx, r.pageReadBudget)
 	defer stopPageReadBudget()
@@ -79,7 +72,7 @@ func (r Reading) PageTextPerDocument(
 		performedPageReadingFrom(readPages, time.Since(startedAt)),
 	)
 
-	return pageTextPerDocumentOf(readPages)
+	return documentTextPerDocumentOf(readPages)
 }
 
 func (r Reading) readPagesOf(
@@ -164,7 +157,7 @@ func (r Reading) readPageFromTheDocument(
 	return readPage{
 		document: pageToRead.Document,
 		outcome:  pageRead,
-		text:     r.pageTextOf(string(text), queryWords),
+		text:     documenttext.DocumentTextFrom(string(text), queryWords, r.snippetLengthCeiling),
 	}
 }
 
@@ -185,39 +178,18 @@ func (r Reading) textOfTheDocument(
 	)
 }
 
-func (r Reading) pageTextOf(text string, queryWords []yacymodel.Hash) PageText {
-	spelledWords := yacymodel.WordsIn(text)
-	hitsPerSpelledWord := hitsPerSpelledWordOf(spelledWords)
-
-	hitsPerQueryWord := make(map[yacymodel.Hash]int, len(queryWords))
-	for _, queryWord := range queryWords {
-		hitsPerQueryWord[queryWord] = hitsPerSpelledWord[queryWord]
-	}
-
-	return PageText{
-		HitsPerQueryWord: hitsPerQueryWord,
-		AmountOfWords:    len(spelledWords),
-		Snippet:          snippetOf(text, queryWords, r.snippetLengthCeiling),
-	}
-}
-
-func hitsPerSpelledWordOf(spelledWords []string) map[yacymodel.Hash]int {
-	hitsPerSpelledWord := make(map[yacymodel.Hash]int, len(spelledWords))
-	for _, spelledWord := range spelledWords {
-		hitsPerSpelledWord[yacymodel.WordHash(spelledWord)]++
-	}
-
-	return hitsPerSpelledWord
-}
-
-func pageTextPerDocumentOf(readPages []readPage) map[yacymodel.URLHash]PageText {
-	pageTextPerDocument := make(map[yacymodel.URLHash]PageText, len(readPages))
+func documentTextPerDocumentOf(
+	readPages []readPage,
+) map[yacymodel.URLHash]documenttext.DocumentText {
+	documentTextPerDocument := make(
+		map[yacymodel.URLHash]documenttext.DocumentText, len(readPages),
+	)
 	for _, readPage := range readPages {
 		if readPage.outcome != pageRead {
 			continue
 		}
-		pageTextPerDocument[readPage.document] = readPage.text
+		documentTextPerDocument[readPage.document] = readPage.text
 	}
 
-	return pageTextPerDocument
+	return documentTextPerDocument
 }

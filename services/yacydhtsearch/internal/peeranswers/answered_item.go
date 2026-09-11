@@ -3,12 +3,14 @@ package peeranswers
 import (
 	"maps"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
 type AnsweredItem struct {
-	Metadata     yacymodel.URLMetadata
-	MatchedWords map[yacymodel.Hash]WordCount
+	Metadata        yacymodel.URLMetadata
+	MatchedWords    map[yacymodel.Hash]WordCount
+	QueryPhraseHits int
 }
 
 func (a AnsweredItem) MatchingTheWords(words []yacymodel.Hash) AnsweredItem {
@@ -24,7 +26,7 @@ func (a AnsweredItem) MatchingTheWords(words []yacymodel.Hash) AnsweredItem {
 	return a
 }
 
-func (a AnsweredItem) carryingTheText(text DocumentText) AnsweredItem {
+func (a AnsweredItem) carryingTheText(text documenttext.DocumentText) AnsweredItem {
 	matchedWords := make(map[yacymodel.Hash]WordCount, len(a.MatchedWords))
 	for word := range a.MatchedWords {
 		matchedWords[word] = WordCount{
@@ -33,6 +35,7 @@ func (a AnsweredItem) carryingTheText(text DocumentText) AnsweredItem {
 		}
 	}
 	a.MatchedWords = matchedWords
+	a.QueryPhraseHits = text.QueryPhraseHits
 	a.Metadata.Snippet = text.Snippet
 
 	return a

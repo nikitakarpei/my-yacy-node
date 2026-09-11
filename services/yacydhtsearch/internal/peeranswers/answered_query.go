@@ -1,16 +1,12 @@
 // Package peeranswers holds what the peers answered for one whole query: the
-// items of each answer in the order the peer that answered put them, the items
-// that came back in no order, how many documents the peers that counted each
-// query word hold for it, and the one item of each answered document across
-// every answer. An item carries the metadata a peer holds for the document and
-// how often a peer counted each query word the document matched, beside how
-// many words its text holds. A peer asked about one word counts that word; a
-// document that matched a word no peer counted still matched the word, and
-// carries the zero count for it. The text of a document, when that document was
-// read, replaces those counts and the snippet on every item of the document.
+// items of each answer in the order the peer put them, the items in no order,
+// how many documents the peers hold per query word, and the one item of each
+// answered document. The text of a document, once a node read its page,
+// replaces what the peers counted for it on every item of the document.
 package peeranswers
 
 import (
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/documenttext"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -21,7 +17,7 @@ type AnsweredQuery struct {
 }
 
 func (a AnsweredQuery) CarryingTheTextOfEachDocument(
-	textPerDocument map[yacymodel.URLHash]DocumentText,
+	textPerDocument map[yacymodel.URLHash]documenttext.DocumentText,
 ) AnsweredQuery {
 	if len(textPerDocument) == 0 {
 		return a
@@ -48,7 +44,7 @@ func (a AnsweredQuery) CarryingTheTextOfEachDocument(
 
 func itemsCarryingTheTextOfTheirDocument(
 	items []AnsweredItem,
-	textPerDocument map[yacymodel.URLHash]DocumentText,
+	textPerDocument map[yacymodel.URLHash]documenttext.DocumentText,
 ) []AnsweredItem {
 	carryingItems := make([]AnsweredItem, 0, len(items))
 	for _, item := range items {
