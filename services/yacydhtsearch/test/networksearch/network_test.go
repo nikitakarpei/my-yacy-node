@@ -11,6 +11,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
@@ -29,6 +30,7 @@ const (
 	peerResults       = 10
 	directoryLimit    = 16
 	recordCeiling     = 50
+	pagesReadPerQuery = 50
 	cooldown          = 5 * time.Second
 )
 
@@ -214,11 +216,23 @@ func networkOrdering(
 	return networksearch.New(
 		directory,
 		querySpread,
+		pagesThatNoOneReads{},
 		itemsOrdering,
 		queryBudget,
+		pagesReadPerQuery,
 		recordCeiling,
 		networksearch.NetworkSearchObservers{observer},
 	)
+}
+
+type pagesThatNoOneReads struct{}
+
+func (pagesThatNoOneReads) PageTextPerDocument(
+	_ context.Context,
+	_ []yacymodel.Hash,
+	_ []pagereading.PageToRead,
+) map[yacymodel.URLHash]pagereading.PageText {
+	return nil
 }
 
 func TestOneQueryCarriesBackWhatThePeersHold(t *testing.T) {
@@ -467,6 +481,74 @@ func TestASearchReportsHowManyRankedItemsAPeerCounted(t *testing.T) {
 		t.Fatalf(
 			"NetworkSearchPerformed = %+v, want both ranked items counted by a peer",
 			observer.performed,
+		)
+	}
+}
+
+func answersOfTwoWordsMatchedByEveryItem(
+	t *testing.T, commonWordAddress, rareWordAddress string,
+) spreadAnswering {
+	t.Helper()
+
+	queryWords := []yacymodel.Hash{
+		yacymodel.WordHash("berlin"), yacymodel.WordHash("kelondro"),
+	}
+	answers := answersOfTwoWords(t, commonWordAddress, rareWordAddress)
+	for _, itemsOfOneAnswer := range answers.answers.ItemsInTheOrderOfEachAnswer {
+		for place, item := range itemsOfOneAnswer {
+			itemsOfOneAnswer[place] = item.MatchingTheWords(queryWords)
+		}
+	}
+
+	return answers
+}
+
+type pagesHoldingTheWordOfOneDocument struct {
+	address string
+	word    string
+	hits    int
+}
+
+func (p pagesHoldingTheWordOfOneDocument) PageTextPerDocument(
+	_ context.Context,
+	_ []yacymodel.Hash,
+	pagesToRead []pagereading.PageToRead,
+) map[yacymodel.URLHash]pagereading.PageText {
+	pageTextPerDocument := map[yacymodel.URLHash]pagereading.PageText{}
+	for _, pageToRead := range pagesToRead {
+		if pageToRead.Address != p.address {
+			continue
+		}
+		pageTextPerDocument[pageToRead.Document] = pagereading.PageText{
+			HitsPerQueryWord: map[yacymodel.Hash]int{yacymodel.WordHash(p.word): p.hits},
+			AmountOfWords:    p.hits,
+		}
+	}
+
+	return pageTextPerDocument
+}
+
+func TestTheRankingByRelevanceFollowsTheWordsReadFromThePages(t *testing.T) {
+	t.Parallel()
+
+	common, rare := "https://common.example/", "https://rare.example/"
+	network := networksearch.New(
+		directoryAnsweringAt(t, peerHolding(t)),
+		answersOfTwoWordsMatchedByEveryItem(t, common, rare),
+		pagesHoldingTheWordOfOneDocument{address: common, word: "kelondro", hits: 50},
+		relevance.Ordering{},
+		queryBudget,
+		pagesReadPerQuery,
+		recordCeiling,
+		networksearch.NetworkSearchObservers{&recordedQuery{}},
+	)
+
+	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro"))
+
+	if len(ranking.Items) != 2 || ranking.Items[0].Address != common {
+		t.Fatalf(
+			"the ranking reads %+v, want the document whose page holds the rarer word first",
+			ranking.Items,
 		)
 	}
 }

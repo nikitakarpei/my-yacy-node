@@ -24,6 +24,20 @@ func (a AnsweredItem) MatchingTheWords(words []yacymodel.Hash) AnsweredItem {
 	return a
 }
 
+func (a AnsweredItem) carryingTheText(text DocumentText) AnsweredItem {
+	matchedWords := make(map[yacymodel.Hash]WordCount, len(a.MatchedWords))
+	for word := range a.MatchedWords {
+		matchedWords[word] = WordCount{
+			Hits:      text.HitsPerQueryWord[word],
+			TextWords: text.AmountOfWords,
+		}
+	}
+	a.MatchedWords = matchedWords
+	a.Metadata.Snippet = text.Snippet
+
+	return a
+}
+
 func (a AnsweredItem) CountedByAPeer() bool {
 	for _, count := range a.MatchedWords {
 		if count.CountedByAPeer() {

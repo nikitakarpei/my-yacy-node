@@ -6,7 +6,8 @@
 // how often a peer counted each query word the document matched, beside how
 // many words its text holds. A peer asked about one word counts that word; a
 // document that matched a word no peer counted still matched the word, and
-// carries the zero count for it.
+// carries the zero count for it. The text of a document, when that document was
+// read, replaces those counts and the snippet on every item of the document.
 package peeranswers
 
 import (
@@ -17,6 +18,48 @@ type AnsweredQuery struct {
 	ItemsInTheOrderOfEachAnswer [][]AnsweredItem
 	ItemsInNoOrder              []AnsweredItem
 	DocumentsHeldPerQueryWord   map[yacymodel.Hash]int
+}
+
+func (a AnsweredQuery) CarryingTheTextOfEachDocument(
+	textPerDocument map[yacymodel.URLHash]DocumentText,
+) AnsweredQuery {
+	if len(textPerDocument) == 0 {
+		return a
+	}
+
+	itemsInTheOrderOfEachAnswer := make(
+		[][]AnsweredItem, 0, len(a.ItemsInTheOrderOfEachAnswer),
+	)
+	for _, itemsOfOneAnswer := range a.ItemsInTheOrderOfEachAnswer {
+		itemsInTheOrderOfEachAnswer = append(
+			itemsInTheOrderOfEachAnswer,
+			itemsCarryingTheTextOfTheirDocument(itemsOfOneAnswer, textPerDocument),
+		)
+	}
+
+	return AnsweredQuery{
+		ItemsInTheOrderOfEachAnswer: itemsInTheOrderOfEachAnswer,
+		ItemsInNoOrder: itemsCarryingTheTextOfTheirDocument(
+			a.ItemsInNoOrder, textPerDocument,
+		),
+		DocumentsHeldPerQueryWord: a.DocumentsHeldPerQueryWord,
+	}
+}
+
+func itemsCarryingTheTextOfTheirDocument(
+	items []AnsweredItem,
+	textPerDocument map[yacymodel.URLHash]DocumentText,
+) []AnsweredItem {
+	carryingItems := make([]AnsweredItem, 0, len(items))
+	for _, item := range items {
+		text, read := textPerDocument[item.Metadata.Hash]
+		if read {
+			item = item.carryingTheText(text)
+		}
+		carryingItems = append(carryingItems, item)
+	}
+
+	return carryingItems
 }
 
 func (a AnsweredQuery) ItemOfEachAnsweredDocument() []AnsweredItem {

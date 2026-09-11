@@ -35,6 +35,12 @@ components:
     in: internal/dhtdistanceobservers/prometheus/**
   networksearch:
     in: internal/networksearch/**
+  pagereading:
+    in: internal/pagereading/**
+  pagereadingobserversapplog:
+    in: internal/pagereadingobservers/applog/**
+  pagereadingobserversprometheus:
+    in: internal/pagereadingobservers/prometheus/**
   peermatched:
     in: internal/queryspreads/peermatched/**
   wordjoined:
@@ -102,6 +108,18 @@ vendors:
   prometheus:
     in:
       - github.com/prometheus/client_golang/**
+  canonicalurl:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/canonicalurl
+  documentextraction:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/documentextraction
+  pagefetch:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pagefetch
+  pageformats:
+    in:
+      - github.com/nikitakarpei/yacy-rwi-node/pageformats
   hashicorplru:
     in:
       - github.com/hashicorp/golang-lru/v2/**
@@ -167,10 +185,25 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
+      - pagereading
       - peeranswers
       - peerdirectory
       - searchquery
       - searchresult
+  pagereading:
+    canUse:
+      - canonicalurl
+      - documentextraction
+      - pagefetch
+      - yacymodel
+  pagereadingobserversapplog:
+    mayDependOn:
+      - pagereading
+  pagereadingobserversprometheus:
+    canUse:
+      - prometheus
+    mayDependOn:
+      - pagereading
   peermatched:
     canUse:
       - yacymodel

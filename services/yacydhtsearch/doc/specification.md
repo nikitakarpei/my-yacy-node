@@ -13,7 +13,7 @@ nothing beyond a peer directory.
 ## Non-Goals
 
 * A local index, posting cache, or result cache of any kind.
-* Full-text indexing, crawling, or content fetching.
+* Full-text indexing, crawling, or keeping page content after a query.
 * Peer reputation, trust scoring, or abuse-prevention baked into core behavior.
 * Serving more than one YaCy network per process.
 * Receiving inbound DHT RWI postings or participating in DHT storage (that is `yacynode`'s role).
@@ -30,6 +30,8 @@ nothing beyond a peer directory.
 * The service SHALL NOT fail a query solely because some queried peers did not respond within
   the query's time budget.
 * The service SHALL bound the total time spent on a query by an operator-configured budget.
+* The service SHALL read the text of the page of each candidate result inside its own budget,
+  count the query words in that text, and cut the description of the result from that text.
 * The service SHALL NOT return duplicate results for the same URL within a query's response.
 * The service SHALL return merged results in best-effort order.
 

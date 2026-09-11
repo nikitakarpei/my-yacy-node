@@ -32,6 +32,12 @@ func TestTheServiceAnswersSearchesAndPublishesMetricsUntilItStops(t *testing.T) 
 		Partitions:         16,
 		MaxResponseBytes:   1024,
 		RankedItemsCeiling: 50,
+
+		PagesReadPerQuery:    10,
+		PageReadsInFlight:    4,
+		PageReadBudget:       time.Second,
+		PageByteCeiling:      1024,
+		SnippetLengthCeiling: 300,
 	}
 
 	ctx, stop := context.WithCancel(t.Context())

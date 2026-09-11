@@ -19,8 +19,7 @@ yacydhtsearch is configured entirely through environment variables.
 
 ## Ranking cache
 
-One query produces one ranking, and every page of that query is cut from it. While a
-ranking stays in the cache, the peers are not asked again.
+One query produces one ranking, and every page of that query is cut from it. While a ranking stays in the cache, the peers are not asked again.
 
 | Variable | Default | Meaning |
 |---|---|---|
@@ -29,14 +28,12 @@ ranking stays in the cache, the peers are not asked again.
 | `YACYDHTSEARCH_RANKING_CACHE_CAPACITY` | `1024` | Most rankings the cache keeps at one time. |
 | `YACYDHTSEARCH_NATS_URL` | in-memory | NATS address that caches rankings for every instance. |
 
-Without a NATS address each instance caches its own rankings, and a restart drops them. With
-one, the instances answer a repeated query from the same ranking. An address that does not
-answer stops the service from starting.
+Without a NATS address each instance caches its own rankings, and a restart drops them. With one, the instances answer a repeated query from the same ranking. An address that does not answer stops the service from starting.
 
 ## Peer directory
 
-The service probes peers to confirm that they answer. It sends searches only to
-peers that answered their latest probe.
+The service probes peers to confirm that they answer. It sends searches only to peers that answered their latest probe.
+YaCy peers can limit remote searches by client address. Service instances that use the same egress proxy share that allowance, and the peer cooldown reduces how often this service uses it on one peer.
 
 | Variable | Default | Meaning |
 |---|---|---|
@@ -59,6 +56,18 @@ peers that answered their latest probe.
 | `YACYDHTSEARCH_WORD_JOINED_SEARCH` | `false` | Use word joined search for queries with more than one term. Queries with one term use peer matched search. |
 | `YACYDHTSEARCH_RELEVANCE_RANKING` | `false` | Order the ranking by how well each result answers the query. The ranking keeps the order the peers put their results in when this is false. |
 
+## Page reading
+
+The service reads the page of each candidate result. It counts the query words in the text of that page, and cuts the snippet of the result from the same text. A page the service cannot read leaves its result as the peers answered it.
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `YACYDHTSEARCH_PAGES_READ_PER_QUERY` | `50` | Pages one query reads, taken from the results it puts first. |
+| `YACYDHTSEARCH_PAGE_READS_IN_FLIGHT` | `16` | Most pages of one query that are read at the same time. |
+| `YACYDHTSEARCH_PAGE_READ_BUDGET` | `3s` | Time the pages of one query may take, inside the query budget. |
+| `YACYDHTSEARCH_PAGE_BYTE_CEILING` | `1048576` | Most bytes read from one page. |
+| `YACYDHTSEARCH_SNIPPET_LENGTH_CEILING` | `300` | Most characters one snippet holds. |
+
 ## Limits
 
 | Variable | Default | Meaning |
@@ -68,12 +77,4 @@ peers that answered their latest probe.
 | `YACYDHTSEARCH_MAX_RESPONSE_BYTES` | `4194304` | Most bytes read from one peer answer or one seedlist. |
 | `YACYDHTSEARCH_PEER_ITEMS_CEILING` | `10` | Items this service asks one peer for. |
 
-Word joined search puts two rounds of peer calls. Each round stays within
-`YACYDHTSEARCH_PEER_CALLS_PER_QUERY`, and each peer call leaves the peer the time the query
-has left.
-
-## Peer search limits
-
-YaCy peers can limit remote searches by client address. Service instances that
-use the same egress proxy normally share that allowance. The peer cooldown
-reduces how often this service uses that allowance on one peer.
+Word joined search puts two rounds of peer calls. Each round stays within `YACYDHTSEARCH_PEER_CALLS_PER_QUERY`, and each peer call leaves the peer the time the query has left.

@@ -11,6 +11,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
+	pagefetchershttp "github.com/nikitakarpei/yacy-rwi-node/pagefetch/pagefetchers/http"
+	"github.com/nikitakarpei/yacy-rwi-node/pageformats"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpaccesslog"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/httpobservation"
@@ -23,6 +25,9 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	networksearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/applog"
 	networksearchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereading"
+	pagereadingobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereadingobservers/applog"
+	pagereadingobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/pagereadingobservers/prometheus"
 	peercallobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallobservers/applog"
 	peercallobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallobservers/prometheus"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
@@ -60,6 +65,7 @@ const (
 	rankingByteCeiling = 32 * 1024
 	msgServiceStarted  = "yacydhtsearch started"
 	msgServiceStopped  = "yacydhtsearch stopped"
+	pageFetchUserAgent = "yacydhtsearch (+https://yacy.net)"
 )
 
 func RunService(
@@ -91,11 +97,17 @@ func RunService(
 		dhtdistance.New(cfg.Partitions, dhtdistanceobserversprometheus.New(registry)),
 		directory,
 	)
+	pageReading, err := pageReadingFor(cfg, registry)
+	if err != nil {
+		return err
+	}
 	network := networksearch.New(
 		directory,
 		querySpreadFor(cfg, peers, choice, registry),
+		pageReading,
 		itemsOrderingFor(cfg),
 		cfg.QueryBudget,
+		cfg.PagesReadPerQuery,
 		cfg.RankedItemsCeiling,
 		networksearch.NetworkSearchObservers{
 			networksearchobserversapplog.NetworkSearchLog{},
@@ -189,6 +201,34 @@ func querySpreadFor(
 		),
 		peerMatchedSpread,
 	)
+}
+
+func pageReadingFor(
+	cfg ServiceConfig,
+	registry *prometheus.Registry,
+) (networksearch.PageReading, error) {
+	formatDerivations, err := pageformats.New()
+	if err != nil {
+		return nil, fmt.Errorf("page format derivations: %w", err)
+	}
+
+	return pagereading.New(
+		pagefetchershttp.New(
+			cfg.EgressProxyURL,
+			pagefetchershttp.ProxyDialTunnel,
+			pageFetchUserAgent,
+			cfg.PageByteCeiling,
+			cfg.PageReadBudget,
+		),
+		formatDerivations,
+		cfg.PageReadsInFlight,
+		cfg.PageReadBudget,
+		cfg.SnippetLengthCeiling,
+		pagereading.PageReadingObservers{
+			pagereadingobserversapplog.PageReadingLog{},
+			pagereadingobserversprometheus.New(registry, cfg.PageReadBudget),
+		},
+	), nil
 }
 
 func itemsOrderingFor(cfg ServiceConfig) networksearch.ItemsOrdering {
