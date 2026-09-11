@@ -2,6 +2,36 @@
   "query": "bundestag",
   "judgedDocuments": [
     {
+      "hash": "hg7QfBuvagGh",
+      "address": "https://www.bundestag.de/webarchiv/presse/pressemitteilungen/2022/pm-220711-pm-kiko-namenssuche-903590",
+      "title": "Maskottchen der Kinderkommission sucht einen Namen - Deutscher Bundestag",
+      "grade": 1
+    },
+    {
+      "hash": "ABoZesuvagGh",
+      "address": "https://www.bundestag.de/dokumente/textarchiv/2026/kw26-de-reparatur-1191040",
+      "title": "Deutscher Bundestag - Bundestag stimmt „Recht-auf-Reparatur-Richtlinie“ zu",
+      "grade": 1
+    },
+    {
+      "hash": "eDZRHsuvagGh",
+      "address": "https://www.bundestag.de/dokumente/textarchiv/2026/kw37-de-justiz-1194756",
+      "title": "Justizetat annähernd unverändert - Deutscher Bundestag",
+      "grade": 1
+    },
+    {
+      "hash": "x0tQusuvagGh",
+      "address": "https://www.bundestag.de/dokumente/textarchiv/2024/kw03-de-rueckfuehrung-986284",
+      "title": "Bundestag stimmt Gesetz zur Verbesserung von Rückführungen zu - Deutscher Bundestag",
+      "grade": 1
+    },
+    {
+      "hash": "k9jBdnWfNXKh",
+      "address": "https://epetitionen.bundestag.de/epet/nocookie.html",
+      "title": "Petitionen: Verwendung von Cookies nicht aktiviert",
+      "grade": 1
+    },
+    {
       "hash": "UbY1LTSG-fuh",
       "address": "https://www.hanisauland.de/index.php/wissen/lexikon/grosses-lexikon/b/bundestag/deutscher_bundestag.html",
       "title": "Deutscher Bundestag | Politik für Kinder, einfach erklärt - HanisauLand.de",
@@ -32,33 +62,9 @@
       "grade": 1
     },
     {
-      "hash": "en66-T94VVHg",
-      "address": "https://www.tatup.de/index.php/tatup/en/article/view/6931",
-      "title": "Parliamentarian (co-)design of artificial intelligence: Past technical futures in the reports of the German Bundestag’s committees of inquiry",
-      "grade": 1
-    },
-    {
-      "hash": "_OAfJXi-FMY4",
-      "address": "https://rtde.website/inland/129793-wagenknecht-zu-2g-plus-im-bundestag/",
-      "title": "Wagenknecht zu \"2G Plus\" im Bundestag: \"Epidemiologisch unsinnig und offenkundig verfassungswidrig\" — RT DE",
-      "grade": 1
-    },
-    {
-      "hash": "hg7QfBuvagGh",
-      "address": "https://www.bundestag.de/webarchiv/presse/pressemitteilungen/2022/pm-220711-pm-kiko-namenssuche-903590",
-      "title": "Maskottchen der Kinderkommission sucht einen Namen - Deutscher Bundestag",
-      "grade": 1
-    },
-    {
       "hash": "BfIetc8moajg",
       "address": "https://www.welt.de/newsticker/dpa_nt/infoline_nt/wirtschaft_nt/article206531253/Bundestag-beschliesst-erleichtertes-Kurzarbeitergeld.html",
       "title": "Bundestag beschließt erleichtertes Kurzarbeitergeld - WELT",
-      "grade": 1
-    },
-    {
-      "hash": "VDzPj7E1ETA5",
-      "address": "https://www.handelsblatt.com/themen/bundestag",
-      "title": "Bundestag News: Aktuelle Nachrichten zum deutschen Parlament",
       "grade": 1
     },
     {

@@ -2,63 +2,63 @@
   "query": "mastodon",
   "judgedDocuments": [
     {
-      "hash": "rlS7rcg_vK7w",
-      "address": "https://www.colino.net/wordpress/mastodon-for-apple-ii/",
-      "title": "Mastodon for Apple II (][+, //c, IIe, and IIgs) – colin@colino.net",
-      "grade": 1
-    },
-    {
       "hash": "BH0SPsXT2Q14",
       "address": "https://mastodon.social/@Sarahp",
       "title": "Sarah Perez 💙 (@Sarahp@mastodon.social) - Mastodon",
       "grade": 1
     },
     {
-      "hash": "xGxqRJEmwyky",
-      "address": "https://fedi.simonwillison.net/@simon",
-      "title": "Simon Willison (@simon@simonwillison.net) - Mastodon",
+      "hash": "rO4CGxAry6d4",
+      "address": "https://fhf-mastodon.instatus.com/",
+      "title": "FHF Mastodon Instances - Status",
       "grade": 1
     },
     {
-      "hash": "cZUXE03kdEV4",
-      "address": "https://buffer.com/resources/mastodon-social/",
-      "title": "A Beginner’s Guide to Mastodon",
-      "grade": 2
-    },
-    {
-      "hash": "s7qd0CiSEDRx",
-      "address": "https://shop.joinmastodon.org/",
-      "title": "Mastodon Merch Store",
+      "hash": "_CRjE5IHupF5",
+      "address": "https://mastodon.fediverse.observer/go\u0026software=mastodon",
+      "title": "Fediverse Observer | mastodon Sites Status",
       "grade": 1
     },
     {
-      "hash": "0xYvYWkjxbMg",
-      "address": "https://t3n.de/tag/mastodon/",
-      "title": "Mastodon News, Artikel \u0026 Ratgeber | t3n",
+      "hash": "rlS7rcg_vK7w",
+      "address": "https://www.colino.net/wordpress/mastodon-for-apple-ii/",
+      "title": "Mastodon for Apple II (][+, //c, IIe, and IIgs) – colin@colino.net",
       "grade": 1
     },
     {
-      "hash": "oD0JVs4Eent4",
-      "address": "https://linkage.lol/a-collection-of-mastodon-tools/",
-      "title": "A Collection of Mastodon Tools | Linkage",
+      "hash": "_WYPmIpL_jd4",
+      "address": "https://mastodon.world/@Thoogah/116676239477210513",
+      "title": "Wonko The Sane: \"#rainbow🌈 #pixel_dailies #pixelart @pixel_dailies…\" - Mastodon",
       "grade": 1
     },
     {
-      "hash": "4rFWFlHfxgmi",
-      "address": "https://www.absatzwirtschaft.de/braucht-meine-marke-einen-mastodon-account-241385/",
-      "title": "Braucht meine Marke einen Mastodon Account?",
+      "hash": "mgQdwsXT2Q14",
+      "address": "https://mastodon.social/@benjedwards",
+      "title": "Benj Edwards (@benjedwards@mastodon.social) - Mastodon",
       "grade": 1
     },
     {
-      "hash": "Cf-y4s9nw72x",
-      "address": "https://joinmastodon.org/hosting",
-      "title": "Managed Mastodon",
-      "grade": 2
+      "hash": "DyukPsViDFz4",
+      "address": "https://mastodon.cloud/@siracusa",
+      "title": "John Siracusa (@siracusa@mastodon.cloud) - mastodon.cloud",
+      "grade": 1
     },
     {
-      "hash": "12bb0VaoyK-x",
-      "address": "https://docs.joinmastodon.org/admin/troubleshooting/",
-      "title": "Troubleshooting errors - Mastodon documentation",
+      "hash": "3Bjd3sXT2Q14",
+      "address": "https://mastodon.social/@ennedia",
+      "title": "Nicola D'Agostino (@ennedia@mastodon.social) - Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "Hu9zVsXT2Q14",
+      "address": "https://mastodon.social/@itsfoss",
+      "title": "It's FOSS (@itsfoss@mastodon.social) - Mastodon",
+      "grade": 1
+    },
+    {
+      "hash": "96OHNsXT2Q14",
+      "address": "https://mastodon.social/@macrumors",
+      "title": "MacRumors.com (@macrumors@mastodon.social) - Mastodon",
       "grade": 1
     },
     {
@@ -74,6 +74,12 @@
       "grade": 1
     },
     {
+      "hash": "s7qd0CiSEDRx",
+      "address": "https://shop.joinmastodon.org/",
+      "title": "Mastodon Merch Store",
+      "grade": 1
+    },
+    {
       "hash": "HC4g6gPhh8Ax",
       "address": "https://netbib.hypotheses.org/78638883",
       "title": "Jubiläum des WorldCat – netbib",
@@ -86,22 +92,10 @@
       "grade": 0
     },
     {
-      "hash": "rO4CGxAry6d4",
-      "address": "https://fhf-mastodon.instatus.com/",
-      "title": "FHF Mastodon Instances - Status",
-      "grade": 1
-    },
-    {
       "hash": "hIFg9s3n95N4",
       "address": "https://fapspins.com/",
       "title": "Fapspins - I'm Feeling Lucky",
       "grade": 0
-    },
-    {
-      "hash": "3Bjd3sXT2Q14",
-      "address": "https://mastodon.social/@ennedia",
-      "title": "Nicola D'Agostino (@ennedia@mastodon.social) - Mastodon",
-      "grade": 1
     }
   ]
 }

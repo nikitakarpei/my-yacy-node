@@ -8,12 +8,6 @@
       "grade": 1
     },
     {
-      "hash": "_1ijAG9elSo4",
-      "address": "https://mailcow.email/posts/2022/release-2022-06/",
-      "title": "🌕🐄 Moone Update 2022 - The Docker Compose V2 Update (Part I) | Changes - mailcow: dockerized - Blog",
-      "grade": 1
-    },
-    {
       "hash": "_B_aiX9Ojva4",
       "address": "https://docs.docker.com/reference/api/hub/changelog/",
       "title": "Docker Hub API changelog | Docker Docs",
@@ -26,33 +20,21 @@
       "grade": 1
     },
     {
-      "hash": "AYjzb2RnNlC4",
-      "address": "https://supabase.com/docs/guides/self-hosting/docker",
-      "title": "Self-Hosting with Docker | Supabase Docs",
-      "grade": 1
-    },
-    {
-      "hash": "u-FvND8sSnOw",
-      "address": "https://patdavid.net/2025/05/anubis-and-caddy-docker-proxy/",
-      "title": "Anubis and caddy-docker-proxy",
-      "grade": 0
-    },
-    {
       "hash": "6PUUbj_MW7i4",
       "address": "https://www.docker.com/products/developer-tools/",
       "title": "Developer Tools | Docker",
       "grade": 1
     },
     {
-      "hash": "_1RN8w-ynEe4",
-      "address": "https://docs.mailcow.email/troubleshooting/debug-mysql_aria/",
-      "title": "Recover crashed Aria storage engine - mailcow: dockerized documentation",
-      "grade": 0
+      "hash": "_1ijAG9elSo4",
+      "address": "https://mailcow.email/posts/2022/release-2022-06/",
+      "title": "🌕🐄 Moone Update 2022 - The Docker Compose V2 Update (Part I) | Changes - mailcow: dockerized - Blog",
+      "grade": 1
     },
     {
-      "hash": "A1QAeDS6MKD4",
-      "address": "https://github.com/fastapi/full-stack-fastapi-template",
-      "title": "GitHub - fastapi/full-stack-fastapi-template: Full stack, modern web application template. Using FastAPI, React, SQLModel, PostgreSQL, Docker, GitHub Actions, automatic HTTPS and more.",
+      "hash": "AYjzb2RnNlC4",
+      "address": "https://supabase.com/docs/guides/self-hosting/docker",
+      "title": "Self-Hosting with Docker | Supabase Docs",
       "grade": 1
     },
     {
@@ -62,15 +44,45 @@
       "grade": 0
     },
     {
+      "hash": "MbQgLE9Ojva4",
+      "address": "https://docs.docker.com/engine/manage-resources/labels/",
+      "title": "Docker object labels | Docker Docs",
+      "grade": 0
+    },
+    {
+      "hash": "DEKXKM9Ojva4",
+      "address": "https://docs.docker.com/desktop/setup/install/linux/",
+      "title": "Install Docker Desktop on Linux | Docker Docs",
+      "grade": 1
+    },
+    {
+      "hash": "75lx7E9Ojva4",
+      "address": "https://docs.docker.com/engine/security/",
+      "title": "Docker Engine security | Docker Docs",
+      "grade": 0
+    },
+    {
       "hash": "dliouf9Ojva4",
       "address": "https://docs.docker.com/get-started/introduction/develop-with-containers/",
       "title": "Develop with containers | Docker Docs",
       "grade": 1
     },
     {
+      "hash": "u-FvND8sSnOw",
+      "address": "https://patdavid.net/2025/05/anubis-and-caddy-docker-proxy/",
+      "title": "Anubis and caddy-docker-proxy",
+      "grade": 0
+    },
+    {
       "hash": "sDiyRs7Yxvhx",
       "address": "https://www.postgresql.org/about/news/pglayers-postgresql-extensions-as-stackable-docker-layers-3344/",
       "title": "PostgreSQL: pglayers: PostgreSQL extensions as stackable Docker layers",
+      "grade": 0
+    },
+    {
+      "hash": "_1RN8w-ynEe4",
+      "address": "https://docs.mailcow.email/troubleshooting/debug-mysql_aria/",
+      "title": "Recover crashed Aria storage engine - mailcow: dockerized documentation",
       "grade": 0
     }
   ]

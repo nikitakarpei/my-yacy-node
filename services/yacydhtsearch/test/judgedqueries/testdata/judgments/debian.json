@@ -14,39 +14,9 @@
       "grade": 1
     },
     {
-      "hash": "I7mxoopg4UCw",
-      "address": "https://www.wikidata.org/wiki/Property:P3442",
-      "title": "Debian stable package - Wikidata",
-      "grade": 1
-    },
-    {
       "hash": "KZ3knTp4ogvw",
       "address": "https://qa.debian.org/developer.php?login=capriott%40debian.org",
       "title": "DDPO: Andrea Capriotti -- Debian Quality Assurance",
-      "grade": 1
-    },
-    {
-      "hash": "f2gAZmwYpnl5",
-      "address": "https://protonvpn.com/support/linux-vpn-debian-ubuntu",
-      "title": "How to install Proton VPN on Debian and Ubuntu | Proton VPN",
-      "grade": 1
-    },
-    {
-      "hash": "-32vwSSLTmwg",
-      "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
-      "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
-      "grade": 1
-    },
-    {
-      "hash": "JkJrbl8eoF54",
-      "address": "https://www.tecmint.com/install-redis-server-in-centos-ubuntu-debian/",
-      "title": "How to Install Redis Server in CentOS and Debian Based Systems",
-      "grade": 0
-    },
-    {
-      "hash": "KPZ7Fug2aLVh",
-      "address": "https://community.searchlab.eu/t/install-konfig-yacy-mit-debian/2574",
-      "title": "Install / konfig yacy mit debian - YaCy - Searchlab Community",
       "grade": 1
     },
     {
@@ -62,6 +32,36 @@
       "grade": 2
     },
     {
+      "hash": "XFmAGZIOYuRw",
+      "address": "https://chronicles.debian.org/www/News/2022/",
+      "title": "Debian -- News from 2022",
+      "grade": 2
+    },
+    {
+      "hash": "0EpDBk1nrxbw",
+      "address": "https://www.debian.org/consultants/philiphands",
+      "title": "Debian -- List of Consultants",
+      "grade": 1
+    },
+    {
+      "hash": "pMlVvE1nrxbw",
+      "address": "https://www.debian.org/users/gov/sjhc",
+      "title": "Debian -- St. Joseph's Health Care London, Ontario, Canada",
+      "grade": 1
+    },
+    {
+      "hash": "xCnp1G1nrxbw",
+      "address": "https://www.debian.org/vote/2007/vote_003",
+      "title": "General Resolution: Endorse the concept of Debian Maintainers",
+      "grade": 1
+    },
+    {
+      "hash": "NweMal1nrxbw",
+      "address": "https://www.debian.org/social_contract",
+      "title": "Debian Social Contract",
+      "grade": 2
+    },
+    {
       "hash": "zviPwZBP-b24",
       "address": "https://docs.vultr.com/how-to-install-docker-ce-on-debian-11",
       "title": "How to Install Docker CE on Debian 11 | Vultr Docs",
@@ -74,15 +74,15 @@
       "grade": 1
     },
     {
-      "hash": "XFmAGZIOYuRw",
-      "address": "https://chronicles.debian.org/www/News/2022/",
-      "title": "Debian -- News from 2022",
-      "grade": 2
-    },
-    {
       "hash": "StjW1Spiq92w",
       "address": "https://packages.debian.org/sid/cups-pk-helper,",
       "title": "Debian -- Error",
+      "grade": 1
+    },
+    {
+      "hash": "-32vwSSLTmwg",
+      "address": "https://blog.entek.org.uk/notes/2024/01/12/orchestrating-debian-install-and-automated-post-install-configuration-with-ansible.html",
+      "title": "Orchestrating Debian install and automated post-install configuration with Ansible | Laurence’s Blog",
       "grade": 1
     },
     {

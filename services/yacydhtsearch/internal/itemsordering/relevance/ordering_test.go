@@ -86,6 +86,19 @@ func itemTitledMatchingTheWords(
 		MatchingTheWords(matchedWords)
 }
 
+const addressNoNodeCanRead = "https://berlin weather.example/"
+
+func itemOfTheAddressNoNodeCanReadMatchingTheWords(
+	t *testing.T, words ...string,
+) peeranswers.AnsweredItem {
+	t.Helper()
+
+	item := itemMatchingTheWords(t, "https://unreadable.example/", words...)
+	item.Metadata.Address = addressNoNodeCanRead
+
+	return item
+}
+
 func answersOf(
 	itemsInTheOrderOfEachAnswer ...[]peeranswers.AnsweredItem,
 ) peeranswers.AnsweredQuery {
@@ -294,6 +307,42 @@ func TestATitleIsReadPastItsPunctuation(t *testing.T) {
 	want := []string{"https://titled.example/", "https://beside.example/"}
 	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
 		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestTheDocumentWhoseHostHoldsTheQueryWordComesFirst(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100},
+		[]peeranswers.AnsweredItem{
+			itemMatchingTheWords(t, "https://weather.example/city/", "berlin"),
+		},
+		[]peeranswers.AnsweredItem{
+			itemMatchingTheWords(t, "https://berlin.example/city/", "berlin"),
+		},
+	)
+
+	want := []string{"https://berlin.example/city/", "https://weather.example/city/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestTheDocumentOfAnAddressNoNodeCanReadKeepsThePlaceThePeersPutIt(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100},
+		[]peeranswers.AnsweredItem{itemOfTheAddressNoNodeCanReadMatchingTheWords(t, "berlin")},
+		[]peeranswers.AnsweredItem{
+			itemMatchingTheWords(t, "https://weather.example/city/", "berlin"),
+		},
+	)
+
+	want := []string{addressNoNodeCanRead, "https://weather.example/city/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want the order the peers put %v", got, want)
 	}
 }
 

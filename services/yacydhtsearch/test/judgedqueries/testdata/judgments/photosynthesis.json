@@ -2,6 +2,12 @@
   "query": "photosynthesis",
   "judgedDocuments": [
     {
+      "hash": "JXNStDrP9Fca",
+      "address": "http://sound.photosynthesis.com/TERENCE_M.html",
+      "title": "Sound Photosynthesis: TERENCE McKENNA: videotapes audiotapes publications and more",
+      "grade": 0
+    },
+    {
       "hash": "AHcMH3ph0Po5",
       "address": "https://cdmuir.r-universe.dev/articles/photosynthesis/pressure-volume.html",
       "title": "Fitting pressure-volume curves - photosynthesis",
@@ -54,18 +60,6 @@
       "address": "https://education.nationalgeographic.org/resource/photosynthesis/",
       "title": "Photosynthesis",
       "grade": 2
-    },
-    {
-      "hash": "8hv4Vjcl0ynx",
-      "address": "https://en.wikiversity.org/wiki/Photosynthesis",
-      "title": "Photosynthesis",
-      "grade": 2
-    },
-    {
-      "hash": "JXNStDrP9Fca",
-      "address": "http://sound.photosynthesis.com/TERENCE_M.html",
-      "title": "Sound Photosynthesis: TERENCE McKENNA: videotapes audiotapes publications and more",
-      "grade": 0
     },
     {
       "hash": "NaYvV51Yh7s4",

@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	meanGainFloorOfTheRelevanceOrdering                = 0.76
+	meanGainFloorOfTheRelevanceOrdering                = 0.80
 	leastLiftOfTheRelevanceOrderingOverThePeerOrdering = 0.20
 )
 

@@ -2,21 +2,51 @@
   "query": "kubernetes",
   "judgedDocuments": [
     {
+      "hash": "jrBUgOjw1Zlx",
+      "address": "https://kubernetes.io/zh-cn/blog/2015/03/28/weekly-kubernetes-community-hangout/",
+      "title": "Kubernetes 社区每周聚会笔记 - 2015 年 3 月 27 日 | Kubernetes",
+      "grade": 1
+    },
+    {
+      "hash": "li8uc2jw1Zlx",
+      "address": "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/",
+      "title": "Installing kubeadm | Kubernetes",
+      "grade": 2
+    },
+    {
+      "hash": "rhegtsjw1Zlx",
+      "address": "https://kubernetes.io/training/",
+      "title": "Training | Kubernetes",
+      "grade": 1
+    },
+    {
       "hash": "P8xl6XqO2Dlg",
       "address": "https://media.ccc.de/v/nixcon2025-56396-kubernetes-on-nix",
       "title": "Kubernetes on Nix - media.ccc.de",
       "grade": 1
     },
     {
-      "hash": "Tm_2BMS6MKD4",
-      "address": "https://github.com/kubernetes-client/python",
-      "title": "GitHub - kubernetes-client/python: Official Python client library for kubernetes · GitHub",
+      "hash": "X_8FBsjw1Zlx",
+      "address": "https://kubernetes.io/bn/",
+      "title": "Kubernetes",
+      "grade": 2
+    },
+    {
+      "hash": "L0PizM-VnHQw",
+      "address": "https://kubernetes-csi.github.io/docs/",
+      "title": "Introduction - Kubernetes CSI Developer Documentation",
       "grade": 1
     },
     {
-      "hash": "jrBUgOjw1Zlx",
-      "address": "https://kubernetes.io/zh-cn/blog/2015/03/28/weekly-kubernetes-community-hangout/",
-      "title": "Kubernetes 社区每周聚会笔记 - 2015 年 3 月 27 日 | Kubernetes",
+      "hash": "Bc3md2jw1Zlx",
+      "address": "https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/",
+      "title": "Horizontal Pod Autoscaling | Kubernetes",
+      "grade": 2
+    },
+    {
+      "hash": "Tm_2BMS6MKD4",
+      "address": "https://github.com/kubernetes-client/python",
+      "title": "GitHub - kubernetes-client/python: Official Python client library for kubernetes · GitHub",
       "grade": 1
     },
     {
@@ -26,39 +56,15 @@
       "grade": 2
     },
     {
-      "hash": "li8uc2jw1Zlx",
-      "address": "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/",
-      "title": "Installing kubeadm | Kubernetes",
-      "grade": 2
-    },
-    {
       "hash": "4xIejdSCNQa4",
       "address": "https://www.redhat.com/ja/topics/containers/what-is-kubernetes",
       "title": "Kubernetes とは？をわかりやすく解説",
       "grade": 2
     },
     {
-      "hash": "LrlbTLo7vSm6",
-      "address": "https://www.paloaltonetworks.com/cyberpedia/kubernetes-cluster-security?ts=markdown",
-      "title": "Securing Your Kubernetes Cluster: Kubernetes Best Practices and Strategies - Palo Alto Networks",
-      "grade": 1
-    },
-    {
       "hash": "AsVNaz7OfS44",
       "address": "https://labs.iximiuz.com/playgrounds?category=kubernetes\u0026filter=all",
       "title": "Kubernetes Playgrounds 🧪 | iximiuz Labs",
-      "grade": 1
-    },
-    {
-      "hash": "6y4OTxAl9Ia5",
-      "address": "https://developer.hashicorp.com/vault/tutorials/integrate-kubernetes-hcp-vault-dedicated/kubernetes-vso-hcp-vault",
-      "title": "Create Kubernetes native secrets from HCP Vault Dedicated with VSO | Vault | HashiCorp Developer",
-      "grade": 1
-    },
-    {
-      "hash": "n3XoxFCmq5v4",
-      "address": "https://www.suse.com/c/rancher_blog/deploy-a-nodejs-app-on-kubernetes-and-rancher/",
-      "title": "Deploy a NodeJS App on Kubernetes and Rancher | SUSE Communities",
       "grade": 1
     },
     {
@@ -83,6 +89,18 @@
       "hash": "dZkbOdUhjm5w",
       "address": "https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/cli-ref.html",
       "title": "Kubernetes Executor Commands — apache-airflow-providers-cncf-kubernetes Documentation",
+      "grade": 1
+    },
+    {
+      "hash": "6y4OTxAl9Ia5",
+      "address": "https://developer.hashicorp.com/vault/tutorials/integrate-kubernetes-hcp-vault-dedicated/kubernetes-vso-hcp-vault",
+      "title": "Create Kubernetes native secrets from HCP Vault Dedicated with VSO | Vault | HashiCorp Developer",
+      "grade": 1
+    },
+    {
+      "hash": "n3XoxFCmq5v4",
+      "address": "https://www.suse.com/c/rancher_blog/deploy-a-nodejs-app-on-kubernetes-and-rancher/",
+      "title": "Deploy a NodeJS App on Kubernetes and Rancher | SUSE Communities",
       "grade": 1
     }
   ]

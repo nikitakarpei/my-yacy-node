@@ -14,21 +14,9 @@
       "grade": 2
     },
     {
-      "hash": "AqsQcJDOAHJg",
-      "address": "https://www.heise.de/ratgeber/OpenStreetMap-Wie-Sie-Orte-mit-natuerlicher-Sprache-finden-11091390.html?wt_mc=rss.red.ho.ho.atom.beitrag_plus.beitrag_plus",
-      "title": "OpenStreetMap: Wie Sie Orte mit natürlicher Sprache finden | heise online",
-      "grade": 1
-    },
-    {
       "hash": "ZECBX7qJpRgC",
       "address": "http://openstreetmap.by/?lon=116.8\u0026lat=5.5\u0026zoom=11",
       "title": "OpenStreetMap.by - Беларусь",
-      "grade": 1
-    },
-    {
-      "hash": "C0_Z-Sofqllg",
-      "address": "https://blog.rasc.ch/2026/04/graphhopper.html",
-      "title": "GraphHopper, routing engine for OpenStreetMap data",
       "grade": 1
     },
     {
@@ -62,6 +50,18 @@
       "grade": 2
     },
     {
+      "hash": "WmYuElybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=1.3\u0026mlon=103.8\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 1
+    },
+    {
+      "hash": "yruxllybg-vy",
+      "address": "https://www.openstreetmap.org/?mlat=-20\u0026mlon=47\u0026zoom=6",
+      "title": "OpenStreetMap",
+      "grade": 2
+    },
+    {
       "hash": "D1UyW8ybg-vy",
       "address": "https://www.openstreetmap.org/way/313187245",
       "title": "Way: ‪ТП-3865‬ (‪313187245‬) | OpenStreetMap",
@@ -90,12 +90,6 @@
       "address": "https://www.mba-studium.de/datenschutzerklaerung/",
       "title": "Datenschutzerklärung | MBA-Studium.de",
       "grade": 0
-    },
-    {
-      "hash": "WmYuElybg-vy",
-      "address": "https://www.openstreetmap.org/?mlat=1.3\u0026mlon=103.8\u0026zoom=6",
-      "title": "OpenStreetMap",
-      "grade": 1
     }
   ]
 }

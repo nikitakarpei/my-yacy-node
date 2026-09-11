@@ -2,9 +2,33 @@
   "query": "linux kernel",
   "judgedDocuments": [
     {
+      "hash": "5A3Als-kQ1nw",
+      "address": "https://kernel.org/",
+      "title": "The Linux Kernel Archives",
+      "grade": 2
+    },
+    {
+      "hash": "lWsPplGZ4FKw",
+      "address": "https://www.kernel.org/",
+      "title": "The Linux Kernel Archives",
+      "grade": 2
+    },
+    {
+      "hash": "N_bW_5DJH5aw",
+      "address": "https://www.wiki.kernel.org/",
+      "title": "Main Page - Demeter of the Kernel.org",
+      "grade": 2
+    },
+    {
       "hash": "nXiF30WUVeV5",
       "address": "https://opensource.com/resources/linux",
       "title": "What is Linux? | Opensource.com",
+      "grade": 1
+    },
+    {
+      "hash": "zm1LfOy8O7iw",
+      "address": "https://kernel.opensuse.org/",
+      "title": "Welcome To The openSUSE Kernel Site - openSUSE Kernel",
       "grade": 1
     },
     {
@@ -12,6 +36,12 @@
       "address": "https://www.redhat.com/en/topics/linux/fedora-vs-red-hat-enterprise-linux",
       "title": "What's the difference between Fedora and Red Hat Enterprise Linux",
       "grade": 0
+    },
+    {
+      "hash": "lzMhkqNKpOCw",
+      "address": "https://linux.slashdot.org/story/26/05/18/0238214/linus-torvalds-ai-detected-bug-reports-make-kernel-security-list-almost-entirely-unmanageable",
+      "title": "Linus Torvalds: AI-Detected Bug Reports Make Kernel Security List 'Almost Entirely Unmanageable' - Slashdot",
+      "grade": 1
     },
     {
       "hash": "CzKLxslc4Pz6",
@@ -26,40 +56,10 @@
       "grade": 1
     },
     {
-      "hash": "5A3Als-kQ1nw",
-      "address": "https://kernel.org/",
-      "title": "The Linux Kernel Archives",
-      "grade": 2
-    },
-    {
-      "hash": "lWsPplGZ4FKw",
-      "address": "https://www.kernel.org/",
-      "title": "The Linux Kernel Archives",
-      "grade": 2
-    },
-    {
       "hash": "3EXd2WlXccYg",
       "address": "https://nfsec.pl/tag/kernel",
       "title": "NF.sec – Bezpieczeństwo systemu Linux - Posty tagowane \"kernel\"",
       "grade": 1
-    },
-    {
-      "hash": "EW5wxOE6Hic4",
-      "address": "https://webflow.sysdig.com/blog/cve-2026-31431-copy-fail-linux-kernel-flaw-lets-local-users-gain-root-in-seconds",
-      "title": "CVE-2026-31431: “Copy Fail” Linux kernel flaw lets local users gain root in seconds | Sysdig",
-      "grade": 1
-    },
-    {
-      "hash": "dDOGQDOAID44",
-      "address": "https://linuxiac.com/category/linux-knowledge/general/",
-      "title": "Linux General Archives - Linuxiac",
-      "grade": 0
-    },
-    {
-      "hash": "N_bW_5DJH5aw",
-      "address": "https://www.wiki.kernel.org/",
-      "title": "Main Page - Demeter of the Kernel.org",
-      "grade": 2
     },
     {
       "hash": "7zoiPTrhyvQw",
@@ -72,12 +72,6 @@
       "address": "https://en.wikipedia.org/wiki/User_interface",
       "title": "User interface - Wikipedia",
       "grade": 0
-    },
-    {
-      "hash": "zm1LfOy8O7iw",
-      "address": "https://kernel.opensuse.org/",
-      "title": "Welcome To The openSUSE Kernel Site - openSUSE Kernel",
-      "grade": 1
     },
     {
       "hash": "jmJ6Qs6JlDf5",

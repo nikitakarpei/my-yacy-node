@@ -2,12 +2,6 @@
   "query": "postgresql documentation",
   "judgedDocuments": [
     {
-      "hash": "BR1Be6RMLT-5",
-      "address": "https://canonical.com/data/postgresql",
-      "title": "PostgreSQL | Canonical",
-      "grade": 0
-    },
-    {
       "hash": "Hb2lZx7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/extend-how.html",
       "title": "PostgreSQL: Documentation: 18: 36.1. How Extensibility Works",
@@ -32,34 +26,40 @@
       "grade": 2
     },
     {
-      "hash": "c701ExFYRqW5",
-      "address": "https://www.meilisearch.com/docs/resources/migration/postgresql_migration",
-      "title": "Migrating from PostgreSQL full-text search to Meilisearch - Meilisearch Documentation",
-      "grade": 0
-    },
-    {
       "hash": "H3k5-x7Yxvhx",
       "address": "https://www.postgresql.org/docs/current/tutorial-advanced.html",
       "title": "PostgreSQL: Documentation: 18: Chapter 3. Advanced Features",
       "grade": 2
     },
     {
-      "hash": "yRevkYe7r2M5",
-      "address": "https://www.appsignal.com/python/postgresql-monitoring",
-      "title": "Psycopg2 PostgreSQL monitoring for Python | AppSignal",
+      "hash": "BR1Be6RMLT-5",
+      "address": "https://canonical.com/data/postgresql",
+      "title": "PostgreSQL | Canonical",
       "grade": 0
     },
     {
-      "hash": "a7Urh_nMM_j5",
-      "address": "https://grokipedia.com/page/PostgreSQL",
-      "title": "PostgreSQL — Grokipedia",
-      "grade": 1
+      "hash": "k5-pcx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/release/18.6/",
+      "title": "PostgreSQL: Release Notes",
+      "grade": 2
     },
     {
-      "hash": "OFFidA07xaXx",
-      "address": "https://musicbrainz.org/doc/Live_Data_Feed",
-      "title": "Live Data Feed - MusicBrainz",
-      "grade": 0
+      "hash": "SAoS0x7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/ddl-depend.html",
+      "title": "PostgreSQL: Documentation: 18: 5.15. Dependency Tracking",
+      "grade": 2
+    },
+    {
+      "hash": "Rhc3Rx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/sql-set-constraints.html",
+      "title": "PostgreSQL: Documentation: 18: SET CONSTRAINTS",
+      "grade": 2
+    },
+    {
+      "hash": "Szstfx7Yxvhx",
+      "address": "https://www.postgresql.org/docs/current/app-createdb.html",
+      "title": "PostgreSQL: Documentation: 18: createdb",
+      "grade": 2
     },
     {
       "hash": "XccPH7NSh3ha",
@@ -86,10 +86,10 @@
       "grade": 0
     },
     {
-      "hash": "k5-pcx7Yxvhx",
-      "address": "https://www.postgresql.org/docs/release/18.6/",
-      "title": "PostgreSQL: Release Notes",
-      "grade": 2
+      "hash": "OFFidA07xaXx",
+      "address": "https://musicbrainz.org/doc/Live_Data_Feed",
+      "title": "Live Data Feed - MusicBrainz",
+      "grade": 0
     },
     {
       "hash": "oBb9X0E95tq5",

@@ -2,6 +2,18 @@
   "query": "wikipedia",
   "judgedDocuments": [
     {
+      "hash": "i6_MRjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
+      "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "eV8_WladqZ_x",
+      "address": "https://www.wikipedia.org/",
+      "title": "Wikipedia",
+      "grade": 2
+    },
+    {
       "hash": "xgze2sqyzXmw",
       "address": "https://swprs.org/wikipedia-and-propaganda/",
       "title": "Wikipedia and Propaganda – Swiss Policy Research",
@@ -32,34 +44,22 @@
       "grade": 0
     },
     {
-      "hash": "i6_MRjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_is_an_encyclopedia",
-      "title": "Wikipedia:Wikipedia is an encyclopedia - Wikipedia",
+      "hash": "4N7QFh6tsM8o",
+      "address": "https://wikipedia.softonic.cn/",
+      "title": "Wikipedia 版 - 下载",
+      "grade": 1
+    },
+    {
+      "hash": "3PTlTjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Help:Introduction",
+      "title": "Help:Introduction - Wikipedia",
       "grade": 2
     },
     {
-      "hash": "mY0dNHJCW4l4",
-      "address": "https://piefed.europe.pub/c/wikipedia@lemmy.world",
-      "title": "Wikipedia",
-      "grade": 1
-    },
-    {
-      "hash": "MIaemAyZbNhw",
-      "address": "https://gwern.net/doc/wikipedia/index",
-      "title": "‘Wikipedia’ directory · Gwern.net",
-      "grade": 1
-    },
-    {
-      "hash": "eV8_WladqZ_x",
-      "address": "https://www.wikipedia.org/",
-      "title": "Wikipedia",
+      "hash": "3ZEiijRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
+      "title": "Wikipedia:About - Wikipedia",
       "grade": 2
-    },
-    {
-      "hash": "RRPJ8lFN6nW4",
-      "address": "https://www.wikiwand.com/en/articles/Wikipedia_community",
-      "title": "Wikipedia community - Wikiwand",
-      "grade": 1
     },
     {
       "hash": "LEWIqjRvmBbx",
@@ -80,12 +80,6 @@
       "grade": 1
     },
     {
-      "hash": "3PTlTjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Help:Introduction",
-      "title": "Help:Introduction - Wikipedia",
-      "grade": 2
-    },
-    {
       "hash": "5ZYlcjRvmBbx",
       "address": "https://en.wikipedia.org/wiki/Wikipedia:Who_writes_Wikipedia",
       "title": "Wikipedia:Who writes Wikipedia? - Wikipedia",
@@ -102,12 +96,6 @@
       "address": "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
       "title": "Wikipedia:General disclaimer - Wikipedia",
       "grade": 1
-    },
-    {
-      "hash": "3ZEiijRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Wikipedia:About",
-      "title": "Wikipedia:About - Wikipedia",
-      "grade": 2
     },
     {
       "hash": "tljzSjRvmBbx",

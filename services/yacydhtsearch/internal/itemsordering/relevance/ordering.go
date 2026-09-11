@@ -1,10 +1,12 @@
 // Package relevance orders the answered items by how well each document
-// answers the query. Three scores add up to its relevance: how high the
+// answers the query. Four scores add up to its relevance: how high the
 // answering peers put it, where each answering peer adds most of a place
 // score and its place adds the rest, how many query words its title holds,
-// and how often they appear in its text. A first place from one peer weighs
-// one, a query word in the title weighs one half, and one saturated hit
-// weighs the rarity of its word. The text score follows BM25: a word weighs
+// how often they appear in its text, and how many of them the host of its
+// address holds. A first place from one peer weighs one, a query word in the
+// title weighs one half, a query word in the host weighs one, and one
+// saturated hit weighs the rarity of its word. An address that does not
+// parse holds no word. The text score follows BM25: a word weighs
 // more the fewer documents the peers hold for it and the more often the page
 // of the document or a peer counted it, each further hit adding less, and
 // weighs less the longer the document is. A word no peer counted documents
@@ -23,9 +25,10 @@ import (
 )
 
 const (
-	weightOfThePlaceScore = 1.0
-	weightOfTheTitleScore = 0.5
-	weightOfTheTextScore  = 1.0
+	weightOfThePlaceScore   = 1.0
+	weightOfTheTitleScore   = 0.5
+	weightOfTheTextScore    = 1.0
+	weightOfTheAddressScore = 1.0
 )
 
 type Ordering struct{}
@@ -71,7 +74,8 @@ func relevanceOf(
 ) float64 {
 	return weightOfThePlaceScore*placeScore +
 		weightOfTheTitleScore*titleScoreOf(item) +
-		weightOfTheTextScore*textScoreOf(item, rarityPerQueryWord, averageDocumentLength)
+		weightOfTheTextScore*textScoreOf(item, rarityPerQueryWord, averageDocumentLength) +
+		weightOfTheAddressScore*addressScoreOf(item)
 }
 
 func itemsOrderedByRelevance(

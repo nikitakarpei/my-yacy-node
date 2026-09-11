@@ -2,6 +2,12 @@
   "query": "arch wiki",
   "judgedDocuments": [
     {
+      "hash": "ohk1xxtQ-zSx",
+      "address": "https://wiki.archlinux.org/title/Arch_Linux_Archive",
+      "title": "Arch Linux Archive - ArchWiki",
+      "grade": 2
+    },
+    {
       "hash": "wbNjbeSLKN4x",
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=779734",
       "title": "Downloadable Arch Wiki / Forum \u0026 Wiki discussion / Arch Linux Forums",
@@ -12,12 +18,6 @@
       "address": "https://bbs.archlinux.org/viewtopic.php?pid=13604",
       "title": "Wiki? / Forum \u0026 Wiki discussion / Arch Linux Forums",
       "grade": 1
-    },
-    {
-      "hash": "ohk1xxtQ-zSx",
-      "address": "https://wiki.archlinux.org/title/Arch_Linux_Archive",
-      "title": "Arch Linux Archive - ArchWiki",
-      "grade": 2
     },
     {
       "hash": "xApa7jRvmBbx",

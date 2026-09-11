@@ -8,6 +8,18 @@
       "grade": 2
     },
     {
+      "hash": "P5qgbsnpCNr6",
+      "address": "https://rust-for-linux.com/print",
+      "title": "Rust for Linux",
+      "grade": 1
+    },
+    {
+      "hash": "7-snwDDZNRCx",
+      "address": "https://doc.rust-lang.org/book/",
+      "title": "The Rust Programming Language - The Rust Programming Language",
+      "grade": 2
+    },
+    {
       "hash": "QLueEgsjOPf5",
       "address": "https://fuchsia.googlesource.com/third_party/github.com/rust-lang/rust/+/refs/heads/cranelift-rebase",
       "title": "refs/heads/cranelift-rebase - third_party/github.com/rust-lang/rust - Git at Google",
@@ -20,52 +32,34 @@
       "grade": 1
     },
     {
+      "hash": "XvPK_coCj-7w",
+      "address": "https://rust-unofficial.github.io/patterns/print.html",
+      "title": "Rust Design Patterns",
+      "grade": 1
+    },
+    {
       "hash": "Q2tdhvDOAHJg",
       "address": "https://www.heise.de/news/Nvidia-CUDA-Rust-Native-GPU-Kernel-in-Rust-schreiben-11446842.html",
       "title": "Nvidia CUDA Rust: Native GPU-Kernel in Rust schreiben | heise online",
       "grade": 1
     },
     {
-      "hash": "t4m26nRiTAZ5",
-      "address": "https://securelist.com/convuster-macos-adware-in-rust/101258/",
-      "title": "Convuster: macOS adware now in Rust | Securelist",
+      "hash": "G1ejCoDZNRCx",
+      "address": "https://doc.rust-lang.org/nightly/std/ffi/index.html",
+      "title": "std::ffi - Rust",
       "grade": 1
     },
     {
-      "hash": "YrvsM44iqb7o",
-      "address": "https://scholarbank.nus.edu.sg/handle/10635/157533",
-      "title": "Rust and Recovery in South Indian Goddess Films",
-      "grade": 0
+      "hash": "0INJAoBXHPax",
+      "address": "https://blog.rust-lang.org/inside-rust/2024/08/09/async-closures-call-for-testing/",
+      "title": "Async Closures MVP: Call for Testing! | Inside Rust Blog",
+      "grade": 1
     },
     {
-      "hash": "YyXMZYaFOBeg",
-      "address": "https://www.cmjornal.pt/vidas/ultimas/detalhe/fbi-diz-que-alec-baldwin-disparou-arma-que-matou-colega-durante-gravacao-de-rust-vidas",
-      "title": "FBI diz que Alec Baldwin disparou arma que matou colega durante gravação de 'Rust' - Últimas - Correio da Manhã",
-      "grade": 0
-    },
-    {
-      "hash": "b8-Uyp6LpDbE",
-      "address": "http://www.alice.cnptia.embrapa.br/alice/handle/doc/1103181",
-      "title": "Relationship between biochemical and photosynthetic traits with Asian soybean rust.",
-      "grade": 0
-    },
-    {
-      "hash": "RkoCFp6LpDbE",
-      "address": "http://www.alice.cnptia.embrapa.br/alice/handle/doc/190615",
-      "title": "Identification of SSR markers linked to rust resistance in andean common bean PI 260418.",
-      "grade": 0
-    },
-    {
-      "hash": "uZZMYjRvmBbx",
-      "address": "https://en.wikipedia.org/wiki/Outline_of_the_Rust_programming_language",
-      "title": "Outline of the Rust programming language - Wikipedia",
-      "grade": 2
-    },
-    {
-      "hash": "7-snwDDZNRCx",
-      "address": "https://doc.rust-lang.org/book/",
-      "title": "The Rust Programming Language - The Rust Programming Language",
-      "grade": 2
+      "hash": "KT8bUtV9oHh4",
+      "address": "https://rust.utils.com/",
+      "title": "Rust Shell - utils.com",
+      "grade": 1
     },
     {
       "hash": "qIqhBUemigYg",
@@ -101,6 +95,18 @@
       "hash": "pE0bEngko1nx",
       "address": "https://users.rust-lang.org/u/nasa42",
       "title": "Profile - nasa42 - The Rust Programming Language Forum",
+      "grade": 1
+    },
+    {
+      "hash": "uZZMYjRvmBbx",
+      "address": "https://en.wikipedia.org/wiki/Outline_of_the_Rust_programming_language",
+      "title": "Outline of the Rust programming language - Wikipedia",
+      "grade": 2
+    },
+    {
+      "hash": "t4m26nRiTAZ5",
+      "address": "https://securelist.com/convuster-macos-adware-in-rust/101258/",
+      "title": "Convuster: macOS adware now in Rust | Securelist",
       "grade": 1
     }
   ]
