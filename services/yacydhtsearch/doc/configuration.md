@@ -57,6 +57,7 @@ peers that answered their latest probe.
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_WORD_JOINED_SEARCH` | `false` | Use word joined search for queries with more than one term. Queries with one term use peer matched search. |
+| `YACYDHTSEARCH_RELEVANCE_RANKING` | `false` | Order the ranking by how well each result answers the query. The ranking keeps the order the peers put their results in when this is false. |
 
 ## Limits
 

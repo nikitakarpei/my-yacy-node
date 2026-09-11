@@ -1,5 +1,5 @@
-// Package searchresult holds one result a peer reported, the rule that merges
-// the answers of many peers into one ranking, and the pages cut from it.
+// Package searchresult holds what the client reads of one search: one item per
+// document, the ranking of those items, and the pages cut from the ranking.
 package searchresult
 
 import (

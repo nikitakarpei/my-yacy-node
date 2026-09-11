@@ -2,7 +2,6 @@ package peerasks
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -12,6 +11,6 @@ type URLMetadataAsk struct {
 }
 
 type AnsweredURLMetadataAsk struct {
-	Ask   URLMetadataAsk
-	Items []searchresult.Item
+	Ask                    URLMetadataAsk
+	MetadataOfEachDocument []yacymodel.URLMetadata
 }

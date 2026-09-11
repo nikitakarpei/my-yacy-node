@@ -1,14 +1,14 @@
-// Package joinablequery spreads a query with the word joined spread when the
-// query has more than one word to join, and with the peer matched spread when
-// it has not.
-package joinablequery
+// Package bywordcount spreads a query with the word joined spread when the
+// query has more than one word, and with the peer matched spread when the query
+// has one word.
+package bywordcount
 
 import (
 	"context"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 )
 
 type QuerySpread interface {
@@ -16,7 +16,7 @@ type QuerySpread interface {
 		ctx context.Context,
 		query searchquery.Query,
 		askablePeers []peerdirectory.AskablePeer,
-	) [][]searchresult.Item
+	) peeranswers.AnsweredQuery
 }
 
 type Spread struct {
@@ -32,7 +32,7 @@ func (s Spread) SpreadOverPeers(
 	ctx context.Context,
 	query searchquery.Query,
 	askablePeers []peerdirectory.AskablePeer,
-) [][]searchresult.Item {
+) peeranswers.AnsweredQuery {
 	if len(query.TermHashes()) < 2 {
 		return s.peerMatchedSpread.SpreadOverPeers(ctx, query, askablePeers)
 	}

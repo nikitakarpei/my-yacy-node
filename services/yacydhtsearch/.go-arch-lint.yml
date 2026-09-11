@@ -19,6 +19,12 @@ components:
     in: internal/searchquery/**
   searchresult:
     in: internal/searchresult/**
+  peeranswers:
+    in: internal/peeranswers/**
+  itemsorderingpeerorder:
+    in: internal/itemsordering/peerorder/**
+  itemsorderingrelevance:
+    in: internal/itemsordering/relevance/**
   peerdirectory:
     in: internal/peerdirectory/**
   stalepeersourcesleastrecentlyanswered:
@@ -33,8 +39,8 @@ components:
     in: internal/queryspreads/peermatched/**
   wordjoined:
     in: internal/queryspreads/wordjoined/**
-  joinablequery:
-    in: internal/queryspreads/joinablequery/**
+  bywordcount:
+    in: internal/queryspreads/bywordcount/**
   queryrankings:
     in: internal/queryrankings/**
   rankingcachememory:
@@ -125,7 +131,18 @@ deps:
   searchquery:
     canUse:
       - yacymodel
+  itemsorderingpeerorder:
+    mayDependOn:
+      - peeranswers
+  itemsorderingrelevance:
+    canUse:
+      - yacymodel
+    mayDependOn:
+      - peeranswers
   searchresult:
+    canUse:
+      - yacymodel
+  peeranswers:
     canUse:
       - yacymodel
   peerdirectory:
@@ -150,6 +167,7 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
+      - peeranswers
       - peerdirectory
       - searchquery
       - searchresult
@@ -157,23 +175,23 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
+      - peeranswers
       - peerdirectory
       - peerasks
       - searchquery
-      - searchresult
   wordjoined:
     canUse:
       - yacymodel
     mayDependOn:
+      - peeranswers
       - peerdirectory
       - peerasks
       - searchquery
-      - searchresult
-  joinablequery:
+  bywordcount:
     mayDependOn:
+      - peeranswers
       - peerdirectory
       - searchquery
-      - searchresult
   queryrankings:
     mayDependOn:
       - networksearch
@@ -211,15 +229,15 @@ deps:
     canUse:
       - yacymodel
     mayDependOn:
+      - peeranswers
       - peerdirectory
-      - searchresult
   peercallwire:
     canUse:
       - yacymodel
       - yacyproto
     mayDependOn:
+      - peeranswers
       - peerasks
-      - searchresult
   peerlivenesswire:
     canUse:
       - yacyproto

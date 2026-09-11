@@ -8,7 +8,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peercallwire"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
@@ -173,7 +176,7 @@ func peerMatchedSpread(t *testing.T) peermatched.Spread {
 		everyAskablePeer{},
 		peerResults,
 		peerCallsPerQuery,
-		peermatched.PeerMatchedSearchObservers{},
+		peermatched.PeerMatchedSpreadObservers{},
 	)
 }
 
@@ -196,9 +199,22 @@ func networkSearching(
 ) networksearch.Network {
 	t.Helper()
 
+	return networkOrdering(t, directory, observer, querySpread, peerorder.Ordering{})
+}
+
+func networkOrdering(
+	t *testing.T,
+	directory *peerdirectory.Directory,
+	observer networksearch.NetworkSearchObserver,
+	querySpread networksearch.QuerySpread,
+	itemsOrdering networksearch.ItemsOrdering,
+) networksearch.Network {
+	t.Helper()
+
 	return networksearch.New(
 		directory,
 		querySpread,
+		itemsOrdering,
 		queryBudget,
 		recordCeiling,
 		networksearch.NetworkSearchObservers{observer},
@@ -364,6 +380,92 @@ func TestOnePeerCanSupplyTheWholeRanking(t *testing.T) {
 		observer.performed.AmountOfItemsAcrossAnswers != 2 {
 		t.Fatalf(
 			"NetworkSearchPerformed = %+v, want one askable peer supplying the whole ranking",
+			observer.performed,
+		)
+	}
+}
+
+type spreadAnswering struct {
+	answers peeranswers.AnsweredQuery
+}
+
+func (s spreadAnswering) SpreadOverPeers(
+	_ context.Context,
+	_ searchquery.Query,
+	_ []peerdirectory.AskablePeer,
+) peeranswers.AnsweredQuery {
+	return s.answers
+}
+
+func answersOfTwoWords(t *testing.T, commonWordAddress, rareWordAddress string) spreadAnswering {
+	t.Helper()
+
+	return spreadAnswering{answers: peeranswers.AnsweredQuery{
+		ItemsInTheOrderOfEachAnswer: [][]peeranswers.AnsweredItem{
+			{answeredItemCountedForTheWord(t, commonWordAddress, "berlin")},
+			{answeredItemCountedForTheWord(t, rareWordAddress, "kelondro")},
+		},
+		DocumentsHeldPerQueryWord: map[yacymodel.Hash]int{
+			yacymodel.WordHash("berlin"):   100000,
+			yacymodel.WordHash("kelondro"): 10,
+		},
+	}}
+}
+
+func answeredItemCountedForTheWord(
+	t *testing.T, address string, word string,
+) peeranswers.AnsweredItem {
+	t.Helper()
+
+	hash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatalf("URLHashOf(%q): %v", address, err)
+	}
+
+	return peeranswers.AnsweredItem{
+		Metadata: yacymodel.URLMetadata{Hash: hash, Address: address},
+		MatchedWords: map[yacymodel.Hash]peeranswers.WordCount{
+			yacymodel.WordHash(word): {Hits: 1},
+		},
+	}
+}
+
+func TestTheRankingByRelevancePutsTheRarerWordFirst(t *testing.T) {
+	t.Parallel()
+
+	common, rare := "https://common.example/", "https://rare.example/"
+	network := networkOrdering(
+		t,
+		directoryAnsweringAt(t, peerHolding(t)),
+		&recordedQuery{},
+		answersOfTwoWords(t, common, rare),
+		relevance.Ordering{},
+	)
+
+	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro"))
+
+	if len(ranking.Items) != 2 || ranking.Items[0].Address != rare {
+		t.Fatalf("the ranking reads %+v, want the document of the rarer word first", ranking.Items)
+	}
+}
+
+func TestASearchReportsHowManyRankedItemsAPeerCounted(t *testing.T) {
+	t.Parallel()
+
+	common, rare := "https://common.example/", "https://rare.example/"
+	observer := &recordedQuery{}
+	network := networkSearching(
+		t, directoryAnsweringAt(t, peerHolding(t)), observer, answersOfTwoWords(t, common, rare),
+	)
+
+	ranking, _ := network.Search(t.Context(), searchquery.QueryFrom("berlin kelondro"))
+
+	if len(ranking.Items) != 2 || ranking.Items[0].Address != common {
+		t.Fatalf("the ranking reads %+v, want the order the peers put", ranking.Items)
+	}
+	if observer.performed.AmountOfRankedItemsCountedByAPeer != 2 {
+		t.Fatalf(
+			"NetworkSearchPerformed = %+v, want both ranked items counted by a peer",
 			observer.performed,
 		)
 	}

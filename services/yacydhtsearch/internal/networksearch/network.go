@@ -1,13 +1,15 @@
 // Package networksearch ranks what the peers of the network hold for one query,
 // inside one whole-query time budget. It spreads the query over the peers the
-// directory can ask, with the query spread it holds, and ranks what the peers
-// answered.
+// directory can ask, with the query spread it holds, puts what the peers
+// answered in the order the items ordering it holds gives them, and carries
+// back the items up to the ceiling as the ranking the client reads.
 package networksearch
 
 import (
 	"context"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchquery"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
@@ -18,7 +20,11 @@ type QuerySpread interface {
 		ctx context.Context,
 		query searchquery.Query,
 		askablePeers []peerdirectory.AskablePeer,
-	) [][]searchresult.Item
+	) peeranswers.AnsweredQuery
+}
+
+type ItemsOrdering interface {
+	OrderedItemsOf(answers peeranswers.AnsweredQuery) []peeranswers.AnsweredItem
 }
 
 type SearchOutcome int
@@ -36,14 +42,17 @@ type NetworkSearchObserver interface {
 type Network struct {
 	peerDirectory      *peerdirectory.Directory
 	querySpread        QuerySpread
+	itemsOrdering      ItemsOrdering
 	queryBudget        time.Duration
 	rankedItemsCeiling int
 	observer           NetworkSearchObserver
 }
 
+//nolint:revive // argument-limit: what one network search holds for every query
 func New(
 	peerDirectory *peerdirectory.Directory,
 	querySpread QuerySpread,
+	itemsOrdering ItemsOrdering,
 	queryBudget time.Duration,
 	rankedItemsCeiling int,
 	observer NetworkSearchObserver,
@@ -51,6 +60,7 @@ func New(
 	return Network{
 		peerDirectory:      peerDirectory,
 		querySpread:        querySpread,
+		itemsOrdering:      itemsOrdering,
 		queryBudget:        queryBudget,
 		rankedItemsCeiling: rankedItemsCeiling,
 		observer:           observer,
@@ -74,14 +84,32 @@ func (n Network) Search(
 		return searchresult.Ranking{}, NoPeerToAsk
 	}
 
-	itemsOfEachPeer := n.querySpread.SpreadOverPeers(ctx, query, askablePeers)
-	ranking := searchresult.RankingFrom(itemsOfEachPeer, n.rankedItemsCeiling)
+	answers := n.querySpread.SpreadOverPeers(ctx, query, askablePeers)
+	orderedItems := n.itemsOrdering.OrderedItemsOf(answers)
+	rankedItems := n.rankedItemsAmong(orderedItems)
 	n.observer.NetworkSearchPerformed(
 		ctx,
-		performedNetworkSearchFrom(
-			itemsOfEachPeer, ranking, len(askablePeers), time.Since(startedAt),
-		),
+		performedNetworkSearchFrom(answers, rankedItems, len(askablePeers), time.Since(startedAt)),
 	)
 
-	return ranking, PeersAsked
+	return rankingOf(rankedItems), PeersAsked
+}
+
+func (n Network) rankedItemsAmong(
+	orderedItems []peeranswers.AnsweredItem,
+) []peeranswers.AnsweredItem {
+	if n.rankedItemsCeiling <= 0 {
+		return nil
+	}
+
+	return orderedItems[:min(n.rankedItemsCeiling, len(orderedItems))]
+}
+
+func rankingOf(rankedItems []peeranswers.AnsweredItem) searchresult.Ranking {
+	items := make([]searchresult.Item, 0, len(rankedItems))
+	for _, rankedItem := range rankedItems {
+		items = append(items, searchresult.ItemFrom(rankedItem.Metadata))
+	}
+
+	return searchresult.Ranking{Items: items}
 }

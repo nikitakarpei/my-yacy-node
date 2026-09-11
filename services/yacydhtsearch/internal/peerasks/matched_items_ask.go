@@ -2,7 +2,6 @@ package peerasks
 
 import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerdirectory"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
@@ -15,6 +14,6 @@ type MatchedItemsAsk struct {
 }
 
 type AnsweredMatchedItemsAsk struct {
-	Ask   MatchedItemsAsk
-	Items []searchresult.Item
+	Ask              MatchedItemsAsk
+	MatchedDocuments []MatchedDocument
 }

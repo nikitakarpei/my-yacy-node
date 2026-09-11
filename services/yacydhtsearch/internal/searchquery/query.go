@@ -66,13 +66,9 @@ func tokensOf(raw string) []token {
 	var tokens []token
 	for _, field := range strings.Fields(raw) {
 		excluded := strings.HasPrefix(field, "-")
-		word := strings.TrimLeft(field, "+-")
-		word = strings.Trim(word, `"'`)
-		word = strings.ToLower(strings.TrimSpace(word))
-		if !yacymodel.WordIsIndexed(word) {
-			continue
+		for _, word := range yacymodel.WordsIn(field) {
+			tokens = append(tokens, token{word: word, excluded: excluded})
 		}
-		tokens = append(tokens, token{word: word, excluded: excluded})
 	}
 
 	return tokens

@@ -18,6 +18,8 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/opsmetrics"
 	"github.com/nikitakarpei/yacy-rwi-node/serviceruntime/servergroup"
 	dhtdistanceobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/dhtdistanceobservers/prometheus"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/peerorder"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearch"
 	networksearchobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/applog"
 	networksearchobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/networksearchobservers/prometheus"
@@ -36,7 +38,7 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankings"
 	queryrankingsobserversapplog "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/applog"
 	queryrankingsobserversprometheus "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryrankingsobservers/prometheus"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/joinablequery"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/bywordcount"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/peermatched"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/queryspreads/wordjoined"
 	rankingcachejetstream "github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/rankingcache/jetstream"
@@ -92,6 +94,7 @@ func RunService(
 	network := networksearch.New(
 		directory,
 		querySpreadFor(cfg, peers, choice, registry),
+		itemsOrderingFor(cfg),
 		cfg.QueryBudget,
 		cfg.RankedItemsCeiling,
 		networksearch.NetworkSearchObservers{
@@ -163,8 +166,8 @@ func querySpreadFor(
 		choice,
 		cfg.PeerItemsCeiling,
 		cfg.PeerCallsPerQuery,
-		peermatched.PeerMatchedSearchObservers{
-			peermatchedobserversapplog.PeerMatchedSearchLog{},
+		peermatched.PeerMatchedSpreadObservers{
+			peermatchedobserversapplog.PeerMatchedSpreadLog{},
 			peermatchedobserversprometheus.New(registry, cfg.QueryBudget),
 		},
 	)
@@ -172,20 +175,28 @@ func querySpreadFor(
 		return peerMatchedSpread
 	}
 
-	return joinablequery.New(
+	return bywordcount.New(
 		wordjoined.New(
 			peers,
 			choice,
 			cfg.RankedItemsCeiling,
 			cfg.PeerItemsCeiling,
 			cfg.PeerCallsPerQuery,
-			wordjoined.WordJoinedSearchObservers{
-				wordjoinedobserversapplog.WordJoinedSearchLog{},
+			wordjoined.WordJoinedSpreadObservers{
+				wordjoinedobserversapplog.WordJoinedSpreadLog{},
 				wordjoinedobserversprometheus.New(registry, cfg.QueryBudget),
 			},
 		),
 		peerMatchedSpread,
 	)
+}
+
+func itemsOrderingFor(cfg ServiceConfig) networksearch.ItemsOrdering {
+	if !cfg.RelevanceRanking {
+		return peerorder.Ordering{}
+	}
+
+	return relevance.Ordering{}
 }
 
 func rankingCacheFor(

@@ -1,8 +1,9 @@
 // Package peercallwire speaks the YaCy search protocol to the peers an ask
-// names. It asks a peer for the items it matches, for the documents it holds
-// for one word together with the items it puts first for that word, or for the
-// metadata it holds for documents the ask names, reads back what the peer
-// answered, and leaves every peer the time the peer
+// names. It asks a peer for the documents it matches, for the documents it
+// holds for one word together with the documents it matches for that word, or
+// for the metadata it holds for documents the ask names, reads back what the
+// peer answered, including how often the peer counted a word it does not name,
+// and leaves every peer the time the peer
 // call has left, less the margin the answer needs to reach this node; a peer
 // call with no deadline leaves the peer a time of its own. It puts every ask of
 // one round at once, because the spread that names the asks holds their amount
@@ -20,8 +21,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
 	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peerasks"
-	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/searchresult"
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 	"github.com/nikitakarpei/yacy-rwi-node/yacyproto"
 )
@@ -122,10 +123,33 @@ func (w Wire) putMatchedItemsAsk(
 		return peerasks.AnsweredMatchedItemsAsk{}, false
 	}
 
-	items := itemsOf(response)
-	w.observer.PeerAnsweredMatchedItems(ctx, ask.Peer.Address, len(items), time.Since(startedAt))
+	matchedDocuments := matchedDocumentsOf(response)
+	w.observer.PeerAnsweredMatchedItems(
+		ctx, ask.Peer.Address, len(matchedDocuments), time.Since(startedAt),
+	)
 
-	return peerasks.AnsweredMatchedItemsAsk{Ask: ask, Items: items}, true
+	return peerasks.AnsweredMatchedItemsAsk{Ask: ask, MatchedDocuments: matchedDocuments}, true
+}
+
+func matchedDocumentsOf(response yacyproto.SearchResponse) []peerasks.MatchedDocument {
+	matchedDocuments := make([]peerasks.MatchedDocument, 0, len(response.Resources))
+	for _, resource := range response.Resources {
+		matchedDocuments = append(matchedDocuments, peerasks.MatchedDocument{
+			Metadata:                resource.Metadata,
+			CountOfAWordTheAskNamed: wordCountOf(resource.Posting),
+		})
+	}
+
+	return matchedDocuments
+}
+
+func wordCountOf(posting yacymodel.Optional[yacymodel.RWIPosting]) peeranswers.WordCount {
+	counted, sent := posting.Get()
+	if !sent {
+		return peeranswers.WordCount{}
+	}
+
+	return peeranswers.WordCount{Hits: counted.Hits, TextWords: counted.TextWords}
 }
 
 func (w Wire) requestForMatchedItems(
@@ -163,15 +187,6 @@ func grantedAnswerTimeOf(ctx context.Context) int {
 	return int(max(0, time.Until(deadline)-grantedAnswerMargin).Milliseconds())
 }
 
-func itemsOf(response yacyproto.SearchResponse) []searchresult.Item {
-	items := make([]searchresult.Item, 0, len(response.Resources))
-	for _, resource := range response.Resources {
-		items = append(items, searchresult.ItemFrom(resource.Metadata))
-	}
-
-	return items
-}
-
 func (w Wire) AskForURLMetadata(
 	ctx context.Context,
 	asks []peerasks.URLMetadataAsk,
@@ -203,10 +218,11 @@ func (w Wire) putURLMetadataAsk(
 		return peerasks.AnsweredURLMetadataAsk{}, false
 	}
 
-	items := itemsOfURLMetadata(response.URLs)
-	w.observer.PeerAnsweredURLMetadata(ctx, ask.Peer.Address, len(items), time.Since(startedAt))
+	w.observer.PeerAnsweredURLMetadata(
+		ctx, ask.Peer.Address, len(response.URLs), time.Since(startedAt),
+	)
 
-	return peerasks.AnsweredURLMetadataAsk{Ask: ask, Items: items}, true
+	return peerasks.AnsweredURLMetadataAsk{Ask: ask, MetadataOfEachDocument: response.URLs}, true
 }
 
 func (w Wire) requestForURLMetadata(ask peerasks.URLMetadataAsk) yacyproto.URLMetadataRequest {
@@ -236,15 +252,6 @@ func (w Wire) urlMetadataResponse(
 	}
 
 	return response, true
-}
-
-func itemsOfURLMetadata(urls []yacymodel.URLMetadata) []searchresult.Item {
-	items := make([]searchresult.Item, 0, len(urls))
-	for _, metadata := range urls {
-		items = append(items, searchresult.ItemFrom(metadata))
-	}
-
-	return items
 }
 
 func (w Wire) AskForHeldDocuments(
@@ -278,18 +285,29 @@ func (w Wire) putHeldDocumentsAsk(
 		return peerasks.AnsweredHeldDocumentsAsk{}, false
 	}
 
-	documents := response.IndexAbstract[ask.Word]
+	documentsHeldForTheWord := response.IndexAbstract[ask.Word]
 	w.observer.PeerAnsweredHeldDocuments(
-		ctx, ask.Peer.Address, len(documents), time.Since(startedAt),
+		ctx, ask.Peer.Address, len(documentsHeldForTheWord), time.Since(startedAt),
 	)
 
 	return peerasks.AnsweredHeldDocumentsAsk{
 		Ask:                             ask,
-		Documents:                       documents,
-		Items:                           itemsOf(response),
-		AmountOfItemsWithAPosting:       amountOfResourcesWithAPosting(response),
-		AmountOfDocumentsHeldForTheWord: response.IndexCount[ask.Word],
+		DocumentsHeldForTheWord:         documentsHeldForTheWord,
+		MatchedDocuments:                matchedDocumentsOf(response),
+		AmountOfDocumentsHeldForTheWord: amountOfDocumentsHeldForTheWordOf(response, ask.Word),
 	}, true
+}
+
+func amountOfDocumentsHeldForTheWordOf(
+	response yacyproto.SearchResponse,
+	word yacymodel.Hash,
+) yacymodel.Optional[int] {
+	documentsHeld, counted := response.IndexCount[word]
+	if !counted {
+		return yacymodel.None[int]()
+	}
+
+	return yacymodel.Some(documentsHeld)
 }
 
 func (w Wire) requestForHeldDocuments(
@@ -302,18 +320,6 @@ func (w Wire) requestForHeldDocuments(
 	request.Count = ask.ItemsCeiling
 
 	return request
-}
-
-func amountOfResourcesWithAPosting(response yacyproto.SearchResponse) int {
-	amount := 0
-	for _, resource := range response.Resources {
-		if _, reported := resource.Posting.Get(); !reported {
-			continue
-		}
-		amount++
-	}
-
-	return amount
 }
 
 func (w Wire) searchResponse(

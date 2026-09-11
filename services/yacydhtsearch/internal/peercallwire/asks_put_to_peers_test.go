@@ -134,8 +134,9 @@ func TestEveryAskThatCameBackCarriesTheAskItAnswers(t *testing.T) {
 		second: "https://b.example/",
 	}
 	for _, answeredAsk := range answeredAsks {
-		if len(answeredAsk.Items) != 1 ||
-			answeredAsk.Items[0].Address != heldByAddress[answeredAsk.Ask.Peer.Address] {
+		if len(answeredAsk.MatchedDocuments) != 1 ||
+			answeredAsk.MatchedDocuments[0].Metadata.Address !=
+				heldByAddress[answeredAsk.Ask.Peer.Address] {
 			t.Fatalf("answered ask %+v does not carry the ask its items came back for", answeredAsk)
 		}
 	}
@@ -152,7 +153,8 @@ func TestAPeerThatOutlastsTheCallBudgetIsNoAnswer(t *testing.T) {
 	answeredAsks := wireTo(&recordedOutcome{}).
 		AskForMatchedItems(callWithin(t, shortCallBudget), asksOfPeersAt(slow, holder))
 
-	if len(answeredAsks) != 1 || answeredAsks[0].Items[0].Address != "https://a.example/" {
+	if len(answeredAsks) != 1 ||
+		answeredAsks[0].MatchedDocuments[0].Metadata.Address != "https://a.example/" {
 		t.Fatalf("AskForMatchedItems = %+v, want only the peer inside the budget", answeredAsks)
 	}
 	if time.Since(startedAt) < shortCallBudget {

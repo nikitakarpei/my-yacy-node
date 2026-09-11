@@ -21,6 +21,7 @@ func (NetworkSearchLog) NetworkSearchPerformed(
 		slog.Int("amountOfItemsAcrossAnswers", search.AmountOfItemsAcrossAnswers),
 		slog.Int("amountOfRankedItemsOfTheOnePeer", search.AmountOfRankedItemsOfTheOnePeer),
 		slog.Int("amountOfItemsInRanking", search.AmountOfItemsInRanking),
+		slog.Int("amountOfRankedItemsCountedByAPeer", search.AmountOfRankedItemsCountedByAPeer),
 		slog.Duration("timeSpent", search.TimeSpent),
 	)
 }

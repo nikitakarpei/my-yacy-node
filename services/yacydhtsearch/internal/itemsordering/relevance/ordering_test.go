@@ -1,0 +1,330 @@
+package relevance_test
+
+import (
+	"slices"
+	"testing"
+
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/itemsordering/relevance"
+	"github.com/nikitakarpei/yacy-rwi-node/yacydhtsearch/internal/peeranswers"
+	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
+)
+
+func metadataOf(t *testing.T, address string, title string) yacymodel.URLMetadata {
+	t.Helper()
+
+	hash, err := yacymodel.URLHashOf(address)
+	if err != nil {
+		t.Fatalf("URLHashOf(%q): %v", address, err)
+	}
+
+	return yacymodel.URLMetadata{Hash: hash, Address: address, Title: title}
+}
+
+func itemCountedForTheWord(
+	t *testing.T, address string, word string, hits int,
+) peeranswers.AnsweredItem {
+	t.Helper()
+
+	return peeranswers.AnsweredItem{
+		Metadata: metadataOf(t, address, ""),
+		MatchedWords: map[yacymodel.Hash]peeranswers.WordCount{
+			yacymodel.WordHash(word): {Hits: hits},
+		},
+	}
+}
+
+func itemOfTextWords(
+	t *testing.T, address string, word string, hits int, textWords int,
+) peeranswers.AnsweredItem {
+	t.Helper()
+
+	return peeranswers.AnsweredItem{
+		Metadata: metadataOf(t, address, ""),
+		MatchedWords: map[yacymodel.Hash]peeranswers.WordCount{
+			yacymodel.WordHash(word): {Hits: hits, TextWords: textWords},
+		},
+	}
+}
+
+func itemMatchingTheWords(
+	t *testing.T, address string, words ...string,
+) peeranswers.AnsweredItem {
+	t.Helper()
+
+	return itemTitledMatchingTheWords(t, address, "", words...)
+}
+
+func itemTitledMatchingTheWords(
+	t *testing.T, address string, title string, words ...string,
+) peeranswers.AnsweredItem {
+	t.Helper()
+
+	matchedWords := make([]yacymodel.Hash, 0, len(words))
+	for _, word := range words {
+		matchedWords = append(matchedWords, yacymodel.WordHash(word))
+	}
+
+	return peeranswers.AnsweredItem{Metadata: metadataOf(t, address, title)}.
+		MatchingTheWords(matchedWords)
+}
+
+func answersOf(
+	itemsInTheOrderOfEachAnswer ...[]peeranswers.AnsweredItem,
+) peeranswers.AnsweredQuery {
+	return peeranswers.AnsweredQuery{ItemsInTheOrderOfEachAnswer: itemsInTheOrderOfEachAnswer}
+}
+
+func answersHolding(
+	documentsPerWord map[string]int,
+	itemsInTheOrderOfEachAnswer ...[]peeranswers.AnsweredItem,
+) peeranswers.AnsweredQuery {
+	documentsHeldPerQueryWord := make(map[yacymodel.Hash]int, len(documentsPerWord))
+	for word, documentsHeldForTheWord := range documentsPerWord {
+		documentsHeldPerQueryWord[yacymodel.WordHash(word)] = documentsHeldForTheWord
+	}
+
+	return peeranswers.AnsweredQuery{
+		ItemsInTheOrderOfEachAnswer: itemsInTheOrderOfEachAnswer,
+		DocumentsHeldPerQueryWord:   documentsHeldPerQueryWord,
+	}
+}
+
+func addressesOrderedBy(answers peeranswers.AnsweredQuery) []string {
+	orderedItems := relevance.Ordering{}.OrderedItemsOf(answers)
+
+	addresses := make([]string, 0, len(orderedItems))
+	for _, orderedItem := range orderedItems {
+		addresses = append(addresses, orderedItem.Metadata.Address)
+	}
+
+	return addresses
+}
+
+func TestTheDocumentOfTheRarerQueryWordComesFirst(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100000, "kelondro": 10},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWord(t, "https://common.example/", "berlin", 1),
+		},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWord(t, "https://rare.example/", "kelondro", 1),
+		},
+	)
+
+	want := []string{"https://rare.example/", "https://common.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestEveryQueryWordWeighsTheSameWhenNoPeerCountedDocumentsForIt(t *testing.T) {
+	t.Parallel()
+
+	answers := answersOf(
+		[]peeranswers.AnsweredItem{itemCountedForTheWord(t, "https://a.example/", "berlin", 1)},
+		[]peeranswers.AnsweredItem{itemCountedForTheWord(t, "https://b.example/", "kelondro", 1)},
+	)
+
+	want := []string{"https://a.example/", "https://b.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want the order the peers put %v", got, want)
+	}
+}
+
+func TestTheWordNoPeerCountedDocumentsForWeighsAsMuchAsTheMostCommonCountedWord(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWord(t, "https://counted.example/", "berlin", 1),
+		},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWord(t, "https://uncounted.example/", "kelondro", 1),
+		},
+	)
+
+	want := []string{"https://counted.example/", "https://uncounted.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want the order the peers put %v", got, want)
+	}
+}
+
+func TestTheDocumentWithMoreHitsOfTheSameWordComesFirst(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100},
+		[]peeranswers.AnsweredItem{itemCountedForTheWord(t, "https://once.example/", "berlin", 1)},
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWord(t, "https://often.example/", "berlin", 9),
+		},
+	)
+
+	want := []string{"https://often.example/", "https://once.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestEachFurtherHitOfTheSameWordAddsLessThanTheFirstHitOfAnotherWord(t *testing.T) {
+	t.Parallel()
+
+	twiceOneWord := itemCountedForTheWord(t, "https://one-word.example/", "berlin", 2)
+	onceEachWord := peeranswers.AnsweredItem{
+		Metadata: metadataOf(t, "https://two-words.example/", ""),
+		MatchedWords: map[yacymodel.Hash]peeranswers.WordCount{
+			yacymodel.WordHash("berlin"):  {Hits: 1},
+			yacymodel.WordHash("weather"): {Hits: 1},
+		},
+	}
+	answers := answersOf(
+		[]peeranswers.AnsweredItem{twiceOneWord},
+		[]peeranswers.AnsweredItem{onceEachWord},
+	)
+
+	want := []string{"https://two-words.example/", "https://one-word.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestTheShorterDocumentOfTheSameHitsComesFirst(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100},
+		[]peeranswers.AnsweredItem{itemOfTextWords(t, "https://long.example/", "berlin", 3, 5000)},
+		[]peeranswers.AnsweredItem{itemOfTextWords(t, "https://short.example/", "berlin", 3, 100)},
+	)
+
+	want := []string{"https://short.example/", "https://long.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestTheDocumentThatMatchedMoreQueryWordsComesFirst(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100, "weather": 100},
+		[]peeranswers.AnsweredItem{itemMatchingTheWords(t, "https://one.example/", "berlin")},
+		[]peeranswers.AnsweredItem{
+			itemMatchingTheWords(t, "https://both.example/", "berlin", "weather"),
+		},
+	)
+
+	want := []string{"https://both.example/", "https://one.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestTheDocumentWhoseTitleHoldsTheQueryWordComesFirst(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100},
+		[]peeranswers.AnsweredItem{
+			itemTitledMatchingTheWords(t, "https://beside.example/", "The weather of a city",
+				"berlin"),
+		},
+		[]peeranswers.AnsweredItem{
+			itemTitledMatchingTheWords(t, "https://titled.example/", "Berlin weather", "berlin"),
+		},
+	)
+
+	want := []string{"https://titled.example/", "https://beside.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestATitleThatOnlyHoldsALongerWordChangesNoOrder(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"tofu": 100},
+		[]peeranswers.AnsweredItem{itemMatchingTheWords(t, "https://beside.example/", "tofu")},
+		[]peeranswers.AnsweredItem{
+			itemTitledMatchingTheWords(t, "https://titled.example/", "Migrating to OpenTofu",
+				"tofu"),
+		},
+	)
+
+	want := []string{"https://beside.example/", "https://titled.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestATitleIsReadPastItsPunctuation(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"opentofu": 100},
+		[]peeranswers.AnsweredItem{itemMatchingTheWords(t, "https://beside.example/", "opentofu")},
+		[]peeranswers.AnsweredItem{
+			itemTitledMatchingTheWords(t, "https://titled.example/",
+				"Terraform vs. OpenTofu: what changed?", "opentofu"),
+		},
+	)
+
+	want := []string{"https://titled.example/", "https://beside.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestTheDocumentTwoPeersPutHighComesBeforeOneASinglePeerPutFirst(t *testing.T) {
+	t.Parallel()
+
+	putByBothPeers := itemCountedForTheWord(t, "https://both.example/", "berlin", 1)
+	answers := answersOf(
+		[]peeranswers.AnsweredItem{
+			itemCountedForTheWord(t, "https://one.example/", "berlin", 1), putByBothPeers,
+		},
+		[]peeranswers.AnsweredItem{putByBothPeers},
+	)
+
+	want := []string{"https://both.example/", "https://one.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestAnItemOfNoOrderComesAfterAnEquallyCountedItemAPeerPut(t *testing.T) {
+	t.Parallel()
+
+	answers := peeranswers.AnsweredQuery{
+		ItemsInTheOrderOfEachAnswer: [][]peeranswers.AnsweredItem{
+			{itemCountedForTheWord(t, "https://ordered.example/", "berlin", 1)},
+		},
+		ItemsInNoOrder: []peeranswers.AnsweredItem{
+			itemCountedForTheWord(t, "https://unordered.example/", "berlin", 1),
+		},
+	}
+
+	want := []string{"https://ordered.example/", "https://unordered.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestDocumentsOfTheSameRelevanceKeepTheOrderThePeersPutThem(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100},
+		[]peeranswers.AnsweredItem{itemCountedForTheWord(t, "https://a.example/", "berlin", 1)},
+		[]peeranswers.AnsweredItem{itemCountedForTheWord(t, "https://b.example/", "berlin", 1)},
+	)
+
+	want := []string{"https://a.example/", "https://b.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want the order the peers put %v", got, want)
+	}
+}

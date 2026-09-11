@@ -7,23 +7,23 @@ import (
 	"github.com/nikitakarpei/yacy-rwi-node/yacymodel"
 )
 
-type PerformedPeerMatchedSearch struct {
+type PerformedPeerMatchedSpread struct {
 	AmountOfQueryWords              int
-	AmountOfAskedPeers              int
+	AmountOfPeersAsked              int
 	AmountOfPeersThatAnswered       int
 	AmountOfPeersThatMatchedNothing int
 	TimeSpent                       time.Duration
 }
 
-func performedPeerMatchedSearchFrom(
+func performedPeerMatchedSpreadFrom(
 	queryWords []yacymodel.Hash,
 	asks []peerasks.MatchedItemsAsk,
 	answeredAsks []peerasks.AnsweredMatchedItemsAsk,
 	timeSpent time.Duration,
-) PerformedPeerMatchedSearch {
-	return PerformedPeerMatchedSearch{
+) PerformedPeerMatchedSpread {
+	return PerformedPeerMatchedSpread{
 		AmountOfQueryWords:              len(queryWords),
-		AmountOfAskedPeers:              len(asks),
+		AmountOfPeersAsked:              len(asks),
 		AmountOfPeersThatAnswered:       len(answeredAsks),
 		AmountOfPeersThatMatchedNothing: amountOfPeersThatMatchedNothing(answeredAsks),
 		TimeSpent:                       timeSpent,
@@ -33,7 +33,7 @@ func performedPeerMatchedSearchFrom(
 func amountOfPeersThatMatchedNothing(answeredAsks []peerasks.AnsweredMatchedItemsAsk) int {
 	var peersThatMatchedNothing int
 	for _, answeredAsk := range answeredAsks {
-		if len(answeredAsk.Items) != 0 {
+		if len(answeredAsk.MatchedDocuments) != 0 {
 			continue
 		}
 		peersThatMatchedNothing++

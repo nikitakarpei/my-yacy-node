@@ -152,7 +152,8 @@ func TestARepeatedQueryReachesTheNetworkOnce(t *testing.T) {
 	if network.searches != 1 {
 		t.Fatalf("network searched %d times, want once", network.searches)
 	}
-	if len(second.Items) != len(first.Items) || second.Items[0] != first.Items[0] {
+	if len(second.Items) != len(first.Items) ||
+		second.Items[0].Address != first.Items[0].Address {
 		t.Fatalf("second = %+v, want the ranking the first query found", second.Items)
 	}
 	if observer.fromCache != 1 {
