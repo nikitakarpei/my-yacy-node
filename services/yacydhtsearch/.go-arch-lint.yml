@@ -27,6 +27,8 @@ components:
     in: internal/itemsordering/peerorder/**
   itemsorderingrelevance:
     in: internal/itemsordering/relevance/**
+  itemsorderinghostturns:
+    in: internal/itemsordering/hostturns/**
   peerdirectory:
     in: internal/peerdirectory/**
   stalepeersourcesleastrecentlyanswered:
@@ -157,6 +159,9 @@ deps:
   itemsorderingrelevance:
     canUse:
       - yacymodel
+    mayDependOn:
+      - peeranswers
+  itemsorderinghostturns:
     mayDependOn:
       - peeranswers
   searchresult:

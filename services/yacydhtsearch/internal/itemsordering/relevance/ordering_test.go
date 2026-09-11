@@ -370,6 +370,57 @@ func TestTheDocumentWhoseHostHoldsTheQueryWordComesFirst(t *testing.T) {
 	}
 }
 
+const hitsOfTheQueryWordInEveryPhrasedDocument = 3
+
+func itemHoldingTheQueryPhrase(
+	t *testing.T, address string, queryPhraseHits int,
+) peeranswers.AnsweredItem {
+	t.Helper()
+
+	item := itemCountedForTheWord(
+		t, address, "berlin", hitsOfTheQueryWordInEveryPhrasedDocument,
+	)
+	item.QueryPhraseHits = queryPhraseHits
+
+	return item
+}
+
+func TestTheDocumentWhoseTextHoldsTheQueryPhraseComesFirst(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100},
+		[]peeranswers.AnsweredItem{
+			itemHoldingTheQueryPhrase(t, "https://apart.example/", 0),
+		},
+		[]peeranswers.AnsweredItem{
+			itemHoldingTheQueryPhrase(t, "https://phrased.example/", 1),
+		},
+	)
+
+	want := []string{"https://phrased.example/", "https://apart.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
+func TestEachFurtherQueryPhraseHitAddsLessThanTheFirst(t *testing.T) {
+	t.Parallel()
+
+	answers := answersHolding(
+		map[string]int{"berlin": 100},
+		[]peeranswers.AnsweredItem{
+			itemHoldingTheQueryPhrase(t, "https://once.example/", 1),
+			itemHoldingTheQueryPhrase(t, "https://often.example/", 9),
+		},
+	)
+
+	want := []string{"https://often.example/", "https://once.example/"}
+	if got := addressesOrderedBy(answers); !slices.Equal(got, want) {
+		t.Fatalf("the relevance order reads %v, want %v", got, want)
+	}
+}
+
 func TestTheDocumentOfAnAddressNoNodeCanReadKeepsThePlaceThePeersPutIt(t *testing.T) {
 	t.Parallel()
 

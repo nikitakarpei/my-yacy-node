@@ -1,19 +1,8 @@
 // Package relevance orders the answered items by how well each document
-// answers the query. Four scores add up to its relevance: how high the
-// answering peers put it, where each answering peer adds most of a place
-// score and its place adds the rest, how many query words its title holds,
-// how often they appear in its text, and how many of them the host of its
-// address holds. A first place from one peer weighs one, a query word in the
-// title weighs one half, a missing title weighs minus one, a query word in
-// the host weighs one, and one saturated hit weighs the rarity of its word.
-// An address that does not parse holds no word. The text score follows BM25:
-// a word weighs more the fewer documents the peers hold for it and the more
-// often the page of the document or a peer counted it, each further hit
-// adding less, and weighs less the longer the document is. A word no peer
-// counted documents for weighs as much as the most common counted word, a
-// word no page and no peer counted hits of weighs nothing, and a document of
-// unmeasured length is of average length.
-// Documents of equal relevance keep the order the peers put them in.
+// answers the query. Its relevance adds up how high the peers placed it, the
+// query words its title and the host of its address hold, a BM25 score of the
+// query words in its text, and the query phrases its text holds. Documents of
+// equal relevance keep the order the peers put them in.
 package relevance
 
 import (
@@ -29,6 +18,7 @@ const (
 	weightOfTheTitleScore   = 0.5
 	weightOfTheTextScore    = 1.0
 	weightOfTheAddressScore = 1.0
+	weightOfThePhraseScore  = 1.0
 )
 
 type Ordering struct{}
@@ -75,7 +65,8 @@ func relevanceOf(
 	return weightOfThePlaceScore*placeScore +
 		weightOfTheTitleScore*titleScoreOf(item) +
 		weightOfTheTextScore*textScoreOf(item, rarityPerQueryWord, averageDocumentLength) +
-		weightOfTheAddressScore*addressScoreOf(item)
+		weightOfTheAddressScore*addressScoreOf(item) +
+		weightOfThePhraseScore*phraseScoreOf(item)
 }
 
 func itemsOrderedByRelevance(

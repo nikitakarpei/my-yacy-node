@@ -54,11 +54,11 @@ YaCy peers can limit remote searches by client address. Service instances that u
 | Variable | Default | Meaning |
 |---|---|---|
 | `YACYDHTSEARCH_WORD_JOINED_SEARCH` | `false` | Use word joined search for queries with more than one term. Queries with one term use peer matched search. |
-| `YACYDHTSEARCH_RELEVANCE_RANKING` | `false` | Order the ranking by how well each result answers the query. The ranking keeps the order the peers put their results in when this is false. |
+| `YACYDHTSEARCH_RELEVANCE_RANKING` | `false` | Order the ranking by how well each result answers the query, then take turns between the hosts, so that one host cannot hold the whole first page. The ranking keeps the order the peers put their results in when this is false. |
 
 ## Page reading
 
-The service reads the page of each candidate result, and reads all these pages at the same time. It takes the readable text of that page, and the whole text of the page when the page holds no readable article. It counts the query words in that text, and cuts the snippet of the result from the same text. A page the service cannot read leaves its result as the peers answered it.
+The service reads the page of each candidate result, and reads all these pages at the same time. It takes the readable text of that page, and the whole text of the page when the page holds no readable article. It counts the query words in that text, counts how often the text holds two query words that the query puts side by side, and cuts the snippet of the result from the same text. A page the service cannot read leaves its result as the peers answered it.
 
 | Variable | Default | Meaning |
 |---|---|---|
